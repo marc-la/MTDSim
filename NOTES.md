@@ -121,12 +121,22 @@ This is a annotated tree from prompting/scanning the codebase.
 
 # CORE MTD SYSTEM
 
+## Network "static world"
+
 I generated playground to play around with the codebase. By running it, I find the following:
 
 ![30 node network](output/playground/network_30n.png)
 ![100 node network](output/playground/network_100n.png)
+![1000 node network](output/playground/network_1000n.png)
 
-This is the network of 30 and 100 nodes. Program runs so slowly.
+This is the network of 30, 100, 1000 nodes. Program runs so slowly.
+
+GREEN       =   Layer 0 (exposed endpoints/public-facing hosts attacker sees first)
+BLUE        =   Layer 1
+YELLOW      =   Layer 2
+PURPLE      =   Layer 3
+
+Layers are progressively deeper internal parts of the network.
 
 ```bash
 (mtdsimtime) marc@marc:/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim (learning/mtd-ai-walkthrough)$ time python playground.py network --nodes 30   
@@ -157,4 +167,141 @@ real    0m6.848s
 user    0m3.643s
 sys     0m1.822s
 ```
+
+## Attacker behaviour
+
+Attacker behaviour without defender interface. This is raw baseline of the a simulated attacker on the network.
+
+Codewise, the simulator starts `attack_operation.py` and does not start MTD. The attacker loop is driven by `attacker_operation.py` and these phases:
+
+Kill Chain: RWDEICA
+
+- SCAN_HOST (recon) (short) (discovers candidate hosts reachable from exposed/compromised nodes and builds host stack ordering.)
+- ENUM_HOST (recon) (short) (pops/selects the next host target from that stack and updates pivot/attempt counters.)
+- SCAN_PORT (recon) (short) (in real life port scan?)
+- EXPLOIT_VULN (longest) (assuming weaponisation, delivery, exfiltration, installation, command and control, some arbitrary action on objective)
+- BRUTE_FORCE   
+- SCAN_NEIGHBOR (command and control)
+- back to ENUM_HOST (???)
+
+### What vulns exploited in `EXPLOIT_VULN`?
+
+Generated synthetic vulns atttached to services during host/service generation. Exploit time is sampled per vulnerability from vulnerability/host properties (not a single fixed normal distribution). Repeated long `EXPLOIT_VULN` streaks are normal as the attacker is "trying" multiple vulns on the current host before deciding success/failure and moving on. What vulns??? or just baked in normal distribution?
+
+### Why is `BRUTE_FORCE` a separate phase?
+
+It is a fallback after exploit attempts fail to compromise the host service graph. It models credential attacks using previously compromised users. It can fail
+
+`BRUTE_FORCE` as a separate phase vs. technically brute forcing in the previous phase. Can brute force fail? are these phases conducted on which hosts/ports?
+
+### Which hosts/ports phases act on
+
+`SCAN_PORT` -> current selected host, discovered exposed/exploitable service ports.
+
+### Wht does flow return from `SCAN_NEIGHBOUR` to `ENUM_HOST`?
+
+The `SCAN_NB` adds newly discovered adjacent hosts to stack. `ENUM_HOSTS` then selects the next host target from the updated stack. This is the pivot loop.
+
+`SCAN_NEIGHBOUR` appears after a successful compromise, meaning attacker pivots and discovers adjacent targets.
+
+
+```bash
+(mtdsimtime) marc@marc:/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim (learning/mtd-ai-walkthrough)$ python playground.py attack --nodes 50 --finish-time 1200
+
+=== attack_only ===
+Total nodes: 50
+Compromised hosts: 5 (10.00%)
+Attack events: 142
+MTD events: 0
+Interrupted attack events: 0
+
+# run attacker module again... some randomness.
+
+(mtdsimtime) marc@marc:/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim (learning/mtd-ai-walkthrough)$ time python playground.py attack --nodes 50 --finish-time 1200
+
+=== attack_only ===
+Total nodes: 50
+Compromised hosts: 3 (6.00%)
+Attack events: 187
+MTD events: 0
+Interrupted attack events: 0
+
+real    0m18.899s
+user    0m9.414s
+sys     0m4.159s
+
+# ran attacker for a bit longer to see if more compromises would occur... took 10-15000 seconds
+
+(mtdsimtime) marc@marc:/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim (learning/mtd-ai-walkthrough)$ time python playground.py attack --nodes 100  --finish-time 11000
+
+=== attack_only ===
+Total nodes: 100
+Compromised hosts: 97 (97.00%)
+Attack events: 1302
+MTD events: 0
+Interrupted attack events: 0
+
+real    0m17.127s
+user    0m13.520s
+sys     0m3.382s
+
+# For the diagrams generated below, here are the stats it spat out.
+
+=== attack_only ===
+Total nodes: 50
+Compromised hosts: 2 (4.00%)
+Attack events: 158
+MTD events: 0
+```
+
+Essentially, the attacker is: Discovering reachable hosts -> selecting one, port scanning it -> trying many vuln exploits ->  brute forcing (if needed) -> repeating until the time limit.
+
+![Attack only attack timeline](output/playground/attack_only_attack_timeline.png)
+![Attacker only host compromise ](output/playground/attack_only_host_compromise_progress.png)
+![Attacker only compromise network](output/playground/attack_only_host_compromise_map.png)
+
+### What does the CSV show?
+
+It should fixed-duration actions (e.g. `SCAN_HOST`, `ENUM_HOSTS` 5 seconds, `SCAN_PORT` 25s, `BRUTE_FORCE` 20s)
+
+| name | start_time | finish_time | duration | current_host | current_host_uuid | compromise_host | compromise_host_uuid | current_host_attempt | cumulative_attempts | cumulative_compromised_hosts | compromise_users | interrupted_in | interrupted_by |
+|------|-----------|------------|----------|--------------|-------------------|-----------------|----------------------|----------------------|----------------------|------------------------------|------------------|----------------|----------------|
+| SCAN_HOST | 0.0 | 5.0 | 5.0 | -1 | -1 | None | None | 0 | 0 | 0 | [] | None | None |
+| ENUM_HOST | 5.0 | 10.0 | 5.0 | -1 | -1 | None | None | 0 | 0 | 0 | [] | None | None |
+| SCAN_PORT | 10.0 | 35.0 | 25.0 | 0 | 56a5c835-8ad3-4ed0-b154-8980bd914f56 | None | None | 1 | 0 | 0 | [] | None | None |
+| EXPLOIT_VULN | 35.0 | 35.361361078473614 | 0.3613610784736139 | 0 | 56a5c835-8ad3-4ed0-b154-8980bd914f56 | None | None | 1 | 0 | 0 | [] | None | None |
+| EXPLOIT_VULN | 35.361361078473614 | 41.53192920141339 | 6.170568122939777 | 0 | 56a5c835-8ad3-4ed0-b154-8980bd914f56 | None | None | 1 | 1 | 0 | [] | None | None |
+| EXPLOIT_VULN | 41.53192920141339 | 48.63905590469397 | 7.107126703280578 | 0 | 56a5c835-8ad3-4ed0-b154-8980bd914f56 | None | None | 1 | 2 | 0 | [] | None | None |
+| EXPLOIT_VULN | 48.63905590469397 | 57.47513967971987 | 8.836083775025898 | 0 | 56a5c835-8ad3-4ed0-b154-8980bd914f56 | None | None | 1 | 3 | 0 | [] | None | None |
+| BRUTE_FORCE | 57.47513967971987 | 77.47513967971986 | 19.999999999999993 | 0 | 56a5c835-8ad3-4ed0-b154-8980bd914f56 | None | None | 1 | 4 | 0 | [] | None | None |
+| ENUM_HOST | 77.47513967971986 | 82.47513967971986 | 5.0 | 0 | 56a5c835-8ad3-4ed0-b154-8980bd914f56 | None | None | 1 | 4 | 0 | [] | None | None |
+| SCAN_PORT | 82.47513967971986 | 107.47513967971986 | 25.0 | 1 | 0c20bfd9-ccef-4814-bfbf-85156b21b59d | None | None | 1 | 4 | 0 | [] | None | None |
+| EXPLOIT_VULN | 107.47513967971986 | 112.37391858546592 | 4.898778905746056 | 1 | 0c20bfd9-ccef-4814-bfbf-85156b21b59d | None | None | 1 | 4 | 0 | [] | None | None |
+
+...
+(rest ommitted)
+
+`EXPLOIT_VULN` durations vary as exploit time is sampled and depends on vuln characteristics. Compromised notes are denoted when `compromise_host` is set:
+
+NOTE: why are there names to compromised users??? shouldn't it be UUID? Can this be visualised?
+
+NOTE 2: Users are basically "first name only", stored in tuples. Hosts have `host_ID` and `host_UUID`. Multiple users on each host.
+
+| name | start_time | finish_time | duration | current_host | current_host_uuid | **compromise_host** | compromise_host_uuid | current_host_attempt | cumulative_attempts | cumulative_compromised_hosts | compromise_users | interrupted_in | interrupted_by |
+|------|-----------|------------|----------|--------------|-------------------|-----------------|----------------------|----------------------|----------------------|------------------------------|------------------|----------------|----------------|
+| EXPLOIT_VULN | 503.53 | 517.36 | 13.83 | 2 | 45199fdc-9738-4c97-a751-cdc6ac7af9d1 | **2** | 45199fdc-9738-4c97-a751-cdc6ac7af9d1 | 1 | 63 | 0 | ['Perrine', 'Meryl', 'Mia', 'Candace', 'Elaine'] | None | None |
+
+
+### Limitations to this model
+
+The model is "bursty", as it is host-centric. (pick hst -> do a large batch of exploits in the plot -> short scan/enum transitions).
+
+Limitations include:
+
+- Defensive metrics essentially "fully see" the network (e.g. attack-path stats), going against limited observation assumption.
+- Vuln generation/exploitability completely simulator-defined
+- Attacker phases are predictable and limited in strategy (defence overfitting attacker behaviour)
+- Oversimplification may be present (e.g. phase boundaries; real attacks interleave techniques, cred abuse, and discovery in messier ways)
+- Time constraints are fixed duration. Simulation dependent on these parameters.
+- Topology generation, endpoint placement, service assignment alter attacker path options. This sort of fluctuation could basically invalidate MTD quality. Possibly produce reproducible networks, and predefined easy, medium, hard networks to crack.
 
