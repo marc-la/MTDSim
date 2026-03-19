@@ -127,12 +127,12 @@ MTD_PRIORITY = {
 # mtd name : (mean, std)
 MTD_DURATION = {
     'CompleteTopologyShuffle': (120, 0.5),
-    # 'HostTopologyShuffle': (100, 0.5),
+    'HostTopologyShuffle': (100, 0.5),
     'IPShuffle': (110, 0.5),
     'OSDiversity': (80, 0.5),
+    'PortShuffle': (70, 0.5),
     'ServiceDiversity': (70, 0.5),
-    # 'PortShuffle': (70, 0.5),
-    # 'UserShuffle': (20, 0.5)
+    'UserShuffle': (20, 0.5)
 }
 
 # Constants for attack processes

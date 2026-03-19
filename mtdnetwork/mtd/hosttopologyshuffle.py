@@ -39,7 +39,7 @@ class HostTopologyShuffle(MTD):
             if len(host_id_list_in_layer) == 1:
                 continue
             other_host_id = self.random_different_host_id(host_id, host_id_list_in_layer)
-            if other_host_id in seen or host_id in exposed_endpoints:
+            if other_host_id in seen or other_host_id in exposed_endpoints:
                 continue
             other_host_instance = hosts[other_host_id]
 
