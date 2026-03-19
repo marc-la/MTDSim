@@ -305,3 +305,130 @@ Limitations include:
 - Time constraints are fixed duration. Simulation dependent on these parameters.
 - Topology generation, endpoint placement, service assignment alter attacker path options. This sort of fluctuation could basically invalidate MTD quality. Possibly produce reproducible networks, and predefined easy, medium, hard networks to crack.
 
+
+---
+
+## Running MTD operations
+
+Here I attempted to generate some gifs of how each MTD operations operates on the network
+
+### COMPLETE TOPOLOGY SHUFFLE
+
+Method: regenerates the network graph (edges/topology), then reattaches the same host objects to node IDs.
+Behavior: strongest effect is structural rewiring; host internals (OS, users, ports, services) mostly stay the same.
+Goal: disrupt attacker path planning and shortest paths at the network level.
+Tradeoff: very disruptive to connectivity assumptions, but does not inherently diversify host software state.
+
+![Complete topology shuffle](output/playground/inspect_mtd/CompleteTopologyShuffle/animation.gif)
+
+
+### HOST TOPOLOGY SHUFFLE:           
+
+Method: swaps host objects between node positions, mainly within layers, while avoiding exposed endpoints.
+Behavior: from a node-centric view, many fields appear to change at once (IP, OS, ports, users, services) because a different host now occupies that node.
+Goal: invalidate attacker mapping between node location and host identity.
+Tradeoff: can look similar to many simultaneous changes, but conceptually it is relocation, not internal mutation.
+![Host topology shuffle](output/playground/inspect_mtd/HostTopologyShuffle/animation.gif)
+
+### IP SHUFFLE:              
+         
+Method: reassigns fresh IP addresses to non-exposed hosts.
+Behavior: primary change is host addressing; little/no change to OS, ports, users, service set.
+Goal: break reconnaissance and cached target addressing.
+Tradeoff: lightweight and frequent, but narrow defense scope.
+
+![IP shuffle](output/playground/inspect_mtd/IPShuffle/animation.gif)
+
+### OS DIVERSITY:                     
+**GOAL**: Changes host OS and reassigns incompatible services
+
+For each non-exposed host, it randomly picks an OS type, keeps roughy the same version index, and then updates incompatible services. This is quick heterogenity through randonmess. Simple and fast, not globally optimised.
+
+![OS diversity](output/playground/inspect_mtd/OSDiversity/animation.gif)
+
+### OS DIVERSITY ASSIGMENT:           
+
+**GOAL**: Optimisation-based OS assigment (Python Linear Programming used)
+
+This is similar to `OS DIVERSITY` as they do per-host randomisation. However, optimisation-based assignment is used where a Diversity Assignment Problem is constructed over the network graph and computes OS placement to maximise a security objective across attack paths from exposed endpoints to destinations. Goal is for strategic objective across attack paths from exposed endpoints to destinitions. Heavier computational cost.
+
+Explore this more. Does this change its response depending on the way the network is compromised? 
+
+![OS diversity assignment](output/playground/inspect_mtd/OSDiversityAssignment/animation.gif)
+
+### PORT SHUFFLE:       
+
+Method: changes internal service port numbers on non-exposed hosts.
+Behavior: service identity remains, but access coordinates (ports) move.
+Goal: reduce value of previous scans and scripted exploit attempts tied to old ports.
+Tradeoff: targeted obfuscation; does not diversify software stack by itself.
+
+![Port randomisation shuffle](output/playground/inspect_mtd/PortShuffle/animation.gif)
+
+### SERVICE DIVERSITY:  
+
+Method: replaces host services with random latest-version compatible services for that host OS.
+Behavior: service composition and vulnerability surface shift significantly; OS/IP usually unchanged.
+Goal: alter exploitability landscape by changing what software is present and versions in use.
+Tradeoff: can be effective against exploit reuse, but may introduce operational instability in real systems.
+
+![Service diversity](output/playground/inspect_mtd/ServiceDiversity/animation.gif)
+
+### USER SHUFFLE:          
+
+Method: reassigns user sets across hosts.
+Behavior: credential-placement landscape changes; host network and software state mostly unchanged.
+Goal: disrupt attacker lateral movement paths that rely on harvested credentials and reuse patterns.
+Tradeoff: strong effect on credential-based attack steps, limited effect on pure service-exploit paths.
+
+![User shuffle](output/playground/inspect_mtd/UserShuffle/animation.gif)
+
+### Comparison of MTD operations
+
+| label | total_nodes | compromised_hosts | compromise_ratio | attack_events | mtd_events | interrupted_events |
+|---|---:|---:|---:|---:|---:|---:|
+| compare_nomtd | 50 | 4 | 0.08 | 143 | 0 | 0 |
+| compare_CompleteTopologyShuffle | 50 | 1 | 0.02 | 128 | 6 | 6 |
+| compare_IPShuffle | 50 | 2 | 0.04 | 143 | 6 | 6 |
+| compare_OSDiversity | 50 | 4 | 0.08 | 143 | 6 | 6 |
+| compare_ServiceDiversity | 50 | 3 | 0.06 | 119 | 6 | 6 |
+
+Findings 
+
+- Best reduction in compromise ratio is CompleteTopologyShuffle (0.08 to 0.02, 75% reduction vs no MTD).
+- IPShuffle improves compromise ratio (0.08 to 0.04, 50% reduction) but does not reduce attack event count in this run.
+- ServiceDiversity gives moderate compromise reduction (0.08 to 0.06, 25% reduction) and also reduces attack events (143 to 119).
+- OSDiversity shows no improvement in compromise ratio for this run (remains 0.08), suggesting limited short-horizon effect with current parameters.
+- All MTD runs report interrupted_events = 6, indicating the scheduler is consistently interrupting attacker actions when MTD executes.
+- This is one stochastic run only; conclusions should be based on repeated seeds and confidence intervals, not a single trial.
+
+NOTE: FIndings on very limited dataset (50 nodes, 1200s time, findings are NOT reproducible).
+
+### Limitations of MTD operations
+
+Very modular, multi-layer attack representation (not sure on the differences in the layer generation)
+
+Assumptions
+- Attacker model has fixed action primitives and durations (see attack timing in `constants.py`)
+- Synthetic network ~ enterprise network? Is the distribution representative enough?
+- Are the success probabilities calibrated on anything? Vulnerability complexity/impact/exploitability in `services.py`
+- MTD scheduling and execution costs are abstract (see `constant.py`)
+- Once an endpoint is exposed, it is hardcoded to be skipped 
+
+Limits
+- Realism 
+- Attacker diversity
+- External validity 
+- Host-centric, attacker-centric, network-centric focused studies
+- `OSDiversityAssignment` computational overhead
+
+Next steps
+- Calibration
+- Fidelity of models
+- Broader Evaluation
+- Reproducibility
+- Integration with real network topology/config data
+
+---
+
+
