@@ -27,9 +27,8 @@ import queue
 from tensorflow.keras.models import load_model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.losses import MeanSquaredError
+from tensorflow.keras.utils import register_keras_serializable
 import tensorflow as tf
-import keras
-from keras.src.legacy.saving import legacy_h5_format
 from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatistics
 import numpy as np
 # logging.basicConfig(format='%(message)s', level=logging.INFO)
@@ -121,6 +120,9 @@ def create_experiment_snapshots(network_size_list):
 
 
 def construct_average_result(results):
+    if not results:
+        return []
+
     results_avg = []
     for i in range(len(results[0])):
         mttc_i_list = [r[i]['time_to_compromise'] for r in results if r[i]['host_compromise_ratio'] != 0]
@@ -159,10 +161,16 @@ def construct_experiment_result(name, mtd_interval, item, network_size):
 
 # def single_mtd_simulation(file_name, combination):
 
-def single_mtd_simulation(file_name, mtd_strategies, checkpoint= 'None', mtd_interval = [100, 200], network_size = [25, 50, 75, 100]):
+def single_mtd_simulation(file_name, mtd_strategies=None, checkpoint= 'None', mtd_interval = [100, 200], network_size = [25, 50, 75, 100]):
     """
     Simulations for single mtd and no mtd
     """
+    if mtd_strategies is None:
+        mtd_strategies = globals().get('mtd_strategies', [None])
+
+    mtd_intervals = mtd_interval if isinstance(mtd_interval, (list, tuple)) else [mtd_interval]
+    network_sizes = network_size if isinstance(network_size, (list, tuple)) else [network_size]
+
     evaluations = []
     for mtd in mtd_strategies:
         mtd_evaluation = []
@@ -172,17 +180,17 @@ def single_mtd_simulation(file_name, mtd_strategies, checkpoint= 'None', mtd_int
         else:
             mtd_name = mtd().get_name()
             scheme = 'single'
-        for mtd_interval in mtd_interval:
-            for network_size in network_size:
-                evaluation = execute_simulation(scheme=scheme, mtd_interval=mtd_interval,
-                                                custom_strategies=mtd, total_nodes=network_size)
+        for interval in mtd_intervals:
+            for size in network_sizes:
+                evaluation = execute_simulation(scheme=scheme, mtd_interval=interval,
+                                                custom_strategies=mtd, total_nodes=size)
                 # if checkpoint != 'None':
                 #     evaluation_results = evaluation.evaluation_result_by_compromise_checkpoint(checkpoint)
                 # else:
                 #     evaluation_results = evaluation.evaluation_result_by_compromise_checkpoint()
                 evaluation_results = evaluation.evaluation_result_by_compromise_checkpoint([0.05, 0.1, 0.15, 0.2, 0.25])
                 for item in evaluation_results:
-                    result = construct_experiment_result(mtd_name, mtd_interval, item, network_size)
+                    result = construct_experiment_result(mtd_name, interval, item, size)
                     evaluations.append(result)
                     mtd_evaluation.append(result)
         save_evaluation_result(file_name, mtd_evaluation)
@@ -195,27 +203,27 @@ def mtd_ai_simulation(features, file_name,  model_path, start_time, finish_time,
     """
     evaluations = []
     scheme = 'mtd_ai'
+    mtd_intervals = mtd_interval if isinstance(mtd_interval, (list, tuple)) else [mtd_interval]
+    network_sizes = network_size if isinstance(network_size, (list, tuple)) else [network_size]
     # print(mtd_name, scheme)
-    for mtd_interval in mtd_interval:
-        for network_size in network_size:
-             evaluation = execute_ai_model(
-                 features = features,
+    for interval in mtd_intervals:
+        for size in network_sizes:
+            evaluation = execute_ai_model(
+                features = features,
                 start_time=start_time,
                 finish_time=finish_time,
-                mtd_interval=mtd_interval,
+                mtd_interval=interval,
                 scheme= scheme,
                 total_nodes=total_nodes,
                 new_network=new_network,
                 model_path=model_path,
                 attacker_sensitivity=attacker_sensitivity
             )
-             print(evaluation.security_metrics_record._metric_record)
+            print(evaluation.security_metrics_record._metric_record)
 
-             evaluation_results = evaluation.evaluation_result_by_compromise_checkpoint([0.05, 0.1, 0.15, 0.2, 0.25])
-             for item in evaluation_results:
-            
-                result = construct_experiment_result('mtd_ai', mtd_interval, item, network_size)
-        
+            evaluation_results = evaluation.evaluation_result_by_compromise_checkpoint([0.05, 0.1, 0.15, 0.2, 0.25])
+            for item in evaluation_results:
+                result = construct_experiment_result('mtd_ai', interval, item, size)
                 evaluations.append(result)
             
 
@@ -488,7 +496,7 @@ def  execute_ai_training(features, start_time=0, finish_time=None, scheme='mtd_a
     print("Training completed and model saved.")
 
 # Define and register the custom mse function
-@keras.saving.register_keras_serializable
+@register_keras_serializable()
 def mse(y_true, y_pred):
     return MeanSquaredError()(y_true, y_pred)
 
@@ -518,13 +526,7 @@ def  execute_ai_model(features, start_time=0, finish_time=None, scheme='mtd_ai',
     custom_objects = {'mse': mse}
 
     
-    try:
-        main_network = legacy_h5_format.load_model_from_hdf5(model_path, custom_objects=custom_objects)  #For Mac
-        # print("On Mac")
-    
-    except:
-        main_network = load_model(model_path, custom_objects=custom_objects)    #For Windows/Linux
-        # print("On Windows/Linux")
+    main_network = load_model(model_path, custom_objects=custom_objects)
 
     main_network.compile(loss=MeanSquaredError(), optimizer=Adam())
 
