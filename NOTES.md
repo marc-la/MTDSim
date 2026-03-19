@@ -121,3 +121,40 @@ This is a annotated tree from prompting/scanning the codebase.
 
 # CORE MTD SYSTEM
 
+I generated playground to play around with the codebase. By running it, I find the following:
+
+![30 node network](output/playground/network_30n.png)
+![100 node network](output/playground/network_100n.png)
+
+This is the network of 30 and 100 nodes. Program runs so slowly.
+
+```bash
+(mtdsimtime) marc@marc:/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim (learning/mtd-ai-walkthrough)$ time python playground.py network --nodes 30   
+/home/marc/miniconda3/envs/mtdsimtime/lib/python3.9/site-packages/simpy/__init__.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import get_distribution
+2026-03-19 09:45:07.962683: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-03-19 09:45:08.107566: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-03-19 09:45:08.908576: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-03-19 09:45:08.911229: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-03-19 09:45:12.344417: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim/playground.py:60: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  plt.tight_layout()
+Saved network plot: output/playground/network_30n.png
+
+real    0m20.459s
+user    0m9.441s
+sys     0m4.068s
+```
+
+Lazy loading of imports (e.g. preventing large ML libraries importing) seemed to fix it. Also fixed deprecated `pkg_resources`.
+
+```bash
+(mtdsimtime) marc@marc:/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim (learning/mtd-ai-walkthrough)$ time python playground.py network --nodes 100
+Saved network plot: output/playground/network_100n.png
+
+real    0m6.848s
+user    0m3.643s
+sys     0m1.822s
+```
+

@@ -1,6 +1,6 @@
 import random, logging
 import mtdnetwork.data.constants as constants
-import pkg_resources
+from importlib import resources
 import uuid
 
 
@@ -419,7 +419,8 @@ class ServicesGenerator:
 
     @staticmethod
     def get_service_name_list():
-        return [x.decode() for x in pkg_resources.resource_string('mtdnetwork', "data/words.txt").splitlines()]
+        words_text = resources.files("mtdnetwork.data").joinpath("words.txt").read_text(encoding="utf-8")
+        return words_text.splitlines()
 
     def get_all_generated_services(self):
         return self.os_services

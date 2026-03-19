@@ -20,7 +20,6 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import pandas as pd
 
-from experiments.run import execute_simulation
 from mtdnetwork.component.time_network import TimeNetwork
 from mtdnetwork.mtd.completetopologyshuffle import CompleteTopologyShuffle
 from mtdnetwork.mtd.ipshuffle import IPShuffle
@@ -57,9 +56,16 @@ def _save_network_plot(network: TimeNetwork, output_path: Path) -> None:
     plt.figure(figsize=(12, 8))
     nx.draw(network.graph, pos=network.pos, node_color=network.colour_map, with_labels=True, node_size=250)
     plt.title("Generated Network Topology")
-    plt.tight_layout()
     plt.savefig(output_path)
     plt.close()
+
+
+def _execute_simulation_lazy(**kwargs):
+    # Delay importing experiments.run so lightweight commands avoid TensorFlow startup overhead.
+    os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "2")
+    from experiments.run import execute_simulation
+
+    return execute_simulation(**kwargs)
 
 
 def _save_attack_timeline(attack_record: pd.DataFrame, output_path: Path) -> None:
@@ -130,7 +136,7 @@ def _run_single(
     mtd_interval: int,
     mtd_cls=None,
 ):
-    evaluation = execute_simulation(
+    evaluation = _execute_simulation_lazy(
         start_time=0,
         finish_time=finish_time,
         scheme=scheme,
