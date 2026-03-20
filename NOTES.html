@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOTES</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --bg-color: var(--vscode-editor-background, #ffffff);
+            --text-color: var(--vscode-editor-foreground, #1a1a1b);
+            --heading-color: var(--vscode-editor-foreground, #0f172a);
+            --secondary-text: var(--vscode-descriptionForeground, #64748b);
+            --accent-color: var(--vscode-textLink-foreground, #3b82f6);
+            --code-bg: var(--vscode-textCodeBlock-background, rgba(241, 245, 249, 0.4));
+            --border-color: var(--vscode-widget-border, #e2e8f0);
+            --header-bg: var(--vscode-editor-background, #ffffff);
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            line-height: 1.75;
+            color: var(--text-color);
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 5rem 2rem 3rem;
+            background-color: var(--bg-color);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .export-header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            padding: 0.75rem 2rem; background: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: flex; justify-content: flex-end; gap: 0.75rem;
+            backdrop-filter: blur(8px); display: none;
+        }
+
+        .btn {
+            background: var(--accent-color); color: white; border: none;
+            padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem;
+            font-weight: 500; cursor: pointer; transition: opacity 0.2s;
+            font-family: 'Outfit', sans-serif;
+        }
+        .btn:hover { opacity: 0.9; }
+
+        h1, h2, h3 { font-family: 'Outfit', sans-serif; color: var(--heading-color); font-weight: 700; margin-top: 2rem; }
+        h1 { font-size: 2.25rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem; }
+        
+        pre { background: var(--code-bg); padding: 1.25rem; border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; margin: 1.5rem 0; }
+        code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; padding: 0.2rem 0.4rem; border-radius: 6px; background-color: var(--code-bg); }
+        
+        .mermaid { background: white; padding: 1rem; border-radius: 12px; margin: 1.5rem 0; display: flex; justify-content: center; border: 1px solid var(--border-color); }
+        svg { max-width: 100% !important; height: auto !important; }
+
+        @media print { .export-header { display: none; } body { padding: 0; } }
+    </style>
+</head>
+<body>
+    <div class="export-header">
+        <button class="btn" onclick="exportFile('html')">Export HTML</button>
+        <button class="btn" onclick="exportFile('pdf')">Export PDF</button>
+        <button class="btn" onclick="exportFile('docx')">Export DOCX</button>
+    </div>
+    <div class="content"><h1>INTERNAL DOCUMENTATION OF MTD SIMULATOR</h1>
+<p>This is for my own personal understanding of the model. Will append stuff in here.</p>
+<hr>
+<p>This is a annotated tree from prompting/scanning the codebase. </p>
+<pre><code class="language-bash">.
+├── NOTES.md        # ME
+├── README.md       # Deprecated README, needs updating.
+├── docs            # Theses and manuals
+│   ├── manual
+│   │   ├── Document.pdf
+│   │   ├── MTD Parameters.pdf
+│   │   └── logs.md
+│   ├── notes.md
+│   └── thesis
+│       ├── ... (deleted theses)
+├── environment.yml
+├── experiments         # Lots and lots of data
+│   ├── .DS_Store
+│   ├── AI_model
+│   │   ├── .DS_Store
+│   │   ├── models_joo_kai
+│   │   └── models_will
+│   │       ├── .DS_Store
+│   │       ├── new_models
+│   │       │   ├── ... (deleted)
+│   │       └── new_models.zip
+│   ├── archive
+│   │   ├── data_visualisation.ipynb
+│   │   └── simulation.ipynb
+│   ├── dap_mtd.py          # ALT:  Runs diversity-assignment variant experiments.
+│   ├── experimental_data
+│   │   ├── .DS_Store
+│   │   ├── plots
+│   │   └── results
+│   │       ├── .DS_Store
+│   │       ├── final_trials
+│   │       │   ├── (deleted trial variants)
+│   │       ├── other_schemes
+│   │       ├── other_schemes_other
+│   │       ├── overall_trials
+│   │       │   ├── (deleted trial variants)
+│   ├── experiments.ipynb
+│   ├── model_training
+│   │   ├── mtd_ai_training.ipynb
+│   │   ├── mtd_ai_training_will.ipynb
+│   │   ├── training_will.py    # Training launcher.
+│   │   └── training_will_2.py  # Variant of above.
+│   ├── multiple_mtd.py     # ALT: Pairwise strategy combinations under random/alternative/simultaneous schemes.
+│   ├── run.py              # MAIN ORCHESTRATION API FOR BASELINE: End-to-end execution where experiments create a SimPy environment and loads snapshots.
+│   ├── run_trials
+│   │   ├── run_experiment.ipynb
+│   │   ├── run_experiment.py
+│   │   ├── run_trials.py
+│   │   └── run_trials_2.py
+│   ├── single_mtd.py       # Batch single-strategy plus no-MTD runs.
+│   ├── snapshots
+│   └── visualization
+│       ├── final_report_visualisation.ipynb
+│       ├── presentation_plots.ipynb
+│       ├── radar_plots.py
+│       ├── radar_plots_final.ipynb
+│       └── stacked_plots.py
+└── mtdnetwork              # Simulator world model. A generated enterprise network of hosts and services, with vulnerabilities and users
+    ├── .DS_Store
+    ├── __init__.py
+    ├── component
+    │   ├── __init__.py
+    │   ├── adversary.py    # Stateful attacker process loop scanning, enumerating, port-scanning, exploiting, and brute-forcing. (attacker state container)
+    │   ├── host.py         # CORE (Per-host internal service graph, compromise logic, port/vuln traversal)
+    │   ├── mtd_scheme.py   # Schedules and executes MTD actions with resource locks and attacker interruption. (Strategy registration and scheduling policy.)
+    │   ├── network.py      # CORE (graph generation, topology, host placement, exposure/path scoring hooks)
+    │   ├── services.py     # CORE (Vulnerability and service generators, exploitability/risk/ROA dynamics)
+    │   ├── target_network.py   # Targeted-attack flavour of network.
+    │   ├── time_generator.py   # Distribution helpers.
+    │   └── time_network.py # CORE (runtime network with queues and compromise stop criteria)
+    ├── data
+    │   ├── __init__.py
+    │   ├── constants.py
+    │   ├── first-names.txt
+    │   └── words.txt       
+    ├── mtd                 # MTD operations exist here. 
+    │   ├── __init__.py
+    │   ├── completetopologyshuffle.py      # COMPLETE TOPOLOGY SHUFFLE:        Regenerates full topology while preserving host objects
+    │   ├── hosttopologyshuffle.py          # HOST TOPOLOGY SHUFFLE:            Host topology shuffling strategy.
+    │   ├── ipshuffle.py                    # IP SHUFFLE:                       Changes host IPS
+    │   ├── osdiversity.py                  # OS DIVERSITY:                     Changes host OS and reassigns incompatible services
+    │   ├── osdiversityassignment.py        # OS DIVERSITY ASSIGMENT:           Optimisation-based OS assigment (Python Linear Programming used)
+    │   ├── portshuffle.py                  # PORT SHUFFLE:                     Port randomisation strategy.
+    │   ├── servicediversity.py             # SERVICE DIVERSITY:                Service mutation MTD. 
+    │   └── usershuffle.py                  # USER SHUFFLE:                     User placement/account perturbation strategy.
+    ├── mtdai               # Network architecture, epsilon-greedy action choice, replay and reward function
+    │   └── mtd_ai.py       # DDQN-like policy over static plus time features to choose next MTD action.
+    ├── operation                   # HELPER PACKAGE
+    │   ├── __init__.py             
+    │   ├── attack_operation.py     # Works with component/advserary.py
+    │   ├── mtd_ai_operation.py     # Works with mtdai/mtd_ai.py
+    │   ├── mtd_ai_training.py      # Works with mtdai/mtd_ai.py
+    │   └── mtd_operation.py        # Works with component/mtd_scheme.py
+    ├── snapshot        # Snapshot/pickle state of network/adversary/base paths
+    │   ├── __init__.py
+    │   ├── adversary_snapshot.py
+    │   ├── network_snapshot.py
+    │   └── snapshot_checkpoint.py
+    └── statistic                   # Attack and MTD traces become derived metrics like ASR, MTTC-like measures, risk/ROA
+        ├── __init__.py
+        ├── attack_statistics.py    # CORE
+        ├── evaluation.py           # CORE
+        ├── mtd_statistics.py       # CORE
+        ├── scorer.py               # CORE    
+        ├── security_metric_evaluations.py
+        ├── security_metric_statistics.py
+        └── utils.py
+</code></pre>
+<hr>
+<h1>CORE MTD SYSTEM</h1>
+<h2>Network &quot;static world&quot;</h2>
+<p>I generated playground to play around with the codebase. By running it, I find the following:</p>
+<p><img src="output/playground/network_30n.png" alt="30 node network">
+<img src="output/playground/network_100n.png" alt="100 node network">
+<img src="output/playground/network_1000n.png" alt="1000 node network"></p>
+<p>This is the network of 30, 100, 1000 nodes. Program runs so slowly.</p>
+<p>GREEN       =   Layer 0 (exposed endpoints/public-facing hosts attacker sees first)
+BLUE        =   Layer 1
+YELLOW      =   Layer 2
+PURPLE      =   Layer 3</p>
+<p>Layers are progressively deeper internal parts of the network.</p>
+<pre><code class="language-bash">(mtdsimtime) marc@marc:/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim (learning/mtd-ai-walkthrough)$ time python playground.py network --nodes 30   
+/home/marc/miniconda3/envs/mtdsimtime/lib/python3.9/site-packages/simpy/__init__.py:11: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.
+  from pkg_resources import get_distribution
+2026-03-19 09:45:07.962683: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-03-19 09:45:08.107566: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-03-19 09:45:08.908576: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.
+2026-03-19 09:45:08.911229: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-03-19 09:45:12.344417: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim/playground.py:60: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+  plt.tight_layout()
+Saved network plot: output/playground/network_30n.png
+
+real    0m20.459s
+user    0m9.441s
+sys     0m4.068s
+</code></pre>
+<p>Lazy loading of imports (e.g. preventing large ML libraries importing) seemed to fix it. Also fixed deprecated <code>pkg_resources</code>.</p>
+<pre><code class="language-bash">(mtdsimtime) marc@marc:/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim (learning/mtd-ai-walkthrough)$ time python playground.py network --nodes 100
+Saved network plot: output/playground/network_100n.png
+
+real    0m6.848s
+user    0m3.643s
+sys     0m1.822s
+</code></pre>
+<h2>Attacker behaviour</h2>
+<p>Attacker behaviour without defender interface. This is raw baseline of the a simulated attacker on the network.</p>
+<p>Codewise, the simulator starts <code>attack_operation.py</code> and does not start MTD. The attacker loop is driven by <code>attacker_operation.py</code> and these phases:</p>
+<p>Kill Chain: RWDEICA</p>
+<ul>
+<li>SCAN_HOST (recon) (short) (discovers candidate hosts reachable from exposed/compromised nodes and builds host stack ordering.)</li>
+<li>ENUM_HOST (recon) (short) (pops/selects the next host target from that stack and updates pivot/attempt counters.)</li>
+<li>SCAN_PORT (recon) (short) (in real life port scan?)</li>
+<li>EXPLOIT_VULN (longest) (assuming weaponisation, delivery, exfiltration, installation, command and control, some arbitrary action on objective)</li>
+<li>BRUTE_FORCE   </li>
+<li>SCAN_NEIGHBOR (command and control)</li>
+<li>back to ENUM_HOST (???)</li>
+</ul>
+<h3>What vulns exploited in <code>EXPLOIT_VULN</code>?</h3>
+<p>Generated synthetic vulns atttached to services during host/service generation. Exploit time is sampled per vulnerability from vulnerability/host properties (not a single fixed normal distribution). Repeated long <code>EXPLOIT_VULN</code> streaks are normal as the attacker is &quot;trying&quot; multiple vulns on the current host before deciding success/failure and moving on. What vulns??? or just baked in normal distribution?</p>
+<h3>Why is <code>BRUTE_FORCE</code> a separate phase?</h3>
+<p>It is a fallback after exploit attempts fail to compromise the host service graph. It models credential attacks using previously compromised users. It can fail</p>
+<p><code>BRUTE_FORCE</code> as a separate phase vs. technically brute forcing in the previous phase. Can brute force fail? are these phases conducted on which hosts/ports?</p>
+<h3>Which hosts/ports phases act on</h3>
+<p><code>SCAN_PORT</code> -&gt; current selected host, discovered exposed/exploitable service ports.</p>
+<h3>Wht does flow return from <code>SCAN_NEIGHBOUR</code> to <code>ENUM_HOST</code>?</h3>
+<p>The <code>SCAN_NB</code> adds newly discovered adjacent hosts to stack. <code>ENUM_HOSTS</code> then selects the next host target from the updated stack. This is the pivot loop.</p>
+<p><code>SCAN_NEIGHBOUR</code> appears after a successful compromise, meaning attacker pivots and discovers adjacent targets.</p>
+<pre><code class="language-bash">(mtdsimtime) marc@marc:/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim (learning/mtd-ai-walkthrough)$ python playground.py attack --nodes 50 --finish-time 1200
+
+=== attack_only ===
+Total nodes: 50
+Compromised hosts: 5 (10.00%)
+Attack events: 142
+MTD events: 0
+Interrupted attack events: 0
+
+# run attacker module again... some randomness.
+
+(mtdsimtime) marc@marc:/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim (learning/mtd-ai-walkthrough)$ time python playground.py attack --nodes 50 --finish-time 1200
+
+=== attack_only ===
+Total nodes: 50
+Compromised hosts: 3 (6.00%)
+Attack events: 187
+MTD events: 0
+Interrupted attack events: 0
+
+real    0m18.899s
+user    0m9.414s
+sys     0m4.159s
+
+# ran attacker for a bit longer to see if more compromises would occur... took 10-15000 seconds
+
+(mtdsimtime) marc@marc:/mnt/c/Users/marcl/OneDrive/Documents/GitHub/MTDSim (learning/mtd-ai-walkthrough)$ time python playground.py attack --nodes 100  --finish-time 11000
+
+=== attack_only ===
+Total nodes: 100
+Compromised hosts: 97 (97.00%)
+Attack events: 1302
+MTD events: 0
+Interrupted attack events: 0
+
+real    0m17.127s
+user    0m13.520s
+sys     0m3.382s
+
+# For the diagrams generated below, here are the stats it spat out.
+
+=== attack_only ===
+Total nodes: 50
+Compromised hosts: 2 (4.00%)
+Attack events: 158
+MTD events: 0
+</code></pre>
+<p>Essentially, the attacker is: Discovering reachable hosts -&gt; selecting one, port scanning it -&gt; trying many vuln exploits -&gt;  brute forcing (if needed) -&gt; repeating until the time limit.</p>
+<p><img src="output/playground/attack_only_attack_timeline.png" alt="Attack only attack timeline">
+<img src="output/playground/attack_only_host_compromise_progress.png" alt="Attacker only host compromise ">
+<img src="output/playground/attack_only_host_compromise_map.png" alt="Attacker only compromise network"></p>
+<h3>What does the CSV show?</h3>
+<p>It should fixed-duration actions (e.g. <code>SCAN_HOST</code>, <code>ENUM_HOSTS</code> 5 seconds, <code>SCAN_PORT</code> 25s, <code>BRUTE_FORCE</code> 20s)</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>start_time</th>
+<th>finish_time</th>
+<th>duration</th>
+<th>current_host</th>
+<th>current_host_uuid</th>
+<th>compromise_host</th>
+<th>compromise_host_uuid</th>
+<th>current_host_attempt</th>
+<th>cumulative_attempts</th>
+<th>cumulative_compromised_hosts</th>
+<th>compromise_users</th>
+<th>interrupted_in</th>
+<th>interrupted_by</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SCAN_HOST</td>
+<td>0.0</td>
+<td>5.0</td>
+<td>5.0</td>
+<td>-1</td>
+<td>-1</td>
+<td>None</td>
+<td>None</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>[]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>ENUM_HOST</td>
+<td>5.0</td>
+<td>10.0</td>
+<td>5.0</td>
+<td>-1</td>
+<td>-1</td>
+<td>None</td>
+<td>None</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>[]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>SCAN_PORT</td>
+<td>10.0</td>
+<td>35.0</td>
+<td>25.0</td>
+<td>0</td>
+<td>56a5c835-8ad3-4ed0-b154-8980bd914f56</td>
+<td>None</td>
+<td>None</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>[]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>EXPLOIT_VULN</td>
+<td>35.0</td>
+<td>35.361361078473614</td>
+<td>0.3613610784736139</td>
+<td>0</td>
+<td>56a5c835-8ad3-4ed0-b154-8980bd914f56</td>
+<td>None</td>
+<td>None</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>[]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>EXPLOIT_VULN</td>
+<td>35.361361078473614</td>
+<td>41.53192920141339</td>
+<td>6.170568122939777</td>
+<td>0</td>
+<td>56a5c835-8ad3-4ed0-b154-8980bd914f56</td>
+<td>None</td>
+<td>None</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>[]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>EXPLOIT_VULN</td>
+<td>41.53192920141339</td>
+<td>48.63905590469397</td>
+<td>7.107126703280578</td>
+<td>0</td>
+<td>56a5c835-8ad3-4ed0-b154-8980bd914f56</td>
+<td>None</td>
+<td>None</td>
+<td>1</td>
+<td>2</td>
+<td>0</td>
+<td>[]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>EXPLOIT_VULN</td>
+<td>48.63905590469397</td>
+<td>57.47513967971987</td>
+<td>8.836083775025898</td>
+<td>0</td>
+<td>56a5c835-8ad3-4ed0-b154-8980bd914f56</td>
+<td>None</td>
+<td>None</td>
+<td>1</td>
+<td>3</td>
+<td>0</td>
+<td>[]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>BRUTE_FORCE</td>
+<td>57.47513967971987</td>
+<td>77.47513967971986</td>
+<td>19.999999999999993</td>
+<td>0</td>
+<td>56a5c835-8ad3-4ed0-b154-8980bd914f56</td>
+<td>None</td>
+<td>None</td>
+<td>1</td>
+<td>4</td>
+<td>0</td>
+<td>[]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>ENUM_HOST</td>
+<td>77.47513967971986</td>
+<td>82.47513967971986</td>
+<td>5.0</td>
+<td>0</td>
+<td>56a5c835-8ad3-4ed0-b154-8980bd914f56</td>
+<td>None</td>
+<td>None</td>
+<td>1</td>
+<td>4</td>
+<td>0</td>
+<td>[]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>SCAN_PORT</td>
+<td>82.47513967971986</td>
+<td>107.47513967971986</td>
+<td>25.0</td>
+<td>1</td>
+<td>0c20bfd9-ccef-4814-bfbf-85156b21b59d</td>
+<td>None</td>
+<td>None</td>
+<td>1</td>
+<td>4</td>
+<td>0</td>
+<td>[]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<td>EXPLOIT_VULN</td>
+<td>107.47513967971986</td>
+<td>112.37391858546592</td>
+<td>4.898778905746056</td>
+<td>1</td>
+<td>0c20bfd9-ccef-4814-bfbf-85156b21b59d</td>
+<td>None</td>
+<td>None</td>
+<td>1</td>
+<td>4</td>
+<td>0</td>
+<td>[]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+</tbody></table>
+<p>...
+(rest ommitted)</p>
+<p><code>EXPLOIT_VULN</code> durations vary as exploit time is sampled and depends on vuln characteristics. Compromised notes are denoted when <code>compromise_host</code> is set:</p>
+<p>NOTE: why are there names to compromised users??? shouldn&#39;t it be UUID? Can this be visualised?</p>
+<p>NOTE 2: Users are basically &quot;first name only&quot;, stored in tuples. Hosts have <code>host_ID</code> and <code>host_UUID</code>. Multiple users on each host.</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>start_time</th>
+<th>finish_time</th>
+<th>duration</th>
+<th>current_host</th>
+<th>current_host_uuid</th>
+<th><strong>compromise_host</strong></th>
+<th>compromise_host_uuid</th>
+<th>current_host_attempt</th>
+<th>cumulative_attempts</th>
+<th>cumulative_compromised_hosts</th>
+<th>compromise_users</th>
+<th>interrupted_in</th>
+<th>interrupted_by</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>EXPLOIT_VULN</td>
+<td>503.53</td>
+<td>517.36</td>
+<td>13.83</td>
+<td>2</td>
+<td>45199fdc-9738-4c97-a751-cdc6ac7af9d1</td>
+<td><strong>2</strong></td>
+<td>45199fdc-9738-4c97-a751-cdc6ac7af9d1</td>
+<td>1</td>
+<td>63</td>
+<td>0</td>
+<td>[&#39;Perrine&#39;, &#39;Meryl&#39;, &#39;Mia&#39;, &#39;Candace&#39;, &#39;Elaine&#39;]</td>
+<td>None</td>
+<td>None</td>
+</tr>
+</tbody></table>
+<h3>Limitations to this model</h3>
+<p>The model is &quot;bursty&quot;, as it is host-centric. (pick hst -&gt; do a large batch of exploits in the plot -&gt; short scan/enum transitions).</p>
+<p>Limitations include:</p>
+<ul>
+<li>Defensive metrics essentially &quot;fully see&quot; the network (e.g. attack-path stats), going against limited observation assumption.</li>
+<li>Vuln generation/exploitability completely simulator-defined</li>
+<li>Attacker phases are predictable and limited in strategy (defence overfitting attacker behaviour)</li>
+<li>Oversimplification may be present (e.g. phase boundaries; real attacks interleave techniques, cred abuse, and discovery in messier ways)</li>
+<li>Time constraints are fixed duration. Simulation dependent on these parameters.</li>
+<li>Topology generation, endpoint placement, service assignment alter attacker path options. This sort of fluctuation could basically invalidate MTD quality. Possibly produce reproducible networks, and predefined easy, medium, hard networks to crack.</li>
+</ul>
+<hr>
+<h2>Running MTD operations</h2>
+<p>Here I attempted to generate some gifs of how each MTD operations operates on the network</p>
+<h3>COMPLETE TOPOLOGY SHUFFLE</h3>
+<p>Method: regenerates the network graph (edges/topology), then reattaches the same host objects to node IDs.
+Behavior: strongest effect is structural rewiring; host internals (OS, users, ports, services) mostly stay the same.
+Goal: disrupt attacker path planning and shortest paths at the network level.
+Tradeoff: very disruptive to connectivity assumptions, but does not inherently diversify host software state.</p>
+<p><img src="output/playground/inspect_mtd/CompleteTopologyShuffle/animation.gif" alt="Complete topology shuffle"></p>
+<h3>HOST TOPOLOGY SHUFFLE:</h3>
+<p>Method: swaps host objects between node positions, mainly within layers, while avoiding exposed endpoints.
+Behavior: from a node-centric view, many fields appear to change at once (IP, OS, ports, users, services) because a different host now occupies that node.
+Goal: invalidate attacker mapping between node location and host identity.
+Tradeoff: can look similar to many simultaneous changes, but conceptually it is relocation, not internal mutation.
+<img src="output/playground/inspect_mtd/HostTopologyShuffle/animation.gif" alt="Host topology shuffle"></p>
+<h3>IP SHUFFLE:</h3>
+<p>Method: reassigns fresh IP addresses to non-exposed hosts.
+Behavior: primary change is host addressing; little/no change to OS, ports, users, service set.
+Goal: break reconnaissance and cached target addressing.
+Tradeoff: lightweight and frequent, but narrow defense scope.</p>
+<p><img src="output/playground/inspect_mtd/IPShuffle/animation.gif" alt="IP shuffle"></p>
+<h3>OS DIVERSITY:</h3>
+<p><strong>GOAL</strong>: Changes host OS and reassigns incompatible services</p>
+<p>For each non-exposed host, it randomly picks an OS type, keeps roughy the same version index, and then updates incompatible services. This is quick heterogenity through randonmess. Simple and fast, not globally optimised.</p>
+<p><img src="output/playground/inspect_mtd/OSDiversity/animation.gif" alt="OS diversity"></p>
+<h3>OS DIVERSITY ASSIGMENT:</h3>
+<p><strong>GOAL</strong>: Optimisation-based OS assigment (Python Linear Programming used)</p>
+<p>This is similar to <code>OS DIVERSITY</code> as they do per-host randomisation. However, optimisation-based assignment is used where a Diversity Assignment Problem is constructed over the network graph and computes OS placement to maximise a security objective across attack paths from exposed endpoints to destinations. Goal is for strategic objective across attack paths from exposed endpoints to destinitions. Heavier computational cost.</p>
+<p>Explore this more. Does this change its response depending on the way the network is compromised? </p>
+<p><img src="output/playground/inspect_mtd/OSDiversityAssignment/animation.gif" alt="OS diversity assignment"></p>
+<h3>PORT SHUFFLE:</h3>
+<p>Method: changes internal service port numbers on non-exposed hosts.
+Behavior: service identity remains, but access coordinates (ports) move.
+Goal: reduce value of previous scans and scripted exploit attempts tied to old ports.
+Tradeoff: targeted obfuscation; does not diversify software stack by itself.</p>
+<p><img src="output/playground/inspect_mtd/PortShuffle/animation.gif" alt="Port randomisation shuffle"></p>
+<h3>SERVICE DIVERSITY:</h3>
+<p>Method: replaces host services with random latest-version compatible services for that host OS.
+Behavior: service composition and vulnerability surface shift significantly; OS/IP usually unchanged.
+Goal: alter exploitability landscape by changing what software is present and versions in use.
+Tradeoff: can be effective against exploit reuse, but may introduce operational instability in real systems.</p>
+<p><img src="output/playground/inspect_mtd/ServiceDiversity/animation.gif" alt="Service diversity"></p>
+<h3>USER SHUFFLE:</h3>
+<p>Method: reassigns user sets across hosts.
+Behavior: credential-placement landscape changes; host network and software state mostly unchanged.
+Goal: disrupt attacker lateral movement paths that rely on harvested credentials and reuse patterns.
+Tradeoff: strong effect on credential-based attack steps, limited effect on pure service-exploit paths.</p>
+<p><img src="output/playground/inspect_mtd/UserShuffle/animation.gif" alt="User shuffle"></p>
+<h3>Comparison of MTD operations</h3>
+<table>
+<thead>
+<tr>
+<th>label</th>
+<th align="right">total_nodes</th>
+<th align="right">compromised_hosts</th>
+<th align="right">compromise_ratio</th>
+<th align="right">attack_events</th>
+<th align="right">mtd_events</th>
+<th align="right">interrupted_events</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>compare_nomtd</td>
+<td align="right">50</td>
+<td align="right">4</td>
+<td align="right">0.08</td>
+<td align="right">143</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr>
+<td>compare_CompleteTopologyShuffle</td>
+<td align="right">50</td>
+<td align="right">1</td>
+<td align="right">0.02</td>
+<td align="right">128</td>
+<td align="right">6</td>
+<td align="right">6</td>
+</tr>
+<tr>
+<td>compare_IPShuffle</td>
+<td align="right">50</td>
+<td align="right">2</td>
+<td align="right">0.04</td>
+<td align="right">143</td>
+<td align="right">6</td>
+<td align="right">6</td>
+</tr>
+<tr>
+<td>compare_OSDiversity</td>
+<td align="right">50</td>
+<td align="right">4</td>
+<td align="right">0.08</td>
+<td align="right">143</td>
+<td align="right">6</td>
+<td align="right">6</td>
+</tr>
+<tr>
+<td>compare_ServiceDiversity</td>
+<td align="right">50</td>
+<td align="right">3</td>
+<td align="right">0.06</td>
+<td align="right">119</td>
+<td align="right">6</td>
+<td align="right">6</td>
+</tr>
+</tbody></table>
+<p>Findings </p>
+<ul>
+<li>Best reduction in compromise ratio is CompleteTopologyShuffle (0.08 to 0.02, 75% reduction vs no MTD).</li>
+<li>IPShuffle improves compromise ratio (0.08 to 0.04, 50% reduction) but does not reduce attack event count in this run.</li>
+<li>ServiceDiversity gives moderate compromise reduction (0.08 to 0.06, 25% reduction) and also reduces attack events (143 to 119).</li>
+<li>OSDiversity shows no improvement in compromise ratio for this run (remains 0.08), suggesting limited short-horizon effect with current parameters.</li>
+<li>All MTD runs report interrupted_events = 6, indicating the scheduler is consistently interrupting attacker actions when MTD executes.</li>
+<li>This is one stochastic run only; conclusions should be based on repeated seeds and confidence intervals, not a single trial.</li>
+</ul>
+<p>NOTE: FIndings on very limited dataset (50 nodes, 1200s time, findings are NOT reproducible).</p>
+<h3>Limitations of MTD operations</h3>
+<p>Very modular, multi-layer attack representation (not sure on the differences in the layer generation)</p>
+<p>Assumptions</p>
+<ul>
+<li>Attacker model has fixed action primitives and durations (see attack timing in <code>constants.py</code>)</li>
+<li>Synthetic network ~ enterprise network? Is the distribution representative enough?</li>
+<li>Are the success probabilities calibrated on anything? Vulnerability complexity/impact/exploitability in <code>services.py</code></li>
+<li>MTD scheduling and execution costs are abstract (see <code>constant.py</code>)</li>
+<li>Once an endpoint is exposed, it is hardcoded to be skipped</li>
+</ul>
+<p>Limits</p>
+<ul>
+<li>Realism </li>
+<li>Attacker diversity</li>
+<li>External validity </li>
+<li>Host-centric, attacker-centric, network-centric focused studies</li>
+<li><code>OSDiversityAssignment</code> computational overhead</li>
+</ul>
+<p>Next steps</p>
+<ul>
+<li>Calibration</li>
+<li>Fidelity of models</li>
+<li>Broader Evaluation</li>
+<li>Reproducibility</li>
+<li>Integration with real network topology/config data</li>
+</ul>
+<hr>
+</div>
+    <script>
+        const vscode = acquireVsCodeApi();
+        function exportFile(format) { vscode.postMessage({ command: 'export', format: format }); }
+        mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+        // Help Puppeteer know when we are done
+        window.addEventListener('load', () => {
+            mermaid.run().then(() => {
+                document.body.classList.add('mermaid-rendered');
+            });
+        });
+    </script>
+</body>
+</html>
