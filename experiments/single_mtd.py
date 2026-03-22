@@ -13,9 +13,8 @@ import matplotlib.pyplot as plt
 
 warnings.filterwarnings("ignore")
 plt.set_loglevel('WARNING')
-from run import single_mtd_simulation, execute_multithreading, create_experiment_snapshots
 
-create_experiment_snapshots([25, 50, 75, 100])
+from experiments.run import single_mtd_simulation, create_experiment_snapshots
+create_experiment_snapshots([25])
+single_mtd_simulation('test', mtd_interval=[100], network_size=[25])
 
-
-results = execute_multithreading(single_mtd_simulation, iterations=100, num_threads=20, file_name='single_mtd_sim')

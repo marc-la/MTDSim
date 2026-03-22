@@ -57,13 +57,14 @@ mtd_strategies = [
 
 
 def save_evaluation_result(file_name, evaluations):
-    current_directory = os.getcwd()
-    print(f"Saving evaluation results to {current_directory + '/experimental_data/results/' + file_name + '.csv'}")
-    if not os.path.exists(current_directory + '/experimental_data/results/' + file_name + '.csv'):
-        pd.DataFrame(evaluations).to_csv('experimental_data/results/' + file_name + '.csv', index=False)
+    results_dir = os.path.join(os.path.dirname(__file__), '..', 'experimental_data', 'results')
+    os.makedirs(results_dir, exist_ok=True)
+    csv_path = os.path.join(results_dir, file_name + '.csv')
+    print(f"Saving evaluation results to {csv_path}")
+    if not os.path.exists(csv_path):
+        pd.DataFrame(evaluations).to_csv(csv_path, index=False)
     else:
-        pd.DataFrame(evaluations).to_csv('experimental_data/results/' + file_name + '.csv', mode='a', index=False,
-                                         header=False)
+        pd.DataFrame(evaluations).to_csv(csv_path, mode='a', index=False, header=False)
 
 
 def thread_function(start, end, result_queue, simulation_function, file_name=None, combination=None):
@@ -84,9 +85,6 @@ def execute_multithreading(simulation_function, iterations=10, num_threads=5, fi
 
     # Create a list to store the threads
     threads = []
-
-    # Define the number of threads you want to use
-    num_threads = num_threads
 
     # Calculate the chunk size for each thread
     chunk_size = (end - start) // num_threads
@@ -292,14 +290,14 @@ def specific_multiple_mtd_simulation(file_name, combination, scheme, mtd_interva
     """
     evaluations = []
     mtd_evaluation = []
-    for mtd_interval in mtd_interval:
-        for network_size in network_size:
-            evaluation = execute_simulation(scheme=scheme, mtd_interval=mtd_interval,
-                                            custom_strategies=combination, total_nodes=network_size)
+    for interval in mtd_interval:
+        for size in network_size:
+            evaluation = execute_simulation(scheme=scheme, mtd_interval=interval,
+                                            custom_strategies=combination, total_nodes=size)
             # evaluation_results = evaluation.evaluation_result_by_compromise_checkpoint()
             evaluation_results = evaluation.evaluation_result_by_compromise_checkpoint([0.05, 0.1, 0.15, 0.2, 0.25])
             for item in evaluation_results:
-                result = construct_experiment_result(scheme, mtd_interval, item, network_size)
+                result = construct_experiment_result(scheme, interval, item, size)
                 evaluations.append(result)
                 mtd_evaluation.append(result)
     save_evaluation_result(file_name, mtd_evaluation)
