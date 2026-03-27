@@ -144,4 +144,5 @@ research-analysis/results/.~lock.3-combinations-ip-and-port-z-statistics.ods#
 
 snapshots/*
 experiments/experimental_data/*
-output/*
+experiments/*
+experimental_data/*
