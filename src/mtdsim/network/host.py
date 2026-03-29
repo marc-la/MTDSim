@@ -218,8 +218,6 @@ class Host:
                         blank_endpoints_index = 0
                     if n in self.exposed_endpoints:
                         self.exposed_endpoints.remove(n)
-
-        print("Blank endpoints: ", blank_endpoints, "target node: ", self.target_node)
         self.total_nodes = self.total_nodes - len(blank_endpoints)
 
     def get_services(self, just_exploited=False):

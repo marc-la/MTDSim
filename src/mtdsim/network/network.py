@@ -209,7 +209,6 @@ class Network:
                 # Selects Target Host
                 if i == self.target_layer and j == 1 and self.network_type == 0 and self.target_node != -1:
                     self.target_node = node_id - random.randrange(0, s_nodes)
-                    print("Target Node is: ", self.target_node)
 
                 # Assigns Colour of nodes based on constant key
                 for k in range(s_nodes):

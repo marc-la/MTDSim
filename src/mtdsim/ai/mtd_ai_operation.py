@@ -21,7 +21,7 @@ from mtdsim.stats.security_metric_statistics import SecurityMetricStatistics
 class MTDAIOperation:
 
     def __init__(self, features,security_metrics_record ,env, end_event, network, attack_operation, scheme, adversary,proceed_time=0,
-                 mtd_trigger_interval=None, custom_strategies=None, main_network=None, attacker_sensitivity=None, epsilon=None, static_degrade_factor = 2000):
+                 mtd_trigger_interval=None, custom_strategies=None, main_network=None, attacker_sensitivity=1.0, epsilon=None, static_degrade_factor = 2000):
         """
         :param env: the parameter to facilitate simPY env framework
         :param network: the simulation network
@@ -62,7 +62,11 @@ class MTDAIOperation:
         self.evaluation = Evaluation(network=network, adversary=adversary,  security_metrics_record = security_metrics_record)
 
         self.attack_dict = {"SCAN_HOST": 1, "ENUM_HOST": 2, "SCAN_PORT": 3, "EXPLOIT_VULN": 4, "SCAN_NEIGHBOR": 5, "BRUTE_FORCE": 6}
-        self.mtd_strategies = custom_strategies
+        self.mtd_strategies = (
+            custom_strategies
+            if custom_strategies is not None
+            else self._mtd_scheme._mtd_custom_strategies
+        )
         self.static_degrade_factor = static_degrade_factor
 
     def proceed_mtd(self):
@@ -114,11 +118,8 @@ class MTDAIOperation:
                 if not self.network.get_mtd_queue():
                     if self._mtd_scheme._scheme == 'mtd_ai':
                         self._mtd_scheme.register_mtd(mtd_action=action)
-                        # Register the mtd in scorer as well
-                        self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(action))
                     else:
                         self._mtd_scheme.register_mtd(mtd_action=None)
-                        self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(mtd_action=None))
                 # trigger an MTD
                 if self.network.get_suspended_mtd():
                     mtd = self._mtd_scheme.trigger_suspended_mtd()
@@ -314,8 +315,8 @@ class MTDAIOperation:
             for i in range(len(longer)):
                 if ((i + 1) > len(shorter)) or (longer[i] != shorter[i]):
                     ip_variability += 1
-            
-            ip_variability /= len(unique_hosts)
+
+            ip_variability = ip_variability / len(unique_hosts) if unique_hosts else 0
 
         else:
             ip_variability = 0
@@ -330,8 +331,8 @@ class MTDAIOperation:
         # Sort the lengths in ascending order
         sorted_lengths = sorted(path_lengths)
         # Calculate variability between the two shortest paths
-        if len(sorted_lengths) > 1:
-            shortest_path_variability = abs(sorted_lengths[1] - sorted_lengths[0]) / sorted_lengths[0] 
+        if len(sorted_lengths) > 1 and sorted_lengths[0] > 0:
+            shortest_path_variability = abs(sorted_lengths[1] - sorted_lengths[0]) / sorted_lengths[0]
         else:
             shortest_path_variability = 0
 
@@ -346,8 +347,9 @@ class MTDAIOperation:
             compromised_num = len(compromised_hosts)
             # print(compromised_num)
         else:
-            compromised_num = 0    
-        host_compromise_ratio = compromised_num/len(self.network.get_hosts()) 
+            compromised_num = 0
+        host_count = len(self.network.get_hosts())
+        host_compromise_ratio = compromised_num / host_count if host_count > 0 else 0
 
         time_since_last_mtd = self.env.now - self.network.last_mtd_triggered_time 
 
@@ -356,7 +358,8 @@ class MTDAIOperation:
         if len(mtd_record) == 0:
             mtd_freq = 0
         else:
-            mtd_freq = len(mtd_record) / (mtd_record.iloc[-1]['finish_time'] - mtd_record.iloc[0]['start_time']) 
+            elapsed = mtd_record.iloc[-1]['finish_time'] - mtd_record.iloc[0]['start_time']
+            mtd_freq = len(mtd_record) / elapsed if elapsed > 0 else 0
    
 
         attack_stats = self.adversary.get_network().get_scorer().get_statistics()
@@ -376,12 +379,13 @@ class MTDAIOperation:
             overall_time_to_compromise = sub_record[sub_record[
                 'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]['duration'].sum()  
 
-            attack_success_rate = compromised_num / attack_event_num  
+            attack_success_rate = compromised_num / attack_event_num if attack_event_num > 0 else 0
 
             # Calculate Mean Time to Compromise
-            if compromised_num > 0:
-                mean_time_to_compromise = (overall_time_to_compromise / len(sub_record[sub_record[
-                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])])) 
+            attack_action_count = len(sub_record[sub_record[
+                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])])
+            if compromised_num > 0 and attack_action_count > 0:
+                mean_time_to_compromise = overall_time_to_compromise / attack_action_count
             else:
                 mean_time_to_compromise = 0
         else:
@@ -394,8 +398,11 @@ class MTDAIOperation:
 
 
         # Not a metric but indicate the attacker type
+        current_attack_value = 7
+        attacker_sensitivity = self.attacker_sensitivity if self.attacker_sensitivity is not None else 1
+        attacker_sensitivity = min(max(attacker_sensitivity, 0), 1)
         sensitivity_factor = random.random()
-        if sensitivity_factor <= self.attacker_sensitivity:
+        if sensitivity_factor <= attacker_sensitivity:
             current_attack = self.adversary.get_curr_process()
             current_attack_value = self.attack_dict.get(current_attack, 7)
 
@@ -431,9 +438,9 @@ class MTDAIOperation:
 
         time_series_array = np.array([value if key in self.features["time"] else 0 for key, value in time_series_filter.items()])
 
-        # Output the filtered arrays for verification
-        print("Filtered State Array:", state_array)
-        print("Filtered Time Series Array:", time_series_array)
+        if self.logging:
+            logging.info("Filtered State Array: %s", state_array)
+            logging.info("Filtered Time Series Array: %s", time_series_array)
        
         return state_array, time_series_array
   

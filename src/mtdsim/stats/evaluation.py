@@ -5,6 +5,7 @@ import networkx as nx
 import pandas as pd
 import os
 import seaborn as sns
+import logging
 directory = os.getcwd()
 
 
@@ -77,7 +78,8 @@ class Evaluation:
         if len(self._mtd_record) == 0:
             return 0
         record = self._mtd_record
-        return len(record) / (record.iloc[-1]['finish_time'] - record.iloc[0]['start_time'])
+        elapsed = record.iloc[-1]['finish_time'] - record.iloc[0]['start_time']
+        return len(record) / elapsed if elapsed > 0 else 0
 
     def evaluation_result_by_compromise_checkpoint(self, checkpoint=None):
         """
@@ -103,9 +105,10 @@ class Evaluation:
             if max(record['cumulative_compromised_hosts']) < comp_num:
                 break
             sub_record = record[record['cumulative_compromised_hosts'] <= comp_num]
-            time_to_compromise = sub_record[sub_record[
-                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]['duration'].sum() / len(sub_record[sub_record[
-                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]['duration'])
+            attack_duration_series = sub_record[sub_record[
+                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]['duration']
+            attack_action_count = len(attack_duration_series)
+            time_to_compromise = attack_duration_series.sum() / attack_action_count if attack_action_count > 0 else 0
             attempt_hosts = sub_record[sub_record['current_host_uuid'] != -1]['current_host_uuid'].unique()
             attack_actions = sub_record[sub_record['name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]
             attack_event_num = 0
@@ -113,7 +116,7 @@ class Evaluation:
                 attack_event_num += len(attack_actions[(attack_actions['current_host_uuid'] == host) &
                                                        (attack_actions['name'] == 'SCAN_PORT')])
             # attack_success_rate = record['cumulative_compromised_hosts'].iloc[-1] / attack_event_num
-            attack_success_rate = comp_num / attack_event_num
+            attack_success_rate = comp_num / attack_event_num if attack_event_num > 0 else 0
            
             mtd_execution_frequency = self.mtd_execution_frequency()
 
@@ -121,7 +124,7 @@ class Evaluation:
         
 
             # print(self.compromised_num(record=sub_record), len(self._network.get_hosts()))
-            host_comp_ratio = self.compromised_num(record=sub_record)/comp_num
+            host_comp_ratio = self.compromised_num(record=sub_record) / comp_num if comp_num > 0 else 0
   
             result.append({'time_to_compromise': time_to_compromise,
                            'attack_success_rate': attack_success_rate,
@@ -150,7 +153,8 @@ class Evaluation:
         # State metrics
 
         compromised_num = self.compromised_num()
-        host_compromise_ratio = compromised_num/len(self._network.get_hosts()) \
+        host_count = len(self._network.get_hosts())
+        host_compromise_ratio = compromised_num / host_count if host_count > 0 else 0
 
   
         total_number_of_ports = 0
@@ -205,7 +209,7 @@ class Evaluation:
         """
         plt.figure(1, figsize=(15, 12))
         nx.draw(self._network.graph, pos=self._network.pos, node_color=self._network.colour_map, with_labels=True)
-        plt.savefig(directory + '/experimental_data/plots/',+ '/network.png')
+        plt.savefig(directory + '/experimental_data/plots/network.png')
         plt.show()
 
     def draw_hacker_visible(self):
@@ -263,7 +267,7 @@ class Evaluation:
         plt.xlabel('Time', weight='bold', fontsize=18)
         plt.ylabel('Hosts', weight='bold', fontsize=18)
         fig.tight_layout()
-        plt.savefig(directory + '/experimental_data/plots/','/attack_action_record_group_by_host.png')
+        plt.savefig(directory + '/experimental_data/plots/attack_action_record_group_by_host.png')
         plt.show()
 
     def visualise_attack_operation(self):
@@ -281,7 +285,7 @@ class Evaluation:
                    zorder=3)
 
         compromise_record = record[record['compromise_host'] != 'None']
-        print("total compromised hosts: ", len(compromise_record))
+        logging.info("total compromised hosts: %s", len(compromise_record))
         ax.scatter(compromise_record['finish_time'], compromise_record['name'], color='red', zorder=2)
 
         custom_lines_attack = [Line2D([0], [0], marker='o', color='w', markerfacecolor='green', markersize=10),
@@ -295,7 +299,7 @@ class Evaluation:
         plt.xlabel('Time', weight='bold', fontsize=18)
         plt.ylabel('Attack Actions', weight='bold', fontsize=18)
         fig.tight_layout()
-        plt.savefig(directory + '/experimental_data/plots/',+ '/attack_record.png')
+        plt.savefig(directory + '/experimental_data/plots/attack_record.png')
         plt.show()
 
     def visualise_mtd_operation(self):
@@ -320,7 +324,7 @@ class Evaluation:
         plt.xlabel('Time', weight='bold', fontsize=18)
         plt.ylabel('MTD Strategies', weight='bold', fontsize=18)
         fig.tight_layout()
-        plt.savefig(directory + '/experimental_data/plots/',+ '/mtd_record.png')
+        plt.savefig(directory + '/experimental_data/plots/mtd_record.png')
         plt.show()
 
 

@@ -7,6 +7,9 @@ import numpy as np
 import random
 from collections import deque
 import pandas as pd
+
+tf.get_logger().setLevel('ERROR')
+
 # Define the neural network architecture
 def create_network(state_size, action_size, time_series_size):
     # Static feature extraction module
@@ -54,7 +57,7 @@ def choose_action(state, time_series, main_network, action_size, epsilon):
 
     if np.random.rand() <= epsilon:
         return random.randrange(action_size)
-    act_values = main_network.predict([state, time_series])
+    act_values = main_network.predict([state, time_series], verbose=0)
     return np.argmax(act_values[0])
 
 # Learning function
@@ -74,14 +77,14 @@ def replay(memory, main_network, target_network, batch_size, gamma, epsilon, eps
         next_state = next_state.reshape((1,-1))
         next_time_series = next_time_series.reshape((1,-1))
 
-        target = main_network.predict([state, time_series])
+        target = main_network.predict([state, time_series], verbose=0)
 
 
         if done:
             target[0][action] = reward
         else:
-            t_next_action = np.argmax(main_network.predict([next_state, next_time_series])[0])
-            t_next_q = target_network.predict([next_state, next_time_series])[0][t_next_action]
+            t_next_action = np.argmax(main_network.predict([next_state, next_time_series], verbose=0)[0])
+            t_next_q = target_network.predict([next_state, next_time_series], verbose=0)[0][t_next_action]
             target[0][action] = reward + gamma * t_next_q
 
         main_network.fit([state, time_series], target, epochs=1, verbose=0)

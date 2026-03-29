@@ -41,7 +41,11 @@ class MTDAITraining:
 
         self._mtd_scheme = MTDScheme(network=network, scheme=scheme, mtd_trigger_interval=mtd_trigger_interval,
                                      custom_strategies=custom_strategies)
-        self.custom_strategies = custom_strategies
+        self.custom_strategies = (
+            custom_strategies
+            if custom_strategies is not None
+            else self._mtd_scheme._mtd_custom_strategies
+        )
      
         self._proceed_time = proceed_time
 
@@ -110,8 +114,6 @@ class MTDAITraining:
                 # register an MTD
                 if not self.network.get_mtd_queue():
                     self._mtd_scheme.register_mtd(mtd_action=action)
-                    # Register the mtd in scorer as well
-                    self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(action))
                 # trigger an MTD
                 if self.network.get_suspended_mtd():
                     mtd = self._mtd_scheme.trigger_suspended_mtd()
@@ -262,8 +264,8 @@ class MTDAITraining:
             for i in range(len(longer)):
                 if ((i + 1) > len(shorter)) or (longer[i] != shorter[i]):
                     ip_variability += 1
-            
-            ip_variability /= len(unique_hosts)
+
+            ip_variability = ip_variability / len(unique_hosts) if unique_hosts else 0
 
         else:
             ip_variability = 0
@@ -278,8 +280,8 @@ class MTDAITraining:
         # Sort the lengths in ascending order
         sorted_lengths = sorted(path_lengths)
         # Calculate variability between the two shortest paths
-        if len(sorted_lengths) > 1:
-            shortest_path_variability = abs(sorted_lengths[1] - sorted_lengths[0]) / sorted_lengths[0] 
+        if len(sorted_lengths) > 1 and sorted_lengths[0] > 0:
+            shortest_path_variability = abs(sorted_lengths[1] - sorted_lengths[0]) / sorted_lengths[0]
         else:
             shortest_path_variability = 0
 
@@ -292,10 +294,10 @@ class MTDAITraining:
             compromised_hosts = record[record['compromise_host_uuid'] != 'None'].loc[record['start_time'] > (self.env.now - comp_check_interval)]['compromise_host_uuid'].unique()
             
             compromised_num = len(compromised_hosts)
-            print(compromised_num)
         else:
-            compromised_num = 0    
-        host_compromise_ratio = compromised_num/len(self.network.get_hosts()) 
+            compromised_num = 0
+        host_count = len(self.network.get_hosts())
+        host_compromise_ratio = compromised_num / host_count if host_count > 0 else 0
 
         time_since_last_mtd = self.env.now - self.network.last_mtd_triggered_time 
 
@@ -304,7 +306,8 @@ class MTDAITraining:
         if len(mtd_record) == 0:
             mtd_freq = 0
         else:
-            mtd_freq = len(mtd_record) / (mtd_record.iloc[-1]['finish_time'] - mtd_record.iloc[0]['start_time']) 
+            elapsed = mtd_record.iloc[-1]['finish_time'] - mtd_record.iloc[0]['start_time']
+            mtd_freq = len(mtd_record) / elapsed if elapsed > 0 else 0
    
 
         attack_stats = self.adversary.get_network().get_scorer().get_statistics()
@@ -324,12 +327,13 @@ class MTDAITraining:
             overall_time_to_compromise = sub_record[sub_record[
                 'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]['duration'].sum()  
 
-            attack_success_rate = compromised_num / attack_event_num  
+            attack_success_rate = compromised_num / attack_event_num if attack_event_num > 0 else 0
 
             # Calculate Mean Time to Compromise
-            if compromised_num > 0:
-                mean_time_to_compromise = (overall_time_to_compromise / len(sub_record[sub_record[
-                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])])) /10
+            attack_action_count = len(sub_record[sub_record[
+                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])])
+            if compromised_num > 0 and attack_action_count > 0:
+                mean_time_to_compromise = (overall_time_to_compromise / attack_action_count) / 10
             else:
                 mean_time_to_compromise = 0
         else:
@@ -342,8 +346,11 @@ class MTDAITraining:
 
 
         # Not a metric but indicate the attacker type
+        current_attack_value = 7
+        attacker_sensitivity = self.attacker_sensitivity if self.attacker_sensitivity is not None else 1
+        attacker_sensitivity = min(max(attacker_sensitivity, 0), 1)
         sensitivity_factor = random.random()
-        if sensitivity_factor <= self.attacker_sensitivity:
+        if sensitivity_factor <= attacker_sensitivity:
             current_attack = self.adversary.get_curr_process()
             current_attack_value = self.attack_dict.get(current_attack, 7)
 
