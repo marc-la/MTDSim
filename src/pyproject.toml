@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mtdsim"
+version = "0.2.0"
+requires-python = ">=3.9"
+
+[tool.setuptools.packages.find]
+include = ["mtdsim*"]
+
+[tool.setuptools.package-data]
+"mtdsim.data" = ["*.txt"]
