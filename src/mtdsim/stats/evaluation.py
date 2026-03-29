@@ -9,7 +9,7 @@ directory = os.getcwd()
 
 
 class Evaluation:
-    def __init__(self, network, adversary,  security_metrics_record):
+    def __init__(self, network, adversary, security_metrics_record=None):
 
         self._network = network
         self._adversary = adversary

@@ -150,3 +150,6 @@ experimental_data/*
 *.local.*
 
 .context/
+
+# Trained model weights (large binaries)
+*.h5

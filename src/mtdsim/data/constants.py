@@ -110,7 +110,8 @@ ATTACKER_THRESHOLD = 10
 MTD_TRIGGER_INTERVAL = {
     'simultaneous': (700, 0.5),
     'random': (200, 0.5),
-    'alternative': (200, 0.5)
+    'alternative': (200, 0.5),
+    'mtd_ai': (200, 0.5),
 }
 
 # mtd name : priority value
