@@ -66,12 +66,19 @@ class AttackOperation:
                                                                          finish_time, self.adversary)
         attack_action()
 
+    def _get_duration(self, phase):
+        """Return attack duration for a phase, using the profile if available."""
+        profile = self.adversary.get_profile()
+        if profile:
+            return profile.get_attack_duration(phase)
+        return ATTACK_DURATION[phase]
+
     def _scan_host(self):
         """
         raise an SCAN_HOST action
         """
         self.adversary.set_curr_process('SCAN_HOST')
-        self._attack_process = self.env.process(self._execute_attack_action(ATTACK_DURATION['SCAN_HOST'],
+        self._attack_process = self.env.process(self._execute_attack_action(self._get_duration('SCAN_HOST'),
                                                                             self._execute_scan_host))
 
     def _enum_host(self):
@@ -80,7 +87,7 @@ class AttackOperation:
         """
         if len(self.adversary.get_host_stack()) > 0:
             self.adversary.set_curr_process('ENUM_HOST')
-            self._attack_process = self.env.process(self._execute_attack_action(ATTACK_DURATION['ENUM_HOST'],
+            self._attack_process = self.env.process(self._execute_attack_action(self._get_duration('ENUM_HOST'),
                                                                                 self._execute_enum_host))
         else:
             self._scan_host()
@@ -90,7 +97,7 @@ class AttackOperation:
         raise an SCAN_PORT action 
         """
         self.adversary.set_curr_process('SCAN_PORT')
-        self._attack_process = self.env.process(self._execute_attack_action(ATTACK_DURATION['SCAN_PORT'],
+        self._attack_process = self.env.process(self._execute_attack_action(self._get_duration('SCAN_PORT'),
                                                                             self._execute_scan_port))
 
     def _exploit_vuln(self):
@@ -108,7 +115,7 @@ class AttackOperation:
         raise an BRUTE_FORCE action
         """
         self.adversary.set_curr_process('BRUTE_FORCE')
-        self._attack_process = self.env.process(self._execute_attack_action(ATTACK_DURATION['BRUTE_FORCE'],
+        self._attack_process = self.env.process(self._execute_attack_action(self._get_duration('BRUTE_FORCE'),
                                                                             self._execute_brute_force))
 
     def _scan_neighbors(self):
@@ -116,7 +123,7 @@ class AttackOperation:
         raise an SCAN_NEIGHBOR action
         """
         self.adversary.set_curr_process('SCAN_NEIGHBOR')
-        self._attack_process = self.env.process(self._execute_attack_action(ATTACK_DURATION['SCAN_NEIGHBOR'],
+        self._attack_process = self.env.process(self._execute_attack_action(self._get_duration('SCAN_NEIGHBOR'),
                                                                             self._execute_scan_neighbors))
 
     def _handle_interrupt(self, start_time, name):
@@ -130,7 +137,7 @@ class AttackOperation:
                                                                     self.env.now + self._proceed_time,
                                                                     adversary, self._interrupted_mtd)
         # confusion penalty caused by MTD operation
-        yield self.env.timeout(exponential_variates(ATTACK_DURATION['PENALTY'], 0.5))
+        yield self.env.timeout(exponential_variates(self._get_duration('PENALTY'), 0.5))
 
         if self._interrupted_mtd.get_resource_type() == 'network':
             self._interrupted_mtd = None
@@ -258,8 +265,11 @@ class AttackOperation:
         Phase 2
         """
         adversary = self.adversary
+        profile = adversary.get_profile()
+        exploit_base_dur = profile.get_attack_duration('EXPLOIT_VULN') if profile else None
+        exploit_bonus = profile.exploit_success_bonus if profile else 0.0
         for vuln in vulns:
-            exploit_time = exponential_variates(vuln.exploit_time(host=adversary.get_curr_host()), 0.5)
+            exploit_time = exponential_variates(vuln.exploit_time(host=adversary.get_curr_host(), base_duration=exploit_base_dur), 0.5)
             start_time = self.env.now + self._proceed_time
             try:
                 if self.logging:
@@ -278,7 +288,7 @@ class AttackOperation:
             self.adversary.get_attack_stats().append_attack_operation_record(self.adversary.get_curr_process(),
                                                                              start_time,
                                                                              finish_time, self.adversary)
-            vuln.network(host=adversary.get_curr_host())
+            vuln.network(host=adversary.get_curr_host(), exploit_bonus=exploit_bonus)
             # cumulative vulnerability exploitation attempts
             adversary.set_curr_attempts(adversary.get_curr_attempts() + 1)
         if adversary.get_curr_host().check_compromised():
@@ -303,8 +313,10 @@ class AttackOperation:
         Phase 3
         """
         adversary = self.adversary
+        profile = adversary.get_profile()
+        bf_mult = profile.brute_force_multiplier if profile else 1.0
         _brute_force_result = adversary.get_curr_host().compromise_with_users(
-            adversary.get_compromised_users())
+            adversary.get_compromised_users(), brute_force_multiplier=bf_mult)
         if _brute_force_result:
             self.update_compromise_progress(self.env.now, self._proceed_time)
             self._scan_neighbors()

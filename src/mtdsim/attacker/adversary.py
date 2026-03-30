@@ -4,14 +4,15 @@ from mtdsim.data.constants import HACKER_ATTACK_ATTEMPT_MULTIPLER
 
 
 class Adversary:
-    def __init__(self, network, attack_threshold):
+    def __init__(self, network, attack_threshold, profile=None):
         self.network = network
         self._compromised_users = []
         self._compromised_hosts = []
         self._host_stack = []
         self._attack_counter = [0 for n in range(len(self.network.get_graph().nodes()))]
         self._stop_attack = []
-        self._attack_threshold = attack_threshold
+        self._profile = profile
+        self._attack_threshold = profile.attack_threshold if profile else attack_threshold
         self._pivot_host_id = -1
         self._curr_host_id = -1
         self.curr_host = None
@@ -118,3 +119,6 @@ class Adversary:
 
     def set_curr_process(self, curr_process):
         self._curr_process = curr_process
+
+    def get_profile(self):
+        return self._profile

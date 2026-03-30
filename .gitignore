@@ -153,3 +153,6 @@ experimental_data/*
 
 # Trained model weights (large binaries)
 *.h5
+
+# MITRE ATT&CK STIX data (downloaded at runtime)
+enterprise-attack.json

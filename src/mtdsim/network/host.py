@@ -161,20 +161,22 @@ class Host:
     def is_compromised(self):
         return self.compromised
 
-    def compromise_with_users(self, compromised_users):
+    def compromise_with_users(self, compromised_users, brute_force_multiplier=1.0):
         """
         Tries to brute force a login using the list of users that the adversary has compromised
 
         Parameters:
             compromised_users:
                 the list of users the hacker has compromised
+            brute_force_multiplier:
+                multiplier on brute-force success probability (from attacker profile)
 
         Returns:
             an action that returns if the brute force worked
         """
         attempt_users = [username for username in self.users.keys() if username in compromised_users]
 
-        if random.random() < constants.HOST_MAX_PROB_FOR_USER_COMPROMISE * len(attempt_users) / self.total_users:
+        if random.random() < constants.HOST_MAX_PROB_FOR_USER_COMPROMISE * len(attempt_users) / self.total_users * brute_force_multiplier:
             self.set_compromised()
             return True
         return False

@@ -70,14 +70,15 @@ class Vulnerability:
                 return True
         return False
 
-    def exploit_time(self, host=None):
+    def exploit_time(self, host=None, base_duration=None):
         """"
         Returns:
             the random time it would take to exploit this vulnerability
             the more attempts a hacker tries at exploiting a particular vulnerability the faster the exploit time becomes
 
         """
-        exp_time = constants.ATTACK_DURATION['EXPLOIT_VULN'] * (1 - self.complexity)
+        base = base_duration if base_duration is not None else constants.ATTACK_DURATION['EXPLOIT_VULN']
+        exp_time = base * (1 - self.complexity)
         if self.has_os_dependency and host is not None and host.os_type not in self.vuln_os_list:
             exp_time *= 2.5
         if self.exploited:
@@ -86,13 +87,15 @@ class Vulnerability:
         # return constants.VULN_MIN_EXPLOIT_TIME + (constants.VULN_MAX_EXPLOIT_TIME -
         # constants.VULN_MIN_EXPLOIT_TIME) * ( 1 - self.complexity) / ( self.exploit_attempt + 1)
 
-    def network(self, host=None):
+    def network(self, host=None, exploit_bonus=0.0):
         """
         Tries to exploit the vulnerability
 
         Parameters:
             host:
                 the host instance that has the vulnerability to use to check if the vulnerability is OS dependent
+            exploit_bonus:
+                additive bonus to exploit success probability (from attacker profile)
 
         Returns:
             the impact score if successfully exploited, otherwise 0.0
@@ -104,7 +107,7 @@ class Vulnerability:
         #     if host.os_type not in self.vuln_os_list:
         #         return 0.0
         self.exploit_attempt += 1
-        if random.random() < self.complexity:
+        if random.random() < min(1.0, self.complexity + exploit_bonus):
             self.exploited = True
             # if self.has_os_dependency:
                 # self.logger.info("OS DEPENDENT VULNERABILITY EXPLOITED!")
