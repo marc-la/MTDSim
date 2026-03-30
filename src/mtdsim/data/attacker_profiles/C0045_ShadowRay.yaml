@@ -1,0 +1,66 @@
+campaign_id: C0045
+campaign_name: ShadowRay
+description: '[ShadowRay](https://attack.mitre.org/campaigns/C0045) was a campaign
+  that began in late 2023 targeting the education, cryptocurrency, biopharma, and
+  other sectors through a vulnerability (CVE-2023-48022) in the Ray AI framework named
+  ShadowRay. According to security researchers [ShadowRay](https:...'
+techniques:
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+- id: T1027.013
+  name: Encrypted/Encoded File
+  tactics:
+  - defense-evasion
+- id: T1003.008
+  name: /etc/passwd and /etc/shadow
+  tactics:
+  - credential-access
+- id: T1546.004
+  name: Unix Shell Configuration Modification
+  tactics:
+  - privilege-escalation
+  - persistence
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1059.006
+  name: Python
+  tactics:
+  - execution
+- id: T1016
+  name: System Network Configuration Discovery
+  tactics:
+  - discovery
+- id: T1068
+  name: Exploitation for Privilege Escalation
+  tactics:
+  - privilege-escalation
+- id: T1496.001
+  name: Compute Hijacking
+  tactics:
+  - impact
+capability_profile:
+  SCAN_HOST: 0.25
+  ENUM_HOST: 0.25
+  SCAN_PORT: 0.5
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.25
+  SCAN_NEIGHBOR: 0.5
+attack_duration_multipliers:
+  SCAN_HOST: 0.875
+  ENUM_HOST: 0.875
+  SCAN_NEIGHBOR: 0.75
+  SCAN_PORT: 0.75
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.875
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.5
+attack_threshold: 12

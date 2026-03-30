@@ -1,0 +1,45 @@
+campaign_id: C0041
+campaign_name: FrostyGoop Incident
+description: '[FrostyGoop Incident](https://attack.mitre.org/campaigns/C0041) took
+  place in January 2024 against a municipal district heating company in Ukraine. Following
+  initial access via likely exploitation of external facing services, [FrostyGoop](https://attack.mitre.org/software/S1165)
+  was used to manip...'
+techniques:
+- id: T1003.002
+  name: Security Account Manager
+  tactics:
+  - credential-access
+- id: T1071
+  name: Application Layer Protocol
+  tactics:
+  - command-and-control
+- id: T1562.010
+  name: Downgrade Attack
+  tactics:
+  - defense-evasion
+- id: T1505.003
+  name: Web Shell
+  tactics:
+  - persistence
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+capability_profile:
+  SCAN_HOST: 0.0
+  ENUM_HOST: 0.0
+  SCAN_PORT: 0.5
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.5
+  SCAN_NEIGHBOR: 0.5
+attack_duration_multipliers:
+  SCAN_HOST: 1.0
+  ENUM_HOST: 1.0
+  SCAN_NEIGHBOR: 0.75
+  SCAN_PORT: 0.75
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.75
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 2.0
+attack_threshold: 12

@@ -1,0 +1,85 @@
+campaign_id: C0055
+campaign_name: Quad7 Activity
+description: ' Quad7 Activity, also known as CovertNetwork-1658 or the 7777 Botnet,
+  is a network of compromised small office/home office (SOHO) routers. (Citation:
+  Bitsight 7777 Botnet) (Citation: Microsoft Storm-0940) The botnet was initially
+  composed primarily of TP-Link routers and was named Quad7 due to co...'
+techniques:
+- id: T1665
+  name: Hide Infrastructure
+  tactics:
+  - command-and-control
+- id: T1584.008
+  name: Network Devices
+  tactics:
+  - resource-development
+- id: T1071.002
+  name: File Transfer Protocols
+  tactics:
+  - command-and-control
+- id: T1071.001
+  name: Web Protocols
+  tactics:
+  - command-and-control
+- id: T1589.002
+  name: Email Addresses
+  tactics:
+  - reconnaissance
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+- id: T1090.002
+  name: External Proxy
+  tactics:
+  - command-and-control
+- id: T1110.003
+  name: Password Spraying
+  tactics:
+  - credential-access
+- id: T1562.001
+  name: Disable or Modify Tools
+  tactics:
+  - defense-evasion
+- id: T1090.003
+  name: Multi-hop Proxy
+  tactics:
+  - command-and-control
+- id: T1571
+  name: Non-Standard Port
+  tactics:
+  - command-and-control
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1027.011
+  name: Fileless Storage
+  tactics:
+  - defense-evasion
+- id: T1059.004
+  name: Unix Shell
+  tactics:
+  - execution
+- id: T1584.005
+  name: Botnet
+  tactics:
+  - resource-development
+capability_profile:
+  SCAN_HOST: 0.1429
+  ENUM_HOST: 0.2857
+  SCAN_PORT: 0.2857
+  EXPLOIT_VULN: 0.2857
+  BRUTE_FORCE: 0.1429
+  SCAN_NEIGHBOR: 1.0
+attack_duration_multipliers:
+  SCAN_HOST: 0.9285
+  ENUM_HOST: 0.8571
+  SCAN_NEIGHBOR: 0.5
+  SCAN_PORT: 0.8571
+  EXPLOIT_VULN: 0.8571
+  BRUTE_FORCE: 0.9285
+  PENALTY: 1.0
+exploit_success_bonus: 0.0429
+brute_force_multiplier: 1.2858
+attack_threshold: 15

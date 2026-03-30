@@ -1,0 +1,104 @@
+campaign_id: C0018
+campaign_name: C0018
+description: '
+
+  [C0018](https://attack.mitre.org/campaigns/C0018) was a month-long ransomware intrusion
+  that successfully deployed [AvosLocker](https://attack.mitre.org/software/S1053)
+  onto a compromised network. The unidentified actors gained initial access to the
+  victim network through an exposed server and u...'
+techniques:
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+- id: T1036.005
+  name: Match Legitimate Resource Name or Location
+  tactics:
+  - defense-evasion
+- id: T1571
+  name: Non-Standard Port
+  tactics:
+  - command-and-control
+- id: T1021.001
+  name: Remote Desktop Protocol
+  tactics:
+  - lateral-movement
+- id: T1219.002
+  name: Remote Desktop Software
+  tactics:
+  - command-and-control
+- id: T1570
+  name: Lateral Tool Transfer
+  tactics:
+  - lateral-movement
+- id: T1033
+  name: System Owner/User Discovery
+  tactics:
+  - discovery
+- id: T1486
+  name: Data Encrypted for Impact
+  tactics:
+  - impact
+- id: T1046
+  name: Network Service Discovery
+  tactics:
+  - discovery
+- id: T1059.001
+  name: PowerShell
+  tactics:
+  - execution
+- id: T1027.010
+  name: Command Obfuscation
+  tactics:
+  - defense-evasion
+- id: T1016
+  name: System Network Configuration Discovery
+  tactics:
+  - discovery
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1071.001
+  name: Web Protocols
+  tactics:
+  - command-and-control
+- id: T1072
+  name: Software Deployment Tools
+  tactics:
+  - execution
+  - lateral-movement
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1036
+  name: Masquerading
+  tactics:
+  - defense-evasion
+- id: T1047
+  name: Windows Management Instrumentation
+  tactics:
+  - execution
+- id: T1218.011
+  name: Rundll32
+  tactics:
+  - defense-evasion
+capability_profile:
+  SCAN_HOST: 0.375
+  ENUM_HOST: 0.125
+  SCAN_PORT: 0.5
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 1.0
+attack_duration_multipliers:
+  SCAN_HOST: 0.8125
+  ENUM_HOST: 0.9375
+  SCAN_NEIGHBOR: 0.5
+  SCAN_PORT: 0.75
+  EXPLOIT_VULN: 0.75
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.075
+brute_force_multiplier: 1.0
+attack_threshold: 15

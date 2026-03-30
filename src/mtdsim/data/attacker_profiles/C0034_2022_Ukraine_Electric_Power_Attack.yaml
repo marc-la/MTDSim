@@ -1,0 +1,69 @@
+campaign_id: C0034
+campaign_name: 2022 Ukraine Electric Power Attack
+description: The [2022 Ukraine Electric Power Attack](https://attack.mitre.org/campaigns/C0034)
+  was a [Sandworm Team](https://attack.mitre.org/groups/G0034) campaign that used
+  a combination of GOGETTER, Neo-REGEORG, [CaddyWiper](https://attack.mitre.org/software/S0693),
+  and living of the land (LotL) technique...
+techniques:
+- id: T1036.004
+  name: Masquerade Task or Service
+  tactics:
+  - defense-evasion
+- id: T1059.001
+  name: PowerShell
+  tactics:
+  - execution
+- id: T1053.005
+  name: Scheduled Task
+  tactics:
+  - execution
+  - persistence
+  - privilege-escalation
+- id: T1543.002
+  name: Systemd Service
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1505.003
+  name: Web Shell
+  tactics:
+  - persistence
+- id: T1095
+  name: Non-Application Layer Protocol
+  tactics:
+  - command-and-control
+- id: T1572
+  name: Protocol Tunneling
+  tactics:
+  - command-and-control
+- id: T1485
+  name: Data Destruction
+  tactics:
+  - impact
+- id: T1570
+  name: Lateral Tool Transfer
+  tactics:
+  - lateral-movement
+- id: T1484.001
+  name: Group Policy Modification
+  tactics:
+  - defense-evasion
+  - privilege-escalation
+capability_profile:
+  SCAN_HOST: 0.0
+  ENUM_HOST: 0.0
+  SCAN_PORT: 0.25
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.5
+attack_duration_multipliers:
+  SCAN_HOST: 1.0
+  ENUM_HOST: 1.0
+  SCAN_NEIGHBOR: 0.75
+  SCAN_PORT: 0.875
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.0
+attack_threshold: 12

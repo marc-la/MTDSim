@@ -1,0 +1,68 @@
+campaign_id: C0030
+campaign_name: Triton Safety Instrumented System Attack
+description: '[Triton Safety Instrumented System Attack](https://attack.mitre.org/campaigns/C0030)
+  was a campaign employed by [TEMP.Veles](https://attack.mitre.org/groups/G0088) which
+  leveraged the [Triton](https://attack.mitre.org/software/S1009) malware framework
+  against a petrochemical organization.(Citatio...'
+techniques:
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1036.005
+  name: Match Legitimate Resource Name or Location
+  tactics:
+  - defense-evasion
+- id: T1053.005
+  name: Scheduled Task
+  tactics:
+  - execution
+  - persistence
+  - privilege-escalation
+- id: T1003.001
+  name: LSASS Memory
+  tactics:
+  - credential-access
+- id: T1587.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1056.003
+  name: Web Portal Capture
+  tactics:
+  - collection
+  - credential-access
+- id: T1059.001
+  name: PowerShell
+  tactics:
+  - execution
+- id: T1027.005
+  name: Indicator Removal from Tools
+  tactics:
+  - defense-evasion
+- id: T1573
+  name: Encrypted Channel
+  tactics:
+  - command-and-control
+- id: T1595
+  name: Active Scanning
+  tactics:
+  - reconnaissance
+capability_profile:
+  SCAN_HOST: 0.25
+  ENUM_HOST: 0.75
+  SCAN_PORT: 0.5
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.5
+  SCAN_NEIGHBOR: 0.25
+attack_duration_multipliers:
+  SCAN_HOST: 0.875
+  ENUM_HOST: 0.625
+  SCAN_NEIGHBOR: 0.875
+  SCAN_PORT: 0.75
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.75
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 2.0
+attack_threshold: 11

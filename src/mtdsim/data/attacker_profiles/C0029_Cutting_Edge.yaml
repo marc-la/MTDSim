@@ -1,0 +1,157 @@
+campaign_id: C0029
+campaign_name: Cutting Edge
+description: '[Cutting Edge](https://attack.mitre.org/campaigns/C0029) was a campaign
+  conducted by suspected China-nexus espionage actors, variously identified as UNC5221/UTA0178
+  and UNC5325, that began as early as December 2023 with the exploitation of zero-day
+  vulnerabilities in Ivanti Connect Secure (previo...'
+techniques:
+- id: T1595.002
+  name: Vulnerability Scanning
+  tactics:
+  - reconnaissance
+- id: T1205
+  name: Traffic Signaling
+  tactics:
+  - defense-evasion
+  - persistence
+  - command-and-control
+- id: T1070
+  name: Indicator Removal
+  tactics:
+  - defense-evasion
+- id: T1003.001
+  name: LSASS Memory
+  tactics:
+  - credential-access
+- id: T1055
+  name: Process Injection
+  tactics:
+  - defense-evasion
+  - privilege-escalation
+- id: T1021.004
+  name: SSH
+  tactics:
+  - lateral-movement
+- id: T1070.004
+  name: File Deletion
+  tactics:
+  - defense-evasion
+- id: T1059
+  name: Command and Scripting Interpreter
+  tactics:
+  - execution
+- id: T1070.006
+  name: Timestomp
+  tactics:
+  - defense-evasion
+- id: T1071.004
+  name: DNS
+  tactics:
+  - command-and-control
+- id: T1554
+  name: Compromise Host Software Binary
+  tactics:
+  - persistence
+- id: T1021.001
+  name: Remote Desktop Protocol
+  tactics:
+  - lateral-movement
+- id: T1095
+  name: Non-Application Layer Protocol
+  tactics:
+  - command-and-control
+- id: T1594
+  name: Search Victim-Owned Websites
+  tactics:
+  - reconnaissance
+- id: T1505.003
+  name: Web Shell
+  tactics:
+  - persistence
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1003.003
+  name: NTDS
+  tactics:
+  - credential-access
+- id: T1572
+  name: Protocol Tunneling
+  tactics:
+  - command-and-control
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+- id: T1560.001
+  name: Archive via Utility
+  tactics:
+  - collection
+- id: T1059.006
+  name: Python
+  tactics:
+  - execution
+- id: T1584.008
+  name: Network Devices
+  tactics:
+  - resource-development
+- id: T1005
+  name: Data from Local System
+  tactics:
+  - collection
+- id: T1021.002
+  name: SMB/Windows Admin Shares
+  tactics:
+  - lateral-movement
+- id: T1082
+  name: System Information Discovery
+  tactics:
+  - discovery
+- id: T1056.003
+  name: Web Portal Capture
+  tactics:
+  - collection
+  - credential-access
+- id: T1078.002
+  name: Domain Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1056.001
+  name: Keylogging
+  tactics:
+  - collection
+  - credential-access
+- id: T1027.013
+  name: Encrypted/Encoded File
+  tactics:
+  - defense-evasion
+- id: T1562.001
+  name: Disable or Modify Tools
+  tactics:
+  - defense-evasion
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+capability_profile:
+  SCAN_HOST: 0.2143
+  ENUM_HOST: 0.4286
+  SCAN_PORT: 0.2857
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.2857
+  SCAN_NEIGHBOR: 0.5714
+attack_duration_multipliers:
+  SCAN_HOST: 0.8929
+  ENUM_HOST: 0.7857
+  SCAN_NEIGHBOR: 0.7143
+  SCAN_PORT: 0.8571
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.8571
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.5714
+attack_threshold: 12

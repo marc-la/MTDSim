@@ -1,0 +1,79 @@
+campaign_id: C0013
+campaign_name: Operation Sharpshooter
+description: '[Operation Sharpshooter](https://attack.mitre.org/campaigns/C0013) was
+  a global cyber espionage campaign that targeted nuclear, defense, government, energy,
+  and financial companies, with many located in Germany, Turkey, the United Kingdom,
+  and the United States. Security researchers noted the cam...'
+techniques:
+- id: T1559.002
+  name: Dynamic Data Exchange
+  tactics:
+  - execution
+- id: T1584.004
+  name: Server
+  tactics:
+  - resource-development
+- id: T1608.001
+  name: Upload Malware
+  tactics:
+  - resource-development
+- id: T1583.006
+  name: Web Services
+  tactics:
+  - resource-development
+- id: T1106
+  name: Native API
+  tactics:
+  - execution
+- id: T1055
+  name: Process Injection
+  tactics:
+  - defense-evasion
+  - privilege-escalation
+- id: T1059.005
+  name: Visual Basic
+  tactics:
+  - execution
+- id: T1547.001
+  name: Registry Run Keys / Startup Folder
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1587.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1204.002
+  name: Malicious File
+  tactics:
+  - execution
+- id: T1036.005
+  name: Match Legitimate Resource Name or Location
+  tactics:
+  - defense-evasion
+- id: T1090
+  name: Proxy
+  tactics:
+  - command-and-control
+capability_profile:
+  SCAN_HOST: 0.0
+  ENUM_HOST: 0.8
+  SCAN_PORT: 0.8
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.4
+attack_duration_multipliers:
+  SCAN_HOST: 1.0
+  ENUM_HOST: 0.6
+  SCAN_NEIGHBOR: 0.8
+  SCAN_PORT: 0.6
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.0
+attack_threshold: 12

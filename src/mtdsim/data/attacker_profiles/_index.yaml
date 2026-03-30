@@ -1,0 +1,153 @@
+- campaign_id: C0027
+  name: C0027
+  num_techniques: 28
+- campaign_id: C0014
+  name: Operation Wocao
+  num_techniques: 70
+- campaign_id: C0040
+  name: APT41 DUST
+  num_techniques: 23
+- campaign_id: C0007
+  name: FunnyDream
+  num_techniques: 14
+- campaign_id: C0046
+  name: ArcaneDoor
+  num_techniques: 25
+- campaign_id: C0024
+  name: SolarWinds Compromise
+  num_techniques: 71
+- campaign_id: C0010
+  name: C0010
+  num_techniques: 9
+- campaign_id: C0012
+  name: Operation CuckooBees
+  num_techniques: 33
+- campaign_id: C0044
+  name: Juicy Mix
+  num_techniques: 14
+- campaign_id: C0004
+  name: CostaRicto
+  num_techniques: 10
+- campaign_id: C0006
+  name: Operation Honeybee
+  num_techniques: 28
+- campaign_id: C0025
+  name: 2016 Ukraine Electric Power Attack
+  num_techniques: 21
+- campaign_id: C0047
+  name: RedDelta Modified PlugX Infection Chain Operations
+  num_techniques: 22
+- campaign_id: C0028
+  name: 2015 Ukraine Electric Power Attack
+  num_techniques: 17
+- campaign_id: C0018
+  name: C0018
+  num_techniques: 19
+- campaign_id: C0016
+  name: Operation Dust Storm
+  num_techniques: 17
+- campaign_id: C0022
+  name: Operation Dream Job
+  num_techniques: 55
+- campaign_id: C0053
+  name: FLORAHOX Activity
+  num_techniques: 6
+- campaign_id: C0015
+  name: C0015
+  num_techniques: 34
+- campaign_id: C0056
+  name: RedPenguin
+  num_techniques: 26
+- campaign_id: C0039
+  name: Versa Director Zero Day Exploitation
+  num_techniques: 8
+- campaign_id: C0021
+  name: C0021
+  num_techniques: 15
+- campaign_id: C0001
+  name: Frankenstein
+  num_techniques: 27
+- campaign_id: C0042
+  name: Outer Space
+  num_techniques: 8
+- campaign_id: C0051
+  name: APT28 Nearest Neighbor Campaign
+  num_techniques: 18
+- campaign_id: C0002
+  name: Night Dragon
+  num_techniques: 29
+- campaign_id: C0023
+  name: Operation Ghost
+  num_techniques: 8
+- campaign_id: C0043
+  name: Indian Critical Infrastructure Intrusions
+  num_techniques: 8
+- campaign_id: C0049
+  name: Leviathan Australian Intrusions
+  num_techniques: 26
+- campaign_id: C0037
+  name: Water Curupira Pikabot Distribution
+  num_techniques: 10
+- campaign_id: C0045
+  name: ShadowRay
+  num_techniques: 10
+- campaign_id: C0048
+  name: Operation MidnightEclipse
+  num_techniques: 17
+- campaign_id: C0032
+  name: C0032
+  num_techniques: 17
+- campaign_id: C0055
+  name: Quad7 Activity
+  num_techniques: 15
+- campaign_id: C0038
+  name: HomeLand Justice
+  num_techniques: 25
+- campaign_id: C0059
+  name: Salesforce Data Exfiltration
+  num_techniques: 18
+- campaign_id: C0058
+  name: SharePoint ToolShell Exploitation
+  num_techniques: 35
+- campaign_id: C0017
+  name: C0017
+  num_techniques: 29
+- campaign_id: C0005
+  name: Operation Spalax
+  num_techniques: 17
+- campaign_id: C0013
+  name: Operation Sharpshooter
+  num_techniques: 13
+- campaign_id: C0029
+  name: Cutting Edge
+  num_techniques: 31
+- campaign_id: C0034
+  name: 2022 Ukraine Electric Power Attack
+  num_techniques: 10
+- campaign_id: C0057
+  name: 3CX Supply Chain Attack
+  num_techniques: 22
+- campaign_id: C0011
+  name: C0011
+  num_techniques: 8
+- campaign_id: C0050
+  name: J-magic Campaign
+  num_techniques: 4
+- campaign_id: C0030
+  name: Triton Safety Instrumented System Attack
+  num_techniques: 10
+- campaign_id: C0041
+  name: FrostyGoop Incident
+  num_techniques: 5
+- campaign_id: C0035
+  name: KV Botnet Activity
+  num_techniques: 20
+- campaign_id: C0026
+  name: C0026
+  num_techniques: 6
+- campaign_id: C0052
+  name: SPACEHOP Activity
+  num_techniques: 4
+- campaign_id: C0036
+  name: Pikabot Distribution February 2024
+  num_techniques: 4

@@ -1,0 +1,101 @@
+campaign_id: C0028
+campaign_name: 2015 Ukraine Electric Power Attack
+description: '[2015 Ukraine Electric Power Attack](https://attack.mitre.org/campaigns/C0028)
+  was a [Sandworm Team](https://attack.mitre.org/groups/G0034) campaign during which
+  they used [BlackEnergy](https://attack.mitre.org/software/S0089) (specifically BlackEnergy3)
+  and [KillDisk](https://attack.mitre.org/so...'
+techniques:
+- id: T1566.001
+  name: Spearphishing Attachment
+  tactics:
+  - initial-access
+- id: T1112
+  name: Modify Registry
+  tactics:
+  - defense-evasion
+  - persistence
+- id: T1070.004
+  name: File Deletion
+  tactics:
+  - defense-evasion
+- id: T1018
+  name: Remote System Discovery
+  tactics:
+  - discovery
+- id: T1133
+  name: External Remote Services
+  tactics:
+  - persistence
+  - initial-access
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1204.002
+  name: Malicious File
+  tactics:
+  - execution
+- id: T1078
+  name: Valid Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1040
+  name: Network Sniffing
+  tactics:
+  - credential-access
+  - discovery
+- id: T1136.002
+  name: Domain Account
+  tactics:
+  - persistence
+- id: T1218.011
+  name: Rundll32
+  tactics:
+  - defense-evasion
+- id: T1059.005
+  name: Visual Basic
+  tactics:
+  - execution
+- id: T1071.001
+  name: Web Protocols
+  tactics:
+  - command-and-control
+- id: T1570
+  name: Lateral Tool Transfer
+  tactics:
+  - lateral-movement
+- id: T1056.001
+  name: Keylogging
+  tactics:
+  - collection
+  - credential-access
+- id: T1055
+  name: Process Injection
+  tactics:
+  - defense-evasion
+  - privilege-escalation
+- id: T1562.001
+  name: Disable or Modify Tools
+  tactics:
+  - defense-evasion
+capability_profile:
+  SCAN_HOST: 0.1667
+  ENUM_HOST: 0.0833
+  SCAN_PORT: 0.4167
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.1667
+  SCAN_NEIGHBOR: 0.25
+attack_duration_multipliers:
+  SCAN_HOST: 0.9166
+  ENUM_HOST: 0.9584
+  SCAN_NEIGHBOR: 0.875
+  SCAN_PORT: 0.7916
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.9166
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.3334
+attack_threshold: 11

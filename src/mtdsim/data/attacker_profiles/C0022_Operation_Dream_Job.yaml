@@ -1,0 +1,251 @@
+campaign_id: C0022
+campaign_name: Operation Dream Job
+description: '[Operation Dream Job](https://attack.mitre.org/campaigns/C0022) was
+  a cyber espionage operation likely conducted by [Lazarus Group](https://attack.mitre.org/groups/G0032)
+  that targeted the defense, aerospace, government, and other sectors in the United
+  States, Israel, Australia, Russia, and India...'
+techniques:
+- id: T1614.001
+  name: System Language Discovery
+  tactics:
+  - discovery
+- id: T1608.001
+  name: Upload Malware
+  tactics:
+  - resource-development
+- id: T1218.011
+  name: Rundll32
+  tactics:
+  - defense-evasion
+- id: T1106
+  name: Native API
+  tactics:
+  - execution
+- id: T1585.001
+  name: Social Media Accounts
+  tactics:
+  - resource-development
+- id: T1036.008
+  name: Masquerade File Type
+  tactics:
+  - defense-evasion
+- id: T1070.004
+  name: File Deletion
+  tactics:
+  - defense-evasion
+- id: T1547.001
+  name: Registry Run Keys / Startup Folder
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1497.001
+  name: System Checks
+  tactics:
+  - defense-evasion
+  - discovery
+- id: T1059.005
+  name: Visual Basic
+  tactics:
+  - execution
+- id: T1608.002
+  name: Upload Tool
+  tactics:
+  - resource-development
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1585.002
+  name: Email Accounts
+  tactics:
+  - resource-development
+- id: T1584.001
+  name: Domains
+  tactics:
+  - resource-development
+- id: T1583.004
+  name: Server
+  tactics:
+  - resource-development
+- id: T1573.001
+  name: Symmetric Cryptography
+  tactics:
+  - command-and-control
+- id: T1204.001
+  name: Malicious Link
+  tactics:
+  - execution
+- id: T1059.001
+  name: PowerShell
+  tactics:
+  - execution
+- id: T1591
+  name: Gather Victim Org Information
+  tactics:
+  - reconnaissance
+- id: T1583.001
+  name: Domains
+  tactics:
+  - resource-development
+- id: T1221
+  name: Template Injection
+  tactics:
+  - defense-evasion
+- id: T1497.003
+  name: Time Based Checks
+  tactics:
+  - defense-evasion
+  - discovery
+- id: T1589
+  name: Gather Victim Identity Information
+  tactics:
+  - reconnaissance
+- id: T1553.002
+  name: Code Signing
+  tactics:
+  - defense-evasion
+- id: T1005
+  name: Data from Local System
+  tactics:
+  - collection
+- id: T1110
+  name: Brute Force
+  tactics:
+  - credential-access
+- id: T1041
+  name: Exfiltration Over C2 Channel
+  tactics:
+  - exfiltration
+- id: T1534
+  name: Internal Spearphishing
+  tactics:
+  - lateral-movement
+- id: T1583.006
+  name: Web Services
+  tactics:
+  - resource-development
+- id: T1566.003
+  name: Spearphishing via Service
+  tactics:
+  - initial-access
+- id: T1591.004
+  name: Identify Roles
+  tactics:
+  - reconnaissance
+- id: T1053.005
+  name: Scheduled Task
+  tactics:
+  - execution
+  - persistence
+  - privilege-escalation
+- id: T1204.002
+  name: Malicious File
+  tactics:
+  - execution
+- id: T1588.003
+  name: Code Signing Certificates
+  tactics:
+  - resource-development
+- id: T1656
+  name: Impersonation
+  tactics:
+  - defense-evasion
+- id: T1087.002
+  name: Domain Account
+  tactics:
+  - discovery
+- id: T1587.002
+  name: Code Signing Certificates
+  tactics:
+  - resource-development
+- id: T1566.001
+  name: Spearphishing Attachment
+  tactics:
+  - initial-access
+- id: T1505.004
+  name: IIS Components
+  tactics:
+  - persistence
+- id: T1083
+  name: File and Directory Discovery
+  tactics:
+  - discovery
+- id: T1218.010
+  name: Regsvr32
+  tactics:
+  - defense-evasion
+- id: T1047
+  name: Windows Management Instrumentation
+  tactics:
+  - execution
+- id: T1027.002
+  name: Software Packing
+  tactics:
+  - defense-evasion
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1071.001
+  name: Web Protocols
+  tactics:
+  - command-and-control
+- id: T1567.002
+  name: Exfiltration to Cloud Storage
+  tactics:
+  - exfiltration
+- id: T1622
+  name: Debugger Evasion
+  tactics:
+  - defense-evasion
+  - discovery
+- id: T1027.013
+  name: Encrypted/Encoded File
+  tactics:
+  - defense-evasion
+- id: T1220
+  name: XSL Script Processing
+  tactics:
+  - defense-evasion
+- id: T1587.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1059.003
+  name: Windows Command Shell
+  tactics:
+  - execution
+- id: T1584.004
+  name: Server
+  tactics:
+  - resource-development
+- id: T1593.001
+  name: Social Media
+  tactics:
+  - reconnaissance
+- id: T1566.002
+  name: Spearphishing Link
+  tactics:
+  - initial-access
+- id: T1560.001
+  name: Archive via Utility
+  tactics:
+  - collection
+capability_profile:
+  SCAN_HOST: 0.5556
+  ENUM_HOST: 0.8333
+  SCAN_PORT: 0.6111
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.0556
+  SCAN_NEIGHBOR: 0.3333
+attack_duration_multipliers:
+  SCAN_HOST: 0.7222
+  ENUM_HOST: 0.5834
+  SCAN_NEIGHBOR: 0.8334
+  SCAN_PORT: 0.6945
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.9722
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.1112
+attack_threshold: 11

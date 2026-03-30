@@ -1,0 +1,97 @@
+campaign_id: C0051
+campaign_name: APT28 Nearest Neighbor Campaign
+description: '[APT28 Nearest Neighbor Campaign](https://attack.mitre.org/campaigns/C0051)
+  was conducted by [APT28](https://attack.mitre.org/groups/G0007) from early February
+  2022 to November 2024 against organizations and individuals with expertise on Ukraine.
+  APT28 primarily leveraged living-off-the-land tech...'
+techniques:
+- id: T1003.003
+  name: NTDS
+  tactics:
+  - credential-access
+- id: T1567
+  name: Exfiltration Over Web Service
+  tactics:
+  - exfiltration
+- id: T1059.001
+  name: PowerShell
+  tactics:
+  - execution
+- id: T1560.001
+  name: Archive via Utility
+  tactics:
+  - collection
+- id: T1059.003
+  name: Windows Command Shell
+  tactics:
+  - execution
+- id: T1110.003
+  name: Password Spraying
+  tactics:
+  - credential-access
+- id: T1016.002
+  name: Wi-Fi Discovery
+  tactics:
+  - discovery
+- id: T1562.004
+  name: Disable or Modify System Firewall
+  tactics:
+  - defense-evasion
+- id: T1669
+  name: Wi-Fi Networks
+  tactics:
+  - initial-access
+- id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactics:
+  - defense-evasion
+- id: T1074.001
+  name: Local Data Staging
+  tactics:
+  - collection
+- id: T1021.001
+  name: Remote Desktop Protocol
+  tactics:
+  - lateral-movement
+- id: T1003.002
+  name: Security Account Manager
+  tactics:
+  - credential-access
+- id: T1561.001
+  name: Disk Content Wipe
+  tactics:
+  - impact
+- id: T1584
+  name: Compromise Infrastructure
+  tactics:
+  - resource-development
+- id: T1021.002
+  name: SMB/Windows Admin Shares
+  tactics:
+  - lateral-movement
+- id: T1090.001
+  name: Internal Proxy
+  tactics:
+  - command-and-control
+- id: T1006
+  name: Direct Volume Access
+  tactics:
+  - defense-evasion
+capability_profile:
+  SCAN_HOST: 0.2
+  ENUM_HOST: 0.6
+  SCAN_PORT: 0.6
+  EXPLOIT_VULN: 0.6
+  BRUTE_FORCE: 0.6
+  SCAN_NEIGHBOR: 1.0
+attack_duration_multipliers:
+  SCAN_HOST: 0.9
+  ENUM_HOST: 0.7
+  SCAN_NEIGHBOR: 0.5
+  SCAN_PORT: 0.7
+  EXPLOIT_VULN: 0.7
+  BRUTE_FORCE: 0.7
+  PENALTY: 1.0
+exploit_success_bonus: 0.09
+brute_force_multiplier: 2.2
+attack_threshold: 15

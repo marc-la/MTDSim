@@ -1,0 +1,85 @@
+campaign_id: C0021
+campaign_name: C0021
+description: '[C0021](https://attack.mitre.org/campaigns/C0021) was a spearphishing
+  campaign conducted in November 2018 that targeted public sector institutions, non-governmental
+  organizations (NGOs), educational institutions, and private-sector corporations
+  in the oil and gas, chemical, and hospitality indust...'
+techniques:
+- id: T1583.001
+  name: Domains
+  tactics:
+  - resource-development
+- id: T1218.011
+  name: Rundll32
+  tactics:
+  - defense-evasion
+- id: T1027.010
+  name: Command Obfuscation
+  tactics:
+  - defense-evasion
+- id: T1584.001
+  name: Domains
+  tactics:
+  - resource-development
+- id: T1204.001
+  name: Malicious Link
+  tactics:
+  - execution
+- id: T1095
+  name: Non-Application Layer Protocol
+  tactics:
+  - command-and-control
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1071.001
+  name: Web Protocols
+  tactics:
+  - command-and-control
+- id: T1608.001
+  name: Upload Malware
+  tactics:
+  - resource-development
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactics:
+  - defense-evasion
+- id: T1566.002
+  name: Spearphishing Link
+  tactics:
+  - initial-access
+- id: T1573.002
+  name: Asymmetric Cryptography
+  tactics:
+  - command-and-control
+- id: T1059.001
+  name: PowerShell
+  tactics:
+  - execution
+- id: T1027.009
+  name: Embedded Payloads
+  tactics:
+  - defense-evasion
+capability_profile:
+  SCAN_HOST: 0.0
+  ENUM_HOST: 1.0
+  SCAN_PORT: 0.75
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 1.0
+attack_duration_multipliers:
+  SCAN_HOST: 1.0
+  ENUM_HOST: 0.5
+  SCAN_NEIGHBOR: 0.5
+  SCAN_PORT: 0.625
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.0
+attack_threshold: 15

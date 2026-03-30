@@ -1,0 +1,120 @@
+campaign_id: C0040
+campaign_name: APT41 DUST
+description: '[APT41 DUST](https://attack.mitre.org/campaigns/C0040) was conducted
+  by [APT41](https://attack.mitre.org/groups/G0096) from 2023 to July 2024 against
+  entities in Europe, Asia, and the Middle East. [APT41 DUST](https://attack.mitre.org/campaigns/C0040)
+  targeted sectors such as shipping, logistics,...'
+techniques:
+- id: T1102
+  name: Web Service
+  tactics:
+  - command-and-control
+- id: T1213.006
+  name: Databases
+  tactics:
+  - collection
+- id: T1543.003
+  name: Windows Service
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1070.004
+  name: File Deletion
+  tactics:
+  - defense-evasion
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1505.003
+  name: Web Shell
+  tactics:
+  - persistence
+- id: T1593.002
+  name: Search Engines
+  tactics:
+  - reconnaissance
+- id: T1588.003
+  name: Code Signing Certificates
+  tactics:
+  - resource-development
+- id: T1586.003
+  name: Cloud Accounts
+  tactics:
+  - resource-development
+- id: T1119
+  name: Automated Collection
+  tactics:
+  - collection
+- id: T1027.013
+  name: Encrypted/Encoded File
+  tactics:
+  - defense-evasion
+- id: T1074.001
+  name: Local Data Staging
+  tactics:
+  - collection
+- id: T1567.002
+  name: Exfiltration to Cloud Storage
+  tactics:
+  - exfiltration
+- id: T1036.004
+  name: Masquerade Task or Service
+  tactics:
+  - defense-evasion
+- id: T1596.005
+  name: Scan Databases
+  tactics:
+  - reconnaissance
+- id: T1574.001
+  name: DLL
+  tactics:
+  - persistence
+  - privilege-escalation
+  - defense-evasion
+- id: T1569.002
+  name: Service Execution
+  tactics:
+  - execution
+- id: T1560.001
+  name: Archive via Utility
+  tactics:
+  - collection
+- id: T1071.001
+  name: Web Protocols
+  tactics:
+  - command-and-control
+- id: T1594
+  name: Search Victim-Owned Websites
+  tactics:
+  - reconnaissance
+- id: T1583.007
+  name: Serverless
+  tactics:
+  - resource-development
+- id: T1573.002
+  name: Asymmetric Cryptography
+  tactics:
+  - command-and-control
+- id: T1553.002
+  name: Code Signing
+  tactics:
+  - defense-evasion
+capability_profile:
+  SCAN_HOST: 0.3
+  ENUM_HOST: 0.7
+  SCAN_PORT: 0.1
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.5
+attack_duration_multipliers:
+  SCAN_HOST: 0.85
+  ENUM_HOST: 0.65
+  SCAN_NEIGHBOR: 0.75
+  SCAN_PORT: 0.95
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.0
+attack_threshold: 12

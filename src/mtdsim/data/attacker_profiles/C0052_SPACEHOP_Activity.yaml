@@ -1,0 +1,41 @@
+campaign_id: C0052
+campaign_name: SPACEHOP Activity
+description: "[SPACEHOP Activity](https://attack.mitre.org/campaigns/C0052) is conducted\
+  \ through commercially leased Virtual Private Servers (VPS), otherwise known as\
+  \ provisioned Operational Relay Box (ORB) networks. The network leveraged for SPACEHOP\
+  \ Activity enabled China-nexus cyber threat actors \u2013 such as ..."
+techniques:
+- id: T1090.003
+  name: Multi-hop Proxy
+  tactics:
+  - command-and-control
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+- id: T1583.003
+  name: Virtual Private Server
+  tactics:
+  - resource-development
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+capability_profile:
+  SCAN_HOST: 0.0
+  ENUM_HOST: 1.0
+  SCAN_PORT: 0.5
+  EXPLOIT_VULN: 0.0
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.5
+attack_duration_multipliers:
+  SCAN_HOST: 1.0
+  ENUM_HOST: 0.5
+  SCAN_NEIGHBOR: 0.75
+  SCAN_PORT: 0.75
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.0
+brute_force_multiplier: 1.0
+attack_threshold: 12

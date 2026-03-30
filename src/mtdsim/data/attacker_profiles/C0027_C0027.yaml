@@ -1,0 +1,144 @@
+campaign_id: C0027
+campaign_name: C0027
+description: '[C0027](https://attack.mitre.org/campaigns/C0027) was a financially-motivated
+  campaign linked to [Scattered Spider](https://attack.mitre.org/groups/G1015) that
+  targeted telecommunications and business process outsourcing (BPO) companies from
+  at least June through December of 2022. During [C0027](...'
+techniques:
+- id: T1572
+  name: Protocol Tunneling
+  tactics:
+  - command-and-control
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+- id: T1087.004
+  name: Cloud Account
+  tactics:
+  - discovery
+- id: T1102
+  name: Web Service
+  tactics:
+  - command-and-control
+- id: T1069.003
+  name: Cloud Groups
+  tactics:
+  - discovery
+- id: T1598.004
+  name: Spearphishing Voice
+  tactics:
+  - reconnaissance
+- id: T1003.006
+  name: DCSync
+  tactics:
+  - credential-access
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1098.003
+  name: Additional Cloud Roles
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1578.002
+  name: Create Cloud Instance
+  tactics:
+  - defense-evasion
+- id: T1046
+  name: Network Service Discovery
+  tactics:
+  - discovery
+- id: T1021.007
+  name: Cloud Services
+  tactics:
+  - lateral-movement
+- id: T1213.002
+  name: Sharepoint
+  tactics:
+  - collection
+- id: T1078.004
+  name: Cloud Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1087.003
+  name: Email Account
+  tactics:
+  - discovery
+- id: T1598.001
+  name: Spearphishing Service
+  tactics:
+  - reconnaissance
+- id: T1621
+  name: Multi-Factor Authentication Request Generation
+  tactics:
+  - credential-access
+- id: T1098.005
+  name: Device Registration
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1219.002
+  name: Remote Desktop Software
+  tactics:
+  - command-and-control
+- id: T1047
+  name: Windows Management Instrumentation
+  tactics:
+  - execution
+- id: T1656
+  name: Impersonation
+  tactics:
+  - defense-evasion
+- id: T1098.001
+  name: Additional Cloud Credentials
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1133
+  name: External Remote Services
+  tactics:
+  - persistence
+  - initial-access
+- id: T1530
+  name: Data from Cloud Storage
+  tactics:
+  - collection
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1589.001
+  name: Credentials
+  tactics:
+  - reconnaissance
+- id: T1090
+  name: Proxy
+  tactics:
+  - command-and-control
+- id: T1566.004
+  name: Spearphishing Voice
+  tactics:
+  - initial-access
+capability_profile:
+  SCAN_HOST: 0.5833
+  ENUM_HOST: 0.25
+  SCAN_PORT: 0.4167
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.1667
+  SCAN_NEIGHBOR: 0.5
+attack_duration_multipliers:
+  SCAN_HOST: 0.7084
+  ENUM_HOST: 0.875
+  SCAN_NEIGHBOR: 0.75
+  SCAN_PORT: 0.7916
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.9166
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.3334
+attack_threshold: 12
