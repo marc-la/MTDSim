@@ -142,10 +142,8 @@ research-analysis/results/.~lock.2-combinations-z-statistics-ip-port.ods#
 .gitignore
 research-analysis/results/.~lock.3-combinations-ip-and-port-z-statistics.ods#
 
-snapshots/*
-experiments/experimental_data/*
-experiments/*
-experimental_data/*
+snapshots/
+experimental_data/
 
 *.local.*
 

@@ -413,12 +413,17 @@ class MTDAIOperation:
         #                 attack_success_rate, roa, risk, current_attack_value])
         # time_series_array = np.array([mtd_freq, mean_time_to_compromise])
         # Define the state_filter dictionary
+        exposed_endpoints = len(self.network.get_exposed_endpoints())
+
         state_filter = {
             "host_compromise_ratio": host_compromise_ratio,
+            "exposed_endpoints": exposed_endpoints,
             "attack_path_exposure": attack_path_exposure,
             "overall_asr_avg": attack_success_rate,
             "roa": roa,
-            "risk": risk
+            "shortest_path_variability": shortest_path_variability,
+            "risk": risk,
+            "current_attack_value": current_attack_value,
         }
 
    
@@ -433,10 +438,9 @@ class MTDAIOperation:
             "attack_type": current_attack_value,
         }
     
-        # Create the state array based on state_filter keys
-        state_array = np.array([value if key in self.features["static"] else 0 for key, value in state_filter.items()])
-
-        time_series_array = np.array([value if key in self.features["time"] else 0 for key, value in time_series_filter.items()])
+        # Create arrays containing only the features requested in self.features
+        state_array = np.array([state_filter[key] for key in self.features["static"]])
+        time_series_array = np.array([time_series_filter[key] for key in self.features["time"]])
 
         if self.logging:
             logging.info("Filtered State Array: %s", state_array)
