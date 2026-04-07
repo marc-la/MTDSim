@@ -1,0 +1,136 @@
+campaign_id: C0001
+campaign_name: Frankenstein
+description: '[Frankenstein](https://attack.mitre.org/campaigns/C0001) was described
+  by security researchers as a highly-targeted campaign conducted by moderately sophisticated
+  and highly resourceful threat actors in early 2019. The unidentified actors primarily
+  relied on open source tools, including [Empire](...'
+techniques:
+- id: T1057
+  name: Process Discovery
+  tactics:
+  - discovery
+- id: T1082
+  name: System Information Discovery
+  tactics:
+  - discovery
+- id: T1027.010
+  name: Command Obfuscation
+  tactics:
+  - defense-evasion
+- id: T1020
+  name: Automated Exfiltration
+  tactics:
+  - exfiltration
+- id: T1053.005
+  name: Scheduled Task
+  tactics:
+  - execution
+  - persistence
+  - privilege-escalation
+- id: T1204.002
+  name: Malicious File
+  tactics:
+  - execution
+- id: T1566.001
+  name: Spearphishing Attachment
+  tactics:
+  - initial-access
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1059.001
+  name: PowerShell
+  tactics:
+  - execution
+- id: T1518.001
+  name: Security Software Discovery
+  tactics:
+  - discovery
+- id: T1059.005
+  name: Visual Basic
+  tactics:
+  - execution
+- id: T1071.001
+  name: Web Protocols
+  tactics:
+  - command-and-control
+- id: T1221
+  name: Template Injection
+  tactics:
+  - defense-evasion
+- id: T1203
+  name: Exploitation for Client Execution
+  tactics:
+  - execution
+- id: T1059.003
+  name: Windows Command Shell
+  tactics:
+  - execution
+- id: T1497.001
+  name: System Checks
+  tactics:
+  - defense-evasion
+  - discovery
+- id: T1047
+  name: Windows Management Instrumentation
+  tactics:
+  - execution
+- id: T1119
+  name: Automated Collection
+  tactics:
+  - collection
+- id: T1036.004
+  name: Masquerade Task or Service
+  tactics:
+  - defense-evasion
+- id: T1005
+  name: Data from Local System
+  tactics:
+  - collection
+- id: T1041
+  name: Exfiltration Over C2 Channel
+  tactics:
+  - exfiltration
+- id: T1016
+  name: System Network Configuration Discovery
+  tactics:
+  - discovery
+- id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactics:
+  - defense-evasion
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1127.001
+  name: MSBuild
+  tactics:
+  - defense-evasion
+- id: T1033
+  name: System Owner/User Discovery
+  tactics:
+  - discovery
+- id: T1573.001
+  name: Symmetric Cryptography
+  tactics:
+  - command-and-control
+capability_profile:
+  SCAN_HOST: 0.75
+  ENUM_HOST: 0.375
+  SCAN_PORT: 1.0
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.625
+attack_duration_multipliers:
+  SCAN_HOST: 0.625
+  ENUM_HOST: 0.8125
+  SCAN_NEIGHBOR: 0.6875
+  SCAN_PORT: 0.5
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.0
+attack_threshold: 13

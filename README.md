@@ -1,89 +1,82 @@
-# MTDSimTime
+# MTD Simulator
 
-A time-based simulator used for evaluating Moving Target Defence (MTD) techniques.
+A simulator used to evaluate moving target defence(MTD) techniques.
 
-## Getting Started:
+## Setup
 
-1. Installing [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
-2. Creating conda environment
-   - `conda env create -f environment.yml`
-   - `conda config --add channels conda-forge`
-3. Activating the environment
-   - `conda activate mtdsimtime`
-4. Updating the environment
-   - `conda env update --name mtdsimtime --file environment.yml --prune`
+This guide sets up:
 
-## Features
+1. A Conda environment named `mtdsim`
+2. A Jupyter kernel named `mtdsim`
+3. A VS Code workflow for running notebooks
 
-1. Network graph generation
-<p>
-  <img alt="" src="output/network.png" width="1080"/>
-</p>
+### 1. Install Miniconda 
 
-2. Attack Operation
+From your WSL terminal:
 
-<p>
-  <img alt="" src="output/attack_record.png" width="720"/>
-</p>
+```bash
+cd ~
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+bash Miniconda3-latest-Linux-x86_64.sh
+```
 
+Close and reopen your WSL terminal after installation.
 
-3. MTD Operation
+Initialise Conda in your shell (if needed):
 
-<p>
-  <img alt="" src="output/mtd_record.png" width="755"/>
-</p>
+```bash
+conda init bash
+```
 
+### 2. Create the `mtdsim` environment from `environment.yml`
 
-4. Snapshot
+From the repository root:
 
-5. Evaluation based on MTTC
+```bash
+conda config --add channels conda-forge
+conda env create -f environment.yml
+conda activate mtdsim
+```
 
+If the environment already exists and you want to sync to the file:
 
-## System Architecture
-The system uses the 3-layer HARM model to represent the network. This is a representation of the network, with the lowest levels on the bottom and the highest levels on the top:
+```bash
+conda env update --name mtdsim --file environment.yml --prune
+```
 
-| layer           | Description                                                                                                                              |
-|-----------------|------------------------------------------------------------------------------------------------------------------------------------------|
-| Network         | Made up of all the Hosts, connected in an Attack Graph, with exposed and un-exposed hosts that attackers will attempt to compromise      |
-| Host            | Made up of several services (internal and external) in an Attack Graph.  The host is compromised when an internal service is compromised |
-| Services        | An attack tree of vulnerabilities. A service is compromised when  the sum of the vulnerabilities exploited impact is above 7             |
-| Vulnerabilities | Generated with a set Attack Complexity and Impact                                                                                        |
+### 3. Register a Jupyter kernel named `mtdsim`
 
-more info: [MTD parameter](https://github.com/MoeBuTa/MTDSimTime/blob/main/docs/manual/MTD%20Parameters.pdf)
+After `conda activate mtdsim`:
 
-## Documents
+```bash
+python -m ipykernel install --user --name mtdsim --display-name "Python (mtdsim)"
+```
 
-see [docs](https://github.com/MoeBuTa/MTDSimTime/blob/main/docs/) for all related documents.
+This makes the kernel selectable in Jupyter and VS Code notebooks.
 
+### 4. Open notebooks in VS Code (WSL)
 
+1. Open the project in VS Code using the WSL extension.
+2. Install the VS Code extensions:
+   - Python (`ms-python.python`)
+   - Jupyter (`ms-toolsai.jupyter`)
+3. Open a notebook in `notebooks/`.
+4. Select kernel: **Python (mtdsim)**.
 
+### 5. Verify the environment and kernel
 
+```bash
+conda activate mtdsim
+python -V
+python -c "import networkx, simpy, plotly; print('OK')"
+jupyter kernelspec list
+```
 
+## Updating Dependencies
 
-## Setup the previous works only
+After editing `environment.yml`:
 
-switch to another branch (MTDSim / New-Attack-Method) or go directly to:
-
-[MTDSim](https://github.com/Ccamm/MTDSim)
-
-[MTDSimTze](https://github.com/tzewenlee99/MTDSimTze)
-
-
-
-This was all run on Python 3.9.13 64 Bit. In the root directory in terminal, run the following commands in your virtual environment to setup the environment:
-
-- Setup virtualenv
-   - `python -m pip install virtualenv venv`
-   - `python -m virtualenv venv`
-- Activate environemnt
-   - `source venv/bin/activate`
-- Install dependencies
-   - `python setup.py install`
-   - `pip install -r requirements.txt`
-- Run an example: The following is only an example of how the function can be made, reference the run.py file or use the –help command to understand the parameters.
-   - For New-Attack-Method: 
-     - `python batchrun.py`
-   - For MTDSim: 
-     - `python -m mtdnetwork.run -m IPShuffle -n 50 -e 10 -s 5 -l 3 results.json`
-
+```bash
+conda env update --name mtdsim --file environment.yml --prune
+```
 

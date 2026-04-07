@@ -1,0 +1,100 @@
+campaign_id: C0032
+campaign_name: C0032
+description: '[C0032](https://attack.mitre.org/campaigns/C0032) was an extended campaign
+  suspected to involve the [Triton](https://attack.mitre.org/software/S1009) adversaries
+  with related capabilities and techniques focused on gaining a foothold within IT
+  environments. This campaign occurred in 2019 and was d...'
+techniques:
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1572
+  name: Protocol Tunneling
+  tactics:
+  - command-and-control
+- id: T1078
+  name: Valid Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1074.001
+  name: Local Data Staging
+  tactics:
+  - collection
+- id: T1583.003
+  name: Virtual Private Server
+  tactics:
+  - resource-development
+- id: T1021.004
+  name: SSH
+  tactics:
+  - lateral-movement
+- id: T1036.005
+  name: Match Legitimate Resource Name or Location
+  tactics:
+  - defense-evasion
+- id: T1505.003
+  name: Web Shell
+  tactics:
+  - persistence
+- id: T1021.001
+  name: Remote Desktop Protocol
+  tactics:
+  - lateral-movement
+- id: T1571
+  name: Non-Standard Port
+  tactics:
+  - command-and-control
+- id: T1070.004
+  name: File Deletion
+  tactics:
+  - defense-evasion
+- id: T1059.001
+  name: PowerShell
+  tactics:
+  - execution
+- id: T1133
+  name: External Remote Services
+  tactics:
+  - persistence
+  - initial-access
+- id: T1053.005
+  name: Scheduled Task
+  tactics:
+  - execution
+  - persistence
+  - privilege-escalation
+- id: T1070.006
+  name: Timestomp
+  tactics:
+  - defense-evasion
+- id: T1546.012
+  name: Image File Execution Options Injection
+  tactics:
+  - privilege-escalation
+  - persistence
+- id: T1003.001
+  name: LSASS Memory
+  tactics:
+  - credential-access
+capability_profile:
+  SCAN_HOST: 0.0
+  ENUM_HOST: 0.25
+  SCAN_PORT: 0.3333
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.0833
+  SCAN_NEIGHBOR: 0.3333
+attack_duration_multipliers:
+  SCAN_HOST: 1.0
+  ENUM_HOST: 0.875
+  SCAN_NEIGHBOR: 0.8334
+  SCAN_PORT: 0.8334
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.9584
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.1666
+attack_threshold: 11

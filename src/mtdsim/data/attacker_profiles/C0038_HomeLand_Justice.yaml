@@ -1,0 +1,133 @@
+campaign_id: C0038
+campaign_name: HomeLand Justice
+description: '[HomeLand Justice](https://attack.mitre.org/campaigns/C0038) was a disruptive
+  campaign involving the use of ransomware, wiper malware, and sensitive information
+  leaks conducted by Iranian state cyber actors against Albanian government networks
+  in July and September 2022. Initial access for [HomeL...'
+techniques:
+- id: T1486
+  name: Data Encrypted for Impact
+  tactics:
+  - impact
+- id: T1561.002
+  name: Disk Structure Wipe
+  tactics:
+  - impact
+- id: T1041
+  name: Exfiltration Over C2 Channel
+  tactics:
+  - exfiltration
+- id: T1046
+  name: Network Service Discovery
+  tactics:
+  - discovery
+- id: T1098.002
+  name: Additional Email Delegate Permissions
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1134.001
+  name: Token Impersonation/Theft
+  tactics:
+  - defense-evasion
+  - privilege-escalation
+- id: T1078.001
+  name: Default Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1114.002
+  name: Remote Email Collection
+  tactics:
+  - collection
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+- id: T1021.001
+  name: Remote Desktop Protocol
+  tactics:
+  - lateral-movement
+- id: T1588.003
+  name: Code Signing Certificates
+  tactics:
+  - resource-development
+- id: T1003.001
+  name: LSASS Memory
+  tactics:
+  - credential-access
+- id: T1562.001
+  name: Disable or Modify Tools
+  tactics:
+  - defense-evasion
+- id: T1059.003
+  name: Windows Command Shell
+  tactics:
+  - execution
+- id: T1036.005
+  name: Match Legitimate Resource Name or Location
+  tactics:
+  - defense-evasion
+- id: T1505.003
+  name: Web Shell
+  tactics:
+  - persistence
+- id: T1021.002
+  name: SMB/Windows Admin Shares
+  tactics:
+  - lateral-movement
+- id: T1570
+  name: Lateral Tool Transfer
+  tactics:
+  - lateral-movement
+- id: T1047
+  name: Windows Management Instrumentation
+  tactics:
+  - execution
+- id: T1562.002
+  name: Disable Windows Event Logging
+  tactics:
+  - defense-evasion
+- id: T1059.001
+  name: PowerShell
+  tactics:
+  - execution
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1087.003
+  name: Email Account
+  tactics:
+  - discovery
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1078
+  name: Valid Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+capability_profile:
+  SCAN_HOST: 0.1429
+  ENUM_HOST: 0.2143
+  SCAN_PORT: 0.4286
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.0714
+  SCAN_NEIGHBOR: 0.5
+attack_duration_multipliers:
+  SCAN_HOST: 0.9285
+  ENUM_HOST: 0.8929
+  SCAN_NEIGHBOR: 0.75
+  SCAN_PORT: 0.7857
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.9643
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.1428
+attack_threshold: 12

@@ -1,0 +1,139 @@
+campaign_id: C0049
+campaign_name: Leviathan Australian Intrusions
+description: '[Leviathan Australian Intrusions](https://attack.mitre.org/campaigns/C0049)
+  consisted of at least two long-term intrusions against victims in Australia by [Leviathan](https://attack.mitre.org/groups/G0065),
+  relying on similar tradecraft such as external service exploitation followed by
+  extensive ...'
+techniques:
+- id: T1021.002
+  name: SMB/Windows Admin Shares
+  tactics:
+  - lateral-movement
+- id: T1074.001
+  name: Local Data Staging
+  tactics:
+  - collection
+- id: T1615
+  name: Group Policy Discovery
+  tactics:
+  - discovery
+- id: T1213.006
+  name: Databases
+  tactics:
+  - collection
+- id: T1552
+  name: Unsecured Credentials
+  tactics:
+  - credential-access
+- id: T1078.002
+  name: Domain Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1552.001
+  name: Credentials In Files
+  tactics:
+  - credential-access
+- id: T1082
+  name: System Information Discovery
+  tactics:
+  - discovery
+- id: T1018
+  name: Remote System Discovery
+  tactics:
+  - discovery
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+- id: T1558.003
+  name: Kerberoasting
+  tactics:
+  - credential-access
+- id: T1041
+  name: Exfiltration Over C2 Channel
+  tactics:
+  - exfiltration
+- id: T1482
+  name: Domain Trust Discovery
+  tactics:
+  - discovery
+- id: T1135
+  name: Network Share Discovery
+  tactics:
+  - discovery
+- id: T1594
+  name: Search Victim-Owned Websites
+  tactics:
+  - reconnaissance
+- id: T1078
+  name: Valid Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1056
+  name: Input Capture
+  tactics:
+  - collection
+  - credential-access
+- id: T1505.003
+  name: Web Shell
+  tactics:
+  - persistence
+- id: T1562.004
+  name: Disable or Modify System Firewall
+  tactics:
+  - defense-evasion
+- id: T1078.003
+  name: Local Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1068
+  name: Exploitation for Privilege Escalation
+  tactics:
+  - privilege-escalation
+- id: T1528
+  name: Steal Application Access Token
+  tactics:
+  - credential-access
+- id: T1111
+  name: Multi-Factor Authentication Interception
+  tactics:
+  - credential-access
+- id: T1021.004
+  name: SSH
+  tactics:
+  - lateral-movement
+- id: T1212
+  name: Exploitation for Credential Access
+  tactics:
+  - credential-access
+- id: T1588.006
+  name: Vulnerabilities
+  tactics:
+  - resource-development
+capability_profile:
+  SCAN_HOST: 0.5
+  ENUM_HOST: 0.3333
+  SCAN_PORT: 0.3333
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.5833
+  SCAN_NEIGHBOR: 0.25
+attack_duration_multipliers:
+  SCAN_HOST: 0.75
+  ENUM_HOST: 0.8334
+  SCAN_NEIGHBOR: 0.875
+  SCAN_PORT: 0.8334
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.7084
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 2.1666
+attack_threshold: 11

@@ -1,0 +1,1 @@
+from mtdsim.sim.time_generator import exponential_variates

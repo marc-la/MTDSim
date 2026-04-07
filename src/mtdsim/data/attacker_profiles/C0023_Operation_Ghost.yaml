@@ -1,0 +1,61 @@
+campaign_id: C0023
+campaign_name: Operation Ghost
+description: '[Operation Ghost](https://attack.mitre.org/campaigns/C0023) was an [APT29](https://attack.mitre.org/groups/G0016)
+  campaign starting in 2013 that included operations against ministries of foreign
+  affairs in Europe and the Washington, D.C. embassy of a European Union country.
+  During [Operation Ghos...'
+techniques:
+- id: T1078.002
+  name: Domain Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1102.002
+  name: Bidirectional Communication
+  tactics:
+  - command-and-control
+- id: T1001.002
+  name: Steganography
+  tactics:
+  - command-and-control
+- id: T1583.001
+  name: Domains
+  tactics:
+  - resource-development
+- id: T1587.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1546.003
+  name: Windows Management Instrumentation Event Subscription
+  tactics:
+  - privilege-escalation
+  - persistence
+- id: T1585.001
+  name: Social Media Accounts
+  tactics:
+  - resource-development
+- id: T1027.003
+  name: Steganography
+  tactics:
+  - defense-evasion
+capability_profile:
+  SCAN_HOST: 0.0
+  ENUM_HOST: 0.5
+  SCAN_PORT: 0.1667
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.3333
+attack_duration_multipliers:
+  SCAN_HOST: 1.0
+  ENUM_HOST: 0.75
+  SCAN_NEIGHBOR: 0.8334
+  SCAN_PORT: 0.9166
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.0
+attack_threshold: 11

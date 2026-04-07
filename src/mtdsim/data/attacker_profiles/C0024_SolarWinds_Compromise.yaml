@@ -1,0 +1,333 @@
+campaign_id: C0024
+campaign_name: SolarWinds Compromise
+description: The [SolarWinds Compromise](https://attack.mitre.org/campaigns/C0024)
+  was a sophisticated supply chain cyber operation conducted by [APT29](https://attack.mitre.org/groups/G0016)
+  that was discovered in mid-December 2020. [APT29](https://attack.mitre.org/groups/G0016)
+  used customized malware to in...
+techniques:
+- id: T1606.002
+  name: SAML Tokens
+  tactics:
+  - credential-access
+- id: T1078.004
+  name: Cloud Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1053.005
+  name: Scheduled Task
+  tactics:
+  - execution
+  - persistence
+  - privilege-escalation
+- id: T1087.002
+  name: Domain Account
+  tactics:
+  - discovery
+- id: T1090.001
+  name: Internal Proxy
+  tactics:
+  - command-and-control
+- id: T1114.002
+  name: Remote Email Collection
+  tactics:
+  - collection
+- id: T1069.002
+  name: Domain Groups
+  tactics:
+  - discovery
+- id: T1057
+  name: Process Discovery
+  tactics:
+  - discovery
+- id: T1584.001
+  name: Domains
+  tactics:
+  - resource-development
+- id: T1016.001
+  name: Internet Connection Discovery
+  tactics:
+  - discovery
+- id: T1550
+  name: Use Alternate Authentication Material
+  tactics:
+  - defense-evasion
+  - lateral-movement
+- id: T1555.003
+  name: Credentials from Web Browsers
+  tactics:
+  - credential-access
+- id: T1078.002
+  name: Domain Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1036.005
+  name: Match Legitimate Resource Name or Location
+  tactics:
+  - defense-evasion
+- id: T1665
+  name: Hide Infrastructure
+  tactics:
+  - command-and-control
+- id: T1098.002
+  name: Additional Email Delegate Permissions
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1021.001
+  name: Remote Desktop Protocol
+  tactics:
+  - lateral-movement
+- id: T1562.001
+  name: Disable or Modify Tools
+  tactics:
+  - defense-evasion
+- id: T1213
+  name: Data from Information Repositories
+  tactics:
+  - collection
+- id: T1021.002
+  name: SMB/Windows Admin Shares
+  tactics:
+  - lateral-movement
+- id: T1059.005
+  name: Visual Basic
+  tactics:
+  - execution
+- id: T1568
+  name: Dynamic Resolution
+  tactics:
+  - command-and-control
+- id: T1589.001
+  name: Credentials
+  tactics:
+  - reconnaissance
+- id: T1552.004
+  name: Private Keys
+  tactics:
+  - credential-access
+- id: T1587.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactics:
+  - defense-evasion
+- id: T1005
+  name: Data from Local System
+  tactics:
+  - collection
+- id: T1083
+  name: File and Directory Discovery
+  tactics:
+  - discovery
+- id: T1069
+  name: Permission Groups Discovery
+  tactics:
+  - discovery
+- id: T1018
+  name: Remote System Discovery
+  tactics:
+  - discovery
+- id: T1021.006
+  name: Windows Remote Management
+  tactics:
+  - lateral-movement
+- id: T1550.001
+  name: Application Access Token
+  tactics:
+  - defense-evasion
+  - lateral-movement
+- id: T1098.003
+  name: Additional Cloud Roles
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1553.002
+  name: Code Signing
+  tactics:
+  - defense-evasion
+- id: T1218.011
+  name: Rundll32
+  tactics:
+  - defense-evasion
+- id: T1546.003
+  name: Windows Management Instrumentation Event Subscription
+  tactics:
+  - privilege-escalation
+  - persistence
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+- id: T1213.003
+  name: Code Repositories
+  tactics:
+  - collection
+- id: T1059.001
+  name: PowerShell
+  tactics:
+  - execution
+- id: T1070.004
+  name: File Deletion
+  tactics:
+  - defense-evasion
+- id: T1539
+  name: Steal Web Session Cookie
+  tactics:
+  - credential-access
+- id: T1606.001
+  name: Web Cookies
+  tactics:
+  - credential-access
+- id: T1550.004
+  name: Web Session Cookie
+  tactics:
+  - defense-evasion
+  - lateral-movement
+- id: T1074.002
+  name: Remote Data Staging
+  tactics:
+  - collection
+- id: T1098.005
+  name: Device Registration
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1133
+  name: External Remote Services
+  tactics:
+  - persistence
+  - initial-access
+- id: T1199
+  name: Trusted Relationship
+  tactics:
+  - initial-access
+- id: T1059.003
+  name: Windows Command Shell
+  tactics:
+  - execution
+- id: T1070.006
+  name: Timestomp
+  tactics:
+  - defense-evasion
+- id: T1558.003
+  name: Kerberoasting
+  tactics:
+  - credential-access
+- id: T1680
+  name: Local Storage Discovery
+  tactics:
+  - discovery
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1078.003
+  name: Local Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1070
+  name: Indicator Removal
+  tactics:
+  - defense-evasion
+- id: T1003.006
+  name: DCSync
+  tactics:
+  - credential-access
+- id: T1562.002
+  name: Disable Windows Event Logging
+  tactics:
+  - defense-evasion
+- id: T1036.004
+  name: Masquerade Task or Service
+  tactics:
+  - defense-evasion
+- id: T1098.001
+  name: Additional Cloud Credentials
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1482
+  name: Domain Trust Discovery
+  tactics:
+  - discovery
+- id: T1555
+  name: Credentials from Password Stores
+  tactics:
+  - credential-access
+- id: T1047
+  name: Windows Management Instrumentation
+  tactics:
+  - execution
+- id: T1195.002
+  name: Compromise Software Supply Chain
+  tactics:
+  - initial-access
+- id: T1070.008
+  name: Clear Mailbox Data
+  tactics:
+  - defense-evasion
+- id: T1484.002
+  name: Trust Modification
+  tactics:
+  - defense-evasion
+  - privilege-escalation
+- id: T1583.001
+  name: Domains
+  tactics:
+  - resource-development
+- id: T1087
+  name: Account Discovery
+  tactics:
+  - discovery
+- id: T1078
+  name: Valid Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1560.001
+  name: Archive via Utility
+  tactics:
+  - collection
+- id: T1562.004
+  name: Disable or Modify System Firewall
+  tactics:
+  - defense-evasion
+- id: T1048.002
+  name: Exfiltration Over Asymmetric Encrypted Non-C2 Protocol
+  tactics:
+  - exfiltration
+- id: T1071.001
+  name: Web Protocols
+  tactics:
+  - command-and-control
+capability_profile:
+  SCAN_HOST: 0.2619
+  ENUM_HOST: 0.2143
+  SCAN_PORT: 0.3095
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.1905
+  SCAN_NEIGHBOR: 0.2857
+attack_duration_multipliers:
+  SCAN_HOST: 0.869
+  ENUM_HOST: 0.8929
+  SCAN_NEIGHBOR: 0.8571
+  SCAN_PORT: 0.8453
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.9047
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.381
+attack_threshold: 11

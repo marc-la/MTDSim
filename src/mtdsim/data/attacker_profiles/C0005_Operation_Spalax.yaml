@@ -1,0 +1,94 @@
+campaign_id: C0005
+campaign_name: Operation Spalax
+description: '[Operation Spalax](https://attack.mitre.org/campaigns/C0005) was a campaign
+  that primarily targeted Colombian government organizations and private companies,
+  particularly those associated with the energy and metallurgical industries. The
+  [Operation Spalax](https://attack.mitre.org/campaigns/C0005...'
+techniques:
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1583.001
+  name: Domains
+  tactics:
+  - resource-development
+- id: T1027.003
+  name: Steganography
+  tactics:
+  - defense-evasion
+- id: T1588.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1568
+  name: Dynamic Resolution
+  tactics:
+  - command-and-control
+- id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactics:
+  - defense-evasion
+- id: T1059
+  name: Command and Scripting Interpreter
+  tactics:
+  - execution
+- id: T1204.001
+  name: Malicious Link
+  tactics:
+  - execution
+- id: T1566.002
+  name: Spearphishing Link
+  tactics:
+  - initial-access
+- id: T1102
+  name: Web Service
+  tactics:
+  - command-and-control
+- id: T1027.002
+  name: Software Packing
+  tactics:
+  - defense-evasion
+- id: T1608.001
+  name: Upload Malware
+  tactics:
+  - resource-development
+- id: T1497
+  name: Virtualization/Sandbox Evasion
+  tactics:
+  - defense-evasion
+  - discovery
+- id: T1204.002
+  name: Malicious File
+  tactics:
+  - execution
+- id: T1566.001
+  name: Spearphishing Attachment
+  tactics:
+  - initial-access
+- id: T1218.011
+  name: Rundll32
+  tactics:
+  - defense-evasion
+- id: T1027.013
+  name: Encrypted/Encoded File
+  tactics:
+  - defense-evasion
+capability_profile:
+  SCAN_HOST: 0.1667
+  ENUM_HOST: 0.6667
+  SCAN_PORT: 0.8333
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.3333
+attack_duration_multipliers:
+  SCAN_HOST: 0.9166
+  ENUM_HOST: 0.6666
+  SCAN_NEIGHBOR: 0.8334
+  SCAN_PORT: 0.5834
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.0
+attack_threshold: 11

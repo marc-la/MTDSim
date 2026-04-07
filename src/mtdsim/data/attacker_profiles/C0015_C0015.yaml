@@ -1,0 +1,162 @@
+campaign_id: C0015
+campaign_name: C0015
+description: '[C0015](https://attack.mitre.org/campaigns/C0015) was a ransomware intrusion
+  during which the unidentified attackers used [Bazar](https://attack.mitre.org/software/S0534),
+  [Cobalt Strike](https://attack.mitre.org/software/S0154), and [Conti](https://attack.mitre.org/software/S0575),
+  along with ot...'
+techniques:
+- id: T1135
+  name: Network Share Discovery
+  tactics:
+  - discovery
+- id: T1047
+  name: Windows Management Instrumentation
+  tactics:
+  - execution
+- id: T1083
+  name: File and Directory Discovery
+  tactics:
+  - discovery
+- id: T1553.002
+  name: Code Signing
+  tactics:
+  - defense-evasion
+- id: T1567.002
+  name: Exfiltration to Cloud Storage
+  tactics:
+  - exfiltration
+- id: T1204.002
+  name: Malicious File
+  tactics:
+  - execution
+- id: T1074.001
+  name: Local Data Staging
+  tactics:
+  - collection
+- id: T1218.011
+  name: Rundll32
+  tactics:
+  - defense-evasion
+- id: T1566.001
+  name: Spearphishing Attachment
+  tactics:
+  - initial-access
+- id: T1005
+  name: Data from Local System
+  tactics:
+  - collection
+- id: T1069.001
+  name: Local Groups
+  tactics:
+  - discovery
+- id: T1057
+  name: Process Discovery
+  tactics:
+  - discovery
+- id: T1069.002
+  name: Domain Groups
+  tactics:
+  - discovery
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1055.001
+  name: Dynamic-link Library Injection
+  tactics:
+  - defense-evasion
+  - privilege-escalation
+- id: T1059.005
+  name: Visual Basic
+  tactics:
+  - execution
+- id: T1486
+  name: Data Encrypted for Impact
+  tactics:
+  - impact
+- id: T1027
+  name: Obfuscated Files or Information
+  tactics:
+  - defense-evasion
+- id: T1059.003
+  name: Windows Command Shell
+  tactics:
+  - execution
+- id: T1218.010
+  name: Regsvr32
+  tactics:
+  - defense-evasion
+- id: T1588.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1021.001
+  name: Remote Desktop Protocol
+  tactics:
+  - lateral-movement
+- id: T1124
+  name: System Time Discovery
+  tactics:
+  - discovery
+- id: T1030
+  name: Data Transfer Size Limits
+  tactics:
+  - exfiltration
+- id: T1219.002
+  name: Remote Desktop Software
+  tactics:
+  - command-and-control
+- id: T1039
+  name: Data from Network Shared Drive
+  tactics:
+  - collection
+- id: T1570
+  name: Lateral Tool Transfer
+  tactics:
+  - lateral-movement
+- id: T1018
+  name: Remote System Discovery
+  tactics:
+  - discovery
+- id: T1016
+  name: System Network Configuration Discovery
+  tactics:
+  - discovery
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1059.007
+  name: JavaScript
+  tactics:
+  - execution
+- id: T1036
+  name: Masquerading
+  tactics:
+  - defense-evasion
+- id: T1482
+  name: Domain Trust Discovery
+  tactics:
+  - discovery
+- id: T1218.005
+  name: Mshta
+  tactics:
+  - defense-evasion
+capability_profile:
+  SCAN_HOST: 1.0
+  ENUM_HOST: 0.5556
+  SCAN_PORT: 0.6667
+  EXPLOIT_VULN: 0.8889
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.7778
+attack_duration_multipliers:
+  SCAN_HOST: 0.5
+  ENUM_HOST: 0.7222
+  SCAN_NEIGHBOR: 0.6111
+  SCAN_PORT: 0.6666
+  EXPLOIT_VULN: 0.5555
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.1333
+brute_force_multiplier: 1.0
+attack_threshold: 13

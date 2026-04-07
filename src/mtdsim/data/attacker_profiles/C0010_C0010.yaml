@@ -1,0 +1,61 @@
+campaign_id: C0010
+campaign_name: C0010
+description: '[C0010](https://attack.mitre.org/campaigns/C0010) was a cyber espionage
+  campaign conducted by UNC3890 that targeted Israeli shipping, government, aviation,
+  energy, and healthcare organizations. Security researcher assess UNC3890 conducts
+  operations in support of Iranian interests, and noted sever...'
+techniques:
+- id: T1584.001
+  name: Domains
+  tactics:
+  - resource-development
+- id: T1608.001
+  name: Upload Malware
+  tactics:
+  - resource-development
+- id: T1189
+  name: Drive-by Compromise
+  tactics:
+  - initial-access
+- id: T1608.004
+  name: Drive-by Target
+  tactics:
+  - resource-development
+- id: T1587.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1583.001
+  name: Domains
+  tactics:
+  - resource-development
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1608.002
+  name: Upload Tool
+  tactics:
+  - resource-development
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+capability_profile:
+  SCAN_HOST: 0.0
+  ENUM_HOST: 1.0
+  SCAN_PORT: 0.1429
+  EXPLOIT_VULN: 0.0
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.1429
+attack_duration_multipliers:
+  SCAN_HOST: 1.0
+  ENUM_HOST: 0.5
+  SCAN_NEIGHBOR: 0.9285
+  SCAN_PORT: 0.9285
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.0
+brute_force_multiplier: 1.0
+attack_threshold: 10

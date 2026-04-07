@@ -1,0 +1,100 @@
+campaign_id: C0059
+campaign_name: Salesforce Data Exfiltration
+description: The [Salesforce Data Exfiltration](https://attack.mitre.org/campaigns/C0059)
+  campaign began in October 2024 with financially-motivated threat actor UNC6040 using
+  [Spearphishing Voice](https://attack.mitre.org/techniques/T1598/004) (vishing) to
+  compromise corporate Salesforce instances for large-s...
+techniques:
+- id: T1608.005
+  name: Link Target
+  tactics:
+  - resource-development
+- id: T1059.006
+  name: Python
+  tactics:
+  - execution
+- id: T1213.004
+  name: Customer Relationship Management Software
+  tactics:
+  - collection
+- id: T1671
+  name: Cloud Application Integration
+  tactics:
+  - persistence
+- id: T1078.002
+  name: Domain Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1567
+  name: Exfiltration Over Web Service
+  tactics:
+  - exfiltration
+- id: T1036
+  name: Masquerading
+  tactics:
+  - defense-evasion
+- id: T1090
+  name: Proxy
+  tactics:
+  - command-and-control
+- id: T1585.002
+  name: Email Accounts
+  tactics:
+  - resource-development
+- id: T1083
+  name: File and Directory Discovery
+  tactics:
+  - discovery
+- id: T1090.003
+  name: Multi-hop Proxy
+  tactics:
+  - command-and-control
+- id: T1585
+  name: Establish Accounts
+  tactics:
+  - resource-development
+- id: T1587.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1020
+  name: Automated Exfiltration
+  tactics:
+  - exfiltration
+- id: T1586.002
+  name: Email Accounts
+  tactics:
+  - resource-development
+- id: T1598.004
+  name: Spearphishing Voice
+  tactics:
+  - reconnaissance
+- id: T1656
+  name: Impersonation
+  tactics:
+  - defense-evasion
+capability_profile:
+  SCAN_HOST: 0.2857
+  ENUM_HOST: 1.0
+  SCAN_PORT: 0.2857
+  EXPLOIT_VULN: 0.8571
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.5714
+attack_duration_multipliers:
+  SCAN_HOST: 0.8571
+  ENUM_HOST: 0.5
+  SCAN_NEIGHBOR: 0.7143
+  SCAN_PORT: 0.8571
+  EXPLOIT_VULN: 0.5715
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.1286
+brute_force_multiplier: 1.0
+attack_threshold: 12

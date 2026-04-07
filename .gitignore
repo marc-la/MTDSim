@@ -142,7 +142,15 @@ research-analysis/results/.~lock.2-combinations-z-statistics-ip-port.ods#
 .gitignore
 research-analysis/results/.~lock.3-combinations-ip-and-port-z-statistics.ods#
 
-snapshots/*
-experiments/experimental_data/*
-experiments/*
-experimental_data/*
+snapshots/
+experimental_data/
+
+*.local.*
+
+.context/
+
+# Trained model weights (large binaries)
+*.h5
+
+# MITRE ATT&CK STIX data (downloaded at runtime)
+enterprise-attack.json

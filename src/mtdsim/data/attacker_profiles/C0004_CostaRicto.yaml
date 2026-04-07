@@ -1,0 +1,68 @@
+campaign_id: C0004
+campaign_name: CostaRicto
+description: '[CostaRicto](https://attack.mitre.org/campaigns/C0004) was a suspected
+  hacker-for-hire cyber espionage campaign that targeted multiple industries worldwide,
+  with a large number being financial institutions. [CostaRicto](https://attack.mitre.org/campaigns/C0004)
+  actors targeted organizations in Eu...'
+techniques:
+- id: T1046
+  name: Network Service Discovery
+  tactics:
+  - discovery
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1090.003
+  name: Multi-hop Proxy
+  tactics:
+  - command-and-control
+- id: T1053.005
+  name: Scheduled Task
+  tactics:
+  - execution
+  - persistence
+  - privilege-escalation
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1133
+  name: External Remote Services
+  tactics:
+  - persistence
+  - initial-access
+- id: T1583.001
+  name: Domains
+  tactics:
+  - resource-development
+- id: T1587.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1005
+  name: Data from Local System
+  tactics:
+  - collection
+- id: T1572
+  name: Protocol Tunneling
+  tactics:
+  - command-and-control
+capability_profile:
+  SCAN_HOST: 0.25
+  ENUM_HOST: 1.0
+  SCAN_PORT: 0.5
+  EXPLOIT_VULN: 0.75
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.75
+attack_duration_multipliers:
+  SCAN_HOST: 0.875
+  ENUM_HOST: 0.5
+  SCAN_NEIGHBOR: 0.625
+  SCAN_PORT: 0.75
+  EXPLOIT_VULN: 0.625
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.1125
+brute_force_multiplier: 1.0
+attack_threshold: 13

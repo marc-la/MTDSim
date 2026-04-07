@@ -1,0 +1,65 @@
+campaign_id: C0037
+campaign_name: Water Curupira Pikabot Distribution
+description: '[Pikabot](https://attack.mitre.org/software/S1145) was distributed in
+  [Water Curupira Pikabot Distribution](https://attack.mitre.org/campaigns/C0037)
+  throughout 2023 by an entity linked to BlackBasta ransomware deployment via email
+  attachments. This activity followed the take-down of [QakBot](htt...'
+techniques:
+- id: T1204.002
+  name: Malicious File
+  tactics:
+  - execution
+- id: T1059.003
+  name: Windows Command Shell
+  tactics:
+  - execution
+- id: T1204
+  name: User Execution
+  tactics:
+  - execution
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1204.001
+  name: Malicious Link
+  tactics:
+  - execution
+- id: T1589.002
+  name: Email Addresses
+  tactics:
+  - reconnaissance
+- id: T1566.001
+  name: Spearphishing Attachment
+  tactics:
+  - initial-access
+- id: T1059.007
+  name: JavaScript
+  tactics:
+  - execution
+- id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactics:
+  - defense-evasion
+- id: T1218.011
+  name: Rundll32
+  tactics:
+  - defense-evasion
+capability_profile:
+  SCAN_HOST: 0.1667
+  ENUM_HOST: 0.0
+  SCAN_PORT: 1.0
+  EXPLOIT_VULN: 0.3333
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.1667
+attack_duration_multipliers:
+  SCAN_HOST: 0.9166
+  ENUM_HOST: 1.0
+  SCAN_NEIGHBOR: 0.9166
+  SCAN_PORT: 0.5
+  EXPLOIT_VULN: 0.8334
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.05
+brute_force_multiplier: 1.0
+attack_threshold: 10

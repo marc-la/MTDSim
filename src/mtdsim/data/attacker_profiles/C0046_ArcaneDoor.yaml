@@ -1,0 +1,132 @@
+campaign_id: C0046
+campaign_name: ArcaneDoor
+description: '[ArcaneDoor](https://attack.mitre.org/campaigns/C0046) is a campaign
+  targeting networking devices from Cisco and other vendors between July 2023 and
+  April 2024, primarily focused on government and critical infrastructure networks.
+  [ArcaneDoor](https://attack.mitre.org/campaigns/C0046) is associat...'
+techniques:
+- id: T1102.003
+  name: One-Way Communication
+  tactics:
+  - command-and-control
+- id: T1037
+  name: Boot or Logon Initialization Scripts
+  tactics:
+  - persistence
+  - privilege-escalation
+- id: T1036
+  name: Masquerading
+  tactics:
+  - defense-evasion
+- id: T1583.003
+  name: Virtual Private Server
+  tactics:
+  - resource-development
+- id: T1041
+  name: Exfiltration Over C2 Channel
+  tactics:
+  - exfiltration
+- id: T1587.003
+  name: Digital Certificates
+  tactics:
+  - resource-development
+- id: T1653
+  name: Power Settings
+  tactics:
+  - persistence
+- id: T1562.003
+  name: Impair Command History Logging
+  tactics:
+  - defense-evasion
+- id: T1583.006
+  name: Web Services
+  tactics:
+  - resource-development
+- id: T1020
+  name: Automated Exfiltration
+  tactics:
+  - exfiltration
+- id: T1557
+  name: Adversary-in-the-Middle
+  tactics:
+  - credential-access
+  - collection
+- id: T1587.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1119
+  name: Automated Collection
+  tactics:
+  - collection
+- id: T1014
+  name: Rootkit
+  tactics:
+  - defense-evasion
+- id: T1556
+  name: Modify Authentication Process
+  tactics:
+  - credential-access
+  - defense-evasion
+  - persistence
+- id: T1040
+  name: Network Sniffing
+  tactics:
+  - credential-access
+  - discovery
+- id: T1070.004
+  name: File Deletion
+  tactics:
+  - defense-evasion
+- id: T1059
+  name: Command and Scripting Interpreter
+  tactics:
+  - execution
+- id: T1562.001
+  name: Disable or Modify Tools
+  tactics:
+  - defense-evasion
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+- id: T1082
+  name: System Information Discovery
+  tactics:
+  - discovery
+- id: T1071.001
+  name: Web Protocols
+  tactics:
+  - command-and-control
+- id: T1133
+  name: External Remote Services
+  tactics:
+  - persistence
+  - initial-access
+- id: T1055
+  name: Process Injection
+  tactics:
+  - defense-evasion
+  - privilege-escalation
+- id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactics:
+  - defense-evasion
+capability_profile:
+  SCAN_HOST: 0.1429
+  ENUM_HOST: 0.4286
+  SCAN_PORT: 0.2143
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.2143
+  SCAN_NEIGHBOR: 0.2857
+attack_duration_multipliers:
+  SCAN_HOST: 0.9285
+  ENUM_HOST: 0.7857
+  SCAN_NEIGHBOR: 0.8571
+  SCAN_PORT: 0.8929
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.8929
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.4286
+attack_threshold: 11

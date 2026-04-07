@@ -1,0 +1,57 @@
+campaign_id: C0042
+campaign_name: Outer Space
+description: '[Outer Space](https://attack.mitre.org/campaigns/C0042) was a campaign
+  conducted by [OilRig](https://attack.mitre.org/groups/G0049) throughout 2021 that
+  used the [SampleCheck5000](https://attack.mitre.org/software/S1168) downloader and
+  [Solar](https://attack.mitre.org/software/S1166) backdoor to ...'
+techniques:
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1584.004
+  name: Server
+  tactics:
+  - resource-development
+- id: T1217
+  name: Browser Information Discovery
+  tactics:
+  - discovery
+- id: T1071.001
+  name: Web Protocols
+  tactics:
+  - command-and-control
+- id: T1585.003
+  name: Cloud Accounts
+  tactics:
+  - resource-development
+- id: T1027.013
+  name: Encrypted/Encoded File
+  tactics:
+  - defense-evasion
+- id: T1587.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1059.005
+  name: Visual Basic
+  tactics:
+  - execution
+capability_profile:
+  SCAN_HOST: 0.3333
+  ENUM_HOST: 1.0
+  SCAN_PORT: 0.3333
+  EXPLOIT_VULN: 0.3333
+  BRUTE_FORCE: 0.0
+  SCAN_NEIGHBOR: 0.6667
+attack_duration_multipliers:
+  SCAN_HOST: 0.8334
+  ENUM_HOST: 0.5
+  SCAN_NEIGHBOR: 0.6666
+  SCAN_PORT: 0.8334
+  EXPLOIT_VULN: 0.8334
+  BRUTE_FORCE: 1.0
+  PENALTY: 1.0
+exploit_success_bonus: 0.05
+brute_force_multiplier: 1.0
+attack_threshold: 13

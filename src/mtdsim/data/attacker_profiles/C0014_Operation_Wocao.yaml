@@ -1,0 +1,320 @@
+campaign_id: C0014
+campaign_name: Operation Wocao
+description: '[Operation Wocao](https://attack.mitre.org/campaigns/C0014) was a cyber
+  espionage campaign that targeted organizations around the world, including in Brazil,
+  China, France, Germany, Italy, Mexico, Portugal, Spain, the United Kingdom, and
+  the United States. The suspected China-based actors comprom...'
+techniques:
+- id: T1012
+  name: Query Registry
+  tactics:
+  - discovery
+- id: T1003.001
+  name: LSASS Memory
+  tactics:
+  - credential-access
+- id: T1056.001
+  name: Keylogging
+  tactics:
+  - collection
+  - credential-access
+- id: T1518.001
+  name: Security Software Discovery
+  tactics:
+  - discovery
+- id: T1018
+  name: Remote System Discovery
+  tactics:
+  - discovery
+- id: T1573.002
+  name: Asymmetric Cryptography
+  tactics:
+  - command-and-control
+- id: T1587.001
+  name: Malware
+  tactics:
+  - resource-development
+- id: T1059.003
+  name: Windows Command Shell
+  tactics:
+  - execution
+- id: T1555.005
+  name: Password Managers
+  tactics:
+  - credential-access
+- id: T1552.004
+  name: Private Keys
+  tactics:
+  - credential-access
+- id: T1119
+  name: Automated Collection
+  tactics:
+  - collection
+- id: T1049
+  name: System Network Connections Discovery
+  tactics:
+  - discovery
+- id: T1585.002
+  name: Email Accounts
+  tactics:
+  - resource-development
+- id: T1124
+  name: System Time Discovery
+  tactics:
+  - discovery
+- id: T1571
+  name: Non-Standard Port
+  tactics:
+  - command-and-control
+- id: T1111
+  name: Multi-Factor Authentication Interception
+  tactics:
+  - credential-access
+- id: T1190
+  name: Exploit Public-Facing Application
+  tactics:
+  - initial-access
+- id: T1090.003
+  name: Multi-hop Proxy
+  tactics:
+  - command-and-control
+- id: T1074.001
+  name: Local Data Staging
+  tactics:
+  - collection
+- id: T1033
+  name: System Owner/User Discovery
+  tactics:
+  - discovery
+- id: T1071.001
+  name: Web Protocols
+  tactics:
+  - command-and-control
+- id: T1569.002
+  name: Service Execution
+  tactics:
+  - execution
+- id: T1005
+  name: Data from Local System
+  tactics:
+  - collection
+- id: T1115
+  name: Clipboard Data
+  tactics:
+  - collection
+- id: T1583.004
+  name: Server
+  tactics:
+  - resource-development
+- id: T1560.001
+  name: Archive via Utility
+  tactics:
+  - collection
+- id: T1106
+  name: Native API
+  tactics:
+  - execution
+- id: T1069.001
+  name: Local Groups
+  tactics:
+  - discovery
+- id: T1078
+  name: Valid Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1135
+  name: Network Share Discovery
+  tactics:
+  - discovery
+- id: T1070.004
+  name: File Deletion
+  tactics:
+  - defense-evasion
+- id: T1001
+  name: Data Obfuscation
+  tactics:
+  - command-and-control
+- id: T1588.002
+  name: Tool
+  tactics:
+  - resource-development
+- id: T1558.003
+  name: Kerberoasting
+  tactics:
+  - credential-access
+- id: T1021.002
+  name: SMB/Windows Admin Shares
+  tactics:
+  - lateral-movement
+- id: T1570
+  name: Lateral Tool Transfer
+  tactics:
+  - lateral-movement
+- id: T1059.005
+  name: Visual Basic
+  tactics:
+  - execution
+- id: T1016.001
+  name: Internet Connection Discovery
+  tactics:
+  - discovery
+- id: T1087.002
+  name: Domain Account
+  tactics:
+  - discovery
+- id: T1078.002
+  name: Domain Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1055
+  name: Process Injection
+  tactics:
+  - defense-evasion
+  - privilege-escalation
+- id: T1083
+  name: File and Directory Discovery
+  tactics:
+  - discovery
+- id: T1589
+  name: Gather Victim Identity Information
+  tactics:
+  - reconnaissance
+- id: T1059.006
+  name: Python
+  tactics:
+  - execution
+- id: T1112
+  name: Modify Registry
+  tactics:
+  - defense-evasion
+  - persistence
+- id: T1090.001
+  name: Internal Proxy
+  tactics:
+  - command-and-control
+- id: T1090
+  name: Proxy
+  tactics:
+  - command-and-control
+- id: T1041
+  name: Exfiltration Over C2 Channel
+  tactics:
+  - exfiltration
+- id: T1036.005
+  name: Match Legitimate Resource Name or Location
+  tactics:
+  - defense-evasion
+- id: T1562.004
+  name: Disable or Modify System Firewall
+  tactics:
+  - defense-evasion
+- id: T1007
+  name: System Service Discovery
+  tactics:
+  - discovery
+- id: T1120
+  name: Peripheral Device Discovery
+  tactics:
+  - discovery
+- id: T1003.006
+  name: DCSync
+  tactics:
+  - credential-access
+- id: T1027.005
+  name: Indicator Removal from Tools
+  tactics:
+  - defense-evasion
+- id: T1053.005
+  name: Scheduled Task
+  tactics:
+  - execution
+  - persistence
+  - privilege-escalation
+- id: T1082
+  name: System Information Discovery
+  tactics:
+  - discovery
+- id: T1027.010
+  name: Command Obfuscation
+  tactics:
+  - defense-evasion
+- id: T1059.001
+  name: PowerShell
+  tactics:
+  - execution
+- id: T1047
+  name: Windows Management Instrumentation
+  tactics:
+  - execution
+- id: T1046
+  name: Network Service Discovery
+  tactics:
+  - discovery
+- id: T1095
+  name: Non-Application Layer Protocol
+  tactics:
+  - command-and-control
+- id: T1016
+  name: System Network Configuration Discovery
+  tactics:
+  - discovery
+- id: T1133
+  name: External Remote Services
+  tactics:
+  - persistence
+  - initial-access
+- id: T1070.001
+  name: Clear Windows Event Logs
+  tactics:
+  - defense-evasion
+- id: T1505.003
+  name: Web Shell
+  tactics:
+  - persistence
+- id: T1518
+  name: Software Discovery
+  tactics:
+  - discovery
+- id: T1680
+  name: Local Storage Discovery
+  tactics:
+  - discovery
+- id: T1105
+  name: Ingress Tool Transfer
+  tactics:
+  - command-and-control
+- id: T1078.003
+  name: Local Accounts
+  tactics:
+  - defense-evasion
+  - persistence
+  - privilege-escalation
+  - initial-access
+- id: T1057
+  name: Process Discovery
+  tactics:
+  - discovery
+capability_profile:
+  SCAN_HOST: 0.8696
+  ENUM_HOST: 0.4348
+  SCAN_PORT: 0.5652
+  EXPLOIT_VULN: 1.0
+  BRUTE_FORCE: 0.3043
+  SCAN_NEIGHBOR: 0.5217
+attack_duration_multipliers:
+  SCAN_HOST: 0.5652
+  ENUM_HOST: 0.7826
+  SCAN_NEIGHBOR: 0.7391
+  SCAN_PORT: 0.7174
+  EXPLOIT_VULN: 0.5
+  BRUTE_FORCE: 0.8478
+  PENALTY: 1.0
+exploit_success_bonus: 0.15
+brute_force_multiplier: 1.6086
+attack_threshold: 12
