@@ -154,3 +154,4 @@ experimental_data/
 
 # MITRE ATT&CK STIX data (downloaded at runtime)
 enterprise-attack.json
+attack-stix-data/
