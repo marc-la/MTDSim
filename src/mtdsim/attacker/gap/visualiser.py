@@ -8,6 +8,8 @@ Section 6.3 of the Attack Graph Design Schema v0.3.
 
 from __future__ import annotations
 
+import json as _json
+import re as _re
 from typing import Iterable, Optional
 
 import networkx as nx
@@ -118,6 +120,9 @@ class MITRETechniqueDependencyVisualiser:
     # Interactive HTML (pyvis)
     # ---------------------------------------------------------------------
 
+    _X_SPACING = 320
+    _Y_SPACING = 70
+
     def render_interactive(
         self,
         output_path: str,
@@ -158,8 +163,6 @@ class MITRETechniqueDependencyVisualiser:
         net.toggle_physics(False)
 
         # Layered Sugiyama-style positioning (x = tactic layer, y = stacked).
-        X_SPACING = 320
-        Y_SPACING = 70
         per_layer_count: dict[int, int] = {}
 
         for tid, node in self.gap.nodes.items():
@@ -175,6 +178,8 @@ class MITRETechniqueDependencyVisualiser:
             border_width = 3 if is_orphan else 1
             size = 12 + min(node.campaign_count, 25)
 
+            # Title stored as plain text; HTML rendering handled by
+            # the custom tooltip injected during post-processing.
             title = (
                 f"<b>{tid}: {node.technique_name}</b><br>"
                 f"Tactic: {node.primary_tactic} (layer {layer})<br>"
@@ -191,8 +196,8 @@ class MITRETechniqueDependencyVisualiser:
                 borderWidthSelected=border_width + 2,
                 shapeProperties={"borderDashes": [4, 4] if is_orphan else False},
                 size=size,
-                x=layer * X_SPACING,
-                y=y_idx * Y_SPACING,
+                x=layer * self._X_SPACING,
+                y=y_idx * self._Y_SPACING,
                 physics=False,
             )
 
@@ -225,12 +230,200 @@ class MITRETechniqueDependencyVisualiser:
             """
             var options = {
               "interaction": {"hover": true, "tooltipDelay": 100, "navigationButtons": true},
-              "edges": {"smooth": {"type": "cubicBezier", "forceDirection": "horizontal"}}
+              "edges": {"smooth": {"type": "cubicBezier", "forceDirection": "horizontal"}},
+              "physics": {"enabled": false}
             }
             """
         )
         net.write_html(output_path, notebook=notebook, open_browser=False)
+        self._post_process_html(output_path, per_layer_count)
         return output_path
+
+    # ---------------------------------------------------------------------
+    # HTML post-processing
+    # ---------------------------------------------------------------------
+
+    def _post_process_html(
+        self, html_path: str, per_layer_count: dict[int, int]
+    ) -> None:
+        """Fix loading bar, tooltips, and add tactic-layer visual segregation."""
+        with open(html_path, "r") as f:
+            html = f.read()
+
+        # -- 1. Expose the vis.js Network as a global so injected JS can use it
+        html = html.replace("drawGraph();", "window._gapNetwork = drawGraph();", 1)
+
+        # -- 2. Build tactic layer metadata for the JS overlay
+        layer_data = []
+        for layer_idx in range(len(TACTIC_ORDER)):
+            count = per_layer_count.get(layer_idx, 0)
+            if count == 0:
+                continue
+            label = TACTIC_ORDER[layer_idx].replace("-", " ").title()
+            layer_data.append(
+                {"x": layer_idx * self._X_SPACING, "count": count,
+                 "label": label, "layer": layer_idx}
+            )
+
+        max_y = max(
+            (c * self._Y_SPACING for c in per_layer_count.values()), default=0
+        )
+
+        # -- 3. CSS to inject
+        custom_css = """
+/* === GAP post-processing overrides === */
+
+/* (a) Kill the loading bar — physics is off, stabilisation events never fire */
+#loadingBar { display: none !important; }
+
+/* (b) Hide the default vis.js tooltip (shows raw HTML) */
+div.vis-tooltip { display: none !important; }
+
+/* (c) Custom HTML-rendered tooltip */
+#gap-tooltip {
+    position: absolute;
+    display: none;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 400px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    z-index: 9999;
+    pointer-events: none;
+}
+#gap-tooltip b { color: #ffffff; font-size: 14px; }
+"""
+
+        # -- 4. JS to inject (runs after drawGraph sets window._gapNetwork)
+        custom_js = """
+<script type="text/javascript">
+(function() {
+    var network = window._gapNetwork;
+    if (!network) return;
+
+    /* ---- Custom tooltip ---- */
+    var tooltip = document.createElement('div');
+    tooltip.id = 'gap-tooltip';
+    document.body.appendChild(tooltip);
+
+    network.on('hoverNode', function(params) {
+        var node = network.body.data.nodes.get(params.node);
+        if (node && node.title) {
+            tooltip.innerHTML = node.title;
+            tooltip.style.display = 'block';
+        }
+    });
+    network.on('blurNode', function() { tooltip.style.display = 'none'; });
+
+    network.on('hoverEdge', function(params) {
+        var edge = network.body.data.edges.get(params.edge);
+        if (edge && edge.title) {
+            tooltip.innerHTML = edge.title;
+            tooltip.style.display = 'block';
+        }
+    });
+    network.on('blurEdge', function() { tooltip.style.display = 'none'; });
+
+    document.getElementById('mynetwork').addEventListener('mousemove', function(e) {
+        if (tooltip.style.display === 'block') {
+            tooltip.style.left = (e.pageX + 15) + 'px';
+            tooltip.style.top  = (e.pageY + 15) + 'px';
+        }
+    });
+
+    /* ---- Tactic layer backgrounds & header labels ---- */
+    var layers  = """ + _json.dumps(layer_data) + """;
+    var maxY    = """ + str(max_y) + """;
+    var xSpace  = """ + str(self._X_SPACING) + """;
+    var palette = """ + _json.dumps(_TACTIC_PALETTE) + """;
+
+    network.on('afterDrawing', function(ctx) {
+        ctx.save();
+        var halfW = xSpace / 2 - 10;
+        var topY  = -80;
+        var botY  = maxY + 40;
+
+        /* alternating tinted background bands */
+        layers.forEach(function(lyr) {
+            ctx.fillStyle = lyr.layer % 2 === 0
+                ? 'rgba(0, 0, 0, 0.025)'
+                : 'rgba(0, 0, 0, 0.055)';
+            ctx.fillRect(lyr.x - halfW, topY - 60, xSpace - 20, botY - topY + 120);
+
+            /* thin separator line */
+            ctx.strokeStyle = '#cccccc';
+            ctx.lineWidth = 0.5;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.moveTo(lyr.x - halfW, topY - 60);
+            ctx.lineTo(lyr.x - halfW, botY + 60);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        });
+
+        /* tactic header labels */
+        layers.forEach(function(lyr) {
+            var col  = palette[lyr.layer % palette.length];
+            var text = lyr.label;
+            ctx.font = 'bold 13px "Segoe UI", Tahoma, sans-serif';
+            var tw   = ctx.measureText(text).width;
+            var boxW = Math.max(tw + 24, 130);
+            var boxH = 28;
+            var boxX = lyr.x - boxW / 2;
+            var boxY = topY - 58 - boxH;
+
+            /* rounded-rect badge */
+            var r = 6;
+            ctx.beginPath();
+            ctx.moveTo(boxX + r, boxY);
+            ctx.lineTo(boxX + boxW - r, boxY);
+            ctx.quadraticCurveTo(boxX + boxW, boxY, boxX + boxW, boxY + r);
+            ctx.lineTo(boxX + boxW, boxY + boxH - r);
+            ctx.quadraticCurveTo(boxX + boxW, boxY + boxH, boxX + boxW - r, boxY + boxH);
+            ctx.lineTo(boxX + r, boxY + boxH);
+            ctx.quadraticCurveTo(boxX, boxY + boxH, boxX, boxY + boxH - r);
+            ctx.lineTo(boxX, boxY + r);
+            ctx.quadraticCurveTo(boxX, boxY, boxX + r, boxY);
+            ctx.closePath();
+            ctx.fillStyle = col + 'cc';
+            ctx.fill();
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            /* label text */
+            ctx.fillStyle = '#111111';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(text, lyr.x, boxY + boxH / 2);
+
+            /* layer number underneath */
+            ctx.font = '11px "Segoe UI", Tahoma, sans-serif';
+            ctx.fillStyle = '#666666';
+            ctx.fillText('Layer ' + lyr.layer, lyr.x, boxY + boxH + 14);
+        });
+
+        ctx.restore();
+    });
+
+    network.redraw();
+})();
+</script>
+"""
+
+        # Inject CSS right before closing </style>
+        html = html.replace("</style>", custom_css + "\n</style>", 1)
+
+        # Inject JS right before closing </body>
+        html = html.replace("</body>", custom_js + "\n</body>", 1)
+
+        with open(html_path, "w") as f:
+            f.write(html)
 
     # ---------------------------------------------------------------------
     # Summary / stats
