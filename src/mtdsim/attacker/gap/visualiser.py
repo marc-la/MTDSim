@@ -571,6 +571,29 @@ div.vis-tooltip { display: none !important; }
 #gap-filters .hint {
     font-size: 10px; color: #888; margin-top: 4px; line-height: 1.4;
 }
+#gap-filters details.gap-help {
+    margin-top: 6px; font-size: 11px;
+    background: #f7f7fa; border: 1px solid #e0e0e4; border-radius: 4px;
+    padding: 4px 8px;
+}
+#gap-filters details.gap-help summary {
+    cursor: pointer; color: #1a1a2e; font-weight: 500;
+    list-style: none; outline: none;
+}
+#gap-filters details.gap-help summary::before {
+    content: 'ⓘ '; color: #666;
+}
+#gap-filters details.gap-help[open] summary { color: #0066cc; }
+#gap-filters details.gap-help .hint {
+    color: #444; font-size: 11px; margin-top: 6px; line-height: 1.5;
+}
+#gap-filters #p-info {
+    background: #f0f4f8; border-left: 3px solid #0066cc;
+    padding: 4px 8px; border-radius: 0 4px 4px 0; color: #234;
+}
+#gap-filters select option:disabled {
+    color: #bbb; font-style: italic;
+}
 
 /* Detail panel ---------------------------------------------------------- */
 #gap-detail {
@@ -804,6 +827,19 @@ window._gapInitial = {initial_json};
   consLabel.innerHTML = '<input type="checkbox" id="f-cons" '+(_filterState.onlyConsensus?'checked':'')+'>Consensus only (≥2 sources)';
   filters.appendChild(consLabel);
 
+  /* Confidence derivation help */
+  var confHelp = document.createElement('details');
+  confHelp.className = 'gap-help';
+  confHelp.innerHTML =
+    '<summary>How is confidence derived?</summary>'+
+    '<div class="hint">'+
+    '<b>Attack Flow</b> = 1.0 (manually curated MITRE Attack Flow .afb files).<br>'+
+    '<b>Co-occurrence</b> = P(target|source) from FP-Growth association rule mining over the binary group + software usage matrix from STIX. Values vary; the build threshold is the median rule confidence.<br>'+
+    '<b>Ontology</b> = 0.8 (heuristic precondition keyword extraction from STIX technique descriptions; lower trust).<br>'+
+    '<b>Multi-source</b> = max(confidence) across all contributing evidence types. <i>source_count ≥ 2</i> means consensus.'+
+    '</div>';
+  filters.appendChild(confHelp);
+
   /* Tactic layers */
   sectionTitle('Tactic layers');
   var tacWrap = document.createElement('div');
@@ -856,8 +892,9 @@ window._gapInitial = {initial_json};
       '<option value="all">All simple paths (bounded)</option>'+
     '</select>'+
     '<div class="slider-row" style="margin-top:6px"><span>k / max len</span>'+
-      '<input type="range" id="p-k" min="1" max="8" step="1" value="3">'+
-      '<span id="p-k-v">3</span></div>';
+      '<input type="range" id="p-k" min="1" max="8" step="1" value="1">'+
+      '<span id="p-k-v">1</span></div>'+
+    '<div id="p-info" class="hint" style="margin-top:4px">Select a source.</div>';
   filters.appendChild(pathWrap);
   var pathBtn = document.createElement('button');
   pathBtn.textContent = 'Find paths';
@@ -931,6 +968,9 @@ window._gapInitial = {initial_json};
   document.getElementById('p-k').addEventListener('input', function(e) {{
     document.getElementById('p-k-v').textContent = e.target.value;
   }});
+  document.getElementById('p-src').addEventListener('change', refreshPathControls);
+  document.getElementById('p-tgt').addEventListener('change', refreshPathControls);
+  document.getElementById('p-algo').addEventListener('change', refreshPathControls);
   pathBtn.addEventListener('click', runPathQuery);
   pathClr.addEventListener('click', function() {{
     _filterState.highlight = null;
@@ -1000,9 +1040,10 @@ window._gapInitial = {initial_json};
       var update = {{ id: e._id, hidden: !ok }};
       if (ok && hi) {{
         update.color = {{ color: PATH_HIGHLIGHT, highlight: PATH_HIGHLIGHT, inherit: false }};
-        update.width = 5;
+        update.width = 7;
       }} else if (ok && dim) {{
-        update.color = {{ color: 'rgba(170,170,170,0.35)', inherit: false }};
+        update.color = {{ color: 'rgba(190,190,200,0.18)', inherit: false }};
+        update.width = 1;
       }} else if (ok) {{
         var col = EV_PALETTE[e.primary] || '#999';
         update.color = {{ color: col, inherit: false }};
@@ -1026,10 +1067,10 @@ window._gapInitial = {initial_json};
           if (inPath) {{
             return {{ id: n.id, hidden: false, opacity: 1,
                      color: {{ background: base, border: PATH_HIGHLIGHT }},
-                     borderWidth: 3 }};
+                     borderWidth: 4 }};
           }}
-          return {{ id: n.id, hidden: false, opacity: 0.35,
-                   color: {{ background: base, border: '#222' }}, borderWidth: 1 }};
+          return {{ id: n.id, hidden: false, opacity: 0.18,
+                   color: {{ background: '#dfdfe5', border: '#bbb' }}, borderWidth: 1 }};
         }}
         return {{ id: n.id, hidden: false, opacity: 1,
                  color: {{ background: base, border: '#222' }}, borderWidth: 1 }};
@@ -1061,6 +1102,9 @@ window._gapInitial = {initial_json};
     document.getElementById('c-cons').textContent = cc;
     document.getElementById('c-entry').textContent = entC;
     document.getElementById('c-obj').textContent = objC;
+
+    /* Reachability of path-explorer targets follows the current filter state. */
+    refreshPathControls();
   }}
 
   /* ---- Selection / detail panel ---- */
@@ -1171,6 +1215,93 @@ window._gapInitial = {initial_json};
       tooltip.style.top  = (ev.pageY + 15) + 'px';
     }}
   }});
+
+  /* ---- Reachability and path-control updates ---- */
+  function computeReachable(adj, src) {{
+    var seen = new Set([src]);
+    var stack = [src];
+    while (stack.length) {{
+      var cur = stack.pop();
+      var neigh = adj[cur] || [];
+      for (var i = 0; i < neigh.length; i++) {{
+        if (!seen.has(neigh[i].target)) {{
+          seen.add(neigh[i].target);
+          stack.push(neigh[i].target);
+        }}
+      }}
+    }}
+    return seen;
+  }}
+
+  function countSimplePaths(adj, src, target, maxLen, cap) {{
+    var count = 0;
+    var visited = new Set([src]);
+    function dfs(node, depth) {{
+      if (count >= cap) return;
+      if (node === target && depth > 0) {{ count++; return; }}
+      if (depth >= maxLen) return;
+      var neigh = adj[node] || [];
+      for (var i = 0; i < neigh.length; i++) {{
+        if (visited.has(neigh[i].target)) continue;
+        visited.add(neigh[i].target);
+        dfs(neigh[i].target, depth + 1);
+        visited.delete(neigh[i].target);
+        if (count >= cap) return;
+      }}
+    }}
+    dfs(src, 0);
+    return count;
+  }}
+
+  function refreshPathControls() {{
+    var srcSel  = document.getElementById('p-src');
+    var tgtSel  = document.getElementById('p-tgt');
+    var info    = document.getElementById('p-info');
+    var slider  = document.getElementById('p-k');
+    var sliderV = document.getElementById('p-k-v');
+    var src = srcSel.value;
+    if (!src) {{ info.textContent = 'Select a source.'; return; }}
+
+    var adj = buildAdjacency();
+    var reachable = computeReachable(adj, src);
+
+    /* Update target dropdown: disable unreachable, mark visually */
+    Array.from(tgtSel.options).forEach(function(opt) {{
+      if (!opt.dataset.origLabel) opt.dataset.origLabel = opt.text;
+      var ok = (opt.value !== src) && reachable.has(opt.value);
+      opt.disabled = !ok;
+      opt.text = opt.dataset.origLabel + (ok ? '' : ' — unreachable');
+    }});
+
+    /* If currently selected target is now unreachable, jump to first reachable */
+    var curOpt = tgtSel.options[tgtSel.selectedIndex];
+    if (!curOpt || curOpt.disabled) {{
+      for (var i = 0; i < tgtSel.options.length; i++) {{
+        if (!tgtSel.options[i].disabled) {{ tgtSel.selectedIndex = i; break; }}
+      }}
+    }}
+
+    var tgt = tgtSel.value;
+    if (!tgt || !reachable.has(tgt)) {{
+      info.innerHTML = '<b>No reachable objective</b> from '+src+' under current filters.<br>Relax filters or pick a different entry.';
+      slider.max = 1;
+      slider.value = 1;
+      sliderV.textContent = '1';
+      return;
+    }}
+
+    /* Count available simple paths up to length 6, cap at 50 */
+    var n = countSimplePaths(adj, src, tgt, 6, 50);
+    var label = (n >= 50 ? '50+' : String(n)) + ' path' + (n === 1 ? '' : 's');
+    info.innerHTML = '<b>'+label+' available</b> from '+src+' to '+tgt+' (≤6 hops).';
+    var maxK = Math.min(Math.max(n, 1), 8);
+    slider.max = maxK;
+    /* Default to 1 (the minimum viable configuration); never exceed available. */
+    if (parseInt(slider.value, 10) > maxK) {{
+      slider.value = maxK;
+      sliderV.textContent = maxK;
+    }}
+  }}
 
   /* ---- Path finding ---- */
   function buildAdjacency() {{
@@ -1381,6 +1512,9 @@ window._gapInitial = {initial_json};
     html += '<div class="lg-section"><h4>Edge width = confidence</h4>'+
             '<div class="lg-row"><span class="line"></span>low</div>'+
             '<div class="lg-row"><span class="line thick"></span>high + consensus</div>'+
+            '<div class="lg-row" style="font-size:9px;color:#666;max-width:180px;margin-top:2px">'+
+              'Attack Flow=1.0, Ontology=0.8, Co-occurrence=P(t|s); merged = max'+
+            '</div>'+
             '</div>'+
             '<div class="lg-section"><h4>Edge style</h4>'+
             '<div class="lg-row"><span class="line"></span>forward</div>'+
