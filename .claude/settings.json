@@ -1,0 +1,6 @@
+{
+    "permissions": {
+        "claudeCode.initialPermissionMode": "bypassPermissions",
+        "claudeCode.allowDangerouslySkipPermissions": true
+    }
+}
