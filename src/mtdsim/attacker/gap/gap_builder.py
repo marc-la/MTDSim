@@ -12,6 +12,7 @@ from typing import Iterable, Optional
 import networkx as nx
 
 from mtdsim.attacker.gap.schema import (
+    CampaignProfile,
     DependencyEdge,
     GeneralisedAttackProfile,
     TechniqueNode,
@@ -25,6 +26,7 @@ from mtdsim.attacker.gap.edge_importer import (
     extract_ontology_edges,
     import_attack_flow_corpus,
 )
+from mtdsim.attacker.gap.enrichment import enrich_group_profiles
 
 
 def _merge_edges(edge_groups: list[list[DependencyEdge]]) -> list[DependencyEdge]:
@@ -114,7 +116,8 @@ def build_gap(
     include_ontology: bool = True,
     break_cycles: bool = True,
     technique_source: str = "enterprise-attack",
-    version: str = "0.3",
+    version: str = "0.4",
+    enrich_groups: bool = True,
 ) -> tuple[GeneralisedAttackProfile, dict]:
     """
     Run the full GAP construction pipeline.
@@ -124,6 +127,12 @@ def build_gap(
     """
     # Phase 1
     nodes, index = parse_stix_bundle(stix_bundle_path)
+
+    # Phase 1b: group/campaign enrichment
+    group_profiles = index.get("group_profiles", {})
+    campaign_profiles = dict(index.get("campaign_profiles", {}))
+    if enrich_groups:
+        enrich_group_profiles(group_profiles)
 
     # Phase 2
     matrix = build_usage_matrix(nodes, index)
@@ -135,12 +144,51 @@ def build_gap(
 
     # Phase 3
     edge_groups = [co_edges]
+    af_edges: list[DependencyEdge] = []
     if attack_flow_corpus_dir:
-        edge_groups.append(import_attack_flow_corpus(attack_flow_corpus_dir, nodes))
+        af_edges = import_attack_flow_corpus(attack_flow_corpus_dir, nodes)
+        edge_groups.append(af_edges)
     if include_ontology:
         edge_groups.append(extract_ontology_edges(nodes))
 
     edges = _merge_edges(edge_groups)
+
+    # Synthesise CampaignProfile stubs for Attack Flow .afb names so the UI
+    # can pivot on them identically to MITRE-native campaigns.
+    af_campaigns: dict[str, set[str]] = {}
+    for e in af_edges:
+        for ev in e.evidence:
+            for cname in ev.campaigns:
+                af_campaigns.setdefault(cname, set()).update([e.source_id, e.target_id])
+    # Best-effort attribution: match .afb filename against known MITRE
+    # group names/aliases. Attack Flow diagrams are typically titled with a
+    # campaign or group label (e.g. "APT29 2021 Campaign", "FIN7 ...").
+    def _attribute_af(flow_name: str) -> list[str]:
+        hay = flow_name.lower()
+        hits: list[str] = []
+        for gid, prof in group_profiles.items():
+            candidates = [prof.name] + list(prof.aliases or [])
+            for c in candidates:
+                c = (c or "").strip().lower()
+                if len(c) < 3:
+                    continue
+                if c in hay:
+                    if gid not in hits:
+                        hits.append(gid)
+                    break
+        return hits
+
+    for cname, tids in af_campaigns.items():
+        cid = f"AF:{cname}"
+        if cid not in campaign_profiles:
+            campaign_profiles[cid] = CampaignProfile(
+                campaign_id=cid,
+                name=cname,
+                description="Attack Flow diagram from MITRE CTID corpus",
+                group_ids=_attribute_af(cname),
+                technique_ids=sorted(tids),
+                source="attack_flow",
+            )
 
     # Phase 5 validation
     if break_cycles:
@@ -173,6 +221,8 @@ def build_gap(
         technique_source=technique_source,
         nodes=nodes,
         edges=edges,
+        groups=group_profiles,
+        campaigns=campaign_profiles,
         entry_nodes=entry_nodes,
         objective_nodes=objective_nodes,
         layers=layers,

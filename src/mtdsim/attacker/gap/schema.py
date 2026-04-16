@@ -1,7 +1,8 @@
 """
 Data classes for the Generalised Attack Profile (GAP).
 
-Mirrors Section 4 of the Attack Graph Design Schema v0.3.
+Mirrors Section 4 of the Attack Graph Design Schema v0.3, extended in v0.4
+with ``GroupProfile`` and ``CampaignProfile`` for motivation-based filtering.
 """
 
 from __future__ import annotations
@@ -31,6 +32,16 @@ TACTIC_ORDER = [
 ]
 
 TACTIC_LAYERS: dict[str, int] = {t: i for i, t in enumerate(TACTIC_ORDER)}
+
+
+# ETDA/ThaiCERT 4-category motivation taxonomy surfaced to the UI as
+# the primary filter tier. MISP sub-labels are retained as secondary tags.
+MOTIVATION_CATEGORIES = [
+    "information_theft_espionage",
+    "financial_gain",
+    "financial_crime",
+    "sabotage_destruction",
+]
 
 
 @dataclass
@@ -80,6 +91,32 @@ class DependencyEdge:
 
 
 @dataclass
+class GroupProfile:
+    """MITRE intrusion-set enriched with external motivation/region data."""
+    group_id: str                                   # external ID, e.g. G0007
+    name: str
+    aliases: list[str] = field(default_factory=list)
+    description: str = ""
+    motivations: list[str] = field(default_factory=list)        # ETDA 4-cat
+    misp_motivations: list[str] = field(default_factory=list)   # finer tier
+    regions: list[str] = field(default_factory=list)
+    suspected_origin: Optional[str] = None
+    sources: list[str] = field(default_factory=list)            # e.g. ["etda","misp","mitre"]
+
+
+@dataclass
+class CampaignProfile:
+    """A campaign or Attack Flow that contributes techniques/edges to the GAP."""
+    campaign_id: str                                # C#### or .afb stem
+    name: str
+    description: str = ""
+    group_ids: list[str] = field(default_factory=list)
+    first_seen: str = ""
+    technique_ids: list[str] = field(default_factory=list)
+    source: str = "mitre"                           # "mitre" | "attack_flow"
+
+
+@dataclass
 class GeneralisedAttackProfile:
     version: str
     build_date: str
@@ -87,6 +124,9 @@ class GeneralisedAttackProfile:
 
     nodes: dict[str, TechniqueNode] = field(default_factory=dict)
     edges: list[DependencyEdge] = field(default_factory=list)
+
+    groups: dict[str, GroupProfile] = field(default_factory=dict)
+    campaigns: dict[str, CampaignProfile] = field(default_factory=dict)
 
     entry_nodes: list[str] = field(default_factory=list)
     objective_nodes: list[str] = field(default_factory=list)
@@ -108,7 +148,6 @@ class GeneralisedAttackProfile:
 
     def to_dict(self) -> dict:
         d = asdict(self)
-        # layers keys must be stringified for JSON
         d["layers"] = {str(k): v for k, v in self.layers.items()}
         return d
 
@@ -124,9 +163,18 @@ class GeneralisedAttackProfile:
             e = dict(e)
             e["evidence"] = [Evidence(**ev) for ev in e.get("evidence", [])]
             edges.append(DependencyEdge(**e))
+        groups = {k: GroupProfile(**v) for k, v in d.get("groups", {}).items()}
+        campaigns = {k: CampaignProfile(**v) for k, v in d.get("campaigns", {}).items()}
         layers = {int(k): v for k, v in d.get("layers", {}).items()}
         scalar_fields = {
             k: v for k, v in d.items()
-            if k not in ("nodes", "edges", "layers")
+            if k not in ("nodes", "edges", "groups", "campaigns", "layers")
         }
-        return cls(nodes=nodes, edges=edges, layers=layers, **scalar_fields)
+        return cls(
+            nodes=nodes,
+            edges=edges,
+            groups=groups,
+            campaigns=campaigns,
+            layers=layers,
+            **scalar_fields,
+        )

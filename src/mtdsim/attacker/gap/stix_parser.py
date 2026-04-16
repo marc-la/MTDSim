@@ -13,6 +13,8 @@ from typing import Iterable
 
 from mtdsim.attacker.gap.schema import (
     TACTIC_LAYERS,
+    CampaignProfile,
+    GroupProfile,
     TechniqueNode,
 )
 
@@ -166,6 +168,62 @@ def parse_stix_bundle(
         node.group_count = len(node.group_ids)
         node.campaign_count = len(node.campaign_ids)
 
+    # Build GroupProfile stubs (motivation fields filled later by enrichment)
+    group_profiles: dict[str, GroupProfile] = {}
+    for sid, obj in intrusion_sets.items():
+        gid = group_to_gid.get(sid) or ""
+        if not gid:
+            continue
+        group_profiles[gid] = GroupProfile(
+            group_id=gid,
+            name=obj.get("name", gid),
+            aliases=list(obj.get("aliases", []) or []),
+            description=obj.get("description", "") or "",
+            sources=["mitre"],
+        )
+
+    # Build CampaignProfile stubs from MITRE-native campaigns. Campaign ->
+    # group attribution is resolved via `attributed-to` relationships if present;
+    # otherwise the campaign stays unattributed and UI shows it as such.
+    attributed_to: dict[str, list[str]] = {}
+    for rel in bundle.get("objects", []):
+        if rel.get("type") != "relationship":
+            continue
+        if rel.get("relationship_type") != "attributed-to":
+            continue
+        src, tgt = rel.get("source_ref", ""), rel.get("target_ref", "")
+        if src in campaigns and tgt in intrusion_sets:
+            gid = group_to_gid.get(tgt)
+            if gid:
+                attributed_to.setdefault(src, []).append(gid)
+
+    # Collect technique_ids per campaign from `uses` relationships
+    campaign_techniques: dict[str, list[str]] = {}
+    for rel in relationships:
+        src = rel.get("source_ref", "")
+        tgt = rel.get("target_ref", "")
+        if src in campaigns:
+            tid = stix_to_tid.get(tgt)
+            if tid:
+                lst = campaign_techniques.setdefault(src, [])
+                if tid not in lst:
+                    lst.append(tid)
+
+    campaign_profiles: dict[str, CampaignProfile] = {}
+    for sid, obj in campaigns.items():
+        cid = campaign_to_cid.get(sid) or ""
+        if not cid:
+            continue
+        campaign_profiles[cid] = CampaignProfile(
+            campaign_id=cid,
+            name=obj.get("name", cid),
+            description=obj.get("description", "") or "",
+            group_ids=list(attributed_to.get(sid, [])),
+            first_seen=obj.get("first_seen", "") or "",
+            technique_ids=list(campaign_techniques.get(sid, [])),
+            source="mitre",
+        )
+
     index = {
         "stix_to_tid": stix_to_tid,
         "group_ids": list(intrusion_sets.keys()),
@@ -174,5 +232,7 @@ def parse_stix_bundle(
         "relationships": [(r["source_ref"], r["target_ref"]) for r in relationships],
         "campaign_to_cid": campaign_to_cid,
         "group_to_gid": group_to_gid,
+        "group_profiles": group_profiles,
+        "campaign_profiles": campaign_profiles,
     }
     return nodes, index

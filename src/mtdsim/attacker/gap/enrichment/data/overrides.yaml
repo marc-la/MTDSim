@@ -1,0 +1,71 @@
+# Manual MITRE-group motivation overrides. Takes precedence over MISP/ETDA.
+#
+# Keys are MITRE external group IDs (G####). Motivation values must be drawn
+# from the ETDA 4-category taxonomy defined in schema.MOTIVATION_CATEGORIES:
+#   - information_theft_espionage
+#   - financial_gain
+#   - financial_crime
+#   - sabotage_destruction
+#
+# Notes:
+# - This file is hand-curated from MITRE group description free-text and public
+#   vendor reporting (Mandiant, Microsoft, CrowdStrike). Lines that list
+#   multiple motivations mean the group is multi-motivated.
+# - Unattributed groups remain in the GAP; they just won't appear in
+#   motivation-filtered views until added here or matched via MISP.
+
+G0007:   # APT28 / Fancy Bear
+  motivations: [information_theft_espionage]
+  regions: [RU]
+G0016:   # APT29 / Cozy Bear
+  motivations: [information_theft_espionage]
+  regions: [RU]
+G0032:   # Lazarus Group
+  motivations: [information_theft_espionage, financial_gain, sabotage_destruction]
+  regions: [KP]
+G0096:   # APT41
+  motivations: [information_theft_espionage, financial_gain]
+  regions: [CN]
+G0022:   # APT3
+  motivations: [information_theft_espionage]
+  regions: [CN]
+G0006:   # APT1
+  motivations: [information_theft_espionage]
+  regions: [CN]
+G0050:   # APT32 / OceanLotus
+  motivations: [information_theft_espionage]
+  regions: [VN]
+G0064:   # APT33
+  motivations: [information_theft_espionage, sabotage_destruction]
+  regions: [IR]
+G0087:   # APT39
+  motivations: [information_theft_espionage]
+  regions: [IR]
+G0046:   # FIN7
+  motivations: [financial_gain, financial_crime]
+G0037:   # FIN6
+  motivations: [financial_gain, financial_crime]
+G0008:   # Carbanak
+  motivations: [financial_gain, financial_crime]
+G0102:   # Wizard Spider
+  motivations: [financial_gain, financial_crime]
+G0115:   # GOLD SOUTHFIELD / REvil
+  motivations: [financial_gain, financial_crime]
+G0010:   # Turla
+  motivations: [information_theft_espionage]
+  regions: [RU]
+G0034:   # Sandworm Team
+  motivations: [information_theft_espionage, sabotage_destruction]
+  regions: [RU]
+G0049:   # OilRig
+  motivations: [information_theft_espionage]
+  regions: [IR]
+G0069:   # MuddyWater
+  motivations: [information_theft_espionage]
+  regions: [IR]
+G0045:   # menuPass / APT10
+  motivations: [information_theft_espionage]
+  regions: [CN]
+G0065:   # Leviathan / APT40
+  motivations: [information_theft_espionage]
+  regions: [CN]

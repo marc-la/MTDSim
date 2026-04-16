@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Generalised Attack Profile — v__VERSION__</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.js"></script>
+<style>__CSS__</style>
+</head>
+<body>
+<header id="gap-header">
+  <div class="brand">
+    <strong>GAP</strong>
+    <span class="muted">v__VERSION__ · built __BUILD_DATE__</span>
+  </div>
+  <div id="live-counts" class="muted"></div>
+  <div class="header-actions">
+    <button id="btn-fit" title="Fit to view">Fit</button>
+    <button id="btn-reset" title="Reset all filters">Reset</button>
+  </div>
+</header>
+
+<main id="gap-main">
+  <aside id="left-panel" class="panel">
+    <div class="panel-header">
+      <span>Filters</span>
+      <button class="collapse" data-target="left-panel" title="Collapse">‹</button>
+    </div>
+    <div class="panel-body">
+
+      <section class="group">
+        <h3>Preset</h3>
+        <label><input type="radio" name="preset" value="attack_flow" checked> Attack Flow only <span class="muted small">(default)</span></label>
+        <label><input type="radio" name="preset" value="curated"> Curated (+ ontology)</label>
+        <label><input type="radio" name="preset" value="all"> All evidence</label>
+        <label><input type="radio" name="preset" value="custom"> Custom</label>
+      </section>
+
+      <section class="group">
+        <h3>Evidence types</h3>
+        <div id="evidence-list" class="chiplist"></div>
+      </section>
+
+      <section class="group">
+        <h3>Motivation <span class="muted small" id="motiv-coverage"></span></h3>
+        <div id="motivation-list" class="chiplist"></div>
+        <label class="inline"><input type="checkbox" id="include-unattributed" checked> Include unattributed groups</label>
+      </section>
+
+      <section class="group">
+        <h3>APT Group</h3>
+        <input type="search" id="group-search" placeholder="Filter groups…" />
+        <div id="group-list" class="scroll-list small"></div>
+      </section>
+
+      <section class="group">
+        <h3>Campaign</h3>
+        <input type="search" id="campaign-search" placeholder="Filter campaigns…" />
+        <div id="campaign-list" class="scroll-list small"></div>
+      </section>
+
+      <section class="group">
+        <h3>Tactics</h3>
+        <div id="tactic-list" class="chiplist"></div>
+      </section>
+
+      <details class="group">
+        <summary><h3 style="display:inline">Advanced</h3></summary>
+        <label class="inline">Min confidence <input type="range" id="min-conf" min="0" max="1" step="0.05" value="0"> <span id="min-conf-val">0.00</span></label>
+        <label class="inline"><input type="checkbox" id="only-consensus"> Consensus edges only (≥2 sources)</label>
+        <label class="inline"><input type="checkbox" id="hide-isolated" checked> Hide orphan techniques</label>
+        <label class="inline"><input type="checkbox" id="hide-backward"> Hide backward edges (loops)</label>
+
+        <h4>Attack path</h4>
+        <label class="inline">From <input type="text" id="path-from" placeholder="T1566" size="8"></label>
+        <label class="inline">To <input type="text" id="path-to" placeholder="T1486" size="8"></label>
+        <label class="inline">k <input type="number" id="path-k" value="3" min="1" max="10" size="3"></label>
+        <button id="btn-path">Highlight paths</button>
+        <button id="btn-path-clear">Clear</button>
+        <div id="path-results" class="muted small"></div>
+      </details>
+
+      <section class="group">
+        <h3>Search</h3>
+        <input type="search" id="node-search" placeholder="Technique ID or name…" />
+      </section>
+
+    </div>
+    <div class="resize-handle" data-target="left-panel"></div>
+  </aside>
+
+  <section id="graph-wrap">
+    <div id="cy"></div>
+    <div id="legend">
+      <div class="legend-tabs">
+        <button class="tab active" data-tab="tactics">Tactics</button>
+        <button class="tab" data-tab="evidence">Evidence</button>
+        <button class="tab" data-tab="motivation">Motivation</button>
+        <button class="tab" data-tab="lines">Line styles</button>
+      </div>
+      <div id="legend-body"></div>
+    </div>
+  </section>
+
+  <aside id="right-panel" class="panel">
+    <div class="panel-header">
+      <span>Details</span>
+      <button class="collapse" data-target="right-panel" title="Collapse">›</button>
+    </div>
+    <div class="panel-body" id="details">
+      <p class="muted">Select a node or edge to see provenance.</p>
+    </div>
+    <div class="resize-handle left" data-target="right-panel"></div>
+  </aside>
+</main>
+
+<script id="gap-payload" type="application/json">__PAYLOAD__</script>
+<script id="gap-initial-filter" type="application/json">__INITIAL_FILTER__</script>
+<script>__APP_JS__</script>
+</body>
+</html>
