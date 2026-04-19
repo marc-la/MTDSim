@@ -32,23 +32,17 @@
     <div class="panel-body">
 
       <section class="group">
-        <h3>Preset</h3>
-        <label><input type="radio" name="preset" value="attack_flow" checked> Attack Flow only <span class="muted small">(default)</span></label>
-        <label><input type="radio" name="preset" value="curated"> Curated (+ ontology)</label>
-        <label><input type="radio" name="preset" value="all"> All evidence</label>
-        <label><input type="radio" name="preset" value="custom"> Custom</label>
-      </section>
-
-      <section class="group">
-        <h3>Evidence types</h3>
+        <h3>Evidence</h3>
         <div id="evidence-list" class="chiplist"></div>
       </section>
 
       <section class="group">
-        <h3>Subgraph (CSA)</h3>
+        <h3>Subgraph</h3>
         <div class="muted small" style="margin-bottom:6px">
-          Mirrors the selector-based CLI subgraphing — restrict the view by
-          terminal-objective tactic (Strategy A) or platform profile (Strategy B).
+          Restrict the view to techniques leading to a chosen objective tactic
+          (Strategy A — terminal-objective ancestor subgraph) or belonging to
+          a specific platform profile (Strategy B). Combine both to scope the
+          adversary profile being explored.
         </div>
         <label class="inline">
           <span class="lbl">Objective tactic</span>
@@ -60,22 +54,32 @@
         </label>
       </section>
 
-      <section class="group">
-        <h3>APT Group</h3>
-        <input type="search" id="group-search" placeholder="Filter groups…" />
-        <div id="group-list" class="scroll-list small"></div>
-      </section>
-
-      <section class="group">
-        <h3>Campaign</h3>
-        <input type="search" id="campaign-search" placeholder="Filter campaigns…" />
-        <div id="campaign-list" class="scroll-list small"></div>
-      </section>
-
-      <section class="group">
-        <h3>Tactics</h3>
+      <details class="group">
+        <summary><h3 style="display:inline">Tactics</h3></summary>
+        <div class="row-buttons" style="margin-bottom:6px">
+          <button id="tactic-all">All</button>
+          <button id="tactic-none">None</button>
+        </div>
         <div id="tactic-list" class="chiplist"></div>
-      </section>
+      </details>
+
+      <details class="group">
+        <summary><h3 style="display:inline">APT Groups <span id="group-count" class="muted small"></span></h3></summary>
+        <div class="row-buttons" style="margin-bottom:6px">
+          <input type="search" id="group-search" placeholder="Filter…" style="flex:1" />
+          <button id="group-reset">Reset</button>
+        </div>
+        <div id="group-list" class="scroll-list small"></div>
+      </details>
+
+      <details class="group">
+        <summary><h3 style="display:inline">Campaigns <span id="campaign-count" class="muted small"></span></h3></summary>
+        <div class="row-buttons" style="margin-bottom:6px">
+          <input type="search" id="campaign-search" placeholder="Filter…" style="flex:1" />
+          <button id="campaign-reset">Reset</button>
+        </div>
+        <div id="campaign-list" class="scroll-list small"></div>
+      </details>
 
       <section class="group">
         <h3>Attack path</h3>
@@ -88,29 +92,28 @@
           <select id="path-to"><option value="">— select —</option></select>
         </label>
         <label class="inline">
-          <span class="lbl">k paths</span>
+          <span class="lbl">Max paths</span>
           <input type="number" id="path-k" value="3" min="1" max="10">
         </label>
         <div class="row-buttons">
-          <button id="btn-path">Highlight paths</button>
+          <button id="btn-path" class="primary">Show paths</button>
           <button id="btn-path-clear">Clear</button>
         </div>
-        <div id="path-results" class="muted small"></div>
       </section>
 
       <details class="group">
         <summary><h3 style="display:inline">Advanced</h3></summary>
-        <label class="inline">Min confidence <input type="range" id="min-conf" min="0" max="1" step="0.05" value="0"> <span id="min-conf-val">0.00</span></label>
-        <label class="inline"><input type="checkbox" id="only-consensus"> Consensus edges only (≥2 sources)</label>
+        <label class="inline">
+          <span class="lbl">Min confidence</span>
+          <span style="display:flex;gap:6px;align-items:center;width:100%">
+            <input type="range" id="min-conf" min="0" max="1" step="0.05" value="0" style="flex:1">
+            <span id="min-conf-val" style="min-width:30px">0.00</span>
+          </span>
+        </label>
         <label class="inline"><input type="checkbox" id="hide-isolated" checked> Hide orphan techniques</label>
         <label class="inline"><input type="checkbox" id="hide-backward"> Hide backward edges (loops)</label>
-        <label class="inline"><input type="checkbox" id="dim-unreachable" checked> Dim unreachable objectives</label>
+        <label class="inline"><input type="checkbox" id="dim-unreachable" checked> Dim unreachable / off-path</label>
       </details>
-
-      <section class="group">
-        <h3>Search</h3>
-        <input type="search" id="node-search" placeholder="Technique ID or name…" />
-      </section>
 
     </div>
     <div class="resize-handle" data-target="left-panel"></div>
@@ -119,10 +122,13 @@
   <section id="graph-wrap">
     <div id="cy"></div>
     <div id="legend">
-      <div class="legend-tabs">
-        <button class="tab active" data-tab="tactics">Tactics</button>
-        <button class="tab" data-tab="evidence">Evidence</button>
-        <button class="tab" data-tab="lines">Line styles</button>
+      <div id="legend-header">
+        <div class="legend-tabs">
+          <button class="tab active" data-tab="tactics">Tactics</button>
+          <button class="tab" data-tab="evidence">Evidence</button>
+          <button class="tab" data-tab="lines">Lines</button>
+        </div>
+        <button id="legend-toggle" title="Collapse legend">−</button>
       </div>
       <div id="legend-body"></div>
     </div>

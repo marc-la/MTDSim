@@ -8,6 +8,8 @@
   --accent-2: #bb9af7;
   --warn: #f7768e;
   --good: #9ece6a;
+  --left-w: 300px;
+  --right-w: 360px;
 }
 
 * { box-sizing: border-box; }
@@ -20,6 +22,9 @@ html, body {
   color: var(--text);
   overflow: hidden;
 }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
 #gap-header {
   height: 44px;
@@ -41,6 +46,12 @@ button {
   font-size: 12px;
 }
 button:hover { background: var(--accent); color: var(--bg); }
+button.primary {
+  background: var(--accent); color: var(--bg);
+  border-color: var(--accent); font-weight: 600;
+}
+button.primary:hover { background: var(--accent-2); border-color: var(--accent-2); }
+
 input[type="text"], input[type="number"], input[type="search"], select {
   background: var(--bg); color: var(--text);
   border: 1px solid var(--panel-border);
@@ -49,10 +60,12 @@ input[type="text"], input[type="number"], input[type="search"], select {
   max-width: 100%;
 }
 select option:disabled { color: var(--muted); font-style: italic; }
+optgroup { color: var(--muted); font-style: italic; }
+optgroup option { color: var(--text); font-style: normal; }
 
 #gap-main {
   display: grid;
-  grid-template-columns: var(--left-w, 300px) 1fr var(--right-w, 360px);
+  grid-template-columns: var(--left-w) 1fr var(--right-w);
   height: calc(100vh - 44px);
   min-width: 0;
 }
@@ -62,7 +75,7 @@ select option:disabled { color: var(--muted); font-style: italic; }
   background: var(--panel);
   border-right: 1px solid var(--panel-border);
   display: flex; flex-direction: column;
-  min-width: 48px;
+  min-width: 36px;
   /* Required so the inner overflow:auto actually clips and scrolls
      instead of forcing the grid column wider. */
   min-height: 0;
@@ -70,10 +83,12 @@ select option:disabled { color: var(--muted); font-style: italic; }
 }
 #right-panel { border-right: none; border-left: 1px solid var(--panel-border); }
 
+/* Collapsed panel hides body and resize handle; the grid column itself
+   is shrunk via the --left-w / --right-w custom properties (see app.js). */
 .panel.collapsed .panel-body,
 .panel.collapsed .resize-handle { display: none; }
-.panel.collapsed { width: 36px; min-width: 36px; }
 .panel.collapsed .panel-header span { display: none; }
+.panel.collapsed .panel-header { justify-content: center; padding: 8px 4px; }
 
 .panel-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -118,11 +133,14 @@ select option:disabled { color: var(--muted); font-style: italic; }
 }
 .group label.inline .lbl { color: var(--muted); font-size: 11px; }
 .group label.inline input[type="checkbox"] { justify-self: start; }
-.group summary { cursor: pointer; list-style: none; color: var(--muted); }
-.group summary::-webkit-details-marker { display: none; }
-.group summary::before { content: "▸ "; display: inline-block; transition: transform 0.1s; }
-details[open] > summary::before { transform: rotate(90deg); }
-.group .row-buttons { display: flex; gap: 6px; margin-top: 6px; }
+details.group > summary { cursor: pointer; list-style: none; color: var(--muted);
+  display: flex; align-items: center; }
+details.group > summary::-webkit-details-marker { display: none; }
+details.group > summary::before { content: "▸ "; display: inline-block;
+  margin-right: 4px; transition: transform 0.1s; flex-shrink: 0; }
+details.group[open] > summary::before { transform: rotate(90deg); }
+.group .row-buttons { display: flex; gap: 6px; margin-top: 6px; align-items: center; }
+.group .row-buttons input { margin-bottom: 0; }
 
 .chiplist { display: flex; flex-wrap: wrap; gap: 4px; }
 .chiplist label {
@@ -130,15 +148,17 @@ details[open] > summary::before { transform: rotate(90deg); }
   padding: 2px 8px; border-radius: 999px;
   background: var(--bg); border: 1px solid var(--panel-border);
   font-size: 11px; cursor: pointer;
+  margin: 0;
 }
 .chiplist label.off { opacity: 0.45; }
 .chip-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 
-.scroll-list { max-height: 200px; overflow-y: auto;
+.scroll-list { max-height: 220px; overflow-y: auto;
   border: 1px solid var(--panel-border); border-radius: 4px;
-  background: var(--bg); padding: 4px; }
+  background: var(--bg); padding: 4px; margin-top: 6px; }
 .scroll-list label { font-size: 11px; display: flex; gap: 4px; align-items: center;
   padding: 2px 4px; border-radius: 2px; }
+.scroll-list label .item-count { color: var(--muted); margin-left: auto; padding-left: 6px; }
 .scroll-list label:hover { background: var(--panel-border); }
 
 #graph-wrap { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
@@ -151,12 +171,21 @@ details[open] > summary::before { transform: rotate(90deg); }
   font-size: 11px;
   max-width: 360px;
 }
-.legend-tabs { display: flex; gap: 4px; margin-bottom: 6px; }
+#legend-header {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; margin-bottom: 6px;
+}
+.legend-tabs { display: flex; gap: 4px; }
 .legend-tabs .tab {
   padding: 2px 8px; font-size: 10px; text-transform: uppercase;
   background: transparent; border: 1px solid var(--panel-border);
 }
 .legend-tabs .tab.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+#legend-toggle { padding: 0 6px; line-height: 1; font-size: 14px; }
+#legend.collapsed #legend-body,
+#legend.collapsed .legend-tabs { display: none; }
+#legend.collapsed { padding: 4px 8px; }
+
 #legend-body { display: grid; grid-template-columns: auto auto auto; gap: 3px 10px; }
 #legend-body .row { display: flex; align-items: center; gap: 5px; }
 #legend-body .row .sw { width: 12px; height: 12px; border-radius: 2px; display:inline-block; }
@@ -168,6 +197,7 @@ details[open] > summary::before { transform: rotate(90deg); }
 }
 #details .tid { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   background: var(--panel-border); padding: 1px 6px; border-radius: 3px; }
+#details .tid a { color: var(--text); }
 #details .chip { display: inline-block; padding: 1px 8px; border-radius: 999px;
   background: var(--panel-border); font-size: 11px; margin: 2px 3px 0 0;
   word-break: break-word; }
@@ -179,3 +209,4 @@ details[open] > summary::before { transform: rotate(90deg); }
   padding: 6px 8px; border-radius: 4px; margin: 4px 0; font-size: 11px;
   overflow-wrap: anywhere; word-break: break-word; }
 #details .evidence-item .src { color: var(--accent); font-weight: 600; }
+#details a.ext::after { content: " ↗"; color: var(--muted); font-size: 10px; }

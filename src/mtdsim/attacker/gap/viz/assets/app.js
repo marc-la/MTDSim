@@ -4,10 +4,24 @@
  * initial filter state. This module builds the Cytoscape graph once, then
  * applies filter changes reactively by updating node/edge visibility classes.
  * No data is ever re-fetched.
+ *
+ * Filtering model. Two-pass to make group/campaign filters intuitive:
+ *   1. Compute hard node visibility (tactics, subgraph, group, campaign).
+ *   2. An edge is visible iff its evidence/conf/backward checks pass AND
+ *      both endpoints are hard-visible.
+ *   3. A node is finally visible iff hard-visible AND (has visible edge OR
+ *      hide-isolated is off).
+ * This guarantees that selecting "APT28" shows APT28's techniques + the
+ * edges between them, instead of relying on per-edge group attribution
+ * (which is sparse for ontology / co-occurrence edges and produced empty
+ * graphs in the previous version).
  */
 (function () {
   const PAYLOAD = JSON.parse(document.getElementById("gap-payload").textContent);
   const INITIAL = JSON.parse(document.getElementById("gap-initial-filter").textContent);
+
+  // --------------------------------------------------------------
+  // Lookup tables
 
   const tacticColour = {};
   const tacticLabel = {};
@@ -17,14 +31,11 @@
   const evidenceLabel = {};
   PAYLOAD.evidence_types.forEach(e => { evidenceColour[e.id] = e.color; evidenceLabel[e.id] = e.label; });
 
-  // --------------------------------------------------------------
-  // Pre-index payload helpers
-
   const nodeById = {};
   PAYLOAD.nodes.forEach(n => { nodeById[n.id] = n; });
 
-  // CSA subgraph membership (server pre-computed against the full graph,
-  // so client-side filters compose without extra graph traversal).
+  // Subgraph membership (Strategy A — terminal-objective tactic;
+  // Strategy B — platform profile). Pre-indexed as Sets for O(1) lookup.
   const subgraphTerminal = {};
   Object.entries(PAYLOAD.subgraphs.terminal_objective || {}).forEach(([k, v]) => {
     subgraphTerminal[k] = new Set(v);
@@ -34,9 +45,7 @@
     subgraphPlatform[k] = new Set(v);
   });
 
-  // --------------------------------------------------------------
-  // Subgraph provenance (if a selector was applied server-side)
-
+  // Subgraph provenance (server-side selector applied via SubgraphView).
   if (PAYLOAD.meta && PAYLOAD.meta.view) {
     const v = PAYLOAD.meta.view;
     const bits = Object.entries(v)
@@ -49,46 +58,73 @@
   }
 
   // --------------------------------------------------------------
+  // External MITRE ATT&CK URLs
+
+  function groupUrl(gid) {
+    return /^G\d+$/.test(gid) ? `https://attack.mitre.org/groups/${gid}/` : null;
+  }
+  function campaignUrl(cid) {
+    return /^C\d+$/.test(cid) ? `https://attack.mitre.org/campaigns/${cid}/` : null;
+  }
+  function techniqueUrl(tid) {
+    if (!/^T\d+(\.\d+)?$/.test(tid)) return null;
+    if (tid.includes(".")) {
+      const [parent, sub] = tid.split(".");
+      return `https://attack.mitre.org/techniques/${parent}/${sub}/`;
+    }
+    return `https://attack.mitre.org/techniques/${tid}/`;
+  }
+  function extLink(href, text) {
+    return href ? `<a class="ext" href="${href}" target="_blank" rel="noopener">${text}</a>` : text;
+  }
+
+  // --------------------------------------------------------------
   // State
 
   const state = {
     visibleEvidence: new Set(),
     minConf: INITIAL.min_confidence || 0,
-    onlyConsensus: !!INITIAL.only_consensus,
     hideIsolated: INITIAL.hide_isolated !== false,
     hideBackward: false,
     dimUnreachable: true,
     selectedGroups: null,   // null = all
     selectedCampaigns: null,
     selectedTactics: new Set(PAYLOAD.tactics.map(t => t.id)),
-    csaObjectiveTactic: "",  // "" = no Strategy A restriction
-    csaPlatform: "",         // "" = no Strategy B restriction
-    nodeSearch: "",
-    pathHighlight: null,
+    csaObjectiveTactic: "",
+    csaPlatform: "",
+    pathHighlight: null,    // { nodes: Set, edges: Set }
   };
 
-  function applyPreset(name) {
-    if (name === "attack_flow") {
-      state.visibleEvidence = new Set(["attack_flow"]);
-    } else if (name === "curated") {
-      state.visibleEvidence = new Set(["attack_flow", "ontology"]);
-    } else if (name === "all") {
-      state.visibleEvidence = new Set(PAYLOAD.evidence_types.map(e => e.id));
-    }
-  }
-
-  if (INITIAL.evidence_types) {
+  // Seed evidence visibility from explicit list, else from per-evidence
+  // ``default_visible`` (built in payload.py).
+  if (INITIAL.evidence_types && INITIAL.evidence_types.length) {
     state.visibleEvidence = new Set(INITIAL.evidence_types);
   } else {
-    applyPreset(INITIAL.preset || "attack_flow");
+    state.visibleEvidence = new Set(
+      PAYLOAD.evidence_types.filter(e => e.default_visible).map(e => e.id),
+    );
+    if (state.visibleEvidence.size === 0) state.visibleEvidence.add("attack_flow");
   }
 
   // --------------------------------------------------------------
-  // Cytoscape elements
+  // Cytoscape elements (compound parents per tactic give faint band
+  // backgrounds; technique nodes are children of their tactic parent).
+
+  const tacticParentNodes = PAYLOAD.tactics.map(t => ({
+    data: {
+      id: `__tactic__${t.id}`,
+      label: t.label,
+      color: t.color,
+    },
+    classes: "tactic-band",
+    selectable: false,
+    grabbable: false,
+  }));
 
   const cyNodes = PAYLOAD.nodes.map(n => ({
     data: {
       id: n.id,
+      parent: `__tactic__${n.tactic}`,
       label: `${n.id}\n${(n.label || "").slice(0, 28)}`,
       fullLabel: n.label,
       tactic: n.tactic,
@@ -96,13 +132,13 @@
       group_ids: n.group_ids,
       campaign_ids: n.campaign_ids,
       orphan: n.orphan,
+      is_entry: n.is_entry,
       is_objective: n.is_objective,
       reachable_from_entry: n.reachable_from_entry,
       payload: n,
     },
     classes: [
       n.orphan ? "orphan" : "",
-      (n.is_objective && !n.reachable_from_entry) ? "unreachable-objective" : "",
     ].filter(Boolean).join(" "),
   }));
 
@@ -115,16 +151,12 @@
       evidence_types: e.evidence_types,
       confidence: e.confidence,
       source_count: e.source_count,
-      consensus: e.consensus,
       backward: e.backward,
       source_groups: e.source_groups,
       campaigns: e.campaigns,
       payload: e,
     },
-    classes: [
-      e.backward ? "backward" : "forward",
-      e.consensus ? "consensus" : "",
-    ].filter(Boolean).join(" "),
+    classes: e.backward ? "backward" : "forward",
   }));
 
   // --------------------------------------------------------------
@@ -136,7 +168,7 @@
 
   const cy = cytoscape({
     container: document.getElementById("cy"),
-    elements: [...cyNodes, ...cyEdges],
+    elements: [...tacticParentNodes, ...cyNodes, ...cyEdges],
     wheelSensitivity: 0.2,
     style: [
       {
@@ -156,26 +188,43 @@
         },
       },
       {
+        // Tactic band (compound parent) — faint coloured frame around all
+        // techniques in a tactic column. Restored from the legacy viewer
+        // as a perceptual cue: tactic identity is reinforced visually
+        // even when many edges criss-cross the canvas.
+        selector: "node.tactic-band",
+        style: {
+          "background-color": "data(color)",
+          "background-opacity": 0.06,
+          "border-width": 1,
+          "border-color": "data(color)",
+          "border-opacity": 0.25,
+          "border-style": "solid",
+          "label": "data(label)",
+          "text-valign": "top",
+          "text-halign": "center",
+          "text-margin-y": -4,
+          "font-size": 11,
+          "font-weight": 600,
+          "color": "data(color)",
+          "text-opacity": 0.55,
+          "shape": "roundrectangle",
+          "padding": 18,
+          "events": "no",
+          "z-compound-depth": "bottom",
+        },
+      },
+      {
         selector: "node.orphan",
         style: { "border-style": "dashed", "border-color": "#7f88b0", "opacity": 0.6 },
       },
       {
-        selector: "node.unreachable-objective.dim-unreachable",
-        style: {
-          "background-color": "#3b4261",
-          "border-color": "#3b4261",
-          "border-style": "dotted",
-          "opacity": 0.35,
-          "color": "#7f88b0",
-        },
-      },
-      {
         selector: "node.dim",
-        style: { "opacity": 0.1, "text-opacity": 0.1 },
+        style: { "opacity": 0.18, "text-opacity": 0.18 },
       },
       {
-        selector: "node.hit",
-        style: { "border-color": "#f7768e", "border-width": 3 },
+        selector: "node.hidden",
+        style: { "display": "none" },
       },
       {
         selector: "edge",
@@ -190,30 +239,20 @@
         },
       },
       { selector: "edge.backward", style: { "line-style": "dashed" } },
-      { selector: "edge.consensus", style: { "width": 3.5 } },
-      { selector: "edge.dim", style: { "opacity": 0.05 } },
+      { selector: "edge.dim", style: { "opacity": 0.06 } },
       { selector: "edge.hidden", style: { "display": "none" } },
-      { selector: "node.hidden", style: { "display": "none" } },
       { selector: ".path-highlight",
         style: { "line-color": "#f7768e", "target-arrow-color": "#f7768e",
-                 "border-color": "#f7768e", "border-width": 3, "opacity": 1 } },
+                 "border-color": "#f7768e", "border-width": 3, "opacity": 1,
+                 "z-index": 999 } },
     ],
-    layout: {
-      name: "preset",
-      positions: (ele) => {
-        const layer = ele.data("layer");
-        return {
-          x: (layer >= 0 ? layer : PAYLOAD.tactics.length) * 170,
-          y: 0,
-        };
-      },
-    },
+    layout: { name: "preset" },
   });
 
-  // Per-tactic columnar layout: nodes stacked by name within layer
+  // Per-tactic columnar layout: nodes stacked by group_count within layer.
   (function positionByLayer() {
     const byLayer = {};
-    cy.nodes().forEach(n => {
+    cy.nodes().not(".tactic-band").forEach(n => {
       const l = n.data("layer");
       (byLayer[l] = byLayer[l] || []).push(n);
     });
@@ -241,47 +280,54 @@
     return true;
   }
 
+  // Hard visibility: per-node filters that don't depend on edge visibility.
+  // Stored on node data so the edge filter can check both endpoints in O(1).
+  function nodeHardVisible(n) {
+    const d = n.data();
+    if (n.hasClass("tactic-band")) return true;
+    if (!state.selectedTactics.has(d.tactic)) return false;
+    if (!nodeInCsa(d.id)) return false;
+    if (state.selectedGroups) {
+      if (!d.group_ids.some(g => state.selectedGroups.has(g))) return false;
+    }
+    if (state.selectedCampaigns) {
+      if (!d.campaign_ids.some(c => state.selectedCampaigns.has(c))) return false;
+    }
+    return true;
+  }
+
   function edgeVisible(e) {
     const d = e.data();
     if (!d.evidence_types.some(t => state.visibleEvidence.has(t))) return false;
     if (d.confidence < state.minConf) return false;
-    if (state.onlyConsensus && !d.consensus) return false;
     if (state.hideBackward && d.backward) return false;
-
-    // CSA subgraph constraints — both endpoints must be in the subgraph.
-    if (!nodeInCsa(d.source) || !nodeInCsa(d.target)) return false;
-
-    // Group / campaign filtering (group-level attribution — MITRE-canonical).
-    if (state.selectedGroups) {
-      if (!d.source_groups.some(g => state.selectedGroups.has(g))) return false;
-    }
-    if (state.selectedCampaigns) {
-      if (!d.campaigns.some(c => {
-        const cid = PAYLOAD.campaigns[c] ? c : `AF:${c}`;
-        return state.selectedCampaigns.has(cid);
-      })) return false;
-    }
+    const s = cy.getElementById(d.source);
+    const t = cy.getElementById(d.target);
+    if (!s.scratch("_hard") || !t.scratch("_hard")) return false;
     return true;
   }
 
-  function nodeVisible(n, hasVisibleEdge) {
-    const d = n.data();
-    if (!state.selectedTactics.has(d.tactic)) return false;
-    if (!nodeInCsa(d.id)) return false;
-    if (state.hideIsolated && !hasVisibleEdge && d.orphan) return false;
-    if (state.hideIsolated && !hasVisibleEdge) return false;
-    if (state.nodeSearch) {
-      const q = state.nodeSearch.toLowerCase();
-      const hay = (d.id + " " + (d.payload.label || "")).toLowerCase();
-      if (!hay.includes(q)) return false;
+  function shouldDimNode(d, isVisible, hasVisibleEdge) {
+    if (!state.dimUnreachable || !isVisible) return false;
+    if (state.pathHighlight) {
+      return !state.pathHighlight.nodes.has(d.id);
     }
-    if (state.selectedGroups) {
-      if (!d.group_ids.some(g => state.selectedGroups.has(g))) return false;
-    }
-    return true;
+    // No active path: dim unreachable objectives and orphans.
+    return (d.is_objective && !d.reachable_from_entry);
+  }
+
+  function shouldDimEdge(d, isVisible) {
+    if (!state.dimUnreachable || !isVisible) return false;
+    if (!state.pathHighlight) return false;
+    return !state.pathHighlight.edges.has(d.id);
   }
 
   function applyFilters() {
+    // Pass 1: compute hard node visibility, store on scratch.
+    cy.nodes().forEach(n => n.scratch("_hard", nodeHardVisible(n)));
+
+    // Pass 2: edges that survive evidence/confidence/backward + endpoint
+    // hard-visibility.
     const touched = new Set();
     cy.edges().forEach(e => {
       const show = edgeVisible(e);
@@ -291,17 +337,35 @@
         touched.add(e.data("target"));
       }
     });
-    cy.nodes().forEach(n => {
-      const show = nodeVisible(n, touched.has(n.data("id")));
+
+    // Pass 3: final node visibility (hide-isolated kicks in).
+    cy.nodes().not(".tactic-band").forEach(n => {
+      const hard = n.scratch("_hard");
+      const d = n.data();
+      let show = hard;
+      if (show && state.hideIsolated && !touched.has(d.id)) show = false;
       n.toggleClass("hidden", !show);
-      n.toggleClass("dim-unreachable", state.dimUnreachable);
+      n.toggleClass("dim", shouldDimNode(d, show, touched.has(d.id)));
     });
+
+    // Pass 4: edges — apply dim class.
+    cy.edges().forEach(e => {
+      const visible = !e.hasClass("hidden");
+      e.toggleClass("dim", shouldDimEdge(e.data(), visible));
+    });
+
+    // Pass 5: hide tactic-band parents whose children are all hidden.
+    cy.nodes(".tactic-band").forEach(parent => {
+      const anyVisible = parent.children().filter(c => !c.hasClass("hidden")).length > 0;
+      parent.toggleClass("hidden", !anyVisible);
+    });
+
     updateLiveCounts();
     refreshPathTargets();
   }
 
   function updateLiveCounts() {
-    const nv = cy.nodes().filter(n => !n.hasClass("hidden")).length;
+    const nv = cy.nodes().not(".tactic-band").filter(n => !n.hasClass("hidden")).length;
     const ev = cy.edges().filter(e => !e.hasClass("hidden")).length;
     const totals = (PAYLOAD.meta && PAYLOAD.meta.totals) || {
       techniques: PAYLOAD.nodes.length, edges: PAYLOAD.edges.length,
@@ -326,25 +390,12 @@
       if (e.target.checked) state.visibleEvidence.add(ev.id);
       else state.visibleEvidence.delete(ev.id);
       lbl.classList.toggle("off", !e.target.checked);
-      document.querySelector('input[name="preset"][value="custom"]').checked = true;
       applyFilters();
     });
     evList.appendChild(lbl);
   });
 
-  document.querySelectorAll('input[name="preset"]').forEach(r => {
-    r.addEventListener("change", (e) => {
-      if (e.target.value === "custom") return;
-      applyPreset(e.target.value);
-      evList.querySelectorAll("input").forEach(inp => {
-        inp.checked = state.visibleEvidence.has(inp.value);
-        inp.parentElement.classList.toggle("off", !inp.checked);
-      });
-      applyFilters();
-    });
-  });
-
-  // CSA subgraph dropdowns -------------------------------------------------
+  // Subgraph dropdowns ----------------------------------------------------
   const csaTacticSel = $("#csa-objective-tactic");
   Object.keys(subgraphTerminal)
     .sort((a, b) => {
@@ -389,14 +440,24 @@
     });
     tacList.appendChild(lbl);
   });
+  $("#tactic-all").addEventListener("click", () => {
+    state.selectedTactics = new Set(PAYLOAD.tactics.map(t => t.id));
+    tacList.querySelectorAll("input").forEach(i => { i.checked = true; i.parentElement.classList.remove("off"); });
+    applyFilters();
+  });
+  $("#tactic-none").addEventListener("click", () => {
+    state.selectedTactics = new Set();
+    tacList.querySelectorAll("input").forEach(i => { i.checked = false; i.parentElement.classList.add("off"); });
+    applyFilters();
+  });
 
-  // Group / campaign pick lists
-  function renderPickList(containerSel, items, labelFn, stateKey) {
+  // Group / campaign pick lists -------------------------------------------
+  function renderPickList(containerSel, items, formatFn, stateKey) {
     const container = $(containerSel);
     container.innerHTML = "";
     items.forEach(it => {
       const lbl = document.createElement("label");
-      lbl.innerHTML = `<input type="checkbox" value="${it.id}"> ${labelFn(it)}`;
+      lbl.innerHTML = formatFn(it);
       lbl.querySelector("input").addEventListener("change", (e) => {
         if (state[stateKey] === null) state[stateKey] = new Set();
         if (e.target.checked) state[stateKey].add(it.id);
@@ -407,28 +468,57 @@
       container.appendChild(lbl);
     });
   }
+
+  function clearPickListChecks(containerSel) {
+    $(containerSel).querySelectorAll("input").forEach(i => { i.checked = false; });
+  }
+
   const groupItems = Object.values(PAYLOAD.groups)
-    .sort((a, b) => a.name.localeCompare(b.name));
-  renderPickList("#group-list", groupItems,
-    g => `${g.id} — ${g.name}${g.regions.length ? ` <span class="muted small">[${g.regions.join(",")}]</span>` : ""}`,
-    "selectedGroups");
+    .filter(g => (g.technique_count || 0) > 0)
+    .sort((a, b) => (b.technique_count - a.technique_count) || a.name.localeCompare(b.name));
+  $("#group-count").textContent = `(${groupItems.length})`;
+  renderPickList("#group-list", groupItems, g => {
+    const region = g.regions.length ? ` <span class="muted small">[${g.regions.join(",")}]</span>` : "";
+    return `<input type="checkbox" value="${g.id}"> <span>${g.id} — ${g.name}${region}</span>` +
+      `<span class="item-count">${g.technique_count}T</span>`;
+  }, "selectedGroups");
+
   $("#group-search").addEventListener("input", e => {
     const q = e.target.value.toLowerCase();
     $("#group-list").querySelectorAll("label").forEach(l => {
       l.style.display = l.textContent.toLowerCase().includes(q) ? "" : "none";
     });
   });
+  $("#group-reset").addEventListener("click", () => {
+    state.selectedGroups = null;
+    clearPickListChecks("#group-list");
+    $("#group-search").value = "";
+    $("#group-list").querySelectorAll("label").forEach(l => { l.style.display = ""; });
+    applyFilters();
+  });
 
   const campaignItems = Object.values(PAYLOAD.campaigns)
-    .sort((a, b) => a.name.localeCompare(b.name));
-  renderPickList("#campaign-list", campaignItems,
-    c => `${c.source === "attack_flow" ? "⌁" : "●"} ${c.name} <span class="muted small">(${c.technique_ids.length}T)</span>`,
-    "selectedCampaigns");
+    .filter(c => (c.technique_count || 0) > 0)
+    .sort((a, b) => (b.technique_count - a.technique_count) || a.name.localeCompare(b.name));
+  $("#campaign-count").textContent = `(${campaignItems.length})`;
+  renderPickList("#campaign-list", campaignItems, c => {
+    const sigil = c.source === "attack_flow" ? "⌁" : "●";
+    return `<input type="checkbox" value="${c.id}"> <span>${sigil} ${c.name}</span>` +
+      `<span class="item-count">${c.technique_count}T</span>`;
+  }, "selectedCampaigns");
+
   $("#campaign-search").addEventListener("input", e => {
     const q = e.target.value.toLowerCase();
     $("#campaign-list").querySelectorAll("label").forEach(l => {
       l.style.display = l.textContent.toLowerCase().includes(q) ? "" : "none";
     });
+  });
+  $("#campaign-reset").addEventListener("click", () => {
+    state.selectedCampaigns = null;
+    clearPickListChecks("#campaign-list");
+    $("#campaign-search").value = "";
+    $("#campaign-list").querySelectorAll("label").forEach(l => { l.style.display = ""; });
+    applyFilters();
   });
 
   // Advanced controls
@@ -437,17 +527,14 @@
     $("#min-conf-val").textContent = state.minConf.toFixed(2);
     applyFilters();
   });
-  $("#only-consensus").addEventListener("change", e => { state.onlyConsensus = e.target.checked; applyFilters(); });
   $("#hide-isolated").addEventListener("change", e => { state.hideIsolated = e.target.checked; applyFilters(); });
   $("#hide-backward").addEventListener("change", e => { state.hideBackward = e.target.checked; applyFilters(); });
   $("#dim-unreachable").addEventListener("change", e => { state.dimUnreachable = e.target.checked; applyFilters(); });
-  $("#node-search").addEventListener("input", e => { state.nodeSearch = e.target.value; applyFilters(); });
 
   // --------------------------------------------------------------
   // Path explorer dropdowns (entry & objective; tactic-grouped)
 
   function buildOptgroups(items, valueFn, labelFn, extraDataFn) {
-    // Items already sorted by tactic-layer; group consecutively.
     const frag = document.createDocumentFragment();
     let curGroup = null;
     let curLabel = null;
@@ -512,8 +599,6 @@
   function refreshPathTargets() {
     const src = pathFromSel.value;
     if (!src) {
-      // No source: only the static "globally unreachable from any entry"
-      // markers apply.
       Array.from(pathToSel.querySelectorAll("option")).forEach(opt => {
         if (!opt.value) return;
         const reachable = opt.dataset.reachable === "1";
@@ -540,13 +625,35 @@
   pathFromSel.addEventListener("change", refreshPathTargets);
 
   // --------------------------------------------------------------
-  // Panel collapse + resize
+  // Panel collapse + resize.
+  //
+  // The collapse button toggles `.collapsed`; the grid column itself is
+  // shrunk by overwriting --left-w / --right-w. Without this, the column
+  // would keep its 300/360px width and the collapsed panel would appear
+  // as an empty band beside the graph (the previous bug).
+
+  const PANEL_DEFAULT_W = { "left-panel": "300px", "right-panel": "360px" };
 
   document.querySelectorAll(".collapse").forEach(btn => {
     btn.addEventListener("click", () => {
-      document.getElementById(btn.dataset.target).classList.toggle("collapsed");
-      btn.textContent = btn.textContent === "‹" ? "›" : (btn.textContent === "›" ? "‹" : btn.textContent);
-      setTimeout(() => cy.resize(), 200);
+      const target = document.getElementById(btn.dataset.target);
+      const varName = btn.dataset.target === "left-panel" ? "--left-w" : "--right-w";
+      const willCollapse = !target.classList.contains("collapsed");
+      target.classList.toggle("collapsed", willCollapse);
+      if (willCollapse) {
+        target.dataset.prevWidth =
+          document.documentElement.style.getPropertyValue(varName) ||
+          PANEL_DEFAULT_W[btn.dataset.target];
+        document.documentElement.style.setProperty(varName, "36px");
+        btn.textContent = btn.dataset.target === "left-panel" ? "›" : "‹";
+      } else {
+        document.documentElement.style.setProperty(
+          varName,
+          target.dataset.prevWidth || PANEL_DEFAULT_W[btn.dataset.target],
+        );
+        btn.textContent = btn.dataset.target === "left-panel" ? "‹" : "›";
+      }
+      setTimeout(() => cy.resize(), 220);
     });
   });
 
@@ -554,6 +661,7 @@
     h.addEventListener("mousedown", (e) => {
       e.preventDefault();
       const panel = document.getElementById(h.dataset.target);
+      if (panel.classList.contains("collapsed")) return;
       const isLeft = h.classList.contains("left");
       const startX = e.clientX;
       const startW = panel.getBoundingClientRect().width;
@@ -593,18 +701,25 @@
       body.innerHTML = `
         <div class="row"><span class="ln" style="background:#aaa"></span>Forward (tactic-respecting)</div>
         <div class="row"><span class="ln" style="background:#aaa;border-top:1px dashed #aaa"></span>Backward (loop)</div>
-        <div class="row"><span class="ln" style="background:#aaa;height:4px"></span>Consensus (≥2 sources)</div>
         <div class="row"><span class="sw" style="background:transparent;border:1px dashed #7f88b0"></span>Orphan technique</div>
-        <div class="row"><span class="sw" style="background:#3b4261;border:1px dotted #3b4261;opacity:0.5"></span>Unreachable objective</div>
+        <div class="row"><span class="sw" style="background:#3b4261;opacity:0.5"></span>Dimmed (unreachable / off-path)</div>
+        <div class="row"><span class="ln" style="background:#f7768e;height:3px"></span>Highlighted attack path</div>
       `;
     }
   }
   document.querySelectorAll(".legend-tabs .tab").forEach(t => {
     t.addEventListener("click", () => {
+      $("#legend").classList.remove("collapsed");
+      $("#legend-toggle").textContent = "−";
       document.querySelectorAll(".legend-tabs .tab").forEach(x => x.classList.remove("active"));
       t.classList.add("active");
       renderLegend(t.dataset.tab);
     });
+  });
+  $("#legend-toggle").addEventListener("click", () => {
+    const legend = $("#legend");
+    legend.classList.toggle("collapsed");
+    $("#legend-toggle").textContent = legend.classList.contains("collapsed") ? "+" : "−";
   });
   renderLegend("tactics");
 
@@ -619,22 +734,28 @@
     const d = n.data("payload");
     const groupRows = d.group_ids.map(gid => {
       const g = PAYLOAD.groups[gid];
-      if (!g) return `<li>${gid}</li>`;
+      const url = groupUrl(gid);
+      if (!g) return `<li>${extLink(url, gid)}</li>`;
       const region = g.regions.length ? ` <span class="muted small">[${g.regions.join(",")}]</span>` : "";
-      return `<li><strong>${g.id}</strong> ${g.name}${region}</li>`;
+      return `<li><strong>${extLink(url, g.id)}</strong> ${g.name}${region}</li>`;
     }).join("");
     const campaignRows = d.campaign_ids.map(cid => {
       const c = PAYLOAD.campaigns[cid];
-      return c ? `<li><strong>${c.id}</strong> ${c.name}</li>` : `<li>${cid}</li>`;
+      const url = campaignUrl(cid);
+      return c
+        ? `<li><strong>${extLink(url, c.id)}</strong> ${c.name}</li>`
+        : `<li>${extLink(url, cid)}</li>`;
     }).join("");
+    const subRows = (d.sub_technique_ids || []).map(sid =>
+      `<li>${extLink(techniqueUrl(sid), sid)}</li>`).join("");
     const flags = [];
     if (d.is_entry) flags.push("entry");
     if (d.is_objective) flags.push("objective");
     if (d.is_objective && !d.reachable_from_entry) flags.push("unreachable");
     if (d.orphan) flags.push("orphan");
     $("#details").innerHTML = `
-      <h3><span class="tid">${d.id}</span> ${d.label || ""}</h3>
-      <div class="muted small">${d.tactic || ""}${flags.length ? " · " + flags.join(" · ") : ""}</div>
+      <h3><span class="tid">${extLink(techniqueUrl(d.id), d.id)}</span> ${d.label || ""}</h3>
+      <div class="muted small">${tacticLabel[d.tactic] || d.tactic || ""}${flags.length ? " · " + flags.join(" · ") : ""}</div>
       <section>
         <div class="muted small">Platform profile</div>
         <div>${d.platform_profile}</div>
@@ -645,6 +766,10 @@
         <div class="muted small">Description</div>
         <div>${d.description || '<span class="muted">—</span>'}</div>
       </section>
+      ${subRows ? `<section>
+        <div class="muted small">Sub-techniques (${d.sub_technique_ids.length})</div>
+        <ul>${subRows}</ul>
+      </section>` : ""}
       <section>
         <div class="muted small">APT groups (${d.group_ids.length})</div>
         <ul>${groupRows || '<li class="muted">none</li>'}</ul>
@@ -665,13 +790,16 @@
         ${ev.campaigns && ev.campaigns.length
           ? `<div class="muted small">Campaigns: ${ev.campaigns.join(", ")}</div>` : ""}
         ${ev.source_url
-          ? `<div class="muted small"><a style="color:#7aa2f7" href="${ev.source_url}" target="_blank">source</a></div>` : ""}
+          ? `<div class="muted small"><a class="ext" href="${ev.source_url}" target="_blank" rel="noopener">source</a></div>` : ""}
       </div>`).join("");
     $("#details").innerHTML = `
-      <h3><span class="tid">${d.source}</span> → <span class="tid">${d.target}</span></h3>
+      <h3>
+        <span class="tid">${extLink(techniqueUrl(d.source), d.source)}</span> →
+        <span class="tid">${extLink(techniqueUrl(d.target), d.target)}</span>
+      </h3>
       <div class="muted small">
         confidence ${Number(d.confidence).toFixed(2)} ·
-        ${d.source_count} source${d.source_count === 1 ? "" : "s"}${d.consensus ? " · consensus" : ""}${d.backward ? " · backward" : ""}
+        ${d.source_count} source${d.source_count === 1 ? "" : "s"}${d.backward ? " · backward" : ""}
       </div>
       <section>
         <div class="muted small">Evidence</div>
@@ -681,13 +809,19 @@
         <div class="muted small">Implicated APT groups (${d.source_groups.length})</div>
         ${d.source_groups.map(gid => {
           const g = PAYLOAD.groups[gid];
-          return g ? `<div>${g.id} — ${g.name}</div>` : `<div>${gid}</div>`;
+          const url = groupUrl(gid);
+          return g
+            ? `<div>${extLink(url, g.id)} — ${g.name}</div>`
+            : `<div>${extLink(url, gid)}</div>`;
         }).join("") || '<div class="muted">none</div>'}
       </section>
     `;
   }
 
-  cy.on("tap", "node", evt => renderNodeDetails(evt.target));
+  cy.on("tap", "node", evt => {
+    if (evt.target.hasClass("tactic-band")) return;
+    renderNodeDetails(evt.target);
+  });
   cy.on("tap", "edge", evt => renderEdgeDetails(evt.target));
   cy.on("tap", evt => {
     if (evt.target === cy) {
@@ -696,7 +830,7 @@
   });
 
   // --------------------------------------------------------------
-  // Attack path queries (k shortest simple paths, BFS-based)
+  // Attack path (k shortest simple paths via BFS over visible edges).
 
   function kShortestPaths(src, tgt, k) {
     const results = [];
@@ -720,11 +854,18 @@
     const from = pathFromSel.value;
     const to = pathToSel.value;
     const k = Math.max(1, Math.min(10, Number($("#path-k").value) || 3));
-    if (!from || !to) { $("#path-results").textContent = "Select both endpoints"; return; }
+    if (!from || !to) {
+      $("#btn-path").textContent = "Select endpoints…";
+      setTimeout(() => { $("#btn-path").textContent = "Show paths"; }, 1500);
+      return;
+    }
     const paths = kShortestPaths(from, to, k);
     cy.elements().removeClass("path-highlight");
     if (paths.length === 0) {
-      $("#path-results").textContent = "No path found (check filters/direction)";
+      state.pathHighlight = null;
+      $("#btn-path").textContent = "No path";
+      setTimeout(() => { $("#btn-path").textContent = "Show paths"; }, 1500);
+      applyFilters();
       return;
     }
     const nodeSet = new Set(), edgeSet = new Set();
@@ -734,12 +875,16 @@
     });
     nodeSet.forEach(n => cy.getElementById(n).addClass("path-highlight"));
     edgeSet.forEach(e => cy.getElementById(e).addClass("path-highlight"));
-    $("#path-results").innerHTML = paths.map((p, i) =>
-      `<div>${i + 1}: ${p.nodes.join(" → ")}</div>`).join("");
+    state.pathHighlight = { nodes: nodeSet, edges: edgeSet };
+    // Re-applyFilters will dim everything off-path (assuming dim toggle is on).
+    applyFilters();
+    $("#btn-path").textContent = `Showing ${paths.length} path${paths.length === 1 ? "" : "s"}`;
+    setTimeout(() => { $("#btn-path").textContent = "Show paths"; }, 1800);
   });
   $("#btn-path-clear").addEventListener("click", () => {
     cy.elements().removeClass("path-highlight");
-    $("#path-results").textContent = "";
+    state.pathHighlight = null;
+    applyFilters();
   });
 
   // --------------------------------------------------------------

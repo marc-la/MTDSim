@@ -6,10 +6,14 @@ The payload is pure serialisation: given a GAP (and optionally a
 JSON consumed by ``assets/app.js``. Colour palettes and label maps
 live in ``theme.py``; subgraph selection lives in ``gap/selectors/``.
 
-The viewer also receives pre-computed CSA subgraph membership lists
-(by terminal-objective tactic and by platform profile) so the same
-selectors that drive the CLI workflow can be applied client-side
-without re-running graph traversal in the browser.
+Pre-computed subgraph membership lists (Strategy A — by terminal-objective
+tactic; Strategy B — by platform profile) are embedded so the viewer can
+restrict the view by either selector without re-running graph traversal
+in the browser. These are the two primary strategies recommended by the
+2026-04-17 subgraphing exploration notebook.
+
+Per-group and per-campaign technique counts are also precomputed so the
+UI can preview the selection size before the user clicks.
 """
 
 from __future__ import annotations
@@ -160,10 +164,13 @@ def build_payload(
     ]
 
     # --- Groups & campaigns -------------------------------------------------
-    # Motivation is metadata on ``GroupProfile`` but is intentionally NOT
-    # surfaced to the viewer payload: it is a group-level attribute, not a
-    # technique attribute, and threading it through the per-node detail
-    # panel was misleading (per the 2026-04-17 subgraphing exploration).
+    # Per-group technique counts over the *shown* node set so the UI label
+    # reflects what the user will actually see when they click the filter.
+    group_tech_count: dict[str, int] = {}
+    for tid in shown_nodes:
+        for gid in gap.nodes[tid].group_ids:
+            group_tech_count[gid] = group_tech_count.get(gid, 0) + 1
+
     groups = {
         gid: {
             "id": gid,
@@ -173,6 +180,7 @@ def build_payload(
             "suspected_origin": g.suspected_origin,
             "sources": g.sources,
             "description": (g.description or "")[:600],
+            "technique_count": group_tech_count.get(gid, 0),
         }
         for gid, g in gap.groups.items()
     }
@@ -186,6 +194,7 @@ def build_payload(
             "source": c.source,
             "first_seen": c.first_seen,
             "description": (c.description or "")[:400],
+            "technique_count": sum(1 for t in c.technique_ids if t in gap.nodes),
         }
         for cid, c in gap.campaigns.items()
     }
