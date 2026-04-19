@@ -17,6 +17,7 @@ from typing import Optional
 import networkx as nx
 
 from mtdsim.attacker.gap.schema import GeneralisedAttackProfile
+from mtdsim.attacker.gap.selectors import SubgraphView
 from mtdsim.attacker.gap.viz.payload import build_payload
 
 
@@ -28,11 +29,17 @@ class MITRETechniqueDependencyVisualiser:
     GAP visualiser that produces a Cytoscape.js-powered HTML file.
 
     The class name/API mirror the pre-0.4 pyvis-based visualiser so existing
-    notebooks continue to work unchanged.
+    notebooks continue to work unchanged. Pass ``view`` to restrict the
+    rendered payload to a subgraph produced by a selector.
     """
 
-    def __init__(self, gap: GeneralisedAttackProfile) -> None:
+    def __init__(
+        self,
+        gap: GeneralisedAttackProfile,
+        view: Optional[SubgraphView] = None,
+    ) -> None:
         self.gap = gap
+        self.view = view
         self._payload: Optional[dict] = None
         self._graph: Optional[nx.DiGraph] = None
 
@@ -41,7 +48,7 @@ class MITRETechniqueDependencyVisualiser:
 
     def payload(self) -> dict:
         if self._payload is None:
-            self._payload = build_payload(self.gap)
+            self._payload = build_payload(self.gap, view=self.view)
         return self._payload
 
     def to_networkx(self) -> nx.DiGraph:
@@ -107,6 +114,7 @@ class MITRETechniqueDependencyVisualiser:
         only_consensus: bool = False,
         hide_isolated: bool = True,
         initial_preset: str = "attack_flow",
+        view: Optional[SubgraphView] = None,
     ) -> str:
         """
         Write a self-contained HTML file with the Cytoscape viewer.
@@ -114,6 +122,10 @@ class MITRETechniqueDependencyVisualiser:
         The legacy pyvis-era filter arguments are retained so existing calls
         keep working; they seed the initial filter state in the HTML.
         """
+        if view is not None:
+            self.view = view
+            self._payload = None
+
         html_template = (_ASSET_DIR / "index.html").read_text()
         css = (_ASSET_DIR / "style.css").read_text()
         app_js = (_ASSET_DIR / "app.js").read_text()

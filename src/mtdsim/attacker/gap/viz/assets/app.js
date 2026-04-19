@@ -16,9 +16,36 @@
   const evidenceLabel = {};
   PAYLOAD.evidence_types.forEach(e => { evidenceColour[e.id] = e.color; evidenceLabel[e.id] = e.label; });
 
-  const motivLabel = {};
-  const motivColour = {};
-  PAYLOAD.motivations.forEach(m => { motivLabel[m.id] = m.label; motivColour[m.id] = m.color; });
+  // Motivation is rendered only as group metadata in the detail panel —
+  // it is not a partition or filter key. Keep the palette local so the
+  // GroupProfile chips still render without round-tripping through the
+  // main payload.
+  const MOTIV_LABEL = {
+    "information_theft_espionage": "Espionage / Information theft",
+    "financial_gain":              "Financial gain",
+    "financial_crime":             "Financial crime",
+    "sabotage_destruction":        "Sabotage / Destruction",
+  };
+  const MOTIV_COLOUR = {
+    "information_theft_espionage": "#5e81ac",
+    "financial_gain":              "#a3be8c",
+    "financial_crime":             "#d08770",
+    "sabotage_destruction":        "#bf616a",
+  };
+
+  // --------------------------------------------------------------
+  // Subgraph provenance (if a selector was applied server-side)
+
+  if (PAYLOAD.meta && PAYLOAD.meta.view) {
+    const v = PAYLOAD.meta.view;
+    const bits = Object.entries(v)
+      .filter(([k, val]) => k !== "selector" && val !== null && val !== undefined)
+      .map(([k, val]) => `${k}=${val}`);
+    const label = document.getElementById("view-label");
+    if (label) {
+      label.textContent = ` · Subgraph: ${v.selector || "custom"}${bits.length ? " (" + bits.join(", ") + ")" : ""}`;
+    }
+  }
 
   // --------------------------------------------------------------
   // State
@@ -29,8 +56,6 @@
     onlyConsensus: !!INITIAL.only_consensus,
     hideIsolated: INITIAL.hide_isolated !== false,
     hideBackward: false,
-    selectedMotivations: new Set(PAYLOAD.motivations.map(m => m.id)),
-    includeUnattributed: true,
     selectedGroups: null,   // null = all
     selectedCampaigns: null,
     selectedTactics: new Set(PAYLOAD.tactics.map(t => t.id)),
@@ -67,7 +92,6 @@
       layer: n.layer,
       group_ids: n.group_ids,
       campaign_ids: n.campaign_ids,
-      motivations: n.motivations,
       orphan: n.orphan,
       payload: n,
     },
@@ -85,7 +109,6 @@
       source_count: e.source_count,
       consensus: e.consensus,
       backward: e.backward,
-      motivations: e.motivations,
       source_groups: e.source_groups,
       campaigns: e.campaigns,
       payload: e,
@@ -195,22 +218,16 @@
     if (state.onlyConsensus && !d.consensus) return false;
     if (state.hideBackward && d.backward) return false;
 
-    // Motivation/group/campaign filtering: an edge is shown if at least one
-    // of its attributed groups matches the selected motivation AND the group
-    // filter, OR it has no attribution (shown when "Include unattributed").
-    const hasAttribution = d.source_groups.length > 0;
-    if (hasAttribution) {
-      const motivOK = d.motivations.length === 0
-        ? state.includeUnattributed
-        : d.motivations.some(m => state.selectedMotivations.has(m));
-      if (!motivOK) return false;
-      if (state.selectedGroups && !d.source_groups.some(g => state.selectedGroups.has(g))) return false;
-      if (state.selectedCampaigns && !d.campaigns.some(c => {
+    // Group / campaign filtering (group-level attribution — MITRE-canonical
+    // and defensible; motivation is no longer a filter key).
+    if (state.selectedGroups) {
+      if (!d.source_groups.some(g => state.selectedGroups.has(g))) return false;
+    }
+    if (state.selectedCampaigns) {
+      if (!d.campaigns.some(c => {
         const cid = PAYLOAD.campaigns[c] ? c : `AF:${c}`;
         return state.selectedCampaigns.has(cid);
       })) return false;
-    } else {
-      if (!state.includeUnattributed) return false;
     }
     return true;
   }
@@ -255,8 +272,11 @@
   function updateLiveCounts() {
     const nv = cy.nodes().filter(n => !n.hasClass("hidden")).length;
     const ev = cy.edges().filter(e => !e.hasClass("hidden")).length;
+    const totals = (PAYLOAD.meta && PAYLOAD.meta.totals) || {
+      techniques: PAYLOAD.nodes.length, edges: PAYLOAD.edges.length,
+    };
     document.getElementById("live-counts").textContent =
-      `${nv} techniques · ${ev} edges visible  (of ${PAYLOAD.nodes.length} / ${PAYLOAD.edges.length})`;
+      `${nv} techniques · ${ev} edges visible  (of ${totals.techniques} / ${totals.edges})`;
   }
 
   // --------------------------------------------------------------
@@ -294,30 +314,6 @@
       });
       applyFilters();
     });
-  });
-
-  // Motivation chips
-  const motivList = $("#motivation-list");
-  const groupCoverage = (() => {
-    const groups = Object.values(PAYLOAD.groups);
-    const withM = groups.filter(g => g.motivations.length > 0).length;
-    return `${withM}/${groups.length} groups attributed`;
-  })();
-  $("#motiv-coverage").textContent = groupCoverage;
-  PAYLOAD.motivations.forEach(m => {
-    const lbl = document.createElement("label");
-    lbl.innerHTML = `<span class="chip-swatch" style="background:${m.color}"></span>
-      <input type="checkbox" value="${m.id}" checked> ${m.label}`;
-    lbl.querySelector("input").addEventListener("change", (e) => {
-      if (e.target.checked) state.selectedMotivations.add(m.id);
-      else state.selectedMotivations.delete(m.id);
-      lbl.classList.toggle("off", !e.target.checked);
-      applyFilters();
-    });
-    motivList.appendChild(lbl);
-  });
-  $("#include-unattributed").addEventListener("change", e => {
-    state.includeUnattributed = e.target.checked; applyFilters();
   });
 
   // Tactic chips
@@ -435,11 +431,6 @@
       PAYLOAD.evidence_types.forEach(e => {
         body.innerHTML += `<div class="row"><span class="sw" style="background:${e.color}"></span>${e.label}</div>`;
       });
-    } else if (tab === "motivation") {
-      body.style.gridTemplateColumns = "auto auto";
-      PAYLOAD.motivations.forEach(m => {
-        body.innerHTML += `<div class="row"><span class="sw" style="background:${m.color}"></span>${m.label}</div>`;
-      });
     } else if (tab === "lines") {
       body.style.gridTemplateColumns = "auto auto";
       body.innerHTML = `
@@ -472,7 +463,7 @@
     const groupRows = d.group_ids.map(gid => {
       const g = PAYLOAD.groups[gid];
       if (!g) return `<li>${gid}</li>`;
-      const motChips = g.motivations.map(m => chip(motivLabel[m] || m, motivColour[m])).join(" ");
+      const motChips = (g.motivations || []).map(m => chip(MOTIV_LABEL[m] || m, MOTIV_COLOUR[m])).join(" ");
       const region = g.regions.length ? ` <span class="muted small">[${g.regions.join(",")}]</span>` : "";
       return `<li><strong>${g.id}</strong> ${g.name}${region} ${motChips}</li>`;
     }).join("");
@@ -513,7 +504,6 @@
         ${ev.source_url
           ? `<div class="muted small"><a style="color:#7aa2f7" href="${ev.source_url}" target="_blank">source</a></div>` : ""}
       </div>`).join("");
-    const motChips = d.motivations.map(m => chip(motivLabel[m] || m, motivColour[m])).join(" ");
     $("#details").innerHTML = `
       <h3><span class="tid">${d.source}</span> → <span class="tid">${d.target}</span></h3>
       <div class="muted small">
@@ -530,10 +520,6 @@
           const g = PAYLOAD.groups[gid];
           return g ? `<div>${g.id} — ${g.name}</div>` : `<div>${gid}</div>`;
         }).join("") || '<div class="muted">none</div>'}
-      </section>
-      <section>
-        <div class="muted small">Motivations represented</div>
-        ${motChips || '<span class="muted">—</span>'}
       </section>
     `;
   }

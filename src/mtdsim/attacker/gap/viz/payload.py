@@ -1,63 +1,24 @@
 """
 Build the JSON payload consumed by the Cytoscape.js viewer.
 
-The payload is the single source of truth for the browser: nodes, edges,
-groups, campaigns, tactics, evidence types, and motivation taxonomy. All
-filtering in the UI is client-side, operating on this payload.
+The payload is pure serialisation: given a GAP (and optionally a
+``SubgraphView`` restricting which nodes/edges appear), produce the
+JSON consumed by ``assets/app.js``. Colour palettes and label maps
+live in ``theme.py``; subgraph selection lives in ``gap/selectors/``.
 """
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional
 
-from mtdsim.attacker.gap.schema import (
-    GeneralisedAttackProfile,
-    MOTIVATION_CATEGORIES,
-    TACTIC_ORDER,
+from mtdsim.attacker.gap.schema import GeneralisedAttackProfile, TACTIC_ORDER
+from mtdsim.attacker.gap.selectors import SubgraphView
+from mtdsim.attacker.gap.viz.theme import (
+    DEFAULT_VISIBLE_EVIDENCE,
+    EVIDENCE_COLOUR,
+    EVIDENCE_LABEL,
+    TACTIC_PALETTE,
 )
-
-
-# 14-colour categorical palette for tactic layers (0-13) — ColorBrewer Set3+.
-TACTIC_PALETTE = [
-    "#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462",
-    "#b3de69", "#fccde5", "#d9d9d9", "#bc80bd", "#ccebc5", "#ffed6f",
-    "#1f78b4", "#e31a1c",
-]
-
-EVIDENCE_COLOUR = {
-    "attack_flow":      "#2ca02c",
-    "co_occurrence":    "#1f77b4",
-    "caldera_sequence": "#ff7f0e",
-    "ontology":         "#9467bd",
-    "documentation":    "#7f7f7f",
-    "cti_report":       "#17becf",
-}
-
-EVIDENCE_LABEL = {
-    "attack_flow":      "Attack Flow (MITRE CTID)",
-    "co_occurrence":    "Co-occurrence (mined)",
-    "ontology":         "Ontology (STIX descriptions)",
-    "documentation":    "Documentation",
-    "cti_report":       "CTI report",
-    "caldera_sequence": "CALDERA sequence",
-}
-
-# Attack Flow is the default-visible evidence source per the research narrative.
-DEFAULT_VISIBLE_EVIDENCE = {"attack_flow"}
-
-MOTIVATION_COLOUR = {
-    "information_theft_espionage": "#5e81ac",
-    "financial_gain":              "#a3be8c",
-    "financial_crime":              "#d08770",
-    "sabotage_destruction":        "#bf616a",
-}
-
-MOTIVATION_LABEL = {
-    "information_theft_espionage": "Espionage / Information theft",
-    "financial_gain":              "Financial gain",
-    "financial_crime":              "Financial crime",
-    "sabotage_destruction":        "Sabotage / Destruction",
-}
 
 
 def _tactic_label(t: str) -> str:
@@ -75,24 +36,50 @@ def _primary_evidence_type(edge) -> str:
     return edge.evidence_type
 
 
-def build_payload(gap: GeneralisedAttackProfile) -> dict[str, Any]:
-    """Return the full JSON payload dict for the Cytoscape viewer."""
+def build_payload(
+    gap: GeneralisedAttackProfile,
+    view: Optional[SubgraphView] = None,
+) -> dict[str, Any]:
+    """Return the full JSON payload dict for the Cytoscape viewer.
+
+    When ``view`` is provided, nodes and edges are restricted to the
+    view's sets and ``meta.view`` records the selector provenance so the
+    UI can label the subgraph. Unrestricted GAP-wide totals are also
+    reported so the UI can show "n / total" style counts.
+    """
+
+    if view is None:
+        node_filter = lambda tid: True  # noqa: E731
+        edge_filter = lambda e: True    # noqa: E731
+    else:
+        node_set = view.node_set
+        edge_set = view.edge_set
+        node_filter = lambda tid: tid in node_set           # noqa: E731
+        edge_filter = lambda e: (e.source_id, e.target_id) in edge_set  # noqa: E731
+
+    shown_nodes = [tid for tid in gap.nodes if node_filter(tid)]
+    shown_edges = [e for e in gap.edges if edge_filter(e)]
 
     # --- Meta ---------------------------------------------------------------
-    meta = {
+    meta: dict[str, Any] = {
         "version": gap.version,
         "build_date": gap.build_date,
         "technique_source": gap.technique_source,
         "counts": {
-            "techniques": gap.total_techniques,
-            "edges": gap.edge_count,
-            "consensus_edges": gap.consensus_edge_count,
-            "backward_edges": gap.backward_edge_count,
-            "orphans": gap.orphan_techniques,
+            "techniques": len(shown_nodes),
+            "edges": len(shown_edges),
+            "consensus_edges": sum(1 for e in shown_edges if e.source_count >= 2),
+            "backward_edges": sum(1 for e in shown_edges if e.is_backward),
             "groups": len(gap.groups),
             "campaigns": len(gap.campaigns),
         },
+        "totals": {
+            "techniques": gap.total_techniques,
+            "edges": gap.edge_count,
+        },
     }
+    if view is not None:
+        meta["view"] = dict(view.provenance)
 
     # --- Taxonomies ---------------------------------------------------------
     tactics = [
@@ -101,8 +88,8 @@ def build_payload(gap: GeneralisedAttackProfile) -> dict[str, Any]:
     ]
 
     evidence_types_seen = sorted({
-        ev.source_type for e in gap.edges for ev in e.evidence
-    } | {e.evidence_type for e in gap.edges})
+        ev.source_type for e in shown_edges for ev in e.evidence
+    } | {e.evidence_type for e in shown_edges})
     evidence_types = [
         {
             "id": et,
@@ -113,12 +100,10 @@ def build_payload(gap: GeneralisedAttackProfile) -> dict[str, Any]:
         for et in evidence_types_seen
     ]
 
-    motivations = [
-        {"id": m, "label": MOTIVATION_LABEL[m], "color": MOTIVATION_COLOUR[m]}
-        for m in MOTIVATION_CATEGORIES
-    ]
-
     # --- Groups & campaigns -------------------------------------------------
+    # Motivation is retained on GroupProfile as post-hoc metadata (used by
+    # the group-detail panel) — it is deliberately not threaded onto nodes
+    # or edges in the main payload.
     groups = {
         gid: {
             "id": gid,
@@ -148,22 +133,14 @@ def build_payload(gap: GeneralisedAttackProfile) -> dict[str, Any]:
     }
 
     # --- Nodes --------------------------------------------------------------
-    # Precompute per-node motivation union from attributed groups
-    def _node_motivations(node_group_ids: list[str]) -> list[str]:
-        found: list[str] = []
-        for gid in node_group_ids:
-            for m in (gap.groups.get(gid).motivations if gid in gap.groups else []):
-                if m not in found:
-                    found.append(m)
-        return found
-
     edge_endpoints: set[str] = set()
-    for e in gap.edges:
+    for e in shown_edges:
         edge_endpoints.add(e.source_id)
         edge_endpoints.add(e.target_id)
 
     nodes = []
-    for tid, n in gap.nodes.items():
+    for tid in shown_nodes:
+        n = gap.nodes[tid]
         nodes.append({
             "id": tid,
             "label": n.technique_name,
@@ -176,14 +153,13 @@ def build_payload(gap: GeneralisedAttackProfile) -> dict[str, Any]:
             "campaign_ids": n.campaign_ids,
             "campaign_count": n.campaign_count,
             "sub_technique_ids": n.sub_technique_ids,
-            "motivations": _node_motivations(n.group_ids),
             "orphan": tid not in edge_endpoints,
             "description": (n.description or "")[:400],
         })
 
     # --- Edges --------------------------------------------------------------
     edges = []
-    for e in gap.edges:
+    for e in shown_edges:
         ev_types = sorted({ev.source_type for ev in e.evidence}) or [e.evidence_type]
         campaigns_for_edge: list[str] = []
         for ev in e.evidence:
@@ -202,18 +178,12 @@ def build_payload(gap: GeneralisedAttackProfile) -> dict[str, Any]:
                         if gid not in source_groups:
                             source_groups.append(gid)
                     break
-        # Also union groups via endpoint technique attribution for
-        # co-occurrence / ontology edges (which have no campaign provenance).
+        # Union groups via endpoint technique attribution for co-occurrence /
+        # ontology edges (which have no campaign provenance).
         if not source_groups and not campaigns_for_edge:
             for gid in gap.nodes[e.source_id].group_ids:
                 if gid in gap.nodes[e.target_id].group_ids and gid not in source_groups:
                     source_groups.append(gid)
-
-        motivations: list[str] = []
-        for gid in source_groups:
-            for m in (gap.groups.get(gid).motivations if gid in gap.groups else []):
-                if m not in motivations:
-                    motivations.append(m)
 
         edges.append({
             "id": f"{e.source_id}__{e.target_id}",
@@ -229,7 +199,6 @@ def build_payload(gap: GeneralisedAttackProfile) -> dict[str, Any]:
             "backward": e.is_backward,
             "campaigns": campaigns_for_edge,
             "source_groups": source_groups,
-            "motivations": motivations,
             "evidence": [
                 {
                     "source_type": ev.source_type,
@@ -245,7 +214,6 @@ def build_payload(gap: GeneralisedAttackProfile) -> dict[str, Any]:
         "meta": meta,
         "tactics": tactics,
         "evidence_types": evidence_types,
-        "motivations": motivations,
         "groups": groups,
         "campaigns": campaigns,
         "nodes": nodes,

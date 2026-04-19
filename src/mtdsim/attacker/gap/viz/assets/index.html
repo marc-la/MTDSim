@@ -14,6 +14,7 @@
   <div class="brand">
     <strong>GAP</strong>
     <span class="muted">v__VERSION__ · built __BUILD_DATE__</span>
+    <span class="muted" id="view-label"></span>
   </div>
   <div id="live-counts" class="muted"></div>
   <div class="header-actions">
@@ -41,12 +42,6 @@
       <section class="group">
         <h3>Evidence types</h3>
         <div id="evidence-list" class="chiplist"></div>
-      </section>
-
-      <section class="group">
-        <h3>Motivation <span class="muted small" id="motiv-coverage"></span></h3>
-        <div id="motivation-list" class="chiplist"></div>
-        <label class="inline"><input type="checkbox" id="include-unattributed" checked> Include unattributed groups</label>
       </section>
 
       <section class="group">
@@ -97,7 +92,6 @@
       <div class="legend-tabs">
         <button class="tab active" data-tab="tactics">Tactics</button>
         <button class="tab" data-tab="evidence">Evidence</button>
-        <button class="tab" data-tab="motivation">Motivation</button>
         <button class="tab" data-tab="lines">Line styles</button>
       </div>
       <div id="legend-body"></div>

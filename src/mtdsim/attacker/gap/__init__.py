@@ -34,6 +34,16 @@ from mtdsim.attacker.gap.edge_importer import (
 )
 from mtdsim.attacker.gap.enrichment import enrich_group_profiles
 from mtdsim.attacker.gap.gap_builder import build_gap
+from mtdsim.attacker.gap.selectors import (
+    PLATFORM_BUCKETS,
+    PLATFORM_PROFILES,
+    PlatformSelector,
+    Selector,
+    SubgraphView,
+    TerminalObjectiveSelector,
+    ancestor_subgraph,
+    platform_profile,
+)
 from mtdsim.attacker.gap.viz import (
     MITRETechniqueDependencyVisualiser,
     build_payload,
@@ -56,6 +66,14 @@ __all__ = [
     "extract_ontology_edges",
     "enrich_group_profiles",
     "build_gap",
+    "PLATFORM_BUCKETS",
+    "PLATFORM_PROFILES",
+    "PlatformSelector",
+    "Selector",
+    "SubgraphView",
+    "TerminalObjectiveSelector",
+    "ancestor_subgraph",
+    "platform_profile",
     "MITRETechniqueDependencyVisualiser",
     "build_payload",
 ]
