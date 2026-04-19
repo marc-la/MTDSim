@@ -5,14 +5,25 @@ The payload is pure serialisation: given a GAP (and optionally a
 ``SubgraphView`` restricting which nodes/edges appear), produce the
 JSON consumed by ``assets/app.js``. Colour palettes and label maps
 live in ``theme.py``; subgraph selection lives in ``gap/selectors/``.
+
+The viewer also receives pre-computed CSA subgraph membership lists
+(by terminal-objective tactic and by platform profile) so the same
+selectors that drive the CLI workflow can be applied client-side
+without re-running graph traversal in the browser.
 """
 
 from __future__ import annotations
 
 from typing import Any, Optional
 
+import networkx as nx
+
 from mtdsim.attacker.gap.schema import GeneralisedAttackProfile, TACTIC_ORDER
-from mtdsim.attacker.gap.selectors import SubgraphView
+from mtdsim.attacker.gap.selectors import (
+    PLATFORM_PROFILES,
+    SubgraphView,
+    platform_profile,
+)
 from mtdsim.attacker.gap.viz.theme import (
     DEFAULT_VISIBLE_EVIDENCE,
     EVIDENCE_COLOUR,
@@ -34,6 +45,15 @@ def _primary_evidence_type(edge) -> str:
         if p in types:
             return p
     return edge.evidence_type
+
+
+def _full_digraph(gap: GeneralisedAttackProfile) -> nx.DiGraph:
+    g = nx.DiGraph()
+    for tid in gap.nodes:
+        g.add_node(tid)
+    for e in gap.edges:
+        g.add_edge(e.source_id, e.target_id)
+    return g
 
 
 def build_payload(
@@ -59,6 +79,45 @@ def build_payload(
 
     shown_nodes = [tid for tid in gap.nodes if node_filter(tid)]
     shown_edges = [e for e in gap.edges if edge_filter(e)]
+
+    # ------------------------------------------------------------------
+    # Pre-compute reachability + CSA subgraph membership over the FULL
+    # graph (not the view) so client-side filters compose correctly when
+    # no server-side view is applied.
+    digraph = _full_digraph(gap)
+
+    reachable_from_entry: set[str] = set(gap.entry_nodes)
+    for entry in gap.entry_nodes:
+        if entry in digraph:
+            reachable_from_entry.update(nx.descendants(digraph, entry))
+
+    objective_tactics_seen = sorted(
+        {gap.nodes[t].primary_tactic for t in gap.objective_nodes
+         if t in gap.nodes},
+        key=lambda x: TACTIC_ORDER.index(x) if x in TACTIC_ORDER else 99,
+    )
+    subgraph_terminal: dict[str, list[str]] = {}
+    for tactic in objective_tactics_seen:
+        targets = [
+            t for t in gap.objective_nodes
+            if gap.nodes[t].primary_tactic == tactic
+        ]
+        if not targets:
+            continue
+        members = set(targets)
+        for t in targets:
+            if t in digraph:
+                members.update(nx.ancestors(digraph, t))
+        subgraph_terminal[tactic] = sorted(members)
+
+    node_platform_profile = {
+        tid: platform_profile(n.platforms) for tid, n in gap.nodes.items()
+    }
+    subgraph_platform: dict[str, list[str]] = {}
+    for profile in PLATFORM_PROFILES:
+        members = [tid for tid, p in node_platform_profile.items() if p == profile]
+        if members:
+            subgraph_platform[profile] = sorted(members)
 
     # --- Meta ---------------------------------------------------------------
     meta: dict[str, Any] = {
@@ -101,16 +160,15 @@ def build_payload(
     ]
 
     # --- Groups & campaigns -------------------------------------------------
-    # Motivation is retained on GroupProfile as post-hoc metadata (used by
-    # the group-detail panel) — it is deliberately not threaded onto nodes
-    # or edges in the main payload.
+    # Motivation is metadata on ``GroupProfile`` but is intentionally NOT
+    # surfaced to the viewer payload: it is a group-level attribute, not a
+    # technique attribute, and threading it through the per-node detail
+    # panel was misleading (per the 2026-04-17 subgraphing exploration).
     groups = {
         gid: {
             "id": gid,
             "name": g.name,
             "aliases": g.aliases,
-            "motivations": g.motivations,
-            "misp_motivations": g.misp_motivations,
             "regions": g.regions,
             "suspected_origin": g.suspected_origin,
             "sources": g.sources,
@@ -138,6 +196,9 @@ def build_payload(
         edge_endpoints.add(e.source_id)
         edge_endpoints.add(e.target_id)
 
+    entry_set = set(gap.entry_nodes)
+    objective_set = set(gap.objective_nodes)
+
     nodes = []
     for tid in shown_nodes:
         n = gap.nodes[tid]
@@ -148,12 +209,16 @@ def build_payload(
             "layer": n.tactic_layer,
             "tactics": n.tactics,
             "platforms": n.platforms,
+            "platform_profile": node_platform_profile.get(tid, "unspecified"),
             "group_ids": n.group_ids,
             "group_count": n.group_count,
             "campaign_ids": n.campaign_ids,
             "campaign_count": n.campaign_count,
             "sub_technique_ids": n.sub_technique_ids,
             "orphan": tid not in edge_endpoints,
+            "is_entry": tid in entry_set,
+            "is_objective": tid in objective_set,
+            "reachable_from_entry": tid in reachable_from_entry,
             "description": (n.description or "")[:400],
         })
 
@@ -210,6 +275,30 @@ def build_payload(
             ],
         })
 
+    # --- Entry / objective node summaries (for path-explorer dropdowns) -----
+    def _layer_key(t: str) -> tuple[int, str]:
+        return (gap.nodes[t].tactic_layer if t in gap.nodes else 99, t)
+
+    entry_nodes_payload = [
+        {
+            "id": tid,
+            "label": gap.nodes[tid].technique_name,
+            "tactic": gap.nodes[tid].primary_tactic,
+        }
+        for tid in sorted(gap.entry_nodes, key=_layer_key)
+        if tid in gap.nodes
+    ]
+    objective_nodes_payload = [
+        {
+            "id": tid,
+            "label": gap.nodes[tid].technique_name,
+            "tactic": gap.nodes[tid].primary_tactic,
+            "reachable_from_entry": tid in reachable_from_entry,
+        }
+        for tid in sorted(gap.objective_nodes, key=_layer_key)
+        if tid in gap.nodes
+    ]
+
     return {
         "meta": meta,
         "tactics": tactics,
@@ -218,4 +307,10 @@ def build_payload(
         "campaigns": campaigns,
         "nodes": nodes,
         "edges": edges,
+        "entry_nodes": entry_nodes_payload,
+        "objective_nodes": objective_nodes_payload,
+        "subgraphs": {
+            "terminal_objective": subgraph_terminal,
+            "platform": subgraph_platform,
+        },
     }

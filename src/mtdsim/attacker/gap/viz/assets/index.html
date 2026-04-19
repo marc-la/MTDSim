@@ -45,6 +45,22 @@
       </section>
 
       <section class="group">
+        <h3>Subgraph (CSA)</h3>
+        <div class="muted small" style="margin-bottom:6px">
+          Mirrors the selector-based CLI subgraphing — restrict the view by
+          terminal-objective tactic (Strategy A) or platform profile (Strategy B).
+        </div>
+        <label class="inline">
+          <span class="lbl">Objective tactic</span>
+          <select id="csa-objective-tactic"><option value="">— all —</option></select>
+        </label>
+        <label class="inline">
+          <span class="lbl">Platform profile</span>
+          <select id="csa-platform"><option value="">— all —</option></select>
+        </label>
+      </section>
+
+      <section class="group">
         <h3>APT Group</h3>
         <input type="search" id="group-search" placeholder="Filter groups…" />
         <div id="group-list" class="scroll-list small"></div>
@@ -61,20 +77,34 @@
         <div id="tactic-list" class="chiplist"></div>
       </section>
 
+      <section class="group">
+        <h3>Attack path</h3>
+        <label class="inline">
+          <span class="lbl">From (entry)</span>
+          <select id="path-from"><option value="">— select —</option></select>
+        </label>
+        <label class="inline">
+          <span class="lbl">To (objective)</span>
+          <select id="path-to"><option value="">— select —</option></select>
+        </label>
+        <label class="inline">
+          <span class="lbl">k paths</span>
+          <input type="number" id="path-k" value="3" min="1" max="10">
+        </label>
+        <div class="row-buttons">
+          <button id="btn-path">Highlight paths</button>
+          <button id="btn-path-clear">Clear</button>
+        </div>
+        <div id="path-results" class="muted small"></div>
+      </section>
+
       <details class="group">
         <summary><h3 style="display:inline">Advanced</h3></summary>
         <label class="inline">Min confidence <input type="range" id="min-conf" min="0" max="1" step="0.05" value="0"> <span id="min-conf-val">0.00</span></label>
         <label class="inline"><input type="checkbox" id="only-consensus"> Consensus edges only (≥2 sources)</label>
         <label class="inline"><input type="checkbox" id="hide-isolated" checked> Hide orphan techniques</label>
         <label class="inline"><input type="checkbox" id="hide-backward"> Hide backward edges (loops)</label>
-
-        <h4>Attack path</h4>
-        <label class="inline">From <input type="text" id="path-from" placeholder="T1566" size="8"></label>
-        <label class="inline">To <input type="text" id="path-to" placeholder="T1486" size="8"></label>
-        <label class="inline">k <input type="number" id="path-k" value="3" min="1" max="10" size="3"></label>
-        <button id="btn-path">Highlight paths</button>
-        <button id="btn-path-clear">Clear</button>
-        <div id="path-results" class="muted small"></div>
+        <label class="inline"><input type="checkbox" id="dim-unreachable" checked> Dim unreachable objectives</label>
       </details>
 
       <section class="group">

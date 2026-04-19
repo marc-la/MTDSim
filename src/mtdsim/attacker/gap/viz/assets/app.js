@@ -10,28 +10,29 @@
   const INITIAL = JSON.parse(document.getElementById("gap-initial-filter").textContent);
 
   const tacticColour = {};
-  PAYLOAD.tactics.forEach(t => { tacticColour[t.id] = t.color; });
+  const tacticLabel = {};
+  PAYLOAD.tactics.forEach(t => { tacticColour[t.id] = t.color; tacticLabel[t.id] = t.label; });
 
   const evidenceColour = {};
   const evidenceLabel = {};
   PAYLOAD.evidence_types.forEach(e => { evidenceColour[e.id] = e.color; evidenceLabel[e.id] = e.label; });
 
-  // Motivation is rendered only as group metadata in the detail panel —
-  // it is not a partition or filter key. Keep the palette local so the
-  // GroupProfile chips still render without round-tripping through the
-  // main payload.
-  const MOTIV_LABEL = {
-    "information_theft_espionage": "Espionage / Information theft",
-    "financial_gain":              "Financial gain",
-    "financial_crime":             "Financial crime",
-    "sabotage_destruction":        "Sabotage / Destruction",
-  };
-  const MOTIV_COLOUR = {
-    "information_theft_espionage": "#5e81ac",
-    "financial_gain":              "#a3be8c",
-    "financial_crime":             "#d08770",
-    "sabotage_destruction":        "#bf616a",
-  };
+  // --------------------------------------------------------------
+  // Pre-index payload helpers
+
+  const nodeById = {};
+  PAYLOAD.nodes.forEach(n => { nodeById[n.id] = n; });
+
+  // CSA subgraph membership (server pre-computed against the full graph,
+  // so client-side filters compose without extra graph traversal).
+  const subgraphTerminal = {};
+  Object.entries(PAYLOAD.subgraphs.terminal_objective || {}).forEach(([k, v]) => {
+    subgraphTerminal[k] = new Set(v);
+  });
+  const subgraphPlatform = {};
+  Object.entries(PAYLOAD.subgraphs.platform || {}).forEach(([k, v]) => {
+    subgraphPlatform[k] = new Set(v);
+  });
 
   // --------------------------------------------------------------
   // Subgraph provenance (if a selector was applied server-side)
@@ -56,11 +57,14 @@
     onlyConsensus: !!INITIAL.only_consensus,
     hideIsolated: INITIAL.hide_isolated !== false,
     hideBackward: false,
+    dimUnreachable: true,
     selectedGroups: null,   // null = all
     selectedCampaigns: null,
     selectedTactics: new Set(PAYLOAD.tactics.map(t => t.id)),
+    csaObjectiveTactic: "",  // "" = no Strategy A restriction
+    csaPlatform: "",         // "" = no Strategy B restriction
     nodeSearch: "",
-    pathHighlight: null,    // {nodes:Set, edges:Set}
+    pathHighlight: null,
   };
 
   function applyPreset(name) {
@@ -73,7 +77,6 @@
     }
   }
 
-  // Seed initial evidence visibility
   if (INITIAL.evidence_types) {
     state.visibleEvidence = new Set(INITIAL.evidence_types);
   } else {
@@ -93,9 +96,14 @@
       group_ids: n.group_ids,
       campaign_ids: n.campaign_ids,
       orphan: n.orphan,
+      is_objective: n.is_objective,
+      reachable_from_entry: n.reachable_from_entry,
       payload: n,
     },
-    classes: n.orphan ? "orphan" : "",
+    classes: [
+      n.orphan ? "orphan" : "",
+      (n.is_objective && !n.reachable_from_entry) ? "unreachable-objective" : "",
+    ].filter(Boolean).join(" "),
   }));
 
   const cyEdges = PAYLOAD.edges.map(e => ({
@@ -150,6 +158,16 @@
       {
         selector: "node.orphan",
         style: { "border-style": "dashed", "border-color": "#7f88b0", "opacity": 0.6 },
+      },
+      {
+        selector: "node.unreachable-objective.dim-unreachable",
+        style: {
+          "background-color": "#3b4261",
+          "border-color": "#3b4261",
+          "border-style": "dotted",
+          "opacity": 0.35,
+          "color": "#7f88b0",
+        },
       },
       {
         selector: "node.dim",
@@ -211,6 +229,18 @@
   // --------------------------------------------------------------
   // Filter engine
 
+  function nodeInCsa(id) {
+    if (state.csaObjectiveTactic) {
+      const set = subgraphTerminal[state.csaObjectiveTactic];
+      if (!set || !set.has(id)) return false;
+    }
+    if (state.csaPlatform) {
+      const set = subgraphPlatform[state.csaPlatform];
+      if (!set || !set.has(id)) return false;
+    }
+    return true;
+  }
+
   function edgeVisible(e) {
     const d = e.data();
     if (!d.evidence_types.some(t => state.visibleEvidence.has(t))) return false;
@@ -218,8 +248,10 @@
     if (state.onlyConsensus && !d.consensus) return false;
     if (state.hideBackward && d.backward) return false;
 
-    // Group / campaign filtering (group-level attribution — MITRE-canonical
-    // and defensible; motivation is no longer a filter key).
+    // CSA subgraph constraints — both endpoints must be in the subgraph.
+    if (!nodeInCsa(d.source) || !nodeInCsa(d.target)) return false;
+
+    // Group / campaign filtering (group-level attribution — MITRE-canonical).
     if (state.selectedGroups) {
       if (!d.source_groups.some(g => state.selectedGroups.has(g))) return false;
     }
@@ -235,6 +267,7 @@
   function nodeVisible(n, hasVisibleEdge) {
     const d = n.data();
     if (!state.selectedTactics.has(d.tactic)) return false;
+    if (!nodeInCsa(d.id)) return false;
     if (state.hideIsolated && !hasVisibleEdge && d.orphan) return false;
     if (state.hideIsolated && !hasVisibleEdge) return false;
     if (state.nodeSearch) {
@@ -242,8 +275,6 @@
       const hay = (d.id + " " + (d.payload.label || "")).toLowerCase();
       if (!hay.includes(q)) return false;
     }
-    // Motivation + group filters at node level (so endpoint-free nodes with
-    // matching attribution still display in a tactic-only scan).
     if (state.selectedGroups) {
       if (!d.group_ids.some(g => state.selectedGroups.has(g))) return false;
     }
@@ -251,7 +282,6 @@
   }
 
   function applyFilters() {
-    // Pass 1: edge visibility + touched-node set
     const touched = new Set();
     cy.edges().forEach(e => {
       const show = edgeVisible(e);
@@ -261,12 +291,13 @@
         touched.add(e.data("target"));
       }
     });
-    // Pass 2: node visibility
     cy.nodes().forEach(n => {
       const show = nodeVisible(n, touched.has(n.data("id")));
       n.toggleClass("hidden", !show);
+      n.toggleClass("dim-unreachable", state.dimUnreachable);
     });
     updateLiveCounts();
+    refreshPathTargets();
   }
 
   function updateLiveCounts() {
@@ -295,25 +326,53 @@
       if (e.target.checked) state.visibleEvidence.add(ev.id);
       else state.visibleEvidence.delete(ev.id);
       lbl.classList.toggle("off", !e.target.checked);
-      // Flip preset to custom when user touches evidence directly
       document.querySelector('input[name="preset"][value="custom"]').checked = true;
       applyFilters();
     });
     evList.appendChild(lbl);
   });
 
-  // Presets
   document.querySelectorAll('input[name="preset"]').forEach(r => {
     r.addEventListener("change", (e) => {
       if (e.target.value === "custom") return;
       applyPreset(e.target.value);
-      // Sync evidence checkboxes
       evList.querySelectorAll("input").forEach(inp => {
         inp.checked = state.visibleEvidence.has(inp.value);
         inp.parentElement.classList.toggle("off", !inp.checked);
       });
       applyFilters();
     });
+  });
+
+  // CSA subgraph dropdowns -------------------------------------------------
+  const csaTacticSel = $("#csa-objective-tactic");
+  Object.keys(subgraphTerminal)
+    .sort((a, b) => {
+      const ai = PAYLOAD.tactics.findIndex(t => t.id === a);
+      const bi = PAYLOAD.tactics.findIndex(t => t.id === b);
+      return ai - bi;
+    })
+    .forEach(tac => {
+      const opt = document.createElement("option");
+      opt.value = tac;
+      opt.textContent = `${tacticLabel[tac] || tac} (${subgraphTerminal[tac].size} techs)`;
+      csaTacticSel.appendChild(opt);
+    });
+  csaTacticSel.addEventListener("change", e => {
+    state.csaObjectiveTactic = e.target.value;
+    applyFilters();
+  });
+
+  const csaPlatSel = $("#csa-platform");
+  Object.keys(subgraphPlatform).forEach(p => {
+    const opt = document.createElement("option");
+    opt.value = p;
+    opt.textContent = `${p} (${subgraphPlatform[p].size} techs)`;
+    csaPlatSel.appendChild(opt);
+  });
+  csaPlatSel.addEventListener("change", e => {
+    state.csaPlatform = e.target.value;
+    applyFilters();
   });
 
   // Tactic chips
@@ -331,7 +390,7 @@
     tacList.appendChild(lbl);
   });
 
-  // Group list
+  // Group / campaign pick lists
   function renderPickList(containerSel, items, labelFn, stateKey) {
     const container = $(containerSel);
     container.innerHTML = "";
@@ -381,7 +440,104 @@
   $("#only-consensus").addEventListener("change", e => { state.onlyConsensus = e.target.checked; applyFilters(); });
   $("#hide-isolated").addEventListener("change", e => { state.hideIsolated = e.target.checked; applyFilters(); });
   $("#hide-backward").addEventListener("change", e => { state.hideBackward = e.target.checked; applyFilters(); });
+  $("#dim-unreachable").addEventListener("change", e => { state.dimUnreachable = e.target.checked; applyFilters(); });
   $("#node-search").addEventListener("input", e => { state.nodeSearch = e.target.value; applyFilters(); });
+
+  // --------------------------------------------------------------
+  // Path explorer dropdowns (entry & objective; tactic-grouped)
+
+  function buildOptgroups(items, valueFn, labelFn, extraDataFn) {
+    // Items already sorted by tactic-layer; group consecutively.
+    const frag = document.createDocumentFragment();
+    let curGroup = null;
+    let curLabel = null;
+    items.forEach(it => {
+      const tac = it.tactic;
+      if (tac !== curLabel) {
+        curLabel = tac;
+        curGroup = document.createElement("optgroup");
+        curGroup.label = tacticLabel[tac] || tac;
+        frag.appendChild(curGroup);
+      }
+      const opt = document.createElement("option");
+      opt.value = valueFn(it);
+      opt.textContent = labelFn(it);
+      if (extraDataFn) extraDataFn(opt, it);
+      curGroup.appendChild(opt);
+    });
+    return frag;
+  }
+
+  const pathFromSel = $("#path-from");
+  const pathToSel = $("#path-to");
+
+  pathFromSel.appendChild(buildOptgroups(
+    PAYLOAD.entry_nodes,
+    it => it.id,
+    it => `${it.id} — ${(it.label || "").slice(0, 36)}`,
+  ));
+
+  pathToSel.appendChild(buildOptgroups(
+    PAYLOAD.objective_nodes,
+    it => it.id,
+    it => `${it.id} — ${(it.label || "").slice(0, 36)}`,
+    (opt, it) => {
+      opt.dataset.origLabel = opt.textContent;
+      opt.dataset.reachable = it.reachable_from_entry ? "1" : "0";
+    },
+  ));
+
+  function buildAdjacency() {
+    const adj = {};
+    cy.edges().forEach(e => {
+      if (e.hasClass("hidden")) return;
+      const s = e.data("source"), t = e.data("target");
+      (adj[s] = adj[s] || []).push(t);
+    });
+    return adj;
+  }
+
+  function reachableFrom(adj, src) {
+    const seen = new Set([src]);
+    const stack = [src];
+    while (stack.length) {
+      const cur = stack.pop();
+      for (const nb of (adj[cur] || [])) {
+        if (!seen.has(nb)) { seen.add(nb); stack.push(nb); }
+      }
+    }
+    return seen;
+  }
+
+  function refreshPathTargets() {
+    const src = pathFromSel.value;
+    if (!src) {
+      // No source: only the static "globally unreachable from any entry"
+      // markers apply.
+      Array.from(pathToSel.querySelectorAll("option")).forEach(opt => {
+        if (!opt.value) return;
+        const reachable = opt.dataset.reachable === "1";
+        opt.disabled = !reachable;
+        opt.textContent = opt.dataset.origLabel + (reachable ? "" : " — unreachable");
+      });
+      return;
+    }
+    const adj = buildAdjacency();
+    const reach = reachableFrom(adj, src);
+    Array.from(pathToSel.querySelectorAll("option")).forEach(opt => {
+      if (!opt.value) return;
+      const ok = (opt.value !== src) && reach.has(opt.value);
+      opt.disabled = !ok;
+      opt.textContent = opt.dataset.origLabel + (ok ? "" : " — unreachable");
+    });
+    const cur = pathToSel.options[pathToSel.selectedIndex];
+    if (cur && cur.disabled) {
+      for (const o of pathToSel.options) {
+        if (!o.disabled && o.value) { pathToSel.value = o.value; break; }
+      }
+    }
+  }
+  pathFromSel.addEventListener("change", refreshPathTargets);
 
   // --------------------------------------------------------------
   // Panel collapse + resize
@@ -403,7 +559,7 @@
       const startW = panel.getBoundingClientRect().width;
       function onMove(ev) {
         const dx = ev.clientX - startX;
-        const w = Math.max(180, Math.min(560, startW + (isLeft ? -dx : dx)));
+        const w = Math.max(220, Math.min(640, startW + (isLeft ? -dx : dx)));
         document.documentElement.style.setProperty(isLeft ? "--right-w" : "--left-w", w + "px");
         cy.resize();
       }
@@ -422,6 +578,7 @@
   function renderLegend(tab) {
     const body = $("#legend-body");
     body.innerHTML = "";
+    body.style.gridTemplateColumns = "auto auto auto";
     if (tab === "tactics") {
       PAYLOAD.tactics.forEach(t => {
         body.innerHTML += `<div class="row"><span class="sw" style="background:${t.color}"></span>${t.label}</div>`;
@@ -438,6 +595,7 @@
         <div class="row"><span class="ln" style="background:#aaa;border-top:1px dashed #aaa"></span>Backward (loop)</div>
         <div class="row"><span class="ln" style="background:#aaa;height:4px"></span>Consensus (≥2 sources)</div>
         <div class="row"><span class="sw" style="background:transparent;border:1px dashed #7f88b0"></span>Orphan technique</div>
+        <div class="row"><span class="sw" style="background:#3b4261;border:1px dotted #3b4261;opacity:0.5"></span>Unreachable objective</div>
       `;
     }
   }
@@ -453,9 +611,8 @@
   // --------------------------------------------------------------
   // Details panel
 
-  function chip(text, colour) {
-    const style = colour ? `background:${colour};` : "";
-    return `<span class="chip motiv" style="${style}">${text}</span>`;
+  function chip(text) {
+    return `<span class="chip">${text}</span>`;
   }
 
   function renderNodeDetails(n) {
@@ -463,19 +620,25 @@
     const groupRows = d.group_ids.map(gid => {
       const g = PAYLOAD.groups[gid];
       if (!g) return `<li>${gid}</li>`;
-      const motChips = (g.motivations || []).map(m => chip(MOTIV_LABEL[m] || m, MOTIV_COLOUR[m])).join(" ");
       const region = g.regions.length ? ` <span class="muted small">[${g.regions.join(",")}]</span>` : "";
-      return `<li><strong>${g.id}</strong> ${g.name}${region} ${motChips}</li>`;
+      return `<li><strong>${g.id}</strong> ${g.name}${region}</li>`;
     }).join("");
     const campaignRows = d.campaign_ids.map(cid => {
       const c = PAYLOAD.campaigns[cid];
       return c ? `<li><strong>${c.id}</strong> ${c.name}</li>` : `<li>${cid}</li>`;
     }).join("");
+    const flags = [];
+    if (d.is_entry) flags.push("entry");
+    if (d.is_objective) flags.push("objective");
+    if (d.is_objective && !d.reachable_from_entry) flags.push("unreachable");
+    if (d.orphan) flags.push("orphan");
     $("#details").innerHTML = `
       <h3><span class="tid">${d.id}</span> ${d.label || ""}</h3>
-      <div class="muted small">${d.tactic || ""}${d.orphan ? " · orphan" : ""}</div>
+      <div class="muted small">${d.tactic || ""}${flags.length ? " · " + flags.join(" · ") : ""}</div>
       <section>
-        <div class="muted small">Platforms</div>
+        <div class="muted small">Platform profile</div>
+        <div>${d.platform_profile}</div>
+        <div class="muted small" style="margin-top:6px">Platforms</div>
         ${(d.platforms || []).map(p => chip(p)).join(" ") || '<span class="muted small">—</span>'}
       </section>
       <section>
@@ -536,33 +699,28 @@
   // Attack path queries (k shortest simple paths, BFS-based)
 
   function kShortestPaths(src, tgt, k) {
-    // Simple BFS enumeration, bounded depth
     const results = [];
     const maxDepth = 8;
-    const adj = {};
-    cy.edges().forEach(e => {
-      if (e.hasClass("hidden")) return;
-      const s = e.data("source"), t = e.data("target");
-      (adj[s] = adj[s] || []).push({ t, edge: e.id() });
-    });
+    const adj = buildAdjacency();
     const q = [[src, [src], []]];
     while (q.length && results.length < k) {
       const [cur, path, edges] = q.shift();
       if (cur === tgt && path.length > 1) { results.push({ nodes: path, edges }); continue; }
       if (path.length > maxDepth) continue;
       for (const nb of (adj[cur] || [])) {
-        if (path.includes(nb.t)) continue;
-        q.push([nb.t, [...path, nb.t], [...edges, nb.edge]]);
+        if (path.includes(nb)) continue;
+        const eid = `${cur}__${nb}`;
+        q.push([nb, [...path, nb], [...edges, eid]]);
       }
     }
     return results;
   }
 
   $("#btn-path").addEventListener("click", () => {
-    const from = $("#path-from").value.trim().toUpperCase();
-    const to = $("#path-to").value.trim().toUpperCase();
+    const from = pathFromSel.value;
+    const to = pathToSel.value;
     const k = Math.max(1, Math.min(10, Number($("#path-k").value) || 3));
-    if (!from || !to) { $("#path-results").textContent = "Need both endpoints"; return; }
+    if (!from || !to) { $("#path-results").textContent = "Select both endpoints"; return; }
     const paths = kShortestPaths(from, to, k);
     cy.elements().removeClass("path-highlight");
     if (paths.length === 0) {
