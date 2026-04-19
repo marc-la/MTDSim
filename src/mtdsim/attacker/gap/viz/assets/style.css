@@ -59,9 +59,20 @@ input[type="text"], input[type="number"], input[type="search"], select {
   width: 100%;
   max-width: 100%;
 }
-select option:disabled { color: var(--muted); font-style: italic; }
-optgroup { color: var(--muted); font-style: italic; }
-optgroup option { color: var(--text); font-style: normal; }
+select option:disabled { font-style: italic; }
+optgroup { color: var(--muted); font-style: italic; background: var(--panel); }
+optgroup option { font-style: normal; }
+
+/* Tactic-coded dropdowns (path-from, path-to, subgraph 2b) — condensed
+   font/padding so the colour-coded options read as tidy pills rather
+   than full-width bars. Option background/foreground come from the
+   inline `style` attribute set in app.js to preserve the hue per row. */
+select.tactic-coded { font-size: 11.5px; padding: 3px 6px; }
+select.tactic-coded option {
+  padding: 2px 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+}
 
 #gap-main {
   display: grid;
@@ -141,6 +152,14 @@ details.group > summary::before { content: "▸ "; display: inline-block;
 details.group[open] > summary::before { transform: rotate(90deg); }
 .group .row-buttons { display: flex; gap: 6px; margin-top: 6px; align-items: center; }
 .group .row-buttons input { margin-bottom: 0; }
+
+/* Dense bullet list used inside the Subgraph help blurb — stacks the
+   three strategy descriptions without the default ul margin/padding. */
+.group ul.dense {
+  margin: 4px 0 0; padding-left: 16px;
+  font-size: 11px; line-height: 1.35;
+}
+.group ul.dense li { margin: 1px 0; }
 
 .chiplist { display: flex; flex-wrap: wrap; gap: 4px; }
 .chiplist label {

@@ -40,10 +40,31 @@
   Object.entries(PAYLOAD.subgraphs.terminal_objective || {}).forEach(([k, v]) => {
     subgraphTerminal[k] = new Set(v);
   });
+  const subgraphTerminalTechnique = {};
+  Object.entries(PAYLOAD.subgraphs.terminal_technique || {}).forEach(([k, v]) => {
+    subgraphTerminalTechnique[k] = new Set(v);
+  });
   const subgraphPlatform = {};
   Object.entries(PAYLOAD.subgraphs.platform || {}).forEach(([k, v]) => {
     subgraphPlatform[k] = new Set(v);
   });
+
+  // Mix a hex colour toward a neutral grey (0..1). Used to fade the tactic
+  // hue of an unreachable objective: colour stays recognisable, but reads
+  // as "inactive". Produces a seamless visual cue instead of a hard disable.
+  function mixWithGrey(hex, pct) {
+    if (!hex || hex[0] !== "#" || hex.length < 7) return hex;
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    const target = 0x6a;
+    const mix = (c) => Math.round(c * (1 - pct) + target * pct);
+    const hx = (n) => n.toString(16).padStart(2, "0");
+    return `#${hx(mix(r))}${hx(mix(g))}${hx(mix(b))}`;
+  }
+
+  // Readable text colour on top of a saturated tactic swatch.
+  function textOn(hex) { return "#1a1b26"; }
 
   // Subgraph provenance (server-side selector applied via SubgraphView).
   if (PAYLOAD.meta && PAYLOAD.meta.view) {
@@ -83,14 +104,15 @@
 
   const state = {
     visibleEvidence: new Set(),
-    minConf: INITIAL.min_confidence || 0,
     hideIsolated: INITIAL.hide_isolated !== false,
     hideBackward: false,
-    dimUnreachable: true,
+    dimUnreachable: false,
+    dimUnreachableUserSet: false,
     selectedGroups: null,   // null = all
     selectedCampaigns: null,
     selectedTactics: new Set(PAYLOAD.tactics.map(t => t.id)),
     csaObjectiveTactic: "",
+    csaObjectiveTechnique: "",
     csaPlatform: "",
     pathHighlight: null,    // { nodes: Set, edges: Set }
   };
@@ -273,6 +295,10 @@
       const set = subgraphTerminal[state.csaObjectiveTactic];
       if (!set || !set.has(id)) return false;
     }
+    if (state.csaObjectiveTechnique) {
+      const set = subgraphTerminalTechnique[state.csaObjectiveTechnique];
+      if (!set || !set.has(id)) return false;
+    }
     if (state.csaPlatform) {
       const set = subgraphPlatform[state.csaPlatform];
       if (!set || !set.has(id)) return false;
@@ -299,7 +325,6 @@
   function edgeVisible(e) {
     const d = e.data();
     if (!d.evidence_types.some(t => state.visibleEvidence.has(t))) return false;
-    if (d.confidence < state.minConf) return false;
     if (state.hideBackward && d.backward) return false;
     const s = cy.getElementById(d.source);
     const t = cy.getElementById(d.target);
@@ -414,6 +439,36 @@
     applyFilters();
   });
 
+  // Strategy 2b — one option per objective technique, grouped by tactic.
+  const csaTechSel = $("#csa-objective-technique");
+  const techSubgraphByTactic = {};
+  Object.keys(subgraphTerminalTechnique).forEach(tid => {
+    const node = nodeById[tid];
+    if (!node) return;
+    (techSubgraphByTactic[node.tactic] = techSubgraphByTactic[node.tactic] || []).push(tid);
+  });
+  PAYLOAD.tactics.forEach(t => {
+    const ids = techSubgraphByTactic[t.id];
+    if (!ids || ids.length === 0) return;
+    const og = document.createElement("optgroup");
+    og.label = t.label;
+    ids.sort().forEach(tid => {
+      const node = nodeById[tid];
+      const size = subgraphTerminalTechnique[tid].size;
+      const opt = document.createElement("option");
+      opt.value = tid;
+      opt.textContent = `${tid} — ${(node.label || "").slice(0, 28)} · ${size}T`;
+      opt.style.backgroundColor = t.color;
+      opt.style.color = textOn(t.color);
+      og.appendChild(opt);
+    });
+    csaTechSel.appendChild(og);
+  });
+  csaTechSel.addEventListener("change", e => {
+    state.csaObjectiveTechnique = e.target.value;
+    applyFilters();
+  });
+
   const csaPlatSel = $("#csa-platform");
   Object.keys(subgraphPlatform).forEach(p => {
     const opt = document.createElement("option");
@@ -522,14 +577,13 @@
   });
 
   // Advanced controls
-  $("#min-conf").addEventListener("input", e => {
-    state.minConf = Number(e.target.value);
-    $("#min-conf-val").textContent = state.minConf.toFixed(2);
-    applyFilters();
-  });
   $("#hide-isolated").addEventListener("change", e => { state.hideIsolated = e.target.checked; applyFilters(); });
   $("#hide-backward").addEventListener("change", e => { state.hideBackward = e.target.checked; applyFilters(); });
-  $("#dim-unreachable").addEventListener("change", e => { state.dimUnreachable = e.target.checked; applyFilters(); });
+  $("#dim-unreachable").addEventListener("change", e => {
+    state.dimUnreachable = e.target.checked;
+    state.dimUnreachableUserSet = true;
+    applyFilters();
+  });
 
   // --------------------------------------------------------------
   // Path explorer dropdowns (entry & objective; tactic-grouped)
@@ -549,6 +603,12 @@
       const opt = document.createElement("option");
       opt.value = valueFn(it);
       opt.textContent = labelFn(it);
+      const col = tacticColour[tac];
+      if (col) {
+        opt.dataset.baseColor = col;
+        opt.style.backgroundColor = col;
+        opt.style.color = textOn(col);
+      }
       if (extraDataFn) extraDataFn(opt, it);
       curGroup.appendChild(opt);
     });
@@ -561,16 +621,24 @@
   pathFromSel.appendChild(buildOptgroups(
     PAYLOAD.entry_nodes,
     it => it.id,
-    it => `${it.id} — ${(it.label || "").slice(0, 36)}`,
+    it => `${it.id} · ${(it.label || "").slice(0, 24)}`,
   ));
 
   pathToSel.appendChild(buildOptgroups(
     PAYLOAD.objective_nodes,
     it => it.id,
-    it => `${it.id} — ${(it.label || "").slice(0, 36)}`,
+    it => `${it.id} · ${(it.label || "").slice(0, 24)}`,
     (opt, it) => {
       opt.dataset.origLabel = opt.textContent;
       opt.dataset.reachable = it.reachable_from_entry ? "1" : "0";
+      // Unreachable objectives: fade the tactic hue toward grey so the
+      // colour cue is preserved but reads as inactive.
+      if (!it.reachable_from_entry && opt.dataset.baseColor) {
+        const faded = mixWithGrey(opt.dataset.baseColor, 0.55);
+        opt.style.backgroundColor = faded;
+        opt.style.color = "#3a3f58";
+        opt.style.fontStyle = "italic";
+      }
     },
   ));
 
@@ -596,6 +664,24 @@
     return seen;
   }
 
+  // Apply the reachable / unreachable visual treatment to one objective
+  // option: full tactic colour when reachable, tactic colour faded toward
+  // grey + italic when not. Keeps the hue (user can still identify the
+  // tactic) but reads as inactive.
+  function paintObjectiveOption(opt, reachable) {
+    const base = opt.dataset.baseColor;
+    if (!base) return;
+    if (reachable) {
+      opt.style.backgroundColor = base;
+      opt.style.color = textOn(base);
+      opt.style.fontStyle = "normal";
+    } else {
+      opt.style.backgroundColor = mixWithGrey(base, 0.55);
+      opt.style.color = "#3a3f58";
+      opt.style.fontStyle = "italic";
+    }
+  }
+
   function refreshPathTargets() {
     const src = pathFromSel.value;
     if (!src) {
@@ -604,6 +690,7 @@
         const reachable = opt.dataset.reachable === "1";
         opt.disabled = !reachable;
         opt.textContent = opt.dataset.origLabel + (reachable ? "" : " — unreachable");
+        paintObjectiveOption(opt, reachable);
       });
       return;
     }
@@ -614,6 +701,7 @@
       const ok = (opt.value !== src) && reach.has(opt.value);
       opt.disabled = !ok;
       opt.textContent = opt.dataset.origLabel + (ok ? "" : " — unreachable");
+      paintObjectiveOption(opt, ok);
     });
     const cur = pathToSel.options[pathToSel.selectedIndex];
     if (cur && cur.disabled) {
@@ -850,10 +938,17 @@
     return results;
   }
 
+  // Live k-slider readout.
+  const pathKInput = $("#path-k");
+  const pathKVal = $("#path-k-val");
+  pathKInput.addEventListener("input", e => {
+    pathKVal.textContent = e.target.value;
+  });
+
   $("#btn-path").addEventListener("click", () => {
     const from = pathFromSel.value;
     const to = pathToSel.value;
-    const k = Math.max(1, Math.min(10, Number($("#path-k").value) || 3));
+    const k = Math.max(1, Math.min(10, Number(pathKInput.value) || 3));
     if (!from || !to) {
       $("#btn-path").textContent = "Select endpoints…";
       setTimeout(() => { $("#btn-path").textContent = "Show paths"; }, 1500);
@@ -876,7 +971,15 @@
     nodeSet.forEach(n => cy.getElementById(n).addClass("path-highlight"));
     edgeSet.forEach(e => cy.getElementById(e).addClass("path-highlight"));
     state.pathHighlight = { nodes: nodeSet, edges: edgeSet };
-    // Re-applyFilters will dim everything off-path (assuming dim toggle is on).
+    // If the user hasn't explicitly toggled the "dim unreachable / off-path"
+    // advanced option, auto-enable it now so the highlighted path stands
+    // out against the rest of the graph — otherwise the ask ("Show paths")
+    // produces no visible contrast.
+    if (!state.dimUnreachableUserSet && !state.dimUnreachable) {
+      state.dimUnreachable = true;
+      const cb = $("#dim-unreachable");
+      if (cb) cb.checked = true;
+    }
     applyFilters();
     $("#btn-path").textContent = `Showing ${paths.length} path${paths.length === 1 ? "" : "s"}`;
     setTimeout(() => { $("#btn-path").textContent = "Show paths"; }, 1800);

@@ -114,6 +114,15 @@ def build_payload(
                 members.update(nx.ancestors(digraph, t))
         subgraph_terminal[tactic] = sorted(members)
 
+    # Strategy 2b — per-technique terminal-objective ancestor subgraph.
+    subgraph_terminal_technique: dict[str, list[str]] = {}
+    for tid in gap.objective_nodes:
+        if tid not in digraph:
+            continue
+        members = {tid}
+        members.update(nx.ancestors(digraph, tid))
+        subgraph_terminal_technique[tid] = sorted(members)
+
     node_platform_profile = {
         tid: platform_profile(n.platforms) for tid, n in gap.nodes.items()
     }
@@ -320,6 +329,7 @@ def build_payload(
         "objective_nodes": objective_nodes_payload,
         "subgraphs": {
             "terminal_objective": subgraph_terminal,
+            "terminal_technique": subgraph_terminal_technique,
             "platform": subgraph_platform,
         },
     }
