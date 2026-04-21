@@ -44,6 +44,10 @@
   Object.entries(PAYLOAD.subgraphs.terminal_technique || {}).forEach(([k, v]) => {
     subgraphTerminalTechnique[k] = new Set(v);
   });
+  const subgraphTerminalGroupWitnessed = {};
+  Object.entries(PAYLOAD.subgraphs.terminal_group_witnessed || {}).forEach(([k, v]) => {
+    subgraphTerminalGroupWitnessed[k] = new Set(v);
+  });
   const subgraphPlatform = {};
   Object.entries(PAYLOAD.subgraphs.platform || {}).forEach(([k, v]) => {
     subgraphPlatform[k] = new Set(v);
@@ -113,6 +117,7 @@
     selectedTactics: new Set(PAYLOAD.tactics.map(t => t.id)),
     csaObjectiveTactic: "",
     csaObjectiveTechnique: "",
+    csaGroupWitnessed: "",
     csaPlatform: "",
     pathHighlight: null,    // { nodes: Set, edges: Set }
   };
@@ -299,6 +304,10 @@
       const set = subgraphTerminalTechnique[state.csaObjectiveTechnique];
       if (!set || !set.has(id)) return false;
     }
+    if (state.csaGroupWitnessed) {
+      const set = subgraphTerminalGroupWitnessed[state.csaGroupWitnessed];
+      if (!set || !set.has(id)) return false;
+    }
     if (state.csaPlatform) {
       const set = subgraphPlatform[state.csaPlatform];
       if (!set || !set.has(id)) return false;
@@ -466,6 +475,38 @@
   });
   csaTechSel.addEventListener("change", e => {
     state.csaObjectiveTechnique = e.target.value;
+    applyFilters();
+  });
+
+  // Strategy 2c — group-witnessed per-terminal; same shape as 2b but the
+  // subgraph is the ancestor cone pruned to techniques that share a MITRE
+  // group with the terminal. Promoted from the 2026-04-17 exploration.
+  const csaGroupSel = $("#csa-group-witnessed");
+  const groupWitByTactic = {};
+  Object.keys(subgraphTerminalGroupWitnessed).forEach(tid => {
+    const node = nodeById[tid];
+    if (!node) return;
+    (groupWitByTactic[node.tactic] = groupWitByTactic[node.tactic] || []).push(tid);
+  });
+  PAYLOAD.tactics.forEach(t => {
+    const ids = groupWitByTactic[t.id];
+    if (!ids || ids.length === 0) return;
+    const og = document.createElement("optgroup");
+    og.label = t.label;
+    ids.sort().forEach(tid => {
+      const node = nodeById[tid];
+      const size = subgraphTerminalGroupWitnessed[tid].size;
+      const opt = document.createElement("option");
+      opt.value = tid;
+      opt.textContent = `${tid} — ${(node.label || "").slice(0, 28)} · ${size}T`;
+      opt.style.backgroundColor = t.color;
+      opt.style.color = textOn(t.color);
+      og.appendChild(opt);
+    });
+    csaGroupSel.appendChild(og);
+  });
+  csaGroupSel.addEventListener("change", e => {
+    state.csaGroupWitnessed = e.target.value;
     applyFilters();
   });
 

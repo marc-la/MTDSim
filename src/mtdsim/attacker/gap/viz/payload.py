@@ -123,6 +123,28 @@ def build_payload(
         members.update(nx.ancestors(digraph, tid))
         subgraph_terminal_technique[tid] = sorted(members)
 
+    # Strategy 2c — per-technique group-witnessed ancestor subgraph.
+    # Constrains the ancestor cone to techniques that share at least one MITRE
+    # group with the terminal. Chosen in the 2026-04-17 subgraph exploration
+    # notebook over depth-bound / campaign-witnessed / platform-cross-product
+    # variants (rubric 22/30) because it anchors each profile to an observed
+    # APT. Keys mirror ``subgraph_terminal_technique`` so the UI can offer both
+    # views from the same dropdown shape.
+    subgraph_terminal_group_witnessed: dict[str, list[str]] = {}
+    for tid in gap.objective_nodes:
+        if tid not in digraph:
+            continue
+        target_groups = set(gap.nodes[tid].group_ids)
+        ancestors = {tid} | set(nx.ancestors(digraph, tid))
+        if not target_groups:
+            members = {tid}
+        else:
+            members = {
+                a for a in ancestors
+                if a == tid or (set(gap.nodes[a].group_ids) & target_groups)
+            }
+        subgraph_terminal_group_witnessed[tid] = sorted(members)
+
     node_platform_profile = {
         tid: platform_profile(n.platforms) for tid, n in gap.nodes.items()
     }
@@ -330,6 +352,7 @@ def build_payload(
         "subgraphs": {
             "terminal_objective": subgraph_terminal,
             "terminal_technique": subgraph_terminal_technique,
+            "terminal_group_witnessed": subgraph_terminal_group_witnessed,
             "platform": subgraph_platform,
         },
     }

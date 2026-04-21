@@ -47,6 +47,9 @@
               objective technique in a chosen tactic (e.g. all of Impact).</li>
             <li><strong>2b — Objective technique:</strong> ancestors of a
               single chosen objective technique (finer grain than 2a).</li>
+            <li><strong>2c — Group-witnessed technique:</strong> like 2b but
+              pruned to ancestors that share at least one MITRE group with the
+              terminal — the promoted winner of the 2026-04-17 exploration.</li>
             <li><strong>B — Platform profile:</strong> techniques belonging
               to a platform bucket (Windows / Cloud / ICS / …).</li>
           </ul>
@@ -58,6 +61,10 @@
         <label class="inline">
           <span class="lbl">2b — Technique</span>
           <select id="csa-objective-technique" class="tactic-coded"><option value="">— all —</option></select>
+        </label>
+        <label class="inline">
+          <span class="lbl">2c — Group-witnessed</span>
+          <select id="csa-group-witnessed" class="tactic-coded"><option value="">— all —</option></select>
         </label>
         <label class="inline">
           <span class="lbl">B — Platform</span>

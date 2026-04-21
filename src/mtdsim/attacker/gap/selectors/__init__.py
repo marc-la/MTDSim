@@ -18,6 +18,9 @@ from mtdsim.attacker.gap.selectors.platform import (
     platform_profile,
 )
 from mtdsim.attacker.gap.selectors.terminal import TerminalObjectiveSelector
+from mtdsim.attacker.gap.selectors.terminal_constrained import (
+    GroupWitnessedTerminalSelector,
+)
 
 __all__ = [
     "Selector",
@@ -28,4 +31,5 @@ __all__ = [
     "PlatformSelector",
     "platform_profile",
     "TerminalObjectiveSelector",
+    "GroupWitnessedTerminalSelector",
 ]
