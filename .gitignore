@@ -162,3 +162,8 @@ gap_out/
 # GAP canonical artifacts: commit the exported JSON, but not ad-hoc HTML
 data/gap/*.html
 data/gap/tmp/
+
+# Replay visualiser caches, per-run sim outputs, throwaway spikes
+data/viz_cache/
+data/viz_runs/
+src/mtdsim/viz/replay/_spike/

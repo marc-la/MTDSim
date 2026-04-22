@@ -13,6 +13,9 @@ import os
 from typing import Any, Optional
 
 
+SCHEMA_VERSION = "1.0"
+
+
 class EventLogger:
     def __init__(self, env=None):
         self.env = env
@@ -31,6 +34,7 @@ class EventLogger:
         if t is None:
             t = float(self.env.now) if self.env is not None else 0.0
         self.events.append({
+            "schema_version": SCHEMA_VERSION,
             "t": float(t),
             "type": event_type,
             "host_id": host_id,

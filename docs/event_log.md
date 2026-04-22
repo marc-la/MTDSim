@@ -8,6 +8,7 @@ Each event is a flat JSON dict:
 
 ```json
 {
+  "schema_version": "1.0",
   "t": 123.4,
   "type": "phase_started",
   "host_id": 5,
@@ -18,15 +19,18 @@ Each event is a flat JSON dict:
 }
 ```
 
-| Field          | Type                  | Description                                                     |
-|----------------|-----------------------|-----------------------------------------------------------------|
-| `t`            | float                 | Simulation time in seconds (`env.now + proceed_time`).          |
-| `type`         | str                   | One of the event types below.                                   |
-| `host_id`      | int \| null           | Target / compromised host id (nullable for global events).      |
-| `phase`        | str \| null           | MTDSim phase (`SCAN_HOST`, `ENUM_HOST`, …).                     |
-| `technique_id` | str \| null           | MITRE ATT&CK technique id when sampled from a subgraph profile. |
-| `tactic`       | str \| null           | ATT&CK tactic; reserved for future use.                         |
-| `meta`         | dict                  | Free-form payload per event type.                               |
+| Field            | Type                  | Description                                                     |
+|------------------|-----------------------|-----------------------------------------------------------------|
+| `schema_version` | str                   | Event-log schema version. Loaders fail fast on unknown values.  |
+| `t`              | float                 | Simulation time in seconds (`env.now + proceed_time`).          |
+| `type`           | str                   | One of the event types below.                                   |
+| `host_id`        | int \| null           | Target / compromised host id (nullable for global events).      |
+| `phase`          | str \| null           | MTDSim phase (`SCAN_HOST`, `ENUM_HOST`, …).                     |
+| `technique_id`   | str \| null           | MITRE ATT&CK technique id when sampled from a subgraph profile. |
+| `tactic`         | str \| null           | ATT&CK tactic; reserved for future use.                         |
+| `meta`           | dict                  | Free-form payload per event type.                               |
+
+The authoritative schema is [docs/schemas/event_log.schema.json](schemas/event_log.schema.json).
 
 ## Event types
 

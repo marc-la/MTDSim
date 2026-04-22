@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mtdsim/schemas/event_log.schema.json",
+  "title": "MTDSim simulation event",
+  "description": "Shared contract between the simulator and the replay visualiser. One object per event; event logs are newline-delimited JSON (.jsonl) with one event per line.",
+  "type": "object",
+  "required": ["schema_version", "t", "type", "host_id", "phase", "technique_id", "tactic", "meta"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "description": "Event-log schema version. Loaders must fail fast on unknown versions.",
+      "type": "string",
+      "const": "1.0"
+    },
+    "t": {
+      "description": "Simulation time in seconds.",
+      "type": "number",
+      "minimum": 0
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "sim_started",
+        "sim_ended",
+        "phase_started",
+        "phase_completed",
+        "host_compromised",
+        "mtd_deployed",
+        "mtd_completed",
+        "attack_interrupted"
+      ]
+    },
+    "host_id": {
+      "description": "Target / compromised host id; nullable for global events.",
+      "type": ["integer", "null"]
+    },
+    "phase": {
+      "description": "MTDSim attacker phase. See src/mtdsim/attacker/profile_generator.py PHASES.",
+      "type": ["string", "null"],
+      "enum": [
+        "SCAN_HOST",
+        "ENUM_HOST",
+        "SCAN_PORT",
+        "EXPLOIT_VULN",
+        "BRUTE_FORCE",
+        "SCAN_NEIGHBOR",
+        null
+      ]
+    },
+    "technique_id": {
+      "description": "MITRE ATT&CK technique id sampled from a subgraph profile. Null for global / non-attacker events.",
+      "type": ["string", "null"]
+    },
+    "tactic": {
+      "description": "MITRE ATT&CK tactic slug (e.g. 'credential-access'). Reserved for future use; currently null.",
+      "type": ["string", "null"]
+    },
+    "meta": {
+      "description": "Free-form per-event-type payload. See docs/event_log.md for the per-type field list.",
+      "type": "object"
+    }
+  }
+}
