@@ -1,9 +1,8 @@
 """Dash app for the replay visualiser.
 
 Steps 1–3 landed the schema lock, the skeleton layout, and the playback
-state machine. Step 4 added the network panel. Later steps fill in the
-GAP iframe, the intermediary execution panel, and the catalog + run
-trigger.
+state machine. Later steps fill in the three panels (network / GAP iframe /
+intermediary execution) and the catalog + run trigger.
 
 Panels read from ``store-playback`` and ``store-log-summary``; no panel
 writes directly to another panel's state.
@@ -31,12 +30,18 @@ from mtdsim.viz.replay.log import (
     start,
     tick,
 )
+from mtdsim.viz.replay.panels.gap_iframe import IFRAME_ROUTE, build_gap_panel_body
 from mtdsim.viz.replay.panels.network import build_network_figure, empty_figure
 
 
 APP_TITLE = "MTDSim Replay Visualiser"
 TICK_MS = 100
 SPEED_CHOICES = [0.25, 0.5, 1.0, 2.0, 4.0, 8.0]
+
+# Module-level so the layout builder can read it without a closure. Set by
+# ``build_app(gap_html_path=...)``. Kept out of every callback's signature
+# because the iframe src is resolved server-side exactly once at boot.
+_GAP_HTML_PATH: Optional[Path] = None
 
 
 def _speed_button_id(speed: float) -> dict:
@@ -186,7 +191,7 @@ def _layout(log: Optional[EventLog]) -> dbc.Container:
                     dbc.Col(
                         _panel(
                             "GAP subgraph (SA L2)",
-                            html.Div("Empty — step 5.", className="text-muted"),
+                            build_gap_panel_body(_GAP_HTML_PATH),
                             "card-gap",
                         ),
                         md=4,
@@ -313,7 +318,14 @@ def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
             )
 
 
-def build_app(log: Optional[EventLog] = None) -> dash.Dash:
+def build_app(
+    log: Optional[EventLog] = None,
+    *,
+    gap_html_path: Optional[Path] = None,
+) -> dash.Dash:
+    global _GAP_HTML_PATH
+    _GAP_HTML_PATH = gap_html_path
+
     app = dash.Dash(
         __name__,
         title=APP_TITLE,
@@ -322,4 +334,123 @@ def build_app(log: Optional[EventLog] = None) -> dash.Dash:
     )
     app.layout = _layout(log)
     _register_callbacks(app, log)
+    _register_gap_iframe_bridge(app, log)
+    _register_gap_route(app, gap_html_path)
     return app
+
+
+def _register_gap_route(app: dash.Dash, gap_html_path: Optional[Path]) -> None:
+    if gap_html_path is None:
+        return
+    resolved = gap_html_path.resolve()
+
+    @app.server.route(IFRAME_ROUTE)
+    def _serve_gap():
+        from flask import send_file
+        return send_file(str(resolved), mimetype="text/html")
+
+
+def _register_gap_iframe_bridge(app: dash.Dash, log: Optional[EventLog]) -> None:
+    """Clientside postMessage bridge: mirror playback state into the iframe.
+
+    The handler is clientside so it runs in the browser (which is where
+    ``window.postMessage`` lives). It walks the event slice [prev, cur] and
+    emits:
+      - HIGHLIGHT_CURRENT for the latest technique_id at the cursor,
+      - MARK_EXECUTED for each technique seen since the previous tick,
+      - MARK_INTERRUPTED whenever attack_interrupted fires.
+    On seeks backwards or to the start, it sends RESET and re-sends the
+    executed set up to the cursor.
+    """
+    if log is None or not log.events:
+        return
+
+    # Bundle the event stream once so the clientside callback can reach it.
+    # Dash injects this into the browser via dcc.Store.
+    _events_summary = [
+        {
+            "i": i,
+            "t": float(ev["t"]),
+            "type": ev["type"],
+            "tid": ev.get("technique_id"),
+            "meta_mtd": (ev.get("meta") or {}).get("mtd_name")
+            if ev["type"] == "attack_interrupted"
+            else None,
+        }
+        for i, ev in enumerate(log.events)
+    ]
+
+    app.layout.children.insert(
+        1,
+        dcc.Store(id="store-events-summary", data=_events_summary),
+    )
+    app.layout.children.insert(
+        2,
+        dcc.Store(id="store-last-index", data=-1),
+    )
+
+    app.clientside_callback(
+        """
+        function(playbackData, eventsSummary, lastIndex) {
+            if (!eventsSummary || !eventsSummary.length) {
+                return window.dash_clientside.no_update;
+            }
+            var iframe = document.getElementById('gap-iframe');
+            if (!iframe || !iframe.contentWindow) {
+                return window.dash_clientside.no_update;
+            }
+            var cur = (playbackData && typeof playbackData.event_index === 'number')
+                        ? playbackData.event_index : -1;
+            var prev = (typeof lastIndex === 'number') ? lastIndex : -1;
+
+            var post = function(msg) {
+                iframe.contentWindow.postMessage(msg, '*');
+            };
+
+            if (cur < prev) {
+                // Scrubbed backwards: reset, then re-mark everything up to cur.
+                post({ type: 'RESET' });
+                for (var j = 0; j <= cur; j++) {
+                    var ev = eventsSummary[j];
+                    if (ev && ev.tid && ev.type === 'phase_started') {
+                        post({ type: 'MARK_EXECUTED', technique_id: ev.tid });
+                    } else if (ev && ev.type === 'attack_interrupted' && ev.tid) {
+                        post({ type: 'MARK_INTERRUPTED', technique_id: ev.tid,
+                               reason: ev.meta_mtd || 'mtd' });
+                    }
+                }
+            } else {
+                // Forward: mark anything newly seen.
+                for (var k = prev + 1; k <= cur; k++) {
+                    var e2 = eventsSummary[k];
+                    if (!e2) continue;
+                    if (e2.type === 'phase_started' && e2.tid) {
+                        post({ type: 'MARK_EXECUTED', technique_id: e2.tid });
+                    } else if (e2.type === 'attack_interrupted' && e2.tid) {
+                        post({ type: 'MARK_INTERRUPTED', technique_id: e2.tid,
+                               reason: e2.meta_mtd || 'mtd' });
+                    }
+                }
+            }
+
+            // Always flag the most recent technique as "current".
+            var currentTid = null;
+            for (var m = cur; m >= 0; m--) {
+                var e3 = eventsSummary[m];
+                if (e3 && e3.tid && e3.type === 'phase_started') {
+                    currentTid = e3.tid;
+                    break;
+                }
+            }
+            if (currentTid) {
+                post({ type: 'HIGHLIGHT_CURRENT', technique_id: currentTid });
+            }
+
+            return cur;
+        }
+        """,
+        Output("store-last-index", "data"),
+        Input("store-playback", "data"),
+        State("store-events-summary", "data"),
+        State("store-last-index", "data"),
+    )

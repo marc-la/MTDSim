@@ -1041,4 +1041,98 @@
   // Initial paint
 
   applyFilters();
+
+  // --------------------------------------------------------------
+  // Replay-viewer postMessage bridge (additive — see replay viz plan §5.2).
+  // Accepted messages:
+  //   { type: "HIGHLIGHT_CURRENT", technique_id }  — mark the *one* node the
+  //       attacker is currently on; clears any previous current node.
+  //   { type: "MARK_EXECUTED",     technique_id }  — accumulate; never cleared
+  //       except by RESET. Reflects which techniques have fired in the run.
+  //   { type: "MARK_INTERRUPTED",  technique_id, reason? } — accumulate.
+  //   { type: "RESET" }                            — clear all three classes.
+  // Outbound: TECHNIQUE_CLICKED is forwarded to the parent window so the
+  // Dash app can seek to the first occurrence of a technique in the log.
+  // The handler is a pure consumer: it never mutates filter state, never
+  // re-fits the viewport, and is safe to call before or after applyFilters.
+
+  cy.style()
+    .selector("node.is-current")
+    .style({
+      "border-color": "#f7768e",
+      "border-width": 4,
+      "background-color": "#f7768e",
+      "z-index": 9999,
+    })
+    .selector("node.is-executed")
+    .style({
+      "border-color": "#9ece6a",
+      "border-width": 3,
+    })
+    .selector("node.is-interrupted")
+    .style({
+      "border-color": "#e0af68",
+      "border-width": 3,
+      "border-style": "double",
+    })
+    .selector("edge.is-current")
+    .style({
+      "line-color": "#f7768e",
+      "target-arrow-color": "#f7768e",
+      "width": 3,
+      "opacity": 1,
+      "z-index": 9999,
+    })
+    .selector("edge.is-executed")
+    .style({
+      "line-color": "#9ece6a",
+      "target-arrow-color": "#9ece6a",
+      "opacity": 0.9,
+    })
+    .update();
+
+  function _replayClear(klass) {
+    cy.elements("." + klass).removeClass(klass);
+  }
+
+  window.addEventListener("message", function (ev) {
+    const msg = ev.data;
+    if (!msg || typeof msg !== "object" || !msg.type) return;
+
+    if (msg.type === "RESET") {
+      _replayClear("is-current");
+      _replayClear("is-executed");
+      _replayClear("is-interrupted");
+      return;
+    }
+
+    const tid = msg.technique_id;
+    if (!tid || !nodeById[tid]) return;
+    const node = cy.getElementById(tid);
+    if (!node || node.length === 0) return;
+
+    if (msg.type === "HIGHLIGHT_CURRENT") {
+      _replayClear("is-current");
+      node.addClass("is-current");
+      node.connectedEdges().addClass("is-current");
+    } else if (msg.type === "MARK_EXECUTED") {
+      node.addClass("is-executed");
+      node.connectedEdges().addClass("is-executed");
+    } else if (msg.type === "MARK_INTERRUPTED") {
+      node.addClass("is-interrupted");
+    }
+  });
+
+  // Forward node taps back to the parent (optional TECHNIQUE_CLICKED channel).
+  // Separate handler from the existing tap listener (both fire — Cytoscape
+  // supports multiple listeners per event).
+  cy.on("tap", "node", function (evt) {
+    if (evt.target.hasClass("tactic-band")) return;
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage(
+        { type: "TECHNIQUE_CLICKED", technique_id: evt.target.id() },
+        "*"
+      );
+    }
+  });
 })();

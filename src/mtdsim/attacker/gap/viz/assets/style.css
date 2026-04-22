@@ -229,3 +229,16 @@ details.group[open] > summary::before { transform: rotate(90deg); }
   overflow-wrap: anywhere; word-break: break-word; }
 #details .evidence-item .src { color: var(--accent); font-weight: 600; }
 #details a.ext::after { content: " ↗"; color: var(--muted); font-size: 10px; }
+
+/* Replay-viewer bridge classes.
+ *
+ * is-current / is-executed / is-interrupted are applied to Cytoscape graph
+ * elements (nodes and their connected edges) via the postMessage handler
+ * at the end of app.js; Cytoscape renders them with the stylesheet
+ * registered alongside the handler. The rules below are harmless duplicates
+ * for any DOM element that might carry the same class, so these names do
+ * not collide with future chrome additions.
+ */
+.is-current { outline: 2px solid #f7768e; }
+.is-executed { outline: 2px solid #9ece6a; }
+.is-interrupted { outline: 2px double #e0af68; }

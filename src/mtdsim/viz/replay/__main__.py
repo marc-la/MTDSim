@@ -20,10 +20,16 @@ def main() -> None:
         default=None,
         help="Path to events.jsonl to load at startup.",
     )
+    parser.add_argument(
+        "--gap-html",
+        type=Path,
+        default=None,
+        help="Path to a pre-rendered gap.html for the SA-L2 iframe panel.",
+    )
     args = parser.parse_args()
 
     log = EventLog.load(args.log) if args.log else None
-    app = build_app(log=log)
+    app = build_app(log=log, gap_html_path=args.gap_html)
     app.run(host=args.host, port=args.port, debug=args.debug)
 
 
