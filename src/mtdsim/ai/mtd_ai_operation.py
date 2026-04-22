@@ -21,7 +21,7 @@ from mtdsim.stats.security_metric_statistics import SecurityMetricStatistics
 class MTDAIOperation:
 
     def __init__(self, features,security_metrics_record ,env, end_event, network, attack_operation, scheme, adversary,proceed_time=0,
-                 mtd_trigger_interval=None, custom_strategies=None, main_network=None, attacker_sensitivity=1.0, epsilon=None, static_degrade_factor = 2000):
+                 mtd_trigger_interval=None, custom_strategies=None, main_network=None, attacker_sensitivity=1.0, epsilon=None, static_degrade_factor = 2000, event_logger=None):
         """
         :param env: the parameter to facilitate simPY env framework
         :param network: the simulation network
@@ -39,6 +39,7 @@ class MTDAIOperation:
         self.adversary = adversary
         self.attacker_sensitivity = attacker_sensitivity
         self.logging = False
+        self.event_logger = event_logger
 
         self.security_metrics_record = security_metrics_record
         self._mtd_scheme = MTDScheme(network=network, scheme=scheme, mtd_trigger_interval=mtd_trigger_interval,
@@ -68,6 +69,10 @@ class MTDAIOperation:
             else self._mtd_scheme._mtd_custom_strategies
         )
         self.static_degrade_factor = static_degrade_factor
+
+    def _emit(self, event_type, **kwargs):
+        if self.event_logger is not None:
+            self.event_logger.emit(event_type, t=self.env.now + self._proceed_time, **kwargs)
 
     def proceed_mtd(self):
         if self.network.get_unfinished_mtd():
@@ -159,6 +164,8 @@ class MTDAIOperation:
         if self.logging:
             logging.info('MTD: %s deployed in the network at %.1fs.' % (mtd.get_name(), start_time))
 
+        self._emit('mtd_deployed', mtd_name=mtd.get_name(), resource_type=mtd.get_resource_type())
+
         yield env.timeout(exponential_variates(mtd.get_execution_time_mean(),
                                                mtd.get_execution_time_std()))
 
@@ -174,6 +181,8 @@ class MTDAIOperation:
         
         if self.logging:
             logging.info('MTD: %s finished in %.1fs at %.1fs.' % (mtd.get_name(), duration, finish_time))
+
+        self._emit('mtd_completed', mtd_name=mtd.get_name(), resource_type=mtd.get_resource_type(), duration=duration)
 
         self.network.last_mtd_triggered_time = self.env.now
 

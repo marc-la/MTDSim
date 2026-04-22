@@ -6,7 +6,7 @@ class AttackStatistics:
     def __init__(self):
         self._attack_operation_record = []
 
-    def append_attack_operation_record(self, name, start_time, finish_time, adversary, interrupted_mtd=None):
+    def append_attack_operation_record(self, name, start_time, finish_time, adversary, interrupted_mtd=None, technique_id=None):
         duration = finish_time - start_time
         interrupted_in = 'None'
         interrupted_by = 'None'
@@ -32,6 +32,7 @@ class AttackStatistics:
             'compromise_users': [],
             'interrupted_in': interrupted_in,
             'interrupted_by': interrupted_by,
+            'technique_id': technique_id,
         })
 
     def update_compromise_host(self, curr_host):

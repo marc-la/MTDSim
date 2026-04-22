@@ -11,15 +11,34 @@ import logging
 import random
 from mtdsim.sim.time_generator import exponential_variates
 from mtdsim.data.constants import ATTACK_DURATION
+from mtdsim.attacker.subgraph_profile import is_subgraph_profile
+
+
+def _dispatch_technique(adversary, phase):
+    """Sample a concrete technique for ``phase`` if the profile is a
+    SubgraphAttackerProfile. Stores the result on the adversary and
+    records it in the per-host executed set. Returns the id or None."""
+    profile = adversary.get_profile()
+    if profile is None or not is_subgraph_profile(profile):
+        adversary.set_current_technique(None)
+        return None
+    host_id = adversary.get_curr_host_id()
+    executed = adversary.get_executed_techniques(host_id)
+    tid = profile.sample_technique(phase, executed)
+    adversary.set_current_technique(tid)
+    if tid is not None:
+        executed.add(tid)
+    return tid
 
 
 class AttackOperation:
-    def __init__(self, env, end_event, adversary, proceed_time=0):
+    def __init__(self, env, end_event, adversary, proceed_time=0, event_logger=None):
         """
 
         :param env: the parameter to facilitate simPY env framework
         :param adversary: the simulation attacker
         :param proceed_time: the time to proceed attack simulation
+        :param event_logger: optional EventLogger sidecar for replay viz
         """
 
         self.env = env
@@ -29,6 +48,11 @@ class AttackOperation:
         self._interrupted_mtd = None
         self._proceed_time = proceed_time
         self.logging = False
+        self.event_logger = event_logger
+
+    def _emit(self, event_type, **kwargs):
+        if self.event_logger is not None:
+            self.event_logger.emit(event_type, t=self.env.now + self._proceed_time, **kwargs)
  
 
     def proceed_attack(self):
@@ -63,7 +87,12 @@ class AttackOperation:
         if self.logging:
             logging.info("Adversary: Processed %s at %.1fs." % (self.adversary.get_curr_process(), finish_time))
         self.adversary.get_attack_stats().append_attack_operation_record(self.adversary.get_curr_process(), start_time,
-                                                                         finish_time, self.adversary)
+                                                                         finish_time, self.adversary,
+                                                                         technique_id=self.adversary.get_current_technique())
+        self._emit('phase_completed', phase=self.adversary.get_curr_process(),
+                   host_id=self.adversary.get_curr_host_id(),
+                   technique_id=self.adversary.get_current_technique(),
+                   interrupted=False)
         attack_action()
 
     def _get_duration(self, phase):
@@ -78,6 +107,9 @@ class AttackOperation:
         raise an SCAN_HOST action
         """
         self.adversary.set_curr_process('SCAN_HOST')
+        _dispatch_technique(self.adversary, 'SCAN_HOST')
+        self._emit('phase_started', phase='SCAN_HOST', host_id=self.adversary.get_curr_host_id(),
+                   technique_id=self.adversary.get_current_technique())
         self._attack_process = self.env.process(self._execute_attack_action(self._get_duration('SCAN_HOST'),
                                                                             self._execute_scan_host))
 
@@ -87,6 +119,9 @@ class AttackOperation:
         """
         if len(self.adversary.get_host_stack()) > 0:
             self.adversary.set_curr_process('ENUM_HOST')
+            _dispatch_technique(self.adversary, 'ENUM_HOST')
+            self._emit('phase_started', phase='ENUM_HOST', host_id=self.adversary.get_curr_host_id(),
+                       technique_id=self.adversary.get_current_technique())
             self._attack_process = self.env.process(self._execute_attack_action(self._get_duration('ENUM_HOST'),
                                                                                 self._execute_enum_host))
         else:
@@ -94,9 +129,12 @@ class AttackOperation:
 
     def _scan_port(self):
         """
-        raise an SCAN_PORT action 
+        raise an SCAN_PORT action
         """
         self.adversary.set_curr_process('SCAN_PORT')
+        _dispatch_technique(self.adversary, 'SCAN_PORT')
+        self._emit('phase_started', phase='SCAN_PORT', host_id=self.adversary.get_curr_host_id(),
+                   technique_id=self.adversary.get_current_technique())
         self._attack_process = self.env.process(self._execute_attack_action(self._get_duration('SCAN_PORT'),
                                                                             self._execute_scan_port))
 
@@ -108,6 +146,9 @@ class AttackOperation:
         adversary = self.adversary
         adversary.set_curr_vulns(adversary.get_curr_host().get_vulns(adversary.get_curr_ports()))
         self.adversary.set_curr_process('EXPLOIT_VULN')
+        _dispatch_technique(self.adversary, 'EXPLOIT_VULN')
+        self._emit('phase_started', phase='EXPLOIT_VULN', host_id=self.adversary.get_curr_host_id(),
+                   technique_id=self.adversary.get_current_technique())
         self._attack_process = self.env.process(self._execute_exploit_vuln(adversary.get_curr_vulns()))
 
     def _brute_force(self):
@@ -115,6 +156,9 @@ class AttackOperation:
         raise an BRUTE_FORCE action
         """
         self.adversary.set_curr_process('BRUTE_FORCE')
+        _dispatch_technique(self.adversary, 'BRUTE_FORCE')
+        self._emit('phase_started', phase='BRUTE_FORCE', host_id=self.adversary.get_curr_host_id(),
+                   technique_id=self.adversary.get_current_technique())
         self._attack_process = self.env.process(self._execute_attack_action(self._get_duration('BRUTE_FORCE'),
                                                                             self._execute_brute_force))
 
@@ -123,6 +167,9 @@ class AttackOperation:
         raise an SCAN_NEIGHBOR action
         """
         self.adversary.set_curr_process('SCAN_NEIGHBOR')
+        _dispatch_technique(self.adversary, 'SCAN_NEIGHBOR')
+        self._emit('phase_started', phase='SCAN_NEIGHBOR', host_id=self.adversary.get_curr_host_id(),
+                   technique_id=self.adversary.get_current_technique())
         self._attack_process = self.env.process(self._execute_attack_action(self._get_duration('SCAN_NEIGHBOR'),
                                                                             self._execute_scan_neighbors))
 
@@ -135,7 +182,17 @@ class AttackOperation:
         adversary = self.adversary
         adversary.get_attack_stats().append_attack_operation_record(name, start_time,
                                                                     self.env.now + self._proceed_time,
-                                                                    adversary, self._interrupted_mtd)
+                                                                    adversary, self._interrupted_mtd,
+                                                                    technique_id=adversary.get_current_technique())
+        interrupted_by_name = self._interrupted_mtd.get_name() if self._interrupted_mtd is not None else None
+        self._emit('attack_interrupted', phase=name,
+                   host_id=adversary.get_curr_host_id(),
+                   technique_id=adversary.get_current_technique(),
+                   interrupted_by=interrupted_by_name)
+        self._emit('phase_completed', phase=name,
+                   host_id=adversary.get_curr_host_id(),
+                   technique_id=adversary.get_current_technique(),
+                   interrupted=True)
         # confusion penalty caused by MTD operation
         yield self.env.timeout(exponential_variates(self._get_duration('PENALTY'), 0.5))
 
@@ -287,7 +344,12 @@ class AttackOperation:
                                                                      self.adversary.get_curr_host_id(), finish_time))
             self.adversary.get_attack_stats().append_attack_operation_record(self.adversary.get_curr_process(),
                                                                              start_time,
-                                                                             finish_time, self.adversary)
+                                                                             finish_time, self.adversary,
+                                                                             technique_id=self.adversary.get_current_technique())
+            self._emit('phase_completed', phase=self.adversary.get_curr_process(),
+                       host_id=self.adversary.get_curr_host_id(),
+                       technique_id=self.adversary.get_current_technique(),
+                       interrupted=False, vuln_id=getattr(vuln, 'id', None))
             vuln.network(host=adversary.get_curr_host(), exploit_bonus=exploit_bonus)
             # cumulative vulnerability exploitation attempts
             adversary.set_curr_attempts(adversary.get_curr_attempts() + 1)
@@ -366,6 +428,11 @@ class AttackOperation:
                 logging.info(
                 "Adversary: Host %i has been compromised at %.1fs!" % (
                     adversary.get_curr_host_id(), now + proceed_time))
+            self._emit('host_compromised',
+                       host_id=adversary.get_curr_host_id(),
+                       phase=adversary.get_curr_process(),
+                       technique_id=adversary.get_current_technique(),
+                       cumulative_compromised=len(adversary.get_compromised_hosts()))
             adversary.get_network().update_reachable_compromise(
                 adversary.get_curr_host_id(), adversary.get_compromised_hosts())
 

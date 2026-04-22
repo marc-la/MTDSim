@@ -26,6 +26,12 @@ class Adversary:
         self._attack_stats = AttackStatistics()
         self._curr_process = 'SCAN_HOST'
 
+        # GAP-subgraph attacker bookkeeping: per-host history of technique IDs
+        # sampled from a SubgraphAttackerProfile, and the most recently sampled
+        # id (attached to the current phase's event log entry).
+        self._executed_techniques_by_host: dict[int, set[str]] = {}
+        self._current_technique: str | None = None
+
     def swap_hosts_in_compromised_hosts(self, host_id, other_host_id):
         """
         update compromised host ids for hosttopology shuffle
@@ -122,3 +128,12 @@ class Adversary:
 
     def get_profile(self):
         return self._profile
+
+    def get_executed_techniques(self, host_id):
+        return self._executed_techniques_by_host.setdefault(host_id, set())
+
+    def set_current_technique(self, tid):
+        self._current_technique = tid
+
+    def get_current_technique(self):
+        return self._current_technique

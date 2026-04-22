@@ -17,7 +17,7 @@ import random
 class MTDOperation:
 
     def __init__(self,security_metrics_record,env, end_event, network, attack_operation, scheme, adversary, proceed_time=0,
-                 mtd_trigger_interval=None, custom_strategies=None):
+                 mtd_trigger_interval=None, custom_strategies=None, event_logger=None):
         """
 
         :param env: the parameter to facilitate simPY env framework
@@ -27,7 +27,8 @@ class MTDOperation:
         :param proceed_time:the time to proceed MTD simulation
         :param custom_strategies:specific MTD priority strategy for alternative scheme or single scheme
         :param mtd_trigger_interval:the interval to trigger MTD operations
-        :param adversary: the adversary 
+        :param adversary: the adversary
+        :param event_logger: optional EventLogger sidecar for replay viz
         """
         self.env = env
         self.end_event = end_event
@@ -35,6 +36,7 @@ class MTDOperation:
         self.attack_operation = attack_operation
         self.adversary = adversary
         self.logging = False
+        self.event_logger = event_logger
 
         self.security_metric_record = security_metrics_record
         self._mtd_scheme = MTDScheme(network=network, scheme=scheme, mtd_trigger_interval=mtd_trigger_interval,
@@ -46,6 +48,10 @@ class MTDOperation:
         self.reserve_resource = simpy.Resource(self.env, 1)
 
         self.evaluation = Evaluation(self.network, self.adversary, self.security_metric_record)
+
+    def _emit(self, event_type, **kwargs):
+        if self.event_logger is not None:
+            self.event_logger.emit(event_type, t=self.env.now + self._proceed_time, **kwargs)
 
     
         
@@ -166,6 +172,8 @@ class MTDOperation:
         if self.logging:
             logging.info('MTD: %s deployed in the network at %.1fs.' % (mtd.get_name(), start_time))
 
+        self._emit('mtd_deployed', mtd_name=mtd.get_name(), resource_type=mtd.get_resource_type())
+
         yield env.timeout(exponential_variates(mtd.get_execution_time_mean(),
                                                mtd.get_execution_time_std()))
 
@@ -181,6 +189,8 @@ class MTDOperation:
         
         if self.logging:
             logging.info('MTD: %s finished in %.1fs at %.1fs.' % (mtd.get_name(), duration, finish_time))
+
+        self._emit('mtd_completed', mtd_name=mtd.get_name(), resource_type=mtd.get_resource_type(), duration=duration)
 
         # release resource
         self._get_mtd_resource(mtd).release(request)
