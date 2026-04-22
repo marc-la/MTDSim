@@ -1,0 +1,7 @@
+{"schema_version": "1.0", "t": 0.0, "type": "sim_started", "host_id": null, "phase": null, "technique_id": null, "tactic": null, "meta": {"profile": "test", "scheme": "no_mtd", "seed": 0, "topology": {"nodes": [{"id": 0, "subnet": 0, "layer": 0, "os": "linux"}, {"id": 1, "subnet": 0, "layer": 0, "os": "linux"}, {"id": 2, "subnet": 1, "layer": 1, "os": "windows"}, {"id": 3, "subnet": 1, "layer": 1, "os": "windows"}, {"id": 4, "subnet": 2, "layer": 2, "os": "linux"}], "edges": [[0, 1], [1, 2], [2, 3], [2, 4], [3, 4]]}}}
+{"schema_version": "1.0", "t": 10.0, "type": "phase_started", "host_id": 1, "phase": "SCAN_HOST", "technique_id": "T1016", "tactic": null, "meta": {}}
+{"schema_version": "1.0", "t": 50.0, "type": "phase_started", "host_id": 2, "phase": "EXPLOIT_VULN", "technique_id": "T1190", "tactic": null, "meta": {}}
+{"schema_version": "1.0", "t": 120.0, "type": "host_compromised", "host_id": 2, "phase": null, "technique_id": null, "tactic": null, "meta": {"cumulative_compromised": 1}}
+{"schema_version": "1.0", "t": 230.0, "type": "phase_started", "host_id": 3, "phase": "BRUTE_FORCE", "technique_id": "T1110", "tactic": null, "meta": {}}
+{"schema_version": "1.0", "t": 400.0, "type": "host_compromised", "host_id": 3, "phase": null, "technique_id": null, "tactic": null, "meta": {"cumulative_compromised": 2}}
+{"schema_version": "1.0", "t": 500.0, "type": "sim_ended", "host_id": null, "phase": null, "technique_id": null, "tactic": null, "meta": {"compromise_ratio": 0.4, "duration": 500.0}}

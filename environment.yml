@@ -21,6 +21,9 @@ dependencies:
         - ipywidgets>=8.0
         - jupyter>=1.0
         - notebook>=7.0
+        - dash>=2.16
+        - dash-bootstrap-components>=1.5
+        - jsonschema>=4.20
         - azure-batch>=12.0
         - azure-common>=1.1
         - azure-core>=1.24
