@@ -106,9 +106,8 @@ class MITRETechniqueDependencyVisualiser:
     # -----------------------------------------------------------------
     # HTML rendering
 
-    def render_interactive(
+    def render_to_string(
         self,
-        output_path: str,
         evidence_types: Optional[set[str]] = None,
         min_confidence: float = 0.0,
         only_consensus: bool = False,
@@ -116,12 +115,7 @@ class MITRETechniqueDependencyVisualiser:
         initial_preset: str = "attack_flow",
         view: Optional[SubgraphView] = None,
     ) -> str:
-        """
-        Write a self-contained HTML file with the Cytoscape viewer.
-
-        The legacy pyvis-era filter arguments are retained so existing calls
-        keep working; they seed the initial filter state in the HTML.
-        """
+        """Compose the Cytoscape viewer HTML without touching disk."""
         if view is not None:
             self.view = view
             self._payload = None
@@ -142,10 +136,7 @@ class MITRETechniqueDependencyVisualiser:
         payload_json = json.dumps(payload, default=str)
         filter_json = json.dumps(initial_filter)
 
-        # Offline-safe: load Cytoscape from jsDelivr CDN with SRI-compatible
-        # tags. If the machine is offline the viewer still renders nodes via
-        # the fallback DOM but graph layout won't run — documented.
-        html = (
+        return (
             html_template
             .replace("__CSS__", css)
             .replace("__APP_JS__", app_js)
@@ -155,6 +146,25 @@ class MITRETechniqueDependencyVisualiser:
             .replace("__VERSION__", payload["meta"]["version"])
         )
 
+    def render_interactive(
+        self,
+        output_path: str,
+        evidence_types: Optional[set[str]] = None,
+        min_confidence: float = 0.0,
+        only_consensus: bool = False,
+        hide_isolated: bool = True,
+        initial_preset: str = "attack_flow",
+        view: Optional[SubgraphView] = None,
+    ) -> str:
+        """Write a self-contained HTML file with the Cytoscape viewer."""
+        html = self.render_to_string(
+            evidence_types=evidence_types,
+            min_confidence=min_confidence,
+            only_consensus=only_consensus,
+            hide_isolated=hide_isolated,
+            initial_preset=initial_preset,
+            view=view,
+        )
         out = Path(output_path)
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(html)

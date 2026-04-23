@@ -63,7 +63,13 @@ def main() -> None:
         "--gap-html",
         type=Path,
         default=None,
-        help="Path to a pre-rendered gap.html for the SA-L2 iframe panel.",
+        help="Optional: override the bundled GAP snapshot with a pre-rendered gap.html.",
+    )
+    parser.add_argument(
+        "--gap-json",
+        type=Path,
+        default=None,
+        help="Optional: override the bundled GAP snapshot JSON (for dev iteration).",
     )
     args = parser.parse_args()
 
@@ -86,7 +92,12 @@ def main() -> None:
             print(f"[replay] wrote {log_path}")
 
     log = EventLog.load(log_path)
-    app = build_app(log=log, gap_html_path=args.gap_html)
+    app = build_app(
+        log=log,
+        gap_html_path=args.gap_html,
+        gap_json_path=args.gap_json,
+        events_dir=args.events_dir,
+    )
     app.run(host=args.host, port=args.port, debug=args.debug)
 
 

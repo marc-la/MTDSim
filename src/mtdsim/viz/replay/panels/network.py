@@ -27,10 +27,30 @@ STATE_COLORS = {
     "targeted": "#f7b267",
     "compromised": "#e63946",
 }
+# State is drawn as the node border so the subnet-coloured fill always stays
+# legible underneath.
+STATE_BORDER = {
+    "untouched": "#343a40",
+    "targeted": "#f7b267",
+    "compromised": "#e63946",
+}
+# Subnet palette — Plotly "Bold" qualitative scale, extended if more than 10
+# subnets by cycling. Subnets are the user-facing structural grouping.
+SUBNET_PALETTE = [
+    "#7f3c8d", "#11a579", "#3969ac", "#f2b701", "#e73f74",
+    "#80ba5a", "#e68310", "#008695", "#cf1c90", "#f97b72",
+]
+UNIFORM_NODE_SIZE = 16
 EDGE_COLOR = "#343a40"
 MTD_HALO_COLOR = "#06a77d"
 ENDPOINT_RING_COLOR = "#2d6a4f"
 DATABASE_RING_COLOR = "#7209b7"
+
+
+def _subnet_colour(subnet: int) -> str:
+    if subnet < 0:
+        return "#c5cad1"
+    return SUBNET_PALETTE[subnet % len(SUBNET_PALETTE)]
 
 
 def _cumulative_host_states(
@@ -168,6 +188,69 @@ def empty_figure(message: str = "No topology in sim_started.meta.topology") -> g
     return fig
 
 
+def build_preview_topology(
+    params: dict[str, Any],
+    *,
+    seed: int = 0,
+) -> dict[str, Any]:
+    """Generate a minimal topology dict from network params without host setup.
+
+    Calls ``Network.gen_graph`` directly — no host / IP / service creation —
+    so form-driven previews stay snappy and avoid SimPy / service-catalog
+    side effects. Shape matches ``_serialise_topology`` output in runner.py
+    so ``build_network_figure`` can consume it unchanged.
+    """
+    import random as _random
+    import numpy as _np
+
+    from mtdsim.network.network import Network
+
+    _random.seed(seed)
+    _np.random.seed(seed)
+
+    net = Network(
+        total_nodes=params["total_nodes"],
+        total_endpoints=params["total_endpoints"],
+        total_subnets=params["total_subnets"],
+        total_layers=params["total_layers"],
+        total_database=params["total_database"],
+    )
+    net.gen_graph()
+
+    nodes = []
+    for nid in sorted(net.graph.nodes):
+        attrs = net.graph.nodes[nid]
+        nodes.append({
+            "id": int(nid),
+            "subnet": int(attrs.get("subnet", -1)),
+            "layer": int(attrs.get("layer", -1)),
+            "is_endpoint": nid in net.exposed_endpoints,
+            "is_database": nid in net._database,
+        })
+    edges = [[int(a), int(b)] for a, b in net.graph.edges]
+    return {
+        "nodes": nodes,
+        "edges": edges,
+        "exposed_endpoints": [int(n) for n in net.exposed_endpoints],
+        "databases": [int(n) for n in net._database],
+        "layers": int(net.layers),
+        "subnets": int(net.total_subnets),
+    }
+
+
+def build_preview_figure(
+    params: dict[str, Any],
+    *,
+    seed: int = 0,
+    height: int = 360,
+) -> go.Figure:
+    """Render a network preview figure from params (no events, no hosts)."""
+    topology = build_preview_topology(params, seed=seed)
+    return build_network_figure(
+        topology=topology, events=[], event_index=-1, height=height
+    )
+
+
 def build_network_figure(
     *,
     topology: dict[str, Any] | None,
@@ -217,7 +300,7 @@ def build_network_figure(
     )
 
     traces_by_state: dict[str, dict[str, list]] = {
-        name: {"x": [], "y": [], "size": [], "text": [], "ids": []}
+        name: {"x": [], "y": [], "size": [], "text": [], "ids": [], "fill": []}
         for name in STATE_COLORS
     }
 
@@ -232,8 +315,9 @@ def build_network_figure(
         bucket = traces_by_state[state]
         bucket["x"].append(pos[nid][0])
         bucket["y"].append(pos[nid][1])
-        base_size = 10 + 2.5 * degree.get(nid, 0)
-        bucket["size"].append(base_size)
+        bucket["size"].append(UNIFORM_NODE_SIZE)
+        subnet = int((node_meta.get(nid) or {}).get("subnet", -1))
+        bucket["fill"].append(_subnet_colour(subnet))
         host_activity = activity.get(nid, {})
         bucket["text"].append(
             _host_hover_text(
@@ -250,7 +334,7 @@ def build_network_figure(
         if nid in mtd_targets:
             halo_x.append(pos[nid][0])
             halo_y.append(pos[nid][1])
-            halo_size.append(base_size + 12)
+            halo_size.append(UNIFORM_NODE_SIZE + 10)
 
     fig = go.Figure()
     fig.add_trace(edge_trace)
@@ -318,6 +402,10 @@ def build_network_figure(
 
     for name, color in STATE_COLORS.items():
         bucket = traces_by_state[name]
+        border_width = 3 if name != "untouched" else 1
+        # Fill colour per-marker (subnet). Fallback to the state hue when
+        # nothing has been added yet — keeps the legend swatch honest.
+        fill = bucket["fill"] if bucket["fill"] else color
         fig.add_trace(
             go.Scattergl(
                 x=bucket["x"],
@@ -325,9 +413,9 @@ def build_network_figure(
                 mode="markers",
                 name=name,
                 marker=dict(
-                    color=color,
-                    size=bucket["size"],
-                    line=dict(color="#212529", width=1),
+                    color=fill,
+                    size=bucket["size"] or [UNIFORM_NODE_SIZE],
+                    line=dict(color=STATE_BORDER[name], width=border_width),
                 ),
                 text=bucket["text"],
                 ids=bucket["ids"],

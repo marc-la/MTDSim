@@ -117,12 +117,12 @@ def build_timeline_figure(log: EventLog | None, *, sim_t: float = 0.0) -> go.Fig
         rows=3,
         cols=1,
         shared_xaxes=True,
-        vertical_spacing=0.04,
+        vertical_spacing=0.10,
         row_heights=[0.38, 0.18, 0.44],
         subplot_titles=(
-            "MTD deployments (defender)",
-            "Resource occupation",
-            "Attack phases (attacker)",
+            "<b>MTD technique</b> (defender deployments)",
+            "<b>Resource</b> (occupation)",
+            "<b>Attack phase</b> (attacker kill-chain)",
         ),
     )
 
@@ -259,13 +259,36 @@ def build_timeline_figure(log: EventLog | None, *, sim_t: float = 0.0) -> go.Fig
         opacity=0.85,
     )
 
+    # Per-row background tints so the three swim-lanes read as distinct
+    # sections at a glance (the user flagged these as looking undifferentiated).
     fig.update_layout(
         height=520,
-        margin=dict(l=70, r=20, t=40, b=40),
+        margin=dict(l=80, r=20, t=50, b=40),
         plot_bgcolor="white",
         hovermode="closest",
         uirevision="timeline-panel",
     )
+    for row, tint in enumerate(["#f5f8ff", "#fff6ef", "#fff0f0"], start=1):
+        fig.update_xaxes(showgrid=True, gridcolor="#eaeaea", row=row, col=1)
+        fig.update_yaxes(
+            showgrid=False,
+            showline=True,
+            linecolor="#b5b5b5",
+            linewidth=1,
+            row=row, col=1,
+        )
+        # Plotly axis domain refs are "x" (row 1, no suffix), "x2", "x3", ...
+        x_suffix = "" if row == 1 else str(row)
+        fig.add_shape(
+            type="rect",
+            xref=f"x{x_suffix} domain",
+            yref=f"y{x_suffix} domain",
+            x0=0, x1=1, y0=0, y1=1,
+            fillcolor=tint,
+            line=dict(width=0),
+            layer="below",
+            row=row, col=1,
+        )
     fig.update_yaxes(
         title_text="MTD technique",
         categoryorder="array",

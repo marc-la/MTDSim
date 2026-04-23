@@ -14,6 +14,7 @@ that only has dash + plotly.
 from __future__ import annotations
 
 import random
+from concurrent.futures import Future, ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Optional
 
@@ -27,6 +28,45 @@ from mtdsim.network.time_network import TimeNetwork
 from mtdsim.stats.event_log import EventLogger
 from mtdsim.stats.security_metric_statistics import SecurityMetricStatistics
 from mtdsim.viz.replay.config import DEFAULT_EVENTS_DIR, ReplayConfig
+
+
+# Single-slot worker so the UI can only ever have one sim running at a time.
+# Dash callbacks need to poll via a dcc.Interval; the simplest thing that
+# works is stash the in-flight Future at module scope.
+_EXECUTOR = ThreadPoolExecutor(max_workers=1)
+_CURRENT_FUTURE: Optional[Future] = None
+
+
+def run_canonical_sim_async(
+    config: ReplayConfig,
+    *,
+    scheme: str = "random",
+    profile: Optional[AttackerProfile] = None,
+    events_dir: Path = DEFAULT_EVENTS_DIR,
+    force: bool = True,
+) -> Future:
+    """Kick off ``run_canonical_sim`` on a background thread.
+
+    Defaults to ``force=True`` because the UI caller expects each Run click
+    to produce a fresh log. The caller is responsible for tracking the
+    returned Future (e.g. stashing it for a dcc.Interval poll loop).
+    """
+    global _CURRENT_FUTURE
+    if _CURRENT_FUTURE is not None and not _CURRENT_FUTURE.done():
+        return _CURRENT_FUTURE
+    _CURRENT_FUTURE = _EXECUTOR.submit(
+        run_canonical_sim,
+        config,
+        scheme=scheme,
+        profile=profile,
+        events_dir=events_dir,
+        force=force,
+    )
+    return _CURRENT_FUTURE
+
+
+def current_run_future() -> Optional[Future]:
+    return _CURRENT_FUTURE
 
 
 def _serialise_topology(net: TimeNetwork) -> dict[str, Any]:

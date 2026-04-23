@@ -120,6 +120,8 @@
     csaGroupWitnessed: "",
     csaPlatform: "",
     pathHighlight: null,    // { nodes: Set, edges: Set }
+    // Set by the parent frame via SELECT_SUBGRAPH. null = no restriction.
+    externalNodeSet: null,
   };
 
   // Seed evidence visibility from explicit list, else from per-evidence
@@ -328,6 +330,7 @@
     if (state.selectedCampaigns) {
       if (!d.campaign_ids.some(c => state.selectedCampaigns.has(c))) return false;
     }
+    if (state.externalNodeSet && !state.externalNodeSet.has(d.id)) return false;
     return true;
   }
 
@@ -1103,6 +1106,13 @@
       _replayClear("is-current");
       _replayClear("is-executed");
       _replayClear("is-interrupted");
+      return;
+    }
+
+    if (msg.type === "SELECT_SUBGRAPH") {
+      const list = msg.node_set || [];
+      state.externalNodeSet = list.length === 0 ? null : new Set(list);
+      applyFilters();
       return;
     }
 

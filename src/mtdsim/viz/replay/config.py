@@ -30,6 +30,24 @@ class ReplayConfig:
     def log_path(self, scheme: str, root: Path) -> Path:
         return root / f"{self.name}_{scheme}_{self.seed}.jsonl"
 
+    def replace(self, **overrides: Any) -> "ReplayConfig":
+        """Return a new config with scalar fields and/or network_params merged.
+
+        Used by the Run Simulator form to build a one-off config per click
+        without mutating the canonical presets.
+        """
+        network_overrides = overrides.pop("network_params", None)
+        if network_overrides is not None:
+            new_params = {**self.network_params, **network_overrides}
+        else:
+            new_params = self.network_params
+        return ReplayConfig(
+            name=overrides.get("name", self.name),
+            finish_time=overrides.get("finish_time", self.finish_time),
+            network_params=new_params,
+            seed=overrides.get("seed", self.seed),
+        )
+
 
 PRIMARY = ReplayConfig(
     name="primary",

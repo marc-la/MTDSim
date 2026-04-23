@@ -33,6 +33,12 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import Input, Output, State, ctx, dcc, html, no_update
 
+from mtdsim.attacker import AttackerProfile
+from mtdsim.attacker.gap.schema import GeneralisedAttackProfile
+from mtdsim.attacker.gap.selectors import SubgraphView
+from mtdsim.attacker.subgraph_profile import SubgraphAttackerProfile
+from mtdsim.viz.replay.config import DEFAULT_EVENTS_DIR, PRIMARY
+from mtdsim.viz.replay.gap_source import load_gap, render_gap_html
 from mtdsim.viz.replay.log import (
     EventLog,
     PlaybackState,
@@ -44,63 +50,73 @@ from mtdsim.viz.replay.log import (
     tick,
 )
 from mtdsim.viz.replay.panels import stats as stats_panel
-from mtdsim.viz.replay.panels.attacker import (
-    build_phase_tracker,
-    build_technique_bar,
-    compromised_hosts_rollup,
-)
+from mtdsim.viz.replay.panels.attacker import build_phase_tracker
 from mtdsim.viz.replay.panels.gap_iframe import IFRAME_ROUTE, build_gap_panel_body
 from mtdsim.viz.replay.panels.network import (
     build_network_figure,
+    build_preview_figure,
     empty_figure,
     host_detail_lines,
 )
+from mtdsim.viz.replay.panels.phase_lanes import build_phase_lanes_figure
+from mtdsim.viz.replay.panels.profile import (
+    build_profile_body,
+    resolve_view,
+    serialise_view,
+    value_options_for_mode,
+)
+from mtdsim.viz.replay.panels.run import (
+    build_run_body,
+    form_params,
+    validate_params,
+)
 from mtdsim.viz.replay.panels.timeline import build_timeline_figure, empty_timeline
+from mtdsim.viz.replay.runner import current_run_future, run_canonical_sim_async
 
 
-APP_TITLE = "MTDSim Replay Visualiser"
+APP_TITLE = "MTDSim TTP-driven APT Profile Visualiser"
 TICK_MS = 100
-SPEED_CHOICES = [0.25, 0.5, 1.0, 2.0, 4.0, 8.0]
+# Log-scale stops so the slider reaches 64× without eating UI width. PlaybackState
+# still stores speed as a float — this is just the set of snap points.
+SPEED_CHOICES = [0.25, 0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0]
+BOOTSTRAP_ICONS_CDN = (
+    "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+)
 
-TAB_OVERVIEW = "overview"
-TAB_NETWORK = "network"
-TAB_ATTACKER = "attacker"
-TAB_DEFENDER = "defender"
-TAB_GAP = "gap"
-TAB_TIMELINE = "timeline"
+TAB_PROFILE = "profile"
+TAB_RUN = "run"
 TABS: list[tuple[str, str]] = [
-    (TAB_OVERVIEW, "Overview"),
-    (TAB_NETWORK, "Network (SA L1)"),
-    (TAB_ATTACKER, "Attacker"),
-    (TAB_DEFENDER, "Defender"),
-    (TAB_GAP, "GAP (SA L2)"),
-    (TAB_TIMELINE, "Timeline (SA L3)"),
+    (TAB_PROFILE, "Attack Profile"),
+    (TAB_RUN, "Run Simulator"),
 ]
 
 _GAP_HTML_PATH: Optional[Path] = None
+_GAP: Optional[GeneralisedAttackProfile] = None
+_GAP_RENDERED_HTML: Optional[str] = None
+
+# The current event log is mutable so the Run button can hot-swap it in
+# after a background run completes. Callbacks read this reference instead
+# of closing over a specific EventLog.
+_CURRENT_LOG: Optional[EventLog] = None
+_EVENTS_DIR: Path = DEFAULT_EVENTS_DIR
 
 
 def _speed_button_id(speed: float) -> dict:
     return {"type": "speed-btn", "speed": speed}
 
 
-def _navbar(log: Optional[EventLog]) -> dbc.Navbar:
-    meta = (log.sim_meta if log else {}) or {}
-    config_name = meta.get("config") or (log.path.name if log else "no log")
-    scheme = meta.get("scheme") or "—"
-    seed = meta.get("seed")
-    subtitle_parts = [config_name, f"scheme={scheme}"]
-    if seed is not None:
-        subtitle_parts.append(f"seed={seed}")
-    subtitle = " · ".join(str(p) for p in subtitle_parts)
+def _icon(name: str) -> html.I:
+    return html.I(className=f"bi bi-{name}")
 
+
+def _navbar(log: Optional[EventLog]) -> dbc.Navbar:
     tab_buttons = dbc.Nav(
         [
             dbc.NavLink(
                 label,
                 id={"type": "tab-link", "tab": tab_id},
                 href="#",
-                active=(tab_id == TAB_OVERVIEW),
+                active=(tab_id == TAB_RUN),
                 className="px-3",
             )
             for tab_id, label in TABS
@@ -113,7 +129,6 @@ def _navbar(log: Optional[EventLog]) -> dbc.Navbar:
         dbc.Container(
             [
                 dbc.NavbarBrand(APP_TITLE, className="ms-2"),
-                html.Span(subtitle, className="text-white-50 small ms-3"),
                 tab_buttons,
             ],
             fluid=True,
@@ -124,77 +139,96 @@ def _navbar(log: Optional[EventLog]) -> dbc.Navbar:
     )
 
 
-def _overview_body(log: Optional[EventLog]) -> html.Div:
+def _expandable_card(
+    card_id: str,
+    header,
+    body,
+    *,
+    card_body_style: Optional[dict] = None,
+) -> html.Div:
+    """Wrap body in a card with a fullscreen toggle button.
+
+    Toggling sets the ``mtd-fullscreen`` class on the wrapper div (see
+    assets/mtd.css); the body DOM is not re-mounted, so callback wiring and
+    the postMessage bridge survive the overlay.
+    """
+    header_row = dbc.Row(
+        [
+            dbc.Col(html.Span(header), width=True),
+            dbc.Col(
+                dbc.Button(
+                    "⤢",
+                    id={"type": "fs-toggle", "card": card_id},
+                    size="sm",
+                    color="link",
+                    className="p-0 text-muted",
+                    title="Toggle fullscreen",
+                ),
+                width="auto",
+            ),
+        ],
+        align="center",
+        className="g-0",
+    )
+    return html.Div(
+        dbc.Card(
+            [
+                dbc.CardHeader(header_row),
+                dbc.CardBody(body, className="p-2", style=card_body_style),
+            ]
+        ),
+        id={"type": "fs-wrapper", "card": card_id},
+        className="mtd-card-wrapper",
+    )
+
+
+def _run_body(log: Optional[EventLog]) -> html.Div:
     return html.Div(
         [
+            build_run_body(PRIMARY),
             dbc.Row(
                 [
                     dbc.Col(
-                        dbc.Card(
-                            [
-                                dbc.CardHeader("Network (SA L1)"),
-                                dbc.CardBody(
-                                    dcc.Graph(
-                                        id="overview-network",
-                                        figure=_initial_network_figure(log, height=340),
-                                        config={"displayModeBar": False},
-                                        style={"height": "340px"},
-                                    ),
-                                    className="p-2",
-                                ),
-                            ]
+                        _expandable_card(
+                            "run-network",
+                            "Network (live)",
+                            dcc.Graph(
+                                id="overview-network",
+                                figure=_initial_network_figure(log, height=340),
+                                config={"displayModeBar": False},
+                                style={"height": "340px"},
+                            ),
                         ),
-                        md=6,
-                    ),
-                    dbc.Col(
-                        dbc.Card(
-                            [
-                                dbc.CardHeader("GAP (SA L2) — see dedicated tab"),
-                                dbc.CardBody(
-                                    _gap_overview_summary(log),
-                                    className="p-2",
-                                    style={"height": "340px", "overflow": "auto"},
-                                ),
-                            ]
-                        ),
-                        md=6,
+                        md=12,
                     ),
                 ],
-                className="g-3",
+                className="g-3 mt-3",
             ),
             dbc.Row(
                 [
                     dbc.Col(
-                        dbc.Card(
-                            [
-                                dbc.CardHeader("Kill-chain phase"),
-                                dbc.CardBody(
-                                    dcc.Graph(
-                                        id="overview-phase",
-                                        figure=build_phase_tracker(None),
-                                        config={"displayModeBar": False},
-                                        style={"height": "120px"},
-                                    ),
-                                    className="p-1",
-                                ),
-                            ]
+                        _expandable_card(
+                            "run-phase",
+                            "Kill-chain phase",
+                            dcc.Graph(
+                                id="overview-phase",
+                                figure=build_phase_tracker(None),
+                                config={"displayModeBar": False},
+                                style={"height": "120px"},
+                            ),
                         ),
                         md=5,
                     ),
                     dbc.Col(
-                        dbc.Card(
-                            [
-                                dbc.CardHeader("Intermediary execution (SA L3)"),
-                                dbc.CardBody(
-                                    dcc.Graph(
-                                        id="overview-timeline",
-                                        figure=_initial_timeline_figure(log),
-                                        config={"displayModeBar": False},
-                                        style={"height": "360px"},
-                                    ),
-                                    className="p-1",
-                                ),
-                            ]
+                        _expandable_card(
+                            "run-timeline",
+                            "Execution timeline",
+                            dcc.Graph(
+                                id="overview-timeline",
+                                figure=_initial_timeline_figure(log),
+                                config={"displayModeBar": False},
+                                style={"height": "360px"},
+                            ),
                         ),
                         md=7,
                     ),
@@ -205,170 +239,11 @@ def _overview_body(log: Optional[EventLog]) -> html.Div:
     )
 
 
-def _network_body(log: Optional[EventLog]) -> html.Div:
-    return html.Div(
-        [
-            dcc.Graph(
-                id="network-graph",
-                figure=_initial_network_figure(log, height=720),
-                config={"displayModeBar": False},
-                style={"height": "calc(100vh - 260px)"},
-            ),
-        ]
-    )
-
-
-def _attacker_body(log: Optional[EventLog]) -> html.Div:
-    return html.Div(
-        [
-            dbc.Card(
-                [
-                    dbc.CardHeader("Kill-chain phase (SA-Checklist §2.1)"),
-                    dbc.CardBody(
-                        dcc.Graph(
-                            id="attacker-phase",
-                            figure=build_phase_tracker(None),
-                            config={"displayModeBar": False},
-                            style={"height": "140px"},
-                        ),
-                        className="p-2",
-                    ),
-                ],
-                className="mb-2",
-            ),
-            dbc.Row(
-                [
-                    dbc.Col(
-                        dbc.Card(
-                            [
-                                dbc.CardHeader("Technique frequency (SA-Checklist §2.4)"),
-                                dbc.CardBody(
-                                    dcc.Graph(
-                                        id="attacker-tech",
-                                        figure=build_technique_bar(log, -1) if log else empty_timeline(),
-                                        config={"displayModeBar": False},
-                                        style={"height": "480px"},
-                                    ),
-                                    className="p-2",
-                                ),
-                            ]
-                        ),
-                        md=7,
-                    ),
-                    dbc.Col(
-                        dbc.Card(
-                            [
-                                dbc.CardHeader("Compromised hosts"),
-                                dbc.CardBody(
-                                    html.Div(
-                                        id="attacker-hosts",
-                                        children=_compromised_hosts_list(log, -1),
-                                        style={"maxHeight": "480px", "overflowY": "auto"},
-                                    ),
-                                    className="p-2",
-                                ),
-                            ]
-                        ),
-                        md=5,
-                    ),
-                ],
-                className="g-3",
-            ),
-        ]
-    )
-
-
-def _defender_body(log: Optional[EventLog]) -> html.Div:
-    return html.Div(
-        [
-            dbc.Row(
-                [
-                    dbc.Col(
-                        dbc.Card(
-                            [
-                                dbc.CardHeader("MTD + resource + attack (SA-Checklist §3.1 / §3.2 / §2.2)"),
-                                dbc.CardBody(
-                                    dcc.Graph(
-                                        id="defender-timeline",
-                                        figure=_initial_timeline_figure(log),
-                                        config={"displayModeBar": False},
-                                        style={"height": "calc(100vh - 340px)"},
-                                    ),
-                                    className="p-2",
-                                ),
-                            ]
-                        ),
-                        md=12,
-                    ),
-                ]
-            ),
-            dbc.Card(
-                [
-                    dbc.CardHeader("Interrupts (SA-Checklist §3.4)"),
-                    dbc.CardBody(
-                        html.Div(
-                            id="defender-interrupts",
-                            children=_interrupt_list(log, -1),
-                            style={"maxHeight": "160px", "overflowY": "auto"},
-                        ),
-                        className="p-2",
-                    ),
-                ],
-                className="mt-2",
-            ),
-        ]
-    )
-
-
-def _gap_body() -> html.Div:
-    # Single mount of the gap-iframe. The postMessage bridge targets this
-    # element by id; the iframe stays in the DOM even when the tab isn't
-    # active so message dispatch keeps working.
-    return html.Div(
-        children=build_gap_panel_body(_GAP_HTML_PATH),
-        style={"height": "calc(100vh - 220px)"},
-    )
-
-
-def _gap_overview_summary(log: Optional[EventLog]) -> html.Div:
-    if log is None or not log.events:
-        return html.Div(
-            "Load a log to enable the GAP view.",
-            className="text-muted small",
-        )
-    techniques = sorted(
-        {ev["technique_id"] for ev in log.events if ev.get("technique_id")}
-    )
-    return html.Div(
-        [
-            html.P(
-                "The GAP subgraph view is rendered in its own tab (large iframe "
-                "with per-technique highlights driven by playback).",
-                className="small mb-2",
-            ),
-            html.Div(
-                f"techniques seen: {len(techniques)}",
-                className="small fw-semibold",
-            ),
-            html.Div(
-                ", ".join(techniques[:30]) + ("…" if len(techniques) > 30 else ""),
-                className="small text-muted",
-            ),
-        ]
-    )
-
-
-def _timeline_body(log: Optional[EventLog]) -> html.Div:
-    return html.Div(
-        [
-            dcc.Graph(
-                id="timeline-full",
-                figure=_initial_timeline_figure(log),
-                config={"displayModeBar": False},
-                style={"height": "calc(100vh - 220px)"},
-            ),
-        ]
-    )
+def _profile_body(log: Optional[EventLog]) -> html.Div:
+    # Full profile view: selector rail + GAP iframe + phase-lane projection.
+    # Requires _GAP to be loaded (build_app handles this).
+    assert _GAP is not None, "build_app must load the GAP before _profile_body()"
+    return build_profile_body(_GAP)
 
 
 def _initial_network_figure(log: Optional[EventLog], *, height: int):
@@ -383,63 +258,6 @@ def _initial_timeline_figure(log: Optional[EventLog]):
     if log is None:
         return empty_timeline()
     return build_timeline_figure(log, sim_t=0.0)
-
-
-def _compromised_hosts_list(log: Optional[EventLog], event_index: int) -> html.Div:
-    if log is None or not log.events:
-        return html.Div("No compromise events.", className="text-muted")
-    rolls = compromised_hosts_rollup(log, event_index)
-    if not rolls:
-        return html.Div("No hosts compromised at this cursor.", className="text-muted")
-    return html.Table(
-        [
-            html.Thead(
-                html.Tr(
-                    [
-                        html.Th("host", className="small text-muted"),
-                        html.Th("t", className="small text-muted"),
-                        html.Th("phase", className="small text-muted"),
-                        html.Th("technique", className="small text-muted"),
-                    ]
-                )
-            ),
-            html.Tbody(
-                [
-                    html.Tr(
-                        [
-                            html.Td(r["host_id"]),
-                            html.Td(f"{r['t']:.0f}s"),
-                            html.Td(r["phase"] or "—"),
-                            html.Td(r["technique_id"] or "—"),
-                        ],
-                        className="small",
-                    )
-                    for r in rolls
-                ]
-            ),
-        ],
-        className="table table-sm",
-    )
-
-
-def _interrupt_list(log: Optional[EventLog], event_index: int) -> html.Div:
-    if log is None or not log.interrupts:
-        return html.Div("No interrupts recorded.", className="text-muted small")
-    cutoff_t = log.time_at_index(event_index) if event_index >= 0 else log.t_min
-    visible = [iv for iv in log.interrupts if iv.t <= cutoff_t]
-    if not visible:
-        return html.Div("No interrupts yet at cursor.", className="text-muted small")
-    return html.Ul(
-        [
-            html.Li(
-                f"t={iv.t:.0f}s · {iv.interrupted_by or '—'} interrupted "
-                f"{iv.phase or '—'} on host {iv.host_id} ({iv.technique_id or '—'})",
-                className="small",
-            )
-            for iv in visible[-30:]  # tail — most recent 30
-        ],
-        className="mb-0 ps-3",
-    )
 
 
 def _sidebar(log: Optional[EventLog]) -> html.Div:
@@ -486,60 +304,102 @@ def _host_detail_default():
 def _transport_bar(log: Optional[EventLog]) -> dbc.Card:
     max_index = max(0, len(log.events) - 1) if log else 0
     scrubber_disabled = log is None or not log.events
-    speed_buttons = dbc.ButtonGroup(
-        [
-            dbc.Button(
-                f"{speed:g}×",
-                id=_speed_button_id(speed),
-                color="secondary",
-                outline=True,
-                active=(speed == 1.0),
-                size="sm",
-            )
-            for speed in SPEED_CHOICES
-        ],
-        className="ms-3",
+
+    # Log-scale speed slider: integer stops index into SPEED_CHOICES.
+    one_idx = SPEED_CHOICES.index(1.0)
+    speed_slider = dcc.Slider(
+        id="speed-slider",
+        min=0,
+        max=len(SPEED_CHOICES) - 1,
+        step=1,
+        value=one_idx,
+        marks={i: f"{s:g}×" for i, s in enumerate(SPEED_CHOICES)},
+        included=False,
     )
+
     transport = dbc.ButtonGroup(
         [
-            dbc.Button("⏮", id="btn-step-back", color="secondary", outline=True, size="sm"),
-            dbc.Button("▶", id="btn-playpause", color="primary", size="sm"),
-            dbc.Button("⏭", id="btn-step-fwd", color="secondary", outline=True, size="sm"),
+            dbc.Button(
+                _icon("skip-start-fill"),
+                id="btn-step-back", color="secondary", outline=True, size="sm",
+                title="Step back",
+            ),
+            dbc.Button(
+                _icon("play-fill"),
+                id="btn-playpause", color="primary", size="sm",
+                title="Play/pause",
+            ),
+            dbc.Button(
+                _icon("skip-end-fill"),
+                id="btn-step-fwd", color="secondary", outline=True, size="sm",
+                title="Step forward",
+            ),
         ]
     )
-    return dbc.Card(
-        dbc.CardBody(
-            [
-                dbc.Row(
-                    [
-                        dbc.Col(transport, width="auto"),
-                        dbc.Col(speed_buttons, width="auto"),
-                        dbc.Col(
-                            html.Div(id="playback-readout", className="text-muted small"),
-                            className="ms-auto text-end",
+
+    transport_body = dbc.CardBody(
+        [
+            dbc.Row(
+                [
+                    dbc.Col(transport, width="auto"),
+                    dbc.Col(
+                        html.Div(
+                            [
+                                html.Div(
+                                    "Speed",
+                                    className="small text-muted mb-1",
+                                ),
+                                speed_slider,
+                            ],
+                            style={"minWidth": "300px"},
                         ),
-                    ],
-                    align="center",
-                    className="g-2 mb-2",
-                ),
-                dcc.Slider(
-                    id="scrubber",
-                    min=0,
-                    max=max_index,
-                    step=1,
-                    value=0,
-                    disabled=scrubber_disabled,
-                    tooltip={"placement": "top", "always_visible": False},
-                    marks=None,
-                ),
-            ]
-        ),
-        className="mt-2",
+                        width=True,
+                    ),
+                    dbc.Col(
+                        html.Div(id="playback-readout", className="text-muted small"),
+                        className="ms-auto text-end",
+                        width="auto",
+                    ),
+                ],
+                align="center",
+                className="g-3 mb-2",
+            ),
+            dcc.Slider(
+                id="scrubber",
+                min=0,
+                max=max_index,
+                step=1,
+                value=0,
+                disabled=scrubber_disabled,
+                tooltip={"placement": "top", "always_visible": False},
+                marks=None,
+            ),
+        ]
+    )
+
+    # Collapsible wrapper — "Run ▸/Run ▾" toggle. Starts open so playback is
+    # immediately reachable once a log loads.
+    return html.Div(
+        [
+            dbc.Button(
+                [_icon("chevron-down"), html.Span(" Run simulator", className="ms-2")],
+                id="transport-collapse-btn",
+                color="light",
+                size="sm",
+                className="mt-2 border",
+            ),
+            dbc.Collapse(
+                dbc.Card(transport_body, className="mt-2"),
+                id="transport-collapse",
+                is_open=True,
+            ),
+        ],
         style={
             "position": "sticky",
             "bottom": "0",
             "background": "white",
             "zIndex": 10,
+            "paddingBottom": "8px",
         },
     )
 
@@ -557,19 +417,21 @@ def _layout(log: Optional[EventLog]) -> dbc.Container:
         [
             _navbar(log),
             dcc.Store(id="store-playback", data=asdict(initial_state())),
-            dcc.Store(id="store-active-tab", data=TAB_OVERVIEW),
+            dcc.Store(id="store-active-tab", data=TAB_RUN),
             dcc.Store(id="store-selected-host", data=None),
+            dcc.Store(id="store-operational-profile", data=None),
+            dcc.Store(
+                id="store-run-state",
+                data={"status": "idle", "log_path": None, "message": ""},
+            ),
             dcc.Interval(id="playback-tick", interval=TICK_MS, n_intervals=0),
+            dcc.Interval(id="run-poll", interval=500, n_intervals=0, disabled=True),
             dbc.Row(
                 [
                     dbc.Col(
                         [
-                            _tab_container(TAB_OVERVIEW, _overview_body(log), active=True),
-                            _tab_container(TAB_NETWORK, _network_body(log), active=False),
-                            _tab_container(TAB_ATTACKER, _attacker_body(log), active=False),
-                            _tab_container(TAB_DEFENDER, _defender_body(log), active=False),
-                            _tab_container(TAB_GAP, _gap_body(), active=False),
-                            _tab_container(TAB_TIMELINE, _timeline_body(log), active=False),
+                            _tab_container(TAB_PROFILE, _profile_body(log), active=False),
+                            _tab_container(TAB_RUN, _run_body(log), active=True),
                         ],
                         md=9,
                     ),
@@ -585,14 +447,17 @@ def _layout(log: Optional[EventLog]) -> dbc.Container:
 
 
 def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
-    event_ts = log.event_ts if log else []
-    t_max = log.t_max if log else 0.0
-
     def _to_state(data: dict) -> PlaybackState:
         return PlaybackState(**data)
 
     def _to_dict(state: PlaybackState) -> dict:
         return dataclasses.asdict(state)
+
+    def _event_ts():
+        return _CURRENT_LOG.event_ts if _CURRENT_LOG else []
+
+    def _t_max():
+        return _CURRENT_LOG.t_max if _CURRENT_LOG else 0.0
 
     @app.callback(
         Output("store-playback", "data"),
@@ -601,9 +466,8 @@ def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
         Input("btn-step-back", "n_clicks"),
         Input("btn-step-fwd", "n_clicks"),
         Input("scrubber", "value"),
-        Input({"type": "speed-btn", "speed": dash.ALL}, "n_clicks"),
+        Input("speed-slider", "value"),
         State("store-playback", "data"),
-        State({"type": "speed-btn", "speed": dash.ALL}, "id"),
         prevent_initial_call=False,
     )
     def _advance(
@@ -612,16 +476,17 @@ def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
         _back_clicks,
         _fwd_clicks,
         scrubber_value,
-        _speed_clicks_list,
+        speed_idx,
         state_data,
-        speed_ids,
     ):
+        event_ts = _event_ts()
         if not event_ts:
             return no_update
 
         state = _to_state(state_data) if state_data else initial_state()
         now = time.monotonic()
         trigger = ctx.triggered_id
+        t_max = _t_max()
 
         if trigger == "btn-playpause":
             state = pause(state) if state.playing else start(state, now_wall=now)
@@ -638,8 +503,10 @@ def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
                 state = seek_to_index(
                     state, event_index=int(scrubber_value), event_ts=event_ts, now_wall=now
                 )
-        elif isinstance(trigger, dict) and trigger.get("type") == "speed-btn":
-            state = set_speed(state, speed=float(trigger["speed"]), now_wall=now)
+        elif trigger == "speed-slider":
+            idx = int(speed_idx or 0)
+            if 0 <= idx < len(SPEED_CHOICES):
+                state = set_speed(state, speed=SPEED_CHOICES[idx], now_wall=now)
         elif trigger == "playback-tick":
             state = tick(state, now_wall=now, event_ts=event_ts, t_max=t_max)
         else:
@@ -649,27 +516,30 @@ def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
 
     @app.callback(
         Output("scrubber", "value"),
+        Output("scrubber", "max"),
+        Output("scrubber", "disabled"),
         Output("playback-readout", "children"),
         Output("btn-playpause", "children"),
         Input("store-playback", "data"),
+        Input("store-run-state", "data"),
     )
-    def _render_transport(state_data):
+    def _render_transport(state_data, _run_state):
+        event_ts = _event_ts()
+        total = len(event_ts)
         state = _to_state(state_data) if state_data else initial_state()
-        readout = (
-            f"t = {state.sim_t:,.1f}s · event {state.event_index + 1}"
-            f"/{len(event_ts)} · {state.speed:g}×"
-        )
-        play_icon = "⏸" if state.playing else "▶"
-        return state.event_index if state.event_index >= 0 else 0, readout, play_icon
-
-    @app.callback(
-        Output({"type": "speed-btn", "speed": dash.ALL}, "active"),
-        Input("store-playback", "data"),
-        State({"type": "speed-btn", "speed": dash.ALL}, "id"),
-    )
-    def _highlight_speed(state_data, speed_ids):
-        state = _to_state(state_data) if state_data else initial_state()
-        return [bool(abs(s["speed"] - state.speed) < 1e-9) for s in speed_ids]
+        scrubber_max = max(total - 1, 0)
+        disabled = total == 0
+        if total == 0:
+            readout = "0/0 events · configure and run a simulation"
+        else:
+            pct = (state.event_index / max(total - 1, 1)) * 100 if state.event_index >= 0 else 0
+            readout = (
+                f"t = {state.sim_t:,.1f}s · event {state.event_index + 1}"
+                f"/{total} · {pct:.2f}% · {state.speed:g}×"
+            )
+        play_icon = _icon("pause-fill") if state.playing else _icon("play-fill")
+        scrubber_value = state.event_index if state.event_index >= 0 else 0
+        return scrubber_value, scrubber_max, disabled, readout, play_icon
 
     # Tab routing — click a nav pill to switch views.
     @app.callback(
@@ -683,7 +553,7 @@ def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
         trigger = ctx.triggered_id
         if not isinstance(trigger, dict):
             return no_update, no_update
-        selected = trigger.get("tab", TAB_OVERVIEW)
+        selected = trigger.get("tab", TAB_RUN)
         actives = [tid.get("tab") == selected for tid in tab_ids]
         return selected, actives
 
@@ -710,157 +580,391 @@ def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
         )
         return stats_panel.render_kv(rows)
 
-    # Network figure updates — used by overview + network tab. Separate
-    # callbacks so each fires only when its component exists.
-    if log is not None and log.topology:
-        topology = log.topology
-        events = log.events
+    @app.callback(
+        Output("overview-network", "figure"),
+        Input("store-playback", "data"),
+        Input("store-run-state", "data"),
+    )
+    def _update_overview_network(state_data, _run_state):
+        if _CURRENT_LOG is None or not _CURRENT_LOG.topology:
+            return empty_figure("Configure and run a simulation to populate the network view.")
+        state = _to_state(state_data) if state_data else initial_state()
+        return build_network_figure(
+            topology=_CURRENT_LOG.topology,
+            events=_CURRENT_LOG.events,
+            event_index=state.event_index,
+            height=340,
+        )
+
+    @app.callback(
+        Output("store-selected-host", "data"),
+        Input("overview-network", "clickData"),
+        State("store-selected-host", "data"),
+        prevent_initial_call=True,
+    )
+    def _capture_host_click(overview_click, current):
+        if _CURRENT_LOG is None:
+            return no_update
+        payload = overview_click
+        if not payload or not payload.get("points"):
+            return no_update
+        point = payload["points"][0]
+        raw_id = point.get("id") or point.get("customdata")
+        if raw_id is None:
+            return current
+        try:
+            return int(raw_id)
+        except (TypeError, ValueError):
+            return current
+
+    @app.callback(
+        Output("sidebar-host", "children"),
+        Input("store-selected-host", "data"),
+        Input("store-playback", "data"),
+    )
+    def _render_host_detail(host_id, state_data):
+        if _CURRENT_LOG is None or host_id is None:
+            return _host_detail_default()
+        state = _to_state(state_data) if state_data else initial_state()
+        lines = host_detail_lines(
+            topology=_CURRENT_LOG.topology,
+            events=_CURRENT_LOG.events,
+            host_id=int(host_id),
+            event_index=state.event_index,
+        )
+        return html.Div([html.Div(line, className="small") for line in lines])
+
+    @app.callback(
+        Output("overview-timeline", "figure"),
+        Input("store-playback", "data"),
+        Input("store-run-state", "data"),
+    )
+    def _update_overview_timeline(state_data, _run_state):
+        if _CURRENT_LOG is None or not _CURRENT_LOG.events:
+            return empty_timeline()
+        state = _to_state(state_data) if state_data else initial_state()
+        return build_timeline_figure(_CURRENT_LOG, sim_t=state.sim_t)
+
+    @app.callback(
+        Output("overview-phase", "figure"),
+        Input("store-playback", "data"),
+        Input("store-run-state", "data"),
+    )
+    def _update_phase(state_data, _run_state):
+        if _CURRENT_LOG is None or not _CURRENT_LOG.events:
+            return build_phase_tracker(None)
+        state = _to_state(state_data) if state_data else initial_state()
+        cursor = _CURRENT_LOG.attacker_cursor(state.event_index)
+        phase = cursor.get("phase")
+        return build_phase_tracker(phase)
+
+    # Attack Profile selector — mode drives the value picker options; value
+    # drives both the phase-lanes figure and the GAP iframe subgraph highlight.
+    if _GAP is not None:
+        gap = _GAP
 
         @app.callback(
-            Output("network-graph", "figure"),
-            Input("store-playback", "data"),
-            prevent_initial_call=True,
+            Output("profile-value", "options"),
+            Output("profile-value", "value"),
+            Input("profile-mode", "value"),
         )
-        def _update_network(state_data):
-            state = _to_state(state_data) if state_data else initial_state()
-            return build_network_figure(
-                topology=topology, events=events, event_index=state.event_index, height=720
+        def _update_value_options(mode):
+            opts = value_options_for_mode(gap, mode)
+            return opts, None
+
+        @app.callback(
+            Output("profile-phase-lanes", "figure"),
+            Output("profile-summary", "children"),
+            Input("profile-mode", "value"),
+            Input("profile-value", "value"),
+        )
+        def _update_profile_view(mode, value):
+            view = resolve_view(gap, mode, value)
+            if view is None:
+                return build_phase_lanes_figure(None, gap), ""
+            fig = build_phase_lanes_figure(view, gap)
+            summary = (
+                f"{len(view.node_set)} techniques · "
+                f"{len(view.edge_set)} edges · "
+                f"{view.provenance.get('selector', mode)}"
             )
+            return fig, summary
 
         @app.callback(
-            Output("overview-network", "figure"),
-            Input("store-playback", "data"),
+            Output("store-operational-profile", "data"),
+            Output("profile-save-status", "children"),
+            Input("profile-save", "n_clicks"),
+            State("profile-mode", "value"),
+            State("profile-value", "value"),
             prevent_initial_call=True,
         )
-        def _update_overview_network(state_data):
-            state = _to_state(state_data) if state_data else initial_state()
-            return build_network_figure(
-                topology=topology, events=events, event_index=state.event_index, height=340
-            )
+        def _save_profile(_n, mode, value):
+            view = resolve_view(gap, mode, value)
+            if view is None:
+                return no_update, "Pick a value before saving."
+            data = serialise_view(view, mode, value)
+            label = view.provenance.get("selector", mode)
+            return data, f"Saved · {label} · {len(data['node_set'])} techniques"
 
-        @app.callback(
-            Output("store-selected-host", "data"),
-            Input("network-graph", "clickData"),
-            Input("overview-network", "clickData"),
-            State("store-selected-host", "data"),
+        # Forward the selected subgraph into the iframe so GAP nodes outside
+        # the set dim. Pure clientside — the iframe already knows how to
+        # filter; we just hand it the node set.
+        app.clientside_callback(
+            """
+            function(data) {
+                if (!data) return window.dash_clientside.no_update;
+                var iframe = document.getElementById('gap-iframe');
+                if (!iframe || !iframe.contentWindow) {
+                    return window.dash_clientside.no_update;
+                }
+                iframe.contentWindow.postMessage(
+                    { type: 'SELECT_SUBGRAPH',
+                      node_set: data.node_set || [],
+                      edge_set: data.edge_set || [] },
+                    '*'
+                );
+                return window.dash_clientside.no_update;
+            }
+            """,
+            Output("profile-save-status", "title"),
+            Input("store-operational-profile", "data"),
             prevent_initial_call=True,
         )
-        def _capture_host_click(net_click, overview_click, current):
-            payload = net_click or overview_click
-            if not payload or not payload.get("points"):
-                return no_update
-            point = payload["points"][0]
-            raw_id = point.get("id") or point.get("customdata")
-            if raw_id is None:
-                return current
+
+    # Run Simulator — network preview refreshes on form blur; Run button
+    # enqueues a background sim; interval polls its Future and, on
+    # completion, hot-loads the log into _CURRENT_LOG and resets playback.
+    @app.callback(
+        Output("run-preview", "figure"),
+        Output("run-validation", "children"),
+        Input("run-total-nodes", "value"),
+        Input("run-total-endpoints", "value"),
+        Input("run-total-subnets", "value"),
+        Input("run-total-layers", "value"),
+        Input("run-total-database", "value"),
+        Input("run-terminate-ratio", "value"),
+        Input("run-seed", "value"),
+    )
+    def _update_preview(n, endpoints, subnets, layers, db, ratio, seed):
+        try:
+            params = form_params(n, endpoints, subnets, layers, db, ratio)
+        except (TypeError, ValueError):
+            return empty_figure("Fill in all numeric fields."), ""
+        err = validate_params(params)
+        if err:
+            return empty_figure(err), err
+        fig = build_preview_figure(params, seed=int(seed or 0), height=360)
+        return fig, ""
+
+    @app.callback(
+        Output("run-profile-pill", "children"),
+        Input("store-operational-profile", "data"),
+    )
+    def _show_profile_pill(profile):
+        if not profile:
+            return "No saved profile — will use the default attacker profile."
+        label = (profile.get("provenance") or {}).get("selector") or profile.get("mode")
+        n = len(profile.get("node_set") or [])
+        return f"Using saved profile · {label} · {n} techniques"
+
+    @app.callback(
+        Output("store-run-state", "data"),
+        Output("run-poll", "disabled"),
+        Input("run-btn", "n_clicks"),
+        Input("run-poll", "n_intervals"),
+        State("run-total-nodes", "value"),
+        State("run-total-endpoints", "value"),
+        State("run-total-subnets", "value"),
+        State("run-total-layers", "value"),
+        State("run-total-database", "value"),
+        State("run-terminate-ratio", "value"),
+        State("run-seed", "value"),
+        State("run-finish-time", "value"),
+        State("run-scheme", "value"),
+        State("store-run-state", "data"),
+        State("store-operational-profile", "data"),
+        prevent_initial_call=True,
+    )
+    def _run_or_poll(
+        _n_clicks,
+        _poll_n,
+        total_nodes, total_endpoints, total_subnets, total_layers, total_database,
+        terminate_ratio,
+        seed, finish_time, scheme,
+        run_state, saved_profile,
+    ):
+        global _CURRENT_LOG
+        run_state = run_state or {"status": "idle"}
+        trigger = ctx.triggered_id
+
+        if trigger == "run-btn":
+            if run_state.get("status") == "running":
+                return no_update, no_update
             try:
-                return int(raw_id)
+                params = form_params(
+                    total_nodes, total_endpoints, total_subnets,
+                    total_layers, total_database, terminate_ratio,
+                )
             except (TypeError, ValueError):
-                return current
-
-        @app.callback(
-            Output("sidebar-host", "children"),
-            Input("store-selected-host", "data"),
-            Input("store-playback", "data"),
-        )
-        def _render_host_detail(host_id, state_data):
-            if host_id is None:
-                return _host_detail_default()
-            state = _to_state(state_data) if state_data else initial_state()
-            lines = host_detail_lines(
-                topology=topology,
-                events=events,
-                host_id=int(host_id),
-                event_index=state.event_index,
+                return {"status": "idle", "log_path": None,
+                        "message": "Fill in all fields before running."}, True
+            err = validate_params(params)
+            if err:
+                return {"status": "idle", "log_path": None, "message": err}, True
+            config = PRIMARY.replace(
+                name="ui",
+                seed=int(seed or 0),
+                finish_time=int(finish_time or 1000),
+                network_params=params,
             )
-            return html.Div(
-                [html.Div(line, className="small") for line in lines],
+            profile = _materialise_profile(saved_profile)
+            run_canonical_sim_async(
+                config, scheme=scheme or "random",
+                profile=profile, events_dir=_EVENTS_DIR, force=True,
             )
+            return {"status": "running", "log_path": None,
+                    "message": f"Running {scheme} on {params['total_nodes']} nodes…"}, False
 
-    # Timeline — three versions wired to the same input.
-    if log is not None and log.events:
+        if trigger == "run-poll":
+            if run_state.get("status") != "running":
+                return no_update, True
+            fut = current_run_future()
+            if fut is None or not fut.done():
+                return no_update, False
+            try:
+                log_path = Path(fut.result())
+            except Exception as exc:
+                return {"status": "idle", "log_path": None,
+                        "message": f"Run failed: {exc}"}, True
+            _CURRENT_LOG = EventLog.load(log_path)
+            return {"status": "complete", "log_path": str(log_path),
+                    "message": f"Loaded {log_path.name} ({len(_CURRENT_LOG.events)} events)."}, True
 
-        @app.callback(
-            Output("timeline-full", "figure"),
-            Input("store-playback", "data"),
-            prevent_initial_call=True,
-        )
-        def _update_timeline_full(state_data):
-            state = _to_state(state_data) if state_data else initial_state()
-            return build_timeline_figure(log, sim_t=state.sim_t)
+        return no_update, no_update
 
-        @app.callback(
-            Output("defender-timeline", "figure"),
-            Input("store-playback", "data"),
-            prevent_initial_call=True,
-        )
-        def _update_defender_timeline(state_data):
-            state = _to_state(state_data) if state_data else initial_state()
-            return build_timeline_figure(log, sim_t=state.sim_t)
+    @app.callback(
+        Output("run-status", "children"),
+        Output("run-btn", "disabled"),
+        Output("run-btn-label", "children"),
+        Input("store-run-state", "data"),
+    )
+    def _render_run_status(run_state):
+        run_state = run_state or {"status": "idle"}
+        status = run_state.get("status", "idle")
+        msg = run_state.get("message", "")
+        if status == "running":
+            return msg, True, "Running…"
+        return msg, False, "Run simulation"
 
-        @app.callback(
-            Output("overview-timeline", "figure"),
-            Input("store-playback", "data"),
-            prevent_initial_call=True,
-        )
-        def _update_overview_timeline(state_data):
-            state = _to_state(state_data) if state_data else initial_state()
-            return build_timeline_figure(log, sim_t=state.sim_t)
+    @app.callback(
+        Output("store-playback", "data", allow_duplicate=True),
+        Input("store-run-state", "data"),
+        prevent_initial_call=True,
+    )
+    def _reset_playback_on_new_log(run_state):
+        """Bump store-playback to initial_state whenever a new log loads."""
+        if not run_state or run_state.get("status") != "complete":
+            return no_update
+        return asdict(initial_state())
 
-        @app.callback(
-            Output("defender-interrupts", "children"),
-            Input("store-playback", "data"),
-            prevent_initial_call=True,
-        )
-        def _update_interrupts(state_data):
-            state = _to_state(state_data) if state_data else initial_state()
-            return _interrupt_list(log, state.event_index)
+    @app.callback(
+        Output("transport-collapse", "is_open"),
+        Input("transport-collapse-btn", "n_clicks"),
+        State("transport-collapse", "is_open"),
+        prevent_initial_call=True,
+    )
+    def _toggle_transport_collapse(_n, is_open):
+        return not is_open
 
-        # Attacker view — phase tracker, technique bar, compromised list.
-        @app.callback(
-            Output("attacker-phase", "figure"),
-            Output("overview-phase", "figure"),
-            Input("store-playback", "data"),
-            prevent_initial_call=True,
-        )
-        def _update_phase(state_data):
-            state = _to_state(state_data) if state_data else initial_state()
-            cursor = log.attacker_cursor(state.event_index)
-            phase = cursor.get("phase")
-            fig = build_phase_tracker(phase)
-            return fig, fig
+    # Fullscreen toggle — flip the mtd-fullscreen class on the wrapper
+    # matching the clicked toggle. Runs clientside; the wrapper DOM is not
+    # re-mounted so graph / iframe state survives the overlay.
+    app.clientside_callback(
+        """
+        function(nClicksList, wrapperIds, currentClassNames) {
+            var ctx = window.dash_clientside.callback_context;
+            if (!ctx || !ctx.triggered || !ctx.triggered.length) {
+                return window.dash_clientside.no_update;
+            }
+            var propId = ctx.triggered[0].prop_id;
+            var idStr = propId.split('.')[0];
+            var tid;
+            try { tid = JSON.parse(idStr); }
+            catch (e) { return window.dash_clientside.no_update; }
+            var card = tid.card;
+            return (wrapperIds || []).map(function(wid, i) {
+                if (wid && wid.card === card) {
+                    var cur = currentClassNames[i] || '';
+                    var isFull = cur.indexOf('mtd-fullscreen') !== -1;
+                    return isFull ? 'mtd-card-wrapper'
+                                  : 'mtd-card-wrapper mtd-fullscreen';
+                }
+                return currentClassNames[i];
+            });
+        }
+        """,
+        Output({"type": "fs-wrapper", "card": dash.ALL}, "className"),
+        Input({"type": "fs-toggle", "card": dash.ALL}, "n_clicks"),
+        State({"type": "fs-wrapper", "card": dash.ALL}, "id"),
+        State({"type": "fs-wrapper", "card": dash.ALL}, "className"),
+        prevent_initial_call=True,
+    )
 
-        @app.callback(
-            Output("attacker-tech", "figure"),
-            Input("store-playback", "data"),
-            prevent_initial_call=True,
-        )
-        def _update_tech(state_data):
-            state = _to_state(state_data) if state_data else initial_state()
-            return build_technique_bar(log, state.event_index)
 
-        @app.callback(
-            Output("attacker-hosts", "children"),
-            Input("store-playback", "data"),
-            prevent_initial_call=True,
-        )
-        def _update_hosts(state_data):
-            state = _to_state(state_data) if state_data else initial_state()
-            return _compromised_hosts_list(log, state.event_index)
+def _materialise_profile(saved_profile: Optional[dict]) -> Optional[AttackerProfile]:
+    """Turn a serialised ``store-operational-profile`` back into a profile.
+
+    Returns ``None`` if the store is empty, which tells the runner to use
+    the default ``AttackerProfile``.
+    """
+    if not saved_profile or _GAP is None:
+        return None
+    nodes = frozenset(saved_profile.get("node_set") or [])
+    if not nodes:
+        return None
+    edges = frozenset(
+        (a, b) for a, b in (saved_profile.get("edge_set") or [])
+    )
+    view = SubgraphView(
+        node_set=nodes,
+        edge_set=edges,
+        provenance=saved_profile.get("provenance") or {},
+    )
+    selector_tag = (saved_profile.get("provenance") or {}).get("selector", "ui")
+    return SubgraphAttackerProfile.from_subgraph_view(
+        view=view,
+        gap=_GAP,
+        base_profile=AttackerProfile.default(),
+        selector_tag=selector_tag,
+    )
 
 
 def build_app(
     log: Optional[EventLog] = None,
     *,
     gap_html_path: Optional[Path] = None,
+    gap_json_path: Optional[Path] = None,
+    events_dir: Optional[Path] = None,
 ) -> dash.Dash:
-    global _GAP_HTML_PATH
+    global _GAP_HTML_PATH, _GAP, _GAP_RENDERED_HTML, _CURRENT_LOG, _EVENTS_DIR
     _GAP_HTML_PATH = gap_html_path
+    _CURRENT_LOG = log
+    if events_dir is not None:
+        _EVENTS_DIR = events_dir
+
+    # Always make a GAP available server-side; Phase 2 selector translation
+    # consumes this. An explicit --gap-html override still wins for the
+    # iframe content itself (debug-only use).
+    _GAP = load_gap(gap_json_path)
+    if gap_html_path is None:
+        _GAP_RENDERED_HTML = render_gap_html(_GAP)
+    else:
+        _GAP_RENDERED_HTML = None
 
     app = dash.Dash(
         __name__,
         title=APP_TITLE,
-        external_stylesheets=[dbc.themes.BOOTSTRAP],
+        external_stylesheets=[dbc.themes.BOOTSTRAP, BOOTSTRAP_ICONS_CDN],
         suppress_callback_exceptions=True,
     )
     app.layout = _layout(log)
@@ -871,14 +975,25 @@ def build_app(
 
 
 def _register_gap_route(app: dash.Dash, gap_html_path: Optional[Path]) -> None:
-    if gap_html_path is None:
+    """Serve the GAP viewer HTML at ``/gap.html``.
+
+    Prefers an explicit ``--gap-html`` file when given; otherwise returns
+    the in-memory render of the committed snapshot.
+    """
+    from flask import Response, send_file
+
+    if gap_html_path is not None:
+        resolved = gap_html_path.resolve()
+
+        @app.server.route(IFRAME_ROUTE)
+        def _serve_gap_file():
+            return send_file(str(resolved), mimetype="text/html")
+
         return
-    resolved = gap_html_path.resolve()
 
     @app.server.route(IFRAME_ROUTE)
-    def _serve_gap():
-        from flask import send_file
-        return send_file(str(resolved), mimetype="text/html")
+    def _serve_gap_rendered():
+        return Response(_GAP_RENDERED_HTML or "", mimetype="text/html")
 
 
 def _register_gap_iframe_bridge(app: dash.Dash, log: Optional[EventLog]) -> None:
