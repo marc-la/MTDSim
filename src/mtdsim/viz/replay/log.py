@@ -41,6 +41,31 @@ class NetworkSnapshot:
 
 
 @dataclass
+class MTDInterval:
+    """One MTD deploy/complete pair. Drives the defender timeline + halo overlay.
+
+    ``t_end`` falls back to the log's ``t_max`` when the run is cut off mid-MTD.
+    """
+
+    mtd_name: str
+    resource_type: str
+    t_start: float
+    t_end: float
+    start_index: int
+    end_index: Optional[int]
+
+
+@dataclass
+class InterruptEvent:
+    t: float
+    host_id: Optional[int]
+    phase: Optional[str]
+    technique_id: Optional[str]
+    interrupted_by: Optional[str]
+    event_index: int
+
+
+@dataclass
 class EventLog:
     path: Path
     events: list[dict[str, Any]]
@@ -52,6 +77,8 @@ class EventLog:
     techniques_seen: set[str] = field(default_factory=set)
     topology: Optional[dict[str, Any]] = None
     sim_meta: dict[str, Any] = field(default_factory=dict)
+    mtd_intervals: list[MTDInterval] = field(default_factory=list)
+    interrupts: list[InterruptEvent] = field(default_factory=list)
 
     @classmethod
     def load(
@@ -102,6 +129,9 @@ class EventLog:
                 topology = sim_meta.get("topology")
                 break
 
+        mtd_intervals = _extract_mtd_intervals(events, t_max)
+        interrupts = _extract_interrupts(events)
+
         return cls(
             path=path,
             events=events,
@@ -113,6 +143,8 @@ class EventLog:
             techniques_seen=techniques_seen,
             topology=topology,
             sim_meta=sim_meta,
+            mtd_intervals=mtd_intervals,
+            interrupts=interrupts,
         )
 
     def index_at_time(self, sim_t: float) -> int:
@@ -126,6 +158,126 @@ class EventLog:
             return 0.0
         event_index = max(0, min(event_index, len(self.event_ts) - 1))
         return self.event_ts[event_index]
+
+    def active_mtds_at(self, sim_t: float) -> list[MTDInterval]:
+        return [iv for iv in self.mtd_intervals if iv.t_start <= sim_t <= iv.t_end]
+
+    def attacker_cursor(self, event_index: int) -> dict[str, Any]:
+        """Latest attacker phase/technique/host at ``event_index``.
+
+        Walks backwards from the cursor to the most recent ``phase_started`` —
+        events after it represent the still-in-flight action. Returns an empty
+        dict before the first phase.
+        """
+        end = min(event_index + 1, len(self.events))
+        for i in range(end - 1, -1, -1):
+            ev = self.events[i]
+            if ev["type"] == "phase_started":
+                return {
+                    "phase": ev.get("phase"),
+                    "technique_id": ev.get("technique_id"),
+                    "host_id": ev.get("host_id"),
+                    "t": float(ev["t"]),
+                    "event_index": i,
+                }
+        return {}
+
+    def counts_at(self, event_index: int) -> dict[str, int]:
+        """Cumulative counters useful for the stats sidebar."""
+        end = min(event_index + 1, len(self.events))
+        counts = {
+            "compromised": 0,
+            "phases": 0,
+            "interrupts": 0,
+            "mtds_deployed": 0,
+            "mtds_completed": 0,
+        }
+        for ev in self.events[:end]:
+            t = ev["type"]
+            if t == "host_compromised":
+                counts["compromised"] += 1
+            elif t == "phase_started":
+                counts["phases"] += 1
+            elif t == "attack_interrupted":
+                counts["interrupts"] += 1
+            elif t == "mtd_deployed":
+                counts["mtds_deployed"] += 1
+            elif t == "mtd_completed":
+                counts["mtds_completed"] += 1
+        return counts
+
+
+def _extract_mtd_intervals(
+    events: list[dict[str, Any]], t_max: float
+) -> list[MTDInterval]:
+    """Pair `mtd_deployed` with the next `mtd_completed` of the same name+resource.
+
+    A run that ends mid-MTD leaves an unclosed interval — cap it at ``t_max``
+    so the timeline renders without gaps on truncated runs.
+    """
+    open_stack: list[tuple[int, dict[str, Any]]] = []
+    intervals: list[MTDInterval] = []
+    for i, ev in enumerate(events):
+        if ev["type"] == "mtd_deployed":
+            open_stack.append((i, ev))
+        elif ev["type"] == "mtd_completed":
+            meta = ev.get("meta") or {}
+            match_idx: Optional[int] = None
+            for k in range(len(open_stack) - 1, -1, -1):
+                _, deploy_ev = open_stack[k]
+                dmeta = deploy_ev.get("meta") or {}
+                if (
+                    dmeta.get("mtd_name") == meta.get("mtd_name")
+                    and dmeta.get("resource_type") == meta.get("resource_type")
+                ):
+                    match_idx = k
+                    break
+            if match_idx is not None:
+                deploy_i, deploy_ev = open_stack.pop(match_idx)
+                dmeta = deploy_ev.get("meta") or {}
+                intervals.append(
+                    MTDInterval(
+                        mtd_name=str(dmeta.get("mtd_name") or "unknown"),
+                        resource_type=str(dmeta.get("resource_type") or "unknown"),
+                        t_start=float(deploy_ev["t"]),
+                        t_end=float(ev["t"]),
+                        start_index=deploy_i,
+                        end_index=i,
+                    )
+                )
+    for deploy_i, deploy_ev in open_stack:
+        dmeta = deploy_ev.get("meta") or {}
+        intervals.append(
+            MTDInterval(
+                mtd_name=str(dmeta.get("mtd_name") or "unknown"),
+                resource_type=str(dmeta.get("resource_type") or "unknown"),
+                t_start=float(deploy_ev["t"]),
+                t_end=float(t_max),
+                start_index=deploy_i,
+                end_index=None,
+            )
+        )
+    intervals.sort(key=lambda iv: iv.t_start)
+    return intervals
+
+
+def _extract_interrupts(events: list[dict[str, Any]]) -> list[InterruptEvent]:
+    out: list[InterruptEvent] = []
+    for i, ev in enumerate(events):
+        if ev["type"] != "attack_interrupted":
+            continue
+        meta = ev.get("meta") or {}
+        out.append(
+            InterruptEvent(
+                t=float(ev["t"]),
+                host_id=ev.get("host_id"),
+                phase=ev.get("phase"),
+                technique_id=ev.get("technique_id"),
+                interrupted_by=meta.get("interrupted_by"),
+                event_index=i,
+            )
+        )
+    return out
 
 
 def _precompute_snapshots(
