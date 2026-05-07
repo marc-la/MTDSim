@@ -71,6 +71,15 @@ def main() -> None:
         default=None,
         help="Optional: override the bundled GAP snapshot JSON (for dev iteration).",
     )
+    parser.add_argument(
+        "--trivial",
+        action="store_true",
+        help=(
+            "Boot with the canonical trivial profile pre-saved into "
+            "store-operational-profile so the Run tab is one click away "
+            "from a full GAP -> subgraph -> sim -> replay round-trip."
+        ),
+    )
     args = parser.parse_args()
 
     if args.log is not None:
@@ -97,6 +106,7 @@ def main() -> None:
         gap_html_path=args.gap_html,
         gap_json_path=args.gap_json,
         events_dir=args.events_dir,
+        trivial=args.trivial,
     )
     app.run(host=args.host, port=args.port, debug=args.debug)
 

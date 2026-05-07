@@ -128,15 +128,15 @@ def build_run_body(default_config: ReplayConfig = PRIMARY) -> html.Div:
         ],
     )
 
-    preview = dbc.Card(
+    network = dbc.Card(
         [
-            dbc.CardHeader("Network preview"),
+            dbc.CardHeader(html.Span(id="run-network-header", children="Network preview")),
             dbc.CardBody(
                 dcc.Graph(
-                    id="run-preview",
-                    figure=build_preview_figure(p, seed=default_config.seed, height=360),
+                    id="run-network",
+                    figure=build_preview_figure(p, seed=default_config.seed, height=540),
                     config={"displayModeBar": False},
-                    style={"height": "360px"},
+                    style={"height": "540px"},
                 ),
                 className="p-2",
             ),
@@ -148,7 +148,7 @@ def build_run_body(default_config: ReplayConfig = PRIMARY) -> html.Div:
             dbc.Row(
                 [
                     dbc.Col(form, md=4),
-                    dbc.Col(preview, md=8),
+                    dbc.Col(network, md=8),
                 ],
                 className="g-3",
             ),

@@ -1,82 +1,44 @@
-# MTD Simulator
+# MTDSim
 
-A simulator used to evaluate moving target defence(MTD) techniques.
+A simulator for evaluating moving target defence (MTD) techniques, with a Dash-based replay UI and attack graph visualiser.
 
-## Setup
+## Quick start (Linux)
 
-This guide sets up:
-
-1. A Conda environment named `mtdsim`
-2. A Jupyter kernel named `mtdsim`
-3. A VS Code workflow for running notebooks
-
-### 1. Install Miniconda 
-
-From your WSL terminal:
+Requires [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/) (or Anaconda).
 
 ```bash
-cd ~
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-bash Miniconda3-latest-Linux-x86_64.sh
-```
-
-Close and reopen your WSL terminal after installation.
-
-Initialise Conda in your shell (if needed):
-
-```bash
-conda init bash
-```
-
-### 2. Create the `mtdsim` environment from `environment.yml`
-
-From the repository root:
-
-```bash
-conda config --add channels conda-forge
 conda env create -f environment.yml
 conda activate mtdsim
+pip install -e src
 ```
 
-If the environment already exists and you want to sync to the file:
+## Run the replay + attack graph visualiser
 
 ```bash
-conda env update --name mtdsim --file environment.yml --prune
+conda activate mtdsim
+python -m mtdsim.viz.replay
 ```
 
-### 3. Register a Jupyter kernel named `mtdsim`
+Then open <http://127.0.0.1:8050>. The first launch auto-runs the default sim (`primary` config, `random` scheme) and caches the event log.
 
-After `conda activate mtdsim`:
+Useful flags:
+
+- `--config {primary,demo}` — named config to auto-run
+- `--scheme {no_mtd,random,alternative,simultaneous}`
+- `--log PATH` — replay an existing `events.jsonl` instead of auto-running
+- `--force-rerun` — regenerate the cached log
+- `--port N` — change port (default 8050)
+
+## Notebooks
 
 ```bash
 python -m ipykernel install --user --name mtdsim --display-name "Python (mtdsim)"
 ```
 
-This makes the kernel selectable in Jupyter and VS Code notebooks.
+Open any notebook in `notebooks/` and select the **Python (mtdsim)** kernel.
 
-### 4. Open notebooks in VS Code (WSL)
-
-1. Open the project in VS Code using the WSL extension.
-2. Install the VS Code extensions:
-   - Python (`ms-python.python`)
-   - Jupyter (`ms-toolsai.jupyter`)
-3. Open a notebook in `notebooks/`.
-4. Select kernel: **Python (mtdsim)**.
-
-### 5. Verify the environment and kernel
-
-```bash
-conda activate mtdsim
-python -V
-python -c "import networkx, simpy, plotly; print('OK')"
-jupyter kernelspec list
-```
-
-## Updating Dependencies
-
-After editing `environment.yml`:
+## Updating dependencies
 
 ```bash
 conda env update --name mtdsim --file environment.yml --prune
 ```
-

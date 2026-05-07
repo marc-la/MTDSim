@@ -168,7 +168,18 @@ def run_canonical_sim(
         )
         mtd.proceed_mtd()
 
-    env.run(until=config.finish_time)
+    # Stop at whichever fires first: full compromise (end_event) or wall
+    # finish_time. Without the AnyOf, a sim that hits the compromise
+    # threshold early (~6 ks for PRIMARY) keeps spinning the trigger loop
+    # for the remaining horizon and produces orphan deploys.
+    sim_terminator = simpy.events.AnyOf(env, [end_event, env.timeout(config.finish_time)])
+    env.run(until=sim_terminator)
+
+    # Processes parked between mtd_deployed and their normal terminal event
+    # are abandoned mid-stride when env.run returns — drain them so the
+    # trace has a matching close for every deploy.
+    if scheme not in ("no_mtd", "None"):
+        mtd.drain_in_flight()
 
     evlog.emit(
         "sim_ended",
@@ -176,6 +187,7 @@ def run_canonical_sim(
         compromise_ratio=len(adv.get_compromised_hosts()) / config.network_params["total_nodes"],
         compromised_hosts=list(adv.get_compromised_hosts()),
         duration=float(env.now),
+        terminated_by=("end_event" if end_event.triggered else "finish_time"),
     )
     evlog.to_jsonl(str(out_path))
     return out_path

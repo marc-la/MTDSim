@@ -194,7 +194,7 @@ def build_profile_body(gap: GeneralisedAttackProfile) -> html.Div:
                     id="profile-phase-lanes",
                     figure=build_phase_lanes_figure(None, gap),
                     config={"displayModeBar": False},
-                    style={"height": "260px"},
+                    style={"height": "380px"},
                 ),
                 className="p-2",
             ),

@@ -14,11 +14,12 @@ tab switch. The postMessage bridge (step 5) is preserved verbatim.
 
 Panels:
 
-- :mod:`.panels.network`     — SA L1
-- :mod:`.panels.gap_iframe`  — SA L2 (postMessage-driven highlights)
-- :mod:`.panels.timeline`    — SA L3 (MTD + resource + attack Gantt)
-- :mod:`.panels.attacker`    — kill-chain tracker + technique coverage
-- :mod:`.panels.stats`       — run metadata + running metrics sidebar
+- :mod:`.panels.network`         — SA L1
+- :mod:`.panels.gap_iframe`      — SA L2 (postMessage-driven highlights)
+- :mod:`.panels.hosts_timeline`  — hosts x time overlay (MTD coverage,
+  per-host phase Gantt, interrupts, compromises)
+- :mod:`.panels.attacker`        — kill-chain tracker + technique coverage
+- :mod:`.panels.stats`           — run metadata + running metrics sidebar
 """
 
 from __future__ import annotations
@@ -70,7 +71,10 @@ from mtdsim.viz.replay.panels.run import (
     form_params,
     validate_params,
 )
-from mtdsim.viz.replay.panels.timeline import build_timeline_figure, empty_timeline
+from mtdsim.viz.replay.panels.hosts_timeline import (
+    build_hosts_timeline_figure,
+    empty_hosts_timeline,
+)
 from mtdsim.viz.replay.runner import current_run_future, run_canonical_sim_async
 
 
@@ -99,6 +103,10 @@ _GAP_RENDERED_HTML: Optional[str] = None
 # of closing over a specific EventLog.
 _CURRENT_LOG: Optional[EventLog] = None
 _EVENTS_DIR: Path = DEFAULT_EVENTS_DIR
+# Optional pre-saved operational profile. Set by build_app(trivial=True)
+# so a smoke-boot can ship through the GAP→subgraph→sim pipeline without
+# the user clicking through the selector rail.
+_INITIAL_PROFILE_DATA: Optional[dict] = None
 
 
 def _speed_button_id(speed: float) -> dict:
@@ -190,13 +198,13 @@ def _run_body(log: Optional[EventLog]) -> html.Div:
                 [
                     dbc.Col(
                         _expandable_card(
-                            "run-network",
-                            "Network (live)",
+                            "run-phase",
+                            "Kill-chain phase (cursor)",
                             dcc.Graph(
-                                id="overview-network",
-                                figure=_initial_network_figure(log, height=340),
+                                id="overview-phase",
+                                figure=build_phase_tracker(None),
                                 config={"displayModeBar": False},
-                                style={"height": "340px"},
+                                style={"height": "120px"},
                             ),
                         ),
                         md=12,
@@ -208,32 +216,25 @@ def _run_body(log: Optional[EventLog]) -> html.Div:
                 [
                     dbc.Col(
                         _expandable_card(
-                            "run-phase",
-                            "Kill-chain phase",
-                            dcc.Graph(
-                                id="overview-phase",
-                                figure=build_phase_tracker(None),
-                                config={"displayModeBar": False},
-                                style={"height": "120px"},
+                            "run-hosts-timeline",
+                            "Hosts × time — attack phases, MTD coverage, interrupts, compromises",
+                            html.Div(
+                                dcc.Graph(
+                                    id="overview-hosts-timeline",
+                                    figure=_initial_hosts_timeline_figure(log),
+                                    config={"displayModeBar": False},
+                                ),
+                                style={
+                                    "maxHeight": "560px",
+                                    "overflowY": "auto",
+                                },
                             ),
+                            card_body_style={"padding": "0"},
                         ),
-                        md=5,
-                    ),
-                    dbc.Col(
-                        _expandable_card(
-                            "run-timeline",
-                            "Execution timeline",
-                            dcc.Graph(
-                                id="overview-timeline",
-                                figure=_initial_timeline_figure(log),
-                                config={"displayModeBar": False},
-                                style={"height": "360px"},
-                            ),
-                        ),
-                        md=7,
+                        md=12,
                     ),
                 ],
-                className="g-3 mt-1",
+                className="g-3 mt-2",
             ),
         ]
     )
@@ -254,10 +255,10 @@ def _initial_network_figure(log: Optional[EventLog], *, height: int):
     )
 
 
-def _initial_timeline_figure(log: Optional[EventLog]):
+def _initial_hosts_timeline_figure(log: Optional[EventLog]):
     if log is None:
-        return empty_timeline()
-    return build_timeline_figure(log, sim_t=0.0)
+        return empty_hosts_timeline()
+    return build_hosts_timeline_figure(log, sim_t=0.0)
 
 
 def _sidebar(log: Optional[EventLog]) -> html.Div:
@@ -377,12 +378,12 @@ def _transport_bar(log: Optional[EventLog]) -> dbc.Card:
         ]
     )
 
-    # Collapsible wrapper — "Run ▸/Run ▾" toggle. Starts open so playback is
-    # immediately reachable once a log loads.
+    # Collapsible wrapper — playback transport. Starts open so the play
+    # button is immediately reachable once a log loads.
     return html.Div(
         [
             dbc.Button(
-                [_icon("chevron-down"), html.Span(" Run simulator", className="ms-2")],
+                [_icon("chevron-down"), html.Span(" Playback", className="ms-2")],
                 id="transport-collapse-btn",
                 color="light",
                 size="sm",
@@ -419,7 +420,8 @@ def _layout(log: Optional[EventLog]) -> dbc.Container:
             dcc.Store(id="store-playback", data=asdict(initial_state())),
             dcc.Store(id="store-active-tab", data=TAB_RUN),
             dcc.Store(id="store-selected-host", data=None),
-            dcc.Store(id="store-operational-profile", data=None),
+            dcc.Store(id="store-operational-profile", data=_INITIAL_PROFILE_DATA),
+            dcc.Store(id="profile-mounted", data=False),
             dcc.Store(
                 id="store-run-state",
                 data={"status": "idle", "log_path": None, "message": ""},
@@ -430,7 +432,15 @@ def _layout(log: Optional[EventLog]) -> dbc.Container:
                 [
                     dbc.Col(
                         [
-                            _tab_container(TAB_PROFILE, _profile_body(log), active=False),
+                            _tab_container(
+                                TAB_PROFILE,
+                                html.Div(
+                                    "Profile selector mounts on first activation.",
+                                    id="profile-tab-mount",
+                                    className="text-muted small p-3",
+                                ),
+                                active=False,
+                            ),
                             _tab_container(TAB_RUN, _run_body(log), active=True),
                         ],
                         md=9,
@@ -557,6 +567,23 @@ def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
         actives = [tid.get("tab") == selected for tid in tab_ids]
         return selected, actives
 
+    # Lazy-mount the Profile tab body the first time the user activates
+    # it. Mounting unconditionally on initial layout doubles the boot DOM
+    # (and triggers an extra GAP iframe fetch) for users who never visit
+    # the Profile tab. The mounted flag prevents re-mount, which would
+    # detach the iframe and break its postMessage bridge.
+    @app.callback(
+        Output("profile-tab-mount", "children"),
+        Output("profile-mounted", "data"),
+        Input("store-active-tab", "data"),
+        State("profile-mounted", "data"),
+        prevent_initial_call=True,
+    )
+    def _mount_profile_tab(active_tab, mounted):
+        if mounted or active_tab != TAB_PROFILE or _GAP is None:
+            return no_update, no_update
+        return build_profile_body(_GAP), True
+
     @app.callback(
         Output({"type": "tab-pane", "tab": dash.ALL}, "style"),
         Input("store-active-tab", "data"),
@@ -580,32 +607,62 @@ def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
         )
         return stats_panel.render_kv(rows)
 
+    # Single network surface — one Plotly graph with two modes:
+    # (a) preview mode: form params drive build_preview_figure; (b) live
+    # mode: loaded log drives build_network_figure. Replaces the legacy
+    # split between run-preview (form) and overview-network (log).
     @app.callback(
-        Output("overview-network", "figure"),
+        Output("run-network", "figure"),
+        Output("run-network-header", "children"),
+        Output("run-validation", "children"),
         Input("store-playback", "data"),
         Input("store-run-state", "data"),
+        Input("run-total-nodes", "value"),
+        Input("run-total-endpoints", "value"),
+        Input("run-total-subnets", "value"),
+        Input("run-total-layers", "value"),
+        Input("run-total-database", "value"),
+        Input("run-terminate-ratio", "value"),
+        Input("run-seed", "value"),
     )
-    def _update_overview_network(state_data, _run_state):
-        if _CURRENT_LOG is None or not _CURRENT_LOG.topology:
-            return empty_figure("Configure and run a simulation to populate the network view.")
-        state = _to_state(state_data) if state_data else initial_state()
-        return build_network_figure(
-            topology=_CURRENT_LOG.topology,
-            events=_CURRENT_LOG.events,
-            event_index=state.event_index,
-            height=340,
-        )
+    def _update_run_network(
+        state_data, _run_state, n, endpoints, subnets, layers, db, ratio, seed,
+    ):
+        # Live mode wins when a log is loaded.
+        if _CURRENT_LOG is not None and _CURRENT_LOG.topology:
+            state = _to_state(state_data) if state_data else initial_state()
+            fig = build_network_figure(
+                topology=_CURRENT_LOG.topology,
+                events=_CURRENT_LOG.events,
+                event_index=state.event_index,
+                height=540,
+            )
+            return fig, "Network — live (click a host for detail)", ""
+        # Preview mode — form-driven figure with validation feedback.
+        try:
+            params = form_params(n, endpoints, subnets, layers, db, ratio)
+        except (TypeError, ValueError):
+            return (
+                empty_figure("Fill in all numeric fields."),
+                "Network preview",
+                "",
+            )
+        err = validate_params(params)
+        if err:
+            return empty_figure(err), "Network preview", err
+        fig = build_preview_figure(params, seed=int(seed or 0), height=540)
+        return fig, "Network preview", ""
 
     @app.callback(
         Output("store-selected-host", "data"),
-        Input("overview-network", "clickData"),
+        Input("run-network", "clickData"),
         State("store-selected-host", "data"),
         prevent_initial_call=True,
     )
-    def _capture_host_click(overview_click, current):
+    def _capture_host_click(network_click, current):
         if _CURRENT_LOG is None:
             return no_update
-        payload = overview_click
+        payload = network_click
         if not payload or not payload.get("points"):
             return no_update
         point = payload["points"][0]
@@ -635,15 +692,15 @@ def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
         return html.Div([html.Div(line, className="small") for line in lines])
 
     @app.callback(
-        Output("overview-timeline", "figure"),
+        Output("overview-hosts-timeline", "figure"),
         Input("store-playback", "data"),
         Input("store-run-state", "data"),
     )
-    def _update_overview_timeline(state_data, _run_state):
+    def _update_overview_hosts_timeline(state_data, _run_state):
         if _CURRENT_LOG is None or not _CURRENT_LOG.events:
-            return empty_timeline()
+            return empty_hosts_timeline()
         state = _to_state(state_data) if state_data else initial_state()
-        return build_timeline_figure(_CURRENT_LOG, sim_t=state.sim_t)
+        return build_hosts_timeline_figure(_CURRENT_LOG, sim_t=state.sim_t)
 
     @app.callback(
         Output("overview-phase", "figure"),
@@ -731,31 +788,9 @@ def _register_callbacks(app: dash.Dash, log: Optional[EventLog]) -> None:
             prevent_initial_call=True,
         )
 
-    # Run Simulator — network preview refreshes on form blur; Run button
-    # enqueues a background sim; interval polls its Future and, on
-    # completion, hot-loads the log into _CURRENT_LOG and resets playback.
-    @app.callback(
-        Output("run-preview", "figure"),
-        Output("run-validation", "children"),
-        Input("run-total-nodes", "value"),
-        Input("run-total-endpoints", "value"),
-        Input("run-total-subnets", "value"),
-        Input("run-total-layers", "value"),
-        Input("run-total-database", "value"),
-        Input("run-terminate-ratio", "value"),
-        Input("run-seed", "value"),
-    )
-    def _update_preview(n, endpoints, subnets, layers, db, ratio, seed):
-        try:
-            params = form_params(n, endpoints, subnets, layers, db, ratio)
-        except (TypeError, ValueError):
-            return empty_figure("Fill in all numeric fields."), ""
-        err = validate_params(params)
-        if err:
-            return empty_figure(err), err
-        fig = build_preview_figure(params, seed=int(seed or 0), height=360)
-        return fig, ""
-
+    # Run Simulator — Run button enqueues a background sim; interval polls
+    # its Future and, on completion, hot-loads the log into _CURRENT_LOG.
+    # The form-driven preview is folded into _update_run_network above.
     @app.callback(
         Output("run-profile-pill", "children"),
         Input("store-operational-profile", "data"),
@@ -945,8 +980,10 @@ def build_app(
     gap_html_path: Optional[Path] = None,
     gap_json_path: Optional[Path] = None,
     events_dir: Optional[Path] = None,
+    trivial: bool = False,
 ) -> dash.Dash:
     global _GAP_HTML_PATH, _GAP, _GAP_RENDERED_HTML, _CURRENT_LOG, _EVENTS_DIR
+    global _INITIAL_PROFILE_DATA
     _GAP_HTML_PATH = gap_html_path
     _CURRENT_LOG = log
     if events_dir is not None:
@@ -960,6 +997,12 @@ def build_app(
         _GAP_RENDERED_HTML = render_gap_html(_GAP)
     else:
         _GAP_RENDERED_HTML = None
+
+    if trivial:
+        from mtdsim.viz.replay.fixtures import trivial_profile_payload
+        _INITIAL_PROFILE_DATA = trivial_profile_payload(_GAP)
+    else:
+        _INITIAL_PROFILE_DATA = None
 
     app = dash.Dash(
         __name__,
@@ -1011,6 +1054,16 @@ def _register_gap_iframe_bridge(app: dash.Dash, log: Optional[EventLog]) -> None
     executed set up to the cursor.
     """
     if log is None or not log.events:
+        return
+
+    # Guard against double-mount. ``build_app`` is normally called once per
+    # process, but Dash dev-reload and test fixtures both call it multiple
+    # times; without this guard the inserts compound and we end up with
+    # duplicate stores breaking the clientside callback bindings.
+    existing_ids = {
+        getattr(c, "id", None) for c in app.layout.children
+    }
+    if "store-events-summary" in existing_ids:
         return
 
     _events_summary = [

@@ -83,6 +83,10 @@ class AttackOperation:
         except simpy.Interrupt:
             self.env.process(self._handle_interrupt(start_time, self.adversary.get_curr_process()))
             return
+        # Stop progressing the attack chain once the end_event has fired so
+        # the trace does not gain new phases after sim termination.
+        if self.end_event.triggered:
+            return
         finish_time = self.env.now + self._proceed_time
         if self.logging:
             logging.info("Adversary: Processed %s at %.1fs." % (self.adversary.get_curr_process(), finish_time))
@@ -195,6 +199,10 @@ class AttackOperation:
                    interrupted=True)
         # confusion penalty caused by MTD operation
         yield self.env.timeout(exponential_variates(self._get_duration('PENALTY'), 0.5))
+
+        # Same gate as _execute_attack_action: don't restart phases past end.
+        if self.end_event.triggered:
+            return
 
         if self._interrupted_mtd.get_resource_type() == 'network':
             self._interrupted_mtd = None
@@ -336,6 +344,8 @@ class AttackOperation:
                 yield self.env.timeout(exploit_time)
             except simpy.Interrupt:
                 self.env.process(self._handle_interrupt(start_time, self.adversary.get_curr_process()))
+                return
+            if self.end_event.triggered:
                 return
             finish_time = self.env.now + self._proceed_time
             if self.logging:

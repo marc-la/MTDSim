@@ -99,23 +99,38 @@ def build_phase_lanes_figure(
             layer="below",
         )
 
-    # Technique dots per lane. Spread horizontally by index within the lane.
+    # Technique dots per lane. Wrap into multiple rows within each lane
+    # so high-cardinality phases (e.g. EXPLOIT_VULN under MODE_ALL with
+    # ~600 techniques) don't degenerate into a single illegible line.
     max_lane = max((len(v) for v in buckets.values()), default=1)
+    per_row = 60  # dots per row before wrapping
     for phase, items in buckets.items():
         if not items:
             continue
-        y = _PHASE_Y[phase]
-        xs = [i / max(max_lane - 1, 1) for i in range(len(items))]
+        y_base = _PHASE_Y[phase]
+        xs: list[float] = []
+        ys: list[float] = []
+        for i in range(len(items)):
+            row = i // per_row
+            col = i % per_row
+            xs.append(col / max(per_row - 1, 1))
+            # Stack rows downward within the lane band (-0.4 .. +0.4).
+            n_rows = max(1, (len(items) + per_row - 1) // per_row)
+            if n_rows == 1:
+                y_off = 0.0
+            else:
+                y_off = -0.32 + (0.64 * row / max(n_rows - 1, 1))
+            ys.append(y_base + y_off)
         colours = [_TACTIC_COLOURS.get(t, "#888") for _, t in items]
         hover = [
-            f"{tid}<br>{gap.nodes[tid].technique_name}<br>"
+            f"<b>{tid}</b><br>{gap.nodes[tid].technique_name}<br>"
             f"tactic: {tac}<br>phase: {phase}"
             for tid, tac in items
         ]
-        fig.add_trace(go.Scatter(
-            x=xs, y=[y] * len(items),
+        fig.add_trace(go.Scattergl(
+            x=xs, y=ys,
             mode="markers",
-            marker=dict(size=10, color=colours, line=dict(color="#2a2f45", width=0.5)),
+            marker=dict(size=7, color=colours, line=dict(color="#2a2f45", width=0.4)),
             hovertext=hover,
             hoverinfo="text",
             showlegend=False,
@@ -134,8 +149,8 @@ def build_phase_lanes_figure(
         )
 
     fig.update_layout(
-        margin=dict(l=140, r=16, t=8, b=8),
-        height=260,
+        margin=dict(l=160, r=16, t=8, b=8),
+        height=380,
         plot_bgcolor="white",
         xaxis=dict(visible=False, range=[-0.05, 1.05]),
         yaxis=dict(

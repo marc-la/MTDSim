@@ -15,6 +15,7 @@ class TimeNetwork(Network):
         self._mtd_queue = []
         self._suspension_queue = dict()
         self._unfinished_mtd = dict()
+        self._terminate_compromise_ratio = terminate_compromise_ratio
         if total_nodes < 2 * total_subnets:
             total_nodes = 2 * total_subnets
         super().__init__(total_nodes=total_nodes, total_endpoints=total_endpoints, total_subnets=total_subnets,
@@ -45,9 +46,9 @@ class TimeNetwork(Network):
             )
 
     def is_compromised(self, compromised_hosts):
-        # 80% compromise ratio
-        # return len(compromised_hosts) / self.total_nodes > 0.8
-        return len(compromised_hosts) / self.total_nodes > 0.25
+        # Threshold is configurable via the constructor's terminate_compromise_ratio
+        # so callers (e.g. ReplayConfig) can match the simulation horizon.
+        return len(compromised_hosts) / self.total_nodes > self._terminate_compromise_ratio
 
     def get_mtd_stats(self):
         return self._mtd_stats

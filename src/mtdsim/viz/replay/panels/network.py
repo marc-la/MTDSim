@@ -428,7 +428,15 @@ def build_network_figure(
         plot_bgcolor="white",
         xaxis=dict(visible=False),
         yaxis=dict(visible=False),
-        legend=dict(orientation="h", yanchor="bottom", y=1.0, x=0),
+        legend=dict(
+            orientation="v",
+            yanchor="top", y=1.0,
+            xanchor="left", x=1.01,
+            bgcolor="rgba(255,255,255,0.85)",
+            bordercolor="#dee2e6",
+            borderwidth=1,
+            font=dict(size=11),
+        ),
         height=height,
         uirevision="network-panel",
     )
