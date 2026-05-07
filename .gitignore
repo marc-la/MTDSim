@@ -167,3 +167,5 @@ data/gap/tmp/
 data/viz_cache/
 data/viz_runs/
 src/mtdsim/viz/replay/_spike/
+
+papers
