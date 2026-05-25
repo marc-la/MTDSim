@@ -1,0 +1,38 @@
+# Normalise line endings to LF on commit and checkout (F-09).
+# Stops inherited CRLF from re-surfacing as spurious diffs on branch switches.
+
+* text=auto eol=lf
+
+# Text sources — force LF.
+*.py        text eol=lf
+*.md        text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.txt       text eol=lf
+*.json      text eol=lf
+*.csv       text eol=lf
+*.cfg       text eol=lf
+*.ini       text eol=lf
+*.toml      text eol=lf
+*.sh        text eol=lf
+.gitignore       text eol=lf
+.gitattributes   text eol=lf
+
+# Binary — never touch.
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.pdf       binary
+*.pptx      binary
+*.xlsx      binary
+*.docx      binary
+*.h5        binary
+*.hdf5      binary
+*.pkl       binary
+*.npy       binary
+*.npz       binary
+*.joblib    binary
+*.weights   binary
+*.model     binary
