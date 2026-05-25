@@ -19,12 +19,12 @@
     "n_mtd_events": 45,
     "n_compromised_hosts": 41,
     "host_compromise_ratio": 0.82,
-    "sim_wallclock_seconds": 0.3086249828338623,
+    "sim_wallclock_seconds": 0.2662475109100342,
     "mtttc_eval_checkpoints": [
       {
         "time_to_compromise": 8.563114622278379,
         "attack_success_rate": 0.17857142857142858,
-        "host_compromise_ratio": 1.2,
+        "host_compromise_ratio": 0.06,
         "mtd_execution_frequency": 0.005055780659268496,
         "total_number_of_ports": 373,
         "attack_path_exposure": 0.31,
@@ -35,7 +35,7 @@
       {
         "time_to_compromise": 8.691064377204228,
         "attack_success_rate": 0.19230769230769232,
-        "host_compromise_ratio": 1.2,
+        "host_compromise_ratio": 0.12,
         "mtd_execution_frequency": 0.005055780659268496,
         "total_number_of_ports": 373,
         "attack_path_exposure": 0.31,
@@ -46,7 +46,7 @@
       {
         "time_to_compromise": 8.784218873161421,
         "attack_success_rate": 0.25862068965517243,
-        "host_compromise_ratio": 1.0666666666666667,
+        "host_compromise_ratio": 0.16,
         "mtd_execution_frequency": 0.005055780659268496,
         "total_number_of_ports": 373,
         "attack_path_exposure": 0.31,
@@ -57,7 +57,7 @@
       {
         "time_to_compromise": 8.782622851812581,
         "attack_success_rate": 0.29411764705882354,
-        "host_compromise_ratio": 1.1,
+        "host_compromise_ratio": 0.22,
         "mtd_execution_frequency": 0.005055780659268496,
         "total_number_of_ports": 373,
         "attack_path_exposure": 0.31,
@@ -68,7 +68,7 @@
       {
         "time_to_compromise": 8.933689004507153,
         "attack_success_rate": 0.33783783783783783,
-        "host_compromise_ratio": 1.04,
+        "host_compromise_ratio": 0.26,
         "mtd_execution_frequency": 0.005055780659268496,
         "total_number_of_ports": 373,
         "attack_path_exposure": 0.31,
@@ -89,8 +89,8 @@
     "seaborn": "0.13.2"
   },
   "git": {
-    "branch": "feat/crash-fix",
-    "head": "a458f9a91b5d8c77a68d7b521cb5523abb96b1db",
+    "branch": "feat/metric-faithfulness",
+    "head": "2032273d160943a634968f837329e7ba01edefca",
     "dirty": true
   }
 }

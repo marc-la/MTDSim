@@ -15,66 +15,66 @@
     "custom_strategies": null
   },
   "results": {
-    "n_attack_events": 1477,
-    "n_mtd_events": 75,
+    "n_attack_events": 1366,
+    "n_mtd_events": 65,
     "n_compromised_hosts": 81,
     "host_compromise_ratio": 0.81,
-    "sim_wallclock_seconds": 3.724566698074341,
+    "sim_wallclock_seconds": 4.806955575942993,
     "mtttc_eval_checkpoints": [
       {
-        "time_to_compromise": 8.04794827658053,
-        "attack_success_rate": 0.3125,
-        "host_compromise_ratio": 1.2,
-        "mtd_execution_frequency": 0.005026746373156309,
+        "time_to_compromise": 8.587643287940855,
+        "attack_success_rate": 0.35714285714285715,
+        "host_compromise_ratio": 0.06,
+        "mtd_execution_frequency": 0.00503465613350397,
         "total_number_of_ports": 703,
-        "attack_path_exposure": 0.25898809523809524,
-        "roa": 2.0644551395821575,
+        "attack_path_exposure": 0.15625,
+        "roa": 2.326220814121022,
         "shortest_path_variability": 0.0,
-        "risk": 5.692615210874496
+        "risk": 5.709434877163209
       },
       {
-        "time_to_compromise": 8.126764607897812,
-        "attack_success_rate": 0.3333333333333333,
-        "host_compromise_ratio": 1.1,
-        "mtd_execution_frequency": 0.005026746373156309,
+        "time_to_compromise": 8.49169842058953,
+        "attack_success_rate": 0.3225806451612903,
+        "host_compromise_ratio": 0.11,
+        "mtd_execution_frequency": 0.00503465613350397,
         "total_number_of_ports": 703,
-        "attack_path_exposure": 0.25898809523809524,
-        "roa": 2.0644551395821575,
+        "attack_path_exposure": 0.15625,
+        "roa": 2.326220814121022,
         "shortest_path_variability": 0.0,
-        "risk": 5.692615210874496
+        "risk": 5.709434877163209
       },
       {
-        "time_to_compromise": 8.306344456398893,
-        "attack_success_rate": 0.38461538461538464,
-        "host_compromise_ratio": 1.0666666666666667,
-        "mtd_execution_frequency": 0.005026746373156309,
+        "time_to_compromise": 8.894003557775106,
+        "attack_success_rate": 0.3488372093023256,
+        "host_compromise_ratio": 0.16,
+        "mtd_execution_frequency": 0.00503465613350397,
         "total_number_of_ports": 703,
-        "attack_path_exposure": 0.25898809523809524,
-        "roa": 2.0644551395821575,
+        "attack_path_exposure": 0.15625,
+        "roa": 2.326220814121022,
         "shortest_path_variability": 0.0,
-        "risk": 5.692615210874496
+        "risk": 5.709434877163209
       },
       {
-        "time_to_compromise": 8.759104968493961,
+        "time_to_compromise": 8.943306187165694,
         "attack_success_rate": 0.37735849056603776,
-        "host_compromise_ratio": 1.05,
-        "mtd_execution_frequency": 0.005026746373156309,
+        "host_compromise_ratio": 0.21,
+        "mtd_execution_frequency": 0.00503465613350397,
         "total_number_of_ports": 703,
-        "attack_path_exposure": 0.25898809523809524,
-        "roa": 2.0644551395821575,
+        "attack_path_exposure": 0.15625,
+        "roa": 2.326220814121022,
         "shortest_path_variability": 0.0,
-        "risk": 5.692615210874496
+        "risk": 5.709434877163209
       },
       {
-        "time_to_compromise": 8.760301305131827,
-        "attack_success_rate": 0.4098360655737705,
-        "host_compromise_ratio": 1.04,
-        "mtd_execution_frequency": 0.005026746373156309,
+        "time_to_compromise": 9.263478213032172,
+        "attack_success_rate": 0.3787878787878788,
+        "host_compromise_ratio": 0.26,
+        "mtd_execution_frequency": 0.00503465613350397,
         "total_number_of_ports": 703,
-        "attack_path_exposure": 0.25898809523809524,
-        "roa": 2.0644551395821575,
+        "attack_path_exposure": 0.15625,
+        "roa": 2.326220814121022,
         "shortest_path_variability": 0.0,
-        "risk": 5.692615210874496
+        "risk": 5.709434877163209
       }
     ]
   },
@@ -89,8 +89,8 @@
     "seaborn": "0.13.2"
   },
   "git": {
-    "branch": "feat/crash-fix",
-    "head": "a458f9a91b5d8c77a68d7b521cb5523abb96b1db",
+    "branch": "feat/metric-faithfulness",
+    "head": "2032273d160943a634968f837329e7ba01edefca",
     "dirty": true
   }
 }

@@ -19,12 +19,12 @@
     "n_mtd_events": 0,
     "n_compromised_hosts": 41,
     "host_compromise_ratio": 0.82,
-    "sim_wallclock_seconds": 0.13679790496826172,
+    "sim_wallclock_seconds": 0.12743592262268066,
     "mtttc_eval_checkpoints": [
       {
         "time_to_compromise": 8.61897262639515,
         "attack_success_rate": 0.8333333333333334,
-        "host_compromise_ratio": 1.2,
+        "host_compromise_ratio": 0.06,
         "mtd_execution_frequency": 0,
         "total_number_of_ports": 373,
         "attack_path_exposure": 0.3883333333333333,
@@ -35,7 +35,7 @@
       {
         "time_to_compromise": 8.251323004531903,
         "attack_success_rate": 0.8333333333333334,
-        "host_compromise_ratio": 1.2,
+        "host_compromise_ratio": 0.12,
         "mtd_execution_frequency": 0,
         "total_number_of_ports": 373,
         "attack_path_exposure": 0.3883333333333333,
@@ -46,7 +46,7 @@
       {
         "time_to_compromise": 8.749500846409138,
         "attack_success_rate": 0.9375,
-        "host_compromise_ratio": 1.0666666666666667,
+        "host_compromise_ratio": 0.16,
         "mtd_execution_frequency": 0,
         "total_number_of_ports": 373,
         "attack_path_exposure": 0.3883333333333333,
@@ -57,7 +57,7 @@
       {
         "time_to_compromise": 9.092012704598938,
         "attack_success_rate": 0.8333333333333334,
-        "host_compromise_ratio": 1.1,
+        "host_compromise_ratio": 0.22,
         "mtd_execution_frequency": 0,
         "total_number_of_ports": 373,
         "attack_path_exposure": 0.3883333333333333,
@@ -68,7 +68,7 @@
       {
         "time_to_compromise": 9.556605265990811,
         "attack_success_rate": 0.78125,
-        "host_compromise_ratio": 1.04,
+        "host_compromise_ratio": 0.26,
         "mtd_execution_frequency": 0,
         "total_number_of_ports": 373,
         "attack_path_exposure": 0.3883333333333333,
@@ -89,8 +89,8 @@
     "seaborn": "0.13.2"
   },
   "git": {
-    "branch": "feat/crash-fix",
-    "head": "a458f9a91b5d8c77a68d7b521cb5523abb96b1db",
+    "branch": "feat/metric-faithfulness",
+    "head": "2032273d160943a634968f837329e7ba01edefca",
     "dirty": true
   }
 }

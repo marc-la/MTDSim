@@ -110,7 +110,7 @@
 | **MTD-11** | **MTD trigger time = Exponential(µ)** per scheme; µ from `MTD_TRIGGER_INTERVAL` table or user override | Zhang §4.3.4 | Zhang | `mtd_operation.py:108-109, 152-154` `env.timeout(exponential_variates(interval, std))` | verified | Y | [CORE] |
 | **MTD-12** | **MTD execution schemes**: random / alternative / simultaneous | Zhang §4.3.2.1–3, Figs 4–5 | Zhang | `mtd_scheme.py:_init_mtd_scheme` dispatches to `_register_mtd_randomly / _alternatively / _simultaneously`; **plus** `single`, `mtd_ai`, `None` schemes for non-paper use cases. All three Zhang schemes exercised in baseline. | verified (+ extra non-paper schemes) | Y | [CORE] |
 | **MTD-13** | **Resource-occupation + suspension queue** for MTD scheduling (network vs application layer) | Zhang §4.3.3, Fig 6 | Zhang | `MTDOperation` holds three `simpy.Resource(env, 1)` slots (`application_layer_resource`, `network_layer_resource`, `reserve_resource`); `mtd_scheme.suspend_mtd` populates the per-priority suspension dict. Worked example matches Zhang's. | verified | Y | [CORE] |
-| **MTD-14** | **Per-technique execution duration** (mean, std) | Zhang Table 3 | Zhang | `constants.MTD_DURATION`: `CompleteTopologyShuffle:(120,0.5)`, `IPShuffle:(110,0.5)`, `OSDiversity:(80,0.5)`, `PortShuffle:(70,0.5)`, `ServiceDiversity:(70,0.5)`, `HostTopologyShuffle:(100,0.5)`, `UserShuffle:(20,0.5)`. **CompleteTopologyShuffle and IPShuffle values are off by +10 vs Zhang Table 3** (110/100). | divergent (Zhang 110/100 vs code 120/110) | N | [CORE] |
+| **MTD-14** | **Per-technique execution duration** (mean, std) | Zhang Table 3 | Zhang | `constants.MTD_DURATION`: `CompleteTopologyShuffle:(110,0.5)`, `IPShuffle:(100,0.5)`, `OSDiversity:(80,0.5)`, `PortShuffle:(70,0.5)`, `ServiceDiversity:(70,0.5)`, `HostTopologyShuffle:(100,0.5)`, `UserShuffle:(20,0.5)`. All durations now match Zhang Table 3 verbatim. | **fixed (2c)** — `CompleteTopologyShuffle` 120→110 and `IPShuffle` 110→100 brought into line with Zhang Table 3; the +10 drift in the prior values had no traceable origin in Phase-2 recon | Y | [CORE] |
 | **MTD-15** | **Reconfiguration applied to all nodes**; selective / critical-node deployment is future work | Zhang §6.4 | Zhang (future-work flag) | All MTD techniques operate on the full host list (no `node_filter` parameter anywhere in `mtd/*.py`) | verified (status quo matches Zhang's "all nodes" baseline) | N | [PERIPH] |
 
 ---
@@ -145,7 +145,7 @@
 | **MET-01** | **MTTC** = mean duration over `SCAN_PORT`, `EXPLOIT_VULN`, `BRUTE_FORCE` events for relevant hosts; 0 if none | Zhang §3.4; Ho §3.3.2 (#8) | Zhang / restated Ho | `statistic/evaluation.py:106-108` — exactly that calc | verified | Y | [CORE] |
 | **MET-02** | **Attack Success Rate (ASR)** = compromised / attempts (`SCAN_PORT + EXPLOIT_VULN + BRUTE_FORCE`) | Ho §3.3.2 (#6) | Ho | `evaluation.py:109-116` computes `attack_success_rate = comp_num / attack_event_num` per checkpoint. Note: numerator is the *checkpoint target*, not actually-compromised — possible Phase-0 finding | divergent (numerator semantics) | Y | [EVAL] |
 | **MET-03** | **MTD Execution Frequency (MEF)** = `N_MTD / (finish_last − start_first)` | Ho §3.3.2 (#7) | Ho | `evaluation.py:73-80` exactly that | verified | Y | [PERIPH] |
-| **MET-04** | **Host Compromise Ratio (HCR)** = `C_t / T_host` | Ho §3.3.2 (#4) | Ho | The `host_compromise_ratio` field in `evaluation_result_by_compromise_checkpoint` is `compromised_num / comp_num` where `comp_num = T_host × checkpoint_ratio` — **not** `C_t / T_host`. Values > 1 in golden outputs (e.g. `1.2`). | divergent (paper `C_t / T_host`, code `C_t / (T_host × checkpoint)`) — Phase-0 finding F-10 | Y | [PERIPH] |
+| **MET-04** | **Host Compromise Ratio (HCR)** = `C_t / T_host` | Ho §3.3.2 (#4) | Ho | `evaluation.py:126` now `self.compromised_num(record=sub_record) / host_num` (Ho's formula). Post-2c goldens show HCR ∈ [0.06, 0.26] across the default `[0.05, 0.1, 0.15, 0.2, 0.25]` checkpoint list — bounded in [0, 1] at every checkpoint. | **fixed (2c)** — checkpoint-ratio divisor removed; regression test `tests/test_crash_fix_regressions.py::test_c8_host_compromise_ratio_in_unit_interval` asserts HCR ∈ [0, 1] at every checkpoint | Y | [PERIPH] |
 | **MET-05** | **Attack Path Exposure (APE)** = mean new-vuln% across hosts on the shortest attack path | Ho §3.3.2 (#1) | Ho | `evaluation.py:120-131` populates `attack_path_exposure` from `network.attack_path_exposure()` | verified (formula present); semantics not yet checked against Ho's `V_new(h)` definition | N | [EVAL] |
 | **MET-06** | **Risk (R)** = `CSP(h) · AI(h)` | Ho §3.3.2 (#2) | Ho | `evaluation.py:163-164` reads `risk` from the scorer's per-vuln risk list; computed in `services.py` `risk()` method | verified (presence); paper formula vs code formula not yet aligned | Y | [CORE] |
 | **MET-07** | **Return on Attack (RoA)** = Risk / AC; AC = time to exploit | Ho §3.3.2 (#3), Eqs 3-4 | Ho | `services.py:144, 164` `roa()` formulas use `complexity * impact / exploit_time` — consistent in shape with Ho | verified (shape) | Y | [CORE] |
@@ -200,12 +200,12 @@
 2. **NET-13 / C3** — vulnerability impact is `random()*10` (range `[0, 10]`) in code; the threshold `SERVICE_COMPROMISED_THRESHOLD = 7` is interpretable only on that scale. Brown Table I quotes `[0, 1]`. **Resolved in 2c (docs):** README + spec aligned to `[0, 10]`; Brown delta documented.
 3. **ATK-03** — Zhang's `T_Aphase2` formula (exponential with `V_exploited`/`V_unexploited`) is *not* the formula the code uses; code uses a simpler deterministic `ATTACK_DURATION × (1 − complexity)`.
 4. **ATK-04** — "exploit time halved for previously-exploited vuln types" is **missing** from active code.
-5. **MET-04 / F-10** — code's `host_compromise_ratio` field is `C_t / (T_host × checkpoint_ratio)`, not `C_t / T_host`. Several golden runs show ratios > 1. Multiple papers cite this name.
+5. **MET-04 / F-10** — **resolved in 2c.** `host_compromise_ratio` in `evaluation_result_by_compromise_checkpoint` now divides by `host_num` (Ho's `C_t / T_host`); HCR ∈ [0, 1] at every checkpoint of every scenario. Regression-tested.
 6. **SHD-04** — Ho's pairwise-action-space vs Tay's 5-action no-op set is unresolved; the code path that exposes actions to the RL agent is `mtd_scheme._register_mtd_ai` which indexes into `_mtd_custom_strategies` — likely Tay's variant.
-7. **MTD-14** — `CompleteTopologyShuffle` duration in code (`120`) and `IPShuffle` (`110`) differ from Zhang Table 3 (`110`, `100`) by `+10` each.
+7. **MTD-14** — **resolved in 2c.** `CompleteTopologyShuffle` 120→110 and `IPShuffle` 110→100; all `MTD_DURATION` entries now match Zhang Table 3.
 8. **SIM-05** — no central RNG plumbing; only the Phase-0 driver seeds anything; UUIDs use unseeded `os.urandom`.
 9. **CFG-01** — there is no entry point on `main`.
-10. **MET-08 (TSLM)** — code hard-codes `time_since_last_mtd = 1` rather than computing the time since last MTD; the env-dependent line is commented out.
+10. **MET-08 (TSLM)** — **deferred in 2c** (see MET-08 row). The time-based scheduling path never writes `last_mtd_triggered_time`, so the env-dependent line couldn't be uncommented without cross-module wiring; no baseline consumer reads the field, so the hard-coded `1` is currently inert.
 
 ---
 
@@ -220,7 +220,7 @@
 | C5 | Zero-day v99 + cross-platform = 0.5 | **Not a conflict.** Two independent rules. |
 | C6 | NCR termination ratio (0.25 in code vs 0.8 in Zhang) | **Bug or deliberate change?** Either way, every baseline metric depends on this. Top priority to disposition. |
 | C7 (new) | ATK-03 — exploit-time formula | Decide whether to faithfully reimplement Zhang's exponential `T_Aexploit`, or treat the deterministic implementation as the inherited reality. |
-| C8 (new) | MET-04 — HCR field semantics | The field `host_compromise_ratio` is used by downstream code (and possibly the RL feature pipeline). Fixing its semantics is small but ripples. |
+| C8 (new) | MET-04 — HCR field semantics | **Resolved in 2c:** `host_compromise_ratio` now divides by `host_num` (Ho's `C_t / T_host`); HCR ∈ [0, 1] across all checkpoints; regression-tested. |
 
 ---
 
