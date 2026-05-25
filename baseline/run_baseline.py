@@ -174,9 +174,10 @@ def run_scenario(
     target_layer: int = 4,
     total_database: int = 2,
     terminate_compromise_ratio: float = 0.8,
+    out_name: str | None = None,
 ) -> dict:
     cfg = SCENARIOS[scenario]
-    out_dir = os.path.join(out_root, scenario)
+    out_dir = os.path.join(out_root, out_name or scenario)
     os.makedirs(out_dir, exist_ok=True)
 
     _seed_all(seed)
@@ -291,16 +292,38 @@ def _git(args: str) -> str:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="MTDSim Phase-0 baseline driver")
+    ap = argparse.ArgumentParser(description="MTDSim Phase-0/2b baseline driver")
     ap.add_argument("--scenario", required=True, choices=list(SCENARIOS),
                     help="Which preset scenario to run")
     ap.add_argument("--seed", type=int, default=1234)
     ap.add_argument("--finish-time", type=int, default=3000)
     ap.add_argument("--out-root", default="baseline/golden")
+    ap.add_argument("--out-name", default=None,
+                    help="Override the per-scenario output subdir name "
+                         "(default: --scenario value)")
+    # Geometry overrides — defaults match the historic Phase-0 driver.
+    ap.add_argument("--total-nodes", type=int, default=50)
+    ap.add_argument("--total-endpoints", type=int, default=5)
+    ap.add_argument("--total-subnets", type=int, default=8)
+    ap.add_argument("--total-layers", type=int, default=4)
+    ap.add_argument("--target-layer", type=int, default=4)
+    ap.add_argument("--total-database", type=int, default=2)
+    ap.add_argument("--terminate-compromise-ratio", type=float, default=0.8)
     args = ap.parse_args()
 
-    summary = run_scenario(args.scenario, args.seed, args.out_root,
-                           finish_time=args.finish_time)
+    out_name = args.out_name or args.scenario
+    summary = run_scenario(
+        args.scenario, args.seed, args.out_root,
+        finish_time=args.finish_time,
+        total_nodes=args.total_nodes,
+        total_endpoints=args.total_endpoints,
+        total_subnets=args.total_subnets,
+        total_layers=args.total_layers,
+        target_layer=args.target_layer,
+        total_database=args.total_database,
+        terminate_compromise_ratio=args.terminate_compromise_ratio,
+        out_name=out_name,
+    )
     print(json.dumps(summary["results"], indent=2, default=str))
 
 

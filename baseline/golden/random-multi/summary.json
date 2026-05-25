@@ -1,7 +1,7 @@
 {
   "scenario": "random-multi",
   "seed": 1234,
-  "finish_time": 3000,
+  "finish_time": 15000,
   "params": {
     "total_nodes": 50,
     "total_endpoints": 5,
@@ -15,33 +15,66 @@
     "custom_strategies": null
   },
   "results": {
-    "n_attack_events": 359,
-    "n_mtd_events": 15,
-    "n_compromised_hosts": 7,
-    "host_compromise_ratio": 0.14,
-    "sim_wallclock_seconds": 0.07254886627197266,
+    "n_attack_events": 994,
+    "n_mtd_events": 47,
+    "n_compromised_hosts": 41,
+    "host_compromise_ratio": 0.82,
+    "sim_wallclock_seconds": 0.3700072765350342,
     "mtttc_eval_checkpoints": [
       {
-        "time_to_compromise": 8.56202263934858,
-        "attack_success_rate": 0.22727272727272727,
+        "time_to_compromise": 7.608419319859276,
+        "attack_success_rate": 0.3125,
         "host_compromise_ratio": 1.2,
-        "mtd_execution_frequency": 0.00512474685798577,
-        "total_number_of_ports": 368,
-        "attack_path_exposure": 0.5595555555555554,
-        "roa": 2.5149403122908187,
+        "mtd_execution_frequency": 0.005056738455070844,
+        "total_number_of_ports": 373,
+        "attack_path_exposure": 0.6666666666666666,
+        "roa": 0.13806194814126893,
         "shortest_path_variability": 0.0,
-        "risk": 6.176589110627876
+        "risk": 0.5654375981595786
       },
       {
-        "time_to_compromise": 8.746724895679364,
-        "attack_success_rate": 0.2777777777777778,
+        "time_to_compromise": 8.44232817316857,
+        "attack_success_rate": 0.21739130434782608,
         "host_compromise_ratio": 1.2,
-        "mtd_execution_frequency": 0.00512474685798577,
-        "total_number_of_ports": 368,
-        "attack_path_exposure": 0.5595555555555554,
-        "roa": 2.5149403122908187,
+        "mtd_execution_frequency": 0.005056738455070844,
+        "total_number_of_ports": 373,
+        "attack_path_exposure": 0.6666666666666666,
+        "roa": 0.13806194814126893,
         "shortest_path_variability": 0.0,
-        "risk": 6.176589110627876
+        "risk": 0.5654375981595786
+      },
+      {
+        "time_to_compromise": 8.76094205184892,
+        "attack_success_rate": 0.21428571428571427,
+        "host_compromise_ratio": 1.0666666666666667,
+        "mtd_execution_frequency": 0.005056738455070844,
+        "total_number_of_ports": 373,
+        "attack_path_exposure": 0.6666666666666666,
+        "roa": 0.13806194814126893,
+        "shortest_path_variability": 0.0,
+        "risk": 0.5654375981595786
+      },
+      {
+        "time_to_compromise": 9.092432486648102,
+        "attack_success_rate": 0.2222222222222222,
+        "host_compromise_ratio": 1.1,
+        "mtd_execution_frequency": 0.005056738455070844,
+        "total_number_of_ports": 373,
+        "attack_path_exposure": 0.6666666666666666,
+        "roa": 0.13806194814126893,
+        "shortest_path_variability": 0.0,
+        "risk": 0.5654375981595786
+      },
+      {
+        "time_to_compromise": 9.237924356706628,
+        "attack_success_rate": 0.2604166666666667,
+        "host_compromise_ratio": 1.04,
+        "mtd_execution_frequency": 0.005056738455070844,
+        "total_number_of_ports": 373,
+        "attack_path_exposure": 0.6666666666666666,
+        "roa": 0.13806194814126893,
+        "shortest_path_variability": 0.0,
+        "risk": 0.5654375981595786
       }
     ]
   },
@@ -56,8 +89,8 @@
     "seaborn": "0.13.2"
   },
   "git": {
-    "branch": "chore/baseline-spec",
-    "head": "c706871ae60fc7e1d5feee26fcac083389bec78e",
+    "branch": "feat/crash-fix",
+    "head": "a458f9a91b5d8c77a68d7b521cb5523abb96b1db",
     "dirty": true
   }
 }
