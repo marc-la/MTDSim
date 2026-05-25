@@ -47,7 +47,8 @@ class TimeNetwork(Network):
 
     def is_compromised(self, compromised_hosts):
         # R1: honour the constructor's terminate_compromise_ratio so callers
-        # control the termination threshold (default 0.8 = Zhang 2023 §5 NCR).
+        # control the termination threshold (default 0.8 = Zhang 2023 §5 NCR;
+        # see docs/MTDSIM_SPEC.md MET-15 / C6).
         return len(compromised_hosts) / self.total_nodes > self._terminate_compromise_ratio
 
     def get_mtd_stats(self):
