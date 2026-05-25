@@ -148,3 +148,6 @@ experiments/*
 experimental_data/*
 
 docs/sources
+
+# macOS Finder metadata
+.DS_Store
