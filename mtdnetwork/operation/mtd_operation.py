@@ -160,34 +160,40 @@ class MTDOperation:
         # deploy mtd
         self.network.set_unfinished_mtd(mtd)
         request = self._get_mtd_resource(mtd).request()
-        yield request
-        start_time = env.now + self._proceed_time
+        try:
+            yield request
+            start_time = env.now + self._proceed_time
 
-        if self.logging:
-            logging.info('MTD: %s deployed in the network at %.1fs.' % (mtd.get_name(), start_time))
+            if self.logging:
+                logging.info('MTD: %s deployed in the network at %.1fs.' % (mtd.get_name(), start_time))
 
-        yield env.timeout(exponential_variates(mtd.get_execution_time_mean(),
-                                               mtd.get_execution_time_std()))
+            yield env.timeout(exponential_variates(mtd.get_execution_time_mean(),
+                                                   mtd.get_execution_time_std()))
 
-        # if network is already compromised while executing mtd:
-        if self.network.is_compromised(compromised_hosts=self.attack_operation.get_adversary().get_compromised_hosts()):
-            return
+            # if network is already compromised while executing mtd:
+            if self.network.is_compromised(compromised_hosts=self.attack_operation.get_adversary().get_compromised_hosts()):
+                return
 
-        # execute mtd
-        mtd.mtd_operation(self.attack_operation.get_adversary())
+            # execute mtd
+            mtd.mtd_operation(self.attack_operation.get_adversary())
 
-        finish_time = env.now + self._proceed_time
-        duration = finish_time - start_time
-        
-        if self.logging:
-            logging.info('MTD: %s finished in %.1fs at %.1fs.' % (mtd.get_name(), duration, finish_time))
+            finish_time = env.now + self._proceed_time
+            duration = finish_time - start_time
 
-        # release resource
-        self._get_mtd_resource(mtd).release(request)
-        # append execution records
-        self.network.get_mtd_stats().append_mtd_operation_record(mtd, start_time, finish_time, duration)
-        # interrupt adversary
-        self._interrupt_adversary(env, mtd)
+            if self.logging:
+                logging.info('MTD: %s finished in %.1fs at %.1fs.' % (mtd.get_name(), duration, finish_time))
+
+            # append execution records
+            self.network.get_mtd_stats().append_mtd_operation_record(mtd, start_time, finish_time, duration)
+            # interrupt adversary
+            self._interrupt_adversary(env, mtd)
+        finally:
+            # R3: always release the resource and clear the unfinished-mtd
+            # marker — covers the early return on compromise and any process
+            # interruption between `yield request` and the explicit release.
+            if request in self._get_mtd_resource(mtd).users:
+                self._get_mtd_resource(mtd).release(request)
+            self.network.get_unfinished_mtd().pop(mtd.get_resource_type(), None)
 
     def _get_mtd_resource(self, mtd):
         """Get the resource to be occupied by the mtd"""
