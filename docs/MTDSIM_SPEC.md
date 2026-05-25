@@ -19,7 +19,7 @@
 3. **Relevance tags**: `[CORE]` faithful baseline behaviour · `[ATK-SWAP]` load-bearing for replacing the attacker with CTI-grounded profiles · `[TAY-BENCH]` part of the inherited Tay-2024 RL benchmark that we replicate but do not extend · `[EVAL]` Level-4 evaluation metric (MTTC, ASR, attack-path exposure, RoA per CLAUDE.md) · `[PERIPH]` peripheral.
    `[IDS-SEAM]` was used in the Phase-1 draft to flag detection / IDS-feed surfaces. IDS is no longer a research thread (see CLAUDE.md and `docs/current_state.md`), so every `[IDS-SEAM]` tag was retired in Phase 2 — Tay-RL machinery → `[TAY-BENCH]`; L4 metrics → `[EVAL]`; everything else → `[PERIPH]`. Provenance: see `docs/findings/recon_summary.md` §6.
 4. **Test? column** = candidate for a golden-master / faithfulness test (Y/N).
-5. Per-paper extraction notes live in `_notes_brown.md`, `_notes_zhang.md`, `_notes_ho.md`, `_notes_tay.md` and are the source of truth for paper-side locators.
+5. Per-paper extraction notes live in `spec/_notes_brown.md`, `spec/_notes_zhang.md`, `spec/_notes_ho.md`, `spec/_notes_tay.md` and are the source of truth for paper-side locators.
 
 ---
 

@@ -55,7 +55,7 @@
    needs to wire those two missing features back in. **Trust caveat:** AI
    surface inherits R1 + R3 from the procedural surface (R2 is correctly
    handled). The env delta (TF) is documented but not committed.
-6. **Spec hygiene.** All 12 `[IDS-SEAM]` tags in `docs/spec/MTDSIM_SPEC.md`
+6. **Spec hygiene.** All 12 `[IDS-SEAM]` tags in `docs/MTDSIM_SPEC.md`
    retired: SHD-05 / SHD-06 / SHD-10 / SHD-13 → `[TAY-BENCH]`;
    L4 metrics MET-02 (ASR) / MET-05 (APE) → `[EVAL]`; the remaining six
    metric rows (MET-03 MEF / MET-04 HCR / MET-08 TSLM / MET-09 SAPV /
@@ -78,7 +78,7 @@
 ## What this session changed in the tree
 
 - Added `docs/findings/crash_6000s.md`, `replay_viz_inventory.md`, `attackflow_schema.md`, `tay_rl_feasibility.md`, `recon_summary.md` (this file).
-- Edited `docs/spec/MTDSIM_SPEC.md` to retire `[IDS-SEAM]` (12 rows + legend).
+- Edited the conformance spec to retire `[IDS-SEAM]` (12 rows + legend). The spec also moved up one level — from `docs/spec/MTDSIM_SPEC.md` to `docs/MTDSIM_SPEC.md` — per Marc's request for tracking. The companion `_notes_*.md` files stay at `docs/spec/`; the spec's "How to read this file" intro was updated to reference the new `spec/_notes_*.md` paths.
 - Untracked CRLF↔LF churn from finding F-09 was stashed and left untouched (`stash@{0}: On phase2-recon: phase2-tmp-line-endings`); the older `stash@{1}: On attacker-profiling: wip: .gitignore line-ending flip` was also left alone.
 - No code changes. `mtdnetwork/**`, `evaluation.py`, `environment.yml` all unchanged.
 - Branch `chore/phase2-recon` did not push.

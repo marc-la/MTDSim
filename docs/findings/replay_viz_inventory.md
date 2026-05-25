@@ -79,7 +79,7 @@ Other parts of `1efac8f` — the DDQN notebook, the `attacker_sensitivity=1.0` d
 - `b076645` "Move mtdnetwork package into src/" (2026-03-27).
 - `bb2adf5` "Restructure package namespace to mtdsim" (2026-03-29).
 
-These two together move `mtdnetwork/` → `src/mtdnetwork/` → `src/mtdsim/` and split `component/` into `network/` + `attacker/` + `defender/`, and `statistic/` into `stats/`. Once-and-done refactor. **Cherry-picking would invalidate every locator in [MTDSIM_SPEC.md](../spec/MTDSIM_SPEC.md) and every Phase-0 golden path.** Defer until the substrate fixes have landed and the spec line-numbers can be re-validated in one batch.
+These two together move `mtdnetwork/` → `src/mtdnetwork/` → `src/mtdsim/` and split `component/` into `network/` + `attacker/` + `defender/`, and `statistic/` into `stats/`. Once-and-done refactor. **Cherry-picking would invalidate every locator in [MTDSIM_SPEC.md](../MTDSIM_SPEC.md) and every Phase-0 golden path.** Defer until the substrate fixes have landed and the spec line-numbers can be re-validated in one batch.
 
 `9b4fd3d` "Revise README and conda env (mtdsim)" is also reorg-adjacent (env rename `mtdsimtime` → `mtdsim`); already implicit in Phase-0's deviation table, no cherry-pick needed.
 
