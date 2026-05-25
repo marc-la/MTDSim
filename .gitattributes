@@ -33,6 +33,8 @@
 *.pkl       binary
 *.npy       binary
 *.npz       binary
+*.zip       binary
 *.joblib    binary
 *.weights   binary
 *.model     binary
+.DS_Store   binary
