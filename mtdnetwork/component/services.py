@@ -36,7 +36,8 @@ class Vulnerability:
          
         self.dependent_vulns = []
 
-        self.id = str(uuid.uuid4())
+        # SIM-05: see Host.uuid — derive from seeded `random` for determinism.
+        self.id = str(uuid.UUID(int=random.getrandbits(128), version=4))
         self.logger = logging.getLogger("vuln-{}".format(self.id))
         if can_have_os_dependency and len(os_list) > 1:
             if random.random() < constants.VULN_PROB_DEPENDS_ON_OS:
@@ -193,7 +194,8 @@ class Service:
         self.version = service_version
         self.vulnerabilities = sorted(vulnerabilities, key=lambda v: v.roa(), reverse=True)
         self.exploit_value = 0.0
-        self.id = str(uuid.uuid4())
+        # SIM-05: see Host.uuid — derive from seeded `random` for determinism.
+        self.id = str(uuid.UUID(int=random.getrandbits(128), version=4))
 
     def copy(self):
         """
