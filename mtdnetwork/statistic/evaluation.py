@@ -122,8 +122,12 @@ class Evaluation:
             state_array, time_series_array = self.get_metrics()
         
 
-            # print(self.compromised_num(record=sub_record), len(self._network.get_hosts()))
-            host_comp_ratio = self.compromised_num(record=sub_record) / comp_num if comp_num > 0 else 0
+            # Ho 2024 §3.3.2 (#4): HCR = C_t / T_host (count of compromised
+            # hosts divided by total host count). Earlier form used `comp_num`
+            # (the checkpoint TARGET = host_num × checkpoint_ratio) in the
+            # divisor, which let HCR exceed 1 at intermediate checkpoints
+            # (Phase-0 finding F-10 / C8). 2c disposition: fix to Ho's formula.
+            host_comp_ratio = self.compromised_num(record=sub_record) / host_num if host_num > 0 else 0
   
             result.append({'time_to_compromise': time_to_compromise,
                            'attack_success_rate': attack_success_rate,
