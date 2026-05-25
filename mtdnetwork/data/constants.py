@@ -124,11 +124,11 @@ MTD_PRIORITY = {
     'UserShuffle': 7,
 }
 
-# mtd name : (mean, std)
+# mtd name : (mean, std) — Zhang 2023, Table 3 (MTDSimTime thesis).
 MTD_DURATION = {
-    'CompleteTopologyShuffle': (120, 0.5),
+    'CompleteTopologyShuffle': (110, 0.5),
     'HostTopologyShuffle': (100, 0.5),
-    'IPShuffle': (110, 0.5),
+    'IPShuffle': (100, 0.5),
     'OSDiversity': (80, 0.5),
     'PortShuffle': (70, 0.5),
     'ServiceDiversity': (70, 0.5),
