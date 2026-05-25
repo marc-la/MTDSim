@@ -34,7 +34,8 @@ been backfilled from outside those.
 | **Per-host attack-attempt limit (give-up rule)** = 10 | Brown 2023 §III-C(2), Table I (=10); §V-C ("never give up on target node in Scenario 2") | [`mtdnetwork/data/constants.py`](../mtdnetwork/data/constants.py): `ATTACKER_THRESHOLD = 10`; applied in [`mtdnetwork/operation/attack_operation.py`](../mtdnetwork/operation/attack_operation.py): `_execute_enum_host` (`_attack_counter == _attack_threshold` ⇒ push to `stop_attack`, unless target host under `network_type==0`) | **faithful**; see MTDSIM_SPEC.md ATK-07 |
 | **Global attack-attempt cap** = `5 × total_nodes` | inherited (Brown-era heuristic, not in any paper) | [`mtdnetwork/data/constants.py`](../mtdnetwork/data/constants.py): `HACKER_ATTACK_ATTEMPT_MULTIPLER = 5`; computed in [`mtdnetwork/component/adversary.py`](../mtdnetwork/component/adversary.py): `Adversary.__init__._max_attack_attempts` | **diverged (inert)** — counter is incremented but the guard is commented out (`attack_operation.py:220`); see MTDSIM_SPEC.md ATK-08 |
 | **Exploit-time model** — deterministic `ATTACK_DURATION['EXPLOIT_VULN'] * (1 - complexity)` (×2.5 on OS-mismatch; ÷2 on already-exploited *instance*) | (code reality differs from paper) | [`mtdnetwork/component/services.py`](../mtdnetwork/component/services.py): `Vulnerability.exploit_time` | **diverged (C7 / ATK-03)** — Zhang 2023 §4.4.3 Eq 1-2 specifies an exponential `T_Aexploit` parameterised by `V_exploited`/`V_unexploited`/`ACv`; deterministic form retained as inherited reality, shifts absolute MTTC magnitude (see METRICS_SEMANTICS.md §c) |
-| **Attacker learning** — exploit time halved for previously-exploited vuln *types* | Zhang 2023 §4.4.3 | [`mtdnetwork/component/services.py`](../mtdnetwork/component/services.py): `Vulnerability.exploit_time` — trace at the commented-out `exploit_attempt + 1` line | **diverged (ATK-04)** — Zhang's per-vuln-TYPE halving is unimplemented; see METRICS_SEMANTICS.md §c / MTDSIM_SPEC.md ATK-04. (For a candidate code-side discrepancy with that doc claim see "Flags" §.) |
+| **Re-exploit time discount — per-instance (active)** | Brown 2021 (commit `a16db997`, 2021-09-04); not in any source paper | [`mtdnetwork/component/services.py`](../mtdnetwork/component/services.py): `Vulnerability.exploit_time`, `if self.exploited: return exp_time / 2` (lines 90-91) | **active inherited mechanism** — halves the exploit-time cost when re-attempting the *same `Vulnerability` instance*. Brown-era, pre-Zhang. Fires in 7–42 % of `exploit_time` calls across the 9 goldens (pinned by `tests/test_atk04_reexploit_discount.py`). Kept deliberately (Unit C disposition). See METRICS_SEMANTICS.md §c / MTDSIM_SPEC.md ATK-04. |
+| **Attacker learning — per-type (missing)** | Zhang 2023 §4.4.3 | [`mtdnetwork/component/services.py`](../mtdnetwork/component/services.py): `Vulnerability.exploit_time` — trace at the commented-out `exploit_attempt + 1` line (lines 97-98) | **diverged (ATK-04, missing)** — Zhang's per-vuln-TYPE halving (the cross-instance learning rule) is unimplemented; only the commented-out trace remains. Distinct mechanism from the per-instance discount above. See METRICS_SEMANTICS.md §c / MTDSIM_SPEC.md ATK-04. |
 | **Attack-action enums** (metrics-relevant) = `SCAN_PORT`, `EXPLOIT_VULN`, `BRUTE_FORCE` | Ho 2024 §3.3.2 (MTTC + ASR + Attack Stage) | Used in [`mtdnetwork/statistic/evaluation.py`](../mtdnetwork/statistic/evaluation.py): `evaluation_result_by_compromise_checkpoint` `name.isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])` | **faithful**; see MTDSIM_SPEC.md ATK-13 |
 | **Three-phase action timing** (Phase 1 SCAN_PORT + cred stuff; Phase 2 EXPLOIT_VULN; Phase 3 BRUTE_FORCE) | Zhang 2023 §4.4.2, §4.4.3 | [`mtdnetwork/data/constants.py`](../mtdnetwork/data/constants.py): `ATTACK_DURATION` dict; phase rotation in [`mtdnetwork/operation/attack_operation.py`](../mtdnetwork/operation/attack_operation.py) | **faithful (timing constants)**; Phase-2 distribution diverged per C7 above |
 | **MTD interrupt + confusion penalty** = `ATTACK_DURATION['PENALTY']` = 20 | Brown 2023 §V-A; Zhang 2023 §4.4.3 | [`mtdnetwork/data/constants.py`](../mtdnetwork/data/constants.py): `ATTACK_DURATION['PENALTY'] = 20`; applied in [`mtdnetwork/operation/attack_operation.py`](../mtdnetwork/operation/attack_operation.py): `_handle_interrupt` flow | **faithful**; see MTDSIM_SPEC.md ATK-05 |
@@ -50,20 +51,14 @@ been backfilled from outside those.
 These are observations made during the provenance pass that don't have a
 clean disposition in the verified docs and need Marc's call.
 
-- **ATK-04 active code at `services.py:84-85` (`if self.exploited: return exp_time / 2`)**.
-  Both [`MTDSIM_SPEC.md`](MTDSIM_SPEC.md) ATK-04 and
-  [`METRICS_SEMANTICS.md`](METRICS_SEMANTICS.md) §c describe ATK-04 as
-  "no active implementation" / "missing", pointing only at the
-  commented-out `exploit_attempt + 1` line at `services.py:87` as the
-  remaining trace. But the active code at `services.py:84-85` does halve
-  `exp_time` on re-exploit at the **per-instance** (per-`Vulnerability`)
-  level. `git blame` traces those lines to Alex Brown (2021-09-04, commit
-  `a16db997`) — i.e. Brown-era, pre-Zhang. So the divergence is more
-  nuanced than the doc states: Zhang's per-vuln-**type** halving is
-  unimplemented, but a Brown-era per-instance halving is present and
-  active. The anchor comment at `services.py` follows the doc verbatim
-  (calls ATK-04 unimplemented at the type level); whether to refine the
-  doc to disambiguate is Marc's disposition.
+- ~~**ATK-04 active code at `services.py:84-85`**~~ — **resolved in Unit C**.
+  Both mechanisms now have rows above (per-instance Brown-era discount =
+  active and kept; per-type Zhang learning = unimplemented), and the
+  in-code anchor comment at `services.py:80-99` and the doc sections at
+  [`METRICS_SEMANTICS.md`](METRICS_SEMANTICS.md) §c and
+  [`MTDSIM_SPEC.md`](MTDSIM_SPEC.md) ATK-04 have been disambiguated.
+  Discount-fire counts are pinned across the 9 goldens by
+  [`tests/test_atk04_reexploit_discount.py`](../tests/test_atk04_reexploit_discount.py).
 
 - **Out of this pass's scope (not actioned, just noted)** — every other
   `divergent` / `missing` row in [`MTDSIM_SPEC.md`](MTDSIM_SPEC.md) is

@@ -83,12 +83,17 @@ class Vulnerability:
         exp_time = constants.ATTACK_DURATION['EXPLOIT_VULN'] * (1 - self.complexity)
         if self.has_os_dependency and host is not None and host.os_type not in self.vuln_os_list:
             exp_time *= 2.5
+        # ATK-04 (per-instance, ACTIVE): Brown-era 2021-09-04 (commit a16db997) — re-exploit of the
+        # *same Vulnerability instance* costs half the base time. Materially active under all
+        # current scenarios (7–42 % of exploit_time calls; pinned in
+        # tests/test_atk04_reexploit_discount.py). Kept deliberately; see docs/METRICS_SEMANTICS.md §c.
         if self.exploited:
             return exp_time / 2
         return exp_time
-        # ATK-04 trace: the commented-out form below references `exploit_attempt + 1`. Zhang 2023 §4.4.3
-        # specifies attacker learning by halving exploit time for previously-exploited vuln TYPES — that
-        # cross-instance rule is unimplemented. See docs/METRICS_SEMANTICS.md §c / MTDSIM_SPEC.md ATK-04.
+        # ATK-04 (per-type, UNIMPLEMENTED): Zhang 2023 §4.4.3 specifies halving exploit time for
+        # previously-exploited vuln *TYPES* (cross-instance, attacker learning). The commented-out
+        # form below references `exploit_attempt + 1` and is the only remaining trace of that path.
+        # See docs/METRICS_SEMANTICS.md §c / MTDSIM_SPEC.md ATK-04.
         # return constants.VULN_MIN_EXPLOIT_TIME + (constants.VULN_MAX_EXPLOIT_TIME -
         # constants.VULN_MIN_EXPLOIT_TIME) * ( 1 - self.complexity) / ( self.exploit_attempt + 1)
 
