@@ -77,7 +77,12 @@ class MTDOperation:
             if self.network.is_compromised(compromised_hosts=self.attack_operation.get_adversary().get_compromised_hosts()):
                 if not self.end_event.triggered:  # Check if the event has not been triggered yet
                     self.end_event.succeed()
-
+                # R2: stop scheduling new MTDs once end_event has fired; the
+                # batch variant already does this. Without the return, every
+                # subsequent trigger spawned an _mtd_execute_action that
+                # bailed out before releasing its resource (R3), producing
+                # orphan deploys and the silent 6 ks integrity failure.
+                return
 
             # register an MTD
             if not self.network.get_mtd_queue():
