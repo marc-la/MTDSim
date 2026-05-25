@@ -1,5 +1,16 @@
 # Baseline — Phase 0
 
+> **Superseded.** This document captures the Phase-0 state of the substrate
+> (buggy NCR=0.25, `finish_time=3000`, F-10 HCR>1, etc.). The goldens in
+> [`golden/`](golden/) are the **post-2c** re-baseline on the corrected
+> substrate; the matrix below and findings F-10 and F-09 are no longer
+> current. For the canonical state, read
+> [`CHANGELOG.md`](CHANGELOG.md) (2b and 2c entries) and
+> [`../docs/METRICS_SEMANTICS.md`](../docs/METRICS_SEMANTICS.md). The
+> Phase-0 goldens themselves are archived at
+> [`golden_phase0_buggy/`](golden_phase0_buggy/). The text below is kept
+> verbatim for provenance.
+
 Status: **running, with the deviations below**. The codebase as it stands on `main`
 (commit recorded in each `summary.json`) does not ship a runnable entry point — see
 finding F-01. A minimal driver was written under [baseline/run_baseline.py](run_baseline.py)
