@@ -1,0 +1,96 @@
+{
+  "scenario": "simultaneous-multi",
+  "seed": 1234,
+  "finish_time": 15000,
+  "params": {
+    "total_nodes": 50,
+    "total_endpoints": 5,
+    "total_subnets": 8,
+    "total_layers": 4,
+    "target_layer": 4,
+    "total_database": 2,
+    "terminate_compromise_ratio": 0.8,
+    "scheme": "simultaneous",
+    "mtd_interval": 700,
+    "custom_strategies": null
+  },
+  "results": {
+    "n_attack_events": 777,
+    "n_mtd_events": 44,
+    "n_compromised_hosts": 41,
+    "host_compromise_ratio": 0.82,
+    "sim_wallclock_seconds": 0.36949872970581055,
+    "mtttc_eval_checkpoints": [
+      {
+        "time_to_compromise": 9.077314753167604,
+        "attack_success_rate": 0.25,
+        "host_compromise_ratio": 1.2,
+        "mtd_execution_frequency": 0.006080008248125117,
+        "total_number_of_ports": 373,
+        "attack_path_exposure": 0.36,
+        "roa": 0.43373786540551484,
+        "shortest_path_variability": 0.0,
+        "risk": 1.8628612756717697
+      },
+      {
+        "time_to_compromise": 9.422011963575828,
+        "attack_success_rate": 0.2631578947368421,
+        "host_compromise_ratio": 1.2,
+        "mtd_execution_frequency": 0.006080008248125117,
+        "total_number_of_ports": 373,
+        "attack_path_exposure": 0.36,
+        "roa": 0.43373786540551484,
+        "shortest_path_variability": 0.0,
+        "risk": 1.8628612756717697
+      },
+      {
+        "time_to_compromise": 9.6938479186453,
+        "attack_success_rate": 0.32608695652173914,
+        "host_compromise_ratio": 1.0666666666666667,
+        "mtd_execution_frequency": 0.006080008248125117,
+        "total_number_of_ports": 373,
+        "attack_path_exposure": 0.36,
+        "roa": 0.43373786540551484,
+        "shortest_path_variability": 0.0,
+        "risk": 1.8628612756717697
+      },
+      {
+        "time_to_compromise": 9.491850317193549,
+        "attack_success_rate": 0.3448275862068966,
+        "host_compromise_ratio": 1.1,
+        "mtd_execution_frequency": 0.006080008248125117,
+        "total_number_of_ports": 373,
+        "attack_path_exposure": 0.36,
+        "roa": 0.43373786540551484,
+        "shortest_path_variability": 0.0,
+        "risk": 1.8628612756717697
+      },
+      {
+        "time_to_compromise": 9.429949049276416,
+        "attack_success_rate": 0.36764705882352944,
+        "host_compromise_ratio": 1.04,
+        "mtd_execution_frequency": 0.006080008248125117,
+        "total_number_of_ports": 373,
+        "attack_path_exposure": 0.36,
+        "roa": 0.43373786540551484,
+        "shortest_path_variability": 0.0,
+        "risk": 1.8628612756717697
+      }
+    ]
+  },
+  "versions": {
+    "python": "3.11.15",
+    "numpy": "2.4.3",
+    "scipy": "1.17.1",
+    "networkx": "3.6.1",
+    "matplotlib": "3.10.8",
+    "pandas": "3.0.2",
+    "simpy": "4.1.1",
+    "seaborn": "0.13.2"
+  },
+  "git": {
+    "branch": "feat/crash-fix",
+    "head": "a458f9a91b5d8c77a68d7b521cb5523abb96b1db",
+    "dirty": true
+  }
+}

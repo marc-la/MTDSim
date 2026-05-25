@@ -77,7 +77,8 @@ class Evaluation:
         if len(self._mtd_record) == 0:
             return 0
         record = self._mtd_record
-        return len(record) / (record.iloc[-1]['finish_time'] - record.iloc[0]['start_time'])
+        elapsed = record.iloc[-1]['finish_time'] - record.iloc[0]['start_time']
+        return len(record) / elapsed if elapsed > 0 else 0
 
     def evaluation_result_by_compromise_checkpoint(self, checkpoint=None):
         """
@@ -103,9 +104,10 @@ class Evaluation:
             if max(record['cumulative_compromised_hosts']) < comp_num:
                 break
             sub_record = record[record['cumulative_compromised_hosts'] <= comp_num]
-            time_to_compromise = sub_record[sub_record[
-                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]['duration'].sum() / len(sub_record[sub_record[
-                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]['duration'])
+            attack_duration_series = sub_record[sub_record[
+                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]['duration']
+            attack_action_count = len(attack_duration_series)
+            time_to_compromise = attack_duration_series.sum() / attack_action_count if attack_action_count > 0 else 0
             attempt_hosts = sub_record[sub_record['current_host_uuid'] != -1]['current_host_uuid'].unique()
             attack_actions = sub_record[sub_record['name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]
             attack_event_num = 0
@@ -113,7 +115,7 @@ class Evaluation:
                 attack_event_num += len(attack_actions[(attack_actions['current_host_uuid'] == host) &
                                                        (attack_actions['name'] == 'SCAN_PORT')])
             # attack_success_rate = record['cumulative_compromised_hosts'].iloc[-1] / attack_event_num
-            attack_success_rate = comp_num / attack_event_num
+            attack_success_rate = comp_num / attack_event_num if attack_event_num > 0 else 0
            
             mtd_execution_frequency = self.mtd_execution_frequency()
 
@@ -121,7 +123,7 @@ class Evaluation:
         
 
             # print(self.compromised_num(record=sub_record), len(self._network.get_hosts()))
-            host_comp_ratio = self.compromised_num(record=sub_record)/comp_num
+            host_comp_ratio = self.compromised_num(record=sub_record) / comp_num if comp_num > 0 else 0
   
             result.append({'time_to_compromise': time_to_compromise,
                            'attack_success_rate': attack_success_rate,
@@ -150,7 +152,8 @@ class Evaluation:
         # State metrics
 
         compromised_num = self.compromised_num()
-        host_compromise_ratio = compromised_num/len(self._network.get_hosts()) \
+        host_count = len(self._network.get_hosts())
+        host_compromise_ratio = compromised_num / host_count if host_count > 0 else 0
 
   
         total_number_of_ports = 0
