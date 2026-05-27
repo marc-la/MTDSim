@@ -167,6 +167,14 @@ delta and stay on v2.x.
 **Status:** partially built (v0.4 implementation exists; design intent fixed,
 parameterisation tunable).
 
+**GAP schema detail.** The data model, the four construction decisions (made
+2026-05-27 with Marc), and the build method live in
+[`01_gap_schema.md`](01_gap_schema.md). That spec **supersedes the aggregation
+sketch in this section**: GAP edges are Attack-Flow-only (FP-Growth
+co-occurrence and ontology-regex dropped), the artefact is lossless, and
+support / confidence / consensus / acyclicity become *views* rather than
+build-time bakes. Reconciling this section's prose to that spec is Pass-2 work.
+
 - **Inputs.** L0 corpus.
 - **Outputs.** A single aggregated directed graph: nodes = ATT&CK techniques;
   edges = inter-technique dependencies inferred from the Attack Flow corpus.
@@ -511,11 +519,15 @@ Pass 2 / Marc to drive, not assumed-resolved.
 - **Attack Flow schema version + parser entrypoint in-tree.** Pinning is
   blocked until the corpus and parser materialise somewhere reachable;
   see §(c) Decision-block + Parser-contract for the current open state.
+  → [`01_gap_schema.md`](01_gap_schema.md) §(f)/§(h) pins the parser on the STIX
+  export (sidestepping the `.afb` version delta); the version pin itself stays open.
 - **Which Jalowski primitives does the attacker model encode** (state
   collision / beacon conditioning / metadata invariance)? Each is independent.
 - **L1 aggregation parameter choice** (`min_support`, `min_confidence`,
   consensus / backward / forward edge modes). Architecture commits only to the
-  *form*; the values are tunable.
+  *form*; the values are tunable. → **Resolved for the GAP stage** by
+  [`01_gap_schema.md`](01_gap_schema.md): Attack-Flow-only edges (co-occurrence
+  dropped), lossless artefact, thresholds / acyclicity as downstream views.
 - **Motivation-attribution method.** Terminal-node-ancestor proxy today;
   NLP/group-mediated inference parked. Which lands in the final evaluation?
 - **Network substrate generality.** Held generic by intent — but does the RQ

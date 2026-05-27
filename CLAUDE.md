@@ -18,6 +18,7 @@ If you read only one of these for orientation, read **`project_context.md`** (#3
 ## Spec files (load when relevant to the task)
 
 - [`docs/specs/architecture.md`](docs/specs/architecture.md) — L0→L4 pipeline, substrate seam, methodological positioning, decisions log. See the spec's own frontmatter for current pass status.
+- [`docs/specs/01_gap_schema.md`](docs/specs/01_gap_schema.md) — L1 GAP data model: the lossless, Attack-Flow-only technique graph + its construction decisions. The detail under architecture.md §(c)–(d).
 - [`docs/specs/mtdsim_spec.md`](docs/specs/mtdsim_spec.md) — the conformance spec; row-level dispositions against the baseline.
 - [`docs/specs/metrics_semantics.md`](docs/specs/metrics_semantics.md) — internal MTTC definition, divergences (C7, ATK-04), comparability boundary.
 - [`docs/specs/provenance.md`](docs/specs/provenance.md) — load-bearing constants → source → code → disposition.

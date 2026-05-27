@@ -8,7 +8,7 @@ The `docs/` tree has four subtrees, each with its own lifecycle. Putting a doc i
 
 | Subtree | Lifecycle | Contents |
 |---|---|---|
-| [`specs/`](.) | durable, slowly-changing canonical truth | this file, [`project_context.md`](project_context.md), [`guardrails.md`](guardrails.md), [`session_workflow.md`](session_workflow.md), [`mtdsim_spec.md`](mtdsim_spec.md), [`metrics_semantics.md`](metrics_semantics.md), [`provenance.md`](provenance.md) |
+| [`specs/`](.) | durable, slowly-changing canonical truth | this file, [`project_context.md`](project_context.md), [`guardrails.md`](guardrails.md), [`session_workflow.md`](session_workflow.md), [`architecture.md`](architecture.md), [`01_gap_schema.md`](01_gap_schema.md), [`mtdsim_spec.md`](mtdsim_spec.md), [`metrics_semantics.md`](metrics_semantics.md), [`provenance.md`](provenance.md) |
 | [`../handoffs/`](../handoffs/) | live intra-session state; deleted when shipped | `YYYY-MM-DD_<topic>.md` — open work briefs for follow-up sessions |
 | [`../notes/`](../notes/) | durable, kept | `YYYY-MM-DD_<topic>.md` — dissertation-worthy observations in plain English |
 | [`../extractions/`](../extractions/) | durable, slowly-changing | per-paper extracts under copyright fair-use. Four UWA-lineage stubs (`brown2023.md`, `zhang2023.md`, `ho2024.md`, `tay2024.md`) are read-only; the remaining stubs cover adjacent papers from the lit review, each with `### Relevance class` (L / S / C / M), `### Used in lit review`, and deep artefact sections. |
