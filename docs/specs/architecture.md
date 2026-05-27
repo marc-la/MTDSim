@@ -542,7 +542,17 @@ Pass 2 / Marc to drive, not assumed-resolved.
 - [`session_workflow.md`](session_workflow.md) — stage-commit / handoff
   lifecycle.
 - [`repo_conventions.md`](repo_conventions.md) — docs tree layout.
-- [`../extractions/`](../extractions/) — per-paper extracts (Brown, Zhang, Ho,
-  Tay locked; adjacent papers to be stubbed in Pass 2 per the handoff).
+- [`../extractions/`](../extractions/) — per-paper extracts. Lineage four
+  (Brown, Zhang, Ho, Tay) are locked; the adjacent-paper extractions
+  cited from this spec — including the §IV-B fidelity-descriptor anchors
+  ([`../extractions/cho2020.md`](../extractions/cho2020.md),
+  [`../extractions/bianco2013.md`](../extractions/bianco2013.md)),
+  the L3 primitives source
+  ([`../extractions/jalowski2026.md`](../extractions/jalowski2026.md)),
+  the L0 substrate spec
+  ([`../extractions/attackflow.md`](../extractions/attackflow.md)),
+  and the framing-closest paper
+  ([`../extractions/ferraz2024.md`](../extractions/ferraz2024.md)) —
+  are deep-fleshed and citable from §(j) Pass 2.
 - [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) — Marc's lit review,
   gitignored; primary input to Pass 2's §(j) flesh-out.
