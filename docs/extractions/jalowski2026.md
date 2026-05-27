@@ -1,13 +1,13 @@
 # Jalowski 2026 — extraction notes
 
-> Ł. Jalowski, M. Zmuda, M. Rawski, P. Rekosz. "Rethinking the Security Assurances of MTD: A Gap Analysis for Network Defense." 2026.
+> Ł. Jalowski, M. Zmuda, M. Rawski, P. Rekosz. "Rethinking the Security Assurances of MTD: A Gap Analysis for Network Defense." *Future Internet*, vol. 18, no. 2, art. 89, 2026.
 > Source file: `docs/sources/3_1_jalowski2026rethinking.md` (gitignored).
 > Relevance to this thesis: second of the two surveys naming the attacker-modelling gap (lit review §IV-A) — names the attacker model "the most glaring flaw in the MTD literature"; critiques Nmap-style active-scanning baselines as too naive for APT; prescribes an attacker that reasons about the MTD scheme itself.
 
 ## Bibliographic anchor
 
 - **Citation key**: `jalowski2026`
-- **DOI / URL**: TODO — confirm venue and DOI
+- **DOI / URL**: `10.3390/fi18020089` (MDPI, open access CC-BY; published 7 February 2026)
 - **Pages cited from**: full text (esp. p. 8 — the "most glaring flaw" quote)
 
 ## Extraction policy
@@ -33,7 +33,7 @@ Sections to lift in Pass 2:
 
 ## Open questions / things to verify
 
-- Confirm 2026 publication year — the paper appears in the corpus dated 2026, ahead of submission. Verify it's published and not a preprint at time of dissertation submission.
+(none outstanding at the bibliographic-anchor level)
 
 ## Out of scope for this thesis
 

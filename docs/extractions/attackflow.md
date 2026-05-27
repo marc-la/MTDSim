@@ -8,6 +8,8 @@
 
 - **Citation key**: `ctid-attackflow`
 - **DOI / URL**: https://center-for-threat-informed-defense.github.io/attack-flow/
+- **Source-document version**: Attack Flow **v3.2.0** as declared in the frontmatter of [`../sources/2_1_attackflowdoc.md`](../sources/2_1_attackflowdoc.md) (some sub-pages still served v3.0.0 content at extraction time — noted inline in the source).
+- **Schema version the thesis pins**: *pending architecture decision* — [`../specs/architecture.md`](../specs/architecture.md) §(c) records the Attack Flow schema version as an open build-time decision (v3.2.0 vs in-tree v2.x under `notebooks/attack-flow/`), and §(l) lists it under open architectural questions. Until that lands, this anchor cites the source document version (v3.2.0) and will be re-pinned once the architecture decision resolves. [`../specs/project_context.md`](../specs/project_context.md) does not currently carry an Attack Flow schema entry.
 - **Pages cited from**: language specification (§3), usage-guide (§§4–5)
 
 ## Extraction policy
@@ -34,7 +36,7 @@ Sections to lift in Pass 2:
 
 ## Open questions / things to verify
 
-- Schema version pinning — the project's architecture decision (per [`../specs/project_context.md`](../specs/project_context.md) decisions log) should pin a specific Attack Flow schema version.
+- **For Marc — schema version pinning depends on an architecture decision that has not yet landed.** [`../specs/architecture.md`](../specs/architecture.md) §(c) and §(l) flag the choice between Attack Flow v3.2.0 (the current CTID release, matching the extracted source) and the v2.x corpus that may live in-tree under `notebooks/attack-flow/` as an open build-time decision: the GAP construction depends on which `.afb` generation's fields (actions / conditions / operators / effect-edges) are parsed. Once §(c) pins a version, update the Bibliographic-anchor block above to cite that pinned version explicitly (and the matching schema URL under the CTID GitHub Pages site). Until then, this extraction inherits v3.2.0 from the source document only.
 - Apache-2.0 implications for redistributing snippets of the analyst-curated corpus in the dissertation appendix.
 
 ## Out of scope for this thesis
