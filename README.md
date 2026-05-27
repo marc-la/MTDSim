@@ -49,9 +49,9 @@ The system uses the 3-layer HARM model to represent the network. This is a repre
 | Services        | An attack tree of vulnerabilities. A service is compromised when the sum of the exploited vulnerabilities' impact scores exceeds **7** (`SERVICE_COMPROMISED_THRESHOLD`). |
 | Vulnerabilities | Generated with a set Attack Complexity (∈ [0.4, 1]) and Impact (∈ **[0, 10]** in this codebase — see note below).                          |
 
-> **Note on Impact range.** Brown 2023 Table I quotes vulnerability impact on a `[0, 1]` scale. This codebase uses **`[0, 10]`** (`services.py`: `self.impact = random.random() * 10`), and the service-compromise threshold of `7` is calibrated against that wider range. The `[0, 10]` form is the inherited reality of MTDSim; the Brown-paper `[0, 1]` form is recorded as a documentation-only delta in `docs/MTDSIM_SPEC.md` (Conflict C3, NET-13). No code change.
+> **Note on Impact range.** Brown 2023 Table I quotes vulnerability impact on a `[0, 1]` scale. This codebase uses **`[0, 10]`** (`services.py`: `self.impact = random.random() * 10`), and the service-compromise threshold of `7` is calibrated against that wider range. The `[0, 10]` form is the inherited reality of MTDSim; the Brown-paper `[0, 1]` form is recorded as a documentation-only delta in [`docs/specs/mtdsim_spec.md`](docs/specs/mtdsim_spec.md) (Conflict C3, NET-13). No code change.
 
-more info: [MTD parameter](https://github.com/MoeBuTa/MTDSimTime/blob/main/docs/manual/MTD%20Parameters.pdf)
+For the original upstream MTD parameter reference, see the unmodified MTDSimTime repository at https://github.com/MoeBuTa/MTDSimTime.
 
 ## Documents
 

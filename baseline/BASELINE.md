@@ -6,7 +6,7 @@
 > substrate; the matrix below and findings F-10 and F-09 are no longer
 > current. For the canonical state, read
 > [`CHANGELOG.md`](CHANGELOG.md) (2b and 2c entries) and
-> [`../docs/METRICS_SEMANTICS.md`](../docs/METRICS_SEMANTICS.md). The
+> [`../docs/specs/metrics_semantics.md`](../docs/specs/metrics_semantics.md). The
 > Phase-0 goldens themselves are archived at
 > [`golden_phase0_buggy/`](golden_phase0_buggy/). The text below is kept
 > verbatim for provenance.

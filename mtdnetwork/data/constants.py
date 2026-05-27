@@ -90,7 +90,7 @@ VULN_MIN_COMPLEXITY = 0.4
 
 # Constants for Services
 SERVICE_NO_OF_SERVICES_PER_OS = 20
-SERVICE_COMPROMISED_THRESHOLD = 7  # Σ exploited impact cutoff (impact range [0, 10]) — inherited; see docs/MTDSIM_SPEC.md NET-14 / C3.
+SERVICE_COMPROMISED_THRESHOLD = 7  # Σ exploited impact cutoff (impact range [0, 10]) — inherited; see docs/specs/mtdsim_spec.md NET-14 / C3.
 SERVICE_DISCOVER_EACH_VULN_TIME = 10
 SERVICE_TOP_X_VULNS_TO_RETURN = 5
 
@@ -103,7 +103,7 @@ HACKER_ATTACK_ATTEMPT_MULTIPLER = 5
 
 # Constants for Runtime
 STANDARD_ERROR_BENCHMARK_PERCENT = 5
-ATTACKER_THRESHOLD = 10  # per-host attempt cap (give-up rule) — Brown 2023 §III-C(2), Table I; see docs/MTDSIM_SPEC.md ATK-07.
+ATTACKER_THRESHOLD = 10  # per-host attempt cap (give-up rule) — Brown 2023 §III-C(2), Table I; see docs/specs/mtdsim_spec.md ATK-07.
 
 # Constants for MTD scheme
 # scheme : (mean, std)
@@ -124,7 +124,7 @@ MTD_PRIORITY = {
     'UserShuffle': 7,
 }
 
-# mtd name : (mean, std) — Zhang 2023, Table 3 (MTDSimTime thesis); see docs/MTDSIM_SPEC.md MTD-14.
+# mtd name : (mean, std) — Zhang 2023, Table 3 (MTDSimTime thesis); see docs/specs/mtdsim_spec.md MTD-14.
 MTD_DURATION = {
     'CompleteTopologyShuffle': (110, 0.5),
     'HostTopologyShuffle': (100, 0.5),

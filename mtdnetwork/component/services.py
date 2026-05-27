@@ -79,21 +79,21 @@ class Vulnerability:
 
         """
         # C7 / ATK-03: deterministic exploit time — Zhang 2023 §4.4.3 Eq 1-2 specifies an exponential
-        # T_Aexploit parameterised by V_exploited / V_unexploited / ACv. See docs/METRICS_SEMANTICS.md §c.
+        # T_Aexploit parameterised by V_exploited / V_unexploited / ACv. See docs/specs/metrics_semantics.md §c.
         exp_time = constants.ATTACK_DURATION['EXPLOIT_VULN'] * (1 - self.complexity)
         if self.has_os_dependency and host is not None and host.os_type not in self.vuln_os_list:
             exp_time *= 2.5
         # ATK-04 (per-instance, ACTIVE): Brown-era 2021-09-04 (commit a16db997) — re-exploit of the
         # *same Vulnerability instance* costs half the base time. Materially active under all
         # current scenarios (7–42 % of exploit_time calls; pinned in
-        # tests/test_atk04_reexploit_discount.py). Kept deliberately; see docs/METRICS_SEMANTICS.md §c.
+        # tests/test_atk04_reexploit_discount.py). Kept deliberately; see docs/specs/metrics_semantics.md §c.
         if self.exploited:
             return exp_time / 2
         return exp_time
         # ATK-04 (per-type, UNIMPLEMENTED): Zhang 2023 §4.4.3 specifies halving exploit time for
         # previously-exploited vuln *TYPES* (cross-instance, attacker learning). The commented-out
         # form below references `exploit_attempt + 1` and is the only remaining trace of that path.
-        # See docs/METRICS_SEMANTICS.md §c / MTDSIM_SPEC.md ATK-04.
+        # See docs/specs/metrics_semantics.md §c / mtdsim_spec.md ATK-04.
         # return constants.VULN_MIN_EXPLOIT_TIME + (constants.VULN_MAX_EXPLOIT_TIME -
         # constants.VULN_MIN_EXPLOIT_TIME) * ( 1 - self.complexity) / ( self.exploit_attempt + 1)
 

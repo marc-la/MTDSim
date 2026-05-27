@@ -115,8 +115,9 @@ substrate (commit `aed80c1`..`a458f9a` on `feat/crash-fix`) and:
   future substrate-affecting work and the headline target for §5.
 
 **Why.** The Phase-0 goldens were captured on a substrate that silently
-mis-executed past sim_t≈6.5 ks (recon: `docs/findings/crash_6000s.md`).
-Numbers from those runs reflect a sim where R1's hard-coded 0.25
+mis-executed past sim_t≈6.5 ks (Phase-0 recon; see git log for the
+since-retired `docs/findings/crash_6000s.md`). Numbers from those runs
+reflect a sim where R1's hard-coded 0.25
 threshold tripped early, R2's missing `return` kept the MTD trigger
 loop spinning, and R3's missing `release()` permanently parked both
 layer simpy resources after the first leak. The Phase-2b corrections
