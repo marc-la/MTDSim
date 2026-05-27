@@ -1,13 +1,13 @@
-# Rahman 2024 — extraction notes
+# Rahman 2025 — extraction notes
 
-> M. R. Rahman, B. Wroblewski, Q. Matthews, B. Morgan, T. Menzies, L. A. Williams. "Mining temporal attack patterns from cyberthreat intelligence reports." *Knowledge and Information Systems*, vol. 67, no. 10, pp. 8941–8981, 2025. (The source PDF in `docs/sources/` carries an arXiv-era "TRANSACTION OF SOFTWARE ENGINEERING" running header from when the manuscript was under submission; the artefact was ultimately published in Springer KAIS.)
+> M. R. Rahman, B. Wroblewski, Q. Matthews, B. Morgan, T. Menzies, L. A. Williams. "Mining temporal attack patterns from cyberthreat intelligence reports." *Knowledge and Information Systems*, vol. 67, no. 10, pp. 8941–8981, 2025. doi:10.1007/s10115-025-02491-6. (The source PDF in `docs/sources/` carries a "TRANSACTION OF SOFTWARE ENGINEERING" running header from when the manuscript was under submission to IEEE TSE; the artefact was ultimately published in Springer KAIS — verified via CrossRef.)
 > Source file: `docs/sources/2_4_rahman2024mining.md` (gitignored).
 > Relevance to this thesis: the NLP-based extraction exemplar in lit review §III-D — **ChronoCTI** pipeline, applied to 713 CTI reports, mines 124 recurring temporal attack patterns; the [16] citation, surfacing chains such as phishing-then-macro that individual reports describe in isolation.
 
 ## Bibliographic anchor
 
-- **Citation key**: `rahman2024`
-- **DOI / URL**: 10.1007/s10115-025-02491-6 (Springer *Knowledge and Information Systems*, vol. 67 no. 10, pp. 8941–8981, 2025; arXiv preprint `arXiv:2401.01883`, January 2024). Flag for Marc: the citation key `rahman2024` reflects the arXiv-preprint year; if the dissertation prefers publication-year keys this should become `rahman2025`. The source-PDF "TRANSACTION OF SOFTWARE ENGINEERING" header reflects the manuscript's earlier submission target, not the final venue.
+- **Citation key**: `rahman2025` (renamed from the earlier `rahman2024` per Marc's confirmation — publication-year keys; the arXiv preprint year was 2024, but the Springer KAIS publication is 2025).
+- **DOI / URL**: 10.1007/s10115-025-02491-6 (Springer *Knowledge and Information Systems*, vol. 67 no. 10, pp. 8941–8981, 2025; arXiv preprint `arXiv:2401.01883`, January 2024).
 - **Pages cited from**: full text
 
 ## Extraction policy

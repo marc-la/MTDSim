@@ -32,7 +32,7 @@ Sections to lift in Pass 2:
 
 ## Open questions / things to verify
 
-- **Flag to Marc — citation-key year decision.** Filename and current citation key use `rodriguez2024`; DOI suffix is `2023` (`10.5753/jisa.2023.3902`); source frontmatter reads "Journal of Internet Services and Applications, 2023, 15:1" with Received 05 Dec 2023 / Accepted 17 Apr 2024 / Published 01 Aug 2024. The `2023` in the DOI reflects the journal volume's opening year (vol 15 opened 2023); actual publication is August 2024. Decision needed: keep `rodriguez2024` (tracks publication year, matches filename, aligns with how the lit review reads it) or switch to `rodriguez2023` (tracks the DOI year and the volume's nominal year). **Recommendation:** keep `rodriguez2024` — publication year is the more useful disambiguator for the reader, the filename is already `rodriguez2024`, and the bibliography entry can carry the full date metadata regardless of the key. If Marc prefers DOI-year tracking, the rename touches the citation key, filename, and the lit-review prose's `[7]` resolution.
+- **Citation-key year — resolved.** Citation key `rodriguez2024` tracks the publication date (01 August 2024) rather than the DOI suffix `2023` (which reflects the journal volume's opening year — vol 15 opened 2023). Marc-confirmed: publication year is the canonical disambiguator across the project's citation keys.
 - Whether the Petri-net output is operationalisable as a simulator-runnable attacker process, or whether it remains analytical.
 - The attacker's objectives/motivations/knowledge framing — confirm exact wording for the lit-review §III-D opening citation.
 
