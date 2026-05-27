@@ -123,6 +123,52 @@ resolution against legibility. The right view depends on the question being
 asked — which is the whole reason reduction is kept as a lens rather than baked
 in.
 
+## The observability boundary is a defender's-eye property — a threat-model input, not just a limitation
+
+The thinness above (88% single-observation) and the recon blindness read as
+*limitations* only if the goal were a complete, attacker's-eye account of APT
+behaviour. It is not. The GAP feeds a **defender-side** evaluation: MTD is a
+control a defender deploys, and the question is how it perturbs the attacker
+behaviour a defender *can know about*. CTI is exactly the codification of that
+knowledge — so an attacker model built from CTI is bounded by what defenders
+observe *by construction*, and that bound is the right shape for the object being
+modelled. The simulated attacker being blind to pre-intrusion reconnaissance is
+**faithful to the defender's actual epistemic position**, not a sampling defect to
+apologise for.
+
+That reframes the bias as a finding. Where CTI goes dark maps the **limits of
+defensible knowledge**, and those limits are themselves an input to the APT threat
+model ([`architecture.md`](../specs/architecture.md) §(e)–(f)): the front end
+(passive recon, resource development) and the symmetric back end (post-objective
+cleanup / anti-forensics — Alshamrani's phase 5, which *by design* erases the
+telemetry the report is built from) are the two regions where a defender must
+*infer* an adversary's behaviour rather than *observe* it. Naming precisely where
+the observed account stops and inference must begin is an astute property of the
+threat model, not a weakness of the corpus — and it is sharpest on the
+*dependency*, not the technique: even when a reconnaissance node appears it is
+mostly in-network discovery wired *backward* from the observable middle (8 of its
+in-edges come from execution / persistence / lateral-movement / C2), while the
+pre-intrusion `reconnaissance → initial-access` *edge* is essentially absent.
+
+Supplementing that prefix (Decision 6's `inferred` overlay) does **not escape the
+boundary — it is still CTI**. Group-behaviour reports, ATT&CK group profiles, and
+survey structural claims document recon *vocabulary* and *generalised sequencing*,
+but the incident-wired recon→foothold *edge* remains an inference — often someone
+else's (a vendor analyst's read, or non-public collection re-badged). So the
+overlay imports well-grounded nodes glued by inferred edges; it extends the model
+*within* CTI's epistemic envelope rather than reaching ground truth. That is
+exactly why it is a declared, separately-provenanced, opt-in layer: cheap to
+author through the per-flow seam, deferred for now, and labelled so the threat
+model can state which of its edges are observed and which are inferred. The
+contribution is not "we filled the gap" but "we model the attacker the defender
+must reason about, and we are explicit about where that reasoning is observation
+versus inference." And the survivorship/selection framing is what makes this
+global rather than a prefix quirk: the corpus is built from incidents that were
+detected, investigated deeply enough to reconstruct, *and* published — so even the
+dense middle is the behaviour of campaigns that were *caught*. Recon and cleanup
+are the extremes of a bias that tilts the whole graph toward observable,
+documented, largely-successful-but-detected operations.
+
 ## Assumptions that bound the claims
 
 The "future-you must defend this" points:

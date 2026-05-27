@@ -282,6 +282,16 @@ This sits alongside the substrate-side comparability boundary in §(d): there, t
 caution is cross-paper *magnitude* comparison; here, it is reading *adversary
 optimality* or *transition probability* into observed-workflow recurrence.
 
+This boundary is a **defender-vantage** property, not just a corpus quirk. The GAP
+encodes attacker behaviour *as it is observable through CTI*, so a GAP-driven
+evaluation measures MTD against the adversary a defender can actually know —
+pre-intrusion reconnaissance, which incident-derived CTI is structurally blind to,
+is outside it by construction. That blindness is faithful to the defender's
+epistemic position rather than a defect, and where it ends is itself a threat-model
+input; the reasoning, and why a literature-inferred prefix (Decision 6) extends the
+model *within* CTI's limits rather than escaping them, is in
+[`../notes/2026-05-27_gap_construction.md`](../notes/2026-05-27_gap_construction.md).
+
 ## Where to look next
 
 - [`mtdsim_spec.md`](mtdsim_spec.md) — row-level dispositions,
