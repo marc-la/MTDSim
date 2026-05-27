@@ -35,16 +35,19 @@ The build is deterministic: a rebuild is byte-identical save the `build_date`.
   (`mitre-attack/attack-stix-data`), used only for technique node metadata
   (names, tactics, platforms) and the tactic-layer ordering.
 
-### Nodes without Enterprise metadata
+### Enterprise-only scope (non-Enterprise techniques dropped)
 
 The corpus is heterogeneous: a few flows reference ATLAS (adversarial-ML,
-`AML.T####`) or ICS (`T0###`) techniques, and some use Enterprise ids that
-ATT&CK v19.1 has since **revoked** (e.g. `T1562`). These appear as GAP nodes
-(they are real, analyst-drawn observations) but carry empty name/tactics, since
-Enterprise v19.1 does not define them. They are kept **as drawn** — never
-remapped or dropped — to uphold the §a no-synthesis invariant; a future
-"Enterprise-only" view could filter them. This is a property of the corpus ×
-pinned-ATT&CK pairing, not a build error.
+`AML.*`) or ICS (`T0###`) techniques, and some use Enterprise ids that ATT&CK
+v19.1 has **revoked** (e.g. `T1562`) or removed. The GAP is scoped to Enterprise
+(§a / [`01_gap_schema.md`](../../docs/specs/01_gap_schema.md) Decision 5): such
+nodes are **dropped from the aggregated GAP**, together with their edges —
+*removed, never bridged*, so no dependency is synthesised across a dropped node
+(the §a no-synthesis invariant). The per-flow extracts under `flows/` stay
+**lossless** and keep these techniques as the analyst drew them; the scope is
+applied only at aggregation. At v0.5 this dropped 22 of 146 candidate nodes
+(15 ATLAS, 2 ICS, 5 revoked/absent), leaving 124 fully-labelled Enterprise
+nodes. This is a deliberate scope, not a build error.
 
 ## Licensing / attribution
 

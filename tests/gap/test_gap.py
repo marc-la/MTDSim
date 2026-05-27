@@ -208,6 +208,25 @@ def test_or_operator_present_in_corpus(built):
 
 
 # ---------------------------------------------------------------------------
+# Enterprise-only scope (Decision 5) — only resolvable Enterprise nodes survive.
+# ---------------------------------------------------------------------------
+
+
+@_needs_corpus
+def test_gap_is_enterprise_only(built):
+    """The aggregate carries only techniques that resolve in the pinned
+    Enterprise ATT&CK: every node is labelled, and ATLAS / ICS / revoked-or-
+    absent ids are dropped at aggregation. (No-bridge across a dropped node is
+    covered by test_no_synthesised_edges — a bridge would trace to no flow.)"""
+    _, gap = built
+    unlabelled = [t for t, n in gap.nodes.items() if not n.name]
+    assert not unlabelled, f"non-Enterprise/revoked nodes leaked into the GAP: {unlabelled}"
+    # concrete regression anchors — each was a GAP node at v0.5 pre-filter
+    for dropped in ("AML.T0008", "T0834", "T1562"):  # ATLAS, ICS, revoked-Enterprise
+        assert dropped not in gap.nodes, f"{dropped} must be dropped (non-Enterprise)"
+
+
+# ---------------------------------------------------------------------------
 # 6. Synthetic condition branch — on_true / on_false tagging (corpus has none).
 # ---------------------------------------------------------------------------
 

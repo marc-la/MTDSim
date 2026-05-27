@@ -5,241 +5,6 @@
   "corpus_ref": "attack-flow@v3.1.1 (pkg 3.2.0); STIX 2.0.0 extension; CTID published export",
   "attack_source": "enterprise-attack-19.1",
   "nodes": {
-    "AML.T0008": {
-      "technique_id": "AML.T0008",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": true,
-      "is_objective": false
-    },
-    "AML.T0051": {
-      "technique_id": "AML.T0051",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [
-        "AML.T0051.000",
-        "AML.T0051.001"
-      ],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": false
-    },
-    "AML.T0053": {
-      "technique_id": "AML.T0053",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": false
-    },
-    "AML.T0054": {
-      "technique_id": "AML.T0054",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": false
-    },
-    "AML.T0065": {
-      "technique_id": "AML.T0065",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": true
-    },
-    "AML.T0069": {
-      "technique_id": "AML.T0069",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [
-        "AML.T0069.000",
-        "AML.T0069.001"
-      ],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": false
-    },
-    "AML.T0074": {
-      "technique_id": "AML.T0074",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": false
-    },
-    "AML.T0078": {
-      "technique_id": "AML.T0078",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": true,
-      "is_objective": false
-    },
-    "AML.T0079": {
-      "technique_id": "AML.T0079",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": true
-    },
-    "AML.T0080": {
-      "technique_id": "AML.T0080",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [
-        "AML.T0080.001"
-      ],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": false
-    },
-    "AML.T0081": {
-      "technique_id": "AML.T0081",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": true
-    },
-    "AML.T0108": {
-      "technique_id": "AML.T0108",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": false
-    },
-    "AML.T0112": {
-      "technique_id": "AML.T0112",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [
-        "AML.T0112.000"
-      ],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": true
-    },
-    "T0834": {
-      "technique_id": "T0834",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "turla_carbon_emulation_plan"
-      ],
-      "is_entry": false,
-      "is_objective": false
-    },
-    "T0866": {
-      "technique_id": "T0866",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "notpetya"
-      ],
-      "is_entry": true,
-      "is_objective": false
-    },
     "T1001": {
       "technique_id": "T1001",
       "name": "Data Obfuscation",
@@ -1018,21 +783,6 @@
       "is_entry": false,
       "is_objective": false
     },
-    "T1063": {
-      "technique_id": "T1063",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "solarwinds"
-      ],
-      "is_entry": false,
-      "is_objective": true
-    },
     "T1068": {
       "technique_id": "T1068",
       "name": "Exploitation for Privilege Escalation",
@@ -1200,21 +950,6 @@
       ],
       "is_entry": false,
       "is_objective": false
-    },
-    "T1076": {
-      "technique_id": "T1076",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "conti_cisa_alert"
-      ],
-      "is_entry": true,
-      "is_objective": true
     },
     "T1078": {
       "technique_id": "T1078",
@@ -1851,21 +1586,6 @@
         "turla_carbon_emulation_plan",
         "turla_snake_emulation_plan",
         "whispergate"
-      ],
-      "is_entry": false,
-      "is_objective": false
-    },
-    "T1183": {
-      "technique_id": "T1183",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "solarwinds"
       ],
       "is_entry": false,
       "is_objective": false
@@ -2600,21 +2320,6 @@
       "is_entry": false,
       "is_objective": true
     },
-    "T1533": {
-      "technique_id": "T1533",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "fin13_case_1"
-      ],
-      "is_entry": true,
-      "is_objective": false
-    },
     "T1542": {
       "technique_id": "T1542",
       "name": "Pre-OS Boot",
@@ -3001,34 +2706,6 @@
         "notpetya",
         "shamoon",
         "sony_malware"
-      ],
-      "is_entry": false,
-      "is_objective": false
-    },
-    "T1562": {
-      "technique_id": "T1562",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [
-        "T1562.001",
-        "T1562.002",
-        "T1562.004",
-        "T1562.009"
-      ],
-      "flow_count": 9,
-      "flow_ids": [
-        "black_basta_ransomware",
-        "cisa_iranian_apt",
-        "conti_ransomware",
-        "gootloader",
-        "ivanti_vulnerabilities",
-        "maastricht_university_ransomware",
-        "solarwinds",
-        "swift_heist",
-        "whispergate"
       ],
       "is_entry": false,
       "is_objective": false
@@ -3712,339 +3389,9 @@
       ],
       "is_entry": false,
       "is_objective": false
-    },
-    "[ATL] AML.T0002.002 AI Agent Configuration": {
-      "technique_id": "[ATL] AML.T0002.002 AI Agent Configuration",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": false,
-      "is_objective": false
-    },
-    "[ATL] AML.T0095.000 Code Repositories": {
-      "technique_id": "[ATL] AML.T0095.000 Code Repositories",
-      "name": "",
-      "tactics": [],
-      "primary_tactic": "",
-      "tactic_layer": -1,
-      "platforms": [],
-      "sub_technique_ids": [],
-      "flow_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "is_entry": true,
-      "is_objective": false
     }
   },
   "edges": [
-    {
-      "source_id": "AML.T0008",
-      "target_id": "AML.T0074",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "AML.T0051",
-      "target_id": "AML.T0054",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "AML.T0051",
-      "target_id": "AML.T0080",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "AML.T0051",
-      "target_id": "AML.T0108",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "AML.T0053",
-      "target_id": "AML.T0081",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "AML.T0054",
-      "target_id": "AML.T0053",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "AML.T0069",
-      "target_id": "AML.T0065",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "openclaw:op1",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "AML.T0074",
-      "target_id": "AML.T0079",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "openclaw:op3",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "AML.T0078",
-      "target_id": "AML.T0051",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "AML.T0080",
-      "target_id": "AML.T0112",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "openclaw:op2",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "AML.T0108",
-      "target_id": "AML.T0112",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "openclaw:op2",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T0834",
-      "target_id": "T1055",
-      "observation_count": 1,
-      "flow_ids": [
-        "turla_carbon_emulation_plan"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "turla_carbon_emulation_plan",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T0834",
-      "target_id": "T1057",
-      "observation_count": 1,
-      "flow_ids": [
-        "turla_carbon_emulation_plan"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "turla_carbon_emulation_plan",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T0834",
-      "target_id": "T1112",
-      "observation_count": 1,
-      "flow_ids": [
-        "turla_carbon_emulation_plan"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "turla_carbon_emulation_plan",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T0834",
-      "target_id": "T1543",
-      "observation_count": 1,
-      "flow_ids": [
-        "turla_carbon_emulation_plan"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "turla_carbon_emulation_plan",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T0866",
-      "target_id": "T1055",
-      "observation_count": 1,
-      "flow_ids": [
-        "notpetya"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "notpetya",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
     {
       "source_id": "T1001",
       "target_id": "T1018",
@@ -5042,31 +4389,6 @@
     },
     {
       "source_id": "T1021",
-      "target_id": "T1562",
-      "observation_count": 2,
-      "flow_ids": [
-        "cisa_iranian_apt",
-        "gootloader"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "cisa_iranian_apt",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        },
-        {
-          "flow_id": "gootloader",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1021",
       "target_id": "T1569",
       "observation_count": 1,
       "flow_ids": [
@@ -5084,24 +4406,6 @@
       "confidence_samples": [
         100
       ]
-    },
-    {
-      "source_id": "T1027",
-      "target_id": "T0834",
-      "observation_count": 1,
-      "flow_ids": [
-        "turla_carbon_emulation_plan"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "turla_carbon_emulation_plan",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
     },
     {
       "source_id": "T1027",
@@ -5438,24 +4742,6 @@
     },
     {
       "source_id": "T1036",
-      "target_id": "T0834",
-      "observation_count": 1,
-      "flow_ids": [
-        "turla_carbon_emulation_plan"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "turla_carbon_emulation_plan",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1036",
       "target_id": "T1003",
       "observation_count": 1,
       "flow_ids": [
@@ -5565,24 +4851,6 @@
     },
     {
       "source_id": "T1036",
-      "target_id": "T1183",
-      "observation_count": 1,
-      "flow_ids": [
-        "solarwinds"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "solarwinds",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1036",
       "target_id": "T1222",
       "observation_count": 1,
       "flow_ids": [
@@ -5654,27 +4922,6 @@
         }
       ],
       "tactic_delta": "forward",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1036",
-      "target_id": "T1562",
-      "observation_count": 1,
-      "flow_ids": [
-        "solarwinds"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "solarwinds",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "solarwinds:op4",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
       "confidence_samples": []
     },
     {
@@ -6023,29 +5270,6 @@
       ],
       "tactic_delta": "forward",
       "confidence_samples": []
-    },
-    {
-      "source_id": "T1047",
-      "target_id": "T1562",
-      "observation_count": 1,
-      "flow_ids": [
-        "black_basta_ransomware"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "black_basta_ransomware",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "black_basta_ransomware:op3",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": [
-        100
-      ]
     },
     {
       "source_id": "T1048",
@@ -7215,38 +6439,6 @@
     },
     {
       "source_id": "T1059",
-      "target_id": "T1562",
-      "observation_count": 3,
-      "flow_ids": [
-        "cisa_iranian_apt",
-        "gootloader",
-        "whispergate"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "cisa_iranian_apt",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        },
-        {
-          "flow_id": "gootloader",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        },
-        {
-          "flow_id": "whispergate",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1059",
       "target_id": "T1564",
       "observation_count": 1,
       "flow_ids": [
@@ -7742,31 +6934,6 @@
         }
       ],
       "tactic_delta": "forward",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1070",
-      "target_id": "T1562",
-      "observation_count": 2,
-      "flow_ids": [
-        "solarwinds",
-        "swift_heist"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "solarwinds",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        },
-        {
-          "flow_id": "swift_heist",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
       "confidence_samples": []
     },
     {
@@ -9537,26 +8704,6 @@
     },
     {
       "source_id": "T1105",
-      "target_id": "T1562",
-      "observation_count": 1,
-      "flow_ids": [
-        "black_basta_ransomware"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "black_basta_ransomware",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": [
-        100
-      ]
-    },
-    {
-      "source_id": "T1105",
       "target_id": "T1569",
       "observation_count": 1,
       "flow_ids": [
@@ -10013,27 +9160,6 @@
         }
       ],
       "tactic_delta": "forward",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1132",
-      "target_id": "T1562",
-      "observation_count": 1,
-      "flow_ids": [
-        "solarwinds"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "solarwinds",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "solarwinds:op4",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
       "confidence_samples": []
     },
     {
@@ -10590,24 +9716,6 @@
       "confidence_samples": []
     },
     {
-      "source_id": "T1183",
-      "target_id": "T1543",
-      "observation_count": 1,
-      "flow_ids": [
-        "solarwinds"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "solarwinds",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
       "source_id": "T1185",
       "target_id": "T1070",
       "observation_count": 1,
@@ -10763,24 +9871,6 @@
         }
       ],
       "tactic_delta": "forward",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1190",
-      "target_id": "T1562",
-      "observation_count": 1,
-      "flow_ids": [
-        "ivanti_vulnerabilities"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "ivanti_vulnerabilities",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
       "confidence_samples": []
     },
     {
@@ -11579,24 +10669,6 @@
       ]
     },
     {
-      "source_id": "T1484",
-      "target_id": "T1562",
-      "observation_count": 1,
-      "flow_ids": [
-        "conti_ransomware"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "conti_ransomware",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
       "source_id": "T1485",
       "target_id": "T1070",
       "observation_count": 1,
@@ -11811,29 +10883,6 @@
       ],
       "tactic_delta": "intra",
       "confidence_samples": []
-    },
-    {
-      "source_id": "T1490",
-      "target_id": "T1562",
-      "observation_count": 1,
-      "flow_ids": [
-        "black_basta_ransomware"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "black_basta_ransomware",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "black_basta_ransomware:op3",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": [
-        100
-      ]
     },
     {
       "source_id": "T1490",
@@ -12269,24 +11318,6 @@
       "occurrences": [
         {
           "flow_id": "sony_malware",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1533",
-      "target_id": "T1021",
-      "observation_count": 1,
-      "flow_ids": [
-        "fin13_case_1"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "fin13_case_1",
           "edge_type": "effect",
           "join": null,
           "branch": null
@@ -12978,244 +12009,6 @@
       "confidence_samples": []
     },
     {
-      "source_id": "T1562",
-      "target_id": "T1021",
-      "observation_count": 2,
-      "flow_ids": [
-        "black_basta_ransomware",
-        "gootloader"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "black_basta_ransomware",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        },
-        {
-          "flow_id": "gootloader",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "gootloader:op3",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": [
-        100
-      ]
-    },
-    {
-      "source_id": "T1562",
-      "target_id": "T1039",
-      "observation_count": 1,
-      "flow_ids": [
-        "gootloader"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "gootloader",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "gootloader:op2",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1562",
-      "target_id": "T1053",
-      "observation_count": 1,
-      "flow_ids": [
-        "solarwinds"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "solarwinds",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1562",
-      "target_id": "T1059",
-      "observation_count": 1,
-      "flow_ids": [
-        "gootloader"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "gootloader",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1562",
-      "target_id": "T1078",
-      "observation_count": 1,
-      "flow_ids": [
-        "solarwinds"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "solarwinds",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1562",
-      "target_id": "T1082",
-      "observation_count": 1,
-      "flow_ids": [
-        "solarwinds"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "solarwinds",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1562",
-      "target_id": "T1083",
-      "observation_count": 1,
-      "flow_ids": [
-        "black_basta_ransomware"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "black_basta_ransomware",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "black_basta_ransomware:op2",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": [
-        100
-      ]
-    },
-    {
-      "source_id": "T1562",
-      "target_id": "T1105",
-      "observation_count": 1,
-      "flow_ids": [
-        "cisa_iranian_apt"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "cisa_iranian_apt",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1562",
-      "target_id": "T1140",
-      "observation_count": 1,
-      "flow_ids": [
-        "whispergate"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "whispergate",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1562",
-      "target_id": "T1486",
-      "observation_count": 1,
-      "flow_ids": [
-        "maastricht_university_ransomware"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "maastricht_university_ransomware",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1562",
-      "target_id": "T1560",
-      "observation_count": 1,
-      "flow_ids": [
-        "black_basta_ransomware"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "black_basta_ransomware",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": [
-        100
-      ]
-    },
-    {
-      "source_id": "T1562",
-      "target_id": "T1570",
-      "observation_count": 1,
-      "flow_ids": [
-        "cisa_iranian_apt"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "cisa_iranian_apt",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
       "source_id": "T1563",
       "target_id": "T1078",
       "observation_count": 1,
@@ -13547,24 +12340,6 @@
     },
     {
       "source_id": "T1569",
-      "target_id": "T1063",
-      "observation_count": 1,
-      "flow_ids": [
-        "solarwinds"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "solarwinds",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "T1569",
       "target_id": "T1112",
       "observation_count": 1,
       "flow_ids": [
@@ -13624,26 +12399,6 @@
         }
       ],
       "tactic_delta": "forward",
-      "confidence_samples": [
-        100
-      ]
-    },
-    {
-      "source_id": "T1569",
-      "target_id": "T1562",
-      "observation_count": 1,
-      "flow_ids": [
-        "black_basta_ransomware"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "black_basta_ransomware",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
       "confidence_samples": [
         100
       ]
@@ -14252,96 +13007,15 @@
       "confidence_samples": [
         100
       ]
-    },
-    {
-      "source_id": "T1657",
-      "target_id": "T1562",
-      "observation_count": 1,
-      "flow_ids": [
-        "black_basta_ransomware"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "black_basta_ransomware",
-          "edge_type": "effect",
-          "join": {
-            "group_id": "black_basta_ransomware:op3",
-            "operator": "AND"
-          },
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": [
-        100
-      ]
-    },
-    {
-      "source_id": "[ATL] AML.T0002.002 AI Agent Configuration",
-      "target_id": "AML.T0065",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "[ATL] AML.T0002.002 AI Agent Configuration",
-      "target_id": "AML.T0069",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
-    },
-    {
-      "source_id": "[ATL] AML.T0095.000 Code Repositories",
-      "target_id": "[ATL] AML.T0002.002 AI Agent Configuration",
-      "observation_count": 1,
-      "flow_ids": [
-        "openclaw"
-      ],
-      "occurrences": [
-        {
-          "flow_id": "openclaw",
-          "edge_type": "effect",
-          "join": null,
-          "branch": null
-        }
-      ],
-      "tactic_delta": "intra",
-      "confidence_samples": []
     }
   ],
   "source_flow_count": 40,
-  "node_count": 146,
-  "edge_count": 527,
+  "node_count": 124,
+  "edge_count": 478,
   "entry_nodes": [
-    "AML.T0008",
-    "AML.T0078",
-    "T0866",
     "T1029",
     "T1037",
     "T1071",
-    "T1076",
     "T1078",
     "T1105",
     "T1110",
@@ -14351,7 +13025,6 @@
     "T1199",
     "T1203",
     "T1204",
-    "T1533",
     "T1542",
     "T1547",
     "T1553",
@@ -14364,17 +13037,10 @@
     "T1593",
     "T1595",
     "T1598",
-    "T1608",
-    "[ATL] AML.T0095.000 Code Repositories"
+    "T1608"
   ],
   "objective_nodes": [
-    "AML.T0065",
-    "AML.T0079",
-    "AML.T0081",
-    "AML.T0112",
     "T1029",
-    "T1063",
-    "T1076",
     "T1095",
     "T1114",
     "T1211",
@@ -14391,30 +13057,6 @@
     "T1621"
   ],
   "layers": {
-    "-1": [
-      "AML.T0008",
-      "AML.T0051",
-      "AML.T0053",
-      "AML.T0054",
-      "AML.T0065",
-      "AML.T0069",
-      "AML.T0074",
-      "AML.T0078",
-      "AML.T0079",
-      "AML.T0080",
-      "AML.T0081",
-      "AML.T0108",
-      "AML.T0112",
-      "T0834",
-      "T0866",
-      "T1063",
-      "T1076",
-      "T1183",
-      "T1533",
-      "T1562",
-      "[ATL] AML.T0002.002 AI Agent Configuration",
-      "[ATL] AML.T0095.000 Code Repositories"
-    ],
     "0": [
       "T1589",
       "T1590",

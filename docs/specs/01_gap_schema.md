@@ -36,16 +36,20 @@ distinguishes the GAP from a generic technique co-occurrence graph. An edge that
 cannot be traced to at least one `effect_refs` / `on_true_refs` / `on_false_refs`
 link in a source flow does not belong in the GAP.
 
-Two corollaries:
+Three corollaries:
 - **Tactic ordering is a layout/ordering proxy only.** It never imposes,
   reverses, or invents edge direction — direction comes from the flow. (Contrast
   v0.4, which *imposed* direction on mined edges via tactic order.)
 - **Reduction is never destructive at build time.** Thresholds, acyclicity, and
   layering are *views* over a lossless artefact, not bakes into it (§e).
+- **Node namespace is ATT&CK Enterprise only (Decision 5).** Techniques that do
+  not resolve in the pinned Enterprise ATT&CK are dropped from the aggregate —
+  *removed, not bridged*: an edge into or out of a dropped node is deleted, never
+  reconnected across it (that would synthesise an unobserved dependency).
 
 ---
 
-## (b) The four design decisions (this session, with Marc)
+## (b) The five design decisions (this session, with Marc)
 
 **Decision 1 — the canonical GAP is Attack-Flow-only.**
 The v0.4 GAP merged three edge signals: curated Attack Flow, FP-Growth
@@ -104,6 +108,24 @@ it aggregates identically to a corpus-derived one. Mirrors the repo's
 **If revisited:** If hand-curation never materialises, the per-flow layer can
 become a build cache rather than a committed artefact — but that forfeits the
 extension seam, so keep it committed until that's certain.
+
+**Decision 5 — the canonical GAP is ATT&CK Enterprise-scoped.**
+The aggregate contains only technique nodes that resolve in the pinned Enterprise
+ATT&CK (v19.1). Non-Enterprise techniques (ATLAS `AML.*`, ICS `T0###`) and ids the
+pin has revoked or removed are dropped from the aggregate, along with every edge
+incident to a dropped node — *removed, never bridged* (§a). The per-flow extract
+(§c) stays fully lossless: it keeps every technique as drawn, so the corpus record
+and the hand-curation seam are intact; scope is applied only at aggregation.
+**Why:** Node attributes — name, tactics, platforms, tactic-layer — come from the
+Enterprise STIX; a node with no Enterprise definition cannot be labelled, layered,
+or motivation-subgraphed, and mixing matrices (Enterprise + ATLAS + ICS) under one
+graph conflates taxonomies the downstream stages treat as one. This is a *scope*
+definition (the taxonomy the GAP is built against), not a reduction lens — contrast
+Decision 3, where thresholds/acyclicity are views.
+**If revisited:** Bringing ATLAS/ICS in means giving each its own matrix/attributes
+and deciding cross-matrix edge semantics; because the per-flow extracts retain them,
+it is a re-aggregation, not a re-parse. (At v0.5, 22 of 146 nodes were
+non-Enterprise — 15 ATLAS, 2 ICS, 5 revoked/absent — and were dropped.)
 
 ---
 
@@ -181,6 +203,11 @@ The shared `group_id` is what makes the three recoverable as one AND-set.
 | `flow_ids` | list[str] | provenance |
 | `is_entry` | bool | appears in any flow's `start_refs`, or has zero in-edges |
 | `is_objective` | bool | terminal in some flow (zero out-edges), typically an Impact tactic |
+
+Every node resolves in the pinned Enterprise ATT&CK (Decision 5): `name` /
+`tactics` / `tactic_layer` are always populated. `is_entry` / `is_objective` are
+computed on the Enterprise-scoped graph — a technique whose only predecessor was a
+dropped non-Enterprise node is therefore an entry.
 
 ### Edge — `DependencyEdge`
 
@@ -282,6 +309,9 @@ pixel-proximity hack and `extract_ontology_edges` (Decision 1), and
   entry/objective nodes are plausible (Initial-Access entries, Impact objectives).
 - **No-synthesis check.** Every GAP edge has ≥1 `occurrences` entry tracing to a
   real flow link — the §(a) invariant, mechanically assertable.
+- **Enterprise-scope check.** Every GAP node resolves in the pinned Enterprise
+  ATT&CK — no ATLAS/ICS or revoked/absent ids survive (Decision 5); with the
+  no-synthesis check above, this also guarantees no edge bridges a dropped node.
 
 ---
 

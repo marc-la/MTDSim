@@ -169,16 +169,28 @@ def aggregate_gap(
             if c.confidence is not None:
                 edge.confidence_samples.append(c.confidence)
 
-    # in/out degree on the contracted graph (for entry/objective)
+    # Enterprise-only scope (Decision 5 / §a): keep only techniques that resolve
+    # in the pinned Enterprise ATT&CK; drop non-Enterprise nodes (ATLAS AML.*,
+    # ICS T0###) and revoked/absent ids, plus every edge incident to a dropped
+    # node — never bridging across it (that would synthesise an unobserved
+    # dependency). The per-flow extracts (§c) stay lossless; scope is applied
+    # only here, at aggregation.
+    valid = {tid for tid in node_flows if tid in attack_meta}
+    edge_acc = {
+        key: edge for key, edge in edge_acc.items()
+        if key[0] in valid and key[1] in valid
+    }
+
+    # in/out degree on the Enterprise-scoped graph (for entry/objective)
     indeg: dict[str, int] = defaultdict(int)
     outdeg: dict[str, int] = defaultdict(int)
     for (s, t) in edge_acc:
         outdeg[s] += 1
         indeg[t] += 1
 
-    # build nodes
+    # build nodes (Enterprise-scoped set only)
     nodes: dict[str, TechniqueNode] = {}
-    for tid in sorted(node_flows):
+    for tid in sorted(valid):
         meta = attack_meta.get(tid, {})
         flows = sorted(node_flows[tid])
         nodes[tid] = TechniqueNode(
