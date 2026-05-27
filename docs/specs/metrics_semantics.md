@@ -227,6 +227,61 @@ preset flag.
 
 ---
 
+## (f) GAP edge weights — recurrence, not efficacy; and the workflow comparability boundary
+
+Sections (a)–(e) concern the **simulation substrate** (L3/L4) and its MTTC. This
+section concerns the **L1 GAP** — a different stage, upstream of the substrate —
+and is recorded here because it is the same *genre* of statement: what a number
+means, and what comparison it does and does not license. It is forward-looking:
+L3/L4 do not yet consume the GAP, but the boundary must be fixed before they do,
+so no one reads more into a GAP edge weight than the corpus supports. The GAP data
+model is [`01_gap_schema.md`](01_gap_schema.md); the build is at
+[`../../src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction).
+
+### Edge weight (`observation_count`) — what it is
+
+`observation_count` is **the number of distinct incidents in which an analyst
+drew that specific technique→technique dependency** in an Attack Flow. It is:
+
+- a **frequency-of-observation / recurrence** signal — "how commonly this
+  dependency was *drawn* across reported incidents";
+- grounded in the analyst's **sequencing + dependency** judgement (Attack Flow's
+  "to do B the adversary first needed A"), so it carries a causal read of an
+  *observed* incident.
+
+It is emphatically **not**:
+
+- **efficacy / success probability** — Attack Flow records what happened in
+  incidents notable enough to report; failed attempts and abandoned branches are
+  not in the corpus, so weight cannot speak to whether a step "works";
+- a **transition probability** — weights are unnormalised counts, not a stochastic
+  matrix; a node's out-edges sum to nothing, and the graph is not a Markov chain;
+- **causal-effect strength** — it is observed co-dependency, not a measured
+  intervention.
+
+One-line gloss: **weight = how often analysts drew this dependency across reported
+incidents — a popularity/recurrence measure of observed workflow, biased toward
+successful and well-documented campaigns, not a measure of how likely or how
+effective the step is.**
+
+### The workflow-not-efficacy comparability boundary (L3/L4)
+
+The GAP is built from incident-derived CTI, which is a **survivorship-/
+observability-biased** sample (notable, well-documented, largely-successful
+campaigns; early kill-chain phases under-observed — see
+[`../notes/2026-05-27_gap_construction.md`](../notes/2026-05-27_gap_construction.md)).
+Two consequences bound any GAP-driven evaluation:
+
+| GAP-driven reading | Valid? | Why |
+|---|---|---|
+| **MTD-efficacy as "how much MTD perturbs *typical observed attack workflow*"** | **Valid (with this framing stated)** | If L3 samples GAP edges by weight, it samples what is frequently *documented* (biased toward successful, well-reported campaigns), not what is *optimal* against a given MTD configuration. The number measures disruption of commonly-reported workflow — say so when reporting it. |
+| **MTD-efficacy as "how much MTD defeats an *optimal/worst-case* adversary"** | **INVALID** | The corpus contains observed, not optimal, behaviour; weights carry no adversary-optimality signal. |
+| **Seeding L3 transition probabilities directly from edge weights** | **INVALID as-is** | Weights are unnormalised counts. Any stochastic traversal needs an *explicit, documented* normalisation + closed-world assumption the corpus does not itself justify. Flag before anyone treats the GAP as a Markov chain. |
+
+This sits alongside the substrate-side comparability boundary in §(d): there, the
+caution is cross-paper *magnitude* comparison; here, it is reading *adversary
+optimality* or *transition probability* into observed-workflow recurrence.
+
 ## Where to look next
 
 - [`mtdsim_spec.md`](mtdsim_spec.md) — row-level dispositions,

@@ -307,3 +307,53 @@ def test_untyped_action_breaks_chain():
     pairs = {(c.source_id, c.target_id) for c in contract_flow(ex)}
     assert ("T9001", "T9003") not in pairs   # no edge synthesised across the gap
     assert pairs == set()                     # a1->a2 and a2->a3 both blocked by untyped a2
+
+
+# ---------------------------------------------------------------------------
+# Decision 6 — the canonical GAP is purely observed (zero inferred edges).
+# These run against the *committed* artefacts (not the gitignored corpus), so
+# they are always live: the "A is canonical" invariant made executable
+# (01_gap_schema §b Decision 6 / §g no-inferred-in-canonical check).
+# ---------------------------------------------------------------------------
+
+_FLOWS_DIR = _REPO / "data" / "gap" / "flows"
+_CANONICAL_GAP = _REPO / "data" / "gap" / "gap_v0.5.json"
+_OBSERVED_SOURCES = {"attack_flow_corpus", "hand_curated"}
+
+
+def test_canonical_per_flow_extracts_are_all_observed():
+    """No ``source: inferred`` extract lives in the canonical flows dir — the
+    inferred overlay (Option B) is a *separate* input set, never aggregated into
+    gap_v0.5.json (Decision 6)."""
+    import yaml
+
+    extracts = sorted(_FLOWS_DIR.glob("*.yaml"))
+    assert extracts, "no committed per-flow extracts found"
+    sources = {f.name: yaml.safe_load(f.read_text()).get("source") for f in extracts}
+    inferred = [name for name, s in sources.items() if s == "inferred"]
+    assert not inferred, (
+        "inferred per-flow extracts must not live in the canonical flows dir "
+        f"(Decision 6 — use a separate overlay set): {inferred}"
+    )
+    unexpected = {name: s for name, s in sources.items() if s not in _OBSERVED_SOURCES}
+    assert not unexpected, f"unexpected per-flow source values: {unexpected}"
+
+
+def test_canonical_gap_has_no_inferred_edges():
+    """The committed gap_v0.5.json carries zero inferred edges. Edge provenance
+    is surfaced onto occurrences (``source``) once the inferred overlay exists;
+    until then the field is absent and this guards against an inferred edge being
+    aggregated in un-tagged (Decision 6 / §g)."""
+    import json
+
+    if not _CANONICAL_GAP.exists():
+        pytest.skip("canonical GAP artefact absent")
+    gap = json.loads(_CANONICAL_GAP.read_text())
+    inferred_edges = [
+        (e["source_id"], e["target_id"])
+        for e in gap["edges"]
+        if any(o.get("source") == "inferred" for o in e.get("occurrences", []))
+    ]
+    assert not inferred_edges, (
+        f"canonical GAP must contain zero inferred edges (Decision 6): {inferred_edges}"
+    )

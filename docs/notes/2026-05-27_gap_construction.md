@@ -93,6 +93,28 @@ drawing and for labelling an edge forward/backward — it does not describe a
 linear progression, which is exactly why direction is taken from the flows and
 never from the layering.
 
+**The early kill chain is barely observed — and that confirms the literature
+where it can see.** Incident-derived intelligence starts at the point of
+*detection* (the intrusion) and works forward; pre-intrusion reconnaissance
+happens on attacker infrastructure and via OSINT, leaves little defender
+telemetry, and so analysts rarely draw it. The corpus bears this out:
+**reconnaissance appears in only 10 of 40 flows while initial-access appears in
+30 of 40**, and there is essentially no `reconnaissance → initial-access` edge
+(1, observed once). This is not a modelling error but a **survivorship-/
+observability bias** of the source — the GAP is densest in the observable middle
+of the kill chain and blind to the pre-intrusion prefix. It does **not**
+contradict Alshamrani 2019's claim that the recon→foothold prefix is *invariant*
+across APT operations; it *confirms it at the half the corpus can see* (foothold,
+30/40, is densely observed) while being structurally unable to observe the
+invariant prefix itself. The same lens corroborates the back half of Alshamrani's
+claim: of the 40 flows, **13 reach exfiltration, 13 reach impact, but only 3 reach
+both** — campaigns commit to *one* terminal objective, exactly the "stages 4–5
+split by objective" structure, observed directly in the data (and what makes the
+L2 motivation-subgraphing design defensible against this corpus). The decision not
+to paper over the prefix gap in the canonical GAP — supplying it, if at all, only
+through a separately-provenanced `inferred` overlay, never the observed graph — is
+Decision 6 in [`../specs/01_gap_schema.md`](../specs/01_gap_schema.md) §(b)/§(h).
+
 **Both levels need a lens to be legible.** Neither view reads unfiltered — the
 technique graph swamped by edge count, the tactic FSM by near-completeness.
 Weighting (emphasis) and thresholding (the "≥ k incidents" view) are not
@@ -143,9 +165,12 @@ The "future-you must defend this" points:
 ## How it connects
 
 - To the spec: [`../specs/01_gap_schema.md`](../specs/01_gap_schema.md) is the
-  formal data model + the four decisions; this note is its plain-English
+  formal data model + the six decisions; this note is its plain-English
   companion. Build code: [`../../src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction);
   artefacts: [`../../data/gap/`](../../data/gap).
+- On what the edge weights mean (recurrence, **not** efficacy or transition
+  probability) and the "MTD perturbs typical observed workflow" comparability
+  boundary for L3/L4: [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f).
 - To the architecture: [`architecture.md`](../specs/architecture.md) §(c)–(d)
   place the GAP as L1 of the L0→L4 pipeline.
 - To the lit review: the Attack Flow grammar and the Tesla Figure-2 example are
@@ -157,6 +182,9 @@ The "future-you must defend this" points:
   counts.
 - If hand-curated incidents are added (the per-flow seam) — the "corpus-derived
   only" framing weakens.
+- If the `inferred` overlay (Decision 6 — Option B) is ever authored — the
+  pre-intrusion prefix becomes modellable, but only in the corpus+inferred view;
+  the observed-only framing of the canonical GAP above is unchanged.
 - If the Enterprise-only assumption is revisited (e.g. ATLAS/ICS techniques
   brought in with their own matrices).
 - If cross-flow AND/OR reconciliation is resolved — the GAP currently records

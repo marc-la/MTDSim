@@ -49,7 +49,7 @@ Three corollaries:
 
 ---
 
-## (b) The five design decisions (this session, with Marc)
+## (b) The six design decisions (with Marc)
 
 **Decision 1 — the canonical GAP is Attack-Flow-only.**
 The v0.4 GAP merged three edge signals: curated Attack Flow, FP-Growth
@@ -127,6 +127,38 @@ and deciding cross-matrix edge semantics; because the per-flow extracts retain t
 it is a re-aggregation, not a re-parse. (At v0.5, 22 of 146 nodes were
 non-Enterprise — 15 ATLAS, 2 ICS, 5 revoked/absent — and were dropped.)
 
+**Decision 6 — supplementation stance: the canonical GAP stays purely observed
+(Option A); inferred paths are an opt-in, separately-provenanced overlay
+(Option B), never the default.**
+The corpus is faithfully *thin* (88% of edges single-observation at v0.5) and
+systematically blind to the pre-intrusion prefix (reconnaissance in 10/40 flows;
+the `reconnaissance → initial-access` link essentially absent — 1 edge, obs 1).
+That is a property of incident-derived CTI — reports start at the point of
+detection (initial-access), so pre-intrusion recon is under-observed — **not** a
+build defect (the §(a) invariant is upheld; a correct build of a thin corpus is a
+thin graph). Two honest responses exist; this adopts both, partitioned by
+provenance:
+- **A is canonical.** `gap_v0.5.json` aggregates only *observed* per-flow extracts
+  (`source: attack_flow_corpus | hand_curated`; §c). The no-synthesis invariant
+  stays pristine and the provenance claim is unqualified. The honest lever to
+  thicken it is corpus growth (the single-observation share is the gauge); the
+  prefix gap does **not** close this way — reports keep starting at intrusion.
+- **B is an opt-in overlay.** Literature-grounded inferred paths (e.g.
+  Alshamrani's invariant recon → foothold prefix) may be authored as per-flow
+  extracts tagged `source: inferred` (§c), kept *out* of the canonical build and
+  aggregated only for an explicit "corpus+inferred" view (§e). An inferred edge
+  never enters `gap_v0.5.json` un-tagged, and any view can include or exclude it.
+**Why:** keeping A canonical preserves the load-bearing "observed, not inferred"
+argument; offering B as a declared, separately-provenanced overlay makes
+supplementation a *measurable design choice* rather than a silent assumption, and
+turns the prefix-gap finding into a contribution ("here is where incident-derived
+intelligence is blind, and the bounded effect of correcting it") rather than a
+weakness. Putting inferred edges in the *default* GAP (a third option) was
+rejected — it collapses the §(a) invariant.
+**If revisited:** if the overlay is never authored, the `inferred` value and the
+corpus+inferred view are inert (zero cost); if it is, the mechanism is already
+specified — §c source enum, §e view, and the §g no-inferred-in-canonical check.
+
 ---
 
 ## (c) Per-flow extract — the lossless intermediate (committed)
@@ -142,7 +174,7 @@ acceptable alternative — §g open question 2).
 flow_id: tesla                       # corpus filename stem, or hand-assigned slug
 flow_name: Tesla Kubernetes Cryptojacking
 scope: incident                      # attack-flow.scope: incident|campaign|threat-actor|...
-source: attack_flow_corpus           # attack_flow_corpus | hand_curated
+source: attack_flow_corpus           # attack_flow_corpus | hand_curated | inferred (Decision 6)
 schema_version: "3.2.0"              # Attack Flow schema generation parsed
 references:                          # external_references from the flow (provenance)
   - source_name: "..."
@@ -170,6 +202,14 @@ edges:
 ```
 
 **Invariants for the per-flow extract:**
+- **Provenance partition (Decision 6).** `source` records whether the flow is
+  *observed* (`attack_flow_corpus` = a corpus Attack Flow; `hand_curated` = a
+  hand-authored *real* incident) or *not observed* (`inferred` = a
+  literature-grounded path no analyst drew for a specific incident). Only observed
+  extracts feed the canonical GAP; `inferred` extracts live in a separate overlay
+  set and aggregate only for the corpus+inferred view (§e). This is the one place
+  the §(a) no-synthesis invariant can be relaxed — explicitly, by tag, never
+  silently.
 - Round-trip faithful: the action/operator/condition nodes and typed edges
   reproduce the flow's logic graph (verified by the §f validation).
 - Sub-techniques collapse to parent in `technique_id`; the original is retained
@@ -231,6 +271,18 @@ Each `occurrences[i]`:
   branch: null                 # true|false when the edge passed through a condition; else null
 ```
 
+**What `observation_count` means (and does not).** It is the number of distinct
+incidents in which an analyst drew this technique→technique dependency — a
+**recurrence / frequency-of-observation** signal carrying the analyst's
+sequencing+dependency judgement on an *observed* incident. It is **not** efficacy
+or success probability (failed/abandoned branches are not in the corpus), **not**
+a transition probability (counts are unnormalised; out-edges sum to nothing; the
+graph is not a Markov chain), and **not** causal-effect strength. Downstream
+consumers must not treat it as any of these without an explicit, documented
+assumption the corpus does not license. Full gloss and the
+GAP-measures-typical-workflow comparability boundary:
+[`metrics_semantics.md`](metrics_semantics.md) §(f).
+
 ### GAP-level metadata
 
 `version`, `build_date`, `attack_flow_schema_version`, `corpus_ref` (clone
@@ -257,6 +309,7 @@ Consumers read the lossless GAP through view functions. None mutate the artefact
 | **Acyclic projection** | cycle-break policy | a DAG when a consumer needs topological order; the policy (which edge to cut) is explicit and recorded, not silent |
 | **Tactic layering** | — | group nodes by `tactic_layer` for visualisation; `tactic_delta` colours forward/back edges |
 | **Motivation subgraph (L2/GASP)** | motivation specifier | the existing terminal-ancestor selectors operate unchanged on the lossless node/edge sets |
+| **Provenance view (Decision 6)** | `corpus-only` \| `corpus+inferred` | `corpus-only` (default) is the canonical observed GAP; `corpus+inferred` additionally aggregates the `source: inferred` overlay extracts. Unlike the filters above — which subset a single lossless artefact — `corpus+inferred` *adds an input set*, so it is realised at aggregation (two input sets), not as a post-hoc edge filter. The canonical `gap_v0.5.json` is the `corpus-only` product and contains **zero** inferred edges (asserted in §g). |
 
 This keeps L2 selectors ([`selectors/`] on `feat/attacker-profiling`) and the
 HTML visualiser usable: they consume `nodes` + `edges`, which still exist —
@@ -312,6 +365,12 @@ pixel-proximity hack and `extract_ontology_edges` (Decision 1), and
 - **Enterprise-scope check.** Every GAP node resolves in the pinned Enterprise
   ATT&CK — no ATLAS/ICS or revoked/absent ids survive (Decision 5); with the
   no-synthesis check above, this also guarantees no edge bridges a dropped node.
+- **No-inferred-in-canonical check (Decision 6).** Every per-flow extract feeding
+  the canonical `gap_v0.5.json` is *observed* (`source ∈ {attack_flow_corpus,
+  hand_curated}`), so the artefact carries **zero** inferred edges. This makes the
+  "A is canonical" half of Decision 6 mechanically assertable: an inferred edge
+  reaches the canonical GAP only via a mis-tag or a mis-routed overlay extract,
+  and this check fails if it does. (`tests/gap/test_gap.py`.)
 
 ---
 
@@ -333,6 +392,17 @@ pixel-proximity hack and `extract_ontology_edges` (Decision 1), and
    technique-sets in `data/attacker_profiles/*.yaml` (which are flat, edge-less,
    and feed L3 capability parameters). Whether and how the two are cross-walked
    is out of scope here and noted for L2/L3.
+
+5. **Supplementing the corpus (observed-only vs literature-inferred paths) —
+   RESOLVED (this session) → see Decision 6.** The GAP is faithfully thin and
+   blind to the pre-intrusion prefix because incident-derived CTI starts at
+   detection. *Decision:* keep the canonical GAP purely observed (Option A) and
+   add literature-grounded inferred paths only as an opt-in, `source:
+   inferred`-tagged overlay surfaced through the corpus+inferred view (Option B) —
+   never in the default GAP. *Why:* preserves the §(a) no-synthesis claim
+   unqualified while making supplementation a measurable, declared choice and
+   turning the prefix-gap finding into a contribution. The observability-bias
+   analysis is in [`../notes/2026-05-27_gap_construction.md`](../notes/2026-05-27_gap_construction.md).
 
 ---
 
