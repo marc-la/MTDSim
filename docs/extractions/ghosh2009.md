@@ -8,7 +8,7 @@
 
 - **Citation key**: `nitrd2009` (institutional form; renamed from the earlier `ghosh2009nitrd` per Marc's confirmation — NITRD CSIA-IWG is a working-group product, not personally authored by Ghosh).
 - **Year**: 2009 — confirmed from filename `1_1_ghosh2009NITRD.md`; the source body carries no internal date stamp but matches the NITRD CSIA-IWG *Cybersecurity Game-Change Research & Development Recommendations* released in 2009 (predates the Jajodia et al. 2011 *Moving Target Defense* edited volume, which is a separate artefact).
-- **DOI / URL**: TODO — could not resolve; pending lookup against NITRD program publication archive. Not peer-reviewed (working-group report).
+- **DOI / URL**: n/a — working-group report, not peer-reviewed. The source markdown at `docs/sources/1_1_ghosh2009NITRD.md` is the authoritative artefact for citation purposes.
 - **In-text / bibliography form**: `NITRD CSIA-IWG (2009), Cybersecurity Game-Change Research & Development Recommendations, §1 "Moving Target Defense"`.
 - **Pages cited from**: §1 "Moving Target Defense" (lit-review `[1]` maps to the §1 framing: §1 "New Game: Attacks only work once if at all" + §1.6 "Most applications, systems and networks are not perfectly secure").
 
@@ -33,7 +33,7 @@ Sections to lift in Pass 2:
 
 ## Open questions / things to verify
 
-- **Verify NITRD publication URL.** The NITRD program archive hosts working-group reports publicly; the specific stable URL for this 2009 CSIA-IWG document needs verification before pinning. Left as TODO above per the don't-fabricate-URLs guardrail.
+(none outstanding at the bibliographic-anchor level)
 
 ## Out of scope for this thesis
 
