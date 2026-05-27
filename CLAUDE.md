@@ -15,6 +15,7 @@ In this order:
 
 ## Spec files (load when relevant to the task)
 
+- [`docs/specs/architecture.md`](docs/specs/architecture.md) — L0→L4 pipeline, substrate seam, methodological positioning, decisions log. Pass 1 scaffold; methodological positioning still to flesh.
 - [`docs/specs/mtdsim_spec.md`](docs/specs/mtdsim_spec.md) — the conformance spec; row-level dispositions against the baseline.
 - [`docs/specs/metrics_semantics.md`](docs/specs/metrics_semantics.md) — internal MTTC definition, divergences (C7, ATK-04), comparability boundary.
 - [`docs/specs/provenance.md`](docs/specs/provenance.md) — load-bearing constants → source → code → disposition.
@@ -28,4 +29,4 @@ In this order:
 
 <!-- When a handoff is created or closed, update this section to reflect the live state. Format: `- [topic](docs/handoffs/YYYY-MM-DD_topic.md) — one-line status.` -->
 
-- [Architecture & methodology prepopulation](docs/handoffs/2026-05-27_architecture_prepopulation.md) — open; two-pass plan to author `docs/specs/architecture.md` from Marc's proposal + lit review + verbal walkthrough.
+- [Architecture & methodology prepopulation](docs/handoffs/2026-05-27_architecture_prepopulation.md) — partially shipped; Pass 1 scaffold landed at [`docs/specs/architecture.md`](docs/specs/architecture.md) (seeded from pre-lit-review *Current State* + *Methodology Carry-Forward*). Pass 2 owes: §(j) methodological positioning flesh against `LIT_REVIEW.md`, adjacent-paper extraction stubs, and the §(l) open-questions sweep.

@@ -1,11 +1,38 @@
 ---
-status: open
+status: partially shipped
 created: 2026-05-27
 ---
 
 # Capture the L0→L4 architecture as a durable spec (`docs/specs/architecture.md`)
 
 Turn Marc's existing methodological carryover and lit review into a durable architecture spec so future sessions ground architectural reasoning in the spec, not in re-derivation from substrate code or Marc's head.
+
+## Pass 1 — shipped 2026-05-27 (this branch: `feat/lit-review-landing`)
+
+Scaffold landed at [`../specs/architecture.md`](../specs/architecture.md) (484 lines, under the
+600-line ceiling). Seeded from the pre-lit-review *Current State* (29 Apr 2026)
+and *Methodology Carry-Forward* (20 May 2026) Marc pasted at session start; both
+are pasted-only, neither is committed. Stale items (replay-viz visualiser, 6,000s
+crash status, GAP v0.4 specifics, lit-review process notes, Apr-29 RQ wording)
+were dropped silently per Marc's call. The §(j) methodological-positioning
+section is intentionally a two-paragraph stub awaiting Pass 2 against
+`LIT_REVIEW.md`. Status markers (designed / partially built / unbuilt) are set
+per §(c)–(g). Every architectural decision carries both **Why:** and
+**If revisited:** lines.
+
+**Pass 2 still owes:**
+- §(j) methodological positioning — flesh against [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md);
+  current two paragraphs are scaffold-only.
+- Adjacent-paper extraction stubs (CTI standards, behavioural-attacker work,
+  adjacent MTD evaluation) — none created yet; Marc to supply the title list at
+  Pass 2 start. The four lineage extractions (Brown/Zhang/Ho/Tay) are
+  unchanged.
+- Resolve the §(l) open questions: Attack Flow schema in-tree, Jalowski
+  primitives encoded subset, L1 aggregation parameters, motivation-attribution
+  method, network substrate generality, L4 evaluation matrix shape.
+- Confirm whether `architecture.md` and `methodology.md` should split — current
+  scaffold keeps both intertwined in one file; the 600-line trigger has not
+  fired but the eventual flesh-out may.
 
 ## State of play
 
