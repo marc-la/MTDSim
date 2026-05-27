@@ -30,3 +30,4 @@ In this order:
 <!-- When a handoff is created or closed, update this section to reflect the live state. Format: `- [topic](docs/handoffs/YYYY-MM-DD_topic.md) — one-line status.` -->
 
 - [Architecture & methodology prepopulation](docs/handoffs/2026-05-27_architecture_prepopulation.md) — partially shipped; Pass 1 scaffold landed at [`docs/specs/architecture.md`](docs/specs/architecture.md) (seeded from pre-lit-review *Current State* + *Methodology Carry-Forward*). Pass 2 owes: §(j) methodological positioning flesh against `LIT_REVIEW.md`, adjacent-paper extraction stubs, and the §(l) open-questions sweep.
+- [Docs / `.claude` / `CLAUDE.md` audit](docs/handoffs/2026-05-27_docs_audit.md) — open; produce a findings document critiquing the doc system across 8 dimensions (structure, consistency, coverage, drift, claim-justification, entry-point quality, `.claude` alignment, handoff hygiene). Read-only audit; findings only, no fixes.
