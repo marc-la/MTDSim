@@ -1,0 +1,147 @@
+flow_id: equifax_breach
+flow_name: Equifax Breach
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: CNET
+  url: https://www.cnet.com/news/privacy/equifaxs-hack-one-year-later-a-look-back-at-how-it-happened-and-whats-changed/
+  description: Article
+- source_name: CSO
+  url: https://www.csoonline.com/article/3444488/equifax-data-breach-faq-what-happened-who-was-affected-what-was-the-impact.html
+  description: Article
+- source_name: Department of Justice
+  url: https://www.justice.gov/opa/press-release/file/1246891/download
+  description: Press Release
+- source_name: Government Accountability Office
+  url: https://www.warren.senate.gov/imo/media/doc/2018.09.06%20GAO%20Equifax%20report.pdf
+  description: Congressional Request
+start_refs:
+- a6
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactic: stealth
+- id: a2
+  kind: action
+  technique_id: T1505
+  sub_technique_id: T1505.003
+  name: Web Shell
+  tactic: persistence
+- id: a3
+  kind: action
+  technique_id: T1048
+  sub_technique_id: T1048.002
+  name: Exfiltration Over Asymmetric Encrypted Non-C2 Protocol
+  tactic: exfiltration
+- id: a4
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.001
+  name: Clear Windows Event Logs
+  tactic: stealth
+- id: a5
+  kind: action
+  technique_id: T1573
+  name: Encrypted Channel
+  tactic: command-and-control
+- id: a6
+  kind: action
+  technique_id: T1595
+  sub_technique_id: T1595.002
+  name: Vulnerability Scanning
+  tactic: reconnaissance
+- id: a7
+  kind: action
+  technique_id: T1590
+  name: Gather Victim Network Information
+  tactic: reconnaissance
+- id: a8
+  kind: action
+  technique_id: T1560
+  name: Archive Collected Data
+  tactic: collection
+- id: a9
+  kind: action
+  technique_id: T1589
+  sub_technique_id: T1589.001
+  name: Credentials
+  tactic: reconnaissance
+- id: a10
+  kind: action
+  technique_id: T1090
+  sub_technique_id: T1090.003
+  name: Multi-hop Proxy
+  tactic: command-and-control
+- id: a11
+  kind: action
+  technique_id: T1190
+  name: Exploit Public-Facing Application
+  tactic: initial-access
+- id: a12
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: op1
+  kind: operator
+  operator: AND
+- id: op2
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: Attackers sold foothold into Equifax's network to more experience attackers
+- id: c2
+  kind: condition
+  description: Attackers discovered vulnerable Apache Struts Web Framework on Equifax's
+    dispute portal
+- id: c3
+  kind: condition
+  description: Attackers discovered and compromised databases storing PII
+edges:
+- source: a1
+  target: op2
+  type: effect
+- source: a10
+  target: a12
+  type: effect
+- source: a10
+  target: a4
+  type: effect
+- source: a11
+  target: c1
+  type: effect
+- source: a2
+  target: a7
+  type: effect
+- source: a2
+  target: a9
+  type: effect
+- source: a3
+  target: a10
+  type: effect
+- source: a5
+  target: c3
+  type: effect
+- source: a6
+  target: c2
+  type: effect
+- source: a7
+  target: op1
+  type: effect
+- source: a8
+  target: op2
+  type: effect
+- source: a9
+  target: op1
+  type: effect
+- source: op1
+  target: a5
+  type: effect
+- source: op2
+  target: a3
+  type: effect

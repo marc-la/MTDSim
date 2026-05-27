@@ -1,0 +1,197 @@
+flow_id: conti_cisa_alert
+flow_name: Conti CISA Alert
+scope: malware
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: CISA
+  url: https://www.cisa.gov/news-events/alerts/2021/09/22/conti-ransomware
+  description: Alert
+start_refs:
+- a6
+- a9
+- a2
+- a16
+- a10
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1558
+  sub_technique_id: T1558.003
+  name: Kerberoasting
+  tactic: credential-access
+- id: a2
+  kind: action
+  technique_id: T1598
+  sub_technique_id: T1598.004
+  name: Social Engineering
+  tactic: reconnaissance
+- id: a3
+  kind: action
+  technique_id: T1057
+  name: Process Discovery
+  tactic: discovery
+- id: a4
+  kind: action
+  technique_id: T1203
+  name: Exploitation for Client Execution
+  tactic: execution
+- id: a5
+  kind: action
+  technique_id: null
+  name: Persistence
+  tactic: persistence
+- id: a6
+  kind: action
+  technique_id: T1566
+  sub_technique_id: T1566.001
+  name: Spearphishing Attachment
+  tactic: initial-access
+- id: a7
+  kind: action
+  technique_id: null
+  name: Lateral Movement
+  tactic: lateral-movement
+- id: a8
+  kind: action
+  technique_id: T1110
+  name: Brute Force
+  tactic: credential-access
+- id: a9
+  kind: action
+  technique_id: T1608
+  sub_technique_id: T1608.006
+  name: Fake Software
+  tactic: resource-development
+- id: a10
+  kind: action
+  technique_id: T1076
+  name: Remote Desktop Protocol
+  tactic: lateral-movement
+- id: a11
+  kind: action
+  technique_id: T1204
+  sub_technique_id: T1204.002
+  name: Malicious File
+  tactic: execution
+- id: a12
+  kind: action
+  technique_id: null
+  name: Exfiltration
+  tactic: exfiltration
+- id: a13
+  kind: action
+  technique_id: T1078
+  name: Valid Accounts
+  tactic: initial-access
+- id: a14
+  kind: action
+  technique_id: null
+  name: Privilege Escalation
+  tactic: privilege-escalation
+- id: a15
+  kind: action
+  technique_id: null
+  name: Privilege Escalation
+  tactic: privilege-escalation
+- id: a16
+  kind: action
+  technique_id: T1566
+  sub_technique_id: T1566.002
+  name: Spearphishing Link
+  tactic: initial-access
+- id: a17
+  kind: action
+  technique_id: T1110
+  name: Brute Force
+  tactic: credential-access
+- id: a18
+  kind: action
+  technique_id: T1486
+  name: Data Encrypted for Impact
+  tactic: impact
+- id: op1
+  kind: operator
+  operator: OR
+- id: op2
+  kind: operator
+  operator: OR
+- id: op3
+  kind: operator
+  operator: OR
+- id: c1
+  kind: condition
+  description: HSE Server is compromised
+- id: c2
+  kind: condition
+  description: Network Asset B is compromised
+- id: c3
+  kind: condition
+  description: Admin hash is compromised
+- id: c4
+  kind: condition
+  description: Network Asset C is compromised
+- id: c5
+  kind: condition
+  description: Network Asset A is compromised
+- id: c6
+  kind: condition
+  description: Patient Zero workstation is compromised
+- id: c7
+  kind: condition
+  description: User of Patient Zero workstation is compromised
+edges:
+- source: a1
+  target: c3
+  type: effect
+- source: a10
+  target: op3
+  type: effect
+- source: a11
+  target: op3
+  type: effect
+- source: a13
+  target: op3
+  type: effect
+- source: a14
+  target: c2
+  type: effect
+- source: a15
+  target: c2
+  type: effect
+- source: a16
+  target: op1
+  type: effect
+- source: a17
+  target: op2
+  type: effect
+- source: a2
+  target: op1
+  type: effect
+- source: a3
+  target: op2
+  type: effect
+- source: a4
+  target: c5
+  type: effect
+- source: a6
+  target: op1
+  type: effect
+- source: a7
+  target: c4
+  type: effect
+- source: a8
+  target: op2
+  type: effect
+- source: a9
+  target: op1
+  type: effect
+- source: op1
+  target: c7
+  type: effect
+- source: op2
+  target: c1
+  type: effect
+- source: op3
+  target: c6
+  type: effect

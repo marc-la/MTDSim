@@ -149,5 +149,11 @@ experimental_data/*
 
 docs/sources
 
+# GAP (L1) build inputs — upstream corpora, gitignored per 01_gap_schema.md
+# Decision 4. The distilled per-flow extracts + aggregate under data/gap/ ARE
+# committed; only these raw upstream inputs are ignored.
+data/gap/_corpus_stix/
+data/gap/_attack/
+
 # macOS Finder metadata
 .DS_Store

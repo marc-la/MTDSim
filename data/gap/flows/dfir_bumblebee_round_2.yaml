@@ -1,0 +1,186 @@
+flow_id: dfir_bumblebee_round_2
+flow_name: DFIR - BumbleBee Round 2
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: 'BumbleBee: Round Two
+
+
+    '
+  url: https://thedfirreport.com/2022/09/26/bumblebee-round-two/
+  description: '"In this intrusion from May 2022, the threat actors used BumbleBee as
+    the initial access vector. BumbleBee has been identified as an initial access
+    vector utilized by several ransomware affiliates."'
+start_refs:
+- a10
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1055
+  name: Process Injection
+- id: a2
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a3
+  kind: action
+  technique_id: T1135
+  name: Network Share Discovery
+  tactic: discovery
+- id: a4
+  kind: action
+  technique_id: T1219
+  name: Remote Access Software
+  tactic: command-and-control
+- id: a5
+  kind: action
+  technique_id: T1219
+  name: Remote Access Software
+  tactic: command-and-control
+- id: a6
+  kind: action
+  technique_id: T1218
+  sub_technique_id: T1218.011
+  name: Rundll32
+  tactic: stealth
+- id: a7
+  kind: action
+  technique_id: T1003
+  sub_technique_id: T1003.001
+  name: LSASS Memory
+  tactic: credential-access
+- id: a8
+  kind: action
+  technique_id: T1087
+  sub_technique_id: T1087.002
+  name: Domain Account
+  tactic: discovery
+- id: a9
+  kind: action
+  technique_id: T1059
+  name: Command and Scripting Interpreter
+  tactic: execution
+- id: a10
+  kind: action
+  technique_id: T1547
+  sub_technique_id: T1547.009
+  name: Shortcut Modification
+  tactic: persistence
+- id: a11
+  kind: action
+  technique_id: T1016
+  name: System Network Configuration Discovery
+  tactic: discovery
+- id: a12
+  kind: action
+  technique_id: T1047
+  name: Windows Management Instrumentation
+  tactic: execution
+- id: a13
+  kind: action
+  technique_id: T1071
+  name: Application Layer Protocol
+  tactic: command-and-control
+- id: a14
+  kind: action
+  technique_id: T1087
+  name: Account Discovery
+  tactic: discovery
+- id: a15
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.001
+  name: Remote Desktop Protocol
+  tactic: lateral-movement
+- id: a16
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.001
+  name: 'Remote Services: Remote Desktop Protocol'
+  tactic: lateral-movement
+- id: a17
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.003
+  name: Windows Command Shell
+  tactic: execution
+- id: a18
+  kind: action
+  technique_id: T1482
+  name: Domain Trust Discovery
+  tactic: discovery
+- id: a19
+  kind: action
+  technique_id: T1136
+  sub_technique_id: T1136.002
+  name: Domain Account
+  tactic: persistence
+- id: op1
+  kind: operator
+  operator: AND
+edges:
+- source: a10
+  target: a2
+  type: effect
+- source: a10
+  target: a9
+  type: effect
+- source: a11
+  target: a4
+  type: effect
+- source: a12
+  target: a1
+  type: effect
+- source: a13
+  target: a14
+  type: effect
+- source: a14
+  target: a7
+  type: effect
+- source: a15
+  target: a5
+  type: effect
+- source: a16
+  target: a17
+  type: effect
+- source: a18
+  target: op1
+  type: effect
+- source: a19
+  target: a11
+  type: effect
+- source: a2
+  target: a6
+  type: effect
+- source: a3
+  target: op1
+  type: effect
+- source: a4
+  target: a16
+  type: effect
+- source: a5
+  target: a19
+  type: effect
+- source: a6
+  target: a12
+  type: effect
+- source: a7
+  target: a15
+  type: effect
+- source: a8
+  target: op1
+  type: effect
+- source: a9
+  target: a18
+  type: effect
+- source: a9
+  target: a3
+  type: effect
+- source: a9
+  target: a8
+  type: effect
+- source: op1
+  target: a13
+  type: effect

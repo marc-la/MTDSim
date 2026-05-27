@@ -1,0 +1,105 @@
+flow_id: searchawesome_adware
+flow_name: SearchAwesome Adware
+scope: malware
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: Malwarebytes Labs
+  url: https://www.malwarebytes.com/blog/news/2018/10/mac-malware-intercepts-encrypted-web-traffic-for-ad-injection
+  description: Blog
+- source_name: Malware Behavior Catalogue
+  url: https://github.com/MBCProject/mbc-markdown/blob/main/xample-malware/searchawesome.md
+  description: GitHub
+start_refs:
+- a7
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1185
+  name: Browser Session Hijacking
+  tactic: collection
+- id: a2
+  kind: action
+  technique_id: T1059
+  name: Command and Scripting Interpreter
+  tactic: execution
+- id: a3
+  kind: action
+  technique_id: T1553
+  sub_technique_id: T1553.004
+  name: Install Root Certificate
+  tactic: defense-impairment
+- id: a4
+  kind: action
+  technique_id: T1557
+  name: Adversary-in-the-Middle
+  tactic: credential-access
+- id: a5
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a6
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a7
+  kind: action
+  technique_id: T1204
+  sub_technique_id: T1204.002
+  name: Malicious File
+  tactic: execution
+- id: a8
+  kind: action
+  technique_id: T1583
+  sub_technique_id: T1583.008
+  name: Malvertising
+  tactic: resource-development
+- id: a9
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a10
+  kind: action
+  technique_id: T1553
+  name: Subvert Trust Controls
+  tactic: defense-impairment
+- id: a11
+  kind: action
+  technique_id: T1090
+  name: Proxy
+  tactic: command-and-control
+edges:
+- source: a1
+  target: a6
+  type: effect
+- source: a10
+  target: a9
+  type: effect
+- source: a11
+  target: a8
+  type: effect
+- source: a2
+  target: a1
+  type: effect
+- source: a3
+  target: a4
+  type: effect
+- source: a4
+  target: a10
+  type: effect
+- source: a5
+  target: a3
+  type: effect
+- source: a7
+  target: a5
+  type: effect
+- source: a8
+  target: a2
+  type: effect
+- source: a9
+  target: a11
+  type: effect

@@ -1,0 +1,224 @@
+flow_id: shamoon
+flow_name: Shamoon
+scope: malware
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: McAfee
+  url: https://www.mcafee.com/blogs/other-blogs/mcafee-labs/shamoon-returns-to-wipe-systems-in-middle-east-europe/
+  description: Article
+- source_name: MBC
+  url: https://github.com/MBCProject/mbc-markdown/blob/Lauren-malware-corpus/xample-malware/shamoon.md
+  description: Malware corpus
+start_refs:
+- a11
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1007
+  name: System Service Discovery
+  tactic: discovery
+- id: a2
+  kind: action
+  technique_id: T1112
+  name: Modify Registry
+  tactic: stealth
+- id: a3
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.006
+  name: Timestomp
+  tactic: stealth
+- id: a4
+  kind: action
+  technique_id: T1027
+  sub_technique_id: T1027.009
+  name: Embedded Payloads
+  tactic: stealth
+- id: a5
+  kind: action
+  technique_id: T1569
+  name: System Services
+  tactic: execution
+- id: a6
+  kind: action
+  technique_id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactic: stealth
+- id: a7
+  kind: action
+  technique_id: T1082
+  name: System Information Discovery
+  tactic: discovery
+- id: a8
+  kind: action
+  technique_id: T1018
+  name: Remote System Discovery
+  tactic: discovery
+- id: a9
+  kind: action
+  technique_id: T1561
+  name: Disk Wipe
+  tactic: impact
+- id: a10
+  kind: action
+  technique_id: T1529
+  name: System Shutdown/Reboot
+  tactic: impact
+- id: a11
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a12
+  kind: action
+  technique_id: T1027
+  sub_technique_id: T1027.009
+  name: Embedded Payloads
+  tactic: stealth
+- id: a13
+  kind: action
+  technique_id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactic: stealth
+- id: a14
+  kind: action
+  technique_id: T1543
+  sub_technique_id: T1543.003
+  name: Windows Service
+  tactic: persistence
+- id: a15
+  kind: action
+  technique_id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactic: stealth
+- id: a16
+  kind: action
+  technique_id: T1135
+  name: Network Share Discovery
+  tactic: discovery
+- id: a17
+  kind: action
+  technique_id: T1134
+  sub_technique_id: T1134.001
+  name: Token Impersonation/Theft
+  tactic: privilege-escalation
+- id: a18
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a19
+  kind: action
+  technique_id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactic: stealth
+- id: a20
+  kind: action
+  technique_id: T1543
+  sub_technique_id: T1543.003
+  name: Windows Service
+  tactic: persistence
+- id: a21
+  kind: action
+  technique_id: T1570
+  name: Lateral Tool Transfer
+  tactic: lateral-movement
+- id: a22
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a23
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: op1
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: The wiper has been dropped on the system and can now run
+- id: c2
+  kind: condition
+  description: Worm connects to remote servers
+- id: c3
+  kind: condition
+  description: Shamoon dropper has received an appropriate argument to run
+- id: c4
+  kind: condition
+  description: The worm component is dropped onto the system
+edges:
+- source: a1
+  target: a13
+  type: effect
+- source: a11
+  target: a12
+  type: effect
+- source: a12
+  target: c3
+  type: effect
+- source: a13
+  target: a3
+  type: effect
+- source: a14
+  target: c1
+  type: effect
+- source: a14
+  target: c4
+  type: effect
+- source: a15
+  target: a20
+  type: effect
+- source: a16
+  target: a1
+  type: effect
+- source: a17
+  target: a14
+  type: effect
+- source: a18
+  target: a4
+  type: effect
+- source: a19
+  target: op1
+  type: effect
+- source: a2
+  target: a16
+  type: effect
+- source: a20
+  target: a9
+  type: effect
+- source: a22
+  target: a8
+  type: effect
+- source: a23
+  target: op1
+  type: effect
+- source: a3
+  target: a17
+  type: effect
+- source: a4
+  target: a15
+  type: effect
+- source: a5
+  target: a2
+  type: effect
+- source: a6
+  target: a7
+  type: effect
+- source: a7
+  target: a19
+  type: effect
+- source: a7
+  target: a23
+  type: effect
+- source: a8
+  target: c2
+  type: effect
+- source: a9
+  target: a10
+  type: effect
+- source: op1
+  target: a5
+  type: effect

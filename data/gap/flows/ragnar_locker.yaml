@@ -1,0 +1,230 @@
+flow_id: ragnar_locker
+flow_name: Ragnar Locker
+scope: threat-actor
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: Acronis
+  url: https://www.acronis.com/en-us/blog/posts/ragnar-locker/
+  description: Article
+- source_name: Avertium
+  url: https://www.avertium.com/resources/threat-reports/ragnar-locker-ransomware-attacks-analysis
+  description: Article
+- source_name: Milton Security
+  url: https://www.miltonsecurity.com/company/blog/cve-2017-0213-windows-com-privilege-escalation-vulnerability
+  description: CVE
+- source_name: Sophos
+  url: https://news.sophos.com/en-us/2020/05/21/ragnar-locker-ransomware-deploys-virtual-machine-to-dodge-security/
+  description: Article
+- source_name: Zscaler
+  url: https://www.zscaler.com/blogs/security-research/threatlabz-ransomware-review-advent-double-extortion
+  description: Article
+start_refs:
+- a4
+- a18
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1120
+  name: Peripheral Device Discovery
+  tactic: discovery
+- id: a2
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a3
+  kind: action
+  technique_id: T1486
+  name: Data Encrypted for Impact
+  tactic: impact
+- id: a4
+  kind: action
+  technique_id: T1110
+  name: Brute Force
+  tactic: credential-access
+- id: a5
+  kind: action
+  technique_id: T1490
+  name: Inhibit System Recovery
+  tactic: impact
+- id: a6
+  kind: action
+  technique_id: T1564
+  sub_technique_id: T1564.006
+  name: Run Virtual Instance
+  tactic: stealth
+- id: a7
+  kind: action
+  technique_id: T1484
+  sub_technique_id: T1484.001
+  name: Group Policy Modification
+  tactic: privilege-escalation
+- id: a8
+  kind: action
+  technique_id: T1546
+  sub_technique_id: T1546.015
+  name: Component Object Model Hijacking
+  tactic: privilege-escalation
+- id: a9
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.001
+  name: PowerShell
+  tactic: execution
+- id: a10
+  kind: action
+  technique_id: null
+  name: Defense Evasion
+  tactic: stealth
+- id: a11
+  kind: action
+  technique_id: T1489
+  name: Service Stop
+  tactic: impact
+- id: a12
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a13
+  kind: action
+  technique_id: T1614
+  sub_technique_id: T1614.001
+  name: System Language Discovery
+  tactic: discovery
+- id: a14
+  kind: action
+  technique_id: null
+  name: Reconnaissance
+  tactic: reconnaissance
+- id: a15
+  kind: action
+  technique_id: T1567
+  name: Exfiltration over Web Service
+  tactic: exfiltration
+- id: a16
+  kind: action
+  technique_id: T1027
+  name: Obfuscated Files or Information
+  tactic: stealth
+- id: a17
+  kind: action
+  technique_id: null
+  name: Execution
+  tactic: execution
+- id: a18
+  kind: action
+  technique_id: T1078
+  name: Valid Accounts
+  tactic: initial-access
+- id: a19
+  kind: action
+  technique_id: T1218
+  sub_technique_id: T1218.007
+  name: Msiexec
+  tactic: stealth
+- id: op1
+  kind: operator
+  operator: AND
+- id: op2
+  kind: operator
+  operator: OR
+- id: op3
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: Virtualization software and vdi located in a newly created directory
+- id: c2
+  kind: condition
+  description: Ransomware successfully encrypts files and displays the ransomware
+    note
+- id: c3
+  kind: condition
+  description: Attacker elevates privileges to administrator-level access
+- id: c4
+  kind: condition
+  description: Attackers move laterally across the network, infecting other computers
+- id: c5
+  kind: condition
+  description: Attacker compromises the victim's RDP service
+edges:
+- source: a1
+  target: a15
+  type: effect
+- source: a10
+  target: op3
+  type: effect
+- source: a11
+  target: op3
+  type: effect
+- source: a12
+  target: c1
+  type: effect
+- source: a13
+  target: a6
+  type: effect
+- source: a14
+  target: op3
+  type: effect
+- source: a15
+  target: a16
+  type: effect
+- source: a16
+  target: a3
+  type: effect
+- source: a17
+  target: op3
+  type: effect
+- source: a18
+  target: op1
+  type: effect
+- source: a19
+  target: a12
+  type: effect
+- source: a2
+  target: a10
+  type: effect
+- source: a2
+  target: a11
+  type: effect
+- source: a2
+  target: a14
+  type: effect
+- source: a2
+  target: a17
+  type: effect
+- source: a2
+  target: a5
+  type: effect
+- source: a3
+  target: c2
+  type: effect
+- source: a4
+  target: op1
+  type: effect
+- source: a5
+  target: op3
+  type: effect
+- source: a6
+  target: a1
+  type: effect
+- source: a7
+  target: op2
+  type: effect
+- source: a8
+  target: c3
+  type: effect
+- source: a9
+  target: op2
+  type: effect
+- source: op1
+  target: c5
+  type: effect
+- source: op2
+  target: c4
+  type: effect
+- source: op3
+  target: a13
+  type: effect

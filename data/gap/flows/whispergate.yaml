@@ -1,0 +1,206 @@
+flow_id: whispergate
+flow_name: WhisperGate
+scope: campaign
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: Talos 
+  url: https://blog.talosintelligence.com/ukraine-campaign-delivers-defacement/
+  description: Article
+- source_name: Microsoft
+  url: https://www.microsoft.com/en-us/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+  description: Article
+- source_name: Recorded Future
+  url: https://www.recordedfuture.com/whispergate-malware-corrupts-computers-ukraine
+  description: Article
+- source_name: Blackberry
+  url: https://blogs.blackberry.com/en/2022/01/threat-thursday-whispergate-wiper
+  description: Article
+start_refs:
+- a15
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a2
+  kind: action
+  technique_id: T1562
+  sub_technique_id: T1562.001
+  name: Disable or Modify Tools
+  tactic: stealth
+- id: a3
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.005
+  name: Visual Basic
+  tactic: execution
+- id: a4
+  kind: action
+  technique_id: T1218
+  sub_technique_id: T1218.004
+  name: InstallUtil
+  tactic: stealth
+- id: a5
+  kind: action
+  technique_id: T1049
+  name: System Network Connections Discovery
+  tactic: discovery
+- id: a6
+  kind: action
+  technique_id: T1485
+  name: Data Destruction
+  tactic: impact
+- id: a7
+  kind: action
+  technique_id: T1542
+  sub_technique_id: T1542.003
+  name: Bootkit
+  tactic: stealth
+- id: a8
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.001
+  name: PowerShell
+  tactic: execution
+- id: a9
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a10
+  kind: action
+  technique_id: T1055
+  sub_technique_id: T1055.001
+  name: Dynamic-link Library Injection
+  tactic: stealth
+- id: a11
+  kind: action
+  technique_id: T1529
+  name: System Shutdown/Reboot
+  tactic: impact
+- id: a12
+  kind: action
+  technique_id: T1027
+  sub_technique_id: T1027.009
+  name: Embedded Payloads
+  tactic: stealth
+- id: a13
+  kind: action
+  technique_id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactic: stealth
+- id: a14
+  kind: action
+  technique_id: T1082
+  name: System Information Discovery
+  tactic: discovery
+- id: a15
+  kind: action
+  technique_id: T1078
+  name: Valid Accounts
+  tactic: initial-access
+- id: a16
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.001
+  name: PowerShell
+  tactic: execution
+- id: a17
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a18
+  kind: action
+  technique_id: T1027
+  name: Obfuscated Files or Information
+  tactic: stealth
+- id: a19
+  kind: action
+  technique_id: T1027
+  sub_technique_id: T1027.003
+  name: Steganography
+  tactic: stealth
+- id: op1
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: Second stage of the attack starts
+- id: c2
+  kind: condition
+  description: DLL retrieves all public methods searching for "Ylfwdwgmpilzyaph";
+    if method is found, it is executed by calling  ".Invoke(null, null)"
+- id: c3
+  kind: condition
+  description: Machine sleeps for 20 seconds
+- id: c4
+  kind: condition
+  description: Malware reverses the bytes within the jpg file
+- id: c5
+  kind: condition
+  description: Malware executes when the infected device is rebooted by the user
+edges:
+- source: a1
+  target: c4
+  type: effect
+- source: a10
+  target: a4
+  type: effect
+- source: a12
+  target: a8
+  type: effect
+- source: a13
+  target: a12
+  type: effect
+- source: a14
+  target: op1
+  type: effect
+- source: a15
+  target: a17
+  type: effect
+- source: a16
+  target: c3
+  type: effect
+- source: a17
+  target: c5
+  type: effect
+- source: a18
+  target: a3
+  type: effect
+- source: a19
+  target: c2
+  type: effect
+- source: a2
+  target: a13
+  type: effect
+- source: a3
+  target: a2
+  type: effect
+- source: a4
+  target: a14
+  type: effect
+- source: a4
+  target: a5
+  type: effect
+- source: a5
+  target: op1
+  type: effect
+- source: a6
+  target: a9
+  type: effect
+- source: a7
+  target: c1
+  type: effect
+- source: a8
+  target: a10
+  type: effect
+- source: a9
+  target: a11
+  type: effect
+- source: op1
+  target: a6
+  type: effect

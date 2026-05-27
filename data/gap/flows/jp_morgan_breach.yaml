@@ -1,0 +1,142 @@
+flow_id: jp_morgan_breach
+flow_name: JP Morgan Breach
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: The Security Ledger
+  url: https://securityledger.com/2014/10/hacked_password_behind_compromise_of_75m_jpmorgan_accounts/
+  description: Article
+- source_name: SANS
+  url: https://www.sans.org/white-papers/35822/
+  description: Whitepaper
+- source_name: Computer World
+  url: https://www.computerworld.com/article/2862675/twofactor-authentication-oversight-led-to-jpmorgan-breach-investigators-reportedly-found.html
+  description: Article
+- source_name: Bloomberg
+  url: https://www.bloomberg.com/news/articles/2014-08-29/jpmorgan-hack-said-to-span-months-via-multiple-flaws#xj4y7vzkg
+  description: Article
+- source_name: Trend Micro
+  url: https://www.trendmicro.com/vinfo/us/security/news/cyber-attacks/jp-morgan-breach-affects-millions-shows-need-for-secure-web-apps
+  description: Article
+- source_name: SANS
+  url: https://www.giac.org/paper/gsec/36190/minimizing-damage-jp-morgans-data-breach/143120
+  description: GIAC Paper
+start_refs:
+- a10
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1090
+  sub_technique_id: T1090.003
+  name: Multi-hop Proxy
+  tactic: command-and-control
+- id: a2
+  kind: action
+  technique_id: T1056
+  name: Input Capture
+  tactic: collection
+- id: a3
+  kind: action
+  technique_id: T1090
+  sub_technique_id: T1090.002
+  name: External Proxy
+  tactic: command-and-control
+- id: a4
+  kind: action
+  technique_id: T1587
+  sub_technique_id: T1587.001
+  name: Malware
+  tactic: resource-development
+- id: a5
+  kind: action
+  technique_id: null
+  name: Lateral Movement
+  tactic: lateral-movement
+- id: a6
+  kind: action
+  technique_id: T1030
+  name: Data Transfer Size Limits
+  tactic: exfiltration
+- id: a7
+  kind: action
+  technique_id: T1070
+  name: Indicator Removal
+  tactic: stealth
+- id: a8
+  kind: action
+  technique_id: T1190
+  name: Exploit Public-Facing Application
+  tactic: initial-access
+- id: a9
+  kind: action
+  technique_id: T1056
+  name: Input Capture
+  tactic: collection
+- id: a10
+  kind: action
+  technique_id: T1566
+  name: Phishing
+  tactic: initial-access
+- id: a11
+  kind: action
+  technique_id: T1068
+  name: Exploitation for Privilege Escalation
+  tactic: privilege-escalation
+- id: a12
+  kind: action
+  technique_id: T1190
+  name: Exploit Public-Facing Application
+  tactic: initial-access
+- id: op1
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: Malware placed on an employee's personal computer
+- id: c2
+  kind: condition
+  description: Attackers collect user credentials to access the bank's network
+- id: c3
+  kind: condition
+  description: Successfully compromised various servers throughout the bank's network
+edges:
+- source: a1
+  target: a3
+  type: effect
+- source: a10
+  target: c1
+  type: effect
+- source: a11
+  target: op1
+  type: effect
+- source: a12
+  target: a5
+  type: effect
+- source: a2
+  target: a6
+  type: effect
+- source: a3
+  target: a7
+  type: effect
+- source: a4
+  target: op1
+  type: effect
+- source: a5
+  target: a11
+  type: effect
+- source: a5
+  target: a4
+  type: effect
+- source: a6
+  target: a1
+  type: effect
+- source: a7
+  target: a8
+  type: effect
+- source: a9
+  target: c2
+  type: effect
+- source: op1
+  target: c3
+  type: effect

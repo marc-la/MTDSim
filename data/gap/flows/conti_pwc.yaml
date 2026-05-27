@@ -1,0 +1,71 @@
+flow_id: conti_pwc
+flow_name: Conti PWC
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: PricewaterhouseCoopers
+  url: https://www.hse.ie/eng/services/publications/conti-cyber-attack-on-the-hse-full-report.pdf
+  description: Report
+start_refs:
+- a2
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1586
+  name: Compromise Accounts
+  tactic: resource-development
+- id: a2
+  kind: action
+  technique_id: T1566
+  sub_technique_id: T1566.001
+  name: Spearphishing Attachment
+  tactic: initial-access
+- id: a3
+  kind: action
+  technique_id: null
+  name: Lateral Movement
+  tactic: lateral-movement
+- id: a4
+  kind: action
+  technique_id: T1204
+  name: User Execution
+  tactic: execution
+- id: a5
+  kind: action
+  technique_id: T1083
+  name: File and Directory Discovery
+  tactic: discovery
+- id: a6
+  kind: action
+  technique_id: null
+  name: Exfiltration
+  tactic: exfiltration
+- id: a7
+  kind: action
+  technique_id: T1486
+  name: Data Encrypted for Impact
+  tactic: impact
+- id: c1
+  kind: condition
+  description: Patient Zero user opens the malicious Excel file, compromising the
+    Patient Zero workstation
+- id: c2
+  kind: condition
+  description: HSE Server is compromised
+- id: c3
+  kind: condition
+  description: User of Patient Zero workstation receives malicious Excel file
+edges:
+- source: a1
+  target: c2
+  type: effect
+- source: a2
+  target: c3
+  type: effect
+- source: a4
+  target: c1
+  type: effect
+- source: a5
+  target: a6
+  type: effect

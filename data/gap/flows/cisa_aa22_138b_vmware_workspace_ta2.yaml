@@ -1,0 +1,107 @@
+flow_id: cisa_aa22_138b_vmware_workspace_ta2
+flow_name: CISA AA22-138B VMWare Workspace (TA2)
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: CISA
+  url: https://www.cisa.gov/uscert/ncas/alerts/aa22-138b
+  description: Alert
+start_refs:
+- a2
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a2
+  kind: action
+  technique_id: T1071
+  sub_technique_id: T1071.001
+  name: Web Protocols
+  tactic: command-and-control
+- id: a3
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a4
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a5
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a6
+  kind: action
+  technique_id: T1573
+  sub_technique_id: T1573.001
+  name: Symmetric Cryptography
+  tactic: command-and-control
+- id: a7
+  kind: action
+  technique_id: T1003
+  sub_technique_id: T1003.008
+  name: 'OS Credential Dumping: /etc/passwd and /etc/shadow'
+  tactic: credential-access
+- id: a8
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.004
+  name: Unix Shell
+  tactic: execution
+- id: a9
+  kind: action
+  technique_id: T1090
+  name: Proxy
+  tactic: command-and-control
+- id: a10
+  kind: action
+  technique_id: T1222
+  sub_technique_id: T1222.002
+  name: 'File and Directory Permissions Modification: Linux and Mac File and Directory
+    Permissions Modification'
+  tactic: defense-impairment
+- id: a11
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: c1
+  kind: condition
+  description: app.jsp downloaded successfully
+edges:
+- source: a1
+  target: a9
+  type: effect
+- source: a10
+  target: a3
+  type: effect
+- source: a11
+  target: a8
+  type: effect
+- source: a2
+  target: a5
+  type: effect
+- source: a4
+  target: a6
+  type: effect
+- source: a5
+  target: c1
+  type: effect
+- source: a6
+  target: a1
+  type: effect
+- source: a7
+  target: a4
+  type: effect
+- source: a8
+  target: a7
+  type: effect
+- source: a9
+  target: a10
+  type: effect

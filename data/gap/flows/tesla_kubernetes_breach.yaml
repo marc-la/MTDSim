@@ -1,0 +1,97 @@
+flow_id: tesla_kubernetes_breach
+flow_name: Tesla Kubernetes Breach
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: The Cryptojacking Epidemic
+  url: https://web.archive.org/web/20210110185439/https://redlock.io/blog/cryptojacking-tesla
+  description: RedLock CSI Team. Feb 20 2018. (archive.org)
+start_refs:
+- c1
+- a8
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1552
+  name: Unsecured Credentials
+  tactic: credential-access
+- id: a2
+  kind: action
+  technique_id: T1078
+  sub_technique_id: T1078.004
+  name: Cloud Accounts
+  tactic: privilege-escalation
+- id: a3
+  kind: action
+  technique_id: T1530
+  name: Data from Cloud Storage
+  tactic: collection
+- id: a4
+  kind: action
+  technique_id: T1133
+  name: External Remote Services
+  tactic: initial-access
+- id: a5
+  kind: action
+  technique_id: T1090
+  name: Proxy
+- id: a6
+  kind: action
+  technique_id: T1496
+  name: Resource Highjacking
+  tactic: impact
+- id: a7
+  kind: action
+  technique_id: T1571
+  name: Non-Standard Port
+  tactic: command-and-control
+- id: a8
+  kind: action
+  technique_id: T1583
+  sub_technique_id: T1583.004
+  name: Server
+  tactic: resource-development
+- id: a9
+  kind: action
+  technique_id: T1610
+  name: Deploy Container
+  tactic: execution
+- id: op1
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: Tesla's Kubernetes dashboard is exposed to the public internet with
+    no password required for access.
+edges:
+- source: a1
+  target: a2
+  type: effect
+- source: a2
+  target: a3
+  type: effect
+- source: a4
+  target: a1
+  type: effect
+- source: a4
+  target: a9
+  type: effect
+- source: a5
+  target: op1
+  type: effect
+- source: a7
+  target: op1
+  type: effect
+- source: a8
+  target: a5
+  type: effect
+- source: a8
+  target: a7
+  type: effect
+- source: a9
+  target: op1
+  type: effect
+- source: op1
+  target: a6
+  type: effect

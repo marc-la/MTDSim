@@ -1,0 +1,131 @@
+flow_id: swift_heist
+flow_name: SWIFT Heist
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: Cyber UK
+  url: https://cyber.uk/areas-of-cyber-security/nation-state-hackers-case-study-bangladesh-bank-heist/
+  description: Article
+- source_name: NYTimes
+  url: https://www.nytimes.com/interactive/2018/05/03/magazine/money-issue-bangladesh-billion-dollar-bank-heist.html?mtrref=undefined&gwh=39B90281F7FE0DFD1876E89D17BFE7C5&gwt=pay&assetType=PAYWALL
+  description: Article
+- source_name: Wired
+  url: https://www.wired.com/2016/05/insane-81m-bangladesh-bank-heist-heres-know/
+  description: Article
+- source_name: Reuters
+  url: https://www.reuters.com/investigates/special-report/cyber-heist-federal
+  description: Article
+start_refs:
+- a10
+- a9
+- a7
+nodes:
+- id: a1
+  kind: action
+  technique_id: null
+  name: Send money to Philippines account
+- id: a2
+  kind: action
+  technique_id: null
+  name: Changing Bank Balances
+  tactic: stealth
+- id: a3
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a4
+  kind: action
+  technique_id: T1078
+  name: Valid Accounts
+  tactic: initial-access
+- id: a5
+  kind: action
+  technique_id: null
+  name: Send money to individual accounts
+- id: a6
+  kind: action
+  technique_id: T1562
+  sub_technique_id: T1562.001
+  name: Disable or Modify Tools
+  tactic: stealth
+- id: a7
+  kind: action
+  technique_id: null
+  name: Accounts opened illegally
+- id: a8
+  kind: action
+  technique_id: null
+  name: Fraudulent payment orders
+- id: a9
+  kind: action
+  technique_id: T1190
+  name: Exploit Public-Facing Application
+  tactic: initial-access
+- id: a10
+  kind: action
+  technique_id: T1566
+  sub_technique_id: T1566.001
+  name: Spearphishing Attachment
+  tactic: initial-access
+- id: a11
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: op1
+  kind: operator
+  operator: OR
+- id: op2
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: Users interacted with phishing emails
+- id: c2
+  kind: condition
+  description: Attackers tested malware (including monitoring software on the SWIFT
+    software and deleted database files) and logged successfully into the system several
+    times
+- id: c3
+  kind: condition
+  description: Attackers established international accounts to send the money to
+edges:
+- source: a1
+  target: op2
+  type: effect
+- source: a10
+  target: op1
+  type: effect
+- source: a11
+  target: c2
+  type: effect
+- source: a3
+  target: a6
+  type: effect
+- source: a4
+  target: a11
+  type: effect
+- source: a5
+  target: op2
+  type: effect
+- source: a6
+  target: a2
+  type: effect
+- source: a7
+  target: a1
+  type: effect
+- source: a8
+  target: c3
+  type: effect
+- source: a9
+  target: op1
+  type: effect
+- source: op1
+  target: c1
+  type: effect
+- source: op2
+  target: a3
+  type: effect

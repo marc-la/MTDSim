@@ -1,0 +1,103 @@
+flow_id: marriott_breach
+flow_name: Marriott Breach
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: U.S. Senate
+  url: https://www.hsgac.senate.gov/imo/media/doc/Soresnson%20Testimony.pdf
+  description: Investigation
+- source_name: Hotel Tech Report
+  url: https://hoteltechreport.com/news/marriott-data-breach
+  description: Article
+- source_name: CSO Online
+  url: https://www.csoonline.com/article/3441220/marriott-data-breach-faq-how-did-it-happen-and-what-was-the-impact.html
+  description: Article
+start_refs:
+- a2
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a2
+  kind: action
+  technique_id: T1566
+  name: Phishing
+  tactic: initial-access
+- id: a3
+  kind: action
+  technique_id: T1001
+  name: Data Obfuscation
+  tactic: command-and-control
+- id: a4
+  kind: action
+  technique_id: T1590
+  sub_technique_id: T1590.004
+  name: Network Topology
+  tactic: reconnaissance
+- id: a5
+  kind: action
+  technique_id: null
+  name: Exfiltration
+  tactic: exfiltration
+- id: a6
+  kind: action
+  technique_id: T1219
+  name: Remote Access Software
+  tactic: command-and-control
+- id: a7
+  kind: action
+  technique_id: T1560
+  name: Archive Collected Data
+  tactic: collection
+- id: a8
+  kind: action
+  technique_id: T1555
+  name: Credentials from Password Stores
+  tactic: credential-access
+- id: op1
+  kind: operator
+  operator: AND
+- id: op2
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: Attackers obtained credentials, including for an admin account
+- id: c2
+  kind: condition
+  description: Discovered databases
+edges:
+- source: a2
+  target: a6
+  type: effect
+- source: a2
+  target: a8
+  type: effect
+- source: a3
+  target: op1
+  type: effect
+- source: a4
+  target: c2
+  type: effect
+- source: a5
+  target: a1
+  type: effect
+- source: a6
+  target: op2
+  type: effect
+- source: a7
+  target: op1
+  type: effect
+- source: a8
+  target: c1
+  type: effect
+- source: op1
+  target: a5
+  type: effect
+- source: op2
+  target: a4
+  type: effect

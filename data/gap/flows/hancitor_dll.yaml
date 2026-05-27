@@ -1,0 +1,216 @@
+flow_id: hancitor_dll
+flow_name: Hancitor DLL
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: DFIR
+  url: https://thedfirreport.com/2021/11/01/from-zero-to-domain-admin/
+  description: Report
+start_refs:
+- a1
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1566
+  sub_technique_id: T1566.002
+  name: Spearphishing Link
+  tactic: initial-access
+- id: a2
+  kind: action
+  technique_id: T1027
+  sub_technique_id: T1027.004
+  name: Compile After Delivery
+  tactic: stealth
+- id: a3
+  kind: action
+  technique_id: T1016
+  sub_technique_id: T1016.001
+  name: Internet Connection Discovery
+  tactic: discovery
+- id: a4
+  kind: action
+  technique_id: T1204
+  sub_technique_id: T1204.002
+  name: Malicious File
+  tactic: execution
+- id: a5
+  kind: action
+  technique_id: T1055
+  name: Process Injection
+  tactic: privilege-escalation
+- id: a6
+  kind: action
+  technique_id: T1550
+  sub_technique_id: T1550.002
+  name: Pass the Hash
+  tactic: lateral-movement
+- id: a7
+  kind: action
+  technique_id: T1212
+  name: Exploitation for Credential Access
+  tactic: credential-access
+- id: a8
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a9
+  kind: action
+  technique_id: T1497
+  name: Virtualization/Sandbox Evasion
+  tactic: stealth
+- id: a10
+  kind: action
+  technique_id: T1046
+  name: Network Service Discovery
+  tactic: discovery
+- id: a11
+  kind: action
+  technique_id: T1218
+  sub_technique_id: T1218.011
+  name: Rundll32
+  tactic: stealth
+- id: a12
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a13
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a14
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.005
+  name: Visual Basic
+  tactic: execution
+- id: a15
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.001
+  name: PowerShell
+  tactic: execution
+- id: a16
+  kind: action
+  technique_id: T1027
+  name: Obfuscated Files or Information
+  tactic: stealth
+- id: a17
+  kind: action
+  technique_id: T1218
+  sub_technique_id: T1218.011
+  name: Rundll32
+  tactic: stealth
+- id: a18
+  kind: action
+  technique_id: null
+  name: Lateral Movement
+  tactic: lateral-movement
+- id: a19
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.001
+  name: PowerShell
+  tactic: execution
+- id: a20
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a21
+  kind: action
+  technique_id: T1595
+  sub_technique_id: T1595.001
+  name: Scanning IP Blocks
+  tactic: reconnaissance
+- id: a22
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a23
+  kind: action
+  technique_id: T1087
+  sub_technique_id: T1087.001
+  name: Local Account
+  tactic: discovery
+- id: c1
+  kind: condition
+  description: Online hosts are directed to check.txt file
+- id: c2
+  kind: condition
+  description: Multiple instances of rundll32.exe spawning svchost.exe and svchost.exe
+    spawning cmd.exe
+edges:
+- source: a1
+  target: a4
+  type: effect
+- source: a10
+  target: a22
+  type: effect
+- source: a11
+  target: a16
+  type: effect
+- source: a12
+  target: a2
+  type: effect
+- source: a13
+  target: a18
+  type: effect
+- source: a14
+  target: a17
+  type: effect
+- source: a15
+  target: a21
+  type: effect
+- source: a16
+  target: a19
+  type: effect
+- source: a17
+  target: a8
+  type: effect
+- source: a18
+  target: a15
+  type: effect
+- source: a19
+  target: a12
+  type: effect
+- source: a2
+  target: a20
+  type: effect
+- source: a20
+  target: a7
+  type: effect
+- source: a21
+  target: c1
+  type: effect
+- source: a22
+  target: a9
+  type: effect
+- source: a23
+  target: a22
+  type: effect
+- source: a3
+  target: a22
+  type: effect
+- source: a4
+  target: a14
+  type: effect
+- source: a5
+  target: c2
+  type: effect
+- source: a6
+  target: a13
+  type: effect
+- source: a7
+  target: a6
+  type: effect
+- source: a8
+  target: a5
+  type: effect
+- source: a9
+  target: a11
+  type: effect

@@ -1,0 +1,246 @@
+flow_id: oceanlotus
+flow_name: OceanLotus
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: OceanLotus Operations Fl
+  url: https://github.com/center-for-threat-informed-defense/ocean-lotus/blob/main/Operations_Flow/Operations_Flow.md
+start_refs:
+- a12
+- c1
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1564
+  sub_technique_id: T1564.001
+  name: Hidden Files and Directories
+  tactic: stealth
+  confidence: 0
+- id: a2
+  kind: action
+  technique_id: T1566
+  sub_technique_id: T1566.001
+  name: Spearphishing Attachment
+  tactic: initial-access
+  confidence: 100
+- id: a3
+  kind: action
+  technique_id: T1027
+  sub_technique_id: T1027.009
+  name: Embedded Payloads
+  tactic: stealth
+  confidence: 100
+- id: a4
+  kind: action
+  technique_id: T1119
+  name: Automated Collection
+  tactic: collection
+  confidence: 0
+- id: a5
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.004
+  name: Unix Shell
+  tactic: execution
+  confidence: 100
+- id: a6
+  kind: action
+  technique_id: T1070
+  name: Indicator Removal
+  tactic: stealth
+  confidence: 100
+- id: a7
+  kind: action
+  technique_id: T1036
+  name: Masquerading
+  tactic: stealth
+  confidence: 100
+- id: a8
+  kind: action
+  technique_id: T1041
+  name: Exfiltration Over C2 Channel
+  tactic: exfiltration
+  confidence: 0
+- id: a9
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+  confidence: 100
+- id: a10
+  kind: action
+  technique_id: T1135
+  name: Network Share Discovery
+  tactic: discovery
+  confidence: 0
+- id: a11
+  kind: action
+  technique_id: T1041
+  name: Exfiltration Over C2 Channel
+  tactic: exfiltration
+  confidence: 100
+- id: a12
+  kind: action
+  technique_id: T1566
+  sub_technique_id: T1566.001
+  name: Spearphishing Attachment
+  tactic: initial-access
+  confidence: 100
+- id: a13
+  kind: action
+  technique_id: T1021
+  name: Remote Services
+  tactic: lateral-movement
+  confidence: 100
+- id: a14
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.004
+  name: SSH
+  tactic: lateral-movement
+  confidence: 100
+- id: a15
+  kind: action
+  technique_id: T1082
+  name: System Information Discovery
+  tactic: discovery
+  confidence: 0
+- id: a16
+  kind: action
+  technique_id: T1204
+  sub_technique_id: T1204.002
+  name: Malicious File
+  tactic: execution
+  confidence: 100
+- id: a17
+  kind: action
+  technique_id: T1041
+  name: Exfiltration Over C2 Channel
+  tactic: exfiltration
+  confidence: 0
+- id: a18
+  kind: action
+  technique_id: T1082
+  name: System Information Discovery
+  tactic: discovery
+  confidence: 0
+- id: a19
+  kind: action
+  technique_id: T1083
+  name: File and Directory Discovery
+  tactic: discovery
+  confidence: 0
+- id: a20
+  kind: action
+  technique_id: T1560
+  sub_technique_id: T1560.001
+  name: Archive via Utility
+  tactic: collection
+  confidence: 0
+- id: a21
+  kind: action
+  technique_id: T1074
+  sub_technique_id: T1074.001
+  name: Local Data Staging
+  tactic: collection
+  confidence: 0
+- id: a22
+  kind: action
+  technique_id: T1018
+  name: Remote System Discovery
+  tactic: discovery
+  confidence: 0
+- id: a23
+  kind: action
+  technique_id: T1543
+  sub_technique_id: T1543.001
+  name: Launch Agent
+  tactic: persistence
+  confidence: 100
+- id: op1
+  kind: operator
+  operator: OR
+- id: c1
+  kind: condition
+  description: Thinking it's a normal Word document, the user, Hope Potter (hpotter),
+    double-clicks the conkylan.app
+- id: c2
+  kind: condition
+  description: Hope downloads the file
+edges:
+- source: a1
+  target: a19
+  type: effect
+- source: a10
+  target: op1
+  type: effect
+- source: a12
+  target: c2
+  type: effect
+- source: a13
+  target: a14
+  type: effect
+- source: a14
+  target: a5
+  type: effect
+- source: a15
+  target: a17
+  type: effect
+- source: a16
+  target: a7
+  type: effect
+- source: a17
+  target: a22
+  type: effect
+- source: a18
+  target: op1
+  type: effect
+- source: a19
+  target: a21
+  type: effect
+- source: a2
+  target: a16
+  type: effect
+- source: a20
+  target: a11
+  type: effect
+- source: a21
+  target: a11
+  type: effect
+- source: a22
+  target: a9
+  type: effect
+- source: a23
+  target: a6
+  type: effect
+- source: a3
+  target: a23
+  type: effect
+- source: a4
+  target: a1
+  type: effect
+- source: a4
+  target: a20
+  type: effect
+- source: a5
+  target: a10
+  type: effect
+- source: a5
+  target: a18
+  type: effect
+- source: a6
+  target: a15
+  type: effect
+- source: a7
+  target: a3
+  type: effect
+- source: a8
+  target: a4
+  type: effect
+- source: a9
+  target: a13
+  type: effect
+- source: op1
+  target: a8
+  type: effect

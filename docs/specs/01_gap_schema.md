@@ -9,9 +9,10 @@ scope: L1 (GAP construction) only. L2/L3/L4 are consumers, not in scope here.
 
 The data model and construction method for **L1 — GAP**: the aggregate
 technique-level graph built from the MITRE CTID Attack Flow corpus. This file
-is the *what it is* (data model + invariants + decisions). The phased *how to
-build it* lives in the companion handoff
-[`../handoffs/2026-05-27_gap_rebuild.md`](../handoffs/2026-05-27_gap_rebuild.md).
+is the *what it is* (data model + invariants + decisions). The *how to build it*
+is implemented in [`../../src/mtdsim/attacker/gap/`](../../src/mtdsim/attacker/gap)
+(validation gate in [`../../tests/gap/`](../../tests/gap); committed artefacts
+under [`../../data/gap/`](../../data/gap)).
 
 This sits under [`architecture.md`](architecture.md) §(c)–(d) (L0 parser-contract
 + L1 GAP) and resolves several of its §(l) open questions for the GAP stage. It
@@ -236,7 +237,7 @@ they just read richer, lossless edges.
 
 ---
 
-## (f) Build pipeline (summary; full plan in the handoff)
+## (f) Build pipeline (summary; implemented in [`../../src/mtdsim/attacker/gap/`](../../src/mtdsim/attacker/gap))
 
 1. **Acquire corpus.** Gitignored clone of `center-for-threat-informed-defense/attack-flow`
    (already covered by `.gitignore: attack-flow/`). Pin the release tag.

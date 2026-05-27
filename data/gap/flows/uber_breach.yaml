@@ -1,0 +1,102 @@
+flow_id: uber_breach
+flow_name: Uber Breach
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: Uber Investigating Breach of Its Computer Systems
+  url: https://www.nytimes.com/2022/09/15/technology/uber-hacking-breach.html
+- source_name: 'Unpacking the Uber Breach
+
+
+    '
+  url: https://www.cyberark.com/resources/blog/unpacking-the-uber-breach
+- source_name: 'Uber Newsroom: Security Update'
+  url: https://www.uber.com/newsroom/security-update/
+- source_name: 'Uber Breach 2022 – Everything You Need to Know
+
+
+    '
+  url: https://blog.gitguardian.com/uber-breach-2022/
+start_refs:
+- a7
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1552
+  sub_technique_id: T1552.001
+  name: Credentials In Files
+  tactic: credential-access
+- id: a2
+  kind: action
+  technique_id: T1555
+  name: Credentials from Password Stores
+  tactic: credential-access
+- id: a3
+  kind: action
+  technique_id: null
+  name: Exfiltration
+  tactic: exfiltration
+- id: a4
+  kind: action
+  technique_id: T1621
+  name: Multi-Factor Authentication Request Generation
+  tactic: credential-access
+- id: a5
+  kind: action
+  technique_id: T1135
+  name: Network Share Discovery
+  tactic: discovery
+- id: a6
+  kind: action
+  technique_id: T1078
+  name: Valid Accounts
+  tactic: initial-access
+- id: a7
+  kind: action
+  technique_id: T1586
+  name: Compromise Accounts
+  tactic: resource-development
+- id: a8
+  kind: action
+  technique_id: T1078
+  name: Valid Accounts
+  tactic: privilege-escalation
+- id: c1
+  kind: condition
+  description: Attackers likely purchased the contractors credentials on the dark
+    web
+- id: c2
+  kind: condition
+  description: Attackers have credentials for a privileged account for Uber's PAM
+    solution
+- id: c3
+  kind: condition
+  description: Attacker overtook multiple services/tools and gained access to secrets
+    inside the secure storage
+- id: c4
+  kind: condition
+  description: User accepted one of the multi-factor authentication attempts, unknowingly
+    allowing the attackers access to the user's Uber account
+edges:
+- source: a1
+  target: c2
+  type: effect
+- source: a2
+  target: a3
+  type: effect
+- source: a4
+  target: c4
+  type: effect
+- source: a5
+  target: a1
+  type: effect
+- source: a6
+  target: a4
+  type: effect
+- source: a7
+  target: c1
+  type: effect
+- source: a8
+  target: c3
+  type: effect

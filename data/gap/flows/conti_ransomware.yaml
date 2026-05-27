@@ -1,0 +1,193 @@
+flow_id: conti_ransomware
+flow_name: Conti Ransomware
+scope: malware
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: DFIR
+  url: https://thedfirreport.com/2021/05/12/conti-ransomware/
+  description: Report
+start_refs:
+- a4
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1218
+  sub_technique_id: T1218.011
+  name: Rundll32
+  tactic: stealth
+- id: a2
+  kind: action
+  technique_id: T1087
+  sub_technique_id: T1087.002
+  name: Domain Account
+  tactic: discovery
+- id: a3
+  kind: action
+  technique_id: T1018
+  name: Remote System Discovery
+  tactic: discovery
+- id: a4
+  kind: action
+  technique_id: T1566
+  sub_technique_id: T1566.001
+  name: Spearphishing Attachment
+  tactic: initial-access
+- id: a5
+  kind: action
+  technique_id: null
+  name: Exfiltration
+  tactic: exfiltration
+- id: a6
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.007
+  name: JavaScript
+  tactic: execution
+- id: a7
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.001
+  name: Remote Desktop Protocol
+  tactic: lateral-movement
+- id: a8
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.001
+  name: Remote Desktop Protocol
+  tactic: lateral-movement
+- id: a9
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a10
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.002
+  name: SMB/Windows Admin Shares
+  tactic: lateral-movement
+- id: a11
+  kind: action
+  technique_id: T1046
+  name: Network Service Discovery
+  tactic: discovery
+- id: a12
+  kind: action
+  technique_id: T1486
+  name: Data Encrypted for Impact
+  tactic: impact
+- id: a13
+  kind: action
+  technique_id: T1562
+  sub_technique_id: T1562.001
+  name: Disable or Modify Tools
+  tactic: stealth
+- id: a14
+  kind: action
+  technique_id: T1033
+  name: System Owner/User Discovery
+  tactic: discovery
+- id: a15
+  kind: action
+  technique_id: T1069
+  name: Permission Groups Discovery
+  tactic: discovery
+- id: a16
+  kind: action
+  technique_id: T1134
+  name: Access Token Manipulation
+  tactic: privilege-escalation
+- id: a17
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.002
+  name: SMB/Windows Admin Shares
+  tactic: lateral-movement
+- id: a18
+  kind: action
+  technique_id: T1484
+  sub_technique_id: T1484.001
+  name: Group Policy Modification
+  tactic: stealth
+- id: a19
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: op1
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: The attackers went quiet for 15 minutes
+- id: c2
+  kind: condition
+  description: Conti is executed in memory using Cobalt Strike Beacons domain-wide
+- id: c3
+  kind: condition
+  description: IcedID malware went quiet for 2 days
+edges:
+- source: a1
+  target: a5
+  type: effect
+- source: a10
+  target: a8
+  type: effect
+- source: a11
+  target: a7
+  type: effect
+- source: a13
+  target: c2
+  type: effect
+- source: a14
+  target: op1
+  type: effect
+- source: a15
+  target: op1
+  type: effect
+- source: a16
+  target: a17
+  type: effect
+- source: a17
+  target: a11
+  type: effect
+- source: a18
+  target: a13
+  type: effect
+- source: a19
+  target: a14
+  type: effect
+- source: a19
+  target: a15
+  type: effect
+- source: a19
+  target: a3
+  type: effect
+- source: a2
+  target: a18
+  type: effect
+- source: a3
+  target: op1
+  type: effect
+- source: a4
+  target: a6
+  type: effect
+- source: a5
+  target: c3
+  type: effect
+- source: a6
+  target: a9
+  type: effect
+- source: a7
+  target: c1
+  type: effect
+- source: a8
+  target: a2
+  type: effect
+- source: a9
+  target: a1
+  type: effect
+- source: op1
+  target: a16
+  type: effect

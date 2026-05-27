@@ -1,0 +1,197 @@
+flow_id: fin13_case_2
+flow_name: FIN13 Case 2
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: Mandiant
+  url: https://www.mandiant.com/resources/blog/fin13-cybercriminal-mexico
+  description: Blog
+- source_name: Sygnia
+  url: https://f.hubspotusercontent30.net/hubfs/8776530/Sygnia-%20Elephant%20Beetle_Jan2022.pdf
+  description: Report
+- source_name: Netwitness
+  url: https://www.netwitness.com/wp-content/uploads/FIN13-Elephant-Beetle-NetWitness.pdf
+  description: Report
+start_refs:
+- a11
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1041
+  name: Exfiltration Over C2 Channel
+  tactic: exfiltration
+- id: a2
+  kind: action
+  technique_id: null
+  name: Lateral Movement
+  tactic: lateral-movement
+- id: a3
+  kind: action
+  technique_id: T1595
+  name: Active Scanning
+  tactic: reconnaissance
+- id: a4
+  kind: action
+  technique_id: T1003
+  sub_technique_id: T1003.001
+  name: LSASS Memory
+  tactic: credential-access
+- id: a5
+  kind: action
+  technique_id: T1078
+  name: Valid Accounts
+- id: a6
+  kind: action
+  technique_id: T1505
+  sub_technique_id: T1505.003
+  name: Web Shell
+  tactic: persistence
+- id: a7
+  kind: action
+  technique_id: null
+  name: Fraud
+- id: a8
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a9
+  kind: action
+  technique_id: T1203
+  name: Exploitation for Client Execution
+  tactic: execution
+- id: a10
+  kind: action
+  technique_id: T1083
+  name: File and Directory Discovery
+  tactic: discovery
+- id: a11
+  kind: action
+  technique_id: T1190
+  name: Exploit Public-Facing Application
+  tactic: initial-access
+- id: a12
+  kind: action
+  technique_id: T1078
+  name: Valid Accounts
+  tactic: initial-access
+- id: a13
+  kind: action
+  technique_id: T1005
+  name: Data From Local System
+  tactic: collection
+- id: a14
+  kind: action
+  technique_id: T1595
+  sub_technique_id: T1595.002
+  name: Vulnerability Scanning
+  tactic: reconnaissance
+- id: a15
+  kind: action
+  technique_id: T1111
+  name: Multi-Factor Authentication Interception
+  tactic: credential-access
+- id: a16
+  kind: action
+  technique_id: null
+  name: Lateral Movement
+  tactic: lateral-movement
+- id: a17
+  kind: action
+  technique_id: T1021
+  name: Remote Services
+  tactic: lateral-movement
+- id: a18
+  kind: action
+  technique_id: T1003
+  sub_technique_id: T1003.001
+  name: LSASS Memory
+  tactic: credential-access
+- id: a19
+  kind: action
+  technique_id: T1505
+  sub_technique_id: T1505.003
+  name: Web Shell
+  tactic: persistence
+- id: op1
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: Attacker has SecurID clone and previously stolen accounts
+- id: c2
+  kind: condition
+  description: Attacker discovered additional servers and cracked SharePoint credentials
+- id: c3
+  kind: condition
+  description: Attacker previously discovered evidence of a Hypervisor and VMware
+    V-Center system and evidence of a SecurID cluster for mobile banking
+- id: c4
+  kind: condition
+  description: Domain controller and a number of accounts are compromised
+- id: c5
+  kind: condition
+  description: Attacker targeted a legacy Windows 2012 server (QTCBDC02)
+- id: c6
+  kind: condition
+  description: Attacker obtained domain admin credentials for SQL Servers and a service
+    account related to a cluster (MULTICLDBSIDE)
+edges:
+- source: a1
+  target: c1
+  type: effect
+- source: a10
+  target: op1
+  type: effect
+- source: a11
+  target: a8
+  type: effect
+- source: a12
+  target: a13
+  type: effect
+- source: a13
+  target: c5
+  type: effect
+- source: a14
+  target: a6
+  type: effect
+- source: a15
+  target: a1
+  type: effect
+- source: a16
+  target: a14
+  type: effect
+- source: a17
+  target: op1
+  type: effect
+- source: a18
+  target: c6
+  type: effect
+- source: a19
+  target: a9
+  type: effect
+- source: a2
+  target: a18
+  type: effect
+- source: a3
+  target: c2
+  type: effect
+- source: a4
+  target: a3
+  type: effect
+- source: a5
+  target: a15
+  type: effect
+- source: a6
+  target: c3
+  type: effect
+- source: a8
+  target: a19
+  type: effect
+- source: a9
+  target: a4
+  type: effect
+- source: op1
+  target: c4
+  type: effect

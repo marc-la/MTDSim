@@ -1,0 +1,194 @@
+flow_id: target_breach
+flow_name: Target Breach
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: ZDNET
+  url: https://www.zdnet.com/article/anatomy-of-the-target-data-breach-missed-opportunities-and-lessons-learned/
+  description: Article
+- source_name: SANS
+  url: https://sansorg.egnyte.com/dl/g5ykEMZpIk
+  description: Whitepaper/Case Study
+- source_name: Committee on Commerce, Science, and Transportation
+  url: https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883
+  description: Senate Report
+- source_name: Krebs on Security
+  url: https://krebsonsecurity.com/2014/02/email-attack-on-vendor-set-up-breach-at-target/
+  description: Article
+start_refs:
+- a12
+- a16
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1203
+  name: Exploitation for Client Execution
+  tactic: execution
+- id: a2
+  kind: action
+  technique_id: null
+  name: Defense Evasion
+  tactic: stealth
+- id: a3
+  kind: action
+  technique_id: null
+  name: Exfiltration
+  tactic: exfiltration
+- id: a4
+  kind: action
+  technique_id: T1078
+  sub_technique_id: T1078.002
+  name: Domain Accounts
+  tactic: persistence
+- id: a5
+  kind: action
+  technique_id: T1557
+  sub_technique_id: T1557.001
+  name: LLMNR/NBT-NS Poisoning and SMB Relay
+  tactic: collection
+- id: a6
+  kind: action
+  technique_id: T1566
+  name: Phishing
+  tactic: initial-access
+- id: a7
+  kind: action
+  technique_id: T1505
+  name: Server Software Component
+  tactic: persistence
+- id: a8
+  kind: action
+  technique_id: T1570
+  name: Lateral Tool Transfer
+  tactic: lateral-movement
+- id: a9
+  kind: action
+  technique_id: T1095
+  name: Non-Application Layer Protocol
+  tactic: command-and-control
+- id: a10
+  kind: action
+  technique_id: T1199
+  name: Trusted Relationship
+  tactic: initial-access
+- id: a11
+  kind: action
+  technique_id: T1078
+  sub_technique_id: T1078.001
+  name: Default Accounts
+  tactic: persistence
+- id: a12
+  kind: action
+  technique_id: T1592
+  sub_technique_id: T1592.004
+  name: Client Configurations
+  tactic: reconnaissance
+- id: a13
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a14
+  kind: action
+  technique_id: T1029
+  name: Scheduled Transfer
+  tactic: exfiltration
+- id: a15
+  kind: action
+  technique_id: T1074
+  sub_technique_id: T1074.002
+  name: Remote Data Staging
+  tactic: collection
+- id: a16
+  kind: action
+  technique_id: T1593
+  sub_technique_id: T1593.002
+  name: Search Engines
+  tactic: reconnaissance
+- id: a17
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: op1
+  kind: operator
+  operator: AND
+- id: op2
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: Dropped malware worked successfully on POS systems and RAM scrapping
+    portion began gathering information from card swipes
+- id: c2
+  kind: condition
+  description: Phishing attempts successful
+- id: c3
+  kind: condition
+  description: Through moving laterally, attackers discover, target, and test malware
+    on POS systems
+- id: c4
+  kind: condition
+  description: The POS local time is between 10 AM and 5 PM
+- id: c5
+  kind: condition
+  description: Identified technical configurations and 3rd party Suppliers
+edges:
+- source: a1
+  target: op2
+  type: effect
+- source: a10
+  target: a6
+  type: effect
+- source: a11
+  target: op2
+  type: effect
+- source: a12
+  target: op1
+  type: effect
+- source: a13
+  target: c1
+  type: effect
+- source: a14
+  target: c4
+  type: effect
+- source: a15
+  target: a2
+  type: effect
+- source: a15
+  target: a9
+  type: effect
+- source: a16
+  target: op1
+  type: effect
+- source: a2
+  target: c4
+  type: effect
+- source: a4
+  target: a1
+  type: effect
+- source: a4
+  target: a11
+  type: effect
+- source: a5
+  target: a15
+  type: effect
+- source: a6
+  target: c2
+  type: effect
+- source: a7
+  target: c3
+  type: effect
+- source: a8
+  target: a5
+  type: effect
+- source: a9
+  target: a3
+  type: effect
+- source: op1
+  target: c5
+  type: effect
+- source: op2
+  target: a7
+  type: effect

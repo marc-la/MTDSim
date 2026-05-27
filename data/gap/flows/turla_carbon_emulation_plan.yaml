@@ -1,0 +1,856 @@
+flow_id: turla_carbon_emulation_plan
+flow_name: Turla - Carbon Emulation Plan
+scope: emulation-plan
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: GitHub
+  url: https://github.com/attackevals/turla/tree/main/Emulation_Plan/Carbon_Scenario
+  description: emulation plan
+- source_name: MITRE ATT&CK
+  url: https://attack.mitre.org/software/S0335/
+  description: tool description
+- source_name: MITRE ATT&CK
+  url: https://attack.mitre.org/groups/G0010/
+  description: group description
+- source_name: Unites States Attorney's Office
+  url: https://www.justice.gov/usao-edny/pr/justice-department-announces-court-authorized-disruption-snake-malware-network
+  description: Press Release
+start_refs:
+- a8
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1573
+  sub_technique_id: T1573.001
+  name: Symmetric Cryptography
+  tactic: command-and-control
+- id: a2
+  kind: action
+  technique_id: T1550
+  sub_technique_id: T1550.002
+  name: 'Use Alternative authentication Material: Pass the Hash'
+  tactic: lateral-movement
+- id: a3
+  kind: action
+  technique_id: T1547
+  sub_technique_id: T1547.004
+  name: Winlogon Helper DLL
+  tactic: persistence
+- id: a4
+  kind: action
+  technique_id: T1189
+  name: Drive-by Compromise
+  tactic: initial-access
+- id: a5
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a6
+  kind: action
+  technique_id: T1055
+  sub_technique_id: T1055.001
+  name: Dynamic-link Library Injection
+  tactic: privilege-escalation
+- id: a7
+  kind: action
+  technique_id: T1055
+  sub_technique_id: T1055.001
+  name: Dynamic-link Library Injection
+  tactic: privilege-escalation
+- id: a8
+  kind: action
+  technique_id: T1566
+  sub_technique_id: T1566.002
+  name: Spearphishing Link
+  tactic: initial-access
+- id: a9
+  kind: action
+  technique_id: T1570
+  name: Lateral Tool Transfer
+  tactic: lateral-movement
+- id: a10
+  kind: action
+  technique_id: T1574
+  sub_technique_id: T1574.011
+  name: Services Registry Permissions Weakness
+  tactic: privilege-escalation
+- id: a11
+  kind: action
+  technique_id: T1573
+  sub_technique_id: T1573.002
+  name: Asymmetric Cryptography
+  tactic: command-and-control
+- id: a12
+  kind: action
+  technique_id: T1222
+  sub_technique_id: T1222.002
+  name: Linux and Mac File and Directory Permissions Modification
+  tactic: defense-impairment
+- id: a13
+  kind: action
+  technique_id: T1036
+  sub_technique_id: T1036.005
+  name: Match Legitimate Name or Location
+  tactic: stealth
+- id: a14
+  kind: action
+  technique_id: T0834
+  name: Native API
+- id: a15
+  kind: action
+  technique_id: T1007
+  name: System Service Discovery
+  tactic: discovery
+- id: a16
+  kind: action
+  technique_id: T1560
+  sub_technique_id: T1560.002
+  name: Archive via Library
+  tactic: collection
+- id: a17
+  kind: action
+  technique_id: T1083
+  name: File and Directory Discovery
+  tactic: discovery
+- id: a18
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a19
+  kind: action
+  technique_id: T1003
+  name: OS Credential Dumping
+  tactic: credential-access
+- id: a20
+  kind: action
+  technique_id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactic: stealth
+- id: a21
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a22
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a23
+  kind: action
+  technique_id: T1057
+  name: Process Discovery
+  tactic: discovery
+- id: a24
+  kind: action
+  technique_id: T1543
+  sub_technique_id: T1543.003
+  name: Windows Service
+  tactic: persistence
+- id: a25
+  kind: action
+  technique_id: T1573
+  sub_technique_id: T1573.001
+  name: Symmetric Cryptography
+  tactic: command-and-control
+- id: a26
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a27
+  kind: action
+  technique_id: T1055
+  sub_technique_id: T1055.001
+  name: Dynamic-link Library Injection
+  tactic: privilege-escalation
+- id: a28
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.004
+  name: SSH
+  tactic: lateral-movement
+- id: a29
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a30
+  kind: action
+  technique_id: T1012
+  name: Query Registry
+  tactic: discovery
+- id: a31
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.003
+  name: Windows Command Shell
+  tactic: execution
+- id: a32
+  kind: action
+  technique_id: T1053
+  sub_technique_id: T1053.003
+  name: Cron
+  tactic: persistence
+- id: a33
+  kind: action
+  technique_id: T1036
+  sub_technique_id: T1036.004
+  name: Masquerade Task or Service
+  tactic: stealth
+- id: a34
+  kind: action
+  technique_id: T1018
+  name: Remote System Discovery
+  tactic: discovery
+- id: a35
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a36
+  kind: action
+  technique_id: T1074
+  sub_technique_id: T1074.001
+  name: Local Data Staging
+  tactic: collection
+- id: a37
+  kind: action
+  technique_id: T1071
+  sub_technique_id: T1071.001
+  name: Web Protocols
+  tactic: command-and-control
+- id: a38
+  kind: action
+  technique_id: T1204
+  sub_technique_id: T1204.002
+  name: Malicious File
+  tactic: execution
+- id: a39
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.004
+  name: SSH
+  tactic: lateral-movement
+- id: a40
+  kind: action
+  technique_id: T1027
+  sub_technique_id: T1027.009
+  name: Embedded Payloads
+  tactic: stealth
+- id: a41
+  kind: action
+  technique_id: T1569
+  sub_technique_id: T1569.002
+  name: Service Execution
+  tactic: execution
+- id: a42
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a43
+  kind: action
+  technique_id: null
+  name: Discovery
+  tactic: discovery
+- id: a44
+  kind: action
+  technique_id: T1071
+  sub_technique_id: T1071.001
+  name: Web Protocols
+  tactic: command-and-control
+- id: a45
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a46
+  kind: action
+  technique_id: T1036
+  sub_technique_id: T1036.005
+  name: Match Legitimate Name or Location
+  tactic: stealth
+- id: a47
+  kind: action
+  technique_id: T0834
+  name: Native API
+- id: a48
+  kind: action
+  technique_id: T1069
+  sub_technique_id: T1069.002
+  name: Domain Groups
+  tactic: discovery
+- id: a49
+  kind: action
+  technique_id: T1033
+  name: System Owner/User Discovery
+  tactic: discovery
+- id: a50
+  kind: action
+  technique_id: T1053
+  sub_technique_id: T1053.005
+  name: Scheduled Task
+  tactic: persistence
+- id: a51
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.004
+  name: Unix Shell
+  tactic: execution
+- id: a52
+  kind: action
+  technique_id: T1027
+  name: Obfuscated Files or Information
+  tactic: stealth
+- id: a53
+  kind: action
+  technique_id: T1132
+  sub_technique_id: T1132.001
+  name: Standard Encoding
+  tactic: command-and-control
+- id: a54
+  kind: action
+  technique_id: T1040
+  name: Network Sniffing
+- id: a55
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.001
+  name: PowerShell
+  tactic: execution
+- id: a56
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a57
+  kind: action
+  technique_id: T1570
+  name: Lateral Tool Transfer
+  tactic: lateral-movement
+- id: a58
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a59
+  kind: action
+  technique_id: T1055
+  name: Process Injection
+  tactic: privilege-escalation
+- id: a60
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a61
+  kind: action
+  technique_id: T1087
+  sub_technique_id: T1087.001
+  name: Local Account
+  tactic: discovery
+- id: a62
+  kind: action
+  technique_id: T1132
+  sub_technique_id: T1132.001
+  name: Standard Encoding
+  tactic: command-and-control
+- id: a63
+  kind: action
+  technique_id: T1573
+  sub_technique_id: T1573.001
+  name: Symmetric Cryptography
+  tactic: command-and-control
+- id: a64
+  kind: action
+  technique_id: T1132
+  sub_technique_id: T1132.001
+  name: Standard Encoding
+  tactic: command-and-control
+- id: a65
+  kind: action
+  technique_id: T1055
+  sub_technique_id: T1055.001
+  name: Dynamic-link Library Injection
+  tactic: privilege-escalation
+- id: a66
+  kind: action
+  technique_id: T1027
+  sub_technique_id: T1027.009
+  name: Embedded Payloads
+  tactic: stealth
+- id: a67
+  kind: action
+  technique_id: T1090
+  sub_technique_id: T1090.002
+  name: External Proxy
+  tactic: command-and-control
+- id: a68
+  kind: action
+  technique_id: T1069
+  sub_technique_id: T1069.002
+  name: 'Permission Groups Discovery: Domain Groups'
+  tactic: discovery
+- id: a69
+  kind: action
+  technique_id: T1543
+  sub_technique_id: T1543.002
+  name: 'Create or Modify System Process: Systemd Service'
+  tactic: persistence
+- id: a70
+  kind: action
+  technique_id: T1056
+  sub_technique_id: T1056.001
+  name: Keylogging
+  tactic: collection
+- id: a71
+  kind: action
+  technique_id: T1112
+  name: Modify Registry
+  tactic: stealth
+- id: a72
+  kind: action
+  technique_id: T1205
+  name: Traffic Signaling
+  tactic: persistence
+- id: a73
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a74
+  kind: action
+  technique_id: T1110
+  sub_technique_id: T1110.003
+  name: Password Spraying
+  tactic: credential-access
+- id: a75
+  kind: action
+  technique_id: T1090
+  sub_technique_id: T1090.001
+  name: Internal Proxy
+  tactic: command-and-control
+- id: a76
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a77
+  kind: action
+  technique_id: T1205
+  name: Traffic Signaling
+  tactic: persistence
+- id: a78
+  kind: action
+  technique_id: null
+  name: Service Restart
+- id: a79
+  kind: action
+  technique_id: T1573
+  sub_technique_id: T1573.002
+  name: Asymmetric Cryptography
+  tactic: command-and-control
+- id: a80
+  kind: action
+  technique_id: T1036
+  sub_technique_id: T1036.005
+  name: Match Legitimate Name or Location
+  tactic: stealth
+- id: a81
+  kind: action
+  technique_id: T1087
+  sub_technique_id: T1087.002
+  name: Domain Account
+  tactic: discovery
+- id: op1
+  kind: operator
+  operator: AND
+- id: op2
+  kind: operator
+  operator: AND
+- id: op3
+  kind: operator
+  operator: AND
+- id: op4
+  kind: operator
+  operator: AND
+- id: op5
+  kind: operator
+  operator: AND
+- id: op6
+  kind: operator
+  operator: AND
+- id: op7
+  kind: operator
+  operator: AND
+- id: op8
+  kind: operator
+  operator: AND
+- id: op9
+  kind: operator
+  operator: AND
+- id: op10
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: The Loader DLL (mressvc.dll) runs as a service and executes the Orchestrator
+    DLL (MSSVCCFG.dll). svchost.exe injects the communications DLL (msxhlp.dll) into
+    msedge.exe.
+- id: c2
+  kind: condition
+  description: The attacker identifies the domain controller and several domain administrator
+    accounts, including frieda
+- id: c3
+  kind: condition
+  description: Adalwolfa's SSH credentials are collected and exfiltrated
+- id: c4
+  kind: condition
+  description: The attacker identifies a custom service, ViperVPN, that has a weak
+    registry permission
+- id: c5
+  kind: condition
+  description: The C2 server responds with a UUID for EPIC to save for future communications.
+    Future communications with this C2 server are also bzip2 compressed and base64
+    encoded.
+- id: c6
+  kind: condition
+  description: HTML is appended to the webpage previously edited by Adalwolfa that
+    contains script tags to load another JavaScript file
+- id: c7
+  kind: condition
+  description: Adalwolfa is logged in to their workstation and opens the Edge browser.
+    Mimikatz reveals a cached NTLM hash for the admin user Adalwolfa.
+- id: c8
+  kind: condition
+  description: When the scheduled task is executed, the attacker successfully moves
+    to BANNIK, where the user has opened a browser (msedge.exe)
+- id: c9
+  kind: condition
+  description: User clicks on the spearphishing link and a fake update executable
+    is downloaded
+- id: c10
+  kind: condition
+  description: The service is restarted, executing the EPIC Injector (mxs_installer.exe)
+    with SYSTEM level privileges. Using SYSTEM level privileges, EPIC injects into
+    svchost.exe processes.
+- id: c11
+  kind: condition
+  description: User logs off and back in to the system, executing the persistence
+    mechanism
+- id: c12
+  kind: condition
+  description: cron is reloaded and restarted
+- id: c13
+  kind: condition
+  description: The attacker identifies an Apache web server and the workstation of
+    the administrator of the Apache web server (Adalwolfa)
+- id: c14
+  kind: condition
+  description: PENQUIN (/tmp/tmp514f524f) is unzipped into /root/hsperfdata
+edges:
+- source: a1
+  target: a53
+  type: effect
+- source: a10
+  target: a78
+  type: effect
+- source: a11
+  target: a68
+  type: effect
+- source: a12
+  target: a32
+  type: effect
+- source: a13
+  target: a12
+  type: effect
+- source: a14
+  target: a24
+  type: effect
+- source: a14
+  target: a71
+  type: effect
+- source: a15
+  target: op10
+  type: effect
+- source: a16
+  target: a62
+  type: effect
+- source: a17
+  target: a36
+  type: effect
+- source: a18
+  target: a31
+  type: effect
+- source: a19
+  target: c7
+  type: effect
+- source: a2
+  target: op9
+  type: effect
+- source: a20
+  target: a13
+  type: effect
+- source: a21
+  target: a60
+  type: effect
+- source: a21
+  target: a76
+  type: effect
+- source: a22
+  target: op3
+  type: effect
+- source: a23
+  target: op2
+  type: effect
+- source: a24
+  target: a71
+  type: effect
+- source: a25
+  target: op1
+  type: effect
+- source: a26
+  target: a33
+  type: effect
+- source: a27
+  target: a75
+  type: effect
+- source: a28
+  target: c14
+  type: effect
+- source: a29
+  target: a80
+  type: effect
+- source: a3
+  target: op8
+  type: effect
+- source: a30
+  target: a55
+  type: effect
+- source: a31
+  target: a74
+  type: effect
+- source: a32
+  target: a69
+  type: effect
+- source: a33
+  target: a14
+  type: effect
+- source: a34
+  target: op6
+  type: effect
+- source: a35
+  target: op4
+  type: effect
+- source: a36
+  target: a16
+  type: effect
+- source: a37
+  target: a25
+  type: effect
+- source: a37
+  target: a79
+  type: effect
+- source: a38
+  target: a66
+  type: effect
+- source: a39
+  target: a42
+  type: effect
+- source: a40
+  target: op2
+  type: effect
+- source: a41
+  target: a7
+  type: effect
+- source: a42
+  target: a20
+  type: effect
+- source: a43
+  target: c6
+  type: effect
+- source: a44
+  target: op3
+  type: effect
+- source: a45
+  target: op4
+  type: effect
+- source: a46
+  target: a2
+  type: effect
+- source: a46
+  target: a57
+  type: effect
+- source: a47
+  target: a23
+  type: effect
+- source: a47
+  target: a65
+  type: effect
+- source: a48
+  target: a81
+  type: effect
+- source: a49
+  target: a1
+  type: effect
+- source: a5
+  target: a39
+  type: effect
+- source: a50
+  target: op7
+  type: effect
+- source: a51
+  target: a43
+  type: effect
+- source: a52
+  target: a47
+  type: effect
+- source: a53
+  target: a18
+  type: effect
+- source: a54
+  target: a72
+  type: effect
+- source: a55
+  target: op10
+  type: effect
+- source: a56
+  target: a73
+  type: effect
+- source: a57
+  target: op9
+  type: effect
+- source: a58
+  target: a70
+  type: effect
+- source: a59
+  target: op8
+  type: effect
+- source: a6
+  target: a61
+  type: effect
+- source: a60
+  target: op5
+  type: effect
+- source: a61
+  target: a17
+  type: effect
+- source: a62
+  target: a67
+  type: effect
+- source: a63
+  target: a11
+  type: effect
+- source: a64
+  target: a51
+  type: effect
+- source: a65
+  target: a23
+  type: effect
+- source: a65
+  target: a40
+  type: effect
+- source: a66
+  target: a3
+  type: effect
+- source: a66
+  target: a59
+  type: effect
+- source: a67
+  target: c5
+  type: effect
+- source: a68
+  target: c2
+  type: effect
+- source: a69
+  target: c12
+  type: effect
+- source: a7
+  target: a37
+  type: effect
+- source: a70
+  target: c3
+  type: effect
+- source: a71
+  target: a41
+  type: effect
+- source: a72
+  target: a64
+  type: effect
+- source: a73
+  target: a50
+  type: effect
+- source: a73
+  target: a9
+  type: effect
+- source: a74
+  target: a56
+  type: effect
+- source: a75
+  target: a34
+  type: effect
+- source: a75
+  target: a48
+  type: effect
+- source: a76
+  target: op5
+  type: effect
+- source: a77
+  target: a54
+  type: effect
+- source: a78
+  target: c10
+  type: effect
+- source: a79
+  target: op1
+  type: effect
+- source: a8
+  target: c9
+  type: effect
+- source: a80
+  target: a19
+  type: effect
+- source: a81
+  target: op6
+  type: effect
+- source: a9
+  target: op7
+  type: effect
+- source: op1
+  target: a49
+  type: effect
+- source: op10
+  target: c4
+  type: effect
+- source: op2
+  target: a6
+  type: effect
+- source: op3
+  target: a58
+  type: effect
+- source: op4
+  target: a46
+  type: effect
+- source: op5
+  target: a28
+  type: effect
+- source: op6
+  target: c13
+  type: effect
+- source: op7
+  target: c8
+  type: effect
+- source: op8
+  target: c11
+  type: effect
+- source: op9
+  target: c1
+  type: effect

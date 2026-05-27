@@ -1,0 +1,281 @@
+flow_id: revil
+flow_name: REvil
+scope: malware
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: Bleeping Computer
+  url: https://www.bleepingcomputer.com/news/security/healthcare-giant-grupo-fleury-hit-by-revil-ransomware-attack/
+  description: Article
+- source_name: Checkpoint
+  url: https://blog.checkpoint.com/2020/10/29/hospitals-targeted-in-rising-wave-of-ryuk-ransomware-attacks/
+  description: article
+- source_name: Health IT Security
+  url: https://healthitsecurity.com/news/ransomware-hits-another-it-vendor-impacting-100-dental-providers
+  description: article
+- source_name: HHS Cybersecurity Program
+  url: https://www.hhs.gov/sites/default/files/ransomware-trends-2021.pdf
+  description: PPT Briefing
+- source_name: Secureworks
+  url: https://www.secureworks.com/research/revil-sodinokibi-ransomware
+  description: article
+- source_name: TechTarget
+  url: https://www.techtarget.com/searchsecurity/news/252481164/Microsoft-warns-hospitals-of-impending-ransomware-attacks
+  description: article
+- source_name: BBC
+  url: https://www.bbc.com/news/technology-55439190
+  description: article
+start_refs:
+- a13
+- a24
+- a1
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1204
+  sub_technique_id: T1204.002
+  name: Malicious File
+  tactic: execution
+- id: a2
+  kind: action
+  technique_id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactic: stealth
+- id: a3
+  kind: action
+  technique_id: T1082
+  name: System Information Discovery
+  tactic: discovery
+- id: a4
+  kind: action
+  technique_id: T1033
+  name: System Owner/User Discovery
+  tactic: discovery
+- id: a5
+  kind: action
+  technique_id: T1071
+  sub_technique_id: T1071.001
+  name: Web Protocols
+  tactic: command-and-control
+- id: a6
+  kind: action
+  technique_id: T1135
+  name: Network Share Discovery
+  tactic: discovery
+- id: a7
+  kind: action
+  technique_id: T1083
+  name: File and Directory Discovery
+  tactic: discovery
+- id: a8
+  kind: action
+  technique_id: T1069
+  sub_technique_id: T1069.002
+  name: Domain Groups
+  tactic: discovery
+- id: a9
+  kind: action
+  technique_id: T1041
+  name: Exfiltration Over C2 Channel
+  tactic: exfiltration
+- id: a10
+  kind: action
+  technique_id: T1486
+  name: Data Encrypted for Impact
+  tactic: impact
+- id: a11
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.003
+  name: Windows Command Shell
+  tactic: execution
+- id: a12
+  kind: action
+  technique_id: T1068
+  name: Exploitation for Privilege Escalation
+  tactic: privilege-escalation
+- id: a13
+  kind: action
+  technique_id: T1189
+  name: Drive-by Compromise
+  tactic: initial-access
+- id: a14
+  kind: action
+  technique_id: T1491
+  sub_technique_id: T1491.001
+  name: Internal Defacement
+  tactic: impact
+- id: a15
+  kind: action
+  technique_id: T1485
+  name: Data Destruction
+  tactic: impact
+- id: a16
+  kind: action
+  technique_id: T1134
+  sub_technique_id: T1134.002
+  name: Create Process with Token
+  tactic: privilege-escalation
+- id: a17
+  kind: action
+  technique_id: T1112
+  name: Modify Registry
+  tactic: stealth
+- id: a18
+  kind: action
+  technique_id: T1027
+  name: Obfuscated Files or Information
+  tactic: stealth
+- id: a19
+  kind: action
+  technique_id: T1489
+  name: Service Stop
+  tactic: impact
+- id: a20
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.001
+  name: PowerShell
+  tactic: execution
+- id: a21
+  kind: action
+  technique_id: T1012
+  name: Query Registry
+  tactic: discovery
+- id: a22
+  kind: action
+  technique_id: T1012
+  name: Query Registry
+  tactic: discovery
+- id: a23
+  kind: action
+  technique_id: T1490
+  name: Inhibit System Recovery
+  tactic: impact
+- id: a24
+  kind: action
+  technique_id: T1566
+  sub_technique_id: T1566.001
+  name: Spearphishing Attachment
+  tactic: initial-access
+- id: a25
+  kind: action
+  technique_id: T1573
+  sub_technique_id: T1573.002
+  name: Asymmetric Cryptography
+  tactic: command-and-control
+- id: op1
+  kind: operator
+  operator: OR
+- id: op2
+  kind: operator
+  operator: OR
+- id: op3
+  kind: operator
+  operator: OR
+- id: c1
+  kind: condition
+  description: Check if network configuration key is set to True
+- id: c2
+  kind: condition
+  description: File or folder is whitelisted
+- id: c3
+  kind: condition
+  description: -nolan switch was passed to binary when launched
+- id: c4
+  kind: condition
+  description: encryption is successful
+edges:
+- source: a1
+  target: op3
+  type: effect
+- source: a10
+  target: c4
+  type: effect
+- source: a11
+  target: op2
+  type: effect
+- source: a12
+  target: op3
+  type: effect
+- source: a13
+  target: a12
+  type: effect
+- source: a14
+  target: a21
+  type: effect
+- source: a15
+  target: a7
+  type: effect
+- source: a16
+  target: a22
+  type: effect
+- source: a17
+  target: a19
+  type: effect
+- source: a18
+  target: a17
+  type: effect
+- source: a19
+  target: a11
+  type: effect
+- source: a19
+  target: a20
+  type: effect
+- source: a2
+  target: a16
+  type: effect
+- source: a20
+  target: op2
+  type: effect
+- source: a21
+  target: c1
+  type: effect
+- source: a22
+  target: a3
+  type: effect
+- source: a22
+  target: a4
+  type: effect
+- source: a22
+  target: a8
+  type: effect
+- source: a23
+  target: a15
+  type: effect
+- source: a24
+  target: op3
+  type: effect
+- source: a25
+  target: a9
+  type: effect
+- source: a3
+  target: op1
+  type: effect
+- source: a4
+  target: op1
+  type: effect
+- source: a5
+  target: a9
+  type: effect
+- source: a6
+  target: a10
+  type: effect
+- source: a7
+  target: c2
+  type: effect
+- source: a7
+  target: c3
+  type: effect
+- source: a8
+  target: op1
+  type: effect
+- source: op1
+  target: a18
+  type: effect
+- source: op2
+  target: a23
+  type: effect
+- source: op3
+  target: a2
+  type: effect

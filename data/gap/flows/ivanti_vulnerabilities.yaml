@@ -1,0 +1,209 @@
+flow_id: ivanti_vulnerabilities
+flow_name: Ivanti Vulnerabilities
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: Volexity Blog
+  url: https://www.volexity.com/blog/2024/01/10/active-exploitation-of-two-zero-day-vulnerabilities-in-ivanti-connect-secure-vpn/
+  description: Volexit report published Jan 10 2024.
+start_refs:
+- a5
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1554
+  name: Compromise Host Software Binary
+  tactic: persistence
+- id: a2
+  kind: action
+  technique_id: T1552
+  sub_technique_id: T1552.002
+  name: Credentials in Registry
+  tactic: credential-access
+- id: a3
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.004
+  name: SSH
+  tactic: lateral-movement
+- id: a4
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.001
+  name: Remote Desktop Protocol
+  tactic: lateral-movement
+- id: a5
+  kind: action
+  technique_id: T1190
+  name: Exploit Public-Facing Application
+  tactic: initial-access
+- id: a6
+  kind: action
+  technique_id: T1056
+  sub_technique_id: T1056.003
+  name: Web Portal Capture
+  tactic: credential-access
+- id: a7
+  kind: action
+  technique_id: T1614
+  name: System Location Discovery
+  tactic: discovery
+- id: a8
+  kind: action
+  technique_id: T1003
+  sub_technique_id: T1003.003
+  name: NTDS
+  tactic: credential-access
+- id: a9
+  kind: action
+  technique_id: T1505
+  sub_technique_id: T1505.003
+  name: Web Shell
+  tactic: persistence
+- id: a10
+  kind: action
+  technique_id: null
+  name: Internal Proxy
+  tactic: reconnaissance
+- id: a11
+  kind: action
+  technique_id: null
+  name: Defense Evasion
+  tactic: stealth
+- id: a12
+  kind: action
+  technique_id: T1554
+  name: Compromise Host Software Binary
+  tactic: persistence
+- id: a13
+  kind: action
+  technique_id: T1592
+  sub_technique_id: T1592.004
+  name: Client Configurations
+  tactic: reconnaissance
+- id: a14
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.002
+  name: SMB/Windows Admin Shares
+  tactic: lateral-movement
+- id: a15
+  kind: action
+  technique_id: T1003
+  sub_technique_id: T1003.001
+  name: LSASS Memory
+  tactic: credential-access
+- id: a16
+  kind: action
+  technique_id: T1554
+  name: Compromise Host Software Binary
+  tactic: persistence
+- id: a17
+  kind: action
+  technique_id: null
+  name: Reconnaissance
+  tactic: reconnaissance
+- id: a18
+  kind: action
+  technique_id: T1560
+  sub_technique_id: T1560.001
+  name: Archive via Utility
+  tactic: collection
+- id: a19
+  kind: action
+  technique_id: null
+  name: Persistence
+  tactic: persistence
+- id: a20
+  kind: action
+  technique_id: T1090
+  sub_technique_id: T1090.001
+  name: Internal Proxy
+  tactic: command-and-control
+- id: a21
+  kind: action
+  technique_id: T1562
+  name: Impair Defenses
+  tactic: stealth
+- id: a22
+  kind: action
+  technique_id: null
+  name: Command and Control
+  tactic: command-and-control
+- id: a23
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.002
+  name: Clear Linux or Mac System Logs
+  tactic: stealth
+- id: op1
+  kind: operator
+  operator: OR
+edges:
+- source: a1
+  target: a11
+  type: effect
+- source: a15
+  target: a4
+  type: effect
+- source: a16
+  target: a6
+  type: effect
+- source: a17
+  target: a8
+  type: effect
+- source: a19
+  target: a20
+  type: effect
+- source: a20
+  target: a10
+  type: effect
+- source: a3
+  target: op1
+  type: effect
+- source: a4
+  target: a15
+  type: effect
+- source: a4
+  target: a17
+  type: effect
+- source: a4
+  target: a2
+  type: effect
+- source: a5
+  target: a1
+  type: effect
+- source: a5
+  target: a12
+  type: effect
+- source: a5
+  target: a13
+  type: effect
+- source: a5
+  target: a16
+  type: effect
+- source: a5
+  target: a21
+  type: effect
+- source: a5
+  target: a22
+  type: effect
+- source: a5
+  target: a23
+  type: effect
+- source: a5
+  target: a7
+  type: effect
+- source: a6
+  target: a19
+  type: effect
+- source: a6
+  target: a4
+  type: effect
+- source: a8
+  target: a18
+  type: effect
+- source: op1
+  target: a9
+  type: effect

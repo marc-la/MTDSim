@@ -1,0 +1,807 @@
+flow_id: turla_snake_emulation_plan
+flow_name: Turla - Snake Emulation Plan
+scope: emulation-plan
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: GitHub
+  url: https://github.com/attackevals/turla/tree/main/Emulation_Plan/Snake_Scenario
+  description: emulation plan
+- source_name: MITRE ATT&CK
+  url: https://attack.mitre.org/groups/G0010/
+  description: Group description
+- source_name: Unites States Attorney's Office
+  url: https://www.justice.gov/usao-edny/pr/justice-department-announces-court-authorized-disruption-snake-malware-network
+  description: Press Release
+- source_name: MITRE ATT&CK
+  url: https://attack.mitre.org/software/S0395/
+  description: Tool description
+start_refs:
+- c18
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1553
+  sub_technique_id: T1553.006
+  name: Code Signing Policy Modification
+  tactic: defense-impairment
+- id: a2
+  kind: action
+  technique_id: T1204
+  sub_technique_id: T1204.001
+  name: Malicious Link
+  tactic: execution
+- id: a3
+  kind: action
+  technique_id: T1055
+  name: Process Injection
+  tactic: stealth
+- id: a4
+  kind: action
+  technique_id: T1570
+  name: Lateral Tool Transfer
+  tactic: lateral-movement
+- id: a5
+  kind: action
+  technique_id: T1136
+  sub_technique_id: T1136.002
+  name: Domain Account
+  tactic: persistence
+- id: a6
+  kind: action
+  technique_id: T1047
+  name: Windows Management Instrumentation
+  tactic: execution
+- id: a7
+  kind: action
+  technique_id: T1505
+  sub_technique_id: T1505.002
+  name: Transport Agent
+  tactic: persistence
+- id: a8
+  kind: action
+  technique_id: T1057
+  name: Process Discovery
+  tactic: discovery
+- id: a9
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.001
+  name: PowerShell
+  tactic: execution
+- id: a10
+  kind: action
+  technique_id: T1001
+  sub_technique_id: T1001.002
+  name: Steganography
+  tactic: command-and-control
+- id: a11
+  kind: action
+  technique_id: T1057
+  name: Process Discovery
+  tactic: discovery
+- id: a12
+  kind: action
+  technique_id: T1550
+  sub_technique_id: T1550.002
+  name: Pass the Hash
+  tactic: lateral-movement
+- id: a13
+  kind: action
+  technique_id: T1559
+  name: Inter-Process Communication
+  tactic: execution
+- id: a14
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a15
+  kind: action
+  technique_id: T1071
+  sub_technique_id: T1071.001
+  name: Web Protocols
+  tactic: command-and-control
+- id: a16
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a17
+  kind: action
+  technique_id: T1570
+  name: Lateral Tool Transfer
+  tactic: lateral-movement
+- id: a18
+  kind: action
+  technique_id: T1027
+  name: Obfuscated Files or Information
+  tactic: stealth
+- id: a19
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.007
+  name: JavaScript
+  tactic: execution
+- id: a20
+  kind: action
+  technique_id: T1132
+  sub_technique_id: T1132.001
+  name: Standard Encoding
+  tactic: command-and-control
+- id: a21
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a22
+  kind: action
+  technique_id: T1027
+  sub_technique_id: T1027.009
+  name: Embedded Payloads
+  tactic: stealth
+- id: a23
+  kind: action
+  technique_id: T1049
+  name: System Network Connections Discovery
+  tactic: discovery
+- id: a24
+  kind: action
+  technique_id: T1027
+  sub_technique_id: T1027.009
+  name: Embedded Payloads
+  tactic: stealth
+- id: a25
+  kind: action
+  technique_id: T1016
+  name: System Network Configuration Discovery
+  tactic: discovery
+- id: a26
+  kind: action
+  technique_id: T1055
+  sub_technique_id: T1055.001
+  name: Dynamic-link Library Injection
+  tactic: stealth
+- id: a27
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a28
+  kind: action
+  technique_id: T1546
+  name: Event Triggered Execution
+  tactic: persistence
+- id: a29
+  kind: action
+  technique_id: T1041
+  name: Exfiltration Over C2 Channel
+  tactic: exfiltration
+- id: a30
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.001
+  name: PowerShell
+  tactic: execution
+- id: a31
+  kind: action
+  technique_id: T1573
+  sub_technique_id: T1573.001
+  name: Symmetric Cryptography
+  tactic: command-and-control
+- id: a32
+  kind: action
+  technique_id: T1559
+  name: Inter-Process Communication
+  tactic: execution
+- id: a33
+  kind: action
+  technique_id: T1069
+  sub_technique_id: T1069.002
+  name: Domain Groups
+  tactic: discovery
+- id: a34
+  kind: action
+  technique_id: T1134
+  sub_technique_id: T1134.002
+  name: Create Process with Token
+  tactic: privilege-escalation
+- id: a35
+  kind: action
+  technique_id: T1071
+  sub_technique_id: T1071.001
+  name: Web Protocols
+  tactic: command-and-control
+- id: a36
+  kind: action
+  technique_id: T1018
+  name: Remote System Discovery
+  tactic: discovery
+- id: a37
+  kind: action
+  technique_id: T1134
+  name: Access Token Manipulation
+  tactic: stealth
+- id: a38
+  kind: action
+  technique_id: T1114
+  sub_technique_id: T1114.002
+  name: Remote Email Collection
+  tactic: collection
+- id: a39
+  kind: action
+  technique_id: T1543
+  sub_technique_id: T1543.003
+  name: Windows Service
+  tactic: persistence
+- id: a40
+  kind: action
+  technique_id: T1559
+  name: Inter-Process Communication
+  tactic: execution
+- id: a41
+  kind: action
+  technique_id: T1057
+  name: Process Discovery
+  tactic: discovery
+- id: a42
+  kind: action
+  technique_id: T1069
+  sub_technique_id: T1069.002
+  name: Domain Groups
+  tactic: discovery
+- id: a43
+  kind: action
+  technique_id: T1014
+  name: Rootkit
+  tactic: stealth
+- id: a44
+  kind: action
+  technique_id: T1001
+  sub_technique_id: T1001.002
+  name: Steganography
+  tactic: command-and-control
+- id: a45
+  kind: action
+  technique_id: T1071
+  sub_technique_id: T1071.001
+  name: Web Protocols
+  tactic: command-and-control
+- id: a46
+  kind: action
+  technique_id: T1057
+  name: Process Discovery
+  tactic: discovery
+- id: a47
+  kind: action
+  technique_id: T1055
+  sub_technique_id: T1055.001
+  name: Dynamic-link Library Injection
+  tactic: privilege-escalation
+- id: a48
+  kind: action
+  technique_id: T1573
+  sub_technique_id: T1573.001
+  name: Symmetric Cryptography
+  tactic: command-and-control
+- id: a49
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a50
+  kind: action
+  technique_id: T1082
+  name: System Information Discovery
+  tactic: discovery
+- id: a51
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a52
+  kind: action
+  technique_id: T1132
+  sub_technique_id: T1132.001
+  name: Standard Encoding
+  tactic: command-and-control
+- id: a53
+  kind: action
+  technique_id: T1071
+  sub_technique_id: T1071.001
+  name: Web Protocols
+  tactic: command-and-control
+- id: a54
+  kind: action
+  technique_id: T1014
+  name: Rootkit
+  tactic: stealth
+- id: a55
+  kind: action
+  technique_id: T1027
+  name: Obfuscated Files or Information
+  tactic: stealth
+- id: a56
+  kind: action
+  technique_id: T1569
+  sub_technique_id: T1569.002
+  name: Service Execution
+  tactic: execution
+- id: a57
+  kind: action
+  technique_id: T1547
+  sub_technique_id: T1547.004
+  name: Winlogon Helper DLL
+  tactic: persistence
+- id: a58
+  kind: action
+  technique_id: T1069
+  sub_technique_id: T1069.002
+  name: Domain Groups
+  tactic: discovery
+- id: a59
+  kind: action
+  technique_id: T1003
+  sub_technique_id: T1003.001
+  name: LSASS Memory
+  tactic: credential-access
+- id: a60
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: File Deletion
+  tactic: stealth
+- id: a61
+  kind: action
+  technique_id: T1087
+  sub_technique_id: T1087.002
+  name: Domain Account
+  tactic: discovery
+- id: a62
+  kind: action
+  technique_id: T1071
+  sub_technique_id: T1071.003
+  name: Mail Protocols
+  tactic: command-and-control
+- id: a63
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a64
+  kind: action
+  technique_id: T1087
+  sub_technique_id: T1087.002
+  name: Domain Account
+  tactic: discovery
+- id: a65
+  kind: action
+  technique_id: T1055
+  sub_technique_id: T1055.001
+  name: Dynamic-link Library Injection
+  tactic: stealth
+- id: a66
+  kind: action
+  technique_id: T1564
+  sub_technique_id: T1564.008
+  name: Email Hiding Rules
+  tactic: stealth
+- id: a67
+  kind: action
+  technique_id: T1134
+  sub_technique_id: T1134.001
+  name: Token Impersonation/Theft
+  tactic: privilege-escalation
+- id: a68
+  kind: action
+  technique_id: T1189
+  name: Drive-by Compromise
+  tactic: initial-access
+- id: a69
+  kind: action
+  technique_id: T1055
+  sub_technique_id: T1055.001
+  name: Dynamic-link Library Injection
+  tactic: stealth
+- id: a70
+  kind: action
+  technique_id: T1559
+  name: Inter-Process Communication
+  tactic: execution
+- id: a71
+  kind: action
+  technique_id: T1140
+  name: Deobfuscate/Decode Files or Information
+  tactic: stealth
+- id: a72
+  kind: action
+  technique_id: T1090
+  sub_technique_id: T1090.002
+  name: External Proxy
+  tactic: command-and-control
+- id: a73
+  kind: action
+  technique_id: T1078
+  sub_technique_id: T1078.002
+  name: Domain Accounts
+  tactic: privilege-escalation
+- id: a74
+  kind: action
+  technique_id: T1036
+  sub_technique_id: T1036.005
+  name: Match Legitimate Name or Location
+  tactic: stealth
+- id: op1
+  kind: operator
+  operator: AND
+- id: op2
+  kind: operator
+  operator: AND
+- id: op3
+  kind: operator
+  operator: AND
+- id: op4
+  kind: operator
+  operator: AND
+- id: op5
+  kind: operator
+  operator: AND
+- id: op6
+  kind: operator
+  operator: AND
+- id: op7
+  kind: operator
+  operator: AND
+- id: op8
+  kind: operator
+  operator: AND
+- id: op9
+  kind: operator
+  operator: AND
+- id: op10
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: The attacker discovers a process running under the user EgleAdmin on
+    the computer
+- id: c2
+  kind: condition
+  description: The communications to the C2 server are contained in a .eml file in
+    the C:\Program Files\Microsoft\Exchange Server\V15\TransportRoles\Pickup\ directory
+- id: c3
+  kind: condition
+  description: The user browses to a website
+- id: c4
+  kind: condition
+  description: The Snake Installer (gusbsys.exe) successfully elevates privileges
+    to SYSTEM using CVE-2021-1732
+- id: c5
+  kind: condition
+  description: User logs off and back in to the system, executing the persistence
+    mechanism
+- id: c6
+  kind: condition
+  description: Attacker identifies ZilvinasAdmin in the list of accounts
+- id: c7
+  kind: condition
+  description: Attacker discovers processes running under ZilvinasAdmin
+- id: c8
+  kind: condition
+  description: Attacker identifies Zilvinas and ZilvinasAdmin
+- id: c9
+  kind: condition
+  description: The Snake rootkit receives tasking from the C2 server
+- id: c10
+  kind: condition
+  description: On UOSIS, msnsvcx64.dll is still injected into taskhostw.exe and msedge.exe
+- id: c11
+  kind: condition
+  description: Attacker discovers Zilvinas' Workstation on UOSIS
+- id: c12
+  kind: condition
+  description: On BERZAS, msnsvcx64.dll is still injected into taskhostw.exe and msedge.exe
+- id: c13
+  kind: condition
+  description: The browser JavaScript fingerprints the target machine in the background
+    and installs an evercookie
+- id: c14
+  kind: condition
+  description: Attacker discovers that EgleAdmin is a member of the File Server Admins
+    group
+- id: c15
+  kind: condition
+  description: Attacker identifies an Active Directory group named Server Management
+- id: c16
+  kind: condition
+  description: Attacker discovers the password and NTLM hash for ZilvinasAdmin
+- id: c17
+  kind: condition
+  description: Attacker discovers the home drive is mapped to a file server
+- id: c18
+  kind: condition
+  description: Attacker has established a watering hole targeting the user
+- id: c19
+  kind: condition
+  description: LightNeuron's Transport Agent passes emails to its Companion DLL (exdbdata.dll)
+    for further analysis
+edges:
+- source: a1
+  target: a43
+  type: effect
+- source: a10
+  target: a52
+  type: effect
+- source: a11
+  target: c1
+  type: effect
+- source: a12
+  target: a4
+  type: effect
+- source: a13
+  target: a73
+  type: effect
+- source: a14
+  target: op2
+  type: effect
+- source: a16
+  target: a32
+  type: effect
+- source: a17
+  target: a74
+  type: effect
+- source: a18
+  target: op8
+  type: effect
+- source: a19
+  target: c13
+  type: effect
+- source: a2
+  target: a55
+  type: effect
+- source: a20
+  target: c2
+  type: effect
+- source: a21
+  target: a13
+  type: effect
+- source: a22
+  target: op9
+  type: effect
+- source: a23
+  target: c17
+  type: effect
+- source: a24
+  target: a26
+  type: effect
+- source: a25
+  target: op5
+  type: effect
+- source: a26
+  target: a22
+  type: effect
+- source: a26
+  target: a41
+  type: effect
+- source: a27
+  target: op3
+  type: effect
+- source: a28
+  target: op1
+  type: effect
+- source: a3
+  target: op10
+  type: effect
+- source: a30
+  target: op6
+  type: effect
+- source: a31
+  target: a44
+  type: effect
+- source: a32
+  target: a59
+  type: effect
+- source: a33
+  target: c6
+  type: effect
+- source: a34
+  target: a23
+  type: effect
+- source: a35
+  target: op3
+  type: effect
+- source: a36
+  target: c11
+  type: effect
+- source: a37
+  target: a17
+  type: effect
+- source: a38
+  target: c19
+  type: effect
+- source: a39
+  target: c4
+  type: effect
+- source: a4
+  target: c10
+  type: effect
+- source: a40
+  target: a53
+  type: effect
+- source: a41
+  target: op9
+  type: effect
+- source: a42
+  target: op4
+  type: effect
+- source: a43
+  target: a18
+  type: effect
+- source: a43
+  target: a51
+  type: effect
+- source: a44
+  target: a20
+  type: effect
+- source: a45
+  target: op2
+  type: effect
+- source: a46
+  target: c7
+  type: effect
+- source: a47
+  target: c3
+  type: effect
+- source: a48
+  target: c9
+  type: effect
+- source: a49
+  target: a39
+  type: effect
+- source: a5
+  target: a63
+  type: effect
+- source: a50
+  target: op4
+  type: effect
+- source: a51
+  target: op8
+  type: effect
+- source: a52
+  target: a25
+  type: effect
+- source: a52
+  target: a66
+  type: effect
+- source: a53
+  target: a64
+  type: effect
+- source: a54
+  target: op1
+  type: effect
+- source: a55
+  target: a3
+  type: effect
+- source: a55
+  target: a57
+  type: effect
+- source: a56
+  target: c12
+  type: effect
+- source: a57
+  target: op10
+  type: effect
+- source: a58
+  target: c15
+  type: effect
+- source: a59
+  target: c16
+  type: effect
+- source: a6
+  target: op6
+  type: effect
+- source: a60
+  target: op7
+  type: effect
+- source: a61
+  target: c8
+  type: effect
+- source: a62
+  target: a29
+  type: effect
+- source: a63
+  target: a70
+  type: effect
+- source: a64
+  target: c14
+  type: effect
+- source: a65
+  target: a15
+  type: effect
+- source: a65
+  target: a72
+  type: effect
+- source: a66
+  target: op5
+  type: effect
+- source: a67
+  target: a34
+  type: effect
+- source: a68
+  target: a19
+  type: effect
+- source: a69
+  target: a48
+  type: effect
+- source: a7
+  target: op7
+  type: effect
+- source: a70
+  target: a37
+  type: effect
+- source: a71
+  target: op1
+  type: effect
+- source: a72
+  target: a42
+  type: effect
+- source: a72
+  target: a50
+  type: effect
+- source: a73
+  target: a56
+  type: effect
+- source: a74
+  target: a30
+  type: effect
+- source: a74
+  target: a6
+  type: effect
+- source: a8
+  target: a67
+  type: effect
+- source: a9
+  target: a58
+  type: effect
+- source: op1
+  target: a47
+  type: effect
+- source: op10
+  target: c5
+  type: effect
+- source: op2
+  target: a9
+  type: effect
+- source: op3
+  target: a46
+  type: effect
+- source: op4
+  target: a49
+  type: effect
+- source: op5
+  target: a31
+  type: effect
+- source: op6
+  target: a60
+  type: effect
+- source: op6
+  target: a7
+  type: effect
+- source: op7
+  target: a38
+  type: effect
+- source: op8
+  target: a28
+  type: effect
+- source: op8
+  target: a54
+  type: effect
+- source: op8
+  target: a71
+  type: effect
+- source: op9
+  target: a65
+  type: effect

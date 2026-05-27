@@ -1,0 +1,280 @@
+flow_id: notpetya
+flow_name: NotPetya
+scope: incident
+source: attack_flow_corpus
+schema_version: 2.0.0
+references:
+- source_name: CrowdStrike
+  url: https://www.crowdstrike.com/blog/petrwrap-ransomware-technical-analysis-triple-threat-file-encryption-mft-encryption-credential-theft/
+  description: Article
+- source_name: CrowdStrike
+  url: https://www.crowdstrike.com/blog/petrwrap-technical-analysis-part-2-further-findings-and-potential-for-mbr-recovery/
+  description: Article
+- source_name: LogRhythm
+  url: https://gallery.logrhythm.com/threat-intelligence-reports/notpetya-technical-analysis-logrhythm-labs-threat-intelligence-report.pdf
+  description: Report
+- source_name: Department of Justice
+  url: https://www.justice.gov/opa/press-release/file/1328521/download
+  description: Indictment
+start_refs:
+- a10
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1561
+  sub_technique_id: T1561.002
+  name: Disk Structure Wipe
+  tactic: impact
+- id: a2
+  kind: action
+  technique_id: T1195
+  name: Supply Chain Compromise
+  tactic: initial-access
+- id: a3
+  kind: action
+  technique_id: T1218
+  sub_technique_id: T1218.011
+  name: Rundll32
+  tactic: stealth
+- id: a4
+  kind: action
+  technique_id: T1003
+  sub_technique_id: T1003.001
+  name: LSASS Memory
+  tactic: credential-access
+- id: a5
+  kind: action
+  technique_id: T1485
+  name: Data Destruction
+  tactic: impact
+- id: a6
+  kind: action
+  technique_id: T1529
+  name: System Shutdown/Reboot
+  tactic: impact
+- id: a7
+  kind: action
+  technique_id: T1518
+  sub_technique_id: T1518.001
+  name: Security Software Discovery
+  tactic: discovery
+- id: a8
+  kind: action
+  technique_id: T1057
+  name: Malware Privilege Discovery
+  tactic: discovery
+- id: a9
+  kind: action
+  technique_id: T1195
+  sub_technique_id: T1195.002
+  name: Compromise Software Supply Chain
+  tactic: initial-access
+- id: a10
+  kind: action
+  technique_id: T1593
+  name: Search Open Websites/Domains
+  tactic: reconnaissance
+- id: a11
+  kind: action
+  technique_id: T1036
+  name: Masquerading
+  tactic: stealth
+- id: a12
+  kind: action
+  technique_id: T1134
+  sub_technique_id: T1134.001
+  name: Token Impersonation/Theft
+  tactic: privilege-escalation
+- id: a13
+  kind: action
+  technique_id: T1195
+  sub_technique_id: T1195.002
+  name: Compromise Software Supply Chain
+  tactic: initial-access
+- id: a14
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.001
+  name: Clear Windows Event Logs
+  tactic: stealth
+- id: a15
+  kind: action
+  technique_id: T1542
+  sub_technique_id: T1542.003
+  name: Bootkit
+  tactic: persistence
+- id: a16
+  kind: action
+  technique_id: T1529
+  name: System Shutdown/Reboot
+  tactic: impact
+- id: a17
+  kind: action
+  technique_id: T1053
+  sub_technique_id: T1053.005
+  name: Scheduled Task
+  tactic: persistence
+- id: a18
+  kind: action
+  technique_id: T1016
+  name: System Network Configuration Discovery
+  tactic: discovery
+- id: a19
+  kind: action
+  technique_id: T0866
+  name: Exploitation of Remote Services
+  tactic: lateral-movement
+- id: a20
+  kind: action
+  technique_id: T1055
+  sub_technique_id: T1055.001
+  name: Dynamic-link Library Injection
+  tactic: stealth
+- id: a21
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.002
+  name: 'Remote Services: SMB/Windows Admin Shares'
+  tactic: lateral-movement
+- id: a22
+  kind: action
+  technique_id: T1486
+  name: Data Encrypted for Impact
+  tactic: impact
+- id: a23
+  kind: action
+  technique_id: T1218
+  sub_technique_id: T1218.011
+  name: Rundll32
+  tactic: stealth
+- id: op1
+  kind: operator
+  operator: OR
+- id: op2
+  kind: operator
+  operator: AND
+- id: op3
+  kind: operator
+  operator: AND
+- id: op4
+  kind: operator
+  operator: AND
+- id: op5
+  kind: operator
+  operator: OR
+- id: op6
+  kind: operator
+  operator: AND
+- id: c1
+  kind: condition
+  description: Able to move laterally
+- id: c2
+  kind: condition
+  description: Adversary obtains SeTcbPrivilege
+- id: c3
+  kind: condition
+  description: Adversary obtains SeDebugPrivilege
+- id: c4
+  kind: condition
+  description: Kaspersky running on system
+- id: c5
+  kind: condition
+  description: Adversary obtains list of IP addresses and TCP endpoints
+- id: c6
+  kind: condition
+  description: User escalated to a different account
+- id: c7
+  kind: condition
+  description: Norton Security or Symantec not running on system, and SMBv1 vulnerable
+    condition exists
+edges:
+- source: a10
+  target: a13
+  type: effect
+- source: a11
+  target: a7
+  type: effect
+- source: a11
+  target: a8
+  type: effect
+- source: a12
+  target: op1
+  type: effect
+- source: a13
+  target: a9
+  type: effect
+- source: a14
+  target: a6
+  type: effect
+- source: a15
+  target: a17
+  type: effect
+- source: a16
+  target: a22
+  type: effect
+- source: a17
+  target: a16
+  type: effect
+- source: a18
+  target: c5
+  type: effect
+- source: a19
+  target: a20
+  type: effect
+- source: a2
+  target: a11
+  type: effect
+- source: a20
+  target: a3
+  type: effect
+- source: a21
+  target: a23
+  type: effect
+- source: a22
+  target: a14
+  type: effect
+- source: a23
+  target: op5
+  type: effect
+- source: a3
+  target: op5
+  type: effect
+- source: a4
+  target: op1
+  type: effect
+- source: a6
+  target: a5
+  type: effect
+- source: a7
+  target: c4
+  type: effect
+- source: a7
+  target: c7
+  type: effect
+- source: a8
+  target: c2
+  type: effect
+- source: a8
+  target: c3
+  type: effect
+- source: a9
+  target: a2
+  type: effect
+- source: op1
+  target: c6
+  type: effect
+- source: op2
+  target: c1
+  type: effect
+- source: op3
+  target: a1
+  type: effect
+- source: op4
+  target: a15
+  type: effect
+- source: op5
+  target: op2
+  type: effect
+- source: op6
+  target: a19
+  type: effect
