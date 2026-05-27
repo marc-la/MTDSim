@@ -44,13 +44,16 @@ cryptojacking incident — Deploy Container (T1610), Proxy (T1090) and Non-Stand
 Port (T1571) are all required before Resource Hijacking (T1496) — which is the
 lit review's Figure 2, and is now a passing test.
 
-**Lossless, with reduction as a lens.** The committed GAP keeps every observed
-edge, with a count of how many incidents showed it, and preserves cycles (real
-attackers loop: move laterally, discover more, move again). Thresholding ("only
-edges seen in ≥ k incidents"), projecting to an acyclic graph, and tactic
-layering are computed on demand as *views* — never baked into the stored
-artefact. A later decision to filter more aggressively changes only the view, not
-the data, and stays reproducible.
+**Lossless within scope, with reduction as a lens.** The committed GAP keeps
+every observed edge *between Enterprise techniques* (see the Enterprise-only
+assumption below), with a count of how many incidents showed it, and preserves
+cycles (real attackers loop: move laterally, discover more, move again).
+Thresholding ("only edges seen in ≥ k incidents"), projecting to an acyclic
+graph, and tactic layering are computed on demand as *views* — never baked into
+the stored artefact. A later decision to filter more aggressively changes only
+the view, not the data, and stays reproducible. (Enterprise scope is the one
+thing baked in, not a view — it defines *which taxonomy* the GAP is, rather than
+reducing it; the per-flow layer below stays fully lossless regardless.)
 
 **Two committed layers.** Each incident becomes a small, human-readable per-flow
 file (the lossless intermediate); these aggregate into the single GAP. The
@@ -58,21 +61,67 @@ per-flow files are deliberately hand-editable — the seam for adding a
 hand-curated incident later, which then aggregates identically to a
 corpus-derived one.
 
+## What the assembled graph looks like
+
+A few properties of the built artefact (observed on the current Enterprise-only
+build: 124 technique nodes, 478 edges, 40 flows) are worth recording — they
+shape how the GAP can be read, and they bear out the design choices above.
+
+**The tactic-level view is nearly a complete graph.** Collapse the techniques
+onto their 15 ATT&CK tactics — an FSM whose states are tactics — and roughly 6
+in 10 of all possible directed transitions are already present (132 of 225,
+self-loops included), approaching complete connectivity among the handful of hub
+tactics. So at the tactic level *which* stages connect is almost uninformative;
+the signal is entirely in *how often* — the edge weights. This is the empirical
+case for carrying an observation count on every edge and treating thresholding as
+a view: strip the weights and the tactic graph is a near-clique that says little.
+
+**The technique-level graph is dense, and its generalisation is thin.** 478
+edges over 124 nodes is a hairball unfiltered, but the sharper point is that
+**88% of those edges (419) were drawn in exactly one incident**; only 59 recur,
+and just 7 appear in three or more. The "recurring adversary behaviour" the GAP
+claims therefore lives in a small high-weight core — command-and-control ↔
+discovery (the beacon-and-recon loop), execution → stealth, and a few self-loops
+— while the long tail is campaign-specific. Any downstream use that ignores the
+weights is mostly reading single-incident detail, not generalised behaviour.
+
+**The kill chain is a loose layout, not the shape.** The graph is genuinely
+cyclic: ~37% of edges run *backward* against kill-chain order and two-thirds of
+the tactics carry a self-loop (several discovery steps in a row; lateral-move →
+discover → lateral-move again). The tactic ordering earns its keep only for
+drawing and for labelling an edge forward/backward — it does not describe a
+linear progression, which is exactly why direction is taken from the flows and
+never from the layering.
+
+**Both levels need a lens to be legible.** Neither view reads unfiltered — the
+technique graph swamped by edge count, the tactic FSM by near-completeness.
+Weighting (emphasis) and thresholding (the "≥ k incidents" view) are not
+cosmetic; they are how either level becomes interpretable, and the two trade
+resolution against legibility. The right view depends on the question being
+asked — which is the whole reason reduction is kept as a lens rather than baked
+in.
+
 ## Assumptions that bound the claims
 
 The "future-you must defend this" points:
 
-- **ATT&CK Enterprise only.** Technique names, tactics and platforms come from
-  MITRE ATT&CK *Enterprise* (pinned at v19.1). The corpus is not purely
-  Enterprise: a few incidents reference ATLAS (adversarial-ML) or ICS
-  techniques, and some use technique IDs that recent ATT&CK has since revoked.
-  These still appear as GAP nodes — they are real observations — but carry no
-  label. They are kept **as the analyst drew them**, never remapped to a
-  "nearest" current technique (that would be us inventing intelligence). The
-  consequence: the GAP is an Enterprise-centric reading of a slightly broader
-  corpus, and a minority of nodes are unlabelled. An "Enterprise-only" filtered
-  *view* is the natural way to set them aside when that matters. **This is an
-  assumption, not a result.**
+- **ATT&CK Enterprise only — baked into the GAP.** The GAP is scoped to MITRE
+  ATT&CK *Enterprise* (pinned at v19.1): a node is kept only if it resolves to a
+  current Enterprise technique. The corpus is not purely Enterprise — a few
+  incidents reference ATLAS (adversarial-ML, `AML.*`) or ICS (`T0###`)
+  techniques, and some use IDs that v19.1 has revoked — and those nodes are
+  **dropped from the aggregated GAP**, together with their edges. Crucially the
+  drop is *removal, not remapping or bridging*: we never reconnect a dependency
+  across a dropped node (that would invent intelligence no analyst drew), and we
+  never relabel a technique to a "nearest" current one. The *per-flow extracts
+  stay lossless* — they record every technique as the analyst drew it, ATLAS and
+  ICS included — so the corpus record and the hand-curation seam are intact; the
+  Enterprise scope is applied only when aggregating the per-flow extracts into
+  the GAP. The consequence: the GAP is a clean Enterprise-technique graph (every
+  node labelled), built from a slightly broader corpus whose non-Enterprise parts
+  live on in the per-flow layer. **This is an assumption, not a result** — at
+  v0.5, 22 of 146 candidate nodes were non-Enterprise (15 ATLAS, 2 ICS, 5
+  revoked/absent), and were dropped.
 - **Latest-ATT&CK pin.** Pinning the newest ATT&CK is a deliberate
   "current taxonomy" choice; it is why some older corpus IDs read as revoked. The
   alternative — pinning a version contemporaneous with each incident — chases a
@@ -113,3 +162,7 @@ The "future-you must defend this" points:
 - If cross-flow AND/OR reconciliation is resolved — the GAP currently records
   disagreeing joins without adjudicating them; likely settled at the eventual
   Petri-net step.
+- As the corpus grows — the single-observation share (88% at v0.5) is the number
+  to watch: it measures how much of the GAP is genuinely *recurring* behaviour
+  versus one-off campaign detail, and is the honest gauge of whether "generalised"
+  in the name is yet earned.
