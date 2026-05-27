@@ -81,12 +81,12 @@ contribution. Deferred to the evaluation/ablation phase (per
 do not extend and (ii) one of the L4 comparison points alongside the
 time-scheduled SDR schemes — these are the same code object in two roles, not
 two competing framings.
-**Known reuse cost:** the model expects 8 static + 3 time-series features but
-the pipeline currently returns 7 + 3 (missing `exposed_endpoints`,
-`attack_type`). Reuse runs at this mismatch as inherited reality; chasing it
-belongs to the eval/ablation phase, not now.
-**Cost:** L4 cannot disentangle "MTD-AI's per-substrate optimisation" from
-"Tay's published policy on this substrate" — reported as an inherited-policy
+**Cost:** Reuse runs against a known feature-shape mismatch — the model
+expects 8 static + 3 time-series features but the pipeline returns 7 + 3
+(missing `exposed_endpoints`, `attack_type`); chasing this belongs to the
+eval/ablation phase. The methodological consequence is that L4 cannot
+disentangle "MTD-AI's per-substrate optimisation" from "Tay's published
+policy on this substrate" — Tay's column at L4 is an inherited-policy
 result, not an optimised-policy result.
 **If revisited:** If Tay's pretrained weights prove unusable end-to-end,
 fall back to a documented "reference RL benchmark unavailable" disposition
@@ -144,11 +144,10 @@ serialisation) and yields, per file: action nodes (with `technique_id`),
 condition nodes, operator nodes (`AND`/`OR`), and the directed edges between
 them (`effect`, `on_true`, `on_false`). L1 aggregation consumes that tuple
 stream, not the raw `.afb`. **In-tree status:** corpus location and parser
-implementation are **unverified** — no `notebooks/attack-flow/` directory
-exists on the current branch (`find . -type d -name 'attack-flow*'` empty as
-of 2026-05-27). The schema-version decision below (and §(l) open question
-#1) does not resolve until the parser and corpus land somewhere reachable;
-Pass 2's first job here is to materialise both or pin a new location.
+implementation are **unverified** as of 2026-05-27 — no `notebooks/attack-flow/`
+directory exists on the current branch. The schema-version decision below
+(and §(l) open question #1) remain open until the parser and corpus land
+somewhere reachable.
 
 **Decision — Attack Flow schema version is pinned and documented explicitly.**
 **Why:** Attack Flow v3.2.0 is the current MITRE/CTID release (8 Jul 2025),
@@ -183,11 +182,9 @@ parameterisation tunable).
   from the corpus, (ii) edge counts roughly track campaign coverage, and
   (iii) the resulting subgraphs at L2 are non-trivially navigable. Threshold
   sensitivity is itself a methodology question — *not* a validation step.
-- **Code location.** Not in `mtdnetwork/` on this branch
-  (`grep -ri 'GAP\|GASP' mtdnetwork/` returns nothing as of 2026-05-27); the
-  v0.4 implementation lives in an off-substrate workstream. Pass 2's first
-  job here is to pin where the GAP code lands once it integrates with the
-  substrate fork.
+- **Code location.** Not in `mtdnetwork/` on this branch as of 2026-05-27;
+  the v0.4 implementation lives in an off-substrate workstream. The
+  integration path with the substrate fork is unpinned.
 
 **Decision — graph-driven traversal replaces the early-proposal "per-tactic
 linear amplification" of the base attacker.**

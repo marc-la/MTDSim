@@ -24,14 +24,5 @@ If you read only one of these for orientation, read **`project_context.md`** (#3
 
 ## Session-start checks
 
-Run the full checklist in [`docs/specs/session_workflow.md`](docs/specs/session_workflow.md#session-start-checklist) (§ session-start checklist). The quick version: not on `main`, clean tree, check open handoffs.
+Run the full checklist in [`docs/specs/session_workflow.md`](docs/specs/session_workflow.md#session-start-checklist) (§ session-start checklist). The quick version: not on `main`, clean tree, `ls docs/handoffs/` for open work matching today's task.
 
-## Open handoffs
-
-<!-- When a handoff is created or closed, update this section to reflect the live state. Format: `- [topic](docs/handoffs/YYYY-MM-DD_topic.md) — one-line status.` -->
-
-- [Architecture & methodology prepopulation](docs/handoffs/2026-05-27_architecture_prepopulation.md) — partially shipped; Pass 1 scaffold landed at [`docs/specs/architecture.md`](docs/specs/architecture.md). Pass 2 owes: §(j) methodological-positioning flesh against `LIT_REVIEW.md` (retire the audit's six unsupported claims, now backed by the deep extractions) and the §(l) open-questions sweep. Per-paper extraction deep-flesh shipped in `506722b` / `a7050c9` / `c71eae8`.
-
-## Audit findings (drive follow-up fix sessions)
-
-- [Docs / `.claude` / `CLAUDE.md` audit findings](docs/notes/2026-05-27_docs_audit.md) — 39 findings across 8 dimensions (6 must-fix, 27 should-fix, 6 nice-to-have). Heaviest cluster: dimension 5 (critical-evaluation quality) — 12 should-fix items, retired by Pass 2 of the architecture prepopulation handoff above. The other 27 findings (all 6 must-fix, the non-§5 should-fix, all nice-to-have) landed in commit `b83b802`.
