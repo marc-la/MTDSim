@@ -30,4 +30,7 @@ In this order:
 <!-- When a handoff is created or closed, update this section to reflect the live state. Format: `- [topic](docs/handoffs/YYYY-MM-DD_topic.md) — one-line status.` -->
 
 - [Architecture & methodology prepopulation](docs/handoffs/2026-05-27_architecture_prepopulation.md) — partially shipped; Pass 1 scaffold landed at [`docs/specs/architecture.md`](docs/specs/architecture.md) (seeded from pre-lit-review *Current State* + *Methodology Carry-Forward*). Pass 2 owes: §(j) methodological positioning flesh against `LIT_REVIEW.md`, adjacent-paper extraction stubs, and the §(l) open-questions sweep.
-- [Docs / `.claude` / `CLAUDE.md` audit](docs/handoffs/2026-05-27_docs_audit.md) — open; produce a findings document critiquing the doc system across 8 dimensions (structure, consistency, coverage, drift, claim-justification, entry-point quality, `.claude` alignment, handoff hygiene). Read-only audit; findings only, no fixes.
+
+## Audit findings (drive follow-up fix sessions)
+
+- [Docs / `.claude` / `CLAUDE.md` audit findings](docs/notes/2026-05-27_docs_audit.md) — 38 findings across 8 dimensions (4 must-fix, 28 should-fix, 6 nice-to-have). Heaviest cluster: dimension 5 (critical-evaluation quality) — 12 should-fix items, most retired by Pass 2 of the architecture prepopulation handoff above.
