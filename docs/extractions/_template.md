@@ -4,11 +4,13 @@
 > Source file: `docs/sources/<filename>.<ext>` (gitignored).
 > Relevance to this thesis: <one line — why this paper is in the lit review>.
 
+**Institutional / spec sources** (no author, e.g. CTID Attack Flow, NITRD documents, MITRE ATT&CK as a standard rather than a paper): use `<institution><year>` or `<projectname><year>` in place of `<Author Year>` in the heading. Citation key follows the same form (e.g. `attackflow`, `nitrd2009`). The remaining sections are unchanged — `Pages cited from` becomes `Section / version cited from` for a versioned spec.
+
 ## Bibliographic anchor
 
-- **Citation key**: `<lastname-year>` (matches the BibTeX entry in the dissertation)
+- **Citation key**: `<lastname-year>` (matches the BibTeX entry in the dissertation; institutional form `<institution><year>` for non-author sources)
 - **DOI / URL**: <if available>
-- **Pages cited from**: <range, or "full text">
+- **Pages cited from**: <range, or "full text", or version-N for specs>
 
 ## Extraction policy
 

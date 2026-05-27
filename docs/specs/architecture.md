@@ -22,9 +22,11 @@ This work evaluates *existing* Moving Target Defence (MTD) mechanisms against
 **behaviourally-grounded adversarial profiles derived from CTI**. The contribution
 sits at the intersection of three independently-mature literatures: CTI-grounded
 attack profiling, attack-graph operationalisation in simulation, and MTD
-evaluation. The pipeline takes raw CTI (L0) through aggregation (L1, GAP),
-motivation-subgraphing (L2, GASP), and operationalisation inside MTDSim (L3,
-OGASP), to comparative effectiveness measurement (L4).
+evaluation. The pipeline takes raw CTI (L0) through aggregation (L1, **GAP** —
+Generalised APT Profile), motivation-subgraphing (L2, **GASP** —
+motivation-subgraphed APT Profile), and operationalisation inside MTDSim
+(L3, **OGASP** — Operationalised GASP), to comparative effectiveness
+measurement (L4). The §(h) glossary carries full definitions.
 
 The substrate is the inherited MTDSimTime fork ([`mtdsim_spec.md`](mtdsim_spec.md));
 the load-bearing seam is the **attacker module**, where graph-driven traversal
@@ -50,6 +52,9 @@ choices.
 **Why:** Defender-mechanism innovation is a "large can of worms" (Jin, 19 Mar
 2026) and not the focus of the thesis. The contribution lives on the attacker
 side.
+**Cost:** L4 comparative claims are bounded to the existing-MTD pool
+(SDR-family + Tay's AI selection); a "novel defender X outperforms Y" claim
+is out of reach within this evaluation.
 **If revisited:** Any defender-mechanism extension promotes this to a two-arm
 contribution and rebudgets the evaluation matrix.
 
@@ -72,6 +77,17 @@ effectively a different thesis.
 *comparison against* a known AI-driven MTD mechanism, not RL methodology
 contribution. Deferred to the evaluation/ablation phase (per
 [`project_context.md`](project_context.md) L10 and [`repo_conventions.md`](repo_conventions.md)).
+**Role clarification:** Tay's policy is *both* (i) an inherited benchmark we
+do not extend and (ii) one of the L4 comparison points alongside the
+time-scheduled SDR schemes — these are the same code object in two roles, not
+two competing framings.
+**Known reuse cost:** the model expects 8 static + 3 time-series features but
+the pipeline currently returns 7 + 3 (missing `exposed_endpoints`,
+`attack_type`). Reuse runs at this mismatch as inherited reality; chasing it
+belongs to the eval/ablation phase, not now.
+**Cost:** L4 cannot disentangle "MTD-AI's per-substrate optimisation" from
+"Tay's published policy on this substrate" — reported as an inherited-policy
+result, not an optimised-policy result.
 **If revisited:** If Tay's pretrained weights prove unusable end-to-end,
 fall back to a documented "reference RL benchmark unavailable" disposition
 rather than retraining.
@@ -100,6 +116,10 @@ rather than retraining.
 L0–L2 are pre-substrate (build-time artefacts). L3 is the seam where Marc's
 work plugs into the inherited MTDSim substrate. L4 measures inside the
 substrate using the metrics defined in [`metrics_semantics.md`](metrics_semantics.md).
+**L4 metric values are within-substrate-only**: comparison across configurations
+inside this substrate is valid; cross-paper numeric comparison against
+Zhang/Tay published values is **not** (see
+[`metrics_semantics.md`](metrics_semantics.md) §d for the comparability boundary).
 
 ---
 
@@ -117,6 +137,18 @@ substrate using the metrics defined in [`metrics_semantics.md`](metrics_semantic
 - **Validation.** The corpus is reproducible from MITRE/CTID releases by
   version; the architecture states the version pinned so the build is
   reproducible.
+
+**Parser contract (`.afb` → L1-ready tuples).** The L0→L1 step needs a
+parser that reads `.afb` files (Attack Flow's STIX-2.1-style JSON
+serialisation) and yields, per file: action nodes (with `technique_id`),
+condition nodes, operator nodes (`AND`/`OR`), and the directed edges between
+them (`effect`, `on_true`, `on_false`). L1 aggregation consumes that tuple
+stream, not the raw `.afb`. **In-tree status:** corpus location and parser
+implementation are **unverified** — no `notebooks/attack-flow/` directory
+exists on the current branch (`find . -type d -name 'attack-flow*'` empty as
+of 2026-05-27). The schema-version decision below (and §(l) open question
+#1) does not resolve until the parser and corpus land somewhere reachable;
+Pass 2's first job here is to materialise both or pin a new location.
 
 **Decision — Attack Flow schema version is pinned and documented explicitly.**
 **Why:** Attack Flow v3.2.0 is the current MITRE/CTID release (8 Jul 2025),
@@ -151,12 +183,20 @@ parameterisation tunable).
   from the corpus, (ii) edge counts roughly track campaign coverage, and
   (iii) the resulting subgraphs at L2 are non-trivially navigable. Threshold
   sensitivity is itself a methodology question — *not* a validation step.
+- **Code location.** Not in `mtdnetwork/` on this branch
+  (`grep -ri 'GAP\|GASP' mtdnetwork/` returns nothing as of 2026-05-27); the
+  v0.4 implementation lives in an off-substrate workstream. Pass 2's first
+  job here is to pin where the GAP code lands once it integrates with the
+  substrate fork.
 
 **Decision — graph-driven traversal replaces the early-proposal "per-tactic
 linear amplification" of the base attacker.**
 **Why:** Linear amplification was a PoC scaffold that did not capture
 behavioural dependency between techniques. Graph traversal of GASP is the
 substantive operationalisation move.
+**Cost:** No linear-amplification comparator survives at L4 — the procedural
+6-phase baseline carries the only comparator role against the graph-driven
+attacker.
 **If revisited:** Reverting to amplification would collapse this work to a
 parameter sweep over the inherited substrate — not a thesis-level
 contribution.
@@ -177,8 +217,13 @@ across motivation profiles.
 **Status:** partially built (terminal-node-ancestor proxy implemented; the
 "true" motivation-attribution method is unfinalised).
 
-- **Inputs.** L1 GAP; a motivation specifier (e.g. *espionage*, *disruption*,
-  *financial*).
+- **Inputs.** L1 GAP; a **motivation specifier** drawn from the canonical
+  set `{espionage, disruption, financial}` — three by default, matching the
+  primary motivation categories surfaced across ATT&CK group descriptions.
+  The set is **open**: an evaluation matrix may add a fourth (e.g.
+  *hacktivism*) if a finding depends on it, but the L4 baseline factorial
+  is currently scoped to these three. Pinning the L4 factorial shape is
+  §(l) open question #6.
 - **Outputs.** A motivation-conditioned subgraph of GAP: the techniques and
   edges relevant to the specified motivation.
 - **Transformation.** Currently: identify terminal nodes (no outgoing edges)
@@ -188,6 +233,9 @@ across motivation profiles.
 - **Validation.** Subgraphs should differ across motivations in non-trivial
   ways (different technique populations, different ancestral structure). The
   subgraph must remain traversable end-to-end (a connected reachable region).
+- **Code location.** Same as (d) — not in `mtdnetwork/` on this branch. The
+  terminal-node-ancestor proxy lives alongside the GAP v0.4 implementation
+  in the off-substrate workstream.
 
 **Decision — motivation attribution is implemented today as terminal-node
 ancestor expansion; richer attribution (NLP over group descriptions,
@@ -221,6 +269,13 @@ does not yet exist).
   reproduces the post-2c golden ([`../../baseline/golden/`](../../baseline/golden/));
   graph-driven traversal produces non-degenerate attack records on a GASP it
   is given.
+- **Code location.** Inherited 6-phase attacker is at
+  [`mtdnetwork/component/adversary.py`](../../mtdnetwork/component/adversary.py)
+  (the `Adversary` class) and
+  [`mtdnetwork/operation/attack_operation.py`](../../mtdnetwork/operation/attack_operation.py)
+  (the SimPy process driver). The graph-driven attacker is **unbuilt**; the
+  design intent is that it lives alongside `Adversary` in the same module —
+  selection is per-run, not via inheritance.
 
 **Decision — graph-driven attacker is added alongside the 6-phase attacker,
 not replacing it.**
@@ -333,8 +388,19 @@ ASR signal across the experiment matrix.
   attacker; six scripted phases per [`mtdsim_spec.md`](mtdsim_spec.md). Retained
   as the comparison baseline against the behaviourally-grounded attacker.
 - **MTD mechanism family — SDR** — shuffle / diversity / redundancy, the
-  canonical MTD taxonomy. The defence pool evaluated in this work, alongside
-  Tay's AI-driven selection.
+  canonical MTD taxonomy (Cho 2020 §III-B / Hong 2018; see
+  [`../extractions/cho2020.md`](../extractions/cho2020.md)). The three
+  primitives are complementary rather than partitioned:
+  - **Shuffling** — rearranges or randomises existing components (IP
+    mutation, port hopping, topology reconfiguration), invalidating
+    reconnaissance the attacker has already done.
+  - **Diversity** — deploys different implementations of the same function,
+    so that an exploit against one variant is unlikely to apply to others.
+  - **Redundancy** — replicates components to preserve service while
+    shuffling/diversity operate.
+  The defence pool evaluated in this work draws from the SDR-family classes
+  in [`mtdsim_spec.md`](mtdsim_spec.md) MTD-01–MTD-09, alongside Tay's
+  AI-driven selection.
 - **DES** — discrete-event simulation. The MTDSim execution paradigm.
 - **GSM** — graph-structural model (e.g. HARM, T-HARM). The structural model
   on top of which DES executes in this lineage.
@@ -351,7 +417,7 @@ module**.
 
 | Substrate region | What happens here | Position in this work |
 |---|---|---|
-| Network model | Topology, hosts, services, vulnerabilities | **Left alone.** Generic by design (no thesis-specific topology). |
+| Network model | Topology, hosts, services, vulnerabilities | **Left alone.** Generic by design (no thesis-specific topology). The substrate's current defaults (`50/5/4/8`) **diverge** from Brown's headline `200/20/5/20` — see [`mtdsim_spec.md`](mtdsim_spec.md) NET-04 / NET-05. "Generic" here means "not thesis-tuned", not "Brown-faithful". |
 | MTD scheduler | When MTD events fire, on which targets | **Left alone.** Existing schemes are the comparison axis at L4. |
 | MTD mechanism pool | SDR family + Tay's AI selection | **Left alone.** Existing mechanisms only; this is the defender side and is frozen by scope. |
 | **Attacker module** | Phase progression, action selection, state | **The seam.** Graph-driven (GASP) traversal added *alongside* the inherited 6-phase attacker. Both coexist; selection is per-run. |
@@ -445,8 +511,9 @@ These are decisions the scaffold flags but does not close. They are *pending*
 in the same sense as the §(f) Jalowski-primitives block — surfaced here for
 Pass 2 / Marc to drive, not assumed-resolved.
 
-- **Attack Flow schema version in-tree.** v3.2.0 or v2.x? Verify under
-  `notebooks/attack-flow/` and pin in §(c).
+- **Attack Flow schema version + parser entrypoint in-tree.** Pinning is
+  blocked until the corpus and parser materialise somewhere reachable;
+  see §(c) Decision-block + Parser-contract for the current open state.
 - **Which Jalowski primitives does the attacker model encode** (state
   collision / beacon conditioning / metadata invariance)? Each is independent.
 - **L1 aggregation parameter choice** (`min_support`, `min_confidence`,

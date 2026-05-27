@@ -6,7 +6,6 @@
 
 - **Git:** work on a dedicated branch; never commit to `main`; commit locally for my review; **never push** without asking; never run destructive git (`reset --hard`, `clean -fd`, `gc --prune`, force-push). Keep the session's terminal parked on its own branch for the session's duration. The per-turn stage-commit-push flow is in [`session_workflow.md`](session_workflow.md).
 - **Scope:** stay inside the task's defined scope. *Flag* out-of-scope findings — don't action them. Prefer small, reviewable, line-level diffs over wholesale rewrites; ask before expanding scope or restructuring.
-- **`feat/replay-viz`:** do not merge it wholesale. Pull only substrate-relevant fixes, as individually reviewed cherry-picks. Take only the substrate slice of any pick that drags unrelated hunks. Visualisation and GAP/GASP commits are deferred (Stream A/B).
 
 ## Working standards
 

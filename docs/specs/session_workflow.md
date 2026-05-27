@@ -11,6 +11,15 @@
 
 If a session starts on `main`, the first action is to create or switch to a session branch.
 
+**Mechanical guard.** A `pre-commit` hook at [`../../scripts/git-hooks/pre-commit`](../../scripts/git-hooks/pre-commit) refuses commits on `main`. Install once per fresh clone:
+
+```sh
+cp scripts/git-hooks/pre-commit .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
+```
+
+The hook is a foot-gun fix only — it doesn't replace any of the rules above; it just catches the obvious mistake.
+
 ## Stage-commit flow (per session)
 
 The convention is **stage-commit per logical unit, push never** (until Marc asks). Run these at meaningful checkpoints — typically once per session, but more often when a session covers multiple discrete changes:
@@ -30,9 +39,9 @@ When the current session uncovers work worth doing but that won't fit (a follow-
 **Where:** [`../handoffs/`](../handoffs/) — naming `YYYY-MM-DD_<topic>.md` (today's date as ISO).
 
 **Lifecycle:**
-- **Created** during a session, by you or by Marc's ask.
+- **Created** during a session, by you or by Marc's ask. **In the same commit that creates the handoff, add a one-line entry under "Open handoffs" in [`../../CLAUDE.md`](../../CLAUDE.md)** — the index is how cold sessions discover open work.
 - **Updated** during the session that picks it up, to reflect what's been done.
-- **Deleted** when the work lands. Git log is the permanent record of "what got shipped" — there is no archive folder.
+- **Deleted** when the work lands — ideally **in the same commit that ships the work**, so the index never lags reality. If a separate cleanup commit is unavoidable, take it before any other doc work begins. Git log is the permanent record of "what got shipped" — there is no archive folder.
 
 **Contents** (use [`../handoffs/_template.md`](../handoffs/_template.md) as the scaffold):
 - One-line goal at the top.

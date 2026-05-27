@@ -98,6 +98,12 @@ unimplemented.
   different mean envelope than Zhang's exponential. Absolute TTC values
   are shifted; the direction of any specific TTC delta depends on the
   vuln-complexity mix in the scenario.
+- **If revisited:** Implementing Zhang's exponential `T_Aexploit` would
+  re-enable a *qualified* cross-paper comparison against Zhang's MTTC
+  numbers (still bounded by ATK-04 and substrate-default differences).
+  Trigger: a finding that the deterministic-vs-exponential variance gap
+  collapses an L4 discriminator that would otherwise separate
+  configurations.
 
 ### ATK-04 — re-exploit time halving (two mechanisms; one active, one not)
 
@@ -123,10 +129,14 @@ characterised both with a pinned spy test and disambiguated them.
   byte-identity-checked against the golden artefacts; the discount
   applies on the live engine path that feeds `exploit_time` into
   `_execute_exploit_vuln` and into `roa()`/`get_vulns()` filtering.
-- **Disposition:** **kept deliberately** (Marc, Unit C). Cutting it is
-  a behavioural change requiring a golden re-baseline — a separate,
-  deliberate decision, not Unit C's. The pinned counts above make any
-  future drift visible.
+- **Disposition:** **kept deliberately** (Marc, Unit C). The pinned counts
+  above make any future drift visible.
+- **If revisited:** Cutting ATK-04a is a behavioural change requiring a
+  golden re-baseline — a separate, deliberate decision, not Unit C's. The
+  trigger for that decision is a finding that ATK-04a measurably distorts
+  within-substrate comparisons in the L4 evaluation (e.g. a re-exploit-heavy
+  scenario where the discount swings MTTC by more than the inter-config
+  delta being measured).
 
 **ATK-04b — Zhang per-*type* attacker learning: UNIMPLEMENTED.**
 
@@ -177,6 +187,12 @@ published numbers**. Two ways to think about what's valid:
 In §5 of the thesis: **MTTC is reported with this substrate as the
 explicit frame of reference**, and any reference to Zhang/Tay numbers is
 framed qualitatively or as a published-lineage *target* not yet matched.
+
+**If revisited:** the boundary becomes symmetric only if both C7 (above)
+*and* ATK-04b are implemented to match Zhang's published mechanisms;
+implementing either alone leaves the asymmetry in place. ATK-04a (the
+active per-instance discount) would also need to be either cut or
+matched against a Zhang-side equivalent to allow magnitude comparison.
 
 ---
 
