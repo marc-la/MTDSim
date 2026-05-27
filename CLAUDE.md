@@ -28,4 +28,4 @@ In this order:
 
 <!-- When a handoff is created or closed, update this section to reflect the live state. Format: `- [topic](docs/handoffs/YYYY-MM-DD_topic.md) — one-line status.` -->
 
-(none open)
+- [Architecture & methodology prepopulation](docs/handoffs/2026-05-27_architecture_prepopulation.md) — open; two-pass plan to author `docs/specs/architecture.md` from Marc's proposal + lit review + verbal walkthrough.
