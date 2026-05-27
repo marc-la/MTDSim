@@ -35,4 +35,4 @@ Run the full checklist in [`docs/specs/session_workflow.md`](docs/specs/session_
 
 ## Audit findings (drive follow-up fix sessions)
 
-- [Docs / `.claude` / `CLAUDE.md` audit findings](docs/notes/2026-05-27_docs_audit.md) — 39 findings across 8 dimensions (6 must-fix, 27 should-fix, 6 nice-to-have). Heaviest cluster: dimension 5 (critical-evaluation quality) — 12 should-fix items, retired by Pass 2 of the architecture prepopulation handoff above. The other 27 findings landed in commit `<audit-fixes>` (this branch).
+- [Docs / `.claude` / `CLAUDE.md` audit findings](docs/notes/2026-05-27_docs_audit.md) — 39 findings across 8 dimensions (6 must-fix, 27 should-fix, 6 nice-to-have). Heaviest cluster: dimension 5 (critical-evaluation quality) — 12 should-fix items, retired by Pass 2 of the architecture prepopulation handoff above. The other 27 findings (all 6 must-fix, the non-§5 should-fix, all nice-to-have) landed in commit `b83b802`.
