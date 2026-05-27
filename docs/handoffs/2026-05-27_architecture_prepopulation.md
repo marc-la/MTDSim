@@ -29,17 +29,13 @@ per §(c)–(g). Every architectural decision carries both **Why:** and
   intersection, ATT&CK Evaluations, Jalowski primitives, Rodríguez
   four-axes comparison) by citing the relevant extractions in §(a) / §(f) /
   §(j).
-- **Adjacent-paper extraction deep flesh — owned by the separate
-  [Pass-2 paper-extractions handoff](2026-05-27_pass2_paper_extractions.md)**
-  (stubs landed in `2b7dc48`; anchors shipped through `88a8d30`). Within
-  *this* handoff, the only obligation is that §(j)'s six unsupported-claim
-  retirals cite the relevant extractions once those extractions exist. The
-  two highest-leverage stubs for the audit-finding retiral are
-  [`../extractions/jalowski2026.md`](../extractions/jalowski2026.md) (backs
-  the §(f) primitives decision) and
-  [`../extractions/rodriguez2024.md`](../extractions/rodriguez2024.md)
-  (backs the §(j) four-axes comparison) — flag them as priority within the
-  paper-extractions handoff.
+- ~~Adjacent-paper extraction deep flesh~~ — **shipped** by the Pass-2
+  paper-extractions handoff (commits `506722b` / `a7050c9` / `c71eae8`).
+  All 19 non-lineage extractions now carry deep artefact sections; the two
+  highest-leverage stubs for audit-finding retiral ([`../extractions/jalowski2026.md`](../extractions/jalowski2026.md)
+  for the §(f) primitives decision; [`../extractions/rodriguez2024.md`](../extractions/rodriguez2024.md)
+  for the §(j) four-axes comparison) are now both fleshed and ready to be
+  cited from §(j) prose in Pass 2 of *this* handoff.
 - Resolve the §(l) open questions: Attack Flow schema in-tree + parser
   entrypoint (now consolidated into §(c) Parser-contract block), Jalowski
   primitives encoded subset, L1 aggregation parameters,

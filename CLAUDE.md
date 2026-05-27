@@ -4,7 +4,7 @@ Entry point. **Load the durable context before doing anything that touches code 
 
 This file is intentionally lean. The always-true background, rules, and conventions live in [`docs/specs/`](docs/specs/) — load them per session rather than caching them here. Task-specific scope and step lists arrive in the prompt I paste; the spec files describe what's true regardless of the task.
 
-Harness configuration (permission allowlists, hooks) lives in [`.claude/`](.claude/). Rules that *should* be enforced by the harness but currently live only in prose are tracked under "Audit findings" below.
+Harness configuration (permission allowlists, hooks) lives in [`.claude/`](.claude/).
 
 ## Read first, every session
 
@@ -30,8 +30,7 @@ Run the full checklist in [`docs/specs/session_workflow.md`](docs/specs/session_
 
 <!-- When a handoff is created or closed, update this section to reflect the live state. Format: `- [topic](docs/handoffs/YYYY-MM-DD_topic.md) — one-line status.` -->
 
-- [Architecture & methodology prepopulation](docs/handoffs/2026-05-27_architecture_prepopulation.md) — partially shipped; Pass 1 scaffold landed at [`docs/specs/architecture.md`](docs/specs/architecture.md). Pass 2 owes: §(j) methodological-positioning flesh against `LIT_REVIEW.md` (retire the audit's six unsupported claims) and the §(l) open-questions sweep. Per-paper extraction deep-flesh is now governed by the separate Pass-2 paper-extractions handoff below.
-- [Pass-2 deep paper extractions](docs/handoffs/2026-05-27_pass2_paper_extractions.md) — open; per-paper flesh of the 19 stub extractions (lineage four are read-only), batched by relevance class. Blocked on `LIT_REVIEW.md` §IV-B continuation + Table II + §V Synthesis for the four §IV-B papers (Masud, He, Kim, Tay).
+- [Architecture & methodology prepopulation](docs/handoffs/2026-05-27_architecture_prepopulation.md) — partially shipped; Pass 1 scaffold landed at [`docs/specs/architecture.md`](docs/specs/architecture.md). Pass 2 owes: §(j) methodological-positioning flesh against `LIT_REVIEW.md` (retire the audit's six unsupported claims, now backed by the deep extractions) and the §(l) open-questions sweep. Per-paper extraction deep-flesh shipped in `506722b` / `a7050c9` / `c71eae8`.
 
 ## Audit findings (drive follow-up fix sessions)
 
