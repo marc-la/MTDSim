@@ -76,6 +76,61 @@ Pass 2 has its own gate per extraction file (template completed; quotes locator'
 - **Don't merge `chore/docs-restructure`** — Marc reviews and merges that separately. Branch this handoff's work off `main` or off `chore/docs-restructure` once merged (ask Marc at session start).
 - **architecture.md ≤ ~600 lines** for the scaffold. If it would grow past, **stop and ask** about splitting `methodology.md` off.
 
+## Source-file naming convention (in `docs/sources/`, gitignored)
+
+`docs/sources/` is the working library of full-text PDFs/markdown for the lit review and lineage. The filenames already carry an implicit organisation; this section makes the rule explicit so future sessions don't have to re-derive it from the listing.
+
+**Pattern:** `<lit_section>_<lit_subsection>_<authorYEAR>.md` for non-lineage papers; `<authorYEAR>.md` (no section prefix) for the four UWA lineage papers (`brown2023.md`, `zhang2023.md`, `ho2024.md`, `tay2024.md`).
+
+**Section-prefix mapping** (mirrors the lit-review section numbering):
+
+| Prefix | Lit-review section | Contents |
+|---|---|---|
+| `1_1_` | §II-A — MTD concept / taxonomy | foundational MTD definitions, SDR taxonomy |
+| `1_2_` | §II-B — MTD evaluation paradigms | metrics, HARM, validation methods |
+| `1_3_` | §II-C — orchestration & adaptive selection | RL-orchestrated MTD, conflict-resolution rules |
+| `2_1_` | §III-A — MITRE ATT&CK + Attack Flow | the technique-level vocabulary and its STIX serialisation |
+| `2_2_` | §III-B — Pyramid of Pain | indicator-class cost ranking + TTP durability |
+| `2_3_` | §III-C — APTs | APT lifecycle, NIST framing, attribution |
+| `2_4_` | §III-D — attack profiling | NLP / process-mining / LLM extraction methods, manual curation |
+| `3_1_` | §IV-A — surveys naming the attacker-modelling gap | Cho 2020, Jalowski 2026 |
+| `3_2_` | §IV-B — recent MTD evaluation works | papers placed on the fidelity descriptor |
+| `4_`   | §V — synthesis / cross-cutting | supporting works used in the synthesis (e.g. RL adversary, defender perspective) |
+
+**UWA lineage exception.** The four lineage papers (Brown 2023, Zhang 2023, Ho 2024, Tay 2024) keep the un-prefixed `<authorYEAR>.md` form because their extraction filenames in [`../extractions/`](../extractions/) also use that form, and matching filenames make the source↔extraction link obvious. Treat them as a special-cased "lineage" category that lives outside the numbered prefix scheme.
+
+**Extraction filenames** (`docs/extractions/<authorYEAR>.md`) **never carry the section prefix.** When stubbing or fleshing an extraction, the filename is the bare `<authorYEAR>`, even when the source file is prefixed. The lit-section organisation is a property of `sources/`, not of the extraction artefact.
+
+**No "keyword" suffix.** Earlier copies carried filename suffixes (e.g. `2024MITRE`, `2024using`, `2023evaluating`). The `<authorYEAR>` token alone is the canonical key; the section prefix already disambiguates same-year authors. Drop the keyword on rename.
+
+**Disambiguation when an author has two papers in the same year:** append a short tag in lowercase (e.g. `zhang2023.md` for the MTDSimTime lineage paper; `zhang2025attackg.md` for the AttacKG+ paper) — but only when ambiguity actually arises in *this* corpus.
+
+**Reading list to stub against (Pass-1 step 3):** the current contents of `docs/sources/` map onto extraction stubs as follows. Each row produces one `docs/extractions/<authorYEAR>.md` stub with citation + relevance line + empty sections per [`../extractions/_template.md`](../extractions/_template.md).
+
+| Source filename | Extraction filename | Category |
+|---|---|---|
+| `1_1_cho2020toward.md` | `cho2020.md` | §II-A — MTD survey, attacker-modelling-gap source |
+| `1_1_ghosh2009NITRD.md` | `ghosh2009.md` | §II-A — foundational MTD (NITRD) |
+| `1_2_hong2018dynamic.md` | `hong2018.md` | §II-B — dynamic security models / HARM extension |
+| `1_3_masud2025vulnerability.md` | `masud2025.md` | §II-C — orchestration (specified pole) |
+| `2_1_al-sada2024MITRE.md` | `al-sada2024.md` | §III-A — ATT&CK |
+| `2_1_attackflowdoc.md` | `attackflow.md` | §III-A — CTID Attack Flow specification (not an author paper) |
+| `2_2_bianco2013pop.md` | `bianco2013.md` | §III-B — Pyramid of Pain |
+| `2_2_sadlek2022current.md` | `sadlek2022.md` | §III-B — TTP-durability |
+| `2_3_alshamrani2019survey.md` | `alshamrani2019.md` | §III-C — APT survey |
+| `2_4_buechel2025sok.md` | `buechel2025.md` | §III-D — SoK on TTP extraction |
+| `2_4_ferraz2024procedural.md` | `ferraz2024.md` | §III-D — procedural attacker modelling |
+| `2_4_rahman2024mining.md` | `rahman2024.md` | §III-D — ChronoCTI (NLP-based extraction) |
+| `2_4_rodriguez2024process.md` | `rodriguez2024.md` | §III-D — process-mining extraction |
+| `2_4_zhang2025attackg_.md` | `zhang2025attackg.md` | §III-D — AttacKG+ (LLM-based extraction) |
+| `3_1_jalowski2026rethinking.md` | `jalowski2026.md` | §IV-A — second gap-survey |
+| `3_2_he2025MTD-AD.md` | `he2025.md` | §IV-B — MTD-AD, NIDS adversarial defence |
+| `3_2_kim2026mtdid.md` | `kim2026.md` | §IV-B — CKC-aware MTD |
+| `4_bland2020machine.md` | `bland2020.md` | §V — RL adversary (cross-cutting) |
+| `4_outkin2023defender.md` | `outkin2023.md` | §V — defender perspective (cross-cutting) |
+
+Lineage papers (`brown2023`, `zhang2023`, `ho2024`, `tay2024`) already have full extraction files — do not re-stub. The handoff's Pass-1 step 3 above governs the new stubs only.
+
 ## Reading list
 
 Must skim cold before doing anything:
@@ -104,6 +159,6 @@ Must skim cold before doing anything:
 
 1. Path or excerpts from the proposal / methodology document.
 2. Path or links to slide decks / diagrams (or verbal walkthrough if not durable yet).
-3. **A list of adjacent papers to stub extractions for** — title + author + year + which category (CTI standard / behavioural-attacker / adjacent MTD eval).
+3. ~~A list of adjacent papers to stub extractions for~~ — **superseded.** The papers are already in `docs/sources/` with the section-prefix naming convention encoding their category (see "Source-file naming convention" above). Stubs will be / have been generated against that list rather than against a hand-curated list at session start. Marc only needs to flag papers added to `sources/` *after* the convention landed.
 4. Confirmation: branch off `main` or off `chore/docs-restructure`? (Depends on whether the restructure is merged by then.)
 5. Anything else Marc has in his head that's load-bearing for the architecture but not yet written down anywhere.

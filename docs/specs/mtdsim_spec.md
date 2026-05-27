@@ -2,7 +2,7 @@
 
 **Status:** Phase-1 merge of the four source works against the Phase-0 baseline.
 **Lineage:** Brown 2023 (foundational) → Zhang 2023 (MTDSimTime, time domain) → Ho 2024 (metrics + RL) → Tay 2024 (MTDShield).
-**Primary source:** Brown 2023. **Direction-only source:** `LIT_REVIEW.md` (not an artefact source).
+**Primary source:** Brown 2023. **Direction-only source:** [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) — the May-22 CITS4010 lit review (gitignored; read in-session). Not an artefact source.
 **Baseline:** `baseline/BASELINE.md` and `baseline/golden/*`, commit `chore/baseline-spec`.
 
 ---
