@@ -2,7 +2,7 @@
 gap_rebuild handoff).
 
 Corpus-dependent tests skip cleanly when the gitignored inputs are absent
-(fresh clone); run ``python scripts/fetch_gap_corpus.py`` to enable them. The
+(fresh clone); run ``python -m mtdsim.l0_cti`` to enable them. The
 synthetic-branch and OR tests are self-contained and always run.
 """
 
@@ -13,7 +13,7 @@ from pathlib import Path
 
 import pytest
 
-from mtdsim.attacker.gap import (
+from mtdsim.l1_construction import (
     FlowEdge,
     FlowNode,
     PerFlowExtract,
@@ -34,7 +34,7 @@ _TESLA_AND_TARGET = "T1496"
 
 _needs_corpus = pytest.mark.skipif(
     not _TESLA.exists() or not _ATTACK,
-    reason="GAP corpus inputs absent — run scripts/fetch_gap_corpus.py",
+    reason="GAP corpus inputs absent — run python -m mtdsim.l0_cti",
 )
 
 
@@ -188,7 +188,7 @@ def test_acyclic_projection_is_a_dag_and_a_view(built):
     # kept + cut accounts for every original edge
     assert len(view.edges) + len(view.cut_edges) == gap.edge_count
     # kept edges are acyclic
-    from mtdsim.attacker.gap.views import _find_one_cycle
+    from mtdsim.l1_construction.views import _find_one_cycle
     adj: dict[str, list[str]] = {}
     for e in view.edges:
         adj.setdefault(e.source_id, []).append(e.target_id)
@@ -260,7 +260,7 @@ def test_condition_sink_yields_no_edge():
 def test_parent_collapse_handles_enterprise_and_atlas():
     """Sub-technique collapse strips only the trailing .NNN — it must not
     conflate ATLAS ids (AML.T####.###) into a single AML node."""
-    from mtdsim.attacker.gap.attack_flow_parser import _parent_technique
+    from mtdsim.l1_construction.attack_flow_parser import _parent_technique
 
     assert _parent_technique("T1078.004") == "T1078"
     assert _parent_technique("T1496") == "T1496"

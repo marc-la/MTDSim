@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
-"""Acquire the gitignored upstream inputs for the L1 GAP build.
+"""L0 — acquire the gitignored upstream inputs for the L1 GAP build.
 
 Per ``docs/specs/01_gap_schema.md`` Decision 4, the upstream corpora are
 consumed from a gitignored local copy; only the distilled per-flow extracts +
-the aggregated GAP are committed. This script materialises those inputs
+the aggregated GAP are committed. :func:`fetch_corpus` materialises those inputs
 reproducibly:
 
 1. The 40 MITRE CTID Attack Flow corpus flows, as **STIX 2.1 bundles**, taken
@@ -16,9 +15,8 @@ reproducibly:
 Both land under ``data/gap/_corpus_stix/`` and ``data/gap/_attack/`` (gitignored).
 Idempotent: existing non-empty files are skipped unless ``--force`` is given.
 
-Usage::
-
-    python scripts/fetch_gap_corpus.py [--force]
+Library entry point: :func:`fetch_corpus`. The CLI runner is this package's
+``__main__`` (``PYTHONPATH=src python -m mtdsim.l0_cti [--force]``).
 
 Network access required. Apache-2.0 (Attack Flow) / ATT&CK Terms of Use —
 attribution preserved in data/gap/README.md.
@@ -26,8 +24,6 @@ attribution preserved in data/gap/README.md.
 
 from __future__ import annotations
 
-import argparse
-import sys
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -94,7 +90,7 @@ FLOW_NAMES = [
     "WhisperGate",
 ]
 
-_REPO_ROOT = Path(__file__).resolve().parent.parent
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 CORPUS_DIR = _REPO_ROOT / "data" / "gap" / "_corpus_stix"
 ATTACK_DIR = _REPO_ROOT / "data" / "gap" / "_attack"
 
@@ -113,41 +109,33 @@ def _download(url: str, dest: Path, force: bool) -> str:
         return f"fail: {type(exc).__name__}: {exc}"
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--force", action="store_true", help="re-download existing files")
-    args = ap.parse_args()
+def fetch_corpus(force: bool = False) -> dict:
+    """Download the corpus + ATT&CK bundle to the gitignored input dirs.
 
-    print(f"GAP corpus acquisition\n  corpus_ref:   {CORPUS_REF}\n"
-          f"  attack:       enterprise-attack-{ATTACK_VERSION}\n"
-          f"  -> {CORPUS_DIR}\n  -> {ATTACK_DIR}\n")
+    Idempotent: existing non-empty files are skipped unless ``force``. Pure I/O
+    plus network — does no printing; returns a report for the caller to present::
 
+        {"corpus": {"ok": int, "skip": int, "fail": int},
+         "failures": [(flow_name, status), ...],
+         "attack":  {"status": str, "size_mb": float}}
+    """
     # 1. Attack Flow corpus (STIX export)
     counts = {"ok": 0, "skip": 0, "fail": 0}
-    failures = []
+    failures: list[tuple[str, str]] = []
     for name in FLOW_NAMES:
         url = CORPUS_BASE_URL + urllib.parse.quote(name) + ".json"
-        status = _download(url, CORPUS_DIR / f"{name}.json", args.force)
+        status = _download(url, CORPUS_DIR / f"{name}.json", force)
         key = "fail" if status.startswith("fail") else status
         counts[key] += 1
         if key == "fail":
             failures.append((name, status))
-    print(f"Attack Flow corpus: {counts['ok']} downloaded, "
-          f"{counts['skip']} cached, {counts['fail']} failed "
-          f"(of {len(FLOW_NAMES)})")
-    for name, status in failures:
-        print(f"  FAIL {name}: {status}")
 
     # 2. ATT&CK Enterprise STIX
     attack_dest = ATTACK_DIR / f"enterprise-attack-{ATTACK_VERSION}.json"
-    status = _download(ATTACK_URL, attack_dest, args.force)
-    size_mb = attack_dest.stat().st_size / 1e6 if attack_dest.exists() else 0
-    print(f"ATT&CK Enterprise: {status} ({size_mb:.1f} MB)")
-
-    ok = counts["fail"] == 0 and not status.startswith("fail")
-    print("\nDone." if ok else "\nDone with errors.")
-    return 0 if ok else 1
-
-
-if __name__ == "__main__":
-    sys.exit(main())
+    attack_status = _download(ATTACK_URL, attack_dest, force)
+    size_mb = attack_dest.stat().st_size / 1e6 if attack_dest.exists() else 0.0
+    return {
+        "corpus": counts,
+        "failures": failures,
+        "attack": {"status": attack_status, "size_mb": size_mb},
+    }

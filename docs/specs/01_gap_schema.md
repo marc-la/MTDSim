@@ -10,7 +10,7 @@ scope: L1 (GAP construction) only. L2/L3/L4 are consumers, not in scope here.
 The data model and construction method for **L1 — GAP**: the aggregate
 technique-level graph built from the MITRE CTID Attack Flow corpus. This file
 is the *what it is* (data model + invariants + decisions). The *how to build it*
-is implemented in [`../../src/mtdsim/attacker/gap/`](../../src/mtdsim/attacker/gap)
+is implemented in [`../../src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction)
 (validation gate in [`../../tests/gap/`](../../tests/gap); committed artefacts
 under [`../../data/gap/`](../../data/gap)).
 
@@ -237,7 +237,7 @@ they just read richer, lossless edges.
 
 ---
 
-## (f) Build pipeline (summary; implemented in [`../../src/mtdsim/attacker/gap/`](../../src/mtdsim/attacker/gap))
+## (f) Build pipeline (summary; implemented in [`../../src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction))
 
 1. **Acquire corpus.** Gitignored clone of `center-for-threat-informed-defense/attack-flow`
    (already covered by `.gitignore: attack-flow/`). Pin the release tag.
@@ -315,5 +315,6 @@ pixel-proximity hack and `extract_ontology_edges` (Decision 1), and
 - [`../extractions/attackflow.md`](../extractions/attackflow.md) — the Attack Flow
   schema extraction (load-bearing prerequisite reading).
 - [`project_context.md`](project_context.md) — the L0→L4 one-liner GAP sits in.
-- Prior art being superseded: the v0.4 GAP implementation under
-  `src/mtdsim/attacker/gap/` on `feat/attacker-profiling`.
+- Prior art being superseded: the v0.4 GAP implementation on
+  `feat/attacker-profiling` (its role-based `attacker/` subtree; the L1 build
+  here now lives at `l1_construction/`).

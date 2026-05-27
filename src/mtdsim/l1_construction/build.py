@@ -1,13 +1,14 @@
 """Top-level GAP build: corpus STIX + ATT&CK -> per-flow extracts + aggregate.
 
-Reads the gitignored inputs acquired by ``scripts/fetch_gap_corpus.py``,
+Reads the gitignored inputs acquired by ``python -m mtdsim.l0_cti``,
 produces the committed artefacts:
 
 - ``data/gap/flows/<flow_id>.yaml`` — one lossless per-flow extract per flow.
 - ``data/gap/gap_v<version>.json`` — the aggregated GAP.
 
 Library entry points: :func:`build_gap` / :func:`persist_extracts` /
-:func:`persist_gap`. The CLI runner lives at ``scripts/build_gap.py``.
+:func:`persist_gap`. The CLI runner is this package's ``__main__``
+(``PYTHONPATH=src python -m mtdsim.l1_construction``).
 """
 
 from __future__ import annotations
@@ -15,17 +16,17 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from mtdsim.attacker.gap.aggregate import aggregate_gap
-from mtdsim.attacker.gap.attack_flow_parser import parse_flow_file
-from mtdsim.attacker.gap.attack_stix import load_attack_taxonomy, load_attack_techniques
-from mtdsim.attacker.gap.schema import GeneralisedAttackProfile, PerFlowExtract
+from mtdsim.l1_construction.aggregate import aggregate_gap
+from mtdsim.l1_construction.attack_flow_parser import parse_flow_file
+from mtdsim.l1_construction.attack_stix import load_attack_taxonomy, load_attack_techniques
+from mtdsim.l1_construction.schema import GeneralisedAttackProfile, PerFlowExtract
 
-# --- pinned provenance (mirrors scripts/fetch_gap_corpus.py) -----------------
+# --- pinned provenance (mirrors mtdsim.l0_cti.fetch) -------------------------
 VERSION = "0.5"
 CORPUS_REF = "attack-flow@v3.1.1 (pkg 3.2.0); STIX 2.0.0 extension; CTID published export"
 ATTACK_SOURCE = "enterprise-attack-19.1"
 
-_REPO_ROOT = Path(__file__).resolve().parents[4]
+_REPO_ROOT = Path(__file__).resolve().parents[3]
 CORPUS_STIX_DIR = _REPO_ROOT / "data" / "gap" / "_corpus_stix"
 ATTACK_DIR = _REPO_ROOT / "data" / "gap" / "_attack"
 FLOWS_OUT_DIR = _REPO_ROOT / "data" / "gap" / "flows"
@@ -38,7 +39,7 @@ def _resolve_attack_bundle(attack_path) -> Path:
     found = sorted(ATTACK_DIR.glob("enterprise-attack-*.json"))
     if not found:
         raise FileNotFoundError(
-            f"No ATT&CK bundle in {ATTACK_DIR}. Run scripts/fetch_gap_corpus.py first."
+            f"No ATT&CK bundle in {ATTACK_DIR}. Run python -m mtdsim.l0_cti first."
         )
     return found[-1]
 
@@ -63,7 +64,7 @@ def build_gap(
     flow_files = sorted(corpus_stix_dir.glob("*.json"))
     if not flow_files:
         raise FileNotFoundError(
-            f"No corpus flows in {corpus_stix_dir}. Run scripts/fetch_gap_corpus.py first."
+            f"No corpus flows in {corpus_stix_dir}. Run python -m mtdsim.l0_cti first."
         )
     extracts = [
         parse_flow_file(p, tactic_id_to_name=taxonomy.id_to_name) for p in flow_files

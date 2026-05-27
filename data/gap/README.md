@@ -3,7 +3,7 @@
 The Generalised APT Profile (L1): a lossless, Attack-Flow-only technique
 dependency graph. Data model and design decisions:
 [`docs/specs/01_gap_schema.md`](../../docs/specs/01_gap_schema.md). Build code:
-[`src/mtdsim/attacker/gap/`](../../src/mtdsim/attacker/gap).
+[`src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction).
 
 ## Contents
 
@@ -17,9 +17,9 @@ dependency graph. Data model and design decisions:
 ## Rebuild
 
 ```sh
-python scripts/fetch_gap_corpus.py          # acquire the gitignored inputs
-PYTHONPATH=src python scripts/build_gap.py   # write flows/ + gap_v0.5.json
-PYTHONPATH=src python -m pytest tests/gap/    # validation gate
+PYTHONPATH=src python -m mtdsim.l0_cti           # acquire the gitignored inputs
+PYTHONPATH=src python -m mtdsim.l1_construction  # write flows/ + gap_v0.5.json
+PYTHONPATH=src python -m pytest tests/gap/       # validation gate
 ```
 
 The build is deterministic: a rebuild is byte-identical save the `build_date`.

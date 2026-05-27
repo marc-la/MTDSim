@@ -190,9 +190,12 @@ build-time bakes. Reconciling this section's prose to that spec is Pass-2 work.
   from the corpus, (ii) edge counts roughly track campaign coverage, and
   (iii) the resulting subgraphs at L2 are non-trivially navigable. Threshold
   sensitivity is itself a methodology question — *not* a validation step.
-- **Code location.** Not in `mtdnetwork/` on this branch as of 2026-05-27;
-  the v0.4 implementation lives in an off-substrate workstream. The
-  integration path with the substrate fork is unpinned.
+- **Code location.** Built on this branch at
+  [`../../src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction) (GAP
+  v0.5; pipeline cross-walk in
+  [`../../src/mtdsim/README.md`](../../src/mtdsim/README.md)). Self-contained —
+  imports nothing from `mtdnetwork/`; the substrate integration (L3) is unpinned.
+  The superseded v0.4 implementation is on `feat/attacker-profiling`.
 
 **Decision — graph-driven traversal replaces the early-proposal "per-tactic
 linear amplification" of the base attacker.**
@@ -238,9 +241,10 @@ across motivation profiles.
 - **Validation.** Subgraphs should differ across motivations in non-trivial
   ways (different technique populations, different ancestral structure). The
   subgraph must remain traversable end-to-end (a connected reachable region).
-- **Code location.** Same as (d) — not in `mtdnetwork/` on this branch. The
-  terminal-node-ancestor proxy lives alongside the GAP v0.4 implementation
-  in the off-substrate workstream.
+- **Code location.** Stub on this branch at
+  [`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph) (scaffold +
+  README; no implementation yet). The v0.4 terminal-node-ancestor proxy is prior
+  art on `feat/attacker-profiling`, not ported.
 
 **Decision — motivation attribution is implemented today as terminal-node
 ancestor expansion; richer attribution (NLP over group descriptions,
@@ -280,7 +284,9 @@ does not yet exist).
   [`mtdnetwork/operation/attack_operation.py`](../../mtdnetwork/operation/attack_operation.py)
   (the SimPy process driver). The graph-driven attacker is **unbuilt**; the
   design intent is that it lives alongside `Adversary` in the same module —
-  selection is per-run, not via inheritance.
+  selection is per-run, not via inheritance. The pipeline tree marks this seam
+  at [`../../src/mtdsim/l3_simulation/`](../../src/mtdsim/l3_simulation) (a
+  pointer only; holds no code).
 
 **Decision — graph-driven attacker is added alongside the 6-phase attacker,
 not replacing it.**
@@ -354,6 +360,11 @@ attacker runs not yet possible because L3 is unbuilt).
   [`metrics_semantics.md`](metrics_semantics.md) §d). The E1 finding from Phase 3
   applies: end-of-sim compromise fraction is a poor discriminator at long
   horizons — MTTC / attacker-effort discriminate.
+- **Code location.** The metrics pipeline is inherited substrate
+  ([`mtdnetwork/statistic/`](../../mtdnetwork/statistic)); the pipeline tree
+  marks this seam at
+  [`../../src/mtdsim/l4_evaluation/`](../../src/mtdsim/l4_evaluation) (a pointer
+  only; holds no code).
 
 **Decision — one canonical substrate; the `internal`/`lineage` preset was
 evaluated and dropped.**

@@ -6,12 +6,12 @@ model and the four design decisions this implements.
 
 Typical use::
 
-    from mtdsim.attacker.gap import build_gap, support_filter
+    from mtdsim.l1_construction import build_gap, support_filter
     extracts, gap = build_gap()
     dag = acyclic_projection(gap)
 """
 
-from mtdsim.attacker.gap.schema import (
+from mtdsim.l1_construction.schema import (
     DependencyEdge,
     FlowEdge,
     FlowNode,
@@ -21,18 +21,18 @@ from mtdsim.attacker.gap.schema import (
     PerFlowExtract,
     TechniqueNode,
 )
-from mtdsim.attacker.gap.attack_flow_parser import (
+from mtdsim.l1_construction.attack_flow_parser import (
     parse_flow_bundle,
     parse_flow_file,
     slugify,
 )
-from mtdsim.attacker.gap.attack_stix import (
+from mtdsim.l1_construction.attack_stix import (
     AttackTaxonomy,
     load_attack_taxonomy,
     load_attack_techniques,
 )
-from mtdsim.attacker.gap.aggregate import aggregate_gap, contract_flow
-from mtdsim.attacker.gap.views import (
+from mtdsim.l1_construction.aggregate import aggregate_gap, contract_flow
+from mtdsim.l1_construction.views import (
     AcyclicView,
     GapView,
     TacticLayer,
@@ -40,7 +40,7 @@ from mtdsim.attacker.gap.views import (
     support_filter,
     tactic_layering,
 )
-from mtdsim.attacker.gap.build import build_gap, persist_extracts, persist_gap
+from mtdsim.l1_construction.build import build_gap, persist_extracts, persist_gap
 
 __all__ = [
     # schema

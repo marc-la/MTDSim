@@ -29,7 +29,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional, Union
 
-from mtdsim.attacker.gap.schema import (
+from mtdsim.l1_construction.schema import (
     TACTIC_ID_TO_NAME,
     TACTIC_LAYERS,
     TACTIC_ORDER,

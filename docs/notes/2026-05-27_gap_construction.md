@@ -95,7 +95,7 @@ The "future-you must defend this" points:
 
 - To the spec: [`../specs/01_gap_schema.md`](../specs/01_gap_schema.md) is the
   formal data model + the four decisions; this note is its plain-English
-  companion. Build code: [`../../src/mtdsim/attacker/gap/`](../../src/mtdsim/attacker/gap);
+  companion. Build code: [`../../src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction);
   artefacts: [`../../data/gap/`](../../data/gap).
 - To the architecture: [`architecture.md`](../specs/architecture.md) §(c)–(d)
   place the GAP as L1 of the L0→L4 pipeline.

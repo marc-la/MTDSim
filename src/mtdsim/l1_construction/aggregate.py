@@ -32,8 +32,8 @@ from collections import defaultdict
 from dataclasses import dataclass
 from typing import Optional
 
-from mtdsim.attacker.gap.attack_stix import AttackTaxonomy
-from mtdsim.attacker.gap.schema import (
+from mtdsim.l1_construction.attack_stix import AttackTaxonomy
+from mtdsim.l1_construction.schema import (
     DependencyEdge,
     GeneralisedAttackProfile,
     Join,

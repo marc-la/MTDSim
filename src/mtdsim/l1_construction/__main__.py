@@ -1,24 +1,20 @@
-#!/usr/bin/env python3
-"""Build the L1 GAP artefacts from the acquired corpus.
+"""CLI for L1 GAP construction — ``python -m mtdsim.l1_construction``.
 
-Reads the gitignored inputs (run ``scripts/fetch_gap_corpus.py`` first), writes
-the committed per-flow extracts + aggregate GAP, and prints a sanity summary.
+Reads the gitignored inputs (run ``python -m mtdsim.l0_cti`` first), writes the
+committed per-flow extracts + aggregate GAP, and prints a sanity summary.
 
 Usage::
 
-    PYTHONPATH=src python scripts/build_gap.py [--corpus DIR] [--attack FILE]
-                                               [--flows-out DIR] [--gap-out FILE]
+    PYTHONPATH=src python -m mtdsim.l1_construction [--corpus DIR] [--attack FILE]
+                                                    [--flows-out DIR] [--gap-out FILE]
 """
 
 from __future__ import annotations
 
 import argparse
 import sys
-from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
-
-from mtdsim.attacker.gap.build import (  # noqa: E402
+from mtdsim.l1_construction.build import (
     CORPUS_STIX_DIR,
     FLOWS_OUT_DIR,
     GAP_OUT_PATH,
@@ -29,7 +25,7 @@ from mtdsim.attacker.gap.build import (  # noqa: E402
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__)
+    ap = argparse.ArgumentParser(prog="python -m mtdsim.l1_construction", description=__doc__)
     ap.add_argument("--corpus", default=CORPUS_STIX_DIR, help="dir of flow STIX bundles")
     ap.add_argument("--attack", default=None, help="ATT&CK enterprise STIX bundle")
     ap.add_argument("--flows-out", default=FLOWS_OUT_DIR)

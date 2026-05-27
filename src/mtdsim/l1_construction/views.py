@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from mtdsim.attacker.gap.schema import (
+from mtdsim.l1_construction.schema import (
     DependencyEdge,
     GeneralisedAttackProfile,
 )

@@ -27,7 +27,7 @@ import re
 from pathlib import Path
 from typing import Union
 
-from mtdsim.attacker.gap.schema import (
+from mtdsim.l1_construction.schema import (
     TACTIC_ID_TO_NAME,
     FlowEdge,
     FlowNode,

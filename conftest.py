@@ -1,9 +1,9 @@
 """Pytest bootstrap.
 
 Adds ``src/`` to ``sys.path`` so the restructured ``mtdsim`` package
-(currently just the ``mtdsim.attacker.gap`` subtree on this branch) is
-importable without altering the repo's ``mtdnetwork`` packaging in
-``setup.py``. Scripts that need it run with ``PYTHONPATH=src``.
+(the L0–L1 pipeline stages on this branch — ``mtdsim.l0_cti`` /
+``mtdsim.l1_construction``) is importable without altering the repo's
+``mtdnetwork`` packaging in ``setup.py``. Module CLIs run with ``PYTHONPATH=src``.
 """
 
 import sys
