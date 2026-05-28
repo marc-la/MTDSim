@@ -24,8 +24,10 @@ follows if the test confirms P6.
 
 - L2 axis is operational objective, not motivation
   ([`../notes/2026-05-28_l2_partition_reasoning.md`](../notes/2026-05-28_l2_partition_reasoning.md)).
-- 39 active flows in scope (`example_attack_tree` excluded as a CTID test
-  fixture).
+- 38 active flows in scope (`example_attack_tree` excluded as a CTID test
+  fixture; `openclaw` excluded as a HiddenLayer security-research
+  demonstration after the verification round —
+  see [`../notes/2026-05-28_l2_per_flow_justifications.md` *Dropped from corpus*](../notes/2026-05-28_l2_per_flow_justifications.md#dropped-from-corpus-after-verification-n--1)).
 - Metadata audit at
   [`../notes/2026-05-28_l2_metadata_audit.csv`](../notes/2026-05-28_l2_metadata_audit.csv)
   with 7.7 % low-confidence (well under the 20 % handoff gate).

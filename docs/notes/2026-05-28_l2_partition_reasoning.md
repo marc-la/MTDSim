@@ -75,7 +75,7 @@ agreeing is what makes the step defensible.
   intent, motivation conditioning, and learning capability." Without L2, the
   work sits at procedural, falls short of the same bar it critiques in others,
   and the §IV-B argument loses its force.
-- **The corpus itself shows the structural premise holds.** Of the 39 flows
+- **The corpus itself shows the structural premise holds.** Of the 38 flows
   in the v0.5 GAP, 11 terminate in exfiltration, 7 in impact-only, and only
   3 in both. Campaigns really do commit to one terminal objective in the data
   we have — exactly the "stages 4–5 split by objective" structure Alshamrani

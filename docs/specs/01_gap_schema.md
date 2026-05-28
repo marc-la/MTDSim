@@ -131,7 +131,7 @@ non-Enterprise — 15 ATLAS, 2 ICS, 5 revoked/absent — and were dropped.)
 (Option A); inferred paths are an opt-in, separately-provenanced overlay
 (Option B), never the default.**
 The corpus is faithfully *thin* (88% of edges single-observation at v0.5) and
-systematically blind to the pre-intrusion prefix (reconnaissance in 10/39 flows;
+systematically blind to the pre-intrusion prefix (reconnaissance in 10/38 flows;
 the `reconnaissance → initial-access` link essentially absent — 1 edge, obs 1).
 That is a property of incident-derived CTI — reports start at the point of
 detection (initial-access), so pre-intrusion recon is under-observed — **not** a

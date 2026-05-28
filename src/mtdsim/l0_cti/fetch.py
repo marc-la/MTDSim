@@ -45,11 +45,18 @@ ATTACK_URL = (
     f"master/enterprise-attack/enterprise-attack-{ATTACK_VERSION}.json"
 )
 
-# The 39 corpus flow names (filename stems of corpus/*.afb at v3.1.1). Pinned
+# The 38 corpus flow names (filename stems of corpus/*.afb at v3.1.1). Pinned
 # explicitly so the build is reproducible without cloning the upstream repo.
-# "Example Attack Tree" is excluded — it is a CTID Builder tutorial fixture
-# (scope=attack-tree, all actions have technique_id=null, 0 external references),
-# not a real-incident CTI artefact.
+# Two CTID flows are excluded:
+#   - "Example Attack Tree": CTID Builder tutorial fixture (scope=attack-tree,
+#     technique_id=null on every action, 0 external references) — not a
+#     real-incident CTI artefact.
+#   - "OpenClaw": HiddenLayer security-research demonstration of prompt-injection
+#     C2 over an LLM agent (MITRE ATLAS AML.CS0051) — not analyst-curated CTI
+#     of a real adversary operation. All 18 actions are ATLAS AML.T* (zero
+#     Enterprise techniques), so the canonical Enterprise-only GAP gains no
+#     nodes or edges from including it — its only contribution is to inflate
+#     source_flow_count.
 FLOW_NAMES = [
     "Black Basta Ransomware",
     "CISA AA22-138B VMWare Workspace (Alt)",
@@ -75,7 +82,6 @@ FLOW_NAMES = [
     "Muddy Water",
     "NotPetya",
     "OceanLotus",
-    "OpenClaw",
     "REvil",
     "Ragnar Locker",
     "SWIFT Heist",

@@ -27,15 +27,20 @@ lands as a sub-handoff
 
 | Class | n flows | Working definition |
 |---|--:|---|
-| `pure_steal` | 16 | analyst-stated objective is data theft only — no impediment in the flow narrative |
-| `pure_impediment` | 9 | analyst-stated objective is disruption / destruction only — no data theft in the flow narrative |
-| `double_extortion` | 8 | flow narrative explicitly pursues both data theft *and* impediment, simultaneously |
-| `infrastructure_setup` | 6 | flow narrative is pre-payload (loader, C2 setup, eviction before objective) — *not* surveillance, *not* truncated breach |
+| `pure_steal` | 19 | analyst-stated objective is data theft only — no impediment in the flow narrative |
+| `pure_impediment` | 8 | analyst-stated objective is disruption / destruction only — no data theft in the flow narrative |
+| `double_extortion` | 6 | flow narrative explicitly pursues both data theft *and* impediment, simultaneously |
+| `infrastructure_setup` | 5 | flow narrative is pre-payload (loader, C2 setup, eviction before objective) — *not* surveillance, *not* truncated breach |
 
-All 39 active flows (corpus excluding `example_attack_tree`, a CTID test
-fixture) are mono-class; the partition is genuinely disjoint. Membership is
-sourced from the metadata audit at
+All **38 active flows** (corpus excluding `example_attack_tree` — CTID
+Builder test fixture, dropped pre-verdict — and `openclaw` — HiddenLayer
+security-research demonstration, dropped after the
+[verification round](./2026-05-28_l2_per_flow_justifications.md#verification-round-2026-05-28))
+are mono-class; the partition is genuinely disjoint. Membership is sourced
+from the audit-traced CSV at
 [`./2026-05-28_l2_metadata_audit.csv`](./2026-05-28_l2_metadata_audit.csv).
+Per-flow justifications + critique + citations live at
+[`./2026-05-28_l2_per_flow_justifications.md`](./2026-05-28_l2_per_flow_justifications.md).
 
 The reasoning note at
 [`./2026-05-28_l2_partition_reasoning.md`](./2026-05-28_l2_partition_reasoning.md)
@@ -70,7 +75,7 @@ primer's 10–20 bound).
 
 P3 (group-witnessed terminal) and P4 (reduced STIX 3-cat hand-labels) were
 dropped without scoring — P3 because ATT&CK Group attribution is sparse
-across this corpus (18/39 flows, all G-codes; no C-codes for P4's hand-label
+across this corpus (18/38 flows, all G-codes; no C-codes for P4's hand-label
 cross-walk), P4 because the 47-campaign hand-labels are at ATT&CK-Campaign
 (C-ID) granularity and 0/39 corpus flows resolve to C-IDs via the audit's
 attribution column (≤6/39 even with manual cross-walk attempt). Rationale
@@ -99,20 +104,26 @@ the gap narrows.
 
 Pairwise **Jensen-Shannon divergence** on per-class technique frequency
 distributions. Higher = more separated. Null calibration is the JSD between
-random 20:19 partitions of the same 39 flows (n=20 trials).
+random 19:19 partitions of the same 38 flows (n=50 trials).
 
 | Distribution | null median | null p95 |
 |---|--:|--:|
 | Tactic-level | 0.018 | 0.031 |
-| Technique-level | 0.124 | 0.150 |
+| Technique-level | 0.125 | 0.148 |
 
 | Scheme | mean tactic JSD | mean technique JSD |
 |---|--:|--:|
 | P1 — 3-class | 0.052 | 0.213 |
 | P2 — 15-class | 0.350 † | 0.767 † |
 | P5 — 3-class multi | 0.067 | 0.271 |
-| **P6 — 4-class compound** | **0.073** | **0.302** |
+| **P6 — 4-class compound (revised)** | **0.073** | **0.317** |
 | P7 — 3-class reach | 0.065 | 0.192 |
+
+(The revised P6 technique JSD of 0.317 — *up* from the first-draft 0.302 —
+reflects the verification round's classification revisions: three flows
+moved from impediment / double_extortion to pure_steal, openclaw dropped.
+The class separation tightened. All 6 P6 pairs now sit in the 0.284–0.351
+range, well above the null p95 of ~0.15.)
 
 † P2's JSD is inflated by singleton classes (per-class n=1 most cases) —
 mathematically high, methodologically meaningless per the handoff's stated
@@ -137,19 +148,23 @@ authority clauses.
 
 ## Metadata audit summary
 
-39-row audit at
+38-row audit at
 [`./2026-05-28_l2_metadata_audit.csv`](./2026-05-28_l2_metadata_audit.csv);
 populated via the hybrid strategy (CTID `example_flows/` index + ATT&CK
 Group/Campaign back-fill + ~14 vendor URL WebFetches + manual fallback for
-CISA-blocked endpoints).
+CISA-blocked endpoints), then reviewed in a verification round (2026-05-28)
+that revised three flows and dropped one (openclaw).
 
-- `metadata_confidence == low`: **3 / 39 = 7.7 %** (all three are the
-  CISA-403 cluster) — well within the handoff's 20 % gate.
-- Distribution:
-  - 16 steal_data (41 %)
-  - 9 impediment (23 %)
-  - 8 double_extortion (21 %)
-  - 6 position_for_future = infrastructure_setup (15 %)
+- `metadata_confidence == low`: **6 / 38 = 15.8 %** (3 are the
+  CISA-403 cluster, 3 are flows where the verification round surfaced
+  source-tensions: `mac_malware_steals_crypto`, `searchawesome_adware`,
+  `toolshell_vulnerability_in_sharepoint`) — still within the handoff's
+  20 % gate.
+- Distribution (post-verification):
+  - 19 pure_steal (50 %) — *up from first-draft 16 (41 %); mac + muddy + toolshell revised in*
+  - 8 pure_impediment (21 %) — *down from 9; mac revised out*
+  - 6 double_extortion (16 %) — *down from 8; muddy + toolshell revised out*
+  - 5 infrastructure_setup (13 %) — *down from 6; openclaw dropped from corpus*
   - 0 surveillance
   - 0 unknown
 
@@ -183,15 +198,20 @@ the `If revisited` clause below for the conditions under which the
 discrepancy reverses the ranking.
 
 **Cross-tab P1 ↔ audit (concordance):** P1 structural-terminal agrees with
-the audit's `stated_objective` on only **14 / 39 = 36 %** of flows. The
-bulk of P1's mis-classification is in its 20-flow `position_for_future`
-bucket: 9 flows are *truncated* steal-data operations (Equifax, JP Morgan,
-SolarWinds, Marriott, Uber, SWIFT, Cobalt Kitty, MITRE NERVE, FIN13
-Case 1), 3 are *truncated* impediment, and only 6 are *genuine*
-infrastructure-setup. P1's residual is in fact 70 % observability bias —
-which is exactly the load-bearing risk the
-[GAP construction note's](./2026-05-27_gap_construction.md) observability-
-boundary section names. P5 and P6 resolve this by sourcing membership from
+the audit's `stated_objective` on **23 / 38 = 61 %** of flows under an
+*any-overlap* matching rule. (The first-draft concordance was 14 / 39 =
+36 % under the same rule; the verification round both raised it — by
+removing the 8-flow double_extortion class's 2-element multi-membership
+which had been *inflating* P1's match rate via easy overlap — and lowered
+it — by revising mac / muddy / toolshell to `pure_steal` where P1's
+structural terminals don't put them. The 61 % is the more honest number.)
+
+The remaining 15 / 38 (40 %) of flows where P1 disagrees with the audit are
+the load-bearing pattern: **P1's `position_for_future` bucket includes
+flows the audit classifies as `pure_steal`** (truncated breach reports
+where the analyst stopped before the exfil step) — Equifax, JP Morgan,
+Marriott, Uber, SWIFT, Cobalt Kitty, MITRE NERVE, FIN13 Case 1, Ivanti
+UTA0178, mac, muddy. P5 and P6 resolve this by sourcing membership from
 analyst-stated narrative, not from the analyst-drawn graph topology.
 
 Three textbook **double-extortion** ransomware operations
@@ -200,7 +220,7 @@ impact actions in the flow but P1's structural-terminal mechanism only
 identifies `revil` correctly as multi-class. The other two — Black Basta
 classified `position_for_future`, Ragnar Locker classified `impediment`-only
 — are within-corpus evidence that the structural mechanism under-credits
-multi-objective campaigns. P6's `double_extortion` class captures all eight
+multi-objective campaigns. P6's `double_extortion` class captures all six
 correctly.
 
 ## Petri-net tractability check (dropped from ranking, retained as note)
@@ -230,7 +250,7 @@ workstream is pursued later at L4, it will need to operate on
 manually-curated *slices* of each class (e.g. the primer's 6-node hand-pick
 within the T1486 cone), not on full class subgraphs.
 
-## Residual class breakdown — `infrastructure_setup` (n = 6)
+## Residual class breakdown — `infrastructure_setup` (n = 5)
 
 Required per handoff gate item 5 (residual classes defined by what they
 *are not* must be unpacked with citations).
@@ -240,14 +260,27 @@ Required per handoff gate item 5 (residual classes defined by what they
 | `hancitor_dll` | [DFIR Report, *From Zero to Domain Admin*, 2021-11-01](https://thedfirreport.com/2021/11/01/from-zero-to-domain-admin/) | Cobalt Strike positioning; *"threat actors were evicted before completing their mission"* |
 | `dfir_bumblebee_round_2` | [DFIR Report, *BumbleBee: Round Two*, 2022-09-26](https://thedfirreport.com/2022/09/26/bumblebee-round-two/) | *"pre-ransomware activity"*; *"evicted from the network before any further impact"* |
 | `gootloader` | [DFIR Report, *SEO Poisoning – A Gootloader Story*, 2022-05-09](https://thedfirreport.com/2022/05/09/seo-poisoning-a-gootloader-story/) | Multi-stage loader; *"no further impact before evicted"* |
-| `openclaw` | [HiddenLayer, *OpenClaw Command & Control via Prompt Injection*](https://www.hiddenlayer.com/research/exploring-the-security-risks-of-ai-assistants-like-openclaw); [MITRE ATLAS AML.CS0051](https://atlas.mitre.org/studies/AML.CS0051) | Prompt-injection establishes persistent C2 over an LLM agent; *demonstration* of C2 infrastructure setup, downstream objectives unrealised |
 | `cisa_aa22_138b_vmware_workspace_alt` | [CISA AA22-138B](https://www.cisa.gov/uscert/ncas/alerts/aa22-138b) (URL 403 to WebFetch; classified from CTID blurb + in-flow content) | Alternative exploitation method described; no observed payload; pre-positioning structure |
 | `cisa_aa22_138b_vmware_workspace_ta2` | [CISA AA22-138B](https://www.cisa.gov/uscert/ncas/alerts/aa22-138b) (URL 403 to WebFetch; classified from in-flow content) | C2 setup structure only; no observed payload |
 
-All six are *genuine* pre-payload / infrastructure-setup operations per the
-analyst-stated narrative. None are truncated breach reports; none are
+All five are *genuine* pre-payload / infrastructure-setup operations per
+the analyst-stated narrative. None are truncated breach reports; none are
 surveillance / espionage; none are unknown. The class is well-formed
 under P6.
+
+**Note on the `openclaw` drop.** The first draft of this decision included
+`openclaw` (HiddenLayer prompt-injection PoC) in this class with the note
+*"the only non-incident in `infrastructure_setup`"*. The verification round
+applied the same criterion to OpenClaw that justified dropping
+`example_attack_tree` from the L1 corpus (CTID Builder tutorial fixture):
+OpenClaw is a security-research *demonstration* of a hypothetical
+capability, not analyst-curated CTI of a real adversary operation. All 18
+OpenClaw actions are ATLAS `AML.T*` (zero Enterprise techniques —
+contributed zero nodes / edges to `gap_v0.5.json`), so dropping it leaves
+the canonical Enterprise GAP unchanged in shape; only `source_flow_count`
+moves 39 → 38. See
+[the per-flow doc's *Dropped from corpus* section](./2026-05-28_l2_per_flow_justifications.md#dropped-from-corpus-after-verification-n--1)
+for the full reasoning.
 
 ## If revisited
 
@@ -258,6 +291,13 @@ The decision changes if any of these hold:
   Corpus-level technique-JSD evidence is supportive but not definitive;
   if the simulator-level test fails, the verdict shifts to refusal with
   L1-only contribution (matches handoff §"Stopping rule" clause 2).
+- **The operator-aggregation re-check (Mitigation 1 in
+  [`./2026-05-28_l2_operator_aggregation_concern.md`](./2026-05-28_l2_operator_aggregation_concern.md))
+  shows the per-class JSD signal collapses under operator-deduplication.**
+  Half of the `double_extortion` class is Conti variants (G0102); if
+  the class's discrimination signal is in fact a *Conti signature*
+  rather than a *double-extortion signature*, the verdict is reframed
+  to operator-specific rather than class-specific behavioural fidelity.
 - **The corpus grows such that `infrastructure_setup` becomes
   disambiguatable into surveillance / pre-payload / RaaS-as-a-service
   sub-classes.** Current corpus is 6 flows of one (loader / pre-payload)
@@ -334,14 +374,24 @@ covers two coupled tasks:
 ## Investigation artefacts
 
 - This file (verdict): [`./2026-05-28_l2_partition_decision.md`](./2026-05-28_l2_partition_decision.md)
-- Audit CSV (39 rows, audit-traced `stated_objective` per flow):
+- Audit CSV (38 rows, audit-traced `stated_objective` per flow):
   [`./2026-05-28_l2_metadata_audit.csv`](./2026-05-28_l2_metadata_audit.csv)
+- Per-flow justifications + critique + verification round outcomes +
+  citations:
+  [`./2026-05-28_l2_per_flow_justifications.md`](./2026-05-28_l2_per_flow_justifications.md)
+- Operator-aggregation concern (3 Conti, 2 Turla, 2 FIN13, 3 CISA
+  AA22-138B variants — risks + 4 candidate mitigations):
+  [`./2026-05-28_l2_operator_aggregation_concern.md`](./2026-05-28_l2_operator_aggregation_concern.md)
 - Reasoning note (framing — *why* L2 exists, *which axis*):
   [`./2026-05-28_l2_partition_reasoning.md`](./2026-05-28_l2_partition_reasoning.md)
 - Sub-handoff (simulator verification + L2 implementation):
   [`../handoffs/2026-05-28_l2_simulator_verification.md`](../handoffs/2026-05-28_l2_simulator_verification.md)
 
 No notebook was produced — the analysis ran as in-session Python scripts;
-all load-bearing outputs are in this notes file and the CSV. The
-reproducibility seam is the audit CSV (the analyst-stated objectives are
-the audit-traced load-bearing input the scheme materialisation reads from).
+all load-bearing outputs are in this notes file, the audit CSV, and the
+per-flow / operator-aggregation companion notes. The reproducibility seam
+is the audit CSV (the analyst-stated objectives are the audit-traced
+load-bearing input the scheme materialisation reads from). Visualisations
+(GASP class subgraphs at technique + tactic levels + a 4-panel comparison
+chart) live at `data/gap/_viz/gasp_*` — gitignored, regenerable via
+`python data/gap/_viz/gasp_viz.py`.
