@@ -8,17 +8,28 @@ topic: CTI as data — what ages, what doesn't, what "always updating" actually 
 
 ## Why this is worth recording
 
-The trigger for this note is concrete: the GAP carries two non-modern-MITRE
-tactic labels (`stealth`, `defense-impairment`) inherited from CTID Attack
-Flow Builder source data, with no pinned MITRE version to explain why.
-Surfaced during the L2 / GASP visualisation iteration; sub-handoff at
-[`../handoffs/2026-05-28_gap_mitre_version_audit.md`](../handoffs/2026-05-28_gap_mitre_version_audit.md)
-addresses the immediate problem. But Marc's framing of *why* this happens
-— "CTI ages, becomes stale, always needs updating/revising" — deserves
-sharpening before it becomes the dissertation's default disposition on
-corpus-freshness questions. The high-level claim is *partially* true and
-*partially* misleading; getting the distinction precise saves a lot of
-unnecessary maintenance burden later.
+The trigger for this note is concrete and slightly absurd: an audit
+handoff was opened to *"reconcile legacy MITRE labels (`stealth`,
+`defense-impairment`) against modern Enterprise"* — except those labels
+are *current*. TA0005 was renamed from `defense-evasion` to `stealth` on
+2026-05-12; TA0112 `defense-impairment` was created 2026-04-14, six
+weeks before this note. The GAP's `attack_source: enterprise-attack-19.1`
+pin already tracks them, and the build's bundle-derived `tactic_id →
+shortname` map remaps the CTID source's `TA0005` to `stealth` at parse
+time. There is nothing legacy about the labels and nothing to reconcile;
+the handoff was retired by evidence in the same commit as this note.
+
+But Marc's framing of *why* this kind of question arises — "CTI ages,
+becomes stale, always needs updating/revising" — is the substantive
+thing to sharpen, and the incident's actual shape sharpens it in a way
+the original framing didn't. The high-level claim is *partially* true
+and *partially* misleading: the version-pin mitigation it implies is
+correct; the *implied direction of drift* (artefact lags upstream) is
+only half the picture. When an artefact pins to a *moving* upstream
+taxonomy, freshness questions invert from "is the data out of date?" to
+"is the reader out of date?" — and that is the polarity this handoff
+demonstrates, 14-tactic mental model running into a correctly-pinned
+15-tactic artefact whose pin had updated three weeks earlier.
 
 ## The substance
 
@@ -35,16 +46,28 @@ forever"). Neither is right.
 
 ### What actually ages (and what doesn't)
 
-**1. Taxonomy drift — real, addressable by version pinning.**
+**1. Taxonomy drift — real, addressable by version pinning *on both
+sides*.**
 The encoding language of CTI evolves. MITRE ATT&CK adds tactics
 (Reconnaissance / Resource Development were added in v8, April 2020),
-renames tactics (the GAP's `stealth` likely corresponds to an earlier
-naming for `Defense Evasion`), and deprecates / merges techniques. If
-the corpus is encoded in MITRE vN but the reader compares it against
-MITRE vN+k, the mismatch produces apparent anomalies (the 15-vs-14
-tactic-count discrepancy). **Half-life:** months to a couple of years.
-**Mitigation:** pin the taxonomy version on the corpus; document the
-delta when reading against a newer version.
+renames tactics (TA0005 was renamed from `defense-evasion` to `stealth`
+on 2026-05-12 in v19 and *split*: the new TA0112 `defense-impairment`
+was carved out as a separate semantic — concealment that leaves controls
+intact vs. degradation / disabling of controls), and deprecates /
+merges techniques. The GAP picked this up automatically because the
+build derives its `tactic_id → shortname` map from the pinned ATT&CK
+STIX bundle rather than a hard-coded table; the classic-14 table in
+`schema.py` survives only as a standalone fallback. The drift is **two-
+sided**: the *artefact* can lag behind upstream (mitigation: re-pin,
+rebuild) *and* the *reader* can lag behind the artefact's pin
+(mitigation: read the version field — the GAP's `attack_source` here —
+before assuming what the labels mean). The audit handoff this note
+retired is an instance of the second polarity, not the first: 14-tactic
+mental model, 15-tactic artefact correctly pinned to a 15-tactic
+taxonomy released three weeks earlier. The "anomaly" was on the
+reading side. **Half-life:** months to a couple of years on either
+side. **Mitigation:** version-pin the artefact; surface the pin's field
+name and value at a glance so readers notice when they've drifted.
 
 **2. Incident historicity — does NOT age.**
 The fact that "in 2017, NotPetya disrupted Maersk via EternalBlue and
@@ -108,15 +131,24 @@ for at least three reasons:
 
 ### What to do instead
 
-Treat the GAP as **a snapshot with three labelled axes**:
+Treat the GAP as **a snapshot with three labelled axes** — which the GAP
+already records, just under field names worth surfacing more explicitly:
 
-1. **`source_corpus_version`** — which CTID Attack Flow Builder dataset
-   it was distilled from, with date.
-2. **`mitre_attack_version`** — which Enterprise ATT&CK version the
-   tactic / technique vocabulary aligns with (the
-   [`./2026-05-28_l2_partition_decision.md`](./2026-05-28_l2_partition_decision.md)-
-   referenced audit handoff lands this).
-3. **`distillation_date`** — when the GAP itself was assembled.
+1. **`corpus_ref`** (currently
+   `attack-flow@v3.1.1 (pkg 3.2.0); STIX 2.0.0 extension; CTID published
+   export`) — which CTID Attack Flow Builder dataset it was distilled
+   from.
+2. **`attack_source`** (currently `enterprise-attack-19.1`) — which
+   Enterprise ATT&CK version the tactic / technique vocabulary aligns
+   with. This is the field that decides whether the GAP renders 14 or 15
+   tactic states, what TA0005 means, whether TA0112 exists at all. The
+   retired handoff demonstrated this field is *discoverable-by-search
+   but not-discoverable-at-a-glance*: the spec describes the v19.1 pin
+   in prose (Decision 5), the JSON carries the pin under a non-canonical
+   field name, and a reader looking for `mitre_attack_version` finds
+   nothing.
+3. **`build_date`** (currently `2026-05-28`) — when the GAP itself was
+   assembled.
 
 When dissertation claims are made:
 
@@ -155,14 +187,24 @@ not data-maintenance concerns).
 
 ## How it connects
 
-- To the immediate trigger: the GAP MITRE-version audit handoff at
-  [`../handoffs/2026-05-28_gap_mitre_version_audit.md`](../handoffs/2026-05-28_gap_mitre_version_audit.md)
-  closes the taxonomy-drift case for the GAP specifically.
+- To the immediate trigger: the audit handoff this note retired
+  (`docs/handoffs/2026-05-28_gap_mitre_version_audit.md`, deleted in
+  the same commit) was resolved by evidence, not by the audit it
+  proposed — v19.1's release shipped the split, the GAP's
+  `attack_source` already tracked it, the drift was reader-side. A
+  technique-ID drift audit ran as part of the retirement and confirms
+  clean alignment with v19.1: **124/124 parent technique IDs active**
+  (0 deprecated, 0 not-found), **118/121 sub-technique IDs active**;
+  three sub-techniques are revoked (`T1070.001` *Clear Windows Event
+  Logs*, `T1070.002` *Clear Linux or Mac System Logs*, `T1574.002`
+  *DLL Side-Loading*) but all collapse to active parents
+  (`T1070`, `T1574`), so the aggregate GAP is unaffected.
 - To the GAP schema:
-  [`../specs/01_gap_schema.md`](../specs/01_gap_schema.md) should add a
-  "Snapshot axes" section recording the three labelled axes above
-  (`source_corpus_version`, `mitre_attack_version`,
-  `distillation_date`).
+  [`../specs/01_gap_schema.md`](../specs/01_gap_schema.md) §(d) records
+  `attack_source` and `corpus_ref` as GAP-level metadata fields, but
+  doesn't surface them as the load-bearing version pins they are.
+  Worth a one-liner header making the discoverability explicit (folded
+  into the same commit as this note).
 - To the architecture:
   [`../specs/architecture.md`](../specs/architecture.md) discusses
   load-bearing assumptions; the assumption "the GAP is a snapshot, not
@@ -188,6 +230,6 @@ not data-maintenance concerns).
   case stops being scope-able-away and starts requiring actual corpus
   extension.
 - If the CTID Attack Flow Builder project itself is deprecated /
-  forked / rebuilt under a different schema, the
-  `source_corpus_version` pinning becomes a backwards-compatibility
-  burden rather than a clean snapshot reference.
+  forked / rebuilt under a different schema, the `corpus_ref` pinning
+  becomes a backwards-compatibility burden rather than a clean snapshot
+  reference.

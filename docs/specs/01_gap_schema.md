@@ -111,9 +111,11 @@ extension seam, so keep it committed until that's certain.
 
 **Decision 5 — the canonical GAP is ATT&CK Enterprise-scoped.**
 The aggregate contains only technique nodes that resolve in the pinned Enterprise
-ATT&CK (v19.1). Non-Enterprise techniques (ATLAS `AML.*`, ICS `T0###`) and ids the
-pin has revoked or removed are dropped from the aggregate, along with every edge
-incident to a dropped node — *removed, never bridged* (§a). The per-flow extract
+ATT&CK (v19.1; the pin is recorded on the artefact as `attack_source:
+enterprise-attack-19.1` — see §(d) "GAP-level metadata"). Non-Enterprise techniques
+(ATLAS `AML.*`, ICS `T0###`) and ids the pin has revoked or removed are dropped from
+the aggregate, along with every edge incident to a dropped node — *removed, never
+bridged* (§a). The per-flow extract
 (§c) stays fully lossless: it keeps every technique as drawn, so the corpus record
 and the hand-curation seam are intact; scope is applied only at aggregation.
 **Why:** Node attributes — name, tactics, platforms, tactic-layer — come from the
@@ -286,10 +288,13 @@ GAP-measures-typical-workflow comparability boundary:
 ### GAP-level metadata
 
 `version`, `build_date`, `attack_flow_schema_version`, `corpus_ref` (clone
-commit/release tag — reproducibility), `attack_source` (ATT&CK STIX version for
-node attributes), `source_flow_count`, `node_count`, `edge_count`,
-`entry_nodes`, `objective_nodes`, `layers` (tactic_layer → [technique_ids], for
-layout).
+commit/release tag — reproducibility), `attack_source` (**the ATT&CK STIX
+version pin** — e.g. `enterprise-attack-19.1`; this is the load-bearing field
+for tactic / technique vocabulary, including whether the build sees 14 or 15
+tactics; see [the CTI-ages note](../notes/2026-05-28_cti_ages_critique.md) for
+why the field name and value matter to readers), `source_flow_count`,
+`node_count`, `edge_count`, `entry_nodes`, `objective_nodes`, `layers`
+(tactic_layer → [technique_ids], for layout).
 
 **Dropped from v0.4 GAP metadata:** `min_support`, `min_confidence`,
 `confidence_threshold`, `consensus_edge_count`, `intra_tactic_unresolved`,
