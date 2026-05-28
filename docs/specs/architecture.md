@@ -23,8 +23,9 @@ This work evaluates *existing* Moving Target Defence (MTD) mechanisms against
 sits at the intersection of three independently-mature literatures: CTI-grounded
 attack profiling, attack-graph operationalisation in simulation, and MTD
 evaluation. The pipeline takes raw CTI (L0) through aggregation (L1, **GAP** —
-Generalised APT Profile), motivation-subgraphing (L2, **GASP** —
-motivation-subgraphed APT Profile), and operationalisation inside MTDSim
+Generalised APT Profile), operational-objective-subgraphing (L2, **GASP** —
+operational-objective-subgraphed APT Profile, per
+[`02_gasp_schema.md`](02_gasp_schema.md)), and operationalisation inside MTDSim
 (L3, **OGASP** — Operationalised GASP), to comparative effectiveness
 measurement (L4). The §(h) glossary carries full definitions.
 
@@ -529,10 +530,13 @@ The system is validated end-to-end when:
    schema generation and yields the same graph (modulo aggregation thresholds,
    which are tunable). Threshold sensitivity is itself a methodology question
    — scoped to a single later section, not a validation gate.
-2. **L2 non-triviality.** Different motivation specifiers yield meaningfully
-   different subgraphs (different technique populations, different ancestral
-   structure). A motivation specifier that produces a near-empty or near-full
-   subgraph is a construction failure, not a finding.
+2. **L2 non-triviality.** Different operational-objective specifiers yield
+   meaningfully different subgraphs (different technique populations,
+   different ancestral structure). An operational-objective specifier that
+   produces a near-empty or near-full subgraph is a construction failure,
+   not a finding. (Confirmed at corpus level by the JSD discrimination check
+   in [`02_gasp_schema.md`](02_gasp_schema.md) §(g); simulator-level
+   confirmation is L3/L4-scoped.)
 3. **L3 substrate consistency.** Both attackers (6-phase, graph-driven)
    produce attack records that respect every row in
    [`mtdsim_spec.md`](mtdsim_spec.md). The 6-phase attacker reproduces the

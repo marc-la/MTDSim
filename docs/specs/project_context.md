@@ -13,7 +13,7 @@
 
 Governs all prioritisation.
 
-- The simulator is the **L3/L4 execution substrate** for: L0 raw CTI → L1 GAP (attack graph; nodes = ATT&CK techniques) → L2 GASP (motivation subgraph) → L3 OGASP (attacker-agent traversal in MTDSim) → L4 evaluation.
+- The simulator is the **L3/L4 execution substrate** for: L0 raw CTI → L1 GAP (attack graph; nodes = ATT&CK techniques) → L2 GASP (operational-objective subgraph) → L3 OGASP (attacker-agent traversal in MTDSim) → L4 evaluation.
 - Load-bearing seam = the **attacker module**: graph-driven (GASP) traversal is added *alongside* the inherited 6-phase scripted attacker, which is **retained as the procedural baseline** (the substrate Tay's RL trained against and the basis of every golden). Both must work; both must be internally consistent.
 - Defence side = **existing mechanisms only** (SDR family + Tay's AI selection). No new defender mechanisms; no training novel RL agents from scratch. Revisit criteria + cost statement are in the defender-frozen decision block of [`architecture.md`](architecture.md) §(a).
 - Evaluation metrics that matter: **MTTC, ASR, attack-path exposure, RoA.** Prioritise faithfulness fixes that feed these. (E1 finding from Phase 3: end-of-sim compromise fraction is a poor discriminator at long horizons — MTTC/attacker-effort discriminate.)

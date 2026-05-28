@@ -120,7 +120,7 @@ bridged* (§a). The per-flow extract
 and the hand-curation seam are intact; scope is applied only at aggregation.
 **Why:** Node attributes — name, tactics, platforms, tactic-layer — come from the
 Enterprise STIX; a node with no Enterprise definition cannot be labelled, layered,
-or motivation-subgraphed, and mixing matrices (Enterprise + ATLAS + ICS) under one
+or operational-objective-subgraphed, and mixing matrices (Enterprise + ATLAS + ICS) under one
 graph conflates taxonomies the downstream stages treat as one. This is a *scope*
 definition (the taxonomy the GAP is built against), not a reduction lens — contrast
 Decision 3, where thresholds/acyclicity are views.
@@ -313,7 +313,7 @@ Consumers read the lossless GAP through view functions. None mutate the artefact
 | **Support filter** | `min_observation_count` | drop edges seen in fewer than *k* flows (the honest replacement for `min_support`) |
 | **Acyclic projection** | cycle-break policy | a DAG when a consumer needs topological order; the policy (which edge to cut) is explicit and recorded, not silent |
 | **Tactic layering** | — | group nodes by `tactic_layer` for visualisation; `tactic_delta` colours forward/back edges |
-| **Motivation subgraph (L2/GASP)** | motivation specifier | the existing terminal-ancestor selectors operate unchanged on the lossless node/edge sets |
+| **Operational-objective subgraph (L2/GASP)** | operational-objective specifier | per [`02_gasp_schema.md`](02_gasp_schema.md), GASP takes the *surface* subgraph (techniques in the class's flows + GAP edges between them) over the lossless node/edge sets |
 | **Provenance view (Decision 6)** | `corpus-only` \| `corpus+inferred` | `corpus-only` (default) is the canonical observed GAP; `corpus+inferred` additionally aggregates the `source: inferred` overlay extracts. Unlike the filters above — which subset a single lossless artefact — `corpus+inferred` *adds an input set*, so it is realised at aggregation (two input sets), not as a post-hoc edge filter. The canonical `gap_v0.5.json` is the `corpus-only` product and contains **zero** inferred edges (asserted in §g). |
 
 This keeps L2 selectors ([`selectors/`] on `feat/attacker-profiling`) and the
