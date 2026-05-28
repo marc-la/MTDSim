@@ -1,37 +1,41 @@
-# `l2_subgraph` — L2 GASP construction (stub)
+# `l2_subgraph` — L2 GASP construction
 
 | level | artefact | architecture § | status | code home |
 |---|---|---|---|---|
-| L2 | GASP (motivation-subgraphed APT Profile) | [§(e)](../../../docs/specs/architecture.md) | **stub** | here |
+| L2 | GASP (operational-objective-subgraphed APT Profile) | [§(e)](../../../docs/specs/architecture.md) | **implemented** | here |
 
-**What this stage will hold.** The L1→L2 transform: given the lossless GAP
-([`mtdsim.l1_construction`](../l1_construction/)) and an operational-objective
-specifier (`{pure_steal, pure_impediment, double_extortion, infrastructure_setup}`,
-per [the L2 partition decision](../../../docs/notes/2026-05-28_l2_partition_decision.md)),
-produce an operational-objective-conditioned subgraph — the techniques and
-edges drawn by the analyst in the corpus flows belonging to that class,
-traversable end-to-end.
+Given the L1 GAP ([`mtdsim.l1_construction`](../l1_construction/)) and an
+operational-objective specifier
+(`{pure_steal, pure_impediment, double_extortion, infrastructure_setup}`),
+produce the **surface** class subgraph — techniques actually present in the
+class's flows, with GAP edges where both endpoints land in that node set.
+No ancestor closure. Canonical reference:
+[`docs/specs/02_gasp_schema.md`](../../../docs/specs/02_gasp_schema.md).
 
-The class subgraph is the **surface subgraph** (techniques actually present in
-the class's flows, no ancestor closure). This supersedes the
-terminal-node-ancestor proxy that architecture §(e) carried — see the
-partition-decision note for the empirical reason (ancestor closure pulls in
-87–97 % of the GAP regardless of class, making subgraphs non-distinct).
-
-**Class membership** is sourced from the audit-traced CSV at
+Class membership is sourced from the audit-traced CSV at
 [`../../../docs/notes/2026-05-28_l2_metadata_audit.csv`](../../../docs/notes/2026-05-28_l2_metadata_audit.csv) —
-not re-derived from the per-flow YAML structure. The CSV is the load-bearing
-input.
+not re-derived from per-flow structure. The CSV is the load-bearing input.
 
-**Prior art (not ported).** A v0.4 implementation — the terminal-node-ancestor
-proxy plus platform / terminal selectors — exists on the sibling
-`feat/attacker-profiling` and `feat/replay-viz` branches under their role-based
-`attacker/` subtree. Per the project's zero-trust stance, prior code is
-inspiration only; any build here is a fresh implementation justified against
-the spec + the partition-decision note, not a lift-and-shift.
+## Run
 
-**Why still a stub.** The partition decision lands the classification scheme;
-the implementation lands in a follow-up session governed by
-[`../../../docs/handoffs/2026-05-28_l2_simulator_verification.md`](../../../docs/handoffs/2026-05-28_l2_simulator_verification.md),
-which couples the implementation to a simulator-driven discrimination check
-that confirms the verdict before code lands here.
+```sh
+PYTHONPATH=src python -m mtdsim.l2_subgraph        # writes data/gasp/classification.csv + 4 × gasp_<class>.json
+PYTHONPATH=src python -m pytest tests/l2_subgraph/ # validation gate (incl. operator-dedup JSD re-check)
+```
+
+## Module layout
+
+| File | Purpose |
+|---|---|
+| `schema.py` | `SubgraphView` (frozen dataclass) + JSON round-trip |
+| `selector.py` | `load_classification` (audit CSV → `flow_id → class`) + `OperationalObjectiveSelector` |
+| `build.py` | orchestration: GAP + audit CSV → 4 × `SubgraphView` + `classification.csv` |
+| `__main__.py` | CLI entrypoint |
+
+## Validation
+
+`tests/l2_subgraph/test_gasp.py` covers: schema round-trip, the 19:8:6:5
+class-count invariant, subgraph-subset-of-GAP sanity, and the operator-
+deduplicated JSD re-check (spec §g; Mitigation 1 from
+[`../../../docs/notes/2026-05-28_l2_operator_aggregation_concern.md`](../../../docs/notes/2026-05-28_l2_operator_aggregation_concern.md)).
+The JSD numbers land in [`../../../data/gasp/README.md`](../../../data/gasp/README.md).
