@@ -181,7 +181,10 @@ def test_subgraphs_are_subsets_of_gap(
 def test_operator_deduplicated_jsd_above_null(
     gap: dict, classification: dict[str, str]
 ) -> None:
-    kept = _operator_deduplicated_flows()
+    # sorted() so the seeded shuffle below starts from a deterministic order
+    # — _operator_deduplicated_flows returns a set, whose iteration order
+    # depends on hash randomisation.
+    kept = sorted(_operator_deduplicated_flows())
     deduped = {fid: classification[fid] for fid in kept}
     class_to_flows: dict[str, list[str]] = {c: [] for c in CLASS_NAMES}
     for fid, cls in deduped.items():

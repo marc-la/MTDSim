@@ -37,4 +37,4 @@ OceanLotus, Sandworm, Lazarus) to one representative — the flow with the
 highest `n_actions`. If the JSD signal survives the deduplication, the
 per-class discrimination is operator-robust.
 
-**Operator-dedup JSD re-check:** mean JSD = 0.3149, null p95 = 0.1826, n_kept = 29 flows. See [`docs/notes/2026-05-28_l2_operator_aggregation_concern.md`](../../docs/notes/2026-05-28_l2_operator_aggregation_concern.md) for the mitigation rationale.
+**Operator-dedup JSD re-check:** mean JSD = 0.3149, null p95 = 0.1849, n_kept = 29 flows. See [`docs/notes/2026-05-28_l2_operator_aggregation_concern.md`](../../docs/notes/2026-05-28_l2_operator_aggregation_concern.md) for the mitigation rationale.
