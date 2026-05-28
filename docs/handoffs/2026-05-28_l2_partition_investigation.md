@@ -77,7 +77,7 @@ judgement the investigation hits.
   technically separate the candidates.
 - *Sub-investigate* — spin out a sub-handoff under `docs/handoffs/` for any
   sub-question that's larger than a session-scoped detour (e.g., "the
-  metadata audit needs an LLM-assisted read of 40 vendor reports — that's
+  metadata audit needs an LLM-assisted read of 39 vendor reports — that's
   its own session"). Sub-handoffs are first-class outputs of this
   investigation, not failure modes.
 - *Parallelise via batched sub-agents* — when sub-investigations are
@@ -219,7 +219,7 @@ and what L4 can claim.
    weakening §IV-B's claim to operate at the rung MTD targets.
 
 3. *Empirical structure in the v0.5 corpus.* The GAP construction note already
-   records the structural finding: *"of 40 flows, 13 reach exfiltration, 13
+   records the structural finding: *"of 39 flows, 13 reach exfiltration, 13
    reach impact, but only 3 reach both — campaigns commit to one terminal
    objective, exactly the 'stages 4–5 split by objective' structure"*
    ([`docs/notes/2026-05-27_gap_construction.md`:110-115](../notes/2026-05-27_gap_construction.md#L110)).
@@ -381,13 +381,13 @@ this investigation lands a recommendation Marc signs off on.
 
 ### Notebook structure (suggested — adjust as findings dictate)
 
-1. **Load** `data/gap/gap_v0.5.json` and the 40 per-flow YAML extracts under
+1. **Load** `data/gap/gap_v0.5.json` and the 39 per-flow YAML extracts under
    `data/gap/flows/`.
 
-2. **Audit non-STIX metadata across the 40 flows.** The per-flow YAMLs already
+2. **Audit non-STIX metadata across the 39 flows.** The per-flow YAMLs already
    carry richer metadata than the aggregate GAP consumes; the CTID corpus
    site and the referenced vendor reports carry more still. The aim of this
-   step is to produce a 40-row reference table that grounds (or falsifies)
+   step is to produce a 39-row reference table that grounds (or falsifies)
    the structural classification before any partition mechanism is chosen.
 
    Sources to inventory, in order of cheapness:
@@ -680,7 +680,7 @@ The investigation is *not* asking for:
   2026-04-16 notebook already showed keyword extraction is poor (F1 0.47);
   an NLP/LLM pass *as a partition mechanism* is a separate workstream if P4
   wins *and* hand-labels are the limiting factor. Don't run it pre-emptively
-  for that purpose. **However**, LLM-assisted reading of the ~40 vendor
+  for that purpose. **However**, LLM-assisted reading of the ~39 vendor
   reports during step 2's metadata audit is a tooling choice, not a research
   escalation — use whichever read-mechanism gets the `stated_objective`
   column populated reliably within session bounds, including LLM-assisted
@@ -737,7 +737,7 @@ seventh that emerges from step 2's metadata audit can win over all of them.*
   setups, and undrawn-suffix flows — without metadata you cannot tell them
   apart. (c) NIST SP 800-39's authority is risk-management vocabulary, not
   adversary-behaviour taxonomy; the standards-grounded framing buys
-  defensibility, not natural-kind status. (d) The 11:7:22 raw split is
+  defensibility, not natural-kind status. (d) The 11:7:21 raw split is
   lopsided enough that even with the residual unpacked, the scheme may
   collapse to binary (steal_data vs impediment) on the observably-completed
   flows — re-framing the contribution.
@@ -787,7 +787,7 @@ seventh that emerges from step 2's metadata audit can win over all of them.*
 *Cross-cutting concerns the investigation should hold in mind regardless
 of candidate:*
 
-- *The corpus is small (40 flows) and uneven (single-observation share at
+- *The corpus is small (39 flows) and uneven (single-observation share at
   88%). Some candidates may fail the discrimination check not because the
   classification is wrong but because the corpus is too thin to separate
   signal at any classification. "More data needed" is a legitimate verdict.

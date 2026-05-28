@@ -4,7 +4,7 @@
 |---|---|---|---|---|
 | L0 | raw CTI (Attack Flow corpus + ATT&CK Enterprise) | [§(c)](../../../docs/specs/architecture.md) | **built** | here |
 
-Acquires the **gitignored** upstream inputs the L1 build consumes: the 40 MITRE
+Acquires the **gitignored** upstream inputs the L1 build consumes: the 39 MITRE
 CTID Attack Flow corpus flows (as STIX bundles) and the ATT&CK Enterprise STIX
 bundle. Pins live in [`fetch.py`](fetch.py); per
 [`01_gap_schema.md`](../../../docs/specs/01_gap_schema.md) Decision 4, only the

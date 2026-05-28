@@ -1,6 +1,6 @@
 {
   "version": "0.5",
-  "build_date": "2026-05-27",
+  "build_date": "2026-05-28",
   "attack_flow_schema_version": "2.0.0",
   "corpus_ref": "attack-flow@v3.1.1 (pkg 3.2.0); STIX 2.0.0 extension; CTID published export",
   "attack_source": "enterprise-attack-19.1",
@@ -13009,7 +13009,7 @@
       ]
     }
   ],
-  "source_flow_count": 40,
+  "source_flow_count": 39,
   "node_count": 124,
   "edge_count": 478,
   "entry_nodes": [

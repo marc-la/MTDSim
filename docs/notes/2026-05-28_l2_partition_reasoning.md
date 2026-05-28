@@ -27,7 +27,7 @@ scored.
 The pipeline takes raw threat-intelligence reports and gradually distils them
 into something a simulator can drive an attacker with. L1 already built one
 big graph of "what techniques real adversaries chain together," drawn from
-40 documented incidents. L2's job is to slice that graph into a handful of
+39 documented incidents. L2's job is to slice that graph into a handful of
 *behavioural variants* — so we can ask whether different MTD defences hold
 up against different *kinds* of attackers, rather than against an
 undifferentiated average. Without the slice, "the attacker" is the GAP-average,
@@ -75,7 +75,7 @@ agreeing is what makes the step defensible.
   intent, motivation conditioning, and learning capability." Without L2, the
   work sits at procedural, falls short of the same bar it critiques in others,
   and the §IV-B argument loses its force.
-- **The corpus itself shows the structural premise holds.** Of the 40 flows
+- **The corpus itself shows the structural premise holds.** Of the 39 flows
   in the v0.5 GAP, 11 terminate in exfiltration, 7 in impact-only, and only
   3 in both. Campaigns really do commit to one terminal objective in the data
   we have — exactly the "stages 4–5 split by objective" structure Alshamrani
@@ -111,8 +111,8 @@ them:
 
 ### The honest wrinkle: observability bias in the "position for future" bucket
 
-On the v0.5 corpus the structural mapping yields 11 : 7 : 22 across
-`{steal_data, impediment, position_for_future}` — a 28% : 18% : 55% split that
+On the v0.5 corpus the structural mapping yields 11 : 7 : 21 across
+`{steal_data, impediment, position_for_future}` — a 28% : 18% : 54% split that
 looks lopsided. The reason almost certainly is **observability bias** rather
 than a real preponderance of surveillance campaigns. Incident reports stop at
 the point of detection, before any exfiltration or impact has happened, so a

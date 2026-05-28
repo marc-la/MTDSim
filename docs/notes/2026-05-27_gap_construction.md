@@ -23,7 +23,7 @@ downstream evaluation actually means.
 **What it is.** The GAP aggregates many analyst-drawn, per-incident *Attack
 Flow* diagrams into one directed graph: nodes are ATT&CK techniques, edges are
 dependencies between them ("to do B, the adversary first needed A"). One
-incident shows one path; the GAP generalises across ~40 incidents so the
+incident shows one path; the GAP generalises across ~39 incidents so the
 attacker model reflects *recurring* behaviour, not a single campaign.
 
 **The non-negotiable rule.** Every edge corresponds to a dependency a human
@@ -64,7 +64,7 @@ corpus-derived one.
 ## What the assembled graph looks like
 
 A few properties of the built artefact (observed on the current Enterprise-only
-build: 124 technique nodes, 478 edges, 40 flows) are worth recording — they
+build: 124 technique nodes, 478 edges, 39 flows) are worth recording — they
 shape how the GAP can be read, and they bear out the design choices above.
 
 **The tactic-level view is nearly a complete graph.** Collapse the techniques
@@ -98,16 +98,16 @@ where it can see.** Incident-derived intelligence starts at the point of
 *detection* (the intrusion) and works forward; pre-intrusion reconnaissance
 happens on attacker infrastructure and via OSINT, leaves little defender
 telemetry, and so analysts rarely draw it. The corpus bears this out:
-**reconnaissance appears in only 10 of 40 flows while initial-access appears in
-30 of 40**, and there is essentially no `reconnaissance → initial-access` edge
+**reconnaissance appears in only 10 of 39 flows while initial-access appears in
+30 of 39**, and there is essentially no `reconnaissance → initial-access` edge
 (1, observed once). This is not a modelling error but a **survivorship-/
 observability bias** of the source — the GAP is densest in the observable middle
 of the kill chain and blind to the pre-intrusion prefix. It does **not**
 contradict Alshamrani 2019's claim that the recon→foothold prefix is *invariant*
 across APT operations; it *confirms it at the half the corpus can see* (foothold,
-30/40, is densely observed) while being structurally unable to observe the
+30/39, is densely observed) while being structurally unable to observe the
 invariant prefix itself. The same lens corroborates the back half of Alshamrani's
-claim: of the 40 flows, **13 reach exfiltration, 13 reach impact, but only 3 reach
+claim: of the 39 flows, **13 reach exfiltration, 13 reach impact, but only 3 reach
 both** — campaigns commit to *one* terminal objective, exactly the "stages 4–5
 split by objective" structure, observed directly in the data (and what makes the
 L2 motivation-subgraphing design defensible against this corpus). The decision not

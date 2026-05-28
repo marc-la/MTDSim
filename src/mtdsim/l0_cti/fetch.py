@@ -5,7 +5,7 @@ consumed from a gitignored local copy; only the distilled per-flow extracts +
 the aggregated GAP are committed. :func:`fetch_corpus` materialises those inputs
 reproducibly:
 
-1. The 40 MITRE CTID Attack Flow corpus flows, as **STIX 2.1 bundles**, taken
+1. The 39 MITRE CTID Attack Flow corpus flows, as **STIX 2.1 bundles**, taken
    from CTID's own published lossless export (the corpus ships only ``.afb``
    Builder files; CTID exports them to STIX for its docs site). Pinned to the
    v3.1.1 release content.
@@ -45,8 +45,11 @@ ATTACK_URL = (
     f"master/enterprise-attack/enterprise-attack-{ATTACK_VERSION}.json"
 )
 
-# The 40 corpus flow names (filename stems of corpus/*.afb at v3.1.1). Pinned
+# The 39 corpus flow names (filename stems of corpus/*.afb at v3.1.1). Pinned
 # explicitly so the build is reproducible without cloning the upstream repo.
+# "Example Attack Tree" is excluded — it is a CTID Builder tutorial fixture
+# (scope=attack-tree, all actions have technique_id=null, 0 external references),
+# not a real-incident CTI artefact.
 FLOW_NAMES = [
     "Black Basta Ransomware",
     "CISA AA22-138B VMWare Workspace (Alt)",
@@ -59,7 +62,6 @@ FLOW_NAMES = [
     "Conti Ransomware",
     "DFIR - BumbleBee Round 2",
     "Equifax Breach",
-    "Example Attack Tree",
     "FIN13 Case 1",
     "FIN13 Case 2",
     "Gootloader",
