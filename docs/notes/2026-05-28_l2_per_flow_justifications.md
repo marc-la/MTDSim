@@ -6,6 +6,12 @@ topic: L2 partition — per-flow P6 class assignment justifications
 
 # Per-flow P6 class assignments — justifications, citations, and critique
 
+> **Provenance banner.** This note records the investigation that produced
+> GASP. The canonical spec is now at
+> [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) — read this
+> for *why* GASP exists and *how* the decision was reached; read the spec
+> for *what GASP is*.
+
 ## Why this exists
 
 The L2 partition decision at

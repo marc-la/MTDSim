@@ -6,6 +6,12 @@ topic: L2 partition — operator-aggregation concern + candidate mitigations
 
 # Operator-aggregation in the L2 corpus — what it means and how to mitigate
 
+> **Provenance banner.** This note records the investigation that produced
+> GASP. The canonical spec is now at
+> [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) — read this
+> for *why* GASP exists and *how* the decision was reached; read the spec
+> for *what GASP is*.
+
 ## Why this is worth recording
 
 The L2 partition verdict at

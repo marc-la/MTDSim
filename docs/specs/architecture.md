@@ -101,10 +101,10 @@ rather than retraining.
  (raw CTI)              (GAP)                 (GASP)               (OGASP)                (evaluation)
 
  ATT&CK         ──►  aggregate  ──►   subgraph by    ──►  operationalise  ──►   compare MTD mechanisms
- Campaigns                              motivation             in MTDSim          across attacker profiles
- Attack Flow         techniques        terminal-node           graph-driven       MTTC | ASR
- corpus              + edges           ancestor proxy          attacker traversal | attack-path exposure
- ATT&CK group        (consensus,                               + inherited 6-phase| RoA
+ Campaigns                              operational           in MTDSim          across attacker profiles
+ Attack Flow         techniques        objective              graph-driven       MTTC | ASR
+ corpus              + edges           (audit-traced;         attacker traversal | attack-path exposure
+ ATT&CK group        (consensus,        surface subgraph)     + inherited 6-phase| RoA
  descriptions        backward;                                 baseline retained
                      thresholds)
                                                                        ▲
@@ -220,41 +220,66 @@ across motivation profiles.
 
 ---
 
-## (e) L2 — GASP (motivation-subgraphed APT Profile)
+## (e) L2 — GASP (operational-objective-subgraphed APT Profile)
 
-**Status:** partially built (terminal-node-ancestor proxy implemented; the
-"true" motivation-attribution method is unfinalised).
+**Status:** spec-complete (canonical construction adopted; implementation
+pending). The data model and the five construction decisions live in
+[`02_gasp_schema.md`](02_gasp_schema.md); this section is the
+architecture-level summary.
 
-- **Inputs.** L1 GAP; a **motivation specifier** drawn from the canonical
-  set `{espionage, disruption, financial}` — three by default, matching the
-  primary motivation categories surfaced across ATT&CK group descriptions.
-  The set is **open**: an evaluation matrix may add a fourth (e.g.
-  *hacktivism*) if a finding depends on it, but the L4 baseline factorial
-  is currently scoped to these three. Pinning the L4 factorial shape is
-  §(l) open question #6.
-- **Outputs.** A motivation-conditioned subgraph of GAP: the techniques and
-  edges relevant to the specified motivation.
-- **Transformation.** Currently: identify terminal nodes (no outgoing edges)
-  attributable to the motivation, then take the ancestor closure of those
-  nodes in GAP. The design intent — *motivation-subgraphed* — is broader than
-  this proxy.
-- **Validation.** Subgraphs should differ across motivations in non-trivial
-  ways (different technique populations, different ancestral structure). The
-  subgraph must remain traversable end-to-end (a connected reachable region).
+- **Inputs.** L1 GAP; an **operational-objective specifier** drawn from the
+  canonical set `{pure_steal, pure_impediment, double_extortion,
+  infrastructure_setup}`. The class set is empirically derived from a 38-flow
+  audit-traced corpus
+  ([`02_gasp_schema.md`](02_gasp_schema.md) §(b) Decision 2) — a refinement
+  of Alshamrani's 3-goal NIST taxonomy that names *double-extortion*
+  explicitly and renames *position_for_future* to *infrastructure_setup*
+  because the corpus contains zero surveillance flows. The set is closed
+  for v0.5; corpus growth may promote it.
+- **Outputs.** An operational-objective-conditioned subgraph of GAP — the
+  techniques (surface) and edges drawn by analysts in flows assigned to the
+  specified class. Boundary object: `SubgraphView` (`class_name`,
+  `node_set`, `edge_set`, `provenance`).
+- **Transformation.** Take the **surface subgraph** — techniques actually
+  present in the class's flows, GAP edges where both endpoints are in the
+  union. Class membership is sourced from the audit-traced CSV at
+  [`../notes/2026-05-28_l2_metadata_audit.csv`](../notes/2026-05-28_l2_metadata_audit.csv),
+  *not* from graph-structural terminal-node detection. The CSV is the
+  load-bearing input; the no-synthesis invariant
+  ([`02_gasp_schema.md`](02_gasp_schema.md) §(a)) refuses synthesised class
+  memberships in exactly the way the L1 GAP refuses synthesised edges.
+- **Validation.** Subgraphs differ across operational-objectives at the
+  technique-frequency level (mean pairwise JSD 0.317 vs null p95 0.148, all
+  six class pairs in 0.284–0.351). The operator-deduplicated re-check
+  ([`02_gasp_schema.md`](02_gasp_schema.md) §(g)) is unrun as of land and
+  is the load-bearing caveat. Simulator-level discrimination is L3/L4-scoped,
+  not L2.
 - **Code location.** Stub on this branch at
   [`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph) (scaffold +
-  README; no implementation yet). The v0.4 terminal-node-ancestor proxy is prior
-  art on `feat/attacker-profiling`, not ported.
+  README; no implementation yet). Implementation is governed by the open
+  handoff at
+  [`../handoffs/2026-05-28_l2_implementation.md`](../handoffs/2026-05-28_l2_implementation.md).
+  The v0.4 terminal-node-ancestor proxy on `feat/attacker-profiling` /
+  `feat/replay-viz` is not ported.
 
-**Decision — motivation attribution is implemented today as terminal-node
-ancestor expansion; richer attribution (NLP over group descriptions,
-group-mediated inference) is parked.**
-**Why:** ATT&CK does not expose a clean "motivation" field. The terminal-node
-proxy is honest about what it is — a structural surrogate for motivation —
-and is sufficient to differentiate subgraphs in a comparative experiment.
-**If revisited:** If the comparative pass shows motivation-by-attribution
-matters more than motivation-by-terminal-node, swap in the NLP path; the L2
-contract (graph in → subgraph out, motivation-parameterised) does not change.
+**Decision — class membership is sourced from analyst-stated narrative
+(audit-traced metadata attestation), not from GAP graph structure.**
+**Why:** Graph-structural terminal-node detection (the dropped P1 candidate)
+agrees with the audit on only 23 of 38 flows (61 %). The 40 % disagreement
+is systematic: *truncated breach reports* (Equifax, JP Morgan, Marriott,
+etc.) where the analyst stopped drawing before the exfiltration step
+appeared as a structural terminal. Sourcing membership from CTI narrative
+resolves the truncation pattern correctly. Per-flow defence in
+[`02_gasp_schema.md`](02_gasp_schema.md) §(b) Decision 3 and
+[`../notes/2026-05-28_l2_per_flow_justifications.md`](../notes/2026-05-28_l2_per_flow_justifications.md).
+**If revisited:** If a corpus expansion or simulator-driven discrimination
+step reveals operator-aggregation is dominating per-class discrimination
+(e.g. the `double_extortion` class's signal is *the Conti signature* rather
+than a *double-extortion signature*), re-open the spec against the four
+mitigations in
+[`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../notes/2026-05-28_l2_operator_aggregation_concern.md)
+(operator-deduplicated re-check / operator-weighted JSD / stratified holdout
+/ corpus expansion).
 
 ---
 
@@ -391,12 +416,19 @@ ASR signal across the experiment matrix.
 - **Attack Flow** — MITRE CTID corpus of per-campaign action-condition-operator
   graphs. Edge-source at L1.
 - **GAP** — *Generalised APT Profile*. The L1 aggregated graph.
-- **GASP** — *Motivation-subgraphed APT Profile*. The L2 motivation-conditioned
-  subgraph of GAP.
+- **GASP** — *Operational-objective-subgraphed APT Profile*. The L2
+  operational-objective-conditioned subgraphs of GAP — four `SubgraphView`s,
+  one per class `{pure_steal, pure_impediment, double_extortion,
+  infrastructure_setup}`, per [`02_gasp_schema.md`](02_gasp_schema.md). (The
+  earlier "motivation-subgraphed" expansion is investigation-time
+  terminology; the live axis is operational objective.)
 - **OGASP** — *Operationalised GASP*. The L3 attacker-agent traversal of GASP
   within MTDSim.
-- **Motivation profile** — a categorical specifier (*espionage* / *disruption*
-  / *financial*, …) parameterising the L1→L2 subgraphing step.
+- **Operational-objective profile** — a categorical specifier from
+  `{pure_steal, pure_impediment, double_extortion, infrastructure_setup}`
+  parameterising the L1→L2 subgraphing step. (Supersedes the early
+  "motivation profile" framing — see
+  [`02_gasp_schema.md`](02_gasp_schema.md) §(b) Decision 1.)
 - **Behaviourally-grounded attacker** — an attacker whose behaviour is shaped
   by CTI-derived structure (the GASP traversal), as opposed to a *procedural*
   attacker whose phase order and parameters are fixed in code.
@@ -539,8 +571,15 @@ Pass 2 / Marc to drive, not assumed-resolved.
   *form*; the values are tunable. → **Resolved for the GAP stage** by
   [`01_gap_schema.md`](01_gap_schema.md): Attack-Flow-only edges (co-occurrence
   dropped), lossless artefact, thresholds / acyclicity as downstream views.
-- **Motivation-attribution method.** Terminal-node-ancestor proxy today;
-  NLP/group-mediated inference parked. Which lands in the final evaluation?
+- **Motivation-attribution method — RESOLVED** → see
+  [`02_gasp_schema.md`](02_gasp_schema.md). Class membership is sourced from
+  audit-traced metadata attestation (analyst-stated operational objective in
+  the CTI narrative); the structural-terminal proxy is documented as the
+  dropped P1 candidate. NLP/group-mediated inference remains parked but is
+  no longer the parked *alternative to the structural proxy* — it would be
+  an alternative to the audit-traced mechanism, with the operator-
+  aggregation re-check ([`02_gasp_schema.md`](02_gasp_schema.md) §(g)) as
+  the natural decision point.
 - **Network substrate generality.** Held generic by intent — but does the RQ
   require parametric variation across topologies, or is one canonical
   network sufficient? §(a) and §(i) currently say *one*, generic; revisit
@@ -555,6 +594,10 @@ Pass 2 / Marc to drive, not assumed-resolved.
 
 - [`project_context.md`](project_context.md) — thesis-level direction; the
   one-line L0→L4 pipeline this file expands.
+- [`01_gap_schema.md`](01_gap_schema.md) — L1 GAP data model and the six
+  construction decisions; the detail under §(d).
+- [`02_gasp_schema.md`](02_gasp_schema.md) — L2 GASP data model and the
+  five construction decisions; the detail under §(e).
 - [`mtdsim_spec.md`](mtdsim_spec.md) — substrate row-level dispositions.
 - [`metrics_semantics.md`](metrics_semantics.md) — internal MTTC and the
   comparability boundary.

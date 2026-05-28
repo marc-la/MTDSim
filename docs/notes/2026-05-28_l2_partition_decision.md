@@ -6,6 +6,12 @@ topic: L2 (GASP) operational-objective classification — decision
 
 # L2 partition decision — compound-class disjoint (P6), conditional on simulator verification
 
+> **Provenance banner.** This note records the investigation that produced
+> GASP. The canonical spec is now at
+> [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) — read this
+> for *why* GASP exists and *how* the decision was reached; read the spec
+> for *what GASP is*.
+
 ## Why this is worth recording
 
 The L2 classification is the step the thesis's RQ depends on. Without an
