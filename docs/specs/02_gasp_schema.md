@@ -1,5 +1,5 @@
 ---
-status: draft — canonical GASP construction (v1.0 target). Supersedes the
+status: canonical — GASP construction v1.0. Supersedes the
         v0.4 terminal-node-ancestor proxy and the architecture §(e)
         "motivation specifier {espionage, disruption, financial}" prose.
 created: 2026-05-28
@@ -11,10 +11,8 @@ scope: L2 (GASP construction) only. L3/L4 are consumers, not in scope here.
 The data model and construction method for **L2 — GASP**: the operational-
 objective-conditioned subgraphs derived from the L1 GAP plus an audit-traced
 per-flow class-membership input. This file is the *what it is* (data model
-+ invariants + decisions). The *how to build it* will be implemented at
-[`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph) (currently a
-stub; implementation handoff at
-[`../handoffs/2026-05-28_l2_implementation.md`](../handoffs/2026-05-28_l2_implementation.md)).
++ invariants + decisions). The *how to build it* is implemented at
+[`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph).
 The class-membership input is committed at
 [`../notes/2026-05-28_l2_metadata_audit.csv`](../notes/2026-05-28_l2_metadata_audit.csv).
 
@@ -305,7 +303,7 @@ operational-objective specifier above.
 
 ---
 
-## (f) Build pipeline (summary; implementation in [`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph))
+## (f) Build pipeline (summary; implementation at [`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph))
 
 1. **Read inputs.** Load `gap_v0.5.json` ([`01_gap_schema.md`](01_gap_schema.md)
    §(d)) and the audit CSV
@@ -323,10 +321,10 @@ operational-objective specifier above.
    remains the GAP + CSV, re-derivable on demand.
 
 The contract is `(gap, operational_objective) → SubgraphView`. The L2
-builder is **not yet implemented**; the stub at
-[`../../src/mtdsim/l2_subgraph/README.md`](../../src/mtdsim/l2_subgraph/README.md)
-points to the implementation handoff at
-[`../handoffs/2026-05-28_l2_implementation.md`](../handoffs/2026-05-28_l2_implementation.md).
+builder is implemented at
+[`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph) —
+build/test entry points in
+[`../../src/mtdsim/l2_subgraph/README.md`](../../src/mtdsim/l2_subgraph/README.md).
 
 **Prior art (not ported).** A v0.4 implementation — terminal-node-ancestor
 proxy plus platform / terminal selectors — exists on the
@@ -373,7 +371,10 @@ this spec + the partition-decision note, not lifted across.
   if the JSD signal survives, the per-class behaviour is class-driven, not
   operator-driven. If it collapses below null p95, the verdict reframes to
   operator-specific rather than class-specific behavioural fidelity.
-  *This check is unrun as of spec land.*
+  *Run by the L2 build's test gate (`tests/l2_subgraph/test_gasp.py`); the
+  current numbers land in [`../../data/gasp/README.md`](../../data/gasp/) —
+  observed mean JSD survives null p95, so the per-class signal is
+  operator-robust on the n=29 deduplicated corpus.*
 
 The simulator-level discrimination check — does the L4 substrate (MTTC /
 ASR / event traces) reproduce the corpus-level JSD signal? — is *out of

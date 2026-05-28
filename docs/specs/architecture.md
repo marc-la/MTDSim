@@ -222,10 +222,10 @@ across motivation profiles.
 
 ## (e) L2 — GASP (operational-objective-subgraphed APT Profile)
 
-**Status:** spec-complete (canonical construction adopted; implementation
-pending). The data model and the five construction decisions live in
-[`02_gasp_schema.md`](02_gasp_schema.md); this section is the
-architecture-level summary.
+**Status:** built. The data model and the five construction decisions live
+in [`02_gasp_schema.md`](02_gasp_schema.md); the L2 builder is at
+[`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph); this section
+is the architecture-level summary.
 
 - **Inputs.** L1 GAP; an **operational-objective specifier** drawn from the
   canonical set `{pure_steal, pure_impediment, double_extortion,
@@ -251,16 +251,15 @@ architecture-level summary.
 - **Validation.** Subgraphs differ across operational-objectives at the
   technique-frequency level (mean pairwise JSD 0.317 vs null p95 0.148, all
   six class pairs in 0.284–0.351). The operator-deduplicated re-check
-  ([`02_gasp_schema.md`](02_gasp_schema.md) §(g)) is unrun as of land and
-  is the load-bearing caveat. Simulator-level discrimination is L3/L4-scoped,
-  not L2.
-- **Code location.** Stub on this branch at
-  [`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph) (scaffold +
-  README; no implementation yet). Implementation is governed by the open
-  handoff at
-  [`../handoffs/2026-05-28_l2_implementation.md`](../handoffs/2026-05-28_l2_implementation.md).
-  The v0.4 terminal-node-ancestor proxy on `feat/attacker-profiling` /
-  `feat/replay-viz` is not ported.
+  ([`02_gasp_schema.md`](02_gasp_schema.md) §(g)) runs as a test gate over
+  the L2 build and the signal survives null p95 on the n=29 deduplicated
+  corpus — the per-class behaviour is operator-robust at the corpus level.
+  Simulator-level discrimination is L3/L4-scoped, not L2.
+- **Code location.** Built on this branch at
+  [`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph); outputs
+  at [`../../data/gasp/`](../../data/gasp/) (classification CSV +
+  per-class `SubgraphView` JSONs). The v0.4 terminal-node-ancestor proxy
+  on `feat/attacker-profiling` / `feat/replay-viz` is not ported.
 
 **Decision — class membership is sourced from analyst-stated narrative
 (audit-traced metadata attestation), not from GAP graph structure.**
