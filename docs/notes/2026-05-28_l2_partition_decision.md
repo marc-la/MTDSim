@@ -398,6 +398,44 @@ all load-bearing outputs are in this notes file, the audit CSV, and the
 per-flow / operator-aggregation companion notes. The reproducibility seam
 is the audit CSV (the analyst-stated objectives are the audit-traced
 load-bearing input the scheme materialisation reads from). Visualisations
-(GASP class subgraphs at technique + tactic levels + a 4-panel comparison
-chart) live at `data/gap/_viz/gasp_*` — gitignored, regenerable via
-`python data/gap/_viz/gasp_viz.py`.
+(per-class technique subgraphs + tactic FSMs, 2×2 grid comparisons at both
+levels, and a heatmap/delta/signature comparison chart) live at
+`data/gasp/_viz/gasp_*` — gitignored, regenerable via
+`python data/gasp/_viz/gasp_viz.py`.
+
+**Visualisation iteration outcomes (2026-05-28).** Visual iteration round
+landed `data/gasp/_viz/` as a peer to `data/gap/_viz/`, reusing the GAP viz
+style helpers (`_short`, `_node_label`, `_edge_style`,
+`_drop_tiny_components`) verbatim. Per-class min_obs cutoffs were chosen
+by a quantitative sweep plus an eyeball pass on each rendered output: at
+the **technique level**, uniform `obs ≥ 2` cleanly separates the recurring
+backbone from the single-flow long tail (all four classes shrink to 21–34
+nodes / 31–54 edges, from the obs=1 hairballs at 39–98 nodes / 148–413
+edges); per-class tuning was considered but converged on a single cutoff,
+which is itself defensible — cross-panel differences then read as
+*workflow* differences, not filter-threshold artefacts. At the **tactic
+FSM** level, panel-mode default is `obs ≥ 3` (mirrors gap_viz's `obs ≥ 4`
+cutoff for the GAP-wide FSM, scaled down for the smaller per-class
+transition counts); this brings each panel to 26–53 of 61–118 transitions,
+dense enough to show structure, sparse enough that the state ellipses
+remain visible through the edge layer. The 2×2 grids
+(`gasp_grid_technique.png`, `gasp_grid_tactic_fsm.png`) compose
+graphviz-rendered panel PNGs via matplotlib `imshow` (graphviz alone
+can't compose multi-axis figures cleanly), with per-panel titles annotating
+threshold + counts. The comparison chart's signature-tactic arrows on the
+heatmap and the highlight axvspans on the delta panel were stripped — the
+cells and bars carry the signal without visual accentuation, matching
+gap_viz's "let the weight-coded edges speak for themselves" convention.
+**Notable finding from the eyeball pass**: at the technique-level `obs ≥
+2` cutoff, the `double_extortion` class loses its `impact` tactic from the
+subgraph — each ransomware family in the class uses a different encryption
+variant so no impact edge survives the recurrence filter. This is signal,
+not a viz bug: the class converges on a shared theft-prep workflow but
+diverges on encryption mechanism. The signature `impact` *share* remains
+visible in the heatmap (where individual flows still contribute to the
+share), so the class's defining double-objective is preserved across the
+viz set, just not in the technique-subgraph view at `obs ≥ 2`. The
+historical `p6_` prefix on viz outputs was dropped per Marc's direction
+("P6 is now just GASP — no need to disambiguate against other candidate
+schemes"); file naming convention is now `gasp_<class>.png` for the
+canonical view, `gasp_<class>_obs1.png` for the unfiltered diagnostic.

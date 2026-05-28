@@ -154,5 +154,9 @@ docs/sources
 # committed; only these raw upstream inputs are ignored.
 data/gap/_*
 
+# GASP (L2) visualisation outputs — diagnostic-quality artefacts, regenerable
+# via data/gasp/_viz/gasp_viz.py. Mirrors the data/gap/_* pattern.
+data/gasp/_*
+
 # macOS Finder metadata
 .DS_Store
