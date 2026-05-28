@@ -11,6 +11,18 @@ topic: L2 (GASP) partition — operational objective as the axis
 > [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) — read this
 > for *why* GASP exists and *how* the decision was reached; read the spec
 > for *what GASP is*.
+>
+> **Status update (2026-05-28).** The "follow-up investigation"
+> referenced below (`2026-05-28_l2_partition_investigation.md`) ran and
+> landed as the partition-decision note at
+> [`./2026-05-28_l2_partition_decision.md`](./2026-05-28_l2_partition_decision.md),
+> with the canonical outcome in
+> [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md). The
+> chosen partition is P6 (4-class compound-disjoint:
+> `pure_steal` / `pure_impediment` / `double_extortion` /
+> `infrastructure_setup`) — a refinement of Alshamrani's 3-goal anchor
+> rather than a wholesale replacement. The body below is preserved as
+> framing-stage provenance.
 
 ## Why this is worth recording
 

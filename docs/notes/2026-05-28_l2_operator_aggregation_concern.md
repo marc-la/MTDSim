@@ -11,6 +11,16 @@ topic: L2 partition — operator-aggregation concern + candidate mitigations
 > [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) — read this
 > for *why* GASP exists and *how* the decision was reached; read the spec
 > for *what GASP is*.
+>
+> **Status update (2026-05-28).** Mitigation 1 (operator-deduplicated JSD
+> re-check) ran as part of the L2 build's test gate (commit `cf9a239`);
+> see [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) §(g) and
+> [`../../data/gasp/README.md`](../../data/gasp/README.md) for the
+> numbers. The signal survives null p95 on the n=29 deduplicated corpus
+> — the per-class behaviour is operator-robust at the corpus level.
+> Mitigations 2–4 remain candidates for the L3/L4 evaluation phase.
+> "Simulator-verification sub-handoff" references in the body below are
+> investigation-time wording.
 
 ## Why this is worth recording
 

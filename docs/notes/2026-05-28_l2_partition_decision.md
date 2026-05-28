@@ -11,6 +11,18 @@ topic: L2 (GASP) operational-objective classification — decision
 > [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) — read this
 > for *why* GASP exists and *how* the decision was reached; read the spec
 > for *what GASP is*.
+>
+> **Status update (2026-05-28).** The "sub-handoff" this note refers
+> forward to (`2026-05-28_l2_simulator_verification.md`) was reduced in
+> scope to the operator-deduplicated JSD re-check (Mitigation 1) and
+> the L2 implementation; both landed in commit `cf9a239` and the spec
+> at [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) §(g)
+> records the result (operator-dedup JSD survives null p95 on the n=29
+> deduplicated corpus — the verdict stands at corpus level). The
+> simulator-driven discrimination check (MTTC / ASR / event traces) is
+> deferred to the L3/L4 evaluation phase, not a separate L2 handoff.
+> Forward-looking text in the body below is preserved as investigation-
+> time provenance.
 
 ## Why this is worth recording
 

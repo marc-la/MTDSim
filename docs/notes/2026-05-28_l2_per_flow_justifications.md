@@ -11,6 +11,14 @@ topic: L2 partition — per-flow P6 class assignment justifications
 > [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) — read this
 > for *why* GASP exists and *how* the decision was reached; read the spec
 > for *what GASP is*.
+>
+> **Status update (2026-05-28).** The "simulator-verification sub-handoff"
+> referenced below was reduced to the operator-deduplicated JSD re-check
+> (Mitigation 1) plus the L2 implementation; both landed in commit
+> `cf9a239`. Outstanding follow-ups identified here (e.g. the
+> `toolshell_vulnerability_in_sharepoint` flow-split) are L1-level
+> corpus edits, not L2 work — flagged but not actioned. The body below
+> is preserved as audit-trail.
 
 ## Why this exists
 
