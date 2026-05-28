@@ -262,6 +262,20 @@ is the architecture-level summary.
   per-class `SubgraphView` JSONs). The v0.4 terminal-node-ancestor proxy
   on `feat/attacker-profiling` / `feat/replay-viz` is not ported.
 
+**Decision — the L2 slice axis is operational objective, not motivation.**
+**Why:** Motivation (espionage / financial / disruption) is rarely written
+down in structured CTI; STIX `primary_motivation` is empty across all 187
+ATT&CK groups and all 52 ATT&CK campaigns (verified 2026-04-16). Operational
+objective — what the operation *did* by the analyst-stated narrative — is
+observable directly from CTI text, sidestepping inference. Alshamrani 2019
+([`../extractions/alshamrani2019.md`](../extractions/alshamrani2019.md))
+locates objective-conditioned behavioural divergence at APT phases 3–5,
+which is where it matters for an MTD evaluation. Detail in
+[`02_gasp_schema.md`](02_gasp_schema.md) §(b) Decision 1.
+**If revisited:** If a corpus emerges with structured motivation attribution
+(STIX `primary_motivation` populated), motivation re-enters as a comparable
+axis; the GASP would then carry both.
+
 **Decision — class membership is sourced from analyst-stated narrative
 (audit-traced metadata attestation), not from GAP graph structure.**
 **Why:** Graph-structural terminal-node detection (the dropped P1 candidate)
@@ -503,7 +517,13 @@ behaviourally-grounded evaluation of *multiple* MTD mechanisms (SDR family +
 AI-driven selection) against CTI-derived APT profiles, on a generic network
 substrate. It varies the defence pool *and* the attacker behavioural model
 while holding the substrate generic — directly addressing the two limitations
-of the dominant pattern.
+of the dominant pattern. *"Behaviourally-grounded" has a concrete mechanism
+here:* each L2 class partition is audit-traced to analyst-stated operational
+objective in the CTI narrative (CTID `example_flows/` blurb + ATT&CK
+Group/Campaign page + vendor URL), with per-flow citations in
+[`02_gasp_schema.md`](02_gasp_schema.md) §(c) and
+[`../notes/2026-05-28_l2_per_flow_justifications.md`](../notes/2026-05-28_l2_per_flow_justifications.md) —
+the mechanism is documented, not assumed.
 
 The defensible validation claim is **"behavioural fidelity changes the
 answer"**, not **"the attacker model is true"** (*Methodology Carry-Forward*
