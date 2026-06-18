@@ -5,6 +5,14 @@ created: 2026-06-18
 
 # Build the four GASP classes as a layered Petri-net substrate (D4 analytical + D2 cross-validator + D3 floor)
 
+> **▶ DIRECT NEXT STEP — build the MVP first:**
+> [`./2026-06-18_l3a_petri_mvp.md`](./2026-06-18_l3a_petri_mvp.md) (the L3a
+> un-weighted structural net). **This document is the *roadmap* (all stages,
+> go-conditions); the MVP handoff is the *actionable next build*.** The MVP
+> (Stage 1, structural only) is **GO-unconditional** — it needs **none** of the
+> four go-conditions and **none** of Stage 0; Stage 0 governance gates the
+> *analytical numbers* (Stage 2 onward), not the structural net.
+>
 > The *why*, the literature, the four candidate encodings, the five-lens
 > critique and the GO-CONDITIONAL verdict are in the feasibility study at
 > [`../notes/2026-06-18_l3_petri_feasibility.md`](../notes/2026-06-18_l3_petri_feasibility.md).
