@@ -18,10 +18,11 @@ topic: L3 OGASP Petri-net feasibility + design study — can the four GASP class
 > design pass; the judgement, the five-lens critique (§6) and the verdict (§8)
 > are this study's synthesis, cross-checked against
 > [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) and
-> [`../specs/architecture.md`](../specs/architecture.md). Two load-bearing
-> external precedents (Cai 2016, Mendonça/Cho/Kim 2023) are cited from
-> abstracts and are flagged **needs-extraction** — the literature-usage section
-> (§3) deepens when those land. The implementation plan this study justifies is
+> [`../specs/architecture.md`](../specs/architecture.md). The closest external
+> precedent, **Mendonça/Cho/Kim 2023**, is now extracted
+> ([`../extractions/mendonca2023.md`](../extractions/mendonca2023.md)) and folded
+> into §3/§6; **Cai 2016 is off-limits** (cannot be obtained) and is cited only
+> second-hand via Mendonça and the primer. The implementation plan this study justifies is
 > the handoff at
 > [`../handoffs/2026-06-18_l3_ogasp_petri_implementation.md`](../handoffs/2026-06-18_l3_ogasp_petri_implementation.md).
 
@@ -123,9 +124,9 @@ the disposition for this thesis.
 
 | Work | Variant | What is modelled | Executable / analytical | Rate grounding | What transfers / the trap |
 |---|---|---|---|---|---|
-| **Cai, Wang, Luo, Hu 2016** *(needs-extraction)* | GSPN | The **MTD techniques** themselves (software transformation, dynamic-platform, network-address-shuffling), evaluated and **compared** on cost vs benefit | Analytical (the methodological twin of this task) | per-technique MTD parameters | **Transfers:** GSPN is an accepted substrate for *comparing* MTD techniques — the thesis's exact L4 goal. **Trap:** their net models the defender; ours models the attacker, so their rate-grounding does not carry over. |
+| **Cai, Wang, Luo, Hu 2016** *(off-limits — second-hand only)* | GSPN/DSPN *(label uncertain)* | The **MTD techniques** themselves, evaluated and **compared** on performance/cost | Analytical | per-technique MTD parameters | **Transfers:** an accepted substrate for *comparing* MTD techniques — the thesis's exact L4 goal. **Trap:** cannot be obtained; cited only via Mendonça §5 (which calls it *DSPN*) and the primer (which calls it *GSPN*) — make no first-hand claim about its formalism. |
 | **Cho & Ben-Asher 2018** *(needs-extraction; the primer's named SRN anchor)* | SPN (SPNP) | Integrated IDS + deception + **MTD** "defense-in-breadth"; MTD effect = longer attacker reconnaissance | Analytical (SPNP package) | system/defender parameters | **Transfers:** SRN-for-MTD-effectiveness apparatus; MTD-as-dwell-extension. **Trap:** IDS is out of scope here ([`../specs/architecture.md`](../specs/architecture.md) §(a)); only the SRN machinery is relevant, not the integrated-defence frame. |
-| **Mendonça, Cho, Moore, Nelson, Lim, D. D. Kim 2023** *(needs-extraction)* | SRN | Services under a **time-based MTD** mechanism — the closest match to the SDR scheduling this thesis evaluates; the **Dongseong Kim lineage** MTDSim descends from | Analytical (performability) | service/MTD timing params | **Transfers:** time-based-MTD-as-SRN is directly the L4 question; same research lineage. **Trap:** still a defender-side performability model, not a CTI attacker. |
+| **Mendonça, Cho, Moore, Nelson, Lim, D. D. Kim 2023** ([`../extractions/mendonca2023.md`](../extractions/mendonca2023.md)) | **DSPN** (deterministic MTD-interval transition) | **Services / defender performance** under a **time-based MTD** — closest match to the SDR scheduling here; the **Dongseong Kim lineage** MTDSim descends from. **No attacker is modelled.** | Analytical (TimeNET/Mercury) | literature-sourced where available, **estimated-and-flagged (`?`)** otherwise | **Transfers:** the apparatus — analytical Petri-net, one-net-per-configuration comparison, MTD-interval sweep, *declare-and-sweep* un-groundable rates (§6.2); and the **DSPN refinement** (periodic MTD → deterministic transition, not a clean CTMC — §6.3). **Trap:** QoS metrics not security; no attacker → no attacker-rate precedent. |
 | **Bland et al. 2020** ([`../extractions/bland2020.md`](../extractions/bland2020.md)) | PNPSC (SPN + players/strategies/costs) | An **attacker** as an RL agent over two hand-built CAPEC patterns; attacker-vs-defender game | **Executable / Monte-Carlo** (≤500k episodes); never builds a CTMC | **notional [1,10] uniform** ("identifying realistic rates is future work") | **Transfers:** the SPN firing rule (exponential, smallest-variate race) is the CTMC-isomorphic semantics; a success-place **and** a failure/blocked place is a precedent for `infrastructure_setup`'s non-objective absorb. **Trap:** it is the *executable* pole, hand-authored per pattern, notional rates — invert every load-bearing choice. |
 | **Rodríguez et al. 2024** ([`../extractions/rodriguez2024.md`](../extractions/rodriguez2024.md)) | sound workflow net (Inductive Miner) | A **discovered** model of attacker behaviour, **tactic-node** granularity | **Interpretive only** — read in ProM, scored by fitness/precision | none (timestamps give partial order only) | **Transfers:** tactic-level abstraction is a *published, tractable, legible* coarsening (its 12-of-14 tactics); fitness/precision is a validation idea (replay the L1 per-flow traces against a built net). **Trap:** the net is **not runnable** — do not cite it as evidence a behaviour-net can be simulated/solved; that is this thesis's own contribution. |
 | **Outkin et al. 2023** ([`../extractions/outkin2023.md`](../extractions/outkin2023.md)) | DTMC (GPLADD), **not** a Petri net | A **fixed 9-step linear** APT3 chain; varies the **defender** | **Analytical** — steady-state + first-passage in Mathematica | ATT&CK-Evaluations **detection probabilities** (EDR, not MTD) | **Transfers:** the metric definitions — MTTC = first-passage to absorbing; report first-passage **and** steady-state as distinct (steady-state can be "not operationally relevant"); MTD-as-reset is an in-CTMC defender disruption; honesty that results "preserve ranking even if not calibrated". **Trap:** its tractability is *free* (a 9-node line); ours is not (124-node DAG with AND/OR). Detection numbers are EDR ground truth, not MTD. |
@@ -255,26 +256,88 @@ fixed-point / coarse-granularity — D4's "solve the shared reachability once,
 re-use four times" is a flavour of the hierarchical move. **GO** on tractability,
 with the cost booked under §6.5.
 
-#### 6.2 Rate grounding & provenance — the blocker-adjacent issue
+#### 6.2 Rate grounding & provenance — the deepest issue (and the most constructive)
 
-**Verdict: MAJOR. There is no corpus-grounded firing rate, and the spec forbids
-manufacturing one.** [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md)
-§(f) is explicit: seeding transition rates/probabilities from `observation_count`
-is *invalid as-is* because the weights are unnormalised, out-edges sum to
-nothing, and "the graph is not a Markov chain." v0.5 has **no `confidence`
-field** (the primer's `1/confidence` strawman is a dead v0.4 artefact);
-`confidence_samples` is mostly empty. The literature offers no rescue — Outkin's
-rates are EDR detection probabilities (wrong side, wrong calibration), Bland's
-are notional `[1,10]`. The **defensible resolution** is therefore to declare the
-rates **notional**: a single base rate `λ₀` in Bland's `[1,10]` band, with
-`observation_count` admitted **only as an ordinal within-class emphasis**
-(more-observed dependencies fire relatively faster) — *never* normalised to a
-probability — and every MTTC/ASR number reported as a **sensitivity band over
-`λ₀`**, not a point estimate. This bounds the claim to *relative, within-substrate
-ordering, sensitivity-robust* — which is exactly what Outkin concedes ("preserve
-ranking even if not calibrated") and what the comparability boundary already
-allows. Not a blocker, but it caps the contribution and **must be written into
-[`../specs/provenance.md`](../specs/provenance.md) before any number is quoted.**
+**Verdict: MAJOR. The edge weights cannot ground the firing rates — for two
+distinct reasons, and the deeper one is empirical.** This is the question that
+matters most, so it is worth separating the two arguments that are usually run
+together.
+
+**Reason A — formal (the spec already forbids it).**
+[`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f) is explicit:
+`observation_count` is a *recurrence* count — "how often analysts drew this
+dependency across reported incidents" — and seeding transition rates/probabilities
+from it is *"INVALID as-is"* because the weights are unnormalised, a node's
+out-edges sum to nothing, and "the graph is not a Markov chain." It is biased
+toward well-documented, successful campaigns; it is not efficacy, not a
+transition probability, not causal strength. *Even if it were dense*, normalising
+it into firing rates would read adversary-optimality and likelihood into what is
+only "how often it was drawn."
+
+**Reason B — empirical (the sparsity argument, and it is the stronger one).**
+Set the formal prohibition aside and ask only for an *ordinal* signal — "which
+dependencies are more well-trodden?" The corpus cannot even give that. The
+verified `observation_count` distribution over all 478 GAP v0.5 edges:
+
+| `observation_count` | edges | share |
+|---|--:|--:|
+| 1 | 419 | **87.7 %** |
+| 2 | 52 | 10.9 % |
+| 3 | 3 | 0.6 % |
+| 4 | 4 | 0.8 % |
+
+max = 4, mean = 1.15; per class the shape is identical (`obs ≥ 2` is only
+14–24 % of each class's edges). The distribution is a **near-degenerate spike at
+1**: ~88 % of edges are tied at the bottom, and the entire "signal" is 52 edges
+at 2 and seven edges at 3–4. So the *ordinal-emphasis* residue floated in the
+first draft of this study ("more-observed dependencies fire faster") is, on the
+data, almost vacuous — it can separate at most the 12 % of edges with `obs ≥ 2`
+from the rest, and barely orders within that. **The honest conclusion is stronger
+than the spec's prohibition: the rates are *purely notional* — the corpus does
+not even yield a usable ordinal.** This is not a build defect: the GAP is
+Attack-Flow-only over 38 hand-curated incidents, and a technique→technique
+dependency recurs only when *independent* incident reports happen to draw the
+*same* pair — which is rare, because incidents differ in their specific
+techniques. It is the L1 thinness finding (88 % single-observation) propagating
+straight into L2; corpus growth is the only lever, and it is slow.
+
+**The constructive consequence — this is the useful half.** Since the *rates*
+cannot be grounded, do not claim the analytical MTTC is a *timing* number. The
+corpus does ground the **structure** — the nodes, the edges (each a real
+analyst-drawn dependency), the AND/OR operators, and crucially *which edges each
+class contains* (the per-class surface subgraph). So:
+
+- **Set rates uniform/notional and read the analytical MTTC as a *structural*
+  metric** — expected number of steps/hops to absorption over the corpus-grounded
+  topology, ASR as reachability-by-horizon. The four-class discrimination then
+  comes from *graph structure* (path length, branching, per-class edge
+  enablement) — which **is** data — not from a hand-set rate vector — which is
+  not. This is *more* defensible, and it **partly defuses §6.5's
+  discrimination-as-input critique**: under uniform rates the grounded input is
+  the per-class edge-set, and the un-grounded rate vector — the thing §6.5 worries
+  you are "putting in by hand" — is removed from the discrimination entirely.
+- This sits cleanly inside the comparability framing the spec *already* blesses:
+  [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f) calls
+  "MTD-efficacy as how much MTD perturbs *typical observed attack workflow*"
+  **valid (with the framing stated)**. A structural steps-to-absorption MTTC,
+  perturbed by an MTD reset, is exactly that reading.
+- **If a genuine *timing* MTTC (seconds) is wanted, the rates must be exogenous**
+  — Outkin-style engagement/dwell data — declared and sensitivity-swept, with the
+  EDR-vs-MTD calibration caveat ([`../specs/architecture.md`](../specs/architecture.md)
+  §(j)). The corpus grounds *structure*; *timing* has to be imported, never
+  manufactured from `observation_count`.
+
+This is precisely the Mendonça 2023 parameterisation stance
+([`../extractions/mendonca2023.md`](../extractions/mendonca2023.md) Concept 3):
+ground what the data gives, *declare-and-sweep* what it does not — with the
+asymmetry that Mendonça's groundable parameters are *defender* rates (a
+literature exists), whereas the thesis's un-groundable ones are *attacker* rates,
+for which no frequency-grounded source exists at all. **Go-condition #1 therefore
+strengthens:** the baseline is **uniform/notional rates with a structural-MTTC
+reading**, `observation_count` admitted at most as a *cosmetic three-tier
+tie-break* (`1 / 2 / ≥3`), every number a sensitivity band, all written into
+[`../specs/provenance.md`](../specs/provenance.md) **before** any number is
+quoted.
 
 #### 6.3 Markov semantics — is a CTMC even the right object?
 
@@ -293,6 +356,22 @@ primer's claim that the Petri net gives "a second route to the same MTTC
 numbers" is **false**: it is a *new* metric that shares a name, not a re-
 derivation of the simulator's. Fix: define the Petri-CTMC MTTC as its own
 named metric, never present it as the DES MTTC.
+
+**A second, sharper wrinkle from Mendonça 2023** (now extracted —
+[`../extractions/mendonca2023.md`](../extractions/mendonca2023.md) Concept 1):
+the MTD this thesis evaluates is **time-based / periodic** (the SDR scheduler
+fires on a fixed interval). A *faithful* encoding of the MTD reset is therefore a
+**deterministic** transition (fixed delay), not an exponential one — which makes
+the substrate a **deterministic-and-stochastic Petri net (DSPN), not a pure
+CTMC**, and the clean `τ = −Q_T⁻¹·1` algebra no longer applies (DSPN needs the
+embedded-Markov / supplementary-variable solution that TimeNET / Mercury
+implement). This is exactly why Mendonça — modelling periodic MTD — chose DSPN
+over SPN/GSPN/SRN. The build faces an explicit fork: **(a)** approximate the MTD
+reset as exponential, keeping the clean CTMC and a SNAKES + custom solve, and
+*declare the approximation*; or **(b)** adopt a DSPN for fidelity to the periodic
+trigger and accept the harder solve (TimeNET/Mercury rather than a hand-rolled
+CTMC). Start at (a), treat (b) as the fidelity upgrade — the same analytic-vs-
+faithful trade the D4/D2 layering already embodies (§7).
 
 #### 6.4 Comparability & positioning — a second substrate, and a spec change
 
@@ -362,11 +441,15 @@ Analytical Petri-net evaluation of the four GASP classes is **feasible**, via th
 layered D4-primary / D2-cross-validator / D3-floor substrate, subject to four
 go-conditions. None is a blocker; each caps or frames the claim:
 
-1. **Notional-rate regime, written down.** Rates are notional (`λ₀ ∈ [1,10]`),
-   `observation_count` is ordinal-within-class only, every metric is a
-   sensitivity band. Recorded in
-   [`../specs/provenance.md`](../specs/provenance.md) **before** any number is
-   quoted. (§6.2)
+1. **Structural-MTTC under a notional-rate regime, written down.** Rates are
+   *purely notional* — the corpus cannot ground them, not even ordinally (88 % of
+   edges are `observation_count = 1`; §6.2). The baseline is therefore
+   **uniform rates with the MTTC read as a structural metric** (steps-to-
+   absorption over the corpus-grounded topology), `observation_count` admitted at
+   most as a cosmetic `1 / 2 / ≥3` tie-break, every metric a sensitivity band; a
+   *timing* MTTC requires exogenous (Outkin-style) rates, declared and swept.
+   Recorded in [`../specs/provenance.md`](../specs/provenance.md) **before** any
+   number is quoted. (§6.2)
 2. **Discrimination-as-input pre-registered.** D4's output is framed as
    sensitivity analysis (orderings stable across `λ₀` and across the
    operator-dedup corpus), not prediction. (§6.5)
@@ -423,9 +506,12 @@ the changes the workstream requires, for Marc to drive:
   [`../extractions/bland2020.md`](../extractions/bland2020.md), the metric
   definitions from [`../extractions/outkin2023.md`](../extractions/outkin2023.md),
   the interpretive-not-executable caution from
-  [`../extractions/rodriguez2024.md`](../extractions/rodriguez2024.md); adds the
-  SPN/GSPN/SRN-for-MTD lineage (Cai 2016, Cho & Ben-Asher 2018, Mendonça/Cho/Kim
-  2023) **pending extraction**.
+  [`../extractions/rodriguez2024.md`](../extractions/rodriguez2024.md); and the
+  closest analytical-Petri-net-for-time-based-MTD precedent from
+  [`../extractions/mendonca2023.md`](../extractions/mendonca2023.md) (the
+  DSPN refinement + the declare-and-sweep parameterisation stance). Cho &
+  Ben-Asher 2018 stays **pending extraction**; Cai 2016 is **off-limits**
+  (second-hand only).
 - **To open work.** The build is the handoff at
   [`../handoffs/2026-06-18_l3_ogasp_petri_implementation.md`](../handoffs/2026-06-18_l3_ogasp_petri_implementation.md).
 - **To prior art.** Supersedes the 2026-05-02 SNAKES primer (on

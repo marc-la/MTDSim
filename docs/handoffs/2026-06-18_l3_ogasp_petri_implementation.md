@@ -39,12 +39,16 @@ created: 2026-06-18
 
 **Stage 0 — Governance before numbers (go-conditions 1, 2, 4; Marc-driven).**
 Do not quote a single MTTC until these land.
-- Write the **notional-rate regime** into
-  [`../specs/provenance.md`](../specs/provenance.md): `λ₀ ∈ [1,10]`,
-  `observation_count` ordinal-within-class only (never normalised — it is *not* a
-  transition probability per
-  [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f)), every
-  metric a sensitivity band.
+- Write the **structural-MTTC / notional-rate regime** into
+  [`../specs/provenance.md`](../specs/provenance.md): the corpus cannot ground
+  rates even ordinally (88 % of edges are `observation_count = 1`), so the
+  baseline is **uniform rates with the MTTC read as a structural metric**
+  (steps-to-absorption over the corpus-grounded topology); `observation_count`
+  admitted at most as a cosmetic `1 / 2 / ≥3` tie-break (never normalised — it is
+  *not* a transition probability per
+  [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f)); a
+  *timing* MTTC requires exogenous (Outkin-style) rates, declared and swept;
+  every metric a sensitivity band. (study §6.2)
 - Pre-register the **discrimination-as-input** framing (D4 output is sensitivity
   analysis, not prediction).
 - Re-position **`architecture.md` §(f)/(i)/(j)** from "parallel-not-primary" to
@@ -57,6 +61,13 @@ edge; AND-join / OR-choice as GSPN immediate transitions; 1-safe achieved-set
 marking (token deposited on first reach, retained). Add the shared `ABSORB`
 place and the class-parameterised absorb guard (objective-tactic for three
 classes; eviction / C2-established / max-dwell for `infrastructure_setup`).
+**Decide the MTD-reset transition here** (Mendonça 2023 —
+[`../extractions/mendonca2023.md`](../extractions/mendonca2023.md)): the SDR
+schedule is *periodic*, so a faithful reset is a **deterministic** transition
+→ a **DSPN** (no clean CTMC; solve via TimeNET/Mercury). The baseline may instead
+**approximate the reset as exponential** to keep the clean CTMC + SNAKES/custom
+solve — *declare the approximation*. Start exponential-CTMC; flag DSPN as the
+fidelity upgrade. (study §6.3)
 
 **Stage 2 — Four-class parameterisation + closed-form solve.** Fill the shared
 sparsity pattern with four class-specific rate vectors `λ_c` (notional base ×
@@ -109,9 +120,12 @@ The build is done when:
   §(a), [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) §(a)): every
   place/transition traces to a GAP node/edge; no invented structure. Class
   memberships consumed unchanged from the audit CSV.
-- **`observation_count` is not a rate** ([`../specs/metrics_semantics.md`](../specs/metrics_semantics.md)
-  §(f)): ordinal-within-class only, never sum-normalised. Rates are notional and
-  swept; no absolute MTTC is claimed.
+- **`observation_count` is not a rate, and cannot even ground an ordinal**
+  ([`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f); study
+  §6.2): 88 % of edges are `observation_count = 1`. Baseline = uniform/notional
+  rates with a **structural MTTC** (steps-to-absorption); `observation_count` at
+  most a cosmetic `1 / 2 / ≥3` tie-break, never sum-normalised. No absolute timing
+  MTTC is claimed without exogenous, declared, swept rates.
 - **Within-substrate comparability only** (§(d)): the Petri-CTMC MTTC is a second
   substrate's metric — not comparable in magnitude to the DES MTTC or to
   Zhang/Tay numbers. State it.
@@ -140,6 +154,10 @@ The build is done when:
 - [`../specs/01_gap_schema.md`](../specs/01_gap_schema.md) Decision 2 (the
   intended operator-preserving encoding D2 implements) + §(d) (edge metadata:
   `observation_count`, `occurrences[]` join/branch).
+- [`../extractions/mendonca2023.md`](../extractions/mendonca2023.md) — the
+  closest precedent (analytical DSPN comparison of time-based MTD); the
+  DSPN-vs-CTMC choice (Stage 1) and the declare-and-sweep parameterisation
+  stance (Stage 0).
 - [`../../data/gasp/`](../../data/gasp/) — the four `gasp_<class>.json` and
   `classification.csv` (the build inputs); the 2026-05-02 primer notebook on
   `feat/replay-viz` for the SNAKES API + CTMC recipe (concepts only — code stale).
