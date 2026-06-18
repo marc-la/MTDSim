@@ -1,23 +1,32 @@
 ---
-status: open
+status: partially shipped
 created: 2026-06-18
 ---
 
 # Build the four GASP classes as a layered Petri-net substrate (D4 analytical + D2 cross-validator + D3 floor)
 
-> **▶ DIRECT NEXT STEP — build the MVP first:**
-> [`./2026-06-18_l3a_petri_mvp.md`](./2026-06-18_l3a_petri_mvp.md) (the L3a
-> un-weighted structural net). **This document is the *roadmap* (all stages,
-> go-conditions); the MVP handoff is the *actionable next build*.** The MVP
-> (Stage 1, structural only) is **GO-unconditional** — it needs **none** of the
-> four go-conditions and **none** of Stage 0; Stage 0 governance gates the
-> *analytical numbers* (Stage 2 onward), not the structural net.
+> **▶ STATUS (updated 2026-06-18).** This is the **analytical** track — solve the
+> GASP nets as a CTMC for closed-form MTTC/ASR. It is *parallel/secondary*. The
+> **executable** track — bind the nets to MTDSim so a profile *drives* the SimPy
+> attacker's behaviour — is the thesis's **primary** path and is specified
+> separately in
+> [`./2026-06-18_l3b_execution_semantics.md`](./2026-06-18_l3b_execution_semantics.md),
+> grounded by the note
+> [`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md).
+> Both tracks share the L3a structural net.
+>
+> **Shipped:** the L3a *structural* MVP — four separate single-token tactic-pair
+> nets — is built ([`../../data/ogasp/`](../../data/ogasp/),
+> [`../../src/mtdsim/l3_simulation/petri/`](../../src/mtdsim/l3_simulation/petri)).
+> That is the structural baseline in its *executable-friendly* form. This
+> roadmap's **Stage 1 below is the *analytical-friendly* form** (one shared
+> 1-safe achieved-set net with an `ABSORB` guard + AND/OR immediates) — **not yet
+> built**, and the remaining structural step for *this* track.
 >
 > The *why*, the literature, the four candidate encodings, the five-lens
 > critique and the GO-CONDITIONAL verdict are in the feasibility study at
 > [`../notes/2026-06-18_l3_petri_feasibility.md`](../notes/2026-06-18_l3_petri_feasibility.md).
-> This handoff is the build plan that study justifies. **Read the study first —
-> do not re-derive the design here.**
+> **Read the study first — do not re-derive the design here.**
 
 ## State of play
 
@@ -64,7 +73,11 @@ Do not quote a single MTTC until these land.
   comparability boundary.
 
 **Stage 1 — The base artefact: four *un-weighted structural* nets (the baseline,
-GO-unconditional).** This is the deliverable the task names — "just the shape."
+GO-unconditional).** *(Analytical-friendly form — see the status banner. The
+executable-friendly MVP form — four separate single-token tactic-pair nets — is
+already SHIPPED at [`../../data/ogasp/`](../../data/ogasp/); the shared 1-safe
+achieved-set form below is what this analytical track still needs.)* This is the
+deliverable the task names — "just the shape."
 Build the ≤15 tactic-places over the all-class union; one transition per distinct
 inter-tactic GAP edge; AND-join / OR-choice as immediate transitions; 1-safe
 achieved-set marking; the shared `ABSORB` place + class-parameterised absorb

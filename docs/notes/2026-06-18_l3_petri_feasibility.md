@@ -601,10 +601,17 @@ the changes the workstream requires, for Marc to drive:
   DSPN refinement + the declare-and-sweep parameterisation stance). Cho &
   Ben-Asher 2018 stays **pending extraction**; Cai 2016 is **off-limits**
   (second-hand only).
-- **To open work.** The **direct next step** is the L3a MVP — four un-weighted
-  structural tactic-place nets in SNAKES —
-  [`../handoffs/2026-06-18_l3a_petri_mvp.md`](../handoffs/2026-06-18_l3a_petri_mvp.md)
-  (GO-unconditional; needs no go-conditions). The full staged roadmap is
+- **To open work.** The L3a MVP — four un-weighted structural tactic-place nets in
+  SNAKES — is **shipped** ([`../../data/ogasp/`](../../data/ogasp/),
+  [`../../src/mtdsim/l3_simulation/petri/`](../../src/mtdsim/l3_simulation/petri)).
+  The **direct next step** is now the *executable* track: bind a profile to MTDSim
+  so it drives the attacker (the L3b execution-semantics layer) —
+  [`../handoffs/2026-06-18_l3b_execution_semantics.md`](../handoffs/2026-06-18_l3b_execution_semantics.md),
+  grounded by
+  [`./2026-06-18_cti_to_executable_behaviour.md`](./2026-06-18_cti_to_executable_behaviour.md),
+  gated by the discrimination probe
+  [`../handoffs/2026-06-18_profile_discrimination_probe.md`](../handoffs/2026-06-18_profile_discrimination_probe.md).
+  The *analytical* (CTMC) track is the staged roadmap
   [`../handoffs/2026-06-18_l3_ogasp_petri_implementation.md`](../handoffs/2026-06-18_l3_ogasp_petri_implementation.md).
 - **To prior art.** Supersedes the 2026-05-02 SNAKES primer (on
   `feat/replay-viz`): its formalism, mapping intent and ten open decisions are
