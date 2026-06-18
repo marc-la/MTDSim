@@ -55,26 +55,36 @@ Do not quote a single MTTC until these land.
   "explicit parallel analytical column," stating the second-substrate
   comparability boundary.
 
-**Stage 1 — Shared substrate + D4 net skeleton.** Build the ≤15 tactic-places
-over the all-class union; one timed transition per distinct inter-tactic GAP
-edge; AND-join / OR-choice as GSPN immediate transitions; 1-safe achieved-set
-marking (token deposited on first reach, retained). Add the shared `ABSORB`
-place and the class-parameterised absorb guard (objective-tactic for three
-classes; eviction / C2-established / max-dwell for `infrastructure_setup`).
-**Decide the MTD-reset transition here** (Mendonça 2023 —
-[`../extractions/mendonca2023.md`](../extractions/mendonca2023.md)): the SDR
-schedule is *periodic*, so a faithful reset is a **deterministic** transition
-→ a **DSPN** (no clean CTMC; solve via TimeNET/Mercury). The baseline may instead
-**approximate the reset as exponential** to keep the clean CTMC + SNAKES/custom
-solve — *declare the approximation*. Start exponential-CTMC; flag DSPN as the
-fidelity upgrade. (study §6.3)
+**Stage 1 — The base artefact: four *un-weighted structural* nets (the baseline,
+GO-unconditional).** This is the deliverable the task names — "just the shape."
+Build the ≤15 tactic-places over the all-class union; one transition per distinct
+inter-tactic GAP edge; AND-join / OR-choice as immediate transitions; 1-safe
+achieved-set marking; the shared `ABSORB` place + class-parameterised absorb
+guard (objective-tactic for three classes; eviction / C2-established / max-dwell
+for `infrastructure_setup`). **No rates, no rewards, no timing yet.** Ship the
+structural analyses you get for free with no weighting: reachability (is each
+class's objective reachable?), boundedness/safeness, deadlock-freedom, distinct
+attack-path count, shortest/longest technique chain to objective, AND-join
+synchronisation points. Every element traces to a GAP edge / GASP node
+(no-synthesis check, mechanical).
 
-**Stage 2 — Four-class parameterisation + closed-form solve.** Fill the shared
-sparsity pattern with four class-specific rate vectors `λ_c` (notional base ×
-ordinal `observation_count` emphasis) and reward vectors `r_c`; assemble four
-generators `Q_c` over the one transient/absorbing partition; solve
-`τ_c = −Q_T,c⁻¹·1` (MTTC), `(e^{Q_c T})_{M0,ABSORB}` (ASR), `Σ rᵢπᵢ` (SRN
-reward). Sweep `λ₀`; report bands.
+**Stage 2 — Add the rates (the parameterisation layer) + closed-form solve.**
+Layer timing onto the Stage-1 skeleton. **Rate source is a hierarchy (study §6.2),
+NOT the corpus:** tier 1 = **uniform** (all `λ` equal → a *structural* MTTC,
+steps-to-absorption; needs nothing, do this first); tier 2 = **substrate-sourced**
+(each transition's rate = the MTDSim action duration its technique maps to, via
+the technique→action bridge — `ATTACK_DURATION`/`MTD_DURATION`/`time_generator`;
+the natural OGASP baseline, depends on the L3 mapping); tier 3 = exogenous
+engagement data (optional). `observation_count` is **not** a rate. Add reward
+vectors `r_c` for RoA/path-exposure; assemble four generators `Q_c` over the one
+transient/absorbing partition; solve `τ_c = −Q_T,c⁻¹·1` (MTTC),
+`(e^{Q_c T})_{M0,ABSORB}` (ASR), `Σ rᵢπᵢ` (SRN reward). Sweep the base rate; report
+bands. **MTD-reset transition decision (Mendonça 2023 —
+[`../extractions/mendonca2023.md`](../extractions/mendonca2023.md)):** the SDR
+schedule is *periodic*, so a faithful reset is a **deterministic** transition → a
+**DSPN** (no clean CTMC; TimeNET/Mercury). Start by approximating it as
+exponential (clean CTMC + SNAKES/custom solve), *declare the approximation*; flag
+DSPN as the fidelity upgrade. (study §6.3)
 
 **Stage 3 — Fidelity cross-validation (go-condition 3; THE gate).** Build D2's
 single-token reduced workflow-net on ≥ 1 class (start with `pure_impediment` —
@@ -171,6 +181,13 @@ The build is done when:
 - The **L4 evaluation matrix** itself (MTD family × profile × interval) — that is
   downstream; this handoff delivers the analytical attacker substrate, not the
   experiment.
+- **The recon → initial-access prefix bridge** (the inferred `source: inferred`
+  overlay, GAP Decision 6 Option B). The base net is observed-only and
+  structurally blind to the pre-intrusion prefix (study §4). Per Marc's intent,
+  **build and inspect the observed-only base first**, then decide the bridge off
+  what it shows — it is a *separate, provenance-tagged, literature-grounded*
+  overlay surfaced via the `corpus+inferred` view, never merged into the
+  canonical net. Anticipated, deferred — not a base-artefact step.
 - **Editing the canonical specs** beyond the Stage-0 governance entries — the
   architecture decision-block changes are flagged in the study §9 for Marc to
   drive, not actioned here.

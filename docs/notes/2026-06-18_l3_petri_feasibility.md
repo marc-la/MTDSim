@@ -186,6 +186,26 @@ load-bearing:
   pass-through, only 14 OR-operators corpus-wide. The non-trivial logic that
   survives is **AND-synchronisation** (e.g. the Tesla golden's three-input
   AND-join into T1496).
+- **The base net is structurally blind to the pre-intrusion prefix.** The corpus
+  starts at the point of detection, so reconnaissance appears in only 10/38 flows
+  and the `reconnaissance → initial-access` link is **essentially absent — one
+  edge, obs 1** ([`../specs/01_gap_schema.md`](../specs/01_gap_schema.md)
+  Decision 6). In the observed-only structural net this shows up directly: a token
+  placed in a `reconnaissance` entry likely **cannot traverse** into
+  `initial-access` — the recon places are a near-disconnected island, so the
+  initial-marking / entry choice (architecture §(f); primer open decision 7)
+  interacts with the prefix gap. **The sanctioned fix is already specified:** GAP
+  Decision 6 Option B — literature-grounded `source: inferred` edges (the spec
+  names *Alshamrani's invariant recon → foothold prefix*), authored as a
+  *separate, provenance-tagged* overlay and surfaced only through the
+  `corpus+inferred` view, **never merged into the canonical net**. This keeps the
+  no-synthesis invariant intact on the base artefact while making the
+  supplementation a *declared, measurable* choice — exactly the framing
+  [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f) blesses
+  ("a literature-inferred prefix extends the model *within* CTI's limits rather
+  than escaping them"). **Deferred by intent:** build and inspect the observed-only
+  base first, then decide the prefix bridge off what the base actually shows
+  (§9 / parking).
 
 And one prohibition that governs the rates, already written into the substrate
 spec: **`observation_count` is a recurrence count, explicitly *not* a transition
@@ -258,10 +278,12 @@ with the cost booked under §6.5.
 
 #### 6.2 Rate grounding & provenance — the deepest issue (and the most constructive)
 
-**Verdict: MAJOR. The edge weights cannot ground the firing rates — for two
-distinct reasons, and the deeper one is empirical.** This is the question that
-matters most, so it is worth separating the two arguments that are usually run
-together.
+**Verdict: MAJOR on the edge weights, but RESOLVED by sourcing rates downstream.**
+The edge weights cannot ground the firing rates — for two distinct reasons (the
+deeper one empirical) — but they were never the right source: the **timing comes
+from the MTDSim substrate, and the GASP supplies only structure** (the resolution
+at the foot of this section). This is the question that matters most, so it is
+worth separating the two arguments that are usually run together.
 
 **Reason A — formal (the spec already forbids it).**
 [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f) is explicit:
@@ -321,23 +343,53 @@ class contains* (the per-class surface subgraph). So:
   "MTD-efficacy as how much MTD perturbs *typical observed attack workflow*"
   **valid (with the framing stated)**. A structural steps-to-absorption MTTC,
   perturbed by an MTD reset, is exactly that reading.
-- **If a genuine *timing* MTTC (seconds) is wanted, the rates must be exogenous**
-  — Outkin-style engagement/dwell data — declared and sensitivity-swept, with the
-  EDR-vs-MTD calibration caveat ([`../specs/architecture.md`](../specs/architecture.md)
-  §(j)). The corpus grounds *structure*; *timing* has to be imported, never
-  manufactured from `observation_count`.
+- **The timing comes from *downstream* — the MTDSim substrate — not the corpus,
+  and that is the proper division of labour.** This is the load-bearing
+  resolution: the GASP is used only for its **structure/frame** (the per-class
+  technique set, the dependency edges, the AND/OR operators, entry/objective),
+  and the **firing rates are sourced from the simulator's own grounded timing
+  model**. CTI tells you *what* an attacker does and *in what order*; it does
+  **not** tell you *how long* a step takes against this network — that is a
+  function of the vulnerability/network/MTD configuration, which is the
+  substrate's domain, not the analyst's. And the substrate already carries a
+  Zhang/Ho-faithful timing model: `ATTACK_DURATION` (`SCAN_PORT 25` /
+  `EXPLOIT_VULN 15` / `BRUTE_FORCE 20`,
+  [`../../mtdnetwork/data/constants.py`](../../mtdnetwork/data/constants.py)),
+  the complexity-scaled exploit time
+  ([`../../mtdnetwork/component/services.py`](../../mtdnetwork/component/services.py)),
+  `MTD_DURATION` (Zhang Table 3) and the `time_generator` distributions. A
+  transition's firing rate is then the substrate duration of the **attacker
+  action** its technique maps to, via the **technique → tactic → attacker-action
+  bridge** the architecture already names as the L3 transformation
+  ([`../specs/architecture.md`](../specs/architecture.md) §(f)). The primer
+  intended exactly this ("firing rate ↔ scipy variate of duration from
+  `time_generator.py`"); the first draft of this study obscured it by treating
+  the net as a standalone artefact with corpus-derived rates.
 
-This is precisely the Mendonça 2023 parameterisation stance
-([`../extractions/mendonca2023.md`](../extractions/mendonca2023.md) Concept 3):
-ground what the data gives, *declare-and-sweep* what it does not — with the
-asymmetry that Mendonça's groundable parameters are *defender* rates (a
-literature exists), whereas the thesis's un-groundable ones are *attacker* rates,
-for which no frequency-grounded source exists at all. **Go-condition #1 therefore
-strengthens:** the baseline is **uniform/notional rates with a structural-MTTC
-reading**, `observation_count` admitted at most as a *cosmetic three-tier
-tie-break* (`1 / 2 / ≥3`), every number a sensitivity band, all written into
-[`../specs/provenance.md`](../specs/provenance.md) **before** any number is
-quoted.
+So there is a **three-tier rate hierarchy**, and `observation_count` is in none
+of them:
+
+1. **Uniform → pure structural MTTC.** Needs no mapping; available *now*. The
+   dependency-free floor (steps-to-absorption over the corpus-grounded topology).
+2. **Substrate-sourced → the natural OGASP baseline.** Rates = the MTDSim action
+   durations via the technique→action bridge. This is what *Operationalised* GASP
+   *means* — the GASP run inside MTDSim — so timing-from-MTDSim is the definition,
+   not a workaround. Depends on the L3 technique→action mapping (architecture §(f),
+   currently unbuilt), so it follows once that exists.
+3. **Exogenous engagement data → optional upgrade.** Outkin-style per-technique
+   dwell/detection data if CTI-grounded *per-technique* timing is ever wanted,
+   declared and swept, with the EDR-vs-MTD caveat (§(j)).
+
+This is the Mendonça 2023 stance exactly
+([`../extractions/mendonca2023.md`](../extractions/mendonca2023.md) Concept 3) —
+ground the timing the substrate gives, never manufacture it from the corpus — and
+it **dissolves** rather than merely caps the rate-grounding problem: the corpus
+was never the right source for *timing*. **Go-condition #1 restated:** start at
+tier 1 (uniform, structural MTTC; needs nothing), move to tier 2 (substrate-
+sourced) when the L3 mapping lands; `observation_count` is admitted nowhere as a
+rate (at most a cosmetic `1 / 2 / ≥3` structural tie-break); every number a
+sensitivity band; written into
+[`../specs/provenance.md`](../specs/provenance.md) before any number is quoted.
 
 #### 6.3 Markov semantics — is a CTMC even the right object?
 
@@ -383,7 +435,20 @@ a DES Monte-Carlo MTTC are *within-substrate-incomparable in magnitude*
 (§(d)) — only qualitative/ranking comparison survives. There is also a real
 tension with the frozen-DES commitment: the RQ is a DES comparison, and the
 analytical column does **not** replace it — it is a *complementary* analytical
-lens. This requires the architecture decision-blocks to move from "parallel-not-
+lens. **The downstream-rate resolution (§6.2 tier 2) materially *narrows* this
+gap, though it does not close it.** Once the Petri-net firing rates are sourced
+from the *same* MTDSim timing model the DES uses (`ATTACK_DURATION`,
+`MTD_DURATION`, `time_generator`), the two are no longer separated by a *rate*
+mismatch — they share their parameters — so the remaining difference is isolated
+to (i) the structural abstraction (tactic-quotient), (ii) the exponential-Markov
+approximation of the substrate's deterministic/complexity-scaled durations, and
+(iii) the metric definition (CTMC absorption-time vs DES mean-of-three-action-
+durations, §6.3). The Petri net thus stops being an *independent* second
+substrate and becomes an **analytical lens on the MTDSim substrate itself** —
+which is a tighter, more defensible positioning, and makes the residual gap
+exactly the quantity go-condition #3 (the D4-vs-D2 abstraction-error check)
+measures. "Same number" is still over-claiming; "same timing substrate, so the
+gap is the abstraction" is the defensible statement. This requires the architecture decision-blocks to move from "parallel-not-
 primary" to "explicit parallel analytical column." **This study flags that
 change; it does not make it** (scope discipline — the architecture spec is
 Marc-driven). It is go-condition #4.
@@ -437,9 +502,25 @@ structure in CTI.
 
 ### 8. Feasibility verdict — GO-CONDITIONAL
 
-Analytical Petri-net evaluation of the four GASP classes is **feasible**, via the
-layered D4-primary / D2-cross-validator / D3-floor substrate, subject to four
-go-conditions. None is a blocker; each caps or frames the claim:
+The verdict decomposes cleanly, and the decomposition matches the original ask
+("convert the profiles into Petri nets that serve as **the baseline for further
+work**"):
+
+- **The base artefact — four *structural* Petri nets, just the GASP shape (places,
+  transitions, AND/OR operators, entry/objective; no timing, no rates, no
+  rewards) — is GO, unconditional.** It claims nothing beyond "these techniques,
+  in these analyst-drawn dependencies, per operational objective," so every
+  element trivially satisfies the no-synthesis invariant, and it is already
+  *useful on its own*: with no rates you can still compute reachability,
+  boundedness/safeness, deadlock-freedom, the distinct attack-path count and
+  shortest/longest chain to each class's objective, and the AND-join
+  synchronisation points. This is the deliverable the task names, and it carries
+  none of the contentious rate/comparability baggage. It is also the *exact
+  skeleton* every later layer parameterises.
+- **The *analytical evaluation* layered on top (CTMC → MTTC / ASR / reward) is
+  GO-CONDITIONAL**, via the layered D4-primary / D2-cross-validator / D3-floor
+  substrate, subject to four go-conditions. None is a blocker; each caps or frames
+  the *evaluation* claim — not the base artefact:
 
 1. **Structural-MTTC under a notional-rate regime, written down.** Rates are
    *purely notional* — the corpus cannot ground them, not even ordinally (88 % of
@@ -486,6 +567,14 @@ the changes the workstream requires, for Marc to drive:
   question 4** ("Petri-net per-class tractability") is *resolved-conditionally*
   by this study: full class subgraphs are intractable analytically; the
   tactic-quotient (D4) is the route, with the costs in §6.
+- **Anticipated supplementation (deferred, not actioned): the recon → initial-
+  access prefix bridge.** The observed-only base net is structurally blind to the
+  pre-intrusion prefix (§4). Bridging it uses the *existing* GAP Decision 6
+  Option B mechanism — `source: inferred`, literature-grounded (Alshamrani
+  recon → foothold), surfaced via the `corpus+inferred` view, kept separate from
+  the canonical net. Per Marc's intent, **build and inspect the observed-only base
+  first**, then decide the bridge off what it shows; this study only flags it as
+  the sanctioned route, not a build step.
 
 ## How it connects
 
