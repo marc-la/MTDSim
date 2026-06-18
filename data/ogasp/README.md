@@ -26,7 +26,14 @@ PYTHONPATH=src python -m pytest tests/l3_simulation/  # validation gate
 | Path | Tracked? | What |
 |---|---|---|
 | `<class>_structural.json` | **computed** | net shape (places, transitions + per-transition GASP provenance) + structural report |
-| `_viz/<class>.png` | gitignored | rendered diagram (regenerable; mirrors the `data/gasp/_*` pattern) |
+| `_viz/<class>.png` / `.svg` | gitignored | **tactic-state diagram** — the legible, idea-conveying figure (kill-chain L→R; token in its seed; entry green, objective orange, sinks double-outlined; edge weight = backing GASP edges; unreachable-from-token places dashed) |
+| `_viz/<class>_snakes.png` | gitignored | the **formal SNAKES net** (bipartite places + transition bars) — faithful but dense; kept as a provenance artefact |
+| `_viz/_reachability.png` | gitignored | **headline chart** — tactics reachable from the recon token vs from any entry, per class; the bar gap = the prefix gap's cost |
+
+All `_viz/` figures are gitignored (regenerable; mirrors the `data/gasp/_*`
+pattern). The diagrams need graphviz `dot` + the `graphviz` Python package;
+the headline chart needs `matplotlib` (both house dependencies of
+`data/gasp/_viz/gasp_viz.py`).
 
 ## Structural summary
 

@@ -20,13 +20,16 @@ VIZ_DIR = OGASP_DIR / "_viz"
 
 
 def draw_net(snet: StructuralNet, viz_dir: Path = VIZ_DIR) -> Path:
-    """Render one class net to ``_viz/<class>.png`` via SNAKES/graphviz.
+    """Render the *formal* SNAKES net to ``_viz/<class>_snakes.png``.
 
+    This is the faithful bipartite Petri object (places + transition bars), kept
+    as a provenance artefact; the legible, idea-conveying figure is the
+    tactic-state diagram in ``viz.render_tactic_state_diagram`` (``<class>.png``).
     Needs the graphviz ``dot`` binary on PATH (the ``gv`` plugin is loaded in
     ``build``)."""
     viz_dir = Path(viz_dir)
     viz_dir.mkdir(parents=True, exist_ok=True)
-    out = viz_dir / f"{snet.class_name}.png"
+    out = viz_dir / f"{snet.class_name}_snakes.png"
     snet.net.draw(str(out))
     return out
 
@@ -97,7 +100,14 @@ def write_readme(
         "| Path | Tracked? | What |",
         "|---|---|---|",
         "| `<class>_structural.json` | **computed** | net shape (places, transitions + per-transition GASP provenance) + structural report |",
-        "| `_viz/<class>.png` | gitignored | rendered diagram (regenerable; mirrors the `data/gasp/_*` pattern) |",
+        "| `_viz/<class>.png` / `.svg` | gitignored | **tactic-state diagram** — the legible, idea-conveying figure (kill-chain L→R; token in its seed; entry green, objective orange, sinks double-outlined; edge weight = backing GASP edges; unreachable-from-token places dashed) |",
+        "| `_viz/<class>_snakes.png` | gitignored | the **formal SNAKES net** (bipartite places + transition bars) — faithful but dense; kept as a provenance artefact |",
+        "| `_viz/_reachability.png` | gitignored | **headline chart** — tactics reachable from the recon token vs from any entry, per class; the bar gap = the prefix gap's cost |",
+        "",
+        "All `_viz/` figures are gitignored (regenerable; mirrors the `data/gasp/_*`",
+        "pattern). The diagrams need graphviz `dot` + the `graphviz` Python package;",
+        "the headline chart needs `matplotlib` (both house dependencies of",
+        "`data/gasp/_viz/gasp_viz.py`).",
         "",
         "## Structural summary",
         "",
