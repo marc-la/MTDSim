@@ -1,0 +1,1431 @@
+{
+  "class_name": "double_extortion",
+  "provenance": {
+    "class_name": "double_extortion",
+    "granularity": "inter-tactic tactic-pair",
+    "gap_path": "data/gap/gap_v0.5.json",
+    "gasp_source_flow_count": 6,
+    "gap_version": "0.5",
+    "build_date": "2026-06-18"
+  },
+  "places": [
+    "collection",
+    "command-and-control",
+    "credential-access",
+    "discovery",
+    "execution",
+    "exfiltration",
+    "impact",
+    "initial-access",
+    "lateral-movement",
+    "persistence",
+    "privilege-escalation",
+    "reconnaissance",
+    "resource-development",
+    "stealth"
+  ],
+  "entry_marking": "reconnaissance",
+  "transitions": [
+    {
+      "name": "collection__to__command-and-control",
+      "src_tactic": "collection",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1560",
+          "T1573"
+        ]
+      ]
+    },
+    {
+      "name": "collection__to__exfiltration",
+      "src_tactic": "collection",
+      "dst_tactic": "exfiltration",
+      "gasp_edges": [
+        [
+          "T1560",
+          "T1041"
+        ],
+        [
+          "T1560",
+          "T1567"
+        ]
+      ]
+    },
+    {
+      "name": "collection__to__stealth",
+      "src_tactic": "collection",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1560",
+          "T1070"
+        ]
+      ]
+    },
+    {
+      "name": "command-and-control__to__credential-access",
+      "src_tactic": "command-and-control",
+      "dst_tactic": "credential-access",
+      "gasp_edges": [
+        [
+          "T1105",
+          "T1555"
+        ]
+      ]
+    },
+    {
+      "name": "command-and-control__to__discovery",
+      "src_tactic": "command-and-control",
+      "dst_tactic": "discovery",
+      "gasp_edges": [
+        [
+          "T1071",
+          "T1018"
+        ],
+        [
+          "T1071",
+          "T1046"
+        ],
+        [
+          "T1071",
+          "T1057"
+        ],
+        [
+          "T1071",
+          "T1082"
+        ],
+        [
+          "T1071",
+          "T1087"
+        ],
+        [
+          "T1105",
+          "T1016"
+        ],
+        [
+          "T1105",
+          "T1018"
+        ],
+        [
+          "T1105",
+          "T1033"
+        ],
+        [
+          "T1105",
+          "T1069"
+        ],
+        [
+          "T1105",
+          "T1082"
+        ],
+        [
+          "T1105",
+          "T1083"
+        ],
+        [
+          "T1105",
+          "T1087"
+        ],
+        [
+          "T1573",
+          "T1033"
+        ],
+        [
+          "T1573",
+          "T1069"
+        ]
+      ]
+    },
+    {
+      "name": "command-and-control__to__execution",
+      "src_tactic": "command-and-control",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1071",
+          "T1059"
+        ],
+        [
+          "T1071",
+          "T1203"
+        ],
+        [
+          "T1105",
+          "T1059"
+        ],
+        [
+          "T1105",
+          "T1569"
+        ]
+      ]
+    },
+    {
+      "name": "command-and-control__to__exfiltration",
+      "src_tactic": "command-and-control",
+      "dst_tactic": "exfiltration",
+      "gasp_edges": [
+        [
+          "T1071",
+          "T1041"
+        ],
+        [
+          "T1573",
+          "T1041"
+        ],
+        [
+          "T1573",
+          "T1567"
+        ]
+      ]
+    },
+    {
+      "name": "command-and-control__to__impact",
+      "src_tactic": "command-and-control",
+      "dst_tactic": "impact",
+      "gasp_edges": [
+        [
+          "T1105",
+          "T1489"
+        ],
+        [
+          "T1105",
+          "T1490"
+        ]
+      ]
+    },
+    {
+      "name": "command-and-control__to__lateral-movement",
+      "src_tactic": "command-and-control",
+      "dst_tactic": "lateral-movement",
+      "gasp_edges": [
+        [
+          "T1105",
+          "T1021"
+        ],
+        [
+          "T1219",
+          "T1021"
+        ]
+      ]
+    },
+    {
+      "name": "command-and-control__to__persistence",
+      "src_tactic": "command-and-control",
+      "dst_tactic": "persistence",
+      "gasp_edges": [
+        [
+          "T1105",
+          "T1112"
+        ],
+        [
+          "T1105",
+          "T1136"
+        ],
+        [
+          "T1105",
+          "T1543"
+        ],
+        [
+          "T1219",
+          "T1136"
+        ]
+      ]
+    },
+    {
+      "name": "command-and-control__to__privilege-escalation",
+      "src_tactic": "command-and-control",
+      "dst_tactic": "privilege-escalation",
+      "gasp_edges": [
+        [
+          "T1105",
+          "T1068"
+        ]
+      ]
+    },
+    {
+      "name": "command-and-control__to__stealth",
+      "src_tactic": "command-and-control",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1105",
+          "T1027"
+        ],
+        [
+          "T1105",
+          "T1070"
+        ],
+        [
+          "T1105",
+          "T1218"
+        ],
+        [
+          "T1105",
+          "T1497"
+        ]
+      ]
+    },
+    {
+      "name": "credential-access__to__initial-access",
+      "src_tactic": "credential-access",
+      "dst_tactic": "initial-access",
+      "gasp_edges": [
+        [
+          "T1558",
+          "T1078"
+        ]
+      ]
+    },
+    {
+      "name": "credential-access__to__lateral-movement",
+      "src_tactic": "credential-access",
+      "dst_tactic": "lateral-movement",
+      "gasp_edges": [
+        [
+          "T1555",
+          "T1021"
+        ]
+      ]
+    },
+    {
+      "name": "credential-access__to__stealth",
+      "src_tactic": "credential-access",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1110",
+          "T1070"
+        ]
+      ]
+    },
+    {
+      "name": "discovery__to__collection",
+      "src_tactic": "discovery",
+      "dst_tactic": "collection",
+      "gasp_edges": [
+        [
+          "T1082",
+          "T1560"
+        ]
+      ]
+    },
+    {
+      "name": "discovery__to__command-and-control",
+      "src_tactic": "discovery",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1016",
+          "T1105"
+        ],
+        [
+          "T1016",
+          "T1219"
+        ],
+        [
+          "T1016",
+          "T1573"
+        ],
+        [
+          "T1018",
+          "T1105"
+        ],
+        [
+          "T1033",
+          "T1573"
+        ],
+        [
+          "T1046",
+          "T1105"
+        ],
+        [
+          "T1057",
+          "T1105"
+        ],
+        [
+          "T1069",
+          "T1105"
+        ],
+        [
+          "T1082",
+          "T1105"
+        ],
+        [
+          "T1083",
+          "T1105"
+        ],
+        [
+          "T1087",
+          "T1071"
+        ],
+        [
+          "T1087",
+          "T1105"
+        ],
+        [
+          "T1135",
+          "T1071"
+        ]
+      ]
+    },
+    {
+      "name": "discovery__to__execution",
+      "src_tactic": "discovery",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1012",
+          "T1059"
+        ]
+      ]
+    },
+    {
+      "name": "discovery__to__exfiltration",
+      "src_tactic": "discovery",
+      "dst_tactic": "exfiltration",
+      "gasp_edges": [
+        [
+          "T1082",
+          "T1041"
+        ],
+        [
+          "T1120",
+          "T1567"
+        ],
+        [
+          "T1135",
+          "T1041"
+        ]
+      ]
+    },
+    {
+      "name": "discovery__to__impact",
+      "src_tactic": "discovery",
+      "dst_tactic": "impact",
+      "gasp_edges": [
+        [
+          "T1082",
+          "T1485"
+        ],
+        [
+          "T1083",
+          "T1486"
+        ],
+        [
+          "T1135",
+          "T1486"
+        ]
+      ]
+    },
+    {
+      "name": "discovery__to__lateral-movement",
+      "src_tactic": "discovery",
+      "dst_tactic": "lateral-movement",
+      "gasp_edges": [
+        [
+          "T1046",
+          "T1021"
+        ]
+      ]
+    },
+    {
+      "name": "discovery__to__persistence",
+      "src_tactic": "discovery",
+      "dst_tactic": "persistence",
+      "gasp_edges": [
+        [
+          "T1018",
+          "T1098"
+        ]
+      ]
+    },
+    {
+      "name": "discovery__to__privilege-escalation",
+      "src_tactic": "discovery",
+      "dst_tactic": "privilege-escalation",
+      "gasp_edges": [
+        [
+          "T1018",
+          "T1134"
+        ],
+        [
+          "T1033",
+          "T1134"
+        ],
+        [
+          "T1057",
+          "T1134"
+        ],
+        [
+          "T1069",
+          "T1134"
+        ],
+        [
+          "T1087",
+          "T1484"
+        ]
+      ]
+    },
+    {
+      "name": "discovery__to__stealth",
+      "src_tactic": "discovery",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1033",
+          "T1027"
+        ],
+        [
+          "T1069",
+          "T1027"
+        ],
+        [
+          "T1082",
+          "T1027"
+        ],
+        [
+          "T1082",
+          "T1140"
+        ],
+        [
+          "T1614",
+          "T1564"
+        ]
+      ]
+    },
+    {
+      "name": "execution__to__command-and-control",
+      "src_tactic": "execution",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1059",
+          "T1105"
+        ],
+        [
+          "T1203",
+          "T1105"
+        ],
+        [
+          "T1204",
+          "T1105"
+        ]
+      ]
+    },
+    {
+      "name": "execution__to__credential-access",
+      "src_tactic": "execution",
+      "dst_tactic": "credential-access",
+      "gasp_edges": [
+        [
+          "T1059",
+          "T1110"
+        ],
+        [
+          "T1059",
+          "T1555"
+        ]
+      ]
+    },
+    {
+      "name": "execution__to__discovery",
+      "src_tactic": "execution",
+      "dst_tactic": "discovery",
+      "gasp_edges": [
+        [
+          "T1059",
+          "T1018"
+        ],
+        [
+          "T1059",
+          "T1046"
+        ],
+        [
+          "T1059",
+          "T1057"
+        ],
+        [
+          "T1059",
+          "T1069"
+        ],
+        [
+          "T1059",
+          "T1082"
+        ],
+        [
+          "T1059",
+          "T1087"
+        ],
+        [
+          "T1059",
+          "T1135"
+        ]
+      ]
+    },
+    {
+      "name": "execution__to__impact",
+      "src_tactic": "execution",
+      "dst_tactic": "impact",
+      "gasp_edges": [
+        [
+          "T1059",
+          "T1485"
+        ],
+        [
+          "T1059",
+          "T1486"
+        ],
+        [
+          "T1059",
+          "T1489"
+        ],
+        [
+          "T1059",
+          "T1490"
+        ],
+        [
+          "T1569",
+          "T1489"
+        ]
+      ]
+    },
+    {
+      "name": "execution__to__lateral-movement",
+      "src_tactic": "execution",
+      "dst_tactic": "lateral-movement",
+      "gasp_edges": [
+        [
+          "T1059",
+          "T1021"
+        ]
+      ]
+    },
+    {
+      "name": "execution__to__persistence",
+      "src_tactic": "execution",
+      "dst_tactic": "persistence",
+      "gasp_edges": [
+        [
+          "T1047",
+          "T1112"
+        ],
+        [
+          "T1059",
+          "T1112"
+        ],
+        [
+          "T1059",
+          "T1543"
+        ],
+        [
+          "T1569",
+          "T1112"
+        ]
+      ]
+    },
+    {
+      "name": "execution__to__privilege-escalation",
+      "src_tactic": "execution",
+      "dst_tactic": "privilege-escalation",
+      "gasp_edges": [
+        [
+          "T1203",
+          "T1068"
+        ]
+      ]
+    },
+    {
+      "name": "execution__to__stealth",
+      "src_tactic": "execution",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1047",
+          "T1070"
+        ],
+        [
+          "T1059",
+          "T1027"
+        ],
+        [
+          "T1059",
+          "T1070"
+        ],
+        [
+          "T1059",
+          "T1140"
+        ],
+        [
+          "T1059",
+          "T1218"
+        ],
+        [
+          "T1059",
+          "T1564"
+        ],
+        [
+          "T1204",
+          "T1027"
+        ],
+        [
+          "T1204",
+          "T1140"
+        ],
+        [
+          "T1569",
+          "T1497"
+        ],
+        [
+          "T1569",
+          "T1622"
+        ],
+        [
+          "T1574",
+          "T1218"
+        ]
+      ]
+    },
+    {
+      "name": "exfiltration__to__discovery",
+      "src_tactic": "exfiltration",
+      "dst_tactic": "discovery",
+      "gasp_edges": [
+        [
+          "T1041",
+          "T1018"
+        ]
+      ]
+    },
+    {
+      "name": "exfiltration__to__execution",
+      "src_tactic": "exfiltration",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1567",
+          "T1047"
+        ]
+      ]
+    },
+    {
+      "name": "exfiltration__to__impact",
+      "src_tactic": "exfiltration",
+      "dst_tactic": "impact",
+      "gasp_edges": [
+        [
+          "T1567",
+          "T1490"
+        ],
+        [
+          "T1567",
+          "T1657"
+        ]
+      ]
+    },
+    {
+      "name": "exfiltration__to__stealth",
+      "src_tactic": "exfiltration",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1567",
+          "T1027"
+        ]
+      ]
+    },
+    {
+      "name": "impact__to__collection",
+      "src_tactic": "impact",
+      "dst_tactic": "collection",
+      "gasp_edges": [
+        [
+          "T1489",
+          "T1560"
+        ]
+      ]
+    },
+    {
+      "name": "impact__to__discovery",
+      "src_tactic": "impact",
+      "dst_tactic": "discovery",
+      "gasp_edges": [
+        [
+          "T1485",
+          "T1083"
+        ],
+        [
+          "T1489",
+          "T1614"
+        ],
+        [
+          "T1490",
+          "T1614"
+        ],
+        [
+          "T1491",
+          "T1012"
+        ]
+      ]
+    },
+    {
+      "name": "impact__to__execution",
+      "src_tactic": "impact",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1489",
+          "T1059"
+        ]
+      ]
+    },
+    {
+      "name": "impact__to__persistence",
+      "src_tactic": "impact",
+      "dst_tactic": "persistence",
+      "gasp_edges": [
+        [
+          "T1490",
+          "T1112"
+        ],
+        [
+          "T1657",
+          "T1112"
+        ]
+      ]
+    },
+    {
+      "name": "impact__to__stealth",
+      "src_tactic": "impact",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1485",
+          "T1070"
+        ],
+        [
+          "T1486",
+          "T1070"
+        ],
+        [
+          "T1491",
+          "T1070"
+        ]
+      ]
+    },
+    {
+      "name": "initial-access__to__command-and-control",
+      "src_tactic": "initial-access",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1078",
+          "T1105"
+        ],
+        [
+          "T1566",
+          "T1219"
+        ]
+      ]
+    },
+    {
+      "name": "initial-access__to__credential-access",
+      "src_tactic": "initial-access",
+      "dst_tactic": "credential-access",
+      "gasp_edges": [
+        [
+          "T1566",
+          "T1555"
+        ]
+      ]
+    },
+    {
+      "name": "initial-access__to__execution",
+      "src_tactic": "initial-access",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1078",
+          "T1059"
+        ],
+        [
+          "T1078",
+          "T1203"
+        ],
+        [
+          "T1078",
+          "T1569"
+        ],
+        [
+          "T1189",
+          "T1059"
+        ],
+        [
+          "T1566",
+          "T1059"
+        ],
+        [
+          "T1566",
+          "T1204"
+        ]
+      ]
+    },
+    {
+      "name": "initial-access__to__lateral-movement",
+      "src_tactic": "initial-access",
+      "dst_tactic": "lateral-movement",
+      "gasp_edges": [
+        [
+          "T1078",
+          "T1021"
+        ]
+      ]
+    },
+    {
+      "name": "initial-access__to__privilege-escalation",
+      "src_tactic": "initial-access",
+      "dst_tactic": "privilege-escalation",
+      "gasp_edges": [
+        [
+          "T1189",
+          "T1068"
+        ]
+      ]
+    },
+    {
+      "name": "initial-access__to__stealth",
+      "src_tactic": "initial-access",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1566",
+          "T1140"
+        ]
+      ]
+    },
+    {
+      "name": "lateral-movement__to__command-and-control",
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1021",
+          "T1219"
+        ]
+      ]
+    },
+    {
+      "name": "lateral-movement__to__credential-access",
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "credential-access",
+      "gasp_edges": [
+        [
+          "T1021",
+          "T1555"
+        ]
+      ]
+    },
+    {
+      "name": "lateral-movement__to__discovery",
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "discovery",
+      "gasp_edges": [
+        [
+          "T1021",
+          "T1046"
+        ],
+        [
+          "T1021",
+          "T1087"
+        ],
+        [
+          "T1021",
+          "T1135"
+        ]
+      ]
+    },
+    {
+      "name": "lateral-movement__to__execution",
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1021",
+          "T1059"
+        ],
+        [
+          "T1021",
+          "T1569"
+        ]
+      ]
+    },
+    {
+      "name": "lateral-movement__to__initial-access",
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "initial-access",
+      "gasp_edges": [
+        [
+          "T1021",
+          "T1078"
+        ]
+      ]
+    },
+    {
+      "name": "lateral-movement__to__stealth",
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1021",
+          "T1070"
+        ],
+        [
+          "T1021",
+          "T1218"
+        ]
+      ]
+    },
+    {
+      "name": "persistence__to__command-and-control",
+      "src_tactic": "persistence",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1098",
+          "T1573"
+        ],
+        [
+          "T1136",
+          "T1105"
+        ],
+        [
+          "T1543",
+          "T1573"
+        ]
+      ]
+    },
+    {
+      "name": "persistence__to__discovery",
+      "src_tactic": "persistence",
+      "dst_tactic": "discovery",
+      "gasp_edges": [
+        [
+          "T1112",
+          "T1083"
+        ],
+        [
+          "T1112",
+          "T1135"
+        ],
+        [
+          "T1136",
+          "T1016"
+        ]
+      ]
+    },
+    {
+      "name": "persistence__to__execution",
+      "src_tactic": "persistence",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1112",
+          "T1059"
+        ],
+        [
+          "T1112",
+          "T1569"
+        ],
+        [
+          "T1543",
+          "T1574"
+        ]
+      ]
+    },
+    {
+      "name": "persistence__to__impact",
+      "src_tactic": "persistence",
+      "dst_tactic": "impact",
+      "gasp_edges": [
+        [
+          "T1112",
+          "T1489"
+        ]
+      ]
+    },
+    {
+      "name": "persistence__to__lateral-movement",
+      "src_tactic": "persistence",
+      "dst_tactic": "lateral-movement",
+      "gasp_edges": [
+        [
+          "T1136",
+          "T1021"
+        ]
+      ]
+    },
+    {
+      "name": "persistence__to__privilege-escalation",
+      "src_tactic": "persistence",
+      "dst_tactic": "privilege-escalation",
+      "gasp_edges": [
+        [
+          "T1136",
+          "T1484"
+        ]
+      ]
+    },
+    {
+      "name": "persistence__to__stealth",
+      "src_tactic": "persistence",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1543",
+          "T1070"
+        ]
+      ]
+    },
+    {
+      "name": "privilege-escalation__to__discovery",
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "discovery",
+      "gasp_edges": [
+        [
+          "T1134",
+          "T1012"
+        ]
+      ]
+    },
+    {
+      "name": "privilege-escalation__to__execution",
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1068",
+          "T1059"
+        ]
+      ]
+    },
+    {
+      "name": "privilege-escalation__to__lateral-movement",
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "lateral-movement",
+      "gasp_edges": [
+        [
+          "T1134",
+          "T1021"
+        ]
+      ]
+    },
+    {
+      "name": "privilege-escalation__to__persistence",
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "persistence",
+      "gasp_edges": [
+        [
+          "T1134",
+          "T1543"
+        ],
+        [
+          "T1484",
+          "T1098"
+        ]
+      ]
+    },
+    {
+      "name": "privilege-escalation__to__stealth",
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "stealth",
+      "gasp_edges": [
+        [
+          "T1068",
+          "T1140"
+        ]
+      ]
+    },
+    {
+      "name": "stealth__to__collection",
+      "src_tactic": "stealth",
+      "dst_tactic": "collection",
+      "gasp_edges": [
+        [
+          "T1070",
+          "T1560"
+        ],
+        [
+          "T1497",
+          "T1560"
+        ],
+        [
+          "T1622",
+          "T1560"
+        ]
+      ]
+    },
+    {
+      "name": "stealth__to__command-and-control",
+      "src_tactic": "stealth",
+      "dst_tactic": "command-and-control",
+      "gasp_edges": [
+        [
+          "T1027",
+          "T1105"
+        ],
+        [
+          "T1070",
+          "T1071"
+        ],
+        [
+          "T1070",
+          "T1105"
+        ],
+        [
+          "T1218",
+          "T1071"
+        ],
+        [
+          "T1218",
+          "T1105"
+        ],
+        [
+          "T1564",
+          "T1573"
+        ]
+      ]
+    },
+    {
+      "name": "stealth__to__discovery",
+      "src_tactic": "stealth",
+      "dst_tactic": "discovery",
+      "gasp_edges": [
+        [
+          "T1070",
+          "T1057"
+        ],
+        [
+          "T1070",
+          "T1082"
+        ],
+        [
+          "T1140",
+          "T1082"
+        ],
+        [
+          "T1218",
+          "T1082"
+        ],
+        [
+          "T1218",
+          "T1087"
+        ],
+        [
+          "T1564",
+          "T1083"
+        ],
+        [
+          "T1564",
+          "T1120"
+        ]
+      ]
+    },
+    {
+      "name": "stealth__to__execution",
+      "src_tactic": "stealth",
+      "dst_tactic": "execution",
+      "gasp_edges": [
+        [
+          "T1027",
+          "T1059"
+        ],
+        [
+          "T1070",
+          "T1059"
+        ],
+        [
+          "T1140",
+          "T1059"
+        ],
+        [
+          "T1140",
+          "T1204"
+        ],
+        [
+          "T1140",
+          "T1569"
+        ],
+        [
+          "T1218",
+          "T1047"
+        ],
+        [
+          "T1497",
+          "T1059"
+        ],
+        [
+          "T1564",
+          "T1574"
+        ]
+      ]
+    },
+    {
+      "name": "stealth__to__impact",
+      "src_tactic": "stealth",
+      "dst_tactic": "impact",
+      "gasp_edges": [
+        [
+          "T1027",
+          "T1486"
+        ]
+      ]
+    },
+    {
+      "name": "stealth__to__persistence",
+      "src_tactic": "stealth",
+      "dst_tactic": "persistence",
+      "gasp_edges": [
+        [
+          "T1027",
+          "T1112"
+        ],
+        [
+          "T1027",
+          "T1543"
+        ],
+        [
+          "T1027",
+          "T1546"
+        ],
+        [
+          "T1070",
+          "T1136"
+        ],
+        [
+          "T1070",
+          "T1546"
+        ],
+        [
+          "T1140",
+          "T1543"
+        ],
+        [
+          "T1218",
+          "T1136"
+        ],
+        [
+          "T1218",
+          "T1543"
+        ]
+      ]
+    },
+    {
+      "name": "stealth__to__privilege-escalation",
+      "src_tactic": "stealth",
+      "dst_tactic": "privilege-escalation",
+      "gasp_edges": [
+        [
+          "T1070",
+          "T1134"
+        ],
+        [
+          "T1140",
+          "T1134"
+        ]
+      ]
+    }
+  ],
+  "report": {
+    "class_name": "double_extortion",
+    "entry_tactic": "reconnaissance",
+    "n_places": 14,
+    "n_transitions": 72,
+    "n_inter_tactic_edges": 201,
+    "n_intra_tactic_selfloops_dropped": 24,
+    "objective_tactics": [
+      "exfiltration",
+      "impact"
+    ],
+    "objective_tactics_data": [
+      "reconnaissance",
+      "resource-development"
+    ],
+    "reachable_from_entry_marking": [
+      "reconnaissance"
+    ],
+    "objective_reachable_from_entry": {
+      "exfiltration": false,
+      "impact": false
+    },
+    "any_objective_reachable_from_entry": false,
+    "all_objectives_reachable_from_entry": false,
+    "reachable_from_any_entry": [
+      "collection",
+      "command-and-control",
+      "credential-access",
+      "discovery",
+      "execution",
+      "exfiltration",
+      "impact",
+      "initial-access",
+      "lateral-movement",
+      "persistence",
+      "privilege-escalation",
+      "reconnaissance",
+      "resource-development",
+      "stealth"
+    ],
+    "entry_tactics": [
+      "command-and-control",
+      "credential-access",
+      "execution",
+      "initial-access",
+      "reconnaissance",
+      "resource-development"
+    ],
+    "sink_tactics": [
+      "reconnaissance",
+      "resource-development"
+    ],
+    "shortest_entry_to_objective": {
+      "reachable": true,
+      "n_places": 2,
+      "n_hops": 1,
+      "path": [
+        "command-and-control",
+        "exfiltration"
+      ],
+      "entry": "command-and-control",
+      "objective": "exfiltration"
+    },
+    "longest_entry_to_objective": {
+      "reachable": true,
+      "n_places": 12,
+      "n_hops": 11,
+      "path": [
+        "initial-access",
+        "lateral-movement",
+        "credential-access",
+        "stealth",
+        "privilege-escalation",
+        "persistence",
+        "impact",
+        "execution",
+        "command-and-control",
+        "discovery",
+        "collection",
+        "exfiltration"
+      ],
+      "entry": "initial-access",
+      "objective": "exfiltration"
+    },
+    "prefix_gap": {
+      "reconnaissance_present": true,
+      "initial_access_present": true,
+      "direct_edges": [],
+      "recon_reaches_initial_access": false,
+      "interpretation": "DISCONNECTED -- reconnaissance cannot reach initial-access; the recon place is an island (the observed-only prefix gap)"
+    },
+    "reachable_marking_count": 1
+  }
+}
