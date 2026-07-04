@@ -42,6 +42,12 @@ mirrors the GAP's no-synthesis invariant
 ([`01_gap_schema.md`](01_gap_schema.md) §(a)) one level up: the GAP refuses
 synthesised *edges*; the GASP refuses synthesised *class memberships*.
 
+**Downstream reading:** each class subgraph — and any L3 net built from it —
+is a **behavioural envelope for its operational objective** (the union of
+5–19 flows), not any single actor's playbook; downstream claims are phrased
+envelope-relative ("under the `pure_steal` envelope…"). See
+[`architecture.md`](architecture.md) §(j).
+
 Three corollaries:
 - **Structural-terminal is the dropped P1 candidate, not a fallback.** P1
   (3-class structural-terminal) and the GAP's `is_objective` property are

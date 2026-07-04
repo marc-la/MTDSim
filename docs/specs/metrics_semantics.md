@@ -276,7 +276,42 @@ Two consequences bound any GAP-driven evaluation:
 |---|---|---|
 | **MTD-efficacy as "how much MTD perturbs *typical observed attack workflow*"** | **Valid (with this framing stated)** | If L3 samples GAP edges by weight, it samples what is frequently *documented* (biased toward successful, well-reported campaigns), not what is *optimal* against a given MTD configuration. The number measures disruption of commonly-reported workflow — say so when reporting it. |
 | **MTD-efficacy as "how much MTD defeats an *optimal/worst-case* adversary"** | **INVALID** | The corpus contains observed, not optimal, behaviour; weights carry no adversary-optimality signal. |
-| **Seeding L3 transition probabilities directly from edge weights** | **INVALID as-is** | Weights are unnormalised counts. Any stochastic traversal needs an *explicit, documented* normalisation + closed-world assumption the corpus does not itself justify. Flag before anyone treats the GAP as a Markov chain. |
+| **Seeding L3 transition probabilities directly from edge weights** | **INVALID as-is** | Weights are unnormalised counts. Any stochastic traversal needs an *explicit, documented* normalisation + closed-world assumption the corpus does not itself justify. Flag before anyone treats the GAP as a Markov chain. **The sanctioned normalisation now exists — see the D3 disposition below**; raw-count seeding stays invalid. |
+
+### Disposition — the D3 tactic-level flow-proportion regime (supervisor-authorised, July 2026)
+
+The escape hatch the row above names — "an *explicit, documented* normalisation
++ closed-world assumption" — was authorised by supervisor decision **D3**
+(working session with Dr Jin Hong, early July 2026; register in
+[`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](../notes/2026-07-03_supervisor_meeting_l3_decisions.md)).
+The regime, in full:
+
+- **Aggregation level: tactic, not technique.** Technique→technique GAP edges
+  aggregate up to **tactic-pair transitions** (the transitions of the L3a
+  tactic-place nets). Aggregation up from techniques is what makes the weights
+  groundable at this corpus size (~38 flows); the sparsity is accepted as "the
+  only quantitative evidence available to populate the Petri nets".
+- **Weight = out-edge-normalised flow proportion.** A tactic-pair transition's
+  weight is the **proportion of attack flows leaving the source tactic** along
+  it. It is *not* a raw `observation_count` magnitude — the technique-level
+  count stays recorded and un-normalised, with the meaning given at the top of
+  this section unchanged.
+- **The closed-world assumption, stated.** The corpus's observed out-edges at
+  each tactic are treated as the **complete choice set** at that tactic. This
+  is an assumption the corpus does not itself justify; it is adopted
+  explicitly, not implied.
+- **The survivorship framing carries over.** Row 1 of the table governs every
+  reading: a weighted traversal samples *typical observed workflow* (biased
+  toward successful, well-documented campaigns) — never adversary optimality,
+  never step efficacy.
+- **The uniform policy is the structural floor.** A uniform-out-edge traversal
+  is retained alongside the weighted one as the sensitivity baseline — the
+  net's shape with no recurrence signal at all.
+
+One-liner for downstream claims: each class net is read as a **behavioural
+envelope for an operational objective**, not an actor's policy; every
+weighted-traversal claim is phrased envelope-relative ("under the `pure_steal`
+envelope…") — see [`architecture.md`](architecture.md) §(j).
 
 This sits alongside the substrate-side comparability boundary in §(d): there, the
 caution is cross-paper *magnitude* comparison; here, it is reading *adversary

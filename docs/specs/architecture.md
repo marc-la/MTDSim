@@ -299,16 +299,34 @@ mitigations in
 
 ## (f) L3 — OGASP (operationalised GASP)
 
-**Status:** unbuilt (the substrate runs; the graph-driven attacker on top of it
-does not yet exist).
+**Status:** partially built. The **L3a structural nets are shipped** — four
+un-weighted tactic-place Petri nets, one per GASP class, at
+[`../../data/ogasp/`](../../data/ogasp/) with build code at
+[`../../src/mtdsim/l3_simulation/petri/`](../../src/mtdsim/l3_simulation/petri)
+and tests at `tests/l3_simulation/`. The executable coupling into the
+substrate (weights, durations, the timeline runner, the replay attacker) is
+unbuilt; the substrate itself runs.
+
+**Working-layer ledger** (the terms the 2026-07-03 handoff chain uses):
+- **L3a** — the structural nets *plus their parameterisation*: flow-proportion
+  transition weights (D3; disposition in
+  [`metrics_semantics.md`](metrics_semantics.md) §(f)) and the per-tactic
+  duration catalogue (D4; regime row in [`provenance.md`](provenance.md)).
+- **Timeline generation** — standalone net execution: seeded single-token
+  walks over the weighted nets emitting timed attacker-state sequences.
+- **Binding / replay** — the MTDSim coupling: the tactic→substrate-action
+  binding and the replay attacker that feeds timelines into the simulator.
 
 - **Inputs.** L2 GASP; the MTDSim substrate (network, MTD scheduler, the
   inherited 6-phase attacker module).
 - **Outputs.** Per-run attack records suitable for L4 evaluation —
   technique-level events along the GASP traversal, timed within the simulator.
-- **Transformation.** The attacker agent traverses GASP within MTDSim, bridging
-  technique → tactic → attacker action against the substrate's network and
-  reacting to MTD events. The graph-driven attacker runs *alongside* the
+- **Transformation.** Under the v1 coupling model (decision block below): the
+  weighted class net is executed *standalone* — a single token walks the net,
+  each state consumes its catalogued duration — emitting a timed sequence of
+  attacker states; a replay attacker inside MTDSim then executes that timeline
+  against the substrate's network, bridging tactic-state → attacker action.
+  The net-driven attacker runs *alongside* the
   inherited 6-phase attacker, which is retained as the procedural baseline
   (per [`project_context.md`](project_context.md) L17). Both must work; both must
   be internally consistent against the substrate's invariants.
@@ -321,11 +339,11 @@ does not yet exist).
   [`mtdnetwork/component/adversary.py`](../../mtdnetwork/component/adversary.py)
   (the `Adversary` class) and
   [`mtdnetwork/operation/attack_operation.py`](../../mtdnetwork/operation/attack_operation.py)
-  (the SimPy process driver). The graph-driven attacker is **unbuilt**; the
+  (the SimPy process driver). The replay attacker is **unbuilt**; the
   design intent is that it lives alongside `Adversary` in the same module —
-  selection is per-run, not via inheritance. The pipeline tree marks this seam
-  at [`../../src/mtdsim/l3_simulation/`](../../src/mtdsim/l3_simulation) (a
-  pointer only; holds no code).
+  selection is per-run, not via inheritance. The L3a Petri build code lives at
+  [`../../src/mtdsim/l3_simulation/petri/`](../../src/mtdsim/l3_simulation/petri);
+  outputs at [`../../data/ogasp/`](../../data/ogasp/).
 
 **Decision — graph-driven attacker is added alongside the 6-phase attacker,
 not replacing it.**
@@ -360,15 +378,37 @@ model is true"* (see §(j)).
 or *out of scope* independently; promotion changes the L3 contract and the
 attacker state space, not L1/L2 graph construction.
 
-**Decision — Petri-net (SNAKES) formalisation is positioned as a candidate
-alternative analytical substrate, not as a step inside L1/L2.**
-**Why:** The pre-lit-review *Current State* listed it under Stream A
-(profile construction); the *Methodology Carry-Forward* clarified it is a
-*separate* workstream. Architecturally, a Petri-net encoding of GASP would
-sit *parallel* to MTDSim/DES execution as an alternative substrate for L4
-analytical evaluation — not inside L1/L2.
-**If revisited:** If Petri-net evaluation matures, L4 acquires a second
-substrate column and the comparability boundary at §(j) is extended.
+**Decision — the Petri net is the primary behaviour source for the
+executable attacker (supervisor D1, July 2026), superseding its earlier
+positioning as a "candidate alternative analytical substrate".**
+**Why:** The supervisor settled both tracks: "incorporate the petri net into
+MTDSim so the attack behaviour is dictated by this", *and* examine the attack
+behaviour the net generates on its own. The net-driven behaviour is the
+substantive operationalisation move; the standalone examination (Monte-Carlo
+over the timeline runner) delivers the analytical track without a second L4
+substrate. The closed-form CTMC solve of the earlier analytical framing moves
+to the deferred register. Decision register:
+[`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](../notes/2026-07-03_supervisor_meeting_l3_decisions.md).
+**If revisited:** If a closed-form analytical evaluation is resurrected, L4
+acquires a second substrate column and the comparability boundary at §(j) is
+extended.
+
+**Decision — v1 coupling is one-way timeline replay (supervisor D2, July
+2026).**
+**Why:** Run the Petri net **independently** of the simulator: a **single
+token** moves through the weighted net; the state at each node is recorded;
+each state consumes its catalogued duration; the output is a **timed sequence
+of attacker states** (a cumulative timeline) that the replay attacker feeds
+into MTDSim. This keeps the substrate change attacker-only (D5), preserves
+the alongside-not-replacing seam unchanged, and is buildable before
+Semester 2 (D10).
+**Deferred (D10 register):** two-way interaction (simulator ↔ net each event
+— the end goal), sensitivity analysis on net weights, evasion/detection-rate
+modelling, timed Petri nets (GSPN/SPN/TPN firing semantics), aggregated
+cross-profile variation analysis, the closed-form CTMC solve.
+**If revisited:** Two-way integration upgrades the binding layer from a
+timeline contract to a precondition/effect capability contract; it does not
+touch L1/L2.
 
 **Note on the Tay-IDS ↔ Jalowski-beacon inverse** (*Methodology Carry-Forward*
 §2). Tay's IDS-sensitivity experiment varies what the *defender* observes
@@ -382,7 +422,8 @@ load-bearing for the scaffold; explicit in case Pass 2 picks it up.
 ## (g) L4 — Evaluation
 
 **Status:** partially built (substrate runs and produces metrics; behavioural-
-attacker runs not yet possible because L3 is unbuilt).
+attacker runs not yet possible because the L3 timeline-runner/replay coupling
+is unbuilt — the L3a structural nets themselves are shipped, see §(f)).
 
 - **Inputs.** Per-run attack records from L3 (across MTD mechanism × attacker
   profile × MTD interval); the post-2c golden as the behavioural oracle.
@@ -539,6 +580,22 @@ driving MTD evaluation vs process model for forensic interpretation), and
 *validation* (MTD sensitivity analysis in MTDSim vs PWNJUTSU/WannaCry case
 studies). Stating these axes explicitly forestalls a "this is just process
 mining" reading.
+
+**Envelope, not actor.** Each class net is a **behavioural envelope /
+generative grammar for an operational objective** — the union of 5–19
+analyst-drawn flows, over-generating by construction (a token can stitch
+technique-A-from-one-campaign onto technique-B-from-another and produce a
+chain no real actor ever ran; rationale in
+[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md)
+§1). *Commits to:* a run is *one instantiation* of the envelope under a
+declared policy; the defensible claim is **fidelity-changes-the-answer over a
+CTI-grounded envelope**. *Rules out:* claiming a traversal *is* a named
+actor; reading the envelope MTTC as a real campaign's dwell time; reading
+weighted paths as actor-likelihood. Every downstream claim is phrased
+envelope-relative ("under the `pure_steal` envelope…") — the one-liners in
+[`metrics_semantics.md`](metrics_semantics.md) §(f) and
+[`02_gasp_schema.md`](02_gasp_schema.md) §(a) enforce the same reading at
+their layers.
 
 ---
 

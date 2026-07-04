@@ -32,8 +32,10 @@ created: 2026-07-03
   level; sparsity accepted as "the only quantitative evidence available".
   D9 — node-level thinness is fine given a coherent start→end path. Marc's
   aggregate-profile proposal (5th baseline/null net; profiles measured as
-  divergence from it) is pending explicit supervisor confirmation but is
-  treated as accepted — it doubles as the discrimination verification.
+  divergence from it) is **confirmed** ("no harm in trying" — resolution
+  recorded in
+  [`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](../notes/2026-07-03_supervisor_meeting_l3_decisions.md))
+  — it doubles as the discrimination verification.
 - **Known tradeoff to record, not fix:** aggregating techniques → tactics is
   precisely what makes the weights groundable at this corpus size, and it
   **loses AND-gate/join structure** — that is the accepted mechanism, not a
