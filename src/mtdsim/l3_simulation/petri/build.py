@@ -55,6 +55,13 @@ BLACK_TOKEN = 1
 # else ``initial-access``. Tried in this order.
 PREFERRED_ENTRY_TACTICS = ("reconnaissance", "initial-access")
 
+# The fifth net: the aggregate (null) profile over the union of all flows —
+# the full GAP tactic-quotient (supervisor decision D9 / Marc's aggregate-
+# profile proposal). Built from the flow union, not an average of the four
+# class nets (classes overlap in flows), so the null is corpus-grounded.
+AGGREGATE = "aggregate"
+PROFILE_NAMES = CLASS_NAMES + (AGGREGATE,)
+
 
 @dataclass(frozen=True)
 class GapIndex:
@@ -119,6 +126,40 @@ def load_gap_index(gap_path: Path = GAP_PATH) -> GapIndex:
 def load_gasp_view(class_name: str, gasp_dir: Path = GASP_DIR) -> SubgraphView:
     """Load one canonical ``gasp_<class>.json`` ``SubgraphView``."""
     return SubgraphView.from_json(Path(gasp_dir) / f"gasp_{class_name}.json")
+
+
+def build_aggregate_view(gap_path: Path = GAP_PATH) -> SubgraphView:
+    """The aggregate (null) profile as a ``SubgraphView``: the union of all
+    flows = every GAP node and edge (the full GAP tactic-quotient). Same
+    boundary object as the four class views, so the same net construction
+    applies unchanged."""
+    with open(gap_path) as f:
+        gap = json.load(f)
+    flow_ids = sorted(
+        {fid for n in gap["nodes"].values() for fid in n["flow_ids"]}
+    )
+    return SubgraphView(
+        class_name=AGGREGATE,
+        node_set=frozenset(gap["nodes"]),
+        edge_set=frozenset(
+            (e["source_id"], e["target_id"]) for e in gap["edges"]
+        ),
+        provenance={
+            "flow_ids": flow_ids,
+            "source_flow_count": gap["source_flow_count"],
+            "gap_version": gap["version"],
+            "construction": "union of all flows (full GAP tactic-quotient)",
+        },
+    )
+
+
+def load_profile_view(
+    profile: str, gasp_dir: Path = GASP_DIR, gap_path: Path = GAP_PATH
+) -> SubgraphView:
+    """One of the five profile views: a GASP class, or the aggregate."""
+    if profile == AGGREGATE:
+        return build_aggregate_view(gap_path)
+    return load_gasp_view(profile, gasp_dir)
 
 
 def build_structural_net(view: SubgraphView, gap: GapIndex) -> StructuralNet:
@@ -194,6 +235,19 @@ def build_all(
     }
 
 
+def build_all_profiles(
+    gap_path: Path = GAP_PATH, gasp_dir: Path = GASP_DIR
+) -> dict[str, StructuralNet]:
+    """All five nets — the four classes plus the aggregate null profile."""
+    gap = load_gap_index(gap_path)
+    return {
+        profile: build_structural_net(
+            load_profile_view(profile, gasp_dir, gap_path), gap
+        )
+        for profile in PROFILE_NAMES
+    }
+
+
 def _choose_entry_tactic(tactics: tuple[str, ...]) -> str:
     """First of ``PREFERRED_ENTRY_TACTICS`` present in the class."""
     for tac in PREFERRED_ENTRY_TACTICS:
@@ -210,16 +264,21 @@ def _transition_name(src_tactic: str, dst_tactic: str) -> str:
 
 
 __all__ = [
+    "AGGREGATE",
     "BLACK_TOKEN",
     "CLASS_NAMES",
     "GAP_PATH",
     "GASP_DIR",
     "PREFERRED_ENTRY_TACTICS",
+    "PROFILE_NAMES",
     "GapIndex",
     "StructuralNet",
     "TransitionSpec",
+    "build_aggregate_view",
     "build_all",
+    "build_all_profiles",
     "build_structural_net",
     "load_gap_index",
     "load_gasp_view",
+    "load_profile_view",
 ]

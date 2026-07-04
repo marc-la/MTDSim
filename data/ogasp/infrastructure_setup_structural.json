@@ -6,7 +6,7 @@
     "gap_path": "data/gap/gap_v0.5.json",
     "gasp_source_flow_count": 5,
     "gap_version": "0.5",
-    "build_date": "2026-06-18"
+    "build_date": "2026-07-04"
   },
   "places": [
     "collection",
@@ -34,7 +34,25 @@
           "T1560",
           "T1573"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "collection__to__lateral-movement",
@@ -45,7 +63,29 @@
           "T1039",
           "T1021"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "collection__to__stealth",
@@ -56,7 +96,25 @@
           "T1560",
           "T1070"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "command-and-control__to__credential-access",
@@ -71,7 +129,29 @@
           "T1105",
           "T1555"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 9,
+          "weight": 0.1111111111111111,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 11,
+          "weight": 0.09090909090909091,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "command-and-control__to__defense-impairment",
@@ -82,7 +162,27 @@
           "T1090",
           "T1222"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 9,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 11,
+          "weight": 0.09090909090909091,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_ta2"
+          ]
+        }
+      }
     },
     {
       "name": "command-and-control__to__discovery",
@@ -109,7 +209,31 @@
           "T1105",
           "T1087"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 2,
+          "denominator": 9,
+          "weight": 0.2222222222222222,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.6666666666666666,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt",
+            "dfir_bumblebee_round_2"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 11,
+          "weight": 0.18181818181818182,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt",
+            "dfir_bumblebee_round_2"
+          ]
+        }
+      }
     },
     {
       "name": "command-and-control__to__execution",
@@ -132,7 +256,27 @@
           "T1105",
           "T1059"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 9,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 11,
+          "weight": 0.09090909090909091,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_ta2"
+          ]
+        }
+      }
     },
     {
       "name": "command-and-control__to__lateral-movement",
@@ -151,7 +295,29 @@
           "T1219",
           "T1021"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 9,
+          "weight": 0.1111111111111111,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 11,
+          "weight": 0.09090909090909091,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2"
+          ]
+        }
+      }
     },
     {
       "name": "command-and-control__to__persistence",
@@ -174,7 +340,29 @@
           "T1219",
           "T1136"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 9,
+          "weight": 0.1111111111111111,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 11,
+          "weight": 0.09090909090909091,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2"
+          ]
+        }
+      }
     },
     {
       "name": "command-and-control__to__privilege-escalation",
@@ -189,7 +377,29 @@
           "T1105",
           "T1068"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 9,
+          "weight": 0.1111111111111111,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 11,
+          "weight": 0.09090909090909091,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "command-and-control__to__stealth",
@@ -216,7 +426,33 @@
           "T1105",
           "T1497"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 3,
+          "denominator": 9,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 3,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt",
+            "dfir_bumblebee_round_2",
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 3,
+          "denominator": 11,
+          "weight": 0.2727272727272727,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.75,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt",
+            "dfir_bumblebee_round_2",
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "credential-access__to__collection",
@@ -227,7 +463,25 @@
           "T1003",
           "T1560"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "credential-access__to__command-and-control",
@@ -238,7 +492,27 @@
           "T1003",
           "T1105"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_ta2"
+          ]
+        }
+      }
     },
     {
       "name": "credential-access__to__execution",
@@ -249,7 +523,25 @@
           "T1003",
           "T1047"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "credential-access__to__lateral-movement",
@@ -272,7 +564,33 @@
           "T1555",
           "T1021"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 3,
+          "denominator": 3,
+          "weight": 1.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "gootloader",
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 3,
+          "denominator": 4,
+          "weight": 0.75,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.75,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "gootloader",
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "credential-access__to__reconnaissance",
@@ -283,7 +601,25 @@
           "T1003",
           "T1595"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 3,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "defense-impairment__to__command-and-control",
@@ -294,7 +630,27 @@
           "T1222",
           "T1105"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_ta2"
+          ]
+        }
+      }
     },
     {
       "name": "defense-impairment__to__execution",
@@ -305,7 +661,25 @@
           "T1222",
           "T1053"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 0,
+          "weight": null,
+          "flows_leaving_source": 0,
+          "flow_proportion": null,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "discovery__to__collection",
@@ -316,7 +690,29 @@
           "T1046",
           "T1039"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "discovery__to__command-and-control",
@@ -359,7 +755,33 @@
           "T1482",
           "T1071"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 3,
+          "denominator": 6,
+          "weight": 0.5,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.75,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt",
+            "dfir_bumblebee_round_2",
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 3,
+          "denominator": 6,
+          "weight": 0.5,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.75,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt",
+            "dfir_bumblebee_round_2",
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "discovery__to__credential-access",
@@ -374,7 +796,29 @@
           "T1087",
           "T1003"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2"
+          ]
+        }
+      }
     },
     {
       "name": "discovery__to__execution",
@@ -389,7 +833,29 @@
           "T1518",
           "T1059"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "discovery__to__lateral-movement",
@@ -400,7 +866,25 @@
           "T1046",
           "T1021"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "execution__to__collection",
@@ -411,7 +895,29 @@
           "T1059",
           "T1039"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 12,
+          "weight": 0.08333333333333333,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 13,
+          "weight": 0.07692307692307693,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "execution__to__command-and-control",
@@ -430,7 +936,29 @@
           "T1204",
           "T1105"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 12,
+          "weight": 0.08333333333333333,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 13,
+          "weight": 0.07692307692307693,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "execution__to__credential-access",
@@ -449,7 +977,30 @@
           "T1203",
           "T1003"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 12,
+          "weight": 0.08333333333333333,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 13,
+          "weight": 0.15384615384615385,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_ta2",
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "execution__to__discovery",
@@ -480,7 +1031,31 @@
           "T1059",
           "T1518"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 2,
+          "denominator": 12,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 13,
+          "weight": 0.15384615384615385,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "execution__to__lateral-movement",
@@ -495,7 +1070,29 @@
           "T1059",
           "T1021"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 12,
+          "weight": 0.08333333333333333,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 13,
+          "weight": 0.07692307692307693,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "execution__to__persistence",
@@ -518,7 +1115,29 @@
           "T1204",
           "T1547"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 12,
+          "weight": 0.08333333333333333,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 13,
+          "weight": 0.07692307692307693,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "execution__to__privilege-escalation",
@@ -537,7 +1156,31 @@
           "T1203",
           "T1068"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 2,
+          "denominator": 12,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt",
+            "dfir_bumblebee_round_2"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 13,
+          "weight": 0.15384615384615385,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt",
+            "dfir_bumblebee_round_2"
+          ]
+        }
+      }
     },
     {
       "name": "execution__to__reconnaissance",
@@ -548,7 +1191,29 @@
           "T1059",
           "T1595"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 12,
+          "weight": 0.08333333333333333,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 13,
+          "weight": 0.07692307692307693,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "execution__to__stealth",
@@ -579,7 +1244,31 @@
           "T1204",
           "T1027"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 2,
+          "denominator": 12,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "gootloader",
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 13,
+          "weight": 0.15384615384615385,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
+          "backing_flow_ids": [
+            "gootloader",
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "initial-access__to__command-and-control",
@@ -590,7 +1279,25 @@
           "T1566",
           "T1219"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "initial-access__to__credential-access",
@@ -601,7 +1308,25 @@
           "T1566",
           "T1555"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "initial-access__to__execution",
@@ -624,7 +1349,29 @@
           "T1566",
           "T1204"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "initial-access__to__privilege-escalation",
@@ -635,7 +1382,25 @@
           "T1189",
           "T1068"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "lateral-movement__to__collection",
@@ -646,7 +1411,29 @@
           "T1021",
           "T1039"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "lateral-movement__to__command-and-control",
@@ -661,7 +1448,31 @@
           "T1550",
           "T1105"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 2,
+          "denominator": 6,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.6666666666666666,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 6,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.6666666666666666,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "lateral-movement__to__credential-access",
@@ -676,7 +1487,29 @@
           "T1021",
           "T1555"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 6,
+          "weight": 0.16666666666666666,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.3333333333333333,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "lateral-movement__to__discovery",
@@ -695,7 +1528,25 @@
           "T1021",
           "T1135"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "lateral-movement__to__execution",
@@ -706,7 +1557,31 @@
           "T1021",
           "T1059"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 2,
+          "denominator": 6,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.6666666666666666,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 6,
+          "weight": 0.3333333333333333,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.6666666666666666,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "lateral-movement__to__stealth",
@@ -721,7 +1596,25 @@
           "T1021",
           "T1218"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 6,
+          "weight": 0.0,
+          "flows_leaving_source": 3,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "persistence__to__command-and-control",
@@ -736,7 +1629,29 @@
           "T1547",
           "T1105"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2"
+          ]
+        }
+      }
     },
     {
       "name": "persistence__to__discovery",
@@ -755,7 +1670,29 @@
           "T1136",
           "T1016"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 4,
+          "weight": 0.25,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2"
+          ]
+        }
+      }
     },
     {
       "name": "persistence__to__execution",
@@ -770,7 +1707,31 @@
           "T1547",
           "T1059"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 2,
+          "denominator": 4,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 4,
+          "weight": 0.5,
+          "flows_leaving_source": 2,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "persistence__to__lateral-movement",
@@ -781,7 +1742,25 @@
           "T1136",
           "T1021"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "persistence__to__stealth",
@@ -792,7 +1771,25 @@
           "T1547",
           "T1218"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 4,
+          "weight": 0.0,
+          "flows_leaving_source": 2,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "privilege-escalation__to__command-and-control",
@@ -811,7 +1808,25 @@
           "T1055",
           "T1573"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "privilege-escalation__to__discovery",
@@ -822,7 +1837,25 @@
           "T1055",
           "T1087"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "privilege-escalation__to__execution",
@@ -833,7 +1866,29 @@
           "T1068",
           "T1059"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 1,
+          "weight": 1.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 1.0,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt"
+          ]
+        }
+      }
     },
     {
       "name": "privilege-escalation__to__stealth",
@@ -848,7 +1903,25 @@
           "T1055",
           "T1218"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 1,
+          "weight": 0.0,
+          "flows_leaving_source": 1,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "stealth__to__collection",
@@ -863,7 +1936,29 @@
           "T1497",
           "T1560"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "cisa_aa22_138b_vmware_workspace_alt"
+          ]
+        }
+      }
     },
     {
       "name": "stealth__to__command-and-control",
@@ -890,7 +1985,29 @@
           "T1218",
           "T1105"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "stealth__to__discovery",
@@ -909,7 +2026,29 @@
           "T1218",
           "T1615"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 1,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        },
+        "raw": {
+          "numerator": 1,
+          "denominator": 5,
+          "weight": 0.2,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "gootloader"
+          ]
+        }
+      }
     },
     {
       "name": "stealth__to__execution",
@@ -932,7 +2071,31 @@
           "T1497",
           "T1059"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 2,
+          "denominator": 5,
+          "weight": 0.4,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "hancitor_dll"
+          ]
+        },
+        "raw": {
+          "numerator": 2,
+          "denominator": 5,
+          "weight": 0.4,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
+          "backing_flow_ids": [
+            "dfir_bumblebee_round_2",
+            "hancitor_dll"
+          ]
+        }
+      }
     },
     {
       "name": "stealth__to__persistence",
@@ -955,7 +2118,25 @@
           "T1218",
           "T1136"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 5,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 5,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     },
     {
       "name": "stealth__to__privilege-escalation",
@@ -966,7 +2147,25 @@
           "T1027",
           "T1055"
         ]
-      ]
+      ],
+      "weights": {
+        "operator_dedup": {
+          "numerator": 0,
+          "denominator": 5,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        },
+        "raw": {
+          "numerator": 0,
+          "denominator": 5,
+          "weight": 0.0,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.0,
+          "backing_flow_ids": []
+        }
+      }
     }
   ],
   "report": {
@@ -1055,5 +2254,36 @@
       "interpretation": "DISCONNECTED -- reconnaissance cannot reach initial-access; the recon place is an island (the observed-only prefix gap)"
     },
     "reachable_marking_count": 1
+  },
+  "weighting": {
+    "definition": "W-A flow-proportion (D3): weight = numerator / denominator, numerator = distinct profile flows contributing >=1 technique-edge under this tactic-pair, denominator = sum of numerators over the source place's retained inter-tactic out-transitions (out-edge-normalised; per-place out-weights sum to 1). flow_proportion = numerator / flows_leaving_source is the literal minuted per-flow proportion (sums to >1 where flows branch). Weights are workflow-recurrence under a survivorship-biased corpus - never efficacy, transition probability of an actor, or adversary optimality (metrics_semantics.md s(f)).",
+    "counts_flows_not_observation_count": true,
+    "smoothing": "none",
+    "primary_variant": "operator_dedup",
+    "variants": {
+      "operator_dedup": {
+        "n_profile_flows": 4,
+        "profile_flow_ids": [
+          "cisa_aa22_138b_vmware_workspace_alt",
+          "dfir_bumblebee_round_2",
+          "gootloader",
+          "hancitor_dll"
+        ],
+        "places_without_flow_backed_out_edges": [
+          "defense-impairment"
+        ]
+      },
+      "raw": {
+        "n_profile_flows": 5,
+        "profile_flow_ids": [
+          "cisa_aa22_138b_vmware_workspace_alt",
+          "cisa_aa22_138b_vmware_workspace_ta2",
+          "dfir_bumblebee_round_2",
+          "gootloader",
+          "hancitor_dll"
+        ],
+        "places_without_flow_backed_out_edges": []
+      }
+    }
   }
 }

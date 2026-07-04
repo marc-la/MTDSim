@@ -70,8 +70,15 @@ def render_tactic_state_diagram(
     gap: GapIndex,
     tactic_layers: dict[str, int],
     viz_dir: Path,
+    weights: dict | None = None,
 ) -> Path:
-    """Render one class's net as a clean tactic-state diagram (PNG + SVG)."""
+    """Render one profile's net as a clean tactic-state diagram (PNG + SVG).
+
+    ``weights`` (transition name -> ``TransitionWeights``, the primary corpus
+    variant) switches the edge encoding from backing-GASP-edge counts to the
+    W-A weight, on a **uniform absolute scale** (weight ∈ [0, 1] maps the same
+    everywhere) so the five nets stay visually comparable — no per-net
+    normalisation, no accentuation."""
     viz_dir = Path(viz_dir)
     viz_dir.mkdir(parents=True, exist_ok=True)
 
@@ -94,8 +101,9 @@ def render_tactic_state_diagram(
             else "NOT reachable from token"
         )
     )
+    kind = "weighted net (W-A flow proportion, operator-dedup)" if weights else "structural net"
     title = (
-        f"OGASP structural net · {snet.class_name}\n"
+        f"OGASP {kind} · {snet.class_name}\n"
         f"{report.n_places} places · {report.n_transitions} transitions · "
         f"{report.n_inter_tactic_edges} GASP edges · token seeded in "
         f"{snet.entry_tactic}\n"
@@ -146,23 +154,32 @@ def render_tactic_state_diagram(
         g.edge(a, b, style="invis", weight="100")
 
     # Every inter-tactic transition is drawn (the no-synthesis invariant — no
-    # edge dropped), but weight (how many GASP technique-edges back the
-    # tactic-pair) sets penwidth *and* opacity, so the heavily-evidenced
-    # backbone reads over the single-observation haze (the gasp_viz convention).
+    # edge dropped). Penwidth *and* opacity carry the quantitative signal, so
+    # the backbone reads over the haze (the gasp_viz convention). With a
+    # weight layer the signal is the W-A routing weight on an absolute [0, 1]
+    # scale, identical across the five nets (uniform thresholds — no per-net
+    # normalisation); without one it falls back to per-net-scaled backing-edge
+    # counts (the pre-weight structural encoding).
     max_w = max((len(t.edges) for t in snet.transitions), default=1)
     for spec in snet.transitions:
-        w = len(spec.edges)
         backward = tactic_layers.get(spec.dst_tactic, 99) <= tactic_layers.get(
             spec.src_tactic, 99
         )
-        frac = w / max_w
+        if weights is not None:
+            w = weights[spec.name].weight or 0.0
+            frac = w
+            label = f"{w:.2f}" if w > 0 else ""
+        else:
+            n_backing = len(spec.edges)
+            frac = n_backing / max_w
+            label = str(n_backing) if n_backing > 1 else ""
         penwidth = 0.6 + 2.4 * frac
-        alpha = int(55 + 200 * frac)  # weight-1 -> haze, max -> solid
+        alpha = int(55 + 200 * frac)  # zero/min -> haze, max -> solid
         base = BACKWARD_EDGE if backward else FORWARD_EDGE
         g.edge(
             spec.src_tactic,
             spec.dst_tactic,
-            label=str(w) if w > 1 else "",
+            label=label,
             color=f"{base}{alpha:02x}",
             penwidth=f"{penwidth:.2f}",
             arrowsize="0.7",
@@ -218,7 +235,13 @@ def render_reachability_chart(
     import numpy as np
 
     out_path = Path(out_path)
-    order = ["pure_steal", "pure_impediment", "double_extortion", "infrastructure_setup"]
+    order = [
+        "pure_steal",
+        "pure_impediment",
+        "double_extortion",
+        "infrastructure_setup",
+        "aggregate",
+    ]
     classes = [c for c in order if c in reports]
     from_token = [len(reports[c].reachable_from_entry_marking) for c in classes]
     from_any = [len(reports[c].reachable_from_any_entry) for c in classes]
@@ -248,7 +271,7 @@ def render_reachability_chart(
     ax.set_xlim(0, max(totals) + 2)
     ax.set_title(
         "Reachability of the single token — the recon→initial-access prefix gap's "
-        "cost per GASP class",
+        "cost per profile (four GASP classes + aggregate)",
         fontsize=12,
     )
     ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.12), ncol=2,

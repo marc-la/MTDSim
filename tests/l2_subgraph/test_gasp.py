@@ -11,7 +11,6 @@ fails *as a finding*, not a bug — flag back to Marc per spec §g.
 
 from __future__ import annotations
 
-import csv
 import json
 from pathlib import Path
 
@@ -26,24 +25,10 @@ from mtdsim.l2_subgraph import (
     load_classification,
 )
 from mtdsim.l2_subgraph.build import AUDIT_CSV_PATH, GAP_PATH
-
-
-# Operator clusters from the operator-aggregation concern note. Hardcoded
-# (rather than derived from CSV ``attribution``) because the CISA AA22-138B
-# cluster has no shared G-ID — its members share an advisory, not an actor.
-OPERATOR_CLUSTERS: dict[str, list[str]] = {
-    "Conti": ["conti_cisa_alert", "conti_pwc", "conti_ransomware"],
-    "Turla": ["turla_carbon_emulation_plan", "turla_snake_emulation_plan"],
-    "FIN13": ["fin13_case_1", "fin13_case_2"],
-    "CISA_AA22_138B": [
-        "cisa_aa22_138b_vmware_workspace_alt",
-        "cisa_aa22_138b_vmware_workspace_ta1",
-        "cisa_aa22_138b_vmware_workspace_ta2",
-    ],
-    "OceanLotus": ["cobalt_kitty_campaign", "oceanlotus"],
-    "Sandworm": ["notpetya", "whispergate"],
-    "Lazarus": ["sony_malware", "swift_heist"],
-}
+from mtdsim.l2_subgraph.dedup import (
+    OPERATOR_CLUSTERS,
+    operator_deduplicated_flows,
+)
 
 EXPECTED_CLASS_COUNTS = {
     "pure_steal": 19,
@@ -72,22 +57,9 @@ def views(gap, classification) -> dict[str, SubgraphView]:
     }
 
 
-def _read_n_actions() -> dict[str, int]:
-    out: dict[str, int] = {}
-    with open(AUDIT_CSV_PATH) as f:
-        for row in csv.DictReader(f):
-            out[row["flow_id"]] = int(row["n_actions"])
-    return out
-
-
-def _operator_deduplicated_flows() -> set[str]:
-    n_actions = _read_n_actions()
-    drop: set[str] = set()
-    for members in OPERATOR_CLUSTERS.values():
-        # Sort by (−n_actions, flow_id) — tie-break lexicographically. Deterministic.
-        ranked = sorted(members, key=lambda f: (-n_actions[f], f))
-        drop.update(ranked[1:])
-    return set(n_actions) - drop
+# The dedup rule itself lives in ``mtdsim.l2_subgraph.dedup`` (single source
+# of truth — the L3a weight build consumes the same rule).
+_operator_deduplicated_flows = operator_deduplicated_flows
 
 
 def _technique_dist(gap: dict, flow_ids: set[str]) -> np.ndarray:

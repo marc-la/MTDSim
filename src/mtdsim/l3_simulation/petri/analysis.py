@@ -37,11 +37,16 @@ from mtdsim.l3_simulation.petri.build import GapIndex, StructuralNet
 #   in the impact sense -- feasibility study sec.4 / F3).
 # This is distinct from the broad node-level ``is_objective`` flag (reported
 # separately as ``objective_tactics_data`` for transparency).
+# The aggregate (null) profile has no single operational objective; its
+# declared objective set is the union of the four class-semantic objectives
+# (a recorded choice — the timeline-runner handoff requires the aggregate's
+# objective set to be declared, and union is the null-envelope reading).
 OBJECTIVE_TACTICS: dict[str, tuple[str, ...]] = {
     "pure_steal": ("exfiltration",),
     "pure_impediment": ("impact",),
     "double_extortion": ("exfiltration", "impact"),
     "infrastructure_setup": ("command-and-control",),
+    "aggregate": ("command-and-control", "exfiltration", "impact"),
 }
 
 RECONNAISSANCE = "reconnaissance"
