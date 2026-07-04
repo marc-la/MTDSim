@@ -50,7 +50,25 @@ T1040 with Credential Access.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: scan-shaped. No point number. -->
+The literature **confirms `scan-shaped`**, distinguishing internal discovery from external
+reconnaissance. Alshamrani describes the post-foothold phase as "internal network scanning"
+and "internal reconnaissance" — Carbanak's operators captured employee activity (keyloggers,
+form-grabbers, even video) and sent it to C&C while searching for data resources and critical
+components ([`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §II-C Stage 3)
+[fetched]. Mechanically this is the same enumeration modality as reconnaissance — host,
+service and network mapping — run from *inside* the estate, which is why it pairs with
+reconnaissance as the scan-shaped, substrate-priced group.
+
+One nuance widens its character. Under the "position for future" objective, discovery is not
+a burst but an indefinite mode: the attacker "keep[s] themselves updated with the changes …
+studying and understanding the working of the system and the users … while staying
+unnoticed", and does not proceed to exfiltration or impact at all
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C) [fetched]. So discovery spans a
+fast internal scan (the substrate proxy) at one end and open-ended, low-and-slow watching at
+the other. The profile keeps it `scan-shaped` / Tier 1 as modelled, noting the
+position-for-future mode is a slower character the substrate scan does not capture. Its
+strong MTD-reset property — a topology shuffle invalidates the internal map — is a §3 matter.
+No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -61,9 +79,10 @@ T1040 with Credential Access.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0007 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0007 page | Largest parent count (34), mostly flat enumerations; System Information Discovery T1082 (424); **no timing** | Internal enumeration; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §II-C Stage 3 | Internal network scanning / internal recon (Carbanak keyloggers/video); position-for-future = indefinite passive watching | Scan modality → substrate scan (Tier 1); position-for-future is slower — no number | [fetched] |
+| [`rodriguez2024`](../extractions/rodriguez2024.md) §2–3 | The paper's tactic-level example is discovery via Network Service Discovery T1046 (Nmap); the Petri net is **untimed** | Gap-confirming: even the one tactic-level model gives discovery *ordering*, not dwell | [fetched] |
+| [`brown2023`](../extractions/brown2023.md) §IV | Substrate models host-discovery + port-scan as timed phases; a shuffle forces re-discovery | The scan-shaped anchor discovery inherits; reset semantics (→§3) | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

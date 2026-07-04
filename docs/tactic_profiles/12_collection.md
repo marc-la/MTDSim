@@ -46,7 +46,25 @@ malware families.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: objective-execution. No point number. -->
+The literature **confirms `objective-execution`** — collection is where the campaign begins
+to act on its purpose. Alshamrani places it in Stage 4 as the gathering that precedes theft —
+"actions comprising retrieving and sending this data to the attackers' command and control
+center" — and Carbanak's operators collected employee-activity recordings (video, keylogger,
+form-grabber output) staged for exfiltration
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-E) [fetched]. The
+RSA intrusion shows the same collect-then-package pattern — data "compressed and encrypted …
+before sending" ([`alshamrani2019`](../extractions/alshamrani2019.md) §III-D) [fetched]. This
+is objective-adjacent work rather than campaign enablement, which places it with exfiltration
+and impact in the tuned objective-execution group rather than with the substrate-priced
+enabling tactics.
+
+Its dwell character has two ends. A targeted grab of a known repository is quick; the
+"position for future" objective ([[10_discovery]]) turns collection into indefinite passive
+harvesting — "gaining as much information as they can while staying unnoticed"
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C) [fetched]. The profile confirms
+`objective-execution` / Tier 2 — the breach literature characterises the collect→exfil chain
+even without a per-tactic dwell — noting collection runs from a fast grab to a slow harvest.
+No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -57,9 +75,9 @@ malware families.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0009 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0009 page | Data from Local System T1005 (229 procedures); staging/archive techniques; **no timing** | Precursor to exfil; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-D, §III-E | "Retrieving and sending this data"; Carbanak video/keylogger capture; RSA compress+encrypt before send; position-for-future = indefinite harvest | Objective-adjacent; fast grab..slow harvest — no per-tactic number | [fetched] |
+| [`outkin2023`](../extractions/outkin2023.md) §1 (Introduction) | "Ready-residence time" = fraction of time in the completed-but-not-yet-executed "Ready" state before acting on objectives | Conceptual dwell-before-objective; parameterised, not empirical per-tactic — no value | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

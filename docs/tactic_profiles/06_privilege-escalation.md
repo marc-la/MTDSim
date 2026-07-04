@@ -50,7 +50,24 @@ that also serve persistence and evasion.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: exploit-shaped. No point number. -->
+The literature **confirms `exploit-shaped`** for the tactic's purest form while noting a
+fast, non-exploit path. Alshamrani places privilege escalation inside the interleaved
+post-foothold loop — "sometimes this phase involves privilege escalation … the chosen method
+depends on the environment of the target system" — and its canonical instance is
+vulnerability exploitation: Stuxnet used two Windows zero-days (a keyboard-file flaw and Task
+Scheduler) to "gain full control of the machine by performing privilege escalation"
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §III-C) [fetched]. That
+direct-exploitation form (Exploitation for Privilege Escalation T1068) is exactly what the
+substrate's complexity-scaled `exploit_time` prices, so the tactic inherits a Tier-1 anchor
+and is *not tuned*.
+
+The caveat, from §1's overlap analysis, is that seven of the thirteen parents are shared
+with Persistence and the token/valid-account variants (Access Token Manipulation T1134,
+Valid Accounts T1078) are quick *reuse-of-material* acts rather than exploits — closer in
+tempo to credential-access than to an exploit. Privilege-escalation's character is therefore
+bimodal: an exploit (substrate-priced) or a fast token abuse. The profile keeps it
+`exploit-shaped` / Tier 1 — the substrate models the exploit path — while noting the
+token-abuse variant runs faster than the anchor implies. No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -61,9 +78,10 @@ that also serve persistence and evasion.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0004 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0004 page | T1068 exploit + token/mechanism abuse; 7/13 parents shared with Persistence; **no timing** | On-demand elevation; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §III-C | Escalation on demand; Stuxnet 2 Windows 0-days → "full control"; method depends on environment | Exploit form → substrate `exploit_time` (Tier 1); token-abuse variant is faster — no number | [fetched] |
+| [`brown2023`](../extractions/brown2023.md) §IV | Substrate prices exploitation by CVSS attack-complexity ∈ [0.4, 1] | The Tier-1 anchor privilege-escalation inherits | [fetched] |
+| [`rodriguez2024`](../extractions/rodriguez2024.md) §3 | Tactic-level ATT&CK Petri nets are **untimed** — timestamps only *order* events | Gap-confirming: no per-tactic rate even in a tactic-level model | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

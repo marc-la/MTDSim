@@ -48,7 +48,23 @@ rather than on-host code. No technique crosses into another tactic.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: prep-off-network. No point number. -->
+The literature **confirms `prep-off-network` decisively.** Alshamrani describes the tail
+of the reconnaissance phase as the point where "once APT actors have collected enough
+information, they construct an attacking plan and prepare the necessary tools" — tool and
+malware development, and the identification of vulnerabilities to weaponise, all conducted
+*off* the victim network before the foothold exists
+([`alshamrani2019`](../extractions/alshamrani2019.md) §I, §II-C Stage 1) [fetched]. The
+ATT&CK surface agrees structurally: all nine parent techniques are platform `PRE`, and the
+tactic is the most heavily group-/campaign-attributed pre-compromise stage with negligible
+malware attribution — operator tradecraft staged externally, not on-host code (§1).
+
+The consequence for the catalogue is the sharpest group boundary in the set: this tactic
+has **no in-network observable the substrate can meter.** Whatever real-world weeks or
+months tool-building consumes happen before the simulator's clock starts, so its in-sim
+dwell is a candidate for **near-zero** — the adversary arrives already equipped. The group
+boundary is itself the finding (per the README's "prep-off-network … boundary is itself a
+finding to record"): resource-development is present in the place-union for completeness
+but is the tactic least coupled to the on-network timeline. No point number here (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -59,9 +75,9 @@ rather than on-host code. No technique crosses into another tactic.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0042 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0042 page | 9 parent techniques, all `PRE`; acquire/compromise pairs; **no timing** | Confirms off-network staging; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §I, §II-C Stage 1 | Tool/plan/malware prep happens off-network before the foothold ("construct an attacking plan and prepare the necessary tools") | Supports near-zero *in-sim* dwell — the work precedes the simulator's clock | [fetched] |
+| — (no in-corpus per-tactic timing) | No extraction assigns a duration to resource-development | Documented negative — this is the gap, and here it coincides with a near-zero in-network verdict | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

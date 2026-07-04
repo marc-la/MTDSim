@@ -61,7 +61,26 @@ than concealment, which sets up the group-assignment question in §2.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: stealth-low-and-slow. No point number. -->
+Defense Impairment is the second tactic (with [[04_execution]]) where the profile
+**questions its `stealth-low-and-slow` hypothesis.** The v19.1 split makes the tension
+visible: where Stealth hides from intact defences, Defense Impairment *breaks* them — "a
+higher-privilege, higher-signal act than concealment" (§1). Alshamrani, whose APT is defined
+by evasion, is notably thin on *disabling* defences: its adversary "keep[s] low to go
+undetected" and evades signature-based AV rather than tearing down the logging pipeline
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §IV-A) [fetched] — so the
+paper's abundant defense-evasion evidence allocates to [[07_stealth]], and Defense Impairment
+inherits little of it. That near-absence is itself the finding: the low-and-slow APT the
+corpus documents prefers to *avoid* defences rather than *disable* them.
+
+Where disabling does occur it reads as punctuated and decisive — killing EDR, disabling
+event logging, stopping backup services — often immediately before a noisy objective (the
+ransomware pattern), not as a low-and-slow dwell. This pulls Defense Impairment toward the
+fast / objective-adjacent end rather than the stealth group. The profile therefore **does
+not confirm** `stealth-low-and-slow`: it records the group as genuinely uncertain — an
+evasion-avoidant APT rarely visits it, and when a smash-and-grab or ransomware actor does it
+is a brief decisive act — and flags the **widest sweep in the set** until §5 and the runner
+resolve whether it belongs with stealth, with objective-execution, or as its own near-exploit
+act. No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -72,9 +91,10 @@ than concealment, which sets up the group-assignment question in §2.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0112 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0112 page | New v19.1 tactic; Disable or Modify Tools T1685 dominant (188 procedures); **no timing** | Disabling defences directly; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §IV-A | APT *evades* (signature-AV) rather than disables; defense-evasion evidence is hiding → allocated to [[07_stealth]] | Documented near-absence — the low-and-slow APT rarely disables; supports the group-uncertainty finding | [fetched] |
+| [`he2025`](../extractions/he2025.md) §IV | MTD-AD = decision-boundary perturbation vs adversarial-ML *detector evasion*; adaptive attacker aware of the defence | Nearest analogue is detector-evasion (a stealth/impairment concept), not APT network compromise; no per-tactic dwell | [fetched] |
+| — (no in-corpus per-tactic timing) | No extraction assigns a defense-impairment duration | Documented negative; Tier-3 declared, widest sweep | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

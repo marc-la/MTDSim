@@ -47,7 +47,24 @@ T1659 with Initial Access, Traffic Signaling T1205 with Persistence and Stealth)
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: stealth-low-and-slow. No point number. -->
+The literature **confirms `stealth-low-and-slow`** — C2 is a persistent, low-signal channel,
+not a discrete act. Alshamrani describes it as a "long-term connection to victims' devices",
+carried over HTTP/HTTPS (preferred because "labeled as legal in most enterprise"), IRC, P2P or
+custom protocols ([`alshamrani2019`](../extractions/alshamrani2019.md) §II-D) [fetched]. Its
+signature is temporal: malware "typically sent beacon … to C&C servers at given intervals"
+(Villeneuve & Bennett), with DNS-beaconing studies assuming infected hosts contact C2
+"several times per day" (Shalaginov)
+([`alshamrani2019`](../extractions/alshamrani2019.md) §IV-A) [fetched]. A channel that lives
+for the duration of the intrusion and beacons on a regular cadence is the definition of
+low-and-slow.
+
+One counter-tempo sits inside it: the *infrastructure* churns fast — attackers "keep changing
+malicious URLs every couple of minutes" (fast-flux) even as the *channel* persists
+([`alshamrani2019`](../extractions/alshamrani2019.md) §IV-B) [fetched]. So C2's dwell is
+long-lived at the channel level with fast sub-structure, and it is the beacon cadence, not the
+channel lifetime, that an MTD move interval competes against (a §3 ratio-game matter). The
+profile confirms `stealth-low-and-slow` / Tier 3 (declared) — no substrate verb prices
+"maintain a C2 channel". No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -58,9 +75,9 @@ T1659 with Initial Access, Traffic Signaling T1205 with Persistence and Stealth)
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0011 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0011 page | Application Layer Protocol T1071 (544), Ingress Tool Transfer T1105 (515); most platform-uniform tactic; **no timing** | Persistent channel; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-D, §IV-A, §IV-B | "Long-term connection"; HTTP preferred (blends); beacon "at given intervals" / "several times per day"; fast-flux URL rotation "every couple of minutes" | Long-lived channel + fast sub-cadence; the beacon cadence is the MTD-relevant rate — no per-tactic dwell | [fetched] |
+| [`cho2020`](../extractions/cho2020.md) §V-A | Stealthy attackers "stay stealthy until the time comes" | Supports the low-signal persistent character; no per-tactic value | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

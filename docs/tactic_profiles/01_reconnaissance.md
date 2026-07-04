@@ -49,7 +49,31 @@ into another tactic, reinforcing it as a clean pre-compromise stage.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: scan-shaped. No point number. -->
+The literature places APT reconnaissance at the **patient, low-and-slow** end, but the
+"passive" label needs care. Alshamrani calls APT reconnaissance "passive" in the sense of
+*non-exploitative* — "attackers do not exploit a victim, but instead are collecting data
+in preparation for the attack" — yet the same passage lists **active** methods among it:
+port scanning, service scanning, WHOIS/BGP queries and fingerprinting of open ports, OS
+versions, running software and IDS/IPS ([`alshamrani2019`](../extractions/alshamrani2019.md)
+§II-C Stage 1) [fetched]. So reconnaissance *does* include the active probing the substrate
+models; what makes it low-and-slow is tempo and attribution — conducted over time, from
+outside, as human/service tradecraft. Jalowski's 2026 MTD gap-analysis adds the adversarial
+sharpening: APTs favour passive reconnaissance "to remain in the shadows and learn mutation
+patterns over time", so an active-scanning baseline like Nmap is "too naive" as the *only*
+model ([`jalowski2026`](../extractions/jalowski2026.md) §4) [fetched].
+
+This creates a deliberate tension with the `scan-shaped` hypothesis, which the profile
+**confirms for the executable model while flagging the divergence.** The substrate prices
+reconnaissance as an *active* scan verb (`ATTACK_DURATION`), and the L3a nets model the
+in-sim reconnaissance state as that scan — a Tier-1, substrate-anchored action, *not
+tuned*. The patient, extended real-world recon the literature reports is not what the
+simulator meters; it is effectively folded into off-network preparation
+([[02_resource-development]]). Recording this keeps the group honest: reconnaissance stays
+scan-shaped *as modelled* — the substrate's active scan is a fair proxy for the port/service
+scanning and fingerprinting the literature attributes to recon — but the real activity is
+slower, spread over time, and externally staged, a shape-not-scale divergence in *tempo*
+the catalogue header should acknowledge rather than hide. No point number is landed here
+(deferred to §5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -60,9 +84,10 @@ into another tactic, reinforcing it as a clean pre-compromise stage.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0043 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0043 page | 12 parent techniques, all `PRE`; definition + technique list; **no timing** | Establishes off-network, recurrent character; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 1 | APT recon is *non-exploitative* but active (port/service scanning, WHOIS/BGP, fingerprinting), patient and off-network; no duration given | Qualitative low-and-slow *tempo*; the active-scan modality maps to the substrate scan verb — no per-tactic number | [fetched] |
+| [`jalowski2026`](../extractions/jalowski2026.md) §4 | APTs use *passive* recon to "remain in the shadows and learn mutation patterns"; Nmap baselines "too naive" | Confirms passive character; motivates the substrate-proxy caveat in §2 | [fetched] |
+| [`ferraz2024`](../extractions/ferraz2024.md) §5 | CTI tactic ordering is "used only to organize techniques, rather than to recover an execution timeline" | Gap-confirming: even where recon is documented, the corpus carries no dwell | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

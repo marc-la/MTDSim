@@ -48,7 +48,24 @@ families.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: exploit-shaped. No point number. -->
+The literature **confirms `exploit-shaped` for the server-side path, with a caveat for the
+human-triggered vectors.** Alshamrani's Stage 2 enumerates the APT entry set — exploitation
+of *known* vulnerabilities (the majority, per Ussath), spear-phishing (the single most
+common initial-compromise vector), zero-day (rare), watering-hole and web download
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 2, §VIII) [fetched]. The
+server-side exploitation half (Exploit Public-Facing Application T1190, Exploitation of
+Remote Services) is exactly what the substrate's complexity-scaled `exploit_time` prices,
+so those techniques inherit a Tier-1 anchor and are *not tuned*.
+
+The caveat is that the phishing/watering-hole half carries a behaviour the exploit model
+does not capture: after delivery, "attackers patiently wait for the malware to run within
+the organization's network" — a human-triggered, potentially long wait for a user to open
+the attachment ([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 2)
+[fetched]. This is the closest initial-access comes to a low-and-slow dwell, and it sits
+uneasily inside an exploit-priced state. The profile keeps initial-access `exploit-shaped`
+/ Tier 1 (the substrate models entry as an exploit), but records the delivery-wait as a
+shape divergence: the modelled action is a fast exploit, the literature vector is often a
+patient wait. No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -59,9 +76,10 @@ families.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0001 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0001 page | 11 parent techniques; Phishing T1566 dominant (262 procedures); **no timing** | First on-network tactic; models entry as an exploit — no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 2, §VIII | Entry via *known*-vuln exploit (majority), spear-phishing (most common), zero-day rare; post-delivery the attacker "patiently wait[s]" for user-triggered execution | Server-side half → substrate `exploit_time` (Tier 1); the delivery-wait is a shape divergence, not a metered dwell | [fetched] |
+| [`bland2020`](../extractions/bland2020.md) §2.1, §4 | Timed SPN models spear-phishing (CAPEC 163) and XSS (CAPEC 63/66); transition rates "notional … randomly selected between one and ten", realistic rates deferred to SMEs | Declare-and-sweep precedent for this tactic's timing; SME face-validation legitimises a declared value | [fetched] |
+| [`brown2023`](../extractions/brown2023.md) §IV | Substrate prices exploitation by CVSS attack-complexity ∈ [0.4, 1] | The Tier-1 anchor initial-access inherits (complexity-scaled `exploit_time`) | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

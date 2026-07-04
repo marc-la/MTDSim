@@ -48,7 +48,26 @@ tools, reflecting the Mimikatz-class utility ecosystem.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: exploit-shaped. No point number. -->
+The literature **confirms `exploit-shaped`** while flagging that much of the tactic is
+faster than an exploit. Alshamrani places credential access at the heart of the post-foothold
+pivot — "most often, stolen legitimate credentials are used during this stage" — via
+credential dumping with mimikatz ("the most widely used"), WCE and LSA extraction, and
+Ussath's finding that "dumping credentials is the most common chosen method for lateral
+movement" ([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §VIII)
+[fetched]. Dumping and cracking are on-host actions the substrate can price as work, which
+supports the `exploit-shaped` hypothesis.
+
+But the tactic is bimodal in tempo. Dumping and brute force (OS Credential Dumping T1003,
+Brute Force T1110) are effortful; token/ticket/cookie theft and forgery (Steal or Forge
+Kerberos Tickets T1558, Steal Web Session Cookie T1539) are quick *reuse-of-material* acts
+closer to a lookup than an exploit. The RSA SecurID intrusion shows the enabling role
+concretely — after a backdoor the attackers "harvested credentials of several employees"
+before escalating and exfiltrating
+([`alshamrani2019`](../extractions/alshamrani2019.md) §III-D) [fetched]. The profile keeps
+credential-access `exploit-shaped` / Tier 1 (the dumping path is the substrate-priceable
+one), noting the theft-of-material variants run faster. Its load-bearing property — that a
+stolen credential is not location-bound and so *survives* an IP/topology shuffle — is a §3
+(MTD-reset) matter, deferred there. No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -59,9 +78,9 @@ tools, reflecting the Mimikatz-class utility ecosystem.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0006 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0006 page | OS Credential Dumping T1003 (201 procedures); Mimikatz-class tool ecosystem; **no timing** | On-host credential theft; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §VIII, §III-D | "Stolen legitimate credentials"; mimikatz/WCE/LSA; "dumping most common for lateral movement"; RSA harvest-then-escalate | Dumping → substrate-priceable (Tier 1); theft-of-material variants faster — no number | [fetched] |
+| [`brown2023`](../extractions/brown2023.md) §IV | Substrate's attack procedure includes a credential-stuffing/reuse step from previously compromised hosts | The enabling role credential-access plays in the substrate loop | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

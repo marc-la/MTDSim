@@ -61,7 +61,27 @@ layered onto other actions rather than performed in isolation.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: stealth-low-and-slow. No point number. -->
+Stealth is the **anchor of the `stealth-low-and-slow` group** — the tactic from which the
+group takes its name and its character. Alshamrani's entire framing of the APT rests on it:
+the "low and slow approach to increase the rate of their success", attackers who "keep low
+to go undetected", sustained across months
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §II-C) [fetched]. cho2020 states
+the same property formally in its advanced-attacker model — stealthy attackers "do not
+exhibit an identifiable attacking behavior all the time … they stay stealthy until the time
+comes" ([`cho2020`](../extractions/cho2020.md) §V-A) [fetched]. Concealment is less an action
+with a duration than a *tempo* imposed on every other action: obfuscation, masquerading and
+in-memory loading exist to stretch the campaign clock without raising alarms. (Per the v19.1
+split, this paper's abundant "defense-evasion" evidence is hiding/evasion and allocates
+here, not to [[08_defense-impairment]].)
+
+Two consequences for the group. First, stealth confirms `stealth-low-and-slow` by definition
+— it is the reference tactic the group anchor multiplier is calibrated to. Second, because
+stealth contributes a *pace* rather than a discrete dwell, its modelled duration represents
+the low-and-slow spacing it imposes, and the operational-validation caveat bites hardest
+here: a synthetic substrate "omits the realistic noise … APT attackers consider to stay
+undetected and move low and slow" ([`alshamrani2019`](../extractions/alshamrani2019.md) §V)
+[fetched], so stealth's absolute dwell is the least directly observable of all and leans
+hardest on the shape-not-scale, sweep-it discipline. No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -72,9 +92,10 @@ layered onto other actions rather than performed in isolation.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0005 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0005 page | 30 parent techniques (most of any tactic), 3,488 procedures; Obfuscated Files T1027 dominant; **no timing** | Concealment layered on other actions; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §II-C, §IV-A | "Low and slow"; "keep low to go undetected"; evasion set (rootkit, obfuscation, steganography, in-memory, fake certs) | The reference low-and-slow behaviour, the group's namesake; pre-split evasion evidence allocates here — no per-tactic number | [fetched] |
+| [`cho2020`](../extractions/cho2020.md) §V-A | Stealthy attackers "stay stealthy until the time comes" | Formal dwell assumption for the group anchor; no per-tactic value | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §V | Synthetic models omit "the realistic noise … [attackers use] to stay undetected and move low and slow" | Methodological caveat: stealth's absolute dwell is least observable → widest reliance on sweep | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

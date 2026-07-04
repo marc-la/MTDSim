@@ -46,7 +46,27 @@ T1489).
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: objective-execution. No point number. -->
+The literature **confirms `objective-execution`** — impact is the terminal payload of an
+availability-/integrity-focused campaign. Alshamrani's Stage 4 covers the impediment case
+directly: "when the attackers' goal is to undermine critical components, actions comprising
+disabling or destroying the critical components", the canonical instance being Stuxnet's
+sabotage of Iran's uranium centrifuges
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-C) [fetched].
+Unlike the enabling tactics, impact is where the campaign spends its accumulated access, so it
+belongs with collection and exfiltration in the tuned objective-execution group.
+
+Its dwell character is the most bimodal in the set, split by actor type. A ransomware or wiper
+actor's impact is fast and decisive — encryption or destruction executed in a burst once
+positioned (the WannaCry pattern; al-sada2024's per-tactic technique table lists impact as
+Data Encrypted for Impact / Inhibit System Recovery / Service Stop,
+[`al-sada2024`](../extractions/al-sada2024.md) §2 Table 1) [fetched]. An espionage actor with
+a "position for future" goal may never reach impact at all
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C) [fetched]. And the dwell ceiling
+is a *decision*, not a duration — an APT's campaign "ends when … the funding organization gets
+all the data it needs" ([`alshamrani2019`](../extractions/alshamrani2019.md) §I, §II-C Stage
+5) [fetched]. The profile confirms `objective-execution` / Tier 2 (the ransomware/IR literature
+characterises time-to-impact) with a **wide range** spanning burst-impact to never. No point
+number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -57,9 +77,10 @@ T1489).
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0040 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0040 page | Data Encrypted for Impact T1486 (84); ransomware/destruction primitives; no cross-tactic mappings; **no timing** | Terminal payload; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-C, §I | Disabling/destroying components (Stuxnet); dwell ceiling sponsor-bounded ("ends when the org gets the data it needs") | Objective-execution; burst-impact..never — no per-tactic number | [fetched] |
+| [`al-sada2024`](../extractions/al-sada2024.md) §2 Table 1 | WannaCry impact = Data Encrypted for Impact / Inhibit System Recovery / Service Stop | Ransomware = fast decisive impact (contrast to espionage never-reaching) — technique map, no timing | [fetched] |
+| Breach-report milestones (via [precedent survey](../notes/2026-07-04_tactic_duration_precedent_survey.md)) | ransomware dwell ~28 h median (Secureworks 2024); <4 d access→ransomware (IBM X-Force 2023) | Tier-2 macro anchor for the fast-impact end; reconcile before citing | [search] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

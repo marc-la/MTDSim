@@ -50,7 +50,27 @@ beneath many other tactics.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: stealth-low-and-slow. No point number. -->
+The hypothesis is `stealth-low-and-slow`, but execution is the one tactic where the profile
+**flags the group as genuinely unsettled.** Alshamrani couples execution directly to
+concealment — "once the attackers get control of the system through the malware execution …
+they keep low to go undetected to the next phase" — and notes that fileless, in-memory
+execution (Duqu 2.0) is chosen precisely to evade
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 2, §IV-A) [fetched]; both
+read as low-and-slow. cho2020's advanced-attacker model agrees in spirit — stealthy
+attackers "stay stealthy until the time comes"
+([`cho2020`](../extractions/cho2020.md) §V-A) [fetched]. Yet mechanically execution is a
+brief, cross-cutting *verb*: "run code" completes in moments and, as §1 notes, underlies
+most other tactics rather than occupying a dwell of its own.
+
+The reconciliation the profile records for §5 is that execution's low-and-slow character is
+inherited from the **stealth wrapper and the inter-execution spacing** — an APT paces its
+on-host actions to stay quiet — not from the execution act itself, which is fast. That
+leaves two defensible readings: keep execution `stealth-low-and-slow` if the modelled state
+represents the *paced cadence* of on-host action, or move it toward a fast/near-zero verb if
+it represents only the *act*. The literature supports the former, the mechanism the latter.
+This is an unresolved group boundary, and the honest consequence is a **wide sweep** on
+execution's multiplier until the runner shows which reading the timeline needs. No point
+number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -61,9 +81,10 @@ beneath many other tactics.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0002 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0002 page | Command/Scripting Interpreter T1059 dominant (1,017 procedures); cross-cutting; **no timing** | Confirms execution is a verb beneath other tactics; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 2, §IV-A | Execution "keep[s] low to go undetected"; fileless/in-memory (Duqu 2.0) chosen to evade | Qualitative stealth-coupling (paced cadence), but the act itself is fast — no per-tactic number | [fetched] |
+| [`bland2020`](../extractions/bland2020.md) §2.1 | CAPEC-modelled attack steps carry transition rates "notional … randomly selected between one and ten" | Declare-and-sweep precedent for step-level execution timing | [fetched] |
+| [`cho2020`](../extractions/cho2020.md) §IV-A-8 | OS-rotation "exposure window" = "duration of an OS being exposed and vulnerable" | A defender-side window, not attacker execution dwell — no per-tactic value | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

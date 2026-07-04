@@ -50,7 +50,25 @@ elevated context.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: stealth-low-and-slow. No point number. -->
+The literature **confirms `stealth-low-and-slow` strongly.** Persistence is the durability
+layer whose whole purpose is to outlast time: Alshamrani describes multi-host backdoors plus
+valid VPN credentials and observes that once persistence is established "it is very difficult
+to completely push out such attacker out of the environment"
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3) [fetched]. FireEye's
+M-Trends finding of backdoors "loaded even before the operating system was loaded"
+([`alshamrani2019`](../extractions/alshamrani2019.md) §I) [fetched] sharpens the character —
+a pre-OS/bootkit foothold is built to survive reboots, reimaging and OS changes. cho2020's
+advanced-attacker model frames the same property: stealthy attackers "stay stealthy until
+the time comes" ([`cho2020`](../extractions/cho2020.md) §V-A) [fetched], and persistence is
+what lets them wait.
+
+The dwell character is therefore long-lived by design, and — unlike the enabling tactics —
+persistence is valuable precisely *between* actions rather than during them. cho2020 finds
+optimal-defence outcomes hinge on "whether the attacker's goal required a persistent
+foothold" ([`cho2020`](../extractions/cho2020.md) §VI-A) [fetched], marking persistence as
+the tactic whose dwell most directly drives the MTD comparison. The profile confirms
+`stealth-low-and-slow` / Tier 3 (declared) — no substrate verb prices "maintain a foothold".
+No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -61,9 +79,10 @@ elevated context.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0003 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0003 page | 22 parents / 91 subs; Valid Accounts T1078, autostart T1547; **no timing** | The durability layer; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §I | Multi-host backdoors + valid creds; "very difficult to push out"; pre-OS bootkits "loaded before the OS" | Long-lived/sticky character; valuable between actions — no per-tactic number | [fetched] |
+| [`cho2020`](../extractions/cho2020.md) §V-A, §VI-A | Stealthy attackers "stay stealthy until the time comes"; defence hinges on "whether the goal required a persistent foothold" | Frames persistence as the dwell that drives the MTD comparison; no per-tactic value | [fetched] |
+| — (no in-corpus per-tactic timing) | No extraction assigns a persistence duration | Documented negative (the gap); confirms Tier-3 *declared* | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

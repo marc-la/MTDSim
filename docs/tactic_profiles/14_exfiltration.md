@@ -45,7 +45,24 @@ footprint than the enabling tactics.
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: objective-execution. No point number. -->
+The literature **confirms `objective-execution`** with a distinctive stealth-shaped spread.
+Exfiltration is the terminal act of a data-theft campaign, and Alshamrani describes its
+behaviour precisely: because "most IDS/IPS do ingress filtering and not outgress filtering",
+exfiltration often succeeds, and a careful attacker "intelligently split[s] the data
+exfiltration into batches and to servers with different IP addresses"
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4) [fetched]. The RSA
+intrusion exfiltrated over FTP after compressing and encrypting the data
+([`alshamrani2019`](../extractions/alshamrani2019.md) §III-D) [fetched]. So the tactic is
+objective-execution — it acts on the goal — but its *shape* is deliberately paced and
+fragmented to stay under detection thresholds.
+
+That gives exfiltration a dual character: a terminal objective (like impact) whose execution
+is spread low-and-slow (like stealth). It joins collection and impact in the tuned
+`objective-execution` group / Tier 2 — the group the breach literature can calibrate, since it
+reports access→exfil milestones even though it publishes no per-tactic dwell (per the
+[precedent survey](../notes/2026-07-04_tactic_duration_precedent_survey.md)). The batched,
+IP-diversified spread argues its multiplier should admit a **wide range** (fast bulk transfer
+vs slow trickle). No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -56,9 +73,9 @@ footprint than the enabling tactics.
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0010 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0010 page | Small (9 parents); Exfiltration Over C2 Channel T1041 (201, >half); size-limit/scheduled-transfer shaping; **no timing** | Terminal objective; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-D | Batched + IP-diversified to evade ingress-only filtering; RSA compress+encrypt→FTP | Objective-execution with a stealth-shaped spread → wide range; no per-tactic number | [fetched] |
+| Breach-report milestones (via [precedent survey](../notes/2026-07-04_tactic_duration_precedent_survey.md)) | access→exfil ~73 h (Sophos AAR 2025); median exfil ~2 d (Unit 42 2025) — whole-campaign, not per-tactic | Tier-2 macro calibration target for the objective-execution anchor; reconcile before citing | [search] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

@@ -46,7 +46,25 @@ set than the enabling tactics (Execution, Stealth, Discovery).
 
 ## 2. APT relevance — group-assignment argument
 
-<!-- Low-and-slow or fast? Argue the group. Hypothesis to confirm/overturn: exploit-shaped. No point number. -->
+The literature **confirms `exploit-shaped`** but reveals a dwell character spanning fast-worm
+to slow-manual. The credential-reuse path Alshamrani foregrounds — pass-the-hash, valid
+credentials, "spread over to other systems … access other hosts from a compromised system"
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3) [fetched] — is
+deliberate and human-paced, and often chosen (per §1) precisely because it is quieter than
+exploitation. At the other extreme, Stuxnet moved *automatically*, worm-style: LNK files via
+shared drives, the print-spooler flaw via shared printers, and a hard-coded Siemens Step7
+password to reach database servers
+([`alshamrani2019`](../extractions/alshamrani2019.md) §III-C) [fetched] — self-propagating
+lateral movement at machine speed.
+
+That span is the finding for the group. Lateral movement's dominant form (Remote Services
+T1021 logins, Exploitation of Remote Services T1210) is a remote-service login/exploit the
+substrate prices, so the tactic sits `exploit-shaped` / Tier 1. But its character is wide — a
+patient manual pivot or an automatic worm sweep — which argues for a **wider sweep** than the
+other exploit-shaped tactics. Johnson & Hogan model the movement as graph reachability ("how
+likely a node is to be reached from another arbitrary node",
+[`alshamrani2019`](../extractions/alshamrani2019.md) §IV-C-1) [fetched], the property a
+topology shuffle attacks (a §3 matter). No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -57,9 +75,10 @@ set than the enabling tactics (Execution, Stealth, Discovery).
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
-| ATT&CK TA0008 page | <definition / techniques; timing?> | — | [fetched] |
-| <in-corpus extraction> | <> | <> | [fetched] |
-| <external, if any> | <> | <> | [search] |
+| ATT&CK TA0008 page | Compact (9 parents); Remote Services T1021 dominant (190 procedures); **no timing** | Pivot per hop; no duration to inherit | [fetched] |
+| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §III-C | Credential-reuse pivot (PtH/valid creds, quieter) vs Stuxnet worm-style auto-propagation (LNK/print-spooler/Step7 pw) | Character spans slow-manual..fast-worm → wider sweep; exploit form → substrate (Tier 1) | [fetched] |
+| [`brown2023`](../extractions/brown2023.md) §IV | Substrate prices remote-service exploitation by CVSS complexity; a path shuffle forces re-discovery of reachable hosts | Tier-1 anchor + reset semantics (→§3) | [fetched] |
+| [`rodriguez2024`](../extractions/rodriguez2024.md) §3 | Tactic-level ATT&CK Petri nets are **untimed** | Gap-confirming: no per-tactic rate | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
