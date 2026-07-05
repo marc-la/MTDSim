@@ -108,6 +108,44 @@ updated: 2026-07-04
 - `observation_count` must **never** leak in as a timing signal
   ([`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f)).
 
+## Steps remaining (as of 2026-07-05)
+
+Evidence-gathering (Steps A–C) is complete: §1/§2/§4 are filled and reconciled
+for all 15 profiles. **Step D is optional** — only run it for a specific tactic
+whose §4 is still thin (none currently blocks §5). Three things remain, in order:
+
+1. **Step E — fill §3 (MTD interaction / reset verdict), all 15 profiles**
+   (detail below). *Don't re-mine the MTD papers* — the §3 evidence is already
+   staged: the alshamrani2019 per-tactic MTD-effect block + reset-verdict matrix
+   (from Step B), plus the new Step-C reset inputs to fold in:
+   - **initial-access foothold is reset-*vulnerable*** (Selmanaj: "short-lived if
+     the target changes their passwords"); **discovery / lateral-exploit** force
+     re-discovery on a shuffle (brown2023);
+   - **persistence and stolen credentials / auth-material are reset-*survivors***
+     (Selmanaj credential-access + T1550; M-Trends BRICKSTORM "survives
+     remediation and reboots") — and persistence can **adapt around a periodic
+     reset** (account-manipulation defeats password-rotation);
+   - **C2 reset is *partial*, not clean** — proxies/CDN-fronting give "resiliency
+     in the face of connection loss" (Selmanaj Proxy T1090), so a shuffle
+     disrupts but doesn't reliably invalidate C2 → wider sweep;
+   - **resource-development is reset-*immune*** (off-network).
+2. **Step F — fill §5 (catalogue inputs), all 15 profiles** (detail below):
+   group (confirm/overturn the stub hypothesis) + relative multiplier + sweep
+   range + tier + one-paragraph justification. Carry the Step-C findings that
+   move the bets: group anchors beat per-tactic values (ling2023's shared 6-day
+   expert floor); C2/stealth-hiding are Tier-3 *declared* (CVE timing can't price
+   them); `execution` and `defense-impairment` stay genuinely unsettled → wide
+   sweep; objective tactics anchor to the macro milestone chain (breakout ~29 min,
+   access→AD ~3–16 h, access→exfil ~73–79 h, TTR 2 h–328 h, dwell 14 d/122 d/~400 d).
+3. **The catalogue — `data/ogasp/tactic_durations.json` + provenance rows**
+   (detail under "Then the catalogue" below). Distil §5 into the machine
+   artefact; every place-union tactic gets an entry; fill the `pending` regime
+   row in [`../specs/provenance.md`](../specs/provenance.md).
+
+Only after all three: flip profiles `stub` → `reconciled` and clear the
+Validation gate. **This handoff is deleted in the commit that ships the
+catalogue** (session-workflow lifecycle).
+
 ## Recommended approach
 
 **Do the 15 profiles first (mechanical, below), then distil the catalogue.** The
@@ -141,13 +179,20 @@ before searching externally:
 - *CTI structure / adaptivity:* `attackflow`, `zhang2025attackg`, `brown2023`,
   `bianco2013` (pyramid of pain — cost-to-attacker), `jalowski2026` (adaptive).
 
-**Step C — Known-but-not-yet-extracted (fills §4).** From the survey / your
-reading: **Selmanaj** (you're reading it — extract it), **Ling & Ekstedt 2023**
-(per-technique TTC from CVE data), **McQueen 2006** (MTTC lineage), **Xiong 2021**
-(enterpriseLang/MAL). Macro calibration targets: **Mandiant M-Trends** (dwell),
-**CrowdStrike GTR** (breakout), **Sophos Active Adversary Report** (best
-granularity — access→AD, access→exfil milestones), **The DFIR Report** (per-case
-timestamps). Flag every claim `[fetched]` vs `[search]`.
+**Step C — Known-but-not-yet-extracted (fills §4).** **[DONE 2026-07-05 — all 15;
+committed `f0e86ed`.]** Selmanaj book, Ling & Ekstedt 2023, McQueen 2006, Xiong 2021
+(SoSyM + CSIMQ), and the macro targets (M-Trends, CrowdStrike GTR, Sophos AAR, DFIR
+Report) fetched to `docs/sources/tactic_profiles/step_c/` (gitignored) and dissected
+full-text into seven extractions — [`../extractions/ling2023.md`](../extractions/ling2023.md),
+[`../extractions/mcqueen2006.md`](../extractions/mcqueen2006.md),
+[`../extractions/xiong2021.md`](../extractions/xiong2021.md),
+[`../extractions/selmanaj2024.md`](../extractions/selmanaj2024.md),
+[`../extractions/syed2025.md`](../extractions/syed2025.md),
+[`../extractions/chemat2024.md`](../extractions/chemat2024.md), and the consolidated
+[`../extractions/breach_reports_macro_timing.md`](../extractions/breach_reports_macro_timing.md).
+§4 rows added to all 15; the two `[search]` macro rows reconciled to `[fetched]`.
+One `[search]` remains by design (the Bromiley/SANS hacker survey in
+[`12_collection`](../tactic_profiles/12_collection.md), second-hand via ling2023).
 
 **Step D — Targeted external search (fills §4, only if A–C thin).** Mechanical
 search strings, substitute `<TACTIC>` (and for the split tactics, run once for
