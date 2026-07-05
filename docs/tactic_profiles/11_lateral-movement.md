@@ -79,6 +79,8 @@ topology shuffle attacks (a §3 matter). No point number (§5).
 | [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §III-C | Credential-reuse pivot (PtH/valid creds, quieter) vs Stuxnet worm-style auto-propagation (LNK/print-spooler/Step7 pw) | Character spans slow-manual..fast-worm → wider sweep; exploit form → substrate (Tier 1) | [fetched] |
 | [`brown2023`](../extractions/brown2023.md) §IV | Substrate prices remote-service exploitation by CVSS complexity; a path shuffle forces re-discovery of reachable hosts | Tier-1 anchor + reset semantics (→§3) | [fetched] |
 | [`rodriguez2024`](../extractions/rodriguez2024.md) §3 | Tactic-level ATT&CK Petri nets are **untimed** | Gap-confirming: no per-tactic rate | [fetched] |
+| [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (CrowdStrike GTR; DFIR) | **Breakout time** *is* initial-access → lateral-movement: avg **29 min** / fastest **27 s** (2026), 48 min / 51 s (2025); DFIR lateral movement at **+10 min to +2 h** post-access | The one macro statistic anchored *to this exact transition*; bounds the fast (eCrime) end of the lateral hop — whole-transition, not a per-tactic dwell | [fetched] |
+| [`ling2023`](../extractions/ling2023.md) §Results, Table 7 | Lateral-movement techniques (Exploitation of Remote Services, Lateral Tool Transfer) → *Access Control*; Lateral Tool Transfer TTC = 3594/98/15/**6** d (novice→expert) | Per-technique empirical shape + expert 6-day floor for the exploit-move variant; the credential-/auth-material-move variant has no CVE (reset-survives) | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

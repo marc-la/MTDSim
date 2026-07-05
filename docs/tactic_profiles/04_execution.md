@@ -85,6 +85,8 @@ number (§5).
 | [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 2, §IV-A | Execution "keep[s] low to go undetected"; fileless/in-memory (Duqu 2.0) chosen to evade | Qualitative stealth-coupling (paced cadence), but the act itself is fast — no per-tactic number | [fetched] |
 | [`bland2020`](../extractions/bland2020.md) §2.1 | CAPEC-modelled attack steps carry transition rates "notional … randomly selected between one and ten" | Declare-and-sweep precedent for step-level execution timing | [fetched] |
 | [`cho2020`](../extractions/cho2020.md) §IV-A-8 | OS-rotation "exposure window" = "duration of an OS being exposed and vulnerable" | A defender-side window, not attacker execution dwell — no per-tactic value | [fetched] |
+| [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Execution) | A fast enabling verb — "Once the attacker has successfully executed their code, they can start to carry out their malicious goals" (fileless/in-memory PowerShell) | Frames execution as the quick pivot, not a dwell — supports the "fast verb in a stealth wrapper" reading flagged unsettled in Step B; no number | [fetched] |
+| [`ling2023`](../extractions/ling2023.md) Appendix A | Execution techniques map to code/command-injection vuln categories (Command-Line Interface → Direct Shell Command; Native API → Command Injection) | Per-technique CVE shape exists for execution, unlike C&C/hiding; still no dwell (empirical method needs real CVEs) | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

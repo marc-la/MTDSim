@@ -1,8 +1,17 @@
 ---
 status: durable
 created: 2026-07-04
+updated: 2026-07-05
 topic: precedent survey — does anyone assign per-ATT&CK-tactic durations, and where do timed-APT-model numbers come from
 ---
+
+> **Step-C reconciliation (2026-07-05):** the survey's known-but-unextracted
+> sources and macro calibration targets are now dissected into
+> [`../extractions/`](../extractions/) and reconciled from **[search]** to
+> **[fetched]** — Ling & Ekstedt 2023, McQueen 2006, Xiong 2021 (both the SoSyM
+> and CSIMQ papers), Selmanaj 2024, Syed 2025, Che Mat 2024, and the four macro
+> vendor bundles (M-Trends, CrowdStrike GTR, Sophos AAR, DFIR). The gap verdict
+> is **unchanged and strengthened**; edits below are inline.
 
 # Nobody assigns justified per-ATT&CK-*tactic* durations — the gap is real, and the field norm is "declare and sweep"
 
@@ -65,7 +74,14 @@ The load-bearing precedents:
   arbitrariness**: one sub-process mean set "*somewhat arbitrarily*" at 8 hours,
   another anchored empirically at 5.8 days (vuln-announcement→exploit-code). The
   canonical citation for "declare a stage time, justify it in prose, move on".
-  **[fetched]** (OSTI PDF).
+  **[fetched]** — now dissected full-text (OSTI 911165) into
+  [`../extractions/mcqueen2006.md`](../extractions/mcqueen2006.md) (Step C,
+  2026-07-05). New finding: the model's Process-3 dwell is a **declared per-skill
+  constant** — 21 d (expert) → 193 d (novice) to compromise a component with *no
+  known vulnerability* — the closest thing in the lineage to a declared
+  per-stage dwell, and an order-of-magnitude envelope for stealth-tactic dwell.
+  The paper also states TTC "*decreases over time* unless there is constant
+  effort" — near-direct MTD relevance.
 - **Mendonça 2023** (DSPN MTD performance model, *J. Defense Modeling & Sim.*) —
   our Tier-2 analytical-MTD precedent [extraction:
   [`../extractions/mendonca2023.md`](../extractions/mendonca2023.md)]. Full text
@@ -97,23 +113,40 @@ The load-bearing precedents:
   do, per [`./2026-06-18_cti_to_executable_behaviour.md`](./2026-06-18_cti_to_executable_behaviour.md)
   §4 level 3 / BRON). It's the citation for "the frontier of putting numbers on
   ATT&CK stops at technique/CVE level" — which is exactly the gap boundary we sit
-  just past. Worth its own extraction file.
-- **Xiong et al. 2021** (enterpriseLang / MAL, *SoSyM*) — attack-sim language over
-  ATT&CK where steps carry **TTC probability distributions** run by Monte Carlo,
-  but the distributions are **expert-declared defaults**, not empirically fitted.
-  (b) at technique level. **[search]** on the "expert-declared" characterisation.
+  just past. **[fetched]** — now dissected into
+  [`../extractions/ling2023.md`](../extractions/ling2023.md) (Step C). New
+  findings: under an **expert (APT) assumption the per-technique method
+  degenerates to a shared 6-day floor** (empirical support for group anchors over
+  15 per-tactic values); and CVE-based timing **structurally cannot price**
+  command-and-control or the hiding half of evasion ("not exploiting a
+  vulnerability") — those tactics are free parameters in *any* model.
+- **Xiong et al. 2021** — **two distinct papers, both now [fetched] and
+  reconciled (Step C):** (a) the **SoSyM enterpriseLang** paper
+  ([`../extractions/xiong2021.md`](../extractions/xiong2021.md)) ships
+  **untimed** — the MAL machinery *supports* per-step TTC distributions but the
+  published language does not assign them (equal-width edges "owing to the lack
+  of probability distributions"; distributions deferred to future work). So the
+  flagship ATT&CK-wide simulation language corroborates the gap rather than
+  filling it. (b) The **CSIMQ companion** (Xiong, Hacks & Lagerström 2021, 26:55–77)
+  is the one that assigns distributions — **corrected characterisation:** not raw
+  "expert-declared defaults" but a **systematic literature review with
+  credibility assessment** ("we assess their quality by credibility assessment …
+  interpret and convert information into probability distributions"), explicitly
+  an improvement on the prior "rely on security experts" norm — still (b)-class
+  (qualitative→quantitative conversion, not empirically fitted rates). The
+  earlier **[search]** "expert-declared" flag is resolved.
 
 ### Corpora: sequence yes, timing no
 
-- **AbSamad99/APTsDataset** (the repo Marc flagged) — 24 Caldera-executed
-  campaigns across ~14 actors, captured via ELK. The curated `Sequence.json` has
-  **exactly three fields: `Node`, `Tactic`, `Technique`** — a pure ordered
-  technique-sequence, **no timestamps/durations** [fetched a sample:
-  `{"Node":"Server","Tactic":"Persistence","Technique":"Cron"}`]. Structurally
-  the same shape as our own Attack Flow corpus. The per-campaign `logs.7z` holds
-  **raw ELK telemetry with event `@timestamp`s** — so timing is *derivable* there
-  but not curated (needs extraction + re-binning to tactics). **[fetched]** repo /
-  **[search]** on the logs' internals.
+- **AbSamad99/APTsDataset** (the repo Marc flagged) — its paper is **Syed et al.
+  2025** (IEEE Networking Letters), now dissected into
+  [`../extractions/syed2025.md`](../extractions/syed2025.md) (Step C): **23
+  Caldera-executed campaigns across 12 APTs**, 83 techniques / ~290 abilities
+  over 14 tactics, captured via ELK. The curated `Sequence.json` is a pure
+  ordered technique-sequence, **no adversary-tempo timing**; the Caldera ability
+  timestamps measure *testbed execution latency*, not dwell. The raw `logs.7z`
+  holds ELK `@timestamp`s — timing *derivable* but not curated (same heavy
+  sourcing-decision class as DARPA OpTC/TC). **[fetched]** (paper + repo).
 - **Attack Flow** (CTID) — its `attack-action` schema **defines optional
   `execution_start` / `execution_end` timestamps** — the exact intended home for
   per-technique timing — but the **public corpus leaves them empty** (built from
@@ -153,21 +186,24 @@ PDFs before citing — several are **[search]**):
 
 | Source | Latest figure | Metric | Granularity |
 |---|---|---|---|
-| Mandiant M-Trends | ~14 days (2026 ed.) **[fetched]** | global median dwell | whole-intrusion (only split by detection source) |
-| CrowdStrike GTR | ~29 min avg / 27 s fastest (2026 ed.) | breakout time | single transition: initial-access → lateral-movement |
-| Sophos Active Adversary | dwell 3–4 d; access→AD ~11 h; access→exfil ~73 h (2025) **[search]** | multi-milestone chain | **best industry granularity — 3–4 named milestones** |
+| Mandiant M-Trends | **14 days** (2026 ed.); espionage/DPRK 122 d; BRICKSTORM ~400 d; access→hand-off 8 h (2022)→22 s (2025) **[fetched]** | global median dwell + splits | whole-intrusion (detection-source split: 26 d external / 5 d adversary / 10 d internal) |
+| CrowdStrike GTR | **29 min avg / 27 s fastest** (2026 ed.); 48 min / 51 s (2025); one case exfil +4 min **[fetched]** | breakout time | single transition: initial-access → lateral-movement |
+| Sophos Active Adversary | dwell 2–3 d; **access→AD ~3.4 h (2026) / 11 h (2025)**; **access→exfil ~73–79 h**; exfil→detection ~2 h **[fetched]** | multi-milestone chain | **best industry granularity — named milestones** |
+| The DFIR Report | **per-case TTR 2 h / 118 h / 328 h**; Mimikatz +20 min; lateral +10 min–2 h post-access **[fetched]** | per-incident timestamps | **per-technique but per-case, not aggregate** |
 | Secureworks | ~28 h median ransomware dwell (2024) **[search]** | whole-campaign dwell | whole-campaign (bimodal) |
 | IBM X-Force | <4 d access→ransomware (2023; later unconfirmed) **[search]** | single transition | single transition |
 | Unit 42 | median exfil ~2 d (2025) **[search]** | single transition | whole-campaign |
-| The DFIR Report | per-case TTR 2 h–29 d; lateral-move mins–1 h post-access **[search]** | per-incident timestamps | **per-technique but per-case, not aggregate** |
 | DARPA OpTC / TC | datasets (2018–2020) | timestamped red-team ground truth | **per-action → derivable per-tactic** |
 
-Cross-report comparability is weak (each vendor defines dwell/breakout and its
-start/end anchors differently, over different populations) — treat them as
-independent calibration points, not one consistent timeline. This *reinforces*
-the shape-not-scale decision in the operational-validation note: the honest use
-of these is to set *relative* structure and a plausibility envelope, not absolute
-per-tactic times.
+The four top rows are **reconciled to primary sources (Step C, 2026-07-05)** and
+consolidated in [`../extractions/breach_reports_macro_timing.md`](../extractions/breach_reports_macro_timing.md);
+Secureworks/IBM/Unit 42 remain **[search]** (not re-fetched — the four fetched
+vendors already span the fast↔slow envelope). Cross-report comparability is weak
+(each vendor defines dwell/breakout and its start/end anchors differently, over
+different populations) — treat them as independent calibration points, not one
+consistent timeline. This *reinforces* the shape-not-scale decision in the
+operational-validation note: the honest use of these is to set *relative*
+structure and a plausibility envelope, not absolute per-tactic times.
 
 ## How it connects
 
@@ -182,10 +218,17 @@ per-tactic times.
   so most non-substrate tactics land in Tier 3 with the sweep discipline.
 - **To the lit review:** existing extractions (bland2020, mendonca2023,
   rodriguez2024) confirmed and characterised for *parameter sourcing*
-  specifically. **New extraction candidates:** Ling & Ekstedt 2023 (the one
-  per-technique empirical case), McQueen 2006 (MTTC lineage), Xiong 2021
-  (enterpriseLang/MAL per-technique TTC). Reconcile the **[search]**-flagged
-  claims before any lands in a chapter.
+  specifically. **New extraction candidates — all now dissected (Step C,
+  2026-07-05):** [`ling2023`](../extractions/ling2023.md) (the one per-technique
+  empirical case), [`mcqueen2006`](../extractions/mcqueen2006.md) (MTTC lineage),
+  [`xiong2021`](../extractions/xiong2021.md) (enterpriseLang — ships untimed) +
+  the CSIMQ companion flag settled; plus [`selmanaj2024`](../extractions/selmanaj2024.md)
+  (adversary-emulation textbook — per-tactic MO + smash-and-grab/slow-and-deliberate
+  cadence), [`syed2025`](../extractions/syed2025.md) (Caldera APT corpus —
+  sequence-no-timing), [`chemat2024`](../extractions/chemat2024.md) (APT-behaviour
+  SLR), and the [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md)
+  bundle. The **[search]** macro figures are reconciled to primary sources; only
+  Secureworks/IBM/Unit 42 remain unreconciled (not needed).
 - **To open sourcing decisions:** DARPA OpTC/TC as an empirical per-tactic-timing
   source is a *new sourcing category* — heavy, and not yet classified by the
   specs. Flag for a decision rather than assuming it's in scope.

@@ -83,6 +83,8 @@ No point number (§5).
 | [`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §II-C Stage 3 | Internal network scanning / internal recon (Carbanak keyloggers/video); position-for-future = indefinite passive watching | Scan modality → substrate scan (Tier 1); position-for-future is slower — no number | [fetched] |
 | [`rodriguez2024`](../extractions/rodriguez2024.md) §2–3 | The paper's tactic-level example is discovery via Network Service Discovery T1046 (Nmap); the Petri net is **untimed** | Gap-confirming: even the one tactic-level model gives discovery *ordering*, not dwell | [fetched] |
 | [`brown2023`](../extractions/brown2023.md) §IV | Substrate models host-discovery + port-scan as timed phases; a shuffle forces re-discovery | The scan-shaped anchor discovery inherits; reset semantics (→§3) | [fetched] |
+| [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Discovery) | "The discovery phase can take a long time"; DFIR BlackSuit case ran discovery (systeminfo/nltest/Sharphound) **~6 h after initial access** | Tempers pure scan-speed with a slower internal-enumeration character (a shape divergence like reconnaissance's); the modality still maps to the substrate scan — no per-tactic number | [fetched] |
+| [`ling2023`](../extractions/ling2023.md) Appendix A (Discovery) | Discovery techniques (Remote System Discovery, Network Connection Enumeration) → *Information Leakage* vuln category | Per-technique CVE shape for discovery; no dwell (method needs real CVEs) | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

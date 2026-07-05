@@ -77,6 +77,8 @@ but is the tactic least coupled to the on-network timeline. No point number here
 |---|---|---|---|
 | ATT&CK TA0042 page | 9 parent techniques, all `PRE`; acquire/compromise pairs; **no timing** | Confirms off-network staging; no duration to inherit | [fetched] |
 | [`alshamrani2019`](../extractions/alshamrani2019.md) §I, §II-C Stage 1 | Tool/plan/malware prep happens off-network before the foothold ("construct an attacking plan and prepare the necessary tools") | Supports near-zero *in-sim* dwell — the work precedes the simulator's clock | [fetched] |
+| [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Resource Development) | Resource development "takes place outside of the company's protection and control. As a result, preventive measures may not be effective"; infrastructure is agile ("quickly provision, modify, and shut down … abort a mission and move on") | Emulation-textbook confirmation of the off-network verdict → near-zero *in-sim* dwell + reset-immune (an MTD shuffle can't touch it); no per-tactic number | [fetched] |
+| [`syed2025`](../extractions/syed2025.md) §IV-A | Caldera adversary profiles were hand-built off-network from CTI ("we were not able to find playbooks … referred to multiple CTI sources"); prep precedes execution | Corroborates prep-off-network; the dataset's timestamps are execution latency, not prep dwell — documented gap | [fetched] |
 | — (no in-corpus per-tactic timing) | No extraction assigns a duration to resource-development | Documented negative — this is the gap, and here it coincides with a near-zero in-network verdict | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`

@@ -88,6 +88,7 @@ the catalogue header should acknowledge rather than hide. No point number is lan
 | [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 1 | APT recon is *non-exploitative* but active (port/service scanning, WHOIS/BGP, fingerprinting), patient and off-network; no duration given | Qualitative low-and-slow *tempo*; the active-scan modality maps to the substrate scan verb — no per-tactic number | [fetched] |
 | [`jalowski2026`](../extractions/jalowski2026.md) §4 | APTs use *passive* recon to "remain in the shadows and learn mutation patterns"; Nmap baselines "too naive" | Confirms passive character; motivates the substrate-proxy caveat in §2 | [fetched] |
 | [`ferraz2024`](../extractions/ferraz2024.md) §5 | CTI tactic ordering is "used only to organize techniques, rather than to recover an execution timeline" | Gap-confirming: even where recon is documented, the corpus carries no dwell | [fetched] |
+| [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Reconnaissance) | Passive recon is "the least risky … characteristic of an APT behavior" but "time-consuming"; active recon "generally a sign of an ongoing attack"; recon "can occur at any stage" | Emulation-textbook confirmation of the patient/off-network default; the active modality is what the substrate scan-prices — no per-tactic number | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

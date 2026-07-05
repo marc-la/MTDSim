@@ -82,6 +82,9 @@ token-abuse variant runs faster than the anchor implies. No point number (§5).
 | [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §III-C | Escalation on demand; Stuxnet 2 Windows 0-days → "full control"; method depends on environment | Exploit form → substrate `exploit_time` (Tier 1); token-abuse variant is faster — no number | [fetched] |
 | [`brown2023`](../extractions/brown2023.md) §IV | Substrate prices exploitation by CVSS attack-complexity ∈ [0.4, 1] | The Tier-1 anchor privilege-escalation inherits | [fetched] |
 | [`rodriguez2024`](../extractions/rodriguez2024.md) §3 | Tactic-level ATT&CK Petri nets are **untimed** — timestamps only *order* events | Gap-confirming: no per-tactic rate even in a tactic-level model | [fetched] |
+| [`xiong2021`](../extractions/xiong2021.md) §5.1.2 | enterpriseLang models PE as a hard permission gate: a `userRights` adversary "cannot use a technique that requires Administrator"; "an adversary can level up through Privilege Escalation … to gain adminRights" | Formal-model precedent for PE as a *gating state* that unlocks an admin-only technique subset — PE dwell is spent before those become reachable; structural, no timing | [fetched] |
+| [`ling2023`](../extractions/ling2023.md) Appendix A, Table 7 | PE (Exploitation for Privilege Escalation) → *Authentication* vuln category; expert TTC floor **6 days** | Per-technique empirical shape for exploit-priced escalation; expert floor supports the exploit-shaped group anchor | [fetched] |
+| [`mcqueen2006`](../extractions/mcqueen2006.md) §3.1.2 | Easy-exploit compromise mean **1 day**; the no-easy-exploit declared dwell **21 d (expert)** | MTTC-lineage declared value for the exploit-shaped case; a Tier-2 plausibility envelope for escalation dwell | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

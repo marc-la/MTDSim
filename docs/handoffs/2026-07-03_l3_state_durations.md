@@ -15,11 +15,41 @@ updated: 2026-07-04
 
 ## State of play
 
-- **Steps A & B are DONE (2026-07-04) — resume at Steps E then F (C/D only if a
-  gap needs filling).** All 15 `docs/tactic_profiles/*.md` now have **§1 (tactic &
-  role)** [Step A] plus **§2 (group-assignment argument)** and **§4 (timing
-  evidence table)** [Step B] filled. Files stay `status: stub` — §3 (Step E) and
-  §5 (Step F) are still empty, so they are not yet `drafted`.
+- **Steps A, B & C are DONE (A/B 2026-07-04; C 2026-07-05) — resume at Steps E
+  then F (D only if a gap needs filling).** All 15 `docs/tactic_profiles/*.md`
+  now have **§1 (tactic & role)** [Step A] plus **§2 (group-assignment
+  argument)** and **§4 (timing evidence table)** filled [Steps B+C]. Files stay
+  `status: stub` — §3 (Step E) and §5 (Step F) are still empty, so they are not
+  yet `drafted`.
+- **Step C is DONE (2026-07-05).** The eight known-but-not-yet-extracted sources
+  named in Step C (Selmanaj book, Ling & Ekstedt 2023, McQueen 2006, Xiong 2021,
+  plus the macro targets M-Trends, CrowdStrike GTR, Sophos AAR, DFIR Report) were
+  fetched to `docs/sources/tactic_profiles/step_c/` (gitignored) and dissected
+  full-text into **seven new extractions** —
+  [`../extractions/ling2023.md`](../extractions/ling2023.md),
+  [`../extractions/mcqueen2006.md`](../extractions/mcqueen2006.md),
+  [`../extractions/xiong2021.md`](../extractions/xiong2021.md),
+  [`../extractions/selmanaj2024.md`](../extractions/selmanaj2024.md),
+  [`../extractions/syed2025.md`](../extractions/syed2025.md),
+  [`../extractions/chemat2024.md`](../extractions/chemat2024.md), and the
+  consolidated [`../extractions/breach_reports_macro_timing.md`](../extractions/breach_reports_macro_timing.md).
+  Five independent completeness-critic agents (ling, xiong, mcqueen, selmanaj,
+  macro) re-read the primaries; misses folded in. **New §4 rows added to all 15
+  profiles** and the two `[search]` macro rows (exfiltration, impact) reconciled
+  to `[fetched]` from the primary vendor reports. **Load-bearing new evidence:**
+  (i) the empirical per-technique method (ling2023) **degenerates to a shared
+  6-day expert floor** and **structurally cannot price C&C or the hiding half of
+  evasion** — reinforcing group anchors over per-tactic values and Tier-3 for
+  C2/stealth; (ii) McQueen's **21-day (expert) no-known-vuln dwell** is a
+  declared per-stage dwell precedent + order-of-magnitude envelope; (iii) the
+  macro milestone chain now anchors the objective tactics — **breakout 29 min /
+  27 s** (access→lateral), **access→AD ~3–16 h**, **access→exfil ~73–79 h**,
+  **TTR 2 h→328 h**, **dwell 14 d global / 122 d espionage / ~400 d edge**;
+  (iv) the **C2 reset verdict softened to *partial*** (proxies/CDN-fronting give
+  "resiliency in the face of connection loss"); (v) **persistence can adapt
+  around a periodic reset** (account-manipulation defeats password-rotation) —
+  both feed Step E's §3. The precedent-survey note is updated (all `[search]`→
+  `[fetched]` except Secureworks/IBM/Unit 42, not needed).
 - **Step B is DONE (2026-07-04).** §2/§4 filled for all 15 from a full read of the
   in-corpus set (alshamrani2019 read cover-to-cover as the backbone; al-sada2024,
   cho2020, bland2020, rodriguez2024, hong2018, ghosh2009, brown2023, jalowski2026,

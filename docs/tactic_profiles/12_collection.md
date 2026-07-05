@@ -78,6 +78,8 @@ No point number (§5).
 | ATT&CK TA0009 page | Data from Local System T1005 (229 procedures); staging/archive techniques; **no timing** | Precursor to exfil; no duration to inherit | [fetched] |
 | [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-D, §III-E | "Retrieving and sending this data"; Carbanak video/keylogger capture; RSA compress+encrypt before send; position-for-future = indefinite harvest | Objective-adjacent; fast grab..slow harvest — no per-tactic number | [fetched] |
 | [`outkin2023`](../extractions/outkin2023.md) §1 (Introduction) | "Ready-residence time" = fraction of time in the completed-but-not-yet-executed "Ready" state before acting on objectives | Conceptual dwell-before-objective; parameterised, not empirical per-tactic — no value | [fetched] |
+| [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (Sophos AAR) | Objective actions like collection/exfil "cannot go any faster, since they rely on human activity, data throughput, or other fairly rigid time frames" — a **dwell floor** | Tier-2 evidence that collection has a *floor* dwell (not substrate-instant); supports a non-trivial objective-execution anchor; no per-tactic number | [fetched] |
+| [`ling2023`](../extractions/ling2023.md) §Discussion (SANS hacker survey) | Ethical hackers report they can **collect data within 1–5 h of gaining access** (Bromiley 2022, via Ling & Ekstedt) | Hour-scale enterprise-IT anchor for collection-after-access; second-hand — reconcile the underlying survey before citing | [search] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
