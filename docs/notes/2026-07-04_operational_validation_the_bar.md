@@ -141,10 +141,18 @@ falling short of it. The dominant practice in timed APT/MTD models is
 *face-validated* by 14 SMEs; McQueen 2006 sets a stage mean "somewhat
 arbitrarily" and anchors another empirically; enterpriseLang/MAL ships
 expert-declared per-technique TTC distributions). Genuine empirical timing exists
-only at exploit/CVE granularity (Ling & Ekstedt 2023). So Tier 3 (declared +
-justified + swept) is not a concession — it is *exactly what the field already
-does*, and calibrating the declared values to macro observables is a step further
-than the norm. The honest framing throughout is the same as the project's
+only at exploit/CVE granularity (Ling & Ekstedt 2023). The Step-D precedent base
+widens this considerably — a whole cluster of stochastic attack-timing models
+executes the same *declare per-state time → solve → sweep* move, with **Madan et
+al. 2004** the landmark (a semi-Markov MTTSF from declared per-state sojourn times,
+shown to depend only on the *mean* — the shape-not-scale licence) and the
+MAL/SPN/CTMC family (coreLang, MAL, P2CySeMoL, pwnPr3d, Almasizadeh, Orojloo, Zhou,
+Wu, Liu, Tripathi) declaring per-step/state distributions and sweeping the
+defensive interval; the full precedent record is
+[`../extractions/timed_attack_models.md`](../extractions/timed_attack_models.md).
+So Tier 3 (declared + justified + swept) is not a concession — it is *exactly what
+the field already does*, and calibrating the declared values to macro observables
+is a step further than the norm. The honest framing throughout is the same as the project's
 governing claim (architecture §(j)): *fidelity changes the answer*, never "the
 model is true".
 

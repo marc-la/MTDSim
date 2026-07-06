@@ -123,6 +123,16 @@ I/O).
 action is minutes-to-hours, throughput-bound — the objective-execution act has a
 real, non-instant dwell).
 
+**Corroboration — Davies & Macfarlane 2026** (`davies2026`;
+`docs/sources/tactic_profiles/step_d/0_cross_tactic_timed_models/1-s2.0-S0045790626000315-main.md`
+— *mis-filed under folder 0; it is a ransomware paper, not a timed-model*): a
+benchmark of **29 active crypto-ransomware strains** measuring total execution
+time, pre-encryption delay, and encryption performance [fetched]. Headline: **wide
+variation in encryption speed, 33 MB/s to 2.79 GB/s**, with distinct preparatory
+vs encryption sequences and frequent **intermittent encryption** (encrypt part of
+each file) to accelerate impact and evade detection. Independently corroborates
+Splunk's "encryption is fast but throughput-bound, with large per-family spread."
+
 **Disposition for this thesis:** verified [fetched] — Tier-2 benchmark. A
 per-family *encryption-speed* datum (the impact act), not a whole-campaign dwell.
 
