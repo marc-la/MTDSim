@@ -96,9 +96,19 @@ initial access**." This reconciles and *updates* the survey's "~29 min avg /
 plausibility bound on the *combined* dwell of the early tactics under a fast
 (eCrime) profile; the 4-minute access→exfil case bounds the whole fast chain.
 
-**Disposition for this thesis:** verified [fetched] — first-party CrowdStrike.
-Caveat: eCrime, not APT-espionage; the fast end of the envelope. CrowdStrike's
-"breakout" start/end anchors differ from Mandiant "dwell" — independent
+**Independent corroboration — ReliaQuest 2026** (`reliaquest2026`;
+`docs/sources/tactic_profiles/step_d/11_lat_movement/reliaquest_2026_annual_threat_report_blog.md`):
+a separate vendor's breakout series — **average breakout time 34 minutes (2025
+data), fastest 4 minutes** (an 85% YoY acceleration), and **fastest data
+exfiltration 6 minutes** [fetched]. Independent of the CrowdStrike series and
+consistent with it (29 min / 27 s), reinforcing the fast-eCrime access→lateral
+anchor. ReliaQuest also names the two poles explicitly — "machine-speed breakouts
+that sprint to exfiltration in minutes, and slow-burn nation-state operations that
+persist for months" — the bimodal envelope the calibration must span.
+
+**Disposition for this thesis:** verified [fetched] — first-party CrowdStrike +
+ReliaQuest corroboration. Caveat: eCrime, not APT-espionage; the fast end of the
+envelope. Breakout start/end anchors differ from Mandiant "dwell" — independent
 calibration points, not one timeline.
 
 ---
