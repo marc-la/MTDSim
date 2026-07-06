@@ -15,12 +15,48 @@ updated: 2026-07-04
 
 ## State of play
 
-- **Steps A, B & C are DONE (A/B 2026-07-04; C 2026-07-05) — resume at Steps E
-  then F (D only if a gap needs filling).** All 15 `docs/tactic_profiles/*.md`
-  now have **§1 (tactic & role)** [Step A] plus **§2 (group-assignment
-  argument)** and **§4 (timing evidence table)** filled [Steps B+C]. Files stay
+- **Steps A, B, C & D are DONE (A/B 2026-07-04; C 2026-07-05; D 2026-07-06) —
+  resume at Steps E then F.** All 15 `docs/tactic_profiles/*.md` now have **§1
+  (tactic & role)** [Step A] plus **§2 (group-assignment argument)** and **§4
+  (timing evidence table)** filled and enriched [Steps B+C+D]. Files stay
   `status: stub` — §3 (Step E) and §5 (Step F) are still empty, so they are not
   yet `drafted`.
+- **Step D is DONE (2026-07-06).** The full external-search corpus (~60 sources
+  in `docs/sources/tactic_profiles/step_d/`, 16 subdirectories) was dissected
+  full-text into **17 new consolidated extractions** and folded into all 15
+  profiles' §4 (with §2/§3-relevant framing carrying a `→§3` pointer, house style).
+  New extractions: `internet_scanning_empirics`, `mtd_scan_disruption`,
+  `resource_dev_timing`, `initial_access_timing`, `evans2011_mtd_effectiveness`,
+  `ransomware_timing`, `persistence_reset_models`, `apt_campaign_duration`,
+  `mttc_lineage`, `ad_time_to_domain_admin`, `mtd_stealth_effectiveness`,
+  `password_rotation_efficacy`, `credential_use_timing`, `worm_propagation_models`,
+  `collection_exfil_timing`, `c2_beaconing`, `timed_attack_models` (+ ReliaQuest
+  folded into `breach_reports_macro_timing`). **Load-bearing new evidence for
+  Steps E/F:** (i) the **§3 reset verdict is per-modality and rate-dependent, never
+  clean** — Evans 2011 (dynamic diversity gives *no* advantage vs
+  circumvention/deputy attacks, incl. fileless/script execution; significant only
+  vs incremental probing at a high re-randomisation rate — 6 orders of magnitude
+  across every-4th vs every-100th probe), FlipIt (higher-move-cost player →
+  benefit 0), Crouse/Carroll (reset governed by shuffle-interval ÷ attacker-wait,
+  e⁻¹≈0.63 ceiling), Reti's NASim (interval-25 → scan-agent win-prob 0);
+  (ii) **credential-access is the clearest reset-*survivor*** — Zhang-Monrose-Reiter:
+  password rotation revokes a captured credential in only a minority (41% offline
+  / 17% online broken), and stolen credentials survive a topology shuffle;
+  (iii) **empirical timing anchors** — recon scan months→minutes + 24–48 h onset
+  (Durumeric); resource-dev 22-day 0-day-dev / days-scale infra (RAND, Hao);
+  fast entry (DBIR 21 s click, Mandiant TTE 63→5 days); lateral fast-worm pole
+  (Slammer 90% in 10 min; ReliaQuest breakout 34 min/4 min); C2 beacon 2 s–2 h+;
+  exfil floor (Equifax 76 d ↔ 1.2 h fastest); ransomware encryption 52 s–~2 h;
+  campaign duration 1 d–5 yr / 137 d avg; (iv) **Holm 2014** flags the substrate's
+  inherited *exponential* TTC as empirically suspect (heavy-tailed Pareto/lognormal
+  fits better) — a claim for Marc, not actioned; (v) **method precedent widened** —
+  Madan 2004 semi-Markov MTTSF + the MAL/SPN/CTMC cluster (`timed_attack_models`)
+  reinforce declare-per-state-time + sweep-the-interval as the field norm. **Two
+  file/manifest mismatches flagged** (not laundered): `S0951832018304125` is a
+  reliability-redundancy/PSO paper, not Lalropuia's stochastic game (re-fetch
+  needed); `S0045790626000315` is Davies ransomware benchmarking, not a timed model
+  (routed to `ransomware_timing`). One `[search]` remains reconciled to primary
+  (Bromiley, `12_collection`).
 - **Step C is DONE (2026-07-05).** The eight known-but-not-yet-extracted sources
   named in Step C (Selmanaj book, Ling & Ekstedt 2023, McQueen 2006, Xiong 2021,
   plus the macro targets M-Trends, CrowdStrike GTR, Sophos AAR, DFIR Report) were
@@ -108,27 +144,45 @@ updated: 2026-07-04
 - `observation_count` must **never** leak in as a timing signal
   ([`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f)).
 
-## Steps remaining (as of 2026-07-05)
+## Steps remaining (as of 2026-07-06)
 
-Evidence-gathering (Steps A–C) is complete: §1/§2/§4 are filled and reconciled
-for all 15 profiles. **Step D is optional** — only run it for a specific tactic
-whose §4 is still thin (none currently blocks §5). Three things remain, in order:
+Evidence-gathering (Steps A–D) is complete: §1/§2/§4 are filled, reconciled, and
+**enriched with the full external-search corpus** for all 15 profiles. Three
+things remain, in order:
 
 1. **Step E — fill §3 (MTD interaction / reset verdict), all 15 profiles**
-   (detail below). *Don't re-mine the MTD papers* — the §3 evidence is already
+   (detail below). *Don't re-mine the MTD papers* — the §3 evidence is now fully
    staged: the alshamrani2019 per-tactic MTD-effect block + reset-verdict matrix
-   (from Step B), plus the new Step-C reset inputs to fold in:
-   - **initial-access foothold is reset-*vulnerable*** (Selmanaj: "short-lived if
-     the target changes their passwords"); **discovery / lateral-exploit** force
-     re-discovery on a shuffle (brown2023);
-   - **persistence and stolen credentials / auth-material are reset-*survivors***
-     (Selmanaj credential-access + T1550; M-Trends BRICKSTORM "survives
-     remediation and reboots") — and persistence can **adapt around a periodic
-     reset** (account-manipulation defeats password-rotation);
-   - **C2 reset is *partial*, not clean** — proxies/CDN-fronting give "resiliency
-     in the face of connection loss" (Selmanaj Proxy T1090), so a shuffle
-     disrupts but doesn't reliably invalidate C2 → wider sweep;
-   - **resource-development is reset-*immune*** (off-network).
+   (Step B), the Step-C reset inputs, **plus the Step-D §3 evidence carried in each
+   profile's §4 rows with a `→§3` pointer** (the strongest new material). The
+   Step-D reset verdicts, by tactic:
+   - **The governing principle (Step D):** the reset is **per-modality and
+     rate-dependent, never a clean wipe** — Evans 2011
+     ([`../extractions/evans2011_mtd_effectiveness.md`](../extractions/evans2011_mtd_effectiveness.md)):
+     dynamic diversity gives *no* advantage vs circumvention/deputy attacks
+     (incl. fileless/script **execution**), ≤2× vs brute-force, significant only vs
+     incremental probing *and* only at a high re-randomisation rate (6 orders of
+     magnitude across every-4th vs every-100th probe). Set every sweep width from
+     the shuffle-interval ÷ attacker-action-time ratio.
+   - **recon / discovery force re-scan on a shuffle** — reset governed by
+     shuffle-interval ÷ attacker-wait, e⁻¹≈0.63 ceiling, RDAM 96.2% miss
+     ([`../extractions/mtd_scan_disruption.md`](../extractions/mtd_scan_disruption.md),
+     [`../extractions/internet_scanning_empirics.md`](../extractions/internet_scanning_empirics.md));
+   - **credential-access is the clearest reset-*survivor*** — stolen credentials
+     survive a topology shuffle *and* largely survive password rotation
+     (Zhang-Monrose-Reiter: only 41% offline / 17% online broken —
+     [`../extractions/password_rotation_efficacy.md`](../extractions/password_rotation_efficacy.md));
+   - **persistence reset is *partial*, rate-dependent** — FlipIt (higher-move-cost
+     player → benefit 0), SCIT cleansing-cycle, Sun switch-timing
+     ([`../extractions/persistence_reset_models.md`](../extractions/persistence_reset_models.md));
+   - **C2 reset is *partial*** — beacon survives connection loss (proxies), switch
+     interval is the swept axis ([`../extractions/c2_beaconing.md`](../extractions/c2_beaconing.md));
+   - **lateral-movement reset is per-modality** — address mutation kills a
+     *scan-based* worm (<1% valid addresses) but a *credential*-move survives
+     ([`../extractions/worm_propagation_models.md`](../extractions/worm_propagation_models.md));
+   - **impact reset = blast-radius limiting** — MTD contains lateral ransomware
+     spread mid-attack (Barach, [`../extractions/ransomware_timing.md`](../extractions/ransomware_timing.md));
+   - **resource-development is reset-*immune*** (off-network), unchanged.
 2. **Step F — fill §5 (catalogue inputs), all 15 profiles** (detail below):
    group (confirm/overturn the stub hypothesis) + relative multiplier + sweep
    range + tier + one-paragraph justification. Carry the Step-C findings that
@@ -194,9 +248,12 @@ full-text into seven extractions — [`../extractions/ling2023.md`](../extractio
 One `[search]` remains by design (the Bromiley/SANS hacker survey in
 [`12_collection`](../tactic_profiles/12_collection.md), second-hand via ling2023).
 
-**Step D — Targeted external search (fills §4, only if A–C thin).** Mechanical
-search strings, substitute `<TACTIC>` (and for the split tactics, run once for
-each of "defense evasion", "stealth", "impair defenses"):
+**Step D — Targeted external search (fills §4).** **[DONE 2026-07-06 — the full
+~60-source corpus in `docs/sources/tactic_profiles/step_d/` dissected full-text
+into 17 consolidated extractions + folded into all 15 profiles' §4; see the
+Step-D bullet in the state-of-play above. Two file/manifest mismatches flagged for
+re-fetch.]** Mechanical search strings, substitute `<TACTIC>` (and for the split
+tactics, run once for each of "defense evasion", "stealth", "impair defenses"):
 - APT behaviour/dwell — `APT "<TACTIC>" dwell OR duration OR "how long" campaign`
 - Simulation/emulation — `"<TACTIC>" attack simulation OR emulation MITRE ATT&CK timing`
 - MTD interaction — `moving target defense "<TACTIC>" attacker effect OR reset OR shuffle`
