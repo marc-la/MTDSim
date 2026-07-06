@@ -62,8 +62,50 @@ intervening tactics under a fast eCrime profile) and
 **Disposition for this thesis:** verified [fetched] — Tier-2 vendor IR. A
 whole-chain (access→deploy) duration, not a per-tactic dwell; the fast end.
 
-<!-- Splunk / Hou / Secureworks / Barach (folder 15) and Talos / Huntress
-     (folder 8) blocks are appended when those folders are dissected. -->
+### Talos 2025 (IR Trends Q4 2024) — ransomware dwell 17–44 days; defence-kill is prevalence
+
+**Source locator:** IR-trends body (dwell times; Interlock; MFA/EDR findings)
+
+**Paraphrase:** Talos IR identified **dwell times of ~17–44 days** across most Q4-2024
+ransomware engagements [fetched] — in the **Interlock** incident, **17 days from
+initial compromise to encryptor deployment**; a **RansomHub** case ran over a
+month (internal scanning, backup-password access, credential harvesting) before
+encryption. The *slow* end of the ransomware envelope, opposite Huntress's hours.
+Defence-impairment texture: **100% of ransomware-impacted orgs lacked properly
+configured MFA or had it bypassed**; EDR misconfigured/missing in >25% of all
+incidents; Impair Defenses (T1562.001, disable/modify tools) observed. This is a
+**prevalence/rate** phenomenon, **not** a per-phase duration.
+
+**Maps to:** [`08_defense-impairment`](../tactic_profiles/08_defense-impairment.md)
+§4 (the gap-documenting result: defence-disabling is measured as %-of-cases, not a
+dwell → Tier-3 wide sweep) and [`15_impact`](../tactic_profiles/15_impact.md) /
+[`05_persistence`](../tactic_profiles/05_persistence.md) (17–44 d dwell — the slow
+ransomware tail).
+
+**Disposition for this thesis:** verified [fetched] — Tier-2 IR. The dwell range
+is whole-chain; the MFA/EDR figures are prevalence, not timing.
+
+---
+
+### Huntress 2025 (Time to Ransom) — avg ~17 h access→encryption, fastest ~4 h
+
+**Source locator:** "Time-to-ransom" section (17 h; 4 h; 18 actions)
+
+**Paraphrase:** across incidents, the **average time-to-ransom (initial access →
+ransomware deployment) was almost 17 hours**, with some actors averaging **just
+over 4 hours** [fetched]; ransomware groups took an **average of 18 actions**
+before triggering the payload (Phobos/Maze >30; Conti/Play/Black Basta <10). The
+*fast* end of the envelope — hours, not the Talos days — showing the access→deploy
+duration is bimodal across actor tempo. (A 2024 Statista figure: victim downtime
+averages 24 days — an hours-long attack → weeks-long disruption.)
+
+**Maps to:** [`08_defense-impairment`](../tactic_profiles/08_defense-impairment.md)
+/ [`15_impact`](../tactic_profiles/15_impact.md) §4 (fast access→deploy; the
+pre-payload "18 actions" include the impair-defenses/lateral steps).
+
+**Disposition for this thesis:** verified [fetched] — Tier-2. A whole-chain
+access→deploy duration; the fast end (hours). With Talos (days), brackets the
+ransomware envelope.
 
 ## Open questions / things to verify
 
