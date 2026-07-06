@@ -107,6 +107,55 @@ pre-payload "18 actions" include the impair-defenses/lateral steps).
 access→deploy duration; the fast end (hours). With Talos (days), brackets the
 ransomware envelope.
 
+### Splunk 2022 — per-family encryption speed: 5m50s (LockBit) → ~2h (PYSA)
+
+**Source locator:** encryption-speed comparative table; "Family Median Duration"
+
+**Paraphrase:** benchmarked the *encryption* action across ransomware families on
+a fixed testbed [fetched]. Per-family speed/time (for a fixed corpus): **LockBit
+2.0 ≈ 373 MB/s (~4m26s)**, LockBit ≈ 266 MB/s (6m16s), **PYSA ≈ 128 MB/s (~13m)**;
+the headline range is **~5m50s (fastest family median) to ~1h55m (PYSA)**, overall
+median **~42m52s**. The impact *act* (encryption) is minutes-to-a-couple-hours,
+and is throughput-bound (a genuine floor — you cannot encrypt faster than disk
+I/O).
+
+**Maps to:** [`15_impact`](../tactic_profiles/15_impact.md) §4 (the encryption
+action is minutes-to-hours, throughput-bound — the objective-execution act has a
+real, non-instant dwell).
+
+**Disposition for this thesis:** verified [fetched] — Tier-2 benchmark. A
+per-family *encryption-speed* datum (the impact act), not a whole-campaign dwell.
+
+---
+
+### Hou 2024 (MarauderMap) & Secureworks 2024 & Barach 2026 — corpus, dwell, MTD-vs-ransomware
+
+**Source locator:** Hou Abstract; Secureworks §"Dwell Times"; Barach Abstract + §1
+
+**Paraphrase:** [all fetched]
+- **Hou 2024 (MarauderMap, ICSE):** 7,796 active ransomware samples executed in
+  isolated testbeds (1.98 TiB logs); phases = data reconnaissance → tampering →
+  exfiltration; mitigation strategies raise detection +41–69%. Confirms the
+  ransomware impact-chain has distinct, instrumentable phases (not one instant).
+- **Secureworks 2024:** median ransomware **dwell ~28 hours**, straddling two
+  clusters (well below / well above the median); **as short as 7 hours**;
+  multi-site events increasingly rare — corroborates the fast eCrime dwell (with
+  IBM/Huntress) vs the Talos 17–44 d slow tail.
+- **Barach 2026 (MTD-HR, CMC):** an MTD framework (container mutation + IP hopping
+  + runtime service rotation, Kubernetes) tested on WannaCry/Locky/Ryuk — reports
+  **mean-time-to-containment 91.4 s** and encryption reduced to 13.2% of baseline
+  by blocking lateral ransomware spread. The §3 MTD-vs-ransomware effect: shuffling
+  the runtime surface contains lateral spread mid-attack.
+
+**Maps to:** [`15_impact`](../tactic_profiles/15_impact.md) §4 (dwell ~7–28 h;
+encryption phases) and §3 (Barach: MTD contains lateral ransomware spread → a
+reset that limits blast radius); [`05_persistence`](../tactic_profiles/05_persistence.md)
+(dwell).
+
+**Disposition for this thesis:** verified [fetched] — Tier-2. Hou/Secureworks =
+corpus + dwell; Barach = an MTD-effect on ransomware impact (§3). Cloud/HR domain
+for Barach — a *shape* result (MTD limits spread), not a transplant.
+
 ## Open questions / things to verify
 
 - All figures are **eCrime/ransomware, IR-population** — the fast end of the
