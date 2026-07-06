@@ -72,8 +72,13 @@ simulator meters; it is effectively folded into off-network preparation
 scan-shaped *as modelled* — the substrate's active scan is a fair proxy for the port/service
 scanning and fingerprinting the literature attributes to recon — but the real activity is
 slower, spread over time, and externally staged, a shape-not-scale divergence in *tempo*
-the catalogue header should acknowledge rather than hide. No point number is landed here
-(deferred to §5).
+the catalogue header should acknowledge rather than hide. The external-scan empirics sharpen
+this: a full-space scan runs in *minutes* with modern tooling and follows a disclosure within
+24–48 h ([`internet_scanning_empirics`](../extractions/internet_scanning_empirics.md)) [fetched],
+so the *modality* is fast and the low-and-slow character is scheduling, not per-scan cost —
+even as recon consumes a reported ~45% of attacker effort overall
+([`mtd_scan_disruption`](../extractions/mtd_scan_disruption.md), Carroll 2014 §I) [fetched].
+No point number is landed here (deferred to §5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
@@ -89,6 +94,8 @@ the catalogue header should acknowledge rather than hide. No point number is lan
 | [`jalowski2026`](../extractions/jalowski2026.md) §4 | APTs use *passive* recon to "remain in the shadows and learn mutation patterns"; Nmap baselines "too naive" | Confirms passive character; motivates the substrate-proxy caveat in §2 | [fetched] |
 | [`ferraz2024`](../extractions/ferraz2024.md) §5 | CTI tactic ordering is "used only to organize techniques, rather than to recover an execution timeline" | Gap-confirming: even where recon is documented, the corpus carries no dwell | [fetched] |
 | [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Reconnaissance) | Passive recon is "the least risky … characteristic of an APT behavior" but "time-consuming"; active recon "generally a sign of an ongoing attack"; recon "can occur at any stage" | Emulation-textbook confirmation of the patient/off-network default; the active modality is what the substrate scan-prices — no per-tactic number | [fetched] |
+| [`internet_scanning_empirics`](../extractions/internet_scanning_empirics.md) (Durumeric 2014 §1/§4; Griffioen 2024 §4.3/§6.6) | ZMap/Masscan scan the whole IPv4 space "from months to minutes"; attackers scan **within 24–48 h of disclosure**; post-disclosure surge is **transient** (dies in weeks); recurrent scanners "repeat within one day", but only institutional scanners re-scan daily | Empirical Tier-2 anchor: the scan *verb* is fast (minutes), so recon slowness is *scheduling* (opportunistic re-scan on new intel), not per-scan cost — reinforces the §2 shape-not-scale tempo divergence | [fetched] |
+| [`mtd_scan_disruption`](../extractions/mtd_scan_disruption.md) (Carroll 2014 §IV; Crouse 2015 §5; Jafarian 2015 §V; Wang 2017 §5.1; Zhang-DRL 2023; Ferguson-Walter 2021 §6) | Recon ≈ **45% of attacker time**; perfect shuffle caps attacker success at **e⁻¹≈0.63** (−37%) when vulnerables are sparse; RDAM misses **96.2%** of domain-name scans; reset strength governed by **mutation-rate ÷ scan-rate ratio**; DRL mutation adds **26–58.7%** scan time; decoys **halve** red-team exfil | MTD-reset evidence for recon: a shuffle/obfuscation invalidates recon gains → forced re-scan (**→§3**); the ratio law + magnitudes set the sweep width | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
