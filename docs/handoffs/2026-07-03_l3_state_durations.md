@@ -1,7 +1,7 @@
 ---
 status: open
 created: 2026-07-03
-updated: 2026-07-04
+updated: 2026-07-07
 ---
 
 # Build the per-tactic dwell profiles → the state-duration catalogue: operational-validation method, group anchors, and a mechanical research protocol
@@ -15,6 +15,36 @@ updated: 2026-07-04
 
 ## State of play
 
+- **Step E reframed + substrate primer written (2026-07-07) — THIS IS WHERE A
+  FRESH SESSION RESUMES.** A purpose/rubric/review session established that **§3
+  (Step E) is the thesis's novel object, not a catalogue chore**: it is the
+  per-tactic *APT × dynamic-network interaction* — what a defensive mutation does
+  to the attacker's gain — and it is **empty in all 15 profiles**. Three new
+  artefacts now govern Step E (read them first):
+  - [`../notes/2026-07-07_thesis_backbone_rubric.md`](../notes/2026-07-07_thesis_backbone_rubric.md)
+    — the rubric §3 is written to (5 framing claims + 7 per-tactic criteria mapped
+    to the five themes: adversarial modelling, attack simulation, APT behaviour,
+    MTD, dynamic networks). Also critiques the question set that motivated the reframe.
+  - [`../notes/2026-07-07_cross_sectional_review.md`](../notes/2026-07-07_cross_sectional_review.md)
+    — a four-lens review (black/grey/white-box + adversarial examiner) of the 15
+    profiles: the per-tactic disposition, the prioritised **P0–P3 action list**,
+    and the examiner vulnerabilities (V1–V5).
+  - [`../specs/substrate_primer.md`](../specs/substrate_primer.md) — the
+    non-implementation-specific attacker's-eye view of the substrate. **§(e) is the
+    reset model every §3 argues from**; §(d) is the inherited-attacker tradeoffs +
+    the improvement-over-prior argument (the "MTD that outpaces smash-and-grab may
+    lose to a slow objective-driven attacker" punchline).
+  **Crown-jewel finding (three independent reviewers converged):** the reset verdict
+  splits by *what kind of gain a tactic produces* — **capability/credential state
+  survives a mutation; network-position state is invalidated** — and this is
+  **already implemented in the substrate** (network-layer mutation resets
+  position/target and forces re-scan; application-layer mutation resets only the
+  exploit working set on a *retained* foothold; compromised hosts + harvested
+  credentials survive everything). §3 is written *around this axis* and *checked
+  against the substrate model*, not as 15 free-floating verdicts. **User decisions
+  this session:** §3 prose lives *inside the profile files* (single source of
+  truth); the substrate primer was written first (done). The next concrete action
+  is the Step-E exemplar — see Steps-remaining item 1.
 - **Steps A, B, C & D are DONE (A/B 2026-07-04; C 2026-07-05; D 2026-07-06) —
   resume at Steps E then F.** All 15 `docs/tactic_profiles/*.md` now have **§1
   (tactic & role)** [Step A] plus **§2 (group-assignment argument)** and **§4
@@ -144,18 +174,52 @@ updated: 2026-07-04
 - `observation_count` must **never** leak in as a timing signal
   ([`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f)).
 
-## Steps remaining (as of 2026-07-06)
+## Steps remaining (as of 2026-07-07)
 
 Evidence-gathering (Steps A–D) is complete: §1/§2/§4 are filled, reconciled, and
-**enriched with the full external-search corpus** for all 15 profiles. Three
-things remain, in order:
+enriched for all 15 profiles. **Step E was reframed on 2026-07-07** (see the top
+state-of-play bullet + the three governing artefacts): §3 is the thesis's **novel
+object**, written as prose, organised on the **survivor-vs-vulnerable reset axis**,
+argued from [`../specs/substrate_primer.md`](../specs/substrate_primer.md) §(e).
+Three things remain, in order:
 
-1. **Step E — fill §3 (MTD interaction / reset verdict), all 15 profiles**
-   (detail below). *Don't re-mine the MTD papers* — the §3 evidence is now fully
-   staged: the alshamrani2019 per-tactic MTD-effect block + reset-verdict matrix
-   (Step B), the Step-C reset inputs, **plus the Step-D §3 evidence carried in each
-   profile's §4 rows with a `→§3` pointer** (the strongest new material). The
-   Step-D reset verdicts, by tactic:
+1. **Step E — write §3 (MTD interaction / reset verdict) as thesis prose, all 15
+   profiles. ← THE NEXT STEP.** §3 prose lives *inside the profile files* (user
+   decision). Write against the rubric
+   ([`../notes/2026-07-07_thesis_backbone_rubric.md`](../notes/2026-07-07_thesis_backbone_rubric.md)
+   B.1 crit. 3–4/6); argue every verdict from the substrate primer §(e) — the reset
+   *direction* is substrate-fixed, you declare-and-sweep the *magnitude*.
+   - **Start with the 7 cross-product-complete tactics** (review disposition): recon,
+     credential-access, discovery, lateral-movement, persistence, stealth, C2.
+     **Write ONE exemplar first to calibrate depth/voice** — suggest
+     `09_credential-access` (cleanest reset-survivor) or `11_lateral-movement`
+     (modality-split showcase) — then roll across the 7.
+   - **Then the 5 thin-but-writable** (initial-access, execution, privilege-escalation,
+     exfiltration, impact) — mechanism-inferable, no dedicated evidence row yet.
+   - **The 3 holes need P2 mining before writing:** `08_defense-impairment` &
+     `12_collection` (no reset story in corpus), `02_resource-development` (flag
+     **inert** — off-network/reset-immune; state the null verdict, don't force one).
+   - **Foreground as open questions, don't resolve:** `05_persistence` (foothold
+     eviction is a FlipIt rate contest — no fixed answer, and the dwell that most
+     drives the MTD comparison), `13_command-and-control` (architected to survive
+     connection loss), `04_execution` (circumvention-vs-probing classification).
+   - **As you write, demote §4's orphan macro numbers** to a labelled
+     "operational-validation outer envelope"; keep only rows that resolve
+     dwell-character or reset-verdict (keep ransomware *encryption-speed* rows).
+     Wire in three under-exploited-but-already-extracted sources: alshamrani2019
+     §IV-C-2-B ("renders the exploratory knowledge of the attacker useless" —
+     recon/discovery seed), evans2011 per-modality attack-class taxonomy (every
+     reuse-vs-fresh-exploit tactic), xiong2021 privilege-escalation gating-state.
+   - **Reframe the claims, not just the notes — pre-empt the examiner (P3):** the
+     detection-regime mismatch (macro dwell/breakout targets are defined by *when
+     detection caught the intrusion*; IDS is culled → they are a shape/plausibility
+     envelope, never an absolute-timing target); "APT" = the source-genre of the
+     CTI, not full-spectrum fidelity; the executed profile = a
+     worst-case-within-objective *stress envelope*, not an emulation.
+   - *Don't re-mine the MTD papers* for the well-served tactics — the §3 evidence is
+     staged: the alshamrani2019 per-tactic MTD-effect block + reset-verdict matrix
+     (Step B), the Step-C reset inputs, **plus the Step-D §3 evidence carried in each
+     profile's §4 rows with a `→§3` pointer**. The Step-D reset verdicts, by tactic:
    - **The governing principle (Step D):** the reset is **per-modality and
      rate-dependent, never a clean wipe** — Evans 2011
      ([`../extractions/evans2011_mtd_effectiveness.md`](../extractions/evans2011_mtd_effectiveness.md)):
@@ -195,6 +259,19 @@ things remain, in order:
    (detail under "Then the catalogue" below). Distil §5 into the machine
    artefact; every place-union tactic gets an entry; fill the `pending` regime
    row in [`../specs/provenance.md`](../specs/provenance.md).
+
+**Strategic note (2026-07-07 examiner review — read before over-investing in prose).**
+Step E's §3 and the catalogue *defend* the thesis's finding but do not *produce*
+it. The two objections that can actually fail a viva — **(V1)** the novel object
+rests on declared dwell × declared reset fraction; **(V2)** "fidelity changes the
+answer" is parameter noise unless the ranking-change *survives its own sweep band
+and is distinct from the generic attacker's stable ranking* — are discharged only
+by **running the discrimination probe + sweep** (downstream:
+[`./2026-07-03_l3_timeline_runner.md`](./2026-07-03_l3_timeline_runner.md) + the
+CTI-note §10 probe). Write §3 well — it is genuinely the thesis's novel object —
+but hold that the runner/probe is the load-bearing *evidence*, not the prose. The
+per-modality reset split (the crown jewel) is the strongest genuinely-owned,
+falsifiable claim; foreground it.
 
 Only after all three: flip profiles `stub` → `reconciled` and clear the
 Validation gate. **This handoff is deleted in the commit that ships the
@@ -263,12 +340,17 @@ Anything usable that isn't already an extraction → add a `docs/extractions/`
 stub and reconcile (papers are claims). Do **not** cite a `[search]` snippet in
 §5 without reconciling it first.
 
-**Step E — Reason from mechanism (fills §3).** No literature grounds MTD→attacker
-effect (the genuine unknown,
-[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md) §5).
-Argue from MTD semantics: does an IP/topology shuffle **invalidate** a gain in
-this tactic (foothold, C2 channel) or does it **survive** (a stolen credential)?
-That reset verdict + its uncertainty set the sweep width. Declared, not claimed.
+**Step E — Reason from mechanism (fills §3). [REFRAMED 2026-07-07 — now the
+thesis's novel object; see the top state-of-play bullet + Steps-remaining item 1
+for the operative guidance.]** No literature grounds the MTD→attacker *magnitude*
+(the genuine unknown,
+[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md) §5),
+but the reset *direction* is fixed by the substrate model
+([`../specs/substrate_primer.md`](../specs/substrate_primer.md) §(e)). Argue from it
+on the **survivor-vs-vulnerable axis**: does the gain this tactic produces
+(position/knowledge vs capability/credential) get **invalidated** by a mutation or
+**survive** it? That verdict + its uncertainty set the sweep width. Declared, not
+claimed — and checked against the substrate's own reset model.
 
 **Step F — Distil §5.** Group (confirm/overturn the stub's hypothesis) + relative
 multiplier + sweep range + tier + a one-paragraph justification. This paragraph
@@ -325,6 +407,12 @@ Done when:
 
 ## Reading list
 
+- **[`../notes/2026-07-07_thesis_backbone_rubric.md`](../notes/2026-07-07_thesis_backbone_rubric.md)
+  — the rubric §3 is written to (read first).**
+- **[`../notes/2026-07-07_cross_sectional_review.md`](../notes/2026-07-07_cross_sectional_review.md)
+  — the four-lens review: per-tactic disposition, P0–P3 action list, examiner V1–V5.**
+- **[`../specs/substrate_primer.md`](../specs/substrate_primer.md) — §(e) the reset
+  model every §3 argues from; §(d) inherited-attacker tradeoffs + improvement-over-prior.**
 - [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md)
   — the method and the anti-circularity rules.
 - [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../notes/2026-07-04_tactic_duration_precedent_survey.md)
