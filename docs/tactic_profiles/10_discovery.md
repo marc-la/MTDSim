@@ -72,8 +72,33 @@ No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Discovery produces an **internal map** — the same position/knowledge gain as
+[[01_reconnaissance]], but earned from *inside* the estate (reachable hosts, internal services,
+account/domain structure). It is squarely reset-*vulnerable*, and because its gain is *purely*
+positional it carries no survivor sub-modality (unlike [[11_lateral-movement]], whose credential
+half survives). A position-mutating (network-layer) topology/address shuffle invalidates the
+internal map outright and throws the attacker back to re-enumeration on a terrain that no longer
+matches what it learned. In a NASim-style discrete-event contest, **mutation interval 25 →
+scan-first agent win-probability 0**, because "the agent does not know which hosts were already
+exploited" and is "forced to restart his scan" each interval
+([`mtd_scan_disruption`](../extractions/mtd_scan_disruption.md)) — the reset is near-total when
+the mutation outpaces the enumeration.
+
+The MTD action that bites is the same position-mutating shuffle, and the *thorough* enumerator
+is hit hardest: the more complete the map, the more a shuffle destroys. Magnitude scales with
+the **mutation-interval ÷ scan-cadence ratio** ([substrate primer](../specs/substrate_primer.md)
+§(e)), so the sweep is wide and ratio-governed, mirroring reconnaissance. **Reset verdict:
+invalidated; sweep width wide.** Surface-mutating (application-layer) diversity is largely
+orthogonal here — discovery enumerates *reachability and structure*, not a specific exploit
+working set — so it is the topology/address family, not OS/service diversity, that resets
+discovery.
+
+What is **not captured**: the "position for future" mode, where discovery is not a burst but
+indefinite low-and-slow watching, and — as with reconnaissance — an attacker that *learns* the
+mutation cadence and re-discovers strategically rather than blindly restarting. The substrate
+models discovery as a fast internal scan and resets it wholesale on a shuffle; a schedule-aware
+watcher would lose less, a divergence the sweep's attacker-favourable bound approximates but the
+substrate does not compute ([substrate primer](../specs/substrate_primer.md) §(f)).
 
 ## 4. Timing evidence
 

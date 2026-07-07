@@ -68,8 +68,34 @@ topology shuffle attacks (a §3 matter). No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Lateral movement is the **showcase for the per-modality reset split** — the crown-jewel finding
+inside a single tactic. What a hop produces depends on *how* it moves. A **scan-based hop**
+(Exploitation of Remote Services T1210, or worm-style target-discovery) produces a
+position/knowledge gain — a target map — and is reset-*vulnerable*: a position-mutating
+address/topology shuffle invalidates it, and the empirics are stark, with a mutated address
+space leaving a scanner **<1% valid addresses** and worm containment capping total reach
+([`worm_propagation_models`](../extractions/worm_propagation_models.md)). A **credential-based
+hop** (Use Alternate Authentication Material T1550 — pass-the-hash/ticket, valid accounts) rides
+a survivor capability: the credential authenticates against whichever host now answers, so the
+*same shuffle that kills the scan-worm leaves the credential-move untouched*
+([substrate primer](../specs/substrate_primer.md) §(e)).
+
+The MTD action that bites, therefore, is the position-mutating family — and it bites *one
+modality and not the other*. This forces a **bimodal sweep**: the profile carries a wide,
+ratio-governed band for the scan modality (magnitude on mutation-rate ÷ scan-rate) and a
+near-zero survivor band for the credential modality — and *which dominates is
+objective-conditioned* (rubric crit. 7). A credential-first campaign is effectively reset-immune
+in this tactic; a scan/exploit-first one is highly disruptable. That is the discrimination the
+whole thesis turns on: an MTD that wins against the substrate's scan-based baseline hop may lose
+against a credential-driven low-and-slow profile that never exposes the modality the shuffle can
+reset ([substrate primer](../specs/substrate_primer.md) §(d)).
+
+What is **not captured**: the substrate prices remote-service exploitation by CVSS but does not,
+today, distinguish the two hops' reset behaviour beyond the position-vs-capability split it
+already implements; nor does it model an attacker that *recognises* a post-shuffle state
+collision and re-routes (adaptivity, deferred — [substrate primer](../specs/substrate_primer.md)
+§(f)). **Reset verdict: per-modality — the scan hop is invalidated (wide sweep), the credential
+hop survives (narrow sweep).**
 
 ## 4. Timing evidence
 
@@ -83,6 +109,14 @@ topology shuffle attacks (a §3 matter). No point number (§5).
 | [`ling2023`](../extractions/ling2023.md) §Results, Table 7 | Lateral-movement techniques (Exploitation of Remote Services, Lateral Tool Transfer) → *Access Control*; Lateral Tool Transfer TTC = 3594/98/15/**6** d (novice→expert) | Per-technique empirical shape + expert 6-day floor for the exploit-move variant; the credential-/auth-material-move variant has no CVE (reset-survives) | [fetched] |
 | [`worm_propagation_models`](../extractions/worm_propagation_models.md) (Slammer; Staniford; Code Red/Zou; Mirai; Chernikova) | Automated scan-based spread is **seconds–minutes**: Slammer **90% in 10 min**, Code Red **37-min doubling**, Warhol "minutes–hour", flash "10s of seconds", Mirai 65k in 20 h | The **fast-worm pole** of the fast↔slow bimodal range — the modality the substrate's fast lateral-exploit proxies; contrasts the slow-manual APT pole | [fetched] |
 | [`worm_propagation_models`](../extractions/worm_propagation_models.md) (Al-Shaer/Jafarian OpenFlow-RHM; Sellke; Ma) + [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (ReliaQuest 2026) | Address mutation → scanner finds **<1% valid addresses** (worm target-discovery invalidated); worm containment caps total scans; ReliaQuest breakout avg **34 min**/fastest **4 min**, exfil **6 min** | §3 reset for the *scan-based* move (mutation kills it; credential-move survives — per-modality); independent breakout corroboration (**→§3**) | [fetched] |
+
+> **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
+> above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
+> *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
+> defined by *when detection caught the intrusion*, and detection/IDS is culled from this
+> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> timeline's *shape/plausibility*, never an absolute per-tactic dwell. Only the rows that resolve
+> dwell-character or reset-verdict feed §3/§5.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

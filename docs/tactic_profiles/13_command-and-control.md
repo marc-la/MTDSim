@@ -68,8 +68,31 @@ profile confirms `stealth-low-and-slow` / Tier 3 (declared) — no substrate ver
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Command and control produces a **channel** — a gain that is *part capability, part position*.
+The beacon rides an owned foothold (capability, survives), but the channel resolves to an
+address and a route that a position-mutating shuffle can disturb (position, disruptable). C2 is
+therefore the profile's **secondary open contest**, and its distinguishing property is that the
+channel is *architected to survive connection loss*: Fallback Channels T1008, proxy/CDN-fronting,
+and Dynamic Resolution/DGA T1568 exist precisely so that losing one route does not sever control
+([`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4). So an IP/topology shuffle **degrades
+but may not sever** the channel — a **partial reset**, not a clean invalidation, whose outcome
+depends on beacon-cadence vs move-interval and on whether fallback infrastructure is modelled.
+
+The MTD-relevant rate is the **beacon interval**, not the channel lifetime: check-in cadence is
+seconds-to-hours and tunable (Cobalt Strike default 30 s ± jitter; observed 2 s to 2 h+ —
+[`c2_beaconing`](../extractions/c2_beaconing.md)), and a defender optimises a config sequence and
+**switch timing against a switch cost** (Li/Shen/Zheng spatial-temporal MTD). The swept axis is
+that switch-interval ÷ beacon-cadence ratio, traded against switch cost — so the sweep is wide.
+**Reset verdict: partial (architected to survive); sweep width wide.**
+
+What is **not captured**: the fallback/proxy/DGA resilience itself. The substrate would treat a
+C2 route more simply than the architected-resilient reality, so a modelled shuffle *over-resets*
+C2 relative to the literature — the divergence direction worth recording
+([substrate primer](../specs/substrate_primer.md) §(e).1): here the substrate is *harsher* on
+the attacker than reality, the opposite of the credential/persistence survivors. Air-gapped or
+C2-optional campaigns route around the channel entirely (chemat2024: Stuxnet operated without a
+C2 server), which the objective-conditioning (crit. 7) can express as a campaign that simply
+does not depend on the resettable gain.
 
 ## 4. Timing evidence
 

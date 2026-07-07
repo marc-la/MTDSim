@@ -84,8 +84,41 @@ act. No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Disabling a defensive control (killed EDR, disabled Event Log, stopped backup service, a loaded
+BYOVD driver, firewall/registry tamper) is **host-local software state, not network position or
+knowledge** — so under the reset model it patterns with the *capability/conquest* side and
+**survives** a network-layer mutation. An IP or topology shuffle re-addresses and re-links the
+host but leaves the killed control exactly as the attacker left it; no re-disable is required.
+This is the opposite verdict from [[01_reconnaissance]]/[[10_discovery]] and it is confirmed at
+the code level: the substrate's `ipshuffle`/`portshuffle`/`*topologyshuffle` operations mutate
+network position only and never touch host compromise or host software state. The *only* MTD
+modality that would invalidate the gain is one that **rebuilds the host from a clean image** —
+the software-rejuvenation analogue, closest to `OSDiversity` read as a reprovision — which
+restores the control as a byproduct. So the reset is modality-split: **survives shuffle,
+invalidated only by reimage/reprovision.**
+
+A second durability axis, orthogonal to the shuffle, is worth stating because it makes the gain a
+*maintained, decaying* capability rather than a one-shot conquest like a harvested credential:
+process-kill is transient and needs an active watchdog to stay down; a registry `Start=4` disable
+survives reboot but is reboot-gated and tamper-protected; only kernel-level BYOVD reliably
+defeats tamper protection (real-world dwell of ~15 days on a persistent vulnerable-driver
+technique). So survival against the network shuffle is *total*, but the gain's intrinsic
+half-life against a host refresh varies by technique. **Reset verdict: survivor under shuffle,
+reset only by reprovision; sweep width widest in the set** — compounded by the group-uncertainty
+already flagged in §2 (an evasion-avoidant APT rarely disables; a ransomware actor does it fast
+and hard).
+
+What is **not captured** — and this is the dominant caveat: the substrate **represents no
+defensive-control state on hosts at all** (detection/IDS is culled —
+[substrate primer](../specs/substrate_primer.md) §(f)), so there is nothing for the attacker to
+disable and nothing for a reprovision to restore. The survivor verdict above is therefore a
+*conceptual/thesis-level* verdict — the direction the interaction *would* take were defences
+modelled — not something the simulator computes today. Impair-Defenses also shows up in the data
+as **prevalence, not dwell** (measured as %-of-cases; a punctuated, objective-adjacent act before
+a noisy payload), which is why the tactic stays Tier-3 declared with the widest sweep. The formal
+precedent for treating "defences the attacker must bypass" as a modelled gate with declared
+per-step effort is MAL/coreLang ([`timed_attack_models`](../extractions/timed_attack_models.md)),
+should defences ever be restored to the substrate.
 
 ## 4. Timing evidence
 

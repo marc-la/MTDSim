@@ -85,8 +85,32 @@ hardest on the shape-not-scale, sweep-it discipline. No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Stealth produces a **concealment state** — a knowledge/behavioural gain (detector-free paths,
+a blending baseline) rather than a position or a possession. Its reset verdict is dominated by
+the single largest **not-captured** in the set: detection is culled from the substrate, where
+"caught" means *MTD invalidated progress*, never *an IDS saw you*
+([substrate primer](../specs/substrate_primer.md) §(f)). Because there is no detector to hide
+from, stealth's gain has **no direct substrate representation** — it is modelled not as a state
+but as the low-and-slow *spacing* it imposes on every other action (§2). This is the honest
+frame: a stealth tactic gets a *time*, not a detection model.
+
+Where the literature does ground an MTD effect, it is a **partial re-planning reset**: a
+detector reshuffle forces a stealthy botnet to re-plan detector-free paths, with MTTC that
+**rises with shuffle frequency and falls with attacker skill**
+([`mtd_stealth_effectiveness`](../extractions/mtd_stealth_effectiveness.md)), and FlipIt frames
+stealthy control as contested by the defender's move-rate. So a shuffle imposes re-work on the
+concealment gain rather than invalidating a map or a key. **Reset verdict: partial (re-planning
+penalty); sweep width wide** — stealth's absolute dwell is the least observable of all
+(Alshamrani §V: synthetic models omit "the realistic noise … [attackers use] to stay
+undetected"), so it leans hardest on the shape-not-scale, sweep-it discipline, and its reset
+magnitude sweeps on shuffle-rate ÷ attacker-skill.
+
+What is **not captured**, restated for this tactic: detection semantics entirely, and therefore
+any *direct* MTD-vs-stealth interaction — the modelled reset is a proxy (spacing re-work), not
+the detector-evasion contest the literature describes. Because the gain rides an owned foothold,
+whatever concealment state the attacker holds *survives* a network shuffle in the substrate's own
+terms; the interesting MTD effect lives in the detection regime the substrate does not model,
+which is the boundary the methodology chapter must state openly (P3).
 
 ## 4. Timing evidence
 

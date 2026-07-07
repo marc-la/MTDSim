@@ -82,8 +82,34 @@ No point number is landed here (deferred to §5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Reconnaissance produces a **map** — a pure position/knowledge gain (the external attack
+surface: reachable hosts, open ports, service/OS fingerprints). Read against the substrate's
+reset model it is the **canonical reset-*vulnerable*** tactic, the survivor axis's opposite
+pole to [[09_credential-access]]. A position-mutating (network-layer) IP/topology shuffle is
+exactly the mutation that invalidates it: it re-addresses and re-links the terrain the map
+described, so the accumulated reconnaissance is thrown away and the attacker is forced to
+re-scan. This is Alshamrani's "the rearrangement of network or software components renders the
+exploratory knowledge of the attacker useless"
+([substrate primer](../specs/substrate_primer.md) §(e)) made concrete.
+
+*How hard* the shuffle bites is bounded by the scan-disruption literature, and it sets the
+sweep width. A perfect shuffle caps attacker scan-success at **e⁻¹≈0.63** when vulnerable
+hosts are sparse, RDAM misses **96.2%** of domain-name scans, and DRL mutation adds
+**26–58.7%** scan time — but the effect is governed by a **mutation-rate ÷ scan-rate ratio**,
+so the magnitude spans near-total reset (fast mutation) to modest (slow)
+([`mtd_scan_disruption`](../extractions/mtd_scan_disruption.md)). **Reset verdict: invalidated;
+sweep width wide** — the *direction* is firm but the magnitude rides that ratio. One structural
+limit tempers it: exposed endpoints are never mutated
+([substrate primer](../specs/substrate_primer.md) §(c)), so reconnaissance of the *perimeter*
+(the route in) survives — it is the *interior* map that resets.
+
+What is **not captured**: the low-and-slow, off-network, mutation-pattern-learning
+reconnaissance the literature attributes to APTs (Jalowski: passive recon to "learn mutation
+patterns over time"). The substrate meters reconnaissance as a fast active scan and cannot
+represent an attacker who *learns the shuffle schedule* and times around it — the adaptivity
+deferral ([substrate primer](../specs/substrate_primer.md) §(f)). So the modelled reset is a
+worst-case for a naive scanner; a schedule-aware recon attacker would reset less, which the
+sweep's upper (attacker-favourable) bound gestures at without modelling.
 
 ## 4. Timing evidence
 

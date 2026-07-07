@@ -74,8 +74,30 @@ number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Execution produces a fleeting **capability act** — code running on an already-owned host — not a
+retained map or possession, and its reset verdict turns on the **circumvention-vs-probing
+classification** the profile deliberately leaves open (§2). Evans' per-attack-class taxonomy is
+the governing evidence: dynamic diversity gives **no advantage against circumvention/deputy
+attacks** (which is what APT-preferred *fileless/in-memory* execution is), ≤2× against
+brute-force, and is significant only against *incremental probing*, and then only at a very high
+re-randomisation rate ([`evans2011_mtd_effectiveness`](../extractions/evans2011_mtd_effectiveness.md)).
+So a surface-mutating (application-layer) diversity shuffle **weakly disrupts** the execution
+mode an APT actually favours: living-off-the-land script execution largely circumvents the
+diversity, while a fresh-exploit-style execution would be more disruptable.
+
+The MTD action that bites is therefore application-layer diversity, and *how much* depends
+entirely on which side of the circumvention/probing line the modelled execution falls — a
+modelling choice, not a fact the literature settles. That unresolved classification is exactly
+why execution is a **genuinely unsettled group** carrying the **widest sweep** in the enabling
+tactics (§2). **Reset verdict: largely immune for the circumvention (fileless) reading, partially
+disruptable for the probing (fresh-exploit) reading; sweep width wide** to span the two.
+
+What is **not captured**: the substrate does not distinguish execution modalities and folds
+"run code" into whatever action it serves, so execution's reset is effectively *inherited* from
+the tactic it enables rather than computed in its own right — and the memory-layer diversity that
+Evans shows would (weakly) bite a probing execution is not among the substrate's implemented
+mechanisms. The verdict is a declared magnitude over a direction the mechanism only loosely
+fixes.
 
 ## 4. Timing evidence
 
@@ -89,6 +111,14 @@ number (§5).
 | [`ling2023`](../extractions/ling2023.md) Appendix A | Execution techniques map to code/command-injection vuln categories (Command-Line Interface → Direct Shell Command; Native API → Command Injection) | Per-technique CVE shape exists for execution, unlike C&C/hiding; still no dwell (empirical method needs real CVEs) | [fetched] |
 | [`evans2011_mtd_effectiveness`](../extractions/evans2011_mtd_effectiveness.md) §2.4–2.5, Table 2.1 | Dynamic diversity gives **no advantage** vs *circumvention/deputy* attacks, ≤2× vs brute-force; **significant** only vs *incremental* probing, and only at a very high re-randomisation rate (every-4th vs every-100th probe = **6 orders of magnitude**) | **Fileless/script execution is a *circumvention* → reset-immune to memory-diversity MTD**; so a shuffle weakly disrupts the APT-preferred execution mode → supports the unsettled group's **wide sweep** (**→§3**) | [fetched] |
 | [`ransomware_timing`](../extractions/ransomware_timing.md) (IBM 2022 Countdown) | Access→ransomware **deployment** collapsed **~60 d (2019) → 9.5 d (2020) → 3.85 d (2021)**; TTPs unchanged, only speed | Whole-chain bound where "deployment" = running the payload; the fast eCrime end of the execute-the-objective timing, not a per-tactic dwell | [fetched] |
+
+> **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
+> above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
+> *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
+> defined by *when detection caught the intrusion*, and detection/IDS is culled from this
+> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> timeline's *shape/plausibility*, never an absolute per-tactic dwell. Only the rows that resolve
+> dwell-character or reset-verdict feed §3/§5.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

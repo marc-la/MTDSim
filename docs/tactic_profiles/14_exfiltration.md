@@ -66,8 +66,30 @@ vs slow trickle). No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Exfiltration is the act of moving already-collected data out over the command-and-control
+channel, so its reset verdict is **inherited from [[13_command-and-control]]**: because
+Exfiltration Over C2 Channel T1041 rides the C2 route, a position-mutating shuffle that disturbs
+that route interrupts an *in-progress* transfer (forcing re-establishment and resume) — a
+**partial reset**, blunted by C2's architected resilience. The two gains either side of the
+transfer, though, survive: the **data already staged/collected** is a capability possession the
+shuffle does not touch ([substrate primer](../specs/substrate_primer.md) §(e)), and the
+destination infrastructure is off-network.
+
+Crucially, exfiltration's own tradecraft is *itself* an adaptation to channel disruption: the
+careful attacker "intelligently split[s] the data exfiltration into batches and to servers with
+different IP addresses" (Alshamrani §II-C Stage 4) and schedules transfers to blend in
+([`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4). Batching across servers/IPs means a
+single shuffle resets at most one batch, not the campaign — the design blunts the reset. The MTD
+action that bites is therefore the position-mutating shuffle acting on the C2 route, weakly.
+**Reset verdict: partial (inherits C2's architected survival; staged data survives; batching
+blunts it); sweep width wide** — spanning a fast bulk burst to a slow, fragmented trickle, with a
+throughput floor (exfil "cannot go any faster … data throughput … rigid time frames").
+
+What is **not captured**: the substrate models neither data-at-rest as resettable state nor the
+C2 channel's fallback resilience, so exfiltration's modelled reset is simply the C2 route
+interruption applied to the transfer window — the batched, IP-diversified spread that would blunt
+it in reality is an attacker-side behaviour the L3b binding must encode, not a substrate
+primitive.
 
 ## 4. Timing evidence
 
@@ -79,6 +101,14 @@ vs slow trickle). No point number (§5).
 | [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (DFIR cases) | Time-to-Ransomware spans **2 h → 118 h → 328 h** across three cases; exfil (Rclone→MEGA/SFTP) lands late in the chain, often after a multi-day dwell gap | Per-case tempo spread the objective-execution sweep must span; exfil timing is late and paced, not a burst — corroborates the batched-low-and-slow reading | [fetched] |
 | [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Exfiltration — Scheduled Transfer T1029) | Attackers "schedule a specific time or interval … during peak business hours … If data is being exfiltrated at random intervals, it can look suspicious" | Direct support for the *deliberately paced* (batched low-and-slow) end of the exfil width flagged in Step B; behaviour, not a number | [fetched] |
 | [`collection_exfil_timing`](../extractions/collection_exfil_timing.md) (GAO Equifax; Nadler 2019; Unit42 2026) | Equifax exfil **ran ~76 days, ~9,000 queries** in small increments to evade; low-throughput DNS-exfil is **slow by design** (data volume → stealth duration); but fastest quartile exfil **1.2 h** | Spans the exfil width: a fast eCrime burst (hours) ↔ a low-and-slow espionage extraction (months) — the objective-execution sweep + the throughput floor | [fetched] |
+
+> **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
+> above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
+> *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
+> defined by *when detection caught the intrusion*, and detection/IDS is culled from this
+> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> timeline's *shape/plausibility*, never an absolute per-tactic dwell. Only the rows that resolve
+> dwell-character or reset-verdict feed §3/§5.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

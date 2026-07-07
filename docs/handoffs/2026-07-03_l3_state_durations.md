@@ -15,8 +15,39 @@ updated: 2026-07-07
 
 ## State of play
 
-- **Step E reframed + substrate primer written (2026-07-07) — THIS IS WHERE A
-  FRESH SESSION RESUMES.** A purpose/rubric/review session established that **§3
+- **Step E is DONE (2026-07-07) — §3 written for all 15 profiles; RESUME AT STEP F.**
+  §3 (MTD interaction / reset verdict) is now filled in every
+  `docs/tactic_profiles/*.md` as thesis prose, organised on the
+  **survivor-vs-vulnerable reset axis** and argued from the substrate primer §(e).
+  Structure per profile: what gain the tactic produces (position/knowledge vs
+  capability/credential) → its reset direction off the substrate model → which MTD
+  action bites + how hard → sweep width → the honest not-captured boundary (rubric
+  crit. 3/4/6, with crit. 7 discrimination hooks where they exist). The **crown-jewel
+  per-modality split is foregrounded**: [[09_credential-access]] (survivor pole),
+  [[01_reconnaissance]]/[[10_discovery]] (vulnerable pole),
+  [[11_lateral-movement]]/[[12_collection]] (split *inside* the tactic:
+  scan/remote-share hop resets, credential/local-read survives). The three open
+  contests are foregrounded, not resolved: [[05_persistence]] (FlipIt rate contest;
+  and the literature verdict *diverges* from the substrate, which implements no
+  eviction op — recorded), [[13_command-and-control]] (architected to survive
+  connection loss; substrate *over-resets* it vs reality), [[04_execution]]
+  (circumvention-vs-probing left open). [[02_resource-development]] written as the
+  **inert null verdict** (off-network, reset-immune); [[08_defense-impairment]] and
+  [[12_collection]] written **mechanism-first** — 08's verdict (host-local disabled
+  control survives a shuffle, invalidated only by reimage/OS-diversity-as-reprovision;
+  the substrate models *no* defences to disable) folds a background P2-mining agent's
+  code-level + literature findings; 12 is the local-survivor/remote-vulnerable split.
+  **P0.3 done:** orphan whole-chain macro rows demoted to a labelled
+  "operational-validation outer envelope" caption under §4 in 03/04/05/09/11/14/15
+  (this also discharges the P3 detection-regime-mismatch examiner hit). **Files stay
+  `status: stub`** — §5 (Step F) is still empty, so they are not yet `drafted`; do
+  **not** flip status until Step F + the catalogue land (validation gate). What was
+  *not* done: no fresh deep P2 mining/extractions for 08/12 beyond the one background
+  agent — §3 is declared-from-mechanism and the reset *direction* is substrate-fixed,
+  so deeper IR-case grounding remains available if Marc wants it but was judged
+  disproportionate per the strategic note (the runner is the load-bearing evidence).
+- **Step E reframed + substrate primer written (2026-07-07).** A purpose/rubric/review
+  session established that **§3
   (Step E) is the thesis's novel object, not a catalogue chore**: it is the
   per-tactic *APT × dynamic-network interaction* — what a defensive mutation does
   to the attacker's gain — and it is **empty in all 15 profiles**. Three new
@@ -176,78 +207,10 @@ updated: 2026-07-07
 
 ## Steps remaining (as of 2026-07-07)
 
-Evidence-gathering (Steps A–D) is complete: §1/§2/§4 are filled, reconciled, and
-enriched for all 15 profiles. **Step E was reframed on 2026-07-07** (see the top
-state-of-play bullet + the three governing artefacts): §3 is the thesis's **novel
-object**, written as prose, organised on the **survivor-vs-vulnerable reset axis**,
-argued from [`../specs/substrate_primer.md`](../specs/substrate_primer.md) §(e).
-Three things remain, in order:
+Evidence-gathering (Steps A–D) is complete and **Step E is done** (§1/§2/§3/§4 filled
+for all 15). Two things remain, in order:
 
-1. **Step E — write §3 (MTD interaction / reset verdict) as thesis prose, all 15
-   profiles. ← THE NEXT STEP.** §3 prose lives *inside the profile files* (user
-   decision). Write against the rubric
-   ([`../notes/2026-07-07_thesis_backbone_rubric.md`](../notes/2026-07-07_thesis_backbone_rubric.md)
-   B.1 crit. 3–4/6); argue every verdict from the substrate primer §(e) — the reset
-   *direction* is substrate-fixed, you declare-and-sweep the *magnitude*.
-   - **Start with the 7 cross-product-complete tactics** (review disposition): recon,
-     credential-access, discovery, lateral-movement, persistence, stealth, C2.
-     **Write ONE exemplar first to calibrate depth/voice** — suggest
-     `09_credential-access` (cleanest reset-survivor) or `11_lateral-movement`
-     (modality-split showcase) — then roll across the 7.
-   - **Then the 5 thin-but-writable** (initial-access, execution, privilege-escalation,
-     exfiltration, impact) — mechanism-inferable, no dedicated evidence row yet.
-   - **The 3 holes need P2 mining before writing:** `08_defense-impairment` &
-     `12_collection` (no reset story in corpus), `02_resource-development` (flag
-     **inert** — off-network/reset-immune; state the null verdict, don't force one).
-   - **Foreground as open questions, don't resolve:** `05_persistence` (foothold
-     eviction is a FlipIt rate contest — no fixed answer, and the dwell that most
-     drives the MTD comparison), `13_command-and-control` (architected to survive
-     connection loss), `04_execution` (circumvention-vs-probing classification).
-   - **As you write, demote §4's orphan macro numbers** to a labelled
-     "operational-validation outer envelope"; keep only rows that resolve
-     dwell-character or reset-verdict (keep ransomware *encryption-speed* rows).
-     Wire in three under-exploited-but-already-extracted sources: alshamrani2019
-     §IV-C-2-B ("renders the exploratory knowledge of the attacker useless" —
-     recon/discovery seed), evans2011 per-modality attack-class taxonomy (every
-     reuse-vs-fresh-exploit tactic), xiong2021 privilege-escalation gating-state.
-   - **Reframe the claims, not just the notes — pre-empt the examiner (P3):** the
-     detection-regime mismatch (macro dwell/breakout targets are defined by *when
-     detection caught the intrusion*; IDS is culled → they are a shape/plausibility
-     envelope, never an absolute-timing target); "APT" = the source-genre of the
-     CTI, not full-spectrum fidelity; the executed profile = a
-     worst-case-within-objective *stress envelope*, not an emulation.
-   - *Don't re-mine the MTD papers* for the well-served tactics — the §3 evidence is
-     staged: the alshamrani2019 per-tactic MTD-effect block + reset-verdict matrix
-     (Step B), the Step-C reset inputs, **plus the Step-D §3 evidence carried in each
-     profile's §4 rows with a `→§3` pointer**. The Step-D reset verdicts, by tactic:
-   - **The governing principle (Step D):** the reset is **per-modality and
-     rate-dependent, never a clean wipe** — Evans 2011
-     ([`../extractions/evans2011_mtd_effectiveness.md`](../extractions/evans2011_mtd_effectiveness.md)):
-     dynamic diversity gives *no* advantage vs circumvention/deputy attacks
-     (incl. fileless/script **execution**), ≤2× vs brute-force, significant only vs
-     incremental probing *and* only at a high re-randomisation rate (6 orders of
-     magnitude across every-4th vs every-100th probe). Set every sweep width from
-     the shuffle-interval ÷ attacker-action-time ratio.
-   - **recon / discovery force re-scan on a shuffle** — reset governed by
-     shuffle-interval ÷ attacker-wait, e⁻¹≈0.63 ceiling, RDAM 96.2% miss
-     ([`../extractions/mtd_scan_disruption.md`](../extractions/mtd_scan_disruption.md),
-     [`../extractions/internet_scanning_empirics.md`](../extractions/internet_scanning_empirics.md));
-   - **credential-access is the clearest reset-*survivor*** — stolen credentials
-     survive a topology shuffle *and* largely survive password rotation
-     (Zhang-Monrose-Reiter: only 41% offline / 17% online broken —
-     [`../extractions/password_rotation_efficacy.md`](../extractions/password_rotation_efficacy.md));
-   - **persistence reset is *partial*, rate-dependent** — FlipIt (higher-move-cost
-     player → benefit 0), SCIT cleansing-cycle, Sun switch-timing
-     ([`../extractions/persistence_reset_models.md`](../extractions/persistence_reset_models.md));
-   - **C2 reset is *partial*** — beacon survives connection loss (proxies), switch
-     interval is the swept axis ([`../extractions/c2_beaconing.md`](../extractions/c2_beaconing.md));
-   - **lateral-movement reset is per-modality** — address mutation kills a
-     *scan-based* worm (<1% valid addresses) but a *credential*-move survives
-     ([`../extractions/worm_propagation_models.md`](../extractions/worm_propagation_models.md));
-   - **impact reset = blast-radius limiting** — MTD contains lateral ransomware
-     spread mid-attack (Barach, [`../extractions/ransomware_timing.md`](../extractions/ransomware_timing.md));
-   - **resource-development is reset-*immune*** (off-network), unchanged.
-2. **Step F — fill §5 (catalogue inputs), all 15 profiles** (detail below):
+1. **Step F — fill §5 (catalogue inputs), all 15 profiles** (detail below):
    group (confirm/overturn the stub hypothesis) + relative multiplier + sweep
    range + tier + one-paragraph justification. Carry the Step-C findings that
    move the bets: group anchors beat per-tactic values (ling2023's shared 6-day
@@ -255,7 +218,7 @@ Three things remain, in order:
    them); `execution` and `defense-impairment` stay genuinely unsettled → wide
    sweep; objective tactics anchor to the macro milestone chain (breakout ~29 min,
    access→AD ~3–16 h, access→exfil ~73–79 h, TTR 2 h–328 h, dwell 14 d/122 d/~400 d).
-3. **The catalogue — `data/ogasp/tactic_durations.json` + provenance rows**
+2. **The catalogue — `data/ogasp/tactic_durations.json` + provenance rows**
    (detail under "Then the catalogue" below). Distil §5 into the machine
    artefact; every place-union tactic gets an entry; fill the `pending` regime
    row in [`../specs/provenance.md`](../specs/provenance.md).
@@ -273,8 +236,8 @@ but hold that the runner/probe is the load-bearing *evidence*, not the prose. Th
 per-modality reset split (the crown jewel) is the strongest genuinely-owned,
 falsifiable claim; foreground it.
 
-Only after all three: flip profiles `stub` → `reconciled` and clear the
-Validation gate. **This handoff is deleted in the commit that ships the
+Only after Step F + the catalogue: flip profiles `stub` → `reconciled` and clear
+the Validation gate. **This handoff is deleted in the commit that ships the
 catalogue** (session-workflow lifecycle).
 
 ## Recommended approach

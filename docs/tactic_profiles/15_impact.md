@@ -70,8 +70,31 @@ number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Impact is the one tactic where MTD acts as **blast-radius limiting rather than gain
+invalidation** — a distinct reset mechanism worth stating in its own right. Impact's gain is an
+*irreversible act* (encryption, destruction), not a retained state: a shuffle mid-campaign cannot
+"reset" an already-encrypted host. What it can do is limit *how many further hosts* the impact
+reaches. Barach's MTD (container mutation + IP hopping + service rotation) contains lateral
+ransomware spread mid-attack, cutting encryption reach to **13.2%** with mean-time-to-containment
+**91.4 s** ([`ransomware_timing`](../extractions/ransomware_timing.md)) — a partial reset of the
+impact *reach*, not the impact *act*.
+
+The split maps onto the per-modality axis via *reachability*: once positioned on a host, the
+impact act on *that* host is a survivor (fast, decisive — encryption is throughput-bound at
+minutes-to-hours); the *spread* to new hosts is reset-vulnerable because it needs the same
+reachability/discovery that a position-mutating shuffle invalidates ([[11_lateral-movement]]'s
+scan modality). The MTD action that bites is therefore the topology/address shuffle acting on the
+*propagation*, not the payload. **Reset verdict: the act on a held host survives; the spread is
+reset-vulnerable (blast-radius limiting); sweep width wide** — burst-impact-to-never, the reset
+applying to reach not act.
+
+What is **not captured**: the substrate does not model data destruction/encryption as an
+irreversible state change, so impact "reach" is proxied entirely by the reachability a topology
+shuffle governs — the containment Barach measures is expressible only insofar as the spread rides
+the substrate's lateral-movement reachability. Objective-conditioning (crit. 7) is sharp here: an
+espionage "position for future" campaign may never reach impact at all
+([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C), so the tactic is inert for some
+objective-profiles and decisive for others — a genuine discriminator.
 
 ## 4. Timing evidence
 
@@ -85,6 +108,15 @@ number (§5).
 | [`ling2023`](../extractions/ling2023.md) Appendix A (Impact) | Impact techniques map to *Denial of Service* (Loss of View) and *Access Control* (Manipulation of View) vuln categories | Per-technique CVE shape for the destructive/impact primitives; no dwell | [fetched] |
 | [`ransomware_timing`](../extractions/ransomware_timing.md) (Splunk 2022; Secureworks 2024; IBM 2022) | Encryption act **~5m50s (LockBit) → ~1h55m (PYSA)**, overall median **~42m52s**, throughput-bound; ransomware dwell **~7–28 h** (Secureworks), access→deploy 3.85 d–60 d (IBM) | The impact *act* (encryption) is minutes-to-hours with a real floor (disk I/O); the whole-chain is fast-eCrime vs never-for-espionage — the objective-execution anchor + widest sweep | [fetched] |
 | [`ransomware_timing`](../extractions/ransomware_timing.md) (Barach 2026 MTD) | An MTD (container mutation + IP hopping + service rotation) reports **mean-time-to-containment 91.4 s**, encryption cut to 13.2% by blocking lateral ransomware spread | §3 MTD-vs-impact: shuffling the runtime surface contains lateral spread mid-attack, limiting blast radius — a partial reset of the impact reach (**→§3**) | [fetched] |
+
+> **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
+> above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
+> *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
+> defined by *when detection caught the intrusion*, and detection/IDS is culled from this
+> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> timeline's *shape/plausibility*, never an absolute per-tactic dwell. Keep the ransomware
+> *encryption-speed* rows as a real per-act floor; only rows that resolve dwell-character or
+> reset-verdict feed §3/§5.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

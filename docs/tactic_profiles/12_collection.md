@@ -68,8 +68,30 @@ No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Collection is **modality-split** on the same axis as [[11_lateral-movement]], and the split falls
+on *where the data lives*. A **host-local read** (Data from Local System T1005) produces a
+capability possession once staged: the collected/archived data sits on an owned host, so it
+**survives** a network shuffle exactly as a harvested credential does
+([substrate primer](../specs/substrate_primer.md) §(e)) — patterning with [[09_credential-access]],
+which is unsurprising given collection and credential-access share the same capture
+instrumentation (Input Capture T1056, Adversary-in-the-Middle T1557). A **remote-share read**
+(Data from Network Shared Drive T1039), by contrast, depends on reachability to another host, so a
+position-mutating topology/address shuffle can invalidate the route to the share mid-collection —
+reset-*vulnerable*, like a scan-based lateral hop.
+
+The MTD action that bites is therefore the topology/address shuffle, and it bites the *remote*
+modality only. Collection also has a genuine **dwell floor** unrelated to reset — objective
+actions "cannot go any faster, since they rely on human activity, data throughput, or other
+fairly rigid time frames" (Sophos AAR) — so even where the gain survives, the act itself is not
+substrate-instant. **Reset verdict: per-modality — the local read survives (narrow sweep), the
+remote-share read is reset-vulnerable (wider sweep); overall sweep moderate-to-wide.**
+
+What is **not captured**: the substrate models neither data-at-rest as resettable state nor
+remote-share reachability as a distinct collection primitive — so the remote-read reset is really
+the reset of the underlying reachability the topology shuffle governs, and the local-read survivor
+is really the durability of an owned foothold. As with [[08_defense-impairment]], the direction is
+mechanism-clear but the substrate has no first-class "collected data" object to invalidate or
+spare; the modality distinction is an attacker-side behaviour the L3b binding must carry.
 
 ## 4. Timing evidence
 

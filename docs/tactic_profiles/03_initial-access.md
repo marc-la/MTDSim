@@ -69,8 +69,28 @@ patient wait. No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Initial access produces the first **foothold** — and the gain splits by *when* you look. Once
+achieved, the foothold is a capability possession that **survives**: a compromised ingress host
+stays owned, and — the structural fact that makes initial-access unusually reset-robust —
+**exposed endpoints are never mutated** ([substrate primer](../specs/substrate_primer.md) §(c)),
+so the route *in* is a permanent fixture the MTD cannot take away
+([substrate primer](../specs/substrate_primer.md) §(e)). Mutation protects the interior, not the
+perimeter. An *in-progress* entry attempt against a public-facing application, by contrast, is a
+surface-dependent action: a surface-mutating (application-layer) diversity shuffle can reset the
+exploit working set and force re-enumeration of the same target, and per Evans a *fresh-exploit*
+attempt is disrupted while a valid-accounts entry (a survivor credential path) is not.
+
+The MTD action that bites is therefore application-layer diversity on the *attempt*, not
+topology shuffle on the *achieved foothold* — the ingress being shuffle-exempt by design.
+**Reset verdict: the achieved foothold survives (the perimeter is not mutated); an in-progress
+exploit entry is disruptable by surface diversity only; sweep width narrow-to-moderate** — the
+tactic is relatively reset-robust, and the disruptable part is bounded to the exploit attempt.
+
+What is **not captured**: the human-triggered delivery-wait of the phishing/watering-hole half —
+the substrate models entry as a fast exploit, not a patient wait for a user to open an attachment
+(§2), so the low-and-slow character of that vector sits outside the metered action and is not
+subject to reset at all. The valid-accounts entry path inherits the credential survivor verdict
+([[09_credential-access]]).
 
 ## 4. Timing evidence
 
@@ -85,6 +105,14 @@ patient wait. No point number (§5).
 | [`ling2023`](../extractions/ling2023.md) Appendix A, Table 7 | Initial-Access techniques map to *Access Control* / *Web* vuln categories; expert TTC floor **6 days** across all combinations | Per-technique empirical shape for exploit-priced entry; the constant expert floor supports a group anchor over per-tactic values | [fetched] |
 | [`initial_access_timing`](../extractions/initial_access_timing.md) (DBIR 2024; Mandiant TTE 2023) | Phishing **click in 21 s** (+28 s to data entry); average time-to-exploit collapsed **63 → 44 → 32 → 5 days** (2018→2023), 70% first exploited as zero-days | Fast-end empirical anchors: the metered exploit/click action is seconds-to-days; the low-and-slow is pre-delivery, not the action (sharpens §2) | [fetched] |
 | [`initial_access_timing`](../extractions/initial_access_timing.md) (Holm 2014 §5.2–5.3) | TTC over **203k intrusions / 262k systems** is **heavy-tailed (Pareto/lognormal), not exponential**; TTC *decreases* with each successive intrusion | Distribution-shape caveat: a declared entry-time sweep should explore a heavy tail, not memoryless — flags the substrate's inherited exponential as suspect (for Marc, not actioned) | [fetched] |
+
+> **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
+> above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
+> *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
+> defined by *when detection caught the intrusion*, and detection/IDS is culled from this
+> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> timeline's *shape/plausibility*, never an absolute per-tactic dwell. Only the rows that resolve
+> dwell-character or reset-verdict feed §3/§5.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

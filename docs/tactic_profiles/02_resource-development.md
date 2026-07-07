@@ -68,8 +68,27 @@ but is the tactic least coupled to the on-network timeline. No point number here
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Resource development is the profile's **inert** tactic (rubric crit. 7), and the honest §3 is a
+*null verdict* stated plainly rather than a reset story forced onto a tactic that has none. Its
+gain — infrastructure, accounts, tooling — is built and held **off the victim network**, before
+the simulator's clock starts and outside anything an MTD mechanism can touch: mutation protects
+the interior of the estate, not the adversary's own kit
+([substrate primer](../specs/substrate_primer.md) §(c)), and resource development "takes place
+outside of the company's protection and control … preventive measures may not be effective"
+([`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4). No IP/topology shuffle, service/OS
+diversity, or credential rotation reaches it.
+
+**Reset verdict: null — reset-immune (off-network, pre-clock); no sweep** (the tactic carries a
+near-zero in-sim dwell to begin with, §2). This is a *negative* contribution to the thesis's
+novel object: resource development sits on neither the survivor nor the vulnerable pole of the
+axis because it is never on the terrain the axis describes. It is present in the place-union for
+completeness, and the honest move is to record that it contributes nothing to the MTD-interaction
+finding rather than manufacture a verdict.
+
+What is **not captured**: everything about resource development is outside the substrate's model
+by construction — there is no off-network stage for the simulator to represent, and no
+attacker-side gain here for a mutation to invalidate or spare. The tactic's whole value to the
+model is as the documented boundary of where the MTD interaction *begins*.
 
 ## 4. Timing evidence
 

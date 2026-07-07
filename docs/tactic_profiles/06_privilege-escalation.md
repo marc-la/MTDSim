@@ -71,8 +71,31 @@ token-abuse variant runs faster than the anchor implies. No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Privilege escalation produces an **elevated-permission state** — a *gating capability* that
+unlocks an admin-only technique subset (xiong2021: a `userRights` adversary "cannot use a
+technique that requires Administrator" until it can "level up … to gain adminRights"). Read
+against the reset model it is bimodal, like its sibling exploit-shaped tactics
+([[03_initial-access]], [[11_lateral-movement]]). The **token/valid-account path** (Access Token Manipulation T1134, Valid Accounts
+T1078) is a capability possession that **survives** a network shuffle — an elevated token is not
+location-bound, patterning with [[09_credential-access]]. The **exploit path** (Exploitation for
+Privilege Escalation T1068) is a surface-dependent attempt whose working set a surface-mutating
+diversity shuffle can reset mid-exploit, patterning with [[03_initial-access]].
+
+The MTD action that bites is application-layer diversity on the exploit path (not the token
+path), and its effect is bounded by the observation that **MTD-defeat probability rises with
+attacker time/cost** (Maleki — [`mttc_lineage`](../extractions/mttc_lineage.md)): a faster reset
+caps escalation success by denying the exploit time to complete. Deception/structure *delays* the
+privilege-escalation→domain-admin race but does not *reset* an already-held elevation
+([`ad_time_to_domain_admin`](../extractions/ad_time_to_domain_admin.md)). **Reset verdict:
+bimodal — the token/valid-account variant survives (narrow sweep), the exploit variant is
+disruptable by surface diversity (moderate sweep); overall sweep moderate.**
+
+What is **not captured**: the substrate prices the exploit but does not model the *gating state*
+itself distinctly — the xiong-style "elevation unlocks a technique subset" semantics are an
+attacker-side addition the L3b binding carries, not a substrate primitive. So privilege
+escalation's reset in the substrate is really the reset of its underlying exploit or credential
+action; its distinctive contribution (the permission gate) is a modelled precondition, not a
+resettable gain.
 
 ## 4. Timing evidence
 

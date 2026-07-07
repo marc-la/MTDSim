@@ -72,8 +72,35 @@ No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
 
-<!-- Which MTD action (shuffle / diversity / redundancy) disrupts this tactic?
-     Reset verdict (does a shuffle invalidate a gain here or survive it?) + the sweep-width it justifies. -->
+Persistence produces a **foothold** — a capability/conquest possession: a compromised host
+stays owned, and "persistent conquest survives everything" in the substrate's reset model
+([substrate primer](../specs/substrate_primer.md) §(e)). So the naive verdict is *survivor*.
+But persistence is the profile's **open contest** — the reset here is genuinely a *rate
+contest*, not a clean survive-or-invalidate, and it should be foregrounded as an open question
+rather than resolved. FlipIt frames foothold survival as a game where **the higher-move-cost
+player has benefit 0** and whoever moves faster/cheaper controls the resource
+([`persistence_reset_models`](../extractions/persistence_reset_models.md)): a periodic MTD move
+*contests* a foothold but does not cleanly evict it, an SCIT cleansing cycle bounds the
+attacker's hold window, and a too-slow reset "grant[s] attackers extended time windows" (Sun).
+There is no fixed answer — the outcome flips on the **defender-move-rate ÷
+attacker-re-compromise-rate** ratio, which is why the sweep is wide.
+
+This is also the dwell that most directly drives the MTD comparison (cho2020: optimal defence
+hinges on "whether the goal required a persistent foothold"), so getting its verdict *and its
+uncertainty* right matters more than for most tactics. The MTD action that bites is any
+mechanism that periodically refreshes host state; the substrate, however, implements **no
+cleansing/reimaging/redundancy mechanism** ([substrate primer](../specs/substrate_primer.md)
+§(c)) — its shuffles and diversity swaps do not clear host compromise — so in the *current*
+substrate a foothold is a near-total survivor, and the FlipIt rate-contest is a
+**literature-argued verdict that diverges from what the substrate can exercise**. Recording that
+divergence is itself a finding (§(e).1): the reset-magnitude sweep encodes the contest the
+substrate does not yet run.
+
+What is **not captured**: the eviction mechanism itself (no reimage/rejuvenation op), and the
+account-manipulation path by which persistence *adapts around* a periodic credential rotation
+(Selmanaj) — the substrate treats the foothold as durable and the credential as never revoked,
+so it models persistence at the survivor extreme of the rate contest. **Reset verdict: contested
+survivor — foreground as a rate-dependent open question; sweep width wide.**
 
 ## 4. Timing evidence
 
@@ -87,6 +114,14 @@ No point number (§5).
 | [`apt_campaign_duration`](../extractions/apt_campaign_duration.md) (Yuldoshkhujaev 2025 §4) | APT campaign duration **1 day → ~5 years, 137 days average** (decade of dossiers); attackers "waiting for an opportune time" | Tier-2 whole-campaign envelope for the reset-*surviving* foothold — the espionage long-tail the group anchor must reach; not a per-tactic dwell | [fetched] |
 | [`persistence_reset_models`](../extractions/persistence_reset_models.md) (FlipIt 2013 §4.3; SCIT 2006; Sun 2025) | FlipIt: the higher-move-cost player has **benefit 0**; whoever moves faster/cheaper controls the resource more — reset is **partial, rate-dependent**; SCIT: cleansing cycle bounds the attacker's hold window; Sun: too-slow reset "grant[s] attackers extended time windows" | The §3 reset verdict for persistence: a periodic MTD move *contests* a foothold but does not cleanly wipe it — outcome set by move-rate ÷ compromise-rate → **wide sweep** (**→§3**) | [fetched] |
 | — (no in-corpus per-tactic timing) | No extraction assigns a persistence duration | Documented negative (the gap); confirms Tier-3 *declared* | [fetched] |
+
+> **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
+> above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
+> *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
+> defined by *when detection caught the intrusion*, and detection/IDS is culled from this
+> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> timeline's *shape/plausibility*, never an absolute per-tactic dwell. Only the rows that resolve
+> dwell-character or reset-verdict feed §3/§5.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
