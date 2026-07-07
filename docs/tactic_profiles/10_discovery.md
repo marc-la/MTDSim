@@ -115,8 +115,8 @@ substrate does not compute ([substrate primer](../specs/substrate_primer.md) §(
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn scan-shaped>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 1 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** scan-shaped — **confirmed as modelled** (internal enumeration priced as the substrate scan verb); the open-ended "position for future" watching mode is a recorded slower character the scan does not capture.
+- **Relative multiplier:** ×1.0 of the scan-verb anchor — the same enumeration modality as [[01_reconnaissance]], run from inside the estate; **not tuned**.
+- **Sweep range:** ×0.5–×2 (moderate) — the scan verb is fixed; the position-for-future slow mode warrants a modest band on the modelled value.
+- **Tier:** 1 — substrate-anchored (scan verb); not tuned.
+- **Justification (one paragraph):** Discovery is reconnaissance's interior twin — mechanically the same host/service/network enumeration, run from inside a foothold — so §2 confirms scan-shaped and it inherits the same Tier-1 not-tuned scan anchor (×1.0). §3 makes it squarely **reset-*vulnerable*** and, unlike [[11_lateral-movement]], *purely* so: its gain is an internal map with no survivor sub-modality, so a position-mutating shuffle invalidates it wholesale (NASim: mutation-interval 25 → scan-first agent win-probability 0, the agent "forced to restart his scan"), with the *thorough* enumerator hit hardest and magnitude on the mutation-interval ÷ scan-cadence ratio. That reset verdict + wide band feed the binding; the duration stays the substrate scan constant with a moderate sweep for the un-metered "position for future" watching (§2). Surface diversity is largely orthogonal here — discovery enumerates reachability, not an exploit working set — so it is the topology/address family, not OS/service diversity, that resets it.

@@ -122,8 +122,8 @@ fixes.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn stealth-low-and-slow>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 3 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** stealth-low-and-slow — **genuinely unsettled** (a fast, cross-cutting verb wearing a stealth wrapper). Provisionally in the group, but the sweep spans down toward a near-zero verb and up to the full low-and-slow pace.
+- **Relative multiplier:** ×0.5 of the stealth anchor — the central estimate leans to the fast-verb reading (the act completes in moments), pending the runner.
+- **Sweep range:** ×0.1–×2 (wide, skewed low) — the widest genuine uncertainty among the enabling tactics, because the **group boundary itself is unresolved** (§2).
+- **Tier:** 3 — declared; no substrate verb prices execution's paced cadence, and the corpus cannot settle its dwell.
+- **Justification (one paragraph):** Execution is the one tactic whose group is left open on purpose. §2 records the tension: the literature couples execution to concealment ("keep low to go undetected"; fileless/in-memory chosen to evade), which reads low-and-slow, yet mechanically "run code" is a brief verb underlying most other tactics. The reconciliation is that any low-and-slow character is inherited from the *stealth wrapper and inter-execution spacing*, not the act — so the central multiplier leans fast (×0.5) while the wide, downward-skewed sweep keeps both readings live until the runner shows which one the timeline needs. §3 reinforces the width from the reset side: per Evans, dynamic diversity gives **no advantage against the circumvention (fileless) execution an APT actually favours** and bites only a fresh-exploit-style probing execution, so the reset direction is only loosely fixed and its magnitude is declared over a wide band. This is a Tier-3 declared value in the fullest sense — neither substrate nor corpus pins it — and the wide sweep *is* the honest deliverable.

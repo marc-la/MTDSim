@@ -109,8 +109,8 @@ does not depend on the resettable gain.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn stealth-low-and-slow>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 3 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** stealth-low-and-slow — **confirmed** (a persistent, low-signal channel that beacons on a regular cadence, not a discrete act).
+- **Relative multiplier:** ×1.0 of the stealth anchor — the long-lived channel dwell; the MTD-relevant sub-rate is the beacon interval, expressed in the sweep.
+- **Sweep range:** ×0.25–×4 (wide) — the beacon cadence spans seconds to hours+ (Cobalt Strike 30 s ± jitter; observed 2 s–2 h+), and the reset is partial/architected-to-survive.
+- **Tier:** 3 — declared; Ling & Ekstedt show C&C is **un-priceable by CVE data** ("using common ports … is not exploiting a vulnerability"), so it is a free parameter in any model.
+- **Justification (one paragraph):** C2 is the **secondary open contest**. §2 confirms low-and-slow — a long-term channel beaconing at intervals, with fast infrastructure sub-churn (fast-flux) — so it takes the stealth anchor at ×1.0, and the MTD-relevant rate is the *beacon interval* (seconds-to-hours, tunable), which is what an MTD move-interval competes against and what the wide sweep spans. §3's distinguishing property is that the channel is **architected to survive connection loss** (Fallback Channels T1008, proxy/CDN-fronting, DGA T1568), so an IP/topology shuffle **degrades but may not sever** it — a *partial* reset whose outcome rides switch-interval ÷ beacon-cadence traded against a switch cost. The divergence worth recording (substrate-primer §(e).1) runs the *opposite* way to the credential/persistence survivors: the substrate would model a C2 route more simply than architected reality, so a modelled shuffle **over-resets** C2 relative to the literature — the substrate is *harsher* on the attacker here. Tier-3 declared because CVE-based timing structurally cannot price C&C; the wide sweep and the partial-reset fraction feed the catalogue and the binding respectively, and air-gapped/C2-optional campaigns (crit. 7) route around the resettable gain entirely.

@@ -112,8 +112,8 @@ primitive.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn objective-execution>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 2 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** objective-execution — **confirmed**, with a stealth-shaped spread (terminal objective, but deliberately paced/fragmented to stay under thresholds).
+- **Relative multiplier:** ×1.0 of the objective-execution anchor — the terminal data-theft act; throughput-bound with a floor.
+- **Sweep range:** ×0.25–×4 (wide) — spans a fast bulk burst to a slow, fragmented trickle (Equifax ~76 days ↔ fastest quartile 1.2 h, as the outer envelope), with a throughput floor at the bottom.
+- **Tier:** 2 — literature-calibratable: the breach literature reports access→exfil milestones (Sophos ~73–79 h) as a held-out calibration/plausibility check.
+- **Justification (one paragraph):** Exfiltration is the terminal act of a data-theft campaign with a dual character — an objective (like [[15_impact]]) executed low-and-slow (like [[07_stealth]]) — so §2 places it in the tuned objective-execution group at the reference multiplier (×1.0), and its Tier is 2 because access→exfil is one of the few milestones the breach literature reports (a held-out observable for operational validation, per the method note's anti-circularity rule 3). The wide sweep is earned by the batched, IP-diversified spread §2 documents: the modelled band spans a fast bulk burst to a slow fragmented trickle, while acknowledging the real-world span (hours ↔ months) as an outer envelope that shape-not-scale deliberately does not match absolutely. §3's reset is **inherited from [[13_command-and-control]]** — Exfiltration Over C2 Channel T1041 rides the C2 route, so a position-mutating shuffle interrupts an *in-progress* transfer (partial reset, blunted by C2's architected resilience), while the already-staged data survives and the destination is off-network; crucially the tactic's own tradecraft (batching across servers/IPs) *is* an adaptation to disruption, so a single shuffle resets at most one batch. The reset fraction (partial, blunted) feeds the binding; the wide duration band feeds the catalogue.

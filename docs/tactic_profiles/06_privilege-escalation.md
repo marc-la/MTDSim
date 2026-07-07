@@ -113,8 +113,8 @@ resettable gain.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn exploit-shaped>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 1 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** exploit-shaped — **confirmed for the purest form** (T1068, a substrate-priced exploit); the token/valid-account variant is a faster reuse-of-material act, noted as a within-group skew.
+- **Relative multiplier:** ×1.0 of the exploit anchor (`exploit_time`, complexity-scaled) — the direct-exploitation path, **not tuned**; the token path runs below the anchor.
+- **Sweep range:** ×0.5–×2 (moderate) — bimodal character (slow exploit ↔ fast token abuse) widens it beyond the clean exploit tactics but not to the low-and-slow bands.
+- **Tier:** 1 — substrate-anchored (`exploit_time`); not tuned.
+- **Justification (one paragraph):** Privilege-escalation's canonical instance is vulnerability exploitation (§2: Stuxnet's two Windows zero-days → "full control"), which the substrate prices directly via `exploit_time`, so it inherits a Tier-1 not-tuned anchor (×1.0). Its distinctive contribution is a **gating capability** (xiong2021: a `userRights` adversary cannot use an admin-only technique until it levels up), but that gate is modelled as an L3b precondition, not a resettable substrate gain — so §3's reset is really the reset of the *underlying* action, and it is bimodal: the token/valid-account variant survives a shuffle (patterning with [[09_credential-access]]), the exploit variant is disruptable by surface diversity mid-attempt (patterning with [[03_initial-access]]), bounded by Maleki's "MTD-defeat probability rises with attacker time/cost". The moderate sweep spans that bimodality; the reset verdict (bimodal, feeding the binding) is separate from the substrate-fixed duration. Tier 1 because the priced path is a substrate exploit, with the faster token path recorded as the within-group skew rather than a separate anchor.

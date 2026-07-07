@@ -126,8 +126,8 @@ which is the boundary the methodology chapter must state openly (P3).
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn stealth-low-and-slow>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 3 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** stealth-low-and-slow — **confirmed; this is the group's namesake and reference tactic.** The multiplier the group anchor is calibrated to is defined here.
+- **Relative multiplier:** ×1.0 of the stealth anchor — by definition the reference (×1.0); stealth *is* the low-and-slow pace the group expresses.
+- **Sweep range:** ×0.25–×4 (wide) — stealth's absolute dwell is the least directly observable of all tactics, so it leans hardest on the shape-not-scale, sweep-it discipline.
+- **Tier:** 3 — declared; no substrate verb prices a "hiding" pace, and detection (the thing stealth acts against) is culled from the substrate.
+- **Justification (one paragraph):** Stealth is the reference against which the whole low-and-slow group is anchored, so it takes ×1.0 by construction; §2 makes it the namesake (Alshamrani's "low and slow"; cho2020's "stay stealthy until the time comes"), a *pace* imposed on every other action rather than a discrete dwell. Its modelled duration therefore represents that spacing, and the operational-validation caveat bites hardest here — a synthetic substrate "omits the realistic noise … [attackers use] to stay undetected", so the absolute value is the least observable in the set and the wide sweep is mandatory, not optional. §3 records the dominant not-captured: detection is culled ("caught" = MTD invalidated progress, never an IDS saw you), so stealth has **no direct substrate representation** and its concealment gain rides an owned foothold that *survives* a shuffle in the substrate's own terms; the interesting MTD-vs-stealth contest (a re-planning penalty scaling with shuffle-rate ÷ attacker-skill) lives in the detection regime the substrate does not model — the boundary the methodology chapter must state openly (P3). A Tier-3 declared value, swept wide, calibrated as the group anchor when the runner lands.

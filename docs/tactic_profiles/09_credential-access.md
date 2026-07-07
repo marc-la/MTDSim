@@ -128,8 +128,8 @@ strong MTD from one that merely outpaces a sprint
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn exploit-shaped>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 1 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** exploit-shaped — **confirmed for the dumping path** (OS Credential Dumping T1003 is substrate-priceable); token/ticket/cookie theft is a faster reuse-of-material act, noted as a within-group skew.
+- **Relative multiplier:** ×1.0 of the exploit anchor (`exploit_time`) — the dumping/cracking action, **not tuned**; theft-of-material variants run below it.
+- **Sweep range:** ×0.5–×2 (moderate) on the *duration*; the **reset band is narrow (≈0)** — the survivor direction is unusually firm.
+- **Tier:** 1 — substrate-anchored (`exploit_time` for the dumping path); not tuned.
+- **Justification (one paragraph):** Credential-access is the **survivor pole of the crown-jewel axis** and the profile's strongest genuinely-owned claim. §2 keeps it exploit-shaped for duration — dumping/cracking is on-host work the substrate can price (×1.0, Tier-1, not tuned), with fast token/ticket theft as the within-group skew. §3 is the load-bearing half: a harvested credential is a *standing possession*, not a position, so the **same shuffle that resets a scanning tactic does nothing to it** — the clearest reset-*survivor* in the set. The only family that bites is credential-rotation (held in reserve, not in the default roster) and even that is *leaky* (Zhang-Monrose-Reiter: 41% offline / 17% online broken from the old password), so the reset fraction is bounded near zero with a narrow band — unlike the wide, ratio-governed position-vulnerable tactics. The discrimination payoff (crit. 7) is direct and is why this tactic matters most: the generic sprint reuses credentials only opportunistically, whereas a credential-first low-and-slow profile leans on exactly the modality MTD cannot reset — the behaviour most likely to separate a genuinely strong MTD from one that merely outpaces a weak attacker. The duration's moderate sweep and the reset's narrow band feed different artefacts (the catalogue vs the L3b binding).

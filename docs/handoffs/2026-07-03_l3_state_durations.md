@@ -15,7 +15,38 @@ updated: 2026-07-07
 
 ## State of play
 
-- **Step E is DONE (2026-07-07) — §3 written for all 15 profiles; RESUME AT STEP F.**
+- **Step F is DONE (2026-07-07) — §5 filled for all 15 profiles; ONLY THE CATALOGUE REMAINS.**
+  Every `docs/tactic_profiles/*.md` now has §5 (catalogue inputs): group
+  (confirm/overturn) + relative multiplier + sweep range + tier + a one-paragraph
+  justification. **The scheme calibrates 4 group anchors, not 15 free dwells**
+  (identifiability, per the method note): **scan-shaped** (recon, discovery) and
+  **exploit-shaped** (initial-access, privesc, credential-access, lateral-movement)
+  are **Tier-1 substrate-fixed, ×1.0, *not tuned*** (tracing to the
+  `ATTACK_DURATION` scan verbs / complexity-scaled `exploit_time`);
+  **stealth-low-and-slow** (stealth = reference, persistence, C2, + execution/DI)
+  is **Tier-3 tuned** (k× exploit median); **objective-execution** (collection,
+  exfiltration, impact) is **Tier-2 literature-calibratable** (macro
+  access→exfil / time-to-impact milestones as an *outer envelope*, shape-not-scale);
+  **prep-off-network** (resource-development) is **×0 near-zero** (off-clock).
+  **Within-group multipliers are ×1.0** except the two **genuinely-unsettled**
+  tactics — `execution` and `defense-impairment` at **×0.5** (fast-verb /
+  punctuated-decisive reading, widest sweeps skewing toward fast) — and
+  resource-dev ×0. **No group hypothesis was overturned; none moved tier.**
+  **Sweep ladder:** moderate ×0.5–×2 (substrate-anchored or floor-bounded), wide
+  ×0.25–×4 (least-observable stealth tactics + character-wide
+  lateral-movement/exfil), widest ×0.1–×4/×5 (`defense-impairment`, `impact`).
+  **The §5 sweep is on the *duration*; the §3 reset verdict
+  (survivor/vulnerable/partial/null + its own band) is a *separate* declared
+  parameter that feeds the L3b binding, not the catalogue** — stated in each
+  justification so the two artefacts stay distinct. The crown-jewel per-modality
+  split is carried into §5 where it lives ([[09_credential-access]] survivor pole,
+  [[01_reconnaissance]]/[[10_discovery]] vulnerable pole,
+  [[11_lateral-movement]]/[[12_collection]] split-inside). **Files stay
+  `status: stub`** — per this handoff's own rule the flip **stub → reconciled**
+  happens *with the catalogue* (validation gate), not at Step F; §5 is complete in
+  substance and ready to distil. **Not done:** the catalogue itself
+  (`data/ogasp/tactic_durations.json` + provenance rows) — the one remaining step.
+- **Step E is DONE (2026-07-07) — §3 written for all 15 profiles.**
   §3 (MTD interaction / reset verdict) is now filled in every
   `docs/tactic_profiles/*.md` as thesis prose, organised on the
   **survivor-vs-vulnerable reset axis** and argued from the substrate primer §(e).
@@ -207,21 +238,21 @@ updated: 2026-07-07
 
 ## Steps remaining (as of 2026-07-07)
 
-Evidence-gathering (Steps A–D) is complete and **Step E is done** (§1/§2/§3/§4 filled
-for all 15). Two things remain, in order:
+Evidence-gathering (Steps A–D) is complete and **Steps E and F are done** (all five
+sections §1–§5 filled for all 15). **One thing remains: the catalogue.**
 
-1. **Step F — fill §5 (catalogue inputs), all 15 profiles** (detail below):
-   group (confirm/overturn the stub hypothesis) + relative multiplier + sweep
-   range + tier + one-paragraph justification. Carry the Step-C findings that
-   move the bets: group anchors beat per-tactic values (ling2023's shared 6-day
-   expert floor); C2/stealth-hiding are Tier-3 *declared* (CVE timing can't price
-   them); `execution` and `defense-impairment` stay genuinely unsettled → wide
-   sweep; objective tactics anchor to the macro milestone chain (breakout ~29 min,
-   access→AD ~3–16 h, access→exfil ~73–79 h, TTR 2 h–328 h, dwell 14 d/122 d/~400 d).
-2. **The catalogue — `data/ogasp/tactic_durations.json` + provenance rows**
+1. **The catalogue — `data/ogasp/tactic_durations.json` + provenance rows**
    (detail under "Then the catalogue" below). Distil §5 into the machine
    artefact; every place-union tactic gets an entry; fill the `pending` regime
-   row in [`../specs/provenance.md`](../specs/provenance.md).
+   row in [`../specs/provenance.md`](../specs/provenance.md). The §5 group +
+   relative-multiplier + sweep + tier are the direct inputs; the four group
+   anchors default **uncalibrated** in v0 (calibrate within ranges when the runner
+   lands). Carry the §5 scheme recorded in the Step-F state-of-play bullet: two
+   substrate-fixed Tier-1 anchors (scan, exploit, ×1.0, not tuned), the Tier-3
+   tuned stealth anchor, the Tier-2 objective anchor, and prep-off-network ×0; the
+   two unsettled tactics (`execution`, `defense-impairment`) at ×0.5 with the
+   widest sweeps. **The §3 reset verdict is a separate parameter for the L3b
+   binding — do not fold it into `duration_s`/`sweep_range`.**
 
 **Strategic note (2026-07-07 examiner review — read before over-investing in prose).**
 Step E's §3 and the catalogue *defend* the thesis's finding but do not *produce*
@@ -236,8 +267,8 @@ but hold that the runner/probe is the load-bearing *evidence*, not the prose. Th
 per-modality reset split (the crown jewel) is the strongest genuinely-owned,
 falsifiable claim; foreground it.
 
-Only after Step F + the catalogue: flip profiles `stub` → `reconciled` and clear
-the Validation gate. **This handoff is deleted in the commit that ships the
+Only after the catalogue (Step F is done): flip profiles `stub` → `reconciled` and
+clear the Validation gate. **This handoff is deleted in the commit that ships the
 catalogue** (session-workflow lifecycle).
 
 ## Recommended approach
@@ -315,7 +346,8 @@ on the **survivor-vs-vulnerable axis**: does the gain this tactic produces
 **survive** it? That verdict + its uncertainty set the sweep width. Declared, not
 claimed — and checked against the substrate's own reset model.
 
-**Step F — Distil §5.** Group (confirm/overturn the stub's hypothesis) + relative
+**Step F — Distil §5. [DONE 2026-07-07 — all 15; see the Step-F state-of-play
+bullet.]** Group (confirm/overturn the stub's hypothesis) + relative
 multiplier + sweep range + tier + a one-paragraph justification. This paragraph
 is the deliverable.
 

@@ -135,8 +135,8 @@ should defences ever be restored to the substrate.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn stealth-low-and-slow>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 3 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** stealth-low-and-slow — **not confirmed; genuinely uncertain.** An evasion-avoidant APT rarely disables defences; when a smash-and-grab/ransomware actor does, it is a brief decisive act — pulling the tactic toward the fast/objective-adjacent end.
+- **Relative multiplier:** ×0.5 of the stealth anchor — central leans to the punctuated-decisive-act reading; the sweep reaches both a near-zero verb and the full low-and-slow pace.
+- **Sweep range:** ×0.1–×4 (**widest in the set**) — compounded uncertainty: the *group membership* is unresolved (§2) *and* the reset direction is host-local (§3).
+- **Tier:** 3 — declared; no substrate verb, and — decisively — the substrate models no defensive-control state to disable.
+- **Justification (one paragraph):** Defense-impairment carries the widest sweep in the study because two uncertainties compound. §2 leaves the *group* unresolved: the low-and-slow APT the corpus documents prefers to *avoid* defences (that evidence allocates to [[07_stealth]]), and disabling, when it happens, is punctuated and decisive (kill EDR, stop backups) immediately before a noisy payload — so the central multiplier leans fast (×0.5) rather than to the stealth pace. §3 fixes the reset *direction* but not in the substrate: a disabled control is **host-local software state**, so it patterns with the survivor pole (an IP/topology shuffle leaves the killed control exactly as left; only a reimage/reprovision restores it) — the opposite verdict from [[01_reconnaissance]] — yet the substrate **represents no defensive-control state at all** (detection culled), so this is a conceptual/thesis-level verdict, not something the simulator computes. The tactic shows up in the data as *prevalence, not dwell* (%-of-cases), which is itself why it stays Tier-3 declared with the widest band; MAL/coreLang's "defences as a gated entity with declared per-step effort" is the precedent should defences ever be restored to the substrate.

@@ -116,8 +116,8 @@ subject to reset at all. The valid-accounts entry path inherits the credential s
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn exploit-shaped>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 1 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** exploit-shaped — **confirmed for the server-side path** (the substrate prices entry as an exploit); the phishing/watering-hole delivery-wait is a recorded shape divergence, not a metered dwell.
+- **Relative multiplier:** ×1.0 of the exploit anchor (`exploit_time` = `EXPLOIT_VULN` 15 s × (1−complexity), complexity ∈ [0.4, 1], brown2023 §IV) — one exploit-priced entry action, **not tuned**.
+- **Sweep range:** ×0.5–×2 (moderate) — the exploit is substrate-fixed; the band covers the complexity spread and the fast-entry empirics (DBIR 21 s click ↔ days-scale time-to-exploit).
+- **Tier:** 1 — substrate-anchored (`exploit_time`); not tuned.
+- **Justification (one paragraph):** Initial-access is the hinge from `PRE` into the estate and the first place the substrate's exploit model engages, so §2 keeps it exploit-shaped: the server-side half (Exploit Public-Facing Application T1190) is exactly what complexity-scaled `exploit_time` prices, giving a Tier-1, not-tuned central value (×1.0). §3's reset verdict is unusually **robust** — the achieved foothold survives (exposed endpoints are never mutated, so the route *in* is permanent), and only an *in-progress* exploit attempt is disruptable by surface diversity — which is why the duration sweep stays moderate rather than wide. The macro breakout/time-to-exploit rows (§4) are an operational-validation *outer envelope*, not a per-tactic target; the fast-entry empirics justify the lower half of the band, while the phishing delivery-wait (an un-metered, low-and-slow vector the substrate does not represent) sits outside the reset entirely and is recorded as the tactic's honest not-captured.

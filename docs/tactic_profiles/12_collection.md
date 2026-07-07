@@ -106,8 +106,8 @@ spare; the modality distinction is an attacker-side behaviour the L3b binding mu
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn objective-execution>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 2 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** objective-execution — **confirmed** (the campaign begins to act on its purpose); pairs with [[14_exfiltration]] and [[15_impact]] in the tuned objective group.
+- **Relative multiplier:** ×1.0 of the objective-execution anchor — the reference gather-before-exfil action; has a genuine dwell floor (not substrate-instant).
+- **Sweep range:** ×0.5–×2 (moderate) — floor-bounded (collection "cannot go any faster … human activity, data throughput"), narrower than the least-observable stealth tactics but spanning fast-grab ↔ slow-harvest.
+- **Tier:** 2 — literature-calibratable: the breach literature characterises the collect→exfil chain (Bromiley: ~64% collect+exfil in ≤5 h), even without a per-tactic dwell.
+- **Justification (one paragraph):** Collection is objective-adjacent work — §2 places it in Alshamrani's Stage 4 (gather, stage, package before theft) — so it joins the tuned objective-execution group rather than the substrate-priced enabling tactics, at the group's reference multiplier (×1.0). Its Tier is 2, not 3, because the group anchor *can* be calibrated against macro milestones (the collect→exfil chain the breach literature reports), even though no per-tactic value exists; those macro figures are an outer envelope (shape-not-scale), so calibration sets relative structure, not absolute time. Its distinctive §3 property is a **modality split on where the data lives**: a host-local read (Data from Local System T1005) is a survivor possession once staged, while a remote-share read (Data from Network Shared Drive T1039) needs reachability a topology shuffle can invalidate mid-collection — the same axis as [[11_lateral-movement]]. The dwell floor keeps the sweep moderate rather than wide; the modality-split reset feeds the binding, since the substrate has no first-class "collected data" object and proxies the split through foothold-durability vs topology-governed reachability.

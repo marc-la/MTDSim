@@ -120,8 +120,8 @@ objective-profiles and decisive for others — a genuine discriminator.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn objective-execution>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 2 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** objective-execution — **confirmed** (the terminal payload of an availability-/integrity-focused campaign), the most bimodal member of the group.
+- **Relative multiplier:** ×1.0 of the objective-execution anchor — the impact *act* (encryption/destruction), throughput-bound at minutes-to-hours.
+- **Sweep range:** ×0.1–×5 (**widest**, alongside [[08_defense-impairment]]) — spans a decisive burst to *never-reached*, the "never" handled structurally (some objective-profiles omit impact) rather than by duration alone.
+- **Tier:** 2 — literature-calibratable: the ransomware/IR literature characterises time-to-impact (encryption ~6 min–~2 h; time-to-ransomware 2 h–328 h) as an outer envelope.
+- **Justification (one paragraph):** Impact is where a campaign spends its accumulated access, so §2 confirms objective-execution (×1.0 anchor), and Tier 2 because the ransomware/IR literature characterises time-to-impact even without a per-tactic dwell — the encryption act itself has a real disk-I/O floor (§4: ~6 min–~2 h). Its dwell is the most bimodal in the set, split by actor type: a ransomware/wiper actor's impact is a fast decisive burst, while an espionage "position for future" campaign may **never reach impact at all** — which is why the sweep is widest and the "never" end is expressed *structurally* (the tactic is simply absent from those objective-nets) rather than as a zero duration. §3 gives impact its own reset mechanism — **blast-radius limiting rather than gain invalidation**: an irreversible act on a held host cannot be "reset", but a mutation limits how many *further* hosts the impact reaches (Barach: encryption cut to 13.2%, mean-time-to-containment 91.4 s), so the reset rides the same reachability a topology shuffle governs and the payload act itself survives. Objective-conditioning is sharpest here (crit. 7): inert for espionage profiles, decisive for ransomware ones — a genuine discriminator, with the blast-radius reset fraction feeding the binding.

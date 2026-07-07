@@ -125,8 +125,8 @@ sweep's upper (attacker-favourable) bound gestures at without modelling.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn scan-shaped>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 1 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** scan-shaped — **confirmed as modelled.** The substrate prices reconnaissance as an active scan verb; the patient, off-network, schedule-learning recon the literature reports is a recorded *tempo* divergence (§2), folded into off-network prep, not a separate metered dwell.
+- **Relative multiplier:** ×1.0 of the scan-verb anchor (`ATTACK_DURATION` `SCAN_HOST`/`SCAN_NEIGHBOR` 5 s, `SCAN_PORT` 25 s) — one enumeration pass, **not tuned**.
+- **Sweep range:** ×0.5–×2 (moderate) — the scan verb is substrate-fixed, but the un-metered low-and-slow scheduling (§2) warrants a modest robustness band on the modelled value.
+- **Tier:** 1 — substrate-anchored (the scan verb prices it directly); not tuned.
+- **Justification (one paragraph):** Reconnaissance is the scan-shaped pole the whole survivor-vs-vulnerable axis is defined against. §2 confirms the group: Alshamrani's recon is *non-exploitative but active* (port/service scanning, fingerprinting), and that active modality is exactly what the substrate's scan verb meters, so the central duration is the inherited scan constant (Tier 1, ×1.0, not tuned) rather than a tuned value. §3 makes it the canonical **reset-*vulnerable*** tactic — a position-mutating shuffle erases the map and forces a re-scan, magnitude riding the mutation-rate ÷ scan-rate ratio (e⁻¹≈0.63 ceiling) — and that reset verdict + its wide band feed the L3b binding, not the duration. The moderate duration sweep reflects the honest shape-not-scale gap: the *modelled* value is the fixed scan verb while the *real* tempo is slower and externally staged (§2), and exposed endpoints being shuffle-exempt means perimeter recon survives even as the interior map resets.

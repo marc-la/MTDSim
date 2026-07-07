@@ -125,8 +125,8 @@ survivor — foreground as a rate-dependent open question; sweep width wide.**
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn stealth-low-and-slow>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 3 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** stealth-low-and-slow — **confirmed strongly** (the durability layer, valuable *between* actions); cho2020 marks it the dwell that most directly drives the MTD comparison.
+- **Relative multiplier:** ×1.0 of the stealth anchor — the reference long-lived holding dwell of the group.
+- **Sweep range:** ×0.25–×4 (wide) — driven by the FlipIt **rate-contest** uncertainty in §3 (the reset has no fixed answer), not by duration alone.
+- **Tier:** 3 — declared; no substrate verb prices "maintain a foothold".
+- **Justification (one paragraph):** Persistence is the group's most load-bearing dwell and its clearest **open contest**. §2 confirms the low-and-slow character decisively — the durability layer built to outlast reboots, reimaging and time (pre-OS bootkits, valid-credential backdoors; espionage dwell to months/years as the outer envelope) — so it takes the reference multiplier (×1.0). §3 is where the width comes from: the naive verdict is *survivor* (a compromised host stays owned), but FlipIt frames foothold survival as a rate contest in which the higher-move-cost player has benefit 0, so whether a periodic mutation evicts an entrenched foothold flips on the defender-move-rate ÷ attacker-re-compromise-rate ratio — a genuine "no fixed answer" region that justifies the wide band. The load-bearing divergence to record (substrate-primer §(e).1): the substrate implements **no eviction/reimaging op**, so it currently models persistence at the *survivor extreme* of the contest, and the reset-fraction sweep (feeding the L3b binding) encodes the contest the substrate does not yet run. Tier-3 declared, because no substrate verb and no isolable observable price the tactic.

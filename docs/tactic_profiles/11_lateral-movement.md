@@ -120,8 +120,8 @@ hop survives (narrow sweep).**
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn exploit-shaped>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 1 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** exploit-shaped — **confirmed** (dominant form is a remote-service login/exploit the substrate prices), but with a character spanning fast-worm to slow-manual that argues a **wider sweep** than the other exploit tactics.
+- **Relative multiplier:** ×1.0 of the exploit anchor (`exploit_time`) — one remote-service hop, **not tuned**.
+- **Sweep range:** ×0.25–×4 (wide) — the fast-worm (Slammer 90% in 10 min) ↔ slow-manual-pivot span, and the **per-modality reset split**, both widen it.
+- **Tier:** 1 — substrate-anchored (`exploit_time`); not tuned.
+- **Justification (one paragraph):** Lateral-movement is the **showcase for the per-modality reset split** — the crown-jewel finding *inside a single tactic* — and that is what its §5 must carry. §2 keeps it exploit-shaped for duration (Remote Services T1021 / Exploitation of Remote Services T1210 are substrate-priced, ×1.0, Tier-1, not tuned) but flags a character wide enough (patient manual pivot ↔ automatic worm sweep) to justify the wide sweep. §3 is the load-bearing half: a **scan-based hop** produces a target map and is reset-*vulnerable* (a mutated address space leaves a scanner <1% valid addresses), while a **credential-based hop** rides a survivor capability and the *same shuffle leaves it untouched* — so the tactic is genuinely bimodal, and *which modality dominates is objective-conditioned* (crit. 7). This is the discrimination the whole thesis turns on: an MTD that beats the substrate's scan-based baseline hop may lose against a credential-driven low-and-slow profile that never exposes the resettable modality. The duration multiplier is substrate-fixed; the bimodal reset (wide band for the scan hop, near-zero for the credential hop) feeds the L3b binding.

@@ -105,8 +105,8 @@ model is as the documented boundary of where the MTD interaction *begins*.
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
-- **Group:** <confirm/overturn prep-off-network>
-- **Relative multiplier:** <×k of group anchor>
-- **Sweep range:** <e.g. ×½ / ×2>
-- **Tier:** 3 — <why>
-- **Justification (one paragraph):** <the §2–§4 synthesis that makes group+multiplier non-arbitrary>
+- **Group:** prep-off-network — **confirmed decisively;** this tactic *defines* the group boundary and is its sole member.
+- **Relative multiplier:** ×0 (near-zero in-sim) — the adversary arrives already equipped; the real weeks-to-months of tool/infrastructure prep precede the simulator's clock.
+- **Sweep range:** 0 → a small nominal floor (degenerate) — there is no in-sim dwell to sweep; a token nonzero transit is allowed only if the runner needs the place visibly traversed.
+- **Tier:** 3 — declared; no substrate verb, and near-zero is a modelling decision (off-clock), not a literature-calibrated dwell.
+- **Justification (one paragraph):** Resource-development is the **inert null** of the set. §2 confirms prep-off-network decisively — all nine parents are `PRE`, heavily operator-attributed, with no in-network observable the substrate can meter — and §4's timing evidence (RAND's 22-day 0-day development, days-scale malicious-domain registration) is uniformly *pre-clock*, so the in-sim dwell is near-zero (×0): the adversary is already equipped when the simulation begins. §3's reset verdict is a **null** — the gain is built and held off the victim network, reset-immune, sitting on neither pole of the survivor-vs-vulnerable axis. It receives a catalogue entry only for place-union completeness (validation gate), badged Tier-3 declared near-zero, and its honest contribution is as the documented boundary of *where the MTD interaction begins* rather than a dwell that shapes the timeline.
