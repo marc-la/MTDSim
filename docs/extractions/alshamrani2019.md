@@ -59,6 +59,72 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 
 ---
 
+### Per-tactic dwell character, MTD-effect, and the synthetic-model caveat (Step B, 2026-07-04)
+
+**Source locator:** §II-C Stages 1–5; §II-D (C&C); §III-C/§III-D/§III-E (Stuxnet, RSA,
+Carbanak case studies); §IV-A (monitoring — Villeneuve & Bennett, Shalaginov, Virvilis &
+Gritzalis); §IV-B (detection); §IV-C-1-A (Johnson & Hogan); §IV-C-2-B (Moving Target
+Defense); §V (evaluation methodologies).
+
+**Paraphrase:** This paper is the **backbone behavioural source** for the per-tactic dwell
+profiles ([`../tactic_profiles/`](../tactic_profiles/)); the following per-tactic claims are
+mined for §2 (group-assignment) and §4 (timing evidence) of those files. *Reconnaissance*
+(TA0043) is "passive" in the sense of *non-exploitative*, yet includes active port/service
+scanning, WHOIS/BGP and fingerprinting — low-and-slow in *tempo*, not modality (§II-C
+Stage 1). *Resource-development* (TA0042) tooling/planning is off-network, before the
+foothold (§I, §II-C Stage 1) → near-zero in-sim dwell. *Initial-access* (TA0001) is mostly
+*known*-vuln exploitation + spear-phishing (most common); the attacker then "patiently
+wait[s]" for user-triggered execution (§II-C Stage 2, §VIII). *Execution* (TA0002) "keep[s]
+low to go undetected"; fileless/in-memory (Duqu 2.0) is evasive (§II-C Stage 2, §IV-A).
+*Persistence* (TA0003) is durable/sticky ("very difficult to push out"); pre-OS bootkits
+"loaded even before the OS" survive reimaging (§II-C Stage 3, §I). *Privilege-escalation*
+(TA0004) is exploit-driven on demand (Stuxnet 2 Windows 0-days → "full control"; §II-C
+Stage 3, §III-C). *Stealth* (TA0005, post-split) is the defining "low and slow" behaviour;
+the evasion set (rootkit, obfuscation, steganography, in-memory, fake certs; §IV-A) is
+*hiding* → allocates to `stealth`, **not** `defense-impairment`, which the paper barely
+addresses. *Credential-access* (TA0006): "stolen legitimate credentials"; mimikatz/WCE/LSA;
+"dumping most common for lateral movement" (§II-C Stage 3, §VIII). *Discovery* (TA0007) is
+internal scanning; the "position for future" objective makes it an indefinite passive watch
+(§II-A, §II-C). *Lateral-movement* (TA0008) spans slow human pass-the-hash to Stuxnet's
+fast worm-style auto-propagation (LNK/print-spooler/Step7 password; §II-C Stage 3, §III-C);
+modelled as graph reachability by Johnson & Hogan (§IV-C-1-A). *Collection*/*Exfiltration*
+(TA0009/TA0010): data "compressed and encrypted" then exfiltrated over FTP (RSA, §III-D),
+"intelligently split … into batches and to servers with different IP addresses" to evade
+ingress-only filtering (§II-C Stage 4). *C&C* (TA0011) is a "long-term connection" over
+HTTP (blends), beaconing "at given intervals" / "several times per day" with fast-flux URL
+rotation "every couple of minutes" (§II-D, §IV-A, §IV-B). *Impact* (TA0040) is
+disabling/destroying components (Stuxnet); the dwell ceiling is sponsor-bounded — "ends when
+… the funding organization gets all the data it needs" (§II-C Stage 4/5, §I).
+
+**MTD-effect (feeds §3 / Step E, recorded here now):** §IV-C-2-B is the load-bearing
+sentence — "The APT scenarios rely on exploration of cloud system or network in order to
+create exploitation plan. **The rearrangement of network or software components renders the
+exploratory knowledge of the attacker useless.**" i.e. shuffle/diversity invalidates
+reconnaissance/discovery ("exploratory knowledge"), and the paper does *not* extend that to
+established footholds. Crouse et al. [82] (§IV-C-2-B) frame MTD as denying the "static and
+long-term assumptions" recon relies on, but caveat that a small number of honeypots *beat*
+defence-by-movement in their foothold-establishment / minimum-to-win scenarios. The NIST
+definition (§II-A) that an APT "adapts to defenders' efforts to resist it" implies MTD
+provokes re-adaptation rather than permanent denial.
+
+**Methodological caveat (feeds the op-validation note):** §V warns that a synthetic model is
+"based on simplified attack scenarios … where no realistic noise is involved … one of the
+major points APT attackers consider to stay undetected and move low and slow", and that the
+field "lacks data sets from realistic attack scenarios" — a direct limit on reading dwell
+character off a synthetic substrate, reinforcing shape-not-scale and the modest-claim
+discipline.
+
+**Maps to:** all fifteen [`../tactic_profiles/`](../tactic_profiles/) files (§2/§4);
+the MTD-effect paragraph feeds their §3 (Step E) and
+[`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
+
+**Disposition for this thesis:** *adopted-as-evidence.* No per-tactic *duration* is taken
+from this paper (it publishes none — that is the gap); the per-tactic *behaviour/dwell
+character* is the qualitative input to the group-assignment argument, and the MTD-effect and
+synthetic-model caveats are recorded for §3 and the validity rationale respectively.
+
+---
+
 ## Open questions / things to verify
 
 - The "according to NIST" framing at §II-A (p. 1853) carries reference [3] in Alshamrani's bibliography. The lit review currently cites Alshamrani [8] for the NIST behavioural restatement rather than NIST SP 800-39 directly; for the dissertation bibliography, decide whether to (a) keep the indirect citation through Alshamrani as the *secondary source where this triad becomes load-bearing for APT framing*, or (b) chase the NIST primary source (SP 800-39 / SP 800-30) and cite it directly. Defer to lit-review citation policy.

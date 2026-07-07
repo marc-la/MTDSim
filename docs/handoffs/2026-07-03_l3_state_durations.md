@@ -1,140 +1,132 @@
 ---
 status: open
 created: 2026-07-03
+updated: 2026-07-07
 ---
 
-# Build the per-tactic state-duration catalogue — tiered sourcing (substrate / literature / justified estimate), every value with provenance and a sweep range
+# The state-duration catalogue — distil the 15 profiles' §5 into `data/ogasp/tactic_durations.json`
 
-> **Depends on** [`./2026-07-03_l3_governance_meeting_decisions.md`](./2026-07-03_l3_governance_meeting_decisions.md)
-> (the duration *regime* row in [`../specs/provenance.md`](../specs/provenance.md)
-> must exist; this handoff fills in the catalogue under it). Runs in parallel
-> with [`./2026-07-03_l3_weighted_nets_aggregate_profile.md`](./2026-07-03_l3_weighted_nets_aggregate_profile.md);
-> both feed [`./2026-07-03_l3_timeline_runner.md`](./2026-07-03_l3_timeline_runner.md).
+> **Method / the bar:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
+> **Why the gap is real:** [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../notes/2026-07-04_tactic_duration_precedent_survey.md).
+> **The reset model every §3 argues from:** [`../specs/substrate_primer.md`](../specs/substrate_primer.md) §(e).
+> Feeds [`./2026-07-03_l3_timeline_runner.md`](./2026-07-03_l3_timeline_runner.md);
+> the §3 MTD-interaction verdicts feed [`./2026-07-03_l3_binding_scoping.md`](./2026-07-03_l3_binding_scoping.md).
 
 ## State of play
 
-- **Supervisor decisions this executes:** D4 — the simulator is discrete-event,
-  so **every attacker state needs a time attached**; reuse timing values from
-  relevant work where they exist; where none exist (e.g. stealth), assign a
-  reasonable, **justified** number. Hong explicitly warned: no ready-made
-  resource maps MITRE tactics to durations — *define this yourself, with
-  justifications*. D10 — timed Petri nets (GSPN/SPN/TPN firing semantics) are
-  **deferred**: a duration here is a plain per-state dwell consumed by the
-  standalone runner, not a stochastic firing rate.
-- The state set is the tactic places of the L3a nets — the ≤15 ATT&CK
-  Enterprise tactics appearing across the five nets (four classes +, once
-  built, the aggregate): reconnaissance, resource-development, initial-access,
-  execution, persistence, privilege-escalation, defence-evasion,
-  credential-access, discovery, lateral-movement, collection,
-  command-and-control, exfiltration, impact (confirm the exact union against
-  [`../../data/ogasp/`](../../data/ogasp/) — per-class place counts are 13–15).
-- The substrate already prices its own verbs:
-  `ATTACK_DURATION` at [`../../mtdnetwork/data/constants.py`](../../mtdnetwork/data/constants.py)
-  (line ~140) for SCAN_HOST / ENUM_HOST / SCAN_PORT / SCAN_NEIGHBOR /
-  EXPLOIT_VULN / BRUTE_FORCE, plus complexity-scaled `exploit_time` on
-  vulnerabilities ([`services.py`](../../mtdnetwork/component/services.py)).
-  Where a tactic maps onto those verbs, substrate-sourced timing keeps the
-  within-substrate MTTC comparison clean.
-- Nothing duration-shaped exists yet for tactics. `observation_count` must not
-  leak in as a timing signal
+**Steps A–F are DONE (2026-07-04 → 2026-07-07; see git log for the per-step
+commits).** All 15 `docs/tactic_profiles/*.md` have §1–§5 filled: tactic/role,
+group-assignment argument, MTD-interaction reset verdict, timing evidence, and
+catalogue inputs. Files stay `status: stub` — the flip **stub → reconciled** ships
+*with the catalogue* (validation gate below), not before. The durable outputs of
+that work live in the notes/specs, not in this handoff: the method
+([operational-validation note](../notes/2026-07-04_operational_validation_the_bar.md)),
+the gap ([precedent survey](../notes/2026-07-04_tactic_duration_precedent_survey.md)),
+the substrate reset model ([substrate primer](../specs/substrate_primer.md) §(e)),
+and the rubric + four-lens review
+([thesis backbone rubric](../notes/2026-07-07_thesis_backbone_rubric.md),
+[cross-sectional review](../notes/2026-07-07_cross_sectional_review.md)).
+
+**The §5 scheme the catalogue distils** — 4 group anchors, not 15 free dwells
+(identifiability): **scan-shaped** (recon, discovery) + **exploit-shaped**
+(initial-access, privesc, credential-access, lateral-movement) are Tier-1
+substrate-fixed ×1.0 **not tuned** (`ATTACK_DURATION` scan verbs / complexity-scaled
+`exploit_time`); **stealth-low-and-slow** (stealth = reference, persistence, C2, +
+execution/DI) is Tier-3 tuned (k× exploit median); **objective-execution**
+(collection, exfiltration, impact) is Tier-2 literature-calibratable;
+**prep-off-network** (resource-development) is ×0. Within-group ×1.0 except the two
+genuinely-unsettled tactics (`execution`, `defense-impairment` at ×0.5, widest
+sweeps) and resource-dev ×0. **The §5 sweep is on the *duration*; the §3 reset
+verdict (survivor/vulnerable/partial/null + its own band) is a *separate* declared
+parameter for the L3b binding — do not fold it into `duration_s`/`sweep_range`.**
+
+**Durable constraints (still load-bearing for the catalogue):**
+- The state set is **15 tactics — ATT&CK Enterprise v19.1** (the v19.1 split of
+  `defense-evasion` → `stealth` TA0005 + `defense-impairment` TA0112). The catalogue
+  key set must match the `data/ogasp/` place-union (mechanical test).
+- **Timing never comes from the corpus** — structure/chaining is CTI's contribution;
+  timing is substrate/literature/declared. Breach-report *statistics* (Tier-2) are
+  allowed; `observation_count` must **never** leak in as a rate
   ([`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f)).
+- **No GSPN/SPN/TPN semantics** — plain per-state dwell only (D10 deferral).
+- **Read, don't write substrate timing** — no edits to `constants.py`/`services.py`.
+- Group anchors default **uncalibrated** in v0; calibrate within ranges once the
+  runner lands; freeze v1.
 
-## Recommended approach
+**Loose ends (sourcing QA, carried from Step D — re-fetch when convenient):**
+- `S0951832018304125` is a reliability-redundancy/PSO paper, **not** Lalropuia's
+  stochastic game — re-fetch the intended source before citing.
+- `S0045790626000315` is Davies ransomware benchmarking, **not** a timed model —
+  already routed to `ransomware_timing`, but the manifest label is wrong.
 
-**1 — Fix the tier hierarchy (record it in the catalogue header).**
+## The remaining step — the catalogue
 
-- **Tier 1 — substrate-sourced.** Tactic maps to substrate action-class(es) →
-  duration derived from `ATTACK_DURATION` / `exploit_time` semantics. Best for
-  the scan/exploit-shaped tactics (discovery, initial-access,
-  privilege-escalation, lateral-movement, credential-access). Preserves
-  within-substrate comparability; the natural default wherever the (parallel)
-  binding-scoping handoff maps a tactic onto a substrate verb.
-- **Tier 2 — literature-sourced.** Scan [`../extractions/`](../extractions/)
-  (Mendonça 2023 is the closest analytical-MTD precedent; Bland 2020 the
-  executed-SPN precedent; the UWA-lineage four for any phase timings already
-  in the substrate's papers) plus targeted adjacent work for defensible
-  per-tactic dwell values (e.g. dwell-time / breach-report statistics for
-  persistence, C2, exfiltration). **Papers are claims** — record
-  paper → value → how it was adapted; reconcile before citing
-  ([`../specs/guardrails.md`](../specs/guardrails.md)); mark `unverified` where
-  the mapping is a stretch rather than forcing it.
-- **Tier 3 — justified estimate.** For tactics with no substrate verb and no
-  usable literature value (stealth-shaped: defence-evasion, persistence,
-  execution, C2, exfiltration if Tier 2 comes up dry): a stated number with a
-  one-paragraph justification (e.g. "long relative to scan verbs because the
-  behaviour is low-and-slow by definition; anchored at k× the Tier-1 median").
-  This is exactly what Hong authorised — the justification is the deliverable,
-  not the number.
+Commit `data/ogasp/tactic_durations.json`: per tactic —
+`{group, relative_multiplier, duration_s, tier, source (constant-name |
+profile-file §ref | extraction §ref), justification, sweep_range}`. The
+`justification`/`source` point back at the profile §5 (the single source of truth).
+Every one of the 15 place-union tactics gets an entry. Add the matching row block to
+[`../specs/provenance.md`](../specs/provenance.md) (the regime row is there,
+`pending` — fill the pointer).
 
-**2 — The artefact.** Commit `data/ogasp/tactic_durations.json`: per tactic —
-`{duration_s, tier, source (constant-name | extraction-file §ref | rationale),
-justification, sweep_range}`. Every tactic in the L3a place-union gets an
-entry; no entry without a tier and a justification. Add a matching row block to
-[`../specs/provenance.md`](../specs/provenance.md) (value → source → code →
-disposition), and a short note if the literature scan surfaces anything
-dissertation-worthy (the tactic→time mapping is itself a methodological
-contribution Hong flagged — "define this yourself").
+*Alternatives considered:* 15 independent point durations (rejected —
+unidentifiable against ~3 macro observables; group anchors instead);
+`observation_count`-derived timing (rejected — not a rate); absolute-time realism
+(rejected — breaks substrate comparability; shape-not-scale instead).
 
-**3 — Sweep ranges, not point trust.** Full sensitivity analysis is deferred
-(D10), but each value carries a declared range now (default ×½ / ×2 unless the
-source justifies tighter) so the timeline runner can expose duration
-sensitivity cheaply and nothing hardens into a hidden constant.
+Only after the catalogue: flip profiles `stub` → `reconciled` and clear the
+validation gate. **This handoff is deleted in the commit that ships the catalogue**
+(session-workflow lifecycle).
 
-*Alternatives considered:* corpus-derived timings (rejected — Attack Flow
-carries no timing, and `observation_count` is not a rate); a single uniform
-dwell for all tactics (kept only as the runner's degenerate sensitivity case,
-not as the catalogue); deferring durations until the binding lands (rejected —
-D2's timeline output needs them, and Tier 1 only needs the *draft* tactic→verb
-mapping, which the binding-scoping handoff produces early).
+## Strategic note (2026-07-07 examiner review — read before over-investing in the catalogue)
+
+The §5/catalogue *defend* the thesis's finding but do not *produce* it. The two
+objections that can actually fail a viva — **(V1)** the novel object rests on
+declared dwell × declared reset fraction; **(V2)** "fidelity changes the answer" is
+parameter noise unless the ranking-change *survives its own sweep band and is
+distinct from the generic attacker's stable ranking* — are discharged only by
+**running the discrimination probe + sweep** (downstream:
+[`./2026-07-03_l3_timeline_runner.md`](./2026-07-03_l3_timeline_runner.md) +
+CTI-note §10 probe), **not** by more prose. The per-modality reset split (the crown
+jewel: capability/credential survives a mutation, network-position is invalidated)
+is the strongest genuinely-owned, falsifiable claim — foreground it.
 
 ## Validation gate
 
 Done when:
-1. `data/ogasp/tactic_durations.json` covers **every** tactic-place in the
-   L3a union; a mechanical test cross-checks the key set against the
-   structural JSONs.
-2. Every entry has `tier + source + justification + sweep_range`; no value is
-   derived from `observation_count` or any corpus frequency (assert/grep).
-3. Tier-2 entries each cite an extraction file section; anything
-   unreconcilable is marked `unverified`, not guessed.
-4. The provenance rows are in [`../specs/provenance.md`](../specs/provenance.md)
-   and approved by Marc.
-5. Units are explicit (seconds, matching the substrate's `env.timeout` domain)
-   and sane against `ATTACK_DURATION` magnitudes.
-
-## Hard constraints
-
-- **Timing never comes from the corpus** — structure and chaining are CTI's
-  contribution; timing is substrate/literature/declared
-  ([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md) §5).
-- **No GSPN/SPN/TPN semantics** — plain per-state dwell only (D10 deferral).
-- **Papers are claims to reconcile, not ground truth**; never guess a locator
-  or disposition ([`../specs/guardrails.md`](../specs/guardrails.md)).
-- Do not modify `constants.py` or any substrate timing — read, don't write
-  (D5: attacker-only, and this layer sits above even that).
-- Branch hygiene, **never push without an explicit ask**, Australian English.
+1. All 15 `docs/tactic_profiles/*.md` are `status: reconciled` (five sections
+   filled, `[search]` claims reconciled, §5 complete; key set matches the
+   `data/ogasp/` place-union).
+2. `data/ogasp/tactic_durations.json` covers every place-union tactic; a test
+   cross-checks the key set against the structural JSONs.
+3. Every entry has `group + tier + source + justification + sweep_range`; no value
+   derives from `observation_count` or any corpus frequency (assert/grep).
+4. Tier-1 tactics trace to a substrate constant and are flagged *not tuned*; tuned
+   tactics name their group anchor.
+5. Provenance rows in [`../specs/provenance.md`](../specs/provenance.md) approved by
+   Marc; units explicit (seconds, matching `env.timeout`), sane vs `ATTACK_DURATION`
+   magnitudes.
 
 ## Reading list
 
-- [`./2026-07-03_l3_governance_meeting_decisions.md`](./2026-07-03_l3_governance_meeting_decisions.md)
-  — D4/D10 and the provenance regime row this fills.
+- [`../tactic_profiles/`](../tactic_profiles/) — the 15 profiles (evidence layer;
+  §5 is the catalogue input) + `README.md` (the five groups) + `_template.md`.
+- [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md)
+  — the tier hierarchy + anti-circularity rules.
+- [`../specs/substrate_primer.md`](../specs/substrate_primer.md) §(e) — the reset model.
 - [`../../mtdnetwork/data/constants.py`](../../mtdnetwork/data/constants.py)
-  — `ATTACK_DURATION` (~L140) + neighbours: the Tier-1 source.
-- [`../../mtdnetwork/component/services.py`](../../mtdnetwork/component/services.py)
-  — `exploit_time` / complexity scaling (Tier-1 for exploit-shaped tactics).
-- [`../extractions/mendonca2023.md`](../extractions/mendonca2023.md) and
-  [`../extractions/bland2020.md`](../extractions/bland2020.md) — first stops
-  for Tier 2.
-- [`../../data/ogasp/README.md`](../../data/ogasp/README.md) — the place-union
-  the catalogue must cover.
+  (`ATTACK_DURATION` ~L140) + [`../../mtdnetwork/component/services.py`](../../mtdnetwork/component/services.py)
+  (`exploit_time`) — the Tier-1 source.
+- [`../../data/ogasp/README.md`](../../data/ogasp/README.md) — the place-union the
+  catalogue must cover.
 
-## Out of scope (explicitly)
+## Out of scope
 
-- Executing the timelines (the runner) and the tactic→action binding itself
-  (the binding-scoping handoff — only its *draft* tactic→verb table is
-  consulted for Tier 1).
-- Full sensitivity analysis (deferred, D10) — ranges are declared here, swept
-  later.
-- Detection/stealth *semantics* — a stealth tactic gets a *time*, not a
-  detection model (IDS is culled project-wide).
+- Executing the timelines (the runner) + the tactic→action binding itself (the
+  binding handoff — only its draft tactic→verb table is consulted for Tier 1).
+- Full sensitivity analysis (deferred, D10) — ranges declared here, swept later.
+- Detection/stealth *semantics* — a stealth tactic gets a *time*, not a detection
+  model (IDS is culled).
+- Mining DARPA OpTC/TC for empirical per-tactic timing — a heavier, unclassified
+  sourcing category; flag for a decision, don't assume it's in scope.
 - Any substrate change.
