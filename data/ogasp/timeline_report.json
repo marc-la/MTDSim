@@ -1,0 +1,2387 @@
+{
+  "schema": "ogasp-timeline/v1",
+  "declared": {
+    "n_runs_per_cell": 100,
+    "max_steps": 128,
+    "seed_derivation": "int.from_bytes(sha256(run_id)[:8], 'big')",
+    "objective_rules": {
+      "pure_steal": "all",
+      "pure_impediment": "all",
+      "double_extortion": "all",
+      "infrastructure_setup": "all",
+      "aggregate": "any"
+    },
+    "primary_weight_variant": "operator_dedup",
+    "raw_arm": "included (robustness), not deferred",
+    "duration_variants": [
+      "central",
+      "sweep_low",
+      "sweep_high"
+    ],
+    "sweep_arithmetic": "extreme dwell = anchors[group].duration_s × sweep_bound (anchor units; see tactic_durations.json meta.sweep_range_units)"
+  },
+  "impossible_arms": [
+    {
+      "profile": "double_extortion",
+      "entry": "reconnaissance",
+      "status": "impossible",
+      "reason": "reconnaissance is an island on the observed-only base (the prefix gap): recon cannot reach initial-access, so a recon-seeded token cannot reach the objective. The literature-grounded prefix bridge (GAP Decision 6 Option B) stays deferred; see data/ogasp/README.md."
+    },
+    {
+      "profile": "infrastructure_setup",
+      "entry": "reconnaissance",
+      "status": "impossible",
+      "reason": "reconnaissance is an island on the observed-only base (the prefix gap): recon cannot reach initial-access, so a recon-seeded token cannot reach the objective. The literature-grounded prefix bridge (GAP Decision 6 Option B) stays deferred; see data/ogasp/README.md."
+    }
+  ],
+  "cell_stats": {
+    "pure_steal--initial-access--weighted-operator_dedup--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 91,
+        "stalled": 9
+      },
+      "objective_rate": 0.91,
+      "net_time_to_objective_s": {
+        "n": 91,
+        "median": 281.5,
+        "mean": 336.34615384615387,
+        "p10": 121.5,
+        "p90": 635.0
+      },
+      "mean_n_states": 12.61,
+      "mean_total_duration_s": 335.415,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.17966796327619253,
+        "persistence": 0.16372208106253247,
+        "exfiltration": 0.1518571710207759,
+        "command-and-control": 0.11462437950822935,
+        "collection": 0.1079203310204697,
+        "execution": 0.09015847731358395,
+        "discovery": 0.06802980409522534,
+        "reconnaissance": 0.032471536084472494,
+        "initial-access": 0.024867132694071946,
+        "credential-access": 0.021361893833107742,
+        "impact": 0.020913691667621866,
+        "lateral-movement": 0.012060240303264278,
+        "defense-impairment": 0.009044565442823832,
+        "privilege-escalation": 0.003300732677628555
+      }
+    },
+    "pure_steal--initial-access--weighted-operator_dedup--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 87,
+        "stalled": 13
+      },
+      "objective_rate": 0.87,
+      "net_time_to_objective_s": {
+        "n": 87,
+        "median": 72.625,
+        "mean": 110.76436781609195,
+        "p10": 31.5,
+        "p90": 238.02500000000006
+      },
+      "mean_n_states": 13.02,
+      "mean_total_duration_s": 108.17300000000002,
+      "occupancy_mean_dwell_share": {
+        "collection": 0.1868519662078675,
+        "stealth": 0.13998196052022768,
+        "exfiltration": 0.12991134631161375,
+        "persistence": 0.12468367254455089,
+        "discovery": 0.10091289767007242,
+        "command-and-control": 0.1008403501151468,
+        "execution": 0.06874405052270449,
+        "initial-access": 0.04617402534698644,
+        "credential-access": 0.03794485223992787,
+        "reconnaissance": 0.033518390567027385,
+        "impact": 0.012087029511852913,
+        "lateral-movement": 0.010864273407429133,
+        "privilege-escalation": 0.0038207626336583546,
+        "defense-impairment": 0.0036644224009347087
+      }
+    },
+    "pure_steal--initial-access--weighted-operator_dedup--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 85,
+        "stalled": 15
+      },
+      "objective_rate": 0.85,
+      "net_time_to_objective_s": {
+        "n": 85,
+        "median": 970.0,
+        "mean": 1373.6588235294118,
+        "p10": 315.0,
+        "p90": 3159.2000000000007
+      },
+      "mean_n_states": 14.03,
+      "mean_total_duration_s": 1367.04,
+      "occupancy_mean_dwell_share": {
+        "exfiltration": 0.17934920903819213,
+        "persistence": 0.17832861141049716,
+        "stealth": 0.1762047848074551,
+        "command-and-control": 0.12122403186657768,
+        "execution": 0.1187742824130994,
+        "collection": 0.06984401329413084,
+        "discovery": 0.046480420935479966,
+        "impact": 0.030304533616695953,
+        "defense-impairment": 0.022425546200628216,
+        "lateral-movement": 0.015072240235094564,
+        "initial-access": 0.015016986311345997,
+        "reconnaissance": 0.013274160021281569,
+        "credential-access": 0.011974800517354356,
+        "privilege-escalation": 0.0017263793321668664
+      }
+    },
+    "pure_steal--initial-access--weighted-raw--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 93,
+        "stalled": 7
+      },
+      "objective_rate": 0.93,
+      "net_time_to_objective_s": {
+        "n": 93,
+        "median": 251.0,
+        "mean": 328.9462365591398,
+        "p10": 81.0,
+        "p90": 713.1999999999997
+      },
+      "mean_n_states": 11.75,
+      "mean_total_duration_s": 329.81,
+      "occupancy_mean_dwell_share": {
+        "exfiltration": 0.18712933015299188,
+        "stealth": 0.14811257702727945,
+        "command-and-control": 0.140169794381769,
+        "persistence": 0.13605920103732208,
+        "collection": 0.11584784404512756,
+        "execution": 0.09294715563380412,
+        "discovery": 0.08153371550814349,
+        "initial-access": 0.028034672191313583,
+        "credential-access": 0.02161637017495537,
+        "reconnaissance": 0.02015419892820455,
+        "lateral-movement": 0.009562026995673427,
+        "impact": 0.00842463875136684,
+        "defense-impairment": 0.006109611930685831,
+        "privilege-escalation": 0.0042988632413627935
+      }
+    },
+    "pure_steal--initial-access--weighted-raw--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 96,
+        "stalled": 4
+      },
+      "objective_rate": 0.96,
+      "net_time_to_objective_s": {
+        "n": 96,
+        "median": 73.125,
+        "mean": 94.44270833333333,
+        "p10": 27.875,
+        "p90": 177.625
+      },
+      "mean_n_states": 11.21,
+      "mean_total_duration_s": 94.95650000000002,
+      "occupancy_mean_dwell_share": {
+        "collection": 0.16585021685612297,
+        "exfiltration": 0.15089465143887248,
+        "command-and-control": 0.13170852319102339,
+        "stealth": 0.12793552219805623,
+        "persistence": 0.12202172265438564,
+        "discovery": 0.1121524392285007,
+        "execution": 0.06070810612374035,
+        "initial-access": 0.044664440930667945,
+        "reconnaissance": 0.03385578176925827,
+        "credential-access": 0.026468150946001835,
+        "privilege-escalation": 0.010476485925775214,
+        "lateral-movement": 0.007252369191841789,
+        "defense-impairment": 0.003986312489310877,
+        "impact": 0.002025277056442058
+      }
+    },
+    "pure_steal--initial-access--weighted-raw--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 95,
+        "stalled": 5
+      },
+      "objective_rate": 0.95,
+      "net_time_to_objective_s": {
+        "n": 95,
+        "median": 926.0,
+        "mean": 1215.6,
+        "p10": 307.6,
+        "p90": 2451.000000000002
+      },
+      "mean_n_states": 11.79,
+      "mean_total_duration_s": 1203.16,
+      "occupancy_mean_dwell_share": {
+        "exfiltration": 0.22901290193982643,
+        "stealth": 0.18564973404239601,
+        "command-and-control": 0.16797948168889268,
+        "persistence": 0.14465136179706384,
+        "execution": 0.09580431885644719,
+        "collection": 0.062197756617219956,
+        "discovery": 0.043322749737185424,
+        "initial-access": 0.01600755483960308,
+        "impact": 0.013447198679951942,
+        "credential-access": 0.011524553651627982,
+        "reconnaissance": 0.010192583330685108,
+        "lateral-movement": 0.009185668051070024,
+        "defense-impairment": 0.007677328476935288,
+        "privilege-escalation": 0.0033468082910943974
+      }
+    },
+    "pure_steal--initial-access--uniform--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 414.25,
+        "mean": 486.0,
+        "p10": 103.4,
+        "p90": 1022.9000000000003
+      },
+      "mean_n_states": 18.13,
+      "mean_total_duration_s": 486.0,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.17556710682139084,
+        "stealth": 0.15706439077585546,
+        "exfiltration": 0.14122246985087827,
+        "collection": 0.12013869907062168,
+        "persistence": 0.10876254279025072,
+        "discovery": 0.08337951441694598,
+        "reconnaissance": 0.0591398361805786,
+        "execution": 0.04695414194850586,
+        "initial-access": 0.02538067608667365,
+        "impact": 0.0253155303282256,
+        "defense-impairment": 0.024452625161408982,
+        "credential-access": 0.014028146929676254,
+        "lateral-movement": 0.010865694183777825,
+        "privilege-escalation": 0.007728625455210126
+      }
+    },
+    "pure_steal--initial-access--uniform--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 127.25,
+        "mean": 151.42200000000005,
+        "p10": 31.275000000000002,
+        "p90": 287.7150000000001
+      },
+      "mean_n_states": 18.27,
+      "mean_total_duration_s": 151.42200000000005,
+      "occupancy_mean_dwell_share": {
+        "collection": 0.17280815607316657,
+        "stealth": 0.14240264887918597,
+        "exfiltration": 0.1257870218924289,
+        "command-and-control": 0.12224059617148118,
+        "discovery": 0.10178902133765716,
+        "reconnaissance": 0.0974566806532426,
+        "persistence": 0.08618492140022736,
+        "initial-access": 0.043596992376979185,
+        "execution": 0.030578893460681898,
+        "credential-access": 0.026456855271326064,
+        "defense-impairment": 0.019539434079557313,
+        "privilege-escalation": 0.011735799826636459,
+        "lateral-movement": 0.010874930170359594,
+        "impact": 0.008548048407070248
+      }
+    },
+    "pure_steal--initial-access--uniform--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 1059.0,
+        "mean": 1566.03,
+        "p10": 333.0,
+        "p90": 3930.9000000000005
+      },
+      "mean_n_states": 16.69,
+      "mean_total_duration_s": 1566.03,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.19065929086786956,
+        "exfiltration": 0.18819360024205395,
+        "command-and-control": 0.15730802688060344,
+        "persistence": 0.12947431473417995,
+        "collection": 0.0707630001861403,
+        "discovery": 0.055688233136013544,
+        "execution": 0.05295347922190428,
+        "defense-impairment": 0.0479185497863193,
+        "reconnaissance": 0.03573477427221347,
+        "impact": 0.028887196367985143,
+        "initial-access": 0.015674936613436878,
+        "lateral-movement": 0.012678706962138814,
+        "privilege-escalation": 0.007076743116605786,
+        "credential-access": 0.006989147612535541
+      }
+    },
+    "pure_steal--reconnaissance--weighted-operator_dedup--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 94,
+        "stalled": 6
+      },
+      "objective_rate": 0.94,
+      "net_time_to_objective_s": {
+        "n": 94,
+        "median": 366.5,
+        "mean": 414.3351063829787,
+        "p10": 128.3,
+        "p90": 691.7
+      },
+      "mean_n_states": 14.33,
+      "mean_total_duration_s": 421.255,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.1816056509560745,
+        "stealth": 0.1621080929724511,
+        "reconnaissance": 0.15469006866387722,
+        "exfiltration": 0.12603957838899085,
+        "collection": 0.09639994634453095,
+        "persistence": 0.08794482156499804,
+        "discovery": 0.08151700538851062,
+        "execution": 0.051062088287074224,
+        "lateral-movement": 0.0208126312251384,
+        "credential-access": 0.018782423559046423,
+        "defense-impairment": 0.006822528345224626,
+        "impact": 0.0064084283062927384,
+        "initial-access": 0.0033809347633300575,
+        "privilege-escalation": 0.002425801234459947
+      }
+    },
+    "pure_steal--reconnaissance--weighted-operator_dedup--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 97,
+        "stalled": 3
+      },
+      "objective_rate": 0.97,
+      "net_time_to_objective_s": {
+        "n": 97,
+        "median": 105.375,
+        "mean": 129.8672680412371,
+        "p10": 45.625,
+        "p90": 215.55000000000013
+      },
+      "mean_n_states": 13.79,
+      "mean_total_duration_s": 129.1755,
+      "occupancy_mean_dwell_share": {
+        "reconnaissance": 0.24022215525571405,
+        "collection": 0.16308393258619563,
+        "command-and-control": 0.13601268920166779,
+        "discovery": 0.11699659034689151,
+        "exfiltration": 0.0970705115884228,
+        "stealth": 0.08663246819205211,
+        "persistence": 0.07630157027573282,
+        "execution": 0.02950270030848786,
+        "credential-access": 0.025185015014127395,
+        "lateral-movement": 0.014049907288402335,
+        "initial-access": 0.007130847909362864,
+        "privilege-escalation": 0.004082375754331575,
+        "defense-impairment": 0.0022330420523105194,
+        "impact": 0.0014961942263007533
+      }
+    },
+    "pure_steal--reconnaissance--weighted-operator_dedup--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 96,
+        "stalled": 4
+      },
+      "objective_rate": 0.96,
+      "net_time_to_objective_s": {
+        "n": 96,
+        "median": 995.0,
+        "mean": 1306.3854166666667,
+        "p10": 452.5,
+        "p90": 2629.0
+      },
+      "mean_n_states": 13.53,
+      "mean_total_duration_s": 1314.29,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.18162978339174746,
+        "command-and-control": 0.1809550367450436,
+        "exfiltration": 0.16533933918670016,
+        "persistence": 0.1385635432919954,
+        "reconnaissance": 0.09625911065730106,
+        "collection": 0.07104843194262052,
+        "execution": 0.06641031294541028,
+        "discovery": 0.03700782542067033,
+        "lateral-movement": 0.026492843584763993,
+        "defense-impairment": 0.013813118362317627,
+        "credential-access": 0.01169072983428111,
+        "impact": 0.006781105388811055,
+        "initial-access": 0.00320389856736309,
+        "privilege-escalation": 0.0008049206809744447
+      }
+    },
+    "pure_steal--reconnaissance--weighted-raw--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 94,
+        "stalled": 6
+      },
+      "objective_rate": 0.94,
+      "net_time_to_objective_s": {
+        "n": 94,
+        "median": 352.5,
+        "mean": 411.53723404255317,
+        "p10": 151.3,
+        "p90": 767.05
+      },
+      "mean_n_states": 13.34,
+      "mean_total_duration_s": 406.285,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.15606085997348296,
+        "reconnaissance": 0.14613306352959607,
+        "persistence": 0.13835891036748682,
+        "stealth": 0.13173659360492956,
+        "exfiltration": 0.12193718098238633,
+        "collection": 0.11145030566489281,
+        "discovery": 0.07638149144906495,
+        "execution": 0.06871357262829386,
+        "lateral-movement": 0.014030082417377349,
+        "credential-access": 0.012129542079611477,
+        "impact": 0.00929891288589222,
+        "defense-impairment": 0.006069048632557003,
+        "privilege-escalation": 0.004540098777674567,
+        "initial-access": 0.0031603370067541875
+      }
+    },
+    "pure_steal--reconnaissance--weighted-raw--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 93,
+        "stalled": 7
+      },
+      "objective_rate": 0.93,
+      "net_time_to_objective_s": {
+        "n": 93,
+        "median": 91.25,
+        "mean": 134.0215053763441,
+        "p10": 48.0,
+        "p90": 276.34999999999997
+      },
+      "mean_n_states": 14.01,
+      "mean_total_duration_s": 136.24450000000002,
+      "occupancy_mean_dwell_share": {
+        "reconnaissance": 0.23142074062557028,
+        "persistence": 0.13160042035671646,
+        "collection": 0.13075430068157126,
+        "stealth": 0.12681066112420708,
+        "command-and-control": 0.11257913082032799,
+        "exfiltration": 0.09304815088586489,
+        "discovery": 0.09131533318830704,
+        "execution": 0.03572091284276147,
+        "credential-access": 0.018235101245435485,
+        "lateral-movement": 0.01120420978367221,
+        "privilege-escalation": 0.006248285314213013,
+        "defense-impairment": 0.005067706481413913,
+        "initial-access": 0.0039996017807944675,
+        "impact": 0.0019954448691439316
+      }
+    },
+    "pure_steal--reconnaissance--weighted-raw--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 95,
+        "stalled": 5
+      },
+      "objective_rate": 0.95,
+      "net_time_to_objective_s": {
+        "n": 95,
+        "median": 941.0,
+        "mean": 1400.9473684210527,
+        "p10": 394.0,
+        "p90": 3031.0000000000027
+      },
+      "mean_n_states": 13.61,
+      "mean_total_duration_s": 1469.72,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.20031296662033393,
+        "exfiltration": 0.17235697218750412,
+        "stealth": 0.17103658044737402,
+        "persistence": 0.15886599190506623,
+        "reconnaissance": 0.09615629088222852,
+        "collection": 0.06001192647450327,
+        "execution": 0.05624165015070996,
+        "discovery": 0.041375058632570426,
+        "lateral-movement": 0.017402264292535333,
+        "defense-impairment": 0.009458189611234196,
+        "credential-access": 0.00667820025603713,
+        "impact": 0.005525549673239331,
+        "privilege-escalation": 0.0025413446927950193,
+        "initial-access": 0.002037014173868198
+      }
+    },
+    "pure_steal--reconnaissance--uniform--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 429.5,
+        "mean": 604.605,
+        "p10": 164.5,
+        "p90": 1228.4500000000007
+      },
+      "mean_n_states": 21.62,
+      "mean_total_duration_s": 604.605,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.19763441486918193,
+        "reconnaissance": 0.1511701168857303,
+        "stealth": 0.14635484011880925,
+        "exfiltration": 0.1080616975103253,
+        "persistence": 0.10648827363255663,
+        "discovery": 0.0731838636782919,
+        "collection": 0.07178718182541269,
+        "execution": 0.05561533513805893,
+        "impact": 0.024055410471305425,
+        "defense-impairment": 0.023402109567377965,
+        "lateral-movement": 0.013674341713100153,
+        "credential-access": 0.010765332966930004,
+        "initial-access": 0.01001649691416421,
+        "privilege-escalation": 0.0077905847087552825
+      }
+    },
+    "pure_steal--reconnaissance--uniform--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "cap": 1,
+        "objective": 99
+      },
+      "objective_rate": 0.99,
+      "net_time_to_objective_s": {
+        "n": 99,
+        "median": 110.375,
+        "mean": 157.82979797979806,
+        "p10": 47.25,
+        "p90": 353.49500000000006
+      },
+      "mean_n_states": 18.55,
+      "mean_total_duration_s": 166.72300000000004,
+      "occupancy_mean_dwell_share": {
+        "reconnaissance": 0.2466606331701005,
+        "command-and-control": 0.13333968825958684,
+        "collection": 0.11577921636302647,
+        "discovery": 0.11224399068204689,
+        "stealth": 0.10516554039189994,
+        "exfiltration": 0.09610002654227433,
+        "persistence": 0.08639790777464232,
+        "execution": 0.03096122692678067,
+        "credential-access": 0.01834236374017823,
+        "initial-access": 0.016116361280247554,
+        "privilege-escalation": 0.013212636588777799,
+        "defense-impairment": 0.010333804993218156,
+        "lateral-movement": 0.00926359189595693,
+        "impact": 0.006083011391263283
+      }
+    },
+    "pure_steal--reconnaissance--uniform--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 1195.5,
+        "mean": 1855.95,
+        "p10": 492.09999999999997,
+        "p90": 3764.000000000004
+      },
+      "mean_n_states": 18.26,
+      "mean_total_duration_s": 1855.95,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.20107320872979326,
+        "stealth": 0.1587520526456075,
+        "exfiltration": 0.14114969707503,
+        "persistence": 0.11992710714686265,
+        "reconnaissance": 0.09499142809971768,
+        "execution": 0.06353079788404402,
+        "collection": 0.056229968795482164,
+        "defense-impairment": 0.054954923489847755,
+        "discovery": 0.04628257848084427,
+        "impact": 0.02713409099588986,
+        "lateral-movement": 0.017281978229605876,
+        "credential-access": 0.007770961802541501,
+        "initial-access": 0.005900887499680563,
+        "privilege-escalation": 0.0050203191250524585
+      }
+    },
+    "pure_impediment--initial-access--weighted-operator_dedup--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 270.75,
+        "mean": 341.235,
+        "p10": 108.0,
+        "p90": 633.0500000000015
+      },
+      "mean_n_states": 12.18,
+      "mean_total_duration_s": 341.235,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.1853762436420292,
+        "impact": 0.17578706006290218,
+        "command-and-control": 0.15231797037901915,
+        "persistence": 0.13005880682596938,
+        "execution": 0.12819191158803922,
+        "discovery": 0.09221520986571541,
+        "collection": 0.04407185979702064,
+        "defense-impairment": 0.030850377491100107,
+        "initial-access": 0.028162380777270953,
+        "reconnaissance": 0.014854973625915258,
+        "credential-access": 0.008711872399677944,
+        "lateral-movement": 0.0063670693243077225,
+        "privilege-escalation": 0.0030342642210332924,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--initial-access--weighted-operator_dedup--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 73.725,
+        "mean": 100.16625000000008,
+        "p10": 10.35,
+        "p90": 229.35000000000002
+      },
+      "mean_n_states": 12.57,
+      "mean_total_duration_s": 100.16625000000013,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.18338919673393655,
+        "discovery": 0.14070461165250653,
+        "execution": 0.13415684103334485,
+        "command-and-control": 0.11126591297787847,
+        "impact": 0.10253244965881635,
+        "collection": 0.1017830951095505,
+        "persistence": 0.10172449402150978,
+        "initial-access": 0.07366294049270776,
+        "defense-impairment": 0.015367087585083818,
+        "reconnaissance": 0.012392453883417148,
+        "credential-access": 0.012160748230609541,
+        "privilege-escalation": 0.005772060406813154,
+        "lateral-movement": 0.00508810821382543,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--initial-access--weighted-operator_dedup--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 931.5,
+        "mean": 1196.77,
+        "p10": 279.0,
+        "p90": 2498.900000000002
+      },
+      "mean_n_states": 11.27,
+      "mean_total_duration_s": 1196.77,
+      "occupancy_mean_dwell_share": {
+        "impact": 0.2680106475709604,
+        "stealth": 0.17730848863959678,
+        "execution": 0.14920388916229654,
+        "command-and-control": 0.14497488666153038,
+        "persistence": 0.11552483303603564,
+        "defense-impairment": 0.050785087382885855,
+        "discovery": 0.03931910336973325,
+        "collection": 0.0216460671929192,
+        "initial-access": 0.01711251874588782,
+        "lateral-movement": 0.005432088546022668,
+        "credential-access": 0.0047678016513023605,
+        "reconnaissance": 0.004756788775251811,
+        "privilege-escalation": 0.001157799265577158,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--initial-access--weighted-raw--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 242.5,
+        "mean": 301.605,
+        "p10": 85.5,
+        "p90": 588.0500000000002
+      },
+      "mean_n_states": 10.94,
+      "mean_total_duration_s": 301.605,
+      "occupancy_mean_dwell_share": {
+        "impact": 0.19039261078261038,
+        "command-and-control": 0.18309132132488115,
+        "stealth": 0.1804830388070504,
+        "execution": 0.12172759915408317,
+        "discovery": 0.1042659495516886,
+        "persistence": 0.09742398827493315,
+        "collection": 0.03519375335467548,
+        "initial-access": 0.031934819839467554,
+        "defense-impairment": 0.025183812940865177,
+        "reconnaissance": 0.010065840194108198,
+        "credential-access": 0.009802476704952316,
+        "lateral-movement": 0.006832315797630022,
+        "privilege-escalation": 0.003602473273054623,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--initial-access--weighted-raw--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 51.725,
+        "mean": 71.78375000000003,
+        "p10": 17.1,
+        "p90": 173.2625
+      },
+      "mean_n_states": 9.47,
+      "mean_total_duration_s": 71.78375000000013,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.19220364322998637,
+        "command-and-control": 0.17325120309849748,
+        "discovery": 0.13479817412897246,
+        "execution": 0.1018664958396336,
+        "impact": 0.09495544558160778,
+        "persistence": 0.09211470056099684,
+        "collection": 0.07809365562653754,
+        "initial-access": 0.06904036809717919,
+        "defense-impairment": 0.021270574635426528,
+        "credential-access": 0.016476093969255357,
+        "reconnaissance": 0.015940346667536284,
+        "lateral-movement": 0.006141168919981435,
+        "privilege-escalation": 0.003848129644389024,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--initial-access--weighted-raw--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 801.0,
+        "mean": 1103.26,
+        "p10": 369.0,
+        "p90": 2455.1
+      },
+      "mean_n_states": 10.27,
+      "mean_total_duration_s": 1103.26,
+      "occupancy_mean_dwell_share": {
+        "impact": 0.2498394334619308,
+        "stealth": 0.21781501335303693,
+        "command-and-control": 0.1506374499274302,
+        "execution": 0.11465768514503845,
+        "persistence": 0.10654772337002516,
+        "defense-impairment": 0.054136640857023056,
+        "discovery": 0.048398050497422254,
+        "collection": 0.027151356306644954,
+        "initial-access": 0.015844703807313974,
+        "lateral-movement": 0.005147764812466863,
+        "reconnaissance": 0.004294357153107959,
+        "credential-access": 0.004276949798650369,
+        "privilege-escalation": 0.001252871509908757,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--initial-access--uniform--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 317.5,
+        "mean": 395.81,
+        "p10": 90.0,
+        "p90": 715.6500000000002
+      },
+      "mean_n_states": 15.69,
+      "mean_total_duration_s": 395.81,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.1727452189698678,
+        "persistence": 0.17200894586166807,
+        "stealth": 0.16319718583453485,
+        "impact": 0.16005410800471537,
+        "execution": 0.09399916062789307,
+        "discovery": 0.08037881828080716,
+        "reconnaissance": 0.043523492275446954,
+        "collection": 0.035890828781058204,
+        "initial-access": 0.027446279344806594,
+        "lateral-movement": 0.017232193392017005,
+        "defense-impairment": 0.014740511751964263,
+        "credential-access": 0.012234229361483238,
+        "privilege-escalation": 0.006549027513737451,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--initial-access--uniform--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 111.975,
+        "mean": 129.55750000000012,
+        "p10": 32.85,
+        "p90": 271.71250000000003
+      },
+      "mean_n_states": 17.82,
+      "mean_total_duration_s": 129.55750000000026,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.17901640799816143,
+        "stealth": 0.15889827904038578,
+        "persistence": 0.14703624047690125,
+        "discovery": 0.14190866003153427,
+        "collection": 0.07431877702226919,
+        "execution": 0.06829992599012324,
+        "reconnaissance": 0.05600167875613002,
+        "impact": 0.051795506417012666,
+        "initial-access": 0.05100151500592218,
+        "credential-access": 0.025666619087420454,
+        "privilege-escalation": 0.01802056320790386,
+        "lateral-movement": 0.014842293955503764,
+        "defense-impairment": 0.013193533010731805,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--initial-access--uniform--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 1001.5,
+        "mean": 1452.22,
+        "p10": 393.3,
+        "p90": 3093.800000000001
+      },
+      "mean_n_states": 15.91,
+      "mean_total_duration_s": 1452.22,
+      "occupancy_mean_dwell_share": {
+        "impact": 0.2167466219841352,
+        "stealth": 0.20796703186892046,
+        "persistence": 0.15182197369493383,
+        "command-and-control": 0.14980162170289618,
+        "execution": 0.10183449991199804,
+        "discovery": 0.04496254430016136,
+        "defense-impairment": 0.0320023350355927,
+        "collection": 0.026304464211469633,
+        "reconnaissance": 0.022213265673061307,
+        "lateral-movement": 0.02005357705958517,
+        "initial-access": 0.015292067134687554,
+        "credential-access": 0.006796169590261143,
+        "privilege-escalation": 0.004203827832297148,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--reconnaissance--weighted-operator_dedup--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 287.0,
+        "mean": 364.21,
+        "p10": 143.0,
+        "p90": 717.1500000000001
+      },
+      "mean_n_states": 13.08,
+      "mean_total_duration_s": 364.21,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.1674622087822044,
+        "reconnaissance": 0.14561881468375495,
+        "impact": 0.13909987310122712,
+        "command-and-control": 0.13184110964989892,
+        "execution": 0.11671633462003657,
+        "persistence": 0.11475190902535991,
+        "discovery": 0.07596871107459703,
+        "collection": 0.03949472566354246,
+        "defense-impairment": 0.025225529672497724,
+        "initial-access": 0.024520605605467583,
+        "credential-access": 0.009292943060593337,
+        "lateral-movement": 0.006980995484676213,
+        "privilege-escalation": 0.003026239576144118,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--reconnaissance--weighted-operator_dedup--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 85.85,
+        "mean": 120.62000000000009,
+        "p10": 27.85,
+        "p90": 233.52500000000006
+      },
+      "mean_n_states": 14.4,
+      "mean_total_duration_s": 120.62000000000016,
+      "occupancy_mean_dwell_share": {
+        "reconnaissance": 0.2749276676393423,
+        "stealth": 0.13192166542430458,
+        "discovery": 0.1175596283927911,
+        "persistence": 0.08766593343605283,
+        "command-and-control": 0.08592339506076886,
+        "execution": 0.07686845957337951,
+        "collection": 0.07434284013379609,
+        "impact": 0.05311384795737045,
+        "initial-access": 0.04618416954171435,
+        "defense-impairment": 0.0222688213201118,
+        "credential-access": 0.019131251225241116,
+        "privilege-escalation": 0.005601445864774251,
+        "lateral-movement": 0.004490874430352749,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--reconnaissance--weighted-operator_dedup--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 933.0,
+        "mean": 1243.65,
+        "p10": 349.0,
+        "p90": 2701.9000000000015
+      },
+      "mean_n_states": 11.98,
+      "mean_total_duration_s": 1243.65,
+      "occupancy_mean_dwell_share": {
+        "impact": 0.22947803433806993,
+        "stealth": 0.21274376580526527,
+        "execution": 0.12918643025592916,
+        "command-and-control": 0.11063467567943737,
+        "persistence": 0.09839692379008741,
+        "reconnaissance": 0.09567522709877364,
+        "discovery": 0.04208754702063633,
+        "defense-impairment": 0.032097588693476,
+        "collection": 0.025191521882870965,
+        "initial-access": 0.015003845569451424,
+        "lateral-movement": 0.004714721032417182,
+        "credential-access": 0.003431896768141562,
+        "privilege-escalation": 0.0013578220654435322,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--reconnaissance--weighted-raw--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 303.5,
+        "mean": 366.915,
+        "p10": 154.7,
+        "p90": 643.65
+      },
+      "mean_n_states": 12.62,
+      "mean_total_duration_s": 366.915,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.19183339832901072,
+        "command-and-control": 0.14859358395388725,
+        "reconnaissance": 0.137658869530758,
+        "impact": 0.13309002779326304,
+        "persistence": 0.10483004463521256,
+        "discovery": 0.09109992156673007,
+        "execution": 0.08709660430469325,
+        "collection": 0.05021784294865125,
+        "initial-access": 0.021475195121273133,
+        "defense-impairment": 0.019270647441959037,
+        "credential-access": 0.006114997082028804,
+        "lateral-movement": 0.005204124130001959,
+        "privilege-escalation": 0.003514743162530952,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--reconnaissance--weighted-raw--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 74.2875,
+        "mean": 86.73250000000007,
+        "p10": 38.65,
+        "p90": 155.05
+      },
+      "mean_n_states": 10.24,
+      "mean_total_duration_s": 86.73250000000019,
+      "occupancy_mean_dwell_share": {
+        "reconnaissance": 0.28568682016178093,
+        "stealth": 0.1279658520046873,
+        "discovery": 0.12740675721187977,
+        "command-and-control": 0.11608619548938039,
+        "persistence": 0.07524935277967953,
+        "execution": 0.07402976633324382,
+        "collection": 0.06445737041491224,
+        "impact": 0.055507631000675024,
+        "initial-access": 0.042733296550559983,
+        "defense-impairment": 0.011727309085877593,
+        "credential-access": 0.008899834439056726,
+        "privilege-escalation": 0.006302766512449095,
+        "lateral-movement": 0.00394704801581748,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--reconnaissance--weighted-raw--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 769.0,
+        "mean": 1099.04,
+        "p10": 433.6,
+        "p90": 2135.100000000001
+      },
+      "mean_n_states": 10.85,
+      "mean_total_duration_s": 1099.04,
+      "occupancy_mean_dwell_share": {
+        "impact": 0.24368399165051766,
+        "stealth": 0.19440140876485273,
+        "command-and-control": 0.1316365607826141,
+        "execution": 0.12191206679664639,
+        "reconnaissance": 0.10369690583788652,
+        "persistence": 0.0867989756296461,
+        "discovery": 0.035636540094481146,
+        "defense-impairment": 0.029916755967967473,
+        "collection": 0.026027783716384173,
+        "initial-access": 0.016264416779352066,
+        "lateral-movement": 0.0051472395974104645,
+        "credential-access": 0.0031997018402841783,
+        "privilege-escalation": 0.0016776525419567362,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--reconnaissance--uniform--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 331.25,
+        "mean": 453.915,
+        "p10": 120.5,
+        "p90": 1004.8000000000003
+      },
+      "mean_n_states": 17.36,
+      "mean_total_duration_s": 453.915,
+      "occupancy_mean_dwell_share": {
+        "persistence": 0.1797973014063935,
+        "reconnaissance": 0.16174362811289897,
+        "command-and-control": 0.15498266890494306,
+        "impact": 0.13041257542127965,
+        "stealth": 0.1291032004802999,
+        "discovery": 0.08303324700468481,
+        "execution": 0.0742239211042497,
+        "collection": 0.022325853259494068,
+        "lateral-movement": 0.020070351251566955,
+        "defense-impairment": 0.014705213673433335,
+        "initial-access": 0.012411205088662024,
+        "credential-access": 0.011399582525928844,
+        "privilege-escalation": 0.005791251766165498,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--reconnaissance--uniform--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 94.6,
+        "mean": 130.3525000000001,
+        "p10": 33.475,
+        "p90": 252.20000000000016
+      },
+      "mean_n_states": 16.15,
+      "mean_total_duration_s": 130.35250000000025,
+      "occupancy_mean_dwell_share": {
+        "reconnaissance": 0.29851111079398557,
+        "persistence": 0.15758847463720294,
+        "stealth": 0.11057735332312982,
+        "command-and-control": 0.11052574468282449,
+        "discovery": 0.1096558223743537,
+        "impact": 0.04821078634301832,
+        "execution": 0.047302261599816126,
+        "collection": 0.03611472329032415,
+        "initial-access": 0.023907787074030077,
+        "credential-access": 0.021671856580925096,
+        "lateral-movement": 0.015238316111780252,
+        "defense-impairment": 0.01173183764435884,
+        "privilege-escalation": 0.008963925544250814,
+        "resource-development": 0.0
+      }
+    },
+    "pure_impediment--reconnaissance--uniform--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 1154.5,
+        "mean": 1685.27,
+        "p10": 439.0,
+        "p90": 3323.6000000000004
+      },
+      "mean_n_states": 17.68,
+      "mean_total_duration_s": 1685.27,
+      "occupancy_mean_dwell_share": {
+        "persistence": 0.19394974405060497,
+        "impact": 0.18907678381734086,
+        "stealth": 0.15938841460210904,
+        "command-and-control": 0.15297295336990882,
+        "reconnaissance": 0.09219115289136262,
+        "execution": 0.08698358197329849,
+        "discovery": 0.04793742681469793,
+        "defense-impairment": 0.027438421552460884,
+        "lateral-movement": 0.021762213823204327,
+        "collection": 0.010471425579517484,
+        "initial-access": 0.00811722716733641,
+        "credential-access": 0.005616027289125994,
+        "privilege-escalation": 0.0040946270690322166,
+        "resource-development": 0.0
+      }
+    },
+    "double_extortion--initial-access--weighted-operator_dedup--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 80,
+        "stalled": 20
+      },
+      "objective_rate": 0.8,
+      "net_time_to_objective_s": {
+        "n": 80,
+        "median": 471.0,
+        "mean": 593.9875,
+        "p10": 232.1,
+        "p90": 1153.1000000000001
+      },
+      "mean_n_states": 18.38,
+      "mean_total_duration_s": 580.77,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.22401092386510624,
+        "discovery": 0.15532187455241472,
+        "command-and-control": 0.14628456522436256,
+        "impact": 0.13568482457896983,
+        "persistence": 0.1312580490719304,
+        "exfiltration": 0.0735815240889991,
+        "execution": 0.060133834400540855,
+        "collection": 0.0413675479293322,
+        "initial-access": 0.01128229861690637,
+        "privilege-escalation": 0.011091063062803308,
+        "lateral-movement": 0.007177428485500927,
+        "credential-access": 0.002806066123133486
+      }
+    },
+    "double_extortion--initial-access--weighted-operator_dedup--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 82,
+        "stalled": 18
+      },
+      "objective_rate": 0.82,
+      "net_time_to_objective_s": {
+        "n": 82,
+        "median": 130.2625,
+        "mean": 169.24176829268296,
+        "p10": 57.712500000000006,
+        "p90": 289.7850000000001
+      },
+      "mean_n_states": 18.22,
+      "mean_total_duration_s": 163.3520000000001,
+      "occupancy_mean_dwell_share": {
+        "discovery": 0.2535698354826205,
+        "stealth": 0.1868597447260994,
+        "command-and-control": 0.13561559733144896,
+        "persistence": 0.11523669427908036,
+        "collection": 0.08878736572571493,
+        "exfiltration": 0.07178386762026234,
+        "impact": 0.05094905629852274,
+        "execution": 0.046458540781027076,
+        "initial-access": 0.02141694920820152,
+        "privilege-escalation": 0.018495000917233443,
+        "lateral-movement": 0.00594648671566986,
+        "credential-access": 0.004880860914119173
+      }
+    },
+    "double_extortion--initial-access--weighted-operator_dedup--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 83,
+        "stalled": 17
+      },
+      "objective_rate": 0.83,
+      "net_time_to_objective_s": {
+        "n": 83,
+        "median": 1553.0,
+        "mean": 1934.5060240963855,
+        "p10": 783.0,
+        "p90": 3639.5999999999985
+      },
+      "mean_n_states": 16.29,
+      "mean_total_duration_s": 1858.84,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.21532766075975968,
+        "impact": 0.19650940903389064,
+        "command-and-control": 0.14656267310464033,
+        "persistence": 0.1414989987976563,
+        "exfiltration": 0.08960222343035552,
+        "discovery": 0.08874331538082897,
+        "execution": 0.07418418482493835,
+        "collection": 0.02455378229132183,
+        "lateral-movement": 0.008005087238321086,
+        "initial-access": 0.0069665797744682635,
+        "privilege-escalation": 0.0065583500575936106,
+        "credential-access": 0.0014877353062257498
+      }
+    },
+    "double_extortion--initial-access--weighted-raw--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 75,
+        "stalled": 25
+      },
+      "objective_rate": 0.75,
+      "net_time_to_objective_s": {
+        "n": 75,
+        "median": 533.5,
+        "mean": 643.2466666666667,
+        "p10": 201.5,
+        "p90": 1164.8000000000006
+      },
+      "mean_n_states": 20.18,
+      "mean_total_duration_s": 642.94,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.21686055550504257,
+        "command-and-control": 0.15113748047191572,
+        "impact": 0.14845599928682973,
+        "discovery": 0.1480161099546651,
+        "persistence": 0.13092583317425327,
+        "exfiltration": 0.07195856877999908,
+        "execution": 0.06305305705792878,
+        "collection": 0.040674200779135326,
+        "initial-access": 0.011338407783638167,
+        "privilege-escalation": 0.009220853683586393,
+        "lateral-movement": 0.005551336061317282,
+        "credential-access": 0.002807597461688139
+      }
+    },
+    "double_extortion--initial-access--weighted-raw--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 85,
+        "stalled": 15
+      },
+      "objective_rate": 0.85,
+      "net_time_to_objective_s": {
+        "n": 85,
+        "median": 127.29999999999998,
+        "mean": 154.5111764705882,
+        "p10": 55.35,
+        "p90": 300.985
+      },
+      "mean_n_states": 16.69,
+      "mean_total_duration_s": 148.4272500000002,
+      "occupancy_mean_dwell_share": {
+        "discovery": 0.24006861452065775,
+        "stealth": 0.18892686241104115,
+        "command-and-control": 0.1430379205027409,
+        "persistence": 0.11194395790416346,
+        "collection": 0.08926275260253981,
+        "exfiltration": 0.07780329656009412,
+        "impact": 0.05216721096532288,
+        "execution": 0.042422282611752286,
+        "initial-access": 0.024150557324032814,
+        "privilege-escalation": 0.019317154019028115,
+        "lateral-movement": 0.006041178789229796,
+        "credential-access": 0.004858211789397565
+      }
+    },
+    "double_extortion--initial-access--weighted-raw--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 80,
+        "stalled": 20
+      },
+      "objective_rate": 0.8,
+      "net_time_to_objective_s": {
+        "n": 80,
+        "median": 1763.5,
+        "mean": 2237.825,
+        "p10": 780.1,
+        "p90": 4169.400000000002
+      },
+      "mean_n_states": 19.61,
+      "mean_total_duration_s": 2300.38,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.2372000994776444,
+        "impact": 0.20891255968669672,
+        "command-and-control": 0.14950297448109676,
+        "persistence": 0.13283250605454466,
+        "discovery": 0.08904664476466395,
+        "exfiltration": 0.07693127183045338,
+        "execution": 0.06341967542215196,
+        "collection": 0.01951223114796159,
+        "lateral-movement": 0.008065453010387082,
+        "initial-access": 0.006558122513865793,
+        "privilege-escalation": 0.006242799878977641,
+        "credential-access": 0.001775661731556276
+      }
+    },
+    "double_extortion--initial-access--uniform--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 604.0,
+        "mean": 857.705,
+        "p10": 244.8,
+        "p90": 1734.7000000000003
+      },
+      "mean_n_states": 30.43,
+      "mean_total_duration_s": 857.705,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.21571192126833835,
+        "command-and-control": 0.16032938360462243,
+        "discovery": 0.1236269859505119,
+        "persistence": 0.11595059650672469,
+        "impact": 0.10549410036771058,
+        "execution": 0.08377542790115358,
+        "exfiltration": 0.0790616196053418,
+        "collection": 0.0707188107691174,
+        "initial-access": 0.013993025382911233,
+        "lateral-movement": 0.013102643356009379,
+        "privilege-escalation": 0.010563682564389242,
+        "credential-access": 0.007671802723168909
+      }
+    },
+    "double_extortion--initial-access--uniform--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "cap": 1,
+        "objective": 99
+      },
+      "objective_rate": 0.99,
+      "net_time_to_objective_s": {
+        "n": 99,
+        "median": 216.575,
+        "mean": 232.04747474747472,
+        "p10": 76.725,
+        "p90": 422.42
+      },
+      "mean_n_states": 30.09,
+      "mean_total_duration_s": 239.90049999999982,
+      "occupancy_mean_dwell_share": {
+        "discovery": 0.20144787164555106,
+        "stealth": 0.19669617162134906,
+        "command-and-control": 0.13668535007547797,
+        "collection": 0.12725325854895508,
+        "persistence": 0.1041060043368937,
+        "execution": 0.06414071614621827,
+        "exfiltration": 0.06360606148006176,
+        "impact": 0.03592118648371381,
+        "initial-access": 0.024579926719140378,
+        "privilege-escalation": 0.02040550721456188,
+        "credential-access": 0.013700473734402837,
+        "lateral-movement": 0.011457471993673841
+      }
+    },
+    "double_extortion--initial-access--uniform--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 2026.0,
+        "mean": 2526.1,
+        "p10": 857.5,
+        "p90": 4303.000000000002
+      },
+      "mean_n_states": 24.71,
+      "mean_total_duration_s": 2526.1,
+      "occupancy_mean_dwell_share": {
+        "stealth": 0.2076306480679081,
+        "command-and-control": 0.1629473945244424,
+        "impact": 0.15876184560525158,
+        "persistence": 0.1284380937523445,
+        "exfiltration": 0.09688854052724669,
+        "execution": 0.09287820043460711,
+        "discovery": 0.08142117043275103,
+        "collection": 0.0375927810792991,
+        "lateral-movement": 0.01570019623820262,
+        "initial-access": 0.008006365743035345,
+        "privilege-escalation": 0.006083317394258453,
+        "credential-access": 0.0036514462006534847
+      }
+    },
+    "infrastructure_setup--initial-access--weighted-operator_dedup--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 82,
+        "stalled": 18
+      },
+      "objective_rate": 0.82,
+      "net_time_to_objective_s": {
+        "n": 82,
+        "median": 139.5,
+        "mean": 150.84756097560975,
+        "p10": 72.0,
+        "p90": 236.15000000000012
+      },
+      "mean_n_states": 6.36,
+      "mean_total_duration_s": 140.83,
+      "occupancy_mean_dwell_share": {
+        "execution": 0.302421307936674,
+        "command-and-control": 0.29223556220130925,
+        "discovery": 0.08472121317560904,
+        "reconnaissance": 0.07952051952464533,
+        "collection": 0.06536166637499459,
+        "stealth": 0.06328511574394413,
+        "initial-access": 0.03944762301615675,
+        "persistence": 0.036337068033638606,
+        "lateral-movement": 0.018774864780680387,
+        "privilege-escalation": 0.009741815185573264,
+        "credential-access": 0.008153244026774576
+      }
+    },
+    "infrastructure_setup--initial-access--weighted-operator_dedup--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 94,
+        "stalled": 6
+      },
+      "objective_rate": 0.94,
+      "net_time_to_objective_s": {
+        "n": 94,
+        "median": 46.4375,
+        "mean": 53.013297872340424,
+        "p10": 19.800000000000004,
+        "p90": 89.5125
+      },
+      "mean_n_states": 7.86,
+      "mean_total_duration_s": 52.43625,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.26648670061964297,
+        "execution": 0.18423753711920285,
+        "collection": 0.1638937753099926,
+        "discovery": 0.13662063525872326,
+        "stealth": 0.06636784669422313,
+        "initial-access": 0.057265311728069944,
+        "persistence": 0.03424422335882431,
+        "reconnaissance": 0.030862001365543887,
+        "lateral-movement": 0.027586671600010604,
+        "credential-access": 0.021437796928695692,
+        "privilege-escalation": 0.010997500017070677
+      }
+    },
+    "infrastructure_setup--initial-access--weighted-operator_dedup--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 82,
+        "stalled": 18
+      },
+      "objective_rate": 0.82,
+      "net_time_to_objective_s": {
+        "n": 82,
+        "median": 459.0,
+        "mean": 511.4268292682927,
+        "p10": 306.0,
+        "p90": 789.3000000000002
+      },
+      "mean_n_states": 6.36,
+      "mean_total_duration_s": 464.28,
+      "occupancy_mean_dwell_share": {
+        "execution": 0.34165905006460257,
+        "command-and-control": 0.333918588990977,
+        "stealth": 0.06990504966305258,
+        "reconnaissance": 0.060071238840278714,
+        "collection": 0.04727646529966127,
+        "discovery": 0.04672347193130994,
+        "lateral-movement": 0.032218366847644384,
+        "persistence": 0.03185328860596612,
+        "initial-access": 0.02441937444329896,
+        "credential-access": 0.007895592326649003,
+        "privilege-escalation": 0.004059512986559517
+      }
+    },
+    "infrastructure_setup--initial-access--weighted-raw--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 86,
+        "stalled": 14
+      },
+      "objective_rate": 0.86,
+      "net_time_to_objective_s": {
+        "n": 86,
+        "median": 119.25,
+        "mean": 147.90697674418604,
+        "p10": 76.5,
+        "p90": 221.75
+      },
+      "mean_n_states": 6.38,
+      "mean_total_duration_s": 138.435,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.3232881332128419,
+        "execution": 0.27989581371273536,
+        "discovery": 0.08734376807416605,
+        "reconnaissance": 0.06942667155244175,
+        "collection": 0.06649748962646077,
+        "stealth": 0.059851658078368696,
+        "initial-access": 0.04125509966374096,
+        "persistence": 0.030404523760763115,
+        "lateral-movement": 0.024907876257472775,
+        "credential-access": 0.012331501555913163,
+        "privilege-escalation": 0.004797464505095442
+      }
+    },
+    "infrastructure_setup--initial-access--weighted-raw--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 82,
+        "stalled": 18
+      },
+      "objective_rate": 0.82,
+      "net_time_to_objective_s": {
+        "n": 82,
+        "median": 36.5625,
+        "mean": 42.9984756097561,
+        "p10": 18.0,
+        "p90": 72.5125
+      },
+      "mean_n_states": 6.38,
+      "mean_total_duration_s": 41.8025,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.27901910291317344,
+        "execution": 0.19622080017104923,
+        "collection": 0.10415140255960838,
+        "reconnaissance": 0.1033656577940636,
+        "discovery": 0.09645632642633145,
+        "initial-access": 0.06909369087044287,
+        "stealth": 0.05922015153334221,
+        "persistence": 0.03764166636689617,
+        "credential-access": 0.027011853084978676,
+        "lateral-movement": 0.019113001838181147,
+        "privilege-escalation": 0.008706346441932656
+      }
+    },
+    "infrastructure_setup--initial-access--weighted-raw--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 86,
+        "stalled": 14
+      },
+      "objective_rate": 0.86,
+      "net_time_to_objective_s": {
+        "n": 86,
+        "median": 486.0,
+        "mean": 535.1976744186046,
+        "p10": 288.0,
+        "p90": 840.5
+      },
+      "mean_n_states": 6.99,
+      "mean_total_duration_s": 522.96,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.34457696170719015,
+        "execution": 0.3357325006601347,
+        "stealth": 0.08191136448384516,
+        "persistence": 0.0557017865451577,
+        "discovery": 0.04603472775576138,
+        "collection": 0.04393079162751071,
+        "reconnaissance": 0.030108466486983128,
+        "lateral-movement": 0.027567991973528994,
+        "initial-access": 0.021099936633685902,
+        "credential-access": 0.008963522073626135,
+        "privilege-escalation": 0.004371950052575802
+      }
+    },
+    "infrastructure_setup--initial-access--uniform--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 83,
+        "stalled": 17
+      },
+      "objective_rate": 0.83,
+      "net_time_to_objective_s": {
+        "n": 83,
+        "median": 89.0,
+        "mean": 133.84337349397592,
+        "p10": 49.5,
+        "p90": 248.19999999999993
+      },
+      "mean_n_states": 5.4,
+      "mean_total_duration_s": 124.345,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.4381806793237801,
+        "execution": 0.10828415865353032,
+        "reconnaissance": 0.09264476333544007,
+        "stealth": 0.08432605181575477,
+        "discovery": 0.08357181831224926,
+        "collection": 0.05907897771941271,
+        "initial-access": 0.055729537504077414,
+        "persistence": 0.02792706298990917,
+        "credential-access": 0.021814853928305643,
+        "privilege-escalation": 0.018031426847923467,
+        "lateral-movement": 0.01041066956961702
+      }
+    },
+    "infrastructure_setup--initial-access--uniform--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 84,
+        "stalled": 16
+      },
+      "objective_rate": 0.84,
+      "net_time_to_objective_s": {
+        "n": 84,
+        "median": 27.0,
+        "mean": 41.29315476190476,
+        "p10": 13.5,
+        "p90": 98.56250000000001
+      },
+      "mean_n_states": 5.15,
+      "mean_total_duration_s": 40.39125,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.40728617108284715,
+        "collection": 0.11193416526207335,
+        "reconnaissance": 0.09649136625181011,
+        "initial-access": 0.09386326702037358,
+        "discovery": 0.08490938911795302,
+        "execution": 0.07819176788168782,
+        "stealth": 0.04753684472220973,
+        "persistence": 0.03258259534623659,
+        "credential-access": 0.02659966571913984,
+        "privilege-escalation": 0.014143721687843194,
+        "lateral-movement": 0.006461045907825678
+      }
+    },
+    "infrastructure_setup--initial-access--uniform--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 87,
+        "stalled": 13
+      },
+      "objective_rate": 0.87,
+      "net_time_to_objective_s": {
+        "n": 87,
+        "median": 288.0,
+        "mean": 409.0689655172414,
+        "p10": 189.0,
+        "p90": 731.4000000000001
+      },
+      "mean_n_states": 5.48,
+      "mean_total_duration_s": 414.3,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.5484102887513632,
+        "execution": 0.10254647784226693,
+        "stealth": 0.10088369376079871,
+        "reconnaissance": 0.06367634791236561,
+        "collection": 0.0482461014279296,
+        "discovery": 0.035900523702881985,
+        "initial-access": 0.0356074734548723,
+        "persistence": 0.023681188475860652,
+        "credential-access": 0.017368049261883216,
+        "lateral-movement": 0.01432497216049066,
+        "privilege-escalation": 0.009354883249286601
+      }
+    },
+    "aggregate--initial-access--weighted-operator_dedup--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 117.0,
+        "mean": 144.615,
+        "p10": 67.5,
+        "p90": 233.1
+      },
+      "mean_n_states": 5.82,
+      "mean_total_duration_s": 144.615,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.2128529360597266,
+        "stealth": 0.14163015994487035,
+        "persistence": 0.1345124450076299,
+        "execution": 0.11487580699751042,
+        "impact": 0.08251039078979955,
+        "exfiltration": 0.07316298641565816,
+        "collection": 0.0716989163816811,
+        "discovery": 0.06102835835507471,
+        "initial-access": 0.044267260934817684,
+        "reconnaissance": 0.03289965340902816,
+        "lateral-movement": 0.011056451822731114,
+        "credential-access": 0.010962673733678995,
+        "defense-impairment": 0.004761060622713658,
+        "privilege-escalation": 0.0037808995250795253
+      }
+    },
+    "aggregate--initial-access--weighted-operator_dedup--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 33.75,
+        "mean": 43.658249999999995,
+        "p10": 13.5,
+        "p90": 87.98750000000001
+      },
+      "mean_n_states": 6.01,
+      "mean_total_duration_s": 43.65825000000001,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.20576647489027053,
+        "stealth": 0.13877226832751516,
+        "persistence": 0.11335010974467936,
+        "discovery": 0.10794618335951148,
+        "execution": 0.09057563582172254,
+        "collection": 0.08671050904736256,
+        "initial-access": 0.0819130568451503,
+        "exfiltration": 0.047038846219057434,
+        "impact": 0.03834690681014158,
+        "reconnaissance": 0.035703084106184065,
+        "credential-access": 0.021833109289345,
+        "privilege-escalation": 0.015886855754594253,
+        "lateral-movement": 0.00835362263866203,
+        "defense-impairment": 0.007803337145803779
+      }
+    },
+    "aggregate--initial-access--weighted-operator_dedup--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 471.5,
+        "mean": 572.43,
+        "p10": 234.0,
+        "p90": 988.0
+      },
+      "mean_n_states": 6.02,
+      "mean_total_duration_s": 572.43,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.22020542740026466,
+        "persistence": 0.16256209218478151,
+        "stealth": 0.15997953469241252,
+        "execution": 0.12842003202603358,
+        "exfiltration": 0.09661054523181134,
+        "impact": 0.08803813017048016,
+        "discovery": 0.042228220857912696,
+        "collection": 0.041038912001403645,
+        "initial-access": 0.02260651744352741,
+        "reconnaissance": 0.011465757237474408,
+        "lateral-movement": 0.011014538895443404,
+        "defense-impairment": 0.006603762423948626,
+        "credential-access": 0.005769434869597459,
+        "privilege-escalation": 0.003457094564908398
+      }
+    },
+    "aggregate--initial-access--weighted-raw--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 117.0,
+        "mean": 145.615,
+        "p10": 49.5,
+        "p90": 274.05000000000007
+      },
+      "mean_n_states": 5.53,
+      "mean_total_duration_s": 145.615,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.29999426497557913,
+        "stealth": 0.14373498947929972,
+        "persistence": 0.1273484982403472,
+        "execution": 0.1189451124500855,
+        "impact": 0.08008630328891561,
+        "discovery": 0.06228512514692225,
+        "collection": 0.0475025145543193,
+        "initial-access": 0.04621257531584773,
+        "exfiltration": 0.025222312993740087,
+        "reconnaissance": 0.020165118903266353,
+        "lateral-movement": 0.009122272344056893,
+        "credential-access": 0.008112788385213926,
+        "defense-impairment": 0.007469468316034336,
+        "privilege-escalation": 0.003798655606371972
+      }
+    },
+    "aggregate--initial-access--weighted-raw--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 32.625,
+        "mean": 40.00225,
+        "p10": 13.5,
+        "p90": 77.46250000000003
+      },
+      "mean_n_states": 5.16,
+      "mean_total_duration_s": 40.00225,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.29415831542748694,
+        "collection": 0.1325731215279212,
+        "stealth": 0.09732320756009372,
+        "persistence": 0.08679049935417839,
+        "initial-access": 0.08609598631559631,
+        "discovery": 0.07841978008959347,
+        "exfiltration": 0.07283603104005429,
+        "execution": 0.07178781667506795,
+        "reconnaissance": 0.0332578608999467,
+        "credential-access": 0.019927017669391537,
+        "impact": 0.00995840831169187,
+        "privilege-escalation": 0.009908727741522313,
+        "lateral-movement": 0.005286719375343426,
+        "defense-impairment": 0.0016765080121117272
+      }
+    },
+    "aggregate--initial-access--weighted-raw--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 449.0,
+        "mean": 514.59,
+        "p10": 189.0,
+        "p90": 915.3000000000006
+      },
+      "mean_n_states": 5.63,
+      "mean_total_duration_s": 514.59,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.3278827760980289,
+        "stealth": 0.15512555737255387,
+        "persistence": 0.11694856567385338,
+        "execution": 0.11092106636287506,
+        "exfiltration": 0.08174078488468332,
+        "discovery": 0.049218844891768684,
+        "impact": 0.041100346373128156,
+        "collection": 0.03773345548170012,
+        "initial-access": 0.025256226374024818,
+        "defense-impairment": 0.022934796551690808,
+        "lateral-movement": 0.010367937594457753,
+        "reconnaissance": 0.009797682071384282,
+        "credential-access": 0.006818495232262313,
+        "privilege-escalation": 0.004153465037588547
+      }
+    },
+    "aggregate--initial-access--uniform--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 134.5,
+        "mean": 150.715,
+        "p10": 53.550000000000004,
+        "p90": 276.0000000000001
+      },
+      "mean_n_states": 6.27,
+      "mean_total_duration_s": 150.715,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.28244098151444397,
+        "stealth": 0.12651634754615596,
+        "collection": 0.09694904615037325,
+        "persistence": 0.08543305620288319,
+        "discovery": 0.07351959158090468,
+        "reconnaissance": 0.06957750896192255,
+        "exfiltration": 0.0552823608925748,
+        "impact": 0.05458216911847532,
+        "execution": 0.05436963840111354,
+        "initial-access": 0.047913345156692294,
+        "defense-impairment": 0.017908800972100725,
+        "lateral-movement": 0.015288895553159954,
+        "credential-access": 0.012199280829600928,
+        "privilege-escalation": 0.00801897711959906
+      }
+    },
+    "aggregate--initial-access--uniform--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 32.625,
+        "mean": 44.827749999999995,
+        "p10": 13.5,
+        "p90": 97.96000000000001
+      },
+      "mean_n_states": 5.97,
+      "mean_total_duration_s": 44.827749999999995,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.2613554117687873,
+        "collection": 0.12929752263602975,
+        "stealth": 0.1162210666399136,
+        "initial-access": 0.08902500670739205,
+        "discovery": 0.08855451867883785,
+        "persistence": 0.07741736684797715,
+        "reconnaissance": 0.061217716268259253,
+        "execution": 0.05848099457369291,
+        "exfiltration": 0.041701632754454446,
+        "impact": 0.028839323770038106,
+        "privilege-escalation": 0.013374748046525713,
+        "lateral-movement": 0.011668602600190859,
+        "defense-impairment": 0.011546659418337683,
+        "credential-access": 0.011299429289563245
+      }
+    },
+    "aggregate--initial-access--uniform--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 423.0,
+        "mean": 534.67,
+        "p10": 225.0,
+        "p90": 1047.6000000000004
+      },
+      "mean_n_states": 6.39,
+      "mean_total_duration_s": 534.67,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.3070362116989547,
+        "persistence": 0.13061682063081842,
+        "stealth": 0.11783420916549851,
+        "exfiltration": 0.08398394185484762,
+        "execution": 0.06610608086545634,
+        "impact": 0.05690528937012483,
+        "collection": 0.05644756499760816,
+        "reconnaissance": 0.05127450202320583,
+        "discovery": 0.04674575031076767,
+        "defense-impairment": 0.027828363921667983,
+        "initial-access": 0.027374984700063564,
+        "lateral-movement": 0.016286665652427004,
+        "credential-access": 0.006367559623260197,
+        "privilege-escalation": 0.005192055185299249
+      }
+    },
+    "aggregate--reconnaissance--weighted-operator_dedup--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 100.25,
+        "mean": 136.5,
+        "p10": 80.0,
+        "p90": 250.10000000000002
+      },
+      "mean_n_states": 4.79,
+      "mean_total_duration_s": 136.5,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.33056915564534955,
+        "reconnaissance": 0.32483579887978986,
+        "stealth": 0.08563792802514801,
+        "execution": 0.04374054681272016,
+        "persistence": 0.04243109562538709,
+        "exfiltration": 0.03996646118340436,
+        "collection": 0.03885710546670337,
+        "discovery": 0.028569961987198442,
+        "impact": 0.026613137104986938,
+        "lateral-movement": 0.01412862052399569,
+        "initial-access": 0.012237114159263858,
+        "credential-access": 0.006681600345308367,
+        "defense-impairment": 0.00393400345700837,
+        "privilege-escalation": 0.0017974707837360498
+      }
+    },
+    "aggregate--reconnaissance--weighted-operator_dedup--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 31.0,
+        "mean": 46.22625,
+        "p10": 28.75,
+        "p90": 83.60000000000001
+      },
+      "mean_n_states": 4.9,
+      "mean_total_duration_s": 46.22625,
+      "occupancy_mean_dwell_share": {
+        "reconnaissance": 0.48842405679062884,
+        "command-and-control": 0.25539012706830894,
+        "collection": 0.048777663982664234,
+        "stealth": 0.04544308275783534,
+        "discovery": 0.03240838237836016,
+        "persistence": 0.03117884336796912,
+        "execution": 0.030331175846323107,
+        "exfiltration": 0.016456495736143884,
+        "initial-access": 0.016268524497077483,
+        "lateral-movement": 0.013827108468674713,
+        "credential-access": 0.010005085079864817,
+        "impact": 0.006784064712608888,
+        "privilege-escalation": 0.003917298245239693,
+        "defense-impairment": 0.0007880910683012259
+      }
+    },
+    "aggregate--reconnaissance--weighted-operator_dedup--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 340.0,
+        "mean": 498.09,
+        "p10": 250.0,
+        "p90": 956.5000000000003
+      },
+      "mean_n_states": 5.58,
+      "mean_total_duration_s": 498.09,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.3771713797196927,
+        "reconnaissance": 0.19476313151240043,
+        "stealth": 0.09172931129218583,
+        "persistence": 0.07395671118921673,
+        "exfiltration": 0.06208730224427822,
+        "execution": 0.04996925621220996,
+        "collection": 0.040050258932444995,
+        "impact": 0.03245245846056944,
+        "discovery": 0.03209540311222256,
+        "lateral-movement": 0.021857500710467995,
+        "defense-impairment": 0.008321740921881086,
+        "initial-access": 0.00785073399881793,
+        "credential-access": 0.005821750359900168,
+        "privilege-escalation": 0.0018730613337118371
+      }
+    },
+    "aggregate--reconnaissance--weighted-raw--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 149.25,
+        "mean": 164.815,
+        "p10": 80.0,
+        "p90": 316.6
+      },
+      "mean_n_states": 5.7,
+      "mean_total_duration_s": 164.815,
+      "occupancy_mean_dwell_share": {
+        "reconnaissance": 0.2824990243697505,
+        "command-and-control": 0.26042472825948176,
+        "persistence": 0.1173067932574546,
+        "stealth": 0.08860989861524393,
+        "collection": 0.05739953696407845,
+        "exfiltration": 0.04461156636569921,
+        "discovery": 0.04448908303597623,
+        "execution": 0.03827564981145931,
+        "impact": 0.025355429199564305,
+        "lateral-movement": 0.014976796181931498,
+        "credential-access": 0.00781066465778106,
+        "initial-access": 0.007793773142597052,
+        "defense-impairment": 0.006549542110919443,
+        "privilege-escalation": 0.0038975140280626207
+      }
+    },
+    "aggregate--reconnaissance--weighted-raw--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 46.1875,
+        "mean": 53.558000000000014,
+        "p10": 28.75,
+        "p90": 97.32500000000003
+      },
+      "mean_n_states": 5.4,
+      "mean_total_duration_s": 53.558,
+      "occupancy_mean_dwell_share": {
+        "reconnaissance": 0.4400234269426455,
+        "command-and-control": 0.21702457868130534,
+        "collection": 0.07014864738819931,
+        "persistence": 0.06885303123640164,
+        "stealth": 0.0604789926618045,
+        "discovery": 0.04687678277565888,
+        "execution": 0.03224949070196752,
+        "initial-access": 0.01639472386719212,
+        "exfiltration": 0.015326206487407505,
+        "lateral-movement": 0.01027258409200354,
+        "impact": 0.009129367001176896,
+        "credential-access": 0.008305450679309836,
+        "privilege-escalation": 0.004123293459817488,
+        "defense-impairment": 0.000793424025110315
+      }
+    },
+    "aggregate--reconnaissance--weighted-raw--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 434.5,
+        "mean": 524.4,
+        "p10": 250.0,
+        "p90": 860.2000000000002
+      },
+      "mean_n_states": 5.22,
+      "mean_total_duration_s": 524.4,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.3740241710697277,
+        "reconnaissance": 0.18107451437724628,
+        "persistence": 0.12377996354815343,
+        "stealth": 0.1111825216735605,
+        "impact": 0.03697474256068749,
+        "exfiltration": 0.03640127340216508,
+        "execution": 0.0363141674403515,
+        "collection": 0.03539794360894689,
+        "discovery": 0.027167900837253463,
+        "lateral-movement": 0.015879856133074934,
+        "defense-impairment": 0.010155682846772054,
+        "initial-access": 0.006117505948038151,
+        "credential-access": 0.004369767235504867,
+        "privilege-escalation": 0.0011599893185175365
+      }
+    },
+    "aggregate--reconnaissance--uniform--central": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 125.0,
+        "mean": 168.385,
+        "p10": 80.0,
+        "p90": 294.9000000000001
+      },
+      "mean_n_states": 6.06,
+      "mean_total_duration_s": 168.385,
+      "occupancy_mean_dwell_share": {
+        "reconnaissance": 0.3019890540722119,
+        "command-and-control": 0.2620918330755788,
+        "persistence": 0.11089113448363251,
+        "stealth": 0.08038514424926448,
+        "collection": 0.05713857246252231,
+        "discovery": 0.04342454053184051,
+        "exfiltration": 0.037941398092105574,
+        "impact": 0.03375460571818897,
+        "execution": 0.025546854387731653,
+        "initial-access": 0.014580311919945316,
+        "lateral-movement": 0.013482338136937593,
+        "credential-access": 0.007312467188523885,
+        "defense-impairment": 0.006635362881746365,
+        "privilege-escalation": 0.0048263827997701726
+      }
+    },
+    "aggregate--reconnaissance--uniform--sweep_low": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 46.8125,
+        "mean": 58.58975,
+        "p10": 28.75,
+        "p90": 96.48750000000007
+      },
+      "mean_n_states": 6.19,
+      "mean_total_duration_s": 58.58975000000001,
+      "occupancy_mean_dwell_share": {
+        "reconnaissance": 0.43980508095749676,
+        "command-and-control": 0.18969319644457044,
+        "persistence": 0.08659027376408879,
+        "collection": 0.061959865861231214,
+        "discovery": 0.058598936340021,
+        "stealth": 0.05589886731131347,
+        "exfiltration": 0.027118459821133464,
+        "initial-access": 0.018071518623063644,
+        "execution": 0.016181536980181602,
+        "lateral-movement": 0.01078883229419034,
+        "defense-impairment": 0.01040811615308939,
+        "impact": 0.010170694575446483,
+        "credential-access": 0.009920592363835115,
+        "privilege-escalation": 0.004794028510338295
+      }
+    },
+    "aggregate--reconnaissance--uniform--sweep_high": {
+      "n_runs": 100,
+      "outcomes": {
+        "objective": 100
+      },
+      "objective_rate": 1.0,
+      "net_time_to_objective_s": {
+        "n": 100,
+        "median": 443.5,
+        "mean": 588.24,
+        "p10": 250.0,
+        "p90": 1162.0000000000005
+      },
+      "mean_n_states": 6.33,
+      "mean_total_duration_s": 588.24,
+      "occupancy_mean_dwell_share": {
+        "command-and-control": 0.3288709735342292,
+        "reconnaissance": 0.1909644186631537,
+        "persistence": 0.14689105404368058,
+        "stealth": 0.10084016225762647,
+        "impact": 0.048792673320052736,
+        "exfiltration": 0.04476383059437926,
+        "discovery": 0.03170969250580147,
+        "collection": 0.028621865447020247,
+        "execution": 0.025428820734493915,
+        "defense-impairment": 0.01985396870181372,
+        "lateral-movement": 0.01828966485360257,
+        "initial-access": 0.007723374712724856,
+        "credential-access": 0.004896048879008615,
+        "privilege-escalation": 0.0023534517524124825
+      }
+    }
+  },
+  "orderings_by_median_net_time_to_objective": {
+    "central": [
+      "aggregate",
+      "infrastructure_setup",
+      "pure_impediment",
+      "pure_steal",
+      "double_extortion"
+    ],
+    "sweep_low": [
+      "aggregate",
+      "infrastructure_setup",
+      "pure_steal",
+      "pure_impediment",
+      "double_extortion"
+    ],
+    "sweep_high": [
+      "infrastructure_setup",
+      "aggregate",
+      "pure_impediment",
+      "pure_steal",
+      "double_extortion"
+    ],
+    "uniform_central": [
+      "infrastructure_setup",
+      "aggregate",
+      "pure_impediment",
+      "pure_steal",
+      "double_extortion"
+    ],
+    "raw_central": [
+      "aggregate",
+      "infrastructure_setup",
+      "pure_impediment",
+      "pure_steal",
+      "double_extortion"
+    ]
+  },
+  "ordering_stable_across_sweep_extremes": false,
+  "ordering_stable_weighted_vs_uniform": false,
+  "ordering_stable_dedup_vs_raw": true,
+  "aggregate_conditional_net_tto_central": {
+    "command-and-control": {
+      "n": 51,
+      "median": 117.0
+    },
+    "exfiltration": {
+      "n": 23,
+      "median": 112.5
+    },
+    "impact": {
+      "n": 26,
+      "median": 118.75
+    }
+  },
+  "occupancy_l1_vs_aggregate_central": {
+    "pure_steal": 0.4097019955407075,
+    "pure_impediment": 0.41523005187963435,
+    "double_extortion": 0.4751548302356218,
+    "infrastructure_setup": 0.7018423532706813
+  }
+}

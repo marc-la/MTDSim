@@ -5,9 +5,12 @@ created: 2026-07-03
 
 # Build the replay attacker — feed the net-generated timelines into MTDSim alongside the 6-phase baseline, run the v1 experiment matrix, and send Dr Hong the pre-semester progress update
 
-> **The capstone of the v1 chain — run last.** Depends on
-> [`./2026-07-03_l3_timeline_runner.md`](./2026-07-03_l3_timeline_runner.md)
-> (the timeline library + schema) and
+> **The capstone of the v1 chain — run last.** The timeline runner has
+> **SHIPPED** (2026-07-09; its handoff is deleted): the input contract is
+> [`../../data/ogasp/timeline_schema.md`](../../data/ogasp/timeline_schema.md)
+> (`ogasp-timeline/v1`, with committed example + behavioural report; the bulk
+> library regenerates via `python -m mtdsim.l3_simulation.timeline`). Still
+> depends on
 > [`./2026-07-03_l3_binding_scoping.md`](./2026-07-03_l3_binding_scoping.md)
 > (the tactic→action map, cost-only dispositions, success-model and
 > MTD-interruption recommendations). This executes supervisor decisions
@@ -16,9 +19,13 @@ created: 2026-07-03
 
 ## State of play
 
-- Upstream (once landed): a timeline library — seeded, timed attacker-state
-  sequences per {5 profiles × entries × policies} — and a scoping note that
-  fixes what each tactic-state does against the substrate.
+- **Upstream half landed (2026-07-09):** the timeline library — seeded, timed
+  attacker-state sequences over the full run matrix (72 cells; entries per
+  D8; weighted/uniform policies; central + sweep-extreme dwells) — exists
+  under the gitignored `data/ogasp/_timelines/`, with the committed contract
+  at [`../../data/ogasp/timeline_schema.md`](../../data/ogasp/timeline_schema.md).
+  Still pending: the scoping note that fixes what each tactic-state does
+  against the substrate.
 - **The seam is already named in the architecture**
   ([`../specs/architecture.md`](../specs/architecture.md) §(f)): the
   graph-driven attacker lives **alongside** the inherited 6-phase
@@ -133,8 +140,9 @@ Done when:
   interrupt pattern).
 - [`../../mtdnetwork/component/adversary.py`](../../mtdnetwork/component/adversary.py)
   — the state the driver mutates; what "alongside" has to coexist with.
-- The timeline schema doc + example (runner handoff output) — the input
-  contract.
+- [`../../data/ogasp/timeline_schema.md`](../../data/ogasp/timeline_schema.md)
+  + [`timeline_example.jsonl`](../../data/ogasp/timeline_example.jsonl) — the
+  input contract (`ogasp-timeline/v1`; the driver pins to it).
 - [`../../baseline/BASELINE.md`](../../baseline/BASELINE.md) +
   [`../specs/mtdsim_spec.md`](../specs/mtdsim_spec.md) — the oracle and the
   row-level invariants the new attacker must not violate.

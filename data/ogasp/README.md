@@ -39,6 +39,7 @@ workstream.
 ```sh
 pip install snakes                 # not in environment.yml; needs graphviz `dot` for diagrams
 PYTHONPATH=src python -m mtdsim.l3_simulation.petri   # write <profile>_structural.json x5 + divergence report + _viz/
+PYTHONPATH=src python -m mtdsim.l3_simulation.timeline # seeded timeline library + example + behavioural report
 PYTHONPATH=src python -m pytest tests/l3_simulation/  # validation gate
 ```
 
@@ -52,6 +53,10 @@ PYTHONPATH=src python -m pytest tests/l3_simulation/  # validation gate
 | `_viz/<profile>.png` / `.svg` | gitignored | **tactic-state diagram** — kill-chain L→R; token in its seed; entry green, objective orange, sinks double-outlined; edge width/opacity = W-A weight (uniform absolute scale across the five nets); unreachable-from-token places dashed |
 | `_viz/<profile>_snakes.png` | gitignored | the **formal SNAKES net** (bipartite places + transition bars) — faithful but dense; kept as a provenance artefact |
 | `_viz/_reachability.png` | gitignored | **headline chart** — tactics reachable from the recon token vs from any entry, per profile |
+| `timeline_schema.md` | **committed** | the timeline-runner artefact contract (`ogasp-timeline/v1`): record schema, declared walk semantics, run matrix |
+| `timeline_example.jsonl` | **committed** | the shortest committed timeline of each outcome kind (objective / stalled / cap) — the contract's living companion |
+| `timeline_report.md` / `.json` | **computed** | behavioural verification report — per-cell summary stats, class-vs-aggregate comparison, verdict (the behavioural half of the divergence question) |
+| `_timelines/<cell>.jsonl` + `manifest.json` | gitignored | the seeded timeline library over the full run matrix — regenerable via `python -m mtdsim.l3_simulation.timeline` |
 
 All `_viz/` figures are gitignored (regenerable; mirrors the `data/gasp/_*`
 pattern). The diagrams need graphviz `dot` + the `graphviz` Python package;

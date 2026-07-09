@@ -16,7 +16,9 @@ created: 2026-07-03
 > (the governance handoff that held them was deleted when its work shipped). Can start immediately after it — in parallel
 > with the weighting/durations/runner chain — but **finalises against the
 > runner's committed timeline schema** (soft dependency: the binding consumes
-> that schema). Its draft tactic→verb table is also what the durations
+> that schema — now shipped:
+> [`../../data/ogasp/timeline_schema.md`](../../data/ogasp/timeline_schema.md),
+> `ogasp-timeline/v1`). Its draft tactic→verb table is also what the durations
 > handoff's Tier-1 sourcing consults — produce the draft table early.
 >
 > **Supersedes** the deleted `2026-06-18_l3b_execution_semantics.md`: its five
@@ -171,8 +173,9 @@ Done when:
   the tag design overlays.
 - [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(a) — the
   MTTC event definition the success model must not silently change.
-- [`./2026-07-03_l3_timeline_runner.md`](./2026-07-03_l3_timeline_runner.md)
-  — the timeline schema this binding consumes (finalise against it).
+- [`../../data/ogasp/timeline_schema.md`](../../data/ogasp/timeline_schema.md)
+  (+ committed example) — the timeline schema this binding consumes
+  (finalise against it; shipped 2026-07-09).
 
 ## Out of scope (explicitly)
 
