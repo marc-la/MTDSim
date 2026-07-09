@@ -101,8 +101,8 @@ register was encoded:
   §(a) (envelope one-liner).
 - To open work — which handoff executes which decision (handoffs are deleted
   as they land; git log is the permanent record):
-  - [`../handoffs/2026-07-03_l3_weighted_nets_aggregate_profile.md`](../handoffs/2026-07-03_l3_weighted_nets_aggregate_profile.md)
-    — executes **D3, D9** + the aggregate-profile resolution.
+  - the weighted nets [`../../data/ogasp/`](../../data/ogasp/) (shipped; see its README)
+    — executed **D3, D9** + the aggregate-profile resolution.
   - the state-duration catalogue [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json) (shipped 2026-07-09)
     — executes **D4** (under the D10 timed-net deferral: plain per-state
     dwell, not stochastic firing rates).

@@ -1,14 +1,17 @@
 ---
 status: open
 created: 2026-07-03
+updated: 2026-07-09
 ---
 
 # Build the standalone timeline runner — a seeded single-token walk over the weighted nets that emits timed attacker-state sequences (the v1 net-execution artefact)
 
-> **Depends on** [`./2026-07-03_l3_weighted_nets_aggregate_profile.md`](./2026-07-03_l3_weighted_nets_aggregate_profile.md)
-> (weights + the aggregate net) **and**
+> **Both upstream dependencies have SHIPPED — this handoff is unblocked.**
+> Weights + the aggregate net: the five `data/ogasp/*_structural.json`
+> (weighted-nets handoff, landed and deleted; surviving docs =
+> [`../../data/ogasp/README.md`](../../data/ogasp/README.md)). Per-state dwell:
 > [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json)
-> (per-state dwell; catalogue shipped 2026-07-09, v0 uncalibrated). Its output schema is the input contract for
+> (shipped 2026-07-09, **v0 uncalibrated**). Its output schema is the input contract for
 > [`./2026-07-03_l3_replay_attacker.md`](./2026-07-03_l3_replay_attacker.md)
 > and a fixed point for
 > [`./2026-07-03_l3_binding_scoping.md`](./2026-07-03_l3_binding_scoping.md).
@@ -25,10 +28,53 @@ created: 2026-07-03
 
 ## State of play
 
-- Once the two upstream handoffs land: five nets (four classes + aggregate)
-  with per-transition flow-proportion weights, and a duration catalogue
-  (`data/ogasp/tactic_durations.json`) with sweep ranges. Build code and net
+- **Both inputs are on disk (2026-07-09):** five nets (four classes + aggregate)
+  with per-transition flow-proportion weights, and the duration catalogue
+  (`data/ogasp/tactic_durations.json`, v0). Build code and net
   I/O live at [`../../src/mtdsim/l3_simulation/petri/`](../../src/mtdsim/l3_simulation/petri).
+- **Weight-variant fact the run matrix must name:** each net carries **two
+  corpus variants** — `operator_dedup` (primary, n = 29) and `raw` (n = 38,
+  robustness) — per [`../../data/ogasp/README.md`](../../data/ogasp/README.md).
+  The runner's weighted policy reads `operator_dedup` as primary; `raw` is a
+  cheap extra matrix arm (or defer it — record which).
+
+### Catalogue facts the runner binds to (shipped after this handoff was written)
+
+- **Shape:** `{meta, anchors, tactics}` — one entry per place-union tactic with
+  `group / anchor / relative_multiplier / duration_s / tier / not_tuned /
+  sweep_range / source / justification`. Units: **simulated seconds on the
+  `env.timeout` clock**. Central dwells: scan-shaped 35, exploit-shaped 4.5,
+  stealth-low-and-slow 45, objective-execution 36, prep-off-network 0.
+- **Sweep arithmetic (easy to get wrong):** `sweep_range` is a band on
+  `relative_multiplier` **in group-anchor units**, bracketing the central
+  multiplier — the extreme dwell is `anchors[g].duration_s × sweep_bound`,
+  **not** `duration_s × sweep_bound`. (E.g. execution: central ×0.5 → 22.5 s;
+  sweep [0.1, 2.0] → extremes 4.5 s and 90 s.) See `meta.sweep_range_units`.
+- **`resource-development` dwells 0 s** with a degenerate sweep [0, 0]; its
+  profile §5 licenses a token nominal transit *only if the runner needs the
+  place visibly traversed* — a runner decision to make and record.
+- **The runner is the calibration instrument, not just infrastructure.** The
+  catalogue lifecycle is: profiles → v0 (declared priors) → **this runner** →
+  calibrate the two tuned anchors (stealth, objective) within their sweep
+  ranges against macro milestones → freeze v1. Calibration discipline (the-bar
+  note, anti-circularity rules): tune **group anchors only** (never Tier-1),
+  calibrate on one observable and **hold one out** — the designated held-out
+  milestone is **access→exfiltration** (Sophos AAR ~73–79 h; so named in the
+  catalogue's exfiltration entry); the calibration targets are the collection
+  (Bromiley ~64% collect+exfil ≤ 5 h) and impact (encryption ~6 min–2 h)
+  shapes. Shape-not-scale throughout: match orderings/ratios, never absolute
+  hours.
+- **Consistency constraint:** the profiles' §5 stay the single source of truth;
+  the catalogue and dissertation.tex §3.1 Tables 3.1–3.2 must agree with them.
+  v1 calibration moves *anchor values* (not multipliers), so Table 3.2 should
+  survive — but check §3.1's worked-example prose in the same commit that
+  freezes v1. The per-tactic provenance rows
+  ([`../specs/provenance.md`](../specs/provenance.md) § L3 state-duration
+  catalogue) **await Marc's approval — do not freeze v1 before that approval**.
+- **Test scaffolding to reuse:** `tests/l3_simulation/test_durations.py` shows
+  the conventions — `OGASP_DIR` from `mtdsim.l3_simulation.petri.render`,
+  catalogue/nets loaded as plain JSON, repo-root `conftest.py` adds `src/`.
+  The runner's determinism/no-synthesis tests sit beside it.
 - **Entry-point facts that shape the runner** (from
   [`../../data/ogasp/README.md`](../../data/ogasp/README.md)): recon reaches
   initial-access in `pure_steal` / `pure_impediment` only (one thin bridge
@@ -72,8 +118,10 @@ convention. The schema is versioned — the replay attacker pins to it.
 
 **3 — The run matrix.** N seeded runs (N ≥ 100; cheap) per
 {5 profiles} × {entry: initial-access always; recon where bridged} ×
-{policy: weighted, uniform} × {durations: catalogue point values; the sweep
-range is exercised at the extremes only — full sensitivity is deferred, D10}.
+{policy: weighted, uniform} × {durations: catalogue central values; the sweep
+exercised at the extremes only, computed **in anchor units** per the sweep
+arithmetic above — full sensitivity is deferred, D10}. Weight variant:
+`operator_dedup` primary (`raw` as a robustness arm or an explicit deferral).
 Profile-all-up-front per the minutes: generate the timeline library first,
 feed the simulator later.
 
@@ -92,6 +140,22 @@ update to Dr Hong.
 multiple concurrent tokens (open question, closed as single-token for v1 by
 the minutes; the multi-token ↔ concurrent-action-set question returns with
 the two-way integration).
+
+## Strategic note (2026-07-07 examiner review — ported from the retired state-durations handoff)
+
+The profiles/catalogue *defend* the thesis's finding but do not *produce* it.
+The two objections that can actually fail a viva — **(V1)** the novel object
+rests on declared dwell × declared reset fraction; **(V2)** "fidelity changes
+the answer" is parameter noise unless the ranking-change *survives its own
+sweep band and is distinct from the generic attacker's stable ranking* — are
+discharged only by **running this runner's sweep arms + the discrimination
+probe** ([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md)
+§10), not by more prose. That is why the sweep-extremes arm
+of the matrix is not optional polish: it is the evidence V2 needs. The
+per-modality reset split (capability/credential survives a mutation,
+network-position is invalidated) is the strongest genuinely-owned, falsifiable
+claim — it lands via the binding handoff, but this runner's timelines are what
+make it exercisable. Build the working thing; resist further catalogue prose.
 
 ## Validation gate
 
@@ -130,12 +194,18 @@ Done when:
 
 ## Reading list
 
-- [`./2026-07-03_l3_governance_meeting_decisions.md`](./2026-07-03_l3_governance_meeting_decisions.md)
-  — D1/D2/D8/D10; the coupling model this implements.
+- [`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](../notes/2026-07-03_supervisor_meeting_l3_decisions.md)
+  — the durable D1–D10 decision register (the governance handoff that used to
+  hold this was deleted when its work shipped); D1/D2/D8/D10 are the coupling
+  model this implements.
 - [`../../data/ogasp/README.md`](../../data/ogasp/README.md) — entries,
-  objectives, the prefix gap, per-class shapes.
-- The weighted JSONs + `tactic_durations.json` (upstream artefacts) — the only
-  runtime inputs.
+  objectives, the prefix gap, per-class shapes, the two weight variants.
+- The weighted JSONs + `tactic_durations.json` (both shipped) — the only
+  runtime inputs; read the catalogue's `meta` block first (units, sweep
+  arithmetic, reset-separation rule).
+- [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md)
+  — the calibration loop this runner enables (tiers, anti-circularity rules,
+  held-out observable, shape-not-scale).
 - [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(a)/(d)/(f)
   — the metric-identity discipline (net time-to-objective ≠ DES MTTC).
 - [`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md)

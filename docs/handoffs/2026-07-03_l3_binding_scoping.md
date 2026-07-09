@@ -11,8 +11,9 @@ created: 2026-07-03
 > deliverables are a design note + a draft mapping table; the build is
 > [`./2026-07-03_l3_replay_attacker.md`](./2026-07-03_l3_replay_attacker.md).
 >
-> **Depends on** [`./2026-07-03_l3_governance_meeting_decisions.md`](./2026-07-03_l3_governance_meeting_decisions.md)
-> (D5/D6/D7 scope decisions). Can start immediately after it — in parallel
+> **Depends on** the D5/D6/D7 scope decisions, now registered durably in
+> [`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](../notes/2026-07-03_supervisor_meeting_l3_decisions.md)
+> (the governance handoff that held them was deleted when its work shipped). Can start immediately after it — in parallel
 > with the weighting/durations/runner chain — but **finalises against the
 > runner's committed timeline schema** (soft dependency: the binding consumes
 > that schema). Its draft tactic→verb table is also what the durations
