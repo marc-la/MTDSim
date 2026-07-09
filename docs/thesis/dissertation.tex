@@ -1,0 +1,1060 @@
+%% =====================================================================
+%%  Honours Dissertation --- CITS4010
+%%  Adaptive Moving Target Defence for Dynamic Networks
+%%  Marc Labouchardiere (23857377)
+%%  Supervisor: Dr Jin B. Hong --- Department of CSSE, UWA
+%%
+%%  Boilerplate built on the UWA cshonours class (title page reworked to
+%%  add the UWA crest and a supervisor line, in the style of a recent
+%%  honours thesis). Compile with:  latexmk -pdf dissertation.tex
+%% =====================================================================
+\documentclass{cshonours}
+
+\bibliographystyle{acm}
+
+% --- packages ---------------------------------------------------------
+\usepackage{graphicx}          % UWA crest on the title page + figures
+\usepackage{amsmath}
+\usepackage{booktabs}          % nicer tables (\toprule, \midrule ...)
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{figures/}}      % keep figures in the figures/ folder
+\usepackage[margin=2.5cm]{geometry}
+\usepackage[australian]{babel}
+\usepackage{booktabs}
+\usepackage[round,authoryear]{natbib}   % \citep / \citet
+\usepackage{amsmath}
+\newcommand{\tactic}[1]{\texttt{#1}}    % tactic place-names in monospace
+
+
+% --- front-matter metadata -------------------------------------------
+\title{Adaptive Moving Target Defence\\ for Dynamic Networks}
+\author{Marc Labouchardiere \\ \normalsize\upshape (23857377)}
+\supervisor{Dr Jin B.\ Hong}
+
+\keywords{Moving Target Defence, Adaptive Defence, MITRE ATT\&CK,
+          Network Security, Discrete-Event Simulation, Intrusion Detection}
+\categories{C.2.0 [Computer-Communication Networks]: Security and protection;
+            I.6.3 [Simulation and Modeling]: Applications}
+
+% =====================================================================
+\begin{document}
+
+\maketitle
+
+% ---------------------------------------------------------------------
+\begin{abstract}
+Moving Target Defence (MTD) continuously shifts a system's attack
+surface to invalidate an attacker's reconnaissance and raise the cost
+of intrusion. Modern networks, however, are themselves dynamic---cloud,
+software-defined, and IoT deployments change topology, configuration,
+and workload at runtime---and these changes interact with, and can
+undermine, the effectiveness of MTD. This dissertation investigates how
+the inputs and realism of an AI-driven MTD (AI-MTD) module affect
+defensive outcomes in a simulated network. It contributes (i) a more
+capable adversarial model grounded in MITRE ATT\&CK campaigns and cyber
+threat intelligence, and (ii) an exploration of integrating an
+Intrusion Detection System (IDS) as an additional signal for the MTD
+agent. \emph{[Replace this abstract with your final results once the
+evaluation is complete.]}
+\end{abstract}
+
+% ---------------------------------------------------------------------
+\begin{acknowledgements}
+I would like to thank my supervisor, Dr Jin B.\ Hong, for his guidance
+and feedback throughout this project. \emph{[Add further
+acknowledgements here.]}
+\end{acknowledgements}
+
+% ---------------------------------------------------------------------
+% AI Use Declaration (as included in recent UWA honours theses)
+\chapter*{AI Use Declaration}
+\addcontentsline{toc}{chapter}{AI Use Declaration}
+
+\emph{[Declare here how, if at all, generative-AI tools were used in the
+preparation of this dissertation, and confirm that the core research
+ideas, methodology, analysis, and experimental design are your own
+work. Edit the example wording below to reflect your actual usage.]}
+
+Large Language Models were used in a limited capacity to clarify library
+functions, check code for errors, and improve the readability of written
+passages. All core research ideas, methodology, analysis, and
+experimental design are my own work.
+
+% ---------------------------------------------------------------------
+\tableofcontents
+\listoffigures   % optional --- remove if you have no figures
+\listoftables    % optional --- remove if you have no tables
+
+% =====================================================================
+\chapter{Introduction}
+\label{ch:intro}
+
+\section{Background and Motivation}
+Traditional cyber defence is reactive: vulnerabilities are found and
+patched after the fact. Moving Target Defence (MTD) inverts this by
+continuously reconfiguring the system so that the information an attacker
+gathers becomes stale before it can be exploited~\cite{jajodia2011mtd}.
+The difficulty addressed in this work is that contemporary networks are
+themselves \emph{dynamic}: topology, configuration and workload change
+at runtime, and these changes alter how effective a given MTD technique
+is.
+
+\section{Problem Statement}
+This project studies how the input parameters, system realism, and
+attacker sophistication of an AI-driven MTD (AI-MTD) module affect
+defensive outcomes in a simulated network environment.
+
+\section{Research Aims and Questions}
+The project investigates three aims: (1) evaluate the effectiveness of
+MTD techniques as changes are introduced into the network; (2) measure
+how effectiveness varies for different types of change; and (3) develop
+adaptive MTD configuration that minimises the disruption caused by
+dynamic change.
+
+\section{Contributions}
+This dissertation contributes: a more capable adversarial module built
+from MITRE ATT\&CK campaigns and cyber threat intelligence
+(Chapter~\ref{ch:design}); and a feasibility study of integrating an
+Intrusion Detection System signal into the AI-MTD agent
+(Chapter~\ref{ch:impl}).
+
+\section{Dissertation Structure}
+Chapter~\ref{ch:background} reviews MTD, dynamic networks and threat
+modelling. Chapter~\ref{ch:design} presents the system and threat model
+and the design of the attack and IDS modules. Chapter~\ref{ch:impl}
+describes the implementation. Chapter~\ref{ch:eval} reports the
+evaluation, Chapter~\ref{ch:discussion} discusses the findings, and
+Chapter~\ref{ch:conclusion} concludes.
+
+% =====================================================================
+\chapter{Background and Literature Review}
+\label{ch:background}
+
+\section{Moving Target Defence}
+Summarise the taxonomy of MTD techniques (shuffle, diversity,
+redundancy) and the metrics used to evaluate them~\cite{cho2020survey}.
+
+\section{Dynamic Networks}
+Discuss the sources of dynamism in cloud, SDN and IoT networks and how
+they affect the assumptions MTD relies upon.
+
+\section{Threat Modelling with MITRE ATT\&CK}
+Introduce MITRE ATT\&CK as a knowledge base of adversary tactics and
+techniques, and its design philosophy~\cite{strom2020attack}, together
+with how Advanced Persistent Threat (APT) campaigns can be generalised
+into attack profiles.
+
+\section{Formal Models of MTD}
+Review theoretical treatments of MTD, for example game-theoretic and
+state-transition formulations~\cite{zhuang2014mtd}.
+
+\section{Intrusion Detection Systems}
+Review NIDS/HIDS placement, detection fidelity and cost, and how IDS
+output logs could serve as an input signal for an MTD agent.
+
+\section{Research Gap}
+State the gap this project addresses and how it positions against the
+work reviewed above.
+
+% =====================================================================
+\chapter{Design and Methodology}
+\label{ch:design}
+
+% =====================================================================
+%  Tactic-level adversarial profiling — the design-rationale (defence)
+%  section for the MTDSim honours dissertation.
+%
+%  PLACEMENT (recommended, argued in the response accompanying this file):
+%    Methodology chapter, as the *design-rationale* section that PRECEDES
+%    the implementation chapter. It defends the modelled object, the
+%    abstraction altitude, the epistemic contract, and the per-tactic
+%    behavioural grounding BEFORE the L3b binding / timeline-runner
+%    chapter describes how they are built. It is the argument the
+%    implementation then executes, not a report of it.
+%
+%  MAINTENANCE:
+%    - Single source of truth for the tactic-profiling defence prose.
+%    - Written to the rubric in docs/notes/2026-07-07_thesis_backbone_rubric.md
+%      and scored by docs/notes/2026-07-07_cross_sectional_review.md.
+%    - Per-tactic evidence lives in docs/tactic_profiles/01..15; this file
+%      is the reconciled prose distillation of their §1–§5.
+%    - Australian English throughout (per docs/specs/guardrails.md).
+%
+%  CITATION KEYS -> docs/extractions/ (build a .bib from these):
+%    alshamrani2019, cho2020, jalowski2026, evans2011 (evans2011_mtd_effectiveness),
+%    flipit2013 (persistence_reset_models), scit2006 (persistence_reset_models),
+%    mcqueen2006, ling2023, xiong2021, bland2020, rodriguez2024, selmanaj2024,
+%    syed2025, chemat2024, alsada2024 (al-sada2024), maleki2016 (mttc_lineage),
+%    zhangMonroseReiter2010 (password_rotation_efficacy), barach2026 (ransomware_timing),
+%    sargent (operational-validation note), grimm (operational-validation note),
+%    hong2018, brown2023, zhang2023, ho2024, tay2024, bianco2013.
+%
+%  COMPILE-ALONE (optional): uncomment the standalone preamble block below.
+% ---------------------------------------------------------------------
+% =====================================================================
+
+% Assumes the surrounding thesis already provides: natbib (\citep/\citet),
+% booktabs, and \newcommand{\tactic}[1]{\texttt{#1}}. If not, see the
+% standalone block above.
+
+\section{Tactic-Level Adversarial Profiling}
+\label{sec:tactic-profiling}
+
+%% =====================================================================
+%% PREAMBLE — the framing the section establishes once (rubric B.0)
+%% =====================================================================
+\subsection{The modelled object, and why it is under-served}
+\label{sec:tp-object}
+
+The object this thesis models is not an attacker in isolation and not a
+defence in isolation, but the \emph{interaction} between the two: how an
+advanced, objective-driven adversary makes progress through a network whose
+configuration is being deliberately and repeatedly mutated beneath it. Classic
+Moving Target Defence (MTD) mutates the \emph{configuration attack surface} ---
+addresses, ports, service and operating-system versions, topology --- and the
+progress it is designed to spoil is the reconnaissance and exploitation that
+precede a foothold: surface intelligence gathered before a shuffle is stale
+after it, and a weaponised exploit aimed at a specific address or version misses
+a rotated target. In kill-chain terms that reach sits \emph{pre-ingress}
+(Reconnaissance, Resource Development, Initial Access). What is comparatively
+under-served is everything from the foothold onwards --- the \emph{post-ingress}
+campaign of persistence, escalation, credential theft, lateral movement,
+collection, command-and-control, exfiltration, and impact --- where the target
+is moved under the feet of an adversary who is already inside.\footnote{The
+claim that the MTD technique corpus is predominantly pre-ingress in its reach is
+a coverage claim about the field and is supported from an MTD taxonomy/survey in
+the literature review, not asserted here.} This section defends a model of that
+post-ingress interaction, tactic by tactic.
+
+The inherited simulator prices attacker progress purely by reachability and
+CVSS-scaled exploitation: its six-phase procedural adversary is
+objective-agnostic and taxonomy-free, a smash-and-grab that races toward a
+single target \citep{brown2023,zhang2023}. That attacker was the correct
+instrument for the original MTD-comparison work and is retained here \emph{unchanged}
+as the procedural baseline, because preserving it is what makes the comparison
+fair. But it carries a confound that motivates the whole thesis: because the
+baseline is a sprint, \emph{an MTD that merely out-paces it wins by default}, so a
+verdict that ``mechanism~A beats mechanism~B'' can be an artefact of attacker
+triviality rather than defensive quality. A fast, generic attacker cannot
+distinguish a genuinely strong MTD from one that is simply faster than a weak
+adversary. Closing that confound requires an attacker that is slow, objective-conditioned,
+and grounded in observed adversary behaviour --- and that is what the tactic
+profiles supply.
+
+\subsection{The abstraction altitude, defended}
+\label{sec:tp-altitude}
+
+The behavioural unit of this model is the \emph{MITRE ATT\&CK tactic}, and the
+choice of altitude is a deliberate, defensible one rather than a convenience.
+Three levels were available. The \emph{technique} level is where genuine
+empirical timing exists --- \citet{ling2023} assign time-to-compromise to
+ATT\&CK-for-ICS techniques from CVE data --- but that method requires real
+vulnerability instances to bind against, and the substrate's vulnerabilities are
+synthetic, with no NVD CVE to join a technique to (\S\ref{sec:tp-boundary}); at
+corpus scale it is also unexecutable. The \emph{kill-chain phase} level is
+coarse enough to be groundable but too coarse to carry the behavioural
+distinctions --- credential reuse versus fresh exploitation, low-and-slow dwell
+versus fast verb --- on which the MTD interaction turns. The \emph{tactic} level
+is the groundable middle: coarse enough that the sparse CTI corpus can populate
+transition structure at tactic granularity \citep{rodriguez2024}, fine enough to
+separate the behaviours that a mutation treats differently. Critically, this is
+open ground. A survey of the timed-attack-model literature finds \emph{no prior
+work assigns justified per-ATT\&CK-tactic durations}: the one tactic-level
+ATT\&CK Petri-net model is untimed \citep{rodriguez2024}, and every timed model
+that carries ATT\&CK labels attaches its timing at technique/CVE level or
+declares its rates outright \citep{ling2023,xiong2021,bland2020}. A transparent,
+tiered, per-tactic timing-and-reset layer is therefore a methodological artefact
+the field does not currently have.
+
+\subsection{The epistemic contract}
+\label{sec:tp-epistemic}
+
+Because the object is under-instrumented, the section commits up front to what
+each profile is and is not allowed to claim. Four disciplines are load-bearing.
+
+\begin{description}
+  \item[Envelope, not actor.] Each objective-conditioned profile is the union of
+    many analyst-drawn attack flows and is therefore a behavioural \emph{envelope}
+    (a possibility space for an operational objective), not a faithful replay of
+    any single named actor. The aggregation over-generates by construction --- a
+    token may stitch one campaign's technique onto another's --- and this is
+    disclosed, not corrected. ``APT'' throughout names the \emph{source-genre of
+    the grounding CTI}, not a claim of full-spectrum (adaptive, detection-evading)
+    fidelity.
+  \item[Operational validation, tier-badged.] The unobservable per-tactic dwell
+    times cannot be input-validated --- ``how long does stealth take'' is a
+    micro-parameter of a model, not a measurable property of the world. Following
+    the recognised strategy of operational validation / pattern-oriented
+    modelling \citep{sargent,grimm}, the free parameters are calibrated so the
+    model's \emph{observable output} (the emergent campaign timeline) reproduces
+    literature-reported campaign patterns. Every duration is badged as one of
+    three tiers: \textbf{Tier~1} input-validated by the substrate (not tuned);
+    \textbf{Tier~2} calibrated against a macro observable the breach literature
+    reports; \textbf{Tier~3} declared with a written justification and a swept
+    range. The tier badge \emph{is} the validity claim.
+  \item[Shape, not scale.] The substrate prices actions in simulated seconds; the
+    literature observables live in hours-to-months. Matching absolute real-world
+    timelines would collapse the timeline into pure stealth-dwell and destroy the
+    substrate-comparable time-to-compromise on which the whole comparison rests.
+    The literature therefore supplies \emph{relative} structure (orderings and
+    ratios); absolute scale is anchored to the substrate's Tier-1 values; and the
+    calibrated claim is only that the emergent timeline \emph{shape} reproduces
+    reported campaign structure.
+  \item[Reset declared, not evidenced.] No public logs ground the MTD-to-attacker
+    effect. The substrate fixes the \emph{direction} of each reset
+    (\S\ref{sec:tp-reset}); the literature bounds its \emph{width}; but the reset
+    \emph{fraction} per tactic is a declared parameter, swept across a
+    mechanism-bounded band. This is not a concession: declare-the-rate-then-sweep
+    is the dominant practice in timed APT/MTD modelling
+    \citep{bland2020,mcqueen2006,xiong2021}, and calibrating the declared values
+    to macro observables goes one step further than the norm.
+\end{description}
+
+The governing claim the contract protects is therefore ``behavioural fidelity
+\emph{changes the answer}'', never ``the attacker model is \emph{true}''.
+
+\subsection{The fidelity boundary --- what is deliberately not modelled}
+\label{sec:tp-boundary}
+
+Naming the omissions is what keeps the model defensible. Four things are out of
+scope at the substrate level. \emph{Real CVEs}: the substrate's vulnerabilities
+are synthetic, so a technique cannot be bound to a specific vulnerability
+instance and the attacker must be coded in ATT\&CK terms at the behaviour layer
+only. \emph{Redundancy MTD}: despite the conventional Shuffle/Diversity/Redundancy
+taxonomy, the substrate implements only Shuffle and Diversity mechanisms, so
+claims about redundancy belong to the literature, not to what this substrate can
+evaluate. \emph{Detection / IDS}: intrusion detection is culled from this
+research thread --- ``caught'' means \emph{a mutation invalidated the attacker's
+progress}, never \emph{a sensor observed the attacker} --- which has a sharp
+consequence for the stealth-family tactics (\S\ref{sec:tp-stealth}). \emph{Attacker
+adaptivity / learning}: the profiled attacker does not recognise a post-shuffle
+state collision or learn a mutation schedule; adaptivity is the one genuinely
+hard encoding and is deferred. Within these bounds the profiled adversary is a
+slow, objective-conditioned, credential-and-foothold-accumulating traversal ---
+and that, precisely delimited, is what ``APT'' denotes here.
+
+\subsection{The organising spine --- the per-modality reset taxonomy}
+\label{sec:tp-reset}
+
+The substrate already implements a reset model, and that model \emph{is} the
+central analytical instrument of this section:
+
+\begin{quote}
+  A defensive mutation invalidates the attacker's \emph{position/knowledge} gains
+  and imposes a time penalty, but the attacker's \emph{capability/conquest} gains
+  --- compromised hosts and harvested credentials --- survive it. The reset is
+  partial and layered, never a clean wipe.
+\end{quote}
+
+The decisive consequence is that \textbf{the reset verdict is per-modality, never
+global}: the same shuffle that erases a scanning attacker's map (its target
+positions are invalid) leaves a credential-based lateral move untouched (a stolen
+key is not location-bound). A tactic's verdict therefore depends on \emph{what
+kind of gain the tactic produces}, and several tactics are split inside
+themselves. This per-modality split --- \emph{capability and credential state
+survive a mutation; network-position state is invalidated by it} --- is the
+strongest, most falsifiable claim the work owns, and it is grounded in what the
+substrate actually does, not merely in the MTD literature. It is also the
+mechanism beneath the thesis's motivation: the gains a post-ingress campaign
+banks are exactly the shuffle-durable ones, which is why surface-shifting MTD
+structurally under-defends the post-ingress phase.
+
+Every per-tactic subsection below returns an explicit verdict on a four-value
+axis, and the tactics are read through it:
+
+\begin{description}
+  \item[\textsc{vulnerable}] the gain is position/knowledge; a position-mutating
+    (network-layer) shuffle invalidates it and forces re-work.
+  \item[\textsc{survivor}] the gain is capability/conquest; it is not location-bound
+    and a shuffle leaves it intact.
+  \item[\textsc{partial}] the gain is contested but not cleanly invalidated ---
+    a re-planning penalty, an architected-to-survive channel, or a
+    rate-dependent contest with no fixed outcome.
+  \item[\textsc{null}] the tactic is off-network or otherwise never on the terrain
+    the mutation touches; it contributes nothing to the interaction.
+\end{description}
+
+The genuine unknown lives in the \emph{magnitude}, not the direction: the
+substrate fixes what survives and what does not, the literature bounds how much,
+and the declared reset fraction is swept across that band. Where a
+literature-argued verdict \emph{diverges} from what the current substrate can
+exercise, that divergence is itself recorded as a finding.
+
+\subsection{The rubric each profile answers}
+\label{sec:tp-rubric}
+
+Each of the fifteen subsections is written to deliver, from the literature and
+behaviour-before-numbers, the criteria in Table~\ref{tab:tp-rubric}. A profile
+that cannot fill one column has a substantive hole, not a stylistic one.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \begin{tabular}{@{}rp{0.72\linewidth}l@{}}
+    \toprule
+    \# & Criterion & Theme \\
+    \midrule
+    1 & \textbf{Behavioural character} --- fast verb or low-and-slow dwell, with the behavioural logic. & APT behaviour \\
+    2 & \textbf{Temporal claim} --- dwell character mapped to a timing group and a \emph{relative} multiplier, tier-badged. & modelling \\
+    3 & \textbf{Attacker knowledge \& reset verdict} --- what the attacker holds, and whether a mutation invalidates or spares it. & dynamic networks \\
+    4 & \textbf{MTD mechanism} --- which mutation bites, argued from mechanism, and how hard (the sweep width). & MTD systems \\
+    5 & \textbf{Operationalisation} --- native substrate verb (Tier~1) or declared dwell (Tier~3); what the binding does with it. & simulation \\
+    6 & \textbf{Not captured} --- the honest per-tactic omission. & fidelity boundary \\
+    7 & \textbf{Objective-conditioning \& discrimination} --- does behaviour vary by campaign goal; could it move an MTD ranking, or is the tactic inert? & modelling \\
+    \bottomrule
+  \end{tabular}
+  \caption{The per-tactic rubric. Criteria 3--4 (the reset verdict) are the
+  section's novel content; criteria 1--2 are well-evidenced from the behavioural
+  literature; criterion 5 is structural.}
+  \label{tab:tp-rubric}
+\end{table}
+
+The tactics are presented in kill-chain order, matching the ATT\&CK Enterprise
+v19.1 sequence.\footnote{Fifteen, not the classic fourteen: ATT\&CK v19.1 split
+the former Defense Evasion tactic into Stealth (TA0005, hiding) and Defense
+Impairment (TA0112, disabling). Pre-split ``defense-evasion'' evidence is
+allocated between the two.} The pre-ingress pair (\S\S\ref{sec:tp-recon}--\ref{sec:tp-resdev})
+is the surface classic MTD already targets; \S\ref{sec:tp-initaccess} onwards is
+the post-ingress campaign this thesis foregrounds.
+
+%% =====================================================================
+%% PER-TACTIC SUBSECTIONS (rubric B.1)
+%% =====================================================================
+
+\subsection{Reconnaissance \tactic{(TA0043)} --- the vulnerable pole}
+\label{sec:tp-recon}
+
+Reconnaissance produces a \emph{map}: the external attack surface of reachable
+hosts, open ports, and service/OS fingerprints. Behaviourally the APT literature
+places it at the patient, low-and-slow end, but ``passive'' here means
+\emph{non-exploitative} rather than inactive --- \citet{alshamrani2019} list port
+and service scanning, WHOIS/BGP queries, and fingerprinting among it, and
+\citet{jalowski2026} sharpen the adversarial reading: APTs favour passive
+reconnaissance to remain in the shadows and \emph{learn mutation patterns over
+time}. The substrate meters reconnaissance as an active scan verb, priced by the
+inherited \texttt{ATTACK\_DURATION} constant, so it is a Tier-1, not-tuned action
+(group \emph{scan-shaped}, $\times 1.0$); the patient, externally-staged
+character of real recon is a recorded shape-not-scale divergence in \emph{tempo},
+folded into off-network preparation, not a separately-metered dwell.
+
+Read against the reset model, reconnaissance is the canonical \textsc{vulnerable}
+tactic --- the opposite pole to credential access. A position-mutating shuffle
+re-addresses and re-links the terrain the map described, throwing the accumulated
+reconnaissance away and forcing a re-scan; this is
+\citeauthor{alshamrani2019}'s ``the rearrangement of network or software
+components renders the exploratory knowledge of the attacker useless'' made
+concrete. \emph{How hard} the shuffle bites sets the sweep width and is bounded by
+the scan-disruption literature: a perfect shuffle caps scan success at
+$e^{-1}\approx 0.63$ where vulnerable hosts are sparse, but the effect rides a
+mutation-rate\,$\div$\,scan-rate ratio, so the magnitude spans near-total to
+modest. \textbf{Verdict: \textsc{vulnerable}; direction firm, sweep wide.} One
+structural caveat tempers it: exposed endpoints are never mutated, so
+reconnaissance of the \emph{perimeter} (the route in) survives; it is the interior
+map that resets. \emph{Not captured}: the schedule-learning recon the literature
+attributes to APTs --- the substrate cannot represent an attacker who times its
+scans around the mutation cadence (the adaptivity deferral), so the modelled reset
+is a worst case for a naive scanner.
+
+\subsection{Resource Development \tactic{(TA0042)} --- the inert null}
+\label{sec:tp-resdev}
+
+Resource development --- acquiring or compromising the infrastructure, accounts,
+and tooling that back an intrusion --- is the sharpest group boundary in the set
+and the section's one \emph{inert} tactic. All nine of its parent techniques are
+staged off the victim network before the foothold exists \citep{alshamrani2019},
+and \citet{selmanaj2024} note it ``takes place outside of the company's protection
+and control''. Whatever weeks or months of tool-building it consumes precede the
+simulator's clock: the adversary arrives already equipped. Its in-simulation dwell
+is therefore near-zero (group \emph{prep-off-network}, $\times 0$, Tier-3 declared
+as an off-clock modelling decision). Its reset verdict is a \textsc{null}: the gain
+is built and held off-network, reset-immune, on neither pole of the axis, because
+it is never on the terrain the axis describes. The honest move --- per the rubric's
+discrimination criterion --- is to record that resource development contributes
+\emph{nothing} to the MTD-interaction finding rather than manufacture a verdict for
+it. Its whole value to the model is as the documented boundary of \emph{where the
+MTD interaction begins}.
+
+\subsection{Initial Access \tactic{(TA0001)} --- the foothold survives, the attempt does not}
+\label{sec:tp-initaccess}
+
+Initial access is the hinge from off-network preparation into the estate and the
+first place the substrate's exploit model engages. The server-side path (Exploit
+Public-Facing Application) is exactly what the complexity-scaled \texttt{exploit\_time}
+prices, so the tactic is \emph{exploit-shaped}, Tier-1, $\times 1.0$, not tuned;
+the phishing/watering-hole half carries a behaviour the exploit model does not ---
+after delivery the attacker ``patiently waits'' for a user to trigger execution
+\citep{alshamrani2019} --- recorded as a shape divergence rather than a metered
+dwell.
+
+The gain splits by when one looks. The \emph{achieved} foothold is a capability
+possession that \textsc{survives}: a compromised ingress host stays owned, and ---
+the structural fact that makes initial access unusually reset-robust --- exposed
+endpoints are never mutated, so the route in is a permanent fixture the MTD cannot
+take away. An \emph{in-progress} entry attempt against a public-facing application,
+by contrast, is a surface-dependent action a diversity shuffle can reset,
+disrupting a fresh exploit while leaving a valid-accounts entry (a survivor
+credential path) untouched \citep{evans2011}. \textbf{Verdict: achieved foothold
+\textsc{survivor}; in-progress exploit disruptable by surface diversity only; sweep
+narrow-to-moderate.} \emph{Not captured}: the human-triggered delivery-wait, which
+sits outside the metered action and is subject to no reset at all.
+
+\subsection{Execution \tactic{(TA0002)} --- a fast verb in a stealth wrapper}
+\label{sec:tp-execution}
+
+Execution is the one tactic whose timing group is left open on purpose. The
+literature couples it to concealment --- the attacker ``keep[s] low to go
+undetected'', and fileless in-memory execution is chosen to evade
+\citep{alshamrani2019} --- which reads low-and-slow; yet mechanically ``run code''
+is a brief, cross-cutting verb underlying most other tactics. The reconciliation
+is that any low-and-slow character is inherited from the \emph{stealth wrapper and
+inter-execution spacing}, not from the act, so the central estimate leans to the
+fast-verb reading ($\times 0.5$ of the stealth anchor) while the widest sweep among
+the enabling tactics ($\times 0.1$--$\times 2$, skewed low) keeps both readings live
+until the runner shows which the timeline needs. This is a Tier-3 declared value in
+the fullest sense: neither substrate nor corpus pins it.
+
+The reset side reinforces the width. Execution's gain is a fleeting capability act,
+and its verdict turns on a classification the profile deliberately leaves open. By
+\citeauthor{evans2011}'s per-attack-class taxonomy, dynamic diversity gives
+\emph{no} advantage against circumvention/deputy attacks --- which is what
+APT-preferred fileless execution is --- and bites only an incremental-probing
+(fresh-exploit) execution, and then only at a very high re-randomisation rate
+\citep{evans2011}. \textbf{Verdict: \textsc{partial} --- largely immune for the
+circumvention reading, disruptable for the probing reading; sweep wide to span the
+two.} \emph{Not captured}: the substrate does not distinguish execution modalities,
+so execution's reset is effectively inherited from the tactic it serves, and the
+memory-layer diversity that would (weakly) bite a probing execution is not among the
+implemented mechanisms.
+
+\subsection{Persistence \tactic{(TA0003)} --- the open contest}
+\label{sec:tp-persistence}
+
+Persistence is the durability layer beneath the whole post-compromise campaign ---
+the mechanism by which a gain survives the ordinary churn of a live environment ---
+and the literature confirms its low-and-slow character decisively: multi-host
+backdoors and valid credentials that are ``very difficult to push out'', pre-OS
+bootkits ``loaded before the operating system'', espionage dwell running to months
+\citep{alshamrani2019,cho2020}. It takes the reference stealth multiplier
+($\times 1.0$, Tier-3 declared --- no substrate verb prices ``maintain a
+foothold'').
+
+Its reset verdict is the section's foremost \emph{open contest}, and it is
+presented as one rather than resolved. The naive reading is \textsc{survivor}: a
+compromised host stays owned. But \citet{flipit2013} frame foothold survival as a
+\emph{rate contest} in which the higher-move-cost player has benefit zero and
+whoever moves faster and cheaper controls the resource --- so whether a periodic
+mutation evicts an entrenched foothold has no fixed answer; it flips on the
+defender-move-rate\,$\div$\,attacker-re-compromise-rate ratio. This is also the
+dwell that most directly drives the MTD comparison \citep{cho2020}, so getting its
+uncertainty right matters more than for most tactics. \textbf{Verdict: contested
+\textsc{survivor} --- foreground as a rate-dependent open question; sweep wide
+($\times 0.25$--$\times 4$), driven by the rate contest, not duration alone.} A
+load-bearing divergence is recorded here: the substrate implements no
+eviction/reimaging operation, so it currently models persistence at the survivor
+\emph{extreme} of the contest, and the reset-fraction sweep encodes the contest the
+substrate does not yet run.
+
+\subsection{Privilege Escalation \tactic{(TA0004)} --- bimodal, like its siblings}
+\label{sec:tp-privesc}
+
+Privilege escalation produces an \emph{elevated-permission state}: a gating
+capability that unlocks an admin-only technique subset, formalised by
+\citet{xiong2021} as a permission gate a \texttt{userRights} adversary must
+``level up'' past. Its canonical instance is vulnerability exploitation (Stuxnet's
+two Windows zero-days to gain full control, \citealp{alshamrani2019}), which the
+substrate prices via \texttt{exploit\_time} --- so it is \emph{exploit-shaped},
+Tier-1, $\times 1.0$, not tuned --- while the token/valid-account variant is a fast
+reuse-of-material act noted as a within-group skew.
+
+The reset is bimodal, patterning with its sibling exploit-shaped tactics. The
+token/valid-account path is a capability possession that \textsc{survives} a shuffle
+(an elevated token is not location-bound); the exploit path is a surface-dependent
+attempt a diversity shuffle can reset mid-exploit, bounded by \citeauthor{maleki2016}'s
+observation that MTD-defeat probability rises with attacker time and cost
+\citep{maleki2016}. \textbf{Verdict: \textsc{partial}/bimodal --- token variant
+survivor (narrow), exploit variant disruptable (moderate); overall moderate.}
+\emph{Not captured}: the substrate does not model the gating state distinctly, so
+privilege escalation's reset in the simulator is really the reset of its underlying
+exploit or credential action; its distinctive contribution (the permission gate) is
+a modelled precondition the binding carries, not a resettable substrate gain.
+
+\subsection{Stealth \tactic{(TA0005)} --- the tactic the substrate cannot see}
+\label{sec:tp-stealth}
+
+Stealth is the anchor of the low-and-slow group and the tactic from which it takes
+its name: \citeauthor{alshamrani2019}'s ``low and slow approach'',
+\citeauthor{cho2020}'s attackers who ``stay stealthy until the time comes''
+\citep{alshamrani2019,cho2020}. Concealment is less an action with a duration than
+a \emph{tempo} imposed on every other action, so its modelled duration represents
+the spacing it imposes (reference $\times 1.0$, Tier-3, widest reliance on the
+shape-not-scale discipline because its absolute dwell is the least observable of
+all).
+
+Its reset verdict is dominated by the single largest omission in the model:
+detection is culled from the substrate, where ``caught'' means a mutation
+invalidated progress, never that a sensor saw the attacker. Because there is no
+detector to hide from, stealth's gain has \emph{no direct substrate representation}
+--- it is modelled as spacing, not as a state. Where the literature does ground an
+MTD effect it is a \textsc{partial}, re-planning reset: a detector reshuffle forces a
+stealthy attacker to re-plan detector-free paths, with cost rising with shuffle
+frequency and falling with attacker skill. \textbf{Verdict: \textsc{partial}
+(re-planning penalty); sweep wide.} This is the section's cleanest examiner
+exposure and is stated openly: the interesting MTD-versus-stealth contest lives in
+the detection regime the substrate does not model, so what the simulator computes
+for this tactic is a proxy (spacing re-work), and the concealment gain, riding an
+owned foothold, otherwise survives a shuffle in the substrate's own terms.
+
+\subsection{Defense Impairment \tactic{(TA0112)} --- host-local, and doubly uncertain}
+\label{sec:tp-defimpair}
+
+Defense impairment --- the disabling half split from the old Defense Evasion tactic
+--- carries the widest sweep in the study, because two uncertainties compound.
+First, its \emph{group} is unresolved: the low-and-slow APT the corpus documents
+prefers to \emph{avoid} defences rather than \emph{disable} them
+\citep{alshamrani2019}, and disabling, when it happens (kill EDR, stop backups), is
+a punctuated, decisive act immediately before a noisy payload --- pulling the tactic
+toward the fast/objective-adjacent end, so the central multiplier leans fast
+($\times 0.5$) and the band spans $\times 0.1$--$\times 4$. Second, its reset
+\emph{direction} is clear but not exercised: a disabled control is host-local
+software state, so it patterns with the \textsc{survivor} pole --- an IP or topology
+shuffle re-addresses the host but leaves the killed control exactly as it was; only a
+reimage/reprovision restores it. \textbf{Verdict: \textsc{survivor} under shuffle,
+invalidated only by reprovision; sweep widest in the set.} \emph{Not captured}, and
+this is the dominant caveat: the substrate represents no defensive-control state on
+hosts at all, so the survivor verdict is a conceptual, thesis-level statement of the
+direction the interaction \emph{would} take were defences modelled, not something the
+simulator computes today; in the data the tactic appears as \emph{prevalence, not
+dwell}, which is itself why it stays Tier-3.
+
+\subsection{Credential Access \tactic{(TA0006)} --- the survivor pole, the crown jewel}
+\label{sec:tp-credaccess}
+
+Credential access produces the archetypal capability gain and is the profile's
+strongest genuinely-owned claim. Behaviourally it is the heart of the post-foothold
+pivot --- ``dumping credentials is the most common chosen method for lateral
+movement'' \citep{alshamrani2019} --- and its dumping path is on-host work the
+substrate can price (\emph{exploit-shaped}, Tier-1, $\times 1.0$), with fast
+token/ticket theft as a within-group skew.
+
+Its §3 property is load-bearing. A harvested credential is a \emph{standing
+possession}, not a position on the map: a position-mutating shuffle erases the
+attacker's map but a stolen credential authenticates against whichever host now
+answers, and a surface-mutating shuffle rewrites versions but not the validity of a
+captured secret. So the \emph{same shuffle that resets a scanning tactic does nothing
+to a credential} --- the clearest \textsc{survivor} in the set, the exact opposite of
+reconnaissance and discovery. The only family that bites is credential rotation, which
+the substrate holds in reserve rather than in the default roster, and even that is
+\emph{leaky}: rotation revokes a captured credential in only a minority of cases
+(41\% offline, 17\% online, \citealp{zhangMonroseReiter2010}). \textbf{Verdict:
+\textsc{survivor}; direction unusually firm, reset band narrow ($\approx 0$).} The
+discrimination payoff (criterion 7) is direct and is why this tactic matters most:
+the generic sprint reuses credentials only opportunistically, whereas a
+credential-first low-and-slow profile leans on exactly the modality MTD cannot reset
+--- the behaviour most likely to separate a genuinely strong MTD from one that merely
+out-paces a weak attacker.
+
+\subsection{Discovery \tactic{(TA0007)} --- reconnaissance's interior twin}
+\label{sec:tp-discovery}
+
+Discovery is mechanically the same host/service/network enumeration as
+reconnaissance, run from inside a foothold, and inherits the same \emph{scan-shaped},
+Tier-1, $\times 1.0$ anchor. It produces an internal map, and because that gain is
+\emph{purely} positional --- with no survivor sub-modality, unlike lateral movement
+--- it is squarely \textsc{vulnerable} and, indeed, more cleanly so than any other
+tactic. A position-mutating shuffle invalidates the internal map wholesale and throws
+the attacker back to re-enumeration; in a discrete-event contest a mutation interval
+short enough drives a scan-first agent's win probability to zero, because it is
+``forced to restart his scan'' each interval, and the \emph{thorough} enumerator is
+hit hardest (the more complete the map, the more a shuffle destroys). \textbf{Verdict:
+\textsc{vulnerable}; sweep wide, magnitude on the mutation-interval\,$\div$\,scan-cadence
+ratio.} Surface diversity is largely orthogonal here --- discovery enumerates
+reachability and structure, not a specific exploit working set --- so it is the
+topology/address family, not OS/service diversity, that resets it. \emph{Not
+captured}: the open-ended ``position for future'' watching mode, and the
+schedule-aware watcher who re-discovers strategically rather than blindly restarting.
+
+\subsection{Lateral Movement \tactic{(TA0008)} --- the split inside a single tactic}
+\label{sec:tp-lateral}
+
+Lateral movement is the showcase for the per-modality reset split --- the crown-jewel
+finding located inside one tactic --- and its treatment is built around that. Its
+dominant form is a remote-service login or exploitation the substrate prices
+(\emph{exploit-shaped}, Tier-1, $\times 1.0$), but its behavioural character is wide
+enough (a patient manual pivot at one end, an automatic worm sweep at the other,
+\citealp{alshamrani2019}) to justify a wide sweep.
+
+The reset splits on \emph{how} a hop moves. A \emph{scan-based hop} (exploitation of
+remote services, or worm-style target discovery) produces a target map and is
+\textsc{vulnerable}: a mutated address space leaves a scanner under 1\% valid
+addresses. A \emph{credential-based hop} (pass-the-hash/ticket, valid accounts) rides
+a survivor capability, so the \emph{same shuffle that kills the scan-worm leaves the
+credential-move untouched}. \textbf{Verdict: per-modality --- scan hop
+\textsc{vulnerable} (wide sweep), credential hop \textsc{survivor} (narrow sweep).}
+And which modality dominates is \emph{objective-conditioned}: a credential-first
+campaign is effectively reset-immune in this tactic, a scan/exploit-first one is
+highly disruptable. That is the discrimination the whole thesis turns on --- an MTD
+that beats the substrate's scan-based baseline hop may lose against a
+credential-driven low-and-slow profile that never exposes the resettable modality.
+\emph{Not captured}: an attacker that recognises a post-shuffle state collision and
+re-routes (adaptivity, deferred).
+
+\subsection{Collection \tactic{(TA0009)} --- modality-split on where the data lives}
+\label{sec:tp-collection}
+
+Collection is where the campaign begins to act on its purpose --- gather, stage, and
+package data before theft \citep{alshamrani2019} --- so it joins the tuned
+\emph{objective-execution} group ($\times 1.0$, Tier-2, because the breach literature
+characterises the collect-then-exfiltrate chain even without a per-tactic dwell). It
+has a genuine dwell floor unrelated to reset: objective actions ``cannot go any faster,
+since they rely on human activity, data throughput, or other fairly rigid time
+frames'', which keeps its sweep moderate rather than wide.
+
+Its reset is modality-split, on the same axis as lateral movement, and the split falls
+on where the data lives. A \emph{host-local read} produces a capability possession once
+staged --- the data sits on an owned host and \textsc{survives} a shuffle, exactly as a
+harvested credential does (unsurprising, since collection and credential access share
+the same capture instrumentation). A \emph{remote-share read} depends on reachability to
+another host, so a topology/address shuffle can invalidate the route mid-collection ---
+\textsc{vulnerable}. \textbf{Verdict: per-modality --- local read survivor, remote-share
+read vulnerable; overall moderate-to-wide.} \emph{Not captured}: the substrate has no
+first-class ``collected data'' object, so the split is proxied through
+foothold-durability versus topology-governed reachability, and the modality distinction
+is an attacker-side behaviour the binding must carry.
+
+\subsection{Command and Control \tactic{(TA0011)} --- architected to survive}
+\label{sec:tp-c2}
+
+Command and control is a persistent, low-signal channel maintained continuously from
+shortly after the foothold through to exfiltration --- a ``long-term connection''
+beaconing on a regular cadence \citep{alshamrani2019} --- so it takes the stealth anchor
+($\times 1.0$, Tier-3; CVE-based timing structurally cannot price it, since using common
+ports ``is not exploiting a vulnerability'', \citealp{ling2023}). The MTD-relevant rate
+is not the channel lifetime but the \emph{beacon interval} (seconds to hours, tunable),
+which is what an MTD move-interval competes against.
+
+C2 is the section's \emph{secondary open contest}, and its distinguishing property is
+that the channel is \emph{architected to survive connection loss}: fallback channels,
+proxy/CDN-fronting, and domain-generation resolution exist precisely so that losing one
+route does not sever control \citep{selmanaj2024}. An IP/topology shuffle therefore
+\emph{degrades but may not sever} the channel. \textbf{Verdict: \textsc{partial}
+(architected survival); sweep wide, on the switch-interval\,$\div$\,beacon-cadence ratio
+traded against switch cost.} The divergence worth recording runs the \emph{opposite} way
+to the credential/persistence survivors: the substrate would model a C2 route more simply
+than architected reality, so a modelled shuffle \emph{over-resets} C2 relative to the
+literature --- here the substrate is harsher on the attacker than reality. \emph{Not
+captured}: the fallback/proxy/DGA resilience itself; air-gapped or C2-optional campaigns
+route around the channel entirely \citep{chemat2024}, which objective-conditioning can
+express as a campaign that simply does not depend on the resettable gain.
+
+\subsection{Exfiltration \tactic{(TA0010)} --- the reset it inherits, the tradecraft that blunts it}
+\label{sec:tp-exfil}
+
+Exfiltration is the terminal act of a data-theft campaign, an objective (like impact)
+executed low-and-slow (like stealth). It joins the \emph{objective-execution} group
+($\times 1.0$, Tier-2) --- access-to-exfiltration is one of the few milestones the breach
+literature reports, and it is used here as a \emph{held-out} observable for operational
+validation, calibrated against a different pattern than the duration was fitted to. Its
+sweep is wide, spanning a fast bulk burst to a slow fragmented trickle, with a throughput
+floor at the bottom.
+
+Its reset is inherited from command and control: because exfiltration over the C2 channel
+rides the C2 route, a position-mutating shuffle that disturbs that route interrupts an
+\emph{in-progress} transfer --- a \textsc{partial} reset, blunted by C2's architected
+resilience --- while the already-staged data (a survivor possession) and the off-network
+destination are untouched. Crucially, exfiltration's own tradecraft \emph{is} an
+adaptation to disruption: the careful attacker ``intelligently splits the data
+exfiltration into batches and to servers with different IP addresses''
+\citep{alshamrani2019}, so a single shuffle resets at most one batch, not the campaign.
+\textbf{Verdict: \textsc{partial} (inherits C2 survival; staged data survives; batching
+blunts it); sweep wide.} \emph{Not captured}: the batched, IP-diversified spread that
+would blunt the reset in reality is an attacker-side behaviour the binding must encode,
+not a substrate primitive.
+
+\subsection{Impact \tactic{(TA0040)} --- blast-radius limiting, not gain invalidation}
+\label{sec:tp-impact}
+
+Impact is where a campaign spends its accumulated access, and its dwell is the most
+bimodal in the set, split by actor type: a ransomware or wiper actor's impact is a fast
+decisive burst (encryption is throughput-bound at minutes to hours), while an espionage
+``position for future'' campaign may \emph{never reach impact at all}
+\citep{alshamrani2019,alsada2024}. It joins the \emph{objective-execution} group
+($\times 1.0$, Tier-2), with the widest sweep in the set and the ``never'' end expressed
+\emph{structurally} --- the tactic is simply absent from those objective-nets --- rather
+than as a zero duration.
+
+Impact is the one tactic where MTD acts as \emph{blast-radius limiting rather than gain
+invalidation}, a distinct reset mechanism worth naming in its own right. Its gain is an
+irreversible act: a shuffle mid-campaign cannot ``reset'' an already-encrypted host. What
+it can do is limit \emph{how many further hosts} the impact reaches ---
+\citeauthor{barach2026}'s runtime-surface MTD cuts encryption reach to 13.2\% by blocking
+lateral ransomware spread \citep{barach2026}. So the split maps onto the axis via
+\emph{reachability}: the act on a held host \textsc{survives}, but the \emph{spread} to
+new hosts is \textsc{vulnerable}, because it needs the same reachability a position-mutating
+shuffle invalidates. \textbf{Verdict: act on a held host survives; spread reset-vulnerable
+(blast-radius limiting); sweep wide.} \emph{Not captured}: the substrate does not model
+data destruction as an irreversible state change, so impact ``reach'' is proxied entirely
+by the reachability a topology shuffle governs. Objective-conditioning is sharpest here:
+inert for espionage profiles, decisive for ransomware ones --- a genuine discriminator.
+
+%% =====================================================================
+%% SYNTHESIS — what the profiles collectively establish, and honestly do not
+%% =====================================================================
+\subsection{Synthesis --- the discriminator, and what remains to be demonstrated}
+\label{sec:tp-synthesis}
+
+Read across the fifteen tactics, the per-modality reset axis resolves into a single,
+mechanism-grounded claim (Table~\ref{tab:tp-verdicts}). The tactics whose gain is
+network position --- reconnaissance, discovery, the scan hop of lateral movement, the
+remote-share read of collection, the spread of impact --- are \textsc{vulnerable}: a
+surface-shifting mutation is precisely what invalidates them. The tactics whose gain is
+capability or credential --- credential access above all, the achieved foothold of initial
+access, the disabled control of defence impairment, the credential hop of lateral
+movement, the local read of collection --- \textsc{survive} that same mutation untouched.
+The remainder are \textsc{partial}: contested by rate (persistence), architected to survive
+(command-and-control, exfiltration), or a re-planning penalty (stealth, execution). This is
+why classic MTD structurally under-defends the post-ingress campaign: the gains a
+post-ingress adversary banks are the shuffle-durable ones, so an MTD tuned to spoil
+pre-ingress reconnaissance and exploitation is aimed at the wrong half of the kill chain
+for an adversary who is already inside.
+
+A distinction must be drawn honestly, because it is the first thing an examiner will
+press. Not every verdict in Table~\ref{tab:tp-verdicts} is something the current simulator
+\emph{computes}; some are verdicts on the direction the interaction \emph{would} take were
+the relevant state modelled. The \textsc{vulnerable} verdicts and the credential/foothold
+\textsc{survivor} verdicts are exercised directly: the substrate already resets network
+position and already spares compromised hosts and harvested credentials, so those tactics
+inherit their direction from what the code does. Four verdicts are instead
+\emph{conceptual} at present --- defence impairment (the substrate models no
+defensive-control state to disable), the data-object half of collection (no first-class
+``collected data'' object), the irreversibility of impact (no destructive state change),
+and the eviction extreme of persistence (no reimage operation) --- and each is flagged as
+such in its own ``not captured'' sentence rather than smuggled into the table as though the
+simulator produced it. The methodological position this takes is deliberate: the substrate
+fixes the reset \emph{direction} it can exercise, the profiles argue the direction from
+mechanism where it cannot, and the declared-and-swept reset fraction is the single knob
+through which both reach the evaluation --- so a conceptual verdict is a stated hypothesis
+about a fraction's sign, never a claim the simulator has already demonstrated it.
+
+\begin{table}[htbp]
+  \centering
+  \small
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    Verdict & Tactics & Gain type & Sweep \\
+    \midrule
+    \textsc{vulnerable} & reconnaissance, discovery, (scan) lateral, (remote) collection, (spread) impact & position/knowledge & wide, ratio-governed \\
+    \textsc{survivor} & credential-access, (foothold) initial-access, defense-impairment, (cred) lateral, (local) collection & capability/conquest & narrow ($\approx 0$) \\
+    \textsc{partial} & persistence, stealth, execution, command-and-control, exfiltration, (exploit) privesc & contested / architected & wide \\
+    \textsc{null} & resource-development & off-network & --- \\
+    \bottomrule
+  \end{tabular}
+  \caption{The reset verdicts across the fifteen tactics. Several tactics appear
+  under more than one verdict because they are modality-split; the parenthetical
+  labels name the sub-modality. The verdict axis --- not the duration catalogue ---
+  is the section's novel content.}
+  \label{tab:tp-verdicts}
+\end{table}
+
+The section makes one further honest disclosure, because the argument would be
+incomplete without it. Everything above \emph{defends} a result; it does not yet
+\emph{produce} one. Two objections must be answered by the implementation and evaluation
+chapters, not by this prose. First, the profiled attacker's distinction from the generic
+one rests on two invented parameter families --- a per-tactic dwell and a per-tactic reset
+fraction --- and if those were stripped, nothing would separate the two attackers; the
+defence is that declare-and-sweep is the field norm, that the sweep \emph{direction} is
+mechanism-bounded rather than free, and that the per-modality split is real, but this is
+only realised once the reset fractions are wired into the binding and the sweep is run.
+Second, ``fidelity changes the answer'' is mere parameter noise unless the ranking change
+it induces \emph{survives its own sweep band} and is \emph{distinct from the generic
+attacker's (also stable) ranking}. The single experiment that discharges both is the
+discrimination probe followed by the full sensitivity sweep: show that the
+profiled-attacker MTD ranking is stable across its uncertainty band and differs from the
+generic attacker's. Until that runs, the central finding is, by the project's own
+standard, ``declared, not evidenced''. Stating that boundary here is what entitles the
+section to its strong claim: the model is built so that, \emph{if} the ranking moves, the
+move is attributable to behavioural fidelity rather than to attacker triviality --- which
+is the contribution the thesis sets out to make.
+
+% =====================================================================
+% \end{document}   % (uncomment with the standalone preamble block above)
+% =====================================================================
+
+
+% #####################################################################
+% #  SUPERVISOR CROSS-CHECK — SCAFFOLD, NOT THESIS PROSE.              #
+% #  Strip this whole block before submission. It records the rubric   #
+% #  coverage audit so the section can be re-scored after edits.       #
+% #  (Kept in-file per the request to maintain everything in one place.)#
+% #####################################################################
+%
+% RUBRIC COVERAGE MATRIX  (crit. 1 behaviour · 2 timing/tier · 3 reset verdict ·
+%   4 MTD mechanism · 5 operationalisation · 6 not-captured · 7 discrimination)
+%   Y = delivered in the subsection above; * = deliberately thin, with reason.
+%
+%   Tactic                 1  2  3  4  5  6  7   Reset verdict
+%   reconnaissance         Y  Y  Y  Y  Y  Y  Y   vulnerable
+%   resource-development   Y  Y  Y  *  Y  Y  Y   null (inert; 4 null by construction)
+%   initial-access         Y  Y  Y  Y  Y  Y  Y   survivor (foothold) / partial (attempt)
+%   execution              Y  Y  Y  Y  Y  Y  Y   partial (group unsettled — widest low)
+%   persistence            Y  Y  Y  Y  Y  Y  Y   contested survivor (open contest)
+%   privilege-escalation   Y  Y  Y  Y  Y  Y  Y   partial/bimodal
+%   stealth                Y  Y  Y  Y  Y  Y  Y   partial (detection culled — clean exposure)
+%   defense-impairment     Y  Y  Y  Y  *  Y  Y   survivor-under-shuffle (5 thin: no substrate state)
+%   credential-access      Y  Y  Y  Y  Y  Y  Y   survivor (crown jewel)
+%   discovery              Y  Y  Y  Y  Y  Y  Y   vulnerable (purely positional)
+%   lateral-movement       Y  Y  Y  Y  Y  Y  Y   per-modality (the showcase)
+%   collection             Y  Y  Y  Y  *  Y  Y   per-modality (5 thin: no data object)
+%   command-and-control    Y  Y  Y  Y  Y  Y  Y   partial (architected; over-resets)
+%   exfiltration           Y  Y  Y  Y  Y  Y  Y   partial (inherits C2; batching blunts)
+%   impact                 Y  Y  Y  Y  *  Y  Y   blast-radius (5 thin: no irreversible state)
+%
+%   The five '*' cells are the STRUCTURAL thinness the cross-sectional review
+%   predicted (no native substrate verb / no first-class state object). They are
+%   disclosed in each subsection's "not captured" sentence, not hidden.
+%
+% FRAMING COVERAGE (rubric B.0):
+%   object+gap ....... §tp-object      (post-ingress motivation folded in)
+%   altitude ......... §tp-altitude    (precedent-survey gap cited)
+%   contribution ..... §tp-object/altitude (over procedural / untimed-CTI / technique-timed)
+%   epistemic ........ §tp-epistemic   (envelope / op-validation / shape-not-scale / declared-swept)
+%   fidelity bound ... §tp-boundary    (CVEs / redundancy / IDS / adaptivity)
+%   reset spine ...... §tp-reset       (crown jewel foregrounded, not buried)
+%   rubric table ..... §tp-rubric
+%
+% EXAMINER VULNERABILITIES (from cross_sectional_review §"outrank the writing"):
+%   V1 (two invented parameter families) ....... stated openly, §tp-synthesis ¶2
+%   V2 (fidelity-vs-noise / ranking must survive sweep) . stated openly, §tp-synthesis ¶2
+%   V3 (detection-regime mismatch) ............. pre-empted, §tp-boundary + §tp-stealth
+%   V4 (envelope over-generation) ............. disclosed, §tp-epistemic (envelope-not-actor)
+%   V5 ("APT" over-claim) ..................... reframed as source-genre, §tp-epistemic/§tp-boundary
+%   -> V1/V2 are NOT closable by prose; the section points forward to the
+%      discrimination probe + sweep (downstream). Do not let a later edit soften
+%      that disclosure into a claim of proof.
+%
+% OPEN EDITORIAL TODOS:
+%   [ ] Build docs/thesis/refs.bib from the citation-key -> extraction map (header).
+%   [ ] Reconcile the two loose-end sourcing labels flagged in the state-durations
+%       handoff (S0951832018304125, S0045790626000315) before either is cited.
+%   [ ] The post-ingress coverage claim (footnote 1) needs an MTD-survey citation
+%       once anchored — currently a footnoted coverage claim, not asserted.
+%   [ ] Decide with supervisor: keep all 15 as flat \subsection, or regroup under
+%       the five timing groups as \subsubsection. Current = flat, kill-chain order.
+% #####################################################################
+
+
+\section{System Model}
+Describe the simulated network: hosts, services, connectivity, and the
+security posture used as the baseline.
+
+\section{Threat Model}
+State attacker goals, knowledge and capabilities, and the assumptions
+made about the defender.
+
+\section{Attack Module Design}
+Describe how MITRE ATT\&CK campaigns and cyber threat intelligence are
+translated into generalised attack profiles and driven through the
+simulator. Table~\ref{tab:attack-profiles} illustrates the intended
+mapping.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Attack profile & Example ATT\&CK tactics & Modelled behaviour \\
+\midrule
+Opportunistic  & Initial Access, Discovery      & Broad, noisy scanning \\
+Targeted APT   & Persistence, Lateral Movement  & Slow, stealthy pivoting \\
+Disruptive     & Impact                         & Rapid, high-noise actions \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Example mapping from generalised attack profiles to MITRE
+ATT\&CK tactics. \emph{[Replace with your finalised profiles.]}}
+\label{tab:attack-profiles}
+\end{table}
+
+\section{IDS Module Design}
+Describe the proposed IDS integration: sensor placement, detection
+fidelity, cost model, and how detection events feed the AI-MTD agent.
+
+\section{Experimental Design}
+State the independent variables (MTD operations, IDS constraints, attack
+profiles), the dependent measures, and the evaluation protocol.
+
+% =====================================================================
+\chapter{Implementation}
+\label{ch:impl}
+
+\section{Simulator Overview}
+Describe the discrete-event MTD simulator and the components extended in
+this project.
+
+\section{Attack Module Implementation}
+Detail how the attack profiles were implemented and integrated.
+
+\section{IDS Integration}
+Detail the IDS proof-of-concept and how its signal is exposed to the
+agent.
+
+% =====================================================================
+\chapter{Evaluation and Results}
+\label{ch:eval}
+
+\section{Experimental Setup}
+Describe the scenarios, parameters and number of runs.
+
+\section{Metrics}
+Define the defensive-outcome metrics used (for example attacker success
+rate, time-to-compromise, and defender cost).
+
+\section{Results}
+Present the results. Figure~\ref{fig:sample-result} is a placeholder
+plot; replace it with your generated figure.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.7\textwidth]{placeholder-figure}
+\end{center}
+\caption{Placeholder results figure. \emph{[Replace the image in
+\texttt{figures/} and update the caption.]}}
+\label{fig:sample-result}
+\end{figure}
+
+% =====================================================================
+\chapter{Discussion}
+\label{ch:discussion}
+
+\section{Interpretation}
+Interpret the results with respect to the research aims.
+
+\section{Limitations}
+State the limitations of the simulation and evaluation.
+
+% =====================================================================
+\chapter{Conclusion and Future Work}
+\label{ch:conclusion}
+
+\section{Summary}
+Summarise what was done and what was found.
+
+\section{Future Work}
+Outline directions for extending the attack model, the IDS integration,
+and the adaptive configuration of MTD.
+
+% =====================================================================
+\appendix
+
+\chapter{Original Honours Proposal}
+\label{app:proposal}
+You must include as your first appendix an exact copy (in wording) of
+your original project proposal. \emph{[Paste the proposal here.]}
+
+\chapter{Supplementary Material}
+\label{app:supp}
+Other appendices might include pseudocode, additional results, a user
+manual, or important data files.
+
+% =====================================================================
+\bibliography{references}
+
+\end{document}
