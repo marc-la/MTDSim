@@ -1,7 +1,7 @@
 ---
 status: open
 created: 2026-07-03
-updated: 2026-07-07
+updated: 2026-07-09
 ---
 
 # The state-duration catalogue — distil the 15 profiles' §5 into `data/ogasp/tactic_durations.json`
@@ -26,6 +26,17 @@ the substrate reset model ([substrate primer](../specs/substrate_primer.md) §(e
 and the rubric + four-lens review
 ([thesis backbone rubric](../notes/2026-07-07_thesis_backbone_rubric.md),
 [cross-sectional review](../notes/2026-07-07_cross_sectional_review.md)).
+
+**Since 2026-07-09 the profiles also have a thesis consumer:**
+`docs/thesis/dissertation.tex` §3.1 (commits `d229a0e`, `eebffed`) distils the
+profiles' §1–§5 into dissertation prose, with **Table 3.1 (timing groups) and
+Table 3.2 (per-tactic multiplier + reset classification)** mirroring the §5
+scheme. The catalogue must agree with those tables (same groups, multipliers,
+tiers); if building it surfaces a value the thesis table got wrong, fix **both**
+in the same commit — the profiles' §5 stay the single source of truth. Naming
+map (thesis → profiles): scan-anchored = scan-shaped; exploit-anchored =
+exploit-shaped; stealth-anchored = stealth-low-and-slow; objective-execution =
+same; off-network = prep-off-network.
 
 **The §5 scheme the catalogue distils** — 4 group anchors, not 15 free dwells
 (identifiability): **scan-shaped** (recon, discovery) + **exploit-shaped**
@@ -53,30 +64,59 @@ parameter for the L3b binding — do not fold it into `duration_s`/`sweep_range`
 - Group anchors default **uncalibrated** in v0; calibrate within ranges once the
   runner lands; freeze v1.
 
-**Loose ends (sourcing QA, carried from Step D — re-fetch when convenient):**
+**Loose ends (sourcing QA — action during the stub→reconciled flip):**
 - `S0951832018304125` is a reliability-redundancy/PSO paper, **not** Lalropuia's
   stochastic game — re-fetch the intended source before citing.
 - `S0045790626000315` is Davies ransomware benchmarking, **not** a timed model —
   already routed to `ransomware_timing`, but the manifest label is wrong.
+- `09_credential-access.md` **§3 line ~89 inverts the rotation figures** —
+  it reads "rotation revokes … in only a minority of cases (41%/17%)". Per
+  [`../extractions/password_rotation_efficacy.md`](../extractions/password_rotation_efficacy.md)
+  (and the profile's own §4 row), 41% offline / 17% online are the fractions
+  where the **new credential is derivable from the captured one, i.e. rotation
+  *fails***. The thesis prose (dissertation.tex §3.1, credential access) states
+  it correctly — fix the profile §3 sentence to match when flipping status.
+- The **e⁻¹ ≈ 0.63 expression is flagged VERIFY** in
+  [`../extractions/mtd_scan_disruption.md`](../extractions/mtd_scan_disruption.md)
+  (value 0.63 + the quoted "37% reduction" are self-consistent; the expression
+  is likely 1 − e⁻¹). Catalogue `justification` strings citing that bound must
+  cite the **value only**, never the e⁻¹ expression; the same expression is
+  propagated in `01_reconnaissance.md` §3/§4/§5 — correct it there once
+  confirmed against Carroll §IV-A.
 
-## The remaining step — the catalogue
+## The remaining step — the catalogue (execution plan, start cold here)
 
-Commit `data/ogasp/tactic_durations.json`: per tactic —
-`{group, relative_multiplier, duration_s, tier, source (constant-name |
-profile-file §ref | extraction §ref), justification, sweep_range}`. The
-`justification`/`source` point back at the profile §5 (the single source of truth).
-Every one of the 15 place-union tactics gets an entry. Add the matching row block to
-[`../specs/provenance.md`](../specs/provenance.md) (the regime row is there,
-`pending` — fill the pointer).
+1. **Read** (in order): this handoff; the reading list below; the fifteen
+   profiles' **§5 blocks only** (the catalogue inputs); dissertation.tex §3.1
+   Tables 3.1–3.2 (the consistency target).
+2. **Extract the Tier-1 anchors** from the substrate — `ATTACK_DURATION`
+   (`mtdnetwork/data/constants.py` ~L140) and the `exploit_time` formula
+   (`mtdnetwork/component/services.py`) — read-only; record the constant names
+   and values for the `source` fields.
+3. **Write `data/ogasp/tactic_durations.json`**: one entry per place-union
+   tactic — `{group, relative_multiplier, duration_s, tier, source
+   (constant-name | profile-file §ref | extraction §ref), justification,
+   sweep_range}`. `justification`/`source` point back at the profile §5 (the
+   single source of truth). Units: seconds, matching `env.timeout`. Group
+   anchors stay **uncalibrated v0** (declared values; calibration waits for the
+   runner).
+4. **Add the key-set test**: catalogue keys == the `data/ogasp/` place-union
+   (from the structural JSONs; see `data/ogasp/README.md`). Assert/grep that no
+   value derives from `observation_count` or any corpus frequency.
+5. **Fill the provenance row** — [`../specs/provenance.md`](../specs/provenance.md)
+   L47 (`L3 per-tactic state-duration regime`, `pending`) gets the
+   `data/ogasp/tactic_durations.json` pointer; add the per-tactic row block for
+   Marc's approval.
+6. **Flip the 15 profiles `stub` → `reconciled`**, actioning the loose-end
+   corrections above (09 rotation inversion; e⁻¹ expression) and reconciling
+   any remaining `[search]` claims in the process.
+7. **Delete this handoff in the same commit** that ships the catalogue
+   (session-workflow lifecycle). Cross-check the validation gate below first.
 
 *Alternatives considered:* 15 independent point durations (rejected —
 unidentifiable against ~3 macro observables; group anchors instead);
 `observation_count`-derived timing (rejected — not a rate); absolute-time realism
 (rejected — breaks substrate comparability; shape-not-scale instead).
-
-Only after the catalogue: flip profiles `stub` → `reconciled` and clear the
-validation gate. **This handoff is deleted in the commit that ships the catalogue**
-(session-workflow lifecycle).
 
 ## Strategic note (2026-07-07 examiner review — read before over-investing in the catalogue)
 
