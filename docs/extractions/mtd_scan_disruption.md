@@ -74,6 +74,14 @@ few shuffles a day suffice.
 > "perfect shuffling reduces the probability of attacker success by 37% as
 > compared to using static addresses." (§IV-A)
 
+> **VERIFY (expression, flagged 2026-07-09):** "e⁻¹ ≈ 0.63" is internally
+> inconsistent — e⁻¹ ≈ 0.37. The stated value (0.63) and the quoted "37%
+> reduction" agree with each other and imply the intended expression is
+> **1 − e⁻¹ ≈ 0.632**. Confirm against Carroll §IV-A before citing the
+> *expression* anywhere; the dissertation (§3.1 tactic profiles) cites the
+> value only ("roughly 63%"). Same expression is propagated in
+> `01_reconnaissance.md` (§3/§4/§5) — correct there too once confirmed.
+
 **Maps to:** [`01_reconnaissance`](../tactic_profiles/01_reconnaissance.md) /
 [`10_discovery`](../tactic_profiles/10_discovery.md) §3 (a shuffle *invalidates*
 recon/discovery gains — reset verdict = re-discovery forced) and §4; the

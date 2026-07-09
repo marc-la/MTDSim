@@ -165,3 +165,21 @@ data/ogasp/_*
 
 # macOS Finder metadata
 .DS_Store
+# LaTeX build artefacts under docs/thesis/ (the nested docs/thesis/.gitignore
+# cannot be versioned -- the `.gitignore` pattern above ignores nested
+# .gitignore files -- so the rules live here instead)
+docs/thesis/*.aux
+docs/thesis/*.bbl
+docs/thesis/*.blg
+docs/thesis/*.log
+docs/thesis/*.out
+docs/thesis/*.toc
+docs/thesis/*.lof
+docs/thesis/*.lot
+docs/thesis/*.fls
+docs/thesis/*.fdb_latexmk
+docs/thesis/*.synctex.gz
+docs/thesis/*.dvi
+docs/thesis/*.ps
+# compiled PDF (uncomment to keep the PDF out of version control)
+# docs/thesis/dissertation.pdf

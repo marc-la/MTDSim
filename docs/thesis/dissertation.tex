@@ -95,7 +95,7 @@ experimental design are my own work.
 Traditional cyber defence is reactive: vulnerabilities are found and
 patched after the fact. Moving Target Defence (MTD) inverts this by
 continuously reconfiguring the system so that the information an attacker
-gathers becomes stale before it can be exploited~\cite{jajodia2011mtd}.
+gathers becomes stale before it can be exploited~\citep{jajodia2011mtd}.
 The difficulty addressed in this work is that contemporary networks are
 themselves \emph{dynamic}: topology, configuration and workload change
 at runtime, and these changes alter how effective a given MTD technique
@@ -134,7 +134,7 @@ Chapter~\ref{ch:conclusion} concludes.
 
 \section{Moving Target Defence}
 Summarise the taxonomy of MTD techniques (shuffle, diversity,
-redundancy) and the metrics used to evaluate them~\cite{cho2020survey}.
+redundancy) and the metrics used to evaluate them~\citep{cho2020}.
 
 \section{Dynamic Networks}
 Discuss the sources of dynamism in cloud, SDN and IoT networks and how
@@ -142,19 +142,23 @@ they affect the assumptions MTD relies upon.
 
 \section{Threat Modelling with MITRE ATT\&CK}
 Introduce MITRE ATT\&CK as a knowledge base of adversary tactics and
-techniques, and its design philosophy~\cite{strom2020attack}, together
+techniques, and its design philosophy~\citep{strom2020attack}, together
 with how Advanced Persistent Threat (APT) campaigns can be generalised
 into attack profiles.
 
 \section{Formal Models of MTD}
 Review theoretical treatments of MTD, for example game-theoretic and
-state-transition formulations~\cite{zhuang2014mtd}.
+state-transition formulations~\citep{zhuang2014mtd}.
 
 \section{Intrusion Detection Systems}
 Review NIDS/HIDS placement, detection fidelity and cost, and how IDS
 output logs could serve as an input signal for an MTD agent.
 
 \section{Research Gap}
+% TODO: the pre-/post-ingress coverage claim (classic MTD techniques
+% concentrate on the pre-foothold surface) was removed from \S3.1 during
+% revision and belongs here, anchored to an MTD taxonomy/survey
+% (e.g. cho2020).
 State the gap this project addresses and how it positions against the
 work reviewed above.
 
@@ -461,9 +465,7 @@ invalidates the map and forces a re-scan. Scan-disruption studies bound
 the magnitude: even an idealised shuffle only reduces the success of a
 complete scan pass to roughly 63\% when vulnerable hosts are sparse,
 and the achieved disruption rises and falls with the ratio of mutation
-rate to scan rate.
-% TODO cite: primary sources in docs/extractions/mtd_scan_disruption.md
-% (Carroll 2014; Crouse 2015) have no keys in references.bib yet.
+rate to scan rate \citep{carroll2014}.
 One boundary tempers the classification: the simulator never mutates
 exposed perimeter endpoints, so reconnaissance of the route in
 survives; it is the interior map that resets. The model does not
@@ -643,9 +645,7 @@ the cleanest \textsc{vulnerable} tactic in the catalogue. An address or topology
 the map wholesale and forces re-enumeration; in one published
 discrete-event experiment, a sufficiently short mutation interval drove
 a scan-first agent's success probability to zero because every mutation
-forced it to restart its scan.
-% TODO cite: primary source in docs/extractions/mtd_scan_disruption.md
-% (Reti 2022) has no key in references.bib yet.
+forced it to restart its scan \citep{reti2022}.
 The effect scales with the ratio of mutation interval to scan cadence,
 and the more complete the map, the more one mutation destroys. It is
 the address and topology family of mutations that bites here;
@@ -667,9 +667,8 @@ reaches its target, and the split is the sharpest illustration of the
 per-modality principle of Section~\ref{sec:tp-reset}. A
 \emph{scan-based} hop builds a target map and is \textsc{vulnerable}:
 in address-mutation experiments against scanning worms, the scanner is
-left with under 1\% valid targets.
-% TODO cite: primary source in docs/extractions/worm_propagation_models.md
-% (Al-Shaer/Jafarian OpenFlow-RHM) has no key in references.bib yet.
+left with under 1\% valid targets
+\citep{alshaer2012_rhm,jafarian2012_ofrhm}.
 A \emph{credential-based} hop (pass-the-hash, valid accounts) rides a
 surviving capability, and the same mutation that defeats the
 scanning worm does not touch it: \textsc{survivor}. Which modality
@@ -686,10 +685,9 @@ and staging data before theft \citep{alshamrani2019}. It belongs to the
 objective-execution group at $\times 1.0$ (Tier~2): incident reporting
 characterises the collect-then-exfiltrate chain well enough to
 calibrate against, and reports a floor beneath these actions: they depend on human activity
-and data throughput and cannot be made arbitrarily fast.
-% TODO cite: primary source in docs/extractions/breach_reports_macro_timing.md
-% (Sophos Active Adversary Report) has no key in references.bib yet.
-The reset classification splits on where the data lives. Data staged on
+and data throughput and cannot be made arbitrarily fast
+\citep{sophos_aar2025}. The reset classification splits on where the
+data lives. Data staged on
 a compromised host is a held capability and \textsc{survives} mutation,
 exactly as a harvested credential does. A read from a remote share
 depends on reachability, so a topology or address mutation can sever
