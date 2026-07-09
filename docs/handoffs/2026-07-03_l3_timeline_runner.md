@@ -7,8 +7,8 @@ created: 2026-07-03
 
 > **Depends on** [`./2026-07-03_l3_weighted_nets_aggregate_profile.md`](./2026-07-03_l3_weighted_nets_aggregate_profile.md)
 > (weights + the aggregate net) **and**
-> [`./2026-07-03_l3_state_durations.md`](./2026-07-03_l3_state_durations.md)
-> (per-state dwell). Its output schema is the input contract for
+> [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json)
+> (per-state dwell; catalogue shipped 2026-07-09, v0 uncalibrated). Its output schema is the input contract for
 > [`./2026-07-03_l3_replay_attacker.md`](./2026-07-03_l3_replay_attacker.md)
 > and a fixed point for
 > [`./2026-07-03_l3_binding_scoping.md`](./2026-07-03_l3_binding_scoping.md).

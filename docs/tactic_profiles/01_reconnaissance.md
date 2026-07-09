@@ -3,7 +3,7 @@ tactic: reconnaissance
 attack_id: TA0043
 attack_url: https://attack.mitre.org/tactics/TA0043/
 attack_version: 19.1
-status: stub
+status: reconciled
 group_hypothesis: scan-shaped
 tier_hypothesis: 1 substrate
 ---
@@ -14,7 +14,7 @@ tier_hypothesis: 1 substrate
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
 > [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> How to fill: [`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -93,7 +93,7 @@ exploratory knowledge of the attacker useless"
 ([substrate primer](../specs/substrate_primer.md) §(e)) made concrete.
 
 *How hard* the shuffle bites is bounded by the scan-disruption literature, and it sets the
-sweep width. A perfect shuffle caps attacker scan-success at **e⁻¹≈0.63** when vulnerable
+sweep width. A perfect shuffle caps attacker scan-success at **≈0.63 (1 − e⁻¹)** when vulnerable
 hosts are sparse, RDAM misses **96.2%** of domain-name scans, and DRL mutation adds
 **26–58.7%** scan time — but the effect is governed by a **mutation-rate ÷ scan-rate ratio**,
 so the magnitude spans near-total reset (fast mutation) to modest (slow)
@@ -121,7 +121,7 @@ sweep's upper (attacker-favourable) bound gestures at without modelling.
 | [`ferraz2024`](../extractions/ferraz2024.md) §5 | CTI tactic ordering is "used only to organize techniques, rather than to recover an execution timeline" | Gap-confirming: even where recon is documented, the corpus carries no dwell | [fetched] |
 | [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Reconnaissance) | Passive recon is "the least risky … characteristic of an APT behavior" but "time-consuming"; active recon "generally a sign of an ongoing attack"; recon "can occur at any stage" | Emulation-textbook confirmation of the patient/off-network default; the active modality is what the substrate scan-prices — no per-tactic number | [fetched] |
 | [`internet_scanning_empirics`](../extractions/internet_scanning_empirics.md) (Durumeric 2014 §1/§4; Griffioen 2024 §4.3/§6.6) | ZMap/Masscan scan the whole IPv4 space "from months to minutes"; attackers scan **within 24–48 h of disclosure**; post-disclosure surge is **transient** (dies in weeks); recurrent scanners "repeat within one day", but only institutional scanners re-scan daily | Empirical Tier-2 anchor: the scan *verb* is fast (minutes), so recon slowness is *scheduling* (opportunistic re-scan on new intel), not per-scan cost — reinforces the §2 shape-not-scale tempo divergence | [fetched] |
-| [`mtd_scan_disruption`](../extractions/mtd_scan_disruption.md) (Carroll 2014 §IV; Crouse 2015 §5; Jafarian 2015 §V; Wang 2017 §5.1; Zhang-DRL 2023; Ferguson-Walter 2021 §6) | Recon ≈ **45% of attacker time**; perfect shuffle caps attacker success at **e⁻¹≈0.63** (−37%) when vulnerables are sparse; RDAM misses **96.2%** of domain-name scans; reset strength governed by **mutation-rate ÷ scan-rate ratio**; DRL mutation adds **26–58.7%** scan time; decoys **halve** red-team exfil | MTD-reset evidence for recon: a shuffle/obfuscation invalidates recon gains → forced re-scan (**→§3**); the ratio law + magnitudes set the sweep width | [fetched] |
+| [`mtd_scan_disruption`](../extractions/mtd_scan_disruption.md) (Carroll 2014 §IV; Crouse 2015 §5; Jafarian 2015 §V; Wang 2017 §5.1; Zhang-DRL 2023; Ferguson-Walter 2021 §6) | Recon ≈ **45% of attacker time**; perfect shuffle caps attacker success at **≈0.63 (1 − e⁻¹; −37%)** when vulnerables are sparse; RDAM misses **96.2%** of domain-name scans; reset strength governed by **mutation-rate ÷ scan-rate ratio**; DRL mutation adds **26–58.7%** scan time; decoys **halve** red-team exfil | MTD-reset evidence for recon: a shuffle/obfuscation invalidates recon gains → forced re-scan (**→§3**); the ratio law + magnitudes set the sweep width | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 
@@ -129,4 +129,4 @@ sweep's upper (attacker-favourable) bound gestures at without modelling.
 - **Relative multiplier:** ×1.0 of the scan-verb anchor (`ATTACK_DURATION` `SCAN_HOST`/`SCAN_NEIGHBOR` 5 s, `SCAN_PORT` 25 s) — one enumeration pass, **not tuned**.
 - **Sweep range:** ×0.5–×2 (moderate) — the scan verb is substrate-fixed, but the un-metered low-and-slow scheduling (§2) warrants a modest robustness band on the modelled value.
 - **Tier:** 1 — substrate-anchored (the scan verb prices it directly); not tuned.
-- **Justification (one paragraph):** Reconnaissance is the scan-shaped pole the whole survivor-vs-vulnerable axis is defined against. §2 confirms the group: Alshamrani's recon is *non-exploitative but active* (port/service scanning, fingerprinting), and that active modality is exactly what the substrate's scan verb meters, so the central duration is the inherited scan constant (Tier 1, ×1.0, not tuned) rather than a tuned value. §3 makes it the canonical **reset-*vulnerable*** tactic — a position-mutating shuffle erases the map and forces a re-scan, magnitude riding the mutation-rate ÷ scan-rate ratio (e⁻¹≈0.63 ceiling) — and that reset verdict + its wide band feed the L3b binding, not the duration. The moderate duration sweep reflects the honest shape-not-scale gap: the *modelled* value is the fixed scan verb while the *real* tempo is slower and externally staged (§2), and exposed endpoints being shuffle-exempt means perimeter recon survives even as the interior map resets.
+- **Justification (one paragraph):** Reconnaissance is the scan-shaped pole the whole survivor-vs-vulnerable axis is defined against. §2 confirms the group: Alshamrani's recon is *non-exploitative but active* (port/service scanning, fingerprinting), and that active modality is exactly what the substrate's scan verb meters, so the central duration is the inherited scan constant (Tier 1, ×1.0, not tuned) rather than a tuned value. §3 makes it the canonical **reset-*vulnerable*** tactic — a position-mutating shuffle erases the map and forces a re-scan, magnitude riding the mutation-rate ÷ scan-rate ratio (the ≈0.63 = 1 − e⁻¹ ceiling) — and that reset verdict + its wide band feed the L3b binding, not the duration. The moderate duration sweep reflects the honest shape-not-scale gap: the *modelled* value is the fixed scan verb while the *real* tempo is slower and externally staged (§2), and exposed endpoints being shuffle-exempt means perimeter recon survives even as the interior map resets.

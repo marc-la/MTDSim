@@ -1,0 +1,247 @@
+{
+  "meta": {
+    "artefact": "L3 per-tactic state-duration catalogue (the D4 regime)",
+    "version": "v0-uncalibrated",
+    "created": "2026-07-09",
+    "units": "simulated seconds, the same clock as env.timeout and ATTACK_DURATION",
+    "semantics": "plain per-state dwell consumed by the standalone timeline runner; NOT a stochastic firing rate (GSPN/SPN/TPN semantics deferred per D10)",
+    "key_set": "one entry per tactic in the data/ogasp/ place-union (union of places across the five *_structural.json nets); enforced by tests/l3_simulation/test_durations.py",
+    "scale_convention": "shape-not-scale: the literature supplies relative structure (orderings and ratios between tactics); absolute scale stays anchored to the substrate's Tier-1 values so MTTC remains substrate-comparable. See docs/notes/2026-07-04_operational_validation_the_bar.md",
+    "timing_source_rule": "timing never derives from the Attack Flow corpus: structure/chaining is CTI's contribution; the corpus's per-technique observation counts record 'how often the analyst drew it', never a rate (docs/specs/metrics_semantics.md §(f)) — the mechanical guard in tests/l3_simulation/test_durations.py asserts that field's literal name is absent from this file. Breach-report statistics (M-Trends, Sophos AAR, DBIR, ransomware IR timing) are Tier-2 literature and are permitted as calibration targets.",
+    "tiers": {
+      "1": "input-validated: fixed by the substrate (ATTACK_DURATION verbs / exploit_time). Not tuned.",
+      "2": "output-validated (calibratable): a free parameter with a literature-reported macro milestone to calibrate the emergent timeline shape against.",
+      "3": "face-valid + swept: no calibration target exists even at the macro level; declared with a written justification and a sweep band."
+    },
+    "sweep_range_units": "band on relative_multiplier, in units of the group anchor (brackets the central relative_multiplier); the full sensitivity sweep is deferred to the runner (D10)",
+    "reset_separation": "the §3 MTD-interaction reset verdict (survivor/vulnerable/partial/null + its own band) is a SEPARATE declared parameter for the L3b binding — deliberately not folded into duration_s or sweep_range here",
+    "calibration_status": "v0: group anchors are uncalibrated declared priors. Lifecycle: profiles → this v0 → timeline runner → calibrate tuned anchors within their sweep ranges against macro milestones (holding out one observable) → freeze v1.",
+    "source_of_truth": "docs/tactic_profiles/*.md §5 blocks; this file is the machine-readable distillation and must agree with them and with dissertation.tex §3.1 Tables 3.1–3.2",
+    "naming_map_thesis_to_profiles": {
+      "scan-anchored": "scan-shaped",
+      "exploit-anchored": "exploit-shaped",
+      "stealth-anchored": "stealth-low-and-slow",
+      "objective-execution": "objective-execution",
+      "off-network": "prep-off-network"
+    }
+  },
+  "anchors": {
+    "scan-shaped": {
+      "duration_s": 35.0,
+      "tier": 1,
+      "status": "substrate-fixed, not tuned",
+      "source": "mtdnetwork/data/constants.py ATTACK_DURATION: SCAN_HOST 5 + SCAN_NEIGHBOR 5 + SCAN_PORT 25 (~L140)",
+      "definition": "one enumeration pass over a host — the scan-verb sequence the substrate prices directly (the verbs named by profiles 01/10 §5)"
+    },
+    "exploit-shaped": {
+      "duration_s": 4.5,
+      "tier": 1,
+      "status": "substrate-fixed, not tuned",
+      "source": "mtdnetwork/component/services.py Vulnerability.exploit_time: ATTACK_DURATION['EXPLOIT_VULN'] 15 * (1 - complexity), complexity ~ U[VULN_MIN_COMPLEXITY 0.4, 1]",
+      "definition": "the median of the substrate's per-vulnerability exploit_time distribution (median complexity 0.7 ⇒ 15 × 0.3 = 4.5 s; range 0–9 s, ×2.5 on OS-mismatch, ÷2 on re-exploit of the same instance). The substrate remains authoritative wherever it computes exploit_time itself; this anchor is the distribution's central value recorded for the L3 dwell and as the base of the tuned anchors."
+    },
+    "stealth-low-and-slow": {
+      "duration_s": 45.0,
+      "tier": 3,
+      "status": "declared v0, uncalibrated — calibrate within sweep ranges once the runner lands",
+      "source": "declared: k × exploit-shaped median with k = 10; reference tactic docs/tactic_profiles/07_stealth.md §5",
+      "definition": "the reference holding/paced dwell of the low-and-slow group (stealth = ×1.0 by construction). k = 10 places the dwell an order of magnitude above the substrate's priced action verbs (5–25 s) — the low-and-slow character — while staying below the MTD trigger-interval mean (MTD_TRIGGER_INTERVAL 'random'/'alternative' 200 s), so the interval-vs-dwell ratio contest the thesis turns on stays live rather than degenerate."
+    },
+    "objective-execution": {
+      "duration_s": 36.0,
+      "tier": 2,
+      "status": "declared v0, uncalibrated — literature-calibratable against breach-timeline milestones once the runner lands",
+      "source": "declared: 8 × exploit-shaped median; calibration targets in docs/extractions/collection_exfil_timing.md (Bromiley: ~64% collect+exfil ≤ 5 h), breach_reports_macro_timing.md (Sophos access→exfil median ~73–79 h), ransomware_timing.md (encryption ~6 min–2 h)",
+      "definition": "the throughput-bound objective act (gather/transfer/encrypt) — a real dwell floor, ordered above one enumeration pass (35 s) and below the long holding dwell (45 s). The macro milestones are relative-structure targets under shape-not-scale, never absolute times to reproduce; v0 is a declared prior the calibration step replaces."
+    },
+    "prep-off-network": {
+      "duration_s": 0.0,
+      "tier": 3,
+      "status": "declared — modelling decision (off-clock), not a calibrated dwell",
+      "source": "docs/tactic_profiles/02_resource-development.md §5",
+      "definition": "no in-sim dwell: the adversary arrives already equipped; real prep (weeks–months) precedes the simulator's clock"
+    }
+  },
+  "tactics": {
+    "reconnaissance": {
+      "attack_tactic_id": "TA0043",
+      "group": "scan-shaped",
+      "anchor": "scan-shaped",
+      "relative_multiplier": 1.0,
+      "duration_s": 35.0,
+      "tier": 1,
+      "not_tuned": true,
+      "sweep_range": [0.5, 2.0],
+      "source": "constants: ATTACK_DURATION SCAN_HOST/SCAN_NEIGHBOR 5 s, SCAN_PORT 25 s; docs/tactic_profiles/01_reconnaissance.md §5",
+      "justification": "The substrate prices reconnaissance directly as an active scan verb — one enumeration pass at the scan anchor, not tuned. The moderate band covers the honest shape gap: the modelled value is the fixed scan verb while the real tempo is slower, externally staged, low-and-slow scheduling the substrate does not meter (a recorded tempo divergence, folded into off-network prep). Per profile §5."
+    },
+    "resource-development": {
+      "attack_tactic_id": "TA0042",
+      "group": "prep-off-network",
+      "anchor": "prep-off-network",
+      "relative_multiplier": 0.0,
+      "duration_s": 0.0,
+      "tier": 3,
+      "not_tuned": false,
+      "sweep_range": [0.0, 0.0],
+      "source": "docs/tactic_profiles/02_resource-development.md §5 (declared)",
+      "justification": "The inert null: all parents are PRE with no in-network observable to meter; the real weeks-to-months of tool/infrastructure prep precede the simulator's clock, so the in-sim dwell is ×0. The sweep is degenerate — a token nonzero transit is allowed only if the runner needs the place visibly traversed. Entry exists for place-union completeness. Per profile §5."
+    },
+    "initial-access": {
+      "attack_tactic_id": "TA0001",
+      "group": "exploit-shaped",
+      "anchor": "exploit-shaped",
+      "relative_multiplier": 1.0,
+      "duration_s": 4.5,
+      "tier": 1,
+      "not_tuned": true,
+      "sweep_range": [0.5, 2.0],
+      "source": "constants: exploit_time = ATTACK_DURATION['EXPLOIT_VULN'] 15 × (1 − complexity), complexity ∈ [0.4, 1] (brown2023 §IV); docs/tactic_profiles/03_initial-access.md §5",
+      "justification": "The server-side entry (Exploit Public-Facing Application) is exactly what complexity-scaled exploit_time prices — one exploit-priced entry action, not tuned. The band covers the complexity spread and the fast-entry empirics; the phishing/watering-hole delivery-wait is a recorded shape divergence, not a metered dwell. Per profile §5."
+    },
+    "execution": {
+      "attack_tactic_id": "TA0002",
+      "group": "stealth-low-and-slow",
+      "anchor": "stealth-low-and-slow",
+      "relative_multiplier": 0.5,
+      "duration_s": 22.5,
+      "tier": 3,
+      "not_tuned": false,
+      "sweep_range": [0.1, 2.0],
+      "source": "docs/tactic_profiles/04_execution.md §5 (declared; group membership genuinely unsettled)",
+      "justification": "A fast, cross-cutting verb wearing a stealth wrapper: any low-and-slow character is inherited from the wrapper and inter-execution spacing, not the act, so the central estimate leans to the fast-verb reading (×0.5) while the wide, downward-skewed sweep keeps both readings live until the runner shows which one the timeline needs. Neither substrate nor corpus pins it — the wide sweep is the honest deliverable. Per profile §5."
+    },
+    "persistence": {
+      "attack_tactic_id": "TA0003",
+      "group": "stealth-low-and-slow",
+      "anchor": "stealth-low-and-slow",
+      "relative_multiplier": 1.0,
+      "duration_s": 45.0,
+      "tier": 3,
+      "not_tuned": false,
+      "sweep_range": [0.25, 4.0],
+      "source": "docs/tactic_profiles/05_persistence.md §5 (declared)",
+      "justification": "The durability layer built to outlast reboots, reimaging and time — the group's most load-bearing dwell, at the reference multiplier. The wide band is driven by the FlipIt rate-contest uncertainty on the reset side (a genuine no-fixed-answer region), not by duration evidence alone; no substrate verb prices 'maintain a foothold'. Per profile §5."
+    },
+    "privilege-escalation": {
+      "attack_tactic_id": "TA0004",
+      "group": "exploit-shaped",
+      "anchor": "exploit-shaped",
+      "relative_multiplier": 1.0,
+      "duration_s": 4.5,
+      "tier": 1,
+      "not_tuned": true,
+      "sweep_range": [0.5, 2.0],
+      "source": "constants: exploit_time (complexity-scaled); docs/tactic_profiles/06_privilege-escalation.md §5",
+      "justification": "The canonical instance is vulnerability exploitation, which the substrate prices directly via exploit_time — not tuned. The moderate band spans the tactic's bimodal character (slow direct exploit vs fast token/valid-account reuse, the within-group skew) without reaching the low-and-slow bands. Per profile §5."
+    },
+    "stealth": {
+      "attack_tactic_id": "TA0005",
+      "group": "stealth-low-and-slow",
+      "anchor": "stealth-low-and-slow",
+      "relative_multiplier": 1.0,
+      "duration_s": 45.0,
+      "tier": 3,
+      "not_tuned": false,
+      "sweep_range": [0.25, 4.0],
+      "source": "docs/tactic_profiles/07_stealth.md §5 (declared; the group's reference tactic)",
+      "justification": "The group's namesake and reference (×1.0 by construction): a pace imposed on every other action rather than a discrete dwell, whose absolute value is the least observable in the set — detection, the thing stealth acts against, is culled from the substrate — so the wide sweep is mandatory. Calibrated as the group anchor when the runner lands. Per profile §5."
+    },
+    "defense-impairment": {
+      "attack_tactic_id": "TA0112",
+      "group": "stealth-low-and-slow",
+      "anchor": "stealth-low-and-slow",
+      "relative_multiplier": 0.5,
+      "duration_s": 22.5,
+      "tier": 3,
+      "not_tuned": false,
+      "sweep_range": [0.1, 4.0],
+      "source": "docs/tactic_profiles/08_defense-impairment.md §5 (declared; group membership unresolved)",
+      "justification": "Widest uncertainty in the set, compounded: the low-and-slow APT prefers to avoid defences, and disabling, when it happens, is a punctuated decisive act immediately before a noisy payload — so the central multiplier leans fast (×0.5) while the band reaches both a near-zero verb and the full low-and-slow pace. The literature reports it as prevalence, not dwell, and the substrate models no defensive-control state — hence Tier-3 declared with the widest band. Per profile §5."
+    },
+    "credential-access": {
+      "attack_tactic_id": "TA0006",
+      "group": "exploit-shaped",
+      "anchor": "exploit-shaped",
+      "relative_multiplier": 1.0,
+      "duration_s": 4.5,
+      "tier": 1,
+      "not_tuned": true,
+      "sweep_range": [0.5, 2.0],
+      "source": "constants: exploit_time (dumping path, OS Credential Dumping T1003); docs/tactic_profiles/09_credential-access.md §5",
+      "justification": "Dumping/cracking is on-host work the substrate can price via exploit_time — not tuned — with fast token/ticket theft as the within-group skew. The duration's moderate band and the reset's narrow near-zero band feed different artefacts (this catalogue vs the L3b binding); the survivor reset verdict is the profile's load-bearing half and lives with the binding. Per profile §5."
+    },
+    "discovery": {
+      "attack_tactic_id": "TA0007",
+      "group": "scan-shaped",
+      "anchor": "scan-shaped",
+      "relative_multiplier": 1.0,
+      "duration_s": 35.0,
+      "tier": 1,
+      "not_tuned": true,
+      "sweep_range": [0.5, 2.0],
+      "source": "constants: ATTACK_DURATION scan verbs; docs/tactic_profiles/10_discovery.md §5",
+      "justification": "Reconnaissance's interior twin — mechanically the same host/service/network enumeration run from inside a foothold, so it inherits the same scan anchor, not tuned. The moderate band covers the un-metered 'position for future' watching mode the scan verb does not capture. Per profile §5."
+    },
+    "lateral-movement": {
+      "attack_tactic_id": "TA0008",
+      "group": "exploit-shaped",
+      "anchor": "exploit-shaped",
+      "relative_multiplier": 1.0,
+      "duration_s": 4.5,
+      "tier": 1,
+      "not_tuned": true,
+      "sweep_range": [0.25, 4.0],
+      "source": "constants: exploit_time (Remote Services T1021 / Exploitation of Remote Services T1210); docs/tactic_profiles/11_lateral-movement.md §5",
+      "justification": "The dominant form is a remote-service login/exploit the substrate prices — one hop at the exploit anchor, not tuned — but with a character spanning fast-worm to slow-manual-pivot that earns a wider band than the other exploit tactics. The per-modality reset split (scan-based hop vulnerable, credential-based hop survivor) is the binding's parameter, not this duration's. Per profile §5."
+    },
+    "collection": {
+      "attack_tactic_id": "TA0009",
+      "group": "objective-execution",
+      "anchor": "objective-execution",
+      "relative_multiplier": 1.0,
+      "duration_s": 36.0,
+      "tier": 2,
+      "not_tuned": false,
+      "sweep_range": [0.5, 2.0],
+      "source": "docs/tactic_profiles/12_collection.md §5; calibration targets: docs/extractions/collection_exfil_timing.md (Bromiley 2022 primary: ~64% collect+exfil ≤ 5 h; fastest quartile 1.2 h)",
+      "justification": "The reference gather-before-exfil act of the tuned objective group: Tier 2 because the collect→exfil chain is macro-characterised in the breach literature even without a per-tactic dwell — those figures calibrate relative structure, not absolute time. A genuine dwell floor (human activity, data throughput) keeps the band moderate, spanning fast-grab to slow-harvest. Per profile §5."
+    },
+    "command-and-control": {
+      "attack_tactic_id": "TA0011",
+      "group": "stealth-low-and-slow",
+      "anchor": "stealth-low-and-slow",
+      "relative_multiplier": 1.0,
+      "duration_s": 45.0,
+      "tier": 3,
+      "not_tuned": false,
+      "sweep_range": [0.25, 4.0],
+      "source": "docs/tactic_profiles/13_command-and-control.md §5 (declared; Ling & Ekstedt: C&C is un-priceable by CVE data)",
+      "justification": "A persistent, low-signal channel beaconing on a regular cadence, not a discrete act — the stealth anchor at ×1.0. The MTD-relevant sub-rate is the beacon interval (observed seconds to hours+), which is what an MTD move-interval competes against and what the wide band spans. Tier-3 declared because CVE-based timing structurally cannot price C&C — it is a free parameter in any model. Per profile §5."
+    },
+    "exfiltration": {
+      "attack_tactic_id": "TA0010",
+      "group": "objective-execution",
+      "anchor": "objective-execution",
+      "relative_multiplier": 1.0,
+      "duration_s": 36.0,
+      "tier": 2,
+      "not_tuned": false,
+      "sweep_range": [0.25, 4.0],
+      "source": "docs/tactic_profiles/14_exfiltration.md §5; calibration targets: docs/extractions/breach_reports_macro_timing.md (Sophos AAR access→exfil median ~73–79 h — the held-out milestone)",
+      "justification": "The terminal data-theft act with a dual character — an objective executed low-and-slow — at the group's reference multiplier. Tier 2 because access→exfil is one of the few milestones the breach literature reports (held out for operational validation per the method note's anti-circularity rule 3). The wide band spans a fast bulk burst to a slow fragmented trickle, with a throughput floor at the bottom; the real-world hours↔months span is an outer envelope shape-not-scale deliberately does not match. Per profile §5."
+    },
+    "impact": {
+      "attack_tactic_id": "TA0040",
+      "group": "objective-execution",
+      "anchor": "objective-execution",
+      "relative_multiplier": 1.0,
+      "duration_s": 36.0,
+      "tier": 2,
+      "not_tuned": false,
+      "sweep_range": [0.1, 5.0],
+      "source": "docs/tactic_profiles/15_impact.md §5; calibration targets: docs/extractions/ransomware_timing.md (encryption ~6 min–2 h), breach_reports_macro_timing.md (time-to-ransomware 2 h–328 h)",
+      "justification": "The terminal payload where a campaign spends its accumulated access: the encryption/destruction act has a real disk-I/O floor and the ransomware/IR literature characterises time-to-impact as an outer envelope (Tier 2). The most bimodal dwell in the set — fast decisive burst for ransomware/wiper actors, never-reached for espionage — hence the widest band, with the 'never' end expressed structurally (impact absent from those objective-nets) rather than as a zero duration. Per profile §5."
+    }
+  }
+}

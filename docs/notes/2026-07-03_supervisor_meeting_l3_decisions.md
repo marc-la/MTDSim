@@ -103,7 +103,7 @@ register was encoded:
   as they land; git log is the permanent record):
   - [`../handoffs/2026-07-03_l3_weighted_nets_aggregate_profile.md`](../handoffs/2026-07-03_l3_weighted_nets_aggregate_profile.md)
     — executes **D3, D9** + the aggregate-profile resolution.
-  - [`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md)
+  - the state-duration catalogue [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json) (shipped 2026-07-09)
     — executes **D4** (under the D10 timed-net deferral: plain per-state
     dwell, not stochastic firing rates).
   - [`../handoffs/2026-07-03_l3_timeline_runner.md`](../handoffs/2026-07-03_l3_timeline_runner.md)

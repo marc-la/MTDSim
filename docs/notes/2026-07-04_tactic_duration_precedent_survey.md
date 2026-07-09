@@ -17,8 +17,8 @@ topic: precedent survey — does anyone assign per-ATT&CK-tactic durations, and 
 
 ## Why this is worth recording
 
-The state-duration handoff
-([`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md))
+The state-duration catalogue
+([`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json))
 rests on Hong's claim that **no ready-made resource maps MITRE tactics to
 durations** — the justification for defining them ourselves (D4). That claim is
 now checked, not assumed. This note is the landscape survey behind the gap
@@ -212,8 +212,8 @@ structure and a plausibility envelope, not absolute per-tactic times.
   Bland/McQueen/MAL = the "declare + justify + (face-)validate + sweep" precedent
   that legitimises Tier 3; the empirical table = the calibration targets; the
   "no per-tactic breakdown" finding = why calibration is of *shape*, not scale.
-- **To the handoff:** grounds the tier hierarchy in
-  [`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md)
+- **To the catalogue:** grounds the tier hierarchy in
+  [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json)
   — Tier 2's first stops (Bland, Mendonça) confirmed as *declared*, not empirical,
   so most non-substrate tactics land in Tier 3 with the sweep discipline.
 - **To the lit review:** existing extractions (bland2020, mendonca2023,

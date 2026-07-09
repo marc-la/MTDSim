@@ -17,8 +17,8 @@ tier_hypothesis: <1 substrate | 2 literature | 3 declared>
 > that changes neither *how long* nor *whether the attacker repeats it* is trim.
 > Keep it to 1–2 pages. Method + bar:
 > [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Research protocol (how to fill this):
-> [`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md).
+> Structure + groups: [`README.md`](README.md). The filled §5 feeds
+> [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
 
 ## 1. Tactic & role
 

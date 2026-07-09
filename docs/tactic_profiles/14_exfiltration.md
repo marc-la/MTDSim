@@ -3,7 +3,7 @@ tactic: exfiltration
 attack_id: TA0010
 attack_url: https://attack.mitre.org/tactics/TA0010/
 attack_version: 19.1
-status: stub
+status: reconciled
 group_hypothesis: objective-execution
 tier_hypothesis: 2 literature
 ---
@@ -14,7 +14,7 @@ tier_hypothesis: 2 literature
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
 > [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> How to fill: [`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role

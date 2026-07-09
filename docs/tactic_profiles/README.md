@@ -13,7 +13,9 @@ are not the catalogue itself.
 - **Why the gap is real (precedent survey):** [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../notes/2026-07-04_tactic_duration_precedent_survey.md)
   — nobody assigns justified per-ATT&CK-*tactic* durations; the field norm is
   declare-and-sweep, which these profiles execute.
-- **How to fill a file (mechanical research protocol):** [`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md).
+- **The catalogue the §5 blocks feed:** [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json)
+  (v0 uncalibrated; validation gate
+  [`tests/l3_simulation/test_durations.py`](../../tests/l3_simulation/test_durations.py)).
 - **Template:** [`_template.md`](_template.md).
 
 ## The 15 tactics — ATT&CK Enterprise v19.1
@@ -64,6 +66,10 @@ multiplier within it.
 
 ## Status
 
-All 15 files are `status: stub` at creation — header + empty sections only.
-Lifecycle: `stub` → `drafted` (sections filled) → `reconciled` (`[search]` claims
-confirmed against primary sources, ready to feed the catalogue).
+Lifecycle: `stub` (header + empty sections) → `drafted` (sections filled) →
+`reconciled` (`[search]` claims confirmed against primary sources, ready to
+feed the catalogue). **All 15 files are `status: reconciled` as of 2026-07-09**,
+and the catalogue they feed is shipped
+([`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json),
+v0 uncalibrated — group anchors calibrate within their sweep ranges once the
+timeline runner lands, then freeze v1).

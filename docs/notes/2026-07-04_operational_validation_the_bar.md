@@ -9,7 +9,7 @@ topic: operational validation — the epistemic bar for the state-duration catal
 ## Why this is worth recording
 
 The L3 state-duration work
-([`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md))
+(shipped 2026-07-09 as [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json))
 attaches a dwell time to every ATT&CK tactic, and no ready-made resource maps
 tactics to durations — Hong's D4 explicitly authorises "a reasonable, justified
 number" where none exists. The unglamorous truth is that most of these numbers
@@ -158,8 +158,8 @@ model is true".
 
 ## How it connects
 
-- To open work: this note *is* the validity rationale for
-  [`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md)
+- To the shipped catalogue: this note *is* the validity rationale for
+  [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json)
   (the tier hierarchy, the calibration step, the sweep ranges) and constrains
   the per-tactic profile files that feed its Tier-2/3 entries. The calibration
   loop consumes the timeline runner

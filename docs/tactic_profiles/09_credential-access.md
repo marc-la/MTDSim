@@ -3,7 +3,7 @@ tactic: credential-access
 attack_id: TA0006
 attack_url: https://attack.mitre.org/tactics/TA0006/
 attack_version: 19.1
-status: stub
+status: reconciled
 group_hypothesis: exploit-shaped
 tier_hypothesis: 1 substrate
 ---
@@ -14,7 +14,7 @@ tier_hypothesis: 1 substrate
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
 > [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> How to fill: [`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -85,9 +85,10 @@ owns: the *same* shuffle that resets a scanning tactic does nothing to a credent
 
 The only MTD family that bites is **credential-mutating** rotation/re-sampling — which the
 substrate holds in reserve rather than in the default Shuffle/Diversity roster
-([substrate primer](../specs/substrate_primer.md) §(c)) — and even that is *leaky*: password
-rotation revokes a captured credential in only a minority of cases (41% offline / 17% online —
-[`password_rotation_efficacy`](../extractions/password_rotation_efficacy.md)), and
+([substrate primer](../specs/substrate_primer.md) §(c)) — and even that is *leaky*: the
+replacement credential is derivable from the captured one for 41% of accounts under offline
+attack / 17% online, i.e. rotation *fails to revoke* in that fraction of cases
+([`password_rotation_efficacy`](../extractions/password_rotation_efficacy.md)), and
 account-manipulation persistence adapts around a periodic rotation. So the one mechanism that
 *could* reset the gain does so only partially. **Reset verdict: survives; sweep width narrow** —
 the direction is unusually firm and the magnitude is bounded near zero (a small, leaky

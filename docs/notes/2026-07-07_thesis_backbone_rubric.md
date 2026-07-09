@@ -9,7 +9,7 @@ topic: "the thesis backbone — the rubric the per-tactic adversarial-model subs
 ## Why this is worth recording
 
 Before Step E of the state-duration work
-([`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md))
+(shipped 2026-07-09 as [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json))
 the purpose of the whole per-tactic layer was re-litigated: these profiles are not
 a means to a duration catalogue, they are the **evidence layer of the thesis's
 central novel claim** — *how an APT actor interacts with a dynamic (MTD) network,
@@ -161,8 +161,8 @@ distillation of §2. Writing §3 well is writing the thesis, not feeding a JSON 
 
 ## How it connects
 
-- **Governs** the remaining Steps E/F of
-  [`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md);
+- **Governed** Steps E/F of the state-duration work (shipped 2026-07-09 as
+  [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json));
   the rubric's B.1 crit. 3–4 *are* Step E, crit. 2/5/7 feed Step F/§5.
 - **Rests on** the epistemic contract in
   [`./2026-07-04_operational_validation_the_bar.md`](./2026-07-04_operational_validation_the_bar.md)

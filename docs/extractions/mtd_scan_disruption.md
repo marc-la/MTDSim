@@ -52,14 +52,14 @@ reset-vs-dwell ratio argument that underwrites the whole tuned-group sweep
 
 ## Relevant artefacts
 
-### Carroll 2014 — the urn model: perfect shuffling caps attacker success at e⁻¹
+### Carroll 2014 — the urn model: perfect shuffling caps attacker success at ≈0.63 (1 − e⁻¹)
 
 **Source locator:** §III (urn models); §IV-A/B/E (analysis + empirical)
 
 **Paraphrase:** the foundational analytical result [fetched]. Model a network as
 an urn of *n* addresses with *v* vulnerable hosts; the attacker draws *k* probes.
 Under **perfect shuffling** (remap after every probe) with one vulnerable host
-and *k = n* probes, attacker success converges to **e⁻¹ ≈ 0.63** as the network
+and *k = n* probes, attacker success converges to **≈0.63 (1 − e⁻¹)** as the network
 grows — a **37% reduction** vs static addressing. The load-bearing conditions:
 shuffling **only helps when the vulnerable population is sparse in a large
 address space** (as *v/n* rises, the benefit collapses; with many vulnerable
@@ -74,13 +74,15 @@ few shuffles a day suffice.
 > "perfect shuffling reduces the probability of attacker success by 37% as
 > compared to using static addresses." (§IV-A)
 
-> **VERIFY (expression, flagged 2026-07-09):** "e⁻¹ ≈ 0.63" is internally
-> inconsistent — e⁻¹ ≈ 0.37. The stated value (0.63) and the quoted "37%
-> reduction" agree with each other and imply the intended expression is
-> **1 − e⁻¹ ≈ 0.632**. Confirm against Carroll §IV-A before citing the
-> *expression* anywhere; the dissertation (§3.1 tactic profiles) cites the
-> value only ("roughly 63%"). Same expression is propagated in
-> `01_reconnaissance.md` (§3/§4/§5) — correct there too once confirmed.
+> **RESOLVED (2026-07-09, verified against the typeset PDF §IV-A, p. 4):** the
+> paper's prose prints "converges to e⁻¹ ≈ 0.63" — the paper's own slip, not a
+> conversion artefact — but its **own equation (7)** on the same page,
+> Pr(0 < Xₙ ≤ n) = 1 − (1 − 1/n)ⁿ, has limit **1 − e⁻¹ ≈ 0.632**, which agrees
+> with the stated value (0.63) and the quoted "37% reduction". Both recorded;
+> the substance is unambiguous. Cite the value, and where an expression is
+> given, give it as 1 − e⁻¹ per Eq. (7). Corrected in `01_reconnaissance.md`
+> §3/§4/§5 (2026-07-09); the dissertation (§3.1 tactic profiles) cites the
+> value only ("roughly 63%").
 
 **Maps to:** [`01_reconnaissance`](../tactic_profiles/01_reconnaissance.md) /
 [`10_discovery`](../tactic_profiles/10_discovery.md) §3 (a shuffle *invalidates*

@@ -44,7 +44,44 @@ been backfilled from outside those.
 | **Services per host** ∈ [3, 11] | Brown 2023 Table I | [`mtdnetwork/data/constants.py`](../../mtdnetwork/data/constants.py): `HOST_SERVICES_MIN = 3`, `HOST_SERVICES_MAX = 11` | **faithful**; see mtdsim_spec.md NET-06 |
 | **Users per host** = 5; **password-reuse chance** = 0.05 | Brown 2023 §III-B(3); Zhang 2023 §4.2.2 | [`mtdnetwork/data/constants.py`](../../mtdnetwork/data/constants.py): `USER_TOTAL_FOR_EACH_HOST = 5`, `USER_PROB_TO_REUSE_PASS = 0.05` | **faithful**; see mtdsim_spec.md NET-07 |
 | **L3 transition-weight regime** — tactic-pair transition weight = out-edge-normalised **flow proportion** (proportion of attack flows leaving the source tactic along that pair); technique-level `observation_count` stays recorded, un-normalised | Supervisor decision D3 (Jin Hong working session, July 2026; register at [`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](../notes/2026-07-03_supervisor_meeting_l3_decisions.md)); operative disposition in [`metrics_semantics.md`](metrics_semantics.md) §(f) | **pending** — the weighting build is the `l3_weighted_nets_aggregate_profile` handoff; fill the `src/mtdsim/l3_simulation/petri/` pointer when it lands | **dispositioned, unbuilt** — the closed-world assumption and survivorship framing of metrics_semantics.md §(f) are mandatory wherever a weight is cited |
-| **L3 per-tactic state-duration regime** — tiered sourcing: (1) substrate verbs (`ATTACK_DURATION`) where a tactic maps onto them, (2) literature timing values where they exist, (3) reasonable **justified estimate** otherwise (e.g. stealth); every value carries provenance + a sweep range | Supervisor decision D4 (same session; no ready-made MITRE-tactic→time resource exists — defined here, with justifications) | **pending** — the catalogue itself is the `l3_state_durations` handoff's deliverable (`data/ogasp/tactic_durations.json`); fill the pointer when it lands | **dispositioned, unbuilt** — plain per-state dwell consumed by the standalone runner, *not* a stochastic firing rate (timed-net semantics deferred per D10) |
+| **L3 per-tactic state-duration regime** — tiered sourcing: (1) substrate verbs (`ATTACK_DURATION`) where a tactic maps onto them, (2) literature timing values where they exist, (3) reasonable **justified estimate** otherwise (e.g. stealth); every value carries provenance + a sweep range | Supervisor decision D4 (same session; no ready-made MITRE-tactic→time resource exists — defined here, with justifications); method + tier bar in [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md); evidence layer in [`../tactic_profiles/`](../tactic_profiles/) §5 | [`data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json) (v0 uncalibrated); gate in [`tests/l3_simulation/test_durations.py`](../../tests/l3_simulation/test_durations.py) (key set = place-union; corpus-frequency guard; anchor arithmetic; magnitude sanity) | **dispositioned, built (v0 uncalibrated)** — plain per-state dwell consumed by the standalone runner, *not* a stochastic firing rate (timed-net semantics deferred per D10); tuned anchors calibrate within their sweep ranges once the runner lands, then freeze v1. **Per-tactic rows below await Marc's approval.** |
+
+---
+
+## L3 state-duration catalogue — per-tactic rows (**pending Marc's approval**)
+
+The row-level detail behind the D4 regime row above. Values are the
+`v0-uncalibrated` catalogue ([`data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json));
+each traces to its profile's §5 block (the single source of truth) and must
+stay consistent with dissertation.tex §3.1 Tables 3.1–3.2. Units: simulated
+seconds (the `env.timeout` clock). `duration_s` = multiplier × group anchor.
+Anchors: **scan-shaped** 35 s (`ATTACK_DURATION` `SCAN_HOST` 5 + `SCAN_NEIGHBOR` 5
++ `SCAN_PORT` 25 — one enumeration pass; Tier 1, not tuned); **exploit-shaped**
+4.5 s (median `exploit_time` = `EXPLOIT_VULN` 15 × (1 − complexity), complexity
+~ U[0.4, 1]; Tier 1, not tuned); **stealth-low-and-slow** 45 s (declared v0:
+10 × exploit median — an order of magnitude above the priced verbs, below the
+200 s MTD trigger-interval mean; Tier 3); **objective-execution** 36 s (declared
+v0: 8 × exploit median; Tier 2, calibratable against Bromiley/Sophos/ransomware-IR
+milestones); **prep-off-network** 0 s. The §3 reset verdicts are a separate
+declared parameter for the L3b binding — deliberately not in this catalogue.
+
+| Tactic | Group | × | `duration_s` | Tier | Sweep (× anchor) | Source |
+|---|---|--:|--:|:--:|---|---|
+| `reconnaissance` | scan-shaped | 1.0 | 35.0 | 1 | 0.5–2 | `ATTACK_DURATION` scan verbs; [01 §5](../tactic_profiles/01_reconnaissance.md) |
+| `resource-development` | prep-off-network | 0 | 0.0 | 3 | degenerate (0) | declared off-clock; [02 §5](../tactic_profiles/02_resource-development.md) |
+| `initial-access` | exploit-shaped | 1.0 | 4.5 | 1 | 0.5–2 | `exploit_time`; [03 §5](../tactic_profiles/03_initial-access.md) |
+| `execution` | stealth-low-and-slow | 0.5 | 22.5 | 3 | 0.1–2 | declared (group unsettled); [04 §5](../tactic_profiles/04_execution.md) |
+| `persistence` | stealth-low-and-slow | 1.0 | 45.0 | 3 | 0.25–4 | declared; [05 §5](../tactic_profiles/05_persistence.md) |
+| `privilege-escalation` | exploit-shaped | 1.0 | 4.5 | 1 | 0.5–2 | `exploit_time`; [06 §5](../tactic_profiles/06_privilege-escalation.md) |
+| `stealth` | stealth-low-and-slow | 1.0 | 45.0 | 3 | 0.25–4 | declared (group reference); [07 §5](../tactic_profiles/07_stealth.md) |
+| `defense-impairment` | stealth-low-and-slow | 0.5 | 22.5 | 3 | 0.1–4 (widest) | declared (group unresolved); [08 §5](../tactic_profiles/08_defense-impairment.md) |
+| `credential-access` | exploit-shaped | 1.0 | 4.5 | 1 | 0.5–2 | `exploit_time` (dumping path); [09 §5](../tactic_profiles/09_credential-access.md) |
+| `discovery` | scan-shaped | 1.0 | 35.0 | 1 | 0.5–2 | `ATTACK_DURATION` scan verbs; [10 §5](../tactic_profiles/10_discovery.md) |
+| `lateral-movement` | exploit-shaped | 1.0 | 4.5 | 1 | 0.25–4 (wide) | `exploit_time`; [11 §5](../tactic_profiles/11_lateral-movement.md) |
+| `collection` | objective-execution | 1.0 | 36.0 | 2 | 0.5–2 | [`collection_exfil_timing`](../extractions/collection_exfil_timing.md); [12 §5](../tactic_profiles/12_collection.md) |
+| `command-and-control` | stealth-low-and-slow | 1.0 | 45.0 | 3 | 0.25–4 | declared (un-priceable by CVE data); [13 §5](../tactic_profiles/13_command-and-control.md) |
+| `exfiltration` | objective-execution | 1.0 | 36.0 | 2 | 0.25–4 | [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (held-out milestone); [14 §5](../tactic_profiles/14_exfiltration.md) |
+| `impact` | objective-execution | 1.0 | 36.0 | 2 | 0.1–5 (widest) | [`ransomware_timing`](../extractions/ransomware_timing.md); [15 §5](../tactic_profiles/15_impact.md) |
 
 ---
 

@@ -3,7 +3,7 @@ tactic: collection
 attack_id: TA0009
 attack_url: https://attack.mitre.org/tactics/TA0009/
 attack_version: 19.1
-status: stub
+status: reconciled
 group_hypothesis: objective-execution
 tier_hypothesis: 2 literature
 ---
@@ -14,7 +14,7 @@ tier_hypothesis: 2 literature
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
 > [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> How to fill: [`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -101,7 +101,7 @@ spare; the modality distinction is an attacker-side behaviour the L3b binding mu
 | [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-D, §III-E | "Retrieving and sending this data"; Carbanak video/keylogger capture; RSA compress+encrypt before send; position-for-future = indefinite harvest | Objective-adjacent; fast grab..slow harvest — no per-tactic number | [fetched] |
 | [`outkin2023`](../extractions/outkin2023.md) §1 (Introduction) | "Ready-residence time" = fraction of time in the completed-but-not-yet-executed "Ready" state before acting on objectives | Conceptual dwell-before-objective; parameterised, not empirical per-tactic — no value | [fetched] |
 | [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (Sophos AAR) | Objective actions like collection/exfil "cannot go any faster, since they rely on human activity, data throughput, or other fairly rigid time frames" — a **dwell floor** | Tier-2 evidence that collection has a *floor* dwell (not substrate-instant); supports a non-trivial objective-execution anchor; no per-tactic number | [fetched] |
-| [`ling2023`](../extractions/ling2023.md) §Discussion (SANS hacker survey) | Ethical hackers report they can **collect data within 1–5 h of gaining access** (Bromiley 2022, via Ling & Ekstedt) | Hour-scale enterprise-IT anchor for collection-after-access; second-hand — **now reconciled to the primary (row below)** | [search] |
+| [`ling2023`](../extractions/ling2023.md) §Discussion (SANS hacker survey) | Ethical hackers report they can **collect data within 1–5 h of gaining access** (Bromiley 2022, via Ling & Ekstedt) | Hour-scale enterprise-IT anchor for collection-after-access; second-hand — **reconciled to the primary (row below)** | [fetched] (via the primary) |
 | [`collection_exfil_timing`](../extractions/collection_exfil_timing.md) (Bromiley 2022 PRIMARY; Unit42 2026; CISA 2022) | **~64% collect+exfil in ≤5 h** (Bromiley primary — closes the ling2023 `[search]`); fastest quartile reached exfil in **1.2 h**; but a CISA APT ran mailbox-search in a 4 h window inside a *months*-long campaign | The collection act is hours (fast eCrime) — reconciles the second-hand Bromiley figure to `[fetched]`; the slow end is the paced APT campaign around it | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`

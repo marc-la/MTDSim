@@ -31,7 +31,7 @@ shuffle and a credential rotation → reset-survivor, narrow-to-moderate sweep).
 
 ## Relevant artefacts
 
-### Zhang, Monrose & Reiter 2010 — rotation revokes a captured password in only a minority of cases
+### Zhang, Monrose & Reiter 2010 — rotation fails to revoke a captured password in a large fraction of cases (41% offline / 17% online)
 
 **Source locator:** §1 (high-order results); §"online attack" (Fig. 5/7)
 

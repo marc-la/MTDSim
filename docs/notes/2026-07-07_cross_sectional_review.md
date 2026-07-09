@@ -173,8 +173,8 @@ partly reframable via P3); V4 envelope over-generation + altitude-on-feasibility
 ## How it connects
 
 - Scores against [`./2026-07-07_thesis_backbone_rubric.md`](./2026-07-07_thesis_backbone_rubric.md).
-- Executes into Step E/F of
-  [`../handoffs/2026-07-03_l3_state_durations.md`](../handoffs/2026-07-03_l3_state_durations.md)
+- Executed into Step E/F of the state-duration work (shipped 2026-07-09 as
+  [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json))
   (P0/P1/P2 = §3; P3 = the framing the methodology chapter must carry).
 - The V1/V2 cure depends on the timeline runner
   ([`../handoffs/2026-07-03_l3_timeline_runner.md`](../handoffs/2026-07-03_l3_timeline_runner.md))
