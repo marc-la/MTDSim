@@ -1,7 +1,7 @@
 """L3 state-duration catalogue — validation gate.
 
 Covers the state-durations handoff gate: the catalogue's key set equals the
-``data/ogasp/`` place-union (mechanical, from the committed structural JSONs);
+``data/ogasp/petri/`` place-union (mechanical, from the committed structural JSONs);
 every entry carries group + tier + source + justification + sweep_range; no
 value derives from ``observation_count`` or any corpus frequency; Tier-1
 tactics trace to a substrate constant and are flagged not-tuned; tuned tactics
@@ -19,7 +19,7 @@ import pytest
 from mtdnetwork.data import constants
 from mtdsim.l2_subgraph.schema import CLASS_NAMES
 from mtdsim.l3_simulation.petri.build import AGGREGATE
-from mtdsim.l3_simulation.petri.render import OGASP_DIR
+from mtdsim.l3_simulation.petri.render import OGASP_DIR, PETRI_DIR
 
 CATALOGUE_PATH = Path(OGASP_DIR) / "tactic_durations.json"
 
@@ -75,7 +75,7 @@ def raw_text():
 def place_union():
     union = set()
     for profile in (*CLASS_NAMES, AGGREGATE):
-        with open(Path(OGASP_DIR) / f"{profile}_structural.json") as f:
+        with open(Path(PETRI_DIR) / f"{profile}_structural.json") as f:
             union.update(json.load(f)["places"])
     return union
 

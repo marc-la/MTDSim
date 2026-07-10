@@ -6,7 +6,8 @@ places:
 | substrate | artefact | architecture § | status | code home |
 |---|---|---|---|---|
 | DES substrate seam | graph-driven attacker alongside the 6-phase baseline | [§(f)](../../../docs/specs/architecture.md) · [§(i)](../../../docs/specs/architecture.md) | **stub** | **substrate seam in `mtdnetwork/`** (below) |
-| analytical Petri net | structural tactic-place nets per GASP class | [§(f)](../../../docs/specs/architecture.md) | **L3a MVP built** | [`petri/`](petri/) |
+| analytical Petri net | weighted structural tactic-place nets per GASP class | [§(f)](../../../docs/specs/architecture.md) | **L3a shipped** | [`petri/`](petri/) |
+| standalone timeline runner | seeded single-token walks → timed attacker-state sequences (D2 v1) | [§(f)](../../../docs/specs/architecture.md) | **L3b shipped** | [`timeline/`](timeline/) |
 
 ## `petri/` — L3a structural Petri-net MVP
 
@@ -15,12 +16,16 @@ built in SNAKES with a single moving black token — the *shape* only (no rates,
 timing, weights, rewards, MTD or CTMC; those are later stages). Build brief:
 [`docs/handoffs/2026-06-18_l3a_petri_mvp.md`](../../../docs/handoffs/2026-06-18_l3a_petri_mvp.md);
 rationale: [`docs/notes/2026-06-18_l3_petri_feasibility.md`](../../../docs/notes/2026-06-18_l3_petri_feasibility.md).
-Outputs land under [`data/ogasp/`](../../../data/ogasp/). Run:
+Outputs land under [`data/ogasp/petri/`](../../../data/ogasp/petri/); the
+timeline runner ([`timeline/`](timeline/)) writes its artefacts to
+[`data/ogasp/timeline/`](../../../data/ogasp/timeline/) (see the
+[`data/ogasp/` index](../../../data/ogasp/README.md)). Run:
 
 ```sh
-pip install snakes                                    # not in environment.yml; diagrams need graphviz `dot`
-PYTHONPATH=src python -m mtdsim.l3_simulation.petri   # build + analyse + render
-PYTHONPATH=src python -m pytest tests/l3_simulation/  # validation gate
+pip install snakes                                     # not in environment.yml; diagrams need graphviz `dot`
+PYTHONPATH=src python -m mtdsim.l3_simulation.petri    # build + analyse + render
+PYTHONPATH=src python -m mtdsim.l3_simulation.timeline # seeded library + report + figures
+PYTHONPATH=src python -m pytest tests/l3_simulation/   # validation gate
 ```
 
 ## DES substrate seam (the other L3 substrate)

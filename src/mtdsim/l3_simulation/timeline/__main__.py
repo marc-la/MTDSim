@@ -1,10 +1,12 @@
 """CLI for the timeline runner — ``python -m mtdsim.l3_simulation.timeline``.
 
 Generates the full seeded timeline library over the run matrix (bulk JSONL +
-manifest under the gitignored ``data/ogasp/_timelines/``), refreshes the
-committed example (``timeline_example.jsonl``) and writes the behavioural
-verification report (``timeline_report.md`` / ``.json``). Fully deterministic
-— rerunning reproduces every byte.
+manifest under the gitignored ``data/ogasp/timeline/_timelines/``), refreshes
+the committed example (``timeline_example.jsonl``), writes the behavioural
+verification report (``timeline_report.md`` / ``.json``) and renders the
+awareness figures to the gitignored ``data/ogasp/timeline/_viz/`` (needs
+``matplotlib``; skipped with a note if absent). The library and report are
+fully deterministic — rerunning reproduces every byte.
 """
 
 from __future__ import annotations
@@ -41,6 +43,13 @@ def main() -> int:
         f"dedup vs raw stable: {report['ordering_stable_dedup_vs_raw']}"
     )
     print(f"  -> {report_md} (+ .json); example: {example}")
+    try:
+        from mtdsim.l3_simulation.timeline.viz import VIZ_DIR, render_all
+    except ImportError:
+        print("  viz skipped: matplotlib not available")
+    else:
+        figures = render_all(manifest, library)
+        print(f"  -> {VIZ_DIR}/ ({len(figures)} figures)")
     return 0
 
 

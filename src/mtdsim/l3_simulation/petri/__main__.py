@@ -4,8 +4,8 @@ Builds the five profile nets (four GASP classes + the aggregate null profile)
 from ``data/gap/gap_v0.5.json`` + the four ``data/gasp/gasp_<class>.json``,
 computes the W-A flow-proportion weight layer (operator-dedup primary, raw
 robustness), emits the structural report per profile, writes the tracked
-JSONs + divergence-from-aggregate report + README under ``data/ogasp/``, and
-renders the figures to ``data/ogasp/_viz/``.
+JSONs + divergence-from-aggregate report + README under ``data/ogasp/petri/``,
+and renders the figures to ``data/ogasp/petri/_viz/``.
 """
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ from mtdsim.l3_simulation.petri.build import (
 )
 from mtdsim.l3_simulation.petri.divergence import build_divergence_report
 from mtdsim.l3_simulation.petri.render import (
-    OGASP_DIR,
+    PETRI_DIR,
     VIZ_DIR,
     draw_net,
     persist_summary,
@@ -97,7 +97,7 @@ def main() -> int:
             f"(null p95 {div.null_band[cls]['p95']:.4f}) -> "
             f"{'exceeds' if ok else 'below'}"
         )
-    print(f"  -> {OGASP_DIR}/ ({report_md.name}; _viz/ diagrams; headline: {chart.name})")
+    print(f"  -> {PETRI_DIR}/ ({report_md.name}; _viz/ diagrams; headline: {chart.name})")
     return 0
 
 

@@ -40,7 +40,7 @@ from mtdsim.l3_simulation.petri.divergence import (
     quotient_out_dists,
     shuffled_label_null,
 )
-from mtdsim.l3_simulation.petri.render import OGASP_DIR
+from mtdsim.l3_simulation.petri.render import PETRI_DIR
 from mtdsim.l3_simulation.petri.weights import (
     PRIMARY_VARIANT,
     VARIANTS,
@@ -92,7 +92,7 @@ def weights(nets, edge_flows, profile_flows):
 def committed():
     out = {}
     for p in PROFILE_NAMES:
-        with open(Path(OGASP_DIR) / f"{p}_structural.json") as f:
+        with open(Path(PETRI_DIR) / f"{p}_structural.json") as f:
             out[p] = json.load(f)
     return out
 
@@ -302,7 +302,7 @@ def test_null_band_deterministic(nets, weights, edge_flows, profile_flows, gap):
 
 
 def test_divergence_report_consistent():
-    with open(Path(OGASP_DIR) / "divergence_report.json") as f:
+    with open(Path(PETRI_DIR) / "divergence_report.json") as f:
         d = json.load(f)
     assert d["primary_variant"] == PRIMARY_VARIANT
     for cls, mean in d["mean_jsd"].items():
@@ -310,4 +310,4 @@ def test_divergence_report_consistent():
         assert d["exceeds_null_p95"][cls] == (
             mean > d["null_band"][cls]["p95"]
         )
-    assert (Path(OGASP_DIR) / "divergence_report.md").exists()
+    assert (Path(PETRI_DIR) / "divergence_report.md").exists()

@@ -25,13 +25,13 @@
       "profile": "double_extortion",
       "entry": "reconnaissance",
       "status": "impossible",
-      "reason": "reconnaissance is an island on the observed-only base (the prefix gap): recon cannot reach initial-access, so a recon-seeded token cannot reach the objective. The literature-grounded prefix bridge (GAP Decision 6 Option B) stays deferred; see data/ogasp/README.md."
+      "reason": "reconnaissance is an island on the observed-only base (the prefix gap): recon cannot reach initial-access, so a recon-seeded token cannot reach the objective. The literature-grounded prefix bridge (GAP Decision 6 Option B) stays deferred; see data/ogasp/petri/README.md."
     },
     {
       "profile": "infrastructure_setup",
       "entry": "reconnaissance",
       "status": "impossible",
-      "reason": "reconnaissance is an island on the observed-only base (the prefix gap): recon cannot reach initial-access, so a recon-seeded token cannot reach the objective. The literature-grounded prefix bridge (GAP Decision 6 Option B) stays deferred; see data/ogasp/README.md."
+      "reason": "reconnaissance is an island on the observed-only base (the prefix gap): recon cannot reach initial-access, so a recon-seeded token cannot reach the objective. The literature-grounded prefix bridge (GAP Decision 6 Option B) stays deferred; see data/ogasp/petri/README.md."
     }
   ],
   "cell_stats": {

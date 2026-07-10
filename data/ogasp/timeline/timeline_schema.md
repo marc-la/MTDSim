@@ -1,7 +1,7 @@
 # `ogasp-timeline/v1` — the timeline-runner artefact contract
 
 The output schema of the standalone timeline runner
-([`src/mtdsim/l3_simulation/timeline/`](../../src/mtdsim/l3_simulation/timeline)),
+([`src/mtdsim/l3_simulation/timeline/`](../../../src/mtdsim/l3_simulation/timeline)),
 the v1 net-execution artefact under supervisor decision D2: the Petri net
 runs **independently** of the simulator; a **single token** walks the
 committed weighted net; each state consumes its catalogue dwell; the output
@@ -11,8 +11,9 @@ replay attacker pins to the schema version; any field or semantics change
 bumps it.
 
 - **Inputs (the only ones):** the five committed
-  [`<profile>_structural.json`](README.md) nets (shape + W-A weights) and
-  [`tactic_durations.json`](tactic_durations.json) (v0 per-state dwell).
+  [`../petri/<profile>_structural.json`](../petri/README.md) nets (shape +
+  W-A weights) and [`../tactic_durations.json`](../tactic_durations.json)
+  (v0 per-state dwell).
   The runner never re-derives the nets, never imports `mtdnetwork`, and
   never fires a transition absent from the committed JSONs (the
   no-synthesis invariant, tested).
@@ -23,23 +24,24 @@ bumps it.
 - **Naming discipline:** the time statistic is the **net
   time-to-objective**, an envelope statistic over one instantiation of a
   class envelope. It is **not** the DES MTTC and is never comparable to it
-  ([`docs/specs/metrics_semantics.md`](../../docs/specs/metrics_semantics.md)
+  ([`docs/specs/metrics_semantics.md`](../../../docs/specs/metrics_semantics.md)
   §(a)/(d)). A timeline is never "an APT's campaign".
 
 ## Regenerate
 
 ```sh
-PYTHONPATH=src python -m mtdsim.l3_simulation.timeline   # library + example + report
+PYTHONPATH=src python -m mtdsim.l3_simulation.timeline   # library + example + report + _viz/ figures
 PYTHONPATH=src python -m pytest tests/l3_simulation/test_timeline.py
 ```
 
 Bulk timelines land under the gitignored `_timelines/` (one JSONL per
-run-matrix cell + `manifest.json`); the committed artefacts are this
-contract, [`timeline_example.jsonl`](timeline_example.jsonl) (the shortest
-record of each outcome kind) and
+run-matrix cell + `manifest.json`), and the awareness figures under the
+gitignored `_viz/` (regenerable, diagnostic-quality); the committed artefacts
+are this contract, [`timeline_example.jsonl`](timeline_example.jsonl) (the
+shortest record of each outcome kind) and
 [`timeline_report.md`](timeline_report.md) / `.json` (the behavioural
-verification report). Everything is deterministic — rerunning reproduces
-every byte; there is no wall-clock anywhere.
+verification report). The library and report are deterministic — rerunning
+reproduces every byte; there is no wall-clock anywhere.
 
 ## Record schema (one JSON object per line)
 
@@ -109,7 +111,7 @@ Per state in `sequence`:
 - Nothing timing- or probability-shaped derives from `observation_count`
   or any corpus frequency: weights are the W-A flow proportions, durations
   are the catalogue
-  ([`docs/specs/metrics_semantics.md`](../../docs/specs/metrics_semantics.md)
+  ([`docs/specs/metrics_semantics.md`](../../../docs/specs/metrics_semantics.md)
   §(f) as dispositioned).
 - The runner is also the **calibration instrument**: the catalogue
   lifecycle (v0 → runner → calibrate the two tuned group anchors within

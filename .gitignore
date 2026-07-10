@@ -158,10 +158,13 @@ data/gap/_*
 # via data/gasp/_viz/gasp_viz.py. Mirrors the data/gap/_* pattern.
 data/gasp/_*
 
-# OGASP (L3a) Petri-net diagrams — regenerable via
-# `python -m mtdsim.l3_simulation.petri`. The summary JSONs + README under
-# data/ogasp/ ARE committed; only the _viz/ diagrams are ignored. Same pattern.
-data/ogasp/_*
+# OGASP (L3) regenerable outputs — petri/_viz/ diagrams via
+# `python -m mtdsim.l3_simulation.petri`; timeline/_timelines/ library +
+# timeline/_viz/ figures via `python -m mtdsim.l3_simulation.timeline`. The
+# summary JSONs, reports and READMEs under data/ogasp/ ARE committed; only
+# the underscore-prefixed dirs are ignored. Same pattern as data/gasp/_*.
+data/ogasp/petri/_*
+data/ogasp/timeline/_*
 
 # macOS Finder metadata
 .DS_Store

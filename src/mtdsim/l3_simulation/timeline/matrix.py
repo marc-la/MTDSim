@@ -31,9 +31,11 @@ from mtdsim.l3_simulation.timeline.walk import (
     MAX_STEPS,
     OBJECTIVE_RULES,
     OGASP_DIR,
+    PETRI_DIR,
     PRIMARY_WEIGHT_VARIANT,
     PROFILE_NAMES,
     SCHEMA_VERSION,
+    TIMELINE_DIR,
     Net,
     dwell_table,
     load_catalogue,
@@ -42,7 +44,7 @@ from mtdsim.l3_simulation.timeline.walk import (
     walk,
 )
 
-TIMELINES_DIR = OGASP_DIR / "_timelines"  # gitignored via data/ogasp/_*
+TIMELINES_DIR = TIMELINE_DIR / "_timelines"  # gitignored via data/ogasp/timeline/_*
 
 N_RUNS = 100  # seeded runs per cell (the brief's floor; cheap)
 
@@ -117,7 +119,7 @@ def build_matrix(nets: dict) -> tuple[list[Cell], list[dict]]:
                         "(the prefix gap): recon cannot reach initial-access, so "
                         "a recon-seeded token cannot reach the objective. The "
                         "literature-grounded prefix bridge (GAP Decision 6 "
-                        "Option B) stays deferred; see data/ogasp/README.md."
+                        "Option B) stays deferred; see data/ogasp/petri/README.md."
                     ),
                 }
             )
@@ -148,6 +150,7 @@ def generate_cell(net: Net, catalogue: dict, cell: Cell, n_runs: int = N_RUNS) -
 def generate_library(
     out_dir: Path = TIMELINES_DIR,
     ogasp_dir: Path = OGASP_DIR,
+    petri_dir: Path = PETRI_DIR,
     n_runs: int = N_RUNS,
 ) -> tuple[dict, dict]:
     """Generate the full timeline library: one JSONL per cell + a manifest.
@@ -160,7 +163,7 @@ def generate_library(
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     catalogue = load_catalogue(ogasp_dir)
-    nets = {p: load_net(p, ogasp_dir) for p in PROFILE_NAMES}
+    nets = {p: load_net(p, petri_dir) for p in PROFILE_NAMES}
     cells, impossible = build_matrix(nets)
 
     library: dict[str, list[dict]] = {}

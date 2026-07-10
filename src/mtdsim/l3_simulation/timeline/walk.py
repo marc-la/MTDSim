@@ -7,9 +7,10 @@ repeating until an objective condition, a stall, or the step cap. The output
 is a timed attacker-state sequence (a cumulative timeline) — the artefact the
 replay attacker binds to.
 
-Inputs are the **committed JSONs only**: ``data/ogasp/<profile>_structural.json``
-(shape + W-A weights) and ``data/ogasp/tactic_durations.json`` (per-state
-dwell). The runner never re-derives the nets and never fires a transition that
+Inputs are the **committed JSONs only**:
+``data/ogasp/petri/<profile>_structural.json`` (shape + W-A weights) and
+``data/ogasp/tactic_durations.json`` (per-state dwell). The runner never
+re-derives the nets and never fires a transition that
 is not in them (the no-synthesis invariant, tested), and it never imports
 ``mtdnetwork`` — the coupling to MTDSim is the replay attacker's job.
 
@@ -36,7 +37,9 @@ from pathlib import Path
 # pulls in the SNAKES build machinery, and the runner's contract is to be
 # plain Python over the committed JSONs.
 _REPO_ROOT = Path(__file__).resolve().parents[4]
-OGASP_DIR = _REPO_ROOT / "data" / "ogasp"
+OGASP_DIR = _REPO_ROOT / "data" / "ogasp"  # shared root: duration catalogue + index
+PETRI_DIR = OGASP_DIR / "petri"  # the committed weighted nets (petri workstream)
+TIMELINE_DIR = OGASP_DIR / "timeline"  # this workstream's artefacts
 
 SCHEMA_VERSION = "ogasp-timeline/v1"
 
@@ -68,7 +71,7 @@ MAX_STEPS = 128
 #     visited (for the three singleton classes this reduces to first visit;
 #     for double_extortion it is the class-semantic "both achieved");
 #   - the aggregate terminates on ANY of its declared union set — the null
-#     envelope has no single operational objective (data/ogasp/README.md), so
+#     envelope has no single operational objective (data/ogasp/petri/README.md), so
 #     achieving *an* objective ends the walk; ``completed_objectives`` records
 #     which. A recorded choice.
 OBJECTIVE_RULES = {profile: "all" for profile in CLASS_NAMES}
@@ -98,9 +101,9 @@ class Net:
     recon_bridged: bool
 
 
-def load_net(profile: str, ogasp_dir: Path = OGASP_DIR) -> Net:
+def load_net(profile: str, petri_dir: Path = PETRI_DIR) -> Net:
     """Load ``<profile>_structural.json`` into a walkable read-only view."""
-    with open(Path(ogasp_dir) / f"{profile}_structural.json") as f:
+    with open(Path(petri_dir) / f"{profile}_structural.json") as f:
         data = json.load(f)
     transitions = tuple(
         Transition(
@@ -311,6 +314,8 @@ __all__ = [
     "MAX_STEPS",
     "OBJECTIVE_RULES",
     "OGASP_DIR",
+    "PETRI_DIR",
+    "TIMELINE_DIR",
     "PROFILE_NAMES",
     "POLICIES",
     "PRIMARY_WEIGHT_VARIANT",

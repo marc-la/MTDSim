@@ -1,11 +1,14 @@
 """Persist the L3a nets: structural + weighted JSONs, the divergence report,
-diagrams, and the ``data/ogasp/`` README.
+diagrams, and the ``data/ogasp/petri/`` README.
 
-Diagrams go to ``data/ogasp/_viz/`` (gitignored, regenerable). The summary
-JSONs, the divergence report and the README under ``data/ogasp/`` are tracked
--- they are the structural + weight record (places, transitions, W-A weights
-with full provenance, reachability, objective-reachability, prefix gap,
-divergence-from-aggregate).
+Diagrams go to ``data/ogasp/petri/_viz/`` (gitignored, regenerable). The
+summary JSONs, the divergence report and the README under
+``data/ogasp/petri/`` are tracked -- they are the structural + weight record
+(places, transitions, W-A weights with full provenance, reachability,
+objective-reachability, prefix gap, divergence-from-aggregate). The petri
+workstream owns ``data/ogasp/petri/``; the timeline runner's artefacts live
+beside it under ``data/ogasp/timeline/`` (see the root ``data/ogasp/README.md``
+index).
 """
 
 from __future__ import annotations
@@ -23,8 +26,9 @@ from mtdsim.l3_simulation.petri.divergence import DivergenceReport
 from mtdsim.l3_simulation.petri.weights import TransitionWeights
 
 _REPO_ROOT = Path(__file__).resolve().parents[4]
-OGASP_DIR = _REPO_ROOT / "data" / "ogasp"
-VIZ_DIR = OGASP_DIR / "_viz"
+OGASP_DIR = _REPO_ROOT / "data" / "ogasp"  # the shared root (catalogue + index)
+PETRI_DIR = OGASP_DIR / "petri"  # this workstream's artefacts
+VIZ_DIR = PETRI_DIR / "_viz"
 
 
 def draw_net(snet: StructuralNet, viz_dir: Path = VIZ_DIR) -> Path:
@@ -47,9 +51,9 @@ def persist_summary(
     report: StructuralReport,
     weights_by_variant: dict[str, dict[str, TransitionWeights]] | None = None,
     weighting: dict | None = None,
-    out_dir: Path = OGASP_DIR,
+    out_dir: Path = PETRI_DIR,
 ) -> Path:
-    """Write ``data/ogasp/<profile>_structural.json`` -- the net shape + its
+    """Write ``data/ogasp/petri/<profile>_structural.json`` -- the net shape + its
     structural report, every transition's GASP provenance inline, and (when
     provided) the W-A weight layer per transition per corpus variant."""
     out_dir = Path(out_dir)
@@ -96,9 +100,9 @@ def _fmt_path(pr) -> str:
 
 
 def write_divergence_report_md(
-    div: DivergenceReport, out_dir: Path = OGASP_DIR
+    div: DivergenceReport, out_dir: Path = PETRI_DIR
 ) -> Path:
-    """Write ``data/ogasp/divergence_report.md`` — the human-readable half of
+    """Write ``data/ogasp/petri/divergence_report.md`` — the human-readable half of
     the divergence-from-aggregate verification (numbers also persisted to
     ``divergence_report.json`` for the test gate)."""
     out_dir = Path(out_dir)
@@ -251,31 +255,34 @@ def write_divergence_report_md(
 def write_readme(
     reports: dict[str, StructuralReport],
     div: DivergenceReport,
-    out_dir: Path = OGASP_DIR,
+    out_dir: Path = PETRI_DIR,
 ) -> Path:
-    """Write ``data/ogasp/README.md`` -- what the artefacts are, how to rebuild,
-    the weighting regime, and the headline structural findings."""
+    """Write ``data/ogasp/petri/README.md`` -- what the artefacts are, how to
+    rebuild, the weighting regime, and the headline structural findings. The
+    hand-maintained ``data/ogasp/README.md`` (the root index) is not touched."""
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     lines = [
-        "# `data/ogasp/` — L3a OGASP weighted tactic-place Petri nets",
+        "# `data/ogasp/petri/` — L3a OGASP weighted tactic-place Petri nets",
         "",
         "Five **weighted** structural tactic-place Petri nets — one per GASP",
         "class plus the **aggregate (null) profile** over the union of all",
         "flows — built in SNAKES with a single moving black token. Shape +",
         "W-A flow-proportion weights; no timing, rewards, MTD or CTMC (those",
         "are later stages). Stages 1–2 (L3a) of the OGASP Petri-net",
-        "workstream.",
+        "workstream. The timeline runner's artefacts live beside this",
+        "directory under [`../timeline/`](../timeline/); the shared duration",
+        "catalogue and the index are at the [`data/ogasp/` root](../README.md).",
         "",
-        "- **Build code:** [`src/mtdsim/l3_simulation/petri/`](../../src/mtdsim/l3_simulation/petri).",
-        "- **Design / rationale:** [`docs/notes/2026-06-18_l3_petri_feasibility.md`](../../docs/notes/2026-06-18_l3_petri_feasibility.md)",
+        "- **Build code:** [`src/mtdsim/l3_simulation/petri/`](../../../src/mtdsim/l3_simulation/petri).",
+        "- **Design / rationale:** [`docs/notes/2026-06-18_l3_petri_feasibility.md`](../../../docs/notes/2026-06-18_l3_petri_feasibility.md)",
         "  (the base structural net is GO-unconditional, sec.8).",
         "- **Locked P/T/F/M mapping:** places = ATT&CK tactics; transitions =",
         "  inter-tactic tactic-pairs (each tracing to >=1 GASP technique-edge — the",
         "  no-synthesis invariant); flow = `place[a] -> T -> place[b]`; marking =",
         "  one black token in `reconnaissance` (else `initial-access`).",
         "- **Weight regime (D3, dispositioned in",
-        "  [`docs/specs/metrics_semantics.md`](../../docs/specs/metrics_semantics.md) §(f)):**",
+        "  [`docs/specs/metrics_semantics.md`](../../../docs/specs/metrics_semantics.md) §(f)):**",
         "  per transition and corpus variant, `weight = numerator / denominator`",
         "  where the numerator counts **distinct attack flows** contributing >=1",
         "  technique-edge under the tactic-pair and the denominator sums the",
@@ -313,10 +320,10 @@ def write_readme(
         "| `_viz/<profile>.png` / `.svg` | gitignored | **tactic-state diagram** — kill-chain L→R; token in its seed; entry green, objective orange, sinks double-outlined; edge width/opacity = W-A weight (uniform absolute scale across the five nets); unreachable-from-token places dashed |",
         "| `_viz/<profile>_snakes.png` | gitignored | the **formal SNAKES net** (bipartite places + transition bars) — faithful but dense; kept as a provenance artefact |",
         "| `_viz/_reachability.png` | gitignored | **headline chart** — tactics reachable from the recon token vs from any entry, per profile |",
-        "| `timeline_schema.md` | **committed** | the timeline-runner artefact contract (`ogasp-timeline/v1`): record schema, declared walk semantics, run matrix |",
-        "| `timeline_example.jsonl` | **committed** | the shortest committed timeline of each outcome kind (objective / stalled / cap) — the contract's living companion |",
-        "| `timeline_report.md` / `.json` | **computed** | behavioural verification report — per-cell summary stats, class-vs-aggregate comparison, verdict (the behavioural half of the divergence question) |",
-        "| `_timelines/<cell>.jsonl` + `manifest.json` | gitignored | the seeded timeline library over the full run matrix — regenerable via `python -m mtdsim.l3_simulation.timeline` |",
+        "",
+        "The timeline-runner artefacts (schema contract, example, behavioural",
+        "report, seeded library, timeline figures) live under",
+        "[`../timeline/`](../timeline/).",
         "",
         "All `_viz/` figures are gitignored (regenerable; mirrors the `data/gasp/_*`",
         "pattern). The diagrams need graphviz `dot` + the `graphviz` Python package;",
@@ -392,7 +399,8 @@ def write_readme(
         "stay observed-only. See the feasibility study sec.4 / sec.9.",
         "",
         "In-tactic dwell is the duration catalogue's job",
-        "(`tactic_durations.json`, the state-durations handoff), **not** a",
+        "([`../tactic_durations.json`](../tactic_durations.json), the",
+        "state-durations workstream), **not** a",
         "self-loop weight — intra-tactic edges were dropped at structural",
         "build time and carry no weight.",
         "",
@@ -404,6 +412,7 @@ def write_readme(
 
 __all__ = [
     "OGASP_DIR",
+    "PETRI_DIR",
     "VIZ_DIR",
     "draw_net",
     "persist_summary",

@@ -10,7 +10,7 @@ CTMC (later stages of the workstream).
 Design / feasibility: ``docs/notes/2026-06-18_l3_petri_feasibility.md`` (sec.8:
 the structural base is GO-unconditional). Build brief:
 ``docs/handoffs/2026-06-18_l3a_petri_mvp.md``. Outputs land under
-``data/ogasp/``. Entry point: ``PYTHONPATH=src python -m mtdsim.l3_simulation.petri``.
+``data/ogasp/petri/``. Entry point: ``PYTHONPATH=src python -m mtdsim.l3_simulation.petri``.
 """
 
 from mtdsim.l3_simulation.petri.analysis import (

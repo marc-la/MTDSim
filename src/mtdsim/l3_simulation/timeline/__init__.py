@@ -1,17 +1,18 @@
 """L3b — the standalone timeline runner (D2's v1 execution model).
 
 A seeded single-token walk over the committed weighted tactic-place nets
-(``data/ogasp/<profile>_structural.json``) with per-state dwell from the v0
-duration catalogue (``data/ogasp/tactic_durations.json``): the net runs
+(``data/ogasp/petri/<profile>_structural.json``) with per-state dwell from the
+v0 duration catalogue (``data/ogasp/tactic_durations.json``): the net runs
 **independently** of the simulator, and the output is a library of timed
 attacker-state sequences (cumulative timelines) that the replay attacker
 later feeds into MTDSim. Also delivers D1's standalone-examination half —
 the behavioural verification report over the timeline library.
 
-Contract artefacts (committed): ``data/ogasp/timeline_schema.md`` (the
-``ogasp-timeline/v1`` record schema the replay attacker pins to),
+Contract artefacts (committed): ``data/ogasp/timeline/timeline_schema.md``
+(the ``ogasp-timeline/v1`` record schema the replay attacker pins to),
 ``timeline_example.jsonl``, ``timeline_report.md``/``.json``. Bulk timelines
-are regenerable and live under the gitignored ``data/ogasp/_timelines/``.
+live under the gitignored ``data/ogasp/timeline/_timelines/`` and the
+awareness figures under ``data/ogasp/timeline/_viz/`` (both regenerable).
 Entry point: ``PYTHONPATH=src python -m mtdsim.l3_simulation.timeline``.
 
 The runner never imports ``mtdnetwork`` (D2: independent execution) and
@@ -46,8 +47,10 @@ from mtdsim.l3_simulation.timeline.walk import (
     MAX_STEPS,
     OBJECTIVE_RULES,
     OGASP_DIR,
+    PETRI_DIR,
     PROFILE_NAMES,
     SCHEMA_VERSION,
+    TIMELINE_DIR,
     Net,
     Transition,
     dwell_table,
@@ -68,11 +71,13 @@ __all__ = [
     "Net",
     "OBJECTIVE_RULES",
     "OGASP_DIR",
+    "PETRI_DIR",
     "POLICY_ARMS",
     "PROFILE_NAMES",
     "REPORT_JSON",
     "REPORT_MD",
     "SCHEMA_VERSION",
+    "TIMELINE_DIR",
     "TIMELINES_DIR",
     "Transition",
     "build_matrix",

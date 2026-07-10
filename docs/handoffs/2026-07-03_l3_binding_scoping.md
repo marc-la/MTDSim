@@ -17,7 +17,7 @@ created: 2026-07-03
 > with the weighting/durations/runner chain — but **finalises against the
 > runner's committed timeline schema** (soft dependency: the binding consumes
 > that schema — now shipped:
-> [`../../data/ogasp/timeline_schema.md`](../../data/ogasp/timeline_schema.md),
+> [`../../data/ogasp/timeline/timeline_schema.md`](../../data/ogasp/timeline/timeline_schema.md),
 > `ogasp-timeline/v1`). Its draft tactic→verb table is also what the durations
 > handoff's Tier-1 sourcing consults — produce the draft table early.
 >
@@ -67,7 +67,7 @@ created: 2026-07-03
 ## Recommended approach
 
 **Deliverable = one scoping note** (`docs/notes/2026-07-XX_l3_binding_scoping.md`)
-**+ one draft mapping CSV** (`data/ogasp/tactic_action_map.csv`), covering four
+**+ one draft mapping CSV** (`data/ogasp/timeline/tactic_action_map.csv`), covering four
 sections:
 
 **1 — Tactic → action-class map (the "~15 actions" question, answered
@@ -132,7 +132,7 @@ synthetic-tag design keeps MTTC comparable).
 Done when:
 1. The scoping note exists with all four sections, each ending in a concrete
    recommendation the replay handoff can implement without re-deriving.
-2. `data/ogasp/tactic_action_map.csv` covers every tactic-place in the L3a
+2. `data/ogasp/timeline/tactic_action_map.csv` covers every tactic-place in the L3a
    union; every row has a rationale; every `COST_ONLY` row records why (no
    network-state / pre-intrusion / stealth-pending-detection).
 3. The three-layer success model names its recommended option and states the
@@ -173,7 +173,7 @@ Done when:
   the tag design overlays.
 - [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(a) — the
   MTTC event definition the success model must not silently change.
-- [`../../data/ogasp/timeline_schema.md`](../../data/ogasp/timeline_schema.md)
+- [`../../data/ogasp/timeline/timeline_schema.md`](../../data/ogasp/timeline/timeline_schema.md)
   (+ committed example) — the timeline schema this binding consumes
   (finalise against it; shipped 2026-07-09).
 

@@ -34,16 +34,17 @@ from mtdsim.l3_simulation.timeline.walk import (
     AGGREGATE,
     DURATION_VARIANTS,
     MAX_STEPS,
-    OGASP_DIR,
+    PETRI_DIR,
     PROFILE_NAMES,
     SCHEMA_VERSION,
+    TIMELINE_DIR,
     dwell_table,
     load_catalogue,
     load_net,
     serialise,
 )
 
-SCHEMA_DOC = Path(OGASP_DIR) / "timeline_schema.md"
+SCHEMA_DOC = Path(TIMELINE_DIR) / "timeline_schema.md"
 
 OUTCOMES = {"objective", "cap", "stalled"}
 
@@ -102,7 +103,7 @@ def committed_transitions():
     """Per profile: transition name -> (src, dst) from the committed JSONs."""
     index = {}
     for profile in PROFILE_NAMES:
-        with open(Path(OGASP_DIR) / f"{profile}_structural.json") as f:
+        with open(Path(PETRI_DIR) / f"{profile}_structural.json") as f:
             data = json.load(f)
         index[profile] = {
             t["name"]: (t["src_tactic"], t["dst_tactic"]) for t in data["transitions"]
