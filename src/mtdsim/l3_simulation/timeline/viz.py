@@ -8,9 +8,10 @@ envelopes stay visually comparable — no per-profile tuning, no accentuation;
 the marks and a legend carry everything:
 
 - ``walks_<profile>.png`` — the first N seeded runs of the primary cell as
-  horizontal timelines, one row per run, segments coloured by tactic
-  (hue = kill-chain phase, lightness = position within the phase), the
-  outcome written at each row's end. Shared x-scale across all five files.
+  horizontal timelines, one row per run, segments coloured by the tactic's
+  **kill-chain position** on an ordered cool-light → warm-dark ramp (source
+  tactics light blue, sink/objective tactics deep warm red), the outcome
+  written at each row's end. Shared x-scale across all five files.
 - ``net_time_to_objective.png`` — the net time-to-objective distribution per
   profile (objective runs only), median marked. An **envelope statistic**,
   never the DES MTTC (metrics_semantics.md §(a)/(d)).
@@ -54,27 +55,20 @@ PRIMARY_ARM = "weighted-operator_dedup"
 ARMS = (PRIMARY_ARM, "weighted-raw", "uniform")
 ARM_LABELS = {PRIMARY_ARM: "weighted dedup", "weighted-raw": "weighted raw", "uniform": "uniform"}
 
-# Tactic colour: hue = kill-chain phase (8 phases -> the 8 fixed categorical
-# slots, assigned in kill-chain order, never cycled), lightness step = the
-# tactic's position within its phase (earlier = lighter). 15 raw hues would
-# defeat colour-vision-deficiency separation; the phase/lightness split keeps
-# hue pairs validated while the legend recovers exact identity.
-PHASE_GROUPS = (
-    ("reconnaissance", "resource-development"),
-    ("initial-access",),
-    ("execution", "persistence", "privilege-escalation"),
-    ("stealth", "defense-impairment"),
-    ("credential-access", "discovery"),
-    ("lateral-movement",),
-    ("collection", "command-and-control"),
-    ("exfiltration", "impact"),
-)
+# Tactic colour is ORDINAL, not categorical: each tactic takes its kill-chain
+# position on one ordered ramp, cool-light (source: reconnaissance) through
+# blue and violet to warm-dark (sink: impact) — so a walk visibly heats up /
+# darkens as it moves toward the objective and cools when it loops back up
+# the chain. Relative luminance is strictly monotone decreasing along the
+# ramp (verified numerically), so the ordering survives colour-vision
+# deficiency via lightness alone; the light end holds >= 2:1 contrast on the
+# surface, and the legend (in kill-chain order) recovers exact identity.
+RAMP_ANCHORS = ("#86b6ef", "#4f94e8", "#3968c8", "#4d3f9e", "#652a70", "#7a1226")
+
 SLOT_HEXES = (  # the validated 8-slot categorical palette, fixed order
     "#2a78d6", "#1baf7a", "#eda100", "#008300",
     "#4a3aa7", "#e34948", "#e87ba4", "#eb6834",
 )
-# Within-phase tints (blend toward white): earlier member lighter, last = base.
-_TINTS = {1: (0.0,), 2: (0.32, 0.0), 3: (0.48, 0.24, 0.0)}
 
 OUTCOME_ORDER = ("objective", "stalled", "cap")
 OUTCOME_COLORS = dict(zip(OUTCOME_ORDER, SLOT_HEXES[:3]))
@@ -87,19 +81,27 @@ MUTED = "#898781"
 GRID = "#e1e0d9"
 
 
-def _tint(hex_color: str, toward_white: float) -> str:
-    r, g, b = (int(hex_color[i : i + 2], 16) for i in (1, 3, 5))
-    mix = lambda c: round(c + (255 - c) * toward_white)  # noqa: E731
-    return f"#{mix(r):02x}{mix(g):02x}{mix(b):02x}"
-
-
-def tactic_colors() -> dict:
-    """``tactic -> hex``, phases in kill-chain order on the fixed slot order."""
-    colors = {}
-    for slot, group in zip(SLOT_HEXES, PHASE_GROUPS):
-        for tactic, tint in zip(group, _TINTS[len(group)]):
-            colors[tactic] = _tint(slot, tint)
+def _ramp_sample(anchors: tuple, n: int) -> list:
+    """``n`` colours evenly spaced along the piecewise-linear anchor ramp."""
+    points = [
+        tuple(int(a[i : i + 2], 16) for i in (1, 3, 5)) for a in anchors
+    ]
+    colors = []
+    for i in range(n):
+        t = i / (n - 1) * (len(points) - 1)
+        k = min(int(t), len(points) - 2)
+        frac = t - k
+        rgb = (
+            round(a + (b - a) * frac) for a, b in zip(points[k], points[k + 1])
+        )
+        colors.append("#{:02x}{:02x}{:02x}".format(*rgb))
     return colors
+
+
+def tactic_colors(tactic_order: list) -> dict:
+    """``tactic -> hex``: kill-chain position mapped onto the ordered ramp."""
+    ramp = _ramp_sample(RAMP_ANCHORS, len(tactic_order))
+    return dict(zip(tactic_order, ramp))
 
 
 def _cell_id(profile: str, entry: str, arm: str, variant: str) -> str:
@@ -123,7 +125,7 @@ def _tactic_legend(fig, colors: dict, order: list) -> None:
         for t in order
         if t in colors
     ]
-    fig.legend(
+    legend = fig.legend(
         handles=handles,
         loc="lower center",
         ncol=5,
@@ -131,7 +133,10 @@ def _tactic_legend(fig, colors: dict, order: list) -> None:
         frameon=False,
         labelcolor=INK_2,
         bbox_to_anchor=(0.5, 0.0),
+        title="tactics in kill-chain order — light/cool = source end, dark/warm = sink/objective end",
     )
+    legend.get_title().set_fontsize(8)
+    legend.get_title().set_color(INK_2)
 
 
 def render_walks(
@@ -310,7 +315,7 @@ def render_all(manifest: dict, library: dict, viz_dir: Path = VIZ_DIR) -> list:
     viz_dir.mkdir(parents=True, exist_ok=True)
     catalogue = load_catalogue()
     tactic_order = list(catalogue["tactics"])  # canonical kill-chain order
-    colors = tactic_colors()
+    colors = tactic_colors(tactic_order)
 
     primary = {
         p: library[_cell_id(p, "initial-access", PRIMARY_ARM, "central")]
@@ -379,7 +384,7 @@ if __name__ == "__main__":
 
 __all__ = [
     "N_WALKS",
-    "PHASE_GROUPS",
+    "RAMP_ANCHORS",
     "VIZ_DIR",
     "render_all",
     "render_net_time_to_objective",
