@@ -1,10 +1,29 @@
 ---
-status: open
+status: superseded by ./2026-07-13_l3_mvp_binding_investigation.md
 created: 2026-07-03
+updated: 2026-07-13
 ---
 
 # Scope the tactic→substrate binding (no build): the tactic→action map, cost-only dispositions, the state-over-impact success model, and the CVE→synthetic-CVSS reconciliation design
 
+> **SUPERSEDED (Marc, 2026-07-13) by
+> [`./2026-07-13_l3_mvp_binding_investigation.md`](./2026-07-13_l3_mvp_binding_investigation.md).**
+> Two reasons. (1) This brief pre-commits to a recommended stance —
+> tactic-level wrappers over the six existing substrate verbs — before the
+> design space was examined; Marc's judgement is that a binding which merely
+> re-skins the Petri nets onto the existing phased attacker machinery has
+> been done before and yields no meaningful results, so the stance itself is
+> now a hypothesis to cross-examine, not a starting point. The successor
+> brief re-opens the design space and is written to be executed by a fresh,
+> impartial session. (2) The 2026-07-10 written feedback (register R1–R5)
+> resolved questions this brief carried as open (cost-only confirmed via R5;
+> timescale coupling dissolved via R4) and added axes it does not cover
+> (R2 success rate, R3 styles). The four-section skeleton, the D5/D6/D7
+> grounding, the CVE→synthetic-CVSS pipeline sketch and the reading list
+> below remain valuable inputs — the successor cites them as *candidates and
+> raw material*, not as decisions. Delete this file on the next stale-handoff
+> sweep once the successor is underway.
+>
 > **Scoping only** — the minutes are explicit ("Scope how each state/tactic
 > maps to simulator actions and how attack behaviour overrides the current
 > impact-based success logic (3 layers) — *scoping only this week*"). The

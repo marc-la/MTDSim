@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-03
-topic: "L3 execution model — supervisor decision register (D1–D10)"
+topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5)"
 updated: 2026-07-13
 lineage: formerly docs/notes @ 2026-07-03_supervisor_meeting_l3_decisions.md (relocated in the 2026-07-13 docs refactor)
 ---
@@ -84,12 +84,49 @@ register was encoded:
   flow-proportion regime (explicit normalisation + closed-world assumption,
   at tactic level) is the sanctioned escape, now dispositioned in §(f).
 
+## The 2026-07-10 written feedback (R1–R5)
+
+Jin's written response to Marc's 10-Jul-2026 progress update (the update and
+response held by Marc outside the repo). These rulings extend the D-register;
+they were given in writing, not minuted, and are numbered separately (R) to
+keep the two provenance trails distinct.
+
+- **R1 — Timing evidence regime.** Timing-related papers are not expected to
+  exist ("likely"); where they don't, **assume based on practical reports**.
+  The sanctioned qualitative shape: **observations are long-term, execution is
+  very quick.** This ratifies the shape-not-scale / tiered-validity discipline
+  already in place and *lowers the calibration bar*: no literature-fitting
+  exercise is required before the pipeline MVP; number-justification against
+  practical reports is sequenced after it.
+- **R2 — Success-rate axis.** APT-ness is to be encoded partly through a
+  per-action **attack success rate**, "tuned higher in execution actions for
+  APTs" — a new profile parameter that no prior decision covers. To be
+  investigated during implementation (open handoff), not designed up front.
+- **R3 — Attacker styles.** "Make some predefined profiles of attackers based
+  on some characteristics we define, observed from practical reports etc." —
+  a characteristics-based *style* dimension (speed, success rate) distinct
+  from the L2 operational-objective classes; "we can also try different
+  styles to show how they work against MTD" is an intended result axis.
+  Whether styles compose with or replace the objective classes is unresolved
+  (meeting question). Investigated further down the line.
+- **R4 — Simulation settings are free experimental variables.** "Simulation
+  settings can be updated to suit the experiments." This dissolves the
+  timeline-scale coupling concern (inherited runs at ~5000 s vs net timelines
+  reaching their objective in ~200–500 s): the horizon and MTD intervals are
+  experiment design choices, not fidelity constraints.
+- **R5 — MTD coverage gaps are acceptable.** "If we don't have MTD that
+  influence the tactic, that's fine and we can let it be" — tactics no MTD
+  mechanism can touch are left as-is; layering MTD techniques to cover them
+  is explicitly future work for someone else. This confirms the cost-only
+  disposition for the tactics with no network-state to act on.
+
 ## Still open with the supervisor
 
-- **Cost-only vs proto-IDS for stealth tactics.** Note that
+- **Cost-only vs proto-IDS for stealth tactics — effectively resolved by R5.**
   [`../specs/project_context.md`](../../../workflows/project_context.md) already rules
-  out building IDS — cost-only is the only compliant MVP option; the
-  binding-scoping work proceeds on that basis pending Jin's confirmation.
+  out building IDS, and R5 accepts tactics that MTD cannot influence;
+  cost-only proceeds as the confirmed MVP disposition. Residual: formal
+  ratification at the next meeting alongside the CVE-binding confirmation.
 
 ## How it connects
 
@@ -111,10 +148,19 @@ register was encoded:
   - `handoffs/2026-07-03_l3_timeline_runner.md` (shipped & deleted per handoff lifecycle; see git log)
     — executes **D2** and D1's standalone-examination half, plus **D8**
     (both entries).
-  - [`../handoffs/2026-07-03_l3_binding_scoping.md`](../../../handoffs/2026-07-03_l3_binding_scoping.md)
-    — executes **D5, D6, D7** (scoping only) + the CVE-binding exploration.
+  - [`../handoffs/2026-07-13_l3_mvp_binding_investigation.md`](../../../handoffs/2026-07-13_l3_mvp_binding_investigation.md)
+    — executes **D5, D6, D7** (scoping only) + the CVE-binding exploration,
+    under the R1/R4/R5 rulings. Supersedes the 2026-07-03 binding-scoping
+    handoff, whose recommended stance pre-committed to a verb-wrapping
+    binding; the investigation re-opens the design space impartially.
+  - [`../handoffs/2026-07-13_l3_tactic_operationalisation.md`](../../../handoffs/2026-07-13_l3_tactic_operationalisation.md)
+    — conceptualises the tactic-as-action implementation and carries **R2**
+    (success-rate axis) and **R3** (styles); sequenced after the binding
+    investigation is signed off.
   - [`../handoffs/2026-07-03_l3_replay_attacker.md`](../../../handoffs/2026-07-03_l3_replay_attacker.md)
-    — executes **D1/D2/D5** end-to-end; the capstone.
+    — executes **D1/D2/D5** end-to-end; the capstone. **Deferred** until the
+    binding investigation and tactic-operationalisation scaffolds are signed
+    off (Marc, 2026-07-13).
   - The governance handoff that encoded this register
     (`2026-07-03_l3_governance_meeting_decisions.md`) was deleted in the
     commit that landed this note, per the handoff lifecycle.

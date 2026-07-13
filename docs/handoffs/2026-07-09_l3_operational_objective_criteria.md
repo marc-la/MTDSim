@@ -1,10 +1,27 @@
 ---
-status: open
+status: re-sequenced
 created: 2026-07-09
+updated: 2026-07-13
 ---
 
 # Characterise the four operational objectives from the literature and pre-register per-class timeline acceptance criteria — the behavioural validation set the calibrated runner must pass, sequenced *before* the catalogue v1 freeze
 
+> **RE-SEQUENCED (Marc, 2026-07-13) — post-MVP, with one ordering rule that
+> survives.** The 2026-07-10 written feedback (register R1) confirmed that
+> timing literature is not expected and practical-report justification
+> suffices, and the working priority is the pipeline MVP; the heavy per-class
+> literature dig this brief prescribes therefore moves *after* the MVP, when
+> the numbers get verified against CTI/practical reporting. **One thing must
+> not be re-sequenced with it: the pre-registration ordering.** The per-class
+> criteria commit must still predate any commit (or session) that scores the
+> timelines against them — justifying numbers *after* looking at MVP results
+> is exactly the circularity this handoff exists to prevent. Practical
+> consequence: whenever this is picked up, land step 3 (the criteria doc)
+> before running or reading any scoring, even if steps 1–2 are trimmed to fit
+> the post-MVP schedule. The R1 shape directive (observations long, execution
+> quick) is itself an admissible pre-registered criterion on the occupancy
+> axis.
+>
 > **This is a validation-set build, not a fitting loop.** The timeline runner
 > has ~two global free parameters (the stealth and objective-execution dwell
 > anchors); the per-class behaviour is carried by the *frozen* W-A weights and

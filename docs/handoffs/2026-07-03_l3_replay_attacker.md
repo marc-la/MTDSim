@@ -1,10 +1,27 @@
 ---
-status: open
+status: deferred
 created: 2026-07-03
+updated: 2026-07-13
 ---
 
 # Build the replay attacker — feed the net-generated timelines into MTDSim alongside the 6-phase baseline, run the v1 experiment matrix, and send Dr Hong the pre-semester progress update
 
+> **DEFERRED (Marc, 2026-07-13).** Do not pick this up until the binding
+> investigation
+> ([`./2026-07-13_l3_mvp_binding_investigation.md`](./2026-07-13_l3_mvp_binding_investigation.md))
+> and the tactic-operationalisation scaffold
+> ([`./2026-07-13_l3_tactic_operationalisation.md`](./2026-07-13_l3_tactic_operationalisation.md))
+> are produced and **signed off by the supervisor**. Two things changed since
+> this brief was written: (a) the 2026-07-03 binding-scoping handoff it
+> depended on is superseded — its verb-wrapping stance is no longer the
+> presumed binding, so the contract this build implements does not yet exist;
+> (b) the 2026-07-10 written feedback (register R2/R3) added a per-action
+> success-rate axis and an attacker-style dimension that will likely widen
+> the driver's input contract beyond `ogasp-timeline/v1` + action map. The
+> validation gates and hard constraints below remain sound; re-read the
+> signed-off binding note before executing, and expect §1's consumption
+> contract to change.
+>
 > **The capstone of the v1 chain — run last.** The timeline runner has
 > **SHIPPED** (2026-07-09; its handoff is deleted): the input contract is
 > [`../../data/ogasp/timeline/timeline_schema.md`](../../data/ogasp/timeline/timeline_schema.md)
