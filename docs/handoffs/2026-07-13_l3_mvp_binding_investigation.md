@@ -1,7 +1,28 @@
 ---
-status: open
+status: superseded by ../implementation/pipeline/ogasp/cti_grounding_program.md
 created: 2026-07-13
+updated: 2026-07-13
 ---
+
+> **SUPERSEDED (Marc, 2026-07-13) — its work landed, its framing was reframed.**
+> The impartial enumeration this brief asked for was **produced** and stays valid
+> as candidate analysis:
+> [`../implementation/pipeline/ogasp/binding_design_space.md`](../implementation/pipeline/ogasp/binding_design_space.md)
+> (+ ledger `data/ogasp/timeline/tactic_action_map.csv`, one-pager
+> `binding_signoff_summary.md`). But two things moved the question:
+> (1) comparability was corrected from a hard constraint to **secondary** (R4),
+> re-opening the CVE-grounded route; and (2) Marc reframed the whole question from
+> *"which binding?"* to **"how far can MTDSim be grounded in the CTI ontology?"** —
+> [`../implementation/pipeline/ogasp/cti_grounding_program.md`](../implementation/pipeline/ogasp/cti_grounding_program.md).
+> The MVP-binding-for-sign-off goal is therefore **paused, not cancelled**, and
+> re-sequenced *behind* the grounding program: first the crosswalk-join
+> investigation ([`./2026-07-13_l3_crosswalk_join_investigation.md`](./2026-07-13_l3_crosswalk_join_investigation.md))
+> and Marc's synthesis-layer proposal, *then* a fresh binding re-run written with
+> the grounding depth in hand. **No decision has been made; the work is currently
+> Marc-driven, not pending the supervisor.** Do not re-run this brief as written —
+> its "pick an MVP binding now" framing pre-dates the reframe. Delete on the next
+> stale-handoff sweep once the grounding program is under way. Body retained below
+> for provenance.
 
 # Investigate the Petri-net→MTDSim binding design space impartially — enumerate and cross-examine candidate bindings, position the technique→CAPEC→CWE→CVE→CVSS chain, size the substrate rework, and recommend an MVP binding that is *not* a re-skin of the phased attacker
 

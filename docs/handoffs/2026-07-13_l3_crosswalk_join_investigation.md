@@ -5,6 +5,12 @@ created: 2026-07-13
 
 # Anatomise the ATT&CK → CAPEC → CWE → CVE → CVSS join, reverse-engineer what actually maps, and assess the tractability of grounding MTDSim's vulnerability pool in it — the readings, coverage figures, and visualisations Marc needs to decide *how* attacker techniques meet the substrate (and whether "bind" is even the right frame)
 
+> **North star:** this investigation is step 1 of the grounding program
+> ([`../implementation/pipeline/ogasp/cti_grounding_program.md`](../implementation/pipeline/ogasp/cti_grounding_program.md)) —
+> *how far can MTDSim be grounded in the CTI ontology?* It measures what the
+> latent layers (§ that record's §2) can actually support, so the grounding
+> **depth** can be chosen on evidence.
+>
 > **This is a decision-support investigation, not a build and not the binding
 > decision itself.** Its output is the material — the crosswalk anatomy, the
 > honest coverage numbers pulled from the actual mapping data, worked

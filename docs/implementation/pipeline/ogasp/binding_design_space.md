@@ -10,8 +10,12 @@ topic: "L3b binding design space — impartial cross-examination + MVP recommend
 **Status:** investigation record (codebase-shaped cross-examination; lives in
 `implementation/`, not `notes/`). Produced under
 [`../../../handoffs/2026-07-13_l3_mvp_binding_investigation.md`](../../../handoffs/2026-07-13_l3_mvp_binding_investigation.md).
-The recommendation here is **pending supervisor confirmation** (Dr Jin Hong) and
-is the input to the tactic-operationalisation scaffold
+The recommendation here is **not going to the supervisor as-is** — it is
+**Marc-driven and reframed** (see the Correction banner and
+[`cti_grounding_program.md`](cti_grounding_program.md)): the question moved from
+"which binding?" to "how far can MTDSim be grounded in the CTI ontology?", so the
+depth is decided first and the supervisor sees the recommendation only after the
+grounding proposal exists. This record is the input to the tactic-operationalisation scaffold
 ([`../../../handoffs/2026-07-13_l3_tactic_operationalisation.md`](../../../handoffs/2026-07-13_l3_tactic_operationalisation.md))
 and the deferred replay-attacker build. The one-page sign-off summary is
 [`binding_signoff_summary.md`](binding_signoff_summary.md); the per-tactic ledger

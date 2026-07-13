@@ -1,7 +1,22 @@
 ---
-status: session-seed (companion to 2026-07-13_l3_mvp_binding_investigation.md; not a handoff)
+status: superseded by ../implementation/pipeline/ogasp/cti_grounding_program.md
 created: 2026-07-13
+updated: 2026-07-13
 ---
+
+> **SUPERSEDED (Marc, 2026-07-13).** This seed defined the goal as "one workable
+> MVP bind pipeline, packaged for supervisor sign-off". That goal is **paused and
+> reframed**: comparability is now secondary (R4) and the question became *"how
+> far can MTDSim be grounded in the CTI ontology?"* — the latent-layer program in
+> [`../implementation/pipeline/ogasp/cti_grounding_program.md`](../implementation/pipeline/ogasp/cti_grounding_program.md).
+> The investigation the seed drove was completed
+> ([`../implementation/pipeline/ogasp/binding_design_space.md`](../implementation/pipeline/ogasp/binding_design_space.md));
+> its recommendation is **not** going to the supervisor yet — the work is
+> Marc-driven pending the grounding proposal. The next concrete step is the
+> crosswalk-join investigation
+> ([`./2026-07-13_l3_crosswalk_join_investigation.md`](./2026-07-13_l3_crosswalk_join_investigation.md)),
+> not a re-run of the MVP-binding goal. Retained for provenance; delete on the
+> next sweep.
 
 # Goal — one workable, grounded, defensible MVP bind pipeline across the Petri-net→MTDSim gap, argued into existence and packaged for supervisor sign-off
 
