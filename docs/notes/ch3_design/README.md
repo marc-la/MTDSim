@@ -1,0 +1,5 @@
+# ch3_design — notes feeding the Design & Methodology chapter
+
+What lands here: the *modelling arguments* — how threat intelligence becomes an executable attacker (corpus → technique graph → objective profiles → binding), and the validity defences each step carries. This is the thickest chapter dir; it also hosts [`tactic_profiles/`](tactic_profiles/), the 15 per-tactic evidence profiles with their own [`_rubric.md`](tactic_profiles/_rubric.md). Rubric-gated ([`../../workflows/notes_rubric.md`](../../workflows/notes_rubric.md)).
+
+Reading order for a cold start: [`technique_graph_construction.md`](technique_graph_construction.md) → [`objective_partition_rationale.md`](objective_partition_rationale.md) → [`objective_partition_findings.md`](objective_partition_findings.md) → [`structure_to_behaviour_binding.md`](structure_to_behaviour_binding.md) → [`operational_validation.md`](operational_validation.md); the remaining notes ([`cti_corpus_as_snapshot.md`](cti_corpus_as_snapshot.md), [`operator_concentration.md`](operator_concentration.md), [`uniform_filtering_for_comparison.md`](uniform_filtering_for_comparison.md)) are targeted defences.
