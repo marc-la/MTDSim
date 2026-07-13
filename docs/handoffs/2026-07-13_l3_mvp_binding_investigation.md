@@ -10,11 +10,22 @@ created: 2026-07-13
 > handoff (`2026-07-03_l3_binding_scoping.md`, now superseded) pre-committed
 > to a recommended stance before the design space was examined; this brief's
 > job is the examination. **Impartiality protocol:** enumerate your own
-> candidate space from the substrate code, the committed nets, and precedent
-> (§ approach, steps 1–2) *before* opening the superseded handoff; then fold
-> its material in as one more set of candidates and raw sections, with no
-> presumption it was right. If your independent enumeration converges on its
-> verb-wrapping stance, that convergence is evidence; if it doesn't, say so.
+> candidate space from the substrate code, the committed nets, and the
+> external precedent sweep (§ approach, steps 1–3) *before* opening the
+> superseded handoff; then fold its material in as one more set of candidates
+> and raw sections, with no presumption it was right. If your independent
+> enumeration converges on its verb-wrapping stance, that convergence is
+> evidence; if it doesn't, say so.
+>
+> **This is a deep-research task, not a repo-summary task.** The design
+> space must be built from *both* directions: inward from the substrate and
+> nets, and outward from the world — literature, existing frameworks,
+> open-source codebases, via web search and fetching (sanctioned for this
+> handoff; the `deep-research` and `dissect-paper` skills are available and
+> appropriate). The record must contain candidates and considerations Marc
+> has *not* already written down somewhere in this repo — surfacing ideas he
+> hasn't considered is a stated goal, not a nice-to-have. Repo-internal
+> enumeration alone fails the gate.
 >
 > **The deliverable is a scaffold for supervisor sign-off, not code.** Marc
 > presents the recommended binding to Dr Hong before anything is
@@ -110,11 +121,53 @@ and precedent, enumerate candidate bindings across at least these axes
 - **Substrate rework:** for each candidate, the **minimal change set**,
   file-by-file, and whether the synthetic vuln model (no CVE keys, random
   impact, complexity pricing) needs rework at all — versus an overlay —
-  versus deferral. Any pool-touching design states its comparability
-  invariant (the aggregate CVSS distribution stays fixed so baseline MTTC is
-  untouched, per [`../implementation/metrics_semantics.md`](../implementation/metrics_semantics.md)).
+  versus deferral. Treat the substrate as **malleable within the D5
+  boundary**: what is frozen is the *behaviour* of the network / MTD /
+  statistics paths under the baseline attacker (the goldens define
+  "unchanged"), not the codebase itself — attacker-side additions, new
+  records, and overlays that leave baseline runs byte-identical are
+  legitimate design material, and a candidate should say precisely which
+  parts it bends and which it leaves alone. Any pool-touching design states
+  its comparability invariant (the aggregate CVSS distribution stays fixed
+  so baseline MTTC is untouched, per
+  [`../implementation/metrics_semantics.md`](../implementation/metrics_semantics.md)).
 
-**2 — Cross-examine every candidate against five criteria, argued in prose,
+**2 — Sweep the external precedent space (the outward direction).** Web
+search, literature and codebase survey aimed at one question: *how has
+anyone ever bound an abstract attacker model (graph, net, plan, policy) to
+an executable environment, and what of it transfers to this seam?* Starting
+points — explicitly starting points, not boundaries; the sweep should go
+where the material leads:
+
+- **Adversary emulation:** MITRE Caldera (abilities / adversary profiles /
+  facts as pre/post-conditions), Atomic Red Team, MITRE CTID adversary
+  emulation plans — how they operationalise techniques into executable
+  steps.
+- **Security simulation / RL environments:** CyberBattleSim, CybORG, NASim,
+  Yawning Titan and kin — how they define attacker action spaces over
+  synthetic networks, and what their action↔state contracts look like.
+- **Attack-graph and model-driven tooling:** MulVAL, BRON, the MAL family
+  (coreLang etc.), ADVISE / Möbius-style stochastic attack formalisms,
+  Petri-net attack models — how formal attacker state maps to concrete
+  system elements.
+- **The crosswalk data itself:** the published ATT&CK↔CAPEC↔CWE↔CVE
+  mappings (CTID, BRON) — what they actually contain and whether the chain
+  Marc proposed is populated densely enough to be load-bearing at MVP.
+- Anything else the search surfaces: BAS tooling concepts, purple-team
+  automation, academic "ATT&CK-to-simulation" papers, GitHub
+  implementations.
+
+Each surveyed item gets a verdict — *transfers / partially transfers (what
+part) / doesn't (why)* — and anything load-bearing gets an extraction stub
+under `docs/sources/extractions/` before the record cites it
+(papers-are-claims is a discipline on citing, **not** a deterrent to
+digging; follow the acquisition split — OA/arXiv/blogs/docs fetched
+directly, paywalled items onto Marc's download list). Fold what transfers
+back into the step-1 candidate space — **at least one end-to-end candidate
+must originate here or from first principles, appearing in no existing repo
+document.**
+
+**3 — Cross-examine every candidate against five criteria, argued in prose,
 kill/keep verdict each:** (a) **distinguishability** — the anti-goal test
 above, the first gate; (b) **MVP practicality** — effort to preliminary
 results, honestly sized; (c) **academic richness** — is there a defensible
@@ -125,14 +178,14 @@ styles, and the two-way upgrade without redesign? Where criteria conflict
 (they will — richness vs practicality above all), argue the trade explicitly
 rather than averaging.
 
-**3 — Only now read the superseded handoff**
+**4 — Only now read the superseded handoff**
 ([`./2026-07-03_l3_binding_scoping.md`](./2026-07-03_l3_binding_scoping.md))
 and fold in: its four-section skeleton, its CVE-reconciliation sketch, its
 MTD-interruption policy candidates, its cost-only reasoning (now
 R5-confirmed). Record where your independent enumeration agreed and
 disagreed with its stance — that record is the impartiality evidence.
 
-**4 — Recommend one MVP binding + ledger scaffold.** The per-tactic ledger:
+**5 — Recommend one MVP binding + ledger scaffold.** The per-tactic ledger:
 every tactic-place in the L3a union, with (at minimum) its bound
 action/behaviour, realisation condition, cost-only rationale where
 applicable (R5), MTD-interruption disposition, and the R2/R3/two-way
@@ -155,23 +208,30 @@ Done when:
 1. The investigation record enumerates the design space across all five axes
    with **at least three materially distinct end-to-end candidates** (not
    variations on one), each with a kill/keep verdict argued against the five
-   criteria.
+   criteria — **at least one candidate appearing in no existing repo
+   document** (from the external sweep or first principles).
 2. **Every candidate carries the distinguishability test** — the named
    substrate-observable behaviour separating classes from each other and
    from the 6-phase baseline — and no re-skin survives.
-3. The technique→CAPEC→CWE→CVE→CVSS chain has an explicit position (MVP /
-   v1.1 / future work) with the comparability invariant stated if it touches
-   the vuln pool, and marked **pending supervisor confirmation**.
-4. The substrate minimal-change set is stated file-by-file for the
+3. **The external sweep is evidenced:** the record surveys the emulation /
+   simulation-environment / attack-graph precedent space with a
+   transfers / partially / doesn't verdict per item, extraction stubs exist
+   in `docs/sources/extractions/` for everything load-bearing, and paywalled
+   items are on Marc's download list rather than silently skipped.
+4. The technique→CAPEC→CWE→CVE→CVSS chain has an explicit position (MVP /
+   v1.1 / future work) grounded in what the crosswalk data actually contains
+   (step 2, not assumption), with the comparability invariant stated if it
+   touches the vuln pool, and marked **pending supervisor confirmation**.
+5. The substrate minimal-change set is stated file-by-file for the
    recommended candidate, and it respects D5 (attacker-only; no behavioural
    change to network/MTD/statistics paths).
-5. The per-tactic ledger scaffold covers every tactic-place in the L3a
+6. The per-tactic ledger scaffold covers every tactic-place in the L3a
    union, with rationale per row and R5 recorded on every cost-only row.
-6. The one-page sign-off summary exists; Marc has reviewed the record before
+7. The one-page sign-off summary exists; Marc has reviewed the record before
    it goes to Jin.
-7. The impartiality evidence exists: the record states what was enumerated
+8. The impartiality evidence exists: the record states what was enumerated
    before the superseded handoff was read, and where they diverged.
-8. **No code changes anywhere.**
+9. **No code changes anywhere.**
 
 ## Hard constraints
 
@@ -188,9 +248,11 @@ Done when:
 - **R2 (success rate) and R3 (styles) are out of scope** — extension points
   to preserve, not axes to design; they belong to the
   tactic-operationalisation handoff.
-- **Papers are claims** — BRON / CTID crosswalks / Caldera internals are
-  unextracted; reconcile before citing
-  ([`../workflows/guardrails.md`](../workflows/guardrails.md)).
+- **Papers are claims** — a discipline on *citing*, never a reason not to
+  dig: web search, fetching and codebase reading are sanctioned and
+  expected, but nothing external is cited in the record without an
+  extraction stub (one source per pass), and paywalled material goes on
+  Marc's download list ([`../workflows/guardrails.md`](../workflows/guardrails.md)).
 - Envelope-not-actor phrasing; Australian English; branch hygiene; **never
   push without an explicit ask**.
 
@@ -223,8 +285,9 @@ Done when:
   off.
 - Designing the R2 success-rate model or R3 style vectors
   ([`./2026-07-13_l3_tactic_operationalisation.md`](./2026-07-13_l3_tactic_operationalisation.md)).
-- Acquiring/ingesting BRON, CTID mappings, or NVD data — position the chain;
-  ingestion follows supervisor confirmation.
+- Ingesting BRON, CTID mappings, or NVD data *into the pipeline* —
+  inspecting the published mappings to gauge their coverage and density is
+  in scope (step 2); wiring them in follows supervisor confirmation.
 - Detection/IDS, adaptive policies, multi-token concurrency, two-way
   coupling (upgrade-path notes only).
 - Timing calibration (re-sequenced post-MVP per R1; see the re-sequenced
