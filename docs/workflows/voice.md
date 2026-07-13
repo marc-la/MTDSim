@@ -45,14 +45,15 @@ The failure mode this file exists against has been named by an assessor of the p
 
 ## (d) How sentences sound
 
-- **Paired opposition is the signature move.** Antithesis across a semicolon — *what X changes is A; what X cannot touch is B* — and the X-not-Y compression (*a bound, not an estimate*; *defended, not demonstrated*; *deferred, not dropped*). Use it where the contrast is load-bearing; it dulls with overuse.
-- **Em-dashes carry argument, not decoration.** An interpolation earns its dashes by adding a turn to the argument (*"But — and this is the hinge — …"*). If the aside could be deleted without loss, delete it.
-- **Long sentences are allowed when controlled; verdict sentences are short.** After a long build, land on a short one. Vary shape — three consecutive sentences with the same skeleton is a redraft signal.
+- **Paired opposition is the signature move.** Antithesis across a semicolon — *what X changes is A; what X cannot touch is B* — and the X-not-Y compression (*a bound, not an estimate*; *defended, not demonstrated*). The authored substrate is the loose form — *rather than*, *not …, more along the lines of …* — with the tight comma form and the semicolon antithesis as its formal-register compressions; all are licensed. Use it where the contrast is load-bearing; it dulls with overuse.
+- **Interpolations carry argument, not decoration — and the authored device is the parenthesis.** Marc's hand tags its own claims inline with a parenthesised status, scope, or gloss (*"(less important at this stage)"*, *"(my feedback is non exhaustive)"*); the em-dash turn (*"But — and this is the hinge — …"*) is the ratified-register alternative and the rarer of the two. Either way, an aside that could be deleted without loss is deleted.
+- **Long sentences are allowed when controlled; verdict sentences are short.** After a long build, land on a short one. The authored instinct is the clipped fragment (*"These are design choices."*) — in formal register, polish it into a short full sentence; do not sand it away. Vary shape — three consecutive sentences with the same skeleton is a redraft signal.
+- **Two-beat anaphora is a native device.** The same opener twice for parallel claims (*"…, yet to be seen. …, yet to be seen."*): deliberate, in pairs, never runs of three — distinct from the accidental symmetric openers banned in §h.
 - **Present tense, active by default.** Passive only where the agent is genuinely irrelevant. Cited work acts as a subject: *"\citet{author2020} derive…"*, not *"estimates were derived in \citep{author2020}"*.
 - **Controlled vividness, rationed.** One pointed, plain-English sentence per section that *compresses* the argument rather than decorates it — the sentence a reader would quote back. Never two in a row; never as ornament.
 - **Emphasis is semantic and sparse.** Italics introduce a term at first fix; bold marks a load-bearing claim or fixed term (markdown) — in LaTeX, `\emph` only. Emphasis that merely raises volume is removed.
-- **Headings state what the section is on — nothing more.** The arguing is done by prose; a heading that performs (a claim, a flourish, a mini-thesis) is over-dressed for the register. Marc's ruling, verbatim: headings that *"try to do more than just state what the section is on"* are not academically aligned. (Note *titles* under the notes rubric are the one exception: a note is filed by its claim.)
-- **The working vocabulary is allowed through.** Marc's own evaluation lexicon — *grounded*, *defensible*, *tradeoff*, *distil* — is part of the voice; prefer these over synonyms when judging or positioning work. Sparingly: seasoning, not scaffolding.
+- **Headings state what the section is on — nothing more.** The arguing is done by prose; a heading that performs (a claim, a flourish, a mini-thesis) is over-dressed for the register. Marc's ruling, verbatim: headings that *"try to do more than just state what the section is on"* are not academically aligned. (His native working-structure poses a section as the question it answers — that interrogative form stays licensed where the rubric licenses it, note titles above all; in thesis headings it is out of register by the same ruling.)
+- **The working vocabulary is allowed through.** Marc's own evaluation lexicon — *defensible* (attested in his prompts *and* his authored prose), *grounded*, *tradeoff*, *distil* (prompt-attested) — is part of the voice; prefer these over synonyms when judging or positioning work. Sparingly: seasoning, not scaffolding.
 - **Australian English throughout** (-ise, -our, *defence*), per the [guardrails](guardrails.md).
 
 ## (e) Terminology and evidence
@@ -61,7 +62,7 @@ The failure mode this file exists against has been named by an assessor of the p
 - **No synonym rotation.** The same technical thing gets the same word every time. Elegant variation is for objects, not concepts.
 - **Internal codenames**: defined-or-absent in notes (per the rubric); **absent, full stop, in `thesis/`** — the dissertation never uses a repo-internal name, whatever the current crop is.
 - **Cited or flagged, never silently asserted.** In notes, an unsourced empirical claim carries an in-text *citation anchor to reconcile*. In `thesis/`, anchors are not permitted: a claim is cited (`\citep`/`\citet`) or the sentence does not commit to it. Never assert a paper wrong; never attribute a source unread.
-- **Epistemic status is explicit**: demonstrated vs designed vs conjectured, stated where the reader needs it, not in a distant caveat.
+- **Epistemic status is explicit**: demonstrated vs designed vs conjectured, stated where the reader needs it, not in a distant caveat. Beliefs carry their source — assumed, reported, observed, verified — which formalises the authored habit (*"I am assuming, and my impression from prior meetings"*).
 
 ## (f) The hard gate for `thesis/` — run per section, before committing LaTeX
 
@@ -84,6 +85,7 @@ A section failing any check is redrafted before commit. For `notes/`, run the sa
 - **The genre firewall.** Prompt evidence admits reasoning moves only. Conversational artefacts of prompting — filler hedges, telegraphic fragments, informal cadence — are speech, not voice, and never become prose rules.
 - **No rule enters from taste alone** — not from a style guide, not from model priors. If a rule can't be pointed at surviving prose or recurring prompt evidence, it doesn't belong.
 - **Stay first-principles.** No rule may bind to thesis content, framings, or terminology; if an example drifts into project specifics, schematise it.
+- **Evidence status (2026-07-13).** Argumentation rules: grounded in the prompt corpus, corroborated by authored working prose (strongest: concession-up-front, epistemic tagging, enumeration, concrete grounding). Sentence rules: ratified-corpus, except where authored evidence corrected the device — parenthesis over em-dash, the anaphora and hedge-layering carve-outs, the loose opposition forms. The authored corpus is small (~900 words of working register): enough to correct devices, not to ground cadence, so §d remains this file's most provisional layer. Evidence records live with the assistant memory, not the repo — Marc's verbatims are not committed.
 - Bump `updated` on material change; keep the file lean — this is a contract, not an essay on style.
 
 ## (h) Banned tells — the machine leaks to remove on sight
@@ -96,10 +98,10 @@ A section failing any check is redrafted before commit. For `notes/`, run the sa
 | *Moreover / Furthermore / Additionally* chains | Connect by logic — cause, contrast, consequence — or start the new claim plainly |
 | Rule-of-three adjective triads (*fast, scalable, and efficient*) | One precise adjective, or the mechanism that makes it so |
 | Bold-term-colon listicles as argument (*"**Flexibility:** the system…"*) | Prose that argues; enumerate-then-walk if it's genuinely a list |
-| Hedging stacks (*may potentially suggest*) | One calibrated hedge, then commit — or flag the claim as open |
+| Decorative hedge-stacking (*may potentially suggest*) | One calibrated hedge, then commit — or flag the claim as open. (Epistemic layering — successive hedges each scoping a *different* part of the claim — is an authored habit and stays licensed.) |
 | Empty signposting (*"In this section, we will discuss…"*) | Functional signposting that says what each part *does*: *"Section X derives the parameters; Section Y draws out the pattern they form."* |
 | Rhetorical questions as transitions | A question only when it is a real, attributed question the text then answers |
-| Symmetric paragraph openers across a section | Vary the entry point: claim, contrast, consequence, concession |
+| Symmetric paragraph openers across a section | Vary the entry point: claim, contrast, consequence, concession. (Deliberate two-beat anaphora per §d is exempt — it is a device, not a tic.) |
 
 ## (i) Calibration
 
