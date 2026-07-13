@@ -52,16 +52,28 @@ dispatch module.
   rejected: the timeline would be decorative and every class would produce the
   baseline's greedy walk. This is the anti-goal; it is dead on the
   distinguishability test.
-- **The technique → CAPEC → CWE → CVE → CVSS chain as the bridge** — rejected for
-  MVP, positioned as future work: the substrate's vulnerabilities are synthetic
-  (no CVE keys), so the chain yields a *label*, not a *join*; and the published
-  crosswalks are sparse at every hop (~419 CVEs curated to ATT&CK; ~112/546
-  CAPECs mapped). It only becomes worthwhile if the substrate ever adopts real
-  NVD CVEs. **This is the item most needing your explicit confirmation.**
+- **The technique → CAPEC → CWE → CVE → CVSS chain as the bridge** — **re-opened
+  as a live candidate (corrected 2026-07-13).** Earlier I rejected it because the
+  synthetic pool has no CVE key to join onto — but that assumed the pool is
+  fixed. If instead the pool is **constructed from** the crosswalk (seed real
+  CVE/CWE/CVSS into MTDSim), the join is native and the technique drives
+  vuln-level selection — the one lever that is genuinely *not* a re-skin. The
+  real open questions are **coverage** (how much of ATT&CK reaches a CVE+CVSS —
+  sparse: ~419 curated CVEs, ~112/546 CAPECs) and **seeding tractability**,
+  which the crosswalk-join investigation
+  ([`../../../handoffs/2026-07-13_l3_crosswalk_join_investigation.md`](../../../handoffs/2026-07-13_l3_crosswalk_join_investigation.md))
+  works out before the binding is re-decided. Comparability with Zhang/Tay is
+  **not** a blocker (R4; it was already invalid).
 - **Full two-way coupling (the net stepping inside the simulator)** — rejected for
   v1 per D2; it stays the deferred end goal, and C3 keeps the on-ramp to it.
 
 ## Decisions I need from you
+
+> **Note (2026-07-13):** decisions 1–4 below assumed comparability was a hard
+> constraint. That is corrected — comparability is secondary (R4), so the
+> CVE-grounded binding is back on the table and Marc is re-running the binding
+> investigation after the crosswalk-join investigation lands. Treat 1–4 as the
+> *conditional* recommendation if the CVE route proves intractable.
 
 1. **Confirm C1→C2 staged** as the MVP binding (or redirect). In particular:
    confirm that bringing the **capability contract forward into v1** is right —

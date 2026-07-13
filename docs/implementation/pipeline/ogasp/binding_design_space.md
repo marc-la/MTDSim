@@ -17,6 +17,39 @@ and the deferred replay-attacker build. The one-page sign-off summary is
 [`binding_signoff_summary.md`](binding_signoff_summary.md); the per-tactic ledger
 is [`../../../../data/ogasp/timeline/tactic_action_map.csv`](../../../../data/ogasp/timeline/tactic_action_map.csv).
 
+> **Correction — 2026-07-13 (Marc). Read before the rest of this record; a
+> re-run of the recommendation is expected.**
+> This record treated substrate comparability — the frozen vuln-pool
+> distribution, the untouched goldens, D5 attacker-only — as a **hard
+> constraint**, and let it drive both the §5(d) blast-radius scoring and the
+> deferral of the CVE-grounded binding (§8). **That weighting is corrected.**
+> Per **R4** ("simulation settings can be updated to suit the experiments")
+> and Marc's direction, this work does **not** need 1:1 comparison to
+> Zhang/Tay — which is `INVALID` regardless
+> ([`../../metrics_semantics.md`](../../metrics_semantics.md) §d) — so
+> preserving pool-distribution comparability is a **secondary consideration,
+> not a dealbreaker.** Re-baselining the goldens on a changed substrate is an
+> accepted, logged operation ([`../../../../baseline/CHANGELOG.md`](../../../../baseline/CHANGELOG.md)),
+> not a prohibition. Consequences:
+> - **The CVE-grounded binding (C0b) is re-opened as a live candidate**, not a
+>   deferred bracket. Its "terminus problem" (§8) was an artefact of assuming
+>   the pool is a *fixed synthetic set to join onto*; it **dissolves** if the
+>   pool is **constructed from** the crosswalk — seed real CVE/CWE/CVSS into
+>   MTDSim's `Vulnerability` model so techniques bind by construction. The real
+>   open questions become **coverage/tractability** (how much of ATT&CK
+>   actually reaches a CVE+CVSS through the published crosswalks) and **seeding
+>   mechanics** (CVSS vector → the substrate's complexity/impact/exploit_time).
+> - The **framing question** Marc raised — *is "bind" even the right question,
+>   vs "ground/construct the substrate in the CTI ontology" so the join is
+>   native?* — is carried forward, and a **synthesis mapping layer** is itself
+>   a candidate join strategy.
+> - The §5(d) weighting and the §6 recommendation should be **re-run** with
+>   comparability demoted.
+> Both precede the re-run:
+> [`../../../handoffs/2026-07-13_l3_crosswalk_join_investigation.md`](../../../handoffs/2026-07-13_l3_crosswalk_join_investigation.md)
+> — the ATT&CK↔CAPEC↔CWE↔CVE↔CVSS anatomy, coverage, seeding tractability,
+> reading list and visualisations a CVE-grounded-binding decision needs.
+
 ---
 
 ## 0. What this record answers, and the bar it clears
@@ -398,9 +431,17 @@ is untouched ([`../../metrics_semantics.md`](../../metrics_semantics.md) §(d)).
 
 ## 8. The technique→CAPEC→CWE→CVE→synthetic-CVSS chain — position
 
-**Position: dissertation-defensible future work (or a v1.1 enrichment *iff* the
-substrate adopts NVD CVEs), NOT the MVP semantic bridge. Pending supervisor
-confirmation.** Grounded in what the crosswalks *actually contain*
+> **Corrected 2026-07-13 (see the top banner):** the position below is
+> **superseded** — the CVE-grounded binding is now a **live candidate**, not
+> deferred future work. Reasons (1) [terminus] and (2) [density] below are
+> re-read as follows: (1) *dissolves* under a **constructed** pool (seed CVEs
+> in, don't join onto synthetic), and (2) becomes the central *tractability*
+> question the crosswalk-join handoff investigates rather than a reason to
+> defer. The comparability invariant is now secondary (R4), not a gate.
+
+**Original position (retained for the record): dissertation-defensible future
+work (or a v1.1 enrichment *iff* the substrate adopts NVD CVEs), NOT the MVP
+semantic bridge.** Grounded in what the crosswalks *actually contain*
 ([`../../../sources/extractions/attack_crosswalk_density.md`](../../../sources/extractions/attack_crosswalk_density.md)),
 not in an assumption of density:
 
@@ -432,9 +473,11 @@ initial-access per D8).
 **Forecloses (things this design rules out, not merely postpones):** a binding
 where the net's transition dice are *overridden* by a net-level success model
 (D7 keeps the substrate's dice; the net gates, it does not re-roll); any binding
-that flattens class routing back into the fixed phase loop (the anti-goal); any
-pool-touching design that moves the aggregate CVSS distribution (breaks the
-goldens).
+that flattens class routing back into the fixed phase loop (the anti-goal).
+*(The earlier third foreclosure — "any pool-touching design that moves the
+aggregate CVSS distribution" — is **withdrawn** per the top banner: a
+pool-touching, re-baselined design is now permitted; comparability is secondary,
+R4.)*
 
 **The residual risk, stated:** if C1+C2 still fail to separate the classes under
 MTD, the executable track inherits the negative-result disposition declared at

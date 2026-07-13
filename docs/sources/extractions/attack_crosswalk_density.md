@@ -48,27 +48,36 @@ marked **verify-before-citing** (papers-are-claims).
   techniques** — an existence proof of technique→asset precondition modelling,
   not broad coverage.
 
-### Transfer verdict for the technique→CAPEC→CWE→CVE→synthetic-CVSS chain
+### Transfer verdict for the technique→CAPEC→CWE→CVE→CVSS chain
 
-- **Verdict: DOES NOT TRANSFER as an MVP binding bridge; DEFER to future work.**
-  Two independent reasons, either sufficient:
-  1. **Terminus problem (decisive).** The chain terminates at a *CVE*, and the
-     MTDSim substrate's vulnerabilities are **synthetic — no CVE keys**
-     ([`../../implementation/substrate_primer.md`](../../implementation/substrate_primer.md) §(b).3).
-     So even a perfect crosswalk yields a *label*, never a *join*: the best it
-     can do is stamp a CWE/CAPEC-derived tag onto a synthetic vuln. A tag
-     changes nothing behaviourally unless something *reads* it — and what would
-     read it is the C3 policy layer, which is post-MVP.
-  2. **Density problem (corroborating).** Every hop is sparse (figures above),
-     so even the label would be low-confidence and low-coverage — many
-     techniques reach no CVE at all through the published crosswalks.
-- **Position:** the chain is **dissertation-defensible future work** (or a v1.1
-  enrichment *if* the substrate ever adopts NVD CVEs — the trigger the primer
-  §(b).3 and ch3 revisit-conditions already name), **not** the MVP semantic
-  bridge. The MVP bridge is the direct hand-authored tactic→verb map (D6) plus
-  the C2 capability contract. Any future tag overlay must hold the aggregate
-  CVSS distribution fixed (metrics_semantics §(d) comparability invariant) so
-  baseline MTTC is untouched.
+> **Corrected 2026-07-13 (Marc):** the earlier "DOES NOT TRANSFER / decisive
+> terminus problem" verdict is **withdrawn.** It assumed the substrate's vuln
+> pool is a *fixed synthetic set to join onto*. If the pool is instead
+> **constructed from** the crosswalk (seed real CVE/CWE/CVSS into MTDSim's
+> `Vulnerability` model), the terminus problem dissolves — the join is native.
+> And comparability with the frozen synthetic pool is now **secondary** (R4),
+> not a gate. See the crosswalk-join investigation handoff.
+
+- **Revised verdict: LIVE CANDIDATE, tractability-gated.** The chain is a real
+  binding route once the substrate is *grounded in* the CTI ontology rather than
+  joined onto a synthetic pool. What remains open is **not** feasibility of the
+  idea but two empirical questions the join investigation must answer:
+  1. **Coverage/tractability.** Every hop is sparse (figures above): how much of
+     the ATT&CK technique set actually reaches a CVE *with a usable CVSS vector*
+     through the published crosswalks (BRON / CTID / CVE2CAPEC)? The yield sets
+     how much of the attacker's technique vocabulary can bind natively vs needs
+     a fallback (hand-authored map or a **synthesis mapping layer**).
+  2. **Seeding mechanics.** How a CVE's CVSS base vector maps onto the
+     substrate's `complexity` / `impact` / `exploit_time` model
+     ([`../../mtdnetwork/component/services.py`](../../mtdnetwork/component/services.py)) —
+     e.g. Attack-Complexity → `complexity`, impact metrics → `impact`.
+- **Alternatives to the direct chain (also for the join investigation):** the
+  **CWE/technique tag overlay** on an unchanged synthetic pool (comparability-
+  safe but behaviourally thin — the tag can't correlate with complexity without
+  moving the distribution); and a **synthesis mapping layer** (a designed
+  intermediate representation mediating technique↔vuln, decoupling the attacker
+  vocabulary from the pool's realism). Which is right is the join investigation's
+  question, not settled here.
 - **What DOES transfer:** BRON/CVE2CAPEC are useful *inspection* tools to gauge,
   per technique, whether any CVE path exists — useful for the future-work
   feasibility check, not for the v1 pipeline (in-scope per the brief: inspect
