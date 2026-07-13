@@ -12,7 +12,7 @@ created: 2026-07-03
 > [`./2026-07-03_l3_replay_attacker.md`](./2026-07-03_l3_replay_attacker.md).
 >
 > **Depends on** the D5/D6/D7 scope decisions, now registered durably in
-> [`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](../notes/2026-07-03_supervisor_meeting_l3_decisions.md)
+> [`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)
 > (the governance handoff that held them was deleted when its work shipped). Can start immediately after it — in parallel
 > with the weighting/durations/runner chain — but **finalises against the
 > runner's committed timeline schema** (soft dependency: the binding consumes
@@ -30,7 +30,7 @@ created: 2026-07-03
 ## State of play
 
 - **The ontology gap is the reason this layer exists** (the note
-  [`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md)
+  [`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/ch3_design/structure_to_behaviour_binding.md)
   §2, still fully current): the profile speaks ATT&CK tactic/technique; the
   substrate speaks host/service/vulnerability (synthetic CVSS). No shared join
   key. The binding is the contract between the two — and it is the part the
@@ -51,7 +51,7 @@ created: 2026-07-03
   Defence-Evasion, Persistence, Command-and-Control, Exfiltration) — some
   exist precisely to introduce stealth and only become meaningful with a
   detection state. **IDS is culled project-wide**
-  ([`../specs/project_context.md`](../specs/project_context.md)), so the MVP
+  ([`../specs/project_context.md`](../workflows/project_context.md)), so the MVP
   disposition is **cost-only** (the state consumes time and produces a record,
   acts on nothing) — this executes D6 ("manually define reasonable
   connections/values as a starting point; detection/evasion later"). Record
@@ -66,7 +66,7 @@ created: 2026-07-03
 
 ## Recommended approach
 
-**Deliverable = one scoping note** (`docs/notes/2026-07-XX_l3_binding_scoping.md`)
+**Deliverable = one scoping note** (`docs/notes/ch3_design/<topic>.md`, gated by `docs/workflows/notes_rubric.md`)
 **+ one draft mapping CSV** (`data/ogasp/timeline/tactic_action_map.csv`), covering four
 sections:
 
@@ -97,7 +97,7 @@ expected exploit); (b) **objective-read success** — "attack succeeded" derived
 from the class objective (exfiltration/impact visited *and* substrate-realised)
 rather than raw impact score; (c) hybrid. Recommend one, with the comparability
 consequence for MTTC spelled out (the compromise-time event definition in
-[`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(a) must
+[`../specs/metrics_semantics.md`](../implementation/metrics_semantics.md) §(a) must
 keep meaning the same thing for the procedural baseline).
 
 **3 — CVE → synthetic-CVSS reconciliation design.** Specify the mapping
@@ -155,13 +155,13 @@ Done when:
   tag pipeline is the only sanctioned bridge, and the pool's aggregate CVSS
   distribution is invariant.
 - **Papers are claims**: BRON / CTID / MulVAL are unextracted — reconcile
-  before citing ([`../specs/guardrails.md`](../specs/guardrails.md)).
+  before citing ([`../specs/guardrails.md`](../workflows/guardrails.md)).
 - Envelope-not-actor phrasing throughout; Australian English; branch hygiene;
   **never push without an explicit ask**.
 
 ## Reading list
 
-- [`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md)
+- [`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/ch3_design/structure_to_behaviour_binding.md)
   — §2 (ontology gap), §4 (binding levels), §5 (encoding ledger), §8 (APT
   properties → knobs). The conceptual base; this handoff re-cuts it for the
   one-way v1.
@@ -171,7 +171,7 @@ Done when:
 - [`../../mtdnetwork/component/services.py`](../../mtdnetwork/component/services.py)
   — the synthetic vuln model (complexity/cvss/exploit_time/dependent_vuln_id)
   the tag design overlays.
-- [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(a) — the
+- [`../specs/metrics_semantics.md`](../implementation/metrics_semantics.md) §(a) — the
   MTTC event definition the success model must not silently change.
 - [`../../data/ogasp/timeline/timeline_schema.md`](../../data/ogasp/timeline/timeline_schema.md)
   (+ committed example) — the timeline schema this binding consumes

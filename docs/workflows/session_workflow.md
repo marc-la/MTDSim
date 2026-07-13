@@ -28,7 +28,7 @@ The convention is **stage-commit per logical unit, push never** (until Marc asks
 1. **Snapshot state.** `git status --short` to see what's dirty. `git diff` to recall the change.
 2. **Stage deliberately, by file.** `git add path/to/file.py path/to/file.md`. Do **not** use `git add -A` or `git add .` — the repo contains files that change for non-session reasons (see "What never gets auto-staged" below).
 3. **Write the message.** One line, present tense, focused on the *why*. Match the existing log's tone (`git log -10 --oneline`).
-4. **Commit.** Include `Co-Authored-By: Claude Opus 4.7 <noreply@anthropic.com>`.
+4. **Commit.** Include the acting model's `Co-Authored-By` trailer (e.g. `Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>`).
 5. **Stop.** Do not push. Marc reviews the local branch, then pushes (or asks you to) when satisfied.
 
 There is no auto-commit hook. The convention does the work; the hook would just be a foot-gun against the never-push-main rule.
@@ -58,16 +58,18 @@ The next session should be able to start cold from the handoff alone.
 
 ## Notes workflow
 
-When the current session surfaces something dissertation-worthy — a mechanism worth describing, a methodological tradeoff worth defending, an observation worth citing later — write it down as a **note**.
+When the current session surfaces something dissertation-worthy — an argument worth making, a methodological tradeoff worth defending, a finding worth citing later — write it down as a **note**. Notes are the dissertation's staging layer: they feed [`../thesis/dissertation.tex`](../thesis/dissertation.tex) almost directly, so the entry bar is high.
 
-**Where:** [`../notes/`](../notes/) — naming `YYYY-MM-DD_<topic>.md`.
+**Gate:** load [`notes_rubric.md`](notes_rubric.md) in full and run its cross-examination checklist *before* committing. A note that cannot yet clear the rubric is not a note — park the material in a handoff, or route it to [`../implementation/`](../implementation/) if it is really an investigation record (the placement criterion is in [`docs_map.md`](docs_map.md)).
+
+**Where:** [`../notes/<chapter>/`](../notes/) — the subdir is the dissertation chapter the idea lands in (`ch2_background/`, `ch3_design/`, …; chapter map in [`docs_map.md`](docs_map.md#notes--the-dissertations-staging-layer)). Naming: topical slug, no date prefix (`post_ingress_mtd_gap.md`); dates live in frontmatter.
 
 **Lifecycle:**
-- **Created** in-session when the user asks, or when an observation is clearly thesis material.
-- **Updated** when the underlying truth changes and the note would mislead.
-- **Kept indefinitely** — these are dissertation source material.
+- **Created** in-session when the user asks, or when an observation is clearly thesis material — and it clears the rubric.
+- **Updated** when the underlying truth changes and the note would mislead; bump `updated` in the frontmatter.
+- **Superseded, not deleted** once absorbed into the dissertation or replaced (`status: superseded` + pointer).
 
-**Contents** (use [`../notes/_template.md`](../notes/_template.md)): plain English aimed at Marc's later self writing the dissertation. Cross-link to specs liberally. Avoid jargon that doesn't already exist in `mtdsim_spec.md`.
+**Contents** (use [`../notes/_template.md`](../notes/_template.md)): formal academic prose readable by Marc's supervisor *without the repo* — internal terminology defined or absent, repo paths confined to the evidence footer. Full contract in the rubric.
 
 ## Session-start checklist
 
@@ -87,7 +89,7 @@ At session start, if a handoff exists for completed work, delete it. If it's bee
 - `.env`, `*.key`, `credentials*.json`, anything token-shaped — refuse and warn even if Marc asks.
 - Files Marc is concurrently editing (check `git status` at session start; if a file you didn't change shows as modified, leave it alone).
 - Generated experiment outputs (`experiments/`, `snapshots/`, `experimental_data/` — already `.gitignore`d but listed for clarity).
-- `docs/sources/` — gitignored copyrighted material.
+- `docs/sources/` — gitignored copyrighted material (`docs/sources/extractions/` is the tracked exception — stage those normally).
 
 ## What never gets committed at all
 

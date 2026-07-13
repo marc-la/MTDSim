@@ -13,8 +13,8 @@ tier_hypothesis: 2 literature
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -51,7 +51,7 @@ availability-/integrity-focused campaign. Alshamrani's Stage 4 covers the impedi
 directly: "when the attackers' goal is to undermine critical components, actions comprising
 disabling or destroying the critical components", the canonical instance being Stuxnet's
 sabotage of Iran's uranium centrifuges
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-C) [fetched].
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 4, §III-C) [fetched].
 Unlike the enabling tactics, impact is where the campaign spends its accumulated access, so it
 belongs with collection and exfiltration in the tuned objective-execution group.
 
@@ -59,11 +59,11 @@ Its dwell character is the most bimodal in the set, split by actor type. A ranso
 actor's impact is fast and decisive — encryption or destruction executed in a burst once
 positioned (the WannaCry pattern; al-sada2024's per-tactic technique table lists impact as
 Data Encrypted for Impact / Inhibit System Recovery / Service Stop,
-[`al-sada2024`](../extractions/al-sada2024.md) §2 Table 1) [fetched]. An espionage actor with
+[`al-sada2024`](../../../sources/extractions/al-sada2024.md) §2 Table 1) [fetched]. An espionage actor with
 a "position for future" goal may never reach impact at all
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C) [fetched]. And the dwell ceiling
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C) [fetched]. And the dwell ceiling
 is a *decision*, not a duration — an APT's campaign "ends when … the funding organization gets
-all the data it needs" ([`alshamrani2019`](../extractions/alshamrani2019.md) §I, §II-C Stage
+all the data it needs" ([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §I, §II-C Stage
 5) [fetched]. The profile confirms `objective-execution` / Tier 2 (the ransomware/IR literature
 characterises time-to-impact) with a **wide range** spanning burst-impact to never. No point
 number (§5).
@@ -76,7 +76,7 @@ invalidation** — a distinct reset mechanism worth stating in its own right. Im
 "reset" an already-encrypted host. What it can do is limit *how many further hosts* the impact
 reaches. Barach's MTD (container mutation + IP hopping + service rotation) contains lateral
 ransomware spread mid-attack, cutting encryption reach to **13.2%** with mean-time-to-containment
-**91.4 s** ([`ransomware_timing`](../extractions/ransomware_timing.md)) — a partial reset of the
+**91.4 s** ([`ransomware_timing`](../../../sources/extractions/ransomware_timing.md)) — a partial reset of the
 impact *reach*, not the impact *act*.
 
 The split maps onto the per-modality axis via *reachability*: once positioned on a host, the
@@ -93,7 +93,7 @@ irreversible state change, so impact "reach" is proxied entirely by the reachabi
 shuffle governs — the containment Barach measures is expressible only insofar as the spread rides
 the substrate's lateral-movement reachability. Objective-conditioning (crit. 7) is sharp here: an
 espionage "position for future" campaign may never reach impact at all
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C), so the tactic is inert for some
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C), so the tactic is inert for some
 objective-profiles and decisive for others — a genuine discriminator.
 
 ## 4. Timing evidence
@@ -101,19 +101,19 @@ objective-profiles and decisive for others — a genuine discriminator.
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0040 page | Data Encrypted for Impact T1486 (84); ransomware/destruction primitives; no cross-tactic mappings; **no timing** | Terminal payload; no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-C, §I | Disabling/destroying components (Stuxnet); dwell ceiling sponsor-bounded ("ends when the org gets the data it needs") | Objective-execution; burst-impact..never — no per-tactic number | [fetched] |
-| [`al-sada2024`](../extractions/al-sada2024.md) §2 Table 1 | WannaCry impact = Data Encrypted for Impact / Inhibit System Recovery / Service Stop | Ransomware = fast decisive impact (contrast to espionage never-reaching) — technique map, no timing | [fetched] |
-| [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (DFIR cases) | **Time-to-Ransomware 2 h (Confluence→LockBit) / 118 h (RDP→RansomHub) / 328 h (BlackSuit)** — two orders of magnitude, per-case timestamped | Tier-2 macro anchor for the fast-impact end and the burst↔slow spread the objective-execution sweep must cover; reconciled [search]→[fetched] from primary case reports | [fetched] |
-| [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (M-Trends 2026) | Ransomware evolved into **recovery denial** — operators target backups/identity/hypervisors to make the impact irreversible; espionage never reaches impact | Confirms the impact end as decisive-and-fast for eCrime vs never-reached for espionage — the widest objective-execution sweep; whole-campaign, no per-tactic dwell | [fetched] |
-| [`ling2023`](../extractions/ling2023.md) Appendix A (Impact) | Impact techniques map to *Denial of Service* (Loss of View) and *Access Control* (Manipulation of View) vuln categories | Per-technique CVE shape for the destructive/impact primitives; no dwell | [fetched] |
-| [`ransomware_timing`](../extractions/ransomware_timing.md) (Splunk 2022; Secureworks 2024; IBM 2022) | Encryption act **~5m50s (LockBit) → ~1h55m (PYSA)**, overall median **~42m52s**, throughput-bound; ransomware dwell **~7–28 h** (Secureworks), access→deploy 3.85 d–60 d (IBM) | The impact *act* (encryption) is minutes-to-hours with a real floor (disk I/O); the whole-chain is fast-eCrime vs never-for-espionage — the objective-execution anchor + widest sweep | [fetched] |
-| [`ransomware_timing`](../extractions/ransomware_timing.md) (Barach 2026 MTD) | An MTD (container mutation + IP hopping + service rotation) reports **mean-time-to-containment 91.4 s**, encryption cut to 13.2% by blocking lateral ransomware spread | §3 MTD-vs-impact: shuffling the runtime surface contains lateral spread mid-attack, limiting blast radius — a partial reset of the impact reach (**→§3**) | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 4, §III-C, §I | Disabling/destroying components (Stuxnet); dwell ceiling sponsor-bounded ("ends when the org gets the data it needs") | Objective-execution; burst-impact..never — no per-tactic number | [fetched] |
+| [`al-sada2024`](../../../sources/extractions/al-sada2024.md) §2 Table 1 | WannaCry impact = Data Encrypted for Impact / Inhibit System Recovery / Service Stop | Ransomware = fast decisive impact (contrast to espionage never-reaching) — technique map, no timing | [fetched] |
+| [`breach_reports_macro_timing`](../../../sources/extractions/breach_reports_macro_timing.md) (DFIR cases) | **Time-to-Ransomware 2 h (Confluence→LockBit) / 118 h (RDP→RansomHub) / 328 h (BlackSuit)** — two orders of magnitude, per-case timestamped | Tier-2 macro anchor for the fast-impact end and the burst↔slow spread the objective-execution sweep must cover; reconciled [search]→[fetched] from primary case reports | [fetched] |
+| [`breach_reports_macro_timing`](../../../sources/extractions/breach_reports_macro_timing.md) (M-Trends 2026) | Ransomware evolved into **recovery denial** — operators target backups/identity/hypervisors to make the impact irreversible; espionage never reaches impact | Confirms the impact end as decisive-and-fast for eCrime vs never-reached for espionage — the widest objective-execution sweep; whole-campaign, no per-tactic dwell | [fetched] |
+| [`ling2023`](../../../sources/extractions/ling2023.md) Appendix A (Impact) | Impact techniques map to *Denial of Service* (Loss of View) and *Access Control* (Manipulation of View) vuln categories | Per-technique CVE shape for the destructive/impact primitives; no dwell | [fetched] |
+| [`ransomware_timing`](../../../sources/extractions/ransomware_timing.md) (Splunk 2022; Secureworks 2024; IBM 2022) | Encryption act **~5m50s (LockBit) → ~1h55m (PYSA)**, overall median **~42m52s**, throughput-bound; ransomware dwell **~7–28 h** (Secureworks), access→deploy 3.85 d–60 d (IBM) | The impact *act* (encryption) is minutes-to-hours with a real floor (disk I/O); the whole-chain is fast-eCrime vs never-for-espionage — the objective-execution anchor + widest sweep | [fetched] |
+| [`ransomware_timing`](../../../sources/extractions/ransomware_timing.md) (Barach 2026 MTD) | An MTD (container mutation + IP hopping + service rotation) reports **mean-time-to-containment 91.4 s**, encryption cut to 13.2% by blocking lateral ransomware spread | §3 MTD-vs-impact: shuffling the runtime surface contains lateral spread mid-attack, limiting blast radius — a partial reset of the impact reach (**→§3**) | [fetched] |
 
 > **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
 > above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
 > *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
 > defined by *when detection caught the intrusion*, and detection/IDS is culled from this
-> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> substrate ([substrate primer](../../../implementation/substrate_primer.md) §(f)), so they bound the emergent
 > timeline's *shape/plausibility*, never an absolute per-tactic dwell. Keep the ransomware
 > *encryption-speed* rows as a real per-act floor; only rows that resolve dwell-character or
 > reset-verdict feed §3/§5.

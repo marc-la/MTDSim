@@ -1,3 +1,9 @@
+---
+status: durable
+created: 2026-05-27
+updated: 2026-07-13
+---
+
 # Metrics — semantics, faithfulness, and comparability
 
 **Status:** authoritative as of the Phase-2c re-baseline (commit
@@ -235,7 +241,7 @@ and is recorded here because it is the same *genre* of statement: what a number
 means, and what comparison it does and does not license. It is forward-looking:
 L3/L4 do not yet consume the GAP, but the boundary must be fixed before they do,
 so no one reads more into a GAP edge weight than the corpus supports. The GAP data
-model is [`01_gap_schema.md`](01_gap_schema.md); the build is at
+model is [`01_gap_schema.md`](pipeline/gap/gap_schema.md); the build is at
 [`../../src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction).
 
 ### Edge weight (`observation_count`) — what it is
@@ -269,7 +275,7 @@ effective the step is.**
 The GAP is built from incident-derived CTI, which is a **survivorship-/
 observability-biased** sample (notable, well-documented, largely-successful
 campaigns; early kill-chain phases under-observed — see
-[`../notes/2026-05-27_gap_construction.md`](../notes/2026-05-27_gap_construction.md)).
+[`../notes/2026-05-27_gap_construction.md`](../notes/ch3_design/technique_graph_construction.md)).
 Two consequences bound any GAP-driven evaluation:
 
 | GAP-driven reading | Valid? | Why |
@@ -283,7 +289,7 @@ Two consequences bound any GAP-driven evaluation:
 The escape hatch the row above names — "an *explicit, documented* normalisation
 + closed-world assumption" — was authorised by supervisor decision **D3**
 (working session with Dr Jin Hong, early July 2026; register in
-[`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](../notes/2026-07-03_supervisor_meeting_l3_decisions.md)).
+[`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](pipeline/ogasp/supervisor_decision_register.md)).
 The regime, in full:
 
 - **Aggregation level: tactic, not technique.** Technique→technique GAP edges
@@ -325,7 +331,7 @@ is outside it by construction. That blindness is faithful to the defender's
 epistemic position rather than a defect, and where it ends is itself a threat-model
 input; the reasoning, and why a literature-inferred prefix (Decision 6) extends the
 model *within* CTI's limits rather than escaping them, is in
-[`../notes/2026-05-27_gap_construction.md`](../notes/2026-05-27_gap_construction.md).
+[`../notes/2026-05-27_gap_construction.md`](../notes/ch3_design/technique_graph_construction.md).
 
 ## Where to look next
 

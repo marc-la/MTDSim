@@ -13,8 +13,8 @@ tier_hypothesis: 1 substrate
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -49,12 +49,12 @@ set than the enabling tactics (Execution, Stealth, Discovery).
 The literature **confirms `exploit-shaped`** but reveals a dwell character spanning fast-worm
 to slow-manual. The credential-reuse path Alshamrani foregrounds — pass-the-hash, valid
 credentials, "spread over to other systems … access other hosts from a compromised system"
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3) [fetched] — is
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 3) [fetched] — is
 deliberate and human-paced, and often chosen (per §1) precisely because it is quieter than
 exploitation. At the other extreme, Stuxnet moved *automatically*, worm-style: LNK files via
 shared drives, the print-spooler flaw via shared printers, and a hard-coded Siemens Step7
 password to reach database servers
-([`alshamrani2019`](../extractions/alshamrani2019.md) §III-C) [fetched] — self-propagating
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §III-C) [fetched] — self-propagating
 lateral movement at machine speed.
 
 That span is the finding for the group. Lateral movement's dominant form (Remote Services
@@ -63,7 +63,7 @@ substrate prices, so the tactic sits `exploit-shaped` / Tier 1. But its characte
 patient manual pivot or an automatic worm sweep — which argues for a **wider sweep** than the
 other exploit-shaped tactics. Johnson & Hogan model the movement as graph reachability ("how
 likely a node is to be reached from another arbitrary node",
-[`alshamrani2019`](../extractions/alshamrani2019.md) §IV-C-1) [fetched], the property a
+[`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §IV-C-1) [fetched], the property a
 topology shuffle attacks (a §3 matter). No point number (§5).
 
 ## 3. MTD interaction — reasoned from mechanism (declared)
@@ -74,11 +74,11 @@ inside a single tactic. What a hop produces depends on *how* it moves. A **scan-
 position/knowledge gain — a target map — and is reset-*vulnerable*: a position-mutating
 address/topology shuffle invalidates it, and the empirics are stark, with a mutated address
 space leaving a scanner **<1% valid addresses** and worm containment capping total reach
-([`worm_propagation_models`](../extractions/worm_propagation_models.md)). A **credential-based
+([`worm_propagation_models`](../../../sources/extractions/worm_propagation_models.md)). A **credential-based
 hop** (Use Alternate Authentication Material T1550 — pass-the-hash/ticket, valid accounts) rides
 a survivor capability: the credential authenticates against whichever host now answers, so the
 *same shuffle that kills the scan-worm leaves the credential-move untouched*
-([substrate primer](../specs/substrate_primer.md) §(e)).
+([substrate primer](../../../implementation/substrate_primer.md) §(e)).
 
 The MTD action that bites, therefore, is the position-mutating family — and it bites *one
 modality and not the other*. This forces a **bimodal sweep**: the profile carries a wide,
@@ -88,12 +88,12 @@ objective-conditioned* (rubric crit. 7). A credential-first campaign is effectiv
 in this tactic; a scan/exploit-first one is highly disruptable. That is the discrimination the
 whole thesis turns on: an MTD that wins against the substrate's scan-based baseline hop may lose
 against a credential-driven low-and-slow profile that never exposes the modality the shuffle can
-reset ([substrate primer](../specs/substrate_primer.md) §(d)).
+reset ([substrate primer](../../../implementation/substrate_primer.md) §(d)).
 
 What is **not captured**: the substrate prices remote-service exploitation by CVSS but does not,
 today, distinguish the two hops' reset behaviour beyond the position-vs-capability split it
 already implements; nor does it model an attacker that *recognises* a post-shuffle state
-collision and re-routes (adaptivity, deferred — [substrate primer](../specs/substrate_primer.md)
+collision and re-routes (adaptivity, deferred — [substrate primer](../../../implementation/substrate_primer.md)
 §(f)). **Reset verdict: per-modality — the scan hop is invalidated (wide sweep), the credential
 hop survives (narrow sweep).**
 
@@ -102,19 +102,19 @@ hop survives (narrow sweep).**
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0008 page | Compact (9 parents); Remote Services T1021 dominant (190 procedures); **no timing** | Pivot per hop; no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §III-C | Credential-reuse pivot (PtH/valid creds, quieter) vs Stuxnet worm-style auto-propagation (LNK/print-spooler/Step7 pw) | Character spans slow-manual..fast-worm → wider sweep; exploit form → substrate (Tier 1) | [fetched] |
-| [`brown2023`](../extractions/brown2023.md) §IV | Substrate prices remote-service exploitation by CVSS complexity; a path shuffle forces re-discovery of reachable hosts | Tier-1 anchor + reset semantics (→§3) | [fetched] |
-| [`rodriguez2024`](../extractions/rodriguez2024.md) §3 | Tactic-level ATT&CK Petri nets are **untimed** | Gap-confirming: no per-tactic rate | [fetched] |
-| [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (CrowdStrike GTR; DFIR) | **Breakout time** *is* initial-access → lateral-movement: avg **29 min** / fastest **27 s** (2026), 48 min / 51 s (2025); DFIR lateral movement at **+10 min to +2 h** post-access | The one macro statistic anchored *to this exact transition*; bounds the fast (eCrime) end of the lateral hop — whole-transition, not a per-tactic dwell | [fetched] |
-| [`ling2023`](../extractions/ling2023.md) §Results, Table 7 | Lateral-movement techniques (Exploitation of Remote Services, Lateral Tool Transfer) → *Access Control*; Lateral Tool Transfer TTC = 3594/98/15/**6** d (novice→expert) | Per-technique empirical shape + expert 6-day floor for the exploit-move variant; the credential-/auth-material-move variant has no CVE (reset-survives) | [fetched] |
-| [`worm_propagation_models`](../extractions/worm_propagation_models.md) (Slammer; Staniford; Code Red/Zou; Mirai; Chernikova) | Automated scan-based spread is **seconds–minutes**: Slammer **90% in 10 min**, Code Red **37-min doubling**, Warhol "minutes–hour", flash "10s of seconds", Mirai 65k in 20 h | The **fast-worm pole** of the fast↔slow bimodal range — the modality the substrate's fast lateral-exploit proxies; contrasts the slow-manual APT pole | [fetched] |
-| [`worm_propagation_models`](../extractions/worm_propagation_models.md) (Al-Shaer/Jafarian OpenFlow-RHM; Sellke; Ma) + [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (ReliaQuest 2026) | Address mutation → scanner finds **<1% valid addresses** (worm target-discovery invalidated); worm containment caps total scans; ReliaQuest breakout avg **34 min**/fastest **4 min**, exfil **6 min** | §3 reset for the *scan-based* move (mutation kills it; credential-move survives — per-modality); independent breakout corroboration (**→§3**) | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 3, §III-C | Credential-reuse pivot (PtH/valid creds, quieter) vs Stuxnet worm-style auto-propagation (LNK/print-spooler/Step7 pw) | Character spans slow-manual..fast-worm → wider sweep; exploit form → substrate (Tier 1) | [fetched] |
+| [`brown2023`](../../../sources/extractions/brown2023.md) §IV | Substrate prices remote-service exploitation by CVSS complexity; a path shuffle forces re-discovery of reachable hosts | Tier-1 anchor + reset semantics (→§3) | [fetched] |
+| [`rodriguez2024`](../../../sources/extractions/rodriguez2024.md) §3 | Tactic-level ATT&CK Petri nets are **untimed** | Gap-confirming: no per-tactic rate | [fetched] |
+| [`breach_reports_macro_timing`](../../../sources/extractions/breach_reports_macro_timing.md) (CrowdStrike GTR; DFIR) | **Breakout time** *is* initial-access → lateral-movement: avg **29 min** / fastest **27 s** (2026), 48 min / 51 s (2025); DFIR lateral movement at **+10 min to +2 h** post-access | The one macro statistic anchored *to this exact transition*; bounds the fast (eCrime) end of the lateral hop — whole-transition, not a per-tactic dwell | [fetched] |
+| [`ling2023`](../../../sources/extractions/ling2023.md) §Results, Table 7 | Lateral-movement techniques (Exploitation of Remote Services, Lateral Tool Transfer) → *Access Control*; Lateral Tool Transfer TTC = 3594/98/15/**6** d (novice→expert) | Per-technique empirical shape + expert 6-day floor for the exploit-move variant; the credential-/auth-material-move variant has no CVE (reset-survives) | [fetched] |
+| [`worm_propagation_models`](../../../sources/extractions/worm_propagation_models.md) (Slammer; Staniford; Code Red/Zou; Mirai; Chernikova) | Automated scan-based spread is **seconds–minutes**: Slammer **90% in 10 min**, Code Red **37-min doubling**, Warhol "minutes–hour", flash "10s of seconds", Mirai 65k in 20 h | The **fast-worm pole** of the fast↔slow bimodal range — the modality the substrate's fast lateral-exploit proxies; contrasts the slow-manual APT pole | [fetched] |
+| [`worm_propagation_models`](../../../sources/extractions/worm_propagation_models.md) (Al-Shaer/Jafarian OpenFlow-RHM; Sellke; Ma) + [`breach_reports_macro_timing`](../../../sources/extractions/breach_reports_macro_timing.md) (ReliaQuest 2026) | Address mutation → scanner finds **<1% valid addresses** (worm target-discovery invalidated); worm containment caps total scans; ReliaQuest breakout avg **34 min**/fastest **4 min**, exfil **6 min** | §3 reset for the *scan-based* move (mutation kills it; credential-move survives — per-modality); independent breakout corroboration (**→§3**) | [fetched] |
 
 > **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
 > above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
 > *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
 > defined by *when detection caught the intrusion*, and detection/IDS is culled from this
-> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> substrate ([substrate primer](../../../implementation/substrate_primer.md) §(f)), so they bound the emergent
 > timeline's *shape/plausibility*, never an absolute per-tactic dwell. Only the rows that resolve
 > dwell-character or reset-verdict feed §3/§5.
 

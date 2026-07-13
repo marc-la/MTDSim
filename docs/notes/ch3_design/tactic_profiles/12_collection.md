@@ -13,8 +13,8 @@ tier_hypothesis: 2 literature
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -51,9 +51,9 @@ to act on its purpose. Alshamrani places it in Stage 4 as the gathering that pre
 "actions comprising retrieving and sending this data to the attackers' command and control
 center" — and Carbanak's operators collected employee-activity recordings (video, keylogger,
 form-grabber output) staged for exfiltration
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-E) [fetched]. The
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 4, §III-E) [fetched]. The
 RSA intrusion shows the same collect-then-package pattern — data "compressed and encrypted …
-before sending" ([`alshamrani2019`](../extractions/alshamrani2019.md) §III-D) [fetched]. This
+before sending" ([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §III-D) [fetched]. This
 is objective-adjacent work rather than campaign enablement, which places it with exfiltration
 and impact in the tuned objective-execution group rather than with the substrate-priced
 enabling tactics.
@@ -61,7 +61,7 @@ enabling tactics.
 Its dwell character has two ends. A targeted grab of a known repository is quick; the
 "position for future" objective ([[10_discovery]]) turns collection into indefinite passive
 harvesting — "gaining as much information as they can while staying unnoticed"
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C) [fetched]. The profile confirms
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C) [fetched]. The profile confirms
 `objective-execution` / Tier 2 — the breach literature characterises the collect→exfil chain
 even without a per-tactic dwell — noting collection runs from a fast grab to a slow harvest.
 No point number (§5).
@@ -72,7 +72,7 @@ Collection is **modality-split** on the same axis as [[11_lateral-movement]], an
 on *where the data lives*. A **host-local read** (Data from Local System T1005) produces a
 capability possession once staged: the collected/archived data sits on an owned host, so it
 **survives** a network shuffle exactly as a harvested credential does
-([substrate primer](../specs/substrate_primer.md) §(e)) — patterning with [[09_credential-access]],
+([substrate primer](../../../implementation/substrate_primer.md) §(e)) — patterning with [[09_credential-access]],
 which is unsurprising given collection and credential-access share the same capture
 instrumentation (Input Capture T1056, Adversary-in-the-Middle T1557). A **remote-share read**
 (Data from Network Shared Drive T1039), by contrast, depends on reachability to another host, so a
@@ -98,11 +98,11 @@ spare; the modality distinction is an attacker-side behaviour the L3b binding mu
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0009 page | Data from Local System T1005 (229 procedures); staging/archive techniques; **no timing** | Precursor to exfil; no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-D, §III-E | "Retrieving and sending this data"; Carbanak video/keylogger capture; RSA compress+encrypt before send; position-for-future = indefinite harvest | Objective-adjacent; fast grab..slow harvest — no per-tactic number | [fetched] |
-| [`outkin2023`](../extractions/outkin2023.md) §1 (Introduction) | "Ready-residence time" = fraction of time in the completed-but-not-yet-executed "Ready" state before acting on objectives | Conceptual dwell-before-objective; parameterised, not empirical per-tactic — no value | [fetched] |
-| [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (Sophos AAR) | Objective actions like collection/exfil "cannot go any faster, since they rely on human activity, data throughput, or other fairly rigid time frames" — a **dwell floor** | Tier-2 evidence that collection has a *floor* dwell (not substrate-instant); supports a non-trivial objective-execution anchor; no per-tactic number | [fetched] |
-| [`ling2023`](../extractions/ling2023.md) §Discussion (SANS hacker survey) | Ethical hackers report they can **collect data within 1–5 h of gaining access** (Bromiley 2022, via Ling & Ekstedt) | Hour-scale enterprise-IT anchor for collection-after-access; second-hand — **reconciled to the primary (row below)** | [fetched] (via the primary) |
-| [`collection_exfil_timing`](../extractions/collection_exfil_timing.md) (Bromiley 2022 PRIMARY; Unit42 2026; CISA 2022) | **~64% collect+exfil in ≤5 h** (Bromiley primary — closes the ling2023 `[search]`); fastest quartile reached exfil in **1.2 h**; but a CISA APT ran mailbox-search in a 4 h window inside a *months*-long campaign | The collection act is hours (fast eCrime) — reconciles the second-hand Bromiley figure to `[fetched]`; the slow end is the paced APT campaign around it | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 4, §III-D, §III-E | "Retrieving and sending this data"; Carbanak video/keylogger capture; RSA compress+encrypt before send; position-for-future = indefinite harvest | Objective-adjacent; fast grab..slow harvest — no per-tactic number | [fetched] |
+| [`outkin2023`](../../../sources/extractions/outkin2023.md) §1 (Introduction) | "Ready-residence time" = fraction of time in the completed-but-not-yet-executed "Ready" state before acting on objectives | Conceptual dwell-before-objective; parameterised, not empirical per-tactic — no value | [fetched] |
+| [`breach_reports_macro_timing`](../../../sources/extractions/breach_reports_macro_timing.md) (Sophos AAR) | Objective actions like collection/exfil "cannot go any faster, since they rely on human activity, data throughput, or other fairly rigid time frames" — a **dwell floor** | Tier-2 evidence that collection has a *floor* dwell (not substrate-instant); supports a non-trivial objective-execution anchor; no per-tactic number | [fetched] |
+| [`ling2023`](../../../sources/extractions/ling2023.md) §Discussion (SANS hacker survey) | Ethical hackers report they can **collect data within 1–5 h of gaining access** (Bromiley 2022, via Ling & Ekstedt) | Hour-scale enterprise-IT anchor for collection-after-access; second-hand — **reconciled to the primary (row below)** | [fetched] (via the primary) |
+| [`collection_exfil_timing`](../../../sources/extractions/collection_exfil_timing.md) (Bromiley 2022 PRIMARY; Unit42 2026; CISA 2022) | **~64% collect+exfil in ≤5 h** (Bromiley primary — closes the ling2023 `[search]`); fastest quartile reached exfil in **1.2 h**; but a CISA APT ran mailbox-search in a 4 h window inside a *months*-long campaign | The collection act is hours (fast eCrime) — reconciles the second-hand Bromiley figure to `[fetched]`; the slow end is the paced APT campaign around it | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

@@ -2,7 +2,7 @@
 
 > Five sources on **how long off-network preparation takes** — developing an
 > exploit, and standing up attack infrastructure (domains) — extracted for
-> [`02_resource-development`](../tactic_profiles/02_resource-development.md). All
+> [`02_resource-development`](../../notes/ch3_design/tactic_profiles/02_resource-development.md). All
 > confirm the `prep-off-network` verdict: the timing spans *near-instant* (grab a
 > published exploit; use a domain hours after registration) to *weeks* (median
 > 0-day development) to *years* (vulnerability creation→disclosure), and **all of
@@ -55,7 +55,7 @@ for years.
 **Quote:**
 > "a median time of 22 days" (dev-time section)
 
-**Maps to:** [`02_resource-development`](../tactic_profiles/02_resource-development.md)
+**Maps to:** [`02_resource-development`](../../notes/ch3_design/tactic_profiles/02_resource-development.md)
 §4 (the capability-development dwell — off-network, weeks-scale, precedes the
 foothold) and §2 (confirms prep is a real but pre-clock activity).
 
@@ -75,7 +75,7 @@ time of 22 days**" and synthesises surrounding estimates [fetched]. Corroborates
 `rand2017` as the citable dev-time anchor rather than adding an independent
 number.
 
-**Maps to:** [`02_resource-development`](../tactic_profiles/02_resource-development.md)
+**Maps to:** [`02_resource-development`](../../notes/ch3_design/tactic_profiles/02_resource-development.md)
 §4 (secondary confirmation of the 22-day capability-development dwell).
 
 **Disposition for this thesis:** verified [fetched] — corroborating synthesis,
@@ -97,7 +97,7 @@ is patched) — the flip side of RAND's 6.9-yr life. So *obtaining* a
 published exploit is near-instant (tracks disclosure by ~a day), while the
 vulnerability's own gestation is measured in years.
 
-**Maps to:** [`02_resource-development`](../tactic_profiles/02_resource-development.md)
+**Maps to:** [`02_resource-development`](../../notes/ch3_design/tactic_profiles/02_resource-development.md)
 §4 (the *obtain-capability* path is fast — grab a published exploit ~1 day after
 disclosure — vs RAND's *develop-capability* 22-day path; the two ends of the
 resource-dev tempo).
@@ -121,9 +121,9 @@ first **3–4 days**" (Finding 5.2). Miscreants "register these domains 'just in
 time' before an attack" — infrastructure acquisition (Acquire Infrastructure
 T1583) is a *hours-to-days* off-network activity.
 
-**Maps to:** [`02_resource-development`](../tactic_profiles/02_resource-development.md)
+**Maps to:** [`02_resource-development`](../../notes/ch3_design/tactic_profiles/02_resource-development.md)
 §4 (infrastructure-prep dwell — domains stood up days before use; the fast,
-agile end of resource-development) and [`13_command-and-control`](../tactic_profiles/13_command-and-control.md)
+agile end of resource-development) and [`13_command-and-control`](../../notes/ch3_design/tactic_profiles/13_command-and-control.md)
 (domains that back C2).
 
 **Disposition for this thesis:** verified [fetched] — Tier-2 empirical; a
@@ -145,7 +145,7 @@ after registration (charted). The precise short-lag percentiles (the manifest's
 is garbled in the md — flag `[parse-uncertain]`; do not cite a specific
 percentile without the source figure.**
 
-**Maps to:** [`02_resource-development`](../tactic_profiles/02_resource-development.md)
+**Maps to:** [`02_resource-development`](../../notes/ch3_design/tactic_profiles/02_resource-development.md)
 §4 (corroborates Hao — attack infrastructure is registered shortly before use;
 off-network, days-scale).
 

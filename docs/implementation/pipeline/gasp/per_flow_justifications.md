@@ -2,13 +2,15 @@
 status: durable
 created: 2026-05-28
 topic: L2 partition — per-flow P6 class assignment justifications
+updated: 2026-07-13
+lineage: formerly docs/notes @ 2026-05-28_l2_per_flow_justifications.md (relocated in the 2026-07-13 docs refactor)
 ---
 
 # Per-flow P6 class assignments — justifications, citations, and critique
 
 > **Provenance banner.** This note records the investigation that produced
 > GASP. The canonical spec is now at
-> [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) — read this
+> [`../specs/02_gasp_schema.md`](gasp_schema.md) — read this
 > for *why* GASP exists and *how* the decision was reached; read the spec
 > for *what GASP is*.
 >
@@ -23,10 +25,10 @@ topic: L2 partition — per-flow P6 class assignment justifications
 ## Why this exists
 
 The L2 partition decision at
-[`./2026-05-28_l2_partition_decision.md`](./2026-05-28_l2_partition_decision.md)
+[`./2026-05-28_l2_partition_decision.md`](partition_decision.md)
 recommends **P6 (compound-class disjoint)** as the working classification —
 the audit-traced CSV at
-[`./2026-05-28_l2_metadata_audit.csv`](./2026-05-28_l2_metadata_audit.csv)
+[`./2026-05-28_l2_metadata_audit.csv`](../../../../data/gasp/metadata_audit.csv)
 records which flow lands in which class, but the CSV's `notes` column is too
 terse to defend against *"why did you classify X this way?"*. This file is the
 **per-flow defence** — one entry per flow, with the authoritative-source
@@ -753,7 +755,7 @@ critical, but worth a defence-of-thesis reader's attention:
   may want to split it.
 
 **Operator-aggregation concern** — see the dedicated note at
-[`./2026-05-28_l2_operator_aggregation_concern.md`](./2026-05-28_l2_operator_aggregation_concern.md).
+[`./2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch3_design/operator_concentration.md).
 The corpus is not flow-uniformly distributed across operators: three
 Conti flows (G0102), two Turla emulation plans (G0010), two FIN13
 cases (G1016), and three CISA AA22-138B variants share base operators
@@ -786,7 +788,7 @@ If pushed harder on whether P6 vs P5 is the right call: **P6's
 empirical warrant is the 8 double-extortion flows that P5
 multi-membership *would* handle but P6 names explicitly**.
 The simulator-verification sub-handoff
-([`../handoffs/2026-05-28_l2_simulator_verification.md`](../handoffs/2026-05-28_l2_simulator_verification.md))
+(`handoffs/2026-05-28_l2_simulator_verification.md` (shipped & deleted per handoff lifecycle; see git log))
 is the load-bearing test that decides whether the named compound class
 behaves differently from a multi-membership join in the simulator. Until
 that runs, P6 is the working recommendation; if the simulator says the

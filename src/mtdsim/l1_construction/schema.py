@@ -1,6 +1,6 @@
 """Data model for the Generalised APT Profile (GAP).
 
-Two layers, per ``docs/specs/01_gap_schema.md``:
+Two layers, per ``docs/implementation/pipeline/gap/gap_schema.md``:
 
 - **Per-flow extract** (§c) — a lossless, technique-level rendering of a single
   Attack Flow: action / operator / condition nodes + typed edges

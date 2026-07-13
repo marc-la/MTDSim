@@ -13,8 +13,8 @@ tier_hypothesis: 3 declared
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -54,18 +54,18 @@ The literature **confirms `stealth-low-and-slow` strongly.** Persistence is the 
 layer whose whole purpose is to outlast time: Alshamrani describes multi-host backdoors plus
 valid VPN credentials and observes that once persistence is established "it is very difficult
 to completely push out such attacker out of the environment"
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3) [fetched]. FireEye's
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 3) [fetched]. FireEye's
 M-Trends finding of backdoors "loaded even before the operating system was loaded"
-([`alshamrani2019`](../extractions/alshamrani2019.md) §I) [fetched] sharpens the character —
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §I) [fetched] sharpens the character —
 a pre-OS/bootkit foothold is built to survive reboots, reimaging and OS changes. cho2020's
 advanced-attacker model frames the same property: stealthy attackers "stay stealthy until
-the time comes" ([`cho2020`](../extractions/cho2020.md) §V-A) [fetched], and persistence is
+the time comes" ([`cho2020`](../../../sources/extractions/cho2020.md) §V-A) [fetched], and persistence is
 what lets them wait.
 
 The dwell character is therefore long-lived by design, and — unlike the enabling tactics —
 persistence is valuable precisely *between* actions rather than during them. cho2020 finds
 optimal-defence outcomes hinge on "whether the attacker's goal required a persistent
-foothold" ([`cho2020`](../extractions/cho2020.md) §VI-A) [fetched], marking persistence as
+foothold" ([`cho2020`](../../../sources/extractions/cho2020.md) §VI-A) [fetched], marking persistence as
 the tactic whose dwell most directly drives the MTD comparison. The profile confirms
 `stealth-low-and-slow` / Tier 3 (declared) — no substrate verb prices "maintain a foothold".
 No point number (§5).
@@ -74,12 +74,12 @@ No point number (§5).
 
 Persistence produces a **foothold** — a capability/conquest possession: a compromised host
 stays owned, and "persistent conquest survives everything" in the substrate's reset model
-([substrate primer](../specs/substrate_primer.md) §(e)). So the naive verdict is *survivor*.
+([substrate primer](../../../implementation/substrate_primer.md) §(e)). So the naive verdict is *survivor*.
 But persistence is the profile's **open contest** — the reset here is genuinely a *rate
 contest*, not a clean survive-or-invalidate, and it should be foregrounded as an open question
 rather than resolved. FlipIt frames foothold survival as a game where **the higher-move-cost
 player has benefit 0** and whoever moves faster/cheaper controls the resource
-([`persistence_reset_models`](../extractions/persistence_reset_models.md)): a periodic MTD move
+([`persistence_reset_models`](../../../sources/extractions/persistence_reset_models.md)): a periodic MTD move
 *contests* a foothold but does not cleanly evict it, an SCIT cleansing cycle bounds the
 attacker's hold window, and a too-slow reset "grant[s] attackers extended time windows" (Sun).
 There is no fixed answer — the outcome flips on the **defender-move-rate ÷
@@ -89,7 +89,7 @@ This is also the dwell that most directly drives the MTD comparison (cho2020: op
 hinges on "whether the goal required a persistent foothold"), so getting its verdict *and its
 uncertainty* right matters more than for most tactics. The MTD action that bites is any
 mechanism that periodically refreshes host state; the substrate, however, implements **no
-cleansing/reimaging/redundancy mechanism** ([substrate primer](../specs/substrate_primer.md)
+cleansing/reimaging/redundancy mechanism** ([substrate primer](../../../implementation/substrate_primer.md)
 §(c)) — its shuffles and diversity swaps do not clear host compromise — so in the *current*
 substrate a foothold is a near-total survivor, and the FlipIt rate-contest is a
 **literature-argued verdict that diverges from what the substrate can exercise**. Recording that
@@ -107,19 +107,19 @@ survivor — foreground as a rate-dependent open question; sweep width wide.**
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0003 page | 22 parents / 91 subs; Valid Accounts T1078, autostart T1547; **no timing** | The durability layer; no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §I | Multi-host backdoors + valid creds; "very difficult to push out"; pre-OS bootkits "loaded before the OS" | Long-lived/sticky character; valuable between actions — no per-tactic number | [fetched] |
-| [`cho2020`](../extractions/cho2020.md) §V-A, §VI-A | Stealthy attackers "stay stealthy until the time comes"; defence hinges on "whether the goal required a persistent foothold" | Frames persistence as the dwell that drives the MTD comparison; no per-tactic value | [fetched] |
-| [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (M-Trends 2026) | Espionage/DPRK-IT-worker **median dwell 122 days**; BRICKSTORM edge-implant **dwell ~400 days**, "persistence that routinely survives standard remediation efforts and system reboots" | Tier-2 macro evidence for the long-lived, reset-*surviving* character of persistence — the whole-campaign envelope for the group anchor; not a per-tactic dwell | [fetched] |
-| [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 2 & 4 (Persistence) | The beachhead keeps access "even if the target system is restarted or if security measures are taken"; Account Manipulation "constantly updat[es] the password to avoid … password duration policies"; [`syed2025`](../extractions/syed2025.md) §I: LightBasin undetected **5 years** | Reset-survivor evidence — persistence can *adapt around a periodic reset* (defeating credential rotation); anecdotal whole-campaign dwell, no per-tactic number | [fetched] |
-| [`apt_campaign_duration`](../extractions/apt_campaign_duration.md) (Yuldoshkhujaev 2025 §4) | APT campaign duration **1 day → ~5 years, 137 days average** (decade of dossiers); attackers "waiting for an opportune time" | Tier-2 whole-campaign envelope for the reset-*surviving* foothold — the espionage long-tail the group anchor must reach; not a per-tactic dwell | [fetched] |
-| [`persistence_reset_models`](../extractions/persistence_reset_models.md) (FlipIt 2013 §4.3; SCIT 2006; Sun 2025) | FlipIt: the higher-move-cost player has **benefit 0**; whoever moves faster/cheaper controls the resource more — reset is **partial, rate-dependent**; SCIT: cleansing cycle bounds the attacker's hold window; Sun: too-slow reset "grant[s] attackers extended time windows" | The §3 reset verdict for persistence: a periodic MTD move *contests* a foothold but does not cleanly wipe it — outcome set by move-rate ÷ compromise-rate → **wide sweep** (**→§3**) | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 3, §I | Multi-host backdoors + valid creds; "very difficult to push out"; pre-OS bootkits "loaded before the OS" | Long-lived/sticky character; valuable between actions — no per-tactic number | [fetched] |
+| [`cho2020`](../../../sources/extractions/cho2020.md) §V-A, §VI-A | Stealthy attackers "stay stealthy until the time comes"; defence hinges on "whether the goal required a persistent foothold" | Frames persistence as the dwell that drives the MTD comparison; no per-tactic value | [fetched] |
+| [`breach_reports_macro_timing`](../../../sources/extractions/breach_reports_macro_timing.md) (M-Trends 2026) | Espionage/DPRK-IT-worker **median dwell 122 days**; BRICKSTORM edge-implant **dwell ~400 days**, "persistence that routinely survives standard remediation efforts and system reboots" | Tier-2 macro evidence for the long-lived, reset-*surviving* character of persistence — the whole-campaign envelope for the group anchor; not a per-tactic dwell | [fetched] |
+| [`selmanaj2024`](../../../sources/extractions/selmanaj2024.md) Ch. 2 & 4 (Persistence) | The beachhead keeps access "even if the target system is restarted or if security measures are taken"; Account Manipulation "constantly updat[es] the password to avoid … password duration policies"; [`syed2025`](../../../sources/extractions/syed2025.md) §I: LightBasin undetected **5 years** | Reset-survivor evidence — persistence can *adapt around a periodic reset* (defeating credential rotation); anecdotal whole-campaign dwell, no per-tactic number | [fetched] |
+| [`apt_campaign_duration`](../../../sources/extractions/apt_campaign_duration.md) (Yuldoshkhujaev 2025 §4) | APT campaign duration **1 day → ~5 years, 137 days average** (decade of dossiers); attackers "waiting for an opportune time" | Tier-2 whole-campaign envelope for the reset-*surviving* foothold — the espionage long-tail the group anchor must reach; not a per-tactic dwell | [fetched] |
+| [`persistence_reset_models`](../../../sources/extractions/persistence_reset_models.md) (FlipIt 2013 §4.3; SCIT 2006; Sun 2025) | FlipIt: the higher-move-cost player has **benefit 0**; whoever moves faster/cheaper controls the resource more — reset is **partial, rate-dependent**; SCIT: cleansing cycle bounds the attacker's hold window; Sun: too-slow reset "grant[s] attackers extended time windows" | The §3 reset verdict for persistence: a periodic MTD move *contests* a foothold but does not cleanly wipe it — outcome set by move-rate ÷ compromise-rate → **wide sweep** (**→§3**) | [fetched] |
 | — (no in-corpus per-tactic timing) | No extraction assigns a persistence duration | Documented negative (the gap); confirms Tier-3 *declared* | [fetched] |
 
 > **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
 > above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
 > *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
 > defined by *when detection caught the intrusion*, and detection/IDS is culled from this
-> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> substrate ([substrate primer](../../../implementation/substrate_primer.md) §(f)), so they bound the emergent
 > timeline's *shape/plausibility*, never an absolute per-tactic dwell. Only the rows that resolve
 > dwell-character or reset-verdict feed §3/§5.
 

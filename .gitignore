@@ -147,9 +147,12 @@ experiments/experimental_data/*
 experiments/*
 experimental_data/*
 
-docs/sources
+# External source material (copyright) is ignored, but the per-paper
+# fair-use extraction layer nested under it stays tracked.
+docs/sources/*
+!docs/sources/extractions/
 
-# GAP (L1) build inputs — upstream corpora, gitignored per 01_gap_schema.md
+# GAP (L1) build inputs — upstream corpora, gitignored per gap_schema.md
 # Decision 4. The distilled per-flow extracts + aggregate under data/gap/ ARE
 # committed; only these raw upstream inputs are ignored.
 data/gap/_*

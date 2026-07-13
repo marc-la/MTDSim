@@ -2,13 +2,13 @@
 
 | level | artefact | architecture § | status | code home |
 |---|---|---|---|---|
-| L1 | GAP (Generalised APT Profile) | [§(d)](../../../docs/specs/architecture.md) | **built** | here |
+| L1 | GAP (Generalised APT Profile) | [§(d)](../../../docs/implementation/architecture.md) | **built** | here |
 
 Builds the **GAP**: a lossless, Attack-Flow-only technique-dependency graph
 aggregated from the L0 corpus. Data model + the four construction decisions:
-[`01_gap_schema.md`](../../../docs/specs/01_gap_schema.md); plain-English
+[`01_gap_schema.md`](../../../docs/implementation/pipeline/gap/gap_schema.md); plain-English
 companion:
-[`2026-05-27_gap_construction.md`](../../../docs/notes/2026-05-27_gap_construction.md).
+[`2026-05-27_gap_construction.md`](../../../docs/notes/ch3_design/technique_graph_construction.md).
 
 ```sh
 PYTHONPATH=src python -m mtdsim.l1_construction   # -> data/gap/flows/, gap_v0.5.json

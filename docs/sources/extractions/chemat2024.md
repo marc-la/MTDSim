@@ -69,11 +69,11 @@ exploitation 13, watering hole 12, network-based weaponisation 7, rogue
 software 5. Per-group attribution of the sparser TTPs is `[parse-uncertain]`
 (the tick columns lost alignment); the counts themselves are legible.
 
-**Maps to:** [`13_command-and-control`](../tactic_profiles/13_command-and-control.md)
+**Maps to:** [`13_command-and-control`](../../notes/ch3_design/tactic_profiles/13_command-and-control.md)
 (§2/§4: web-protocol C2 as the universal channel) ·
-[`05_persistence`](../tactic_profiles/05_persistence.md) (registry-key
-persistence universal) · [`03_initial-access`](../tactic_profiles/03_initial-access.md)
-(spear-phish ubiquity) · [`14_exfiltration`](../tactic_profiles/14_exfiltration.md)
+[`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md) (registry-key
+persistence universal) · [`03_initial-access`](../../notes/ch3_design/tactic_profiles/03_initial-access.md)
+(spear-phish ubiquity) · [`14_exfiltration`](../../notes/ch3_design/tactic_profiles/14_exfiltration.md)
 (exfiltration present in all 18 profiles' behaviour set).
 
 **Disposition for this thesis:** verified [fetched] — breadth corroboration
@@ -97,7 +97,7 @@ techniques, such as using C&C to monitor their attacks. For instance, the APT
 Stuxnet can autonomously carry out specific activities without needing to
 communicate through the C&C server."
 
-**Maps to:** [`13_command-and-control`](../tactic_profiles/13_command-and-control.md)
+**Maps to:** [`13_command-and-control`](../../notes/ch3_design/tactic_profiles/13_command-and-control.md)
 §2/§4 — independent corroboration of the Step B Stuxnet finding (C&C dwell is
 conditional on connectivity; air-gapped campaigns route around it) ·
 supports wide sweep on the C&C profile.

@@ -1,7 +1,7 @@
 # Worm / self-propagation rate models — the fast end of lateral movement (extraction notes)
 
 > A consolidated bundle of **self-propagating-malware propagation-rate models and
-> measurements**, extracted for [`11_lateral-movement`](../tactic_profiles/11_lateral-movement.md).
+> measurements**, extracted for [`11_lateral-movement`](../../notes/ch3_design/tactic_profiles/11_lateral-movement.md).
 > They establish the **fast-worm end** of lateral movement's bimodal character
 > (automated scan-based spread in *seconds-to-minutes*), against which the
 > **slow-manual APT** end contrasts — the widened fast↔slow range the profile
@@ -66,7 +66,7 @@ Staniford §4; Chen §1; Antonakakis Abstract; Chernikova/Shin Abstracts
   model fit to **15 WannaCry traces** — derives transition rates, outperforms
   SI/SIS/SIR (adds a *dormant* state, matching stealthy self-propagation).
 
-**Maps to:** [`11_lateral-movement`](../tactic_profiles/11_lateral-movement.md) §4
+**Maps to:** [`11_lateral-movement`](../../notes/ch3_design/tactic_profiles/11_lateral-movement.md) §4
 (the fast-worm end — automated spread is minutes/seconds; the *modality* the
 substrate's fast lateral-exploit can proxy) and §2 (the fast pole of the
 fast↔slow bimodal range the profile flags).
@@ -98,7 +98,7 @@ Ma cloud-native MTD
 - **Ma 2026 (cloud-native):** selective MTD placement raises attack difficulty
   against lateral movement in cloud-native environments.
 
-**Maps to:** [`11_lateral-movement`](../tactic_profiles/11_lateral-movement.md) §3
+**Maps to:** [`11_lateral-movement`](../../notes/ch3_design/tactic_profiles/11_lateral-movement.md) §3
 (an address/topology shuffle invalidates a *scan-based* worm's target discovery →
 strong reset for the fast-worm modality; weaker against credential-based manual
 movement — the reset is per-modality, cf. [`evans2011_mtd_effectiveness`](evans2011_mtd_effectiveness.md)).

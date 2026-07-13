@@ -13,8 +13,8 @@ tier_hypothesis: 3 declared
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 > **v19.1 note:** `defense-impairment` (TA0112) is the *disabling/degrading-defences*
@@ -67,7 +67,7 @@ visible: where Stealth hides from intact defences, Defense Impairment *breaks* t
 higher-privilege, higher-signal act than concealment" (§1). Alshamrani, whose APT is defined
 by evasion, is notably thin on *disabling* defences: its adversary "keep[s] low to go
 undetected" and evades signature-based AV rather than tearing down the logging pipeline
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §IV-A) [fetched] — so the
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-A, §IV-A) [fetched] — so the
 paper's abundant defense-evasion evidence allocates to [[07_stealth]], and Defense Impairment
 inherits little of it. That near-absence is itself the finding: the low-and-slow APT the
 corpus documents prefers to *avoid* defences rather than *disable* them.
@@ -110,14 +110,14 @@ and hard).
 
 What is **not captured** — and this is the dominant caveat: the substrate **represents no
 defensive-control state on hosts at all** (detection/IDS is culled —
-[substrate primer](../specs/substrate_primer.md) §(f)), so there is nothing for the attacker to
+[substrate primer](../../../implementation/substrate_primer.md) §(f)), so there is nothing for the attacker to
 disable and nothing for a reprovision to restore. The survivor verdict above is therefore a
 *conceptual/thesis-level* verdict — the direction the interaction *would* take were defences
 modelled — not something the simulator computes today. Impair-Defenses also shows up in the data
 as **prevalence, not dwell** (measured as %-of-cases; a punctuated, objective-adjacent act before
 a noisy payload), which is why the tactic stays Tier-3 declared with the widest sweep. The formal
 precedent for treating "defences the attacker must bypass" as a modelled gate with declared
-per-step effort is MAL/coreLang ([`timed_attack_models`](../extractions/timed_attack_models.md)),
+per-step effort is MAL/coreLang ([`timed_attack_models`](../../../sources/extractions/timed_attack_models.md)),
 should defences ever be restored to the substrate.
 
 ## 4. Timing evidence
@@ -125,12 +125,12 @@ should defences ever be restored to the substrate.
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0112 page | New v19.1 tactic; Disable or Modify Tools T1685 dominant (188 procedures); **no timing** | Disabling defences directly; no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §IV-A | APT *evades* (signature-AV) rather than disables; defense-evasion evidence is hiding → allocated to [[07_stealth]] | Documented near-absence — the low-and-slow APT rarely disables; supports the group-uncertainty finding | [fetched] |
-| [`he2025`](../extractions/he2025.md) §IV | MTD-AD = decision-boundary perturbation vs adversarial-ML *detector evasion*; adaptive attacker aware of the defence | Nearest analogue is detector-evasion (a stealth/impairment concept), not APT network compromise; no per-tactic dwell | [fetched] |
-| [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Defense Evasion) | The *disabling* half — "uninstalling or disabling security software to prevent it from detecting malicious actions" — allocates here; Selmanaj's lead example (Duqu token-theft) is a *stealth* behaviour, not a disable | Confirms the v19.1 disable-scope allocation and the Step-B finding that the evasion-avoidant APT rarely *disables* defences (genuinely unsettled group); no number | [fetched] |
-| [`ling2023`](../extractions/ling2023.md) Appendix A (Inhibit Response Function) | The ICS analogue of disabling defences maps predominantly to *Denial of Service* (Alarm Suppression, Service Stop, Block-Command), but is mixed (Manipulate I/O Image → Memory) | Nearest empirical shape for defence-degradation is DoS-like; still no dwell — Tier-3 declared, widest sweep | [fetched] |
-| [`ransomware_timing`](../extractions/ransomware_timing.md) (Talos 2025; Huntress 2025) | Talos: ransomware dwell **17–44 d**, Interlock 17 d access→encryptor; **100% of ransomware orgs lacked/bypassed MFA**, EDR missing/misconfigured >25% — Impair Defenses (T1562) is measured as **%-of-cases, not a duration**. Huntress: access→deploy avg **~17 h**, fastest **~4 h**, ~18 pre-payload actions | Direct evidence that defence-disabling is a *prevalence* phenomenon, not a per-phase dwell — confirms the gap-documenting result and the **widest sweep**; the whole-chain timing is bimodal (hours↔weeks) | [fetched] |
-| [`timed_attack_models`](../extractions/timed_attack_models.md) (coreLang 2020) | MAL models *defenses* as gating entities that block attack steps when TRUE, and assigns each attack step a **declared probability distribution** for the effort to complete it | Formal precedent for treating "defences the attacker must bypass" as a modelled gate + declaring per-step effort — legitimises Tier-3 declared for this tactic; no dwell value | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-A, §IV-A | APT *evades* (signature-AV) rather than disables; defense-evasion evidence is hiding → allocated to [[07_stealth]] | Documented near-absence — the low-and-slow APT rarely disables; supports the group-uncertainty finding | [fetched] |
+| [`he2025`](../../../sources/extractions/he2025.md) §IV | MTD-AD = decision-boundary perturbation vs adversarial-ML *detector evasion*; adaptive attacker aware of the defence | Nearest analogue is detector-evasion (a stealth/impairment concept), not APT network compromise; no per-tactic dwell | [fetched] |
+| [`selmanaj2024`](../../../sources/extractions/selmanaj2024.md) Ch. 4 (Defense Evasion) | The *disabling* half — "uninstalling or disabling security software to prevent it from detecting malicious actions" — allocates here; Selmanaj's lead example (Duqu token-theft) is a *stealth* behaviour, not a disable | Confirms the v19.1 disable-scope allocation and the Step-B finding that the evasion-avoidant APT rarely *disables* defences (genuinely unsettled group); no number | [fetched] |
+| [`ling2023`](../../../sources/extractions/ling2023.md) Appendix A (Inhibit Response Function) | The ICS analogue of disabling defences maps predominantly to *Denial of Service* (Alarm Suppression, Service Stop, Block-Command), but is mixed (Manipulate I/O Image → Memory) | Nearest empirical shape for defence-degradation is DoS-like; still no dwell — Tier-3 declared, widest sweep | [fetched] |
+| [`ransomware_timing`](../../../sources/extractions/ransomware_timing.md) (Talos 2025; Huntress 2025) | Talos: ransomware dwell **17–44 d**, Interlock 17 d access→encryptor; **100% of ransomware orgs lacked/bypassed MFA**, EDR missing/misconfigured >25% — Impair Defenses (T1562) is measured as **%-of-cases, not a duration**. Huntress: access→deploy avg **~17 h**, fastest **~4 h**, ~18 pre-payload actions | Direct evidence that defence-disabling is a *prevalence* phenomenon, not a per-phase dwell — confirms the gap-documenting result and the **widest sweep**; the whole-chain timing is bimodal (hours↔weeks) | [fetched] |
+| [`timed_attack_models`](../../../sources/extractions/timed_attack_models.md) (coreLang 2020) | MAL models *defenses* as gating entities that block attack steps when TRUE, and assigns each attack step a **declared probability distribution** for the effort to complete it | Formal precedent for treating "defences the attacker must bypass" as a modelled gate + declaring per-step effort — legitimises Tier-3 declared for this tactic; no dwell value | [fetched] |
 | — (no in-corpus per-tactic timing) | No extraction assigns a defense-impairment duration | Documented negative; Tier-3 declared, widest sweep | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`

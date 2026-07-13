@@ -10,14 +10,14 @@ scope: L1 (GAP construction) only. L2/L3/L4 are consumers, not in scope here.
 The data model and construction method for **L1 — GAP**: the aggregate
 technique-level graph built from the MITRE CTID Attack Flow corpus. This file
 is the *what it is* (data model + invariants + decisions). The *how to build it*
-is implemented in [`../../src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction)
-(validation gate in [`../../tests/gap/`](../../tests/gap); committed artefacts
-under [`../../data/gap/`](../../data/gap)).
+is implemented in [`../../src/mtdsim/l1_construction/`](../../../../src/mtdsim/l1_construction)
+(validation gate in [`../../tests/gap/`](../../../../tests/gap); committed artefacts
+under [`../../data/gap/`](../../../../data/gap)).
 
-This sits under [`architecture.md`](architecture.md) §(c)–(d) (L0 parser-contract
+This sits under [`architecture.md`](../../architecture.md) §(c)–(d) (L0 parser-contract
 + L1 GAP) and resolves several of its §(l) open questions for the GAP stage. It
 does **not** restate ATT&CK / Attack Flow schema basics — those are extracted in
-[`../extractions/attackflow.md`](../extractions/attackflow.md) (load that first).
+[`../extractions/attackflow.md`](../../../sources/extractions/attackflow.md) (load that first).
 
 ---
 
@@ -283,7 +283,7 @@ graph is not a Markov chain), and **not** causal-effect strength. Downstream
 consumers must not treat it as any of these without an explicit, documented
 assumption the corpus does not license. Full gloss and the
 GAP-measures-typical-workflow comparability boundary:
-[`metrics_semantics.md`](metrics_semantics.md) §(f).
+[`metrics_semantics.md`](../../metrics_semantics.md) §(f).
 
 ### GAP-level metadata
 
@@ -291,7 +291,7 @@ GAP-measures-typical-workflow comparability boundary:
 commit/release tag — reproducibility), `attack_source` (**the ATT&CK STIX
 version pin** — e.g. `enterprise-attack-19.1`; this is the load-bearing field
 for tactic / technique vocabulary, including whether the build sees 14 or 15
-tactics; see [the CTI-ages note](../notes/2026-05-28_cti_ages_critique.md) for
+tactics; see [the CTI-ages note](../../../notes/ch3_design/cti_corpus_as_snapshot.md) for
 why the field name and value matter to readers), `source_flow_count`,
 `node_count`, `edge_count`, `entry_nodes`, `objective_nodes`, `layers`
 (tactic_layer → [technique_ids], for layout).
@@ -313,7 +313,7 @@ Consumers read the lossless GAP through view functions. None mutate the artefact
 | **Support filter** | `min_observation_count` | drop edges seen in fewer than *k* flows (the honest replacement for `min_support`) |
 | **Acyclic projection** | cycle-break policy | a DAG when a consumer needs topological order; the policy (which edge to cut) is explicit and recorded, not silent |
 | **Tactic layering** | — | group nodes by `tactic_layer` for visualisation; `tactic_delta` colours forward/back edges |
-| **Operational-objective subgraph (L2/GASP)** | operational-objective specifier | per [`02_gasp_schema.md`](02_gasp_schema.md), GASP takes the *surface* subgraph (techniques in the class's flows + GAP edges between them) over the lossless node/edge sets |
+| **Operational-objective subgraph (L2/GASP)** | operational-objective specifier | per [`02_gasp_schema.md`](../gasp/gasp_schema.md), GASP takes the *surface* subgraph (techniques in the class's flows + GAP edges between them) over the lossless node/edge sets |
 | **Provenance view (Decision 6)** | `corpus-only` \| `corpus+inferred` | `corpus-only` (default) is the canonical observed GAP; `corpus+inferred` additionally aggregates the `source: inferred` overlay extracts. Unlike the filters above — which subset a single lossless artefact — `corpus+inferred` *adds an input set*, so it is realised at aggregation (two input sets), not as a post-hoc edge filter. The canonical `gap_v0.5.json` is the `corpus-only` product and contains **zero** inferred edges (asserted in §g). |
 
 This keeps L2 selectors ([`selectors/`] on `feat/attacker-profiling`) and the
@@ -322,7 +322,7 @@ they just read richer, lossless edges.
 
 ---
 
-## (f) Build pipeline (summary; implemented in [`../../src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction))
+## (f) Build pipeline (summary; implemented in [`../../src/mtdsim/l1_construction/`](../../../../src/mtdsim/l1_construction))
 
 1. **Acquire corpus.** Gitignored clone of `center-for-threat-informed-defense/attack-flow`
    (already covered by `.gitignore: attack-flow/`). Pin the release tag.
@@ -359,7 +359,7 @@ pixel-proximity hack and `extract_ontology_edges` (Decision 1), and
   per-flow extract as an `AND` operator and in the GAP as three edges sharing one
   `join.group_id` with `operator: AND`. This is the unit test the v0.4 parser
   would have failed (it flattened the join). Source: lit-review Figure 2 /
-  [`../extractions/attackflow.md`](../extractions/attackflow.md) Concept 4.
+  [`../extractions/attackflow.md`](../../../sources/extractions/attackflow.md) Concept 4.
 - **Round-trip.** Re-deriving a flow's technique set + directed edges from its
   per-flow extract matches the source STIX bundle's action/effect topology.
 - **Aggregate sanity.** Node count tracks corpus technique coverage;
@@ -385,11 +385,11 @@ pixel-proximity hack and `extract_ontology_edges` (Decision 1), and
    precondition into a technique is AND- or OR-joined, the GAP records both; it
    does not yet emit a single aggregate verdict. Resolution likely belongs at the
    Petri-net step, where join semantics become explicit transition structure.
-   (Also flagged in [`architecture.md`](architecture.md) §(l) / §(d) and
-   [`../extractions/attackflow.md`](../extractions/attackflow.md) Concept 2.)
+   (Also flagged in [`architecture.md`](../../architecture.md) §(l) / §(d) and
+   [`../extractions/attackflow.md`](../../../sources/extractions/attackflow.md) Concept 2.)
 2. **Per-flow format: YAML vs JSON.** YAML chosen for hand-editability; revisit
    if round-trip tooling makes JSON cleaner.
-3. **Attack Flow schema version pin.** Inherits [`architecture.md`](architecture.md)
+3. **Attack Flow schema version pin.** Inherits [`architecture.md`](../../architecture.md)
    §(c) open decision (v3.2.0 vs in-tree v2.x). The four-node grammar is stable
    across versions; parsing the STIX export sidesteps the `.afb` format delta.
 4. **Corpus ↔ ATT&CK-Campaign overlap.** The CTID corpus flows (named e.g.
@@ -407,19 +407,19 @@ pixel-proximity hack and `extract_ontology_edges` (Decision 1), and
    never in the default GAP. *Why:* preserves the §(a) no-synthesis claim
    unqualified while making supplementation a measurable, declared choice and
    turning the prefix-gap finding into a contribution. The observability-bias
-   analysis is in [`../notes/2026-05-27_gap_construction.md`](../notes/2026-05-27_gap_construction.md).
+   analysis is in [`../notes/2026-05-27_gap_construction.md`](../../../notes/ch3_design/technique_graph_construction.md).
 
 ---
 
 ## (i) Relationship to other specs
 
-- [`architecture.md`](architecture.md) — §(c) L0 parser-contract and §(d) L1 GAP;
+- [`architecture.md`](../../architecture.md) — §(c) L0 parser-contract and §(d) L1 GAP;
   this file is the GAP data-model detail those sections defer. (Follow-up: add a
   cross-link from §(d)/§(l) once this lands — not done here to keep architecture's
   Pass-2 work Marc-driven.)
-- [`../extractions/attackflow.md`](../extractions/attackflow.md) — the Attack Flow
+- [`../extractions/attackflow.md`](../../../sources/extractions/attackflow.md) — the Attack Flow
   schema extraction (load-bearing prerequisite reading).
-- [`project_context.md`](project_context.md) — the L0→L4 one-liner GAP sits in.
+- [`project_context.md`](../../../workflows/project_context.md) — the L0→L4 one-liner GAP sits in.
 - Prior art being superseded: the v0.4 GAP implementation on
   `feat/attacker-profiling` (its role-based `attacker/` subtree; the L1 build
   here now lives at `l1_construction/`).

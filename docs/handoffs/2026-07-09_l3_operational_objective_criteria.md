@@ -20,7 +20,7 @@ created: 2026-07-09
 - **The four operational objectives** are the GASP L2 classes — `pure_steal`,
   `pure_impediment`, `double_extortion`, `infrastructure_setup` — plus the
   `aggregate` null profile. Defined in
-  [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md); the class
+  [`../specs/02_gasp_schema.md`](../implementation/pipeline/gasp/gasp_schema.md); the class
   semantics and objective sets are fixed in the committed nets
   ([`../../data/ogasp/README.md`](../../data/ogasp/README.md)).
 - **The runner has shipped** (2026-07-09): the seeded timeline library +
@@ -37,11 +37,11 @@ created: 2026-07-09
   negative leaves open — and the test that could confirm or sink the thesis's
   "the profiles are meaningfully distinct" claim. High stakes, both directions.
 - **The per-tactic profiles already exist** — the 15
-  [`../tactic_profiles/`](../tactic_profiles/) §5 blocks are the single source
+  [`../tactic_profiles/`](../notes/ch3_design/tactic_profiles/) §5 blocks are the single source
   of truth for dwell/behaviour (catalogue consistency constraint). No
   *class-level* characterisation exists yet; that is the new artefact.
 - **Some objective-timing extractions already exist** and were the catalogue's
-  Tier-2 calibration targets: `docs/extractions/breach_reports_macro_timing.md`
+  Tier-2 calibration targets: `docs/sources/extractions/breach_reports_macro_timing.md`
   (Sophos access→exfil ~73–79 h — the held-out milestone),
   `collection_exfil_timing.md` (Bromiley ~64% collect+exfil ≤ 5 h),
   `ransomware_timing.md` (encryption ~6 min–2 h). These are *pooled/generic*
@@ -49,7 +49,7 @@ created: 2026-07-09
   per-class refinement.
 - **Calibration is not yet frozen.** The catalogue is v0-uncalibrated; the
   per-tactic provenance rows await Marc's approval and v1 must not freeze
-  before that ([`../specs/provenance.md`](../specs/provenance.md) § L3
+  before that ([`../specs/provenance.md`](../implementation/provenance.md) § L3
   state-duration catalogue). This handoff runs *ahead of* that freeze so the
   criteria can inform what "plausible dwells" means.
 
@@ -65,7 +65,7 @@ Read this before deciding the shape of the work; it is the load-bearing point.
 - The per-class *behavioural* differences therefore come almost entirely from
   the **W-A weights** (routing) and the **objective set** (termination) — both
   **frozen and grounded**. Bending them to hit a target is exactly the
-  circularity [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md)
+  circularity [`../specs/metrics_semantics.md`](../implementation/metrics_semantics.md)
   §(f) prohibits.
 - Consequence: a model with two global knobs **cannot overfit** four rich
   per-class narratives — which is a strength — but it also **cannot be steered
@@ -111,7 +111,7 @@ not a tactic property).
 
 **2 — Characterise each operational objective from the literature (targeted,
 per-class).** One extraction per class under
-[`../extractions/`](../extractions/) (or extend the three existing
+[`../extractions/`](../sources/extractions/) (or extend the three existing
 objective-timing extracts). Match the source *to the class*: espionage /
 data-theft IR for `pure_steal`; ransomware / wiper timing for
 `pure_impediment`; double-extortion playbooks for `double_extortion`;
@@ -179,13 +179,13 @@ Done when:
 ## Hard constraints
 
 - **Never bend the weights or objective sets to pass a criterion**
-  ([`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f)). The
+  ([`../specs/metrics_semantics.md`](../implementation/metrics_semantics.md) §(f)). The
   weights are the grounded input you defend; the two dwell anchors are the only
   tunable surface, and even they tune against the held-out milestone, not
   against these per-class criteria directly.
 - **Shape-not-scale throughout** — criteria are orderings/ratios/occupancy,
   never absolute hours
-  ([`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md)).
+  ([`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/ch3_design/operational_validation.md)).
 - **Pre-register before scoring** — the criteria commit predates the scoring
   commit, or the exercise is circular.
 - **Anti-circularity on sources** — do not validate a class against material
@@ -208,14 +208,14 @@ Done when:
 - [`../../data/ogasp/petri/divergence_report.md`](../../data/ogasp/petri/divergence_report.md)
   — the negative structural result this behavioural test is meant to answer;
   read the verdict and the small-class null-band note.
-- [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md)
+- [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/ch3_design/operational_validation.md)
   — shape-not-scale, tiers, held-out milestone, anti-circularity rules — the
   discipline this handoff extends to the class level.
-- [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) — the four
+- [`../specs/02_gasp_schema.md`](../implementation/pipeline/gasp/gasp_schema.md) — the four
   operational-objective class definitions and their objective sets (what you
   are characterising).
 - The three existing objective-timing extractions
-  (`docs/extractions/breach_reports_macro_timing.md`,
+  (`docs/sources/extractions/breach_reports_macro_timing.md`,
   `collection_exfil_timing.md`, `ransomware_timing.md`) — the pooled milestones
   to refine per-class; and one or two `tactic_profiles/*.md` §5 blocks for the
   roll-up conventions.

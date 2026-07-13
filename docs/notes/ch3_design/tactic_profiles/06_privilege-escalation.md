@@ -13,8 +13,8 @@ tier_hypothesis: 1 substrate
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -56,7 +56,7 @@ post-foothold loop — "sometimes this phase involves privilege escalation … t
 depends on the environment of the target system" — and its canonical instance is
 vulnerability exploitation: Stuxnet used two Windows zero-days (a keyboard-file flaw and Task
 Scheduler) to "gain full control of the machine by performing privilege escalation"
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §III-C) [fetched]. That
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 3, §III-C) [fetched]. That
 direct-exploitation form (Exploitation for Privilege Escalation T1068) is exactly what the
 substrate's complexity-scaled `exploit_time` prices, so the tactic inherits a Tier-1 anchor
 and is *not tuned*.
@@ -83,10 +83,10 @@ diversity shuffle can reset mid-exploit, patterning with [[03_initial-access]].
 
 The MTD action that bites is application-layer diversity on the exploit path (not the token
 path), and its effect is bounded by the observation that **MTD-defeat probability rises with
-attacker time/cost** (Maleki — [`mttc_lineage`](../extractions/mttc_lineage.md)): a faster reset
+attacker time/cost** (Maleki — [`mttc_lineage`](../../../sources/extractions/mttc_lineage.md)): a faster reset
 caps escalation success by denying the exploit time to complete. Deception/structure *delays* the
 privilege-escalation→domain-admin race but does not *reset* an already-held elevation
-([`ad_time_to_domain_admin`](../extractions/ad_time_to_domain_admin.md)). **Reset verdict:
+([`ad_time_to_domain_admin`](../../../sources/extractions/ad_time_to_domain_admin.md)). **Reset verdict:
 bimodal — the token/valid-account variant survives (narrow sweep), the exploit variant is
 disruptable by surface diversity (moderate sweep); overall sweep moderate.**
 
@@ -102,14 +102,14 @@ resettable gain.
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0004 page | T1068 exploit + token/mechanism abuse; 7/13 parents shared with Persistence; **no timing** | On-demand elevation; no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 3, §III-C | Escalation on demand; Stuxnet 2 Windows 0-days → "full control"; method depends on environment | Exploit form → substrate `exploit_time` (Tier 1); token-abuse variant is faster — no number | [fetched] |
-| [`brown2023`](../extractions/brown2023.md) §IV | Substrate prices exploitation by CVSS attack-complexity ∈ [0.4, 1] | The Tier-1 anchor privilege-escalation inherits | [fetched] |
-| [`rodriguez2024`](../extractions/rodriguez2024.md) §3 | Tactic-level ATT&CK Petri nets are **untimed** — timestamps only *order* events | Gap-confirming: no per-tactic rate even in a tactic-level model | [fetched] |
-| [`xiong2021`](../extractions/xiong2021.md) §5.1.2 | enterpriseLang models PE as a hard permission gate: a `userRights` adversary "cannot use a technique that requires Administrator"; "an adversary can level up through Privilege Escalation … to gain adminRights" | Formal-model precedent for PE as a *gating state* that unlocks an admin-only technique subset — PE dwell is spent before those become reachable; structural, no timing | [fetched] |
-| [`ling2023`](../extractions/ling2023.md) Appendix A, Table 7 | PE (Exploitation for Privilege Escalation) → *Authentication* vuln category; expert TTC floor **6 days** | Per-technique empirical shape for exploit-priced escalation; expert floor supports the exploit-shaped group anchor | [fetched] |
-| [`mcqueen2006`](../extractions/mcqueen2006.md) §3.1.2 | Easy-exploit compromise mean **1 day**; the no-easy-exploit declared dwell **21 d (expert)** | MTTC-lineage declared value for the exploit-shaped case; a Tier-2 plausibility envelope for escalation dwell | [fetched] |
-| [`mttc_lineage`](../extractions/mttc_lineage.md) (Leversage 2008; Zieger 2018; Maleki 2016) | Leversage **Process-1 (known vuln + exploit) mean = 1 day**, skill-scaled (indicator 0–1); Zieger β-TTC folds in CVSS + β-skill; Maleki: MTD-defeat probability *rises with attacker time/cost* | Independent corroboration of the 1-day easy-exploit dwell + a skill range around it; Maleki gives the §3 MTD-effect (faster reset caps success) (**→§3**) | [fetched] |
-| [`ad_time_to_domain_admin`](../extractions/ad_time_to_domain_admin.md) (Ngo 2024; Herranz 2023; Munaiah 2019) | Ngo "response time" = first-decoy-trigger→**DA compromise**; Herranz AD lateral = SIR infection, immunization slows spread; Munaiah CPTC'18 = ATT&CK-timed campaign (44 events) | Structures the privesc→DA race: deception/structure *delay* it (not reset); Munaiah confirms even a timestamped ATT&CK campaign gives ordering, not per-tactic dwell (gap) | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 3, §III-C | Escalation on demand; Stuxnet 2 Windows 0-days → "full control"; method depends on environment | Exploit form → substrate `exploit_time` (Tier 1); token-abuse variant is faster — no number | [fetched] |
+| [`brown2023`](../../../sources/extractions/brown2023.md) §IV | Substrate prices exploitation by CVSS attack-complexity ∈ [0.4, 1] | The Tier-1 anchor privilege-escalation inherits | [fetched] |
+| [`rodriguez2024`](../../../sources/extractions/rodriguez2024.md) §3 | Tactic-level ATT&CK Petri nets are **untimed** — timestamps only *order* events | Gap-confirming: no per-tactic rate even in a tactic-level model | [fetched] |
+| [`xiong2021`](../../../sources/extractions/xiong2021.md) §5.1.2 | enterpriseLang models PE as a hard permission gate: a `userRights` adversary "cannot use a technique that requires Administrator"; "an adversary can level up through Privilege Escalation … to gain adminRights" | Formal-model precedent for PE as a *gating state* that unlocks an admin-only technique subset — PE dwell is spent before those become reachable; structural, no timing | [fetched] |
+| [`ling2023`](../../../sources/extractions/ling2023.md) Appendix A, Table 7 | PE (Exploitation for Privilege Escalation) → *Authentication* vuln category; expert TTC floor **6 days** | Per-technique empirical shape for exploit-priced escalation; expert floor supports the exploit-shaped group anchor | [fetched] |
+| [`mcqueen2006`](../../../sources/extractions/mcqueen2006.md) §3.1.2 | Easy-exploit compromise mean **1 day**; the no-easy-exploit declared dwell **21 d (expert)** | MTTC-lineage declared value for the exploit-shaped case; a Tier-2 plausibility envelope for escalation dwell | [fetched] |
+| [`mttc_lineage`](../../../sources/extractions/mttc_lineage.md) (Leversage 2008; Zieger 2018; Maleki 2016) | Leversage **Process-1 (known vuln + exploit) mean = 1 day**, skill-scaled (indicator 0–1); Zieger β-TTC folds in CVSS + β-skill; Maleki: MTD-defeat probability *rises with attacker time/cost* | Independent corroboration of the 1-day easy-exploit dwell + a skill range around it; Maleki gives the §3 MTD-effect (faster reset caps success) (**→§3**) | [fetched] |
+| [`ad_time_to_domain_admin`](../../../sources/extractions/ad_time_to_domain_admin.md) (Ngo 2024; Herranz 2023; Munaiah 2019) | Ngo "response time" = first-decoy-trigger→**DA compromise**; Herranz AD lateral = SIR infection, immunization slows spread; Munaiah CPTC'18 = ATT&CK-timed campaign (44 events) | Structures the privesc→DA race: deception/structure *delay* it (not reset); Munaiah confirms even a timestamped ATT&CK campaign gives ordering, not per-tactic dwell (gap) | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

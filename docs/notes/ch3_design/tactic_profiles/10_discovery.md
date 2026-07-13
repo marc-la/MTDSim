@@ -13,8 +13,8 @@ tier_hypothesis: 1 substrate
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -54,7 +54,7 @@ The literature **confirms `scan-shaped`**, distinguishing internal discovery fro
 reconnaissance. Alshamrani describes the post-foothold phase as "internal network scanning"
 and "internal reconnaissance" — Carbanak's operators captured employee activity (keyloggers,
 form-grabbers, even video) and sent it to C&C while searching for data resources and critical
-components ([`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §II-C Stage 3)
+components ([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-A, §II-C Stage 3)
 [fetched]. Mechanically this is the same enumeration modality as reconnaissance — host,
 service and network mapping — run from *inside* the estate, which is why it pairs with
 reconnaissance as the scan-shaped, substrate-priced group.
@@ -63,7 +63,7 @@ One nuance widens its character. Under the "position for future" objective, disc
 a burst but an indefinite mode: the attacker "keep[s] themselves updated with the changes …
 studying and understanding the working of the system and the users … while staying
 unnoticed", and does not proceed to exfiltration or impact at all
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C) [fetched]. So discovery spans a
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C) [fetched]. So discovery spans a
 fast internal scan (the substrate proxy) at one end and open-ended, low-and-slow watching at
 the other. The profile keeps it `scan-shaped` / Tier 1 as modelled, noting the
 position-for-future mode is a slower character the substrate scan does not capture. Its
@@ -81,12 +81,12 @@ internal map outright and throws the attacker back to re-enumeration on a terrai
 matches what it learned. In a NASim-style discrete-event contest, **mutation interval 25 →
 scan-first agent win-probability 0**, because "the agent does not know which hosts were already
 exploited" and is "forced to restart his scan" each interval
-([`mtd_scan_disruption`](../extractions/mtd_scan_disruption.md)) — the reset is near-total when
+([`mtd_scan_disruption`](../../../sources/extractions/mtd_scan_disruption.md)) — the reset is near-total when
 the mutation outpaces the enumeration.
 
 The MTD action that bites is the same position-mutating shuffle, and the *thorough* enumerator
 is hit hardest: the more complete the map, the more a shuffle destroys. Magnitude scales with
-the **mutation-interval ÷ scan-cadence ratio** ([substrate primer](../specs/substrate_primer.md)
+the **mutation-interval ÷ scan-cadence ratio** ([substrate primer](../../../implementation/substrate_primer.md)
 §(e)), so the sweep is wide and ratio-governed, mirroring reconnaissance. **Reset verdict:
 invalidated; sweep width wide.** Surface-mutating (application-layer) diversity is largely
 orthogonal here — discovery enumerates *reachability and structure*, not a specific exploit
@@ -98,20 +98,20 @@ indefinite low-and-slow watching, and — as with reconnaissance — an attacker
 mutation cadence and re-discovers strategically rather than blindly restarting. The substrate
 models discovery as a fast internal scan and resets it wholesale on a shuffle; a schedule-aware
 watcher would lose less, a divergence the sweep's attacker-favourable bound approximates but the
-substrate does not compute ([substrate primer](../specs/substrate_primer.md) §(f)).
+substrate does not compute ([substrate primer](../../../implementation/substrate_primer.md) §(f)).
 
 ## 4. Timing evidence
 
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0007 page | Largest parent count (34), mostly flat enumerations; System Information Discovery T1082 (424); **no timing** | Internal enumeration; no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §II-C Stage 3 | Internal network scanning / internal recon (Carbanak keyloggers/video); position-for-future = indefinite passive watching | Scan modality → substrate scan (Tier 1); position-for-future is slower — no number | [fetched] |
-| [`rodriguez2024`](../extractions/rodriguez2024.md) §2–3 | The paper's tactic-level example is discovery via Network Service Discovery T1046 (Nmap); the Petri net is **untimed** | Gap-confirming: even the one tactic-level model gives discovery *ordering*, not dwell | [fetched] |
-| [`brown2023`](../extractions/brown2023.md) §IV | Substrate models host-discovery + port-scan as timed phases; a shuffle forces re-discovery | The scan-shaped anchor discovery inherits; reset semantics (→§3) | [fetched] |
-| [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Discovery) | "The discovery phase can take a long time"; DFIR BlackSuit case ran discovery (systeminfo/nltest/Sharphound) **~6 h after initial access** | Tempers pure scan-speed with a slower internal-enumeration character (a shape divergence like reconnaissance's); the modality still maps to the substrate scan — no per-tactic number | [fetched] |
-| [`ling2023`](../extractions/ling2023.md) Appendix A (Discovery) | Discovery techniques (Remote System Discovery, Network Connection Enumeration) → *Information Leakage* vuln category | Per-technique CVE shape for discovery; no dwell (method needs real CVEs) | [fetched] |
-| [`mtd_scan_disruption`](../extractions/mtd_scan_disruption.md) (Reti 2022 §6; Jafarian 2015 §V; Wang 2017 §5.1) | In a NASim-style DES, **mutation interval 25 → scan-first agent win-prob 0**; a shuffle means "the agent does not know which hosts were already exploited" → forced re-discovery; RDAM: **internal IP-scanner cannot hit any host**; attacker "forced to restart his scan" each interval | Strong MTD-reset for discovery: a topology/address shuffle invalidates the internal map (**→§3**); effect scales with mutation-interval ÷ scan-cadence; the *thorough* enumerator is hit hardest | [fetched] |
-| [`internet_scanning_empirics`](../extractions/internet_scanning_empirics.md) (Durumeric 2014; Griffioen 2024 §6.6) | Internal enumeration is a *fast* action (host/service scan in minutes); re-scan cadence is opportunistic, not a fixed period | Confirms the scan verb is fast (Tier-1 anchor); discovery slowness is the position-for-future *mode*, not per-scan cost | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-A, §II-C Stage 3 | Internal network scanning / internal recon (Carbanak keyloggers/video); position-for-future = indefinite passive watching | Scan modality → substrate scan (Tier 1); position-for-future is slower — no number | [fetched] |
+| [`rodriguez2024`](../../../sources/extractions/rodriguez2024.md) §2–3 | The paper's tactic-level example is discovery via Network Service Discovery T1046 (Nmap); the Petri net is **untimed** | Gap-confirming: even the one tactic-level model gives discovery *ordering*, not dwell | [fetched] |
+| [`brown2023`](../../../sources/extractions/brown2023.md) §IV | Substrate models host-discovery + port-scan as timed phases; a shuffle forces re-discovery | The scan-shaped anchor discovery inherits; reset semantics (→§3) | [fetched] |
+| [`selmanaj2024`](../../../sources/extractions/selmanaj2024.md) Ch. 4 (Discovery) | "The discovery phase can take a long time"; DFIR BlackSuit case ran discovery (systeminfo/nltest/Sharphound) **~6 h after initial access** | Tempers pure scan-speed with a slower internal-enumeration character (a shape divergence like reconnaissance's); the modality still maps to the substrate scan — no per-tactic number | [fetched] |
+| [`ling2023`](../../../sources/extractions/ling2023.md) Appendix A (Discovery) | Discovery techniques (Remote System Discovery, Network Connection Enumeration) → *Information Leakage* vuln category | Per-technique CVE shape for discovery; no dwell (method needs real CVEs) | [fetched] |
+| [`mtd_scan_disruption`](../../../sources/extractions/mtd_scan_disruption.md) (Reti 2022 §6; Jafarian 2015 §V; Wang 2017 §5.1) | In a NASim-style DES, **mutation interval 25 → scan-first agent win-prob 0**; a shuffle means "the agent does not know which hosts were already exploited" → forced re-discovery; RDAM: **internal IP-scanner cannot hit any host**; attacker "forced to restart his scan" each interval | Strong MTD-reset for discovery: a topology/address shuffle invalidates the internal map (**→§3**); effect scales with mutation-interval ÷ scan-cadence; the *thorough* enumerator is hit hardest | [fetched] |
+| [`internet_scanning_empirics`](../../../sources/extractions/internet_scanning_empirics.md) (Durumeric 2014; Griffioen 2024 §6.6) | Internal enumeration is a *fast* action (host/service scan in minutes); re-scan cadence is opportunistic, not a fixed period | Confirms the scan verb is fast (Tier-1 anchor); discovery slowness is the position-for-future *mode*, not per-scan cost | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

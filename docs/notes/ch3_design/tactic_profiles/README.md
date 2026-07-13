@@ -1,4 +1,4 @@
-# `docs/tactic_profiles/` — per-tactic APT × adversary-sim × MTD dwell profiles
+# `docs/notes/ch3_design/tactic_profiles/` — per-tactic APT × adversary-sim × MTD dwell profiles
 
 One file per tactic in the L3a place-union — a **reconciled synthesis** of what
 an APT actor does in this tactic, how long (dwell character), and how an MTD
@@ -6,16 +6,16 @@ system disrupts it. The files are the **evidence layer** the state-duration
 catalogue (`data/ogasp/tactic_durations.json`) and the L3b binding draw on; they
 are not the catalogue itself.
 
-- **Method / the bar these files must clear:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md)
+- **Method / the bar these files must clear:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md)
   — operational validation: calibrate unobservable per-tactic dwells so the
   *emergent timeline shape* matches literature-reported campaign patterns; badge
   every value's validity; sweep it.
-- **Why the gap is real (precedent survey):** [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../notes/2026-07-04_tactic_duration_precedent_survey.md)
+- **Why the gap is real (precedent survey):** [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../ch2_background/tactic_duration_precedent_survey.md)
   — nobody assigns justified per-ATT&CK-*tactic* durations; the field norm is
   declare-and-sweep, which these profiles execute.
-- **The catalogue the §5 blocks feed:** [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json)
+- **The catalogue the §5 blocks feed:** [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json)
   (v0 uncalibrated; validation gate
-  [`tests/l3_simulation/test_durations.py`](../../tests/l3_simulation/test_durations.py)).
+  [`tests/l3_simulation/test_durations.py`](../../../../tests/l3_simulation/test_durations.py)).
 - **Template:** [`_template.md`](_template.md).
 
 ## The 15 tactics — ATT&CK Enterprise v19.1
@@ -23,7 +23,7 @@ are not the catalogue itself.
 The place-union across the five L3a nets is **15**, not the classic 14, because
 **ATT&CK v19.1 split `defense-evasion` (TA0005) into `stealth` (TA0005, reused
 id) + `defense-impairment` (TA0112, new)**. The pinned bundle is
-[`../../data/gap/_attack/enterprise-attack-19.1.json`](../../data/gap/_attack/enterprise-attack-19.1.json).
+[`../../data/gap/_attack/enterprise-attack-19.1.json`](../../../../data/gap/_attack/enterprise-attack-19.1.json).
 **Research consequence:** most existing literature predates the split and says
 "defense-evasion" — allocate those claims across `stealth` (hiding/evasion) vs
 `defense-impairment` (disabling/degrading defences), don't map them to one.
@@ -70,6 +70,6 @@ Lifecycle: `stub` (header + empty sections) → `drafted` (sections filled) →
 `reconciled` (`[search]` claims confirmed against primary sources, ready to
 feed the catalogue). **All 15 files are `status: reconciled` as of 2026-07-09**,
 and the catalogue they feed is shipped
-([`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json),
+([`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json),
 v0 uncalibrated — group anchors calibrate within their sweep ranges once the
 timeline runner lands, then freeze v1).

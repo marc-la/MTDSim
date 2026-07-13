@@ -13,8 +13,8 @@ tier_hypothesis: 1 substrate
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -52,7 +52,7 @@ The literature **confirms `exploit-shaped` for the server-side path, with a cave
 human-triggered vectors.** Alshamrani's Stage 2 enumerates the APT entry set — exploitation
 of *known* vulnerabilities (the majority, per Ussath), spear-phishing (the single most
 common initial-compromise vector), zero-day (rare), watering-hole and web download
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 2, §VIII) [fetched]. The
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 2, §VIII) [fetched]. The
 server-side exploitation half (Exploit Public-Facing Application T1190, Exploitation of
 Remote Services) is exactly what the substrate's complexity-scaled `exploit_time` prices,
 so those techniques inherit a Tier-1 anchor and are *not tuned*.
@@ -60,7 +60,7 @@ so those techniques inherit a Tier-1 anchor and are *not tuned*.
 The caveat is that the phishing/watering-hole half carries a behaviour the exploit model
 does not capture: after delivery, "attackers patiently wait for the malware to run within
 the organization's network" — a human-triggered, potentially long wait for a user to open
-the attachment ([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 2)
+the attachment ([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 2)
 [fetched]. This is the closest initial-access comes to a low-and-slow dwell, and it sits
 uneasily inside an exploit-priced state. The profile keeps initial-access `exploit-shaped`
 / Tier 1 (the substrate models entry as an exploit), but records the delivery-wait as a
@@ -72,9 +72,9 @@ patient wait. No point number (§5).
 Initial access produces the first **foothold** — and the gain splits by *when* you look. Once
 achieved, the foothold is a capability possession that **survives**: a compromised ingress host
 stays owned, and — the structural fact that makes initial-access unusually reset-robust —
-**exposed endpoints are never mutated** ([substrate primer](../specs/substrate_primer.md) §(c)),
+**exposed endpoints are never mutated** ([substrate primer](../../../implementation/substrate_primer.md) §(c)),
 so the route *in* is a permanent fixture the MTD cannot take away
-([substrate primer](../specs/substrate_primer.md) §(e)). Mutation protects the interior, not the
+([substrate primer](../../../implementation/substrate_primer.md) §(e)). Mutation protects the interior, not the
 perimeter. An *in-progress* entry attempt against a public-facing application, by contrast, is a
 surface-dependent action: a surface-mutating (application-layer) diversity shuffle can reset the
 exploit working set and force re-enumeration of the same target, and per Evans a *fresh-exploit*
@@ -97,20 +97,20 @@ subject to reset at all. The valid-accounts entry path inherits the credential s
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0001 page | 11 parent techniques; Phishing T1566 dominant (262 procedures); **no timing** | First on-network tactic; models entry as an exploit — no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 2, §VIII | Entry via *known*-vuln exploit (majority), spear-phishing (most common), zero-day rare; post-delivery the attacker "patiently wait[s]" for user-triggered execution | Server-side half → substrate `exploit_time` (Tier 1); the delivery-wait is a shape divergence, not a metered dwell | [fetched] |
-| [`bland2020`](../extractions/bland2020.md) §2.1, §4 | Timed SPN models spear-phishing (CAPEC 163) and XSS (CAPEC 63/66); transition rates "notional … randomly selected between one and ten", realistic rates deferred to SMEs | Declare-and-sweep precedent for this tactic's timing; SME face-validation legitimises a declared value | [fetched] |
-| [`brown2023`](../extractions/brown2023.md) §IV | Substrate prices exploitation by CVSS attack-complexity ∈ [0.4, 1] | The Tier-1 anchor initial-access inherits (complexity-scaled `exploit_time`) | [fetched] |
-| [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (CrowdStrike GTR) | eCrime **breakout time** (initial access → lateral movement) avg **29 min** / fastest **27 s** (2026 ed.); 48 min / 51 s (2025 ed.); one case **exfil began within 4 min of initial access** | Tier-2 macro bound on the *fast (eCrime) end* of the early-chain dwell that starts at initial-access; whole-transition, not per-tactic | [fetched] |
-| [`mcqueen2006`](../extractions/mcqueen2006.md) §3.1.2, Fig. 9 | Process-1 (known vuln + ready exploit) mean = **1 day (8 h)**, skill-independent; the no-known-vuln declared dwell is 21 d (expert) → 193 d (novice) | The MTTC-lineage declared value for an exploit-shaped entry: an easy-exploit foothold is ~a working day, badged Tier-2 declared + swept | [fetched] |
-| [`ling2023`](../extractions/ling2023.md) Appendix A, Table 7 | Initial-Access techniques map to *Access Control* / *Web* vuln categories; expert TTC floor **6 days** across all combinations | Per-technique empirical shape for exploit-priced entry; the constant expert floor supports a group anchor over per-tactic values | [fetched] |
-| [`initial_access_timing`](../extractions/initial_access_timing.md) (DBIR 2024; Mandiant TTE 2023) | Phishing **click in 21 s** (+28 s to data entry); average time-to-exploit collapsed **63 → 44 → 32 → 5 days** (2018→2023), 70% first exploited as zero-days | Fast-end empirical anchors: the metered exploit/click action is seconds-to-days; the low-and-slow is pre-delivery, not the action (sharpens §2) | [fetched] |
-| [`initial_access_timing`](../extractions/initial_access_timing.md) (Holm 2014 §5.2–5.3) | TTC over **203k intrusions / 262k systems** is **heavy-tailed (Pareto/lognormal), not exponential**; TTC *decreases* with each successive intrusion | Distribution-shape caveat: a declared entry-time sweep should explore a heavy tail, not memoryless — flags the substrate's inherited exponential as suspect (for Marc, not actioned) | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 2, §VIII | Entry via *known*-vuln exploit (majority), spear-phishing (most common), zero-day rare; post-delivery the attacker "patiently wait[s]" for user-triggered execution | Server-side half → substrate `exploit_time` (Tier 1); the delivery-wait is a shape divergence, not a metered dwell | [fetched] |
+| [`bland2020`](../../../sources/extractions/bland2020.md) §2.1, §4 | Timed SPN models spear-phishing (CAPEC 163) and XSS (CAPEC 63/66); transition rates "notional … randomly selected between one and ten", realistic rates deferred to SMEs | Declare-and-sweep precedent for this tactic's timing; SME face-validation legitimises a declared value | [fetched] |
+| [`brown2023`](../../../sources/extractions/brown2023.md) §IV | Substrate prices exploitation by CVSS attack-complexity ∈ [0.4, 1] | The Tier-1 anchor initial-access inherits (complexity-scaled `exploit_time`) | [fetched] |
+| [`breach_reports_macro_timing`](../../../sources/extractions/breach_reports_macro_timing.md) (CrowdStrike GTR) | eCrime **breakout time** (initial access → lateral movement) avg **29 min** / fastest **27 s** (2026 ed.); 48 min / 51 s (2025 ed.); one case **exfil began within 4 min of initial access** | Tier-2 macro bound on the *fast (eCrime) end* of the early-chain dwell that starts at initial-access; whole-transition, not per-tactic | [fetched] |
+| [`mcqueen2006`](../../../sources/extractions/mcqueen2006.md) §3.1.2, Fig. 9 | Process-1 (known vuln + ready exploit) mean = **1 day (8 h)**, skill-independent; the no-known-vuln declared dwell is 21 d (expert) → 193 d (novice) | The MTTC-lineage declared value for an exploit-shaped entry: an easy-exploit foothold is ~a working day, badged Tier-2 declared + swept | [fetched] |
+| [`ling2023`](../../../sources/extractions/ling2023.md) Appendix A, Table 7 | Initial-Access techniques map to *Access Control* / *Web* vuln categories; expert TTC floor **6 days** across all combinations | Per-technique empirical shape for exploit-priced entry; the constant expert floor supports a group anchor over per-tactic values | [fetched] |
+| [`initial_access_timing`](../../../sources/extractions/initial_access_timing.md) (DBIR 2024; Mandiant TTE 2023) | Phishing **click in 21 s** (+28 s to data entry); average time-to-exploit collapsed **63 → 44 → 32 → 5 days** (2018→2023), 70% first exploited as zero-days | Fast-end empirical anchors: the metered exploit/click action is seconds-to-days; the low-and-slow is pre-delivery, not the action (sharpens §2) | [fetched] |
+| [`initial_access_timing`](../../../sources/extractions/initial_access_timing.md) (Holm 2014 §5.2–5.3) | TTC over **203k intrusions / 262k systems** is **heavy-tailed (Pareto/lognormal), not exponential**; TTC *decreases* with each successive intrusion | Distribution-shape caveat: a declared entry-time sweep should explore a heavy tail, not memoryless — flags the substrate's inherited exponential as suspect (for Marc, not actioned) | [fetched] |
 
 > **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
 > above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
 > *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
 > defined by *when detection caught the intrusion*, and detection/IDS is culled from this
-> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> substrate ([substrate primer](../../../implementation/substrate_primer.md) §(f)), so they bound the emergent
 > timeline's *shape/plausibility*, never an absolute per-tactic dwell. Only the rows that resolve
 > dwell-character or reset-verdict feed §3/§5.
 

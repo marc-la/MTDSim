@@ -21,7 +21,7 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 
 ### Relevance class
 
-**C — contrast / adjacent.** Masud anchors the §IV-B Table II cross-section at the *scripted* rung of the fidelity descriptor and is one of the two papers that drive the "rhetoric-versus-execution gap" pattern that section diagnoses (the other being [[kim2026]]). It is contrasted-against, not adopted: the contribution this thesis takes from it is a *placement* on the fidelity ladder ([`../specs/architecture.md`](../specs/architecture.md) §(j), [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) L195) — not an orchestration primitive, metric definition, or substrate choice. (Note: Masud is also the *specified pole* exemplar in §II-C of the orchestration spectrum, but that placement is rhetorical scene-setting; the load-bearing use is the §IV-B Table II row.)
+**C — contrast / adjacent.** Masud anchors the §IV-B Table II cross-section at the *scripted* rung of the fidelity descriptor and is one of the two papers that drive the "rhetoric-versus-execution gap" pattern that section diagnoses (the other being [[kim2026]]). It is contrasted-against, not adopted: the contribution this thesis takes from it is a *placement* on the fidelity ladder ([`../specs/architecture.md`](../../implementation/architecture.md) §(j), [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) L195) — not an orchestration primitive, metric definition, or substrate choice. (Note: Masud is also the *specified pole* exemplar in §II-C of the orchestration spectrum, but that placement is rhetorical scene-setting; the load-bearing use is the §IV-B Table II row.)
 
 ### Threat-model placement on the Table II fidelity descriptor
 
@@ -32,7 +32,7 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 **Quote (if essential):**
 > "Attackers were modeled after techniques in the cyber kill chain and MITRE ATT&CK, mirroring real threats. ... Vulnerabilities were prioritized by return on attack, emphasizing those with greatest impact." (§3.3, L299)
 
-**Maps to:** [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) §IV-B "_3) Masud et al., 2025_" (L185) and Table II row (L205) · [`../specs/architecture.md`](../specs/architecture.md) §(j) "behavioural fidelity changes the answer" framing (L460–462)
+**Maps to:** [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) §IV-B "_3) Masud et al., 2025_" (L185) and Table II row (L205) · [`../specs/architecture.md`](../../implementation/architecture.md) §(j) "behavioural fidelity changes the answer" framing (L460–462)
 
 **Disposition for this thesis:** **contrasted-against.** Masud occupies the row on the fidelity descriptor that this thesis's L2/L3 GASP→OGASP attacker design is built *up from*. The placement is *not* a deficiency — Masud's contribution is on the orchestration side (coexistence rules between IP-shuffle, OS-diversity, redundancy via a priority queue + suspension list, §3.2 L192 and Algorithm 1 L361–393), where the threat model functions as evaluation backdrop rather than the focus. Used in the lit review to ground the §IV-B claim that *across the cross-section* the threat model sits markedly below the rung the defence claims to operate at — the rhetoric-versus-execution gap that opens the space for this thesis. The §II-C "specified pole" use of Masud (orchestration as explicit conflict-resolution rules) is rhetorical scene-setting, not a primitive this work adopts — the lineage substrate inherits no orchestration logic from Masud.
 
@@ -40,11 +40,11 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 
 ### Used in lit review
 
-- [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) L85 — §II-C "specified pole" of the orchestration spectrum: priority queue + suspension list as the conflict-resolution mechanism; evaluation across attack risk, attack cost, and RoA. *Rhetorical scene-setting for the orchestration spectrum's specified end.*
-- [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) L177 — §IV-B introduction: Masud listed as the "recent IoT-cloud orchestration" point of the five-paper cross-section.
-- [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) L185 — §IV-B per-paper justification: scripted-fidelity placement; the "modeled after techniques in the cyber kill chain and MITRE ATT&CK" quote ([11, p. 7]) carries the rhetoric-versus-execution gap.
-- [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) L205 — Table II row: Persistent ✗ · Adaptive ✗ · Stealthy ✗ · Incentive-aware ✗ · Fidelity scripted.
-- [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) L195 — §IV-B general observations: Masud cited alongside [[kim2026]] as clustering at *scripted* on the ladder; collectively anchors the "located asymmetry" framing this thesis takes up.
+- [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) L85 — §II-C "specified pole" of the orchestration spectrum: priority queue + suspension list as the conflict-resolution mechanism; evaluation across attack risk, attack cost, and RoA. *Rhetorical scene-setting for the orchestration spectrum's specified end.*
+- [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) L177 — §IV-B introduction: Masud listed as the "recent IoT-cloud orchestration" point of the five-paper cross-section.
+- [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) L185 — §IV-B per-paper justification: scripted-fidelity placement; the "modeled after techniques in the cyber kill chain and MITRE ATT&CK" quote ([11, p. 7]) carries the rhetoric-versus-execution gap.
+- [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) L205 — Table II row: Persistent ✗ · Adaptive ✗ · Stealthy ✗ · Incentive-aware ✗ · Fidelity scripted.
+- [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) L195 — §IV-B general observations: Masud cited alongside [[kim2026]] as clustering at *scripted* on the ladder; collectively anchors the "located asymmetry" framing this thesis takes up.
 
 ---
 

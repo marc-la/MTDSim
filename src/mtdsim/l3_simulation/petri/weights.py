@@ -1,7 +1,7 @@
 """W-A flow-proportion weights for the tactic-place nets (supervisor decision D3).
 
 The weighting regime — dispositioned in
-[`docs/specs/metrics_semantics.md`](../../../../docs/specs/metrics_semantics.md)
+[`docs/implementation/metrics_semantics.md`](../../../../docs/implementation/metrics_semantics.md)
 §(f) before this build committed a normalised weight anywhere:
 
 - **What is counted: flows, never ``observation_count``.** For transition

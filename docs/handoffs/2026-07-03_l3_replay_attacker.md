@@ -27,7 +27,7 @@ created: 2026-07-03
   Still pending: the scoping note that fixes what each tactic-state does
   against the substrate.
 - **The seam is already named in the architecture**
-  ([`../specs/architecture.md`](../specs/architecture.md) §(f)): the
+  ([`../specs/architecture.md`](../implementation/architecture.md) §(f)): the
   graph-driven attacker lives **alongside** the inherited 6-phase
   [`Adversary`](../../mtdnetwork/component/adversary.py) /
   [`AttackOperation`](../../mtdnetwork/operation/attack_operation.py) — the
@@ -115,14 +115,14 @@ Done when:
 ## Hard constraints
 
 - **Never delete or modify the 6-phase attacker's behaviour** — alongside,
-  per-run selection ([`../specs/architecture.md`](../specs/architecture.md)
+  per-run selection ([`../specs/architecture.md`](../implementation/architecture.md)
   §(f) decision block).
 - **Attacker-only change (D5)**; HARM / MTD mechanisms / orchestrator /
   statistics semantics untouched (the stats pipeline may gain a reader for
   the new records, not altered maths for the old ones).
 - **Within-substrate comparability only** — report the DES MTTC; no
   cross-paper magnitude claims
-  ([`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(d));
+  ([`../specs/metrics_semantics.md`](../implementation/metrics_semantics.md) §(d));
   the MTTC event definition of §(a) holds for the baseline unchanged.
 - **Envelope-not-actor** phrasing in every reported claim.
 - **No IDS/detection**; adaptive/MTD-conditioned behaviour deferred (D10).
@@ -144,7 +144,7 @@ Done when:
   + [`timeline_example.jsonl`](../../data/ogasp/timeline/timeline_example.jsonl) — the
   input contract (`ogasp-timeline/v1`; the driver pins to it).
 - [`../../baseline/BASELINE.md`](../../baseline/BASELINE.md) +
-  [`../specs/mtdsim_spec.md`](../specs/mtdsim_spec.md) — the oracle and the
+  [`../specs/mtdsim_spec.md`](../implementation/mtdsim_spec.md) — the oracle and the
   row-level invariants the new attacker must not violate.
 
 ## Out of scope (explicitly)

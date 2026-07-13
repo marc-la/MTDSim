@@ -30,7 +30,7 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 **Quote (if essential):**
 > "<verbatim, short>"
 
-**Maps to:** [`../specs/mtdsim_spec.md`](../specs/mtdsim_spec.md) MTD-XX · [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §c
+**Maps to:** [`../specs/mtdsim_spec.md`](../../implementation/mtdsim_spec.md) MTD-XX · [`../specs/metrics_semantics.md`](../../implementation/metrics_semantics.md) §c
 
 **Disposition for this thesis:** <verified / divergent / unimplemented / adopted-as-baseline / contrasted-against — and why>
 

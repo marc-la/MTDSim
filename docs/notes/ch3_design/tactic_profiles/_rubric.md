@@ -1,15 +1,23 @@
 ---
 status: durable
 created: 2026-07-07
-topic: "the thesis backbone — the rubric the per-tactic adversarial-model subsection must clear, and the reframing of Step E as its central prose"
+updated: 2026-07-13
+lineage: formerly docs/notes @ 2026-07-07_thesis_backbone_rubric.md (relocated in the 2026-07-13 docs refactor)
+topic: "the rubric the 15 tactic profiles in this directory must clear"
 ---
 
-# The thesis backbone rubric — what "APT campaign profiling on dynamic networks" has to achieve, tactic by tactic
+# The tactic-profile rubric — what "APT campaign profiling on dynamic networks" has to achieve, tactic by tactic
+
+> **Process scaffolding** (underscore-prefixed, exempt from the notes register —
+> see [`../../../workflows/notes_rubric.md`](../../../workflows/notes_rubric.md)).
+> This is the quality gate for the 15 profile files in this directory, the
+> profile-specific counterpart to the repo-wide notes rubric. §B is the operative
+> part; §A records how the rubric was derived.
 
 ## Why this is worth recording
 
 Before Step E of the state-duration work
-(shipped 2026-07-09 as [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json))
+(shipped 2026-07-09 as [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json))
 the purpose of the whole per-tactic layer was re-litigated: these profiles are not
 a means to a duration catalogue, they are the **evidence layer of the thesis's
 central novel claim** — *how an APT actor interacts with a dynamic (MTD) network,
@@ -66,7 +74,7 @@ capturing" reflex; the positioning questions. These are examiner-facing instinct
 - **The MTD→attacker direction is the genuine unknown and is not foregrounded.**
   The questions ask how the attacker interacts with the network; they do not
   centre the fact that *no public logs ground the MTD→attacker effect*
-  ([`./2026-06-18_cti_to_executable_behaviour.md`](./2026-06-18_cti_to_executable_behaviour.md) §5).
+  ([`./2026-06-18_cti_to_executable_behaviour.md`](../structure_to_behaviour_binding.md) §5).
   Every tactic must state its **reset verdict** (does a mutation invalidate the
   gain here, or does it survive?) and own the uncertainty. This is Step E and it
   is the novel half.
@@ -162,15 +170,15 @@ distillation of §2. Writing §3 well is writing the thesis, not feeding a JSON 
 ## How it connects
 
 - **Governed** Steps E/F of the state-duration work (shipped 2026-07-09 as
-  [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json));
+  [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json));
   the rubric's B.1 crit. 3–4 *are* Step E, crit. 2/5/7 feed Step F/§5.
 - **Rests on** the epistemic contract in
-  [`./2026-07-04_operational_validation_the_bar.md`](./2026-07-04_operational_validation_the_bar.md)
+  [`./2026-07-04_operational_validation_the_bar.md`](../operational_validation.md)
   (validity tiers, shape-not-scale) and the envelope/binding framing in
-  [`./2026-06-18_cti_to_executable_behaviour.md`](./2026-06-18_cti_to_executable_behaviour.md)
+  [`./2026-06-18_cti_to_executable_behaviour.md`](../structure_to_behaviour_binding.md)
   (ontology gap, encoding ledger, MTD-reset-is-the-unknown, envelope-not-actor).
 - **The gap it defends** (framing crit. 2–3) is evidenced in
-  [`./2026-07-04_tactic_duration_precedent_survey.md`](./2026-07-04_tactic_duration_precedent_survey.md).
+  [`./2026-07-04_tactic_duration_precedent_survey.md`](../../ch2_background/tactic_duration_precedent_survey.md).
 - **Needs a companion artefact:** a non-implementation-specific *substrate primer*
   (the attacker's-eye view of the HARM network + MTD mechanisms + what a successful
   recon/discovery attacker can know) so profiles reference it instead of re-deriving

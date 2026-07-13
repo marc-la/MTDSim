@@ -7,7 +7,7 @@ invariant), **flow bipartite**, **marking = one token in reconnaissance (else
 initial-access)**. Structural only — no rates, timing, weights, rewards, MTD or
 CTMC (later stages of the workstream).
 
-Design / feasibility: ``docs/notes/2026-06-18_l3_petri_feasibility.md`` (sec.8:
+Design / feasibility: ``docs/implementation/pipeline/ogasp/petri_feasibility.md`` (sec.8:
 the structural base is GO-unconditional). Build brief:
 ``docs/handoffs/2026-06-18_l3a_petri_mvp.md``. Outputs land under
 ``data/ogasp/petri/``. Entry point: ``PYTHONPATH=src python -m mtdsim.l3_simulation.petri``.

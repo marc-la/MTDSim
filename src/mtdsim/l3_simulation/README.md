@@ -5,17 +5,17 @@ places:
 
 | substrate | artefact | architecture § | status | code home |
 |---|---|---|---|---|
-| DES substrate seam | graph-driven attacker alongside the 6-phase baseline | [§(f)](../../../docs/specs/architecture.md) · [§(i)](../../../docs/specs/architecture.md) | **stub** | **substrate seam in `mtdnetwork/`** (below) |
-| analytical Petri net | weighted structural tactic-place nets per GASP class | [§(f)](../../../docs/specs/architecture.md) | **L3a shipped** | [`petri/`](petri/) |
-| standalone timeline runner | seeded single-token walks → timed attacker-state sequences (D2 v1) | [§(f)](../../../docs/specs/architecture.md) | **L3b shipped** | [`timeline/`](timeline/) |
+| DES substrate seam | graph-driven attacker alongside the 6-phase baseline | [§(f)](../../../docs/implementation/architecture.md) · [§(i)](../../../docs/implementation/architecture.md) | **stub** | **substrate seam in `mtdnetwork/`** (below) |
+| analytical Petri net | weighted structural tactic-place nets per GASP class | [§(f)](../../../docs/implementation/architecture.md) | **L3a shipped** | [`petri/`](petri/) |
+| standalone timeline runner | seeded single-token walks → timed attacker-state sequences (D2 v1) | [§(f)](../../../docs/implementation/architecture.md) | **L3b shipped** | [`timeline/`](timeline/) |
 
 ## `petri/` — L3a structural Petri-net MVP
 
 Four un-weighted **structural** tactic-place Petri nets (one per GASP class),
 built in SNAKES with a single moving black token — the *shape* only (no rates,
 timing, weights, rewards, MTD or CTMC; those are later stages). Build brief:
-[`docs/handoffs/2026-06-18_l3a_petri_mvp.md`](../../../docs/handoffs/2026-06-18_l3a_petri_mvp.md);
-rationale: [`docs/notes/2026-06-18_l3_petri_feasibility.md`](../../../docs/notes/2026-06-18_l3_petri_feasibility.md).
+`handoffs/2026-06-18_l3a_petri_mvp.md` (shipped & deleted per handoff lifecycle; see git log);
+rationale: [`docs/implementation/pipeline/ogasp/petri_feasibility.md`](../../../docs/implementation/pipeline/ogasp/petri_feasibility.md).
 Outputs land under [`data/ogasp/petri/`](../../../data/ogasp/petri/); the
 timeline runner ([`timeline/`](timeline/)) writes its artefacts to
 [`data/ogasp/timeline/`](../../../data/ogasp/timeline/) (see the

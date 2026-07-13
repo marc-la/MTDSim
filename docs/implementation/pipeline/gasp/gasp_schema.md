@@ -12,13 +12,13 @@ The data model and construction method for **L2 — GASP**: the operational-
 objective-conditioned subgraphs derived from the L1 GAP plus an audit-traced
 per-flow class-membership input. This file is the *what it is* (data model
 + invariants + decisions). The *how to build it* is implemented at
-[`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph).
+[`../../src/mtdsim/l2_subgraph/`](../../../../src/mtdsim/l2_subgraph).
 The class-membership input is committed at
-[`../notes/2026-05-28_l2_metadata_audit.csv`](../notes/2026-05-28_l2_metadata_audit.csv).
+[`../notes/2026-05-28_l2_metadata_audit.csv`](../../../../data/gasp/metadata_audit.csv).
 
-This sits under [`architecture.md`](architecture.md) §(e) (L2 GASP) and
+This sits under [`architecture.md`](../../architecture.md) §(e) (L2 GASP) and
 supersedes its terminal-node-ancestor proxy. It does **not** restate the GAP
-data model — that lives in [`01_gap_schema.md`](01_gap_schema.md), the
+data model — that lives in [`01_gap_schema.md`](../gap/gap_schema.md), the
 load-bearing input to L2.
 
 ---
@@ -39,21 +39,21 @@ structural heuristic over the GAP. An assignment that cannot be traced to a
 CTI source — vendor report, ATT&CK Group / Campaign page, or CTID
 `example_flows/` blurb — in the audit CSV does not belong in the GASP. This
 mirrors the GAP's no-synthesis invariant
-([`01_gap_schema.md`](01_gap_schema.md) §(a)) one level up: the GAP refuses
+([`01_gap_schema.md`](../gap/gap_schema.md) §(a)) one level up: the GAP refuses
 synthesised *edges*; the GASP refuses synthesised *class memberships*.
 
 **Downstream reading:** each class subgraph — and any L3 net built from it —
 is a **behavioural envelope for its operational objective** (the union of
 5–19 flows), not any single actor's playbook; downstream claims are phrased
 envelope-relative ("under the `pure_steal` envelope…"). See
-[`architecture.md`](architecture.md) §(j).
+[`architecture.md`](../../architecture.md) §(j).
 
 Three corollaries:
 - **Structural-terminal is the dropped P1 candidate, not a fallback.** P1
   (3-class structural-terminal) and the GAP's `is_objective` property are
   descriptive metadata only; they never assign a flow's class. P1 disagrees
   with the audit on 15 of 38 flows (40 %) — see
-  [`../notes/2026-05-28_l2_partition_decision.md`](../notes/2026-05-28_l2_partition_decision.md).
+  [`../notes/2026-05-28_l2_partition_decision.md`](partition_decision.md).
 - **The class subgraph is computed by *surface*, not ancestor closure.**
   Every class's ancestor cone pulls in 87–97 % of the GAP's 124 techniques
   (the GAP is densely connected through `command-and-control` ↔ `discovery`
@@ -62,7 +62,7 @@ Three corollaries:
 - **Class membership is sourced from the audit CSV at build time.** The CSV
   is the load-bearing input the L2 builder reads. Re-deriving class
   membership from the per-flow YAMLs in
-  [`../../data/gap/flows/`](../../data/gap/flows/) is not how L2 works —
+  [`../../data/gap/flows/`](../../../../data/gap/flows) is not how L2 works —
   the per-flow YAMLs do not carry `stated_objective`; the audit CSV does.
 
 ---
@@ -77,7 +77,7 @@ objective — what the operation *did* by the analyst-stated narrative — is
 observable directly from CTI text.
 **Why:** Slicing on inference (motivation) requires defending the inference
 layer; slicing on observation (operational objective) does not. Alshamrani
-2019 ([`../extractions/alshamrani2019.md`](../extractions/alshamrani2019.md))
+2019 ([`../extractions/alshamrani2019.md`](../../../sources/extractions/alshamrani2019.md))
 also locates objective-conditioned behavioural divergence at APT phases 3–5,
 which is where it matters for an MTD evaluation — phases 1–2 are invariant.
 **If revisited:** If a corpus emerges with structured motivation attribution
@@ -114,7 +114,7 @@ Campaign page where the flow maps to a G-ID or C-ID, and **(iii)** the most
 authoritative vendor URL in the flow's `references[]` (Mandiant, Unit 42,
 CrowdStrike, Microsoft, Talos, DFIR Report, CISA — though CISA URLs return
 403 to `WebFetch`). The result is the audit CSV's `stated_objective` column
-([`../notes/2026-05-28_l2_metadata_audit.csv`](../notes/2026-05-28_l2_metadata_audit.csv));
+([`../notes/2026-05-28_l2_metadata_audit.csv`](../../../../data/gasp/metadata_audit.csv));
 `metadata_confidence` records audit confidence; `source_used` records which
 CTI source the classification was read from.
 **Why:** The candidate alternative — P1 structural-terminal classification —
@@ -171,7 +171,7 @@ stay in `infrastructure_setup`.
 
 **Investigation provenance.** During the investigation that produced this
 spec, the accepted construction was named **P6 (compound-class disjoint)**
-in [`../notes/2026-05-28_l2_partition_decision.md`](../notes/2026-05-28_l2_partition_decision.md) —
+in [`../notes/2026-05-28_l2_partition_decision.md`](partition_decision.md) —
 chosen from a rubric over seven candidates (P1 structural-terminal, P2
 terminal-technique 15-class, P3 group-witnessed, P4 hand-labels, P5
 metadata-attested 3-class multi-member, **P6** compound-class disjoint, P7
@@ -183,12 +183,12 @@ construction" — not "P6"; the P6 framing is investigation-time terminology.*
 
 ## (c) Class-membership input — the audit CSV (committed)
 
-One row per flow at [`../notes/2026-05-28_l2_metadata_audit.csv`](../notes/2026-05-28_l2_metadata_audit.csv).
+One row per flow at [`../notes/2026-05-28_l2_metadata_audit.csv`](../../../../data/gasp/metadata_audit.csv).
 38 rows; `stated_objective` is the load-bearing column.
 
 | Column | Notes |
 |---|---|
-| `flow_id` | Corpus filename stem; joins to [`../../data/gap/flows/<flow_id>.yaml`](../../data/gap/flows/) and `gap_v0.5.json` `flow_ids` |
+| `flow_id` | Corpus filename stem; joins to [`../../data/gap/flows/<flow_id>.yaml`](../../../../data/gap/flows) and `gap_v0.5.json` `flow_ids` |
 | `flow_name` | Human-readable name from the flow's STIX bundle |
 | `scope` | `incident` \| `campaign` \| `malware` \| `threat-actor` \| `emulation-plan` — STIX `attack-flow.scope` |
 | `n_actions` | Action-node count in the per-flow YAML (descriptive) |
@@ -198,7 +198,7 @@ One row per flow at [`../notes/2026-05-28_l2_metadata_audit.csv`](../notes/2026-
 | `attribution` | ATT&CK G-ID / C-ID where the flow maps; `unknown` where attribution is undocumented |
 | `metadata_confidence` | `high` \| `medium` \| `low` — audit confidence |
 | `source_used` | Which CTI source(s) the classification was read from (CTID blurb, ATT&CK Group page, vendor URL) |
-| `notes` | Free-text justification — pointer to detailed per-flow defence in [`../notes/2026-05-28_l2_per_flow_justifications.md`](../notes/2026-05-28_l2_per_flow_justifications.md) |
+| `notes` | Free-text justification — pointer to detailed per-flow defence in [`../notes/2026-05-28_l2_per_flow_justifications.md`](per_flow_justifications.md) |
 
 **CSV label ↔ spec label mapping.** The audit CSV's `stated_objective` column
 uses Alshamrani's original labels plus `double_extortion`; the spec uses
@@ -229,7 +229,7 @@ mechanical and would touch only the CSV; investigation notes that reference
 
 Low-confidence share is **6 / 38 = 15.8 %** — within the investigation's
 stated 20 % gate. Per-flow citations and critique are in
-[`../notes/2026-05-28_l2_per_flow_justifications.md`](../notes/2026-05-28_l2_per_flow_justifications.md).
+[`../notes/2026-05-28_l2_per_flow_justifications.md`](per_flow_justifications.md).
 
 ---
 
@@ -251,7 +251,7 @@ is cheap.
 | `provenance` | obj | `flow_ids` (list of flow IDs in this class), `audit_csv_ref` (path + git SHA), `gap_ref` (gap_v0.5.json path + version) |
 
 The L1 GAP's lossless edge metadata (operator / branch / `flow_ids` per
-edge, [`01_gap_schema.md`](01_gap_schema.md) §(d)) flows through the L2
+edge, [`01_gap_schema.md`](../gap/gap_schema.md) §(d)) flows through the L2
 surface construction unchanged — the L2 step does not synthesise new edges
 or rewrite edge attributes; it *subsets*.
 
@@ -287,7 +287,7 @@ Petri-net primer's 10–20-technique tractability bound** — see §(h) open
 question 4. The L3 substrate (graph-driven traversal inside MTDSim/DES) is
 not bounded by Petri-net reachability-set size; the bound applies only if
 Petri-net at L4 is later promoted from parallel-not-primary
-([`architecture.md`](architecture.md) §(f)) to primary.
+([`architecture.md`](../../architecture.md) §(f)) to primary.
 
 ---
 
@@ -309,11 +309,11 @@ operational-objective specifier above.
 
 ---
 
-## (f) Build pipeline (summary; implementation at [`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph))
+## (f) Build pipeline (summary; implementation at [`../../src/mtdsim/l2_subgraph/`](../../../../src/mtdsim/l2_subgraph))
 
-1. **Read inputs.** Load `gap_v0.5.json` ([`01_gap_schema.md`](01_gap_schema.md)
+1. **Read inputs.** Load `gap_v0.5.json` ([`01_gap_schema.md`](../gap/gap_schema.md)
    §(d)) and the audit CSV
-   ([`../notes/2026-05-28_l2_metadata_audit.csv`](../notes/2026-05-28_l2_metadata_audit.csv)).
+   ([`../notes/2026-05-28_l2_metadata_audit.csv`](../../../../data/gasp/metadata_audit.csv)).
 2. **Validate CSV ↔ GAP consistency.** Every `flow_id` in the CSV resolves
    to a flow in `gap_v0.5.json`'s flow set; row count matches
    `source_flow_count` (both 38 at v0.5).
@@ -322,15 +322,15 @@ operational-objective specifier above.
 4. **Compute class subgraphs.** Apply §(d) `class_subgraph` for each of the
    four class names; produce four `SubgraphView` objects.
 5. **Persist (optional).** The four `SubgraphView`s may be serialised to
-   [`../../data/gasp/`](../../data/gasp/) if downstream consumers (L3
+   [`../../data/gasp/`](../../../../data/gasp) if downstream consumers (L3
    notebooks, viz scripts) benefit from a cached artefact; canonical source
    remains the GAP + CSV, re-derivable on demand.
 
 The contract is `(gap, operational_objective) → SubgraphView`. The L2
 builder is implemented at
-[`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph) —
+[`../../src/mtdsim/l2_subgraph/`](../../../../src/mtdsim/l2_subgraph) —
 build/test entry points in
-[`../../src/mtdsim/l2_subgraph/README.md`](../../src/mtdsim/l2_subgraph/README.md).
+[`../../src/mtdsim/l2_subgraph/README.md`](../../../../src/mtdsim/l2_subgraph/README.md).
 
 **Prior art (not ported).** A v0.4 implementation — terminal-node-ancestor
 proxy plus platform / terminal selectors — exists on the
@@ -373,12 +373,12 @@ this spec + the partition-decision note, not lifted across.
   multi-flow operator clusters). The discrimination-above-null check must
   be re-run *after* collapsing multi-flow operators to one representative
   each (Mitigation 1 in
-  [`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../notes/2026-05-28_l2_operator_aggregation_concern.md));
+  [`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch3_design/operator_concentration.md));
   if the JSD signal survives, the per-class behaviour is class-driven, not
   operator-driven. If it collapses below null p95, the verdict reframes to
   operator-specific rather than class-specific behavioural fidelity.
   *Run by the L2 build's test gate (`tests/l2_subgraph/test_gasp.py`); the
-  current numbers land in [`../../data/gasp/README.md`](../../data/gasp/) —
+  current numbers land in [`../../data/gasp/README.md`](../../../../data/gasp) —
   observed mean JSD survives null p95, so the per-class signal is
   operator-robust on the n=29 deduplicated corpus.*
 
@@ -399,7 +399,7 @@ Corpus-level JSD is supportive but not definitive.
    corpus-edit (L1-level), not a class-mechanism question. Flagged for the
    L2 implementation session.
 2. **Operator-aggregation mitigation choice.** The
-   [operator-aggregation concern note](../notes/2026-05-28_l2_operator_aggregation_concern.md)
+   [operator-aggregation concern note](../../../notes/ch3_design/operator_concentration.md)
    names four mitigations (operator-deduplicated re-check, operator-weighted
    JSD, simulator-stratified holdout, corpus expansion). Mitigation 1 is
    cheap and decisive; Mitigation 3 is the test the thesis defence would
@@ -415,37 +415,37 @@ Corpus-level JSD is supportive but not definitive.
    10–20-technique tractability bound for end-to-end Petri-net encoding
    (min class is `infrastructure_setup` at 39 nodes). If Petri-net at L4
    promotes from parallel-not-primary to primary
-   ([`architecture.md`](architecture.md) §(f) revisit), per-class encoding
+   ([`architecture.md`](../../architecture.md) §(f) revisit), per-class encoding
    would need manually-curated *slices* (e.g. the primer's 6-node hand-pick
    within the T1486 cone), not full class subgraphs.
 5. **Corpus growth thresholds.** The 19:8:6:5 split is corpus-faithful; a
    hand-curated incident addition (per the GAP per-flow seam,
-   [`01_gap_schema.md`](01_gap_schema.md) Decision 4) that materially changes
+   [`01_gap_schema.md`](../gap/gap_schema.md) Decision 4) that materially changes
    the ratio re-opens whether the 4-class cardinality is right.
 
 ---
 
 ## (i) Relationship to other specs
 
-- [`architecture.md`](architecture.md) §(e) — L2 GASP, this file's parent.
+- [`architecture.md`](../../architecture.md) §(e) — L2 GASP, this file's parent.
   This spec retires §(e)'s terminal-node-ancestor proxy and motivation-
   specifier prose.
-- [`01_gap_schema.md`](01_gap_schema.md) — L1 GAP, this file's input. The
+- [`01_gap_schema.md`](../gap/gap_schema.md) — L1 GAP, this file's input. The
   GAP's lossless edge metadata flows through the L2 surface-subgraph
   construction unchanged.
-- [`../notes/2026-05-28_l2_partition_decision.md`](../notes/2026-05-28_l2_partition_decision.md) —
+- [`../notes/2026-05-28_l2_partition_decision.md`](partition_decision.md) —
   the investigation that produced this spec (the "P6 verdict", rubric +
   discrimination evidence, *If revisited* clauses). Provenance.
-- [`../notes/2026-05-28_l2_partition_reasoning.md`](../notes/2026-05-28_l2_partition_reasoning.md) —
+- [`../notes/2026-05-28_l2_partition_reasoning.md`](../../../notes/ch3_design/objective_partition_rationale.md) —
   the framing-stage *why-L2 / why-operational-objective* note. Plain-English
   companion; condenses into §(a).
-- [`../notes/2026-05-28_l2_per_flow_justifications.md`](../notes/2026-05-28_l2_per_flow_justifications.md) —
+- [`../notes/2026-05-28_l2_per_flow_justifications.md`](per_flow_justifications.md) —
   the per-flow defence of every class assignment in the audit CSV.
-- [`../notes/2026-05-28_l2_metadata_audit.csv`](../notes/2026-05-28_l2_metadata_audit.csv) —
+- [`../notes/2026-05-28_l2_metadata_audit.csv`](../../../../data/gasp/metadata_audit.csv) —
   the load-bearing class-membership input (§c).
-- [`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../notes/2026-05-28_l2_operator_aggregation_concern.md) —
+- [`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch3_design/operator_concentration.md) —
   the operator-aggregation validation caveat (§g).
-- [`project_context.md`](project_context.md) — the L0→L4 pipeline GASP sits in.
+- [`project_context.md`](../../../workflows/project_context.md) — the L0→L4 pipeline GASP sits in.
 - Prior art being superseded: the v0.4 terminal-node-ancestor proxy on
   `feat/attacker-profiling` / `feat/replay-viz` (under the role-based
   `attacker/` subtree).

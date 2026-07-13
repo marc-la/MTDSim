@@ -13,8 +13,8 @@ tier_hypothesis: 2 literature
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -50,9 +50,9 @@ Exfiltration is the terminal act of a data-theft campaign, and Alshamrani descri
 behaviour precisely: because "most IDS/IPS do ingress filtering and not outgress filtering",
 exfiltration often succeeds, and a careful attacker "intelligently split[s] the data
 exfiltration into batches and to servers with different IP addresses"
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4) [fetched]. The RSA
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 4) [fetched]. The RSA
 intrusion exfiltrated over FTP after compressing and encrypting the data
-([`alshamrani2019`](../extractions/alshamrani2019.md) §III-D) [fetched]. So the tactic is
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §III-D) [fetched]. So the tactic is
 objective-execution — it acts on the goal — but its *shape* is deliberately paced and
 fragmented to stay under detection thresholds.
 
@@ -60,7 +60,7 @@ That gives exfiltration a dual character: a terminal objective (like impact) who
 is spread low-and-slow (like stealth). It joins collection and impact in the tuned
 `objective-execution` group / Tier 2 — the group the breach literature can calibrate, since it
 reports access→exfil milestones even though it publishes no per-tactic dwell (per the
-[precedent survey](../notes/2026-07-04_tactic_duration_precedent_survey.md)). The batched,
+[precedent survey](../../ch2_background/tactic_duration_precedent_survey.md)). The batched,
 IP-diversified spread argues its multiplier should admit a **wide range** (fast bulk transfer
 vs slow trickle). No point number (§5).
 
@@ -72,13 +72,13 @@ Exfiltration Over C2 Channel T1041 rides the C2 route, a position-mutating shuff
 that route interrupts an *in-progress* transfer (forcing re-establishment and resume) — a
 **partial reset**, blunted by C2's architected resilience. The two gains either side of the
 transfer, though, survive: the **data already staged/collected** is a capability possession the
-shuffle does not touch ([substrate primer](../specs/substrate_primer.md) §(e)), and the
+shuffle does not touch ([substrate primer](../../../implementation/substrate_primer.md) §(e)), and the
 destination infrastructure is off-network.
 
 Crucially, exfiltration's own tradecraft is *itself* an adaptation to channel disruption: the
 careful attacker "intelligently split[s] the data exfiltration into batches and to servers with
 different IP addresses" (Alshamrani §II-C Stage 4) and schedules transfers to blend in
-([`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4). Batching across servers/IPs means a
+([`selmanaj2024`](../../../sources/extractions/selmanaj2024.md) Ch. 4). Batching across servers/IPs means a
 single shuffle resets at most one batch, not the campaign — the design blunts the reset. The MTD
 action that bites is therefore the position-mutating shuffle acting on the C2 route, weakly.
 **Reset verdict: partial (inherits C2's architected survival; staged data survives; batching
@@ -96,17 +96,17 @@ primitive.
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0010 page | Small (9 parents); Exfiltration Over C2 Channel T1041 (201, >half); size-limit/scheduled-transfer shaping; **no timing** | Terminal objective; no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 4, §III-D | Batched + IP-diversified to evade ingress-only filtering; RSA compress+encrypt→FTP | Objective-execution with a stealth-shaped spread → wide range; no per-tactic number | [fetched] |
-| [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (Sophos AAR) | Attack start → **exfiltration: median 72.98 h (2025 ed.) / 78.83 h (2026 ed.)**; exfil → detection ~1.9–2.7 h; exfil "cannot go any faster … human activity, data throughput … rigid time frames" (a dwell floor) | Tier-2 macro calibration target for the objective-execution anchor and the *held-out* milestone check (access→exfil); reconciled [search]→[fetched] from the primary reports | [fetched] |
-| [`breach_reports_macro_timing`](../extractions/breach_reports_macro_timing.md) (DFIR cases) | Time-to-Ransomware spans **2 h → 118 h → 328 h** across three cases; exfil (Rclone→MEGA/SFTP) lands late in the chain, often after a multi-day dwell gap | Per-case tempo spread the objective-execution sweep must span; exfil timing is late and paced, not a burst — corroborates the batched-low-and-slow reading | [fetched] |
-| [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Exfiltration — Scheduled Transfer T1029) | Attackers "schedule a specific time or interval … during peak business hours … If data is being exfiltrated at random intervals, it can look suspicious" | Direct support for the *deliberately paced* (batched low-and-slow) end of the exfil width flagged in Step B; behaviour, not a number | [fetched] |
-| [`collection_exfil_timing`](../extractions/collection_exfil_timing.md) (GAO Equifax; Nadler 2019; Unit42 2026) | Equifax exfil **ran ~76 days, ~9,000 queries** in small increments to evade; low-throughput DNS-exfil is **slow by design** (data volume → stealth duration); but fastest quartile exfil **1.2 h** | Spans the exfil width: a fast eCrime burst (hours) ↔ a low-and-slow espionage extraction (months) — the objective-execution sweep + the throughput floor | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 4, §III-D | Batched + IP-diversified to evade ingress-only filtering; RSA compress+encrypt→FTP | Objective-execution with a stealth-shaped spread → wide range; no per-tactic number | [fetched] |
+| [`breach_reports_macro_timing`](../../../sources/extractions/breach_reports_macro_timing.md) (Sophos AAR) | Attack start → **exfiltration: median 72.98 h (2025 ed.) / 78.83 h (2026 ed.)**; exfil → detection ~1.9–2.7 h; exfil "cannot go any faster … human activity, data throughput … rigid time frames" (a dwell floor) | Tier-2 macro calibration target for the objective-execution anchor and the *held-out* milestone check (access→exfil); reconciled [search]→[fetched] from the primary reports | [fetched] |
+| [`breach_reports_macro_timing`](../../../sources/extractions/breach_reports_macro_timing.md) (DFIR cases) | Time-to-Ransomware spans **2 h → 118 h → 328 h** across three cases; exfil (Rclone→MEGA/SFTP) lands late in the chain, often after a multi-day dwell gap | Per-case tempo spread the objective-execution sweep must span; exfil timing is late and paced, not a burst — corroborates the batched-low-and-slow reading | [fetched] |
+| [`selmanaj2024`](../../../sources/extractions/selmanaj2024.md) Ch. 4 (Exfiltration — Scheduled Transfer T1029) | Attackers "schedule a specific time or interval … during peak business hours … If data is being exfiltrated at random intervals, it can look suspicious" | Direct support for the *deliberately paced* (batched low-and-slow) end of the exfil width flagged in Step B; behaviour, not a number | [fetched] |
+| [`collection_exfil_timing`](../../../sources/extractions/collection_exfil_timing.md) (GAO Equifax; Nadler 2019; Unit42 2026) | Equifax exfil **ran ~76 days, ~9,000 queries** in small increments to evade; low-throughput DNS-exfil is **slow by design** (data volume → stealth duration); but fastest quartile exfil **1.2 h** | Spans the exfil width: a fast eCrime burst (hours) ↔ a low-and-slow espionage extraction (months) — the objective-execution sweep + the throughput floor | [fetched] |
 
 > **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
 > above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
 > *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
 > defined by *when detection caught the intrusion*, and detection/IDS is culled from this
-> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> substrate ([substrate primer](../../../implementation/substrate_primer.md) §(f)), so they bound the emergent
 > timeline's *shape/plausibility*, never an absolute per-tactic dwell. Only the rows that resolve
 > dwell-character or reset-verdict feed §3/§5.
 

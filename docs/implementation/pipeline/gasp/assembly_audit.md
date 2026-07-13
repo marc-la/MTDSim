@@ -2,13 +2,15 @@
 status: durable
 created: 2026-05-28
 topic: L2 assembly audit — outcome of the post-land coherence check
+updated: 2026-07-13
+lineage: formerly docs/notes @ 2026-05-28_l2_assembly_audit.md (relocated in the 2026-07-13 docs refactor)
 ---
 
 # L2 assembly audit — outcome
 
 > **Provenance banner.** Audit outcome (PASS / FIX / DEFER), not
 > investigation history. Spec:
-> [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md).
+> [`../specs/02_gasp_schema.md`](gasp_schema.md).
 
 - **§1 Cross-links.** FIX `1069bc0`, `231b197` — stale "implementation
   pending" pointers in spec/arch/`src/mtdsim` README; missing

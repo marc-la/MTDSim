@@ -1,4 +1,4 @@
-"""Validation gate for the L1 GAP (docs/specs/01_gap_schema.md §g + the
+"""Validation gate for the L1 GAP (docs/implementation/pipeline/gap/gap_schema.md §g + the
 gap_rebuild handoff).
 
 Corpus-dependent tests skip cleanly when the gitignored inputs are absent

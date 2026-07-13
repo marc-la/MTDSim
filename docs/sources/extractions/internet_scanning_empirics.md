@@ -11,8 +11,8 @@
 ### Relevance class
 
 **C** (calibration) — Tier-2 macro observables for the scan-shaped tactics
-([`01_reconnaissance`](../tactic_profiles/01_reconnaissance.md),
-[`10_discovery`](../tactic_profiles/10_discovery.md)). Confirms the scan verb is
+([`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md),
+[`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md)). Confirms the scan verb is
 a *fast* action (minutes for the whole IPv4 space) while the campaign-level
 recon *tempo* is paced by disclosure→onset lags (hours–days), i.e. the recon
 "low-and-slow" is scheduling, not per-scan cost.
@@ -56,13 +56,13 @@ after *years*, not via automated detection.
 **Quote (essential):**
 > "attackers began scans within 48 hours of public disclosure" (§4)
 
-**Maps to:** [`01_reconnaissance`](../tactic_profiles/01_reconnaissance.md) §4
+**Maps to:** [`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md) §4
 (scan verb is fast; recon *tempo* is the disclosure→onset schedule, not per-scan
 cost — reinforces the shape-not-scale divergence in §2 that the substrate scan
 proxies the modality but not the patient real-world pacing);
-[`10_discovery`](../tactic_profiles/10_discovery.md) §4 (internal enumeration is
-likewise a fast action); [`02_resource-development`](../tactic_profiles/02_resource-development.md)
-/ [`03_initial-access`](../tactic_profiles/03_initial-access.md) (n-day
+[`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md) §4 (internal enumeration is
+likewise a fast action); [`02_resource-development`](../../notes/ch3_design/tactic_profiles/02_resource-development.md)
+/ [`03_initial-access`](../../notes/ch3_design/tactic_profiles/03_initial-access.md) (n-day
 window: scanning-for-vulnerable-hosts precedes exploitation by ~1–2 days).
 
 **Disposition for this thesis:** verified [fetched] — first-party measurement.
@@ -97,11 +97,11 @@ that *refine* Durumeric's tempo picture:
   fixed period. Ecosystem is extremely volatile (>50% of /16s change scan volume
   ≥2× week-on-week).
 
-**Maps to:** [`01_reconnaissance`](../tactic_profiles/01_reconnaissance.md) §4
+**Maps to:** [`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md) §4
 (recon *is* recurrent, but the re-scan interval is opportunistic — a spike after
 new intel, not a metronome; supports modelling recon as a repeatable fast action
 re-triggered by new targets rather than a fixed dwell);
-[`10_discovery`](../tactic_profiles/10_discovery.md) §4 (re-scan cadence).
+[`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md) §4 (re-scan cadence).
 
 **Disposition for this thesis:** verified [fetched] — decade-scale
 first-party measurement. Whole-activity cadence, not a per-tactic rate;

@@ -1,8 +1,8 @@
 # Active Directory time-to-Domain-Admin — decoys, immunization, pen-test timeline (extraction notes)
 
 > Three sources on the **privilege-escalation → Domain-Admin** race inside Active
-> Directory, extracted for [`06_privilege-escalation`](../tactic_profiles/06_privilege-escalation.md)
-> and [`11_lateral-movement`](../tactic_profiles/11_lateral-movement.md) (the two
+> Directory, extracted for [`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md)
+> and [`11_lateral-movement`](../../notes/ch3_design/tactic_profiles/11_lateral-movement.md) (the two
 > tactics AD attack-graphs interleave). They price the *structure* of the race to
 > DA and how a graph-level defence slows it — §3/§4 evidence, not a metered dwell.
 > Complements the macro race-to-AD anchor (Sophos ~3–16 h,
@@ -46,13 +46,13 @@ Domain Admin** [fetched]. The defender maximises this over worst-case attack pat
 (NP-hard; solved with evolutionary diversity optimisation). It is a *defender
 detection-to-DA window*, i.e. how much time a decoy buys before privesc completes.
 
-**Maps to:** [`06_privilege-escalation`](../tactic_profiles/06_privilege-escalation.md)
+**Maps to:** [`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md)
 §3 (deception/decoys extend the privesc→DA window — a delay, not a reset) and §4
 (the race-to-DA is a real, structured duration).
 
 **Disposition for this thesis:** verified [fetched] — a defender response-time
 metric, not attacker dwell. Deception (decoys) is out of the substrate's SDR MTD
-set (scope caveat, per [`../specs/project_context.md`](../specs/project_context.md));
+set (scope caveat, per [`../specs/project_context.md`](../../workflows/project_context.md));
 used for the *shape* of the privesc→DA race.
 
 ---
@@ -69,8 +69,8 @@ mitigate its impact and/or track its source" — a graph-structure defence buys
 *time* against privesc/lateral movement, and network structure governs how fast
 the movement progresses.
 
-**Maps to:** [`11_lateral-movement`](../tactic_profiles/11_lateral-movement.md) /
-[`06_privilege-escalation`](../tactic_profiles/06_privilege-escalation.md) §3
+**Maps to:** [`11_lateral-movement`](../../notes/ch3_design/tactic_profiles/11_lateral-movement.md) /
+[`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md) §3
 (redundancy/structure-based mitigation slows the spread — a rate reduction, not a
 reset) and §2 (structure governs movement speed).
 
@@ -91,7 +91,7 @@ rendered as a timestamped ATT&CK tactic/technique sequence — but the contribut
 is the *ordering/feasibility*, and the timing is anecdotal (a single competition
 run), not a rate.
 
-**Maps to:** [`06_privilege-escalation`](../tactic_profiles/06_privilege-escalation.md)
+**Maps to:** [`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md)
 §4 (a real ATT&CK-timed campaign exists, but gives *sequence*, not per-tactic
 dwell — gap-confirming, like [`rodriguez2024`](rodriguez2024.md)).
 

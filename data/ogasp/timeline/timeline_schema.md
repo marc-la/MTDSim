@@ -24,7 +24,7 @@ bumps it.
 - **Naming discipline:** the time statistic is the **net
   time-to-objective**, an envelope statistic over one instantiation of a
   class envelope. It is **not** the DES MTTC and is never comparable to it
-  ([`docs/specs/metrics_semantics.md`](../../../docs/specs/metrics_semantics.md)
+  ([`docs/implementation/metrics_semantics.md`](../../../docs/implementation/metrics_semantics.md)
   §(a)/(d)). A timeline is never "an APT's campaign".
 
 ## Regenerate
@@ -111,7 +111,7 @@ Per state in `sequence`:
 - Nothing timing- or probability-shaped derives from `observation_count`
   or any corpus frequency: weights are the W-A flow proportions, durations
   are the catalogue
-  ([`docs/specs/metrics_semantics.md`](../../../docs/specs/metrics_semantics.md)
+  ([`docs/implementation/metrics_semantics.md`](../../../docs/implementation/metrics_semantics.md)
   §(f) as dispositioned).
 - The runner is also the **calibration instrument**: the catalogue
   lifecycle (v0 → runner → calibrate the two tuned group anchors within

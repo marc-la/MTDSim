@@ -2,6 +2,8 @@
 status: durable
 created: 2026-07-03
 topic: "L3 execution model — supervisor decision register (D1–D10)"
+updated: 2026-07-13
+lineage: formerly docs/notes @ 2026-07-03_supervisor_meeting_l3_decisions.md (relocated in the 2026-07-13 docs refactor)
 ---
 
 # The July-2026 supervisor working session — the decision register that fixed the L3 execution model
@@ -32,7 +34,7 @@ connects*; this note is the register, the specs carry the operative wording.
   is what makes the weights groundable at this corpus size). The sparsity of
   the ~38-flow corpus is **accepted**: "it's the only quantitative evidence
   available to populate the Petri nets. Looking thin is fine." Dispositioned
-  against the [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md)
+  against the [`../specs/metrics_semantics.md`](../../metrics_semantics.md)
   §(f) prohibition — see that section for the operative normalisation +
   closed-world wording.
 - **D4 — Durations.** Since the simulator is discrete-event, **every state
@@ -85,39 +87,39 @@ register was encoded:
 ## Still open with the supervisor
 
 - **Cost-only vs proto-IDS for stealth tactics.** Note that
-  [`../specs/project_context.md`](../specs/project_context.md) already rules
+  [`../specs/project_context.md`](../../../workflows/project_context.md) already rules
   out building IDS — cost-only is the only compliant MVP option; the
   binding-scoping work proceeds on that basis pending Jin's confirmation.
 
 ## How it connects
 
 - To the specs — the operative encodings of this register:
-  [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f)
-  (D3 disposition); [`../specs/architecture.md`](../specs/architecture.md)
+  [`../specs/metrics_semantics.md`](../../metrics_semantics.md) §(f)
+  (D3 disposition); [`../specs/architecture.md`](../../architecture.md)
   §(f) (D1/D2 coupling model, working-layer ledger, deferred register) and
   §(j) (envelope-not-actor framing);
-  [`../specs/provenance.md`](../specs/provenance.md) (weighting + duration
-  regime rows); [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md)
+  [`../specs/provenance.md`](../../provenance.md) (weighting + duration
+  regime rows); [`../specs/02_gasp_schema.md`](../gasp/gasp_schema.md)
   §(a) (envelope one-liner).
 - To open work — which handoff executes which decision (handoffs are deleted
   as they land; git log is the permanent record):
-  - the weighted nets [`../../data/ogasp/`](../../data/ogasp/) (shipped; see its README)
+  - the weighted nets [`../../data/ogasp/`](../../../../data/ogasp) (shipped; see its README)
     — executed **D3, D9** + the aggregate-profile resolution.
-  - the state-duration catalogue [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json) (shipped 2026-07-09)
+  - the state-duration catalogue [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json) (shipped 2026-07-09)
     — executes **D4** (under the D10 timed-net deferral: plain per-state
     dwell, not stochastic firing rates).
-  - [`../handoffs/2026-07-03_l3_timeline_runner.md`](../handoffs/2026-07-03_l3_timeline_runner.md)
+  - `handoffs/2026-07-03_l3_timeline_runner.md` (shipped & deleted per handoff lifecycle; see git log)
     — executes **D2** and D1's standalone-examination half, plus **D8**
     (both entries).
-  - [`../handoffs/2026-07-03_l3_binding_scoping.md`](../handoffs/2026-07-03_l3_binding_scoping.md)
+  - [`../handoffs/2026-07-03_l3_binding_scoping.md`](../../../handoffs/2026-07-03_l3_binding_scoping.md)
     — executes **D5, D6, D7** (scoping only) + the CVE-binding exploration.
-  - [`../handoffs/2026-07-03_l3_replay_attacker.md`](../handoffs/2026-07-03_l3_replay_attacker.md)
+  - [`../handoffs/2026-07-03_l3_replay_attacker.md`](../../../handoffs/2026-07-03_l3_replay_attacker.md)
     — executes **D1/D2/D5** end-to-end; the capstone.
   - The governance handoff that encoded this register
     (`2026-07-03_l3_governance_meeting_decisions.md`) was deleted in the
     commit that landed this note, per the handoff lifecycle.
 - To the rationale: the envelope framing is
-  [`./2026-06-18_cti_to_executable_behaviour.md`](./2026-06-18_cti_to_executable_behaviour.md)
+  [`./2026-06-18_cti_to_executable_behaviour.md`](../../../notes/ch3_design/structure_to_behaviour_binding.md)
   §1; the MVP cut the meeting largely ratified is §11 of the same note.
 
 ## When this would need updating

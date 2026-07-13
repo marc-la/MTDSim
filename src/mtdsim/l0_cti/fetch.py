@@ -1,6 +1,6 @@
 """L0 — acquire the gitignored upstream inputs for the L1 GAP build.
 
-Per ``docs/specs/01_gap_schema.md`` Decision 4, the upstream corpora are
+Per ``docs/implementation/pipeline/gap/gap_schema.md`` Decision 4, the upstream corpora are
 consumed from a gitignored local copy; only the distilled per-flow extracts +
 the aggregated GAP are committed. :func:`fetch_corpus` materialises those inputs
 reproducibly:

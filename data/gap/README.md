@@ -2,7 +2,7 @@
 
 The Generalised APT Profile (L1): a lossless, Attack-Flow-only technique
 dependency graph. Data model and design decisions:
-[`docs/specs/01_gap_schema.md`](../../docs/specs/01_gap_schema.md). Build code:
+[`docs/implementation/pipeline/gap/gap_schema.md`](../../docs/implementation/pipeline/gap/gap_schema.md). Build code:
 [`src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction).
 
 ## Contents
@@ -40,7 +40,7 @@ The build is deterministic: a rebuild is byte-identical save the `build_date`.
 The corpus is heterogeneous: a few flows reference ATLAS (adversarial-ML,
 `AML.*`) or ICS (`T0###`) techniques, and some use Enterprise ids that ATT&CK
 v19.1 has **revoked** (e.g. `T1562`) or removed. The GAP is scoped to Enterprise
-(§a / [`01_gap_schema.md`](../../docs/specs/01_gap_schema.md) Decision 5): such
+(§a / [`01_gap_schema.md`](../../docs/implementation/pipeline/gap/gap_schema.md) Decision 5): such
 nodes are **dropped from the aggregated GAP**, together with their edges —
 *removed, never bridged*, so no dependency is synthesised across a dropped node
 (the §a no-synthesis invariant). The per-flow extracts under `flows/` stay

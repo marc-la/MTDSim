@@ -23,13 +23,13 @@ Things that *must* hold and might not be obvious from the code:
 - determinism / SIM-05
 - spec rows that pin behaviour
 - inherited divergences not to "fix"
-- branch / commit / push rules from [`../specs/session_workflow.md`](../specs/session_workflow.md)
+- branch / commit / push rules from [`../specs/session_workflow.md`](../workflows/session_workflow.md)
 
 ## Reading list
 
 The 3–5 files the next session must skim before touching anything:
 - `path/to/file.py` — why
-- `docs/specs/<spec>.md` — what row to read
+- `docs/implementation/<spec>.md` — what row to read
 
 ## Out of scope (explicitly)
 

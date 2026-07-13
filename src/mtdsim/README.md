@@ -2,7 +2,7 @@
 
 This package is the project's **contribution pipeline**, organised by the
 architecture's own **L0–L4 levels**
-([`architecture.md`](../../docs/specs/architecture.md)). Each stage is a
+([`architecture.md`](../../docs/implementation/architecture.md)). Each stage is a
 directory named `lN_<function>`. This table is the one canonical map of where
 each pipeline stage's code lives.
 
@@ -10,11 +10,11 @@ each pipeline stage's code lives.
 
 | dir | level | artefact | architecture § | status | code home |
 |---|---|---|---|---|---|
-| [`l0_cti`](l0_cti/) | L0 | raw CTI | [§(c)](../../docs/specs/architecture.md) | **built** | here |
-| [`l1_construction`](l1_construction/) | L1 | GAP | [§(d)](../../docs/specs/architecture.md) | **built** | here |
-| [`l2_subgraph`](l2_subgraph/) | L2 | GASP | [§(e)](../../docs/specs/architecture.md) | **built** | here (prior art: v0.4 selectors on `feat/attacker-profiling`) |
-| [`l3_simulation`](l3_simulation/) | L3 | OGASP | [§(f)](../../docs/specs/architecture.md) · [§(i)](../../docs/specs/architecture.md) | stub | **seam in `mtdnetwork/`** (not greenfield) |
-| [`l4_evaluation`](l4_evaluation/) | L4 | — | [§(g)](../../docs/specs/architecture.md) | stub | **`mtdnetwork/` metrics** |
+| [`l0_cti`](l0_cti/) | L0 | raw CTI | [§(c)](../../docs/implementation/architecture.md) | **built** | here |
+| [`l1_construction`](l1_construction/) | L1 | GAP | [§(d)](../../docs/implementation/architecture.md) | **built** | here |
+| [`l2_subgraph`](l2_subgraph/) | L2 | GASP | [§(e)](../../docs/implementation/architecture.md) | **built** | here (prior art: v0.4 selectors on `feat/attacker-profiling`) |
+| [`l3_simulation`](l3_simulation/) | L3 | OGASP | [§(f)](../../docs/implementation/architecture.md) · [§(i)](../../docs/implementation/architecture.md) | stub | **seam in `mtdnetwork/`** (not greenfield) |
+| [`l4_evaluation`](l4_evaluation/) | L4 | — | [§(g)](../../docs/implementation/architecture.md) | stub | **`mtdnetwork/` metrics** |
 
 ## Two axes: pipeline vs substrate
 
@@ -44,5 +44,5 @@ PYTHONPATH=src python -m pytest tests/gap/ tests/l2_subgraph # L1 + L2 validatio
 
 Artefacts land under [`data/gap/`](../../data/gap/) (L1) and
 [`data/gasp/`](../../data/gasp/) (L2); the data models live in
-[`01_gap_schema.md`](../../docs/specs/01_gap_schema.md) and
-[`02_gasp_schema.md`](../../docs/specs/02_gasp_schema.md).
+[`01_gap_schema.md`](../../docs/implementation/pipeline/gap/gap_schema.md) and
+[`02_gasp_schema.md`](../../docs/implementation/pipeline/gasp/gasp_schema.md).

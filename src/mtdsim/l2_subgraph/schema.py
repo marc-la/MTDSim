@@ -3,7 +3,7 @@
 One ``SubgraphView`` per operational-objective class
 (``pure_steal`` | ``pure_impediment`` | ``double_extortion`` |
 ``infrastructure_setup``). See
-[`docs/specs/02_gasp_schema.md`](../../../docs/specs/02_gasp_schema.md) §(d).
+[`docs/implementation/pipeline/gasp/gasp_schema.md`](../../../docs/implementation/pipeline/gasp/gasp_schema.md) §(d).
 """
 
 from __future__ import annotations

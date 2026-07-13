@@ -1,242 +1,63 @@
 ---
 status: durable
+chapter: ch3_design
 created: 2026-05-27
-topic: GAP construction (L1)
+updated: 2026-07-13
+lineage: 2026-05-27_gap_construction.md
 ---
 
-# How the GAP is built, and what it assumes
+# Constructing the technique graph from threat intelligence — what is built, and what it assumes
 
-## Why this is worth recording
+## Position in the dissertation
 
-The GAP (Generalised APT Profile) is the first transformation that turns
-published threat intelligence into something the simulator can drive an attacker
-with. Several choices in how it is built are **load-bearing methodological
-commitments**, not implementation trivia, and an examiner will reasonably ask
-"why this and not that?". This note states those choices in plain English and —
-the part most easily lost in the code — names the **assumptions** that bound what
-the GAP can claim to represent. The headline one (the graph is labelled against
-MITRE ATT&CK *Enterprise* only) is invisible in the code yet shapes what the
-downstream evaluation actually means.
+The methodology chapter's account of the pipeline's first transformation: how published incident intelligence becomes a single aggregated graph of adversary technique dependencies, which design choices in that construction are load-bearing methodological commitments, and which assumptions bound what the graph can claim to represent.
 
-## The substance
+## The idea
 
-**What it is.** The GAP aggregates many analyst-drawn, per-incident *Attack
-Flow* diagrams into one directed graph: nodes are ATT&CK techniques, edges are
-dependencies between them ("to do B, the adversary first needed A"). One
-incident shows one path; the GAP generalises across ~39 incidents so the
-attacker model reflects *recurring* behaviour, not a single campaign.
+The attacker model in this work is grounded in *Attack Flow* diagrams — analyst-drawn, per-incident graphs published by MITRE's Center for Threat-Informed Defense, in which each node is a MITRE ATT&CK technique and each edge is a dependency the analyst observed ("to do B, the adversary first needed A"). One incident shows one path; the construction aggregates roughly thirty-nine incidents into a single directed graph — internally called the *Generalised APT Profile* (GAP) — so that the simulated attacker reflects *recurring* behaviour rather than a single campaign. Several choices in how that aggregation is done deserve defence, and an examiner will reasonably ask "why this and not that?".
 
-**The non-negotiable rule.** Every edge corresponds to a dependency a human
-analyst actually drew in some flow. Nothing is inferred statistically or by a
-language model. (The superseded v0.4 approach mixed in technique co-occurrence
-and keyword heuristics — edges no analyst drew.) This is what makes the GAP a
-*behavioural* profile rather than a generic "these techniques co-occur" graph,
-and it is what licenses the claim that the simulated attacker is doing things
-real adversaries were *observed* doing.
+**The non-negotiable rule.** Every edge in the graph corresponds to a dependency a human analyst actually drew in some incident. Nothing is inferred statistically or by a language model. (A superseded earlier approach mixed in technique co-occurrence and keyword heuristics — edges no analyst drew.) This rule is what makes the graph a *behavioural* profile rather than a generic co-occurrence graph, and it is what licenses the claim that the simulated attacker does things real adversaries were *observed* doing.
 
-**What's preserved.** Real attacks aren't linear. Analysts express this with
-AND/OR operators (several things must all happen before the next) and
-conditional branches (if X succeeds do Y, else Z). The GAP keeps this: where v0.4
-flattened a three-way AND-join into three unrelated edges, the GAP tags each edge
-with the operator and the *join-group* it belonged to, so "these three are
-jointly required" is recoverable. The worked example is the 2018 Tesla
-cryptojacking incident — Deploy Container (T1610), Proxy (T1090) and Non-Standard
-Port (T1571) are all required before Resource Hijacking (T1496) — which is the
-lit review's Figure 2, and is now a passing test.
+**What is preserved.** Real intrusions are not linear. Analysts express this with AND/OR operators (several preconditions jointly required) and conditional branches. The construction keeps this structure: each edge is tagged with its operator and the join-group it belonged to, so "these three steps are jointly required" remains recoverable. The worked example is the 2018 Tesla cryptojacking incident, where deploying a container, establishing a proxy, and opening a non-standard port are all required before resource hijacking; the case is preserved end-to-end and enforced by a test.
 
-**Lossless within scope, with reduction as a lens.** The committed GAP keeps
-every observed edge *between Enterprise techniques* (see the Enterprise-only
-assumption below), with a count of how many incidents showed it, and preserves
-cycles (real attackers loop: move laterally, discover more, move again).
-Thresholding ("only edges seen in ≥ k incidents"), projecting to an acyclic
-graph, and tactic layering are computed on demand as *views* — never baked into
-the stored artefact. A later decision to filter more aggressively changes only
-the view, not the data, and stays reproducible. (Enterprise scope is the one
-thing baked in, not a view — it defines *which taxonomy* the GAP is, rather than
-reducing it; the per-flow layer below stays fully lossless regardless.)
+**Lossless within scope, with reduction as a lens.** The committed graph keeps every observed edge between ATT&CK Enterprise techniques, with a count of how many incidents exhibited it, and preserves cycles (real attackers loop: move laterally, discover more, move again). Thresholding ("edges seen in ≥ k incidents"), acyclic projection, and tactic-level layering are computed on demand as *views*, never baked into the stored artefact — a later decision to filter differently changes the view, not the data. Two committed layers realise this: each incident becomes a small, human-readable per-incident file (the lossless intermediate, deliberately hand-editable — the seam for adding a hand-curated incident later), and these aggregate into the single graph.
 
-**Two committed layers.** Each incident becomes a small, human-readable per-flow
-file (the lossless intermediate); these aggregate into the single GAP. The
-per-flow files are deliberately hand-editable — the seam for adding a
-hand-curated incident later, which then aggregates identically to a
-corpus-derived one.
+### What the assembled graph looks like
 
-## What the assembled graph looks like
+The built artefact (124 technique nodes, 478 edges, 38 incidents at the current version) has properties that shape how it can be read:
 
-A few properties of the built artefact (observed on the current Enterprise-only
-build: 124 technique nodes, 478 edges, 38 flows) are worth recording — they
-shape how the GAP can be read, and they bear out the design choices above.
+- **The tactic-level view is nearly a complete graph.** Collapsing techniques onto their fifteen ATT&CK tactics, roughly six in ten of all possible directed transitions are present. At tactic level, *which* stages connect is almost uninformative; the signal is entirely in *how often* — the edge weights. This is the empirical case for carrying an observation count on every edge.
+- **The technique-level graph is dense, and its generalisation is thin.** 88% of edges (419 of 478) were drawn in exactly one incident; only 59 recur, and just 7 appear in three or more. The "recurring adversary behaviour" the graph claims therefore lives in a small high-weight core — a command-and-control ↔ discovery loop, execution → concealment, and a few self-loops — while the long tail is campaign-specific detail. Any downstream use that ignores the weights is mostly reading single-incident detail. The single-observation share is the honest gauge of whether "generalised" in the artefact's name is yet earned, and it is the number to watch as the corpus grows.
+- **The kill chain is a layout, not the shape.** The graph is genuinely cyclic: about 37% of edges run backward against kill-chain order, and two-thirds of tactics carry self-loops. Tactic ordering is used only for drawing and for labelling an edge forward/backward; direction always comes from the incident flows.
 
-**The tactic-level view is nearly a complete graph.** Collapse the techniques
-onto their 15 ATT&CK tactics — an FSM whose states are tactics — and roughly 6
-in 10 of all possible directed transitions are already present (132 of 225,
-self-loops included), approaching complete connectivity among the handful of hub
-tactics. So at the tactic level *which* stages connect is almost uninformative;
-the signal is entirely in *how often* — the edge weights. This is the empirical
-case for carrying an observation count on every edge and treating thresholding as
-a view: strip the weights and the tactic graph is a near-clique that says little.
+### The observability boundary — a threat-model input, not just a limitation
 
-**The technique-level graph is dense, and its generalisation is thin.** 478
-edges over 124 nodes is a hairball unfiltered, but the sharper point is that
-**88% of those edges (419) were drawn in exactly one incident**; only 59 recur,
-and just 7 appear in three or more. The "recurring adversary behaviour" the GAP
-claims therefore lives in a small high-weight core — command-and-control ↔
-discovery (the beacon-and-recon loop), execution → stealth, and a few self-loops
-— while the long tail is campaign-specific. Any downstream use that ignores the
-weights is mostly reading single-incident detail, not generalised behaviour.
+Incident-derived intelligence starts at the point of *detection* and works forward. Pre-intrusion reconnaissance happens on attacker infrastructure and leaves little defender telemetry, so analysts rarely draw it — and the corpus bears this out: reconnaissance appears in only 10 of 38 incidents while initial access appears in 30, and the reconnaissance → initial-access edge is essentially absent (observed once). This under-run repeats at the back end: post-objective cleanup and anti-forensics erase, by design, the telemetry reports are built from.
 
-**The kill chain is a loose layout, not the shape.** The graph is genuinely
-cyclic: ~37% of edges run *backward* against kill-chain order and two-thirds of
-the tactics carry a self-loop (several discovery steps in a row; lateral-move →
-discover → lateral-move again). The tactic ordering earns its keep only for
-drawing and for labelling an edge forward/backward — it does not describe a
-linear progression, which is exactly why direction is taken from the flows and
-never from the layering.
+This thinness reads as a limitation only if the goal were a complete, attacker's-eye account of adversary behaviour. It is not. The graph feeds a *defender-side* evaluation: MTD is a control a defender deploys, and the question is how it perturbs the attacker behaviour a defender *can know about*. Threat intelligence is exactly the codification of that knowledge, so an attacker model built from it is bounded by defender observability *by construction* — the right bound for the object being modelled. The simulated attacker being blind to pre-intrusion reconnaissance is faithful to the defender's actual epistemic position, not a sampling defect to apologise for. Where the intelligence goes dark maps the limits of defensible knowledge, and naming precisely where observation stops and inference must begin is a property of the threat model, not a weakness of the corpus. The corpus's selection bias is acknowledged as global rather than a prefix quirk: it is built from incidents that were detected, investigated deeply enough to reconstruct, and published — so even the dense middle describes campaigns that were caught.
 
-**The early kill chain is barely observed — and that confirms the literature
-where it can see.** Incident-derived intelligence starts at the point of
-*detection* (the intrusion) and works forward; pre-intrusion reconnaissance
-happens on attacker infrastructure and via OSINT, leaves little defender
-telemetry, and so analysts rarely draw it. The corpus bears this out:
-**reconnaissance appears in only 10 of 38 flows while initial-access appears in
-30 of 38**, and there is essentially no `reconnaissance → initial-access` edge
-(1, observed once). This is not a modelling error but a **survivorship-/
-observability bias** of the source — the GAP is densest in the observable middle
-of the kill chain and blind to the pre-intrusion prefix. It does **not**
-contradict Alshamrani 2019's claim that the recon→foothold prefix is *invariant*
-across APT operations; it *confirms it at the half the corpus can see* (foothold,
-30/39, is densely observed) while being structurally unable to observe the
-invariant prefix itself. The same lens corroborates the back half of Alshamrani's
-claim: of the 38 flows, **13 reach exfiltration, 13 reach impact, but only 3 reach
-both** — campaigns commit to *one* terminal objective, exactly the "stages 4–5
-split by objective" structure, observed directly in the data (and what makes the
-L2 motivation-subgraphing design defensible against this corpus). The decision not
-to paper over the prefix gap in the canonical GAP — supplying it, if at all, only
-through a separately-provenanced `inferred` overlay, never the observed graph — is
-Decision 6 in [`../specs/01_gap_schema.md`](../specs/01_gap_schema.md) §(b)/§(h).
+Notably, the corpus *confirms* the structural claims of the APT survey literature where it can see: the densely-observed foothold stage is consistent with Alshamrani et al.'s (2019) invariant recon-to-foothold prefix, and of the 38 incidents, 13 reach exfiltration, 13 reach impact, but only 3 reach both — campaigns commit to one terminal objective, exactly the objective-conditioned back half that survey predicts, observed directly in the data. That observation is what makes slicing the graph by operational objective defensible against this corpus (see the partition rationale note).
 
-**Both levels need a lens to be legible.** Neither view reads unfiltered — the
-technique graph swamped by edge count, the tactic FSM by near-completeness.
-Weighting (emphasis) and thresholding (the "≥ k incidents" view) are not
-cosmetic; they are how either level becomes interpretable, and the two trade
-resolution against legibility. The right view depends on the question being
-asked — which is the whole reason reduction is kept as a lens rather than baked
-in.
+### Assumptions that bound the claims
 
-## The observability boundary is a defender's-eye property — a threat-model input, not just a limitation
+- **ATT&CK Enterprise only, baked in.** A node is kept only if it resolves to a current Enterprise technique under the pinned ATT&CK version (v19.1). The corpus is slightly broader — a few incidents reference adversarial-ML or industrial-control-system techniques, or revoked IDs — and those nodes are *dropped, not remapped or bridged*: dependencies are never reconnected across a dropped node (that would invent intelligence no analyst drew). The per-incident layer stays fully lossless; the scope is applied only at aggregation. At the current version, 22 of 146 candidate nodes were non-Enterprise and dropped.
+- **Latest-version pin.** Pinning the newest ATT&CK is a deliberate "current taxonomy" choice; the alternative — pinning a version contemporaneous with each incident — chases a moving target across a decade of incidents.
+- **Tactic order is layout only** (above); it never sets or reverses an edge's direction.
+- **Sub-techniques collapse to their parent** (T1078.004 counts as T1078): a denser, more general graph at the cost of sub-technique precision; revisitable if a finding needs finer resolution.
+- **Conditional branches are a tested capability, not a corpus-exercised feature.** The schema and build handle analyst-drawn true/false branches, but the public corpus rarely populates them.
+- **The pre-intrusion prefix is never silently filled.** If reconnaissance structure is ever supplied, it enters as a separately-provenanced, opt-in *inferred* overlay — and even that overlay stays within threat intelligence's epistemic envelope: it imports well-grounded technique vocabulary glued by someone's inference, not ground truth. The contribution is not "we filled the gap" but "we are explicit about which edges are observation and which are inference".
 
-The thinness above (88% single-observation) and the recon blindness read as
-*limitations* only if the goal were a complete, attacker's-eye account of APT
-behaviour. It is not. The GAP feeds a **defender-side** evaluation: MTD is a
-control a defender deploys, and the question is how it perturbs the attacker
-behaviour a defender *can know about*. CTI is exactly the codification of that
-knowledge — so an attacker model built from CTI is bounded by what defenders
-observe *by construction*, and that bound is the right shape for the object being
-modelled. The simulated attacker being blind to pre-intrusion reconnaissance is
-**faithful to the defender's actual epistemic position**, not a sampling defect to
-apologise for.
+## Evidence and repo anchors
 
-That reframes the bias as a finding. Where CTI goes dark maps the **limits of
-defensible knowledge**, and those limits are themselves an input to the APT threat
-model ([`architecture.md`](../specs/architecture.md) §(e)–(f)): the front end
-(passive recon, resource development) and the symmetric back end (post-objective
-cleanup / anti-forensics — Alshamrani's phase 5, which *by design* erases the
-telemetry the report is built from) are the two regions where a defender must
-*infer* an adversary's behaviour rather than *observe* it. Naming precisely where
-the observed account stops and inference must begin is an astute property of the
-threat model, not a weakness of the corpus — and it is sharpest on the
-*dependency*, not the technique: even when a reconnaissance node appears it is
-mostly in-network discovery wired *backward* from the observable middle (8 of its
-in-edges come from execution / persistence / lateral-movement / C2), while the
-pre-intrusion `reconnaissance → initial-access` *edge* is essentially absent.
+- The formal data model + numbered construction decisions: [`../../implementation/pipeline/gap/gap_schema.md`](../../implementation/pipeline/gap/gap_schema.md) (this note is its methodological companion). Build code under `src/mtdsim/l1_construction/`; artefacts under `data/gap/`.
+- Edge-weight semantics (recurrence, never efficacy or transition probability) and the comparability boundary: [`../../implementation/metrics_semantics.md`](../../implementation/metrics_semantics.md) §(f).
+- Pipeline position: [`../../implementation/architecture.md`](../../implementation/architecture.md) §(c)–(d).
+- The Attack Flow grammar and the Tesla worked example: [`attackflow`](../../sources/extractions/attackflow.md); the APT-phase structural claims: [`alshamrani2019`](../../sources/extractions/alshamrani2019.md).
+- Downstream dependants: [`objective_partition_rationale.md`](objective_partition_rationale.md), [`objective_partition_findings.md`](objective_partition_findings.md).
 
-Supplementing that prefix (Decision 6's `inferred` overlay) does **not escape the
-boundary — it is still CTI**. Group-behaviour reports, ATT&CK group profiles, and
-survey structural claims document recon *vocabulary* and *generalised sequencing*,
-but the incident-wired recon→foothold *edge* remains an inference — often someone
-else's (a vendor analyst's read, or non-public collection re-badged). So the
-overlay imports well-grounded nodes glued by inferred edges; it extends the model
-*within* CTI's epistemic envelope rather than reaching ground truth. That is
-exactly why it is a declared, separately-provenanced, opt-in layer: cheap to
-author through the per-flow seam, deferred for now, and labelled so the threat
-model can state which of its edges are observed and which are inferred. The
-contribution is not "we filled the gap" but "we model the attacker the defender
-must reason about, and we are explicit about where that reasoning is observation
-versus inference." And the survivorship/selection framing is what makes this
-global rather than a prefix quirk: the corpus is built from incidents that were
-detected, investigated deeply enough to reconstruct, *and* published — so even the
-dense middle is the behaviour of campaigns that were *caught*. Recon and cleanup
-are the extremes of a bias that tilts the whole graph toward observable,
-documented, largely-successful-but-detected operations.
+## Revisit conditions
 
-## Assumptions that bound the claims
-
-The "future-you must defend this" points:
-
-- **ATT&CK Enterprise only — baked into the GAP.** The GAP is scoped to MITRE
-  ATT&CK *Enterprise* (pinned at v19.1): a node is kept only if it resolves to a
-  current Enterprise technique. The corpus is not purely Enterprise — a few
-  incidents reference ATLAS (adversarial-ML, `AML.*`) or ICS (`T0###`)
-  techniques, and some use IDs that v19.1 has revoked — and those nodes are
-  **dropped from the aggregated GAP**, together with their edges. Crucially the
-  drop is *removal, not remapping or bridging*: we never reconnect a dependency
-  across a dropped node (that would invent intelligence no analyst drew), and we
-  never relabel a technique to a "nearest" current one. The *per-flow extracts
-  stay lossless* — they record every technique as the analyst drew it, ATLAS and
-  ICS included — so the corpus record and the hand-curation seam are intact; the
-  Enterprise scope is applied only when aggregating the per-flow extracts into
-  the GAP. The consequence: the GAP is a clean Enterprise-technique graph (every
-  node labelled), built from a slightly broader corpus whose non-Enterprise parts
-  live on in the per-flow layer. **This is an assumption, not a result** — at
-  v0.5, 22 of 146 candidate nodes were non-Enterprise (15 ATLAS, 2 ICS, 5
-  revoked/absent), and were dropped.
-- **Latest-ATT&CK pin.** Pinning the newest ATT&CK is a deliberate
-  "current taxonomy" choice; it is why some older corpus IDs read as revoked. The
-  alternative — pinning a version contemporaneous with each incident — chases a
-  moving target across a decade of incidents, so a single recent pin is the
-  defensible simplification.
-- **Tactic order is layout only.** The kill-chain ordering is used for drawing
-  and for describing an edge as forward/backward — it never sets or reverses an
-  edge's direction. Direction comes only from the flow. (v0.4 used tactic order
-  to *impose* direction on inferred edges; that is exactly the synthesis this
-  design rejects.)
-- **Sub-techniques collapse to their parent.** T1078.004 is counted as T1078 —
-  denser, more general graph at the cost of sub-technique precision; revisitable
-  if a finding needs the finer resolution.
-- **Conditions are mostly end-state annotations in this corpus.** The schema
-  supports true/false branches and the build handles them, but the public corpus
-  rarely populates them — so branch-conditioned edges are a *tested capability*,
-  not yet a corpus-exercised feature.
-
-## How it connects
-
-- To the spec: [`../specs/01_gap_schema.md`](../specs/01_gap_schema.md) is the
-  formal data model + the six decisions; this note is its plain-English
-  companion. Build code: [`../../src/mtdsim/l1_construction/`](../../src/mtdsim/l1_construction);
-  artefacts: [`../../data/gap/`](../../data/gap).
-- On what the edge weights mean (recurrence, **not** efficacy or transition
-  probability) and the "MTD perturbs typical observed workflow" comparability
-  boundary for L3/L4: [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f).
-- To the architecture: [`architecture.md`](../specs/architecture.md) §(c)–(d)
-  place the GAP as L1 of the L0→L4 pipeline.
-- To the lit review: the Attack Flow grammar and the Tesla Figure-2 example are
-  extracted in [`../extractions/attackflow.md`](../extractions/attackflow.md).
-
-## When this would need updating
-
-- If the ATT&CK pin changes — re-examine the revoked-ID and unlabelled-node
-  counts.
-- If hand-curated incidents are added (the per-flow seam) — the "corpus-derived
-  only" framing weakens.
-- If the `inferred` overlay (Decision 6 — Option B) is ever authored — the
-  pre-intrusion prefix becomes modellable, but only in the corpus+inferred view;
-  the observed-only framing of the canonical GAP above is unchanged.
-- If the Enterprise-only assumption is revisited (e.g. ATLAS/ICS techniques
-  brought in with their own matrices).
-- If cross-flow AND/OR reconciliation is resolved — the GAP currently records
-  disagreeing joins without adjudicating them; likely settled at the eventual
-  Petri-net step.
-- As the corpus grows — the single-observation share (88% at v0.5) is the number
-  to watch: it measures how much of the GAP is genuinely *recurring* behaviour
-  versus one-off campaign detail, and is the honest gauge of whether "generalised"
-  in the name is yet earned.
+- If the ATT&CK pin changes — re-examine revoked-ID and unlabelled-node counts.
+- If hand-curated incidents are added through the per-incident seam — the "corpus-derived only" framing weakens and must be requalified.
+- If the inferred reconnaissance overlay is ever authored — the observed-only framing of the canonical graph is unchanged, but the corpus+inferred view becomes available and must be labelled.
+- As the corpus grows — re-check the 88% single-observation share; it measures how much of the graph is genuinely recurring behaviour.

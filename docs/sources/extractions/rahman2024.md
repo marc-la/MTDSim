@@ -21,7 +21,7 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 
 ### Relevance class
 
-**S — Supporting-argument.** Rahman is cited once in [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) (§III-D, line 139) as the NLP-based extraction *exemplar* in the automated-extraction taxonomy (NLP / process-mining / LLM). The citation anchors a coverage claim ("applied to 713 reports, mines 124 recurring temporal patterns") that feeds into the §III-D coverage-versus-fidelity contrast on which the thesis bases its choice of manual Attack Flow curation over automated extraction — it does not drive any architectural decision in [`../specs/architecture.md`](../specs/architecture.md) §(c)–(g).
+**S — Supporting-argument.** Rahman is cited once in [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) (§III-D, line 139) as the NLP-based extraction *exemplar* in the automated-extraction taxonomy (NLP / process-mining / LLM). The citation anchors a coverage claim ("applied to 713 reports, mines 124 recurring temporal patterns") that feeds into the §III-D coverage-versus-fidelity contrast on which the thesis bases its choice of manual Attack Flow curation over automated extraction — it does not drive any architectural decision in [`../specs/architecture.md`](../../implementation/architecture.md) §(c)–(g).
 
 ### ChronoCTI pipeline and corpus-scale result
 
@@ -32,9 +32,9 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 **Quote (if essential):**
 > "We apply **ChronoCTI** on a set of 713 CTI reports, where we identify 124 temporal attack patterns - which we categorize into nine pattern categories." (§Abstract)
 
-**Maps to:** [`../specs/architecture.md`](../specs/architecture.md) §(c) L0 — Raw CTI (manual Attack Flow curation as the chosen alternative to NLP extraction) · [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) §III-D ll. 135, 139, 141–143 (the NLP / PM / LLM trichotomy and the coverage-versus-fidelity disposition).
+**Maps to:** [`../specs/architecture.md`](../../implementation/architecture.md) §(c) L0 — Raw CTI (manual Attack Flow curation as the chosen alternative to NLP extraction) · [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) §III-D ll. 135, 139, 141–143 (the NLP / PM / LLM trichotomy and the coverage-versus-fidelity disposition).
 
-**Disposition for this thesis:** *contrasted-against* — adopted as a corroborating exemplar of what NLP-based extraction can deliver *at scale* (713 reports, 124 patterns), the coverage advantage [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) §III-D credits automated extraction with. The thesis sits on the *other* side of the same trade-off: Attack Flow's analyst-curated structured graphs are taken as the L0 substrate precisely to inherit the fidelity that an extraction pipeline at this F1 ceiling does not yet guarantee (cf. [[buechel2025]] on the open-set-evaluation plateau near F1 = 0.70). ChronoCTI does not feed the L0 → L1 build; it bounds the counterfactual.
+**Disposition for this thesis:** *contrasted-against* — adopted as a corroborating exemplar of what NLP-based extraction can deliver *at scale* (713 reports, 124 patterns), the coverage advantage [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) §III-D credits automated extraction with. The thesis sits on the *other* side of the same trade-off: Attack Flow's analyst-curated structured graphs are taken as the L0 substrate precisely to inherit the fidelity that an extraction pipeline at this F1 ceiling does not yet guarantee (cf. [[buechel2025]] on the open-set-evaluation plateau near F1 = 0.70). ChronoCTI does not feed the L0 → L1 build; it bounds the counterfactual.
 
 ---
 
@@ -47,16 +47,16 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 **Quote (if essential):**
 > "We refer to the pattern as a temporal attack pattern - the frequent occurrence of two techniques with a temporal relation." (§2, "Temporal Attack Pattern")
 
-**Maps to:** [`../specs/architecture.md`](../specs/architecture.md) §(c) L0 (the "what extracted CTI looks like" comparator) · [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) §III-D l. 139 (the "phishing followed by macro execution" gloss the lit review uses for ChronoCTI's output).
+**Maps to:** [`../specs/architecture.md`](../../implementation/architecture.md) §(c) L0 (the "what extracted CTI looks like" comparator) · [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) §III-D l. 139 (the "phishing followed by macro execution" gloss the lit review uses for ChronoCTI's output).
 
-**Disposition for this thesis:** *contrasted-against* — Attack Flow's `.afb` action / condition / operator / effect graphs ([`../specs/architecture.md`](../specs/architecture.md) §(c)) carry richer sequencing structure (multi-node chains, branching conditions, AND/OR operators) than a directed-pair pattern with one of four relation labels. Rahman's framing demonstrates that *temporal ordering is recoverable from CTI text*, validating the L0 corpus class as a viable source for behavioural structure; but the recovered structure is shallower than what the thesis's L1 GAP construction inherits from analyst-curated graphs. This is the §III-D coverage-versus-fidelity contrast made concrete at the artefact level.
+**Disposition for this thesis:** *contrasted-against* — Attack Flow's `.afb` action / condition / operator / effect graphs ([`../specs/architecture.md`](../../implementation/architecture.md) §(c)) carry richer sequencing structure (multi-node chains, branching conditions, AND/OR operators) than a directed-pair pattern with one of four relation labels. Rahman's framing demonstrates that *temporal ordering is recoverable from CTI text*, validating the L0 corpus class as a viable source for behavioural structure; but the recovered structure is shallower than what the thesis's L1 GAP construction inherits from analyst-curated graphs. This is the §III-D coverage-versus-fidelity contrast made concrete at the artefact level.
 
 ---
 
 ### Used in lit review
 
-- [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) §III-D, l. 139 — anchors the *NLP-based automated extraction* exemplar in the PM / NLP / LLM trichotomy; supplies the "713 reports → 124 patterns" coverage figure and the phishing-then-macro worked example that grounds the abstract claim in a concrete pattern.
-- [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) References, l. 281 — citation [16].
+- [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) §III-D, l. 139 — anchors the *NLP-based automated extraction* exemplar in the PM / NLP / LLM trichotomy; supplies the "713 reports → 124 patterns" coverage figure and the phishing-then-macro worked example that grounds the abstract claim in a concrete pattern.
+- [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) References, l. 281 — citation [16].
 
 ## Open questions / things to verify
 

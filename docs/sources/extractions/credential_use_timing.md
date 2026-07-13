@@ -2,8 +2,8 @@
 
 > A consolidated bundle on **how fast a captured/exposed credential is used**, and
 > **how fast an exposed service is compromised** — extracted for
-> [`09_credential-access`](../tactic_profiles/09_credential-access.md) §4 (and
-> [`03_initial-access`](../tactic_profiles/03_initial-access.md), which shares the
+> [`09_credential-access`](../../notes/ch3_design/tactic_profiles/09_credential-access.md) §4 (and
+> [`03_initial-access`](../../notes/ch3_design/tactic_profiles/03_initial-access.md), which shares the
 > Valid-Accounts entry vector). Two sub-clusters: (a) leaked-credential honeypots
 > (time-to-use of a stolen credential); (b) exposed-service honeypots
 > (time-to-compromise of an internet-facing service). Both say the same thing — a
@@ -70,10 +70,10 @@ Abstract + §"Golden Hour"; DeBlasio Abstract; Bermudez/Rabzelj/Akiyama Abstract
 - **Akiyama 2018 (HoneyCirculator):** ~1-yr monitoring of bait credentials through
   the exploit→credential-collection→fraud cycle.
 
-**Maps to:** [`09_credential-access`](../tactic_profiles/09_credential-access.md)
+**Maps to:** [`09_credential-access`](../../notes/ch3_design/tactic_profiles/09_credential-access.md)
 §4 (theft-of-material variants run in minutes — the "faster than an exploit"
 claim, empirically; the low-and-slow is the campaign around it, not the credential
-use) and [`03_initial-access`](../tactic_profiles/03_initial-access.md) (phishing
+use) and [`03_initial-access`](../../notes/ch3_design/tactic_profiles/03_initial-access.md) (phishing
 21 h lifecycle).
 
 **Disposition for this thesis:** verified [fetched] — Tier-2. Time-to-use of a
@@ -99,8 +99,8 @@ metric
   (dated snapshot; exact value network-dependent, `[parse-uncertain]` for a
   specific figure — read the live gauge, not a garbled number).
 
-**Maps to:** [`09_credential-access`](../tactic_profiles/09_credential-access.md) /
-[`03_initial-access`](../tactic_profiles/03_initial-access.md) §4 (brute-force /
+**Maps to:** [`09_credential-access`](../../notes/ch3_design/tactic_profiles/09_credential-access.md) /
+[`03_initial-access`](../../notes/ch3_design/tactic_profiles/03_initial-access.md) §4 (brute-force /
 default-credential entry against an exposed service is seconds-to-hours — the fast
 exploit-shaped end).
 

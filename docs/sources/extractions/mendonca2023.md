@@ -30,7 +30,7 @@ locator into the source markdown. Cross-links to spec rows / notes carry a
 
 **L — Load-bearing on methodology.** This is the methodological exemplar the L3
 Petri-net feasibility study
-([`../notes/2026-06-18_l3_petri_feasibility.md`](../notes/2026-06-18_l3_petri_feasibility.md))
+([`../notes/2026-06-18_l3_petri_feasibility.md`](../../implementation/pipeline/ogasp/petri_feasibility.md))
 points to for *analytical Petri-net evaluation and comparison of time-based MTD*.
 It anchors the "why a Petri net" case (§2 of the study) and the four-classes-as-
 four-parameterisations comparison apparatus (§5/§7), and it supplies the
@@ -62,7 +62,7 @@ used similarly" (§4.1, line 723).
 > analysis of systems through numerical solution and simulation methods." (§2.3,
 > lines 261–266)
 
-**Maps to:** [`../notes/2026-06-18_l3_petri_feasibility.md`](../notes/2026-06-18_l3_petri_feasibility.md)
+**Maps to:** [`../notes/2026-06-18_l3_petri_feasibility.md`](../../implementation/pipeline/ogasp/petri_feasibility.md)
 §2 (why a Petri net), §6.1 (tractability) and §6.3 (Markov semantics). **The
 load-bearing refinement:** the study assumed an SPN with *exponential* firing so
 the reachability graph is a clean CTMC (`τ = −Q_T⁻¹·1`). But the SDR scheduling
@@ -91,9 +91,9 @@ response time, job loss, completion and cost. This "one net per configuration �
 common metric panel → compare, and sweep the MTD interval" is exactly the L4
 shape this thesis needs.
 
-**Maps to:** [`../notes/2026-06-18_l3_petri_feasibility.md`](../notes/2026-06-18_l3_petri_feasibility.md)
+**Maps to:** [`../notes/2026-06-18_l3_petri_feasibility.md`](../../implementation/pipeline/ogasp/petri_feasibility.md)
 §5/§7 (the four GASP classes as four parameterisations of one shared net, solved
-and compared) and [`../specs/architecture.md`](../specs/architecture.md) §(g) (the
+and compared) and [`../specs/architecture.md`](../../implementation/architecture.md) §(g) (the
 L4 matrix: MTD mechanism × profile × interval — Mendonça sweeps the interval
 axis). **Contrast:** Mendonça's five "configurations" are five *MTD strategies*
 (defender side); this thesis's four are four *attacker profiles* (the GASP
@@ -116,8 +116,8 @@ estimated* rather than implying they are measured.
 > The input parameters marked with ? were reasonably estimated, as they were not
 > found in the literature or product specifications." (§4.1, lines 725–730)
 
-**Maps to:** [`../notes/2026-06-18_l3_petri_feasibility.md`](../notes/2026-06-18_l3_petri_feasibility.md)
-§6.2 (rate grounding) and [`../specs/provenance.md`](../specs/provenance.md). This
+**Maps to:** [`../notes/2026-06-18_l3_petri_feasibility.md`](../../implementation/pipeline/ogasp/petri_feasibility.md)
+§6.2 (rate grounding) and [`../specs/provenance.md`](../../implementation/provenance.md). This
 is the **template for the thesis's rate problem**: ground the *structure* from
 CTI, and treat the un-groundable timing parameters the way Mendonça treats his
 estimated rows — *declared notional, swept for sensitivity*, never presented as
@@ -127,7 +127,7 @@ for which a literature exists; the thesis's un-groundable parameters are
 *attacker* rates, for which — as Bland 2020 and this survey confirm — **no
 frequency-grounded source exists at all** ([`./bland2020.md`](./bland2020.md);
 the GAP's `observation_count` is a recurrence count, not a rate, per
-[`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f)).
+[`../specs/metrics_semantics.md`](../../implementation/metrics_semantics.md) §(f)).
 
 ### Concept 4 — the metric panel is *performance/QoS*, not security; the attacker is absent
 
@@ -147,7 +147,7 @@ no attack-success metric.
 > models to analyze the services' performance and security aspects in an
 > integrated way." (§4.4, lines 1074–1077)
 
-**Maps to:** [`../notes/2026-06-18_l3_petri_feasibility.md`](../notes/2026-06-18_l3_petri_feasibility.md)
+**Maps to:** [`../notes/2026-06-18_l3_petri_feasibility.md`](../../implementation/pipeline/ogasp/petri_feasibility.md)
 §2/§3 (the defender-vs-attacker inversion that *is* the thesis's contribution).
 **This is the precise contrast boundary:** the established SPN/GSPN/SRN/DSPN-for-
 MTD lineage (Mendonça, and the works it surveys — Cai, Connell, Maleki, ElMir,
@@ -177,9 +177,9 @@ MTD). Useful as a literature-usage map for the lit review's MTD-evaluation
 strand, and as a pointer to **Maleki** as the security-metric (attack-success/
 cost) precedent that complements Mendonça's performance-only panel.
 
-**Maps to:** [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) §IV/§V
+**Maps to:** [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) §IV/§V
 (MTD-evaluation methods) and
-[`../notes/2026-06-18_l3_petri_feasibility.md`](../notes/2026-06-18_l3_petri_feasibility.md)
+[`../notes/2026-06-18_l3_petri_feasibility.md`](../../implementation/pipeline/ogasp/petri_feasibility.md)
 §3 (literature-usage review).
 
 ## Disposition for this thesis
@@ -204,7 +204,7 @@ and-swept parameterisation. Three things are **contrasted, not inherited**:
 
 ## Used in lit review
 
-Not yet cited in [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) (the paper
+Not yet cited in [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) (the paper
 was added to `docs/sources/` on 2026-06-18). Candidate placements: §IV/§V MTD-
 evaluation-methods strand (analytic Petri-net evaluation of time-based MTD), and
 as the methodological-precedent anchor the L3 Petri-net workstream is built

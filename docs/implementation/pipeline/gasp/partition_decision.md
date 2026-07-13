@@ -2,13 +2,15 @@
 status: durable
 created: 2026-05-28
 topic: L2 (GASP) operational-objective classification — decision
+updated: 2026-07-13
+lineage: formerly docs/notes @ 2026-05-28_l2_partition_decision.md (relocated in the 2026-07-13 docs refactor)
 ---
 
 # L2 partition decision — compound-class disjoint (P6), conditional on simulator verification
 
 > **Provenance banner.** This note records the investigation that produced
 > GASP. The canonical spec is now at
-> [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) — read this
+> [`../specs/02_gasp_schema.md`](gasp_schema.md) — read this
 > for *why* GASP exists and *how* the decision was reached; read the spec
 > for *what GASP is*.
 >
@@ -16,7 +18,7 @@ topic: L2 (GASP) operational-objective classification — decision
 > forward to (`2026-05-28_l2_simulator_verification.md`) was reduced in
 > scope to the operator-deduplicated JSD re-check (Mitigation 1) and
 > the L2 implementation; both landed in commit `cf9a239` and the spec
-> at [`../specs/02_gasp_schema.md`](../specs/02_gasp_schema.md) §(g)
+> at [`../specs/02_gasp_schema.md`](gasp_schema.md) §(g)
 > records the result (operator-dedup JSD survives null p95 on the n=29
 > deduplicated corpus — the verdict stands at corpus level). The
 > simulator-driven discrimination check (MTTC / ASR / event traces) is
@@ -32,14 +34,14 @@ operational-objective axis, the two-axis comparison the lit review names
 **verdict on which classification to adopt** at L2, against six candidate
 schemes scored on a rubric, an empirical metadata audit, and a corpus-level
 discrimination check. It supersedes the open question in
-[`../specs/architecture.md`](../specs/architecture.md) §(e) about the L2 mechanism.
+[`../specs/architecture.md`](../../architecture.md) §(e) about the L2 mechanism.
 
 The verdict is **recommended-but-conditional**: the rubric + audit + corpus-level
 discrimination all converge on **P6 (compound-class disjoint)** as the
 working scheme, but the handoff-specified simulator-level discrimination check
 (MTTC / ASR / event traces) was *not* run in this session. The simulator step
 lands as a sub-handoff
-([`../handoffs/2026-05-28_l2_simulator_verification.md`](../handoffs/2026-05-28_l2_simulator_verification.md)).
+(`handoffs/2026-05-28_l2_simulator_verification.md` (shipped & deleted per handoff lifecycle; see git log)).
 
 ## The decision
 
@@ -53,18 +55,18 @@ lands as a sub-handoff
 All **38 active flows** (corpus excluding `example_attack_tree` — CTID
 Builder test fixture, dropped pre-verdict — and `openclaw` — HiddenLayer
 security-research demonstration, dropped after the
-[verification round](./2026-05-28_l2_per_flow_justifications.md#verification-round-2026-05-28))
+[verification round](per_flow_justifications.md#verification-round-2026-05-28))
 are mono-class; the partition is genuinely disjoint. Membership is sourced
 from the audit-traced CSV at
-[`./2026-05-28_l2_metadata_audit.csv`](./2026-05-28_l2_metadata_audit.csv).
+[`./2026-05-28_l2_metadata_audit.csv`](../../../../data/gasp/metadata_audit.csv).
 Per-flow justifications + critique + citations live at
-[`./2026-05-28_l2_per_flow_justifications.md`](./2026-05-28_l2_per_flow_justifications.md).
+[`./2026-05-28_l2_per_flow_justifications.md`](per_flow_justifications.md).
 
 The reasoning note at
-[`./2026-05-28_l2_partition_reasoning.md`](./2026-05-28_l2_partition_reasoning.md)
+[`./2026-05-28_l2_partition_reasoning.md`](../../../notes/ch3_design/objective_partition_rationale.md)
 argued the *partition axis* (operational objective vs motivation); this note
 records the *classification scheme* the next session implements at
-[`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph/).
+[`../../src/mtdsim/l2_subgraph/`](../../../../src/mtdsim/l2_subgraph).
 
 ## Rubric (six surviving schemes, surface subgraph as canonical GASP)
 
@@ -75,7 +77,7 @@ structurally near-zero for every scheme. Switched to **surface subgraph**
 deviation since the spec calls ancestor closure "a proxy ... broader than this".
 
 Petri-net tractability is **informational only** per
-[`../specs/architecture.md`](../specs/architecture.md) §(f) ("a Petri-net
+[`../specs/architecture.md`](../../architecture.md) §(f) ("a Petri-net
 encoding of GASP would sit *parallel* to MTDSim/DES execution as an
 alternative substrate for L4 analytical evaluation — not inside L1/L2");
 the criterion was retained in the table but excluded from the ranking,
@@ -167,7 +169,7 @@ authority clauses.
 ## Metadata audit summary
 
 38-row audit at
-[`./2026-05-28_l2_metadata_audit.csv`](./2026-05-28_l2_metadata_audit.csv);
+[`./2026-05-28_l2_metadata_audit.csv`](../../../../data/gasp/metadata_audit.csv);
 populated via the hybrid strategy (CTID `example_flows/` index + ATT&CK
 Group/Campaign back-fill + ~14 vendor URL WebFetches + manual fallback for
 CISA-blocked endpoints), then reviewed in a verification round (2026-05-28)
@@ -203,9 +205,9 @@ operators/conditions) yields **8 : 12 : 20** with 1 overlap. Cross-checked
 against two other defensible terminal definitions (B — strict zero
 out-degree: 6 : 10 : 23 : 0; D — any-occurrence/reach: 13 / 13 / — / 3),
 none reproduce the handoff's table — though D reproduces the [GAP
-construction note's](./2026-05-27_gap_construction.md) 13/13/3 *reach*
+construction note's](../../../notes/ch3_design/technique_graph_construction.md) 13/13/3 *reach*
 finding exactly. The recomputation is from `gap_v0.5.json` directly and
-the YAMLs in [`../../data/gap/flows/`](../../data/gap/flows/); the
+the YAMLs in [`../../data/gap/flows/`](../../../../data/gap/flows); the
 handoff's 11:7:21 appears to inherit from v0.4 prior art under a
 different terminal definition the recomputation could not reproduce.
 This investigation uses **Def A** as P1's structural mechanic — terminal
@@ -244,7 +246,7 @@ correctly.
 ## Petri-net tractability check (dropped from ranking, retained as note)
 
 Per Branch-point C of the investigation (a decision made against
-[`../specs/architecture.md`](../specs/architecture.md) §(f)'s positioning of
+[`../specs/architecture.md`](../../architecture.md) §(f)'s positioning of
 Petri-nets as a *parallel* L4 analytical substrate, not a primary one), the
 Petri-net tractability criterion was reduced to *informational, not ranking
 input*. The primer's per-class size bound is ~10–20 techniques, low-tens of
@@ -297,7 +299,7 @@ OpenClaw actions are ATLAS `AML.T*` (zero Enterprise techniques —
 contributed zero nodes / edges to `gap_v0.5.json`), so dropping it leaves
 the canonical Enterprise GAP unchanged in shape; only `source_flow_count`
 moves 39 → 38. See
-[the per-flow doc's *Dropped from corpus* section](./2026-05-28_l2_per_flow_justifications.md#dropped-from-corpus-after-verification-n--1)
+[the per-flow doc's *Dropped from corpus* section](per_flow_justifications.md#dropped-from-corpus-after-verification-n--1)
 for the full reasoning.
 
 ## If revisited
@@ -310,7 +312,7 @@ The decision changes if any of these hold:
   if the simulator-level test fails, the verdict shifts to refusal with
   L1-only contribution (matches handoff §"Stopping rule" clause 2).
 - **The operator-aggregation re-check (Mitigation 1 in
-  [`./2026-05-28_l2_operator_aggregation_concern.md`](./2026-05-28_l2_operator_aggregation_concern.md))
+  [`./2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch3_design/operator_concentration.md))
   shows the per-class JSD signal collapses under operator-deduplication.**
   Half of the `double_extortion` class is Conti variants (G0102); if
   the class's discrimination signal is in fact a *Conti signature*
@@ -341,7 +343,7 @@ The decision changes if any of these hold:
 ## What the next session implements
 
 The sub-handoff at
-[`../handoffs/2026-05-28_l2_simulator_verification.md`](../handoffs/2026-05-28_l2_simulator_verification.md)
+`handoffs/2026-05-28_l2_simulator_verification.md` (shipped & deleted per handoff lifecycle; see git log)
 covers two coupled tasks:
 
 1. **Simulator-driven discrimination** — build a fresh `SubgraphAttackerProfile`-
@@ -351,7 +353,7 @@ covers two coupled tasks:
    Jaccard / event-count diagnostic. Discriminates ⇒ this verdict
    stands; does not discriminate ⇒ refusal with L1-only contribution.
 2. **L2 implementation** — given a simulator-confirmed P6, implement
-   [`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph/) as a
+   [`../../src/mtdsim/l2_subgraph/`](../../../../src/mtdsim/l2_subgraph) as a
    stub-to-real upgrade: the L2 contract is
    `(gap, operational_objective) → SubgraphView`, where
    `operational_objective ∈ {pure_steal, pure_impediment, double_extortion, infrastructure_setup}`.
@@ -360,13 +362,13 @@ covers two coupled tasks:
 
 ## How it connects
 
-- To the architecture: closes [`../specs/architecture.md`](../specs/architecture.md)
+- To the architecture: closes [`../specs/architecture.md`](../../architecture.md)
   §(e) (was: terminal-node ancestor proxy with NLP parked; now:
   operational-objective compound-class disjoint, surface-subgraph,
   audit-attested). The §(e) prose should be updated when the next session's
   implementation lands.
 - To the GAP: no changes to L1.
-  [`../specs/01_gap_schema.md`](../specs/01_gap_schema.md) is unchanged. The
+  [`../specs/01_gap_schema.md`](../gap/gap_schema.md) is unchanged. The
   surface-subgraph definition is an L2-internal choice that doesn't touch
   the canonical GAP.
 - To the lit review: closes the §V "operational objective" axis. The
@@ -377,13 +379,13 @@ covers two coupled tasks:
   (infrastructure_setup, not surveillance) to match the empirical shape
   of the corpus.
 - To the L2 README:
-  [`../../src/mtdsim/l2_subgraph/README.md`](../../src/mtdsim/l2_subgraph/README.md)
+  [`../../src/mtdsim/l2_subgraph/README.md`](../../../../src/mtdsim/l2_subgraph/README.md)
   language is updated from "motivation specifier `{espionage,
   disruption, financial}`" to "operational-objective specifier
   `{pure_steal, pure_impediment, double_extortion, infrastructure_setup}`",
   pending implementation.
 - To the reasoning note:
-  [`./2026-05-28_l2_partition_reasoning.md`](./2026-05-28_l2_partition_reasoning.md)
+  [`./2026-05-28_l2_partition_reasoning.md`](../../../notes/ch3_design/objective_partition_rationale.md)
   framed *why* L2 exists and *which axis* it slices on. This note records
   *which classification*; the reasoning note's "Alshamrani three goals as
   the candidate to beat" phrasing should now be read as *the anchor* for
@@ -391,19 +393,19 @@ covers two coupled tasks:
 
 ## Investigation artefacts
 
-- This file (verdict): [`./2026-05-28_l2_partition_decision.md`](./2026-05-28_l2_partition_decision.md)
+- This file (verdict): [`./2026-05-28_l2_partition_decision.md`](partition_decision.md)
 - Audit CSV (38 rows, audit-traced `stated_objective` per flow):
-  [`./2026-05-28_l2_metadata_audit.csv`](./2026-05-28_l2_metadata_audit.csv)
+  [`./2026-05-28_l2_metadata_audit.csv`](../../../../data/gasp/metadata_audit.csv)
 - Per-flow justifications + critique + verification round outcomes +
   citations:
-  [`./2026-05-28_l2_per_flow_justifications.md`](./2026-05-28_l2_per_flow_justifications.md)
+  [`./2026-05-28_l2_per_flow_justifications.md`](per_flow_justifications.md)
 - Operator-aggregation concern (3 Conti, 2 Turla, 2 FIN13, 3 CISA
   AA22-138B variants — risks + 4 candidate mitigations):
-  [`./2026-05-28_l2_operator_aggregation_concern.md`](./2026-05-28_l2_operator_aggregation_concern.md)
+  [`./2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch3_design/operator_concentration.md)
 - Reasoning note (framing — *why* L2 exists, *which axis*):
-  [`./2026-05-28_l2_partition_reasoning.md`](./2026-05-28_l2_partition_reasoning.md)
+  [`./2026-05-28_l2_partition_reasoning.md`](../../../notes/ch3_design/objective_partition_rationale.md)
 - Sub-handoff (simulator verification + L2 implementation):
-  [`../handoffs/2026-05-28_l2_simulator_verification.md`](../handoffs/2026-05-28_l2_simulator_verification.md)
+  `handoffs/2026-05-28_l2_simulator_verification.md` (shipped & deleted per handoff lifecycle; see git log)
 
 No notebook was produced — the analysis ran as in-session Python scripts;
 all load-bearing outputs are in this notes file, the audit CSV, and the

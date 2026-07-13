@@ -9,7 +9,7 @@
 - **Citation key**: `sadlek2022`
 - **DOI / URL**: `https://doi.org/10.1145/3538969.3544458`
 - **Venue**: *The 17th International Conference on Availability, Reliability and Security* (ARES 2022), August 23–26, 2022, Vienna, Austria. ACM, New York, NY, USA, 8 pages.
-- **Author order**: Lukáš Sadlek, Pavel Čeleda, Daniel Tovarňák — per the ACM Reference Format on source p. 1 and the "L. Sadlek et al." running header on p. 2. (The byline block at the top of the source PDF text renders Čeleda first; that is affiliation-block layout, not citation order.) The lit review's "Sadlek et al. [15]" at `docs/sources/LIT_REVIEW.md:116` matches the publisher's canonical short form.
+- **Author order**: Lukáš Sadlek, Pavel Čeleda, Daniel Tovarňák — per the ACM Reference Format on source p. 1 and the "L. Sadlek et al." running header on p. 2. (The byline block at the top of the source PDF text renders Čeleda first; that is affiliation-block layout, not citation order.) The lit review's "Sadlek et al. [15]" at `docs/sources/lit_review/LIT_REVIEW.md:116` matches the publisher's canonical short form.
 - **Pages cited from**: p. 3 (TTP-maturity claim — quoted at lit review line 116). IP-decay locator within the paper still TODO for Pass 2.
 
 ## Extraction policy
@@ -23,11 +23,11 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 
 ### Relevance class
 
-**S — Supporting-argument.** Sadlek 2022 anchors lit review §III-B's claim that the Pyramid of Pain's ordering — practitioner heuristic by origin — is corroborated in the peer-reviewed literature. It establishes a categorical distinction between disposable atomic indicators (low rungs) and behavioural TTPs (apex) but does not drive a methodology decision in the L0→L4 pipeline ([`../specs/architecture.md`](../specs/architecture.md) §(c)–(g)); the PoP ordering itself is load-bearing via [[bianco2013]], not via sadlek. Sadlek's role here is rhetorical: a peer-reviewed citation supporting the framing introduced via Bianco's blog post.
+**S — Supporting-argument.** Sadlek 2022 anchors lit review §III-B's claim that the Pyramid of Pain's ordering — practitioner heuristic by origin — is corroborated in the peer-reviewed literature. It establishes a categorical distinction between disposable atomic indicators (low rungs) and behavioural TTPs (apex) but does not drive a methodology decision in the L0→L4 pipeline ([`../specs/architecture.md`](../../implementation/architecture.md) §(c)–(g)); the PoP ordering itself is load-bearing via [[bianco2013]], not via sadlek. Sadlek's role here is rhetorical: a peer-reviewed citation supporting the framing introduced via Bianco's blog post.
 
 ### Used in lit review
 
-- [`../sources/LIT_REVIEW.md:116`](../sources/LIT_REVIEW.md) — §III-B (Pyramid of Pain), single paragraph. Two distinct citations: (a) `[15, p. 3]` carrying the direct quote "the most mature indicators used for the security defense"; (b) bare `[15]` carrying the IP-address-validity-decay claim ("decays within a day"). Both anchor the same paragraph's categorical-distinction argument — atomic indicators are short-lived, behavioural patterns at TTP rung persist.
+- [`../sources/LIT_REVIEW.md:116`](../lit_review/LIT_REVIEW.md) — §III-B (Pyramid of Pain), single paragraph. Two distinct citations: (a) `[15, p. 3]` carrying the direct quote "the most mature indicators used for the security defense"; (b) bare `[15]` carrying the IP-address-validity-decay claim ("decays within a day"). Both anchor the same paragraph's categorical-distinction argument — atomic indicators are short-lived, behavioural patterns at TTP rung persist.
 
 ### TTPs as the most mature defence indicators
 
@@ -38,9 +38,9 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 **Quote (essential — this is the exact phrasing cited at lit review line 116):**
 > "Tactics, techniques, and procedures (TTPs) that can be obtained, e.g., from MITRE ATT&CK, express the most mature indicators used for the security defense." — §2.2
 
-**Maps to:** [`../specs/architecture.md`](../specs/architecture.md) §(j) (methodological positioning — PoP framing) · corroborates [[bianco2013]] PoP ordering.
+**Maps to:** [`../specs/architecture.md`](../../implementation/architecture.md) §(j) (methodological positioning — PoP framing) · corroborates [[bianco2013]] PoP ordering.
 
-**Disposition for this thesis:** **adopted-as-baseline** for the lit review's §III-B framing. The paper supplies a peer-reviewed citation point for what would otherwise rest on a single blog post (Bianco). No methodology consequence beyond reinforcing the choice of TTP-level adversary modelling — which the L1 Attack-Flow → L2 GASP build pipeline already commits to ([`../specs/architecture.md`](../specs/architecture.md) §(d)–(e)).
+**Disposition for this thesis:** **adopted-as-baseline** for the lit review's §III-B framing. The paper supplies a peer-reviewed citation point for what would otherwise rest on a single blog post (Bianco). No methodology consequence beyond reinforcing the choice of TTP-level adversary modelling — which the L1 Attack-Flow → L2 GASP build pipeline already commits to ([`../specs/architecture.md`](../../implementation/architecture.md) §(d)–(e)).
 
 ---
 
@@ -53,7 +53,7 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 **Quote (kept short; exact phrasing matters because lit review echoes "within a day"):**
 > "the validity of IP addresses quickly decreases after one day" — §4.2 (Sadlek's paraphrase of [48] Tounsi and Rais 2018)
 
-**Maps to:** [`../sources/LIT_REVIEW.md:116`](../sources/LIT_REVIEW.md) §III-B, second sentence (IP-decay anchor).
+**Maps to:** [`../sources/LIT_REVIEW.md:116`](../lit_review/LIT_REVIEW.md) §III-B, second sentence (IP-decay anchor).
 
 **Disposition for this thesis:** **verified** for citation use — sadlek does make the claim in the form the lit review uses. Flagged for the open-questions block: the lit review attributes a measurement to sadlek that sadlek itself attributes to Tounsi-Rais. Acceptable as secondary citation; would be cleaner to cite Tounsi-Rais directly if the empirical magnitude becomes load-bearing anywhere downstream.
 

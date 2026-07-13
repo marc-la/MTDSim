@@ -1,9 +1,15 @@
+---
+status: durable
+created: 2026-05-27
+updated: 2026-07-13
+---
+
 # Architecture — L0→L4 pipeline and methodological positioning
 
 **Status:** Pass 1 scaffold (drafted 2026-05-27 from the pre-lit-review *Current
 State* doc and the *Methodology Carry-Forward* note, both pasted-only). The
 skeleton, decisions log, and substrate seam are in place; methodological
-positioning will be fleshed against [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) in Pass 2.
+positioning will be fleshed against [`../sources/LIT_REVIEW.md`](../sources/lit_review/LIT_REVIEW.md) in Pass 2.
 Each subsection carries an explicit `Status:` marker
 (*designed* / *partially built* / *unbuilt*) — the architecture describes the
 *system by design*, not progress.
@@ -25,14 +31,14 @@ attack profiling, attack-graph operationalisation in simulation, and MTD
 evaluation. The pipeline takes raw CTI (L0) through aggregation (L1, **GAP** —
 Generalised APT Profile), operational-objective-subgraphing (L2, **GASP** —
 operational-objective-subgraphed APT Profile, per
-[`02_gasp_schema.md`](02_gasp_schema.md)), and operationalisation inside MTDSim
+[`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md)), and operationalisation inside MTDSim
 (L3, **OGASP** — Operationalised GASP), to comparative effectiveness
 measurement (L4). The §(h) glossary carries full definitions.
 
 The substrate is the inherited MTDSimTime fork ([`mtdsim_spec.md`](mtdsim_spec.md));
 the load-bearing seam is the **attacker module**, where graph-driven traversal
 is added *alongside* — not replacing — the inherited 6-phase scripted attacker
-(per [`project_context.md`](project_context.md) L17). The defender side is
+(per [`project_context.md`](../workflows/project_context.md) L17). The defender side is
 deliberately frozen: SDR-family mechanisms + Tay's AI selection, no novel
 defender innovation and no novel RL training.
 
@@ -44,7 +50,7 @@ question over (MTD family × attacker profile) on a single canonical substrate.
 **Why:** All previously-considered sub-questions resolved to either methodology
 positioning (chapter 3 material) or empirical splits of the same comparative
 claim; neither warrants RQ-level promotion. Aligns with
-[`project_context.md`](project_context.md) L9.
+[`project_context.md`](../workflows/project_context.md) L9.
 **If revisited:** If Jin asks for sub-questions, frame them as empirical splits
 (per-MTD-family, per-motivation-profile) of the umbrella, not methodology
 choices.
@@ -77,7 +83,7 @@ effectively a different thesis.
 **Why:** Retraining would consume time without a research payoff; the goal is
 *comparison against* a known AI-driven MTD mechanism, not RL methodology
 contribution. Deferred to the evaluation/ablation phase (per
-[`project_context.md`](project_context.md) L10 and [`repo_conventions.md`](repo_conventions.md)).
+[`project_context.md`](../workflows/project_context.md) L10 and [`docs_map.md`](../workflows/docs_map.md)).
 **Role clarification:** Tay's policy is *both* (i) an inherited benchmark we
 do not extend and (ii) one of the L4 comparison points alongside the
 time-scheduled SDR schemes — these are the same code object in two roles, not
@@ -170,7 +176,7 @@ parameterisation tunable).
 
 **GAP schema detail.** The data model, the four construction decisions (made
 2026-05-27 with Marc), and the build method live in
-[`01_gap_schema.md`](01_gap_schema.md). That spec **supersedes the aggregation
+[`01_gap_schema.md`](pipeline/gap/gap_schema.md). That spec **supersedes the aggregation
 sketch in this section**: GAP edges are Attack-Flow-only (FP-Growth
 co-occurrence and ontology-regex dropped), the artefact is lossless, and
 support / confidence / consensus / acyclicity become *views* rather than
@@ -224,7 +230,7 @@ across motivation profiles.
 ## (e) L2 — GASP (operational-objective-subgraphed APT Profile)
 
 **Status:** built. The data model and the five construction decisions live
-in [`02_gasp_schema.md`](02_gasp_schema.md); the L2 builder is at
+in [`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md); the L2 builder is at
 [`../../src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph); this section
 is the architecture-level summary.
 
@@ -232,7 +238,7 @@ is the architecture-level summary.
   canonical set `{pure_steal, pure_impediment, double_extortion,
   infrastructure_setup}`. The class set is empirically derived from a 38-flow
   audit-traced corpus
-  ([`02_gasp_schema.md`](02_gasp_schema.md) §(b) Decision 2) — a refinement
+  ([`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(b) Decision 2) — a refinement
   of Alshamrani's 3-goal NIST taxonomy that names *double-extortion*
   explicitly and renames *position_for_future* to *infrastructure_setup*
   because the corpus contains zero surveillance flows. The set is closed
@@ -244,15 +250,15 @@ is the architecture-level summary.
 - **Transformation.** Take the **surface subgraph** — techniques actually
   present in the class's flows, GAP edges where both endpoints are in the
   union. Class membership is sourced from the audit-traced CSV at
-  [`../notes/2026-05-28_l2_metadata_audit.csv`](../notes/2026-05-28_l2_metadata_audit.csv),
+  [`../notes/2026-05-28_l2_metadata_audit.csv`](../../data/gasp/metadata_audit.csv),
   *not* from graph-structural terminal-node detection. The CSV is the
   load-bearing input; the no-synthesis invariant
-  ([`02_gasp_schema.md`](02_gasp_schema.md) §(a)) refuses synthesised class
+  ([`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(a)) refuses synthesised class
   memberships in exactly the way the L1 GAP refuses synthesised edges.
 - **Validation.** Subgraphs differ across operational-objectives at the
   technique-frequency level (mean pairwise JSD 0.317 vs null p95 0.148, all
   six class pairs in 0.284–0.351). The operator-deduplicated re-check
-  ([`02_gasp_schema.md`](02_gasp_schema.md) §(g)) runs as a test gate over
+  ([`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(g)) runs as a test gate over
   the L2 build and the signal survives null p95 on the n=29 deduplicated
   corpus — the per-class behaviour is operator-robust at the corpus level.
   Simulator-level discrimination is L3/L4-scoped, not L2.
@@ -268,10 +274,10 @@ down in structured CTI; STIX `primary_motivation` is empty across all 187
 ATT&CK groups and all 52 ATT&CK campaigns (verified 2026-04-16). Operational
 objective — what the operation *did* by the analyst-stated narrative — is
 observable directly from CTI text, sidestepping inference. Alshamrani 2019
-([`../extractions/alshamrani2019.md`](../extractions/alshamrani2019.md))
+([`../extractions/alshamrani2019.md`](../sources/extractions/alshamrani2019.md))
 locates objective-conditioned behavioural divergence at APT phases 3–5,
 which is where it matters for an MTD evaluation. Detail in
-[`02_gasp_schema.md`](02_gasp_schema.md) §(b) Decision 1.
+[`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(b) Decision 1.
 **If revisited:** If a corpus emerges with structured motivation attribution
 (STIX `primary_motivation` populated), motivation re-enters as a comparable
 axis; the GASP would then carry both.
@@ -284,14 +290,14 @@ is systematic: *truncated breach reports* (Equifax, JP Morgan, Marriott,
 etc.) where the analyst stopped drawing before the exfiltration step
 appeared as a structural terminal. Sourcing membership from CTI narrative
 resolves the truncation pattern correctly. Per-flow defence in
-[`02_gasp_schema.md`](02_gasp_schema.md) §(b) Decision 3 and
-[`../notes/2026-05-28_l2_per_flow_justifications.md`](../notes/2026-05-28_l2_per_flow_justifications.md).
+[`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(b) Decision 3 and
+[`../notes/2026-05-28_l2_per_flow_justifications.md`](pipeline/gasp/per_flow_justifications.md).
 **If revisited:** If a corpus expansion or simulator-driven discrimination
 step reveals operator-aggregation is dominating per-class discrimination
 (e.g. the `double_extortion` class's signal is *the Conti signature* rather
 than a *double-extortion signature*), re-open the spec against the four
 mitigations in
-[`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../notes/2026-05-28_l2_operator_aggregation_concern.md)
+[`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../notes/ch3_design/operator_concentration.md)
 (operator-deduplicated re-check / operator-weighted JSD / stratified holdout
 / corpus expansion).
 
@@ -328,7 +334,7 @@ unbuilt; the substrate itself runs.
   against the substrate's network, bridging tactic-state → attacker action.
   The net-driven attacker runs *alongside* the
   inherited 6-phase attacker, which is retained as the procedural baseline
-  (per [`project_context.md`](project_context.md) L17). Both must work; both must
+  (per [`project_context.md`](../workflows/project_context.md) L17). Both must work; both must
   be internally consistent against the substrate's invariants.
 - **Validation.** Internal consistency against the substrate's invariants
   ([`mtdsim_spec.md`](mtdsim_spec.md) row-level dispositions); 6-phase baseline
@@ -388,7 +394,7 @@ substantive operationalisation move; the standalone examination (Monte-Carlo
 over the timeline runner) delivers the analytical track without a second L4
 substrate. The closed-form CTMC solve of the earlier analytical framing moves
 to the deferred register. Decision register:
-[`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](../notes/2026-07-03_supervisor_meeting_l3_decisions.md).
+[`../notes/2026-07-03_supervisor_meeting_l3_decisions.md`](pipeline/ogasp/supervisor_decision_register.md).
 **If revisited:** If a closed-form analytical evaluation is resurrected, L4
 acquires a second substrate column and the comparability boundary at §(j) is
 extended.
@@ -430,13 +436,13 @@ is unbuilt — the L3a structural nets themselves are shipped, see §(f)).
 - **Outputs.** Comparative effectiveness measures across attacker profiles,
   MTD mechanisms, and MTD intervals. Primary metric: **internal MTTC** per
   [`metrics_semantics.md`](metrics_semantics.md). Secondary: ASR, attack-path
-  exposure, RoA (per [`project_context.md`](project_context.md) L19).
+  exposure, RoA (per [`project_context.md`](../workflows/project_context.md) L19).
 - **Transformation.** Run MTDSim across the experiment matrix; aggregate per
   (mechanism, profile, interval); report deltas against the 6-phase procedural
   baseline.
 - **Validation.** Within-substrate comparison is valid; cross-paper numeric
   comparison to Zhang/Tay is *not* valid
-  ([`project_context.md`](project_context.md) L20;
+  ([`project_context.md`](../workflows/project_context.md) L20;
   [`metrics_semantics.md`](metrics_semantics.md) §d). The E1 finding from Phase 3
   applies: end-of-sim compromise fraction is a poor discriminator at long
   horizons — MTTC / attacker-effort discriminate.
@@ -450,7 +456,7 @@ is unbuilt — the L3a structural nets themselves are shipped, see §(f)).
 evaluated and dropped.**
 **Why:** Post-C6→0.8, the preset split would have distinguished only MTD
 durations plus two unimplemented behaviours — not enough to justify the
-maintenance cost. Recorded in [`project_context.md`](project_context.md) L20 and
+maintenance cost. Recorded in [`project_context.md`](../workflows/project_context.md) L20 and
 [`metrics_semantics.md`](metrics_semantics.md).
 **If revisited:** Resurrecting the preset would mean re-introducing
 maintained divergence-flags in the substrate — large reverse-step.
@@ -474,7 +480,7 @@ ASR signal across the experiment matrix.
 - **GASP** — *Operational-objective-subgraphed APT Profile*. The L2
   operational-objective-conditioned subgraphs of GAP — four `SubgraphView`s,
   one per class `{pure_steal, pure_impediment, double_extortion,
-  infrastructure_setup}`, per [`02_gasp_schema.md`](02_gasp_schema.md). (The
+  infrastructure_setup}`, per [`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md). (The
   earlier "motivation-subgraphed" expansion is investigation-time
   terminology; the live axis is operational objective.)
 - **OGASP** — *Operationalised GASP*. The L3 attacker-agent traversal of GASP
@@ -483,7 +489,7 @@ ASR signal across the experiment matrix.
   `{pure_steal, pure_impediment, double_extortion, infrastructure_setup}`
   parameterising the L1→L2 subgraphing step. (Supersedes the early
   "motivation profile" framing — see
-  [`02_gasp_schema.md`](02_gasp_schema.md) §(b) Decision 1.)
+  [`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(b) Decision 1.)
 - **Behaviourally-grounded attacker** — an attacker whose behaviour is shaped
   by CTI-derived structure (the GASP traversal), as opposed to a *procedural*
   attacker whose phase order and parameters are fixed in code.
@@ -492,7 +498,7 @@ ASR signal across the experiment matrix.
   as the comparison baseline against the behaviourally-grounded attacker.
 - **MTD mechanism family — SDR** — shuffle / diversity / redundancy, the
   canonical MTD taxonomy (Cho 2020 §III-B / Hong 2018; see
-  [`../extractions/cho2020.md`](../extractions/cho2020.md)). The three
+  [`../extractions/cho2020.md`](../sources/extractions/cho2020.md)). The three
   primitives are complementary rather than partitioned:
   - **Shuffling** — rearranges or randomises existing components (IP
     mutation, port hopping, topology reconfiguration), invalidating
@@ -544,12 +550,12 @@ substrate column at L4, not the seam at L3.
 
 ---
 
-## (j) Methodological positioning *(Pass 1 — two paragraphs; flesh in Pass 2 against [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md))*
+## (j) Methodological positioning *(Pass 1 — two paragraphs; flesh in Pass 2 against [`../sources/LIT_REVIEW.md`](../sources/lit_review/LIT_REVIEW.md))*
 
 Prior literature independently provides (a) CTI-grounded attack profiling,
 (b) attack-graph operationalisation in simulation, and (c) MTD evaluation
 methodologies. The dominant MTD evaluation pattern — characterised across the
-lineage Brown 2023 → Zhang 2023 → Ho 2024 → Tay 2024 ([`project_context.md`](project_context.md)
+lineage Brown 2023 → Zhang 2023 → Ho 2024 → Tay 2024 ([`project_context.md`](../workflows/project_context.md)
 L27) — is *single-mechanism, single-network optimisation against procedurally-
 scripted attackers*. Attacker fidelity sits at the bottom of the Pyramid of
 Pain (hashes, IPs, artefacts) even though MTD's claimed defensive value extends
@@ -562,8 +568,8 @@ of the dominant pattern. *"Behaviourally-grounded" has a concrete mechanism
 here:* each L2 class partition is audit-traced to analyst-stated operational
 objective in the CTI narrative (CTID `example_flows/` blurb + ATT&CK
 Group/Campaign page + vendor URL), with per-flow citations in
-[`02_gasp_schema.md`](02_gasp_schema.md) §(c) and
-[`../notes/2026-05-28_l2_per_flow_justifications.md`](../notes/2026-05-28_l2_per_flow_justifications.md) —
+[`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(c) and
+[`../notes/2026-05-28_l2_per_flow_justifications.md`](pipeline/gasp/per_flow_justifications.md) —
 the mechanism is documented, not assumed.
 
 The defensible validation claim is **"behavioural fidelity changes the
@@ -586,7 +592,7 @@ generative grammar for an operational objective** — the union of 5–19
 analyst-drawn flows, over-generating by construction (a token can stitch
 technique-A-from-one-campaign onto technique-B-from-another and produce a
 chain no real actor ever ran; rationale in
-[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md)
+[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/ch3_design/structure_to_behaviour_binding.md)
 §1). *Commits to:* a run is *one instantiation* of the envelope under a
 declared policy; the defensible claim is **fidelity-changes-the-answer over a
 CTI-grounded envelope**. *Rules out:* claiming a traversal *is* a named
@@ -594,7 +600,7 @@ actor; reading the envelope MTTC as a real campaign's dwell time; reading
 weighted paths as actor-likelihood. Every downstream claim is phrased
 envelope-relative ("under the `pure_steal` envelope…") — the one-liners in
 [`metrics_semantics.md`](metrics_semantics.md) §(f) and
-[`02_gasp_schema.md`](02_gasp_schema.md) §(a) enforce the same reading at
+[`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(a) enforce the same reading at
 their layers.
 
 ---
@@ -612,7 +618,7 @@ The system is validated end-to-end when:
    different ancestral structure). An operational-objective specifier that
    produces a near-empty or near-full subgraph is a construction failure,
    not a finding. (Confirmed at corpus level by the JSD discrimination check
-   in [`02_gasp_schema.md`](02_gasp_schema.md) §(g); simulator-level
+   in [`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(g); simulator-level
    confirmation is L3/L4-scoped.)
 3. **L3 substrate consistency.** Both attackers (6-phase, graph-driven)
    produce attack records that respect every row in
@@ -623,7 +629,7 @@ The system is validated end-to-end when:
 4. **L4 within-substrate comparability.** All comparisons are within this
    substrate. Cross-paper numeric comparison to Zhang/Tay is **invalid**
    (per [`metrics_semantics.md`](metrics_semantics.md) §d and
-   [`project_context.md`](project_context.md) L20). The primary discriminator is
+   [`project_context.md`](../workflows/project_context.md) L20). The primary discriminator is
    internal MTTC; ASR/RoA/path-exposure are reported but secondary.
 5. **Scoped contribution claim.** The thesis-level claim is bounded to
    sensitivity analysis — *the answer changes when the attacker is
@@ -642,23 +648,23 @@ Pass 2 / Marc to drive, not assumed-resolved.
 - **Attack Flow schema version + parser entrypoint in-tree.** Pinning is
   blocked until the corpus and parser materialise somewhere reachable;
   see §(c) Decision-block + Parser-contract for the current open state.
-  → [`01_gap_schema.md`](01_gap_schema.md) §(f)/§(h) pins the parser on the STIX
+  → [`01_gap_schema.md`](pipeline/gap/gap_schema.md) §(f)/§(h) pins the parser on the STIX
   export (sidestepping the `.afb` version delta); the version pin itself stays open.
 - **Which Jalowski primitives does the attacker model encode** (state
   collision / beacon conditioning / metadata invariance)? Each is independent.
 - **L1 aggregation parameter choice** (`min_support`, `min_confidence`,
   consensus / backward / forward edge modes). Architecture commits only to the
   *form*; the values are tunable. → **Resolved for the GAP stage** by
-  [`01_gap_schema.md`](01_gap_schema.md): Attack-Flow-only edges (co-occurrence
+  [`01_gap_schema.md`](pipeline/gap/gap_schema.md): Attack-Flow-only edges (co-occurrence
   dropped), lossless artefact, thresholds / acyclicity as downstream views.
 - **Motivation-attribution method — RESOLVED** → see
-  [`02_gasp_schema.md`](02_gasp_schema.md). Class membership is sourced from
+  [`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md). Class membership is sourced from
   audit-traced metadata attestation (analyst-stated operational objective in
   the CTI narrative); the structural-terminal proxy is documented as the
   dropped P1 candidate. NLP/group-mediated inference remains parked but is
   no longer the parked *alternative to the structural proxy* — it would be
   an alternative to the audit-traced mechanism, with the operator-
-  aggregation re-check ([`02_gasp_schema.md`](02_gasp_schema.md) §(g)) as
+  aggregation re-check ([`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(g)) as
   the natural decision point.
 - **Network substrate generality.** Held generic by intent — but does the RQ
   require parametric variation across topologies, or is one canonical
@@ -672,33 +678,33 @@ Pass 2 / Marc to drive, not assumed-resolved.
 
 ## (m) Related specs
 
-- [`project_context.md`](project_context.md) — thesis-level direction; the
+- [`project_context.md`](../workflows/project_context.md) — thesis-level direction; the
   one-line L0→L4 pipeline this file expands.
-- [`01_gap_schema.md`](01_gap_schema.md) — L1 GAP data model and the six
+- [`01_gap_schema.md`](pipeline/gap/gap_schema.md) — L1 GAP data model and the six
   construction decisions; the detail under §(d).
-- [`02_gasp_schema.md`](02_gasp_schema.md) — L2 GASP data model and the
+- [`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) — L2 GASP data model and the
   five construction decisions; the detail under §(e).
 - [`mtdsim_spec.md`](mtdsim_spec.md) — substrate row-level dispositions.
 - [`metrics_semantics.md`](metrics_semantics.md) — internal MTTC and the
   comparability boundary.
 - [`provenance.md`](provenance.md) — load-bearing constants and rules
   cross-linked to source / code / disposition.
-- [`guardrails.md`](guardrails.md) — non-negotiables (branch, scope,
+- [`guardrails.md`](../workflows/guardrails.md) — non-negotiables (branch, scope,
   fair-use).
-- [`session_workflow.md`](session_workflow.md) — stage-commit / handoff
+- [`session_workflow.md`](../workflows/session_workflow.md) — stage-commit / handoff
   lifecycle.
-- [`repo_conventions.md`](repo_conventions.md) — docs tree layout.
-- [`../extractions/`](../extractions/) — per-paper extracts. Lineage four
+- [`docs_map.md`](../workflows/docs_map.md) — docs tree layout.
+- [`../extractions/`](../sources/extractions/) — per-paper extracts. Lineage four
   (Brown, Zhang, Ho, Tay) are locked; the adjacent-paper extractions
   cited from this spec — including the §IV-B fidelity-descriptor anchors
-  ([`../extractions/cho2020.md`](../extractions/cho2020.md),
-  [`../extractions/bianco2013.md`](../extractions/bianco2013.md)),
+  ([`../extractions/cho2020.md`](../sources/extractions/cho2020.md),
+  [`../extractions/bianco2013.md`](../sources/extractions/bianco2013.md)),
   the L3 primitives source
-  ([`../extractions/jalowski2026.md`](../extractions/jalowski2026.md)),
+  ([`../extractions/jalowski2026.md`](../sources/extractions/jalowski2026.md)),
   the L0 substrate spec
-  ([`../extractions/attackflow.md`](../extractions/attackflow.md)),
+  ([`../extractions/attackflow.md`](../sources/extractions/attackflow.md)),
   and the framing-closest paper
-  ([`../extractions/ferraz2024.md`](../extractions/ferraz2024.md)) —
+  ([`../extractions/ferraz2024.md`](../sources/extractions/ferraz2024.md)) —
   are deep-fleshed and citable from §(j) Pass 2.
-- [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) — Marc's lit review,
+- [`../sources/LIT_REVIEW.md`](../sources/lit_review/LIT_REVIEW.md) — Marc's lit review,
   gitignored; primary input to Pass 2's §(j) flesh-out.

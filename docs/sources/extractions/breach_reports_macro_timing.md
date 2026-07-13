@@ -3,7 +3,7 @@
 > Institutional source-bundle. Four vendors' incident-response statistics,
 > extracted **as calibration targets for operational validation**, not as
 > per-tactic timing. Per
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md),
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md),
 > breach-report *statistics* are allowed Tier-2 literature (they are **not** the
 > Attack Flow corpus / `observation_count`) and are exactly the observable
 > campaign-shape patterns the calibrated timeline is fitted to reproduce.
@@ -15,7 +15,7 @@
 > (`dfir_report_confluence_..._lockbit`, `..._rdp_..._ransomhub`,
 > `..._blacksuit_ransomware`).
 > This bundle reconciles the precedent survey's `[search]`-flagged macro table
-> ([`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../notes/2026-07-04_tactic_duration_precedent_survey.md)).
+> ([`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../notes/ch2_background/tactic_duration_precedent_survey.md)).
 
 ### Relevance class
 
@@ -161,10 +161,10 @@ point. All [fetched]:
 the group anchors on M-Trends dwell shape, then check the Sophos
 access→AD (~11 h) and access→exfil (~73 h) milestones emerge approximately
 right (method note rule 3, "hold out an observable") ·
-[`14_exfiltration`](../tactic_profiles/14_exfiltration.md) /
-[`12_collection`](../tactic_profiles/12_collection.md) (the exfil floor);
-[`09_credential-access`](../tactic_profiles/09_credential-access.md) /
-[`11_lateral-movement`](../tactic_profiles/11_lateral-movement.md) (the
+[`14_exfiltration`](../../notes/ch3_design/tactic_profiles/14_exfiltration.md) /
+[`12_collection`](../../notes/ch3_design/tactic_profiles/12_collection.md) (the exfil floor);
+[`09_credential-access`](../../notes/ch3_design/tactic_profiles/09_credential-access.md) /
+[`11_lateral-movement`](../../notes/ch3_design/tactic_profiles/11_lateral-movement.md) (the
 race-to-AD chain).
 
 **Disposition for this thesis:** verified [fetched] — the best calibration

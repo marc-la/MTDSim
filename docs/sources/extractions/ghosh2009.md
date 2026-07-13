@@ -23,7 +23,7 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 
 ### Relevance class
 
-**S — Supporting-argument.** NITRD 2009 supplies the opening rhetorical framing of the lit review (§I opener at [`../sources/LIT_REVIEW.md:20`](../sources/LIT_REVIEW.md) — "attacks can be thwarted but not prevented") and the conceptual premise that no system is perfectly secure. It does not drive a specific methodology decision in [`../specs/architecture.md`](../specs/architecture.md) §(c)–(g); the L0→L4 pipeline inherits the *premise* (MTD inverts the eliminate-vulnerabilities assumption) but not any concrete primitive from this document.
+**S — Supporting-argument.** NITRD 2009 supplies the opening rhetorical framing of the lit review (§I opener at [`../sources/LIT_REVIEW.md:20`](../lit_review/LIT_REVIEW.md) — "attacks can be thwarted but not prevented") and the conceptual premise that no system is perfectly secure. It does not drive a specific methodology decision in [`../specs/architecture.md`](../../implementation/architecture.md) §(c)–(g); the L0→L4 pipeline inherits the *premise* (MTD inverts the eliminate-vulnerabilities assumption) but not any concrete primitive from this document.
 
 ### "New game" framing — attacks only work once if at all
 
@@ -34,7 +34,7 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 **Quote (essential — anchors the §I opener phrasing):**
 > "In the new game we win by increasing the randomness or decreasing the predictability of our systems. By making the cyber terrain appear chaotic to the adversary, we force him to do reconnaissance and launch exploits anew for every desired penetration; the attacker enjoys no amortization of development costs." (§1 "What is the new game?")
 
-**Maps to:** [`../specs/architecture.md`](../specs/architecture.md) §(a) "Goal and scope" — the goal frames MTD as the defence whose value the L0→L4 evaluation pipeline is built to measure; this passage is the foundational statement of *why* such evaluation is worth doing. Also [`../sources/LIT_REVIEW.md:20`](../sources/LIT_REVIEW.md) — citation [1] anchoring "attacks can be thwarted but not prevented".
+**Maps to:** [`../specs/architecture.md`](../../implementation/architecture.md) §(a) "Goal and scope" — the goal frames MTD as the defence whose value the L0→L4 evaluation pipeline is built to measure; this passage is the foundational statement of *why* such evaluation is worth doing. Also [`../sources/LIT_REVIEW.md:20`](../lit_review/LIT_REVIEW.md) — citation [1] anchoring "attacks can be thwarted but not prevented".
 
 **Disposition for this thesis:** *adopted-as-baseline framing.* The thesis inherits the MTD premise wholesale (MTD inverts the eliminate-vulnerabilities assumption; reconnaissance decays under continuous configuration change) and does not contest it. The contribution sits *downstream* of this framing — given that MTD claims to disrupt the attacker at the apex of the Pyramid of Pain, are existing MTD mechanisms evaluated against attackers modelled at that fidelity? — rather than relitigating whether MTD is worthwhile in principle.
 
@@ -49,13 +49,13 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 **Quote (essential — exact phrasing maps to lit-review citation):**
 > "Most applications, systems and networks are not perfectly secure. Hence, it is a matter of time until they can be compromised in a targeted attack." (§1.6 "Decoys", opening sentence)
 
-**Maps to:** [`../sources/LIT_REVIEW.md:20`](../sources/LIT_REVIEW.md) — citation [1] anchoring the §I opener ("it proceeds from the premise that no system is perfectly secure"). Also [`../specs/architecture.md`](../specs/architecture.md) §(a) — the L4 comparative question presupposes that MTD is the defensive response to this imperfect-security premise.
+**Maps to:** [`../sources/LIT_REVIEW.md:20`](../lit_review/LIT_REVIEW.md) — citation [1] anchoring the §I opener ("it proceeds from the premise that no system is perfectly secure"). Also [`../specs/architecture.md`](../../implementation/architecture.md) §(a) — the L4 comparative question presupposes that MTD is the defensive response to this imperfect-security premise.
 
 **Disposition for this thesis:** *adopted-as-baseline framing.* The premise is the philosophical entry-point for the entire MTD literature reviewed in the dissertation; no methodological divergence is taken from it.
 
 ### Used in lit review
 
-- [`../sources/LIT_REVIEW.md:20`](../sources/LIT_REVIEW.md) — §I "Introduction" opener, citation `[1]`: anchors the claim that MTD "proceeds from the premise that no system is perfectly secure, so that attacks can be thwarted but not prevented". This is the only citation site for `nitrd2009` in the lit review. The matching bibliography entry is at [`../sources/LIT_REVIEW.md:237`](../sources/LIT_REVIEW.md) (full reference: NITRD Program, *National Cyber Leap Year Summit 2009 Co-Chairs' Report*; MTD working group co-chaired by A. K. Ghosh, D. Pendarakis, W. Sanders).
+- [`../sources/LIT_REVIEW.md:20`](../lit_review/LIT_REVIEW.md) — §I "Introduction" opener, citation `[1]`: anchors the claim that MTD "proceeds from the premise that no system is perfectly secure, so that attacks can be thwarted but not prevented". This is the only citation site for `nitrd2009` in the lit review. The matching bibliography entry is at [`../sources/LIT_REVIEW.md:237`](../lit_review/LIT_REVIEW.md) (full reference: NITRD Program, *National Cyber Leap Year Summit 2009 Co-Chairs' Report*; MTD working group co-chaired by A. K. Ghosh, D. Pendarakis, W. Sanders).
 
 ---
 

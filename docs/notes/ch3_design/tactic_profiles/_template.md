@@ -16,9 +16,9 @@ tier_hypothesis: <1 substrate | 2 literature | 3 declared>
 > progress here, forcing repeat or wait). Everything else is context. A sentence
 > that changes neither *how long* nor *whether the attacker repeats it* is trim.
 > Keep it to 1–2 pages. Method + bar:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
 > Structure + groups: [`README.md`](README.md). The filled §5 feeds
-> [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 
 ## 1. Tactic & role
 
@@ -41,18 +41,18 @@ Which MTD action — **IP/topology shuffle**, **service/OS diversity**,
 **redundancy** — disturbs progress in this tactic, and how? Be explicit that this
 is argued from the *semantics of the MTD mechanism* (there are no public logs of
 MTD→attacker effect — the genuine unknown,
-[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md) §5).
+[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../structure_to_behaviour_binding.md) §5).
 The output is (i) a **reset verdict** — does a shuffle invalidate a gain here
 (e.g. a foothold) or survive it (e.g. a stolen credential)? — which feeds the
 declared MTD-reset parameter and the L3b binding
-([`../handoffs/2026-07-03_l3_binding_scoping.md`](../handoffs/2026-07-03_l3_binding_scoping.md)),
+([`../handoffs/2026-07-03_l3_binding_scoping.md`](../../../handoffs/2026-07-03_l3_binding_scoping.md)),
 and (ii) the **sweep-width** it justifies (more uncertainty → wider range).
 
 ## 4. Timing evidence
 
 Small table. Most rows will legitimately be "no direct value" — that *is* the gap
 evidence, record it, don't force a number. Papers are claims: flag `[fetched]`
-vs `[search]`, cite the locator, never guess ([`../specs/guardrails.md`](../specs/guardrails.md)).
+vs `[search]`, cite the locator, never guess ([`../specs/guardrails.md`](../../../workflows/guardrails.md)).
 
 | Source | Claim (value / behaviour) | How adapted to this tactic | Confidence |
 |---|---|---|---|

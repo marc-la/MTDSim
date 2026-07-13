@@ -21,7 +21,7 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 
 ### Relevance class
 
-**S — Supporting-argument.** Büchel 2025 anchors the lit review's evidentiary basis for choosing manually-curated CTI (Attack Flow) over automated TTP extraction as the L0 input to the L1 GAP pipeline ([`../specs/architecture.md`](../specs/architecture.md) §(c)). It does not drive an architectural choice — the manual-curation direction is already fixed by the Attack Flow substrate decision — but it *justifies* that choice empirically: the SoK is the citable demonstration that automation is not yet a viable alternative at the fidelity this thesis needs.
+**S — Supporting-argument.** Büchel 2025 anchors the lit review's evidentiary basis for choosing manually-curated CTI (Attack Flow) over automated TTP extraction as the L0 input to the L1 GAP pipeline ([`../specs/architecture.md`](../../implementation/architecture.md) §(c)). It does not drive an architectural choice — the manual-curation direction is already fixed by the Attack Flow substrate decision — but it *justifies* that choice empirically: the SoK is the citable demonstration that automation is not yet a viable alternative at the fidelity this thesis needs.
 
 ### Open-set plateau on the top-50 TTPs
 
@@ -32,9 +32,9 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 **Quote (essential — the headline plateau number):**
 > "the most recent NLP models, such as generative LLMs, are unable to surpass the F1-Score bar set at 70% by less recent models (e.g., BERT-based text classifiers), by more than a small degree." (§9 Conclusion and Takeaways)
 
-**Maps to:** [`../specs/architecture.md`](../specs/architecture.md) §(c) L0 corpus boundary — the rationale for pinning the L0 input to manually-curated Attack Flow rather than an automated extraction pipeline. Also relates to §(j) methodological positioning, where the manual-curation choice is part of the "behavioural fidelity changes the answer" stance.
+**Maps to:** [`../specs/architecture.md`](../../implementation/architecture.md) §(c) L0 corpus boundary — the rationale for pinning the L0 input to manually-curated Attack Flow rather than an automated extraction pipeline. Also relates to §(j) methodological positioning, where the manual-curation choice is part of the "behavioural fidelity changes the answer" stance.
 
-**Disposition for this thesis:** *adopted-as-baseline* (the SoK's empirical finding is the citable warrant for the lit review's manual-vs-automated framing at [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) line 141; we adopt its conclusion, we do not replicate its experiments).
+**Disposition for this thesis:** *adopted-as-baseline* (the SoK's empirical finding is the citable warrant for the lit review's manual-vs-automated framing at [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) line 141; we adopt its conclusion, we do not replicate its experiments).
 
 ---
 
@@ -44,15 +44,15 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 
 **Paraphrase:** The SoK distinguishes two evaluation regimes: a *closed-set scenario* in which the label space and dataset characteristics are known a priori and approaches can be tuned to them (the dominant pattern in prior work), versus an *open-set scenario* in which no prior information about the data is available and no per-approach adjustment is performed. The closed-set numbers — where generation reaches *F*1 ≈ 0.72 on TRAM2 (Table 12) — flatter the field; the open-set numbers, scanned across the top-{10,25,50,118,637} label subsets (Figure 4), are the SoK's pointed contribution and the basis for its "are we there yet?" answer of *not yet*. The framing matters because automated CTI extraction in a production threat-intelligence pipeline is structurally an open-set problem: the analyst does not get to pre-restrict the ontology to fifty techniques.
 
-**Maps to:** [`../specs/architecture.md`](../specs/architecture.md) §(c) — argues that any future "swap in automated extraction at L0" branch would inherit open-set performance, not the closed-set headline numbers. Backs the §(j) note that the working methodology direction is calibrated against the dominant pattern's limitations.
+**Maps to:** [`../specs/architecture.md`](../../implementation/architecture.md) §(c) — argues that any future "swap in automated extraction at L0" branch would inherit open-set performance, not the closed-set headline numbers. Backs the §(j) note that the working methodology direction is calibrated against the dominant pattern's limitations.
 
-**Disposition for this thesis:** *adopted-as-baseline* — the open-set framing is exactly the realism criterion the lit review §III-D appeals to when it says automated extraction "still falls short of reliable technique recovery in realistic settings" ([`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) line 221). Used rhetorically, not replicated.
+**Disposition for this thesis:** *adopted-as-baseline* — the open-set framing is exactly the realism criterion the lit review §III-D appeals to when it says automated extraction "still falls short of reliable technique recovery in realistic settings" ([`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md) line 221). Used rhetorically, not replicated.
 
 ---
 
 ### Used in lit review
 
-Citations of `[14]` in [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md):
+Citations of `[14]` in [`../sources/LIT_REVIEW.md`](../lit_review/LIT_REVIEW.md):
 
 - **Line 135** — "Automated extraction dominates the literature [14] and spans three families: natural language processing (NLP), process mining (PM), and large language models (LLMs)." Gloss: the SoK is cited as the authoritative survey establishing that automated extraction is the dominant strand and decomposing it into the three method families the review then walks through.
 - **Line 141** — "a recent Systematization of Knowledge (SoK) on TTP extraction finds that generative and embedder-based methods do not yet beat traditional NLP classifiers in realistic open-set evaluation: even on the 50 most common TTPs, the best systems plateau near *F*1 = 0.70 [14]." Gloss: the headline empirical finding — the *F*1 = 0.70 plateau and the counterintuitive ordering of traditional NLP over modern methods — is loaded directly from this paper.

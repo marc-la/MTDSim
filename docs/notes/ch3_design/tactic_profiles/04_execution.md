@@ -13,8 +13,8 @@ tier_hypothesis: 3 declared
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -55,10 +55,10 @@ The hypothesis is `stealth-low-and-slow`, but execution is the one tactic where 
 concealment — "once the attackers get control of the system through the malware execution …
 they keep low to go undetected to the next phase" — and notes that fileless, in-memory
 execution (Duqu 2.0) is chosen precisely to evade
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 2, §IV-A) [fetched]; both
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 2, §IV-A) [fetched]; both
 read as low-and-slow. cho2020's advanced-attacker model agrees in spirit — stealthy
 attackers "stay stealthy until the time comes"
-([`cho2020`](../extractions/cho2020.md) §V-A) [fetched]. Yet mechanically execution is a
+([`cho2020`](../../../sources/extractions/cho2020.md) §V-A) [fetched]. Yet mechanically execution is a
 brief, cross-cutting *verb*: "run code" completes in moments and, as §1 notes, underlies
 most other tactics rather than occupying a dwell of its own.
 
@@ -80,7 +80,7 @@ classification** the profile deliberately leaves open (§2). Evans' per-attack-c
 the governing evidence: dynamic diversity gives **no advantage against circumvention/deputy
 attacks** (which is what APT-preferred *fileless/in-memory* execution is), ≤2× against
 brute-force, and is significant only against *incremental probing*, and then only at a very high
-re-randomisation rate ([`evans2011_mtd_effectiveness`](../extractions/evans2011_mtd_effectiveness.md)).
+re-randomisation rate ([`evans2011_mtd_effectiveness`](../../../sources/extractions/evans2011_mtd_effectiveness.md)).
 So a surface-mutating (application-layer) diversity shuffle **weakly disrupts** the execution
 mode an APT actually favours: living-off-the-land script execution largely circumvents the
 diversity, while a fresh-exploit-style execution would be more disruptable.
@@ -104,19 +104,19 @@ fixes.
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0002 page | Command/Scripting Interpreter T1059 dominant (1,017 procedures); cross-cutting; **no timing** | Confirms execution is a verb beneath other tactics; no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-C Stage 2, §IV-A | Execution "keep[s] low to go undetected"; fileless/in-memory (Duqu 2.0) chosen to evade | Qualitative stealth-coupling (paced cadence), but the act itself is fast — no per-tactic number | [fetched] |
-| [`bland2020`](../extractions/bland2020.md) §2.1 | CAPEC-modelled attack steps carry transition rates "notional … randomly selected between one and ten" | Declare-and-sweep precedent for step-level execution timing | [fetched] |
-| [`cho2020`](../extractions/cho2020.md) §IV-A-8 | OS-rotation "exposure window" = "duration of an OS being exposed and vulnerable" | A defender-side window, not attacker execution dwell — no per-tactic value | [fetched] |
-| [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Execution) | A fast enabling verb — "Once the attacker has successfully executed their code, they can start to carry out their malicious goals" (fileless/in-memory PowerShell) | Frames execution as the quick pivot, not a dwell — supports the "fast verb in a stealth wrapper" reading flagged unsettled in Step B; no number | [fetched] |
-| [`ling2023`](../extractions/ling2023.md) Appendix A | Execution techniques map to code/command-injection vuln categories (Command-Line Interface → Direct Shell Command; Native API → Command Injection) | Per-technique CVE shape exists for execution, unlike C&C/hiding; still no dwell (empirical method needs real CVEs) | [fetched] |
-| [`evans2011_mtd_effectiveness`](../extractions/evans2011_mtd_effectiveness.md) §2.4–2.5, Table 2.1 | Dynamic diversity gives **no advantage** vs *circumvention/deputy* attacks, ≤2× vs brute-force; **significant** only vs *incremental* probing, and only at a very high re-randomisation rate (every-4th vs every-100th probe = **6 orders of magnitude**) | **Fileless/script execution is a *circumvention* → reset-immune to memory-diversity MTD**; so a shuffle weakly disrupts the APT-preferred execution mode → supports the unsettled group's **wide sweep** (**→§3**) | [fetched] |
-| [`ransomware_timing`](../extractions/ransomware_timing.md) (IBM 2022 Countdown) | Access→ransomware **deployment** collapsed **~60 d (2019) → 9.5 d (2020) → 3.85 d (2021)**; TTPs unchanged, only speed | Whole-chain bound where "deployment" = running the payload; the fast eCrime end of the execute-the-objective timing, not a per-tactic dwell | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C Stage 2, §IV-A | Execution "keep[s] low to go undetected"; fileless/in-memory (Duqu 2.0) chosen to evade | Qualitative stealth-coupling (paced cadence), but the act itself is fast — no per-tactic number | [fetched] |
+| [`bland2020`](../../../sources/extractions/bland2020.md) §2.1 | CAPEC-modelled attack steps carry transition rates "notional … randomly selected between one and ten" | Declare-and-sweep precedent for step-level execution timing | [fetched] |
+| [`cho2020`](../../../sources/extractions/cho2020.md) §IV-A-8 | OS-rotation "exposure window" = "duration of an OS being exposed and vulnerable" | A defender-side window, not attacker execution dwell — no per-tactic value | [fetched] |
+| [`selmanaj2024`](../../../sources/extractions/selmanaj2024.md) Ch. 4 (Execution) | A fast enabling verb — "Once the attacker has successfully executed their code, they can start to carry out their malicious goals" (fileless/in-memory PowerShell) | Frames execution as the quick pivot, not a dwell — supports the "fast verb in a stealth wrapper" reading flagged unsettled in Step B; no number | [fetched] |
+| [`ling2023`](../../../sources/extractions/ling2023.md) Appendix A | Execution techniques map to code/command-injection vuln categories (Command-Line Interface → Direct Shell Command; Native API → Command Injection) | Per-technique CVE shape exists for execution, unlike C&C/hiding; still no dwell (empirical method needs real CVEs) | [fetched] |
+| [`evans2011_mtd_effectiveness`](../../../sources/extractions/evans2011_mtd_effectiveness.md) §2.4–2.5, Table 2.1 | Dynamic diversity gives **no advantage** vs *circumvention/deputy* attacks, ≤2× vs brute-force; **significant** only vs *incremental* probing, and only at a very high re-randomisation rate (every-4th vs every-100th probe = **6 orders of magnitude**) | **Fileless/script execution is a *circumvention* → reset-immune to memory-diversity MTD**; so a shuffle weakly disrupts the APT-preferred execution mode → supports the unsettled group's **wide sweep** (**→§3**) | [fetched] |
+| [`ransomware_timing`](../../../sources/extractions/ransomware_timing.md) (IBM 2022 Countdown) | Access→ransomware **deployment** collapsed **~60 d (2019) → 9.5 d (2020) → 3.85 d (2021)**; TTPs unchanged, only speed | Whole-chain bound where "deployment" = running the payload; the fast eCrime end of the execute-the-objective timing, not a per-tactic dwell | [fetched] |
 
 > **§4 note — operational-validation outer envelope.** The whole-chain macro-milestone rows
 > above (breakout, access→AD, access→exfil, campaign dwell, time-to-ransomware) are an
 > *operational-validation outer envelope*, not per-tactic timing or reset targets: each is
 > defined by *when detection caught the intrusion*, and detection/IDS is culled from this
-> substrate ([substrate primer](../specs/substrate_primer.md) §(f)), so they bound the emergent
+> substrate ([substrate primer](../../../implementation/substrate_primer.md) §(f)), so they bound the emergent
 > timeline's *shape/plausibility*, never an absolute per-tactic dwell. Only the rows that resolve
 > dwell-character or reset-verdict feed §3/§5.
 

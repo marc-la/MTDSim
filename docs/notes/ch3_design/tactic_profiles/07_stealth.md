@@ -13,8 +13,8 @@ tier_hypothesis: 3 declared
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 > **v19.1 note:** `stealth` reuses id TA0005 but is the *hiding/evasion* half of
@@ -65,10 +65,10 @@ Stealth is the **anchor of the `stealth-low-and-slow` group** — the tactic fro
 group takes its name and its character. Alshamrani's entire framing of the APT rests on it:
 the "low and slow approach to increase the rate of their success", attackers who "keep low
 to go undetected", sustained across months
-([`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §II-C) [fetched]. cho2020 states
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-A, §II-C) [fetched]. cho2020 states
 the same property formally in its advanced-attacker model — stealthy attackers "do not
 exhibit an identifiable attacking behavior all the time … they stay stealthy until the time
-comes" ([`cho2020`](../extractions/cho2020.md) §V-A) [fetched]. Concealment is less an action
+comes" ([`cho2020`](../../../sources/extractions/cho2020.md) §V-A) [fetched]. Concealment is less an action
 with a duration than a *tempo* imposed on every other action: obfuscation, masquerading and
 in-memory loading exist to stretch the campaign clock without raising alarms. (Per the v19.1
 split, this paper's abundant "defense-evasion" evidence is hiding/evasion and allocates
@@ -79,7 +79,7 @@ Two consequences for the group. First, stealth confirms `stealth-low-and-slow` b
 stealth contributes a *pace* rather than a discrete dwell, its modelled duration represents
 the low-and-slow spacing it imposes, and the operational-validation caveat bites hardest
 here: a synthetic substrate "omits the realistic noise … APT attackers consider to stay
-undetected and move low and slow" ([`alshamrani2019`](../extractions/alshamrani2019.md) §V)
+undetected and move low and slow" ([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §V)
 [fetched], so stealth's absolute dwell is the least directly observable of all and leans
 hardest on the shape-not-scale, sweep-it discipline. No point number (§5).
 
@@ -89,7 +89,7 @@ Stealth produces a **concealment state** — a knowledge/behavioural gain (detec
 a blending baseline) rather than a position or a possession. Its reset verdict is dominated by
 the single largest **not-captured** in the set: detection is culled from the substrate, where
 "caught" means *MTD invalidated progress*, never *an IDS saw you*
-([substrate primer](../specs/substrate_primer.md) §(f)). Because there is no detector to hide
+([substrate primer](../../../implementation/substrate_primer.md) §(f)). Because there is no detector to hide
 from, stealth's gain has **no direct substrate representation** — it is modelled not as a state
 but as the low-and-slow *spacing* it imposes on every other action (§2). This is the honest
 frame: a stealth tactic gets a *time*, not a detection model.
@@ -97,7 +97,7 @@ frame: a stealth tactic gets a *time*, not a detection model.
 Where the literature does ground an MTD effect, it is a **partial re-planning reset**: a
 detector reshuffle forces a stealthy botnet to re-plan detector-free paths, with MTTC that
 **rises with shuffle frequency and falls with attacker skill**
-([`mtd_stealth_effectiveness`](../extractions/mtd_stealth_effectiveness.md)), and FlipIt frames
+([`mtd_stealth_effectiveness`](../../../sources/extractions/mtd_stealth_effectiveness.md)), and FlipIt frames
 stealthy control as contested by the defender's move-rate. So a shuffle imposes re-work on the
 concealment gain rather than invalidating a map or a key. **Reset verdict: partial (re-planning
 penalty); sweep width wide** — stealth's absolute dwell is the least observable of all
@@ -117,12 +117,12 @@ which is the boundary the methodology chapter must state openly (P3).
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0005 page | 30 parent techniques (most of any tactic), 3,488 procedures; Obfuscated Files T1027 dominant; **no timing** | Concealment layered on other actions; no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §II-A, §II-C, §IV-A | "Low and slow"; "keep low to go undetected"; evasion set (rootkit, obfuscation, steganography, in-memory, fake certs) | The reference low-and-slow behaviour, the group's namesake; pre-split evasion evidence allocates here — no per-tactic number | [fetched] |
-| [`cho2020`](../extractions/cho2020.md) §V-A | Stealthy attackers "stay stealthy until the time comes" | Formal dwell assumption for the group anchor; no per-tactic value | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §V | Synthetic models omit "the realistic noise … [attackers use] to stay undetected and move low and slow" | Methodological caveat: stealth's absolute dwell is least observable → widest reliance on sweep | [fetched] |
-| [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Defense Evasion) & Ch. 2 | Pre-v19.1 defense-evasion "42 techniques"; the *hiding* half (obfuscation, masquerading; Duqu token-theft) allocates here; APTs use hiding to "lengthen both MTTD and MTTR" (i.e. extend dwell) | Emulation-textbook allocation of the old evasion umbrella's hiding scope to `stealth`, and explicit dwell-extension vocabulary; behaviour only, no per-tactic number | [fetched] |
-| [`ling2023`](../extractions/ling2023.md) Appendix A (Evasion) | Evasion is *partially* CVE-priceable (4/6 techniques categorise: Masquerading → Control of Filename/Path, Rootkit → Command Injection, etc.); Indicator Removal "is not a type of vulnerability" | Even the empirical method gives hiding only a partial shape and no dwell — structural support for Tier-3 declared + widest sweep | [fetched] |
-| [`mtd_stealth_effectiveness`](../extractions/mtd_stealth_effectiveness.md) (Venkatesan 2016; Sharma 2025) + [`persistence_reset_models`](../extractions/persistence_reset_models.md) (FlipIt) | Detector reshuffle forces a stealthy botnet to re-plan detector-free paths; MTTC **rises with shuffle frequency, falls with attacker skill**; FlipIt: stealthy control is contested by the defender's move-rate | §3 MTD-effect for the group's namesake tactic: a shuffle imposes re-work on the concealment gain — a partial reset whose magnitude sweeps on shuffle-rate ÷ skill (**→§3**) | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-A, §II-C, §IV-A | "Low and slow"; "keep low to go undetected"; evasion set (rootkit, obfuscation, steganography, in-memory, fake certs) | The reference low-and-slow behaviour, the group's namesake; pre-split evasion evidence allocates here — no per-tactic number | [fetched] |
+| [`cho2020`](../../../sources/extractions/cho2020.md) §V-A | Stealthy attackers "stay stealthy until the time comes" | Formal dwell assumption for the group anchor; no per-tactic value | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §V | Synthetic models omit "the realistic noise … [attackers use] to stay undetected and move low and slow" | Methodological caveat: stealth's absolute dwell is least observable → widest reliance on sweep | [fetched] |
+| [`selmanaj2024`](../../../sources/extractions/selmanaj2024.md) Ch. 4 (Defense Evasion) & Ch. 2 | Pre-v19.1 defense-evasion "42 techniques"; the *hiding* half (obfuscation, masquerading; Duqu token-theft) allocates here; APTs use hiding to "lengthen both MTTD and MTTR" (i.e. extend dwell) | Emulation-textbook allocation of the old evasion umbrella's hiding scope to `stealth`, and explicit dwell-extension vocabulary; behaviour only, no per-tactic number | [fetched] |
+| [`ling2023`](../../../sources/extractions/ling2023.md) Appendix A (Evasion) | Evasion is *partially* CVE-priceable (4/6 techniques categorise: Masquerading → Control of Filename/Path, Rootkit → Command Injection, etc.); Indicator Removal "is not a type of vulnerability" | Even the empirical method gives hiding only a partial shape and no dwell — structural support for Tier-3 declared + widest sweep | [fetched] |
+| [`mtd_stealth_effectiveness`](../../../sources/extractions/mtd_stealth_effectiveness.md) (Venkatesan 2016; Sharma 2025) + [`persistence_reset_models`](../../../sources/extractions/persistence_reset_models.md) (FlipIt) | Detector reshuffle forces a stealthy botnet to re-plan detector-free paths; MTTC **rises with shuffle frequency, falls with attacker skill**; FlipIt: stealthy control is contested by the defender's move-rate | §3 MTD-effect for the group's namesake tactic: a shuffle imposes re-work on the concealment gain — a partial reset whose magnitude sweeps on shuffle-rate ÷ skill (**→§3**) | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`
 

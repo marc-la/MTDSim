@@ -13,8 +13,8 @@ tier_hypothesis: 3 declared
 > **Purpose (read once):** reconciled synthesis terminating in **(a) dwell character**
 > and **(b) MTD disruption**. Trim anything that changes neither how long nor whether
 > the attacker repeats it. 1–2 pages. Method:
-> [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md).
-> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json).
+> [`../notes/2026-07-04_operational_validation_the_bar.md`](../operational_validation.md).
+> Catalogue (the §5 distillation): [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json).
 > Template: [`_template.md`](_template.md).
 
 ## 1. Tactic & role
@@ -53,7 +53,7 @@ of the reconnaissance phase as the point where "once APT actors have collected e
 information, they construct an attacking plan and prepare the necessary tools" — tool and
 malware development, and the identification of vulnerabilities to weaponise, all conducted
 *off* the victim network before the foothold exists
-([`alshamrani2019`](../extractions/alshamrani2019.md) §I, §II-C Stage 1) [fetched]. The
+([`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §I, §II-C Stage 1) [fetched]. The
 ATT&CK surface agrees structurally: all nine parent techniques are platform `PRE`, and the
 tactic is the most heavily group-/campaign-attributed pre-compromise stage with negligible
 malware attribution — operator tradecraft staged externally, not on-host code (§1).
@@ -73,9 +73,9 @@ Resource development is the profile's **inert** tactic (rubric crit. 7), and the
 gain — infrastructure, accounts, tooling — is built and held **off the victim network**, before
 the simulator's clock starts and outside anything an MTD mechanism can touch: mutation protects
 the interior of the estate, not the adversary's own kit
-([substrate primer](../specs/substrate_primer.md) §(c)), and resource development "takes place
+([substrate primer](../../../implementation/substrate_primer.md) §(c)), and resource development "takes place
 outside of the company's protection and control … preventive measures may not be effective"
-([`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4). No IP/topology shuffle, service/OS
+([`selmanaj2024`](../../../sources/extractions/selmanaj2024.md) Ch. 4). No IP/topology shuffle, service/OS
 diversity, or credential rotation reaches it.
 
 **Reset verdict: null — reset-immune (off-network, pre-clock); no sweep** (the tactic carries a
@@ -95,12 +95,12 @@ model is as the documented boundary of where the MTD interaction *begins*.
 | Source | Claim (value / behaviour) | How adapted | Confidence |
 |---|---|---|---|
 | ATT&CK TA0042 page | 9 parent techniques, all `PRE`; acquire/compromise pairs; **no timing** | Confirms off-network staging; no duration to inherit | [fetched] |
-| [`alshamrani2019`](../extractions/alshamrani2019.md) §I, §II-C Stage 1 | Tool/plan/malware prep happens off-network before the foothold ("construct an attacking plan and prepare the necessary tools") | Supports near-zero *in-sim* dwell — the work precedes the simulator's clock | [fetched] |
-| [`selmanaj2024`](../extractions/selmanaj2024.md) Ch. 4 (Resource Development) | Resource development "takes place outside of the company's protection and control. As a result, preventive measures may not be effective"; infrastructure is agile ("quickly provision, modify, and shut down … abort a mission and move on") | Emulation-textbook confirmation of the off-network verdict → near-zero *in-sim* dwell + reset-immune (an MTD shuffle can't touch it); no per-tactic number | [fetched] |
-| [`syed2025`](../extractions/syed2025.md) §IV-A | Caldera adversary profiles were hand-built off-network from CTI ("we were not able to find playbooks … referred to multiple CTI sources"); prep precedes execution | Corroborates prep-off-network; the dataset's timestamps are execution latency, not prep dwell — documented gap | [fetched] |
-| [`resource_dev_timing`](../extractions/resource_dev_timing.md) (RAND 2017; Bompos 2020) | **Median 22 days to develop a 0-day exploit**; 0-day average life **6.9 years** | Off-network capability-development dwell — weeks-scale, precedes the foothold; supports near-zero *in-sim* dwell (the work is done before the clock) | [fetched] |
-| [`resource_dev_timing`](../extractions/resource_dev_timing.md) (Lidestri 2022 Table 1) | Creation→disclosure median **~3.7 yr**; disclosure→**exploit-published +1 day**; exploits perishable | The *obtain*-capability path is near-instant (grab a published exploit ~1 day post-disclosure) vs RAND's *develop* path (22 d) — the two ends of resource-dev tempo | [fetched] |
-| [`resource_dev_timing`](../extractions/resource_dev_timing.md) (Hao 2011 Findings 4.1/5.2; Interisle 2021) | Malicious domains registered "just in time" — **>55% used ≥1 day after registration**, lookups peak in **3–4 days**; 65% of phishing domains maliciously registered, used within days | Infrastructure-prep (Acquire Infrastructure T1583) is hours-to-days, off-network — the agile, fast end; still pre-clock → near-zero in-sim | [fetched] |
+| [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §I, §II-C Stage 1 | Tool/plan/malware prep happens off-network before the foothold ("construct an attacking plan and prepare the necessary tools") | Supports near-zero *in-sim* dwell — the work precedes the simulator's clock | [fetched] |
+| [`selmanaj2024`](../../../sources/extractions/selmanaj2024.md) Ch. 4 (Resource Development) | Resource development "takes place outside of the company's protection and control. As a result, preventive measures may not be effective"; infrastructure is agile ("quickly provision, modify, and shut down … abort a mission and move on") | Emulation-textbook confirmation of the off-network verdict → near-zero *in-sim* dwell + reset-immune (an MTD shuffle can't touch it); no per-tactic number | [fetched] |
+| [`syed2025`](../../../sources/extractions/syed2025.md) §IV-A | Caldera adversary profiles were hand-built off-network from CTI ("we were not able to find playbooks … referred to multiple CTI sources"); prep precedes execution | Corroborates prep-off-network; the dataset's timestamps are execution latency, not prep dwell — documented gap | [fetched] |
+| [`resource_dev_timing`](../../../sources/extractions/resource_dev_timing.md) (RAND 2017; Bompos 2020) | **Median 22 days to develop a 0-day exploit**; 0-day average life **6.9 years** | Off-network capability-development dwell — weeks-scale, precedes the foothold; supports near-zero *in-sim* dwell (the work is done before the clock) | [fetched] |
+| [`resource_dev_timing`](../../../sources/extractions/resource_dev_timing.md) (Lidestri 2022 Table 1) | Creation→disclosure median **~3.7 yr**; disclosure→**exploit-published +1 day**; exploits perishable | The *obtain*-capability path is near-instant (grab a published exploit ~1 day post-disclosure) vs RAND's *develop* path (22 d) — the two ends of resource-dev tempo | [fetched] |
+| [`resource_dev_timing`](../../../sources/extractions/resource_dev_timing.md) (Hao 2011 Findings 4.1/5.2; Interisle 2021) | Malicious domains registered "just in time" — **>55% used ≥1 day after registration**, lookups peak in **3–4 days**; 65% of phishing domains maliciously registered, used within days | Infrastructure-prep (Acquire Infrastructure T1583) is hours-to-days, off-network — the agile, fast end; still pre-clock → near-zero in-sim | [fetched] |
 | — (no in-corpus per-tactic timing) | No extraction assigns a duration to resource-development | Documented negative — this is the gap, and here it coincides with a near-zero in-network verdict | [fetched] |
 
 ## 5. Catalogue inputs — feeds `tactic_durations.json`

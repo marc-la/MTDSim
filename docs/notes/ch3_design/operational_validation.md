@@ -1,197 +1,58 @@
 ---
 status: durable
+chapter: ch3_design
 created: 2026-07-04
-topic: operational validation — the epistemic bar for the state-duration catalogue and its calibration
+updated: 2026-07-13
+lineage: 2026-07-04_operational_validation_the_bar.md
 ---
 
-# Operational validation is the bar — how per-tactic durations are allowed to be defended, and the claim they license
+# Operational validation is the bar — how unobservable per-tactic durations are allowed to be defended, and the claim they license
 
-## Why this is worth recording
+## Position in the dissertation
 
-The L3 state-duration work
-(shipped 2026-07-09 as [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json))
-attaches a dwell time to every ATT&CK tactic, and no ready-made resource maps
-tactics to durations — Hong's D4 explicitly authorises "a reasonable, justified
-number" where none exists. The unglamorous truth is that most of these numbers
-will be **estimated and then tuned** so the emergent Petri-net timelines look
-like what the breach literature says APT campaigns look like. Left unnamed, that
-reads as "fitting the answer" and a reviewer kills it. **Named, it is a
-recognised simulation-methodology strategy** — and naming it is the move that
-converts the weakest-looking part of the executable track into a defensible
-methodological contribution, which is exactly the register Hong asked for
-("define this yourself, with justifications"). This note fixes *the bar*: what
-standard of evidence each duration must meet, and — just as important — what
-claim the calibrated catalogue is and is not allowed to make. It is the
-methodology-chapter paragraph on validity, written before the numbers exist so
-they cannot be back-rationalised.
+The methodology chapter's validity argument for the timing layer: the standard of evidence each per-tactic duration must meet, and what the calibrated catalogue is and is not allowed to claim. Written before the numbers existed, deliberately, so they could not be back-rationalised.
 
-## The substance
+## The idea
 
-### The problem restated honestly
-
-A discrete-event simulator needs a time on every attacker state (D4). For the
-scan/exploit-shaped tactics the substrate already prices the action
-(`ATTACK_DURATION`, `exploit_time`) — those are *input-validated* by inheritance
-and not in question here. The difficulty is the stealth/low-and-slow tactics —
-defence-evasion, persistence, execution, command-and-control, exfiltration —
-which have **no substrate verb and no isolated observable in the literature**.
-Nobody publishes "how long does defence-evasion take" as a quantity, because it
-is not one: it is a micro-parameter of a model, not a measurable property of the
-world. So it cannot be *input-validated* (there is no ground-truth input to
-match). This is not a defect of our model — it is the generic condition of every
-mechanistic simulation with unobservable internals.
+A discrete-event simulation needs a time on every attacker state, and this project assigns each MITRE ATT&CK tactic a dwell. For scan- and exploit-shaped tactics the inherited simulator already prices the action, so those values are input-validated by inheritance. The difficulty is the stealthy, low-and-slow tactics — persistence, concealment, command-and-control, execution, exfiltration — which have no native simulator action and no isolated observable in the literature. Nobody publishes "how long defence evasion takes", because it is not a measurable property of the world; it is a micro-parameter of a model. Such values cannot be input-validated, since no ground-truth input exists to match. This is not a defect of this model — it is the generic condition of every mechanistic simulation with unobservable internals. The unglamorous truth is that these numbers are estimated and then tuned so the emergent campaign timelines resemble what breach reporting says real campaigns look like. Left unnamed, that reads as fitting the answer, and a reviewer kills it. Named, it is a recognised simulation-methodology strategy — and naming it converts the weakest-looking part of the executable model into a defensible methodological contribution.
 
 ### The bar: validate the output, not the input
 
-The recognised answer is **operational validation** (Sargent's simulation
-validation taxonomy) / **pattern-oriented modelling** (Grimm et al., in the
-agent-based-modelling literature): when a model's internal parameters cannot be
-measured directly, you **calibrate them so that the model's *observable output*
-reproduces observed real-world patterns**, then report the sensitivity of the
-conclusion to those parameters. The unobservable dwell times are the free
-parameters; the *observable* is the campaign timeline shape — dwell time,
-breakout time, time-to-impact — which the breach literature **does** report.
-Tuning the former to reproduce the latter is a named, defended strategy, not a
-hack.
+The recognised answer is **operational validation** (Sargent's simulation-validation taxonomy) — in the agent-based-modelling literature, **pattern-oriented modelling** (Grimm et al.): when a model's internal parameters cannot be measured directly, calibrate them so the model's *observable output* reproduces observed real-world patterns, then report the sensitivity of the conclusion to those parameters. Here the unobservable dwells are the free parameters, and the observable is the campaign-timeline shape — dwell time, breakout time, time-to-impact — which breach reporting does publish. Every duration in the catalogue is badged with one of three validity tiers, in descending strength, and the badge *is* the validity claim:
 
-So the bar for a duration value is one of three tiers, in descending strength:
+1. **Input-validated (Tier 1)** — fixed by the inherited simulator's own pricing. Never tuned; these are the anchors.
+2. **Output-validated / calibrated (Tier 2)** — a free parameter chosen so the emergent timeline reproduces a literature-reported campaign pattern it was fitted to. Defensible, but weak alone (see circularity, below).
+3. **Face-valid and swept (Tier 3)** — no calibration target exists even at the macro level; the value is a stated estimate with a written justification and a declared sweep range, and the conclusion is shown robust across the range.
 
-1. **Input-validated** — the value is fixed by the substrate (Tier 1). Not
-   tuned. The anchor.
-2. **Output-validated (calibrated)** — the value is a free parameter chosen so
-   the emergent timeline matches a *literature-reported campaign pattern it was
-   fitted to*. Defensible, but weak on its own (see circularity, below).
-3. **Face-valid + swept** — no calibration target exists even at the macro
-   level; the value is a stated estimate with a written justification and a
-   declared sweep range, and the conclusion is shown robust across the range.
+### Four rules that keep calibration from becoming circularity
 
-Every entry in `tactic_durations.json` must be honestly badged as one of these.
-The tier badge *is* the validity claim.
+"We tuned durations to match literature timelines, and behold — our timelines match the literature" is circular if presented as validation. Four cheap disciplines convert it into a genuine, if modest, claim; they are the difference between a method and a fit:
 
-### The four rules that keep operational validation from becoming circularity
+1. **Never tune the anchor.** Tier-1 simulator-priced values stay fixed; calibration moves only the non-native tactics.
+2. **Group, don't free-fit.** Tune a small number of timing-group anchors (scan-shaped, exploit-shaped, stealth, objective-execution) rather than fifteen independent dwells. Fewer free parameters against the same targets is less overfit and more identifiable — and each tactic's group membership is a *qualitative* claim the behavioural literature can support even where numbers do not exist.
+3. **Hold out an observable.** Calibrate on one pattern (dwell-time shape), then check that a different, untargeted pattern (breakout-time shape) emerges approximately right. One held-out pattern is the difference between fitting and predicting.
+4. **Keep the claim modest.** The output is "plausible, literature-bounded, sensitivity-swept" — never "a validated APT timing model".
 
-"We tuned the durations to match literature timelines, and look — our timelines
-match the literature" is circular if presented as validation. Four disciplines,
-all cheap, convert it into a genuine (if weak) claim. These are load-bearing —
-they are the difference between a method and a fit:
+### Shape, not scale
 
-1. **Don't tune the anchor.** Tier-1 substrate-sourced values stay fixed.
-   Calibration only moves the non-substrate tactics.
-2. **Group, don't free-fit.** Tune a small number of *class multipliers*
-   (scan-shaped / exploit-shaped / stealth-low-and-slow / objective-execution),
-   not ~14 independent dwells. Fewer free parameters against the same targets is
-   less overfit and more identifiable, and the per-tactic profile files justify
-   which group each tactic joins — a *qualitative* claim the literature can
-   support even where numbers don't exist.
-3. **Hold out an observable.** Calibrate on one pattern (e.g. dwell-time shape),
-   then check a *different, un-targeted* pattern (e.g. breakout-time shape)
-   emerges approximately right. One held-out pattern is the difference between
-   fitting and predicting.
-4. **Keep the claim modest.** The output is "plausible, literature-bounded,
-   sensitivity-swept" — never "a validated APT timing model".
+The calibration is deliberately of **timeline shape** — orderings and ratios — not absolute duration. The simulator prices actions in tens to hundreds of simulated seconds; the literature's observables run from hours to months. Both cannot be satisfied: if persistence dwelt for literature-months while an exploit took simulator-seconds, the campaign would degenerate into pure stealth dwell and the defence comparison would die, along with comparability to the inherited baseline attacker. So the literature supplies *relative* structure (for example, "stealth dwell is orders of magnitude longer than an exploit action"), absolute scale stays anchored to the simulator's native values, and the calibrated claim is that the emergent timeline *shape* reproduces reported campaign structure — never its absolute length. This is also the only honest claim available, since the simulated network is synthetic and absolute realism was never on offer; and it suffices for the thesis's punchline, which is itself a ratio game between mutation interval and tactic dwell.
 
-### Shape, not scale — the time-scale resolution this depends on
-
-Operational validation here is deliberately of **timeline shape** (orderings and
-ratios), not absolute duration. The substrate prices actions in tens-to-hundreds
-of simulated seconds; the literature observables live in hours-to-months. You
-cannot match both absolute real-world timelines *and* keep substrate-comparable
-MTTC — if persistence dwells for literature-months while an exploit takes
-substrate-seconds, the timeline degenerates to pure stealth-dwell and the MTD
-comparison dies. So the literature supplies *relative structure* (e.g.
-"stealth-dwell is ~10³× an exploit action"), absolute scale is anchored to the
-substrate's Tier-1 values, and the calibrated claim is "the emergent timeline
-*shape* reproduces reported APT campaign structure". This is also the only
-honest claim available — the substrate network is synthetic, so absolute realism
-was never on the table — and it is sufficient for the thesis punchline, which is
-itself a ratio game (MTD shuffle interval vs tactic dwell, per
-[`./2026-06-18_cti_to_executable_behaviour.md`](./2026-06-18_cti_to_executable_behaviour.md)
-§6).
-
-### What "the corpus supplies no timing" does and does not forbid
-
-The hard constraint "timing never comes from the corpus" is about the **Attack
-Flow corpus and `observation_count`** — structure and chaining are CTI's
-contribution, `observation_count` is "how often the analyst drew it", not a rate
-([`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(f)). It does
-**not** forbid using breach-report *statistics* (M-Trends dwell, breakout time,
-DBIR, ransomware time-to-impact) as calibration targets — those are Tier-2
-literature, and they are exactly the observable patterns operational validation
-calibrates against. The two must not be confused; the catalogue header should say
-so in a sentence.
+One boundary keeps a related confusion out: the prohibition on taking timing from the incident-flow corpus concerns the corpus's *observation counts* (how often analysts drew a step — a recurrence measure, not a rate). It does not forbid using breach-report *statistics* (dwell, breakout, time-to-ransomware) as calibration targets; those are exactly the observable patterns operational validation calibrates against.
 
 ### Why this is a contribution, not an apology
 
-The gap Hong named — no resource maps tactics to durations — makes the sparse
-precedent survey a *result*, not a failure: the absence is the citable gap
-statement. That survey is now done
-([`./2026-07-04_tactic_duration_precedent_survey.md`](./2026-07-04_tactic_duration_precedent_survey.md))
-and confirms it: **no prior work assigns justified per-ATT&CK-*tactic* durations**
-— the one tactic-level ATT&CK Petri-net model (Rodríguez 2024) is untimed, and
-every timed APT model that carries ATT&CK labels attaches timing at the
-*technique/CVE* level or declares its rates outright. Supplying a **transparent,
-tiered, calibrated-with-declared-limits** tactic→duration layer, with the
-validity of each number badged and the conclusion shown robust to it, is a
-methodological artefact the field does not currently have.
+The precedent survey (background chapter) confirms that no prior work assigns justified per-tactic durations, and that the field norm for timed adversary models is to declare rates and sweep them — with face-validation of declared structure as accepted practice (Bland et al. 2020; McQueen et al. 2006; the MAL/SPN/CTMC modelling family, with Madan et al. 2004 as the landmark that a mean-time result can depend only on the sojourn means — the licence behind shape-not-scale). Tier 3 is therefore not a concession but exactly what the field already does, and calibrating declared values to macro observables goes a step *further* than the norm. The honest framing throughout matches the project's governing claim: behavioural *fidelity changes the answer* — never "the model is true".
 
-The same survey also found that this method *extends* the field norm rather than
-falling short of it. The dominant practice in timed APT/MTD models is
-**declare-the-rate + sensitivity-sweep** (Bland 2020's SPN rates are stated
-"arbitrary … later determined by subject-matter experts", with the net structure
-*face-validated* by 14 SMEs; McQueen 2006 sets a stage mean "somewhat
-arbitrarily" and anchors another empirically; enterpriseLang/MAL ships
-expert-declared per-technique TTC distributions). Genuine empirical timing exists
-only at exploit/CVE granularity (Ling & Ekstedt 2023). The Step-D precedent base
-widens this considerably — a whole cluster of stochastic attack-timing models
-executes the same *declare per-state time → solve → sweep* move, with **Madan et
-al. 2004** the landmark (a semi-Markov MTTSF from declared per-state sojourn times,
-shown to depend only on the *mean* — the shape-not-scale licence) and the
-MAL/SPN/CTMC family (coreLang, MAL, P2CySeMoL, pwnPr3d, Almasizadeh, Orojloo, Zhou,
-Wu, Liu, Tripathi) declaring per-step/state distributions and sweeping the
-defensive interval; the full precedent record is
-[`../extractions/timed_attack_models.md`](../extractions/timed_attack_models.md).
-So Tier 3 (declared + justified + swept) is not a concession — it is *exactly what
-the field already does*, and calibrating the declared values to macro observables
-is a step further than the norm. The honest framing throughout is the same as the project's
-governing claim (architecture §(j)): *fidelity changes the answer*, never "the
-model is true".
+## Evidence and repo anchors
 
-## How it connects
+- The gap and precedent evidence: [`../ch2_background/tactic_duration_precedent_survey.md`](../ch2_background/tactic_duration_precedent_survey.md); extractions [`timed_attack_models`](../../sources/extractions/timed_attack_models.md), [`bland2020`](../../sources/extractions/bland2020.md), [`mcqueen2006`](../../sources/extractions/mcqueen2006.md), [`ling2023`](../../sources/extractions/ling2023.md).
+- The catalogue this note is the validity rationale for: [`../../../data/ogasp/tactic_durations.json`](../../../data/ogasp/tactic_durations.json); its evidence layer is [`tactic_profiles/`](tactic_profiles/).
+- Governing spec boundaries: [`../../implementation/metrics_semantics.md`](../../implementation/metrics_semantics.md) §(d)/§(f) (comparability; observation counts are not rates); duration-regime provenance in [`../../implementation/provenance.md`](../../implementation/provenance.md) and [`../../implementation/architecture.md`](../../implementation/architecture.md).
+- The ratio-game punchline this suffices for: [`structure_to_behaviour_binding.md`](structure_to_behaviour_binding.md).
 
-- To the shipped catalogue: this note *is* the validity rationale for
-  [`../../data/ogasp/tactic_durations.json`](../../data/ogasp/tactic_durations.json)
-  (the tier hierarchy, the calibration step, the sweep ranges) and constrains
-  the per-tactic profile files that feed its Tier-2/3 entries. The calibration
-  loop consumes the timeline runner
-  ([`../handoffs/2026-07-03_l3_timeline_runner.md`](../handoffs/2026-07-03_l3_timeline_runner.md)),
-  so ordering is: profile files → catalogue v0 (uncalibrated priors + ranges) →
-  runner → calibrate within ranges → catalogue v1 (frozen).
-- To the spec: sits under the D4/D10 duration regime recorded in
-  [`../specs/provenance.md`](../specs/provenance.md) and
-  [`../specs/architecture.md`](../specs/architecture.md); the "shape-not-scale"
-  comparability boundary is governed by
-  [`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) §(d)/§(f).
-- To the lit review: the calibration-source survey (Bland 2020, Mendonça 2023,
-  Rodríguez 2024 for *where transition rates come from*; M-Trends / breakout /
-  Sophos AAR for macro targets) is compiled in
-  [`./2026-07-04_tactic_duration_precedent_survey.md`](./2026-07-04_tactic_duration_precedent_survey.md);
-  new extraction candidates it surfaced (Ling & Ekstedt 2023, McQueen 2006, Xiong
-  2021) go under [`../extractions/`](../extractions/) after reconciliation.
-- To the methodology chapter: this is the "threats to validity / how the timing
-  layer is defended" section, drafted early so the numbers can't be
-  back-rationalised.
+## Revisit conditions
 
-## When this would need updating
-
-- If the **substrate adopts real (NVD) CVEs** — more tactics become
-  input-validated (Tier 1) and the calibrated surface shrinks.
-- If a **precedent that assigns per-tactic durations with justification** turns
-  up in the survey — the gap statement weakens and this note reframes around
-  positioning against that precedent rather than filling a void.
-- If the **timeline runner shows the conclusion is *not* robust** to the swept
-  durations — operational validation has failed for this model and the finding
-  itself (the MTD ranking) inherits that fragility; the note is rewritten around
-  the negative result rather than the method.
-- If Marc/Hong **reject shape-not-scale** in favour of absolute-time realism —
-  the time-scale clash re-opens and the two-regime alternative (rejected here)
-  must be revisited.
+- If the simulator adopts real (NVD) CVEs, more tactics become input-validated and the calibrated surface shrinks.
+- If a precedent assigning justified per-tactic durations surfaces, the gap statement weakens and this note reframes as positioning.
+- If the sweep shows the conclusion is *not* robust to the declared durations, operational validation has failed for this model; the note is rewritten around the negative result (see [`../ch5_evaluation/evaluation_burden.md`](../ch5_evaluation/evaluation_burden.md)).
+- If the supervisor rejects shape-not-scale in favour of absolute-time realism, the time-scale clash re-opens.

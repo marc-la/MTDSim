@@ -9,7 +9,7 @@
 > **assign a probability distribution / sojourn time to each attack step or state,
 > from expert/literature elicitation, then run sensitivity analysis.** They are the
 > field norm the operational-validation note claims
-> ([`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md)).
+> ([`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md)).
 > Source files (gitignored): `8_defence_impair/GraMSec_2020_paper_7.md` (coreLang);
 > `0_cross_tactic_timed_models/*.md` (the rest — appended when folder 0 is dissected).
 
@@ -60,7 +60,7 @@ per-tactic §4 rows where a MAL DSL gives a technique a structural/timing shape.
 > is therefore **not** extracted here (re-fetch needed for Marc). (2)
 > `1-s2.0-S0045790626000315-main.md` (mis-filed under folder 0) is **Davies &
 > Macfarlane 2026, ransomware performance benchmarking** — routed to
-> [`ransomware_timing`](ransomware_timing.md) / [`15_impact`](../tactic_profiles/15_impact.md),
+> [`ransomware_timing`](ransomware_timing.md) / [`15_impact`](../../notes/ch3_design/tactic_profiles/15_impact.md),
 > not a cross-tactic timed model.
 
 ## Relevant artefacts
@@ -80,7 +80,7 @@ are entities that **block connected attack steps when TRUE** — a formal model 
 "the defences an attacker must bypass", which is precisely the
 defense-impairment target.
 
-**Maps to:** [`08_defense-impairment`](../tactic_profiles/08_defense-impairment.md)
+**Maps to:** [`08_defense-impairment`](../../notes/ch3_design/tactic_profiles/08_defense-impairment.md)
 §4 (formal precedent for modelling *defences the attacker must disable/bypass* as
 gating entities — and for declaring a per-step effort distribution rather than
 measuring it) + the method note (MAL-family declared per-step TTC — the same
@@ -108,7 +108,7 @@ MTTF. Load-bearing: "the analysis carried out in this paper depends only on the
 metric follows.** This is exactly our per-state declared-dwell → emergent-timeline
 construction, from 2004.
 
-**Maps to:** the method note ([`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md))
+**Maps to:** the method note ([`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md))
 — the canonical precedent that declaring per-state sojourn times and solving for an
 aggregate security metric is a recognised technique (and that the *mean* is what
 matters, licensing shape-not-scale).

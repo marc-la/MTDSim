@@ -1,9 +1,9 @@
 # MTD effectiveness against the stealthy adversary (extraction notes)
 
 > Two MTD-effectiveness papers extracted for §3 of the stealth/low-and-slow group
-> ([`07_stealth`](../tactic_profiles/07_stealth.md), and by extension
-> [`13_command-and-control`](../tactic_profiles/13_command-and-control.md) /
-> [`14_exfiltration`](../tactic_profiles/14_exfiltration.md)). They price *how a
+> ([`07_stealth`](../../notes/ch3_design/tactic_profiles/07_stealth.md), and by extension
+> [`13_command-and-control`](../../notes/ch3_design/tactic_profiles/13_command-and-control.md) /
+> [`14_exfiltration`](../../notes/ch3_design/tactic_profiles/14_exfiltration.md)). They price *how a
 > shuffle degrades a stealthy operation* (detector reshuffling vs a stealth
 > botnet; MTTC vs shuffle-rate and attacker skill) — §3 reset/sweep evidence, not
 > a per-tactic dwell. FlipIt ([`persistence_reset_models`](persistence_reset_models.md))
@@ -44,10 +44,10 @@ likelihood of detection", **forcing botmasters to perform additional actions to
 create detector-free paths**. Reduces successful-exfiltration probability
 (validated in simulation; a lower-bound detection-probability algorithm given).
 
-**Maps to:** [`07_stealth`](../tactic_profiles/07_stealth.md) §3 (a topology/
+**Maps to:** [`07_stealth`](../../notes/ch3_design/tactic_profiles/07_stealth.md) §3 (a topology/
 placement shuffle forces the stealthy adversary to *re-plan its route* — a reset
 of the concealment gain, imposing re-work) and
-[`14_exfiltration`](../tactic_profiles/14_exfiltration.md) §3.
+[`14_exfiltration`](../../notes/ch3_design/tactic_profiles/14_exfiltration.md) §3.
 
 **Disposition for this thesis:** verified [fetched] — §3 shape evidence.
 **Scope caveat:** detector placement is IDS/monitoring-adjacent (IDS is culled
@@ -69,7 +69,7 @@ skill**. A McQueen-TTC-lineage metric applied to MTD, echoing
 [`mttc_lineage`](mttc_lineage.md) and [`sharma`'s own](mtd_scan_disruption.md)
 family.
 
-**Maps to:** [`07_stealth`](../tactic_profiles/07_stealth.md) §3/§4 (MTD delays
+**Maps to:** [`07_stealth`](../../notes/ch3_design/tactic_profiles/07_stealth.md) §3/§4 (MTD delays
 compromise; the shuffle-frequency ÷ attacker-skill plane is the sweep) and the
 tuned-group anchor generally.
 

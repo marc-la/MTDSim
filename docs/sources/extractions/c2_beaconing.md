@@ -2,7 +2,7 @@
 
 > Sources on the **C2 beacon cadence** (how often malware calls home) and the
 > **MTD switch-timing** decision, extracted for
-> [`13_command-and-control`](../tactic_profiles/13_command-and-control.md). C2's
+> [`13_command-and-control`](../../notes/ch3_design/tactic_profiles/13_command-and-control.md). C2's
 > timing character *is* the beacon interval — a tunable low-and-slow spacing from
 > **seconds to hours** — and its §3 reset is **partial** (proxies/CDN-fronting give
 > resiliency; already flagged in [`breach_reports_macro_timing`](breach_reports_macro_timing.md)
@@ -54,7 +54,7 @@ stealth-low-and-slow group (C2 is a namesake member).
   "pre-programmed … regularly connect." C2 is *characteristically periodic*, and
   the period is the low-and-slow spacing.
 
-**Maps to:** [`13_command-and-control`](../tactic_profiles/13_command-and-control.md)
+**Maps to:** [`13_command-and-control`](../../notes/ch3_design/tactic_profiles/13_command-and-control.md)
 §4 (the C2 dwell *is* the beacon interval — seconds to hours, a tunable
 stealth-low-and-slow spacing → Tier-3 declared, wide sweep across the range) and
 §2 (C2 is periodic by design).
@@ -77,9 +77,9 @@ amounts of time to exploit). Confirms the C2/persistence §3 lever: the *reset
 interval* is the optimised quantity, traded against switch cost — the same
 FlipIt-family ratio as [`persistence_reset_models`](persistence_reset_models.md).
 
-**Maps to:** [`13_command-and-control`](../tactic_profiles/13_command-and-control.md)
+**Maps to:** [`13_command-and-control`](../../notes/ch3_design/tactic_profiles/13_command-and-control.md)
 §3 (a config switch contests C2, but with a cost; the reset interval is the sweep
-axis) and [`09_credential-access`](../tactic_profiles/09_credential-access.md)
+axis) and [`09_credential-access`](../../notes/ch3_design/tactic_profiles/09_credential-access.md)
 (config-dependent exploit times).
 
 **Disposition for this thesis:** verified [fetched] — §3 switch-timing mechanism.

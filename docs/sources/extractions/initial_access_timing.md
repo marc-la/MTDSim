@@ -2,7 +2,7 @@
 
 > Three sources on **how fast the first foothold lands** and — load-bearing for
 > the whole timed-model layer — **what distribution time-to-compromise actually
-> follows**. Extracted for [`03_initial-access`](../tactic_profiles/03_initial-access.md).
+> follows**. Extracted for [`03_initial-access`](../../notes/ch3_design/tactic_profiles/03_initial-access.md).
 > Holm's finding that the exponential/Poisson TTC assumption is empirically a poor
 > fit is a caveat that reaches every SPN/CTMC declared-rate model in the corpus
 > (Bland, Rodríguez, the substrate's own exponential exploit timing).
@@ -47,7 +47,7 @@ human-triggered entry vector, *once the lure lands*, resolves in under a minute
 sharpens §2's "delivery-wait" caveat: the wait is for the lure to *reach* a
 willing user, not for the click itself.
 
-**Maps to:** [`03_initial-access`](../tactic_profiles/03_initial-access.md) §4
+**Maps to:** [`03_initial-access`](../../notes/ch3_design/tactic_profiles/03_initial-access.md) §4
 (phishing entry is near-instant once delivered; the low-and-slow part is the
 pre-delivery wait, not the metered action).
 
@@ -69,9 +69,9 @@ end of the first month following a patch." So the exploit-shaped entry window is
 compressing toward *days*, and attackers "move quickly enough to beat patching
 cycles."
 
-**Maps to:** [`03_initial-access`](../tactic_profiles/03_initial-access.md) §4
+**Maps to:** [`03_initial-access`](../../notes/ch3_design/tactic_profiles/03_initial-access.md) §4
 (the exploit-shaped entry timescale — days from disclosure, and increasingly
-zero-day-first) and [`02_resource-development`](../tactic_profiles/02_resource-development.md)
+zero-day-first) and [`02_resource-development`](../../notes/ch3_design/tactic_profiles/02_resource-development.md)
 (n-day windows). Complements Durumeric's 24–48 h *scan*-onset
 ([`internet_scanning_empirics`](internet_scanning_empirics.md)).
 
@@ -104,11 +104,11 @@ substrate's own exponential exploit timing — are built on. It doesn't invalida
 declare-and-sweep (the field norm), but it says the *distribution shape* the
 sweep should explore is heavy-tailed, not memoryless.
 
-**Maps to:** [`03_initial-access`](../tactic_profiles/03_initial-access.md) §4
+**Maps to:** [`03_initial-access`](../../notes/ch3_design/tactic_profiles/03_initial-access.md) §4
 (entry-time distribution — heavy-tailed) and §2; the method note
-([`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md))
+([`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md))
 — a caveat that declared *exponential* rates are empirically suspect;
-[`06_privilege-escalation`](../tactic_profiles/06_privilege-escalation.md)
+[`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md)
 (TTC-lineage).
 
 **Disposition for this thesis:** verified [fetched] — Tier-2 empirical, the

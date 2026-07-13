@@ -15,7 +15,7 @@
 ### Relevance class
 
 **L** (lineage) — definitional ancestor of the MTTC family our internal MTTC
-metric descends from ([`../specs/metrics_semantics.md`](../specs/metrics_semantics.md));
+metric descends from ([`../specs/metrics_semantics.md`](../../implementation/metrics_semantics.md));
 also the strongest precedent for the Tier-3 declare-and-justify discipline.
 
 ### Used in lit review
@@ -62,7 +62,7 @@ discovery rate, supported by Rescorla's finding that constant-rate could not
 be rejected).
 
 **Maps to:** [`ling2023`](ling2023.md) (TTC_ICS adapts every element) ·
-[`../specs/metrics_semantics.md`](../specs/metrics_semantics.md) (MTTC
+[`../specs/metrics_semantics.md`](../../implementation/metrics_semantics.md) (MTTC
 definitional lineage: McQueen → Leversage & Byres → Nzoukou → Zieger β-TTC →
 TTC_ICS → substrate MTTC).
 
@@ -116,9 +116,9 @@ point:
   §7: validation experiments and **sensitivity analysis** named as future
   work.
 
-**Maps to:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md)
+**Maps to:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md)
 (Tier-3 discipline: declared + justified + swept is the lineage norm from the
-root) · [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../notes/2026-07-04_tactic_duration_precedent_survey.md)
+root) · [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../notes/ch2_background/tactic_duration_precedent_survey.md)
 (the "somewhat arbitrarily" bullet — confirmed [fetched], full text).
 
 **Disposition for this thesis:** verified [fetched] — the survey's
@@ -156,7 +156,7 @@ a flat 5.8 days and the Process-3 term drops (u = 0).
 — same degeneracy [`ling2023`](ling2023.md) shows at expert level) · L4
 metrics framing: aggregate hardening ≠ dominant-path hardening is the same
 logic as our attack-path-exposure metric
-([`../specs/metrics_semantics.md`](../specs/metrics_semantics.md)).
+([`../specs/metrics_semantics.md`](../../implementation/metrics_semantics.md)).
 
 **Disposition for this thesis:** verified [fetched]. Hour-to-month scale:
 expert 2.9 days → novice 55.5 days on the same component — relative-structure
@@ -184,7 +184,7 @@ to a declared per-stage dwell for the hard, no-easy-exploit case, and a sane
 order-of-magnitude sanity check for any stealth-tactic dwell (weeks, not
 seconds or years).
 
-**Maps to:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md)
+**Maps to:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md)
 (a Tier-2/3 declared dwell with full provenance) · the objective/stealth group
 anchors (order-of-magnitude plausibility envelope).
 

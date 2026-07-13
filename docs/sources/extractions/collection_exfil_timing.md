@@ -1,8 +1,8 @@
 # Collection & exfiltration timing — the objective-execution dwell floor (extraction notes)
 
 > Sources on **how long data collection and exfiltration take**, extracted for
-> [`12_collection`](../tactic_profiles/12_collection.md) and
-> [`14_exfiltration`](../tactic_profiles/14_exfiltration.md). Two poles: a *fast*
+> [`12_collection`](../../notes/ch3_design/tactic_profiles/12_collection.md) and
+> [`14_exfiltration`](../../notes/ch3_design/tactic_profiles/14_exfiltration.md). Two poles: a *fast*
 > eCrime end (collect-and-exfil in ≤5 h; fastest quartile ~1.2 h) and a *slow*
 > espionage end (Equifax exfil over 76 days; low-throughput DNS-exfil by design).
 > Together they set the **objective-execution dwell floor** — exfil "cannot go any
@@ -53,8 +53,8 @@ group anchor + the exfil-floor argument (exfil is *not* substrate-instant).
   (This is the Bromiley PRIMARY that [`ling2023`](ling2023.md) cited second-hand —
   closes the last open `[search]` in `12_collection`.)
 
-**Maps to:** [`12_collection`](../tactic_profiles/12_collection.md) /
-[`14_exfiltration`](../tactic_profiles/14_exfiltration.md) §4 (the fast eCrime
+**Maps to:** [`12_collection`](../../notes/ch3_design/tactic_profiles/12_collection.md) /
+[`14_exfiltration`](../../notes/ch3_design/tactic_profiles/14_exfiltration.md) §4 (the fast eCrime
 pole — hours, not instant).
 
 **Disposition for this thesis:** verified [fetched] — Tier-2. Whole-activity
@@ -82,10 +82,10 @@ Activity"; Nadler §1–2
   over a deliberately throttled channel converts data volume → a long stealth
   duration.
 
-**Maps to:** [`14_exfiltration`](../tactic_profiles/14_exfiltration.md) §4 (the
+**Maps to:** [`14_exfiltration`](../../notes/ch3_design/tactic_profiles/14_exfiltration.md) §4 (the
 slow espionage pole — days-to-months; the exfil *floor* is set by human/throughput
 limits, and stealthy exfil deliberately extends it) and
-[`12_collection`](../tactic_profiles/12_collection.md) §4 (collection bursts vs
+[`12_collection`](../../notes/ch3_design/tactic_profiles/12_collection.md) §4 (collection bursts vs
 paced exfil).
 
 **Disposition for this thesis:** verified [fetched] — Tier-2. Per-case (Equifax)

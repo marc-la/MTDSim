@@ -2,7 +2,7 @@
 
 Stage L0 of the L0->L4 contribution pipeline: materialise the gitignored
 upstream inputs that L1 (:mod:`mtdsim.l1_construction`) consumes. See this
-package's ``README.md`` and ``docs/specs/architecture.md`` §(c).
+package's ``README.md`` and ``docs/implementation/architecture.md`` §(c).
 
 Run as a module::
 

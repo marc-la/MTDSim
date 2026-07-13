@@ -1,7 +1,7 @@
 """Generalised APT Profile (GAP) — L1 of the L0->L4 pipeline.
 
 A lossless, Attack-Flow-only technique-dependency graph aggregated from the
-MITRE CTID Attack Flow corpus. See ``docs/specs/01_gap_schema.md`` for the data
+MITRE CTID Attack Flow corpus. See ``docs/implementation/pipeline/gap/gap_schema.md`` for the data
 model and the four design decisions this implements.
 
 Typical use::

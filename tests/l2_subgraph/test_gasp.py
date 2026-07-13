@@ -1,7 +1,7 @@
 """L2 GASP — sanity tests + the operator-deduplicated JSD re-check.
 
 The JSD re-check is Mitigation 1 from
-``docs/notes/2026-05-28_l2_operator_aggregation_concern.md``: collapse
+``docs/notes/ch3_design/operator_concentration.md``: collapse
 multi-flow operator clusters to one representative each (highest
 ``n_actions``), then re-compute mean pairwise technique-JSD across the
 four classes. If it survives above the random-shuffle null p95, the
@@ -184,7 +184,7 @@ def test_operator_deduplicated_jsd_above_null(
     msg = (
         f"operator-dedup mean JSD = {observed:.4f}  "
         f"(null p95 = {null_p95:.4f}, n={len(kept)} flows kept; "
-        f"see docs/notes/2026-05-28_l2_operator_aggregation_concern.md)"
+        f"see docs/notes/ch3_design/operator_concentration.md)"
     )
     print("\n" + msg)
     _write_validation_note(observed, null_p95, n_kept=len(kept))
@@ -212,8 +212,8 @@ def _write_validation_note(observed: float, null_p95: float, *, n_kept: int) -> 
     line = (
         f"{marker} mean JSD = {observed:.4f}, null p95 = {null_p95:.4f}, "
         f"n_kept = {n_kept} flows. "
-        f"See [`docs/notes/2026-05-28_l2_operator_aggregation_concern.md`]"
-        f"(../../docs/notes/2026-05-28_l2_operator_aggregation_concern.md) "
+        f"See [`docs/notes/ch3_design/operator_concentration.md`]"
+        f"(../../docs/notes/ch3_design/operator_concentration.md) "
         f"for the mitigation rationale.\n"
     )
     text = readme.read_text()

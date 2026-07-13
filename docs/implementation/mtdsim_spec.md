@@ -1,8 +1,14 @@
+---
+status: durable
+created: 2026-05-27
+updated: 2026-07-13
+---
+
 # MTDSim Conformance Spec
 
 **Status:** Phase-1 merge of the four source works against the Phase-0 baseline.
 **Lineage:** Brown 2023 (foundational) → Zhang 2023 (MTDSimTime, time domain) → Ho 2024 (metrics + RL) → Tay 2024 (MTDShield).
-**Primary source:** Brown 2023. **Direction-only source:** [`../sources/LIT_REVIEW.md`](../sources/LIT_REVIEW.md) — the May-22 CITS4010 lit review (gitignored; read in-session). Not an artefact source.
+**Primary source:** Brown 2023. **Direction-only source:** [`../sources/LIT_REVIEW.md`](../sources/lit_review/LIT_REVIEW.md) — the May-22 CITS4010 lit review (gitignored; read in-session). Not an artefact source.
 **Baseline:** `baseline/BASELINE.md` and `baseline/golden/*`, commit `chore/baseline-spec`.
 
 ---
@@ -19,9 +25,9 @@
    - `deferred` — paper artefact has a partial code surface but a faithful implementation needs cross-module wiring beyond a localised patch; the reason and the unmet preconditions are recorded inline.
 2. **Lineage** column reads as `introduced by / modified by` — overlap is evolution, not contradiction.
 3. **Relevance tags**: `[CORE]` faithful baseline behaviour · `[ATK-SWAP]` load-bearing for replacing the attacker with CTI-grounded profiles · `[TAY-BENCH]` part of the inherited Tay-2024 RL benchmark that we replicate but do not extend · `[EVAL]` Level-4 evaluation metric (MTTC, ASR, attack-path exposure, RoA per CLAUDE.md) · `[PERIPH]` peripheral.
-   `[IDS-SEAM]` was used in the Phase-1 draft to flag detection / IDS-feed surfaces. IDS is no longer a research thread (see [`project_context.md`](project_context.md)), so every `[IDS-SEAM]` tag was retired in Phase 2 — Tay-RL machinery → `[TAY-BENCH]`; L4 metrics → `[EVAL]`; everything else → `[PERIPH]`. (Phase-2 retirement provenance lives in git log.)
+   `[IDS-SEAM]` was used in the Phase-1 draft to flag detection / IDS-feed surfaces. IDS is no longer a research thread (see [`project_context.md`](../workflows/project_context.md)), so every `[IDS-SEAM]` tag was retired in Phase 2 — Tay-RL machinery → `[TAY-BENCH]`; L4 metrics → `[EVAL]`; everything else → `[PERIPH]`. (Phase-2 retirement provenance lives in git log.)
 4. **Test? column** = candidate for a golden-master / faithfulness test (Y/N).
-5. Per-paper extraction notes live in [`../extractions/brown2023.md`](../extractions/brown2023.md), [`../extractions/zhang2023.md`](../extractions/zhang2023.md), [`../extractions/ho2024.md`](../extractions/ho2024.md), [`../extractions/tay2024.md`](../extractions/tay2024.md) and are the source of truth for paper-side locators.
+5. Per-paper extraction notes live in [`../extractions/brown2023.md`](../sources/extractions/brown2023.md), [`../extractions/zhang2023.md`](../sources/extractions/zhang2023.md), [`../extractions/ho2024.md`](../sources/extractions/ho2024.md), [`../extractions/tay2024.md`](../sources/extractions/tay2024.md) and are the source of truth for paper-side locators.
 
 ---
 

@@ -1,3 +1,9 @@
+---
+status: durable
+created: 2026-07-05
+updated: 2026-07-13
+---
+
 # Substrate primer — MTDSim as an adversarial environment
 
 **Status:** durable. The conceptual, **non-implementation-specific** view of the
@@ -5,7 +11,7 @@ inherited MTDSim substrate, written from the attacker's side: what the network
 *is* as terrain, what the MTD mechanisms *do* to that terrain, what the attacker
 *knows and holds*, and — the load-bearing part — what a defensive mutation
 *does to the attacker's gains*. It exists so the per-tactic profiles
-([`../tactic_profiles/`](../tactic_profiles/)) and the thesis chapters can
+([`../tactic_profiles/`](../notes/ch3_design/tactic_profiles/)) and the thesis chapters can
 reference one durable account of the substrate instead of re-deriving it, and so
 that a refactor, a renamed class, or an inherited bug does **not** propagate into
 the argument. Where a claim is a *design principle* (durable) it is stated as
@@ -15,7 +21,7 @@ Row-level conformance detail (exact constants, NET/ATK dispositions) is **not**
 restated here — that is [`mtdsim_spec.md`](mtdsim_spec.md). The pipeline this
 substrate sits under is [`architecture.md`](architecture.md); the ontology gap
 between this substrate and the CTI profiles is
-[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md).
+[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/ch3_design/structure_to_behaviour_binding.md).
 
 ---
 
@@ -80,7 +86,7 @@ Three properties of this terrain are load-bearing for everything downstream:
    the substrate's vulns are synthetic there is nothing to join a technique *to* at
    the vuln level. The attacker must be coded in ATT&CK terms at the *behaviour*
    layer, never by mapping a technique onto a specific substrate vuln
-   ([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md) §2/§5).
+   ([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/ch3_design/structure_to_behaviour_binding.md) §2/§5).
    *If the substrate ever adopts NVD CVEs*, the technique→CVE→vuln binding (BRON /
    MITRE CTID) becomes possible and this constraint lifts.
 
@@ -88,7 +94,7 @@ The good news the HARM gives the thesis: it captures the **network/target side**
 well (reachability, services, vulns, precondition chains) and therefore needs no
 change — everything the profiles add (campaign objective, capability state,
 MTD-conditioning) is **attacker-side**, so HARM stays untouched (D5;
-[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md) §7).
+[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/ch3_design/structure_to_behaviour_binding.md) §7).
 
 ## (c) The MTD mechanisms — terrain mutation, by what they invalidate
 
@@ -205,7 +211,7 @@ favour passive recon to *learn the mutation pattern*; Tularosa: deception impede
 even a knowing attacker at every kill-chain stage) is the interesting adversary.
 
 **What the behaviourally-grounded profile improves** — three things the loop
-*structurally cannot express* ([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md) §6/§8):
+*structurally cannot express* ([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/ch3_design/structure_to_behaviour_binding.md) §6/§8):
 
 1. **Objective-conditioning** — the four operational-objective envelopes traverse
    different intrusion sets; behaviour differs *by campaign goal*.
@@ -277,8 +283,8 @@ Two consequences the thesis leans on:
    the literature bounds the *width* (the rate laws, the leakiness fractions); but
    no public logs ground the exact MTD→attacker effect. So the reset **fraction**
    per tactic is **declared and swept**, with the sweep width set by the §3
-   uncertainty ([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md) §5;
-   [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md)).
+   uncertainty ([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/ch3_design/structure_to_behaviour_binding.md) §5;
+   [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/ch3_design/operational_validation.md)).
 
 *Current-implementation embodiments (flagged as mutable, not load-bearing):* the
 exact confusion/time penalty applied on interruption, the precise set of phases an
@@ -329,13 +335,13 @@ not a claim of full-spectrum (adaptive, detection-evading) APT fidelity.
   dispositions (the exact constants/behaviours this primer abstracts).
 - [`architecture.md`](architecture.md) — the L0→L4 pipeline and the substrate-seam
   map; §(f) the L3 attacker seam, §(i) the "left alone" ledger.
-- [`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/2026-06-18_cti_to_executable_behaviour.md)
+- [`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/ch3_design/structure_to_behaviour_binding.md)
   — the ontology gap, the encoding ledger, MTD-reset-is-the-unknown, HARM-captures-
   the-network-side.
-- [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/2026-07-04_operational_validation_the_bar.md)
+- [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/ch3_design/operational_validation.md)
   — why the reset fraction is declared-and-swept, not measured.
-- [`../notes/2026-07-07_thesis_backbone_rubric.md`](../notes/2026-07-07_thesis_backbone_rubric.md)
-  and [`../notes/2026-07-07_cross_sectional_review.md`](../notes/2026-07-07_cross_sectional_review.md)
+- [`../notes/2026-07-07_thesis_backbone_rubric.md`](../notes/ch3_design/tactic_profiles/_rubric.md)
+  and [`../notes/2026-07-07_cross_sectional_review.md`](../notes/ch5_evaluation/evaluation_burden.md)
   — the rubric this primer serves and the review that scoped it.
 - [`metrics_semantics.md`](metrics_semantics.md) — MTTC and the comparability
   boundary; §(f) the `observation_count`-is-not-a-rate prohibition.
