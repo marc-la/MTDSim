@@ -2,7 +2,7 @@
 
 The corpus is not operator-uniform: 16 of the 38 flows belong to 8
 multi-flow operator clusters (spec §(g),
-``docs/notes/2026-05-28_l2_operator_aggregation_concern.md``). Mitigation 1
+``docs/notes/ch3_design/operator_concentration.md``). Mitigation 1
 collapses each cluster to one representative — the flow with the highest
 ``n_actions`` in the audit CSV, tie-broken lexicographically — leaving the
 **n = 29 operator-deduplicated corpus**. This module is the single source of
@@ -20,7 +20,7 @@ import csv
 from pathlib import Path
 
 _REPO_ROOT = Path(__file__).resolve().parents[3]
-AUDIT_CSV_PATH = _REPO_ROOT / "docs" / "notes" / "2026-05-28_l2_metadata_audit.csv"
+AUDIT_CSV_PATH = _REPO_ROOT / "data" / "gasp" / "metadata_audit.csv"
 
 OPERATOR_CLUSTERS: dict[str, list[str]] = {
     "Conti": ["conti_cisa_alert", "conti_pwc", "conti_ransomware"],

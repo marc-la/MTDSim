@@ -2,7 +2,7 @@
 
 The Generalised APT Subgraph Profile (L2): four operational-objective-
 conditioned surface subgraphs over the L1 GAP. Data model and design
-decisions: [`docs/specs/02_gasp_schema.md`](../../docs/specs/02_gasp_schema.md).
+decisions: [`docs/implementation/pipeline/gasp/gasp_schema.md`](../../docs/implementation/pipeline/gasp/gasp_schema.md).
 Build code: [`src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph).
 
 ## Contents
@@ -17,7 +17,7 @@ Build code: [`src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph).
 | `_viz/` | gitignored | diagnostic visualisations (regenerable via `_viz/gasp_viz.py`) |
 
 The class subgraphs are a deterministic function of `data/gap/gap_v0.5.json`
-and `docs/notes/2026-05-28_l2_metadata_audit.csv`; both inputs are the load-
+and `data/gasp/metadata_audit.csv`; both inputs are the load-
 bearing sources. Re-running the build is cheap.
 
 ## Rebuild
@@ -30,11 +30,11 @@ PYTHONPATH=src python -m pytest tests/l2_subgraph/  # validation gate (incl. ope
 ## Validation
 
 The operator-deduplicated JSD re-check (Mitigation 1 from
-[`docs/notes/2026-05-28_l2_operator_aggregation_concern.md`](../../docs/notes/2026-05-28_l2_operator_aggregation_concern.md))
+[`docs/notes/ch3_design/operator_concentration.md`](../../docs/notes/ch3_design/operator_concentration.md))
 re-runs the per-class technique-JSD discrimination after collapsing each
 multi-flow operator cluster (Conti, Turla, FIN13, CISA AA22-138B,
 OceanLotus, Sandworm, Lazarus) to one representative — the flow with the
 highest `n_actions`. If the JSD signal survives the deduplication, the
 per-class discrimination is operator-robust.
 
-**Operator-dedup JSD re-check:** mean JSD = 0.3149, null p95 = 0.1849, n_kept = 29 flows. See [`docs/notes/2026-05-28_l2_operator_aggregation_concern.md`](../../docs/notes/2026-05-28_l2_operator_aggregation_concern.md) for the mitigation rationale.
+**Operator-dedup JSD re-check:** mean JSD = 0.3149, null p95 = 0.1849, n_kept = 29 flows. See [`docs/notes/ch3_design/operator_concentration.md`](../../docs/notes/ch3_design/operator_concentration.md) for the mitigation rationale.

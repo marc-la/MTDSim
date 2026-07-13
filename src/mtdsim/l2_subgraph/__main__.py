@@ -1,6 +1,6 @@
 """CLI for L2 GASP construction — ``python -m mtdsim.l2_subgraph``.
 
-Reads ``data/gap/gap_v0.5.json`` + ``docs/notes/2026-05-28_l2_metadata_audit.csv``,
+Reads ``data/gap/gap_v0.5.json`` + ``data/gasp/metadata_audit.csv``,
 writes ``data/gasp/classification.csv`` + ``data/gasp/gasp_<class>.json`` × 4.
 """
 

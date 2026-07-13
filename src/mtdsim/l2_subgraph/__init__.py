@@ -1,9 +1,9 @@
 """L2 — GASP (operational-objective-conditioned APT Profile).
 
-Canonical spec: [`docs/specs/02_gasp_schema.md`](../../../docs/specs/02_gasp_schema.md).
+Canonical spec: [`docs/implementation/pipeline/gasp/gasp_schema.md`](../../../docs/implementation/pipeline/gasp/gasp_schema.md).
 Construction is a deterministic function of the L1 GAP plus the audit-traced
 class-membership CSV at
-``docs/notes/2026-05-28_l2_metadata_audit.csv``.
+``data/gasp/metadata_audit.csv``.
 """
 
 from mtdsim.l2_subgraph.schema import CLASS_NAMES, SubgraphView

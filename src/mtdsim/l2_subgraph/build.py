@@ -3,7 +3,7 @@
 Mirrors ``mtdsim.l1_construction.build``. Reads:
 
 - ``data/gap/gap_v0.5.json`` (the L1 artefact),
-- ``docs/notes/2026-05-28_l2_metadata_audit.csv`` (the load-bearing class-
+- ``data/gasp/metadata_audit.csv`` (the load-bearing class-
   membership input — see spec §c).
 
 Writes under ``data/gasp/``:
@@ -29,7 +29,7 @@ from mtdsim.l2_subgraph.selector import (
 
 _REPO_ROOT = Path(__file__).resolve().parents[3]
 GAP_PATH = _REPO_ROOT / "data" / "gap" / "gap_v0.5.json"
-AUDIT_CSV_PATH = _REPO_ROOT / "docs" / "notes" / "2026-05-28_l2_metadata_audit.csv"
+AUDIT_CSV_PATH = _REPO_ROOT / "data" / "gasp" / "metadata_audit.csv"
 GASP_OUT_DIR = _REPO_ROOT / "data" / "gasp"
 
 

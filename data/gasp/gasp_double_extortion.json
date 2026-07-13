@@ -974,8 +974,8 @@
     "source_flow_count": 6,
     "gap_version": "0.5",
     "gap_build_date": "2026-05-28",
-    "audit_csv_path": "docs/notes/2026-05-28_l2_metadata_audit.csv",
+    "audit_csv_path": "data/gasp/metadata_audit.csv",
     "gap_path": "data/gap/gap_v0.5.json",
-    "build_date": "2026-05-28"
+    "build_date": "2026-07-13"
   }
 }
