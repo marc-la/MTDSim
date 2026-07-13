@@ -53,6 +53,7 @@ The always-loaded layer. Every session reads all of it (see [`../../CLAUDE.md`](
 - [`project_context.md`](project_context.md) — what the project is; thesis direction; codebase lineage.
 - this file — where documents live.
 - [`notes_rubric.md`](notes_rubric.md) — the quality gate for `notes/`.
+- [`voice.md`](voice.md) — the prose contract for dissertation-bound writing (loaded before drafting `notes/` or `thesis/` prose, not every session).
 
 Contract: short, imperative, no duplication of content that lives elsewhere (link instead). A new subtree anywhere in `docs/` **must** be registered in this file in the same commit that creates it.
 
@@ -71,7 +72,7 @@ Contract: **provenance-dated.** Every file carries frontmatter with `status`, `c
 
 ### `notes/` — the dissertation's staging layer
 
-Chapter-organised, rubric-gated prose. The full contract is [`notes_rubric.md`](notes_rubric.md); the short version: formal academic prose, self-contained, atomic (one idea per file), readable by Marc's supervisor without the repo, repo links confined to an evidence footer. Chapter subdirs mirror the dissertation:
+Chapter-organised, rubric-gated prose. The full contract is [`notes_rubric.md`](notes_rubric.md); the short version: formal academic prose, self-contained, atomic (one idea per file), readable by Marc's supervisor without the repo, repo links confined to an evidence footer. The sentence-level voice is [`voice.md`](voice.md) — default for notes, hard gate for `thesis/`. Chapter subdirs mirror the dissertation:
 
 | Subdir | Dissertation chapter | What lands here |
 |---|---|---|
@@ -89,7 +90,7 @@ Unchanged from long-standing practice: `YYYY-MM-DD_<topic>.md`, created when wor
 
 ### `thesis/` — the deliverable
 
-The UWA `cshonours` LaTeX project (`dissertation.tex`, `references.bib`, `figures/`, class file). Chapters are the stable frame the whole docs system points at; notes feed sections into it. Compile with `latexmk -pdf dissertation.tex`. Build artefacts are gitignored.
+The UWA `cshonours` LaTeX project (`dissertation.tex`, `references.bib`, `figures/`, class file). Chapters are the stable frame the whole docs system points at; notes feed sections into it. Any prose written here must pass the hard gate in [`voice.md`](voice.md) §(f) before commit. Compile with `latexmk -pdf dissertation.tex`. Build artefacts are gitignored.
 
 ### `sources/` and `sources/extractions/`
 

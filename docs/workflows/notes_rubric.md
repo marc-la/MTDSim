@@ -20,7 +20,7 @@ Write for **a reader who knows the field but not this repo** — concretely, Mar
 
 Consequences:
 
-- **Formal academic prose.** Complete sentences and paragraphs that argue, in Australian English. Tables only for genuinely tabular material. It should be reasonably interesting to read — an argument with stakes, not a memo.
+- **Formal academic prose.** Complete sentences and paragraphs that argue, in Australian English. Tables only for genuinely tabular material. It should be reasonably interesting to read — an argument with stakes, not a memo. The sentence-level voice — argumentation moves, sentence signature, banned tells — is [`voice.md`](voice.md); write to it by default.
 - **Define or drop internal terms.** Either introduce a project term in plain language at first use ("the aggregated technique-dependency graph — internally, the GAP") and use it sparingly, or write the plain description throughout. Never assume the codename.
 - **No workflow plumbing in the body.** Commit hashes, handoff filenames, branch names, session dates, "this landed in …", `[fetched]`/`[search]` flags and file paths belong in the *Evidence and repo anchors* footer, not the argument. (Epistemic honesty stays in the body — "this figure is unverified against the primary source" is substance; "`WebFetch` returned 403" is plumbing.)
 - **Cited, not asserted.** Empirical claims carry their source (author-year is fine; the footer anchors it to an extraction). A claim without a source is flagged in-text as a *citation anchor to reconcile* — never silently asserted. Per the guardrails: never assert a paper wrong; distinguish inherited facts from editorial choices.
