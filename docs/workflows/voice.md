@@ -2,7 +2,7 @@
 status: durable
 created: 2026-07-13
 updated: 2026-07-13
-provenance: codified from the ratified prose corpus — docs/notes/ (rubric-cleared notes) and dissertation.tex §3.2 — not from prompts; maintained from Marc's edits per §(g)
+provenance: codified from the ratified prose corpus (dissertation-bound prose Marc kept or reworked under review), Marc's typed prompt history (argumentation layer only), and unit assessor feedback; maintained per §(g)
 ---
 
 # Voice — the prose contract for dissertation-bound writing
@@ -21,33 +21,45 @@ Division of labour: [`docs_map.md`](docs_map.md) decides where a document lives;
 
 ## (b) What this voice is, honestly
 
-No corpus of Marc's unaided academic prose exists. What exists is more useful than either unaided samples or prompt history: a **ratified corpus** — prose drafted in collaboration with AI and then kept, corrected, or rewritten by Marc across months of review, under a supervisor-facing register. This file codifies the fixed point of that write⇄edit loop. It is the house voice of the collaboration, not a reconstruction of what Marc would write alone — and it converges on Marc over time through §(g), because his edits to drafted prose are the evidence this file is maintained from. Voice is not prompting style: no rule here derives from how prompts are phrased; every rule traces to a passage that survived review.
+No corpus of Marc's unaided academic prose exists. Two evidence streams substitute for it, each admissible at a different layer:
+
+1. **The ratified corpus** — prose drafted in collaboration with AI and then kept, corrected, or rewritten by Marc under review, at a supervisor-facing register. This is the only evidence for sentence-level rules (§d): how the prose sounds is defined by what survived his edits.
+2. **Marc's typed prompt history** — his genuinely unaided writing. It is a different genre from academic prose, so it grounds nothing at the sentence level, but it is direct evidence of the **argumentation layer** (§c): how he decomposes problems, what he demands of an argument, what he rejects.
+
+This file codifies the fixed point of the write⇄edit loop. It is the house voice of the collaboration, not a reconstruction of what Marc would write alone — and it converges on Marc over time through §(g), because his edits are the evidence it is maintained from. This file is **first-principles by design**: it states how prose argues and sounds, and binds to no thesis content, framing, or terminology — those may pivot; the voice should not have to.
+
+The failure mode this file exists against has been named by an assessor of the preceding unit work: AI-assisted academic writing flattens until *the author's natural voice doesn't come through* — plain register is expected, but anonymity is a defect that costs marks. The test of every rule here is therefore not "is the prose correct?" but "is it recognisably one person's?" A paragraph that any model could have produced for any thesis fails this file even when it is accurate, cited, and clear.
 
 ## (c) How paragraphs argue
 
-1. **Claim first, unpack after.** The first sentence of a paragraph states what the paragraph establishes; everything after is support. Titles and headings are claims or questions in plain English, not topic labels.
-2. **Enumerate, then walk.** Announce the count, then take the items in order: *"Four boundaries fix what the model does not attempt. First, … Second, …"* Never announce three and deliver two; never bullet what should be walked.
-3. **Alternatives are ranked and dismissed with reasons.** When a choice is defended, name the live options on an explicit axis (*"Three bindings are possible, from cheapest to most faithful"*), give each its genuine strength, and justify the selection from both directions — why not the cheaper, why not the dearer.
-4. **Mechanism, not assertion.** A claim earns its place by carrying its *why*. If the cause can't be named, the claim is flagged as open, not asserted with a hedge.
-5. **Concessions are made up front and owned.** Weaknesses are disclosed as design facts, in the same breath as the strength they trade against: *"The strength (real, analyst-drawn technique dependencies) and the limitation (aggregation over-generates) are the same fact."* — *"This is accepted and disclosed rather than corrected."* Never let an examiner discover a limitation the text could have named.
+1. **Claim first, unpack after.** The first sentence of a paragraph states what the paragraph establishes; everything after is support. (Headings are the deliberate exception — see §d.)
+2. **Enumerate, then walk.** Announce the count, then take the items in order: *"Three constraints fix the design. First, … Second, … Third, …"* Never announce three and deliver two; never bullet what should be walked.
+3. **Alternatives are ranked and dismissed with reasons.** When a choice is defended, name the live options on an explicit axis (*cheapest to most faithful; coarsest to finest*), give each its genuine strength, and justify the selection from both directions — why not the cheaper, why not the dearer.
+4. **Mechanism, not assertion — and every inferential step walked.** A claim earns its place by carrying its *why*; if the cause can't be named, the claim is flagged as open, not asserted with a hedge. When the text moves from a definition to a chosen number, shape, or classification, the route between them is on the page — a leap the reader must reconstruct is a defect, however obvious it felt to write.
+5. **Concessions are made up front and owned.** Weaknesses are disclosed as design facts, in the same breath as the strength they trade against — the strongest form notes when *the strength and the limitation are the same fact*, and the standing register is *accepted and disclosed rather than corrected*. Never let an examiner discover a limitation the text could have named.
 6. **Negative scope is explicit.** Say what the argument does *not* claim, as a section or a closing move, before someone else says it.
-7. **The modest-claim ceiling.** Claims stop at what the evidence carries: *designed* is not *demonstrated*; the standing formula is *"not that the model is true, but that fidelity at this level changes the answers an evaluation returns."* No claim outranks its experiment.
+7. **The modest-claim ceiling.** Claims stop at what the evidence carries: *designed* is not *demonstrated* is not *true* — say which one the text has earned. No claim outranks its experiment.
+8. **Ground the abstract in the concrete.** An abstract claim earns its keep with an instance: a worked example, a named case, a number, or a figure. A concept that takes more than a paragraph to state abstractly wants an example or an image instead — these are argument, not decoration, and their absence is an assessor-named defect, not a stylistic preference. A figure earns its place the same way a sentence does: it must carry part of the argument, and its caption must stand alone.
+9. **Criteria before the thing judged.** State what would count as success — the bar, the validation criteria, the rubric — before presenting what is measured against it. A result that arrives before its yardstick reads as advocacy; a design presented before its requirements reads as improvisation.
+10. **Name the circularity risk.** Where a modelled quantity or a result could have been shaped by expectation — tuned until it looked right, fitted to sparse data, chosen to confirm the motivation — say so, and show what independent grounding breaks the loop. Unacknowledged circularity is the first thing an examiner reaches for.
 
 ## (d) How sentences sound
 
-- **Paired opposition is the signature move.** Antithesis across a semicolon (*"Capability and credential state survives a network mutation; network-position state is invalidated by it."*) and the X-not-Y compression (*"envelope, not actor"*, *"defended, not demonstrated"*, *"explicitly deferred, not quietly dropped"*). Use it where the contrast is load-bearing; it dulls with overuse.
-- **Em-dashes carry argument, not decoration.** An interpolation earns its dashes by adding a turn (*"But — and this is the hinge of the argument — automation changes MTD's responsiveness, not its phase reach."*). If the aside could be deleted without loss, delete it.
+- **Paired opposition is the signature move.** Antithesis across a semicolon — *what X changes is A; what X cannot touch is B* — and the X-not-Y compression (*a bound, not an estimate*; *defended, not demonstrated*; *deferred, not dropped*). Use it where the contrast is load-bearing; it dulls with overuse.
+- **Em-dashes carry argument, not decoration.** An interpolation earns its dashes by adding a turn to the argument (*"But — and this is the hinge — …"*). If the aside could be deleted without loss, delete it.
 - **Long sentences are allowed when controlled; verdict sentences are short.** After a long build, land on a short one. Vary shape — three consecutive sentences with the same skeleton is a redraft signal.
-- **Present tense, active by default.** Passive only where the agent is genuinely irrelevant. Cited work acts as a subject: *"\citet{ling2023} derive time-to-compromise estimates…"*.
-- **Controlled vividness, rationed.** One pointed, plain-English formulation per section, doing real argumentative work (*"A field that automates incomplete coverage is faster at the same thing."* — *"MTD reads well on paper and deploys rarely."*). Never two in a row; never as ornament.
+- **Present tense, active by default.** Passive only where the agent is genuinely irrelevant. Cited work acts as a subject: *"\citet{author2020} derive…"*, not *"estimates were derived in \citep{author2020}"*.
+- **Controlled vividness, rationed.** One pointed, plain-English sentence per section that *compresses* the argument rather than decorates it — the sentence a reader would quote back. Never two in a row; never as ornament.
 - **Emphasis is semantic and sparse.** Italics introduce a term at first fix; bold marks a load-bearing claim or fixed term (markdown) — in LaTeX, `\emph` only. Emphasis that merely raises volume is removed.
+- **Headings state what the section is on — nothing more.** The arguing is done by prose; a heading that performs (a claim, a flourish, a mini-thesis) is over-dressed for the register. Marc's ruling, verbatim: headings that *"try to do more than just state what the section is on"* are not academically aligned. (Note *titles* under the notes rubric are the one exception: a note is filed by its claim.)
+- **The working vocabulary is allowed through.** Marc's own evaluation lexicon — *grounded*, *defensible*, *tradeoff*, *distil* — is part of the voice; prefer these over synonyms when judging or positioning work. Sparingly: seasoning, not scaffolding.
 - **Australian English throughout** (-ise, -our, *defence*), per the [guardrails](guardrails.md).
 
 ## (e) Terminology and evidence
 
-- **Define before use, then hold.** Fix boundary terms explicitly (*"post-ingress = ATT&CK Initial Access and every tactic after it"*) and use them consistently thereafter. One taxonomy per document region; if two vocabularies must meet, map them once and pick one to continue in.
+- **Define before use, then hold.** Fix a boundary term explicitly at first use (*term = its exact extension*) and use it consistently thereafter. One taxonomy per document region; if two vocabularies must meet, map them once and pick one to continue in.
 - **No synonym rotation.** The same technical thing gets the same word every time. Elegant variation is for objects, not concepts.
-- **Internal codenames**: defined-or-absent in notes (per the rubric); **absent, full stop, in `thesis/`** — the dissertation never says GAP, GASP, OGASP, L0–L4, "the substrate", or any repo-internal name.
+- **Internal codenames**: defined-or-absent in notes (per the rubric); **absent, full stop, in `thesis/`** — the dissertation never uses a repo-internal name, whatever the current crop is.
 - **Cited or flagged, never silently asserted.** In notes, an unsourced empirical claim carries an in-text *citation anchor to reconcile*. In `thesis/`, anchors are not permitted: a claim is cited (`\citep`/`\citet`) or the sentence does not commit to it. Never assert a paper wrong; never attribute a source unread.
 - **Epistemic status is explicit**: demonstrated vs designed vs conjectured, stated where the reader needs it, not in a distant caveat.
 
@@ -58,37 +70,37 @@ No corpus of Marc's unaided academic prose exists. What exists is more useful th
 3. **Citation check.** Every empirical claim carries `\citep`/`\citet`; zero unresolved anchors, zero "to reconcile" residue.
 4. **Terminology check.** Every term defined at or before first use; no internal codenames; no synonym drift; one taxonomy in play.
 5. **Tell check.** None of the §(h) banned patterns present.
-6. **Ceiling check.** No claim exceeds its evidence; designed/demonstrated boundary honest; negative scope stated.
+6. **Ceiling check.** No claim exceeds its evidence; designed/demonstrated boundary honest; negative scope stated; circularity risks named, with the grounding that breaks them.
 7. **Rhythm check.** Read aloud (or simulate it): sentence shapes vary; each em-dash interpolation earns its place; at most one vivid formulation per section.
-8. **Calibration check.** Set the section beside a §(i) passage — same person on the page?
+8. **Concreteness check.** Every complex concept is grounded by an example, a number, or a figure; every figure carries part of the argument and its caption stands alone; headings state their section's topic and no more.
+9. **Calibration check.** Set the section beside the most recently ratified prose (§i) — same person on the page?
 
 A section failing any check is redrafted before commit. For `notes/`, run the same list as a diagnostic, not a gate — checks 3 and the codename half of 4 relax per the notes rubric; the rest is the default.
 
 ## (g) Maintenance — how this file converges on Marc
 
 - **Marc's edits are the data.** When Marc rewrites, cuts, or re-words drafted prose, the diff is voice evidence. A recurring correction becomes a rule here; a rule his edits repeatedly contradict is removed.
-- **Every rule must trace to a ratified passage.** No rule enters from taste, a style guide, or model priors alone. If a rule can't be pointed at surviving prose, it doesn't belong.
+- **Evidence is layered.** Sentence-level rules (§d) may only be grounded in ratified prose or Marc's explicit prose-style rulings. Argumentation rules (§c) may additionally be grounded in his typed prompt history — his unaided writing — because reasoning moves survive the genre change; sentence rhythm does not. Assessor and supervisor feedback is admissible at every layer and outranks both.
+- **The genre firewall.** Prompt evidence admits reasoning moves only. Conversational artefacts of prompting — filler hedges, telegraphic fragments, informal cadence — are speech, not voice, and never become prose rules.
+- **No rule enters from taste alone** — not from a style guide, not from model priors. If a rule can't be pointed at surviving prose or recurring prompt evidence, it doesn't belong.
+- **Stay first-principles.** No rule may bind to thesis content, framings, or terminology; if an example drifts into project specifics, schematise it.
 - Bump `updated` on material change; keep the file lean — this is a contract, not an essay on style.
 
 ## (h) Banned tells — the machine leaks to remove on sight
 
 | Banned | Write instead |
 |---|---|
-| Hype adjectives on own work: *novel, comprehensive, significant(ly), robust, powerful, crucial(ly)* | Name the specific technical move and let it carry the weight: *"an advance in MTD evaluation methodology that requires touching neither the defences nor the network model"* |
+| Hype adjectives on own work: *novel, comprehensive, significant(ly), robust, powerful, crucial(ly)* | Name the specific technical move and what it does *not* require, and let that carry the weight |
 | *It is important to note that…*, *It should be emphasised…* | Delete the frame; if it matters, the claim-first sentence already shows it |
 | *delve*, *landscape* (as in "threat landscape" filler), *in today's world*, *rapidly evolving* | Concrete nouns and dated facts |
 | *Moreover / Furthermore / Additionally* chains | Connect by logic — cause, contrast, consequence — or start the new claim plainly |
 | Rule-of-three adjective triads (*fast, scalable, and efficient*) | One precise adjective, or the mechanism that makes it so |
 | Bold-term-colon listicles as argument (*"**Flexibility:** the system…"*) | Prose that argues; enumerate-then-walk if it's genuinely a list |
 | Hedging stacks (*may potentially suggest*) | One calibrated hedge, then commit — or flag the claim as open |
-| Empty signposting (*"In this section, we will discuss…"*) | Functional signposting that says what each part *does*: *"Section X derives both properties; Section Y draws out the pattern they form."* |
+| Empty signposting (*"In this section, we will discuss…"*) | Functional signposting that says what each part *does*: *"Section X derives the parameters; Section Y draws out the pattern they form."* |
 | Rhetorical questions as transitions | A question only when it is a real, attributed question the text then answers |
 | Symmetric paragraph openers across a section | Vary the entry point: claim, contrast, consequence, concession |
 
-## (i) Calibration passages
+## (i) Calibration
 
-Before drafting, re-read one of these; they are the voice at full strength:
-
-- [`../notes/ch2_background/post_ingress_mtd_gap.md`](../notes/ch2_background/post_ingress_mtd_gap.md) — §"Why the two observations are one claim" (the mechanism move, antithesis, controlled vividness).
-- [`../notes/ch3_design/structure_to_behaviour_binding.md`](../notes/ch3_design/structure_to_behaviour_binding.md) — §"The binding, done properly" (ranked alternatives, both-directions justification).
-- [`../thesis/dissertation.tex`](../thesis/dissertation.tex) §"Profile Construction and Scope" (boundaries walked, modest-claim ceiling, disclosure-as-strength — the voice in LaTeX register).
+Before drafting, re-read one or two **recently ratified** pieces — the newest rubric-cleared notes (`git log docs/notes/` finds them) and, once thesis prose exists, the most recently committed dissertation section. The live corpus is the calibration set; this file deliberately names no passages, because ratified prose supersedes and pivots as the research does. If what you draft would look out of place beside what was most recently kept, redraft.
