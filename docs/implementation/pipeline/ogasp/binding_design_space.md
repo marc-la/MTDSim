@@ -1,11 +1,23 @@
 ---
-status: durable
+status: superseded by the 2026-07-14 meeting decisions (M1–M7) — retained as candidate analysis
 created: 2026-07-13
-updated: 2026-07-13
+updated: 2026-07-15
 topic: "L3b binding design space — impartial cross-examination + MVP recommendation"
 ---
 
 # The Petri-net → MTDSim binding design space — enumeration, cross-examination, and an MVP recommendation that is not a re-skin of the phased attacker
+
+> **DECIDED OVER (2026-07-14 meeting).** The supervisor settled the coupling
+> directly, and the settled design does not match this record's C1→C2 staged
+> recommendation: the net runs **live in the simulation** (M1 — i.e. authority
+> mode (iii), which this record bracketed as C0c/deferred), the substrate's
+> existing attack machinery is the binary **outcome oracle** feeding
+> conditional transition-weight sets (M2/M4), dispatch is a manual
+> tactic→action influence map (M5), and no CVE grounding happens (C0b dead —
+> M4). The candidate enumeration, the MTTC verb-identity constraint (§5b), and
+> the distinguishability analysis remain valid input to the build; C2's
+> capability layer and C3's policy-prior seam remain the named upgrade paths.
+> Register: [`supervisor_decision_register.md`](supervisor_decision_register.md) §M1–M8.
 
 **Status:** investigation record (codebase-shaped cross-examination; lives in
 `implementation/`, not `notes/`). Produced under

@@ -1,8 +1,19 @@
 ---
 status: re-sequenced
 created: 2026-07-09
-updated: 2026-07-13
+updated: 2026-07-15
 ---
+
+> **Post-meeting note (2026-07-15).** The 14-Jul meeting (M1) retired
+> timeline replay as the MTDSim input — the net now runs live with outcome
+> feedback — but the standalone timeline library survives as the D1
+> analytical track, and it remains this handoff's scoring target. One
+> addition when picked up: the coupled attacker's in-sim traces are a second,
+> feedback-conditioned population; scoring both against the same
+> pre-registered criteria (and noting where feedback moves a class relative
+> to its open-loop signature) is in scope and strengthens the validation
+> story. The pre-registration ordering rule below is unchanged and still
+> binding.
 
 # Characterise the four operational objectives from the literature and pre-register per-class timeline acceptance criteria — the behavioural validation set the calibrated runner must pass, sequenced *before* the catalogue v1 freeze
 

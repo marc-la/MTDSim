@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-05-27
-updated: 2026-07-13
+updated: 2026-07-15
 ---
 
 # Architecture — L0→L4 pipeline and methodological positioning
@@ -309,9 +309,10 @@ mitigations in
 un-weighted tactic-place Petri nets, one per GASP class, at
 [`../../data/ogasp/`](../../data/ogasp/) with build code at
 [`../../src/mtdsim/l3_simulation/petri/`](../../src/mtdsim/l3_simulation/petri)
-and tests at `tests/l3_simulation/`. The executable coupling into the
-substrate (weights, durations, the timeline runner, the replay attacker) is
-unbuilt; the substrate itself runs.
+and tests at `tests/l3_simulation/`. Weights, durations and the standalone
+timeline runner are shipped; the executable coupling into the substrate (the
+feedback-coupled profiled attacker, per M1) is unbuilt; the substrate itself
+runs.
 
 **Working-layer ledger** (the terms the 2026-07-03 handoff chain uses):
 - **L3a** — the structural nets *plus their parameterisation*: flow-proportion
@@ -320,18 +321,26 @@ unbuilt; the substrate itself runs.
   duration catalogue (D4; regime row in [`provenance.md`](provenance.md)).
 - **Timeline generation** — standalone net execution: seeded single-token
   walks over the weighted nets emitting timed attacker-state sequences.
-- **Binding / replay** — the MTDSim coupling: the tactic→substrate-action
-  binding and the replay attacker that feeds timelines into the simulator.
+  Post-M1 this is the **analytical track only** (D1's standalone half), not
+  the MTDSim input.
+- **Coupling** — the MTDSim join: the net runs live inside the simulation
+  (M1); a tactic→action influence map dispatches existing substrate actions
+  (M5); the substrate's binary attack outcome feeds back as conditional
+  transition-weight sets (M2), with direction from a kill-chain mapping (M3).
+  *(Formerly "binding / replay" — the one-way timeline-replay framing died
+  with D2→M1.)*
 
 - **Inputs.** L2 GASP; the MTDSim substrate (network, MTD scheduler, the
   inherited 6-phase attacker module).
 - **Outputs.** Per-run attack records suitable for L4 evaluation —
   technique-level events along the GASP traversal, timed within the simulator.
-- **Transformation.** Under the v1 coupling model (decision block below): the
-  weighted class net is executed *standalone* — a single token walks the net,
-  each state consumes its catalogued duration — emitting a timed sequence of
-  attacker states; a replay attacker inside MTDSim then executes that timeline
-  against the substrate's network, bridging tactic-state → attacker action.
+- **Transformation.** Under the v1 coupling model (M1 decision block below):
+  the weighted class net runs **live inside the simulation** — a single token
+  occupies one tactic-place at a time; at each place the profiled attacker
+  fires the mapped substrate action(s) (M5) against its current network
+  position; the binary outcome selects the success or failure conditional
+  weight set (M2) that governs the next transition, with forward/backward
+  direction read off the kill-chain mapping (M3).
   The net-driven attacker runs *alongside* the
   inherited 6-phase attacker, which is retained as the procedural baseline
   (per [`project_context.md`](../workflows/project_context.md) L17). Both must work; both must
@@ -399,22 +408,29 @@ to the deferred register. Decision register:
 acquires a second substrate column and the comparability boundary at §(j) is
 extended.
 
-**Decision — v1 coupling is one-way timeline replay (supervisor D2, July
-2026).**
-**Why:** Run the Petri net **independently** of the simulator: a **single
-token** moves through the weighted net; the state at each node is recorded;
-each state consumes its catalogued duration; the output is a **timed sequence
-of attacker states** (a cumulative timeline) that the replay attacker feeds
-into MTDSim. This keeps the substrate change attacker-only (D5), preserves
-the alongside-not-replacing seam unchanged, and is buildable before
-Semester 2 (D10).
-**Deferred (D10 register):** two-way interaction (simulator ↔ net each event
-— the end goal), sensitivity analysis on net weights, evasion/detection-rate
+**Decision — v1 coupling is a live feedback-coupled net (supervisor M1/M2,
+14 July 2026), superseding the one-way timeline replay (D2).**
+**Why:** A pre-generated timeline cannot capture substrate feedback — an MTD
+mutation that severs the attacker's foothold must throw the attacker's *state*
+back, and a fixed sequence marches on regardless (the dead end Marc raised and
+Jin confirmed). Instead the net is a live object inside the simulation: the
+substrate's existing attack machinery is the **outcome oracle** ("fetch the
+success outcome from the bottom"), and the binary outcome selects between
+predefined success/failure transition-weight sets at the current place (M2),
+directional per the kill-chain mapping (M3). This is the *minimal* two-way
+form — conditional weights, not a capability precondition/effect contract —
+and it keeps the substrate change attacker-only (D5): the new movement layer
+calls the existing action machinery as an API (M7). The original D2 wording
+is preserved in the decision register, annotated; the timeline library it
+produced survives as the standalone analytical track (D1).
+**Deferred (D10 register, updated):** the full capability precondition/effect
+contract, sensitivity analysis on net weights, evasion/detection-rate
 modelling, timed Petri nets (GSPN/SPN/TPN firing semantics), aggregated
-cross-profile variation analysis, the closed-form CTMC solve.
-**If revisited:** Two-way integration upgrades the binding layer from a
-timeline contract to a precondition/effect capability contract; it does not
-touch L1/L2.
+cross-profile variation analysis, the closed-form CTMC solve, richer-than-
+binary outcome classes (M2), an attacker that studies the MTD (M8d).
+**If revisited:** Reverting to one-way replay resurrects the shipped timeline
+contract (`ogasp-timeline/v1`) as the coupling input; the feedback loop is
+strictly additive on top of it, so the fallback is cheap.
 
 **Note on the Tay-IDS ↔ Jalowski-beacon inverse** (*Methodology Carry-Forward*
 §2). Tay's IDS-sensitivity experiment varies what the *defender* observes
@@ -428,7 +444,7 @@ load-bearing for the scaffold; explicit in case Pass 2 picks it up.
 ## (g) L4 — Evaluation
 
 **Status:** partially built (substrate runs and produces metrics; behavioural-
-attacker runs not yet possible because the L3 timeline-runner/replay coupling
+attacker runs not yet possible because the L3 feedback coupling
 is unbuilt — the L3a structural nets themselves are shipped, see §(f)).
 
 - **Inputs.** Per-run attack records from L3 (across MTD mechanism × attacker

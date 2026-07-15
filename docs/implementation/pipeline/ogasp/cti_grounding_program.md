@@ -1,13 +1,30 @@
 ---
-status: durable
+status: resolved — grounding depth settled shallow by the 2026-07-14 meeting (M4)
 created: 2026-07-13
-updated: 2026-07-13
+updated: 2026-07-15
 topic: "L3b reframe — grounding MTDSim in the CTI ontology (the latent-layer program)"
 ---
 
 # Grounding MTDSim in the CTI ontology — the reframe, the latent layers, and the grounding-depth spectrum
 
-**Status:** direction-setting record (broad brushstrokes; the north star the L3b
+> **RESOLVED (2026-07-14 meeting, M4) — the depth question this program was
+> built to answer empirically was answered by the supervisor instead, at the
+> shallow end.** The tactics/techniques layer and the substrate's vulnerability
+> ecosystem stay **separate concepts**: the net supplies movement/behaviour, the
+> substrate's existing vulnerability-based machinery supplies binary outcomes
+> ("the vulnerability details are just an enabler; fetch the success outcome
+> from the bottom"). No CVE/CWE/CVSS grounding of the pool, no synthesis mapping
+> layer — the join is a manual, justified **tactic→action influence map** (M5)
+> plus an outcome feedback loop into conditional net weights (M1/M2). The §4
+> program steps are therefore retired: the crosswalk-join investigation is
+> deleted unexecuted (retired by evidence), the synthesis-layer proposal is not
+> happening, and the binding re-run is subsumed by the meeting's decisions.
+> Register: [`supervisor_decision_register.md`](supervisor_decision_register.md)
+> §M1–M8. This record is retained as the map of the design space the decision
+> was made *in* — the depth spectrum (§3) is now dissertation material for the
+> "why not deeper" limitation/future-work paragraph, not a live question.
+
+**Status (historical):** direction-setting record (broad brushstrokes; the north star the L3b
 sub-investigations point at). Not a spec, not a decision — a framing Marc is
 choosing to maintain (2026-07-13) and will flesh out by investigating the latent
 layers and proposing a grounding approach in a later session. Currently
