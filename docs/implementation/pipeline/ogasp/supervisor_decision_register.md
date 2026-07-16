@@ -2,7 +2,7 @@
 status: durable
 created: 2026-07-03
 topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5, M1–M8)"
-updated: 2026-07-15
+updated: 2026-07-16
 lineage: formerly docs/notes @ 2026-07-03_supervisor_meeting_l3_decisions.md (relocated in the 2026-07-13 docs refactor)
 ---
 
@@ -241,10 +241,12 @@ sends regular updates.
   - `handoffs/2026-07-03_l3_timeline_runner.md` (shipped & deleted per handoff lifecycle; see git log)
     — executes **D2** and D1's standalone-examination half, plus **D8**
     (both entries).
-  - [`../handoffs/2026-07-16_l3_action_layer_anatomy.md`](../../../handoffs/2026-07-16_l3_action_layer_anatomy.md)
+  - [`action_layer_anatomy.md`](action_layer_anatomy.md)
     — the site survey under **M5/M7**: the action layer's coupling graph,
-    callable surface, and affordance/limitations register; pre-registers the
-    coupling-performance hypothesis alongside **M8**'s metric-mechanism one.
+    callable surface, affordance/limitations register, and ATT&CK coverage map;
+    pre-registers the coupling-performance hypothesis alongside **M8**'s
+    metric-mechanism one. *(Was the anatomy handoff, shipped & deleted per the
+    handoff lifecycle; see git log.)*
   - [`../handoffs/2026-07-15_l3_tactic_action_influence_map.md`](../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md)
     — executes **M5** (tactic→action influence map, over the anatomy
     record's callability classes) and **M6** (pre-intrusion synthetic join),

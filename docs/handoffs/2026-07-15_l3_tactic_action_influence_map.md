@@ -6,8 +6,8 @@ created: 2026-07-15
 # Produce the M5 tactic→action influence map — inventory the substrate's attacker actions and their binary outcome signals, map the 15 tactics onto them with per-pair justification, and curate the M6 pre-intrusion synthetic join
 
 > **Re-sequenced (2026-07-16): now second in the chain, behind the
-> action-layer anatomy**
-> ([`./2026-07-16_l3_action_layer_anatomy.md`](./2026-07-16_l3_action_layer_anatomy.md)),
+> action-layer anatomy — complete, now the record**
+> ([`../implementation/pipeline/ogasp/action_layer_anatomy.md`](../implementation/pipeline/ogasp/action_layer_anatomy.md)),
 > which absorbed this handoff's step 1: the map's per-pair verdicts are only
 > meaningful once each verb's callability class (callable-as-is /
 > callable-with-context / chain-bound) and the reordering-freedom result are
@@ -137,9 +137,9 @@ Done when:
 
 ## Reading list
 
-- [`./2026-07-16_l3_action_layer_anatomy.md`](./2026-07-16_l3_action_layer_anatomy.md)
-  → its record (`action_layer_anatomy.md`) — the callability classes,
-  coupling graph, and affordance register this map consumes; read first.
+- [`../implementation/pipeline/ogasp/action_layer_anatomy.md`](../implementation/pipeline/ogasp/action_layer_anatomy.md)
+  — the callability classes, coupling graph, affordance register, and ATT&CK
+  coverage map this map consumes; read first.
 - [`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)
   — §M1–M8 (the rules this executes) + D3/D4/R5 for the standing regimes.
 - [`../../mtdnetwork/operation/attack_operation.py`](../../mtdnetwork/operation/attack_operation.py)

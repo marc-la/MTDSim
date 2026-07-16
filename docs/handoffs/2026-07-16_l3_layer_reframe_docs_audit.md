@@ -50,7 +50,7 @@ created: 2026-07-16
     we can do with the tools at hand."
   - **action layer** — the inherited attack module: the six verbs, their
     chaining/state/interrupt machinery. Anatomised by
-    [`./2026-07-16_l3_action_layer_anatomy.md`](./2026-07-16_l3_action_layer_anatomy.md).
+    [`../implementation/pipeline/ogasp/action_layer_anatomy.md`](../implementation/pipeline/ogasp/action_layer_anatomy.md).
   - **substrate** — network/host/service/vulnerability terrain + MTD
     mechanisms + statistics, unchanged (D5).
 - **Known audit surface** (from a first grep; the sweep must be its own,
