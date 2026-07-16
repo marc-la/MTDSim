@@ -14,6 +14,12 @@ created: 2026-07-16
 > that is now stale. This handoff formalises the new vocabulary, decides how
 > it coexists with L0–L4, and sweeps the stale encodings.
 >
+> **DECIDED (Marc, 2026-07-16): overlay, not renumber.** The substrate stays
+> terrain, not "L5"; L0–L4 remains the build-time numbering; the runtime stack
+> is added as separate vocabulary. Execute the overlay path below directly —
+> the renumber alternative is retained only as the recorded rejected option
+> for the decisions log, not a live choice to re-open.
+>
 > **The recommended resolution — two orthogonal views, overlay not renumber.**
 > L0–L4 is a **build-time data-flow** view: how the movement layer's
 > artefacts are constructed (CTI → GAP → GASP → weighted nets). Movement /
