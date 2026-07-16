@@ -23,7 +23,8 @@ two scenarios, the stated realism boundary. The *implementation* is the code in
 [`../../../../mtdnetwork/operation/attack_operation.py`](../../../../mtdnetwork/operation/attack_operation.py)
 and [`../../../../mtdnetwork/component/adversary.py`](../../../../mtdnetwork/component/adversary.py).
 Where the two diverge, both are recorded; neither is "corrected". §1 is the
-reconciliation; §§2–4 are the code; §5 pre-registers what the numbers will test.
+reconciliation; §§2–4 are the code; §5 maps the verbs to ATT&CK; §6 pre-registers what
+the numbers will test.
 
 **Scope.** The action layer only. Substrate mechanics reached *through* it (how
 `get_vulns` ranks by return-on-attack, how `check_compromised` sums impact) are
@@ -331,10 +332,18 @@ future-work material (ch4 design constraints / ch6 future work).
   global `max_attack_attempts` ceiling is computed in `Adversary.__init__` but its
   enforcement is commented out in both `_execute_enum_host` and `_exploit_vuln`. So a
   general-scenario attacker, as inherited, does **not** honour Brown's "give up after 10"
-  (Table I) — whether that is an intended divergence or a defect is an
-  inherited-vs-editorial disposition for Marc, recorded here, not resolved (guardrails:
-  don't guess a disposition). A controller relying on the give-up affordance in §4.1
-  must know it only bites in the targeted network today.
+  (Table I). *Provenance (git):* both the `network_type == 0` give-up guard and the
+  commented-out `max_attack_attempts` block entered in commit `33cb43c2` (moebuta,
+  2023-03-07) — a code-evolution change, absent from Brown's paper text. Marc's reading
+  (reported, 2026-07-16): the two scenarios are Brown's — Scenario 1 conquers the whole
+  network (`Network`, `network_type == 1`), Scenario 2 targets a high-value node
+  (`TargetNetwork`, `network_type == 0`) — and the give-up enforcement was likely
+  commented out by a downstream project. The commit date sits in the Brown→Zhang window,
+  before the Ho/Tay 2024 projects, so the *downstream-project* attribution is not
+  date-confirmed; whether the paper-vs-code give-up difference is intended remains an
+  inherited-vs-editorial disposition for Marc, recorded not resolved (guardrails: don't
+  guess a disposition, don't assert a paper wrong). A controller relying on the give-up
+  affordance in §4.1 must know it only bites in the targeted network today.
 - **Substrate-side wants (out of boundary — D5).** Re-pricing a vulnerability,
   changing what `check_compromised` sums, or making credentials revocable are
   substrate-behavioural and fall outside the attacker-only boundary; named here,
@@ -342,7 +351,77 @@ future-work material (ch4 design constraints / ch6 future work).
 
 ---
 
-## 5. Two performance hypotheses — pre-registered, kept distinct
+## 5. ATT&CK coverage of the six verbs (interpretive mapping)
+
+Brown frames the procedure as "CKC + ATT&CK-inspired" (Fig 3), but **the code carries
+no ATT&CK data** — no technique IDs, no tactic labels, no technique registry anywhere
+in `attack_operation.py` or the substrate. The alignment lives only at Brown's
+*flowchart* altitude; at the code altitude a verb is a timed state transition, not a
+technique. The mapping below is therefore an **interpretive best-fit**, offered as
+analysis (not asserted as ground truth — the substrate cannot be queried for it), and
+it is the action-side complement to the tactic→action influence map
+([`../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md`](../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md)),
+which walks the relation from the CTI-tactic side.
+
+### 5.1 Per-verb best-fit
+
+| Verb | Best-fit ATT&CK (tactic → technique) | Encapsulates | Note |
+|---|---|---|---|
+| `SCAN_HOST` | Discovery → **T1018 Remote System Discovery**; at the first call, from the ingress, also Reconnaissance → **T1595 Active Scanning** | **two** | Operates over the foothold-grown visible graph, so it is mostly *internal* discovery; only the opening scan is recon-shaped. The substrate collapses external recon and internal discovery into one verb. |
+| `ENUM_HOST` | **none clean** — adversary target-selection / scheduler | — | Picks the next host, sets the pivot, times a "host hop", rechecks already-owned (Brown's instant re-control, B-ATK-05). No logged technique corresponds to "choose the next target"; the hop is lateral-movement *infrastructure*, not a technique. |
+| `SCAN_PORT` | Discovery → **T1046 Network Service Discovery** **+** embedded Valid Accounts → **T1078** (reused-password auto-compromise) | **two** | The credential-reuse shortcut can compromise the host with no exploit at all — a whole access technique hidden inside a "scan" verb. |
+| `EXPLOIT_VULN` | Initial Access → **T1190 Exploit Public-Facing Application** (exposed host) **/** Lateral Movement → **T1210 Exploitation of Remote Services** (internal host) | **two+** | One verb, two techniques by *location*; and it abstracts the entire exploit→execute→escalate→persist chain into one atomic "host compromised once summed impact ≥ threshold". |
+| `SCAN_NEIGHBOR` | Discovery → **T1018 Remote System Discovery** (post-compromise, from a fresh foothold) | one | The discovery engine of lateral movement — the internal, post-foothold counterpart to `SCAN_HOST`. |
+| `BRUTE_FORCE` | Credential Access → **T1110 Brute Force**, specifically **T1110.004 Credential Stuffing** | one | Reuses *previously compromised* accounts (probabilistic), so it is credential stuffing, not wordlist password-guessing (T1110.001). Draws on the same harvested-credential pool as the `SCAN_PORT` shortcut (T1078). |
+
+Your proposed mappings, reconciled: `SCAN_HOST`/`SCAN_PORT` as "active scanning" and
+`BRUTE_FORCE` as "Credential Access → Brute Force" land on the right techniques (with
+the ATT&CK-precise names above). Two corrections. `EXPLOIT_VULN` is **not** the
+Execution tactic (TA0002 is running attacker *code* — T1059 and kin, which the
+substrate does not model); it is exploitation-*for-access* (T1190/T1210), and Execution
+is one of the tactics it silently abstracts over. `ENUM_HOST` is **not** Reconnaissance
+or Resource Development — it is internal target selection with no ATT&CK counterpart;
+"pre-attack" in the sense of *setting up the next step*, not in the ATT&CK PRE-matrix
+sense.
+
+### 5.2 What the coverage looks like — three structural facts
+
+- **The verb↔technique relation is many-to-many and lossy.** One verb can be several
+  techniques (`SCAN_PORT` = discovery + valid accounts; `EXPLOIT_VULN` = two
+  exploitation techniques plus an abstraction over three more tactics); one verb is
+  *no* technique (`ENUM_HOST`); and — the load-bearing direction — whole tactics map to
+  *no* verb (below). A verb is not a technique; it is a bundle of substrate mechanics
+  that a technique-level reading has to unpack.
+- **Coverage concentrates in five tactics, all in the get-in-and-spread band.** Touched
+  (heavily abstracted): Reconnaissance (only the opening scan), Initial Access (T1190),
+  Credential Access (T1110.004, T1078), Discovery (T1018, T1046), Lateral Movement
+  (T1210 + the pivot + credential reuse). That is roughly **5 of the 14 enterprise
+  tactics**, via 6–8 distinct techniques.
+- **The post-ingress objective tactics are absent as techniques.** Resource
+  Development, Execution, Persistence (only *implicit* re-control, no technique executed),
+  Privilege Escalation, Defense Evasion, Collection, Command and Control (Brown's "assume
+  C2" is, in code, merely `update_reachable_compromise` — reveal neighbours, no C2
+  technique), Exfiltration, and Impact have **no substrate verb**. This is the coverage
+  gap the behaviourally-grounded profiles exist to fill, and it is *why* they must add
+  behaviour at the **tactic layer** rather than by mapping a technique onto a verb —
+  there is nothing in these nine tactics to map *onto*. It is the same conclusion the
+  primer reaches from the vuln side (synthetic vulns, no technique→vuln join;
+  [`../../substrate_primer.md`](../../substrate_primer.md) §(b).3) and the coverage-gap
+  note reaches from the MTD side
+  ([`../../../notes/ch2_background/post_ingress_mtd_gap.md`](../../../notes/ch2_background/post_ingress_mtd_gap.md)).
+
+### 5.3 Are the implementations hardcoded?
+
+Yes, in two senses. Each verb's behaviour is fixed logic inside its `_execute_*`
+method (§2), and the **technique semantics are not represented at all** — there is no
+ATT&CK annotation to parameterise, so a controller cannot ask a verb "which technique
+are you" or "behave as T1210 rather than T1190". The location-dependent split in
+`EXPLOIT_VULN` (T1190 vs T1210) is decided by substrate state, not by any label a
+controller sets. This is the same finding as the reordering ceiling (§3.3) seen from
+the semantic side: the verbs are welded not only in *order* but in *meaning*, and a
+CTI-grounded attacker adds ATT&CK altitude by *driving* them, never by re-tagging them.
+
+## 6. Two performance hypotheses — pre-registered, kept distinct
 
 Two mechanisms could explain a profiled/APT attacker underperforming the inherited
 baseline on the substrate's metrics. They are **different mechanisms with different,
@@ -381,12 +460,13 @@ first run shows.
 
 ---
 
-## 6. What this establishes, and where it connects
+## 7. What this establishes, and where it connects
 
 This record turns "the action layer is suspected to be a strongly-coupled FSM" into a
 diagram with named edges (§2.4), a per-verb precondition ledger (§2.2), a callability
 classification (§3.2), a stated reordering ceiling (§3.3), a tunable/limitation
-register (§4), and two falsifiable hypotheses (§5). Its practical output for the build:
+register (§4), an interpretive ATT&CK coverage map (§5), and two falsifiable hypotheses
+(§6). Its practical output for the build:
 the controller layer is **"the best we can do with the tools at hand"**, and §3–§4 are
 the honest inventory of those tools — either the controller drives the machine by
 entry-phase + state synthesis (no carve, minimal change, low reordering freedom), or
@@ -401,7 +481,7 @@ carve, are gated on Marc's review.
   feedback-net design
   ([`../../../handoffs/2026-07-15_l3_feedback_net_design.md`](../../../handoffs/2026-07-15_l3_feedback_net_design.md)).
 - **Speaks to:** the anti-goal / distinguishability bar in
-  [`binding_design_space.md`](binding_design_space.md) — §5's H-coupling is that
+  [`binding_design_space.md`](binding_design_space.md) — §6's H-coupling is that
   anti-goal reached from the action-layer side.
 - **Intent source:** [`../../../sources/extractions/brown2023.md`](../../../sources/extractions/brown2023.md)
   (B-ATK-01…08, B-INT-01…03, B-FW-01).
@@ -414,7 +494,7 @@ carve, are gated on Marc's review.
 
 - If the §3.3 carve is taken — the callability classification (§3.2) and the
   reordering ceiling (§3.3) are re-derived against the carved surface.
-- If the first numbers arrive — §5's hypotheses are resolved (which mechanism
+- If the first numbers arrive — §6's hypotheses are resolved (which mechanism
   dominates), and the record is annotated with the verdict rather than rewritten.
 - If the interrupt restart targets or the tail-call succession change in
   `attack_operation.py` — §2 is re-walked (it is a code snapshot, dated in the

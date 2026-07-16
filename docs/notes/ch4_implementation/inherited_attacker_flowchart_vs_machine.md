@@ -99,7 +99,7 @@ asserted as a cost.
   [`../../implementation/substrate_primer.md`](../../implementation/substrate_primer.md)
   §(d)/§(e).
 - The two competing explanations for the results, pre-registered:
-  the action-layer record §5, and the supervisor decision register
+  the action-layer record §6, and the supervisor decision register
   [`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md)
   §M8.
 - The alongside-not-inside seam in the pipeline architecture:

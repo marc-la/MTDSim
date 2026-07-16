@@ -149,7 +149,9 @@ Done when:
   ([`./2026-07-15_l3_tactic_action_influence_map.md`](./2026-07-15_l3_tactic_action_influence_map.md)
   — consumes this record).
 - Any carve, wrapper, or new action — build-phase work, gated on this
-  record and Marc's review.
+  record and Marc's review. **Now spun out to
+  [`./2026-07-16_l3_action_layer_carve.md`](./2026-07-16_l3_action_layer_carve.md)**,
+  which folds in this build-phase component (Marc's ask, 2026-07-16).
 - The layer-vocabulary docs audit
   ([`./2026-07-16_l3_layer_reframe_docs_audit.md`](./2026-07-16_l3_layer_reframe_docs_audit.md))
   — parallel, independent.
