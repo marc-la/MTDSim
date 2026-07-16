@@ -241,10 +241,14 @@ sends regular updates.
   - `handoffs/2026-07-03_l3_timeline_runner.md` (shipped & deleted per handoff lifecycle; see git log)
     — executes **D2** and D1's standalone-examination half, plus **D8**
     (both entries).
+  - [`../handoffs/2026-07-16_l3_action_layer_anatomy.md`](../../../handoffs/2026-07-16_l3_action_layer_anatomy.md)
+    — the site survey under **M5/M7**: the action layer's coupling graph,
+    callable surface, and affordance/limitations register; pre-registers the
+    coupling-performance hypothesis alongside **M8**'s metric-mechanism one.
   - [`../handoffs/2026-07-15_l3_tactic_action_influence_map.md`](../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md)
-    — executes **M5** (action inventory + tactic→action influence map) and
-    **M6** (pre-intrusion synthetic join), and inventories the **M2/M4**
-    outcome-oracle signals.
+    — executes **M5** (tactic→action influence map, over the anatomy
+    record's callability classes) and **M6** (pre-intrusion synthetic join),
+    and defines the **M2/M4** outcome-oracle verdicts.
   - [`../handoffs/2026-07-15_l3_feedback_net_design.md`](../../../handoffs/2026-07-15_l3_feedback_net_design.md)
     — designs the **M1/M2/M3** contract: live net stepping, conditional
     weight sets, kill-chain direction layer.

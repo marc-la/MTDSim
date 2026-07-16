@@ -5,7 +5,15 @@ created: 2026-07-15
 
 # Produce the M5 tactic→action influence map — inventory the substrate's attacker actions and their binary outcome signals, map the 15 tactics onto them with per-pair justification, and curate the M6 pre-intrusion synthetic join
 
-> **First in the post-meeting chain.** The 14-Jul meeting
+> **Re-sequenced (2026-07-16): now second in the chain, behind the
+> action-layer anatomy**
+> ([`./2026-07-16_l3_action_layer_anatomy.md`](./2026-07-16_l3_action_layer_anatomy.md)),
+> which absorbed this handoff's step 1: the map's per-pair verdicts are only
+> meaningful once each verb's callability class (callable-as-is /
+> callable-with-context / chain-bound) and the reordering-freedom result are
+> known. Map rows must carry the anatomy record's callability constraint —
+> a tactic mapped onto a chain-bound verb is a *conditional* mapping until
+> the specified carve/context-synthesis exists. The 14-Jul meeting
 > ([`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)
 > §M1–M8) settled the execution model: the net runs live in the simulation
 > (M1), the substrate's existing attack machinery is the binary outcome
@@ -63,20 +71,22 @@ ledger** (`data/ogasp/tactic_action_map.csv` or successor — let the record
 decide the columns) **+ the M6 edge curation** (a documented edit to the net
 build inputs, not hand-edited artefacts).
 
-1. **Inventory the actions as an API surface.** Walk
-   `attack_operation.py` / `adversary.py` action by action: what it does to
-   network state, what it costs (duration/pricing), what its native
-   success/failure event is, what the attempt-limit and MTD-interrupt
-   machinery do to it, and what it returns that the movement layer can
-   read. This absorbs the inherited-machinery audit from the retired
-   operationalisation handoff — but scoped to *reading the API*, since M7
-   forbids deep edits.
+1. **Consume the anatomy record** (`action_layer_anatomy.md`) — the action
+   inventory, callability classes, precondition/coupling graph, and
+   affordance register now live there; do not re-derive them. Where this
+   handoff's mapping needs something the anatomy didn't capture, extend the
+   anatomy record, not this one.
 2. **Map the 15 tactics onto the actions, binary in/out per pair (M5).**
    For each tactic × action: influenced or not, with a one-sentence
-   justification citing the tactic's profile §5 block. Expect many-to-many
+   justification citing the tactic's profile §5 block, **and the anatomy
+   record's callability constraint on the row** (unconditional / conditional
+   on carve / conditional on context synthesis). Expect many-to-many
    (exploitation touches several tactics). Tactics with no plausible action
    (the old cost-only set) get an explicit "no action — dwell only" row;
-   R5 already sanctions this.
+   R5 already sanctions this. Where the affordance register exposes a
+   legitimate tunable, the row may also carry a *parameterisation* (e.g.
+   scan invoked with a different duration at recon-shaped tactics) — actions
+   and parameters are both controller vocabulary.
 3. **Define the binary verdict per tactic.** For each tactic with mapped
    actions: which substrate event constitutes success (e.g. exploit lands /
    host compromised / scan completes with new reachable set) and which
@@ -127,6 +137,9 @@ Done when:
 
 ## Reading list
 
+- [`./2026-07-16_l3_action_layer_anatomy.md`](./2026-07-16_l3_action_layer_anatomy.md)
+  → its record (`action_layer_anatomy.md`) — the callability classes,
+  coupling graph, and affordance register this map consumes; read first.
 - [`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)
   — §M1–M8 (the rules this executes) + D3/D4/R5 for the standing regimes.
 - [`../../mtdnetwork/operation/attack_operation.py`](../../mtdnetwork/operation/attack_operation.py)

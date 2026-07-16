@@ -5,7 +5,12 @@ created: 2026-07-15
 
 # Design the live feedback-coupled net (M1/M2/M3) — conditional success/failure weight sets per place, the kill-chain direction mapping, live-stepping and termination semantics, ready for the profiled-attacker build to implement without re-deriving a decision
 
-> **Second in the post-meeting chain — consumes the tactic→action map.** The
+> **Third in the post-meeting chain (re-sequenced 2026-07-16) — consumes the
+> tactic→action map, which now consumes the action-layer anatomy.** The
+> stepping semantics (§3 below) must also respect the anatomy record's
+> coupling findings — in particular the interrupt handler's hard-coded
+> restart phases and any chain-bound verbs the map could only conditionally
+> bind. The
 > 14-Jul meeting replaced timeline replay with a live net (M1): the token
 > steps inside the simulation, the substrate's binary outcome (M2, via the
 > oracle contract from
