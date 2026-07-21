@@ -1,25 +1,30 @@
 ---
-status: in-progress — map + ledger shipped; M6 application + Marc's review remain
+status: in-progress — map + ledger + M6 application shipped; Marc's map review remains
 created: 2026-07-15
 updated: 2026-07-21
 ---
 
-> **Executed 2026-07-21 — record + ledger shipped; M6 application gated.** The
+> **Executed 2026-07-21 — record + ledger + M6 application shipped.** The
 > deliverable landed as the implementation record
 > [`../implementation/pipeline/ogasp/tactic_action_map.md`](../implementation/pipeline/ogasp/tactic_action_map.md)
 > plus the revised ledger
 > [`../../data/ogasp/tactic_action_map.csv`](../../data/ogasp/tactic_action_map.csv)
 > (long-form, 12 influenced pairs + 9 dwell-only rows; new hoisted path — the
 > prior `timeline/` CSV is retained as the superseded binding investigation's
-> ledger). Gate status: items 1, 2, 4, 6 ✅; **item 3 (M6) specified to a code
-> seam but not applied** — it regenerates review-gated net artefacts and extends
-> the load-bearing no-synthesis invariant test, so per item 5 it awaits Marc's
-> review of the map first (record §6, §8). One open judgement for Marc: whether
-> off-clock resource-development is bridged into the net or left a documented
-> island. Callability update folded in: the §3.3 carve **landed** (2026-07-21),
-> so the handoff's "conditional on carve" row-class is discharged — only
-> "callable-with-context" remains (record §1). **Delete this handoff when M6 is
-> applied and the map is signed off.**
+> ledger). Gate status: items 1, 2, 3, 4, 6 ✅ — **item 3 (M6) applied on
+> Marc's go-ahead** in the overlay-object shape (record §6): a separate
+> composed artefact
+> [`../../data/ogasp/petri/prefix_join_overlay.json`](../../data/ogasp/petri/prefix_join_overlay.json)
+> built by `petri/prefix_join.py`, composed at net construction; the observed
+> `*_structural.json` stay byte-identical and the no-synthesis invariant is
+> untouched. The open judgement is resolved **(b) recon-only** —
+> resource-development stays a documented island (its solo bridge would have
+> been dead structure; the chain shape remains a declared extension).
+> Callability update folded in: the §3.3 carve **landed** (2026-07-21), so the
+> handoff's "conditional on carve" row-class is discharged — only
+> "callable-with-context" remains (record §1). **Item 5 remains: delete this
+> handoff when Marc signs off the map** (the M6 go-ahead reviewed §6's shape;
+> the M5 matrix and §4 verdicts remain).
 
 # Produce the M5 tactic→action influence map — inventory the substrate's attacker actions and their binary outcome signals, map the 15 tactics onto them with per-pair justification, and curate the M6 pre-intrusion synthetic join
 

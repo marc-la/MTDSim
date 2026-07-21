@@ -184,9 +184,13 @@ def analyse(
 
 
 def _place_adjacency(snet: StructuralNet) -> dict[str, set[str]]:
-    """``src_tactic -> {dst_tactic}`` over the transitions (the place graph)."""
+    """``src_tactic -> {dst_tactic}`` over the transitions (the place graph).
+
+    Unions the observed transitions with the M6 prefix-join overlay
+    (``synthetic_transitions`` — empty on an observed-only build), so a
+    composed net's reachability reports the bridged truth."""
     adj: dict[str, set[str]] = {t: set() for t in snet.tactics}
-    for spec in snet.transitions:
+    for spec in snet.transitions + snet.synthetic_transitions:
         adj[spec.src_tactic].add(spec.dst_tactic)
     return adj
 
@@ -336,6 +340,12 @@ def _prefix_gap_probe(
         if spec.src_tactic == RECONNAISSANCE and spec.dst_tactic == INITIAL_ACCESS:
             direct_edges = spec.edges
             break
+    # ``direct_edges`` stays observed-only (GASP provenance); a synthetic
+    # bridge is the M6 overlay's direct recon -> initial-access transition.
+    synthetic_bridge = any(
+        s.src_tactic == RECONNAISSANCE and s.dst_tactic == INITIAL_ACCESS
+        for s in snet.synthetic_transitions
+    )
 
     recon_reaches_ia = (
         recon_present
@@ -349,6 +359,12 @@ def _prefix_gap_probe(
         interpretation = (
             "DISCONNECTED -- reconnaissance cannot reach initial-access; the "
             "recon place is an island (the observed-only prefix gap)"
+        )
+    elif synthetic_bridge:
+        interpretation = (
+            "BRIDGED synthetically -- the M6 prefix-join overlay supplies the "
+            "reconnaissance -> initial-access transition (declared weight, no "
+            "flow backing; prefix_join.py)"
         )
     elif direct_edges:
         interpretation = (

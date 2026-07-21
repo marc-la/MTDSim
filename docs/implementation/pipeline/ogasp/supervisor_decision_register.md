@@ -250,7 +250,11 @@ sends regular updates.
   - [`../handoffs/2026-07-15_l3_tactic_action_influence_map.md`](../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md)
     — executes **M5** (tactic→action influence map, over the anatomy
     record's callability classes) and **M6** (pre-intrusion synthetic join),
-    and defines the **M2/M4** outcome-oracle verdicts.
+    and defines the **M2/M4** outcome-oracle verdicts. *(M6 applied
+    2026-07-21 as a separate composed overlay —
+    [`tactic_action_map.md`](tactic_action_map.md) §6,
+    [`../../data/ogasp/petri/prefix_join_overlay.json`](../../../../data/ogasp/petri/prefix_join_overlay.json);
+    recon-only, resource-development a documented island.)*
   - [`../handoffs/2026-07-15_l3_feedback_net_design.md`](../../../handoffs/2026-07-15_l3_feedback_net_design.md)
     — designs the **M1/M2/M3** contract: live net stepping, conditional
     weight sets, kill-chain direction layer.

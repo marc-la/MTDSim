@@ -1,15 +1,16 @@
 ---
 status: durable
 created: 2026-07-21
-topic: "L3 M5/M6 — the manual tactic→action influence map: the six substrate verbs, which tactics each influences, the M2 binary verdict per tactic, and the M6 pre-intrusion synthetic join (specified)"
+topic: "L3 M5/M6 — the manual tactic→action influence map: the six substrate verbs, which tactics each influences, the M2 binary verdict per tactic, and the M6 pre-intrusion synthetic join (applied 2026-07-21)"
+updated: 2026-07-21
 ---
 
 # The tactic→action influence map — the substrate's six verbs, the 15-tactic mapping, the outcome-oracle verdicts, and the M6 pre-intrusion join
 
 **Status:** durable. The implementation record that executes **M5** (the manual,
 justified tactic→action influence map) and **defines the M2/M4 outcome-oracle
-verdicts** the live feedback net consumes, and that **specifies M6** (the
-synthetic pre-intrusion join) to implementation-ready detail. It sits on top of
+verdicts** the live feedback net consumes, and that specifies **and applies
+(2026-07-21, on Marc's go-ahead) M6** (the synthetic pre-intrusion join). It sits on top of
 the read-only action-layer anatomy
 ([`action_layer_anatomy.md`](action_layer_anatomy.md)): the anatomy says what
 the attacker *is as a machine*; this record says **which CTI tactic each verb
@@ -31,8 +32,9 @@ D3/D4, R2/R5).
 **Governing constraint (guardrails):** existing action vocabulary only — no new
 verbs, no edits to `attack_operation.py` *behaviour* (M5/M7); the map is
 analysis over the carved surface, not a change to it. The only code this record
-carries is the **M6 net-build curation**, and that is specified here and gated
-on Marc's review before application (§6, §8).
+carries is the **M6 net-build curation** (§6) — L3 net-build code
+(`src/mtdsim/l3_simulation/petri/`), applied 2026-07-21 on Marc's go-ahead; the
+simulator (`mtdnetwork/`) is untouched.
 
 ---
 
@@ -281,7 +283,7 @@ the verdicts stand without it.
 
 ---
 
-## 6. The M6 pre-intrusion synthetic join (specified; application gated)
+## 6. The M6 pre-intrusion synthetic join (applied 2026-07-21)
 
 **The gap.** The corpus is blind to pre-intrusion tactics, so reconnaissance and
 resource-development can be **detached islands** in the built nets. The situation
@@ -303,76 +305,70 @@ M6 (register): connect the pre-intrusion tactics **manually** at the front —
 recon enables initial access ("if you cannot recon anything, you can't gain
 initial access") — defensible because nothing detects pre-intrusion activity.
 
-**The specified curation.**
+**The applied curation — the overlay-object shape.** Marc's go-ahead
+(2026-07-21) resolved the gate, and the application pass sharpened the seam in
+one respect: rather than persisting `synthetic_transitions` inside regenerated
+`*_structural.json` artefacts, the join ships as a **separate overlay artefact
+composed at net construction** —
+[`data/ogasp/petri/prefix_join_overlay.json`](../../../../data/ogasp/petri/prefix_join_overlay.json),
+built by
+[`petri/prefix_join.py`](../../../../src/mtdsim/l3_simulation/petri/prefix_join.py).
+The observed structural JSONs are untouched (byte-identical — no regeneration),
+which dissolves the review-gating cost the originally specified seam carried,
+and separates CTI-derived structure from synthetic curation at the *artefact*
+level, not just the field level.
 
-- **Edges.** Add a synthetic `reconnaissance → initial-access` transition **only
-  where the observed corpus does not already bridge it** (i.e. where
-  `recon_reaches_initial_access` is `False`: `double_extortion`,
-  `infrastructure_setup`, and any future class that regresses). Add a synthetic
-  `resource-development → initial-access` transition where resource-development
-  is a place but has no out-edge to the get-in band. Both are the minimal front
-  join; neither overwrites an observed edge.
-- **Weight treatment.** A synthetic edge has **no backing flow**, so the
-  W-A flow-proportion regime (D3) would score it `weight = None` — which is why
-  it must carry a **declared, manual weight**, flagged synthetic, distinct from
-  the flow-derived weights. In a disconnected profile the synthetic
-  `recon → initial-access` edge is recon's *only* out-transition, so its declared
-  routing weight is **1.0** (deterministic advance); `resource-development →
-  initial-access` likewise 1.0 where it is the sole out-edge. Uniform/manual per
-  M6 — no flow evidence is claimed.
-- **Provenance flag.** Each synthetic transition carries
-  `synthetic: true` + `provenance: "M6 pre-intrusion join (register §M6);
-  no flow backing; declared weight"`, so it is never mistaken for corpus
-  structure ([`provenance.md`](../../provenance.md)).
-- **The invariant is preserved, not broken.** The build's **no-synthesis
-  invariant** — every transition of the *observed* net traces to ≥1 real GASP
-  edge, tested by `test_no_synthesis_invariant` (labelled the "load-bearing
-  mechanical test") — is a methodological commitment, not an obstacle to route
-  around. The curation therefore keeps the observed structural net **pristine**
-  and adds M6 edges as a **separate, flagged overlay**: a new
-  `synthetic_transitions` field on `StructuralNet` (not folded into
-  `transitions`), unioned into the SNAKES net and the place-graph *reachability*
-  analysis (so `recon_reaches_initial_access` reports the bridged truth) but
-  **excluded** from the observed-edge completeness assertion. The overlay is
-  applied in the build pipeline (`build_all_profiles` → a `curate_prefix_join`
-  step), so the artefacts regenerate from code — no hand-edited JSON.
+- **Edges.** One synthetic `reconnaissance → initial-access` transition per
+  profile where the observed net does not bridge the pair —
+  `double_extortion` and `infrastructure_setup`; the guard leaves the three
+  bridged profiles untouched (and catches any future class that regresses).
+- **Guard rule (uniform across profiles).** A synthetic edge is added only
+  where recon cannot reach initial-access over the observed net, and only out
+  of a place with **no observed out-transitions**: an observed edge is never
+  overwritten and observed weight distributions are never renormalised, so the
+  D3 flow-proportion layer is never perturbed. A profile where recon had
+  observed out-edges yet missed initial-access would *raise* — that shape needs
+  a new declared decision, not a silently invented weight.
+- **Weight treatment.** A synthetic edge has **no backing flow**, so the W-A
+  regime (D3) does not apply; it carries a **declared manual weight of 1.0** as
+  the sole out-transition of its source place (per-place out-weights still sum
+  to 1). `weights.py` is unmodified — the declared weight lives on the
+  synthetic spec and in the overlay artefact, never in the flow-proportion
+  layer.
+- **Provenance flag.** Every synthetic spec carries `synthetic: true` + the M6
+  provenance string, so it is never mistaken for corpus structure
+  ([`provenance.md`](../../provenance.md), M6 row).
+- **The invariant is preserved, not broken.** The overlay lives in a
+  `StructuralNet.synthetic_transitions` field, never folded into
+  `transitions`; `test_no_synthesis_invariant` runs on the observed-only build
+  with unchanged assertions, and a new test section pins the overlay (exact
+  edges, weight 1.0, flags, composed reachability for all five profiles,
+  artefact freshness) —
+  [`tests/l3_simulation/test_petri.py`](../../../../tests/l3_simulation/test_petri.py)
+  §7.
+- **Composition.** `build_all_profiles` / `build_all` compose the overlay **by
+  default** (`with_prefix_join=True`); observed-only is the explicit opt-out
+  used by the artefact emitter and the invariant tests.
+  `prefix_join.apply_prefix_join` is the single-net entry point the live
+  feedback runner uses. Reachability (`analysis._place_adjacency`) unions the
+  overlay, and the prefix-gap probe reports **"BRIDGED synthetically"** on
+  composed island nets. **Overlay off + an `initial-access` seed remains the D8
+  comparison arm** — the entry-point experiment becomes a toggle, not a second
+  code path.
 
-**Code seam (the exact touch-points, for the application pass):**
-
-1. [`petri/build.py`](../../../../src/mtdsim/l3_simulation/petri/build.py) — add
-   `synthetic: bool = False` + `provenance` to `TransitionSpec`; add
-   `synthetic_transitions: tuple[...] = ()` to `StructuralNet`; add
-   `curate_prefix_join(snet)` returning the profile's synthetic edges; call it in
-   `build_all_profiles` (and expose an un-curated build for the observed-only
-   tests).
-2. [`petri/weights.py`](../../../../src/mtdsim/l3_simulation/petri/weights.py) —
-   emit the declared weight for synthetic transitions (bypassing the flow count),
-   tagged `synthetic`, so per-place out-weights still sum to 1.
-3. [`petri/analysis.py`](../../../../src/mtdsim/l3_simulation/petri/analysis.py) —
-   `_place_adjacency` unions `transitions + synthetic_transitions`; the
-   prefix-gap probe then reports **bridged** for the two island classes.
-4. [`tests/l3_simulation/test_petri.py`](../../../../tests/l3_simulation/test_petri.py)
-   — `test_no_synthesis_invariant` runs against the **observed-only** build
-   (unchanged assertions); a new test asserts the overlay adds exactly the
-   specified synthetic edges with weight 1.0 and the `synthetic` flag, and that
-   `EXPECTED_RECON_REACHES_IA` becomes `True` for all profiles *with the overlay*.
-5. Regenerate `data/ogasp/petri/*` (structural JSONs, divergence report, README,
-   `_viz/`) via `python -m mtdsim.l3_simulation.petri`.
-
-**Why application is gated.** Step 5 regenerates tracked, review-gated
-downstream structure (the nets the feedback-net design and first-numbers consume)
-and steps 1–4 extend the load-bearing invariant's test surface. Validation-gate
-item 5 sequences Marc's review of *this map* before the feedback-net design
-consumes it; the M6 overlay is exactly that downstream-facing structure. So the
-curation is specified here to implementation-ready detail and **applied on
-Marc's go-ahead**, not regenerated silently in the map-authoring pass (§8).
-
-*One open judgement for Marc.* resource-development is off-clock (×0, no in-sim
-dwell — §3.3): the map can either (a) bridge it into the net like recon, or
-(b) leave it a documented detached island, since nothing detects it and it
-carries no dwell. M6 names recon *and* resource-development together, so (a) is
-the default specified above — but (b) is defensible and cheaper. Flagged, not
-decided.
+**The open judgement — resolved: (b), resource-development stays a documented
+island.** The application pass surfaced a structural fact the specification
+missed: the specified `resource-development → initial-access` edge alone would
+have been **dead structure** — in both island profiles resource-development has
+no in-edges and the single token seeds at `reconnaissance`, so a place nothing
+flows into is never visited. Genuinely joining resource-development requires
+the chain `reconnaissance → resource-development → initial-access`
+(kill-chain-correct: recon = CKC reconnaissance, resource-development =
+weaponisation) with a declared split at recon. Since resource-development is
+off-clock (×0 dwell, no mapped action — §3.3), that chain adds a pass-through
+place that changes no number, so option (b) is taken: recon-only join,
+resource-development documented as an island in the overlay artefact. The chain
+shape remains a small declared extension of `prefix_join.py` if later wanted.
 
 ---
 
@@ -408,17 +404,18 @@ inventory with the native dice named (§2), a complete many-to-many influence
 matrix with per-pair justification carrying the post-carve callability
 constraint (§3), the M2/M4 binary verdict per tactic as the oracle contract the
 feedback net consumes (§4), a no-double-counting statement with the R2 hook
-located (§5), and the M6 pre-intrusion join specified to a code seam and gated on
-review (§6). Its practical output: the feedback-net design has its verdict
-contract, and the M6 overlay is ready to apply on Marc's word.
+located (§5), and the M6 pre-intrusion join **applied** as a separate composed
+overlay (§6). Its practical output: the feedback-net design has its verdict
+contract and a connected net to consume — `build_all_profiles()` returns the
+composed nets, with the observed record and the D8 comparison arm one flag away.
 
 **Validation-gate status** (handoff):
 1. ✅ every action inventoried with state effect, pricing, native chance, readable outcome (§2).
 2. ✅ all 15 tactics have a complete row set — mapped actions or explicit dwell-only, per-pair justification citing profile §5, defined binary verdict (§3, §4, ledger).
-3. ⏳ **specified, application gated** — M6 edges, weight, provenance flag, and the code seam are fully specified (§6); regeneration-through-code awaits Marc's go-ahead per item 5.
+3. ✅ **applied (2026-07-21, Marc's go-ahead)** — M6 edges, weight, provenance flag regenerate through the build code as a separate composed overlay artefact; the observed `*_structural.json` are byte-untouched and the no-synthesis invariant is unchanged (§6).
 4. ✅ no double-counting stated per tactic; R2 hook named not designed (§5).
-5. ⏳ **awaiting Marc's review** of this map before the feedback-net design consumes it.
-6. ✅ no simulator behaviour changed — this pass is record + ledger only; the M6 code touches the L3 net-build (`src/mtdsim/l3_simulation/`), not `mtdnetwork/`, and is not yet applied.
+5. ⏳ **awaiting Marc's review** of this map before the feedback-net design consumes it (the M6 go-ahead reviewed §6's shape; the M5 matrix and §4 verdicts remain to sign off).
+6. ✅ no simulator behaviour changed — the M6 code touches the L3 net-build (`src/mtdsim/l3_simulation/petri/`), not `mtdnetwork/`.
 
 - **Consumes:** [`action_layer_anatomy.md`](action_layer_anatomy.md) (inventory,
   callability, ATT&CK coverage); the 15 [`tactic_profiles/`](../../../notes/ch3_design/tactic_profiles/)
@@ -428,7 +425,10 @@ contract, and the M6 overlay is ready to apply on Marc's word.
   ([`../../../handoffs/2026-07-15_l3_feedback_net_design.md`](../../../handoffs/2026-07-15_l3_feedback_net_design.md))
   — the verdict contract (§4) and the M6 overlay (§6); the profiled-attacker
   build and first-numbers downstream of it.
-- **When to update:** if the M6 overlay is applied (item 3 → ✅, and §6's island
-  table is re-derived against the regenerated nets); if R2 lands (§5 hook becomes
-  a design); if the action layer's tail-calls or native dice change (§2/§4
-  re-walked — this is a code snapshot, dated in the frontmatter).
+- **When to update:** ~~if the M6 overlay is applied~~ — happened 2026-07-21
+  (item 3 ✅; §6 records the as-applied overlay-object shape, and the island
+  table still describes the *observed* nets, which the overlay leaves
+  untouched); if the chain shape (recon → resource-development →
+  initial-access) is ever wanted, §6's resolved judgement reopens; if R2 lands
+  (§5 hook becomes a design); if the action layer's tail-calls or native dice
+  change (§2/§4 re-walked — this is a code snapshot, dated in the frontmatter).

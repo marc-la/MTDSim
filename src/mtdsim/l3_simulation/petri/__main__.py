@@ -20,6 +20,10 @@ from mtdsim.l3_simulation.petri.build import (
     load_profile_view,
 )
 from mtdsim.l3_simulation.petri.divergence import build_divergence_report
+from mtdsim.l3_simulation.petri.prefix_join import (
+    apply_prefix_join,
+    write_overlay,
+)
 from mtdsim.l3_simulation.petri.render import (
     PETRI_DIR,
     VIZ_DIR,
@@ -46,7 +50,9 @@ from mtdsim.l2_subgraph.dedup import operator_deduplicated_flows
 def main() -> int:
     gap = load_gap_index()
     tactic_layers = load_tactic_layers()
-    nets = build_all_profiles()
+    # Observed-only: the *_structural.json record and every analysis below are
+    # the observed corpus's; the M6 overlay is emitted as its own artefact.
+    nets = build_all_profiles(with_prefix_join=False)
     edge_flows = load_edge_flows()
     profile_flows = profile_flow_sets()
     dedup_kept = operator_deduplicated_flows()
@@ -84,6 +90,14 @@ def main() -> int:
             f"{report.n_transitions:>3} transitions  "
             f"({n_supported} weight-supported on dedup; seed={snet.entry_tactic}; {prefix})"
         )
+
+    joined = {p: apply_prefix_join(s) for p, s in nets.items()}
+    overlay = write_overlay(joined)
+    n_joined = sum(1 for s in joined.values() if s.synthetic_transitions)
+    print(
+        f"  M6 prefix-join overlay: {n_joined} profile(s) bridged "
+        f"synthetically -> {overlay.name}"
+    )
 
     div = build_divergence_report(
         nets, reports, weights, edge_flows, gap, profile_flows, dedup_kept

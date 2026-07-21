@@ -10,18 +10,28 @@ report is emitted and matches the inspect-the-base finding.
 
 from __future__ import annotations
 
+import json
+
 import pytest
 
 from mtdsim.l2_subgraph.schema import CLASS_NAMES
 from mtdsim.l3_simulation.petri.analysis import OBJECTIVE_TACTICS, analyse
 from mtdsim.l3_simulation.petri.build import (
     BLACK_TOKEN,
+    PROFILE_NAMES,
     GapIndex,
     StructuralNet,
     build_all,
+    build_all_profiles,
     build_structural_net,
     load_gap_index,
     load_gasp_view,
+    load_profile_view,
+)
+from mtdsim.l3_simulation.petri.prefix_join import (
+    DECLARED_WEIGHT,
+    OVERLAY_PATH,
+    overlay_payload,
 )
 
 # Locked expectations from the handoff component-mapping table.
@@ -66,7 +76,9 @@ def gap() -> GapIndex:
 
 @pytest.fixture(scope="module")
 def nets(gap) -> dict[str, StructuralNet]:
-    return build_all()
+    # Observed-only: the count / no-synthesis / prefix-gap gates below assert
+    # the observed net's contract. The M6 overlay is exercised in section 7.
+    return build_all(with_prefix_join=False)
 
 
 # ---------------------------------------------------------------------------
@@ -260,3 +272,84 @@ def test_prefix_gap_matches_inspect_the_base_finding(nets, gap, cls):
     # Where bridged, it is bridged by exactly the single direct edge T1593->T1195.
     if EXPECTED_RECON_REACHES_IA[cls]:
         assert ("T1593", "T1195") in pg.direct_edges
+
+
+# ---------------------------------------------------------------------------
+# 7. The M6 prefix-join overlay (synthetic, composed at construction)
+# ---------------------------------------------------------------------------
+
+# The profiles whose observed corpus leaves reconnaissance an island — the
+# guard rule adds the synthetic bridge to exactly these (tactic_action_map.md
+# §6 island table).
+JOINED_PROFILES = ("double_extortion", "infrastructure_setup")
+
+
+@pytest.fixture(scope="module")
+def joined_nets() -> dict[str, StructuralNet]:
+    return build_all_profiles()  # with_prefix_join=True is the default
+
+
+def test_overlay_adds_exactly_the_specified_edges(joined_nets):
+    for profile in PROFILE_NAMES:
+        synth = joined_nets[profile].synthetic_transitions
+        if profile in JOINED_PROFILES:
+            assert [
+                (s.src_tactic, s.dst_tactic) for s in synth
+            ] == [("reconnaissance", "initial-access")]
+        else:
+            assert synth == ()
+
+
+@pytest.mark.parametrize("profile", JOINED_PROFILES)
+def test_synthetic_spec_contract(joined_nets, profile):
+    (spec,) = joined_nets[profile].synthetic_transitions
+    assert spec.synthetic is True
+    assert spec.declared_weight == DECLARED_WEIGHT == 1.0
+    assert spec.edges == ()  # no GASP provenance is claimed
+    assert "M6" in spec.provenance
+    assert spec.name == "reconnaissance__to__initial-access"
+    # Guard rule: the synthetic edge is the sole out-transition of its source.
+    observed_out = [
+        t
+        for t in joined_nets[profile].transitions
+        if t.src_tactic == "reconnaissance"
+    ]
+    assert observed_out == []
+
+
+def test_observed_transitions_untouched_by_overlay(nets, joined_nets):
+    """Composition never edits the observed transition set."""
+    for cls in CLASS_NAMES:
+        assert joined_nets[cls].transitions == nets[cls].transitions
+
+
+@pytest.mark.parametrize("profile", PROFILE_NAMES)
+def test_overlay_bridges_recon_to_ia_everywhere(joined_nets, gap, profile):
+    report = analyse(joined_nets[profile], load_profile_view(profile), gap)
+    pg = report.prefix_gap
+    assert pg.recon_reaches_initial_access is True
+    if profile in JOINED_PROFILES:
+        assert "synthetically" in pg.interpretation
+        assert pg.direct_edges == ()  # direct_edges stays observed-only
+
+
+@pytest.mark.parametrize("profile", JOINED_PROFILES)
+def test_snakes_net_fires_the_synthetic_bridge(joined_nets, profile):
+    """The composed SNAKES net contains the bridge and the token crosses it."""
+    net = build_all_profiles()[profile].net  # fresh net; fixture stays unfired
+    trans = net.transition("reconnaissance__to__initial-access")
+    inputs, outputs = list(trans.input()), list(trans.output())
+    assert len(inputs) == 1 and inputs[0][0].name == "reconnaissance"
+    assert len(outputs) == 1 and outputs[0][0].name == "initial-access"
+    modes = trans.modes()
+    assert modes, f"{profile}: bridge not enabled from the recon seed"
+    trans.fire(modes[0])
+    assert list(net.get_marking()) == ["initial-access"]
+
+
+def test_overlay_artefact_fresh(joined_nets):
+    """The committed prefix_join_overlay.json equals a fresh computation."""
+    with open(OVERLAY_PATH) as f:
+        committed = json.load(f)
+    fresh = json.loads(json.dumps(overlay_payload(joined_nets)))
+    assert committed == fresh

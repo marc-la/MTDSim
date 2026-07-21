@@ -24,9 +24,14 @@ from mtdsim.l3_simulation.petri.build import (
     StructuralNet,
     TransitionSpec,
     build_all,
+    build_all_profiles,
     build_structural_net,
     load_gap_index,
     load_gasp_view,
+)
+from mtdsim.l3_simulation.petri.prefix_join import (
+    apply_prefix_join,
+    curate_prefix_join,
 )
 
 __all__ = [
@@ -37,8 +42,11 @@ __all__ = [
     "StructuralReport",
     "TransitionSpec",
     "analyse",
+    "apply_prefix_join",
     "build_all",
+    "build_all_profiles",
     "build_structural_net",
+    "curate_prefix_join",
     "load_gap_index",
     "load_gasp_view",
 ]

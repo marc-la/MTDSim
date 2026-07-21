@@ -83,13 +83,19 @@ class TransitionSpec:
 
     ``edges`` are the contributing inter-tactic technique-edges ``(u, v)`` with
     ``tactic_of[u] == src_tactic`` and ``tactic_of[v] == dst_tactic``; non-empty
-    by construction, which is what the no-synthesis test checks.
+    by construction for observed transitions, which is what the no-synthesis
+    test checks. A **synthetic** transition (the M6 prefix-join overlay,
+    ``prefix_join.py``) has ``edges == ()`` and carries a declared manual
+    weight instead — it never enters ``StructuralNet.transitions``.
     """
 
     name: str
     src_tactic: str
     dst_tactic: str
     edges: tuple[tuple[str, str], ...]
+    synthetic: bool = False
+    declared_weight: float | None = None
+    provenance: str = ""
 
 
 @dataclass
@@ -100,9 +106,13 @@ class StructuralNet:
     class_name: str
     net: Any  # the SNAKES PetriNet (gv-augmented)
     tactics: tuple[str, ...]  # places, sorted
-    transitions: tuple[TransitionSpec, ...]  # sorted by (src, dst)
+    transitions: tuple[TransitionSpec, ...]  # observed only, sorted by (src, dst)
     entry_tactic: str  # the place holding the single black token
     selfloops_dropped: int  # intra-tactic edges dropped (recorded, not built)
+    # The M6 prefix-join overlay (prefix_join.py): kept apart from the observed
+    # ``transitions`` so the no-synthesis invariant and the *_structural.json
+    # record stay observed-only. Empty on an observed-only build.
+    synthetic_transitions: tuple[TransitionSpec, ...] = ()
     provenance: dict = field(default_factory=dict)
 
 
@@ -197,13 +207,7 @@ def build_structural_net(view: SubgraphView, gap: GapIndex) -> StructuralNet:
         for (a, b), edges in sorted(pairs.items())
     )
 
-    net = PetriNet(view.class_name)
-    for tac in tactics:
-        net.add_place(Place(tac, [BLACK_TOKEN] if tac == entry_tactic else []))
-    for spec in transitions:
-        net.add_transition(Transition(spec.name))
-        net.add_input(spec.src_tactic, spec.name, Value(BLACK_TOKEN))
-        net.add_output(spec.dst_tactic, spec.name, Value(BLACK_TOKEN))
+    net = make_snakes_net(view.class_name, tactics, entry_tactic, transitions)
 
     provenance = {
         "class_name": view.class_name,
@@ -224,28 +228,69 @@ def build_structural_net(view: SubgraphView, gap: GapIndex) -> StructuralNet:
     )
 
 
+def make_snakes_net(
+    name: str,
+    tactics: tuple[str, ...],
+    entry_tactic: str,
+    specs: tuple[TransitionSpec, ...],
+) -> Any:
+    """The SNAKES net for a place/transition-spec set: one black token in the
+    entry place, bipartite ``place[src] -> T -> place[dst]`` per spec."""
+    net = PetriNet(name)
+    for tac in tactics:
+        net.add_place(Place(tac, [BLACK_TOKEN] if tac == entry_tactic else []))
+    for spec in specs:
+        net.add_transition(Transition(spec.name))
+        net.add_input(spec.src_tactic, spec.name, Value(BLACK_TOKEN))
+        net.add_output(spec.dst_tactic, spec.name, Value(BLACK_TOKEN))
+    return net
+
+
 def build_all(
-    gap_path: Path = GAP_PATH, gasp_dir: Path = GASP_DIR
+    gap_path: Path = GAP_PATH,
+    gasp_dir: Path = GASP_DIR,
+    with_prefix_join: bool = True,
 ) -> dict[str, StructuralNet]:
-    """Build all four class nets, keyed by class name (canonical order)."""
+    """Build all four class nets, keyed by class name (canonical order).
+
+    Composed with the M6 prefix-join overlay by default — consumers get the
+    connected net unless they explicitly ask for the observed-only build
+    (``with_prefix_join=False``: the artefact record and the no-synthesis
+    invariant tests)."""
     gap = load_gap_index(gap_path)
-    return {
+    nets = {
         cls: build_structural_net(load_gasp_view(cls, gasp_dir), gap)
         for cls in CLASS_NAMES
     }
+    return _maybe_join(nets, with_prefix_join)
 
 
 def build_all_profiles(
-    gap_path: Path = GAP_PATH, gasp_dir: Path = GASP_DIR
+    gap_path: Path = GAP_PATH,
+    gasp_dir: Path = GASP_DIR,
+    with_prefix_join: bool = True,
 ) -> dict[str, StructuralNet]:
-    """All five nets — the four classes plus the aggregate null profile."""
+    """All five nets — the four classes plus the aggregate null profile.
+    Composed with the M6 prefix-join overlay by default (see ``build_all``)."""
     gap = load_gap_index(gap_path)
-    return {
+    nets = {
         profile: build_structural_net(
             load_profile_view(profile, gasp_dir, gap_path), gap
         )
         for profile in PROFILE_NAMES
     }
+    return _maybe_join(nets, with_prefix_join)
+
+
+def _maybe_join(
+    nets: dict[str, StructuralNet], with_prefix_join: bool
+) -> dict[str, StructuralNet]:
+    if not with_prefix_join:
+        return nets
+    # Imported here: prefix_join imports this module at top level.
+    from mtdsim.l3_simulation.petri.prefix_join import apply_prefix_join
+
+    return {name: apply_prefix_join(snet) for name, snet in nets.items()}
 
 
 def _choose_entry_tactic(tactics: tuple[str, ...]) -> str:
@@ -281,4 +326,5 @@ __all__ = [
     "load_gap_index",
     "load_gasp_view",
     "load_profile_view",
+    "make_snakes_net",
 ]
