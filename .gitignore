@@ -169,6 +169,10 @@ data/gasp/_*
 data/ogasp/petri/_*
 data/ogasp/timeline/_*
 
+# Misc scratch visualisations — diagnostic-quality, regenerable (e.g. via
+# data/misc/_viz/ckc_layer_viz.py). Same underscore-prefix pattern as above.
+data/misc/_viz/
+
 # macOS Finder metadata
 .DS_Store
 # LaTeX build artefacts under docs/thesis/ (the nested docs/thesis/.gitignore
