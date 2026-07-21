@@ -84,9 +84,10 @@ class TransitionSpec:
     ``edges`` are the contributing inter-tactic technique-edges ``(u, v)`` with
     ``tactic_of[u] == src_tactic`` and ``tactic_of[v] == dst_tactic``; non-empty
     by construction for observed transitions, which is what the no-synthesis
-    test checks. A **synthetic** transition (the M6 prefix-join overlay,
-    ``prefix_join.py``) has ``edges == ()`` and carries a declared manual
-    weight instead — it never enters ``StructuralNet.transitions``.
+    test checks. A **synthetic** transition (the synthetic overlay,
+    ``synthetic_overlay.py``) has ``edges == ()`` and carries a declared routing
+    share in ``declared_weight`` instead — it never enters
+    ``StructuralNet.transitions``.
     """
 
     name: str
@@ -109,7 +110,7 @@ class StructuralNet:
     transitions: tuple[TransitionSpec, ...]  # observed only, sorted by (src, dst)
     entry_tactic: str  # the place holding the single black token
     selfloops_dropped: int  # intra-tactic edges dropped (recorded, not built)
-    # The M6 prefix-join overlay (prefix_join.py): kept apart from the observed
+    # The synthetic overlay (synthetic_overlay.py): kept apart from the observed
     # ``transitions`` so the no-synthesis invariant and the *_structural.json
     # record stay observed-only. Empty on an observed-only build.
     synthetic_transitions: tuple[TransitionSpec, ...] = ()
@@ -249,29 +250,29 @@ def make_snakes_net(
 def build_all(
     gap_path: Path = GAP_PATH,
     gasp_dir: Path = GASP_DIR,
-    with_prefix_join: bool = True,
+    with_synthetic_overlay: bool = True,
 ) -> dict[str, StructuralNet]:
     """Build all four class nets, keyed by class name (canonical order).
 
-    Composed with the M6 prefix-join overlay by default — consumers get the
+    Composed with the synthetic overlay by default — consumers get the
     connected net unless they explicitly ask for the observed-only build
-    (``with_prefix_join=False``: the artefact record and the no-synthesis
+    (``with_synthetic_overlay=False``: the artefact record and the no-synthesis
     invariant tests)."""
     gap = load_gap_index(gap_path)
     nets = {
         cls: build_structural_net(load_gasp_view(cls, gasp_dir), gap)
         for cls in CLASS_NAMES
     }
-    return _maybe_join(nets, with_prefix_join)
+    return _maybe_join(nets, with_synthetic_overlay)
 
 
 def build_all_profiles(
     gap_path: Path = GAP_PATH,
     gasp_dir: Path = GASP_DIR,
-    with_prefix_join: bool = True,
+    with_synthetic_overlay: bool = True,
 ) -> dict[str, StructuralNet]:
     """All five nets — the four classes plus the aggregate null profile.
-    Composed with the M6 prefix-join overlay by default (see ``build_all``)."""
+    Composed with the synthetic overlay by default (see ``build_all``)."""
     gap = load_gap_index(gap_path)
     nets = {
         profile: build_structural_net(
@@ -279,18 +280,18 @@ def build_all_profiles(
         )
         for profile in PROFILE_NAMES
     }
-    return _maybe_join(nets, with_prefix_join)
+    return _maybe_join(nets, with_synthetic_overlay)
 
 
 def _maybe_join(
-    nets: dict[str, StructuralNet], with_prefix_join: bool
+    nets: dict[str, StructuralNet], with_synthetic_overlay: bool
 ) -> dict[str, StructuralNet]:
-    if not with_prefix_join:
+    if not with_synthetic_overlay:
         return nets
-    # Imported here: prefix_join imports this module at top level.
-    from mtdsim.l3_simulation.petri.prefix_join import apply_prefix_join
+    # Imported here: synthetic_overlay imports this module at top level.
+    from mtdsim.l3_simulation.petri.synthetic_overlay import apply_synthetic_overlay
 
-    return {name: apply_prefix_join(snet) for name, snet in nets.items()}
+    return {name: apply_synthetic_overlay(snet) for name, snet in nets.items()}
 
 
 def _choose_entry_tactic(tactics: tuple[str, ...]) -> str:

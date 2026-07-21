@@ -28,8 +28,9 @@ from mtdsim.l3_simulation.petri.build import (
     load_gasp_view,
     load_profile_view,
 )
-from mtdsim.l3_simulation.petri.prefix_join import (
-    DECLARED_WEIGHT,
+from mtdsim.l3_simulation.petri.synthetic_overlay import (
+    BACKWARD_SHARE,
+    FORWARD_SHARE,
     OVERLAY_PATH,
     overlay_payload,
 )
@@ -77,8 +78,8 @@ def gap() -> GapIndex:
 @pytest.fixture(scope="module")
 def nets(gap) -> dict[str, StructuralNet]:
     # Observed-only: the count / no-synthesis / prefix-gap gates below assert
-    # the observed net's contract. The M6 overlay is exercised in section 7.
-    return build_all(with_prefix_join=False)
+    # the observed net's contract. The synthetic overlay is exercised in §7.
+    return build_all(with_synthetic_overlay=False)
 
 
 # ---------------------------------------------------------------------------
@@ -275,46 +276,59 @@ def test_prefix_gap_matches_inspect_the_base_finding(nets, gap, cls):
 
 
 # ---------------------------------------------------------------------------
-# 7. The M6 prefix-join overlay (synthetic, composed at construction)
+# 7. The synthetic overlay (declared pre-intrusion structure, composed at
+#    construction) — bidirectional pre-intrusion connective tissue
 # ---------------------------------------------------------------------------
 
-# The profiles whose observed corpus leaves reconnaissance an island — the
-# guard rule adds the synthetic bridge to exactly these (tactic_action_map.md
-# §6 island table).
+# The profiles whose observed corpus leaves the pre-intrusion band detached —
+# the guard rule adds the synthetic connective tissue to exactly these
+# (synthetic_overlay.md island table).
 JOINED_PROFILES = ("double_extortion", "infrastructure_setup")
+
+# The bidirectional pre-intrusion connective tissue: forward chain (share 1.0
+# each, sole out of an island place) + backward regression bridge (declared
+# minority share of initial-access's composed out-mass).
+EXPECTED_SYNTHETIC = (
+    ("reconnaissance", "resource-development", FORWARD_SHARE),
+    ("resource-development", "initial-access", FORWARD_SHARE),
+    ("initial-access", "reconnaissance", BACKWARD_SHARE),
+)
 
 
 @pytest.fixture(scope="module")
 def joined_nets() -> dict[str, StructuralNet]:
-    return build_all_profiles()  # with_prefix_join=True is the default
+    return build_all_profiles()  # with_synthetic_overlay=True is the default
 
 
 def test_overlay_adds_exactly_the_specified_edges(joined_nets):
     for profile in PROFILE_NAMES:
         synth = joined_nets[profile].synthetic_transitions
         if profile in JOINED_PROFILES:
-            assert [
-                (s.src_tactic, s.dst_tactic) for s in synth
-            ] == [("reconnaissance", "initial-access")]
+            assert (
+                tuple(
+                    (s.src_tactic, s.dst_tactic, s.declared_weight) for s in synth
+                )
+                == EXPECTED_SYNTHETIC
+            )
         else:
             assert synth == ()
 
 
 @pytest.mark.parametrize("profile", JOINED_PROFILES)
 def test_synthetic_spec_contract(joined_nets, profile):
-    (spec,) = joined_nets[profile].synthetic_transitions
-    assert spec.synthetic is True
-    assert spec.declared_weight == DECLARED_WEIGHT == 1.0
-    assert spec.edges == ()  # no GASP provenance is claimed
-    assert "M6" in spec.provenance
-    assert spec.name == "reconnaissance__to__initial-access"
-    # Guard rule: the synthetic edge is the sole out-transition of its source.
-    observed_out = [
-        t
-        for t in joined_nets[profile].transitions
-        if t.src_tactic == "reconnaissance"
-    ]
-    assert observed_out == []
+    net = joined_nets[profile]
+    for spec in net.synthetic_transitions:
+        assert spec.synthetic is True
+        assert spec.edges == ()  # no GASP provenance is claimed
+        assert "synthetic overlay" in spec.provenance
+    # Forward chain: sole out-transition of an island place (no observed out).
+    for src in ("reconnaissance", "resource-development"):
+        assert [t for t in net.transitions if t.src_tactic == src] == []
+    # Backward bridge: leaves initial-access, which DOES have observed out-edges
+    # (the declared-share merge case — not a sole-out edge).
+    assert [
+        t for t in net.transitions if t.src_tactic == "initial-access"
+    ] != []
 
 
 def test_observed_transitions_untouched_by_overlay(nets, joined_nets):
@@ -334,21 +348,42 @@ def test_overlay_bridges_recon_to_ia_everywhere(joined_nets, gap, profile):
 
 
 @pytest.mark.parametrize("profile", JOINED_PROFILES)
-def test_snakes_net_fires_the_synthetic_bridge(joined_nets, profile):
-    """The composed SNAKES net contains the bridge and the token crosses it."""
+def test_snakes_net_fires_the_forward_chain(joined_nets, profile):
+    """The composed SNAKES net carries the forward chain and the token walks
+    recon -> resource-development -> initial-access across it."""
     net = build_all_profiles()[profile].net  # fresh net; fixture stays unfired
-    trans = net.transition("reconnaissance__to__initial-access")
-    inputs, outputs = list(trans.input()), list(trans.output())
-    assert len(inputs) == 1 and inputs[0][0].name == "reconnaissance"
-    assert len(outputs) == 1 and outputs[0][0].name == "initial-access"
-    modes = trans.modes()
-    assert modes, f"{profile}: bridge not enabled from the recon seed"
-    trans.fire(modes[0])
+    for name, src, dst in (
+        ("reconnaissance__to__resource-development", "reconnaissance", "resource-development"),
+        ("resource-development__to__initial-access", "resource-development", "initial-access"),
+    ):
+        trans = net.transition(name)
+        inputs, outputs = list(trans.input()), list(trans.output())
+        assert len(inputs) == 1 and inputs[0][0].name == src
+        assert len(outputs) == 1 and outputs[0][0].name == dst
+    # Walk the chain from the recon seed.
+    for name in (
+        "reconnaissance__to__resource-development",
+        "resource-development__to__initial-access",
+    ):
+        trans = net.transition(name)
+        modes = trans.modes()
+        assert modes, f"{profile}: {name} not enabled"
+        trans.fire(modes[0])
     assert list(net.get_marking()) == ["initial-access"]
 
 
+@pytest.mark.parametrize("profile", JOINED_PROFILES)
+def test_backward_bridge_present(joined_nets, profile):
+    """The composed net carries the initial-access -> reconnaissance regression
+    bridge so a failed attacker can fall back into the pre-intrusion band."""
+    net = build_all_profiles()[profile].net
+    trans = net.transition("initial-access__to__reconnaissance")
+    outputs = list(trans.output())
+    assert len(outputs) == 1 and outputs[0][0].name == "reconnaissance"
+
+
 def test_overlay_artefact_fresh(joined_nets):
-    """The committed prefix_join_overlay.json equals a fresh computation."""
+    """The committed synthetic_overlay.json equals a fresh computation."""
     with open(OVERLAY_PATH) as f:
         committed = json.load(f)
     fresh = json.loads(json.dumps(overlay_payload(joined_nets)))

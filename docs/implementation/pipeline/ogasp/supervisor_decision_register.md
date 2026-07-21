@@ -250,11 +250,14 @@ sends regular updates.
   - [`../handoffs/2026-07-15_l3_tactic_action_influence_map.md`](../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md)
     — executes **M5** (tactic→action influence map, over the anatomy
     record's callability classes) and **M6** (pre-intrusion synthetic join),
-    and defines the **M2/M4** outcome-oracle verdicts. *(M6 applied
-    2026-07-21 as a separate composed overlay —
-    [`tactic_action_map.md`](tactic_action_map.md) §6,
-    [`../../data/ogasp/petri/prefix_join_overlay.json`](../../../../data/ogasp/petri/prefix_join_overlay.json);
-    recon-only, resource-development a documented island.)*
+    and defines the **M2/M4** outcome-oracle verdicts. *(M6 executed 2026-07-21
+    as the **synthetic overlay** — a maintained structural sublayer in its own
+    right ([`synthetic_overlay.md`](synthetic_overlay.md),
+    [`../../data/ogasp/petri/synthetic_overlay.json`](../../../../data/ogasp/petri/synthetic_overlay.json)):
+    bidirectional pre-intrusion connective tissue (forward chain recon →
+    resource-development → initial-access + backward regression bridge
+    initial-access → reconnaissance), reversing the first recon-only pass on
+    Marc's direction.)*
   - [`success_failure_overlay_design.md`](success_failure_overlay_design.md)
     — designs the **M2** contract as reframed 2026-07-21 (Marc's direction):
     the success/failure outcome overlay as a declared **policy** layer (two

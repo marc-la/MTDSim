@@ -1,0 +1,102 @@
+{
+  "artefact": "synthetic overlay (declared pre-intrusion structure)",
+  "register": "docs/implementation/pipeline/ogasp/supervisor_decision_register.md §M6",
+  "specification": "docs/implementation/pipeline/ogasp/synthetic_overlay.md",
+  "guard_rule": "the overlay acts only where the observed net leaves reconnaissance unable to reach initial-access; the two forward chain edges are added only out of island places (no observed out-transitions), so they never touch an observed distribution; the single backward bridge is the declared exception (see merge_rule)",
+  "merge_rule": "a synthetic edge out of a place with observed out-edges carries a declared share s of that place's composed out-mass; the observed edges are scaled to (1 - Σs) in their flow proportions. The observed *_structural.json artefacts stay byte-identical — the rescaling exists only in the composed runtime net (as the forward synthetic edges do). Confined to the backward bridge.",
+  "weight_regime": "declared routing share (no flow backing — the D3 W-A flow-proportion regime does not apply). Forward chain edges are the sole out-transition of their island source place (share 1.0). The backward bridge carries share 0.1 of initial-access's composed out-mass; the observed edges keep the remaining 0.9 in their flow proportions.",
+  "resolution": "bidirectional pre-intrusion connective tissue (2026-07-21, Marc's direction, reversing the earlier recon-only resolution): resource-development is bridged as a forward pass-through on the chain reconnaissance -> resource-development -> initial-access, and a backward regression bridge initial-access -> reconnaissance lets a failed attacker fall back into the pre-intrusion band. resource-development is off-clock (x0 dwell, no mapped action yet); the action set is extensible.",
+  "composition": "composed at net construction — build_all_profiles / build_all with_synthetic_overlay=True (default), or synthetic_overlay.apply_synthetic_overlay; the observed *_structural.json artefacts never include the overlay",
+  "profiles": {
+    "pure_steal": {
+      "synthetic_transitions": [],
+      "recon_reaches_initial_access_observed": true,
+      "recon_reaches_initial_access_with_overlay": true,
+      "reason": "observed corpus already bridges reconnaissance -> initial-access; guard rule adds nothing"
+    },
+    "pure_impediment": {
+      "synthetic_transitions": [],
+      "recon_reaches_initial_access_observed": true,
+      "recon_reaches_initial_access_with_overlay": true,
+      "reason": "observed corpus already bridges reconnaissance -> initial-access; guard rule adds nothing"
+    },
+    "double_extortion": {
+      "synthetic_transitions": [
+        {
+          "name": "reconnaissance__to__resource-development",
+          "src_tactic": "reconnaissance",
+          "dst_tactic": "resource-development",
+          "gasp_edges": [],
+          "synthetic": true,
+          "declared_share": 1.0,
+          "direction": "forward",
+          "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
+        },
+        {
+          "name": "resource-development__to__initial-access",
+          "src_tactic": "resource-development",
+          "dst_tactic": "initial-access",
+          "gasp_edges": [],
+          "synthetic": true,
+          "declared_share": 1.0,
+          "direction": "forward",
+          "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
+        },
+        {
+          "name": "initial-access__to__reconnaissance",
+          "src_tactic": "initial-access",
+          "dst_tactic": "reconnaissance",
+          "gasp_edges": [],
+          "synthetic": true,
+          "declared_share": 0.1,
+          "direction": "backward",
+          "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
+        }
+      ],
+      "recon_reaches_initial_access_observed": false,
+      "recon_reaches_initial_access_with_overlay": true
+    },
+    "infrastructure_setup": {
+      "synthetic_transitions": [
+        {
+          "name": "reconnaissance__to__resource-development",
+          "src_tactic": "reconnaissance",
+          "dst_tactic": "resource-development",
+          "gasp_edges": [],
+          "synthetic": true,
+          "declared_share": 1.0,
+          "direction": "forward",
+          "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
+        },
+        {
+          "name": "resource-development__to__initial-access",
+          "src_tactic": "resource-development",
+          "dst_tactic": "initial-access",
+          "gasp_edges": [],
+          "synthetic": true,
+          "declared_share": 1.0,
+          "direction": "forward",
+          "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
+        },
+        {
+          "name": "initial-access__to__reconnaissance",
+          "src_tactic": "initial-access",
+          "dst_tactic": "reconnaissance",
+          "gasp_edges": [],
+          "synthetic": true,
+          "declared_share": 0.1,
+          "direction": "backward",
+          "provenance": "synthetic overlay (supervisor_decision_register.md §M6; synthetic_overlay.md): declared, no flow backing; declared routing share"
+        }
+      ],
+      "recon_reaches_initial_access_observed": false,
+      "recon_reaches_initial_access_with_overlay": true
+    },
+    "aggregate": {
+      "synthetic_transitions": [],
+      "recon_reaches_initial_access_observed": true,
+      "recon_reaches_initial_access_with_overlay": true,
+      "reason": "observed corpus already bridges reconnaissance -> initial-access; guard rule adds nothing"
+    }
+  }
+}

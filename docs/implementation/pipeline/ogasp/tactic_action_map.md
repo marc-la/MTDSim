@@ -193,7 +193,8 @@ advances on the net's base forward weight (M2 unconditioned — no outcome oracl
 to condition it). R5 sanctions this.
 
 - **resource-development** — off-clock (§5: ×0, "the adversary arrives already
-  equipped"). Dwell-only; the M6 join gives it its only net edge (§6).
+  equipped"). Dwell-only; the synthetic overlay bridges it as a live pass-through
+  on the pre-intrusion chain recon → resource-development → initial-access (§6).
 - **execution** — no verb prices "run a payload" (§5: group genuinely unsettled,
   ×0.5, Tier 3). `EXPLOIT_VULN` *abstracts over* execution (anatomy §5.1) but
   does not model it as a distinct act; the R2 execution-success hook attaches
@@ -283,7 +284,23 @@ the verdicts stand without it.
 
 ---
 
-## 6. The M6 pre-intrusion synthetic join (applied 2026-07-21)
+## 6. The synthetic overlay — pre-intrusion structure (record moved)
+
+> **Moved to its own record (2026-07-21).** The pre-intrusion join executing
+> supervisor decision M6 is now a **maintained sublayer in its own right — the
+> synthetic overlay** — with its authoritative record at
+> [`synthetic_overlay.md`](synthetic_overlay.md), code
+> [`synthetic_overlay.py`](../../../../src/mtdsim/l3_simulation/petri/synthetic_overlay.py),
+> and artefact
+> [`synthetic_overlay.json`](../../../../data/ogasp/petri/synthetic_overlay.json).
+> **The earlier recon-only resolution was reversed** (Marc's direction): the
+> overlay is now **bidirectional pre-intrusion connective tissue** — a forward
+> chain `reconnaissance → resource-development → initial-access` (resource-
+> development bridged as a live pass-through, not a documented island) plus a
+> backward regression bridge `initial-access → reconnaissance` so a failed
+> attacker can fall back into the pre-intrusion band. This section keeps only the
+> gap evidence the map turns on; the mechanism, guard/merge rules, and weights are
+> in the moved record.
 
 **The gap.** The corpus is blind to pre-intrusion tactics, so reconnaissance and
 resource-development can be **detached islands** in the built nets. The situation
@@ -305,70 +322,19 @@ M6 (register): connect the pre-intrusion tactics **manually** at the front —
 recon enables initial access ("if you cannot recon anything, you can't gain
 initial access") — defensible because nothing detects pre-intrusion activity.
 
-**The applied curation — the overlay-object shape.** Marc's go-ahead
-(2026-07-21) resolved the gate, and the application pass sharpened the seam in
-one respect: rather than persisting `synthetic_transitions` inside regenerated
-`*_structural.json` artefacts, the join ships as a **separate overlay artefact
-composed at net construction** —
-[`data/ogasp/petri/prefix_join_overlay.json`](../../../../data/ogasp/petri/prefix_join_overlay.json),
-built by
-[`petri/prefix_join.py`](../../../../src/mtdsim/l3_simulation/petri/prefix_join.py).
-The observed structural JSONs are untouched (byte-identical — no regeneration),
-which dissolves the review-gating cost the originally specified seam carried,
-and separates CTI-derived structure from synthetic curation at the *artefact*
-level, not just the field level.
-
-- **Edges.** One synthetic `reconnaissance → initial-access` transition per
-  profile where the observed net does not bridge the pair —
-  `double_extortion` and `infrastructure_setup`; the guard leaves the three
-  bridged profiles untouched (and catches any future class that regresses).
-- **Guard rule (uniform across profiles).** A synthetic edge is added only
-  where recon cannot reach initial-access over the observed net, and only out
-  of a place with **no observed out-transitions**: an observed edge is never
-  overwritten and observed weight distributions are never renormalised, so the
-  D3 flow-proportion layer is never perturbed. A profile where recon had
-  observed out-edges yet missed initial-access would *raise* — that shape needs
-  a new declared decision, not a silently invented weight.
-- **Weight treatment.** A synthetic edge has **no backing flow**, so the W-A
-  regime (D3) does not apply; it carries a **declared manual weight of 1.0** as
-  the sole out-transition of its source place (per-place out-weights still sum
-  to 1). `weights.py` is unmodified — the declared weight lives on the
-  synthetic spec and in the overlay artefact, never in the flow-proportion
-  layer.
-- **Provenance flag.** Every synthetic spec carries `synthetic: true` + the M6
-  provenance string, so it is never mistaken for corpus structure
-  ([`provenance.md`](../../provenance.md), M6 row).
-- **The invariant is preserved, not broken.** The overlay lives in a
-  `StructuralNet.synthetic_transitions` field, never folded into
-  `transitions`; `test_no_synthesis_invariant` runs on the observed-only build
-  with unchanged assertions, and a new test section pins the overlay (exact
-  edges, weight 1.0, flags, composed reachability for all five profiles,
-  artefact freshness) —
-  [`tests/l3_simulation/test_petri.py`](../../../../tests/l3_simulation/test_petri.py)
-  §7.
-- **Composition.** `build_all_profiles` / `build_all` compose the overlay **by
-  default** (`with_prefix_join=True`); observed-only is the explicit opt-out
-  used by the artefact emitter and the invariant tests.
-  `prefix_join.apply_prefix_join` is the single-net entry point the live
-  feedback runner uses. Reachability (`analysis._place_adjacency`) unions the
-  overlay, and the prefix-gap probe reports **"BRIDGED synthetically"** on
-  composed island nets. **Overlay off + an `initial-access` seed remains the D8
-  comparison arm** — the entry-point experiment becomes a toggle, not a second
-  code path.
-
-**The open judgement — resolved: (b), resource-development stays a documented
-island.** The application pass surfaced a structural fact the specification
-missed: the specified `resource-development → initial-access` edge alone would
-have been **dead structure** — in both island profiles resource-development has
-no in-edges and the single token seeds at `reconnaissance`, so a place nothing
-flows into is never visited. Genuinely joining resource-development requires
-the chain `reconnaissance → resource-development → initial-access`
-(kill-chain-correct: recon = CKC reconnaissance, resource-development =
-weaponisation) with a declared split at recon. Since resource-development is
-off-clock (×0 dwell, no mapped action — §3.3), that chain adds a pass-through
-place that changes no number, so option (b) is taken: recon-only join,
-resource-development documented as an island in the overlay artefact. The chain
-shape remains a small declared extension of `prefix_join.py` if later wanted.
+**As applied — see [`synthetic_overlay.md`](synthetic_overlay.md).** The overlay
+composes the bidirectional pre-intrusion connective tissue (forward chain +
+backward regression bridge, §2 of that record) onto exactly the two island
+profiles at net construction (`build_all_profiles(with_synthetic_overlay=True)`,
+the default). The observed `*_structural.json` artefacts stay byte-identical and
+`test_no_synthesis_invariant` is unchanged; the overlay lives in
+`StructuralNet.synthetic_transitions`, carries declared routing shares (no flow
+backing), and is flagged `synthetic`. The one place it perturbs an observed
+distribution — the backward bridge out of `initial-access` (a declared share of
+that place's composed out-mass, observed proportions preserved) — is the moved
+record's §3 merge rule. The prefix-gap probe reports **"BRIDGED synthetically"**
+on the composed island nets; overlay off + an `initial-access` seed remains the
+comparison arm.
 
 ---
 

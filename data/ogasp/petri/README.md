@@ -52,8 +52,8 @@ PYTHONPATH=src python -m pytest tests/l3_simulation/  # validation gate
 | `<class>_structural.json` × 4 | **computed** | net shape (places, transitions + per-transition GASP provenance) + W-A weight layer (both corpus variants, backing flow IDs) + structural report |
 | `aggregate_structural.json` | **computed** | the fifth (null) net over the union of all flows — same shape and weight layer |
 | `divergence_report.md` / `.json` | **computed** | class-vs-aggregate per-place JSD, weighted discriminators, shuffled-label null, verdict |
-| `prefix_join_overlay.json` | **computed** | the **M6 pre-intrusion synthetic join** — declared `reconnaissance → initial-access` transitions (weight 1.0, flagged synthetic, no flow backing) for exactly the profiles whose observed corpus leaves recon an island; composed at net construction, never folded into the observed nets |
-| `outcome_overlay.json` | **authored (declared)** | the **M2 success/failure policy overlay** — two declared multiplier treatments per directed tactic-pair, composed multiplicatively with the base weights and the substrate's binary verdict at runtime, at the six action-bearing places only. A **policy** layer (distinct from the M6 *structural* overlay): kill-chain band rule + five AAR-grounded success overrides; failure is a declared prior. Design: [`docs/implementation/pipeline/ogasp/success_failure_overlay_design.md`](../../../docs/implementation/pipeline/ogasp/success_failure_overlay_design.md). Composition/stepping code is the profiled-attacker build (not yet written) |
+| `synthetic_overlay.json` | **computed** | the **synthetic overlay** (declared pre-intrusion structure) — the bidirectional pre-intrusion connective tissue (forward chain `reconnaissance → resource-development → initial-access`, share 1.0 each; backward regression bridge `initial-access → reconnaissance`, declared share) for exactly the profiles whose observed corpus leaves the pre-intrusion band detached; flagged synthetic, no flow backing; composed at net construction, never folded into the observed nets |
+| `outcome_overlay.json` | **authored (declared)** | the **outcome (policy) overlay** — the success/failure conditional-likelihood weighting over the whole directed tactic-pair set, composed multiplicatively with the base weights and the substrate's binary verdict at runtime; a policy layer distinct from the structural synthetic overlay (design: `docs/implementation/pipeline/ogasp/success_failure_overlay_design.md`) |
 | `_viz/<profile>.png` / `.svg` | gitignored | **tactic-state diagram** — kill-chain L→R; token in its seed; entry green, objective orange, sinks double-outlined; edge width/opacity = W-A weight (uniform absolute scale across the five nets); unreachable-from-token places dashed |
 | `_viz/<profile>_snakes.png` | gitignored | the **formal SNAKES net** (bipartite places + transition bars) — faithful but dense; kept as a provenance artefact |
 | `_viz/_reachability.png` | gitignored | **headline chart** — tactics reachable from the recon token vs from any entry, per profile |
@@ -110,20 +110,21 @@ directly in the single-token reachability:
 
 Consequence: in the classes where recon is an island, a recon-seeded
 token cannot reach the objective over the observed structure alone.
-The **M6 pre-intrusion synthetic join** resolves this:
-[`prefix_join_overlay.json`](prefix_join_overlay.json) declares a
-`reconnaissance → initial-access` transition (weight 1.0, flagged
-synthetic, no flow backing) for exactly those profiles, composed into
-the net at construction time (`build_all_profiles` /
-`prefix_join.apply_prefix_join`; on by default, observed-only via
-`with_prefix_join=False`). The observed nets in the
+The **synthetic overlay** resolves this:
+[`synthetic_overlay.json`](synthetic_overlay.json) declares the
+bidirectional pre-intrusion connective tissue for exactly those
+profiles — the forward chain `reconnaissance → resource-development →
+initial-access` (share 1.0 each; resource-development is a forward
+pass-through) plus the backward regression bridge `initial-access →
+reconnaissance` (declared share) so a failed attacker can fall back
+into the pre-intrusion band — all flagged synthetic, no flow backing,
+composed into the net at construction time (`build_all_profiles` /
+`synthetic_overlay.apply_synthetic_overlay`; on by default, observed-only via
+`with_synthetic_overlay=False`). The observed nets in the
 `*_structural.json` artefacts stay observed-only — the no-synthesis
-invariant is untouched. `resource-development` stays a **documented
-island** (recon-only resolution;
-[`tactic_action_map.md`](../../../docs/implementation/pipeline/ogasp/tactic_action_map.md)
-§6). Overlay off + an `initial-access` seed remains the D8
-comparison arm. See the feasibility study sec.4 / sec.9 for the
-observed-only reading.
+invariant on `transitions` is untouched. Overlay off + an
+`initial-access` seed remains the comparison arm. See the feasibility
+study sec.4 / sec.9 for the observed-only reading.
 
 In-tactic dwell is the duration catalogue's job
 ([`../tactic_durations.json`](../tactic_durations.json), the

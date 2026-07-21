@@ -79,7 +79,7 @@ def render_tactic_state_diagram(
     variant) switches the edge encoding from backing-GASP-edge counts to the
     W-A weight, on a **uniform absolute scale** (weight ∈ [0, 1] maps the same
     everywhere) so the five nets stay visually comparable — no per-net
-    normalisation, no accentuation. A composed net's M6 overlay
+    normalisation, no accentuation. A composed net's synthetic overlay
     (``synthetic_transitions``) is drawn dashed with its declared weight —
     provenance as an encoding, on the same absolute scale. ``filename``
     overrides the output stem (default: the class name), so observed and
@@ -109,7 +109,7 @@ def render_tactic_state_diagram(
     kind = "weighted net (W-A flow proportion, operator-dedup)" if weights else "structural net"
     n_syn = len(snet.synthetic_transitions)
     if n_syn:
-        kind += " · M6 prefix-join overlay composed"
+        kind += " · synthetic overlay composed"
     syn_note = f" (+{n_syn} synthetic)" if n_syn else ""
     title = (
         f"OGASP {kind} · {snet.class_name}\n"
@@ -195,7 +195,7 @@ def render_tactic_state_diagram(
             constraint="false",
         )
 
-    # The M6 overlay (composed nets only; empty on an observed-only build):
+    # The synthetic overlay (composed nets only; empty on an observed-only build):
     # dashed = synthetic provenance class — an encoding, not accentuation. The
     # declared weight rides the same absolute penwidth/opacity scale as the
     # W-A weights, and the edge label says what it is.

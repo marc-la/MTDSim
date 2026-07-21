@@ -29,9 +29,9 @@ from mtdsim.l3_simulation.petri.build import (
     load_gap_index,
     load_gasp_view,
 )
-from mtdsim.l3_simulation.petri.prefix_join import (
-    apply_prefix_join,
-    curate_prefix_join,
+from mtdsim.l3_simulation.petri.synthetic_overlay import (
+    apply_synthetic_overlay,
+    curate_synthetic_overlay,
 )
 
 __all__ = [
@@ -42,11 +42,11 @@ __all__ = [
     "StructuralReport",
     "TransitionSpec",
     "analyse",
-    "apply_prefix_join",
+    "apply_synthetic_overlay",
     "build_all",
     "build_all_profiles",
     "build_structural_net",
-    "curate_prefix_join",
+    "curate_synthetic_overlay",
     "load_gap_index",
     "load_gasp_view",
 ]
