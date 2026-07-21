@@ -13,6 +13,34 @@ from mtdnetwork.component.time_generator import exponential_variates
 from mtdnetwork.data.constants import ATTACK_DURATION
 
 
+# --- Carved action surface -------------------------------------------------
+# The inherited attack module is a self-driving FSM: each _execute_* core
+# hard-calls its own successor (the "tail-call"), so the six verbs run only in
+# the order the calls impose. The carve separates each verb's executable core
+# (_do_*, which performs the action and RETURNS its branch outcome) from that
+# succession (the _execute_* wrapper, which reads the outcome and dispatches to
+# the native successor). The native wrappers reproduce the pre-carve behaviour
+# bit-for-bit; a controller instead calls the cores (via step()) and owns the
+# succession itself — the third lever from
+# docs/implementation/pipeline/ogasp/action_layer_anatomy.md §3.3.
+#
+# EXPLOIT_VULN has three outcomes, not two, so it cannot use a bare bool: an MTD
+# interrupt or sim-end can halt it mid-attempt, in which case the native code
+# returns WITHOUT dispatching a successor.
+EXPLOIT_COMPROMISED = 'EXPLOIT_COMPROMISED'      # host compromised -> native: SCAN_NEIGHBOR
+EXPLOIT_UNCOMPROMISED = 'EXPLOIT_UNCOMPROMISED'  # not compromised  -> native: BRUTE_FORCE
+EXPLOIT_HALTED = 'EXPLOIT_HALTED'                # interrupt/sim-end -> native: no succession
+
+
+class ActionContextError(RuntimeError):
+    """Raised when a verb's core is invoked without the shared adversary state it
+    assumes (its precondition, per action_layer_anatomy.md §2.2). The native FSM
+    guarantees preconditions by call order; a controller driving verbs out of
+    that order must satisfy them itself. This converts the silent degenerations
+    and AttributeError crashes catalogued in §3.3 into a loud failure at the
+    point of misuse. Controller-facing only — the native path never raises it."""
+
+
 class AttackOperation:
     def __init__(self, env, end_event, adversary, proceed_time=0):
         """
@@ -153,13 +181,17 @@ class AttackOperation:
                 logging.info('Adversary: Restarting with SCAN_PORT at %.1fs!' % (self.env.now + self._proceed_time))
             self._scan_port()
 
-    def _execute_scan_host(self):
+    def _do_scan_host(self):
         """
-        Starts the Network enumeration stage.
+        SCAN_HOST core. Starts the Network enumeration stage.
         Sets up the order of hosts that the hacker will attempt to compromise
         The order is sorted by distance from the exposed endpoints which is done
         in the function adversary.network.host_scan().
-        If the scan returns nothing from the scan, then the attacker will stop
+
+        Returns True if hosts were discovered (host_stack now non-empty), else
+        False. Native succession: True -> ENUM_HOST; False -> terminate ("cannot
+        discover new hosts"). Precondition: none — it manufactures its own
+        host_stack from network state.
         """
         adversary = self.adversary
         compromised_hosts = adversary.get_compromised_hosts()
@@ -193,7 +225,15 @@ class AttackOperation:
         discovered_hosts = [n for n in uncompromised_hosts if n not in stop_attack]
 
         adversary.set_host_stack(discovered_hosts)
-        if len(adversary.get_host_stack()) > 0:
+        return len(adversary.get_host_stack()) > 0
+
+    def _execute_scan_host(self):
+        """
+        Native FSM wrapper for SCAN_HOST: run the core, then dispatch to the
+        inherited successor. Behaviour is bit-identical to the pre-carve core.
+        If the scan returns nothing, the attacker stops.
+        """
+        if self._do_scan_host():
             self._enum_host()
         else:
             # terminate the whole process
@@ -201,11 +241,19 @@ class AttackOperation:
                 logging.info("Adversary: Cannot discover new hosts!")
             return
 
-    def _execute_enum_host(self):
+    def _do_enum_host(self):
         """
-        Starts enumerating each host by popping off the host id from the top of the host stack
-        time for host hopping required
-        Checks if the Hacker has already compromised and backdoored the target host
+        ENUM_HOST core. Starts enumerating each host by popping off the host id
+        from the top of the host stack (time for host hopping required). Ticks
+        the attack counter (and the give-up list, targeted network only), resets
+        per-host working state, and sets the pivot. Checks if the Hacker has
+        already compromised and backdoored the target host; if so, records the
+        re-control progress here.
+
+        Returns True if the enumerated host was already compromised (native ->
+        loop ENUM_HOST), False if it is a fresh host to attack (native ->
+        SCAN_PORT). Precondition: a non-empty host_stack (the raise _enum_host
+        re-routes to SCAN_HOST when the stack is empty).
         """
         adversary = self.adversary
         network = adversary.get_network()
@@ -237,16 +285,30 @@ class AttackOperation:
 
         if adversary.get_curr_host().compromised:
             self.update_compromise_progress(self.env.now, self._proceed_time)
+            return True
+        return False
+
+    def _execute_enum_host(self):
+        """
+        Native FSM wrapper for ENUM_HOST: run the core, then dispatch. An
+        already-compromised host loops back to ENUM_HOST; a fresh host triggers
+        the attack proper (SCAN_PORT). Bit-identical to the pre-carve core.
+        """
+        if self._do_enum_host():
             self._enum_host()
         else:
             # Attack event triggered
             self._scan_port()
 
-    def _execute_scan_port(self):
+    def _do_scan_port(self):
         """
-        Starts a port scan on the target host
-        Checks if a compromised user has reused their credentials on the target host
-        Phase 1
+        SCAN_PORT core. Starts a port scan on the target host and checks whether
+        a compromised user has reused their credentials on it. On a reuse hit,
+        records the compromise progress here. Phase 1.
+
+        Returns True if credential reuse compromised the host (native ->
+        SCAN_NEIGHBOR), False otherwise (native -> EXPLOIT_VULN). Precondition:
+        curr_host set (by ENUM_HOST).
         """
         adversary = self.adversary
         adversary.set_curr_ports(adversary.get_curr_host().port_scan())
@@ -254,16 +316,33 @@ class AttackOperation:
             adversary.get_compromised_users())
         if user_reuse:
             self.update_compromise_progress(self.env.now, self._proceed_time)
-            self._scan_neighbors()
-            return
-        self._exploit_vuln()
+            return True
+        return False
 
-    def _execute_exploit_vuln(self, vulns):
+    def _execute_scan_port(self):
         """
-        Finds the top 5 vulnerabilities based on RoA score and have not been exploited yet that the
-        Tries exploiting the vulnerabilities to compromise the host
-        Checks if the adversary was able to successfully compromise the host
-        Phase 2
+        Native FSM wrapper for SCAN_PORT: run the core, then dispatch. Reuse
+        expands from the freshly-owned host (SCAN_NEIGHBOR); no reuse falls
+        through to the exploit attempt (EXPLOIT_VULN). Bit-identical.
+        """
+        if self._do_scan_port():
+            self._scan_neighbors()
+        else:
+            self._exploit_vuln()
+
+    def _do_exploit_vuln(self, vulns):
+        """
+        EXPLOIT_VULN core (generator). Finds the top 5 vulnerabilities based on
+        RoA score and not yet exploited, tries exploiting them to compromise the
+        host, and checks whether the adversary succeeded. On compromise, applies
+        the exploitability bookkeeping and records the progress here. Phase 2.
+
+        Returns one of EXPLOIT_COMPROMISED / EXPLOIT_UNCOMPROMISED / EXPLOIT_HALTED.
+        EXPLOIT_HALTED means an MTD interrupt was raised or the sim ended mid-attempt
+        — the native code returns without dispatching a successor, so the caller
+        must NOT dispatch either. Precondition: curr_host set (by ENUM_HOST) and
+        curr_ports populated (by SCAN_PORT); empty curr_ports yields no vulns and
+        the attempt degenerates to EXPLOIT_UNCOMPROMISED (native falls to BRUTE_FORCE).
         """
         adversary = self.adversary
         for vuln in vulns:
@@ -277,10 +356,10 @@ class AttackOperation:
                 yield self.env.timeout(exploit_time)
             except simpy.Interrupt:
                 self.env.process(self._handle_interrupt(start_time, self.adversary.get_curr_process()))
-                return
+                return EXPLOIT_HALTED
             # R2-attacker: don't keep iterating vulns past sim end.
             if self.end_event.triggered:
-                return
+                return EXPLOIT_HALTED
             finish_time = self.env.now + self._proceed_time
             if self.logging:
                 logging.info(
@@ -301,31 +380,65 @@ class AttackOperation:
                             vuln.exploitability = 1
                         # todo: record vulnerability roa, impact, and complexity
                         self.adversary.get_network().get_scorer().add_vuln_compromise(self.env.now, vuln)
-     
-            self.update_compromise_progress(self.env.now, self._proceed_time)
-            self._scan_neighbors()
-        else:
-            self._brute_force()
 
-    def _execute_brute_force(self):
+            self.update_compromise_progress(self.env.now, self._proceed_time)
+            return EXPLOIT_COMPROMISED
+        return EXPLOIT_UNCOMPROMISED
+
+    def _execute_exploit_vuln(self, vulns):
         """
-        Tries bruteforcing a login for a short period of time using previous passwords from compromised user accounts to guess a new login.
-        Checks if credentials for a user account has been successfully compromised.
-        Phase 3
+        Native FSM wrapper for EXPLOIT_VULN (generator): delegate to the core
+        with `yield from` (preserving every per-vuln timeout yield in order),
+        then dispatch on its outcome. Compromise expands (SCAN_NEIGHBOR); failure
+        falls to the credential fallback (BRUTE_FORCE); a halt (interrupt/sim-end)
+        dispatches nothing. Bit-identical to the pre-carve core.
+        """
+        outcome = yield from self._do_exploit_vuln(vulns)
+        if outcome == EXPLOIT_COMPROMISED:
+            self._scan_neighbors()
+        elif outcome == EXPLOIT_UNCOMPROMISED:
+            self._brute_force()
+        # EXPLOIT_HALTED: interrupt spawned or sim ended; no succession.
+
+    def _do_brute_force(self):
+        """
+        BRUTE_FORCE core. Tries bruteforcing a login for a short period using
+        previous passwords from compromised user accounts to guess a new login,
+        and checks whether a user account was successfully compromised. On
+        success, records the compromise progress here. Phase 3.
+
+        Returns True if the host was compromised (native -> SCAN_NEIGHBOR), False
+        otherwise (native -> ENUM_HOST, abandoning this host). Precondition:
+        curr_host set (by ENUM_HOST).
         """
         adversary = self.adversary
         _brute_force_result = adversary.get_curr_host().compromise_with_users(
             adversary.get_compromised_users())
         if _brute_force_result:
             self.update_compromise_progress(self.env.now, self._proceed_time)
+            return True
+        return False
+
+    def _execute_brute_force(self):
+        """
+        Native FSM wrapper for BRUTE_FORCE: run the core, then dispatch. Success
+        expands (SCAN_NEIGHBOR); failure abandons the host and takes the next
+        (ENUM_HOST). Bit-identical to the pre-carve core.
+        """
+        if self._do_brute_force():
             self._scan_neighbors()
         else:
             self._enum_host()
 
-    def _execute_scan_neighbors(self):
+    def _do_scan_neighbors(self):
         """
-        Starts scanning for neighbors from a host that the hacker can pivot to
-        Puts the new neighbors discovered to the start of the host stack.
+        SCAN_NEIGHBOR core. Starts scanning for neighbors from a host that the
+        hacker can pivot to, and puts the new neighbors discovered to the start
+        of the host stack.
+
+        No branch — native succession is always ENUM_HOST. Returns None.
+        Precondition: curr_host set (and semantically only meaningful on a
+        just-compromised host).
         """
         adversary = self.adversary
         found_neighbors = adversary.get_curr_host().discover_neighbors()
@@ -335,6 +448,13 @@ class AttackOperation:
             if node_id not in found_neighbors
         ]
         adversary.set_host_stack(new__host_stack)
+
+    def _execute_scan_neighbors(self):
+        """
+        Native FSM wrapper for SCAN_NEIGHBOR: run the core, then dispatch to the
+        sole successor (ENUM_HOST). Bit-identical to the pre-carve core.
+        """
+        self._do_scan_neighbors()
         self._enum_host()
 
     def _set_next_pivot_host(self):
@@ -387,6 +507,83 @@ class AttackOperation:
             #     self.end_event.succeed()
             #     return
             #
+
+    # --- Controller-facing surface (never called by the native FSM) ---------
+    def assert_action_context(self, verb):
+        """Precondition guard. Raise ActionContextError if `verb`'s core would run
+        without the shared adversary state it assumes (anatomy §2.2). The native
+        FSM guarantees these by call order and never calls this; a controller
+        driving verbs out of native order calls it (directly, or via step()) to
+        fail loudly instead of degenerating silently or crashing with a bare
+        AttributeError deep in the substrate.
+        """
+        adversary = self.adversary
+        if verb == 'SCAN_HOST':
+            return  # root: manufactures its own host_stack from network state
+        if verb == 'ENUM_HOST':
+            if len(adversary.get_host_stack()) == 0:
+                raise ActionContextError(
+                    "ENUM_HOST requires a non-empty host_stack; none present "
+                    "(SCAN_HOST/SCAN_NEIGHBOR fill it).")
+            return
+        if verb in ('SCAN_PORT', 'BRUTE_FORCE', 'SCAN_NEIGHBOR'):
+            if adversary.get_curr_host() is None:
+                raise ActionContextError(
+                    "%s requires curr_host to be set (ENUM_HOST sets it)." % verb)
+            return
+        if verb == 'EXPLOIT_VULN':
+            if adversary.get_curr_host() is None:
+                raise ActionContextError(
+                    "EXPLOIT_VULN requires curr_host to be set (ENUM_HOST sets it).")
+            if len(adversary.get_curr_ports()) == 0:
+                raise ActionContextError(
+                    "EXPLOIT_VULN requires curr_ports populated by SCAN_PORT; empty "
+                    "curr_ports yields no vulns and degenerates to BRUTE_FORCE silently.")
+            return
+        raise ActionContextError("unknown verb %r" % verb)
+
+    def step(self, verb):
+        """Drivability primitive: perform one verb with its native time cost and
+        RETURN its outcome (a _do_* return value), WITHOUT dispatching a successor
+        — the third lever from anatomy §3.3. A SimPy generator: drive it from a
+        controller process with `outcome = yield from attack_operation.step(verb)`,
+        then choose the next verb yourself (that choice is the driver's job, out of
+        this module's scope).
+
+        Fails loudly (assert_action_context) if the verb's precondition is unmet,
+        and records each verb in the attack stats exactly as the native path does,
+        so a driven run is observable in the same attack_record.
+
+        Scope note: step() covers the success-path succession the tail-calls encode.
+        MTD-interrupt recovery still runs through the native _handle_interrupt
+        (which re-dispatches natively); wiring that to a controller is future work.
+        """
+        self.assert_action_context(verb)
+        adversary = self.adversary
+        if verb == 'EXPLOIT_VULN':
+            # EXPLOIT_VULN times per-vuln inside its core (no single outer timeout).
+            adversary.set_curr_process('EXPLOIT_VULN')
+            adversary.set_curr_vulns(
+                adversary.get_curr_host().get_vulns(adversary.get_curr_ports()))
+            outcome = yield from self._do_exploit_vuln(adversary.get_curr_vulns())
+            return outcome
+        cores = {
+            'SCAN_HOST': self._do_scan_host,
+            'ENUM_HOST': self._do_enum_host,
+            'SCAN_PORT': self._do_scan_port,
+            'BRUTE_FORCE': self._do_brute_force,
+            'SCAN_NEIGHBOR': self._do_scan_neighbors,
+        }
+        adversary.set_curr_process(verb)
+        start_time = self.env.now + self._proceed_time
+        yield self.env.timeout(ATTACK_DURATION[verb])
+        # R2-attacker: same gate as _execute_attack_action — don't act past sim end.
+        if self.end_event.triggered:
+            return None
+        finish_time = self.env.now + self._proceed_time
+        adversary.get_attack_stats().append_attack_operation_record(
+            verb, start_time, finish_time, adversary)
+        return cores[verb]()
 
     def get_proceed_time(self):
         return self._proceed_time

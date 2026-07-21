@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-16
-updated: 2026-07-16
+updated: 2026-07-21
 topic: "L3 action layer — anatomy of the inherited attack FSM (the 'before' state), its coupling graph, callable surface, affordances, and the two performance hypotheses"
 ---
 
@@ -218,6 +218,21 @@ connected component with `ENUM_HOST` as its hub.
 ---
 
 ## 3. The callable surface
+
+> **After the carve (landed 2026-07-21).** §§3.1–3.3 describe the **pre-carve**
+> surface — the fire-once machine with two levers and near-zero reordering
+> freedom. That surface has since been carved, in the shape §3.3 specified: each
+> verb's `_execute_*` now splits into a pure `_do_*` core that performs the action
+> and **returns its branch outcome**, and a thin wrapper that reads the outcome and
+> tail-calls the native successor. The native FSM is bit-for-bit unchanged (all
+> nine `baseline/golden` scenarios reproduce); the cores are independently callable;
+> `assert_action_context(verb)` fails loud on an unmet precondition (the §3.3 crashes
+> and silent degenerations); and `step(verb)` runs one verb with its time cost and
+> returns the outcome **without** succession — so the reordering ceiling below no
+> longer binds a controller (the third lever now exists). §§3.1–3.3 are retained as
+> the "before" account; the carved surface is in
+> [`attack_operation.py`](../../../../mtdnetwork/operation/attack_operation.py), its
+> gate in [`tests/test_action_layer_carve.py`](../../../../tests/test_action_layer_carve.py).
 
 ### 3.1 The decisive fact — fire-once, not step-callable
 
