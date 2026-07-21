@@ -1,7 +1,25 @@
 ---
-status: open
+status: in-progress — map + ledger shipped; M6 application + Marc's review remain
 created: 2026-07-15
+updated: 2026-07-21
 ---
+
+> **Executed 2026-07-21 — record + ledger shipped; M6 application gated.** The
+> deliverable landed as the implementation record
+> [`../implementation/pipeline/ogasp/tactic_action_map.md`](../implementation/pipeline/ogasp/tactic_action_map.md)
+> plus the revised ledger
+> [`../../data/ogasp/tactic_action_map.csv`](../../data/ogasp/tactic_action_map.csv)
+> (long-form, 12 influenced pairs + 9 dwell-only rows; new hoisted path — the
+> prior `timeline/` CSV is retained as the superseded binding investigation's
+> ledger). Gate status: items 1, 2, 4, 6 ✅; **item 3 (M6) specified to a code
+> seam but not applied** — it regenerates review-gated net artefacts and extends
+> the load-bearing no-synthesis invariant test, so per item 5 it awaits Marc's
+> review of the map first (record §6, §8). One open judgement for Marc: whether
+> off-clock resource-development is bridged into the net or left a documented
+> island. Callability update folded in: the §3.3 carve **landed** (2026-07-21),
+> so the handoff's "conditional on carve" row-class is discharged — only
+> "callable-with-context" remains (record §1). **Delete this handoff when M6 is
+> applied and the map is signed off.**
 
 # Produce the M5 tactic→action influence map — inventory the substrate's attacker actions and their binary outcome signals, map the 15 tactics onto them with per-pair justification, and curate the M6 pre-intrusion synthetic join
 
