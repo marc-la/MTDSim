@@ -4,18 +4,26 @@ created: 2026-07-21
 supersedes: 2026-07-15_l3_feedback_net_design.md
 ---
 
-> **Executed 2026-07-21 — awaiting Marc's review (gate item 6).** The design
-> record landed at
+> **Executed 2026-07-21, then reworked on Marc's feedback — awaiting review
+> (gate item 6).** The design record is
 > [`../implementation/pipeline/ogasp/success_failure_overlay_design.md`](../implementation/pipeline/ogasp/success_failure_overlay_design.md)
 > with the authored artefact
 > [`../../data/ogasp/petri/outcome_overlay.json`](../../data/ogasp/petri/outcome_overlay.json)
-> and a provenance row. Gate items 1–5 are met in the record (composition rule
-> §1, two treatments + framework §2, stall rule §3, interrupt/reset §4, lifecycle
-> + determinism + record schema §5; open questions resolved §7). The superseded
-> feedback-net handoff was deleted (its live material folded into the record).
-> **Remaining:** Marc reviews the band assignment, the default multipliers, the
-> five success overrides, and the stall-rule choice; then the profiled-attacker
-> build consumes it. Delete this handoff when that review lands.
+> and a provenance row. **The first pass was corrected on three counts and
+> re-authored:** (1) the overlay is now a **ground-up conditional-likelihood
+> weighting of the whole directed tactic-pair set** (per-pair "given verdict at
+> `a`, how likely is `b` next", 0–1) — the coarse band-rule-plus-overrides model
+> was retired; (2) **full coverage**, not the six action-bearing places (the
+> action set is extensible — authored whole-space, consumed as verbs are added);
+> (3) resource-development and backward edges are in. Separately, the **structural
+> pre-intrusion layer was renamed the *synthetic overlay*** (its own record
+> [`../implementation/pipeline/ogasp/synthetic_overlay.md`](../implementation/pipeline/ogasp/synthetic_overlay.md))
+> and made **bidirectional** (forward chain recon → resource-development →
+> initial-access + backward regression bridge initial-access → reconnaissance),
+> reversing the recon-only resolution — committed 1a91adb.
+> **Remaining:** Marc reviews the bands, the `enables` sets, and the
+> success/failure rules; then the profiled-attacker build consumes it. Delete this
+> handoff when that review lands.
 
 # Design and author the success/failure outcome overlay — the net's *policy layer* as two declared binary tactic-pair weight files, composed with the substrate oracle at runtime, with a defensible framework for authoring and verifying the numbers (CKC becomes one input, not a runtime layer)
 
