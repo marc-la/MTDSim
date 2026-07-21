@@ -12,14 +12,16 @@ updated: 2026-07-21
 > (long-form, 12 influenced pairs + 9 dwell-only rows; new hoisted path — the
 > prior `timeline/` CSV is retained as the superseded binding investigation's
 > ledger). Gate status: items 1, 2, 3, 4, 6 ✅ — **item 3 (M6) applied on
-> Marc's go-ahead** in the overlay-object shape (record §6): a separate
-> composed artefact
-> [`../../data/ogasp/petri/prefix_join_overlay.json`](../../data/ogasp/petri/prefix_join_overlay.json)
-> built by `petri/prefix_join.py`, composed at net construction; the observed
+> Marc's go-ahead** as the **synthetic overlay** — a separate composed artefact
+> [`../../data/ogasp/petri/synthetic_overlay.json`](../../data/ogasp/petri/synthetic_overlay.json)
+> built by `petri/synthetic_overlay.py`, composed at net construction; the observed
 > `*_structural.json` stay byte-identical and the no-synthesis invariant is
-> untouched. The open judgement is resolved **(b) recon-only** —
-> resource-development stays a documented island (its solo bridge would have
-> been dead structure; the chain shape remains a declared extension).
+> untouched. *(Subsequently — 2026-07-21 — the overlay was renamed from "M6 join"
+> to the synthetic overlay and made **bidirectional**: the recon-only resolution
+> was reversed, resource-development is now bridged as a forward pass-through on
+> the chain recon → resource-development → initial-access plus a backward
+> regression bridge. Authoritative record:
+> [`../implementation/pipeline/ogasp/synthetic_overlay.md`](../implementation/pipeline/ogasp/synthetic_overlay.md).)*
 > Callability update folded in: the §3.3 carve **landed** (2026-07-21), so the
 > handoff's "conditional on carve" row-class is discharged — only
 > "callable-with-context" remains (record §1). **Item 5 remains: delete this

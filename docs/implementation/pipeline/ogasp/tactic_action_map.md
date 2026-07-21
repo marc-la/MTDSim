@@ -390,7 +390,7 @@ composed nets, with the observed record and the D8 comparison arm one flag away.
 - **Feeds:** the success/failure outcome-overlay design
   ([`success_failure_overlay_design.md`](success_failure_overlay_design.md))
   — which consumes the §4 verdict contract as its M2 oracle and composes beside
-  the §6 M6 overlay; the profiled-attacker build and first-numbers downstream of
+  the §6 synthetic overlay; the profiled-attacker build and first-numbers downstream of
   it. *(Was the now-superseded feedback-net design handoff.)*
 - **When to update:** ~~if the M6 overlay is applied~~ — happened 2026-07-21
   (item 3 ✅; §6 records the as-applied overlay-object shape, and the island
