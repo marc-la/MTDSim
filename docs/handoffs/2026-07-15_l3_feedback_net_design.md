@@ -1,7 +1,19 @@
 ---
-status: open
+status: superseded by 2026-07-21_l3_success_failure_overlay_design.md
 created: 2026-07-15
+updated: 2026-07-21
 ---
+
+> **Superseded 2026-07-21 (Marc's direction).** The M2 mechanism is retained but
+> reframed: direction is no longer a runtime CKC-phase layer (M3): it is carried
+> by two hand-authored success/failure binary tactic-pair overlay files (the
+> *policy layer*), with CKC demoted to one input of a defensible authoring
+> framework. This handoff's still-live material — the multiplicative composition
+> rule (§2 here), the live-stepping/termination/censoring semantics (§3), and the
+> determinism + per-event record schema (§4) — is folded into the successor's
+> §1/§4/§5. Retained for lineage; **delete on the next stale-handoff sweep.** Do
+> not execute this one — execute
+> [`2026-07-21_l3_success_failure_overlay_design.md`](2026-07-21_l3_success_failure_overlay_design.md).
 
 # Design the live feedback-coupled net (M1/M2/M3) — conditional success/failure weight sets per place, the kill-chain direction mapping, live-stepping and termination semantics, ready for the profiled-attacker build to implement without re-deriving a decision
 
