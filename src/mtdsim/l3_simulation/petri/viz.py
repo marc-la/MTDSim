@@ -71,6 +71,7 @@ def render_tactic_state_diagram(
     tactic_layers: dict[str, int],
     viz_dir: Path,
     weights: dict | None = None,
+    filename: str | None = None,
 ) -> Path:
     """Render one profile's net as a clean tactic-state diagram (PNG + SVG).
 
@@ -78,7 +79,11 @@ def render_tactic_state_diagram(
     variant) switches the edge encoding from backing-GASP-edge counts to the
     W-A weight, on a **uniform absolute scale** (weight ∈ [0, 1] maps the same
     everywhere) so the five nets stay visually comparable — no per-net
-    normalisation, no accentuation."""
+    normalisation, no accentuation. A composed net's M6 overlay
+    (``synthetic_transitions``) is drawn dashed with its declared weight —
+    provenance as an encoding, on the same absolute scale. ``filename``
+    overrides the output stem (default: the class name), so observed and
+    composed renders of one profile can sit side by side."""
     viz_dir = Path(viz_dir)
     viz_dir.mkdir(parents=True, exist_ok=True)
 
@@ -102,9 +107,13 @@ def render_tactic_state_diagram(
         )
     )
     kind = "weighted net (W-A flow proportion, operator-dedup)" if weights else "structural net"
+    n_syn = len(snet.synthetic_transitions)
+    if n_syn:
+        kind += " · M6 prefix-join overlay composed"
+    syn_note = f" (+{n_syn} synthetic)" if n_syn else ""
     title = (
         f"OGASP {kind} · {snet.class_name}\n"
-        f"{report.n_places} places · {report.n_transitions} transitions · "
+        f"{report.n_places} places · {report.n_transitions}{syn_note} transitions · "
         f"{report.n_inter_tactic_edges} GASP edges · token seeded in "
         f"{snet.entry_tactic}\n"
         f"objective ({', '.join(report.objective_tactics)}) {obj_reach} · "
@@ -186,9 +195,28 @@ def render_tactic_state_diagram(
             constraint="false",
         )
 
+    # The M6 overlay (composed nets only; empty on an observed-only build):
+    # dashed = synthetic provenance class — an encoding, not accentuation. The
+    # declared weight rides the same absolute penwidth/opacity scale as the
+    # W-A weights, and the edge label says what it is.
+    for spec in snet.synthetic_transitions:
+        frac = spec.declared_weight or 0.0
+        penwidth = 0.6 + 2.4 * frac
+        alpha = int(55 + 200 * frac)
+        g.edge(
+            spec.src_tactic,
+            spec.dst_tactic,
+            label=f"{frac:.2f} (synthetic)",
+            color=f"{FORWARD_EDGE}{alpha:02x}",
+            penwidth=f"{penwidth:.2f}",
+            style="dashed",
+            arrowsize="0.7",
+            constraint="false",
+        )
+
     _legend(g)
 
-    stem = viz_dir / snet.class_name
+    stem = viz_dir / (filename or snet.class_name)
     g.render(str(stem), cleanup=True)  # writes <stem>.png
     g.format = "svg"
     g.render(str(stem), cleanup=True)  # writes <stem>.svg
