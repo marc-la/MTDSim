@@ -2,7 +2,7 @@
 status: durable
 created: 2026-07-03
 topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5, M1–M8)"
-updated: 2026-07-16
+updated: 2026-07-21
 lineage: formerly docs/notes @ 2026-07-03_supervisor_meeting_l3_decisions.md (relocated in the 2026-07-13 docs refactor)
 ---
 
@@ -255,9 +255,16 @@ sends regular updates.
     [`tactic_action_map.md`](tactic_action_map.md) §6,
     [`../../data/ogasp/petri/prefix_join_overlay.json`](../../../../data/ogasp/petri/prefix_join_overlay.json);
     recon-only, resource-development a documented island.)*
-  - [`../handoffs/2026-07-15_l3_feedback_net_design.md`](../../../handoffs/2026-07-15_l3_feedback_net_design.md)
-    — designs the **M1/M2/M3** contract: live net stepping, conditional
-    weight sets, kill-chain direction layer.
+  - [`success_failure_overlay_design.md`](success_failure_overlay_design.md)
+    — designs the **M2** contract as reframed 2026-07-21 (Marc's direction):
+    the success/failure outcome overlay as a declared **policy** layer (two
+    binary tactic-pair weight treatments composed multiplicatively with the
+    substrate verdict at runtime), CKC demoted to the band prior of the
+    authoring framework (not a runtime M3 layer). Carries the composition,
+    stall, interrupt, and live-stepping semantics; artefact
+    [`../../../../data/ogasp/petri/outcome_overlay.json`](../../../../data/ogasp/petri/outcome_overlay.json).
+    *Supersedes the feedback-net design handoff, whose live material folded
+    in.* **Awaits Marc's review.**
   - [`../handoffs/2026-07-15_l3_profiled_attacker_build.md`](../../../handoffs/2026-07-15_l3_profiled_attacker_build.md)
     — builds the **M7** movement layer (the profiled attacker class) against
     the two records above; executes **D1/D5** end-to-end.

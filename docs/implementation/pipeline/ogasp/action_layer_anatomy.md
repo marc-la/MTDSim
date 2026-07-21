@@ -493,8 +493,9 @@ carve, are gated on Marc's review.
 - **Feeds:** the tactic→action influence map
   ([`../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md`](../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md)),
   whose per-pair verdicts are only meaningful once callability (§3) is known; and the
-  feedback-net design
-  ([`../../../handoffs/2026-07-15_l3_feedback_net_design.md`](../../../handoffs/2026-07-15_l3_feedback_net_design.md)).
+  success/failure outcome-overlay design
+  ([`success_failure_overlay_design.md`](success_failure_overlay_design.md); its §4
+  names the interrupt→driver wiring as a build prerequisite).
 - **Speaks to:** the anti-goal / distinguishability bar in
   [`binding_design_space.md`](binding_design_space.md) — §6's H-coupling is that
   anti-goal reached from the action-layer side.

@@ -421,10 +421,11 @@ composed nets, with the observed record and the D8 comparison arm one flag away.
   callability, ATT&CK coverage); the 15 [`tactic_profiles/`](../../../notes/ch3_design/tactic_profiles/)
   §5 blocks; [`supervisor_decision_register.md`](supervisor_decision_register.md)
   §M1–M8, D3/D4, R2/R5.
-- **Feeds:** the feedback-net design
-  ([`../../../handoffs/2026-07-15_l3_feedback_net_design.md`](../../../handoffs/2026-07-15_l3_feedback_net_design.md))
-  — the verdict contract (§4) and the M6 overlay (§6); the profiled-attacker
-  build and first-numbers downstream of it.
+- **Feeds:** the success/failure outcome-overlay design
+  ([`success_failure_overlay_design.md`](success_failure_overlay_design.md))
+  — which consumes the §4 verdict contract as its M2 oracle and composes beside
+  the §6 M6 overlay; the profiled-attacker build and first-numbers downstream of
+  it. *(Was the now-superseded feedback-net design handoff.)*
 - **When to update:** ~~if the M6 overlay is applied~~ — happened 2026-07-21
   (item 3 ✅; §6 records the as-applied overlay-object shape, and the island
   table still describes the *observed* nets, which the overlay leaves

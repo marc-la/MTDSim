@@ -1,0 +1,711 @@
+{
+  "artefact": "L3 success/failure outcome overlay (the M2 policy layer)",
+  "register": "docs/implementation/pipeline/ogasp/supervisor_decision_register.md §M2/§M3",
+  "specification": "docs/implementation/pipeline/ogasp/success_failure_overlay_design.md",
+  "verdict_oracle": "docs/implementation/pipeline/ogasp/tactic_action_map.md §4",
+  "status": "declared/synthetic policy layer (envelope-not-actor); NOT flow-derived — the D3 base weights are conditioned multiplicatively, never re-derived",
+  "composition_rule": "per action-bearing source place a and verdict v in {success,failure}: w'(a->b) = base(a->b) * overlay_v(a->b) / sum_b'[base(a->b') * overlay_v(a->b')]. At dwell-only source places there is no verdict: w'(a->b) = base(a->b) (overlay not applied).",
+  "scope": {
+    "action_bearing_source_places": [
+      "reconnaissance",
+      "initial-access",
+      "privilege-escalation",
+      "credential-access",
+      "discovery",
+      "lateral-movement"
+    ],
+    "dwell_only_note": "the other 9 tactics have no substrate verb (tactic_action_map.md §3.3): no oracle verdict exists, so the overlay is not selected there and base weights route unconditioned",
+    "profile_independence": "one (success,failure) value per directed tactic-pair, applied wherever the pair occurs across profiles; the policy is a property of tactic-pair kill-chain semantics, not of the corpus"
+  },
+  "kill_chain_bands": {
+    "note": "CKC structural prior; ATT&CK imposes no tactic ordering (M3) — the band index is a declared assumption of this work, coarse by design (no false precision from fine ranks)",
+    "bands": {
+      "reconnaissance": 0,
+      "resource-development": 0,
+      "initial-access": 1,
+      "execution": 1,
+      "persistence": 2,
+      "privilege-escalation": 2,
+      "stealth": 2,
+      "defense-impairment": 2,
+      "credential-access": 2,
+      "discovery": 3,
+      "lateral-movement": 3,
+      "collection": 4,
+      "command-and-control": 4,
+      "exfiltration": 4,
+      "impact": 4
+    },
+    "band_labels": {
+      "0": "prep",
+      "1": "intrusion",
+      "2": "consolidate",
+      "3": "expand",
+      "4": "objective"
+    }
+  },
+  "default_rule": {
+    "relationship": "r = band(dst) - band(src); forward r>=1, lateral r==0, backward r<=-1",
+    "success": {
+      "forward": 1.0,
+      "lateral": 1.0,
+      "backward": 0.5
+    },
+    "failure": {
+      "forward": 0.3,
+      "lateral": 0.8,
+      "backward": 1.0
+    },
+    "rationale": {
+      "success": "gentle: forward/lateral untouched (the grounded base already encodes success-biased observed workflow — trimming them would double-count), backward mildly trimmed (a successful attacker rarely regresses)",
+      "failure": "aggressive: forward soft-suppressed (0.3, NOT a blanket ban — a retry-then-advance stays possible; Marc's refinement), lateral favoured (0.8, try a sibling tactic), backward favoured (1.0, fall back / re-scan — 'back to the drawing board')"
+    }
+  },
+  "overrides": {
+    "note": "SUCCESS-side only; each grounded in an incident AAR or MITRE tactic semantics. FAILURE carries NO override — no report documents failure behaviour, so failure is the bare declared rule everywhere (the evidence-tier asymmetry, made concrete).",
+    "provenance_tags": {
+      "ov-ia-recon": "MITRE tactic semantics + Sophos/DFIR AARs: a landed foothold is followed by internal discovery/credential access, not a return to external reconnaissance (docs/sources/tactic_profiles/step_c/sophos_aar_2024_1h.md, dfir_report_confluence_exploit_leads_to_lockbit_ransomware.md)",
+      "ov-postfoothold-no-rerecon": "same: post-foothold tactics do not route back to external reconnaissance on success (DFIR/Sophos AARs)",
+      "ov-lateral-cred-interleave": "DFIR AARs: lateral movement interleaves with credential re-harvest on the newly owned host (dfir_report_blacksuit_ransomware.md, dfir_report_hide_your_rdp_password_spray_leads_to_ransomhub_deployment.md)",
+      "ov-discovery-feeds-cred": "DFIR AARs: internal discovery feeds credential-access targeting (dfir_report_blacksuit_ransomware.md)"
+    },
+    "edges": [
+      {
+        "src_tactic": "credential-access",
+        "dst_tactic": "reconnaissance",
+        "success": 0.2,
+        "provenance": "ov-postfoothold-no-rerecon"
+      },
+      {
+        "src_tactic": "discovery",
+        "dst_tactic": "credential-access",
+        "success": 0.8,
+        "provenance": "ov-discovery-feeds-cred"
+      },
+      {
+        "src_tactic": "initial-access",
+        "dst_tactic": "reconnaissance",
+        "success": 0.2,
+        "provenance": "ov-ia-recon"
+      },
+      {
+        "src_tactic": "lateral-movement",
+        "dst_tactic": "credential-access",
+        "success": 0.8,
+        "provenance": "ov-lateral-cred-interleave"
+      },
+      {
+        "src_tactic": "lateral-movement",
+        "dst_tactic": "reconnaissance",
+        "success": 0.2,
+        "provenance": "ov-postfoothold-no-rerecon"
+      }
+    ]
+  },
+  "stall_rule": "at an action-bearing place, if the failure-composed out-distribution has zero mass (denominator 0) OR the only surviving out-edge is a synthetic-forward one (the M6-bridged recon islands), the driver re-fires in place (bounded retry, cap K) rather than moving the token — legitimate because the policy layer is not bound by build.py's self-loop dropping; on exhausting K, forced progression along the least-suppressed forward edge guarantees termination under the horizon (R4)",
+  "resolved": [
+    {
+      "src_tactic": "credential-access",
+      "dst_tactic": "collection",
+      "src_band": "2-consolidate",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "credential-access",
+      "dst_tactic": "command-and-control",
+      "src_band": "2-consolidate",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "credential-access",
+      "dst_tactic": "defense-impairment",
+      "src_band": "2-consolidate",
+      "dst_band": "2-consolidate",
+      "relationship": "lateral",
+      "success": 1.0,
+      "success_provenance": "rule:lateral",
+      "failure": 0.8,
+      "failure_provenance": "rule:lateral"
+    },
+    {
+      "src_tactic": "credential-access",
+      "dst_tactic": "execution",
+      "src_band": "2-consolidate",
+      "dst_band": "1-intrusion",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "credential-access",
+      "dst_tactic": "exfiltration",
+      "src_band": "2-consolidate",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "credential-access",
+      "dst_tactic": "initial-access",
+      "src_band": "2-consolidate",
+      "dst_band": "1-intrusion",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "credential-access",
+      "dst_tactic": "lateral-movement",
+      "src_band": "2-consolidate",
+      "dst_band": "3-expand",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "credential-access",
+      "dst_tactic": "persistence",
+      "src_band": "2-consolidate",
+      "dst_band": "2-consolidate",
+      "relationship": "lateral",
+      "success": 1.0,
+      "success_provenance": "rule:lateral",
+      "failure": 0.8,
+      "failure_provenance": "rule:lateral"
+    },
+    {
+      "src_tactic": "credential-access",
+      "dst_tactic": "reconnaissance",
+      "src_band": "2-consolidate",
+      "dst_band": "0-prep",
+      "relationship": "backward",
+      "success": 0.2,
+      "success_provenance": "override:ov-postfoothold-no-rerecon",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "credential-access",
+      "dst_tactic": "stealth",
+      "src_band": "2-consolidate",
+      "dst_band": "2-consolidate",
+      "relationship": "lateral",
+      "success": 1.0,
+      "success_provenance": "rule:lateral",
+      "failure": 0.8,
+      "failure_provenance": "rule:lateral"
+    },
+    {
+      "src_tactic": "discovery",
+      "dst_tactic": "collection",
+      "src_band": "3-expand",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "discovery",
+      "dst_tactic": "command-and-control",
+      "src_band": "3-expand",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "discovery",
+      "dst_tactic": "credential-access",
+      "src_band": "3-expand",
+      "dst_band": "2-consolidate",
+      "relationship": "backward",
+      "success": 0.8,
+      "success_provenance": "override:ov-discovery-feeds-cred",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "discovery",
+      "dst_tactic": "execution",
+      "src_band": "3-expand",
+      "dst_band": "1-intrusion",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "discovery",
+      "dst_tactic": "exfiltration",
+      "src_band": "3-expand",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "discovery",
+      "dst_tactic": "impact",
+      "src_band": "3-expand",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "discovery",
+      "dst_tactic": "lateral-movement",
+      "src_band": "3-expand",
+      "dst_band": "3-expand",
+      "relationship": "lateral",
+      "success": 1.0,
+      "success_provenance": "rule:lateral",
+      "failure": 0.8,
+      "failure_provenance": "rule:lateral"
+    },
+    {
+      "src_tactic": "discovery",
+      "dst_tactic": "persistence",
+      "src_band": "3-expand",
+      "dst_band": "2-consolidate",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "discovery",
+      "dst_tactic": "privilege-escalation",
+      "src_band": "3-expand",
+      "dst_band": "2-consolidate",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "discovery",
+      "dst_tactic": "stealth",
+      "src_band": "3-expand",
+      "dst_band": "2-consolidate",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "initial-access",
+      "dst_tactic": "collection",
+      "src_band": "1-intrusion",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "initial-access",
+      "dst_tactic": "command-and-control",
+      "src_band": "1-intrusion",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "initial-access",
+      "dst_tactic": "credential-access",
+      "src_band": "1-intrusion",
+      "dst_band": "2-consolidate",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "initial-access",
+      "dst_tactic": "discovery",
+      "src_band": "1-intrusion",
+      "dst_band": "3-expand",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "initial-access",
+      "dst_tactic": "execution",
+      "src_band": "1-intrusion",
+      "dst_band": "1-intrusion",
+      "relationship": "lateral",
+      "success": 1.0,
+      "success_provenance": "rule:lateral",
+      "failure": 0.8,
+      "failure_provenance": "rule:lateral"
+    },
+    {
+      "src_tactic": "initial-access",
+      "dst_tactic": "lateral-movement",
+      "src_band": "1-intrusion",
+      "dst_band": "3-expand",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "initial-access",
+      "dst_tactic": "persistence",
+      "src_band": "1-intrusion",
+      "dst_band": "2-consolidate",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "initial-access",
+      "dst_tactic": "privilege-escalation",
+      "src_band": "1-intrusion",
+      "dst_band": "2-consolidate",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "initial-access",
+      "dst_tactic": "reconnaissance",
+      "src_band": "1-intrusion",
+      "dst_band": "0-prep",
+      "relationship": "backward",
+      "success": 0.2,
+      "success_provenance": "override:ov-ia-recon",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "initial-access",
+      "dst_tactic": "stealth",
+      "src_band": "1-intrusion",
+      "dst_band": "2-consolidate",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "collection",
+      "src_band": "3-expand",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "command-and-control",
+      "src_band": "3-expand",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "credential-access",
+      "src_band": "3-expand",
+      "dst_band": "2-consolidate",
+      "relationship": "backward",
+      "success": 0.8,
+      "success_provenance": "override:ov-lateral-cred-interleave",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "discovery",
+      "src_band": "3-expand",
+      "dst_band": "3-expand",
+      "relationship": "lateral",
+      "success": 1.0,
+      "success_provenance": "rule:lateral",
+      "failure": 0.8,
+      "failure_provenance": "rule:lateral"
+    },
+    {
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "execution",
+      "src_band": "3-expand",
+      "dst_band": "1-intrusion",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "initial-access",
+      "src_band": "3-expand",
+      "dst_band": "1-intrusion",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "persistence",
+      "src_band": "3-expand",
+      "dst_band": "2-consolidate",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "privilege-escalation",
+      "src_band": "3-expand",
+      "dst_band": "2-consolidate",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "reconnaissance",
+      "src_band": "3-expand",
+      "dst_band": "0-prep",
+      "relationship": "backward",
+      "success": 0.2,
+      "success_provenance": "override:ov-postfoothold-no-rerecon",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "lateral-movement",
+      "dst_tactic": "stealth",
+      "src_band": "3-expand",
+      "dst_band": "2-consolidate",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "collection",
+      "src_band": "2-consolidate",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "command-and-control",
+      "src_band": "2-consolidate",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "discovery",
+      "src_band": "2-consolidate",
+      "dst_band": "3-expand",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "execution",
+      "src_band": "2-consolidate",
+      "dst_band": "1-intrusion",
+      "relationship": "backward",
+      "success": 0.5,
+      "success_provenance": "rule:backward",
+      "failure": 1.0,
+      "failure_provenance": "rule:backward"
+    },
+    {
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "lateral-movement",
+      "src_band": "2-consolidate",
+      "dst_band": "3-expand",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "persistence",
+      "src_band": "2-consolidate",
+      "dst_band": "2-consolidate",
+      "relationship": "lateral",
+      "success": 1.0,
+      "success_provenance": "rule:lateral",
+      "failure": 0.8,
+      "failure_provenance": "rule:lateral"
+    },
+    {
+      "src_tactic": "privilege-escalation",
+      "dst_tactic": "stealth",
+      "src_band": "2-consolidate",
+      "dst_band": "2-consolidate",
+      "relationship": "lateral",
+      "success": 1.0,
+      "success_provenance": "rule:lateral",
+      "failure": 0.8,
+      "failure_provenance": "rule:lateral"
+    },
+    {
+      "src_tactic": "reconnaissance",
+      "dst_tactic": "command-and-control",
+      "src_band": "0-prep",
+      "dst_band": "4-objective",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "reconnaissance",
+      "dst_tactic": "initial-access",
+      "src_band": "0-prep",
+      "dst_band": "1-intrusion",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "reconnaissance",
+      "dst_tactic": "lateral-movement",
+      "src_band": "0-prep",
+      "dst_band": "3-expand",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    },
+    {
+      "src_tactic": "reconnaissance",
+      "dst_tactic": "persistence",
+      "src_band": "0-prep",
+      "dst_band": "2-consolidate",
+      "relationship": "forward",
+      "success": 1.0,
+      "success_provenance": "rule:forward",
+      "failure": 0.3,
+      "failure_provenance": "rule:forward"
+    }
+  ],
+  "profiles_covering_each_source": {
+    "reconnaissance": [
+      "aggregate",
+      "pure_impediment",
+      "pure_steal"
+    ],
+    "initial-access": [
+      "aggregate",
+      "double_extortion",
+      "infrastructure_setup",
+      "pure_impediment",
+      "pure_steal"
+    ],
+    "privilege-escalation": [
+      "aggregate",
+      "double_extortion",
+      "infrastructure_setup",
+      "pure_impediment",
+      "pure_steal"
+    ],
+    "credential-access": [
+      "aggregate",
+      "double_extortion",
+      "infrastructure_setup",
+      "pure_impediment",
+      "pure_steal"
+    ],
+    "discovery": [
+      "aggregate",
+      "double_extortion",
+      "infrastructure_setup",
+      "pure_impediment",
+      "pure_steal"
+    ],
+    "lateral-movement": [
+      "aggregate",
+      "double_extortion",
+      "infrastructure_setup",
+      "pure_impediment",
+      "pure_steal"
+    ]
+  }
+}

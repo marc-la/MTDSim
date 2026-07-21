@@ -4,6 +4,19 @@ created: 2026-07-21
 supersedes: 2026-07-15_l3_feedback_net_design.md
 ---
 
+> **Executed 2026-07-21 — awaiting Marc's review (gate item 6).** The design
+> record landed at
+> [`../implementation/pipeline/ogasp/success_failure_overlay_design.md`](../implementation/pipeline/ogasp/success_failure_overlay_design.md)
+> with the authored artefact
+> [`../../data/ogasp/petri/outcome_overlay.json`](../../data/ogasp/petri/outcome_overlay.json)
+> and a provenance row. Gate items 1–5 are met in the record (composition rule
+> §1, two treatments + framework §2, stall rule §3, interrupt/reset §4, lifecycle
+> + determinism + record schema §5; open questions resolved §7). The superseded
+> feedback-net handoff was deleted (its live material folded into the record).
+> **Remaining:** Marc reviews the band assignment, the default multipliers, the
+> five success overrides, and the stall-rule choice; then the profiled-attacker
+> build consumes it. Delete this handoff when that review lands.
+
 # Design and author the success/failure outcome overlay — the net's *policy layer* as two declared binary tactic-pair weight files, composed with the substrate oracle at runtime, with a defensible framework for authoring and verifying the numbers (CKC becomes one input, not a runtime layer)
 
 > **Supersedes the feedback-net design handoff (2026-07-15), reframed on Marc's
@@ -192,8 +205,9 @@ Done when:
 - [`../sources/tactic_profiles/step_c/`](../sources/tactic_profiles/step_c/) —
   the Sophos + DFIR incident AARs: the success-pattern evidence for the `success`
   file (and the source of the failure-behaviour gap).
-- `2026-07-15_l3_feedback_net_design.md` (superseded) — its composition/stepping/
-  determinism material is folded into §1/§4/§5 above; read only for lineage.
+- The feedback-net design handoff (superseded, now deleted) — its
+  composition/stepping/determinism material is folded into the design record's
+  §1/§4/§5; git log is the lineage record.
 
 ## Out of scope (explicitly)
 

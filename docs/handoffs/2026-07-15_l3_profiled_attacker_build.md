@@ -6,8 +6,9 @@ created: 2026-07-15
 # Build the profiled attacker (M7) — a new movement-layer attacker class that steps the class net live inside MTDSim, dispatches the mapped substrate actions, and feeds the binary outcome back as conditional weights, alongside the untouched 6-phase baseline
 
 > **Third in the post-meeting chain — blocked on the two records before it.**
-> Implements the contract from
-> [`./2026-07-15_l3_feedback_net_design.md`](./2026-07-15_l3_feedback_net_design.md)
+> Implements the contract from the success/failure outcome-overlay design
+> ([`../implementation/pipeline/ogasp/success_failure_overlay_design.md`](../implementation/pipeline/ogasp/success_failure_overlay_design.md);
+> supersedes the feedback-net design handoff)
 > using the map from
 > [`./2026-07-15_l3_tactic_action_influence_map.md`](./2026-07-15_l3_tactic_action_influence_map.md).
 > Do not start before both are Marc-reviewed. This replaces the retired
@@ -104,8 +105,10 @@ Done when:
 
 ## Reading list
 
-- [`./2026-07-15_l3_feedback_net_design.md`](./2026-07-15_l3_feedback_net_design.md)
-  → its record — the contract, in full, first.
+- [`../implementation/pipeline/ogasp/success_failure_overlay_design.md`](../implementation/pipeline/ogasp/success_failure_overlay_design.md)
+  → the contract, in full, first (the M2 policy overlay; supersedes the
+  feedback-net design handoff). Its artefact:
+  [`../../data/ogasp/petri/outcome_overlay.json`](../../data/ogasp/petri/outcome_overlay.json).
 - [`./2026-07-15_l3_tactic_action_influence_map.md`](./2026-07-15_l3_tactic_action_influence_map.md)
   → its record + ledger — the dispatch and verdict definitions.
 - [`../../mtdnetwork/operation/attack_operation.py`](../../mtdnetwork/operation/attack_operation.py)
