@@ -5,8 +5,10 @@ created: 2026-07-15
 
 # Pull the first numbers — run the MTD × profile experiment matrix on the coupled attacker, report MTTC/ASR with the M8 expectation on record, run the metrics-gap review, and draft the update to Jin
 
-> **Last in the post-meeting chain — blocked on the profiled-attacker build**
-> ([`./2026-07-15_l3_profiled_attacker_build.md`](./2026-07-15_l3_profiled_attacker_build.md)).
+> **Last in the forward chain — blocked on the attacker Petri → MTDSim build**
+> ([`./2026-07-22_l3_attacker_petri_to_mtdsim.md`](./2026-07-22_l3_attacker_petri_to_mtdsim.md)),
+> which is itself downstream of the controller finalisation
+> ([`./2026-07-22_l3_controller_success_failure.md`](./2026-07-22_l3_controller_success_failure.md)).
 > Per the meeting: implementation is the last major piece; after it, "pull
 > some numbers, then review based on what numbers we get". The M8
 > expectation is pre-registered here so the result reads as a finding either
@@ -32,6 +34,21 @@ created: 2026-07-15
   tricky; this may land as ch5/ch6 material rather than new code).
 - Jin expects regular updates in lieu of a fixed meeting slot while his
   semester-2 timetable settles.
+- **Runtime model verified (2026-07-23), so this run measures what we think it
+  measures.** The pre-experiment cross-examination is closed —
+  [`../implementation/pipeline/ogasp/runtime_verification.md`](../implementation/pipeline/ogasp/runtime_verification.md):
+  P1–P8 have recorded verdicts, the seams are pinned by tests, and two rulings
+  land directly on this run:
+  - **P7 sink-termination = accept-and-censor** (Marc, 2026-07-23). A walk that
+    reaches a sink stops and is censored (no code change). `pure_steal` (@`impact`),
+    `double_extortion` (@`credential-access`) and `infrastructure_setup`/observed
+    (@`reconnaissance`) sink early, so they contribute **truncated MTTC windows** —
+    **state this when reporting per-profile MTTC** (their denominator is shorter
+    than the profiles that run to horizon).
+  - **P4 H-coupling is a result to report, not a defect.** The verification pass
+    already tabulated the blocked-fraction (`PRECONDITION_UNMET` / events) at
+    horizon 15 000, and it spans **0 %–100 %** across profile × arm — carry that
+    table (or the CI'd version from this run) into the write-up.
 
 ## Recommended approach
 
@@ -44,6 +61,13 @@ created: 2026-07-15
    attacker underperforms on pure metrics, say so and say why that was
    predicted; anything that beats the baseline is the surprising result and
    gets scrutinised, not celebrated.
+3a. **Report the H-coupling** (P4) as a first-class per-profile finding: the
+   blocked-fraction / compromise table, framed as the coupling the coarse
+   experiment-1 controller exposes — not hidden as low compromise counts. And
+   **state the tactic→verb collapse is a chosen input parameter** (`initial-access`
+   → `SCAN_PORT` not exploit; the objective band → `SCAN_NEIGHBOR`), swappable via
+   `controller.csv` — a coarseness by design, not a fidelity claim
+   ([`../implementation/pipeline/ogasp/controller.md`](../implementation/pipeline/ogasp/controller.md) §2).
 4. **The metrics-gap review (M8b):** from the observed records, propose the
    supplementary measurements (e.g. mutations absorbed per objective,
    post-mutation recovery cost, action-visibility mix) that would surface
@@ -68,6 +92,10 @@ Done when:
    claim each would support).
 5. The progress-update draft exists for Marc's review — **draft only; Marc
    sends**.
+6. The H-coupling blocked-fraction table is reported per profile, the
+   tactic→verb collapse is stated as a chosen parameter, and per-profile MTTC
+   carries the sink-censoring caveat (the three P4/P7 carry-ins from the runtime
+   verification).
 
 ## Hard constraints
 
