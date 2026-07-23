@@ -173,6 +173,12 @@ data/ogasp/timeline/_*
 # data/misc/_viz/ckc_layer_viz.py). Same underscore-prefix pattern as above.
 data/misc/_viz/
 
+# Experiment workspaces — self-contained, regenerable runs (runner + numbers +
+# figures + report) under data/results/<experiment>/. Untracked by design: the
+# reproducible runner lives with its outputs; promote a finished result into
+# docs/ (a note or an implementation record) if it needs to be tracked.
+data/results/
+
 # macOS Finder metadata
 .DS_Store
 # LaTeX build artefacts under docs/thesis/ (the nested docs/thesis/.gitignore

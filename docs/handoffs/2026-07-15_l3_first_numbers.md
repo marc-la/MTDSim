@@ -1,9 +1,32 @@
 ---
 status: open
 created: 2026-07-15
+updated: 2026-07-23
 ---
 
 # Pull the first numbers — run the MTD × profile experiment matrix on the coupled attacker, report MTTC/ASR with the M8 expectation on record, run the metrics-gap review, and draft the update to Jin
+
+> **Progress (2026-07-23) — Experiment 1 has landed the numbers + behavioural
+> reading; the outbound-comms + full-sweep items remain.** A first, deliberately
+> "just enough" run lives (untracked, regenerable) at
+> `data/results/exp01_movement_vs_baseline/` — runner, seeded numbers with CIs,
+> four message-driven figures, and a results/discussion `README.md`. **Gate items
+> met:** 2 (two headline statements — the *two failure modes* and *MTD
+> invariance*), 3 (M8 scored: ASR 0.00 across all 100 movement runs vs baseline
+> 0.90–1.00 — the profiled attacker does *dramatically worse*, as predicted), 6
+> (H-coupling blocked-fraction table in `numbers/blocked_table.csv`; tactic→verb
+> collapse stated as a chosen parameter; sink-censoring MTTC caveat carried).
+> **Gate items still open:** 1 is *partial* — the matrix ran no-MTD vs one MTD
+> scheme (random-multi), not the full SDR family, so the "does an MTD *mechanism
+> ranking* shift under a profiled attacker" question is deferred to a full sweep;
+> 4 (metrics-gap review is *touched* in the discussion's Finding 4 but not yet a
+> standalone candidate-measurements recommendation); 5 (the Jin progress-update
+> draft is **not** written — this session was scoped to the experiment + reading).
+> Headline findings to carry into 4/5: the profiled attacker fails in **two
+> distinct ways** (friction = blocked by substrate preconditions; churn = busy
+> successes that never spread — ~40–60 re-compromises per distinct host), and the
+> only metric that responds to MTD lives on the baseline-shaped attacker — the
+> metrics-gap made concrete.
 
 > **Last in the forward chain.** The **controller finalisation is done** — its handoff
 > is retired (all five gate items met) and the success/failure outcome overlay is
