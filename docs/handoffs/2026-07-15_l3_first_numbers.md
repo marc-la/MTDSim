@@ -5,10 +5,11 @@ created: 2026-07-15
 
 # Pull the first numbers — run the MTD × profile experiment matrix on the coupled attacker, report MTTC/ASR with the M8 expectation on record, run the metrics-gap review, and draft the update to Jin
 
-> **Last in the forward chain — blocked on the attacker Petri → MTDSim build**
-> ([`./2026-07-22_l3_attacker_petri_to_mtdsim.md`](./2026-07-22_l3_attacker_petri_to_mtdsim.md)),
-> which is itself downstream of the controller finalisation
-> ([`./2026-07-22_l3_controller_success_failure.md`](./2026-07-22_l3_controller_success_failure.md)).
+> **Last in the forward chain.** The **controller finalisation is done** — its handoff
+> is retired (all five gate items met) and the success/failure outcome overlay is
+> **finalised at R2** (see State of play). The remaining upstream piece is the attacker
+> Petri → MTDSim build
+> ([`./2026-07-22_l3_attacker_petri_to_mtdsim.md`](./2026-07-22_l3_attacker_petri_to_mtdsim.md)).
 > Per the meeting: implementation is the last major piece; after it, "pull
 > some numbers, then review based on what numbers we get". The M8
 > expectation is pre-registered here so the result reads as a finding either
@@ -49,6 +50,25 @@ created: 2026-07-15
     already tabulated the blocked-fraction (`PRECONDITION_UNMET` / events) at
     horizon 15 000, and it spans **0 %–100 %** across profile × arm — carry that
     table (or the CI'd version from this run) into the write-up.
+- **The success/failure outcome overlay is FINALISED (R2, 2026-07-23)** — this run
+  consumes it as the net's policy layer, so the routing on each verdict is fixed.
+  It is now **rule-based and complete**: canonical source
+  [`../../data/ogasp/controller/outcome_rules.json`](../../data/ogasp/controller/outcome_rules.json)
+  (model + rules, one rationale each), compiled to the full 210-pair
+  `success.json` / `failure.json`; the corpus-scoped view is
+  [`../../data/ogasp/petri/outcome_overlay.json`](../../data/ogasp/petri/outcome_overlay.json).
+  It converged through four adversarial cross-examination rounds (~90 agents; the final
+  finetune synthesis proposed zero changes), certified **82%** — the 82→95% remainder is
+  the dissertation defence of the reasoning, not value uncertainty. **Carry its honest
+  caveats into the write-up** (design
+  [`success_failure_overlay_design.md`](../implementation/pipeline/ogasp/success_failure_overlay_design.md)
+  §2.5 + the provenance/scrutiny ledger
+  [`../implementation/declared_value_provenance.md`](../implementation/declared_value_provenance.md)):
+  the `ia_gate` soft-floor leaves a base-proportional IA-failure residual; a few band-4
+  objectives take slightly more failure than success mass; sparse-profile point masses are
+  non-conditionable; `enabled = 1.0` is a deliberate flat tier; and `infrastructure_setup`
+  carries no exfil/impact node — which **reinforces the P7 sink-censoring**, so score
+  objective-reach per profile rather than assuming every profile can terminate at an objective.
 
 ## Recommended approach
 
