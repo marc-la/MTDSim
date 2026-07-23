@@ -1,0 +1,881 @@
+{
+  "verdict": "failure",
+  "_meta": {
+    "status": "PLACEHOLDER - provisional (R2); NOT finalised",
+    "generated_from": "outcome_rules.json (rule-based source of truth) \u2014 DO NOT hand-edit; regenerate",
+    "coverage": "complete 210 directed pairs (corpus-agnostic)",
+    "format": "by_source[src][dst] = {v: value, rule: rule-id}; rationale via outcome_rules.json rules[rule]"
+  },
+  "by_source": {
+    "collection": {
+      "command-and-control": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "credential-access": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "defense-impairment": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "discovery": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "execution": {
+        "v": 0.35,
+        "rule": "execution_damper"
+      },
+      "exfiltration": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "impact": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "lateral-movement": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "persistence": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "privilege-escalation": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "stealth": {
+        "v": 0.9,
+        "rule": "backward"
+      }
+    },
+    "command-and-control": {
+      "collection": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "credential-access": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "defense-impairment": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "discovery": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "execution": {
+        "v": 0.35,
+        "rule": "execution_damper"
+      },
+      "exfiltration": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "impact": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "lateral-movement": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "persistence": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "privilege-escalation": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "stealth": {
+        "v": 0.9,
+        "rule": "backward"
+      }
+    },
+    "credential-access": {
+      "collection": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "command-and-control": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "defense-impairment": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "discovery": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "execution": {
+        "v": 0.35,
+        "rule": "execution_damper"
+      },
+      "exfiltration": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "impact": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "lateral-movement": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "persistence": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "privilege-escalation": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "stealth": {
+        "v": 0.7,
+        "rule": "lateral"
+      }
+    },
+    "defense-impairment": {
+      "collection": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "command-and-control": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "credential-access": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "discovery": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "execution": {
+        "v": 0.35,
+        "rule": "execution_damper"
+      },
+      "exfiltration": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "impact": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "lateral-movement": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "persistence": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "privilege-escalation": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "stealth": {
+        "v": 0.7,
+        "rule": "lateral"
+      }
+    },
+    "discovery": {
+      "collection": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "command-and-control": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "credential-access": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "defense-impairment": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "execution": {
+        "v": 0.35,
+        "rule": "execution_damper"
+      },
+      "exfiltration": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "impact": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "lateral-movement": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "persistence": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "privilege-escalation": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "stealth": {
+        "v": 0.9,
+        "rule": "backward"
+      }
+    },
+    "execution": {
+      "collection": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "command-and-control": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "credential-access": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "defense-impairment": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "discovery": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "exfiltration": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "impact": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "initial-access": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "lateral-movement": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "persistence": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "privilege-escalation": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "stealth": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      }
+    },
+    "exfiltration": {
+      "collection": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "command-and-control": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "credential-access": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "defense-impairment": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "discovery": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "execution": {
+        "v": 0.35,
+        "rule": "execution_damper"
+      },
+      "impact": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "lateral-movement": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "persistence": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "privilege-escalation": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "stealth": {
+        "v": 0.9,
+        "rule": "backward"
+      }
+    },
+    "impact": {
+      "collection": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "command-and-control": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "credential-access": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "defense-impairment": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "discovery": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "execution": {
+        "v": 0.35,
+        "rule": "execution_damper"
+      },
+      "exfiltration": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "lateral-movement": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "persistence": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "privilege-escalation": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "stealth": {
+        "v": 0.9,
+        "rule": "backward"
+      }
+    },
+    "initial-access": {
+      "collection": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      },
+      "command-and-control": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      },
+      "credential-access": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      },
+      "defense-impairment": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      },
+      "discovery": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      },
+      "execution": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      },
+      "exfiltration": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      },
+      "impact": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      },
+      "lateral-movement": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      },
+      "persistence": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      },
+      "privilege-escalation": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      },
+      "reconnaissance": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "resource-development": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "stealth": {
+        "v": 0.02,
+        "rule": "ia_gate_foothold"
+      }
+    },
+    "lateral-movement": {
+      "collection": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "command-and-control": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "credential-access": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "defense-impairment": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "discovery": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "execution": {
+        "v": 0.35,
+        "rule": "execution_damper"
+      },
+      "exfiltration": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "impact": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "persistence": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "privilege-escalation": {
+        "v": 0.9,
+        "rule": "backward"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "stealth": {
+        "v": 0.9,
+        "rule": "backward"
+      }
+    },
+    "persistence": {
+      "collection": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "command-and-control": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "credential-access": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "defense-impairment": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "discovery": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "execution": {
+        "v": 0.35,
+        "rule": "execution_damper"
+      },
+      "exfiltration": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "impact": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "lateral-movement": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "privilege-escalation": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "stealth": {
+        "v": 0.7,
+        "rule": "lateral"
+      }
+    },
+    "privilege-escalation": {
+      "collection": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "command-and-control": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "credential-access": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "defense-impairment": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "discovery": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "execution": {
+        "v": 0.35,
+        "rule": "execution_damper"
+      },
+      "exfiltration": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "impact": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "lateral-movement": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "persistence": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "stealth": {
+        "v": 0.7,
+        "rule": "lateral"
+      }
+    },
+    "reconnaissance": {
+      "collection": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      },
+      "command-and-control": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      },
+      "credential-access": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      },
+      "defense-impairment": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      },
+      "discovery": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      },
+      "execution": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      },
+      "exfiltration": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      },
+      "impact": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      },
+      "initial-access": {
+        "v": 0.4,
+        "rule": "recon_gate_initial_access"
+      },
+      "lateral-movement": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      },
+      "persistence": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      },
+      "privilege-escalation": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      },
+      "resource-development": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "stealth": {
+        "v": 0.05,
+        "rule": "recon_gate_deep"
+      }
+    },
+    "resource-development": {
+      "collection": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "command-and-control": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "credential-access": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "defense-impairment": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "discovery": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "execution": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "exfiltration": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "impact": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "initial-access": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "lateral-movement": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "persistence": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "privilege-escalation": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      },
+      "reconnaissance": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "stealth": {
+        "v": 0.3,
+        "rule": "forward_from_prep"
+      }
+    },
+    "stealth": {
+      "collection": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "command-and-control": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "credential-access": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "defense-impairment": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "discovery": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "execution": {
+        "v": 0.35,
+        "rule": "execution_damper"
+      },
+      "exfiltration": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "impact": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "lateral-movement": {
+        "v": 0.35,
+        "rule": "forward_from_foothold"
+      },
+      "persistence": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "privilege-escalation": {
+        "v": 0.7,
+        "rule": "lateral"
+      },
+      "reconnaissance": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      },
+      "resource-development": {
+        "v": 0.25,
+        "rule": "preintrusion_damper"
+      }
+    }
+  }
+}

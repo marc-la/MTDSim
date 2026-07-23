@@ -1,0 +1,305 @@
+{
+  "artefact": "outcome (policy) overlay \u2014 RULE-BASED notation (source of truth)",
+  "status": "PLACEHOLDER - provisional (R2 candidate); NOT finalised",
+  "value_semantics": "overlay_v(src->dst) in [0,1] = given the dispatched verb at src returned verdict v, the conditional likelihood of dst as the next move (0=won't happen, 1=most likely next).",
+  "coverage": "COMPLETE directed tactic-pair space: 210 = 15*14 (no self-loops). Corpus-AGNOSTIC: every ordered pair is weighted from declared knowledge, so a different CTI/corpus that introduces a new edge is already covered. Which pairs actually ROUTE mass is a base/net property (base=0 => no routing), NOT an overlay property. Self-loop 'retry same tactic' is handled by the stepping layer's bounded-retry, not the overlay.",
+  "authoring": "CTI-INDEPENDENT declared knowledge only: kill-chain bands + capability-enablement + foothold-dependency. Values are RULE-GENERATED (first-match-wins); rationale is stored ONCE per rule, never per pair.",
+  "model": {
+    "bands": {
+      "reconnaissance": 0,
+      "resource-development": 0,
+      "initial-access": 1,
+      "execution": 1,
+      "persistence": 2,
+      "privilege-escalation": 2,
+      "stealth": 2,
+      "defense-impairment": 2,
+      "credential-access": 2,
+      "discovery": 3,
+      "lateral-movement": 3,
+      "collection": 4,
+      "command-and-control": 4,
+      "exfiltration": 4,
+      "impact": 4
+    },
+    "band_labels": {
+      "0": "prep",
+      "1": "intrusion",
+      "2": "consolidate",
+      "3": "expand",
+      "4": "objective"
+    },
+    "enables_on_success": {
+      "reconnaissance": [
+        "initial-access",
+        "resource-development"
+      ],
+      "resource-development": [
+        "initial-access"
+      ],
+      "initial-access": [
+        "command-and-control",
+        "credential-access",
+        "discovery",
+        "execution",
+        "persistence",
+        "privilege-escalation",
+        "stealth"
+      ],
+      "execution": [
+        "command-and-control",
+        "credential-access",
+        "discovery",
+        "persistence",
+        "privilege-escalation",
+        "stealth"
+      ],
+      "persistence": [
+        "command-and-control",
+        "credential-access",
+        "discovery",
+        "lateral-movement",
+        "privilege-escalation"
+      ],
+      "privilege-escalation": [
+        "collection",
+        "credential-access",
+        "defense-impairment",
+        "discovery",
+        "lateral-movement",
+        "persistence",
+        "stealth"
+      ],
+      "stealth": [
+        "collection",
+        "command-and-control",
+        "credential-access",
+        "discovery",
+        "lateral-movement"
+      ],
+      "defense-impairment": [
+        "collection",
+        "credential-access",
+        "discovery",
+        "exfiltration",
+        "impact",
+        "lateral-movement"
+      ],
+      "credential-access": [
+        "collection",
+        "discovery",
+        "lateral-movement",
+        "persistence",
+        "privilege-escalation"
+      ],
+      "discovery": [
+        "collection",
+        "credential-access",
+        "lateral-movement",
+        "privilege-escalation"
+      ],
+      "lateral-movement": [
+        "collection",
+        "command-and-control",
+        "credential-access",
+        "discovery",
+        "persistence",
+        "privilege-escalation"
+      ],
+      "collection": [
+        "command-and-control",
+        "exfiltration",
+        "lateral-movement"
+      ],
+      "command-and-control": [
+        "collection",
+        "credential-access",
+        "discovery",
+        "execution",
+        "exfiltration",
+        "impact",
+        "lateral-movement",
+        "persistence",
+        "privilege-escalation"
+      ],
+      "exfiltration": [
+        "collection",
+        "command-and-control",
+        "impact"
+      ],
+      "impact": []
+    },
+    "pre_foothold": [
+      "initial-access",
+      "reconnaissance",
+      "resource-development"
+    ]
+  },
+  "success_rules": [
+    {
+      "id": "enabled",
+      "value": 1.0,
+      "rationale": "success at the source confers the capability/position the destination needs next (enables set)",
+      "provenance_tier": "attested-pattern",
+      "status": "stable",
+      "confidence": 88,
+      "scrutiny": "rounds 0-3; enables sets = MITRE tactic semantics + DFIR get-in/spread sequences. C2-hub subset (c2->{cred,privesc,persist}) is the weakest member, conf~56, Marc-ratified keep-with-principle.",
+      "changelog": [
+        "R1/R2: +enables initial-access->command-and-control, privilege-escalation->persistence, credential-access->persistence, and the C2-hub set (Marc decision-1: keep with inclusion principle)."
+      ]
+    },
+    {
+      "id": "forward",
+      "value": 0.6,
+      "rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
+      "provenance_tier": "declared-judgement",
+      "status": "stable",
+      "confidence": 85,
+      "scrutiny": "kill-chain structural prior; unchallenged across rounds.",
+      "changelog": []
+    },
+    {
+      "id": "lateral",
+      "value": 0.5,
+      "rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
+      "provenance_tier": "declared-judgement",
+      "status": "stable",
+      "confidence": 80,
+      "scrutiny": "sibling-retry; declared judgement. Backward>lateral ordering is a Marc-owned modelling prior.",
+      "changelog": []
+    },
+    {
+      "id": "backward_to_prep",
+      "value": 0.1,
+      "rationale": "regress to a pre-intrusion (band-0) tactic after success \u2014 very unlikely",
+      "provenance_tier": "declared-judgement",
+      "status": "stable",
+      "confidence": 85,
+      "scrutiny": "'do not re-recon after succeeding deeper' \u2014 unchallenged.",
+      "changelog": []
+    },
+    {
+      "id": "backward",
+      "value": 0.25,
+      "rationale": "regression is unlikely once the step succeeded",
+      "provenance_tier": "declared-judgement",
+      "status": "stable",
+      "confidence": 80,
+      "scrutiny": "'back to the drawing board'; the failure side is the declared-judgement tier by construction (AARs rarely record post-failure behaviour).",
+      "changelog": []
+    }
+  ],
+  "failure_rules": [
+    {
+      "id": "ia_gate_foothold",
+      "value": 0.02,
+      "rationale": "initial-access failed => no foothold, so a foothold-dependent destination is out of reach",
+      "provenance_tier": "attested-pattern/declared-magnitude",
+      "status": "stable",
+      "confidence": 90,
+      "scrutiny": "R1 flagged the flat 0.1 self-cancels against base(ia->execution); R2 validated on composed nets: recon-bridge dominance 50%->83% on both sparse profiles.",
+      "changelog": [
+        "R2: 0.1 -> 0.02 (foothold-unreachability; the intended recon bridge must dominate IA-failure)."
+      ]
+    },
+    {
+      "id": "recon_gate_initial_access",
+      "value": 0.4,
+      "rationale": "reconnaissance failed (nothing found) => breaking in is weaker, but not impossible",
+      "provenance_tier": "attested-pattern/declared-magnitude",
+      "status": "stable",
+      "confidence": 82,
+      "scrutiny": "recon-fail weakens but does not ban breaking in; unchanged.",
+      "changelog": []
+    },
+    {
+      "id": "recon_gate_deep",
+      "value": 0.05,
+      "rationale": "reconnaissance failed => a deep post-intrusion move is implausible with no foothold",
+      "provenance_tier": "attested-pattern/declared-magnitude",
+      "status": "stable",
+      "confidence": 80,
+      "scrutiny": "same foothold-unreachability defect as the IA gate, on the recon row.",
+      "changelog": [
+        "R2: 0.15 -> 0.05."
+      ]
+    },
+    {
+      "id": "preintrusion_damper",
+      "value": 0.25,
+      "rationale": "post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress",
+      "provenance_tier": "declared-judgement",
+      "status": "stable",
+      "confidence": 84,
+      "scrutiny": "R1 red-team (Opus): failure side lacked the success side's pre-intrusion damper; internal-coherence fix. Validated: deep->prep regressions now ~0.02-0.05 routed.",
+      "changelog": [
+        "R1: NEW rule. post-intrusion backward->pre-foothold 0.9 -> 0.25 (mirror the success guard). Exempts the initial-access->reconnaissance bridge (source is pre-foothold)."
+      ]
+    },
+    {
+      "id": "execution_damper",
+      "value": 0.35,
+      "rationale": "re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress",
+      "provenance_tier": "declared-judgement",
+      "status": "provisional",
+      "confidence": 78,
+      "scrutiny": "R1/R2 most-corroborated residual: flat 0.9 routed 15-41% to regress-to-execution. R2 fix halves it (exec-sink 2.752->1.598). KNOWN benign quirk: pure_steal defense-impairment->execution rises 0.5->0.583 (sparse-out-set renorm: sibling damped harder). Round 4 (stepwise) in progress.",
+      "changelog": [
+        "R2: NEW rule. backward->execution 0.9 -> 0.35 (re-running code on a held foothold is a forward-level continuation, not a penalised regress). Decoupled from enables."
+      ]
+    },
+    {
+      "id": "backward",
+      "value": 0.9,
+      "rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "provenance_tier": "declared-judgement",
+      "status": "stable",
+      "confidence": 80,
+      "scrutiny": "'back to the drawing board'; the failure side is the declared-judgement tier by construction (AARs rarely record post-failure behaviour).",
+      "changelog": []
+    },
+    {
+      "id": "lateral",
+      "value": 0.7,
+      "rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "provenance_tier": "declared-judgement",
+      "status": "stable",
+      "confidence": 80,
+      "scrutiny": "sibling-retry; declared judgement. Backward>lateral ordering is a Marc-owned modelling prior.",
+      "changelog": []
+    },
+    {
+      "id": "forward_from_foothold",
+      "value": 0.35,
+      "rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "provenance_tier": "declared-judgement",
+      "status": "stable",
+      "confidence": 80,
+      "scrutiny": "retry-then-advance from a held foothold; default forward-on-failure (35 pairs).",
+      "changelog": [
+        "R1: confirmed 0.35 is the DEFAULT (35 pairs), 0.30 the exception (prep sources)."
+      ]
+    },
+    {
+      "id": "forward_from_prep",
+      "value": 0.3,
+      "rationale": "forward after failure from a pre-foothold stage is unlikely (the dependency did not land)",
+      "provenance_tier": "declared-judgement",
+      "status": "stable",
+      "confidence": 80,
+      "scrutiny": "forward-on-failure from a pre-foothold stage; the dependency did not land.",
+      "changelog": []
+    }
+  ],
+  "ledger_meta": {
+    "purpose": "living value-provenance & scrutiny ledger; see docs/implementation/declared_value_provenance.md",
+    "provenance_tiers": {
+      "corpus-grounded": "value derived from CTI/corpus data (does not apply here \u2014 the overlay is CTI-independent by design)",
+      "attested-pattern": "the BEHAVIOUR is documented in reports/literature (e.g. get-in/spread sequences, perimeter retry loops); the exact MAGNITUDE is declared",
+      "declared-judgement": "reasoned from kill-chain + foothold logic; not attested (incident reports rarely record post-failure behaviour)"
+    },
+    "review_history": "R0 initial cross-exam (13 agents) -> red-team re-run -> R1 branching (36) -> R2 fold + composed-net validation -> R3 decision round (10; verdict 85%) -> R4 stepwise simulation (24; in progress)",
+    "reproducibility": "values are rule-generated; generator reproduces the committed table 0/123 before edits (deterministic, not post-hoc)",
+    "maintenance": "each adversarial round appends to per-rule scrutiny + changelog; contested/provisional rules are re-scrutinised until stable; the numbers are provisional (R2) pending 95% + Marc greenlight"
+  }
+}

@@ -1,0 +1,881 @@
+{
+  "verdict": "success",
+  "_meta": {
+    "status": "PLACEHOLDER - provisional (R2); NOT finalised",
+    "generated_from": "outcome_rules.json (rule-based source of truth) \u2014 DO NOT hand-edit; regenerate",
+    "coverage": "complete 210 directed pairs (corpus-agnostic)",
+    "format": "by_source[src][dst] = {v: value, rule: rule-id}; rationale via outcome_rules.json rules[rule]"
+  },
+  "by_source": {
+    "collection": {
+      "command-and-control": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "credential-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "defense-impairment": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "discovery": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "exfiltration": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "impact": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "lateral-movement": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "persistence": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "privilege-escalation": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 0.25,
+        "rule": "backward"
+      }
+    },
+    "command-and-control": {
+      "collection": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "credential-access": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "defense-impairment": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "discovery": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "execution": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "exfiltration": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "impact": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "lateral-movement": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "persistence": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "privilege-escalation": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 0.25,
+        "rule": "backward"
+      }
+    },
+    "credential-access": {
+      "collection": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "command-and-control": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "defense-impairment": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "discovery": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "exfiltration": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "impact": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "lateral-movement": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "persistence": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "privilege-escalation": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 0.5,
+        "rule": "lateral"
+      }
+    },
+    "defense-impairment": {
+      "collection": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "command-and-control": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "credential-access": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "discovery": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "exfiltration": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "impact": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "lateral-movement": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "persistence": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "privilege-escalation": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 0.5,
+        "rule": "lateral"
+      }
+    },
+    "discovery": {
+      "collection": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "command-and-control": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "credential-access": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "defense-impairment": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "exfiltration": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "impact": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "lateral-movement": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "persistence": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "privilege-escalation": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 0.25,
+        "rule": "backward"
+      }
+    },
+    "execution": {
+      "collection": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "command-and-control": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "credential-access": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "defense-impairment": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "discovery": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "exfiltration": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "impact": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "initial-access": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "lateral-movement": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "persistence": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "privilege-escalation": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 1.0,
+        "rule": "enabled"
+      }
+    },
+    "exfiltration": {
+      "collection": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "command-and-control": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "credential-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "defense-impairment": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "discovery": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "impact": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "lateral-movement": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "persistence": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "privilege-escalation": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 0.25,
+        "rule": "backward"
+      }
+    },
+    "impact": {
+      "collection": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "command-and-control": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "credential-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "defense-impairment": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "discovery": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "exfiltration": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "lateral-movement": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "persistence": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "privilege-escalation": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 0.25,
+        "rule": "backward"
+      }
+    },
+    "initial-access": {
+      "collection": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "command-and-control": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "credential-access": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "defense-impairment": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "discovery": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "execution": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "exfiltration": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "impact": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "lateral-movement": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "persistence": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "privilege-escalation": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 1.0,
+        "rule": "enabled"
+      }
+    },
+    "lateral-movement": {
+      "collection": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "command-and-control": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "credential-access": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "defense-impairment": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "discovery": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "exfiltration": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "impact": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "persistence": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "privilege-escalation": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 0.25,
+        "rule": "backward"
+      }
+    },
+    "persistence": {
+      "collection": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "command-and-control": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "credential-access": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "defense-impairment": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "discovery": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "exfiltration": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "impact": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "lateral-movement": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "privilege-escalation": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 0.5,
+        "rule": "lateral"
+      }
+    },
+    "privilege-escalation": {
+      "collection": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "command-and-control": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "credential-access": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "defense-impairment": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "discovery": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "exfiltration": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "impact": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "lateral-movement": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "persistence": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "stealth": {
+        "v": 1.0,
+        "rule": "enabled"
+      }
+    },
+    "reconnaissance": {
+      "collection": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "command-and-control": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "credential-access": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "defense-impairment": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "discovery": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "execution": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "exfiltration": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "impact": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "initial-access": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "lateral-movement": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "persistence": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "privilege-escalation": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "resource-development": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "stealth": {
+        "v": 0.6,
+        "rule": "forward"
+      }
+    },
+    "resource-development": {
+      "collection": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "command-and-control": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "credential-access": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "defense-impairment": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "discovery": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "execution": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "exfiltration": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "impact": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "initial-access": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "lateral-movement": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "persistence": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "privilege-escalation": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "reconnaissance": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "stealth": {
+        "v": 0.6,
+        "rule": "forward"
+      }
+    },
+    "stealth": {
+      "collection": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "command-and-control": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "credential-access": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "defense-impairment": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "discovery": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "exfiltration": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "impact": {
+        "v": 0.6,
+        "rule": "forward"
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "backward"
+      },
+      "lateral-movement": {
+        "v": 1.0,
+        "rule": "enabled"
+      },
+      "persistence": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "privilege-escalation": {
+        "v": 0.5,
+        "rule": "lateral"
+      },
+      "reconnaissance": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      },
+      "resource-development": {
+        "v": 0.1,
+        "rule": "backward_to_prep"
+      }
+    }
+  }
+}
