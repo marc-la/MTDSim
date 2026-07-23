@@ -1,0 +1,16 @@
+tactic,attack_tactic_id,ckc_phase,sim_phase,coverage,note
+reconnaissance,TA0043,reconnaissance,SCAN_HOST,direct,CKC Reconnaissance -> host-discovery verb (Brown Fig-3 'host discovery')
+resource-development,TA0042,weaponization,ENUM_HOST,direct,CKC Weaponization -> target/attack-preparation verb (host selection / pivot)
+initial-access,TA0001,delivery,SCAN_PORT,direct,CKC Delivery -> port-scan + credential-stuffing access verb (Brown 'host reconnaissance')
+execution,TA0002,exploitation,EXPLOIT_VULN,direct,CKC Exploitation -> the exploit verb
+privilege-escalation,TA0004,exploitation,EXPLOIT_VULN,direct,CKC Exploitation -> the exploit verb (doubled onto exploitation)
+stealth,TA0005,exploitation,EXPLOIT_VULN,direct,defense-evasion under CKC Exploitation -> the exploit verb (doubled)
+defense-impairment,TA0112,exploitation,EXPLOIT_VULN,direct,defense-impairment under CKC Exploitation -> the exploit verb (doubled)
+persistence,TA0003,installation,BRUTE_FORCE,direct,CKC Installation -> the credential-foothold verb
+command-and-control,TA0011,command-and-control,SCAN_NEIGHBOR,direct,CKC Command & Control -> the neighbour-reveal verb (Brown 'C2 reveals connected hosts')
+credential-access,TA0006,actions-on-objectives,SCAN_NEIGHBOR,fallback,AoO has no MTDSim verb -> nearest covered CKC phase (C2) doubled
+discovery,TA0007,actions-on-objectives,SCAN_NEIGHBOR,fallback,AoO has no MTDSim verb -> nearest covered CKC phase (C2) doubled
+lateral-movement,TA0008,actions-on-objectives,SCAN_NEIGHBOR,fallback,AoO has no MTDSim verb -> nearest covered CKC phase (C2) doubled
+collection,TA0009,actions-on-objectives,SCAN_NEIGHBOR,fallback,AoO has no MTDSim verb -> nearest covered CKC phase (C2) doubled
+exfiltration,TA0010,actions-on-objectives,SCAN_NEIGHBOR,fallback,AoO has no MTDSim verb -> nearest covered CKC phase (C2) doubled
+impact,TA0040,actions-on-objectives,SCAN_NEIGHBOR,fallback,AoO has no MTDSim verb -> nearest covered CKC phase (C2) doubled

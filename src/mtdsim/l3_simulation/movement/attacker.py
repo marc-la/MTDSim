@@ -37,16 +37,15 @@ tests for (anatomy §6, H-coupling) — the driver reads an unmet precondition a
 **failure verdict** (recorded ``PRECONDITION_UNMET``) and lets the overlay route
 it. Every such block is visible in the records.
 
-**Interrupt scope.** For the five non-``EXPLOIT_VULN`` verbs an MTD interrupt
-propagates out of ``step`` as ``simpy.Interrupt``; the driver catches it, reads it
-as a failure verdict (``MTD_INTERRUPT``) and routes — the interrupt-as-failure
-feedback Jin's motivating example wanted. ``EXPLOIT_VULN`` self-catches its
-interrupt inside the substrate core (returning ``EXPLOIT_HALTED`` *and* spawning
-the native ``_handle_interrupt`` recovery); the driver reads ``EXPLOIT_HALTED`` as
-a failure too, but the native recovery it spawns is the one path still owned by
-the controller-finalisation handoff's carve extension (``step`` scope note) — until
-that lands, an ``EXPLOIT_VULN`` interrupt under live MTD can spawn a native
-recovery step. Flagged, not hidden.
+**Interrupt scope.** For **all six** verbs an MTD interrupt propagates out of
+``step`` as ``simpy.Interrupt``; the driver catches it, reads it as a failure
+verdict (``MTD_INTERRUPT``) and routes — the interrupt-as-failure feedback Jin's
+motivating example wanted. ``EXPLOIT_VULN`` is no longer special: the carve runs
+its core with ``driven=True`` (``attack_operation.step``), so an interrupt
+re-raises rather than self-catching into the native ``_handle_interrupt``
+recovery — no rogue native chain runs behind the driver. The one remaining
+``EXPLOIT_HALTED`` return is the sim-end case (``end_event`` triggered mid-vuln),
+handled as ``_SIM_END``, not an interrupt.
 """
 from __future__ import annotations
 
@@ -57,10 +56,7 @@ from typing import Any, Callable, Protocol
 
 import simpy
 
-from mtdnetwork.operation.attack_operation import (
-    ActionContextError,
-    EXPLOIT_HALTED,
-)
+from mtdnetwork.operation.attack_operation import ActionContextError
 
 Verdict = str  # "success" | "failure" (binary outcome only, M2)
 
@@ -295,13 +291,15 @@ class MovementAttacker:
             outcome = None
 
         if not interrupted and self.end_event.triggered:
-            # step() aborts (returns None) when the sim ends mid-verb.
+            # step() aborts (returns None) when the sim ends mid-verb. For
+            # EXPLOIT_VULN this is the sim-end EXPLOIT_HALTED path (not an
+            # interrupt — that re-raises now that step() drives it driven=True).
             return _SIM_END, "", False, False, ""
 
-        # EXPLOIT_VULN self-catches its interrupt and returns EXPLOIT_HALTED (also
-        # spawning the native recovery — the scope gap owned by the controller
-        # handoff). Read it as an interrupt-halt failure here too.
-        if interrupted or outcome == EXPLOIT_HALTED:
+        # Every verb — EXPLOIT_VULN included — propagates an MTD interrupt out of
+        # step() as simpy.Interrupt (the carve's driven=True re-raise), caught
+        # above. Read it as an interrupt-halt failure and let the overlay route.
+        if interrupted:
             return self._read_interrupt(verb, outcome)
 
         verdict = self.verdict_of(verb, outcome, False)

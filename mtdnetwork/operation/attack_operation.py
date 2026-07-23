@@ -330,7 +330,7 @@ class AttackOperation:
         else:
             self._exploit_vuln()
 
-    def _do_exploit_vuln(self, vulns):
+    def _do_exploit_vuln(self, vulns, driven=False):
         """
         EXPLOIT_VULN core (generator). Finds the top 5 vulnerabilities based on
         RoA score and not yet exploited, tries exploiting them to compromise the
@@ -343,6 +343,14 @@ class AttackOperation:
         must NOT dispatch either. Precondition: curr_host set (by ENUM_HOST) and
         curr_ports populated (by SCAN_PORT); empty curr_ports yields no vulns and
         the attempt degenerates to EXPLOIT_UNCOMPROMISED (native falls to BRUTE_FORCE).
+
+        ``driven`` (controller-facing, set only by step()): on an MTD interrupt,
+        **re-raise** simpy.Interrupt instead of spawning the native
+        _handle_interrupt recovery, so the movement-layer driver owns succession
+        (reading the interrupt as a failure verdict) exactly as it does for the
+        other five verbs — no rogue native chain runs behind the driver. The
+        native _execute_exploit_vuln keeps the default (driven=False), so the
+        native FSM path — and the baseline/golden scenarios — stay byte-identical.
         """
         adversary = self.adversary
         for vuln in vulns:
@@ -355,6 +363,11 @@ class AttackOperation:
                                                                      self.adversary.get_curr_host_id(), start_time))
                 yield self.env.timeout(exploit_time)
             except simpy.Interrupt:
+                if driven:
+                    # Driven mode: let the interrupt propagate to the driver, which
+                    # owns succession (interrupt-as-failure). Do NOT spawn the
+                    # native recovery — it would re-dispatch verbs behind the driver.
+                    raise
                 self.env.process(self._handle_interrupt(start_time, self.adversary.get_curr_process()))
                 return EXPLOIT_HALTED
             # R2-attacker: don't keep iterating vulns past sim end.
@@ -554,9 +567,12 @@ class AttackOperation:
         and records each verb in the attack stats exactly as the native path does,
         so a driven run is observable in the same attack_record.
 
-        Scope note: step() covers the success-path succession the tail-calls encode.
-        MTD-interrupt recovery still runs through the native _handle_interrupt
-        (which re-dispatches natively); wiring that to a controller is future work.
+        Interrupt handling (driven): an MTD interrupt propagates out of step() as
+        simpy.Interrupt for every verb — including EXPLOIT_VULN, which runs its
+        core with driven=True so it re-raises rather than spawning the native
+        recovery chain. The driver catches the interrupt and owns succession
+        (reading it as a failure verdict). The native FSM path is untouched, so
+        the baseline/golden scenarios stay byte-identical.
         """
         self.assert_action_context(verb)
         adversary = self.adversary
@@ -565,7 +581,8 @@ class AttackOperation:
             adversary.set_curr_process('EXPLOIT_VULN')
             adversary.set_curr_vulns(
                 adversary.get_curr_host().get_vulns(adversary.get_curr_ports()))
-            outcome = yield from self._do_exploit_vuln(adversary.get_curr_vulns())
+            outcome = yield from self._do_exploit_vuln(
+                adversary.get_curr_vulns(), driven=True)
             return outcome
         cores = {
             'SCAN_HOST': self._do_scan_host,
