@@ -138,10 +138,14 @@ The overlay is the worked example of this precedent:
   [`pipeline/ogasp/success_failure_overlay_design.md`](pipeline/ogasp/success_failure_overlay_design.md),
   [`pipeline/ogasp/supervisor_decision_register.md`](pipeline/ogasp/supervisor_decision_register.md).
 
-Its ledger currently reads: reproducible (0/123), review history R0→R4 (the R4
-stepwise-simulation round in progress), most rules `stable`, `execution_damper`
-`provisional`; the values are the R2 candidate, **not finalised** — pending the
-95% bar and Marc's greenlight.
+Its ledger reads: reproducible (0/123), review history **R0→R4 complete** (~90 agents:
+initial cross-exam → branching red-team → composed-net validation → stepwise
+simulation), all rules `stable`, final finetune synthesis an **empty change set**
+(values converged). **R2 finalised 2026-07-23** (Marc greenlit) at a certified 82%; the
+82→95% remainder is the dissertation defence of the reasoning, not value uncertainty —
+so an honest ceiling, recorded, rather than an open gap. This is the precedent working
+end-to-end: a declared-knowledge value layer carried from authoring, through adversarial
+rework, to a finalised, evidence-tiered, reproducible artefact with its scrutiny logged.
 
 ## 7. Where this sits
 

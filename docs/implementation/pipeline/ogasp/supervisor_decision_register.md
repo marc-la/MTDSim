@@ -221,6 +221,20 @@ sends regular updates.
   measurements (M8b) and any weight/success-rate tuning — both explicitly
   sequenced after first numbers, and reviewed against what the numbers show.
 
+## 2026-07-23 — outcome-overlay (M2/M3) numbers finalised
+
+The M2 success/failure overlay numbers were **scrutinised and finalised ahead of
+first numbers** (Marc's call), through four adversarial cross-examination rounds
+(~90 agents): initial cross-exam → branching red-team → composed-net validation →
+stepwise simulation (real Petri nets, MTDSim verdict stubbed). Outcome: the **R2**
+rule-set, converged (final finetune synthesis = zero changes), certified **82%**
+with the 82→95% remainder being the dissertation defence of the reasoning, not value
+uncertainty. Ratified: the **C2-hub** `enables` edit is **kept** (with an inclusion
+principle); the **`enabled = 1.0` tier stays flat** (a graded scheme was empirically
+counterproductive). The values are now **rule-based and complete** (210 pairs,
+corpus-agnostic). Records: [`success_failure_overlay_design.md`](success_failure_overlay_design.md)
+§2.5, the provenance/scrutiny ledger [`../../declared_value_provenance.md`](../../declared_value_provenance.md).
+
 ## How it connects
 
 - To the specs — the operative encodings of this register:
@@ -247,17 +261,17 @@ sends regular updates.
     pre-registers the coupling-performance hypothesis alongside **M8**'s
     metric-mechanism one. *(Was the anatomy handoff, shipped & deleted per the
     handoff lifecycle; see git log.)*
-  - [`../handoffs/2026-07-15_l3_tactic_action_influence_map.md`](../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md)
-    — executes **M5** (tactic→action influence map, over the anatomy
-    record's callability classes) and **M6** (pre-intrusion synthetic join),
-    and defines the **M2/M4** outcome-oracle verdicts. *(M6 executed 2026-07-21
-    as the **synthetic overlay** — a maintained structural sublayer in its own
-    right ([`synthetic_overlay.md`](synthetic_overlay.md),
+  - **M5 landed and was reframed** (handoff retired 2026-07-22): the tactic→action
+    influence map became the **controller** — a swappable CKC-mediated tactic→verb
+    dispatch input parameter ([`controller.md`](controller.md),
+    [`../../data/ogasp/controller.csv`](../../../../data/ogasp/controller.csv)), not
+    a justified one-true mapping; the **M2/M4** outcome-oracle verdicts are its §4.
+    **M6 executed 2026-07-21** as the **synthetic overlay** — a maintained
+    structural sublayer ([`synthetic_overlay.md`](synthetic_overlay.md),
     [`../../data/ogasp/petri/synthetic_overlay.json`](../../../../data/ogasp/petri/synthetic_overlay.json)):
     bidirectional pre-intrusion connective tissue (forward chain recon →
     resource-development → initial-access + backward regression bridge
-    initial-access → reconnaissance), reversing the first recon-only pass on
-    Marc's direction.)*
+    initial-access → reconnaissance).
   - [`success_failure_overlay_design.md`](success_failure_overlay_design.md)
     — designs the **M2** contract as reframed 2026-07-21 (Marc's direction):
     the success/failure outcome overlay as a declared **policy** layer (two
@@ -266,18 +280,23 @@ sends regular updates.
     authoring framework (not a runtime M3 layer). Carries the composition,
     stall, interrupt, and live-stepping semantics; artefact
     [`../../../../data/ogasp/petri/outcome_overlay.json`](../../../../data/ogasp/petri/outcome_overlay.json).
-    *Supersedes the feedback-net design handoff, whose live material folded
-    in.* **Awaits Marc's review.**
-  - [`../handoffs/2026-07-15_l3_profiled_attacker_build.md`](../../../handoffs/2026-07-15_l3_profiled_attacker_build.md)
-    — builds the **M7** movement layer (the profiled attacker class) against
-    the two records above; executes **D1/D5** end-to-end.
-  - [`../handoffs/2026-07-15_l3_first_numbers.md`](../../../handoffs/2026-07-15_l3_first_numbers.md)
+    Its runtime composition is implemented in the controller sublayer by the
+    finalise handoff below. **Awaits Marc's review.**
+  - **Forward build chain (2026-07-22 restructure):**
+    [`../handoffs/2026-07-22_l3_controller_success_failure.md`](../../../handoffs/2026-07-22_l3_controller_success_failure.md)
+    finalises the controller layer (overlay composition + verdict/interrupt signal
+    into the controller sublayer); then
+    [`../handoffs/2026-07-22_l3_attacker_petri_to_mtdsim.md`](../../../handoffs/2026-07-22_l3_attacker_petri_to_mtdsim.md)
+    builds the **M7** movement-layer attacker (steps the net live, consumes the
+    controller library; executes **D1/D5** end-to-end); then
+    [`../handoffs/2026-07-15_l3_first_numbers.md`](../../../handoffs/2026-07-15_l3_first_numbers.md)
     — the first experiment matrix + the **M8** metrics-gap review.
   - Retired by the 14-Jul meeting (deleted per the handoff lifecycle; git log
     is the record): the deferred replay-attacker build (its one-way replay
-    premise died with D2→M1), the MVP-binding investigation + goal (work
-    landed as [`binding_design_space.md`](binding_design_space.md); framing
-    superseded), the crosswalk-join investigation (mooted by **M4** — the
+    premise died with D2→M1), the MVP-binding investigation + goal (its
+    `binding_design_space.md` / `binding_signoff_summary.md` records were removed
+    2026-07-22 when the tactic→action map was reframed as the swappable
+    controller input parameter — [`controller.md`](controller.md)), the crosswalk-join investigation (mooted by **M4** — the
     join is substrate-as-oracle, no CVE grounding), and the
     tactic-operationalisation conceptualisation (its open questions — success
     model, binding, Caldera-inspired capabilities — were answered by

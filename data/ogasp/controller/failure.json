@@ -1,7 +1,7 @@
 {
   "verdict": "failure",
   "_meta": {
-    "status": "PLACEHOLDER - provisional (R2); NOT finalised",
+    "status": "finalised (R2; Marc greenlit 2026-07-23; converged after 4 adversarial cross-examination rounds, ~90 agents)",
     "generated_from": "outcome_rules.json (rule-based source of truth) \u2014 DO NOT hand-edit; regenerate",
     "coverage": "complete 210 directed pairs (corpus-agnostic)",
     "format": "by_source[src][dst] = {v: value, rule: rule-id}; rationale via outcome_rules.json rules[rule]"

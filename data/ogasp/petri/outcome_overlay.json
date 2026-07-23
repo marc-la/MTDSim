@@ -1,13 +1,13 @@
 {
-  "artefact": "outcome (policy) overlay — success/failure conditional-likelihood weighting",
-  "register": "docs/implementation/pipeline/ogasp/supervisor_decision_register.md §M2/§M3",
+  "artefact": "outcome (policy) overlay \u2014 success/failure conditional-likelihood weighting",
+  "register": "docs/implementation/pipeline/ogasp/supervisor_decision_register.md \u00a7M2/\u00a7M3",
   "specification": "docs/implementation/pipeline/ogasp/success_failure_overlay_design.md",
-  "verdict_oracle": "docs/implementation/pipeline/ogasp/tactic_action_map.md §4",
-  "status": "declared/synthetic policy layer (envelope-not-actor); conditions the D3 base weights multiplicatively, never re-derives them",
-  "value_semantics": "overlay_v(a->b) in [0,1] = given the attacker's action at tactic a came back v (success|failure), the likelihood of b as the next move — 0 = will not happen, 1 = the most likely next course of action. Authored ground-up per directed pair from tactic-pair semantics (kill-chain relationship, capability enablement, foothold dependency) + incident AARs.",
+  "verdict_oracle": "docs/implementation/pipeline/ogasp/controller.md \u00a74",
+  "status": "declared/synthetic policy layer (envelope-not-actor); conditions the D3 base weights multiplicatively, never re-derives them. FINALISED at R2 (Marc greenlit 2026-07-23).",
+  "value_semantics": "overlay_v(a->b) in [0,1] = given the attacker's action at tactic a came back v (success|failure), the likelihood of b as the next move \u2014 0 = will not happen, 1 = the most likely next course of action. Authored ground-up per directed pair from tactic-pair semantics (kill-chain relationship, capability enablement, foothold dependency) + incident AARs.",
   "composition_rule": "at a source place a whose action returned verdict v: w'(a->b) = base(a->b) * overlay_v(a->b) / sum_b'[base(a->b') * overlay_v(a->b')]. The existing (base) edges are manipulated by the verdict; the source place's out-set renormalises so it stays a distribution.",
-  "coverage": "the WHOLE directed tactic-pair set present in the nets (union across profiles) plus the synthetic-overlay edges — every source tactic, including today's dwell-only ones and resource-development, forward and backward. The action set is extensible: values are authored for the whole space so the policy is ready as verbs are mapped to more tactics. Runtime consumption is gated on verdict availability — a place is conditioned only once a substrate action gives it a success/failure signal (today the six action-bearing places, tactic_action_map.md §4); until then it routes on base weights. Authoring is whole-space; consumption tracks the verbs.",
-  "evidence_tiers": "success is the more grounded side (the `enables` relations come from MITRE tactic semantics and the get-in/spread patterns the DFIR/Sophos AARs document); failure is declared judgement (incident reports document what worked, not what an attacker does when a step fails). The two sit at different evidential tiers by construction — stated, not hidden.",
+  "coverage": "this file materialises the 123 corpus-present pairs; the overlay is authored over the COMPLETE 210 directed tactic-pair set (corpus-agnostic) in the rule-based notation (see canonical_source). Which pairs route mass is a base/net property, not an overlay one.",
+  "evidence_tiers": "success is the more grounded side (the `enables` relations come from MITRE tactic semantics and the get-in/spread patterns the DFIR/Sophos AARs document); failure is declared judgement (incident reports document what worked, not what an attacker does when a step fails). The two sit at different evidential tiers by construction \u2014 stated, not hidden.",
   "model": {
     "kill_chain_bands": {
       "reconnaissance": 0,
@@ -42,6 +42,7 @@
         "initial-access"
       ],
       "initial-access": [
+        "command-and-control",
         "credential-access",
         "discovery",
         "execution",
@@ -70,6 +71,7 @@
         "defense-impairment",
         "discovery",
         "lateral-movement",
+        "persistence",
         "stealth"
       ],
       "stealth": [
@@ -91,6 +93,7 @@
         "collection",
         "discovery",
         "lateral-movement",
+        "persistence",
         "privilege-escalation"
       ],
       "discovery": [
@@ -114,11 +117,14 @@
       ],
       "command-and-control": [
         "collection",
+        "credential-access",
         "discovery",
         "execution",
         "exfiltration",
         "impact",
-        "lateral-movement"
+        "lateral-movement",
+        "persistence",
+        "privilege-escalation"
       ],
       "exfiltration": [
         "collection",
@@ -132,8 +138,8 @@
       "reconnaissance",
       "resource-development"
     ],
-    "success_rule": "enabled -> 1.0; else forward 0.6 / lateral 0.5 / backward 0.25 (0.1 if regressing to a pre-intrusion tactic)",
-    "failure_rule": "gate: initial-access failure -> foothold-dependent dst 0.1; recon failure -> deep dst 0.15, initial-access 0.4; else backward 0.9 / lateral 0.7 / forward 0.3 (0.35 foothold-to-foothold retry-advance)"
+    "success_rule": "enabled -> 1.0; else forward 0.6 / lateral 0.5 / backward 0.25 (0.1 if regressing to a band-0 pre-intrusion tactic)",
+    "failure_rule": "gates: initial-access failure -> foothold-dependent dst 0.02 (soft-floor, ~45:1; recon bridge dominates); recon failure -> deep dst 0.05, initial-access 0.4. dampers: post-intrusion backward->pre-foothold dst 0.25 (exempts the initial-access->reconnaissance=0.9 bridge); backward->execution 0.35 (re-running code on a held foothold is a forward-level continuation). else backward 0.9 / lateral 0.7 / forward 0.35 (0.30 if source is pre-foothold)"
   },
   "resolved": [
     {
@@ -145,10 +151,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at collection confers what command-and-control needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "collection",
@@ -159,10 +167,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "collection",
@@ -173,10 +183,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at collection confers what exfiltration needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "collection",
@@ -187,10 +199,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at collection confers what lateral-movement needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "collection",
@@ -201,10 +215,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "command-and-control",
@@ -212,13 +228,15 @@
       "src_band": "4-objective",
       "dst_band": "2-consolidate",
       "relationship": "backward",
-      "enabled_on_success": false,
+      "enabled_on_success": true,
       "dst_foothold_dependent": true,
-      "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success": 1.0,
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "command-and-control",
@@ -229,10 +247,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "command-and-control",
@@ -243,10 +263,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at command-and-control confers what discovery needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "command-and-control",
@@ -257,10 +279,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at command-and-control confers what execution needs next",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
+      "failure": 0.35,
+      "failure_rationale": "re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "execution_damper"
     },
     {
       "src_tactic": "command-and-control",
@@ -271,10 +295,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at command-and-control confers what exfiltration needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "command-and-control",
@@ -285,10 +311,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at command-and-control confers what impact needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "command-and-control",
@@ -299,10 +327,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at command-and-control confers what lateral-movement needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "command-and-control",
@@ -310,13 +340,15 @@
       "src_band": "4-objective",
       "dst_band": "2-consolidate",
       "relationship": "backward",
-      "enabled_on_success": false,
+      "enabled_on_success": true,
       "dst_foothold_dependent": true,
-      "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success": 1.0,
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "command-and-control",
@@ -324,13 +356,15 @@
       "src_band": "4-objective",
       "dst_band": "2-consolidate",
       "relationship": "backward",
-      "enabled_on_success": false,
+      "enabled_on_success": true,
       "dst_foothold_dependent": true,
-      "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success": 1.0,
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "command-and-control",
@@ -341,10 +375,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.1,
-      "success_rationale": "regress to pre-intrusion after success — very unlikely",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regress to a pre-intrusion (band-0) tactic after success \u2014 very unlikely",
+      "failure": 0.25,
+      "failure_rationale": "post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress",
+      "synthetic_edge": false,
+      "success_rule": "backward_to_prep",
+      "failure_rule": "preintrusion_damper"
     },
     {
       "src_tactic": "command-and-control",
@@ -355,10 +391,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.1,
-      "success_rationale": "regress to pre-intrusion after success — very unlikely",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regress to a pre-intrusion (band-0) tactic after success \u2014 very unlikely",
+      "failure": 0.25,
+      "failure_rationale": "post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress",
+      "synthetic_edge": false,
+      "success_rule": "backward_to_prep",
+      "failure_rule": "preintrusion_damper"
     },
     {
       "src_tactic": "command-and-control",
@@ -369,10 +407,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "credential-access",
@@ -383,10 +423,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at credential-access confers what collection needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "credential-access",
@@ -397,10 +439,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "credential-access",
@@ -411,10 +455,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success_rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "lateral",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "credential-access",
@@ -425,10 +471,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.35,
+      "failure_rationale": "re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "execution_damper"
     },
     {
       "src_tactic": "credential-access",
@@ -439,10 +487,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "credential-access",
@@ -453,10 +503,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.25,
+      "failure_rationale": "post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "preintrusion_damper"
     },
     {
       "src_tactic": "credential-access",
@@ -467,10 +519,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at credential-access confers what lateral-movement needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "credential-access",
@@ -478,13 +532,15 @@
       "src_band": "2-consolidate",
       "dst_band": "2-consolidate",
       "relationship": "lateral",
-      "enabled_on_success": false,
+      "enabled_on_success": true,
       "dst_foothold_dependent": true,
-      "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success": 1.0,
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "credential-access",
@@ -495,10 +551,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.1,
-      "success_rationale": "regress to pre-intrusion after success — very unlikely",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regress to a pre-intrusion (band-0) tactic after success \u2014 very unlikely",
+      "failure": 0.25,
+      "failure_rationale": "post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress",
+      "synthetic_edge": false,
+      "success_rule": "backward_to_prep",
+      "failure_rule": "preintrusion_damper"
     },
     {
       "src_tactic": "credential-access",
@@ -509,10 +567,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success_rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "lateral",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "defense-impairment",
@@ -523,10 +583,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "defense-impairment",
@@ -537,10 +599,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at defense-impairment confers what credential-access needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "defense-impairment",
@@ -551,10 +615,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.35,
+      "failure_rationale": "re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "execution_damper"
     },
     {
       "src_tactic": "defense-impairment",
@@ -565,10 +631,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.25,
+      "failure_rationale": "post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "preintrusion_damper"
     },
     {
       "src_tactic": "defense-impairment",
@@ -579,10 +647,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success_rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "lateral",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "discovery",
@@ -593,10 +663,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at discovery confers what collection needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "discovery",
@@ -607,10 +679,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "discovery",
@@ -621,10 +695,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at discovery confers what credential-access needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "discovery",
@@ -635,10 +711,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.35,
+      "failure_rationale": "re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "execution_damper"
     },
     {
       "src_tactic": "discovery",
@@ -649,10 +727,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "discovery",
@@ -663,10 +743,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "discovery",
@@ -677,10 +759,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at discovery confers what lateral-movement needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "discovery",
@@ -691,10 +775,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "discovery",
@@ -705,10 +791,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at discovery confers what privilege-escalation needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "discovery",
@@ -719,10 +807,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "execution",
@@ -733,10 +823,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "execution",
@@ -747,10 +839,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at execution confers what command-and-control needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "execution",
@@ -761,10 +855,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at execution confers what credential-access needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "execution",
@@ -775,10 +871,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at execution confers what discovery needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "execution",
@@ -789,10 +887,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "execution",
@@ -803,10 +903,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success_rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "lateral",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "execution",
@@ -817,10 +919,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "execution",
@@ -831,10 +935,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at execution confers what persistence needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "execution",
@@ -845,10 +951,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at execution confers what privilege-escalation needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "execution",
@@ -859,10 +967,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.1,
-      "success_rationale": "regress to pre-intrusion after success — very unlikely",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regress to a pre-intrusion (band-0) tactic after success \u2014 very unlikely",
+      "failure": 0.25,
+      "failure_rationale": "post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress",
+      "synthetic_edge": false,
+      "success_rule": "backward_to_prep",
+      "failure_rule": "preintrusion_damper"
     },
     {
       "src_tactic": "execution",
@@ -873,10 +983,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at execution confers what stealth needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "exfiltration",
@@ -887,10 +999,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at exfiltration confers what collection needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "exfiltration",
@@ -901,10 +1015,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at exfiltration confers what command-and-control needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "exfiltration",
@@ -915,10 +1031,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "exfiltration",
@@ -929,10 +1047,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.35,
+      "failure_rationale": "re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "execution_damper"
     },
     {
       "src_tactic": "exfiltration",
@@ -943,10 +1063,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at exfiltration confers what impact needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "exfiltration",
@@ -957,10 +1079,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "impact",
@@ -971,10 +1095,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success_rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "lateral",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "impact",
@@ -985,10 +1111,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success_rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "lateral",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "impact",
@@ -999,10 +1127,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "impact",
@@ -1013,10 +1143,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.35,
+      "failure_rationale": "re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "execution_damper"
     },
     {
       "src_tactic": "impact",
@@ -1027,10 +1159,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "impact",
@@ -1041,10 +1175,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "initial-access",
@@ -1055,10 +1191,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
-      "failure": 0.1,
-      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent move is out of reach",
-      "synthetic_edge": false
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
+      "failure": 0.02,
+      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent destination is out of reach",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "ia_gate_foothold"
     },
     {
       "src_tactic": "initial-access",
@@ -1066,13 +1204,15 @@
       "src_band": "1-intrusion",
       "dst_band": "4-objective",
       "relationship": "forward",
-      "enabled_on_success": false,
+      "enabled_on_success": true,
       "dst_foothold_dependent": true,
-      "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
-      "failure": 0.1,
-      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent move is out of reach",
-      "synthetic_edge": false
+      "success": 1.0,
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
+      "failure": 0.02,
+      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent destination is out of reach",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "ia_gate_foothold"
     },
     {
       "src_tactic": "initial-access",
@@ -1083,10 +1223,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at initial-access confers what credential-access needs next",
-      "failure": 0.1,
-      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent move is out of reach",
-      "synthetic_edge": false
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
+      "failure": 0.02,
+      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent destination is out of reach",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "ia_gate_foothold"
     },
     {
       "src_tactic": "initial-access",
@@ -1097,10 +1239,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at initial-access confers what discovery needs next",
-      "failure": 0.1,
-      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent move is out of reach",
-      "synthetic_edge": false
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
+      "failure": 0.02,
+      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent destination is out of reach",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "ia_gate_foothold"
     },
     {
       "src_tactic": "initial-access",
@@ -1111,10 +1255,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at initial-access confers what execution needs next",
-      "failure": 0.1,
-      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent move is out of reach",
-      "synthetic_edge": false
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
+      "failure": 0.02,
+      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent destination is out of reach",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "ia_gate_foothold"
     },
     {
       "src_tactic": "initial-access",
@@ -1125,10 +1271,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
-      "failure": 0.1,
-      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent move is out of reach",
-      "synthetic_edge": false
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
+      "failure": 0.02,
+      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent destination is out of reach",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "ia_gate_foothold"
     },
     {
       "src_tactic": "initial-access",
@@ -1139,10 +1287,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at initial-access confers what persistence needs next",
-      "failure": 0.1,
-      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent move is out of reach",
-      "synthetic_edge": false
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
+      "failure": 0.02,
+      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent destination is out of reach",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "ia_gate_foothold"
     },
     {
       "src_tactic": "initial-access",
@@ -1153,10 +1303,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at initial-access confers what privilege-escalation needs next",
-      "failure": 0.1,
-      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent move is out of reach",
-      "synthetic_edge": false
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
+      "failure": 0.02,
+      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent destination is out of reach",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "ia_gate_foothold"
     },
     {
       "src_tactic": "initial-access",
@@ -1167,10 +1319,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.1,
-      "success_rationale": "regress to pre-intrusion after success — very unlikely",
+      "success_rationale": "regress to a pre-intrusion (band-0) tactic after success \u2014 very unlikely",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": true
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": true,
+      "success_rule": "backward_to_prep",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "initial-access",
@@ -1181,10 +1335,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at initial-access confers what stealth needs next",
-      "failure": 0.1,
-      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent move is out of reach",
-      "synthetic_edge": false
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
+      "failure": 0.02,
+      "failure_rationale": "initial-access failed => no foothold, so a foothold-dependent destination is out of reach",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "ia_gate_foothold"
     },
     {
       "src_tactic": "lateral-movement",
@@ -1195,10 +1351,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at lateral-movement confers what collection needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "lateral-movement",
@@ -1209,10 +1367,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at lateral-movement confers what command-and-control needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "lateral-movement",
@@ -1223,10 +1383,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at lateral-movement confers what credential-access needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "lateral-movement",
@@ -1237,10 +1399,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at lateral-movement confers what discovery needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "lateral-movement",
@@ -1251,10 +1415,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.35,
+      "failure_rationale": "re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "execution_damper"
     },
     {
       "src_tactic": "lateral-movement",
@@ -1265,10 +1431,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.25,
+      "failure_rationale": "post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "preintrusion_damper"
     },
     {
       "src_tactic": "lateral-movement",
@@ -1279,10 +1447,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at lateral-movement confers what persistence needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "lateral-movement",
@@ -1293,10 +1463,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at lateral-movement confers what privilege-escalation needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "lateral-movement",
@@ -1307,10 +1479,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.1,
-      "success_rationale": "regress to pre-intrusion after success — very unlikely",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regress to a pre-intrusion (band-0) tactic after success \u2014 very unlikely",
+      "failure": 0.25,
+      "failure_rationale": "post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress",
+      "synthetic_edge": false,
+      "success_rule": "backward_to_prep",
+      "failure_rule": "preintrusion_damper"
     },
     {
       "src_tactic": "lateral-movement",
@@ -1321,10 +1495,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
+      "success_rationale": "regression is unlikely once the step succeeded",
       "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "failure_rationale": "fall back / regress \u2014 the natural 'back to the drawing board' move on failure",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "backward"
     },
     {
       "src_tactic": "persistence",
@@ -1335,10 +1511,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "persistence",
@@ -1349,10 +1527,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at persistence confers what command-and-control needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "persistence",
@@ -1363,10 +1543,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at persistence confers what credential-access needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "persistence",
@@ -1377,10 +1559,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success_rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "lateral",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "persistence",
@@ -1391,10 +1575,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at persistence confers what discovery needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "persistence",
@@ -1405,10 +1591,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.35,
+      "failure_rationale": "re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "execution_damper"
     },
     {
       "src_tactic": "persistence",
@@ -1419,10 +1607,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "persistence",
@@ -1433,10 +1623,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at persistence confers what lateral-movement needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "persistence",
@@ -1447,10 +1639,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at persistence confers what privilege-escalation needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "persistence",
@@ -1461,10 +1655,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.1,
-      "success_rationale": "regress to pre-intrusion after success — very unlikely",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regress to a pre-intrusion (band-0) tactic after success \u2014 very unlikely",
+      "failure": 0.25,
+      "failure_rationale": "post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress",
+      "synthetic_edge": false,
+      "success_rule": "backward_to_prep",
+      "failure_rule": "preintrusion_damper"
     },
     {
       "src_tactic": "persistence",
@@ -1475,10 +1671,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success_rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "lateral",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "privilege-escalation",
@@ -1489,10 +1687,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at privilege-escalation confers what collection needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "privilege-escalation",
@@ -1503,10 +1703,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "privilege-escalation",
@@ -1517,10 +1719,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at privilege-escalation confers what discovery needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "privilege-escalation",
@@ -1531,10 +1735,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.35,
+      "failure_rationale": "re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "execution_damper"
     },
     {
       "src_tactic": "privilege-escalation",
@@ -1545,10 +1751,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at privilege-escalation confers what lateral-movement needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "privilege-escalation",
@@ -1556,13 +1764,15 @@
       "src_band": "2-consolidate",
       "dst_band": "2-consolidate",
       "relationship": "lateral",
-      "enabled_on_success": false,
+      "enabled_on_success": true,
       "dst_foothold_dependent": true,
-      "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success": 1.0,
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "privilege-escalation",
@@ -1573,10 +1783,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at privilege-escalation confers what stealth needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "reconnaissance",
@@ -1587,10 +1799,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
-      "failure": 0.15,
-      "failure_rationale": "recon failed => a deep post-intrusion move is implausible",
-      "synthetic_edge": false
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
+      "failure": 0.05,
+      "failure_rationale": "reconnaissance failed => a deep post-intrusion move is implausible with no foothold",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "recon_gate_deep"
     },
     {
       "src_tactic": "reconnaissance",
@@ -1601,10 +1815,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": false,
       "success": 1.0,
-      "success_rationale": "enabled: success at reconnaissance confers what initial-access needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.4,
-      "failure_rationale": "recon failed (nothing found) => breaking in is weaker, but not impossible",
-      "synthetic_edge": false
+      "failure_rationale": "reconnaissance failed (nothing found) => breaking in is weaker, but not impossible",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "recon_gate_initial_access"
     },
     {
       "src_tactic": "reconnaissance",
@@ -1615,10 +1831,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
-      "failure": 0.15,
-      "failure_rationale": "recon failed => a deep post-intrusion move is implausible",
-      "synthetic_edge": false
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
+      "failure": 0.05,
+      "failure_rationale": "reconnaissance failed => a deep post-intrusion move is implausible with no foothold",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "recon_gate_deep"
     },
     {
       "src_tactic": "reconnaissance",
@@ -1629,10 +1847,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
-      "failure": 0.15,
-      "failure_rationale": "recon failed => a deep post-intrusion move is implausible",
-      "synthetic_edge": false
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
+      "failure": 0.05,
+      "failure_rationale": "reconnaissance failed => a deep post-intrusion move is implausible with no foothold",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "recon_gate_deep"
     },
     {
       "src_tactic": "reconnaissance",
@@ -1643,10 +1863,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": false,
       "success": 1.0,
-      "success_rationale": "enabled: success at reconnaissance confers what resource-development needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": true
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": true,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "resource-development",
@@ -1657,10 +1879,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.3,
-      "failure_rationale": "forward after failure is unlikely (the step it depends on did not land)",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a pre-foothold stage is unlikely (the dependency did not land)",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_prep"
     },
     {
       "src_tactic": "resource-development",
@@ -1671,10 +1895,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.3,
-      "failure_rationale": "forward after failure is unlikely (the step it depends on did not land)",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a pre-foothold stage is unlikely (the dependency did not land)",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_prep"
     },
     {
       "src_tactic": "resource-development",
@@ -1685,10 +1911,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": false,
       "success": 1.0,
-      "success_rationale": "enabled: success at resource-development confers what initial-access needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.3,
-      "failure_rationale": "forward after failure is unlikely (the step it depends on did not land)",
-      "synthetic_edge": true
+      "failure_rationale": "forward after failure from a pre-foothold stage is unlikely (the dependency did not land)",
+      "synthetic_edge": true,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_prep"
     },
     {
       "src_tactic": "stealth",
@@ -1699,10 +1927,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at stealth confers what collection needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "stealth",
@@ -1713,10 +1943,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at stealth confers what command-and-control needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "stealth",
@@ -1727,10 +1959,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at stealth confers what credential-access needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "stealth",
@@ -1741,10 +1975,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success_rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "lateral",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "stealth",
@@ -1755,10 +1991,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at stealth confers what discovery needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "stealth",
@@ -1769,10 +2007,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.35,
+      "failure_rationale": "re-running code against a held foothold is a forward-level retry-continuation, not a penalised regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "execution_damper"
     },
     {
       "src_tactic": "stealth",
@@ -1783,10 +2023,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "stealth",
@@ -1797,10 +2039,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.6,
-      "success_rationale": "forward (kill-chain progress) but not a specifically-enabled next move",
+      "success_rationale": "kill-chain progress to a later band, not a specifically-enabled next move",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "forward",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "stealth",
@@ -1811,10 +2055,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": false,
       "success": 0.25,
-      "success_rationale": "backward: regression is unlikely once the step succeeded",
-      "failure": 0.9,
-      "failure_rationale": "fall back / regress — the natural 'back to the drawing board' move on failure",
-      "synthetic_edge": false
+      "success_rationale": "regression is unlikely once the step succeeded",
+      "failure": 0.25,
+      "failure_rationale": "post-intrusion failure falling all the way back to a pre-foothold tactic is a minor, not modal, regress",
+      "synthetic_edge": false,
+      "success_rule": "backward",
+      "failure_rule": "preintrusion_damper"
     },
     {
       "src_tactic": "stealth",
@@ -1825,10 +2071,12 @@
       "enabled_on_success": true,
       "dst_foothold_dependent": true,
       "success": 1.0,
-      "success_rationale": "enabled: success at stealth confers what lateral-movement needs next",
+      "success_rationale": "success at the source confers the capability/position the destination needs next (enables set)",
       "failure": 0.35,
-      "failure_rationale": "forward after failure: a retry-then-advance is possible but not the modal move",
-      "synthetic_edge": false
+      "failure_rationale": "forward after failure from a held foothold: a retry-then-advance is possible but not modal",
+      "synthetic_edge": false,
+      "success_rule": "enabled",
+      "failure_rule": "forward_from_foothold"
     },
     {
       "src_tactic": "stealth",
@@ -1839,10 +2087,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success_rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "lateral",
+      "failure_rule": "lateral"
     },
     {
       "src_tactic": "stealth",
@@ -1853,10 +2103,12 @@
       "enabled_on_success": false,
       "dst_foothold_dependent": true,
       "success": 0.5,
-      "success_rationale": "lateral: a same-phase sibling move, plausible but not the enabled next step",
+      "success_rationale": "same-phase sibling move \u2014 plausible but not the enabled next step",
       "failure": 0.7,
-      "failure_rationale": "try a same-phase sibling tactic — an alternative route to the same objective",
-      "synthetic_edge": false
+      "failure_rationale": "try a same-phase sibling tactic \u2014 an alternative route to the same objective",
+      "synthetic_edge": false,
+      "success_rule": "lateral",
+      "failure_rule": "lateral"
     }
   ],
   "profiles_pairs_present": {
@@ -2313,5 +2565,7 @@
       "stealth->persistence",
       "stealth->privilege-escalation"
     ]
-  }
+  },
+  "canonical_source": "RULE-BASED notation is now canonical: data/ogasp/controller/outcome_rules.json (model + ordered rules, one rationale each) + compiled complete views success.json/failure.json (all 210 directed pairs). This file is the corpus-scoped (123-pair) view, regenerated from the same R2 rules.",
+  "scrutiny": "R2 converged through 4 adversarial cross-examination rounds (~90 agents): CTI-independence PASS (make_rules reads only bands/enables/foothold; the corpus is failure-blind so the failure side cannot be circular); composed-net validation on build_all_profiles(with_synthetic_overlay=True); stepwise simulation (real nets, stubbed MTDSim verdict) found the option-sets plausible and the finetune synthesis returned ZERO changes. Certified confidence 82% (panel 82/82/82/84/88); the 82->95% remainder is the dissertation defence, not value uncertainty. Provenance ledger: docs/implementation/declared_value_provenance.md. Each R2 constant: base only DIAGNOSED a coherence failure; the value is set from declared semantics (never a fitting target)."
 }

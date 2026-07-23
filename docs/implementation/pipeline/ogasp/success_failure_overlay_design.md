@@ -23,9 +23,11 @@ At runtime these values **manipulate the existing base edges**: the value multip
 the D3 base weight and the source place's out-set is renormalised, so the observed
 structure is tilted live by the success/failure signal the substrate returns.
 
-This record is the design; **no stepping or net-build code is written here** (that is
-the profiled-attacker build,
-[`../../../handoffs/2026-07-15_l3_profiled_attacker_build.md`](../../../handoffs/2026-07-15_l3_profiled_attacker_build.md)).
+This record is the design; **no stepping or net-build code is written here.** The
+composition is implemented in the controller sublayer (the controller-finalisation
+handoff, [`../../../handoffs/2026-07-22_l3_controller_success_failure.md`](../../../handoffs/2026-07-22_l3_controller_success_failure.md));
+the live net walk is the attacker build
+([`../../../handoffs/2026-07-22_l3_attacker_petri_to_mtdsim.md`](../../../handoffs/2026-07-22_l3_attacker_petri_to_mtdsim.md)).
 Its deliverables are this record, the authored overlay
 [`../../../../data/ogasp/petri/outcome_overlay.json`](../../../../data/ogasp/petri/outcome_overlay.json),
 and its provenance row ([`../../provenance.md`](../../provenance.md)).
@@ -40,8 +42,8 @@ nets to make the token move a certain way. **Envelope, not actor:** it encodes
 *plausible* next-move likelihoods, never a real adversary's policy. It **conditions**
 the D3 base weights and never re-derives or re-tunes them
 ([`../../metrics_semantics.md`](../../metrics_semantics.md) §(f)); the per-tactic
-binary verdict it keys on is fixed by [`tactic_action_map.md`](tactic_action_map.md)
-§4 (the M2/M4 oracle) and read, never re-rolled. It is a **second, distinct** layer
+binary verdict it keys on is fixed by [`controller.md`](controller.md)
+§4 (the per-verb M2/M4 oracle) and read, never re-rolled. It is a **second, distinct** layer
 from the *structural* synthetic overlay
 ([`synthetic_overlay.md`](synthetic_overlay.md)): that one adds edges, this one
 weights them by verdict.
@@ -120,27 +122,41 @@ next-steps the AARs attest.
 
 ### 2.3 The failure treatment — "given failure at `a`, how likely is `b` next"
 
-- **Gate (dependency):** if `a = initial-access` failed, every **foothold-dependent**
-  `b` → **0.1** (no foothold, so a post-intrusion move is out of reach); the mass
-  concentrates on falling back (`initial-access → reconnaissance` = 0.9, the synthetic
-  regression bridge). If `a = reconnaissance` failed ("nothing found"), a deep
-  post-intrusion `b` → **0.15** and `initial-access` → **0.4** (breaking in is weaker
-  but not impossible) — the sane move is to keep preparing.
-- else by relationship: **backward** → **0.9** ("back to the drawing board" — the
-  natural regress/retry); **lateral** → **0.7** (try a sibling tactic, an alternative
-  route to the same objective); **forward** → **0.3**, or **0.35** for a
-  foothold-to-foothold retry-then-advance. Forward on failure is soft-suppressed,
-  **not banned** (Marc's refinement) — a retry-then-advance stays reachable.
+The R2 rules (finalised). Each constant is set from **declared semantics**; the base
+only ever **diagnosed** an incoherence — the routed percentages below are *validation
+outputs*, never fitting targets (the CTI-independence boundary turns on this, so read
+each change as **diagnosis → semantic re-reading → validation**).
+
+- **Gates (dependency).** If `a = initial-access` failed, every **foothold-dependent**
+  `b` → **0.02** — a declared ~45:1 *soft-floor*, not a hard 0 (no foothold, so a
+  post-intrusion move is out of reach). This lets the fall-back bridge
+  (`initial-access → reconnaissance` = 0.9, the synthetic regression bridge) dominate:
+  validated on the composed nets at **83%** of IA-failure mass on the sparse profiles,
+  up from a 50% tie under the superseded 0.1. If `a = reconnaissance` failed ("nothing
+  found"), a deep post-intrusion `b` → **0.05** and `initial-access` → **0.4** — keep
+  preparing.
+- **Dampers.** A post-intrusion source regressing **backward to a pre-foothold**
+  destination → **0.25** (a full-phase collapse is a minor, not modal, regress; this
+  deliberately **exempts** the `initial-access → reconnaissance` = 0.9 bridge, whose
+  source is itself pre-foothold). A **backward → execution** move → **0.35** (decoupled
+  from `enables`): re-running code against a *held* foothold is a forward-level
+  continuation, not a penalised 0.9 regress — this roughly halves the execution-regress
+  mass the flat 0.9 over-amplified, and its ordering above the pre-foothold damper
+  (0.35 > 0.25) is the deliberate "re-run code beats abandon the foothold" choice.
+- **else by relationship: backward** → **0.9** ("back to the drawing board"); **lateral**
+  → **0.7** (a same-phase sibling, an alternative route to the objective); **forward**
+  → **0.35** (the *default* retry-then-advance; **0.30** only when the source is a
+  pre-foothold stage). Forward on failure is soft-suppressed, **not banned**.
 
 ### 2.4 Worked examples (per-pair, not band-uniform)
 
 | Pair | rel. | success | failure | reading |
 |---|---|--:|--:|---|
-| initial-access → discovery | forward | **1.0** | **0.1** | foothold enables discovery; on failure there is no foothold to discover from |
-| initial-access → reconnaissance | backward | **0.1** | **0.9** | do not re-recon after getting in; on failure, fall back to recon (the regression bridge) |
-| initial-access → lateral-movement | forward | 0.6 | 0.1 | forward but not directly enabled (discover first); foothold-gated on failure |
+| initial-access → discovery | forward | **1.0** | **0.02** | foothold enables discovery; on failure there is no foothold to discover from (soft-floor) |
+| initial-access → reconnaissance | backward | **0.1** | **0.9** | do not re-recon after getting in; on failure, fall back to recon (the regression bridge — exempt from the damper) |
+| initial-access → lateral-movement | forward | 0.6 | 0.02 | forward but not directly enabled (discover first); foothold-gated on failure |
+| command-and-control → execution | backward | **1.0** | 0.35 | C2 enables re-execution; on failure, re-run code on the held foothold (execution damper, not a 0.9 regress) |
 | lateral-movement → credential-access | backward | **1.0** | 0.9 | a hop enables credential re-harvest; on failure fall back to the survivor credential path |
-| discovery → collection | forward | **1.0** | 0.35 | discovery enables staging; on failure a retry-then-advance is possible, not modal |
 | reconnaissance → initial-access | forward | **1.0** | 0.4 | recon enables entry; recon failure weakens (not bans) breaking in |
 
 The values differ *within* the same relationship class (both `initial-access →
@@ -148,18 +164,63 @@ discovery` and `initial-access → lateral-movement` are forward, yet 1.0 vs 0.6
 which is the point: the value is the pair's conditional likelihood, reasoned from its
 semantics, not its band.
 
+### 2.5 Finalisation, scrutiny, and honest caveats
+
+**R2 finalised 2026-07-23** (Marc greenlit) after **four adversarial cross-examination
+rounds (~90 agents)**: an initial cross-exam, a branching red-team, a composed-net
+validation on `build_all_profiles(with_synthetic_overlay=True)`, and a **stepwise
+simulation** that walked a token through the real Petri nets with the **MTDSim verdict
+stubbed** at the action layer, from many start points and competence levels. The final
+finetune synthesis proposed **zero value changes** — the numbers converged. Certified
+confidence **82%** (panel 82/82/82/84/88); the panel is unanimous that the 82→95%
+remainder is the **dissertation defence / write-up of this reasoning**, not value
+uncertainty. Decisions ratified: the **C2-hub** `enables` edit is **kept** (with the
+inclusion principle in the ledger); the **`enabled = 1.0` tier stays flat** — a graded
+"structural 1.0 / plausible-pivot 0.8" scheme was found empirically counterproductive.
+
+Honest caveats an examiner will (rightly) press, recorded rather than hidden:
+
+- **Failure > success to some band-4 objectives.** For a few non-`enabled` objective-band
+  destinations, the failure branch routes slightly *more* mass than success — a systemic
+  consequence of the flat backward/lateral ladder, not a per-pair defect.
+- **`ia_gate` is a soft-floor, not zero.** At 0.02 it leaves a base-proportional residual
+  (e.g. `initial-access|failure → execution` ≈ 0.13 aggregate) — intended (~45:1), not a leak.
+- **C2-hub `privilege-escalation` arm is base-inert in 3/5 profiles** — the observed C2-hub
+  pull is carried mainly by the credential-access / persistence arms.
+- **Point masses are non-conditionable.** Sparse-profile single-out-edge sources (e.g.
+  `infrastructure_setup: privilege-escalation → execution = 1.0`) renormalise to 1.0 for
+  *any* overlay value — a base/corpus property, not an overlay one.
+- **Objective sets are per-profile.** `infrastructure_setup` contains no exfiltration/impact
+  node, so objective-reachability must be scored per profile (or that profile excluded).
+- **The inherent ceiling.** This is a *declared-plausibility* envelope: the specific
+  magnitudes are CTI-unvalidated by construction (only within-source ratios are claimed).
+  Even with a flawless record an examiner can ask "why this magnitude" — the honest answer
+  is the reasoning + the scrutiny it survived, which is what the ledger records.
+
 ---
 
 ## 3. Whole-space coverage, extensibility, and runtime consumption
 
-**The overlay weights the whole directed tactic-pair set** the nets contain (the
-union across profiles) **plus the synthetic-overlay edges** — every source tactic
-(including today's dwell-only ones and resource-development), forward and backward.
-This is deliberate: **the action set is extensible.** Today only six tactics carry a
-substrate verb and therefore a verdict ([`tactic_action_map.md`](tactic_action_map.md)
-§4); tomorrow a verb may be mapped to more (resource-development, execution,
-persistence…). Authoring the *whole* space now means the policy is ready the moment a
-verb is added — no re-derivation, no scoping cliff.
+**The overlay weights the COMPLETE directed tactic-pair set** — all **210** ordered
+pairs (15×14, no self-loops), not only the corpus-present subset. It is **corpus-
+agnostic**: a different CTI/corpus that introduces an edge the current union lacks is
+already weighted. *Which* pairs route mass is a property of the base/net layer
+(base = 0 ⇒ no routing), never of the overlay — so completeness costs nothing at
+runtime. (Reconcile flag **resolved**: under the 2026-07-22 controller reframe **every**
+tactic dispatches a verb and so carries a verdict — [`controller.md`](controller.md)
+§4 — so the whole space is consumed, not just six places; the self-loop "retry the same
+tactic" is handled by the stepping layer's bounded-retry, not the overlay.)
+
+**Notation (finalised).** The values are **rule-generated** from a small model, not
+enumerated per pair: the canonical artefact is the rule-based
+[`../../../../data/ogasp/controller/outcome_rules.json`](../../../../data/ogasp/controller/outcome_rules.json)
+(the model + 5 success and 9 failure rules, **one rationale each**, was 246 duplicated
+per-pair rationale fields), compiled to the complete 210-pair views `success.json` /
+`failure.json`. A deterministic generator reproduces the table **0/123** before any
+edit — the values follow the rules, not post-hoc fitting. This file
+(`outcome_overlay.json`) is the corpus-scoped 123-pair view of the same rules. The
+per-value provenance + scrutiny ledger is
+[`../../declared_value_provenance.md`](../../declared_value_provenance.md).
 
 **Runtime consumption tracks verdict availability.** The composition rule fires at a
 place only when its action returns a success/failure verdict. A place with no mapped
@@ -267,7 +328,7 @@ code is the profiled-attacker build.
 ## 8. Where this connects, and when to update
 
 - **Consumes:** [`supervisor_decision_register.md`](supervisor_decision_register.md)
-  §M2/M1/R1/R4; [`tactic_action_map.md`](tactic_action_map.md) §4 (verdict oracle);
+  §M2/M1/R1/R4; [`controller.md`](controller.md) §4 (per-verb verdict oracle);
   [`synthetic_overlay.md`](synthetic_overlay.md) (the structure it weights);
   [`../../metrics_semantics.md`](../../metrics_semantics.md) §(f); the AAR corpus.
 - **Feeds:** the profiled-attacker build (composition, lifecycle, record schema) and
