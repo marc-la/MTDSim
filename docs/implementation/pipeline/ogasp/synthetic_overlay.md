@@ -3,7 +3,7 @@ status: durable
 created: 2026-07-21
 updated: 2026-07-21
 topic: "L3 synthetic overlay — the declared pre-intrusion structural sublayer: bidirectional connective tissue (recon→resource-development→initial-access forward chain + initial-access→reconnaissance backward regression bridge) for the profiles whose observed corpus leaves the pre-intrusion band detached"
-lineage: extracted + reframed from tactic_action_map.md §6 (the former 'M6 prefix join')
+lineage: extracted + reframed from controller.md (formerly tactic_action_map.md) §6 (the former 'M6 prefix join')
 ---
 
 # The synthetic overlay — declared pre-intrusion structure, composed apart from the corpus

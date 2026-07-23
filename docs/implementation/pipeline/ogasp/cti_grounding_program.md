@@ -23,6 +23,15 @@ topic: "L3b reframe — grounding MTDSim in the CTI ontology (the latent-layer p
 > §M1–M8. This record is retained as the map of the design space the decision
 > was made *in* — the depth spectrum (§3) is now dissertation material for the
 > "why not deeper" limitation/future-work paragraph, not a live question.
+>
+> **FURTHER REFRAME (2026-07-22).** The tactic→action *binding* this record is
+> built around is itself retired: the join is now the **controller**, an explicit
+> **swappable input parameter** (a CKC-mediated tactic→verb position map), not a
+> single correct binding to be discovered or grounded —
+> [`controller.md`](controller.md). The `binding_design_space.md` /
+> `binding_signoff_summary.md` records this document links to were **removed**
+> that day; those links are historical. What survives here is only the §3
+> grounding-depth spectrum, as the "why not deeper" future-work argument.
 
 **Status (historical):** direction-setting record (broad brushstrokes; the north star the L3b
 sub-investigations point at). Not a spec, not a decision — a framing Marc is
@@ -42,7 +51,8 @@ given, the best a binding can do is map the attacker's tactics onto the
 substrate's **existing** action set — and because those six verbs are data-coupled
 and taxonomy-free, the result is close to the inherited phased attacker with new
 labels (the **anti-goal**; the re-skin). The binding investigation
-([`binding_design_space.md`](binding_design_space.md)) confirmed this: the only
+(`binding_design_space.md`, removed 2026-07-22 — see [`controller.md`](controller.md))
+confirmed this: the only
 in-scope lever that is *materially* different from a re-skin is technique-driven
 behaviour the substrate's action set cannot currently express.
 
@@ -129,7 +139,7 @@ build**:
    thing Marc "plans to investigate and propose in a future chat".
 3. **Grounding-depth decision** — pick N on the §3 spectrum from the coverage
    evidence + the synthesis-layer design.
-4. **Binding re-run** — the [`binding_design_space.md`](binding_design_space.md)
+4. **Binding re-run** — the `binding_design_space.md` (removed 2026-07-22)
    candidates re-scored at the chosen depth (its C1/C2/C3 analysis stays valid;
    only the comparability weighting and CVE deferral were wrong and are corrected
    in place). This produces the recommendation that actually goes to the
@@ -155,10 +165,9 @@ build**:
 ## 6. Relationship to the existing artefacts
 
 - **Supersedes the framing of** the MVP-binding investigation + its goal
-  ([`../../../handoffs/2026-07-13_l3_mvp_binding_investigation.md`](../../../handoffs/2026-07-13_l3_mvp_binding_investigation.md),
-  `..._goal.md`) — their impartial enumeration *landed* as
-  [`binding_design_space.md`](binding_design_space.md) and stays valid as
-  candidate analysis; their "recommend one MVP binding for sign-off" goal is
+  (handoffs since deleted per lifecycle) — their impartial enumeration *landed* as
+  `binding_design_space.md` (itself removed 2026-07-22 in the controller reframe)
+  and stayed valid as candidate analysis; their "recommend one MVP binding for sign-off" goal is
   **paused**, re-sequenced behind this program (depth first, recommendation
   after).
 - **Consumes** the crosswalk-join investigation (§4.1) and Marc's synthesis-layer

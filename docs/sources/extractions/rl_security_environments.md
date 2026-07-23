@@ -3,7 +3,7 @@
 > CyberBattleSim (Microsoft), NASim, CybORG, Yawning Titan and kin. Survey-level
 > stub from project documentation and OA papers via web search (July 2026).
 > Load-bearing for the binding investigation
-> ([`../../implementation/pipeline/ogasp/binding_design_space.md`](../../implementation/pipeline/ogasp/binding_design_space.md))
+> ([`../../implementation/pipeline/ogasp/controller.md`](../../implementation/pipeline/ogasp/controller.md))
 > as the precedent for candidate **C3 (net-as-policy-prior over a substrate
 > action space)** — the framing that appears in no prior repo document.
 
@@ -71,4 +71,4 @@ attributed to project docs / OA papers and marked **survey-level**.
   reset-*survivor* capability — the "key" that is not location-bound. It
   strengthens the C2/C3 case that a *credential-first* class is a behaviourally
   distinct, literature-grounded attacker, not an invention.
-  → primer §(e); [`binding_design_space.md`](../../implementation/pipeline/ogasp/binding_design_space.md) C2.
+  → primer §(e); [`controller.md`](../../implementation/pipeline/ogasp/controller.md) C2.

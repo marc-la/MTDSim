@@ -7,7 +7,7 @@
 > handoff (`docs/handoffs/2026-07-13_l3_tactic_operationalisation.md`,
 > gate 3), which owns the ability/fact model at implementation depth. This
 > stub records only the one abstraction the *binding investigation*
-> ([`../../implementation/pipeline/ogasp/binding_design_space.md`](../../implementation/pipeline/ogasp/binding_design_space.md))
+> ([`../../implementation/pipeline/ogasp/controller.md`](../../implementation/pipeline/ogasp/controller.md))
 > cites: the pre/post-condition ("fact") contract as external precedent
 > for the capability-precondition/effect binding (candidate C2).
 
@@ -49,7 +49,7 @@ first-hand read of the Caldera source.
   (`compromised_hosts`, `compromised_users`, host-stack map-knowledge), and the
   "abilities" are the six priced verbs — so the contract is a *state-gating
   layer over existing verbs*, never a command executor.
-  → C2 in [`binding_design_space.md`](../../implementation/pipeline/ogasp/binding_design_space.md).
+  → C2 in [`controller.md`](../../implementation/pipeline/ogasp/controller.md).
 - **Novelty note:** the fact-model precedent is what lets C2 be argued as
   *established practice* rather than invention — Caldera is the existence proof
   that "ATT&CK behaviour = pre/post-condition-gated ability" is a workable

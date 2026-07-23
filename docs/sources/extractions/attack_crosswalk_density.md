@@ -4,7 +4,7 @@
 > and the coverage of ATT&CK by attack-graph rule bases (MulVAL, MAL/coreLang).
 > Survey-level stub from OA sources via web search (July 2026). Load-bearing for
 > the binding investigation's **position on the technique→CAPEC→CWE→CVE→CVSS
-> chain** ([`../../implementation/pipeline/ogasp/binding_design_space.md`](../../implementation/pipeline/ogasp/binding_design_space.md)):
+> chain** ([`../../implementation/pipeline/ogasp/controller.md`](../../implementation/pipeline/ogasp/controller.md)):
 > it grounds the "sparse at every hop" verdict in reported coverage numbers
 > rather than assumption (the gate-4 requirement).
 

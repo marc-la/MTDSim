@@ -374,8 +374,8 @@ in `attack_operation.py` or the substrate. The alignment lives only at Brown's
 *flowchart* altitude; at the code altitude a verb is a timed state transition, not a
 technique. The mapping below is therefore an **interpretive best-fit**, offered as
 analysis (not asserted as ground truth — the substrate cannot be queried for it), and
-it is the action-side complement to the tactic→action influence map
-([`../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md`](../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md)),
+it is the action-side complement to the controller dispatch map
+([`controller.md`](controller.md)),
 which walks the relation from the CTI-tactic side.
 
 ### 5.1 Per-verb best-fit
@@ -459,8 +459,9 @@ are to be read against this section.
   hypothesis, 2026-07-16, recorded in the anatomy handoff. *Claim:* the coupling
   documented in §2–§3 forces the controller back toward the FSM's native sequence, so
   the net-imposed order degenerates into the tail-call order and the classes lose the
-  distinguishability the pipeline exists to add — the anti-goal
-  ([`binding_design_space.md`](binding_design_space.md)) reached through the back door.
+  distinguishability the pipeline exists to add — the **re-skin anti-goal**
+  (a controller whose dispatch collapses back onto the native FSM order; see
+  [`controller.md`](controller.md) §2 "coarse on purpose") reached through the back door.
   *Result signature:* profiled action sequences are **near-identical** to baseline
   (the imposed order collapsed), and MTTC ≈ baseline for that reason.
 
@@ -490,14 +491,14 @@ carve, are gated on Marc's review.
 
 - **Complements:** [`../../substrate_primer.md`](../../substrate_primer.md) §(d) (the
   attacker as adversary) and §(e) (the reset model this record's §2.4 embodies).
-- **Feeds:** the tactic→action influence map
-  ([`../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md`](../../../handoffs/2026-07-15_l3_tactic_action_influence_map.md)),
-  whose per-pair verdicts are only meaningful once callability (§3) is known; and the
+- **Feeds:** the controller dispatch map
+  ([`controller.md`](controller.md)),
+  whose per-verb verdicts are only meaningful once callability (§3) is known; and the
   success/failure outcome-overlay design
   ([`success_failure_overlay_design.md`](success_failure_overlay_design.md); its §4
   names the interrupt→driver wiring as a build prerequisite).
-- **Speaks to:** the anti-goal / distinguishability bar in
-  [`binding_design_space.md`](binding_design_space.md) — §6's H-coupling is that
+- **Speaks to:** the re-skin anti-goal / distinguishability bar the controller
+  must clear ([`controller.md`](controller.md) §2) — §6's H-coupling is that
   anti-goal reached from the action-layer side.
 - **Intent source:** [`../../../sources/extractions/brown2023.md`](../../../sources/extractions/brown2023.md)
   (B-ATK-01…08, B-INT-01…03, B-FW-01).
