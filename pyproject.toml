@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mtdsim"
+version = "1.0.0"
+description = "Time-based discrete-event simulator for evaluating Moving Target Defence (MTD) techniques"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "matplotlib>=3.8",
+    "networkx>=3.2",
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "pulp>=2.7",
+    "scipy>=1.11",
+    "seaborn>=0.13",
+    "simpy>=4.0",
+]
+
+[project.optional-dependencies]
+ai = ["tensorflow>=2.16"]
+test = ["pytest>=8"]
+
+[project.urls]
+Repository = "https://github.com/marc-la/MTDSim"
+Upstream = "https://github.com/Bsubs/MTDSim"
+
+[tool.setuptools.packages.find]
+include = ["mtdsim*"]
+
+[tool.setuptools.package-data]
+"mtdsim.data" = ["*.txt"]
