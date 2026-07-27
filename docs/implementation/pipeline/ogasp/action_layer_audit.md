@@ -11,6 +11,28 @@ lineage: closes docs/handoffs/2026-07-27_action_layer_refinement_under_freeze.md
 **Status:** durable investigation record; immutable history. Annotate with status
 banners rather than rewriting.
 
+> **SUPERSEDED IN PART — the declined rows were subsequently fixed (2026-07-27,
+> same day).** This record was written under the reading that the S2 freeze barred
+> repairing defects in the inherited simulator, so it declined nine genuine bugs and
+> escalated four decisions. The supervisor then clarified that **the freeze is on
+> adapting the attacker's phases and verbs to the experiments, not on fixing verified
+> bugs**, and directed that design intent be taken from Brown 2023. All four escalated
+> decisions were resolved as bugs and fixed; see `baseline/CHANGELOG.md`
+> (2026-07-27 entry) for the fixes, the deliberate re-baseline they forced, and the
+> resulting numbers.
+>
+> **The analysis below stands; only the dispositions changed.** The exclusion classes
+> in §1 ("moves a golden", "outside D5") were correct readings of the constraints as
+> they stood, and are retained so the reasoning is legible — but they no longer bind.
+> Rows now read: **A1, A2, A3, A4, A5, E1, E2, E3, E5, B1 (give-up half), B3 —
+> FIXED**; **B2 (the inert cap) — still an accepted divergence**; **F1 — FIXED**;
+> **F2, F3 and the C rows — unchanged**.
+>
+> The one finding that most deserves re-reading is **E2**: exploitation contagion was
+> not merely inflating compromise, it was *masking the defences*. Before the fix,
+> seven of nine goldens ended at exactly the termination ratio regardless of which
+> MTD was deployed; after it, the same nine span 2 to 41 compromised hosts.
+
 **Why this exists.** The S2 change freeze
 ([`supervisor_decision_register.md`](supervisor_decision_register.md) §S2) permits
 only *refinement of existing code and bug fixes*. Experiment 2 is meant to measure

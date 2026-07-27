@@ -106,7 +106,7 @@ def test_mtd_interrupts_all_read_as_failure() -> None:
 # --- the "both behave" gate -------------------------------------------------
 def test_native_baseline_reproduces_its_golden_headline() -> None:
     """The native 6-phase attacker (proceed_attack), in the movement geometry, still
-    reproduces the committed no-MTD golden headline (692 records / 41 hosts). The
+    reproduces the committed no-MTD golden headline (1541 records / 41 hosts). The
     controller-library additions and the driven carve changed no shared path."""
     random.seed(1234)
     np.random.seed(1234)
@@ -120,7 +120,7 @@ def test_native_baseline_reproduces_its_golden_headline() -> None:
     attack_op.proceed_attack()
     env.run(until=15000)
 
-    assert len(adversary.get_attack_stats().get_record()) == 692
+    assert len(adversary.get_attack_stats().get_record()) == 1541
     assert len(adversary.get_compromised_hosts()) == 41
 
 

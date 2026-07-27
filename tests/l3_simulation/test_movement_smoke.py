@@ -3,13 +3,13 @@
 Covers the M7 handoff's remaining gates:
 
   G1  goldens pass: the native 6-phase attacker still reproduces the no-MTD golden
-      headline (692 events / 41 compromised, seed 1234, 15 ks) — the movement-layer
+      headline (1541 events / 41 compromised, seed 1234, 15 ks) — the movement-layer
       additions changed no shared code path.
   G5  the smoke matrix: all five profiles (4 classes + aggregate) run to horizon on
       the smoke cell, emitting non-degenerate records the statistics reader turns
       into MTTC / ASR.
-  G6  boundary audit: no behavioural change under mtdnetwork/component or
-      mtdnetwork/mtdai — the movement layer lives entirely in the src/mtdsim tree.
+  G6  the action-set freeze (S2), asserted structurally: exactly six verbs,
+      priced and dispatched, and no new attacker state.
 
 The overlay ``compose`` and verdict adapter are injected as controlled fakes (the
 real ones are the controller-finalisation handoff's surface).
@@ -108,7 +108,7 @@ def test_g1_native_no_mtd_golden_headline_unperturbed() -> None:
     attack_op.proceed_attack()
     env.run(until=15000)
 
-    assert len(adversary.get_attack_stats().get_record()) == 692
+    assert len(adversary.get_attack_stats().get_record()) == 1541
     assert len(adversary.get_compromised_hosts()) == 41
 
 

@@ -7,6 +7,90 @@ diff is a regression to chase, not a re-baseline to accept.
 
 ---
 
+## 2026-07-27 — Defect-fix re-baseline: exploitation contagion and the give-up rule
+
+**Spec-IDs:** ATK-04 (counts moved), ATK-05 (fixed), ATK-06/ATK-07 (fixed),
+NET-13/NET-14 (unchanged semantics, changed outcomes).
+
+**Why.** The S2 action-layer audit
+(`docs/implementation/pipeline/ogasp/action_layer_audit.md`) found defects that the
+freeze then barred it from fixing. The supervisor subsequently authorised fixing
+verified bugs in the simulator — the freeze being on *adapting the attacker's
+phases and verbs to the experiments*, not on repairing defects — and directed that
+design intent be taken from Brown 2023. Seven fixes landed (commits `dd8c5ec`,
+`53c5e5d`); this entry captures the goldens at the end of that series.
+
+**The dominant driver is one bug.** `Service.copy()` returned a new `Service`
+wrapping the **same `Vulnerability` objects**, and every host draws its services
+through that method. 68 % of vulnerability instances were shared across hosts (up
+to 12 hosts each), and `Vulnerability.exploited` is per-instance — so exploiting a
+vulnerability on one host marked it exploited on every host carrying it, and
+`Service.is_exploited()` (which sums exploited impact) then reported untouched
+hosts' services as compromised. In the seeded no-MTD golden, **86 of 124 services
+on hosts the adversary never ran a single exploit against already read as
+exploited**. Compromise was substantially free. Each host now owns its
+vulnerability instances; the `id` is preserved (hosts genuinely may carry the same
+vulnerability), and no RNG is consumed, so generated networks are structurally
+identical for a given seed.
+
+**What this did to the numbers.** Attack counts roughly doubled — the attacker now
+has to earn every compromise — and, far more importantly, **the MTD techniques
+started discriminating**. Before, seven of the nine goldens ended at exactly 41
+compromised hosts, the 0.8 termination ratio, *regardless of which defence was
+deployed*: contagion handed the attacker the network faster than any MTD could
+take it away. The defence signal was being swamped by a bug.
+
+| scenario | attacks | MTDs | compromised |
+|---|---|---|---|
+| no-mtd | 692 → 1541 | 0 → 0 | 41 → **41** |
+| no-mtd_seed1234_repeat | 692 → 1541 | 0 → 0 | 41 → **41** |
+| no-mtd_seed9999 | 771 → 1698 | 0 → 0 | 41 → **39** |
+| single-ipshuffle | 1228 → 1511 | 75 → 75 | 35 → **32** |
+| single-osdiversity | 964 → 1927 | 45 → 75 | 41 → **2** |
+| random-multi | 875 → 1605 | 42 → 75 | 41 → **13** |
+| alternative-multi | 871 → 1687 | 40 → 75 | 41 → **11** |
+| simultaneous-multi | 765 → 1570 | 44 → 88 | 41 → **22** |
+| primary-random-15k (100 nodes) | 1366 → 1698 | 65 → 75 | 81 → **6** |
+
+The no-MTD control is unchanged at 41 (the attacker still takes the network when
+undefended, it just takes ~2.2x the actions), which is the reassurance that the
+spread across the MTD rows is defensive effect and not a broken attacker.
+
+**The other six fixes**, in decreasing order of effect on these numbers:
+
+1. **The give-up rule was inverted against Brown** (B-ATK-06). The guard applied it
+   only when `network_type == 0` — the targeted scenario, unreachable in this
+   repository — so no host was ever given up and hosts were re-enumerated up to 50
+   times against a stated bound of 10. Restored to Brown's polarity: give up after
+   10 attempts, except on the target node of a targeted network.
+2. **The give-up list leaked through `SCAN_NEIGHBOR`**, which re-queued blacklisted
+   hosts.
+3. **The movement arm paid no confusion penalty** (B-ATK-07) and never lost its host
+   cursor on a network-layer mutation (B-INT-01). Does not affect these goldens —
+   they are native-arm — but it is why the two arms were not comparable.
+4. **`SCAN_HOST` queued duplicates**, inflating the per-host attempt counter.
+5. **A compromise was stamped onto the previous verb's record row** when
+   `EXPLOIT_VULN` had nothing to try (13.8 % of compromises under MTD, 0 % without).
+6. **`attack_counter[-1]`** was read whenever the host cursor was -1.
+
+**ATK-04 counts moved, and the movement is corroborating.** The pinned per-instance
+re-exploit discount now fires on 0.6–9.8 % of `exploit_time` calls, down from
+7.3–41.6 %. The mechanism is untouched: it was previously firing on vulnerabilities
+that *contagion* had marked exploited, and now fires only on genuine re-attempts of
+the same instance on the same host — which is what its docstring always claimed.
+New pins in `tests/test_atk04_reexploit_discount.py`.
+
+**Verification.** Behaviour was checked by stepping the discrete-event queue
+event-by-event with the new `tools/des_step.py`, against Brown's stated rules:
+B-INT-01 (network-layer mutation clears the host cursor, restart at discovery),
+B-INT-02 (application-layer keeps the host, re-run the port scan), B-ATK-07 (the
+penalty is paid on every block, ~20 t/u), B-ATK-06 (a host is given up at exactly
+attempt 10), and no-contagion (every compromise is preceded by a verb run against
+that host). Those checks are now tests (`tests/test_des_step.py`), and the tracer
+is asserted non-perturbing. Full suite: **264 passed**.
+
+---
+
 ## 2026-05-25 — Phase 2c: metric-faithfulness re-baseline
 
 **Spec-IDs:** MTD-14 (fixed), MET-04 / C8 (fixed), MET-08 (deferred), NET-13 / C3 (docs-fixed).

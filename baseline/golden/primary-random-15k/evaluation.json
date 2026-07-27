@@ -1,57 +1,13 @@
 [
   {
-    "time_to_compromise": 8.587643287940855,
-    "attack_success_rate": 0.35714285714285715,
+    "time_to_compromise": 8.212286881375343,
+    "attack_success_rate": 0.04854368932038835,
     "host_compromise_ratio": 0.06,
-    "mtd_execution_frequency": 0.00503465613350397,
+    "mtd_execution_frequency": 0.005033201103462543,
     "total_number_of_ports": 703,
-    "attack_path_exposure": 0.15625,
-    "roa": 2.326220814121022,
+    "attack_path_exposure": 0.49854365079365076,
+    "roa": 0.41046347711268805,
     "shortest_path_variability": 0.0,
-    "risk": 5.709434877163209
-  },
-  {
-    "time_to_compromise": 8.49169842058953,
-    "attack_success_rate": 0.3225806451612903,
-    "host_compromise_ratio": 0.11,
-    "mtd_execution_frequency": 0.00503465613350397,
-    "total_number_of_ports": 703,
-    "attack_path_exposure": 0.15625,
-    "roa": 2.326220814121022,
-    "shortest_path_variability": 0.0,
-    "risk": 5.709434877163209
-  },
-  {
-    "time_to_compromise": 8.894003557775106,
-    "attack_success_rate": 0.3488372093023256,
-    "host_compromise_ratio": 0.16,
-    "mtd_execution_frequency": 0.00503465613350397,
-    "total_number_of_ports": 703,
-    "attack_path_exposure": 0.15625,
-    "roa": 2.326220814121022,
-    "shortest_path_variability": 0.0,
-    "risk": 5.709434877163209
-  },
-  {
-    "time_to_compromise": 8.943306187165694,
-    "attack_success_rate": 0.37735849056603776,
-    "host_compromise_ratio": 0.21,
-    "mtd_execution_frequency": 0.00503465613350397,
-    "total_number_of_ports": 703,
-    "attack_path_exposure": 0.15625,
-    "roa": 2.326220814121022,
-    "shortest_path_variability": 0.0,
-    "risk": 5.709434877163209
-  },
-  {
-    "time_to_compromise": 9.263478213032172,
-    "attack_success_rate": 0.3787878787878788,
-    "host_compromise_ratio": 0.26,
-    "mtd_execution_frequency": 0.00503465613350397,
-    "total_number_of_ports": 703,
-    "attack_path_exposure": 0.15625,
-    "roa": 2.326220814121022,
-    "shortest_path_variability": 0.0,
-    "risk": 5.709434877163209
+    "risk": 1.0467556440138446
   }
 ]

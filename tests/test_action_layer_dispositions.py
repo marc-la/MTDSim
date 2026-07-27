@@ -1,32 +1,28 @@
-"""Characterisation tests pinning the action layer's audited dispositions.
+"""Tests for the action-layer behaviours the 2026-07-27 audit examined.
 
-These are **not** tests of intended behaviour. They pin behaviour that the
-2026-07-27 action-layer audit dispositioned as *inherited divergence* or as a
-*stated comparability limitation* — behaviour deliberately left in place under the
-S2 change freeze. Their job is to make each fact **loud if it ever changes**, so a
-future session changes it on purpose rather than by accident, and so the
-dispositions in ``docs/implementation/pipeline/ogasp/action_layer_anatomy.md`` §4.2
-cannot silently drift away from the code.
+Originally these were *characterisation* tests: they pinned divergences the audit
+had found but was not licensed to fix, so the facts could not drift silently. The
+supervisor then authorised fixing verified defects in the simulator, and two of the
+three were repaired — so those two are now **regression** tests of Brown-faithful
+behaviour, and say so in their docstrings. One disposition survives unchanged.
 
-Each test therefore asserts *the current, divergent reality* and names, in its
-docstring, the disposition it guards and who owns any change.
+What each guards:
 
-Audited items pinned here:
-
-- **ATK-07, the give-up rule.** Brown 2023 (§III-C(2), Table I) specifies giving up
-  on a host after 10 failed attempts. The code applies it only when
-  ``network.network_type == 0``; every experiment to date runs ``TimeNetwork``,
-  which is ``network_type == 1``. The rule is therefore inactive in every run, and
-  it is not merely latent — hosts do exceed the threshold.
-- **ATK-08, the global attack-attempt cap.** ``max_attack_attempts`` is computed and
-  ``curr_attempts`` is incremented, but the enforcing guard is commented out. Left
-  inert deliberately: it has a paper-free heuristic origin and restoring it would
-  fire mid-run and break the 692/41 golden (a re-baseline is Marc's call).
-- **ATK-05, the MTD confusion penalty.** The native arm pays it; the movement
-  (driven) arm does not, because ``step()`` lets the interrupt propagate to the
-  driver instead of running ``_handle_interrupt``. Stated as a comparability
-  limitation; the fix is owned by the S3 stochastic-timing pair, which makes the
-  penalty a movement-layer object.
+- **ATK-07, the give-up rule — FIXED.** Brown B-ATK-06 (§III-C(2), Table I; §V-C)
+  specifies giving up on a host after 10 failed attempts in Scenario 1, and never
+  giving up on the target node in Scenario 2. The guard was inverted, applying the
+  rule only in the *targeted* network — unreachable here — so no host was ever given
+  up and hosts were re-enumerated up to 50 times against a bound of 10. Now
+  bounded, and the give-up list survives lateral expansion.
+- **ATK-05, the MTD confusion penalty — FIXED.** Brown B-ATK-07 (§V-A) makes the
+  penalty unconditional. The driven arm paid none, because ``step()`` has no
+  interrupt handler and ``_handle_interrupt`` never ran. Both arms now consume the
+  same ``apply_mtd_interrupt_cost``, so neither gets MTD cheaper than the other.
+- **ATK-08, the global attack-attempt cap — still inert, deliberately.** The cap is
+  computed and counted but its single guard stays commented out. It has a
+  paper-free heuristic origin, so there is no source to be unfaithful to, and it is
+  overrun roughly two-fold mid-run — enforcing it would truncate every run. This
+  one remains a characterisation test of an accepted divergence.
 """
 
 from __future__ import annotations
@@ -160,7 +156,7 @@ def test_global_attack_attempt_cap_is_inert() -> None:
     Disposition: inherited divergence, deliberately left inert. The cap has a
     paper-free heuristic origin (ATK-08) and, as this test shows, is exceeded by
     roughly 2x mid-run — restoring the guard would truncate the run and break the
-    692/41 golden, which is a re-baseline and therefore Marc's call.
+    goldens, which is a re-baseline in its own right.
     """
     _tn, adv, _ao = _native_run(1234)
 
