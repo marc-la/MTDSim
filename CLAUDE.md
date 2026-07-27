@@ -8,13 +8,14 @@ Harness configuration (permission allowlists, hooks, skills) lives in [`.claude/
 
 ## Read first, every session
 
-All five, in order. If you read only one for orientation, read **`project_context.md`** (#3) — the "what this project is" document; the others govern behaviour.
+All six, in order. If you read only one for orientation, read **`project_context.md`** (#3) — the "what this project is" document; the others govern behaviour.
 
 1. [`docs/workflows/guardrails.md`](docs/workflows/guardrails.md) — non-negotiables: branch hygiene, never-commit-to-main, never-push, scope discipline, working standards.
 2. [`docs/workflows/session_workflow.md`](docs/workflows/session_workflow.md) — the stage-commit (no-push) flow, handoff / notes lifecycles, session-start checklist.
 3. [`docs/workflows/project_context.md`](docs/workflows/project_context.md) — the project, the thesis direction, the codebase lineage. What "load-bearing" means here.
 4. [`docs/workflows/docs_map.md`](docs/workflows/docs_map.md) — where every document lives and the placement criterion for new ones; repo layout and environment.
 5. [`docs/workflows/notes_rubric.md`](docs/workflows/notes_rubric.md) — the quality gate for anything written into `docs/notes/`. Load in full before writing or editing a note.
+6. [`docs/implementation/apt_model_criterion.md`](docs/implementation/apt_model_criterion.md) — the APT-attacker-model criterion (supervisor S6): the literature-derived rubric this model is scored against, with the honest per-axis badges. Loaded every session by supervisor direction; it is the yardstick for all current L3 work and the ceiling on what may be claimed.
 
 ## The docs system, in one paragraph
 

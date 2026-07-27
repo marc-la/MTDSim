@@ -749,8 +749,13 @@ Pass 2 / Marc to drive, not assumed-resolved.
   supervisor's direction is to convert it into a **structured criterion** built
   from the reviewed APT literature (Cho 2020's axes, Jalowski 2026's gap
   statement, Alshamrani 2019's enumeration) and to score this model against it
-  honestly — including the axes it does not satisfy. Until that criterion
-  exists, §(j)'s positioning is an argument without a yardstick.
+  honestly — including the axes it does not satisfy.
+  → **Resolved 2026-07-27:** the criterion exists at
+  [`apt_model_criterion.md`](apt_model_criterion.md) (eight axes, per-axis
+  epistemic badges, experiment-1 scoring, M8b measurement recommendations) and
+  sits on the every-session read-first list in [`CLAUDE.md`](../../CLAUDE.md).
+  §(j)'s positioning now has its yardstick; re-score triggers live in that
+  file's §(h).
 
 ---
 

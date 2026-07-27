@@ -31,6 +31,14 @@ EXPLOIT_COMPROMISED = 'EXPLOIT_COMPROMISED'      # host compromised -> native: S
 EXPLOIT_UNCOMPROMISED = 'EXPLOIT_UNCOMPROMISED'  # not compromised  -> native: BRUTE_FORCE
 EXPLOIT_HALTED = 'EXPLOIT_HALTED'                # interrupt/sim-end -> native: no succession
 
+# step() returns this when the sim ended DURING the verb, so the verb never acted.
+# It must be distinguishable from a verb's legitimate outcome: _do_scan_neighbors
+# returns None as its no-branch result, and a verb that completes may itself fire
+# end_event (via update_compromise_progress) — a driver inferring "aborted" from
+# end_event.triggered would discard that completed verb's real outcome.
+# Controller-facing only; the native FSM never sees it.
+STEP_ABORTED = 'STEP_ABORTED'
+
 
 class ActionContextError(RuntimeError):
     """Raised when a verb's core is invoked without the shared adversary state it
@@ -567,6 +575,12 @@ class AttackOperation:
         and records each verb in the attack stats exactly as the native path does,
         so a driven run is observable in the same attack_record.
 
+        Returns ``STEP_ABORTED`` if the simulation ended during the verb, so the verb
+        never acted. Callers must test for that sentinel rather than inferring an
+        abort from ``end_event.triggered``: three cores call
+        ``update_compromise_progress``, which can fire ``end_event`` on a verb that
+        completed successfully, and treating that as an abort discards the outcome.
+
         Interrupt handling (driven): an MTD interrupt propagates out of step() as
         simpy.Interrupt for every verb — including EXPLOIT_VULN, which runs its
         core with driven=True so it re-raises rather than spawning the native
@@ -595,8 +609,11 @@ class AttackOperation:
         start_time = self.env.now + self._proceed_time
         yield self.env.timeout(ATTACK_DURATION[verb])
         # R2-attacker: same gate as _execute_attack_action — don't act past sim end.
+        # Returns the STEP_ABORTED sentinel, not None: None is _do_scan_neighbors'
+        # legitimate no-branch outcome, and a driver cannot re-derive "aborted" from
+        # end_event.triggered because a verb that RAN may have fired end_event itself.
         if self.end_event.triggered:
-            return None
+            return STEP_ABORTED
         finish_time = self.env.now + self._proceed_time
         adversary.get_attack_stats().append_attack_operation_record(
             verb, start_time, finish_time, adversary)

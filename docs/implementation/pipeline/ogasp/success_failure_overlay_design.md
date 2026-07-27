@@ -238,11 +238,14 @@ That is a sweep, and it is the discipline the evaluation's burden-of-proof note
 already demands of every declared parameter family. Dynamic weights conditioned
 on attacker state are named as the eventual direction and stay deferred.
 
-Executed by
-[`../../../handoffs/2026-07-27_lifecycle_consensus_overlay.md`](../../../handoffs/2026-07-27_lifecycle_consensus_overlay.md)
-(the consensus artefact) and
-[`../../../handoffs/2026-07-27_tactic_weight_sensitivity_study.md`](../../../handoffs/2026-07-27_tactic_weight_sensitivity_study.md)
-(the re-derivation and the sweep).
+The consensus artefact **landed 2026-07-27**:
+[`lifecycle_consensus.md`](lifecycle_consensus.md) (the overlay, the four-stage
+consensus, and the declared distance kernel) with its machine-readable model
+[`../../../../data/ogasp/controller/lifecycle_consensus.json`](../../../../data/ogasp/controller/lifecycle_consensus.json).
+Its verdict on §2.1's band prior: bands 0/1 and the objective band survive as
+sourced; the consolidate≺expand split and C2's band-4 seat do not (weakly
+ordered middle instead). The re-derivation and the sweep remain with
+[`../../../handoffs/2026-07-27_tactic_weight_sensitivity_study.md`](../../../handoffs/2026-07-27_tactic_weight_sensitivity_study.md).
 
 ---
 

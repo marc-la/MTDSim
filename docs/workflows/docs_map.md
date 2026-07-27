@@ -62,6 +62,7 @@ Contract: short, imperative, no duplication of content that lives elsewhere (lin
 The canonical record of what is built and why, in whatever register is clearest to a technical reader with the repo open. Internal terminology (GAP, GASP, OGASP, L0–L4, HARM, Tier 1–3) is encouraged here; this is where it is defined and used freely.
 
 - [`architecture.md`](../implementation/architecture.md) — L0→L4 pipeline, substrate seam, decisions log.
+- [`apt_model_criterion.md`](../implementation/apt_model_criterion.md) — the APT-attacker-model criterion (supervisor S6): literature-derived axes, this model's honest per-axis scores, and the M8b measurement recommendations. **On the every-session read-first list in [`CLAUDE.md`](../../CLAUDE.md)** by supervisor direction — the one `implementation/` file loaded unconditionally.
 - [`substrate_primer.md`](../implementation/substrate_primer.md) — the inherited simulator as adversarial terrain (attacker's-eye, non-implementation-specific).
 - [`mtdsim_spec.md`](../implementation/mtdsim_spec.md) — conformance spec; row-level dispositions against the baseline.
 - [`metrics_semantics.md`](../implementation/metrics_semantics.md) — internal MTTC, divergences (C7, ATK-04), comparability boundary.
