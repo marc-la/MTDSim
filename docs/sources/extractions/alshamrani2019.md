@@ -88,14 +88,18 @@ specific" — which is the paper's motivation for its own five stages.
 the post-foothold middle of the campaign is only weakly ordered — it is what
 stops the consensus asserting a finer-than-stage ordering there.
 
-**Disposition for this thesis:** *adopted-as-evidence via secondary channel.*
-The stage names and the any-order caveat are used exactly as Alshamrani
-reports them; neither primary has been read. Flags: (a) the Mandiant APT1
-report's own lifecycle figure is commonly depicted with an initial
-reconnaissance stage that this seven-stage listing omits — `verify` against
-the primary if it is ever acquired (Marc's to-download list); (b) any mapping
-cell that needs more than the stage *name* (e.g. what "Establish Foothold"
-contains) is interpretive and flagged `verify` in the consensus record.
+**Disposition for this thesis:** *adopted-as-evidence via secondary channel;
+Mandiant half primary-verified 2026-07-27.* The stage names and the any-order
+caveat are used exactly as Alshamrani reports them. Flags, both resolved for
+the Mandiant model: (a) ~~the APT1 lifecycle figure is commonly depicted with
+an initial reconnaissance stage this seven-stage listing omits~~ — primary
+acquired ([`mandiant2013`](mandiant2013.md)): **both readings are faithful** —
+the report's prose describes seven stages beginning at Initial Compromise
+(what Alshamrani reports), while its Figure 14 depicts eight including
+Initial Recon; (b) ~~name-only mapping cells flagged `verify`~~ — resolved
+from the primary's Appendix B definitions. The **Ussath** model remains
+channel-only (primary unread; on the to-download list if ever load-bearing
+beyond its consensus vote).
 
 ---
 

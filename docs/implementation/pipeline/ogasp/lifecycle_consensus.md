@@ -63,7 +63,7 @@ paper (guardrails); secondary channels are named as such.
 |---|---|---|---|
 | **L1** | Lockheed Martin Cyber Kill Chain (Hutchins, Cloppert & Amin 2011) — the primary overlay S1 names | Reconnaissance → Weaponization → Delivery → Exploitation → Installation → Command and Control → Actions on Objectives | [`hutchins2011`](../../../sources/extractions/hutchins2011.md) §3.2, pp. 4–5 (primary, acquired 2026-07-27) |
 | **L2** | Alshamrani 2019 five-phase APT lifecycle | Reconnaissance → Establish Foothold → Lateral Movement/Stay Undetected → Exfiltration/Impediment → Post-Exfiltration/Post-Impediment | [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C, p. 1854 |
-| **L3** | Mandiant seven-stage APT life cycle (McWhorter 2013) | Initial Compromise → Establish Foothold → Escalate Privileges → Internal Reconnaissance → Move Laterally → Maintain Presence → Complete Mission, **"with stages 3 through 6 happening in any order"** | [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C, p. 1854 (secondary channel; primary on the to-download list) |
+| **L3** | Mandiant APT1 attack lifecycle (2013) | Initial Compromise → Establish Foothold → Escalate Privileges → Internal Reconnaissance → Move Laterally → Maintain Presence → Complete Mission (the prose's seven stages; Figure 14 additionally prefixes **Initial Recon** — eight by figure, seven by prose). The middle four "do not have to occur in this order every time" and, once established, the group "continually repeat[s] the cycle … until they are removed entirely" | [`mandiant2013`](../../../sources/extractions/mandiant2013.md) Fig. 14 p. 27, Appendix B pp. 63–65 (**primary, verified 2026-07-27** — supplied by Marc); channel record [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C, p. 1854, whose seven-stage listing the primary's prose confirms |
 | **L4** | Ussath 2016 three-stage model | Initial Compromise → Lateral Movement → Command & Control Activity | [`alshamrani2019`](../../../sources/extractions/alshamrani2019.md) §II-C, p. 1854 (secondary channel) |
 | **L5** | The CKC-derivative family skeleton (Che Mat 2024, Table 4: CKC + SDAPT, Dell SecureWorks, LogRhythm, Mandiant, Lancaster, BSI) | three parts: gain foothold (first 2–3 phases) → gain remote access / expansion → ultimate goals ("often occurs in the final two phases") | [`chemat2024`](../../../sources/extractions/chemat2024.md) §Discussion Table 4 prose |
 
@@ -74,8 +74,10 @@ sixth independent phase enumeration. Candidate further lifecycles checked and
 found to carry none: `al-sada2024`, `sadlek2022`, `buechel2025`, `bianco2013`,
 `adversary_emulation_frameworks`. Deliberately not chased (fresh extractions,
 diminishing returns for an ordering already quadruply attested): the Unified
-Kill Chain, the individual L5 derivatives' primaries — on Marc's to-download
-list if the examiner pressure ever warrants them.
+Kill Chain and the remaining L5 derivatives' primaries (Dell SecureWorks,
+LogRhythm, Lancaster, BSI) — on Marc's to-download list if examiner pressure
+ever warrants them. The Mandiant primary *was* chased (supplied by Marc,
+2026-07-27) and verified — see L3.
 
 ---
 
@@ -113,18 +115,22 @@ reach are listed as unmapped — no silent cells.
 | — | command-and-control: **not a phase** — §II-D treats C&C as a continuous long-term activity (beaconing "at given intervals"), and stage 4 names the C&C server as exfiltration's *destination* | the disagreement datum, §5 |
 | — | defense-impairment: unmapped — the paper "barely addresses" impairment (extraction, Step B block) | |
 
-### L3 — Mandiant seven-stage (name-level channel; stages 3–6 any order)
+### L3 — Mandiant APT1 lifecycle (primary-verified; middle unordered *and cyclic*)
+
+All cells now [def] from Appendix B's stage definitions (pp. 63–65) — the
+`verify` flags the name-level channel forced are resolved.
 
 | Stage | Tactics | Basis |
 |---|---|---|
-| 1 Initial Compromise | initial-access, execution | [name] |
-| 2 Establish Foothold | persistence [name] (foothold = durable access; corroborated by L1's Installation-as-persistence definition); command-and-control **[verify]** (plausible under the APT1 backdoor reading, but the channel gives the name only) | |
-| 3 Escalate Privileges | privilege-escalation [name]; credential-access **[verify]** (harvest-to-escalate reading; name alone under-determines) | |
-| 4 Internal Reconnaissance | discovery | [name] — internal recon is TA0007's definition, not TA0043's (external) |
-| 5 Move Laterally | lateral-movement | [name] |
-| 6 Maintain Presence | persistence (second appearance — persistence is *not* uniquely seated in this model) | [name] |
-| 7 Complete Mission | collection, exfiltration, impact | [name] |
-| — | unmapped: reconnaissance, resource-development (the as-reported model starts at compromise — consistent with, not contradicting, a pre-intrusion prefix); stealth, defense-impairment | |
+| (fig. only) Initial Recon | reconnaissance | [def]-weak — Figure 14 depicts the stage; the prose gives it no section. Counted as figure-level support for the preparation stage, not as a prose-attested seat |
+| 1 Initial Compromise | initial-access, execution | [def] spear-phish / strategic web compromise / webshells; user-triggered payload |
+| 2 Establish Foothold | persistence, command-and-control | [def] backdoors that "establish an outbound connection … to a computer controlled by the attackers" — both cells primary-grounded (was [verify]) |
+| 3 Escalate Privileges | privilege-escalation, credential-access | [def] "Most often this consists of obtaining usernames and passwords" — hash dumping, cracking, pass-the-hash (was [verify]) |
+| 4 Internal Reconnaissance | discovery | [def] OS commands, share listings, data-of-interest searches — TA0007 (internal), not TA0043 |
+| 5 Move Laterally | lateral-movement | [def] compromised credentials / pass-the-hash via PsExec, Task Scheduler |
+| 6 Maintain Presence | persistence, command-and-control (second appearance of **both** — neither is uniquely seated in this model) | [def] new backdoor families + "a variety of command and control addresses" |
+| 7 Complete Mission | collection, exfiltration | [def] archive (RAR/ZIP) then transfer out. **impact is *not* attested** — APT1's mission is data theft; impact's stage-3 seat rests on L1/L2 |
+| — | unmapped: resource-development; stealth; defense-impairment | |
 
 ### L4 — Ussath three-stage (name-level channel)
 
@@ -153,9 +159,9 @@ over four super-stages:
 
 | `s` | Stage | Tactics | Internal order |
 |---|---|---|---|
-| 0 | **preparation** | reconnaissance, resource-development | prep precedes intrusion in every model that reaches it (L1 phases 1–2; L2 stage 1; L5 part 1); L3/L4 start later, consistently |
+| 0 | **preparation** | reconnaissance, resource-development | prep precedes intrusion in every model that reaches it (L1 phases 1–2; L2 stage 1; L5 part 1; L3's Figure 14 prefixes Initial Recon before Initial Compromise); L4 starts later, consistently |
 | 1 | **intrusion** | initial-access, execution | unanimous: L1 3–4, L2 stage 2, L3 stage 1, L4 stage 1 |
-| 2 | **post-intrusion operations** | persistence, privilege-escalation, stealth, defense-impairment, credential-access, discovery, lateral-movement, command-and-control | **explicitly weakly ordered**: L3 declares stages 3–6 happen "in any order"; L2 holds them in a single stage; L1 compresses them into phases 5–7 and is structurally silent on their internal sequence |
+| 2 | **post-intrusion operations** | persistence, privilege-escalation, stealth, defense-impairment, credential-access, discovery, lateral-movement, command-and-control | **explicitly weakly ordered**: L3's primary states the stages between Establish Foothold and Complete Mission "do not have to occur in this order every time" and that the group "continually repeat[s] the cycle" until evicted (Appendix B, p. 63) — the middle is not merely permutable but *cyclic*; L2 holds them in a single stage; L1 compresses them into phases 5–7 and is structurally silent on their internal sequence |
 | 3 | **objective** | collection, exfiltration, impact | unanimous terminal: L1 AoO, L2 stage 4, L3 stage 7 (*after* the any-order block), L5 "final two phases" |
 
 Two corollaries the models state directly: the **invariant prefix** —
@@ -164,6 +170,14 @@ operations while 3–5 are objective-conditioned — makes `s0 ≺ s1 ≺ rest` 
 strongest-sourced part of the ordering; and L1's chain framing ("only now,
 after progressing through the first six phases…") is the strongest *forward*
 sequentiality claim, read at stage granularity, not within-stage.
+
+One boundary nuance, recorded rather than hidden: L3's cyclic caveat has
+"completing mission" *recurring* inside the repeated middle cycle, which
+blurs the stage-2/stage-3 boundary within a long campaign. The consensus
+keeps the objective stage terminal because every model — including L3's own
+stage listing — still places mission completion as the campaign's end-state;
+the cyclic re-entry is behaviour the *overlay's* verdict routing already
+models (retry/fallback), not a stage-ordering claim.
 
 ### The disagreements, and the rules that resolve them
 
@@ -186,8 +200,8 @@ catch-all asserts membership, not position.
 
 | Disagreement | Poles | Rule | Resolution |
 |---|---|---|---|
-| **Where command-and-control sits** — the flagship case | L1: a discrete phase between Installation and AoO. L2: not a phase — a continuous supporting activity (§II-D), corroborated by Che Mat's Stuxnet caveat (C&C is optional). L4: the *terminal* stage. L3: foothold-adjacent [verify] | R-1 | stage 2, flagged order-weak |
-| **Where persistence sits** | L1: Installation, a discrete mid-chain phase. L3: stages 2 *and* 6 (appears twice). L2: stage 3 | R-1 | stage 2 |
+| **Where command-and-control sits** — the flagship case | L1: a discrete phase between Installation and AoO. L2: not a phase — a continuous supporting activity (§II-D), corroborated by Che Mat's Stuxnet caveat (C&C is optional). L4: the *terminal* stage. L3: seated **twice** [def] — Establish Foothold's outbound backdoor channel *and* Maintain Presence's redundant C2 addresses — which is the continuous reading in phase clothing | R-1 | stage 2, flagged order-weak |
+| **Where persistence sits** | L1: Installation, a discrete mid-chain phase. L3: stages 2 *and* 6 (appears twice, primary-confirmed). L2: stage 3 | R-1 | stage 2 |
 | **Whether credential-access, discovery, lateral-movement are late or mid-campaign** | CKC convention: AoO (late). L2 stage 3, L3 stages 3–5, L4 stage 2: mid-campaign | R-2 | stage 2 |
 | **Where privilege-escalation sits** | CKC convention: Exploitation (intrusion band). L2 stage 3, L3 stage 3: post-intrusion | R-2 | stage 2 |
 | **Whether exfiltration is objective or C2-activity** | L1/L2/L3: terminal objective. L4: inside "C&C Activity" [verify] | majority + the L4 cell being [verify]-grade | stage 3 |
@@ -339,9 +353,15 @@ a rule-resolved seat is a re-argument of R-1/R-2, not a sweep dimension.
 - **Artefact:** [`../../../../data/ogasp/controller/lifecycle_consensus.json`](../../../../data/ogasp/controller/lifecycle_consensus.json)
   (stages, per-tactic seats + status, kernel + parameters + sweep bands).
   Provenance row: [`../../provenance.md`](../../provenance.md).
-- **When to update:** if a lifecycle primary on the to-download list is
-  acquired and contradicts its channel (the Mandiant recon-stage flag); if a
-  new lifecycle model is overlaid (add a §2 row and re-run §4); if the
-  sensitivity study shows a conclusion turning on `γ`, `δ` or `z` (the
+- **Ratification:** the consensus (stages, rules, kernel and parameters) was
+  reviewed and **greenlit by Marc on 2026-07-27**, after the Mandiant primary
+  was acquired and verified against the channel (no seat changed; the two
+  `verify` cells resolved, and the any-order caveat strengthened to cyclic).
+- **When to update:** ~~if the Mandiant primary contradicts its channel~~ —
+  discharged 2026-07-27: the primary was acquired and *confirms* the channel
+  (prose = seven stages; Figure 14 adds Initial Recon — see
+  [`mandiant2013`](../../../sources/extractions/mandiant2013.md)). Still
+  live: if a new lifecycle model is overlaid (add a §2 row and re-run §4); if
+  the sensitivity study shows a conclusion turning on `γ`, `δ` or `z` (the
   declared magnitudes then need re-argument, per the ledger's maintenance
   protocol); if Marc re-cuts a rule-resolved seat (R-1/R-2 re-argument).

@@ -8,12 +8,13 @@
     "models_overlaid": {
       "L1": "Lockheed CKC (hutchins2011 §3.2, primary)",
       "L2": "Alshamrani 2019 five-phase (alshamrani2019 §II-C)",
-      "L3": "Mandiant seven-stage via Alshamrani (secondary channel; stages 3-6 declared any-order)",
+      "L3": "Mandiant APT1 lifecycle (mandiant2013 Fig. 14 p. 27 + Appendix B pp. 63-65, primary verified 2026-07-27; middle stages unordered and cyclic; prose = 7 stages, figure adds Initial Recon)",
       "L4": "Ussath three-stage via Alshamrani (secondary channel)",
       "L5": "CKC-derivative family skeleton (chemat2024 Table 4 prose)"
     },
     "consumers": "the outcome-overlay weight re-derivation (2026-07-27_tactic_weight_sensitivity_study.md); no weight artefact reads this yet",
-    "cti_independence": "no value here was chosen by observing any profile net's traversal"
+    "cti_independence": "no value here was chosen by observing any profile net's traversal",
+    "ratified": "greenlit by Marc 2026-07-27, post Mandiant-primary verification"
   },
   "stages": {
     "0": "preparation",
