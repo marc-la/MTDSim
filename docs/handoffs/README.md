@@ -1,18 +1,15 @@
 # The open chain — dependency order, 2026-07-27
 
 `ls docs/handoffs/` is the inventory of open work; this file carries only the
-thing a directory listing cannot — **what depends on what**. All eight open
+thing a directory listing cannot — **what depends on what**. All seven open
 handoffs execute the post-experiment-1 supervisor rulings
 (`docs/implementation/pipeline/ogasp/supervisor_decision_register.md` §S1–S6).
 Delete a handoff in the commit that ships its work, and prune its line here in
-the same commit.
+the same commit. *(Shipped from this chain: the S6 criterion — now
+`docs/implementation/apt_model_criterion.md`, on the read-first list.)*
 
 **Wave 1 — independent; start any of these cold, in parallel.**
 
-1. `2026-07-27_apt_model_criterion.md` (**S6**) — the literature-derived rubric of
-   what an APT attacker model should capture, this model scored against it, wired
-   into every session's context. First among equals: it is the yardstick the rest
-   of the work is measured with.
 2. `2026-07-27_lifecycle_consensus_overlay.md` (**S1**, literature half) — overlay
    the published attack-lifecycle models, take their consensus, express it as a
    tactic-to-tactic distance model. No code.
