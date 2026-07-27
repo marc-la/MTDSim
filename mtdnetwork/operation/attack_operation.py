@@ -158,6 +158,44 @@ class AttackOperation:
         self._attack_process = self.env.process(self._execute_attack_action(ATTACK_DURATION['SCAN_NEIGHBOR'],
                                                                             self._execute_scan_neighbors))
 
+    def apply_mtd_interrupt_cost(self, interrupted_mtd):
+        """The substrate-side consequences of being blocked by an MTD, as a timed
+        step. **Both arms consume this**, so they cannot drift apart.
+
+        Brown 2023 B-ATK-07 (§V-A): an attacker blocked by an MTD is given a *time
+        penalty and a forced re-scan*, unconditionally. Two of those three things
+        are substrate facts and belong here:
+
+        - the **confusion penalty**, an `exponential_variates(PENALTY, 0.5)` draw; and
+        - the **lost connection** — B-INT-01: a network-layer mutation (IP shuffle,
+          host-topology shuffle) means the connection to the host is gone, so the
+          host cursor is cleared. An application-layer mutation (B-INT-02) costs the
+          service connection but not the host, so the cursor survives.
+
+        What is deliberately NOT here is the *forced re-scan* — which verb runs next.
+        The native FSM hard-codes it (`_handle_interrupt` below); the movement driver
+        owns its own succession, which is the point of the carve. Recovery policy is
+        the caller's; the price and the lost position are not optional for either.
+
+        (S3 will re-home the penalty onto the movement layer as a net place under a
+        stochastic firing regime. When it does, this stays the substrate's definition
+        and the driver stops calling it — the seam does not need to move.)
+        """
+        try:
+            yield self.env.timeout(exponential_variates(ATTACK_DURATION['PENALTY'], 0.5))
+        except simpy.Interrupt:
+            # Blocked again while already confused. The penalty is absorbed rather
+            # than restarted or stacked: the attacker is already set back, and
+            # compounding penalties would let a fast MTD schedule freeze it
+            # indefinitely. This also matches the native arm, which is immune for the
+            # whole penalty window because its interrupted process is no longer alive
+            # (mtd_operation guards on `attack_process.is_alive`) — so neither arm
+            # pays twice for overlapping mutations.
+            pass
+        if interrupted_mtd is not None and interrupted_mtd.get_resource_type() == 'network':
+            self.adversary.set_curr_host_id(-1)
+            self.adversary.set_curr_host(None)
+
     def _handle_interrupt(self, start_time, name):
         """
         a function to handle the interrupt of the attack action caused by MTD operations
@@ -168,8 +206,8 @@ class AttackOperation:
         adversary.get_attack_stats().append_attack_operation_record(name, start_time,
                                                                     self.env.now + self._proceed_time,
                                                                     adversary, self._interrupted_mtd)
-        # confusion penalty caused by MTD operation
-        yield self.env.timeout(exponential_variates(ATTACK_DURATION['PENALTY'], 0.5))
+        # Confusion penalty + lost connection (shared with the driven arm).
+        yield from self.apply_mtd_interrupt_cost(self._interrupted_mtd)
 
         # R2-attacker: same gate as _execute_attack_action — don't restart
         # phases past sim end.
@@ -178,8 +216,7 @@ class AttackOperation:
 
         if self._interrupted_mtd.get_resource_type() == 'network':
             self._interrupted_mtd = None
-            adversary.set_curr_host_id(-1)
-            adversary.set_curr_host(None)
+            # (the cursor was already cleared by apply_mtd_interrupt_cost above)
             if self.logging:
                 logging.info('Adversary: Restarting with SCAN_HOST at %.1fs!' % (self.env.now + self._proceed_time))
             self._scan_host()
@@ -210,14 +247,23 @@ class AttackOperation:
         visible_network = network.get_hacker_visible_graph()
         # scan_time = constants.NETWORK_HOST_DISCOVER_TIME * visible_network.number_of_nodes()
         uncompromised_hosts = []
-        # Add every uncompromised host that is reachable and is not an exposed or compromised host
+        # Add every uncompromised host that is reachable and is not an exposed or compromised host.
+        # De-duplicated: a host adjacent to k compromised hosts was previously queued k
+        # times, and _do_enum_host ticks the per-host attempt counter once per pop — so a
+        # single scan could burn a host's entire give-up budget (multiplicities up to 10
+        # observed under MTD) without the adversary attacking it any more often. The
+        # exposed-endpoint append below and _do_scan_neighbors' merge both already
+        # de-duplicate; this loop was the outlier.
+        seen = set()
         for c_host in compromised_hosts:
-            uncompromised_hosts = uncompromised_hosts + [
-                neighbor
-                for neighbor in network.graph.neighbors(c_host)
-                if neighbor not in compromised_hosts and neighbor not in network.exposed_endpoints and
-                   len(network.get_path_from_exposed(neighbor, graph=visible_network)[0]) > 0
-            ]
+            for neighbor in network.graph.neighbors(c_host):
+                if neighbor in seen or neighbor in compromised_hosts:
+                    continue
+                if neighbor in network.exposed_endpoints:
+                    continue
+                if len(network.get_path_from_exposed(neighbor, graph=visible_network)[0]) > 0:
+                    seen.add(neighbor)
+                    uncompromised_hosts.append(neighbor)
 
         # Add random element from 0 to 1 so the scan does not return the same order of hosts each time for the hacker
         uncompromised_hosts = sorted(
@@ -272,12 +318,27 @@ class AttackOperation:
         ))
         adversary.set_curr_host_id(adversary.get_host_stack().pop(0))
         adversary.set_curr_host(network.get_host(adversary.get_curr_host_id()))
-        # Sets node as unattackable if has been attack too many times
+        # Sets node as unattackable if it has been attacked too many times.
+        #
+        # Brown 2023 B-ATK-06 (§III-C(2), Table I; §V-C): give up on a host after 10
+        # failed attempts in Scenario 1 (the general/untakeover attack), and NEVER
+        # give up on the target node in Scenario 2 (the targeted attack). The guard
+        # here previously read `curr_host_id != target_node and network_type == 0`,
+        # which inverted that: it applied the give-up rule ONLY in the targeted
+        # network (network_type 0) and never in the general one — so in every
+        # scenario this repository can actually construct (TimeNetwork is
+        # network_type 1) no host was ever given up, and hosts were observed being
+        # re-enumerated up to 50 times against Brown's bound of 10.
+        #
+        # Restored to Brown's polarity: give up on any host that hits the threshold,
+        # unless it is the target node of a targeted network.
         adversary.get_attack_counter()[adversary.get_curr_host_id()] += 1
         if adversary.get_attack_counter()[
-            adversary.get_curr_host_id()] == adversary.get_attack_threshold():
-            # target node feature
-            if adversary.get_curr_host_id() != network.get_target_node() and network.network_type == 0:
+                adversary.get_curr_host_id()] >= adversary.get_attack_threshold():
+            is_protected_target = (network.network_type == 0 and
+                                   adversary.get_curr_host_id() == network.get_target_node())
+            if not is_protected_target and \
+                    adversary.get_curr_host_id() not in adversary.get_stop_attack():
                 adversary.get_stop_attack().append(adversary.get_curr_host_id())
 
         # Checks if max attack attempts has been reached, empty stacks if reached
@@ -392,6 +453,19 @@ class AttackOperation:
             vuln.network(host=adversary.get_curr_host())
             # cumulative vulnerability exploitation attempts
             adversary.set_curr_attempts(adversary.get_curr_attempts() + 1)
+        if not vulns:
+            # No vulnerabilities to try, so the loop above appended nothing — yet
+            # check_compromised() below can still return True (the host's services
+            # may already be over threshold), and update_compromise_progress
+            # back-patches the LAST record. Without a row of its own, the compromise
+            # was stamped onto the preceding SCAN_PORT row — asserting a compromise
+            # for a SCAN_PORT that had explicitly failed its credential-reuse check,
+            # since EXPLOIT_VULN is only reached when SCAN_PORT returned False.
+            # Record the phase (zero duration: nothing was attempted) so every
+            # dispatched verb owns exactly one row and the back-patch is correct.
+            now = self.env.now + self._proceed_time
+            self.adversary.get_attack_stats().append_attack_operation_record(
+                self.adversary.get_curr_process(), now, now, self.adversary)
         if adversary.get_curr_host().check_compromised():
             for vuln in adversary.get_curr_vulns():
                 if vuln.is_exploited():
@@ -462,11 +536,21 @@ class AttackOperation:
         just-compromised host).
         """
         adversary = self.adversary
-        found_neighbors = adversary.get_curr_host().discover_neighbors()
+        stop_attack = adversary.get_stop_attack()
+        # Hosts the adversary has given up on stay given up. _do_scan_host filters
+        # `stop_attack` when it builds the queue, but this verb prepended raw
+        # discovery output straight back onto the stack — so a blacklisted host
+        # re-entered the queue and was attacked again, defeating the give-up rule
+        # (Brown B-ATK-06) from a sibling verb.
+        found_neighbors = [
+            node_id
+            for node_id in adversary.get_curr_host().discover_neighbors()
+            if node_id not in stop_attack
+        ]
         new__host_stack = found_neighbors + [
             node_id
             for node_id in adversary.get_host_stack()
-            if node_id not in found_neighbors
+            if node_id not in found_neighbors and node_id not in stop_attack
         ]
         adversary.set_host_stack(new__host_stack)
 

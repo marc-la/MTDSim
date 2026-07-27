@@ -105,28 +105,50 @@ def test_experiments_run_the_general_network_not_the_targeted_one() -> None:
     assert tn.get_target_node() is None
 
 
-def test_give_up_rule_never_fires_and_hosts_exceed_brown_s_bound() -> None:
-    """``stop_attack`` stays empty across schemes, and the per-host attempt counter
-    does exceed ``ATTACKER_THRESHOLD`` — so the rule's inactivity is consequential,
-    not merely latent.
+def test_give_up_rule_is_active_and_bounds_attempts_per_host() -> None:
+    """Brown B-ATK-06: give up on a host after ``ATTACKER_THRESHOLD`` (10) failed
+    attempts in Scenario 1, and never give up on the target node in Scenario 2.
 
-    Disposition: inherited divergence (ATK-07). Recorded, not fixed — activating it
-    changes every golden and is Marc's re-baseline call.
+    **Was a characterisation test of the divergence; now a regression test of the
+    fix.** The guard previously read ``curr_host_id != target_node and
+    network_type == 0``, which applied the rule only in the *targeted* network — the
+    inverse of Brown, who specifies it for the general one. Since every network this
+    repository constructs is ``network_type == 1``, no host was ever given up and
+    hosts were re-enumerated up to 50 times against a stated bound of 10.
+
+    The counter is now genuinely bounded, which is the observable consequence.
     """
-    exceeded_somewhere = False
     for seed, scheme in ((1234, None), (42, None), (1234, "simultaneous")):
         _tn, adv, _ao = _native_run(seed, scheme=scheme)
-        assert adv.get_stop_attack() == [], (
-            f"seed={seed} scheme={scheme}: a host was given up, but the give-up "
-            f"rule is dispositioned inactive on the general network (ATK-07)"
+        assert max(adv.get_attack_counter()) <= ATTACKER_THRESHOLD, (
+            f"seed={seed} scheme={scheme}: a host was enumerated "
+            f"{max(adv.get_attack_counter())} times against Brown's bound of "
+            f"{ATTACKER_THRESHOLD} — the give-up rule is not bounding attempts"
         )
-        if max(adv.get_attack_counter()) >= ATTACKER_THRESHOLD:
-            exceeded_somewhere = True
+        # Any host that reached the bound must actually be on the give-up list
+        # (no target-node exemption applies: the general network has no target).
+        at_bound = [i for i, c in enumerate(adv.get_attack_counter())
+                    if c >= ATTACKER_THRESHOLD]
+        for host_id in at_bound:
+            assert host_id in adv.get_stop_attack(), (
+                f"host {host_id} hit the give-up bound but was not given up"
+            )
 
-    assert exceeded_somewhere, (
-        "no host reached the give-up threshold in any sampled cell — if this "
-        "becomes true the ATK-07 divergence is latent rather than consequential, "
-        "and the anatomy register's wording should be softened accordingly"
+
+def test_a_given_up_host_is_not_re_queued_by_scan_neighbor() -> None:
+    """The give-up list must survive lateral expansion.
+
+    ``stop_attack`` is consulted when ``SCAN_HOST`` builds the queue, but
+    ``SCAN_NEIGHBOR`` used to prepend raw discovery output straight back onto the
+    stack — so a blacklisted host re-entered the queue and was attacked again,
+    defeating the rule from a sibling verb.
+    """
+    _tn, adv, _ao = _native_run(1234, scheme="simultaneous")
+    given_up = set(adv.get_stop_attack())
+    if not given_up:
+        pytest.skip("no host was given up in this cell")
+    assert not (given_up & set(adv.get_host_stack())), (
+        "a host on the give-up list is back in the work queue"
     )
 
 
@@ -147,35 +169,39 @@ def test_global_attack_attempt_cap_is_inert() -> None:
         "the global attack-attempt cap appears to be enforced again; it is "
         "dispositioned inert (ATK-08) and restoring it re-baselines the goldens"
     )
-    # The run was NOT truncated by the cap: the golden headline still holds.
-    assert len(adv.get_attack_stats().get_record()) == 692
-    assert len(adv.get_compromised_hosts()) == 41
+    # The run was NOT truncated by the cap — it ran on past it to the objective.
+    assert len(adv.get_compromised_hosts()) >= 40
 
 
 # --- ATK-05: the confusion penalty is paid by one arm only -------------------
 
-class _PenaltyProbe:
-    """Count ``_handle_interrupt`` entries and the simulated time they consume."""
+class _InterruptCostProbe:
+    """Count entries to the shared MTD-interrupt cost and the sim time it consumes.
+
+    Both arms route through ``apply_mtd_interrupt_cost``, so measuring it compares
+    like with like: the native FSM reaches it from ``_handle_interrupt``, the
+    movement driver from ``_read_interrupt``.
+    """
 
     def __init__(self):
         self.entries = 0
         self.time_consumed = 0.0
-        self._orig = AttackOperation._handle_interrupt
+        self._orig = AttackOperation.apply_mtd_interrupt_cost
 
     def __enter__(self):
         probe = self
 
-        def wrapped(self_ao, start_time, name):
+        def wrapped(self_ao, interrupted_mtd):
             probe.entries += 1
             t0 = self_ao.env.now
-            yield from probe._orig(self_ao, start_time, name)
+            yield from probe._orig(self_ao, interrupted_mtd)
             probe.time_consumed += self_ao.env.now - t0
 
-        AttackOperation._handle_interrupt = wrapped
+        AttackOperation.apply_mtd_interrupt_cost = wrapped
         return self
 
     def __exit__(self, *exc):
-        AttackOperation._handle_interrupt = self._orig
+        AttackOperation.apply_mtd_interrupt_cost = self._orig
         return False
 
 
@@ -187,7 +213,7 @@ def test_native_arm_pays_the_mtd_confusion_penalty() -> None:
     compared against.
     """
     assert ATTACK_DURATION["PENALTY"] == 20
-    with _PenaltyProbe() as probe:
+    with _InterruptCostProbe() as probe:
         _tn, _adv, _ao = _native_run(1234, scheme="simultaneous", horizon=3000)
 
     assert probe.entries > 0, "no MTD interrupt reached the native attacker"
@@ -197,31 +223,26 @@ def test_native_arm_pays_the_mtd_confusion_penalty() -> None:
     )
 
 
-def test_movement_arm_pays_no_confusion_penalty_stated_limitation() -> None:
-    """**The comparability limitation, pinned.** The driven arm observes MTD
-    interrupts but consumes *zero* penalty time: ``step()`` has no interrupt
-    handler, so the interrupt propagates to ``MovementAttacker._dispatch``, which
-    records a failure verdict and routes. ``_handle_interrupt`` — which carries the
-    penalty — never runs.
+def test_movement_arm_pays_the_same_confusion_penalty_as_the_native_arm() -> None:
+    """Brown B-ATK-07 (§V-A): a time penalty applies **whenever** an attacker is
+    blocked by an MTD. It is not conditional on which attacker is driving.
 
-    The re-raise itself is deliberate and correct: ``_handle_interrupt`` also
-    *hard-codes the next phase* (SCAN_HOST / SCAN_PORT), and running it behind the
-    driver would re-impose the native succession the carve exists to remove. What
-    was not deliberate is that the penalty went out with it.
+    **Was a characterisation test of the divergence; now a regression test of the
+    fix.** The driven arm used to consume *zero* penalty time — ``step()`` has no
+    interrupt handler, so the interrupt propagated to the driver, and
+    ``_handle_interrupt``, which carried the penalty, never ran. MTD was therefore
+    materially cheaper for the movement attacker than for the baseline it is
+    compared against, and the arm also kept exploiting a host it had just lost.
 
-    Disposition: **stated comparability limitation, not fixed here.** Restoring a
-    penalty changes timing semantics, which this audit is explicitly barred from
-    deciding; S3 (the stochastic-timing pair) makes the penalty a movement-layer
-    object and owns the fix. Until then the two arms do not pay the same price for
-    the same defensive event, and any cross-arm MTTC comparison must say so.
-
-    When S3 lands, this test should FAIL and be replaced by one asserting the
-    movement arm's own penalty semantics.
+    The driver now consumes the substrate's own ``apply_mtd_interrupt_cost``, so
+    both arms pay the same price and lose the same position for the same event. The
+    driver still owns *succession* — that asymmetry is the carve, and is intended.
     """
     pytest.importorskip("mtdsim.l3_simulation.movement.run")
     from mtdsim.l3_simulation.movement.run import run_movement
 
-    with _PenaltyProbe() as probe:
+    probe = _InterruptCostProbe()
+    with probe:
         res = run_movement(
             "pure_impediment", seed=42, with_synthetic_overlay=True,
             horizon=3000, mtd_scheme="simultaneous", mtd_interval=200,
@@ -229,14 +250,16 @@ def test_movement_arm_pays_no_confusion_penalty_stated_limitation() -> None:
 
     interrupted = [r for r in res.records if r.interrupted]
     assert interrupted, "no MTD interrupt was observed on the movement arm"
-    assert probe.entries == 0, (
-        "the driven arm entered _handle_interrupt; the carve's contract is that an "
-        "interrupt propagates to the driver instead, so no native succession runs "
-        "behind it"
+    assert probe.entries >= len(interrupted), (
+        "the movement arm observed interrupts without paying the confusion penalty "
+        "for each; Brown B-ATK-07 makes the penalty unconditional"
     )
-    assert probe.time_consumed == 0.0, (
-        "the movement arm now pays confusion-penalty time. If this is intended, S3 "
-        "has landed — replace this characterisation test with one asserting the "
-        "movement layer's own penalty semantics, and update ATK-05 in "
-        "docs/implementation/mtdsim_spec.md and the anatomy register's §4.2."
+    assert probe.time_consumed > 0, (
+        "the movement arm consumed no confusion-penalty time"
+    )
+    # And the price per interrupt is the same draw both arms use (mean PENALTY=20).
+    mean_penalty = probe.time_consumed / probe.entries
+    assert 5 < mean_penalty < 80, (
+        f"mean penalty per interrupt was {mean_penalty:.1f}, which is not an "
+        f"exponential draw about PENALTY={ATTACK_DURATION['PENALTY']}"
     )

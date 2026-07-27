@@ -1,3 +1,4 @@
+import copy
 import random, logging
 import mtdnetwork.data.constants as constants
 from importlib import resources
@@ -49,6 +50,37 @@ class Vulnerability:
 
     def is_exploited(self):
         return self.exploited
+
+    def copy(self):
+        """
+        Returns a per-host copy of this vulnerability.
+
+        Two hosts may carry the *same* vulnerability — same id, complexity,
+        impact and OS dependency — but whether it has been **exploited** is a
+        property of the host it was exploited on, not of the vulnerability
+        itself. Sharing one instance between hosts made `exploited` global, so
+        compromising a service on one host silently marked that vulnerability
+        exploited on every other host carrying it. An adversary can of course
+        replicate a working exploit against another host; it still has to spend
+        the time doing so, and the other host is not compromised for free.
+
+        The `id` is deliberately preserved: this is the same vulnerability, and
+        `Network.get_vuln_dict` counts unique vulnerabilities by id across hosts.
+
+        Deliberately does NOT re-randomise. Re-running `__init__` would both make
+        the "same" vulnerability behave differently per host and consume seeded
+        RNG draws, breaking SIM-05 determinism; `copy.copy` consumes none, so the
+        network generated for a given seed is structurally unchanged by this fix.
+        """
+        clone = copy.copy(self)
+        # Per-host exploitation state, reset on the copy.
+        clone.exploited = False
+        clone.exploit_attempt = 0
+        clone.exploitability = self.cvss / 5.5
+        # Don't alias the mutable list (never populated today, but sharing it
+        # would reintroduce exactly the cross-host coupling this method removes).
+        clone.dependent_vulns = list(self.dependent_vulns)
+        return clone
 
     def get_id(self):
         return self.id
@@ -210,9 +242,18 @@ class Service:
     def copy(self):
         """
         Returns:
-            a copy of this service instance
+            a copy of this service instance, with its OWN vulnerability instances
+
+        Every host gets its services from this method (via
+        `ServiceGenerator.get_random_service`), so copying the vulnerability list
+        shallowly handed the same `Vulnerability` objects to many hosts at once —
+        and `Vulnerability.exploited` is per-instance. Exploiting a vulnerability
+        on one host therefore flipped it on every other host that happened to be
+        given the same instance, and `Service.is_exploited` (which sums exploited
+        impact) reported those hosts' services as compromised without the
+        adversary ever touching them. See `Vulnerability.copy`.
         """
-        return Service(self.name, self.version, [v for v in self.vulnerabilities])
+        return Service(self.name, self.version, [v.copy() for v in self.vulnerabilities])
 
     def get_vulns(self, roa_threshold=0):
         """
