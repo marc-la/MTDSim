@@ -1,5 +1,13 @@
 from mtdnetwork.component.time_generator import exponential_variates
 import logging
+import warnings
+
+warnings.filterwarnings(
+    "ignore",
+    message="pkg_resources is deprecated as an API.*",
+    category=UserWarning,
+)
+
 import simpy
 from mtdnetwork.component.mtd_scheme import MTDScheme
 from mtdnetwork.statistic.evaluation import Evaluation

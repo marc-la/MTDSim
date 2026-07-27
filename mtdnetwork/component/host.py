@@ -47,7 +47,9 @@ class Host:
         self.network = network
         self.p_u_compromise = False
         self.total_users = 0
-        self.uuid = str(uuid.uuid4())
+        # SIM-05: derive the UUID from the seeded stdlib `random` so each run
+        # at a given seed produces byte-identical CSV outputs.
+        self.uuid = str(uuid.UUID(int=random.getrandbits(128), version=4))
 
         self.total_services = random.randint(constants.HOST_SERVICES_MIN, constants.HOST_SERVICES_MAX)
         # +1 for the target service node the adversary needs to be adjacent inorder to compromise the host

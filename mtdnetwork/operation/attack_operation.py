@@ -1,3 +1,11 @@
+import warnings
+
+warnings.filterwarnings(
+    "ignore",
+    message="pkg_resources is deprecated as an API.*",
+    category=UserWarning,
+)
+
 import simpy
 import logging
 import random
@@ -50,6 +58,9 @@ class AttackOperation:
             yield self.env.timeout(time)
         except simpy.Interrupt:
             self.env.process(self._handle_interrupt(start_time, self.adversary.get_curr_process()))
+            return
+        # R2-attacker: don't progress the attack chain past sim termination.
+        if self.end_event.triggered:
             return
         finish_time = self.env.now + self._proceed_time
         if self.logging:
@@ -123,6 +134,11 @@ class AttackOperation:
                                                                     adversary, self._interrupted_mtd)
         # confusion penalty caused by MTD operation
         yield self.env.timeout(exponential_variates(ATTACK_DURATION['PENALTY'], 0.5))
+
+        # R2-attacker: same gate as _execute_attack_action — don't restart
+        # phases past sim end.
+        if self.end_event.triggered:
+            return
 
         if self._interrupted_mtd.get_resource_type() == 'network':
             self._interrupted_mtd = None
@@ -261,6 +277,9 @@ class AttackOperation:
                 yield self.env.timeout(exploit_time)
             except simpy.Interrupt:
                 self.env.process(self._handle_interrupt(start_time, self.adversary.get_curr_process()))
+                return
+            # R2-attacker: don't keep iterating vulns past sim end.
+            if self.end_event.triggered:
                 return
             finish_time = self.env.now + self._proceed_time
             if self.logging:

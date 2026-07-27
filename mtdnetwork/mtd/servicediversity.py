@@ -1,5 +1,4 @@
 from mtdnetwork.mtd import MTD
-import random
 
 
 class ServiceDiversity(MTD):
@@ -16,7 +15,6 @@ class ServiceDiversity(MTD):
         for host_id, host_instance in hosts.items():
             if host_id in self.network.exposed_endpoints:
                 continue
-            host_instance = random.choice(hosts)
             for node_id in range(host_instance.total_nodes):
                 if node_id == host_instance.target_node:
                     continue

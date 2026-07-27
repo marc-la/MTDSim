@@ -1,5 +1,5 @@
 import networkx as nx
-import pkg_resources
+from importlib import resources
 import matplotlib.pyplot as plt
 import numpy as np
 import random
@@ -680,7 +680,8 @@ class Network:
         if self.total_users < 1:
             self.total_users = 1
 
-        names = [x.decode() for x in pkg_resources.resource_string('mtdnetwork', "data/first-names.txt").splitlines()]
+        names_text = resources.files("mtdnetwork.data").joinpath("first-names.txt").read_text(encoding="utf-8")
+        names = names_text.splitlines()
 
         random_users = random.choices(names, k=self.total_users)
         self.users_list = [

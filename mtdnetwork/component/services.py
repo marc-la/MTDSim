@@ -1,6 +1,6 @@
 import random, logging
 import mtdnetwork.data.constants as constants
-import pkg_resources
+from importlib import resources
 import uuid
 
 
@@ -36,7 +36,8 @@ class Vulnerability:
          
         self.dependent_vulns = []
 
-        self.id = str(uuid.uuid4())
+        # SIM-05: see Host.uuid — derive from seeded `random` for determinism.
+        self.id = str(uuid.UUID(int=random.getrandbits(128), version=4))
         self.logger = logging.getLogger("vuln-{}".format(self.id))
         if can_have_os_dependency and len(os_list) > 1:
             if random.random() < constants.VULN_PROB_DEPENDS_ON_OS:
@@ -77,12 +78,22 @@ class Vulnerability:
             the more attempts a hacker tries at exploiting a particular vulnerability the faster the exploit time becomes
 
         """
+        # C7 / ATK-03: deterministic exploit time — Zhang 2023 §4.4.3 Eq 1-2 specifies an exponential
+        # T_Aexploit parameterised by V_exploited / V_unexploited / ACv. See docs/implementation/metrics_semantics.md §c.
         exp_time = constants.ATTACK_DURATION['EXPLOIT_VULN'] * (1 - self.complexity)
         if self.has_os_dependency and host is not None and host.os_type not in self.vuln_os_list:
             exp_time *= 2.5
+        # ATK-04 (per-instance, ACTIVE): Brown-era 2021-09-04 (commit a16db997) — re-exploit of the
+        # *same Vulnerability instance* costs half the base time. Materially active under all
+        # current scenarios (7–42 % of exploit_time calls; pinned in
+        # tests/test_atk04_reexploit_discount.py). Kept deliberately; see docs/implementation/metrics_semantics.md §c.
         if self.exploited:
             return exp_time / 2
         return exp_time
+        # ATK-04 (per-type, UNIMPLEMENTED): Zhang 2023 §4.4.3 specifies halving exploit time for
+        # previously-exploited vuln *TYPES* (cross-instance, attacker learning). The commented-out
+        # form below references `exploit_attempt + 1` and is the only remaining trace of that path.
+        # See docs/implementation/metrics_semantics.md §c / mtdsim_spec.md ATK-04.
         # return constants.VULN_MIN_EXPLOIT_TIME + (constants.VULN_MAX_EXPLOIT_TIME -
         # constants.VULN_MIN_EXPLOIT_TIME) * ( 1 - self.complexity) / ( self.exploit_attempt + 1)
 
@@ -193,7 +204,8 @@ class Service:
         self.version = service_version
         self.vulnerabilities = sorted(vulnerabilities, key=lambda v: v.roa(), reverse=True)
         self.exploit_value = 0.0
-        self.id = str(uuid.uuid4())
+        # SIM-05: see Host.uuid — derive from seeded `random` for determinism.
+        self.id = str(uuid.UUID(int=random.getrandbits(128), version=4))
 
     def copy(self):
         """
@@ -419,7 +431,8 @@ class ServicesGenerator:
 
     @staticmethod
     def get_service_name_list():
-        return [x.decode() for x in pkg_resources.resource_string('mtdnetwork', "data/words.txt").splitlines()]
+        words_text = resources.files("mtdnetwork.data").joinpath("words.txt").read_text(encoding="utf-8")
+        return words_text.splitlines()
 
     def get_all_generated_services(self):
         return self.os_services
