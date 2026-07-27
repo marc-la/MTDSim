@@ -1,7 +1,7 @@
-from mtdnetwork.component.network import Network
-from mtdnetwork.statistic.mtd_statistics import MTDStatistics
-from mtdnetwork.component.host import Host
-from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatistics
+from mtdsim.component.network import Network
+from mtdsim.statistic.mtd_statistics import MTDStatistics
+from mtdsim.component.host import Host
+from mtdsim.statistic.security_metric_statistics import SecurityMetricStatistics
 import random
 
 

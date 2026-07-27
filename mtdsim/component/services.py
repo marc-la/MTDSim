@@ -1,5 +1,5 @@
 import random, logging
-import mtdnetwork.data.constants as constants
+import mtdsim.data.constants as constants
 from importlib import resources
 import uuid
 
@@ -431,7 +431,7 @@ class ServicesGenerator:
 
     @staticmethod
     def get_service_name_list():
-        words_text = resources.files("mtdnetwork.data").joinpath("words.txt").read_text(encoding="utf-8")
+        words_text = resources.files("mtdsim.data").joinpath("words.txt").read_text(encoding="utf-8")
         return words_text.splitlines()
 
     def get_all_generated_services(self):

@@ -3,10 +3,10 @@ from importlib import resources
 import matplotlib.pyplot as plt
 import numpy as np
 import random
-import mtdnetwork.data.constants as constants
-import mtdnetwork.component.services as services
-from mtdnetwork.component.host import Host
-from mtdnetwork.statistic.scorer import Scorer
+import mtdsim.data.constants as constants
+import mtdsim.component.services as services
+from mtdsim.component.host import Host
+from mtdsim.statistic.scorer import Scorer
 import os
 
 
@@ -680,7 +680,7 @@ class Network:
         if self.total_users < 1:
             self.total_users = 1
 
-        names_text = resources.files("mtdnetwork.data").joinpath("first-names.txt").read_text(encoding="utf-8")
+        names_text = resources.files("mtdsim.data").joinpath("first-names.txt").read_text(encoding="utf-8")
         names = names_text.splitlines()
 
         random_users = random.choices(names, k=self.total_users)

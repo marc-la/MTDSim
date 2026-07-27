@@ -1,4 +1,4 @@
-from mtdnetwork.data.constants import MTD_DURATION, MTD_PRIORITY
+from mtdsim.data.constants import MTD_DURATION, MTD_PRIORITY
 
 
 class MTD:

@@ -1,4 +1,4 @@
-from mtdnetwork.component.time_generator import exponential_variates
+from mtdsim.component.time_generator import exponential_variates
 import logging
 import warnings
 
@@ -9,8 +9,8 @@ warnings.filterwarnings(
 )
 
 import simpy
-from mtdnetwork.component.mtd_scheme import MTDScheme
-from mtdnetwork.statistic.evaluation import Evaluation
+from mtdsim.component.mtd_scheme import MTDScheme
+from mtdsim.statistic.evaluation import Evaluation
 import numpy as np
 import random
 

@@ -1,4 +1,4 @@
-from mtdnetwork.component.time_generator import exponential_variates
+from mtdsim.component.time_generator import exponential_variates
 import logging
 import warnings
 
@@ -9,19 +9,19 @@ warnings.filterwarnings(
 )
 
 import simpy
-from mtdnetwork.component.mtd_scheme import MTDScheme
-from mtdnetwork.statistic.evaluation import Evaluation
+from mtdsim.component.mtd_scheme import MTDScheme
+from mtdsim.statistic.evaluation import Evaluation
 import numpy as np
-from mtdnetwork.mtdai.mtd_ai import update_target_model, choose_action, replay, calculate_reward
+from mtdsim.mtdai.mtd_ai import choose_action
 import pandas as pd
 import random
-from mtdnetwork.component.host import Host
+from mtdsim.statistic.security_metric_statistics import SecurityMetricStatistics
 
-class MTDAITraining:
 
-    def __init__(self,security_metric_record, features,env, end_event, network, attack_operation, scheme, adversary, proceed_time=0,
-                 mtd_trigger_interval=None, custom_strategies=None, main_network=None, target_network=None, memory=None,
-                 gamma=None, epsilon=None, epsilon_min=None, epsilon_decay=None, train_start=None, batch_size=None, attacker_sensitivity = 1, static_degrade_factor = 2000):
+class MTDAIOperation:
+
+    def __init__(self, features,security_metrics_record ,env, end_event, network, attack_operation, scheme, adversary,proceed_time=0,
+                 mtd_trigger_interval=None, custom_strategies=None, main_network=None, attacker_sensitivity=None, epsilon=None, static_degrade_factor = 2000):
         """
         :param env: the parameter to facilitate simPY env framework
         :param network: the simulation network
@@ -37,36 +37,33 @@ class MTDAITraining:
         self.network = network
         self.attack_operation = attack_operation
         self.adversary = adversary
+        self.attacker_sensitivity = attacker_sensitivity
         self.logging = False
 
+        self.security_metrics_record = security_metrics_record
         self._mtd_scheme = MTDScheme(network=network, scheme=scheme, mtd_trigger_interval=mtd_trigger_interval,
-                                     custom_strategies=custom_strategies)
-        self.custom_strategies = custom_strategies
-     
+                                     custom_strategies=custom_strategies, security_metric_record = self.security_metrics_record)
         self._proceed_time = proceed_time
-
+        self.features = features
         self.application_layer_resource = simpy.Resource(self.env, 1)
         self.network_layer_resource = simpy.Resource(self.env, 1)
         self.reserve_resource = simpy.Resource(self.env, 1)
-        self.features = features
+
         self.main_network = main_network
-        self.target_network = target_network
-        self.memory = memory
-        self.gamma = gamma
         self.epsilon = epsilon
-        self.epsilon_min = epsilon_min
-        self.epsilon_decay = epsilon_decay
-        self.train_start = train_start
-        self.batch_size = batch_size
+        self.attack_dict = {
+            'SCAN_HOST': 1,
+            'ENUM_HOST': 2,
+            'SCAN_PORT': 3,
+            'SCAN_NEIGHBOR': 4,
+            'EXPLOIT_VULN': 5,
+            'BRUTE_FORCE': 6,
+        }
+        self.evaluation = Evaluation(network=network, adversary=adversary,  security_metrics_record = security_metrics_record)
 
-        self.security_metric_record = security_metric_record
-        self.attacker_sensitivity = attacker_sensitivity
-        self.static_degrade_factor = static_degrade_factor
         self.attack_dict = {"SCAN_HOST": 1, "ENUM_HOST": 2, "SCAN_PORT": 3, "EXPLOIT_VULN": 4, "SCAN_NEIGHBOR": 5, "BRUTE_FORCE": 6}
-
-        self.evaluation = Evaluation(self.network, self.adversary, self.security_metric_record)        
-
-
+        self.mtd_strategies = custom_strategies
+        self.static_degrade_factor = static_degrade_factor
 
     def proceed_mtd(self):
         if self.network.get_unfinished_mtd():
@@ -87,31 +84,41 @@ class MTDAITraining:
                 if not self.end_event.triggered:  # Check if the event has not been triggered yet (will crash without this check)
                     self.end_event.succeed()
                 return
-
+            
             state, time_series = self.get_state_and_time_series()
-            action = choose_action(state, time_series, self.main_network, 5, self.epsilon)
+            # self.network.get_security_metric_stats().append_security_metric_record(state, time_series, round(self.env.now, -2))
 
-            # Static network degradation factor (if exceed 1000 force to deploy MTD)
+            # if using the mtd_ai scheme
+            if self._mtd_scheme._scheme == 'mtd_ai':
 
-            while (self.env.now - self.network.get_last_mtd_triggered_time()) > 2000 and action == 0:
-                action =  choose_action(state, time_series, self.main_network, 5, self.epsilon)
+                # Static network degradation factor
+                if (self.env.now - self.network.get_last_mtd_triggered_time()) > self.static_degrade_factor: 
+                    action = random.randint(1, len(self.mtd_strategies) + 1)
+                    
 
-            # Static network degradation factor (if exceed static factor force to deploy MTD)
-            if (self.env.now - self.network.get_last_mtd_triggered_time()) > self.static_degrade_factor: 
-                action = random.randint(1, len(self.custom_strategies) + 1)
-            else: 
-                action = choose_action( state, time_series, self.main_network, len(self.custom_strategies) + 1, self.epsilon)
+                else:
+                    action = choose_action(state, time_series, self.main_network, len(self.mtd_strategies) + 1, self.epsilon)
                 
+                if self.logging:
+                    logging.info('Static period: %s' % (self.env.now - self.network.get_last_mtd_triggered_time()))
 
-            if action > 0 or self.network.get_last_mtd_triggered_time() == 0:
-                self.network.set_last_mtd_triggered_time(self.env.now)
+                if action > 0 or self.network.get_last_mtd_triggered_time() == 0:
+                    self.network.set_last_mtd_triggered_time(self.env.now)
+                if self.logging:
+                    logging.info('Action: %s' % action)
+            else:
+                action = 1 #if using a different scheme other than mtd_ai set action to 1 to trigger MTD on timer
 
             if action > 0:
                 # register an MTD
                 if not self.network.get_mtd_queue():
-                    self._mtd_scheme.register_mtd(mtd_action=action)
-                    # Register the mtd in scorer as well
-                    self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(action))
+                    if self._mtd_scheme._scheme == 'mtd_ai':
+                        self._mtd_scheme.register_mtd(mtd_action=action)
+                        # Register the mtd in scorer as well
+                        self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(action))
+                    else:
+                        self._mtd_scheme.register_mtd(mtd_action=None)
+                        self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(mtd_action=None))
                 # trigger an MTD
                 if self.network.get_suspended_mtd():
                     mtd = self._mtd_scheme.trigger_suspended_mtd()
@@ -177,13 +184,6 @@ class MTDAITraining:
         # interrupt adversary
         self._interrupt_adversary(env, mtd)
 
-        # update reinforcement learning model
-        new_state, new_time_series = self.get_state_and_time_series()
-        reward = calculate_reward(state, time_series, new_state, new_time_series, self.features['static'], self.features['time'], self.memory)
-        done = False
-        self.memory.append((state, time_series, action, reward, new_state, new_time_series, done))
-        replay(self.memory, self.main_network, self.target_network, self.batch_size, self.gamma, self.epsilon, self.epsilon_min, self.epsilon_decay, self.train_start)
-
         # Update time since last MTD operation
         self.network.last_mtd_triggered_time = self.env.now
 
@@ -242,10 +242,62 @@ class MTDAITraining:
     def get_mtd_scheme(self):
         return self._mtd_scheme
     
-   
+    # def get_state_and_time_series(self):
+    #     # State metrics
+
+    #     compromised_num = self.evaluation.compromised_num()
+    #     host_compromise_ratio = compromised_num/len(self.network.get_hosts()) 
+    #     sensitivity_factor = random.random()
+    #     if sensitivity_factor <= self.attacker_sensitivity:
+    #         current_attack = self.adversary.get_curr_process()
+    #         current_attack_value = self.attack_dict.get(current_attack, 7)
+    #     else:
+    #         current_attack_value = 7
+
+    #     exposed_endpoints = len(self.network.get_exposed_endpoints())
+
+    #     attack_path_exposure = self.network.attack_path_exposure()
+
+    #     attack_stats = self.adversary.get_network().get_scorer().get_statistics()
+    #     risk = attack_stats['Vulnerabilities Exploited']['risk'][-1] if attack_stats['Vulnerabilities Exploited']['risk'] else 0
+    #     roa = attack_stats['Vulnerabilities Exploited']['roa'][-1] if attack_stats['Vulnerabilities Exploited']['roa'] else 0
+
+    #     shortest_paths = self.network.scorer.shortest_path_record 
+    #     shortest_path_variability = (len(shortest_paths[-1]) - len(shortest_paths[-2]))/len(shortest_paths) if len(shortest_paths) > 1 else 0
+
+    #     evaluation_results = self.evaluation.evaluation_result_by_compromise_checkpoint(np.arange(0.01, 1.01, 0.01))
+    #     if evaluation_results:
+    #         total_asr, total_time_to_compromise, total_compromises = 0, 0, 0
+
+    #         for result in evaluation_results:
+    #             if result['host_compromise_ratio'] != 0:  
+    #                 total_time_to_compromise += result['time_to_compromise']
+    #                 total_compromises += 1
+    #             total_asr += result['attack_success_rate']
+
+    #         overall_asr_avg = total_asr / len(evaluation_results) if evaluation_results else 0
+    #         overall_mttc_avg = total_time_to_compromise / total_compromises if total_compromises else 0
+    #     else:
+    #         overall_asr_avg = 0
+    #         overall_mttc_avg = 0
+
+
+    #     # Time-series metrics
+    #     time_since_last_mtd = self.env.now - self.network.last_mtd_triggered_time
+    #     # time_since_last_mtd = 1
+    #     mtd_freq = self.evaluation.mtd_execution_frequency()
+
+    #     state_array = np.array([host_compromise_ratio, exposed_endpoints, attack_path_exposure, overall_asr_avg, roa, shortest_path_variability, risk, current_attack_value])
+ 
+
+    #     time_series_array = np.array([mtd_freq, overall_mttc_avg, time_since_last_mtd])
+
+    #     # self.security_metrics_record.append_security_metric_record(state_array,time_series_array, env.now)
+ 
+    #     return state_array, time_series_array
     
     def get_state_and_time_series(self):
-
+        # print(self.features)
         previous_ips = self.network.scorer.current_hosts_ip
         unique_hosts = []
         for host_id in self.network.nodes:
@@ -292,7 +344,7 @@ class MTDAITraining:
             compromised_hosts = record[record['compromise_host_uuid'] != 'None'].loc[record['start_time'] > (self.env.now - comp_check_interval)]['compromise_host_uuid'].unique()
             
             compromised_num = len(compromised_hosts)
-            print(compromised_num)
+            # print(compromised_num)
         else:
             compromised_num = 0    
         host_compromise_ratio = compromised_num/len(self.network.get_hosts()) 
@@ -329,7 +381,7 @@ class MTDAITraining:
             # Calculate Mean Time to Compromise
             if compromised_num > 0:
                 mean_time_to_compromise = (overall_time_to_compromise / len(sub_record[sub_record[
-                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])])) /10
+                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])])) 
             else:
                 mean_time_to_compromise = 0
         else:
@@ -359,10 +411,7 @@ class MTDAITraining:
             "attack_path_exposure": attack_path_exposure,
             "overall_asr_avg": attack_success_rate,
             "roa": roa,
-            "risk": risk,
-
-            
-            
+            "risk": risk
         }
 
    
@@ -383,8 +432,8 @@ class MTDAITraining:
         time_series_array = np.array([value if key in self.features["time"] else 0 for key, value in time_series_filter.items()])
 
         # Output the filtered arrays for verification
-        # print("Filtered State Array:", state_array)
-        # print("Filtered Time Series Array:", time_series_array)
+        print("Filtered State Array:", state_array)
+        print("Filtered Time Series Array:", time_series_array)
        
         return state_array, time_series_array
-    
+  

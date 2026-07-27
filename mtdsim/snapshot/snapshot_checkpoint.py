@@ -1,5 +1,5 @@
-from mtdnetwork.snapshot.network_snapshot import NetworkSnapshot
-from mtdnetwork.snapshot.adversary_snapshot import AdversarySnapshot
+from mtdsim.snapshot.network_snapshot import NetworkSnapshot
+from mtdsim.snapshot.adversary_snapshot import AdversarySnapshot
 from collections import deque
 
 

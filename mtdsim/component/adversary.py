@@ -1,6 +1,6 @@
 import logging
-from mtdnetwork.statistic.attack_statistics import AttackStatistics
-from mtdnetwork.data.constants import HACKER_ATTACK_ATTEMPT_MULTIPLER
+from mtdsim.statistic.attack_statistics import AttackStatistics
+from mtdsim.data.constants import HACKER_ATTACK_ATTEMPT_MULTIPLER
 
 
 class Adversary:

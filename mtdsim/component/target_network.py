@@ -1,4 +1,4 @@
-from mtdnetwork.component.network import Network
+from mtdsim.component.network import Network
 
 
 class TargetNetwork(Network):

@@ -1,6 +1,6 @@
 import pickle
-from mtdnetwork.component.adversary import Adversary
-from mtdnetwork.snapshot import Snapshot
+from mtdsim.component.adversary import Adversary
+from mtdsim.snapshot import Snapshot
 
 
 class AdversarySnapshot(Snapshot):

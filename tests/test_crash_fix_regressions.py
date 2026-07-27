@@ -28,13 +28,13 @@ import simpy
 # Allow running directly from the repo root without `pip install -e .`.
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from mtdnetwork.component.adversary import Adversary
-from mtdnetwork.component.time_network import TimeNetwork
-from mtdnetwork.data.constants import ATTACKER_THRESHOLD
-from mtdnetwork.operation.attack_operation import AttackOperation
-from mtdnetwork.operation.mtd_operation import MTDOperation
-from mtdnetwork.statistic.evaluation import Evaluation
-from mtdnetwork.statistic.security_metric_statistics import (
+from mtdsim.component.adversary import Adversary
+from mtdsim.component.time_network import TimeNetwork
+from mtdsim.data.constants import ATTACKER_THRESHOLD
+from mtdsim.operation.attack_operation import AttackOperation
+from mtdsim.operation.mtd_operation import MTDOperation
+from mtdsim.statistic.evaluation import Evaluation
+from mtdsim.statistic.security_metric_statistics import (
     SecurityMetricStatistics,
 )
 

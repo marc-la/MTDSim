@@ -1,6 +1,6 @@
-from mtdnetwork.mtd import MTD
+from mtdsim.mtd import MTD
 import random
-from mtdnetwork.data import constants
+from mtdsim.data import constants
 
 
 class OSDiversity(MTD):

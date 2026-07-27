@@ -1,4 +1,4 @@
-from mtdnetwork.mtd import MTD
+from mtdsim.mtd import MTD
 import random
 
 

@@ -1,4 +1,4 @@
-# import mtdnetwork.irrelevant_stuff.exceptions as exceptions
+# import mtdsim.irrelevant_stuff.exceptions as exceptions
 
 import numpy as np
 class Statistics:

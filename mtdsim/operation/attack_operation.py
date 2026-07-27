@@ -9,8 +9,8 @@ warnings.filterwarnings(
 import simpy
 import logging
 import random
-from mtdnetwork.component.time_generator import exponential_variates
-from mtdnetwork.data.constants import ATTACK_DURATION
+from mtdsim.component.time_generator import exponential_variates
+from mtdsim.data.constants import ATTACK_DURATION
 
 
 class AttackOperation:

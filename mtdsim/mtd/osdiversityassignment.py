@@ -1,11 +1,11 @@
 import random
 
 import networkx as nx
-from mtdnetwork.data.constants import OS_TYPES, OS_VERSION_DICT
+from mtdsim.data.constants import OS_TYPES, OS_VERSION_DICT
 import matplotlib.pyplot as plt
-from mtdnetwork.statistic.utils import powerset, remove_element
+from mtdsim.statistic.utils import powerset, remove_element
 from pulp import *
-from mtdnetwork.mtd import MTD
+from mtdsim.mtd import MTD
 import re
 
 
