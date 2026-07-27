@@ -1,8 +1,8 @@
 ---
 status: durable
 created: 2026-07-03
-topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5, M1–M8)"
-updated: 2026-07-21
+topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5, M1–M8, S1–S6)"
+updated: 2026-07-27
 lineage: formerly docs/notes @ 2026-07-03_supervisor_meeting_l3_decisions.md (relocated in the 2026-07-13 docs refactor)
 ---
 
@@ -70,6 +70,11 @@ connects*; this note is the register, the specs carry the operative wording.
   CTMC solve of the retired 2026-06-18 implementation handoff joins this
   register — Monte-Carlo over the standalone runner is the v1 way the nets
   are examined.)
+  → **Three deferrals have since been lifted:** two-way integration by **M1**
+  (2026-07-14, and built); **sensitivity analysis on the weights** by **S1**
+  and **timed-net firing semantics** by **S3** (both 2026-07-21). What remains
+  deferred: evasion/detection-rate modelling, aggregated cross-profile
+  variation analysis, the closed-form CTMC solve.
 
 ## Follow-up resolutions (Marc, 2026-07-04)
 
@@ -211,15 +216,118 @@ pulling numbers and writing the dissertation (October due; on schedule).
 Semester 2 starts 20-Jul; meetings ad hoc once Jin's timetable settles, Marc
 sends regular updates.
 
+## The post-experiment-1 rulings (S1–S6)
+
+Provenance: Marc's written supervisor update dated **21 July 2026** and the
+meeting it drove (late July 2026); both held by Marc outside the repo, per
+convention. Numbered **S** to keep this trail distinct from the 03-Jul minuted
+decisions (D), the 10-Jul written feedback (R) and the 14-Jul meeting (M).
+Recorded 2026-07-27.
+
+**What these rulings are responding to.** The end-to-end loop ran, and
+experiment 1 produced a stark result: the profiled attacker reached the
+substrate objective **0 out of 100 runs** against a baseline ASR of 0.90–1.00,
+failing in two distinct ways (*friction* — blocked on substrate preconditions;
+*churn* — busy successes that never spread), with MTD leaving the verdict
+unchanged on both arms. The full record is
+[`experiment_01_findings.md`](experiment_01_findings.md). The meeting read this
+as **an expected consequence of two things that are ours to fix** — the
+inherited phases' tight integration and the deliberately coarse tactic→verb
+collapse — not as a failure of the movement layer, and the rulings below
+allocate the response.
+
+**Layer vocabulary ratified.** The update presented, and the meeting used, the
+three-layer runtime naming: **movement layer** = everything from the CTI
+(Attack Flow) through to the attack profiles (the Petri nets); **controller
+layer** = the mapping/join between the movement layer and MTDSim (or any MTD
+simulator); **action layer** = the predefined attack behaviour inherited from
+MTDSim. This is now the operative vocabulary — encoded in
+[`../../architecture.md`](../../architecture.md) §(f) as the runtime view
+alongside the L0–L4 build-time view, and it discharges the vocabulary half of
+the parked layer-reframe handoff.
+
+- **S1 — Tactic-pair weights need literature-grounded dependency and a
+  sensitivity study.** The current tactic-tactic values are "not realistic",
+  the named defect being **large jumps in tactics** — a pair like
+  `reconnaissance → impact` still carries appreciable mass. The direction:
+  assert a **literature-based dependency** on the weights so that *close* jumps
+  weight higher and *far* jumps (recon → impact being the canonical example)
+  weight close to, or exactly, zero. The grounding is to be built by
+  **overlaying APT lifecycle models and taking their consensus** before that
+  consensus is folded into the weights: the **Cyber Kill Chain** is the primary
+  overlay (its seven phases are sequential and ATT&CK maps onto them),
+  **Alshamrani 2019**'s five-phase APT lifecycle is a second, and other
+  published APT lifecycles are candidates for the same treatment. Two scope
+  statements ride with this: the present weights are an explicit **initial
+  trial of static weights**, and **dynamic weights conditioned on attacker
+  state** are the eventual direction, deferred. Standing constraint: the
+  weights are not to be reverse-engineered to make any particular net traverse
+  well (the CTI-independence boundary in
+  [`success_failure_overlay_design.md`](success_failure_overlay_design.md) §1).
+- **S2 — The attacker action set is frozen, short term.** No adding, removing,
+  or altering attacker actions, abilities, or attacker states; **"do not change
+  the MTDSim code yet"**. What remains licensed is **refinement of existing code
+  and bug fixes**. This freezes, for now, the open questions the update raised
+  about new capabilities (an evasion action, a tooling/endowment state, a
+  privilege level, a durability parameter) — they are the *note* at the end of
+  the update, not current work.
+- **S3 — Timing moves onto the Petri nets, exponentially distributed.** Timing
+  may be taken from either layer and currently comes from MTDSim, but the
+  direction is for the **movement layer to be the timing source**: a time per
+  tactic, drawn from an **exponential distribution**, with **non-action tactics
+  consuming time in the simulation and doing nothing else**. The substrate's
+  MTD **confusion penalty** is to be replicable the same way — a place in the
+  net carrying the same base duration under the same stochastic regime. The
+  supervisor's caveat is the operative constraint: the numbers are
+  **inherently arbitrary, so justifying them is the key** — which puts this
+  work under the existing operational-validation discipline rather than beside
+  it. Reverses the D10 deferral of timed-net (GSPN/SPN) firing semantics.
+- **S4 — The tactic→action mapping need not be total.** **Not every tactic
+  needs to be mapped.** A tactic maps to **[0, 1] actions**; multiple tactics
+  may map to the **same** action; and where no mapping makes sense the tactic
+  becomes a **non-action ("dwell-only") tactic** that consumes time in the
+  simulation without dispatching a verb. This is extensible — a tactic gains an
+  action when one exists for it. Because the controller layer is the
+  **application layer the experiments vary**, the mappings that have been tried
+  and what each produced are to be **maintained and version-controlled**, not
+  overwritten in place.
+- **S5 — A run that hits a sink retraces rather than dies.** For experiment 2,
+  the procedural tweak is that a token reaching a sink place **retraces the edge
+  it travelled** (an optional alternative raised in the meeting: route to some
+  other node) instead of the run being discarded. This supersedes the
+  accept-and-censor disposition recorded at
+  [`runtime_verification.md`](runtime_verification.md) §P7 — that ruling stands
+  as the *experiment-1* behaviour and is retained as the comparison arm.
+- **S6 — The project's headline is a criterion question.** The finding this
+  work reports is **what this model captures about APT attackers that prior
+  models do not**. The direction is to return to the reviewed APT literature —
+  **Cho 2020** (axes of what an attacker model should contain), **Jalowski
+  2026** (naming the same gap this work targets), **Alshamrani 2019** (the
+  enumeration of APT behaviour) — and build a **structured criterion / rubric**
+  from it, against which this model is scored and benchmarked over the coming
+  weeks. Two constraints on the artefact: it must be **loaded into the context
+  of every future session**, and it must **not promise the world** — the model
+  will not satisfy every axis, and the claim is that it captures the *missing
+  essence* those three sources name, not that it closes the gap.
+
 ## Still open with the supervisor
 
-- **Nothing structural.** M1–M8 closed the execution-model questions (coupling,
-  success semantics, direction, ontology join, pre-intrusion tactics,
-  architecture). The cost-only disposition (R5) and the CVE-binding question
-  are both moot under M4/M5 — the substrate-as-oracle join never touches them.
-- **Post-implementation, by evidence:** the supplementary evasion/stealth
-  measurements (M8b) and any weight/success-rate tuning — both explicitly
-  sequenced after first numbers, and reviewed against what the numbers show.
+- **Nothing structural in the execution model.** M1–M8 closed the
+  execution-model questions (coupling, success semantics, direction, ontology
+  join, pre-intrusion tactics, architecture); S1–S6 allocate the
+  post-experiment-1 response. The cost-only disposition (R5) and the
+  CVE-binding question are both moot under M4/M5 — the substrate-as-oracle
+  join never touches them.
+- **Scoping the attack-model change, when the freeze lifts (S2).** The update's
+  own "major point of guidance" question — *how far to go in reworking the
+  action set so that each tactic has a corresponding capability* — is
+  deliberately unanswered while S2 holds. The two directions the update named
+  (refine the existing connection vs rework the action set) are the decision
+  the freeze defers, not a decision already taken.
+- **Post-refinement, by evidence:** the supplementary evasion/stealth
+  measurements (M8b), now folded into the S6 criterion work as the "what would
+  evidence each axis" half; and the dynamic, attacker-state-conditioned weights
+  named as the eventual direction in S1.
 
 ## 2026-07-23 — outcome-overlay (M2/M3) numbers finalised
 
@@ -234,6 +342,14 @@ principle); the **`enabled = 1.0` tier stays flat** (a graded scheme was empiric
 counterproductive). The values are now **rule-based and complete** (210 pairs,
 corpus-agnostic). Records: [`success_failure_overlay_design.md`](success_failure_overlay_design.md)
 §2.5, the provenance/scrutiny ledger [`../../declared_value_provenance.md`](../../declared_value_provenance.md).
+
+**Reframed by S1 (2026-07-27) — not retracted.** R2 remains the landed value set
+and the experiment-1 arm, but it is now on record as **an initial trial of static
+weights**: S1 directs a literature-grounded lifecycle-distance dependency (close
+jumps up, far jumps to ≈ 0) and a sensitivity study over the result. The
+convergence and the 82% certification describe R2's *internal* coherence, which S1
+does not dispute; what S1 adds is an **external** grounding R2 never claimed to
+have.
 
 ## How it connects
 
@@ -282,15 +398,23 @@ corpus-agnostic). Records: [`success_failure_overlay_design.md`](success_failure
     [`../../../../data/ogasp/petri/outcome_overlay.json`](../../../../data/ogasp/petri/outcome_overlay.json).
     Its runtime composition is implemented in the controller sublayer by the
     finalise handoff below. **Awaits Marc's review.**
-  - **Forward build chain (2026-07-22 restructure):**
-    [`../handoffs/2026-07-22_l3_controller_success_failure.md`](../../../handoffs/2026-07-22_l3_controller_success_failure.md)
-    finalises the controller layer (overlay composition + verdict/interrupt signal
-    into the controller sublayer); then
-    [`../handoffs/2026-07-22_l3_attacker_petri_to_mtdsim.md`](../../../handoffs/2026-07-22_l3_attacker_petri_to_mtdsim.md)
-    builds the **M7** movement-layer attacker (steps the net live, consumes the
-    controller library; executes **D1/D5** end-to-end); then
-    [`../handoffs/2026-07-15_l3_first_numbers.md`](../../../handoffs/2026-07-15_l3_first_numbers.md)
-    — the first experiment matrix + the **M8** metrics-gap review.
+  - **The build chain that produced experiment 1 is shipped and its handoffs are
+    deleted** (git log is the record): the controller finalisation and the **M7**
+    movement-layer attacker landed at commit `48471b8`, and the first-numbers run
+    landed at `c27409f`. Its result is
+    [`experiment_01_findings.md`](experiment_01_findings.md); the pre-run
+    cross-examination is [`runtime_verification.md`](runtime_verification.md).
+  - **Forward chain (2026-07-27, executing S1–S6).** Eight handoffs in
+    [`../handoffs/`](../../../handoffs/), all dated `2026-07-27`, in four waves —
+    the ordering and its rationale are in each handoff's *State of play*:
+    (1) `apt_model_criterion` (**S6**), `lifecycle_consensus_overlay` (**S1**,
+    literature half) and `action_layer_refinement_under_freeze` (**S2**) run
+    independently; (2) `controller_v2_partial_mapping` (**S4**) then
+    `stochastic_timing_design` (**S3**, planning half); (3)
+    `tactic_weight_sensitivity_study` (**S1**, study half) and
+    `stochastic_timing_implementation` (**S3**, build half); (4)
+    `sink_retrace_experiment2` (**S5**, and the experiment-2 run that consumes
+    the rest).
   - Retired by the 14-Jul meeting (deleted per the handoff lifecycle; git log
     is the record): the deferred replay-attacker build (its one-way replay
     premise died with D2→M1), the MVP-binding investigation + goal (its
@@ -320,3 +444,15 @@ corpus-agnostic). Records: [`success_failure_overlay_design.md`](success_failure
   the richer-outcome extension Jin sanctioned gets its own ruling.
 - If corpus expansion lands: D3's "only quantitative evidence available"
   sparsity acceptance needs re-examination against the larger corpus.
+- **When the S2 action-set freeze lifts** — the scoping question it defers (how
+  far to rework the action set so each tactic has a capability) becomes a live
+  ruling, and the update's capability candidates (evasion, tooling endowment,
+  privilege level, durability) re-enter as design work.
+- ~~If timed-net firing semantics are picked up: D10's deferral stops
+  holding~~ — happened (**S3**, 2026-07-21); D10 is annotated by S3 rather than
+  rewritten, and the duration regime moves from plain dwell to exponential
+  firing.
+- If the S1 sensitivity study shows the conclusion turns on where in its band a
+  tactic-pair weight sits, the declared-weight defence in
+  [`../../declared_value_provenance.md`](../../declared_value_provenance.md)
+  needs re-argument, not just re-certification.

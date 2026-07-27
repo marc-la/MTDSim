@@ -1,15 +1,15 @@
 ---
 status: durable
 created: 2026-07-23
-updated: 2026-07-23
+updated: 2026-07-27
 topic: "OGASP runtime verification — cross-examination of the layer model (structure / policy / execution) against the landed loop (commit 48471b8) before the first-numbers run; per-proposition verdicts, the P4 H-coupling quantification, the P7 sink enumeration + termination disposition, and the four seam invariants"
-lineage: closes docs/handoffs/2026-07-23_l3_ogasp_runtime_verification.md; precedes docs/handoffs/2026-07-15_l3_first_numbers.md
+lineage: closes docs/handoffs/2026-07-23_l3_ogasp_runtime_verification.md; preceded the first-numbers run, recorded at experiment_01_findings.md (both handoffs shipped and deleted)
 ---
 
 # OGASP runtime verification — the model reconciled against the code
 
 **Status:** durable. This is the verification gate the first-numbers run
-([`../../../handoffs/2026-07-15_l3_first_numbers.md`](../../../handoffs/2026-07-15_l3_first_numbers.md))
+([`experiment_01_findings.md`](experiment_01_findings.md))
 depends on. The attacker Petri → MTDSim loop is built and green (commit `48471b8`;
 full suite **242 passed**). Before pulling numbers, the runtime model — three
 sublayers plus a driver — was cross-examined against the landed code: each claim in
@@ -168,6 +168,19 @@ backstop → `MAX_EVENTS`; (d) a **stall** (compose returns `{}`) — walk ends;
   (10/10). These walks are **censored short**, which changes the MTTC denominator
   and the per-profile event counts.
 
+> **Superseded for experiment 2 by S5 (2026-07-21).** The ruling below stands as
+> the **experiment-1** behaviour and is retained as the comparison arm, but the
+> supervisor has since directed the opposite treatment going forward: a token
+> reaching a sink **retraces the edge it travelled** rather than the run being
+> discarded (an alternative raised in the meeting: route to some other node).
+> The consequences of accept-and-censor recorded below — truncated observation
+> windows, a shortened MTTC denominator for `pure_steal`, `double_extortion` and
+> `infrastructure_setup`/observed — are exactly what the change is meant to
+> remove, and they materialised in experiment 1 as predicted
+> ([`experiment_01_findings.md`](experiment_01_findings.md) Finding 3). The
+> replacement policy and its implications are worked through in
+> [`../../../handoffs/2026-07-27_sink_retrace_experiment2.md`](../../../handoffs/2026-07-27_sink_retrace_experiment2.md).
+
 **The decision — ruled by Marc (2026-07-23): accept-and-censor.** A walk that reaches
 a sink **stops and is censored**, recorded as a sink termination (tag on the last
 record's `next_place is None` with `is_sink(place)` true). This is the current code
@@ -227,7 +240,7 @@ Each seam now has a check that fails loudly if a future edit blurs it:
 ## What this unblocks, and what it does not
 
 - **Unblocks** the first-numbers run
-  ([`../../../handoffs/2026-07-15_l3_first_numbers.md`](../../../handoffs/2026-07-15_l3_first_numbers.md)):
+  ([`experiment_01_findings.md`](experiment_01_findings.md)):
   the model and the code agree in the telling, not just the behaviour; the P4
   H-coupling table is a result to report; P8 is comparably measured.
 - **Two things to carry into the write-up:** (P3) state that the tactic→verb

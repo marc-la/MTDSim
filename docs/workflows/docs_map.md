@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-07-13
+updated: 2026-07-27
 ---
 
 # Docs map — where every document lives, and why
@@ -86,7 +86,7 @@ The Introduction and Conclusion chapters deliberately have **no** notes subdir: 
 
 ### `handoffs/` — open work
 
-Unchanged from long-standing practice: `YYYY-MM-DD_<topic>.md`, created when work won't fit the current session, deleted **in the commit that ships the work**. `ls docs/handoffs/` is the inventory of open work; see [`session_workflow.md`](session_workflow.md#handoff-workflow).
+Unchanged from long-standing practice: `YYYY-MM-DD_<topic>.md`, created when work won't fit the current session, deleted **in the commit that ships the work**. `ls docs/handoffs/` is the inventory of open work; see [`session_workflow.md`](session_workflow.md#handoff-workflow). Two files in that directory are not handoffs: `README.md` carries the **dependency order** between the open ones (the one thing a directory listing cannot show — prune a line when its handoff ships), and `__archive/` holds parked work that is deliberately *not* on the active chain.
 
 ### `thesis/` — the deliverable
 

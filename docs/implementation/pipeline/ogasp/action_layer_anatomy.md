@@ -1,11 +1,26 @@
 ---
 status: durable
 created: 2026-07-16
-updated: 2026-07-21
+updated: 2026-07-27
 topic: "L3 action layer — anatomy of the inherited attack FSM (the 'before' state), its coupling graph, callable surface, affordances, and the two performance hypotheses"
 ---
 
 # The action layer, as inherited — coupling graph, callable surface, affordance register, and pre-registered hypotheses
+
+> **Under the S2 change freeze (2026-07-21).** The supervisor has frozen the
+> attacker action set short-term: no action, ability, or attacker state is to be
+> added, removed, or altered — *"do not change the MTDSim code yet"* — and only
+> **refinement of existing code and bug fixes** are licensed
+> ([`supervisor_decision_register.md`](supervisor_decision_register.md) §S2).
+> This bears directly on the limitations register in §4 and the coverage gaps in
+> §5: they are a **map of what the action layer cannot do**, and under the freeze
+> they stay unfilled rather than becoming a build list. The freeze also changes
+> how those gaps are handled — S4 makes an unmappable tactic a *dwell-only
+> tactic* rather than a missing capability. §6's hypotheses are unaffected and
+> were in fact borne out by experiment 1
+> ([`experiment_01_findings.md`](experiment_01_findings.md)). The licensed work is
+> scoped by
+> [`../../../handoffs/2026-07-27_action_layer_refinement_under_freeze.md`](../../../handoffs/2026-07-27_action_layer_refinement_under_freeze.md).
 
 **Status:** durable. The implementation-deep, **read-only** record of the inherited
 attack module *as it stands before any controller work* — the "before" state.
@@ -442,7 +457,7 @@ Two mechanisms could explain a profiled/APT attacker underperforming the inherit
 baseline on the substrate's metrics. They are **different mechanisms with different,
 separable result signatures**, and the provenance of each is kept distinct
 (guardrails: inherited-vs-editorial). The first numbers
-([`../../../handoffs/2026-07-15_l3_first_numbers.md`](../../../handoffs/2026-07-15_l3_first_numbers.md))
+([`experiment_01_findings.md`](experiment_01_findings.md))
 are to be read against this section.
 
 - **H-metric — the metrics don't reward APT-shaped behaviour.** *Provenance:*

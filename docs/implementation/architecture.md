@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-05-27
-updated: 2026-07-15
+updated: 2026-07-27
 ---
 
 # Architecture — L0→L4 pipeline and methodological positioning
@@ -305,14 +305,45 @@ mitigations in
 
 ## (f) L3 — OGASP (operationalised GASP)
 
-**Status:** partially built. The **L3a structural nets are shipped** — four
-un-weighted tactic-place Petri nets, one per GASP class, at
-[`../../data/ogasp/`](../../data/ogasp/) with build code at
-[`../../src/mtdsim/l3_simulation/petri/`](../../src/mtdsim/l3_simulation/petri)
-and tests at `tests/l3_simulation/`. Weights, durations and the standalone
-timeline runner are shipped; the executable coupling into the substrate (the
-feedback-coupled profiled attacker, per M1) is unbuilt; the substrate itself
-runs.
+**Status:** built end-to-end (first result on record). The structural nets,
+weights, durations and the standalone timeline runner are shipped; the
+**feedback-coupled profiled attacker is built and green** (commit `48471b8`),
+verified against the runtime model before use
+([`pipeline/ogasp/runtime_verification.md`](pipeline/ogasp/runtime_verification.md)),
+and **experiment 1 has run** — the profiled attacker reaches the substrate
+objective in 0/100 runs against a 0.90–1.00 baseline, failing through
+substrate-precondition friction and non-spreading churn
+([`pipeline/ogasp/experiment_01_findings.md`](pipeline/ogasp/experiment_01_findings.md)).
+The post-experiment-1 rulings **S1–S6** allocate the response and are the live
+work; refinement, not construction, is what remains.
+
+### The runtime stack — movement / controller / action / substrate
+
+The L0–L4 numbering above is a **build-time data-flow** view: how the
+attacker's behavioural artefacts are *constructed*. The vocabulary the
+supervisor update ratified (2026-07-21) is a **runtime execution** view: how
+the profiled attacker *runs*. They are two views of one system, not competing
+numberings — GAP and GASP are the movement layer's provenance, not separate
+runtime components, and the substrate is deliberately **not** renumbered "L5"
+(evaluation at L4 consumes runs *on* the substrate; placing a runtime component
+downstream of evaluation muddles the data-flow reading).
+
+| Runtime layer | What it owns | Built from |
+|---|---|---|
+| **Movement layer** | which moves are legal and their base proportions — everything from the CTI (Attack Flow) through to the attack profiles (the Petri nets), plus the synthetic pre-intrusion structure composed in at net-build | L0 → L3a |
+| **Controller layer** | the mapping/join between the movement layer and the simulator: which verb a tactic dispatches, and how a returned verdict re-weights the next move. **The application layer the experiments vary** | M5 → the controller reframe (2026-07-22), S4 |
+| **Action layer** | the outcome oracle — the predefined attack behaviour inherited from MTDSim: the six verbs, their native time costs, their own dice, no succession | inherited; anatomised in [`pipeline/ogasp/action_layer_anatomy.md`](pipeline/ogasp/action_layer_anatomy.md) |
+| **Substrate** | network / host / service / vulnerability terrain, MTD mechanisms, statistics — unchanged (D5) | inherited; [`mtdsim_spec.md`](mtdsim_spec.md) |
+
+**Decision — overlay the runtime vocabulary, do not renumber the pipeline.**
+**Why:** the two views answer different questions and both are load-bearing;
+renumbering to make one subsume the other would touch data directories
+(`data/gap|gasp|ogasp`), code paths (`l3_simulation`) and every chapter note
+that says "L3", for a nominal gain.
+**Cost:** two vocabularies coexist, so any document using either must say which
+view it is in.
+**If revisited:** a renumber is separate, sequenced work — the rename, not the
+decision, is the expensive part.
 
 **Working-layer ledger** (the terms the 2026-07-03 handoff chain uses):
 - **L3a** — the structural nets *plus their parameterisation*: flow-proportion
@@ -423,14 +454,35 @@ and it keeps the substrate change attacker-only (D5): the new movement layer
 calls the existing action machinery as an API (M7). The original D2 wording
 is preserved in the decision register, annotated; the timeline library it
 produced survives as the standalone analytical track (D1).
-**Deferred (D10 register, updated):** the full capability precondition/effect
-contract, sensitivity analysis on net weights, evasion/detection-rate
-modelling, timed Petri nets (GSPN/SPN/TPN firing semantics), aggregated
+**Deferred (D10 register, as at 2026-07-27):** the full capability
+precondition/effect contract, evasion/detection-rate modelling, aggregated
 cross-profile variation analysis, the closed-form CTMC solve, richer-than-
-binary outcome classes (M2), an attacker that studies the MTD (M8d).
+binary outcome classes (M2), an attacker that studies the MTD (M8d), and
+attacker-state-conditioned *dynamic* transition weights (S1's eventual
+direction). **Lifted since:** two-way integration (M1, built); **sensitivity
+analysis on the weights** (S1); **timed-net firing semantics** (S3 — per-tactic
+exponential firing on the movement layer, with dwell-only tactics consuming
+time and the MTD confusion penalty replicated as a net place).
 **If revisited:** Reverting to one-way replay resurrects the shipped timeline
 contract (`ogasp-timeline/v1`) as the coupling input; the feedback loop is
 strictly additive on top of it, so the fallback is cheap.
+
+**Decision — the attacker action set is frozen short-term (supervisor S2,
+21 July 2026).** No attacker action, ability, or attacker state is added,
+removed, or altered; only refinement of existing code and bug fixes are
+licensed.
+**Why:** experiment 1's failure modes are attributable to two things that are
+separable — the inherited phases' tight integration (a substrate property) and
+the deliberately coarse tactic→verb collapse (a controller parameter). Changing
+the action set while both are in play would confound which one the numbers are
+measuring.
+**Cost:** the tactics with no substrate capability stay uncovered, so the
+controller cannot be made *complete* — only *sensible* (S4 turns that from a
+defect into a modelling stance: dwell-only tactics).
+**If revisited:** lifting the freeze re-opens the update's capability
+candidates (an evasion action, a tooling endowment, a privilege level, a
+durability parameter) as design work, and requires a fresh comparability
+argument against the retained baseline.
 
 **Note on the Tay-IDS ↔ Jalowski-beacon inverse** (*Methodology Carry-Forward*
 §2). Tay's IDS-sensitivity experiment varies what the *defender* observes
@@ -443,9 +495,10 @@ load-bearing for the scaffold; explicit in case Pass 2 picks it up.
 
 ## (g) L4 — Evaluation
 
-**Status:** partially built (substrate runs and produces metrics; behavioural-
-attacker runs not yet possible because the L3 feedback coupling
-is unbuilt — the L3a structural nets themselves are shipped, see §(f)).
+**Status:** partially built (substrate runs and produces metrics; the
+behavioural attacker runs and has produced a first result — see §(f) — but the
+matrix has covered only no-MTD vs one MTD scheme, so the mechanism-ranking
+question the RQ turns on is not yet answered).
 
 - **Inputs.** Per-run attack records from L3 (across MTD mechanism × attacker
   profile × MTD interval); the post-2c golden as the behavioural oracle.
@@ -688,7 +741,16 @@ Pass 2 / Marc to drive, not assumed-resolved.
   if findings depend on topology.
 - **L4 evaluation matrix shape.** MTD mechanism × attacker profile × MTD
   interval — what is the exact factorial? Pass 2 should pin this against the
-  lit review's gap framing.
+  lit review's gap framing. Experiment 1 ran a deliberate corner of it (no-MTD
+  vs one scheme, ten seeds); the full SDR sweep is carried by the experiment-2
+  handoff.
+- **What this model captures that prior attacker models do not (S6).** The
+  project's headline claim is currently argued in §(j) as positioning. The
+  supervisor's direction is to convert it into a **structured criterion** built
+  from the reviewed APT literature (Cho 2020's axes, Jalowski 2026's gap
+  statement, Alshamrani 2019's enumeration) and to score this model against it
+  honestly — including the axes it does not satisfy. Until that criterion
+  exists, §(j)'s positioning is an argument without a yardstick.
 
 ---
 

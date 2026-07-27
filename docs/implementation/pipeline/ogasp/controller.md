@@ -1,12 +1,31 @@
 ---
 status: durable
 created: 2026-07-22
-updated: 2026-07-22
+updated: 2026-07-27
 topic: "L3 controller — the tactic -> MTDSim-phase dispatch map for experiment 1: a CKC-mediated position map, held as a swappable input parameter (not a recovered ground truth); supersedes the M5 tactic->action influence map + the binding investigation"
 lineage: rewritten from tactic_action_map.md (the M5 'true tactic->action map'); reframed as an input parameter per Marc's 2026-07-22 direction
 ---
 
 # The controller — tactic -> MTDSim-phase dispatch (experiment 1)
+
+> **Superseded as the live mapping by S4 (2026-07-21), retained as the
+> experiment-1 value.** The supervisor's ruling relaxes the property this map
+> was built to guarantee: **the mapping need not be total.** A tactic maps to
+> **[0, 1] actions**, several tactics may share one action, and a tactic with no
+> sensible action becomes a **non-action ("dwell-only") tactic** that consumes
+> simulation time without dispatching a verb. The complete-coverage construction
+> below — every tactic forced onto exactly one of six verbs, with the whole
+> Actions-on-Objectives band doubled onto `SCAN_NEIGHBOR` — is precisely what
+> that relaxation is meant to undo: it is much of what produced experiment 1's
+> friction and churn
+> ([`experiment_01_findings.md`](experiment_01_findings.md)). Two further
+> consequences of S4 land here: because the controller is **the application
+> layer the experiments vary**, the mappings tried and what each produced are to
+> be **versioned and kept**, not overwritten; and this record describes *one
+> value* of that parameter, which stays valid as the experiment-1 arm.
+> The replacement is built by
+> [`../../../handoffs/2026-07-27_controller_v2_partial_mapping.md`](../../../handoffs/2026-07-27_controller_v2_partial_mapping.md);
+> §4's per-verb verdict semantics are unaffected and carry forward unchanged.
 
 **Status:** durable. The **controller** is the seam between the class net (which
 ATT&CK tactic the attacker token sits on) and the inherited substrate action set

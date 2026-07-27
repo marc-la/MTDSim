@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-21
-updated: 2026-07-21
+updated: 2026-07-27
 topic: "L3 M2 — the outcome (policy) overlay: a ground-up conditional-likelihood weighting over the whole directed tactic-pair set, composed multiplicatively with the base weights and the substrate's binary verdict at runtime"
 ---
 
@@ -23,11 +23,12 @@ At runtime these values **manipulate the existing base edges**: the value multip
 the D3 base weight and the source place's out-set is renormalised, so the observed
 structure is tilted live by the success/failure signal the substrate returns.
 
-This record is the design; **no stepping or net-build code is written here.** The
-composition is implemented in the controller sublayer (the controller-finalisation
-handoff, [`../../../handoffs/2026-07-22_l3_controller_success_failure.md`](../../../handoffs/2026-07-22_l3_controller_success_failure.md));
-the live net walk is the attacker build
-([`../../../handoffs/2026-07-22_l3_attacker_petri_to_mtdsim.md`](../../../handoffs/2026-07-22_l3_attacker_petri_to_mtdsim.md)).
+This record is the design; **no stepping or net-build code is written here.** Both
+consumers have since been built (commit `48471b8`): the composition lives in the
+controller sublayer (`src/mtdsim/l3_simulation/controller/outcome.py`) and the live
+net walk in the movement-layer attacker
+(`src/mtdsim/l3_simulation/movement/attacker.py`); their handoffs shipped and were
+deleted per the handoff lifecycle.
 Its deliverables are this record, the authored overlay
 [`../../../../data/ogasp/petri/outcome_overlay.json`](../../../../data/ogasp/petri/outcome_overlay.json),
 and its provenance row ([`../../provenance.md`](../../provenance.md)).
@@ -197,6 +198,52 @@ Honest caveats an examiner will (rightly) press, recorded rather than hidden:
   Even with a flawless record an examiner can ask "why this magnitude" — the honest answer
   is the reasoning + the scrutiny it survived, which is what the ledger records.
 
+### 2.6 What S1 changes — an initial trial of static weights, now due external grounding
+
+The supervisor's post-experiment-1 ruling (**S1**, 2026-07-21;
+[`supervisor_decision_register.md`](supervisor_decision_register.md)) reframes
+everything above without retracting it. R2 is the landed value set and the
+experiment-1 arm, and its internal coherence is not in dispute — but it is now on
+record as **an initial trial of static weights**, with two directions attached.
+
+**The named defect: large jumps in tactics.** The R2 rules resolve a pair by
+*relationship* (forward / lateral / backward from the band prior) and by
+`enables`, and neither term is sensitive to **how far** a jump travels.
+`reconnaissance → impact` and `reconnaissance → initial-access` are both
+"forward", so a jump across the whole lifecycle carries mass comparable to a jump
+to the adjacent phase. That is the unrealism the supervisor flagged. The
+direction is a **literature-grounded dependency** on lifecycle distance: close
+jumps weighted higher, far jumps weighted close to — or exactly — **zero**.
+
+**Where the grounding comes from.** Not from this project's judgement, and not
+from the corpus: from **overlaying published APT lifecycle models and taking
+their consensus** before any of it reaches the weights. The Cyber Kill Chain is
+the primary overlay (seven sequential phases that the ATT&CK tactics already map
+onto — the same crosswalk §2.1's band prior uses, but consumed as an *ordering
+metric* rather than a coarse band), Alshamrani 2019's five-phase APT lifecycle is
+the second, and other published lifecycles are candidates for the same treatment.
+The consensus is the artefact; the weights consume it.
+
+**What does not change.** The composition rule (§1) is untouched — a distance
+term enters as a factor in the *value*, not as a new runtime mechanism. The
+CTI-independence boundary holds: the distance model is declared from literature
+and must not be fitted so that any particular profile's net traverses well. The
+evidence-tier asymmetry (§4) survives, and the failure side remains the weaker
+tier.
+
+**And a sensitivity study is now required, not optional.** The values were
+certified at 82% on the strength of their reasoning; S1 asks a different
+question — *does the conclusion depend on where in its range each value sits?*
+That is a sweep, and it is the discipline the evaluation's burden-of-proof note
+already demands of every declared parameter family. Dynamic weights conditioned
+on attacker state are named as the eventual direction and stay deferred.
+
+Executed by
+[`../../../handoffs/2026-07-27_lifecycle_consensus_overlay.md`](../../../handoffs/2026-07-27_lifecycle_consensus_overlay.md)
+(the consensus artefact) and
+[`../../../handoffs/2026-07-27_tactic_weight_sensitivity_study.md`](../../../handoffs/2026-07-27_tactic_weight_sensitivity_study.md)
+(the re-derivation and the sweep).
+
 ---
 
 ## 3. Whole-space coverage, extensibility, and runtime consumption
@@ -258,10 +305,10 @@ failure treatment** — net-token routing on the verdict.
 
 **Recommended: an MTD interrupt reads as the failure verdict**, so the net falls back
 (the feedback Jin's motivating example wanted; register §M1) while the substrate's
-mechanical reset applies to substrate state. **Named build prerequisite:** the carve's
-`step()` does not yet surface the interrupt to the driver as a verdict — wiring it is
-the profiled-attacker build's job ([`action_layer_anatomy.md`](action_layer_anatomy.md)
-§3 / map §4), named here, not assumed. **Scope boundary:** a mutation during a
+mechanical reset applies to substrate state. **Named build prerequisite — discharged (verified 2026-07-27):** the wiring
+landed with the movement-layer attacker. An MTD interrupt propagates out of `step()`
+for all six verbs and the verdict adapter reads it as failure, so the net does fall
+back on a mutation as intended. **Scope boundary:** a mutation during a
 dwell-only place's dwell raises no verdict and is not felt by the token — an honest
 limitation (ties to the H-coupling hypothesis, anatomy §6).
 

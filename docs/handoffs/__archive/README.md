@@ -1,15 +1,13 @@
 # Archived handoffs — parked, not active
 
 These are **parallel or superseded-but-not-landed** handoffs, moved here
-(2026-07-22) so the top-level `handoffs/` directory shows only the active forward
-chain. They are kept for reference — their content still has merit — but they are
-**not** on the critical path and should not be picked up cold as "next work".
+(2026-07-22) so the top-level `handoffs/` directory shows only live work. They
+are kept for reference — their content still has merit — but they are **not** on
+the critical path and should not be picked up cold as "next work".
 
-The active forward chain lives one level up:
-
-1. `2026-07-22_l3_controller_success_failure.md` — finalise the controller layer.
-2. `2026-07-22_l3_attacker_petri_to_mtdsim.md` — build the live movement-layer attacker.
-3. `2026-07-15_l3_first_numbers.md` — pull the first numbers.
+The active chain and its dependency order live one level up, in
+[`../README.md`](../README.md): eight handoffs dated `2026-07-27`, executing the
+post-experiment-1 supervisor rulings S1–S6.
 
 ## What's here and why
 
@@ -18,7 +16,14 @@ The active forward chain lives one level up:
   traces). Genuine validation work, but **parallel** to the build chain, not a
   blocker for it. Revive when validating class signatures.
 - **`2026-07-16_l3_layer_reframe_docs_audit.md`** — formalise the
-  movement/controller/action runtime vocabulary in `architecture.md` §(f) and
-  sweep stale replay-era encodings. **Partly overtaken by events**: the controller
-  sublayer built 2026-07-22 realises the "controller layer" this handoff named.
-  Its remaining value is the architecture §(f) vocabulary block + the doc sweep.
+  movement/controller/action runtime vocabulary and sweep stale replay-era
+  encodings. **Largely discharged.** The controller sublayer built 2026-07-22
+  realised the controller layer it named, and the vocabulary block it asked for
+  landed in `architecture.md` §(f) on 2026-07-27, after the supervisor update
+  ratified the three-layer naming — including the overlay-not-renumber decision.
+  What survives is the *doc sweep* half: a fresh grep for replay-era and
+  rigid-layer residue across `docs/`, classified amend / banner / leave.
+- **`2026-07-23_l3_overlay_defence_section_brief.md`** — a drafting brief for the
+  outcome-overlay defence section. Still valid as a brief, and now partly
+  overtaken: S1 directs a literature-grounded revision of those same weights, so
+  draft the defence *after* the sensitivity study rather than before it.

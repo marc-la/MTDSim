@@ -1,11 +1,22 @@
 ---
 status: durable
 created: 2026-07-21
-updated: 2026-07-21
+updated: 2026-07-27
 topic: "L3 action layer — per-verb catalogue of the inherited attacker action set (pseudocode, time cost, branch outcome, precondition), plus the FSM/coupling/patchwork figures for supervisor use"
 ---
 
 # The inherited attacker action set — per-verb catalogue
+
+> **Under the S2 change freeze (2026-07-21).** The six verbs catalogued here are
+> fixed short-term: no action is added, removed, or split, and no attacker
+> ability or state joins them. Only **refinement and bug fixes** to the existing
+> code are licensed
+> ([`supervisor_decision_register.md`](supervisor_decision_register.md) §S2), so
+> this catalogue is the current *and* the near-term vocabulary — the controller
+> maps onto exactly these, or onto nothing (S4's dwell-only tactics). The
+> "structural limitations" and "reliance on preceding phases" sections below are
+> the honest statement of what that vocabulary cannot express; they are a
+> constraint to design around, not a to-do list.
 
 **Status:** durable. A **concise, code-faithful reference** to the six-verb action
 set as it stands (`SCAN_HOST`, `ENUM_HOST`, `SCAN_PORT`, `EXPLOIT_VULN`,
