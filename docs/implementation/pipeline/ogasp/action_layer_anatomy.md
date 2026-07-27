@@ -18,9 +18,15 @@ topic: "L3 action layer — anatomy of the inherited attack FSM (the 'before' st
 > how those gaps are handled — S4 makes an unmappable tactic a *dwell-only
 > tactic* rather than a missing capability. §6's hypotheses are unaffected and
 > were in fact borne out by experiment 1
-> ([`experiment_01_findings.md`](experiment_01_findings.md)). The licensed work is
-> scoped by
-> [`../../../handoffs/2026-07-27_action_layer_refinement_under_freeze.md`](../../../handoffs/2026-07-27_action_layer_refinement_under_freeze.md).
+> ([`experiment_01_findings.md`](experiment_01_findings.md)).
+>
+> **The licensed work has now run (2026-07-27).** The defect audit it scoped is
+> recorded in [`action_layer_audit.md`](action_layer_audit.md) — every verb and the
+> carve dispositioned bug / inherited divergence / by design, with the fixes taken
+> and, more consequentially, the fixes **deliberately declined** and why. This
+> record describes the machine; that one judges it. §4.2 below now carries the three
+> dispositions the audit settled: the give-up rule, the inert attempt cap, and the
+> confusion-penalty asymmetry between the two arms.
 
 **Status:** durable. The implementation-deep, **read-only** record of the inherited
 attack module *as it stands before any controller work* — the "before" state.
@@ -330,7 +336,7 @@ tuning them is uniform across the run unless a controller sets them per invocati
 | `ATTACK_DURATION` (per-verb times: `SCAN_HOST/ENUM_HOST/SCAN_NEIGHBOR = 5`, `SCAN_PORT = 25`, `EXPLOIT_VULN = 15`, `BRUTE_FORCE = 20`) | [`constants.py:140`](../../../../mtdnetwork/data/constants.py) | Set per-tactic tempo — a "slow, careful" profile lengthens recon/exploit times; a "fast" profile shortens them. This is the cleanest lever for the low-and-slow contrast the thesis needs. |
 | `PENALTY = 20` (the MTD confusion penalty, drawn `exponential_variates(PENALTY, 0.5)`) | `constants.py:147`, applied in `_handle_interrupt` | Model how badly a class is set back by a mutation. |
 | `ATTACKER_THRESHOLD = 10` (per-host give-up cap) | `constants.py:106` | Set a class's persistence — a patient class raises it. Caveat: the give-up it drives (`stop_attack`) only fires in the targeted network, and the target-node exception is already wired (§4.2). |
-| `HACKER_ATTACK_ATTEMPT_MULTIPLER = 5` (→ `max_attack_attempts = 5 × nodes`) | `constants.py:102`, read in `Adversary.__init__` | Global effort ceiling; currently the cap is computed but the enforcing block is commented out — see §4.2. |
+| `HACKER_ATTACK_ATTEMPT_MULTIPLER = 5` (→ `max_attack_attempts = 5 × nodes`) | `constants.py:102`, read in `Adversary.__init__` | Global effort ceiling; **inert** — the cap is computed and `curr_attempts` is incremented, but the single enforcing block (`attack_operation.py:276-278`, in `_do_enum_host`) is commented out. Settled 2026-07-27; see §4.2. |
 | `SERVICE_TOP_X_VULNS_TO_RETURN = 5`, `roa_threshold` | `constants.py:95`; reached via `curr_host.get_vulns(curr_ports)` | RoA selectivity of the exploit set. **Substrate-side** (host/service layer) — reachable through the seam but not owned by the action layer. |
 | `EXPLOIT_VULN` timing model (`exponential_variates(vuln.exploit_time(host), 0.5)`) | `_execute_exploit_vuln` | Per-vuln, CVSS/complexity-priced; a controller cannot re-price a vuln but can choose whether to enter `EXPLOIT_VULN` at all. |
 
@@ -355,25 +361,109 @@ future-work material (ch4 design constraints / ch6 future work).
   `SCAN_NEIGHBOR` instead of `EXPLOIT_VULN`, or make `EXPLOIT_VULN` retry instead of
   falling to `BRUTE_FORCE` — the branch is decided inside the core by a substrate test.
   Expressing a different policy requires the §3.3 carve.
-- **The give-up rule is only half-wired — flagged `verify`.** Two give-up mechanisms
-  exist, and neither is active in the general scenario. The per-host `stop_attack` list
-  is populated **only** in the targeted network (`network_type == 0`, non-target hosts);
-  in the general network (`network_type == 1`) no host is ever given up by this path. The
-  global `max_attack_attempts` ceiling is computed in `Adversary.__init__` but its
-  enforcement is commented out in both `_execute_enum_host` and `_exploit_vuln`. So a
-  general-scenario attacker, as inherited, does **not** honour Brown's "give up after 10"
-  (Table I). *Provenance (git):* both the `network_type == 0` give-up guard and the
+- **The give-up rule is unreachable, not merely inactive — `verify` resolved
+  2026-07-27.** Two give-up mechanisms exist, and neither can fire in any run this
+  repository can construct. The per-host `stop_attack` list is populated only when
+  `network.network_type == 0` (and the host is not the target node); the global
+  `max_attack_attempts` ceiling is computed in `Adversary.__init__` but its one
+  enforcement site is commented out. The audit settled three facts the earlier
+  wording left open:
+  1. **Both arms run the general network.** `baseline/run_baseline.py` and
+     `src/mtdsim/l3_simulation/movement/run.py` both build a `TimeNetwork`, which
+     inherits `Network`'s `network_type = 1`. Its `get_target_node()` is `None`, so
+     the target-node exemption is vacuous as well.
+  2. **`network_type == 0` is unreachable repo-wide.** `TargetNetwork` is never
+     instantiated anywhere in the codebase, and `network_type` is set to `0` only
+     inside its `copy_network`, which is never called. The targeted scenario is
+     dead code. So the rule is not "inactive in the scenario we happen to run" —
+     there is no reachable configuration in which it fires.
+  3. **The inactivity is consequential, not latent.** Across sampled cells
+     (no-MTD / simultaneous / random x seeds 0, 42, 1234) `stop_attack` is empty in
+     every one, while the per-host attempt counter *does* pass the threshold of 10:
+     on seed 42 no-MTD one host was enumerated **50 times**, with 6 hosts over the
+     bound and 99 attempts beyond it. Brown's Table I bound is being exceeded in
+     practice, not just unenforced in principle.
+
+  *Provenance (git):* both the `network_type == 0` give-up guard and the
   commented-out `max_attack_attempts` block entered in commit `33cb43c2` (moebuta,
-  2023-03-07) — a code-evolution change, absent from Brown's paper text. Marc's reading
-  (reported, 2026-07-16): the two scenarios are Brown's — Scenario 1 conquers the whole
-  network (`Network`, `network_type == 1`), Scenario 2 targets a high-value node
-  (`TargetNetwork`, `network_type == 0`) — and the give-up enforcement was likely
-  commented out by a downstream project. The commit date sits in the Brown→Zhang window,
-  before the Ho/Tay 2024 projects, so the *downstream-project* attribution is not
-  date-confirmed; whether the paper-vs-code give-up difference is intended remains an
-  inherited-vs-editorial disposition for Marc, recorded not resolved (guardrails: don't
-  guess a disposition, don't assert a paper wrong). A controller relying on the give-up
-  affordance in §4.1 must know it only bites in the targeted network today.
+  2023-03-07) — a code-evolution change, absent from Brown's paper text. Marc's
+  reading (reported, 2026-07-16): the two scenarios are Brown's — Scenario 1
+  conquers the whole network (`Network`, `network_type == 1`), Scenario 2 targets a
+  high-value node (`TargetNetwork`, `network_type == 0`) — and the give-up
+  enforcement was likely commented out by a downstream project. The commit date sits
+  in the Brown→Zhang window, before the Ho/Tay 2024 projects, so the
+  *downstream-project* attribution is not date-confirmed.
+
+  **Disposition: inherited divergence, recorded not fixed.** Activating the rule
+  changes every golden and is a re-baseline — Marc's call, its own changelog entry.
+  Whether the paper-vs-code difference was *intended* remains Marc's
+  inherited-vs-editorial call (guardrails: don't guess a disposition, don't assert a
+  paper wrong). What is no longer open is the *factual* question: it does not fire,
+  it cannot fire, and hosts exceed Brown's bound because of it. Pinned by
+  [`tests/test_action_layer_dispositions.py`](../../../../tests/test_action_layer_dispositions.py).
+  Consequences for the conformance spec's `ATK-07` row are folded into
+  [`../../mtdsim_spec.md`](../../mtdsim_spec.md).
+
+- **The MTD confusion penalty is paid by the native arm only — new, 2026-07-27.**
+  On the native path an interrupt is caught by `_execute_attack_action`, which
+  spawns `_handle_interrupt`; that applies an `exponential_variates(PENALTY = 20,
+  0.5)` draw of simulated time and *then* hard-codes the restart phase. On the
+  driven path `step()` has no interrupt handler, so the interrupt propagates to
+  `MovementAttacker._dispatch`, which reads it as a failure verdict and routes the
+  token. **`_handle_interrupt` never runs, so no penalty time is consumed.**
+  Measured over 15 ks runs under `simultaneous` MTD: the native arm entered
+  `_handle_interrupt` 96–124 times consuming **1 964–2 536** units of simulated
+  time (13–17 % of the horizon); the movement arm recorded 74–108 interrupt events
+  and consumed **0.0** — zero, in every profile and seed sampled.
+
+  The re-raise itself is deliberate and correct: `_handle_interrupt` also *dispatches
+  the next verb*, and running it behind the driver would re-impose the native
+  succession the carve exists to remove. What was not deliberate is that the penalty
+  left with it. **Disposition: a stated comparability limitation, not fixed here.**
+  The two arms do not pay the same price for the same defensive event, so any
+  cross-arm MTTC comparison must say so. The fix is **owned by S3**, which makes the
+  confusion penalty "replicable the same way — a place in the net carrying the same
+  base duration under the same stochastic regime"
+  ([`supervisor_decision_register.md`](supervisor_decision_register.md) §S3);
+  acting on it here would be a timing-semantics decision this audit is barred from
+  taking. Pinned, so that S3 landing turns the pin red, by
+  [`tests/test_action_layer_dispositions.py`](../../../../tests/test_action_layer_dispositions.py).
+- **The global attempt cap is inert, and deliberately left so — settled
+  2026-07-27.** `max_attack_attempts = 5 × total_nodes` (250 at the 50-node
+  geometry) is computed in `Adversary.__init__`, and `curr_attempts` is incremented
+  in `_do_exploit_vuln` (`attack_operation.py:386`). Its **one** enforcement site —
+  `attack_operation.py:276-278`, inside `_do_enum_host` — is commented out. (An
+  earlier revision of this record said the guard was commented out "in both
+  `_execute_enum_host` and `_exploit_vuln`"; there is only the one site. Corrected.)
+  The cap is genuinely overrun: the seeded no-MTD golden reaches `curr_attempts =
+  481` against a cap of 250, and every sampled MTD cell exceeds it (474–713).
+  **Disposition: inherited divergence, left inert.** It has a paper-free heuristic
+  origin (`ATK-08` — "inherited, not from any paper"), so there is no source to be
+  unfaithful *to*; and because it is exceeded roughly two-fold mid-run, restoring
+  the guard would truncate every run and break the 692/41 golden — a re-baseline,
+  which is Marc's call and its own changelog entry, never a side effect of an audit.
+  The ambiguity the handoff asked to remove is now removed: it stays inert, on
+  purpose, pinned by
+  [`tests/test_action_layer_dispositions.py`](../../../../tests/test_action_layer_dispositions.py).
+
+- **Three smaller divergences the audit surfaced (2026-07-27), recorded so §2 is
+  read with them in mind.** Full evidence in
+  [`action_layer_audit.md`](action_layer_audit.md) §1 (rows C1–C3).
+  1. **`attack_counter` counts *enumerations*, not attack attempts.** The increment
+     at `:268` precedes the already-compromised check at `:286`, so re-visiting an
+     owned host ticks the counter — 47 % of enumerations in the seeded golden do
+     exactly that. The give-up rule reads this counter as though it were attempts.
+     A semantic mismatch to parameterise, not to silently correct.
+  2. **`SCAN_NEIGHBOR`'s prepend is mostly inert.** Its docstring promises new
+     neighbours go "to the start of the host stack", but `_do_enum_host` re-sorts
+     the whole stack before popping, so the prepended head survives to be enumerated
+     next in only 28 % of cases. The distance-and-pivot sort is the real priority
+     function; the prepend is close to decorative.
+  3. **Half of `_set_next_pivot_host`'s work is immediately overwritten.** When the
+     enumerated host is already compromised, `update_compromise_progress` (`:493`)
+     overwrites the pivot it just computed — 48 of 102 enumerations in the golden
+     run. Redundant, harmless, by design.
+
 - **Substrate-side wants (out of boundary — D5).** Re-pricing a vulnerability,
   changing what `check_compromised` sums, or making credentials revocable are
   substrate-behavioural and fall outside the attacker-only boundary; named here,
