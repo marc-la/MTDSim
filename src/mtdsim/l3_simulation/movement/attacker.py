@@ -222,6 +222,22 @@ class MovementAttacker:
             dwell = float(self.dwell.get(place, 0.0))
             start_time = self.env.now
 
+            # Announce the verb the token is about to fire, BEFORE the dwell.
+            #
+            # The defender decides whether an application-layer mutation interrupts
+            # by reading the adversary's curr_process (mtd_operation._interrupt_
+            # adversary): it interrupts only the surface-dependent phases, per Brown
+            # B-INT-02 (a lost service connection blocks port-scanning and
+            # exploitation, but not host discovery). Left unset until step() ran,
+            # curr_process held the PREVIOUS verb for the whole dwell — and 88% of
+            # interrupt decisions are taken during a dwell, so the gate was routinely
+            # judging a verb that had already finished. It flipped 27% of
+            # application-layer decisions: interrupts missed while the token sat on a
+            # tactic about to exploit, and interrupts fired at one about to discover.
+            # The driver's own record already attributed the interrupt to `verb`, so
+            # the record and the gate disagreed.
+            self.adversary.set_curr_process(verb)
+
             # The dwell is interruptible: an MTD mutation while the token sits at
             # a place, before its verb dispatches, reads as a failure at that
             # place (same interrupt-as-failure feedback as a verb interrupt).
@@ -242,7 +258,7 @@ class MovementAttacker:
 
             if dwell_interrupted:
                 outcome_tag, verdict, interrupted, blocked, interrupted_by = (
-                    self._read_interrupt(verb, None)
+                    yield from self._read_interrupt(verb, None)
                 )
             else:
                 outcome_tag, verdict, interrupted, blocked, interrupted_by = (
@@ -320,16 +336,30 @@ class MovementAttacker:
         # step() as simpy.Interrupt (the carve's driven=True re-raise), caught
         # above. Read it as an interrupt-halt failure and let the overlay route.
         if interrupted:
-            return self._read_interrupt(verb, outcome)
+            return (yield from self._read_interrupt(verb, outcome))
 
         verdict = self.verdict_of(verb, outcome, False)
         return _outcome_tag(outcome), verdict, False, False, ""
 
     def _read_interrupt(self, verb: str, outcome: Any):
-        """Build the interrupt result tuple: read the interrupting MTD's resource
-        type (record enrichment), clear it, and read the interrupt as a failure
-        verdict via the injected adapter. Shared by the dwell-interrupt and the
-        verb-interrupt paths."""
+        """Handle an MTD interrupt: pay the substrate's price for being blocked, read
+        the interrupting MTD's resource type (record enrichment), clear it, and read
+        the interrupt as a failure verdict via the injected adapter. Shared by the
+        dwell-interrupt and the verb-interrupt paths.
+
+        **Pays the confusion penalty** (Brown B-ATK-07, §V-A: a time penalty applies
+        *whenever* an attacker is blocked by an MTD) by consuming the substrate's own
+        ``apply_mtd_interrupt_cost`` — which also clears the host cursor on a
+        network-layer mutation, because B-INT-01 says that connection is gone. The
+        driver does not fork either semantics; it consumes them, exactly as it
+        consumes ``step``. What it keeps is *succession*: the native FSM would force a
+        re-scan here, whereas this driver reads a failure verdict and lets the overlay
+        route — the carve's whole purpose.
+
+        Before this, the driven arm consumed **no** penalty and kept exploiting a host
+        it had just lost, so MTD was materially cheaper for the movement attacker than
+        for the baseline it is compared against.
+        """
         interrupted_by = ""
         mtd = getattr(self.attack_op, "_interrupted_mtd", None)
         if mtd is not None:
@@ -337,6 +367,8 @@ class MovementAttacker:
                 interrupted_by = mtd.get_resource_type()
             except Exception:  # noqa: BLE001 - record enrichment only
                 interrupted_by = ""
+        yield from self.attack_op.apply_mtd_interrupt_cost(mtd)
+        if mtd is not None:
             self.attack_op.set_interrupted_mtd(None)
         verdict = self.verdict_of(verb, outcome, True)
         return _MTD_INTERRUPT, verdict, True, False, interrupted_by

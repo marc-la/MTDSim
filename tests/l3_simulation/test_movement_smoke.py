@@ -112,17 +112,76 @@ def test_g1_native_no_mtd_golden_headline_unperturbed() -> None:
     assert len(adversary.get_compromised_hosts()) == 41
 
 
-# --- G6: boundary audit -----------------------------------------------------
-def test_g6_no_behavioural_change_under_substrate_boundary() -> None:
-    """git diff shows no change under the attacker-only boundary (D5): the
-    movement layer touches neither mtdnetwork/component nor mtdnetwork/mtdai."""
-    try:
-        proc = subprocess.run(
-            ["git", "diff", "--name-only", "HEAD", "--",
-             "mtdnetwork/component", "mtdnetwork/mtdai"],
-            cwd=REPO_ROOT, capture_output=True, text=True, check=True,
-        )
-    except (FileNotFoundError, subprocess.CalledProcessError):
-        pytest.skip("git not available for the boundary audit")
-    changed = [line for line in proc.stdout.splitlines() if line.strip()]
-    assert changed == [], f"boundary violated — changed under D5: {changed}"
+# --- G6: the action-set freeze, as a structural invariant -------------------
+#
+# This replaced a git-diff check that asserted nothing under `mtdnetwork/component`
+# or `mtdnetwork/mtdai` had changed. That guard was doubly wrong. Mechanically it
+# compared the *working tree* against HEAD, so it passed the moment a change was
+# committed — it could only ever catch uncommitted edits. And substantively it
+# guarded the wrong thing: the S2 freeze is on **adapting the attacker's phases and
+# verbs to the experiments**, not on repairing defects in the inherited simulator.
+# Verified bug fixes under `mtdnetwork/` are sanctioned (supervisor, 2026-07-27); a
+# seventh verb, a new attacker state, or a re-timed phase is not.
+#
+# So the invariant is asserted structurally instead, which holds regardless of what
+# is committed.
+
+# The six inherited verbs — the whole attacker vocabulary (S2).
+_FROZEN_ACTION_SET = frozenset({
+    "SCAN_HOST", "ENUM_HOST", "SCAN_PORT",
+    "EXPLOIT_VULN", "BRUTE_FORCE", "SCAN_NEIGHBOR",
+})
+
+# The adversary's state fields. A new one means a new attacker ability, which is
+# exactly what the freeze forbids.
+_FROZEN_ADVERSARY_STATE = frozenset({
+    "network", "_compromised_users", "_compromised_hosts", "_host_stack",
+    "_attack_counter", "_stop_attack", "_attack_threshold", "_pivot_host_id",
+    "_curr_host_id", "curr_host", "_curr_ports", "_curr_vulns",
+    "_max_attack_attempts", "_curr_attempts", "target_compromised",
+    "observed_changes", "_attack_stats", "_curr_process",
+})
+
+
+def test_g6_action_set_is_frozen() -> None:
+    """S2: no attacker action added, removed, split or altered, and no new
+    attacker state — asserted against the code, not against a git diff."""
+    from mtdnetwork.data.constants import ATTACK_DURATION
+
+    # One executable core per verb, and no more. (Names are not asserted against the
+    # verb strings: the SCAN_NEIGHBOR core is spelled `_do_scan_neighbors`.)
+    cores = {name for name in dir(AttackOperation) if name.startswith("_do_")}
+    assert len(cores) == len(_FROZEN_ACTION_SET), (
+        f"the attacker gained or lost an executable core (S2 freeze): {sorted(cores)}"
+    )
+
+    # Every verb is priced, and nothing else is (PENALTY is a cost, not a verb).
+    priced = set(ATTACK_DURATION) - {"PENALTY"}
+    assert priced == _FROZEN_ACTION_SET, (
+        f"ATTACK_DURATION no longer prices exactly the six verbs: "
+        f"{priced ^ _FROZEN_ACTION_SET}"
+    )
+
+    # proceed_attack still dispatches the same vocabulary and no more.
+    import inspect
+    import re
+
+    source = inspect.getsource(AttackOperation.proceed_attack)
+    dispatched = set(re.findall(r"get_curr_process\(\) == '([A-Z_]+)'", source))
+    assert dispatched == _FROZEN_ACTION_SET, (
+        f"proceed_attack dispatches a different vocabulary: "
+        f"{dispatched ^ _FROZEN_ACTION_SET}"
+    )
+
+
+def test_g6_no_new_attacker_state() -> None:
+    """S2: the adversary carries no state field beyond the inherited set."""
+    random.seed(1234)
+    np.random.seed(1234)
+    network = TimeNetwork(**GEOMETRY)
+    adversary = Adversary(network=network, attack_threshold=ATTACKER_THRESHOLD)
+
+    fields = {k for k in vars(adversary) if not k.startswith("__")}
+    assert fields == _FROZEN_ADVERSARY_STATE, (
+        f"attacker state changed (S2 freeze): {fields ^ _FROZEN_ADVERSARY_STATE}"
+    )
