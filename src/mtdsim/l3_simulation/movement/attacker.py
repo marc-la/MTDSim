@@ -56,7 +56,11 @@ from typing import Any, Callable, Protocol
 
 import simpy
 
-from mtdnetwork.operation.attack_operation import ActionContextError
+from mtdnetwork.operation.attack_operation import (
+    EXPLOIT_HALTED,
+    STEP_ABORTED,
+    ActionContextError,
+)
 
 Verdict = str  # "success" | "failure" (binary outcome only, M2)
 
@@ -108,9 +112,13 @@ class MovementRecord:
     interrupted: bool  # an MTD interrupt halted the verb
     blocked: bool  # the verb's precondition was unmet (PRECONDITION_UNMET)
     next_place: str | None  # the sampled next place, or None (stall / sink / terminal)
-    start_time: float  # sim time the event began (after dwell)
+    start_time: float  # sim time the event began (BEFORE the dwell)
     end_time: float  # sim time the event finished
-    dwell: float  # the D4 dwell consumed before dispatch
+    # The dwell actually CONSUMED at this place, which is the catalogue value except
+    # when an MTD interrupt cut the dwell short — then it is the partial time served.
+    # (`end_time - start_time - dwell` is therefore the verb's own time cost, and is
+    # never negative; it is 0 for a blocked or dwell-interrupted event.)
+    dwell: float
     interrupted_by: str  # MTD resource type, or "" — record enrichment only
 
 
@@ -223,6 +231,10 @@ class MovementAttacker:
                     yield self.env.timeout(dwell)
             except simpy.Interrupt:
                 dwell_interrupted = True
+                # The interrupt cut the dwell short, so the catalogue value was NOT
+                # consumed. Record what was actually served, or the record asserts
+                # more elapsed time than the event occupied.
+                dwell = self.env.now - start_time
             if self.end_event.triggered:
                 self._emit_terminal(place, step_index, _SIM_END, verb=verb,
                                     dwell=dwell, start_time=start_time)
@@ -290,10 +302,18 @@ class MovementAttacker:
             interrupted = True
             outcome = None
 
-        if not interrupted and self.end_event.triggered:
-            # step() aborts (returns None) when the sim ends mid-verb. For
-            # EXPLOIT_VULN this is the sim-end EXPLOIT_HALTED path (not an
+        if not interrupted and (outcome is STEP_ABORTED or outcome == EXPLOIT_HALTED):
+            # The sim ended DURING the verb, so it never acted: step() returns the
+            # STEP_ABORTED sentinel, or EXPLOIT_HALTED on the exploit path (not an
             # interrupt — that re-raises now that step() drives it driven=True).
+            #
+            # This must be read off the OUTCOME, not off end_event.triggered. Three
+            # cores (_do_exploit_vuln, _do_scan_port, _do_brute_force) call
+            # update_compromise_progress, which fires end_event when the objective is
+            # met — so a verb that ran and *succeeded* leaves end_event triggered.
+            # Inferring the abort from that flag discarded exactly the compromise that
+            # completed the run, leaving ASR scoring it a success while MTTC dropped it
+            # for having no compromise event.
             return _SIM_END, "", False, False, ""
 
         # Every verb — EXPLOIT_VULN included — propagates an MTD interrupt out of
