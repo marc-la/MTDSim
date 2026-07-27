@@ -27,19 +27,37 @@ class Adversary:
 
     def swap_hosts_in_compromised_hosts(self, host_id, other_host_id):
         """
-        update compromised host ids for hosttopology shuffle
+        Update the adversary's host-id-keyed state for a host-topology shuffle.
+
+        `HostTopologyShuffle` swaps two `Host` instances between node ids, so every
+        piece of adversary state keyed by host id has to move with them. Only
+        `_compromised_hosts` was remapped, leaving `_pivot_host_id`, `_host_stack`,
+        `_stop_attack` and `_attack_counter` pointing at whatever now occupies those
+        ids — the adversary kept pivoting through a host it no longer owned, queued
+        the wrong targets, and carried another host's attempt count and give-up
+        status. (Observed: 20 of 38 shuffles left the pivot on a host absent from
+        `compromised_hosts`.) The strategy is commented out of the default set, so
+        this was latent rather than active.
         """
-        new_compromised_hosts = []
-
-        for i in self._compromised_hosts:
+        def swapped(i):
             if i == host_id:
-                new_compromised_hosts.append(other_host_id)
-            elif i == other_host_id:
-                new_compromised_hosts.append(host_id)
-            else:
-                new_compromised_hosts.append(i)
+                return other_host_id
+            if i == other_host_id:
+                return host_id
+            return i
 
-        self._compromised_hosts = new_compromised_hosts
+        self._compromised_hosts = [swapped(i) for i in self._compromised_hosts]
+        self._host_stack = [swapped(i) for i in self._host_stack]
+        self._stop_attack = [swapped(i) for i in self._stop_attack]
+        self._pivot_host_id = swapped(self._pivot_host_id)
+        self._curr_host_id = swapped(self._curr_host_id)
+
+        # The attempt counter is indexed by host id, so the two entries swap too.
+        counter = self._attack_counter
+        if 0 <= host_id < len(counter) and 0 <= other_host_id < len(counter):
+            counter[host_id], counter[other_host_id] = (
+                counter[other_host_id], counter[host_id],
+            )
 
     def get_compromised_hosts(self):
         return self._compromised_hosts

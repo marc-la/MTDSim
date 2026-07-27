@@ -288,9 +288,17 @@ class Host:
             ignore_services:
                 a list of service IDs that will be ignored
         """
-        discovered_service_ports = discovered_service_ports + self.exposed_endpoints
         exposed_services = self.get_services()
         port_numbers = nx.get_node_attributes(self.graph, "port")
+        # `exposed_endpoints` holds service-graph node IDs, but this list is compared
+        # against PORT numbers below — concatenating the raw IDs was a type confusion
+        # that could mark a service "discovered" without it having been scanned,
+        # whenever its port number happened to coincide with an exposed-endpoint ID
+        # (HOST_PORT_RANGE starts at 1, so the ranges do overlap). Map IDs to the
+        # ports they actually expose.
+        discovered_service_ports = discovered_service_ports + [
+            port_numbers[service_id] for service_id in self.exposed_endpoints
+        ]
         shortest_path_to_target = dict(nx.single_target_shortest_path_length(
             self.graph,
             self.target_node

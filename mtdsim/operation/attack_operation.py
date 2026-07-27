@@ -170,14 +170,23 @@ class AttackOperation:
         visible_network = network.get_hacker_visible_graph()
         # scan_time = constants.NETWORK_HOST_DISCOVER_TIME * visible_network.number_of_nodes()
         uncompromised_hosts = []
-        # Add every uncompromised host that is reachable and is not an exposed or compromised host
+        # Add every uncompromised host that is reachable and is not an exposed or compromised host.
+        # De-duplicated: a host adjacent to k compromised hosts was previously queued k
+        # times, and _execute_enum_host ticks the per-host attempt counter once per pop —
+        # so a single scan could burn a host's entire give-up budget (multiplicities up
+        # to 10 observed under MTD) without the adversary attacking it any more often.
+        # The exposed-endpoint append below and _execute_scan_neighbors' merge both
+        # already de-duplicate; this loop was the outlier.
+        seen = set()
         for c_host in compromised_hosts:
-            uncompromised_hosts = uncompromised_hosts + [
-                neighbor
-                for neighbor in network.graph.neighbors(c_host)
-                if neighbor not in compromised_hosts and neighbor not in network.exposed_endpoints and
-                   len(network.get_path_from_exposed(neighbor, graph=visible_network)[0]) > 0
-            ]
+            for neighbor in network.graph.neighbors(c_host):
+                if neighbor in seen or neighbor in compromised_hosts:
+                    continue
+                if neighbor in network.exposed_endpoints:
+                    continue
+                if len(network.get_path_from_exposed(neighbor, graph=visible_network)[0]) > 0:
+                    seen.add(neighbor)
+                    uncompromised_hosts.append(neighbor)
 
         # Add random element from 0 to 1 so the scan does not return the same order of hosts each time for the hacker
         uncompromised_hosts = sorted(
@@ -216,12 +225,26 @@ class AttackOperation:
         ))
         adversary.set_curr_host_id(adversary.get_host_stack().pop(0))
         adversary.set_curr_host(network.get_host(adversary.get_curr_host_id()))
-        # Sets node as unattackable if has been attack too many times
+        # Sets node as unattackable if it has been attacked too many times.
+        #
+        # Brown 2023 (§III-C(2), Table I; §V-C): give up on a host after 10 failed
+        # attempts in Scenario 1 (the general attack), and NEVER give up on the target
+        # node in Scenario 2 (the targeted attack). The guard here previously read
+        # `curr_host_id != target_node and network_type == 0`, which inverted that: it
+        # applied the give-up rule ONLY in the targeted network and never in the
+        # general one — so in every scenario built from `Network`/`TimeNetwork`
+        # (network_type 1) no host was ever given up, and hosts were observed being
+        # re-enumerated up to 50 times against Brown's bound of 10.
+        #
+        # Restored to Brown's polarity: give up on any host that hits the threshold,
+        # unless it is the target node of a targeted network.
         adversary.get_attack_counter()[adversary.get_curr_host_id()] += 1
         if adversary.get_attack_counter()[
-            adversary.get_curr_host_id()] == adversary.get_attack_threshold():
-            # target node feature
-            if adversary.get_curr_host_id() != network.get_target_node() and network.network_type == 0:
+                adversary.get_curr_host_id()] >= adversary.get_attack_threshold():
+            is_protected_target = (network.network_type == 0 and
+                                   adversary.get_curr_host_id() == network.get_target_node())
+            if not is_protected_target and \
+                    adversary.get_curr_host_id() not in adversary.get_stop_attack():
                 adversary.get_stop_attack().append(adversary.get_curr_host_id())
 
         # Checks if max attack attempts has been reached, empty stacks if reached
@@ -292,6 +315,19 @@ class AttackOperation:
             vuln.network(host=adversary.get_curr_host())
             # cumulative vulnerability exploitation attempts
             adversary.set_curr_attempts(adversary.get_curr_attempts() + 1)
+        if not vulns:
+            # No vulnerabilities to try, so the loop above appended nothing — yet
+            # check_compromised() below can still return True (the host's services
+            # may already be over threshold), and update_compromise_progress
+            # back-patches the LAST record. Without a row of its own, the compromise
+            # was stamped onto the preceding SCAN_PORT row — asserting a compromise
+            # for a SCAN_PORT that had explicitly failed its credential-reuse check,
+            # since EXPLOIT_VULN is only reached when SCAN_PORT found no reuse.
+            # Record the phase (zero duration: nothing was attempted) so every
+            # dispatched verb owns exactly one row and the back-patch is correct.
+            now = self.env.now + self._proceed_time
+            self.adversary.get_attack_stats().append_attack_operation_record(
+                self.adversary.get_curr_process(), now, now, self.adversary)
         if adversary.get_curr_host().check_compromised():
             for vuln in adversary.get_curr_vulns():
                 if vuln.is_exploited():
@@ -328,11 +364,20 @@ class AttackOperation:
         Puts the new neighbors discovered to the start of the host stack.
         """
         adversary = self.adversary
-        found_neighbors = adversary.get_curr_host().discover_neighbors()
+        stop_attack = adversary.get_stop_attack()
+        # Hosts the adversary has given up on stay given up. _execute_scan_host filters
+        # `stop_attack` when it builds the queue, but this verb prepended raw discovery
+        # output straight back onto the stack — so a blacklisted host re-entered the
+        # queue and was attacked again, defeating the give-up rule from a sibling verb.
+        found_neighbors = [
+            node_id
+            for node_id in adversary.get_curr_host().discover_neighbors()
+            if node_id not in stop_attack
+        ]
         new__host_stack = found_neighbors + [
             node_id
             for node_id in adversary.get_host_stack()
-            if node_id not in found_neighbors
+            if node_id not in found_neighbors and node_id not in stop_attack
         ]
         adversary.set_host_stack(new__host_stack)
         self._enum_host()

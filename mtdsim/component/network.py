@@ -919,6 +919,21 @@ class Network:
         """
         ip_addresses = []
 
+        # `gen_graph` has a node floor (min nodes per subnet x the generated subnet
+        # layout) that can exceed `total_nodes`, but this loop ran over
+        # `self.nodes` = range(total_nodes) — leaving the surplus graph nodes with no
+        # `host` attribute at all. `get_host` then returned None for them and the
+        # attacker died dereferencing it (e.g. `curr_host.compromised` in
+        # `_do_enum_host`). Since `TimeNetwork.__init__` clamps total_nodes UP to
+        # 2 x total_subnets, any request below that floor landed in the broken band.
+        # Reconcile the node list to the graph so the docstring above is true.
+        # No-op whenever the graph and total_nodes already agree, which is the case
+        # for every geometry the experiments use.
+        surplus = [n for n in self.graph.nodes() if n not in set(self.nodes)]
+        if surplus:
+            self.nodes = list(self.nodes) + sorted(surplus)
+            self.total_nodes = len(self.nodes)
+
         for host_id in self.nodes:
             node_os = Host.get_random_os()
             node_os_version = Host.get_random_os_version(node_os)
