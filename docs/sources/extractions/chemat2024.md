@@ -83,6 +83,44 @@ reading it as timing).
 
 ---
 
+### Table 4 — the CKC-derivative model family and its three-part skeleton (added 2026-07-27 for the S1 consensus overlay)
+
+**Source locator:** §Discussion "Multi-stage attack behavior", Table 4 and its
+prose (source markdown lines 289–291, 325; print pp. 12–13). The table parse
+in the markdown is column-garbled; the **prose** is clean and carries the
+load-bearing claims.
+
+**Paraphrase:** The review tabulates eight published attack models — the
+Lockheed Martin Cyber Kill Chain (2011) plus SDAPT, Dell SecureWorks (2012),
+LogRhythm, Mandiant (2013), MITRE ATT&CK, the Lancaster model, and the BSI
+model — and makes three structural claims. (1) The CKC "consists of an attack
+cycle of seven steps" and "is the primary inspiration for other attack
+models", which have "a cycle of attack comparable to that of the cyber kill
+chain, with only slight variations in the titles and the number of phases".
+(2) The whole family "can be divided into three parts": a first part
+(generally the first two or three phases) covering the actions that gain a
+foothold in the network; a second part covering the steps to gain remote
+access; and a third part covering the attacker's ultimate goals (data theft
+or disruption), "which often occurs in the final two phases". (3) The models
+are ordered-phase idealisations: "an attack may not explicitly follow all the
+phases of the attack model", which the review develops into the Stuxnet/C&C
+caveat extracted below. The CKC column of Table 4 is legible in the parse
+(Reconnaissance, Weaponization, Delivery, Exploitation, Installation, Command
+and Control, Actions on objective); the derivative models' per-phase columns
+are `[parse-uncertain]` and are **not** extracted cell-by-cell.
+
+**Maps to:** [`../../implementation/pipeline/ogasp/lifecycle_consensus.md`](../../implementation/pipeline/ogasp/lifecycle_consensus.md)
+(model L5 — the family-level skeleton is itself a published consensus
+statement over six-plus lifecycles, which is exactly the overlay-and-take-
+consensus operation the S1 ruling directs, performed in the literature).
+
+**Disposition for this thesis:** verified [fetched] for the prose claims;
+the derivative models' individual phase enumerations remain `[parse-uncertain]`
+and would need the PDF (or the primaries) if a per-model claim is ever
+load-bearing.
+
+---
+
 ### The C&C-optionality caveat — attack models break on Stuxnet
 
 **Source locator:** §Discussion "Multi-stage attack behavior" (Table 4

@@ -1,7 +1,7 @@
 # Alshamrani 2019 — extraction notes
 
 > A. Alshamrani, S. Myneni, A. Chowdhary, D. Huang. "A Survey on Advanced Persistent Threats: Techniques, Solutions, Challenges, and Research Opportunities." *IEEE Communications Surveys & Tutorials*, vol. 21, no. 2, pp. 1851–1877, 2019.
-> Source file: `docs/sources/2_3_alshamrani2019survey.md` (gitignored).
+> Source file: `docs/sources/lit_review/2_3_alshamrani2019survey.md` (gitignored; path corrected 2026-07-27 — the extraction previously pointed at the pre-refactor top-level location).
 > Relevance to this thesis: defining survey of APTs (lit review §III-C) — three-property framing (advanced / persistent / threat), five-phase lifecycle (reconnaissance → foothold → lateral movement → exfiltration-or-impediment → cleanup), commodity-vs-APT contrast.
 
 ## Bibliographic anchor
@@ -56,6 +56,46 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 **Maps to:** [`../specs/architecture.md`](../../implementation/architecture.md) §(f) L3 OGASP — the inherited 6-phase attacker module ([`../../mtdnetwork/component/adversary.py`](../../../mtdnetwork/component/adversary.py)) is the substrate's procedural baseline for this lifecycle; the graph-driven attacker that traverses GASP within MTDSim is the design intent for encoding the objective-conditioned suffix. Also maps to [`../specs/architecture.md`](../../implementation/architecture.md) §(e) — the motivation-subgraphing transformation at L2 is the structural correlate of Alshamrani's "stages 3–5 are objective-conditioned" claim: different motivations select different terminal regions of the underlying GAP.
 
 **Disposition for this thesis:** *adopted-as-baseline.* The lifecycle frames the lit review's APT adversary class and is the conceptual ancestor of both the 6-phase substrate attacker (procedural baseline) and the L2 GASP motivation-conditioned subgraph (behavioural-fidelity target). The dissertation does not implement Alshamrani's five phases directly — the substrate inherits a six-phase enumeration, and the GASP traversal will resolve to ATT&CK technique-level granularity rather than phase-level — but the load-bearing structural claim (invariant prefix, objective-conditioned suffix) is preserved.
+
+---
+
+### The consolidated lifecycles — Mandiant's seven stages and Ussath's three (secondary channel; added 2026-07-27 for the S1 consensus overlay)
+
+**Source locator:** §II-C "APT Attack Model: How APT Attacks Are Made?",
+p. 1854 (source markdown lines 87–89). Alshamrani is the **channel**, not the
+primary source: Mandiant's model is the paper's ref [1] (D. McWhorter, *APT1:
+Exposing One of China's Cyber Espionage Units*, Mandiant, 2013); Ussath's is
+ref [7] (M. Ussath, D. Jaeger, F. Cheng, C. Meinel, "Advanced persistent
+threats: Behind the scenes", *Proc. CISS 2016*, pp. 181–186).
+
+**Paraphrase:** Before presenting its own five-phase model, the paper records
+the two lifecycles it consolidates. **Mandiant's** APT attack life cycle has
+seven stages — Initial Compromise (1), Establish Foothold (2), Escalate
+Privileges (3), Internal Reconnaissance (4), Move Laterally (5), Maintain
+Presence (6), Complete Mission (7) — **"with stages 3 through 6 happening in
+any order"**. **Ussath's** three-stage model, focusing only on the
+representative characteristics of an APT attack, is Initial Compromise (1),
+Lateral Movement (2), Command & Control Activity (3). Alshamrani's own verdict
+on the model family: "all these attack models are similar in terms of the
+operations involved in APT attacks, they are either too generalized or too
+specific" — which is the paper's motivation for its own five stages.
+
+**Quote (essential — the any-order caveat is load-bearing for the consensus):**
+> "Mandiant has discussed it's APT attack life cycle model consisting of 7 stages - Initial Compromise (1), Establish Foothold (2), Escalate Privileges (3), Internal Reconnaissance (4), Move Laterally (5), Maintain Presence (6) and Complete Mission (7) with stages 3 through 6 happening in any order." (§II-C, p. 1854)
+
+**Maps to:** [`../../implementation/pipeline/ogasp/lifecycle_consensus.md`](../../implementation/pipeline/ogasp/lifecycle_consensus.md)
+(models L3 and L4). The any-order caveat is the strongest direct evidence that
+the post-foothold middle of the campaign is only weakly ordered — it is what
+stops the consensus asserting a finer-than-stage ordering there.
+
+**Disposition for this thesis:** *adopted-as-evidence via secondary channel.*
+The stage names and the any-order caveat are used exactly as Alshamrani
+reports them; neither primary has been read. Flags: (a) the Mandiant APT1
+report's own lifecycle figure is commonly depicted with an initial
+reconnaissance stage that this seven-stage listing omits — `verify` against
+the primary if it is ever acquired (Marc's to-download list); (b) any mapping
+cell that needs more than the stage *name* (e.g. what "Establish Foothold"
+contains) is interpretive and flagged `verify` in the consensus record.
 
 ---
 

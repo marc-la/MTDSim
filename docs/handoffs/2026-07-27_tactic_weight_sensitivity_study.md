@@ -128,9 +128,13 @@ Done when:
 
 ## Reading list
 
-- The consensus artefact produced by
-  [`./2026-07-27_lifecycle_consensus_overlay.md`](./2026-07-27_lifecycle_consensus_overlay.md)
-  — the input this folds in.
+- The consensus artefact — **landed 2026-07-27** (its handoff is deleted):
+  [`../implementation/pipeline/ogasp/lifecycle_consensus.md`](../implementation/pipeline/ogasp/lifecycle_consensus.md)
+  and `data/ogasp/controller/lifecycle_consensus.json` — the input this folds
+  in. §5 of the record names the fold-in's first decision (whether the
+  `relationship` term is recomputed from the consensus stages or kept on the
+  five bands with distance added separately), and §7 fixes the sweep set to
+  `γ`, `δ`, `z` only.
 - [`../implementation/pipeline/ogasp/success_failure_overlay_design.md`](../implementation/pipeline/ogasp/success_failure_overlay_design.md)
   §1 (composition), §2 (the value model and its caveats), §2.6 (what S1 changes).
 - [`../implementation/declared_value_provenance.md`](../implementation/declared_value_provenance.md)
