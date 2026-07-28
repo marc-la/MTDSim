@@ -1,9 +1,12 @@
 # The open chain — dependency order, 2026-07-28
 
 `ls docs/handoffs/` is the inventory of open work; this file carries only the
-thing a directory listing cannot — **what depends on what**. Both open
-handoffs execute the post-experiment-1 supervisor rulings
+thing a directory listing cannot — **what depends on what**. Waves 1–4 execute
+the post-experiment-1 supervisor rulings
 (`docs/implementation/pipeline/ogasp/supervisor_decision_register.md` §S1–S6).
+**Wave 5 executes the criterion those rulings produced** — it works axis by axis
+through `docs/implementation/apt_model_criterion.md`, moving what can honestly be
+moved and ruling out what cannot.
 Delete a handoff in the commit that ships its work, and prune its line here in
 the same commit. *(Shipped from this chain: the S6 criterion — now
 `docs/implementation/apt_model_criterion.md`, on the read-first list; the S1
@@ -111,12 +114,65 @@ target.)*
 8. `2026-07-27_sink_retrace_experiment2.md` (**S5** + the comparative run) — its
    design half is **unblocked**; its *run* should consume the two shipped wave-3 studies or it will need
    repeating, and must name **both** its declared inputs at its own seam:
-   `v2_partial` as its mapping version and `v2_lifecycle_distance` as its overlay
+   `v2_partial` as its mapping version and — **corrected 2026-07-28** —
+   `v3_persistent_backward` as its overlay version, not `v2_lifecycle_distance`.
+   The handoff body and the wave-3 note above both predate Marc's persistence
+   ruling; the weight study §3b is the later statement and v3 is the go-forward
    version. It now also
    runs on the stochastic timing regime, so its elapsed-time results carry the
    behavioural tempo and must be reported under the shape-not-scale discipline —
    a ranking that survives the sweep is a result, a magnitude is a parameter
    choice. Carries the full defence-family sweep the first experiment deferred.
+   Two further inheritances, both from wave 5: it must **choose its mutation
+   interval deliberately** rather than inherit 200 s (which the rate study placed
+   inside a degenerate region where ASR cannot discriminate), and its run should
+   carry the arms and reporting in (10) below rather than being repeated for them.
+
+**Wave 5 — the criterion, axis by axis.** Eight axes are scored in
+`docs/implementation/apt_model_criterion.md`; four of them can move on evidence,
+two need a new mechanism, one needs a ruling, and one is now ruled out. These
+seven handoffs allocate that work. (9) and (11) are the two foundations and
+unblock most of the rest; (14) is independent of everything.
+
+9. `2026-07-28_axis_measurement_suite.md` — the M8b measurements the criterion's
+   claimed axes need, as a **reader** over the movement records: progression,
+   traversal diversity, defender-response, and the cost ledger. No model change,
+   no ruling needed. **Blocks (10), supplies (12), and should land before (8)
+   runs**, because the run workspace is gitignored and a measurement not computed
+   at run time means re-running. Also owns the replacement for the saturated
+   lifecycle-depth measure.
+10. `2026-07-28_axis134_demonstration_arms.md` — pre-registers the badge criteria
+    for **persistence, strategic plurality and adaptivity**, and adds the
+    verdict-blind ablation arm that separates *reacts* from *adapts usefully*.
+    Needs (9); **folds into (8)'s run** rather than running its own matrix.
+11. `2026-07-28_attacker_state_seam.md` — the shared foundation for the three
+    axes that need a mutable attacker state: a movement-layer `AttackerState`
+    observed through the two Protocols the walk already injects, and a
+    generalised modulator composition whose null configuration is bit-identical
+    to today. **Blocks (12), (13) and the build half of (14).** Carries the
+    governance question common to all three — whether a movement-layer state
+    collides with the **S2** freeze on attacker states — which is Marc's to
+    confirm with the supervisor.
+12. `2026-07-28_axis7_learning_capability.md` — within-run knowledge that
+    reweights routing from what has worked, with knowledge perishing on MTD
+    mutation. Needs (11), consumes (9). **The highest-value item on this wave**:
+    it is the literature's sharpest named gap and the only axis whose
+    demonstration would move the model's fidelity placement off the procedural
+    rung. Also the candidate mitigation for experiment 1's friction failure mode.
+13. `2026-07-28_axis6_incentive_rationality.md` — a declared per-tactic benefit
+    against the already-declared duration as cost, entering routing as a
+    rationality exponent whose zero recovers today exactly. Needs (11), consumes
+    (9)'s cost ledger.
+14. `2026-07-28_axis5_stealth_conceptualisation.md` — **design only, and it ends
+    in a question.** Settles what stealth can mean on a substrate where detection
+    is culled by standing project direction. Can start immediately; its build
+    half needs (11) and a ruling from Marc. The one item on this chain whose
+    central question is not the assistant's to answer.
+15. `2026-07-28_criterion_maintenance_and_axis8_closure.md` — rules **MTD-scheme
+    awareness** out as future work rather than leaving it merely absent, and
+    discharges three fired re-score triggers and four stale cross-references in
+    the criterion. Documentation only, independent of everything, and worth doing
+    early because the criterion is loaded into every session.
 
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).
