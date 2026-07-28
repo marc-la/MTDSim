@@ -1,7 +1,27 @@
 ---
-status: open
+status: open — step 1 discharged 2026-07-28, the build remains
 created: 2026-07-27
+updated: 2026-07-28
 ---
+
+> **The mapping decision is made and ratified; the machinery is not built.**
+> Recommended-approach step 1 and validation-gate item 1 are discharged: all
+> fifteen tactics are decided on their merits with a written reason per row, eight
+> mapped and seven declared dwell-only, recorded in
+> [`../implementation/pipeline/ogasp/controller_mapping_v2.md`](../implementation/pipeline/ogasp/controller_mapping_v2.md)
+> with two at-a-glance figures (regenerable via
+> `data/misc/_viz/controller_mapping_v2_viz.py`; that directory is gitignored, so
+> the record is the tracked statement of what they draw).
+>
+> **Still open — gate items 2–6, and steps 4–5:** the versioned registry as data
+> plus its manifest, the loader selecting a version by name, the relaxed invariant
+> test-pinned, the dwell-only end-to-end smoke run, per-version determinism, and
+> the controller record promoted to describe version 2 as live. Nothing at runtime
+> reads version 2 yet — `data/ogasp/controller.csv`, the loader, and
+> `tests/l3_simulation/test_controller.py` all still carry version 1.
+>
+> **Do not re-derive the mapping.** It is a ratified decision; steps 1–3 below are
+> now background for the build, not work to repeat.
 
 # Rebuild the controller as a partial mapping — a tactic dispatches zero or one action, unmappable tactics become dwell-only, and every mapping tried is kept in a versioned registry with what it produced
 

@@ -23,11 +23,13 @@ now `docs/implementation/pipeline/ogasp/action_layer_audit.md`.)*
 
 **Wave 2 — open now.**
 
-4. `2026-07-27_controller_v2_partial_mapping.md` (**S4**) — after (3): the verb
-   audit tells you what is worth mapping to. Partial mapping, dwell-only tactics,
-   versioned mapping registry.
-5. `2026-07-27_stochastic_timing_design.md` (**S3**, planning half) — after (4):
-   needs the dwell-only tactic set. Design only, no code, deliberately.
+4. `2026-07-27_controller_v2_partial_mapping.md` (**S4**) — **partly discharged
+   2026-07-28.** The mapping itself is decided and ratified
+   (`../implementation/pipeline/ogasp/controller_mapping_v2.md`); what remains is
+   the build — registry, loader, relaxed invariant, dwell-only smoke run.
+5. `2026-07-27_stochastic_timing_design.md` (**S3**, planning half) — **unblocked**:
+   its input, the dwell-only tactic set, is now the seven declared rows in the
+   version-2 record. Design only, no code, deliberately.
 
 **Wave 3 — after wave 2.**
 
