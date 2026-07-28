@@ -469,13 +469,26 @@ Jalowski's three primitives separately:
   state (1a) makes it an explicit, swept dial (→ **DESIGNED**); and against the `mtd_ai`
   reactive defender (1b) the tempo becomes *consequential*, which is the path to
   **DEMONSTRATED** (§8, §9). Where it lands depends on Marc's ruling on 1(b).
-- **Axis 5b — evasion (detection-avoidance).** This half **cannot** be evidenced on
-  this substrate at any effort for the *movement attacker in general*, because most
-  defenders have nothing to evade. Ceiling: **NOT ADDRESSED**, and honestly so. Note the
-  one nuance 1(b) surfaces: against `mtd_ai` there is a thing to evade, but the
-  sanctioned mechanism is tempo-mediated (§2b) — the attacker is quieter, not
-  *evading* — so even 1(b) evidences the tempo half, not a modelled evasion behaviour.
-  5b stays NOT ADDRESSED.
+- **Axis 5b — evasion.** Two senses must be separated, and only one is truly
+  referent-less. *Detection-evasion* — hiding from an IDS/detector — has **no
+  referent**, because no such detector exists; even the reactive `mtd_ai` defender does
+  not create one, since the sanctioned coupling there is tempo-mediated (§2b: the
+  attacker is quieter, so it *starves* the defender's signal — it is not *evading*).
+  *MTD-evasion* — dodging or anticipating the mutations themselves to preserve
+  accumulated position — **does** have a referent on this substrate. But two precisions
+  keep it off axis 5. First, **the current low-and-slow attacker does not evade MTD; it
+  does the opposite**, maximising its exposure by being slow (§3: a stealthier attacker
+  eats *more* churn, not less) — it is a victim of the mutation schedule, not an evader
+  of it. Second, **deliberate MTD-evasion is a learned capability, not a tempo** —
+  timing actions around the mutation schedule, recognising a repeated post-shuffle
+  state, reading mutation frequency as a signal — which is attacker **learning** (axis 7,
+  "learns mutation patterns over time") and **MTD-scheme awareness** (axis 8, Jalowski's
+  three primitives). So evasion's referent is **not absent, it is relocated** to axes 7
+  and 8, where it is already scored NOT ADDRESSED / future work (axis 8 has its own
+  closure handoff). Axis 5b therefore stays **NOT ADDRESSED**, and the honest reason is
+  not "nothing to evade" but *"the thing you would evade is defeated only by the
+  learning / scheme-aware attacker the other axes own"* — which is also what stops
+  axis 5 quietly annexing the smart-attacker work that belongs to 7 and 8.
 
 This is a **proposal for how to score the axis, put to Marc with the evidence** — not a
 unilateral badge move. Writing it down before building is what stops the tempo half
