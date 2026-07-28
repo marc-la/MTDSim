@@ -82,6 +82,10 @@ _ANSI = {
     "MUTATION": "\033[38;5;51m",     # cyan — the network changing shape
     "INTERRUPT": "\033[1;38;5;214m",  # bold amber — the defence scoring
     "NETWORK": "\033[38;5;108m",     # green — the terrain
+    # The two movement-layer actors (emitted only by the L3 unified trace,
+    # mtdsim.l3_simulation.trace — kept here so the whole family shares one palette).
+    "TOKEN": "\033[38;5;177m",       # orchid — the net-walker moving
+    "CONTROLLER": "\033[38;5;179m",  # tan — the dispatch/verdict/routing decisions
     "dim": "\033[2m",
     "bold": "\033[1m",
     "reset": "\033[0m",
@@ -316,13 +320,15 @@ def _install(tracer: Tracer, attack_op, mtd_op) -> list:
             patch(cls, "mtd_operation", mutate)
 
     def suspend(orig):
-        def w(self_mo, mtd):
+        # The parameter name must match the substrate's (mtd_strategy): the
+        # scheme is called both positionally and by keyword.
+        def w(self_scheme, mtd_strategy):
             tracer.mtd_suspended += 1
             tracer.emit("DEFENDER",
-                        f"SUSPEND        {mtd.get_name()} held back — "
-                        f"{mtd.get_resource_type()} layer already busy",
+                        f"SUSPEND        {mtd_strategy.get_name()} held back — "
+                        f"{mtd_strategy.get_resource_type()} layer already busy",
                         "the defence cannot run two mutations on one resource")
-            return orig(self_mo, mtd)
+            return orig(self_scheme, mtd_strategy)
         return w
 
     scheme = getattr(mtd_op, "_mtd_scheme", None) if mtd_op else None

@@ -31,7 +31,7 @@ Everything in `docs/` feeds one of two consumers: **the dissertation** ([`docs/t
 - [`docs/implementation/mtdsim_spec.md`](docs/implementation/mtdsim_spec.md) — the conformance spec; row-level dispositions against the baseline.
 - [`docs/implementation/metrics_semantics.md`](docs/implementation/metrics_semantics.md) — internal MTTC definition, divergences (C7, ATK-04), comparability boundary.
 - [`docs/implementation/provenance.md`](docs/implementation/provenance.md) — load-bearing constants → source → code → disposition.
-- [`docs/implementation/trace_tool.md`](docs/implementation/trace_tool.md) — the event-log tracer (`python -m mtdnetwork.trace`): first reach when verifying substrate changes, pinpointing bugs, or demonstrating a run. A living tool — extend it rather than print-debug.
+- [`docs/implementation/trace_tool.md`](docs/implementation/trace_tool.md) — the event-log tracers (`python -m mtdnetwork.trace` for the substrate; `PYTHONPATH=src python -m mtdsim.l3_simulation.trace` for a movement run, unified across token / controller / substrate): first reach when verifying changes, pinpointing bugs, or demonstrating a run. Living tools — extend them rather than print-debug.
 
 ## Session-start checks
 
