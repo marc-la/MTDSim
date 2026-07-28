@@ -32,6 +32,9 @@ Reading the log (on top of the substrate actors)
                 summary (place -> verb -> verdict -> next), terminal events
     CONTROLLER  the decision layer: tactic -> verb dispatch, the verdict read
                 from a substrate outcome, the conditioned routing distribution
+    STATE       the within-run attacker state, when one is attached
+                (``--demo-state`` / ``attacker_state=``): what it observed and
+                which routing decisions its modulators reweighted
     ATTACKER    the dispatched verb running through the carved ``step()``
     COMPROMISE / DEFENDER / MUTATION / INTERRUPT / NETWORK  as in the substrate
                 tracer — the same hooks fire, so cross-layer events interleave
@@ -82,10 +85,19 @@ from mtdsim.l3_simulation.movement.attacker import (
 )
 from mtdsim.l3_simulation.movement.net import PROFILES, load_routing_net
 from mtdsim.l3_simulation.movement.run import GEOMETRY, _build_sim, _maybe_start_mtd
+from mtdsim.l3_simulation.movement.state import (
+    AttackerState,
+    ModulatedOverlay,
+    RevisitAversionDemo,
+    StatefulTiming,
+)
 from mtdsim.l3_simulation.movement.statistics import MovementRunResult
 from mtdsim.l3_simulation.movement.timing import ConstantTiming, TacticTiming
 
 L3_ACTORS = ("TOKEN", "CONTROLLER")
+# The attacker state's actor, present only when a run attaches one — kept out of
+# L3_ACTORS so a stateless run's actor set is unchanged.
+STATE_ACTOR = "STATE"
 
 
 @dataclass
@@ -118,6 +130,10 @@ class L3Tracer(Tracer):
     visits_by_place: dict[str, int] = field(default_factory=dict)
     time_by_place: dict[str, float] = field(default_factory=dict)
     dispatches_by_verb: dict[str, int] = field(default_factory=dict)
+
+    # the attacker state, when one is attached (None on a stateless run)
+    attacker_state: AttackerState | None = None
+    modulated_decisions: int = 0  # routing decisions where some factor != 1.0
 
 
 # --- the recording proxies (collaborators consumed, narrated, never altered) --
@@ -207,6 +223,59 @@ class _TracedTiming:
             detail = f"exponential draw about the catalogue mean {mean:g}"
         self._tracer.emit("TOKEN", f"DWELL          {tactic}: {dwell:.1f} t/u", detail)
         return dwell
+
+    def __getattr__(self, name):
+        return getattr(self._inner, name)
+
+
+class _TracedState:
+    """The attacker state, narrated. Wraps an :class:`AttackerState` the same
+    way the other proxies wrap their collaborators — delegate unchanged, record
+    only — and sits *inside* the stateful wrappers, so ``StatefulTiming`` and
+    ``ModulatedOverlay`` call it exactly as they would the bare state.
+
+    Narration policy: every verdict observation gets a STATE line carrying the
+    state's running summary (one line per routing decision — the state's
+    evolution, visible); a modulation gets a line only when some factor is
+    non-unit, because a null-configured state modulates nothing and should
+    narrate nothing it did not do.
+    """
+
+    def __init__(self, inner: AttackerState, tracer: L3Tracer):
+        self._inner = inner
+        self._tracer = tracer
+
+    def observe_visit(self, place: str) -> None:
+        self._inner.observe_visit(place)
+
+    def observe_verdict(self, place: str, verdict: str) -> None:
+        self._inner.observe_verdict(place, verdict)
+        snap = self._inner.snapshot()
+        tallies = " · ".join(
+            f"{v} ×{n}" for v, n in sorted(snap["verdicts"].items())
+        )
+        self._tracer.emit(
+            STATE_ACTOR,
+            f"OBSERVE        {place} | {verdict}",
+            f"{snap['visits']} visit(s) over {snap['distinct_places']} place(s)"
+            + (f" · verdicts {tallies}" if tallies else ""),
+        )
+
+    def modulate(self, src, base_out_weights):
+        factors = self._inner.modulate(src, base_out_weights)
+        non_unit = {d: f for d, f in factors.items() if f != 1.0}
+        if non_unit:
+            t = self._tracer
+            t.modulated_decisions += 1
+            top = sorted(non_unit.items(), key=lambda kv: kv[1])[:3]
+            shown = " · ".join(f"{d} ×{f:g}" for d, f in top)
+            more = f" (+{len(non_unit) - len(top)} more)" if len(non_unit) > len(top) else ""
+            t.emit(
+                STATE_ACTOR,
+                f"MODULATE       {src}: {len(non_unit)} destination(s) reweighted",
+                f"{shown}{more}",
+            )
+        return factors
 
     def __getattr__(self, name):
         return getattr(self._inner, name)
@@ -343,6 +412,7 @@ def run_l3_trace(
     horizon: float = 15_000,
     with_synthetic_overlay: bool = True,
     constant_timing: bool = False,
+    attacker_state: AttackerState | None = None,
     mtd_scheme: str | None = None,
     mtd_interval: int | None = 200,
     custom_strategies=None,
@@ -365,6 +435,8 @@ def run_l3_trace(
     timing_cls = ConstantTiming if constant_timing else TacticTiming
     timing = timing_cls(dwell, seed=seed)
 
+    tracer_state: AttackerState | None = attacker_state
+
     tracer = L3Tracer(
         env=env, adversary=adversary, network=network,
         profile=profile,
@@ -373,6 +445,16 @@ def run_l3_trace(
         timing_regime="constant" if constant_timing else "exponential (S3)",
         scheme=mtd_scheme or "none",
     )
+
+    if tracer_state is not None:
+        # The state seam, narrated: the traced state sits inside the stateful
+        # wrappers (so they call it exactly as they would the bare state), and
+        # the recording proxies below sit outside, so the ROUTE line shows the
+        # final, modulated distribution the token actually samples.
+        tracer.attacker_state = tracer_state
+        narrated = _TracedState(tracer_state, tracer)
+        timing = StatefulTiming(timing, narrated)
+        overlay = ModulatedOverlay(overlay, narrated)
 
     attacker = MovementAttacker(
         env=env,
@@ -509,6 +591,23 @@ def _l3_verdict(tracer: L3Tracer, result: MovementRunResult, horizon: float,
                      f"({tracer.verb_interrupts} mid-verb, {dwell_cut} "
                      "mid-dwell), each read as a failure verdict.")
 
+    if tracer.attacker_state is not None:
+        state = tracer.attacker_state
+        snap = state.snapshot()
+        head("The attacker state")
+        mods = ", ".join(m.name for m in state.modulators) or "none (null configuration)"
+        lines.append(f"  Modulators: {mods}.")
+        tallies = " · ".join(f"{v} ×{n}" for v, n in sorted(snap["verdicts"].items()))
+        lines.append(f"  Observed {snap['visits']} visit(s) over "
+                     f"{snap['distinct_places']} distinct place(s)"
+                     + (f"; verdicts {tallies}." if tallies else "."))
+        if tracer.modulated_decisions:
+            lines.append(f"  Reweighted {tracer.modulated_decisions} of "
+                         f"{len(state.log)} routing decision(s).")
+        else:
+            lines.append(f"  Reweighted 0 of {len(state.log)} routing decision(s) "
+                         "— the walk is the null-configuration walk.")
+
     head("Where the time went")
     elapsed = result.termination_time if result.records else horizon
     if elapsed > 0:
@@ -583,6 +682,10 @@ def main(argv=None) -> int:
                     help="the observed-only arm (seed at initial-access)")
     ap.add_argument("--constant-timing", action="store_true",
                     help="the pre-S3 fixed-dwell regime (verification arm)")
+    ap.add_argument("--demo-state", action="store_true",
+                    help="attach an attacker state carrying the demonstration "
+                         "modulator (obviously artificial: halves revisited "
+                         "destinations) — proves the seam live, models nothing")
     ap.add_argument("--only", default=None,
                     help="comma-separated actors, e.g. token,controller")
     ap.add_argument("--no-colour", action="store_true")
@@ -590,6 +693,12 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
 
     colour = not args.no_colour and sys.stdout.isatty()
+
+    attacker_state = None
+    if args.demo_state:
+        attacker_state = AttackerState(
+            seed=args.seed, modulators=(RevisitAversionDemo(),)
+        )
 
     tracer, result = run_l3_trace(
         args.profile,
@@ -599,6 +708,7 @@ def main(argv=None) -> int:
         horizon=args.horizon,
         with_synthetic_overlay=not args.no_synthetic_overlay,
         constant_timing=args.constant_timing,
+        attacker_state=attacker_state,
         mtd_scheme=args.scheme,
         mtd_interval=args.mtd_interval,
     )

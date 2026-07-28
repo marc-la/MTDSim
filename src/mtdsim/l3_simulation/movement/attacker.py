@@ -175,6 +175,16 @@ class MovementRecord:
     place_class: str = ACTION_BEARING
 
 
+# The distinguished routing verdict for a place that raised no verdict at all (a
+# dwell-only place: no verb ran, so there is no substrate outcome to judge). It is
+# NOT a substrate verdict and no overlay registers it, so ``compose`` finds an
+# empty per-source table, every destination passes through at factor 1.0, and the
+# routed distribution is the base weights renormalised — sampled identically to
+# the base weights themselves. What routing through ``compose`` buys is that the
+# whole observation surface (every routing decision, dwell-only included) flows
+# through the one ``OutcomeOverlayLike`` seam a stateful wrapper attaches to.
+VERDICT_NONE: Verdict = "none"
+
 # The verdict the movement layer assigns an un-actionable dispatch (a verb whose
 # substrate precondition is unmet — no substrate outcome exists for the controller
 # to judge). This is a movement routing policy, not a substrate verdict: it uses
@@ -304,9 +314,12 @@ class MovementAttacker:
                                         start_time=start_time,
                                         place_class=DWELL_ONLY)
                     return
-                # No verdict, so no conditioning: the token routes on the base
-                # weights (overlay design §3 — an unmapped place is not conditioned).
-                next_place = self._sample(self.routing.base_out_weights(place))
+                # No verdict, so no conditioning — but the routing still flows
+                # through ``compose`` under the distinguished ``VERDICT_NONE``,
+                # which no overlay registers: the composed distribution is the
+                # base weights renormalised, sampled identically (overlay design
+                # §3 stands — an unconditioned place routes on base weights).
+                next_place = self._route(place, VERDICT_NONE)
                 self.records.append(
                     MovementRecord(
                         profile=self.routing.profile,

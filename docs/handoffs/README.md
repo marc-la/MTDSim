@@ -156,25 +156,40 @@ compute these measures at run time.)*
     verdict-blind ablation arm that separates *reacts* from *adapts usefully*.
     Its measurement dependency has shipped (the suite above); **folds into
     (8)'s run** rather than running its own matrix.
-11. `2026-07-28_attacker_state_seam.md` — the shared foundation for the three
-    axes that need a mutable attacker state: a movement-layer `AttackerState`
-    observed through the two Protocols the walk already injects, and a
-    generalised modulator composition whose null configuration is bit-identical
-    to today. **Blocks (12), (13) and the build half of (14).** Carries the
-    governance question common to all three — whether a movement-layer state
-    collides with the **S2** freeze on attacker states — which is Marc's to
-    confirm with the supervisor.
+*(Shipped from wave 5: the **attacker-state seam** —
+`2026-07-28_attacker_state_seam.md`, landed 2026-07-28 as
+`src/mtdsim/l3_simulation/movement/state.py` plus the tracked record
+`../implementation/pipeline/ogasp/attacker_state_seam.md`. A movement-layer-only
+`AttackerState` observed through the two Protocols the walk already injects
+(`StatefulTiming` wraps timing, `ModulatedOverlay` wraps the overlay — zero edits
+to the driver), and the generalised three-factor composition
+`base · overlay_v · Π_m` whose **null configuration is bit-identical to today** —
+proven field-for-field across 5 profiles × 5 seeds × 2 MTD conditions × 2
+mappings. The one driver edit — routing dwell-only places through `compose` under
+a distinguished `"none"` verdict so the state sees every routing decision — is
+proven behaviour-neutral by a 100-configuration before/after capture (0 differ).
+A fourth, isolated RNG stream (`derive_state_seed`, XOR "STAT"); a zeroing
+modulator refused without a declared rule; the STATE trace actor and `--demo-state`.
+**No value is declared and no badge moved** — the seam ships null. (12), (13) and
+the build half of (14) consume it directly.
+
+**The governance question rides with it, unresolved:** the record §7 writes out
+the argument that a within-run, movement-layer, null-equivalent state is M7
+refinement rather than the attacker-state change **S2** freezes — for Marc to
+confirm with the supervisor. Until confirmed, no modulator carrying a declared
+value is wired into any experiment; the null mechanism is safe regardless.)*
+
 12. `2026-07-28_axis7_learning_capability.md` — within-run knowledge that
     reweights routing from what has worked, with knowledge perishing on MTD
-    mutation. Needs (11); consumes the shipped measurement suite. **The
-    highest-value item on this wave**:
+    mutation. The seam it needs has shipped (above); consumes the shipped
+    measurement suite. **The highest-value item on this wave**:
     it is the literature's sharpest named gap and the only axis whose
     demonstration would move the model's fidelity placement off the procedural
     rung. Also the candidate mitigation for experiment 1's friction failure mode.
 13. `2026-07-28_axis6_incentive_rationality.md` — a declared per-tactic benefit
     against the already-declared duration as cost, entering routing as a
-    rationality exponent whose zero recovers today exactly. Needs (11); consumes
-    the shipped suite's cost ledger.
+    rationality exponent whose zero recovers today exactly. The seam it needs has
+    shipped (above); consumes the shipped suite's cost ledger.
 14. **Shipped (design half) 2026-07-28** — the axis-5 stealth design record landed
     as `../implementation/pipeline/ogasp/stealth_conceptualisation.md`. It leads
     with the stealthy-versus-baseline contrast (Jin's framing, characterised on
@@ -184,9 +199,10 @@ compute these measures at run time.)*
     consequential against `mtd_ai` unchanged, which is the route to DEMONSTRATED
     on axis 5a. The record proposes a **tempo/evasion badge split** (5a
     evidenceable, 5b NOT ADDRESSED) and carries a four-item decision request for
-    Marc (§13). **The build half remains open**, gated on (11) and on Marc's
-    rulings — chiefly whether to sanction the `mtd_ai` defence arm (1b) and the S2
-    freeze question. No badge was moved; the split awaits Marc's agreement.
+    Marc (§13). **The build half remains open**; the state seam it needed has
+    shipped (above), so it is now gated only on Marc's rulings — chiefly whether
+    to sanction the `mtd_ai` defence arm (1b) and the S2 freeze question. No badge
+    was moved; the split awaits Marc's agreement.
 15. `2026-07-28_criterion_maintenance_and_axis8_closure.md` — rules **MTD-scheme
     awareness** out as future work rather than leaving it merely absent, and
     discharges three fired re-score triggers and four stale cross-references in

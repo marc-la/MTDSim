@@ -5,7 +5,8 @@ created: 2026-07-28
 
 # Give the attacker a within-run knowledge state that reweights its own routing from what has worked — the learning capability the literature calls the sharpest missing dimension, and the only axis whose demonstration changes the model's fidelity placement
 
-**Chain position: wave 5, after `2026-07-28_attacker_state_seam.md`.** Needs the seam's
+**Chain position: wave 5, after the attacker-state seam (SHIPPED 2026-07-28 —
+`docs/implementation/pipeline/ogasp/attacker_state_seam.md`).** Needs the seam's
 `AttackerState`, its modulator composition, and its null-equivalence guarantee. Independent
 of the stealth and incentive handoffs, though all three compose on the same seam and the
 sweep must eventually cross them.
@@ -197,8 +198,10 @@ Done when:
 
 - `docs/implementation/apt_model_criterion.md` §(d) axis 7 and §(e) — the literature's
   framing, the M8b measurements, and the placement claim this axis alone can move.
-- `docs/handoffs/2026-07-28_attacker_state_seam.md` — the mechanism this builds on; do not
-  start before it lands.
+- `docs/implementation/pipeline/ogasp/attacker_state_seam.md` — the mechanism this builds on
+  (SHIPPED 2026-07-28): the `AttackerState` observation methods, the modulator Protocol and
+  the `Π_m` composition, the fourth RNG stream, and the null-equivalence guarantee. Read it
+  before designing the modulator.
 - `docs/implementation/pipeline/ogasp/experiment_01_findings.md` §3 — the friction failure
   mode this is the candidate mitigation for, and the reason the driver refuses to re-impose
   native order.
