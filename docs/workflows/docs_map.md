@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-07-27
+updated: 2026-07-28
 ---
 
 # Docs map — where every document lives, and why
@@ -67,6 +67,7 @@ The canonical record of what is built and why, in whatever register is clearest 
 - [`mtdsim_spec.md`](../implementation/mtdsim_spec.md) — conformance spec; row-level dispositions against the baseline.
 - [`metrics_semantics.md`](../implementation/metrics_semantics.md) — internal MTTC, divergences (C7, ATK-04), comparability boundary.
 - [`provenance.md`](../implementation/provenance.md) — load-bearing constants → source → code → disposition.
+- [`trace_tool.md`](../implementation/trace_tool.md) — the event-log tracer (`mtdnetwork/trace.py`): usage, invariants, and its extension charter (a living diagnostic tool, `status: living`).
 - [`pipeline/gap/`](../implementation/pipeline/gap/) · [`pipeline/gasp/`](../implementation/pipeline/gasp/) · [`pipeline/ogasp/`](../implementation/pipeline/ogasp/) — per-stage data models plus the investigation records, audits, and decision registers that produced them.
 
 Contract: **provenance-dated.** Every file carries frontmatter with `status`, `created`, and `updated`; a session that materially edits one bumps `updated` in the same commit. Investigation records are immutable history — annotate with status banners rather than rewriting them.
