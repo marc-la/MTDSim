@@ -800,7 +800,7 @@ timing; running experiment 2.
   — the sweep that tests whether any conclusion survives §3's declared regime, and
   whether §3.2(3)'s mean-is-load-bearing defence holds under a same-mean heavier-
   tailed family.
-- **Figures:** `data/misc/_viz/stochastic_timing_design_viz.py` →
+- **Figures:** `data/misc/_viz/stochastic_timing/stochastic_timing_design_viz.py` →
   `stochastic_timing_*.png` (the four design diagrams: where-the-clock-lives with
   both MTTC quantities bracketed, the GSPN place lifecycle, the exponential
   parameterisation with the honesty overlay, and the penalty portability boundary).

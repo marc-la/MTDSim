@@ -54,7 +54,7 @@ The mapping drawn here **is** [`../../../../data/ogasp/controller.csv`](../../..
 the loader/resolver is
 [`../../../../src/mtdsim/l3_simulation/controller/`](../../../../src/mtdsim/l3_simulation/controller);
 the at-a-glance figure is
-[`../../../../data/misc/_viz/controller_mapping.png`](../../../../data/misc/_viz/controller_mapping.png).
+[`../../../../data/misc/_viz/controller_mapping/controller_mapping.png`](../../../../data/misc/_viz/controller_mapping/controller_mapping.png).
 
 ---
 
@@ -84,7 +84,7 @@ mappings compose:
 
 2. **ATT&CK tactic -> CKC phase**, by the standard academic ATT&CK->CKC crosswalk
    (the pre-v19.1 Enterprise convention already drawn in
-   [`../../../../data/misc/_viz/ckc_layer_viz.py`](../../../../data/misc/_viz/ckc_layer_viz.py),
+   [`../../../../data/misc/_viz/ckc_lifecycle/ckc_layer_viz.py`](../../../../data/misc/_viz/ckc_lifecycle/ckc_layer_viz.py),
    here un-collapsed to the full seven Lockheed phases).
 
 **Composition:** a tactic dispatches the verb that shares its CKC phase. Where a
@@ -188,7 +188,7 @@ never re-rolled. The net supplies movement; the substrate supplies outcome.
 - **Consumes:** [`action_layer_anatomy.md`](action_layer_anatomy.md) and
   [`attacker_phase_catalogue.md`](attacker_phase_catalogue.md) (the six verbs,
   their outcomes, the carved callable surface); the ATT&CK->CKC crosswalk in
-  [`../../../../data/misc/_viz/ckc_layer_viz.py`](../../../../data/misc/_viz/ckc_layer_viz.py).
+  [`../../../../data/misc/_viz/ckc_lifecycle/ckc_layer_viz.py`](../../../../data/misc/_viz/ckc_lifecycle/ckc_layer_viz.py).
 - **Feeds:** the profiled-attacker / movement-layer build (M7 handoff) and the
   outcome overlay ([`success_failure_overlay_design.md`](success_failure_overlay_design.md)),
   which consumes §4's per-verb verdict; the synthetic overlay

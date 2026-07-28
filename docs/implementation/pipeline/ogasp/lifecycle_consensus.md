@@ -86,7 +86,7 @@ ever warrants them. The Mandiant primary *was* chased (supplied by Marc,
 The mapping is the interpretive step, done once per model, visibly. Cell
 markers: **[def]** justified from the model's own phase *definition*;
 **[conv]** the pre-v19.1 academic ATT&CK→CKC convention already in use
-([`controller.md`](controller.md) §1, `data/misc/_viz/ckc_layer_viz.py`);
+([`controller.md`](controller.md) §1, `data/misc/_viz/ckc_lifecycle/ckc_layer_viz.py`);
 **[name]** inferred from the phase name alone; **[verify]** the channel
 under-determines the cell — recorded, not relied on. Tactics a model does not
 reach are listed as unmapped — no silent cells.

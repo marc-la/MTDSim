@@ -36,16 +36,16 @@ the at-a-glance "what does each phase do, and what does it rely on."
 (`ATTACK_DURATION`).
 
 **Figures** (regenerable via
-[`data/misc/_viz/attacker_fsm_viz.py`](../../../../data/misc/_viz/attacker_fsm_viz.py)):
+[`data/misc/_viz/attacker_fsm/attacker_fsm_viz.py`](../../../../data/misc/_viz/attacker_fsm/attacker_fsm_viz.py)):
 
-- `data/misc/_viz/attacker_fsm_transitions.{png,svg}` — the whole state machine, all
+- `data/misc/_viz/attacker_fsm/attacker_fsm_transitions.{png,svg}` — the whole state machine, all
   outcome-labelled succession arcs. Reads as heavily interconnected: every path
   returns through `ENUM_HOST`, the only forward motion is a compromise, MTD
   interrupts cut across every timed verb.
-- `data/misc/_viz/attacker_fsm_dependencies.{png,svg}` — the precondition graph
+- `data/misc/_viz/attacker_fsm/attacker_fsm_dependencies.{png,svg}` — the precondition graph
   (producer → consumer of the shared adversary state). Makes the reliance on
   preceding phases explicit — no verb runs on its own.
-- `data/misc/_viz/attacker_fsm_carve_patchwork.{png,svg}` — the carve as a
+- `data/misc/_viz/attacker_fsm/attacker_fsm_carve_patchwork.{png,svg}` — the carve as a
   patchwork decoupling: `step()` severs the hardcoded tail-call succession, but
   every precondition, the fixed timing, and interrupt recovery persist.
 

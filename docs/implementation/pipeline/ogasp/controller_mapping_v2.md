@@ -172,14 +172,14 @@ tests are
 (the end-to-end behaviour). Version 1 produces no dwell-only records at all, so
 the new path is dormant under it and experiment 1's numbers are untouched.
 
-**The figures**, regenerable by `data/misc/_viz/controller_mapping_v2_viz.py`,
+**The figures**, regenerable by `data/misc/_viz/controller_mapping/controller_mapping_v2_viz.py`,
 which reads both versions from the registry rather than restating them:
 
-- `data/misc/_viz/controller_mapping_v2.png` — the version-2 map in the same
+- `data/misc/_viz/controller_mapping/controller_mapping_v2.png` — the version-2 map in the same
   visual language as version 1's figure: verbs on the left, the fifteen tactics on
   the right banded by lifecycle stage with the reason per row, and dwell-only rows
   terminating in a "no verb" gutter rather than reaching the verb column.
-- `data/misc/_viz/controller_mapping_versions.png` — both versions side by side,
+- `data/misc/_viz/controller_mapping/controller_mapping_versions.png` — both versions side by side,
   which is the registry's comparability point made visible.
 
 Both live in `data/misc/_viz/`, which is **gitignored** — as version 1's figure and
