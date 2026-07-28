@@ -174,5 +174,13 @@ unblock most of the rest; (14) is independent of everything.
     the criterion. Documentation only, independent of everything, and worth doing
     early because the criterion is loaded into every session.
 
+**Off-chain (independent of the waves):**
+
+16. `2026-07-28_intent_spec_conformance_audit.md` — audit the current substrate
+    against the new literature-only intent spec
+    (`../implementation/mtdsim_intent_spec.md`), classifying every IS-ID and
+    producing a disposition list for Marc. Substrate-side and read-only; depends
+    on nothing above and blocks nothing above. Marc intends to run it next.
+
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).
