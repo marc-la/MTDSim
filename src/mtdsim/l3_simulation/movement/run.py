@@ -36,6 +36,7 @@ from mtdsim.l3_simulation.movement.attacker import (
     VerdictAdapter,
     load_dwell_catalogue,
 )
+from mtdsim.l3_simulation.movement.timing import TimingSource
 from mtdsim.l3_simulation.movement.net import load_routing_net
 from mtdsim.l3_simulation.movement.statistics import MovementRunResult
 
@@ -137,6 +138,7 @@ def run_movement(
     controller: Any | None = None,
     mapping_version: str | None = None,
     dwell_catalogue: dict[str, float] | None = None,
+    timing: TimingSource | None = None,
     mtd_scheme: str | None = None,
     mtd_interval: int | None = 200,
     custom_strategies=None,
@@ -157,6 +159,12 @@ def run_movement(
     default, which is experiment 1's value, so an unqualified run reproduces what
     has always run. This is the seam the choice belongs at: an experiment names
     its mapping, and no layer below here has a preference.
+
+    ``timing`` overrides the per-tactic timing source, which defaults to the
+    declared S3 regime (each catalogue duration read as an exponential mean). It
+    exists for **verification**, not for configuring an experiment: passing
+    ``ConstantTiming`` reproduces the pre-S3 fixed-dwell arm, which is how the
+    tests isolate what the distribution change alone did.
     """
     env, end_event, network, adversary, attack_op = _build_sim(seed, geometry)
 
@@ -179,6 +187,7 @@ def run_movement(
         overlay=overlay,
         verdict_of=verdict_of,
         dwell_catalogue=dwell,
+        timing=timing,
         seed=seed,
         register_for_interrupts=register_for_interrupts,
         max_events=max_events,

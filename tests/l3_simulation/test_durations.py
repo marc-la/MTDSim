@@ -7,6 +7,13 @@ value derives from ``observation_count`` or any corpus frequency; Tier-1
 tactics trace to a substrate constant and are flagged not-tuned; tuned tactics
 name their group anchor; units are sane against ``ATTACK_DURATION`` magnitudes
 and the anchor arithmetic is internally consistent.
+
+Since S3 the file also has **two consumers that read the same field
+differently**, and the last section guards that: the movement layer reads
+``duration_s`` as the mean of a per-tactic exponential firing time, while the
+standalone timeline runner reads it as a deterministic point dwell. The declared
+semantics must keep saying both, because an edit that collapsed them to one
+reading would silently falsify whichever consumer it dropped.
 """
 
 from __future__ import annotations
@@ -157,6 +164,43 @@ def test_tier1_anchor_values_trace_to_constants(catalogue):
     median_complexity = (constants.VULN_MIN_COMPLEXITY + 1) / 2
     exploit_median = constants.ATTACK_DURATION["EXPLOIT_VULN"] * (1 - median_complexity)
     assert anchors["exploit-shaped"]["duration_s"] == pytest.approx(exploit_median)
+
+
+def test_the_declared_semantics_name_the_stochastic_movement_regime(catalogue):
+    """S3 inverted this field. It used to declare the values 'NOT a stochastic
+    firing rate (GSPN/SPN/TPN semantics deferred per D10)'; the deferral is lifted
+    and the movement layer now reads each value as an exponential mean. The
+    declaration is load-bearing rather than decorative — it is the only place the
+    file itself says what its numbers mean."""
+    semantics = catalogue["meta"]["semantics"].lower()
+    assert "exponential" in semantics
+    assert "mean" in semantics
+    assert "deferred per d10" not in semantics
+
+
+def test_the_declared_semantics_preserve_the_timeline_runners_point_reading(catalogue):
+    """The shared-catalogue hazard. The standalone timeline runner reads the same
+    ``duration_s`` as a deterministic point dwell under its own determinism
+    discipline, and S3 is scoped to the movement layer only. If the metadata ever
+    declares the stochastic reading as the file's *only* semantics, the runner's
+    determinism claim becomes false without a line of its code changing."""
+    semantics = catalogue["meta"]["semantics"].lower()
+    assert "timeline runner" in semantics
+    assert "point" in semantics
+    assert "movement layer" in semantics
+
+
+def test_a_zero_duration_stays_immediate_rather_than_a_degenerate_exponential(catalogue):
+    """``Exponential(mean 0)`` has no meaning, so the off-network prep null is a
+    GSPN *immediate* transition instead — declared in the metadata and mirrored by
+    the timing source, which returns zero and consumes no draw. The 'never
+    reached' cases stay structural (a tactic absent from a net), never a zero
+    duration standing in for them."""
+    assert "immediate" in catalogue["meta"]["semantics"].lower()
+    zero_duration = {
+        t for t, e in catalogue["tactics"].items() if e["duration_s"] == 0
+    }
+    assert zero_duration == {"resource-development"}
 
 
 def test_magnitudes_sane(catalogue):

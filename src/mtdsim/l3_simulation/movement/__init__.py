@@ -13,6 +13,9 @@ Pieces:
   place: observed D3 weights composed with the M6 synthetic overlay; schema-pinned).
 - :mod:`~mtdsim.l3_simulation.movement.attacker` — :class:`MovementAttacker`, the
   live SimPy net-walker, and the per-event :class:`MovementRecord`.
+- :mod:`~mtdsim.l3_simulation.movement.timing` — the per-tactic timing source: the
+  declared catalogue duration read as the mean of an exponential firing time (S3).
+  The movement layer supplies the time; the SimPy loop spends it.
 - :mod:`~mtdsim.l3_simulation.movement.statistics` — a reader over the records
   (MTTC / ASR per profile); the inherited attack-stats maths is untouched.
 - :mod:`~mtdsim.l3_simulation.movement.run` — run wiring (attacker selected
@@ -37,6 +40,11 @@ from mtdsim.l3_simulation.movement.statistics import (
     summarise,
     summarise_profile,
 )
+from mtdsim.l3_simulation.movement.timing import (
+    ConstantTiming,
+    TacticTiming,
+    TimingSource,
+)
 
 __all__ = [
     "PROFILES",
@@ -46,6 +54,9 @@ __all__ = [
     "MovementAttacker",
     "MovementRecord",
     "load_dwell_catalogue",
+    "ConstantTiming",
+    "TacticTiming",
+    "TimingSource",
     "MovementRunResult",
     "ProfileSummary",
     "summarise",

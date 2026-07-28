@@ -177,9 +177,20 @@ class AttackOperation:
         owns its own succession, which is the point of the carve. Recovery policy is
         the caller's; the price and the lost position are not optional for either.
 
-        (S3 will re-home the penalty onto the movement layer as a net place under a
-        stochastic firing regime. When it does, this stays the substrate's definition
-        and the driver stops calling it — the seam does not need to move.)
+        **The penalty stays here, and that is now a ruling rather than a default.**
+        An earlier draft of S3 would have re-homed it onto the movement layer as a
+        place in the net; that was reversed on the architectural ground that *how a
+        defender thwarts an attacker* is simulator-specific — this is MTDSim's model
+        of what a mutation does to an adversary mid-action, and another simulator
+        would thwart differently or not at all. The movement layer is meant to be
+        portable across simulators through the controller, so pulling a
+        substrate-specific defensive penalty into it would weld MTDSim's thwarting
+        model into the portable layer. S3's actual requirement — that both arms
+        experience the penalty as a stochastic draw about the same base duration —
+        is already satisfied here, by both arms consuming this one call. The regime
+        the design record specifies for the *attacker's* per-tactic dwell therefore
+        does not reach the penalty, whose distribution is unchanged.
+        (docs/implementation/pipeline/ogasp/stochastic_timing_design.md §4.)
         """
         try:
             yield self.env.timeout(exponential_variates(ATTACK_DURATION['PENALTY'], 0.5))

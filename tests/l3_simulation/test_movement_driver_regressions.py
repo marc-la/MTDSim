@@ -99,22 +99,35 @@ def test_recorded_dwell_never_exceeds_the_events_elapsed_time(profile, seed) -> 
     assert all((r.end_time - r.start_time) - r.dwell >= -1e-9 for r in res.records)
 
 
-def test_uninterrupted_dwell_still_reports_the_catalogue_value_exactly(profile="aggregate") -> None:
-    """The fix must not perturb the ~85 % of events whose dwell runs to completion —
-    those still carry the catalogue value bit-for-bit, so prior analyses of clean
-    events are unaffected."""
-    from mtdsim.l3_simulation.movement.attacker import load_dwell_catalogue
+def test_an_uninterrupted_dwell_reports_exactly_the_time_it_consumed(profile="aggregate") -> None:
+    """The D2 invariant, restated for the S3 regime.
 
-    catalogue = load_dwell_catalogue()
+    Under the old fixed-dwell regime this test asserted the recorded dwell equalled
+    the catalogue value bit-for-bit. That is no longer the claim: the dwell is now a
+    draw whose *mean* is the catalogue value, so it differs at every visit. What
+    survives — and is the property D2 actually protected — is that the record
+    reports the time the event really consumed, so ``end_time - start_time - dwell``
+    remains the dispatched verb's own native cost. Under no MTD nothing can cut a
+    dwell short, so that residual must be non-negative and must be the verb's cost,
+    never an artefact of the draw.
+    """
     res = run_movement(
         profile, seed=42, with_synthetic_overlay=True, horizon=15_000, mtd_scheme=None
     )
 
-    clean = [r for r in res.records if not r.interrupted and r.verb]
+    clean = [r for r in res.records if not r.interrupted and r.verb and not r.blocked]
     assert clean, "no uninterrupted events to check"
     for r in clean:
-        expected = float(catalogue.get(r.place, 0.0))
-        assert r.dwell == expected, (
-            f"uninterrupted event at {r.place} reported dwell {r.dwell}, "
-            f"catalogue says {expected}"
+        if r.outcome in {"SIM_END", "MAX_EVENTS"}:
+            continue
+        verb_time = (r.end_time - r.start_time) - r.dwell
+        assert verb_time >= -1e-9, (
+            f"event at {r.place} reported dwell {r.dwell} inside an elapsed "
+            f"{r.end_time - r.start_time}; the residual verb time went negative"
         )
+    # The residual is the substrate's own price for the verb and no upper bound is
+    # asserted here: a verb's cost is not a single constant (EXPLOIT_VULN runs the
+    # whole current vulnerability set, complexity-scaled). That the regime leaves
+    # that price untouched is the isolation test's claim, where it is falsifiable
+    # by comparison against the fixed-dwell arm
+    # (test_movement_timing.py::test_introducing_the_draws_leaves_the_other_streams_untouched).

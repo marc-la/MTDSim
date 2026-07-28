@@ -10,9 +10,19 @@ the net supplies *movement*, and the carved substrate supplies *outcome* (M4).
 
 Per-place lifecycle, per the M7 handoff, all through the controller library:
 
-    enter place -> dwell (D4 duration) -> controller.phase_for(tactic)
-      -> attack_op.step(verb) -> verdict adapter -> overlay.compose(place, verdict)
-      -> sample the next transition -> enter the next place
+    enter place -> dwell (an exponential draw about the D4 declared duration)
+      -> controller.phase_for(tactic) -> attack_op.step(verb) -> verdict adapter
+      -> overlay.compose(place, verdict) -> sample the next transition
+      -> enter the next place
+
+**Where the time comes from (S3).** The dwell is the movement layer's own
+contribution to the clock: this driver *supplies* it — a draw from
+:mod:`mtdsim.l3_simulation.movement.timing`, whose mean is the tactic's declared
+catalogue duration — and the SimPy loop *spends* it, on the one shared clock both
+arms are measured against. Each dispatched verb keeps its native substrate cost on
+top, so the per-action durations the substrate records are untouched and stay
+comparable across arms; what the behavioural dwell moves is elapsed
+time-to-compromise, which is the quantity the head-to-head comparison reports.
 
 **Consumes, never forks (hard constraint).** Dispatch (``controller.phase_for``),
 outcome composition (``overlay.compose``) and the success/failure verdict adapter
@@ -62,6 +72,8 @@ from mtdnetwork.operation.attack_operation import (
     ActionContextError,
 )
 
+from mtdsim.l3_simulation.movement.timing import TacticTiming, TimingSource
+
 Verdict = str  # "success" | "failure" (binary outcome only, M2)
 
 _REPO_ROOT = Path(__file__).resolve().parents[4]
@@ -106,7 +118,15 @@ DWELL_PROCESS = "DWELL"
 
 
 def load_dwell_catalogue(path: Path | str = DURATIONS_PATH) -> dict[str, float]:
-    """``tactic -> per-place dwell (simulated seconds)`` from the D4 catalogue."""
+    """``tactic -> declared per-place duration (simulated seconds)`` from the D4
+    catalogue.
+
+    The movement layer reads each declared value as the **mean** of that tactic's
+    firing time (S3), not as a fixed dwell; the standalone timeline runner reads
+    the same field as a point value under its own deterministic discipline. The
+    catalogue is neutral between them — it declares a duration, and each consumer
+    declares what it does with it.
+    """
     with Path(path).open(encoding="utf-8") as fh:
         doc = json.load(fh)
     return {t: float(v["duration_s"]) for t, v in doc["tactics"].items()}
@@ -129,8 +149,9 @@ class MovementRecord:
     next_place: str | None  # the sampled next place, or None (stall / sink / terminal)
     start_time: float  # sim time the event began (BEFORE the dwell)
     end_time: float  # sim time the event finished
-    # The dwell actually CONSUMED at this place, which is the catalogue value except
-    # when an MTD interrupt cut the dwell short — then it is the partial time served.
+    # The dwell actually CONSUMED at this place: this visit's draw (S3 — a draw
+    # about the catalogue mean, so it differs from visit to visit), except when an
+    # MTD interrupt cut the dwell short — then it is the partial time served.
     # (`end_time - start_time - dwell` is therefore the verb's own time cost, and is
     # never negative; it is 0 for a blocked or dwell-interrupted event.)
     dwell: float
@@ -194,6 +215,7 @@ class MovementAttacker:
         overlay: OutcomeOverlayLike,
         verdict_of: VerdictAdapter,
         dwell_catalogue: dict[str, float] | None = None,
+        timing: TimingSource | None = None,
         seed: int = 0,
         register_for_interrupts: bool = True,
         max_events: int = 50_000,
@@ -212,6 +234,13 @@ class MovementAttacker:
         # A dedicated RNG so token sampling is reproducible (SIM-05) and does not
         # perturb the substrate's global random / numpy draws.
         self._rng = random.Random(seed)
+        # The movement layer's timing source: it supplies each place's dwell (a
+        # draw about the catalogue mean), the SimPy loop spends it. Its stream is
+        # separately seeded from `_rng` above, so introducing the draws neither
+        # reads nor advances the token sampler or the substrate's dice.
+        self.timing: TimingSource = (
+            timing if timing is not None else TacticTiming(self.dwell, seed=seed)
+        )
         self.register_for_interrupts = register_for_interrupts
         self.max_events = max_events
         self.records: list[MovementRecord] = []
@@ -248,7 +277,11 @@ class MovementAttacker:
             # nothing. Handled on its own path below, because there is no verb to
             # announce, no substrate outcome to read and so no verdict to route on.
             verb = self.controller.phase_for(place)
-            dwell = float(self.dwell.get(place, 0.0))
+            # The one point where the movement layer's time is taken (S3). One
+            # draw per place visit, whatever the place class — a dwell-only place
+            # pays the same behavioural tempo as an action-bearing one, it simply
+            # dispatches nothing afterwards.
+            dwell = self.timing.draw(place)
             start_time = self.env.now
 
             if verb is None:
@@ -543,6 +576,7 @@ __all__ = [
     "OutcomeOverlayLike",
     "MovementRecord",
     "MovementAttacker",
+    "TimingSource",
     "load_dwell_catalogue",
     "DURATIONS_PATH",
     "ACTION_BEARING",

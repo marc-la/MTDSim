@@ -35,7 +35,14 @@ own seam. Seven tactics are dwell-only and run end to end. — And the S3 timing
 formalism, where the clock lives (the movement layer supplies the time, SimPy
 spends it), the exponential rates and their literature defence, that the confusion
 penalty **stays substrate-side** on portability grounds, the comparability
-argument, and the determinism/migration/rollback scheme.)*
+argument, and the determinism/migration/rollback scheme. — And the S3 timing
+**build**: `2026-07-27_stochastic_timing_implementation.md`, landed 2026-07-28.
+Each tactic's dwell is now a draw whose mean is its declared catalogue value, from
+a third, isolated random stream; the catalogue's metadata declares the movement
+layer's stochastic reading alongside the timeline runner's unchanged point
+reading; the baseline arm and internal MTTC are both demonstrably unmoved; and the
+confusion penalty stayed where it was, with its single-charge property tightened
+into a guard rather than re-homed.)*
 
 **Wave 3 — open now.**
 
@@ -43,24 +50,24 @@ argument, and the determinism/migration/rollback scheme.)*
    **unblocked**: its input, the lifecycle consensus, has shipped, and the mapping
    it would have been swept against is now settled and versioned. Sweep against a
    named mapping version so the result says which one it holds for.
-7. `2026-07-27_stochastic_timing_implementation.md` (**S3**, build half) — its
-   specification, the timing design record, has **shipped**
-   (`../implementation/pipeline/ogasp/stochastic_timing_design.md`); the build is
-   now unblocked, and *smaller than drafted*: the confusion penalty **stays
-   substrate-side** (Marc, 2026-07-28 — a portability ruling, no net place), so the
-   only behavioural change is the one-line dwell seam.
-7b. `2026-07-28_tactic_rate_feasibility_study.md` (**the rate analysis**) — after
-   (7), which gives it something to sweep. Sibling to (6): both are declared-value
-   sensitivity sweeps and should share a reporting shape and a mapping version.
-   Tests whether any conclusion survives the arbitrariness of the tactic timings,
-   and whether the timing design's "the mean is what matters" defence holds.
+7. `2026-07-28_tactic_rate_feasibility_study.md` (**the rate analysis**) —
+   **unblocked**: the S3 timing build has shipped, so there is now a regime to
+   sweep. Sibling to (6): both are declared-value sensitivity sweeps and should
+   share a reporting shape and a mapping version. Tests whether any conclusion
+   survives the arbitrariness of the tactic timings, and whether the timing
+   design's "the mean is what matters" defence holds — noting that the exponential
+   fixes the spread at a coefficient of variation of one, so a same-mean
+   heavier-tailed family is the alternative it has to try.
 
 **Wave 4 — last.**
 
 8. `2026-07-27_sink_retrace_experiment2.md` (**S5** + the comparative run) — its
    design half is **unblocked**; its *run* should consume (6) and (7) or it will
-   need repeating, and must name `v2_partial` as its mapping version. Carries the
-   full defence-family sweep the first experiment deferred.
+   need repeating, and must name `v2_partial` as its mapping version. It now also
+   runs on the stochastic timing regime, so its elapsed-time results carry the
+   behavioural tempo and must be reported under the shape-not-scale discipline —
+   a ranking that survives the sweep is a result, a magnitude is a parameter
+   choice. Carries the full defence-family sweep the first experiment deferred.
 
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).

@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-23
-updated: 2026-07-27
+updated: 2026-07-28
 topic: "OGASP runtime verification — cross-examination of the layer model (structure / policy / execution) against the landed loop (commit 48471b8) before the first-numbers run; per-proposition verdicts, the P4 H-coupling quantification, the P7 sink enumeration + termination disposition, and the four seam invariants"
 lineage: closes docs/handoffs/2026-07-23_l3_ogasp_runtime_verification.md; preceded the first-numbers run, recorded at experiment_01_findings.md (both handoffs shipped and deleted)
 ---
@@ -80,6 +80,12 @@ tactic→verb collapse is a chosen parameter, not a fidelity claim.
 **Minimal changes: confirmed.** The carve is `step(verb)` + `assert_action_context`
 + the `driven=True` kwarg on `_do_exploit_vuln`; the native FSM path is
 byte-identical (the golden headline **692 records / 41 hosts** reproduces —
+[**stale figure, flagged 2026-07-28:** the no-MTD golden was intentionally
+re-baselined to **1541 records / 41 hosts** by the vulnerability-contagion fix
+([`../../../../baseline/CHANGELOG.md`](../../../../baseline/CHANGELOG.md)); the
+host count is unchanged and the *claim* — the native path reproduces its golden
+byte-for-byte — still holds and was re-verified when S3 landed. The record is left
+as written, per the immutable-investigation-record convention] —
 [`test_movement_integration.py::test_native_baseline_reproduces_its_golden_headline`](../../../../tests/l3_simulation/test_movement_integration.py)),
 and the carve is confined to `mtdnetwork/operation/` (D5, seam 4).
 **Out-of-order → more failures: confirmed, and by design.** The verbs share state
@@ -139,6 +145,16 @@ own `Random(seed)`, so token sampling neither reads nor perturbs the substrate's
 global `random` / `numpy` draws — the baseline and movement arms stay independently
 seedable. SIM-05 determinism is test-pinned
 ([`test_movement_integration.py::test_determinism_same_inputs_identical_records`](../../../../tests/l3_simulation/test_movement_integration.py)).
+
+> **Extended by S3 (2026-07-28), not invalidated.** The movement layer now carries a
+> **third** stream — the per-tactic dwell draw
+> ([`movement/timing.py`](../../../../src/mtdsim/l3_simulation/movement/timing.py)) —
+> seeded by a pure transform of the run seed and isolated from both the sampler's
+> stream and the substrate's dice. The isolation is verified the same way this
+> proposition was: switching between the fixed-dwell and drawn-dwell regimes under
+> no MTD changes when events happen but not what happens, and leaves the substrate's
+> per-action costs identical event for event
+> ([`test_movement_timing.py`](../../../../tests/l3_simulation/test_movement_timing.py)).
 
 ### P7 — "This continues until the simulation ends; the attacker loops in the petri net until sim end." — ◆ decision
 `_walk` loops until one of five conditions: (a) `end_event` (objective met) →

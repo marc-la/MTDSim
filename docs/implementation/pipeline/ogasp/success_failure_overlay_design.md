@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-21
-updated: 2026-07-27
+updated: 2026-07-28
 topic: "L3 M2 — the outcome (policy) overlay: a ground-up conditional-likelihood weighting over the whole directed tactic-pair set, composed multiplicatively with the base weights and the substrate's binary verdict at runtime"
 ---
 
@@ -321,13 +321,32 @@ limitation (ties to the H-coupling hypothesis, anatomy §6).
 
 ### 6.1 Lifecycle
 
-Per step at the token's place `a`: **enter** and **dwell** (D4 duration,
-[`tactic_durations.json`](../../../../data/ogasp/tactic_durations.json)); if `a`'s
-action is available, **fire** the mapped verb via `step(verb)`, **read** the binary
-verdict, **select** the `success`/`failure` column, **compose + renormalise** (§1);
-else route on base weights. **Sample** the next transition under the run seed and move
-the token. **Terminate** on reaching the profile's objective set, or **censor** at the
+Per step at the token's place `a`: **enter** and **dwell** — since S3 a draw from
+`Exponential(mean = duration_s)`, the declared D4 value in
+[`tactic_durations.json`](../../../../data/ogasp/tactic_durations.json) read as the
+distribution's mean rather than as a constant
+([`stochastic_timing_design.md`](stochastic_timing_design.md); the draw lives at
+[`movement/timing.py`](../../../../src/mtdsim/l3_simulation/movement/timing.py) and
+is taken at one point in `_walk`). If `a`'s action is available, **fire** the mapped
+verb via `step(verb)`, **read** the binary verdict, **select** the
+`success`/`failure` column, **compose + renormalise** (§1); else route on base
+weights. **Sample** the next transition under the run seed and move the token.
+**Terminate** on reaching the profile's objective set, or **censor** at the
 simulation horizon (R4 makes the horizon a free experimental variable).
+
+Under the GSPN reading S3 adopts, the dwell **is** the place's timed transition and
+the routing sample **is** its immediate transition (zero simulated time). A
+dwell-only place — one the selected controller mapping declares as dispatching no
+verb — draws its dwell from the same source and then routes on base weights: its
+dwell is its entire cost. A tactic whose declared duration is zero
+(`resource-development`) is a pure immediate transition, drawing nothing.
+
+The time itself is **supplied** by the movement layer and **spent** by the SimPy
+loop; the net holds no clock. That distinction is what keeps the arrangement
+portable — another simulator's event loop would spend the same supplied durations —
+and it is why the MTD confusion penalty deliberately stays on the substrate side of
+the seam rather than becoming a place in the net (§5;
+[`stochastic_timing_design.md`](stochastic_timing_design.md) §4).
 
 **The degenerate case (renormalisation denominator → 0).** Because the composition
 renormalises across every out-edge and the verdict values are almost never all zero,
@@ -345,6 +364,15 @@ overlay) + outcome overlay + substrate seed**. The overlay is static data; compo
 and sampling are pure given the seed; `step(verb)` reads the substrate's own seeded
 dice (no new randomness on the verdict — map §5). Same inputs → same walk.
 
+S3 adds a **third** random stream — the per-tactic dwell — and it is deliberately
+isolated: it is seeded by a pure transform of the run seed, so it neither reads nor
+advances the token sampler's stream or the substrate's global dice. The consequence
+is testable and is tested: because nothing in a no-MTD run reads the clock to decide
+an outcome, switching between the fixed-dwell and drawn-dwell regimes changes *when*
+events happen but not *what* happens — the same places, verbs, outcomes, verdicts and
+routing decisions, in the same order, with the substrate's per-action costs identical
+event for event. A leak into either shared stream would reorder that sequence at once.
+
 ### 6.3 Per-event record schema
 
 One record per step so MTTC/ASR and the M8 review compute downstream: `sim_time`,
@@ -352,6 +380,14 @@ One record per step so MTTC/ASR and the M8 review compute downstream: `sim_time`
 `verdict` (`success`/`failure`/`halt`/`none`), `overlay_branch`
 (`success`/`failure`/`none`), `out_distribution` (the composed or base out-weights),
 `transition_taken`. Raw material for the metrics, not itself a metric.
+
+The record's `dwell` field carries **the time the event actually consumed** — since
+S3, this visit's draw, so it differs from visit to visit at the same place, and it is
+the partial time served when an MTD interrupt cut the dwell short. Read with
+`start_time` / `end_time` it decomposes an event into behavioural dwell and the
+dispatched verb's own substrate cost (`end_time − start_time − dwell`), which is what
+keeps the two timing layers separable in the analysis rather than fused into one
+elapsed figure.
 
 ---
 

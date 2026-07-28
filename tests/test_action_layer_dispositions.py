@@ -259,3 +259,49 @@ def test_movement_arm_pays_the_same_confusion_penalty_as_the_native_arm() -> Non
         f"mean penalty per interrupt was {mean_penalty:.1f}, which is not an "
         f"exponential draw about PENALTY={ATTACK_DURATION['PENALTY']}"
     )
+
+
+def test_the_confusion_penalty_is_charged_once_per_interrupt() -> None:
+    """The single-charge property, pinned tightly — the failure mode is paying
+    *twice* for one defensive event, once through the substrate's own interrupt
+    handling and once through the driver.
+
+    S3 ruled that the penalty stays substrate-side rather than becoming a place in
+    the movement net, precisely so that this property is one to **protect** rather
+    than to re-establish; this test is that protection. It tightens the
+    ``entries >= interrupts`` inequality above to an exact accounting: every
+    interrupt the driver records is charged exactly once, and the only permitted
+    excess is a single charge in flight when the simulation horizon cuts the run —
+    that event begins its penalty but never reaches the record.
+
+    The tolerance is exactly one because the movement driver is a single SimPy
+    process: at most one event can be mid-penalty when the clock stops.
+    """
+    pytest.importorskip("mtdsim.l3_simulation.movement.run")
+    from mtdsim.l3_simulation.movement.run import run_movement
+
+    horizon = 15_000
+    for seed in (0, 7, 42, 1234):
+        probe = _InterruptCostProbe()
+        with probe:
+            res = run_movement(
+                "aggregate", seed=seed, with_synthetic_overlay=True,
+                horizon=horizon, mtd_scheme="simultaneous", mtd_interval=200,
+            )
+        recorded = sum(1 for r in res.records if r.interrupted)
+        assert recorded > 0, f"seed {seed}: no MTD interrupt was observed"
+
+        excess = probe.entries - recorded
+        assert 0 <= excess <= 1, (
+            f"seed {seed}: {probe.entries} penalty charges against {recorded} "
+            f"recorded interrupts — the penalty is being paid more than once per "
+            f"defensive event"
+        )
+        if excess == 1:
+            # The in-flight charge must genuinely be the horizon cutting the run,
+            # not an unrecorded double charge mid-walk: the last record has to sit
+            # within one penalty draw of the horizon.
+            assert res.records[-1].end_time > horizon - 200, (
+                f"seed {seed}: an extra penalty charge that the horizon does not "
+                f"explain (last record ended at {res.records[-1].end_time})"
+            )

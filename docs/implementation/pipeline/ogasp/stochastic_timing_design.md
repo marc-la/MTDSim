@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-28
-topic: "L3 stochastic timing (S3) — the design record: the GSPN formalism, where the clock lives (the movement layer supplies the time, SimPy spends it), the per-tactic exponential parameterisation, the ruling that the confusion penalty STAYS substrate-side on portability grounds, the comparability argument against the untouched baseline, and the determinism / migration / rollback scheme. Planning only; no code, test, or data artefact changed."
+topic: "L3 stochastic timing (S3) — the design record (BUILT 2026-07-28): the GSPN formalism, where the clock lives (the movement layer supplies the time, SimPy spends it), the per-tactic exponential parameterisation, the ruling that the confusion penalty STAYS substrate-side on portability grounds, the comparability argument against the untouched baseline, and the determinism / migration / rollback scheme. Written as planning only (no code, test, or data artefact changed to produce it); the build it specifies landed on 2026-07-28 and is recorded in the banner below."
 updated: 2026-07-28
 ---
 
@@ -16,6 +16,35 @@ was rejected, so a cold session can build without re-deriving any of it. **No
 source file, test, or data artefact was modified to produce this record**; the
 current behaviour it rules against was confirmed by a throwaway probe (§0), not by
 reading alone.
+
+> **Built, 2026-07-28.** The build half has landed and this record specified it
+> without needing a decision re-taken: the draw
+> ([`movement/timing.py`](../../../../src/mtdsim/l3_simulation/movement/timing.py)),
+> the single `_walk` timing seam, the catalogue metadata inversion, and the
+> docstring correction §4 called for. Four things the build found, recorded here
+> because §9 says a hole in the record is itself a finding:
+>
+> 1. **§5's golden figure was stale.** The record says the baseline arm's golden
+>    headline is "692 records / 41 hosts". The no-MTD golden was intentionally
+>    re-baselined to **1541 records / 41 hosts** by the vulnerability-contagion fix
+>    ([`../../../../baseline/CHANGELOG.md`](../../../../baseline/CHANGELOG.md)); the
+>    host count is unchanged. The *claim* was verified against the live golden and
+>    holds — the baseline arm reproduces byte-for-byte.
+> 2. **Single-charge needs a one-event tolerance.** The penalty is charged exactly
+>    once per interrupt, but a run can end with one charge *in flight*: the horizon
+>    cuts the simulation mid-penalty, so the charge is consumed and its event never
+>    reaches the record. Measured at one seed of eight (112 charges against 111
+>    recorded interrupts, the excess contributing ~2.4 s of a ~20.5 s draw before the
+>    clock stopped). The guard permits that single in-flight charge and nothing more.
+> 3. **§7 item 3 was already discharged.** Dwell-only places already consumed time,
+>    dispatched nothing, raised no verdict and were distinguishable in the record —
+>    the controller rebuild landed that. What S3 added is that their time is now a
+>    draw, which matters more for them than for anyone else: a dwell-only place's
+>    dwell is its *entire* cost.
+> 4. **Internal MTTC is unmoved, measured rather than argued.** Across four seeds the
+>    movement arm's mean per-action duration is 14.75 s before the regime change and
+>    14.79 s after, and on the shared prefix of a no-MTD walk the substrate's
+>    per-action costs are identical event for event.
 
 The one governing constraint, from the supervisor, frames the whole record: **the
 numbers are inherently arbitrary, so the justification is the deliverable, not the

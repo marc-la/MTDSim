@@ -2,7 +2,7 @@
 status: durable
 chapter: ch3_design
 created: 2026-07-04
-updated: 2026-07-27
+updated: 2026-07-28
 lineage: 2026-07-04_operational_validation_the_bar.md
 ---
 
@@ -59,5 +59,5 @@ The precedent survey (background chapter) confirms that no prior work assigns ju
 - If the simulator adopts real (NVD) CVEs, more tactics become input-validated and the calibrated surface shrinks.
 - If a precedent assigning justified per-tactic durations surfaces, the gap statement weakens and this note reframes as positioning.
 - If the sweep shows the conclusion is *not* robust to the declared durations, operational validation has failed for this model; the note is rewritten around the negative result (see [`../ch5_evaluation/evaluation_burden.md`](../ch5_evaluation/evaluation_burden.md)).
-- Project supervision has since directed that each tactic's time be drawn from an exponential distribution rather than consumed as a fixed dwell, with the timing owned by the attacker's behavioural model rather than by the simulator's action costs. The tier badges and the anti-circularity rules survive that change unaltered — what changes is that a declared value becomes a distribution's mean, so the calibration target moves from a single emergent timeline to the shape of a distribution of them, and the sweep acquires a second dimension in any tactic whose spread is itself declared. This note is revised when that regime lands, not before.
+- The directed change to stochastic timing has now landed (July 2026): each tactic's time is drawn from an exponential distribution whose mean is the declared value, and the timing is owned by the attacker's behavioural model rather than by the simulator's action costs. The tier badges, the group anchors and the four anti-circularity rules survived it unaltered, because the change is semantic rather than numeric — no declared value moved, and what a declared value *is* changed from a fixed dwell to a distribution's centre. Two consequences stay open. The calibration target is no longer a single emergent timeline but the shape of a distribution of them, so the held-out observable must be checked against that distribution rather than against one run; and the sweep gains a second dimension in any tactic whose spread is itself declared, which under an exponential it is not, since the family fixes the spread at a coefficient of variation of one. The second dimension therefore opens only if a heavier-shouldered same-mean family is adopted for the low-and-slow tactics. This note is revised again when either lands.
 - ~~If the supervisor rejects shape-not-scale in favour of absolute-time realism, the time-scale clash re-opens.~~ **Closed 2026-07-10:** the written feedback ratified shape-not-scale (rulings R1/R4 in the decision register — practical reports as the qualitative source; simulation settings as free experimental variables). The condition would only re-open if that ruling were reversed.
