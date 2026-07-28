@@ -10,19 +10,30 @@ the net supplies *movement*, and the carved substrate supplies *outcome* (M4).
 
 Per-place lifecycle, per the M7 handoff, all through the controller library:
 
-    enter place -> dwell (an exponential draw about the D4 declared duration)
-      -> controller.phase_for(tactic) -> attack_op.step(verb) -> verdict adapter
+    enter place -> draw the tactic's time -> controller.phase_for(tactic)
+      -> attack_op.step(verb, duration=that time) -> verdict adapter
       -> overlay.compose(place, verdict) -> sample the next transition
       -> enter the next place
 
-**Where the time comes from (S3).** The dwell is the movement layer's own
-contribution to the clock: this driver *supplies* it — a draw from
-:mod:`mtdsim.l3_simulation.movement.timing`, whose mean is the tactic's declared
-catalogue duration — and the SimPy loop *spends* it, on the one shared clock both
-arms are measured against. Each dispatched verb keeps its native substrate cost on
-top, so the per-action durations the substrate records are untouched and stay
-comparable across arms; what the behavioural dwell moves is elapsed
-time-to-compromise, which is the quantity the head-to-head comparison reports.
+**The movement layer owns every unit of the attacker's time (S3-R).** The tactic's
+draw — from :mod:`mtdsim.l3_simulation.movement.timing`, with the declared
+catalogue duration as its mean — *is* the action's duration, handed to the
+substrate and spent there. The substrate's own ``ATTACK_DURATION`` and
+``exploit_time`` are **not** consumed on this arm; they remain the native FSM's
+pricing and are untouched there. One consequence is the intended one: because many
+tactics map to one verb, the same verb costs different amounts depending on which
+tactic invoked it, since the price belongs to the modelled behaviour rather than to
+the verb.
+
+Every place visit costs its tactic's time, whatever happens at it — the action ran,
+the action was blocked by an unmet precondition, or the place dispatches nothing at
+all. Charging nothing for a blocked attempt would make an unsatisfiable place a
+free move, and the profiles that block most would churn the net at no cost.
+
+The one attacker-side duration this layer does *not* supply is the MTD confusion
+penalty, which stays inside the substrate: it is the simulator's model of what a
+defender does to an attacker mid-action, so it sits on the defender↔attacker border
+rather than in the portable layer.
 
 **Consumes, never forks (hard constraint).** Dispatch (``controller.phase_for``),
 outcome composition (``overlay.compose``) and the success/failure verdict adapter
@@ -320,52 +331,29 @@ class MovementAttacker:
                 place = next_place
                 continue
 
-            # Announce the verb the token is about to fire, BEFORE the dwell.
+            # Announce the verb the token is about to fire, BEFORE any time passes.
             #
             # The defender decides whether an application-layer mutation interrupts
             # by reading the adversary's curr_process (mtd_operation._interrupt_
             # adversary): it interrupts only the surface-dependent phases, per Brown
             # B-INT-02 (a lost service connection blocks port-scanning and
             # exploitation, but not host discovery). Left unset until step() ran,
-            # curr_process held the PREVIOUS verb for the whole dwell — and 88% of
-            # interrupt decisions are taken during a dwell, so the gate was routinely
-            # judging a verb that had already finished. It flipped 27% of
-            # application-layer decisions: interrupts missed while the token sat on a
-            # tactic about to exploit, and interrupts fired at one about to discover.
-            # The driver's own record already attributed the interrupt to `verb`, so
-            # the record and the gate disagreed.
+            # curr_process held the PREVIOUS verb for the whole of the preceding
+            # wait, so the gate was routinely judging a verb that had already
+            # finished. It flipped 27% of application-layer decisions: interrupts
+            # missed while the token sat on a tactic about to exploit, and interrupts
+            # fired at one about to discover. The driver's own record already
+            # attributed the interrupt to `verb`, so the record and the gate
+            # disagreed.
             self.adversary.set_curr_process(verb)
 
-            # The dwell is interruptible: an MTD mutation while the token sits at
-            # a place, before its verb dispatches, reads as a failure at that
-            # place (same interrupt-as-failure feedback as a verb interrupt).
-            dwell_interrupted = False
-            try:
-                if dwell > 0:
-                    yield self.env.timeout(dwell)
-            except simpy.Interrupt:
-                dwell_interrupted = True
-                # The interrupt cut the dwell short, so the catalogue value was NOT
-                # consumed. Record what was actually served, or the record asserts
-                # more elapsed time than the event occupied.
-                dwell = self.env.now - start_time
-            if self.end_event.triggered:
+            outcome_tag, verdict, interrupted, blocked, interrupted_by, dwell = (
+                yield from self._dispatch(verb, dwell, start_time)
+            )
+            if outcome_tag == _SIM_END:
                 self._emit_terminal(place, step_index, _SIM_END, verb=verb,
                                     dwell=dwell, start_time=start_time)
                 return
-
-            if dwell_interrupted:
-                outcome_tag, verdict, interrupted, blocked, interrupted_by = (
-                    yield from self._read_interrupt(verb, None)
-                )
-            else:
-                outcome_tag, verdict, interrupted, blocked, interrupted_by = (
-                    yield from self._dispatch(verb)
-                )
-                if outcome_tag == _SIM_END:
-                    self._emit_terminal(place, step_index, _SIM_END, verb=verb,
-                                        dwell=dwell, start_time=start_time)
-                    return
 
             next_place = self._route(place, verdict)
             self.records.append(
@@ -390,11 +378,12 @@ class MovementAttacker:
                 return  # stall (overlay suppressed every out-edge) or sink
             place = next_place
 
-    def _dispatch(self, verb: str):
-        """Run one dispatched verb through the carved substrate and read the
-        verdict. Returns ``(outcome_tag, verdict, interrupted, blocked,
-        interrupted_by)``; ``outcome_tag == _SIM_END`` means the sim ended
-        mid-verb (the caller emits a terminal record and stops)."""
+    def _dispatch(self, verb: str, duration: float, start_time: float):
+        """Run one dispatched verb through the carved substrate for the time the
+        movement layer supplies, and read the verdict. Returns ``(outcome_tag,
+        verdict, interrupted, blocked, interrupted_by, served)``, where ``served``
+        is the time the place actually consumed; ``outcome_tag == _SIM_END`` means
+        the sim ended mid-verb (the caller emits a terminal record and stops)."""
         # Unmet precondition: the substrate cannot run this verb from its current
         # state, so there is NO substrate outcome for the controller's verdict
         # adapter to judge. This is a movement-layer routing condition, not a
@@ -402,19 +391,34 @@ class MovementAttacker:
         # un-actionable dispatch retries/backs off) rather than fabricating a
         # substrate signal for the controller. It does NOT re-impose the native
         # order to satisfy the precondition (that would manufacture the very
-        # coupling the evaluation tests for — anatomy §6, H-coupling). No substrate
-        # time is consumed — the verb never ran.
+        # coupling the evaluation tests for — anatomy §6, H-coupling).
+        #
+        # It still costs the tactic's time. The attacker committed the procedure
+        # that tactic represents and it came to nothing; charging nothing would make
+        # an unsatisfiable place a free move, and the profiles that block most would
+        # churn the net at no cost — which is precisely where the H-coupling finding
+        # lives, so it must not be the cheap path.
         try:
             self.attack_op.assert_action_context(verb)
         except ActionContextError:
-            return _PRECONDITION_UNMET, _UNACTIONABLE_VERDICT, False, True, ""
+            served, interrupted, interrupted_by = yield from self._serve_time(
+                duration, start_time
+            )
+            return (
+                _PRECONDITION_UNMET, _UNACTIONABLE_VERDICT, interrupted, True,
+                interrupted_by, served,
+            )
 
         interrupted = False
+        served = duration
         try:
-            outcome = yield from self.attack_op.step(verb)
+            outcome = yield from self.attack_op.step(verb, duration=duration)
         except simpy.Interrupt:
             interrupted = True
             outcome = None
+            # Captured BEFORE the confusion penalty is paid, so `served` is the
+            # action's own time and the penalty stays outside it.
+            served = self.env.now - start_time
 
         if not interrupted and (outcome is STEP_ABORTED or outcome == EXPLOIT_HALTED):
             # The sim ended DURING the verb, so it never acted: step() returns the
@@ -428,16 +432,19 @@ class MovementAttacker:
             # Inferring the abort from that flag discarded exactly the compromise that
             # completed the run, leaving ASR scoring it a success while MTTC dropped it
             # for having no compromise event.
-            return _SIM_END, "", False, False, ""
+            return _SIM_END, "", False, False, "", served
 
         # Every verb — EXPLOIT_VULN included — propagates an MTD interrupt out of
         # step() as simpy.Interrupt (the carve's driven=True re-raise), caught
         # above. Read it as an interrupt-halt failure and let the overlay route.
         if interrupted:
-            return (yield from self._read_interrupt(verb, outcome))
+            tag, verdict, was_interrupted, was_blocked, interrupted_by = (
+                yield from self._read_interrupt(verb, outcome)
+            )
+            return tag, verdict, was_interrupted, was_blocked, interrupted_by, served
 
         verdict = self.verdict_of(verb, outcome, False)
-        return _outcome_tag(outcome), verdict, False, False, ""
+        return _outcome_tag(outcome), verdict, False, False, "", served
 
     def _read_interrupt(self, verb: str, outcome: Any):
         """Handle an MTD interrupt: pay the substrate's price for being blocked, read
@@ -483,30 +490,42 @@ class MovementAttacker:
             self.attack_op.set_interrupted_mtd(None)
         return interrupted_by
 
+    def _serve_time(self, duration: float, start_time: float):
+        """Spend the movement layer's supplied time without dispatching anything.
+
+        Returns ``(served, interrupted, interrupted_by)``. Used by the two paths
+        where the token spends a tactic's time but no substrate action runs: a
+        dwell-only place, and an action whose precondition was unmet. An MTD
+        mutation during it cuts the time short — ``served`` is then what was
+        actually consumed, or the record would claim more elapsed time than the
+        event occupied — and the substrate's interrupt price is paid, so neither
+        path becomes a cost-free hiding spot from MTD.
+        """
+        interrupted = False
+        interrupted_by = ""
+        served = duration
+        try:
+            if duration > 0:
+                yield self.env.timeout(duration)
+        except simpy.Interrupt:
+            interrupted = True
+            served = self.env.now - start_time
+            interrupted_by = yield from self._pay_interrupt_cost()
+        return served, interrupted, interrupted_by
+
     def _serve_dwell_only(self, dwell: float, start_time: float):
         """Serve a dwell-only place: advance time, dispatch nothing, judge nothing.
 
-        Returns ``(dwell_consumed, interrupted, interrupted_by)``. An MTD mutation
-        during the dwell is felt in *cost* — the substrate's interrupt price is
-        paid, and the record says an interrupt happened — but **not in routing**:
-        no verb ran, so there is no substrate outcome for the verdict adapter to
-        read, and fabricating one would put a substrate signal in the record that
-        the substrate never produced. The token therefore routes on the base
-        weights either way (overlay design §5, the stated scope boundary).
+        An MTD mutation during the dwell is felt in *cost* — the substrate's
+        interrupt price is paid, and the record says an interrupt happened — but
+        **not in routing**: no verb ran, so there is no substrate outcome for the
+        verdict adapter to read, and fabricating one would put a substrate signal
+        in the record that the substrate never produced. The token therefore routes
+        on the base weights either way (overlay design §5, the stated scope
+        boundary).
         """
         self.adversary.set_curr_process(DWELL_PROCESS)
-        interrupted = False
-        interrupted_by = ""
-        try:
-            if dwell > 0:
-                yield self.env.timeout(dwell)
-        except simpy.Interrupt:
-            interrupted = True
-            # The catalogue value was not consumed — record what was served, or
-            # the record claims more elapsed time than the event occupied.
-            dwell = self.env.now - start_time
-            interrupted_by = yield from self._pay_interrupt_cost()
-        return dwell, interrupted, interrupted_by
+        return (yield from self._serve_time(dwell, start_time))
 
     def _route(self, place: str, verdict: str) -> str | None:
         """Condition the base out-distribution on the verdict (overlay.compose)

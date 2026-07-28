@@ -410,7 +410,7 @@ class AttackOperation:
         else:
             self._exploit_vuln()
 
-    def _do_exploit_vuln(self, vulns, driven=False):
+    def _do_exploit_vuln(self, vulns, driven=False, charge_time=True):
         """
         EXPLOIT_VULN core (generator). Finds the top 5 vulnerabilities based on
         RoA score and not yet exploited, tries exploiting them to compromise the
@@ -431,17 +431,30 @@ class AttackOperation:
         other five verbs — no rogue native chain runs behind the driver. The
         native _execute_exploit_vuln keeps the default (driven=False), so the
         native FSM path — and the baseline/golden scenarios — stay byte-identical.
+
+        ``charge_time=False`` (set only by step() when the caller supplied the
+        action's duration): the caller has already spent the whole action's time, so
+        the loop attempts each vulnerability without charging its own per-vuln
+        exploit time. The rows it writes are unchanged — compromise back-patching
+        keys on them — and so is every outcome; what goes is the substrate's own
+        pricing of the attempt, along with the mechanisms that only ever expressed
+        themselves through that price (the complexity scaling, the OS-mismatch
+        multiplier, and the per-instance re-exploit discount, ATK-04). Those are
+        MTDSim's model of what an exploit costs, and a driving layer that supplies
+        its own durations is declining to use it.
         """
         adversary = self.adversary
         for vuln in vulns:
-            exploit_time = exponential_variates(vuln.exploit_time(host=adversary.get_curr_host()), 0.5)
             start_time = self.env.now + self._proceed_time
             try:
                 if self.logging:
                     logging.info(
                     "Adversary: Start %s %s on host %s at %.1fs." % (self.adversary.get_curr_process(), vuln.id,
                                                                      self.adversary.get_curr_host_id(), start_time))
-                yield self.env.timeout(exploit_time)
+                if charge_time:
+                    exploit_time = exponential_variates(
+                        vuln.exploit_time(host=adversary.get_curr_host()), 0.5)
+                    yield self.env.timeout(exploit_time)
             except simpy.Interrupt:
                 if driven:
                     # Driven mode: let the interrupt propagate to the driver, which
@@ -658,13 +671,30 @@ class AttackOperation:
             return
         raise ActionContextError("unknown verb %r" % verb)
 
-    def step(self, verb):
-        """Drivability primitive: perform one verb with its native time cost and
+    def step(self, verb, duration=None):
+        """Drivability primitive: perform one verb for a caller-supplied duration and
         RETURN its outcome (a _do_* return value), WITHOUT dispatching a successor
         — the third lever from anatomy §3.3. A SimPy generator: drive it from a
-        controller process with `outcome = yield from attack_operation.step(verb)`,
-        then choose the next verb yourself (that choice is the driver's job, out of
-        this module's scope).
+        controller process with
+        `outcome = yield from attack_operation.step(verb, duration=d)`, then choose
+        the next verb yourself (that choice is the driver's job, out of this
+        module's scope).
+
+        **``duration`` — who prices the action (S3-R, 2026-07-28).** The driving
+        layer supplies the time this verb takes and the simulation spends it. Pass a
+        duration and the verb costs exactly that, whatever `ATTACK_DURATION` says;
+        the same verb therefore costs different amounts when invoked from different
+        attacker states, which is the point — the price belongs to the behaviour
+        being modelled, not to the verb. Omit it (``None``) and the verb falls back
+        to its native `ATTACK_DURATION` cost, which is what the native FSM path uses
+        throughout.
+
+        This is a reversal of the earlier hybrid, where the driver's own dwell and
+        this native cost were both charged for one action. The movement layer is
+        meant to be liftable onto another simulator, and a duration that lives in
+        this module's constants cannot travel with it; a duration the driving layer
+        supplies can. See
+        `docs/implementation/pipeline/ogasp/stochastic_timing_design.md` §2.
 
         Fails loudly (assert_action_context) if the verb's precondition is unmet,
         and records each verb in the attack stats exactly as the native path does,
@@ -685,13 +715,26 @@ class AttackOperation:
         """
         self.assert_action_context(verb)
         adversary = self.adversary
+        supplied = duration is not None
         if verb == 'EXPLOIT_VULN':
-            # EXPLOIT_VULN times per-vuln inside its core (no single outer timeout).
             adversary.set_curr_process('EXPLOIT_VULN')
             adversary.set_curr_vulns(
                 adversary.get_curr_host().get_vulns(adversary.get_curr_ports()))
+            if not supplied:
+                # Native pricing: EXPLOIT_VULN times per-vuln inside its core, so
+                # there is no single outer timeout.
+                outcome = yield from self._do_exploit_vuln(
+                    adversary.get_curr_vulns(), driven=True)
+                return outcome
+            # Supplied pricing: the action costs the caller's duration ONCE, so the
+            # core runs its vulnerability loop without charging per-vuln time. The
+            # per-vuln rows it writes stay (compromise back-patching keys on them);
+            # only their time cost goes.
+            yield self.env.timeout(duration)
+            if self.end_event.triggered:
+                return STEP_ABORTED
             outcome = yield from self._do_exploit_vuln(
-                adversary.get_curr_vulns(), driven=True)
+                adversary.get_curr_vulns(), driven=True, charge_time=False)
             return outcome
         cores = {
             'SCAN_HOST': self._do_scan_host,
@@ -702,7 +745,9 @@ class AttackOperation:
         }
         adversary.set_curr_process(verb)
         start_time = self.env.now + self._proceed_time
-        yield self.env.timeout(ATTACK_DURATION[verb])
+        yield self.env.timeout(
+            ATTACK_DURATION[verb] if not supplied else duration
+        )
         # R2-attacker: same gate as _execute_attack_action — don't act past sim end.
         # Returns the STEP_ABORTED sentinel, not None: None is _do_scan_neighbors'
         # legitimate no-branch outcome, and a driver cannot re-derive "aborted" from

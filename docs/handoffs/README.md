@@ -40,9 +40,17 @@ argument, and the determinism/migration/rollback scheme. — And the S3 timing
 Each tactic's dwell is now a draw whose mean is its declared catalogue value, from
 a third, isolated random stream; the catalogue's metadata declares the movement
 layer's stochastic reading alongside the timeline runner's unchanged point
-reading; the baseline arm and internal MTTC are both demonstrably unmoved; and the
-confusion penalty stayed where it was, with its single-charge property tightened
-into a guard rather than re-homed.)*
+reading; and the confusion penalty stayed where it was, with its single-charge
+property tightened into a guard rather than re-homed. — **Then S3-R, the same day:**
+Marc reversed the design record's §2 and retired the hybrid it had ruled. The
+movement layer now supplies **every** unit of the attacker's time — a tactic's draw
+*is* the dispatched action's duration, so the same verb costs different amounts
+under different tactics — and the substrate's `ATTACK_DURATION` / `exploit_time` are
+no longer consumed on that arm, taking the complexity scaling, the OS-mismatch
+multiplier and the ATK-04 re-exploit discount out of play there. A blocked attempt
+now costs its tactic's time rather than being free. Internal MTTC is ruled a
+substrate-owned metric that the portable layer does not own, and cross-arm
+comparability of it is withdrawn rather than defended.)*
 
 **Wave 3 — one of two shipped.**
 

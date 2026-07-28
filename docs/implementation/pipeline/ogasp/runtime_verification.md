@@ -30,8 +30,8 @@ apart, and the merge is only in the telling.
 |---|---|---|
 | **Movement / structure** (GASP) | which moves are legal, and their base proportions — the net's legal-move grammar, with the pre-attack synthetic overlay already composed in at net-build | [`net.py`](../../../../src/mtdsim/l3_simulation/movement/net.py) (`RoutingNet`, `load_routing_net`, `_compose_out`) |
 | **Controller / policy** | which verb a tactic fires, and how a verdict re-weights the next move | [`controller/`](../../../../src/mtdsim/l3_simulation/controller/) (`controller.py` = map, `outcome.py` = compose, `verdict.py` = verdict adapter) |
-| **Action** (MTDSim substrate) | the outcome oracle (M4) — one verb, native time cost, its own dice, no succession | [`attack_operation.py`](../../../../mtdnetwork/operation/attack_operation.py) (`step`, `_do_*`, `assert_action_context`) |
-| **Driver** (execution) | one seeded walk: enter → dwell → dispatch → step → verdict → compose → sample | [`attacker.py`](../../../../src/mtdsim/l3_simulation/movement/attacker.py) (`MovementAttacker._walk`) |
+| **Action** (MTDSim substrate) | the outcome oracle (M4) — one verb, its own dice, no succession. *Since S3-R it is no longer the timekeeper: the driving layer supplies the action's duration and the substrate spends it; the native `ATTACK_DURATION` pricing applies only to the native FSM arm.* | [`attack_operation.py`](../../../../mtdnetwork/operation/attack_operation.py) (`step`, `_do_*`, `assert_action_context`) |
+| **Driver** (execution) | one seeded walk: enter → draw the tactic's time → dispatch → step (for that time) → verdict → compose → sample | [`attacker.py`](../../../../src/mtdsim/l3_simulation/movement/attacker.py) (`MovementAttacker._walk`) |
 
 The trichotomy is the one in
 [`success_failure_overlay_design.md`](success_failure_overlay_design.md):
@@ -96,6 +96,20 @@ lets the overlay route it — it does **not** re-impose native order, because th
 would manufacture the very coupling the evaluation is meant to expose
 ([`action_layer_anatomy.md`](action_layer_anatomy.md) §6, H-coupling). No substrate
 time is consumed on a block (the verb never ran).
+
+> **Superseded on the timing half, 2026-07-28 (S3-R).** A block still consumes no
+> *substrate* time — the verb genuinely never runs — but it now costs the **tactic's
+> own time**, supplied by the movement layer: the attacker committed the procedure
+> that tactic represents and it came to nothing. Under the regime this record
+> describes, a blocked place was a free move, so a profile that blocks almost
+> everything churned the net at no cost; the blocked-fraction table below was
+> measured under that regime and its *event counts* are therefore not directly
+> comparable with post-S3-R runs. The blocked-fraction finding itself — that the
+> fraction spans 0–100 % by profile and arm — is a structural property of the
+> mapping against the substrate's preconditions and is unaffected by pricing.
+> A blocked attempt can also now be interrupted by an MTD mutation, which was
+> impossible when it occupied no time; such an event keeps the `PRECONDITION_UNMET`
+> tag and carries the `interrupted` flag.
 
 **The H-coupling as a number** (horizon 15 000, no MTD, seeds 0–7/42/1234 = 10 runs
 per cell; the blocked-fraction is the H-coupling finding, a *result to report*, not

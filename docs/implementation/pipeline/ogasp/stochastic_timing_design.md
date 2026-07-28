@@ -17,8 +17,55 @@ source file, test, or data artefact was modified to produce this record**; the
 current behaviour it rules against was confirmed by a throwaway probe (§0), not by
 reading alone.
 
-> **Built, 2026-07-28.** The build half has landed and this record specified it
-> without needing a decision re-taken: the draw
+> **§2's central ruling was REVERSED by Marc on 2026-07-28, after the first build.**
+> The version below — the movement layer supplies the tactic dwell, each dispatched
+> action *additionally* keeps its native substrate cost — is superseded. The ruling
+> now in force, **S3-R**:
+>
+> > **The movement layer supplies every unit of the attacker's time.** A tactic's
+> > draw *is* the dispatched action's duration, imposed on whatever verb the mapping
+> > invokes; the substrate's own `ATTACK_DURATION` and `exploit_time` are no longer
+> > consumed on the movement arm. Every place visit costs its tactic's time — the
+> > action ran, the action was blocked, or the place dispatches nothing. The MTD
+> > confusion penalty is the sole exception and stays substrate-side (§4 unchanged),
+> > because it models what a *defender* does to an attacker rather than what the
+> > attacker does.
+>
+> **Why the reversal, in Marc's terms.** The hybrid put two pricing authorities on
+> one action. The movement layer is meant to be liftable onto another simulator, and
+> a duration that lives in MTDSim's constants cannot travel with it — so a portable
+> layer that nonetheless depends on the substrate to price its actions is not
+> portable. The same argument that keeps the confusion penalty *inside* MTDSim (it
+> is the simulator's model of thwarting) keeps action timing *outside* it (it is the
+> attacker's behaviour). §2's ontology section was already right about where time
+> lives; the hybrid contradicted it.
+>
+> **The objections §2 raised against this option, and their disposition.** Two are
+> answered and one is accepted rather than answered. (a) *It changes the frozen
+> action layer.* It does not: the native FSM prices its verbs in
+> `_execute_attack_action`, a separate function from the driven `step()`, and the
+> exploit core already branches on `driven`. The native path is untouched and its
+> golden reproduces. (b) *It contradicts the wave-1 fix `53c5e5d`.* It does not:
+> that fix made the movement arm pay the **confusion penalty**, which S3-R keeps
+> exactly as it is. (c) *It breaks internal MTTC's cross-arm comparability.*
+> **Accepted, and overruled on purpose.** Marc's ruling: internal MTTC is a metric
+> baked into MTDSim and belongs inside it; the movement layer supplies timings and
+> does not own the substrate's metrics. Comparability with prior published numbers
+> is explicitly not a goal — a faithful comparison, when wanted, is obtained by
+> running prior work on the final simulator rather than by holding this model's
+> metrics still. **§5's comparability argument is therefore withdrawn, not
+> repaired.**
+>
+> **What the reversal changed in the code:** `step(verb, duration=...)` charges the
+> supplied time instead of `ATTACK_DURATION[verb]`; the driven exploit path charges
+> once for the action rather than per vulnerability; a blocked attempt now consumes
+> its tactic's time where it previously consumed none; and one consequence to note —
+> since the exploit core's per-vulnerability pricing is what expressed the complexity
+> scaling, the OS-mismatch multiplier and the per-instance re-exploit discount
+> (ATK-04), all three are now inert on the movement arm. They remain live on the
+> native arm.
+
+> **Built, 2026-07-28 (first build, under the now-superseded §2).** The draw
 > ([`movement/timing.py`](../../../../src/mtdsim/l3_simulation/movement/timing.py)),
 > the single `_walk` timing seam, the catalogue metadata inversion, and the
 > docstring correction §4 called for. Four things the build found, recorded here
@@ -192,6 +239,15 @@ study already draws.
 ---
 
 ## 2. Decision — where the clock lives (the central ruling)
+
+> **SUPERSEDED 2026-07-28 by S3-R (banner at the top of this record).** The ruling
+> stated here is the *hybrid*: the movement layer supplies the tactic dwell and the
+> dispatched action additionally keeps its native substrate cost. Marc reversed it
+> after the first build. The movement layer now supplies **all** attacker time, and
+> the substrate's action costs are not consumed on that arm. The section is kept in
+> full because its ontology (below) survives the reversal and its rejected
+> alternatives are the reasoning the reversal was argued against — but **the boxed
+> ruling immediately below is no longer what the code does.**
 
 **The ruling, in one sentence a reader cannot misread:**
 
@@ -411,10 +467,37 @@ the project operates under.
 Whether the conclusion actually survives the rate regime — the sweep over the
 declared bands, the sensitivity of any ranking to where in its band each anchor
 sits, and whether a same-mean heavier-tailed family changes the answer — is an
-*analysis*, not a design decision. It is spun out as its own brief
-([`../../../handoffs/2026-07-28_tactic_rate_feasibility_study.md`](../../../handoffs/2026-07-28_tactic_rate_feasibility_study.md)),
-because a design record that also claimed the robustness result would be asserting
-the thing the study exists to test.
+*analysis*, not a design decision. It was spun out as its own brief and has since
+**run**: [`rate_feasibility_study.md`](rate_feasibility_study.md), pre-registered
+before any output existed and reported over 1 728 runs.
+
+**Its verdict on this section — confirmed, with one qualification (2026-07-28).**
+No conclusion changes direction anywhere in the declared bands, so the regime
+this record rules is defensible as ruled. Two results bear directly on §3:
+
+1. **§3.2(3)'s mean-is-load-bearing defence holds.** Substituting a same-mean
+   Erlang-4 for the five low-and-slow tactics — halving the coefficient of
+   variation, which is exactly the "paced, deliberate" shape §3.1 says the group's
+   character wants — moves no outcome: pooled paired differences in host breadth,
+   interrupts and events all contain zero at every interrupt-pressure level, and
+   attack-success rate is identical. §3.1's worry is therefore answered
+   empirically: the exponential is a poor *descriptive* shape for that group and
+   an immaterial *operational* one.
+2. **The interrupt-channel leak is visible in the mechanism and inert in the
+   result.** §3.2(3) predicted that shape re-enters through interruption, so any
+   shape difference should grow as the mutation interval shrinks. It does — the
+   interrupt-count difference is largest at the 200 s interval and exactly zero
+   with MTD off — but it never separates from zero and never reaches an outcome.
+   The prediction is upheld in direction and immaterial in magnitude.
+
+**The qualification, stated because it bounds the claim.** The study also found
+that the project's operating mutation interval sits inside a *degenerate region*
+where neither attacker can complete the objective (the boundary is above ~1 600 s;
+study §7 C5). The shape check therefore ran mostly where compromise events are
+scarce, which makes it a weaker test than its clean result suggests. This section
+should not be read as closing the distribution-family question — only as showing
+that, in the regime the evaluation currently operates in, the family does not pay
+its way as a modelling elaboration.
 - **One property in the exponential's favour beyond tractability:** memorylessness
   makes the interrupt-during-dwell path clean — after an MTD interrupt cuts a dwell
   short, the residual is distributed identically to a fresh dwell, so no
@@ -487,6 +570,19 @@ edit the build makes.
 ---
 
 ## 5. The comparability argument, written before any code
+
+> **WITHDRAWN 2026-07-28, not repaired.** This section argues that internal MTTC
+> survives S3 unchanged and stays comparable across arms. Under S3-R it does not:
+> the movement arm's action durations are the tactic's supplied time, so the same
+> verb costs different amounts on the two arms by design. Marc's ruling is that this
+> is not a defect to argue away — internal MTTC is a metric baked into MTDSim and
+> belongs inside it, the movement layer supplies timings rather than owning the
+> substrate's metrics, and comparability with prior published numbers is explicitly
+> not a goal (a faithful comparison means running prior work on the final simulator,
+> not freezing this model's metrics). The section is retained as the record of an
+> argument that was made and then declined, not as a live claim. What does survive:
+> the baseline arm is untouched and reproduces its golden, and the honest caveat
+> below on never reporting an elapsed magnitude as an inherent property.
 
 Two quantities carry the name "MTTC" (§0, Fact 3) and S3 lands on one of them.
 Here is how a movement-arm run's timing composes into each, and what stays

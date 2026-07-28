@@ -366,31 +366,42 @@ limitation (ties to the H-coupling hypothesis, anatomy §6).
 
 ### 6.1 Lifecycle
 
-Per step at the token's place `a`: **enter** and **dwell** — since S3 a draw from
-`Exponential(mean = duration_s)`, the declared D4 value in
+Per step at the token's place `a`: **enter** and **draw** the tactic's time — since
+S3 a draw from `Exponential(mean = duration_s)`, the declared D4 value in
 [`tactic_durations.json`](../../../../data/ogasp/tactic_durations.json) read as the
 distribution's mean rather than as a constant
 ([`stochastic_timing_design.md`](stochastic_timing_design.md); the draw lives at
 [`movement/timing.py`](../../../../src/mtdsim/l3_simulation/movement/timing.py) and
 is taken at one point in `_walk`). If `a`'s action is available, **fire** the mapped
-verb via `step(verb)`, **read** the binary verdict, **select** the
-`success`/`failure` column, **compose + renormalise** (§1); else route on base
+verb via `step(verb, duration=that time)`, **read** the binary verdict, **select**
+the `success`/`failure` column, **compose + renormalise** (§1); else route on base
 weights. **Sample** the next transition under the run seed and move the token.
 **Terminate** on reaching the profile's objective set, or **censor** at the
 simulation horizon (R4 makes the horizon a free experimental variable).
 
-Under the GSPN reading S3 adopts, the dwell **is** the place's timed transition and
-the routing sample **is** its immediate transition (zero simulated time). A
-dwell-only place — one the selected controller mapping declares as dispatching no
-verb — draws its dwell from the same source and then routes on base weights: its
-dwell is its entire cost. A tactic whose declared duration is zero
-(`resource-development`) is a pure immediate transition, drawing nothing.
+Under the GSPN reading, the tactic's time **is** the place's timed transition and
+the routing sample **is** its immediate transition (zero simulated time). A tactic
+whose declared duration is zero (`resource-development`) is a pure immediate
+transition, drawing nothing — and, since S3-R, an action dispatched from such a
+tactic runs for no simulated time at all.
 
-The time itself is **supplied** by the movement layer and **spent** by the SimPy
-loop; the net holds no clock. That distinction is what keeps the arrangement
-portable — another simulator's event loop would spend the same supplied durations —
-and it is why the MTD confusion penalty deliberately stays on the substrate side of
-the seam rather than becoming a place in the net (§5;
+**The movement layer supplies every unit of the attacker's time (S3-R).** The
+tactic's draw is the *whole* cost of the visit: the dispatched action is priced by
+the tactic that invoked it, and the substrate's own action costs are not consumed on
+this arm. Three cases, one rule. An action-bearing place spends its draw on the
+action. A **dwell-only** place — one the selected controller mapping declares as
+dispatching no verb — spends its draw and dispatches nothing, so the draw is its
+entire cost. A place whose action is **blocked** by an unmet precondition spends its
+draw too: the attacker committed the procedure the tactic represents and it came to
+nothing, and charging nothing would make an unsatisfiable place a free move.
+
+Time is **supplied** by the movement layer and **spent** by the SimPy loop; the net
+holds no clock. That distinction is what keeps the arrangement portable — another
+simulator's event loop would spend the same supplied durations, which it could not
+do if the durations lived in MTDSim's constants — and it is the same argument, run
+in the opposite direction, that keeps the MTD confusion penalty on the substrate
+side of the seam: the penalty models what a *defender* does to an attacker, so it
+belongs to the simulator, not to the portable layer (§5;
 [`stochastic_timing_design.md`](stochastic_timing_design.md) §4).
 
 **The degenerate case (renormalisation denominator → 0).** Because the composition

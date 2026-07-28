@@ -344,20 +344,121 @@ def test_introducing_the_draws_leaves_the_other_streams_untouched() -> None:
         "draws are perturbing the sampler or the substrate dice"
     )
 
-    # And the substrate's own price for each action is identical event by event —
-    # the movement layer's timing is additional to it, never a re-pricing of it.
-    # This is what keeps internal MTTC (the mean per-action duration) meaning the
-    # same thing, and comparable across arms, after S3 (design record §5).
-    def verb_costs(records):
-        return [
-            round((r.end_time - r.start_time) - r.dwell, 9)
-            for r in records[:shared]
-            if r.verb and not r.blocked and not r.interrupted
-        ]
+def test_the_substrate_contributes_no_attacker_time() -> None:
+    """The movement layer owns every unit of the attacker's time (S3-R).
 
-    assert verb_costs(drawn) == verb_costs(constant), (
-        "the dispatched verbs' native substrate costs moved when the timing "
-        "regime changed; internal MTTC would no longer be comparable across arms"
+    An event's whole elapsed time is the tactic's draw, so the residual — what the
+    substrate would have charged for the verb — is zero. This is the assertion
+    that would fail if any native ``ATTACK_DURATION`` or ``exploit_time`` charge
+    crept back onto this arm, which is exactly the hybrid the ruling retired.
+
+    Restricted to a no-MTD run, where nothing can cut an event short or add a
+    confusion penalty on top.
+    """
+    from mtdsim.l3_simulation.movement.run import run_movement
+
+    res = run_movement(
+        "aggregate", seed=42, with_synthetic_overlay=True, horizon=15_000,
+        mtd_scheme=None,
+    )
+    acting = [
+        r for r in res.records
+        if r.verb and r.outcome not in {"SIM_END", "MAX_EVENTS"}
+    ]
+    assert acting, "no dispatched actions to check"
+    for r in acting:
+        residual = (r.end_time - r.start_time) - r.dwell
+        assert residual == pytest.approx(0.0, abs=1e-6), (
+            f"{r.verb} at {r.place} cost {residual} beyond its tactic's time — "
+            f"the substrate is still pricing the action"
+        )
+
+
+def test_one_verb_costs_different_amounts_under_different_tactics() -> None:
+    """The intended consequence of the mapping being many-to-one: because the
+    price belongs to the tactic rather than to the verb, the same verb invoked
+    from two tactics with different declared durations takes different times.
+
+    Compared as means over many visits, since each individual draw is random —
+    what must differ is the tactics' central tendencies, not two single draws.
+    """
+    from mtdsim.l3_simulation.movement.run import run_movement
+
+    catalogue = load_dwell_catalogue()
+    by_verb_place: dict[tuple[str, str], list[float]] = {}
+    for seed in (0, 7, 42, 1234):
+        res = run_movement(
+            "aggregate", seed=seed, with_synthetic_overlay=True, horizon=15_000,
+            mtd_scheme=None,
+        )
+        for r in res.records:
+            if r.verb and not r.interrupted and r.dwell > 0:
+                by_verb_place.setdefault((r.verb, r.place), []).append(r.dwell)
+
+    # Find a verb reached from two tactics whose declared durations differ.
+    verbs: dict[str, list[str]] = {}
+    for (verb, place), values in by_verb_place.items():
+        if len(values) >= 30:
+            verbs.setdefault(verb, []).append(place)
+
+    compared = 0
+    for verb, places in verbs.items():
+        for i, first in enumerate(places):
+            for second in places[i + 1:]:
+                slow, fast = sorted(
+                    (first, second), key=lambda p: catalogue[p], reverse=True
+                )
+                # Only compare tactics whose declared durations are separated by at
+                # least a factor of two. An exponential has a coefficient of
+                # variation of one, so a sample of this size carries a standard
+                # error near a fifth of its mean; two tactics declared a few seconds
+                # apart cannot be told apart at this sample size, and asserting they
+                # can would be a flaky test rather than a stronger one.
+                if catalogue[fast] <= 0 or catalogue[slow] < 2 * catalogue[fast]:
+                    continue
+                compared += 1
+                mean_slow = statistics.fmean(by_verb_place[(verb, slow)])
+                mean_fast = statistics.fmean(by_verb_place[(verb, fast)])
+                assert mean_slow > mean_fast, (
+                    f"{verb} averaged {mean_slow:.1f} from {slow} (declared "
+                    f"{catalogue[slow]}) but {mean_fast:.1f} from {fast} (declared "
+                    f"{catalogue[fast]}) — the tactic is not pricing the action"
+                )
+    assert compared, (
+        "no verb was reached from two tactics whose declared durations differ "
+        "by the factor of two this comparison needs"
+    )
+
+
+def test_a_blocked_attempt_still_costs_its_tactics_time() -> None:
+    """An action the substrate cannot run from its current state still consumes
+    the tactic's time: the attacker committed the procedure that tactic represents
+    and it came to nothing.
+
+    Without this a place whose precondition is unmet is a free move, and the
+    profiles that block most — the blocked fraction runs to ~100% on some — would
+    churn the net at no cost, which is the opposite of what the H-coupling finding
+    should show.
+    """
+    from mtdsim.l3_simulation.movement.run import run_movement
+
+    res = run_movement(
+        "aggregate", seed=42, with_synthetic_overlay=True, horizon=15_000,
+        mtd_scheme=None,
+    )
+    blocked = [r for r in res.records if r.blocked and not r.interrupted]
+    assert blocked, "no blocked attempt was observed"
+
+    catalogue = load_dwell_catalogue()
+    for r in blocked:
+        if catalogue[r.place] == 0:
+            continue
+        assert r.dwell > 0, f"blocked attempt at {r.place} cost nothing"
+        assert r.end_time - r.start_time == pytest.approx(r.dwell)
+
+    charged = [r.dwell / catalogue[r.place] for r in blocked if catalogue[r.place] > 0]
+    assert statistics.fmean(charged) == pytest.approx(1.0, rel=0.25), (
+        "blocked attempts are not being charged their tactic's declared mean"
     )
 
 
@@ -377,27 +478,26 @@ def test_the_regime_is_deterministic_end_to_end() -> None:
     assert [r.dwell for r in first] == [r.dwell for r in second]
 
 
-def test_the_movement_arm_now_carries_a_behavioural_tempo() -> None:
-    """The point of S3, stated as a behaviour: the movement arm's elapsed time is
-    inflated by the declared dwell relative to the same walk without it. This is
-    the *mechanism* behind the elapsed time-to-compromise shift, asserted as a
-    direction only — the magnitude is a declared-parameter artefact and is never
-    a result on its own (design record §5, the honest caveat).
+def test_the_walks_whole_elapsed_time_is_accounted_for_by_the_movement_layer() -> None:
+    """The point of S3-R, stated as an accounting identity: the run's elapsed time
+    is the sum of the tactic times the movement layer supplied, plus the confusion
+    penalties the substrate charged for MTD interrupts — and nothing else.
+
+    Any third contributor would show up as an unexplained remainder, which is what
+    the retired hybrid's native action costs were.
     """
     from mtdsim.l3_simulation.movement.run import run_movement
 
-    zero = {t: 0.0 for t in load_dwell_catalogue()}
-    with_dwell = run_movement(
+    res = run_movement(
         "aggregate", seed=42, with_synthetic_overlay=True, horizon=15_000,
         mtd_scheme=None,
     )
-    without_dwell = run_movement(
-        "aggregate", seed=42, with_synthetic_overlay=True, horizon=15_000,
-        mtd_scheme=None, timing=ConstantTiming(zero),
-    )
+    records = [r for r in res.records if r.outcome not in {"SIM_END", "MAX_EVENTS"}]
+    assert records
 
-    dwell_time = sum(r.dwell for r in with_dwell.records)
-    assert dwell_time > 0
-    assert sum(r.dwell for r in without_dwell.records) == 0
-    # Same horizon, so the tempo shows up as fewer events reached, not a longer run.
-    assert len(with_dwell.records) < len(without_dwell.records)
+    supplied = sum(r.dwell for r in records)
+    assert supplied > 0
+    # No MTD, so no penalties: elapsed time is exactly what the movement layer
+    # supplied, with no remainder for the substrate.
+    elapsed = records[-1].end_time - records[0].start_time
+    assert elapsed == pytest.approx(supplied, rel=1e-6)

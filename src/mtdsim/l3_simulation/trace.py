@@ -270,10 +270,10 @@ def _install_driven(tracer: L3Tracer) -> list:
         undo.append(lambda: setattr(owner, name, orig))
 
     def step(orig):
-        def w(self_ao, verb):
+        def w(self_ao, verb, duration=None):
             t0 = self_ao.env.now
             try:
-                outcome = yield from orig(self_ao, verb)
+                outcome = yield from orig(self_ao, verb, duration=duration)
             except simpy.Interrupt:
                 tracer.verb_interrupts += 1
                 tracer.emit("ATTACKER",

@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-05-27
-updated: 2026-07-13
+updated: 2026-07-28
 ---
 
 # Metrics — semantics, faithfulness, and comparability
@@ -50,6 +50,39 @@ model** — not against Zhang 2023's published `T_Aexploit` formula or
 Tay 2024's RL-trained agent. The §c divergences (C7; ATK-04a active +
 ATK-04b unimplemented) shift the absolute magnitude of every TTC value,
 so the number's meaning is load-bearing only within this substrate.
+
+### The metric belongs to the substrate, and the movement arm does not own it (S3-R, 2026-07-28)
+
+Internal MTTC is a quantity **MTDSim computes about itself**, from the
+action durations it observes. That placement is now a ruling rather than
+an accident of where the code sits, and it has a consequence worth
+stating plainly.
+
+Since S3-R the movement (graph-driven) attacker **supplies its own action
+durations**: the tactic the token occupies prices the action, and the
+substrate's native `ATTACK_DURATION` / `exploit_time` are not consumed on
+that arm. The `attack_record` rows a driven run writes therefore carry
+tactic times, not substrate verb costs — so the same verb costs different
+amounts on the two arms, and internal MTTC computed over a movement-arm
+run is **not** measuring what it measures on the native arm.
+
+**This is not a defect to be argued away, and no attempt is made to
+reconcile the two.** The movement layer is designed to be liftable onto a
+different simulator, so a simulator-specific metric must not be written
+into it; MTDSim keeps its own metric and computes it from whatever
+durations it is given. The consequences, stated so nobody re-derives them
+later:
+
+- Cross-arm comparison of internal MTTC is **invalid**, on top of the
+  cross-paper invalidity §(d) already establishes.
+- Movement-arm internal-MTTC figures published before 2026-07-28 are
+  superseded; they were computed under the retired hybrid, where the arm
+  consumed both a behavioural dwell and the substrate's verb cost.
+- Comparability with prior published work is **explicitly not a design
+  goal** (Marc, 2026-07-28). Where a faithful comparison is wanted it is
+  obtained by running prior work on the final simulator, not by holding
+  this model's metrics still — the published numbers carry their own
+  defects, so pinning to them buys nothing.
 
 ---
 

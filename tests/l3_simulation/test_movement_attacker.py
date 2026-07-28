@@ -145,7 +145,18 @@ def test_g3_forced_success_and_failure_select_different_transitions() -> None:
 
 def test_g3_interrupt_reads_as_failure_and_routes() -> None:
     """An MTD interrupt mid-walk produces a failure-verdict transition — the
-    interrupt-as-failure feedback. Injected deterministically."""
+    interrupt-as-failure feedback. Injected deterministically.
+
+    Two outcome tags can carry an interrupt now that every place visit occupies
+    time. ``MTD_INTERRUPT`` is a mutation that cut a running action or a
+    dwell-only place short. ``PRECONDITION_UNMET`` is a mutation that landed while
+    the attacker was spending the tactic's time on an attempt the substrate could
+    not action — impossible before, when a blocked attempt consumed no time and so
+    presented no window to interrupt. The blocked tag is kept rather than
+    overwritten because the blocked fraction is the H-coupling finding; the
+    defensive event is carried by the ``interrupted`` flag, which is what analyses
+    key on.
+    """
     env, end_event, attack_op, attacker = _fresh(
         "infrastructure_setup", 7, overlay=RefOverlay(),
         verdict_of=outcome_verdict, register=True,
@@ -166,9 +177,12 @@ def test_g3_interrupt_reads_as_failure_and_routes() -> None:
     interrupted = [r for r in attacker.records if r.interrupted]
     assert interrupted, "no interrupt was read by the driver"
     for rec in interrupted:
-        assert rec.outcome == "MTD_INTERRUPT"
+        assert rec.outcome in {"MTD_INTERRUPT", "PRECONDITION_UNMET"}
         assert rec.verdict == "failure"
         assert rec.interrupted_by == "network"
+        # Whichever tag it carries, an interrupted event never claims more time
+        # than it occupied: the draw was cut short and the record says so.
+        assert rec.dwell <= (rec.end_time - rec.start_time) + 1e-9
 
 
 # --- G2: determinism (SIM-05) ----------------------------------------------

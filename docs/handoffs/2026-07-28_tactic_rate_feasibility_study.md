@@ -12,6 +12,28 @@ this study establishes what that choice is worth.
 
 ## State of play
 
+**The regime widened after this brief was written (S3-R, 2026-07-28) — the sweep
+now moves more than it used to.** When this was drafted, a tactic's declared time
+was an *additional* behavioural dwell sitting on top of each action's native
+substrate cost. Marc has since ruled that the movement layer supplies **all** of the
+attacker's time: the tactic's draw *is* the dispatched action's duration, the
+substrate's `ATTACK_DURATION` / `exploit_time` are no longer consumed on that arm,
+and a blocked attempt costs its tactic's time rather than nothing. Three
+consequences for the design of this study, none of which change its question:
+
+1. **The swept parameter is now the only attacker-side timing there is**, so a
+   band that moves a conclusion moves it without a fixed substrate cost damping the
+   effect. Expect larger sensitivity than the brief anticipated — and note that
+   "larger" is not "worse": it makes a surviving conclusion a stronger result and a
+   fragile one easier to detect.
+2. **The ratio contest is cleaner.** §"punchline" below frames the thesis as tactic
+   dwell against MTD mutation interval; that ratio is no longer diluted by a
+   third, un-swept timing source.
+3. **Blocked attempts are now priced by the same parameter**, so in blocked-heavy
+   profiles the sweep moves the cost of churn as well as the cost of progress. Worth
+   reporting separately, since those are different mechanisms reaching the same
+   metric.
+
 **Why this exists.** The timing design record
 ([`../implementation/pipeline/ogasp/stochastic_timing_design.md`](../implementation/pipeline/ogasp/stochastic_timing_design.md)
 §3) settles the *regime* — each tactic's declared duration becomes the mean of an
