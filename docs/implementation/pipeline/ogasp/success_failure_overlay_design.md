@@ -244,8 +244,53 @@ consensus, and the declared distance kernel) with its machine-readable model
 [`../../../../data/ogasp/controller/lifecycle_consensus.json`](../../../../data/ogasp/controller/lifecycle_consensus.json).
 Its verdict on §2.1's band prior: bands 0/1 and the objective band survive as
 sourced; the consolidate≺expand split and C2's band-4 seat do not (weakly
-ordered middle instead). The re-derivation and the sweep remain with
-[`../../../handoffs/2026-07-27_tactic_weight_sensitivity_study.md`](../../../handoffs/2026-07-27_tactic_weight_sensitivity_study.md).
+ordered middle instead).
+
+### 2.7 S1 executed — the fold-in and the sweep (2026-07-28)
+
+Both halves of S1 have now landed, and the record is
+[`weight_sensitivity_study.md`](weight_sensitivity_study.md). What it changes
+about everything above:
+
+**The value model gains one term and re-sources another.** No rule value in §2.2
+or §2.3 changed. A **distance kernel** now multiplies each rule's value —
+geometric decay per consensus stage crossed, `γ = 0.25` forward, `δ = 0.5`
+backward, floored at `z = 0.1` — and the `relationship` term of §2.1 is read from
+the consensus stages rather than from the five-band prior. That second decision is
+the one §5 of the consensus record left open; it was taken so a value's two
+ordering-dependent terms cannot disagree about direction (they would on 40 of the
+210 pairs), and its cost — the post-intrusion middle flattening into one lateral
+class — is stated in the study §1.1 and in the rules artefact. §2.1's bands
+survive as the `v1_band_relationship` version's ordering and as the provenance of
+the values experiment 1 ran on.
+
+**The compiled views are now versioned.** `success.json` / `failure.json` moved
+into `data/ogasp/controller/overlays/<version>/`, a registry in the same shape as
+the controller mapping registry, because experiment 1 ran on the pre-distance
+values and overwriting them in place would have made a published arm
+unreproducible. Both versions compile from this one rule set via a tracked
+generator whose `--check` re-derives every committed cell (0 of 420 per version).
+The registry default stays at experiment 1's version.
+
+**The caveats of §2.5 have been re-examined**, and the results are not uniform:
+the failure-over-success inversion is **confirmed with its cause re-diagnosed**
+(the flat enablement tier, not the backward/lateral ladder); the `ia_gate`
+residual is **confirmed and slightly worse** in one profile, because multiplying a
+gate by distance lets renormalisation hand more mass to the near gated
+destination; the flat enablement tier is **replaced** by a positive finding (no
+enabled pair crosses two stages, so there is no distance for a graded tier to
+see); the point masses and per-profile objective sets are unchanged. Study §3
+carries the table.
+
+**And the values now carry a sensitivity verdict, which is mixed.** Two of the
+four tested conclusions hold across the whole sweep (ASR zero everywhere; MTD does
+not change the verdict) and two move (the *intermediate* profile's failure-mode
+classification, and any ordering of profiles by how far they get — the latter for
+a reason the weights do not control). Two things the sweep exposed independently:
+the floor `z` is **behaviourally inert on this corpus**, because no profile net
+carries a three-stage transition at all — which also means the pair that motivated
+S1, `reconnaissance → impact`, was a defect in the declared table that never
+routed any mass. Study §5–§6.
 
 ---
 

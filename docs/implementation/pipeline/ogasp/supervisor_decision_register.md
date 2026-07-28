@@ -2,7 +2,7 @@
 status: durable
 created: 2026-07-03
 topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5, M1–M8, S1–S6)"
-updated: 2026-07-27
+updated: 2026-07-28
 lineage: formerly docs/notes @ 2026-07-03_supervisor_meeting_l3_decisions.md (relocated in the 2026-07-13 docs refactor)
 ---
 
@@ -264,6 +264,24 @@ the parked layer-reframe handoff.
   weights are not to be reverse-engineered to make any particular net traverse
   well (the CTI-independence boundary in
   [`success_failure_overlay_design.md`](success_failure_overlay_design.md) §1).
+
+  **Resolved 2026-07-28, both halves.** The consensus overlay landed first
+  ([`lifecycle_consensus.md`](lifecycle_consensus.md) — five lifecycle models
+  overlaid, a four-stage consensus with a weakly-ordered middle, and a declared
+  distance kernel), then the fold-in and the sweep
+  ([`weight_sensitivity_study.md`](weight_sensitivity_study.md)). Two results
+  bear directly on the ruling as it was framed. First, the direction was carried
+  out: `reconnaissance → impact` now reads **exactly zero**, derived from the
+  declared floor rather than asserted per pair, while `reconnaissance →
+  initial-access` is untouched at 1.0. Second, and recorded because it qualifies
+  what the fix bought: **no profile net carries a three-stage transition at
+  all**, so the canonical example was a defect in the declared value table that
+  never routed any mass, and the parameter implementing the "exactly zero" pole
+  is behaviourally inert on this corpus. The observable suppression is at
+  two-stage skips. The correction is therefore a defensible-parameter result, not
+  a behavioural one, and the sensitivity verdict on the magnitudes is mixed —
+  two of four tested conclusions held, two moved. Dynamic state-conditioned
+  weights remain deferred.
 - **S2 — The attacker action set is frozen, short term.** No adding, removing,
   or altering attacker actions, abilities, or attacker states; **"do not change
   the MTDSim code yet"**. What remains licensed is **refinement of existing code
@@ -350,6 +368,19 @@ jumps up, far jumps to ≈ 0) and a sensitivity study over the result. The
 convergence and the 82% certification describe R2's *internal* coherence, which S1
 does not dispute; what S1 adds is an **external** grounding R2 never claimed to
 have.
+
+**And executed 2026-07-28** ([`weight_sensitivity_study.md`](weight_sensitivity_study.md)).
+R2's rule values are all still exactly as finalised here — the fold-in multiplies
+by a distance kernel and re-sources the `relationship` term, and the R2 arm stays
+compiled and frozen as overlay version `v1_band_relationship`. Two of the
+ratifications above were revisited on the new evidence and both survive, one with
+its reasoning changed: the flat `enabled = 1.0` tier is now defended positively
+rather than conceded, because no enabled pair crosses two lifecycle stages, so
+there is no distance for a graded tier to grade; and the C2-hub `enables` edit is
+untouched, though `command-and-control` moves from band 4 to consensus stage 2,
+which re-classes its out-pairs. The 82→95% gap has been partly closed in the way
+the panel named — the reasoning now has a written defence and a sweep verdict —
+and partly reframed, since the sweep found two conclusions that do move.
 
 ## How it connects
 

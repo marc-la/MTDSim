@@ -1,7 +1,7 @@
 # The open chain — dependency order, 2026-07-28
 
 `ls docs/handoffs/` is the inventory of open work; this file carries only the
-thing a directory listing cannot — **what depends on what**. All three open
+thing a directory listing cannot — **what depends on what**. Both open
 handoffs execute the post-experiment-1 supervisor rulings
 (`docs/implementation/pipeline/ogasp/supervisor_decision_register.md` §S1–S6).
 Delete a handoff in the commit that ships its work, and prune its line here in
@@ -44,26 +44,50 @@ reading; the baseline arm and internal MTTC are both demonstrably unmoved; and t
 confusion penalty stayed where it was, with its single-charge property tightened
 into a guard rather than re-homed.)*
 
-**Wave 3 — open now.**
+**Wave 3 — one of two shipped.**
 
-6. `2026-07-27_tactic_weight_sensitivity_study.md` (**S1**, study half) —
-   **unblocked**: its input, the lifecycle consensus, has shipped, and the mapping
-   it would have been swept against is now settled and versioned. Sweep against a
-   named mapping version so the result says which one it holds for.
+*(Shipped from wave 3: the **S1 study half** —
+`2026-07-27_tactic_weight_sensitivity_study.md`, landed 2026-07-28 as
+`../implementation/pipeline/ogasp/weight_sensitivity_study.md`. The
+lifecycle-distance term is folded into the outcome rules with **no R2 rule value
+changed**, the `relationship` term is re-sourced from the consensus stages (the
+open §5 decision, taken on coherence and provenance grounds), the compiled views
+are now a versioned registry at `data/ogasp/controller/overlays/` with experiment
+1's version frozen and still the default, and a tracked generator's `--check`
+re-derives every committed cell. The sweep verdict is **mixed and reported as
+such**: ASR-zero and MTD-invariance hold across the declared bands, the
+intermediate profile's failure-mode classification and any profile ordering by
+progress move — the latter for want of seeds rather than want of parameter
+discipline — and the floor `z` is behaviourally inert because the corpus carries
+no three-stage transition, which also means S1's motivating pair never routed any
+mass. Three things (8) inherits: the ~90% MTD host-suppression under `v2_partial`
+to confirm or withdraw, the seed count an ordering claim needs, and a saturated
+progression metric to replace.)*
+
 7. `2026-07-28_tactic_rate_feasibility_study.md` (**the rate analysis**) —
    **unblocked**: the S3 timing build has shipped, so there is now a regime to
-   sweep. Sibling to (6): both are declared-value sensitivity sweeps and should
-   share a reporting shape and a mapping version. Tests whether any conclusion
-   survives the arbitrariness of the tactic timings, and whether the timing
-   design's "the mean is what matters" defence holds — noting that the exponential
-   fixes the spread at a coefficient of variation of one, so a same-mean
-   heavier-tailed family is the alternative it has to try.
+   sweep. Sibling to the shipped S1 study, and it should **take that study's
+   reporting shape rather than inventing one** — conclusions and criteria
+   nominated before the numbers, one-at-a-time then corners, both mapping arms,
+   and a per-conclusion held/moved verdict. Four transferable lessons from it,
+   worth reading before designing the grid: report the continuum beside any
+   threshold criterion; separate "the parameter does nothing" from "the parameter
+   does nothing *on this corpus*"; test whether an unstable ordering is unstable
+   for want of runs before blaming the parameter; and note that the S1 numbers are
+   pre-stochastic-timing, so this study is also the first look at whether the two
+   declared families interact. Tests whether any conclusion survives the
+   arbitrariness of the tactic timings, and whether the timing design's "the mean
+   is what matters" defence holds — noting that the exponential fixes the spread at
+   a coefficient of variation of one, so a same-mean heavier-tailed family is the
+   alternative it has to try.
 
 **Wave 4 — last.**
 
 8. `2026-07-27_sink_retrace_experiment2.md` (**S5** + the comparative run) — its
-   design half is **unblocked**; its *run* should consume (6) and (7) or it will
-   need repeating, and must name `v2_partial` as its mapping version. It now also
+   design half is **unblocked**; its *run* should consume (7) or it will need
+   repeating, and must name **both** its declared inputs at its own seam:
+   `v2_partial` as its mapping version and `v2_lifecycle_distance` as its overlay
+   version. It now also
    runs on the stochastic timing regime, so its elapsed-time results carry the
    behavioural tempo and must be reported under the shape-not-scale discipline —
    a ranking that survives the sweep is a result, a magnitude is a parameter

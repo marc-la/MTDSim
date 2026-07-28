@@ -1,8 +1,13 @@
 {
   "verdict": "success",
   "_meta": {
-    "status": "finalised (R2; Marc greenlit 2026-07-23; converged after 4 adversarial cross-examination rounds, ~90 agents)",
-    "generated_from": "outcome_rules.json (rule-based source of truth) \u2014 DO NOT hand-edit; regenerate",
+    "overlay_version": "v1_band_relationship",
+    "status": "the values as finalised at R2 after four adversarial cross-examination rounds, certified 82% on internal coherence. Retained unchanged because experiment 1 ran on them.",
+    "construction": "the R2 rule set with the relationship term read from the declared five-band kill-chain prior (0 prep, 1 intrusion, 2 consolidate, 3 expand, 4 objective) and no distance dependency: a pair's value is its first-matching rule's value, full stop",
+    "record": "docs/implementation/pipeline/ogasp/success_failure_overlay_design.md",
+    "generated_from": "outcome_rules.json + lifecycle_consensus.json \u2014 DO NOT hand-edit; regenerate with `python -m mtdsim.l3_simulation.controller.rules --write`",
+    "relationship_source": "bands",
+    "distance": null,
     "coverage": "complete 210 directed pairs (corpus-agnostic)",
     "format": "by_source[src][dst] = {v: value, rule: rule-id}; rationale via outcome_rules.json rules[rule]"
   },

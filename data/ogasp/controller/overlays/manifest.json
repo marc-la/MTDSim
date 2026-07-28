@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "artefact": "The outcome-overlay registry — every success/failure value set that has been run, how it was compiled, and which experiment consumed it",
+    "created": "2026-07-28",
+    "record": "docs/implementation/pipeline/ogasp/weight_sensitivity_study.md",
+    "why": "The overlay values are a declared-knowledge layer, and the S1 ruling changed them: a lifecycle-distance dependency now grades a transition by how far it travels, not only by its direction. Experiment 1 ran on the pre-distance values, so overwriting them in place would have made a published result unreproducible from the repo. Instead each value set is a named version, exactly as a controller mapping is: a version is selected at the experiment seam, and no layer below there prefers one.",
+    "compiled_not_authored": "Neither version is hand-authored. Both are compiled from the single rule set at ../outcome_rules.json by mtdsim.l3_simulation.controller.rules, and the 'spec' field below is the whole recipe. `python -m mtdsim.l3_simulation.controller.rules --check` re-compiles every registered version and reports any cell that differs from what is committed — the reproduction check that distinguishes rule-generated values from fitted ones.",
+    "schema": {
+      "name": "the version name a caller selects",
+      "dir": "the directory holding this version's success.json and failure.json",
+      "spec": "the compilation recipe: relationship_source ('bands' | 'consensus_stages'), whether the distance term applies, and the kernel parameters when it does",
+      "consumed_by": "the experiments that have run on this version",
+      "produced": "what it produced, in one sentence",
+      "immutable": "true once an experiment has consumed it, so a published result stays reproducible"
+    }
+  },
+  "default": "v1_band_relationship",
+  "default_rationale": "The default is the experiment-1 value, so an unqualified load reproduces what has always run. It is deliberately NOT the newest version: promoting a version to default would re-bake an experiment's choice into the pipeline, which is the coupling this registry exists to remove. Experiments select their version explicitly — the same ruling the controller mapping registry carries.",
+  "versions": [
+    {
+      "name": "v1_band_relationship",
+      "dir": "v1_band_relationship",
+      "created": "2026-07-23",
+      "spec": {
+        "relationship_source": "bands",
+        "distance": false
+      },
+      "construction": "the R2 rule set with the relationship term read from the declared five-band kill-chain prior (0 prep, 1 intrusion, 2 consolidate, 3 expand, 4 objective) and no distance dependency: a pair's value is its first-matching rule's value, full stop",
+      "rationale": "the values as finalised at R2 after four adversarial cross-examination rounds, certified 82% on internal coherence. Retained unchanged because experiment 1 ran on them.",
+      "consumed_by": [
+        "experiment 1 — movement vs baseline (data/results/exp01_movement_vs_baseline; docs/implementation/pipeline/ogasp/experiment_01_findings.md)"
+      ],
+      "produced": "ASR 0.00 across all 100 movement runs in two profile-determined failure modes (friction and churn). The supervisor's S1 objection is against this version: because relationship is graded by direction only, reconnaissance -> impact carried mass comparable to reconnaissance -> initial-access.",
+      "record": "docs/implementation/pipeline/ogasp/success_failure_overlay_design.md",
+      "immutable": true,
+      "immutability_note": "Frozen so experiment 1 stays reproducible. Regenerable from outcome_rules.json under this version's spec, and the reproduction check pins it."
+    },
+    {
+      "name": "v2_lifecycle_distance",
+      "dir": "v2_lifecycle_distance",
+      "created": "2026-07-28",
+      "spec": {
+        "relationship_source": "consensus_stages",
+        "distance": true,
+        "kernel": {
+          "gamma": 0.25,
+          "delta_ratio": 0.5,
+          "z": 0.1
+        }
+      },
+      "construction": "the same rule set, with both ordering-dependent terms moved onto the four-stage APT-lifecycle consensus: the relationship is the sign of the consensus stage offset, and the value is multiplied by the declared distance kernel (geometric decay per stage crossed, separate forward and backward ratios, a zero floor). Nothing is hand-edited and no rule value changed.",
+      "rationale": "executes the S1 ruling. The relationship term stops resting on a declared five-band prior and starts resting on the consensus of five published lifecycle models; the distance term makes a transition's likelihood fall with how far across the campaign it travels, so the long jumps the supervisor named collapse to exactly zero while adjacent steps are untouched.",
+      "consumed_by": [
+        "the S1 sensitivity study (docs/implementation/pipeline/ogasp/weight_sensitivity_study.md)"
+      ],
+      "produced": "40 of 210 pairs change relationship class, all inside the consensus's weakly-ordered post-intrusion middle; 6 pairs per verdict fall to exactly zero (preparation-stage sources to objective-stage destinations). Swept over the declared bands across 2600 runs on both controller mappings, the verdict is mixed: ASR stays 0.00 everywhere and MTD-invariance holds at every point, while the intermediate profile's failure-mode classification and any ordering of profiles by progress do move. The floor z turned out behaviourally inert — no profile net carries a three-stage transition for it to act on, which also means the pair that motivated S1 (reconnaissance -> impact) was a defect in the declared table that never routed mass.",
+      "record": "docs/implementation/pipeline/ogasp/weight_sensitivity_study.md",
+      "immutable": false,
+      "immutability_note": "Becomes immutable once experiment 2 consumes it."
+    }
+  ]
+}

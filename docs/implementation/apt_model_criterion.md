@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-27
-updated: 2026-07-27
+updated: 2026-07-28
 topic: "The APT-attacker-model criterion (supervisor S6) — a literature-derived rubric of what an APT attacker model should capture, this model scored against it honestly, and the measurement recommendations (M8b) that ride with each claimed axis"
 ---
 
@@ -417,6 +417,22 @@ on record ([`pipeline/ogasp/experiment_01_findings.md`](pipeline/ogasp/experimen
   determines failure mode (friction vs churn vs sink) independent of seed —
   runtime behaviour is objective-conditioned. Under the criterion this is the
   experiment's positive finding, invisible to the headline security metrics.
+
+  > **Qualified 2026-07-28 by the S1 sensitivity sweep**
+  > ([`pipeline/ogasp/weight_sensitivity_study.md`](pipeline/ogasp/weight_sensitivity_study.md)
+  > §5). "Independent of seed" understated what had to be shown: a mode
+  > assignment that held across seeds but moved with the declared routing weights
+  > would be an artefact. Across 2 600 runs over the declared parameter bands, the
+  > assignment holds for the profiles at the **extremes** — `pure_steal` at
+  > 96.9–97.5% blocked, `double_extortion` and `infrastructure_setup` at 0.0%,
+  > every point, both mappings. It does **not** hold for `pure_impediment`, the
+  > profile experiment 1 already recorded as intermediate: its blocked fraction
+  > spans 25.0–63.1% across the sweep and crosses the classification threshold.
+  > The badge stays DEMONSTRATED, on the narrower claim — objective conditioning
+  > changes what the attacker does, robustly where the profiles are behaviourally
+  > distinct and not where they are close — and no ordering of profiles by
+  > progress may be claimed at all, which the sweep found unsupported at ten
+  > seeds.
 - **Axis 1 is held at DESIGNED by this run.** The structure executes, but
   0/100 objective-reaches and an order-of-magnitude worse effort-to-breadth
   ratio mean sustained multi-stage progress is not evidenced; a rubric that
@@ -470,9 +486,13 @@ calls for remains future work.*
 Re-score a row (and bump `updated`) when its evidence changes, not on
 schedule. Standing triggers: experiment 2 (axes 1–4 badges and the §(f)
 demonstration section); the S3 timing implementation (axis 5's tempo half);
-the S1 sensitivity study and any move to dynamic weights (axes 4, 7); any
-lift of the S2 freeze or promotion of a Jalowski primitive from *pending*
-(axes 6–8, and the §(e) placement). Scores move on evidence only — never
+~~the S1 sensitivity study~~ **fired 2026-07-28 — no badge moved; axis 2's
+demonstration is qualified in §(f) and axis 1 gains a measurement finding**
+(lifecycle depth reached is saturated: all five profiles traverse to the
+objective stage, so the depth measurement the axis-1 M8b recommendation names
+cannot discriminate as written and needs a finer progression measure); any move
+to dynamic weights (axes 4, 7); any lift of the S2 freeze or promotion of a
+Jalowski primitive from *pending* (axes 6–8, and the §(e) placement). Scores move on evidence only — never
 change the model, weights, mapping, or metrics to improve a row (S6
 constraint; [`../workflows/guardrails.md`](../workflows/guardrails.md)).
 A distilled, rubric-clearing note for the background or discussion chapter is

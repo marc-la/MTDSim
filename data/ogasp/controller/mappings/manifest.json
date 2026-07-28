@@ -38,11 +38,13 @@
       "coverage": "partial — 8 tactics mapped, 7 declared dwell-only",
       "construction": "no mediating layer: each tactic decided on its merits against what the verb actually does and requires (attacker_phase_catalogue.md), with the reason recorded per row",
       "rationale": "S4 relaxes the total-coverage requirement, so a tactic with no defensible verb becomes dwell-only rather than firing a placeholder. Fixes the two rows experiment 1 most exposed: initial-access now dispatches the exploit rather than a port scan, and the objective band dispatches nothing rather than all firing the neighbour-reveal. Pairs command-and-control's neighbour-reveal with lateral-movement's host-enumeration so the substrate's native spread pair can occur.",
-      "consumed_by": [],
-      "produced": "not yet run",
+      "consumed_by": [
+        "the S1 weight sensitivity study, as one of its two swept mapping arms (docs/implementation/pipeline/ogasp/weight_sensitivity_study.md)"
+      ],
+      "produced": "Still ASR 0.00 across 1300 runs, but a different failure anatomy from v1: the blocked fraction drops to 12-37% (against up to 98% under v1) and mean host compromise rises to 2.6-4.5 (against 0.0-1.7), so the profiled attacker now acts rather than being refused. That makes an MTD effect visible for the first time — roughly a nine-in-ten suppression of host compromise under random-multi MTD — and the effect is stable across the whole declared weight sweep. Whether it is an MTD *result* is experiment 2's question, not this study's.",
       "record": "docs/implementation/pipeline/ogasp/controller_mapping_v2.md",
       "immutable": false,
-      "immutability_note": "Becomes immutable once an experiment consumes it; until then it is still under review."
+      "immutability_note": "Deliberately still false. The sensitivity study above consumed it as a comparison arm rather than as an experiment's canonical mapping, so freezing it now would lock a mapping that is still under review before the experiment that owns it has run. It becomes immutable when experiment 2 consumes it."
     }
   ]
 }

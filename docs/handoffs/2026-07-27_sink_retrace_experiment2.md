@@ -32,7 +32,39 @@ place has no outgoing edge because the corpus drew none leaving it. Neither the
 partial mapping nor the distance-weighted transitions add edges, so the sink set
 is essentially unchanged by the other handoffs — retracing is still needed after
 they land. The sink enumeration per profile is already recorded and is the
-starting inventory.
+starting inventory. Two confirmations from the S1 study, which walked all five
+nets under both mappings: the distance term does introduce exactly-zero pair
+values, so a *stall* (a verdict suppressing a whole out-set) is now
+representable — but no place loses its out-set at any point in the declared sweep
+space, so retracing still only has sinks to handle, not stalls. And on
+`v2_partial` the sink terminations do not go away: `double_extortion` still ends
+at a sink in 8 of 10 seeds and `pure_steal` in 3 of 10.
+
+**Three things this run inherits from the S1 study**
+([`../implementation/pipeline/ogasp/weight_sensitivity_study.md`](../implementation/pipeline/ogasp/weight_sensitivity_study.md)),
+each of which changes the design rather than merely informing it:
+
+1. **A defence effect to confirm or withdraw.** Under `v2_partial` the profiled
+   attacker compromises 2.6–4.5 hosts without MTD and roughly 0.3 with it — a
+   ~90% suppression, invisible under experiment 1's mapping because the attacker
+   never got far enough to be suppressed. It is stable across the whole weight
+   sweep, so it is not an artefact of the declared values; whether it is an MTD
+   *result* is this run's question, and it is the most promising thing on the
+   table. Design the matrix so this is measurable per mechanism, not just per
+   condition.
+2. **A seed count.** The S1 sweep could not separate the profiles by progress at
+   ten seeds — adjacent confidence intervals overlap almost everywhere — so the
+   ordering half of the evaluation's burden cannot be discharged at that sample
+   size whatever the weights do. Ten seeds is enough for the ASR and MTD-invariance
+   claims and is *not* enough for any per-profile ordering. Budget accordingly, and
+   if the budget will not stretch, say which claims the run is not powered for
+   before it runs.
+3. **A progression metric to replace.** Deepest lifecycle stage reached is
+   saturated — all five profiles traverse to the objective stage and then fail
+   against the substrate — so it cannot carry "how far did it get". This is the
+   axis-1 M8b measurement gap made concrete; pick a finer measure (distinct-tactic
+   coverage over time, foothold-retention duration, effort-to-breadth conversion)
+   rather than reporting a metric that cannot discriminate.
 
 **What the run still owes from the first experiment.** Two gate items were left
 open when the first-numbers handoff was retired: the matrix covered only the
@@ -134,7 +166,14 @@ Done when:
   — the setup to mirror, the numbers to be comparable against, and Finding 3.
 - [`../implementation/pipeline/ogasp/success_failure_overlay_design.md`](../implementation/pipeline/ogasp/success_failure_overlay_design.md)
   §6.1 — the stepping lifecycle and the existing bounded-retry treatment of a
-  degenerate out-distribution, which is the closest precedent for a retrace.
+  degenerate out-distribution, which is the closest precedent for a retrace; and
+  §2.7 for what S1 changed about the values this run consumes.
+- [`../implementation/pipeline/ogasp/weight_sensitivity_study.md`](../implementation/pipeline/ogasp/weight_sensitivity_study.md)
+  — §4 for the sweep-reporting shape to reuse, §5 for the three inheritances in the
+  state-of-play above, and §1.4 for how to name an overlay version at this run's
+  seam (`v2_lifecycle_distance`, alongside `v2_partial` for the mapping — the
+  registry default is deliberately still experiment 1's, so an unqualified run
+  silently reproduces the old arm).
 - [`../implementation/pipeline/ogasp/synthetic_overlay.md`](../implementation/pipeline/ogasp/synthetic_overlay.md)
   — the declared structural layer any "route elsewhere" alternative should reuse
   rather than bypass.

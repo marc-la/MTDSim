@@ -167,6 +167,19 @@ backstop → `MAX_EVENTS`; (d) a **stall** (compose returns `{}`) — walk ends;
   (`failure.json` / `success.json`: 0 zero-pairs each), so no verdict zeroes an
   out-set. No stall termination was observed across the matrix. Ignore unless the
   numbers change.
+
+  > **Superseded 2026-07-28 — the numbers changed, and the reasoning no longer
+  > holds as written.** The S1 fold-in gives the overlay a zero floor, so the
+  > compiled views *do* now carry zero-valued cells (6 per verdict at the declared
+  > parameters, up to 12 at one swept corner — the pairs the lifecycle consensus
+  > puts three stages apart). A stall is therefore **representable** rather than
+  > arithmetically impossible. It remains **unobserved**: checked across all 27
+  > combinations of the declared sweep bands × 5 composed nets × 2 verdicts, no
+  > place loses its whole out-set, so the composition's stall guard does not fire
+  > ([`weight_sensitivity_study.md`](weight_sensitivity_study.md) §2). The
+  > conclusion (d) does not happen survives; the argument for it is now a check
+  > rather than an impossibility, and it must be re-run whenever the kernel or the
+  > corpus changes.
 - **(e) sink is real and profile-dependent.** Sink enumeration (a place with no
   flow-backed observed out-edge *and* no synthetic out-edge):
 

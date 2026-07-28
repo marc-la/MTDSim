@@ -25,6 +25,21 @@ run. The registered versions are:
 A tactic maps to [0, 1] verbs (supervisor ruling S4), so ``phase_for`` may return
 ``None``. Silence stays an error — a row with no verb must *declare* itself
 dwell-only or the load raises.
+
+**The outcome overlay is versioned data too**, on the same principle and in the
+same shape: ``data/ogasp/controller/overlays/``, one directory per value set plus
+a manifest, selected by ``load_outcome_overlay(version=...)`` and defaulting to
+experiment 1's. Both registered versions are compiled from the one rule set at
+``data/ogasp/controller/outcome_rules.json`` by
+:mod:`mtdsim.l3_simulation.controller.rules`, which is also the reproduction
+check (``--check``) that keeps the committed values traceable to stated rules:
+
+    v1_band_relationship    experiment 1. Relationship from the declared
+                            five-band kill-chain prior; no distance term.
+    v2_lifecycle_distance   the S1 fold-in. Relationship from the four-stage
+                            APT-lifecycle consensus, times a declared distance
+                            kernel, so a transition's likelihood falls with how
+                            far across the campaign it travels.
 """
 
 from mtdsim.l3_simulation.controller.controller import (
@@ -40,7 +55,17 @@ from mtdsim.l3_simulation.controller.controller import (
 )
 from mtdsim.l3_simulation.controller.outcome import (
     OutcomeOverlay,
+    OverlayRegistry,
+    OverlayVersion,
     load_outcome_overlay,
+    load_overlay_registry,
+)
+from mtdsim.l3_simulation.controller.rules import (
+    DistanceKernel,
+    RuleSpec,
+    check_registry,
+    compile_values,
+    load_rule_set,
 )
 from mtdsim.l3_simulation.controller.verdict import verdict_for
 
@@ -58,6 +83,16 @@ __all__ = [
     # Success/failure outcome-overlay split + M2 composition (see outcome.py).
     "OutcomeOverlay",
     "load_outcome_overlay",
+    # The versioned overlay registry — value sets are data, selected by name.
+    "OverlayRegistry",
+    "OverlayVersion",
+    "load_overlay_registry",
+    # The rule compiler: rules -> the 210-pair views, and the reproduction check.
+    "DistanceKernel",
+    "RuleSpec",
+    "check_registry",
+    "compile_values",
+    "load_rule_set",
     # The per-verb verdict adapter (controller.md §4; see verdict.py).
     "verdict_for",
 ]

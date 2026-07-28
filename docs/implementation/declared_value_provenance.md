@@ -72,6 +72,14 @@ scrutiny      — which rounds reviewed it, what was challenged, what survived
 changelog     — [ round: from → to, and why ] — the rework history
 ```
 
+**One schema extension, in use since 2026-07-28.** A declared term is sometimes a
+small *function* rather than a single number — the overlay's lifecycle-distance
+kernel is two decay ratios and a floor. Such an entry carries `parameters`
+(a named constant per key) in place of `value`, and every other field unchanged.
+The distinction is not cosmetic: a parameterised term's defence is a **sweep over
+its declared bands** rather than an argument about one magnitude, so requirement 3
+below is discharged differently for it — see §4's last paragraph.
+
 A top-level `ledger_meta` block records the shared context: the tier definitions,
 the `review_history` (the ordered list of cross-examination rounds), the
 `reproducibility` claim (generator + the 0/N reproduction check), and the
@@ -101,6 +109,29 @@ The ledger is **updated by the cross-examination process**, not frozen:
 This is the same loop whatever the values: fan-out review → adversarial refute →
 generalising fold → re-scrutinise → rate. The ledger is its durable memory.
 
+**For a parameterised term, add a sixth step: sweep the bands and record the
+verdict.** Adversarial review can establish that a value's *reasoning* is coherent;
+it cannot establish that a conclusion does not turn on where in its range the value
+sits. Only a sweep can, and the sweep's verdict belongs in the ledger whichever way
+it falls — including when it falls badly. Three things learned from the first one
+([`pipeline/ogasp/weight_sensitivity_study.md`](pipeline/ogasp/weight_sensitivity_study.md)),
+recorded here because they generalise to the next parameterised family:
+
+1. **State each conclusion and its criterion before the numbers exist**, or the
+   verdict is unfalsifiable. The one criterion that was a threshold on a
+   continuum (a failure-mode classification at 30% blocked) produced the only
+   "moved" verdict that needed an anatomy paragraph rather than a number — keep
+   thresholds, but report the continuum beside them.
+2. **Separate "the parameter has no effect" from "the parameter has no effect
+   *here*".** One of three swept parameters moved nothing at all, because the
+   corpus contains no structure for it to act on. That is a statement about the
+   corpus, and reporting it as a small measured sensitivity would have been
+   wrong.
+3. **A conclusion can move for reasons the parameter does not control.** An
+   ordering that is unstable across a sweep may be unstable because the run count
+   cannot separate the things being ordered. Test the separation (disjoint
+   confidence intervals) before attributing the instability to the value.
+
 ## 5. Guardrails these values must not cross
 
 - **No reverse-engineering from the layers they condition.** A declared layer that
@@ -123,29 +154,58 @@ The overlay is the worked example of this precedent:
 
 - **Rules (source of truth):**
   [`../../data/ogasp/controller/outcome_rules.json`](../../data/ogasp/controller/outcome_rules.json)
-  — the model (bands / enables / foothold) + the 5 success and 9 failure rules,
-  each carrying value, rationale, tier, status, confidence, scrutiny, changelog;
-  plus the `ledger_meta` block.
+  — the model (the two orderings / enables / foothold / the distance term) + the 5
+  success and 9 failure rules and the `distance_rule` entry, each carrying value
+  (or `parameters`), rationale, tier, status, confidence, scrutiny, changelog; plus
+  the `ledger_meta` block.
 - **Compiled views:**
-  [`../../data/ogasp/controller/success.json`](../../data/ogasp/controller/success.json)
-  and [`failure.json`](../../data/ogasp/controller/failure.json) — the complete
-  210-pair space (corpus-agnostic), each pair `{v, rule}`, generated from the rules
-  (do not hand-edit).
+  [`../../data/ogasp/controller/overlays/`](../../data/ogasp/controller/overlays/)
+  — a **registry**, one directory per value set that has been run, plus a
+  `manifest.json` recording each version's compilation recipe and what consumed it.
+  Each version holds `success.json` / `failure.json` over the complete 210-pair
+  space (corpus-agnostic). Generated from the rules; do not hand-edit. Versions:
+  `v1_band_relationship` (experiment 1's, frozen) and `v2_lifecycle_distance` (the
+  S1 fold-in). The default stays at experiment 1's, so an unqualified load
+  reproduces what has always run.
+- **Generator and reproduction check:**
+  [`../../src/mtdsim/l3_simulation/controller/rules.py`](../../src/mtdsim/l3_simulation/controller/rules.py)
+  — `--write` regenerates every registered version, `--check` re-compiles each and
+  reports any cell that differs from what is committed (0 of 420 per version). This
+  is requirement 1 enforced by tracked code rather than by an in-session script.
 - **Loader:**
   [`../../src/mtdsim/l3_simulation/controller/outcome.py`](../../src/mtdsim/l3_simulation/controller/outcome.py)
-  (`load_outcome_overlay`, `rule_for`).
+  (`load_outcome_overlay`, `load_overlay_registry`, `rule_for`).
 - **Design + decision record:**
   [`pipeline/ogasp/success_failure_overlay_design.md`](pipeline/ogasp/success_failure_overlay_design.md),
+  [`pipeline/ogasp/weight_sensitivity_study.md`](pipeline/ogasp/weight_sensitivity_study.md)
+  (the S1 fold-in, the re-examined caveats, and the sweep verdict),
   [`pipeline/ogasp/supervisor_decision_register.md`](pipeline/ogasp/supervisor_decision_register.md).
 
-Its ledger reads: reproducible (0/123), review history **R0→R4 complete** (~90 agents:
-initial cross-exam → branching red-team → composed-net validation → stepwise
-simulation), all rules `stable`, final finetune synthesis an **empty change set**
-(values converged). **R2 finalised 2026-07-23** (Marc greenlit) at a certified 82%; the
-82→95% remainder is the dissertation defence of the reasoning, not value uncertainty —
-so an honest ceiling, recorded, rather than an open gap. This is the precedent working
-end-to-end: a declared-knowledge value layer carried from authoring, through adversarial
-rework, to a finalised, evidence-tiered, reproducible artefact with its scrutiny logged.
+Its ledger reads: reproducible (0/420 per registered version, by tracked
+generator), review history **R0→R4 complete** (~90 agents: initial cross-exam →
+branching red-team → composed-net validation → stepwise simulation), all rules
+`stable`, final finetune synthesis an **empty change set** (values converged).
+**R2 finalised 2026-07-23** (Marc greenlit) at a certified 82%; the 82→95%
+remainder was recorded as the dissertation defence of the reasoning rather than
+value uncertainty.
+
+**Then S1 reopened it, and the reopening is the more instructive half of the
+precedent.** Supervision named one defect the four review rounds had not found —
+the values graded a transition by direction and not by distance — which is a
+standing lesson about what adversarial review of *internal coherence* can and
+cannot catch. The fold-in landed as one new parameterised ledger entry
+(`distance_rule`, tier `attested-pattern/declared-magnitude`) with **no R2 rule
+value changed**, and the magnitudes now carry a sweep verdict rather than only an
+argument: **two of four tested conclusions held across the declared bands and two
+moved**, with one of the three parameters found to be behaviourally inert on this
+corpus. That mixed verdict is recorded as the result, not softened
+([`pipeline/ogasp/weight_sensitivity_study.md`](pipeline/ogasp/weight_sensitivity_study.md)).
+
+So the precedent now runs end to end *including the failure case*: a
+declared-knowledge layer carried from authoring, through adversarial rework, to a
+finalised evidence-tiered artefact — and then through an externally-named defect,
+a versioned re-derivation that keeps the superseded values reproducible, and a
+sensitivity verdict that does not flatter it.
 
 ## 7. Where this sits
 

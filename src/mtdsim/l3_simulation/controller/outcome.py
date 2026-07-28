@@ -1,27 +1,37 @@
 """Load the success/failure outcome-overlay split and compose it (M2).
 
 This module reads the success/failure signal back from the substrate and turns
-it into net routing. The loader and the ``compose`` composition rule are both
-real; the reconciled numbers are still **provisional** (R2 candidate under
-cross-examination — the values, not the mechanism, are gated on Marc's
-greenlight):
+it into net routing:
 
-    docs/handoffs/2026-07-22_l3_controller_success_failure.md
     docs/implementation/pipeline/ogasp/success_failure_overlay_design.md
 
 Data (rule-based notation — see ``data/ogasp/controller/``):
     outcome_rules.json   — the SOURCE OF TRUTH: the model (bands / enables /
-        foothold) + the ordered success/failure rules, each carrying its value
-        and ONE rationale. Values are rule-generated (first-match-wins).
-    success.json / failure.json   — COMPILED VIEWS: the complete directed
-        tactic-pair space (210 = 15*14, corpus-agnostic) as
-        ``by_source[src][dst] = {"v": value, "rule": rule-id}``. Generated from
-        the rules — do NOT hand-edit; regenerate. The rationale for any pair is
-        looked up from ``outcome_rules.json`` by its ``rule`` id (stored once per
-        rule, never duplicated per pair).
+        foothold / the distance term) + the ordered success/failure rules, each
+        carrying its value and ONE rationale. Values are rule-generated
+        (first-match-wins), compiled by
+        :mod:`mtdsim.l3_simulation.controller.rules`.
+    overlays/<version>/success.json, failure.json   — COMPILED VIEWS: the
+        complete directed tactic-pair space (210 = 15*14, corpus-agnostic) as
+        ``by_source[src][dst] = {"v": value, "rule": rule-id, …}``. Generated
+        from the rules — do NOT hand-edit; regenerate. The rationale for any pair
+        is looked up from ``outcome_rules.json`` by its ``rule`` id (stored once
+        per rule, never duplicated per pair).
 
-The values are provisional (R2 candidate under cross-examination); finalise once
-the numbers are greenlit.
+**The overlay is versioned data, and this layer only reads it.** Every value set
+that has been run lives under ``data/ogasp/controller/overlays/``, one directory
+per version plus a ``manifest.json`` recording how each version was compiled,
+which experiment consumed it, and what it produced. A caller selects a version
+*by name*, exactly as it selects a controller mapping::
+
+    load_outcome_overlay()                              # the manifest's default
+    load_outcome_overlay(version="v2_lifecycle_distance")   # explicit selection
+    load_outcome_overlay(files={...})                    # ad-hoc files (tests)
+    OutcomeOverlay.from_values(compile_values(...))      # ad-hoc in memory (sweeps)
+
+The default is the *experiment-1* value rather than the newest, for the same
+reason the mapping registry's is: promoting the newest version to default would
+re-bake an experiment's choice into the pipeline.
 
 Value semantics (per file ``_meta``):
     overlay_v(src -> dst) in [0, 1] = given the dispatched verb at ``src`` came
@@ -46,10 +56,10 @@ _VERDICTS: frozenset[Verdict] = frozenset({"success", "failure"})
 
 # …/src/mtdsim/l3_simulation/controller/outcome.py -> repo root is parents[4].
 _DATA_DIR = Path(__file__).resolve().parents[4] / "data" / "ogasp" / "controller"
-DEFAULT_FILES: dict[Verdict, Path] = {
-    "success": _DATA_DIR / "success.json",
-    "failure": _DATA_DIR / "failure.json",
-}
+
+#: The versioned overlay registry — the home of every value set that has been run.
+REGISTRY_DIR = _DATA_DIR / "overlays"
+MANIFEST_PATH = REGISTRY_DIR / "manifest.json"
 
 
 @dataclass(frozen=True)
@@ -64,6 +74,23 @@ class OutcomeOverlay:
 
     by_verdict: dict[Verdict, dict[str, dict[str, float]]]
     by_rule: dict[Verdict, dict[str, dict[str, str]]]
+    version: str = ""  # the registry version name, or "" for an ad-hoc load
+
+    @classmethod
+    def from_values(
+        cls,
+        by_verdict: dict[Verdict, dict[str, dict[str, float]]],
+        *,
+        version: str = "",
+    ) -> "OutcomeOverlay":
+        """An overlay from compiled values held in memory, with no rule tags.
+
+        This is the seam the sensitivity sweep uses: a swept parameter set is
+        compiled by :func:`mtdsim.l3_simulation.controller.rules.compile_values`
+        and handed straight to a run, so a sweep never writes 210-pair files it
+        would then have to clean up — and never hand-edits one.
+        """
+        return cls(by_verdict=by_verdict, by_rule={}, version=version)
 
     def value(self, verdict: Verdict, src: str, dst: str) -> float:
         """The overlay value for one directed pair under one verdict.
@@ -110,9 +137,12 @@ class OutcomeOverlay:
         load-bearing (base proportions are conditioned, never re-derived —
         ``metrics_semantics.md`` §(f)). Returns an empty dict — the **stall**
         (design §3) — if the verdict suppressed every out-edge (Σ == 0); the
-        movement driver reads that as walk-termination. With the current numbers
-        no verdict zeroes an out-set, so the stall is a guarded edge case, not a
-        routine outcome.
+        movement driver reads that as walk-termination. Under the distance term a
+        pair *can* now carry an exact zero (a jump the lifecycle consensus puts
+        beyond the floor), so the stall is representable rather than arithmetically
+        unreachable — but no place in any profile net loses its whole out-set at
+        any swept parameter point, which is checked rather than assumed
+        (``weight_sensitivity_study.md`` §3).
         """
         src_overlay = self.by_verdict.get(verdict, {}).get(src, {})
         composed: dict[str, float] = {}
@@ -127,15 +157,127 @@ class OutcomeOverlay:
         return {dst: weight / total for dst, weight in composed.items()}
 
 
+@dataclass(frozen=True)
+class OverlayVersion:
+    """One registered overlay version: its files, and how it was compiled.
+
+    ``spec`` is the compilation recipe — the relationship ordering and the
+    distance kernel — so the generator can re-emit this version and diff it
+    against what is committed. A version that cannot be regenerated from the
+    rules is a version whose values were fitted, which is the thing the
+    declared-value precedent forbids.
+    """
+
+    name: str
+    directory: Path
+    spec: dict
+    created: str = ""
+    construction: str = ""
+    rationale: str = ""
+    consumed_by: tuple[str, ...] = ()
+    produced: str = ""
+    record: str = ""
+    immutable: bool = False
+
+    def files(self) -> dict[Verdict, Path]:
+        return {v: self.directory / f"{v}.json" for v in sorted(_VERDICTS)}
+
+
+@dataclass(frozen=True)
+class OverlayRegistry:
+    """The overlay registry — every value set run, and which is the default."""
+
+    versions: tuple[OverlayVersion, ...]
+    default: str
+
+    @property
+    def names(self) -> tuple[str, ...]:
+        return tuple(v.name for v in self.versions)
+
+    def get(self, name: str) -> OverlayVersion:
+        for version in self.versions:
+            if version.name == name:
+                return version
+        raise KeyError(
+            f"unknown outcome-overlay version {name!r}; "
+            f"registered: {sorted(self.names)}"
+        )
+
+
+def load_overlay_registry(manifest_path: Path | str | None = None) -> OverlayRegistry:
+    """Load the overlay registry's manifest.
+
+    Validation is loud: a version whose compiled files are missing, or a declared
+    default naming no registered version, raises here rather than mid-run.
+    """
+    path = Path(manifest_path) if manifest_path is not None else MANIFEST_PATH
+    with path.open(encoding="utf-8") as fh:
+        doc = json.load(fh)
+
+    entries = doc.get("versions")
+    if not isinstance(entries, list) or not entries:
+        raise ValueError(f"{path}: missing or empty 'versions' block")
+
+    versions: list[OverlayVersion] = []
+    for entry in entries:
+        name = str(entry["name"])
+        directory = path.parent / str(entry["dir"])
+        version = OverlayVersion(
+            name=name,
+            directory=directory,
+            spec=dict(entry.get("spec", {})),
+            created=str(entry.get("created", "")),
+            construction=str(entry.get("construction", "")),
+            rationale=str(entry.get("rationale", "")),
+            consumed_by=tuple(entry.get("consumed_by", ())),
+            produced=str(entry.get("produced", "")),
+            record=str(entry.get("record", "")),
+            immutable=bool(entry.get("immutable", False)),
+        )
+        for verdict, file_path in version.files().items():
+            if not file_path.is_file():
+                raise ValueError(
+                    f"{path}: version {name!r} is missing its {verdict} view: {file_path}"
+                )
+        versions.append(version)
+
+    default = str(doc.get("default", ""))
+    registry = OverlayRegistry(versions=tuple(versions), default=default)
+    if default not in registry.names:
+        raise ValueError(
+            f"{path}: default {default!r} names no registered version "
+            f"(registered: {sorted(registry.names)})"
+        )
+    return registry
+
+
 def load_outcome_overlay(
     files: dict[Verdict, Path] | None = None,
+    *,
+    version: str | None = None,
+    registry: OverlayRegistry | None = None,
 ) -> OutcomeOverlay:
-    """Load the success/failure split files into an :class:`OutcomeOverlay`.
+    """Load one overlay version into an :class:`OutcomeOverlay`.
+
+    Selection, in precedence order: explicit ``files`` (an ad-hoc pair, for tests
+    and one-offs), else a named ``version`` from the registry, else the registry's
+    declared default. Passing both ``files`` and ``version`` is a contradiction
+    and raises.
 
     Validation is loud: each file's declared ``verdict`` must match its slot and
     be one of the two binary verdicts, and the ``by_source`` block is required.
     """
-    paths = files if files is not None else DEFAULT_FILES
+    if files is not None and version is not None:
+        raise ValueError("pass either files or version, not both")
+
+    name = ""
+    if files is not None:
+        paths = files
+    else:
+        reg = registry if registry is not None else load_overlay_registry()
+        name = version if version is not None else reg.default
+        paths = reg.get(name).files()
+
     by_verdict: dict[Verdict, dict[str, dict[str, float]]] = {}
     by_rule: dict[Verdict, dict[str, dict[str, str]]] = {}
     for verdict, path in paths.items():
@@ -169,4 +311,4 @@ def load_outcome_overlay(
             src: {dst: _r(cell) for dst, cell in dsts.items()}
             for src, dsts in by_source.items()
         }
-    return OutcomeOverlay(by_verdict=by_verdict, by_rule=by_rule)
+    return OutcomeOverlay(by_verdict=by_verdict, by_rule=by_rule, version=name)
