@@ -83,6 +83,20 @@ what supplementary measurement would move the badge, recorded as a
 recommendation only (nothing is built here, per the S2 freeze and the S6
 scope).
 
+**A standing constraint on what evidence can move a badge — the degenerate
+region (recorded 2026-07-28).** At the 200 s mutation interval every
+published run of this project has used, *neither* the profiled attacker nor
+the baseline completes the substrate objective, and the objective only
+becomes reachable above roughly 1 600 s
+([`pipeline/ogasp/rate_feasibility_study.md`](pipeline/ogasp/rate_feasibility_study.md)
+§7, C5). Inside that region any success-rate-shaped measurement — ASR
+included — is pinned at zero and cannot discriminate anything, so it cannot
+evidence a badge move in either direction. Evidence offered at the operating
+interval must be breadth- or time-shaped, which remain informative
+throughout; success-rate evidence must come from outside the region, and say
+so. Several M8b fields and §(f) reason in ASR-adjacent terms — read them
+under this constraint.
+
 ## (c) The scorecard
 
 | # | Axis | Literature source | Prior MTD work (lit review §IV-B cross-section) | This model today |
@@ -99,8 +113,9 @@ scope).
 Four of eight axes are not addressed. That ratio is the honest shape of the
 contribution: the model advances the *campaign-structure* half of the APT
 profile (axes 1–4) and leaves the *smart-attacker* half (axes 5–8) — the half
-Cho's §V-D and Jalowski's corrective name most pointedly — open. §(f) states
-what that buys anyway.
+Cho's §V-D and Jalowski's corrective name most pointedly — open; on axis 8
+the absence is now a ruled exclusion rather than a default (§(d)). §(f)
+states what that buys anyway.
 
 ## (d) The axes
 
@@ -136,10 +151,17 @@ convert to breadth — finding 2). The structure is real and runs; sustained
 staged advance is not yet on record, so the badge stays at DESIGNED.
 
 **What would evidence a claim (M8b).** Progression-shaped measurements the
-current suite lacks: deepest tactic band reached per run (kill-chain depth),
-distinct-tactic coverage over time, foothold-retention duration across MTD
-mutations, and the effort-to-breadth conversion ratio (actions per distinct
-host) that experiment 1 computed ad hoc. Recommended, not built.
+current suite lacks: distinct-tactic coverage over time (the lead
+recommendation — it still discriminates inside the degenerate region, §(b)),
+foothold-retention duration across MTD mutations, and the effort-to-breadth
+conversion ratio (actions per distinct host) that experiment 1 computed ad
+hoc. The originally recommended "deepest tactic band reached per run
+(kill-chain depth)" is **withdrawn as written** — it is saturated: every
+profile traverses to the objective stage of its own campaign structure, so
+the measure cannot discriminate (§(h)). The open measurement-suite handoff
+carries a success-gated candidate replacement (deepest *successfully
+actioned* stage), to be adopted only if it is shown to discriminate; until
+then the coverage curve leads. Recommended, not built.
 
 ### Axis 2 — Objective conditioning
 
@@ -275,18 +297,22 @@ machinery is a defender-side benchmark, deferred to the ablation phase), the
 S2 freeze rules out an evasion action, and the metrics do not reward
 evasion-shaped behaviour — the M8 expectation that experiment 1 confirmed.
 Movement through evasion-*named* tactics exists (the nets contain
-defence-evasion places) but carries no stealth semantics. The nearest open
-direction is S3's timing regime — per-tactic exponential dwell, non-action
-tactics consuming time — which would give the model a *tempo* axis
-(CONJECTURED: ruled, with design and build handoffs open); tempo alone is
-still not evasion.
+defence-evasion places) but carries no stealth semantics. The S3 timing
+regime is now **built**: per-tactic exponential dwell with non-action tactics
+consuming time landed through the timing design and build handoffs, and the
+S3-R reversal then made the movement layer the source of every unit of the
+profiled attacker's time. The model therefore has its *tempo* axis. The badge
+does not move, because tempo without a consequence is still not evasion —
+there is no detection model for a tempo choice to matter against, which is
+this axis's own argument.
 
 **What would evidence a claim (M8b).** The supervisor's own caveat stands:
 measuring stealth is acknowledged tricky (M8b). Candidate supplementary
 measurements, if stealth is ever claimed: attack-event rate visible to
 substrate statistics per unit time (a detectability proxy), dwell fraction in
-non-action tactics, and tempo response to MTD frequency. Any of these
-requires the S3 timing regime to land first.
+non-action tactics, and tempo response to MTD frequency. The S3 timing regime
+these require has landed; what still gates a stealth claim is a stealth
+semantics for the measurements to speak to.
 
 ### Axis 6 — Incentive-driven rationality
 
@@ -372,15 +398,33 @@ be net-negative. An evaluation blind to them can only report MTD's best case.
 **Prior MTD work.** None; this is the gap half of Jalowski's diagnosis, and no
 paper in the cross-section models any of the three.
 
-**This model today — NOT ADDRESSED.** All three primitives are recorded as
-*pending encoding* in [`architecture.md`](architecture.md) §(f), and none has
-been promoted: the attacker keeps no cross-target configuration memory (i),
-does not observe defender event frequency (ii), and its observation surface
-is CVE/CVSS-only, with metadata invariance likely out of scope for the
-encoded subset because it requires extending the substrate's
-attacker-observation seam (iii). The encoded subset bounds the contribution
-(§(f)); today that subset is empty, and this row is the criterion's
-bluntest honest negative.
+**This model today — NOT ADDRESSED, by ruled exclusion (Marc, 2026-07-28).**
+All three primitives are promoted from *pending encoding* to **out of scope**
+in [`architecture.md`](architecture.md) §(f): encoding any of them requires an
+inference capability — machine learning or reinforcement learning over
+observed defender behaviour — that the remaining timeframe cannot support
+building and validating, and none will be implemented. The negative is
+therefore deliberate, and it remains the criterion's bluntest: the attacker
+keeps no cross-target configuration memory (i), does not observe defender
+event frequency (ii), and its observation surface is CVE/CVSS-only (iii).
+
+The future-work statement is correspondingly specific. It is *not* that the
+simulator cannot support scheme awareness: the observation channel exists and
+is unwired. `Adversary.observed_changes`
+([`adversary.py:23`](../../mtdnetwork/component/adversary.py)) is an empty
+dictionary nothing in the repository ever reads or writes — the vestigial
+hook for exactly the attacker-observes-defender channel primitive (ii) needs
+— while the substrate already exposes everything such a primitive would
+consume (per-event MTD records with resource layer and timing, a computed
+mutation-execution frequency, the currently-running and suspended mutations,
+cumulative interrupt counts), all reachable from the adversary's live network
+handle without a single substrate change
+([`mtd_statistics.py`](../../mtdnetwork/statistic/mtd_statistics.py)). What
+is missing is the inference capability and the time to build and validate it.
+The one genuinely absent input is per-host mutation counts — no MTD strategy
+keeps per-target bookkeeping — so a beacon primitive would additionally have
+to derive or instrument them. The encoded subset bounds the contribution
+(§(f)); it stays empty on this axis for the life of the project.
 
 **What would evidence a claim (M8b).** Per primitive: (i) repeat-compromise
 rate on previously-seen configurations vs unseen; (ii) correlation between
@@ -433,6 +477,20 @@ on record ([`pipeline/ogasp/experiment_01_findings.md`](pipeline/ogasp/experimen
   > distinct and not where they are close — and no ordering of profiles by
   > progress may be claimed at all, which the sweep found unsupported at ten
   > seeds.
+
+  > **Qualified again 2026-07-28 by the rate feasibility study**
+  > ([`pipeline/ogasp/rate_feasibility_study.md`](pipeline/ogasp/rate_feasibility_study.md)
+  > §7, C3b). The same claim was tested against timing arbitrariness rather
+  > than weight arbitrariness. The mode assignment holds without exception for
+  > four of the five profiles in every swept cell; `pure_steal` flips between
+  > horizon and sink termination in twelve cells, and inspection shows why —
+  > its central cells split 7–3 and 5–5 across the ten seeds, so its modal
+  > mode is a coin-toss summary of a genuinely bimodal distribution, flipping
+  > on seed noise rather than on where any anchor sits. The badge does not
+  > fall; its evidence narrows again: profile-determined failure mode is
+  > established for four profiles and indeterminate for the fifth at this
+  > sample size, and the fix is power or a distributional statistic, not a
+  > timing change.
 - **Axis 1 is held at DESIGNED by this run.** The structure executes, but
   0/100 objective-reaches and an order-of-magnitude worse effort-to-breadth
   ratio mean sustained multi-stage progress is not evidenced; a rubric that
@@ -448,6 +506,18 @@ on record ([`pipeline/ogasp/experiment_01_findings.md`](pipeline/ogasp/experimen
   currently score axes it holds no claim on, and cannot score the axes the
   model claims — which is why every claimed axis above carries its M8b
   measurement recommendation.
+
+  > **Magnitudes marked stale 2026-07-28.** Experiment 1's baseline figures —
+  > the +50 % time-to-first-compromise response above, and the baseline
+  > success rates that run recorded — are no longer a valid comparison
+  > target: the seven-defect repair (`dd8c5ec`) and the deliberate
+  > re-baseline that followed it (`06ed8d9`) landed after that run's numbers
+  > were taken, and on the current substrate the baseline reaches the
+  > objective 0/10 under random MTD at 200 s where experiment 1 recorded
+  > 10/10 ([`pipeline/ogasp/rate_feasibility_study.md`](pipeline/ogasp/rate_feasibility_study.md)
+  > §6). The findings stand as the record of that run and are deliberately
+  > not recomputed; any new comparison re-measures the baseline in the same
+  > run.
 
 Discrimination check: the criterion separates a result the security metrics
 call a uniform failure (ASR 0.00 everywhere) into one demonstrated axis, two
@@ -469,7 +539,8 @@ rung (§(e)).
 
 **What it does not capture:** stealth semantics (axis 5), an incentive/cost
 decision model (axis 6), learning (axis 7), and MTD-scheme awareness in any
-of Jalowski's three forms (axis 8). These are precisely the smart-attacker
+of Jalowski's three forms (axis 8 — ruled out of scope 2026-07-28, not
+merely absent). These are precisely the smart-attacker
 half of the literature's diagnosis, and on the current evidence the model
 also cannot yet claim persistence or adaptivity in *outcome* terms — the
 structure runs, but experiment 1 shows it failing on this substrate in two
@@ -485,14 +556,24 @@ calls for remains future work.*
 
 Re-score a row (and bump `updated`) when its evidence changes, not on
 schedule. Standing triggers: experiment 2 (axes 1–4 badges and the §(f)
-demonstration section); the S3 timing implementation (axis 5's tempo half);
-~~the S1 sensitivity study~~ **fired 2026-07-28 — no badge moved; axis 2's
-demonstration is qualified in §(f) and axis 1 gains a measurement finding**
-(lifecycle depth reached is saturated: all five profiles traverse to the
-objective stage, so the depth measurement the axis-1 M8b recommendation names
-cannot discriminate as written and needs a finer progression measure); any move
-to dynamic weights (axes 4, 7); any lift of the S2 freeze or promotion of a
-Jalowski primitive from *pending* (axes 6–8, and the §(e) placement). Scores move on evidence only — never
+demonstration section); ~~the S3 timing implementation (axis 5's tempo
+half)~~ **fired 2026-07-28 — no badge moved; axis 5's body now describes the
+built regime, and the badge holds because tempo without a consequence is
+still not evasion**; ~~the S1 sensitivity study~~ **fired 2026-07-28 — no
+badge moved; axis 2's demonstration is qualified in §(f) and axis 1 gains a
+measurement finding** (lifecycle depth reached is saturated: all five
+profiles traverse to the objective stage, so the depth measurement the axis-1
+M8b recommendation named could not discriminate as written — the
+recommendation is corrected in §(d), with the coverage curve leading until
+the measurement-suite handoff verifies a replacement); **the rate
+feasibility study fired 2026-07-28 — no badge moved; axis 2's evidence is
+qualified a second time in §(f), and the study's degenerate-region finding
+now stands as a constraint beside the badge definitions in §(b)**; any move
+to dynamic weights (axes 4, 7); any lift of the S2 freeze (axes 6–7, and the
+§(e) placement); any reversal of the 2026-07-28 ruling that promoted the
+three Jalowski primitives to *out of scope* (axis 8 — promotion to *encoded*
+would re-open the axis, the S2 freeze's capability candidates, and the §(e)
+placement). Scores move on evidence only — never
 change the model, weights, mapping, or metrics to improve a row (S6
 constraint; [`../workflows/guardrails.md`](../workflows/guardrails.md)).
 A distilled, rubric-clearing note for the background or discussion chapter is

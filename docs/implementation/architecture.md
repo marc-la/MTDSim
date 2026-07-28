@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-05-27
-updated: 2026-07-27
+updated: 2026-07-28
 ---
 
 # Architecture — L0→L4 pipeline and methodological positioning
@@ -314,6 +314,14 @@ and **experiment 1 has run** — the profiled attacker reaches the substrate
 objective in 0/100 runs against a 0.90–1.00 baseline, failing through
 substrate-precondition friction and non-spreading churn
 ([`pipeline/ogasp/experiment_01_findings.md`](pipeline/ogasp/experiment_01_findings.md)).
+*The baseline magnitude is stale as a comparison target:* the seven-defect
+repair (`dd8c5ec`) and the deliberate re-baseline that followed it (`06ed8d9`)
+landed after experiment 1's numbers were taken, and on the current substrate
+the baseline reaches the objective 0/10 under random MTD at 200 s where
+experiment 1 recorded 10/10
+([`pipeline/ogasp/rate_feasibility_study.md`](pipeline/ogasp/rate_feasibility_study.md)
+§6). The findings stand; any new comparison re-measures the baseline in the
+same run.
 The post-experiment-1 rulings **S1–S6** allocate the response and are the live
 work; refinement, not construction, is what remains.
 
@@ -400,9 +408,10 @@ which behavioural-fidelity is compared. The comparative claim of the thesis
 **If revisited:** Removing the 6-phase attacker would force a re-baseline of
 every Tay-comparison run and is not justified by any current finding.
 
-**Decision — encoding of Jalowski et al.'s three attacker-model primitives
-(*Methodology Carry-Forward* §1) is pending and documented as such.**
-The three primitives are:
+**Decision — Jalowski et al.'s three attacker-model primitives
+(*Methodology Carry-Forward* §1) are promoted from *pending* to *out of
+scope* (Marc, 2026-07-28), superseding the earlier pending-encoding wording
+of this block.** The three primitives are:
 
 1. **State-collision recognition (cross-target memory).** Does the attacker
    maintain a memory of compromised configurations across the target
@@ -420,9 +429,30 @@ The three primitives are:
 phrase is hand-wavy. The encoded subset bounds the contribution. The validation
 claim is *"behavioural fidelity changes the answer"*, not *"the attacker
 model is true"* (see §(j)).
-**If revisited:** Each primitive can be promoted from *pending* to *encoded*
-or *out of scope* independently; promotion changes the L3 contract and the
-attacker state space, not L1/L2 graph construction.
+**Why out of scope:** encoding any of the three requires an inference
+capability — machine learning or reinforcement learning over observed defender
+behaviour — that the remaining timeframe cannot support building and
+validating. The exclusion is capability-shaped, not substrate-shaped: the
+observation channel primitive (2) would consume already exists and is unwired
+(`Adversary.observed_changes`,
+[`adversary.py:23`](../../mtdnetwork/component/adversary.py), is an empty
+dictionary nothing in the repository reads or writes, and the substrate
+already exposes per-event MTD records with resource layer and timing, a
+computed mutation-execution frequency, the running and suspended mutations,
+and cumulative interrupt counts from the adversary's live network handle —
+[`mtd_statistics.py`](../../mtdnetwork/statistic/mtd_statistics.py)). Per-host
+mutation counts are the one genuinely absent input: no MTD strategy keeps
+per-target bookkeeping, so a beacon primitive would have to derive or
+instrument them.
+**Cost:** the encoded subset — which bounds the contribution by this block's
+own argument — stays empty on this axis for the life of the project;
+[`apt_model_criterion.md`](apt_model_criterion.md) §(d) axis 8 remains the
+criterion's bluntest honest negative, now as a ruled exclusion rather than
+unstarted work.
+**If revisited:** promotion to *encoded* changes the L3 contract and the
+attacker state space, not L1/L2 graph construction — and it re-opens the S2
+freeze's capability candidates, so it carries a fresh comparability argument
+against the retained baseline.
 
 **Decision — the Petri net is the primary behaviour source for the
 executable attacker (supervisor D1, July 2026), superseding its earlier
@@ -487,9 +517,10 @@ argument against the retained baseline.
 **Note on the Tay-IDS ↔ Jalowski-beacon inverse** (*Methodology Carry-Forward*
 §2). Tay's IDS-sensitivity experiment varies what the *defender* observes
 about the attacker; Jalowski's beacon-conditioning primitive is what the
-*attacker* infers from the defender's behaviour. If primitive (2) above is
-encoded, this is the natural positioning move against Tay's substrate. Not
-load-bearing for the scaffold; explicit in case Pass 2 picks it up.
+*attacker* infers from the defender's behaviour. With primitive (2) now ruled
+out of scope, this positioning move is future work rather than a live option;
+recorded because it is the natural framing if the ruling is ever revisited.
+Not load-bearing for the scaffold; explicit in case Pass 2 picks it up.
 
 ---
 
