@@ -52,7 +52,7 @@ now costs its tactic's time rather than being free. Internal MTTC is ruled a
 substrate-owned metric that the portable layer does not own, and cross-arm
 comparability of it is withdrawn rather than defended.)*
 
-**Wave 3 — one of two shipped.**
+**Wave 3 — shipped.**
 
 *(Shipped from wave 3: the **S1 study half** —
 `2026-07-27_tactic_weight_sensitivity_study.md`, landed 2026-07-28 as
@@ -72,27 +72,44 @@ mass. Three things (8) inherits: the ~90% MTD host-suppression under `v2_partial
 to confirm or withdraw, the seed count an ordering claim needs, and a saturated
 progression metric to replace.)*
 
-7. `2026-07-28_tactic_rate_feasibility_study.md` (**the rate analysis**) —
-   **unblocked**: the S3 timing build has shipped, so there is now a regime to
-   sweep. Sibling to the shipped S1 study, and it should **take that study's
-   reporting shape rather than inventing one** — conclusions and criteria
-   nominated before the numbers, one-at-a-time then corners, both mapping arms,
-   and a per-conclusion held/moved verdict. Four transferable lessons from it,
-   worth reading before designing the grid: report the continuum beside any
-   threshold criterion; separate "the parameter does nothing" from "the parameter
-   does nothing *on this corpus*"; test whether an unstable ordering is unstable
-   for want of runs before blaming the parameter; and note that the S1 numbers are
-   pre-stochastic-timing, so this study is also the first look at whether the two
-   declared families interact. Tests whether any conclusion survives the
-   arbitrariness of the tactic timings, and whether the timing design's "the mean
-   is what matters" defence holds — noting that the exponential fixes the spread at
-   a coefficient of variation of one, so a same-mean heavier-tailed family is the
-   alternative it has to try.
+*(Shipped from wave 3: the **rate analysis** —
+`2026-07-28_tactic_rate_feasibility_study.md`, landed 2026-07-28 as
+`../implementation/pipeline/ogasp/rate_feasibility_study.md`, with its verdict
+folded into the timing design record §3 and the evaluation-burden note's second
+instalment. It took the S1 study's reporting shape as directed: conclusions and
+criteria committed in their own commit **before any output existed**, one-at-a-time
+anchor ends then the ratio corners, per-conclusion held/moved verdicts. The four
+group anchors were swept over bands derived from the catalogue two independent ways
+that agree, so no band was widened.
+
+**HELD across the declared bands, under both timing regimes:** the profiled attacker
+is slower to first compromise than the baseline in every cell, and MTD never helps
+the attacker anywhere. **INDETERMINATE:** any profile ordering by progress — the
+same power failure the S1 study found, reached by an unrelated parameter family,
+which converts a suspicion into a settled constraint. **The identifiability result:**
+of the four anchors only `stealth-low-and-slow` moves any outcome; the two Tier-1
+substrate-priced anchors are inert across their bands, which is the tier badges'
+own prediction arrived at independently.
+
+Two findings (8) inherits, both consequential. **The evaluation's operating mutation
+interval sits inside a degenerate region** where *neither* attacker completes the
+objective — the baseline included, which was not known — and the objective only
+becomes reachable above ~1600 s. ASR cannot discriminate at the operating point, so
+experiment 2 must choose its interval deliberately rather than inherit 200 s, and no
+defence ranking taken inside that region means anything. **And the distribution
+family is a live parameter at one corner:** under S3-R a same-mean Erlang-4 costs
+the attacker breadth at long stealth dwells under mutation pressure, so the
+mean-is-load-bearing defence is now scope-measured rather than assumed.
+
+Also recorded: the study ran once under the hybrid regime and was re-run in full
+under S3-R after the reversal; the baseline arm's behaviour has moved since
+experiment 1 published its figures, so those magnitudes are stale as a comparison
+target.)*
 
 **Wave 4 — last.**
 
 8. `2026-07-27_sink_retrace_experiment2.md` (**S5** + the comparative run) — its
-   design half is **unblocked**; its *run* should consume (7) or it will need
+   design half is **unblocked**; its *run* should consume the two shipped wave-3 studies or it will need
    repeating, and must name **both** its declared inputs at its own seam:
    `v2_partial` as its mapping version and `v2_lifecycle_distance` as its overlay
    version. It now also
