@@ -44,7 +44,14 @@ comparability argument, and the determinism/migration/rollback scheme.)*
 7. `2026-07-27_stochastic_timing_implementation.md` (**S3**, build half) — its
    specification, the timing design record, has **shipped**
    (`../implementation/pipeline/ogasp/stochastic_timing_design.md`); the build is
-   now unblocked.
+   now unblocked, and *smaller than drafted*: the confusion penalty **stays
+   substrate-side** (Marc, 2026-07-28 — a portability ruling, no net place), so the
+   only behavioural change is the one-line dwell seam.
+7b. `2026-07-28_tactic_rate_feasibility_study.md` (**the rate analysis**) — after
+   (7), which gives it something to sweep. Sibling to (6): both are declared-value
+   sensitivity sweeps and should share a reporting shape and a mapping version.
+   Tests whether any conclusion survives the arbitrariness of the tactic timings,
+   and whether the timing design's "the mean is what matters" defence holds.
 
 **Wave 4 — last.**
 

@@ -52,6 +52,7 @@ The precedent survey (background chapter) confirms that no prior work assigns ju
 - Governing spec boundaries: [`../../implementation/metrics_semantics.md`](../../implementation/metrics_semantics.md) §(d)/§(f) (comparability; observation counts are not rates); duration-regime provenance in [`../../implementation/provenance.md`](../../implementation/provenance.md) and [`../../implementation/architecture.md`](../../implementation/architecture.md).
 - The July-2026 written ratification (R1 timing regime, R4 free simulation settings): [`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md).
 - The ratio-game punchline this suffices for: [`structure_to_behaviour_binding.md`](structure_to_behaviour_binding.md).
+- The companion defence of the distribution's *shape* (this note defends the values): [`exponential_as_tractability_choice.md`](exponential_as_tractability_choice.md).
 
 ## Revisit conditions
 

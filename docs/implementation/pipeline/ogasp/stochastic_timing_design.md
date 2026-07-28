@@ -1,7 +1,8 @@
 ---
 status: durable
 created: 2026-07-28
-topic: "L3 stochastic timing (S3) — the design record: the GSPN formalism, where the clock lives, the per-tactic exponential parameterisation, the confusion-penalty place, the comparability argument against the untouched baseline, and the determinism / migration / rollback scheme. Planning only; no code, test, or data artefact changed."
+topic: "L3 stochastic timing (S3) — the design record: the GSPN formalism, where the clock lives (the movement layer supplies the time, SimPy spends it), the per-tactic exponential parameterisation, the ruling that the confusion penalty STAYS substrate-side on portability grounds, the comparability argument against the untouched baseline, and the determinism / migration / rollback scheme. Planning only; no code, test, or data artefact changed."
+updated: 2026-07-28
 ---
 
 # The stochastic timing regime — design record (S3, planning half)
@@ -52,20 +53,46 @@ probe confirms the current world: under simultaneous MTD, the movement arm pays
 0/42/1234: 25/25/26 interrupts → 25/25/26 penalty charges), drawn about the
 substrate base `PENALTY = 20`. The same fix also resolved the F1 interrupt-gate
 defect ([`action_layer_audit.md`](action_layer_audit.md) §"four decisions", items
-B3 and F1). **Consequence for the design:** adding the penalty place must
-*preserve* the existing single-charge parity (§4), not *establish* it — the "world
-we are in" (per the handoff's decision 4) is the both-arms-pay-once world.
+B3 and F1). **Consequence for the design:** the "world we are in" (per the
+handoff's decision 4) is the **both-arms-pay-once** world, so the penalty needs no
+build at all — which, with the portability argument, is why §4 rules it stays
+substrate-side.
 
-**The structural fact that resolves the double charge into a non-problem (§2/§5).**
-The catalogue dwell is consumed as a *separate* `env.timeout(dwell)` in the
-movement driver's walk, **before** the verb dispatches; it does **not** write an
-`attack_record` row. Only the substrate's `step(verb)` writes `attack_record`, and
-it records the verb's *native* cost as the row `duration`. The primary metric —
-internal MTTC, the mean over `SCAN_PORT` / `EXPLOIT_VULN` / `BRUTE_FORCE` row
-durations ([`../../metrics_semantics.md`](../../metrics_semantics.md) §(a)) — reads
-those rows. **So the dwell is invisible to the primary metric today**, and the
-double charge is a *wall-clock* double charge, not a *metric* double charge. This
-is the hinge the whole comparability argument turns on.
+**Fact 3 — two different quantities are both called "MTTC", and they differ by
+~26×.** This is the finding that drives §2 and §5, and it was not visible from the
+handoff. The project has **two** metrics under one name:
+
+| | **Internal MTTC** | **Time-to-compromise (elapsed)** |
+|---|---|---|
+| Definition | mean *duration* of the `SCAN_PORT` / `EXPLOIT_VULN` / `BRUTE_FORCE` rows in `attack_record` ([`../../metrics_semantics.md`](../../metrics_semantics.md) §(a)) | sim-clock time at which the first compromise lands |
+| Answers | "what does one attack action cost?" | "how long until this attacker breaks in?" |
+| Golden value (no-MTD) | **9.11 s** (`evaluation.json`, last checkpoint) | — |
+| Experiment 1 reported | *not reported* | **238 s** baseline · **5294 s** movement |
+| Does the tactic dwell enter it? | **No** — the dwell writes no `attack_record` row | **Yes** — it advances the shared sim clock |
+
+Verified: the movement reader's `mttc` is `first_compromise_time()`
+([`statistics.py`](../../../../src/mtdsim/l3_simulation/movement/statistics.py)),
+and the baseline arm's is `float(compromised_rows.iloc[0]["finish_time"])`
+(`data/results/exp01_movement_vs_baseline/run_experiment.py:101`) — **both elapsed
+sim time, identical in definition on both arms**, exactly as the experiment-1 setup
+table claims. Neither arm's reported number is the internal MTTC of
+`metrics_semantics.md` §(a).
+
+**The consequence, and it inverts an earlier draft of this record.** The
+per-tactic dwell **does** feed the metric the experiments actually compare on,
+because it advances the same SimPy clock both arms are measured against. It does
+*not* feed internal MTTC, because that is a mean over per-action durations and the
+dwell is not part of any action. So the timing regime is **not** invisible to the
+headline — it lands squarely on it. §2 rules on this and §5 argues it.
+
+**A flag, not a change (scope discipline).**
+[`../../../workflows/project_context.md`](../../../workflows/project_context.md)
+and [`../../metrics_semantics.md`](../../metrics_semantics.md) §(a) both name
+**internal MTTC** the primary metric, while every head-to-head comparison run to
+date reports **elapsed time-to-compromise** under the same name. That is a
+nomenclature collision in the canonical specs, and reconciling them is Marc's call,
+not this record's. What this record does is refuse to add to it: §2 and §5 name the
+two quantities distinctly and never write bare "MTTC".
 
 ---
 
@@ -77,6 +104,19 @@ among a place's out-edges is a **weighted immediate transition** (zero simulated
 time). The net is **executed by Monte-Carlo inside SimPy**, exactly as today — the
 GSPN is a *vocabulary and a discipline*, **not** a commitment to the CTMC
 closed-form solve.
+
+**Where the time actually lives — the ontology, stated precisely (Marc,
+2026-07-28).** The timing does **not** live *on* the Petri net. The net (with the
+duration catalogue) is a **data structure that supplies** the timing parameters;
+the clock is only ever **executed in the SimPy loop**, which is the single
+discrete-event engine that advances simulated time for both arms. The accurate
+telling is therefore *the movement layer supplies the time; SimPy spends it* —
+never "the net holds a clock". This matters beyond pedantry: it is why the timing
+regime is portable (a different simulator's event loop would spend the same
+supplied durations), and it is why §2's ruling is about which *engine-advanced*
+quantity the timing lands in rather than about net internals. Where this record
+says "a timed transition", read: *the parameter the net supplies for the timeout
+the loop executes at that place*.
 
 **Why GSPN — how much of the current loop survives.** The runtime is already
 structurally a GSPN; the ruling only *names* what it does. The stepping loop
@@ -126,22 +166,52 @@ study already draws.
 
 **The ruling, in one sentence a reader cannot misread:**
 
-> The movement layer owns the **per-tactic behavioural dwell** (an exponential
-> draw); the substrate keeps pricing each dispatched action at its **native cost**,
-> which is the only time that enters the internal MTTC — so the primary security
-> metric is defined identically on both arms, and the behavioural dwell is a
-> **separate movement-arm tempo quantity**, never folded into the internal MTTC.
+> The movement layer **supplies** the per-tactic time (an exponential draw whose
+> mean is the catalogue value) and the SimPy loop **spends** it on the one shared
+> clock, so the tactic timing contributes in full to **elapsed time-to-compromise**
+> — the quantity the head-to-head comparison actually reports — while each
+> dispatched action keeps its native substrate cost, so **internal MTTC** (the mean
+> *per-action* duration) keeps its meaning and stays comparable across arms.
 
-**Consequence for the primary metric (the decisive point).** Internal MTTC is the
-mean over the three action-event *durations* in `attack_record`
-([`../../metrics_semantics.md`](../../metrics_semantics.md) §(a)). Those durations
-are the substrate's native verb costs, written by `step(verb)`, and are **identical
-in definition on both arms for the same verb**. The exponential dwell is a
-movement-layer `env.timeout` that writes **no** `attack_record` row (§0). Therefore
-S3 **does not perturb the primary metric's definition on either arm**, and the
-baseline arm — which has no behavioural dwell at all — stays byte-identical. The
-dwell shapes the **wall-clock campaign timeline**, which is the
-operational-validation target, and it is reported as its own quantity (§5).
+**Consequence for the reported metric (the decisive point, corrected).** Elapsed
+time-to-compromise is read off the shared sim clock on both arms (§0, Fact 3).
+Every contribution the movement arm makes to that clock — the behavioural dwell, a
+dwell-only place's time, the substrate's action costs, the confusion penalty —
+lands in it. So the timing regime **is** measured by the headline comparison, which
+is what S3 intends: making the movement layer the timing source changes the tempo
+of the profiled attacker, and the tempo is what the reported number sees. The
+baseline arm has no behavioural dwell, so its number is untouched and its golden
+stays byte-identical.
+
+**Why the dwell is nonetheless kept out of the per-action rows.** Marc asked the
+right question — why not feed the tactic time into the substrate's records so it
+counts toward internal MTTC? Two concrete reasons, both fatal to that variant:
+
+1. **It would silently drop most of the tactic time it set out to capture.** Under
+   the version-2 mapping **seven of fifteen tactics are dwell-only** — they
+   dispatch no verb, so no `attack_record` row exists to carry their dwell. Folding
+   dwell into the dispatched verb's row would count the dwell of the eight mapped
+   tactics and discard the other seven entirely. A metric that captures *some* of
+   the behavioural time and not the rest is worse than one that cleanly captures
+   none of it — and elapsed time-to-compromise already captures **all** of it.
+2. **It would corrupt what an action row means.** An `attack_record` duration
+   answers "what does a port scan cost on this substrate?". Adding an unrelated
+   behavioural dwell makes the same field answer two questions at once, breaks the
+   like-for-like reading of the same verb across arms, and moves every derived
+   quantity (the goldens' `time_to_compromise`, and so every prior result) without
+   the metric's definition changing — a silent re-baseline.
+
+The alternative variant — emitting *new* dwell rows and widening the metric's name
+list to count them — is rejected for the second reason in a sharper form: it
+redefines internal MTTC, which breaks comparability with every prior result and
+with the goldens, in exchange for a number elapsed time-to-compromise already
+reports honestly.
+
+**So the two quantities do different jobs, and both are wanted.** Internal MTTC
+prices *an action* (unchanged, cross-arm comparable, substrate-owned). Elapsed
+time-to-compromise prices *a campaign* (movement-layer timing included, cross-arm
+comparable, the headline). S3 moves the second and deliberately leaves the first
+alone.
 
 **Rejected — "the movement layer owns all time; the verb's native cost is
 suppressed."** Three independent constraints kill it. (a) Suppressing the verb cost
@@ -182,31 +252,140 @@ group anchors, not fifteen free dwells — anti-circularity rule 2).
 (the tactic is absent from those objective-nets), never as a zero duration — as the
 catalogue already does.
 
-**What the exponential assumes, and where it is weak — stated, not papered over.**
+### 3.1 What the exponential assumes, and where it is weak
+
 An exponential dwell assumes **memorylessness** (residual dwell independent of time
 already spent), a **mode at zero** (the single most probable dwell is ≈ 0), and a
 **long right tail** (coefficient of variation fixed at 1).
 
-- **Defensible for the scan- and exploit-shaped tactics**, under a
-  retry-until-success reading (memoryless attempts), and defensible **everywhere on
-  tractability and precedent** grounds — declare-and-sweep exponential firing *is*
-  the surveyed field norm ([`../../../notes/ch2_background/tactic_duration_precedent_survey.md`](../../../notes/ch2_background/tactic_duration_precedent_survey.md);
-  Bland 2020, the SPN/CTMC family). Moving to exponential moves this work *towards*
-  the precedent, which converts "our timings are arbitrary" from an apology into a
-  position the literature already occupies.
+- **Defensible for the scan- and exploit-shaped tactics** under a
+  retry-until-success reading (memoryless attempts).
 - **A poor shape for the low-and-slow group** (`persistence`, `stealth`,
   `command-and-control`, and the slow reading of `exfiltration`). Their defining
   character is *sustained, paced* dwell — probability mass concentrated **around** a
   value — which is the exact opposite of a mode-at-zero exponential, whose most
-  likely outcome is a near-instant dwell. A heavier-shouldered distribution
-  (gamma / Erlang / lognormal) with the **same mean** would be more faithful: an
-  Erlang-*k* is the sum of *k* exponentials and concentrates around its mean as *k*
-  grows, which is precisely the "paced, deliberate" behaviour a stealth dwell
-  should show. **The honest position is recorded rather than hidden: exponential is
-  adopted for tractability and precedent, acknowledged as a poor shape for the
-  low-and-slow tactics; a phase-type / gamma upgrade with the same means is the
-  declared refinement, deferred.** This is the operational-validation honesty
-  discipline applied to the distribution family.
+  likely outcome is a near-instant dwell. A same-mean heavier-shouldered
+  distribution (gamma / Erlang / lognormal) would be more faithful: an Erlang-*k* is
+  the sum of *k* exponentials and concentrates around its mean as *k* grows, which
+  is precisely the "paced, deliberate" behaviour a stealth dwell should show.
+
+### 3.2 The literature grounding — what existing stochastic-net work does about rates
+
+This is a **new front for the dissertation**: it must explain why an arbitrary
+number drawn from an arbitrary distribution is a defensible modelling move. A
+survey of the tracked extractions settles it, and the answer is favourable — the
+field's own register is exactly the one this work is adopting, stated here more
+explicitly than most published work states it. Five findings, each citable.
+
+**(1) Rates are declared, not measured — and the best papers say so in their own
+text.** The closest executed stochastic-Petri-net attacker precedent is blunt:
+Bland et al.'s rates "were notional and randomly selected between one and ten.
+Identifying realistic rates is a future effort to enhance this research"
+(§2.1) — in a peer-reviewed venue, with the net's *structure* face-validated by a
+practitioner panel while its *rates* were uniform random draws. Mendonça et al.
+badge the gap inside the parameter table itself: parameters "marked with ? were
+reasonably estimated, as they were not found in the literature or product
+specifications" (§4.1). McQueen et al. write "somewhat arbitrarily, we decided to
+use 8 hours" for a process mean, and concede that "some of the assumptions
+associated with our model have not been validated" (§1).
+
+**(2) Nobody justifies the exponential as *realistic*; the formalism is justified,
+the distribution is inherited.** Across the surveyed stochastic nets, what gets
+defended is solvability, not memorylessness — Mendonça's DSPN is chosen because it
+"allows the analysis of systems through numerical solution and simulation methods"
+(§2.3). **No paper in the corpus defends memorylessness as faithful to attacker
+behaviour.** Sharpest of all, our own substrate's lineage already made this exact
+choice unargued: Zhang 2023 switched the inherited uniform MTD interval to an
+exponential and recorded no justification for the distribution at all (§4.3.4,
+§4.5). Adopting exponential here is therefore not a new liberty — it is the
+substrate's own existing convention, now at least declared.
+
+**(3) The strongest defence available — for a mean-based metric the mean is the
+load-bearing quantity — and the condition it depends on.** Madan et al.'s landmark
+security-Markov paper chose a *semi-Markov* process precisely because "some of the
+sojourn time distribution functions may be non-exponential" (§1), and then showed
+the analysis "depends only on the **mean sojourn time** and is independent of the
+actual sojourn time distributions" (§"mean sojourn time"; the extraction records
+this for the **steady-state** analysis). McQueen makes the same move by a different
+route, hypothesising beta/gamma/exponential shapes and then reporting that "for
+now, the analysis only uses the expected value of the time-to-compromise" (§3.4) —
+the shapes are never used.
+
+**The mechanism, because it is also the bound.** Mean time to absorption decomposes
+into (expected visits to each state) × (mean dwell in that state), and the visit
+counts are a property of the **routing probabilities alone**. So *when routing is
+independent of how long each state takes*, the aggregate depends on the declared
+means and not on the distributions around them, and the exponential costs nothing.
+
+**Where that independence fails here — state it, do not lean past it.** In this
+model routing is **not** fully independent of the dwell: an MTD mutation fires on
+its own schedule and **races** the dwell, so a long dwell is more likely to be
+interrupted than a short one, and an interrupt changes the verdict and therefore
+where the token goes next. **Distribution shape re-enters through the interrupt
+channel even though it leaves through the arithmetic** — and it does so precisely
+in the regime the thesis is about, since the central contest is the ratio of
+mutation interval to tactic dwell. The defensible claim is therefore *conditional*:
+the mean is **expected** to be load-bearing, the residual shape-sensitivity runs
+through interruption, and that is a **prediction to test** (the feasibility study,
+§3.3), not a property to assume. Recording the leak is also what keeps the argument
+non-circular: the family was fixed on precedent grounds before any result was
+examined, and the check that could falsify it is specified in advance.
+
+**(4) Where the field *does* reject the exponential, it is on the defender's
+side — which this work does not touch.** Non-exponential choices cluster on
+genuinely *periodic* events: Mendonça models the time-based MTD trigger as a
+**deterministic** transition, and the FlipIt result is that "a periodic strategy
+with a random phase strongly dominates all renewal strategies of the same rate" for
+the defender's move. That asymmetry is convenient and should be stated: the
+literature's objection to exponential firing is aimed at the MTD scheduler, which
+lives in the frozen substrate and keeps its own timing regime (§4), not at the
+attacker's per-tactic dwell.
+
+**(5) The counter-evidence, acknowledged rather than buried.** The one large-*n*
+empirical study in the corpus contradicts the exponential directly: Holm 2014
+(203,025 intrusions across 261,757 systems, 2009–2012) finds a Pareto best fit for
+time-to-first-compromise and reports the exponential "a poor choice" for
+time-between-compromises and overall time-to-compromise, failing the heavy tail
+beyond ~80 days (§5.2.1–§5.2.2). Two qualifications travel with it, both recorded:
+its population is opportunistic enterprise malware alarms rather than targeted APT
+campaigns, and it measures campaign-level compromise timing rather than per-tactic
+dwell. **The honest consequence: the true shape is heavier-tailed than exponential,
+so the exponential is presented as a tractable approximation whose *mean* is the
+load-bearing quantity, with the tail behaviour named as a limitation** — not as a
+fidelity claim.
+
+**And the gap statement survives, narrowed.** No source in the surveyed corpus
+grounds a *per-tactic attacker firing rate* in measured data. Where attacker-side
+parameters are empirically grounded at all, the granularity is CVE-level exploit
+development, vulnerability discovery, worm propagation, detection likelihood, or
+aggregate time-to-compromise — never per-tactic dwell. The precedent-survey note's
+claim holds, and should be worded at that narrowed granularity.
+
+### 3.3 The position this licenses — the "veneer" stated honestly
+
+The framing to carry into the dissertation, and it is deliberately unglamorous:
+**the GSPN and its exponential firing are a tractable, precedented formalism laid
+over quantities that are inherently arbitrary, because a true per-tactic duration
+is not a measurable property of the world.** That is not a defect peculiar to this
+model; it is the condition of every timed adversary model surveyed, and the
+strongest of them say so in print. What this work adds over the norm is
+*explicitness*: the tier badges say which values are inherited and which declared,
+the group anchors keep the free-parameter count identifiable, the sweep bands are
+published, and — after §3.2(3) — the record names the mean as the load-bearing
+quantity and the distribution family as the tractable choice. The claim is
+therefore **not** that attacker dwell is exponentially distributed. It is that
+under a declared, swept, mean-anchored regime the *conclusion* is robust — which is
+the only claim the evidence supports and the same modest-claim ceiling the rest of
+the project operates under.
+
+**A separate feasibility study is warranted, and is not this record's job.**
+Whether the conclusion actually survives the rate regime — the sweep over the
+declared bands, the sensitivity of any ranking to where in its band each anchor
+sits, and whether a same-mean heavier-tailed family changes the answer — is an
+*analysis*, not a design decision. It is spun out as its own brief
+([`../../../handoffs/2026-07-28_tactic_rate_feasibility_study.md`](../../../handoffs/2026-07-28_tactic_rate_feasibility_study.md)),
+because a design record that also claimed the robustness result would be asserting
+the thing the study exists to test.
 - **One property in the exponential's favour beyond tractability:** memorylessness
   makes the interrupt-during-dwell path clean — after an MTD interrupt cuts a dwell
   short, the residual is distributed identically to a fresh dwell, so no
@@ -221,81 +400,110 @@ if the phase-type refinement lands. Not built here.
 
 ---
 
-## 4. Decision — the confusion penalty as a net place, preserving single-charge
+## 4. Decision — the confusion penalty **stays on the substrate side**; no net place is built
 
-**Ruling.** The confusion penalty becomes an **entered-on-interrupt place** in the
-movement net, carrying an `Exponential(mean = PENALTY = 20)` draw — "the same base
-duration under the same stochastic regime" (S3). The **penalty duration** is
-re-homed from the substrate onto the movement layer; the penalty's **other
-consequence — the lost host connection** (B-INT-01) — stays a substrate state fact
-the driver still applies.
+**Ruling (Marc, 2026-07-28 — reverses this record's first draft).** The MTD
+confusion penalty **stays where it is**, on the defender↔attacker border inside
+MTDSim. **No penalty place is added to the net, and nothing about the penalty
+changes.** S3's requirement is already discharged by the substrate's own
+implementation (below), so the correct build action here is **none**.
 
-**Why the split, and why it is clean.** The substrate method
-`apply_mtd_interrupt_cost`
-([`../../../../mtdnetwork/operation/attack_operation.py`](../../../../mtdnetwork/operation/attack_operation.py))
-already carries **two** separable responsibilities, and its own docstring
-anticipates S3: *"S3 will re-home the penalty onto the movement layer as a net
-place under a stochastic firing regime. When it does, this stays the substrate's
-definition and the driver stops calling it."* The two halves are:
+**The architectural reason, which is the load-bearing one.** How a defender
+*thwarts* an attacker — the interrupt, the confusion penalty, the lost connection —
+is **simulator-implementation-specific**. It is MTDSim's model of what an MTD
+mutation does to an adversary mid-action; another MTD simulator would thwart
+differently or not at all. The **movement layer is meant to be portable across
+simulators via the controller**: the net supplies campaign structure and tactic
+timing, and the controller adapts it onto whatever action layer is underneath.
+Pulling a *substrate-specific defensive penalty* into the net would weld
+MTDSim-specific defender behaviour into the portable layer, so the net could no
+longer be lifted onto another simulator without carrying MTDSim's thwarting model
+with it. The penalty belongs to the simulator; the tactic timing belongs to the
+movement layer; the border is exactly where it already sits.
 
-1. the **penalty timeout** — `env.timeout(exponential_variates(PENALTY, 0.5))`, a
-   *duration* → **moves to the net place**, drawn from the movement layer's
-   dedicated timing stream (§6);
-2. the **lost connection** — clearing the host cursor on a `network`-layer mutation
-   (B-INT-01), a *state* consequence → **stays** with the substrate; the driver
-   keeps consuming it.
+**Why this is not a divergence from S3 — its requirement is already met.** S3 asks
+that the penalty be "replicable the same way — a place in the net carrying **the
+same base duration under the same stochastic regime**". The operative requirement
+is the *regime*: the movement arm must experience the penalty as a stochastic draw
+about the same base duration as the baseline. That is **already true today**, on
+both arms, and has been since commit `53c5e5d`:
 
-**The single-charge invariant (the trap to design against).** Because *today* the
-movement arm already pays the penalty once per interrupt (§0, Fact 2), adding the
-net place while the driver **still** consumed `apply_mtd_interrupt_cost`'s timeout
-would make the movement arm pay **twice**. The build must therefore, in one change,
-(i) add the penalty place and (ii) stop the driver consuming the substrate's
-penalty *timeout* — keeping only the lost-connection call. The guard is the cheap
-one the implementation handoff already names: **count penalty charges per interrupt
-on both arms; each must be exactly one.**
+- the substrate draws `exponential_variates(ATTACK_DURATION['PENALTY'] = 20, 0.5)`
+  — a **shifted exponential**, floor 20 with a small exponential tail, mean 20.5;
+- **both arms consume the same call** (`apply_mtd_interrupt_cost`), the native FSM
+  via `_handle_interrupt` and the movement driver via `_read_interrupt`;
+- the probe measures exactly that: mean **20.54 / 20.57 / 20.55** t/u per interrupt
+  across seeds 0/42/1234, **one charge per interrupt** (§0, Fact 2).
 
-**The baseline arm is untouched.** It keeps its `_handle_interrupt` →
-`apply_mtd_interrupt_cost` path with the substrate's own `exponential_variates`
-draw. Only the movement arm re-homes the draw to its net place. The two arms draw
-the penalty from **different** streams with the **same mean** (20) — comparability
-is by distribution, exactly as it already is for every other stochastic quantity
-(the arms were always independently seeded). The penalty, like the dwell, writes no
-`attack_record` row, so re-homing it does not touch internal MTTC.
+So the penalty is already a stochastic draw about the declared base duration,
+already applied to the movement arm, already single-charged. Building a net place
+would re-home a mechanism that already satisfies the ruling, at the cost of the
+portability boundary. **S3's intent is satisfied; its suggested mechanism is
+declined, with the reason recorded.**
+
+**What this buys the build.** Everything §4 previously specified disappears: no
+penalty place, no split of `apply_mtd_interrupt_cost`, no re-homing, and — most
+valuably — **no double-charge risk to design against**. The single-charge property
+is not a new invariant to establish but an existing one to *protect*, so the guard
+becomes a cheap regression test (§6) rather than a build task.
+
+**One consequence to carry forward.** The substrate docstring at
+[`apply_mtd_interrupt_cost`](../../../../mtdnetwork/operation/attack_operation.py)
+currently anticipates the re-homing — *"S3 will re-home the penalty onto the
+movement layer as a net place… the driver stops calling it"*. That comment is now
+**wrong** and must be corrected in the build commit to say the penalty stays
+substrate-side by ruling, with the portability reason. It is the only penalty-related
+edit the build makes.
 
 ---
 
 ## 5. The comparability argument, written before any code
 
-The primary metric is defined over the substrate's action durations, and the
-baseline arm must remain byte-identical. Here is how a movement-arm run's timing
-composes into that metric under the §2 ruling, and what stays comparable.
+Two quantities carry the name "MTTC" (§0, Fact 3) and S3 lands on one of them.
+Here is how a movement-arm run's timing composes into each, and what stays
+comparable.
 
-**What enters the primary metric — and what does not.** Internal MTTC =
-mean over `SCAN_PORT` / `EXPLOIT_VULN` / `BRUTE_FORCE` row durations in
-`attack_record`. Those durations are the substrate's **native verb costs**,
-identical in definition on both arms. The three time contributions S3 introduces or
-re-homes on the movement arm — the **exponential dwell**, a **dwell-only** place's
-time, and the **penalty place** — are all `env.timeout`s that write **no**
-`attack_record` row. Therefore **none of them enters internal MTTC**, and the
-metric's definition and cross-arm comparability are **preserved unchanged** by S3.
-(Structural fact, verified in §0.)
+**Elapsed time-to-compromise — S3 lands here, and it stays cross-arm comparable.**
+Both arms are measured as *the sim-clock time of the first compromise*, on the
+**one shared SimPy clock**, from a common `t = 0`, in the same geometry. That is
+already how experiment 1 measured both arms (§0, Fact 3), so the definition needs
+no change and no second quantity needs inventing. Under S3 the movement arm's
+elapsed time composes as:
 
-**The baseline arm.** No behavioural dwell, no dwell-only places, no net penalty
-place — the whole S3 change is movement-arm-only. Its golden headline
-(692 records / 41 hosts; internal MTTC on record) reproduces byte-for-byte. This is
-the contract with every prior result and it is not touched.
+> per visited place: `Exp(mean = duration_s)` behavioural dwell
+> **+** the dispatched verb's native substrate cost (mapped places only)
+> **+** the substrate's confusion penalty on each MTD interrupt (unchanged, §4),
+> summed over the walk until the first compromise lands.
 
-**The second reported quantity — the campaign tempo.** The exponential dwells and
-the penalty place shape the movement arm's **wall-clock campaign timeline** — how
-long, in simulated time, a profile takes to traverse its net and reach its
-objective. This *is* the operational-validation target (shape-not-scale over a
-*distribution* of timelines now, not a single one). It is a **movement-only**
-quantity: the baseline is a mechanical attacker with no behavioural tempo, so a
-wall-clock, dwell-inclusive time-to-compromise is **not** cross-arm comparable —
-and that non-comparability is **by design, a finding to state, not a defect**. The
-rule for the write-up: report internal MTTC as the cross-arm-comparable primary
-metric; report the dwell-inclusive campaign tempo as a **separate, explicitly-named
-movement-arm metric**, never on the same axis as the baseline's internal MTTC.
+The baseline arm's composes as the second and third terms only — it has no
+behavioural dwell. **Both are the same clock and the same event**, so the
+comparison is valid; what changes is that the profiled attacker now carries an
+explicit behavioural tempo the baseline does not have. That difference is the
+*finding*, not a confound: it is precisely the claim that behaviourally-grounded
+timing changes the answer.
+
+**Internal MTTC — untouched, and still cross-arm comparable.** It remains the mean
+duration of the three action-event rows. The dwell writes no such row (§0), the
+penalty writes none, and dwell-only places write none — so the metric's definition,
+its magnitude on the baseline (9.11 s on the no-MTD golden), and its like-for-like
+reading of the same verb across arms are all **preserved unchanged**. It continues
+to answer "what does one attack action cost on this substrate?", which S3 has no
+business changing.
+
+**The baseline arm.** No behavioural dwell, no dwell-only places, no penalty
+change — the whole S3 change is movement-arm-only. Its golden headline
+(692 records / 41 hosts) reproduces byte-for-byte. This is the contract with every
+prior result and it is not touched.
+
+**The honest caveat on the elapsed comparison.** The movement arm is slower partly
+*because we declared it so* — the dwell means are the arbitrary values S3's own
+caveat names. So the elapsed comparison must never be reported as "the profiled
+attacker is inherently N× slower"; it is reported under the
+operational-validation discipline: shape-not-scale, the declared means visible, and
+the conclusion demonstrated robust across the declared sweep bands. A *ranking* that
+survives the sweep is a result; a *magnitude* is a parameter choice. This is the
+same discipline the tier badges already impose, now carrying a distribution rather
+than a point value.
 
 **The honest edge case (carried over, not introduced).** A mutation *during a
 dwell-only place's dwell* raises no verdict and is not felt by the token
@@ -303,10 +511,15 @@ dwell-only place's dwell* raises no verdict and is not felt by the token
 acknowledged limitation tied to the H-coupling finding, unchanged by S3.
 
 **Net answer to the handoff's decision-5 question.** Cross-arm comparison **remains
-valid on the primary metric** (its definition is untouched); it needs **a second
-reported quantity** for the behavioural tempo (the movement-only campaign timeline).
-The two arms do **not** stop being comparable on the primary metric — the timing
-change lands entirely outside it.
+valid on both quantities**, and **no second reported quantity needs inventing** —
+the elapsed measure the experiments already use is exactly where the timing regime
+lands. The write-up obligation is **nomenclature, not machinery**: name the two
+quantities distinctly and never write a bare "MTTC" (§0's flag).
+
+**The honest edge case (carried over, not introduced).** A mutation *during a
+dwell-only place's dwell* raises no verdict and is not felt by the token
+([`success_failure_overlay_design.md`](success_failure_overlay_design.md) §5) — an
+acknowledged limitation tied to the H-coupling finding, unchanged by S3.
 
 ---
 
@@ -327,12 +540,17 @@ build does not re-derive them):
 
 1. **Distribution.** Over many seeded draws at a fixed mean, the empirical mean
    recovers the declared mean within a stated tolerance — per group anchor.
-2. **Determinism.** The same seed reproduces the same dwell **and** penalty
-   sequence exactly.
+2. **Determinism.** The same seed reproduces the same dwell sequence exactly.
 3. **RNG isolation.** Timing draws neither read nor advance `_rng` or the substrate
    dice — the sampler and verdict streams are byte-identical with timing on vs off.
-4. **Penalty single-charge.** Penalty charges per interrupt == interrupts, on
-   **both** arms (§4).
+   (The penalty keeps drawing from the substrate's own dice, §4, so the *existing*
+   penalty sequence must also be unperturbed by the new stream.)
+4. **Penalty unchanged and still single-charged.** The existing regression test
+   already pins this
+   ([`tests/test_action_layer_dispositions.py`](../../../../tests/test_action_layer_dispositions.py)
+   `test_movement_arm_pays_the_same_confusion_penalty_as_the_native_arm`); under §4
+   it must simply keep passing, and its numbers must not move. This is now a
+   *protect*, not a *build*.
 5. **Baseline golden byte-identical.** The arm is untouched, demonstrably.
 6. **The four seam invariants still pass**
    ([`runtime_verification.md`](runtime_verification.md) §"four seams"): putting
@@ -352,10 +570,10 @@ build does not re-derive them):
   that asserts the shape is updated in the **same commit** (the implementation
   handoff owns this; it is not a tidy-up afterwards).
 - **One seam in `_walk`.** `yield self.env.timeout(dwell)` becomes
-  `yield self.env.timeout(self._draw_dwell(place))`; the penalty timeout in
-  `_read_interrupt` is re-homed to the penalty place's draw (§4). Wiring at the
-  single point where time is taken keeps the change one seam and the revert a
-  one-line proposition.
+  `yield self.env.timeout(self._draw_dwell(place))`. That is the *whole* behavioural
+  change — `_read_interrupt` is not touched, because the penalty stays substrate-side
+  (§4). Wiring at the single point where time is taken keeps the change one seam and
+  the revert a one-line proposition.
 - **The shared-catalogue hazard (the one cross-artefact risk).** The standalone
   **timeline runner** ([`../../../../src/mtdsim/l3_simulation/timeline/walk.py`](../../../../src/mtdsim/l3_simulation/timeline/walk.py),
   the D1 analytical track) also reads `tactic_durations.json`, as a **deterministic**
@@ -387,15 +605,18 @@ In enough detail that a cold session builds it without re-deriving a decision:
    bug.
 3. **Dwell-only places pay time and produce no verdict** — the S4-legal behaviour
    given its cost; distinguishable in the event record (§2, §6 test 7).
-4. **The confusion-penalty place** with the duration/lost-connection split (§4) and
-   the single-charge guard (§6 test 4). Prove the charge is single on both arms.
+4. **The confusion penalty: build nothing.** §4 rules it stays substrate-side. The
+   only edit is correcting the now-wrong `apply_mtd_interrupt_cost` docstring that
+   promises the re-homing, and confirming its existing regression test still passes
+   unchanged.
 5. **The metadata + guard inversion** in the same commit as the behaviour (§6),
    worded to preserve the timeline runner's point-value reading (the shared-catalogue
    hazard).
 6. **Re-verify comparability empirically** (§5): the baseline golden reproduces
-   exactly; the movement arm's internal MTTC composes only from native verb costs;
-   the campaign-tempo quantity is reported separately. If code and record disagree,
-   the record wins — or the record's argument had a hole, which is itself a finding.
+   exactly; internal MTTC is unmoved on both arms; and the movement arm's *elapsed*
+   time-to-compromise moves as the record predicts (it now carries the behavioural
+   dwell). If code and record disagree, the record wins — or the record's argument
+   had a hole, which is itself a finding.
 7. **Update the downstream docs** in the same commit: the duration-regime row in
    [`../../provenance.md`](../../provenance.md), the runtime lifecycle in
    [`success_failure_overlay_design.md`](success_failure_overlay_design.md) §6, and
@@ -430,10 +651,15 @@ timing; running experiment 2.
 - **Scores against:** [`../../apt_model_criterion.md`](../../apt_model_criterion.md)
   axis 5 (the tempo half of stealth that S3's regime would give the model —
   CONJECTURED there, and this record is its design).
+- **Spins out:** the rate feasibility study
+  ([`../../../handoffs/2026-07-28_tactic_rate_feasibility_study.md`](../../../handoffs/2026-07-28_tactic_rate_feasibility_study.md))
+  — the sweep that tests whether any conclusion survives §3's declared regime, and
+  whether §3.2(3)'s mean-is-load-bearing defence holds under a same-mean heavier-
+  tailed family.
 - **Figures:** `data/misc/_viz/stochastic_timing_design_viz.py` →
-  `stochastic_timing_*.png` (the four design diagrams: where-the-clock-lives, the
-  GSPN place lifecycle, the exponential parameterisation with the honesty overlay,
-  and the penalty single-charge design).
+  `stochastic_timing_*.png` (the four design diagrams: where-the-clock-lives with
+  both MTTC quantities bracketed, the GSPN place lifecycle, the exponential
+  parameterisation with the honesty overlay, and the penalty portability boundary).
 
 ## 9. When this would need updating
 
@@ -443,6 +669,10 @@ timing; running experiment 2.
   distribution-family flag becomes a build, and the sweep's second dimension opens.
 - If the S2 freeze lifts such that the verb native cost *can* be re-priced: §2's
   rejection of the "movement owns all time" option is revisited.
-- If experiment 2's reader reports a dwell-inclusive time-to-compromise: §5's
-  "second reported quantity" must be named and its axis kept distinct from the
-  baseline's internal MTTC.
+- If the canonical specs' "primary metric" nomenclature is reconciled (§0's flag —
+  `project_context.md` and `metrics_semantics.md` name internal MTTC primary while
+  every comparison reports elapsed time-to-compromise), §0/§5 are re-worded to the
+  ratified names.
+- If the penalty is ever wanted inside the portable layer after all — e.g. a second
+  simulator is targeted and a *generic* thwarting model is defined at the controller
+  seam — §4's portability argument is the thing to revisit, not its conclusion.
