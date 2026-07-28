@@ -65,6 +65,7 @@ The canonical record of what is built and why, in whatever register is clearest 
 - [`apt_model_criterion.md`](../implementation/apt_model_criterion.md) — the APT-attacker-model criterion (supervisor S6): literature-derived axes, this model's honest per-axis scores, and the M8b measurement recommendations. **On the every-session read-first list in [`CLAUDE.md`](../../CLAUDE.md)** by supervisor direction — the one `implementation/` file loaded unconditionally.
 - [`substrate_primer.md`](../implementation/substrate_primer.md) — the inherited simulator as adversarial terrain (attacker's-eye, non-implementation-specific).
 - [`mtdsim_spec.md`](../implementation/mtdsim_spec.md) — conformance spec; row-level dispositions against the baseline.
+- [`mtdsim_intent_spec.md`](../implementation/mtdsim_intent_spec.md) — literature-only intent spec (paper side alone, no code evidence); the uncontaminated yardstick the conformance audit tests the code against. Keep it code-free — audit records cite it, never the reverse.
 - [`metrics_semantics.md`](../implementation/metrics_semantics.md) — internal MTTC, divergences (C7, ATK-04), comparability boundary.
 - [`provenance.md`](../implementation/provenance.md) — load-bearing constants → source → code → disposition.
 - [`trace_tool.md`](../implementation/trace_tool.md) — the event-log tracer (`mtdnetwork/trace.py`): usage, invariants, and its extension charter (a living diagnostic tool, `status: living`).
