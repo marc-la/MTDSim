@@ -38,6 +38,9 @@ _COMPROMISE_EVENTS: frozenset[tuple[str, str]] = frozenset(
         ("SCAN_PORT", "TRUE"),
     }
 )
+# Public name for the sibling measures module (measures.py) and any other reader;
+# the single definition of "compromise event" stays here.
+COMPROMISE_EVENTS = _COMPROMISE_EVENTS
 
 
 @dataclass(frozen=True)
@@ -123,6 +126,7 @@ def summarise(results: Sequence[MovementRunResult]) -> dict[str, ProfileSummary]
 
 
 __all__ = [
+    "COMPROMISE_EVENTS",
     "MovementRunResult",
     "ProfileSummary",
     "summarise",

@@ -131,20 +131,31 @@ target.)*
 **Wave 5 — the criterion, axis by axis.** Eight axes are scored in
 `docs/implementation/apt_model_criterion.md`; four of them can move on evidence,
 two need a new mechanism, one needs a ruling, and one is now ruled out. These
-seven handoffs allocate that work. (9) and (11) are the two foundations and
-unblock most of the rest; (14) is independent of everything.
+handoffs allocate that work. (11) is the remaining foundation and unblocks most
+of the rest; (14) is independent of everything.
 
-9. `2026-07-28_axis_measurement_suite.md` — the M8b measurements the criterion's
-   claimed axes need, as a **reader** over the movement records: progression,
-   traversal diversity, defender-response, and the cost ledger. No model change,
-   no ruling needed. **Blocks (10), supplies (12), and should land before (8)
-   runs**, because the run workspace is gitignored and a measurement not computed
-   at run time means re-running. Also owns the replacement for the saturated
-   lifecycle-depth measure.
+*(Shipped from wave 5: the **axis-measurement suite** —
+`2026-07-28_axis_measurement_suite.md`, landed 2026-07-28 as
+`src/mtdsim/l3_simulation/movement/measures.py` (reader-only sibling to the
+MTTC/ASR reader, with the baseline-arm row adapter and the interval helper) plus
+the tracked record `../implementation/pipeline/ogasp/measurement_suite.md`.
+All gates ran: the suite re-derives the fresh experiment-1 figures with a
+50-run × 5-field exact cross-check; the confusion penalty is **derived** from
+interrupted records rather than added to the schema, verified on a seeded run;
+the cross-arm subset computes on both arms with event-wise-only comparability
+enforced in the API. Gate 3's verdict is split and recorded:
+deepest-successfully-actioned stage discriminates under `v1_ckc_total`
+(separates `pure_steal`–`aggregate` where visited depth separates nothing) but
+is structurally truncated under `v2_partial` (the dwell-only objective band can
+hold no verdict, ceiling 2) — adopted with the coverage curve as its mandatory
+companion. (10), (12) and (13) consume the shipped module directly; (8) can now
+compute these measures at run time.)*
+
 10. `2026-07-28_axis134_demonstration_arms.md` — pre-registers the badge criteria
     for **persistence, strategic plurality and adaptivity**, and adds the
     verdict-blind ablation arm that separates *reacts* from *adapts usefully*.
-    Needs (9); **folds into (8)'s run** rather than running its own matrix.
+    Its measurement dependency has shipped (the suite above); **folds into
+    (8)'s run** rather than running its own matrix.
 11. `2026-07-28_attacker_state_seam.md` — the shared foundation for the three
     axes that need a mutable attacker state: a movement-layer `AttackerState`
     observed through the two Protocols the walk already injects, and a
@@ -155,14 +166,15 @@ unblock most of the rest; (14) is independent of everything.
     confirm with the supervisor.
 12. `2026-07-28_axis7_learning_capability.md` — within-run knowledge that
     reweights routing from what has worked, with knowledge perishing on MTD
-    mutation. Needs (11), consumes (9). **The highest-value item on this wave**:
+    mutation. Needs (11); consumes the shipped measurement suite. **The
+    highest-value item on this wave**:
     it is the literature's sharpest named gap and the only axis whose
     demonstration would move the model's fidelity placement off the procedural
     rung. Also the candidate mitigation for experiment 1's friction failure mode.
 13. `2026-07-28_axis6_incentive_rationality.md` — a declared per-tactic benefit
     against the already-declared duration as cost, entering routing as a
-    rationality exponent whose zero recovers today exactly. Needs (11), consumes
-    (9)'s cost ledger.
+    rationality exponent whose zero recovers today exactly. Needs (11); consumes
+    the shipped suite's cost ledger.
 14. **Shipped (design half) 2026-07-28** — the axis-5 stealth design record landed
     as `../implementation/pipeline/ogasp/stealth_conceptualisation.md`. It leads
     with the stealthy-versus-baseline contrast (Jin's framing, characterised on
