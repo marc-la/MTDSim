@@ -163,11 +163,18 @@ unblock most of the rest; (14) is independent of everything.
     against the already-declared duration as cost, entering routing as a
     rationality exponent whose zero recovers today exactly. Needs (11), consumes
     (9)'s cost ledger.
-14. `2026-07-28_axis5_stealth_conceptualisation.md` — **design only, and it ends
-    in a question.** Settles what stealth can mean on a substrate where detection
-    is culled by standing project direction. Can start immediately; its build
-    half needs (11) and a ruling from Marc. The one item on this chain whose
-    central question is not the assistant's to answer.
+14. **Shipped (design half) 2026-07-28** — the axis-5 stealth design record landed
+    as `../implementation/pipeline/ogasp/stealth_conceptualisation.md`. It leads
+    with the stealthy-versus-baseline contrast (Jin's framing, characterised on
+    event-wise measures), answers all eight questions, and records the Tay
+    verification: the reactive `mtd_ai` defender **does** key on attacker-activity
+    signals, so option 1(b) is **live** — a stealthy tempo can be made
+    consequential against `mtd_ai` unchanged, which is the route to DEMONSTRATED
+    on axis 5a. The record proposes a **tempo/evasion badge split** (5a
+    evidenceable, 5b NOT ADDRESSED) and carries a four-item decision request for
+    Marc (§13). **The build half remains open**, gated on (11) and on Marc's
+    rulings — chiefly whether to sanction the `mtd_ai` defence arm (1b) and the S2
+    freeze question. No badge was moved; the split awaits Marc's agreement.
 15. `2026-07-28_criterion_maintenance_and_axis8_closure.md` — rules **MTD-scheme
     awareness** out as future work rather than leaving it merely absent, and
     discharges three fired re-score triggers and four stale cross-references in
