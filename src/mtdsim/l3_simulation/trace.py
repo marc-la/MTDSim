@@ -108,7 +108,11 @@ class L3Tracer(Tracer):
     interrupted_steps: int = 0
     verb_interrupts: int = 0  # interrupts that cut a running verb (rest cut a dwell)
     dwell_time: float = 0.0
-    action_time: float = 0.0  # substrate verb cost (end - start - dwell, sans penalty)
+    action_time: float = 0.0  # substrate cost ON TOP of the tactic's time: 0 under S3-R
+    # The S3-R decomposition of the tactic-supplied time, by what the visit bought.
+    acted_time: float = 0.0  # the dispatched verb ran
+    blocked_time: float = 0.0  # the substrate could not action the verb
+    dwell_only_time: float = 0.0  # the place dispatches nothing by mapping
     stalled: bool = False
     terminal_tag: str = ""  # SIM_END / MAX_EVENTS / "" (stall, sink or horizon)
     visits_by_place: dict[str, int] = field(default_factory=dict)
@@ -197,7 +201,10 @@ class _TracedTiming:
         elif dwell == mean:
             detail = "constant regime — the catalogue value as a fixed dwell"
         else:
-            detail = f"exponential draw about the catalogue mean {mean:.0f}"
+            # :g, not :.0f — the catalogue's exploit-shaped anchor is 4.5, and
+            # round-half-even printed it as "4", misreporting the declared mean in
+            # the one line a reader checks the regime against.
+            detail = f"exponential draw about the catalogue mean {mean:g}"
         self._tracer.emit("TOKEN", f"DWELL          {tactic}: {dwell:.1f} t/u", detail)
         return dwell
 
@@ -242,17 +249,32 @@ class _NarratingRecords(list):
         if not rec.blocked and not rec.interrupted:
             t.action_time += max(0.0, rec.end_time - rec.start_time - rec.dwell)
 
+        # Under S3-R the tactic prices the whole visit, so the time splits by what
+        # the visit BOUGHT, not by which layer charged it: an action that ran, an
+        # attempt the substrate could not action, or a place that dispatches
+        # nothing. That is the decomposition worth watching now — it separates
+        # effort converted into substrate outcomes from effort spent on churn.
         if rec.place_class == DWELL_ONLY:
             what = f"STEP           {rec.place} (dwell-only)"
+            t.dwell_only_time += rec.dwell
+            bought = "dwell-only, dispatched nothing"
         elif rec.blocked:
             what = f"STEP           {rec.place}: {rec.verb} blocked — precondition unmet"
+            t.blocked_time += rec.dwell
+            bought = f"{rec.verb} never ran"
         else:
             what = f"STEP           {rec.place}: {rec.verb} -> {rec.verdict or '—'}"
+            t.acted_time += rec.dwell
+            bought = f"{rec.verb} ran for all of it"
         dest = rec.next_place if rec.next_place is not None else "(walk ends)"
+        # The residual is what the substrate charged on top of the tactic's time.
+        # It must be 0.0 on every uninterrupted event: S3-R retired MTDSim's own
+        # action costs on this arm, so a non-zero value here is the hybrid coming
+        # back and is worth seeing in the log rather than only in a test.
+        residual = max(0.0, rec.end_time - rec.start_time - rec.dwell)
+        extra = "" if rec.interrupted else f" · substrate added {residual:.1f}"
         t.emit("TOKEN", what,
-               f"dwell {rec.dwell:.1f} + verb "
-               f"{max(0.0, rec.end_time - rec.start_time - rec.dwell):.1f} t/u "
-               f"→ {dest}")
+               f"tactic paid {rec.dwell:.1f} t/u — {bought}{extra} → {dest}")
 
 
 # --- the two driven-arm substrate patches ------------------------------------
@@ -490,13 +512,36 @@ def _l3_verdict(tracer: L3Tracer, result: MovementRunResult, horizon: float,
     head("Where the time went")
     elapsed = result.termination_time if result.records else horizon
     if elapsed > 0:
-        parts = (
-            ("dwelling (behavioural tempo)", tracer.dwell_time),
-            ("running verbs (substrate cost)", tracer.action_time),
-            ("interrupt penalties", tracer.penalty_time),
-        )
-        for label, v in parts:
-            lines.append(f"  {label}: {v:.0f} t/u ({100 * v / elapsed:.0f}%).")
+        # Two questions, two decompositions. First: WHO charged the time — under
+        # S3-R the movement layer charges all of the attacker's, and the substrate
+        # charges only the defender's confusion penalty. Second: WHAT the
+        # attacker's time bought, which is the one that discriminates progress
+        # from churn.
+        lines.append(f"  Supplied by the movement layer (the tactics): "
+                     f"{tracer.dwell_time:.0f} t/u "
+                     f"({100 * tracer.dwell_time / elapsed:.0f}%).")
+        lines.append(f"  Charged by the substrate for MTD interrupts (confusion "
+                     f"penalty): {tracer.penalty_time:.0f} t/u "
+                     f"({100 * tracer.penalty_time / elapsed:.0f}%).")
+        if tracer.action_time > 1e-6:
+            lines.append(f"  !! Substrate action cost on top of the tactics' time: "
+                         f"{tracer.action_time:.1f} t/u — S3-R retired this on the "
+                         f"movement arm, so a non-zero figure is a regression.")
+        else:
+            lines.append("  Substrate action cost on top: 0 t/u — the tactics price "
+                         "the actions, as S3-R requires.")
+        tactic_total = (tracer.acted_time + tracer.blocked_time
+                        + tracer.dwell_only_time)
+        if tactic_total > 0:
+            lines.append("  Of the tactics' time, what it bought:")
+            for label, v in (
+                ("actions that ran", tracer.acted_time),
+                ("attempts the substrate could not action", tracer.blocked_time),
+                ("dwell-only places (dispatch nothing by mapping)",
+                 tracer.dwell_only_time),
+            ):
+                lines.append(f"    {label}: {v:.0f} t/u "
+                             f"({100 * v / tactic_total:.0f}%).")
 
     head("How the defence did")
     if tracer.mtd_triggered == 0:
