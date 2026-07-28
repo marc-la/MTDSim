@@ -32,8 +32,10 @@ experiment 1 reproduces unqualified, and experiment 2 names `v2_partial` at its
 own seam. Seven tactics are dwell-only and run end to end. — And the S3 timing
 **design**: `2026-07-27_stochastic_timing_design.md`, landed 2026-07-28 as
 `../implementation/pipeline/ogasp/stochastic_timing_design.md`, ruling the GSPN
-formalism, where the clock lives, the exponential rates, the penalty place, the
-comparability argument, and the determinism/migration/rollback scheme.)*
+formalism, where the clock lives (the movement layer supplies the time, SimPy
+spends it), the exponential rates and their literature defence, that the confusion
+penalty **stays substrate-side** on portability grounds, the comparability
+argument, and the determinism/migration/rollback scheme.)*
 
 **Wave 3 — open now.**
 
