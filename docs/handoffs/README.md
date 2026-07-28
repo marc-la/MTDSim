@@ -27,17 +27,23 @@ now `docs/implementation/pipeline/ogasp/action_layer_audit.md`.)*
    2026-07-28.** The mapping itself is decided and ratified
    (`../implementation/pipeline/ogasp/controller_mapping_v2.md`); what remains is
    the build — registry, loader, relaxed invariant, dwell-only smoke run.
-5. `2026-07-27_stochastic_timing_design.md` (**S3**, planning half) — **unblocked**:
-   its input, the dwell-only tactic set, is now the seven declared rows in the
-   version-2 record. Design only, no code, deliberately.
+
+*(Shipped from wave 2: the S3 timing **design** —
+`2026-07-27_stochastic_timing_design.md`, landed 2026-07-28 as
+`../implementation/pipeline/ogasp/stochastic_timing_design.md`. It rules the
+GSPN formalism, where the clock lives, the exponential rates, the penalty place,
+the comparability argument, and the determinism/migration/rollback scheme; the
+build half (7) is now specified.)*
 
 **Wave 3 — after wave 2.**
 
 6. `2026-07-27_tactic_weight_sensitivity_study.md` (**S1**, study half) — its
    input (the lifecycle consensus) has shipped; still after (4) so the sweep is
    not run against a mapping about to change.
-7. `2026-07-27_stochastic_timing_implementation.md` (**S3**, build half) — after
-   (5), which is its specification.
+7. `2026-07-27_stochastic_timing_implementation.md` (**S3**, build half) — its
+   specification, the timing design record, has **shipped**
+   (`../implementation/pipeline/ogasp/stochastic_timing_design.md`); the build is
+   now unblocked.
 
 **Wave 4 — last.**
 

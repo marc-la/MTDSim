@@ -105,9 +105,12 @@ Done when:
 
 ## Reading list
 
-- The design record produced by
-  [`./2026-07-27_stochastic_timing_design.md`](./2026-07-27_stochastic_timing_design.md)
-  — the specification.
+- **The design record — the specification** (shipped 2026-07-28, replacing the
+  design handoff):
+  [`../implementation/pipeline/ogasp/stochastic_timing_design.md`](../implementation/pipeline/ogasp/stochastic_timing_design.md).
+  Read §7 (the build checklist) and §0 (the probe-confirmed state of play — note
+  the penalty-asymmetry premise is now stale, so the penalty place must *preserve*
+  single-charge, not establish it) before anything else.
 - [`../implementation/pipeline/ogasp/runtime_verification.md`](../implementation/pipeline/ogasp/runtime_verification.md)
   — the four seam invariants and their checks; §P5 for where the dwell sits in the
   step lifecycle.
