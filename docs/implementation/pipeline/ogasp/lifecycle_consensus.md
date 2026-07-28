@@ -335,7 +335,7 @@ duration catalogue.
 | initial-access → exfiltration | +2 | 0.25 | a skip: suppressed, not banned |
 | persistence → lateral-movement | 0 | 1.0 | within the middle — distance is silent there, *by consensus* (the literature declares no order to violate) |
 | initial-access → reconnaissance | −1 | **1.0** | the failure-side regression bridge — untouched by distance |
-| exfiltration → initial-access | −2 | **0.0625** | a deep fallback — sharply reduced (was 0.5 before the persistence ruling) |
+| exfiltration → initial-access | −2 | **0.25** | a deep fallback — sharply reduced (was 0.5 before the persistence ruling), and above the floor: suppressed, not banned |
 | impact → reconnaissance | −3 | **0.0625 → 0** (under `z`) | full-campaign collapse — now exactly zero under the persistence ruling, mirroring the three-stage forward leap. The adjacent backward move stays at 1.0, so "a plausible backward move must not be indistinguishable from an implausible one" is satisfied by a hard boundary rather than a 4:1 gap |
 
 **What distance is not.** It is not the whole weight: it carries no verdict

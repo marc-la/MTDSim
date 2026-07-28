@@ -2,6 +2,7 @@
   "meta": {
     "artefact": "APT-lifecycle consensus ordering + declared tactic-to-tactic distance model (S1, literature half)",
     "created": "2026-07-27",
+    "updated": "2026-07-28: worked_pairs backward examples recomputed under delta_ratio=0.25 (they had lagged the 0.5 -> 0.25 ruling); examples only, nothing compiled reads them",
     "record": "docs/implementation/pipeline/ogasp/lifecycle_consensus.md",
     "provenance_row": "docs/implementation/provenance.md",
     "assumption": "ATT&CK imposes no tactic ordering (register M3); every ordering here is imported from the lifecycle literature as an assumption of this work",
@@ -113,7 +114,7 @@
     "initial-access->exfiltration": 0.25,
     "persistence->lateral-movement": 1.0,
     "initial-access->reconnaissance": 1.0,
-    "exfiltration->initial-access": 0.5,
-    "impact->reconnaissance": 0.25
+    "exfiltration->initial-access": 0.25,
+    "impact->reconnaissance": 0.0625
   }
 }
