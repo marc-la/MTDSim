@@ -468,36 +468,55 @@ Whether the conclusion actually survives the rate regime — the sweep over the
 declared bands, the sensitivity of any ranking to where in its band each anchor
 sits, and whether a same-mean heavier-tailed family changes the answer — is an
 *analysis*, not a design decision. It was spun out as its own brief and has since
-**run**: [`rate_feasibility_study.md`](rate_feasibility_study.md), pre-registered
-before any output existed and reported over 1 728 runs.
+**run twice**: [`rate_feasibility_study.md`](rate_feasibility_study.md),
+pre-registered before any output existed, reported over 1 728 runs under the
+hybrid regime this section originally ruled and re-run over 1 740 under **S3-R**
+after the reversal. What follows is the S3-R verdict — the settled one.
 
-**Its verdict on this section — confirmed, with one qualification (2026-07-28).**
-No conclusion changes direction anywhere in the declared bands, so the regime
-this record rules is defensible as ruled. Two results bear directly on §3:
+**Its verdict on this section — the regime is confirmed, and the shape defence is
+now scope-measured rather than assumed (2026-07-28).** No conclusion changes
+direction anywhere in the declared bands under either regime, so the parameter
+choice this record rules is defensible as ruled. Three results bear on §3:
 
-1. **§3.2(3)'s mean-is-load-bearing defence holds.** Substituting a same-mean
-   Erlang-4 for the five low-and-slow tactics — halving the coefficient of
-   variation, which is exactly the "paced, deliberate" shape §3.1 says the group's
-   character wants — moves no outcome: pooled paired differences in host breadth,
-   interrupts and events all contain zero at every interrupt-pressure level, and
-   attack-success rate is identical. §3.1's worry is therefore answered
-   empirically: the exponential is a poor *descriptive* shape for that group and
-   an immaterial *operational* one.
-2. **The interrupt-channel leak is visible in the mechanism and inert in the
-   result.** §3.2(3) predicted that shape re-enters through interruption, so any
-   shape difference should grow as the mutation interval shrinks. It does — the
-   interrupt-count difference is largest at the 200 s interval and exactly zero
-   with MTD off — but it never separates from zero and never reaches an outcome.
-   The prediction is upheld in direction and immaterial in magnitude.
+1. **§3.2(3)'s mean-is-load-bearing defence holds across the operating region —
+   and stops being sufficient at one corner.** Substituting a same-mean Erlang-4
+   for the five low-and-slow tactics — halving the coefficient of variation, which
+   is exactly the "paced, deliberate" shape §3.1 says the group's character wants —
+   moves no outcome at any central cell, at either MTD-off or the operating
+   interval. At the corner where the stealth anchor sits at its band top (×4) *and*
+   mutations are running, it does: pooled host breadth falls 0.46 → 0.18, a paired
+   difference of −0.28 ± 0.19 over fifty seed-profile pairs, consistent in sign
+   (13 lower, 34 tied, 3 higher). The defence therefore survives with its scope
+   measured instead of argued.
+2. **The interrupt-channel leak §3.2(3) predicted is the mechanism, and it reaches
+   an outcome under S3-R.** The prediction was that shape re-enters through
+   interruption because a long dwell is likelier to be cut short than a short one.
+   That is precisely what the corner shows, and the direction is instructive: an
+   exponential's most probable dwell is near zero, and *that short-dwell mass is
+   what lets the attacker occasionally complete an action between mutations*.
+   Concentrating the same mean removes it, so nearly every dwell runs comparable to
+   the mutation interval and nearly every dwell is interrupted. The more
+   behaviourally faithful shape is **worse for the attacker**, and the
+   mode-at-zero §3.1 flagged as the exponential's least realistic feature is doing
+   quiet work.
+3. **Why the first run missed it, which is itself a finding about the hybrid.**
+   Under the hybrid each action also carried a fixed substrate cost no sweep
+   touched, damping the behavioural timing's leverage; the same leak was visible in
+   the mechanism and inert in every outcome. S3-R removed the damping. Handing the
+   movement layer all of the attacker's time did not merely rescale the model — it
+   made the declared timing consequential enough for its *shape* to matter at the
+   extreme.
 
 **The qualification, stated because it bounds the claim.** The study also found
 that the project's operating mutation interval sits inside a *degenerate region*
 where neither attacker can complete the objective (the boundary is above ~1 600 s;
-study §7 C5). The shape check therefore ran mostly where compromise events are
-scarce, which makes it a weaker test than its clean result suggests. This section
-should not be read as closing the distribution-family question — only as showing
-that, in the regime the evaluation currently operates in, the family does not pay
-its way as a modelling elaboration.
+study §7 C5, reproduced unchanged under S3-R). The shape check therefore ran where
+compromise events are scarce, and the corner effect above is small and close to
+the floor. So this section is not read as closing the distribution-family
+question: the honest statement is that **the mean is load-bearing across the
+region the evaluation operates in, and the family becomes a live parameter at long
+dwells under mutation pressure** — which is where any future low-and-slow
+refinement (§9's phase-type flag) would have to be argued.
 - **One property in the exponential's favour beyond tractability:** memorylessness
   makes the interrupt-during-dwell path clean — after an MTD interrupt cuts a dwell
   short, the residual is distributed identically to a fresh dwell, so no

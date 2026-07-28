@@ -2,15 +2,16 @@
 status: durable — pre-registered, run, and reported
 created: 2026-07-28
 updated: 2026-07-28
-topic: "The rate feasibility study (S3, analysis half) — the pre-registered sweep of the four group anchors over their catalogue-derived bands against the MTD mutation interval, plus the same-mean Erlang-k shape check on the low-and-slow group, and its verdicts. §1–§5 were committed BEFORE any sweep output existed (e84bd2a); §6–§9 report 1 728 runs against those committed criteria. Headline: no anchor band inverts any conclusion and the same-mean shape substitution is inert, but the evaluation's operating mutation interval sits inside a degenerate region where ASR cannot discriminate, and the per-profile ordering is a power failure at ten seeds."
+topic: "The rate feasibility study (S3, analysis half) — the pre-registered sweep of the four group anchors over their catalogue-derived bands against the MTD mutation interval, plus the same-mean Erlang-k shape check on the low-and-slow group, and its verdicts. §1–§5 were committed BEFORE any sweep output existed (e84bd2a); §6–§9 report 1 728 runs under the first (hybrid) timing regime and §10 the 1 740-run re-run under the settled S3-R regime. Headline: no anchor band inverts any conclusion, the timing sensitivity sits entirely in the one Tier-3 anchor, and the evaluation's operating mutation interval sits inside a degenerate region where ASR cannot discriminate. The per-profile ordering is a power failure at ten seeds. One verdict moved between regimes: under S3-R the same-mean shape substitution stops being inert at the long-dwell corner under mutation pressure, which measures the scope of the design record's mean-is-load-bearing defence instead of assuming it."
 ---
 
 # The rate feasibility study — does any reported conclusion survive the arbitrariness of the timing numbers?
 
-**Status: run and reported.** §1–§5 — the question, the conclusions in scope, the
-acceptance criteria, the parameter space and the grid — were committed at
-`e84bd2a` with **no results in hand**, and are unedited below. §6–§9 were appended
-after the sweep ran and report 1 728 runs against those committed criteria. The
+**Status: run and reported, under both timing regimes.** §1–§5 — the question, the
+conclusions in scope, the acceptance criteria, the parameter space and the grid —
+were committed at `e84bd2a` with **no results in hand**, and are unedited below.
+§6–§9 report the 1 728-run sweep under the first (hybrid) regime; §10 reports the
+full 1 740-run re-run after Marc reversed that regime the same day. The
 commit ordering in `git log` is the pre-registration evidence the validity
 framework demands
 ([`../../../notes/ch3_design/operational_validation.md`](../../../notes/ch3_design/operational_validation.md),
@@ -222,8 +223,11 @@ grid down, the reduction is recorded in §6 with what was dropped — no silent 
 > substrate cost. Marc reversed that ruling on the same day (**S3-R**, recorded in
 > the design record's banner): the movement layer now supplies *every* unit of the
 > attacker's time and the substrate's own action pricing is no longer consumed on
-> the movement arm. §7's verdicts are therefore verdicts about the hybrid regime,
-> and §10 records the re-run against S3-R.
+> the movement arm. §7's verdicts are therefore verdicts about the hybrid regime.
+> **The whole grid was re-run against S3-R and §10 reports it:** every headline
+> verdict reproduces, and one moves — the distribution family stops being inert at
+> the long-dwell corner under mutation pressure. Read §7 for the criteria applied
+> and §10 for the settled-regime result.
 
 **1 728 runs, 1 548 from the pre-registered grid plus 180 refinement runs.** No
 grid reduction was needed — a movement run costs ~0.2 s wall, so §4's grid took
@@ -449,3 +453,98 @@ in this study, and no cell was chosen or discarded after seeing its result.
 - Substrate condition: mapping `v2_partial`, overlay `v2_lifecycle_distance`,
   horizon 15 000 s, geometry 50/5/8/4, seeds (0–7, 42, 1234), MTD scheme
   `random`.
+
+---
+
+## 10. The re-run under S3-R — the settled regime
+
+§6's banner flagged that the first sweep tested the **hybrid** timing regime, which
+Marc reversed the same day. The reversal landed (`8f2e34a`, S3-R: the movement
+layer supplies *every* unit of the attacker's time; the substrate's
+`ATTACK_DURATION` / `exploit_time` are retired on that arm; a blocked attempt costs
+its tactic's time rather than nothing). **The whole grid was re-run against it** —
+same script, same seeds, same pre-registered criteria, 1 740 runs — and this
+section reports that re-run. The pre-S3-R numbers are kept alongside
+(`numbers_pre_s3r/`) so the two regimes can be compared rather than one quietly
+replacing the other.
+
+**Every headline verdict is reproduced.** C1 stable (the profiled attacker is
+slower in all 130 cells, never once faster); C2 stable (no cell where MTD helps
+the attacker with CI separation); C3a indeterminate (0 inversions, but only 2–3
+profile pairs CI-separated at the reference cells); C4 stable where measurable and
+degenerate elsewhere. The anchor-sensitivity finding is reproduced exactly and
+somewhat more sharply: pooled host breadth with MTD off runs 7.82 ± 1.21 at
+stealth ×0.25 down to 1.78 ± 0.36 at ×4 against a 4.56 ± 0.71 centre — both ends
+CI-separated — while **scan, exploit and objective remain inert at both band ends
+in both MTD conditions**. Giving the movement layer all the time did not spread the
+sensitivity around; it concentrated it further in the one Tier-3 anchor.
+
+**The degenerate boundary is unchanged, and that is a check rather than a
+coincidence.** The baseline arm consumes no catalogue value, so S3-R cannot move
+it — and the refinement table reproduces row for row: baseline ASR 0/10 at every
+interval through 800 s, 3/10 at 1 600 s, 5/10 at 3 200 and 6 400 s, 8/10 with MTD
+off. The movement arm's breadth rises throughout (0.9 at 50 s to 6.3 with MTD off,
+against 0.2–4.7 under the hybrid), so S3-R makes the profiled attacker somewhat
+*more* effective in absolute terms without altering where the boundary sits. §7's
+C5 conclusion stands as written: **the evaluation's operating interval is inside a
+region where neither attacker completes the objective.**
+
+### One verdict moves: the distribution family is no longer inert everywhere
+
+This is the re-run's substantive finding, and it revises §7's sweep-C result
+rather than confirming it. At the corner where the low-and-slow dwells are longest
+and MTD is running — **stealth anchor ×4, interval 200 s** — the same-mean Erlang-4
+substitution now produces a CI-separated reduction in host breadth:
+
+| | Erlang-4 | Exponential | Paired difference |
+|---|---|---|---|
+| Hosts (pooled, 50 pairs) | 0.18 ± 0.12 | 0.46 ± 0.22 | **−0.28 ± 0.19** |
+
+Per-seed signs run 13 lower, 34 tied, 3 higher — consistent in direction rather
+than driven by an outlier — and every one of the five profiles shows the same
+negative sign, though none separates on its own. The pooled test is what detects
+it. A second, weaker signature points the same way: at the 50 s interval the
+Erlang arm completes 23.2 ± 12.4 fewer events.
+
+**The mechanism is exactly the one the design record predicted, now reaching an
+outcome.** §3.2(3) argued the mean is load-bearing but named the leak: a long dwell
+is likelier to be interrupted than a short one, so shape re-enters through the
+interrupt channel. An exponential's most probable dwell is near zero, and that
+short-dwell mass is precisely what lets the attacker occasionally complete an
+action between mutations. Concentrating the same mean around itself removes that
+mass — nearly every dwell then runs comparable to the mutation interval, and nearly
+every dwell is cut short. The concentrated, more *behaviourally faithful* shape is
+therefore **worse for the attacker**, and the exponential's mode-at-zero — the
+property §3.1 flagged as its least realistic feature — is quietly doing work.
+
+**Why the hybrid hid it.** Under the hybrid, each action also carried a fixed
+substrate cost that no sweep touched, damping the behavioural timing's leverage.
+S3-R removed that damping, so the same leak now has enough leverage to move an
+outcome. This is the concurrent handoff update's prediction ("expect larger
+sensitivity — and larger is not worse") coming true in a specific, locatable place.
+
+**What may and may not be claimed from it.** The effect is real but small and
+close to the floor: 0.46 to 0.18 hosts, in a region where the attacker barely
+compromises anything, detectable only by pooling five profiles and ten seeds, and
+confined to one band corner. So: **the mean remains load-bearing across the
+operating region and at every other cell tested, and it stops being sufficient at
+the long-dwell corner under mutation pressure.** That is a narrower claim than
+"shape matters", and a strictly stronger one than §7 was able to make. §3's
+defence survives with its scope now measured rather than assumed — which is what
+the study existed to establish, and it is better found here than by an examiner.
+
+### What this changes downstream
+
+- **The timing design record §3** — its mean-is-load-bearing defence holds, but its
+  scope is now empirical rather than argued, and the exception is named. The
+  feed-back note in that record is updated accordingly.
+- **The evaluation-burden note's second instalment** — its provisional wording is
+  discharged: the repeat has run and the tempo conclusions survive. Its
+  shape-is-inert sentence narrows to the measured scope above.
+- **Experiment 2** — unchanged in substance and sharpened in one respect: if it
+  runs any cell at a long stealth dwell under mutation pressure, the distribution
+  family is a live parameter there and cannot be waved through on the mean.
+
+**Nothing was tuned in the re-run either**, and no criterion was revised after
+seeing a result. The verdict that moved, moved because the regime under it
+changed — which is the reason the re-run was run at all.
