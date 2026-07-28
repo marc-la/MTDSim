@@ -298,6 +298,73 @@ enablement tier — a corpus property, not an overlay one.
 
 ---
 
+## 3b. The persistence ruling, and the version it produced (Marc, 2026-07-28)
+
+The study put one open question to Marc, and this is his answer to it. §2 recorded
+that the fold-in zeroes the three-stage *forward* leap but leaves the three-stage
+*backward* collapse at 0.0625 — a failed exfiltration could still route back to
+external reconnaissance, 14 times below a one-step fallback but not impossible.
+**Ruled: it should read exactly zero.** An attacker persistent enough to reach
+exfiltration does not abandon its foothold to re-scan the perimeter, so the
+backward decay `δ` moves 0.5 → 0.25, putting the three-stage backward factor
+(0.0625) under the floor.
+
+**It is a new registry version, not an edit.** `v2_lifecycle_distance` had by then
+been consumed by two landed studies — this one and the rate feasibility study — so
+mutating it would have broken exactly the reproducibility the registry exists to
+protect. `v3_persistent_backward` differs from v2 in one parameter and nothing
+else; v2 is frozen (`immutable: true`). **Experiment 2 should name v3.**
+
+**What changed: 56 of 420 cells**, all backward, none forward or within-stage.
+
+| Δ | success | failure | note |
+|--:|---|---|---|
+| −2 | 0.05 → 0.025, 0.125 → 0.0625 | 0.125 → 0.0625, 0.175 → 0.0875 | halved again |
+| −3 | 0.025 → **0** | 0.0625 → **0** | the ruling's target |
+
+Your worked case, from a failed exfiltration: the one-step fallback holds at 0.9,
+the within-stage move at 0.7, `→ execution` falls 0.175 → 0.0875, and
+`→ reconnaissance` and `→ resource-development` fall 0.0625 → **0**.
+
+**Three things ride with it, none of them cosmetic.**
+
+1. **The two kernels are now numerically identical** (`γ = δ = 0.25`). They had
+   separate parameters so backward and forward could behave differently; the
+   ruling says a full-campaign fallback is no more ordinary than a full-campaign
+   leap, which removes the reason for them to differ *at distance*. Direction is
+   still encoded — in the **rule tier**, where a one-step fallback on failure is
+   0.9 against a forward 0.35, which is where "back to the drawing board" actually
+   lives. The parameters stay separate rather than collapsing, so the distinction
+   survives if the ruling is revisited.
+2. **`δ`'s tier drops** to `declared-judgement`. The literature attests that
+   plausibility concentrates on adjacency; it does not state that a deep failure
+   leaves the campaign intact. That is a modelling argument and is labelled as
+   one.
+3. **It changes nothing on this corpus.** No profile net carries a three-stage
+   transition in *either* direction (§2), so the six newly-zeroed pairs per
+   verdict route no mass — the same finding that made the forward zero a
+   declared-table correction rather than a behavioural one. The behavioural change
+   is the Δ=−2 halving, which touches the 12 backward two-stage edges that do carry
+   mass. Verified: 0 stalls, and 0 base edges hard-suppressed.
+
+**And it opens a gap in §5's verdict, stated rather than inherited.** `δ`'s band
+is re-cut to 0.1 – 0.5 so the declared value is bracketed rather than sitting on
+the edge. Two consequences for the stability verdict below:
+
+- `δ = 0.75`, the point that drove C1's MOVED verdict on `v1_ckc_total` (it put
+  `pure_impediment` at 25.0% blocked, under the 30% classification threshold), is
+  now **outside** the declared band. At the new declared `δ = 0.25` that profile
+  sits at 53.0% blocked — comfortably friction.
+- `δ = 0.1` has entered the band and is **unswept**.
+
+So **C1's verdict is suspended for the new band, not resolved.** It is not
+re-run here deliberately: the S3-R timing regime landed after these 2 600 runs, so
+a single new point would not be comparable with the rest of the study. The band
+should be re-swept wholesale under the current regime, and until it is, C1 stands
+as recorded against the old band.
+
+---
+
 ## 4. The sweep design, declared before the numbers
 
 | | |

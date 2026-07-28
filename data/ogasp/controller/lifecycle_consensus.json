@@ -6,8 +6,8 @@
     "provenance_row": "docs/implementation/provenance.md",
     "assumption": "ATT&CK imposes no tactic ordering (register M3); every ordering here is imported from the lifecycle literature as an assumption of this work",
     "models_overlaid": {
-      "L1": "Lockheed CKC (hutchins2011 §3.2, primary)",
-      "L2": "Alshamrani 2019 five-phase (alshamrani2019 §II-C)",
+      "L1": "Lockheed CKC (hutchins2011 \u00a73.2, primary)",
+      "L2": "Alshamrani 2019 five-phase (alshamrani2019 \u00a7II-C)",
       "L3": "Mandiant APT1 lifecycle (mandiant2013 Fig. 14 p. 27 + Appendix B pp. 63-65, primary verified 2026-07-27; middle stages unordered and cyclic; prose = 7 stages, figure adds Initial Recon)",
       "L4": "Ussath three-stage via Alshamrani (secondary channel)",
       "L5": "CKC-derivative family skeleton (chemat2024 Table 4 prose)"
@@ -69,8 +69,8 @@
     },
     "backward": {
       "form": "delta_ratio^(|delta|-1) for delta <= -1",
-      "delta_ratio": 0.5,
-      "note": "gentler than forward by design: falling back is ordinary, leaping far forward is what is suppressed"
+      "delta_ratio": 0.25,
+      "note": "steeper than first declared, on Marc's persistence ruling (2026-07-28): a one-step fallback after a failure is ordinary campaign behaviour, but an attacker deep in a campaign does not abandon its foothold and return to external reconnaissance. At delta_ratio=0.25 the three-stage backward collapse falls under the floor and reads as exactly 0, symmetric with the forward kernel's treatment of the three-stage leap. The kernel stays gentler than forward at two stages (0.25 vs 0.25 is now equal; the asymmetry that remains is at one stage, where both are 1.0)."
     },
     "zero_floor": {
       "z": 0.1,
@@ -81,17 +81,29 @@
     "gamma": {
       "value": 0.25,
       "tier": "attested-pattern/declared-magnitude",
-      "sweep": [0.1, 0.5]
+      "sweep": [
+        0.1,
+        0.5
+      ]
     },
     "delta_ratio": {
-      "value": 0.5,
-      "tier": "attested-pattern/declared-magnitude",
-      "sweep": [0.25, 0.75]
+      "value": 0.25,
+      "tier": "declared-judgement",
+      "sweep": [
+        0.1,
+        0.5
+      ],
+      "changed": "2026-07-28: 0.5 -> 0.25 on Marc's persistence ruling. Tier drops from attested-pattern/declared-magnitude to declared-judgement: the literature attests that plausibility concentrates on adjacency, but the specific claim that a deep failure does not collapse the whole campaign is a modelling argument, not something the lifecycle models state.",
+      "band_note": "band re-cut 0.25-0.75 -> 0.1-0.5 so the declared value is bracketed rather than sitting on the band edge; matched to gamma's band, which is the same kind of quantity. NOT YET SWEPT at 0.1 \u2014 see the study record's gap note."
     },
     "z": {
       "value": 0.1,
       "tier": "declared-judgement",
-      "sweep": [0.0, 0.05, 0.1]
+      "sweep": [
+        0.0,
+        0.05,
+        0.1
+      ]
     }
   },
   "worked_pairs": {

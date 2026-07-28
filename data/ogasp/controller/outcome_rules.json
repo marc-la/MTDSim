@@ -15,13 +15,17 @@
       "not_selected_on_behaviour": "The choice was made on coherence and provenance grounds BEFORE any net was walked. The study additionally reports the bands-plus-distance variant as one sensitivity arm, to say whether the choice matters behaviourally \u2014 that arm is a report, never the selection criterion."
     },
     "distance": {
-      "applies_to": ["success", "failure"],
+      "applies_to": [
+        "success",
+        "failure"
+      ],
       "composition": "overlay_v(a->b) = rule_value_v(a->b) * d(a,b) \u2014 the distance term MULTIPLIES the first-matching rule's value; it never replaces it and it is not itself a rule.",
       "form": "delta = s(b) - s(a) over the consensus stages; d = 1 if delta == 0, gamma^(delta-1) if delta > 0, delta_ratio^(|delta|-1) if delta < 0; then d < z reads as exactly 0 (strict comparison, so a value exactly on the floor survives).",
       "parameters_from": "lifecycle_consensus.json declared_parameters \u2014 gamma, delta_ratio and z are declared THERE, by the literature half, and read from there rather than restated here.",
-      "why_both_verdicts": "How far a transition travels across the campaign is a property of the pair, not of the verdict, so the kernel multiplies both treatments. The two kernels already encode the asymmetry the verdicts need: forward decay is sharp (a far forward leap is the thing being suppressed) and backward decay is gentle (falling back after a failure is ordinary campaign behaviour), so the failure side's dominant backward moves are barely touched while the success side's long forward jumps collapse.",
+      "why_both_verdicts": "How far a transition travels across the campaign is a property of the pair, not of the verdict, so the kernel multiplies both treatments. Direction is still encoded, but since Marc's 2026-07-28 ruling it is encoded in the RULE tier rather than in the kernel: on failure a one-step fallback is 0.9 against a forward 0.35, which is where 'back to the drawing board' actually lives.",
       "why_it_also_multiplies_the_gates": "A gated pair can be implausible for two independent reasons \u2014 the foothold it needs was not won, AND it is a two-stage leap. Both apply, so both multiply.",
-      "enablement_cross_check": "No pair in enables_on_success has |delta| >= 2 under the consensus stages (histogram: 4 at -1, 40 at 0, 25 at +1). The enables sets were built from MITRE tactic semantics and the AAR get-in/spread sequences, independently of any lifecycle model, so their being adjacency-respecting is an independent corroboration of the consensus ordering rather than a consequence of it \u2014 and it is why the distance term leaves the enablement tier untouched at the declared parameters."
+      "enablement_cross_check": "No pair in enables_on_success has |delta| >= 2 under the consensus stages (histogram: 4 at -1, 40 at 0, 25 at +1). The enables sets were built from MITRE tactic semantics and the AAR get-in/spread sequences, independently of any lifecycle model, so their being adjacency-respecting is an independent corroboration of the consensus ordering rather than a consequence of it \u2014 and it is why the distance term leaves the enablement tier untouched at the declared parameters.",
+      "kernel_symmetry_note": "With gamma = delta_ratio = 0.25 the forward and backward kernels are now NUMERICALLY IDENTICAL, and that is a deliberate consequence of the persistence ruling rather than an oversight. The original design gave them separate parameters so that falling back could be treated as ordinary while leaping forward was suppressed; the ruling is that a FULL-CAMPAIGN fallback is not ordinary either, which removes the reason for the kernels to differ. The near-distance asymmetry the design wanted survives untouched at one stage (both kernels are 1.0 there, and the rule tier makes backward 0.9 against forward 0.35). The two parameters are kept separate rather than collapsed into one so the distinction remains available if the ruling is revisited."
     },
     "bands": {
       "reconnaissance": 0,
@@ -313,17 +317,18 @@
     "id": "lifecycle_distance",
     "parameters": {
       "gamma": 0.25,
-      "delta_ratio": 0.5,
+      "delta_ratio": 0.25,
       "z": 0.1
     },
-    "parameters_note": "This ledger entry carries `parameters` where every other carries a single `value`: the term is a kernel with three declared constants rather than one number. The schema extension is recorded in declared_value_provenance.md §3.",
+    "parameters_note": "This ledger entry carries `parameters` where every other carries a single `value`: the term is a kernel with three declared constants rather than one number. The schema extension is recorded in declared_value_provenance.md \u00a73.",
     "rationale": "a transition's likelihood falls with how many lifecycle stages it crosses, sharply forward and gently backward, so a jump across the whole campaign is not weighted like a step to the adjacent stage",
-    "provenance_tier": "attested-pattern/declared-magnitude (the decay PATTERN — that plausibility concentrates on adjacency — is attested by five published lifecycle models all chaining phase to successor and none drawing a recon-to-objective edge; the magnitudes gamma, delta_ratio and z are declared). z alone is declared-judgement.",
+    "provenance_tier": "attested-pattern/declared-magnitude for the decay PATTERN and for gamma (five lifecycle models all chain phase to successor, none draws a recon-to-objective edge); declared-judgement for delta_ratio and z (the backward magnitude now rests on a persistence argument the models do not state, and the floor is a rounding choice).",
     "status": "stable",
     "confidence": 84,
     "scrutiny": "Grounded in the lifecycle consensus overlay (lifecycle_consensus.md, Marc greenlit 2026-07-27) rather than in this layer's judgement. Swept over its declared bands by the S1 sensitivity study, which is the defence the magnitudes get in place of a citation. Independent corroboration: the enables sets, built with no lifecycle model in hand, contain no pair crossing two or more stages.",
     "changelog": [
-      "R3 (2026-07-28, S1): NEW term. Folded the declared kernel from lifecycle_consensus.json §6 into the value as a multiplicative factor, and moved the relationship term onto the same consensus ordering. No R2 rule value changed. Effect on the compiled table: 6 pairs per verdict go to exactly 0 (preparation sources -> objective destinations, the canonical long jump), 22 forward pairs are cut to a quarter, 22 backward pairs to a half, 6 deep-backward pairs to a quarter, and the 154 within-stage-or-adjacent pairs are untouched."
+      "R3 (2026-07-28, S1): NEW term. Folded the declared kernel from lifecycle_consensus.json \u00a76 into the value as a multiplicative factor, and moved the relationship term onto the same consensus ordering. No R2 rule value changed. Effect on the compiled table: 6 pairs per verdict go to exactly 0 (preparation sources -> objective destinations, the canonical long jump), 22 forward pairs are cut to a quarter, 22 backward pairs to a half, 6 deep-backward pairs to a quarter, and the 154 within-stage-or-adjacent pairs are untouched.",
+      "2026-07-28 (Marc's ruling): delta_ratio 0.5 -> 0.25. The first value made a full-campaign collapse after a failure 4x less likely than a one-step fallback but not impossible (exfiltration -> reconnaissance sat at 0.0625); the ruling is that an attacker persistent enough to reach exfiltration does not abandon its foothold to re-scan the perimeter, so the three-stage backward jump should fall under the floor and read as exactly 0, as the three-stage forward leap already does. Shipped as overlay version v3_persistent_backward; v2 is frozen for the two studies that consumed it."
     ]
   },
   "ledger_meta": {
@@ -334,7 +339,7 @@
       "declared-judgement": "reasoned from kill-chain + foothold logic; not attested (incident reports rarely record post-failure behaviour)"
     },
     "review_history": "R0 initial cross-exam (13 agents) -> red-team re-run -> R1 branching (36) -> R2 fold + composed-net validation -> R3 decision round (10; verdict 85%) -> R4 stepwise simulation (24) -> S1 fold-in + sensitivity sweep (2026-07-28: the lifecycle-distance term added and the declared magnitudes swept over their bands on the composed nets)",
-    "reproducibility": "values are rule-generated; the tracked generator (mtdsim.l3_simulation.controller.rules) re-compiles every registered overlay version and reports any cell differing from what is committed — 0/210 per verdict per version, checked in tests/l3_simulation/test_controller_rules.py. Deterministic, not post-hoc.",
-    "maintenance": "each adversarial round appends per-rule scrutiny + changelog. R0-R4 complete; FINALISED at R2 (Marc greenlit 2026-07-23). The residual 82%->95% gap was recorded as the dissertation defence/write-up rather than value uncertainty. S1 then reopened one specific defect (no distance dependency) on supervisor direction: the fold-in is the R3 changelog entry on distance_rule, and the magnitudes now additionally carry a sensitivity verdict (docs/implementation/pipeline/ogasp/weight_sensitivity_study.md) — which is what the ledger's requirement 3 asks of a declared value whose magnitude cannot be cited."
+    "reproducibility": "values are rule-generated; the tracked generator (mtdsim.l3_simulation.controller.rules) re-compiles every registered overlay version and reports any cell differing from what is committed \u2014 0/210 per verdict per version, checked in tests/l3_simulation/test_controller_rules.py. Deterministic, not post-hoc.",
+    "maintenance": "each adversarial round appends per-rule scrutiny + changelog. R0-R4 complete; FINALISED at R2 (Marc greenlit 2026-07-23). The residual 82%->95% gap was recorded as the dissertation defence/write-up rather than value uncertainty. S1 then reopened one specific defect (no distance dependency) on supervisor direction: the fold-in is the R3 changelog entry on distance_rule, and the magnitudes now additionally carry a sensitivity verdict (docs/implementation/pipeline/ogasp/weight_sensitivity_study.md) \u2014 which is what the ledger's requirement 3 asks of a declared value whose magnitude cannot be cited."
   }
 }

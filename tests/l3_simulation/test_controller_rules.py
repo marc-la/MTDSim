@@ -37,6 +37,7 @@ from mtdsim.l3_simulation.controller.rules import (
 from mtdsim.l3_simulation.movement.net import PROFILES, load_routing_net
 
 V1, V2 = "v1_band_relationship", "v2_lifecycle_distance"
+V3 = "v3_persistent_backward"
 N_PAIRS = 210  # 15 tactics x 14 destinations, no self-loops
 
 
@@ -51,13 +52,16 @@ def test_every_registered_version_reproduces_from_the_rules(rules) -> None:
     follows from the rules — either the rules moved without a regeneration, or a
     view was hand-edited, and both are the failure this test exists to catch."""
     problems = check_registry(rules)
-    assert set(problems) == {V1, V2}
+    # Every registered version, whatever the registry currently holds — a new
+    # version must not be able to enter without this check covering it.
+    assert set(problems) == set(load_overlay_registry().names)
+    assert {V1, V2, V3} <= set(problems)
     for version, diff in problems.items():
         assert diff == [], f"{version} no longer follows from the rules: {diff[:5]}"
 
 
-def test_both_versions_cover_the_complete_pair_space(rules) -> None:
-    for version in (V1, V2):
+def test_every_version_covers_the_complete_pair_space(rules) -> None:
+    for version in load_overlay_registry().names:
         spec = spec_from_registry_entry(load_overlay_registry().get(version).spec)
         for verdict in ("success", "failure"):
             table = compile_table(rules, verdict, spec)
@@ -111,15 +115,29 @@ def test_no_r2_rule_value_changed(rules) -> None:
 
 # --- the kernel -------------------------------------------------------------
 def test_kernel_parameters_come_from_the_consensus_artefact(rules) -> None:
-    """The magnitudes are declared by the literature half and read, not restated."""
-    assert kernel_from_consensus(rules.consensus) == DistanceKernel(0.25, 0.5, 0.1)
+    """The magnitudes are declared by the literature half and read, not restated.
+
+    delta_ratio moved 0.5 -> 0.25 on Marc's persistence ruling (2026-07-28), which is
+    why this pins the consensus artefact rather than a literal in the compiler."""
+    assert kernel_from_consensus(rules.consensus) == DistanceKernel(0.25, 0.25, 0.1)
 
 
 @pytest.mark.parametrize(
     "delta, expected",
-    [(0, 1.0), (1, 1.0), (2, 0.25), (3, 0.0), (-1, 1.0), (-2, 0.5), (-3, 0.25)],
+    [(0, 1.0), (1, 1.0), (2, 0.25), (3, 0.0), (-1, 1.0), (-2, 0.25), (-3, 0.0)],
 )
 def test_kernel_shape_at_the_declared_parameters(delta, expected) -> None:
+    """The kernel at what is declared *today* (gamma = delta_ratio = 0.25, z = 0.1).
+    Both three-stage jumps floor to zero; both adjacent moves are untouched."""
+    assert DistanceKernel(0.25, 0.25, 0.1)(delta) == expected
+
+
+@pytest.mark.parametrize(
+    "delta, expected",
+    [(2, 0.25), (3, 0.0), (-2, 0.5), (-3, 0.25)],
+)
+def test_kernel_shape_before_the_persistence_ruling(delta, expected) -> None:
+    """v2's kernel, pinned because a frozen version still compiles from it."""
     assert DistanceKernel(0.25, 0.5, 0.1)(delta) == expected
 
 
@@ -132,12 +150,20 @@ def test_the_floor_is_strict_so_a_value_on_it_survives() -> None:
     assert kernel(3) == 0.0
 
 
-def test_forward_is_suppressed_harder_than_backward() -> None:
-    """The asymmetry the design turns on: leaping forward is what is suppressed,
-    falling back is ordinary campaign behaviour."""
-    kernel = DistanceKernel(0.25, 0.5, 0.0)
-    for distance in (2, 3):
-        assert kernel(distance) < kernel(-distance)
+def test_direction_is_carried_by_the_rule_tier_not_the_kernel() -> None:
+    """Since the persistence ruling the two kernels are numerically identical, so
+    the forward/backward asymmetry lives entirely in the rule values. Pinning it
+    here because the kernel no longer expresses it, and a reader of the kernel
+    alone would conclude direction had been dropped."""
+    kernel = kernel_from_consensus(load_rule_set().consensus)
+    for distance in (1, 2, 3):
+        assert kernel(distance) == kernel(-distance), "kernels have diverged again"
+    overlay = load_outcome_overlay(version=V3)
+    # One stage back after a failure still dominates one stage forward, ~2.6:1.
+    back = overlay.value("failure", "exfiltration", "lateral-movement")
+    forward = overlay.value("failure", "persistence", "collection")
+    assert back > forward
+    assert back == pytest.approx(0.9) and forward == pytest.approx(0.35)
 
 
 # --- the motivating pairs (study §2) ---------------------------------------
@@ -157,6 +183,46 @@ def test_forward_is_suppressed_harder_than_backward() -> None:
 )
 def test_motivating_pairs_behave(verdict, src, dst, expected) -> None:
     assert load_outcome_overlay(version=V2).value(verdict, src, dst) == pytest.approx(expected)
+
+
+# --- the persistence ruling (study 3b) --------------------------------------
+@pytest.mark.parametrize(
+    "src, dst, expected, why",
+    [
+        # The ruling's target: a full-campaign collapse after a failure reads zero.
+        ("exfiltration", "reconnaissance", 0.0, "3 stages back"),
+        ("exfiltration", "resource-development", 0.0, "3 stages back"),
+        ("impact", "reconnaissance", 0.0, "3 stages back"),
+        # What the ruling must NOT disturb: the one-step fallback is still the
+        # dominant failure move, and the within-stage move is untouched.
+        ("exfiltration", "lateral-movement", 0.9, "1 stage back — back to the drawing board"),
+        ("exfiltration", "collection", 0.7, "within the objective stage"),
+        # Two stages back is halved again rather than zeroed.
+        ("exfiltration", "execution", 0.0875, "2 stages back"),
+    ],
+)
+def test_persistence_ruling_on_the_failure_side(src, dst, expected, why) -> None:
+    got = load_outcome_overlay(version=V3).value("failure", src, dst)
+    assert got == pytest.approx(expected), why
+
+
+def test_v2_is_frozen_against_the_persistence_ruling() -> None:
+    """v2 was consumed by two landed studies, so the ruling must not have touched it."""
+    assert load_outcome_overlay(version=V2).value(
+        "failure", "exfiltration", "reconnaissance") == pytest.approx(0.0625)
+    assert load_overlay_registry().get(V2).immutable is True
+
+
+def test_the_ruling_changed_only_backward_values(rules) -> None:
+    """v2 -> v3 is one parameter, so no forward or within-stage cell may move."""
+    v2, v3 = load_outcome_overlay(version=V2), load_outcome_overlay(version=V3)
+    moved = [(verdict, src, dst, rules.stage_of[dst] - rules.stage_of[src])
+             for verdict in ("success", "failure")
+             for src in rules.tactics for dst in rules.tactics if src != dst
+             if v2.value(verdict, src, dst) != v3.value(verdict, src, dst)]
+    assert moved, "v3 must differ from v2 somewhere"
+    assert all(delta < 0 for *_, delta in moved), "a non-backward cell moved"
+    assert len(moved) == 56
 
 
 def test_no_enabled_pair_crosses_two_stages(rules) -> None:
@@ -200,7 +266,7 @@ def test_registry_default_is_the_experiment_1_version() -> None:
     into the pipeline, which is the coupling the registry removes."""
     registry = load_overlay_registry()
     assert registry.default == V1
-    assert set(registry.names) == {V1, V2}
+    assert {V1, V2, V3} <= set(registry.names)
     assert load_outcome_overlay().version == V1
 
 

@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-27
-updated: 2026-07-27
+updated: 2026-07-28
 topic: "L3 S1 (literature half) — the APT-lifecycle consensus overlay: five published lifecycle models overlaid onto the fifteen ATT&CK tactics, their consensus ordering extracted, and a declared tactic-to-tactic distance model derived from it, ready to ground the outcome-overlay transition weights"
 ---
 
@@ -282,8 +282,39 @@ for each direction, with a zero floor:
 | Param | Value | Sweep band | Role |
 |---|---|---|---|
 | `γ` (gamma) | **0.25** | 0.1 – 0.5 | forward decay per extra stage crossed — adjacent forward is never penalised (`f(1) = 1`), a two-stage skip keeps a quarter of its mass, a three-stage leap 1/16 |
-| `δ` (delta) | **0.5** | 0.25 – 0.75 | backward decay per extra stage — deliberately gentler than `γ`: falling back after failure is ordinary campaign behaviour ("back to the drawing board"), leaping far forward is the thing being suppressed |
+| `δ` (delta) | **0.25** | 0.1 – 0.5 | backward decay per extra stage. *Re-declared 2026-07-28 — see the ruling below; was 0.5 over 0.25 – 0.75* |
 | `z` (floor) | **0.1** | {0, 0.05, 0.1} | the supervisor's "close to, or exactly, zero": with `z = 0.1` the three-stage forward leap (0.0625) reads as exactly 0; with `z = 0` it stays merely near-zero. Both poles of the ruling are representable |
+
+**The backward decay, re-declared on a persistence ruling (Marc, 2026-07-28).**
+`δ` first stood at 0.5, on the reasoning that falling back after a failure is
+ordinary campaign behaviour. That reasoning was made about the *one-step*
+fallback and does not survive being extended to the whole campaign: at 0.5 a
+failed exfiltration could route back to external reconnaissance at 0.0625 — 14
+times below a one-step fallback, but not impossible. The ruling is that an
+attacker persistent enough to reach exfiltration does not abandon its foothold to
+re-scan the perimeter, so that transition should read as **exactly zero**, as the
+three-stage forward leap already does. `δ = 0.25` puts the three-stage backward
+factor at 0.0625, under the floor, which achieves it without a per-pair edit.
+
+Three consequences are part of the ruling, not side effects to discover later:
+
+- **The two kernels are now numerically identical** (`γ = δ = 0.25`). The
+  separate parameters existed so that backward and forward could behave
+  differently; the ruling says a full-campaign fallback is no more ordinary than
+  a full-campaign leap, which removes the reason for them to differ *at
+  distance*. The near-distance asymmetry survives where it always actually lived
+  — in the **rule tier**, where a one-step fallback on failure is 0.9 against a
+  forward 0.35. The parameters stay separate rather than collapsing into one, so
+  the distinction is available if the ruling is revisited.
+- **The tier drops** from `attested-pattern/declared-magnitude` to
+  `declared-judgement`. The literature attests that plausibility concentrates on
+  adjacency; it does not state that a deep failure leaves the campaign intact.
+  That is a modelling argument, and it is labelled as one.
+- **The band is re-cut** to 0.1 – 0.5, matched to `γ`'s, so the declared value is
+  bracketed rather than sitting on its band's edge. `δ = 0.1` has therefore
+  entered the band **unswept** — recorded as a gap in
+  [`weight_sensitivity_study.md`](weight_sensitivity_study.md) §5 rather than
+  quietly inherited.
 
 **Why this family:** the models publish *sequenced stages*, which attests that
 transition plausibility concentrates on adjacency (every model's phases chain
@@ -304,8 +335,8 @@ duration catalogue.
 | initial-access → exfiltration | +2 | 0.25 | a skip: suppressed, not banned |
 | persistence → lateral-movement | 0 | 1.0 | within the middle — distance is silent there, *by consensus* (the literature declares no order to violate) |
 | initial-access → reconnaissance | −1 | **1.0** | the failure-side regression bridge — untouched by distance |
-| exfiltration → initial-access | −2 | 0.5 | a deep fallback — reduced |
-| impact → reconnaissance | −3 | **0.25** | full-campaign collapse — clearly distinguishable from the adjacent backward move (1.0), which is what "a plausible backward move must not be indistinguishable from an implausible one" requires |
+| exfiltration → initial-access | −2 | **0.0625** | a deep fallback — sharply reduced (was 0.5 before the persistence ruling) |
+| impact → reconnaissance | −3 | **0.0625 → 0** (under `z`) | full-campaign collapse — now exactly zero under the persistence ruling, mirroring the three-stage forward leap. The adjacent backward move stays at 1.0, so "a plausible backward move must not be indistinguishable from an implausible one" is satisfied by a hard boundary rather than a 4:1 gap |
 
 **What distance is not.** It is not the whole weight: it carries no verdict
 conditioning, no `enables` semantics, no foothold gating — those stay with the
