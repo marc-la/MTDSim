@@ -3,7 +3,7 @@ status: open
 created: 2026-07-28
 ---
 
-# Conceptualise stealth for a substrate with no detector — settle what the stealth state *is*, what it buys, and what it costs, before any of it is built
+# Conceptualise stealth for a substrate with no detector — characterise the stealthy-versus-baseline contrast that already exists, then settle what a stealth *state* would add on top of it
 
 **Chain position: wave 5, design-only, and the one item on this chain that ends in a
 question rather than a build.** It can start immediately and in parallel with everything
@@ -62,6 +62,56 @@ to 1.78 ± 0.36 at four times it, both ends separated from the centre, while the
 exploit and objective anchors are inert across their bands. The stealth tempo dial is
 already, empirically, where this model's behaviour lives. That is the strongest possible
 starting point for a stealth design and it should be the record's opening argument.
+
+**The supervisor's framing, added 2026-07-28, and it reorders this handoff.** Jin frames
+the stealth question as a **comparison between a stealthy attacker under this model and the
+inherited baseline attacker**, and asks what the overarching qualities of that contrast
+are. That is a materially better question than the one this handoff was first written
+around, and it should now lead the work, because it routes around the no-detector wall
+instead of arguing with it.
+
+Three reasons it is stronger:
+
+- **The contrast already exists and is already separated.** The baseline 6-phase attacker
+  is fast, loud, and geared to this substrate — roughly 815 successful actions converting to
+  ~40 distinct hosts at about 20 actions per host, saturating the compromise cap. It has no
+  tempo choice at all: its costs are the substrate's `ATTACK_DURATION` constants, and it has
+  no concept of a place that consumes time and dispatches nothing. The profiled attacker has
+  both. The two are therefore already distinguished on exactly the axis stealth lives on,
+  before any stealth state is built.
+- **The measurements that characterise it need no detector**, because they are properties of
+  the attacker's own behaviour rather than of anything observing it: the rate of attack
+  events, the fraction of steps spent in non-action places, the action mix, effort-to-breadth
+  conversion, terminal-mode distribution. These are the criterion's own axis-5 M8b candidates
+  and they are already scoped in `2026-07-28_axis_measurement_suite.md`.
+- **Part of the result is already on record.** The rate feasibility study found the profiled
+  attacker slower to first compromise than the baseline in **all 130 cells, never once
+  faster**, CI-separated in 107 of them, holding across every anchor band and under both
+  timing regimes. That is a stealth-shaped finding currently filed under timing.
+
+**And it is the same request M8 already made.** M8(b) asked for supplementary,
+evasion-and-stealth-shaped measurements that show where APT behaviour matters, given M8(a)'s
+expectation that the profiled attacker would do no better on pure security metrics. The
+baseline-versus-stealthy contrast *is* that measurement. The supervisor has now asked for it
+twice by two routes, which is about as strong a mandate as anything on this chain has.
+
+**One hazard that must be argued, not waved through.** Under S3-R the movement layer supplies
+every unit of the profiled attacker's time and the substrate's own action pricing is retired
+on that arm, while the baseline still runs on substrate pricing. The timing design record
+**withdrew** cross-arm comparability of internal MTTC rather than defending it. So "the
+profiled attacker is slower" is partly a consequence of the two arms being priced by
+different clocks, and any measure normalised by simulated time inherits that. The safe
+version of the contrast is built from **event-wise** quantities — the fraction of *steps* that
+are non-action, the distribution over verbs, actions per distinct host, terminal modes — which
+are invariant to how each arm is priced. Time-normalised rates may still be reported, but only
+with the pricing asymmetry stated in the same breath.
+
+**What this does to the badge question.** It suggests splitting axis 5 into two sub-rows, in
+the same way axis 8 already carries Jalowski's three primitives separately: a **tempo** half,
+which this contrast can evidence from runs, and an **evasion** half, which nothing on this
+substrate can evidence because there is nothing to evade. That is a proposal for how to score
+the axis, not a unilateral badge move — put it to Marc with the evidence rather than assuming
+it.
 
 **What the CTI corpus can and cannot ground.** It carries genuine per-tactic *qualitative*
 observability evidence — passive reconnaissance is "the least risky… characteristic of an
@@ -155,22 +205,35 @@ than wave it through on the mean.
 
 ## Recommended approach
 
-1. **Verify before designing.** Establish what Tay's reactive agent keys on. Question 1(b)
-   lives or dies on it, and the answer is a few hours of reading.
-2. **Write the design record**, structured on the eight questions, in the shape the outcome
+1. **Characterise the contrast first — this is now the primary deliverable.** Before any
+   mechanism is designed, write down what separates the profiled attacker from the baseline
+   on stealth-shaped qualities, using event-wise measures from the measurement suite, and
+   pull the parts already on record (the 130-cell tempo result, the action-budget
+   decomposition, the dwell-only step fraction that is structurally zero for the baseline).
+   This is answerable with existing runs plus the suite, needs no ruling, and is what the
+   supervisor asked for. If time runs out on everything else, this is the piece that must
+   exist.
+2. **Verify before designing anything further.** Establish what Tay's reactive agent keys on.
+   Question 1(b) lives or dies on it, and the answer is a few hours of reading.
+3. **Write the design record**, structured on the eight questions, in the shape the outcome
    overlay's own design record uses: the semantics, the composition rule, the declared
    values with tiers, the alternatives named and killed, the honest caveats. Its deliverable
    is a decision, not code.
-3. **Take the tempo baseline (1a) as the default** unless the Tay verification opens 1(b).
+4. **Take the tempo baseline (1a) as the default** unless the Tay verification opens 1(b).
    Build it on the seam once that lands: a stealth level rising on `stealth` visits, scaling
    the dwell means, with an ordinal per-tactic exposure weight rule-generated from the
-   corpus's qualitative ranking and swept.
-4. **State the badge ceiling in the record.** Under (a), axis 5 reaches DESIGNED and no
-   further. Writing that down before building is what stops it being quietly over-claimed
-   later, and it is the constraint the criterion's own "does not promise the world"
-   requirement imposes.
-5. **Put the unresolved questions to Marc as a short list**, with a recommendation on each.
-   Question 1(b) is the only one that needs the supervisor.
+   corpus's qualitative ranking and swept. Ask of the built mechanism only what step 1 could
+   not already answer: **does an explicit stealth state sharpen the contrast, or was the
+   contrast already there in the model's structure?** Either answer is a result, and the
+   second is the more interesting one.
+5. **State the badge position in the record**, using the tempo/evasion split proposed above.
+   The tempo half may be evidenceable from the contrast; the evasion half is not, on this
+   substrate, at any effort. Writing that down before building is what stops it being quietly
+   over-claimed later, and it is the constraint the criterion's own "does not promise the
+   world" requirement imposes.
+6. **Put the unresolved questions to Marc as a short list**, with a recommendation on each.
+   Question 1(b) is the only one that needs the supervisor; the axis-5 split needs his
+   agreement but not a meeting.
 
 **Alternatives considered.** *Build a minimal detector so stealth has a referent* —
 rejected, and firmly: it is forbidden by standing project direction, it would need a fresh
@@ -187,14 +250,20 @@ does.
 
 Done when:
 
-1. A design record exists under `docs/implementation/pipeline/ogasp/` answering all eight
+1. **The stealthy-versus-baseline contrast is characterised**, on event-wise measures, with
+   the pricing asymmetry stated wherever a time-normalised quantity is reported. This is the
+   supervisor's question and it is the gate that matters most.
+2. A design record exists under `docs/implementation/pipeline/ogasp/` answering all eight
    questions, marking each as resolved or escalated, with the alternatives named and killed.
-2. The Tay verification is on record with a yes-or-no answer and its evidence.
-3. The badge ceiling implied by the chosen semantics is stated explicitly.
-4. A short decision request is written for Marc, with a recommendation on each open item.
-5. **If, and only if, a build follows:** the null configuration reproduces the current record
+3. The Tay verification is on record with a yes-or-no answer and its evidence.
+4. The badge position — including the proposed tempo/evasion split — is stated explicitly,
+   with what each half can and cannot be evidenced by.
+5. A short decision request is written for Marc, with a recommendation on each open item.
+6. **If, and only if, a build follows:** the null configuration reproduces the current record
    stream field for field; the exposure weights are rule-generated, tiered and swept; the
-   distribution-family question (8) is addressed rather than assumed.
+   distribution-family question (8) is addressed rather than assumed; and the built
+   mechanism is reported against step 1's contrast, so "the state sharpened it" is
+   distinguishable from "the structure already did it".
 
 ## Hard constraints
 

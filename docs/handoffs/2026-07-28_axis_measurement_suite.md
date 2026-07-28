@@ -155,7 +155,26 @@ reader is not enough.
   from `MovementRecord` instead, and state the asymmetry in the record rather than
   producing two ledgers that quietly measure different things.
 
-**6. Report with intervals, always.** Provide one helper that takes a per-profile measure
+**6. Make the behavioural measures computable on the baseline arm too.** Added on Jin's
+stealth framing (see `2026-07-28_axis5_stealth_conceptualisation.md`): the supervisor wants
+the profiled attacker compared against the inherited baseline on stealth-shaped qualities,
+and that comparison is impossible if the measures only exist for one arm. The baseline emits
+`AttackStatistics` rows, not `MovementRecord`s, so a subset of the measures above needs a
+second derivation over the CSV schema — action mix by verb, actions per distinct host,
+re-work, and the terminal-mode summary all have counterparts there.
+
+Two constraints on how. **Do not touch `AttackStatistics` itself** — write an adapter that
+reads its rows. And prefer **event-wise** quantities over time-normalised ones for anything
+compared across arms: since S3-R the movement layer supplies all of the profiled attacker's
+time while the baseline runs on substrate pricing, and the timing design record withdrew
+cross-arm comparability of internal MTTC rather than defending it. A fraction-of-steps
+measure is invariant to that; a per-unit-time rate is not, and must carry the asymmetry
+whenever it is reported. Measures with no baseline counterpart at all — dwell fraction in
+non-action places, for instance, which is structurally zero for an attacker with no such
+concept — should be reported as exactly that rather than omitted, because a structural zero
+*is* the contrast.
+
+**7. Report with intervals, always.** Provide one helper that takes a per-profile measure
 and returns the mean, the 95 % interval, and the set of adjacent pairs whose intervals are
 disjoint. Both sweeps failed their ordering conclusion for want of this being routine; make
 it the default output shape so the next study cannot accidentally report an unseparated
@@ -190,6 +209,10 @@ Done when:
    reported either way.
 4. The interval helper is used by at least one measure's own test, so the reporting shape
    is exercised rather than merely available.
+4b. **The cross-arm subset computes on both arms** from one seeded run of each, with the
+   event-wise/time-normalised distinction enforced in the API rather than left to the caller
+   — a measure that is unsafe to compare across arms should be hard to report as though it
+   were safe.
 5. The determinism suite still passes unchanged (readers cannot move SIM-05, and a
    regression here would mean something was not a reader).
 6. A short tracked record under `docs/implementation/pipeline/ogasp/` naming each measure,
