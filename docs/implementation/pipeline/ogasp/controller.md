@@ -23,14 +23,14 @@ lineage: rewritten from tactic_action_map.md (the M5 'true tactic->action map');
 > layer the experiments vary**, the mappings tried and what each produced are to
 > be **versioned and kept**, not overwritten; and this record describes *one
 > value* of that parameter, which stays valid as the experiment-1 arm.
-> The replacement mapping is **ratified and recorded** in
-> [`controller_mapping_v2.md`](controller_mapping_v2.md) (2026-07-28) but is **not
-> yet wired**: `controller.csv`, the loader, and the coverage test all still carry
-> version 1, so the map below remains what actually runs. The registry, loader, and
-> relaxed invariant are the open remainder of
-> [`../../../handoffs/2026-07-27_controller_v2_partial_mapping.md`](../../../handoffs/2026-07-27_controller_v2_partial_mapping.md).
-> §4's per-verb verdict semantics are unaffected by either version and carry
-> forward unchanged.
+> The replacement mapping is **ratified, recorded, and built** (2026-07-28):
+> [`controller_mapping_v2.md`](controller_mapping_v2.md). The map below is no
+> longer *the* mapping — it is **version `v1_ckc_total`** in the registry at
+> [`../../../../data/ogasp/controller/mappings/`](../../../../data/ogasp/controller/mappings/),
+> selectable by name alongside `v2_partial`, and it remains the registry's default
+> so that an unqualified run still reproduces experiment 1. It is immutable; a test
+> pins it equal to `controller.csv` row-for-row. §4's per-verb verdict semantics
+> are unaffected by either version and carry forward unchanged.
 
 **Status:** durable. The **controller** is the seam between the class net (which
 ATT&CK tactic the attacker token sits on) and the inherited substrate action set

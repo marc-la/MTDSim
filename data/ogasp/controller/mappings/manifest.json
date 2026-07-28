@@ -1,0 +1,48 @@
+{
+  "meta": {
+    "artefact": "The controller mapping registry — every tactic->verb mapping that has been tried, what it produced, and which experiment consumed it",
+    "created": "2026-07-28",
+    "record": "docs/implementation/pipeline/ogasp/controller_mapping_v2.md",
+    "why": "The controller is the application layer the experiments vary (supervisor ruling S4). The mapping is an input parameter, not a recovered truth: there is no correct mapping to discover, every version is a choice, and this registry exists so that choices are comparable rather than overwritten. A version is selected by name at the experiment seam; the controller layer reads whatever it is given and carries no experiment's mapping of its own.",
+    "schema": {
+      "tactic": "ATT&CK tactic key; must match the aggregate net's tactic-places exactly",
+      "attack_tactic_id": "ATT&CK tactic id, provenance only",
+      "sim_phase": "the dispatched MTDSim verb, or empty for a dwell-only tactic",
+      "disposition": "'mapped' (sim_phase names a verb) or 'dwell-only' (sim_phase empty; the tactic consumes time and dispatches nothing)",
+      "ckc_phase": "version-1 provenance only — the Cyber Kill Chain phase the row was composed through; empty where a version does not use CKC mediation",
+      "coverage": "version-1 provenance only — 'direct' or 'fallback'",
+      "reason": "why this row holds its value; required, and the thing a reviewer reads"
+    },
+    "invariant": "Every tactic states mapped-to-verb or dwell-only. An empty sim_phase without a 'dwell-only' disposition is an error at load: silence stays illegal, declared absence is legal."
+  },
+  "default": "v1_ckc_total",
+  "default_rationale": "The default is the experiment-1 value, so an unqualified load reproduces what has always run. It is deliberately NOT the newest version: promoting a version to default would re-bake an experiment's choice into the pipeline, which is the coupling this registry exists to remove. Experiments select their version explicitly.",
+  "versions": [
+    {
+      "name": "v1_ckc_total",
+      "file": "v1_ckc_total.csv",
+      "created": "2026-07-22",
+      "coverage": "total — all 15 tactics onto exactly one of 6 verbs",
+      "construction": "transitive through the Cyber Kill Chain: each verb owns one CKC phase by Brown's Fig-3 flow position, each tactic takes the verb of its own or the nearest covered phase",
+      "rationale": "complete coverage guaranteed by construction, chosen to get the end-to-end loop running rather than to model per-tactic behaviour",
+      "consumed_by": ["experiment 1 — movement vs baseline (data/results/exp01_movement_vs_baseline)"],
+      "produced": "ASR 0.00 across all 100 movement runs, in two profile-determined failure modes: friction (up to 95% of actions blocked) and churn (hundreds of successful actions on ~2 hosts). Much of both traces to this mapping's coarseness — seven tactics on the neighbour-reveal, initial-access on a port scan.",
+      "record": "docs/implementation/pipeline/ogasp/controller.md",
+      "immutable": true,
+      "immutability_note": "Frozen so experiment 1 stays reproducible. This file is a re-expression of data/ogasp/controller.csv in the registry schema; tests/l3_simulation/test_controller.py pins the two equal row-for-row, so neither can drift."
+    },
+    {
+      "name": "v2_partial",
+      "file": "v2_partial.csv",
+      "created": "2026-07-28",
+      "coverage": "partial — 8 tactics mapped, 7 declared dwell-only",
+      "construction": "no mediating layer: each tactic decided on its merits against what the verb actually does and requires (attacker_phase_catalogue.md), with the reason recorded per row",
+      "rationale": "S4 relaxes the total-coverage requirement, so a tactic with no defensible verb becomes dwell-only rather than firing a placeholder. Fixes the two rows experiment 1 most exposed: initial-access now dispatches the exploit rather than a port scan, and the objective band dispatches nothing rather than all firing the neighbour-reveal. Pairs command-and-control's neighbour-reveal with lateral-movement's host-enumeration so the substrate's native spread pair can occur.",
+      "consumed_by": [],
+      "produced": "not yet run",
+      "record": "docs/implementation/pipeline/ogasp/controller_mapping_v2.md",
+      "immutable": false,
+      "immutability_note": "Becomes immutable once an experiment consumes it; until then it is still under review."
+    }
+  ]
+}

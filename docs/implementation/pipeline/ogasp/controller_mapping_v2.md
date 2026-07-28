@@ -8,15 +8,12 @@ lineage: successor value to controller.md's version-1 map; executes step 1 of do
 
 # Controller mapping version 2 — the experiment-2 partial map
 
-**Status:** durable, **ratified by Marc 2026-07-28**, and **not yet wired**. The
-mapping below is the agreed value of the controller parameter for experiment 2.
-Nothing at runtime reads it yet: [`../../../../data/ogasp/controller.csv`](../../../../data/ogasp/controller.csv)
-still holds version 1, the loader in
-[`../../../../src/mtdsim/l3_simulation/controller/`](../../../../src/mtdsim/l3_simulation/controller)
-still resolves against that file, and
-[`../../../../tests/l3_simulation/test_controller.py`](../../../../tests/l3_simulation/test_controller.py)
-still asserts the total-coverage invariant this version breaks. §4 lists what
-remains.
+**Status:** durable, **ratified by Marc 2026-07-28**, and **built** — the mapping
+is selectable data that the controller layer reads. It is registered as
+`v2_partial` in
+[`../../../../data/ogasp/controller/mappings/`](../../../../data/ogasp/controller/mappings/),
+loadable by name, and demonstrated end to end in a seeded run. It is **not the
+default**, deliberately: see §4.
 
 **Why a second version exists at all.** The controller is *the application layer
 the experiments vary* — an input parameter, not a recovered truth
@@ -101,10 +98,82 @@ blocking on them is a result to report, not a defect to hide — a mapping that
 routed around every unmet precondition would suppress the finding
 ([`runtime_verification.md`](runtime_verification.md) §P4).
 
-## 4. What is built, and what remains
+## 4. How it is wired — the mapping as an input, not a layer
 
-**Built.** The mapping itself, its per-row reasons, and two at-a-glance figures
-regenerable by `data/misc/_viz/controller_mapping_v2_viz.py`:
+The reason this took a registry rather than an edited CSV: the experiment's
+choice of mapping had been sitting *inside* the pipeline. `controller.csv` was
+one file at one path, the loader read exactly that path, and a test asserted the
+properties of that one mapping. Trying a different mapping therefore meant
+editing the pipeline's data in place — which loses the old value, moves the
+experiment that consumed it, and makes "which mapping produced these numbers"
+unanswerable after the fact.
+
+The seam now runs the other way. Every mapping tried is a **named version** in
+[`../../../../data/ogasp/controller/mappings/`](../../../../data/ogasp/controller/mappings/)
+— one file per version plus a manifest carrying each version's rationale, what it
+produced, and which experiment consumed it — and the controller layer reads
+whichever version it is handed:
+
+```python
+load_controller()                      # the manifest's default
+load_controller(version="v2_partial")  # an explicit selection
+run_movement(profile, mapping_version="v2_partial", ...)
+```
+
+**The default is version 1, and stays there.** Promoting the newest version to
+default would re-bake an experiment's choice into the pipeline, which is the
+coupling the registry exists to remove; it would also silently change what every
+existing run, tool, and test reproduces. So an unqualified load still resolves
+experiment 1's mapping, and experiment 2 names `v2_partial` at its own seam. This
+is a deliberate deviation from the S4 handoff's gate item 6, which asked for the
+controller record to describe version 2 as "the live value": there is no longer a
+single live value, which is the better outcome. Both versions are live and
+selectable; the experiment decides.
+
+Two files hold version 1 —
+[`../../../../data/ogasp/controller.csv`](../../../../data/ogasp/controller.csv),
+retained because experiment 1's record cites it, and the registry's
+`v1_ckc_total.csv`, which is where the loader now reads from. A test pins the two
+equal row-for-row so neither can drift.
+
+**Dwell-only at runtime.** `Controller.phase_for` returns `None` for a dwell-only
+tactic, and the movement driver serves that place without dispatching: time
+advances, no verb fires, no verdict is produced, and the token routes on the base
+weights. The per-event record carries `place_class` (`action-bearing` /
+`dwell-only`) with an empty verb and verdict, so an analysis can tell "spent time
+thinking" from "did nothing" — without it the action-budget decomposition would
+count every dwell-only step as a failed action. Two consequences are decided
+rather than left implicit:
+
+- **An MTD mutation during a dwell-only dwell is felt in cost, not in routing.**
+  The substrate's interrupt price is paid and the interrupt is recorded, but no
+  verdict is fabricated, because no verb ran and there is no substrate outcome to
+  read. This is the scope boundary
+  [`success_failure_overlay_design.md`](success_failure_overlay_design.md) §5
+  already stated. Paying the price matters: the alternative makes dwell-only
+  places cost-free under MTD, which would flatter the attacker for a reason that
+  has nothing to do with its behaviour.
+- **The adversary's `curr_process` reads as a `DWELL` sentinel** while the token
+  sits on a dwell-only place, rather than keeping the last verb. The defender's
+  application-layer interrupt gate reads that field, and a stale verb would have
+  it judging something that finished steps ago. The sentinel is judged
+  surface-dependent, which is the conservative reading — a dwell-only place is
+  not a free hiding spot from MTD.
+
+**The validation gate, discharged.** Every tactic states mapped-or-dwell-only
+with a reason (§2); the registry holds two versions with provenance and switching
+is a data selection; the relaxed invariant is test-pinned — a tactic resolving to
+nothing *and* not declared dwell-only still raises at load; a dwell-only place is
+demonstrated end to end in a seeded run; and determinism holds per version. The
+tests are
+[`../../../../tests/l3_simulation/test_controller.py`](../../../../tests/l3_simulation/test_controller.py)
+(the registry and the invariant) and
+[`../../../../tests/l3_simulation/test_controller_mapping_versions.py`](../../../../tests/l3_simulation/test_controller_mapping_versions.py)
+(the end-to-end behaviour). Version 1 produces no dwell-only records at all, so
+the new path is dormant under it and experiment 1's numbers are untouched.
+
+**The figures**, regenerable by `data/misc/_viz/controller_mapping_v2_viz.py`,
+which reads both versions from the registry rather than restating them:
 
 - `data/misc/_viz/controller_mapping_v2.png` — the version-2 map in the same
   visual language as version 1's figure: verbs on the left, the fifteen tactics on
@@ -120,25 +189,20 @@ figures (`BRUTE_FORCE` from `#c8102e` to `#d6336c`) because the version-1 hues
 failed adjacent-pair deuteranopia separation against `EXPLOIT_VULN`; the other five
 slots are unchanged.
 
-**Remaining** (the rest of the S4 handoff's validation gate, still open):
+**What this version has not yet done is run.** `consumed_by` is empty in the
+manifest and `produced` reads "not yet run", which is why the version is still
+marked mutable: it becomes immutable the moment an experiment consumes it. Two
+things should be expected to change when experiment 2 runs against it, and
+neither is a defect to fix in advance:
 
-1. The **versioned registry as data** — one file per mapping version plus a
-   manifest recording name, date, rationale, and consuming experiment, with the
-   runtime selecting a version by name. Version 1 registers unchanged and
-   immutable.
-2. The **loader** reading a selected version rather than the single
-   `controller.csv`.
-3. The **relaxed invariant test-pinned** — a tactic resolving to nothing *and* not
-   declared dwell-only must still be an error.
-4. A **dwell-only place demonstrated end to end** in a seeded smoke run: time
-   advances, no verb fires, no verdict is produced, routing falls back to the base
-   weights, and the event record says so (`place_class` already exists in the
-   record schema, [`success_failure_overlay_design.md`](success_failure_overlay_design.md)
-   §6.3).
-5. **Determinism** re-verified per version (SIM-05).
-
-Only when 1–5 land does version 2 become the live value; until then
-[`controller.md`](controller.md) describes what actually runs.
+- **The dwell-only tactics change the action budget's denominator.** Seven of
+  fifteen places now emit an event without an action, so events-per-run and
+  actions-per-run are no longer the same quantity. Any per-action metric compared
+  against experiment 1 has to say which it means.
+- **Blocking will move, not vanish.** `EXPLOIT_VULN` on initial-access and
+  `ENUM_HOST` on lateral-movement both carry real preconditions (§3), so the
+  H-coupling should still be visible — in different places, and for better
+  reasons, than under version 1.
 
 ## 5. Relationship to the rest of L3
 

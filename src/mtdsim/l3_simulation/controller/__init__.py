@@ -2,26 +2,41 @@
 
 The controller is the seam between the net (which tactic the attacker token
 sits on) and the inherited substrate action set (which of the six MTDSim attack
-verbs fires). It is a **CKC-mediated position map**, and — for this first
-experiment — a deliberately simple, swappable **input parameter**, *not* a
-recovered ground truth (see ``docs/implementation/pipeline/ogasp/controller.md``):
+verbs fires). It is a swappable **input parameter**, *not* a recovered ground
+truth, and this package holds no experiment's mapping of its own: it reads
+whichever version it is given.
 
-    MITRE ATT&CK tactic  --(ATT&CK->CKC crosswalk)-->  CKC phase
-    MTDSim attack verb   --(Brown Fig-3 flow position)->  CKC phase
-    tactic -> CKC -> the verb sharing that CKC phase (nearest covered on a gap)
+**The mappings are data.** Every version that has been tried lives in
+``data/ogasp/controller/mappings/``, one file per version plus a manifest
+recording each version's rationale, what it produced, and which experiment
+consumed it. Callers select by name — ``load_controller(version="v2_partial")``
+— and an unqualified ``load_controller()`` takes the manifest's default, which is
+the experiment-1 value so that an unqualified load reproduces what has always
+run. The registered versions are:
 
-Many tactics collapse onto one verb (1:M), and every one of the 15 tactics
-resolves to exactly one of the 6 verbs — complete coverage by construction.
+    v1_ckc_total   experiment 1. A *total* map composed through the Cyber Kill
+                   Chain: each verb owns one CKC phase by Brown's Fig-3 flow
+                   position, each tactic takes the verb of its own or the nearest
+                   covered phase. All 15 tactics onto exactly one of 6 verbs.
+    v2_partial     experiment 2. A *partial* map decided per tactic against what
+                   each verb actually does: 8 tactics dispatch a verb, 7 are
+                   dwell-only (they consume time and dispatch nothing).
 
-The mapping itself lives in ``data/ogasp/controller.csv``; this package loads
-it and hands the resolved ``tactic -> sim_phase`` function to the (not-yet-
-built) profiled attacker / movement layer.
+A tactic maps to [0, 1] verbs (supervisor ruling S4), so ``phase_for`` may return
+``None``. Silence stays an error — a row with no verb must *declare* itself
+dwell-only or the load raises.
 """
 
 from mtdsim.l3_simulation.controller.controller import (
+    DWELL_ONLY,
+    MAPPED,
     SIM_PHASES,
     Controller,
+    ControllerRow,
+    MappingRegistry,
+    MappingVersion,
     load_controller,
+    load_registry,
 )
 from mtdsim.l3_simulation.controller.outcome import (
     OutcomeOverlay,
@@ -32,7 +47,14 @@ from mtdsim.l3_simulation.controller.verdict import verdict_for
 __all__ = [
     "SIM_PHASES",
     "Controller",
+    "ControllerRow",
     "load_controller",
+    # The versioned mapping registry — mappings are data, selected by name.
+    "MAPPED",
+    "DWELL_ONLY",
+    "MappingRegistry",
+    "MappingVersion",
+    "load_registry",
     # Success/failure outcome-overlay split + M2 composition (see outcome.py).
     "OutcomeOverlay",
     "load_outcome_overlay",

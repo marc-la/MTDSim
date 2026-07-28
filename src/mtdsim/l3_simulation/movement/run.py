@@ -135,6 +135,7 @@ def run_movement(
     overlay: OutcomeOverlayLike | None = None,
     verdict_of: VerdictAdapter | None = None,
     controller: Any | None = None,
+    mapping_version: str | None = None,
     dwell_catalogue: dict[str, float] | None = None,
     mtd_scheme: str | None = None,
     mtd_interval: int | None = 200,
@@ -149,11 +150,21 @@ def run_movement(
     reconnaissance; False: observed-only, seed at initial-access). ``overlay`` /
     ``verdict_of`` default to the real controller library (see module docstring);
     inject them to drive the loop before the controller finalisation lands.
+
+    ``mapping_version`` names the controller mapping this run uses — the input
+    parameter the experiments vary (``"v1_ckc_total"`` is experiment 1's,
+    ``"v2_partial"`` is experiment 2's). Left unset it takes the registry's
+    default, which is experiment 1's value, so an unqualified run reproduces what
+    has always run. This is the seam the choice belongs at: an experiment names
+    its mapping, and no layer below here has a preference.
     """
     env, end_event, network, adversary, attack_op = _build_sim(seed, geometry)
 
     routing_net = load_routing_net(profile, with_synthetic_overlay=with_synthetic_overlay)
-    controller = controller if controller is not None else load_controller()
+    if controller is None:
+        controller = load_controller(version=mapping_version)
+    elif mapping_version is not None:
+        raise ValueError("pass either controller or mapping_version, not both")
     overlay = overlay if overlay is not None else _default_overlay()
     verdict_of = verdict_of if verdict_of is not None else _default_verdict_adapter()
     dwell = dwell_catalogue if dwell_catalogue is not None else load_dwell_catalogue()

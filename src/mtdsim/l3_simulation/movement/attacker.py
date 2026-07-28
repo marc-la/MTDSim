@@ -90,6 +90,21 @@ class OutcomeOverlayLike(Protocol):
     ) -> dict[str, float]: ...
 
 
+# The two place classes (overlay design §6.3). A dwell-only place is one the
+# selected controller mapping declares as dispatching no verb.
+ACTION_BEARING = "action-bearing"
+DWELL_ONLY = "dwell-only"
+
+# What the adversary's ``curr_process`` reads as while the token sits on a
+# dwell-only place. It is deliberately *not* one of the six verbs: the defender's
+# application-layer interrupt gate reads curr_process to decide whether a mutation
+# blocks the attacker, and leaving the previous verb there would have the gate
+# judging a verb that finished steps ago. A sentinel is judged as a
+# surface-dependent process, which is the conservative reading — a dwell-only
+# place does not become a cost-free hiding spot from MTD.
+DWELL_PROCESS = "DWELL"
+
+
 def load_dwell_catalogue(path: Path | str = DURATIONS_PATH) -> dict[str, float]:
     """``tactic -> per-place dwell (simulated seconds)`` from the D4 catalogue."""
     with Path(path).open(encoding="utf-8") as fh:
@@ -106,9 +121,9 @@ class MovementRecord:
     profile: str
     step_index: int
     place: str  # the tactic-place the token sat on
-    verb: str  # the dispatched MTDSim verb (== sim_phase)
+    verb: str  # the dispatched MTDSim verb (== sim_phase); "" if none ran
     outcome: str  # normalised outcome tag (see _outcome_tag)
-    verdict: str  # "success" | "failure" | "" (terminal, no verb ran)
+    verdict: str  # "success" | "failure" | "" (no verb ran: dwell-only or terminal)
     interrupted: bool  # an MTD interrupt halted the verb
     blocked: bool  # the verb's precondition was unmet (PRECONDITION_UNMET)
     next_place: str | None  # the sampled next place, or None (stall / sink / terminal)
@@ -120,6 +135,12 @@ class MovementRecord:
     # never negative; it is 0 for a blocked or dwell-interrupted event.)
     dwell: float
     interrupted_by: str  # MTD resource type, or "" — record enrichment only
+    # Whether the place dispatched a verb at all (overlay design §6.3). A
+    # dwell-only place consumes time, fires nothing and raises no verdict, so
+    # without this an analysis cannot tell "spent time thinking" from "did
+    # nothing" — and the action-budget decomposition that made experiment 1
+    # legible would silently count dwell-only steps as failed actions.
+    place_class: str = ACTION_BEARING
 
 
 # The verdict the movement layer assigns an un-actionable dispatch (a verb whose
@@ -134,6 +155,10 @@ _PRECONDITION_UNMET = "PRECONDITION_UNMET"
 _MTD_INTERRUPT = "MTD_INTERRUPT"
 _SIM_END = "SIM_END"
 _MAX_EVENTS = "MAX_EVENTS"
+# A dwell-only place served its dwell and dispatched nothing. Distinct from
+# MTD_INTERRUPT even when a mutation cut the dwell short, because the two differ
+# in what they cost, not in what they dispatched: see _serve_dwell_only.
+_DWELL_ONLY_TAG = "DWELL_ONLY"
 
 
 def _outcome_tag(outcome: Any) -> str:
@@ -218,9 +243,49 @@ class MovementAttacker:
                 self._emit_terminal(place, step_index, _MAX_EVENTS)
                 return
 
+            # [0, 1] verbs per tactic (S4): None means the selected mapping
+            # declares this tactic dwell-only — it consumes time and dispatches
+            # nothing. Handled on its own path below, because there is no verb to
+            # announce, no substrate outcome to read and so no verdict to route on.
             verb = self.controller.phase_for(place)
             dwell = float(self.dwell.get(place, 0.0))
             start_time = self.env.now
+
+            if verb is None:
+                dwell, interrupted, interrupted_by = yield from self._serve_dwell_only(
+                    dwell, start_time
+                )
+                if self.end_event.triggered:
+                    self._emit_terminal(place, step_index, _SIM_END, dwell=dwell,
+                                        start_time=start_time,
+                                        place_class=DWELL_ONLY)
+                    return
+                # No verdict, so no conditioning: the token routes on the base
+                # weights (overlay design §3 — an unmapped place is not conditioned).
+                next_place = self._sample(self.routing.base_out_weights(place))
+                self.records.append(
+                    MovementRecord(
+                        profile=self.routing.profile,
+                        step_index=step_index,
+                        place=place,
+                        verb="",
+                        outcome=_DWELL_ONLY_TAG,
+                        verdict="",
+                        interrupted=interrupted,
+                        blocked=False,
+                        next_place=next_place,
+                        start_time=start_time,
+                        end_time=self.env.now,
+                        dwell=dwell,
+                        interrupted_by=interrupted_by,
+                        place_class=DWELL_ONLY,
+                    )
+                )
+                step_index += 1
+                if next_place is None:
+                    return  # sink
+                place = next_place
+                continue
 
             # Announce the verb the token is about to fire, BEFORE the dwell.
             #
@@ -360,6 +425,19 @@ class MovementAttacker:
         it had just lost, so MTD was materially cheaper for the movement attacker than
         for the baseline it is compared against.
         """
+        interrupted_by = yield from self._pay_interrupt_cost()
+        verdict = self.verdict_of(verb, outcome, True)
+        return _MTD_INTERRUPT, verdict, True, False, interrupted_by
+
+    def _pay_interrupt_cost(self):
+        """Consume the substrate's own interrupt cost and report which MTD did it.
+
+        Shared by every interrupt path — including a dwell-only place's, which
+        pays the same price for the same defensive event even though it raises no
+        verdict. Not paying there would make dwell-only places cost-free under
+        MTD, which would flatter the attacker for a reason that has nothing to do
+        with its behaviour.
+        """
         interrupted_by = ""
         mtd = getattr(self.attack_op, "_interrupted_mtd", None)
         if mtd is not None:
@@ -370,8 +448,32 @@ class MovementAttacker:
         yield from self.attack_op.apply_mtd_interrupt_cost(mtd)
         if mtd is not None:
             self.attack_op.set_interrupted_mtd(None)
-        verdict = self.verdict_of(verb, outcome, True)
-        return _MTD_INTERRUPT, verdict, True, False, interrupted_by
+        return interrupted_by
+
+    def _serve_dwell_only(self, dwell: float, start_time: float):
+        """Serve a dwell-only place: advance time, dispatch nothing, judge nothing.
+
+        Returns ``(dwell_consumed, interrupted, interrupted_by)``. An MTD mutation
+        during the dwell is felt in *cost* — the substrate's interrupt price is
+        paid, and the record says an interrupt happened — but **not in routing**:
+        no verb ran, so there is no substrate outcome for the verdict adapter to
+        read, and fabricating one would put a substrate signal in the record that
+        the substrate never produced. The token therefore routes on the base
+        weights either way (overlay design §5, the stated scope boundary).
+        """
+        self.adversary.set_curr_process(DWELL_PROCESS)
+        interrupted = False
+        interrupted_by = ""
+        try:
+            if dwell > 0:
+                yield self.env.timeout(dwell)
+        except simpy.Interrupt:
+            interrupted = True
+            # The catalogue value was not consumed — record what was served, or
+            # the record claims more elapsed time than the event occupied.
+            dwell = self.env.now - start_time
+            interrupted_by = yield from self._pay_interrupt_cost()
+        return dwell, interrupted, interrupted_by
 
     def _route(self, place: str, verdict: str) -> str | None:
         """Condition the base out-distribution on the verdict (overlay.compose)
@@ -410,6 +512,7 @@ class MovementAttacker:
         verb: str = "",
         dwell: float = 0.0,
         start_time: float | None = None,
+        place_class: str = ACTION_BEARING,
     ) -> None:
         """Record a terminal event (sim end / max-events backstop) so the walk's
         end is visible in the records rather than an unexplained stop."""
@@ -429,6 +532,7 @@ class MovementAttacker:
                 end_time=now,
                 dwell=dwell,
                 interrupted_by="",
+                place_class=place_class,
             )
         )
 
@@ -441,4 +545,7 @@ __all__ = [
     "MovementAttacker",
     "load_dwell_catalogue",
     "DURATIONS_PATH",
+    "ACTION_BEARING",
+    "DWELL_ONLY",
+    "DWELL_PROCESS",
 ]
