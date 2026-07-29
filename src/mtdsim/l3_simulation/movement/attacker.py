@@ -201,6 +201,33 @@ _MAX_EVENTS = "MAX_EVENTS"
 # MTD_INTERRUPT even when a mutation cut the dwell short, because the two differ
 # in what they cost, not in what they dispatched: see _serve_dwell_only.
 _DWELL_ONLY_TAG = "DWELL_ONLY"
+# The token reached a sink and stepped back down the edge it arrived on (S5).
+# Distinct from every other tag because it dispatched nothing AND consumed no
+# time: the cost of a retrace is the re-visit it causes, not the retreat itself
+# (sink_policy.md §4). Analyses that decompose the action budget must exclude it
+# from every action denominator, which the place class below makes mechanical.
+_RETRACE_TAG = "RETRACE"
+
+# The two sink policies. ``censor`` is experiment 1's accept-and-censor ruling and
+# stays the default, so an unqualified run reproduces what has always run; the
+# experiment that wants the S5 behaviour names it at its own seam, exactly as it
+# names its mapping and overlay versions.
+SINK_CENSOR = "censor"
+SINK_RETRACE = "retrace"
+SINK_POLICIES = (SINK_CENSOR, SINK_RETRACE)
+
+# The place class of a retrace event. It is neither action-bearing (it dispatches
+# no verb) nor dwell-only (it consumes no time), and collapsing it onto either
+# would corrupt the decomposition that made experiment 1 legible.
+RETRACE = "retrace"
+
+# The verdict a retrace routes the token out on. A dead end is the clearest form
+# of "that did not work", and the failure-side overlay is the declared mechanism
+# that already means go elsewhere — so the policy reuses it rather than adding a
+# routing special case (sink_policy.md §2, clause 2). Decided in-layer, in the
+# same idiom as _UNACTIONABLE_VERDICT above: it borrows the controller's binary
+# vocabulary without claiming to be a substrate verdict.
+_RETRACE_VERDICT: Verdict = "failure"
 
 
 def _outcome_tag(outcome: Any) -> str:
@@ -240,8 +267,14 @@ class MovementAttacker:
         seed: int = 0,
         register_for_interrupts: bool = True,
         max_events: int = 50_000,
+        sink_policy: str = SINK_CENSOR,
     ) -> None:
         import random
+
+        if sink_policy not in SINK_POLICIES:
+            raise ValueError(
+                f"unknown sink_policy {sink_policy!r}; known {list(SINK_POLICIES)}"
+            )
 
         self.env = env
         self.end_event = end_event
@@ -264,8 +297,13 @@ class MovementAttacker:
         )
         self.register_for_interrupts = register_for_interrupts
         self.max_events = max_events
+        self.sink_policy = sink_policy
         self.records: list[MovementRecord] = []
         self._proc: simpy.Process | None = None
+        # Counted rather than inferred: the no-oscillation argument in
+        # sink_policy.md §3 is a claim about these nets, and a policy whose own
+        # firing rate went unmeasured would be taking that claim on trust.
+        self.retraces = 0
 
     # -- lifecycle ----------------------------------------------------------
     def start(self) -> simpy.Process:
@@ -284,6 +322,7 @@ class MovementAttacker:
     # -- the walk -----------------------------------------------------------
     def _walk(self):
         place = self.routing.entry_place
+        prev_place: str | None = None
         step_index = 0
         while True:
             if self.end_event.triggered:
@@ -340,8 +379,11 @@ class MovementAttacker:
                 )
                 step_index += 1
                 if next_place is None:
-                    return  # sink
-                place = next_place
+                    next_place = self._retrace(place, prev_place, step_index)
+                    if next_place is None:
+                        return  # sink (censored) or stall
+                    step_index += 1
+                prev_place, place = place, next_place
                 continue
 
             # Announce the verb the token is about to fire, BEFORE any time passes.
@@ -388,8 +430,11 @@ class MovementAttacker:
             )
             step_index += 1
             if next_place is None:
-                return  # stall (overlay suppressed every out-edge) or sink
-            place = next_place
+                next_place = self._retrace(place, prev_place, step_index)
+                if next_place is None:
+                    return  # stall (overlay suppressed every out-edge) or sink
+                step_index += 1
+            prev_place, place = place, next_place
 
     def _dispatch(self, verb: str, duration: float, start_time: float):
         """Run one dispatched verb through the carved substrate for the time the
@@ -549,6 +594,54 @@ class MovementAttacker:
             return None
         composed = self.overlay.compose(place, verdict, base_out)
         return self._sample(composed)
+
+    def _retrace(
+        self, place: str, prev_place: str | None, step_index: int
+    ) -> str | None:
+        """S5: on reaching a sink, step the token back down the edge it arrived on
+        rather than ending the run. Returns the place to retrace to, or None to
+        leave the walk ending as it always did.
+
+        Three conditions send it back to censoring, and each is a deliberate scope
+        boundary rather than a guard against the unexpected (sink_policy.md §2):
+        the censor arm, where nothing changes at all; a *stall* rather than a sink,
+        which is the outcome overlay suppressing every out-edge and is a different
+        situation this policy does not rule on; and a sink that is the entry place,
+        where there is no travelled edge to retrace.
+
+        The retrace itself consumes no simulated time and dispatches nothing. Its
+        cost is the re-visit it causes: the caller resumes the stepping loop at the
+        returned place, which draws that tactic's dwell and spends it like any
+        other visit (§4). That is also what makes the walk unable to cycle without
+        consuming time.
+        """
+        if self.sink_policy != SINK_RETRACE:
+            return None
+        if not self.routing.is_sink(place):
+            return None
+        if prev_place is None:
+            return None
+        self.retraces += 1
+        now = self.env.now
+        self.records.append(
+            MovementRecord(
+                profile=self.routing.profile,
+                step_index=step_index,
+                place=place,
+                verb="",
+                outcome=_RETRACE_TAG,
+                verdict="",
+                interrupted=False,
+                blocked=False,
+                next_place=prev_place,
+                start_time=now,
+                end_time=now,
+                dwell=0.0,
+                interrupted_by="",
+                place_class=RETRACE,
+            )
+        )
+        return prev_place
 
     def _sample(self, distribution: dict[str, float]) -> str | None:
         """Draw one destination from a ``{place: weight}`` distribution with the

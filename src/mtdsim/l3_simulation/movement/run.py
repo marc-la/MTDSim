@@ -31,6 +31,7 @@ from mtdnetwork.operation.attack_operation import AttackOperation
 
 from mtdsim.l3_simulation.controller import load_controller
 from mtdsim.l3_simulation.movement.attacker import (
+    SINK_CENSOR,
     MovementAttacker,
     OutcomeOverlayLike,
     VerdictAdapter,
@@ -62,13 +63,12 @@ GEOMETRY = dict(
 _BLOCKED_HANDOFF = "docs/handoffs/2026-07-22_l3_controller_success_failure.md"
 
 
-def _default_overlay() -> OutcomeOverlayLike:
-    """The real success/failure outcome overlay from the controller sublayer. Its
-    ``compose`` is implemented by the controller-finalisation handoff; loading the
-    object here is safe, and it composes once that lands."""
+def _default_overlay(version: str | None = None) -> OutcomeOverlayLike:
+    """The real success/failure outcome overlay from the controller sublayer,
+    at ``version`` or at the registry default."""
     from mtdsim.l3_simulation.controller import load_outcome_overlay
 
-    return load_outcome_overlay()
+    return load_outcome_overlay(version=version)
 
 
 def _default_verdict_adapter() -> VerdictAdapter:
@@ -140,9 +140,11 @@ def run_movement(
     with_synthetic_overlay: bool = True,
     horizon: int = 15_000,
     overlay: OutcomeOverlayLike | None = None,
+    overlay_version: str | None = None,
     verdict_of: VerdictAdapter | None = None,
     controller: Any | None = None,
     mapping_version: str | None = None,
+    sink_policy: str = SINK_CENSOR,
     dwell_catalogue: dict[str, float] | None = None,
     timing: TimingSource | None = None,
     attacker_state: AttackerState | None = None,
@@ -166,6 +168,21 @@ def run_movement(
     default, which is experiment 1's value, so an unqualified run reproduces what
     has always run. This is the seam the choice belongs at: an experiment names
     its mapping, and no layer below here has a preference.
+
+    ``overlay_version`` names the outcome overlay by registry version, the
+    symmetric partner to ``mapping_version`` — an experiment names **both** its
+    declared inputs at one seam instead of naming one and constructing the other.
+    It is mutually exclusive with ``overlay`` (pass the version, or pass a
+    constructed object, not both), and left unset it takes the registry default,
+    which is again experiment 1's.
+
+    ``sink_policy`` decides what a token does on reaching a place with no outgoing
+    edge: ``"censor"`` ends the run, which is experiment 1's accept-and-censor
+    ruling and stays the default; ``"retrace"`` steps the token back down the edge
+    it arrived on (S5). The two are not poolable — a retraced run observes a longer
+    window for a reason that has nothing to do with the attacker — so an experiment
+    reporting both must report them as a paired contrast
+    (``docs/implementation/pipeline/ogasp/sink_policy.md``).
 
     ``timing`` overrides the per-tactic timing source, which defaults to the
     declared S3 regime (each catalogue duration read as an exponential mean). It
@@ -191,7 +208,10 @@ def run_movement(
         controller = load_controller(version=mapping_version)
     elif mapping_version is not None:
         raise ValueError("pass either controller or mapping_version, not both")
-    overlay = overlay if overlay is not None else _default_overlay()
+    if overlay is None:
+        overlay = _default_overlay(version=overlay_version)
+    elif overlay_version is not None:
+        raise ValueError("pass either overlay or overlay_version, not both")
     verdict_of = verdict_of if verdict_of is not None else _default_verdict_adapter()
     dwell = dwell_catalogue if dwell_catalogue is not None else load_dwell_catalogue()
     driven_attack_op: Any = attack_op
@@ -222,6 +242,7 @@ def run_movement(
         seed=seed,
         register_for_interrupts=register_for_interrupts,
         max_events=max_events,
+        sink_policy=sink_policy,
     )
     attacker.start()
 

@@ -430,6 +430,7 @@ def run_l3_trace(
     custom_strategies=None,
     geometry: dict | None = None,
     max_events: int = 50_000,
+    sink_policy: str = "censor",
 ) -> tuple[L3Tracer, MovementRunResult]:
     """Run one movement-layer simulation with unified tracing on.
 
@@ -485,6 +486,7 @@ def run_l3_trace(
         timing=_TracedTiming(timing, tracer),
         seed=seed,
         max_events=max_events,
+        sink_policy=sink_policy,
     )
     attacker.records = _NarratingRecords(tracer)
     attacker.start()
@@ -705,6 +707,12 @@ def main(argv=None) -> int:
                     "and substrate on one clock.",
     )
     ap.add_argument("profile", nargs="?", default="aggregate", choices=PROFILES)
+    ap.add_argument("--sink-policy", default="censor",
+                    choices=("censor", "retrace"),
+                    help="what a token does at a place with no out-edges: "
+                         "censor ends the run (experiment 1's ruling, the "
+                         "default); retrace steps it back down the edge it "
+                         "arrived on (S5)")
     ap.add_argument("--mapping", default=None, dest="mapping_version",
                     help="controller mapping version (e.g. v1_ckc_total, v2_partial)")
     ap.add_argument("--overlay-version", default=None,
@@ -758,6 +766,7 @@ def main(argv=None) -> int:
         args.profile,
         mapping_version=args.mapping_version,
         overlay_version=args.overlay_version,
+        sink_policy=args.sink_policy,
         seed=args.seed,
         horizon=args.horizon,
         with_synthetic_overlay=not args.no_synthetic_overlay,

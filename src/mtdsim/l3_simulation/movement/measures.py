@@ -76,7 +76,11 @@ from typing import Iterable, Mapping, Sequence
 import numpy as np
 from scipy.spatial.distance import jensenshannon
 
-from mtdsim.l3_simulation.movement.attacker import DWELL_ONLY, MovementRecord
+from mtdsim.l3_simulation.movement.attacker import (
+    DWELL_ONLY,
+    RETRACE,
+    MovementRecord,
+)
 from mtdsim.l3_simulation.movement.statistics import (
     COMPROMISE_EVENTS,
     MovementRunResult,
@@ -335,10 +339,32 @@ def actions_per_distinct_host(run: MovementRunResult) -> float | None:
 # ---------------------------------------------------------------------------
 
 
+def routed_records(run: MovementRunResult) -> tuple[MovementRecord, ...]:
+    """Every record that represents a *routing decision* — all records except
+    retraces.
+
+    A retrace is the sink policy moving the token, not the net choosing where to
+    send it, and it names a place the token was already recorded as visiting on
+    arrival. Left in, it would double-count that visit and add a deterministic
+    (zero-entropy) transition at every sink, so a retraced run would score lower
+    branching than a censored one for a reason that is the policy's rather than
+    the attacker's. Excluding it is what keeps the two sink policies comparable
+    on the diversity measures (``sink_policy.md`` §6).
+    """
+    return tuple(r for r in run.records if r.place_class != RETRACE)
+
+
+def retrace_count(run: MovementRunResult) -> int:
+    """How many times the sink policy retraced. Zero on the censor arm by
+    construction; reported on the retrace arm because the no-oscillation
+    argument is a claim about these nets that the runs check."""
+    return sum(1 for r in run.records if r.place_class == RETRACE)
+
+
 def place_sequence(run: MovementRunResult) -> tuple[str, ...]:
-    """The run's visited-place sequence (one entry per record; each record is
+    """The run's visited-place sequence (one entry per routing record; each is
     one place visit, terminal markers naming the arrival the end cut off)."""
-    return tuple(r.place for r in run.records)
+    return tuple(r.place for r in routed_records(run))
 
 
 def distinct_sequences(runs: Sequence[MovementRunResult]) -> int:
@@ -362,7 +388,7 @@ def path_entropy(runs: Sequence[MovementRunResult]) -> float:
     walk actually taken, not the net's declared branching."""
     out_counts: dict[str, Counter[str]] = {}
     for run in runs:
-        for rec in run.records:
+        for rec in routed_records(run):
             if rec.next_place is not None:
                 out_counts.setdefault(rec.place, Counter())[rec.next_place] += 1
     return path_entropy_from_transitions(out_counts)
