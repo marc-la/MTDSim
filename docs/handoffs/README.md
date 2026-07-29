@@ -262,5 +262,58 @@ success rather than realised time. (8) should note the first of those.)*
     the criterion. Documentation only, independent of everything, and worth doing
     early because the criterion is loaded into every session.
 
+**Off the chain — a findings ledger, not a commission.**
+
+16. `2026-07-29_fidelity_implications_for_mtd_evaluation.md` — **has no goal by
+    design.** It preserves eight measured findings (F1–F8) from the axis-6
+    session, re-read under Marc's sharpened thesis framing: *what does greater
+    attack fidelity imply on current evaluation methods of MTD?* Several results
+    logged as failures of the axis-6 build are findings about the **evaluation
+    method** under that framing — MTD's effect varies 13-fold across tactics and
+    is hidden by aggregate metrics (F1); its cost effect is uniform in relative
+    terms and so is invisible to a rational attacker (F2); it cannot reach the
+    TTP layer at all, only execution (F3); the inherited NCR-0.8 success
+    criterion is degenerate at the operating interval while a
+    fidelity-derived one separates 7/7 → 2/7 (F4); a *more* rational attacker
+    performs *worse*, so fidelity and adversary strength are not the same axis
+    (F5); and there is a cheap generalisable test for whether a fidelity
+    increase can interact with a defence at all (F6).
+
+    It also records the session's wrong turn, so it is not repeated: the axis-6
+    build, the targeted-attacker study and the give-up proposal were all framed
+    as *baseline-versus-movement* contests, which is not the thesis. **Nothing
+    on this chain depends on it**, and it asks for nothing — but read it before
+    designing any new attacker-fidelity mechanism, because it says which kinds
+    cannot change what an evaluation measures. One consequence for (8): the
+    targeted-attacker feasibility study's §7 recommendation is superseded by its
+    F4.
+
+**Not on the chain — a findings record with no goal.**
+
+17. `2026-07-29_learning_axis_evaluation_findings.md` — deliberately not a work
+    brief, and it asks for nothing. It preserves the reasoning from the axis-7
+    session **restated under the thesis framing that session only reached at its
+    end**: *what does greater attack fidelity imply for current evaluation
+    methods of MTD?* Under that framing the axis-7 result is not "learning did
+    not help the attacker" — it is that a faithful enough attacker exposes that
+    the substrate's success verdict, the atom every metric in this lineage is
+    built on, **is not a progress signal**, and an attacker able to optimise it
+    learns to stop attacking. Four further findings are restated the same way,
+    including that MTD's effect on attacker *knowledge* is unexpressible by the
+    current metric suite, and that the badge criterion committed a category
+    error by applying a performance test to a property axis. It also records why
+    the shipped mechanism could not have produced a workflow claim (a per-place
+    scalar cannot represent a sequence; a place-shaped quantity in a
+    transition-shaped weight layer can only express avoidance), which parts of
+    the build are reusable, and the two substrate stubs that are **not**
+    interchangeable — the precondition contract may be consulted, the native
+    succession policy may not. Two framings are explicitly rejected and should
+    not return: empirical baseline-versus-movement performance comparison, and
+    calibrating the profiled attacker to the baseline. **One item needs Marc:**
+    the shipped records report axis 7 in performance terms and therefore
+    under-report the finding; re-framing them, and whether to re-pre-register the
+    badge under a property criterion, are dispositions rather than housekeeping
+    and were left undone.
+
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).

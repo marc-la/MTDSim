@@ -365,12 +365,23 @@ of power or a lack of signal.
 
 Two things follow, and they are the useful half of a negative result:
 
-- **It is not merely an artefact of static beliefs.** The modulator's cost term
-  is the declared catalogue, which no MTD event modifies, so this attacker's
-  beliefs about cost cannot update within a run. That alone would explain C4 —
-  but the realised-cost re-pricing above shows that an attacker whose beliefs
-  *did* update would reorder almost nothing. The negative survives the obvious
-  fix, which is what makes it a finding rather than a bug.
+- **The static-belief explanation is the primary one — CORRECTED 2026-07-29.**
+  As first written this bullet claimed the negative "survives the obvious fix",
+  on the evidence that re-pricing each tactic at its run-averaged realised cost
+  reorders almost nothing. That tests **one** candidate fix and was overstated
+  into a general result. Two later measurements move the weight of the
+  explanation:
+  (i) the modulator is a pure function of declared data and the current place,
+  so its factor table is precomputable — proven by a spike that folded the table
+  into a plain overlay and reproduced the stateful run **30/30 bit-identical**
+  (`data/results/axis6_rationality/collapse_test.py`). The MTD condition is not
+  among its inputs, so no parameter choice could have made it respond to MTD.
+  That, not the proportional tax, is the first-order reason C4 moved.
+  (ii) the **cost** channel is closed but the **realised-success** channel is
+  wide open: MTD's per-tactic success ratio spans 0.08–1.02, a 13-fold spread
+  that no normalisation cancels. An attacker conditioning on realised success —
+  as distinct from realised cost — is not ruled out by anything measured here.
+  Full record: [`targeted_attacker_feasibility.md`](targeted_attacker_feasibility.md) §2.
 - **What would produce the effect** is therefore either a defence whose cost is
   *not* proportional to dwell (a scheme that taxes particular tactics rather than
   particular durations), or a utility that conditions on something the
