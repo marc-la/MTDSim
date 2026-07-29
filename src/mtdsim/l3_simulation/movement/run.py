@@ -39,6 +39,7 @@ from mtdsim.l3_simulation.movement.attacker import (
 from mtdsim.l3_simulation.movement.state import (
     AttackerState,
     ModulatedOverlay,
+    StatefulAttackOperation,
     StatefulTiming,
 )
 from mtdsim.l3_simulation.movement.timing import TacticTiming, TimingSource
@@ -173,12 +174,15 @@ def run_movement(
     tests isolate what the distribution change alone did.
 
     ``attacker_state`` attaches a within-run :class:`AttackerState` by wrapping
-    the two collaborators the walk consumes — :class:`StatefulTiming` reports
+    the three collaborators the walk consumes — :class:`StatefulTiming` reports
     every place entry, :class:`ModulatedOverlay` reports every verdict and
-    multiplies the composed routing by the state's modulator product. The
-    driver is not touched. With no modulators registered the run is
-    bit-identical to ``attacker_state=None`` (the null-equivalence guarantee;
-    see ``movement/state.py``).
+    multiplies the composed routing by the state's modulator product, and
+    :class:`StatefulAttackOperation` reports every MTD interrupt the attacker
+    absorbs (the one signal the routing seams cannot see, since an interrupt
+    reaches ``compose`` already flattened into a failure verdict). The driver is
+    not touched. With no modulators registered the run is bit-identical to
+    ``attacker_state=None`` (the null-equivalence guarantee; see
+    ``movement/state.py``).
     """
     env, end_event, network, adversary, attack_op = _build_sim(seed, geometry)
 
@@ -190,20 +194,25 @@ def run_movement(
     overlay = overlay if overlay is not None else _default_overlay()
     verdict_of = verdict_of if verdict_of is not None else _default_verdict_adapter()
     dwell = dwell_catalogue if dwell_catalogue is not None else load_dwell_catalogue()
+    driven_attack_op: Any = attack_op
     if attacker_state is not None:
-        # Attach the state through the two existing Protocol seams. The timing
-        # default is constructed here (identically to the driver's own default)
-        # so it can be wrapped; the RNG discipline is unchanged either way.
+        # Attach the state through the three existing seams. The timing default
+        # is constructed here (identically to the driver's own default) so it
+        # can be wrapped; the RNG discipline is unchanged either way. Only the
+        # driver's view of the attack operation is wrapped — the MTD operation
+        # below keeps the bare object, so nothing in the defence's own path
+        # reads through a proxy.
         if timing is None:
             timing = TacticTiming(dwell, seed=seed)
         timing = StatefulTiming(timing, attacker_state)
         overlay = ModulatedOverlay(overlay, attacker_state)
+        driven_attack_op = StatefulAttackOperation(attack_op, attacker_state)
 
     attacker = MovementAttacker(
         env=env,
         end_event=end_event,
         adversary=adversary,
-        attack_operation=attack_op,
+        attack_operation=driven_attack_op,
         routing_net=routing_net,
         controller=controller,
         overlay=overlay,

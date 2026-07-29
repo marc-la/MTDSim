@@ -24,6 +24,25 @@ causal order (visit first, verdict second). So the state is attached by
 do — :class:`StatefulTiming` and :class:`ModulatedOverlay` delegate everything
 and only observe, and the driver is not edited at all.
 
+A **third** observation exists for the same reason and by the same idiom:
+:class:`StatefulAttackOperation` wraps the substrate attack operation and
+reports every MTD interrupt the attacker absorbs, because the routing seams
+cannot see one — an interrupt reaches ``compose`` already flattened into an
+ordinary failure verdict, indistinguishable from an unmet precondition. It
+hooks ``apply_mtd_interrupt_cost``, which is the single call every interrupt
+path in the driver funnels through, and it fires *before* the substrate serves
+the penalty and therefore before the routing decision that follows. This is
+what lets a modulator model MTD destroying accumulated knowledge (axis 7's
+forgetting rule) rather than merely costing time.
+
+**Modulators may observe too.** A modulator that needs its own view of the run
+— decayed counts, a cost ledger, a tempo history — declares any of
+``observe_visit`` / ``observe_verdict`` / ``observe_mtd_interrupt`` and the
+state fans its own observations out to it. The state's counters stay a faithful
+raw log of what happened; a modulator that transforms them (by decaying them,
+say) keeps its transformed copy, so the record of the run and the modulator's
+belief about it never get confused for one another.
+
 **What lives here and what does not.** :class:`AttackerState` holds within-run
 knowledge (visit counts, verdict counts, the ordered history) and has no
 opinions about what the knowledge means. Stealth, learning and utility are
@@ -76,6 +95,10 @@ class Modulator(Protocol):
     independently ablatable and the composed run bit-identical to today when
     nothing is registered. A modulator that can return 0.0 must set
     ``may_zero = True`` and carry the declared rule that licenses it.
+
+    The three ``observe_*`` methods are **optional**: declare one and the state
+    forwards its own observations to it (module docstring). A modulator that
+    reads ``state`` directly inside ``factors`` needs none of them.
     """
 
     name: str
@@ -109,23 +132,49 @@ class AttackerState:
         self.visits: dict[str, int] = {}
         #: place -> verdict -> count ("success" / "failure" / "none").
         self.verdicts: dict[str, dict[str, int]] = {}
-        #: The ordered trajectory: ("visit", place, "") | ("verdict", place, v).
+        #: The ordered trajectory: ("visit", place, "") | ("verdict", place, v)
+        #: | ("mtd-interrupt", "", resource_type).
         self.history: list[tuple[str, str, str]] = []
+        #: How many MTD interrupts the attacker has absorbed so far.
+        self.mtd_interrupts: int = 0
         #: The state's own per-step log — persisted by an experiment alongside
         #: the MovementRecord stream (the record schema itself is untouched).
         #: One entry per routing decision; ``factors`` carries only the
         #: non-unit multipliers, so a null-configured run logs empty dicts.
         self.log: list[dict[str, Any]] = []
 
-    # -- the two observation methods (the whole surface a wrapper calls) -----
+    # -- the three observation methods (the whole surface a wrapper calls) ----
     def observe_visit(self, place: str) -> None:
         self.visits[place] = self.visits.get(place, 0) + 1
         self.history.append(("visit", place, ""))
+        self._notify("observe_visit", place)
 
     def observe_verdict(self, place: str, verdict: str) -> None:
         by_verdict = self.verdicts.setdefault(place, {})
         by_verdict[verdict] = by_verdict.get(verdict, 0) + 1
         self.history.append(("verdict", place, verdict))
+        self._notify("observe_verdict", place, verdict)
+
+    def observe_mtd_interrupt(self, resource_type: str = "") -> None:
+        """One MTD interrupt has landed on the attacker (:class:`StatefulAttackOperation`).
+
+        Reported *before* the substrate serves the confusion penalty, and so
+        before the routing decision that follows the interrupted action — which
+        is the causal order a forgetting rule needs: the mutation degrades what
+        the attacker knows, and only then does it choose where to go next.
+        """
+        self.mtd_interrupts += 1
+        self.history.append(("mtd-interrupt", "", resource_type))
+        self._notify("observe_mtd_interrupt", resource_type)
+
+    def _notify(self, hook: str, *args: Any) -> None:
+        """Fan one observation out to every modulator that declares the hook.
+        A modulator that declares none is never called, so the null
+        configuration costs one ``getattr`` over an empty tuple."""
+        for modulator in self.modulators:
+            observer = getattr(modulator, hook, None)
+            if observer is not None:
+                observer(*args)
 
     # -- the composition hook ------------------------------------------------
     def modulate(
@@ -164,6 +213,7 @@ class AttackerState:
             "visits": sum(self.visits.values()),
             "distinct_places": len(self.visits),
             "verdicts": verdict_totals,
+            "mtd_interrupts": self.mtd_interrupts,
         }
 
 
@@ -235,6 +285,46 @@ class ModulatedOverlay:
         return getattr(self._inner, name)
 
 
+class StatefulAttackOperation:
+    """An ``AttackOperation`` that tells the state about every MTD interrupt the
+    attacker absorbs, then delegates the interrupt cost unchanged.
+
+    It exists because the two routing seams cannot see an interrupt. By the time
+    the token routes, an MTD interrupt has become an ordinary failure verdict —
+    identical, at ``compose``, to a verb the substrate refused on an unmet
+    precondition. A modulator that must respond to *the defence* rather than to
+    *failure* therefore needs a signal from the one place the two differ.
+
+    ``apply_mtd_interrupt_cost`` is that place: every interrupt path in the
+    driver — mid-verb, mid-dwell, mid-blocked-attempt — funnels through
+    ``MovementAttacker._pay_interrupt_cost``, which calls it exactly once per
+    interrupt. Wrapping it reports the interrupt with the mutating resource's
+    layer and changes nothing else; the substrate's own penalty and lost-cursor
+    semantics are consumed, never forked, exactly as the driver consumes them.
+
+    Give this wrapper to the ``MovementAttacker`` only. The MTD operation should
+    keep the bare attack operation, so nothing in the defence's own path reads
+    through a proxy.
+    """
+
+    def __init__(self, inner: Any, state: AttackerState) -> None:
+        self._inner = inner
+        self._state = state
+
+    def apply_mtd_interrupt_cost(self, interrupted_mtd: Any):
+        resource_type = ""
+        if interrupted_mtd is not None:
+            try:
+                resource_type = interrupted_mtd.get_resource_type()
+            except Exception:  # noqa: BLE001 - observation enrichment only
+                resource_type = ""
+        self._state.observe_mtd_interrupt(resource_type)
+        return (yield from self._inner.apply_mtd_interrupt_cost(interrupted_mtd))
+
+    def __getattr__(self, name: str):
+        return getattr(self._inner, name)
+
+
 class RevisitAversionDemo:
     """**Demonstration only — obviously artificial, never a declared mechanism.**
 
@@ -269,5 +359,6 @@ __all__ = [
     "AttackerState",
     "StatefulTiming",
     "ModulatedOverlay",
+    "StatefulAttackOperation",
     "RevisitAversionDemo",
 ]

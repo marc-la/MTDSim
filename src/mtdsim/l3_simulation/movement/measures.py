@@ -14,7 +14,11 @@ field it discharges (``docs/implementation/apt_model_criterion.md`` §(d)):
 1. **Progression** (axis 1) — distinct-place coverage over time; deepest
    *successfully actioned* consensus stage (the replacement for the saturated
    ``deepest_stage``, §(h)); foothold retention against network-layer MTD;
-   effort-to-breadth conversion.
+   effort-to-breadth conversion. The within-run trend
+   (:func:`blocked_fraction_trend`) sits here too and serves axis 7: it is the
+   only measure in the suite that asks whether the attacker got *better during
+   a run*, which is what a learning claim rests on and what a run-level mean
+   cannot show.
 2. **Traversal diversity** (axis 3, and axis 2's stronger-claim measurement) —
    path entropy, distinct sequences/prefixes, between-profile Jensen–Shannon
    divergence in the L2 convention.
@@ -213,6 +217,65 @@ def deepest_successful_stage(
         if r.verdict == "success" and r.place in stage_of
     ]
     return max(stages) if stages else None
+
+
+@dataclass(frozen=True)
+class WithinRunTrend:
+    """A quantity measured over the first against the last quarter of a run's
+    attempted actions — the shape a *within-run* claim needs.
+
+    A run-level mean cannot distinguish an attacker that was always mediocre
+    from one that started badly and improved, and the difference between those
+    two is exactly what a learning claim rests on. ``change`` is negative when
+    the quantity fell over the run.
+    """
+
+    first_quartile: float
+    last_quartile: float
+    n_events: int
+
+    @property
+    def change(self) -> float:
+        return self.last_quartile - self.first_quartile
+
+
+def blocked_fraction(run: MovementRunResult) -> float | None:
+    """Fraction of attempted actions the substrate refused on an unmet
+    precondition — experiment 1's friction measure. None if nothing was
+    attempted."""
+    actions = action_records(run)
+    if not actions:
+        return None
+    return sum(1 for r in actions if r.blocked) / len(actions)
+
+
+def blocked_fraction_trend(run: MovementRunResult) -> WithinRunTrend | None:
+    """The blocked fraction over the first against the last quarter of the
+    run's attempted actions — **the learning signal, measured rather than
+    assumed** (criterion axis 7's M8b field: does success against a class of
+    target improve with exposure?).
+
+    An attacker that reweights its routing from what has worked should refuse
+    fewer of its own actions as a run proceeds; one that does not is not
+    learning, whatever its routing does, and that verdict has to be reportable
+    rather than explained away. Quartiles are taken over *events*, not time,
+    because the claim is about accumulated experience and a run's events are
+    not evenly spaced in time.
+
+    None when the run attempted fewer than four actions (no quartile exists).
+    """
+    actions = action_records(run)
+    n = len(actions)
+    if n < 4:
+        return None
+    q = n // 4
+    first = actions[:q]
+    last = actions[-q:]
+    return WithinRunTrend(
+        first_quartile=sum(1 for r in first if r.blocked) / len(first),
+        last_quartile=sum(1 for r in last if r.blocked) / len(last),
+        n_events=n,
+    )
 
 
 def foothold_retentions(run: MovementRunResult) -> CensoredDurations:

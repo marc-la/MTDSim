@@ -1,0 +1,91 @@
+{
+  "meta": {
+    "artefact": "The within-run learning capability (criterion axis 7) — the declared rule model and its two parameters",
+    "created": "2026-07-29",
+    "record": "docs/implementation/pipeline/ogasp/learning_capability.md",
+    "precedent": "docs/implementation/declared_value_provenance.md",
+    "consumed_by": "src/mtdsim/l3_simulation/movement/learning.py (LearningModulator, and the worked-view generator)",
+    "compiled_view": "data/ogasp/movement/learning_factors.json — regenerate with `python -m mtdsim.l3_simulation.movement.learning --write`, verify with `--check`",
+    "boundary": "within-run only; nothing survives a run. Cross-run or cross-campaign memory is M8d and axis 8, both ruled future work.",
+    "cti_independence": "The authored artefact is the learning RULE, not the weights it produces. The CTI corpus supplies the prior (the base transition proportions); this is a declared likelihood update applied at runtime, and kappa = 0 recovers the corpus prior exactly. Weights that emerge during a run are a consequence of the model's own behaviour, in the same category as the path the token takes — not an authoring act. What would violate the boundary is choosing kappa or rho because they improve an outcome; the sweep in the design record is the evidence that was not done."
+  },
+
+  "model": {
+    "credit_assignment": {
+      "unit": "destination place",
+      "rationale": "The thing that succeeds or fails is the action AT a place, so the attacker learns which tactics pay on this terrain and biases its next move toward them. Longer credit assignment needs an eligibility trace and a discount factor — reinforcement learning proper, more declared parameters than this work can defend, and the machinery axis 8 defers.",
+      "alternatives_rejected": [
+        "(place, verb) pairs — nearly equivalent under the current mappings, where several tactics share a verb, and strictly more parameters; revisit only if the place-keyed version is shown too coarse",
+        "the tactic->verb mapping itself — it is the acknowledged coarse input, but learning it makes the controller a runtime-mutable object and breaks the versioned-mapping discipline S4 established",
+        "trajectory credit with an eligibility trace — rejected on parameter count and timeframe"
+      ]
+    },
+    "estimator": {
+      "form": "Q(b) = (s_b + alpha) / (s_b + f_b + alpha + beta)",
+      "alpha": 1.0,
+      "beta": 1.0,
+      "tier": "declared-judgement",
+      "status": "stable",
+      "confidence": 90,
+      "rationale": "A uniform Laplace prior: an unvisited place sits at exactly 0.5, so it is never zeroed and exploration survives by construction — the failure mode of a bare success ratio, which would leave an unvisited place undefined or at zero and silently destroy the net's structure.",
+      "not_swept_because": "alpha and beta are a structural property of the estimator, not a magnitude. Any alpha != beta asserts a prior belief about how often tactics pay, which has no source and could only be set by looking at the substrate — precisely the reverse-engineering the declared-value guardrails forbid. Equal and positive is the only assumption-free choice, and its one consequence (Q(unvisited) = 0.5) is the property the design depends on.",
+      "scrutiny": "Authored 2026-07-29 with the rule; the no-zero consequence is pinned by test_movement_learning.py rather than argued.",
+      "changelog": []
+    },
+    "routing": {
+      "form": "m(a->b) = Q(b) ^ kappa, composed multiplicatively as the third factor of base * overlay_v * prod_m",
+      "rationale": "Multiplicative and renormalised, exactly as the outcome overlay conditions the corpus proportions — conditioning the grounded weights without inventing a magnitude or inverting the corpus's within-class ordering. An additive term would need an arbitrary clamp and could invert that ordering.",
+      "null": "kappa = 0 makes the factor identically 1; the modulator returns no factors at all, so the arithmetic is the pre-existing two-factor rule and the run is bit-identical to today."
+    },
+    "forgetting": {
+      "form": "on every MTD interrupt the attacker absorbs: s_b, f_b <- (1 - rho) * s_b, (1 - rho) * f_b, for all b",
+      "signal": "AttackOperation.apply_mtd_interrupt_cost, the single call every interrupt path in the driver funnels through (StatefulAttackOperation)",
+      "ordering": "The belief is degraded BEFORE the substrate serves the confusion penalty, and so before the routing decision that follows the interrupted action. The interrupted action's own failure verdict is recorded AFTER the decay, so the evidence the attacker just observed survives the mutation that produced it.",
+      "rationale": "MTD's claimed value is destroying what an attacker has accumulated (Alshamrani 2019 SIV-C-2-B: rearrangement 'renders the exploratory knowledge of the attacker useless'), so the belief must be perishable and the perishing must be caused by the defence. A learner MTD cannot touch would make the axis unable to register the mechanism the whole evaluation is about.",
+      "alternatives_rejected": [
+        "per-layer forgetting — a network-layer mutation invalidating position knowledge and an application-layer one invalidating service knowledge is more faithful, but does not map cleanly onto a belief keyed by tactic-place; named as the considered alternative and left to a later cycle",
+        "forgetting on a timer rather than on the defence — it would decouple the mechanism from MTD, which is the one thing this parameter exists to couple it to"
+      ]
+    }
+  },
+
+  "declared_parameters": {
+    "kappa": {
+      "value": 1.0,
+      "sweep": [0.0, 0.5, 1.0, 2.0, 4.0],
+      "tier": "attested-pattern/declared-magnitude",
+      "status": "provisional",
+      "confidence": 80,
+      "rationale": "kappa = 1 is the assumption-free reading: the routing multiplier IS the estimated success probability, so acting on the belief requires no declared magnitude beyond the estimator itself. Any other value asserts a rate at which an intruder over- or under-reacts to its own evidence, for which there is no measurement.",
+      "band_argument": "Argued from what the parameter means, not from what produces a nice number. kappa = 0 is no learning and is the ablation arm; kappa = 1 is proportional-to-belief; kappa = 2 is a doubled log-odds response, a plausible over-reaction; kappa = 4 is where near-greedy behaviour must show itself — over the belief range this corpus can produce (Q roughly 0.05 to 0.95) it separates the best and worst destinations by about 1.3e5, so plurality should visibly collapse. A band that did not contain the collapse could not demonstrate the trade against axis 3 that this axis owes.",
+      "attestation": "Cho 2020 SV-D names attacker learning as a real capability that models omit ('rather than that they learn and can launch adaptive attacks'), and Jalowski 2026 S4.3 states an APT 'learns mutation patterns over time'. The BEHAVIOUR is attested; the magnitude is declared, hence the compound tier.",
+      "scrutiny": "Authored 2026-07-29. Sweep verdict recorded in the design record.",
+      "changelog": []
+    },
+    "rho": {
+      "value": 0.5,
+      "sweep": [0.0, 0.25, 0.5, 1.0],
+      "tier": "declared-judgement",
+      "status": "provisional",
+      "confidence": 70,
+      "rationale": "A mutation halves what the attacker knows. The two poles are the arguable extremes and neither is defensible on its own: rho = 0 denies MTD the mechanism the literature credits it with, while rho = 1 credits a single mutation with destroying knowledge of every tactic, when a mutation touches one resource layer of several and the attacker's belief here is keyed by tactic rather than by host or service. The midpoint is a declared hedge between them and is labelled as one.",
+      "band_argument": "The band is the parameter's whole meaningful range, because both endpoints are named positions rather than implausible extremes: rho = 0 is the learner MTD cannot touch (the arm that isolates learning from the defence), rho = 1 is total amnesia at every mutation. A narrower band would exclude one of the two claims the parameter exists to contrast.",
+      "attestation_note": "Alshamrani 2019 SIV-C-2-B attests the MECHANISM — rearrangement renders exploratory knowledge useless — but its plain reading sits at the rho = 1 pole. The declared 0.5 is therefore a modelling argument that a single mutation is partial, not something the literature states, which is why the tier is declared-judgement and not the compound tier kappa carries.",
+      "scrutiny": "Authored 2026-07-29. Sweep verdict recorded in the design record.",
+      "changelog": []
+    }
+  },
+
+  "ledger_meta": {
+    "tiers": {
+      "corpus-grounded": "derived from CTI / corpus data — deliberately empty here, as for every declared layer that conditions the corpus-grounded weights",
+      "attested-pattern/declared-magnitude": "the behaviour is documented in the literature; the exact magnitude is declared",
+      "declared-judgement": "reasoned from first-principles logic; not attested. The honest floor tier."
+    },
+    "review_history": [
+      "R0 2026-07-29 — authored with the rule model, against the axis-7 handoff's specification"
+    ],
+    "reproducibility": "python -m mtdsim.l3_simulation.movement.learning --check re-derives every cell of data/ogasp/movement/learning_factors.json from these rules and reports the count differing; a test pins it at 0.",
+    "maintenance": "docs/implementation/declared_value_provenance.md S4. A parameterised family discharges requirement 3 by sweeping its declared bands and recording the verdict whichever way it falls."
+  }
+}
