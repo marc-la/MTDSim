@@ -5,7 +5,8 @@ created: 2026-07-28
 
 # Make the attacker cost-sensitive — a declared per-tactic benefit against its already-declared cost, entering routing as a rationality exponent whose zero recovers today's model exactly
 
-**Chain position: wave 5, after `2026-07-28_attacker_state_seam.md`.** Needs the seam's
+**Chain position: wave 5, after the attacker-state seam (SHIPPED 2026-07-28 —
+`docs/implementation/pipeline/ogasp/attacker_state_seam.md`).** Needs the seam's
 modulator composition. Consumes the cost ledger from
 `2026-07-28_axis_measurement_suite.md`, which is the criterion's stated prerequisite for
 any claim on this axis. Independent of the learning and stealth handoffs.
@@ -188,8 +189,9 @@ Done when:
 
 - `docs/implementation/apt_model_criterion.md` §(d) axis 6 — the axis, the "rationality
   without capability" diagnosis, and the M8b prerequisite this handoff discharges.
-- `docs/handoffs/2026-07-28_attacker_state_seam.md` — the mechanism and the S2 argument this
-  inherits; do not start before it lands.
+- `docs/implementation/pipeline/ogasp/attacker_state_seam.md` — the mechanism and the S2
+  argument this inherits (SHIPPED 2026-07-28): the modulator `Π_m` composition, the
+  multiplicative-not-additive and zero rules, and §7's written-out S2 case for Marc.
 - `docs/sources/extractions/persistence_reset_models.md` — FlipIt's benefit equation and the
   higher-move-cost-player-gets-zero equilibrium; the mechanism citation.
 - `docs/sources/extractions/ho2024.md` — RoAC with cost defined as time to exploit; the

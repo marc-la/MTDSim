@@ -11,6 +11,7 @@
 
 - **Papers are claims to reconcile with the code, not ground truth about it.** When a paper and the code disagree, record both; correct neither without a disposition from me.
 - Distinguish an **inherited divergence** (the code's reality, to parameterise or document) from a **bug** (unintended; violates an invariant, or — as with C6 — entered via an unexplained "debug" commit with no paper basis). Fix bugs; don't preserve them as "inherited reality".
+- **"Bug" is a verdict, not a first impression.** Marc cannot always tell whether a proposed fix targets a real bug or overwrites a design choice — so the burden of proof is on the session. Before calling substrate behaviour a bug, classify it against the literature-only intent spec ([`../implementation/mtdsim_intent_spec.md`](../implementation/mtdsim_intent_spec.md), §c procedure): conforms / conforms-to-superseded-lineage / documented nowhere. Only a `documented-nowhere` behaviour is a *candidate* bug, and only Marc's disposition makes it one. Never fix directly from a paper-code mismatch.
 - **Never guess** a disposition or a locator. If you can't verify it, mark `unverified` / `verify` and state why.
 - Don't assert that a paper is wrong (or that one paper contradicts another) — flag it "to verify" for me to resolve.
 - When working across multiple papers, extract **one paper per pass** before merging, to prevent cross-attribution.

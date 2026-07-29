@@ -7,6 +7,7 @@ from __future__ import annotations
 import pytest
 
 from mtdsim.l3_simulation.movement.run import run_movement
+from mtdsim.l3_simulation.movement.state import AttackerState, RevisitAversionDemo
 from mtdsim.l3_simulation.trace import L3_ACTORS, run_l3_trace
 
 
@@ -60,6 +61,50 @@ def test_tallies_are_consistent_with_the_record_stream() -> None:
         1 for r in result.records if r.interrupted)
     assert tracer.dwell_time == pytest.approx(
         sum(r.dwell for r in result.records))
+
+
+def test_a_stateful_run_traces_identically_to_run_movement() -> None:
+    """The parity gate extends to the state seam: a traced stateful run and a
+    run_movement stateful run at the same configuration and the same modulator
+    agree record for record. Two independent states are constructed (the tracer
+    cannot share the driver's), so this also pins that the state seed reproduces
+    the walk regardless of who holds the state."""
+    kwargs = dict(seed=1234, horizon=3_000, mapping_version="v2_partial")
+    tracer, traced = run_l3_trace(
+        "aggregate",
+        attacker_state=AttackerState(seed=1234, modulators=(RevisitAversionDemo(),)),
+        **kwargs,
+    )
+    untraced = run_movement(
+        "aggregate",
+        attacker_state=AttackerState(seed=1234, modulators=(RevisitAversionDemo(),)),
+        **kwargs,
+    )
+    assert traced.records == untraced.records
+    assert traced.termination_time == untraced.termination_time
+    # The state actually reweighted something on this seed, or the parity is vacuous.
+    assert tracer.modulated_decisions > 0
+
+
+def test_a_stateful_run_narrates_the_state_evolving() -> None:
+    """A stateful run whose narration does not show the state moving is a run
+    nobody can debug (validation gate 5). With the demo modulator on, the STATE
+    actor must both observe and reweight."""
+    tracer, _ = run_l3_trace(
+        "aggregate", seed=1234, horizon=3_000, mapping_version="v2_partial",
+        attacker_state=AttackerState(seed=1234, modulators=(RevisitAversionDemo(),)),
+    )
+    state_events = [e for e in tracer.events if e.actor == "STATE"]
+    assert any("OBSERVE" in e.message for e in state_events)
+    assert any("MODULATE" in e.message for e in state_events)
+
+
+def test_a_stateless_run_narrates_no_state_actor() -> None:
+    """The STATE actor is silent when no state is attached — a stateless run's
+    actor set is exactly what it was before this seam existed."""
+    tracer, _ = run_l3_trace("aggregate", seed=7, horizon=2_000)
+    assert not [e for e in tracer.events if e.actor == "STATE"]
+    assert tracer.attacker_state is None
 
 
 def test_undefended_run_narrates_no_defender_activity() -> None:

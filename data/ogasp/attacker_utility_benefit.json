@@ -1,0 +1,402 @@
+{
+  "_meta": {
+    "artefact": "compiled attacker-benefit table (criterion axis 6)",
+    "generated_from": "attacker_utility.json + controller/lifecycle_consensus.json + the GASP class-semantic objective sets \u2014 DO NOT hand-edit; regenerate with `PYTHONPATH=src python -m mtdsim.l3_simulation.movement.utility --write`",
+    "rule": "objective \u2192 1.0; otherwise instrumental \u2192 rho^(1 + gap), gap = min stage separation from the profile's nearest declared objective",
+    "declared_parameters": {
+      "rho": 0.5,
+      "cost_floor_s": 4.5,
+      "lambda": 1.0
+    },
+    "coverage": "complete: 5 profiles x 15 seated tactics = 75 cells (corpus-agnostic \u2014 includes tactics a profile's net has no place for)",
+    "format": "by_profile[profile][tactic] = {v: benefit, rule: rule-id, gap: stage separation}; rationale via attacker_utility.json benefit_rules[rule]",
+    "cost_term": "NOT stored here \u2014 the cost term is data/ogasp/tactic_durations.json duration_s, reused rather than re-declared, clamped up to cost_floor_s"
+  },
+  "by_profile": {
+    "aggregate": {
+      "collection": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "command-and-control": {
+        "v": 1.0,
+        "rule": "objective",
+        "gap": 0
+      },
+      "credential-access": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "defense-impairment": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "discovery": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "exfiltration": {
+        "v": 1.0,
+        "rule": "objective",
+        "gap": 0
+      },
+      "impact": {
+        "v": 1.0,
+        "rule": "objective",
+        "gap": 0
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "lateral-movement": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "persistence": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "privilege-escalation": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "reconnaissance": {
+        "v": 0.125,
+        "rule": "instrumental",
+        "gap": 2
+      },
+      "resource-development": {
+        "v": 0.125,
+        "rule": "instrumental",
+        "gap": 2
+      },
+      "stealth": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      }
+    },
+    "double_extortion": {
+      "collection": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "command-and-control": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "credential-access": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "defense-impairment": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "discovery": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "execution": {
+        "v": 0.125,
+        "rule": "instrumental",
+        "gap": 2
+      },
+      "exfiltration": {
+        "v": 1.0,
+        "rule": "objective",
+        "gap": 0
+      },
+      "impact": {
+        "v": 1.0,
+        "rule": "objective",
+        "gap": 0
+      },
+      "initial-access": {
+        "v": 0.125,
+        "rule": "instrumental",
+        "gap": 2
+      },
+      "lateral-movement": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "persistence": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "privilege-escalation": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "reconnaissance": {
+        "v": 0.0625,
+        "rule": "instrumental",
+        "gap": 3
+      },
+      "resource-development": {
+        "v": 0.0625,
+        "rule": "instrumental",
+        "gap": 3
+      },
+      "stealth": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      }
+    },
+    "infrastructure_setup": {
+      "collection": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "command-and-control": {
+        "v": 1.0,
+        "rule": "objective",
+        "gap": 0
+      },
+      "credential-access": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "defense-impairment": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "discovery": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "execution": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "exfiltration": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "impact": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "initial-access": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "lateral-movement": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "persistence": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "privilege-escalation": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "reconnaissance": {
+        "v": 0.125,
+        "rule": "instrumental",
+        "gap": 2
+      },
+      "resource-development": {
+        "v": 0.125,
+        "rule": "instrumental",
+        "gap": 2
+      },
+      "stealth": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      }
+    },
+    "pure_impediment": {
+      "collection": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "command-and-control": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "credential-access": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "defense-impairment": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "discovery": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "execution": {
+        "v": 0.125,
+        "rule": "instrumental",
+        "gap": 2
+      },
+      "exfiltration": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "impact": {
+        "v": 1.0,
+        "rule": "objective",
+        "gap": 0
+      },
+      "initial-access": {
+        "v": 0.125,
+        "rule": "instrumental",
+        "gap": 2
+      },
+      "lateral-movement": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "persistence": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "privilege-escalation": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "reconnaissance": {
+        "v": 0.0625,
+        "rule": "instrumental",
+        "gap": 3
+      },
+      "resource-development": {
+        "v": 0.0625,
+        "rule": "instrumental",
+        "gap": 3
+      },
+      "stealth": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      }
+    },
+    "pure_steal": {
+      "collection": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "command-and-control": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "credential-access": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "defense-impairment": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "discovery": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "execution": {
+        "v": 0.125,
+        "rule": "instrumental",
+        "gap": 2
+      },
+      "exfiltration": {
+        "v": 1.0,
+        "rule": "objective",
+        "gap": 0
+      },
+      "impact": {
+        "v": 0.5,
+        "rule": "instrumental",
+        "gap": 0
+      },
+      "initial-access": {
+        "v": 0.125,
+        "rule": "instrumental",
+        "gap": 2
+      },
+      "lateral-movement": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "persistence": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "privilege-escalation": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      },
+      "reconnaissance": {
+        "v": 0.0625,
+        "rule": "instrumental",
+        "gap": 3
+      },
+      "resource-development": {
+        "v": 0.0625,
+        "rule": "instrumental",
+        "gap": 3
+      },
+      "stealth": {
+        "v": 0.25,
+        "rule": "instrumental",
+        "gap": 1
+      }
+    }
+  }
+}

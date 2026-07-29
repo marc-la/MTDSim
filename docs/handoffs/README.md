@@ -131,48 +131,91 @@ target.)*
 **Wave 5 — the criterion, axis by axis.** Eight axes are scored in
 `docs/implementation/apt_model_criterion.md`; four of them can move on evidence,
 two need a new mechanism, one needs a ruling, and one is now ruled out. These
-seven handoffs allocate that work. (9) and (11) are the two foundations and
-unblock most of the rest; (14) is independent of everything.
+handoffs allocate that work. (11) is the remaining foundation and unblocks most
+of the rest; (14) is independent of everything.
 
-9. `2026-07-28_axis_measurement_suite.md` — the M8b measurements the criterion's
-   claimed axes need, as a **reader** over the movement records: progression,
-   traversal diversity, defender-response, and the cost ledger. No model change,
-   no ruling needed. **Blocks (10), supplies (12), and should land before (8)
-   runs**, because the run workspace is gitignored and a measurement not computed
-   at run time means re-running. Also owns the replacement for the saturated
-   lifecycle-depth measure.
+*(Shipped from wave 5: the **axis-measurement suite** —
+`2026-07-28_axis_measurement_suite.md`, landed 2026-07-28 as
+`src/mtdsim/l3_simulation/movement/measures.py` (reader-only sibling to the
+MTTC/ASR reader, with the baseline-arm row adapter and the interval helper) plus
+the tracked record `../implementation/pipeline/ogasp/measurement_suite.md`.
+All gates ran: the suite re-derives the fresh experiment-1 figures with a
+50-run × 5-field exact cross-check; the confusion penalty is **derived** from
+interrupted records rather than added to the schema, verified on a seeded run;
+the cross-arm subset computes on both arms with event-wise-only comparability
+enforced in the API. Gate 3's verdict is split and recorded:
+deepest-successfully-actioned stage discriminates under `v1_ckc_total`
+(separates `pure_steal`–`aggregate` where visited depth separates nothing) but
+is structurally truncated under `v2_partial` (the dwell-only objective band can
+hold no verdict, ceiling 2) — adopted with the coverage curve as its mandatory
+companion. (10), (12) and (13) consume the shipped module directly; (8) can now
+compute these measures at run time.)*
+
 10. `2026-07-28_axis134_demonstration_arms.md` — pre-registers the badge criteria
     for **persistence, strategic plurality and adaptivity**, and adds the
     verdict-blind ablation arm that separates *reacts* from *adapts usefully*.
-    Needs (9); **folds into (8)'s run** rather than running its own matrix.
-11. `2026-07-28_attacker_state_seam.md` — the shared foundation for the three
-    axes that need a mutable attacker state: a movement-layer `AttackerState`
-    observed through the two Protocols the walk already injects, and a
-    generalised modulator composition whose null configuration is bit-identical
-    to today. **Blocks (12), (13) and the build half of (14).** Carries the
-    governance question common to all three — whether a movement-layer state
-    collides with the **S2** freeze on attacker states — which is Marc's to
-    confirm with the supervisor.
+    Its measurement dependency has shipped (the suite above); **folds into
+    (8)'s run** rather than running its own matrix.
+*(Shipped from wave 5: the **attacker-state seam** —
+`2026-07-28_attacker_state_seam.md`, landed 2026-07-28 as
+`src/mtdsim/l3_simulation/movement/state.py` plus the tracked record
+`../implementation/pipeline/ogasp/attacker_state_seam.md`. A movement-layer-only
+`AttackerState` observed through the two Protocols the walk already injects
+(`StatefulTiming` wraps timing, `ModulatedOverlay` wraps the overlay — zero edits
+to the driver), and the generalised three-factor composition
+`base · overlay_v · Π_m` whose **null configuration is bit-identical to today** —
+proven field-for-field across 5 profiles × 5 seeds × 2 MTD conditions × 2
+mappings. The one driver edit — routing dwell-only places through `compose` under
+a distinguished `"none"` verdict so the state sees every routing decision — is
+proven behaviour-neutral by a 100-configuration before/after capture (0 differ).
+A fourth, isolated RNG stream (`derive_state_seed`, XOR "STAT"); a zeroing
+modulator refused without a declared rule; the STATE trace actor and `--demo-state`.
+**No value is declared and no badge moved** — the seam ships null. (12), (13) and
+the build half of (14) consume it directly.
+
+**The governance question rides with it, unresolved:** the record §7 writes out
+the argument that a within-run, movement-layer, null-equivalent state is M7
+refinement rather than the attacker-state change **S2** freezes — for Marc to
+confirm with the supervisor. Until confirmed, no modulator carrying a declared
+value is wired into any experiment; the null mechanism is safe regardless.)*
+
 12. `2026-07-28_axis7_learning_capability.md` — within-run knowledge that
     reweights routing from what has worked, with knowledge perishing on MTD
-    mutation. Needs (11), consumes (9). **The highest-value item on this wave**:
+    mutation. The seam it needs has shipped (above); consumes the shipped
+    measurement suite. **The highest-value item on this wave**:
     it is the literature's sharpest named gap and the only axis whose
     demonstration would move the model's fidelity placement off the procedural
     rung. Also the candidate mitigation for experiment 1's friction failure mode.
 13. `2026-07-28_axis6_incentive_rationality.md` — a declared per-tactic benefit
     against the already-declared duration as cost, entering routing as a
-    rationality exponent whose zero recovers today exactly. Needs (11), consumes
-    (9)'s cost ledger.
-14. `2026-07-28_axis5_stealth_conceptualisation.md` — **design only, and it ends
-    in a question.** Settles what stealth can mean on a substrate where detection
-    is culled by standing project direction. Can start immediately; its build
-    half needs (11) and a ruling from Marc. The one item on this chain whose
-    central question is not the assistant's to answer.
+    rationality exponent whose zero recovers today exactly. The seam it needs has
+    shipped (above); consumes the shipped suite's cost ledger.
+14. **Shipped (design half) 2026-07-28** — the axis-5 stealth design record landed
+    as `../implementation/pipeline/ogasp/stealth_conceptualisation.md`. It leads
+    with the stealthy-versus-baseline contrast (Jin's framing, characterised on
+    event-wise measures), answers all eight questions, and records the Tay
+    verification: the reactive `mtd_ai` defender **does** key on attacker-activity
+    signals, so option 1(b) is **live** — a stealthy tempo can be made
+    consequential against `mtd_ai` unchanged, which is the route to DEMONSTRATED
+    on axis 5a. The record proposes a **tempo/evasion badge split** (5a
+    evidenceable, 5b NOT ADDRESSED) and carries a four-item decision request for
+    Marc (§13). **The build half remains open**; the state seam it needed has
+    shipped (above), so it is now gated only on Marc's rulings — chiefly whether
+    to sanction the `mtd_ai` defence arm (1b) and the S2 freeze question. No badge
+    was moved; the split awaits Marc's agreement.
 15. `2026-07-28_criterion_maintenance_and_axis8_closure.md` — rules **MTD-scheme
     awareness** out as future work rather than leaving it merely absent, and
     discharges three fired re-score triggers and four stale cross-references in
     the criterion. Documentation only, independent of everything, and worth doing
     early because the criterion is loaded into every session.
+
+**Off-chain (independent of the waves):**
+
+16. `2026-07-28_intent_spec_conformance_audit.md` — audit the current substrate
+    against the new literature-only intent spec
+    (`../implementation/mtdsim_intent_spec.md`), classifying every IS-ID and
+    producing a disposition list for Marc. Substrate-side and read-only; depends
+    on nothing above and blocks nothing above. Marc intends to run it next.
 
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).
