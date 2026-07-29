@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-27
-updated: 2026-07-28
+updated: 2026-07-29
 topic: "The APT-attacker-model criterion (supervisor S6) — a literature-derived rubric of what an APT attacker model should capture, this model scored against it honestly, and the measurement recommendations (M8b) that ride with each claimed axis"
 ---
 
@@ -106,16 +106,21 @@ under this constraint.
 | 3 | Strategic plurality (multi-strategy branching) | Cho §V-D (dim. 2) | absent | **DESIGNED** |
 | 4 | Adaptivity to defender resistance | Cho §V-A; Alshamrani §II-A (NIST ii) | He et al. only, partial and design-time | **DESIGNED** |
 | 5 | Stealth — low-and-slow tempo and evasion | Cho §V-A; Alshamrani §II-C; Jalowski §4.3 | He et al. only, in a detection-evasion frame | **NOT ADDRESSED** |
-| 6 | Incentive-driven rationality | Cho §V-A, §V-D (dim. 3) | partial RoA operationalisation (Brown, Tay) | **NOT ADDRESSED** |
-| 7 | Learning capability | Cho §V-D (dim. 1); Jalowski §4.3 | none | **NOT ADDRESSED** |
+| 6 | Incentive-driven rationality | Cho §V-A, §V-D (dim. 3) | partial RoA operationalisation (Brown, Tay) | **DESIGNED** |
+| 7 | Learning capability | Cho §V-D (dim. 1); Jalowski §4.3 | none | **DESIGNED** |
 | 8 | MTD-scheme awareness (three Jalowski primitives) | Jalowski §4.1, §4.3 | none | **NOT ADDRESSED** |
 
-Four of eight axes are not addressed. That ratio is the honest shape of the
+Two of eight axes are not addressed. That ratio is the honest shape of the
 contribution: the model advances the *campaign-structure* half of the APT
-profile (axes 1–4) and leaves the *smart-attacker* half (axes 5–8) — the half
-Cho's §V-D and Jalowski's corrective name most pointedly — open; on axis 8
-the absence is now a ruled exclusion rather than a default (§(d)). §(f)
-states what that buys anyway.
+profile (axes 1–4) and leaves much of the *smart-attacker* half (axes 5–8) —
+the half Cho's §V-D and Jalowski's corrective name most pointedly — open; on
+axis 8 the absence is now a ruled exclusion rather than a default (§(d)). The
+exceptions are axes 6 and 7, where a cost/benefit decision rule and a learning
+mechanism are now built, declared and swept, and both are held at DESIGNED for
+the same reason: each was shown to operate **without** conferring adversarial
+advantage. A measured negative is a stronger statement about the field's gap
+than silence was, and it is one only a model carrying the capability can make.
+§(f) states what all of this buys anyway.
 
 ## (d) The axes
 
@@ -226,8 +231,11 @@ frozen pool). But the multi-strategy *evaluation* — profiles × defence
 families — has not run: experiment 1 deliberately covered one corner (no-MTD
 vs one scheme), and the full sweep is carried by the experiment-2 handoff. The
 branching also is not *chosen* — transitions are drawn from static
-flow-proportion weights, not selected across options by any decision rule
-(that is axis 6's gap).
+flow-proportion weights, not selected across options by any decision rule —
+except to the declared degree axis 6's utility modulator now supplies, which
+buys this axis nothing: the same sweep shows path entropy collapsing as the
+decision rule sharpens, so cost-sensitivity trades against plurality rather
+than adding to it (§(d) axis 6).
 
 **What would evidence a claim (M8b).** Traversal diversity per profile
 (distinct tactic-sequences across seeds; path entropy over the net), and the
@@ -260,10 +268,18 @@ built at commit `48471b8`, verified in
 Experiment 1 shows the mechanism *operating* — blocked verbs route the token
 back — but not conferring adaptive advantage: the observable consequence was
 churn and friction, not recovery (findings 1–2). Adaptation is
-outcome-reactive re-routing over static weight sets; it does not condition on
-the defence itself (axis 8) and does not update from experience (axis 7).
-S1's eventual direction — attacker-state-conditioned dynamic weights — is the
-named next step, currently deferred.
+outcome-reactive re-routing over static weight sets, and it does not condition
+on the defence itself (axis 8).
+
+**One half of that sentence has since been discharged, and it does not move this
+badge.** S1's named next step — attacker-state-conditioned dynamic weights — is
+now built: the routing weights *do* update from experience, through the axis-7
+learner (2026-07-29). What that produced was a sharper version of the same
+verdict rather than a different one. The attacker measurably reduces its own
+friction as it learns, and its compromise breadth falls as it does so, so the
+mechanism operates and still does not confer adaptive *advantage* — which is what
+this badge has always turned on. Axis 4 therefore holds at DESIGNED with better
+evidence behind it than experiment 1 alone provided.
 
 **What would evidence a claim (M8b).** Response-shaped measurements: change in
 the attacker's action mix before vs after an MTD trigger event, recovery time
@@ -331,21 +347,51 @@ heuristic (Brown, Tay) is a defender-computed cost/impact ordering the
 attacker optimises without being able to sequence, adapt, or remember — the
 lit review's "rationality without capability" (§V).
 
-**This model today — NOT ADDRESSED.** The movement layer's transition weights
-are flow-proportion frequencies — evidence of what campaigns did, not a
-cost/benefit calculation — and the outcome overlay is a declared policy, not
-a utility. The RoA-ordered exploit selection survives inside the inherited
-action layer the controller dispatches to, so the model inherits exactly the
-partial credit Table II gives Brown and Tay, and adds nothing on this axis.
-No design commitment exists; R3's characteristics-based attacker *styles*
-(speed, success rate) are the nearest parked direction and are not a utility
-model either.
+**This model today — DESIGNED** (moved from NOT ADDRESSED 2026-07-29;
+[`pipeline/ogasp/incentive_rationality.md`](pipeline/ogasp/incentive_rationality.md)).
+The base transition weights remain flow-proportion frequencies and the outcome
+overlay remains a declared policy, but a cost/benefit decision rule now sits
+above both, as a modulator on the attacker-state seam: the routing weight of a
+destination is multiplied by `(u(b)/ū)^λ`, where `u(b)` is a declared per-tactic
+benefit over that tactic's declared duration. The benefit family is the one new
+declared family (rule-generated from objective proximity *within the profile*,
+complete over 75 cells, reproducing 0/75); the cost term reuses the duration
+catalogue rather than declaring a parallel one. The rationality exponent λ is
+declared, never fitted, and swept over its band against six conclusions
+committed before the sweep ran; at λ = 0 the mechanism is **bit-identical** to
+the model without it, so the ablation is exact rather than approximate.
 
-**What would evidence a claim (M8b).** A cost ledger per run (actions, time,
-re-work forced by MTD) reported as an attacker-side metric would be the
-prerequisite measurement; a claim on this axis additionally needs a decision
-rule that consumes it, which is model change beyond the S2 freeze —
-explicitly not recommended now.
+**Why DESIGNED and not DEMONSTRATED.** The mechanism runs and is on record
+changing behaviour — at the declared λ the attacker moves visit share onto the
+cheap exploit-shaped tactics and off the expensive low-and-slow ones, and at the
+near-greedy end of the band pooled path entropy collapses from 2.23 bits to
+0.24. It also changes an *outcome*, in the unflattering direction: blocked
+attempts rise from 49 % to 99 % of actions and distinct hosts fall, because the
+cheapest tactics on this substrate are the most tightly precondition-coupled —
+experiment 1's H-coupling finding in economic terms. What did **not** reproduce
+is the result this axis exists to produce: MTD's measured effect does not change
+when the attacker can see cost. The anatomy is recorded rather than
+explained away — MTD's tax *is* strongly differentiated across tactics (an
+18-fold spread in interrupt rate) but is levied in near-proportion to a tactic's
+declared dwell (a roughly uniform ~9 % surcharge), and a normalised utility
+*ratio* is invariant to a proportional inflation of its denominator. Claiming
+DEMONSTRATED would let a reader infer the economic MTD result the evidence does
+not support.
+
+**What would evidence a claim (M8b) — updated.** The prerequisite measurement
+(a cost ledger per run and per arm) is built and reported
+([`pipeline/ogasp/measurement_suite.md`](pipeline/ogasp/measurement_suite.md)),
+and a decision rule consuming it now exists. What remains for DEMONSTRATED is a
+condition under which cost-sensitivity changes MTD's measured effect, which the
+sweep's anatomy narrows to two candidates: a defence whose cost is **not**
+proportional to dwell (one taxing particular tactics rather than particular
+durations — reachable inside experiment 2's defence family), or a utility
+conditioned on a quantity the proportional surcharge does not cancel, such as
+realised success rate per tactic rather than realised time. The seam already
+observes both. Note that the S2 freeze's status is unchanged: the seam record's
+§7 question to the supervisor gates *using* a non-zero λ in a reported
+experiment, and this badge move rests on the mechanism and the sweep, not on an
+experimental claim.
 
 ### Axis 7 — Learning capability
 
@@ -364,20 +410,61 @@ against the attacker least equipped to defeat it.
 pattern both surveys name (defender RL is common — Tay included — attacker
 learning is not).
 
-**This model today — NOT ADDRESSED.** Attacker learning is a documented
-substrate divergence (ATK-04, unimplemented;
-[`metrics_semantics.md`](metrics_semantics.md)). The movement attacker carries
-no memory across runs and no within-run knowledge accumulation beyond the
-token's position and the binary verdict at the current place. Dynamic
-attacker-state-conditioned weights (S1's eventual direction) and the
-attacker-that-studies-the-MTD (M8d) are both explicitly future work; the
-capability hooks exist, the behaviour is not built.
+**This model today — DESIGNED (moved from NOT ADDRESSED, 2026-07-29).** The
+movement attacker now carries a within-run belief about which tactics pay on this
+terrain — a Laplace estimate over the success and failure verdicts observed at
+each tactic-place, entering routing as a declared exponent and perishing by a
+declared fraction on every MTD mutation
+([`pipeline/ogasp/learning_capability.md`](pipeline/ogasp/learning_capability.md)).
+Both magnitudes are declared, tiered, banded and swept over 2 400 runs, and the
+zero-capability arm is bit-identical to a run without the mechanism, so the two
+arms differ by a parameter rather than by wiring.
 
-**What would evidence a claim (M8b).** Within-run knowledge metrics (does
-success probability against a host class rise with exposure?) and
-cross-mutation retention (does the attacker re-acquire targets faster after
-the nth shuffle?). Neither is meaningful until some learning mechanism
-exists; recorded here so the axis has its yardstick when the freeze lifts.
+The badge is DESIGNED rather than DEMONSTRATED **on a criterion fixed before the
+runs existed**, and it lands on exactly the pattern axis 4 sits at: the capability
+demonstrably operates and demonstrably does not help. It operates — on experiment
+1's mapping the attacker drives its own blocked fraction from 91 % to 21 % as the
+capability rises, and does so *within* runs, against an ablation arm that improves
+only slightly on its own. It does not help — compromise breadth falls sharply as
+the capability rises (6.5 hosts to 0.8 on the mapping where the attacker
+compromises anything), effort-to-breadth conversion worsens, and no run at any
+parameter point reaches the objective.
+
+Why it does not help is the study's substantive finding, and it is a statement
+about the *measurement* rather than about learning: the binary routing verdict the
+learner updates on is not a progress signal. Scanning succeeds far more often than
+exploiting does, so the belief correctly concludes that reconnaissance pays, and a
+confident learner therefore stops attacking — exploitation falls from 13 % of the
+attacker's successes to 1 %. Experiment 1's churn failure mode was already the
+observation that success verdicts and progress differ; a learner does not create
+that gap, it finds it and optimises into it.
+
+Two further results ride with the axis. **MTD is severely effective against this
+learner** — most of the advantage is gone once a quarter of the belief is lost per
+mutation, and at roughly 42 interrupts per run even gentle forgetting compounds —
+which is a defence effect none of the existing security metrics could register,
+because what the mutation destroys is an estimate rather than a foothold. And
+**learning narrows traversal**: path entropy falls at every capability step in all
+ten profile × mapping cells, so axes 3 and 7 pull against each other, and a claim
+on either must name the capability it was measured at.
+
+Cross-run memory remains out of scope (M8d, and axis 8's beacon primitive, ruled
+future work). The commented-out substrate learning (ATK-04) was considered and
+refused: it is a substrate change that would move every golden, and it is a
+pricing discount rather than a decision capability.
+
+**What would evidence a claim (M8b) — updated.** The original recommendation is
+**partly discharged**: the within-run knowledge measure exists and has run —
+blocked fraction over a run's first against its last quarter of attempted actions,
+reported against the ablation arm, which is the comparison that matters, since the
+substrate's own state accumulation improves the ablation arm too and a bare
+within-run decline would "evidence" learning in a model with none. What would move
+the badge to DEMONSTRATED is now specific: a learner whose credit signal carries
+**progress** (host compromise, stage advance, breadth) rather than the routing
+verdict, shown to raise breadth or stage advance against its own ablation arm.
+That is a credit-assignment redesign, not a parameter change. Cross-mutation
+retention — does the attacker re-acquire targets faster after the nth shuffle? —
+remains unbuilt and is the natural companion measurement.
 
 ### Axis 8 — MTD-scheme awareness (the three Jalowski primitives)
 
@@ -446,11 +533,28 @@ This model places at **procedural — demonstrated**: rule-based decision-making
 within an attack progression at runtime (weighted stochastic branching over a
 live net, conditioned per-place on substrate verdicts), on record in
 experiment 1. Of the behavioural rung's three components, campaign-level
-intent and motivation conditioning are present (axes 1–2); learning capability
-is absent (axis 7). The placement claim is therefore: **the first model in
-this cross-section's frame to reach the procedural rung, carrying two of the
-three behavioural-rung components, and not a behavioural model** — that rung
-requires learning this model does not have.
+intent and motivation conditioning are present (axes 1–2).
+
+**The learning component was restated on 2026-07-29 and the placement did not
+move.** It had read that the behavioural rung "requires learning this model does
+not have", and that is no longer true as written: the model has a learning
+mechanism, declared, swept and ablatable
+([`pipeline/ogasp/learning_capability.md`](pipeline/ogasp/learning_capability.md)).
+But the rung's third component is not *contains a learning mechanism*; it is an
+attacker whose accumulated knowledge makes it a better adversary. The model now
+has the mechanism and has shown that, on this substrate and with the routing
+verdict as its credit signal, the mechanism does not produce that adversary —
+the attacker learns to reduce its own friction and loses compromise breadth
+doing it.
+
+The placement claim is therefore: **the first model in this cross-section's
+frame to reach the procedural rung, carrying two of the three behavioural-rung
+components plus a learning mechanism that has been built, declared, swept and
+found not to confer adversarial advantage on this terrain — and not a
+behavioural model.** That is a stronger statement than the original, because it
+rests on a measured negative rather than on an omission, and it names precisely
+what a behavioural-rung claim would still need: a credit signal carrying
+progress rather than the routing verdict.
 
 ## (f) Experiment 1 scored against the criterion
 
@@ -537,14 +641,39 @@ defender resistance feeds back into movement (axis 4, designed) — together
 lifting the attacker from the parametric/scripted cluster to the procedural
 rung (§(e)).
 
-**What it does not capture:** stealth semantics (axis 5), an incentive/cost
-decision model (axis 6), learning (axis 7), and MTD-scheme awareness in any
-of Jalowski's three forms (axis 8 — ruled out of scope 2026-07-28, not
-merely absent). These are precisely the smart-attacker
-half of the literature's diagnosis, and on the current evidence the model
-also cannot yet claim persistence or adaptivity in *outcome* terms — the
-structure runs, but experiment 1 shows it failing on this substrate in two
+**What it does not capture:** stealth semantics (axis 5) and MTD-scheme
+awareness in any of Jalowski's three forms (axis 8 — ruled out of scope
+2026-07-28, not merely absent). These are the remainder of the smart-attacker
+half of the literature's diagnosis, and on the current evidence the model also
+cannot yet claim persistence or adaptivity in *outcome* terms — the structure
+runs, but experiment 1 shows it failing on this substrate in two
 profile-determined modes.
+
+**Where axis 7 now sits, which is also neither of those two lists.** A within-run
+learning capability exists, is declared and swept, and demonstrably reduces the
+attacker's own friction as a run proceeds (axis 7, designed) — so the field-wide
+asymmetry Cho names, defender learning everywhere and attacker learning nowhere,
+is no longer simply reproduced here. What it cannot claim is that learning makes
+the attacker better: compromise breadth *falls* as the capability rises, because
+the binary routing verdict the learner updates on is not a progress signal, and a
+confident learner correctly concludes that reconnaissance pays and exploitation
+does not (§(d) axis 7). That negative is itself a contribution, and a
+transferable one — it says that an evaluation which gives an attacker a learning
+capability without giving it a progress-carrying reward will measure the attacker
+optimising away from the objective, which is a design warning for anyone building
+the learning attacker this literature keeps asking for.
+
+**Where axis 6 now sits, which is neither of those two lists.** An
+incentive/cost decision model exists, is declared and swept, and demonstrably
+conditions the attacker's choice of tactic (axis 6, designed) — so the model no
+longer inherits the "rationality without capability" diagnosis unqualified. What
+it cannot claim is the result that would make the capability *matter* for MTD
+evaluation: cost-sensitivity does not change MTD's measured effect on this
+substrate, because MTD's tax turns out to be levied in near-proportion to a
+tactic's declared dwell and a utility ratio cannot see a proportional surcharge
+(§(d) axis 6). That negative is itself a contribution — it is a measured
+statement about how this defence distributes cost, which is only sayable at all
+because an attacker with a cost model now exists to measure it with.
 
 The one-sentence form the dissertation can defend: *this model moves MTD
 evaluation from scripted attackers to a CTI-grounded, objective-conditioned,
@@ -568,9 +697,23 @@ recommendation is corrected in §(d), with the coverage curve leading until
 the measurement-suite handoff verifies a replacement); **the rate
 feasibility study fired 2026-07-28 — no badge moved; axis 2's evidence is
 qualified a second time in §(f), and the study's degenerate-region finding
-now stands as a constraint beside the badge definitions in §(b)**; any move
-to dynamic weights (axes 4, 7); any lift of the S2 freeze (axes 6–7, and the
-§(e) placement); any reversal of the 2026-07-28 ruling that promoted the
+now stands as a constraint beside the badge definitions in §(b)**; **the
+axis-6 utility modulator and its rationality-exponent sweep fired 2026-07-29 —
+axis 6 moved NOT ADDRESSED → DESIGNED, and axis 3's branching paragraph is
+qualified in §(d), because the decision rule the axis adds trades against
+plurality rather than adding to it**; ~~any move
+to dynamic weights (axes 4, 7)~~ **fired 2026-07-29 — axis 7 moves NOT
+ADDRESSED → DESIGNED on a criterion pre-registered before the runs existed; axis
+4 holds, with better evidence than experiment 1 alone gave it, since the routing
+weights now do update from experience and still confer no adaptive advantage;
+and §(e)'s learning sentence is restated without the placement moving. The badge
+stopped short of DEMONSTRATED because the capability was shown to operate
+without making the attacker better — and the reason it does not, that the
+routing verdict is not a progress signal, is recorded in §(d) as the finding
+rather than as a caveat**; any lift of the S2 freeze (axes 6–7, and the
+§(e) placement); a defence whose cost is not proportional to a tactic's dwell,
+or a utility conditioned on realised success rather than realised time (axis 6
+— either is what would move it to DEMONSTRATED, per §(d)); any reversal of the 2026-07-28 ruling that promoted the
 three Jalowski primitives to *out of scope* (axis 8 — promotion to *encoded*
 would re-open the axis, the S2 freeze's capability candidates, and the §(e)
 placement). Scores move on evidence only — never

@@ -1,6 +1,7 @@
 ---
 status: durable
 created: 2026-07-29
+updated: 2026-07-29
 topic: "L3 criterion axis 7 — the within-run learning capability: the declared rule (place-keyed Laplace belief, exponent kappa), the defence-caused forgetting (fraction rho), the CTI-independence argument, the within-run boundary, and the sweep whose conclusions are pre-registered here before any output exists"
 ---
 
@@ -354,9 +355,283 @@ procedural rung on evidence rather than by omission.
 
 ## 7. The sweep verdict
 
-*(To be completed by the run. Nothing is written here until the runs exist.)*
+**Reproduce.** Workspace `data/results/axis7_learning/` (gitignored by design —
+regenerable), run against commit `876bca2`, the pre-registration commit:
 
-## 8. Where this connects, and when to update
+```
+PYTHONPATH=src python data/results/axis7_learning/run_sweep.py --workers 6
+PYTHONPATH=src python data/results/axis7_learning/analyse.py
+```
+
+**The verdict in one paragraph.** The mechanism works, in the precise sense the
+axis asked for and in no other. On experiment 1's mapping — the one where the
+friction failure mode actually lives — an attacker that reweights its routing from
+what has worked drives its own blocked fraction from 91 % to 21 % on the aggregate
+profile, and it does so *within runs*, which is the falsifiable form of the claim.
+It also does something nobody pre-registered a conclusion about: on the mapping
+where the attacker compromises hosts at all, learning **costs breadth badly** —
+6.5 hosts down to 0.8 as the capability rises — because the binary verdict it
+learns from is not a proxy for progress, and an attacker that maximises success
+verdicts learns to stop exploiting. Learning is therefore demonstrated to operate
+and demonstrated not to help, which is exactly the position axis 4 has been held
+at since experiment 1, and the badge follows that precedent rather than the more
+flattering reading (§8).
+
+### 7.1 Per-conclusion verdicts
+
+| | conclusion | verdict |
+|---|---|---|
+| **L1** | the learner reduces its own blocked fraction *within* a run | **HELD on `v1_ckc_total`, MOVED on `v2_partial`** |
+| **L2** | the run-level blocked fraction is non-increasing in κ | **HELD on `v1_ckc_total` (all three friction profiles), MOVED on `v2_partial`** |
+| **L3** | MTD erases the advantage as ρ rises | **HELD** for three of four friction profiles; the mechanism check is exact |
+| **L4** | learning costs path entropy | **HELD**, on all ten profile × mapping cells without exception |
+| **L5** | attack success rate stays zero | **HELD** — 0 of 2 400 runs |
+| **L6** | the H-coupling finding survives the ablation | **HELD on `v1_ckc_total`**, the mapping experiment 1 ran |
+
+**One ambiguity in the pre-registration, resolved in the open.** §6.2 said the
+criterion applies to profiles whose ablation-arm blocked fraction is at or above
+30 %, and did not say in which MTD condition. It is read in the **no-MTD** arm,
+because that is the condition experiment 1's own table — the source of the 30 %
+threshold — reports. Both readings are printed by the analysis so the choice is
+visible: under MTD every profile clears the threshold on both mappings, because a
+severed foothold makes the next verb's precondition fail, which is a fact about
+the defence rather than about the profile.
+
+### 7.2 L1 — the learning signal, measured
+
+The friction profiles under `v1_ckc_total` are `aggregate`, `pure_impediment` and
+`pure_steal`. Blocked fraction over the first against the last quarter of each
+run's attempted actions, at the declared (κ = 1, ρ = 0.5) against the ablation
+arm, with the 95 % interval on the within-run change:
+
+| profile | arm | Q1 → Q4 | change |
+|---|---|---|---|
+| `aggregate` | ablation | 97.0 % → 92.9 % | −4.1 % [−0.136, +0.054] |
+| `aggregate` | declared | 93.2 % → 69.5 % | **−23.7 %** [−0.391, −0.084] |
+| `pure_impediment` | ablation | 89.7 % → 70.4 % | −19.3 % [−0.355, −0.031] |
+| `pure_impediment` | declared | 91.4 % → 47.3 % | **−44.1 %** [−0.639, −0.242] |
+| `pure_steal` | ablation | 96.5 % → 98.3 % | +1.8 % [+0.009, +0.028] |
+| `pure_steal` | declared | 92.2 % → 95.8 % | +3.6 % [−0.005, +0.077] |
+
+Two things in that table matter more than the verdict.
+
+**The ablation arm already improves slightly**, and it is important that it does.
+A run's early actions are blocked more often than its late ones even with no
+learner at all, because the substrate's state accumulates — a foothold won early
+makes later preconditions satisfiable. This is why the criterion was written as a
+comparison against the ablation arm rather than as a bare within-run decline: the
+bare decline would have "demonstrated" learning in a model with no learning in it.
+
+**`pure_steal` is the counter-case, and it is not noise.** Its blocked fraction
+gets slightly *worse* within runs at every capability, its host count is 0.00 at
+every point, and its deepest successfully-actioned stage is 0.0 throughout. The
+reason is structural rather than parametric: at 97.6 % blocked there is almost no
+success anywhere in its net for the belief to steer toward, so the estimator has
+nothing to discriminate with. **A belief-based learner needs at least one
+destination that pays**, and on that profile's net under that mapping there is
+none. That is a finding about how learnable this terrain is for that profile, and
+it is precisely the outcome the handoff said to be prepared for.
+
+`v2_partial`'s MOVED verdict rests on **one** profile — `double_extortion`, the
+only one clearing 30 % there, and only just, at 36.3 %. Its change is −4.1 %
+declared against −7.1 % ablated, with both intervals spanning zero. The
+explanation is worth recording and is not an excuse: `v2_partial` makes seven
+tactics dwell-only precisely to *remove* the friction this measure tracks, so the
+criterion is being applied on a mapping that has almost no friction left to
+reduce. It is the same shape as the weight study's finding that the zero floor
+was inert because the corpus carried no structure for it to act on — a statement
+about where the measurement can speak, not a small measured effect.
+
+### 7.3 L2 — monotone in the capability, where there is friction to remove
+
+Run-level blocked fraction across the κ ladder at ρ = 0.5, no MTD:
+
+| profile (`v1_ckc_total`) | κ=0 | κ=0.5 | κ=1 | κ=2 | κ=4 |
+|---|--:|--:|--:|--:|--:|
+| `aggregate` | 91.4 % | 74.9 % | 70.3 % | 29.6 % | **21.1 %** |
+| `pure_impediment` | 60.1 % | 41.2 % | 36.2 % | 15.5 % | **10.7 %** |
+| `pure_steal` | 97.6 % | 95.3 % | 94.1 % | 89.6 % | 80.0 % |
+
+Monotone at every step for all three. The magnitude on `aggregate` is the
+headline number of this study: **the friction failure mode is largely
+self-correcting, given an attacker allowed to learn.** Experiment 1 recorded that
+mode as a property of the coupling between CTI tactic-order and the substrate's
+precondition-order; this says a substantial part of it was a property of the
+attacker *not being allowed to adapt to* that coupling. The discovery is the
+model's — no mapping was hand-tuned, and the κ = 0 arm still reproduces the
+original finding at full strength (L6), so the reduction is attributable to the
+learner rather than to the problem having been defined away.
+
+`double_extortion` on `v2_partial` is non-monotone (47.5 → 42.7 → 45.7 → 46.3 →
+45.5 %), which is what drives L2's MOVED verdict there. It is the same marginal
+single-profile cell as L1's, and the movement is inside the run-to-run spread.
+
+### 7.4 L3 — the contest between learning and forgetting
+
+At κ = 1 under MTD, the reduction in blocked fraction relative to the ablation arm,
+as the forgetting fraction rises:
+
+| profile | ρ=0 | ρ=0.25 | ρ=0.5 | ρ=1 |
+|---|--:|--:|--:|--:|
+| `aggregate` (`v1_ckc_total`) | +14.5 % | +5.2 % | +2.0 % | +1.7 % |
+| `pure_impediment` (`v1_ckc_total`) | +13.8 % | +4.5 % | +2.5 % | +0.9 % |
+| `double_extortion` (`v2_partial`) | +6.0 % | +2.4 % | +1.1 % | +0.7 % |
+| `pure_steal` (`v1_ckc_total`) | +3.1 % | +1.9 % | +2.0 % | +0.7 % |
+
+Monotone for the first three; `pure_steal` reverses by 0.1 percentage points
+between ρ = 0.25 and ρ = 0.5, which is the MOVED verdict and is inside noise on
+the profile that learns nothing anyway.
+
+**This is the axis's most defence-relevant result, and it is a large effect.**
+Most of the learner's advantage is gone by ρ = 0.25 — a quarter of the belief lost
+per mutation — and by the declared ρ = 0.5 it is down to roughly a seventh of its
+unimpeded value. At the operating mutation interval the attacker absorbs about
+42 interrupts per run, so even gentle forgetting compounds. MTD is therefore
+*extremely* effective against this learner, in a way none of the project's
+existing metrics could register, because the thing being destroyed is not a
+foothold or a scan result but an estimate.
+
+The mechanism check is exact rather than approximate: with no MTD running, the
+four ρ values produce **identical** run-level blocked fractions to twelve decimal
+places on all five profiles and both mappings. The forgetting rule is coupled to
+the defence and to nothing else. The instrumentation confirms it from the other
+side — 41.9 MTD interrupts per run and 41.9 forgettings at ρ = 0.5; 33.7
+interrupts and 0 forgettings at ρ = 0.
+
+### 7.5 L4 — the trade against strategic plurality, which is worse than expected
+
+Path entropy over the walk actually taken (bits, pooled over seeds, ρ = 0.5,
+no MTD) falls at every step of the κ ladder in **all ten** profile × mapping
+cells. On `v1_ckc_total`'s `aggregate` it goes 2.724 → 1.610; on `v2_partial`'s
+`infrastructure_setup` it collapses 1.448 → 0.220. The band was chosen wide
+enough to contain this collapse, and it contains it.
+
+So the axis-3 trade is real and is reported rather than discovered in review:
+**an attacker that learns branches less.** The two axes pull against each other,
+and any future claim on either has to name the capability it was measured at.
+
+### 7.6 What the sweep exposed that nobody pre-registered
+
+**The learner optimises its reward and abandons the objective.** This is the
+study's most consequential finding and it was not on any list. On `v2_partial`,
+where the profiled attacker actually compromises hosts, breadth collapses as the
+capability rises:
+
+| profile (`v2_partial`, no MTD) | hosts at κ=0 | κ=1 | κ=4 |
+|---|--:|--:|--:|
+| `aggregate` | 6.50 | 5.60 | **0.80** |
+| `pure_impediment` | 5.20 | 4.10 | **0.30** |
+| `infrastructure_setup` | 3.50 | 2.20 | **0.20** |
+| `pure_steal` | 3.90 | 4.60 | 3.30 |
+
+Meanwhile the *success count* rises throughout, and the run gets longer (285.7 →
+367.1 actions). More effort, more successes, fewer hosts — the effort-to-breadth
+conversion that experiment 1's finding 2 measured gets dramatically worse.
+
+The mechanism is unambiguous once the successes are decomposed by verb (aggregate
+profile, four seeds, `v2_partial`):
+
+| κ | successes | of which `EXPLOIT_VULN` | reconnaissance-shaped verbs | hosts |
+|--:|--:|--:|--:|--:|
+| 0 | 815 | 104 (13 %) | 82 % | 6.50 |
+| 1 | 1 033 | 48 (5 %) | 92 % | 5.50 |
+| 4 | 1 659 | 10 (1 %) | 98 % | 1.50 |
+
+**The learner is correct and that is the problem.** Scanning succeeds far more
+often than exploiting does, so a belief keyed on the binary verdict correctly
+concludes that reconnaissance pays and exploitation does not — and a
+sufficiently confident learner therefore stops attacking. The binary success /
+failure verdict was never designed as a progress signal; it is the substrate's
+answer to "did this verb return true", and experiment 1's churn failure mode was
+already the observation that success verdicts and progress are different things.
+Learning does not create that gap. It *finds* it, and then exploits it, which is
+what an optimiser does to a misspecified reward.
+
+Three things follow, and only the first is this study's to claim:
+
+1. **A learning attacker cannot be scored on the verdict it learns from.** Any
+   future work on this axis has to give the learner a reward with progress in it —
+   host compromise, stage advance, breadth — rather than the routing verdict. That
+   is not a parameter change; it is a different credit-assignment design, and
+   §3.1's rejected alternatives do not cover it.
+2. **The κ band's top is not a plausible operating point, and the sweep is why we
+   know.** κ = 4 was included to make the plurality collapse visible; it also makes
+   the reward misspecification visible. Both were invisible at the declared κ = 1,
+   where breadth falls only 6.50 → 5.60.
+3. **Whether this generalises beyond this substrate is untested.** The gap between
+   verdict and progress is a property of the carved action layer's verb semantics.
+   Flagged, not claimed.
+
+**And the MTD host-suppression effect survives the whole sweep.** The ~90 %
+suppression the weight study flagged for experiment 2 is present here at 69 % on
+the ablation arm (4.32 hosts without MTD against 1.36 with) and holds at every
+capability, narrowing to 45 % at κ = 4 only because the no-MTD arm has collapsed
+to 1.02 hosts. It is not an artefact of where the learning parameters sit.
+
+### 7.7 The CTI-independence statement
+
+Required by §4.1 and by the guardrail the declared layer rests on. **No value in
+this family was selected to improve any outcome.** The rule model, both
+magnitudes, both bands and all six conclusions with their criteria were committed
+at `876bca2`, before a single sweep run existed; the analysis transcribes those
+criteria and does not adjust them; the one ambiguity the pre-registration left
+(§7.1) is resolved to the reading that matches experiment 1's own table, with both
+readings reported. The sharpest test of the boundary is §7.6: the sweep produced a
+result that is *unflattering* to the mechanism — learning costs the evaluation's
+headline breadth metric — and no parameter was revisited on that evidence. It is
+recorded as the finding.
+
+## 8. The badge, decided against the pre-registered criterion
+
+**Axis 7 moves NOT ADDRESSED → DESIGNED.** Not DEMONSTRATED, and the reasoning is
+the pre-registration's rather than a reading of the numbers.
+
+§6.3 fixed the criterion: DEMONSTRATED only if L1 holds; otherwise DESIGNED. L1
+held on one mapping and moved on the other, which is not "L1 holds", so the
+fallback is taken. It would have been easy to argue the other way — the mechanism
+plainly changes outcomes, and a badge that reads "has not been shown to change an
+outcome" understates what §7.3 measures — and refusing that argument after seeing
+the numbers is the whole point of having written the criterion down first.
+
+The badge is also the right one on the criterion's own internal logic, which
+matters more than the arithmetic of the gate. **Axis 4 is held at DESIGNED on
+exactly this pattern**: the adaptive loop demonstrably operates and demonstrably
+does not yet help, so reacting is on record and adapting is not. Axis 7 now sits
+in the same place, with the evidence sharper in both directions: learning
+demonstrably operates (blocked fraction falls within runs, monotonically in the
+capability, on the mapping where friction exists to remove) and demonstrably does
+not help (§7.6 — breadth falls, effort-to-breadth conversion worsens, and no run
+at any parameter point reaches the objective). A capability that improves the
+attacker's measured friction while reducing its compromise breadth has not been
+shown to help the attacker, whatever it has been shown to do.
+
+**What would move it to DEMONSTRATED**, stated so the next cycle does not have to
+re-derive it: a learner whose credit signal contains progress rather than the
+routing verdict (§7.6, consequence 1), shown to raise breadth or stage advance
+against its own ablation arm. That is a credit-assignment redesign, not a
+parameter change.
+
+### 8.1 The fidelity placement — what does and does not move
+
+The placement claim in the criterion's §(e) reads that the model sits at the
+procedural rung and is not a behavioural model, because *"that rung requires
+learning this model does not have"*. That sentence is now false as written: the
+model has learning, it is declared, swept and ablatable, and its effect on
+behaviour is measured.
+
+**The placement itself does not move**, and the corrected statement is narrower
+and more interesting than either the old one or the flattering one. The
+behavioural rung's third component is not "contains a learning mechanism"; it is
+an attacker whose accumulated knowledge makes it a better adversary. This model
+now has the mechanism and has shown that, on this substrate and with the routing
+verdict as its credit signal, the mechanism does not produce that adversary. The
+honest form: *the model reaches the procedural rung carrying two of the
+behavioural rung's three components and a learning mechanism that has been built,
+declared, swept and found not to confer adversarial advantage on this terrain* —
+which is a stronger claim about the field's gap than an unqualified absence was,
+because it is a measured negative rather than an omission.
+
+## 9. Where this connects, and when to update
 
 - **Builds on:** [`attacker_state_seam.md`](attacker_state_seam.md) — the
   `AttackerState`, the modulator Protocol, the `Π_m` composition and the
