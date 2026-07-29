@@ -1,0 +1,380 @@
+{
+  "CompleteTopologyShuffle_seed0_observed": {
+    "compromised": 1,
+    "events": 495,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "5a07f4bb7d9647541db47aa026251bb9cdb5c47511a424d39e3984d923c679bb"
+  },
+  "CompleteTopologyShuffle_seed0_overlay": {
+    "compromised": 1,
+    "events": 495,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "2f5d5dab073728c5c4db7b2df3a972fd8ff7ffc6161b6c6cf9e40e25dc3fabc2"
+  },
+  "CompleteTopologyShuffle_seed1_observed": {
+    "compromised": 0,
+    "events": 553,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "f1a939f93aa07c91f4d8367884e42c0c1744ab5a4cc4483d86590ce59a13bdd5"
+  },
+  "CompleteTopologyShuffle_seed1_overlay": {
+    "compromised": 0,
+    "events": 550,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "7972fdea07cfd9550ac739319a77023348666e6ca48b0d715bdaaf170c97a6b4"
+  },
+  "CompleteTopologyShuffle_seed2_observed": {
+    "compromised": 0,
+    "events": 532,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "78d0b792d83315f922f959f073a54b6e296dc69bb4f443ddc8af3dda220e07ef"
+  },
+  "CompleteTopologyShuffle_seed2_overlay": {
+    "compromised": 0,
+    "events": 532,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "e361ad6b5175b305faf55cd0a2091bdfaa9424aa0aad2508cfed0f693b534a14"
+  },
+  "HostTopologyShuffle_seed0_observed": {
+    "compromised": 0,
+    "events": 495,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "9bca1b0b44d968cabb8c6bea99bc0ae598263fc6247c87cf218cdcf13f6823a4"
+  },
+  "HostTopologyShuffle_seed0_overlay": {
+    "compromised": 2,
+    "events": 495,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "28ceb10a1724a8226becad36636acbc2f7358c0a8c76a4b40e6ff76e783cc1c8"
+  },
+  "HostTopologyShuffle_seed1_observed": {
+    "compromised": 0,
+    "events": 552,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "fff5ef201a58df5634f56a29e2db053f075b54f791d37fa4720be23c63dbe76d"
+  },
+  "HostTopologyShuffle_seed1_overlay": {
+    "compromised": 0,
+    "events": 552,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "b3a975d125ed88abe40e4d8030d71a3426489c964a42fb95f10c1fc9b1593892"
+  },
+  "HostTopologyShuffle_seed2_observed": {
+    "compromised": 0,
+    "events": 532,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "0f5381d837c4a66fa68d2e0ae3d61f062590b5c15f64484e6daf1c297183b60b"
+  },
+  "HostTopologyShuffle_seed2_overlay": {
+    "compromised": 0,
+    "events": 532,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "9ba314b2e2a3d7256fefa10f45163555918db71d50ab16f0421a073c32f1c7b5"
+  },
+  "IPShuffle_seed0_observed": {
+    "compromised": 1,
+    "events": 495,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "f272c788b86ae5f7c33ac3f9b2280b0b9d82711cf8ad53935bc38151aa2b639f"
+  },
+  "IPShuffle_seed0_overlay": {
+    "compromised": 1,
+    "events": 495,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "32d676501cdea611a2349bb4cd9593307320c943b3d247baf0be02854fecc88c"
+  },
+  "IPShuffle_seed1_observed": {
+    "compromised": 0,
+    "events": 552,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "5bd92d4f08f889391d843009ccfc02de1f0f2442b2c41442ead2626419c0fa08"
+  },
+  "IPShuffle_seed1_overlay": {
+    "compromised": 0,
+    "events": 552,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "4c762caa6a840e19a62539f69af1c955c35c055f18a15d223ea172b2da702727"
+  },
+  "IPShuffle_seed2_observed": {
+    "compromised": 0,
+    "events": 532,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "cc2b6f06f66d45f24d6e1e9fa524f3e7b684d1a9d8c33066e53a4948896b9a28"
+  },
+  "IPShuffle_seed2_overlay": {
+    "compromised": 0,
+    "events": 532,
+    "interrupts": 75,
+    "mtd_executions": 75,
+    "sha256": "43e6ec41aad413c8cfa99ed39eb0e4213e55bcc4fe6fe7197f6ed0b471a48166"
+  },
+  "OSDiversityAssignment_seed0_observed": {
+    "compromised": 2,
+    "events": 456,
+    "interrupts": 52,
+    "mtd_executions": 75,
+    "sha256": "2036ce88d68e841f1af1e7fd2530178824968c5064014b0829211c2860a7a315"
+  },
+  "OSDiversityAssignment_seed0_overlay": {
+    "compromised": 3,
+    "events": 485,
+    "interrupts": 53,
+    "mtd_executions": 75,
+    "sha256": "4a090019c899e220afd5cdcdd6ef0a824181c8b51db76b763fcf7bc7b615b584"
+  },
+  "OSDiversityAssignment_seed1_observed": {
+    "compromised": 5,
+    "events": 555,
+    "interrupts": 59,
+    "mtd_executions": 75,
+    "sha256": "aae1e6f04633f0308e5ab92db7330345df186d780ebd6fb5a5a8f4dcc4a0b106"
+  },
+  "OSDiversityAssignment_seed1_overlay": {
+    "compromised": 4,
+    "events": 549,
+    "interrupts": 59,
+    "mtd_executions": 75,
+    "sha256": "ffc3d262e827c138d4e84d621edda80315992dc4033c615a7c54e75bc15e239d"
+  },
+  "OSDiversityAssignment_seed2_observed": {
+    "compromised": 3,
+    "events": 536,
+    "interrupts": 57,
+    "mtd_executions": 75,
+    "sha256": "74435fe211d8343faf408b1d8411cd6c243a7de6575c1a03e5c6f563429d9be4"
+  },
+  "OSDiversityAssignment_seed2_overlay": {
+    "compromised": 3,
+    "events": 536,
+    "interrupts": 57,
+    "mtd_executions": 75,
+    "sha256": "b77fe67b20bffc7ab49ef4b794406415f561b98d05b6e4d4d9f219e9049c002f"
+  },
+  "OSDiversity_seed0_observed": {
+    "compromised": 4,
+    "events": 474,
+    "interrupts": 58,
+    "mtd_executions": 75,
+    "sha256": "120de5bc81b45e9d30e75693fda5cb5e1db781aecfebe99b2670e6e266b89e75"
+  },
+  "OSDiversity_seed0_overlay": {
+    "compromised": 4,
+    "events": 463,
+    "interrupts": 53,
+    "mtd_executions": 75,
+    "sha256": "68f46fd7c03d079270dc3975dbfd42ec6d498cac6b99e5064cc266ffa8c6c5b2"
+  },
+  "OSDiversity_seed1_observed": {
+    "compromised": 5,
+    "events": 555,
+    "interrupts": 59,
+    "mtd_executions": 75,
+    "sha256": "8472e6969c75a1f23f71b53e446f1f2c2dc48d8a9e471a9652a4afa7949a5860"
+  },
+  "OSDiversity_seed1_overlay": {
+    "compromised": 1,
+    "events": 549,
+    "interrupts": 59,
+    "mtd_executions": 75,
+    "sha256": "ee1ad69ee130c14d05150559247ddac26fbc018e76a2deea44e8a024b778246c"
+  },
+  "OSDiversity_seed2_observed": {
+    "compromised": 3,
+    "events": 536,
+    "interrupts": 57,
+    "mtd_executions": 75,
+    "sha256": "4d946a5effbecdd3a953daed580770d996fa27eb29f29f7e8f6ec16f16889fec"
+  },
+  "OSDiversity_seed2_overlay": {
+    "compromised": 3,
+    "events": 536,
+    "interrupts": 57,
+    "mtd_executions": 75,
+    "sha256": "a9d11ff9706f09525e0853d27f5b2ac9aa4d463913d76ee4478e20a034ee39f7"
+  },
+  "PortShuffle_seed0_observed": {
+    "compromised": 4,
+    "events": 463,
+    "interrupts": 57,
+    "mtd_executions": 75,
+    "sha256": "c8f3f9148c87d1352a469065664a125391f24d363bcf930323191d413e23d3bc"
+  },
+  "PortShuffle_seed0_overlay": {
+    "compromised": 4,
+    "events": 456,
+    "interrupts": 49,
+    "mtd_executions": 75,
+    "sha256": "a720a733bb98b8838b80844017443ce775ed4fd48f77978909a91027f00eb941"
+  },
+  "PortShuffle_seed1_observed": {
+    "compromised": 6,
+    "events": 549,
+    "interrupts": 63,
+    "mtd_executions": 75,
+    "sha256": "32cce6acfb3e368d46a8d51fa9b41a8d24ebaf208d0bbf35940fba6a3588442f"
+  },
+  "PortShuffle_seed1_overlay": {
+    "compromised": 5,
+    "events": 539,
+    "interrupts": 60,
+    "mtd_executions": 75,
+    "sha256": "20496b32246b65335bafad6b258bb87afc394556f1536e22587919d70be36e9d"
+  },
+  "PortShuffle_seed2_observed": {
+    "compromised": 6,
+    "events": 536,
+    "interrupts": 53,
+    "mtd_executions": 75,
+    "sha256": "1eec01fe922fd13736efd365ec3fa4a7f4e8b98deb9b1c483a7b07f4fd98d099"
+  },
+  "PortShuffle_seed2_overlay": {
+    "compromised": 6,
+    "events": 518,
+    "interrupts": 52,
+    "mtd_executions": 75,
+    "sha256": "4d7fb9364864c0433eaccbaffc0e58d07f4b20d2168f8921588fd2cfcc49a76f"
+  },
+  "ServiceDiversity_seed0_observed": {
+    "compromised": 4,
+    "events": 463,
+    "interrupts": 53,
+    "mtd_executions": 75,
+    "sha256": "034135525b1e5e0c0f935f3e21c2e23d6e2bbb8e313ea8390de836f0fc46fa56"
+  },
+  "ServiceDiversity_seed0_overlay": {
+    "compromised": 4,
+    "events": 463,
+    "interrupts": 50,
+    "mtd_executions": 75,
+    "sha256": "200e7682261c8fbd380c4998d6781f27647dd0db18af6d5e28e420f3c2d3a891"
+  },
+  "ServiceDiversity_seed1_observed": {
+    "compromised": 4,
+    "events": 555,
+    "interrupts": 59,
+    "mtd_executions": 75,
+    "sha256": "1cdb5b3e6d839d11010cff4e99e67818bebcaf376edde09ba24056fbb3d8d6d7"
+  },
+  "ServiceDiversity_seed1_overlay": {
+    "compromised": 3,
+    "events": 549,
+    "interrupts": 59,
+    "mtd_executions": 75,
+    "sha256": "42bdc64fe1fe47e064af228d985faa285f597a2f329d39d9e449eabb79ed133c"
+  },
+  "ServiceDiversity_seed2_observed": {
+    "compromised": 2,
+    "events": 536,
+    "interrupts": 57,
+    "mtd_executions": 75,
+    "sha256": "ede392c2ff8816434dba37e8fd39f1161f9e120a8d8a0085852cc8b53813f12a"
+  },
+  "ServiceDiversity_seed2_overlay": {
+    "compromised": 2,
+    "events": 536,
+    "interrupts": 50,
+    "mtd_executions": 75,
+    "sha256": "a138205fafaf4978bc050d88ae47685851e6ae3fcb2e0e4272400b48212051cc"
+  },
+  "UserShuffle_seed0_observed": {
+    "compromised": 7,
+    "events": 438,
+    "interrupts": 0,
+    "mtd_executions": 75,
+    "sha256": "fbaf2c889ba2f73f414947df6bc30e9049993f4cd19c2278a4b058c20a9f9246"
+  },
+  "UserShuffle_seed0_overlay": {
+    "compromised": 4,
+    "events": 441,
+    "interrupts": 0,
+    "mtd_executions": 75,
+    "sha256": "6ef387f7c19f92dfe1e6fdba71b585e14137ff090af0cea221a15a56f246ea53"
+  },
+  "UserShuffle_seed1_observed": {
+    "compromised": 6,
+    "events": 527,
+    "interrupts": 0,
+    "mtd_executions": 75,
+    "sha256": "68c591a62c045b9dbd67c45370b27104992c8f219270f59298abe8c798b4f027"
+  },
+  "UserShuffle_seed1_overlay": {
+    "compromised": 6,
+    "events": 512,
+    "interrupts": 0,
+    "mtd_executions": 75,
+    "sha256": "b9e0c015b62cb671cb564a96f6cf861861231052ebfdcfc97f48002a5f0be93c"
+  },
+  "UserShuffle_seed2_observed": {
+    "compromised": 6,
+    "events": 497,
+    "interrupts": 1,
+    "mtd_executions": 75,
+    "sha256": "ac4d3e001d1b582d1170cf079cad1d641518f4c85e72b917b381a3aeee771500"
+  },
+  "UserShuffle_seed2_overlay": {
+    "compromised": 5,
+    "events": 497,
+    "interrupts": 1,
+    "mtd_executions": 75,
+    "sha256": "fb13b7b4215df134987439f992a27b93199e48590504364575ff19794e9a5749"
+  },
+  "no-mtd_seed0_observed": {
+    "compromised": 3,
+    "events": 438,
+    "interrupts": 0,
+    "mtd_executions": 0,
+    "sha256": "e7cd17b5c9ed787115de2843163c092a8aec51b2bd07b73bc8ff972c5fb6bb26"
+  },
+  "no-mtd_seed0_overlay": {
+    "compromised": 5,
+    "events": 453,
+    "interrupts": 0,
+    "mtd_executions": 0,
+    "sha256": "555ad3744d863dd527e1ba10166db519084d6adec1fd9dc05b6777ab3d068f2d"
+  },
+  "no-mtd_seed1_observed": {
+    "compromised": 4,
+    "events": 523,
+    "interrupts": 0,
+    "mtd_executions": 0,
+    "sha256": "ff7ff7675ddabcfe4a8f42d807f3e1e1d67181c4da4139e575c156af05d927b0"
+  },
+  "no-mtd_seed1_overlay": {
+    "compromised": 8,
+    "events": 513,
+    "interrupts": 0,
+    "mtd_executions": 0,
+    "sha256": "c4b4da0e3dd2c78596a7bfe132b0d1ee35a16304517369c9d0ebda36564a4d02"
+  },
+  "no-mtd_seed2_observed": {
+    "compromised": 8,
+    "events": 497,
+    "interrupts": 0,
+    "mtd_executions": 0,
+    "sha256": "1ec1b13fbe82767d4d1eb119bdea2a034d593ce90efdab37f514e95629e1cb02"
+  },
+  "no-mtd_seed2_overlay": {
+    "compromised": 6,
+    "events": 498,
+    "interrupts": 0,
+    "mtd_executions": 0,
+    "sha256": "fde13b49c1a5af5e9311393ed4b25c595c0891ac17dc42f8e18443aecb967b47"
+  }
+}

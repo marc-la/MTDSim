@@ -7,7 +7,29 @@ diff is a regression to chase, not a re-baseline to accept.
 
 ---
 
-## 2026-07-29 — Intent-audit re-baseline: the RoA stack and the diversity version re-roll
+## 2026-07-29 — Movement-arm mechanism goldens established; OSDiversityAssignment re-baselined under the re-instantiation fix
+
+**Spec-IDs / audit-IDs:** IS-MTD-08 (revised → D-17, awaiting ruling),
+intent_conformance_audit §l item 10 (re-instantiation seam, fixed).
+
+**What's new.** `baseline/golden_movement/` — per-mechanism behaviour streams for
+the movement arm (all eight techniques + no-MTD × seeds 0–2 × both overlay arms),
+captured and checked by `tools/mtd_golden_streams.py` under the cost-bench
+configuration (aggregate / v2_partial / 15 000 s / single / 200 s). A subset runs
+in the suite (`tests/test_mtd_golden_streams.py`). These are the
+behaviour-preservation gate for the MTD mechanism cost audit: any defender-side
+performance change must leave them field-for-field identical.
+
+**One intentional re-baseline.** `MTDScheme._mtd_register` constructed a fresh
+instance per registration, resetting `OSDiversityAssignment`'s checkpoint cache
+every cycle — 75 MIP solves per run where its design intends ≤ 8 (~128 s/run).
+Fixed with a per-scheme instance cache. The seven stateless mechanisms and no-MTD
+were verified **bit-identical** across all 48 configs before/after the fix; the six
+OSDiversityAssignment configs moved (first divergences are mid-run exploit-outcome
+flips — the assignment applied between checkpoints is now the cached solve rather
+than a fresh per-mutation one) and were re-captured at ~2.3 s/run, ~50× cheaper.
+The native-arm goldens under `baseline/golden/` are untouched (no default-pool
+scenario registers a stateful mechanism).
 
 **Spec-IDs / audit-IDs:** IS-PRC-04 (D-10, fixed), IS-MTD-05/06 (D-05, fixed),
 IS-INT-03 (D-07, fixed — golden-neutral), IS-MET-04 ASR (D-11, fixed —

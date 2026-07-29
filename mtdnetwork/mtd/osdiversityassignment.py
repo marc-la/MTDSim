@@ -22,15 +22,20 @@ class OSDiversityAssignment(MTD):
         self._checkpoint = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]
 
     def mtd_operation(self, adversary=None):
-        diversity_assign = DiversityAssignment(graph=self.network.get_graph_copy(),
-                                               sources=self.network.get_exposed_endpoints(),
-                                               dests=self.network.get_database(),
-                                               os_types=self.os_types,
-                                               pos=self.network.pos,
-                                               colour_map=self.network.colour_map)
         if not self.last_result or \
                 (len(self._checkpoint) != 0 and
                  len(self.network.compromised_hosts) / self.network.total_nodes > self._checkpoint[0]):
+            # Construct the assignment problem only when this mutation actually
+            # solves: the constructor copies the whole network graph, and the
+            # cache-hit path used to build and discard it unused (cost audit,
+            # 2026-07-29). Construction draws no randomness, so hoisting it
+            # into this branch is stream-neutral.
+            diversity_assign = DiversityAssignment(graph=self.network.get_graph_copy(),
+                                                   sources=self.network.get_exposed_endpoints(),
+                                                   dests=self.network.get_database(),
+                                                   os_types=self.os_types,
+                                                   pos=self.network.pos,
+                                                   colour_map=self.network.colour_map)
             self._checkpoint.pop(0)
             result = diversity_assign.objective()
             self.last_result = result

@@ -30,6 +30,15 @@ class MTDScheme:
                                 # UserShuffle
                                 ]
         self._mtd_custom_strategies = custom_strategies
+        # One instance per strategy class per scheme (= per run). Registration
+        # used to construct a fresh instance every cycle, which silently reset
+        # any state a mechanism carries across mutations — most visibly
+        # OSDiversityAssignment's last_result/_checkpoint ladder, which is
+        # *designed* to re-solve its MIP only at compromise-ratio checkpoints
+        # but was re-solving on all 75 mutations of a 15 000 s run (cost audit,
+        # 2026-07-29). No lineage paper touches mechanism lifecycle; the cache
+        # is scoped to the scheme object so runs stay independent (SIM-05).
+        self._mtd_instances = {}
         self.network = network
         self._init_mtd_scheme(scheme)
         self._security_metric_record = security_metric_record
@@ -61,7 +70,10 @@ class MTDScheme:
         register an MTD strategy to the queue
         """
         if isinstance(mtd, type):
-            mtd_strategy = mtd(network=self.network)
+            mtd_strategy = self._mtd_instances.get(mtd)
+            if mtd_strategy is None:
+                mtd_strategy = mtd(network=self.network)
+                self._mtd_instances[mtd] = mtd_strategy
         else:
             mtd_strategy = mtd
         heappush(self.network.get_mtd_queue(), (mtd_strategy.get_priority(), mtd_strategy))
