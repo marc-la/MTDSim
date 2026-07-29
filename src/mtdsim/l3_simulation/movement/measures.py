@@ -365,6 +365,19 @@ def path_entropy(runs: Sequence[MovementRunResult]) -> float:
         for rec in run.records:
             if rec.next_place is not None:
                 out_counts.setdefault(rec.place, Counter())[rec.next_place] += 1
+    return path_entropy_from_transitions(out_counts)
+
+
+def path_entropy_from_transitions(
+    out_counts: Mapping[str, Mapping[str, int]]
+) -> float:
+    """:func:`path_entropy` over already-tallied transitions.
+
+    The same measure, split out so a study that aggregates across processes (or
+    across a sweep's cells) can tally ``place -> next_place`` counts cheaply and
+    still compute the entropy the one way, rather than re-deriving the formula
+    beside the module that owns it.
+    """
     total = sum(sum(c.values()) for c in out_counts.values())
     if total == 0:
         return 0.0
