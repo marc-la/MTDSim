@@ -7,6 +7,64 @@ diff is a regression to chase, not a re-baseline to accept.
 
 ---
 
+## 2026-07-29 — Intent-audit re-baseline: the RoA stack and the diversity version re-roll
+
+**Spec-IDs / audit-IDs:** IS-PRC-04 (D-10, fixed), IS-MTD-05/06 (D-05, fixed),
+IS-INT-03 (D-07, fixed — golden-neutral), IS-MET-04 ASR (D-11, fixed —
+metrics-only), IS-AI-02/06 (D-13/D-14, fixed — AI path only, not exercised here).
+
+**Why.** The 2026-07-28 intent-spec conformance audit
+(`docs/implementation/intent_conformance_audit.md`) classified the substrate
+against the literature-only yardstick and produced a disposition list; Marc
+approved the fixes 2026-07-29 ("fix any bugs that have surfaced or deviations
+that you have spotted", with the Tay AI-seam integration explicitly deferred).
+Two of the six fixes move the goldens:
+
+- **D-10** — Brown §III-C(2): the vulnerabilities from all scanned services now
+  form one priority stack **globally ordered by RoA** (`host.py get_vulns`),
+  replacing the undocumented service-major ordering (farthest-from-target
+  service first). Outcome-per-vuln is unchanged (the exploit loop attempts every
+  vulnerability either way); what moves is the pairing of seeded RNG draws to
+  vulnerabilities, i.e. the trajectory, not the rule's strength.
+- **D-05** — Zhang §4.3.1.3/4: Service Diversity and the incompatible-service
+  replacement in OS Diversity / DAP now draw a **random compatible service at a
+  random version** (the same draw host generation uses), replacing the
+  undocumented latest-version-only replacement. Latest-only had been quietly
+  strengthening the defence (newest versions carry the fewest vulnerabilities);
+  the documented version re-roll lets older, more-vulnerable versions reappear.
+
+| scenario | attacks | MTDs | compromised |
+|---|---|---|---|
+| no-mtd | 1541 → 1494 | 0 → 0 | 41 → **41** |
+| no-mtd_seed1234_repeat | 1541 → 1494 | 0 → 0 | 41 → **41** |
+| no-mtd_seed9999 | 1698 → 1688 | 0 → 0 | 39 → **41** |
+| single-ipshuffle | 1511 → 1584 | 75 → 75 | 32 → **32** |
+| single-osdiversity | 1927 → 2023 | 75 → 75 | 2 → **3** |
+| random-multi | 1605 → 1829 | 75 → 75 | 13 → **16** |
+| alternative-multi | 1687 → 1814 | 75 → 75 | 11 → **10** |
+| simultaneous-multi | 1570 → 1704 | 88 → 88 | 22 → **27** |
+| primary-random-15k (100 nodes) | 1698 → 1801 | 75 → 75 | 6 → **6** |
+
+The direction is coherent: the no-MTD control barely moves (D-10 reshuffles the
+same work), IP Shuffle — which never touches services — holds at 32, and the
+diversity-heavy schemes drift attacker-ward (random-multi 13→16, simultaneous
+22→27), which is exactly what withdrawing the latest-version-only advantage
+predicts. The defence still discriminates decisively against the 41-host control.
+
+**Metrics note (D-11).** Checkpoint ASR now uses Ho's formula on both sides:
+attempts count SCAN_PORT + EXPLOIT_VULN + BRUTE_FORCE events (previously
+SCAN_PORT only) and the numerator is the hosts actually compromised in the
+checkpoint slice (previously the checkpoint *target*). ASR values in
+`evaluation.json` are therefore on a new, smaller scale — not comparable to
+pre-2026-07-29 ASR readings.
+
+**Pinned tests updated in the same commit:** the no-MTD headline 1541/41 →
+**1494/41** (`test_action_layer_carve.py`, `test_movement_integration.py`,
+`test_movement_smoke.py`); the ATK-04 spy counts re-captured (fire-rate range
+now 0.7–9.6 %; the mechanism is unchanged, only trajectories moved).
+
+---
+
 ## 2026-07-27 — Defect-fix re-baseline: exploitation contagion and the give-up rule
 
 **Spec-IDs:** ATK-04 (counts moved), ATK-05 (fixed), ATK-06/ATK-07 (fixed),

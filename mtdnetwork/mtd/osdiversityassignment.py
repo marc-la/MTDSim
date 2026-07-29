@@ -61,7 +61,9 @@ class OSDiversityAssignment(MTD):
                     continue
                 curr_service = host_instance.graph.nodes[node_id]["service"]
                 if not service_generator.service_is_compatible_with_os(new_os, new_os_version, curr_service):
-                    host_instance.graph.nodes[node_id]["service"] = service_generator.get_random_service_latest_version(
+                    # D-05 fix (Marc, 2026-07-29): random draw, not latest-only —
+                    # same reasoning as servicediversity.py / osdiversity.py.
+                    host_instance.graph.nodes[node_id]["service"] = service_generator.get_random_service(
                         host_instance.os_type,
                         host_instance.os_version
                     )

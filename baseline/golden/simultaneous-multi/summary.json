@@ -15,66 +15,66 @@
     "custom_strategies": null
   },
   "results": {
-    "n_attack_events": 1570,
+    "n_attack_events": 1704,
     "n_mtd_events": 88,
-    "n_compromised_hosts": 22,
-    "host_compromise_ratio": 0.44,
-    "sim_wallclock_seconds": 0.6583032608032227,
+    "n_compromised_hosts": 27,
+    "host_compromise_ratio": 0.54,
+    "sim_wallclock_seconds": 0.954573392868042,
     "mtttc_eval_checkpoints": [
       {
-        "time_to_compromise": 8.84512453926949,
-        "attack_success_rate": 0.15625,
+        "time_to_compromise": 8.655199022518971,
+        "attack_success_rate": 0.027777777777777776,
         "host_compromise_ratio": 0.06,
-        "mtd_execution_frequency": 0.005898216333415728,
+        "mtd_execution_frequency": 0.0058958566286489225,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6215793650793651,
-        "roa": 2.018087810296778,
+        "attack_path_exposure": 0.6238888888888888,
+        "roa": 0.578621866105544,
         "shortest_path_variability": 0.0,
-        "risk": 5.307468996302004
+        "risk": 0.6856025734493695
       },
       {
-        "time_to_compromise": 8.866816543192579,
-        "attack_success_rate": 0.2,
+        "time_to_compromise": 8.838189157089621,
+        "attack_success_rate": 0.04285714285714286,
         "host_compromise_ratio": 0.12,
-        "mtd_execution_frequency": 0.005898216333415728,
+        "mtd_execution_frequency": 0.0058958566286489225,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6215793650793651,
-        "roa": 2.018087810296778,
+        "attack_path_exposure": 0.6238888888888888,
+        "roa": 0.578621866105544,
         "shortest_path_variability": 0.0,
-        "risk": 5.307468996302004
+        "risk": 0.6856025734493695
       },
       {
-        "time_to_compromise": 8.63029944038941,
-        "attack_success_rate": 0.22058823529411764,
+        "time_to_compromise": 8.404547815208826,
+        "attack_success_rate": 0.037209302325581395,
         "host_compromise_ratio": 0.16,
-        "mtd_execution_frequency": 0.005898216333415728,
+        "mtd_execution_frequency": 0.0058958566286489225,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6215793650793651,
-        "roa": 2.018087810296778,
+        "attack_path_exposure": 0.6238888888888888,
+        "roa": 0.578621866105544,
         "shortest_path_variability": 0.0,
-        "risk": 5.307468996302004
+        "risk": 0.6856025734493695
       },
       {
-        "time_to_compromise": 8.775351416971082,
-        "attack_success_rate": 0.16393442622950818,
+        "time_to_compromise": 8.232471349701655,
+        "attack_success_rate": 0.025,
         "host_compromise_ratio": 0.22,
-        "mtd_execution_frequency": 0.005898216333415728,
+        "mtd_execution_frequency": 0.0058958566286489225,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6215793650793651,
-        "roa": 2.018087810296778,
+        "attack_path_exposure": 0.6238888888888888,
+        "roa": 0.578621866105544,
         "shortest_path_variability": 0.0,
-        "risk": 5.307468996302004
+        "risk": 0.6856025734493695
       },
       {
-        "time_to_compromise": 8.909843544318393,
-        "attack_success_rate": 0.15060240963855423,
+        "time_to_compromise": 8.474326879956116,
+        "attack_success_rate": 0.02268760907504363,
         "host_compromise_ratio": 0.26,
-        "mtd_execution_frequency": 0.005898216333415728,
+        "mtd_execution_frequency": 0.0058958566286489225,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6215793650793651,
-        "roa": 2.018087810296778,
+        "attack_path_exposure": 0.6238888888888888,
+        "roa": 0.578621866105544,
         "shortest_path_variability": 0.0,
-        "risk": 5.307468996302004
+        "risk": 0.6856025734493695
       }
     ]
   },
@@ -89,8 +89,8 @@
     "seaborn": "0.13.2"
   },
   "git": {
-    "branch": "dev",
-    "head": "8fc8ee687a41a465a39c37b976aa8f90a8be1086",
+    "branch": "fix/intent-audit-dispositions",
+    "head": "82a850cfd06b5e64c3faabbbd72e877727248473",
     "dirty": true
   }
 }

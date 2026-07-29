@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-05-27
-updated: 2026-07-28
+updated: 2026-07-29
 ---
 
 # Metrics — semantics, faithfulness, and comparability
@@ -94,7 +94,7 @@ two settings that drove the largest pre-2b divergences:
 | Setting | Published value | Code (post-2c) | Spec ID | Fix commit |
 |---------|-----------------|----------------|---------|------------|
 | **Network Compromise Ratio (NCR) termination threshold** | Zhang 2023 §5: `> 0.8` | `> 0.8` (constructor default; `time_network.py:51`) | MET-15 / C6 | Phase-2b R1 (`0855295`) |
-| **MTD execution durations** (mean, std) | Zhang 2023 Table 3 verbatim | All seven entries match Zhang Table 3 (`constants.MTD_DURATION`) | MTD-14 | Phase-2c (`f767349`) |
+| **MTD execution durations** (mean, std) | Zhang 2023 Table 3 verbatim | The **five** techniques Zhang's Table 3 documents (CTS, IPShuffle, OSDiversity, DAP, ServiceDiversity) match verbatim; the Host-Topology/Port/User-Shuffle entries in `constants.MTD_DURATION` are documented in no lineage paper (scope corrected 2026-07-29 by the intent audit — the earlier "all seven" over-claimed) | MTD-14 | Phase-2c (`f767349`) |
 | **HCR formula** at checkpoints | Ho 2024 §3.3.2 (#4): `C_t / T_host` | `compromised_num / host_num` (`evaluation.py:126`); bounded in `[0, 1]` and regression-tested | MET-04 / C8 | Phase-2c (`8d4b8c3`) |
 
 The Phase-2b crash-fix bundle (`0855295`, `333ебc4`, `aed80c1`, `a458f9a`)

@@ -15,66 +15,66 @@
     "custom_strategies": "IPShuffle"
   },
   "results": {
-    "n_attack_events": 1511,
+    "n_attack_events": 1584,
     "n_mtd_events": 75,
     "n_compromised_hosts": 32,
     "host_compromise_ratio": 0.64,
-    "sim_wallclock_seconds": 0.3054964542388916,
+    "sim_wallclock_seconds": 0.30742526054382324,
     "mtttc_eval_checkpoints": [
       {
-        "time_to_compromise": 9.866891871368788,
-        "attack_success_rate": 0.25,
+        "time_to_compromise": 9.93813484159886,
+        "attack_success_rate": 0.025210084033613446,
         "host_compromise_ratio": 0.06,
-        "mtd_execution_frequency": 0.005021669194431857,
+        "mtd_execution_frequency": 0.005023366497093743,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6367063492063493,
-        "roa": 1.0954954762572078,
+        "attack_path_exposure": 0.6722857142857144,
+        "roa": 0.22860740289600953,
         "shortest_path_variability": 0,
-        "risk": 2.2845570350608733
+        "risk": 0.4989013533207373
       },
       {
-        "time_to_compromise": 9.697024945775585,
-        "attack_success_rate": 0.22727272727272727,
+        "time_to_compromise": 9.449961980248062,
+        "attack_success_rate": 0.01929260450160772,
         "host_compromise_ratio": 0.12,
-        "mtd_execution_frequency": 0.005021669194431857,
+        "mtd_execution_frequency": 0.005023366497093743,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6367063492063493,
-        "roa": 1.0954954762572078,
+        "attack_path_exposure": 0.6722857142857144,
+        "roa": 0.22860740289600953,
         "shortest_path_variability": 0,
-        "risk": 2.2845570350608733
+        "risk": 0.4989013533207373
       },
       {
-        "time_to_compromise": 9.923962091130926,
-        "attack_success_rate": 0.2777777777777778,
+        "time_to_compromise": 9.638603550632428,
+        "attack_success_rate": 0.0226628895184136,
         "host_compromise_ratio": 0.16,
-        "mtd_execution_frequency": 0.005021669194431857,
+        "mtd_execution_frequency": 0.005023366497093743,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6367063492063493,
-        "roa": 1.0954954762572078,
+        "attack_path_exposure": 0.6722857142857144,
+        "roa": 0.22860740289600953,
         "shortest_path_variability": 0,
-        "risk": 2.2845570350608733
+        "risk": 0.4989013533207373
       },
       {
-        "time_to_compromise": 9.67885404771956,
-        "attack_success_rate": 0.21739130434782608,
+        "time_to_compromise": 9.84109482598911,
+        "attack_success_rate": 0.026004728132387706,
         "host_compromise_ratio": 0.22,
-        "mtd_execution_frequency": 0.005021669194431857,
+        "mtd_execution_frequency": 0.005023366497093743,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6367063492063493,
-        "roa": 1.0954954762572078,
+        "attack_path_exposure": 0.6722857142857144,
+        "roa": 0.22860740289600953,
         "shortest_path_variability": 0,
-        "risk": 2.2845570350608733
+        "risk": 0.4989013533207373
       },
       {
-        "time_to_compromise": 9.768899212816883,
-        "attack_success_rate": 0.2358490566037736,
+        "time_to_compromise": 9.289726780191332,
+        "attack_success_rate": 0.024667931688804556,
         "host_compromise_ratio": 0.26,
-        "mtd_execution_frequency": 0.005021669194431857,
+        "mtd_execution_frequency": 0.005023366497093743,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6367063492063493,
-        "roa": 1.0954954762572078,
+        "attack_path_exposure": 0.6722857142857144,
+        "roa": 0.22860740289600953,
         "shortest_path_variability": 0,
-        "risk": 2.2845570350608733
+        "risk": 0.4989013533207373
       }
     ]
   },
@@ -89,8 +89,8 @@
     "seaborn": "0.13.2"
   },
   "git": {
-    "branch": "dev",
-    "head": "8fc8ee687a41a465a39c37b976aa8f90a8be1086",
+    "branch": "fix/intent-audit-dispositions",
+    "head": "82a850cfd06b5e64c3faabbbd72e877727248473",
     "dirty": true
   }
 }

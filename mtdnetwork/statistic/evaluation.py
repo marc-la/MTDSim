@@ -110,12 +110,18 @@ class Evaluation:
             time_to_compromise = attack_duration_series.sum() / attack_action_count if attack_action_count > 0 else 0
             attempt_hosts = sub_record[sub_record['current_host_uuid'] != -1]['current_host_uuid'].unique()
             attack_actions = sub_record[sub_record['name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]
-            attack_event_num = 0
-            for host in attempt_hosts:
-                attack_event_num += len(attack_actions[(attack_actions['current_host_uuid'] == host) &
-                                                       (attack_actions['name'] == 'SCAN_PORT')])
-            # attack_success_rate = record['cumulative_compromised_hosts'].iloc[-1] / attack_event_num
-            attack_success_rate = comp_num / attack_event_num if attack_event_num > 0 else 0
+            # Ho 2024 §3.3.2 (#6), IS-MET-04: ASR = compromised / attempted,
+            # where attempts count SCAN_PORT + EXPLOIT_VULN + BRUTE_FORCE events.
+            # D-11 fix (Marc, 2026-07-29), two halves:
+            #  - denominator previously counted SCAN_PORT rows only;
+            #  - numerator previously used the checkpoint TARGET (host_num x
+            #    ratio) rather than the hosts actually compromised in the slice
+            #    (the prior record's own MET-02 finding).
+            attack_event_num = len(
+                attack_actions[attack_actions['current_host_uuid'].isin(attempt_hosts)])
+            attack_success_rate = (
+                self.compromised_num(record=sub_record) / attack_event_num
+                if attack_event_num > 0 else 0)
            
             mtd_execution_frequency = self.mtd_execution_frequency()
 

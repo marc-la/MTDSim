@@ -18,7 +18,13 @@ class ServiceDiversity(MTD):
             for node_id in range(host_instance.total_nodes):
                 if node_id == host_instance.target_node:
                     continue
-                host_instance.graph.nodes[node_id]["service"] = service_generator.get_random_service_latest_version(
+                # Zhang 2023 §4.3.1.3 (IS-MTD-05): re-configure services "with
+                # different versions" — the version pool is the diversity space.
+                # The inherited latest-version-only replacement is documented
+                # nowhere and systematically shrinks the vuln surface. D-05 fix
+                # (Marc, 2026-07-29): draw a random compatible service at a
+                # random version, the same draw host generation uses.
+                host_instance.graph.nodes[node_id]["service"] = service_generator.get_random_service(
                     host_instance.os_type,
                     host_instance.os_version
                 )

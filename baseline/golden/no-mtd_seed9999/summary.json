@@ -15,66 +15,66 @@
     "custom_strategies": null
   },
   "results": {
-    "n_attack_events": 1698,
+    "n_attack_events": 1688,
     "n_mtd_events": 0,
-    "n_compromised_hosts": 39,
-    "host_compromise_ratio": 0.78,
-    "sim_wallclock_seconds": 0.12154603004455566,
+    "n_compromised_hosts": 41,
+    "host_compromise_ratio": 0.82,
+    "sim_wallclock_seconds": 0.16131901741027832,
     "mtttc_eval_checkpoints": [
       {
-        "time_to_compromise": 8.841951712239824,
-        "attack_success_rate": 0.19230769230769232,
+        "time_to_compromise": 8.810159848003893,
+        "attack_success_rate": 0.012195121951219513,
         "host_compromise_ratio": 0.06,
         "mtd_execution_frequency": 0,
         "total_number_of_ports": 349,
-        "attack_path_exposure": 0.789238095238095,
-        "roa": 1.3394582812266966,
+        "attack_path_exposure": 0.7183333333333333,
+        "roa": 0.15780350300295956,
         "shortest_path_variability": 0,
-        "risk": 2.3240577021289153
+        "risk": 0.20165134833337367
       },
       {
-        "time_to_compromise": 8.848374754646438,
-        "attack_success_rate": 0.2777777777777778,
+        "time_to_compromise": 8.919096076956711,
+        "attack_success_rate": 0.01935483870967742,
         "host_compromise_ratio": 0.12,
         "mtd_execution_frequency": 0,
         "total_number_of_ports": 349,
-        "attack_path_exposure": 0.789238095238095,
-        "roa": 1.3394582812266966,
+        "attack_path_exposure": 0.7183333333333333,
+        "roa": 0.15780350300295956,
         "shortest_path_variability": 0,
-        "risk": 2.3240577021289153
+        "risk": 0.20165134833337367
       },
       {
-        "time_to_compromise": 9.146829199589314,
-        "attack_success_rate": 0.35714285714285715,
+        "time_to_compromise": 9.101487050167352,
+        "attack_success_rate": 0.02072538860103627,
         "host_compromise_ratio": 0.16,
         "mtd_execution_frequency": 0,
         "total_number_of_ports": 349,
-        "attack_path_exposure": 0.789238095238095,
-        "roa": 1.3394582812266966,
+        "attack_path_exposure": 0.7183333333333333,
+        "roa": 0.15780350300295956,
         "shortest_path_variability": 0,
-        "risk": 2.3240577021289153
+        "risk": 0.20165134833337367
       },
       {
-        "time_to_compromise": 9.055557937093221,
-        "attack_success_rate": 0.38461538461538464,
+        "time_to_compromise": 8.95179335723256,
+        "attack_success_rate": 0.022774327122153208,
         "host_compromise_ratio": 0.22,
         "mtd_execution_frequency": 0,
         "total_number_of_ports": 349,
-        "attack_path_exposure": 0.789238095238095,
-        "roa": 1.3394582812266966,
+        "attack_path_exposure": 0.7183333333333333,
+        "roa": 0.15780350300295956,
         "shortest_path_variability": 0,
-        "risk": 2.3240577021289153
+        "risk": 0.20165134833337367
       },
       {
-        "time_to_compromise": 9.085161470344273,
-        "attack_success_rate": 0.4166666666666667,
+        "time_to_compromise": 8.949152942012773,
+        "attack_success_rate": 0.022146507666098807,
         "host_compromise_ratio": 0.26,
         "mtd_execution_frequency": 0,
         "total_number_of_ports": 349,
-        "attack_path_exposure": 0.789238095238095,
-        "roa": 1.3394582812266966,
+        "attack_path_exposure": 0.7183333333333333,
+        "roa": 0.15780350300295956,
         "shortest_path_variability": 0,
-        "risk": 2.3240577021289153
+        "risk": 0.20165134833337367
       }
     ]
   },
@@ -89,8 +89,8 @@
     "seaborn": "0.13.2"
   },
   "git": {
-    "branch": "dev",
-    "head": "8fc8ee687a41a465a39c37b976aa8f90a8be1086",
+    "branch": "fix/intent-audit-dispositions",
+    "head": "82a850cfd06b5e64c3faabbbd72e877727248473",
     "dirty": true
   }
 }

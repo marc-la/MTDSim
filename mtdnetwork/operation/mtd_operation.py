@@ -235,7 +235,26 @@ class MTDOperation:
                     logging.info(
                     'MTD: Interrupted %s at %.1fs!' % (self.attack_operation.get_adversary().get_curr_process(),
                                                        env.now + self._proceed_time))
-                    
+
+                self.network.get_mtd_stats().add_total_attack_interrupted()
+            elif mtd.get_resource_type() == 'reserve' and \
+                    self.attack_operation.get_adversary().get_curr_process() == 'BRUTE_FORCE':
+                # Brown 2023 §III-D(3) (IS-INT-03): a user-access shuffle blocks
+                # the attack ONLY if the attacker is mid-credential-stuffing.
+                # BRUTE_FORCE is the one credential action with an interruptible
+                # window (the Phase-1 reuse check inside SCAN_PORT is
+                # instantaneous). Previously the reserve class was unhandled and
+                # User Shuffle could never block anything. D-07 fix
+                # (Marc, 2026-07-29); behaviour-neutral for every default-set
+                # scheme, since UserShuffle is not registered by default.
+                self.attack_operation.set_interrupted_mtd(mtd)
+                self.attack_operation.get_attack_process().interrupt()
+
+                if self.logging:
+                    logging.info(
+                    'MTD: Interrupted %s at %.1fs!' % (self.attack_operation.get_adversary().get_curr_process(),
+                                                       env.now + self._proceed_time))
+
                 self.network.get_mtd_stats().add_total_attack_interrupted()
 
     def get_proceed_time(self):

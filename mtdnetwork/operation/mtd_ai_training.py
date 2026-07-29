@@ -98,7 +98,9 @@ class MTDAITraining:
 
             # Static network degradation factor (if exceed static factor force to deploy MTD)
             if (self.env.now - self.network.get_last_mtd_triggered_time()) > self.static_degrade_factor: 
-                action = random.randint(1, len(self.custom_strategies) + 1)
+                # D-14 fix (Marc, 2026-07-29) — see mtd_ai_operation.py: randint
+                # is inclusive, so `len + 1` could index past the strategy list.
+                action = random.randint(1, len(self.custom_strategies))
             else: 
                 action = choose_action( state, time_series, self.main_network, len(self.custom_strategies) + 1, self.epsilon)
                 
@@ -346,6 +348,11 @@ class MTDAITraining:
         if sensitivity_factor <= self.attacker_sensitivity:
             current_attack = self.adversary.get_curr_process()
             current_attack_value = self.attack_dict.get(current_attack, 7)
+        else:
+            # D-13 fix (Marc, 2026-07-29) — see mtd_ai_operation.py: failed
+            # detection draw feeds the "no information" value instead of
+            # crashing unbound.
+            current_attack_value = 7
 
             
  

@@ -15,22 +15,22 @@
     "custom_strategies": null
   },
   "results": {
-    "n_attack_events": 1698,
+    "n_attack_events": 1801,
     "n_mtd_events": 75,
     "n_compromised_hosts": 6,
     "host_compromise_ratio": 0.06,
-    "sim_wallclock_seconds": 0.8680078983306885,
+    "sim_wallclock_seconds": 1.2186665534973145,
     "mtttc_eval_checkpoints": [
       {
-        "time_to_compromise": 8.212286881375343,
-        "attack_success_rate": 0.04854368932038835,
+        "time_to_compromise": 7.782399585250786,
+        "attack_success_rate": 0.005819592628516004,
         "host_compromise_ratio": 0.06,
-        "mtd_execution_frequency": 0.005033201103462543,
+        "mtd_execution_frequency": 0.005031922928500774,
         "total_number_of_ports": 703,
-        "attack_path_exposure": 0.49854365079365076,
-        "roa": 0.41046347711268805,
+        "attack_path_exposure": 0.9081632653061223,
+        "roa": 0.3489156162717059,
         "shortest_path_variability": 0.0,
-        "risk": 1.0467556440138446
+        "risk": 1.5667360699766366
       }
     ]
   },
@@ -45,8 +45,8 @@
     "seaborn": "0.13.2"
   },
   "git": {
-    "branch": "dev",
-    "head": "8fc8ee687a41a465a39c37b976aa8f90a8be1086",
+    "branch": "fix/intent-audit-dispositions",
+    "head": "82a850cfd06b5e64c3faabbbd72e877727248473",
     "dirty": true
   }
 }

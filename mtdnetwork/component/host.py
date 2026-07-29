@@ -380,6 +380,12 @@ class Host:
                     new_vulns.append(vuln)
             else:
                 new_vulns.append(vuln)
+        # Brown 2023 §III-C(2) (IS-PRC-04): the vulnerabilities from ALL scanned
+        # services form one priority stack ordered by RoA. The per-service
+        # aggregation above preserved each service's internal order but stacked
+        # services by path-distance, which is documented nowhere. D-10 fix
+        # (Marc, 2026-07-29): sort the aggregated stack globally by RoA.
+        new_vulns.sort(key=lambda v: v.roa(), reverse=True)
         return new_vulns
 
     # def total_exploit_time(self, vulns):

@@ -92,8 +92,12 @@ class MTDAIOperation:
             if self._mtd_scheme._scheme == 'mtd_ai':
 
                 # Static network degradation factor
-                if (self.env.now - self.network.get_last_mtd_triggered_time()) > self.static_degrade_factor: 
-                    action = random.randint(1, len(self.mtd_strategies) + 1)
+                if (self.env.now - self.network.get_last_mtd_triggered_time()) > self.static_degrade_factor:
+                    # D-14 fix (Marc, 2026-07-29): randint is inclusive on both
+                    # ends, so the previous `len + 1` upper bound could select an
+                    # action whose register path indexes one past the strategy
+                    # list (latent IndexError). Deploying actions are 1..len.
+                    action = random.randint(1, len(self.mtd_strategies))
                     
 
                 else:
@@ -398,6 +402,13 @@ class MTDAIOperation:
         if sensitivity_factor <= self.attacker_sensitivity:
             current_attack = self.adversary.get_curr_process()
             current_attack_value = self.attack_dict.get(current_attack, 7)
+        else:
+            # Tay 2024 §5.3 (IS-AI-06): below-1.0 detection rates feed the
+            # "no information" value, mirroring attack_dict's own default.
+            # Previously this branch was missing and any sensitivity < 1.0
+            # crashed with UnboundLocalError on the first failed draw (D-13
+            # fix, Marc 2026-07-29).
+            current_attack_value = 7
 
             
  

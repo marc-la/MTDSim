@@ -1,1 +1,13 @@
-[]
+[
+  {
+    "time_to_compromise": 7.594236828798724,
+    "attack_success_rate": 0.005504587155963303,
+    "host_compromise_ratio": 0.06,
+    "mtd_execution_frequency": 0.005026625880143383,
+    "total_number_of_ports": 373,
+    "attack_path_exposure": 0.6823888888888889,
+    "roa": 0.08575933627503303,
+    "shortest_path_variability": 0.0,
+    "risk": 0.3675362052405286
+  }
+]

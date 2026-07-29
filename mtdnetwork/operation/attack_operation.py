@@ -236,6 +236,16 @@ class AttackOperation:
             if self.logging:
                 logging.info('Adversary: Restarting with SCAN_PORT at %.1fs!' % (self.env.now + self._proceed_time))
             self._scan_port()
+        elif self._interrupted_mtd.get_resource_type() == 'reserve':
+            # Brown 2023 §III-D(3) (IS-INT-03): blocked mid-credential-stuffing,
+            # the attacker is "forced to look for vulnerabilities on the host
+            # instead". Only BRUTE_FORCE is interrupted by the reserve class
+            # (see MTDOperation._interrupt_adversary), so curr_host and
+            # curr_ports are guaranteed set. D-07 fix (Marc, 2026-07-29).
+            self._interrupted_mtd = None
+            if self.logging:
+                logging.info('Adversary: Restarting with EXPLOIT_VULN at %.1fs!' % (self.env.now + self._proceed_time))
+            self._exploit_vuln()
 
     def _do_scan_host(self):
         """

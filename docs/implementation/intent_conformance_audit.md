@@ -1,7 +1,7 @@
 ---
 status: audit record
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-07-29
 ---
 
 # Intent-spec conformance audit — the substrate against the literature-only yardstick
@@ -317,10 +317,35 @@ reconciled here):
     two candidate bugs the prior record could not reach: the sensitivity-feed crash
     (IS-AI-06 → D-13) and the SDF forced-pick off-by-one (IS-AI-02 → D-14).
 
-## n) Disposition list for Marc
+## n) Disposition list — ruled 2026-07-29
 
-Every DIVERGES-DOCUMENTED-NOWHERE row plus the unresolved conflicts. Nothing here is a
-bug until ruled; candidates marked where the evidence leans.
+> **Status.** Marc ruled on this list 2026-07-29: *"I approve any changes required,
+> please implement comprehensively … fix any bugs that have surfaced or deviations
+> that you have spotted"*, with the Tay AI-seam integration (h5 model loading)
+> explicitly deferred a few weeks. Outcome per item:
+>
+> - **Fixed (commit of this note, goldens re-baselined — see `baseline/CHANGELOG.md`
+>   2026-07-29):** D-05 (diversity version re-roll), D-07 (User Shuffle blocks only
+>   mid-credential work, recovers to EXPLOIT_VULN), D-10 (global RoA stack), D-11
+>   (ASR numerator + denominator to Ho's formula), D-13 (sensitivity else-branch →
+>   "no information" value 7), D-14 (SDF forced pick bounded to the strategy list).
+> - **Kept, no change — and why:** D-01 (the hybrid matches Zhang's polarity inside
+>   Brown's range; moving either direction contradicts one paper — needs a
+>   PDF-level ruling); D-02 (Zhang's persistence is operative under precedence);
+>   D-04 (a literal introduce-then-patch lifecycle would *break* IS-NET-07's
+>   older-more-vulns and IS-NET-09's every-version zero-day — Brown's three
+>   statements cannot all hold under a sliding window, so this needs the original
+>   Fig-3-era text, not a guess); D-08 (the µ-as-location reading is the only one
+>   consistent with Zhang's own Table 3 σ = 0.5; kept as the operative reading);
+>   D-09 (Zhang never states the threshold value — implementing it means inventing
+>   a constant, which the guardrails forbid).
+> - **Already ruled previously, confirmed only:** D-03 (C3/2c), D-06 (Unit C).
+> - **Deferred with the AI seam / experiment harness:** D-12 (reward weights),
+>   D-15 (Network-Size parameter), plus the SDF *unit* question inside D-14 and
+>   the SAPV/NAV variant formulas inside D-11's note.
+>
+> The original list is retained below unchanged, as the record of what was put to
+> Marc. Candidates marked where the evidence leaned.
 
 | # | Item | What the code does | What the papers say | Evidence leaning |
 |---|---|---|---|---|
