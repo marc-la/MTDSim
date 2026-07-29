@@ -2,7 +2,7 @@
 status: durable
 created: 2026-07-28
 topic: "The within-run attacker-state seam (BUILT 2026-07-28) — a movement-layer-only mutable memory and a generalised modulator composition, the one shared foundation the stealth / incentive / learning axes (criterion axes 5–7) all need. Records the composition rule, the null-equivalence guarantee that keeps it ablatable, the fourth RNG stream and its isolation, the dwell-only routing change and its behaviour-neutrality proof, and — written out for Marc to take to the supervisor — the argument that a within-run movement-layer state is not the attacker-state change the S2 freeze forbids."
-updated: 2026-07-28
+updated: 2026-07-29
 ---
 
 # The within-run attacker-state seam — design record (BUILT 2026-07-28)
@@ -248,7 +248,39 @@ All seven gates from the handoff are met:
 
 Full suite: 355 passed.
 
-## 10. What this does not do
+## 10. Extended 2026-07-29 by the axis-7 build — a third wrapper and an observation fan-out
+
+The first axis to register a modulator needed two things this seam did not have,
+and both were added by the same idiom rather than by widening any signature
+([`learning_capability.md`](learning_capability.md) §3.4). They are recorded here
+because they are now part of the seam, available to axes 5 and 6 unchanged.
+
+**A third collaborator wrapper: `StatefulAttackOperation`.** The two routing seams
+cannot see an MTD interrupt. By the time the token routes, an interrupt has become
+an ordinary failure verdict — identical at `compose` to a verb the substrate
+refused on an unmet precondition — so a modulator responding to *the defence*
+rather than to *failure* has no signal. `AttackOperation.apply_mtd_interrupt_cost`
+is the one call every interrupt path in the driver funnels through exactly once
+per interrupt, so wrapping it reports the interrupt with the mutating resource's
+layer and delegates the cost unchanged. Two properties make it safe: it fires
+**before** the substrate serves the confusion penalty, and therefore before the
+routing decision that follows; and only the *driver's* view is wrapped, so the MTD
+operation keeps the bare attack operation and nothing in the defence's own path
+reads through a proxy. §5's claim stands unaltered — **the driver is still not
+edited.**
+
+**An observation fan-out.** A modulator declaring `observe_visit`,
+`observe_verdict` or `observe_mtd_interrupt` now receives the state's own
+observations. The reason is a separation the first modulator immediately needed:
+`AttackerState`'s counters must stay a faithful raw record of what happened, while
+a modulator that *transforms* them — decaying them, in axis 7's case — keeps its
+transformed copy. The record of the run and a modulator's belief about it are
+different things and are stored as different things. A modulator declaring none of
+the hooks is never called, so the null configuration is unchanged and the
+null-equivalence guarantee (§3) is re-asserted field for field by the axis-7 suite
+with a real modulator attached at its zero parameter.
+
+## 11. What this does not do
 
 - **Declares no value.** No stealth level, no learning rate, no utility — the
   one modulator here (`RevisitAversionDemo`) is deliberately artificial and must

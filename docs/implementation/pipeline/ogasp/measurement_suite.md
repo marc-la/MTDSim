@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-07-29
 topic: "The axis-measurement suite (movement/measures.py) — the M8b measurements the APT criterion's claimed axes need, built as a reader over MovementRecord streams with a baseline-arm adapter; which axis each measure discharges, its validation gates, and its known blind spots"
 ---
 
@@ -205,8 +205,21 @@ mechanism made visible).
 ## (g) Lifecycle
 
 Extend this suite (and bump `updated`) when: the demonstration-arms handoff
-pre-registers its badge criteria (it consumes §(b)'s measures verbatim); the
-axis-6 decision rule lands (it consumes the ledger); experiment 2 fixes its
+pre-registers its badge criteria (it consumes §(b)'s measures verbatim);
+~~the axis-6 decision rule lands (it consumes the ledger)~~ **fired 2026-07-29
+— the ledger was consumed as designed and needed no extension, reported per run
+and per arm across the rationality-exponent sweep
+([`incentive_rationality.md`](incentive_rationality.md) §6.4). Two things the
+consumption verified rather than assumed: `time_residual` read 0.00 at every
+sweep point, so the S3-R regime tripwire this suite installed did not fire under
+a conditioned attacker; and the near-flat interrupt count against an eightfold
+rise in attempted actions is what let the sweep separate "interrupted more" from
+"failed more" straight off the ledger. One gap the consumption exposed and did
+not close: the ledger carries no **per-tactic** cost decomposition, so the
+question of whether MTD taxes some tactics more than others had to be answered
+by a separate diagnostic (`mtd_tax_anatomy.py` in that workspace). A per-place
+interrupt/penalty breakdown is the natural extension if a second consumer needs
+it**; experiment 2 fixes its
 mutation interval (re-check which measures sit inside the degenerate region at
 the chosen tempo); or a stealth semantics is ruled (axis 5's exposure metric is
 deliberately absent here — it presupposes that ruling). If `MovementRecord`
