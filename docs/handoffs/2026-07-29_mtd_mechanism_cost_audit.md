@@ -15,6 +15,18 @@ so completely that fixing it alone changes what is affordable.
 Measured on this branch, 2026-07-29: one `aggregate` run, seed 0, `v2_partial`,
 15 000 s horizon, single mechanism, 200 s interval, single-threaded.
 
+**Reproduce with `PYTHONPATH=src python tools/mtd_cost_bench.py`** (committed with
+this handoff, so the re-measurement the validation gate asks for uses the same
+harness these numbers came from).
+
+**Read the absolute seconds, not the ratio column, for the cheap mechanisms.** The
+no-MTD baseline is ~0.1 s, so the ratio is noise-dominated below a second or so and
+moves with machine load — re-running the harness under contention read IP Shuffle at
+3.2× where the table below has 1.0×. Nothing in the argument rests on those rows.
+What is robust, and is what the grid arithmetic uses, is the two-orders-of-magnitude
+separation between the seven sub-1.3-second mechanisms and the one that takes two
+minutes.
+
 | mechanism | wall clock | × no-MTD | interrupts | in default pool |
 |---|--:|--:|--:|:--|
 | *(no MTD)* | 0.09 s | 1.0 | 0 | — |
@@ -165,8 +177,11 @@ Done when:
    before and after every change made for performance reasons; where a change is
    *intended* to alter behaviour (the DAP repair or replacement), the difference is
    shown, explained and dispositioned rather than absorbed.
-3. The per-mechanism cost table is re-measured and committed, with the grid-cost
-   arithmetic that follows from it.
+3. The per-mechanism cost table is re-measured with `tools/mtd_cost_bench.py` on an
+   idle machine and over several seeds, and committed with the grid-cost arithmetic
+   that follows from it. If the harness needs changing to answer a question, change
+   it there rather than in a throwaway script, so the next re-measurement is
+   comparable again.
 4. `OSDiversityAssignment`'s fate is ruled and recorded, including what happens to
    the runs already published against it (`experiment_02_findings.md` does not use
    it; the demonstration-arms grid does).
