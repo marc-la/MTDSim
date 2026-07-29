@@ -1,7 +1,47 @@
 ---
-status: open
+status: open — one gate left: Marc's D-17 ruling (OSDiversityAssignment's fate)
 created: 2026-07-29
+updated: 2026-07-29 (picked up on perf/mtd-mechanism-cost-audit, off dev)
 ---
+
+> **Session update, 2026-07-29.** Five of the six validation gates are closed;
+> the artefacts live where the durable record wants them, not here:
+>
+> 1. **Classification** — done before any patch. IS-MTD-08 revised to
+>    DIVERGES-DOCUMENTED-NOWHERE (the DAP coupling constraints are commented out
+>    *and were never functional as written* — they apply Python `min()` to PuLP
+>    variables); new disposition **D-17** (repair / replace / withdraw, costed and
+>    ranked) awaits Marc. The re-instantiation seam has no paper contact (lineage
+>    papers are silent on mechanism lifecycle) and defeats the code's own
+>    checkpoint design → internal defect, fixed under this handoff's direction.
+>    All in `../implementation/intent_conformance_audit.md` §m3 + §l item 10.
+> 2. **Golden streams** — `tools/mtd_golden_streams.py`, goldens in
+>    `baseline/golden_movement/` (8 mechanisms + no-MTD × seeds 0–2 × both
+>    overlay arms), suite subset in `tests/test_mtd_golden_streams.py`. The seam
+>    fix verified **bit-identical on all 48 stateless configs**; the six
+>    OSDiversityAssignment configs moved as expected and were re-baselined
+>    (`baseline/CHANGELOG.md`).
+> 3. **Re-measured table + grid arithmetic** — committed as
+>    `../implementation/mtd_mechanism_costs.md` (3 seeds, idle machine).
+>    Headline: OSDiversityAssignment **127.7 s → 2.13 s** per run (~60×); the
+>    grid's 10.7-hour row is now ~10.6 minutes.
+> 4. **OSDA's fate** — *the open gate.* D-17 options costed; interim relief
+>    (the cache fix) shipped regardless of ruling. Published-run exposure
+>    unchanged: `experiment_02_findings.md` never used it; the
+>    demonstration-arms grid did (that branch re-runs under whatever D-17 rules).
+> 5. **User Shuffle** — answered with evidence, **correct behaviour**: the
+>    reserve gate interrupts only mid-`BRUTE_FORCE` (Brown IS-INT-03, D-07 fix);
+>    the attacker spends 1.2–1.6 % of sim time there, so ≈ 1 interrupt/run is
+>    expected — seeds 0–1 drew 0, seed 2 drew exactly 1 in both arms. Recorded in
+>    the audit §m3.
+> 6. **Suite** — 478 passed on this branch (the 576 figure counted the
+>    axis134-only movement tests; dev doesn't carry them yet).
+>
+> Cheap wins in the sub-second mechanisms were recorded and deliberately not
+> taken (milliseconds against golden-re-arbitration risk —
+> `mtd_mechanism_costs.md` §"What was *not* changed"). Delete this handoff once
+> D-17 is ruled and its outcome (including what happens to the
+> demonstration-arms runs) is recorded in the audit.
 
 # Audit the eight MTD mechanisms for implementation cost, and make the grid cheap enough to iterate on — starting with the one that spends 128 seconds per run solving a linear program that provably decides nothing
 

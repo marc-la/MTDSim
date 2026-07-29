@@ -82,7 +82,7 @@ IS-CFL-06.
 | IS-MTD-05 | **DIVERGES-DOCUMENTED-NOWHERE** | Zhang (operative): re-configure services **with different versions** — the 99-version pool as diversity space. Code: replaces each service with a **random different service at its latest version** (`servicediversity.py:13-27` → `get_random_service_latest_version`, `services.py:371-385`), and skips exposed hosts. No draw from the version pool; latest-only replacement systematically *reduces* vulnerability count (newest versions carry fewest). Deliberate-looking, self-consistent — candidate design choice, not obviously a bug. |
 | IS-MTD-06 | **CONFORMS** (delta) | New OS drawn randomly from the four types; incompatible services replaced (`osdiversity.py:17-41`). Deltas: replacement services are latest-version (same mechanism as IS-MTD-05); exposed hosts exempted; OS *version* keeps the previous version's index. |
 | IS-MTD-07 | **CONFORMS** | `completetopologyshuffle.py:15-27`: full `gen_graph()` regeneration with host instances re-attached — Ho's "preserving the hosts" addendum implemented literally. |
-| IS-MTD-08 | **CONFORMS** (latent) | `osdiversityassignment.py`: PuLP MIP over a single-source/single-destination reduction (`gen_single_connection_graph`) with exposed endpoints and database nodes as the client classes — Zhang's documented abstraction. Not in the default strategy set; re-solves only at compromise-ratio checkpoints (undocumented optimisation). Reuses OSDiversity's name for duration/priority lookup → inherits 80 s, matching Zhang's DAP_OSDiversity 80 s. |
+| IS-MTD-08 | **DIVERGES-DOCUMENTED-NOWHERE** (revised 2026-07-29, was CONFORMS-latent — see §m3) | `osdiversityassignment.py`: the MIP *scaffolding* matches Zhang's documented abstraction (single-source/single-destination reduction, endpoints + database as client classes), but the formulation is decoupled: the assignment binaries `s` appear in no objective term and in exactly one constraint (one-variant-per-node), because the `s`↔`f` coupling constraints — the docstring's own constraint 7 — are commented out (`osdiversityassignment.py:229-233`). CBC presolve reduces every instance to "0 rows, 0 columns — nothing to do"; the returned assignment is an arbitrary feasible point, so the mechanism does not solve the DAP it is documented to solve. Full evidence and disposition options in §m3 → D-17. Reuses OSDiversity's name for duration/priority lookup → inherits 80 s, matching Zhang's DAP_OSDiversity 80 s. |
 | IS-MTD-09 | **CONFORMS** | Resource classes: network = {IPShuffle, CompleteTopologyShuffle, HostTopologyShuffle}; application = {OSDiversity, ServiceDiversity, PortShuffle, DAP}; reserve = {UserShuffle} (each strategy's `resource_type`). Matches Zhang's two classes for his four, extends Brown-era techniques consistently with Brown's three interaction classes (Port Shuffle service-level → application; User Shuffle its own class → reserve). Drives both contention (§d) and interrupts (§f). |
 
 ## d) Execution schemes and scheduling (IS-SCH)
@@ -234,6 +234,20 @@ classified — they are outside the spec's rows — but each is a standing undoc
    drawn 1–256.
 9. **DAP re-solve checkpoints**: the MIP re-solves only when the compromise ratio crosses
    0.1–0.7 checkpoints (`osdiversityassignment.py:22-35`).
+10. **Per-registration re-instantiation defeats per-instance state** (found by the
+    2026-07-29 cost audit): `MTDScheme._mtd_register` does
+    `if isinstance(mtd, type): mtd_strategy = mtd(network=self.network)` — a fresh
+    instance every registration — so any state a mechanism carries across mutations
+    (`OSDiversityAssignment.last_result` / `_checkpoint`, `ServiceDiversity.shuffles`)
+    resets every cycle. Measured: `objective()` ran 75 times per 15 000 s run where the
+    checkpoint ladder intends ≤ 8. No lineage paper says anything about mechanism
+    lifecycle, so there is no IS row to diverge from — but the code's own checkpoint
+    design presupposes persistence, making this an internal defect rather than a
+    candidate design choice. **Fixed 2026-07-29** under the cost-audit handoff's
+    direction (per-scheme instance cache in `_mtd_register`); golden movement streams
+    verified bit-identical for the seven stateless mechanisms, with
+    `OSDiversityAssignment`'s change expected-and-explained (the cache now works, so
+    solves happen at the documented checkpoints only).
 
 ## m) Post-hoc cross-check against `mtdsim_spec.md` / `metrics_semantics.md`
 
@@ -391,6 +405,66 @@ own step (box 5, distinct from box 6's exploitation), which might suggest a miss
 but **Eq 2 settles it the other way**: phase-2 duration is the exploit sum alone, with no
 discovery term. The variable is dead code, not a missing charge. Recorded in §l, no fix.
 
+## m3) The MTD mechanism cost audit (2026-07-29) — IS-MTD-08 re-examined
+
+The per-mechanism cost audit (`docs/handoffs/2026-07-29_mtd_mechanism_cost_audit.md`;
+cost table in [`mtd_mechanism_costs.md`](mtd_mechanism_costs.md)) profiled
+`OSDiversityAssignment` at ~128 s per movement run — 1367× the no-MTD baseline —
+and the profile led back into the formulation itself. One verdict moves.
+
+**IS-MTD-08 revised: CONFORMS (latent) → DIVERGES-DOCUMENTED-NOWHERE.** The original
+audit verified the *scaffolding* (the single-source/single-destination reduction,
+the client classes, the PuLP MIP) and stopped there. The cost profile forced a read
+of the formulation, which shows the solve is degenerate:
+
+1. **The assignment variables decide nothing.** The binaries `s[(variant, node)]` —
+   the thing the Diversity Assignment Problem exists to choose — appear in **no
+   objective term** and in exactly **one** constraint (one-variant-per-node,
+   `osdiversityassignment.py:209`). The objective and every live constraint range
+   over the flow variables `f` alone.
+2. **The coupling is commented out.** The constraints that would tie `s` to `f` —
+   constraint 7 in the file's own docstring, *"the amount of flow out of / into a
+   routing node must be 0 if that node is compromised"* — sit disabled at
+   `osdiversityassignment.py:229-233`. As written they were never runnable anyway:
+   they apply Python's `min()` to a list of `LpVariable`s, which is not a linear
+   construct PuLP can express — evidence this is an **unfinished implementation**,
+   not a switched-off feature.
+3. **The solver confirms it.** CBC's log on every solve of every run: `processed
+   model has 0 rows, 0 columns … No integer variables - nothing to do` — presolve
+   annihilates the model. The returned assignment (measured: 42 `(variant, node)`
+   pairs on a fresh 50-node network) is whatever one-hot completion CBC's postsolve
+   emits — arbitrary, though deterministic for a given alive-node set.
+4. **Two further formulation defects**, folded into the same disposition:
+   line 222 sums a variable with a *constraint object* inside one `lpSum` (the
+   docstring's constraint 6 — whatever the expression evaluates to, it is not that
+   constraint); and the constraints at lines 218/220 re-bind the loop variable `a`
+   in their own comprehensions, so each is emitted identically once per outer
+   `(c, a)` pair — redundant rows that inflate the 243 000-line MPS file the
+   mechanism serialises 75 times per run.
+
+Zhang §4.3.1.5 documents the objective *and constraint* functions as taken from the
+cited DAP literature (Newell et al.); a formulation whose constraints cannot bind the
+assignment matches no paper's documented intent. Per §c this is a **candidate bug**
+(evidence leans *unfinished implementation* — the lineage may never have completed
+it), and only Marc's disposition makes it fixable → **D-17**.
+
+**Also examined, no verdict change:**
+
+- **IS-MTD-07 (Complete Topology Shuffle, 13.5× no-MTD)** — the cost *is* the
+  documented mechanism: `gen_graph()` full regeneration per mutation is exactly what
+  Zhang documents (with Ho's host preservation). The two scorer calls in its
+  `mtd_operation` (`add_shortest_path`; `add_attack_path_exposure` is gated to
+  network-type 0 and never runs in the time-domain arm) are measurement feeds (SAPV),
+  deterministic and a negligible share of the 17 ms/mutation. **CONFORMS stands.**
+- **IS-INT-03 (User Shuffle, 0 interrupts in the cost table)** — answered with
+  evidence, not a regression: under the D-07 fix the reserve class interrupts only
+  mid-`BRUTE_FORCE` (Brown's narrow blocking condition). Across the six golden
+  movement runs the attacker spends 1.2–1.6 % of sim time in `BRUTE_FORCE`, so at
+  75 mutations/run the expected interrupt count is ≈ 1: seeds 0–1 drew 0, seed 2 drew
+  exactly 1 in both arms (landing on a `BRUTE_FORCE` completion, verified in the
+  golden streams). The handoff's zero was a small-sample outcome of the documented
+  narrow gate. **CONFORMS (Brown) stands; no disposition needed.**
+
 ## n) Disposition list — ruled 2026-07-29
 
 > **Status.** Marc ruled on this list 2026-07-29: *"I approve any changes required,
@@ -445,6 +519,18 @@ discovery term. The variable is dead code, not a missing charge. Recorded in §l
 |---|---|---|---|---|
 | **D-16** | **Eq 2's `V_exploited` half is not charged into phase-2 duration** | Only unexploited vulnerabilities are attempted and timed; the `/2` branch never reaches the duration path (0 of 1 183 timing calls, measured — it fires 2 905 times inside `roa()` instead, affecting ordering) | Phase-2 cost sums over the service's **whole** list `V`, with already-exploited vulnerabilities contributing `(1 − AC_v)/2` each | **Ask before implementing.** Charging time for vulnerabilities the adversary is *not* attempting is a modelling claim (that re-establishing known access costs something), not an obvious repair — and it lengthens every revisit, so it re-baselines the goldens again. My reading is that Zhang intends exactly that, but this is your call, and it is the last substantive gap between this substrate and her published formula. |
 | D-16b | *(same fix, second half)* the exponential is drawn **per vulnerability** rather than once per phase | n draws of σ = 0.5 | one `T_Aexploit` scaling the whole bracket | Cosmetic in expectation, n× in variance. Worth folding into D-16 if D-16 is taken; not worth a change on its own. |
+
+### Opened 2026-07-29 by the mechanism cost audit — awaiting Marc
+
+| # | Item | What the code does | What the papers say | Options, costed |
+|---|---|---|---|---|
+| **D-17** | **IS-MTD-08** the DAP formulation is decoupled (§m3) | 128 s/run building + solving a MIP whose presolve deletes it; the returned OS assignment is CBC postsolve's arbitrary one-hot completion, deterministic per alive-node set | Zhang §4.3.1.5: solve the DAP — maximise expected client connectivity over OS-variant assignment, objective + constraints from Newell et al. | **(a) Repair** — write constraint 7 fresh (the commented lines were never functional); most faithful to the cited DAP; the real MIP is *slower still* (binaries stop being presolved away; 60 544 flow variables × 168 binaries), needs formulation work + re-baselining of every OSDA stream. Days of work, and the mechanism stays the grid's cost ceiling. **(b) Replace** — drop the solver and assign what today's path effectively assigns; ~1000× faster and honest about being a heuristic; **not automatically stream-identical** (the postsolve completion is arbitrary-but-deterministic; a replacement matches it only if CBC's completion rule is reverse-engineered and pinned, otherwise streams move and OSDA-dependent results re-baseline). **(c) Withdraw** from the pool and record why — zero work, already outside the default set; the demonstration-arms grid is the only published consumer. Ranked recommendation: **(c) ≥ (b) ≫ (a)** for the dissertation's purposes — (a) only if the DAP is to carry evidential weight, which nothing currently published needs. |
+
+**Interim relief regardless of ruling** (shipped with the cost audit): the
+re-instantiation fix (§l item 10) restores the checkpoint ladder, so OSDA solves at
+most 8 times per run instead of 75 — ~128 s → ~4–15 s — without touching the
+formulation question. The D-17 ruling decides what the solve *means*, not whether
+the cache works.
 
 **Resolved-by-precedence (no ruling needed, listed for the record):** IS-CFL-03
 (exponential replaces uniform — documented), IS-CFL-04 (Scenario 1 only — documented),
