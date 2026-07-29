@@ -41,21 +41,39 @@ measure retired for saturation, and the second time it has happened to a
 ## 2. Agreement — the per-mechanism split of the ~90 % suppression
 
 The shipped result attributes the suppression to one family. This session's
-partial run (207 rows, `pure_steal`, conditioned arm, 30 seeds, stopped before
-completion) reproduces it on a different runner and a different seed budget:
+partial run reproduces it on a different runner, and extends it to two mechanisms
+the shipped grid did not cover.
 
-| mechanism | this session (partial) | shipped result (profiled arm) |
+**The two are not on identical footing, and the comparison is only worth as much
+as that caveat allows.** The shipped column pools five profiles at ten seeds; this
+session's column is `pure_steal` alone at thirty seeds, from the 207 rows written
+before the duplicate run was stopped. Agreement across two different aggregations
+is suggestive, not a like-for-like check.
+
+| mechanism | this session (`pure_steal` only) | shipped (profile-pooled) |
 |---|--:|--:|
 | Complete Topology Shuffle | 89 % | 89.1 % |
+| Host Topology Shuffle | 85 % | *not run* |
 | IP Shuffle | 82 % | 87.8 % |
-| Host Topology Shuffle | 85 % | *(not in the shipped table)* |
 | OS Diversity | 40 % | 41.2 % |
 | Service Diversity | 40 % | 37.1 % |
-| Port Shuffle | 19 % | *(not in the shipped table)* |
+| Port Shuffle | 19 % | *not run* |
 
-The agreement is close enough to treat as replication, and it is the substantive
-half of E1: the ~90 % figure belongs to the **topology-and-address** mechanisms
-against the profiled attacker, not to MTD in general.
+The substantive half of E1 holds under both: the ~90 % figure belongs to the
+**position-destroying** mechanisms against the profiled attacker, not to MTD in
+general.
+
+**The two extra points sharpen the family boundary rather than merely adding to
+it.** The shipped grid runs the four mechanisms in `MTDScheme`'s default pool plus
+three schemes; `HostTopologyShuffle`, `PortShuffle`, `OSDiversityAssignment` and
+`UserShuffle` are commented out of that pool and were not exercised. Naming them
+explicitly puts `HostTopologyShuffle` (85 %) with the topology family, which is
+where the mechanism says it belongs, and `PortShuffle` at **19 %** — weaker than
+either diversity mechanism, and the weakest of any mechanism measured. The family
+boundary therefore separates position-destroying mechanisms from everything else
+rather than topology from diversity, and the shipped conclusion is strengthened,
+not qualified. Worth re-running properly if the per-mechanism table is going into
+the dissertation.
 
 ## 3. Objection — axis 3's promotion rests on a statistic the same document declares unpowered
 
