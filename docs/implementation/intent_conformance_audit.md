@@ -317,6 +317,80 @@ reconciled here):
     two candidate bugs the prior record could not reach: the sensitivity-feed crash
     (IS-AI-06 → D-13) and the SDF forced-pick off-by-one (IS-AI-02 → D-14).
 
+## m2) Re-examination against the recovered figures and equations (2026-07-29)
+
+Marc supplied five artefacts the audit had recorded as unrecoverable (intent spec §q):
+**Brown Fig 3**, **Zhang Figs 1, 4, 7**, and **Zhang Eqs 1–2**. Every row that had been
+classified against prose reconstructions of these was re-examined. The paper-side content
+is folded into the intent spec (rows + the §j transcriptions); the code-side verdicts are
+below. **Four rows move, and one of them reverses a long-standing disposition.**
+
+**The headline: C7/ATK-03 was wrong, and the code is more faithful than recorded.**
+Eq 2 reads `T_Aphase2 = [ Σ_{V_unexploited} (1 − AC_vi) + Σ_{V_exploited} (1 − AC_vj)/2 ] ·
+T_Aexploit`. The code's per-vulnerability cost is `exponential_variates((1 − complexity) ·
+ATTACK_DURATION['EXPLOIT_VULN'], 0.5)` summed over the attempted list — which is Eq 2's
+unexploited half **term for term**, with `T_Aexploit` = 15 and §4.5's exponential as the
+wrapper. The three properties `metrics_semantics.md` §c called missing (exponential form,
+ACv-dependence, the exploited/unexploited split) are all present. That record was built
+while the equation images were missing from the source conversion; it has been corrected
+in place.
+
+**What genuinely diverges, measured rather than argued.** An entry-state spy on
+`exploit_time`, tagged by call site, over the no-MTD golden (seed 1234):
+
+| call site | entry `exploited` | calls |
+|---|---|---|
+| `roa()` | False | 56 486 |
+| `roa()` | **True** | **2 905** |
+| `_do_exploit_vuln()` | False | 1 183 |
+| `_do_exploit_vuln()` | **True** | **0** |
+
+So Eq 2's `/2` term fires 2 905 times a run and **never once on the duration path** —
+`Service.get_vulns` filters exploited vulnerabilities out before the timing loop, leaving
+the discount to act on RoA *ordering* instead. Eq 2 would charge those vulnerabilities at
+half cost as part of phase 2; this substrate charges nothing for them. That is the whole
+of the residual C7, and it becomes **D-16**. (Second, smaller: Eq 2 multiplies one
+`T_Aexploit` by the bracket, the code draws per-vulnerability — same expectation, n×
+the variance.)
+
+**IS-SCN-02 / ATK-12 re-attributed — Brown contradicts his own prose.** Fig 3 box 2 is
+annotated *"prioritises internal hosts that minimise the time it takes for the adversary
+to move to a compromised host to target it"*. Distance-to-foothold selection is therefore
+**Brown's implemented procedure**, not Zhang's simplification of it; §III-C(1)'s "weakest
+host" prose describes a rule his own figure does not. The audit had classified this row
+CONFORMS-SUPERSEDED→CONFORMS(Zhang); it is now **CONFORMS (Brown, directly)**, and Zhang's
+§6.3 "simplification" is a restatement. Nothing in the code changes — but the substrate's
+target selection is now traceable to the primary source rather than to a later concession.
+
+**IS-TIM-07 relocated.** Eq 2 shows the "halving for previously exploited vulnerabilities"
+is not a separate learning discount at all — it is the `/2` on Eq 2's `V_exploited` sum,
+i.e. the same rule as IS-TIM-06. The prior record's framing of ATK-04a as a Brown-era
+mechanism "not Zhang's" is therefore wrong on attribution: the Brown-era commit
+implemented Zhang's idea. What survives, and matters more, is the measurement above —
+the discount does not shift MTTC magnitude, because it never reaches a duration.
+
+**Rows confirmed exactly (no change, now on figure evidence rather than prose):**
+
+| Row | Recovered artefact | Verdict |
+|---|---|---|
+| **IS-INT-01/02/04/05** — the conditional interrupt | **Zhang Fig 7** | **Exact.** The figure's green enclosure spans every action and returns to Scan Host; the orange spans only Phases 1–3 and returns to Phase 1. The code's `_interrupt_adversary` gates application-layer interrupts on `curr_process not in {SCAN_HOST, ENUM_HOST, SCAN_NEIGHBOR}` and recovers at SCAN_PORT, network-layer unconditionally recovering at SCAN_HOST. The exclusion set **is** the complement of the orange box. This is the seam Marc flagged; it matches the figure box for box. |
+| **IS-SCH-01** — register/trigger flow | **Zhang Fig 4** | **Exact**, including the conditional: registration happens *only* when the MTD queue is empty, and the suspension queue is drained in preference to the main queue. `_mtd_trigger_action`'s three statements are the figure's three decision nodes in order. |
+| **IS-ARC-01** — module structure | **Zhang Fig 1** | **Exact**, and the figure elevates the interrupt path: `MTD Operation → Attack Operation` labelled *"interrupt attack actions"* is one of only three labelled edges, alongside resource retrieve/release and discover/compromise. All three are present as distinct code seams. |
+| **IS-PRC-01..08** — the attack procedure | **Brown Fig 3** | **Exact on all ten boxes and every arrow**, including the two the prose did not carry: box 9 (Scan Neighbours) returns to box 2 (pick from stack), matching `_execute_scan_neighbors → _enum_host`; and box 10 is the only route back to box 1, matching `_enum_host`'s empty-stack re-route to `_scan_host`. |
+
+**One tension recorded, not resolved.** Fig 3 draws box 4 (credential-reuse check) → box 5
+unconditionally, with no success branch; §III-C(2)'s prose says exploitation is reached
+only on stuffing's *failure*, and the code short-circuits to SCAN_NEIGHBOR on a reuse hit.
+Prose is the more specific statement and the code follows it; the figure is silent rather
+than contradictory. No action.
+
+**A dead computation noticed while checking Fig 3 box 5.** `Host.get_vulns` accumulates
+`discovery_time` from `service.discover_vuln_time(...)` and never returns or charges it —
+`SERVICE_DISCOVER_EACH_VULN_TIME = 10` is inert. Brown draws vulnerability discovery as its
+own step (box 5, distinct from box 6's exploitation), which might suggest a missing cost —
+but **Eq 2 settles it the other way**: phase-2 duration is the exploit sum alone, with no
+discovery term. The variable is dead code, not a missing charge. Recorded in §l, no fix.
+
 ## n) Disposition list — ruled 2026-07-29
 
 > **Status.** Marc ruled on this list 2026-07-29: *"I approve any changes required,
@@ -364,6 +438,13 @@ reconciled here):
 | D-13 | **IS-AI-06** sensitivity feed | UnboundLocalError for any sensitivity < 1.0 | Tay: 0–100 % feed, cutoff study at ≈ 0.7 | **Candidate bug** — the documented experiment cannot run; no design reading explains a crash. |
 | D-14 | **IS-AI-02** SDF unit + forced-pick bound | 2000 sim-units (= 10 trigger intervals); `randint(1, len+1)` can index past the list | Ho: 2000 **ms**; forced random MTD | Unit: needs a ruling on which scale is meant. Off-by-one: **candidate bug** (latent IndexError). |
 | D-15 | **IS-PRM-04** Network-Size parameter | No size/area input independent of node count exists | Ho: Network Size 100/150/200 at fixed 150 nodes (density sweep) | Documented parameter with no code surface — likely lived in the deleted experiments layer; rule whether it is wanted back. |
+
+### Opened 2026-07-29 by the recovered equations — awaiting Marc
+
+| # | Item | What the code does | What Zhang's Eq 2 says | Recommendation |
+|---|---|---|---|---|
+| **D-16** | **Eq 2's `V_exploited` half is not charged into phase-2 duration** | Only unexploited vulnerabilities are attempted and timed; the `/2` branch never reaches the duration path (0 of 1 183 timing calls, measured — it fires 2 905 times inside `roa()` instead, affecting ordering) | Phase-2 cost sums over the service's **whole** list `V`, with already-exploited vulnerabilities contributing `(1 − AC_v)/2` each | **Ask before implementing.** Charging time for vulnerabilities the adversary is *not* attempting is a modelling claim (that re-establishing known access costs something), not an obvious repair — and it lengthens every revisit, so it re-baselines the goldens again. My reading is that Zhang intends exactly that, but this is your call, and it is the last substantive gap between this substrate and her published formula. |
+| D-16b | *(same fix, second half)* the exponential is drawn **per vulnerability** rather than once per phase | n draws of σ = 0.5 | one `T_Aexploit` scaling the whole bracket | Cosmetic in expectation, n× in variance. Worth folding into D-16 if D-16 is taken; not worth a change on its own. |
 
 **Resolved-by-precedence (no ruling needed, listed for the record):** IS-CFL-03
 (exponential replaces uniform — documented), IS-CFL-04 (Scenario 1 only — documented),

@@ -121,34 +121,94 @@ mechanisms: one (Brown-era per-instance re-exploit discount) is active
 and kept deliberately; the other (Zhang per-type attacker learning) is
 unimplemented.
 
-### C7 — exploit-time formula (ATK-03 in the spec)
+### C7 — exploit-time formula (ATK-03 in the spec) — **substantially overturned 2026-07-29**
 
-- **Zhang 2023 §4.4.3, Eq 1–2:** Phase-2 exploit time `T_Aphase2` is
-  drawn from an **exponential** distribution `T_Aexploit`, parameterised
-  by counts of previously exploited vs. unexploited vulnerabilities and
-  the vuln's attack-complexity `ACv`.
-- **MTDSim code** (`mtdnetwork/component/services.py:80`): exploit time
-  is computed deterministically as `ATTACK_DURATION['EXPLOIT_VULN'] * (1
-  - self.complexity)` — a fixed scaling by complexity, no exponential
-  draw, no `V_exploited` / `V_unexploited` factor.
-- **Status:** **unimplemented** (`divergent` in
-  [`mtdsim_spec.md`](mtdsim_spec.md) ATK-03 row).
-- **MTTC effect:** the deterministic form has lower variance and a
-  different mean envelope than Zhang's exponential. Absolute TTC values
-  are shifted; the direction of any specific TTC delta depends on the
-  vuln-complexity mix in the scenario.
-- **If revisited:** Implementing Zhang's exponential `T_Aexploit` would
-  re-enable a *qualified* cross-paper comparison against Zhang's MTTC
-  numbers (still bounded by ATK-04 and substrate-default differences).
-  Trigger: a finding that the deterministic-vs-exponential variance gap
-  collapses an L4 discriminator that would otherwise separate
-  configurations.
+> **This section previously said the code implements nothing like Zhang's
+> formula. That was wrong, and it was wrong because Eqs 1–2 were omitted
+> images in the source conversion — the claim rested on the surrounding
+> prose.** Marc supplied the equation images on 2026-07-29; the closed form
+> is now in [`mtdsim_intent_spec.md`](mtdsim_intent_spec.md) IS-TIM-06. What
+> follows is the corrected disposition. The practical consequence is that
+> **C7 is much smaller than recorded**, which widens §(d)'s comparability
+> boundary rather than narrowing it.
+
+**Zhang 2023 §4.4.3, Eq 1–2** (recovered):
+
+```
+V = V_unexploited + V_exploited                                          (1)
+T_Aphase2 = [ Σ_{vi∈V_unexploited} (1 − AC_vi)
+            + Σ_{vj∈V_exploited}  (1 − AC_vj)/2 ] · T_Aexploit           (2)
+```
+
+**What the code does** (`services.py` `exploit_time`, consumed per
+vulnerability in `attack_operation.py` `_do_exploit_vuln`): each attempted
+vulnerability costs `exponential_variates((1 − complexity) ·
+ATTACK_DURATION['EXPLOIT_VULN'], 0.5)`, and the phase's duration is the sum
+over the attempted list.
+
+**Term for term, this *is* Eq 2's unexploited half.** `(1 − AC_v)` is the
+code's `(1 - self.complexity)`; `T_Aexploit` is `ATTACK_DURATION['EXPLOIT_VULN']`
+(= 15); Eq 2's `Σ` is the per-vulnerability loop; and §4.5's "exponential
+time value" is the `exponential_variates` wrapper. The three properties this
+document previously called missing — exponential form, ACv-dependence, and
+the exploited/unexploited split — are all present.
+
+**What actually diverges is narrower, and precisely locatable.** Two items:
+
+1. **Eq 2's `V_exploited` half is never charged into phase-2 duration.**
+   The `/2` branch (`if self.exploited: return exp_time / 2`) exists, but
+   candidate selection (`Service.get_vulns`) filters exploited
+   vulnerabilities out *before* the timing loop, so the branch is
+   unreachable from the duration path. Measured on the no-MTD golden
+   (seed 1234) by an entry-state spy tagged with its caller:
+
+   | call site | entry `exploited` | calls |
+   |---|---|---|
+   | `roa()` | False | 56 486 |
+   | `roa()` | **True** | **2 905** |
+   | `_do_exploit_vuln()` | False | 1 183 |
+   | `_do_exploit_vuln()` | **True** | **0** |
+
+   So the discount fires 2 905 times per run — **all of them inside RoA
+   computation, none in the timing path**. Zhang's Eq 2 would have the
+   adversary re-pay half-cost for vulnerabilities it already owns on the
+   service; this substrate pays nothing for them and instead lets the
+   discount perturb *which* vulnerability is selected first.
+2. **Where the exponential is drawn.** Eq 2 multiplies one `T_Aexploit` by
+   the whole bracket; the code draws independently per vulnerability. Same
+   expectation, different variance (n draws of σ = 0.5 rather than one).
+
+**Status:** **substantially implemented**; two located divergences, the
+first behavioural and the second distributional. Neither is fixed — see the
+D-16 disposition in
+[`intent_conformance_audit.md`](intent_conformance_audit.md) §n, which is
+open for Marc because charging time for vulnerabilities the adversary is
+*not* attempting is a modelling choice, not an obvious repair.
+
+**MTTC effect:** smaller than this document previously asserted. The
+unexploited half — which is the whole of the duration in practice — follows
+Zhang. The omitted `V_exploited` half means phase-2 durations are
+**systematically shorter than Eq 2** wherever the adversary revisits a
+service it has partly exploited.
 
 ### ATK-04 — re-exploit time halving (two mechanisms; one active, one not)
 
 Two distinct re-exploit-discount mechanisms apply here. The previous
 phrasing of this section conflated them; Unit C (provenance pass)
 characterised both with a pinned spy test and disambiguated them.
+
+> **Revised 2026-07-29 by the recovered Eq 2.** The a/b split below stands as
+> a description of the two *mechanisms*, but its attribution was wrong:
+> ATK-04a was characterised as a Brown-era artefact "not a Zhang mechanism".
+> Eq 2 shows the halving of already-exploited vulnerabilities **is** Zhang's
+> published rule — the `/2` on the `V_exploited` sum — so the Brown-era
+> commit implemented (or anticipated) the same idea rather than a rogue one.
+> The genuinely load-bearing correction is measurement, not attribution:
+> **the discount does not reach the exploit-duration path at all** (0 of
+> 1 183 timing calls on the no-MTD golden; all 2 905 fires are inside
+> `roa()`), so its effect is on *vulnerability ordering*, not on MTTC
+> magnitude. Statements below that ATK-04a "shifts magnitudes" are
+> superseded by that measurement; see the C7 section above.
 
 **ATK-04a — Brown-era per-*instance* discount: ACTIVE (kept).**
 
@@ -220,7 +280,7 @@ published numbers**. Two ways to think about what's valid:
 |-----------------|--------|-----|
 | **Within-substrate, across configurations** — e.g. random-multi vs alternative-multi; varying MTD trigger interval; varying network geometry; varying motivation profile (OGASP vs procedural attacker) | **Valid** | Both runs share the same C7/ATK-04 substrate-side bias; the *delta* between them is informative. |
 | **Within-substrate, OGASP-driven attacker vs the inherited 6-phase procedural attacker** | **Valid** | Same substrate, same exploit-time model; differences in MTTC trace to the attacker policy, not the substrate. |
-| **Cross-paper numeric** — comparing an MTDSim MTTC value to a Zhang Table value or a Tay reported number | **INVALID** | C7 (deterministic vs exponential exploit time), ATK-04a (active per-instance re-exploit discount, not Zhang's mechanism), and ATK-04b (Zhang per-type learning, unimplemented) jointly shift the absolute level of every TTC reading by an amount that depends on the scenario's vuln-complexity and reuse pattern. |
+| **Cross-paper numeric** — comparing an MTDSim MTTC value to a Zhang Table value or a Tay reported number | **INVALID, but for a smaller reason than before (revised 2026-07-29)** | The original grounds were C7-as-wholesale-divergence plus ATK-04a; the recovered Eq 2 dissolves most of both (see §c). What remains: Eq 2's `V_exploited` half is not charged into duration, so phase-2 times run systematically short wherever a service is revisited; the exponential is drawn per-vulnerability rather than once per phase; and ATK-04b's cross-host scope is still unimplemented. Those still shift absolute level by a scenario-dependent amount — but the gap is now *located and bounded* rather than structural, and D-16 would close the first of the three. |
 | **Cross-paper qualitative** — "scheme X yields lower MTTC than scheme Y, consistent with Zhang's qualitative finding" | Conditionally valid | The *direction* of effect is comparable when the relevant mechanism (MTD interruption, re-scan penalty, NCR threshold) is shared; the *magnitude* is not. State the qualification when reporting. |
 
 In §5 of the thesis: **MTTC is reported with this substrate as the

@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-07-29
 ---
 
 # MTDSim Intent Spec — the literature-only yardstick
@@ -18,8 +18,8 @@ updated: 2026-07-28
 
 | Source | Artefact | Role | Conversion caveats |
 |---|---|---|---|
-| Brown 2023, *Evaluating Moving Target Defenses against Realistic Attack Scenarios* (EnCyCriS) | `docs/sources/lit_review/brown2023.md` | **Primary.** Foundational MTDSim: network model, 6 techniques, 2 scenarios, attack procedure, interaction classes, Table I | Fig 1 (HARM), Fig 2 (host layer), **Fig 3 (attack-procedure flowchart)** are omitted images — the flowchart survives only as §III-C(2) prose |
-| Zhang 2023, *Evaluating Multiple MTD in the Time Domain* (masters thesis) | `docs/sources/lit_review/zhang2023.md` | Secondary. Time-domain refactor (MTDSimTime): SimPy, execution schemes, resource occupation, exponential time, MTTC/NCR, adversary profile dimensions | **Eqs 1–2 (`T_Aphase2` exploit-time formula) are omitted images** — only the surrounding prose survives. Figs 4–7 (scheme/operation/attack flows) omitted |
+| Brown 2023, *Evaluating Moving Target Defenses against Realistic Attack Scenarios* (EnCyCriS) | `docs/sources/lit_review/brown2023.md` | **Primary.** Foundational MTDSim: network model, 6 techniques, 2 scenarios, attack procedure, interaction classes, Table I | Fig 1 (HARM) and Fig 2 (host layer) remain omitted images. **Fig 3 (attack-procedure flowchart) recovered 2026-07-29** — supplied directly by Marc, transcribed in full at the head of §j and normative there |
+| Zhang 2023, *Evaluating Multiple MTD in the Time Domain* (masters thesis) | `docs/sources/lit_review/zhang2023.md` | Secondary. Time-domain refactor (MTDSimTime): SimPy, execution schemes, resource occupation, exponential time, MTTC/NCR, adversary profile dimensions | **Eqs 1–2 (`T_Aphase2`), Fig 1 (structure), Fig 4 (execution-scheme flow) and Fig 7 (attack action flow) recovered 2026-07-29** — supplied by Marc; folded into IS-TIM-06/07, IS-ARC-01, IS-SCH-01 and §j. Figs 3, 5–6 still omitted |
 | Ho 2024, *Using AI to Automate the Deployment of MTD Operation* (honours) | `docs/sources/lit_review/ho2024.md` | Secondary. 11-metric suite, Static Degrade Factor, DDQN action space, evaluation pipeline | Most formula images omitted; prose definitions survive and are used here |
 | Tay 2024, *Using AI to Automate the Deployment of MTD Operations* (honours, MTDShield) | `docs/sources/lit_review/tay2024.md` | Secondary. Reactive plugin contract, 5-action set, detection-rate feed | Eq 1 and Figs omitted; prose survives |
 
@@ -52,9 +52,9 @@ A "fix" is legitimate only against rows classified as bugs *after* disposition �
 
 | ID | Intended behaviour | Source | Notes |
 |---|---|---|---|
-| **IS-ARC-01** | The simulator comprises three modelled entities: the **System** (network), the **Attacker**, and the **Defense** (MTD) | Brown §III | Zhang §4.1 restates as Simulated Network / MTD Techniques / Adversary modules, with MTD Operation and Attack Operation as their action surfaces. Tay §4 (Fig 1) restates the same three, labelled Network (b), MTD (c), Attacker (a). `[struct]` |
+| **IS-ARC-01** | The simulator comprises three modelled entities: the **System** (network), the **Attacker**, and the **Defense** (MTD) | Brown §III; Zhang Fig 1 | Zhang §4.1 restates as Simulated Network / MTD Techniques / Adversary modules, with MTD Operation and Attack Operation as their action surfaces. Tay §4 (Fig 1) restates the same three, labelled Network (b), MTD (c), Attacker (a). **Zhang Fig 1 recovered 2026-07-29**, and names the three couplings between them: `MTD Techniques → MTD Operation`, which *"retrieve/release resource for reconfiguration"* against the Simulated Network; `Adversary → Attack Operation`, which *"discover/compromise hosts"* on the same network; and a direct `MTD Operation → Attack Operation` edge labelled ***"interrupt attack actions"***. The interruption path is thus architectural, not incidental — it is one of only three labelled edges in the structure diagram. `[struct]` |
 | **IS-ARC-02** | The System is captured as a **3-layer HARM**: Hosts, Services, Vulnerabilities — one graph generated per component. Extends Alavizadeh's 2-layer HARM by adding the **service layer**, added specifically to model realistic attack behaviour | Brown §III-A, Fig 1 | Zhang §4.2.1 names the layers: `AGn` (host attack graph), `AGh` (services-on-host graph), `ATs` (service attack tree). The "3 layers" are the *representation*, not the network's topological depth (cf. IS-PRM-01, which is a separate concept). `[struct]` |
-| **IS-ARC-03** | The Attacker is a "theoretically intelligent adversary" following a **logical flowchart** inspired by the Cyber Kill Chain and MITRE ATT&CK | Brown §III, §III-C(2) | The flowchart itself (Fig 3) is unrecoverable from the conversion; the prose procedure is IS-PRC-01..07. `[struct]` |
+| **IS-ARC-03** | The Attacker is a "theoretically intelligent adversary" following a **logical flowchart** inspired by the Cyber Kill Chain and MITRE ATT&CK | Brown §III, §III-C(2), Fig 3 | **Fig 3 recovered 2026-07-29** and transcribed at the head of §j — the flowchart is now the normative statement of the procedure, with IS-PRC-01..08 as its prose gloss. `[struct]` |
 | **IS-ARC-04** | The framework exists to evaluate **combinations** of MTD techniques (single through triple in Brown; pairwise in Zhang) against multiple attack scenarios; other techniques are explicitly pluggable | Brown §III-B intro; Zhang §5.2 | `[intent]` |
 | **IS-ARC-05** | Simulation is **discrete-event in the time domain** on SimPy — Zhang's headline refactor. Brown's original modelled time only as the MTD interval and ignored MTD execution time; Zhang documents this as the deficiency being fixed | Zhang §1, §3.3, §4.5 | Zhang's critique of Brown (§3.3) is itself spec-relevant: the *refactored* simulator must model both MTD interval **and** MTD execution duration. `[struct]` |
 
@@ -99,7 +99,7 @@ Brown's only documented trigger model is a single global timer (IS-TIM-01). Ever
 
 | ID | Intended behaviour | Source | Notes |
 |---|---|---|---|
-| **IS-SCH-01** | All schemes are **time-based proactive**: a periodic triggering signal drives a **register/trigger queue**: on signal, register a new MTD instance into a queue or trigger an existing one; the **highest-priority** instance is popped and deployed if there is no suspension issue; suspended instances are held in a **suspension queue** whose members have **higher pop priority than the main queue** | Zhang §4.3.2, Fig 4 | `[behav]` |
+| **IS-SCH-01** | All schemes are **time-based proactive**: a periodic triggering signal drives a **register/trigger queue**: on signal, register a new MTD instance into a queue or trigger an existing one; the **highest-priority** instance is popped and deployed if there is no suspension issue; suspended instances are held in a **suspension queue** whose members have **higher pop priority than the main queue** | Zhang §4.3.2, Fig 4 | **Fig 4 recovered 2026-07-29** — the decision order is exactly: `Triggering Signal → [MTD queue empty?] —yes→ Register new MTD(s) → [Suspension queue empty?]`; `—no→ [Suspension queue empty?]` directly. Then `[Suspension queue empty?] —yes→ Trigger MTD(s) in MTD queue`, `—no→ Trigger MTD(s) in suspension queue`. Registration is therefore **conditional on the main queue being empty**, and the suspension queue's precedence is a branch, not a priority number. `[behav]` |
 | **IS-SCH-02** | **Random execution**: on each signal, register one MTD selected at random from all techniques; trigger a single instance. Documented as the scheme the previous work (Brown) effectively used | Zhang §4.3.2.1 | `[behav]` |
 | **IS-SCH-03** | **Alternative execution**: register/trigger one MTD at a time, selected **by fixed rotation based on the previously registered instance** (not randomly) | Zhang §4.3.2.2 | `[behav]` |
 | **IS-SCH-04** | **Simultaneous execution**: trigger **all** techniques at each signal; among those contending for the same resource, the highest-priority deploys first; lower-priority ones go to the suspension queue and execute in the next cycle. Explicitly more resource-consuming at equal interval | Zhang §4.3.2.3 | `[behav]` |
@@ -115,8 +115,8 @@ Brown's only documented trigger model is a single global timer (IS-TIM-01). Ever
 | **IS-TIM-03** | Each MTD technique has its own **execution duration**, sensitivity-selected: CompleteTopologyShuffle **110 s**, IPShuffle **100 s**, OSDiversity **80 s**, DAP_OSDiversity **80 s**, ServiceDiversity **70 s** — each with standard deviation **0.5** | Zhang §4.3.4, Table 3 | `[config]` |
 | **IS-TIM-04** | The **exponential distribution is the primary PDF** for both (a) inter-event times (e.g. the MTD interval) and (b) action durations; µ is the historical average elapsed time (empirical study + sensitivity analysis) | Zhang §4.5, Eqs 3–4 | `[behav]` |
 | **IS-TIM-05** | Attack-action timing by phase: **Phase 1 (port scan + credential stuffing) is constant time** (scan speed constant under a fixed strategy); **Phase 3 (brute force) has a specific time limit**; **Phase 2 (exploit) is variable** | Zhang §4.4.3 | `[behav]` |
-| **IS-TIM-06** | Phase-2 duration is modelled by associating an **exponential time value `T_Aexploit` with the service's `ACv`**, over the service's vulnerability list split into `V_exploited` / `V_unexploited` | Zhang §4.4.3, Eqs 1–2 | **The exact formula is unrecoverable** — Eqs 1–2 are omitted images in the conversion (§n). What *is* normative: exponential form; ACv-dependence; the exploited/unexploited split participates. `[behav]` |
-| **IS-TIM-07** | **Adversary learning**: exploitation time is **halved** for vulnerabilities that were **exploited in previous attack operations conducted on previous hosts** | Zhang §4.4.3 | Wording implies a cross-host, per-vulnerability rule; per-instance vs per-type is not fully pinned by the text. `[behav]` |
+| **IS-TIM-06** | Phase-2 duration over the service's vulnerability list `V = V_unexploited + V_exploited` **(Eq 1)** is **(Eq 2)**: `T_Aphase2 = [ Σ_{vi ∈ V_unexploited} (1 − AC_vi) + Σ_{vj ∈ V_exploited} (1 − AC_vj)/2 ] · T_Aexploit` | Zhang §4.4.3, Eqs 1–2 | **Recovered 2026-07-29** (Marc supplied the equation images; §q gap 1 closed). Now-exact normative content: phase-2 cost is a **sum over the whole vulnerability list**, each term linear in `(1 − AC_v)`, scaled by a common `T_Aexploit`, with **already-exploited vulnerabilities contributing at half weight**. Two things the prose alone did not pin: (a) `V_exploited` terms are *included in* the phase-2 cost, not skipped; (b) linearity in `(1 − AC_v)` fixes the polarity — higher `ACv` ⇒ *cheaper*, confirming IS-CFL-01's reading of Zhang's inverted semantics. `T_Aexploit` is §4.5's exponential time value. `[behav]` |
+| **IS-TIM-07** | **Adversary learning**: exploitation time is **halved** for vulnerabilities that were **exploited in previous attack operations conducted on previous hosts** | Zhang §4.4.3 + Eq 2 | Prose implies a cross-host, per-vulnerability rule; per-instance vs per-type is not pinned by the text. **Eq 2 (recovered 2026-07-29) locates the mechanism**: the halving *is* the `/2` on Eq 2's `V_exploited` sum — the same rule as IS-TIM-06 rather than a separate discount elsewhere. The scope of `V_exploited` (per-host list vs global memory) remains unstated. `[behav]` |
 | **IS-TIM-08** | **Confusion penalty**: the adversary takes a **time penalty each time an attack event is interrupted or stopped by MTD** | Zhang §4.4.3; Brown §V-A | Brown's original: time penalty on every block **plus forced re-scan** of the network. Both halves are intent. `[behav]` |
 | **IS-TIM-09** | **Time-unit incoherence across the lineage** (recorded, not resolved): Brown quotes trigger times in **ms**; Zhang quotes durations/intervals in **seconds** (70–110 s, 50–200 s); Ho quotes the SDF in **ms** (2000 ms) while running finish-time 15 000 (unit unstated) | Brown Table I; Zhang Tables 2–3; Ho Table 2 | Any audit comparing code constants to paper values must resolve the unit convention first. `[config]` |
 
@@ -125,7 +125,7 @@ Brown's only documented trigger model is a single global timer (IS-TIM-01). Ever
 | ID | Intended behaviour | Source | Notes |
 |---|---|---|---|
 | **IS-SCN-01** | Two attack scenarios with **identical capabilities, different goals, on identical initial networks** (same generated HARM for both) | Brown §III-C, §IV | `[struct]` |
-| **IS-SCN-02** | **Scenario 1 (General / takeover)**: compromise the whole network; **prioritise the weakest host** to compromise as quickly/easily as possible, increasing the chance of credential reuse and known-vuln exploitation | Brown §III-C(1) | `[behav]` |
+| **IS-SCN-02** | **Scenario 1 (General / takeover)**: compromise the whole network; **prioritise the weakest host** to compromise as quickly/easily as possible, increasing the chance of credential reuse and known-vuln exploitation | Brown §III-C(1) | **Fig 3 (recovered 2026-07-29) contradicts this prose.** Box 2 is "Pick a Target Host from Priority Stack", annotated: *"Prioritises internal hosts that minimise the time it takes for the adversary to move to a compromised host to target it."* So the **implemented** priority is proximity to the attacker's foothold, not host weakness. Brown's §III-C(1) prose ("weakest host") and his own Fig 3 (nearest host) describe different rules; the figure is the one labelled "the attack procedure implemented in MTDSim". This also means Zhang's distance-based selection (IS-LIM-04) is **not a simplification of Brown but a restatement of him**. `[behav]` |
 | **IS-SCN-03** | **Scenario 2 (Targeted / APT-style)**: compromise a specific target host; the attacker can identify target characteristics. Strategy: if the target is found during scanning → **attack only the target**; if not found → prioritise hosts **on the same level** as the target; else attack hosts that **appear to be on a different level**, to move toward the target's level | Brown §III-C(1) | `[behav]` |
 | **IS-SCN-04** | **Give-up rule**: move on after **10 failed exploitation attempts** on the currently selected host — but in Scenario 2 the attacker **never gives up on the target node** | Brown §V-C; Table I (10) | `[behav]` |
 | **IS-SCN-05** | Attacker skill is **uniform** — exploitation skill is not differentiated across adversaries (explicit limitation, deferred to future work) | Brown §V-C | `[intent]` |
@@ -138,7 +138,45 @@ Brown's only documented trigger model is a single global timer (IS-TIM-01). Ever
 
 ## j) Attacker model — procedure
 
-Brown §III-C(2) prose (Fig 3 unrecoverable), refined by Zhang §4.4.2 (Fig 7 unrecoverable).
+Brown §III-C(2) prose **plus Fig 3 (recovered 2026-07-29)**, refined by Zhang §4.4.2 **plus Fig 7 (recovered 2026-07-29)**.
+
+**Brown Fig 3, transcribed** (the ten boxes and every arrow — this is the normative
+procedure, superseding the prose-only reconstruction the rows below were built from):
+
+1. Host Discovery → 2
+2. Pick a Target Host from Priority Stack *(annotation: prioritises internal hosts that
+   minimise the adversary's movement time from a compromised host)* → 3
+3. Port Scan → 4
+4. Check if a Compromised User has Reused Credentials on Host *(annotation: the adversary
+   collects user credentials from hosts it has compromised)* → 5
+5. Find Vulnerabilities on Services → 6
+6. Try to Exploit Vulnerabilities → 7
+7. Check if the Host Has Been Compromised — **Success** → 9 · **Failure** → 8
+8. Try To Brute Force A Login — **Success** → 9 · **Failure** → 10
+9. Scan for Neighbors to the Recently Compromised Host → **2**
+10. Check if there is another Host to Target — *"There is Another Host"* → 2 ·
+    *"There is not Another Host"* → **1**
+
+Two structural facts the prose did not carry: **9 returns to 2, not to 10** (a fresh
+compromise re-enters target selection directly), and **10 is the only route back to 1**
+(host discovery re-runs only when the stack is exhausted). Note also that Fig 3 draws
+**4 → 5 unconditionally** — it has no success branch out of the credential check, whereas
+§III-C(2)'s prose says exploitation is reached *only on stuffing's failure*. Prose is the
+more specific statement; the tension is recorded, not resolved.
+
+**Zhang Fig 7, transcribed** (the time-domain action flow, and the interruption scoping
+that IS-INT-04/05 describe in words):
+
+- Action chain: `Scan Host → Enum Host → Scan Port & Exploit User Credential (Phase 1) →
+  Exploit Vulnerabilities (Phase 2) → Brute Force (Phase 3)`; a **host-compromised** edge
+  runs from Phase 2 / Phase 3 to `Scan Neighbour`, and `Scan Neighbour → Enum Host`.
+- **Network-layer MTD** (green) encloses **every** action — Scan Host through Scan
+  Neighbour — and returns to **Scan Host**.
+- **Application-layer MTD** (orange) encloses **only Phases 1–3** — it does *not* reach
+  Scan Host, Enum Host or Scan Neighbour — and returns to **Phase 1**.
+
+The two enclosures are the figure-level statement of the conditional-interrupt rule: the
+scoping is by action class, and the recovery point differs by layer.
 
 | ID | Intended behaviour | Source | Notes |
 |---|---|---|---|
@@ -207,7 +245,7 @@ Documented *absences* — code implementing these is beyond-paper behaviour, not
 | **IS-LIM-01** | No modelling of attacker skill levels (uniform capability) | Brown §V-C |
 | **IS-LIM-02** | Randomness-of-confusion is approximated by penalty + re-scan only; better confusion models deferred | Brown §V-A |
 | **IS-LIM-03** | MTD reconfiguration applies to **all nodes**; selective/critical-node deployment explicitly not implemented | Zhang §6.4 |
-| **IS-LIM-04** | Target selection is **by distance to discovered hosts** — acknowledged as a simplification (no difficulty-aware selection) | Zhang §6.3 |
+| **IS-LIM-04** | Target selection is **by distance to discovered hosts** — acknowledged as a simplification (no difficulty-aware selection) | Zhang §6.3 · cf. Brown Fig 3 box 2 |
 | **IS-LIM-05** | Suspension-mechanism/deployment-frequency relationship not investigated; deployment frequency does **not** necessarily rise with shorter intervals due to resource occupation | Zhang §6.1 |
 | **IS-LIM-06** | One adversary type only in the AI-era simulator; no adaptive/intelligent attackers | Ho §5.1; Tay §7 |
 | **IS-LIM-07** | No QoS/performance-side modelling (downtime cost is a *feature input*, not a simulated effect) | Zhang §6.4; Ho §5.2 |
@@ -226,10 +264,23 @@ Documented *absences* — code implementing these is beyond-paper behaviour, not
 
 ## q) Known extraction gaps (unrecoverable from the source conversions)
 
-1. **Zhang Eqs 1–2** — the exact `T_Aphase2` / `T_Aexploit` formula (IS-TIM-06). Recoverable only from the original PDF; on Marc's list if the audit needs the closed form.
-2. **Brown Fig 3** — the attack-procedure flowchart. The §III-C(2)/§V prose (IS-PRC-01..08) is the surviving normative statement; branch conditions beyond the prose are unknown.
-3. **Zhang Figs 4–7, Ho Figs 1–4, Tay Figs 1–2** — flow/architecture diagrams; prose descriptions used.
-4. **Brown Figs 4–5 / Zhang Figs 8–14 / Ho–Tay results figures** — experimental results; deliberately out of scope (results are not endorsed as spec).
+**Four of the five gaps closed 2026-07-29** — Marc supplied the missing images (Brown
+Fig 3; Zhang Figs 1, 4, 7; Zhang Eqs 1–2). Their content is folded into the rows above and
+transcribed in §j; this list records what remains.
+
+1. ~~**Zhang Eqs 1–2** — the exact `T_Aphase2` / `T_Aexploit` formula (IS-TIM-06).~~
+   **CLOSED 2026-07-29.** Equation folded into IS-TIM-06; it also settles IS-TIM-07's
+   mechanism and independently confirms IS-CFL-01's polarity reading.
+2. ~~**Brown Fig 3** — the attack-procedure flowchart.~~ **CLOSED 2026-07-29.** All ten
+   boxes and every arrow transcribed at the head of §j. It **contradicts Brown's own
+   §III-C(1) prose** on host priority (see IS-SCN-02) — the one place where recovering the
+   figure changed an intent, rather than merely confirming one.
+3. **Partially closed.** ~~Zhang Figs 4, 7~~ and ~~Zhang Fig 1~~ recovered (IS-SCH-01,
+   IS-INT-04/05 + §j, IS-ARC-01). Still unrecovered: **Zhang Figs 5–6** (execution-scheme
+   and resource-occupation flows — prose descriptions used, IS-SCH-02..05), **Zhang Fig 3**
+   (the DAP abstraction, IS-MTD-08), **Ho Figs 1–4**, **Tay Figs 1–2**.
+4. **Brown Figs 4–5 / Zhang Figs 8–14 / Ho–Tay results figures** — experimental results;
+   deliberately out of scope (results are not endorsed as spec).
 
 ---
 
