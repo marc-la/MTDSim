@@ -304,3 +304,311 @@ PYTHONPATH=src python data/results/expo02_ashen_lynx/run_experiment.py --workers
 PYTHONPATH=src python data/results/expo02_ashen_lynx/analyse.py
 PYTHONPATH=src python data/results/expo02_ashen_lynx/make_figures.py
 ```
+
+---
+
+# The verdict, as found
+
+*Everything above this line was committed before the run existed
+(`a64903d`, rebased to `162602c`). Everything below reports against those
+criteria without amending them.*
+
+**The run.** 2 760 runs, zero errored cells, `data/results/expo02_ashen_lynx/`.
+
+**One thing changed between the pre-registration and the run, and it is
+material.** The run executes against the substrate **after** the intent-audit
+dispositions Marc ruled on landed — the global RoA priority stack, the diversity
+mechanisms drawing a random compatible service at a random version instead of the
+latest, and the reserve-resource handling. That commit explicitly retires a
+behaviour that "had been quietly strengthening the defence", and the diversity
+family is one of the two families this run ranks. Running against the older
+substrate would have produced a defence ranking known to be wrong in exactly the
+place the headline result lives, so the run was rebased onto the fixes before it
+was taken. Experiment 1's magnitudes were already stale; they are now stale twice
+over.
+
+## 9. The headline — the defence ranking inverts between the two attackers
+
+**E5 HELD, and it is the strongest result this project has produced.** At the
+operating interval the rank correlation between the two attackers' defence
+orderings is **ρ = −0.893**: not merely different, very nearly reversed.
+
+| mechanism | suppression vs the inherited attacker | vs the profiled attacker |
+|---|--:|--:|
+| Service Diversity | **90.4 %** | 37.1 % |
+| OS Diversity | **88.8 %** | 41.2 % |
+| IP Shuffle | 22.1 % | **87.8 %** |
+| Complete Topology Shuffle | 18.2 % | **89.1 %** |
+
+(Breadth suppression, 200 s, ten seeds each; no-MTD baselines 38.40 and 5.88
+hosts respectively.)
+
+The mechanism is legible and is not a statistical accident. The inherited
+attacker is a **vulnerability-exploiting** actor: it walks the substrate's native
+precondition order and converts scanned services into compromises, so a defence
+that re-rolls the services and their versions destroys precisely what it depends
+on. The profiled attacker is a **position-and-reconnaissance-driven** actor: it
+spends 37–43 % of its visits in tactics that dispatch nothing and moves by
+accumulating position, so a defence that shuffles topology and addresses destroys
+precisely what *it* depends on — while re-rolling a service it was never going to
+exploit costs it comparatively little.
+
+This is the thesis's central claim in its sharpest available form. It is not that
+the profiled attacker is stronger — it is dramatically weaker on every headline
+security metric, and 0 of 1 200 movement runs reached the objective. It is that
+**an evaluator using the inherited attacker would rank the defence family in
+almost exactly the opposite order to one using a CTI-grounded attacker**, and
+would therefore deploy a different mechanism. Behavioural fidelity does not merely
+change the magnitude of the answer; here it changes which defence you buy.
+
+Two disciplines hold around it. Ten seeds supports a **rank comparison and not a
+significance test**, as pre-registered. And the effect is interval-dependent: at
+2 000 s the correlation is ρ = +0.286 — still not the same ordering, but the
+inversion is a property of the high-pressure regime, because at 2 000 s MTD barely
+suppresses the profiled attacker at all (§10).
+
+## 10. E1 — the ~90 % suppression is confirmed, and it belongs to one family
+
+The weight study handed this run a ~90 % host-suppression to confirm or withdraw
+per mechanism. **Confirmed, and resolved.** At 200 s all seven conditions suppress
+with disjoint intervals, but they do not do so equally:
+
+| condition | hosts | suppression |
+|---|--:|--:|
+| no MTD | 5.88 | — |
+| simultaneous (multi) | 0.60 | 89.8 % |
+| Complete Topology | 0.64 | 89.1 % |
+| IP Shuffle | 0.72 | 87.8 % |
+| alternative (multi) | 1.78 | 69.7 % |
+| random (multi) | 1.90 | 67.7 % |
+| OS Diversity | 3.46 | 41.2 % |
+| Service Diversity | 3.70 | 37.1 % |
+
+The ~90 % figure was never a property of "MTD"; it is a property of the
+**position-destroying** mechanisms, and reporting it as a single number — which is
+all the MTD-on/MTD-off framing could ever have produced — averaged two effects
+that differ by a factor of two and a half.
+
+**And at 2 000 s the effect very largely evaporates**: only IP Shuffle still
+suppresses with a disjoint interval (22.4 %), and Complete Topology Shuffle is
+nominally negative. Whatever MTD buys against this attacker, it buys at tempo.
+
+**A confound this run measured rather than assumed.** The conformance audit
+records that the simultaneous scheme serialises same-layer mutations through a
+resource queue, so effective mutation rate need not equal the nominal one. It does
+not: the simultaneous condition delivers **127.0 interrupts per run against 75.0**
+for the single mechanisms at the same nominal interval. Its first-place ranking is
+therefore substantially a *pressure* effect rather than a *composition* effect,
+and any reading of it that says "batching mechanisms works best" is unsupported by
+this run.
+
+## 11. E2 — axis 4: the adaptive loop reacts, and does not adapt usefully
+
+**MOVED at both intervals; axis 4 holds at DESIGNED.** This is the control the
+axis has never had, and it fails cleanly.
+
+At 200 s, *none* of the three progression measures separates the
+verdict-conditioned arm from the verdict-blind arm on the pre-registered bar (two
+profiles and two defence conditions with disjoint intervals). At 2 000 s breadth
+reaches one profile and three conditions — the profile half of the bar is not met.
+The point estimates are quietly instructive: conditioning helps nominally on four
+of five profiles under no MTD (`double_extortion` 8.10 against 7.50, `aggregate`
+6.40 against 5.80) and **hurts** on the fifth (`infrastructure_setup` 4.10 against
+5.40), with every interval overlapping.
+
+The honest statement, which the pre-registration committed to reporting as a
+finding rather than a soft pass: **routing on the substrate's verdict is
+approximately free.** The loop demonstrably operates — that has been on record
+since the runtime verification — and after 1 600 paired runs it has not been shown
+to change an outcome. Axis 4 has held at DESIGNED on the argument that nothing
+separated *reacts* from *adapts usefully*; that argument is now retired, and the
+badge stays where it was for a better reason than the absence of a control.
+
+## 12. E3 — axis 3: strategic plurality, DEMONSTRATED
+
+**HELD at both intervals, on both halves.** Traversal diversity is non-degenerate
+in every profile — pooled path entropy 1.451 to 2.714 bits, and between 2 and 10
+distinct five-place opening sequences across ten seeds. And outcomes vary over
+**both** dimensions rather than one: the mechanism ranking by breadth suppression
+is **not** the same for every profile (4 of 5 distinct at 200 s, 5 of 5 at
+2 000 s). `infrastructure_setup` is best suppressed by IP Shuffle while
+`pure_steal` and `aggregate` are best suppressed by the simultaneous scheme.
+
+That is an interaction, not a defender main effect, and it is what the axis asked
+for. **Axis 3 moves DESIGNED → DEMONSTRATED**, carrying the boundary the criterion
+itself insisted on: this is **variety, not strategy**. The branching is drawn from
+static corpus proportions, not chosen by a decision rule, so the claim is that a
+plural attacker changes what the defence dimension looks like — never that the
+attacker is selecting among strategies.
+
+## 13. E4 — axis 1: persistence, and a measurement finding that outranks it
+
+**MOVED at 200 s, HELD at 2 000 s; axis 1 holds at DESIGNED.** Getting here
+required correcting the analysis twice, and both corrections are worth more than
+the verdict.
+
+**The depth measure is saturated — again.** `deepest_successful_stage` returns
+**2 for all 800 movement runs**. Under this mapping the dwell-only objective band
+can hold no verdict, so the measure is structurally truncated at 2 and has no
+variance to discriminate with. This is the third progression measure this project
+has retired for saturation, and the second time it has happened to the *replacement*
+for a saturated measure.
+
+**The retention measure means the opposite of what the criterion assumed.** The
+first pass of this analysis reported axis 1 as DEMONSTRATED on foothold retention
+in 28–62 % of runs. Cross-examining the measure against its implementation showed
+the sign was backwards: the quantity counts footholds *severed* by a later
+position-destroying mutation — a duration until loss — while the retained
+footholds are the censored ones. And a second artefact sat underneath: OS and
+Service Diversity are **application-layer** mutations that interrupt often (52.7
+per run) and sever position **never**, so every foothold under them is retained
+trivially, by the absence of any threat to it. Counting those cells would have
+evidenced persistence from the absence of a challenge to it.
+
+Restricted to the defences that actually contest position, per-foothold retention
+at the operating interval is **0.0 % to 1.6 %**. Every foothold the profiled
+attacker takes is eventually taken back. At 2 000 s it rises to 3.3–43.6 %, which
+is the criterion's bar — but the reading is that retention rises as mutation
+pressure falls, which is a statement about the defence's tempo and not about the
+attacker's persistence. **The badge does not move on evidence that the attacker
+keeps position exactly when the defence stops taking it.**
+
+## 14. E6 — the sink policy, and a comparability break that is load-bearing
+
+**MOVED, and that is the useful answer.** The policy does what it was built to do:
+`double_extortion` terminated at a sink in 100 % of censored runs and 0 % of
+retraced ones, and `pure_steal` in 38 % against 0 %. But breadth **changes**, and
+not marginally:
+
+| profile | policy | sink share | hosts | attempted actions | elapsed |
+|---|---|--:|--:|--:|--:|
+| `double_extortion` | censor | 100 % | 1.95 | 68 | 3 256 |
+| `double_extortion` | retrace | 0 % | **6.42** | 268 | 14 969 |
+| `pure_steal` | censor | 38 % | 4.08 | 247 | 11 153 |
+| `pure_steal` | retrace | 0 % | 5.10 | 331 | 14 959 |
+
+`double_extortion`'s compromise count more than triples. **Nothing about the
+attacker improved** — it was previously being switched off after a fifth of its
+horizon. The comparability break the design record warned about is therefore not
+bookkeeping: experiment 1's per-profile numbers for the sinking profiles were
+measuring a censoring artefact as attacker behaviour, and no experiment-2 figure
+may be pooled with them.
+
+The retrace rate confirms the design's structural argument. `double_extortion`
+retraces 6.9 times per run and `pure_steal` 0.6 — spread across runs of 268 and
+331 actions, against the predicted ~1.1 retraces per sink encounter. No walk
+reached the `max_events` backstop. The two profiles with no sinks produce
+bit-identical arms, as the null gate requires.
+
+## 15. E7 — the condition axis 6 needs exists, but not where it operates
+
+**All seven mechanisms are dwell-proportional at 200 s** (max/min per-tactic
+relative tax 1.53 to 2.90, under the pre-registered threshold of 3). This
+reproduces the incentive-rationality study's anatomy per mechanism and explains
+its negative result at mechanism resolution: MTD's tax really is levied in
+near-proportion to a tactic's declared dwell, so a normalised utility ratio cannot
+see it, whichever mechanism is running.
+
+**At 2 000 s four of the seven cross the threshold** — alternative (multi) 5.83,
+random (multi) 4.18, simultaneous (multi) 4.13, Complete Topology 3.48. So the
+condition the axis-6 record named as a route to DEMONSTRATED does exist in this
+defence family, and it exists **outside** the interval every prior run used. That
+is a specific, cheap instruction for the next cycle rather than a general
+suggestion. It moves nothing today: a claim needs a run at a non-zero rationality
+exponent, which the S2 governance question still gates.
+
+## 16. E8 — the stealth contrast the model already produces
+
+**HELD.** Event-wise only, as S3-R requires:
+
+| arm | share of visits in non-action tactics | attack events per 1 000 s |
+|---|--:|--:|
+| inherited baseline | **0.0 %** (structural) | 92.9 |
+| `double_extortion` | 43.3 % | 17.7 |
+| `pure_impediment` | 39.4 % | 18.9 |
+| `aggregate` | 38.4 % | 21.2 |
+| `pure_steal` | 37.0 % | 21.6 |
+| `infrastructure_setup` | 17.3 % | 34.6 |
+
+The profiled attacker generates between a fifth and a third of the baseline's
+observable event rate, and spends up to 43 % of its visits in tactics that
+dispatch nothing at all — against a baseline whose corresponding figure is
+**structurally zero**, because the inherited attacker has no non-action state to
+occupy. The low-and-slow contrast is a property the model already has, without any
+stealth mechanism.
+
+**No badge moves.** Axis 5 stays NOT ADDRESSED, and this run sharpens why rather
+than softening it: a tempo with no detection model to be quiet against is a
+measurable difference with no adversarial consequence. The route to changing that
+is named and blocked (§6.3).
+
+## 17. E9 — the degenerate region is a property of the region
+
+**CONFIRMED.** The baseline reaches the objective in 8 of 80 runs at 200 s and
+**33 of 80** at 2 000 s; the profiled attacker reaches it in **0 of 400** at
+either. The region behaves exactly as the rate study predicted for the inherited
+attacker — relax the mutation pressure and success becomes reachable — and the
+profiled attacker's zero is *not* a region artefact, because it survives the relaxation
+that rescues the baseline. Every ASR-shaped zero this project has reported for the
+profiled attacker should be read as a statement about the attacker on this
+substrate, not about the operating point.
+
+## 18. The exploratory learning arm
+
+The axis-7 sweep's verdict reproduces across the whole defence family and at both
+intervals: **the learner lowers compromise breadth in every one of the sixteen
+condition × interval cells** (5.88 → 5.24 with no MTD; 0.64 → 0.36 under Complete
+Topology; 5.02 → 4.56 under Service Diversity at 2 000 s), while lowering its own
+blocked fraction (15.3 % → 8.6 % with no MTD). More successes, fewer hosts — the
+misspecified-reward finding, now shown to be a property of the learner rather than
+of the one defence condition the axis-7 sweep could afford.
+
+The defence-relevant half also resolves per mechanism. Forgetting events track
+realised mutation pressure exactly (75.0 per run under the single mechanisms at
+200 s, 128.9 under the simultaneous scheme, 5.2–8.0 at 2 000 s), so **the
+mechanisms that destroy the learner's belief fastest are the position-destroying
+ones** — the same family that suppresses breadth. No badge moves: the arm is
+exploratory by pre-registration, and the credit-assignment redesign axis 7 needs
+has not happened.
+
+## 19. Scored against the APT criterion
+
+| axis | before | after | why |
+|---|---|---|---|
+| 1 — persistence | DESIGNED | **DESIGNED** | retention against position-contesting defences is 0.0–1.6 % at the operating interval; the depth measure is saturated (§13) |
+| 2 — objective conditioning | DEMONSTRATED | **DEMONSTRATED** (reinforced) | the mechanism ranking differs by profile in 4 of 5 (200 s) and 5 of 5 (2 000 s) cells — objective conditioning now reaches the *defence* dimension, not just the failure mode |
+| 3 — strategic plurality | DESIGNED | **DEMONSTRATED** | entropy 1.45–2.71 bits with 2–10 distinct openings, and a profile × mechanism interaction (§12) — as variety, not strategy |
+| 4 — adaptivity | DESIGNED | **DESIGNED** | the verdict-blind ablation is indistinguishable from the conditioned arm across 1 600 paired runs (§11) |
+| 5 — stealth | NOT ADDRESSED | **NOT ADDRESSED** | the tempo contrast is large and has no consequence; the one route to consequence is blocked (§6.3, §16) |
+| 6 — incentive rationality | DESIGNED | **DESIGNED** | E7 locates the missing condition but cannot consume it (§15) |
+| 7 — learning | DESIGNED | **DESIGNED** | the arm is exploratory and reproduces the axis-7 negative (§18) |
+| 8 — scheme awareness | NOT ADDRESSED | **NOT ADDRESSED** | ruled out of scope; untouched |
+
+**One badge moves, and one nearly did.** Axis 3 to DEMONSTRATED on a
+pre-registered criterion. Axis 1 was reported as moving by the first pass of this
+analysis and was withdrawn on cross-examination — which is the pre-registration
+discipline doing the only job it exists to do.
+
+## 20. What is working, and what is not
+
+**Working.** The model produces a defence ranking that inverts against the
+inherited attacker's, with a mechanism behind it that is legible rather than
+statistical (§9); objective conditioning reaches the defence dimension (§12,
+§19); the measurement suite carried every claim without a new measure being built;
+and the pre-registration caught a badge move that the numbers would have supported
+and the measures did not (§13).
+
+**Not working.** Adaptivity is free — 1 600 paired runs cannot distinguish
+conditioning on the substrate's verdict from ignoring it (§11). Two successive
+progression measures have now saturated under this mapping, so axis 1 has no
+instrument. The profiled attacker still reaches the objective zero times in 1 200
+runs, and that is now known not to be a regime artefact (§17). And three of the
+eight axes remain closed by things this run cannot touch: a detection model
+(axis 5), a governance ruling (axis 6), and a credit-assignment redesign (axis 7).
+
+**The largest open risk to everything above** is that the whole result rests on a
+tactic→verb mapping that remains a chosen input parameter rather than a fidelity
+claim. The inversion in §9 says the two attackers depend on different substrate
+properties; how much of that difference is the CTI corpus and how much is the
+mapping is not separable from this run, and a mapping-sensitivity study is the
+obvious next instrument.
