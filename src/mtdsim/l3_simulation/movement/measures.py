@@ -89,7 +89,9 @@ CONSENSUS_PATH = _REPO_ROOT / "data" / "ogasp" / "controller" / "lifecycle_conse
 # records. A *bare* marker (no verb, no dwell) names the place the token had
 # just arrived at when the sim ended; it consumed nothing and dispatched
 # nothing, so visit-denominated fractions exclude it (see visit_records).
-TERMINAL_TAGS: frozenset[str] = frozenset({"SIM_END", "MAX_EVENTS"})
+TERMINAL_TAGS: frozenset[str] = frozenset(
+    {"SIM_END", "MAX_EVENTS", "SINK_EXHAUSTED"}
+)
 
 # The MTD resource type whose interrupt severs the attacker's position: the
 # substrate clears the host cursor only on a network-layer mutation
@@ -217,6 +219,49 @@ def deepest_successful_stage(
         if r.verdict == "success" and r.place in stage_of
     ]
     return max(stages) if stages else None
+
+
+def first_success_stage(
+    run: MovementRunResult, stage_of: Mapping[str, int]
+) -> int | None:
+    """The consensus stage at which the run recorded its **first** success
+    verdict. None when the run never succeeded at a mapped place.
+
+    On its own this is bookkeeping; paired with :func:`deepest_successful_stage`
+    it is the axis-1 progression measure, because the difference between them is
+    *advance* (see :func:`advanced_after_first_success`)."""
+    for record in run.records:
+        if record.verdict == "success" and record.place in stage_of:
+            return stage_of[record.place]
+    return None
+
+
+def advanced_after_first_success(
+    run: MovementRunResult, stage_of: Mapping[str, int]
+) -> bool | None:
+    """Did the run reach a **strictly deeper** stage than the one it first
+    succeeded at? None when the run never succeeded (no advance is defined).
+
+    **Why the axis-1 criterion needs this and not a depth threshold.** Depth
+    alone cannot carry persistence here. Deepest *visited* stage is saturated
+    (all five profiles traverse to the objective band, criterion §(h)), and
+    deepest *successful* stage has its ceiling truncated to 2 under a mapping
+    whose objective band is dwell-only — four profiles already sit at exactly
+    2.0 ± 0.0 there, so "reached stage 2" would score persistence captured on a
+    truncated ceiling, which is the reverse-fitting the badge is held to avoid.
+
+    What holds the badge is not shallowness but **repetition**: experiment 1's
+    churn finding is hundreds of successful actions landing on the same couple
+    of hosts (§3, finding 1). Persistence in outcome terms is therefore advance
+    *past where the campaign already got*, which is exactly what this asks —
+    and it is invariant to where the ceiling sits, because it compares a run
+    against itself rather than against an absolute depth.
+    """
+    first = first_success_stage(run, stage_of)
+    if first is None:
+        return None
+    deepest = deepest_successful_stage(run, stage_of)
+    return deepest is not None and deepest > first
 
 
 @dataclass(frozen=True)
@@ -542,6 +587,50 @@ def recovery_times(run: MovementRunResult) -> CensoredDurations:
     return CensoredDurations(tuple(observed), tuple(censored))
 
 
+def refoothold_times(run: MovementRunResult) -> CensoredDurations:
+    """Time from each **position-severing** MTD interrupt to the attacker's next
+    host compromise. No compromise before run end → censored at
+    ``termination_time``, and the censoring is the signal, not missing data.
+
+    The complement of :func:`foothold_retentions`, and the measure axis 1's
+    criterion turns on. Retention asks how long a foothold survives the defence;
+    this asks whether the campaign **comes back** after the defence took it away,
+    which is what persistence means against a moving target — Alshamrani's
+    mechanism is that rearrangement "renders the exploratory knowledge of the
+    attacker useless", so an attacker that never re-establishes has not persisted
+    however long it ran.
+
+    It is deliberately narrower than :func:`recovery_times`, which counts *any*
+    success verdict as recovery. A reconnaissance success after a sever is not a
+    re-established foothold, and scoring persistence off it would score the
+    churn finding as recovery.
+    """
+    observed: list[float] = []
+    censored: list[float] = []
+    records = run.records
+    for i, rec in enumerate(records):
+        if not severs_position(rec):
+            continue
+        regained = next((r for r in records[i + 1 :] if is_compromise(r)), None)
+        if regained is not None:
+            observed.append(regained.end_time - rec.end_time)
+        else:
+            censored.append(run.termination_time - rec.end_time)
+    return CensoredDurations(tuple(observed), tuple(censored))
+
+
+def refoothold_rate(run: MovementRunResult) -> float | None:
+    """Fraction of position-severing interrupts the attacker re-footholded after,
+    before the run ended. None when the run's position was never severed (the
+    question is undefined, and encoding it as 0.0 would score a run MTD never
+    touched as a failure to persist)."""
+    times = refoothold_times(run)
+    total = len(times.observed) + len(times.censored)
+    if not total:
+        return None
+    return len(times.observed) / total
+
+
 def failure_routing_rate(run: MovementRunResult) -> float | None:
     """Fraction of the run's verdict-carrying routing decisions taken on the
     failure column (the overlay's failure out-set). Correlate against breadth
@@ -555,14 +644,29 @@ def failure_routing_rate(run: MovementRunResult) -> float | None:
     return sum(1 for r in routed if r.verdict == "failure") / len(routed)
 
 
-TERMINAL_MODES = ("objective", "sink", "sim_end", "max_events", "horizon", "empty")
+TERMINAL_MODES = (
+    "objective",
+    "sink",
+    "sink_exhausted",
+    "sim_end",
+    "max_events",
+    "horizon",
+    "empty",
+)
 
 
 def terminal_mode(run: MovementRunResult) -> str:
     """How the walk ended (experiment 1's vocabulary, formalised): objective /
-    sink / sim_end / max_events / horizon / empty. The baseline arm has no
-    counterpart derivable from its rows — its runner knows only objective vs
-    horizon — so cross-arm terminal comparisons use that coarser pair."""
+    sink / sink_exhausted / sim_end / max_events / horizon / empty. The baseline
+    arm has no counterpart derivable from its rows — its runner knows only
+    objective vs horizon — so cross-arm terminal comparisons use that coarser
+    pair.
+
+    ``sink`` and ``sink_exhausted`` are kept apart deliberately: the first means
+    the retrace policy was off and the walk was censored where the corpus ran out
+    of edges, the second means the policy ran and had nowhere left to step back to
+    (``sink_retrace_design.md`` §3.5). Collapsing them would let a policy that
+    never fired read as a policy that fired and failed."""
     if run.reached_objective:
         return "objective"
     if not run.records:
@@ -572,6 +676,8 @@ def terminal_mode(run: MovementRunResult) -> str:
         return "max_events"
     if last.outcome == "SIM_END":
         return "sim_end"
+    if last.outcome == "SINK_EXHAUSTED":
+        return "sink_exhausted"
     if last.next_place is None:
         return "sink"
     return "horizon"
@@ -891,7 +997,11 @@ __all__ = [
     "distinct_place_count",
     "deepest_visited_stage",
     "deepest_successful_stage",
+    "first_success_stage",
+    "advanced_after_first_success",
     "foothold_retentions",
+    "refoothold_times",
+    "refoothold_rate",
     "n_successes",
     "successes_per_distinct_host",
     "actions_per_distinct_host",

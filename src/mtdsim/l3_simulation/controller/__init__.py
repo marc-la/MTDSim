@@ -54,10 +54,12 @@ from mtdsim.l3_simulation.controller.controller import (
     load_registry,
 )
 from mtdsim.l3_simulation.controller.outcome import (
+    VERDICT_BLIND,
     OutcomeOverlay,
     OverlayRegistry,
     OverlayVersion,
     load_outcome_overlay,
+    verdict_blind_overlay,
     load_overlay_registry,
 )
 from mtdsim.l3_simulation.controller.rules import (
@@ -82,7 +84,9 @@ __all__ = [
     "load_registry",
     # Success/failure outcome-overlay split + M2 composition (see outcome.py).
     "OutcomeOverlay",
+    "VERDICT_BLIND",
     "load_outcome_overlay",
+    "verdict_blind_overlay",
     # The versioned overlay registry — value sets are data, selected by name.
     "OverlayRegistry",
     "OverlayVersion",

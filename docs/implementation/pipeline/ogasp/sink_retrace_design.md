@@ -224,6 +224,40 @@ before. The two conditions are disjoint in the code and the tests pin that they 
 7. The stack-walk and stack-exhausted paths are exercised on a constructed net, since
    the corpus cannot reach them.
 
+## 6b. What the build found that the design did not anticipate (2026-07-29)
+
+Two things surfaced while the gates were being written, and both are recorded because
+they change how the policy must be *read*, not merely how it is coded.
+
+**Carrying a sink and reaching one are different, and the synthetic overlay is the
+difference.** `infrastructure_setup` has `defense-impairment` as a structural sink and
+**never walks into it** with the synthetic pre-intrusion overlay on — 0 retraces across
+ten seeds. With the overlay off it strands at `reconnaissance` / `resource-development`
+and retraces freely (49 over the same seeds). So the overlay reconnects exactly the
+places that would otherwise censor that profile, and the S5 policy is, for this profile,
+an observed-only-arm mechanism. The consequence for reporting: a claim that "the retrace
+un-censors three profiles" would be wrong on the overlay-on arm, where it un-censors
+**two** (`pure_steal`, `double_extortion`). §1's table lists which nets carry sinks; it
+was never a claim about which walks meet them, and the two must not be conflated.
+
+**The retrace counter counts visits, not decisions.** The flag is set while the *sink's*
+record is still being built, so it is consumed one iteration later — it belongs to the
+visit the token stepped back *into*, not to the sink it stepped back *from*. The counter
+increments on that consumption, which makes "retraces" mean *retraced visits that
+actually happened*: a retrace chosen an instant before the sim ends produces no visit
+and is not counted. The count and the number of flagged records are therefore equal by
+construction rather than by coincidence, and a test pins it. The first implementation
+put the flag on the sink's own record, and gate 6 caught it — which is the argument for
+having written gate 6 at all.
+
+**Observed magnitude.** On `v2_partial`, no MTD, seed 0: `pure_steal` goes from 14
+events terminating at a sink to 479 running to the horizon (4 retraces), and
+`double_extortion` from 144 to 427 (4 retraces). Retraces are well under 1 % of steps in
+every cell measured, which is the evidence behind §3.4's decision to count rather than
+budget. The compromise counts move too — `pure_steal` 0 → 3 hosts, `double_extortion`
+3 → 9 — which is the censoring's cost made concrete, and is exactly why experiment 2's
+numbers cannot be pooled with experiment 1's (§4).
+
 ## 7. Alternatives considered
 
 - **Verdict-side re-route at the sink** (the handoff's first preference). Rejected on

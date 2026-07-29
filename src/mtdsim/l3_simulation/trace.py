@@ -116,6 +116,7 @@ class L3Tracer(Tracer):
     # movement tallies
     steps: int = 0
     dwell_only_steps: int = 0
+    retraced_steps: int = 0  # visits the token stepped back into (S5)
     blocked_dispatches: int = 0
     verdict_successes: int = 0
     verdict_failures: int = 0
@@ -321,8 +322,10 @@ class _NarratingRecords(list):
             t.verdict_failures += 1
         if rec.place_class == DWELL_ONLY:
             t.dwell_only_steps += 1
+        if rec.retrace:
+            t.retraced_steps += 1
 
-        if rec.outcome in ("SIM_END", "MAX_EVENTS"):
+        if rec.outcome in ("SIM_END", "MAX_EVENTS", "SINK_EXHAUSTED"):
             t.terminal_tag = rec.outcome
             t.emit("TOKEN", f"END            {rec.outcome} at {rec.place}",
                    "the walk's end is recorded, never an unexplained stop")
@@ -348,6 +351,12 @@ class _NarratingRecords(list):
             t.acted_time += rec.dwell
             bought = f"{rec.verb} ran for all of it"
         dest = rec.next_place if rec.next_place is not None else "(walk ends)"
+        # The S5 retrace is the one move the token does not choose: it stepped
+        # back because the corpus drew no edge out of where it was. Saying so in
+        # the log is the difference between a reader seeing a policy fire and a
+        # reader seeing the token inexplicably double back.
+        if rec.retrace:
+            what = f"{what}  [retraced here from a sink]"
         # The residual is what the substrate charged on top of the tactic's time.
         # It must be 0.0 on every uninterrupted event: S3-R retired MTDSim's own
         # action costs on this arm, so a non-zero value here is the hybrid coming
@@ -430,6 +439,7 @@ def run_l3_trace(
     custom_strategies=None,
     geometry: dict | None = None,
     max_events: int = 50_000,
+    retrace_sinks: bool = False,
 ) -> tuple[L3Tracer, MovementRunResult]:
     """Run one movement-layer simulation with unified tracing on.
 
@@ -485,6 +495,7 @@ def run_l3_trace(
         timing=_TracedTiming(timing, tracer),
         seed=seed,
         max_events=max_events,
+        retrace_sinks=retrace_sinks,
     )
     attacker.records = _NarratingRecords(tracer)
     attacker.start()
@@ -560,6 +571,14 @@ def _l3_verdict(tracer: L3Tracer, result: MovementRunResult, horizon: float,
     lines.append(f"  {tracer.steps} step(s) across "
                  f"{len(tracer.visits_by_place)} distinct place(s); "
                  f"{tracer.dwell_only_steps} dwell-only.")
+    if tracer.retraced_steps:
+        lines.append(f"  {tracer.retraced_steps} of those were retraces — the "
+                     "token stepped back from a place the corpus drew no exit "
+                     "from (S5), instead of the run being censored there.")
+    if tracer.terminal_tag == "SINK_EXHAUSTED":
+        lines.append("  Terminated with the retrace policy exhausted: it ran and "
+                     "had nowhere left to step back to. Distinct from a plain "
+                     "sink termination, which means the policy was off.")
     if tracer.terminal_tag == "MAX_EVENTS":
         lines.append("  Terminated by the MAX_EVENTS backstop — a pathological "
                      "cycle, not a policy outcome.")
@@ -733,6 +752,11 @@ def main(argv=None) -> int:
                          "interrupt (0 = a learner MTD cannot touch, 1 = amnesia)")
     ap.add_argument("--only", default=None,
                     help="comma-separated actors, e.g. token,controller")
+    ap.add_argument("--retrace", action="store_true",
+                    help="turn on the S5 sink-retrace policy (off by default, "
+                         "as in run_movement): a token reaching a place the "
+                         "corpus drew no exit from steps back instead of the "
+                         "run being censored there")
     ap.add_argument("--no-colour", action="store_true")
     ap.add_argument("--quiet", action="store_true", help="verdict only")
     args = ap.parse_args(argv)
@@ -765,6 +789,7 @@ def main(argv=None) -> int:
         attacker_state=attacker_state,
         mtd_scheme=args.scheme,
         mtd_interval=args.mtd_interval,
+        retrace_sinks=args.retrace,
     )
 
     if not args.quiet:
