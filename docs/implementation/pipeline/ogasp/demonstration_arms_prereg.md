@@ -7,6 +7,17 @@ updated: 2026-07-29
 
 # Pre-registration — the axis-1, axis-3 and axis-4 demonstration run
 
+> **NOT EXECUTED (2026-07-29).** A parallel session ran the same handoff from the
+> same commit and shipped the result on `feat/exp02-ashen-lynx`; this run was
+> stopped as a duplicate at 207 of 6 900 rows on Marc's ruling. The document is
+> **retained unedited** because its value is now as an independent yardstick: it was
+> written without sight of the other derivation, and
+> [`demonstration_arms_cross_examination.md`](demonstration_arms_cross_examination.md)
+> uses §5's criteria to cross-examine the shipped result. Editing it after the fact
+> would destroy exactly the property that makes it useful. One defect in §5 A1.1 —
+> the missing tempo guard — is recorded in the cross-examination §5 rather than
+> fixed here.
+
 **Status:** durable, and **committed before the first result file exists**. This project
 has run two pre-registered studies (the S1 weight sweep, the rate feasibility study) and
 the discipline paid off both times — in each, a conclusion moved that a post-hoc analysis
