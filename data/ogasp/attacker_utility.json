@@ -1,0 +1,82 @@
+{
+  "artefact": "L3 attacker utility model (criterion axis 6) — the declared BENEFIT family, the reused cost term, and the rationality exponent",
+  "status": "declared v1; lambda swept, benefit rule-generated, cost reused not re-declared",
+  "created": "2026-07-29",
+  "record": "docs/implementation/pipeline/ogasp/incentive_rationality.md",
+  "value_semantics": "u(b | profile) = benefit(b | profile) / max(cost(b), cost_floor_s), normalised across the source's out-set and raised to lambda, then multiplied into the routing composition as the seam's third factor (attacker_state_seam.md §2). At lambda = 0 the factor is identically 1.0 and the run is bit-identical to a run with no modulator at all — the current model is the lambda = 0 special case of this one.",
+  "coverage": "complete: every one of the 15 place-union tactics carries a benefit under every one of the 5 profiles (75 values), including tactics a given profile's net has no place for — the declared layer authors the whole space, the data layer decides which cells route mass (declared_value_provenance.md §5)",
+  "authoring": "declared knowledge, NOT measured. No per-tactic benefit magnitude exists anywhere in the corpus or the literature; what exists is a mechanism (FlipIt: benefit = control fraction − average move cost, and at the periodic-game equilibrium the player with the higher move cost has benefit zero) and a positioning precedent (Ho 2024's RoAC = reward / attack cost, cost defined as time to exploit). This family supplies the attacker-side, tactic-granularity analogue of that shape — a rationality SHAPE over declared beliefs, never a calibrated utility and never a claim about a real adversary.",
+  "compiled_view": "data/ogasp/attacker_utility_benefit.json — generated; DO NOT hand-edit. Regenerate with `PYTHONPATH=src python -m mtdsim.l3_simulation.movement.utility --write`; reproduce-check with `--check`.",
+
+  "model": {
+    "benefit": "objective proximity WITHIN THE PROFILE: value accrues at the profile's own declared objective, and every other tactic is instrumental — discounted geometrically by how many consensus lifecycle stages separate it from the nearest objective, with one step of discount for not being the objective itself.",
+    "not_the_distance_kernel": "benefit is a property of the DESTINATION relative to THIS PROFILE'S objective; the overlay's lifecycle-distance kernel is a property of the JUMP (a signed source→destination stage offset) and is identical across profiles. The two cannot be the same term: benefit differs between profiles for the same tactic, which the distance kernel never does, and benefit is independent of the source, which the distance kernel never is. Both properties are asserted in tests/l3_simulation/test_movement_utility.py so the separation is regression-guarded rather than argued.",
+    "objective_sets": "read from mtdsim.l3_simulation.petri.analysis.OBJECTIVE_TACTICS — the class-semantic objectives declared for the GASP classes (pure_steal → exfiltration; pure_impediment → impact; double_extortion → both; infrastructure_setup → command-and-control; aggregate → the union, the null-envelope reading). Not restated here: the objective sets have one home.",
+    "stage_ordering": "read from data/ogasp/controller/lifecycle_consensus.json stage_of — the four-stage APT-lifecycle consensus, so benefit and the overlay's relationship term rest on the same published ordering rather than on two divergent ones.",
+    "cost": "read from data/ogasp/tactic_durations.json duration_s — the declared per-tactic duration catalogue, REUSED as the cost term rather than re-declared. A parallel cost catalogue that could drift from the durations would be worse than no cost model, and reuse means the cost half of this factor inherits the durations' tier badges and their completed sensitivity sweep instead of needing a fresh one. Ho 2024's RoAC defines attack cost as time to exploit, so time is the cost term the lineage already uses.",
+    "gap": "gap(b, P) = min over o in objectives(P) of |stage(o) − stage(b)| — an unsigned stage separation. Unsigned because proximity to an objective is a distance: a tactic seated past the objective's stage is no closer to achieving it than one seated the same distance before it."
+  },
+
+  "benefit_rules": [
+    {
+      "id": "objective",
+      "value": 1.0,
+      "rationale": "the profile's own declared objective is what the campaign is worth; it carries the unit of benefit and every other value is expressed relative to it",
+      "provenance_tier": "declared-judgement",
+      "status": "stable",
+      "confidence": 90,
+      "scrutiny": "This is a normalisation choice rather than a contested magnitude — the modulator normalises across the source's out-set before exponentiating, so a common rescaling of the whole family cancels and only the RATIOS between tactics are behaviourally live. What is genuinely declared is that the objective sits at the top of the ordering, which follows from the GASP classes being defined by their operational objective in the first place.",
+      "changelog": []
+    },
+    {
+      "id": "instrumental",
+      "parameters": {
+        "rho": 0.5
+      },
+      "parameters_note": "carries `parameters` rather than a single `value` because the rule is a small function of the stage gap, not one number (the schema extension recorded in declared_value_provenance.md §3). Its defence is therefore a sweep over the declared band, not an argument about one magnitude.",
+      "rationale": "a non-objective tactic is instrumental, and its value to the campaign falls geometrically with how many lifecycle stages separate it from the nearest objective: benefit = rho^(1 + gap), so even a same-stage non-objective sits one decay step below the objective it serves",
+      "provenance_tier": "declared-judgement",
+      "status": "provisional",
+      "confidence": 60,
+      "scrutiny": "The honest floor tier, stated rather than dressed up: no source in the corpus assigns a per-tactic benefit, and the nearest literature (FlipIt's control-fraction benefit, Maleki's expenditure-to-defeat-probability row, MAL/coreLang's per-step effort distributions) attests that attackers HAVE a cost/benefit calculus without attesting its per-tactic magnitudes. rho = 0.5 is the neutral declaration that one lifecycle stage of separation halves a tactic's value to the campaign; the band [0.25, 0.75] runs from sharply objective-focused (below which only the objective band carries value) to nearly flat (above which the term does almost nothing). Because the tier is the floor tier, the sweep — not the argument — is what this value's defence rests on.",
+      "sweep": [0.25, 0.75],
+      "changelog": []
+    }
+  ],
+
+  "declared_parameters": {
+    "rho": {
+      "value": 0.5,
+      "tier": "declared-judgement",
+      "sweep": [0.25, 0.75],
+      "meaning": "the per-lifecycle-stage decay of instrumental benefit; 0.5 = one stage of separation halves a tactic's value"
+    },
+    "cost_floor_s": {
+      "value": 4.5,
+      "tier": "declared-judgement",
+      "sweep": [1.0, 45.0],
+      "meaning": "the floor the cost term is clamped up to, in simulated seconds — needed because resource-development is declared duration_s = 0.0 and a ratio cannot divide by it.",
+      "why_this_value": "The catalogue's zero is a declaration that the tactic's real effort happens OFF the simulator's clock (weeks to months of tool and infrastructure preparation preceding the run), not that the tactic is free. A floor chosen to make an un-metered tactic read as costless would invert exactly the quantity this axis exists to model. The floor is therefore set at the cheapest METERED action in the catalogue — the exploit-shaped anchor, 4.5 s — so an un-metered tactic reads as no cheaper than the cheapest thing the simulator does price. The band brackets the declared value between the naive reading of the zero (1.0 s, effectively free) and the low-and-slow anchor (45.0 s, prep as expensive as maintaining a foothold). Declared, then swept: the floor is expected to be load-bearing, because it alone decides whether the off-clock tactic sits at the top or the middle of the utility ordering.",
+      "floor_is_declared_not_silent": "the clamp is this named parameter, reported in every compiled view and in the sweep design — it is never a silent max() buried in the modulator"
+    },
+    "lambda": {
+      "value": 1.0,
+      "tier": "declared-judgement",
+      "sweep": [0.0, 0.5, 1.0, 2.0, 4.0],
+      "meaning": "the RATIONALITY EXPONENT. lambda = 0 is indifference to cost and benefit — the modulator is identically 1.0 and the model reproduces today exactly, which is the ablation for free. lambda = 1 is preference proportional to normalised utility, the canonical rational-actor reading and the only value in the band with an interpretation that is not arbitrary. Rising lambda is increasingly greedy; the top of the band (4.0) is the near-greedy end, which should be SHOWN to collapse traversal diversity rather than assumed to.",
+      "never_fitted": "lambda is declared from what the parameter means and swept over its declared band with the conclusions committed before any output existed. It is not, and must never be, chosen because a value makes the attacker get further — this axis is the most tempting place in the project to reverse-engineer a value from the layer it conditions (declared_value_provenance.md §5)."
+    }
+  },
+
+  "ledger_meta": {
+    "purpose": "living value-provenance & scrutiny ledger; see docs/implementation/declared_value_provenance.md",
+    "provenance_tiers": {
+      "corpus-grounded": "derived from CTI/corpus data — does not apply here and must stay empty: a benefit family authored by observing which tactics the profile nets actually traverse would be reverse-engineered from the layer it conditions",
+      "attested-pattern": "the BEHAVIOUR is documented in reports/literature; the exact MAGNITUDE is declared",
+      "declared-judgement": "reasoned from first-principles logic; not attested. The honest floor tier, and the tier every value in this file sits at."
+    },
+    "review_history": "R0 authoring + lambda sweep (2026-07-29, the axis-6 build). No adversarial cross-examination round has run on this family yet — unlike the outcome overlay, which carries R0–R4. That gap is stated rather than implied: the sweep is this family's only defence so far, and a cross-examination round is the obvious next maintenance step.",
+    "reproducibility": "the benefit table is rule-generated by the tracked generator (mtdsim.l3_simulation.movement.utility), which re-compiles the committed view and reports any cell that differs — 0 of 75, checked in tests/l3_simulation/test_movement_utility.py. Deterministic, not post-hoc.",
+    "maintenance": "append per-rule scrutiny and changelog each round. The cost half needs no round of its own: it is the duration catalogue, whose tiers and sweep verdict live with that artefact. Re-open this file when a cross-examination round runs, when the lambda sweep is re-run at a different mutation interval, or when a profile's declared objective set changes."
+  }
+}
