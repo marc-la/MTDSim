@@ -200,6 +200,16 @@ Additive from this branch, and not present on the other:
 | `MovementRunResult.retrace_count` | makes the no-budget argument falsifiable from the run result rather than from the records |
 | [`demonstration_arms_prereg.md`](demonstration_arms_prereg.md) | the independent criteria §3 and §5 rest on |
 
+**An operational hazard, found the hard way.** The other session's worktree reaches
+`data/results/` through a **symlink to the main clone's copy**, so two sessions on
+two branches were writing experiment workspaces into one directory. Nothing
+collided — the workspaces are named `axis134_demonstration/` and
+`expo02_ashen_lynx/` — but only by luck of naming, and a session that reused a
+directory name would have overwritten another's numbers with no warning and no
+trace in git (the whole tree is gitignored). Two mitigations, either sufficient:
+name the workspace after the branch rather than after the handoff, or give a
+worktree its own `data/results/` rather than a symlink.
+
 One further datum for whoever next sizes a matrix: **`OSDiversityAssignment` at a
 200 s interval takes over four minutes per run** — it solves an LP per mutation, so
 that one mechanism is roughly four hours of a full grid. It is one of the four
