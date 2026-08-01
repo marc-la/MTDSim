@@ -159,8 +159,8 @@ result that prompted them.
 
 | Row | What it scores | This model today |
 |---|---|---|
-| A | evidential provenance — are the behavioural parameters evidenced, or declared? | *derived this commit; scored in the next* |
-| B | evaluative consequence — does substituting this attacker change the evaluation's answer? | *derived this commit; scored in the next* |
+| A | evidential provenance — are the behavioural parameters evidenced, or declared? | **structure corpus-grounded; magnitudes ≈ one-sixth externally fixed, ≈ three-fifths declared judgement** (§(d2)) |
+| B | evaluative consequence — does substituting this attacker change the evaluation's answer? | **RECOMMENDATION grade** — at the operating interval, directionally at ten seeds (§(d2)) |
 
 ## (d) The axes
 
@@ -685,8 +685,49 @@ counts at ledger-entry level with the non-ledger layers named beside them —
 never as a single binary claim of CTI-groundedness, which the tier structure
 exists to prevent in both directions.
 
-**Score:** *withheld in this commit, by the derivation discipline above; the
-following commit scores the row against the ledgers as they stand.*
+**Score — 2026-08-01, by aggregation, one commit after the definition.** The
+behavioural parameter surface divides into the structural layer, four value
+families carrying per-entry tier badges, and two declared choices with no
+ledger. Counted at ledger-entry level, the four families hold 38 entries: the
+duration catalogue's 15 per-tactic values, the outcome overlay's 15 rules, the
+learning family's 3 entries and the benefit/utility family's 5.
+
+- **Corpus-grounded in full — the structural layer.** The campaign structures
+  and base transition weights: five class nets built as unions of 5–19
+  analyst-drawn flows, with transition weights from flow proportions
+  ([`architecture.md`](architecture.md) §(j)); and the objective partition,
+  audit-traced per flow to the analyst-stated operational objective
+  ([`pipeline/gasp/gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(c)). This
+  is the model's single largest input and the layer every declared family
+  conditions. One declared exception rides with it: the pre-intrusion
+  structure is composed in synthetically
+  ([`pipeline/ogasp/synthetic_overlay.md`](pipeline/ogasp/synthetic_overlay.md),
+  M6) rather than drawn from the corpus.
+- **Externally fixed — 6 of 38.** The six Tier-1 durations, priced by the
+  substrate's own constants and traceable through
+  [`provenance.md`](provenance.md) to the published lineage.
+- **Attested in pattern or target, magnitude declared — 9 of 38.** The five
+  outcome-overlay entries at `attested-pattern(/declared-magnitude)`, the
+  learning exponent κ, and the three Tier-2 durations — the last carrying a
+  named literature calibration milestone the catalogue has not yet been
+  calibrated against (its own version string is `v0-uncalibrated`).
+- **Declared judgement — 23 of 38.** The ten remaining overlay entries, the
+  six Tier-3 durations, the learning estimator and forgetting fraction, and
+  all five entries of the benefit/utility family — whose ledger additionally
+  records having survived no adversarial round at all.
+- **Declared with no ledger.** The tactic-to-verb controller mapping (the
+  chosen input parameter every result is already bounded by) and the sink
+  policy.
+
+**The honest summary this row exists to force:** the model's *structure* is
+corpus-grounded and its *magnitudes* are mostly not — roughly a sixth of the
+ledgered values are externally fixed, roughly two-fifths carry an external
+anchor of any kind, and three-fifths are declared judgement, labelled as such
+and defended by sweep rather than by source. The defensible sentence is
+*CTI-grounded structure with declared, tiered, swept magnitudes*; the row makes
+the binary sentence — *a CTI-derived attacker model* — unavailable, in either
+direction. This is the modest result the row was expected to return, and it is
+credible precisely because it is modest.
 
 ### Row B — evaluative consequence
 
@@ -714,8 +755,33 @@ instantiation of a behavioural envelope under a declared policy, not a named
 actor, so the row scores what the substitution *reveals about the evaluation*,
 never the realism of the substitute.
 
-**Score:** *withheld in this commit, by the derivation discipline above; the
-following commit scores the row against the comparative evidence on record.*
+**Score — 2026-08-01: RECOMMENDATION, the highest grade, at the operating
+interval, directionally at ten seeds.** The comparative run on record
+([`pipeline/ogasp/experiment_02_findings.md`](pipeline/ogasp/experiment_02_findings.md)
+§9) ran the inherited and the profiled attacker on the same substrate across
+the same eight defence conditions. At the 200 s operating interval the two
+defence orderings are very nearly reversed — rank correlation ρ = −0.893 — and
+the top-ranked mechanism changes: Service Diversity best suppresses the
+inherited attacker (90.4 %, OS Diversity close behind at 88.8 %), while the
+position-destroying conditions best suppress the profiled one (simultaneous
+scheme 89.8 %, Complete Topology Shuffle 89.1 %). An evaluator would deploy a
+different mechanism depending solely on which attacker the evaluation carried,
+which is grade 3 as defined above.
+
+The caveats, in the row as the bar requires. **Seeds:** ten supports a rank
+comparison and not a significance test — a constraint two independent sweeps
+established before the run pre-registered it. **Interval:** the grade is
+regime-dependent — at 2 000 s the correlation is ρ = +0.286, so the *ordering*
+grade still holds there, but the inversion and with it the clean
+recommendation contrast are properties of the high-pressure regime, and the
+recommendation grade is claimed at the operating interval only. **Mapping:**
+the row is bounded by the tactic-to-verb mapping remaining a chosen input
+parameter — how much of the inversion is the corpus and how much is the
+mapping is not separable from this run (findings §20, which names the
+mapping-sensitivity study as the instrument). **And one open ruling touches
+the evidence:** the retrace-arm cells of the three sink-bearing profiles ran
+under the since-superseded sink implementation (findings §1, reconciliation
+note); if Marc rules for a re-take, this row re-scores against it.
 
 ## (e) Fidelity placement
 
@@ -874,7 +940,8 @@ re-baselined after it, and the intent-audit dispositions landed after that.
   choose", because the axes score the attacker model and this is a statement about
   what the attacker model *reveals*. It is the clearest evidence yet for the
   project's modest claim — behavioural fidelity changes the answer — and §(g) is
-  where it belongs.
+  where it belongs. *(Since 2026-08-01 the instrument can hold it: Row B, §(d2),
+  scores it at the recommendation grade.)*
 
 Discrimination check: the criterion separates a result the security metrics
 call a uniform failure (ASR 0.00 everywhere) into one demonstrated axis, two
@@ -959,8 +1026,9 @@ protected by different defences. This is the project's modest claim in its
 sharpest form to date: behavioural fidelity does not merely change the magnitude
 of an MTD evaluation's answer, it can change **which mechanism the evaluation
 recommends**. It is a statement about what the attacker model reveals rather than
-about the attacker model itself, which is why it scores on no axis and belongs
-here. It is directional at ten seeds, and it is bounded by the standing caveat
+about the attacker model itself, which is why it scores on no numbered axis —
+since 2026-08-01 the instrument holds it as **Row B**, scored at the
+recommendation grade with its caveats in the row (§(d2)). It is directional at ten seeds, and it is bounded by the standing caveat
 that the tactic-to-verb mapping remains a chosen input parameter.
 
 The one-sentence form the dissertation can defend: *this model moves MTD
@@ -1016,8 +1084,14 @@ or a utility conditioned on realised success rather than realised time (axis 6
 — either is what would move it to DEMONSTRATED, per §(d)); any reversal of the 2026-07-28 ruling that promoted the
 three Jalowski primitives to *out of scope* (axis 8 — promotion to *encoded*
 would re-open the axis, the S2 freeze's capability candidates, and the §(e)
-placement). Scores move on evidence only — never
+placement). **The lettered rows (added 2026-08-01) carry their own triggers:**
+Row A re-aggregates when any declared family's tier badges change or a new
+declared family lands (the ledger precedent's §6 instance list is the
+watch-list); Row B re-scores when the comparative evidence on record changes —
+the open retrace re-take ruling, the mapping-sensitivity study, or a seed
+count that supports a significance claim. Scores move on evidence only — never
 change the model, weights, mapping, or metrics to improve a row (S6
-constraint; [`../workflows/guardrails.md`](../workflows/guardrails.md)).
+constraint; [`../workflows/guardrails.md`](../workflows/guardrails.md)) — and
+the constraint binds the lettered rows exactly as it binds the numbered eight.
 A distilled, rubric-clearing note for the background or discussion chapter is
 the deferred second artefact; this file is the scored instrument it will cite.

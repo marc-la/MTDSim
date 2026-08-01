@@ -388,10 +388,22 @@ corrected accordingly.)*
 20. `2026-07-29_stealth_tempo_via_dwell_channel.md` — the only route by which tempo
     becomes consequential: dwell alters the metrics the reactive selector reads.
     **Needs a supervisor ruling before anything is built.**
-21. `2026-07-29_criterion_consequence_and_provenance_rows.md` — the two rows the
-    criterion cannot currently score, because the project's largest result (the
-    defence-ranking inversion) scores on none of the existing eight. Cheap,
-    documentation only.
+*(Shipped from wave 6: the **criterion's consequence and provenance rows** —
+`2026-07-29_criterion_consequence_and_provenance_rows.md`, landed 2026-08-01 in
+two commits — definitions and evidence bars first, scores second, so the
+additions cannot be reverse-fitted to the result that prompted them. The
+criterion now carries lettered rows A and B beside the eight numbered axes
+(§(c), §(d2), unrenumbered): Row A aggregates the existing tier badges to
+roughly a sixth of ledgered values externally fixed, two-fifths carrying any
+external anchor and three-fifths declared judgement, with the structural layer
+corpus-grounded in full — the modest, non-binary provenance answer. Row B
+scores the defence-ranking inversion at the **recommendation** grade (the
+top-ranked mechanism changes with the attacker) at the operating interval,
+directionally at ten seeds, with the interval dependence, the mapping boundary
+and the open retrace re-take ruling carried in the row. The badge census is
+flagged as non-additive in §(b), and the fifth-badge question — a measured
+negative versus an unevidenced absence, both currently DESIGNED — is recorded
+there for Marc rather than decided.)*
 *(Shipped from wave 6: the **dissertation notes from the frozen model** —
 `2026-07-29_dissertation_notes_from_the_frozen_model.md`, landed 2026-08-01.
 Five new notes: the defence-ranking inversion and the operating-point
