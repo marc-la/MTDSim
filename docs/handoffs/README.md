@@ -216,20 +216,30 @@ measurement / governance**, and names what is future work for a successor. Two o
 eight axes are demonstrated, four are designed with measured negatives, two are
 ruled out. Read it before opening anything below.
 
-17. **`2026-07-29_reconcile_stranded_axis_work.md` — BLOCKING, do this first.**
-    The axis-6 and axis-7 sweeps (4 200 runs), their two badge moves, the sink
-    retrace and the whole of experiment 2 (2 760 runs) live on feature branches
-    `dev` does not contain. On `dev` today the learning record's verdict section
-    still reads *"to be completed by the run"* and the criterion still reports
-    axes 6 and 7 as NOT ADDRESSED. Nothing else on this wave means anything until
-    it lands, and the four shipped handoffs — (8), (10), and the two axis
-    handoffs above — are retired by its merge commit rather than before it.
+*(Shipped from wave 6: **the blocking reconciliation** —
+`2026-07-29_reconcile_stranded_axis_work.md`, landed 2026-08-01 as two merge
+commits on `dev` (`feat/axis134-demonstration-arms`, then
+`feat/exp02-ashen-lynx`). Both axis records arrived filled in with their sweep
+verdicts, the criterion table reads 2 DEMONSTRATED / 4 DESIGNED / 2 NOT
+ADDRESSED with its prose agreeing — verified against the freeze §2 — and the
+four shipped handoffs it covered, (8), (10) and the two axis handoffs, were
+deleted in those merges. The demonstration-arms sink implementation survived,
+per the handoff's ruling; `sink_policy.md` is kept superseded beside it with its
+§3 inventory lifted into the survivor, and the experiment-2 analysis was re-run
+from the recorded runs against the reconciled code, reproducing every verdict
+byte-for-byte. One loose end is recorded rather than resolved: the handoff's
+premise that only the sink sub-study ran under the superseded implementation was
+wrong — the main matrix's retrace arms did too — so whether those cells are
+re-taken is an open ruling for Marc, recorded in the findings record's
+reconciliation note. The wave below is unblocked.)*
 18. `2026-07-29_learning_under_procedural_rigidity.md` — generalise the learner so
     it can represent a precondition constraint, without RL. Absorbs the
-    FSM-alignment factor and the composition/seam-split brief. Depends on (17).
+    FSM-alignment factor and the composition/seam-split brief. Unblocked
+    2026-08-01 by the reconciliation.
 19. `2026-07-29_rational_attacker_and_mtd_tradeoff.md` — explain the cost model
     plainly, simplify it, and pair it with a calibrated disruption metric so the
-    run carries cost-of-moving against risk-of-not-moving. Depends on (17).
+    run carries cost-of-moving against risk-of-not-moving. Unblocked 2026-08-01
+    by the reconciliation.
 20. `2026-07-29_stealth_tempo_via_dwell_channel.md` — the only route by which tempo
     becomes consequential: dwell alters the metrics the reactive selector reads.
     **Needs a supervisor ruling before anything is built.**
@@ -238,7 +248,8 @@ ruled out. Read it before opening anything below.
     defence-ranking inversion) scores on none of the existing eight. Cheap,
     documentation only.
 22. `2026-07-29_dissertation_notes_from_the_frozen_model.md` — the five notes the
-    frozen model has earned. No new results; this is writing. Depends on (17).
+    frozen model has earned. No new results; this is writing. Unblocked
+    2026-08-01 by the reconciliation.
 
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).
