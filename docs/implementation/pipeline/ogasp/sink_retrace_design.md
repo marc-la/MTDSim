@@ -104,6 +104,26 @@ Because that is a corpus property and not a guarantee, the build **walks further
 if suppression ever does empty an out-set (§3.5), and the case is tested rather than
 argued away.
 
+**How often the suppression can matter at all — lifted from the parallel
+derivation** ([`sink_policy.md`](sink_policy.md) §3, the independent implementation
+of this policy built *without* the suppression; reconciled 2026-08-01). The edges
+into sinks carry so little mass that returning to a sink is a Bernoulli draw at
+weight at most 0.111 per selection, so the consecutive-retrace count at one
+encounter is geometric with success probability at least 0.889: about **1.1
+retraces per encounter** in expectation, and under 1.4 % probability of three or
+more in a row — each paying a full dwell either way. Two closure properties fall
+out of the same enumeration: every reachable sink has a strictly positive declared
+dwell (36.0, 4.5 and 22.5 s; the one zero-duration tactic,
+`resource-development`, is a sink only in the observed-only arm and has no
+in-neighbours there, so a zero-time loop is not representable), and the synthetic
+overlay removes no sink. Experiment 2's runs then measured the same thing in the
+wild: 6.9 retraces per 268-action run at the heaviest profile, none reaching the
+`max_events` backstop. The suppression is therefore a **belt-and-braces measure on
+this corpus, not a load-bearing one** — what it buys is the guarantee (the
+immediate next move is never the sink) at the price of one declared rule, and it
+becomes load-bearing only on a corpus revision that thins a sink predecessor's
+alternatives, exactly the case this section's check exists to catch.
+
 ### 3.2 What it costs in time — nothing new, which is the point
 
 The handoff is right that a zero-time retrace is an infinite loop in zero simulated

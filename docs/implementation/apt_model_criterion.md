@@ -103,7 +103,7 @@ under this constraint.
 |---|---|---|---|---|
 | 1 | Persistence — multi-stage campaign structure | Cho §V-A; Alshamrani §II-A (NIST i), §II-C | absent throughout | **DESIGNED** |
 | 2 | Objective conditioning | Alshamrani §II-A, §II-C | absent | **DEMONSTRATED** |
-| 3 | Strategic plurality (multi-strategy branching) | Cho §V-D (dim. 2) | absent | **DESIGNED** |
+| 3 | Strategic plurality (multi-strategy branching) | Cho §V-D (dim. 2) | absent | **DEMONSTRATED** |
 | 4 | Adaptivity to defender resistance | Cho §V-A; Alshamrani §II-A (NIST ii) | He et al. only, partial and design-time | **DESIGNED** |
 | 5 | Stealth — low-and-slow tempo and evasion | Cho §V-A; Alshamrani §II-C; Jalowski §4.3 | He et al. only, in a detection-evasion frame | **NOT ADDRESSED** |
 | 6 | Incentive-driven rationality | Cho §V-A, §V-D (dim. 3) | partial RoA operationalisation (Brown, Tay) | **DESIGNED** |
@@ -237,10 +237,32 @@ buys this axis nothing: the same sweep shows path entropy collapsing as the
 decision rule sharpens, so cost-sensitivity trades against plurality rather
 than adding to it (§(d) axis 6).
 
-**What would evidence a claim (M8b).** Traversal diversity per profile
-(distinct tactic-sequences across seeds; path entropy over the net), and the
-experiment-2 matrix showing outcomes vary over both the attacker-profile and
-defence-family dimensions rather than one.
+**Re-scored DESIGNED → DEMONSTRATED, 2026-07-29, by experiment 2**
+([`pipeline/ogasp/experiment_02_findings.md`](pipeline/ogasp/experiment_02_findings.md)
+§12), against a criterion pre-registered before the run existed. Both halves the
+criterion demanded were met. Traversal diversity is non-degenerate in every
+profile — pooled path entropy 1.45 to 2.71 bits, with two to ten distinct
+five-tactic opening sequences across ten seeds — so the branching is real rather
+than nominal. And outcomes vary over **both** dimensions rather than one: the
+ranking of the eight defence conditions by compromise suppression is *not* the
+same for every profile (four of five distinct at the operating mutation interval,
+five of five at the relaxed one), which is an interaction and not a defender main
+effect. A ranking identical for every profile would have evidenced defender
+plurality only, and that was the outcome the criterion was written to be able to
+report.
+
+**The honest limit travels with the badge, unchanged.** This is **variety, not
+strategy**. The branching is drawn from static corpus proportions; no decision rule
+selects among options, so the demonstrated claim is that a plural attacker changes
+what the defence dimension looks like — never that the attacker chooses between
+strategies. The axis-6 qualification above also stands: the one decision rule the
+model does carry trades *against* plurality rather than adding to it.
+
+**What would evidence a stronger claim (M8b).** Plurality that is chosen rather
+than drawn — a decision rule selecting among branches on something other than
+declared frequency, shown to change the interaction above. That is the axis-6 and
+axis-7 machinery, and on current evidence both narrow traversal rather than
+widening it.
 
 ### Axis 4 — Adaptivity to defender resistance
 
@@ -623,6 +645,52 @@ on record ([`pipeline/ogasp/experiment_01_findings.md`](pipeline/ogasp/experimen
   > not recomputed; any new comparison re-measures the baseline in the same
   > run.
 
+## (f2) Experiment 2 scored against the criterion
+
+The comparative run across the defence family
+([`pipeline/ogasp/experiment_02_findings.md`](pipeline/ogasp/experiment_02_findings.md),
+2026-07-29). Added beside §(f) rather than replacing it: experiment 1 remains the
+record of its own run, and its magnitudes are stale twice over — the substrate was
+re-baselined after it, and the intent-audit dispositions landed after that.
+
+- **Axis 3 gains its DEMONSTRATED badge from this run** (§(d) axis 3), on the
+  pre-registered two-part criterion.
+- **Axis 2's demonstration reaches a new dimension.** Objective conditioning was
+  demonstrated on *failure mode*; it now also determines **which defence works
+  best**, with the mechanism ranking differing by profile in four of five cells at
+  the operating interval. That is the result axis the supervisor named (R3, S6),
+  and it is a stronger form of the same badge rather than a new one.
+- **Axis 4 is held at DESIGNED on the control it never had.** Every prior run had
+  the adaptive loop switched on. A verdict-blind ablation arm — an overlay whose
+  value tables are empty, so composition passes every destination through at 1.0 —
+  ran on identical seeds across the full matrix, and **no progression measure
+  separates it from the conditioned arm** on the pre-registered bar. Routing on the
+  substrate's verdict is approximately free. The badge does not move, and the
+  reason it does not has improved: *reacts but does not adapt usefully* is now a
+  measured statement rather than an inference from churn.
+- **Axis 1 was reported as moving and was withdrawn.** The first pass of the
+  analysis scored persistence DEMONSTRATED. Cross-examination of the measures
+  against their implementations retracted it, on two independent grounds: the
+  deepest-successfully-actioned-stage measure returns the same value for **all 800**
+  movement runs (structurally truncated under this mapping, so the *replacement*
+  for the saturated depth measure is itself saturated), and the foothold-retention
+  measure counts footholds *severed* rather than retained — with the further
+  artefact that the two application-layer mechanisms interrupt often and sever
+  position never, so retention under them is total by the absence of any threat to
+  it. Against the defences that actually contest position, per-foothold retention
+  at the operating interval is 0.0–1.6 %. This is the pre-registration discipline
+  doing the only job it exists to do, and it is recorded because the near-miss is
+  more instructive than the verdict.
+- **The headline result is invisible to every axis.** The defence *ranking*
+  inverts between the inherited attacker and the profiled one (rank correlation
+  −0.893): the diversity family suppresses the vulnerability-exploiting baseline by
+  ~90 % and the profiled attacker by ~37–41 %, while the position-destroying family
+  does the reverse. No axis scores "the model changes which defence you would
+  choose", because the axes score the attacker model and this is a statement about
+  what the attacker model *reveals*. It is the clearest evidence yet for the
+  project's modest claim — behavioural fidelity changes the answer — and §(g) is
+  where it belongs.
+
 Discrimination check: the criterion separates a result the security metrics
 call a uniform failure (ASR 0.00 everywhere) into one demonstrated axis, two
 designed axes with named evidence gaps, and an exposed metrics deficit. A
@@ -636,7 +704,8 @@ not:** a multi-stage campaign structure derived from analyst-curated CTI
 rather than a scripted compromise loop (axis 1, designed); operational-
 objective conditioning that demonstrably changes runtime behaviour (axis 2,
 demonstrated); attacker-side branching plurality over an envelope of observed
-campaigns (axis 3, designed); and a minimal runtime adaptive loop in which
+campaigns, demonstrated by experiment 2 to reach the defence dimension (axis 3,
+demonstrated); and a minimal runtime adaptive loop in which
 defender resistance feeds back into movement (axis 4, designed) — together
 lifting the attacker from the parametric/scripted cluster to the procedural
 rung (§(e)).
@@ -675,17 +744,37 @@ tactic's declared dwell and a utility ratio cannot see a proportional surcharge
 statement about how this defence distributes cost, which is only sayable at all
 because an attacker with a cost model now exists to measure it with.
 
+**And what experiment 2 added, which no axis scores.** The comparative run
+across the defence family found that the *ranking* of MTD mechanisms inverts
+between the inherited attacker and the profiled one — rank correlation −0.893,
+with the diversity family suppressing the vulnerability-exploiting baseline by
+roughly 90 % and the profiled attacker by 37–41 %, while the position-destroying
+family does the reverse
+([`pipeline/ogasp/experiment_02_findings.md`](pipeline/ogasp/experiment_02_findings.md)
+§9). The two attackers depend on different substrate properties, so they are
+protected by different defences. This is the project's modest claim in its
+sharpest form to date: behavioural fidelity does not merely change the magnitude
+of an MTD evaluation's answer, it can change **which mechanism the evaluation
+recommends**. It is a statement about what the attacker model reveals rather than
+about the attacker model itself, which is why it scores on no axis and belongs
+here. It is directional at ten seeds, and it is bounded by the standing caveat
+that the tactic-to-verb mapping remains a chosen input parameter.
+
 The one-sentence form the dissertation can defend: *this model moves MTD
 evaluation from scripted attackers to a CTI-grounded, objective-conditioned,
-procedurally-adaptive campaign envelope — and the criterion records, axis by
-axis, that the learning, scheme-aware attacker the literature ultimately
-calls for remains future work.*
+procedurally-adaptive campaign envelope whose plurality demonstrably reaches the
+defence dimension — and the criterion records, axis by axis, that the learning,
+scheme-aware attacker the literature ultimately calls for remains future work.*
 
 ## (h) Lifecycle — when to re-score
 
 Re-score a row (and bump `updated`) when its evidence changes, not on
-schedule. Standing triggers: experiment 2 (axes 1–4 badges and the §(f)
-demonstration section); ~~the S3 timing implementation (axis 5's tempo
+schedule. Standing triggers: ~~experiment 2 (axes 1–4 badges and the §(f)
+demonstration section)~~ **fired 2026-07-29 — axis 3 moved DESIGNED →
+DEMONSTRATED on its pre-registered criterion; axes 1 and 4 held, axis 4 on the
+verdict-blind control it had never had and axis 1 after a reported move was
+withdrawn on cross-examination; axis 2's demonstration extended to the defence
+dimension. Scored in §(f2)**; ~~the S3 timing implementation (axis 5's tempo
 half)~~ **fired 2026-07-28 — no badge moved; axis 5's body now describes the
 built regime, and the badge holds because tempo without a consequence is
 still not evasion**; ~~the S1 sensitivity study~~ **fired 2026-07-28 — no

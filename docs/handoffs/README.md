@@ -111,22 +111,25 @@ target.)*
 
 **Wave 4 — last.**
 
-8. `2026-07-27_sink_retrace_experiment2.md` (**S5** + the comparative run) — its
-   design half is **unblocked**; its *run* should consume the two shipped wave-3 studies or it will need
-   repeating, and must name **both** its declared inputs at its own seam:
-   `v2_partial` as its mapping version and — **corrected 2026-07-28** —
-   `v3_persistent_backward` as its overlay version, not `v2_lifecycle_distance`.
-   The handoff body and the wave-3 note above both predate Marc's persistence
-   ruling; the weight study §3b is the later statement and v3 is the go-forward
-   version. It now also
-   runs on the stochastic timing regime, so its elapsed-time results carry the
-   behavioural tempo and must be reported under the shape-not-scale discipline —
-   a ranking that survives the sweep is a result, a magnitude is a parameter
-   choice. Carries the full defence-family sweep the first experiment deferred.
-   Two further inheritances, both from wave 5: it must **choose its mutation
-   interval deliberately** rather than inherit 200 s (which the rate study placed
-   inside a degenerate region where ASR cannot discriminate), and its run should
-   carry the arms and reporting in (10) below rather than being repeated for them.
+*(Shipped from wave 4: **S5 + the comparative run** —
+`2026-07-27_sink_retrace_experiment2.md`, run 2026-07-29 and reconciled to `dev`
+2026-08-01. The sink policy landed as
+[`../implementation/pipeline/ogasp/sink_retrace_design.md`](../implementation/pipeline/ogasp/sink_retrace_design.md)'s
+`retrace_sinks` — two parallel derivations built it independently, and this is
+the surviving implementation, with `sink_policy.md` kept beside it as a
+superseded record whose §3 inventory is lifted into the survivor. The
+comparative run landed as
+[`../implementation/pipeline/ogasp/experiment_02_findings.md`](../implementation/pipeline/ogasp/experiment_02_findings.md):
+2 760 runs over the full defence family, the mutation interval carried as a
+dimension (the inherited 200 s plus a deliberately-chosen point outside the
+degenerate region), both declared inputs named at its seam as this entry
+required. Headline: the defence ranking inverts between the inherited and the
+profiled attacker (ρ = −0.893); axis 3 moved to DEMONSTRATED on its
+pre-registered criterion, axis 1's reported move was withdrawn on
+cross-examination. One loose end is recorded rather than resolved: the
+retrace-arm cells ran under the superseded sink implementation, and whether they
+are re-taken under the landed one is a ruling for Marc — see the findings
+record's reconciliation note.)*
 
 **Wave 5 — the criterion, axis by axis.** Eight axes are scored in
 `docs/implementation/apt_model_criterion.md`; four of them can move on evidence,
