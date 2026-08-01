@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-29
-updated: 2026-07-29
+updated: 2026-08-01
 topic: "L3 criterion axis 7 — the within-run learning capability: the declared rule (place-keyed Laplace belief, exponent kappa), the defence-caused forgetting (fraction rho), the CTI-independence argument, the within-run boundary, and the sweep whose conclusions are pre-registered here before any output exists"
 ---
 
@@ -610,6 +610,26 @@ re-derive it: a learner whose credit signal contains progress rather than the
 routing verdict (§7.6, consequence 1), shown to raise breadth or stage advance
 against its own ablation arm. That is a credit-assignment redesign, not a
 parameter change.
+
+> **Followed up 2026-08-01 — the *other* candidate cause was tested first, and it
+> was not sufficient.** §3.1's key was the second suspect: this learner is keyed on
+> the destination place, so it holds the marginal success rate and cannot express a
+> constraint that depends on state. That key has since been generalised to
+> `(destination place, precondition-satisfied?)` and swept over 4 600 runs with
+> this learner as a control arm
+> ([`learning_readiness_findings.md`](learning_readiness_findings.md);
+> the key was chosen against ranked alternatives in
+> [`learning_representation.md`](learning_representation.md)).
+>
+> The representational defect was real — §7.6's breadth collapse is largely an
+> artefact of the key, and the finer key recovers it (3.38 → 4.52 hosts at the
+> declared point, 1.02 → 2.40 at κ = 4, with exploitation's share of successes back
+> from 6 % to 9.5 %). **The badge still did not move**, because the no-learning
+> ablation arm sits at 4.60 and the repaired learner does not pass it. So the
+> requirement stated above stands unchanged and is now the *sole* one, and one
+> caution belongs with it: the two keys are indistinguishable on every
+> friction-shaped measure in this record, including §7.2's within-run trend, and
+> separate only on breadth.
 
 ### 8.1 The fidelity placement — what does and does not move
 

@@ -343,14 +343,64 @@ premise that only the sink sub-study ran under the superseded implementation was
 wrong — the main matrix's retrace arms did too — so whether those cells are
 re-taken is an open ruling for Marc, recorded in the findings record's
 reconciliation note. The wave below is unblocked.)*
-18. `2026-07-29_learning_under_procedural_rigidity.md` — generalise the learner so
-    it can represent a precondition constraint, without RL. Absorbs the
-    FSM-alignment factor and the composition/seam-split brief. Unblocked
-    2026-08-01 by the reconciliation.
+*(Shipped from wave 6: **learning under procedural rigidity** —
+`2026-07-29_learning_under_procedural_rigidity.md`, landed 2026-08-01. The
+representation was settled before any code, in the shape the four prior studies
+used: four candidate keys ranked coarsest to finest against a **measured**
+per-cell observation budget, with the decisive measurement being that an unmet
+precondition is a *deterministic* failure (0.000 success over 14 000+
+observations), so the marginal a destination-keyed learner holds is a mixture of a
+paying regime and a certain-failure one
+(`../implementation/pipeline/ogasp/learning_representation.md`). The ruling is the
+one-bit `(destination tactic, precondition-satisfied?)` key — the smallest that
+captures the dependency exactly, and the densest of those that work; the chain and
+phase keys spend 2–4× the evidence per cell on resolution the constraint does not
+use. No RL: no eligibility trace, no discount factor, no value function.
+
+The build transcribes the substrate's precondition guard into a declared,
+versioned controller artefact (`data/ogasp/controller/precondition_relation.json`)
+that the learner consults against its **own trajectory**, reading no substrate
+state — so the scheme-awareness exclusion is untouched, and the artefact is what an
+adopter re-declares when porting. It predicts the substrate's block flag exactly on
+`v1_ckc_total` (12 281/12 281) and at 92–94 % on `v2_partial`, the residual being
+the declared optimism about empty scans, left in because closing it would require
+the privileged read the in-layer derivation exists to avoid.
+
+**The sweep's verdict is a clean split, and the badge did not move.** 4 600 runs
+over seven criteria committed before any output existed (`97c54a5`), with a third
+arm — the destination-only learner at the same point — so "the generalisation did
+something" is separable from "learning did something". The representational defect
+was real and is repaired: breadth recovers 3.38 → 4.52 hosts at the declared
+capability, the high-capability collapse is arrested 1.02 → 2.40, exploitation's
+share of successes returns from 6.0 % to 9.5 %, and the readiness key costs less
+plurality at every step. But the **no-learning ablation arm sits at 4.60** and the
+repaired learner never passes it, so R1 moved and **axis 7 holds at DESIGNED** —
+the shape the pre-registration named in advance. The contribution is the isolation:
+representation and reward are independent requirements, the representation is now
+discharged, and a progress-carrying credit signal is the *sole* remaining item on
+the axis. One measurement warning rides with it — the two keys are
+indistinguishable to three decimals on every friction-shaped measure and separate
+only on breadth, so the within-run blocked-fraction measure cannot discriminate
+between representations.
+
+Also shipped: the **composition register**
+(`../implementation/pipeline/ogasp/modulator_composition.md`) stating every routing
+factor, its seam, and whether the reported configuration runs it — the seam split
+as the portability claim made structural. And the **joint-composition check** the
+three modulator families had never had, which **falsified the freeze's
+precautionary inference**: composing the two built modulators is *sub-additive*,
+not compounding — they pull opposite ways on the same edges, and the learner
+recovers most of the breadth the utility modulator costs. The pin on the reported
+configuration stands on its other leg, and the freeze and criterion records are
+corrected accordingly.)*
 19. `2026-07-29_rational_attacker_and_mtd_tradeoff.md` — explain the cost model
     plainly, simplify it, and pair it with a calibrated disruption metric so the
     run carries cost-of-moving against risk-of-not-moving. Unblocked 2026-08-01
-    by the reconciliation.
+    by the reconciliation. **Part 1 shipped 2026-08-01** as
+    `../implementation/pipeline/ogasp/cost_model_plain.md` — the plain statement
+    plus the simplification verdict (the benefit family survived attempted
+    removal against a pre-registered bar; cost and exponent stay, argued). Part
+    2 (the calibrated disruption metric and the frontier) remains the open half.
 20. `2026-07-29_stealth_tempo_via_dwell_channel.md` — the only route by which tempo
     becomes consequential: dwell alters the metrics the reactive selector reads.
     **Needs a supervisor ruling before anything is built.**

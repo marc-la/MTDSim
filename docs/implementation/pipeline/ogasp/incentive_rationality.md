@@ -2,7 +2,7 @@
 status: durable
 created: 2026-07-29
 topic: "Criterion axis 6 (incentive-driven rationality) — the attacker utility modulator: a declared per-tactic benefit over the already-declared duration catalogue, entering routing as a rationality exponent whose zero recovers today's model exactly. Records the model, the one new declared family and why it is not a restatement of the distance kernel, the pre-registered sweep conclusions, and the honest size of the claim."
-updated: 2026-07-29
+updated: 2026-08-01
 ---
 
 # The attacker utility modulator — design, declared values, and the pre-registered sweep (axis 6)
@@ -191,6 +191,20 @@ adversarial cross-examination round at all**. That gap is stated in the ledger
 rather than implied, and a cross-examination round is the obvious next
 maintenance step.
 
+> **Discharged 2026-08-01 (round R1).** The cross-examination ran as an
+> attempted removal: a pre-registered reproduction check replaced the graded
+> family with binary objective-membership and the binary attacker failed to
+> reproduce in 31 of 40 cells, in exactly the direction the rule predicts —
+> the stage-gap term is what holds the attacker's preference tilted toward
+> its own objective's neighbourhood, and the divergence is absent precisely
+> where the stage gaps are smallest (`infrastructure_setup`, all eight cells
+> reproduce) and largest for `double_extortion`, this family's recorded
+> outlier. The
+> family survives its first adversarial round with its complexity shown to be
+> load-bearing. Verdict and evidence:
+> [`cost_model_plain.md`](cost_model_plain.md) §2.1; ledger entry in
+> `attacker_utility.json`.
+
 ### 4.3 The three requirements, discharged
 
 The declared-value precedent asks that a declared family be reproducible, tiered
@@ -266,6 +280,21 @@ guardrail:
 sweep.)*
 
 ## 6. Results
+
+> **Magnitudes describe the pre-disposition substrate; conclusions re-verified
+> on the current one (2026-08-01).** Two ruled fixes landed *after* this
+> sweep's rows were captured on 2026-07-29: `6181305` (the intent-audit
+> dispositions — RoA stack, diversity re-roll, User Shuffle blocking) and
+> `816b300` (MTD instances registered once per scheme, which legitimately
+> moves the `random` scheme's cross-mutation composition). On today's
+> substrate most MTD-arm rows and a minority of no-MTD rows no longer
+> reproduce, so the figures below stand as the record of that run, per the
+> experiment-1 precedent. A fresh 600-run re-run of λ ∈ {0, 1, 4} (Part 1 of
+> the rational-attacker handoff) reproduced every qualitative verdict: the
+> entropy collapse in all ten profile × mapping cells, the blocked-fraction
+> rise to ~99 % at the band end, and C4's absence within ±15 % on eight of
+> ten cells with `double_extortion` again the exception. Record:
+> [`cost_model_plain.md`](cost_model_plain.md) §2.1.
 
 1 800 movement runs (9 points × 2 mappings × 5 profiles × 2 MTD conditions × 10
 seeds) plus 20 baseline reference runs, at the 15 000 s horizon and the 200 s
