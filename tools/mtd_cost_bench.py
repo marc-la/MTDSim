@@ -59,15 +59,6 @@ MECHANISMS = {
 
 
 def one_run(mechanism, *, seed, interval, profile, horizon, mapping):
-    kwargs = {}
-    # The sink-retrace instrument exists only on the demonstration-arms branch
-    # (where this tool was first measured). Pass it when the run supports it so
-    # the numbers stay comparable there; on branches without it the run is the
-    # plain movement arm, which times the defender identically.
-    import inspect
-
-    if "retrace_sinks" in inspect.signature(run_movement).parameters:
-        kwargs["retrace_sinks"] = True
     return run_movement(
         profile,
         seed=seed,
@@ -76,7 +67,7 @@ def one_run(mechanism, *, seed, interval, profile, horizon, mapping):
         mtd_scheme=("single" if mechanism else None),
         custom_strategies=mechanism,
         mtd_interval=(interval if mechanism else None),
-        **kwargs,
+        retrace_sinks=True,
     )
 
 

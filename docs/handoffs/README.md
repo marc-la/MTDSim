@@ -1,4 +1,4 @@
-# The open chain — dependency order, 2026-07-28
+# The open chain — dependency order, 2026-07-29
 
 `ls docs/handoffs/` is the inventory of open work; this file carries only the
 thing a directory listing cannot — **what depends on what**. Waves 1–4 execute
@@ -179,17 +179,70 @@ refinement rather than the attacker-state change **S2** freezes — for Marc to
 confirm with the supervisor. Until confirmed, no modulator carrying a declared
 value is wired into any experiment; the null mechanism is safe regardless.)*
 
-12. `2026-07-28_axis7_learning_capability.md` — within-run knowledge that
-    reweights routing from what has worked, with knowledge perishing on MTD
-    mutation. The seam it needs has shipped (above); consumes the shipped
-    measurement suite. **The highest-value item on this wave**:
-    it is the literature's sharpest named gap and the only axis whose
-    demonstration would move the model's fidelity placement off the procedural
-    rung. Also the candidate mitigation for experiment 1's friction failure mode.
-13. `2026-07-28_axis6_incentive_rationality.md` — a declared per-tactic benefit
-    against the already-declared duration as cost, entering routing as a
-    rationality exponent whose zero recovers today exactly. The seam it needs has
-    shipped (above); consumes the shipped suite's cost ledger.
+*(Shipped from wave 5: the **axis-7 learning capability** —
+`2026-07-28_axis7_learning_capability.md`, landed 2026-07-29 as
+`src/mtdsim/l3_simulation/movement/learning.py`, the declared family at
+`data/ogasp/movement/learning_rules.json` and the record
+`../implementation/pipeline/ogasp/learning_capability.md`. The attacker now
+carries a within-run belief about which tactics pay — a place-keyed Laplace
+estimate over observed verdicts, entering routing as `Q(b)^κ` — that perishes by a
+declared fraction `ρ` on every MTD mutation. `κ = 0` is bit-identical to today.
+The seam gained a **third wrapper** (`StatefulAttackOperation`, hooking the one
+`apply_mtd_interrupt_cost` every interrupt path funnels through, because an
+interrupt reaches `compose` already flattened into an ordinary failure verdict)
+plus a modulator observation fan-out; the driver is still not edited.
+
+The six conclusions and the badge criterion were **committed before any run
+existed** (`876bca2`), then 2 400 runs were swept over both declared bands on both
+mappings. **The mechanism works and does not help.** On experiment 1's mapping the
+attacker drives its own blocked fraction from 91 % to 21 %, and does so *within*
+runs against an ablation arm that improves only slightly on its own — so the
+friction failure mode is substantially self-correcting given an attacker allowed
+to adapt to the coupling, and the discovery is the model's rather than the
+modeller's. But compromise **breadth collapses** as the capability rises (6.5
+hosts → 0.8), because the binary routing verdict is not a progress signal:
+scanning succeeds far more often than exploiting, so the learner correctly
+concludes reconnaissance pays and stops attacking (`EXPLOIT_VULN` falls from 13 %
+of its successes to 1 %). Path entropy falls in all ten profile × mapping cells,
+so axes 3 and 7 pull against each other. And MTD is severely effective against the
+learner — most of the advantage is gone by ρ = 0.25 — which is a defence effect no
+existing metric could register, since what a mutation destroys here is an estimate
+rather than a foothold.
+
+**Axis 7 moves NOT ADDRESSED → DESIGNED**, stopping short of DEMONSTRATED on the
+pre-registered criterion; §(e)'s learning sentence is restated but the fidelity
+placement does **not** move. (8) inherits one thing: a learning arm is worth
+running only once the learner's credit signal carries progress rather than the
+routing verdict, which is a credit-assignment redesign and not a parameter
+change.)*
+*(Shipped from wave 5: **axis 6, incentive-driven rationality** —
+`2026-07-28_axis6_incentive_rationality.md`, landed 2026-07-29 as
+`src/mtdsim/l3_simulation/movement/utility.py`, the declared family
+`data/ogasp/attacker_utility.json` (+ its generated 75-cell view), and the
+tracked record `../implementation/pipeline/ogasp/incentive_rationality.md`.
+A utility modulator on the seam — `(u(b)/ū)^λ` with `u = benefit / cost` — where
+the **cost half reuses the duration catalogue** and the one new declared family
+is the benefit, rule-generated from objective proximity *within the profile* so
+it differs between profiles and never depends on the source (the two properties
+that keep it from restating the overlay's distance kernel). λ = 0 is
+**bit-identical** to today, asserted across 5 profiles × 5 seeds × 2 mappings ×
+2 MTD conditions.
+
+**The sweep's verdict is a mixed one, and the negative is the interesting
+half.** 1 800 runs against six conclusions committed before it ran: five held,
+and **C4 — the result the axis exists to produce — moved**. Cost-sensitivity
+does *not* change MTD's measured effect, because MTD's tax on this substrate is
+levied in near-proportion to a tactic's declared dwell (a ~9 % surcharge across
+an 18-fold absolute spread) and a normalised utility *ratio* cannot see a
+proportional surcharge. Two held conclusions are worth carrying forward: rising
+λ collapses path entropy (2.23 → 0.24 bits), and cost-sensitivity **costs**
+progress — blocked attempts rise from 49 % to 99 % of actions, because the
+cheapest tactics are the most precondition-coupled, which is experiment 1's
+H-coupling finding in economic terms. Axis 6 moved **NOT ADDRESSED →
+DESIGNED**; DEMONSTRATED is withheld and what would earn it is recorded in the
+criterion's axis-6 M8b field — a defence whose cost is *not* dwell-proportional
+(reachable inside (8)'s defence family), or a utility conditioned on realised
+success rather than realised time. (8) should note the first of those.)*
 14. **Shipped (design half) 2026-07-28** — the axis-5 stealth design record landed
     as `../implementation/pipeline/ogasp/stealth_conceptualisation.md`. It leads
     with the stealthy-versus-baseline contrast (Jin's framing, characterised on
@@ -208,6 +261,59 @@ value is wired into any experiment; the null mechanism is safe regardless.)*
     discharges three fired re-score triggers and four stale cross-references in
     the criterion. Documentation only, independent of everything, and worth doing
     early because the criterion is loaded into every session.
+
+**Off the chain — a findings ledger, not a commission.**
+
+16. `2026-07-29_fidelity_implications_for_mtd_evaluation.md` — **has no goal by
+    design.** It preserves eight measured findings (F1–F8) from the axis-6
+    session, re-read under Marc's sharpened thesis framing: *what does greater
+    attack fidelity imply on current evaluation methods of MTD?* Several results
+    logged as failures of the axis-6 build are findings about the **evaluation
+    method** under that framing — MTD's effect varies 13-fold across tactics and
+    is hidden by aggregate metrics (F1); its cost effect is uniform in relative
+    terms and so is invisible to a rational attacker (F2); it cannot reach the
+    TTP layer at all, only execution (F3); the inherited NCR-0.8 success
+    criterion is degenerate at the operating interval while a
+    fidelity-derived one separates 7/7 → 2/7 (F4); a *more* rational attacker
+    performs *worse*, so fidelity and adversary strength are not the same axis
+    (F5); and there is a cheap generalisable test for whether a fidelity
+    increase can interact with a defence at all (F6).
+
+    It also records the session's wrong turn, so it is not repeated: the axis-6
+    build, the targeted-attacker study and the give-up proposal were all framed
+    as *baseline-versus-movement* contests, which is not the thesis. **Nothing
+    on this chain depends on it**, and it asks for nothing — but read it before
+    designing any new attacker-fidelity mechanism, because it says which kinds
+    cannot change what an evaluation measures. One consequence for (8): the
+    targeted-attacker feasibility study's §7 recommendation is superseded by its
+    F4.
+
+**Not on the chain — a findings record with no goal.**
+
+17. `2026-07-29_learning_axis_evaluation_findings.md` — deliberately not a work
+    brief, and it asks for nothing. It preserves the reasoning from the axis-7
+    session **restated under the thesis framing that session only reached at its
+    end**: *what does greater attack fidelity imply for current evaluation
+    methods of MTD?* Under that framing the axis-7 result is not "learning did
+    not help the attacker" — it is that a faithful enough attacker exposes that
+    the substrate's success verdict, the atom every metric in this lineage is
+    built on, **is not a progress signal**, and an attacker able to optimise it
+    learns to stop attacking. Four further findings are restated the same way,
+    including that MTD's effect on attacker *knowledge* is unexpressible by the
+    current metric suite, and that the badge criterion committed a category
+    error by applying a performance test to a property axis. It also records why
+    the shipped mechanism could not have produced a workflow claim (a per-place
+    scalar cannot represent a sequence; a place-shaped quantity in a
+    transition-shaped weight layer can only express avoidance), which parts of
+    the build are reusable, and the two substrate stubs that are **not**
+    interchangeable — the precondition contract may be consulted, the native
+    succession policy may not. Two framings are explicitly rejected and should
+    not return: empirical baseline-versus-movement performance comparison, and
+    calibrating the profiled attacker to the baseline. **One item needs Marc:**
+    the shipped records report axis 7 in performance terms and therefore
+    under-report the finding; re-framing them, and whether to re-pre-register the
+    badge under a property criterion, are dispositions rather than housekeeping
+    and were left undone.
 
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).

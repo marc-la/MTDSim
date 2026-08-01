@@ -157,6 +157,34 @@ class OutcomeOverlay:
         return {dst: weight / total for dst, weight in composed.items()}
 
 
+#: The name the verdict-blind ablation arm carries in a run's provenance. It is
+#: not a registry version: nothing is compiled, nothing is written, and the
+#: registry's immutability rule only binds a version once a published run has
+#: consumed it.
+VERDICT_BLIND = "verdict_blind"
+
+
+def verdict_blind_overlay() -> OutcomeOverlay:
+    """The **ablation arm** for criterion axis 4: an overlay that carries no
+    values at all, so the substrate's verdict has no consequence for routing.
+
+    Every pair is absent, so :meth:`OutcomeOverlay.compose` takes its
+    passthrough branch at every destination and the composed distribution is the
+    base out-weights renormalised — identically, for *every* verdict. The token
+    then routes on observed structure alone: it still walks the net, still
+    dispatches verbs, still reads verdicts, and simply does not let them steer
+    it. That is precisely "the adaptive loop off", and it is the control the
+    axis-4 claim has always lacked — experiment 1 and every run since had the
+    loop switched on, so nothing on record separates *the loop operates* from
+    *the loop helps*.
+
+    Built as an empty value table rather than as a branch in the driver, which
+    is what keeps the contrast one-factor: the conditioned and blind arms run
+    the same code down the same path, and differ only in the data they read.
+    """
+    return OutcomeOverlay.from_values({}, version=VERDICT_BLIND)
+
+
 @dataclass(frozen=True)
 class OverlayVersion:
     """One registered overlay version: its files, and how it was compiled.

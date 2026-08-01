@@ -20,13 +20,18 @@ from mtdsim.l3_simulation.movement.attacker import (
 )
 from mtdsim.l3_simulation.movement.measures import (
     ActionMixShift,
+    CensoredDurations,
     action_records,
     actions_per_distinct_host,
     baseline_ledger,
     comparable_from_baseline,
     comparable_from_movement,
     cost_ledger,
+    advanced_after_first_success,
     deepest_successful_stage,
+    first_success_stage,
+    refoothold_rate,
+    refoothold_times,
     deepest_visited_stage,
     distinct_place_count,
     distinct_place_curve,
@@ -210,6 +215,66 @@ def test_foothold_retentions_sever_vs_censor():
     assert ret.n == 2
 
 
+def test_first_success_stage_and_strict_advance():
+    """The axis-1 advance predicate: deepest successful stage strictly beyond the
+    stage the run first succeeded at. Hand-worked so the semantics are pinned
+    independently of any net."""
+    advancing = run_of(
+        rec("recon", verdict="success"),
+        rec("intrude", verdict="failure"),
+        rec("operate", verdict="success"),
+    )
+    assert first_success_stage(advancing, STAGES) == 0
+    assert deepest_successful_stage(advancing, STAGES) == 2
+    assert advanced_after_first_success(advancing, STAGES) is True
+
+    # Succeeded repeatedly, never deeper — experiment 1's churn shape.
+    repeating = run_of(
+        rec("operate", verdict="success"),
+        rec("operate", verdict="success"),
+        rec("recon", verdict="success"),
+    )
+    assert first_success_stage(repeating, STAGES) == 2
+    assert advanced_after_first_success(repeating, STAGES) is False
+
+    # Never succeeded: advance is undefined, not False. Encoding it False would
+    # score a run that did nothing as a run that failed to advance, which are
+    # different claims.
+    barren = run_of(rec("recon", verdict="failure"))
+    assert first_success_stage(barren, STAGES) is None
+    assert advanced_after_first_success(barren, STAGES) is None
+
+
+def test_refoothold_times_and_rate():
+    """Re-establishing after MTD severs position: from each network-layer
+    interrupt to the next *compromise*, censored at run end.
+
+    Deliberately narrower than recovery_times, which counts any success. Here
+    the recon success after the second sever must NOT count as a re-foothold.
+    """
+    run = run_of(
+        rec("a", verb="EXPLOIT_VULN", outcome="EXPLOIT_COMPROMISED", start=0, end=10),
+        # sever #1, re-footholded at t=30
+        rec("b", interrupted=True, interrupted_by="network", start=10, end=20),
+        rec("c", verb="EXPLOIT_VULN", outcome="EXPLOIT_COMPROMISED", start=20, end=30),
+        # sever #2, only a recon success afterwards -> censored
+        rec("d", interrupted=True, interrupted_by="network", start=30, end=40),
+        rec("e", verb="SCAN_HOST", verdict="success", start=40, end=50),
+        # an application-layer interrupt is not a sever and raises no question
+        rec("f", interrupted=True, interrupted_by="application", start=50, end=60),
+        termination=60.0,
+    )
+    times = refoothold_times(run)
+    assert times.observed == (10.0,)
+    assert times.censored == (20.0,)
+    assert refoothold_rate(run) == pytest.approx(0.5)
+
+    # Never severed: the question is undefined rather than answered zero.
+    untouched = run_of(rec("a", verb="SCAN_HOST"))
+    assert refoothold_rate(untouched) is None
+    assert refoothold_times(untouched) == CensoredDurations((), ())
+
+
 def test_effort_to_breadth_ratios():
     run = run_of(
         rec("a", verdict="success"),
@@ -349,6 +414,10 @@ def test_terminal_mode_vocabulary():
     assert terminal_mode(run_of(rec("a", outcome="MAX_EVENTS", next_place=None))) == "max_events"
     assert terminal_mode(run_of(rec("a", outcome="SIM_END", next_place=None))) == "sim_end"
     assert terminal_mode(run_of(rec("a", next_place=None))) == "sink"
+    assert (
+        terminal_mode(run_of(rec("a", outcome="SINK_EXHAUSTED", next_place=None)))
+        == "sink_exhausted"
+    )
     assert terminal_mode(run_of(rec("a", next_place="b"))) == "horizon"
 
 

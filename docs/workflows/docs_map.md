@@ -104,7 +104,7 @@ The UWA `cshonours` LaTeX project (`dissertation.tex`, `references.bib`, `figure
 ## Repo layout beyond `docs/` (orientation)
 
 - [`../../baseline/golden/`](../../baseline/golden/) — canonical seeded golden outputs (behavioural oracle; re-baselined Phase 2c). `golden_phase0_buggy/` kept for provenance. [`BASELINE.md`](../../baseline/BASELINE.md) / [`CHANGELOG.md`](../../baseline/CHANGELOG.md) record every intentional re-baseline.
-- [`../../data/`](../../data/) — pipeline artefacts: `gap/` (L1 graph + per-flow YAMLs + pinned ATT&CK bundle), `gasp/` (four objective subgraphs + `metadata_audit.csv`, the load-bearing classification input), `ogasp/` (weighted nets, `tactic_durations.json`, timeline runs).
+- [`../../data/`](../../data/) — pipeline artefacts: `gap/` (L1 graph + per-flow YAMLs + pinned ATT&CK bundle), `gasp/` (four objective subgraphs + `metadata_audit.csv`, the load-bearing classification input), `ogasp/` (weighted nets, `tactic_durations.json`, the declared-value families and their generated views — `controller/outcome_rules.json`, `attacker_utility.json` — timeline runs).
 - [`../../src/mtdsim/`](../../src/mtdsim/) — the fresh pipeline code (l0–l4); [`../../mtdnetwork/`](../../mtdnetwork/) — the inherited substrate.
 - Harness configuration (permission allowlists, hooks, skills) lives in [`../../.claude/`](../../.claude/).
 

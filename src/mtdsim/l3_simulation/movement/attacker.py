@@ -173,6 +173,15 @@ class MovementRecord:
     # nothing" — and the action-budget decomposition that made experiment 1
     # legible would silently count dwell-only steps as failed actions.
     place_class: str = ACTION_BEARING
+    # This visit is a **retrace** — the token stepped back here from a sink under
+    # the S5 policy (sink_retrace_design.md §3.3). It is an ordinary visit in every
+    # other respect: it draws its dwell, dispatches its verb and raises a real
+    # verdict. The flag exists so every per-action metric can be computed with
+    # retraces in or out and the write-up can say which, and so the retrace count
+    # is itself readable. Recording a retrace verbless was rejected — the
+    # measurement suite reads a verbless record as a dwell-only visit, which would
+    # silently corrupt `dwell_only_fraction` and every denominator built on it.
+    retrace: bool = False
 
 
 # The distinguished routing verdict for a place that raised no verdict at all (a
@@ -197,6 +206,14 @@ _PRECONDITION_UNMET = "PRECONDITION_UNMET"
 _MTD_INTERRUPT = "MTD_INTERRUPT"
 _SIM_END = "SIM_END"
 _MAX_EVENTS = "MAX_EVENTS"
+# The S5 retrace policy ran out of places to step back to: the token reached a
+# sink and every predecessor on its own visited chain was exhausted. Recorded
+# distinctly from a plain sink termination so the two are never conflated — a
+# sink termination means "the policy was off", this means "the policy ran and had
+# nowhere left to go". Unreachable on the current corpus (every sink predecessor
+# keeps five to eleven alternatives, sink_retrace_design.md §3.1); it exists so
+# the degenerate case is handled rather than assumed away.
+_SINK_EXHAUSTED = "SINK_EXHAUSTED"
 # A dwell-only place served its dwell and dispatched nothing. Distinct from
 # MTD_INTERRUPT even when a mutation cut the dwell short, because the two differ
 # in what they cost, not in what they dispatched: see _serve_dwell_only.
@@ -240,6 +257,14 @@ class MovementAttacker:
         seed: int = 0,
         register_for_interrupts: bool = True,
         max_events: int = 50_000,
+        # The S5 sink-retrace policy, OFF by default — deliberately, and for the
+        # same reason the mapping and overlay registries default to experiment 1's
+        # values rather than the newest: promoting a new behaviour to default
+        # re-bakes an experiment's choice into the pipeline, and an unqualified run
+        # should reproduce what has always run. Experiment 2 names it at the seam,
+        # exactly as it names its mapping and its overlay version. The
+        # accept-and-censor arm it supersedes stays reachable for the same reason.
+        retrace_sinks: bool = False,
     ) -> None:
         import random
 
@@ -266,6 +291,23 @@ class MovementAttacker:
         self.max_events = max_events
         self.records: list[MovementRecord] = []
         self._proc: simpy.Process | None = None
+        # -- the S5 sink-retrace policy (sink_retrace_design.md) ---------------
+        self.retrace_sinks = retrace_sinks
+        # The chain of places the token walked, so a retrace knows where it came
+        # from — and, in the degenerate case, where *that* came from (§3.5).
+        self._visited: list[str] = []
+        # The one-shot edge suppression: ``(src, dst)`` removed from the NEXT
+        # selection at ``src`` and from that selection only. This is the single
+        # genuinely new policy in the retrace design; everything else it does is
+        # an ordinary place visit.
+        self._suppressed_edge: tuple[str, str] | None = None
+        # Set when a retrace has just been chosen, consumed by the record the
+        # retraced-to visit writes.
+        self._retrace_pending = False
+        # Counted rather than budgeted (§3.4): the design declines a declared
+        # retrace budget and surfaces the frequency instead, so a high count is
+        # data rather than something a knob quietly held down.
+        self.retrace_count = 0
 
     # -- lifecycle ----------------------------------------------------------
     def start(self) -> simpy.Process:
@@ -285,7 +327,12 @@ class MovementAttacker:
     def _walk(self):
         place = self.routing.entry_place
         step_index = 0
+        self._visited.append(place)
         while True:
+            # Consumed here, one iteration after the retrace was chosen, so the
+            # flag lands on the visit the token stepped back INTO rather than on
+            # the sink's own record (_take_retrace_flag).
+            is_retrace = self._take_retrace_flag()
             if self.end_event.triggered:
                 self._emit_terminal(place, step_index, _SIM_END)
                 return
@@ -320,6 +367,7 @@ class MovementAttacker:
                 # base weights renormalised, sampled identically (overlay design
                 # §3 stands — an unconditioned place routes on base weights).
                 next_place = self._route(place, VERDICT_NONE)
+                next_place, exhausted = self._maybe_retrace(place, next_place)
                 self.records.append(
                     MovementRecord(
                         profile=self.routing.profile,
@@ -336,12 +384,17 @@ class MovementAttacker:
                         dwell=dwell,
                         interrupted_by=interrupted_by,
                         place_class=DWELL_ONLY,
+                        retrace=is_retrace,
                     )
                 )
                 step_index += 1
                 if next_place is None:
+                    if exhausted:
+                        self._emit_terminal(place, step_index, _SINK_EXHAUSTED,
+                                            place_class=DWELL_ONLY)
                     return  # sink
                 place = next_place
+                self._visited.append(place)
                 continue
 
             # Announce the verb the token is about to fire, BEFORE any time passes.
@@ -369,6 +422,7 @@ class MovementAttacker:
                 return
 
             next_place = self._route(place, verdict)
+            next_place, exhausted = self._maybe_retrace(place, next_place)
             self.records.append(
                 MovementRecord(
                     profile=self.routing.profile,
@@ -384,12 +438,16 @@ class MovementAttacker:
                     end_time=self.env.now,
                     dwell=dwell,
                     interrupted_by=interrupted_by,
+                    retrace=is_retrace,
                 )
             )
             step_index += 1
             if next_place is None:
+                if exhausted:
+                    self._emit_terminal(place, step_index, _SINK_EXHAUSTED)
                 return  # stall (overlay suppressed every out-edge) or sink
             place = next_place
+            self._visited.append(place)
 
     def _dispatch(self, verb: str, duration: float, start_time: float):
         """Run one dispatched verb through the carved substrate for the time the
@@ -543,12 +601,94 @@ class MovementAttacker:
     def _route(self, place: str, verdict: str) -> str | None:
         """Condition the base out-distribution on the verdict (overlay.compose)
         and sample the next place. None on a stall (empty composed distribution)
-        or a sink (no base out-edges)."""
+        or a sink (no base out-edges).
+
+        A pending **one-shot retrace suppression** for this place is applied first
+        and cleared as it is applied (S5; ``sink_retrace_design.md`` §3.1): the
+        edge the token just came back along is removed from *this* selection and
+        from no other, so returning to the same tactic on a later occasion sees
+        the full out-set again. Suppressing before composing rather than after
+        means the renormalisation runs over the remaining destinations, which is
+        what makes it a re-drawn choice rather than a reweighted one."""
         base_out = self.routing.base_out_weights(place)
         if not base_out:
             return None
+        suppressed = self._suppressed_edge
+        if suppressed is not None and suppressed[0] == place:
+            base_out.pop(suppressed[1], None)
+            self._suppressed_edge = None  # one-shot, consumed here
         composed = self.overlay.compose(place, verdict, base_out)
         return self._sample(composed)
+
+    # -- the S5 sink-retrace policy (sink_retrace_design.md) ------------------
+    def _maybe_retrace(self, place: str, next_place: str | None) -> tuple[str | None, bool]:
+        """Apply the retrace policy when routing yielded nowhere to go.
+
+        Returns ``(destination, exhausted)``. ``destination`` is the place to move
+        to — unchanged when routing already found one, the retrace target when the
+        policy fires, and ``None`` when the walk ends. ``exhausted`` is True only
+        for the degenerate case the policy ran and could not resolve, so the caller
+        records ``SINK_EXHAUSTED`` rather than letting it read as a plain sink.
+
+        A **stall** is deliberately not absorbed here. A stall (the overlay
+        suppressing every out-edge at a place that *has* base edges) and a sink
+        (the corpus drawing no edge out at all) differ in what they mean — one is
+        the verdict speaking, the other is the corpus — so the stall keeps its
+        existing treatment (§3.5)."""
+        if next_place is not None:
+            return next_place, False
+        if not self.retrace_sinks:
+            return None, False
+        if not self.routing.is_sink(place):
+            return None, False  # a stall, not a sink — not this policy's business
+        target = self._retrace_target(place)
+        if target is None:
+            return None, True
+        self._retrace_pending = True
+        return target, False
+
+    def _retrace_target(self, sink: str) -> str | None:
+        """The place to step back to, walking the token's own visited chain.
+
+        Normally this is the immediate predecessor. It walks further back only in
+        the degenerate case where suppressing the edge just travelled would leave a
+        predecessor with no positive mass at all — which no profile net can reach
+        today (every sink predecessor keeps five to eleven alternatives, §3.1), but
+        which is handled rather than assumed away. Sets the one-shot suppression as
+        a side effect; returns None when the chain is exhausted.
+
+        The mass test is against the **base** weights: a predecessor whose base
+        out-set survives the suppression can still stall on a verdict, and a stall
+        is the other mechanism's to handle."""
+        child = sink
+        for index in range(len(self._visited) - 2, -1, -1):
+            predecessor = self._visited[index]
+            base = self.routing.base_out_weights(predecessor)
+            remaining = {d: w for d, w in base.items() if d != child and w > 0}
+            if remaining:
+                self._suppressed_edge = (predecessor, child)
+                return predecessor
+            child = predecessor
+        return None
+
+    def _take_retrace_flag(self) -> bool:
+        """Consume the pending retrace flag at the **top** of the next iteration.
+
+        The flag is set while the *sink's* record is still being built, so it must
+        not be consumed by that record — it belongs to the visit the token
+        retraced *into*. Taking it one iteration later is what makes the record
+        stream say "this visit happened because the token stepped back", which is
+        the claim the flag exists to support.
+
+        ``retrace_count`` increments here rather than at the decision, so the
+        counter means "retraced visits that actually happened": a retrace chosen
+        an instant before the sim ends produces no visit and is not counted, and
+        the count therefore always equals the number of flagged records."""
+        flag = self._retrace_pending
+        self._retrace_pending = False
+        if flag:
+            self.retrace_count += 1
+        return flag
 
     def _sample(self, distribution: dict[str, float]) -> str | None:
         """Draw one destination from a ``{place: weight}`` distribution with the

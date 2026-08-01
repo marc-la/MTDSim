@@ -62,13 +62,12 @@ GEOMETRY = dict(
 _BLOCKED_HANDOFF = "docs/handoffs/2026-07-22_l3_controller_success_failure.md"
 
 
-def _default_overlay() -> OutcomeOverlayLike:
-    """The real success/failure outcome overlay from the controller sublayer. Its
-    ``compose`` is implemented by the controller-finalisation handoff; loading the
-    object here is safe, and it composes once that lands."""
+def _default_overlay(version: str | None = None) -> OutcomeOverlayLike:
+    """The success/failure outcome overlay from the controller sublayer, at the
+    named registry version (or the registry's declared default when unnamed)."""
     from mtdsim.l3_simulation.controller import load_outcome_overlay
 
-    return load_outcome_overlay()
+    return load_outcome_overlay(version=version)
 
 
 def _default_verdict_adapter() -> VerdictAdapter:
@@ -140,6 +139,7 @@ def run_movement(
     with_synthetic_overlay: bool = True,
     horizon: int = 15_000,
     overlay: OutcomeOverlayLike | None = None,
+    overlay_version: str | None = None,
     verdict_of: VerdictAdapter | None = None,
     controller: Any | None = None,
     mapping_version: str | None = None,
@@ -152,6 +152,7 @@ def run_movement(
     geometry: dict | None = None,
     register_for_interrupts: bool = True,
     max_events: int = 50_000,
+    retrace_sinks: bool = False,
 ) -> MovementRunResult:
     """Run one movement-layer simulation and return its :class:`MovementRunResult`.
 
@@ -173,6 +174,26 @@ def run_movement(
     ``ConstantTiming`` reproduces the pre-S3 fixed-dwell arm, which is how the
     tests isolate what the distribution change alone did.
 
+    ``overlay_version`` names the success/failure overlay version this run uses,
+    the other half of the pair of declared inputs an experiment names at this seam
+    — ``mapping_version`` says how tactics become verbs, this says how a verdict
+    conditions the next move. It exists so a run can *name* its overlay rather
+    than construct one and pass the object, which is the asymmetry the
+    demonstration-arms handoff flagged (the tracer had the parameter; this did
+    not). Left unset it takes the registry's default, which is experiment 1's
+    value for the same reason ``mapping_version``'s is. Passing both this and a
+    constructed ``overlay`` is a contradiction and raises.
+
+    ``retrace_sinks`` selects the S5 sink-retrace policy
+    (``sink_retrace_design.md``): a token reaching a place the corpus drew no exit
+    from steps back to where it came from, with that edge suppressed for one
+    selection, instead of the run being censored there. It defaults **off** for the
+    same reason ``mapping_version`` and the overlay registry default to experiment
+    1's values — an unqualified run reproduces what has always run, and an
+    experiment names its own inputs at this seam rather than inheriting a newer
+    behaviour silently. Experiment 2 names it; experiment 1's accept-and-censor arm
+    stays reachable by leaving it unset.
+
     ``attacker_state`` attaches a within-run :class:`AttackerState` by wrapping
     the three collaborators the walk consumes — :class:`StatefulTiming` reports
     every place entry, :class:`ModulatedOverlay` reports every verdict and
@@ -191,7 +212,10 @@ def run_movement(
         controller = load_controller(version=mapping_version)
     elif mapping_version is not None:
         raise ValueError("pass either controller or mapping_version, not both")
-    overlay = overlay if overlay is not None else _default_overlay()
+    if overlay is not None and overlay_version is not None:
+        raise ValueError("pass either overlay or overlay_version, not both")
+    if overlay is None:
+        overlay = _default_overlay(overlay_version)
     verdict_of = verdict_of if verdict_of is not None else _default_verdict_adapter()
     dwell = dwell_catalogue if dwell_catalogue is not None else load_dwell_catalogue()
     driven_attack_op: Any = attack_op
@@ -222,6 +246,7 @@ def run_movement(
         seed=seed,
         register_for_interrupts=register_for_interrupts,
         max_events=max_events,
+        retrace_sinks=retrace_sinks,
     )
     attacker.start()
 
@@ -248,6 +273,7 @@ def run_movement(
         reached_objective=bool(end_event.triggered),
         termination_time=termination_time,
         compromised_count=len(adversary.get_compromised_hosts()),
+        retrace_count=attacker.retrace_count,
     )
 
 
@@ -258,6 +284,7 @@ def run_smoke_matrix(
     with_synthetic_overlay: bool = True,
     horizon: int = 3_000,
     overlay: OutcomeOverlayLike | None = None,
+    overlay_version: str | None = None,
     verdict_of: VerdictAdapter | None = None,
     **kwargs,
 ) -> list[MovementRunResult]:

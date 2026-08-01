@@ -55,6 +55,12 @@ class MovementRunResult:
     reached_objective: bool  # the substrate end_event fired (network compromised)
     termination_time: float  # sim time at which the run stopped
     compromised_count: int  # hosts compromised (substrate ground truth)
+    # How many times the S5 retrace policy fired. Surfaced rather than budgeted:
+    # the design declined a declared retrace budget on the argument that the
+    # one-shot suppression and the time cost already bound the behaviour, so the
+    # frequency has to be visible for that argument to stay falsifiable
+    # (sink_retrace_design.md §3.4). Always 0 when the policy is off.
+    retrace_count: int = 0
 
     def first_compromise_time(self) -> float | None:
         """Sim time of the first compromise the walk drove, or None if the run

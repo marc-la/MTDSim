@@ -267,8 +267,182 @@ sweep.)*
 
 ## 6. Results
 
-*(Pending at this commit — the sweep had not been run when §5 was written. This
-is the pre-registration boundary.)*
+1 800 movement runs (9 points × 2 mappings × 5 profiles × 2 MTD conditions × 10
+seeds) plus 20 baseline reference runs, at the 15 000 s horizon and the 200 s
+mutation interval. Workspace: `data/results/axis6_rationality/`
+(untracked/regenerable per the experiment-workspace convention) — `run_sweep.py`,
+`analyse.py`, and `mtd_tax_anatomy.py`, which was written *after* the verdicts to
+diagnose C4 and is labelled as the post-hoc diagnostic it is.
+
+### 6.1 Verdicts
+
+| | Conclusion | `v1_ckc_total` | `v2_partial` |
+|---|---|---|---|
+| C1 | the ablation is exact | **held** (0 of 30 runs differ) | **held** (0 of 30) |
+| C2 | the mechanism is live | **held** (5/5 profiles, both conditions) | **held** (5/5, both) |
+| C3 | rising λ collapses traversal diversity | **held** (5/5 CI-disjoint) | **held** (5/5) |
+| C4 | the shift is larger under MTD | *held* (3/5) — **but see §6.3** | **MOVED** (2/5) |
+| C5 | cost sensitivity does not buy progress | **held** (no statistic improved) | **held** |
+| C6 | the declared cost floor is load-bearing | **held** (4/5) | **held** (4/5) |
+
+**C4's threshold verdict is a split, and the split is not the finding — the
+continuum is.** Reporting it as "held on one mapping, moved on the other" would
+be exactly the failure the sensitivity-study precedent warns about (a threshold
+verdict on a continuum, reported without the continuum beside it). The
+per-profile ratios of the MTD shift to the no-MTD shift are 0.99, 1.01, 1.27,
+0.89 and 1.89 under `v1_ckc_total`, and 0.93, 0.96, 1.00, 1.38 and 0.87 under
+`v2_partial`. Eight of ten sit within ±15 % of 1.0. **The honest reading is that
+the effect is absent on both mappings**, `double_extortion` excepted, and that
+C4's 3/5 under `v1_ckc_total` is a coin-flip on noise rather than evidence. C4 is
+recorded as **moved**, on both mappings, and §6.3 gives the anatomy.
+
+### 6.2 What did happen — the mechanism is live and its direction is legible
+
+C2 and C3 are unambiguous, and the shift they measure has a single coherent
+shape: **the cost-sensitive attacker moves its effort onto the cheap
+exploit-shaped tactics and off the expensive low-and-slow ones.** Under
+`v2_partial` at λ = 1 against λ = 0, `pure_steal` moves +0.19 of its visit share
+onto credential-access and +0.16 onto lateral-movement (both declared 4.5 s),
+while stealth (−0.07), execution (−0.09), command-and-control (−0.06),
+persistence (−0.05) and discovery (−0.06) all fall. `infrastructure_setup` shows
+the same shape more sharply (+0.25 credential-access, +0.17 lateral-movement;
+−0.10 command-and-control, −0.08 collection). This is precisely what a
+benefit-per-cost attacker should do, and it is visible without needing a
+statistical test.
+
+C3's collapse is severe and worth stating in magnitude: pooled path entropy falls
+from 2.23 bits at λ = 0 to 0.24 at λ = 4 for `pure_steal`, and from 1.45 to 0.01
+for `infrastructure_setup`. **The near-greedy end of the band does collapse
+traversal diversity, shown rather than assumed** — which is the axis-3 trade made
+visible, and the reason λ = 4 is a band end and not a candidate operating value.
+
+**C5 held, and it held in a stronger direction than pre-registered.** Cost
+sensitivity does not merely fail to buy progress; it *costs* progress. Under
+`v2_partial` on the MTD arm the mean distinct hosts fall from 1.42 at λ = 0 to
+0.10 at λ = 4, successful actions from 103 to 8, and — the diagnostic number —
+**blocked actions rise from 135 of 273 attempts (49 %) to 2 165 of 2 196
+(99 %)**. The greedy attacker piles into the cheap tactics, and the cheap tactics
+are cheap precisely because the substrate prices them as exploit-shaped, while
+being the most tightly precondition-coupled things it can attempt. **This is
+experiment 1's H-coupling finding restated in economic terms:** on this
+substrate, an attacker that optimises declared cost optimises its way into a
+wall. Recording it matters because it is the opposite of the flattering result
+the pre-registration was written to guard against.
+
+### 6.3 Why C4 moved — the anatomy, and why it is not "no signal"
+
+Two mechanisms could produce C4's negative and they have opposite implications,
+so the verdict is unreadable until they are separated: either MTD's tax is
+undifferentiated across tactics (a finding about the substrate), or it is
+differentiated but invisible to this attacker (a finding about the model).
+`mtd_tax_anatomy.py` measures which, per tactic-place, over 35 MTD runs.
+
+**MTD's tax is strongly differentiated in absolute terms.** The interrupted
+fraction spans 0.011 (lateral-movement) to 0.201 (stealth) — an 18-fold spread —
+and the derived confusion penalty per visit spans 0.23 s to 4.13 s. So the first
+mechanism is refuted: there is a great deal of signal.
+
+**But the tax is near-proportional to the declared dwell, and a normalised ratio
+cannot see a proportional surcharge.** The correlation between a tactic's
+declared cost and its interrupt rate is Spearman 0.87, which is mechanically
+unsurprising — a longer dwell is likelier to straddle a mutation at a 200 s
+interval. Expressed *relatively*, the tax is nearly flat: penalty ÷ declared cost
+ranges only 0.032–0.113 about a mean of 0.086, a roughly uniform ~9 % surcharge.
+A utility built as a **ratio**, normalised across the out-set, is invariant to a
+uniform proportional inflation of its denominator. Re-pricing every tactic's cost
+at its MTD-*realised* value rather than its declared one leaves the attacker's
+preference ordering essentially unchanged (Spearman 0.95–0.97 across profiles;
+the only movement is a swap inside the top three, all of which are the same 4.5 s
+exploit-shaped tactics).
+
+**The finding, stated plainly:** on this substrate MTD's cost is levied in
+near-proportion to a tactic's declared dwell, so a cost-sensitive attacker
+already avoids the MTD-taxed tactics *as a side effect of avoiding the expensive
+ones* — and it does so by exactly the same amount whether MTD is running or not.
+The economic MTD effect the axis exists to produce is therefore not reachable by
+this mechanism on this defence, and the reason is structural rather than a lack
+of power or a lack of signal.
+
+Two things follow, and they are the useful half of a negative result:
+
+- **The static-belief explanation is the primary one — CORRECTED 2026-07-29.**
+  As first written this bullet claimed the negative "survives the obvious fix",
+  on the evidence that re-pricing each tactic at its run-averaged realised cost
+  reorders almost nothing. That tests **one** candidate fix and was overstated
+  into a general result. Two later measurements move the weight of the
+  explanation:
+  (i) the modulator is a pure function of declared data and the current place,
+  so its factor table is precomputable — proven by a spike that folded the table
+  into a plain overlay and reproduced the stateful run **30/30 bit-identical**
+  (`data/results/axis6_rationality/collapse_test.py`). The MTD condition is not
+  among its inputs, so no parameter choice could have made it respond to MTD.
+  That, not the proportional tax, is the first-order reason C4 moved.
+  (ii) the **cost** channel is closed but the **realised-success** channel is
+  wide open: MTD's per-tactic success ratio spans 0.08–1.02, a 13-fold spread
+  that no normalisation cancels. An attacker conditioning on realised success —
+  as distinct from realised cost — is not ruled out by anything measured here.
+  Full record: [`targeted_attacker_feasibility.md`](targeted_attacker_feasibility.md) §2.
+- **What would produce the effect** is therefore either a defence whose cost is
+  *not* proportional to dwell (a scheme that taxes particular tactics rather than
+  particular durations), or a utility that conditions on something the
+  proportional surcharge does not cancel — realised *success* rate per tactic
+  rather than realised time. The seam already observes both; that is the
+  successor work, not this handoff's.
+
+### 6.4 The cost ledger, per run and per arm (validation gate 3)
+
+The ledger the attacker is now optimising against is reported per run
+(`numbers/sweep_per_run.jsonl`) and aggregated per arm
+(`numbers/cost_ledger.json`), so the optimised quantity is externally visible
+rather than implicit in the modulator. Means over 50 runs per point,
+`v2_partial`, MTD arm:
+
+| λ | attempted | blocked | interrupted | successes | dwell (s) | MTD penalty (s) | time in MTD-cut events (s) | hosts |
+|---|---|---|---|---|---|---|---|---|
+| 0 | 273 | 135 | 44 | 103 | 9 713 | 903 | 2 501 | 1.42 |
+| 0.5 | 384 | 220 | 44 | 107 | 9 561 | 910 | 2 397 | 0.92 |
+| 1 | 641 | 514 | 48 | 68 | 10 174 | 977 | 2 473 | 0.44 |
+| 2 | 1 396 | 1 353 | 49 | 15 | 10 866 | 1 011 | 2 067 | 0.14 |
+| 4 | 2 196 | 2 165 | 49 | 8 | 11 112 | 1 012 | 1 468 | 0.10 |
+
+Two readings worth recording. First, `time_residual` is **0.00 at every point**,
+so the S3-R regime tripwire the measurement suite installed did not fire: the
+substrate is not pricing movement-arm actions behind the movement layer's back.
+Second, the interrupt *count* is almost flat across λ (44 → 49) while attempted
+actions rise eightfold — the attacker is not being interrupted more, it is
+failing more, which corroborates §6.2's precondition-wall reading directly from
+the ledger.
+
+The inherited baseline rides along as the per-arm reference: 1 411 attempted
+actions and 39.2 distinct hosts without MTD, against 1 743 attempts and 13.1
+hosts under it. Its time field (`time_total`) is substrate-priced and is **not**
+comparable to the movement arm's under S3-R; only the event-wise quantities are
+cross-arm safe, per the measurement suite's enforced comparable type.
+
+### 6.5 C6 — the floor is load-bearing, as pre-registered
+
+The action-mix distance across the `cost_floor_s` band exceeds the distance
+across the `rho` band on 4 of 5 profiles under both mappings (e.g.
+`infrastructure_setup`: 0.215 against 0.029). The floor is confirmed as the more
+influential of the two declared magnitudes, which is why §3 spends its argument
+on what the catalogue's zero *means* rather than on convenience. `double_extortion`
+is the exception on both mappings (0.114 against 0.122), and the reason is
+visible in the benefit table: it is the only profile with two objectives at the
+same lifecycle stage, so its benefit spread is the narrowest and `rho` has
+correspondingly more room to act.
+
+### 6.6 What the sweep does not license
+
+- **No ordering of profiles** is claimed from any statistic here; the sweep was
+  not designed for one and `interval_report` refuses it where it was checked.
+- **No ranking of MTD mechanisms** under a cost-sensitive attacker — one scheme,
+  one interval, ten seeds; directional, not powered. That is experiment 2's.
+- **No ASR-shaped claim**: at the 200 s operating interval the run sits inside
+  the degenerate region and ASR discriminates nothing.
+- **No operating λ is recommended.** λ = 1 is the declared value because it is
+  the only one in the band with a non-arbitrary interpretation, not because the
+  sweep preferred it — and nothing here was chosen because it improved an
+  outcome. Given C5, the outcome it "improves" is negative anyway.
 
 ## 7. Alternatives considered and rejected
 
@@ -314,6 +488,15 @@ Three limits travel with any use of it:
 - **No change to the durations**, no second cost family.
 - **No cross-run memory.** The modulator does not even use the within-run state —
   it is a pure function of declared data and the current place.
-- **No badge moved on the criterion** unless the pre-registered criterion was
-  met; see §6 and [`../../apt_model_criterion.md`](../../apt_model_criterion.md)
-  §(h).
+- **The badge moves from NOT ADDRESSED to DESIGNED, not to DEMONSTRATED**, and
+  the reasoning is recorded here because neither label fits cleanly. NOT
+  ADDRESSED ("absent, with no design commitment") no longer describes the axis: a
+  declared, tiered, rule-generated, swept cost/benefit decision rule exists, runs,
+  and is on record changing both behaviour (C2, C3) and outcome (C5). But
+  DEMONSTRATED is **withheld**, because the outcome the axis exists to produce —
+  a change in MTD's *measured effect* when the attacker can see cost — did not
+  reproduce (C4, §6.3), and the one measured-outcome change the mechanism does
+  produce is that the attacker does worse. Calling that DEMONSTRATED would let a
+  reader infer the economic MTD result, which the evidence does not support.
+  DESIGNED with §6.3 attached is the honest badge; what would move it to
+  DEMONSTRATED is stated in the criterion's axis-6 M8b field.
