@@ -83,6 +83,28 @@ what supplementary measurement would move the badge, recorded as a
 recommendation only (nothing is built here, per the S2 freeze and the S6
 scope).
 
+**The rows are a census, not a scale (recorded 2026-08-01).** The eight axes
+are not independent, and two are in measured tension: both built modulators
+narrow traversal, so improving the incentive row (axis 6) or the learning row
+(axis 7) provably degrades the plurality row (axis 3 — path entropy collapses
+as either capability rises, and the composition study measured the two
+narrowings as sub-additive rather than compounding, §(d) axis 3). Any
+row-counting summary — "2 DEMONSTRATED / 4 DESIGNED / 2 NOT ADDRESSED" — is
+therefore an inventory of what may be claimed, never an additive scale on which
+more badges is a better model: on this instrument a model can raise one row
+*by* lowering another.
+
+**One distinction the badge vocabulary does not encode, recorded rather than
+resolved.** The four DESIGNED rows do not sit there for the same reason: axis 1
+records an *absence* (a structure that runs, with no outcome ever shown), while
+axes 4, 6 and 7 record *measured negatives* (a built, swept, ablatable
+mechanism shown to operate without conferring advantage). A measured negative
+is a result and an unevidenced outcome is not, and one badge currently covers
+both — each axis's prose argues the distinction the badge cannot. Encoding it
+as a fifth badge would re-label existing rows, which is a re-decision this
+instrument reserves for Marc; the option is recorded here so the flattening is
+a known cost rather than an oversight.
+
 **A standing constraint on what evidence can move a badge — the degenerate
 region (recorded 2026-07-28).** At the 200 s mutation interval every
 published run of this project has used, *neither* the profiled attacker nor
@@ -121,6 +143,24 @@ the same reason: each was shown to operate **without** conferring adversarial
 advantage. A measured negative is a stronger statement about the field's gap
 than silence was, and it is one only a model carrying the capability can make.
 §(f) states what all of this buys anyway.
+
+**Two lettered rows are appended to the instrument (2026-08-01) — this
+project's addition, not derived from the three source surveys**, the same flag
+the §(a) synthesis carries. They exist because the eight axes score properties
+of an *adversary* and the project's largest result is a property of an
+*evaluation*: an attacker could satisfy all eight and change no defence
+ranking, and this one satisfies two and inverts it (§(g)). The rows are
+lettered rather than numbered so that axes 1–8, which are cited by number
+across the implementation records and the experiment findings, are never
+renumbered. Definitions and evidence bars are in §(d2); they were committed
+before either row was scored, exactly as the eight axes were fixed before the
+model was scored, so the additions cannot be reverse-fitted to flatter the
+result that prompted them.
+
+| Row | What it scores | This model today |
+|---|---|---|
+| A | evidential provenance — are the behavioural parameters evidenced, or declared? | *derived this commit; scored in the next* |
+| B | evaluative consequence — does substituting this attacker change the evaluation's answer? | *derived this commit; scored in the next* |
 
 ## (d) The axes
 
@@ -590,6 +630,92 @@ inverse of Tay's IDS-sensitivity experiment, per §(f)); (iii) any
 invariant-feature observation channel at all. Each presupposes the primitive
 being encoded — a lift of the S2 freeze and a fresh comparability argument,
 not current work.
+
+## (d2) Rows A and B — evidential provenance and evaluative consequence
+
+**These two rows are this project's synthesis, not the surveys'.** The eight
+numbered axes were derived from Cho, Alshamrani and Jalowski (§(a)); no source
+survey supplies these two, and they are flagged accordingly, as the §(a)
+editorial synthesis is. They also serve a different reader. The eight axes help
+someone **building** an attacker model; these rows help anyone **assessing**
+whether an attacker model — this one or their own — is evidenced and is doing
+any work, which is the difference between a private development checklist and a
+transferable instrument.
+
+**The derivation discipline applies unchanged.** This section's definitions,
+graded outcomes and evidence bars are committed *before* either row is scored;
+the scores land in a separate, later commit against the evidence as it stands.
+The commit order is the audit trail, as it was for the §(a) axis synthesis and
+for every pre-registered sweep since.
+
+### Row A — evidential provenance
+
+**What it asks.** What proportion of the model's behavioural parameters is
+traceable to an external, dated, third-party artefact, as against declared by
+the modeller?
+
+**A rejected phrasing, recorded so it is not re-proposed.** The instinctive
+form of this row — *is the CTI-derived model an upgrade on prior worked
+examples?* — is rejected on two grounds. It is comparative and self-scored, so
+every author answers yes, which is precisely the reverse-fitting this criterion
+exists to prevent. And it welds together two things that separate cleanly:
+whether the behaviour is *evidenced* (this row) and whether the evidence
+*changes anything* (Row B). Provenance without consequence is bookkeeping;
+consequence without provenance is a differently-arbitrary attacker. Scored
+apart, the pair becomes an argument.
+
+**How it must be scored.** By aggregation only — never by fresh judgement at
+scoring time. The declared-value families already carry per-entry tier badges
+([`declared_value_provenance.md`](declared_value_provenance.md)), assigned when
+each family was authored and before this row existed, and the non-ledger layers
+(the corpus-derived structure and weights, the audit-traced objective
+partition, the declared controller mapping) carry recorded provenance of their
+own. The row's score is those records counted, with the counting basis stated;
+a score that required re-judging any value's tier would be the reverse-fitting
+the discipline above forbids.
+
+**Evidence bar.** *Externally attested* means fixed by, or traceable to, an
+artefact outside this project's modelling judgement: the analyst-curated Attack
+Flow corpus, the inherited substrate's constants (via
+[`provenance.md`](provenance.md), which traces them to the published lineage),
+or a dated literature source. The `attested-pattern/declared-magnitude` tier
+counts as attested for the *behaviour* and declared for the *number*, and is
+reported as its own category, folded into neither. The result is reported as
+counts at ledger-entry level with the non-ledger layers named beside them —
+never as a single binary claim of CTI-groundedness, which the tier structure
+exists to prevent in both directions.
+
+**Score:** *withheld in this commit, by the derivation discipline above; the
+following commit scores the row against the ledgers as they stand.*
+
+### Row B — evaluative consequence
+
+**What it asks.** Does substituting this attacker for the incumbent, on the
+same substrate, change the evaluation's *ordering* of defences, the *magnitude*
+of their measured effect, or the *recommendation* a practitioner would draw?
+
+**Three graded outcomes, fixed before scoring.**
+
+1. **Magnitude** — the same defences win, by different margins.
+2. **Ordering** — the ranking of the defence conditions changes.
+3. **Recommendation** — the top-ranked mechanism changes.
+
+**Evidence bar.** A graded outcome may be claimed only from a comparative run
+on record in which both attackers ran on the same substrate against the same
+defence family, with the mutation interval and seed count stated. The caveats
+travel with the row, not in a footnote: a seed count that supports a rank
+comparison does not support a significance claim and the row must say which it
+has; any interval dependence is stated beside the grade, since a ranking taken
+inside the degenerate region (§(b)) means nothing on its own; and the row is
+bounded by the tactic-to-verb mapping remaining a chosen input parameter rather
+than a fidelity claim, for as long as that boundary stands. The envelope
+discipline applies here as everywhere: the substituted attacker is one
+instantiation of a behavioural envelope under a declared policy, not a named
+actor, so the row scores what the substitution *reveals about the evaluation*,
+never the realism of the substitute.
+
+**Score:** *withheld in this commit, by the derivation discipline above; the
+following commit scores the row against the comparative evidence on record.*
 
 ## (e) Fidelity placement
 
