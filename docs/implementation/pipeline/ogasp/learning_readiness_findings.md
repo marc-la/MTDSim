@@ -255,7 +255,8 @@ already lists as future work item 1
 does not attempt to. The axis-7 findings ledger argues that scoring a *property*
 axis with a *performance* test is a category error, and that the correct response
 would be a fresh pre-registration under a property framing
-(`2026-07-29_learning_axis_evaluation_findings.md` §5). This sweep was
+([`learning_axis_evaluation_findings.md`](learning_axis_evaluation_findings.md)
+§5). This sweep was
 pre-registered under the **performance** framing, because the handoff directed the
 criterion the axis-7 record already fixed. It therefore inherits the same open
 question rather than settling it, and the disposition remains Marc's. What this

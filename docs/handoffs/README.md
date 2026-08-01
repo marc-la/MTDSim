@@ -154,11 +154,14 @@ hold no verdict, ceiling 2) — adopted with the coverage curve as its mandatory
 companion. (10), (12) and (13) consume the shipped module directly; (8) can now
 compute these measures at run time.)*
 
-10. `2026-07-28_axis134_demonstration_arms.md` — pre-registers the badge criteria
-    for **persistence, strategic plurality and adaptivity**, and adds the
-    verdict-blind ablation arm that separates *reacts* from *adapts usefully*.
-    Its measurement dependency has shipped (the suite above); **folds into
-    (8)'s run** rather than running its own matrix.
+*(Shipped from wave 5: the **axis-1/3/4 demonstration arms** —
+`2026-07-28_axis134_demonstration_arms.md`, folded into experiment 2's run as it
+directed and deleted with the reconciliation on 2026-08-01. Its pre-registered
+badge criteria and its verdict-blind ablation arm are what let that run move axis
+3 to DEMONSTRATED, hold axis 4 on the control it had never had, and withdraw
+axis 1's reported move on cross-examination — recorded in
+[`../implementation/pipeline/ogasp/experiment_02_findings.md`](../implementation/pipeline/ogasp/experiment_02_findings.md)
+§§11–13 and scored in the criterion §(f2).)*
 *(Shipped from wave 5: the **attacker-state seam** —
 `2026-07-28_attacker_state_seam.md`, landed 2026-07-28 as
 `src/mtdsim/l3_simulation/movement/state.py` plus the tracked record
@@ -267,58 +270,39 @@ rate-study re-score triggers are recorded as fired with no badge moved, the
 degenerate region stands as a constraint beside the badges, and the lagged
 worked examples recompute under δ = 0.25 with zero compiled cells moving.)*
 
-**Off the chain — a findings ledger, not a commission.**
+**Off the chain — two findings ledgers, relocated 2026-08-01.**
 
-16. `2026-07-29_fidelity_implications_for_mtd_evaluation.md` — **has no goal by
-    design.** It preserves eight measured findings (F1–F8) from the axis-6
-    session, re-read under Marc's sharpened thesis framing: *what does greater
-    attack fidelity imply on current evaluation methods of MTD?* Several results
-    logged as failures of the axis-6 build are findings about the **evaluation
-    method** under that framing — MTD's effect varies 13-fold across tactics and
-    is hidden by aggregate metrics (F1); its cost effect is uniform in relative
-    terms and so is invisible to a rational attacker (F2); it cannot reach the
-    TTP layer at all, only execution (F3); the inherited NCR-0.8 success
-    criterion is degenerate at the operating interval while a
-    fidelity-derived one separates 7/7 → 2/7 (F4); a *more* rational attacker
-    performs *worse*, so fidelity and adversary strength are not the same axis
-    (F5); and there is a cheap generalisable test for whether a fidelity
-    increase can interact with a defence at all (F6).
+Entries 16 and 17 were never handoffs: both declared they commissioned no work
+and set no validation gate, so neither could ever be "shipped and deleted", and
+they made this inventory of *open work* inaccurate. By the placement criterion in
+[`../workflows/docs_map.md`](../workflows/docs_map.md) they are investigation
+records, and they now live as such:
 
-    It also records the session's wrong turn, so it is not repeated: the axis-6
-    build, the targeted-attacker study and the give-up proposal were all framed
-    as *baseline-versus-movement* contests, which is not the thesis. **Nothing
-    on this chain depends on it**, and it asks for nothing — but read it before
-    designing any new attacker-fidelity mechanism, because it says which kinds
-    cannot change what an evaluation measures. One consequence for (8): the
-    targeted-attacker feasibility study's §7 recommendation is superseded by its
-    F4.
+- [`../implementation/pipeline/ogasp/fidelity_implications.md`](../implementation/pipeline/ogasp/fidelity_implications.md)
+  — the axis-6 session's eight findings (F1–F8) re-read under the thesis framing
+  *what does greater attack fidelity imply for current evaluation methods of
+  MTD?* Read it before designing any new attacker-fidelity mechanism: it says
+  which kinds **cannot** change what an evaluation measures. F2 and F5 were
+  independently re-measured on the post-disposition substrate on 2026-08-01 and
+  reproduce.
+- [`../implementation/pipeline/ogasp/learning_axis_evaluation_findings.md`](../implementation/pipeline/ogasp/learning_axis_evaluation_findings.md)
+  — the axis-7 session's ledger plus its design post-mortem. Its forward-looking
+  half is **discharged**: the per-place-scalar diagnosis was taken up, the
+  readiness generalisation was built and swept, and axis 7 holds at DESIGNED
+  (`learning_readiness_findings.md`). Its value is now historical.
 
-**Not on the chain — a findings record with no goal.**
-
-17. `2026-07-29_learning_axis_evaluation_findings.md` — deliberately not a work
-    brief, and it asks for nothing. It preserves the reasoning from the axis-7
-    session **restated under the thesis framing that session only reached at its
-    end**: *what does greater attack fidelity imply for current evaluation
-    methods of MTD?* Under that framing the axis-7 result is not "learning did
-    not help the attacker" — it is that a faithful enough attacker exposes that
-    the substrate's success verdict, the atom every metric in this lineage is
-    built on, **is not a progress signal**, and an attacker able to optimise it
-    learns to stop attacking. Four further findings are restated the same way,
-    including that MTD's effect on attacker *knowledge* is unexpressible by the
-    current metric suite, and that the badge criterion committed a category
-    error by applying a performance test to a property axis. It also records why
-    the shipped mechanism could not have produced a workflow claim (a per-place
-    scalar cannot represent a sequence; a place-shaped quantity in a
-    transition-shaped weight layer can only express avoidance), which parts of
-    the build are reusable, and the two substrate stubs that are **not**
-    interchangeable — the precondition contract may be consulted, the native
-    succession policy may not. Two framings are explicitly rejected and should
-    not return: empirical baseline-versus-movement performance comparison, and
-    calibrating the profiled attacker to the baseline. **One item needs Marc:**
-    the shipped records report axis 7 in performance terms and therefore
-    under-report the finding; re-framing them, and whether to re-pre-register the
-    badge under a property criterion, are dispositions rather than housekeeping
-    and were left undone.
+> **Two decisions sit with Marc and are attached to no handoff**, recorded here
+> because this README is where a cold session looks for open work and those
+> records no longer sit in this directory:
+>
+> 1. **Axis-7 framing** — the shipped axis-7 records report the axis in
+>    *performance* terms and thereby under-report the finding. Whether they are
+>    re-framed, and whether the badge is re-pre-registered under a *property*
+>    criterion, are dispositions rather than housekeeping
+>    (`learning_axis_evaluation_findings.md`, end).
+> 2. **D-09** — whether Zhang's unimplemented MTD-interruption give-up threshold
+>    (IS-INT-06) is wanted, and in which form. It blocks (23) entirely; see
+>    [`../implementation/intent_conformance_audit.md`](../implementation/intent_conformance_audit.md).
 
 **Wave 6 — the freeze, and what follows it (2026-07-29).** The attacker model is
 frozen: [`../implementation/pipeline/ogasp/model_scope_freeze.md`](../implementation/pipeline/ogasp/model_scope_freeze.md)

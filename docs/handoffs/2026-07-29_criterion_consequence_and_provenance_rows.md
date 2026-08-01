@@ -6,9 +6,13 @@ created: 2026-07-29
 # Add the two rows the criterion cannot currently score — evidential provenance and evaluative consequence — because the project's largest result scores on none of the existing eight
 
 **Chain position: independent of everything, and cheap.** Documentation and
-scoring only; no mechanism, no run. Should follow
-[`2026-07-29_reconcile_stranded_axis_work.md`](2026-07-29_reconcile_stranded_axis_work.md)
-only because the criterion file is contested until that lands.
+scoring only; no mechanism, no run. **Unblocked 2026-08-01** — it waited only on
+the stranded-axis reconciliation, which landed on `dev` that day (and its handoff
+was deleted with it), so the criterion file is no longer contested.
+
+**Premise re-verified 2026-08-01:** the criterion still carries exactly the eight
+original axes and no consequence or provenance row, so this brief's motivating
+gap is unchanged and unshipped.
 
 ## State of play
 

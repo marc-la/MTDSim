@@ -1,11 +1,33 @@
 ---
-status: open
+status: durable
 created: 2026-07-29
+updated: 2026-08-01
+topic: "Findings ledger (F1–F8) from the axis-6 session, re-read under the thesis framing: what greater attack fidelity implies for current MTD evaluation methods. Preserves 1 800 runs' worth of results that read as mechanism failures and are findings about the evaluation apparatus."
 ---
 
-# What greater attack fidelity implies for current MTD evaluation methods — a findings ledger, not a work brief
+# What greater attack fidelity implies for current MTD evaluation methods — a findings ledger
 
-**This handoff deliberately has no goal.** It is a preservation record: a
+> **Relocated from `docs/handoffs/` on 2026-08-01, unchanged in substance.** It
+> was filed as a handoff and is not one: it commissions no work, sets no
+> validation gate, and will never be "shipped and deleted". By the placement
+> criterion in [`../../../workflows/docs_map.md`](../../../workflows/docs_map.md)
+> it is an investigation record, and the handoffs directory is meant to be an
+> inventory of *open work*. Its findings stand as the record of the runs that
+> produced them; the body below is preserved as written.
+>
+> **One decision remains open for Marc** — see §"What this asks of Marc" at the
+> end. It is pointed at from `docs/handoffs/README.md` so it stays visible now
+> that this file no longer sits in that directory.
+>
+> **Re-confirmed 2026-08-01.** F2 (MTD's cost effect is uniform in *relative*
+> terms and therefore invisible to a normalised utility ratio) and F5 (a more
+> rational attacker performs worse) were independently re-measured on the
+> post-disposition substrate during the cost-model simplification work, and both
+> reproduce — [`cost_model_plain.md`](cost_model_plain.md) §2.1. F4's successor
+> question is now carried by the attacker-disengagement design
+> (`docs/handoffs/2026-08-01_attacker_disengagement_measure.md`).
+
+**This record deliberately has no goal.** It is a preservation record: a
 session's worth of measurements that were produced while chasing criterion
 axis 6 and which turned out to answer the project's actual thesis question
 better than they answered the axis. It carries no recommended approach and no
@@ -168,7 +190,7 @@ the shipped `target_layer = 4` exceeds the layer loop's maximum index of 3, and
 across the layers that can fire, construction succeeds only on a seed-dependent
 subset (3/3 at layer 2, 1/3 at layer 3). Brown's targeted *strategy* has no live
 code path at all. Full detail:
-[`../implementation/pipeline/ogasp/targeted_attacker_feasibility.md`](../implementation/pipeline/ogasp/targeted_attacker_feasibility.md) §4.
+[`targeted_attacker_feasibility.md`](targeted_attacker_feasibility.md) §4.
 
 **Implication for evaluation.** The field's evaluation infrastructure has
 atrophied around the low-fidelity attacker. The higher-fidelity option was
@@ -205,10 +227,10 @@ Shipped and committed on `feat/axis6-incentive-rationality`:
   benefit family. Null-equivalent at λ = 0 (bit-identical, tested). **Registered
   nowhere by default**; it changes nothing unless an experiment constructs it.
 - `tests/l3_simulation/test_movement_utility.py` — 27 tests.
-- [`../implementation/pipeline/ogasp/incentive_rationality.md`](../implementation/pipeline/ogasp/incentive_rationality.md)
+- [`incentive_rationality.md`](incentive_rationality.md)
   — design record, pre-registered conclusions, sweep results, and (corrected
   2026-07-29) the §6.3 explanation of why C4 moved.
-- [`../implementation/pipeline/ogasp/targeted_attacker_feasibility.md`](../implementation/pipeline/ogasp/targeted_attacker_feasibility.md)
+- [`targeted_attacker_feasibility.md`](targeted_attacker_feasibility.md)
   — the targeted-attacker study. **Its §7 recommendation is superseded** by F4:
   it recommends a substrate repair, and the foothold-conjoined objective
   measured afterwards achieves the same discrimination entirely in the movement
@@ -251,7 +273,7 @@ future session knows they are open rather than decided.
 ## Hard constraints that still hold
 
 - Branch / commit / push rules from
-  [`../workflows/session_workflow.md`](../workflows/session_workflow.md); never
+  [`../../../workflows/session_workflow.md`](../../../workflows/session_workflow.md); never
   push.
 - **S2 action-set freeze** — no substrate change without a ruling. Every
   mechanism in F4's cheaper route lives in the movement layer; the F7 route does
@@ -265,15 +287,15 @@ future session knows they are open rather than decided.
 
 ## Reading list
 
-- [`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md)
+- [`../../apt_model_criterion.md`](../../apt_model_criterion.md)
   §(d) axes 2 and 6 — the scored instrument, and where Brown's scenarios are
   filed.
-- [`../implementation/pipeline/ogasp/incentive_rationality.md`](../implementation/pipeline/ogasp/incentive_rationality.md)
+- [`incentive_rationality.md`](incentive_rationality.md)
   §6 — the sweep and its corrected explanation.
-- [`../implementation/pipeline/ogasp/targeted_attacker_feasibility.md`](../implementation/pipeline/ogasp/targeted_attacker_feasibility.md)
+- [`targeted_attacker_feasibility.md`](targeted_attacker_feasibility.md)
   §§2–5 — the collapse test, the two channels, the construction blockers, and
   the discrimination probe.
-- [`../implementation/pipeline/ogasp/measurement_suite.md`](../implementation/pipeline/ogasp/measurement_suite.md)
+- [`measurement_suite.md`](measurement_suite.md)
   — what is already measurable without building anything.
 - `data/results/axis6_rationality/README.md` — the workspace, and the one thing
   in it not to misread.

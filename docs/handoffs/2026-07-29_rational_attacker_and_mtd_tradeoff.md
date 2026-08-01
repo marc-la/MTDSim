@@ -5,9 +5,9 @@ created: 2026-07-29
 
 # Explain the cost model plainly, simplify it to what the proof of concept needs, and pair it with a calibrated disruption metric so the simulation carries MTD's actual trade-off
 
-**Chain position: after
-[`2026-07-29_reconcile_stranded_axis_work.md`](2026-07-29_reconcile_stranded_axis_work.md),
-which is blocking.** Governed by
+**Chain position: unblocked 2026-08-01** — the stranded-axis reconciliation it
+waited on landed on `dev` that day and its handoff was deleted with it. Governed
+by
 [`../implementation/pipeline/ogasp/model_scope_freeze.md`](../implementation/pipeline/ogasp/model_scope_freeze.md).
 Independent of the learning handoff, though both compose on the same seam.
 

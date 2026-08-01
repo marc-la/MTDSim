@@ -5,8 +5,22 @@ created: 2026-07-29
 
 # Make stealth consequential through the one channel that already exists — dwell alters the network metrics the reactive selector reads, so a slower attacker changes which mutations fire
 
-**Chain position: after
-[`2026-07-29_reconcile_stranded_axis_work.md`](2026-07-29_reconcile_stranded_axis_work.md).**
+**Chain position: unblocked 2026-08-01** — the stranded-axis reconciliation it
+waited on landed on `dev` that day and its handoff was deleted with it. What
+still gates this brief is the supervisor ruling named below, not a dependency.
+
+**Its case strengthened 2026-08-01, from an unrelated direction.** The cost-model
+cross-examination established that under *time-triggered* mutation an attacker
+minimising declared duration is already, mechanically, minimising expected
+mutation encounters — the correlation between a tactic's declared cost and its
+interrupt rate is Spearman 0.87. So on a clock, patience is pure exposure with no
+compensating benefit, and any rational attacker is a fast attacker. That makes
+the anti-APT incentive a property of *time-triggered* MTD rather than of the
+attacker model, and it means **a reactive defender is the only channel through
+which slowness can ever be rational here** — which is exactly this brief's
+thesis. Reasoning:
+[`../implementation/pipeline/ogasp/cost_model_plain.md`](../implementation/pipeline/ogasp/cost_model_plain.md).
+
 Governed by
 [`../implementation/pipeline/ogasp/model_scope_freeze.md`](../implementation/pipeline/ogasp/model_scope_freeze.md),
 which currently lists stealth as future work — **this handoff is the argument for

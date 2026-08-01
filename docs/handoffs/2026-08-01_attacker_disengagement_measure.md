@@ -252,7 +252,7 @@ than asserting them. Do the same. Every aggregate goes through `interval_report`
 is driven by procedural friction rather than by MTD, that is the same family of
 finding as the axis-6 negative and the learning study's credit-signal result, and
 it belongs in
-[`2026-07-29_fidelity_implications_for_mtd_evaluation.md`](2026-07-29_fidelity_implications_for_mtd_evaluation.md)'s
+[`../implementation/pipeline/ogasp/fidelity_implications.md`](../implementation/pipeline/ogasp/fidelity_implications.md)'s
 ledger. Write it up as such. **Do not** respond to a moved C2 by re-specifying the
 measure until it separates — that is the scoring-driven design the criterion's own
 standing constraint forbids.

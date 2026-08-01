@@ -333,14 +333,14 @@ than left in conversation. Four threads, and they are deliberately narrow.
    trade MTD actually makes — cost of moving against risk of not moving — inside a
    single run. Reported as a frontier over the defence family, never as a composite
    score. Threads 2 and 3 share a brief:
-   [`../../handoffs/2026-07-29_rational_attacker_and_mtd_tradeoff.md`](../../handoffs/2026-07-29_rational_attacker_and_mtd_tradeoff.md).
+   [`../../../handoffs/2026-07-29_rational_attacker_and_mtd_tradeoff.md`](../../../handoffs/2026-07-29_rational_attacker_and_mtd_tradeoff.md).
 4. **Stealth through the one channel that already exists.** Most tactics under the
    current mapping dispatch nothing, which raises dwell; the reactive selector
    chooses mutations from attacker-derived network metrics; so a slower attacker
    changes which mutations fire. This is the only route by which tempo becomes
    consequential, it is inert against time-triggered mutation, and it needs a
    supervisor ruling before anything is built. Brief:
-   [`../../handoffs/2026-07-29_stealth_tempo_via_dwell_channel.md`](../../handoffs/2026-07-29_stealth_tempo_via_dwell_channel.md).
+   [`../../../handoffs/2026-07-29_stealth_tempo_via_dwell_channel.md`](../../../handoffs/2026-07-29_stealth_tempo_via_dwell_channel.md).
 
 **What the direction is *for*, since the freeze makes it easy to lose.** None of
 these threads is chasing a badge. Threads 1 and 2 refine mechanisms that already

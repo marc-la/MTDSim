@@ -1,19 +1,45 @@
 ---
-status: open
+status: durable
 created: 2026-07-29
+updated: 2026-08-01
+topic: "Findings ledger from the axis-7 session, re-read under the thesis framing: what a learning-capable attacker exposed about the evaluation apparatus — chiefly that the substrate's success verdict, the atom every metric in this lineage is built on, is not a progress signal. Includes the design post-mortem on why a per-place scalar could not carry a workflow claim."
 ---
 
 # What a learning-capable attacker exposed about the evaluation apparatus — findings preserved, under the thesis framing they should have been produced under
 
-**This handoff deliberately does not follow the template.** It asks for no work
-and sets no validation gate. It exists because a session built a mechanism,
+> **Relocated from `docs/handoffs/` on 2026-08-01, unchanged in substance.** It
+> was filed as a handoff and is not one: it asks for no work and sets no
+> validation gate, so it would never be shipped and deleted. By the placement
+> criterion in [`../../../workflows/docs_map.md`](../../../workflows/docs_map.md)
+> it is an investigation record. The body below is preserved as written.
+>
+> **Its forward-looking half is discharged.** §5's diagnosis — that a per-place
+> scalar cannot represent a precondition constraint, because the quantity that
+> would have to be learned is success *conditioned on the attacker's phase-state*
+> — was taken up and built. The readiness generalisation ran, was swept, and is
+> recorded in [`learning_readiness_prereg.md`](learning_readiness_prereg.md),
+> [`learning_readiness_findings.md`](learning_readiness_findings.md) and
+> [`learning_representation.md`](learning_representation.md). The verdict: the
+> readiness key repairs the learner's self-inflicted damage and still does not
+> beat not-learning, so **axis 7 holds at DESIGNED**. This record's reasoning was
+> therefore validated and its recommendation executed; what remains is its value
+> as history.
+>
+> **One decision remains open for Marc** — whether the shipped axis-7 records are
+> re-framed in *property* rather than *performance* terms, and whether the badge
+> is re-pre-registered under a property criterion (§ end of this file). It is
+> pointed at from `docs/handoffs/README.md` so it stays visible now that this file
+> no longer sits in that directory.
+
+**This record deliberately does not follow the handoff template.** It asks for no
+work and sets no validation gate. It exists because a session built a mechanism,
 swept it, shipped it, and only afterwards arrived at the framing under which its
 results are worth something — and the reasoning that got there is more valuable
 than the mechanism, and would be expensive to reconstruct. Read it as a record
 with options attached, not as a brief.
 
 **There is a sibling record.** A concurrent session working criterion axis 6
-produced `2026-07-29_fidelity_implications_for_mtd_evaluation.md` under the same
+produced [`fidelity_implications.md`](fidelity_implications.md) under the same
 framing correction, carrying that axis's 1 800-run findings. The two are
 complementary rather than overlapping — that one is the incentive/cost ledger,
 this one is the learning ledger plus the design post-mortem — and they should be
@@ -54,7 +80,7 @@ of the evaluation apparatus visible, and a less faithful one could not have".
 
 The mechanism shipped at `e9b5117`, was pre-registered at `876bca2` and reported
 at `bca6220`, with the tracked record at
-[`../implementation/pipeline/ogasp/learning_capability.md`](../implementation/pipeline/ogasp/learning_capability.md).
+[`learning_capability.md`](learning_capability.md).
 The attacker carries a within-run place-keyed Laplace belief over observed
 verdicts, entering routing as `Q(b)^κ` and decaying by `ρ` on every MTD
 interrupt. Six conclusions and a badge criterion were committed before any run
@@ -277,24 +303,24 @@ under a property criterion rather than a performance one.
   pre-registration before any sweep scores it.
 - Determinism / SIM-05; envelope-not-actor phrasing; within-substrate
   comparability only; Australian English; branch and commit rules from
-  [`../workflows/session_workflow.md`](../workflows/session_workflow.md); never
+  [`../../../workflows/session_workflow.md`](../../../workflows/session_workflow.md); never
   push.
 
 ## Reading list
 
-- [`../implementation/pipeline/ogasp/learning_capability.md`](../implementation/pipeline/ogasp/learning_capability.md)
+- [`learning_capability.md`](learning_capability.md)
   — the shipped design, pre-registration and sweep verdict. Read §7.6 first: it
   is where the verdict/progress finding lives.
-- [`../implementation/pipeline/ogasp/attacker_state_seam.md`](../implementation/pipeline/ogasp/attacker_state_seam.md)
+- [`attacker_state_seam.md`](attacker_state_seam.md)
   §10 — the third wrapper and the observation fan-out, which any successor
   mechanism inherits.
 - `mtdnetwork/operation/attack_operation.py` — `assert_action_context` for the
   precondition contract, and the `_do_*` docstrings for the native succession
   policy that must **not** be consumed.
-- [`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md)
+- [`../../apt_model_criterion.md`](../../apt_model_criterion.md)
   §(b) and axis 7 — the badge definitions the pre-registration should have been
   written against.
-- [`../implementation/declared_value_provenance.md`](../implementation/declared_value_provenance.md)
+- [`../../declared_value_provenance.md`](../../declared_value_provenance.md)
   §6.2 — the ledger entry, including the three things this family added to the
   precedent.
 
