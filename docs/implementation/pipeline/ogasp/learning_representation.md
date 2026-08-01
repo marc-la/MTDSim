@@ -8,7 +8,9 @@ topic: "L3 criterion axis 7, generalisation — the learner-representation decis
 # The learner representation — choosing a key that can express "this tactic pays *here*"
 
 **Status:** durable design record, Part A of the procedural-rigidity handoff
-([`../../../handoffs/2026-07-29_learning_under_procedural_rigidity.md`](../../../handoffs/2026-07-29_learning_under_procedural_rigidity.md)).
+(`2026-07-29_learning_under_procedural_rigidity.md`, shipped and deleted
+2026-08-01 — the git log is the permanent record; the sweep it commissioned is
+[`learning_readiness_findings.md`](learning_readiness_findings.md)).
 It settles the representation **before any code is written**, in the shape the
 prior sweep studies used: a decision argued against ranked alternatives, with the
 sparsity budget measured rather than estimated, and the exploration guarantee

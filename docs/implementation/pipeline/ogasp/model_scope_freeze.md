@@ -232,8 +232,33 @@ register of factors and their seams is
 
 An FSM-alignment factor: at places where the mapping dispatches no verb, bias
 routing toward tactics whose verb is the host simulator's declared successor to
-the attacker's current phase. The full design brief is
-[`../../handoffs/2026-07-29_controller_composition_unification.md`](../../handoffs/2026-07-29_controller_composition_unification.md).
+the attacker's current phase. ~~The full design brief is
+`2026-07-29_controller_composition_unification.md`.~~
+
+**Built 2026-08-01, in the shape this section's own §5 argument implied rather
+than as the brief described it.** That handoff was folded into the
+procedural-rigidity one, which ruled — on the reasoning below, that the alignment
+factor's value is that it conditions on the state variable the precondition turns
+on — that the signal should **feed the learner** rather than sit beside it as a
+static declared bias. What shipped is therefore the substrate's procedural order
+transcribed into a declared, versioned controller artefact
+(`data/ogasp/controller/precondition_relation.json`) consulted by a learner keyed
+on `(destination tactic, precondition-satisfied?)`
+([`learning_representation.md`](learning_representation.md),
+[`learning_readiness_findings.md`](learning_readiness_findings.md)).
+
+**Read the three "what it is not" claims below with that in mind.** The second and
+third stand unchanged — what shipped still responds to the substrate rather than
+the defender, and still makes the attacker behave more like the host simulator
+expects. The **first is now superseded by the design it argued for**: its headline
+("it is not learning — a declared bias from a static lookup") describes the
+alternative that was *not* built, while its body is the argument that was acted
+on, ending in the sentence the build implements — *the alignment factor **feeds**
+the learner a state-conditioned signal rather than substituting for it*. The
+representational diagnosis in that body is now measured rather than argued: an
+unmet precondition is a deterministic failure, so the marginal the destination-only
+learner holds conflates a paying regime with a certain-failure one, exactly as
+claimed. It was right, and it is why the shipped mechanism has the shape it does.
 
 **Three things it is not, recorded here because each is a claim someone will be
 tempted to make:**
