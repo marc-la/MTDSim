@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-07-13
+updated: 2026-08-01
 provenance: distilled from a UWA research-writing seminar (April 2026) supplied by Marc; adapted from paper-writing to dissertation shape
 ---
 
@@ -18,7 +18,7 @@ provenance: distilled from a UWA research-writing seminar (April 2026) supplied 
 
 | Part | What it does |
 |---|---|
-| **Title** | Highlights the main *technical* contribution (and the application where the application is the novelty). Written **last**. |
+| **Title** | Highlights the main *technical* contribution (and the application where the application is the novelty). Written **last**. A workshopped candidate shortlist is staged in [`_title_workshop.md`](_title_workshop.md). |
 | **Abstract** | States the technical gap and places the contribution against it, for an expert reader, as briefly as possible; ends with the single headline outcome. |
 | **Introduction (ch1)** | A compressed literature review that hops landmark-to-landmark straight to the technical gap, then the contributions, then one highlight result. Sells the whole dissertation — a reader should be able to judge the work's value from it alone. |
 | **Background / lit review (ch2)** | Tells each category of prior work as a chronological story — method, its limitation, why the next method came — and *narrows down onto the gap this work fills*, ending on the demonstrated need. |

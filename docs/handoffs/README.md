@@ -448,12 +448,5 @@ synthesis), with the motif cross-referenced from the notes it runs through.)*
     (`../implementation/pipeline/ogasp/mtd_disruption_frontier.md`) in a
     successor reading.
 
-24. `2026-08-01_title_workshop.md` — the dissertation title, chosen from a
-    workshopped shortlist whose verbs are capped at the criterion's Row B
-    grades. **Consumed last in the writing order** (title after abstract, per
-    `../notes/_writing_guide.md`), so it blocks nothing and nothing blocks it —
-    but its sharp candidates fall back to the safe one if experiment 2's revisit
-    conditions (mapping sensitivity, retrace re-take) move the inversion.
-
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).
