@@ -358,9 +358,19 @@ reconciliation note. The wave below is unblocked.)*
     criterion cannot currently score, because the project's largest result (the
     defence-ranking inversion) scores on none of the existing eight. Cheap,
     documentation only.
-22. `2026-07-29_dissertation_notes_from_the_frozen_model.md` — the five notes the
-    frozen model has earned. No new results; this is writing. Unblocked
-    2026-08-01 by the reconciliation.
+*(Shipped from wave 6: the **dissertation notes from the frozen model** —
+`2026-07-29_dissertation_notes_from_the_frozen_model.md`, landed 2026-08-01.
+Five new notes: the defence-ranking inversion and the operating-point
+discrimination rule in `../notes/ch5_evaluation/`, the procedural-mismatch
+artefact and the silent-instrument-failure synthesis in
+`../notes/ch6_discussion/`, and the host-simulator contract in
+`../notes/ch4_implementation/`. The handoff's fourth note — the misspecified
+learning reward — was already covered by
+`../notes/ch6_discussion/learning_without_context.md`, which landed with the
+post-freeze direction restructure and states the same transferable claim; it
+was verified against the brief rather than duplicated. The measurement-failure
+thread the handoff flagged as a deliberate decision became its own note (the
+synthesis), with the motif cross-referenced from the notes it runs through.)*
 
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).
