@@ -11,6 +11,25 @@ which is blocking.** Governed by
 [`../implementation/pipeline/ogasp/model_scope_freeze.md`](../implementation/pipeline/ogasp/model_scope_freeze.md).
 Independent of the learning handoff, though both compose on the same seam.
 
+> **Status 2026-08-01 — Part 1 is done; Part 2 remains.** (The blocking
+> reconciliation retired when its work landed on `dev` 2026-08-01.) The
+> deliverable is
+> [`../implementation/pipeline/ogasp/cost_model_plain.md`](../implementation/pipeline/ogasp/cost_model_plain.md):
+> §1 is the plain-language statement (with a worked real decision); §2 answers
+> the three questions below — the benefit family was tested for removal
+> against a pre-registered bar and shown load-bearing (binary
+> objective-membership fails reproduction in 31 of 40 cells, 1 000 fresh
+> runs; check script `data/results/axis6_rationality/simplify_benefit_check.py`),
+> cost stays the declared duration with the argument recorded, and the
+> exponent stays. Nothing in the mechanism changed; λ = 0 remains bit-identical
+> (27/27 utility tests green). Two side findings recorded: the 2026-07-29
+> sweep's rows predate two ruled substrate fixes (`6181305`, `816b300`) and no
+> longer reproduce row-for-row, but every qualitative verdict re-verified on
+> the current substrate (banner in `incentive_rationality.md` §6); and the
+> benefit family now carries its first adversarial review round (R1 in
+> `attacker_utility.json`). Part 2 (the calibrated disruption metric and the
+> frontier) is untouched by this session and starts from §Part 2 below.
+
 **Two deliverables in one brief, deliberately.** The cost model and the disruption
 metric are separable to build and worthless apart. This project has already run
 the experiment of shipping a measurement with no decision rule to consume it — the

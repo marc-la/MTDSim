@@ -350,7 +350,11 @@ reconciliation note. The wave below is unblocked.)*
 19. `2026-07-29_rational_attacker_and_mtd_tradeoff.md` — explain the cost model
     plainly, simplify it, and pair it with a calibrated disruption metric so the
     run carries cost-of-moving against risk-of-not-moving. Unblocked 2026-08-01
-    by the reconciliation.
+    by the reconciliation. **Part 1 shipped 2026-08-01** as
+    `../implementation/pipeline/ogasp/cost_model_plain.md` — the plain statement
+    plus the simplification verdict (the benefit family survived attempted
+    removal against a pre-registered bar; cost and exponent stay, argued). Part
+    2 (the calibrated disruption metric and the frontier) remains the open half.
 20. `2026-07-29_stealth_tempo_via_dwell_channel.md` — the only route by which tempo
     becomes consequential: dwell alters the metrics the reactive selector reads.
     **Needs a supervisor ruling before anything is built.**
