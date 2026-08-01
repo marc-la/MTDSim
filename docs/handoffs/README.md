@@ -209,5 +209,31 @@ value is wired into any experiment; the null mechanism is safe regardless.)*
     the criterion. Documentation only, independent of everything, and worth doing
     early because the criterion is loaded into every session.
 
+**Wave 6 — the freeze, and what follows it (2026-07-29).** The attacker model is
+frozen: [`../implementation/pipeline/ogasp/model_scope_freeze.md`](../implementation/pipeline/ogasp/model_scope_freeze.md)
+fixes the per-axis disposition, classifies each remaining gap as **mechanism /
+measurement / governance**, and names what is future work for a successor. Two of
+eight axes are demonstrated, four are designed with measured negatives, two are
+ruled out. Read it before opening anything below.
+
+17. **`2026-07-29_reconcile_stranded_axis_work.md` — BLOCKING, do this first.**
+    The axis-6 and axis-7 sweeps (4 200 runs), their two badge moves, the sink
+    retrace and the whole of experiment 2 (2 760 runs) live on feature branches
+    `dev` does not contain. On `dev` today the learning record's verdict section
+    still reads *"to be completed by the run"* and the criterion still reports
+    axes 6 and 7 as NOT ADDRESSED. Nothing else on this wave means anything until
+    it lands, and the four shipped handoffs — (8), (10), and the two axis
+    handoffs above — are retired by its merge commit rather than before it.
+18. `2026-07-29_controller_composition_unification.md` — the **last mechanism**
+    inside the freeze: an FSM-alignment factor on the controller seam, justified
+    as an instrument that measures procedural mismatch rather than as a
+    capability. Moves no badge, by design. Depends on (17).
+19. `2026-07-29_criterion_consequence_and_provenance_rows.md` — the two rows the
+    criterion cannot currently score, because the project's largest result (the
+    defence-ranking inversion) scores on none of the existing eight. Cheap,
+    documentation only.
+20. `2026-07-29_dissertation_notes_from_the_frozen_model.md` — the five notes the
+    frozen model has earned. No new results; this is writing. Depends on (17).
+
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).
