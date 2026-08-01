@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-29
-updated: 2026-07-29
+updated: 2026-08-01
 topic: "The attacker-model scope freeze — the per-axis disposition at freeze time, what each axis would still need, which needs are honest and which would be embellishment, and the one mechanism still worth building"
 ---
 
@@ -53,7 +53,7 @@ outstanding).
 | 4 | Adaptivity | DESIGNED | — | Freeze. The ablation is the finding. |
 | 5 | Stealth | NOT ADDRESSED | **M + G** | Future work. Blocked three independent ways. |
 | 6 | Incentive rationality | DESIGNED | **G** | Freeze, with the enabling condition named. |
-| 7 | Learning | DESIGNED | **M** | Freeze the badge. One mechanism could test its hypothesis (§5). |
+| 7 | Learning | DESIGNED | **M** | Freeze the badge. ~~One mechanism could test its hypothesis (§5).~~ **Built and swept 2026-08-01 — the badge held; the gap narrowed from two candidate causes to one (the credit signal).** |
 | 8 | Scheme awareness | NOT ADDRESSED | — | Ruled out of scope. Freeze. |
 
 **Two demonstrated, four designed, two not addressed.** That is the honest final
@@ -146,13 +146,31 @@ progress rather than the routing verdict, which is a credit-assignment redesign
 rather than a parameter change. That redesign is future work. §5 describes the one
 cheap experiment that tests its hypothesis without claiming its badge.
 
+**Updated 2026-08-01 — the gap is now the credit signal *alone*, and that is a
+narrowing.** This section named the credit signal as the gap while §5 named the
+representation as the reason the learner is *incapable* rather than merely
+untuned. Both were true, and they were not distinguished by evidence. The learner
+has since been re-keyed on `(destination tactic, precondition-satisfied?)` and
+swept over 4 600 runs against both the ablation arm and the destination-only
+learner ([`learning_readiness_findings.md`](learning_readiness_findings.md)). The
+representational defect was real and is fixed — breadth at the declared capability
+recovers 3.38 → 4.52 hosts, the high-capability collapse is arrested 1.02 → 2.40,
+exploitation's share of successes returns from 6.0 % to 9.5 %. And the badge does
+not move, because the no-learning arm sits at 4.60 and the repaired learner never
+passes it. Representation was necessary and is not sufficient; the credit signal is
+the sole remaining requirement.
+
 ## 3. What is future work, and for whom
 
 Stated concretely enough that a successor does not have to re-derive it.
 
 1. **A progress-carrying credit signal for the learner** (axis 7). The single
    highest-value item, because it is the one axis whose demonstration would move
-   the model's fidelity placement.
+   the model's fidelity placement. **Sharpened 2026-08-01:** the representation
+   this would have had to be paired with is now built and swept, so this is no
+   longer half of a two-part requirement — it is the whole of what remains, and it
+   would be built on the readiness key rather than on the marginal one
+   ([`learning_readiness_findings.md`](learning_readiness_findings.md) §4).
 2. **A stealth state with a consequence** (axis 5) — which realistically means
    integrating the reactive defender first, and fixing the defect on its
    sensitivity path.
@@ -189,6 +207,26 @@ modulator families have never been exercised *together*, and the stealth design
 record already warns that a slower attacker makes every tactic look more expensive,
 which is either an emergent coupling or a hidden double-count. No combined
 configuration is claimed at freeze.
+
+**The crossed arm has since run, and the compounding this section assumed does not
+happen (2026-08-01;
+[`learning_readiness_findings.md`](learning_readiness_findings.md) §6).** Composing
+the two built modulators is **sub-additive**: the both-active cell holds more path
+entropy than the utility-only cell in all four cells tested, and adding the learner
+to the utility modulator recovers most of the breadth the utility modulator alone
+costs (2.22 → 4.22 hosts). The mechanism is that the two disagree — a static
+declared preference for cheap tactics, which on this substrate are the most
+precondition-coupled, against a learned discovery that those tactics fail when
+attempted unready.
+
+**The rule in this section is unchanged and the reason for it is corrected.** The
+pin never needed the compounding claim: every single-modulator configuration
+narrows traversal against the null one, which is sufficient on its own to make the
+plurality evidence belong to the modulators-null arm. What is withdrawn is the
+inference, not the discipline — and it is withdrawn because it was reasoned rather
+than measured, which is the same standard this record applies everywhere else. The
+register of factors and their seams is
+[`modulator_composition.md`](modulator_composition.md).
 
 ## 5. The one mechanism still worth building, and what it is not
 
@@ -249,13 +287,19 @@ The freeze fixes the *model*. It does not fix what the remaining sessions work o
 and that direction was ambiguous until this point, so it is recorded here rather
 than left in conversation. Four threads, and they are deliberately narrow.
 
-1. **Generalise the learning capability to procedural rigidity, without
-   reinforcement learning.** The proof of concept works and makes the attacker
-   worse: it biases heavily toward reconnaissance and host discovery because those
-   carry the fewest preconditions. The problem is representational (§5), so the
-   work is a key that can express *this tactic pays here* while staying inside the
-   no-RL constraint. Brief:
-   [`../../handoffs/2026-07-29_learning_under_procedural_rigidity.md`](../../handoffs/2026-07-29_learning_under_procedural_rigidity.md).
+1. ~~**Generalise the learning capability to procedural rigidity, without
+   reinforcement learning.**~~ **Shipped 2026-08-01.** The key that can express
+   *this tactic pays here* was chosen against ranked alternatives on a measured
+   observation budget ([`learning_representation.md`](learning_representation.md)),
+   built as `(destination tactic, precondition-satisfied?)` with the substrate's
+   precondition guard transcribed into a declared controller artefact, and swept
+   over 4 600 runs ([`learning_readiness_findings.md`](learning_readiness_findings.md)).
+   It stayed inside the no-RL constraint — no eligibility trace, no discount
+   factor, no value function. The representational defect was real and is repaired;
+   the badge did not move, because repairing it returns the attacker to the
+   no-learning arm rather than past it. **The successor item is thread 1 of §3
+   below — the progress-carrying credit signal — and it is now the only outstanding
+   requirement on this axis rather than one of two.**
 2. **Explain the cost model plainly, then simplify it.** The mechanism is built and
    swept; what is missing is a statement of what the attacker actually computes
    that a reader can follow, and a judgement about which declared parts earn their

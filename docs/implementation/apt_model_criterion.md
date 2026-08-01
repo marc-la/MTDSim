@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-27
-updated: 2026-07-29
+updated: 2026-08-01
 topic: "The APT-attacker-model criterion (supervisor S6) — a literature-derived rubric of what an APT attacker model should capture, this model scored against it honestly, and the measurement recommendations (M8b) that ride with each claimed axis"
 ---
 
@@ -264,6 +264,23 @@ declared frequency, shown to change the interaction above. That is the axis-6 an
 axis-7 machinery, and on current evidence both narrow traversal rather than
 widening it.
 
+**The badge's dependence on the reported configuration is now measured rather than
+inferred (2026-08-01).** This badge was earned with the modulators null, and the
+risk that a modulator-active configuration would invalidate it rested on a
+precautionary argument that composing the two would compound their narrowing. The
+crossed arm has since run (800 runs;
+[`pipeline/ogasp/learning_readiness_findings.md`](pipeline/ogasp/learning_readiness_findings.md)
+§6), and the compounding **does not happen** — composition is sub-additive, because
+the utility model's static preference for cheap tactics and the learner's
+state-conditioned discovery that those tactics fail unready pull opposite ways on
+the same edges. The claim-integrity rule is unaffected and stands on its other leg:
+**every single-modulator configuration still narrows traversal against the null
+one**, so this badge's evidence remains the modulators-null arm and any
+modulator-active arm reports its own plurality figure
+([`pipeline/ogasp/modulator_composition.md`](pipeline/ogasp/modulator_composition.md)
+§4). The null cell reproduces the pooled entropy on record, so the configuration
+described is the configuration measured.
+
 ### Axis 4 — Adaptivity to defender resistance
 
 **What it is.** Cho et al.'s *adaptive* attacker responds to dynamically
@@ -488,6 +505,37 @@ That is a credit-assignment redesign, not a parameter change. Cross-mutation
 retention — does the attacker re-acquire targets faster after the nth shuffle? —
 remains unbuilt and is the natural companion measurement.
 
+**The representational half of that requirement has since been built, swept and
+found insufficient on its own (2026-08-01;
+[`pipeline/ogasp/learning_readiness_findings.md`](pipeline/ogasp/learning_readiness_findings.md)).**
+The learner was re-keyed from the destination tactic to `(destination tactic,
+precondition-satisfied?)` — the smallest key that can express a state-dependent
+constraint, chosen against ranked alternatives on a measured observation budget
+([`pipeline/ogasp/learning_representation.md`](pipeline/ogasp/learning_representation.md))
+— and swept over 4 600 runs against both the ablation arm and the destination-only
+learner as controls. **The badge does not move, on the criterion this field
+already fixed.**
+
+What the generalisation bought is precisely the damage the marginal key had done,
+and nothing beyond it: compromise breadth at the declared capability recovers from
+3.38 hosts to 4.52 against the destination-only learner, the collapse at high
+capability is arrested (1.02 → 2.40 hosts), and exploitation's share of successes
+returns from 6.0 % to 9.5 % — but the **no-learning ablation arm sits at 4.60**,
+and the readiness learner does not exceed it at any capability. Stage advance, the
+gate's other disjunct, is identical to the destination-only learner's on both
+mappings and unseparated from the ablation arm's at ten seeds. An attacker whose
+accumulated knowledge returns it to where an attacker with no knowledge already
+stood has not been shown to be a better adversary.
+
+Two things follow for this field. The requirement is now **isolated to the credit
+signal** — the representation was a genuine blocker, it has been removed, and
+removing it recovered exactly the ground the misrepresentation had lost, so a
+progress-carrying signal is the sole remaining item rather than one of two. And a
+warning rides with the measurement: on every friction-shaped measure the two
+representations are indistinguishable to three decimal places, differing only on
+breadth, so the within-run blocked-fraction measure recommended above **cannot
+discriminate between representations** and must never be read as evidence for one.
+
 ### Axis 8 — MTD-scheme awareness (the three Jalowski primitives)
 
 **What it is.** Jalowski et al.'s corrective: research must shift toward
@@ -577,6 +625,17 @@ behavioural model.** That is a stronger statement than the original, because it
 rests on a measured negative rather than on an omission, and it names precisely
 what a behavioural-rung claim would still need: a credit signal carrying
 progress rather than the routing verdict.
+
+**That last sentence was tested on 2026-08-01 and survives, with one clause now
+carrying evidence it previously carried on argument.** It named a single missing
+ingredient, and there were in fact two candidates — the credit signal and the
+representation the signal is keyed on. The representation has since been
+generalised and swept, and it is not the ingredient: a learner that can express
+*this tactic pays here* recovers what the marginal key lost and still confers no
+adversarial advantage
+([`pipeline/ogasp/learning_readiness_findings.md`](pipeline/ogasp/learning_readiness_findings.md)).
+The placement does not move, and the outstanding requirement is now known to be
+the credit signal alone rather than suspected to be.
 
 ## (f) Experiment 1 scored against the criterion
 
@@ -732,6 +791,24 @@ capability without giving it a progress-carrying reward will measure the attacke
 optimising away from the objective, which is a design warning for anyone building
 the learning attacker this literature keeps asking for.
 
+**A second experiment has since sharpened that warning into two separable
+requirements.** The obvious reading of the negative above is that the reward was
+misspecified; the less obvious one is that the belief was keyed on a quantity too
+coarse to express the constraint the attacker kept failing. Building the finer key
+and sweeping it against both controls separates them
+([`pipeline/ogasp/learning_readiness_findings.md`](pipeline/ogasp/learning_readiness_findings.md)):
+the representation owned the *collapse* — repair it and the attacker stops
+abandoning exploitation and recovers the breadth it had lost — and the reward owns
+the *ceiling*, since the repaired learner returns to the no-learning arm's
+performance and goes no further. The transferable claim is accordingly stronger
+than a single warning: **representation and reward are independent requirements,
+and satisfying one buys exactly the part of the failure it owns.** The measurement
+warning that rides with it is the sharper practical point — the two representations
+are indistinguishable on every friction-shaped measure and separate only on
+breadth, so a study scoring attacker learning on the attacker's own friction would
+conclude the representation makes no difference, which is the reverse of what it
+does.
+
 **Where axis 6 now sits, which is neither of those two lists.** An
 incentive/cost decision model exists, is declared and swept, and demonstrably
 conditions the attacker's choice of tactic (axis 6, designed) — so the model no
@@ -799,7 +876,15 @@ and §(e)'s learning sentence is restated without the placement moving. The badg
 stopped short of DEMONSTRATED because the capability was shown to operate
 without making the attacker better — and the reason it does not, that the
 routing verdict is not a progress signal, is recorded in §(d) as the finding
-rather than as a caveat**; any lift of the S2 freeze (axes 6–7, and the
+rather than as a caveat**; **the readiness-keyed generalisation of the learner
+fired 2026-08-01 — no badge moved. Axis 7 holds at DESIGNED on the criterion §(d)
+already fixed: the generalised learner recovers the breadth the destination-only
+key lost and does not exceed the no-learning ablation arm, so the axis-7 M8b field
+is updated to record that the representational half of its requirement is
+discharged and the credit signal is now the sole remaining item. Axis 3 gains the
+measured composition result in §(d) — the modulators' narrowing is sub-additive
+rather than compounding, which corrects the reasoning behind the reported-configuration
+pin without changing the pin**; any lift of the S2 freeze (axes 6–7, and the
 §(e) placement); a defence whose cost is not proportional to a tactic's dwell,
 or a utility conditioned on realised success rather than realised time (axis 6
 — either is what would move it to DEMONSTRATED, per §(d)); any reversal of the 2026-07-28 ruling that promoted the
