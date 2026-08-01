@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "artefact": "Substrate action-layer precondition relation (Part B of the procedural-rigidity handoff). The verb-level capability model the readiness-aware learner consults to predict whether a destination tactic's precondition is satisfied in the attacker's current phase-state. Declared and versioned as a controller artefact under the same discipline as the tactic-to-verb mapping, so an adopter porting this framework to another simulator declares its action vocabulary AND its procedural order.",
+    "version": "v1_substrate",
+    "created": "2026-08-01",
+    "source": "mtdnetwork/operation/attack_operation.py:651 assert_action_context (the guard, transcribed verbatim below); the _do_* cores (lines 250-589, for what each verb produces and clears); apply_mtd_interrupt_cost (B-INT-01: a network-layer mutation clears the host cursor, an application-layer one does not).",
+    "reading": "docs/implementation/pipeline/ogasp/learning_representation.md (why the one-bit readiness context is the chosen key); attacker_phase_catalogue.md ('Reliance on preceding phases', the same graph in prose).",
+    "nature": "This is a PREDICTION model consulted in-layer, not substrate ground truth read live. It reads the attacker's own trajectory against this declared relation and never touches substrate internals, which is what keeps the scheme-awareness exclusion untouched (it declares the attacker's own tradecraft order, not privileged information about the host). Its prediction accuracy against the record's `blocked` flag is a validation gate (learning_representation.md §4).",
+    "known_optimisms": "Two productions are modelled unconditionally where the substrate produces conditionally, so the declared bit will over-predict readiness in a bounded, measured way. (1) SCAN_HOST produces `host_stack`, but the substrate produces an EMPTY stack where no host is reachable, which the ENUM_HOST guard then treats as unmet. (2) SCAN_PORT produces `curr_ports`, but a host with no open ports yields an empty scan, which the EXPLOIT_VULN guard treats as unmet. Both are recorded rather than papered over; the accuracy measurement bounds them."
+  },
+  "capabilities": ["host_stack", "curr_host", "curr_ports"],
+  "verbs": {
+    "SCAN_HOST":     {"requires": [],                        "produces": ["host_stack"], "clears": []},
+    "ENUM_HOST":     {"requires": ["host_stack"],            "produces": ["curr_host"],  "clears": ["curr_ports"]},
+    "SCAN_PORT":     {"requires": ["curr_host"],             "produces": ["curr_ports"], "clears": []},
+    "EXPLOIT_VULN":  {"requires": ["curr_host", "curr_ports"], "produces": [],           "clears": []},
+    "BRUTE_FORCE":   {"requires": ["curr_host"],             "produces": [],             "clears": []},
+    "SCAN_NEIGHBOR": {"requires": ["curr_host"],             "produces": ["host_stack"], "clears": []}
+  },
+  "mtd_clears": {
+    "network": ["curr_host", "curr_ports"],
+    "application": []
+  }
+}

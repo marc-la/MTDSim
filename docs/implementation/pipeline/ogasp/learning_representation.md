@@ -226,6 +226,35 @@ this record can claim. What §1 does establish is the ceiling: a perfectly-decla
 bit recovers a deterministic separation, so the representation is worth building; a
 mispredicting bit is a weaker version of the same mechanism, never a different one.
 
+### 4.1 The gate discharged — how accurate the declared bit turned out to be
+
+Measured after Part B landed, over five seeds × both MTD conditions × all five
+profiles, comparing the in-layer predicted bit to the substrate's own `blocked`
+flag at every verb dispatch:
+
+| mapping | accuracy | n | where it disagrees |
+|---|--:|--:|---|
+| `v1_ckc_total` | **1.0000** | 12 281 | — |
+| `v2_partial` | 0.9169 – 0.9428 | 8 043 | `command-and-control`, `discovery`, `execution`, `lateral-movement` |
+
+On experiment 1's mapping the declared relation reproduces the substrate's
+precondition guard **exactly** — every one of 12 281 dispatches. On `v2_partial`
+it runs at 92–94 %, and the residual is the *known optimism* the artefact declares
+rather than an unmodelled effect: the relation models `SCAN_HOST` and `SCAN_PORT`
+as producing their capability unconditionally, while the substrate produces an
+*empty* `host_stack` where no host is reachable and empty `curr_ports` on a host
+with no open ports — both of which its guard then reads as unmet. The relation
+therefore over-predicts readiness in exactly the bounded direction the artefact's
+`known_optimisms` field names.
+
+That residual is left in rather than fixed, and the reason is the boundary this
+whole design rests on: closing it would require reading the substrate's live host
+and port state, which is precisely the privileged-information read the in-layer
+derivation exists to avoid. A 92 % predictor built from the attacker's own
+tradecraft is the honest instrument; a 100 % predictor built by looking inside the
+host would not be a learner keyed on attacker knowledge at all. The signal is
+weakened in proportion to the error, per §4, and that is the trade taken knowingly.
+
 ## 5. What Part B and Part C inherit from this ruling
 
 - **Part B builds the precondition relation as a declared, versioned, regenerable
