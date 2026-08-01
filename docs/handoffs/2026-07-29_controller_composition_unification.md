@@ -26,12 +26,35 @@ exists to expose. That refusal is correct and it leaves the coupling measured on
 categorically — we know it costs the attacker, and we cannot say how much.
 
 **Why the obvious framing is the wrong one.** The natural pitch is "a proxy for
-learning, conceded because we cannot change the inherited attacker". Rejected, for
-a reason that makes the mechanism *more* defensible rather than less: this is not
-learning, the model already has a learner, and the learner is better than this. It
-accumulates, it updates from evidence, it perishes under mutation, and it was swept
-over 2 400 runs. Calling a static declared bias a learning proxy would understate
-what exists and overstate what is being added.
+learning, conceded because we cannot change the inherited attacker". Rejected,
+because it invites the assumption that the existing learner is the better tool for
+this job and this is the cheap stand-in. On the learning axis the learner *is* the
+better mechanism — it accumulates, updates from evidence, perishes under mutation,
+is substrate-independent, and was swept over 2 400 runs. On **procedural
+rigidity**, which is what this handoff exists to address, it is not weaker but
+incapable.
+
+**Why the learner cannot address rigidity, which is the design fact this session
+turns on.** Blocking is a function of *state*: an exploit fails because this host
+has not yet been port-scanned. The quantity that would have to be learned is
+therefore the success probability of a tactic **conditioned on the attacker's
+current phase-state**. The learner is keyed on the destination tactic alone, so it
+can only represent the marginal, averaged over every context — and marginalising
+over phase-state discards precisely the variable the precondition depends on. This
+is a representation limit, not a sample-size one; no number of runs repairs it.
+
+What it does instead is route around the constraint. Unable to learn *exploit after
+scanning*, it learns *exploit fails often* and moves weight onto tactics that
+always succeed — which is exactly the swept result, blocked fraction falling
+sharply while exploitation collapses to a fraction of its successes and breadth
+falls with it. The monotonicity has a self-reinforcing loop behind it: avoiding
+exploitation drives the phase-state distribution further from the states in which
+exploitation would have worked.
+
+An FSM-alignment factor conditions on the current phase — the state variable the
+precondition turns on — so it can express what the learner structurally cannot.
+The two do not compete on this problem, and the mechanism must not be presented as
+though they do.
 
 **The framing that survives scrutiny.** The learning record states precisely what
 would move its axis: *a credit signal carrying progress rather than the routing

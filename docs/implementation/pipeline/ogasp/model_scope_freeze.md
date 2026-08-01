@@ -202,7 +202,33 @@ tempted to make:**
 
 - **It is not learning.** There is no accumulation, no belief, no update from
   experience — it is a declared bias from a static lookup. The model already has a
-  learner, and it is stronger than this.
+  learner, and on the learning axis that learner is the stronger mechanism: it
+  accumulates, updates from evidence, perishes under mutation, is
+  substrate-independent and is ablatable.
+
+  **On procedural rigidity, however, the learner is not weaker — it is
+  incapable, and the reason is representational rather than a matter of tuning.**
+  Whether an action is blocked depends on *state*: an exploit fails because this
+  host has not been port-scanned yet. So the quantity that would have to be learned
+  is the success probability of a tactic **conditioned on the attacker's current
+  phase-state**. The learner is keyed on the destination tactic alone, so what it
+  can represent is the marginal, averaged over every context — and marginalising
+  over phase-state discards exactly the variable the precondition depends on. No
+  quantity of runs repairs that.
+
+  What it does instead is route around the constraint: unable to learn *exploit
+  after scanning*, it learns *exploit fails often* and shifts weight onto the
+  tactics that always succeed. That is the observed result — blocked fraction
+  falling sharply while exploitation falls to a fraction of its successes and
+  breadth collapses — and there is a self-reinforcing loop behind its monotonicity,
+  since avoiding exploitation drives the phase-state distribution further from the
+  states in which exploitation would have worked.
+
+  An FSM-alignment factor is the opposite shape: it conditions on the current
+  phase, which is the state variable the precondition turns on, so it can express
+  what the learner structurally cannot. The two therefore do not compete on this
+  problem, and the honest framing is that the alignment factor **feeds** the
+  learner a state-conditioned signal rather than substituting for it.
 - **It is not axis 4.** It responds to the substrate, not to the defender.
 - **It is not a fidelity improvement.** It makes the attacker behave more like the
   host simulator expects, which is the opposite of behavioural independence.
