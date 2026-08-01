@@ -87,6 +87,25 @@ in the shape the four prior studies used.
    under the same discipline as the tactic-to-verb mapping, and it is what carries
    the portability claim: to port this framework to another simulator you declare
    its action vocabulary **and** its procedural order.
+
+   **Ruled by Marc, 2026-07-29 — the observation question is closed and does not
+   need re-litigating.** The concern was whether consuming the attacker's current
+   phase is legitimate self-knowledge or privileged information about the
+   environment. It is neither: the movement layer *is* the attacker choosing its
+   next objective, and the action layer's phases *are* the tradecraft available to
+   it, so the phase is a description of what the attacker is itself attempting.
+   Knowing it is not an observation at all.
+
+   The ruling extends to the successor relation, and that extension is the part
+   worth writing into the record. The ordering constraints of the action layer are
+   constraints on the attacker's own tradecraft — an operator knows a service must
+   be examined before it can be exploited — so declaring them is a statement of
+   attacker competence rather than a cheat sheet about the host. This is also why
+   the artefact belongs beside the tactic-to-verb mapping: both declare what the
+   attacker can do in this environment and in what order, which is exactly what an
+   adopter re-declares when porting. **Nothing here reads the defender**, so the
+   scheme-awareness exclusion is untouched and no part of this needs re-arguing
+   against it.
 6. **Decide whether it biases routing or feeds the learner** — the two designs
    differ and the record should choose. Biasing routing is a static declared factor.
    Feeding the learner means phase agreement enters the credit counts, so the
