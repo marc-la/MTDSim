@@ -377,14 +377,27 @@ not compounding — they pull opposite ways on the same edges, and the learner
 recovers most of the breadth the utility modulator costs. The pin on the reported
 configuration stands on its other leg, and the freeze and criterion records are
 corrected accordingly.)*
-19. `2026-07-29_rational_attacker_and_mtd_tradeoff.md` — explain the cost model
-    plainly, simplify it, and pair it with a calibrated disruption metric so the
-    run carries cost-of-moving against risk-of-not-moving. Unblocked 2026-08-01
-    by the reconciliation. **Part 1 shipped 2026-08-01** as
-    `../implementation/pipeline/ogasp/cost_model_plain.md` — the plain statement
-    plus the simplification verdict (the benefit family survived attempted
-    removal against a pre-registered bar; cost and exponent stay, argued). Part
-    2 (the calibrated disruption metric and the frontier) remains the open half.
+*(Shipped from wave 6: the **rational attacker and the MTD trade-off** —
+`2026-07-29_rational_attacker_and_mtd_tradeoff.md`, both halves landed
+2026-08-01 and the handoff retired. **Part 1** as
+`../implementation/pipeline/ogasp/cost_model_plain.md`: the plain statement of
+what the cost-sensitive attacker computes, plus the simplification verdict —
+the benefit family survived attempted removal against a pre-registered bar
+(31 of 40 cells fail reproduction without it), cost stays the declared
+duration, the exponent stays. **Part 2** as the defender-side disruption
+ledger in `movement/measures.py` §5 (derived entirely from the substrate's own
+per-mutation records — no declared value) plus
+`../implementation/pipeline/ogasp/mtd_disruption_frontier.md`: a 960-run
+pre-registered matrix over the full defence family at both intervals, reported
+as a frontier and never a composite score. Headline: the *shape* of MTD's
+trade inverts with the attacker — against the inherited attacker Service
+Diversity dominates the whole family (best suppression at lowest disruption,
+no trade at all), while against the profiled attacker suppression is bought at
+a near-fixed disruption price and six of seven conditions are Pareto-efficient.
+The 200 s operating interval is measured as an extreme-disruption regime
+(35–70 % of the run under active reconfiguration), and the experiment-2
+ranking inversion reproduces on the post-disposition substrate (−0.857 against
+the recorded −0.893).)*
 20. `2026-07-29_stealth_tempo_via_dwell_channel.md` — the only route by which tempo
     becomes consequential: dwell alters the metrics the reactive selector reads.
     **Needs a supervisor ruling before anything is built.**
@@ -425,12 +438,15 @@ synthesis), with the motif cross-referenced from the notes it runs through.)*
     Zhang give-up threshold the audit classifies DIVERGES-DOCUMENTED-NOWHERE, and
     is therefore **blocked on Marc's D-09 ruling** — read that row before
     anything. Design only so far; the build is a reader, so it moves no golden.
-    Descends from Part 1 of (19): the cost model cannot express abandonment
-    because a normalised ratio has no scale, and MTD turns out to destroy
-    productive *capacity* rather than accumulated gains. Two things ride on it —
-    it would give the degenerate region a discriminating outcome variable where
-    ASR is pinned at zero, and it is the natural attacker-side axis for (19)'s
-    Part 2 frontier.
+    Descends from Part 1 of the rational-attacker brief (shipped; record at
+    `../implementation/pipeline/ogasp/cost_model_plain.md`): the cost model
+    cannot express abandonment because a normalised ratio has no scale, and MTD
+    turns out to destroy productive *capacity* rather than accumulated gains.
+    Two things ride on it — it would give the degenerate region a
+    discriminating outcome variable where ASR is pinned at zero, and it is the
+    natural attacker-side axis to pair with the shipped disruption frontier
+    (`../implementation/pipeline/ogasp/mtd_disruption_frontier.md`) in a
+    successor reading.
 
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).

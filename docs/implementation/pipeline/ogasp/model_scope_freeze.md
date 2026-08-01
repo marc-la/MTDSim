@@ -325,15 +325,21 @@ than left in conversation. Four threads, and they are deliberately narrow.
    no-learning arm rather than past it. **The successor item is thread 1 of §3
    below — the progress-carrying credit signal — and it is now the only outstanding
    requirement on this axis rather than one of two.**
-2. **Explain the cost model plainly, then simplify it.** The mechanism is built and
-   swept; what is missing is a statement of what the attacker actually computes
-   that a reader can follow, and a judgement about which declared parts earn their
-   complexity for a proof of concept.
-3. **Pair it with a calibrated disruption metric**, so the simulation carries the
-   trade MTD actually makes — cost of moving against risk of not moving — inside a
-   single run. Reported as a frontier over the defence family, never as a composite
-   score. Threads 2 and 3 share a brief:
-   [`../../../handoffs/2026-07-29_rational_attacker_and_mtd_tradeoff.md`](../../../handoffs/2026-07-29_rational_attacker_and_mtd_tradeoff.md).
+2. ~~**Explain the cost model plainly, then simplify it.**~~ **Shipped
+   2026-08-01** as [`cost_model_plain.md`](cost_model_plain.md): the plain
+   statement with a worked real decision, and the simplification put to the
+   test — the benefit family survived attempted removal against a
+   pre-registered bar (31 of 40 cells fail reproduction without it), cost
+   stays the declared duration, the exponent stays.
+3. ~~**Pair it with a calibrated disruption metric**~~ **Shipped 2026-08-01**
+   as the §5 disruption ledger in the measurement suite plus
+   [`mtd_disruption_frontier.md`](mtd_disruption_frontier.md): defender-side
+   reconfiguration occupancy derived entirely from the substrate's own
+   per-mutation records (no declared value), paired with the attacker-side
+   account over the full defence family at both intervals, reported as a
+   frontier and never as a composite score. Threads 2 and 3 shared a brief
+   (`2026-07-29_rational_attacker_and_mtd_tradeoff.md`, retired with thread
+   3's ship commit).
 4. **Stealth through the one channel that already exists.** Most tactics under the
    current mapping dispatch nothing, which raises dwell; the reactive selector
    chooses mutations from attacker-derived network metrics; so a slower attacker

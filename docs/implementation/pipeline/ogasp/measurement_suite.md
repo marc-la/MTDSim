@@ -1,8 +1,8 @@
 ---
 status: durable
 created: 2026-07-28
-updated: 2026-07-29
-topic: "The axis-measurement suite (movement/measures.py) — the M8b measurements the APT criterion's claimed axes need, built as a reader over MovementRecord streams with a baseline-arm adapter; which axis each measure discharges, its validation gates, and its known blind spots"
+updated: 2026-08-01
+topic: "The axis-measurement suite (movement/measures.py) — the M8b measurements the APT criterion's claimed axes need, built as a reader over MovementRecord streams with a baseline-arm adapter; which axis each measure discharges, its validation gates, and its known blind spots. Now also carries the defender-side disruption ledger (§5 of the module), which scores no axis and prices the frontier"
 ---
 
 # The axis-measurement suite — what each measure is, which M8b field it discharges, and where it is blind
@@ -62,6 +62,7 @@ bind every consumer:
 | `failure_routing_rate` | 4 — "does failure-conditioned routing measurably redirect effort" | fraction of verdict-carrying routing decisions taken on the failure column (correlate with breadth across runs) | rate only; the correlation and its interval are the caller's, via `interval_report` |
 | `terminal_mode` | 4 / reporting | experiment 1's terminal vocabulary formalised (objective / sink / sim_end / max_events / horizon / empty) | baseline rows cannot say more than objective-vs-horizon; cross-arm terminal comparison uses that coarser pair |
 | `cost_ledger` | 6 prerequisite — "a cost ledger per run (actions, time, re-work forced by MTD)" | attempts by verb (split blocked / dwell-only), time decomposed into behavioural dwell + derived MTD confusion penalty + residual, re-work (interrupt count and the time MTD-cut events consumed), distinct hosts, yield per ksec | the ledger is a *measurement*, not an axis-6 claim — the claim needs a decision rule that consumes it (separate handoff); time fields are movement-arm-only |
+| `disruption_ledger` / `disruption_from_run` (+ `union_time`) | **no axis, deliberately** — the defender-side cost the frontier trades attacker measures against ([`mtd_disruption_frontier.md`](mtd_disruption_frontier.md)) | per run, derived entirely from the substrate's own per-mutation operation records: reconfiguration **occupancy** (union of mutation deployment windows ÷ elapsed), summed window time by resource layer and by mechanism, churn tempo (executions per ksec), and the suspended-mutation contention tally. The run result snapshots the record read-only after the run (`run.mtd_snapshot`); both arms read the identical machinery, so defender-side quantities are cross-arm safe — unlike attacker-side time | a mutation aborted mid-execution on compromise appends no record; a same-priority discard is tallied nowhere; queue wait under the simultaneous scheme is outside the window — all three undercount, so occupancy is a floor |
 | `baseline_ledger` / `comparable_from_baseline` / `comparable_from_movement` | cross-arm subset (Jin's stealthy-vs-baseline framing) | see §(d) | see §(d) |
 | `mean_ci` / `interval_report` | reporting discipline (every axis) | experiment-1 mean ± 1.96·SEM convention; adjacent-pair disjointness made routine | normal approximation; n = 1 reads as a zero-width interval |
 
@@ -225,3 +226,14 @@ the chosen tempo); or a stealth semantics is ruled (axis 5's exposure metric is
 deliberately absent here — it presupposes that ruling). If `MovementRecord`
 gains fields, prefer extending the reader over widening the record: the
 penalty derivation shows a gap can close without a schema change.
+
+**Fired 2026-08-01 — the defender side joined the suite.** The rational-attacker
+handoff's Part 2 needed the defence's own cost, and no reader could reach it:
+`run_movement` discarded the network, so the substrate's per-mutation operation
+record (name, deployment window, resource layer — kept by `MTDStatistics` since
+the lineage began) was invisible. The gap closed **half by widening, half by
+derivation**: the run *result* (not `MovementRecord`) gained a read-only
+post-run snapshot of that record, and everything else is derived in the reader
+(`disruption_ledger`, §(b) row). The record/reader preference above was
+honoured in the way that matters — the per-event schema is untouched, and the
+widening carries raw substrate rows, never a computed quantity.
