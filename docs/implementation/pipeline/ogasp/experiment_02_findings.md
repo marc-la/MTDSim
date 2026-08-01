@@ -54,9 +54,16 @@ paired contrast.
 > paired sub-study (the two sinkless profiles are untouched, and every `censor`
 > arm is unaffected). The expected size of the divergence is bounded by the
 > lifted inventory (sink in-edge mass ≤ 0.111): small, and in the direction of
-> *fewer* immediate sink re-entries. Nothing here has been re-run; whether the
-> affected cells are re-taken under the landed implementation is a ruling for
-> Marc, recorded in the reconciliation handoff's close-out.
+> *fewer* immediate sink re-entries. Nothing here has been re-run; the analysis
+> was re-executed from the recorded `runs.jsonl` against the reconciled code and
+> every verdict reproduced byte-for-byte. **Open ruling for Marc, recorded here
+> because this note is where a reader of these numbers will meet it:** whether
+> the retrace-arm cells of the three sink-bearing profiles are re-taken under
+> the landed implementation, or stand as recorded with this note as their
+> caveat. The reconciliation handoff assumed only the 200-run sink sub-study
+> would be affected; the main matrix also ran under `retrace`, so a faithful
+> re-take is roughly three-fifths of the matrix, which is an experiment rather
+> than bookkeeping and was not taken unilaterally.
 
 ## 2. The declared inputs, named at this experiment's seam
 
