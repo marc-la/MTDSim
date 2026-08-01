@@ -1,5 +1,6 @@
 ---
-status: open
+status: shipped — awaiting reconciliation
+superseded_note: shipped 2026-07-29 — all six gate items discharged by experiment 2 on `feat/exp02-ashen-lynx`; axis 3 moved to DEMONSTRATED, axes 1 and 4 held on their pre-registered criteria. Retire on reconciliation (`2026-07-29_reconcile_stranded_axis_work.md`). Nothing replaces it.
 created: 2026-07-28
 ---
 

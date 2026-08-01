@@ -1,5 +1,6 @@
 ---
-status: open
+status: shipped — awaiting reconciliation
+superseded_note: shipped 2026-07-29 — the mechanism, the 1 800-run sweep and the DESIGNED badge landed on `feat/axis134-demonstration-arms`. Retire on reconciliation (`2026-07-29_reconcile_stranded_axis_work.md`). Refinement of this axis is now `2026-07-29_rational_attacker_and_mtd_tradeoff.md`.
 created: 2026-07-28
 ---
 

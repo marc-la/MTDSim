@@ -224,15 +224,20 @@ ruled out. Read it before opening anything below.
     axes 6 and 7 as NOT ADDRESSED. Nothing else on this wave means anything until
     it lands, and the four shipped handoffs — (8), (10), and the two axis
     handoffs above — are retired by its merge commit rather than before it.
-18. `2026-07-29_controller_composition_unification.md` — the **last mechanism**
-    inside the freeze: an FSM-alignment factor on the controller seam, justified
-    as an instrument that measures procedural mismatch rather than as a
-    capability. Moves no badge, by design. Depends on (17).
-19. `2026-07-29_criterion_consequence_and_provenance_rows.md` — the two rows the
+18. `2026-07-29_learning_under_procedural_rigidity.md` — generalise the learner so
+    it can represent a precondition constraint, without RL. Absorbs the
+    FSM-alignment factor and the composition/seam-split brief. Depends on (17).
+19. `2026-07-29_rational_attacker_and_mtd_tradeoff.md` — explain the cost model
+    plainly, simplify it, and pair it with a calibrated disruption metric so the
+    run carries cost-of-moving against risk-of-not-moving. Depends on (17).
+20. `2026-07-29_stealth_tempo_via_dwell_channel.md` — the only route by which tempo
+    becomes consequential: dwell alters the metrics the reactive selector reads.
+    **Needs a supervisor ruling before anything is built.**
+21. `2026-07-29_criterion_consequence_and_provenance_rows.md` — the two rows the
     criterion cannot currently score, because the project's largest result (the
     defence-ranking inversion) scores on none of the existing eight. Cheap,
     documentation only.
-20. `2026-07-29_dissertation_notes_from_the_frozen_model.md` — the five notes the
+22. `2026-07-29_dissertation_notes_from_the_frozen_model.md` — the five notes the
     frozen model has earned. No new results; this is writing. Depends on (17).
 
 Parked work — parallel or superseded, not on this chain — is in

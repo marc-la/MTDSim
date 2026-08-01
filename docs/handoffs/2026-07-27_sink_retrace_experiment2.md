@@ -1,5 +1,6 @@
 ---
-status: open
+status: shipped — awaiting reconciliation
+superseded_note: shipped 2026-07-29 — the policy was designed and built (twice, by concurrent sessions) and experiment 2 ran 2 760 runs on `feat/exp02-ashen-lynx`. Retire on reconciliation (`2026-07-29_reconcile_stranded_axis_work.md`), which also picks the surviving sink implementation.
 created: 2026-07-27
 ---
 

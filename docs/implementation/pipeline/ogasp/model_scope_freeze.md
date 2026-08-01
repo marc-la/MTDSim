@@ -243,6 +243,43 @@ reproduces the finding at full strength. It is the instrument for the
 methodological claim rather than a capability for the scorecard, and it should be
 justified, reported and named that way.
 
+## 5b. The research direction after the freeze (clarified 2026-07-29)
+
+The freeze fixes the *model*. It does not fix what the remaining sessions work on,
+and that direction was ambiguous until this point, so it is recorded here rather
+than left in conversation. Four threads, and they are deliberately narrow.
+
+1. **Generalise the learning capability to procedural rigidity, without
+   reinforcement learning.** The proof of concept works and makes the attacker
+   worse: it biases heavily toward reconnaissance and host discovery because those
+   carry the fewest preconditions. The problem is representational (§5), so the
+   work is a key that can express *this tactic pays here* while staying inside the
+   no-RL constraint. Brief:
+   [`../../handoffs/2026-07-29_learning_under_procedural_rigidity.md`](../../handoffs/2026-07-29_learning_under_procedural_rigidity.md).
+2. **Explain the cost model plainly, then simplify it.** The mechanism is built and
+   swept; what is missing is a statement of what the attacker actually computes
+   that a reader can follow, and a judgement about which declared parts earn their
+   complexity for a proof of concept.
+3. **Pair it with a calibrated disruption metric**, so the simulation carries the
+   trade MTD actually makes — cost of moving against risk of not moving — inside a
+   single run. Reported as a frontier over the defence family, never as a composite
+   score. Threads 2 and 3 share a brief:
+   [`../../handoffs/2026-07-29_rational_attacker_and_mtd_tradeoff.md`](../../handoffs/2026-07-29_rational_attacker_and_mtd_tradeoff.md).
+4. **Stealth through the one channel that already exists.** Most tactics under the
+   current mapping dispatch nothing, which raises dwell; the reactive selector
+   chooses mutations from attacker-derived network metrics; so a slower attacker
+   changes which mutations fire. This is the only route by which tempo becomes
+   consequential, it is inert against time-triggered mutation, and it needs a
+   supervisor ruling before anything is built. Brief:
+   [`../../handoffs/2026-07-29_stealth_tempo_via_dwell_channel.md`](../../handoffs/2026-07-29_stealth_tempo_via_dwell_channel.md).
+
+**What the direction is *for*, since the freeze makes it easy to lose.** None of
+these threads is chasing a badge. Threads 1 and 2 refine mechanisms that already
+score their axes; thread 3 adds a defender-side measurement that scores no axis at
+all; thread 4 is the only one that could move a badge and it is gated on a ruling.
+They are here because each sharpens the evaluation, which is what the attacker
+model exists to serve.
+
 ## 6. When to re-open this record
 
 When the outstanding freeze ruling is resolved (axes 6 and 7 both wait on it);
