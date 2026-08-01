@@ -118,7 +118,20 @@ output existed.
 **Verdicts.** Recorded in §6 of
 [`learning_readiness_findings.md`](learning_readiness_findings.md), with the rest
 of the sweep's results, so the numbers live with the study that produced them
-rather than being restated here.
+rather than being restated here. The headline, because it bears directly on §4:
+**J1 MOVED in all four cells — the narrowing is sub-additive, not compounding.**
+The two modulators pull in opposite directions on the same edges (a static
+declared preference for cheap, precondition-coupled tactics, against a learned
+state-conditioned discovery that those tactics fail when attempted unready), so
+adding the learner to the utility modulator *recovers* most of the breadth the
+utility modulator alone costs.
+
+**That falsifies the reasoning in §4 without changing its rule.** The inference
+that composing the modulators compounds the narrowing was never measured; it is
+now measured and wrong. The pin stands regardless, on the part of §4 that was
+always the load-bearing half: **every single-modulator cell still narrows traversal
+against the null cell**, so the plurality evidence still belongs to the
+modulators-null arm and a modulator-active arm still reports its own figure.
 
 ## 6. Where this connects, and when to update
 

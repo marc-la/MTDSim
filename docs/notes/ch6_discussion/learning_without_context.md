@@ -2,7 +2,7 @@
 status: durable
 chapter: ch6_discussion
 created: 2026-07-29
-updated: 2026-07-29
+updated: 2026-08-01
 ---
 
 # An attacker that learns from outcomes alone will route around a procedural constraint rather than satisfy it
@@ -99,6 +99,43 @@ is that the failure is silent: the capability produces a metric that improves
 monotonically, and only a measure of progress reveals that the attacker has been
 optimising away from its objective the whole time.
 
+## The two halves, since separated by experiment
+
+The argument above rests on two claims that were made together and could not, when
+it was written, be told apart: that the reward was misspecified, and that the
+representation could not express the constraint. A learner keyed on the situation —
+specifically on whether the action's preconditions were satisfied, the minimum this
+note proposed — has since been built and swept against the original as a control.
+The two halves come apart cleanly.
+
+**The representation half is confirmed and is now quantified.** Given the ability to
+hold "this tactic pays when I am ready for it" separately from "it fails when I am
+not", the attacker stops abandoning intrusive action: the proportion of its
+successes that are acts of exploitation recovers from around one in sixteen to
+roughly one in ten, against one in nine for an attacker with no learning at all, and
+the order-of-magnitude collapse in hosts compromised is arrested. The collapse was
+therefore an artefact of what the learner could represent, exactly as argued, and
+not an inevitable consequence of giving an attacker something to optimise.
+
+**The reward half is confirmed by what did not happen.** The repaired learner
+climbs back to approximately where an attacker with no memory already stood and
+stops there — it recovers the ground the misrepresentation lost and gains none
+beyond it. Fixing what the attacker can represent removes a defect; it does not
+supply a direction. A verdict that reports only whether an action was permitted
+still cannot indicate progress, however finely the situations in which it was
+obtained are distinguished.
+
+The sharper form of the original claim is therefore this: the representation and
+the reward are not two candidate explanations for the same failure but two
+independent requirements, and satisfying one of them buys exactly the part of the
+failure it owns. There is also a methodological warning in how the two were told
+apart. On every friction-shaped measure — including the within-run reduction in
+refused actions that made the original capability look successful — the two
+learners are indistinguishable to three decimal places. Only a measure of breadth
+separates them. A study scoring this capability on the attacker's own friction
+would have concluded that the representation makes no difference, which is the
+opposite of what it does.
+
 ## Evidence and repo anchors
 
 - `docs/implementation/pipeline/ogasp/learning_capability.md` — the mechanism, the
@@ -110,8 +147,12 @@ optimising away from its objective the whole time.
 - `docs/implementation/pipeline/ogasp/experiment_01_findings.md` §3 — the coupling
   between an externally-derived tactic order and the environment's own precondition
   order, which is the constraint being routed around.
-- `docs/handoffs/2026-07-29_learning_under_procedural_rigidity.md` — the open work
-  the closing paragraphs specify.
+- `docs/implementation/pipeline/ogasp/learning_representation.md` — the ranked
+  candidate keys, the measured per-cell observation budgets, and the measurement
+  showing an unmet precondition to be a deterministic failure (§1, §3, §4).
+- `docs/implementation/pipeline/ogasp/learning_readiness_findings.md` — the
+  4 600-run sweep separating the two halves above, its pre-registered verdicts and
+  the badge decision (§1, §2.2–2.4, §4).
 - Survey framing of the defender-learning/attacker-fixed asymmetry: Cho et al.
   2020 §V-D; the claim that a capable adversary learns the defence's patterns over
   time: Jalowski et al. 2026 §4.3. *(Citation anchors to reconcile against the
@@ -119,9 +160,21 @@ optimising away from its objective the whole time.
 
 ## Revisit conditions
 
-If a learner keyed on a richer context is built and *still* fails to convert
+~~If a learner keyed on a richer context is built and *still* fails to convert
 reduced friction into progress, the diagnosis here is wrong and the limitation lies
-elsewhere — most likely in the action vocabulary rather than the learner. If the
-environment's action layer is ever widened so that acceptance and progress
-coincide, the failure mode described here becomes unreachable and the note narrows
-to a historical account of this substrate.
+elsewhere — most likely in the action vocabulary rather than the learner.~~
+**Engaged, and the diagnosis survives with a correction to this condition as
+written.** The richer-keyed learner was built and does not convert reduced friction
+into progress *beyond the no-learning baseline* — but the condition above was too
+blunt, because it treated the two requirements as alternatives when the note's own
+argument had already said they must move together. The richer key recovers
+precisely the ground the poorer one lost, which is what a representational defect
+predicts and what an action-vocabulary limitation would not. The outstanding
+requirement is the reward, and it is now the only one.
+
+The remaining condition stands unchanged: if the environment's action layer is ever
+widened so that acceptance and progress coincide, the failure mode described here
+becomes unreachable and the note narrows to a historical account of this substrate.
+Should a progress-carrying reward then be built on the richer key and the attacker
+*still* fail to advance, the limitation does lie in the action vocabulary, and that
+is the form the original condition should have taken.
