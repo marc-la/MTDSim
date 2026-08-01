@@ -259,11 +259,13 @@ success rather than realised time. (8) should note the first of those.)*
     shipped (above), so it is now gated only on Marc's rulings — chiefly whether
     to sanction the `mtd_ai` defence arm (1b) and the S2 freeze question. No badge
     was moved; the split awaits Marc's agreement.
-15. `2026-07-28_criterion_maintenance_and_axis8_closure.md` — rules **MTD-scheme
-    awareness** out as future work rather than leaving it merely absent, and
-    discharges three fired re-score triggers and four stale cross-references in
-    the criterion. Documentation only, independent of everything, and worth doing
-    early because the criterion is loaded into every session.
+*(Shipped from wave 5: the **criterion maintenance and axis-8 closure** —
+`2026-07-28_criterion_maintenance_and_axis8_closure.md`, landed 2026-07-28
+(`871ac9f`). MTD-scheme awareness is ruled out as future work on the
+ML/RL-versus-timeframe ruling rather than left merely absent, the S3 and
+rate-study re-score triggers are recorded as fired with no badge moved, the
+degenerate region stands as a constraint beside the badges, and the lagged
+worked examples recompute under δ = 0.25 with zero compiled cells moving.)*
 
 **Off the chain — a findings ledger, not a commission.**
 
@@ -317,6 +319,48 @@ success rather than realised time. (8) should note the first of those.)*
     under-report the finding; re-framing them, and whether to re-pre-register the
     badge under a property criterion, are dispositions rather than housekeeping
     and were left undone.
+
+**Wave 6 — the freeze, and what follows it (2026-07-29).** The attacker model is
+frozen: [`../implementation/pipeline/ogasp/model_scope_freeze.md`](../implementation/pipeline/ogasp/model_scope_freeze.md)
+fixes the per-axis disposition, classifies each remaining gap as **mechanism /
+measurement / governance**, and names what is future work for a successor. Two of
+eight axes are demonstrated, four are designed with measured negatives, two are
+ruled out. Read it before opening anything below.
+
+*(Shipped from wave 6: **the blocking reconciliation** —
+`2026-07-29_reconcile_stranded_axis_work.md`, landed 2026-08-01 as two merge
+commits on `dev` (`feat/axis134-demonstration-arms`, then
+`feat/exp02-ashen-lynx`). Both axis records arrived filled in with their sweep
+verdicts, the criterion table reads 2 DEMONSTRATED / 4 DESIGNED / 2 NOT
+ADDRESSED with its prose agreeing — verified against the freeze §2 — and the
+four shipped handoffs it covered, (8), (10) and the two axis handoffs, were
+deleted in those merges. The demonstration-arms sink implementation survived,
+per the handoff's ruling; `sink_policy.md` is kept superseded beside it with its
+§3 inventory lifted into the survivor, and the experiment-2 analysis was re-run
+from the recorded runs against the reconciled code, reproducing every verdict
+byte-for-byte. One loose end is recorded rather than resolved: the handoff's
+premise that only the sink sub-study ran under the superseded implementation was
+wrong — the main matrix's retrace arms did too — so whether those cells are
+re-taken is an open ruling for Marc, recorded in the findings record's
+reconciliation note. The wave below is unblocked.)*
+18. `2026-07-29_learning_under_procedural_rigidity.md` — generalise the learner so
+    it can represent a precondition constraint, without RL. Absorbs the
+    FSM-alignment factor and the composition/seam-split brief. Unblocked
+    2026-08-01 by the reconciliation.
+19. `2026-07-29_rational_attacker_and_mtd_tradeoff.md` — explain the cost model
+    plainly, simplify it, and pair it with a calibrated disruption metric so the
+    run carries cost-of-moving against risk-of-not-moving. Unblocked 2026-08-01
+    by the reconciliation.
+20. `2026-07-29_stealth_tempo_via_dwell_channel.md` — the only route by which tempo
+    becomes consequential: dwell alters the metrics the reactive selector reads.
+    **Needs a supervisor ruling before anything is built.**
+21. `2026-07-29_criterion_consequence_and_provenance_rows.md` — the two rows the
+    criterion cannot currently score, because the project's largest result (the
+    defence-ranking inversion) scores on none of the existing eight. Cheap,
+    documentation only.
+22. `2026-07-29_dissertation_notes_from_the_frozen_model.md` — the five notes the
+    frozen model has earned. No new results; this is writing. Unblocked
+    2026-08-01 by the reconciliation.
 
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).
