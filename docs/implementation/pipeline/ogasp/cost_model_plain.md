@@ -2,7 +2,7 @@
 status: durable
 created: 2026-08-01
 updated: 2026-08-01
-topic: "The attacker's cost model in plain terms (Part 1 of the rational-attacker handoff): what is computed at each routing decision, where every number comes from, a worked decision with real values — and the simplification verdict against the handoff's three questions, with the reproduction evidence"
+topic: "The attacker's cost model in plain terms (Part 1 of the rational-attacker handoff): what is computed at each routing decision, where every number comes from, a worked decision with real values — the simplification verdict against the handoff's three questions with the reproduction evidence, and (§2.2a) the double-penalty defect the verdict does not answer"
 ---
 
 # What the cost-sensitive attacker computes — the plain statement, and the simplification verdict
@@ -90,7 +90,10 @@ inflation of its denominator. And cost-sensitivity *costs* the attacker
 progress: blocked attempts rise from 49 % to 99 % of actions across the band,
 because the cheapest tactics on this substrate are precisely the most
 precondition-coupled — the attacker that optimises declared cost optimises its
-way into a wall.
+way into a wall. **Read that last sentence under §2.2a**, which records why the
+wall may be a property of the denominator rather than of the terrain: the
+enabling tactics are penalised by both terms at once, and neither can represent
+instrumental necessity.
 
 ## 2. The simplification, judged
 
@@ -159,9 +162,71 @@ within ±15 % on eight of ten cells with `double_extortion` again the exception.
 The recorded sweep's magnitudes describe the pre-fix substrate; its
 conclusions survive on the current one.
 
-### 2.2 Should cost stay as declared duration? — Yes
+### 2.2 Should cost stay as declared duration? — Yes *for this pass*, and the scope of that answer is narrower than first written
 
-Three grounds, none of them new machinery:
+> **Corrected 2026-08-01, on Marc's objection, and the correction is
+> load-bearing.** This subsection was written to answer the handoff's second
+> question as posed — which framed the cost term as the reason MTD's measured
+> effect did not change (C4) — and the three grounds below address exactly
+> that. They do **not** establish that declared duration is a defensible model
+> of attacker cost, and the verdict was presented as though they did. The
+> ground that actually carries the "keep it" decision is the third one, which
+> is a **scope** argument (a realised-outcome cost is a different capability,
+> under freeze) rather than a claim that time is the right denominator. Read
+> §2.2a first; it states the defect the three grounds do not answer.
+
+### 2.2a The defect the verdict does not answer — instrumental tactics are penalised twice
+
+Pairing **cost = declared duration** with **benefit = objective proximity**
+produces a systematic bias that neither term can see, and it falls hardest on
+exactly the tactics this substrate makes mandatory.
+
+Reconnaissance is penalised by both terms at once. It is declared at 35 s
+against the exploit-shaped tier's 4.5 s, so the denominator makes it nearly
+eight times more expensive; and it sits further from any objective than any
+other tactic, so the proximity rule gives it the lowest benefit of the fifteen
+(0.0625 under `pure_steal`, against credential-access's 0.25). Compounded, the
+data-theft profile values reconnaissance at u = 0.0018 against
+credential-access's 0.0556 — a **31-fold preference against the tactic that
+satisfies the precondition for the tactic it prefers**.
+
+**Neither term can represent instrumental necessity, and that is the whole of
+the defect.** Benefit grades proximity to the objective, which is a proxy for
+usefulness that fails precisely for enabling steps: a tactic whose entire value
+is unlocking a later one scores as though it had no value. Cost grades
+duration, which penalises those same enabling steps again for being slow. The
+model has no way to express *this tactic is worth its price because of what it
+makes possible*, so a sharper λ routes effort away from the enabling steps and
+into the tactics that depend on them.
+
+**Consequences for what may be read off the sweep.** The measured behaviour is
+not in doubt — discovery's visit share falls while the exploit-shaped tactics
+gain (+0.19 credential-access, +0.16 lateral-movement for `pure_steal` at
+λ = 1), and blocked attempts rise from 49 % to 99 % across the band. What is in
+doubt is the *reading*. §6.2 of the design record and F5 of the fidelity ledger
+present this as "an attacker that optimises declared cost optimises its way
+into a wall" — experiment 1's coupling finding in economic terms, and therefore
+a statement about this substrate. That reading is only available if the
+denominator is a defensible model of attacker cost. The competing reading, not
+excluded by anything measured, is that the cost term cannot see that fast
+tactics have prerequisites, and the attacker's self-defeat is a property of the
+**denominator** rather than of rational attackers or of the terrain. Both
+records now carry that qualification, and no claim of the form *cost-sensitivity
+costs an attacker progress* may be made without it.
+
+**The fix is one build, and it serves two open problems.** The axis-6 M8b field
+already names "a utility conditioned on realised success rather than realised
+time" as one of two routes to DEMONSTRATED — arrived at from the
+MTD-invariance side. It is the same change this defect asks for, arrived at
+from the wall side, which is a reason to think it is the right change rather
+than a coincidence. The design is worked out in the iterated-cost-model
+handoff (`2026-08-01_iterated_cost_model.md`); it is a mechanism change under
+the freeze and a disposition for Marc, not a session's judgement.
+
+### 2.2b The three grounds, as they stand
+
+They answer the question the handoff asked, and they are unaffected by §2.2a
+except where noted:
 
 - **It is the honest reuse.** The duration catalogue is the one family of
   per-tactic time values the model declares; a second, cleverer cost catalogue
@@ -169,14 +234,16 @@ Three grounds, none of them new machinery:
   model. The lineage precedent points the same way: Ho 2024's return-on-attack
   defines attack cost as *time*, so declared time is the cost term this
   codebase's ancestry already uses.
-- **The negative result is not the cost term's fault, and changing the term is
-  not the cheap fix.** The reason MTD's effect did not move is that this
-  defence's tax is dwell-proportional *at the 200 s operating interval* — and
-  experiment 2 §15 then found the condition under which that breaks: at the
-  2 000 s interval four of seven mechanisms tax tactics out of proportion to
-  dwell. The cheaper route to the axis's missing result is therefore a run at
-  that existing condition (gated on the outstanding S2 ruling), not a
-  re-engineered cost term.
+- **The C4 negative is not the cost term's fault, and changing the term is not
+  the cheap route to *that* result.** The reason MTD's effect did not move is
+  that this defence's tax is dwell-proportional *at the 200 s operating
+  interval* — and experiment 2 §15 then found the condition under which that
+  breaks: at the 2 000 s interval four of seven mechanisms tax tactics out of
+  proportion to dwell. The cheaper route to the axis's missing result is
+  therefore a run at that existing condition (gated on the outstanding S2
+  ruling), not a re-engineered cost term. **This ground is about C4 only.** It
+  says nothing about §2.2a's defect, which concerns C5 and would not be
+  touched by running at a different interval.
 - **A realised-outcome cost is a different capability, not a simplification.**
   Conditioning cost on observed outcomes would make the modulator stateful —
   today it is a pure function of declared data, which is what makes its λ = 0

@@ -457,6 +457,23 @@ declared dwell (a roughly uniform ~9 % surcharge), and a normalised utility
 DEMONSTRATED would let a reader infer the economic MTD result the evidence does
 not support.
 
+> **The unflattering outcome above is qualified 2026-08-01 (R2 on the benefit
+> family), and the badge does not move.** "Experiment 1's H-coupling finding in
+> economic terms" attributes the attacker's self-defeat to the *terrain*, and
+> that attribution is not established. The declared-duration cost and the
+> objective-proximity benefit penalise *instrumental* tactics twice over —
+> reconnaissance is both the slowest declared tier and the furthest from any
+> objective, so the profile that most needs it prefers a 4.5 s exploit-shaped
+> tactic over it by a factor of 31 — and neither term can express that a tactic
+> is worth its price because of what it unlocks. The collapse may therefore be
+> a property of the decision model rather than of the substrate
+> ([`pipeline/ogasp/cost_model_plain.md`](pipeline/ogasp/cost_model_plain.md)
+> §2.2a). The badge is untouched, because DEMONSTRATED was withheld on C4 and a
+> defect that makes the mechanism's one measured outcome *less* interpretable
+> cannot raise a row. What it does change is the M8b field below: the second of
+> its two candidate routes is now the remedy for a known defect as well as a
+> route to the missing result, which raises its priority over the first.
+
 **What would evidence a claim (M8b) — updated.** The prerequisite measurement
 (a cost ledger per run and per arm) is built and reported
 ([`pipeline/ogasp/measurement_suite.md`](pipeline/ogasp/measurement_suite.md)),
@@ -467,7 +484,13 @@ proportional to dwell (one taxing particular tactics rather than particular
 durations — reachable inside experiment 2's defence family), or a utility
 conditioned on a quantity the proportional surcharge does not cancel, such as
 realised success rate per tactic rather than realised time. The seam already
-observes both. Note that the S2 freeze's status is unchanged: the seam record's
+observes both. **The second route is now designed** — a state-conditioned
+expected cost and an enabling-value benefit, both derived from artefacts that
+already exist rather than from a new declared family
+(`docs/handoffs/2026-08-01_iterated_cost_model.md`) — and it is the same build
+that would repair the R2 defect above, which is a reason to prefer it over the
+first route rather than merely an option beside it. It remains gated on Marc's
+disposition and the freeze. Note that the S2 freeze's status is unchanged: the seam record's
 §7 question to the supervisor gates *using* a non-zero λ in a reported
 experiment, and this badge move rests on the mechanism and the sweep, not on an
 experimental claim.

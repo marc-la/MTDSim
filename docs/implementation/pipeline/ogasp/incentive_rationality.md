@@ -352,11 +352,30 @@ sensitivity does not merely fail to buy progress; it *costs* progress. Under
 **blocked actions rise from 135 of 273 attempts (49 %) to 2 165 of 2 196
 (99 %)**. The greedy attacker piles into the cheap tactics, and the cheap tactics
 are cheap precisely because the substrate prices them as exploit-shaped, while
-being the most tightly precondition-coupled things it can attempt. **This is
-experiment 1's H-coupling finding restated in economic terms:** on this
-substrate, an attacker that optimises declared cost optimises its way into a
-wall. Recording it matters because it is the opposite of the flattering result
-the pre-registration was written to guard against.
+being the most tightly precondition-coupled things it can attempt. Recording it
+matters because it is the opposite of the flattering result the
+pre-registration was written to guard against.
+
+> **The *interpretation* of C5 is qualified, 2026-08-01 (Marc's objection); the
+> measurement is not.** This paragraph originally closed by reading the result
+> as "experiment 1's H-coupling finding restated in economic terms — on this
+> substrate, an attacker that optimises declared cost optimises its way into a
+> wall", which attributes the self-defeat to the *terrain*. That reading is
+> only available if the denominator is a defensible model of attacker cost, and
+> it is not established that it is. The declared-duration cost and the
+> objective-proximity benefit penalise instrumental tactics **twice over** —
+> reconnaissance is both the slowest tier (35 s against 4.5 s) and the furthest
+> from any objective, giving `pure_steal` a 31-fold preference against the very
+> tactic that satisfies the precondition for the tactics it prefers — and
+> neither term can express *this is worth its price because of what it
+> unlocks*. So the competing reading, excluded by nothing measured here, is
+> that the wall is a property of the **denominator**. C5's verdict stands as
+> recorded (cost sensitivity did not buy progress); the causal attribution does
+> not, and no claim of the form *cost-sensitivity costs an attacker progress*
+> may be made without this qualification. Diagnosis:
+> [`cost_model_plain.md`](cost_model_plain.md) §2.2a. The remedy is designed in
+> the iterated-cost-model handoff and is a disposition for Marc, not a
+> session's judgement.
 
 ### 6.3 Why C4 moved — the anatomy, and why it is not "no signal"
 
@@ -503,11 +522,28 @@ everywhere else in this project.
 
 Three limits travel with any use of it:
 
-- the benefit family is `declared-judgement` throughout and has survived no
-  adversarial review round yet (§4.2);
+- the benefit family is `declared-judgement` throughout, and has survived one
+  adversarial review round — R1, the attempted removal (§4.2) — while R2
+  found a defect (below);
 - the cost term is the duration catalogue, whose own tiers are mixed and whose
   scale is *shape-not-scale* — the utility ratio inherits both;
 - λ is declared and swept, never fitted, and the swept band is the defence.
+
+**A fourth limit, and it is the one to state first (R2, 2026-08-01).** The two
+terms **cannot represent instrumental necessity**, and they fail on it in the
+same direction, so the failure compounds rather than cancelling. Benefit grades
+proximity to the profile's objective, which scores an enabling tactic as though
+unlocking a later step were worth nothing; cost grades declared duration, which
+penalises those same enabling tactics again for being slow. A tactic whose
+entire value is making another one possible is therefore doubly discounted, and
+sharpening λ routes effort away from the prerequisites and into the actions
+that depend on them. This is a defect of the *model*, not of the values inside
+it — no setting of ρ, `cost_floor_s` or λ repairs it, because the quantity that
+would have to be expressed is absent from both terms. It bears directly on how
+§6.2's C5 result may be read (see the banner there) and it is the same gap the
+axis-6 M8b field names from the MTD-invariance side. Diagnosis:
+[`cost_model_plain.md`](cost_model_plain.md) §2.2a; remedy designed in the
+iterated-cost-model handoff, gated on Marc's disposition and the freeze.
 
 ## 9. What this does not do
 

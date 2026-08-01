@@ -161,6 +161,32 @@ On this substrate the relationship is non-monotone, and a fidelity increase can
 realistic attacker, therefore our defence result is conservative" needs this
 checked, not assumed.
 
+> **Amended 2026-08-01 (R2 on the benefit family) — the implication survives,
+> the stated mechanism does not, and the amendment makes the finding
+> stronger.** The paragraph above locates the cause in the *terrain*: cheap
+> tactics happen to be precondition-coupled here. That is not established. The
+> decision rule's two terms — declared duration as cost, objective proximity as
+> benefit — penalise *instrumental* tactics twice over and in the same
+> direction, so reconnaissance is discounted both for being the slowest
+> declared tier and for sitting furthest from any objective, and neither term
+> can represent that a tactic is worth its price because of what it unlocks
+> ([`cost_model_plain.md`](cost_model_plain.md) §2.2a). So "a more rational
+> attacker performs worse" is more honestly "**an attacker optimising a
+> mis-specified cost performs worse**", and the mis-specification is in the
+> model, not the map.
+>
+> **F5's implication for evaluation holds either way, and gains a sharper
+> form.** It never depended on *why* the fidelity increase hurt — only on the
+> fact that it did, which is measured. What the amendment adds is the reason a
+> practitioner should care: the failure mode is not exotic. Pricing attacker
+> actions by their declared duration and valuing them by proximity to the goal
+> are both the obvious first choices, and together they systematically starve
+> the enabling steps that make the goal reachable. An evaluation that gives its
+> attacker a cost model without asking whether that model can express
+> instrumental value will measure the attacker defeating itself and may report
+> it as the defence working. That is a transferable warning of the same family
+> as the axis-7 credit-signal result, and it belongs beside it.
+
 ### F6 — Not all attacker fidelity is evaluation-relevant, and there is a test for which is
 
 The axis-6 utility modulator is a pure function of declared data and the current

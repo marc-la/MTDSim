@@ -401,6 +401,23 @@ the recorded −0.893).)*
 20. `2026-07-29_stealth_tempo_via_dwell_channel.md` — the only route by which tempo
     becomes consequential: dwell alters the metrics the reactive selector reads.
     **Needs a supervisor ruling before anything is built.**
+24. `2026-08-01_iterated_cost_model.md` — repair the axis-6 decision model so it
+    can express *instrumental* value. R2 cross-examination found that its two
+    terms (declared duration as cost, objective proximity as benefit) penalise
+    enabling tactics in the same direction, so reconnaissance is discounted
+    twice and `pure_steal` prefers a precondition-coupled exploit over it by a
+    factor of 31 — a defect of the model that no declared value repairs.
+    Designed in full: a state-conditioned **expected** cost over the existing
+    precondition relation, and a benefit measuring distance through the
+    profile's own net, both derived from artefacts already on disk with **no new
+    declared magnitude**. **Blocked on Marc's disposition** (§2.3 ranks five
+    options including doing nothing, and §7 argues that case fairly). Two things
+    ride on it: it is the same build that would move axis 6 to DEMONSTRATED (the
+    M8b field's second route), and its MTD response is layer-specific by
+    construction, so it makes a falsifiable prediction about the
+    position-destroying-versus-diversity split the headline result turns on.
+    Composition hazard with the axis-7 readiness learner is flagged and must not
+    be run un-checked.
 *(Shipped from wave 6: the **criterion's consequence and provenance rows** —
 `2026-07-29_criterion_consequence_and_provenance_rows.md`, landed 2026-08-01 in
 two commits — definitions and evidence bars first, scores second, so the

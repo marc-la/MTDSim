@@ -52,7 +52,7 @@ outstanding).
 | 3 | Strategic plurality | DEMONSTRATED | — | Freeze, and **pin the composition configuration** (§4). |
 | 4 | Adaptivity | DESIGNED | — | Freeze. The ablation is the finding. |
 | 5 | Stealth | NOT ADDRESSED | **M + G** | Future work. Blocked three independent ways. |
-| 6 | Incentive rationality | DESIGNED | **G** | Freeze, with the enabling condition named. |
+| 6 | Incentive rationality | DESIGNED | **G + M** | Freeze, with the enabling condition named. **Updated 2026-08-01:** R2 found a structural defect in the decision model (instrumental tactics penalised by both terms), so a mechanism gap now sits beside the governance one. Remedy designed, not built; ruling requested. |
 | 7 | Learning | DESIGNED | **M** | Freeze the badge. ~~One mechanism could test its hypothesis (§5).~~ **Built and swept 2026-08-01 — the badge held; the gap narrowed from two candidate causes to one (the credit signal).** |
 | 8 | Scheme awareness | NOT ADDRESSED | — | Ruled out of scope. Freeze. |
 
@@ -131,6 +131,27 @@ defence family, outside the interval every prior run used. Acting on it needs on
 targeted arm at a non-zero rationality exponent, and that is gated by the
 outstanding freeze ruling, not by effort. Recorded as the named next step; not
 taken here.
+
+**A second gap opened on this axis 2026-08-01, and it is a *mechanism* gap
+rather than the governance one above.** The R2 cross-examination of the benefit
+family found a structural defect: cost (declared duration) and benefit
+(objective proximity) penalise **instrumental** tactics in the same direction,
+so the enabling steps are discounted twice and neither term can express that a
+tactic is worth its price because of what it unlocks
+([`cost_model_plain.md`](cost_model_plain.md) §2.2a). No declared value repairs
+it. The consequence for the record is interpretive rather than numerical — the
+sweep's C5 measurement stands, its attribution of the attacker's collapse to
+the terrain does not — and the consequence for this freeze is that axis 6's
+disposition is now **G + M**, not G alone.
+
+**This does not re-open the freeze, and the reason matters.** §6 re-opens this
+record when a ruling lands or a successor takes up a §3 item; a defect found in
+a built mechanism is neither, and the freeze's own principle is that a row is
+not revisited because it reads badly. What the defect earns is a *ruling
+request*, not a build: the remedy is designed in full
+(`../../../handoffs/2026-08-01_iterated_cost_model.md`) and takes nothing on
+its own authority. Note that it would also serve the enabling condition named
+above, so one disposition could close both halves of this axis.
 
 ### Axis 7 — the gap is the credit signal, and it is a real research problem
 
