@@ -422,5 +422,19 @@ was verified against the brief rather than duplicated. The measurement-failure
 thread the handoff flagged as a deliberate decision became its own note (the
 synthesis), with the motif cross-referenced from the notes it runs through.)*
 
+23. `2026-08-01_attacker_disengagement_measure.md` — make attacker *abandonment*
+    measurable: a projected-effort reading over existing runs, reported as a
+    frontier over the attacker's patience, so MTD's own economic claim (raise the
+    cost until they leave) becomes scorable. It generalises **IS-INT-06**, the
+    Zhang give-up threshold the audit classifies DIVERGES-DOCUMENTED-NOWHERE, and
+    is therefore **blocked on Marc's D-09 ruling** — read that row before
+    anything. Design only so far; the build is a reader, so it moves no golden.
+    Descends from Part 1 of (19): the cost model cannot express abandonment
+    because a normalised ratio has no scale, and MTD turns out to destroy
+    productive *capacity* rather than accumulated gains. Two things ride on it —
+    it would give the degenerate region a discriminating outcome variable where
+    ASR is pinned at zero, and it is the natural attacker-side axis for (19)'s
+    Part 2 frontier.
+
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).
