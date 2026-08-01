@@ -7,7 +7,26 @@ diff is a regression to chase, not a re-baseline to accept.
 
 ---
 
-## 2026-07-29 — Movement-arm mechanism goldens established; OSDiversityAssignment re-baselined under the re-instantiation fix
+## 2026-08-01 — Schema follows the input: legacy movement goldens restored to their original bytes; retrace golden set added
+
+**What changed and why.** The reconciliation merges added the S5 sink-retrace
+flag to `MovementRecord`, and the 2026-08-01 recapture (`fda79db`) re-baselined
+all 54 movement goldens for a field that no legacy run ever sets — a schema
+change tripping a behaviour net. Ruled instead (Marc): **a golden document's
+schema is a function of the run's declared inputs.** `one_golden_run` now takes
+`retrace_sinks` (and a profile) as declared inputs; a run that does not name the
+retrace input serialises in the pre-retrace record shape. Under that rule the
+**original** goldens (as first captured 2026-07-29) pass unmodified, so this
+entry *restores* their bytes rather than re-baselining them — behaviour never
+moved, and the recapture is retired as unnecessary.
+
+**What's new.** Fifteen `*_retrace` configurations: `retrace_sinks=True` on
+`double_extortion` (the aggregate profile has no sinks, so the policy would be
+inert there), no-MTD + one mechanism per resource class + the stateful
+mechanism, seeds 0–2, overlay arm. Every config records 3–8 retraces
+(`manifest.json` carries the count), so the set genuinely exercises the policy.
+The suite subset gains three retrace cases and a schema-rule test pinning both
+shapes.
 
 **Spec-IDs / audit-IDs:** IS-MTD-08 (revised → D-17, awaiting ruling),
 intent_conformance_audit §l item 10 (re-instantiation seam, fixed).

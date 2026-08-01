@@ -31,6 +31,17 @@ Goldens live in ``baseline/golden_movement/`` (gzipped JSON, one file per
 configuration, plus ``manifest.json`` with SHA-256 digests). Intentional
 re-baselines follow the same rule as ``baseline/golden``: a changelog entry in
 ``baseline/CHANGELOG.md`` or the diff is a regression to chase.
+
+**The schema follows the input.** A golden document's shape is a function of the
+run's declared inputs, never of what fields happen to exist in the code: a run
+that does not name the retrace input serialises ``MovementRecord`` in the
+pre-retrace shape (no ``retrace`` field), so the legacy goldens stay
+byte-identical across capability additions and a digest change always means
+behaviour moved. Capabilities that *are* named get their own golden set — the
+``*_retrace`` configurations run ``retrace_sinks=True`` on ``double_extortion``
+(a sink-bearing net; the cost-bench ``aggregate`` profile has no sinks, so the
+policy would be inert there), and their documents carry the ``retrace`` field
+plus a ``retraces`` summary count.
 """
 from __future__ import annotations
 
@@ -76,6 +87,15 @@ INTERVAL = 200
 SEEDS = (0, 1, 2)
 ARMS = (True, False)  # with_synthetic_overlay
 
+# The retrace golden set: the S5 policy exercised where it can fire. One
+# mechanism per resource class plus the stateful mechanism and the no-MTD
+# control, on the net that retraces hardest, overlay arm only.
+RETRACE_PROFILE = "double_extortion"
+RETRACE_MECHANISMS = (
+    "no-mtd", "IPShuffle", "ServiceDiversity", "UserShuffle",
+    "OSDiversityAssignment",
+)
+
 
 def _jsonable(value):
     """Coerce numpy scalars to their exact Python equivalents for JSON."""
@@ -86,9 +106,21 @@ def _jsonable(value):
     return value
 
 
-def one_golden_run(mechanism_cls, *, seed: int, with_synthetic_overlay: bool) -> dict:
+def one_golden_run(
+    mechanism_cls,
+    *,
+    seed: int,
+    with_synthetic_overlay: bool,
+    profile: str = PROFILE,
+    retrace_sinks: bool = False,
+) -> dict:
     """Run one movement simulation and return its three streams as JSON-ready
-    dicts. Mirrors ``run_movement``'s wiring so the RNG stream is identical."""
+    dicts. Mirrors ``run_movement``'s wiring so the RNG stream is identical.
+
+    The document's schema follows the declared inputs (module docstring): with
+    ``retrace_sinks`` unnamed the movement records are serialised in the
+    pre-retrace shape and the config/summary sections are exactly the legacy
+    ones; naming it extends all three."""
     from mtdsim.l3_simulation.controller import (
         load_controller,
         load_outcome_overlay,
@@ -104,7 +136,7 @@ def one_golden_run(mechanism_cls, *, seed: int, with_synthetic_overlay: bool) ->
     env, end_event, network, adversary, attack_op = _build_sim(seed, None)
 
     routing_net = load_routing_net(
-        PROFILE, with_synthetic_overlay=with_synthetic_overlay
+        profile, with_synthetic_overlay=with_synthetic_overlay
     )
     controller = load_controller(version=MAPPING)
     overlay = load_outcome_overlay()
@@ -124,6 +156,7 @@ def one_golden_run(mechanism_cls, *, seed: int, with_synthetic_overlay: bool) ->
         seed=seed,
         register_for_interrupts=True,
         max_events=50_000,
+        retrace_sinks=retrace_sinks,
     )
     attacker.start()
 
@@ -143,6 +176,12 @@ def one_golden_run(mechanism_cls, *, seed: int, with_synthetic_overlay: bool) ->
     movement_records = [
         {k: _jsonable(v) for k, v in asdict(r).items()} for r in attacker.records
     ]
+    if not retrace_sinks:
+        # Schema follows the input: a run that did not name the retrace input
+        # serialises in the pre-retrace record shape, so the legacy goldens
+        # survive the field's existence and only behaviour can move a digest.
+        for rec in movement_records:
+            rec.pop("retrace", None)
     mtd_records = [
         {k: _jsonable(v) for k, v in row.items()}
         for row in network.get_mtd_stats()._mtd_operation_record
@@ -151,24 +190,29 @@ def one_golden_run(mechanism_cls, *, seed: int, with_synthetic_overlay: bool) ->
         {k: _jsonable(v) for k, v in row.items()}
         for row in adversary.get_attack_stats()._attack_operation_record
     ]
+    config = {
+        "mechanism": mechanism_cls.__name__ if mechanism_cls else "no-mtd",
+        "seed": seed,
+        "with_synthetic_overlay": with_synthetic_overlay,
+        "profile": profile,
+        "mapping": MAPPING,
+        "horizon": HORIZON,
+        "interval": INTERVAL,
+    }
+    summary = {
+        "events": len(movement_records),
+        "interrupts": sum(1 for r in movement_records if r["interrupted"]),
+        "mtd_executions": len(mtd_records),
+        "attack_rows": len(attack_records),
+        "reached_objective": bool(end_event.triggered),
+        "compromised_count": len(adversary.get_compromised_hosts()),
+    }
+    if retrace_sinks:
+        config["retrace_sinks"] = True
+        summary["retraces"] = attacker.retrace_count
     return {
-        "config": {
-            "mechanism": mechanism_cls.__name__ if mechanism_cls else "no-mtd",
-            "seed": seed,
-            "with_synthetic_overlay": with_synthetic_overlay,
-            "profile": PROFILE,
-            "mapping": MAPPING,
-            "horizon": HORIZON,
-            "interval": INTERVAL,
-        },
-        "summary": {
-            "events": len(movement_records),
-            "interrupts": sum(1 for r in movement_records if r["interrupted"]),
-            "mtd_executions": len(mtd_records),
-            "attack_rows": len(attack_records),
-            "reached_objective": bool(end_event.triggered),
-            "compromised_count": len(adversary.get_compromised_hosts()),
-        },
+        "config": config,
+        "summary": summary,
         "movement_records": movement_records,
         "mtd_records": mtd_records,
         "attack_records": attack_records,
@@ -183,11 +227,14 @@ def _digest(doc: dict) -> str:
     return hashlib.sha256(_canonical(doc).encode()).hexdigest()
 
 
-def _config_name(mech_name: str, seed: int, arm: bool) -> str:
-    return f"{mech_name}_seed{seed}_{'overlay' if arm else 'observed'}"
+def _config_name(mech_name: str, seed: int, arm: bool, retrace: bool = False) -> str:
+    base = f"{mech_name}_seed{seed}_{'overlay' if arm else 'observed'}"
+    return f"{base}_retrace" if retrace else base
 
 
 def _configs(only):
+    """Yield (name, cls, seed, arm, retrace) for the legacy set, then the
+    retrace set. ``--only`` filters by mechanism name across both."""
     names = ["no-mtd"] + list(MECHANISMS)
     if only:
         names = [n for n in names if n in only]
@@ -195,7 +242,13 @@ def _configs(only):
         cls = MECHANISMS.get(name)
         for seed in SEEDS:
             for arm in ARMS:
-                yield name, cls, seed, arm
+                yield name, cls, seed, arm, False
+    for name in RETRACE_MECHANISMS:
+        if only and name not in only:
+            continue
+        cls = MECHANISMS.get(name)
+        for seed in SEEDS:
+            yield name, cls, seed, True, True
 
 
 def capture(only=None) -> int:
@@ -204,10 +257,14 @@ def capture(only=None) -> int:
     manifest = (
         json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
     )
-    for name, cls, seed, arm in _configs(only):
-        cfg = _config_name(name, seed, arm)
+    for name, cls, seed, arm, retrace in _configs(only):
+        cfg = _config_name(name, seed, arm, retrace)
         start = time.perf_counter()
-        doc = one_golden_run(cls, seed=seed, with_synthetic_overlay=arm)
+        doc = one_golden_run(
+            cls, seed=seed, with_synthetic_overlay=arm,
+            profile=(RETRACE_PROFILE if retrace else PROFILE),
+            retrace_sinks=retrace,
+        )
         elapsed = time.perf_counter() - start
         payload = _canonical(doc).encode()
         # mtime=0 keeps the archive byte-stable across re-captures of identical
@@ -222,6 +279,8 @@ def capture(only=None) -> int:
             "mtd_executions": doc["summary"]["mtd_executions"],
             "compromised": doc["summary"]["compromised_count"],
         }
+        if "retraces" in doc["summary"]:
+            manifest[cfg]["retraces"] = doc["summary"]["retraces"]
         print(f"captured {cfg:55s} {elapsed:8.1f}s  "
               f"{doc['summary']['events']:5d} events  "
               f"{doc['summary']['interrupts']:3d} interrupts")
@@ -246,8 +305,8 @@ def _first_diff(golden: dict, fresh: dict) -> str:
 
 def check(only=None) -> int:
     failures = 0
-    for name, cls, seed, arm in _configs(only):
-        cfg = _config_name(name, seed, arm)
+    for name, cls, seed, arm, retrace in _configs(only):
+        cfg = _config_name(name, seed, arm, retrace)
         path = GOLDEN_DIR / f"{cfg}.json.gz"
         if not path.exists():
             print(f"MISSING  {cfg}")
@@ -255,7 +314,11 @@ def check(only=None) -> int:
             continue
         with gzip.open(path, "rb") as fh:
             golden = json.loads(fh.read())
-        fresh = one_golden_run(cls, seed=seed, with_synthetic_overlay=arm)
+        fresh = one_golden_run(
+            cls, seed=seed, with_synthetic_overlay=arm,
+            profile=(RETRACE_PROFILE if retrace else PROFILE),
+            retrace_sinks=retrace,
+        )
         # JSON-roundtrip the fresh doc so both sides carry identical types.
         fresh = json.loads(_canonical(fresh))
         if _digest(golden) == _digest(fresh):
