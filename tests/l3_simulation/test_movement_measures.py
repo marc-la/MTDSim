@@ -664,3 +664,100 @@ def test_cross_arm_subset_computes_on_both_arms(seeded_movement_run):
     # Verb vocabularies overlap (both arms dispatch the six substrate verbs).
     assert set(base.verb_mix) & set(mov.verb_mix)
 
+
+
+# ---------------------------------------------------------------------------
+# §5 Defender-side disruption ledger
+# ---------------------------------------------------------------------------
+
+
+def mtd_exec(name, start, finish, layer):
+    from mtdsim.l3_simulation.movement.statistics import MTDExecution
+
+    return MTDExecution(
+        name=name, start_time=start, finish_time=finish,
+        duration=finish - start, layer=layer,
+    )
+
+
+def test_union_time_merges_overlaps():
+    from mtdsim.l3_simulation.movement.measures import union_time
+
+    # [0,100] and [50,120] merge to [0,120]; [200,260] is disjoint.
+    assert union_time([(0, 100), (50, 120), (200, 260)]) == pytest.approx(180.0)
+    # Containment collapses; zero/negative-length spans contribute nothing.
+    assert union_time([(0, 100), (10, 20), (30, 30)]) == pytest.approx(100.0)
+    assert union_time([]) == 0.0
+
+
+def test_disruption_ledger_hand_worked():
+    from mtdsim.l3_simulation.movement.measures import disruption_ledger
+
+    led = disruption_ledger(
+        [
+            mtd_exec("IPShuffle", 0.0, 100.0, "network"),
+            mtd_exec("OSDiversity", 50.0, 120.0, "application"),
+            mtd_exec("IPShuffle", 200.0, 260.0, "network"),
+        ],
+        elapsed=1_000.0,
+        n_suspended=2,
+    )
+    assert led.n_executed == 3 and led.n_suspended == 2
+    # Sum counts the overlap twice; the union does not.
+    assert led.reconfig_time_total == pytest.approx(230.0)
+    assert led.busy_time == pytest.approx(180.0)
+    assert led.occupancy == pytest.approx(0.18)
+    assert led.executions_per_ksec == pytest.approx(3.0)
+    assert led.reconfig_time_by_layer == pytest.approx(
+        {"network": 160.0, "application": 70.0}
+    )
+    assert led.reconfig_time_by_mechanism == pytest.approx(
+        {"IPShuffle": 160.0, "OSDiversity": 70.0}
+    )
+    assert led.n_by_mechanism == {"IPShuffle": 2, "OSDiversity": 1}
+
+
+def test_disruption_from_run_and_the_no_mtd_zero():
+    from mtdsim.l3_simulation.movement.measures import disruption_from_run
+
+    # A run with no MTD carries the default empty snapshot: the ledger is the
+    # explicit zero, not an error.
+    bare = run_of(rec("recon", start=0, end=10, dwell=10))
+    led = disruption_from_run(bare)
+    assert led.n_executed == 0 and led.occupancy == 0.0
+
+    with_mtd = MovementRunResult(
+        profile="test", seed=0, with_synthetic_overlay=True,
+        records=(rec("recon", start=0, end=10, dwell=10),),
+        reached_objective=False, termination_time=500.0, compromised_count=0,
+        mtd_executions=(mtd_exec("IPShuffle", 100.0, 200.0, "network"),),
+        mtd_suspended_count=1, mtd_attack_interrupted=0,
+    )
+    led = disruption_from_run(with_mtd)
+    assert led.occupancy == pytest.approx(0.2)
+    assert led.n_suspended == 1
+    assert led.elapsed == 500.0
+
+
+def test_disruption_snapshot_against_a_seeded_run(seeded_movement_run):
+    """Integration: the run result's defender-side snapshot is the substrate's
+    own record, and the derived ledger is internally coherent on a real MTD
+    run — windows are consistent, the union never exceeds the sum or the
+    elapsed time, and occupancy is a genuine fraction."""
+    from mtdsim.l3_simulation.movement.measures import disruption_from_run
+
+    execs = seeded_movement_run.mtd_executions
+    assert execs, "seeded MTD run recorded no executed mutation"
+    for e in execs:
+        assert e.finish_time - e.start_time == pytest.approx(e.duration)
+        assert e.layer in ("network", "application", "reserve")
+    led = disruption_from_run(seeded_movement_run)
+    assert led.n_executed == len(execs)
+    assert 0.0 < led.busy_time <= led.reconfig_time_total + 1e-9
+    assert led.busy_time <= led.elapsed + 1e-9
+    assert 0.0 < led.occupancy <= 1.0
+    # The substrate's own interrupt tally and the movement records' interrupted
+    # count are the same event stream seen from the two sides.
+    assert seeded_movement_run.mtd_attack_interrupted == sum(
+        1 for r in seeded_movement_run.records if r.interrupted
+    )

@@ -44,6 +44,26 @@ COMPROMISE_EVENTS = _COMPROMISE_EVENTS
 
 
 @dataclass(frozen=True)
+class MTDExecution:
+    """One executed mutation, snapshotted verbatim from the substrate's own
+    per-operation record (``MTDStatistics``): the mechanism's name, the window
+    during which its resource layer was held for deployment, and that layer.
+    The substrate holds the layer's SimPy resource for exactly
+    ``[start_time, finish_time]`` while the mutation deploys, so ``duration``
+    is the time that layer was under active reconfiguration — the raw material
+    of the derived defender-disruption ledger (``measures.disruption_ledger``).
+    Known blind spot, inherited from the substrate: a mutation aborted
+    mid-execution because the network was compromised appends no record, so its
+    partial window is invisible here too."""
+
+    name: str
+    start_time: float
+    finish_time: float
+    duration: float
+    layer: str  # the substrate resource type: network / application / reserve
+
+
+@dataclass(frozen=True)
 class MovementRunResult:
     """One run's outcome: the movement records plus the substrate metadata a
     reader needs to compute MTTC / ASR."""
@@ -61,6 +81,15 @@ class MovementRunResult:
     # frequency has to be visible for that argument to stay falsifiable
     # (sink_retrace_design.md §3.4). Always 0 when the policy is off.
     retrace_count: int = 0
+    # Defender-side observability, snapshotted from the substrate's own
+    # MTDStatistics after the run (no behaviour touched; empty when no MTD ran).
+    # The attacker-side records above cannot carry these — a mutation the
+    # attacker never collided with leaves no MovementRecord trace — and the
+    # disruption ledger needs every executed mutation, not the intersecting ones.
+    mtd_executions: tuple[MTDExecution, ...] = ()
+    mtd_suspended_count: int = 0        # mutations deferred on resource contention
+    mtd_attack_interrupted: int = 0     # substrate's own interrupt tally (cross-check
+                                        # against the records' interrupted count)
 
     def first_compromise_time(self) -> float | None:
         """Sim time of the first compromise the walk drove, or None if the run
@@ -133,6 +162,7 @@ def summarise(results: Sequence[MovementRunResult]) -> dict[str, ProfileSummary]
 
 __all__ = [
     "COMPROMISE_EVENTS",
+    "MTDExecution",
     "MovementRunResult",
     "ProfileSummary",
     "summarise",

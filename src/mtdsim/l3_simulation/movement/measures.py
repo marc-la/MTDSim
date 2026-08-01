@@ -30,7 +30,12 @@ field it discharges (``docs/implementation/apt_model_criterion.md`` §(d)):
    behavioural dwell / derived MTD confusion penalty / residual, re-work forced
    by MTD, yield. The ledger is a *measurement*, not an axis-6 claim: a claim
    additionally needs a decision rule that consumes it, which is out of scope.
-5. **Cross-arm subset** (§6) — the event-wise measures computable on both arms,
+5. **Defender-side disruption ledger** (§5) — the defence's own cost, derived
+   from the substrate's per-mutation execution records (no declared value):
+   reconfiguration occupancy, layer/mechanism decomposition, churn tempo,
+   contention. Scores no axis; it is the other side of the attacker-cost
+   frontier, so suppression results can be reported as a priced trade.
+6. **Cross-arm subset** (§6) — the event-wise measures computable on both arms,
    with the baseline arm reached through an adapter over ``AttackStatistics``
    rows. Event-wise vs time-normalised is enforced in the API:
    :class:`EventWiseComparable` carries **no time-denominated field**, because
@@ -38,7 +43,7 @@ field it discharges (``docs/implementation/apt_model_criterion.md`` §(d)):
    baseline runs on substrate pricing, and the timing design record withdrew
    cross-arm comparability of time-normalised quantities rather than defending
    it. Time fields live only on the per-arm ledgers, which say so.
-6. **Interval reporting** (§7) — every aggregate this suite feeds a claim from
+7. **Interval reporting** (§7) — every aggregate this suite feeds a claim from
    must carry its interval. :func:`interval_report` returns means, 95 %
    intervals and the adjacent pairs whose intervals are disjoint, so an
    unseparated ordering cannot be reported by accident (two sweeps failed their
@@ -764,6 +769,120 @@ def cost_ledger(run: MovementRunResult) -> MovementCostLedger:
 
 
 # ---------------------------------------------------------------------------
+# §5 Defender-side disruption ledger (no axis — the frontier's other side)
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class DisruptionLedger:
+    """One run's defender-side disruption account, derived **entirely from the
+    substrate's own per-mutation execution records** — no declared value
+    anywhere in it. Scores no criterion axis, deliberately: it measures the
+    defence's own cost, and exists so attacker-side suppression results can be
+    reported as a trade (a frontier) rather than as an unpriced benefit.
+
+    What the numbers mean, in the substrate's own semantics: a mutation holds
+    its resource layer's SimPy resource for its whole deployment window (the
+    substrate's contention rule treats the layer as busy — competing mutations
+    are suspended or queued), so an execution window *is* time that layer was
+    under active reconfiguration. ``busy_time`` is the union of all windows
+    (wall-clock during which at least one layer was being reconfigured);
+    ``reconfig_time_total`` is the sum (layers can overlap, so the sum can
+    exceed the union — the decomposition keeps both visible).
+
+    **Comparability.** Defender-side time is substrate-priced on *every* arm —
+    the execution draws are the substrate's own, identical machinery whichever
+    attacker runs — so unlike attacker-side time these fields are cross-arm
+    safe. What stays invalid is pairing them with movement-arm attacker time in
+    a cross-arm statement; pair against event-wise attacker measures there.
+    ``occupancy`` is the normalised primary (dimensionless, per-run-elapsed).
+
+    Known blind spots, inherited from the substrate's record: a mutation
+    aborted mid-execution on network compromise appends no record (its partial
+    window is uncounted); a same-priority mutation *discarded* rather than
+    suspended is tallied nowhere; queue-wait under the simultaneous scheme's
+    serialisation is not part of the window (the window opens when deployment
+    starts, not when it was requested)."""
+
+    n_executed: int
+    n_suspended: int
+    reconfig_time_total: float                  # sum of execution windows (s)
+    reconfig_time_by_layer: dict[str, float]    # network / application / reserve
+    reconfig_time_by_mechanism: dict[str, float]
+    n_by_mechanism: dict[str, int]
+    busy_time: float                            # union of execution windows (s)
+    elapsed: float                              # run elapsed time (same clock)
+
+    @property
+    def occupancy(self) -> float:
+        """Fraction of the run during which at least one resource layer was
+        under active reconfiguration — the normalised disruption primary."""
+        return self.busy_time / self.elapsed if self.elapsed else 0.0
+
+    @property
+    def executions_per_ksec(self) -> float:
+        """Churn tempo: executed mutations per 1 000 s of sim time — the
+        event-denominated secondary."""
+        return 1000.0 * self.n_executed / self.elapsed if self.elapsed else 0.0
+
+
+def union_time(intervals: Iterable[tuple[float, float]]) -> float:
+    """Total length of the union of ``[start, finish]`` intervals (overlaps
+    merged) — the wall-clock the disruption ledger's ``busy_time`` carries."""
+    spans = sorted((s, f) for s, f in intervals if f > s)
+    total = 0.0
+    cur_start: float | None = None
+    cur_end = 0.0
+    for s, f in spans:
+        if cur_start is None or s > cur_end:
+            if cur_start is not None:
+                total += cur_end - cur_start
+            cur_start, cur_end = s, f
+        else:
+            cur_end = max(cur_end, f)
+    if cur_start is not None:
+        total += cur_end - cur_start
+    return total
+
+
+def disruption_ledger(
+    executions: Sequence, *, elapsed: float, n_suspended: int = 0
+) -> DisruptionLedger:
+    """Build the defender-disruption ledger from a run's executed-mutation
+    snapshot (``MTDExecution``-shaped items: name / start_time / finish_time /
+    duration / layer). Works identically for both arms — the movement arm's
+    snapshot rides on :class:`MovementRunResult` (``disruption_from_run``), the
+    baseline arm's comes off the same ``MTDStatistics`` via the runner
+    (``run.mtd_snapshot``)."""
+    by_layer: dict[str, float] = {}
+    by_mech: dict[str, float] = {}
+    n_mech: Counter[str] = Counter()
+    for e in executions:
+        by_layer[e.layer] = by_layer.get(e.layer, 0.0) + e.duration
+        by_mech[e.name] = by_mech.get(e.name, 0.0) + e.duration
+        n_mech[e.name] += 1
+    return DisruptionLedger(
+        n_executed=len(executions),
+        n_suspended=n_suspended,
+        reconfig_time_total=sum(e.duration for e in executions),
+        reconfig_time_by_layer=by_layer,
+        reconfig_time_by_mechanism=by_mech,
+        n_by_mechanism=dict(n_mech),
+        busy_time=union_time((e.start_time, e.finish_time) for e in executions),
+        elapsed=float(elapsed),
+    )
+
+
+def disruption_from_run(run: MovementRunResult) -> DisruptionLedger:
+    """The movement-arm convenience form, off the run result's snapshot."""
+    return disruption_ledger(
+        run.mtd_executions,
+        elapsed=run.termination_time,
+        n_suspended=run.mtd_suspended_count,
+    )
+
+
+# ---------------------------------------------------------------------------
 # §6 Cross-arm subset — the baseline adapter and the comparable type
 # ---------------------------------------------------------------------------
 
@@ -1025,6 +1144,11 @@ __all__ = [
     # §4 cost ledger
     "MovementCostLedger",
     "cost_ledger",
+    # §5 defender-side disruption
+    "DisruptionLedger",
+    "disruption_ledger",
+    "disruption_from_run",
+    "union_time",
     # §6 cross-arm
     "EventWiseComparable",
     "comparable_from_movement",

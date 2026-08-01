@@ -44,7 +44,7 @@ from mtdsim.l3_simulation.movement.state import (
 )
 from mtdsim.l3_simulation.movement.timing import TacticTiming, TimingSource
 from mtdsim.l3_simulation.movement.net import load_routing_net
-from mtdsim.l3_simulation.movement.statistics import MovementRunResult
+from mtdsim.l3_simulation.movement.statistics import MovementRunResult, MTDExecution
 
 # Phase-0 default geometry (50/5/8/4), matching baseline/run_baseline.py and the
 # carve tests. (10/4/4 trips Finding F-06's gen_graph loop guard.)
@@ -274,7 +274,32 @@ def run_movement(
         termination_time=termination_time,
         compromised_count=len(adversary.get_compromised_hosts()),
         retrace_count=attacker.retrace_count,
+        **mtd_snapshot(network),
     )
+
+
+def mtd_snapshot(network) -> dict:
+    """Snapshot the substrate's defender-side statistics into the run-result
+    fields — the per-execution record plus the suspended/interrupted tallies.
+    Read-only over ``MTDStatistics`` after the run; shared with any runner that
+    wires the substrate inline (the baseline arm), so both arms' defender side
+    is read off the identical machinery."""
+    stats = network.get_mtd_stats()
+    totals = stats.dict()
+    return {
+        "mtd_executions": tuple(
+            MTDExecution(
+                name=str(row["name"]),
+                start_time=float(row["start_time"]),
+                finish_time=float(row["finish_time"]),
+                duration=float(row["duration"]),
+                layer=str(row["executed_at"]),
+            )
+            for row in stats.get_record().to_dict("records")
+        ),
+        "mtd_suspended_count": int(totals["Total suspended MTD"]),
+        "mtd_attack_interrupted": int(totals["Total attack interrupted"]),
+    }
 
 
 def run_smoke_matrix(
@@ -309,6 +334,7 @@ def run_smoke_matrix(
 
 __all__ = [
     "GEOMETRY",
+    "mtd_snapshot",
     "run_movement",
     "run_smoke_matrix",
 ]
