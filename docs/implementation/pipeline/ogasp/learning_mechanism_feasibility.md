@@ -481,47 +481,196 @@ half. It is the C2 must-pass by construction, it is what §3.1 derives from the
 literature, and §5 shows the un-decayed arm is the only place in 4 600 runs where the
 learner beats no-learning with CI separation. ~20 lines, no seam change.
 
-## 9. Recommendation — a stacked MVP, each layer independently ablatable
+## 8b. The absorption audit — measured 2026-08-02, and it moves the recommendation
 
-**Layer 0** (shipped): the readiness key. Keep it — C4 depends on it.
+§6's C5 raised belief absorption as a defect, and the natural MVP reading is that
+absorption is the lever: tune it and most of the pathology goes. **That was measured
+directly and it is false at the declared parameters.** The audit instrumented the
+realised routing probability after full composition and renormalisation — not the
+factor — against a *state-matched in-run counterfactual* (`base·overlay` renormalised
+over the same support inside the same `compose` call, so trajectory, phase-state and
+RNG are identical, which is strictly better than a separate κ = 0 run that diverges
+after the first decision). 3–8 seeds × 4 cells × 4 κ values, ~5 700–14 500 edge
+observations per cell.
 
-**Layer 1 — M8/M12, type-disciplined forgetting.** Partition the belief into perishable
-(facts about this network) and durable (tradecraft), and apply ρ only to the former, so
-MTD's effect reaches the attacker through `held` severance rather than through
-tradecraft amnesia. Cheapest layer, satisfies the C2 must-pass, justified from the
-literature rather than from tuning, and it converts the axis's MTD result from a
-declaration into a measurement.
+**Verdict: at κ = 1.0 / ρ = 0.5, absorption is a non-issue — not a secondary defect, a
+non-defect.** The worst suppression any live destination receives is **11×** (minimum
+realised/counterfactual ratio 0.089 on `v2_partial · infrastructure_setup`), and
+**0.00 %** of edge observations fall below the 1 %-of-counterfactual criterion. Onset
+is between κ = 2 and κ = 4, where the minimum ratio falls three orders of magnitude
+(0.026 → 5.8×10⁻⁶ on `v1_ckc · aggregate`) and 1–15 % of observations absorb. Under
+random MTD the ρ = 0.5 decay holds every `Q` in [0.32, 0.66] and the mechanism is
+nearly inert.
 
-**Layer 2 — M5, progress-carrying credit.** Widen the fan-out to carry the outcome tag
-and redefine success as *the state changed in a way I did not already have*. Contemporaneous,
-one-step, no trace — correct credit without RL, achieved by making the **signal** right
-rather than propagating a wrong one further. Requires Escape A (achievement terms in the
-relation) to reward attack at all.
+**The required floor is 0.0.** Clipping `Q` to `[floor, 1]`, the smallest value keeping
+every edge above 10 % of its counterfactual is **0.0 in 22 of 24 run-cells at κ = 1**
+and 0.1 in the other two. At κ = 4 it is uniformly ≈ 0.5, which clips the factor's
+range to [0.0625, 1] and destroys most of the mechanism's discriminative power. So the
+floor is a genuine one-parameter fix for a problem that only exists at κ ≥ 2, and at
+κ = 4 the value that fixes it approximates disabling the learner.
 
-**Layer 3 — one of M3a or M4, as the sequence/ordering claim.** M3a is the honest
-version of the workflow instinct and passes C3; M4 is the better story and needs a
-learned magnitude to survive C3. Run whichever against the declared-bias control before
-committing to it.
+**And a floor cannot move the badge, which is the decisive part.** Behavioural arms
+(n = 8, `v2_partial · infra · no-MTD`, hosts): full learner 3.62, floor = 0.2 → 4.00,
+floor = 0.5 → 4.12, **ablation 4.12**. A floor walks the learner back to the ablation
+arm and does not carry it past — the same shape as the readiness repair, and it would
+reproduce the same non-result.
 
-**Always, beside all three — the declared-bias control arm.** It is the C3 test, it is
-cheap, it is S6-clean, and it has never been run. Without it, no version of this
-mechanism can answer an examiner who asks whether it is really learning.
+### What the defect actually is, located precisely
 
-**Deliberately not recommended:** M6 as a mechanism (it is a control), M2 (superseded),
-M1 as an answer (keep as a variant switch), M3b (relax the constraint first or leave it),
-M10 (declare the RL adjacency if used).
+The three-way decomposition (full / ready-cells-only / not-ready-cells-only), scored on
+**readiness-conditional** acceptance and progress rates:
+
+| cell | component | Δ E[progress] | Δ E[acceptance] |
+|---|---|--:|--:|
+| `v2_partial · infra · no-MTD` | not-ready only | **+1.8 %** | +6.6 % |
+| | **ready only** | **−23.7 %** | **+40.5 %** |
+| `v2_partial · infra · random` | not-ready only | +1.7 % | +4.7 % |
+| | ready only | −7.5 % | +17.2 % |
+| `v1_ckc · infra · no-MTD` | not-ready only | +0.0 % | +0.0 % |
+| | ready only | −10.8 % | +3.9 % |
+| `v1_ckc · aggregate · no-MTD` | not-ready only | +0.0 % | +41.6 % |
+| | ready only | −10.5 % | +17.1 % |
+
+**In every cell measured the not-ready component costs between 0.0 % and +1.8 % of
+expected progress — it never costs progress.** Suppressing attempts that would fail is
+*free and correct*. The ready-cell ordering costs 3.7–23.7 %, and on `v2_partial` it
+carries **85–90 %** of the total routing distortion; recon-verb routing mass goes
+0.342 → 0.534 under the full learner, of which ready-cell beliefs alone deliver 86 %.
+
+The mechanism, at the place where it hurts:
+
+| place \| ready | n | acceptance | progress | `Q_ready` |
+|---|--:|--:|--:|--:|
+| command-and-control | 783 | 1.000 | **0.0000** | **0.992** |
+| lateral-movement | 506 | 0.996 | 0.0000 | 0.984 |
+| execution | 87 | 0.448 | **0.4483** | **0.302** |
+| privilege-escalation | 37 | 0.459 | 0.4595 | 0.345 |
+
+Rank correlation of `Q_ready` against acceptance is **+0.921**; against progress it is
+**−0.027** (and −0.330 on `aggregate`). **The learner assigns 0.992 to a tactic whose
+progress rate is 0.0000 and 0.302 to a tactic whose progress rate is 0.448** — a 3.3×
+routing preference pointing away from progress.
+
+**Two honest qualifications.** `credential-access|ready` has acceptance 0.000 over 73
+ready attempts and `initial-access|ready` 0.000 over 124, so the learner suppressing
+*those* is correct, and they account for the two largest single-place suppressions — a
+flat reading of "the learner suppresses exploitation" over-counts, because the
+suppression is right for two of the four action tactics and wrong for the other two.
+And the progress proxy here is `COMPROMISE_EVENTS`, which credits nothing for
+capability acquisition, so reconnaissance scores 0.0000 by construction; a defender of
+the current learner could fairly argue that recon has instrumental value this proxy
+cannot see. **That qualification is itself an argument for the §9 credit rule**, which
+credits capability acquisition — but only the first time, so instrumental value is
+recognised and farming is not.
+
+**Sample-size discipline.** The routing-distribution measurements rest on thousands of
+decisions per cell and are solid. The behavioural arms are n = 8 and the static and
+behavioural decompositions *disagree on the sign of the not-ready component's outcome
+effect*. The direction question — which component moves routing away from progress —
+is settled; the outcome question is not settled at this sample size, and the 4 600-run
+sweep remains authoritative on host counts.
+
+## 9. Recommendation — transform the shipped mechanism in place; build nothing new
+
+**No candidate in §8 needs to be built.** Every change below is an edit to
+`ReadinessLearningModulator` or to a declared artefact, keeping the key, the Laplace
+estimator, the multiplicative composition and the κ = 0 null-equivalence exactly as
+they are. The catalogue's purpose was to establish that nothing *else* is required;
+having established it, the MVP is a repair, not an addition.
+
+### 9.1 The audit-and-transform table
+
+| criterion | current status | minimal transformation | cost |
+|---|---|---|---|
+| **C1** MTD-conditional consequence | undetermined | none — *measure* the 2×2 interaction and pre-register its sign | analysis only |
+| **C2** type discipline | **fail** | apply ρ to the perishable object only; `held` severance stays MTD's channel | 0–20 lines |
+| **C3** non-degeneracy | **at risk** | add the declared-bias control **arm** (not a mechanism change) | ~20 lines, separate class |
+| **C4** constraint/preference | **pass** | none — the readiness key already delivers it, and §8b measures the not-ready component at 0.0 to +1.8 % progress | — |
+| **C5** non-absorbing | pass at κ ≤ 1, fail at κ ≥ 2 | optional one-line clip of `Q` to `[ε, 1]`; **measured worthless at the declared point** | 1 line |
+| **C6** portability | **pass** | none | — |
+| **C7** plurality | unmeasured | none — report pooled path entropy beside the result | analysis only |
+| *(the named gap)* credit signal | **misspecified** | achievement terms in the relation + progress-gated credit | JSON edit + ~6 lines |
+
+### 9.2 The two changes that matter, in order
+
+**Change 1 — progress-gated credit. This is the whole repair.** §8b locates the entire
+progress cost in the ready-cell ordering, and §4.1 explains why the ordering is wrong:
+the credit signal is acceptance. Two edits fix it, and both are provably inert on
+everything already measured.
+
+*(a) Achievement terms in the declared relation.* Give `EXPLOIT_VULN` and
+`BRUTE_FORCE` a produced `foothold` capability, cleared by `ENUM_HOST` and by network
+`mtd_clears`, derived from the `_do_*` cores exactly as the existing entries were. **A
+produces-only capability that no verb requires cannot change any readiness verdict or
+any enabling cost, and this was verified rather than argued** — 0 disagreements on
+`is_ready` across all 8 held-states × 6 verbs, and 0 disagreements on
+`CapabilityCostModel.enabling_cost` on both mappings. So the readiness bit's measured
+accuracy (1.0000 on `v1`, 0.9169–0.9428 on `v2`) and axis 6's recorded cost model are
+untouched by construction.
+
+*(b) Credit on state change rather than acceptance.* In `observe_verdict`, apply the
+capability effect first, then credit: a success that grew `held` scores a success; a
+success that grew nothing scores a failure; a blocked attempt continues to land in the
+`(b, not-ready)` cell, which §8b measures as correct. Contemporaneous, one-step, no
+window and no horizon — gate 0 (a), inside the no-RL constraint without argument.
+
+What the rule does mechanically is why it is worth preferring to any of §8's
+mechanisms. Scanning while `host_stack` is already held earns nothing, which retires
+the recon-farming loop the rank correlation exposes. Re-compromising a host already
+owned earns nothing, which is the **churn** failure mode (§2.2) — the half of the model
+no block-driven candidate reaches. Moving to a new host clears the foothold so the next
+exploit can earn again. And because each verb pays only while it is still advancing the
+attacker, **the FSM ordering becomes emergent rather than injected**: this is the
+generalisation to procedural rigidity, reached without chains, without next-step
+injection and without an eligibility trace.
+
+**Change 2 — type-disciplined forgetting.** The C2 must-pass. `Q(b, ready?)` is a
+tradecraft object and the literature says MTD cannot destroy tradecraft (§3.1); ρ
+should govern the perishable object only, leaving `held` severance as MTD's channel
+into the attacker. The minimal form is a **re-declared ρ with a literature
+justification and no code change at all**; the principled form partitions the belief.
+Either way it is the change with existing measured support (§5) and the one exposed to
+post-hoc-selection risk, so it needs a fresh pre-registration and never a re-reading.
+
+### 9.3 What to run beside them, and what to drop
+
+**Run the declared-bias control arm.** It is the C3 test, it is a comparison arm rather
+than a mechanism, it is S6-clean, and it has never been run. Without it no version of
+this mechanism can answer an examiner who asks whether it is really learning.
+
+**Settle the seed count first (§7).** Four sweeps have failed to separate adjacent arms
+at ten seeds. Changing the mechanism again without changing the power is the fifth.
+
+**Do not build:** M2, M3a, M3b, M4, M6, M7, M10, M11, M13. Each was assessed and none
+is needed once the credit signal is right. **Do not spend the C5 floor at the declared
+point** — §8b measures the required floor at 0.0 and shows a floor walks the learner
+back to the ablation arm without carrying it past. Keep M1 only as an optional variant
+switch on *when an operator re-plans*, never as an answer to the axis, and note it is
+degenerate on `v1_ckc_total`, which has no dwell-only tactics.
 
 ## 10. What this record licenses, and what it does not
 
 **Licensed.** The rubric and its must-pass set; the four structural facts in §4, all
 verified against the working tree; the observation that the relation models
-preconditions but not achievements; the catalogue's gate-0 classifications; and the
-identification of the §5 cell as a lead.
+preconditions but not achievements; the catalogue's gate-0 classifications; the
+identification of the §5 cell as a lead; **§8b's routing-distribution measurements**
+(thousands of decisions per cell) — that absorption is a non-defect at the declared
+point, that the not-ready component costs no progress, and that the ready-cell
+ordering tracks acceptance at ρ = +0.921 and progress at ρ = −0.027; and the
+verified inertness of the achievement terms on `is_ready` and `enabling_cost`.
+
+**Explicitly refuted by measurement.** That belief absorption is the dominant defect at
+the declared parameters, and that tuning it would remediate most of the pathology. The
+required floor is 0.0 at κ = 1, and a floor returns the learner to the ablation arm
+without carrying it past.
 
 **Not licensed.** No badge move. No re-reading of the readiness sweep, the frontier,
 experiment 2 or any recorded experiment — §5 is a lead for a *fresh* pre-registration
 and nothing else. No claim that any candidate will work; every C1 entry in §8 is a
-prediction to be pre-registered, not a result. No relaxation of the no-RL constraint —
+prediction to be pre-registered, not a result. **No outcome claim from §8b's
+behavioural arms** — they are n = 8, they disagree with the static decomposition on the
+sign of the not-ready component's outcome effect, and the 4 600-run sweep remains
+authoritative on host counts. §8b settles *direction*, not *outcome*. No relaxation of the no-RL constraint —
 §8 states what M3b would need, and that disposition is Marc's. And no composition of any
 new modulator with axis 6's factor 7A/AB until the joint check in
 [`modulator_composition.md`](modulator_composition.md) §2 has run.
