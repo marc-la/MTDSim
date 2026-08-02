@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-01
-updated: 2026-08-01
+updated: 2026-08-02
 topic: "The composition register — every routing factor the model carries, which seam each lives on, which are active in the reported configuration, and why that boundary is the portability claim made structural"
 ---
 
@@ -47,6 +47,7 @@ inventing a magnitude or inverting the within-class ordering.
 | 5 | **Tactic-to-verb mapping** | controller | `v1_ckc_total` / `v2_partial`, versioned registry | not nullable — a mapping is always selected | **yes** (named per experiment) |
 | 6 | **Precondition relation** | controller | verb-level requires/produces/clears, versioned (**`v2_achievement`** since 2026-08-02) | consulted only by factor 4; inert when κ = 0 | **no** (rides with factor 4) |
 | ~~7~~ | ~~**Iterated utility modulator**~~ | — | **RETIRED 2026-08-02** — built, swept over 4 200 runs, ruled a negative result and deleted ([`iterated_cost_model.md`](iterated_cost_model.md) §0). Its row is struck rather than removed so the register records that the slot was tried | — | **no — the code no longer exists** |
+| 8 | **FSM-alignment overlay** (the procedural-order dial) | movement | α (declared **0.0**, the null); the objective-productive verb set is a transcription, not a declared magnitude | α = 0 → no factors returned, bit-identical | **no** |
 
 **Factor 4 gained a credit-rule selector and factor 6 gained achievement terms on
 2026-08-02** ([`progress_credit.md`](progress_credit.md)). Neither changes this
@@ -70,7 +71,20 @@ modulator built from factor 4's own declared inputs, which exists to test whethe
 the learner differs from a lookup. It is a comparison arm, never a factor, and it
 must not appear in a reported configuration.
 
-Factors 1–4 are **routing factors** composing multiplicatively per the rule
+**Factor 8 landed 2026-08-02** ([`fsm_alignment_overlay.md`](fsm_alignment_overlay.md)),
+and three things about it belong here rather than only in its own record. It
+**scores no axis** — it is an instrument whose sweep measures how much of the
+profiled attacker's disadvantage is procedural rigidity, and no position on its
+dial is a claim about anything, which is why its declared value is the null.
+It is the register's **first factor that may zero an out-edge**, and the licence
+was earned rather than asserted: an exhaustive static check over every profile net
+× mapping × overlay version × verdict × capability subset × retrace suppression
+returns 0 cells in which the limiting end could empty an out-set, so `may_zero` is
+declared per *instance* and only at α = 1. And it carries a **composition bar with
+factor 4** (§2.1 below), which is the retired factor 7's lesson applied rather
+than a new rule.
+
+Factors 1–4 and 8 are **routing factors** composing multiplicatively per the rule
 in §1. Factors 5–6 are **controller artefacts**: they do not multiply into the
 routing weight, they declare how the movement layer meets *this* substrate. They
 are in the register because they are the parts an adopter re-declares, and
@@ -100,6 +114,28 @@ disagreement. **Two factors that agree may compound where two that disagreed did
 not**, so sub-additivity is never inherited across a change that alters whether
 two factors agree. That is a standing rule for any future factor, not a fact
 about a deleted one.
+
+### 2.1 The bar between factors 4 and 8 — the same rule, its second application
+
+**No arm may compose factor 8 with factor 4 until a fresh joint check runs.** They
+condition on the same capability state against the same declared artefact
+(factor 6), which is structurally the hazard factor 7 raised — one signal applied
+twice through two multiplicative factors.
+
+What makes the bar bind rather than transfer is the rule above. The §5 check found
+factors 3 and 4 sub-additive **because they disagree**; factor 8 removes that
+disagreement from the other side. It prefers destinations that are ready and
+productive, and factor 4 under its shipped `acceptance` credit rule prefers
+destinations that are *permitted* — very nearly the same ordering, arrived at by a
+static lookup and by accumulation respectively. Two factors that agree may compound
+where two that disagreed did not, so nothing measured about 3 × 4 licenses any
+claim about 4 × 8.
+
+There is a second reason to keep them apart that is about *interpretation* rather
+than arithmetic, and it is the sharper one. Factor 8's whole purpose is to be a
+dial with a declared scale; composed with a factor that pushes the same direction
+by an undeclared amount, the scale stops meaning what the sweep reports it to
+mean.
 
 **A retired factor still owes its row.** The slot is struck rather than deleted
 so a reader can see the register records what was attempted, not only what
@@ -201,7 +237,8 @@ modulators-null arm and a modulator-active arm still reports its own figure.
   [`learning_capability.md`](learning_capability.md) and
   [`learning_representation.md`](learning_representation.md) (factors 4 and 6),
   [`controller.md`](controller.md) / [`controller_mapping_v2.md`](controller_mapping_v2.md)
-  (factor 5), [`iterated_cost_model.md`](iterated_cost_model.md) (factor 7).
+  (factor 5), [`iterated_cost_model.md`](iterated_cost_model.md) (factor 7),
+  [`fsm_alignment_overlay.md`](fsm_alignment_overlay.md) (factor 8).
 - **When to update:** whenever a factor is added, its null configuration changes,
   or the reported configuration changes for any reason. A new modulator's axis
   record owes this register a row in the same commit that builds it.

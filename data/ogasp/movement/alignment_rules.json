@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "artefact": "The FSM-alignment overlay (composition-register factor 8) — the declared rule model and its single parameter",
+    "version": "v1_shortest_path",
+    "created": "2026-08-02",
+    "record": "docs/implementation/pipeline/ogasp/fsm_alignment_overlay.md",
+    "precedent": "docs/implementation/declared_value_provenance.md",
+    "consumed_by": "src/mtdsim/l3_simulation/movement/alignment.py (FsmAlignmentModulator)",
+    "scores_no_axis": "This factor scores no axis of the APT criterion and must never be reported as incentive rationality (axis 6, closed as DESIGNED with both attempted implementations recorded as negative results), as adaptivity to the defender (axis 4 — this responds to the substrate), or as a fidelity improvement (at the limiting end it tunes the attacker toward the host simulator's own procedural order, which is the opposite of behavioural independence). It is an instrument whose sweep measures a confound.",
+    "boundary": "Any claim about this factor's MTD response is confined to the position-destroying defence family. What OS and Service Diversity destroy lives outside the guard the capability vocabulary was transcribed from, so the declared precondition relation gives them no channel at all (docs/handoffs/2026-08-02_os_service_diversity_indistinguishability.md).",
+    "cti_independence": "The authored artefact is the alignment RULE and one exponent-free dial; the CTI corpus supplies the prior (the base transition proportions) and alpha = 0 recovers it exactly, bit for bit. What would violate the boundary is choosing alpha because it improves an outcome — alpha is swept, and no reported headline configuration runs it non-zero (model_scope_freeze.md §4)."
+  },
+  "model": {
+    "target": {
+      "form": "the objective-productive verb set — the substrate verbs whose success advances the simulator's own termination condition",
+      "verbs": ["SCAN_PORT", "EXPLOIT_VULN", "BRUTE_FORCE"],
+      "source": "the call sites of AttackOperation.update_compromise_progress — attack_operation.py:408 (_do_scan_port, credential reuse), :513 (_do_exploit_vuln, check_compromised), :547 (_do_brute_force, guessed login)",
+      "excluded": "attack_operation.py:377 in _do_enum_host is guarded by `if curr_host.compromised` — it re-reports a host the attacker already owns and causes no compromise, so ENUM_HOST is not a target",
+      "declares_no_magnitude": "a three-element transcription, on the same basis as the precondition relation itself; it is not a declared value and carries no tier",
+      "seam_note": "substrate-specific knowledge, so by the seam rule (modulator_composition.md §3) it is conceptually a controller-seam declaration. It lives as a constructor argument in movement-layer code because this factor's brief consumes the precondition relation unchanged and unbumped, and adding a field to that artefact would be neither. Recorded as a known impurity, not hidden."
+    },
+    "distance": {
+      "form": "d(b | held) = 0 if b's verb is objective-productive and legal in held; 1 + D(held after b's verb) if legal but unproductive; 1 + D(held) if blocked or if b dispatches no verb. D(held) = shortest number of legal verb applications from held to a state in which some objective-productive verb would run.",
+      "closure": "data/ogasp/controller/precondition_relation.json (composition-register factor 6), consumed unchanged and unbumped",
+      "rationale": "A blocked attempt and a dwell-only place both cost a step and leave the capability state where they found it, so both are strictly worse than any move that advances — which is the whole content of 'distance to productive action'. A legal but unproductive verb is scored from the state it produces, so reconnaissance is cheap exactly when it is enabling and no cheaper.",
+      "mtd_response": "MTD enters as a set contraction rather than a scalar surcharge: a network-layer mutation clears curr_host, curr_ports and foothold, so the legal verb set contracts from six to two and D regresses from 0 to 1. That is the non-proportional response a normalised utility ratio could not see, and it is the reason this shape was built where the ratio was not."
+    },
+    "routing": {
+      "form": "m(a->b) = 1.0 if d(b) == min over the out-set, else (1 - alpha); composed multiplicatively as one more factor of base * overlay_v * prod_m and renormalised",
+      "rationale": "The linear form keeps the reading that makes the dial interpretable — at alpha = 1 transitions are limited to those on a shortest path to a productive action. A soft exponent ((1/(1+d))^alpha) would avoid the seam's stall rule entirely and lose exactly that reading, so the stall is handled explicitly instead of designed around.",
+      "null": "alpha = 0 makes the modulator return no factors at all, so the arithmetic is the pre-existing composition and the run is bit-identical to one with no state attached"
+    },
+    "off_band": {
+      "floor": 0.0,
+      "rationale": "Zero, because the exhaustive no-stall check passes: every composed out-set, over every profile net x mapping x overlay version x verdict x capability subset x one-shot retrace suppression, retains at least one minimal-distance destination. The limiting end of the band is therefore reachable and is reported as limiting rather than near-limiting.",
+      "if_it_had_failed": "a strictly positive floor, with the alpha = 1 arm reported as near-limiting. Kept as a named parameter rather than deleted so a future relation, mapping or overlay version that breaks the check has somewhere to land — and so a reader can see that the zero was earned by a check rather than assumed.",
+      "check": "src/mtdsim/l3_simulation/movement/alignment.py stall_report(); `python -m mtdsim.l3_simulation.movement.alignment --check-stalls`, pinned by tests/l3_simulation/test_movement_alignment.py"
+    }
+  },
+  "declared_parameters": {
+    "alpha": {
+      "value": 0.0,
+      "sweep": [0.0, 0.25, 0.5, 0.75, 1.0],
+      "tier": "declared-judgement",
+      "status": "provisional",
+      "confidence": 75,
+      "rationale": "The declared value is the null. This parameter has no defensible operating point and is not supposed to have one: the instrument's value is the dial, not any position on it, and a non-zero alpha reported as the model's configuration would describe an attacker tuned toward the host simulator's own procedural order. Declaring 0.0 makes the shipped model the alpha = 0 special case of this one and puts the burden on any arm that moves it.",
+      "band_argument": "Argued from what the parameter means, and the endpoints are the two named positions rather than plausible extremes. alpha = 0 is pure CTI-derived order and is the null arm that must reproduce every recorded figure at full strength; alpha = 1 is the host simulator's native procedural order, where transitions are limited to shortest paths to a productive action; the three interior points are there because the study's whole claim is a dose-response curve, and a curve needs interior points to be one. A band that stopped short of 1.0 could not answer the question the instrument exists to ask — how much of the profiled attacker's disadvantage is procedural rigidity — because it would never reach the arm in which the rigidity is fully paid for.",
+      "not_reported_as": "alpha is swept, never chosen because it improves an outcome. No reported headline configuration runs it non-zero; any non-zero arm is its own labelled arm with its own plurality figure (model_scope_freeze.md §4).",
+      "scrutiny": "Authored 2026-08-02 with the rule model, against the FSM-alignment handoff's specification. Has survived no adversarial review round; the sweep is the whole of its defence, and the pre-registration is the guardrail that the conclusions were fixed before any output existed.",
+      "changelog": []
+    }
+  },
+  "ledger_meta": {
+    "tiers": {
+      "corpus-grounded": "derived from CTI / corpus data — deliberately empty here, as for every declared layer that conditions the corpus-grounded weights",
+      "attested-pattern/declared-magnitude": "the behaviour is documented in the literature; the exact magnitude is declared. Deliberately empty here: no literature attests a rate at which an attacker conforms to a simulator's procedural order, because the quantity is an artefact of this evaluation rather than a property of any adversary.",
+      "declared-judgement": "reasoned from first-principles logic; not attested. The honest floor tier."
+    },
+    "review_history": [
+      "R0 2026-08-02 — authored with the rule model, against docs/handoffs/2026-08-02_fsm_alignment_overlay.md"
+    ],
+    "reproducibility": "There is no compiled value table to reproduce: the distance model is a function of two consumed artefacts and declares nothing per cell. What stands in its place is the exhaustive distance table (`--table`), pinned against the hand-computed capability closure by test, and the exhaustive no-stall check (`--check-stalls`), pinned at 0 offending cells.",
+    "maintenance": "docs/implementation/declared_value_provenance.md §4. A parameterised family discharges requirement 3 by sweeping its declared band and recording the verdict whichever way it falls — and for this one the most valuable verdict is a falling effect, pre-registered as such."
+  }
+}

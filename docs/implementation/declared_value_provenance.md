@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-23
-updated: 2026-07-29
+updated: 2026-08-02
 topic: "A precedent for provenance-tracking declared-knowledge values (numbers reasoned from judgement, not measured from a source) and maintaining their justification through adversarial cross-examination — the living value-provenance & scrutiny ledger"
 ---
 
@@ -293,6 +293,45 @@ Three things it adds to the precedent that the overlay did not:
    the sweep ran, with one conclusion deliberately committed in the direction that
    would embarrass a flattering result. The commit order is the audit trail. Adopt
    this for any future declared parameter whose defence is a behavioural sweep.
+
+### 6.4 The fourth instance — the FSM-alignment dial (no axis)
+
+The smallest family the precedent has taken: **one parameter, and its declared
+value is the null**. It is instructive precisely because of that.
+
+- **Rules and ledger:**
+  [`../../data/ogasp/movement/alignment_rules.json`](../../data/ogasp/movement/alignment_rules.json)
+  — the rule model (the objective-productive target set, the distance over the
+  declared capability closure, the routing form, the off-band floor) and the
+  single declared parameter α with its band, tier, status and band argument.
+- **Design record:** [`pipeline/ogasp/fsm_alignment_overlay.md`](pipeline/ogasp/fsm_alignment_overlay.md).
+- **Reproduction:** there is no compiled value table to re-derive — the distance
+  model declares nothing per cell. What stands in its place is the exhaustive
+  distance table and the exhaustive no-stall check, both pinned by
+  `tests/l3_simulation/test_movement_alignment.py`.
+
+Three things it adds to the precedent, each generalising beyond this family:
+
+1. **A declared parameter's value may be the null, and that is a position rather
+   than an evasion.** α is a dial on an instrument, not a setting on a mechanism:
+   the sweep is the finding and no point on the band is a claim. Declaring the
+   null puts the burden of argument on any arm that moves it, and it makes the
+   shipped model the α = 0 special case of this one. Where a family's *purpose* is
+   measurement rather than capability, prefer this to declaring a plausible
+   operating point nobody intends to defend.
+2. **A tier row can be argued *empty*, and saying why is load-bearing.** The
+   `attested-pattern/declared-magnitude` tier is empty here not by oversight but
+   because no literature attests a rate at which an attacker conforms to a
+   simulator's procedural order — the quantity is an artefact of *this evaluation*
+   rather than a property of any adversary. Recording the reason a tier cannot be
+   reached is as informative as recording which tier a value sits at.
+3. **A reproduction check can be a reachability proof rather than a value diff,
+   and it must be shown to have teeth.** This family's analogue of the 0-of-N
+   check is an enumeration over the declared space asserting that the parameter's
+   limiting end cannot empty a routing decision. It caught a genuine defect on its
+   first run, and it is itself checked against a deliberately sabotaged input —
+   because a check that cannot be made to fail evidences nothing, which is a
+   standard the earlier 0-of-N checks met only implicitly.
 
 ## 7. Where this sits
 
