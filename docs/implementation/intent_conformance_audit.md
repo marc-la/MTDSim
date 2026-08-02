@@ -1,7 +1,7 @@
 ---
 status: audit record
 created: 2026-07-28
-updated: 2026-07-29
+updated: 2026-08-02
 ---
 
 # Intent-spec conformance audit — the substrate against the literature-only yardstick
@@ -33,6 +33,11 @@ surviving), **9 DIVERGES-DOCUMENTED-NOWHERE** (IS-NET-08, IS-MTD-05, IS-TIM-07, 
 IS-INT-06, IS-PRC-04, IS-PRM-04, IS-AI-05, IS-AI-06), **4 UNTESTABLE** (IS-NET-14,
 IS-SCN-05, IS-PRM-05, IS-MET-05), and **1 split row** (IS-NET-10 — complexity sits inside
 conflict IS-CFL-01, impact diverges per IS-CFL-07).
+
+**The tallies above are the 2026-07-28 original.** Two rows have since been revised in
+place with dated annotations and are not re-counted: IS-MTD-08 (2026-07-29, was
+CONFORMS-latent → DIVERGES-DOCUMENTED-NOWHERE, §m3 → D-17) and IS-MTD-06 (2026-08-02,
+was CONFORMS (delta) → DIVERGES-DOCUMENTED-NOWHERE, → D-18).
 
 ---
 
@@ -80,7 +85,7 @@ IS-CFL-06.
 | IS-MTD-03 | **CONFORMS** | `usershuffle.py`: re-draws each host's users from the network user list. Its *blocking* behaviour diverges — see IS-INT-03. |
 | IS-MTD-04 | **CONFORMS** | Same-layer host swap (`hosttopologyshuffle.py:29-55`), pairs drawn within `host_id_list_in_layer`; the same-layer constraint is enforced, exposed endpoints exempted (undocumented but consistent with layer 0 = endpoints). Latent (not in default set). Adversary id-keyed state remapped on swap (`adversary.py:28-60`). |
 | IS-MTD-05 | **DIVERGES-DOCUMENTED-NOWHERE** | Zhang (operative): re-configure services **with different versions** — the 99-version pool as diversity space. Code: replaces each service with a **random different service at its latest version** (`servicediversity.py:13-27` → `get_random_service_latest_version`, `services.py:371-385`), and skips exposed hosts. No draw from the version pool; latest-only replacement systematically *reduces* vulnerability count (newest versions carry fewest). Deliberate-looking, self-consistent — candidate design choice, not obviously a bug. |
-| IS-MTD-06 | **CONFORMS** (delta) | New OS drawn randomly from the four types; incompatible services replaced (`osdiversity.py:17-41`). Deltas: replacement services are latest-version (same mechanism as IS-MTD-05); exposed hosts exempted; OS *version* keeps the previous version's index. |
+| IS-MTD-06 | **DIVERGES-DOCUMENTED-NOWHERE** (revised 2026-08-02, was CONFORMS (delta) — the prior verdict was reached without the always-replace behaviour in view) | The OS half conforms: new OS drawn randomly from the four types (`osdiversity.py:22-29`). The service half does not: the compatibility guard can never pass, because `service_is_compatible_with_os` (`services.py:387-402`) tests a `Service` **instance** for membership in a list of service-name **strings**, and `Service.__eq__` (`services.py:304-307`) returns `False` for any non-`Service` operand. Verified live 2026-08-02 (0 True in 600 checks; a service drawn from `get_random_service(os, version)` fails against its **own** OS and version, while the name-based membership a repaired test would use returns True). The `if not compatible` branch (`osdiversity.py:36-44`) therefore always fires: **every** non-target service on every non-endpoint host is replaced on every trigger, so the spec's "services **incompatible with the new OS** are also randomly changed" selectivity does not exist in the executing path — the mechanism is ServiceDiversity plus an OS relabel, and the relabel reaches the movement attacker through nothing (success gate inherited commented-out, `services.py:146-148` → D-19; ×2.5 time term declined by the movement layer via `charge_time=False`, S3-R as documented). Measured consequence: indistinguishable from ServiceDiversity against the movement attacker in experiment 2's own interval report and in the 2026-08-02 family sub-study (evidence in `../handoffs/2026-08-02_os_service_diversity_indistinguishability.md`). Prior deltas still stand: exposed hosts exempted; OS *version* keeps the previous version's index (latest-version replacement since fixed by D-05). → D-18. |
 | IS-MTD-07 | **CONFORMS** | `completetopologyshuffle.py:15-27`: full `gen_graph()` regeneration with host instances re-attached — Ho's "preserving the hosts" addendum implemented literally. |
 | IS-MTD-08 | **DIVERGES-DOCUMENTED-NOWHERE** (revised 2026-07-29, was CONFORMS-latent — see §m3) | `osdiversityassignment.py`: the MIP *scaffolding* matches Zhang's documented abstraction (single-source/single-destination reduction, endpoints + database as client classes), but the formulation is decoupled: the assignment binaries `s` appear in no objective term and in exactly one constraint (one-variant-per-node), because the `s`↔`f` coupling constraints — the docstring's own constraint 7 — are commented out (`osdiversityassignment.py:229-233`). CBC presolve reduces every instance to "0 rows, 0 columns — nothing to do"; the returned assignment is an arbitrary feasible point, so the mechanism does not solve the DAP it is documented to solve. Full evidence and disposition options in §m3 → D-17. Reuses OSDiversity's name for duration/priority lookup → inherits 80 s, matching Zhang's DAP_OSDiversity 80 s. |
 | IS-MTD-09 | **CONFORMS** | Resource classes: network = {IPShuffle, CompleteTopologyShuffle, HostTopologyShuffle}; application = {OSDiversity, ServiceDiversity, PortShuffle, DAP}; reserve = {UserShuffle} (each strategy's `resource_type`). Matches Zhang's two classes for his four, extends Brown-era techniques consistently with Brown's three interaction classes (Port Shuffle service-level → application; User Shuffle its own class → reserve). Drives both contention (§d) and interrupts (§f). |
@@ -217,7 +222,14 @@ classified — they are outside the spec's rows — but each is a standing undoc
 
 1. **OS-dependent vulnerabilities**: 80 % chance a cross-platform service's vuln is
    OS-conditional (`VULN_PROB_DEPENDS_ON_OS = 0.8`), costing ×2.5 exploit time on
-   mismatch (`services.py:43-47,116-117`).
+   mismatch (`services.py:43-47,116-117`). *(Annotated 2026-08-02: the time term is
+   the **only** live expression of OS dependency. The success gate in
+   `Vulnerability.network()` that would return 0.0 on OS mismatch is inherited
+   commented-out code (`services.py:146-148`), so `vuln_os_list` is populated for
+   most vulnerabilities and never consulted for success — exploitation succeeds on
+   `complexity` alone. The movement arm additionally declines the time term
+   (`charge_time=False`, S3-R). Whether the gate is separately dispositionable is
+   → D-19.)*
 2. **Dependent vulnerabilities**: 10 % chance a vuln needs an enabler vuln present
    (`services.py:34-38`, `host.py:376-383`).
 3. **Exploitability bookkeeping**: `cvss/5.5` seeding and post-compromise halving toward 1
@@ -531,6 +543,22 @@ re-instantiation fix (§l item 10) restores the checkpoint ladder, so OSDA solve
 most 8 times per run instead of 75 — ~128 s → ~4–15 s — without touching the
 formulation question. The D-17 ruling decides what the solve *means*, not whether
 the cache works.
+
+### Opened 2026-08-02 by the OS/Service Diversity indistinguishability brief — awaiting Marc
+
+Found while cross-examining the axis-6 redesign; full evidence, the measured
+consequence (OS Diversity and Service Diversity indistinguishable against the
+movement attacker in two independent data sets) and the companion zero-risk
+reporting decision (decision C — the defence family's cardinality in
+`pipeline/ogasp/experiment_02_findings.md` §9, with drafted wording) live in
+[`../handoffs/2026-08-02_os_service_diversity_indistinguishability.md`](../handoffs/2026-08-02_os_service_diversity_indistinguishability.md).
+Neither behaviour has been touched; no recorded conclusion separates the two
+mechanisms, so neither ruling corrects a claim.
+
+| # | Item | What the code does | What the papers say | Options, costed |
+|---|---|---|---|---|
+| **D-18** | **IS-MTD-06** the compatibility test is inert, so OS Diversity always replaces every service (decision A of the brief) | `service_is_compatible_with_os` tests a `Service` instance for membership in a list of name **strings**; `Service.__eq__` rejects non-`Service` operands, so it can never return True (verified live: 0 of 600 checks, including a service against its own OS/version). The guard branch always fires: every non-target service on every non-endpoint host is replaced on every trigger — ServiceDiversity plus an OS relabel | Brown §III-B(6) / Zhang §4.3.1.4: only services **incompatible with the new OS** are also randomly changed | The comparison itself cannot be a design choice in any reading (a type-mismatched test that is False in every reachable state); only the *behaviour it produces* could be — "replace all services" is IS-MTD-05's operative reading and the mechanism is self-consistent under it. **(a) Repair** the test (name-based membership, which verifies True live) so the mechanism becomes selective as documented — makes OS Diversity **less** aggressive than today, moves every golden that includes it; D-05 procedure (deliberate re-baseline, `baseline/CHANGELOG.md`, SIM-05), plus the regression test the brief's gate 5 names (`service_is_compatible_with_os` returns **True** for a service against its own OS and version). **(b) Keep** and record as a documented divergence — zero code risk; the two diversity mechanisms remain one mechanism against the movement attacker and the reporting carries the decision-C qualification. Precedent: the sibling row IS-MTD-05 was the same shape ("deliberate-looking, self-consistent") and Marc ruled it a fix (D-05, 2026-07-29). Either way, no recorded experiment is re-run. |
+| **D-19** | **The commented-out OS success gate** in `Vulnerability.network()` (decision B of the brief) | The gate that would return 0.0 when `host.os_type not in vuln_os_list` is inherited commented-out code (`services.py:146-148`); success depends on `complexity` alone, so `vuln_os_list` (populated at p = 0.8) is never consulted for success | **No IS-ID covers it.** The literature check is done: the intent spec contains no OS-dependent-exploitation row at all — OS-dependent vulnerabilities are beyond-paper throughout (§l item 1), and IS-TIM-06 records the ×2.5 time term as a beyond-paper addition | **Not uncommented on this brief's authority.** Uncommenting would *add* an undocumented mechanism, not restore a documented one — no lineage paper documents OS-gated exploitation failure, so the ×2.5 time penalty is the only expression of OS mismatch on any record, and the gate reads as an abandoned alternative to it. It would also change exploit semantics for **both** arms, move every golden, and give the diversity family a second channel that could separate OS Diversity from Service Diversity — a substrate re-design, not a repair. Recommendation: **leave commented and record** (this row is that record); revisit only if a genuine OS-exploitation channel is ever wanted, as its own designed change with a fresh comparability argument. |
 
 **Resolved-by-precedence (no ruling needed, listed for the record):** IS-CFL-03
 (exponential replaces uniform — documented), IS-CFL-04 (Scenario 1 only — documented),
