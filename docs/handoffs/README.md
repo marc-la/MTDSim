@@ -466,22 +466,32 @@ was verified against the brief rather than duplicated. The measurement-failure
 thread the handoff flagged as a deliberate decision became its own note (the
 synthesis), with the motif cross-referenced from the notes it runs through.)*
 
-23. `2026-08-01_attacker_disengagement_measure.md` — make attacker *abandonment*
-    measurable: a projected-effort reading over existing runs, reported as a
-    frontier over the attacker's patience, so MTD's own economic claim (raise the
-    cost until they leave) becomes scorable. It generalises **IS-INT-06**, the
-    Zhang give-up threshold the audit classifies DIVERGES-DOCUMENTED-NOWHERE, and
-    is therefore **blocked on Marc's D-09 ruling** — read that row before
-    anything. Design only so far; the build is a reader, so it moves no golden.
-    Descends from Part 1 of the rational-attacker brief (shipped; record at
-    `../implementation/pipeline/ogasp/cost_model_plain.md`): the cost model
-    cannot express abandonment because a normalised ratio has no scale, and MTD
-    turns out to destroy productive *capacity* rather than accumulated gains.
-    Two things ride on it — it would give the degenerate region a
-    discriminating outcome variable where ASR is pinned at zero, and it is the
-    natural attacker-side axis to pair with the shipped disruption frontier
-    (`../implementation/pipeline/ogasp/mtd_disruption_frontier.md`) in a
-    successor reading.
+*(Shipped from wave 6: the **attacker-disengagement measure** —
+`2026-08-01_attacker_disengagement_measure.md`, landed 2026-08-02 as
+`../implementation/pipeline/ogasp/attacker_disengagement.md`. It is the
+measurement that replaced axis 6's mechanism work after that axis closed as
+DESIGNED. **C2, its pre-registered kill criterion, MOVED (2 of 5 profiles), so
+the stopping rule fired and nothing was re-specified** — but the study is not a
+failure, because the validity arm decides how to read it. On the **inherited**
+attacker the measure separates every MTD condition from no-MTD completely: the
+unimpeded arm never crosses at any patience level (censoring 1.00) while every
+mechanism produces abandonment. On the **profiled** attacker almost nothing
+separates. A measure that registers the defence against one attacker and not the
+other is a statement about what each attacker's failure is made of, and it is the
+third independent instrument to locate the profiled attacker's collapse in
+procedural coupling rather than in the defence — mirroring experiment 2's ranking
+inversion at the level of *attributability*. C1 held 5/5 and C5 held at Spearman
++0.521, so the measure is non-degenerate and is not a re-expression of breadth.
+
+Two by-products outlived the study. The **instrumentation gate failed as
+designed** — cumulative compromise events over-count distinct hosts by 5.40x and
+the over-count is itself MTD-dependent — which is why `MovementRecord` gained
+`n_compromised` rather than the reader being extended, with no golden moved. And
+a **post-hoc observation is recorded and deliberately not acted on**: the
+censoring fraction moves sharply with the defence where the conditional mean does
+not, so the measure's discriminating half may be *whether* a run disengages
+rather than *when*. That needs its own pre-registration, written before it is
+looked at again.)*
 
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).

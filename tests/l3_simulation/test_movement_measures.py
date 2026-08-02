@@ -912,9 +912,18 @@ def test_the_baseline_trajectory_counts_distinct_hosts_exactly() -> None:
     host uuid, so distinct hosts are counted exactly rather than proxied. The
     asymmetry with the movement arm's sampled count is stated, not smoothed."""
     rows = [
-        {"compromise_host_uuid": None},
-        {"compromise_host_uuid": "a"},
-        {"compromise_host_uuid": "a"},
-        {"compromise_host_uuid": "b"},
+        {"compromise_host": "None", "compromise_host_uuid": "z"},  # not a compromise
+        {"compromise_host": 3, "compromise_host_uuid": "a"},
+        {"compromise_host": 3, "compromise_host_uuid": "a"},  # re-compromise
+        {"compromise_host": 7, "compromise_host_uuid": "b"},
     ]
     assert M.baseline_progress_trajectory(rows) == (0, 1, 1, 2)
+
+
+def test_the_baseline_trajectory_gates_on_compromise_not_on_uuid_presence() -> None:
+    """A row can carry a host uuid without being a compromise. Gating on the
+    uuid's presence alone over-counted by exactly one on every condition and seed
+    measured — systematic, not noise — and would have put this arm's trajectory
+    permanently out of step with ``baseline_ledger``'s own distinct-host count."""
+    rows = [{"compromise_host": "None", "compromise_host_uuid": f"h{i}"} for i in range(5)]
+    assert M.baseline_progress_trajectory(rows) == (0, 0, 0, 0, 0)

@@ -1333,12 +1333,17 @@ def baseline_progress_trajectory(
     movement arm's trajectory is a sampled substrate count, the baseline's is a
     deduplicated identity count, and they are equally exact by different routes.
     """
-    seen: set[Any] = set()
+    seen: set[str] = set()
     out: list[int] = []
     for row in rows:
-        uuid = row.get("compromise_host_uuid")
-        if uuid:
-            seen.add(uuid)
+        # Gate on ``compromise_host`` exactly as :func:`baseline_ledger` does, not
+        # on the uuid's mere presence. A row can carry a uuid without being a
+        # compromise — gating on presence alone over-counts by exactly one on
+        # every condition and seed measured, which is a systematic bias rather
+        # than noise, and it would have made this arm's trajectory disagree with
+        # the ledger's own distinct-host count.
+        if str(row.get("compromise_host", _NONE)) != _NONE:
+            seen.add(str(row.get("compromise_host_uuid")))
         out.append(len(seen))
     return tuple(out)
 
