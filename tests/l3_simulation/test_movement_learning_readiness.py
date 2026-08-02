@@ -25,6 +25,9 @@ import pytest
 
 from mtdsim.l3_simulation.movement.learning import load_learning_parameters
 from mtdsim.l3_simulation.movement.learning_readiness import (
+    ACCEPTANCE,
+    PROGRESS,
+    DeclaredReadinessBias,
     PreconditionModel,
     ReadinessLearningModulator,
     load_tactic_to_verb,
@@ -296,3 +299,185 @@ def test_the_declared_bit_predicts_the_substrate_block_flag_well() -> None:
     print(f"\nreadiness-bit accuracy vs substrate block flag: "
           f"{accuracy:.3f} ({agree}/{total})")
     assert accuracy >= 0.85, f"declared readiness bit only {accuracy:.3f} accurate"
+
+
+# --- 6. the progress credit rule (feasibility study §9.2) ---------------------
+#
+# The shipped rule credits acceptance: the substrate permitted the action. The
+# progress rule credits the state change the action produced. Measurement located
+# the whole progress cost in the ready-cell ordering that acceptance induces
+# (rank correlation +0.921 with acceptance, -0.027 with progress), so these tests
+# pin the new rule's behaviour rather than its tuning.
+
+
+def _progress_modulator(kappa, rho, mapping="v2_partial"):
+    return ReadinessLearningModulator(
+        kappa=kappa, rho=rho, tactic_to_verb=load_tactic_to_verb(mapping),
+        credit=PROGRESS,
+    )
+
+
+def test_the_credit_rule_defaults_to_the_shipped_one() -> None:
+    """Every figure on record was produced by acceptance credit, so it stays the
+    default and the progress rule is opt-in — the arm-selector idiom the iterated
+    cost model established."""
+    assert _modulator(1.0, 0.5, "v2_partial").credit == ACCEPTANCE
+    with pytest.raises(ValueError, match="credit must be one of"):
+        ReadinessLearningModulator(
+            kappa=1.0, rho=0.5, tactic_to_verb=load_tactic_to_verb("v2_partial"),
+            credit="whatever",
+        )
+
+
+@pytest.mark.parametrize("profile", PROFILES)
+def test_acceptance_credit_is_bit_identical_to_the_shipped_mechanism(profile) -> None:
+    """The reorder in observe_verdict (effect applied before credit) must not
+    move the acceptance arm — under that rule the credit never reads the
+    phase-state, so the order is immaterial and this proves it."""
+    seed = 11
+    kwargs = dict(seed=seed, horizon=3_000, mapping_version="v2_partial")
+    a = _modulator(1.0, 0.5, "v2_partial")
+    b = _modulator(1.0, 0.5, "v2_partial")
+    ra = run_movement(profile, attacker_state=AttackerState(seed=seed, modulators=(a,)), **kwargs)
+    rb = run_movement(profile, attacker_state=AttackerState(seed=seed, modulators=(b,)), **kwargs)
+    assert _fields(ra.records) == _fields(rb.records)
+    assert a.success == b.success and a.failure == b.failure
+
+
+def test_an_action_that_changes_nothing_earns_no_credit() -> None:
+    """The rule in one assertion. `reconnaissance` (SCAN_HOST) produces
+    host_stack: the first run of it moves the phase-state and is credited, the
+    second changes nothing and is charged as a failure — which is the
+    reconnaissance-farming loop closed."""
+    learner = _progress_modulator(1.0, 0.0)
+    learner.observe_visit("reconnaissance")
+    learner.observe_verdict("reconnaissance", "success")
+    assert learner.success.get(("reconnaissance", True)) == 1.0
+    assert "host_stack" in learner.held
+
+    learner.observe_visit("reconnaissance")
+    learner.observe_verdict("reconnaissance", "success")
+    assert learner.success.get(("reconnaissance", True)) == 1.0     # unchanged
+    assert learner.failure.get(("reconnaissance", True)) == 1.0     # charged
+
+
+def test_re_attacking_a_footholded_host_earns_no_credit() -> None:
+    """The churn failure mode: the profiles blocked 0 % of the time still failed,
+    re-compromising the same few hosts. A second exploit on a host already
+    footholded changes nothing and earns nothing."""
+    learner = _progress_modulator(1.0, 0.0)
+    learner.held.update({"host_stack", "curr_host", "curr_ports"})
+    learner.observe_visit("execution")                    # EXPLOIT_VULN
+    learner.observe_verdict("execution", "success")
+    assert "foothold" in learner.held
+    assert learner.success.get(("execution", True)) == 1.0
+
+    learner.observe_visit("execution")
+    learner.observe_verdict("execution", "success")
+    assert learner.success.get(("execution", True)) == 1.0          # unchanged
+    assert learner.failure.get(("execution", True)) == 1.0          # charged
+
+
+def test_pivoting_to_a_new_host_is_movement_and_re_opens_the_foothold() -> None:
+    """A clearing action counts as movement: ENUM_HOST drops the foothold and the
+    port knowledge because the cursor has moved to a different host, which is the
+    pivot that makes the next compromise reachable. Without this the attacker
+    would learn never to pivot and the loop would close after one host."""
+    learner = _progress_modulator(1.0, 0.0)
+    learner.held.update({"host_stack", "curr_host", "curr_ports", "foothold"})
+    learner.observe_visit("lateral-movement")             # ENUM_HOST
+    learner.observe_verdict("lateral-movement", "success")
+    assert "foothold" not in learner.held and "curr_ports" not in learner.held
+    assert learner.success.get(("lateral-movement", True)) == 1.0
+
+    # Immediately again: nothing left to clear, curr_host already held -> inert.
+    learner.observe_visit("lateral-movement")
+    learner.observe_verdict("lateral-movement", "success")
+    assert learner.failure.get(("lateral-movement", True)) == 1.0
+
+
+def test_a_blocked_attempt_still_lands_in_the_not_ready_cell() -> None:
+    """Unchanged by the new rule, and deliberately so — measurement put the
+    not-ready component's cost to expected progress between 0.0 % and +1.8 %, so
+    suppressing attempts that would fail is free and correct."""
+    learner = _progress_modulator(1.0, 0.0)
+    learner.observe_visit("execution")                    # unready: nothing held
+    learner.observe_verdict("execution", "failure")
+    assert learner.failure.get(("execution", False)) == 1.0
+    assert learner.held == set()
+
+
+def test_progress_credit_still_never_zeroes_an_out_edge() -> None:
+    """may_zero = False stays a proof under the new rule: the Laplace prior holds
+    every cell strictly positive however many inert successes are charged.
+
+    `command-and-control` dispatches SCAN_NEIGHBOR, which needs curr_host and
+    produces host_stack — so holding both makes it *ready* and *inert*, which is
+    exactly the permitted-but-achieves-nothing case the new rule charges."""
+    learner = _progress_modulator(4.0, 0.0)
+    learner.held.update({"host_stack", "curr_host"})
+    for _ in range(200):
+        learner.observe_visit("command-and-control")
+        learner.observe_verdict("command-and-control", "success")
+    assert learner.failure.get(("command-and-control", True)) == 200.0
+    assert not learner.success                      # 200 accepted, none credited
+    q = learner.q("command-and-control", True)
+    assert 0.0 < q < 0.02                           # 1/202, strictly positive
+    factors = learner.factors(None, "execution", {"command-and-control": 1.0})
+    assert factors["command-and-control"] > 0.0
+
+
+def test_kappa_zero_is_still_bit_identical_under_progress_credit() -> None:
+    """The null-equivalence guarantee is a property of the composition, not of the
+    credit rule, and the ablation arm must stay shared between the two arms."""
+    seed = 3
+    kwargs = dict(seed=seed, horizon=3_000, mapping_version="v2_partial")
+    a = run_movement("aggregate", attacker_state=AttackerState(
+        seed=seed, modulators=(_progress_modulator(0.0, 0.5),)), **kwargs)
+    b = run_movement("aggregate", attacker_state=AttackerState(
+        seed=seed, modulators=(_modulator(0.0, 0.5, "v2_partial"),)), **kwargs)
+    assert _fields(a.records) == _fields(b.records)
+
+
+# --- 7. the declared-bias control arm (criterion C3) -------------------------
+
+
+def test_the_control_never_lets_its_counts_reach_the_routing_decision() -> None:
+    """The C3 control: same readiness tracking, same exponent, same composition —
+    but the belief is two declared constants, so accumulated evidence cannot move
+    a factor. If the learner cannot be told apart from this, its counts are
+    decoration."""
+    control = DeclaredReadinessBias(
+        kappa=1.0, rho=0.5, tactic_to_verb=load_tactic_to_verb("v2_partial"),
+        q_ready=0.85, q_unready=0.05,
+    )
+    out = {"execution": 1.0}
+    before = control.factors(None, "discovery", out)["execution"]
+    for _ in range(50):
+        control.observe_visit("execution")
+        control.observe_verdict("execution", "failure")
+    after = control.factors(None, "discovery", out)["execution"]
+    assert before == after                      # evidence changed nothing
+    assert control.failure                      # ...though it was recorded
+
+
+def test_the_control_still_tracks_readiness_and_severance() -> None:
+    """It is a control for the *belief*, not for the readiness machinery — that
+    has to stay identical or the comparison is confounded."""
+    control = DeclaredReadinessBias(
+        kappa=1.0, rho=0.5, tactic_to_verb=load_tactic_to_verb("v2_partial"),
+        q_ready=0.85, q_unready=0.05,
+    )
+    assert control.q("execution", True) == 0.85
+    assert control.q("execution", False) == 0.05
+    control.held.update({"host_stack", "curr_host", "curr_ports", "foothold"})
+    control.observe_mtd_interrupt("network")
+    assert control.held == {"host_stack"}
+
+
+def test_the_control_refuses_a_rate_that_would_zero_an_edge() -> None:
+    with pytest.raises(ValueError, match="strictly positive|lie in"):
+        DeclaredReadinessBias(
+            kappa=1.0, rho=0.5, tactic_to_verb=load_tactic_to_verb("v2_partial"),
+            q_ready=0.85, q_unready=0.0,
+        )

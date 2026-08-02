@@ -43,10 +43,26 @@ inventing a magnitude or inverting the within-class ordering.
 | 1 | **Base transition weights** | movement | corpus flow-proportions (not a declared *family* — measured from the Attack Flow corpus) | — (always present; it *is* the prior) | **yes** — it is the model |
 | 2 | **Outcome overlay** (verdict conditioning) | movement | `v3_persistent_backward`, per-verdict value tables | a verdict-blind overlay whose tables are empty passes every destination through at 1.0 | **yes** |
 | 3 | **Utility modulator** (axis 6, cost-sensitivity) | movement | benefit family + rationality exponent λ (declared 1.0) | λ = 0 → every factor 1.0, bit-identical | **no** |
-| 4 | **Learning modulator** (axis 7, within-run belief) | movement | κ (declared 1.0), ρ (declared 0.5), Laplace α = β = 1 | κ = 0 → no factors returned, bit-identical | **no** |
+| 4 | **Learning modulator** (axis 7, within-run belief) | movement | κ (declared 1.0), ρ (declared 0.5), Laplace α = β = 1; **credit rule selector, default `acceptance`** | κ = 0 → no factors returned, bit-identical | **no** |
 | 5 | **Tactic-to-verb mapping** | controller | `v1_ckc_total` / `v2_partial`, versioned registry | not nullable — a mapping is always selected | **yes** (named per experiment) |
-| 6 | **Precondition relation** | controller | verb-level requires/produces/clears, versioned | consulted by factors 4 and 7; inert when both are null | **no** (rides with factors 4 and 7) |
+| 6 | **Precondition relation** | controller | verb-level requires/produces/clears, versioned (**`v2_achievement`** since 2026-08-02) | consulted by factors 4 and 7; inert when both are null | **no** (rides with factors 4 and 7) |
 | 7 | **Iterated utility modulator** (axis 6, cost-sensitivity repaired) | movement | the **same** benefit family and λ as factor 3 — no new declared magnitude | λ = 0 → every factor 1.0, bit-identical | **no** |
+
+**Factor 4 gained a credit-rule selector and factor 6 gained achievement terms on
+2026-08-02** ([`progress_credit.md`](progress_credit.md)). Neither changes this
+register's structure and neither is active in the reported configuration. Two
+things are worth stating here rather than only in the build record. The selector
+defaults to `acceptance`, which is the rule every recorded figure was produced by,
+so factor 4 stays reproducible exactly as factor 3 does beside factor 7. And the
+artefact change is **verified inert** — `foothold` is produced-only, so
+`is_ready` and `enabling_cost` are unchanged (0 disagreements, exhaustively
+checked on both mappings), which is what keeps factor 7's recorded results and the
+readiness bit's accuracy figures valid without re-measurement.
+
+A **control arm** also landed beside factor 4: `DeclaredReadinessBias`, the static
+modulator built from factor 4's own declared inputs, which exists to test whether
+the learner differs from a lookup. It is a comparison arm, never a factor, and it
+must not appear in a reported configuration.
 
 Factors 1–4 and 7 are **routing factors** composing multiplicatively per the rule
 in §1. Factors 5–6 are **controller artefacts**: they do not multiply into the
