@@ -35,12 +35,32 @@ brief 3's. Each brief runs its own Part A / Part B cycle and its own confidence
 gate; the matrix skeleton lives here because reads define what "meaningful"
 means for the other two.
 
+**The object under review (Marc's operating picture, recorded 2026-08-02).**
+There is **one attacker model, and it lives in the substrate**: the six-verb
+attack operation. The movement attacker is not a second model — it sits on top
+of MTDSim via the controller layer and drives the same verb cores through
+`step()`. This programme therefore updates and investigates the *substrate's*
+attacker; movement-driven operation is expected to continue over an updated
+substrate (possibly at varying capacity), with the controller mapping updated
+in step where it must be. Consequence for method: every coupling verdict is a
+property of the substrate attacker, annotated with the channel the coupling
+*expresses through* — **outcome** (success/failure, discovery, compromise
+state), **time** (substrate pricing of an attempt), or **direct signal**
+(brief 3's channels). Outcome-channel semantics are shared cores, so a repair
+there reaches movement-driven runs automatically with no mapping change
+(`vuln.network(host)` is called on both driving paths); time-channel effects
+are declined by the movement driver's supplied pricing (S3-R, as documented),
+so a coupling that expresses only through time carries a **mapping decision**,
+not a second audit of a second attacker.
+
 ## 1. Goal
 
 Establish, at 95 % confidence (§6), that every network component inside the
-defence family's purview is coupled to the attacker through at least one live,
-verified channel — **per arm** — or carries a Marc-dispositioned record of why
-its dead coupling is acceptable for comparative evaluation. Where the coupling
+defence family's purview is coupled to the substrate attacker through at least
+one live, verified channel — **with the channel's expression (outcome, time,
+or direct signal) and its reach under movement driving stated** — or carries a
+Marc-dispositioned record of why its dead coupling is acceptable for
+comparative evaluation. Where the coupling
 is dead and undispositioned, classify it under the intent spec's §c procedure
 and put it to Marc; where Marc rules a change, implement it under the D-05
 procedure. The purpose is a fair contest: after this brief closes, no
@@ -86,12 +106,15 @@ Nothing in the lineage ever wired OS into exploitation success. The review
 below must therefore treat "was it ever intended to be read?" as an open
 classification question, not assume a regression.
 
-**The generalisation that makes this systematic rather than anecdotal.** The
-S3-R seam means the two arms have **different read surfaces**: any substrate
-mechanism that expresses itself *only through time* (complexity scaling,
-OS-mismatch multiplier, re-exploit discount ATK-04) is structurally invisible
-to the movement attacker. So every cell of the matrix must carry a per-arm
-verdict, and "live for the native arm" must never be silently read as "live".
+**The systematic point, in the operating picture above.** Substrate mechanisms
+that express themselves *only through time* (complexity scaling, OS-mismatch
+multiplier, re-exploit discount ATK-04) do not reach movement-driven runs —
+not because a second attacker has a second read surface, but because the
+controller mapping declines the substrate's pricing (S3-R, `charge_time=False`).
+So every matrix cell records its expression channel, time-channel cells carry
+a mapping note ("declined under movement driving — mapping decision required
+if this coupling is to matter there"), and "live in the native FSM" is never
+silently read as "live under both driving modes".
 
 ## 3. Recommended approach — Part A (review / cross-examination; no code changes)
 
@@ -100,9 +123,11 @@ verdict, and "live for the native arm" must never be silently read as "live".
    service identity, service version, vulnerability set (incl. exploited
    flags), ports, users/credentials, target node, exposed endpoints, and the
    derived structures (`get_hacker_visible_graph`, path caches, scorer feeds).
-   Columns: read-by (verb, arm), written-by (mechanism — cross-filled from
-   brief 2), liveness verdict, evidence locator. Every cell carries a code
-   locator; no cell is filled from memory of the papers or of prior audits.
+   Columns: read-by (verb), expression channel (outcome / time / signal),
+   reach under movement driving (automatic / mapping-declined), written-by
+   (mechanism — cross-filled from brief 2), liveness verdict, evidence
+   locator. Every cell carries a code locator; no cell is filled from memory
+   of the papers or of prior audits.
 2. **Live-verify every load-bearing cell.** A "read" claimed live must be
    demonstrated in a run — use the tracers (`python -m mtdnetwork.trace`;
    `PYTHONPATH=src python -m mtdsim.l3_simulation.trace`), extending them
@@ -148,12 +173,13 @@ After **every** Part A / Part B cycle, run a written **confidence evaluation**
 before closing:
 
 - **The question:** "Are we ≥ 95 % confident that no undispositioned dead,
-  partial, or arm-asymmetric coupling remains at this boundary that could
+  partial, or mapping-declined coupling remains at this boundary that could
   change a comparative MTD ranking?"
 - **How it is answered — evidence, not vibes.** The confidence figure is a
   structured judgement against a checklist, not a computed statistic, and the
   evaluation must say so. It passes only if: (i) every matrix cell has a
-  locator and a per-arm verdict; (ii) every live verdict has a run-level
+  locator, an expression-channel verdict, and its movement-driving reach
+  noted; (ii) every live verdict has a run-level
   demonstration; (iii) every dead verdict has either a disposition or an open
   D-number; (iv) for every mechanism pair the recorded data leaves
   unseparated, a code-level cause is on record; and (v) an **adversarial
@@ -169,7 +195,7 @@ before closing:
 ## 6. Validation gate
 
 1. The coupling matrix exists as an implementation record, complete per
-   §5(i)–(iii), with per-arm verdicts.
+   §5(i)–(iii), with expression-channel verdicts and movement-driving reach.
 2. Every finding carries Marc's written disposition; Part B changes (if any)
    landed under the D-05 procedure with regression tests.
 3. The verb-by-verb attack-phase review (Marc's ask) is on record, including
@@ -183,7 +209,13 @@ before closing:
   makes anything a bug. Never fix from a paper–code mismatch.
 - No recorded experiment is re-run under a changed substrate.
 - Goldens move only via the D-05 procedure. Determinism (SIM-05) throughout.
-- Two arms, two read surfaces: every claim states which arm it is about.
+- **One attacker model, two driving modes.** The substrate attacker is the
+  object under review; the movement layer drives the same cores via the
+  controller. Every claim states its expression channel and whether movement
+  driving inherits it automatically (outcome channel, shared cores) or only
+  via a mapping decision (time channel, declined under supplied pricing).
+  Substrate repairs must state their propagation; controller-mapping updates
+  are named as such and kept separate from substrate changes.
 - D-18/D-19 are open and owned by the indistinguishability brief — consume
   their rulings here, do not duplicate them.
 - Australian English; branch per session; commit locally; **never push**.

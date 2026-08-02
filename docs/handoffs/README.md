@@ -442,10 +442,14 @@ the recorded −0.893).)*
     1 of 3** (Marc's directed programme, 2026-08-02): is the attacker
     meaningfully coupled to every network component the defence family can
     move? Owns the **read side** of the coupling matrix — the verb-by-verb
-    attack-phase review, the per-arm liveness verdicts (the S3-R seam gives
-    the two arms different read surfaces), and the already-verified dead
-    couplings (`host.ip` has zero readers repo-wide; the OS relabel reaches
-    exploitation through nothing). Part A review → Marc dispositions → Part B
+    attack-phase review, expression-channel verdicts per coupling (outcome
+    channels are shared cores and reach movement driving automatically;
+    time channels are declined by the controller mapping's supplied pricing,
+    S3-R), and the already-verified dead couplings (`host.ip` has zero
+    readers repo-wide; the OS relabel reaches exploitation through nothing).
+    Carries the programme's operating picture: **one attacker model, in the
+    substrate**; the movement attacker drives the same verb cores via the
+    controller, and mapping updates are named as such. Part A review → Marc dispositions → Part B
     fixes under the D-05 procedure, then a written **95 % confidence gate**;
     if unmet, the A/B cycle iterates scoped to the named doubts. Consumes
     D-18/D-19; run **first** of the three — its matrix defines "meaningful"

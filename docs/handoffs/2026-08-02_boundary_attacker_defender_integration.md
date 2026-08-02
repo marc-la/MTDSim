@@ -20,8 +20,10 @@ comparative fairness is most load-bearing, not least.
 
 Establish, at 95 % confidence (§6), that the direct attacker/defender channels
 price each mechanism's disruption according to its documented defence idea
-rather than according to its resource-class label — per arm — or that every
-class-level flattening carries a Marc disposition. The stake, concretely: for
+rather than according to its resource-class label — under both driving modes
+of the one substrate attacker (native FSM, and movement-driven via the
+controller; see brief 1's operating picture) — or that every class-level
+flattening carries a Marc disposition. The stake, concretely: for
 the movement attacker, `(complete_topology, ip_shuffle)` are measured identical
 *because* their network-state writes are unread (briefs 1/2) and their direct
 channels are **class-identical by construction**. If the direct channels
@@ -77,12 +79,16 @@ with full golden cost.
 
 **Also in scope, because they gate the channels' reach:**
 
-- **Interrupt exposure asymmetry between arms**: channel 1 keys on the current
-  verb; the profiled attacker spends 37–43 % of visits in tactics that
-  dispatch nothing. What can interrupt it during non-dispatching dwell, per
-  class? If application-class mechanisms structurally cannot reach the
-  movement attacker during most of its clock, that is a per-arm pricing
-  asymmetry the comparative evaluation inherits — measure it, then classify.
+- **Interrupt exposure under movement driving**: channel 1 keys on the current
+  verb of an alive attack process; the profiled traversal spends 37–43 % of
+  visits in tactics that dispatch nothing. What can interrupt the substrate
+  attacker during non-dispatching dwell, per class? This is a property of how
+  the controller mapping holds the process, not of a second attacker — if
+  application-class mechanisms structurally cannot reach movement-driven runs
+  during most of the clock, that is a mapping-owned pricing asymmetry the
+  comparative evaluation inherits. Measure it, then classify it as mapping
+  policy to keep, or mapping defect to fix in the seam (a controller-layer
+  change, not a substrate one).
 - **Scheduling as an implicit channel**: priority ordering (`MTD_PRIORITY`,
   undocumented, IS-SCH-06), suspend-vs-discard (§l item 7), and resource
   contention determine each mechanism's *trigger frequency* under the
@@ -95,10 +101,10 @@ with full golden cost.
 
 ## 3. Recommended approach — Part A (review / cross-examination; no code changes)
 
-1. **Inventory and verify the six channels** with locators and a per-arm,
-   per-class truth table: for each (mechanism × verb × arm), does a trigger
-   interrupt, what does it cost, what state is lost, what signal reaches the
-   controller. Live-verify the table's load-bearing rows with the unified
+1. **Inventory and verify the six channels** with locators and a truth table
+   per driving mode: for each (mechanism × verb × driving mode), does a
+   trigger interrupt, what does it cost, what state is lost, what signal
+   reaches the controller. Live-verify the table's load-bearing rows with the unified
    tracer (token / controller / substrate views — this boundary is exactly
    what it was built to expose).
 2. **Extract the realised channel traffic from recorded data**: per-mechanism
@@ -133,8 +139,9 @@ no recorded experiment re-run.
 Same standing instruction as briefs 1–2, with this boundary's question: **"Are
 we ≥ 95 % confident that the direct channels' pricing of each mechanism's
 disruption is either faithful to its documented defence idea or explicitly
-dispositioned as a class-level model — per arm — and that no unstated channel
-asymmetry could change a comparative ranking?"** Checklist: six channels
+dispositioned as a class-level model — under both driving modes, with
+mapping-owned differences dispositioned as mapping policy — and that no
+unstated channel asymmetry could change a comparative ranking?"** Checklist: six channels
 inventoried and verified; the (mechanism × verb × arm) truth table complete
 and demonstrated; realised traffic extracted from recorded data; every
 flattening dispositioned or D-numbered; adversarial pass found no seventh
