@@ -1,6 +1,7 @@
 ---
-status: open
+status: open — Part A done 2026-08-02; blocked on Marc's dispositions (D-20, D-21, D-22)
 created: 2026-08-02
+updated: 2026-08-02
 ---
 
 # Boundary review 3 of 3 — ATTACKER / DEFENDER: the direct couplings that bypass network state, and whether they price every mechanism's disruption fairly
@@ -15,6 +16,73 @@ the controller layer". The 2026-08-02 survey found it is **six channels, not
 one**, and for at least two mechanisms in the reported family these channels
 are their *entire* measured effect — which makes this the boundary where
 comparative fairness is most load-bearing, not least.
+
+## 0. Where this stands (Part A session, 2026-08-02, branch `chore/boundary-attacker-defender-review`)
+
+**Part A is complete; no code, golden or experiment record was touched.** The
+deliverable is
+[`../implementation/boundary_attacker_defender_channels.md`](../implementation/boundary_attacker_defender_channels.md)
+— the six-channel inventory with locators, the (class × `curr_process` × arm)
+truth table verified by *executing* the real gate and cost functions, the
+integration demonstrations at seed 42 in both tracers, the realised channel
+traffic extracted from the recorded experiment-2 and frontier data, and the
+exposure measurement. Three disposition requests are opened on the audit's
+list: **D-20** (ratify class-level pricing as the stated model — the §2
+framing decision), **D-21** (ratify the movement arm's interrupt-exposure
+profile as mapping policy), **D-22** (flag-grade counter asymmetry under
+overlapping mutations). Recommendations in each row; none is a fix request.
+
+Headline results, against this brief's questions:
+
+- **The class flattening is now measured, not structural**: within a class the
+  recorded channel traffic is identical (movement-arm interrupts 75.0/75.0 for
+  the network pair, 52.7/52.4 for the application pair; penalty/interrupt
+  20.49–20.52 in every cell; `forgettings == interrupts` exactly in the
+  learner arm). The §c verdict is that class-level pricing **conforms** — the
+  class abstraction is the documented model (Brown §III-D, Zhang §4.4.2,
+  IS-MTD-09) — so D-20 asks for ratification, not repair.
+- **§2's "also in scope" items are answered.** Interrupt exposure under
+  movement driving: the structural worry is falsified — dwell-only places are
+  deliberately exposed (`DWELL` sentinel, live-demonstrated); the app-immune
+  time is the recon-verb share, 17–43 % of clock by profile, giving
+  application-class reach 57–83 % (movement) vs ~99 % (native) → D-21.
+  Scheduling: suspensions are zero outside the simultaneous scheme (38/run
+  there, both arms) and per-mechanism trigger counts are near-equal in every
+  multi scheme — no mechanism buys materially fewer channel-1 events → folded
+  into D-20's model. Penalty scale: provenance-faithful (Brown §V-A / Zhang
+  §4.4.3), same order as the declared dwells, 7–17 % of the movement clock —
+  flagged, no re-tune proposed.
+- **Adversarial pass:** no seventh defender→attacker channel found; the one
+  attacker→defender input (`curr_process`, including the announce-before-dwell
+  fix and the `DWELL` sentinel) is recorded as part of channel 1. Channel 6
+  re-verified dead repo-wide.
+
+**Confidence evaluation (§5), run 2026-08-02.** Checklist: six channels
+inventoried and verified with locators — **yes** (record §(a)–(b)); the truth
+table complete and demonstrated — **yes** (executed probe + both tracers);
+realised traffic extracted from recorded data — **yes** (record §(c), no
+re-run); every flattening dispositioned or D-numbered — **yes** (D-20..D-22
+opened; D-07/D-09/D-18/D-19 consumed, not re-opened); adversarial pass found
+no seventh channel — **yes**. Residual doubts, named: (i) the exposure
+diagnostic ran undefended (current substrate, declared) — defended dynamics
+shift the mix slightly, but the recorded defended yields (0.70 vs 0.99)
+corroborate the figures, so not ranking-plausible; (ii) stale
+`curr_ports`/`curr_vulns` after an application-class mutation on the movement
+arm (no forced re-scan refreshes them) is a network-state-mediated effect
+owned by briefs 1–2 — it hits both application mechanisms identically, so it
+cannot reorder *within* this boundary's question; (iii) the batch-scheme
+serialisation delta (IS-SCH-05) affects both arms and all mechanisms alike.
+None is ranking-plausible, so the structured judgement is **≥ 95 % that the
+direct channels price disruption per the documented class model and that no
+unstated channel asymmetry could change a comparative ranking — conditional on
+Marc ratifying the model those channels implement (D-20/D-21)**. The gate
+therefore passes as a Part A verdict; the handoff stays open only for the
+dispositions.
+
+**To close:** Marc rules D-20, D-21, D-22. On (a)-recommendations throughout,
+no Part B code exists — land any reporting consequence (decision-C-style
+statements ride with the indistinguishability brief's D-18/decision C), then
+delete this file. Any (b)-option triggers Part B under §4's discipline.
 
 ## 1. Goal
 
