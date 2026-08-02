@@ -76,6 +76,29 @@ Axis 7:
    factor, no value function), and the badge criterion is fixed in advance —
    breadth or stage advance must beat the 4.60-host ablation arm, no
    scoring-driven design.
+   **Informed by [`learning_mechanism_feasibility.md`](../implementation/pipeline/ogasp/learning_mechanism_feasibility.md)
+   (2026-08-02)**, which scores thirteen candidates against a first-principles
+   rubric and finds the credit signal materially cheaper than "a research
+   project" — the progress-carrying outcome tag is already computed and is
+   projected to a bit in the seam (§4.1, Escape B).
+7. **Type-disciplined forgetting (new, axis 7).** The ρ rule decays the
+   *tradecraft* belief, which the literature says MTD cannot touch, while the
+   perishable capability cursor is already handled separately. Decide whether to
+   re-declare ρ by knowledge type. Note this is a **declared-value change with a
+   literature justification**, and that the un-decayed arm is the only place in
+   the 4 600-run sweep where the learner beats no-learning with CI separation
+   (feasibility study §§3.1, 5) — which makes it both the cheapest candidate and
+   the one most exposed to post-hoc-selection risk. Any use needs a fresh
+   pre-registration, never a re-reading.
+8. **Seed count (new, cross-cutting).** Four successive sweeps have failed to
+   separate adjacent arms at ten seeds; the power calculation puts a 0.7-host
+   difference at ~45 seeds (feasibility study §7). Decide whether to concentrate
+   seeds on the decision cells. Raising *n* on an unchanged metric is not
+   scoring-driven design, but it should be ruled on rather than assumed.
+9. **The declared-bias control arm (new, axis 7).** The C3 test — does the
+   learner differ from the best static modulator built from its own declared
+   inputs? Cheap, S6-clean, never run, and the shipped mechanism plausibly fails
+   it. Decide whether it runs before any further build.
 
 Joint:
 
@@ -88,7 +111,7 @@ Joint:
 ## Validation gate
 
 Each numbered item carries a dated ruling recorded against it in this file (in
-/ out / deferred, with a sentence of why). When all six are ruled, the freeze
+/ out / deferred, with a sentence of why). When all nine are ruled, the freeze
 record takes its dated closure amendment re-adopting axes 6 and 7
 ([`model_scope_freeze.md`](../implementation/pipeline/ogasp/model_scope_freeze.md)
 §6), and this handoff is deleted in that commit.
@@ -123,6 +146,9 @@ record takes its dated closure amendment re-adopting axes 6 and 7
   — §2.2a: the R2 defect the iterated model repairs.
 - [`apt_model_criterion.md`](../implementation/apt_model_criterion.md) — axes 6
   and 7: the badge criteria that stay fixed while scope is decided.
+- [`learning_mechanism_feasibility.md`](../implementation/pipeline/ogasp/learning_mechanism_feasibility.md)
+  — the axis-7 rubric, the four structural constraints, and the thirteen scored
+  candidates. Read §§6, 8, 9 before ruling on items 5, 7 and 9.
 
 ## Out of scope (explicitly)
 
