@@ -1,9 +1,85 @@
 ---
-status: open
+status: open — Part A done 2026-08-02, confidence gate passed; blocked on Marc's dispositions (D-23, with D-24/D-25 record-grade)
 created: 2026-08-02
+updated: 2026-08-02
 ---
 
 # Boundary review 2 of 3 — NETWORK / DEFENDER: does each MTD mechanism move the whole attack surface in its purview, and are the purviews fair to compare?
+
+## 0. Where this stands (2026-08-02 Part A session, branch `chore/boundary-network-defender-review`)
+
+Part A is complete. The deliverable is
+[`../implementation/mtd_write_surfaces.md`](../implementation/mtd_write_surfaces.md):
+all eight mechanisms' write sets enumerated with locators and **live-verified**
+(one firing per mechanism on a seeded default-geometry `TimeNetwork`, full
+state diff), the §2 shared questions answered with evidence, the §c
+cross-examination recorded, and the purview/fairness table built with brief 1's
+liveness column cross-filled. Disposition requests are appended to the audit as
+**D-23..D-25** (numbering follows boundary review 3's concurrent D-20..D-22
+allocations — brief 3 ran first; its Part A commit `246adf8` sits on this
+session's branch because the two sessions shared the working tree).
+
+**How the seeded questions resolved, in brief:**
+
+1. *Exposed-endpoint exemption* — *not* universal as seeded: UserShuffle has no
+   exemption (conforming to IS-MTD-03), and CTS moves endpoint adjacency. For
+   the five mechanisms that carry it, it is endpoint-total and uniform →
+   **D-23** (keep-and-document recommended).
+2. *Target-node exemption* — structural, not a gap: the target node carries no
+   service and no port at generation (verified live), so there is nothing to
+   diversify and un-skipping would `KeyError`. The compromise-critical
+   services (those adjacent to the target) **are** redrawn. No disposition
+   needed.
+3. *Ports under a service redraw* — immobile, and that CONFORMS: no IS row
+   couples ports to service replacement; PortShuffle owns ports and is latent.
+   Consequence recorded: the attacker's discovered ports remain valid
+   addressing across every diversity firing.
+4. *Stale derived state* — the attacker-visible cache (`reachable`) is
+   refreshed by exactly the mechanisms that invalidate it (CTS/HTS); the rest
+   are scorer feeds, and two are **degenerate in the time-domain arm**
+   (`target_node=None` makes `add_shortest_path` record a 50-entry paths-dict;
+   APE never runs) with no recorded consumer → **D-24** (record-only; a
+   precondition of the Tay-benchmark phase). Attacker caches
+   (`curr_ports`/`curr_vulns`) are brief 3's channel; this brief established
+   the object-identity half (stale handles point at orphans).
+5. *Exploited-flag continuity* — a redraw **fully revokes** service-level
+   standing (fresh instance, `exploited`/`exploit_attempt` reset, ATK-04
+   discount lost; verified live); `host.compromised` persists per D-02;
+   `compromised_services` is reader-less bookkeeping.
+6. *The latent four / family scope* — in the reported family, ports, users,
+   host-internal topology and the entry set have **no mover**; the family's
+   two live write surfaces are adjacency (CTS) and the service/vulnerability
+   surface (SD = OSD per D-18), plus two dead ones (ip, os label). The
+   fairness statement is `mtd_write_surfaces.md` §c.
+
+One unseeded find beyond D-24: `gen_graph` re-selects the target node on
+`network_type == 0`, so CTS on a targeted network silently re-sites the
+objective — latent in every recorded arm → **D-25** (record-only).
+
+**Confidence evaluation (the §5 gate) — PASSED, with residual doubts named.**
+Against the checklist: (i) write sets enumerated and live-verified for all
+eight mechanisms, locator-complete — yes; (ii) every exemption either
+documented intent (IS-MTD-01), structural (target node), ruled (D-02, D-18
+consumed), or D-numbered (D-23) — yes; (iii) purview table complete with
+per-cell locators and brief-1 liveness — yes; (iv) the adversarial pass had
+teeth: it falsified one of the brief's own premises (the exemption is not
+universal) and surfaced three unseeded behaviours (D-24, D-25, the scorer
+ip-feed asymmetry). Residual doubts, each named with why it is tolerable:
+the adversarial pass was same-session rather than fresh-session (mitigated by
+the full-surface snapshot diff — every host and node attribute — and by the
+unseeded finds); cosmetic state (`colour_map`, `pos`, `tags`) was not diffed
+(no attacker read path; plotting only); §b5's revocation was verified on
+ServiceDiversity's code path and inferred for OSD/OSDA (identical call,
+same lines); the CTS node-floor caveat applies only to non-default
+geometries no experiment uses. None of these can plausibly move a comparative
+ranking of the reported family, so the answer to the gate question is **yes,
+≥ 95 %** — for the write side as reviewed, with the D-23 ruling outstanding as
+a *decision*, not an unknown.
+
+**To close this handoff:** Marc rules on D-23 (and notes D-24/D-25); if D-23(b)
+or any D-18(a)-style repair is taken, Part B runs under §4 (D-05 procedure,
+regression tests per `mtd_write_surfaces.md` §f); then delete this file in the
+commit that ships the last piece.
 
 **Programme framing.** Second of the three boundary briefs Marc directed on
 2026-08-02; the shared rationale and the ownership rule live at the head of
