@@ -1,9 +1,97 @@
 ---
-status: open
+status: open — cycle 1 Part A complete 2026-08-02; **confidence gate FAILED on criterion (v)**; blocked on Marc's dispositions (D-26..D-29) and cycle 2
 created: 2026-08-02
+updated: 2026-08-02
 ---
 
 # Boundary review 1 of 3 — NETWORK / ATTACKER: is the attacker meaningfully coupled to every network component the defence family can move?
+
+## 0. Cycle 1 record (Part A, 2026-08-02, branch `chore/boundary-network-attacker-review`)
+
+**Deliverable:** [`../implementation/attacker_read_surface.md`](../implementation/attacker_read_surface.md)
+— the coupling matrix, the verb-by-verb phase review, the findings, the
+adversarial-pass record and the confidence evaluation. Audit rows and the
+disposition list are updated in
+[`../implementation/intent_conformance_audit.md`](../implementation/intent_conformance_audit.md).
+**No code, golden or experiment record was touched.**
+
+**Method note that matters for the other briefs:** read-side claims were made by
+**instrumented run**, not by repository search — read-only counting proxies on
+every candidate component, both driving arms, plus attacker-visible projection
+diffs across one firing of each mechanism. Search cannot show that a live path is
+never taken, and it had already produced a wrong claim on record (below).
+
+**What cycle 1 established.**
+
+- **The matrix is complete and every LIVE cell has a run-level demonstration**
+  (gate criteria i–iv met). The attacker consults topology, the host's pooled
+  vulnerability stack, ports, and credentials. It consults **no host label** —
+  not IP, not OS type or version, not service name or version.
+- **D-28 is the finding this programme exists to catch.** ENUM_HOST never
+  re-checks IS-PRC-01's "only if a path exists" invariant; SCAN_HOST does. The
+  native FSM is saved by its forced post-interrupt re-scan (0 of 873 pops), but
+  the movement driver owns succession and declines to re-impose it, so **9.7 % of
+  ENUM_HOST pops undefended and 22.4 % defended attack a host with no path from
+  any exposed endpoint.** The rate more than doubles under MTD because MTD is
+  what makes queued hosts unreachable. It blunts Complete Topology Shuffle
+  specifically, in the arm the headline result is computed on. The missing guard
+  is in a **shared verb core**, so a repair reaches both arms automatically.
+- **IP Shuffle's invisibility to the attacker is documented behaviour, not an
+  integration artefact — a partial inversion of this programme's premise.**
+  `host.ip` is *not* an unread vestige: it feeds Ho's NAV metric and the RL
+  defender's state vector (IS-MET-04). No lineage paper gives the attacker an
+  IP-addressing model, and Zhang's IS-INT-04 documentedly recasts network-layer
+  MTD as class-based immediate failure — which is exactly what the code does.
+  **Verdict CONFORMS.** The `(complete_topology, ip_shuffle)` pair is unseparated
+  because the substrate models network-layer MTD as a single attacker-facing
+  effect, not because IP Shuffle was under-integrated. *(The
+  `(os_diversity, service_diversity)` half of the premise survives intact — that
+  one is D-18, a broken documented wire.)*
+- **Two records corrected.** `host.ip` does **not** have "zero readers
+  repo-wide" — it has three, all defender-side; the claim appears in §2 of this
+  brief and was cross-filled into brief 2's record, now annotated. And
+  `os_type`/`os_version` are not one component with two channels: `os_version`
+  has **no** channel at all, since the ×2.5 multiplier tests `os_type` alone.
+- **New evidence for the open D-18 ruling** (not a re-litigation): a name-based
+  repair would have OS Diversity replace **13.9 %** of services per firing
+  against Service Diversity's 100 % — a sevenfold separation, so the repair
+  answers decision C's cardinality question by construction. And `os_version`
+  would stay inert even after the repair, since each OS's service-name set is
+  identical across all six of its versions.
+- **Four dispositions opened** — D-26 (`Host.total_users` is the index of the
+  first password-reusing account, not the account count, and BRUTE_FORCE divides
+  by it), D-27 (the credential channel carries 10–23 % of compromises and no
+  mechanism in the reported family moves it), D-28 (above), D-29 (record-grade:
+  mechanisms and attacker share the global RNG stream, so seed-matched arms are
+  independent rather than paired). D-20..D-22 are boundary review 3's concurrent
+  allocation and D-23..D-25 are review 2's.
+
+**Why the gate failed.** Criteria (i)–(iv) are met. Criterion (v) — *an
+adversarial pass found nothing new* — is **not**: the pass found D-28, D-29,
+three matrix sharpenings and six items belonging to the sibling briefs, all
+*after* the matrix was believed complete. That failure is substantive, not
+bookkeeping: a matrix that missed a read-gap blunting a named mechanism in the
+headline arm cannot support a 95 % claim on one pass.
+
+**Residual doubts** (full statement in the record's §(k)): D-28's ranking effect
+is argued rather than measured; a second adversarial pass has not run; the
+undefended 9.7 % is undiagnosed; the census used one seed per arm and one
+geometry; and the sibling-brief items are flagged rather than resolved.
+
+**Cycle 2, scoped to exactly those doubts.** Re-run the adversarial pass against
+the *updated* matrix; diagnose the undefended 9.7 %; repeat the census at three
+further seeds and confirm every zero stays zero; and — only if Marc rules D-28
+actionable — measure the ranking effect by running the guarded substrate as a
+**new** comparative arm, which the no-re-run constraint permits because it
+creates a new substrate version rather than re-running a recorded experiment.
+
+**To close this handoff:** Marc rules on D-26..D-29; cycle 2 runs against the
+named doubts; Part B implements only what is dispositioned, under the D-05
+procedure with the gate-5 regression tests; the handoff is deleted in the commit
+that ships the last piece, once a cycle's confidence evaluation passes and Marc
+has seen it.
+
+---
 
 **Programme framing (shared by the three boundary briefs).** The project's
 comparative MTD evaluation is only as good as the integration it runs on: a
@@ -15,7 +103,19 @@ is the proof this failure mode is live: both unseparated pairs in experiment 2
 are integration artefacts, not defence facts — the OS relabel is written and
 never read; `host.ip` is written and read by **nothing in the repository**
 (verified at repo scope, 2026-08-02: written at `host.py:45` and
-`ipshuffle.py:22`, zero readers). Marc has directed a systematic review of the
+`ipshuffle.py:22`, zero readers).
+
+> **Corrected by cycle 1 (§0, 2026-08-02).** The `host.ip` half of that sentence
+> is wrong twice over. There are three readers, all defender-side
+> (`completetopologyshuffle.py:35`, `mtd_ai_operation.py:308`,
+> `mtd_ai_training.py:254` — the last two computing Ho's NAV, IS-MET-04), so the
+> surface is not vestigial; and the pair's unseparation is **not** an integration
+> artefact but the documented consequence of IS-INT-04's class-based recast of
+> network-layer MTD. The attacker-facing conclusion (no verb reads `host.ip`)
+> stands and is now verified by projection diff. The
+> `(os_diversity, service_diversity)` half of the premise is unaffected.
+
+Marc has directed a systematic review of the
 three component boundaries, one session each:
 
 1. **NETWORK / ATTACKER** (this brief) — what the attacker reads.
@@ -85,9 +185,12 @@ ports (as identifiers), vulnerabilities, users/credentials, exposed endpoints,
 path distances. Components already known **written by a mechanism but never
 read**:
 
-- **`host.ip`** — zero readers repo-wide. IPShuffle's entire measured effect is
-  brief 3's channels (interrupt + penalty + cursor clear), which is why
-  `(complete_topology, ip_shuffle)` is unseparated in every data set.
+- **`host.ip`** — ~~zero readers repo-wide~~ **no *attacker* readers** (cycle 1:
+  three defender-side readers exist, incl. the NAV feed). IPShuffle's entire
+  measured effect is brief 3's channels (interrupt + penalty + cursor clear),
+  which is why `(complete_topology, ip_shuffle)` is unseparated in every data
+  set — and cycle 1 classifies that as **CONFORMS**, per IS-INT-04, rather than
+  as an integration gap.
 - **`host.os_type` / `os_version`** — two channels exist and both are dead for
   the movement arm, one dead for both arms: the success gate is inherited
   commented-out code (`services.py:146-148`, D-19, no IS-ID covers it); the

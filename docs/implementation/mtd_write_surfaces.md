@@ -127,7 +127,7 @@ current-experiment concern.
    | Component | Mover in the reported family | Mover only in the latent pool |
    |---|---|---|
    | inter-host adjacency | CTS | HTS (mapping only) |
-   | host ip | IPShuffle (dead surface — brief 1) | — |
+   | host ip | IPShuffle (dead **to the attacker** — brief 1; live to the NAV metric feed and the RL state, corrected 2026-08-02) | — |
    | host os label | OSD (dead surface — D-19) | OSDA |
    | service identity / vulnerability surface | SD, OSD (equal per D-18) | OSDA |
    | ports | **none** | PortShuffle |
@@ -153,7 +153,7 @@ verdicts hold for both; time-channel entries note the S3-R decline).
 | Mechanism | Components moved | Exemptions | Derived/scorer refresh | Liveness of each moved component |
 |---|---|---|---|---|
 | CompleteTopologyShuffle | all inter-host adjacency (incl. endpoint edges); `reachable` | none (holdings persist by design, D-02; node ids stable) | `update_reachable_mtd`; scorer: SAPV (degenerate, D-24), APE (type-0 only), ip-feed (all 50 old IPs) | **live** — adjacency read by SCAN_HOST/SCAN_NEIGHBOR via `get_hacker_visible_graph`/`get_neighbors` and by path-distance sorting (`attack_operation.py:250-303`) |
-| IPShuffle | `host.ip` (45 internal) | exposed endpoints (documented, IS-MTD-01) | scorer ip-feed only (45 internal IPs — endpoints omitted, asymmetric with CTS's 50) | **dead** — `host.ip` has zero readers repo-wide (brief 1); measured effect arrives only via brief 3's interrupt channels |
+| IPShuffle | `host.ip` (45 internal) | exposed endpoints (documented, IS-MTD-01) | scorer ip-feed only (45 internal IPs — endpoints omitted, asymmetric with CTS's 50) | **dead to the attacker** — verified by projection diff: one firing changes *nothing* the six verbs can read. The cross-filled claim of "zero readers repo-wide" is **corrected 2026-08-02** — there are three, all defender-side (`completetopologyshuffle.py:35`; `mtd_ai_operation.py:308` and `mtd_ai_training.py:254`, computing Ho's **NAV**, IS-MET-04, into the RL state vector). The measured effect against the attacker arrives only via brief 3's interrupt channels, and that is **documented** behaviour under IS-INT-04's class-based recast rather than an integration shortfall — [`attacker_read_surface.md`](attacker_read_surface.md) §(f) finding 1 |
 | OSDiversity | os label (45 internal); all 331 non-target services (D-18) | exposed endpoints (beyond-paper → D-23); target node (structural, §b2) | scorer: SAPV (degenerate, D-24), APE (type-0 only) | os label **dead** (success gate commented out, D-19; ×2.5 time term native-arm-only, declined under movement by S3-R); service redraw **live** (SCAN_PORT/EXPLOIT_VULN read services and vulns) |
 | ServiceDiversity | all 331 non-target services (random service, random version, post-D-05) | exposed endpoints (beyond-paper → D-23); target node (structural) | scorer: SAPV (degenerate, D-24), APE (type-0 only) | **live** — services/vulns read by SCAN_PORT/EXPLOIT_VULN; revocation semantics per §b5; addressing (ports) deliberately unmoved (§b3) |
 | PortShuffle *(latent)* | all 331 non-target ports | exposed endpoints; target node (structural — no port exists) | none | ports are the attacker's discovery key (`get_services_from_ports`) — would be live if ever in the default set |
