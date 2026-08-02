@@ -401,6 +401,26 @@ the recorded −0.893).)*
 20. `2026-07-29_stealth_tempo_via_dwell_channel.md` — the only route by which tempo
     becomes consequential: dwell alters the metrics the reactive selector reads.
     **Needs a supervisor ruling before anything is built.**
+25. `2026-08-02_os_service_diversity_indistinguishability.md` — **classification
+    and disposition, not a fix.** Two `documented-nowhere` candidates found while
+    cross-examining the axis-6 redesign: `service_is_compatible_with_os` compares
+    a `Service` object against a list of name strings so it can never return
+    true, meaning OS Diversity always replaces every service rather than only
+    incompatible ones; and the OS relabel reaches the movement attacker through
+    nothing, since the success gate in `Vulnerability.network()` is commented out
+    and the one live coupling is a time multiplier the movement layer declines by
+    design (`charge_time=False`, S3-R working as documented). Consequence,
+    reproduced in two independent data sets: **OS Diversity and Service Diversity
+    are the same mechanism against this attacker.** Experiment 2's own interval
+    report already leaves them unseparated, so no recorded conclusion depended on
+    the distinction — but with `(complete_topology, ip_shuffle)` also unseparated
+    and explained (nothing reads `host.ip`), the four-mechanism defence family
+    resolves to **two distinct effects, each appearing twice**, and the E5
+    ranking inversion has fewer effective degrees of freedom than four rows
+    suggest. Three independent decisions for Marc; the free one (report the
+    family's true cardinality) is recommended first. **Also a falsifier for the
+    axis-6 redesign**: no effort term can price the two diversity mechanisms
+    differently on this substrate.
 *(Shipped from wave 6: the **iterated cost model** —
 `2026-08-01_iterated_cost_model.md`, ruled on and landed 2026-08-02 (option 4,
 both changes as three arms, S2 cleared). The R2 defect is repairable with no new
