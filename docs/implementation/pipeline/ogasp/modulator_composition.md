@@ -43,10 +43,32 @@ inventing a magnitude or inverting the within-class ordering.
 | 1 | **Base transition weights** | movement | corpus flow-proportions (not a declared *family* — measured from the Attack Flow corpus) | — (always present; it *is* the prior) | **yes** — it is the model |
 | 2 | **Outcome overlay** (verdict conditioning) | movement | `v3_persistent_backward`, per-verdict value tables | a verdict-blind overlay whose tables are empty passes every destination through at 1.0 | **yes** |
 | 3 | **Utility modulator** (axis 6, cost-sensitivity) | movement | benefit family + rationality exponent λ (declared 1.0) | λ = 0 → every factor 1.0, bit-identical | **no** |
-| 4 | **Learning modulator** (axis 7, within-run belief) | movement | κ (declared 1.0), ρ (declared 0.5), Laplace α = β = 1 | κ = 0 → no factors returned, bit-identical | **no** |
+| 4 | **Learning modulator** (axis 7, within-run belief) | movement | κ (declared 1.0), ρ (declared 0.5), Laplace α = β = 1; **credit rule selector, default `acceptance`** | κ = 0 → no factors returned, bit-identical | **no** |
 | 5 | **Tactic-to-verb mapping** | controller | `v1_ckc_total` / `v2_partial`, versioned registry | not nullable — a mapping is always selected | **yes** (named per experiment) |
-| 6 | **Precondition relation** | controller | verb-level requires/produces/clears, versioned | consulted only by factor 4; inert when κ = 0 | **no** (rides with factor 4) |
+| 6 | **Precondition relation** | controller | verb-level requires/produces/clears, versioned (**`v2_achievement`** since 2026-08-02) | consulted only by factor 4; inert when κ = 0 | **no** (rides with factor 4) |
 | ~~7~~ | ~~**Iterated utility modulator**~~ | — | **RETIRED 2026-08-02** — built, swept over 4 200 runs, ruled a negative result and deleted ([`iterated_cost_model.md`](iterated_cost_model.md) §0). Its row is struck rather than removed so the register records that the slot was tried | — | **no — the code no longer exists** |
+
+**Factor 4 gained a credit-rule selector and factor 6 gained achievement terms on
+2026-08-02** ([`progress_credit.md`](progress_credit.md)). Neither changes this
+register's structure and neither is active in the reported configuration. Two
+things are worth stating here rather than only in the build record. The selector
+defaults to `acceptance`, which is the rule every recorded figure was produced by,
+so factor 4 stays reproducible exactly as factor 3 does. And the artefact change
+is **verified inert** — `foothold` is produced-only, so `is_ready` is unchanged
+(0 disagreements, exhaustively checked on both mappings), which is what keeps the
+readiness bit's accuracy figures valid without re-measurement.
+
+**That inertness check also covers the retired factor 7, and this is why its
+results still read.** The same property held for `enabling_cost`, factor 7's own
+consumer, which is why the axis-6 sweep recorded against `v1_substrate` remains a
+valid record of the model it ran under even though the artefact has since moved.
+The code is gone; the record is not, and the check is what keeps the two
+consistent.
+
+A **control arm** also landed beside factor 4: `DeclaredReadinessBias`, the static
+modulator built from factor 4's own declared inputs, which exists to test whether
+the learner differs from a lookup. It is a comparison arm, never a factor, and it
+must not appear in a reported configuration.
 
 Factors 1–4 are **routing factors** composing multiplicatively per the rule
 in §1. Factors 5–6 are **controller artefacts**: they do not multiply into the

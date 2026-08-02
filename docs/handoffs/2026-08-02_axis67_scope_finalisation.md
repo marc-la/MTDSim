@@ -108,10 +108,58 @@ Joint:
    ([`modulator_composition.md`](../implementation/pipeline/ogasp/modulator_composition.md)).
    Decide whether that check is in scope.
 
+## Rulings taken
+
+### 2026-08-02 — item 5 ruled by Marc: the learner is a tested negative, not the default
+
+**Ruling.** Static weights remain the default for the attack model. The learning
+capability is **not deleted and not promoted** — it is maintained as a built,
+declared, ablatable arm carrying a measured negative. No further implementation
+effort on axis 7 mechanism.
+
+**Why this is a position rather than a retreat.** The reported headline
+configuration already ran modulators null (the §4 pin), so nothing changes in what
+is reported. What the capability carries is evidence: an attacker rewarded for
+*permitted* actions optimises away from its objective, measured at rank
+correlation +0.921 with permission and −0.027 with progress, and the repair that
+corrects the signal inverts that to +0.778
+([`../implementation/pipeline/ogasp/progress_credit.md`](../implementation/pipeline/ogasp/progress_credit.md) §2).
+Ablating the capability would delete the evidence for a claim the discussion
+chapter has already committed to, not simplify the model.
+
+**What remains open on this axis is measurement, not mechanism** — see the
+evidence-resolved items below and §6 of the findings record.
+
+### 2026-08-02 — items 7, 8 and 9 resolved by evidence rather than by ruling
+
+- **Item 7 (type-disciplined forgetting): do not adopt.** U5 refuted it *with CI
+  separation and in the opposite direction* on the decision cell — ρ = 0 gives
+  1.06 ± 0.18 hosts against ρ = 0.5's 1.49 ± 0.19. The literature argument
+  (tradecraft is durable) was sound about what an operator retains and wrong about
+  the object it was applied to: a within-run frequency estimate keyed on
+  tactic-places is not tradecraft, and a learner that never forgets stays
+  committed to a policy the defence has already invalidated. **Had this been ruled
+  on the earlier reasoning it would have been ruled incorrectly.**
+- **Item 8 (seed count): superseded by a better finding.** The sweep ran 50 seeds
+  from the power calculation and adjacent arms still did not separate — but the
+  arms share seeds, and comparing arm means with independent CIs discards the
+  pairing at a cost of 2.0× in variance. The question is no longer "how many
+  seeds" but "paired or unpaired", and the answer is paired, pre-registered in
+  advance ([`../implementation/pipeline/ogasp/progress_credit_findings.md`](../implementation/pipeline/ogasp/progress_credit_findings.md) §8).
+- **Item 9 (declared-bias control): built and run.** It answers with a
+  mapping-dependent verdict — the accumulated belief is indistinguishable from an
+  aggression-matched static bias on `v2_partial` and clearly separated from it on
+  `v1_ckc_total`. That is now the axis's live question, and it is better-posed
+  than "does the attacker win".
+
+**Items 1–4 and 6 (axis 6) remain open and unruled.**
+
 ## Validation gate
 
 Each numbered item carries a dated ruling recorded against it in this file (in
-/ out / deferred, with a sentence of why). When all nine are ruled, the freeze
+/ out / deferred, with a sentence of why). **Four of nine are now settled — see
+"Rulings taken" above: item 5 by Marc's ruling, items 7–9 by evidence.** When all
+nine are ruled, the freeze
 record takes its dated closure amendment re-adopting axes 6 and 7
 ([`model_scope_freeze.md`](../implementation/pipeline/ogasp/model_scope_freeze.md)
 §6), and this handoff is deleted in that commit.

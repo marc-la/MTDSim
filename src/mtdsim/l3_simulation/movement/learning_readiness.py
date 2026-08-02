@@ -62,6 +62,14 @@ PRECONDITION_PATH = (
 # local so this module reads no measurement code.
 NETWORK_RESOURCE = "network"
 
+#: The two credit rules. ``ACCEPTANCE`` is the shipped one — a verdict of success
+#: is credit — and stays the default so every figure already on record reproduces.
+#: ``PROGRESS`` credits the *state change* instead (§ the class docstring), and is
+#: the arm the feasibility study recommends.
+ACCEPTANCE = "acceptance"
+PROGRESS = "progress"
+CREDIT_RULES = (ACCEPTANCE, PROGRESS)
+
 
 @dataclass(frozen=True)
 class PreconditionModel:
@@ -114,6 +122,35 @@ class ReadinessLearningModulator:
     ``κ = 0`` returns no factors, so the composition is arithmetically the
     two-factor rule and the run is bit-identical to one without the state, which
     is the null-equivalence guarantee re-asserted for this modulator.
+
+    **The credit rule is selectable, and this is the axis's open question rather
+    than a convenience.** Under ``credit = ACCEPTANCE`` (the default, and what
+    every recorded figure was produced by) a verdict of *success* is credit — the
+    substrate permitted the action. Measurement showed what that optimises: the
+    learned preference tracks whether an action was **permitted** at rank
+    correlation +0.921 and whether it **advanced the attacker** at −0.027, so the
+    mechanism rates a tactic with a progress rate of 0.0000 at Q = 0.992 and one
+    with a progress rate of 0.448 at Q = 0.302
+    (``learning_mechanism_feasibility.md`` §8b).
+
+    Under ``credit = PROGRESS`` the belief is credited by the *state change* the
+    action produced: an action that moved the attacker's phase-state scores a
+    success, an action the substrate permitted that left the phase-state exactly
+    as it found it scores a failure, and a blocked attempt keeps landing in the
+    ``(place, not-ready)`` cell where the same measurement shows it belongs (the
+    not-ready component costs between 0.0 % and +1.8 % of expected progress — it
+    is free and correct). The signal is contemporaneous and one-step: no
+    eligibility trace, no horizon, no discount, no value function, so the no-RL
+    constraint holds without argument.
+
+    What the rule does mechanically is the reason to prefer it to a new mechanism.
+    Scanning while its capability is already held changes nothing and so earns
+    nothing, which retires the reconnaissance-farming loop; re-attacking a host
+    already footholded changes nothing and so earns nothing, which is the *churn*
+    failure mode; and moving the cursor to a fresh host clears the foothold, so
+    the next exploit can earn again. Because a verb pays only while it is still
+    advancing the attacker, the substrate's procedural order stops having to be
+    injected and becomes something the attacker discovers.
     """
 
     name = "learning-readiness"
@@ -130,6 +167,7 @@ class ReadinessLearningModulator:
         precondition_model: PreconditionModel | None = None,
         alpha: float = 1.0,
         beta: float = 1.0,
+        credit: str = ACCEPTANCE,
     ) -> None:
         if kappa < 0.0:
             raise ValueError(f"kappa must be non-negative, got {kappa!r}")
@@ -137,6 +175,11 @@ class ReadinessLearningModulator:
             raise ValueError(f"rho must lie in [0, 1], got {rho!r}")
         if alpha <= 0.0 or beta <= 0.0:
             raise ValueError("the Laplace prior must be strictly positive on both sides")
+        if credit not in CREDIT_RULES:
+            raise ValueError(
+                f"credit must be one of {CREDIT_RULES}, got {credit!r}"
+            )
+        self.credit = credit
         self.kappa = float(kappa)
         self.rho = float(rho)
         self.alpha = float(alpha)
@@ -163,10 +206,13 @@ class ReadinessLearningModulator:
         tactic_to_verb: Mapping[str, str | None],
         rules_path: Path | str = RULES_PATH,
         precondition_path: Path | str = PRECONDITION_PATH,
+        credit: str = ACCEPTANCE,
     ) -> "ReadinessLearningModulator":
         """The learner at its declared (κ, ρ) values — the arm an experiment runs.
         Reuses the destination-only learner's rules artefact: the readiness
-        generalisation is a representation change, not a new value family."""
+        generalisation is a representation change, not a new value family, and
+        the credit rule is a change of *signal* rather than of magnitude, so it
+        declares nothing either."""
         p = load_learning_parameters(rules_path)
         return cls(
             kappa=p.kappa,
@@ -175,6 +221,7 @@ class ReadinessLearningModulator:
             beta=p.beta,
             tactic_to_verb=tactic_to_verb,
             precondition_model=PreconditionModel.load(precondition_path),
+            credit=credit,
         )
 
     # -- the belief ----------------------------------------------------------
@@ -200,24 +247,47 @@ class ReadinessLearningModulator:
         self._pending = (place, ready)
 
     def observe_verdict(self, place: str, verdict: str) -> None:
-        """Credit the verdict to the ``(place, ready?)`` cell, then apply the
-        place's capability effect — the verb has now run, so what it produces or
-        clears joins the phase-state for the routing decision that follows."""
+        """Apply the place's capability effect, then credit the verdict to the
+        ``(place, ready?)`` cell.
+
+        The effect is applied **first** because the ``PROGRESS`` credit rule has
+        to see whether it moved anything; under ``ACCEPTANCE`` the credit does
+        not read the phase-state at all, so the order is immaterial there and the
+        arm remains arithmetically identical to the shipped mechanism.
+        """
         ready = self._pending[1] if self._pending and self._pending[0] == place else \
             self.model.is_ready(self.tactic_to_verb.get(place), self.held)
-        if verdict == SUCCESS:
-            cell = (place, ready)
-            self.success[cell] = self.success.get(cell, 0.0) + 1.0
-        elif verdict == FAILURE:
-            cell = (place, ready)
-            self.failure[cell] = self.failure.get(cell, 0.0) + 1.0
+        cell = (place, ready)
+
         # Apply the capability effect. Gated on the verb having actually run —
         # a dispatch whose precondition was unmet (not ready) is blocked and
         # produces nothing, which is why production hangs off `ready`.
         verb = self.tactic_to_verb.get(place)
+        before = frozenset(self.held)
         if verb is not None and ready:
             self.held |= self.model.produces[verb]
             self.held -= self.model.clears[verb]
+        # "Did this action move me?" — a change in either direction counts. A
+        # clearing action *is* movement: ENUM_HOST drops the foothold and the
+        # port knowledge because the cursor has moved to a different host, which
+        # is the pivot that makes the next compromise reachable. An action that
+        # leaves the phase-state exactly as it found it achieved nothing,
+        # whatever the substrate said about it.
+        moved = frozenset(self.held) != before
+
+        if self.credit == PROGRESS:
+            if verdict == SUCCESS and moved:
+                self.success[cell] = self.success.get(cell, 0.0) + 1.0
+            elif verdict in (SUCCESS, FAILURE):
+                # Permitted but inert counts against the tactic exactly as a
+                # refusal does — that is the whole content of crediting progress
+                # rather than acceptance.
+                self.failure[cell] = self.failure.get(cell, 0.0) + 1.0
+        else:  # ACCEPTANCE — the shipped rule, unchanged
+            if verdict == SUCCESS:
+                self.success[cell] = self.success.get(cell, 0.0) + 1.0
+            elif verdict == FAILURE:
+                self.failure[cell] = self.failure.get(cell, 0.0) + 1.0
         self._pending = None
 
     def observe_mtd_interrupt(self, resource_type: str = "") -> None:
@@ -263,11 +333,68 @@ class ReadinessLearningModulator:
         return {
             "kappa": self.kappa,
             "rho": self.rho,
+            "credit": self.credit,
             "forgettings": self.forgettings,
             "held": sorted(self.held),
             "evidence_cells": len(cells),
             "q": {f"{p}|{'ready' if r else 'unready'}": self.q(p, r) for p, r in cells},
         }
+
+
+class DeclaredReadinessBias(ReadinessLearningModulator):
+    """**A control arm, not a mechanism — never ship it in a reported configuration.**
+
+    The static modulator built from the learner's own *declared* inputs and
+    nothing else: it applies ``q_ready`` when the destination's precondition is
+    satisfied and ``q_unready`` when it is not, both fixed for the whole run.
+    Everything else — the readiness tracking, the phase-state severance, the
+    exponent, the composition — is the learner's, inherited unchanged.
+
+    It exists to answer one question, which is the one an examiner asks first:
+    **is the learner learning, or is it a lookup with extra steps?** The
+    readiness bit is a declared function of the trajectory whose accuracy against
+    ground truth is 1.0000 on ``v1_ckc_total``, and an unmet precondition is a
+    deterministic failure — so a belief keyed on that bit converges toward a
+    deterministic function of a variable the mechanism already computes for free.
+    If the learner cannot be distinguished from this control on breadth *and* on
+    the realised transition distribution, its accumulated counts are decoration.
+    That is criterion C3 of ``learning_mechanism_feasibility.md`` §6, and it had
+    never been run.
+
+    The two constants are **arguments, not declared values** — this module
+    declares nothing. A sweep states them and owns the choice; the natural
+    setting is the pooled ready / not-ready success rates already measured in
+    ``learning_representation.md`` §1, with the not-ready side taken at its
+    Laplace estimate rather than at the measured 0.000, so the factor stays
+    strictly positive and ``may_zero`` remains a proof.
+    """
+
+    name = "declared-readiness-bias"
+    may_zero = False
+
+    def __init__(self, *, q_ready: float, q_unready: float, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+        if not 0.0 < q_ready <= 1.0 or not 0.0 < q_unready <= 1.0:
+            raise ValueError(
+                "both declared rates must lie in (0, 1] — a zero would zero an "
+                "out-edge, which this control has no licence to do"
+            )
+        self.q_ready = float(q_ready)
+        self.q_unready = float(q_unready)
+
+    def q(self, place: str, ready: bool) -> float:
+        """The declared constant for the readiness state. The inherited counts
+        still accumulate — they are logged, and keeping them makes the control
+        and the learner differ in exactly one respect — but they never reach the
+        routing decision."""
+        return self.q_ready if ready else self.q_unready
+
+    def snapshot(self) -> dict[str, Any]:
+        snap = super().snapshot()
+        snap.update(
+            {"control": True, "q_ready": self.q_ready, "q_unready": self.q_unready}
+        )
+        return snap
 
 
 def load_tactic_to_verb(mapping_version: str | None = None) -> dict[str, str | None]:
@@ -284,7 +411,11 @@ def load_tactic_to_verb(mapping_version: str | None = None) -> dict[str, str | N
 __all__ = [
     "PRECONDITION_PATH",
     "NETWORK_RESOURCE",
+    "ACCEPTANCE",
+    "PROGRESS",
+    "CREDIT_RULES",
     "PreconditionModel",
     "ReadinessLearningModulator",
+    "DeclaredReadinessBias",
     "load_tactic_to_verb",
 ]
