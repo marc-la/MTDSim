@@ -438,6 +438,38 @@ the recorded −0.893).)*
     family's true cardinality) is recommended first. **Also a falsifier for the
     axis-6 redesign**: no effort term can price the two diversity mechanisms
     differently on this substrate.
+26. `2026-08-02_boundary_network_attacker_integration.md` — **boundary review
+    1 of 3** (Marc's directed programme, 2026-08-02): is the attacker
+    meaningfully coupled to every network component the defence family can
+    move? Owns the **read side** of the coupling matrix — the verb-by-verb
+    attack-phase review, the per-arm liveness verdicts (the S3-R seam gives
+    the two arms different read surfaces), and the already-verified dead
+    couplings (`host.ip` has zero readers repo-wide; the OS relabel reaches
+    exploitation through nothing). Part A review → Marc dispositions → Part B
+    fixes under the D-05 procedure, then a written **95 % confidence gate**;
+    if unmet, the A/B cycle iterates scoped to the named doubts. Consumes
+    D-18/D-19; run **first** of the three — its matrix defines "meaningful"
+    for the other two.
+27. `2026-08-02_boundary_network_defender_integration.md` — **boundary review
+    2 of 3**: does each mechanism move the whole attack surface in its
+    purview, and are the purviews fair to compare? Owns the **write side**:
+    exact write-set enumeration per mechanism (latent ones included), the
+    shared exemptions (exposed endpoints undocumented for the application
+    layer, target node never diversified), ports that persist across service
+    redraws, stale derived state, exploited-flag continuity — ending in a
+    side-by-side purview table any ranking claim can cite. Same A/B +
+    confidence-gate discipline. Consumes D-18's ruling; run **second**.
+28. `2026-08-02_boundary_attacker_defender_integration.md` — **boundary review
+    3 of 3**: the direct couplings that bypass network state. Marc's model
+    expected one channel (the confusion penalty); the survey found **six**
+    (verb-gated interrupt condition, penalty, cursor clear, forced re-scan
+    succession, the movement arm's failure-verdict seam with its
+    belief-forgetting rule, and the unwired `observed_changes` hook). All
+    class-level, not mechanism-level — for weakly-coupled mechanisms these
+    channels are their *entire* measured effect, so this is where comparative
+    fairness is most load-bearing. Central question for Marc: class-level
+    pricing as the documented model, or mechanism-level differentiation at
+    full golden cost. Same A/B + confidence-gate discipline; run **third**.
 *(Shipped from wave 6: the **criterion's consequence and provenance rows** —
 `2026-07-29_criterion_consequence_and_provenance_rows.md`, landed 2026-08-01 in
 two commits — definitions and evidence bars first, scores second, so the
