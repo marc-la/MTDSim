@@ -204,3 +204,77 @@ that bar is untouched.
 - `data/results/progress_credit/` (untracked/regenerable) — `run_sweep.py`
   carrying the criteria in its docstring, `analyse.py` computing every verdict
   from the rows, `runs.jsonl` (7 000), `verdict.txt`.
+
+## 8. Addendum (2026-08-02) — which of these negatives are real, and which are the instrument
+
+Added after the verdicts above were recorded. **Nothing in §2 is re-graded.** The
+pre-registered criterion was non-overlapping 95 % CIs on arm means, that criterion
+was applied, and those verdicts stand as this sweep's record. What follows asks a
+different and legitimate question — *are these negatives measuring the mechanism or
+the measurement?* — and its answers are **leads for a fresh pre-registration**, never
+substitutes for §2.
+
+### 8.1 The arms share seeds, and the convention discards it
+
+Every arm runs the same 50 seeds against the same profiles, differing only in the
+modulator. The difference between two arms on a given (profile, seed) is therefore
+a **paired** observation, and comparing arm means with independent CIs throws that
+pairing away. On this sweep it costs a factor of **2.0 in variance**
+(unpaired SDs 3.14 and 2.47; paired SD of the difference 2.86).
+
+Pooling over profiles compounds it: the ablation's within-profile SDs are
+1.44–2.50 while its pooled SD is 2.47, because profile means span 1.96 to 6.14
+hosts. The pooled comparison is being asked to detect a ~0.4-host effect through
+variance that is mostly *between-profile* and cancels exactly under pairing.
+
+### 8.2 Paired differences (same seed, same profile), reported as leads
+
+Positive favours the first arm; **separated** means the 95 % CI on the difference
+excludes zero.
+
+| mapping | MTD | comparison | paired difference | |
+|---|---|---|--:|---|
+| `v2_partial` | none | progress vs **ablation** | **+0.436 ± 0.354** | **separated** |
+| | none | progress vs acceptance | +0.352 ± 0.377 | — |
+| | none | progress vs control_matched | +0.304 ± 0.357 | — |
+| | random | progress vs **ablation** | **+0.284 ± 0.207** | **separated** |
+| | random | progress vs control_matched | −0.016 ± 0.232 | — |
+| `v1_ckc_total` | none | progress vs **ablation** | **+1.260 ± 0.245** | **separated** |
+| | none | progress vs **acceptance** | **+1.236 ± 0.272** | **separated** |
+| | none | progress vs **control_matched** | **+1.024 ± 0.251** | **separated** |
+| | random | progress vs control_matched | **−1.064 ± 0.246** | **separated (control better)** |
+
+### 8.3 So which negatives were false?
+
+- **U1 is a probable false negative.** Paired, the mechanism beats its ablation on
+  the decision cell at **both** MTD conditions. The unpaired verdict is not wrong —
+  it is the criterion that was set — but the criterion could not see an effect the
+  data contains. **This does not move the badge**: a badge cannot be taken on an
+  analysis chosen after the rows existed. It is the single strongest argument for
+  re-running with paired analysis pre-registered.
+- **U2 is genuinely borderline.** +0.352 ± 0.377 paired — still not separated, still
+  8 of 10 in direction. Underpowered rather than absent.
+- **U3 is a true negative on `v2_partial` and passes on `v1_ckc_total`.** Against the
+  aggression-matched control the mechanism is indistinguishable on `v2` (+0.304 ±
+  0.357; −0.016 under MTD) and clearly separated on `v1` (+1.024 ± 0.251). **The
+  "is it learning?" question has a mapping-dependent answer**: the accumulated
+  belief buys nothing a static declared bias does not where the substrate barely
+  obstructs, and buys a great deal where it obstructs heavily. That is the §3
+  mismatch-proportional hypothesis arriving independently on the criterion that was
+  designed to be failable.
+- **U4 is a measure-definition problem, not a detection one.** The absolute and
+  retained-fraction readings disagree in sign; the pre-registration named only one.
+- **U5 is a true negative and stands unchanged.** It separated *against* its
+  prediction on the pre-registered criterion, and pairing does not rescue a
+  refutation. Do not adopt ρ = 0.
+
+### 8.4 The implication reaches past this sweep
+
+**Four successive sweeps on this project have failed to separate adjacent arms at
+ten seeds, and all of them compared arm means with independent CIs while running
+shared seeds.** Some part of that history may be instrument rather than mechanism.
+This is a lead about the project's measurement convention, not a re-reading of any
+recorded experiment — every prior verdict stands as the record of the criterion it
+was taken under. What it earns is a **pre-registered paired analysis in the next
+sweep**, and a note in the criterion doc that a pooled unpaired comparison over
+heterogeneous profiles is a weak instrument for a small effect.
