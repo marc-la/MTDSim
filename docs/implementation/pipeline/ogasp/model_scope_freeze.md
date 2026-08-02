@@ -1,8 +1,8 @@
 ---
 status: durable
 created: 2026-07-29
-updated: 2026-08-01
-topic: "The attacker-model scope freeze — the per-axis disposition at freeze time, what each axis would still need, which needs are honest and which would be embellishment, and the one mechanism still worth building"
+updated: 2026-08-02
+topic: "The attacker-model scope freeze — the per-axis disposition at freeze time, what each axis would still need, which needs are honest and which would be embellishment; perimeter narrowed 2026-08-02: axes 6 and 7 are out of the freeze and open while their scope is finalised"
 ---
 
 # The scope freeze — what the attacker model is, and what it is deliberately not
@@ -20,6 +20,42 @@ ruling, a saturated metric, or a credit-assignment redesign that is a research
 project in itself. Building thin versions of any of them would produce exactly
 the half-cooked implementations that make a contribution harder to defend, not
 easier.
+
+## 0. Perimeter amendment (2026-08-02) — axes 6 and 7 leave the freeze
+
+**Ruling (Marc, 2026-08-02): the freeze was taken before the scope of incentive
+rationality (axis 6) and learning capability (axis 7) was finalised, and those
+two rows leave its perimeter.** The record's own history is the evidence: both
+axes have been substantially reworked since freeze day — the learner re-keyed
+and swept 2026-08-01, the iterated cost model ruled on, built and swept
+2026-08-02 — and each amendment has had to argue that it "does not re-open the
+freeze". A freeze that must be argued around on every touch is not functioning
+as a freeze for those rows; it is functioning as friction on a scope that was
+never final.
+
+**What this changes.**
+
+- Axes 6 and 7 are **open**. Their §2 rows read as *status at last update*, not
+  as frozen dispositions, and work on them needs no re-open argument against
+  this record. The open scope decisions are consolidated in
+  [`../../../handoffs/2026-08-02_axis67_scope_finalisation.md`](../../../handoffs/2026-08-02_axis67_scope_finalisation.md)
+  — that handoff, not this record, is the surface scope finalisation happens on.
+- When their scope is declared final, both rows re-enter the freeze by a dated
+  closure amendment here (§6).
+
+**What this does not change.**
+
+- **Axes 1–5 and 8 stay frozen as written.** The preamble's rationale — further
+  mechanism buys less than it costs — continues to hold for them.
+- **The §4 pin is untouched.** The reported headline configuration runs
+  modulators null whatever the open axes decide; that is a claim-integrity rule
+  about which arm owns the plurality evidence, not a scope rule.
+- **No supervisor-level constraint is touched.** S2 remains the supervisor's
+  ruling, cleared per-experiment
+  ([`supervisor_decision_register.md`](supervisor_decision_register.md)); the
+  no-RL hard constraint, the S6 evidence-only badge rule and the
+  scheme-awareness exclusion bind exactly as before. An open scope licenses
+  *deciding*, not building past a ruling.
 
 ## 1. What the model is, stated once
 
@@ -52,8 +88,8 @@ outstanding).
 | 3 | Strategic plurality | DEMONSTRATED | — | Freeze, and **pin the composition configuration** (§4). |
 | 4 | Adaptivity | DESIGNED | — | Freeze. The ablation is the finding. |
 | 5 | Stealth | NOT ADDRESSED | **M + G** | Future work. Blocked three independent ways. |
-| 6 | Incentive rationality | DESIGNED | **X** | **Updated 2026-08-02:** the remedy was ruled on, built and swept (4 200 runs). The M gap is **closed** — the defect is repairable and the repair measurably reaches it — and the badge still does not move, because the criterion that would move it is passed by a negative control. The gap is now a *measurement* one. |
-| 7 | Learning | DESIGNED | **M** | Freeze the badge. ~~One mechanism could test its hypothesis (§5).~~ **Built and swept 2026-08-01 — the badge held; the gap narrowed from two candidate causes to one (the credit signal).** |
+| 6 | Incentive rationality | DESIGNED | **X** | **Updated 2026-08-02:** the remedy was ruled on, built and swept (4 200 runs). The M gap is **closed** — the defect is repairable and the repair measurably reaches it — and the badge still does not move, because the criterion that would move it is passed by a negative control. The gap is now a *measurement* one. **Out of the freeze perimeter since 2026-08-02 (§0) — scope open.** |
+| 7 | Learning | DESIGNED | **M** | Freeze the badge. ~~One mechanism could test its hypothesis (§5).~~ **Built and swept 2026-08-01 — the badge held; the gap narrowed from two candidate causes to one (the credit signal).** **Out of the freeze perimeter since 2026-08-02 (§0) — scope open.** |
 | 8 | Scheme awareness | NOT ADDRESSED | — | Ruled out of scope. Freeze. |
 
 **Two demonstrated, four designed, two not addressed.** That is the honest final
@@ -415,7 +451,11 @@ model exists to serve.
 
 ## 6. When to re-open this record
 
-When the outstanding freeze ruling is resolved (axes 6 and 7 both wait on it);
-when a successor takes up any item in §3; and if the reported configuration in §4
-changes for any reason. Not otherwise — the point of a freeze is that it is not
-revisited because a row reads badly.
+~~When the outstanding freeze ruling is resolved (axes 6 and 7 both wait on
+it);~~ **axes 6 and 7 no longer gate on this clause — they left the perimeter
+(§0), and their scope closes through the finalisation handoff rather than
+through a re-open.** The record re-opens when a successor takes up any item in
+§3; if the reported configuration in §4 changes for any reason; and to take the
+dated closure amendment when the axis-6/7 scope is declared final. Not
+otherwise — the point of a freeze is that it is not revisited because a row
+reads badly.
