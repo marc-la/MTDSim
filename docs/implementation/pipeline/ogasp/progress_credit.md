@@ -210,21 +210,33 @@ unchanged and this build does not touch it. And **no reported configuration
 change**: the headline arm still runs modulators null, and `ACCEPTANCE` remains
 the modulator's default.
 
+## 5b. The sweep has since run — all five conclusions not confirmed (2026-08-02)
+
+[`progress_credit_findings.md`](progress_credit_findings.md), 7 000 runs. The
+badge stays DESIGNED (U1, as predicted). The credit repair favours progress in 8
+of 10 cells and does not separate on the decision cell (U2). The mechanism is not
+distinguishable from an aggression-matched declared bias on `v2_partial` (U3),
+which is now the axis's live problem. **§3's watch item 2 fired exactly as
+flagged** — the pivot is suppressed and `infrastructure_setup` is the one profile
+the mechanism harms (3.40 -> 2.02). And the type-discipline prediction was
+**refuted with separation in the opposite direction**: forgetting helps.
+
+One large separated effect exists and sits outside the gated cell: on
+`v1_ckc_total` with no MTD the mechanism reaches 1.70 +/- 0.29 against an ablation
+of 0.44 +/- 0.08. It is a lead requiring its own pre-registration, not a result.
+
 ## 6. What comes next, in order
 
-1. **Rule on the forgetting question.** The study's C2 must-pass is that ρ decays
-   a *tradecraft* object the literature says MTD cannot touch. That is a declared
-   value change, it needs Marc's disposition, and it needs its own
-   pre-registration — the ρ = 0 arm is where the only CI-separated win against
-   the ablation currently sits, which is exactly why it must not be selected
-   post-hoc ([`learning_mechanism_feasibility.md`](learning_mechanism_feasibility.md) §5).
-2. **Settle the seed count.** Four sweeps have failed to separate adjacent arms at
-   ten seeds; the power calculation puts a 0.7-host difference at ~45 (§7).
-3. **Pre-register, then sweep.** Four arms — ablation, declared-bias control,
-   acceptance learner, progress learner — with the mapping, MTD condition,
-   parameter point and seed count named in advance, the primary gate reported
-   whatever it does, and the C1 interaction (`I = ΔP(mech) − ΔP(abl)`) carried as
-   a separate additional conclusion with its sign predicted beforehand.
+~~1. Rule on the forgetting question.~~ **Answered by measurement, not by ruling:
+   U5 refuted ρ = 0 with CI separation on the decision cell. Do not adopt it.**
+~~2. Settle the seed count.~~ **Done — the sweep ran 50 seeds from the power
+   calculation, and adjacent arms still did not separate on `v2_partial`.**
+~~3. Pre-register, then sweep.~~ **Done** ([`progress_credit_prereg.md`](progress_credit_prereg.md),
+   [`progress_credit_findings.md`](progress_credit_findings.md)).
+
+The successor list is now §6 of the findings record. Its first item is the one
+that matters: pre-register `v1_ckc_total` as the decision cell and test whether
+the effect scales with the mapping's blocked fraction.
 
 ## 7. Where this connects
 
