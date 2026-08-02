@@ -495,6 +495,54 @@ disposition and the freeze. Note that the S2 freeze's status is unchanged: the s
 experiment, and this badge move rests on the mechanism and the sweep, not on an
 experimental claim.
 
+> **The second route was built and swept 2026-08-02, S2 cleared, and the badge
+> stays DESIGNED — but the reason has changed, and the new reason is the more
+> useful finding**
+> ([`pipeline/ogasp/iterated_cost_model.md`](pipeline/ogasp/iterated_cost_model.md);
+> 4 200 runs, conclusions pre-registered). The mechanism exists: a
+> state-conditioned expected cost over the declared precondition relation's
+> capability closure, and a benefit measuring distance through the profile's own
+> routing net, both derived from artefacts already on disk with **no new declared
+> magnitude**. It repairs the R2 defect measurably — the blocked-fraction rise is
+> 73–89 % undone in the pooled `v2_partial` cells and successes per action roughly
+> double — though not at the per-profile resolution its own U2 demanded (3 of 30
+> cells CI-disjoint), so U2 is recorded moved and the stopping rule was honoured.
+>
+> **The badge is declined rather than failed, and that distinction is the point.**
+> U3 — the conclusion written to move this row, taking C4's criterion verbatim so
+> the verdicts would be comparable — *passes* on the bare threshold, at 4 of 5
+> profiles, for three of the four arms. It also passes for the **`declared` arm**,
+> which is the shipped model that F6 proved by spike cannot see MTD at all (its
+> factor table precomputes to 30/30 bit-identical, and the MTD condition is not
+> among its inputs). A criterion passed by a negative control is not measuring the
+> property it tests, and the per-profile continuum confirms it: four of five
+> ratios sit within ±15 % of 1.0 in every arm, with `double_extortion` — this
+> family's recorded outlier under both C4 and C6 — carrying the pass. U3 is
+> recorded **moved**, on the identical reading C4 is recorded moved on, and this
+> row stays DESIGNED. Reporting it as held would move a badge on a statistic that
+> cannot discriminate.
+>
+> **What this leaves the M8b field below.** Route two is no longer a candidate —
+> it is built, and it is not what is missing. What is missing is an **instrument**:
+> a measure of MTD-conditional attacker response that a mechanism provably blind
+> to MTD cannot pass. Until one exists this row cannot be moved by any mechanism,
+> because the evidence bar itself is the thing that fails. Route one (a defence
+> whose cost is not proportional to dwell, reachable inside experiment 2's family
+> at the relaxed interval) is unaffected by this and remains open — but it would
+> be scored by the same statistic, so it inherits the same problem.
+>
+> **A finding from the sweep that belongs to axis 3 rather than this one, recorded
+> here because this sweep produced it.** The repair inverted its own design's
+> ranking: the expected-cost change (the brief's recommended minimum) fails, and
+> the benefit-through-the-net change pays. The latter is the first modulator
+> configuration this project has measured that **does not narrow traversal** —
+> pooled path entropy *rises* against the shipped model in 5 of 5 profiles on both
+> mappings, and holds 1.008 bits at the near-greedy band end where the shipped
+> family collapses to 0.655. Axis 3's badge and its reported-configuration pin are
+> untouched (the headline arm still runs modulators null), but the standing
+> qualification that the model's one decision rule trades *against* plurality now
+> has a measured exception, and it is the numerator that supplies it.
+
 ### Axis 7 — Learning capability
 
 **What it is.** Cho et al.'s first and sharpest under-developed dimension:

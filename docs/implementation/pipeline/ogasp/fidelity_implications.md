@@ -207,6 +207,31 @@ with no simulation running; if the run is bit-identical, the mechanism is
 static and cannot interact with the defence. This is cheap and should be run on
 any future attacker-fidelity mechanism *before* it is swept.
 
+> **Amended 2026-08-02 — the verdict above describes the *superseded* model, and
+> the property it rests on has since been surrendered on purpose.** The iterated
+> cost model ([`iterated_cost_model.md`](iterated_cost_model.md)) replaces the
+> declared-duration denominator with a cost conditioned on the capabilities the
+> attacker currently holds, and the defence's actions are therefore among its
+> inputs: the declared precondition relation's `mtd_clears` field says a
+> network-layer mutation destroys the position an enabling chain was walked
+> from, so the chain must be re-walked and the cost rises. **The collapse test
+> would now fail by construction**, which is exactly the intent — a factor that
+> cannot see attacker state cannot see MTD either, and the shipped model's
+> inability to respond to the defence (F2, C4) and its inability to express
+> instrumental value (F5, R2) turned out to have one remedy between them.
+>
+> **What survives the amendment is the part that matters, and it survives
+> strengthened.** F6's generalisable test is not about the utility modulator; it
+> is about *any* attacker-fidelity mechanism, and it now has both outcomes on
+> record rather than one. The shipped model precomputed to 30/30 bit-identical
+> and was correctly diagnosed as evaluation-irrelevant; the iterated model was
+> designed to fail the same test, and the axis-6 sweep is the check on whether
+> failing it is sufficient as well as necessary. That pairing is a better
+> instrument than the original finding was: the test tells a designer whether a
+> mechanism *can* interact with the defence, and says nothing about whether it
+> *will*. Read F6 as a screening test with a known negative and a known
+> positive, not as a verdict on one mechanism.
+
 ### F7 — The lineage's own higher-fidelity attacker has rotted to unreachable
 
 Brown's Scenario 2 (targeted attacker) is fully specified in the literature

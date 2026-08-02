@@ -223,6 +223,29 @@ than a coincidence. The design is worked out in the iterated-cost-model
 handoff (`2026-08-01_iterated_cost_model.md`); it is a mechanism change under
 the freeze and a disposition for Marc, not a session's judgement.
 
+> **Built and swept 2026-08-02, and the diagnosis above is confirmed with one
+> substantial correction** ([`iterated_cost_model.md`](iterated_cost_model.md);
+> 4 200 runs, conclusions pre-registered). The defect is real and repairable
+> without a new declared magnitude: the blocked-fraction rise is 73–89 % undone
+> in the pooled `v2_partial` cells and successes per attempted action roughly
+> double. It was not repaired at the per-profile resolution the pre-registration
+> demanded, so its U2 is recorded moved.
+>
+> **The correction is to this subsection's own emphasis.** The diagnosis says
+> both terms fail in the same direction and the penalty compounds, which is
+> true — but it reads as though the *denominator* were the primary offender, and
+> the two changes were built and swept separately precisely so that could be
+> tested. It is not. Repairing the cost term alone **fails**: it raises the
+> blocked fraction in half the cells, recovers no compromise breadth, and is the
+> only arm to cost path entropy. Repairing the *benefit* term alone — measuring
+> distance through the profile's own routing net rather than the lifecycle-stage
+> ordering — recovers 36 % of the host loss under MTD, doubles successes per
+> action, and costs no plurality at all. The reading that survives is that
+> pricing the wall is not enough on its own: an attacker discouraged from the
+> unready exploit needs somewhere better to go, and only the numerator can say
+> where. **The graph the benefit is measured in was the load-bearing choice**,
+> which is not what §2.2a predicted and is recorded here as a correction to it.
+
 ### 2.2b The three grounds, as they stand
 
 They answer the question the handoff asked, and they are unaffected by §2.2a

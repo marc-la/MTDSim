@@ -52,7 +52,7 @@ outstanding).
 | 3 | Strategic plurality | DEMONSTRATED | — | Freeze, and **pin the composition configuration** (§4). |
 | 4 | Adaptivity | DESIGNED | — | Freeze. The ablation is the finding. |
 | 5 | Stealth | NOT ADDRESSED | **M + G** | Future work. Blocked three independent ways. |
-| 6 | Incentive rationality | DESIGNED | **G + M** | Freeze, with the enabling condition named. **Updated 2026-08-01:** R2 found a structural defect in the decision model (instrumental tactics penalised by both terms), so a mechanism gap now sits beside the governance one. Remedy designed, not built; ruling requested. |
+| 6 | Incentive rationality | DESIGNED | **X** | **Updated 2026-08-02:** the remedy was ruled on, built and swept (4 200 runs). The M gap is **closed** — the defect is repairable and the repair measurably reaches it — and the badge still does not move, because the criterion that would move it is passed by a negative control. The gap is now a *measurement* one. |
 | 7 | Learning | DESIGNED | **M** | Freeze the badge. ~~One mechanism could test its hypothesis (§5).~~ **Built and swept 2026-08-01 — the badge held; the gap narrowed from two candidate causes to one (the credit signal).** |
 | 8 | Scheme awareness | NOT ADDRESSED | — | Ruled out of scope. Freeze. |
 
@@ -152,6 +152,43 @@ request*, not a build: the remedy is designed in full
 (`../../../handoffs/2026-08-01_iterated_cost_model.md`) and takes nothing on
 its own authority. Note that it would also serve the enabling condition named
 above, so one disposition could close both halves of this axis.
+
+**The ruling landed 2026-08-02 (option 4, both changes, three arms, S2 cleared),
+the remedy was built and swept, and the disposition above is now `X` rather than
+`G + M`** ([`iterated_cost_model.md`](iterated_cost_model.md)). Three things
+changed and the badge was not among them.
+
+The **mechanism gap is closed**. The defect is repairable without a new declared
+magnitude, and the repair measurably reaches it: the blocked-fraction rise the
+shipped model caused is 73–89 % undone in the pooled `v2_partial` cells and
+successes per attempted action roughly double. What did not happen is the
+per-profile CI separation the pre-registration demanded (3 of 30 cells), so U2 is
+recorded moved and the stopping rule was honoured — nothing re-specified, no arm
+added, no criterion relaxed.
+
+The **governance gap is closed too**, in the sense that mattered: S2 was cleared
+for this experiment and a non-zero λ was reported.
+
+**What replaced both is a measurement gap, and it is the substantive result.**
+U3 — the conclusion that would have moved this badge, taking C4's criterion
+verbatim so the verdicts would be comparable — was passed on the bare threshold
+by the **`declared` arm**, which F6 proved by spike cannot see MTD at all. A
+statistic a negative control passes is not measuring the property it tests. U3 is
+therefore recorded moved on the same reading C4 is recorded moved on, and the
+badge is declined rather than taken. That is the axis's third measurement
+failure, and it puts axis 6 in the same position as axis 1: the mechanism runs,
+and no instrument in hand can score it.
+
+**One finding travels beyond this axis and is worth the freeze noting.** The
+repair inverted its own design's ranking. The brief called change A (expected
+cost) the recommended minimum and change B (benefit measured through the
+profile's own net) weaker on every axis; A fails and B pays. B recovers 36 % of
+the host loss under MTD, doubles successes per action, and — unlike every other
+modulator configuration this project has measured — **costs no plurality at all**,
+holding 1.008 bits of path entropy at the near-greedy band end where the shipped
+family collapses to 0.655. §4's pin is unaffected, since the reported
+configuration still runs modulators null; but the standing generalisation that
+every modulator narrows traversal now has a measured exception.
 
 ### Axis 7 — the gap is the credit signal, and it is a real research problem
 

@@ -545,6 +545,42 @@ axis-6 M8b field names from the MTD-invariance side. Diagnosis:
 [`cost_model_plain.md`](cost_model_plain.md) §2.2a; remedy designed in the
 iterated-cost-model handoff, gated on Marc's disposition and the freeze.
 
+> **Ruled on, built and swept 2026-08-02 (R3;
+> [`iterated_cost_model.md`](iterated_cost_model.md)). This model is unchanged
+> and remains the model of record — the repair was built beside it, selectable
+> by arm, and its `declared` arm reproduces this modulator's factors exactly.**
+> Three results bear on this record and none of them moves the badge.
+>
+> The fourth limit above is confirmed and partly redirected. The defect is
+> repairable with no new declared magnitude, and repairing it measurably works:
+> pooled on `v2_partial`, the blocked-fraction rise this mechanism causes is
+> 73–89 % undone and successes per attempted action roughly double. But the
+> **numerator** turned out to be the load-bearing half — repairing cost alone
+> fails outright, while measuring benefit through the profile's own routing net
+> instead of the lifecycle-stage ordering is what pays. The limit's claim that
+> the two terms compound stands; its implicit weighting toward the cost term does
+> not.
+>
+> **§6.3's diagnosis of C4 gains a harder edge.** That section explains C4 by the
+> mechanism's blindness to MTD, and the iterated model was built to open exactly
+> that channel. The channel opened and **C4's statistic did not respond in a
+> readable way** — because the statistic itself does not discriminate. The
+> repair's U3 took C4's criterion verbatim and was passed at 4 of 5 profiles by
+> the `declared` arm, the very model F6 proved cannot see MTD at all. So C4's
+> recorded verdict was right for a better reason than it knew: not merely that
+> this mechanism cannot respond to MTD, but that the measure used to ask would
+> not have shown it either. Anyone re-using the action-mix-JSD-under-MTD
+> statistic needs a negative control beside it.
+>
+> **§6.2's entropy collapse is partly re-attributed.** C3 records pooled path
+> entropy falling from 2.23 bits to 0.24 across the band and reads it as the
+> axis-3 price of cost-sensitivity. Measuring benefit in the profile's net
+> instead holds 1.008 bits at the same band end where this family holds 0.655,
+> and *raises* entropy against this model in 5 of 5 profiles on both mappings at
+> the declared λ. C3's measurement stands as recorded; a substantial part of what
+> it measured is now attributable to the benefit family's **graph** rather than
+> to cost-sensitivity as such.
+
 ## 9. What this does not do
 
 - **No substrate change.** Every line is under `src/mtdsim/l3_simulation/`; the
