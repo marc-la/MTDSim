@@ -1,6 +1,7 @@
 ---
-status: open
+status: open — classification done 2026-08-02; blocked on Marc's dispositions (D-18, D-19, decision C)
 created: 2026-08-02
+updated: 2026-08-02
 ---
 
 # Classify two substrate behaviours that make OS Diversity and Service Diversity the same mechanism against this attacker — and decide what the defence family's true cardinality is
@@ -17,6 +18,44 @@ The reason this earns a brief rather than a line in an audit is the second half
 of the title. If the two diversity mechanisms are one mechanism, the defence
 family the project reports over has four members and two distinct effects, and
 that bears on the headline result.
+
+## 0. Where this stands (2026-08-02 classification session, branch `chore/os-service-diversity-classification` off `dev`)
+
+The classification half of this brief is done; what remains is Marc's three
+dispositions. Specifically:
+
+- **§1.1 re-verified live on `dev`'s substrate**, independently of the finding
+  session: `service_is_compatible_with_os` returned True in **0 of 600 checks**
+  (every drawn service against its own OS/version and against all four OS types
+  at every version), while the name-based membership a repaired test would use
+  returns True — so the repair direction in decision A(i)/(iii) verifies, not
+  just the defect. §1.2's code claims (the commented-out gate at
+  `services.py:146-148`, the `charge_time=False` call at
+  `attack_operation.py:746-747`) confirmed by read.
+- **Validation gate 2 is discharged**: the audit's IS-MTD-06 row is
+  re-classified **DIVERGES-DOCUMENTED-NOWHERE** (revised in place with a dated
+  annotation, the IS-MTD-08 precedent), with the always-replace behaviour, the
+  live verification and the measured consequence in view. The audit's header
+  notes the tallies pre-date the revision; §l item 1 now records that the
+  success gate is commented out and the ×2.5 term is OS dependency's only live
+  expression.
+- **Decisions A and B are opened as D-18 and D-19** in the audit's disposition
+  list, options costed, awaiting Marc. B's literature check (§3, decision B) is
+  **done**: the intent spec contains no OS-dependent-exploitation row at all, so
+  the gate has no documented intent to restore — uncommenting it would add an
+  undocumented mechanism, and the recommendation recorded in D-19 is
+  leave-commented-and-record.
+- **Decision C is drafted, not applied** (its disposition is Marc's, gate 1):
+  ready-to-land wording for `experiment_02_findings.md` §9 is in §8 below.
+- **No code, golden, or experiment record was touched**, per §5. Gate 5's
+  regression test is deliberately not written: pinning either behaviour before
+  the D-18 ruling would freeze an unclassified divergence (§3, alternatives).
+
+**To close this handoff:** Marc rules on D-18, D-19 and decision C; if C is
+taken, land §8's text in the findings record; if D-18(a)/(iii) is taken, follow
+the D-05 procedure (fix + goldens re-baselined + `baseline/CHANGELOG.md` + the
+gate-5 regression test); then delete this file in the commit that ships the
+last piece.
 
 ## 1. State of play — what was found, and what is certain
 
@@ -308,3 +347,35 @@ The work is done when:
 - **Re-running or re-analysing experiment 2**, beyond adding the cardinality
   qualification if decision C is taken.
 - Dissertation prose.
+
+## 8. Drafted decision-C wording — ready to land in `experiment_02_findings.md` §9 on Marc's ruling
+
+Drafted 2026-08-02; not applied, because gate 1 requires the disposition to be
+Marc's. If C is taken, insert the block below at the end of §9 (after the "Two
+disciplines hold around it" paragraph), dated with the ruling:
+
+> **A third discipline was added [date] (decision C of the indistinguishability
+> brief, ruled by Marc): the four mechanisms in this table are two effects, each
+> appearing twice.** The interval report already leaves both adjacent pairs
+> unseparated — `(complete_topology, ip_shuffle)` and `(os_diversity,
+> service_diversity)` — and both pairings are explained by code rather than by
+> coincidence. OS Diversity is Service Diversity plus an OS relabel: the
+> compatibility guard on its service replacement can never pass
+> (`service_is_compatible_with_os` tests a `Service` instance against a list of
+> name strings — audit row IS-MTD-06, D-18), so it performs the same complete
+> service redraw, and the relabel reaches the profiled attacker through nothing
+> — the success gate that would consult the host's OS is inherited commented-out
+> code (D-19), and the one live coupling, the ×2.5 exploit-time multiplier, is a
+> time effect the movement layer declines by design (`charge_time=False`, S3-R).
+> Against the inherited attacker the two differ only by that time term, and the
+> recorded margins (90.4 % against 88.8 %) sit within a point and a half. IP
+> Shuffle's entire measured effect is the interrupt plus the network-layer
+> cursor clear, both of which Complete Topology Shuffle also delivers, because
+> no attacker path reads `host.ip`. The family-level claim above is therefore
+> unchanged — the position-destroying family and the diversity family genuinely
+> swap places between the two attackers — but ρ = −0.893 is computed over four
+> rows carrying roughly two effective degrees of freedom, and should be read as
+> a 2 × 2 family contrast rather than a four-mechanism correlation. The pairing
+> reproduces independently in the iterated-cost-model family sub-study
+> (2026-08-02, 50 runs per cell: blocked fraction agreeing to three decimal
+> places, interrupt counts identical).
