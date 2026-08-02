@@ -59,6 +59,10 @@ from mtdsim.l3_simulation.movement.measures import (
 )
 from mtdsim.l3_simulation.movement.statistics import MovementRunResult
 
+# §8's reader is reached through the module rather than by name: the section is
+# new and importing it wholesale keeps the existing import block untouched.
+from mtdsim.l3_simulation.movement import measures as M
+
 
 # ---------------------------------------------------------------------------
 # Record / run factories (hand-built streams)
@@ -80,6 +84,7 @@ def rec(
     dwell: float = 10.0,
     interrupted_by: str = "",
     place_class: str = ACTION_BEARING,
+    n_compromised: int = 0,
 ) -> MovementRecord:
     return MovementRecord(
         profile="test",
@@ -96,6 +101,7 @@ def rec(
         dwell=dwell,
         interrupted_by=interrupted_by,
         place_class=place_class,
+        n_compromised=n_compromised,
     )
 
 
@@ -761,3 +767,154 @@ def test_disruption_snapshot_against_a_seeded_run(seeded_movement_run):
     assert seeded_movement_run.mtd_attack_interrupted == sum(
         1 for r in seeded_movement_run.records if r.interrupted
     )
+
+
+# ---------------------------------------------------------------------------
+# §8 attacker disengagement — the projected-effort reader
+#
+# The gate the design record sets: hand-built streams with hand-worked expected
+# values, so the arithmetic is pinned rather than trusted. Five shapes, each
+# chosen because it exercises a property the measure is claimed to have — steady
+# progress lowers the projection, a stall raises it, no progress at all rises
+# from the prior alone, a run that crosses and recovers reports the FIRST
+# crossing, and a run that never crosses is censored rather than sentinel-valued.
+# ---------------------------------------------------------------------------
+
+
+def _progress_run(*counts: int) -> MovementRunResult:
+    """A run of action-bearing records whose progress trajectory is ``counts``."""
+    return run_of(
+        *(rec("p", step=i, n_compromised=c) for i, c in enumerate(counts)),
+        hosts=counts[-1] if counts else 0,
+    )
+
+
+def test_progress_trajectory_reads_the_recorded_host_count() -> None:
+    """Progress is read off the record, never re-derived from compromise events —
+    the record carries no host identity, so events over-count distinct hosts
+    through re-compromise (measured at 5.40x, and itself MTD-dependent)."""
+    run = _progress_run(0, 0, 1, 1, 2)
+    assert M.progress_trajectory(run) == (0, 0, 1, 1, 2)
+
+
+def test_progress_trajectory_excludes_dwell_only_visits() -> None:
+    """Effort is attempted actions, so a dwell-only visit contributes no point —
+    the same denominator the cost ledger's ``n_actions`` uses."""
+    run = run_of(
+        rec("p", step=0, n_compromised=0),
+        rec("p", step=1, verb="", place_class=DWELL_ONLY, verdict="", n_compromised=0),
+        rec("p", step=2, n_compromised=1),
+        hosts=1,
+    )
+    assert M.progress_trajectory(run) == (0, 1)
+
+
+def test_steady_progress_lowers_the_projection() -> None:
+    """A compromise raises both the level and the rate, so T falls — an attacker
+    close to the objective rationally persists through a stall that would send an
+    empty-handed one away."""
+    run = _progress_run(1, 2, 3, 4, 5)
+    curve = M.projected_effort_curve(run)
+    assert all(b < a for a, b in zip(curve, curve[1:])), curve
+
+
+def test_a_stall_raises_the_projection_monotonically() -> None:
+    """An action with no progress increments the effort and decrements the rate,
+    so T rises twice over. This is the economically visible signature of MTD on
+    this substrate: progress flattens while effort keeps accruing."""
+    run = _progress_run(2, 2, 2, 2, 2)
+    curve = M.projected_effort_curve(run)
+    assert all(b > a for a, b in zip(curve, curve[1:])), curve
+
+
+def test_no_progress_at_all_rises_from_the_prior_alone() -> None:
+    """With h = 0 throughout, the rate is driven entirely by the Laplace prior and
+    T rises from its first value. Hand-worked: at t = 1, r = alpha / (1 + alpha/r0)
+    and T = 1 + W / r."""
+    model = M.DisengagementModel(work_total=40.0, r0=0.02, alpha=1.0)
+    run = _progress_run(0, 0, 0)
+    curve = M.projected_effort_curve(run, model)
+    expected_first = 1.0 + 40.0 / (1.0 / (1.0 + 1.0 / 0.02))
+    assert curve[0] == pytest.approx(expected_first)
+    assert all(b > a for a, b in zip(curve, curve[1:]))
+
+
+def test_the_first_crossing_is_taken_not_the_last() -> None:
+    """T is deliberately not monotone, and first-crossing is the honest reading:
+    an attacker decides in real time and does not get to wait and see whether its
+    prospects recover. This run crosses, then recovers below the budget."""
+    model = M.DisengagementModel(work_total=10.0, r0=0.5, alpha=1.0)
+    run = _progress_run(0, 0, 0, 5, 9)
+    curve = M.projected_effort_curve(run, model)
+    budget = curve[1]  # crosses at action 3, then recovers as progress lands
+    assert curve[2] > budget and curve[-1] < budget, curve
+    assert M.abandonment_effort(run, budget, model) == 3
+
+
+def test_a_run_that_never_crosses_is_censored_not_sentinel_valued() -> None:
+    """``None`` means censored at this budget, not "did not abandon". Pooling the
+    two into one mean understates every censored run, which is why the suite
+    reports them separately."""
+    run = _progress_run(1, 2, 3)
+    assert M.abandonment_effort(run, 10_000_000.0) is None
+
+
+def test_one_run_yields_the_whole_budget_family() -> None:
+    """The property that makes the reader cheap: T is computed once and every
+    budget is a threshold read off the same trajectory, so a frontier over
+    patience costs no additional simulation."""
+    run = _progress_run(0, 0, 1, 1, 1)
+    curve = M.projected_effort_curve(run)
+    budgets = [curve[0] - 1.0, curve[0] + 1.0, 10_000_000.0]
+    got = M.abandonment_curve(run, budgets)
+    assert got[budgets[0]] == 1
+    assert got[budgets[1]] == M.abandonment_effort(run, budgets[1])
+    assert got[budgets[2]] is None
+
+
+def test_progress_beyond_the_objective_owes_no_further_effort() -> None:
+    """The remaining term clamps at zero rather than going negative — an attacker
+    past the objective owes nothing more, and T reduces to the effort spent."""
+    model = M.DisengagementModel(work_total=2.0)
+    run = _progress_run(5)
+    assert M.projected_effort_curve(run, model) == (1.0,)
+
+
+def test_the_snapshot_reports_the_crossing_without_acting_on_it() -> None:
+    """The reader's reporting unit: *the attacker would have given up at X*, with
+    the state at that point, and the run's other measures untouched. Nothing here
+    stops a run — an attacker that actually stopped would make "MTD causes
+    disengagement" definitional and admit no null arm."""
+    run = _progress_run(0, 0, 1, 1)
+    curve = M.projected_effort_curve(run)
+    snap = M.disengagement_snapshot(run, curve[0] - 1.0)
+    assert snap["abandoned"] is True and snap["censored"] is False
+    assert snap["abandonment_effort"] == 1
+    assert snap["actions_total"] == 4 and snap["progress_total"] == 1
+    censored = M.disengagement_snapshot(run, 10_000_000.0)
+    assert censored["abandoned"] is False and censored["censored"] is True
+    assert censored["abandonment_effort"] is None
+
+
+def test_a_non_positive_prior_rate_is_refused() -> None:
+    """A zero prior rate makes the projected remaining effort infinite before any
+    evidence exists — refuse loudly rather than return inf."""
+    with pytest.raises(ValueError, match="r0 must be positive"):
+        M.DisengagementModel(r0=0.0)
+    with pytest.raises(ValueError, match="alpha must be positive"):
+        M.DisengagementModel(alpha=0.0)
+    with pytest.raises(ValueError, match="work_total must be positive"):
+        M.DisengagementModel(work_total=0.0)
+
+
+def test_the_baseline_trajectory_counts_distinct_hosts_exactly() -> None:
+    """The baseline arm has no instrumentation problem: its rows carry a stable
+    host uuid, so distinct hosts are counted exactly rather than proxied. The
+    asymmetry with the movement arm's sampled count is stated, not smoothed."""
+    rows = [
+        {"compromise_host_uuid": None},
+        {"compromise_host_uuid": "a"},
+        {"compromise_host_uuid": "a"},
+        {"compromise_host_uuid": "b"},
+    ]
+    assert M.baseline_progress_trajectory(rows) == (0, 1, 1, 2)

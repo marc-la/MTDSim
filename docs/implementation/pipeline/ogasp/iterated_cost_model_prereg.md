@@ -1,6 +1,7 @@
 ---
-status: durable
+status: durable — the study it pre-registered ran and its direction is closed (see iterated_cost_model.md §0)
 created: 2026-08-02
+updated: 2026-08-02
 topic: "The iterated cost model's pre-registration — the five conclusions, their criteria, and the sweep matrix, all fixed before a single row existed. The repair is motivated by a defect, which makes the temptation to show it working the sharpest this project has faced; this record is the guard against it"
 ---
 

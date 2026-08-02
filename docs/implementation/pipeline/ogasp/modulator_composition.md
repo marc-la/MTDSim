@@ -45,46 +45,44 @@ inventing a magnitude or inverting the within-class ordering.
 | 3 | **Utility modulator** (axis 6, cost-sensitivity) | movement | benefit family + rationality exponent λ (declared 1.0) | λ = 0 → every factor 1.0, bit-identical | **no** |
 | 4 | **Learning modulator** (axis 7, within-run belief) | movement | κ (declared 1.0), ρ (declared 0.5), Laplace α = β = 1 | κ = 0 → no factors returned, bit-identical | **no** |
 | 5 | **Tactic-to-verb mapping** | controller | `v1_ckc_total` / `v2_partial`, versioned registry | not nullable — a mapping is always selected | **yes** (named per experiment) |
-| 6 | **Precondition relation** | controller | verb-level requires/produces/clears, versioned | consulted by factors 4 and 7; inert when both are null | **no** (rides with factors 4 and 7) |
-| 7 | **Iterated utility modulator** (axis 6, cost-sensitivity repaired) | movement | the **same** benefit family and λ as factor 3 — no new declared magnitude | λ = 0 → every factor 1.0, bit-identical | **no** |
+| 6 | **Precondition relation** | controller | verb-level requires/produces/clears, versioned | consulted only by factor 4; inert when κ = 0 | **no** (rides with factor 4) |
+| ~~7~~ | ~~**Iterated utility modulator**~~ | — | **RETIRED 2026-08-02** — built, swept over 4 200 runs, ruled a negative result and deleted ([`iterated_cost_model.md`](iterated_cost_model.md) §0). Its row is struck rather than removed so the register records that the slot was tried | — | **no — the code no longer exists** |
 
-Factors 1–4 and 7 are **routing factors** composing multiplicatively per the rule
+Factors 1–4 are **routing factors** composing multiplicatively per the rule
 in §1. Factors 5–6 are **controller artefacts**: they do not multiply into the
 routing weight, they declare how the movement layer meets *this* substrate. They
 are in the register because they are the parts an adopter re-declares, and
 because omitting them would make the portability claim in §3 unreadable.
 
-### Factor 7 and factor 3 are the same axis, and only one may run at a time
+### Factor 7 was tried and is retired — what the slot taught the register
 
-Factor 7 is the repair of factor 3's decision model, not an addition to it
-([`iterated_cost_model.md`](iterated_cost_model.md)). It replaces the cost term
-with a state-conditioned *expected* cost and the benefit term's stage-gap
-distance with a distance through the profile's own net, and it declares nothing
-new — the same ρ, `cost_floor_s` and λ, applied to different quantities. It ships
-with an arm selector (`declared` / `A` / `B` / `AB`) whose `declared` arm
-reproduces factor 3's factors exactly, so **factor 3 stays runnable**: every
-recorded figure in the project was produced by it and the comparison arms need
-it. Composing 3 and 7 in one arm would apply one axis's factor twice and is
-refused by construction rather than by convention.
+Factor 7 was the repair of factor 3's decision model: a state-conditioned
+expected cost and a benefit measured through the profile's own routing net,
+declaring no new magnitude. It was built beside factor 3 with an arm selector
+whose `declared` arm reproduced factor 3's factors exactly, swept over 4 200
+runs against pre-registered conclusions, and **ruled a negative result**
+([`iterated_cost_model.md`](iterated_cost_model.md)). The implementation is
+deleted; factor 3 stays, because every recorded figure in the project was
+produced by it.
 
-### The composition hazard factor 7 introduces, which is the serious one
+Two things it established belong to this register rather than to that record.
 
-**Factor 7's expected-cost arms condition on readiness, and so does factor 4.**
-Both read the same declared artefact (factor 6) and both compute the same bit
-from the attacker's own trajectory. Composing them applies one signal twice
-through two multiplicative factors, which is exactly the hidden double-count this
-register exists to catch.
+**The composition hazard it raised was real and is now moot, but the rule
+generalises.** Factor 7's expected-cost arms conditioned on readiness, and so
+does factor 4, against the same declared artefact — one signal applied twice
+through two multiplicative factors. The bar was that no arm may compose them
+until a fresh joint check runs, and the reason the existing check (§5) could not
+transfer is the part worth keeping: it found factors 3 and 4 sub-additive
+**because they pull in opposite directions**, and factor 7 removed exactly that
+disagreement. **Two factors that agree may compound where two that disagreed did
+not**, so sub-additivity is never inherited across a change that alters whether
+two factors agree. That is a standing rule for any future factor, not a fact
+about a deleted one.
 
-**No arm may run factor 7's A or AB form together with factor 4 until a fresh
-joint check has run.** The existing joint check (§5) does **not** transfer, and
-the reason is precise: it measured factor 3 — a *static declared* preference for
-cheap tactics — against factor 4, and found the two sub-additive **because they
-pull in opposite directions**. Factor 7 removes exactly that disagreement, since
-its cost term now agrees with the learner that a precondition-coupled tactic
-attempted unready is a poor move. Two factors that agree may compound where two
-that disagreed did not, so sub-additivity must be re-measured rather than
-inherited. Factor 7's B arm carries no readiness conditioning and is not subject
-to this bar.
+**A retired factor still owes its row.** The slot is struck rather than deleted
+so a reader can see the register records what was attempted, not only what
+survives — the same reasoning that keeps a measured negative in the criterion
+rather than an absence.
 
 **The reported-configuration pin (§4) is unaffected.** The headline arm still
 runs modulators null, and axis 3's plurality badge still belongs to that arm.

@@ -1098,6 +1098,251 @@ def interval_report(
     )
 
 
+# --- §8 attacker disengagement (MTD's own economic claim, made scorable) -----
+#
+# Every attacker-side metric in this lineage is conditioned on the attacker
+# CONTINUING: attack success rate, mean time to compromise and host compromise
+# ratio each ask how well an attack that persists to the horizon performed.
+# Abandonment is the outcome MTD's economic argument is actually about — raise
+# the attacker's cost until this network is no longer worth the effort — and the
+# suite could represent none of it.
+#
+# **This is a reader, and that is a design commitment rather than a convenience.**
+# It reports when a run *would have* disengaged; it never stops one. Five things
+# follow, and the last two are the reasons that matter. No declared threshold is
+# load-bearing, because the budget becomes an axis of the result rather than a
+# value to defend. No behaviour changes, so no golden moves. One run yields the
+# entire budget family, because ``T`` is a trajectory and every budget is a
+# threshold read off it — the recorded corpus can be re-read without simulating.
+# The measure cannot be accused of building in its own conclusion, because the
+# runs it reads are unchanged runs. And an attacker that actually stopped would
+# make "MTD causes disengagement" definitional: cost rises, the threshold trips,
+# the run ends, and no null arm could ever have falsified it.
+#
+# **Why progress-per-effort and not the axis-6 utility ratio.** MTD is not a
+# cost-raising defence on this substrate in the sense a normalised ratio can see:
+# its cost effect is a roughly uniform ~9 % surcharge, proportional to dwell, and
+# a ratio is exactly invariant to a proportional inflation of its denominator
+# (``incentive_rationality.md`` §6.3). What MTD destroys is the attacker's
+# *productive capacity* — position, discovered services, reachability — not its
+# accumulated gains, which are append-only. So the economically visible signature
+# here is a **stall**: progress flattens while effort keeps accruing. A measure
+# built on progress-per-effort sees exactly that, and unlike a normalised ratio it
+# has **units**, so it can be compared against a reservation value. That is what
+# abandonment requires and what the axis-6 mechanism structurally could not
+# express — which is why axis 6 closed as DESIGNED and this measure replaced it.
+#
+# **Effort is denominated in actions, never seconds, and that is forced.** Under
+# S3-R the movement layer prices all of its own time while the baseline runs on
+# substrate pricing, so ``EventWiseComparable`` carries no time field by
+# construction. An abandonment measured in seconds would be arm-local and could
+# not be compared to the inherited attacker; measured in actions it is event-wise
+# and therefore cross-arm safe.
+#
+# Design record: ``docs/implementation/pipeline/ogasp/attacker_disengagement.md``.
+
+
+#: The attacker's prior belief about hosts-per-action before it has evidence.
+#: **Measured within-substrate, never invented**: the unimpeded inherited
+#: attacker's realised rate, 39.2 distinct hosts over 1 411 attempted actions.
+#: Tier ``attested-pattern`` for the behaviour (an attacker arrives with an
+#: expectation) and ``declared-magnitude`` for the number; swept over ±½× and ×2.
+#: Anchoring it to real-world campaign figures was rejected: the duration
+#: catalogue is explicitly shape-not-scale, so simulated units carry no
+#: calibrated mapping to real durations.
+R0_PRIOR_RATE = 39.2 / 1411.0
+
+#: Pseudo-count controlling how fast evidence overrides the prior — one
+#: pseudo-host. Tier ``declared-judgement``; swept over [0.5, 5.0]. The same
+#: Laplace device the axis-7 learner uses, chosen for the same reason: it never
+#: divides by zero and degrades gracefully when progress is sparse, which it is
+#: (the profiled attacker compromises ~1.3 distinct hosts over ~263 actions, so a
+#: windowed rate would be zero in almost every window).
+ALPHA_PRIOR_STRENGTH = 1.0
+
+
+@dataclass(frozen=True)
+class DisengagementModel:
+    """The three inputs to the projected-effort reading.
+
+    ``work_total`` is **derived, not declared**: the objective is the substrate's
+    own termination condition, ``terminate_compromise_ratio × total_nodes``
+    (0.8 × 50 = 40 distinct hosts under the movement runner's geometry). It is a
+    parameter here only so a caller running a different geometry gets the right
+    number rather than a hard-coded one.
+    """
+
+    work_total: float = 40.0
+    r0: float = R0_PRIOR_RATE
+    alpha: float = ALPHA_PRIOR_STRENGTH
+
+    def __post_init__(self) -> None:
+        if self.work_total <= 0.0:
+            raise ValueError(f"work_total must be positive, got {self.work_total!r}")
+        if self.r0 <= 0.0:
+            raise ValueError(
+                f"r0 must be positive, got {self.r0!r} — a zero prior rate makes the "
+                "projected remaining effort infinite before any evidence exists"
+            )
+        if self.alpha <= 0.0:
+            raise ValueError(f"alpha must be positive, got {self.alpha!r}")
+
+
+def progress_trajectory(run: MovementRunResult) -> tuple[int, ...]:
+    """Distinct hosts held after each **attempted action** — the progress half.
+
+    Read off ``MovementRecord.n_compromised``, which is the substrate's own
+    compromised-host list length sampled per record. It is *not* derived from
+    compromise events: the record carries no host identity, so cumulative events
+    over-count distinct hosts through re-compromise by a measured factor of 5.40,
+    and the over-count is itself MTD-dependent (5.4–8.8 without MTD against
+    1.8–3.5 with it) — which would have biased exactly the comparison this
+    measure exists to make.
+
+    Indexed by attempted action, so ``progress_trajectory(run)[i]`` is the
+    progress standing after action ``i + 1``. Dwell-only visits consume no effort
+    in this measure and are excluded, which is the same denominator the cost
+    ledger's ``n_actions`` uses.
+    """
+    return tuple(r.n_compromised for r in action_records(run))
+
+
+def projected_effort_curve(
+    run: MovementRunResult, model: DisengagementModel | None = None
+) -> tuple[float, ...]:
+    """The attacker's projected **total campaign effort** after each action.
+
+        T(t) = t + (W − h(t)) / r(t),   r(t) = (h(t) + α) / (t + α / r₀)
+
+    Four properties earn this form and each is visible in the arithmetic.
+
+    **Stalling raises T and progress lowers it.** An action with no progress
+    increments ``t`` and decrements ``r``, so ``T`` rises twice over; a compromise
+    raises ``h`` and ``r``, so ``T`` falls. An attacker close to the objective
+    therefore persists through a stall that would rightly send an empty-handed
+    attacker away, which is what an expected-payoff reading needs and a bare rate
+    cannot give.
+
+    **It has units** — actions — so a reservation value is expressible at all.
+
+    **It does not cancel under MTD.** Interrupts add to the denominator without
+    adding to the numerator, and suppressed compromise holds the numerator down.
+    This is the non-proportional response a normalised utility ratio could not
+    see.
+
+    **T is not monotone, deliberately.** An attacker decides in real time and does
+    not get to wait and see whether its prospects recover, which is why
+    :func:`abandonment_effort` takes the *first* crossing rather than the last.
+
+    Progress beyond ``work_total`` clamps the remaining term at zero rather than
+    going negative: an attacker past the objective owes no further effort.
+    """
+    model = model or DisengagementModel()
+    curve: list[float] = []
+    for i, h in enumerate(progress_trajectory(run)):
+        t = i + 1  # actions spent so far, 1-indexed
+        rate = (h + model.alpha) / (t + model.alpha / model.r0)
+        remaining = max(0.0, model.work_total - h)
+        curve.append(t + remaining / rate)
+    return tuple(curve)
+
+
+def abandonment_effort(
+    run: MovementRunResult,
+    budget: float,
+    model: DisengagementModel | None = None,
+) -> int | None:
+    """Actions spent when the run's projected effort **first** exceeds ``budget``,
+    or ``None`` if it never does.
+
+    ``None`` means **censored at this budget**, not "did not abandon" — the run
+    ended (on the horizon, a sink or a stall) before its projection crossed. The
+    distinction is the whole reason :class:`CensoredDurations` exists in this
+    suite, and pooling the two into one mean understates every censored run.
+
+    First-crossing rather than last is the honest reading: the attacker decides in
+    real time and cannot wait to see whether its prospects recover.
+    """
+    for i, projected in enumerate(projected_effort_curve(run, model)):
+        if projected > budget:
+            return i + 1
+    return None
+
+
+def abandonment_curve(
+    run: MovementRunResult,
+    budgets: Sequence[float],
+    model: DisengagementModel | None = None,
+) -> dict[float, int | None]:
+    """``budget -> abandonment effort or None`` for a whole family of budgets, from
+    **one** run.
+
+    This is the property that makes the reader cheap: ``T`` is computed once and
+    every budget is a threshold read off the same trajectory, so a frontier over
+    patience costs no additional simulation. Budgets need not be sorted.
+    """
+    curve = projected_effort_curve(run, model)
+    out: dict[float, int | None] = {}
+    for budget in budgets:
+        crossing: int | None = None
+        for i, projected in enumerate(curve):
+            if projected > budget:
+                crossing = i + 1
+                break
+        out[float(budget)] = crossing
+    return out
+
+
+def disengagement_snapshot(
+    run: MovementRunResult,
+    budget: float,
+    model: DisengagementModel | None = None,
+) -> dict[str, Any]:
+    """A per-run note: *the attacker would have given up at X*, with the state at
+    that point — and the run continues regardless.
+
+    This is the reader's reporting unit. It records the crossing without acting on
+    it, so a run's other measures are unchanged and comparable to every run that
+    did not cross.
+    """
+    curve = projected_effort_curve(run, model)
+    progress = progress_trajectory(run)
+    at = abandonment_effort(run, budget, model)
+    return {
+        "budget": float(budget),
+        "abandoned": at is not None,
+        "abandonment_effort": at,
+        "censored": at is None,
+        "progress_at_abandonment": progress[at - 1] if at is not None else None,
+        "projected_at_abandonment": curve[at - 1] if at is not None else None,
+        "actions_total": len(curve),
+        "progress_total": progress[-1] if progress else 0,
+        "projected_final": curve[-1] if curve else None,
+    }
+
+
+def baseline_progress_trajectory(
+    rows: Sequence[Mapping[str, Any]]
+) -> tuple[int, ...]:
+    """The inherited attacker's progress trajectory, from its own statistics rows.
+
+    The baseline arm has no instrumentation problem: its rows carry
+    ``compromise_host_uuid``, which is stable across topology shuffles, so
+    distinct hosts are counted exactly rather than proxied. **State that asymmetry
+    in any record that reports both arms** rather than smoothing over it — the
+    movement arm's trajectory is a sampled substrate count, the baseline's is a
+    deduplicated identity count, and they are equally exact by different routes.
+    """
+    seen: set[Any] = set()
+    out: list[int] = []
+    for row in rows:
+        uuid = row.get("compromise_host_uuid")
+        if uuid:
+            seen.add(uuid)
+        out.append(len(seen))
+    return tuple(out)
+
+
 __all__ = [
     "CONSENSUS_PATH",
     "NETWORK_RESOURCE",
@@ -1155,6 +1400,16 @@ __all__ = [
     "BaselineCostLedger",
     "baseline_ledger",
     "comparable_from_baseline",
+    # §8 attacker disengagement
+    "R0_PRIOR_RATE",
+    "ALPHA_PRIOR_STRENGTH",
+    "DisengagementModel",
+    "progress_trajectory",
+    "projected_effort_curve",
+    "abandonment_effort",
+    "abandonment_curve",
+    "disengagement_snapshot",
+    "baseline_progress_trajectory",
     # §7 intervals
     "Interval",
     "mean_ci",

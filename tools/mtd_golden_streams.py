@@ -182,6 +182,15 @@ def one_golden_run(
         # survive the field's existence and only behaviour can move a digest.
         for rec in movement_records:
             rec.pop("retrace", None)
+    # ``n_compromised`` is an OBSERVATION, not behaviour: it samples the
+    # substrate's compromised-host list per record and influences no decision the
+    # attacker takes. It is popped for the same reason ``retrace`` is popped above
+    # and on the file's own stated principle — **only behaviour may move a
+    # digest** — so the goldens keep catching what they exist to catch. Nothing is
+    # lost: ``summary.compromised_count`` already pins the trajectory's endpoint,
+    # which is the only part of it a golden could meaningfully guard.
+    for rec in movement_records:
+        rec.pop("n_compromised", None)
     mtd_records = [
         {k: _jsonable(v) for k, v in row.items()}
         for row in network.get_mtd_stats()._mtd_operation_record

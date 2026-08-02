@@ -543,6 +543,68 @@ experimental claim.
 > qualification that the model's one decision rule trades *against* plurality now
 > has a measured exception, and it is the numerator that supplies it.
 
+> **FINAL DISPOSITION (Marc, 2026-08-02): this row is DESIGNED, and that is where
+> it ends for this project. Its attempted implementations are recorded as
+> negative results and full incentive rationality is named as future work.** The
+> ruling closes the axis rather than parking it, so it is stated once here and
+> the mechanism records point at it.
+>
+> **What was attempted, and what each attempt returned.** Two, both built,
+> declared, swept against conclusions committed before any output, and ablatable
+> to bit-identity. The **declared-duration utility modulator** (2026-07-29, 1 800
+> runs) operates and changes behaviour, and does not change MTD's measured effect,
+> because the defence's tax is levied in near-proportion to declared dwell and a
+> normalised ratio is invariant to a proportional inflation of its denominator.
+> The **iterated model** (2026-08-02, 4 200 runs) repaired the R2 double-penalty
+> defect measurably — 73–89 % of the blocked-fraction rise undone, successes per
+> action roughly doubled — and still did not move the badge, because the criterion
+> that would have moved it was passed by a **negative control**. Its
+> implementation is now deleted
+> ([`pipeline/ogasp/iterated_cost_model.md`](pipeline/ogasp/iterated_cost_model.md)
+> §0); the shipped model stays, because it is what this row describes.
+>
+> **Why the row closes rather than waits, and this is the substantive reason.**
+> The binding constraint stopped being a mechanism and became an **instrument**,
+> and then became something harder still. A time-free successor was designed and
+> cross-examined at length before being declined, and the reason it was declined
+> is worth recording against the axis rather than losing: on this substrate the
+> attacker has **something to be rational about but nothing to be rational
+> toward**. Readiness — whether the next action can run — is real, state-dependent
+> and conditionable, but it is *competence*, not *incentive*. Incentive requires a
+> payoff to weigh, and this attacker has none: it reaches the simulator's
+> objective zero times in 1 200 runs, and the verbs that cause compromise produce
+> nothing in the capability vocabulary, so nothing is ever banked. A decision rule
+> built on readiness would be a competence model wearing this row's name.
+>
+> Three measured facts make that concrete and bound any future attempt. The
+> routing limb has little room: under the profiles' own nets, `aggregate` places
+> every tactic within one hop of an objective, and between **14 % and 38 %** of
+> decision points sit at singleton out-sets where the renormalised factor is
+> exactly 1.000 whatever a mechanism computes. The capability channel resolves the
+> whole defence to a two-bit register, so any readiness-derived quantity takes
+> three values and a position-destroying mutation moves it by one. And the
+> **diversity family is unreachable by declaration** — what OS and Service
+> Diversity destroy lives outside the guard the capability vocabulary was
+> transcribed from, so no legal artefact edit gives it a channel
+> ([`../handoffs/2026-08-02_os_service_diversity_indistinguishability.md`](../handoffs/2026-08-02_os_service_diversity_indistinguishability.md)).
+>
+> **What replaces it is a measurement, not a mechanism.** MTD's economic claim is
+> that cost rises until the attacker goes elsewhere, and the half of that claim
+> this substrate *can* carry is the second: an effort-denominated reading of when
+> a run's projected campaign cost exceeds a reservation, reported as a frontier
+> over patience rather than at a declared threshold. That is the
+> attacker-disengagement reader, and it is explicitly **not** a badge move for
+> this row — it scores an outcome, where this row asks whether the attacker
+> *conditions on* cost.
+>
+> **What would move this row, for a successor with more substrate than time.**
+> An attacker with a payoff it can accumulate and weigh — which on this simulator
+> means a located objective (the database set, or a genuinely targeted attacker;
+> note IS-SCN-03 records the targeted strategy as having no live code path) — and
+> an instrument for MTD-conditional response that a mechanism provably blind to
+> MTD cannot pass. Both are substrate work, not movement-layer work, and neither
+> fits the honours timeframe. Recorded as future work rather than as a deficiency.
+
 ### Axis 7 — Learning capability
 
 **What it is.** Cho et al.'s first and sharpest under-developed dimension:

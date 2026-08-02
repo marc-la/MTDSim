@@ -185,3 +185,64 @@ def test_g6_no_new_attacker_state() -> None:
     assert fields == _FROZEN_ADVERSARY_STATE, (
         f"attacker state changed (S2 freeze): {fields ^ _FROZEN_ADVERSARY_STATE}"
     )
+
+
+# ---------------------------------------------------------------------------
+# The progress-trajectory field's three claimed properties, asserted on live runs
+# rather than argued in the docstring. It is substrate ground truth sampled
+# in-layer, so if any of these fails the disengagement reader is reading a
+# quantity that is not what it says it is.
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize("scheme", [None, "random"])
+def test_the_progress_trajectory_is_monotone_and_ends_at_the_run_total(scheme) -> None:
+    """``n_compromised`` must be non-decreasing across a run and must finish at
+    exactly ``compromised_count`` — the same substrate list, sampled per record
+    against read once at the end. Checked under MTD as well, because a
+    network-layer mutation remaps host ids in the compromised list and a remap
+    that lost or duplicated an entry would show up here first."""
+    from mtdsim.l3_simulation.controller import load_outcome_overlay
+    from mtdsim.l3_simulation.movement.run import run_movement
+
+    for profile in ("aggregate", "pure_steal"):
+        run = run_movement(
+            profile, seed=5, horizon=6_000, mapping_version="v2_partial",
+            overlay=load_outcome_overlay(version="v3_persistent_backward"),
+            mtd_scheme=scheme, mtd_interval=200,
+        )
+        traj = [r.n_compromised for r in run.records]
+        assert traj, f"no records for {profile}"
+        assert all(b >= a for a, b in zip(traj, traj[1:])), (
+            f"progress went backwards in {profile}/{scheme}: {traj}"
+        )
+        assert traj[-1] == run.compromised_count, (
+            f"{profile}/{scheme}: trajectory ends at {traj[-1]}, "
+            f"compromised_count is {run.compromised_count}"
+        )
+
+
+def test_compromise_events_over_count_distinct_hosts() -> None:
+    """The measurement that justified widening the record, kept as a regression.
+
+    The suite's standing preference is to extend the reader rather than widen the
+    schema, so the burden of proof sat on this: cumulative compromise *events*
+    are not a sound proxy for distinct hosts, because the record carries no host
+    identity and re-compromise is counted again. If this ever stops holding, the
+    field's justification should be revisited rather than silently kept.
+    """
+    from mtdsim.l3_simulation.controller import load_outcome_overlay
+    from mtdsim.l3_simulation.movement import measures as M
+    from mtdsim.l3_simulation.movement.run import run_movement
+
+    run = run_movement(
+        "aggregate", seed=1, horizon=15_000, mapping_version="v2_partial",
+        overlay=load_outcome_overlay(version="v3_persistent_backward"),
+        mtd_scheme=None, mtd_interval=200,
+    )
+    events = sum(1 for r in run.records if M.is_compromise(r))
+    assert run.compromised_count > 0
+    assert events > run.compromised_count, (
+        "compromise events no longer over-count distinct hosts; the schema "
+        "change's justification needs re-checking"
+    )

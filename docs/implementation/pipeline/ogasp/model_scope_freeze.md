@@ -88,7 +88,7 @@ outstanding).
 | 3 | Strategic plurality | DEMONSTRATED | — | Freeze, and **pin the composition configuration** (§4). |
 | 4 | Adaptivity | DESIGNED | — | Freeze. The ablation is the finding. |
 | 5 | Stealth | NOT ADDRESSED | **M + G** | Future work. Blocked three independent ways. |
-| 6 | Incentive rationality | DESIGNED | **X** | **Updated 2026-08-02:** the remedy was ruled on, built and swept (4 200 runs). The M gap is **closed** — the defect is repairable and the repair measurably reaches it — and the badge still does not move, because the criterion that would move it is passed by a negative control. The gap is now a *measurement* one. **Out of the freeze perimeter since 2026-08-02 (§0) — scope open.** |
+| 6 | Incentive rationality | DESIGNED | **X** | **CLOSED 2026-08-02 (Marc).** Scope finalised: DESIGNED is final, both attempted implementations are recorded as negative results, the iterated one is deleted, and full incentive rationality is **future work**. The attacker has something to be rational *about* (readiness) and nothing to be rational *toward* — no payoff is reachable or bankable — so the remaining gap is a measurement one and is answered by the disengagement reader, which scores an outcome and does not move this row. **Re-enters the freeze by this closure** (§0). Reasoning: [`../../apt_model_criterion.md`](../../apt_model_criterion.md) axis 6, final disposition. |
 | 7 | Learning | DESIGNED | **M** | Freeze the badge. ~~One mechanism could test its hypothesis (§5).~~ **Built and swept 2026-08-01 — the badge held; the gap narrowed from two candidate causes to one (the credit signal).** **Out of the freeze perimeter since 2026-08-02 (§0) — scope open.** |
 | 8 | Scheme awareness | NOT ADDRESSED | — | Ruled out of scope. Freeze. |
 

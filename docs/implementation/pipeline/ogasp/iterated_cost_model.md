@@ -1,10 +1,66 @@
 ---
-status: durable
+status: durable — superseded as a direction 2026-08-02; the implementation is retired and one figure below carries a withdrawn attribution (§0)
 created: 2026-08-02
-topic: "The iterated cost model — a state-conditioned expected cost and an enabling-value benefit, built against the R2 defect and swept over 4 200 runs. The verdicts, the stopping rule that fired, why the axis-6 badge does not move even though U3's threshold was passed, and the ranking inversion the measurement found in the brief's own recommendation"
+updated: 2026-08-02
+topic: "The iterated cost model — a state-conditioned expected cost and an enabling-value benefit, built against the R2 defect and swept over 4 200 runs. The verdicts, the stopping rule that fired, why the axis-6 badge does not move even though U3's threshold was passed, and the ranking inversion the measurement found in the brief's own recommendation — plus (§0) the graph defect found afterwards and the ruling that closed the direction"
 ---
 
 # The iterated cost model — what the repair fixed, what it did not, and why the badge stays
+
+## 0. Two things happened after this record was written, and both belong at the top
+
+**The implementation is retired and the direction is closed (Marc, 2026-08-02).**
+Axis 6 is ruled **DESIGNED, permanently, with its attempted implementations
+recorded as negative results**, and the remaining axis-6 work is a *measurement*
+— the attacker-disengagement reader — rather than a mechanism. `utility_iterated.py`
+and its suite are deleted in the commit that carries this amendment; the shipped
+model (`utility.py`) stays, because it is what the DESIGNED badge describes and
+every recorded figure in the project was produced by it. This record stands as
+the account of a route that was measured and not taken. Nothing below is
+withdrawn except as §0.1 states.
+
+### 0.1 A defect in the graph change B was measured over — the reconnaissance attribution is withdrawn
+
+Found while cross-examining a successor design, and verified independently
+rather than accepted. `net.py::_observed_out` drops a transition only when its
+primary weight is **null**; a weight of exactly **0.0** survives as a key of
+`base_out_weights()`. Composition is multiplicative and then renormalised, so a
+zero base weight stays zero through the overlay and every modulator — **the token
+can never walk that edge**. `net_hops()` built its adjacency from those keys, so
+change B's distances were computed over a graph containing edges no run can
+traverse:
+
+| profile | edges | of which weight 0.0 |
+|---|--:|--:|
+| pure_steal | 108 | 35 (32 %) |
+| pure_impediment | 83 | 32 (39 %) |
+| double_extortion | 72 | 24 (33 %) |
+| infrastructure_setup | 58 | 21 (36 %) |
+| aggregate | 122 | 8 (7 %) |
+
+Correcting the predicate moves **14 of the 75 benefit cells**, each by one decay
+step. **It falls hardest on this record's own mechanistic claim.** §5 states that
+change B works because measuring through the profile's own net lifts
+reconnaissance where it genuinely leads to the objective. That property holds in
+**3 of 5 profiles as measured and 1 of 5 corrected**, and `pure_steal` — the
+profile the entire R2 defect narrative is built on — goes from a lift
+(0.0625 → 0.1250) to **no change at all** (0.0625 → 0.0625).
+
+**What is withdrawn and what stands.** The *measured* outcomes in §§3–6 stand as
+recorded: they are what the runs produced, and the arms were compared against
+each other under identical conditions. What is withdrawn is §5's **attribution**
+— the reconnaissance-lift mechanism offered as the explanation for change B's
+advantage is substantially an artefact of counting untraversable edges. Whether
+the advantage itself survives the correction **was not tested**, and with the
+direction closed it will not be. Anyone reopening this must fix the predicate and
+re-run before relying on any figure here.
+
+**The defect is confined to `net_hops`, checked rather than assumed.** Routing is
+unaffected, because a zero-weight edge is never sampled; and no place in any
+profile has an all-zero out-set, so `is_sink()` is never misled. `_observed_out`'s
+behaviour is therefore defensible for the routing net it serves — the fault was
+in consuming a *structure* graph as a *walkability* graph, which is the
+transferable lesson and is worth more than the arm was.
 
 **Status:** durable results record. It discharges the iterated-cost-model handoff
 under Marc's disposition (option 4 of that brief's §2.3 — both changes, run as

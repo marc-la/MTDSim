@@ -182,6 +182,26 @@ class MovementRecord:
     # measurement suite reads a verbless record as a dwell-only visit, which would
     # silently corrupt `dwell_only_fraction` and every denominator built on it.
     retrace: bool = False
+    # Distinct hosts the adversary held at the moment this record was written —
+    # ``len(adversary.get_compromised_hosts())``, the same list whose end-of-run
+    # length is ``MovementRunResult.compromised_count``. It is the attacker's
+    # **progress trajectory**, and it is here rather than derived because it
+    # cannot be derived: the record carries no host identity, so cumulative
+    # compromise *events* over-count distinct hosts through re-compromise. That
+    # over-count was measured before this field was added — 837 events against
+    # 155 distinct hosts over 50 runs, a ratio of **5.40** — and it is worse
+    # without MTD (5.4–8.8) than with it (1.8–3.5), so using events as the
+    # progress proxy would have biased precisely the MTD-versus-no-MTD comparison
+    # the disengagement measure exists to make. The suite's standing preference
+    # is to extend the reader rather than widen the record; the burden of proof
+    # that sits on a schema change is discharged by that measurement.
+    #
+    # Verified properties, asserted in the suite rather than assumed: the
+    # underlying list holds no duplicates, the count is monotone non-decreasing
+    # across a run, and its final value equals ``compromised_count`` exactly. The
+    # field is substrate ground truth sampled in-layer, not a movement-layer
+    # estimate, and it carries no host identity — only the count.
+    n_compromised: int = 0
 
 
 # The distinguished routing verdict for a place that raised no verdict at all (a
@@ -385,6 +405,7 @@ class MovementAttacker:
                         interrupted_by=interrupted_by,
                         place_class=DWELL_ONLY,
                         retrace=is_retrace,
+                        n_compromised=self._n_compromised(),
                     )
                 )
                 step_index += 1
@@ -439,6 +460,7 @@ class MovementAttacker:
                     dwell=dwell,
                     interrupted_by=interrupted_by,
                     retrace=is_retrace,
+                    n_compromised=self._n_compromised(),
                 )
             )
             step_index += 1
@@ -448,6 +470,17 @@ class MovementAttacker:
                 return  # stall (overlay suppressed every out-edge) or sink
             place = next_place
             self._visited.append(place)
+
+    def _n_compromised(self) -> int:
+        """Distinct hosts the adversary currently holds — the progress trajectory
+        sampled per record. Read-only over the substrate's own list, so it is
+        ground truth rather than a movement-layer tally, and it costs one ``len``
+        per record. Defensive against an adversary that does not expose the
+        accessor so a test double need not implement it."""
+        try:
+            return len(self.adversary.get_compromised_hosts())
+        except Exception:  # noqa: BLE001 - record enrichment only, never fatal
+            return 0
 
     def _dispatch(self, verb: str, duration: float, start_time: float):
         """Run one dispatched verb through the carved substrate for the time the
@@ -738,6 +771,7 @@ class MovementAttacker:
                 dwell=dwell,
                 interrupted_by="",
                 place_class=place_class,
+                n_compromised=self._n_compromised(),
             )
         )
 
