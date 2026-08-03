@@ -26,6 +26,19 @@ procedural order rather than anything about the defence. A dial that closes the
 gap on purpose and by a declared amount turns that confound into a measured
 quantity, with a null arm that reproduces every recorded figure at full strength.
 
+> **Swept 2026-08-02, 2 080 runs, verdicts in
+> [`fsm_alignment_prereg.md`](fsm_alignment_prereg.md) below the fold.** The
+> confound is quantified and largely refuted: **at most ~7 % of the profiled
+> attacker's breadth disadvantage is procedural rigidity of the kind this dial can
+> remove**, and the defence-ranking inversion is unmoved across three-quarters of
+> the band rather than weakening in dose. The limiting end is not the aligned
+> attacker it was designed to be — it is an immobile one, and the pre-registered
+> mechanism check (A3) disqualifies that end from the alignment reading. Two
+> results travel beyond this factor: the target it was built on rewards *being
+> able to attack* rather than progress, which is the axis-7 credit-signal finding
+> arriving through a mechanism with no learning in it; and §4's diversity boundary
+> is now measured rather than argued.
+
 ## 1. Why this shape, and why now
 
 The scope freeze shortlisted an FSM-alignment factor as "the one mechanism still

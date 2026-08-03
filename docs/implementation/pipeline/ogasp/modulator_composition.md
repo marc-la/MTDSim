@@ -84,6 +84,16 @@ declared per *instance* and only at α = 1. And it carries a **composition bar w
 factor 4** (§2.1 below), which is the retired factor 7's lesson applied rather
 than a new rule.
 
+**Swept 2026-08-02 over 2 080 runs, and the register owes two numbers to any arm
+that quotes it.** Pooled path entropy at the declared null is 2.712 bits and falls
+monotonically to 1.112 at α = 1 — cheap over three-quarters of the band (0.16
+bits) and expensive in the last quarter (1.44) — so a non-zero-α arm reports its
+own figure from that table, exactly as §4 requires. And the bar in §2.1 is now
+better argued than when it was written: the sweep showed factor 8's limiting end
+optimises the attacker toward *permitted* actions, which is what factor 4's
+shipped credit rule already does, so the two agree on the very ordering the
+sub-additivity result depended on their disagreeing about.
+
 Factors 1–4 and 8 are **routing factors** composing multiplicatively per the rule
 in §1. Factors 5–6 are **controller artefacts**: they do not multiply into the
 routing weight, they declare how the movement layer meets *this* substrate. They
