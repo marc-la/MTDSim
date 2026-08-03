@@ -212,9 +212,10 @@ audit's existing rows:
 **All three ruled 2026-08-03 (Marc), each as recommended:** D-23
 keep-and-document (rationale in §b1 and the audit's ruling banner), D-24
 record-only (repair deferred to the Tay RL-benchmark phase as a
-precondition), D-25 record-only. Part B is therefore empty — no code or
-golden moved — and the review brief closed with the rulings; the table below
-stands as the record of the options as they were put.
+precondition), D-25 record-only. No substrate code or golden moved; the
+review brief closed with the rulings, and Part B landed as the §f regression
+tests (`tests/test_mtd_write_surfaces.py`). The table below stands as the
+record of the options as they were put.
 
 | # | Finding | Options (costed) | Recommendation |
 |---|---|---|---|
@@ -230,6 +231,10 @@ dispositioned repair: endpoint columns all-zero (exemption holds as
 dispositioned), 331/331 service redraw counts (or the selective count under a
 D-18(a) repair), port immobility under SD/OSD, revocation semantics of §b5
 (new instance, flags reset), CTS node-id-set stability and holdings survival.
-The verification script is session scratch (deliberately not committed —
-pinning pre-disposition behaviour would freeze unclassified divergences, the
-sibling brief's gate-5 reasoning); this section is its specification.
+*(Discharged 2026-08-03, after the D-23..D-25 rulings:*
+`tests/test_mtd_write_surfaces.py` *pins exactly the ruled subset — the
+endpoint exemption and its IS-MTD-03 contrast, the ServiceDiversity redraw
+count and revocation semantics, port immobility, CTS preservation, the
+structural target-node fact. OS Diversity's replacement selectivity stays
+unpinned in either direction until D-18 is ruled, the sibling brief's gate-5
+reasoning.)*

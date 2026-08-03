@@ -602,9 +602,14 @@ behaviour, D-24 and D-25 are record-grade.
 > record), stated in reporting beside decision C's cardinality qualification.
 > **D-24: (a) record-only** — legacy metrics explicitly not a concern; the
 > feed repair becomes a precondition of the Tay RL-benchmark phase if that
-> phase consumes the fields. **D-25: (a) record-only.** No code moved, no
-> goldens moved; brief 2's Part B is empty and its handoff closed with these
-> rulings.
+> phase consumes the fields. **D-25: (a) record-only.** No substrate code
+> moved, no goldens moved; brief 2's handoff closed with these rulings, and
+> its Part B landed 2026-08-03 as regression tests pinning the *ruled*
+> surfaces (`tests/test_mtd_write_surfaces.py`: the D-23 exemption and its
+> IS-MTD-03 contrast, redraw-revokes-standing with D-02 persistence,
+> IS-MTD-07 host/holdings preservation, port immobility, the structural
+> target-node fact — with D-18's contested selectivity deliberately unpinned
+> in either direction).
 
 | # | Item | What the code does | What the papers say | Options, costed |
 |---|---|---|---|---|
