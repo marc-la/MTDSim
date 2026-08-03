@@ -1,5 +1,5 @@
 ---
-status: review record (boundary review 3 of 3) — closed; D-20/D-21/D-22 ruled (a), Marc 2026-08-03
+status: review record (boundary review 3 of 3) — closed; D-20/D-21/D-22 ruled (a), Marc 2026-08-03; cycle-2 adversarial pass done, confidence gate PASSED ≥ 95 % (§(g)); D-26/D-27 opened flag-grade
 created: 2026-08-02
 updated: 2026-08-03
 topic: "The direct attacker/defender channels — inventory, executed truth table, realised traffic from recorded runs, and the class-vs-mechanism pricing question put to Marc (D-20..D-22)"
@@ -55,11 +55,14 @@ decide whether an application-class mutation interrupts. The movement driver
 deliberately writes that signal — the verb is announced *before* its time is
 spent (`attacker.py:400-414`; previously the gate judged a stale verb on 27 %
 of application-layer decisions), and a dwell-only place announces the `DWELL`
-sentinel (`attacker.py:118-128`), which the gate reads as interruptible. No
-seventh defender→attacker channel was found in an adversarial pass over
-`mtd/*`, the two operation files, and the movement/controller layers; the
+sentinel (`attacker.py:118-128`), which the gate reads as interruptible. The
 defender-side statistics the attacker *could* reach through its network handle
 are exactly the axis-8 surface, ruled out for the life of the project.
+
+*(This session's own adversarial pass found no seventh channel; the
+independent cycle-2 red-team pass then found one **latent** seventh channel
+and one live covert coupling the inventory above misses — see §(g), which
+supersedes any "six channels is the whole boundary" reading of this table.)*
 
 ## (b) The truth table, executed
 
@@ -296,7 +299,89 @@ attacker's clock at the operating interval — material but not dominant, and
 identically priced on both arms. No re-tune is proposed; re-tuning without a
 provenance-backed disposition is out of scope by the brief's own rule.
 
-## (g) Reproduction
+## (g) Cycle 2 — the independent adversarial pass (2026-08-03), and the final confidence evaluation
+
+The Part A evaluation's weakest checklist item was its adversarial pass: the
+same eyes that built the inventory hunted for what it missed. Cycle 2
+discharged it properly — an independent red-team session with the six-channel
+list as its exclusion set and a mandate to enumerate every mechanism's use of
+its `adversary` argument, defender reads of attacker state, attacker reads of
+defender state, and covert shared-state couplings. It found two things the
+inventory missed and three surfaces worth pinning. Each was re-verified by
+the main session before being recorded.
+
+**Channel 7 (latent) — `HostTopologyShuffle` writes attacker state
+directly.** `hosttopologyshuffle.py:57` calls
+`adversary.swap_hosts_in_compromised_hosts(host_id, other_host_id)`
+(`adversary.py:28-60`), remapping six id-keyed attacker fields
+(`_compromised_hosts`, `_host_stack`, `_stop_attack`, `_pivot_host_id`,
+`_curr_host_id`, `_attack_counter`). It is the **only** mechanism in
+`mtdnetwork/mtd/` that touches the adversary argument at all (every
+default-set mechanism ignores it — enumerated per file by the red-team pass),
+so it is a **per-mechanism** channel in a boundary otherwise priced per
+class. It is coherence-preserving by intent (the swap breaks the
+host_id↔instance binding all attacker state is keyed on; the write moves the
+attacker's knowledge with the ids) and **unreachable in every recorded run**
+— the strategy is commented out of the default set (`mtd_scheme.py:24`).
+→ D-27: keep, and rule before any promotion (the D-07 shape).
+
+**The covert coupling — both sides draw from the shared global RNG
+streams.** Live in the default configuration, both arms.
+`exponential_variates` draws from numpy's global stream with no
+`random_state`, and the mechanisms draw heavily from the global `random`
+module (CompleteTopologyShuffle's `gen_graph()` ≫ OSDiversity > IPShuffle),
+while the attacker draws its exploit times, penalty draws, a credential-reuse
+roll and — notably — the host-stack ordering tie-break
+(`attack_operation.py:292`) from the same streams. Consequence: at a fixed
+seed, *which defence is running changes the attacker's subsequent draws* for
+reasons that have nothing to do with the defence's effect, and the
+perturbation volume differs **per mechanism**. What this cannot do is bias a
+recorded ranking: the perturbation is unbiased noise across seeds, every
+recorded comparison is means-with-CIs over 10–50 seeds, and the headline
+analysis (`expo02_ashen_lynx/analyse.py`) explicitly reports "a rank
+comparison, never a significance claim" with no within-seed pairing anywhere
+— verified. What it does forbid is any **future paired-by-seed
+cross-condition analysis**, which would read stream desynchronisation as
+treatment effect. The movement layer's own three streams (routing, dwell,
+state) are properly insulated `random.Random` instances; the substrate cores
+it calls are not. → D-26: keep and document (per-side streams would move
+every golden); the no-seed-pairing rule is the operative consequence.
+
+**Three surfaces pinned, no action:** (i) `end_event` timing — the defender's
+compromise check runs on its trigger cadence, so *when* termination is seen
+depends on the interval; scheme-level, identical across mechanisms, inert in
+the degenerate region. (ii) The attacker's `_interrupted_mtd` handle is the
+**full MTD instance** — only `get_resource_type()` is read today, but the
+handle exposes name/priority/durations, a stable per-mechanism identity; any
+future read beyond the resource type is an axis-8 lift requiring its own
+ruling. (iii) `mtd_clears` (readiness learner) lets the defence's *class*
+select which held preconditions are destroyed — an extension of channel 5,
+class-keyed by declared data; a per-mechanism keying would be a silent
+widening and must not happen without a ruling. The Tay AI schedulers read
+attacker internals (`curr_process`, the attack ledger) to *select* mutations
+— dead code with no callers on this branch, and the AI seam is out of this
+review's scope by the brief's §9; its own review rides its promotion.
+
+**Final confidence evaluation (cycle 2).** Checklist: channels inventoried
+and verified — **yes, now seven** (six live-inventoried + one latent, each
+with locators and per-arm reach); truth table complete and demonstrated —
+**yes** (executed probe, both tracers, pinned as
+`tests/test_interrupt_channel_semantics.py`); realised traffic extracted from
+recorded data — **yes**; every flattening and finding dispositioned or
+D-numbered — **yes** (D-20/D-21/D-22 ruled (a) by Marc 2026-08-03; D-26/D-27
+opened flag-grade with keep recommendations); adversarial pass by fresh eyes
+— **yes, with findings**, which is what a real red-team pass looks like.
+Residual doubts, named: the D-26 no-bias argument is verified against the
+headline analysis and holds for the recorded reporting convention
+(means + CIs throughout); it needs re-checking only if a paired-seed analysis
+is ever introduced. The latent channel 7 cannot touch any recorded ranking.
+Neither doubt is ranking-plausible. **The gate passes: ≥ 95 % confident that
+the direct channels price each mechanism's disruption per the ratified
+class-level model under both driving modes, with mapping-owned differences
+ruled as mapping policy, and that no unstated channel asymmetry could change
+a comparative ranking.**
+
+## (h) Reproduction
 
 ```
 # the executed truth table + cost semantics (stub collaborators, real methods)
