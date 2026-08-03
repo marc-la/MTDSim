@@ -454,15 +454,6 @@ the recorded −0.893).)*
     if unmet, the A/B cycle iterates scoped to the named doubts. Consumes
     D-18/D-19; run **first** of the three — its matrix defines "meaningful"
     for the other two.
-27. `2026-08-02_boundary_network_defender_integration.md` — **boundary review
-    2 of 3**: does each mechanism move the whole attack surface in its
-    purview, and are the purviews fair to compare? Owns the **write side**:
-    exact write-set enumeration per mechanism (latent ones included), the
-    shared exemptions (exposed endpoints undocumented for the application
-    layer, target node never diversified), ports that persist across service
-    redraws, stale derived state, exploited-flag continuity — ending in a
-    side-by-side purview table any ranking claim can cite. Same A/B +
-    confidence-gate discipline. Consumes D-18's ruling; run **second**.
 28. `2026-08-02_boundary_attacker_defender_integration.md` — **boundary review
     3 of 3**: the direct couplings that bypass network state. Marc's model
     expected one channel (the confusion penalty); the survey found **six**

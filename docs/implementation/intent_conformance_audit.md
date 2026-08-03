@@ -255,7 +255,8 @@ classified — they are outside the spec's rows — but each is a standing undoc
    for all five; UserShuffle carries **no** exemption, which conforms to
    IS-MTD-03's "each host"; CompleteTopologyShuffle moves endpoint adjacency while
    preserving the endpoint hosts. Put to Marc as **D-23**; evidence in
-   [`mtd_write_surfaces.md`](mtd_write_surfaces.md) §b1.)*
+   [`mtd_write_surfaces.md`](mtd_write_surfaces.md) §b1. Ruled keep-and-document
+   2026-08-03 — see the D-23 ruling banner in the disposition list.)*
 6. **Latest-version-only replacement services** in OSDiversity/ServiceDiversity/DAP.
    *(Stale as of D-05, 2026-07-29: all three now draw `get_random_service` — a
    random compatible service at a random version. Retained as the pre-fix record.)*
@@ -590,6 +591,20 @@ lives in [`mtd_write_surfaces.md`](mtd_write_surfaces.md); the review brief is
 Numbering follows boundary review 3's concurrent allocations (D-20..D-22,
 same day). Nothing was touched; D-23 asks for a decision on standing
 behaviour, D-24 and D-25 are record-grade.
+
+> **Ruled 2026-08-03 (Marc) — all three as recommended.** **D-23: (a) keep and
+> document.** The ruling's rationale, in substance: the exposed endpoints are
+> not the problem — attackers perform passive reconnaissance continuously, so
+> the fixed entry surface is the model's way of granting the attacker its
+> foothold, and the game this evaluation plays is disrupting the attacker at
+> the discovery level, post-ingress. The exemption is therefore the
+> *documented* model of the defence family from here on (this row is that
+> record), stated in reporting beside decision C's cardinality qualification.
+> **D-24: (a) record-only** — legacy metrics explicitly not a concern; the
+> feed repair becomes a precondition of the Tay RL-benchmark phase if that
+> phase consumes the fields. **D-25: (a) record-only.** No code moved, no
+> goldens moved; brief 2's Part B is empty and its handoff closed with these
+> rulings.
 
 | # | Item | What the code does | What the papers say | Options, costed |
 |---|---|---|---|---|

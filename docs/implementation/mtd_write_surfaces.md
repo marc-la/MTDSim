@@ -1,14 +1,16 @@
 ---
 status: durable
 created: 2026-08-02
-updated: 2026-08-02
+updated: 2026-08-03
 topic: "The defender write side — per-mechanism write-set enumeration for all eight MTD mechanisms, live-verified; the purview/fairness table for the reported family; answers to the boundary brief's shared questions"
 ---
 
 # MTD write surfaces — what each mechanism moves when it fires, verified live
 
 **Status:** the Part A deliverable of the network/defender boundary review
-(brief 2 of 3, `docs/handoffs/2026-08-02_boundary_network_defender_integration.md`).
+(brief 2 of 3, `docs/handoffs/2026-08-02_boundary_network_defender_integration.md`,
+closed 2026-08-03 with all three dispositions ruled — the handoff lives in git
+history; its confidence evaluation passed and Part B was empty).
 Every write set below was enumerated by reading `mtd_operation()` and then
 **verified by firing the mechanism once on a seeded `TimeNetwork`**
 (seed 42, the experiments' default 50-node/5-endpoint/8-subnet/4-layer
@@ -61,7 +63,12 @@ current-experiment concern.
    space, but their position in the topology moves under CTS. Documented
    intent covers only IPShuffle ("all internal hosts", IS-MTD-01); for the
    application-layer mechanisms the exemption is beyond-paper (audit §l item
-   5) → **D-23** (disposition request).
+   5) → **D-23, ruled keep-and-document (Marc, 2026-08-03)**: the entry
+   surface is deliberately fixed — attackers hold passive-reconnaissance
+   access to exposed endpoints regardless, so the exemption grants the
+   attacker its foothold and the evaluation's game is disrupting it at the
+   discovery level, post-ingress. The exemption is now the documented model
+   of the family.
 2. **The target-node exemption is structural, not a skipped surface.** The
    target service node carries **no `"service"` and no `"port"` attribute at
    generation** (`host.py:116-127` skips it for both; verified live:
@@ -201,6 +208,13 @@ audit's existing rows:
   always-replace guard and performs no derived refreshes.
 
 ## (e) Findings requiring disposition (opened in the audit's list)
+
+**All three ruled 2026-08-03 (Marc), each as recommended:** D-23
+keep-and-document (rationale in §b1 and the audit's ruling banner), D-24
+record-only (repair deferred to the Tay RL-benchmark phase as a
+precondition), D-25 record-only. Part B is therefore empty — no code or
+golden moved — and the review brief closed with the rulings; the table below
+stands as the record of the options as they were put.
 
 | # | Finding | Options (costed) | Recommendation |
 |---|---|---|---|
