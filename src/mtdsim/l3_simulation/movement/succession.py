@@ -354,7 +354,7 @@ class FsmSuccessionModulator:
                 frontier.append((nxt, depth + 1, first))
         return frozenset(openers)
 
-    def effective_targets(self) -> frozenset[str]:
+    def effective_targets(self, *, count: bool = True) -> frozenset[str]:
         """The verbs this decision actually aims at.
 
         The FSM's licensed successors when any of them can run; otherwise the
@@ -365,7 +365,11 @@ class FsmSuccessionModulator:
         runnable = {v for v in self.targets if self.model.requires[v] <= held}
         if runnable:
             return frozenset(runnable)
-        self.fallbacks += 1
+        if count:
+            # `count=False` is how :meth:`snapshot` reads this without moving the
+            # counter — an introspection call that mutated bookkeeping would
+            # inflate the reported fallback rate by one per snapshot.
+            self.fallbacks += 1
         return self._enabling_verbs(self.targets)
 
     # -- the composition factor ---------------------------------------------
@@ -413,7 +417,7 @@ class FsmSuccessionModulator:
             "relation": self.fsm.version,
             "held": sorted(self.cursor.held),
             "targets": sorted(self.targets),
-            "effective_targets": sorted(self.effective_targets()),
+            "effective_targets": sorted(self.effective_targets(count=False)),
             "decisions": self.decisions,
             "singleton_decisions": self.singleton_decisions,
             "suppressed_candidates": self.suppressed,

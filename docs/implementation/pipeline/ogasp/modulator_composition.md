@@ -96,6 +96,16 @@ optimises the attacker toward *permitted* actions, which is what factor 4's
 shipped credit rule already does, so the two agree on the very ordering the
 sub-additivity result depended on their disagreeing about.
 
+**Factor 9 was swept 2026-08-03 over 2 080 runs, and the register owes any arm two
+numbers and one warning.** Pooled path entropy runs 2.714 bits at the null to
+1.682 at α = 1 — materially gentler than factor 8's 1.112 — and roughly one
+routing decision in eleven is an *abstention*, where the net offered no FSM-legal
+move and the factor did nothing. The warning: at α = 1 the attacker spends
+**67.6 %** of its visits in dwell-only places against 34.1 % at the null, because
+transparency composed with a narrow licensed set shifts mass onto dwell rather
+than onto the licensed verb. Both alignment factors have now returned measured
+negatives, and no third is licensed.
+
 **Factors 9 and 10 landed 2026-08-03** ([`fsm_succession_overlay.md`](fsm_succession_overlay.md)),
 and factor 9 supersedes factor 8 as the alignment instrument. Factor 8's sweep
 measured its target to be the wrong one — *able to act* is not *making progress*,

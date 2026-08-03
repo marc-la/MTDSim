@@ -15,6 +15,22 @@ because there is no accumulation and no update from experience. Nor is it a
 fidelity improvement — at its limiting end it makes the attacker behave more like
 the host simulator expects, which is the opposite of behavioural independence.
 
+> **Swept 2026-08-03, 2 080 runs, verdicts in
+> [`fsm_succession_prereg.md`](fsm_succession_prereg.md) below the fold.** The
+> concession does not work, and the negative is the finding. Aligning the CTI
+> attacker to the inherited FSM's own order **widens** its breadth disadvantage
+> (−10.4 % of the gap at α = 1, monotone) and **strengthens** the defence-ranking
+> inversion rather than weakening it (ρ = −0.821 at the null, −1.000 at the limit,
+> at or below the null at every band point). Read beside factor 8's ≤ 7.4 %, the
+> procedural-confound explanation for the project's headline is refuted from two
+> directions. The pathologies this factor was designed to fix are fixed — no MTD
+> condition ever assists the attacker (0/7 at every α) and plurality holds far
+> better (1.682 bits against factor 8's 1.112) — and a different one appears: the
+> dwell-transparency rule composed with a narrow licensed set shifts mass onto
+> **dwelling** rather than onto the licensed verb, so the attacker pivots and waits
+> instead of acting. α = 1 is degenerate on three of the four pre-registered
+> clauses, two of which factor 8's guard did not contain.
+
 What it *is* is a **declared comparability concession**. The substrate carries a
 rigid finite-state attacker. A CTI-derived attacker walking a different order is
 penalised by that rigidity in ways that have nothing to do with the defence, and
@@ -202,6 +218,7 @@ movement-layer code: an action vocabulary, a procedural order, and a succession.
 | the stall question is settled and the check re-run across the band | **held** — 0 offending cells with the abstention rule; 47 079 without it, so the check has teeth |
 | no new declared magnitude beyond α, with a tier, a band and a sweep | **held** — one parameter, `declared-judgement`, band `[0, 0.25, 0.5, 0.75, 1]`, sweep pre-registered in [`fsm_succession_prereg.md`](fsm_succession_prereg.md) |
 | the register gains a row in the same commit | **held** — [`modulator_composition.md`](modulator_composition.md) factor 9 |
+| the sweep runs against pre-registered criteria | **held** — 2 080 runs; B5 held, B1/B2/B3 moved, B4 held; the guard fired at α = 1 and the reported band is truncated accordingly |
 | reader gates unchanged; no golden moves | **held** — a movement-layer factor plus a new controller artefact; no substrate file touched |
 
 ## 7. Reproduce

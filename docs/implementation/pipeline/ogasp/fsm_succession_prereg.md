@@ -143,7 +143,167 @@ PYTHONPATH=src python data/results/fsm_succession/analyse.py
 
 # The verdict, as found
 
-*Everything above this line was committed before the sweep existed. Everything
-below reports against those criteria without amending them.*
+*Everything above this line was committed before the sweep existed (`8bbc530`).
+Everything below reports against those criteria without amending them.*
 
-**Not yet run.**
+**The run.** 2 080 runs, zero errored cells, `data/results/fsm_succession/`.
+
+**B5 HELD.** ρ(α = 0) = **−0.821** against experiment 2's −0.893 and a criterion of
+−0.5, with the contemporaneous baseline reproducing that run's no-MTD figure
+exactly (38.40 hosts). The sweep is measuring the phenomenon it set out to
+decompose.
+
+## B1 — MOVED, and it moved in the direction opposite to the criterion
+
+| α | 0 | 0.25 | 0.5 | 0.75 | 1.0 |
+|---|--:|--:|--:|--:|--:|
+| ρ vs the inherited attacker | −0.821 | −0.929 | −0.893 | −0.857 | **−1.000** |
+
+ρ(1) − ρ(0) = **−0.179** against a bar of +0.50. The inversion does not weaken as
+the attacker is aligned to the inherited FSM's own procedural order. **It
+strengthens**, and at the limiting end it becomes a *perfect* reversal — the
+profiled attacker's defence ranking is the exact inverse of the inherited
+attacker's.
+
+**Every non-degenerate band point sits at or below the null.** α = 1 is flagged
+degenerate by the guard (§4 below) and its ρ may not be reported as a statement
+about the inversion, exactly as pre-registered — but 0.25, 0.5 and 0.75 are all
+clean and all sit below −0.821. The claim the sweep licenses is therefore the
+strong form of the negative: **across the whole usable band, buying off the
+inherited FSM's procedural rigidity does not make the two attackers agree about
+the defence.**
+
+## B2 — MOVED, and the sign is the finding
+
+| α | 0 | 0.25 | 0.5 | 0.75 | 1.0 |
+|---|--:|--:|--:|--:|--:|
+| hosts, no MTD | 5.60 | 5.20 | 4.86 | 4.26 | **2.18** |
+| 95 % CI half-width | ±0.59 | ±0.72 | ±0.63 | ±0.52 | ±0.48 |
+| gap to baseline closed | 0.0 % | −1.2 % | −2.3 % | −4.1 % | **−10.4 %** |
+
+Monotone, and monotone **downward**. Aligning the CTI attacker to the inherited
+FSM does not narrow its disadvantage; it **widens** it, by about a tenth of the
+gap at the limit and measurably at every step before it.
+
+**Read beside factor 8, this is the sweep's most valuable output.** Two
+independent instruments, with different targets and different failure modes, now
+answer the same question:
+
+| instrument | target | answer |
+|---|---|---|
+| factor 8 | distance to a productive action | **≤ 7.4 %** of the breadth gap is procedural rigidity |
+| factor 9 | the inherited FSM's own succession | the gap **widens** by 10.4 %; the inversion strengthens |
+
+The standing alternative explanation for the project's headline — *the profiled
+attacker under-performs because it walks the wrong order for this simulator, so
+the inversion is a mismatch artefact* — is now refuted twice over, and the second
+refutation is the sharper one. Factor 8 could be read as "the dial was too weak to
+close the gap". Factor 9 cannot: it aligns the attacker to the incumbent's own
+procedure, the procedure the incumbent thrives on, and the attacker gets **worse**.
+The two attackers depend on different substrate properties, and forcing one to
+walk the other's order does not transfer the dependency — it only costs the
+follower the structure it had.
+
+## B3 — MOVED, and it locates itself precisely
+
+| α | 0 | 0.25 | 0.5 | 0.75 | 1.0 |
+|---|--:|--:|--:|--:|--:|
+| pooled blocked fraction | 51.5 % | 51.6 % | 51.4 % | 52.7 % | 49.7 % |
+| attempted actions per run | 363 | 334 | 303 | 254 | **165** |
+| dwell-only share of visits | 34.1 % | 37.8 % | 42.6 % | 50.4 % | **67.6 %** |
+
+Friction is **flat** — it neither falls (the criterion) nor explodes (factor 8's
+failure, +21 points). The criterion is not met, so B3 is recorded MOVED and B1 and
+B2 may not be attributed to alignment on this evidence.
+
+But the row that fails is not the row that matters, and the anatomy says why. What
+the dial actually does is not reduce friction, it **removes action**:
+
+| α | 0 | 1.0 |
+|---|--:|--:|
+| `ENUM_HOST` share of actions | 16.6 % | **57.8 %** |
+| `EXPLOIT_VULN` | 28.2 % | 9.4 % |
+| `BRUTE_FORCE` | 11.1 % | 2.1 % |
+
+**The two design choices interact badly at high α, and this is the honest
+mechanism.** Dwell-only places are transparent — they keep full weight because
+they fire nothing and so cannot violate the succession. But when the licensed verb
+set is narrow, the *seven* dwell-only tactics of `v2_partial` dominate the
+renormalised distribution against the *one* tactic that dispatches the licensed
+verb. Tightening the verb constraint therefore shifts mass onto **dwell**, not
+onto the licensed verb. The attacker ends up pivoting (`ENUM_HOST` is licensed
+from three states, so it is the most frequently permitted verb) and otherwise
+waiting.
+
+That is a property of transparency composed with a narrow relation, not a defect
+in either alone, and it is the thing a successor would have to design around.
+
+## B4 — HELD
+
+| α | 0 | 0.25 | 0.5 | 0.75 | 1.0 |
+|---|--:|--:|--:|--:|--:|
+| pooled path entropy (bits) | 2.714 | 2.712 | 2.694 | 2.610 | 1.682 |
+| distinct places per run | 13.41 | 13.40 | 13.34 | 13.32 | 11.39 |
+
+Monotone non-increasing, as committed. **The prediction that this factor would be
+gentler on plurality than factor 8 is confirmed**: 1.682 bits against factor 8's
+1.112 at the same band point, and distinct places 11.39 against 9.16. Any arm
+quoting a non-zero α quotes its own figure from this table.
+
+## §4 — the rewritten guard fired, and it fired on the clauses factor 8's lacked
+
+| α | hosts (modal) | succ/act | actions | places | entropy | assists | verdict |
+|---|--:|--:|--:|--:|--:|--:|---|
+| 0 | 5.60 (6) | 0.358 | 363 | 13.41 | 2.714 | 0/7 | ok |
+| 0.25 | 5.20 (5) | 0.357 | 334 | 13.40 | 2.712 | 0/7 | ok |
+| 0.5 | 4.86 (4) | 0.360 | 303 | 13.34 | 2.694 | 0/7 | ok |
+| 0.75 | 4.26 (4) | 0.346 | 254 | 13.32 | 2.610 | 0/7 | ok |
+| **1.0** | **2.18 (0)** | 0.303 | **165** | 11.39 | 1.682 | 0/7 | **DEGENERATE** |
+
+**The prediction was wrong — one band point is degenerate — and the guard is
+vindicated anyway, which is the more useful outcome.** Three clauses fired at
+α = 1: hosts below half the null's, **modal hosts = 0** (the modal run compromises
+nothing at all), and actions outside the two-sided band. Two of those three are
+clauses that did **not exist** in factor 8's pre-registration, and the third is the
+lower half of a bound factor 8 wrote one-sided.
+
+Put plainly: **factor 8's guard, applied to this sweep, would have passed α = 1**
+— places 11.39 > 3, entropy 1.682 > 0.1, actions not more than halved on the
+one-sided reading. The rewrite was not bookkeeping.
+
+One clause is worth recording for *not* firing. **`assists` is 0/7 at every band
+point**: no MTD condition ever produces more breadth than no-MTD. Factor 8's
+limiting end had the defence acting as the attacker's pivot generator, and that
+pathology is genuinely absent here — the FSM target fixed the thing it was chosen
+to fix. What it did not fix is a different failure, which is why it is reported as
+a second measured negative rather than as a repair.
+
+## Abstention and fallback — the bound on what the dial could do
+
+| α | decisions | abstained | capability fallback | candidates suppressed |
+|---|--:|--:|--:|--:|
+| 0.25 | 217 388 | 8.9 % | 15.7 % | 579 969 |
+| 0.5 | 213 493 | 9.1 % | 14.6 % | 572 516 |
+| 0.75 | 205 915 | 9.6 % | 13.4 % | 554 877 |
+| 1.0 | 204 175 | 9.5 % | 8.2 % | 512 299 |
+
+Roughly one decision in eleven offered no FSM-legal move and the factor did
+nothing; roughly one in seven had to fall back to the capability closure because
+the licensed successor could not run. Neither rate is large enough for the
+measured effects to be an artefact of a rarely-acting dial — over half a million
+candidates were suppressed at every band point.
+
+## What this leaves
+
+1. **The alignment programme has now returned two measured negatives, and
+   together they are a result rather than two failures.** Neither instrument closes
+   the gap; the second widens it. The procedural-confound explanation for the
+   inversion is refuted from two directions, and the dissertation can state the
+   inversion as behavioural with a quantity attached rather than an argument.
+2. **No third factor is licensed by this.** The stopping rule was written for
+   exactly this outcome: *if the limiting end is degenerate again, that is recorded
+   as a second measured negative for the alignment programme, not repaired into a
+   third factor.* The transparency-versus-narrow-relation interaction in B3 is
+   recorded as the thing a successor would design around, not as a brief.
+3. **The reported configuration is untouched.** The headline arm still runs
+   modulators null; α is declared 0.0; no badge moved and none was eligible to.
