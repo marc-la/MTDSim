@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "artefact": "The FSM-succession overlay (composition-register factor 9) — the declared rule model and its single parameter",
+    "version": "v1_succession",
+    "created": "2026-08-03",
+    "record": "docs/implementation/pipeline/ogasp/fsm_succession_overlay.md",
+    "precedent": "docs/implementation/declared_value_provenance.md",
+    "consumed_by": "src/mtdsim/l3_simulation/movement/succession.py (FsmSuccessionModulator)",
+    "supersedes": "Factor 8 (data/ogasp/movement/alignment_rules.json) as the alignment instrument. Factor 8 is not deleted — its sweep is on record and its result stands as the measured negative that motivated this shape.",
+    "scores_no_axis": "This factor scores no axis of the APT criterion and must never be reported as incentive rationality (axis 6, closed), as adaptivity to the defender (axis 4 — this responds to the substrate), or as a fidelity improvement (at the limiting end it makes the attacker behave more like the host simulator expects, which is the opposite of behavioural independence). It is a declared COMPARABILITY CONCESSION and an instrument whose sweep measures a confound.",
+    "boundary": "Any claim about this factor's MTD response is confined to the position-destroying defence family. The 2 080-run factor-8 sweep measured the diversity family as producing hosts, distinct places and verb share identical to the no-MTD arm to three significant figures while interrupting 67 times per run, so the declared capability vocabulary is demonstrably blind to what OS and Service Diversity destroy.",
+    "cti_independence": "The authored artefact is the succession RULE and one dial; the CTI corpus supplies the prior (the base transition proportions) and alpha = 0 recovers it bit for bit. The relation itself is a transcription of the host simulator's own procedure, not a declared magnitude."
+  },
+  "model": {
+    "relation": {
+      "form": "targets = the verbs the inherited FSM licenses next, given the verb just run and the verdict it returned; or, if that action was interrupted, given the mutating resource's layer",
+      "artefact": "data/ogasp/controller/fsm_succession.json (controller seam, version v1_brown_fig3)",
+      "rationale": "The inherited FSM already encodes a progress structure — after a compromise it runs SCAN_NEIGHBOR and then ENUM_HOST, so it pivots to a fresh host. Conditioning on that succession inherits the structure instead of re-deriving a worse one, which is precisely what factor 8's capability-distance target failed to do.",
+      "successors_are_sets": "Every successor is a set. The movement layer's verdict adapter treats ENUM_HOST, SCAN_PORT and SCAN_NEIGHBOR as success-unless-interrupted, so for two of them the substrate's branch is not recoverable from the verdict this modulator sees; both successors are declared rather than the modal one being guessed. That widens the permitted set and so cannot manufacture an alignment the FSM does not license."
+    },
+    "dwell_transparency": {
+      "form": "a destination whose tactic dispatches no verb is never attenuated, and a visit to such a place does not advance the FSM state",
+      "rationale": "A dwell-only place fires nothing, so it cannot violate the succession. Treating such places as free passage is what lets the attacker traverse its own CTI structure between FSM-legal actions rather than being forced onto the bare verb chain, and it is the difference between a dial that biases the attacker and one that replaces it. Under v2_partial seven of fifteen tactics are dwell-only, so the transparent structure is substantial."
+    },
+    "capability_fallback": {
+      "form": "if no licensed successor can run in the attacker's current capability state, the targets become the first-step verbs on a shortest route to making one runnable",
+      "artefact": "data/ogasp/controller/precondition_relation.json (controller seam), consumed unchanged and unbumped",
+      "rationale": "Without it the dial drives the token at a dispatch the substrate refuses, which is the failure factor 8's sweep measured at its limiting end (blocked fraction 0.93 under the position-destroying family). This is the declared seam between the two controller relations: the succession says WHAT comes next, the closure says what must happen FIRST when it cannot."
+    },
+    "routing": {
+      "form": "m(a->b) = 1.0 if b dispatches no verb or b's verb is a target, else (1 - alpha); composed multiplicatively and renormalised",
+      "null": "alpha = 0 makes the modulator return no factors at all, so the arithmetic is the pre-existing composition and the run is bit-identical to one with no state attached"
+    },
+    "off_band": {
+      "floor": 0.0,
+      "rationale": "PLACEHOLDER UNTIL THE CHECK RUNS. Unlike factor 8's argmin rule, this factor's permitted set is absolute rather than relative to the out-set, so no structural guarantee of a survivor exists and the floor cannot be argued — it must be measured by the exhaustive check.",
+      "check": "src/mtdsim/l3_simulation/movement/succession.py succession_stall_report(), quantifying over every non-empty subset of the verb vocabulary, pinned by tests/l3_simulation/test_movement_succession.py"
+    }
+  },
+  "declared_parameters": {
+    "alpha": {
+      "value": 0.0,
+      "sweep": [0.0, 0.25, 0.5, 0.75, 1.0],
+      "tier": "declared-judgement",
+      "status": "provisional",
+      "confidence": 75,
+      "rationale": "The declared value is the null, and the parameter is a continuous float over [0, 1] rather than a switch. This is a comparability concession, not a capability: alpha states how much of the inherited FSM's procedural rigidity the evaluation buys off so that two differently-shaped attackers can be compared on the same substrate. No operating point is a claim about any adversary, which is why the declared value is the arm that claims nothing.",
+      "band_argument": "The endpoints are the two named positions: alpha = 0 is pure CTI-derived order and is the null arm that must reproduce every recorded figure at full strength; alpha = 1 permits only the inherited FSM's licensed next actions plus the attacker's own dwell-only structure. The interior points exist because the instrument's output is a dose-response curve and a curve needs interior points to be one. Intermediate values are the intended operating region for a comparability concession, which is the respect in which this parameter differs from factor 8's.",
+      "not_reported_as": "alpha is swept, and any reported arm names its own alpha and quotes its own plurality figure. The S6 constraint binds: a badge may never be moved by choosing alpha. Note the distinction that keeps this legitimate — declaring a concession so two attackers are comparable is a stated methodological choice, whereas tuning alpha until a row improves is scoring-driven design and is forbidden.",
+      "scrutiny": "Authored 2026-08-03 with the rule model. Has survived no adversarial review round; the sweep is the whole of its defence, and the pre-registration is the guardrail that the conclusions were fixed before any output existed.",
+      "changelog": []
+    }
+  },
+  "ledger_meta": {
+    "tiers": {
+      "corpus-grounded": "derived from CTI / corpus data — deliberately empty here, as for every declared layer that conditions the corpus-grounded weights",
+      "attested-pattern/declared-magnitude": "the behaviour is documented in the literature; the exact magnitude is declared. Deliberately empty: no literature attests a rate at which an attacker conforms to a simulator's procedural order, because the quantity is an artefact of this evaluation rather than a property of any adversary.",
+      "declared-judgement": "reasoned from first-principles logic; not attested. The honest floor tier."
+    },
+    "review_history": [
+      "R0 2026-08-03 — authored with the rule model, after factor 8's sweep measured its target to be the wrong one"
+    ],
+    "reproducibility": "There is no compiled value table to reproduce: the succession relation is a transcription and the dial declares nothing per cell. What stands in its place is the cross-examination of the relation against three independent sources (the substrate code, Brown Fig 3, Zhang Fig 7), pinned by test, plus the exhaustive no-stall check.",
+    "maintenance": "docs/implementation/declared_value_provenance.md §4."
+  }
+}

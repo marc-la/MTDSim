@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "artefact": "The inherited attacker's finite-state succession — which verb the substrate's own FSM runs next, conditioned on the verb just run and the verdict it returned. Declared and versioned as a CONTROLLER artefact under the same discipline as the tactic-to-verb mapping and the precondition relation, so an adopter porting this framework to another simulator declares its action vocabulary, its procedural order, AND its succession.",
+    "version": "v1_brown_fig3",
+    "created": "2026-08-03",
+    "record": "docs/implementation/pipeline/ogasp/fsm_succession_overlay.md",
+    "consumed_by": "src/mtdsim/l3_simulation/movement/alignment.py (FsmSuccessionModulator, composition-register factor 9)",
+    "nature": "A declared model of the HOST SIMULATOR's procedure, consulted in-layer. It is not substrate state read live, and it confers no privileged information about the defence — it declares what the inherited attacker would do next, which is public in the papers. The scheme-awareness exclusion is untouched.",
+    "why_controller_seam": "The RULE (prefer the tactic the inherited FSM would run next) is portable and lives on the movement seam as factor 9. The RELATION below is a statement about MTDSim's own attacker and must be rewritten to port, so it lives here beside the mapping (factor 5) and the precondition relation (factor 6). This also re-homes the objective-productive verb set, which factor 8 had to carry as a movement-layer constant because its brief barred touching the precondition relation.",
+    "code_source": "mtdnetwork/operation/attack_operation.py on branch dev at commit ec40f55 — the _execute_* dispatch wrappers, each of which runs its _do_* core and then calls the successor. Locators are per-branch below.",
+    "intent_source": "docs/implementation/mtdsim_intent_spec.md §j — Brown 2023 Fig 3 (the attack-procedure flowchart, recovered 2026-07-29 and normative there) and Zhang 2023 Fig 7 (the time-domain action flow), plus IS-PRC-01..08.",
+    "cross_examination": "Every row below was derived from the code and then checked against Brown Fig 3 and Zhang Fig 7 independently. Agreements and the two disagreements are recorded per row in `provenance` and summarised in `known_divergences`. A row where code and intent disagree follows the CODE, because this factor's purpose is alignment to the inherited FSM as implemented, not to the FSM as designed — and the divergence is recorded rather than silently resolved."
+  },
+  "entry": "SCAN_HOST",
+  "entry_provenance": "Brown Fig 3 box 1 (Host Discovery); Zhang Fig 7 chain head; code: the attacker's first dispatched verb, and _enum_host's empty-stack guard falls back to it (attack_operation.py:116-125).",
+  "progressive_verbs": ["SCAN_PORT", "EXPLOIT_VULN", "BRUTE_FORCE"],
+  "progressive_verbs_provenance": "The verbs whose success calls AttackOperation.update_compromise_progress and so advances the simulator's termination condition: attack_operation.py:408 (_do_scan_port, credential reuse), :513 (_do_exploit_vuln, check_compromised), :547 (_do_brute_force, guessed login). The fourth call site, :377 in _do_enum_host, is guarded by `if curr_host.compromised` — it re-reports a host already owned and causes no compromise, so ENUM_HOST is not progressive. Re-homed here from movement-layer code (factor 8's recorded seam impurity).",
+  "succession": {
+    "SCAN_HOST": {
+      "success": ["ENUM_HOST"],
+      "failure": ["SCAN_HOST"],
+      "verdict_is_informative": true,
+      "provenance": "code attack_operation.py:305-317 — _do_scan_host True (hosts discovered) -> _enum_host(); False -> return (the attacker STOPS). The verdict adapter reads SCAN_HOST's bare bool, so the branch is recoverable 1:1. Brown Fig 3: box 1 -> box 2 agrees; box 10 'there is not another host' -> box 1 is the only route back to discovery.",
+      "declared_divergence": "On failure the substrate TERMINATES the native attacker. The movement layer has no terminate — its token keeps walking — so the declared successor is SCAN_HOST itself (retry discovery). This follows Fig 3's box 10 -> box 1 edge rather than inventing a behaviour, and it is a declared choice, not a transcription."
+    },
+    "ENUM_HOST": {
+      "success": ["ENUM_HOST", "SCAN_PORT", "SCAN_HOST"],
+      "failure": ["ENUM_HOST", "SCAN_PORT", "SCAN_HOST"],
+      "verdict_is_informative": false,
+      "provenance": "code attack_operation.py:381-391 — _do_enum_host True (the host popped is ALREADY compromised) -> _enum_host() (loop to the next host); False (a fresh host) -> _scan_port() (the attack proper). The loop branch re-enters _enum_host(), whose own empty-stack guard falls through to _scan_host() (attack_operation.py:116-125), so SCAN_HOST is a third reachable successor. Brown Fig 3: box 2 -> box 3 is the drawn forward arrow, and box 10's 'there is not another host' -> box 1 is the same guard.",
+      "verdict_collapse": "The verdict adapter treats ENUM_HOST as success-unless-interrupted (controller/verdict.py), so the branches are NOT distinguishable from the verdict. All three successors are declared rather than the modal one being picked: an undistinguishable branch makes every reachable move FSM-legal, which is more honest than a guess and costs no plurality.",
+      "caught_by_cross_examination": "SCAN_HOST was MISSING from the first draft of this row and was caught by the runtime check against the native attacker's own transitions (observed 10 times over six seeds). The first draft reasoned about the empty-stack guard for BRUTE_FORCE's failure branch and did not notice it applies to ENUM_HOST's own loop branch as well."
+    },
+    "SCAN_PORT": {
+      "success": ["SCAN_NEIGHBOR", "EXPLOIT_VULN"],
+      "failure": ["SCAN_NEIGHBOR", "EXPLOIT_VULN"],
+      "verdict_is_informative": false,
+      "provenance": "code attack_operation.py:412-421 — _do_scan_port True (a compromised user's credentials were reused on this host, which compromises it) -> _scan_neighbors(); False -> _exploit_vuln(). Brown Fig 3 draws box 4 -> box 5 UNCONDITIONALLY (no success branch out of the credential check), while Brown §III-C(2) prose (IS-PRC-03) says exploitation is reached only on stuffing's failure. That tension is recorded unresolved in the intent spec §j and is NOT resolved here.",
+      "verdict_collapse": "The verdict adapter treats SCAN_PORT as success-unless-interrupted, so the branch is not recoverable. Declaring both successors happens to satisfy both readings of the intent at once: EXPLOIT_VULN is in the set for Fig 3's unconditional edge, and SCAN_NEIGHBOR is in it for the prose's success branch."
+    },
+    "EXPLOIT_VULN": {
+      "success": ["SCAN_NEIGHBOR"],
+      "failure": ["BRUTE_FORCE"],
+      "verdict_is_informative": true,
+      "provenance": "code attack_operation.py:517-529 — EXPLOIT_COMPROMISED -> _scan_neighbors(); EXPLOIT_UNCOMPROMISED -> _brute_force(); EXPLOIT_HALTED dispatches nothing. The verdict adapter maps COMPROMISED->success and everything else->failure, so the two live branches are recoverable 1:1. Brown Fig 3: box 7 Success -> box 9, Failure -> box 8. Zhang Fig 7: the host-compromised edge runs from Phase 2 to Scan Neighbour. All three agree.",
+      "declared_divergence": "EXPLOIT_HALTED (an MTD interrupt mid-exploit) dispatches NO successor in the substrate but reads as failure to the verdict adapter. It is handled by `interrupt_succession` below, which takes precedence over this row, so the halted case never falls through to BRUTE_FORCE."
+    },
+    "BRUTE_FORCE": {
+      "success": ["SCAN_NEIGHBOR"],
+      "failure": ["ENUM_HOST", "SCAN_HOST"],
+      "verdict_is_informative": true,
+      "provenance": "code attack_operation.py:551-560 — _do_brute_force True -> _scan_neighbors(); False -> _enum_host(). The verdict adapter reads BRUTE_FORCE's bare bool, so the branch is recoverable 1:1. Brown Fig 3: box 8 Success -> box 9, Failure -> box 10.",
+      "why_two_on_failure": "Fig 3's box 10 ('Check if there is another Host to Target') branches: another host -> box 2 (ENUM_HOST), no host -> box 1 (SCAN_HOST). The code implements box 10 as ENUM_HOST's own entry guard — _enum_host() falls back to _scan_host() when the host stack is empty (attack_operation.py:116-125) — so the single call to _enum_host() carries both Fig 3 edges. Both are declared because the stack's emptiness is substrate state this layer does not read."
+    },
+    "SCAN_NEIGHBOR": {
+      "success": ["ENUM_HOST"],
+      "failure": ["ENUM_HOST"],
+      "verdict_is_informative": false,
+      "provenance": "code attack_operation.py:591-597 — _do_scan_neighbors returns None and the wrapper unconditionally calls _enum_host(). No branch exists, so the verdict adapter's collapse costs nothing here. Brown Fig 3: box 9 -> box 2, and the intent spec flags that 9 returns to 2 rather than to 10. Zhang Fig 7: Scan Neighbour -> Enum Host. All three agree."
+    }
+  },
+  "interrupt_succession": {
+    "network": ["SCAN_HOST"],
+    "application": ["SCAN_PORT"],
+    "reserve": ["EXPLOIT_VULN"],
+    "provenance": "code attack_operation.py:210-248 (_handle_interrupt) — network -> _scan_host() (:233), application -> _scan_port() (:238), reserve -> _exploit_vuln() (:248). Zhang Fig 7 states the same scoping at figure level: the network-layer enclosure spans every action and returns to Scan Host; the application-layer enclosure spans only Phases 1-3 and returns to Phase 1 (= SCAN_PORT). The reserve row is Brown §III-D(3) / IS-INT-03, applied as Marc's D-07 disposition (2026-07-29).",
+    "precedence": "This table OVERRIDES `succession` whenever the last action was interrupted, because the substrate's own interrupt handler overrides its FSM dispatch the same way. It is keyed on the mutating resource's layer, which the movement layer already observes through StatefulAttackOperation."
+  },
+  "blocked_fallback": {
+    "rule": "capability_closure",
+    "rationale": "When the FSM's declared successor cannot run — its precondition is unmet in the attacker's current capability state — following the succession would route the token into a dispatch the substrate refuses. In that case the target set becomes the verbs on a shortest route to making the successor runnable, computed over the precondition relation's capability closure (data/ogasp/controller/precondition_relation.json). This is the point at which the succession model and the capability model compose: the FSM says WHAT comes next, and the closure says what must happen FIRST when it cannot.",
+    "readiness_is_predicted": "The unmet-precondition test is the same in-layer prediction the readiness learner uses, whose measured accuracy against the substrate's own `blocked` flag is 1.0000 on v1_ckc_total and 0.9169-0.9428 on v2_partial. It is a prediction, not ground truth, and the residual is the recorded optimism of the relation itself."
+  },
+  "dwell_only_are_transparent": {
+    "rule": "A destination whose tactic dispatches no verb is never attenuated.",
+    "rationale": "A dwell-only place fires nothing, so it cannot violate the inherited succession — it consumes time and passes the token on. Treating such places as free passage is what lets the attacker traverse its own CTI structure between FSM-legal actions instead of being forced onto the shortest verb chain, and it is the difference between a dial that biases the attacker and one that replaces it."
+  },
+  "record_granularity_artefact": {
+    "transition": "EXPLOIT_VULN -> EXPLOIT_VULN",
+    "observed": "the single most common transition in the native attacker's statistics (5 605 of 7 856 over six seeds), and it is deliberately NOT in this relation",
+    "why_not": "_do_exploit_vuln iterates the top-five vulnerabilities and appends one attack_operation_record INSIDE that loop (attack_operation.py:457-489), so one dispatched EXPLOIT_VULN phase emits up to five statistics rows. The FSM does not self-loop. The movement layer calls the same core once per place visit and takes one outcome, so it produces exactly one record and never sees this edge. Recorded because a naive reading of the native record stream would add a self-loop that does not exist, which would license the dial to hold the token on exploitation indefinitely."
+  },
+  "known_divergences": [
+    "SCAN_PORT's branch: Brown Fig 3 draws the credential check -> find-vulnerabilities edge unconditionally; Brown §III-C(2) prose (IS-PRC-03) makes exploitation conditional on stuffing's failure; the code implements the prose. Recorded unresolved in the intent spec §j and not resolved here — the declared set contains both successors, so this relation is compatible with either reading.",
+    "SCAN_HOST failure terminates the native attacker; the movement layer cannot terminate, so SCAN_HOST is declared as its own successor (retry discovery), following Fig 3's box 10 -> box 1 edge.",
+    "ENUM_HOST and SCAN_PORT branches are invisible to the binary verdict adapter (both verbs are success-unless-interrupted), so both successors are declared for each. This widens the permitted set rather than narrowing it, so it cannot manufacture an alignment the FSM does not license."
+  ]
+}

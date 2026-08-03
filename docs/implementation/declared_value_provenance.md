@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-23
-updated: 2026-08-02
+updated: 2026-08-03
 topic: "A precedent for provenance-tracking declared-knowledge values (numbers reasoned from judgement, not measured from a source) and maintaining their justification through adversarial cross-examination — the living value-provenance & scrutiny ledger"
 ---
 
@@ -332,6 +332,32 @@ Three things it adds to the precedent, each generalising beyond this family:
    first run, and it is itself checked against a deliberately sabotaged input —
    because a check that cannot be made to fail evidences nothing, which is a
    standard the earlier 0-of-N checks met only implicitly.
+
+### 6.5 The fifth instance — the FSM-succession dial (no axis)
+
+The immediate successor to §6.4, and it earns its own entry for one reason the
+precedent had not previously had to state.
+
+- **Rules and ledger:** [`../../data/ogasp/movement/succession_rules.json`](../../data/ogasp/movement/succession_rules.json)
+  — one declared parameter, α, a float over [0, 1] whose declared value is again
+  the null.
+- **The relation it consumes:** [`../../data/ogasp/controller/fsm_succession.json`](../../data/ogasp/controller/fsm_succession.json)
+  — a **transcription**, not a declared family: it carries no magnitudes and no
+  tiers, because every row is a statement about what the host simulator's own
+  attacker does.
+- **Design record:** [`pipeline/ogasp/fsm_succession_overlay.md`](pipeline/ogasp/fsm_succession_overlay.md).
+
+**What it adds to the precedent: a transcription has an oracle, and the ledger
+should make you use it.** §6.4's reproducibility clause was a reachability proof
+because there was no value table to diff. Here there is something better — the
+thing being transcribed is *executable*, so the relation can be checked against
+the substrate's own observed behaviour rather than against a reading of its
+source. That check caught a genuine omission on its first run (a successor
+reachable only through a fallback guard on another verb's loop branch), which
+neither reading the dispatch wrappers nor cross-examining two independent
+published figures had surfaced. **Where a declared artefact transcribes something
+that runs, run it** — and where it transcribes something that does not, say so, so
+a reader knows which kind of assurance the entry carries.
 
 ## 7. Where this sits
 

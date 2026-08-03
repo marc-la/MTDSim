@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-01
-updated: 2026-08-02
+updated: 2026-08-03
 topic: "The composition register — every routing factor the model carries, which seam each lives on, which are active in the reported configuration, and why that boundary is the portability claim made structural"
 ---
 
@@ -47,7 +47,9 @@ inventing a magnitude or inverting the within-class ordering.
 | 5 | **Tactic-to-verb mapping** | controller | `v1_ckc_total` / `v2_partial`, versioned registry | not nullable — a mapping is always selected | **yes** (named per experiment) |
 | 6 | **Precondition relation** | controller | verb-level requires/produces/clears, versioned (**`v2_achievement`** since 2026-08-02) | consulted only by factor 4; inert when κ = 0 | **no** (rides with factor 4) |
 | ~~7~~ | ~~**Iterated utility modulator**~~ | — | **RETIRED 2026-08-02** — built, swept over 4 200 runs, ruled a negative result and deleted ([`iterated_cost_model.md`](iterated_cost_model.md) §0). Its row is struck rather than removed so the register records that the slot was tried | — | **no — the code no longer exists** |
-| 8 | **FSM-alignment overlay** (the procedural-order dial) | movement | α (declared **0.0**, the null); the objective-productive verb set is a transcription, not a declared magnitude | α = 0 → no factors returned, bit-identical | **no** |
+| 8 | **FSM-alignment overlay** (capability-distance dial) | movement | α (declared **0.0**, the null); the objective-productive verb set is a transcription, not a declared magnitude | α = 0 → no factors returned, bit-identical | **no** — **superseded as an instrument by factor 9**, retained with its sweep as a measured negative |
+| 9 | **FSM-succession overlay** (the procedural-order dial) | movement | α (declared **0.0**, the null), a float over [0, 1] | α = 0 → no factors returned, bit-identical | **no** |
+| 10 | **FSM succession relation** | controller | verdict-conditioned successors + the interrupt table + the objective-productive verb set, versioned (`v1_brown_fig3`) | consulted only by factor 9; inert when α = 0 | **no** (rides with factor 9) |
 
 **Factor 4 gained a credit-rule selector and factor 6 gained achievement terms on
 2026-08-02** ([`progress_credit.md`](progress_credit.md)). Neither changes this
@@ -94,8 +96,23 @@ optimises the attacker toward *permitted* actions, which is what factor 4's
 shipped credit rule already does, so the two agree on the very ordering the
 sub-additivity result depended on their disagreeing about.
 
-Factors 1–4 and 8 are **routing factors** composing multiplicatively per the rule
-in §1. Factors 5–6 are **controller artefacts**: they do not multiply into the
+**Factors 9 and 10 landed 2026-08-03** ([`fsm_succession_overlay.md`](fsm_succession_overlay.md)),
+and factor 9 supersedes factor 8 as the alignment instrument. Factor 8's sweep
+measured its target to be the wrong one — *able to act* is not *making progress*,
+and at its limiting end the attacker owned one host forever — so factor 9
+conditions on the **inherited FSM's own succession**, which already pivots after a
+compromise because Brown drew it that way. Three things belong in the register
+rather than only in the build record. It **scores no axis**: it is a declared
+comparability concession and a swept instrument, so its declared value is the
+null. Its **stall guarantee is structural rather than enumerated** — where the net
+offers no FSM-legal move the factor attenuates nothing, so an out-set can never be
+emptied; the exhaustive check returns 47 079 offending cells without that rule and
+0 with it. And factor 10 **re-homes the objective-productive verb set** onto the
+controller seam, repairing the impurity factor 8 had to carry because its brief
+barred touching the precondition relation.
+
+Factors 1–4, 8 and 9 are **routing factors** composing multiplicatively per the rule
+in §1. Factors 5–6 and 10 are **controller artefacts**: they do not multiply into the
 routing weight, they declare how the movement layer meets *this* substrate. They
 are in the register because they are the parts an adopter re-declares, and
 because omitting them would make the portability claim in §3 unreadable.
@@ -177,10 +194,11 @@ actions establish which capability is MTDSim-specific, and that is exactly the
 piece held on the controller seam as factor 6.
 
 **What this buys, stated as an adopter would meet it.** To port this framework to
-another simulator you declare two artefacts and change no movement-layer code:
+another simulator you declare three artefacts and change no movement-layer code:
 its **action vocabulary** (factor 5 — which tactic dispatches which of your
-verbs, or none) and its **procedural order** (factor 6 — what each verb requires
-and produces). The precondition relation was built to that shape deliberately: it
+verbs, or none), its **procedural order** (factor 6 — what each verb requires
+and produces), and its **succession** (factor 10 — which verb its own attacker
+runs next, and where its interrupt handler restarts). The precondition relation was built to that shape deliberately: it
 is verb-keyed, not tactic-keyed, so it composes with any mapping rather than
 having to be rewritten per mapping.
 
@@ -248,7 +266,8 @@ modulators-null arm and a modulator-active arm still reports its own figure.
   [`learning_representation.md`](learning_representation.md) (factors 4 and 6),
   [`controller.md`](controller.md) / [`controller_mapping_v2.md`](controller_mapping_v2.md)
   (factor 5), [`iterated_cost_model.md`](iterated_cost_model.md) (factor 7),
-  [`fsm_alignment_overlay.md`](fsm_alignment_overlay.md) (factor 8).
+  [`fsm_alignment_overlay.md`](fsm_alignment_overlay.md) (factor 8),
+  [`fsm_succession_overlay.md`](fsm_succession_overlay.md) (factors 9 and 10).
 - **When to update:** whenever a factor is added, its null configuration changes,
   or the reported configuration changes for any reason. A new modulator's axis
   record owes this register a row in the same commit that builds it.
