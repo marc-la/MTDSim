@@ -463,17 +463,19 @@ the recorded −0.893).)*
     redraws, stale derived state, exploited-flag continuity — ending in a
     side-by-side purview table any ranking claim can cite. Same A/B +
     confidence-gate discipline. Consumes D-18's ruling; run **second**.
-28. `2026-08-02_boundary_attacker_defender_integration.md` — **boundary review
-    3 of 3**: the direct couplings that bypass network state. Marc's model
-    expected one channel (the confusion penalty); the survey found **six**
-    (verb-gated interrupt condition, penalty, cursor clear, forced re-scan
-    succession, the movement arm's failure-verdict seam with its
-    belief-forgetting rule, and the unwired `observed_changes` hook). All
-    class-level, not mechanism-level — for weakly-coupled mechanisms these
-    channels are their *entire* measured effect, so this is where comparative
-    fairness is most load-bearing. Central question for Marc: class-level
-    pricing as the documented model, or mechanism-level differentiation at
-    full golden cost. Same A/B + confidence-gate discipline; run **third**.
+*(Shipped: **boundary review 3 of 3** —
+`2026-08-02_boundary_attacker_defender_integration.md`, closed 2026-08-03.
+Part A landed as
+`../implementation/boundary_attacker_defender_channels.md` (the six direct
+channels executed, the class flattening measured from recorded runs, the
+exposure asymmetry quantified: application-class reach 57–83 % of the profiled
+attacker's clock vs ~99 % of the native one's). Marc ruled D-20/D-21/D-22 all
+option (a): class-level pricing ratified as the stated model — the
+evaluation's comparative unit is the disruption class, dosed by the scheme —
+the exposure profile ratified as mapping policy and read as part of the
+inversion's anatomy, the counter nuance kept-and-documented. Part B was
+test-only: `tests/test_interrupt_channel_semantics.py` pins the ratified
+semantics; no golden moved.)*
 *(Shipped from wave 6: the **criterion's consequence and provenance rows** —
 `2026-07-29_criterion_consequence_and_provenance_rows.md`, landed 2026-08-01 in
 two commits — definitions and evidence bars first, scores second, so the

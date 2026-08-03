@@ -570,6 +570,20 @@ the review brief is
 Nothing was touched; D-20 is a ratification request rather than a divergence
 (the §c verdict on the underlying behaviour is CONFORMS).
 
+> **Ruled by Marc, 2026-08-03 — option (a) on all three.** D-20: class-level
+> pricing is ratified as the stated model — the evaluation's comparative unit
+> is the disruption class (position-destroying vs surface-churning), dosed by
+> the scheme, and reporting carries decision-C-style cardinality statements.
+> D-21: the movement arm's exposure profile (DWELL exposed, recon verbs
+> app-immune) is ratified as mapping policy; the asymmetry is stated beside
+> any cross-arm comparison and read as part of the inversion's anatomy, not a
+> confound. D-22: keep and document. Part B is test-only — the ratified
+> semantics are pinned by
+> [`tests/test_interrupt_channel_semantics.py`](../../tests/test_interrupt_channel_semantics.py)
+> (the gate truth table incl. the DWELL row, the is_alive immune window, the
+> network-only cursor clear, the absorb-don't-stack rule); no golden moved,
+> no recorded experiment re-run.
+
 | # | Item | What the code does | What the papers say | Options, costed |
 |---|---|---|---|---|
 | **D-20** | **Class-level pricing of MTD disruption** (IS-INT-01..05, IS-MTD-09) — ratify as the documented model, or add mechanism-level differentiation? | Channels 1–4 (interrupt gate, penalty, cursor clear, forced re-scan) are functions of `resource_type` alone (`mtd_operation.py:211-258`, `attack_operation.py:161-249`): within a class every mechanism buys the identical interrupt, the identical 20.5 penalty draw, the identical (non-)clear — measured identical in every recorded data set (movement-arm interrupts 75.0/75.0 network, 52.7/52.4 application; penalty/interrupt 20.49–20.52 in all cells). Combined with the dead network-state writes (D-18/D-19, briefs 1–2), each unseparated pair is one mechanism against the movement attacker, so the evaluation compares resource classes wherever a mechanism's network write is unread | The class abstraction **is** the documented model: Brown §III-D's three interaction classes (IS-INT-01..03), Zhang §4.4.2's layer semantics (IS-INT-04/05), IS-MTD-09's "classing drives attacker-interaction semantics". No lineage paper prices disruption per mechanism or conditions interruption on mutation scope | **(a) Ratify class-level pricing as the stated model** (recommended): zero code, zero goldens; reporting carries decision-C-style cardinality statements. **(b) Add a mechanism/scope term** (e.g. interrupt only if the mutation touched the attacker's current host/service): beyond-paper substrate semantics change, **both arms, every golden** (full D-05), new comparability boundary; separates the pairs only jointly with D-18/D-19, so must not be taken independently of them. |

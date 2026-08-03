@@ -1,7 +1,7 @@
 ---
-status: review record (boundary review 3 of 3)
+status: review record (boundary review 3 of 3) — closed; D-20/D-21/D-22 ruled (a), Marc 2026-08-03
 created: 2026-08-02
-updated: 2026-08-02
+updated: 2026-08-03
 topic: "The direct attacker/defender channels — inventory, executed truth table, realised traffic from recorded runs, and the class-vs-mechanism pricing question put to Marc (D-20..D-22)"
 ---
 
@@ -220,6 +220,22 @@ practice (D-07's record stands; nothing new to rule).
 | `observed_changes` unwired | — | Axis-8 exclusion stands (Marc, 2026-07-28); verified dead |
 
 ## (f) Findings and costed options (the disposition requests)
+
+> **Ruled by Marc, 2026-08-03 — option (a) on all three; the review is
+> closed.** The consequences, in thesis terms: the evaluation's comparative
+> unit is the **disruption class** — what kind of thing a mutation destroys
+> (position vs surface) — dosed by the orchestration scheme; mechanisms within
+> a class are duplicate witnesses of one effect until a mechanism-specific
+> coupling is ruled live (that lever is D-18/D-19, not these channels). The
+> exposure asymmetry (§(d)) is ratified as mapping policy and is *used*, not
+> removed: part of the diversity family's rank loss against the profiled
+> attacker is that a realistic campaign spends 17–43 % of its clock in
+> reconnaissance-shaped behaviour a surface mutation cannot reach — an
+> attributable piece of the inversion's anatomy, bounded by the
+> mapping-as-chosen-input caveat that already rides Row B. Part B is
+> test-only: the ratified semantics are pinned by
+> [`tests/test_interrupt_channel_semantics.py`](../../tests/test_interrupt_channel_semantics.py);
+> no golden moved, no recorded experiment re-run.
 
 **D-20 — the framing decision the brief exists to force: is class-level
 pricing the intended model?** The evidence: channels 1–4 are functions of
