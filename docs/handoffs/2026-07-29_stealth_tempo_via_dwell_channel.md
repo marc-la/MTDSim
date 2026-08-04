@@ -27,6 +27,13 @@ which currently lists stealth as future work — **this handoff is the argument 
 moving it back inside the freeze**, and it should be read as a proposal that the
 supervisor rules on rather than as sanctioned work.
 
+**Sibling, unblocked, opened 2026-08-04:**
+[`2026-08-04_stealth_exposure_metric_reader.md`](2026-08-04_stealth_exposure_metric_reader.md)
+builds the cheaper option 1(a) — a post-hoc detectability *reader* with no
+mtd_ai integration and no ruling gate — independently requested in that day's
+supervisor meeting. Do that one first; it does not discharge this handoff's
+1(b) ruling.
+
 ## State of play
 
 **The blocking premise has an exception, and it was verified in code.** The

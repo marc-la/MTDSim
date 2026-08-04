@@ -99,6 +99,21 @@ with full golden cost.
   dwells and 200 s mutation intervals — is a flat 20-unit confusion cost the
   right *order* for both arms? Provenance check, not a re-tune.
 
+### 2.1 A directional signal from the 2026-08-04 supervisor meeting — context, not a disposition
+
+Marc's own framing in that session, discussing how MTD disruption should
+reach the movement attacker, lands on the class-level reading this brief
+already puts forward as "a defensible model": *"the defence should work the
+same for any type of attack[er]"* — i.e. the same disruption channels, priced
+the same way, regardless of which driving mode (native FSM or movement-driven)
+is running. This is a **directional signal from conversation, not a written
+disposition against the six-channel inventory and truth table** this brief's
+process requires (§3, §5) — it does not close item 2 of §5's confidence-gate
+checklist ("the class-vs-mechanism pricing question is put to Marc with costed
+options and carries his written disposition"). Record it as support for
+finishing the inventory toward the class-level answer rather than as a
+substitute for doing so.
+
 ## 3. Recommended approach — Part A (review / cross-examination; no code changes)
 
 1. **Inventory and verify the six channels** with locators and a truth table

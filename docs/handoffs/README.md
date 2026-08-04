@@ -512,5 +512,45 @@ synthesis), with the motif cross-referenced from the notes it runs through.)*
     (`../implementation/pipeline/ogasp/mtd_disruption_frontier.md`) in a
     successor reading.
 
+**Wave 7 — opened from the 2026-08-04 supervisor meeting.** Three themes:
+stealth measurement, a new attacker-memory mechanism, and a directional
+confirmation on the open boundary-review question. Both new handoffs are
+independent of each other and of the boundary reviews above; neither is
+licensed to build without its stated gate.
+
+29. [`2026-08-04_stealth_exposure_metric_reader.md`](2026-08-04_stealth_exposure_metric_reader.md)
+    — the unclaimed half of axis 5's design record
+    (`stealth_conceptualisation.md` §2a, "recommended buildable baseline"): a
+    **post-hoc detectability reader**, compounding on each attacker action and
+    decaying continuously with elapsed time, over an unmodified run's own
+    action stream — no attacker state added, no S2 question, no ruling gate.
+    Sourced two ways: the substrate's existing synthetic per-vulnerability
+    CVSS/exploitability fields for `EXPLOIT_VULN`-dispatching actions
+    (direction — inverse or direct — a declared judgement to sweep, not
+    asserted), and the design record's own ordinal tactic-tier ranking for
+    everything else, since CVSS has no referent for five of six substrate
+    verbs. **Buildable now.** Sibling to (20), which stays blocked on the
+    mtd_ai-sanctioning ruling; this one settles axis 5 at DESIGNED without it.
+30. [`2026-08-04_vulnerability_memory_and_swift_mode.md`](2026-08-04_vulnerability_memory_and_swift_mode.md)
+    — a proposed cross-service exploit-knowledge memory (keyed on service/
+    vulnerability identity, not host or place) plus a knowledge-gated tempo
+    shift ("swift mode"), distinct from axis 7's per-place learner on both key
+    and consequence. **Blocked on Marc's disposition**, and the header
+    question is not the mechanism's cost but a boundary: part of Marc's own
+    worked example (recognising a post-shuffle state as one seen before) is
+    axis-8 primitive (i), already ruled out of scope 2026-07-28; the weaker
+    form (service/vulnerability memory with no reference to shuffle state) is
+    axis-7-adjacent and does not touch that exclusion. The design must be
+    scoped to the weaker form before anything is built, and composition
+    against the axis-7 learner needs its own joint check before either arm
+    runs with the other.
+
+Also from that meeting: an addendum to
+[`2026-08-02_boundary_attacker_defender_integration.md`](2026-08-02_boundary_attacker_defender_integration.md)
+§2.1 records Marc's directional framing — disruption should price the same
+regardless of driving mode — as context supporting that brief's class-level
+reading, **not** as the written disposition its own confidence gate still
+requires.
+
 Parked work — parallel or superseded, not on this chain — is in
 [`__archive/`](__archive/).
