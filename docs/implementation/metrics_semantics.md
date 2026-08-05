@@ -293,6 +293,59 @@ implementing either alone leaves the asymmetry in place. ATK-04a (the
 active per-instance discount) would also need to be either cut or
 matched against a Zhang-side equivalent to allow magnitude comparison.
 
+### (d2) What class-level MTD pricing means for the reported comparison (2026-08-05)
+
+Row two of the table above — *OGASP-driven attacker vs the inherited 6-phase
+attacker, within the substrate* — is the comparison the headline result rests
+on, and it is qualified rather than overturned by four measurements. The
+evidence is [`disruption_wiring.md`](disruption_wiring.md); the ruling behind it
+is Marc's, 2026-08-05: **disruption applies the same way regardless of attacker
+type, and the defence does not need to know which attacker it is disrupting.**
+
+1. **The comparative unit is the disruption class, not the mechanism.** Channels
+   1-3 (the interrupt gate, the confusion penalty, the cursor clear) are
+   functions of the mutating resource class alone. This is now executed against
+   the four real mechanism objects, not inferred: the gate rows are identical
+   within a class and the penalty draw is bit-identical to four decimal places.
+   The reported family should be read as **two attacker-facing disruption
+   effects, each appearing twice** — position-destroying (network) and
+   surface-churning (application) — dosed by the scheme. A per-mechanism
+   ranking within a class is reporting scheduling noise (point 4) rather than a
+   defence difference.
+
+2. **The two arms are not equally reachable by the application class.** Per
+   firing, a network-class mutation delivers 0.92-1.00 of its native disruption
+   to the movement attacker; an application-class one delivers **0.67-0.83**, in
+   every scheme and at every seed. Two causes, both documented rather than
+   accidental: the gate's recon-verb exclusion (IS-INT-05) meeting a traversal
+   that genuinely does reconnaissance, and EXPLOIT_VULN offering one interrupt
+   window under supplied pricing where the native arm offers up to five (S3-R;
+   D-35). **Any cross-arm statement about the diversity family carries this
+   factor**, and it runs in the direction of understating that family against
+   the profiled attacker.
+
+3. **Most of the movement arm's disruption arrives through the dwell channel.**
+   Over half of every mechanism's realised interrupts, and four-fifths of the
+   diversity pair's, land on a dwell-only place rather than on a dispatched
+   verb. That is mapping policy (D-21, ruled), and it means the profiled
+   attacker's measured MTD cost is substantially a property of **how much of its
+   clock the controller mapping leaves undispatched** — which is a chosen input
+   parameter, and bounds the claim accordingly.
+
+4. **Within a class, firing counts are not equal, and that part is arm-neutral.**
+   The higher-priority member of each pair gets a systematic extra firing
+   (`simultaneous`: 13 vs 12 in both arms, seed-invariant; D-38). Report per
+   firing, or state that you have not.
+
+5. **Record-derived time budgets exclude the confusion penalty on both arms.**
+   It is 8.0-17.7 % of the clock and is charged to no `attack_record` row
+   (D-37). The movement arm can reconstruct it from its own record
+   (`measures.mtd_penalty`); the native arm cannot. Do not compare the two arms'
+   record-derived time budgets without saying so.
+
+None of the five changes what is *valid* in the table above. They change what a
+reported number **means**, which is this section's job.
+
 ---
 
 ## (e) The internal/lineage preset — evaluated and dropped

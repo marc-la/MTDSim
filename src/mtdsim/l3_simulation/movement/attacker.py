@@ -73,7 +73,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Protocol
+from typing import Any, Callable, NamedTuple, Protocol
 
 import simpy
 
@@ -128,6 +128,22 @@ DWELL_ONLY = "dwell-only"
 DWELL_PROCESS = "DWELL"
 
 
+class InterruptSource(NamedTuple):
+    """Which mechanism interrupted the attacker, in both the vocabularies the
+    record carries: its **resource class** and its **name**.
+
+    Threaded through the interrupt paths as one object rather than as two parallel
+    strings, so the class and the name cannot drift apart on the way to the
+    record. The empty instance means *no interrupt* (or an MTD object that would
+    not answer), which is what every non-interrupt path returns."""
+
+    resource_type: str = ""
+    name: str = ""
+
+
+NO_INTERRUPT = InterruptSource()
+
+
 def load_dwell_catalogue(path: Path | str = DURATIONS_PATH) -> dict[str, float]:
     """``tactic -> declared per-place duration (simulated seconds)`` from the D4
     catalogue.
@@ -167,6 +183,26 @@ class MovementRecord:
     # never negative; it is 0 for a blocked or dwell-interrupted event.)
     dwell: float
     interrupted_by: str  # MTD resource type, or "" — record enrichment only
+    # The **name** of the interrupting mechanism ("IPShuffle", "OSDiversity", …),
+    # or "" — the sibling of `interrupted_by` above, which carries only the
+    # resource class. Both are record enrichment; neither is read by the walk.
+    #
+    # The class alone cannot attribute an interrupt to a mechanism, and the two
+    # reported class pairs (CompleteTopologyShuffle/IPShuffle on `network`,
+    # OSDiversity/ServiceDiversity on `application`) are therefore
+    # indistinguishable in this record *by construction* — so the class-level
+    # disruption model could not be verified on the arm the headline runs on, only
+    # assumed. The suite's standing rule is to extend the reader rather than widen
+    # the record; the burden of proof here is that no reader can recover the name,
+    # because the driver discards it at the one site that holds it
+    # (`_pay_interrupt_cost`). The substrate's own `AttackStatistics` has carried
+    # the same pair (`interrupted_in` / `interrupted_by`) since the lineage, so
+    # this brings the movement record to parity with the native arm's rather than
+    # inventing a field.
+    #
+    # Schema-only: the value is already in hand at the assignment site, nothing
+    # reads it to decide anything, and no golden moves.
+    interrupted_by_name: str = ""
     # Whether the place dispatched a verb at all (overlay design §6.3). A
     # dwell-only place consumes time, fires nothing and raises no verdict, so
     # without this an analysis cannot tell "spent time thinking" from "did
@@ -373,7 +409,7 @@ class MovementAttacker:
             start_time = self.env.now
 
             if verb is None:
-                dwell, interrupted, interrupted_by = yield from self._serve_dwell_only(
+                dwell, interrupted, source = yield from self._serve_dwell_only(
                     dwell, start_time
                 )
                 if self.end_event.triggered:
@@ -402,7 +438,8 @@ class MovementAttacker:
                         start_time=start_time,
                         end_time=self.env.now,
                         dwell=dwell,
-                        interrupted_by=interrupted_by,
+                        interrupted_by=source.resource_type,
+                        interrupted_by_name=source.name,
                         place_class=DWELL_ONLY,
                         retrace=is_retrace,
                         n_compromised=self._n_compromised(),
@@ -434,7 +471,7 @@ class MovementAttacker:
             # disagreed.
             self.adversary.set_curr_process(verb)
 
-            outcome_tag, verdict, interrupted, blocked, interrupted_by, dwell = (
+            outcome_tag, verdict, interrupted, blocked, source, dwell = (
                 yield from self._dispatch(verb, dwell, start_time)
             )
             if outcome_tag == _SIM_END:
@@ -458,7 +495,8 @@ class MovementAttacker:
                     start_time=start_time,
                     end_time=self.env.now,
                     dwell=dwell,
-                    interrupted_by=interrupted_by,
+                    interrupted_by=source.resource_type,
+                    interrupted_by_name=source.name,
                     retrace=is_retrace,
                     n_compromised=self._n_compromised(),
                 )
@@ -485,7 +523,7 @@ class MovementAttacker:
     def _dispatch(self, verb: str, duration: float, start_time: float):
         """Run one dispatched verb through the carved substrate for the time the
         movement layer supplies, and read the verdict. Returns ``(outcome_tag,
-        verdict, interrupted, blocked, interrupted_by, served)``, where ``served``
+        verdict, interrupted, blocked, source, served)``, where ``served``
         is the time the place actually consumed; ``outcome_tag == _SIM_END`` means
         the sim ended mid-verb (the caller emits a terminal record and stops)."""
         # Unmet precondition: the substrate cannot run this verb from its current
@@ -505,12 +543,12 @@ class MovementAttacker:
         try:
             self.attack_op.assert_action_context(verb)
         except ActionContextError:
-            served, interrupted, interrupted_by = yield from self._serve_time(
+            served, interrupted, source = yield from self._serve_time(
                 duration, start_time
             )
             return (
                 _PRECONDITION_UNMET, _UNACTIONABLE_VERDICT, interrupted, True,
-                interrupted_by, served,
+                source, served,
             )
 
         interrupted = False
@@ -542,17 +580,17 @@ class MovementAttacker:
         # step() as simpy.Interrupt (the carve's driven=True re-raise), caught
         # above. Read it as an interrupt-halt failure and let the overlay route.
         if interrupted:
-            tag, verdict, was_interrupted, was_blocked, interrupted_by = (
+            tag, verdict, was_interrupted, was_blocked, source = (
                 yield from self._read_interrupt(verb, outcome)
             )
-            return tag, verdict, was_interrupted, was_blocked, interrupted_by, served
+            return tag, verdict, was_interrupted, was_blocked, source, served
 
         verdict = self.verdict_of(verb, outcome, False)
-        return _outcome_tag(outcome), verdict, False, False, "", served
+        return _outcome_tag(outcome), verdict, False, False, NO_INTERRUPT, served
 
     def _read_interrupt(self, verb: str, outcome: Any):
         """Handle an MTD interrupt: pay the substrate's price for being blocked, read
-        the interrupting MTD's resource type (record enrichment), clear it, and read
+        the interrupting MTD's resource class and name (record enrichment), clear it, and read
         the interrupt as a failure verdict via the injected adapter. Shared by the
         dwell-interrupt and the verb-interrupt paths.
 
@@ -569,12 +607,13 @@ class MovementAttacker:
         it had just lost, so MTD was materially cheaper for the movement attacker than
         for the baseline it is compared against.
         """
-        interrupted_by = yield from self._pay_interrupt_cost()
+        source = yield from self._pay_interrupt_cost()
         verdict = self.verdict_of(verb, outcome, True)
-        return _MTD_INTERRUPT, verdict, True, False, interrupted_by
+        return _MTD_INTERRUPT, verdict, True, False, source
 
     def _pay_interrupt_cost(self):
-        """Consume the substrate's own interrupt cost and report which MTD did it.
+        """Consume the substrate's own interrupt cost and report which MTD did it,
+        as an :class:`InterruptSource` (resource class **and** name).
 
         Shared by every interrupt path — including a dwell-only place's, which
         pays the same price for the same defensive event even though it raises no
@@ -582,22 +621,22 @@ class MovementAttacker:
         MTD, which would flatter the attacker for a reason that has nothing to do
         with its behaviour.
         """
-        interrupted_by = ""
+        source = NO_INTERRUPT
         mtd = getattr(self.attack_op, "_interrupted_mtd", None)
         if mtd is not None:
             try:
-                interrupted_by = mtd.get_resource_type()
+                source = InterruptSource(mtd.get_resource_type(), mtd.get_name())
             except Exception:  # noqa: BLE001 - record enrichment only
-                interrupted_by = ""
+                source = NO_INTERRUPT
         yield from self.attack_op.apply_mtd_interrupt_cost(mtd)
         if mtd is not None:
             self.attack_op.set_interrupted_mtd(None)
-        return interrupted_by
+        return source
 
     def _serve_time(self, duration: float, start_time: float):
         """Spend the movement layer's supplied time without dispatching anything.
 
-        Returns ``(served, interrupted, interrupted_by)``. Used by the two paths
+        Returns ``(served, interrupted, source)``. Used by the two paths
         where the token spends a tactic's time but no substrate action runs: a
         dwell-only place, and an action whose precondition was unmet. An MTD
         mutation during it cuts the time short — ``served`` is then what was
@@ -606,7 +645,7 @@ class MovementAttacker:
         path becomes a cost-free hiding spot from MTD.
         """
         interrupted = False
-        interrupted_by = ""
+        source = NO_INTERRUPT
         served = duration
         try:
             if duration > 0:
@@ -614,8 +653,8 @@ class MovementAttacker:
         except simpy.Interrupt:
             interrupted = True
             served = self.env.now - start_time
-            interrupted_by = yield from self._pay_interrupt_cost()
-        return served, interrupted, interrupted_by
+            source = yield from self._pay_interrupt_cost()
+        return served, interrupted, source
 
     def _serve_dwell_only(self, dwell: float, start_time: float):
         """Serve a dwell-only place: advance time, dispatch nothing, judge nothing.
@@ -782,6 +821,8 @@ __all__ = [
     "OutcomeOverlayLike",
     "MovementRecord",
     "MovementAttacker",
+    "InterruptSource",
+    "NO_INTERRUPT",
     "TimingSource",
     "load_dwell_catalogue",
     "DURATIONS_PATH",

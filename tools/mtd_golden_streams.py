@@ -191,6 +191,17 @@ def one_golden_run(
     # which is the only part of it a golden could meaningfully guard.
     for rec in movement_records:
         rec.pop("n_compromised", None)
+    # ``interrupted_by_name`` is the same kind of field for the same reason (A6,
+    # 2026-08-05): it names the mechanism behind an interrupt whose resource
+    # class ``interrupted_by`` already records, and nothing in the walk reads it
+    # to decide anything. Popping it keeps this file's stated principle intact —
+    # the schema follows the *input*, so only behaviour can move a digest — and
+    # it is what makes the A6 widening a genuine no-golden-move rather than a
+    # re-baseline dressed as one. ``interrupted_by`` itself stays: it was in the
+    # shape the goldens were captured with, and the digest should keep guarding
+    # everything it already guarded.
+    for rec in movement_records:
+        rec.pop("interrupted_by_name", None)
     mtd_records = [
         {k: _jsonable(v) for k, v in row.items()}
         for row in network.get_mtd_stats()._mtd_operation_record
