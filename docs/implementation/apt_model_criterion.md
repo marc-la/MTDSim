@@ -487,7 +487,7 @@ realised success rate per tactic rather than realised time. The seam already
 observes both. **The second route is now designed** — a state-conditioned
 expected cost and an enabling-value benefit, both derived from artefacts that
 already exist rather than from a new declared family
-(`docs/handoffs/2026-08-01_iterated_cost_model.md`) — and it is the same build
+(`docs/handoffs/2026-08-01_attacker_disengagement_measure.md`) — and it is the same build
 that would repair the R2 defect above, which is a reason to prefer it over the
 first route rather than merely an option beside it. It remains gated on Marc's
 disposition and the freeze. Note that the S2 freeze's status is unchanged: the seam record's

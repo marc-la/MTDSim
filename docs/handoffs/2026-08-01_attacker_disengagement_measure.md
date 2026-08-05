@@ -1,9 +1,36 @@
 ---
 status: open
 created: 2026-08-01
+updated: 2026-08-05
 ---
 
 # Make attacker disengagement measurable — a projected-effort reading over existing runs, reported as a frontier over patience, so MTD's own economic claim becomes scorable
+
+## This is now axis 6's metric — the incentive-rationality measure (2026-08-05)
+
+**Marc's direction, from the Jin discussion:** this measure is the attack-cost
+metric for **incentive rationality** — the instrument that answers *where would
+the APT eventually give up*. That framing promotes it from "a useful reader" to
+**the** measurement axis 6 has been missing, and it settles a question that has
+been open since the axis-6 sweep returned its negative.
+
+**It also absorbs the iterated cost model handoff, which is retired.**
+`2026-08-01_iterated_cost_model.md` proposed repairing the axis-6 *decision
+model* — a state-conditioned expected cost and an enabling-value benefit — so the
+attacker could express instrumental value. That was a mechanism rebuild on a
+frozen model, blocked on a disposition, and comparable in size to the axis-7
+readiness work. **Measurement comes first**, and this measure is the one that
+tells you whether the mechanism rebuild is worth its cost at all. What survives
+from that brief is recorded in §2.8 below; the rest is superseded.
+
+The reasoning is the same one this brief already makes in §1 and it is worth
+stating as the ruling it now is: **the axis-6 utility modulator prices MTD as a
+cost-raising defence, and MTD is not one.** Its cost effect is a roughly uniform
+9 % surcharge, proportional to dwell and therefore invisible to a normalised
+ratio. What MTD destroys is the attacker's *productive capacity* — position,
+discovered services, reachability — not its accumulated gains. A measure built on
+progress-per-effort sees exactly that; a ratio cannot. So the route to axis 6 is
+through **measuring disengagement**, not through a better decision rule.
 
 **Blocked on one ruling: D-09.** This handoff implements a generalisation of an
 unimplemented lineage requirement, and whether that generalisation is wanted is
@@ -231,6 +258,40 @@ That contrast is the interesting outcome and would mirror experiment 2's ranking
 inversion: a measure that registers MTD against the inherited attacker and not
 against the profiled one is a statement about what each attacker's failure is
 made of.
+
+### 2.8 What survives from the retired iterated-cost-model brief
+
+Absorbed 2026-08-05. Three things are worth carrying; the rest is superseded by
+the measurement-first ruling above.
+
+1. **The defect is real and is itself a finding**, independent of whether the
+   mechanism is ever repaired: the current model's two terms — declared duration
+   as cost, objective proximity as benefit — penalise *instrumental* tactics in
+   the same direction, so reconnaissance is discounted twice and `pure_steal`
+   prefers a precondition-coupled exploit over it by a factor of **31**. No
+   declared value repairs it; it is a defect of the model's *form*. Recorded in
+   [`cost_model_plain.md`](../implementation/pipeline/ogasp/cost_model_plain.md)
+   §2.2a and already banked as a transferable warning (F5): *an evaluation that
+   gives its attacker a cost model without asking whether that model can express
+   instrumental value will measure the attacker defeating itself.*
+2. **The falsifiable prediction, preserved for whoever picks the mechanism up.**
+   The proposed expected-cost term could only respond to **network-layer**
+   mutations (`mtd_clears` declares that an application-layer mutation clears
+   nothing), so it predicted a cost-sensitivity effect under the
+   position-destroying family and **little or none** under the diversity family —
+   the same split the headline ranking inversion turns on. That is a good
+   prediction and it should be pre-registered if the mechanism is ever built.
+3. **The composition hazard stands.** Any readiness-conditioned cost term would
+   condition on the same signal as axis 7's readiness learner, which is the hidden
+   double-count the composition register exists to catch. The existing joint check
+   does **not** transfer — it measured the *declared-duration* modulator and found
+   the two pulling opposite ways.
+
+**What is explicitly not carried forward:** the mechanism build itself, its five
+ranked options and its U1–U5 pre-registration. If measurement shows the mechanism
+is worth rebuilding, that brief is re-opened from the git history rather than
+re-derived — `2026-08-01_iterated_cost_model.md`, retired in the same commit as
+this update.
 
 ## 3. Pre-registered conclusions — commit these in their own commit, before any output exists
 

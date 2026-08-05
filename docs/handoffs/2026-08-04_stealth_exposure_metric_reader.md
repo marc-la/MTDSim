@@ -1,9 +1,24 @@
 ---
 status: open
 created: 2026-08-04
+updated: 2026-08-05
 ---
 
 # Build the axis-5 exposure reader — a post-hoc, non-consequential detectability curve; unclaimed since the parent design record recommended it, now re-derived independently in the 2026-08-04 supervisor meeting with two concrete refinements
+
+## This is now the single stealth handoff (2026-08-05)
+
+**Marc's direction:** the latest framing is the major direction, and there should
+be **one** handoff for stealth. `2026-07-29_stealth_tempo_via_dwell_channel.md`
+— the mtd_ai-consequential route, option 1(b) — is retired into this file; what
+is worth keeping from it is §"The 1(b) route" below. This handoff is the whole of
+open stealth work.
+
+The order of business is unchanged and is the reason the consolidation is safe:
+1(a), the reader, is buildable **now** with no ruling; 1(b) needed a supervisor
+ruling that has not been given, and needed an integration that does not exist.
+Building the reader first is the same reader-first discipline the disengagement
+measure and the measurement suite both follow.
 
 ## State of play
 
@@ -16,7 +31,7 @@ the **recommended buildable baseline** — a state that changes tempo, changes a
 handoff was ever spun for it: the open chain
 ([`README.md`](README.md) item 20) only tracks option 1(b), the
 mtd_ai-consequential route
-([`2026-07-29_stealth_tempo_via_dwell_channel.md`](2026-07-29_stealth_tempo_via_dwell_channel.md)),
+(retired into this file — see "The 1(b) route" below),
 which needs a supervisor ruling on sanctioning the reactive defender as an
 experimental arm. Option 1(a) does not need that ruling and has sat unbuilt.
 
@@ -170,11 +185,73 @@ state this as a **prediction**, not a result, before the reader runs.
 - Determinism (SIM-05); envelope-not-actor; Australian English; branch per
   session; never push.
 
+## The 1(b) route — absorbed from the retired tempo handoff, kept as the follow-on
+
+Retained because it is the *only* route by which tempo becomes consequential, and
+because its case was strengthened rather than weakened by later work. Not
+licensed; recorded so the argument is not re-derived.
+
+**The thesis.** No detection model exists to be stealthy against — except for one
+defender. The reactive `mtd_ai` selector's decision state is assembled from
+**attacker-derived** quantities (host compromise ratio, attack success rate, mean
+time to compromise, RoA, risk, and the attacker's current phase). So a slower
+attacker generates fewer attack events per unit time, which changes the metrics
+the selector reads, which changes which mutation it chooses. The channel is
+indirect and **already open**; no new detector is built and the reactive agent
+runs unchanged.
+
+**Why the case strengthened.** The cost-model cross-examination established that
+under *time-triggered* mutation an attacker minimising declared duration is
+already, mechanically, minimising expected mutation encounters (Spearman 0.87
+between a tactic's declared cost and its interrupt rate). On a clock, patience is
+pure exposure with no compensating benefit — so **a reactive defender is the only
+channel through which slowness can ever be rational here**, which is exactly this
+route's thesis.
+
+**Four things it needs, in order, and none is cheap.**
+
+1. **A supervisor ruling** sanctioning the reactive defender as an experimental
+   arm — that agent is deferred to a later phase by standing project direction.
+2. **An integration that does not exist.** The movement arm has never been run
+   against the reactive selector at all; the L3 run wiring constructs the
+   time-triggered mutation operation directly. This is the real cost.
+3. **A defect fixed on that path** — any attacker sensitivity below 1.0 raises an
+   unbound-local error, so the documented sensitivity experiment cannot currently
+   run. Fix it, or run only at sensitivity 1.0, but decide rather than discover.
+4. **A dwell-scaling hook.** The modulator seam is **routing-only**; the timing
+   source observes each draw and delegates it unchanged. A dwell-primary stealth
+   mechanism needs a seam change, not a new modulator.
+
+**The cheapest form that tests the claim, and it should be run before any
+mechanism is built.** Run the profiled attacker against the reactive selector
+**as it is**. The profiles already differ in non-action share by more than a
+factor of two — a naturally-occurring tempo spread. If the selector's mutation
+choices do not differ across that spread, a declared stealth dial will not rescue
+the claim and the cheap run has saved the expensive one. If they do differ, that
+is the demonstration, obtained with no new attacker mechanism. Report the
+**mutation-choice distribution**, not just the outcome: the claim is that tempo
+changes *what the defender does*.
+
+**Two constraints that survive with it.** Time-triggered MTD is unaffected by
+tempo, so any stealth claim is bounded to the reactive arm and the write-up must
+say so. And the attacker's stealth level must **never** be wired into the
+defender's sensitivity parameter — that is reverse-modelling detection and
+extending the inherited reactive machinery, both ruled out. The coupling stays
+indirect: tempo changes the record, the record changes the state, the state
+changes the choice.
+
+**The badge boundary, unchanged.** A stealth claim here is a **tempo** claim.
+Against the reactive selector a quieter attacker *starves* the defender's signal —
+it is not evading detection, because nothing is detecting. Evasion (5b) has no
+referent and stays NOT ADDRESSED; conflating them would annex the smart-attacker
+work belonging to the learning and scheme-awareness axes.
+
 ## Reading list
 
 - [`../implementation/pipeline/ogasp/stealth_conceptualisation.md`](../implementation/pipeline/ogasp/stealth_conceptualisation.md)
   §1 (the baseline-vs-profiled contrast this extends), §2(a), §6, §7, §9 (the
-  badge-ceiling logic this build settles at DESIGNED).
+  badge-ceiling logic this build settles at DESIGNED), §13 (the four-item
+  decision request the 1(b) route still needs ruled).
 - [`../../mtdnetwork/component/services.py:14-29`](../../mtdnetwork/component/services.py)
   — the synthetic CVSS/exploitability fields.
 - [`../implementation/pipeline/ogasp/measurement_suite.md`](../implementation/pipeline/ogasp/measurement_suite.md)

@@ -8,7 +8,8 @@ topic: "The attacker read side — every mutable network component censused agai
 # The attacker read surface — what the substrate attacker perceives, verified by running it
 
 **Status:** the Part A deliverable of the network/attacker boundary review
-(brief 1 of 3, `docs/handoffs/2026-08-02_boundary_network_attacker_integration.md`).
+(brief 1 of 3 of the boundary programme, **retired 2026-08-05** — this file is
+the surviving record; the open dispositions live in the audit's list).
 It owns the **read side** of the coupling matrix; the write side is
 [`mtd_write_surfaces.md`](mtd_write_surfaces.md) (brief 2, landed the same day),
 whose mover columns are cross-filled here rather than re-derived. Couplings that

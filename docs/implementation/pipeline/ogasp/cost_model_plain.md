@@ -220,7 +220,7 @@ time" as one of two routes to DEMONSTRATED — arrived at from the
 MTD-invariance side. It is the same change this defect asks for, arrived at
 from the wall side, which is a reason to think it is the right change rather
 than a coincidence. The design is worked out in the iterated-cost-model
-handoff (`2026-08-01_iterated_cost_model.md`); it is a mechanism change under
+handoff (`2026-08-01_attacker_disengagement_measure.md`); it is a mechanism change under
 the freeze and a disposition for Marc, not a session's judgement.
 
 ### 2.2b The three grounds, as they stand

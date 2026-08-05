@@ -573,7 +573,7 @@ consequence (OS Diversity and Service Diversity indistinguishable against the
 movement attacker in two independent data sets) and the companion zero-risk
 reporting decision (decision C — the defence family's cardinality in
 `pipeline/ogasp/experiment_02_findings.md` §9, with drafted wording) live in
-[`../handoffs/2026-08-02_os_service_diversity_indistinguishability.md`](../handoffs/2026-08-02_os_service_diversity_indistinguishability.md).
+the OS/Service indistinguishability brief (retired 2026-08-05; evidence in [`mtd_write_surfaces.md`](mtd_write_surfaces.md) and [`attacker_read_surface.md`](attacker_read_surface.md)).
 Neither behaviour has been touched; no recorded conclusion separates the two
 mechanisms, so neither ruling corrects a claim.
 
@@ -586,8 +586,7 @@ mechanisms, so neither ruling corrects a claim.
 
 Full evidence — the per-mechanism write-set enumeration, the live-verified
 diffs (seed 42, one firing per mechanism) and the purview/fairness table —
-lives in [`mtd_write_surfaces.md`](mtd_write_surfaces.md); the review brief is
-[`../handoffs/2026-08-02_boundary_network_defender_integration.md`](../handoffs/2026-08-02_boundary_network_defender_integration.md).
+lives in [`mtd_write_surfaces.md`](mtd_write_surfaces.md); the review brief is retired (2026-08-05).
 Numbering follows boundary review 3's concurrent allocations (D-20..D-22,
 same day). Nothing was touched; D-23 asks for a decision on standing
 behaviour, D-24 and D-25 are record-grade.
@@ -624,7 +623,7 @@ requirement met as written (§(g), final paragraph). Three additions:
 
 | # | Item | What the code does | What the papers say | Options, costed |
 |---|---|---|---|---|
-| **D-33** *(record-grade)* | **The NAV feed joins the degenerate-metric class (with D-24)** | IPShuffle stores 45 IPs (endpoints omitted, `ipshuffle.py:16-21`); the sole consumer compares positionally against all 50 nodes (`mtd_ai_operation.py:305-322`, same at `mtd_ai_training.py`), so any IPShuffle firing shifts the comparison frame and inflates ip-variability; CTS meanwhile stores its **unchanged** IPs as a fresh sample (`completetopologyshuffle.py:33-38`). Consumer surface: the deferred Tay AI arm only. Related unnumbered staleness recorded in §(g)3: initial-census statistics and `total_vulns`/`vuln_dict` refreshed by no mechanism; `register_mtd` never called on the DES path; suspended/discarded MTDs counted at registration as fired | Ho's NAV (IS-MET-04) presumes a consistent host↔ip frame; no paper defines the feed's contents | **(a) Record-only** (recommended — same class and same ruling logic as D-24, which Marc ruled with "not too worried about legacy metrics"): joins D-24 on the RL-benchmark phase's precondition list. **(b) Repair now**: align the two writers' list semantics; scorer-only, no goldens, but consumer-less until that phase. |
+| **D-30** *(record-grade)* | **The NAV feed joins the degenerate-metric class (with D-24)** | IPShuffle stores 45 IPs (endpoints omitted, `ipshuffle.py:16-21`); the sole consumer compares positionally against all 50 nodes (`mtd_ai_operation.py:305-322`, same at `mtd_ai_training.py`), so any IPShuffle firing shifts the comparison frame and inflates ip-variability; CTS meanwhile stores its **unchanged** IPs as a fresh sample (`completetopologyshuffle.py:33-38`). Consumer surface: the deferred Tay AI arm only. Related unnumbered staleness recorded in §(g)3: initial-census statistics and `total_vulns`/`vuln_dict` refreshed by no mechanism; `register_mtd` never called on the DES path; suspended/discarded MTDs counted at registration as fired | Ho's NAV (IS-MET-04) presumes a consistent host↔ip frame; no paper defines the feed's contents | **(a) Record-only** (recommended — same class and same ruling logic as D-24, which Marc ruled with "not too worried about legacy metrics"): joins D-24 on the RL-benchmark phase's precondition list. **(b) Repair now**: align the two writers' list semantics; scorer-only, no goldens, but consumer-less until that phase. |
 | **D-31** *(latent — gates HTS activation)* | **HostTopologyShuffle desynchronises the network's compromise model** | The adversary remap **rebinds** `_compromised_hosts` to a new list (`adversary.py:49`), severing the alias `update_reachable_compromise` establishes (`network.py:735`); `network.compromised_hosts` keeps pre-swap ids, and `hosttopologyshuffle.py:59` then rebuilds `reachable` from those stale ids — the shuffle silently erases the attacker's foothold from the visibility model. The id-keyed scorer series and the ip-feed are also never remapped | IS-MTD-04 documents a host swap, not a compromise-model reset; no paper licenses foothold erasure as part of the swap | **(a) Record now; repair before any default-set activation** (recommended — the mechanism is latent and its default-set membership is an experiment-design decision that now carries this precondition; repair = remap in place or re-alias, plus network-side remap, with a regression test asserting network/adversary compromise-list agreement after a swap). **(b) Repair now**: moves no recorded result (latent) but spends golden-procedure effort on a mechanism no experiment runs. |
 | **D-32** *(latent — gates UserShuffle activation)* | **UserShuffle's side-effect ratchets** | Every `set_host_users` call increments `total_users` without reset (`host.py:490-491`; the D-26 divisor — measured 4 → 27 over five firings, so each firing *hardens* every host by shrinking the brute-force probability) and latches `p_u_compromise` True permanently (`host.py:492-494` — measured 13 → 47 of 50 hosts flagged after ten firings). Also: `network.users_list` is never redrawn and `adversary._compromised_users` never cleared, so a shuffle can re-seat a compromised username onto a fresh host | IS-MTD-03 documents re-drawing each host's users; nothing documents cumulative hardening or a permanent reuse flag | **(a) Record now; repair before any default-set activation** (recommended — same logic as D-31; the repair is `total_users = len(self.users)` computed outside the loop, folding into D-26(a) if that is ever taken, plus resetting `p_u_compromise` per call, with a regression test asserting both are idempotent across repeated calls). **(b) Repair now**: latent, same trade-off as D-31(b). |
 
@@ -645,8 +644,7 @@ path, the OSD/OSDA suspension-dict name collision — recorded in
 Full evidence — the instrumented read census over both driving arms, the
 attacker-visible projection diffs, the compromise-route census and the
 verb-by-verb phase review — lives in
-[`attacker_read_surface.md`](attacker_read_surface.md); the review brief is
-[`../handoffs/2026-08-02_boundary_network_attacker_integration.md`](../handoffs/2026-08-02_boundary_network_attacker_integration.md).
+[`attacker_read_surface.md`](attacker_read_surface.md); the review brief is retired (2026-08-05).
 Numbering continues after boundary review 3's concurrent allocations
 (D-20..D-22) and review 2's (D-23..D-25), same day. Nothing was touched.
 
