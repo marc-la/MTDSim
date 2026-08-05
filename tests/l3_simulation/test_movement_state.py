@@ -29,6 +29,17 @@ from mtdsim.l3_simulation.movement.state import (
 from mtdsim.l3_simulation.movement.timing import TIMING_STREAM_XOR
 
 SEEDS = (0, 7, 42, 1234, 9001)
+# One cell of the null-equivalence grid below is two full simulations, and all
+# six modulator families pin the same guarantee over the same grid — so the
+# suite paid for it six times over (measured: the slowest 25 durations of a
+# 503 s run were, without exception, cells of these grids). The leading seed
+# runs on every invocation; the rest are marked slow and need ``--runslow``
+# (see ``tests/conftest.py``, which also explains why the seed axis is the one
+# that can be sliced — every seed asserts the same identity, differing only in
+# which walk is sampled, whereas profile and mapping vary the structure).
+SEED_PARAMS = (SEEDS[0],) + tuple(
+    pytest.param(s, marks=pytest.mark.slow) for s in SEEDS[1:]
+)
 MAPPINGS = (None, "v2_partial")  # default (total) and the dwell-only-bearing arm
 
 
@@ -44,28 +55,30 @@ def _fields(records):
 # --- 1. null-equivalence: the hard gate -------------------------------------
 
 
+@pytest.mark.parametrize("seed", SEED_PARAMS)
 @pytest.mark.parametrize("profile", PROFILES)
 @pytest.mark.parametrize("mapping", MAPPINGS)
-def test_a_null_configured_state_leaves_the_walk_bit_identical(profile, mapping) -> None:
+def test_a_null_configured_state_leaves_the_walk_bit_identical(
+    profile, mapping, seed, baseline_run
+) -> None:
     """The load-bearing guarantee: attach a state with no modulators and the
     record stream is equal field for field to a run without the state. This is
     what makes the whole line of work ablatable and answers the S2 confounding
     objection — the conditioned and unconditioned arms differ only by a
     parameter, never by wiring.
     """
-    for seed in SEEDS:
-        for scheme in (None, "simultaneous"):
-            kwargs = dict(seed=seed, mapping_version=mapping, mtd_scheme=scheme)
-            without = run_movement(profile, horizon=3_000, **kwargs)
-            with_state = run_movement(
-                profile, horizon=3_000,
-                attacker_state=AttackerState(seed=seed), **kwargs,
-            )
-            assert _fields(with_state.records) == _fields(without.records), (
-                f"null state perturbed {profile}/{mapping}/seed={seed}/mtd={scheme}"
-            )
-            assert with_state.reached_objective == without.reached_objective
-            assert with_state.termination_time == without.termination_time
+    for scheme in (None, "simultaneous"):
+        kwargs = dict(seed=seed, mapping_version=mapping, mtd_scheme=scheme)
+        without = baseline_run(profile, horizon=3_000, **kwargs)
+        with_state = run_movement(
+            profile, horizon=3_000,
+            attacker_state=AttackerState(seed=seed), **kwargs,
+        )
+        assert _fields(with_state.records) == _fields(without.records), (
+            f"null state perturbed {profile}/{mapping}/seed={seed}/mtd={scheme}"
+        )
+        assert with_state.reached_objective == without.reached_objective
+        assert with_state.termination_time == without.termination_time
 
 
 def test_the_null_state_still_observed_the_whole_trajectory() -> None:

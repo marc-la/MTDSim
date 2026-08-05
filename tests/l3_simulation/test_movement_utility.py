@@ -42,6 +42,17 @@ from mtdsim.l3_simulation.movement.utility import (
 )
 
 SEEDS = (0, 7, 42, 1234, 9001)
+# One cell of the null-equivalence grid below is two full simulations, and all
+# six modulator families pin the same guarantee over the same grid — so the
+# suite paid for it six times over (measured: the slowest 25 durations of a
+# 503 s run were, without exception, cells of these grids). The leading seed
+# runs on every invocation; the rest are marked slow and need ``--runslow``
+# (see ``tests/conftest.py``, which also explains why the seed axis is the one
+# that can be sliced — every seed asserts the same identity, differing only in
+# which walk is sampled, whereas profile and mapping vary the structure).
+SEED_PARAMS = (SEEDS[0],) + tuple(
+    pytest.param(s, marks=pytest.mark.slow) for s in SEEDS[1:]
+)
 MAPPINGS = (None, "v2_partial")  # default (total) and the dwell-only-bearing arm
 
 
@@ -58,10 +69,11 @@ def _state(profile: str, seed: int, lam: float, **kwargs) -> AttackerState:
 # --- 1. lambda = 0 is bit-identical to today (validation gate 1) -------------
 
 
+@pytest.mark.parametrize("seed", SEED_PARAMS)
 @pytest.mark.parametrize("profile", PROFILES)
 @pytest.mark.parametrize("mapping", MAPPINGS)
 def test_lambda_zero_reproduces_the_current_record_stream_field_for_field(
-    profile, mapping
+    profile, mapping, seed, baseline_run
 ) -> None:
     """The hard constraint. A registered utility modulator at ``λ = 0`` returns
     exactly 1.0 for every destination (``x ** 0.0`` is exactly 1.0 in IEEE
@@ -70,21 +82,20 @@ def test_lambda_zero_reproduces_the_current_record_stream_field_for_field(
     short-circuited in the modulator: the identity is a property of the maths,
     and testing it that way is a stronger claim than special-casing zero.
     """
-    for seed in SEEDS:
-        for scheme in (None, "simultaneous"):
-            kwargs = dict(seed=seed, mapping_version=mapping, mtd_scheme=scheme)
-            without = run_movement(profile, horizon=3_000, **kwargs)
-            with_modulator = run_movement(
-                profile,
-                horizon=3_000,
-                attacker_state=_state(profile, seed, 0.0),
-                **kwargs,
-            )
-            assert _fields(with_modulator.records) == _fields(without.records), (
-                f"lambda=0 perturbed {profile}/{mapping}/seed={seed}/mtd={scheme}"
-            )
-            assert with_modulator.reached_objective == without.reached_objective
-            assert with_modulator.termination_time == without.termination_time
+    for scheme in (None, "simultaneous"):
+        kwargs = dict(seed=seed, mapping_version=mapping, mtd_scheme=scheme)
+        without = baseline_run(profile, horizon=3_000, **kwargs)
+        with_modulator = run_movement(
+            profile,
+            horizon=3_000,
+            attacker_state=_state(profile, seed, 0.0),
+            **kwargs,
+        )
+        assert _fields(with_modulator.records) == _fields(without.records), (
+            f"lambda=0 perturbed {profile}/{mapping}/seed={seed}/mtd={scheme}"
+        )
+        assert with_modulator.reached_objective == without.reached_objective
+        assert with_modulator.termination_time == without.termination_time
 
 
 def test_lambda_zero_logs_no_non_unit_factor() -> None:
