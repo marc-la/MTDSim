@@ -116,8 +116,13 @@ class AttackOperation:
     def _enum_host(self):
         """
         raise an ENUM_HOST action
+
+        Dispatches on whether a *visible* target remains (D-28), not merely on a
+        non-empty stack: a queue holding only hosts the attacker can no longer
+        reach is Brown Fig 3's "there is not another host", which routes to host
+        discovery (box 10 -> box 1).
         """
-        if len(self.adversary.get_host_stack()) > 0:
+        if len(self.visible_host_stack()) > 0:
             self.adversary.set_curr_process('ENUM_HOST')
             self._attack_process = self.env.process(self._execute_attack_action(ATTACK_DURATION['ENUM_HOST'],
                                                                                 self._execute_enum_host))
@@ -247,6 +252,34 @@ class AttackOperation:
                 logging.info('Adversary: Restarting with EXPLOIT_VULN at %.1fs!' % (self.env.now + self._proceed_time))
             self._exploit_vuln()
 
+    def visible_host_stack(self):
+        """The queued targets that still satisfy IS-PRC-01's visibility rule (D-28).
+
+        An internal host is a legitimate target only while a path to it exists
+        through a compromised or exposed internal host. This applies the **same
+        predicate SCAN_HOST uses when it builds the queue** (_do_scan_host: a
+        non-empty `get_path_from_exposed` within the hacker-visible graph), so
+        the invariant is enforced identically wherever the queue is read rather
+        than only where it is written. Exposed endpoints are always reachable and
+        short-circuit, matching _do_scan_host appending them unconditionally.
+
+        Read-only: returns the filtered list and mutates nothing. Callers that
+        act on it (`_do_enum_host`) assign it back themselves.
+        """
+        adversary = self.adversary
+        stack = adversary.get_host_stack()
+        if not stack:
+            return []
+        network = adversary.get_network()
+        exposed = network.exposed_endpoints
+        visible_network = network.get_hacker_visible_graph()
+        return [
+            host_id
+            for host_id in stack
+            if host_id in exposed
+            or len(network.get_path_from_exposed(host_id, graph=visible_network)[0]) > 0
+        ]
+
     def _do_scan_host(self):
         """
         SCAN_HOST core. Starts the Network enumeration stage.
@@ -327,11 +360,40 @@ class AttackOperation:
 
         Returns True if the enumerated host was already compromised (native ->
         loop ENUM_HOST), False if it is a fresh host to attack (native ->
-        SCAN_PORT). Precondition: a non-empty host_stack (the raise _enum_host
-        re-routes to SCAN_HOST when the stack is empty).
+        SCAN_PORT). Precondition: a host_stack holding at least one *visible*
+        target (the raise _enum_host re-routes to SCAN_HOST otherwise, and
+        assert_action_context enforces the same for a driven caller).
+
+        **Stale targets are dropped first (D-28, Marc 2026-08-03).** IS-PRC-01
+        makes an internal host visible "only if a path exists through a
+        compromised or exposed internal host". SCAN_HOST enforces that when it
+        builds the queue (see _do_scan_host); nothing re-checked it afterwards,
+        and `sort_by_distance_from_exposed_and_pivot_host` only *sorts* — an
+        unreachable host scores LARGE_INT and sorts last, but was still popped
+        and attacked. The native FSM never showed it, because a network-layer
+        MTD forces `_handle_interrupt -> _scan_host()`, which rebuilds the queue
+        (measured: 0 of 873 pops). A driving layer that owns its own succession
+        does not re-scan, so the queue survived every topology shuffle and the
+        movement attacker went on attacking hosts it could no longer reach —
+        9.7% of pops undefended, 22.4% under MTD, which voided part of what
+        Complete Topology Shuffle had just done. The guard lives here, in the
+        shared core, so both driving arms inherit it.
         """
         adversary = self.adversary
         network = adversary.get_network()
+        # Drop targets that are no longer visible (D-28), then sort what remains.
+        visible_stack = self.visible_host_stack()
+        if not visible_stack:
+            # Unreachable from either arm: both callers' preconditions require a
+            # visible target, and a topology change between the check and here
+            # always interrupts the attacker first (network-layer MTD interrupts
+            # unconditionally, mtd_operation._interrupt_adversary), so the core
+            # does not run. Fail loudly rather than IndexError on the pop.
+            raise ActionContextError(
+                "ENUM_HOST requires a visible target in the host_stack; the "
+                "queue holds only hosts with no path from an exposed endpoint "
+                "(SCAN_HOST rebuilds it).")
+        adversary.set_host_stack(visible_stack)
         adversary.set_host_stack(network.sort_by_distance_from_exposed_and_pivot_host(
             adversary.get_host_stack(),
             adversary.get_compromised_hosts(),
@@ -664,6 +726,16 @@ class AttackOperation:
                 raise ActionContextError(
                     "ENUM_HOST requires a non-empty host_stack; none present "
                     "(SCAN_HOST/SCAN_NEIGHBOR fill it).")
+            # D-28: a queue of only-unreachable hosts is not a satisfiable
+            # context. The native FSM's raise re-routes to SCAN_HOST here; a
+            # driven caller gets the same answer as any unmet precondition, so
+            # the movement layer reads it through its existing
+            # PRECONDITION_UNMET path with no mapping change.
+            if len(self.visible_host_stack()) == 0:
+                raise ActionContextError(
+                    "ENUM_HOST requires a *visible* target: every queued host "
+                    "has lost its path from an exposed endpoint (IS-PRC-01). "
+                    "SCAN_HOST rebuilds the queue.")
             return
         if verb in ('SCAN_PORT', 'BRUTE_FORCE', 'SCAN_NEIGHBOR'):
             if adversary.get_curr_host() is None:

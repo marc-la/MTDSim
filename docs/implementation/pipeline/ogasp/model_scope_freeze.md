@@ -185,7 +185,7 @@ record when a ruling lands or a successor takes up a §3 item; a defect found in
 a built mechanism is neither, and the freeze's own principle is that a row is
 not revisited because it reads badly. What the defect earns is a *ruling
 request*, not a build: the remedy is designed in full
-(`../../../handoffs/2026-08-01_iterated_cost_model.md`) and takes nothing on
+(`../../../handoffs/2026-08-01_attacker_disengagement_measure.md`) and takes nothing on
 its own authority. Note that it would also serve the enabling condition named
 above, so one disposition could close both halves of this axis.
 
@@ -440,7 +440,7 @@ than left in conversation. Four threads, and they are deliberately narrow.
    changes which mutations fire. This is the only route by which tempo becomes
    consequential, it is inert against time-triggered mutation, and it needs a
    supervisor ruling before anything is built. Brief:
-   [`../../../handoffs/2026-07-29_stealth_tempo_via_dwell_channel.md`](../../../handoffs/2026-07-29_stealth_tempo_via_dwell_channel.md).
+   [`../../../handoffs/2026-08-04_stealth_exposure_metric_reader.md`](../../../handoffs/2026-08-04_stealth_exposure_metric_reader.md).
 
 **What the direction is *for*, since the freeze makes it easy to lose.** None of
 these threads is chasing a badge. Threads 1 and 2 refine mechanisms that already
