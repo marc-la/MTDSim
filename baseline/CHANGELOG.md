@@ -7,6 +7,63 @@ diff is a regression to chase, not a re-baseline to accept.
 
 ---
 
+## 2026-08-03 — D-28: ENUM_HOST enforces IS-PRC-01's visibility invariant; movement goldens re-baselined, native goldens untouched
+
+**What changed and why.** `_do_enum_host` popped and attacked whatever sat at the
+head of `_host_stack`, whether or not a path to it still existed.
+`sort_by_distance_from_exposed_and_pivot_host` only *sorts* — an unreachable host
+scores `LARGE_INT` and sorts last, but was never dropped — so IS-PRC-01's "visible
+**only if a path exists** through a compromised or exposed internal host" was
+enforced by control flow rather than by a guard: the native FSM's forced
+post-interrupt `_scan_host()` rebuilt the queue and flushed stale entries. A
+driving layer that owns its own succession does not re-scan, so the movement
+attacker went on attacking hosts a topology shuffle had just disconnected —
+**9.7 % of ENUM_HOST pops undefended and 22.4 % under MTD** (10 seeds each),
+against **0 of 873** on the native arm. Ruled a fix by Marc (2026-08-03: faithful
+Complete Topology Shuffle is a given). Evidence:
+`docs/implementation/attacker_read_surface.md` §(f) finding 5.
+
+The guard lives in the **shared verb core** (`AttackOperation.visible_host_stack`,
+applied in `_do_enum_host`, and asserted by both `_enum_host`'s raise and
+`assert_action_context`), so both driving arms inherit it with no
+controller-mapping change; a driven caller reads it through its existing
+`PRECONDITION_UNMET` path. An all-unreachable queue routes to host discovery,
+which is Brown Fig 3 box 10 → box 1.
+
+**What moved.** `baseline/golden_movement/`: **67 of 69** configurations
+re-captured (`IPShuffle_seed2_overlay_retrace` and `UserShuffle_seed0_overlay_retrace`
+were already bit-identical). `baseline/golden/` — the nine native scenarios — is
+**untouched and verified bit-identical**, which is the re-baseline's own
+confirmation of the diagnosis: the native arm never exhibited the defect, so its
+oracle must not move, and it did not (`tests/test_action_layer_carve.py` G1, 1494
+attack events / 41 compromised on seed 1234, passes unchanged).
+
+**Determinism (SIM-05) re-verified** on both arms after the change: movement arm
+seed 3 record-for-record identical across repeat runs; native arm seed 1234 event
+stream identical (226 events). Full suite green; no `--no-verify`.
+
+**New regression test:** `tests/test_enum_host_visibility.py` — nine cases pinning
+the assertion whose absence let this survive (ENUM_HOST never sets `curr_host`
+outside the hacker-visible graph, asserted over whole runs of **both** arms
+defended and undefended), plus the precondition, the native re-route, and the
+filter's read-only/inert properties.
+
+**Measured consequence for the evaluation** (new comparative arm, 10 seeds,
+movement arm — not a re-run of any recorded experiment): the guard leaves the
+position-destroying mechanisms essentially unchanged (Complete Topology Shuffle
+0.90 → 0.80 hosts, IP Shuffle 0.80 → 0.80) and **weakens the diversity
+mechanisms** (OS Diversity 3.10 → 4.70, Service Diversity 3.60 → 4.30), because a
+dropped target redirects the attacker rather than stopping it. The family-level
+contrast therefore *widens* (≈40 points to ≈65). Note this **falsifies the
+direction predicted before the measurement** — the prediction was that the
+topology mechanisms would strengthen; they did not move, and the diversity
+mechanisms weakened instead.
+
+**Spec-IDs / audit-IDs:** IS-PRC-01 (split by arm — CONFORMS native,
+DIVERGES-DOCUMENTED-NOWHERE movement; → D-28, fixed).
+
+---
+
 ## 2026-08-01 — Schema follows the input: legacy movement goldens restored to their original bytes; retrace golden set added
 
 **What changed and why.** The reconciliation merges added the S5 sink-retrace

@@ -91,6 +91,93 @@ procedure with the gate-5 regression tests; the handoff is deleted in the commit
 that ships the last piece, once a cycle's confidence evaluation passes and Marc
 has seen it.
 
+## 0b. Cycle 2 record (2026-08-03) — **gate still fails, for a bounded reason**
+
+Marc ruled **D-28 a fix** ("CTS disconnected hosts from the attacker, so
+implementing it faithfully is a given") and approved reducing the service-catalogue
+cross-platform share. Cycle 2 implemented D-28 and ran the four doubts that did
+not depend on a further ruling. Full record:
+[`../implementation/attacker_read_surface.md`](../implementation/attacker_read_surface.md)
+§(l)–§(n).
+
+**Part B landed.** The guard applies SCAN_HOST's own visibility predicate in the
+**shared verb core**, asserted by both `_enum_host`'s raise and
+`assert_action_context`, so both arms inherit it with no controller-mapping
+change. D-05 procedure complete: 67 of 69 movement goldens re-captured, **the nine
+native goldens bit-identical** (the re-baseline's own confirmation of the
+diagnosis — the defect measured 0 of 873 natively, so that oracle had to stay
+put), SIM-05 re-verified on both arms, **626 tests green**, no `--no-verify`,
+`baseline/CHANGELOG.md` entry dated 2026-08-03. New nine-case regression test
+`tests/test_enum_host_visibility.py`.
+
+**Doubt 1 — CLOSED, and it falsified cycle 1's prediction.** Cycle 1 argued the
+guard would strengthen the topology mechanisms. Measured (new comparative arm, 10
+seeds, guard patched off to reproduce the pre-guard substrate): the topology
+mechanisms **barely moved** (CTS 0.90 → 0.80 hosts, IP Shuffle 0.80 → 0.80) and
+the **diversity mechanisms weakened** (OS Diversity 3.10 → 4.70, Service Diversity
+3.60 → 4.30) — because a dropped target *redirects* this attacker rather than
+stopping it. The conclusion survives by a different route: the family-level
+contrast widens from ≈40 points to ≈65, so the inversion Row B rests on is
+strengthened. Recorded as a falsified prediction rather than quietly rewritten.
+
+**Doubt 3 — CLOSED, and it opened D-33.** The undefended 9.7 % is **SCAN_NEIGHBOR
+dispatched from an uncompromised host**: 166 of 345 calls (48 %) in the movement
+arm, **0 of 71** natively. IS-PRC-05 makes neighbour discovery what compromise
+*grants*; `_do_scan_neighbors`' own docstring names the precondition the code does
+not assert.
+
+**Doubt 4 — CLOSED.** Census repeated at three further seeds per arm; every zero
+held, and `exploit_time(host=…)` is 755 native / **0** driven.
+
+**Doubt 2 — MET at this boundary.** A second independent adversarial pass, briefed
+to assume the obvious was covered, surfaced **no attacker read of network state the
+matrix lacks**. It did surface substantial material at other layers (§(m)).
+
+**The defect class is enumerated and closed.** D-28 and D-33 are one defect — an
+invariant the native FSM enforced by *call order*, dropped when the carve moved
+succession out. All six verbs were swept and the class divides on a principle:
+*semantic* guarantees (what the attacker can see or has earned — IS-PRC-01,
+IS-PRC-05) must survive a driving layer that varies order; *procedural* ones
+(IS-PRC-06's sequencing) are exactly what that layer exists to vary, so
+BRUTE_FORCE-before-exploit and SCAN_PORT-on-a-compromised-host are **CONFORMS by
+design**. Two members, one fixed, one open. Every member occurs in the movement arm
+and none natively.
+
+**Why the gate still fails.** Criteria (i)–(v) are now all met — (v) included, which
+cycle 1 failed. But:
+
+1. **D-33 is measured to move a ranking and is undispositioned.** Gating
+   SCAN_NEIGHBOR moves `simultaneous` from third to **first**. The gate's question
+   is precisely whether such a thing remains.
+2. **The discovery process has not gone dry.** Cycle 1 found a ranking-mover,
+   cycle 2 found another. §(l6)'s class enumeration is the first structural reason
+   to expect convergence, but one clean round is not two.
+
+**The finding this review would raise above all others, and it is out of scope
+here.** `evaluation.py:110` computes internal MTTC as attack-action time over the
+**number of attack actions** — a mean action duration, not a time to compromise.
+Verified directly from the committed goldens at a common compromise depth: **IP
+Shuffle scores best** (9.938) — the mechanism this review proved changes not one
+field the attacker reads — and **OS Diversity scores worst** (7.594), below no
+defence at all; the four-mechanism arm carries the highest attack success rate of
+any scenario. The code matches `metrics_semantics.md` §(a), so this is not a
+code/doc divergence; and it does **not** carry experiment 2's headline. But
+`project_context.md` names internal MTTC *the project's primary metric*, and
+§(d) asserts cross-configuration deltas are "Valid — informative". **No brief in
+this programme owns the metrics layer.** Recommendation: its own brief, before any
+ch5 prose leans on internal MTTC.
+
+**Cycle 3, scoped:** Marc rules D-26 (with D-32 — same two-line loop), D-27, D-29,
+D-33, and the semantic/procedural reading; a third adversarial pass targeted at the
+precondition class; and open the metrics brief.
+
+**Branch note.** A concurrent session switched this working tree to
+`chore/boundary-network-defender-review` and built brief 2's cycle 2 on top of this
+brief's cycle-1 commit, so both briefs' work is interleaved on that branch and
+`chore/boundary-network-attacker-review` is left behind at `3a7e3a9`. Nothing is
+lost; cycle 2 is committed where cycle 1 already lives. Brief 2 had also claimed
+D-30..D-32 concurrently, so this brief's new row is **D-33**.
+
 ---
 
 **Programme framing (shared by the three boundary briefs).** The project's
