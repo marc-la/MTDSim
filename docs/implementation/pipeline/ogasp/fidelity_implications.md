@@ -24,8 +24,8 @@ topic: "Findings ledger (F1–F8) from the axis-6 session, re-read under the the
 > rational attacker performs worse) were independently re-measured on the
 > post-disposition substrate during the cost-model simplification work, and both
 > reproduce — [`cost_model_plain.md`](cost_model_plain.md) §2.1. F4's successor
-> question is now carried by the attacker-disengagement design
-> (`docs/handoffs/2026-08-01_attacker_disengagement_measure.md`).
+> question is now carried by the attacker-disengagement measure, since built and
+> run — [`attacker_disengagement.md`](attacker_disengagement.md).
 
 **This record deliberately has no goal.** It is a preservation record: a
 session's worth of measurements that were produced while chasing criterion

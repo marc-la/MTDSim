@@ -190,9 +190,10 @@ The two honest options the handoff names are ranked: (1) **the measured
 collapse in effective progress as the proxy for disengagement** — already
 produced by the existing mechanisms and reported wherever it occurs; this is
 the stance of record today. (2) **A declared, tiered, swept threshold** — now
-designed properly as the projected-effort disengagement measure
-(`2026-08-01_attacker_disengagement_measure.md`, a reader reporting a frontier
-over the attacker's patience), and **blocked on the D-09 ruling**. Option 2
+designed properly as the projected-effort disengagement measure and since built
+([`attacker_disengagement.md`](attacker_disengagement.md) — Projected Campaign
+Effort, reported as a frontier over the attacker's patience), with **D-09 still
+unruled**. Option 2
 supersedes option 1 if and when D-09 clears it; neither puts a give-up rule
 inside the utility model.
 

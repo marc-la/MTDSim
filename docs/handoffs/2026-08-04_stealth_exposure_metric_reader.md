@@ -54,8 +54,9 @@ a distinction the parent record's 1(a) does not itself draw:
    detectability shifts... calculate like a running average... for each
    attack."* Nothing here changes the attacker's behaviour — it is a derived
    statistic over an **unmodified** run's already-recorded action stream,
-   exactly the shape of the attacker-disengagement measure
-   ([`2026-08-01_attacker_disengagement_measure.md`](2026-08-01_attacker_disengagement_measure.md)):
+   exactly the shape of the attacker-disengagement measure, which has since
+   shipped in that shape
+   ([`../implementation/pipeline/ogasp/attacker_disengagement.md`](../implementation/pipeline/ogasp/attacker_disengagement.md)):
    pure functions over records, no RNG, no golden move, **no S2 question at
    all**, because no attacker state is added. **This is buildable now, with no
    ruling.**
@@ -256,8 +257,10 @@ work belonging to the learning and scheme-awareness axes.
   — the synthetic CVSS/exploitability fields.
 - [`../implementation/pipeline/ogasp/measurement_suite.md`](../implementation/pipeline/ogasp/measurement_suite.md)
   and
-  [`2026-08-01_attacker_disengagement_measure.md`](2026-08-01_attacker_disengagement_measure.md)
-  — the reader-pattern precedent this follows exactly.
+  [`../implementation/pipeline/ogasp/attacker_disengagement.md`](../implementation/pipeline/ogasp/attacker_disengagement.md)
+  — the reader-pattern precedent this follows exactly, now with a shipped
+  instance to copy: pre-registration, a kill criterion that was allowed to move,
+  and a frontier rather than a chosen threshold.
 - [`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md)
   axis 5 — the badge this reader can move to DESIGNED, and cannot move past.
 

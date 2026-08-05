@@ -190,7 +190,8 @@ record when a ruling lands or a successor takes up a §3 item; a defect found in
 a built mechanism is neither, and the freeze's own principle is that a row is
 not revisited because it reads badly. What the defect earns is a *ruling
 request*, not a build: the remedy is designed in full
-(`../../../handoffs/2026-08-01_attacker_disengagement_measure.md`) and takes nothing on
+([`attacker_disengagement.md`](attacker_disengagement.md), shipped as a reader
+2026-08-02) and takes nothing on
 its own authority. Note that it would also serve the enabling condition named
 above, so one disposition could close both halves of this axis.
 
