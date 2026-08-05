@@ -37,9 +37,14 @@ never final.
 
 - Axes 6 and 7 are **open**. Their §2 rows read as *status at last update*, not
   as frozen dispositions, and work on them needs no re-open argument against
-  this record. The open scope decisions are consolidated in
-  [`../../../handoffs/2026-08-02_axis67_scope_finalisation.md`](../../../handoffs/2026-08-02_axis67_scope_finalisation.md)
-  — that handoff, not this record, is the surface scope finalisation happens on.
+  this record. The open scope decisions were consolidated in a
+  scope-finalisation handoff, which has since been retired: **all nine of its
+  items are settled** — items 5 and 7–9 by dated rulings and by evidence
+  (2026-08-02), and items 1–4 and 6 by Marc's axis-6 closure the following day,
+  which retired the iterated cost model outright. The durable homes are
+  [`../../apt_model_criterion.md`](../../apt_model_criterion.md)'s axis-6 row
+  (the final disposition, with what was attempted and why the row closes rather
+  than waits) and `git log`.
 - When their scope is declared final, both rows re-enter the freeze by a dated
   closure amendment here (§6).
 

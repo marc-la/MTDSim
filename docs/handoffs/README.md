@@ -13,7 +13,7 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 
 ---
 
-## Open work — five handoffs
+## Open work — four handoffs
 
 **(1) is unblocked; start there.**
 
@@ -26,9 +26,16 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 >   handoff is kept, because its 2026-08-05 rescope — the promotion to axis 6's
 >   metric — is not in the shipped record; it now opens with a banner pointing
 >   at the artefacts. Read that before starting.
-> - **(6) was invisible to this chain**, having been created on `dev` after the
->   fork. It is open, with five of its scope items unruled. Added rather than
->   dropped.
+> - **The axis-6/7 scope brief is deleted.** It was created on `dev` after the
+>   fork, so this chain never saw it — but it had already been overtaken there:
+>   Marc's axis-6 closure (`681cdf2`, the day after the brief was last updated)
+>   retires the iterated cost model outright and discharges all five of its
+>   remaining items, and it simply was not deleted in the commit that shipped
+>   that ruling. Its four dated rulings survive in `git log`; the axis-6
+>   disposition's permanent home is the criterion's axis-6 row. **It was briefly
+>   restored during this merge on the strength of its own `status: open` and its
+>   "items 1-4 and 6 remain open" line — a reminder that a handoff's self-report
+>   is evidence about the day it was written, not about today.**
 > - The **OS/Service indistinguishability brief is deleted**, as the audit and
 >   the write/read-surface records already say it is. Its content lives on as
 >   D-18/D-19 in the disposition list.
@@ -91,19 +98,12 @@ confirmed as already-ruled. Record:
    configurations ever recur on this substrate — if they do not, the PoC has
    nothing to memoise and that is a cheap, legitimate result.
 
-5. [`2026-08-02_axis67_scope_finalisation.md`](2026-08-02_axis67_scope_finalisation.md)
-   — **the scope decisions the freeze released**, for axes 6 and 7. Item 5 was
-   ruled 2026-08-02 (static weights stay the default, the learner is kept as a
-   tested negative) and items 7–9 retired by evidence; the rest are open. What it
-   ships is a set of dated rulings and the closure amendment that re-adopts both
-   rows into the freeze — **not a build**. It overlaps (4) at the axis-6 end, so
-   rule the two together.
 
 **Suggested order for the rest of the week:** (1), which is unblocked. Then (2),
 which settles the schema question and serves the rest — and note that the
 A6 widening has already landed one half of the `MovementRecord` change it owns,
-so the host-identity decision is now the only part left. (3), (4) and (5) when
-their rulings land — and (3) and (5) should be ruled in one sitting.
+so the host-identity decision is now the only part left. (3) and (4) when their
+rulings land.
 
 ---
 

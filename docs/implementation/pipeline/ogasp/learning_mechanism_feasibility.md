@@ -687,8 +687,12 @@ new modulator with axis 6's factor 7A/AB until the joint check in
 - **Constrained by:** [`model_scope_freeze.md`](model_scope_freeze.md) §0 (axis 7 open),
   [`modulator_composition.md`](modulator_composition.md) (the composition bar and the
   seam-split portability argument), and the no-RL constraint.
-- **Feeds:** [`../../../handoffs/2026-08-02_axis67_scope_finalisation.md`](../../../handoffs/2026-08-02_axis67_scope_finalisation.md)
-  item 5, which is the decision this study exists to inform.
+- **Fed:** item 5 of the axis-6/7 scope-finalisation handoff — the decision this
+  study exists to inform. That item was **ruled 2026-08-02** (static weights stay
+  the default; the learner is kept as a built, declared, ablatable arm carrying a
+  measured negative; no further axis-7 mechanism effort), and the handoff has
+  since been retired with all nine items settled. This study's standing is
+  therefore evidence behind a taken decision rather than input to an open one.
 - **When to update:** when a candidate is ruled in or out; if the declared-bias control
   runs; if the relation gains achievement terms; and when the seed-count question in §7
   is settled.
