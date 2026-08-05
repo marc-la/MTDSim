@@ -52,6 +52,21 @@ The convention is **stage-commit per logical unit, push never** (until Marc asks
 
 There is no auto-commit hook. The convention does the work; the hook would just be a foot-gun against the never-push-main rule.
 
+### Closing a session branch — merge back into `dev`, then delete it
+
+**A session branch is not finished when its last commit lands; it is finished when it is merged into `dev` and deleted.** This is the same lifecycle a handoff has, and for the same reason: a branch that outlives its merge reads as open work to the next cold session, and a directory of them cannot be told apart from work in flight by inspection. Nine had accumulated by 2026-08-05, three of which were fully merged months earlier.
+
+Close a session branch as its last act:
+
+1. **Merge into `dev`** — `git checkout dev && git merge --no-ff <branch>`. Keep `--no-ff` so the branch's shape survives in the history; the merge commit's message is where the session's work gets summarised for anyone reading `git log dev`.
+2. **Verify nothing is stranded** — `git rev-list --count dev..<branch>` must be `0`. Do this *before* deleting, never after.
+3. **Delete it, both sides** — `git branch -d <branch>`, and `git push origin --delete <branch>` if it was ever pushed. `-d` refuses a branch carrying unmerged commits, which is the guard; reach for `-D` only after step 2 has been run and reported, and say so.
+4. **Prune the stale remote-tracking refs** — `git fetch --prune origin`.
+
+Git log is the permanent record of what the branch carried, exactly as it is for a deleted handoff. If the work is genuinely unfinished, the branch stays *and* a handoff is written for it — an open branch with no handoff is the state this rule exists to prevent.
+
+The exceptions are the long-lived branches in the table above: `main` and anything under `archive/` are never merged and never deleted.
+
 ## Handoff workflow
 
 When the current session uncovers work worth doing but that won't fit (a follow-up analysis, a deferred refactor, an audit), spin out a **handoff** rather than carrying it implicitly.
@@ -98,10 +113,13 @@ At the start of any session that will touch tracked files:
 2. `git status --short` — confirm clean tree (or note what's dirty and why).
 3. Skim [`../handoffs/`](../handoffs/) for an open handoff matching today's task. If one exists and the session is to pick it up, read it cold.
 4. If the session was triggered by handoff content, treat the handoff as the prompt — don't re-derive from conversation.
+5. `git branch --merged dev` — anything listed other than `dev`, `main` and `archive/*` is a session branch that was never closed. Close it (§ closing a session branch) before starting new work, not after.
 
 ## Stale-handoff sweep
 
 At session start, if a handoff exists for completed work, delete it. If it's been superseded, mark `status: superseded by <new-handoff>` in the frontmatter and delete on the next sweep. Don't leave dead handoffs accumulating — the directory should be an accurate inventory of *open* work.
+
+The same sweep applies to branches, and the two go together: a fully-merged session branch is the branch-side equivalent of a handoff for shipped work. `git branch --merged dev` is the inventory; anything on it that is not `dev`, `main` or an `archive/*` ref should have been deleted by the session that merged it.
 
 ## What never gets staged
 
