@@ -13,9 +13,9 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 
 ---
 
-## Open work — six handoffs
+## Open work — five handoffs
 
-**Two are unblocked and independent of each other. Start with (1).**
+**(1) is unblocked; start there.**
 
 > **Reconciled on merge, 2026-08-05.** This chain was written on the boundary
 > branch, before the session branches were merged into `dev`. Three corrections
@@ -33,20 +33,24 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 >   the write/read-surface records already say it is. Its content lives on as
 >   D-18/D-19 in the disposition list.
 
-1. [`2026-08-05_mtd_disruption_for_movement_attacker.md`](2026-08-05_mtd_disruption_for_movement_attacker.md)
-   — **the prerequisite for a fair comparison, and the priority.** Marc's ruling
-   (Jin discussion, 2026-08-05): disruption applies the same way regardless of
-   attacker type; the defence does not need to know which attacker it is
-   disrupting. So the model is inherited and settled — the job is checking that
-   it actually *reaches* the movement attacker mechanism by mechanism, by running
-   rather than assuming. Carries the six-channel inventory forward from the
-   retired boundary review 3, plus **seven measured arm asymmetries** (A1–A7) and
-   two scheduler effects that are the work list. Fix A6 first — it is the
-   instrument: until an interrupt can be attributed to a mechanism in the
-   movement arm, nothing else here can be measured per mechanism. **No ruling
-   needed.**
+*(Shipped 2026-08-05: the **disruption-wiring brief**. A6 was the instrument
+and is repaired — the movement record now names the mechanism that interrupted
+it, so 0 of 1 061 interrupts are unattributed where previously none could be
+attributed at all. With it, the class-level pricing model is **verified rather
+than assumed**: the gate rows are identical within a class and the penalty draw
+is bit-identical across the four real mechanisms. The model is faithfully wired
+at the gate and does **not** arrive equally at the two arms — a network-class
+firing delivers 0.92-1.00 of its native disruption to the movement attacker, an
+application-class firing 0.67-0.83, in every scheme at every seed. A1 and A4 do
+not cancel: A4 turns out to be load-bearing rather than offsetting, carrying
+four-fifths of the diversity pair's measured effect, which is much stronger
+evidence for D-21's ruling than that ruling had. Every one of A1-A7 and both
+scheduler effects carries a verdict; D-35..D-38 opened, A6 repaired, A2/A3/A4
+confirmed as already-ruled. Record:
+[`../implementation/disruption_wiring.md`](../implementation/disruption_wiring.md).)*
 
-2. [`2026-08-04_stealth_exposure_metric_reader.md`](2026-08-04_stealth_exposure_metric_reader.md)
+
+1. [`2026-08-04_stealth_exposure_metric_reader.md`](2026-08-04_stealth_exposure_metric_reader.md)
    — **axis 5's metric, buildable now.** A post-hoc detectability curve over an
    unmodified run's own action stream: no attacker state, no S2 question, no
    ruling gate. Now the **single** stealth handoff — the mtd_ai-consequential
@@ -54,7 +58,7 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
    and its cheap falsifying run recorded. **No ruling needed** for the reader;
    1(b) still needs the supervisor ruling on sanctioning the reactive defender.
 
-3. [`2026-08-05_apt_axis_measurement_metrics.md`](2026-08-05_apt_axis_measurement_metrics.md)
+2. [`2026-08-05_apt_axis_measurement_metrics.md`](2026-08-05_apt_axis_measurement_metrics.md)
    — **a metric per axis**, so the APT criterion is scored by evidence rather
    than argument. Owns axes 1, 2, 4, 8 and the lettered rows; consumes (2) and
    (4) rather than duplicating them; and states plainly that **axis 7 cannot be
@@ -63,7 +67,7 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
    identity**. Settle that early — (4) needs it too, and (1) needs an adjacent
    widening, so both should land in one schema change and one re-capture.
 
-4. [`2026-08-01_attacker_disengagement_measure.md`](2026-08-01_attacker_disengagement_measure.md)
+3. [`2026-08-01_attacker_disengagement_measure.md`](2026-08-01_attacker_disengagement_measure.md)
    — **axis 6's metric** as of 2026-08-05: the attack-cost measure that answers
    *where would the APT eventually give up*. A projected-effort reading over
    existing runs, reported as a frontier over patience, so MTD's own economic
@@ -75,7 +79,7 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
    shipped measure is ratified as axis 6's metric and the badge re-scored, which
    is a ruling rather than a build. Read its merge banner first.
 
-5. [`2026-08-04_vulnerability_memory_and_swift_mode.md`](2026-08-04_vulnerability_memory_and_swift_mode.md)
+4. [`2026-08-04_vulnerability_memory_and_swift_mode.md`](2026-08-04_vulnerability_memory_and_swift_mode.md)
    — **the axis-8 proof of concept**, rescoped 2026-08-05 to the stronger form:
    host configurations held in memory, so a previously-seen image confers
    success. **This reverses a ruled exclusion**, and the handoff argues the
@@ -87,7 +91,7 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
    configurations ever recur on this substrate — if they do not, the PoC has
    nothing to memoise and that is a cheap, legitimate result.
 
-6. [`2026-08-02_axis67_scope_finalisation.md`](2026-08-02_axis67_scope_finalisation.md)
+5. [`2026-08-02_axis67_scope_finalisation.md`](2026-08-02_axis67_scope_finalisation.md)
    — **the scope decisions the freeze released**, for axes 6 and 7. Item 5 was
    ruled 2026-08-02 (static weights stay the default, the learner is kept as a
    tested negative) and items 7–9 retired by evidence; the rest are open. What it
@@ -95,10 +99,11 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
    rows into the freeze — **not a build**. It overlaps (4) at the axis-6 end, so
    rule the two together.
 
-**Suggested order for a fresh week:** (1) and (2) in parallel — both unblocked,
-neither depends on the other. Then (3), which settles the schema question and
-serves the rest. (4), (5) and (6) when their rulings land — and (4) and (6)
-should be ruled in one sitting.
+**Suggested order for the rest of the week:** (1), which is unblocked. Then (2),
+which settles the schema question and serves the rest — and note that the
+A6 widening has already landed one half of the `MovementRecord` change it owns,
+so the host-identity decision is now the only part left. (3), (4) and (5) when
+their rulings land — and (3) and (5) should be ruled in one sitting.
 
 ---
 
@@ -110,7 +115,7 @@ one. The full rows, with costed options, are in the disposition list of
 
 | # | What | Blocks |
 |---|---|---|
-| **D-09** | Zhang's unimplemented MTD-interruption give-up threshold (IS-INT-06) — wanted, and in which form? | **(4) entirely** |
+| **D-09** | Zhang's unimplemented MTD-interruption give-up threshold (IS-INT-06) — wanted, and in which form? | **(3) entirely** |
 | **D-16** | Eq 2's `V_exploited` half is not charged into phase-2 duration | — |
 | **D-17** | The OSDA MIP formulation is decoupled; ranked recommendation is withdraw ≥ replace ≫ repair | — |
 | **D-18** | OS Diversity's compatibility guard is inert, so it always replaces every service. **New evidence 2026-08-05:** a repaired guard would replace 13.9 % against Service Diversity's 100 % — a sevenfold separation, so repair settles the family's cardinality by construction | the diversity pair's separability |
@@ -119,6 +124,10 @@ one. The full rows, with costed options, are in the disposition list of
 | **D-27** | The credential channel carries 10–23 % of compromises and no mechanism in the reported family moves it | family scope |
 | **D-29** | Mechanisms and attacker share one RNG stream, so seed-matched arms are **independent, not paired** — record-grade | seed budgeting |
 | **D-30/31/32** | NAV feed degeneracy; HostTopologyShuffle compromise-model desync; UserShuffle's ratchet — the latter two latent, gating those mechanisms' activation | latent-pool use |
+| **D-35** | EXPLOIT_VULN is uninterruptible in the movement arm, so the diversity family loses **89-97 %** of its exploit-blocking windows in the headline arm. Mapping policy (an S3-R consequence); the recommendation is to state the boundary rather than repair | the diversity family's cross-arm comparison |
+| **D-36** | A network-class mutation arriving during an application-class penalty **loses its cursor clear** — the gate fires, the counter increments, the documented position destruction does not happen. The one candidate *bug* of the disruption brief; repair recommended, bounded re-baseline (1.0/run at `simultaneous`, 0 elsewhere) | — |
+| **D-37** | The confusion penalty (8.0-17.7 % of the clock) is charged to no `attack_record` row on either arm; only the movement arm can reconstruct it — record-grade | cross-arm time budgets |
+| **D-38** | The priority queue gives the higher-priority member of each class pair a systematic extra firing — measured **identically in both arms**, so it is not an arm asymmetry and cannot explain the inversion, but it spuriously separates each pair. Report per firing — record-grade | within-pair claims |
 | **D-33** | SCAN_NEIGHBOR is dispatched from uncompromised hosts (48 % of calls in the movement arm, 0 natively). **Measured to move a ranking** — gating it moves `simultaneous` from third to first | boundary review 1's gate |
 | **D-34** | `HostTopologyShuffle` writes attacker state directly (`swap_hosts_in_compromised_hosts`) — the latent seventh channel, per-mechanism in a boundary otherwise priced per class. Rule before any promotion into a reported family. *(Renumbered on merge: opened as review 3's D-27, which collided with review 1's)* | latent-pool use |
 
