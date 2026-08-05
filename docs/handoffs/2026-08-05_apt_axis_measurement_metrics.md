@@ -1,6 +1,7 @@
 ---
 status: open
 created: 2026-08-05
+updated: 2026-08-05
 ---
 
 # A metric per axis — make the eight APT characteristics measurable, so the criterion is scored by evidence rather than by argument
@@ -33,9 +34,13 @@ Check these before writing a line — three of the eight axes are partly served:
   — the reader module, the baseline-arm row adapter, `interval_report`, the
   cost ledger, the disruption ledger, the coverage curve and
   deepest-successfully-actioned-stage (axis 1's partial).
-- [`2026-08-01_attacker_disengagement_measure.md`](2026-08-01_attacker_disengagement_measure.md)
-  — **axis 6's metric**, designed in full. Do not duplicate it here; this brief
-  consumes it.
+- [`../implementation/pipeline/ogasp/attacker_disengagement.md`](../implementation/pipeline/ogasp/attacker_disengagement.md)
+  — **axis 6's metric, built and run** (the commissioning handoff shipped and was
+  deleted 2026-08-05). Consume it; do not duplicate it. Its vocabulary is
+  ratified — **Projected Campaign Effort**, **Abandonment Effort** `A(k)`, the
+  **Disengagement Frontier** (§1.2) — so use those terms rather than coining new
+  ones. Note what it does *not* license: the kill criterion moved on the profiled
+  arm, and the badge does not move on a reader.
 - [`2026-08-04_stealth_exposure_metric_reader.md`](2026-08-04_stealth_exposure_metric_reader.md)
   — **axis 5's metric**, designed in full. Same: consume, do not duplicate.
 
@@ -50,7 +55,7 @@ smallest reader that would discharge it.
 
 | Axis | Badge | What M8b asks for | State | The reader |
 |---|---|---|---|---|
-| **1** Persistence | DESIGNED | distinct-tactic coverage over time; foothold-retention duration across mutations; effort-to-breadth conversion | **partly built** — coverage curve and effort-to-breadth exist; the originally-recommended kill-chain depth is **withdrawn as saturated**; foothold retention is blocked on a known blind spot | `foothold_retention` — needs `MovementRecord` to carry **host identity**, which it does not (the same blind spot the disengagement brief's §2.3 must settle). Settle it once, here, for both |
+| **1** Persistence | DESIGNED | distinct-tactic coverage over time; foothold-retention duration across mutations; effort-to-breadth conversion | **partly built** — coverage curve and effort-to-breadth exist; the originally-recommended kill-chain depth is **withdrawn as saturated**; foothold retention is blocked on a known blind spot | `foothold_retention` — needs `MovementRecord` to carry **host identity**, which it does not. **Not unblocked by `n_compromised`** (§4): a monotone count gives the disengagement measure its trajectory but cannot name a foothold |
 | **2** Objective conditioning | DEMONSTRATED | per-profile behavioural divergence: JSD between profiles' action streams and terminal-tactic distributions at L3 | **not built** — the L2 corpus-level JSD check exists; its execution-level mirror does not | `action_stream_jsd(profile_a, profile_b)` over the recorded action streams. Mirrors `gasp_schema.md` §(g)'s method one layer down, so the method is already defended |
 | **3** Strategic plurality | DEMONSTRATED | plurality that is *chosen* rather than drawn | **built** — pooled path entropy and distinct opening sequences are reported | None needed. **Record that the badge's evidence is the modulators-null arm**, and that any modulator-active arm must report its own entropy figure |
 | **4** Adaptivity | DESIGNED | action-mix change before vs after an MTD trigger; recovery time from an MTD-induced throw-back; weight-set switch frequency vs progress | **not built** — and this is the largest genuine gap on the list | `pre_post_mtd_action_mix` (JSD across the trigger boundary), `recovery_time_to_first_success`, `weight_set_switch_rate`. All three are windowed reads over the existing record stream plus the MTD execution log |
@@ -77,22 +82,47 @@ time-denominated; time views are arm-local and labelled as such.
 
 ## 4. The one instrumentation decision to settle first
 
-**`MovementRecord` carries no host identity.** Axis 1's foothold-retention
-measure needs it, the disengagement measure's progress trajectory needs it
-(§2.3 there), and the axis-8 repeat-configuration reader needs something like it.
-Three consumers is the justification a schema widening requires, and the suite's
-standing rule is to prefer extending the reader over widening the record — so
-this needs deciding once, deliberately, rather than three times by three
-sessions.
+> **Corrected 2026-08-05.** This section was written on the boundary branch and
+> was overtaken on `dev` before it was read. Two of the three consumers it names
+> are **discharged**, and the cheap check it prescribes has **already been run**.
+> The decision itself survives, on a weaker case; what follows is the current
+> state, not the state as commissioned.
 
-Settle it **before** building any reader that depends on it. The cheap check
-first: over existing recorded runs, compare compromise *events* against
-`compromised_count`; report the ratio either way. Then put the widening to Marc
-with its three consumers named.
+**`MovementRecord` still carries no host identity, and the case for adding it now
+rests on two consumers rather than three.**
 
-*(Note the adjacent widening the disruption brief also needs — the interrupting
-mechanism's name. If both are taken, take them in one schema change and one
-re-capture.)*
+**What has already happened.** The cheap check was run before the disengagement
+measure was built: over 50 recorded runs, **837 compromise events against 155
+distinct hosts — a ratio of 5.40**, and worse without MTD (5.4–8.8) than with it
+(1.8–3.5), so cumulative events would have biased exactly the MTD-versus-no-MTD
+comparison that measure exists to make. `MovementRecord` therefore gained one
+integer, **`n_compromised`** — the substrate's own compromised-host list length,
+sampled per record and asserted monotone, duplicate-free and equal to
+`compromised_count` at the horizon
+([`../implementation/pipeline/ogasp/attacker_disengagement.md`](../implementation/pipeline/ogasp/attacker_disengagement.md)
+§1.1). Separately, the disruption-wiring repair landed **`interrupted_by_name`**,
+which is the adjacent widening this section told a session to bundle. Both are
+in; no golden moved for either, because both are popped from the golden
+serialisation exactly as `retrace` is.
+
+**Why the decision is not thereby closed.** A *count* is not an *identity*. The
+disengagement measure needed a distinct-host trajectory and `n_compromised` gives
+it exactly; **axis 1's foothold retention does not become buildable on the back
+of it** — retention of a *named* host cannot be recovered from a monotone
+counter, which is why that measure still reads retention of *position* rather
+than of a host. So the live consumers are:
+
+1. **Axis 1's `foothold_retention`** — needs the identity of the host compromised
+   at each event, to measure how long a *named* foothold survives.
+2. **Axis 8's `repeat_configuration_compromise_rate`** — needs something like
+   identity, and arguably a configuration fingerprint rather than a host id.
+   Establish which before proposing the field: a fingerprint may serve both, and
+   would be the stronger widening.
+
+Two consumers still clears the suite's bar, but it clears it by less than three
+did, and the burden of proof sits on the schema change. **Put it to Marc with the
+two consumers named and the fingerprint-versus-host-id question answered** — do
+not re-run the cheap check, and do not re-argue the count, which is settled.
 
 ## 5. Pre-registered conclusions — per reader, committed before any output
 

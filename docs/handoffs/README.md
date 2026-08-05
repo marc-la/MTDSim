@@ -13,7 +13,7 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 
 ---
 
-## Open work — four handoffs
+## Open work — three handoffs
 
 **(1) is unblocked; start there.**
 
@@ -21,11 +21,14 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 > branch, before the session branches were merged into `dev`. Three corrections
 > the merge forced, recorded here rather than silently applied:
 >
-> - **(4) has largely shipped.** `dev` built and ran the disengagement measure
->   (`35f772e`) and the iterated cost model this brief declares retired. The
->   handoff is kept, because its 2026-08-05 rescope — the promotion to axis 6's
->   metric — is not in the shipped record; it now opens with a banner pointing
->   at the artefacts. Read that before starting.
+> - **The disengagement brief has shipped and is now deleted.** `dev` built and
+>   ran the measure (`35f772e`) and the iterated cost model that brief declared
+>   retired. It was briefly kept because its 2026-08-05 rescope — the promotion
+>   to axis 6's metric — was not in the shipped record; that rescope, the
+>   measure's ratified vocabulary and its two open rulings were folded into
+>   [`../implementation/pipeline/ogasp/attacker_disengagement.md`](../implementation/pipeline/ogasp/attacker_disengagement.md)
+>   (§1.2–1.3, §8) on 2026-08-05 and the handoff deleted, which is where the
+>   lifecycle wanted it. Its alternatives-considered argument lives in `git log`.
 > - **The axis-6/7 scope brief is deleted.** It was created on `dev` after the
 >   fork, so this chain never saw it — but it had already been overtaken there:
 >   Marc's axis-6 closure (`681cdf2`, the day after the brief was last updated)
@@ -67,43 +70,35 @@ confirmed as already-ruled. Record:
 
 2. [`2026-08-05_apt_axis_measurement_metrics.md`](2026-08-05_apt_axis_measurement_metrics.md)
    — **a metric per axis**, so the APT criterion is scored by evidence rather
-   than argument. Owns axes 1, 2, 4, 8 and the lettered rows; consumes (2) and
-   (4) rather than duplicating them; and states plainly that **axis 7 cannot be
-   moved by measurement** at all. Also owns the one instrumentation decision
-   three handoffs are waiting on: whether `MovementRecord` gains **host
-   identity**. Settle that early — (4) needs it too, and (1) needs an adjacent
-   widening, so both should land in one schema change and one re-capture.
+   than argument. Owns axes 1, 2, 4, 8 and the lettered rows; consumes (1) and
+   the shipped disengagement measure rather than duplicating them; and states
+   plainly that **axis 7 cannot be moved by measurement** at all. Also owns the
+   one remaining instrumentation decision: whether `MovementRecord` gains **host
+   identity**. **Its §4 was corrected 2026-08-05** — two of the three consumers
+   that justified the widening are discharged (the disengagement measure by a
+   *count*, `n_compromised`; the disruption brief by `interrupted_by_name`), so
+   the case now rests on axis 1's foothold retention and axis 8's
+   repeat-configuration reader alone.
 
-3. [`2026-08-01_attacker_disengagement_measure.md`](2026-08-01_attacker_disengagement_measure.md)
-   — **axis 6's metric** as of 2026-08-05: the attack-cost measure that answers
-   *where would the APT eventually give up*. A projected-effort reading over
-   existing runs, reported as a frontier over patience, so MTD's own economic
-   claim becomes scorable. Absorbs the retired iterated-cost-model brief on a
-   measurement-first ruling: MTD does not raise the attacker's *cost*, it
-   destroys its *productive capacity*, so the route to axis 6 is measuring
-   disengagement rather than building a better decision rule. **Blocked on
-   D-09** — and, since the merge, **mostly built**: what is left is whether the
-   shipped measure is ratified as axis 6's metric and the badge re-scored, which
-   is a ruling rather than a build. Read its merge banner first.
-
-4. [`2026-08-04_vulnerability_memory_and_swift_mode.md`](2026-08-04_vulnerability_memory_and_swift_mode.md)
+3. [`2026-08-04_vulnerability_memory_and_swift_mode.md`](2026-08-04_vulnerability_memory_and_swift_mode.md)
    — **the axis-8 proof of concept**, rescoped 2026-08-05 to the stronger form:
    host configurations held in memory, so a previously-seen image confers
    success. **This reverses a ruled exclusion**, and the handoff argues the
    reversal properly rather than overriding it — the exclusion was justified on
    needing ML/RL inference, which a *memoisation* PoC does not engage. Three
    records carry that exclusion and each needs a dated amendment before any
-   build. **Blocked on Marc's disposition**, and gated behind (3)'s
+   build. **Blocked on Marc's disposition**, and gated behind (2)'s
    `repeat_configuration_compromise_rate` reader, which tells you whether
    configurations ever recur on this substrate — if they do not, the PoC has
    nothing to memoise and that is a cheap, legitimate result.
 
 
 **Suggested order for the rest of the week:** (1), which is unblocked. Then (2),
-which settles the schema question and serves the rest — and note that the
-A6 widening has already landed one half of the `MovementRecord` change it owns,
-so the host-identity decision is now the only part left. (3) and (4) when their
-rulings land.
+which settles the schema question and serves the rest — and note that both of the
+adjacent `MovementRecord` widenings it was told to bundle have already landed
+(`interrupted_by_name` from the A6 repair, `n_compromised` from the disengagement
+measure), so **host identity is the only part left and it now has two consumers,
+not three**. (3) when its ruling lands.
 
 ---
 
@@ -115,7 +110,7 @@ one. The full rows, with costed options, are in the disposition list of
 
 | # | What | Blocks |
 |---|---|---|
-| **D-09** | Zhang's unimplemented MTD-interruption give-up threshold (IS-INT-06) — wanted, and in which form? | **(3) entirely** |
+| **D-09** | Zhang's unimplemented MTD-interruption give-up threshold (IS-INT-06) — wanted, and in which form? | no handoff — the measure that generalises it **shipped**; the ruling now bears on whether that generalisation is ratified ([`../implementation/pipeline/ogasp/attacker_disengagement.md`](../implementation/pipeline/ogasp/attacker_disengagement.md) §8, alongside the axis-6 ratification) |
 | **D-16** | Eq 2's `V_exploited` half is not charged into phase-2 duration | — |
 | **D-17** | The OSDA MIP formulation is decoupled; ranked recommendation is withdraw ≥ replace ≫ repair | — |
 | **D-18** | OS Diversity's compatibility guard is inert, so it always replaces every service. **New evidence 2026-08-05:** a repaired guard would replace 13.9 % against Service Diversity's 100 % — a sevenfold separation, so repair settles the family's cardinality by construction | the diversity pair's separability |

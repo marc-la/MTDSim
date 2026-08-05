@@ -253,6 +253,25 @@ this measure discriminating on the profiled arm, and it did not.
 
 ## 8. What a successor should do
 
+**The two open rulings, moved here 2026-08-05 when the commissioning handoff was
+retired.** Neither is a build; both are Marc's, and this record is now their
+inventory entry.
+
+- **Is this measure ratified as axis 6's metric, and is the badge re-scored
+  against it?** §7 declines the badge move on its own reasoning — the axis asks
+  whether the attacker *conditions on* cost and this reader scores an outcome —
+  but whether the axis is *served* by an outcome measure is a supervisor-level
+  framing call, not a session's. Until it is ruled, cite this record as a
+  measurement and leave axis 6 at DESIGNED.
+- **D-09** — whether Zhang's unimplemented interruption threshold (IS-INT-06) is
+  wanted, and in which form. It is a live row in
+  [`../../intent_conformance_audit.md`](../../intent_conformance_audit.md)'s
+  disposition list, which is its permanent home. This measure implements a
+  *generalisation* of it, in which Zhang's counter is the special case where the
+  only thing that can stall the attacker is MTD; a ruling for the literal counter
+  would make "MTD causes disengagement" definitional and is argued against in
+  that handoff's alternatives, preserved in `git log`.
+
 **Not** re-specify C2 and re-run — the stopping rule exists because a measure
 motivated by a defence's own economic claim is exactly where criteria drift.
 
