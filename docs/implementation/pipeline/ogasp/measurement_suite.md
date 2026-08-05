@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-28
-updated: 2026-08-01
+updated: 2026-08-05
 topic: "The axis-measurement suite (movement/measures.py) — the M8b measurements the APT criterion's claimed axes need, built as a reader over MovementRecord streams with a baseline-arm adapter; which axis each measure discharges, its validation gates, and its known blind spots. Now also carries the defender-side disruption ledger (§5 of the module), which scores no axis and prices the frontier"
 ---
 
@@ -63,6 +63,7 @@ bind every consumer:
 | `terminal_mode` | 4 / reporting | experiment 1's terminal vocabulary formalised (objective / sink / sim_end / max_events / horizon / empty) | baseline rows cannot say more than objective-vs-horizon; cross-arm terminal comparison uses that coarser pair |
 | `cost_ledger` | 6 prerequisite — "a cost ledger per run (actions, time, re-work forced by MTD)" | attempts by verb (split blocked / dwell-only), time decomposed into behavioural dwell + derived MTD confusion penalty + residual, re-work (interrupt count and the time MTD-cut events consumed), distinct hosts, yield per ksec | the ledger is a *measurement*, not an axis-6 claim — the claim needs a decision rule that consumes it (separate handoff); time fields are movement-arm-only |
 | `disruption_ledger` / `disruption_from_run` (+ `union_time`) | **no axis, deliberately** — the defender-side cost the frontier trades attacker measures against ([`mtd_disruption_frontier.md`](mtd_disruption_frontier.md)) | per run, derived entirely from the substrate's own per-mutation operation records: reconfiguration **occupancy** (union of mutation deployment windows ÷ elapsed), summed window time by resource layer and by mechanism, churn tempo (executions per ksec), and the suspended-mutation contention tally. The run result snapshots the record read-only after the run (`run.mtd_snapshot`); both arms read the identical machinery, so defender-side quantities are cross-arm safe — unlike attacker-side time | a mutation aborted mid-execution on compromise appends no record; a same-priority discard is tallied nowhere; queue wait under the simultaneous scheme is outside the window — all three undercount, so occupancy is a floor |
+| `progress_trajectory` / `projected_effort_curve` / `abandonment_effort` / `abandonment_curve` / `disengagement_snapshot` (+ `baseline_progress_trajectory`) | **6's economic claim, scored as an *outcome* — deliberately no badge move.** Axis 6 asks whether the attacker *conditions on* cost and closed as DESIGNED; this reads where it would have quit | **Projected Campaign Effort** `T(t) = t + (W − h(t))/r(t)`, `r(t) = (h(t)+α)/(t+α/r₀)` — projected total campaign effort after each attempted action. **Abandonment Effort** `A(k)` is the *first* `t` where PCE exceeds `B = k·U` (`U = W/r₀ = 1 440` actions, the unimpeded effort to the objective), censored otherwise. Reported as the **Disengagement Frontier**: mean `A(k)` against patience `k`, per condition, censoring beside every point ([`attacker_disengagement.md`](attacker_disengagement.md) §1.2 names all three) | the conditional mean conditions on abandoning — the censoring fraction moves with the defence where the mean does not, and that half is un-pre-registered (§5 there); the horizon caps observable patience, so `k ≥ 7.5` is mostly censored and `k = 10` pins at the horizon in every condition; movement-arm progress is a sampled substrate count (`n_compromised`) while the baseline's is a deduplicated identity count — equally exact by different routes, and the asymmetry is stated, not smoothed |
 | `baseline_ledger` / `comparable_from_baseline` / `comparable_from_movement` | cross-arm subset (Jin's stealthy-vs-baseline framing) | see §(d) | see §(d) |
 | `mean_ci` / `interval_report` | reporting discipline (every axis) | experiment-1 mean ± 1.96·SEM convention; adjacent-pair disjointness made routine | normal approximation; n = 1 reads as a zero-width interval |
 
@@ -237,3 +238,23 @@ post-run snapshot of that record, and everything else is derived in the reader
 (`disruption_ledger`, §(b) row). The record/reader preference above was
 honoured in the way that matters — the per-event schema is untouched, and the
 widening carries raw substrate rows, never a computed quantity.
+
+**Fired 2026-08-02 — the disengagement readers joined the suite (§8 of the
+module), and this is the one time the record/reader preference lost on
+evidence.** The design assumed cumulative compromise *events* could proxy the
+distinct-host trajectory; measured before anything was built, 837 events stood
+against 155 distinct hosts, and the over-count was itself MTD-dependent (5.4–8.8
+without MTD against 1.8–3.5 with it), so using events would have biased exactly
+the MTD-versus-no-MTD comparison the measure exists to make. `MovementRecord`
+therefore gained one integer, `n_compromised`, asserted monotone, duplicate-free
+and equal to `compromised_count` at the horizon. That is the burden of proof this
+suite puts on a schema change, discharged by measurement rather than argued
+around — and no golden moved, because the field is popped from the golden
+serialisation exactly as `retrace` is, on the principle that only behaviour may
+move a digest.
+
+**Naming ratified 2026-08-05**, after the readers had shipped: **Projected
+Campaign Effort** (the trajectory), **Abandonment Effort** `A(k)` (the scalar,
+never quoted without its `k`) and the **Disengagement Frontier** (the report).
+Use those terms in prose; `attacker_disengagement.md` §1.2 carries the mapping to
+the function names and the three usages that are wrong.
