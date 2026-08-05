@@ -1,6 +1,7 @@
 ---
 status: durable
 created: 2026-08-02
+updated: 2026-08-05
 topic: "The attacker-disengagement measure — built as a reader, validated against the inherited attacker where it separates every MTD condition from none, and unable to attribute the profiled attacker's disengagement to the defence. The kill criterion moved; the contrast between the two arms is the finding"
 ---
 
@@ -57,6 +58,66 @@ standing preference is to extend the reader rather than widen the record; that
 measurement is the burden of proof discharged, and no golden moved (the field is
 popped from the golden serialisation exactly as `retrace` is, on the builder's
 own principle that only behaviour may move a digest).
+
+### 1.2 The names, ratified 2026-08-05
+
+Three levels, because the trajectory, the scalar read off it and the report over
+patience are three different objects, and conflating them is how a measure
+acquires a reputation for saying more than it does.
+
+| Level | Name | Symbol | Code (`measures.py` §8) | What it is |
+|---|---|---|---|---|
+| trajectory | **Projected Campaign Effort** | `T(t)` | `projected_effort_curve` (over `progress_trajectory`) | the attacker's projected total effort to the objective, recomputed after every attempted action |
+| scalar | **Abandonment Effort** | `A(k)` | `abandonment_effort`, `abandonment_curve` | the effort spent when PCE **first** exceeds the budget `B = k·U`; **censored**, never zero and never a sentinel, when it does not cross |
+| report | **Disengagement Frontier** | — | `abandonment_curve` + `interval_report`, tabled in §6 | mean `A(k)` against patience `k`, per defence condition, each point carrying its own censoring fraction |
+
+**The headline term is Projected Campaign Effort (PCE)**; the deliverable that is
+cited is the disengagement frontier. Say *abandonment effort* only with a stated
+`k` beside it — the bare scalar is meaningless without the patience it was read
+at, which is the whole point of reporting a frontier rather than a number.
+
+Three usages are wrong and worth naming as such. This is not an *abandonment
+rate* (nothing abandons; the reader reports where a run would have). It is not a
+*give-up threshold* — that is Brown's per-host counter, `ATTACKER_THRESHOLD`,
+which is implemented, conforms as IS-SCN-04, and is a different quantity at a
+different scope. And it is not an *attacker cost metric*: cost is the axis-6
+ledger, which this measure exists precisely because a normalised ratio could not
+see.
+
+### 1.3 What patience means here — `k` is the APT dial, anchored within-substrate
+
+Zhang specified a campaign-level give-up threshold on MTD interruptions and never
+stated its value (IS-INT-06), so no honest number exists to declare. The measure
+turns that gap into its reporting axis. The budget is `B = k·U`, where
+`U = W / r₀ = 1 440` actions is the effort an **unimpeded attacker at its own
+measured rate** would need to finish the job — so `k` is patience expressed as a
+multiple of one completed campaign. `k = 1` is an attacker that quits the moment
+the job looks longer than the job; `k = 10` is an attacker willing to spend ten
+campaigns' worth of effort to take one network.
+
+**That is where "an APT tries exceptionally hard" enters the model: as a high
+`k`, read off the frontier, rather than as a declared constant anywhere in the
+code.** The reader picks their own reservation value and reads the answer at it.
+No patience value is load-bearing in any result this record reports.
+
+Two constraints travel with the dial, and both are honesty boundaries rather
+than conveniences.
+
+**Patience is anchored to `U`, never to real campaign durations.** Setting `k`
+from breach-report hours or the APT campaign-duration catalogue was rejected on
+shape-not-scale: simulated units carry no calibrated mapping to real time, so
+that would import exactly the cross-scale comparison the project forbids. The
+within-substrate anchor does the same job legitimately, because `U` is measured
+on this substrate in the same units the measure counts.
+
+**The run horizon caps how much patience is observable, and APT-grade patience
+sits mostly above the cap.** At `k = 10` every condition in §6 reports the same
+mean — 317 actions — with censoring from .62 to .98: at that patience the 15 000 s
+horizon, not the attacker's reservation, is what ends the run. The informative
+band on this substrate is `k ≈ 2–5`. Report a high-`k` reading as a property of
+the instrument's reach, never as a finding about how long real APTs persist. §5's
+post-hoc observation points the same way and for the same reason: as `k` rises,
+what moves with the defence is *whether* a run would disengage, not *when*.
 
 ## 2. Verdicts
 

@@ -1139,6 +1139,27 @@ def interval_report(
 # not be compared to the inherited attacker; measured in actions it is event-wise
 # and therefore cross-arm safe.
 #
+# **The names, ratified 2026-08-05** (``attacker_disengagement.md`` §1.2). The
+# trajectory is **Projected Campaign Effort** (PCE), ``T(t)``, from
+# :func:`projected_effort_curve`. The scalar read off it is **Abandonment
+# Effort**, ``A(k)``, from :func:`abandonment_effort` — never quoted without the
+# patience ``k`` it was read at, because the bare number is meaningless without
+# it. The report over patience is the **Disengagement Frontier**. This is not an
+# abandonment *rate* (nothing abandons), not a give-up *threshold* (that is
+# Brown's per-host ``ATTACKER_THRESHOLD``, a different quantity at a different
+# scope), and not a *cost* metric (that is the axis-6 ledger, which this measure
+# exists because a normalised ratio could not see).
+#
+# **Patience is the reporting axis, and it is where "an APT tries exceptionally
+# hard" enters the model.** The budget is ``B = k·U`` with ``U = W / r₀ = 1 440``
+# actions — the effort an unimpeded attacker at its measured rate would need — so
+# ``k`` is patience in units of one completed campaign, and an APT is simply a
+# high ``k`` read off the frontier rather than a constant declared anywhere here.
+# Two boundaries travel with it: ``k`` is anchored to ``U`` and never to real
+# campaign durations (shape-not-scale), and the run horizon caps observable
+# patience, so ``k = 10`` pins at the horizon in every condition and the
+# informative band on this substrate is ``k ≈ 2–5``.
+#
 # Design record: ``docs/implementation/pipeline/ogasp/attacker_disengagement.md``.
 
 
@@ -1210,7 +1231,8 @@ def progress_trajectory(run: MovementRunResult) -> tuple[int, ...]:
 def projected_effort_curve(
     run: MovementRunResult, model: DisengagementModel | None = None
 ) -> tuple[float, ...]:
-    """The attacker's projected **total campaign effort** after each action.
+    """**Projected Campaign Effort** (PCE) — the attacker's projected **total
+    campaign effort** after each action.
 
         T(t) = t + (W − h(t)) / r(t),   r(t) = (h(t) + α) / (t + α / r₀)
 
@@ -1252,8 +1274,11 @@ def abandonment_effort(
     budget: float,
     model: DisengagementModel | None = None,
 ) -> int | None:
-    """Actions spent when the run's projected effort **first** exceeds ``budget``,
-    or ``None`` if it never does.
+    """**Abandonment Effort** ``A(k)`` — actions spent when the run's PCE
+    **first** exceeds ``budget``, or ``None`` if it never does.
+
+    Quote it only with the patience it was read at: ``budget`` is ``k·U``, and a
+    bare abandonment effort with no ``k`` beside it says nothing.
 
     ``None`` means **censored at this budget**, not "did not abandon" — the run
     ended (on the horizon, a sink or a stall) before its projection crossed. The
@@ -1275,7 +1300,7 @@ def abandonment_curve(
     model: DisengagementModel | None = None,
 ) -> dict[float, int | None]:
     """``budget -> abandonment effort or None`` for a whole family of budgets, from
-    **one** run.
+    **one** run — the per-run input the **Disengagement Frontier** aggregates.
 
     This is the property that makes the reader cheap: ``T`` is computed once and
     every budget is a threshold read off the same trajectory, so a frontier over

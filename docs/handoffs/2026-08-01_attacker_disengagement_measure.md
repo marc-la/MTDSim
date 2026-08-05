@@ -29,6 +29,15 @@ updated: 2026-08-05
 > **What is actually still open**, and the only reason this file is not deleted:
 > whether the shipped measure is *ratified as axis 6's metric* and the badge
 > re-scored against it, and D-09. Both are Marc's, neither is a build.
+>
+> **Naming ratified 2026-08-05 — do not re-name it.** Marc's direction: the
+> trajectory is **Projected Campaign Effort** (PCE), the scalar read off it is
+> **Abandonment Effort** `A(k)` (never quoted without its `k`), and the report
+> over patience is the **Disengagement Frontier**. The mapping to the function
+> names, the three wrong usages, and what `k` means as the APT-patience dial are
+> in [`../implementation/pipeline/ogasp/attacker_disengagement.md`](../implementation/pipeline/ogasp/attacker_disengagement.md)
+> §1.2–1.3, with the suite entry in `measurement_suite.md` §(b). This settles the
+> vocabulary only; it does not pre-empt the axis-6 ratification above.
 
 ## This is now axis 6's metric — the incentive-rationality measure (2026-08-05)
 
