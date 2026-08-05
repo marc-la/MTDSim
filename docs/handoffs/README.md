@@ -13,9 +13,25 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 
 ---
 
-## Open work — five handoffs
+## Open work — six handoffs
 
 **Two are unblocked and independent of each other. Start with (1).**
+
+> **Reconciled on merge, 2026-08-05.** This chain was written on the boundary
+> branch, before the session branches were merged into `dev`. Three corrections
+> the merge forced, recorded here rather than silently applied:
+>
+> - **(4) has largely shipped.** `dev` built and ran the disengagement measure
+>   (`35f772e`) and the iterated cost model this brief declares retired. The
+>   handoff is kept, because its 2026-08-05 rescope — the promotion to axis 6's
+>   metric — is not in the shipped record; it now opens with a banner pointing
+>   at the artefacts. Read that before starting.
+> - **(6) was invisible to this chain**, having been created on `dev` after the
+>   fork. It is open, with five of its scope items unruled. Added rather than
+>   dropped.
+> - The **OS/Service indistinguishability brief is deleted**, as the audit and
+>   the write/read-surface records already say it is. Its content lives on as
+>   D-18/D-19 in the disposition list.
 
 1. [`2026-08-05_mtd_disruption_for_movement_attacker.md`](2026-08-05_mtd_disruption_for_movement_attacker.md)
    — **the prerequisite for a fair comparison, and the priority.** Marc's ruling
@@ -55,7 +71,9 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
    measurement-first ruling: MTD does not raise the attacker's *cost*, it
    destroys its *productive capacity*, so the route to axis 6 is measuring
    disengagement rather than building a better decision rule. **Blocked on
-   D-09.**
+   D-09** — and, since the merge, **mostly built**: what is left is whether the
+   shipped measure is ratified as axis 6's metric and the badge re-scored, which
+   is a ruling rather than a build. Read its merge banner first.
 
 5. [`2026-08-04_vulnerability_memory_and_swift_mode.md`](2026-08-04_vulnerability_memory_and_swift_mode.md)
    — **the axis-8 proof of concept**, rescoped 2026-08-05 to the stronger form:
@@ -69,9 +87,18 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
    configurations ever recur on this substrate — if they do not, the PoC has
    nothing to memoise and that is a cheap, legitimate result.
 
+6. [`2026-08-02_axis67_scope_finalisation.md`](2026-08-02_axis67_scope_finalisation.md)
+   — **the scope decisions the freeze released**, for axes 6 and 7. Item 5 was
+   ruled 2026-08-02 (static weights stay the default, the learner is kept as a
+   tested negative) and items 7–9 retired by evidence; the rest are open. What it
+   ships is a set of dated rulings and the closure amendment that re-adopts both
+   rows into the freeze — **not a build**. It overlaps (4) at the axis-6 end, so
+   rule the two together.
+
 **Suggested order for a fresh week:** (1) and (2) in parallel — both unblocked,
 neither depends on the other. Then (3), which settles the schema question and
-serves the rest. (4) and (5) when their rulings land.
+serves the rest. (4), (5) and (6) when their rulings land — and (4) and (6)
+should be ruled in one sitting.
 
 ---
 
@@ -93,6 +120,7 @@ one. The full rows, with costed options, are in the disposition list of
 | **D-29** | Mechanisms and attacker share one RNG stream, so seed-matched arms are **independent, not paired** — record-grade | seed budgeting |
 | **D-30/31/32** | NAV feed degeneracy; HostTopologyShuffle compromise-model desync; UserShuffle's ratchet — the latter two latent, gating those mechanisms' activation | latent-pool use |
 | **D-33** | SCAN_NEIGHBOR is dispatched from uncompromised hosts (48 % of calls in the movement arm, 0 natively). **Measured to move a ranking** — gating it moves `simultaneous` from third to first | boundary review 1's gate |
+| **D-34** | `HostTopologyShuffle` writes attacker state directly (`swap_hosts_in_compromised_hosts`) — the latent seventh channel, per-mechanism in a boundary otherwise priced per class. Rule before any promotion into a reported family. *(Renumbered on merge: opened as review 3's D-27, which collided with review 1's)* | latent-pool use |
 
 **Two more, attached to no handoff:**
 
