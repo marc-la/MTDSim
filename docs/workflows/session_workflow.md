@@ -11,6 +11,25 @@
 
 If a session starts on `main`, the first action is to create or switch to a session branch.
 
+### The four long-lived branches, and what each is for
+
+Everything else is a session branch: created for one scope, merged into `dev`,
+and **deleted once its work is in `dev`** — the same lifecycle a handoff has, and
+for the same reason. A branch that outlives its merge is archaeology that reads
+as open work. Nine of them were pruned on 2026-08-05; `git log` is the permanent
+record of what they carried.
+
+| Branch | What it is | Merge into `dev`? |
+|---|---|---|
+| `dev` | the thesis workspace — the branch all current work lands on | — |
+| `main` | the **standalone MTDSim simulator**, rebuilt and deliberately divergent from `dev`. A separate deliverable, not a release of `dev` | **Never.** The divergence is the point |
+| `archive/attacker-profiling` | the abandoned `mtdnetwork/` → `src/mtdsim/{network,defender,attacker}/` restructure, last touched 2026-04-22 | **Never without an explicit ruling.** ~96 500 insertions relocating the whole inherited substrate; it would break every import, every golden and every test |
+| `archive/replay-viz` | retired replay/visualisation work, last touched 2026-05-07 | **Never without an explicit ruling** |
+
+The `archive/` prefix is the signal: those two are kept for their history and are
+**not** candidates for the "merge the outstanding branches" sweep. Anything else
+prefixed `archive/` should be read the same way.
+
 **Mechanical guard.** A `pre-commit` hook at `.git/hooks/pre-commit` refuses commits on `main`. The hook is not version-controlled (`.git/` is per-clone); install once per fresh clone by writing this body and `chmod +x`-ing it:
 
 ```sh
