@@ -37,6 +37,17 @@ from mtdsim.l3_simulation.movement.run import run_movement
 from mtdsim.l3_simulation.movement.state import AttackerState
 
 SEEDS = (0, 7, 42, 1234, 9001)
+# One cell of the null-equivalence grid below is two full simulations, and all
+# six modulator families pin the same guarantee over the same grid — so the
+# suite paid for it six times over (measured: the slowest 25 durations of a
+# 503 s run were, without exception, cells of these grids). The leading seed
+# runs on every invocation; the rest are marked slow and need ``--runslow``
+# (see ``tests/conftest.py``, which also explains why the seed axis is the one
+# that can be sliced — every seed asserts the same identity, differing only in
+# which walk is sampled, whereas profile and mapping vary the structure).
+SEED_PARAMS = (SEEDS[0],) + tuple(
+    pytest.param(s, marks=pytest.mark.slow) for s in SEEDS[1:]
+)
 MAPPINGS = (None, "v2_partial")
 
 
@@ -57,27 +68,27 @@ def _state(kappa, rho, seed, mapping=None):
 # --- 1. the ablation arm is bit-identical to today (validation gate 1) -------
 
 
+@pytest.mark.parametrize("seed", SEED_PARAMS)
 @pytest.mark.parametrize("profile", PROFILES)
 @pytest.mark.parametrize("mapping", MAPPINGS)
 def test_kappa_zero_reproduces_the_current_record_stream_field_for_field(
-    profile, mapping
+    profile, mapping, seed, baseline_run
 ) -> None:
     """The load-bearing guarantee for the generalised learner. It tracks its
     capability state and accumulates its belief at zero capability, but acts on
     none of it, so the walk must be the walk that has always run."""
-    for seed in SEEDS:
-        for scheme in (None, "simultaneous"):
-            kwargs = dict(seed=seed, mapping_version=mapping, mtd_scheme=scheme)
-            without = run_movement(profile, horizon=3_000, **kwargs)
-            ablated = run_movement(
-                profile, horizon=3_000,
-                attacker_state=_state(0.0, 0.5, seed, mapping), **kwargs,
-            )
-            assert _fields(ablated.records) == _fields(without.records), (
-                f"kappa=0 perturbed {profile}/{mapping}/seed={seed}/mtd={scheme}"
-            )
-            assert ablated.reached_objective == without.reached_objective
-            assert ablated.termination_time == without.termination_time
+    for scheme in (None, "simultaneous"):
+        kwargs = dict(seed=seed, mapping_version=mapping, mtd_scheme=scheme)
+        without = baseline_run(profile, horizon=3_000, **kwargs)
+        ablated = run_movement(
+            profile, horizon=3_000,
+            attacker_state=_state(0.0, 0.5, seed, mapping), **kwargs,
+        )
+        assert _fields(ablated.records) == _fields(without.records), (
+            f"kappa=0 perturbed {profile}/{mapping}/seed={seed}/mtd={scheme}"
+        )
+        assert ablated.reached_objective == without.reached_objective
+        assert ablated.termination_time == without.termination_time
 
 
 def test_the_ablated_learner_still_tracked_state_and_belief() -> None:
