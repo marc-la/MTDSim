@@ -279,6 +279,12 @@ counter-example rather than an argument against it.
 - `data/results/stealth_exposure/` (untracked/regenerable) — `run_study.py`,
   `analyse.py` computing every verdict from the recorded streams, `decompose.py`
   for §3 and §5, `verdict.txt`, `verdicts.json`.
+- `data/misc/_viz/stealth_exposure/` (untracked/regenerable) — three figures and
+  the script that draws them, re-running the shipped reader over the same
+  recorded runs: the per-arm trajectories (`fig1`), the arm means at the declared
+  ranking beside the tempo-only null (`fig2` — the pair that shows the separation
+  is created by the ranking rather than by tempo), and the decay-constant sweep
+  (`fig3`).
 - `measures.py` §9 and its unit gate in
   `tests/l3_simulation/test_movement_measures.py` — hand-worked streams pinning
   the recursion, the closed-form time average, the baseline collapse and the
