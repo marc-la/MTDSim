@@ -286,6 +286,61 @@ stream".** It names four levers, each mechanically connected to a feature.
 
 ---
 
+### 5.1 Mutation avoidance does NOT tick axis 8 — the expected claim needs narrowing
+
+**Marc's expectation (2026-08-06):** the attacker will be heavily optimised to
+avoid AI-MTD mutations, and reasoning about the MTD boundary that way ticks axis 8.
+
+**Three different things are being run together here, and only one of them is
+axis 8.** The distinction decides whether a badge move is defensible or an
+over-claim, so it is drawn before any build rather than after a result:
+
+1. **Timing actions to fall between mutations.** This *is* scheme awareness — and
+   it requires observing mutation timing, which is primitive **(ii) beacon** and
+   is **excluded** (R-C). The criterion also records that per-host mutation counts
+   *do not exist* in the substrate: no MTD strategy keeps per-target bookkeeping,
+   so a beacon primitive would have to instrument them first.
+2. **Holding knowledge that survives mutations.** This is what arm 1 does, and
+   step 0 shows why it works — the identity pool is closed, so what the attacker
+   learnt is still true after a shuffle. **This is not scheme awareness at all.**
+   It is a durable knowledge representation that happens to be robust.
+3. **Starving the reactive defender's inputs so it behaves differently.** This is
+   the §5 channel. The attacker neither observes nor models the scheme; it behaves
+   in a way that changes what the defender computes. §12 of the stealth
+   conceptualisation record already rules on the analogous case: a quieter
+   attacker *starves* the signal — *"it is not evading detection, because nothing
+   is detecting."* The same reasoning applies here.
+
+**So axis 8 moves off NOT ADDRESSED via arm 1 — primitive (i) in its coarse
+form — and via nothing else in this design.** Mutation avoidance, as such, is
+either excluded (1) or is not scheme awareness (3).
+
+**And there is a structural reason (1) may be unavailable regardless.** Under
+time-triggered mutation the schedule is a clock and attacker behaviour cannot move
+it. Under `mtd_ai` the agent chooses **which** mutation to deploy; whether the
+attacker can change *whether* one fires at all is unverified and should not be
+assumed.
+
+**Which points at the sharper and more measurable version of Marc's intuition.**
+Not *avoid* mutations — **shift the defender's mutation mix**. The evaluation
+already knows the mechanisms are not interchangeable against this attacker: a
+network-class firing delivers 0.92–1.00 of its disruption to the movement arm and
+an application-class one 0.67–0.83
+([`../implementation/disruption_wiring.md`](../implementation/disruption_wiring.md)),
+and IP Shuffle is documented as **invisible to the attacker** — no lineage paper
+gives it an IP-addressing model. So if the attacker's behaviour steers `mtd_ai`
+toward deploying mechanisms that cannot touch it and away from those that can,
+**that is a real, quantified adversarial advantage**, obtained with no new
+attacker mechanism and no scheme model.
+
+Report it as the **mutation-choice distribution**, not as an outcome — which is
+exactly what §17 of the stealth conceptualisation record already demands of the
+cheap falsifying run. This should be run **before** anything is built, for the
+same reason that record gives: if the choice distribution does not move across the
+profiles' existing spread, no declared mechanism will rescue it.
+
+---
+
 ## 6. Where the honest claims land
 
 - **Axis 5 → DESIGNED is genuinely reachable at arm 2**, and for the first time on
@@ -297,13 +352,60 @@ stream".** It names four levers, each mechanically connected to a feature.
   missing is *"a learner whose credit signal carries progress rather than the
   routing verdict"*. A success-gated exploit decision is progress-shaped. That is
   the specific thing the badge has been waiting for.
-- **Axis 8 (i)** proceeds as scoped 2026-08-05, subject to step 0.
+- **Axis 8 (i)** proceeds as scoped 2026-08-05, in the **coarse** form step 0
+  leaves available. **Mutation avoidance does not add to it** (§5.1), and the
+  exact-image form of primitive (i) is measured dead.
 - **Axis 6 must not be claimed** without R-A and a separable arm 4.
 - **Axis 3 (plurality) will probably fall**, as it has under every modulator so
   far. Pre-register that expectation rather than discovering it.
 
 Two of eight axes moving from one mechanism is a strong return for the remaining
 time — **provided the claims stay this narrow**.
+
+---
+
+### 6.1 What this feeds in the discussion — and it is the better-evidenced thesis line
+
+**Marc's framing (2026-08-06):** APT attackers are a latent risk to these
+networks; existing systems may not be moving frequently enough, or with the
+capability, to disrupt them; so **what to move, how to move and when to move** is
+an optimisation question posed by APT risk, and moving *smartly and
+cost-effectively* is what matters.
+
+**Recorded here because the second half is the strongest-evidenced claim this
+project has, and it is better evidenced than any stealth claim.** Four results
+already on record support it, none of which needed this build:
+
+- **What to move is threat-model-dependent, measurably.** Experiment 2 found the
+  defence ordering nearly reversed between the inherited and profiled attackers
+  (ρ = −0.893), with a different top-ranked mechanism on each. An evaluator would
+  deploy a different defence depending solely on which attacker the evaluation
+  carried. That is Row B's RECOMMENDATION grade and it is precisely *"what to
+  move"* as an open question.
+- **How to move has a measured differential.** Network-class firings deliver
+  0.92–1.00 of their disruption to the movement attacker, application-class
+  0.67–0.83, in every scheme at every seed.
+- **Some movement is wasted.** IP Shuffle changes nothing the attacker reads, by
+  documented design rather than by integration defect. Cost without effect is the
+  cleanest possible instance of *"cost-effective"* having real content.
+- **The defender's own cost is already instrumented.** The disruption ledger
+  (occupancy, churn tempo, contention) exists precisely so suppression can be
+  reported as a **priced trade** rather than an unpriced benefit — the frontier
+  the framing asks for is already buildable.
+
+**One clause needs correcting before it is written down, and it inverts.** *"Not
+moving frequently enough"* is not supported: at the 200 s operating interval the
+defence is so effective that **neither** attacker completes the objective, and the
+objective only becomes reachable above roughly 1 600 s (the degenerate region, and
+the rate feasibility study's C5). The measured problem is not too little movement
+— it is movement that is **expensive and undifferentiated**. So the defensible
+form is Marc's own second half: **not *move more*, but *move better***. Stated the
+first way an examiner has a counter-example from this project's own data.
+
+**Where it belongs.** This is `ch6_discussion` material and it is **not yet a
+note** — it needs the rubric's cross-examination and it should cite the four
+results above rather than assert them. Flagged here so the framing is not
+re-derived, and so whoever drafts it knows which clause the evidence refuses.
 
 ---
 

@@ -141,7 +141,14 @@ have patched runners whose committed numbers were taken under the old labels.)*
    reader as its instrument, and sidesteps that reader's own kill criterion,
    because its comparison is movement-versus-movement rather than cross-arm.
    **Blocked on four rulings** (§2), of which reopening axis 6 and sanctioning
-   `mtd_ai` are the two that matter.
+   `mtd_ai` are the two that matter. Two scope corrections were folded in
+   2026-08-06: **mutation avoidance does not tick axis 8** (§5.1 — it is either
+   the excluded beacon primitive or it is signal-starvation, which is not scheme
+   awareness), and the sharper measurable form is **shifting the defender's
+   mutation mix** rather than avoiding mutations, which §17 of the stealth record
+   already wants run as a cheap falsifying test. §6.1 carries the `ch6_discussion`
+   framing — *move better, not move more* — with the four results that evidence it
+   and the one clause the project's own data refuses.
 
 3. [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
    — **the research record**, mined from Marc's own prompts across the 110
