@@ -1,6 +1,7 @@
 ---
 status: durable — design record + decision request (design-only; no code, weight, mapping or golden changed)
 created: 2026-07-28
+updated: 2026-08-06
 topic: "Axis 5 stealth — the design record. Leads with the stealthy-versus-baseline contrast (Jin's framing, the primary deliverable), then settles what a stealth STATE would add across the eight questions, records the Tay verification (it keys on attacker activity, so option 1(b) is live), proposes the tempo/evasion badge split, and puts the open items to Marc."
 ---
 
@@ -304,6 +305,44 @@ rule-generated, tiered, swept, never fitted.
 **Resolved in shape:** accrue-on-`stealth`-visit, decay-on-noisy-action, ordinal
 source from the corpus, every magnitude swept.
 
+> **Amendment, 2026-08-06 — the exposure reader adopted TIME-decay, and the two
+> rules are recorded side by side rather than one replacing the other**
+> ([`stealth_exposure_metric.md`](stealth_exposure_metric.md); pre-registered in
+> [`stealth_exposure_prereg.md`](stealth_exposure_prereg.md) before it ran). This
+> section's rule decays the level on the attacker's **next noisy action**; the
+> built reader decays it with **elapsed time**, `exp(−Δt / τ)`.
+>
+> **Why the departure, stated as the argument rather than as a preference.**
+> Event-driven decay says only the attacker's own loud acts cost it what it built
+> up, so *waiting is inert* — an attacker that pauses for an hour is exactly as
+> exposed when it resumes as when it stopped. A low-and-slow claim has nothing to
+> rest on under that rule. Time-driven decay says ambient noise erodes any signal
+> regardless of what the attacker does next, which is the reading the meeting's
+> own framing gave (*"as time passes… you can't link within the timeframe that
+> people are monitoring"*), and it is the only one of the two under which patience
+> buys the attacker anything.
+>
+> **This amends the reader's dynamic, not this section's.** The two rules answer
+> different questions and the project now has both written down: this section's
+> governs a stealth *state* that spends and rebuilds a resource, which is still
+> the shape a **mechanism** would take if §13 item 4 is ever built; the reader's
+> governs an *observable* over an unmodified run. A successor building the
+> mechanism should choose deliberately between them rather than inheriting either,
+> and should note that the reader's own study gives no evidence for the time rule
+> over the event rule — it was pre-registered, not tested against its alternative.
+>
+> **One finding from that study bears directly on §1 and belongs here.** The
+> reader's E2 predicted the inherited attacker would read louder than every
+> profile and found the **opposite in ten cells of ten**, because the tempo
+> premise turned out to be an accounting artefact: the substrate writes one
+> attack-record row **per vulnerability tried**, inflating that arm's event count
+> 3.75×, and counted as *actions* the inherited attacker takes 371 steps per run
+> against the profiles' 463–674. §1.1's "~815 successful actions… ~20 actions per
+> host" is a row count and the *tempo* half of §1's contrast does not survive a
+> per-action reading. §1's other separations — the non-action dwell fraction, the
+> terminal-mode contrast, the effort-to-breadth conversion — are unaffected,
+> because each is a property the baseline structurally lacks rather than a rate.
+
 ---
 
 ## 7. The ordinal exposure ranking — from the corpus, no magnitudes
@@ -594,3 +633,82 @@ Short list, with a recommendation on each.
   ([`../../../handoffs/2026-07-28_axis134_demonstration_arms.md`](../../../handoffs/2026-07-28_axis134_demonstration_arms.md)).
 - **When to update:** when Marc rules on §13; when the seam lands (the build half opens);
   when experiment 2 runs (axis 5a's badge).
+- **Shipped from this record, 2026-08-06:** option 1(a)'s *metric* half — the
+  post-hoc exposure reader ([`stealth_exposure_metric.md`](stealth_exposure_metric.md),
+  pre-registered in [`stealth_exposure_prereg.md`](stealth_exposure_prereg.md)).
+  §6 carries its amendment; §17 below is the follow-on it did not cover.
+
+---
+
+## 17. The 1(b) route — the follow-on, absorbed here when the reader shipped
+
+**Rehomed 2026-08-06** from the stealth handoff, which was retired in the commit
+that shipped the reader. Retained because 1(b) is the *only* route by which tempo
+becomes consequential, and because its case was strengthened rather than weakened
+by later work. **Not licensed**; recorded so the argument is not re-derived. §2(b)
+states the thesis and §8 verifies its premise against the code; what follows is
+what it would actually cost.
+
+**Why the case strengthened.** The cost-model cross-examination established that
+under *time-triggered* mutation an attacker minimising declared duration is
+already, mechanically, minimising expected mutation encounters (Spearman 0.87
+between a tactic's declared cost and its interrupt rate). On a clock, patience is
+pure exposure with no compensating benefit — so **a reactive defender is the only
+channel through which slowness can ever be rational here**, which is exactly this
+route's thesis.
+
+**Four things it needs, in order, and none is cheap.**
+
+1. **A supervisor ruling** sanctioning the reactive defender as an experimental
+   arm — that agent is deferred to a later phase by standing project direction
+   (§13 item 1).
+2. **An integration that does not exist.** The movement arm has never been run
+   against the reactive selector at all; the L3 run wiring constructs the
+   time-triggered mutation operation directly. This is the real cost.
+3. **A defect fixed on that path** — any attacker sensitivity below 1.0 raises an
+   unbound-local error, so the documented sensitivity experiment cannot currently
+   run. Fix it, or run only at sensitivity 1.0, but decide rather than discover.
+4. **A dwell-scaling hook.** The modulator seam is **routing-only**; the timing
+   source observes each draw and delegates it unchanged. A dwell-primary stealth
+   mechanism needs a seam change, not a new modulator.
+
+**The cheapest form that tests the claim, and it should be run before any
+mechanism is built.** Run the profiled attacker against the reactive selector
+**as it is**. The profiles already differ in non-action share by more than a
+factor of two — a naturally-occurring tempo spread. If the selector's mutation
+choices do not differ across that spread, a declared stealth dial will not rescue
+the claim and the cheap run has saved the expensive one. If they do differ, that
+is the demonstration, obtained with no new attacker mechanism. Report the
+**mutation-choice distribution**, not just the outcome: the claim is that tempo
+changes *what the defender does*.
+
+> **One premise needs restating before that run, on the exposure reader's
+> evidence (2026-08-06).** This route has been argued throughout as *a slower,
+> lower-throughput attacker presents a different signal stream*. The slowness half
+> does not survive a per-action reading: counted as actions rather than
+> attack-record rows, the profiled attacker takes **more** steps per run than the
+> inherited one (463–674 against 371), and at the exposure reader's tier-null
+> setting the two arms' event tempo does not separate at all
+> ([`stealth_exposure_metric.md`](stealth_exposure_metric.md) §3). The channel is
+> **not** thereby closed — it relocates. What the `mtd_ai` state actually reads is
+> dominated by *compromise-derived* quantities (host-compromise ratio, attack
+> success rate, mean time to compromise, RoA, risk; §8), and on those the two arms
+> differ enormously and in the direction the route needs: the profiled attacker
+> compromises 0.5–5 hosts where the inherited one compromises ~39. So the cheap
+> run above is still the right first move, but it should be framed as *does a
+> low-**yield** attacker change what the reactive defender does* — not as a tempo
+> claim, which the measurement no longer supports.
+
+**Two constraints that survive with it.** Time-triggered MTD is unaffected by
+tempo, so any stealth claim is bounded to the reactive arm and the write-up must
+say so. And the attacker's stealth level must **never** be wired into the
+defender's sensitivity parameter — that is reverse-modelling detection and
+extending the inherited reactive machinery, both ruled out (§14). The coupling
+stays indirect: tempo changes the record, the record changes the state, the state
+changes the choice.
+
+**The badge boundary, unchanged (§12).** A stealth claim here is a **tempo**
+claim. Against the reactive selector a quieter attacker *starves* the defender's
+signal — it is not evading detection, because nothing is detecting. Evasion (5b)
+has no referent and stays NOT ADDRESSED; conflating them would annex the
+smart-attacker work belonging to the learning and scheme-awareness axes.

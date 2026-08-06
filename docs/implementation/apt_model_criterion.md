@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-27
-updated: 2026-08-01
+updated: 2026-08-06
 topic: "The APT-attacker-model criterion (supervisor S6) — a literature-derived rubric of what an APT attacker model should capture, this model scored against it honestly, and the measurement recommendations (M8b) that ride with each claimed axis"
 ---
 
@@ -408,6 +408,47 @@ substrate statistics per unit time (a detectability proxy), dwell fraction in
 non-action tactics, and tempo response to MTD frequency. The S3 timing regime
 these require has landed; what still gates a stealth claim is a stealth
 semantics for the measurements to speak to.
+
+**The first of those three is now built and has run, in a stronger form, and the
+badge does not move — but what it returned bears on the axis's own argument
+(2026-08-06;
+[`pipeline/ogasp/stealth_exposure_metric.md`](pipeline/ogasp/stealth_exposure_metric.md)).**
+The detectability proxy is no longer a bare event rate: it is a decaying
+exposure level over an unmodified run's own visit stream, whose per-tactic
+increment takes its *order* from the corpus's quoted observability evidence and
+its *magnitude* from three declared, swept parameters, each with a null in its
+band. Conclusions were pre-registered before the reader existed. The measure is
+sound on its own terms — it discriminates between profiles, and its kill
+criterion (that it is merely a decayed count of acts) held decisively at
+Spearman −0.529.
+
+**The badge stays NOT ADDRESSED, on this axis's own reasoning rather than on a
+technicality.** §9 of the parent design record reserves DESIGNED for the stealth
+*state* — a mechanism that changes what the attacker does — and this is a reader,
+which changes nothing. The shipped disengagement measure declined a badge move on
+the identical grounds. What is discharged is this field, not the row.
+
+**Two results ride with it, and both cut against the axis rather than for it.**
+The pre-registered prediction — that the inherited attacker reads *louder* than
+every profile, having no non-action dwell to decay between events — **inverted in
+ten cells of ten**, because the tempo premise was an accounting artefact: the
+substrate writes one attack-record row per *vulnerability tried*, inflating that
+arm's event count 3.75×, and counted as actions the inherited attacker takes 371
+steps per run against the profiles' 463–674. At the tier-null setting, where the
+curve is pure event tempo, the two arms do not separate at all. And the
+separation that does appear at the declared setting is **mix-borne rather than
+tempo-borne** — the arms' mean per-event increments are themselves disjoint — so
+it is a statement about *which tactics* each attacker engages, which this axis may
+not report as tempo. A further caveat bounds even that: four of five profiles draw
+**56–62 % of their exposure from dwell-only tactics**, which consume time and
+dispatch no substrate verb, so the loudness is modelled behaviour rather than
+substrate activity.
+
+Taken together this **weakens** the tempo half of the axis-5 case as the parent
+record's §1 states it, and it does so with a measurement rather than an argument.
+The remaining two M8b candidates are untouched: dwell fraction in non-action
+tactics is already in the suite, and tempo response to MTD frequency is
+deliberately out of that study's scope, which is no-MTD by design.
 
 ### Axis 6 — Incentive-driven rationality
 

@@ -1,7 +1,7 @@
 ---
 status: open
 created: 2026-08-05
-updated: 2026-08-05
+updated: 2026-08-06
 ---
 
 # A metric per axis — make the eight APT characteristics measurable, so the criterion is scored by evidence rather than by argument
@@ -41,8 +41,20 @@ Check these before writing a line — three of the eight axes are partly served:
   **Disengagement Frontier** (§1.2) — so use those terms rather than coining new
   ones. Note what it does *not* license: the kill criterion moved on the profiled
   arm, and the badge does not move on a reader.
-- [`2026-08-04_stealth_exposure_metric_reader.md`](2026-08-04_stealth_exposure_metric_reader.md)
-  — **axis 5's metric**, designed in full. Same: consume, do not duplicate.
+- [`../implementation/pipeline/ogasp/stealth_exposure_metric.md`](../implementation/pipeline/ogasp/stealth_exposure_metric.md)
+  — **axis 5's metric, built and run** (its commissioning handoff shipped and was
+  deleted 2026-08-06). Same: consume, do not duplicate — `measures.py` §9 and the
+  declared family in `exposure.py`. Note what it does *not* license: **no badge
+  move** (a reader is not a mechanism), the arm separation it reports is
+  **mix-borne rather than tempo-borne**, and its pre-registered prediction
+  **inverted**. Two of its findings bear directly on this brief. The baseline
+  arm's attack record inflates **3.75×** against per-action counts, because
+  `_do_exploit_vuln` writes one row per *vulnerability tried* — so any measure
+  here that counts baseline rows is counting the wrong unit, and
+  `baseline_action_rows` is the correction. And `MovementRecord` gained
+  `exploitability`, a third observation-only widening popped from the goldens on
+  the established principle, which is a worked precedent for §4's host-identity
+  question.
 
 This brief therefore owns axes **1, 2, 3, 4, 7, 8** and the two lettered rows,
 and its first job is to state for each whether the M8b recommendation still

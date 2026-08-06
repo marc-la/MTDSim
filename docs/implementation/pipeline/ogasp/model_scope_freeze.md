@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-29
-updated: 2026-08-02
+updated: 2026-08-06
 topic: "The attacker-model scope freeze — the per-axis disposition at freeze time, what each axis would still need, which needs are honest and which would be embellishment; perimeter narrowed 2026-08-02: axes 6 and 7 are out of the freeze and open while their scope is finalised"
 ---
 
@@ -445,8 +445,12 @@ than left in conversation. Four threads, and they are deliberately narrow.
    chooses mutations from attacker-derived network metrics; so a slower attacker
    changes which mutations fire. This is the only route by which tempo becomes
    consequential, it is inert against time-triggered mutation, and it needs a
-   supervisor ruling before anything is built. Brief:
-   [`../../../handoffs/2026-08-04_stealth_exposure_metric_reader.md`](../../../handoffs/2026-08-04_stealth_exposure_metric_reader.md).
+   supervisor ruling before anything is built. The brief that carried it retired
+   2026-08-06 when its metric half shipped; the route now lives in
+   [`stealth_conceptualisation.md`](stealth_conceptualisation.md) §17. **Its
+   premise needs restating**: the measured evidence says the profiled attacker is
+   not slower per action, so this is a low-*yield* channel rather than a tempo one
+   ([`stealth_exposure_metric.md`](stealth_exposure_metric.md) §3).
 
 **What the direction is *for*, since the freeze makes it easy to lose.** None of
 these threads is chasing a badge. Threads 1 and 2 refine mechanisms that already

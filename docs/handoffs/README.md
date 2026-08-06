@@ -13,9 +13,9 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 
 ---
 
-## Open work — four handoffs
+## Open work — three handoffs
 
-**(1) is unblocked; start there.** (4) is independent of the axis chain and can
+**(1) is unblocked; start there.** (3) is independent of the axis chain and can
 run alongside it.
 
 > **Reconciled on merge, 2026-08-05.** This chain was written on the boundary
@@ -61,18 +61,30 @@ confirmed as already-ruled. Record:
 [`../implementation/disruption_wiring.md`](../implementation/disruption_wiring.md).)*
 
 
-1. [`2026-08-04_stealth_exposure_metric_reader.md`](2026-08-04_stealth_exposure_metric_reader.md)
-   — **axis 5's metric, buildable now.** A post-hoc detectability curve over an
-   unmodified run's own action stream: no attacker state, no S2 question, no
-   ruling gate. Now the **single** stealth handoff — the mtd_ai-consequential
-   route (1b) is absorbed into it as the follow-on, with its four prerequisites
-   and its cheap falsifying run recorded. **No ruling needed** for the reader;
-   1(b) still needs the supervisor ruling on sanctioning the reactive defender.
+*(Shipped 2026-08-06: the **axis-5 exposure reader**. The measure is sound — it
+discriminates between profiles, and its kill criterion held decisively (Spearman
+−0.529, against 0.90) — and it inverted the prediction it was built to test. The
+inherited attacker reads **quieter** than every profile in ten cells of ten,
+because the tempo premise was an accounting artefact: the substrate writes one
+attack-record row **per vulnerability tried**, inflating that arm's event count
+3.75×, and counted as *actions* it takes 371 steps per run against the profiles'
+463–674. The separation that remains is mix-borne rather than tempo-borne, and
+four of five profiles draw 56–62 % of their exposure from tactics that dispatch
+no substrate verb at all. **No badge move** — a reader is not a mechanism, on the
+same reasoning the disengagement measure declined one. The CVSS half the meeting
+proposed was built, swept both ways and is **measured inert**. The 1(b)
+mtd_ai-consequential route the handoff carried is rehomed to
+[`../implementation/pipeline/ogasp/stealth_conceptualisation.md`](../implementation/pipeline/ogasp/stealth_conceptualisation.md)
+§17, with its premise restated on the new evidence — it is a low-*yield* claim,
+not a tempo one. Record:
+[`../implementation/pipeline/ogasp/stealth_exposure_metric.md`](../implementation/pipeline/ogasp/stealth_exposure_metric.md).)*
 
-2. [`2026-08-05_apt_axis_measurement_metrics.md`](2026-08-05_apt_axis_measurement_metrics.md)
+
+1. [`2026-08-05_apt_axis_measurement_metrics.md`](2026-08-05_apt_axis_measurement_metrics.md)
    — **a metric per axis**, so the APT criterion is scored by evidence rather
-   than argument. Owns axes 1, 2, 4, 8 and the lettered rows; consumes (1) and
-   the shipped disengagement measure rather than duplicating them; and states
+   than argument. Owns axes 1, 2, 4, 8 and the lettered rows; consumes the two
+   shipped readers — disengagement and stealth exposure — rather than duplicating
+   them; and states
    plainly that **axis 7 cannot be moved by measurement** at all. Also owns the
    one remaining instrumentation decision: whether `MovementRecord` gains **host
    identity**. **Its §4 was corrected 2026-08-05** — two of the three consumers
@@ -81,7 +93,7 @@ confirmed as already-ruled. Record:
    the case now rests on axis 1's foothold retention and axis 8's
    repeat-configuration reader alone.
 
-3. [`2026-08-04_vulnerability_memory_and_swift_mode.md`](2026-08-04_vulnerability_memory_and_swift_mode.md)
+2. [`2026-08-04_vulnerability_memory_and_swift_mode.md`](2026-08-04_vulnerability_memory_and_swift_mode.md)
    — **the axis-8 proof of concept**, rescoped 2026-08-05 to the stronger form:
    host configurations held in memory, so a previously-seen image confers
    success. **This reverses a ruled exclusion**, and the handoff argues the
@@ -94,7 +106,7 @@ confirmed as already-ruled. Record:
    nothing to memoise and that is a cheap, legitimate result.
 
 
-4. [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
+3. [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
    — **the research record**, mined from Marc's own prompts across the 110
    session transcripts. Off the axis chain entirely: it touches no code, gates
    nothing, and is gated by nothing. Scoped by measurement rather than estimate —
@@ -113,12 +125,12 @@ confirmed as already-ruled. Record:
    implementation settled and first results in hand.
 
 
-**Suggested order for the rest of the week:** (1), which is unblocked. Then (2),
-which settles the schema question and serves the rest — and note that both of the
-adjacent `MovementRecord` widenings it was told to bundle have already landed
+**Suggested order for the rest of the week:** (1), which is unblocked and which
+settles the schema question and serves the rest — and note that the adjacent
+`MovementRecord` widenings it was told to bundle have now all landed
 (`interrupted_by_name` from the A6 repair, `n_compromised` from the disengagement
-measure), so **host identity is the only part left and it now has two consumers,
-not three**. (3) when its ruling lands.
+measure, `exploitability` from the exposure reader), so **host identity is the
+only part left**. (2) when its ruling lands. (3) runs alongside either.
 
 ---
 
