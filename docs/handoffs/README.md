@@ -122,8 +122,13 @@ have patched runners whose committed numbers were taken under the old labels.)*
    The attacker recons quietly, remembers which vulnerabilities it has beaten, and
    spends `EXPLOIT_VULN` only when that knowledge says it will pay. **Absorbs and
    replaces the vulnerability-memory / swift-mode brief** (deleted 2026-08-06):
-   that memory is its arm 1, swift mode is its arm 3, and the axis-8 scope
-   decision, reversal argument and composition hazard are carried forward in full.
+   that memory is its arm 1, and the axis-8 scope decision, reversal argument and
+   composition hazard are carried forward in full. **"Swift mode" is retired as a
+   mechanism** — it is the *latter half of the campaign*, not a state the attacker
+   flips into, so it gets no arm, loses its declared idle-threshold, and is
+   **measured** as an emergent accumulate-then-strike arc instead (§4.1). That may
+   also remove the seam change, which was the design's largest engineering item,
+   and it reaches **axis 1**, whose gap is staged advance in outcome terms.
    **Its prerequisite check has run** — two-thirds of live vulnerability ids sit on
    more than one host, so cross-host memory has traction; a mutation destroys ~80 %
    of a *host's* vulnerability set, so the key must be identity and never

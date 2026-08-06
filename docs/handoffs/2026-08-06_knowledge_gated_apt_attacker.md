@@ -8,9 +8,10 @@ created: 2026-08-06
 **This handoff absorbs and replaces
 `2026-08-04_vulnerability_memory_and_swift_mode.md`**, deleted in the commit that
 opens this one. That brief's cross-service exploit memory becomes **arm 1** here
-and its "swift mode" becomes **arm 3**; its axis-8 scope decision, its reversal
-argument, its composition hazard and its hard constraints are carried forward in
-full (§9, §10). Nothing from it is lost and nothing of it should be re-derived.
+and its "swift mode" is **retired as a mechanism** (§4.1); its axis-8 scope
+decision, its reversal argument, its composition hazard and its hard constraints
+are carried forward in full (§9, §10). Nothing from it is lost and nothing of it
+should be re-derived.
 
 **Design only. No code, weight, mapping or golden has been changed, and none
 should be until §2's rulings land.** §3's prerequisite check **has** been run
@@ -77,7 +78,7 @@ stated in the design record the build produces.
 | **R-A** | **Reopen axis 6?** Marc's position (2026-08-06): there is now something to be rational *around* — maximising exploit success via memory, and minimising detectability by runtime steering. | The axis-6 **final disposition** (Marc, 2026-08-02) closed the row: *"this row is DESIGNED, and that is where it ends for this project."* More sharply, its stated reasoning **pre-rejects a readiness gate**: *"readiness — whether the next action can run — is real, state-dependent and conditionable, but it is competence, not incentive… a decision rule built on readiness would be a competence model wearing this row's name."* Arms 1–3 below **are** readiness. Only arm 4 is incentive-shaped, and arm 4 is the one with the definitional problem. A reversal must be dated and argued against that text, exactly as the axis-8 reversal was. |
 | **R-B** | **Is `mtd_ai` sanctioned as an experimental arm?** | Standing direction defers Tay's agent to the ablation phase, and the movement arm has never been run against it. This is the long-open §13 item 1 of the stealth conceptualisation record. **Without it, (B) has no in-simulation payoff on any defender** and arms 3–4 are measured, not demonstrated. |
 | **R-C** | **Is mutation-*timing* observation in scope?** | "Knowledge is fresh, i.e. no mutation since I scanned" is axis-8 primitive **(ii) beacon**, which stays excluded — the 2026-08-05 reversal licensed primitive **(i) memoisation only**. Marc's "MTD-aware attacker, will have this observation channel" reaches for (ii). §4's arm ladder is designed to **not need it**; if it is wanted, it needs its own reversal. |
-| **R-D** | **Naming the naive/smart split.** | Carried from the absorbed handoff, unchanged: the house pattern distinguishes capability *magnitude* (a parameter at zero versus a declared level), not attacker *classes*. Marc's call. |
+| **R-D** | **Naming.** Narrowed 2026-08-06: with "swift mode" retired as a mechanism (§4.1) there is no mode to name and no naive/smart *class* split to label. What is left is the capability parameter itself. | The house pattern distinguishes capability *magnitude* (a parameter at zero versus a declared level), not attacker classes — so the ladder already encodes the split. Marc's call, but a smaller one than it was. |
 
 ---
 
@@ -176,28 +177,63 @@ one labelled arm.
 | **0** | null — bit-identical to today | — | the ablation, and it must be **exact**, not approximate |
 | **1** | cross-host service/vulnerability memory, keyed on **vulnerability identity, never on (host, vulnerability)** — §3 finding 2 | 8 (i), coarse form only | scoped 2026-08-05; **step 0 confirms it has traction** (two-thirds of live ids are shared across hosts) |
 | **2** | `EXPLOIT_VULN` gated on a memory-derived success estimate exceeding a declared margin | 7 / 4 | **competence** |
-| **3** | the gate **defers** — the attacker keeps reconnoitring rather than firing, and blitzes once knowledge saturates ("swift mode") | **5** | tempo becomes a **choice** |
+| ~~3~~ | **retired — see §4.1.** The accumulate-then-strike arc is not a mechanism and gets no arm; it is *measured* on arm 2 | **5**, **1** | an emergent **finding**, not an input |
 | **4** | a detectability / network-impact estimate enters the decision explicitly | 6 (contested, R-A) | **definitional risk — label it** |
 
 **Exposure is measured on every arm.** Pre-register that the stealth finding is
-*interesting* at arms 2–3, where it is unoptimised and emergent, and **suspect at
-arm 4**, where the attacker optimises the thing being scored. If arm 4 buys
-nothing beyond arm 3 — which the axis-6 precedent suggests — that is a clean
-negative that costs nothing, because arms 2–3 carry the result.
+*interesting* at arm 2, where it is unoptimised and emergent, and **suspect at arm
+4**, where the attacker optimises the thing being scored. If arm 4 buys nothing
+beyond arm 2 — which the axis-6 precedent suggests — that is a clean negative that
+costs nothing, because arm 2 carries the result.
 
-**Arm 3 is objective-conditioned, per Marc:** once knowledge is sufficient the
-attacker blitzes *according to its objective* — a target-seeking profile drives at
+### 4.1 "Swift mode" is not a mode — and that removes machinery rather than adding it
+
+**Marc's correction (2026-08-06):** *swift mode* is endearing shorthand for **the
+latter half of the campaign**, when the APT attacker decides it is time to strike
+for impact. It is **not a discrete state** the attacker flips into.
+
+The absorbed handoff specified it as a mode — *"a declared idle-threshold (no new
+key discovered for N actions) flipping a state that scales dwell down"*. **That
+specification is withdrawn.** Three things follow, and all three are
+simplifications:
+
+1. **No new declared parameter.** The idle-threshold `N` disappears. This family
+   was heading for four declared magnitudes; it now needs the gate's margin and
+   nothing else.
+2. **No new machinery, and the biggest engineering item may vanish with it.** The
+   arc comes out of arm 2's *existing* gate: early in a run the attacker knows
+   little, the gate mostly refuses, and it routes to reconnaissance instead; as
+   memory accumulates the gate starts passing, and exploitation rises. **That is
+   pure routing**, which the attacker-state seam already supports. The seam is
+   routing-only, so a *dwell*-scaling tempo shift would have needed a seam change
+   — the single largest piece of engineering in the earlier shape. **If routing
+   alone produces the arc, that work is not needed.** Check it before assuming
+   either way: if the arc is wanted in *dwell* terms as well, the seam change
+   returns and should be costed then.
+3. **The arc becomes a result rather than an input**, which is strictly better for
+   the thesis. A declared mode-flip would make "the attacker has two phases" true
+   by construction. Emerging from the gate, it is something you *measure* — and
+   this project has repeatedly found that turning a built thing into a measured
+   thing is where the defensible claims come from.
+
+**What to measure instead of building it** (candidate; sharpen at
+pre-registration): the exploit share of actions over run quartiles, against arm
+0's. The claim is a **knee** — a run whose exploitation is back-loaded relative to
+the null. Report the continuum, not a phase label; there is no threshold to
+declare and none should be invented.
+
+**This reaches a second axis.** Axis 1 (persistence, multi-stage campaign
+structure) sits at DESIGNED precisely because *"the structure is real and runs;
+sustained staged advance is not yet on record"*. An accumulate-then-strike arc is
+staged advance **in outcome terms**, which is the evidence that row has been
+missing. Do not claim it without measuring it, but pre-register it as a candidate.
+
+**The objective-conditioned half, per Marc:** once knowledge is sufficient the
+attacker strikes *according to its objective* — a target-seeking profile drives at
 the target, a general profile takes the network down broadly. **Flag before
 building:** `IS-SCN-03` records the inherited **targeted strategy as having no
 live code path**, so "swiftly go for the target" may have nothing to drive. This
-was *not* covered by step 0 and remains an open check — do it before committing to
-the objective-conditioned half of arm 3.
-
-**One structural warning for arm 3, from the seam.** The attacker-state seam is
-**routing-only**: the timing source observes each draw and delegates it unchanged.
-A tempo shift that scales *dwell* therefore needs a **seam change**, not a new
-modulator. That is the same prerequisite the `mtd_ai` route's item 4 carries, and
-it is the largest single piece of engineering in this design.
+was *not* covered by step 0 and remains an open check.
 
 ---
 
@@ -252,7 +288,7 @@ stream".** It names four levers, each mechanically connected to a feature.
 
 ## 6. Where the honest claims land
 
-- **Axis 5 → DESIGNED is genuinely reachable at arm 3**, and for the first time on
+- **Axis 5 → DESIGNED is genuinely reachable at arm 2**, and for the first time on
   real grounds: the model would have a stealth *mechanism* (tempo chosen from
   state) rather than tempo that merely exists. **DEMONSTRATED still requires R-B**,
   because it needs something in the run to punish detectability, and only `mtd_ai`
@@ -279,15 +315,17 @@ Candidates, to be sharpened by the session that builds:
 - **The gate works** — arm 2 raises successes-per-exploit-attempt against arm 0.
   This is the mechanism's own precondition; if it fails, nothing above it means
   anything.
-- **The emergent stealth claim** — arm 3's exposure is lower than arm 0's, on the
+- **The emergent stealth claim** — arm 2's exposure is lower than arm 0's, on the
   duty-cycle statistics, *without* detectability appearing in the decision rule.
+- **The campaign arc** — arm 2's exploitation is back-loaded against arm 0's
+  (§4.1). Committed as a candidate axis-1 claim, measured as a continuum.
 - **A kill criterion**, committed to embarrass the design: the exposure reduction
   is **not** merely a consequence of the attacker doing fewer actions overall. If
-  arm 3 is quieter only because it is slower and achieves less, it has bought
+  arm 2 is quieter only because it is slower and achieves less, it has bought
   nothing an idle attacker would not also buy — report progress and exposure
   together or not at all.
 - **Arm 4 separability** — does an explicit detectability term change anything arm
-  3 has not already delivered?
+  2 has not already delivered?
 - **Axis-3 plurality** — expected to fall; measured either way.
 
 ---
@@ -361,8 +399,9 @@ The ladder in §4 contains this by construction, since each arm adds one thing.
   — the existing per-place learner, and the key-choice discipline any new key must
   follow.
 - [`../implementation/pipeline/ogasp/attacker_state_seam.md`](../implementation/pipeline/ogasp/attacker_state_seam.md)
-  — the seam every modulator reuses; note it is **routing-only**, so a dwell-primary
-  tempo shift (arm 3) needs a seam change rather than a new modulator.
+  — the seam every modulator reuses. It is **routing-only**: §4.1 argues the
+  campaign arc needs nothing more, which is what removes the seam change from this
+  design's cost. Verify that before relying on it.
 - `mtdnetwork/operation/mtd_ai_operation.py` §`get_state_and_time_series` and
   `mtdnetwork/mtdai/mtd_ai.py` — the state and the reward (§5).
 - `mtdnetwork/component/services.py`, `mtdnetwork/mtd/servicediversity.py`,
