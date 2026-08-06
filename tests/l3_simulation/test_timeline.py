@@ -116,9 +116,9 @@ def committed_transitions():
 
 def test_determinism_byte_identical(nets, catalogue):
     for cell in (
-        Cell("pure_steal", "initial-access", "weighted", "operator_dedup", "central"),
+        Cell("objective_exfiltration", "initial-access", "weighted", "operator_dedup", "central"),
         Cell("aggregate", "reconnaissance", "uniform", None, "sweep_low"),
-        Cell("double_extortion", "initial-access", "weighted", "raw", "sweep_high"),
+        Cell("objective_exfiltration_impact", "initial-access", "weighted", "raw", "sweep_high"),
     ):
         first = generate_cell(nets[cell.profile], catalogue, cell, N_SMALL)
         second = generate_cell(nets[cell.profile], catalogue, cell, N_SMALL)
@@ -127,9 +127,15 @@ def test_determinism_byte_identical(nets, catalogue):
 
 def test_seed_derivation_locked():
     # the derivation is part of the v1 contract — a change here is a schema bump
+    #
+    # The pinned value moved once, in the 2026-08-06 objective-tactic rename,
+    # because seeds are content-addressed on the run id and the run id embeds
+    # the profile name: renaming ``pure_steal`` re-pointed this input string
+    # and so re-seeded the whole timeline library. The *derivation* is
+    # untouched — a failure here still means the algorithm changed.
     assert (
-        seed_for("pure_steal--initial-access--weighted-operator_dedup--central--000")
-        == 7372201203380517903
+        seed_for("objective_exfiltration--initial-access--weighted-operator_dedup--central--000")
+        == 14057210806463591956
     )
 
 
@@ -222,8 +228,8 @@ def test_matrix_entries_and_recon_impossibility(matrix, nets):
         assert "initial-access" in by_profile[profile]
         assert ("reconnaissance" in by_profile[profile]) == nets[profile].recon_bridged
     assert {arm["profile"] for arm in impossible} == {
-        "double_extortion",
-        "infrastructure_setup",
+        "objective_exfiltration_impact",
+        "objective_none_c2",
     }
     for arm in impossible:
         assert arm["status"] == "impossible"
@@ -271,8 +277,8 @@ def test_behavioural_report_committed():
         assert key in report
     # gate: recon-arm impossibility is recorded as a result in the report
     assert {arm["profile"] for arm in report["impossible_arms"]} == {
-        "double_extortion",
-        "infrastructure_setup",
+        "objective_exfiltration_impact",
+        "objective_none_c2",
     }
     text = REPORT_MD.read_text()
     assert "net time-to-objective" in text

@@ -158,7 +158,7 @@ def test_g3_interrupt_reads_as_failure_and_routes() -> None:
     key on.
     """
     env, end_event, attack_op, attacker = _fresh(
-        "infrastructure_setup", 7, overlay=RefOverlay(),
+        "objective_none_c2", 7, overlay=RefOverlay(),
         verdict_of=outcome_verdict, register=True,
     )
     attacker.start()
@@ -189,7 +189,7 @@ def test_g3_interrupt_reads_as_failure_and_routes() -> None:
 def test_g2_same_seed_identical_records() -> None:
     def run():
         env, _e, _ao, attacker = _fresh(
-            "double_extortion", 1234, overlay=RefOverlay(),
+            "objective_exfiltration_impact", 1234, overlay=RefOverlay(),
             verdict_of=outcome_verdict,
         )
         attacker.start()
@@ -210,7 +210,7 @@ def test_driver_delegates_verdict_and_composition() -> None:
     overlay = RefOverlay()
     verdict = ForcedVerdict("success")
     env, _e, _ao, attacker = _fresh(
-        "double_extortion", 5, overlay=overlay, verdict_of=verdict,
+        "objective_exfiltration_impact", 5, overlay=overlay, verdict_of=verdict,
     )
     attacker.start()
     env.run(until=1500)
@@ -242,7 +242,7 @@ def test_precondition_unmet_is_recorded_failure() -> None:
 def test_records_end_with_a_terminal_event() -> None:
     """The walk's end (sim end / stall / max-events) is visible in the records."""
     env, _e, _ao, attacker = _fresh(
-        "double_extortion", 2, overlay=RefOverlay(), verdict_of=outcome_verdict,
+        "objective_exfiltration_impact", 2, overlay=RefOverlay(), verdict_of=outcome_verdict,
     )
     attacker.start()
     env.run(until=3000)

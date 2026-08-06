@@ -6,7 +6,7 @@
 
 Given the L1 GAP ([`mtdsim.l1_construction`](../l1_construction/)) and an
 operational-objective specifier
-(`{pure_steal, pure_impediment, double_extortion, infrastructure_setup}`),
+(`{objective_exfiltration, objective_impact, objective_exfiltration_impact, objective_none_c2}`),
 produce the **surface** class subgraph — techniques actually present in the
 class's flows, with GAP edges where both endpoints land in that node set.
 No ancestor closure. Canonical reference:

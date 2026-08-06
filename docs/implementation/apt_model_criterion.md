@@ -559,7 +559,7 @@ experimental claim.
 > factor table precomputes to 30/30 bit-identical, and the MTD condition is not
 > among its inputs). A criterion passed by a negative control is not measuring the
 > property it tests, and the per-profile continuum confirms it: four of five
-> ratios sit within ±15 % of 1.0 in every arm, with `double_extortion` — this
+> ratios sit within ±15 % of 1.0 in every arm, with `objective_exfiltration_impact` — this
 > family's recorded outlier under both C4 and C6 — carrying the pass. U3 is
 > recorded **moved**, on the identical reading C4 is recorded moved on, and this
 > row stays DESIGNED. Reporting it as held would move a badge on a statistic that
@@ -1020,9 +1020,9 @@ on record ([`pipeline/ogasp/experiment_01_findings.md`](pipeline/ogasp/experimen
   > §5). "Independent of seed" understated what had to be shown: a mode
   > assignment that held across seeds but moved with the declared routing weights
   > would be an artefact. Across 2 600 runs over the declared parameter bands, the
-  > assignment holds for the profiles at the **extremes** — `pure_steal` at
-  > 96.9–97.5% blocked, `double_extortion` and `infrastructure_setup` at 0.0%,
-  > every point, both mappings. It does **not** hold for `pure_impediment`, the
+  > assignment holds for the profiles at the **extremes** — `objective_exfiltration` at
+  > 96.9–97.5% blocked, `objective_exfiltration_impact` and `objective_none_c2` at 0.0%,
+  > every point, both mappings. It does **not** hold for `objective_impact`, the
   > profile experiment 1 already recorded as intermediate: its blocked fraction
   > spans 25.0–63.1% across the sweep and crosses the classification threshold.
   > The badge stays DEMONSTRATED, on the narrower claim — objective conditioning
@@ -1035,7 +1035,7 @@ on record ([`pipeline/ogasp/experiment_01_findings.md`](pipeline/ogasp/experimen
   > ([`pipeline/ogasp/rate_feasibility_study.md`](pipeline/ogasp/rate_feasibility_study.md)
   > §7, C3b). The same claim was tested against timing arbitrariness rather
   > than weight arbitrariness. The mode assignment holds without exception for
-  > four of the five profiles in every swept cell; `pure_steal` flips between
+  > four of the five profiles in every swept cell; `objective_exfiltration` flips between
   > horizon and sink termination in twelve cells, and inspection shows why —
   > its central cells split 7–3 and 5–5 across the ten seeds, so its modal
   > mode is a coin-toss summary of a genuinely bimodal distribution, flipping

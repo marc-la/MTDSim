@@ -90,7 +90,7 @@
         "gap": 0
       }
     },
-    "double_extortion": {
+    "objective_exfiltration_impact": {
       "collection": {
         "v": 0.5,
         "rule": "instrumental",
@@ -167,7 +167,7 @@
         "gap": 1
       }
     },
-    "infrastructure_setup": {
+    "objective_none_c2": {
       "collection": {
         "v": 0.25,
         "rule": "instrumental",
@@ -244,7 +244,7 @@
         "gap": 0
       }
     },
-    "pure_impediment": {
+    "objective_impact": {
       "collection": {
         "v": 0.5,
         "rule": "instrumental",
@@ -321,7 +321,7 @@
         "gap": 1
       }
     },
-    "pure_steal": {
+    "objective_exfiltration": {
       "collection": {
         "v": 0.5,
         "rule": "instrumental",

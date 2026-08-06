@@ -7,6 +7,37 @@ diff is a regression to chase, not a re-baseline to accept.
 
 ---
 
+## 2026-08-06 — GASP class rename: the 15 retrace goldens re-captured, label-only; **not** a re-baseline
+
+**What changed and why.** The four GASP class labels were renamed to
+objective-tactic labels (`pure_steal` → `objective_exfiltration`,
+`pure_impediment` → `objective_impact`, `double_extortion` →
+`objective_exfiltration_impact`, `infrastructure_setup` →
+`objective_none_c2`). `RETRACE_PROFILE` in `tools/mtd_golden_streams.py` names
+one of them, so the 15 `*_retrace` configurations carry the new string in their
+`movement_records[].profile` field and had to be re-captured.
+
+**Why this is not a re-baseline.** The re-captured streams are byte-identical to
+the committed ones once the profile label is substituted — verified
+field-for-field across all 15, with zero differences beyond the label. The
+manifest's only changes are the 15 `sha256` digests; **every behavioural field —
+`compromised`, `interrupts`, `mtd_executions`, `retraces` — is unchanged**. The
+other 55 golden configurations were not rewritten at all: they run under
+`PROFILE = "aggregate"`, whose name did not move. No headline number changed, so
+this entry records a relabelling, not an accepted behavioural diff.
+
+**Not to be confused with the timeline re-seed.** The *timeline* library genuinely
+did move numbers under the same rename, because its seeds are content-addressed
+on a `run_id` that embeds the profile name. That is recorded separately in
+`data/ogasp/timeline/timeline_schema.md` § *Re-seeded by the 2026-08-06 rename*.
+The goldens here are unaffected by that mechanism — their seeds are passed
+explicitly.
+
+**Spec-IDs / audit-IDs:** none. Vocabulary refactor only; membership, weights and
+walk semantics untouched.
+
+---
+
 ## 2026-08-03 — D-28: ENUM_HOST enforces IS-PRC-01's visibility invariant; movement goldens re-baselined, native goldens untouched
 
 **What changed and why.** `_do_enum_host` popped and attacked whatever sat at the
@@ -78,8 +109,8 @@ entry *restores* their bytes rather than re-baselining them — behaviour never
 moved, and the recapture is retired as unnecessary.
 
 **What's new.** Fifteen `*_retrace` configurations: `retrace_sinks=True` on
-`double_extortion` (the aggregate profile has no sinks, so the policy would be
-inert there), no-MTD + one mechanism per resource class + the stateful
+`objective_exfiltration_impact` (the aggregate profile has no sinks, so the
+policy would be inert there), no-MTD + one mechanism per resource class + the stateful
 mechanism, seeds 0–2, overlay arm. Every config records 3–8 retraces
 (`manifest.json` carries the count), so the set genuinely exercises the policy.
 The suite subset gains three retrace cases and a schema-rule test pinning both

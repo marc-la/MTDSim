@@ -49,13 +49,13 @@ reproduces every byte; there is no wall-clock anywhere.
 |---|---|---|
 | `schema` | str | `"ogasp-timeline/v1"` — the version downstream pins to |
 | `run_id` | str | `<profile>--<entry>--<arm>--<duration_variant>--<index>`; unique across the library |
-| `seed` | int | `int.from_bytes(sha256(run_id)[:8], 'big')` — the run's whole RNG stream; (seed, cell) fixes the timeline byte-for-byte |
+| `seed` | int | `int.from_bytes(sha256(run_id)[:8], 'big')` — the run's whole RNG stream; (seed, cell) fixes the timeline byte-for-byte. **Content-addressed on `run_id`, which embeds the profile name — so renaming a profile re-seeds every run in that profile's cells** (see *Re-seeded by the 2026-08-06 rename* below) |
 | `profile` | str | one of the four GASP classes or `aggregate` (the null profile) |
 | `entry` | str | seed place: `initial-access` always; `reconnaissance` only where the prefix gap is bridged (D8) |
 | `policy` | str | `weighted` (samples the W-A out-distribution; only weight > 0 transitions fireable) or `uniform` (the structural floor: uniform over *all* committed out-transitions, weights unread) |
 | `weight_variant` | str\|null | `operator_dedup` (primary, n = 29) or `raw` (n = 38, robustness) for `weighted`; `null` for `uniform` |
 | `duration_variant` | str | `central` (catalogue `duration_s`), `sweep_low` / `sweep_high` (the sweep exercised at the extremes only — full sensitivity deferred, D10) |
-| `objective_rule` | str | `all` (class nets: visited set must cover every declared objective tactic — for `double_extortion` the both-achieved condition) or `any` (aggregate: first union objective ends the walk — recorded choice; the null envelope has no single operational objective) |
+| `objective_rule` | str | `all` (class nets: visited set must cover every declared objective tactic — for `objective_exfiltration_impact` the both-achieved condition) or `any` (aggregate: first union objective ends the walk — recorded choice; the null envelope has no single operational objective) |
 | `objective_tactics` | [str] | the profile's declared objective set (from the committed net report) |
 | `outcome` | str | `objective` \| `cap` \| `stalled` — every run ends in a declared outcome |
 | `stall_reason` | str\|null | `no_structural_out_transitions` (sink place) or `no_weight_supported_out_transitions` (out-transitions exist but none has weight > 0 under the active variant); `stalled` is a legitimate, recorded envelope outcome, not an error |
@@ -100,8 +100,8 @@ Per state in `sequence`:
 - **Run matrix:** {5 profiles} × {entries per D8: `initial-access` always,
   `reconnaissance` where bridged} × {`weighted-operator_dedup`,
   `weighted-raw`, `uniform`} × {3 duration variants} × 100 seeded runs
-  = 72 cells / 7 200 runs. The recon arm on `double_extortion` and
-  `infrastructure_setup` is **impossible** on the observed-only base (the
+  = 72 cells / 7 200 runs. The recon arm on `objective_exfiltration_impact` and
+  `objective_none_c2` is **impossible** on the observed-only base (the
   prefix gap; the inferred prefix bridge stays deferred — GAP Decision 6
   Option B) and is recorded as a result in the manifest and the report,
   not silently skipped.
@@ -121,3 +121,34 @@ Per state in `sequence`:
 - Feeding timelines into MTDSim (the replay attacker), the tactic→action
   binding, GSPN firing semantics, multi-token concurrency and the full
   sensitivity sweep are out of scope here (D2/D10 deferrals).
+
+## Re-seeded by the 2026-08-06 rename
+
+**The objective-tactic class rename re-seeded this entire library, and the
+committed report's numbers moved with it.** This is a property of the seed
+derivation rather than a behavioural change: seeds are content-addressed on
+`run_id`, `run_id` embeds the profile name, so renaming `pure_steal` to
+`objective_exfiltration` changes every seed in that profile's cells. The
+mechanism is confirmed by the one profile whose name did **not** change —
+`aggregate` reproduces bit-for-bit across the rename, while all four renamed
+profiles re-drew. Nothing about the walk semantics, the nets, the weights or
+the duration catalogue moved; 1 121 scalar values in
+`timeline_report.json` did.
+
+**One committed conclusion flipped, and the flip is itself the finding.**
+`ordering_stable_across_sweep_extremes` was `false` and is now `true`. The old
+report recorded the profile ranking by median net time-to-objective as unstable
+across the sweep extremes solely because, at `sweep_high`, the residual class
+and the aggregate profile sat 12.5 s apart — 459.0 s against 471.5 s, a 2.7 %
+margin at 100 runs per cell. Under the new seeds the residual class draws
+529.0 s and the pair no longer crosses. The honest reading is that the original
+instability was never a structural property of the profiles: it was a near-tie
+resolved by Monte-Carlo noise, and a re-seed was always going to be able to
+settle it either way. **Neither the old `false` nor the new `true` should be
+quoted as a finding about profile ordering** — the two profiles are not
+separated at this sample size, and any claim that depends on their order needs
+more runs or a stated confidence interval, not a re-run.
+
+Recorded per Marc's ruling of 2026-08-06 (accept the re-seed, record the
+fragility) rather than by pinning the seeds to the retired labels, which would
+have frozen the old coinage into the seed derivation permanently.

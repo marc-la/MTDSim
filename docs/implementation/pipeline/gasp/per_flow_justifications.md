@@ -8,6 +8,14 @@ lineage: formerly docs/notes @ 2026-05-28_l2_per_flow_justifications.md (relocat
 
 # Per-flow P6 class assignments — justifications, citations, and critique
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](gasp_schema.md) §(c).
+
 > **Provenance banner.** This note records the investigation that produced
 > GASP. The canonical spec is now at
 > [`../specs/02_gasp_schema.md`](gasp_schema.md) — read this

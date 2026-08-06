@@ -1,12 +1,12 @@
 {
-  "class_name": "infrastructure_setup",
+  "class_name": "objective_none_c2",
   "provenance": {
-    "class_name": "infrastructure_setup",
+    "class_name": "objective_none_c2",
     "granularity": "inter-tactic tactic-pair",
     "gap_path": "data/gap/gap_v0.5.json",
     "gasp_source_flow_count": 5,
     "gap_version": "0.5",
-    "build_date": "2026-07-04"
+    "build_date": "2026-08-06"
   },
   "places": [
     "collection",
@@ -2169,7 +2169,7 @@
     }
   ],
   "report": {
-    "class_name": "infrastructure_setup",
+    "class_name": "objective_none_c2",
     "entry_tactic": "reconnaissance",
     "n_places": 13,
     "n_transitions": 57,

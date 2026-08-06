@@ -8,19 +8,19 @@
   "resolution": "bidirectional pre-intrusion connective tissue (2026-07-21, Marc's direction, reversing the earlier recon-only resolution): resource-development is bridged as a forward pass-through on the chain reconnaissance -> resource-development -> initial-access, and a backward regression bridge initial-access -> reconnaissance lets a failed attacker fall back into the pre-intrusion band. resource-development is off-clock (x0 dwell, no mapped action yet); the action set is extensible.",
   "composition": "composed at net construction — build_all_profiles / build_all with_synthetic_overlay=True (default), or synthetic_overlay.apply_synthetic_overlay; the observed *_structural.json artefacts never include the overlay",
   "profiles": {
-    "pure_steal": {
+    "objective_exfiltration": {
       "synthetic_transitions": [],
       "recon_reaches_initial_access_observed": true,
       "recon_reaches_initial_access_with_overlay": true,
       "reason": "observed corpus already bridges reconnaissance -> initial-access; guard rule adds nothing"
     },
-    "pure_impediment": {
+    "objective_impact": {
       "synthetic_transitions": [],
       "recon_reaches_initial_access_observed": true,
       "recon_reaches_initial_access_with_overlay": true,
       "reason": "observed corpus already bridges reconnaissance -> initial-access; guard rule adds nothing"
     },
-    "double_extortion": {
+    "objective_exfiltration_impact": {
       "synthetic_transitions": [
         {
           "name": "reconnaissance__to__resource-development",
@@ -56,7 +56,7 @@
       "recon_reaches_initial_access_observed": false,
       "recon_reaches_initial_access_with_overlay": true
     },
-    "infrastructure_setup": {
+    "objective_none_c2": {
       "synthetic_transitions": [
         {
           "name": "reconnaissance__to__resource-development",

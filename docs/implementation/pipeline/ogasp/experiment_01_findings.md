@@ -8,6 +8,14 @@ lineage: promoted from data/results/exp01_movement_vs_baseline/README.md (gitign
 
 # Experiment 1 — the movement attacker against the inherited baseline
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable. The first end-to-end numbers from the coupled L3 attacker,
 run head-to-head against the inherited 6-phase attacker on the same substrate.
 This record is the **tracked** account: the run workspace at

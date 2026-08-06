@@ -405,9 +405,9 @@ def test_the_declared_modulator_is_the_null_unless_an_arm_overrides_it() -> None
 
 def test_a_non_zero_alpha_changes_the_walk() -> None:
     kwargs = dict(seed=0, mapping_version="v2_partial", mtd_scheme="simultaneous")
-    null = run_movement("pure_steal", horizon=3_000, **kwargs)
+    null = run_movement("objective_exfiltration", horizon=3_000, **kwargs)
     biased = run_movement(
-        "pure_steal",
+        "objective_exfiltration",
         horizon=3_000,
         attacker_state=_state(1.0, 0, "v2_partial"),
         **kwargs,

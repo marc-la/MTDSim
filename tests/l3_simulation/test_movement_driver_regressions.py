@@ -73,7 +73,7 @@ def test_step_abort_sentinel_is_distinct_from_a_verbs_own_none() -> None:
 
 # --- D2: a dwell cut short by an MTD interrupt must not be over-reported ---
 
-@pytest.mark.parametrize("profile, seed", [("aggregate", 42), ("pure_impediment", 0)])
+@pytest.mark.parametrize("profile, seed", [("aggregate", 42), ("objective_impact", 0)])
 def test_recorded_dwell_never_exceeds_the_events_elapsed_time(profile, seed) -> None:
     """``dwell`` is the time *consumed* at the place, so it can never exceed the
     event's own elapsed time.

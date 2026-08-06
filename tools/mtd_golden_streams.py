@@ -38,7 +38,7 @@ that does not name the retrace input serialises ``MovementRecord`` in the
 pre-retrace shape (no ``retrace`` field), so the legacy goldens stay
 byte-identical across capability additions and a digest change always means
 behaviour moved. Capabilities that *are* named get their own golden set — the
-``*_retrace`` configurations run ``retrace_sinks=True`` on ``double_extortion``
+``*_retrace`` configurations run ``retrace_sinks=True`` on ``objective_exfiltration_impact``
 (a sink-bearing net; the cost-bench ``aggregate`` profile has no sinks, so the
 policy would be inert there), and their documents carry the ``retrace`` field
 plus a ``retraces`` summary count.
@@ -90,7 +90,7 @@ ARMS = (True, False)  # with_synthetic_overlay
 # The retrace golden set: the S5 policy exercised where it can fire. One
 # mechanism per resource class plus the stateful mechanism and the no-MTD
 # control, on the net that retraces hardest, overlay arm only.
-RETRACE_PROFILE = "double_extortion"
+RETRACE_PROFILE = "objective_exfiltration_impact"
 RETRACE_MECHANISMS = (
     "no-mtd", "IPShuffle", "ServiceDiversity", "UserShuffle",
     "OSDiversityAssignment",

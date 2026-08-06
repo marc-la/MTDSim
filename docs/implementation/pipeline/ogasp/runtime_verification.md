@@ -8,6 +8,14 @@ lineage: closes docs/handoffs/2026-07-23_l3_ogasp_runtime_verification.md; prece
 
 # OGASP runtime verification — the model reconciled against the code
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable. This is the verification gate the first-numbers run
 ([`experiment_01_findings.md`](experiment_01_findings.md))
 depends on. The attacker Petri → MTDSim loop is built and green (commit `48471b8`;

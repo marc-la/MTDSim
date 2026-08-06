@@ -123,7 +123,7 @@ def test_compose_stall_when_every_out_edge_suppressed() -> None:
 def test_compose_is_deterministic() -> None:
     """Same inputs -> same composed weights (SIM-05 for the composition)."""
     overlay = load_outcome_overlay()
-    net = load_routing_net("pure_steal", with_synthetic_overlay=True)
+    net = load_routing_net("objective_exfiltration", with_synthetic_overlay=True)
     place = net.entry_place
     base = net.base_out_weights(place)
     a = overlay.compose(place, "failure", base)

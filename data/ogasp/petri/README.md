@@ -71,26 +71,26 @@ the headline chart needs `matplotlib` (both house dependencies of
 
 | Profile | Flows (raw → dedup) | Places | Transitions | Inter-tactic edges | Self-loops dropped | Objective reachable from recon | recon→initial-access |
 |---|---|--:|--:|--:|--:|---|---|
-| `pure_steal` | 19 → 14 | 15 | 109 | 363 | 50 | yes | bridged |
-| `pure_impediment` | 8 → 7 | 14 | 83 | 225 | 29 | yes | bridged |
-| `double_extortion` | 6 → 4 | 14 | 72 | 201 | 24 | **no** | **disconnected** |
-| `infrastructure_setup` | 5 → 4 | 13 | 57 | 136 | 12 | **no** | **disconnected** |
+| `objective_exfiltration` | 19 → 14 | 15 | 109 | 363 | 50 | yes | bridged |
+| `objective_impact` | 8 → 7 | 14 | 83 | 225 | 29 | yes | bridged |
+| `objective_exfiltration_impact` | 6 → 4 | 14 | 72 | 201 | 24 | **no** | **disconnected** |
+| `objective_none_c2` | 5 → 4 | 13 | 57 | 136 | 12 | **no** | **disconnected** |
 | `aggregate` | 38 → 29 | 15 | 122 | 422 | 56 | yes | bridged |
 
 The aggregate's declared objective set is the union of the four
 class-semantic objectives (command-and-control, exfiltration, impact)
 — a recorded choice; the null envelope has no single operational
 objective. Note the operator clusters span classes (e.g. the CISA
-AA22-138B trio splits across `pure_steal` and `infrastructure_setup`),
+AA22-138B trio splits across `objective_exfiltration` and `objective_none_c2`),
 so deduplication can remove flows from several classes at once —
 dedup class sizes are 14 / 7 / 4 / 4 (Σ = 29).
 
 ## Divergence from the aggregate (headline)
 
-- **pure_steal** — mean per-place JSD 0.1919 vs aggregate; does NOT exceed the shuffled-label null p95 (0.2248).
-- **pure_impediment** — mean per-place JSD 0.3330 vs aggregate; does NOT exceed the shuffled-label null p95 (0.4158).
-- **double_extortion** — mean per-place JSD 0.3000 vs aggregate; does NOT exceed the shuffled-label null p95 (0.5281).
-- **infrastructure_setup** — mean per-place JSD 0.3813 vs aggregate; does NOT exceed the shuffled-label null p95 (0.5101).
+- **objective_exfiltration** — mean per-place JSD 0.1919 vs aggregate; does NOT exceed the shuffled-label null p95 (0.2248).
+- **objective_impact** — mean per-place JSD 0.3330 vs aggregate; does NOT exceed the shuffled-label null p95 (0.4158).
+- **objective_exfiltration_impact** — mean per-place JSD 0.3000 vs aggregate; does NOT exceed the shuffled-label null p95 (0.5281).
+- **objective_none_c2** — mean per-place JSD 0.3813 vs aggregate; does NOT exceed the shuffled-label null p95 (0.5101).
 
 Full tables, discriminators and the verdict paragraph:
 [`divergence_report.md`](divergence_report.md).
@@ -102,10 +102,10 @@ base the corpus starts at the point of detection, so the
 `reconnaissance → initial-access` link is near-absent — and it shows up
 directly in the single-token reachability:
 
-- **pure_steal** — BRIDGED by 1 direct recon->initial-access edge(s) [('T1593', 'T1195')] -- a thin, fragile prefix link
-- **pure_impediment** — BRIDGED by 1 direct recon->initial-access edge(s) [('T1593', 'T1195')] -- a thin, fragile prefix link
-- **double_extortion** — DISCONNECTED -- reconnaissance cannot reach initial-access; the recon place is an island (the observed-only prefix gap)
-- **infrastructure_setup** — DISCONNECTED -- reconnaissance cannot reach initial-access; the recon place is an island (the observed-only prefix gap)
+- **objective_exfiltration** — BRIDGED by 1 direct recon->initial-access edge(s) [('T1593', 'T1195')] -- a thin, fragile prefix link
+- **objective_impact** — BRIDGED by 1 direct recon->initial-access edge(s) [('T1593', 'T1195')] -- a thin, fragile prefix link
+- **objective_exfiltration_impact** — DISCONNECTED -- reconnaissance cannot reach initial-access; the recon place is an island (the observed-only prefix gap)
+- **objective_none_c2** — DISCONNECTED -- reconnaissance cannot reach initial-access; the recon place is an island (the observed-only prefix gap)
 - **aggregate** — BRIDGED by 1 direct recon->initial-access edge(s) [('T1593', 'T1195')] -- a thin, fragile prefix link
 
 Consequence: in the classes where recon is an island, a recon-seeded

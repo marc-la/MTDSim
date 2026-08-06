@@ -9,7 +9,7 @@ floor)} × {duration variants: catalogue central values; the sweep exercised
 at the extremes only — full sensitivity stays deferred, D10}.
 
 For the two classes whose recon place is an island on the observed-only base
-(``double_extortion``, ``infrastructure_setup``), the recon-seeded arm is
+(``objective_exfiltration_impact``, ``objective_none_c2``), the recon-seeded arm is
 **impossible**, and the matrix records that as a result rather than silently
 skipping it (the prefix-bridge overlay stays deferred — GAP Decision 6
 Option B).

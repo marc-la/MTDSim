@@ -44,10 +44,10 @@ TIMELINE_DIR = OGASP_DIR / "timeline"  # this workstream's artefacts
 SCHEMA_VERSION = "ogasp-timeline/v1"
 
 CLASS_NAMES = (
-    "pure_steal",
-    "pure_impediment",
-    "double_extortion",
-    "infrastructure_setup",
+    "objective_exfiltration",
+    "objective_impact",
+    "objective_exfiltration_impact",
+    "objective_none_c2",
 )
 AGGREGATE = "aggregate"
 PROFILE_NAMES = (*CLASS_NAMES, AGGREGATE)
@@ -66,10 +66,10 @@ MAX_STEPS = 128
 
 # Objective termination rule per profile — a *visited-set* condition, never a
 # marking condition (a single token occupies one place, so multi-objective
-# classes like double_extortion can never "hold" both at once):
+# classes like objective_exfiltration_impact can never "hold" both at once):
 #   - the four class nets require ALL of their declared objective tactics
 #     visited (for the three singleton classes this reduces to first visit;
-#     for double_extortion it is the class-semantic "both achieved");
+#     for objective_exfiltration_impact it is the class-semantic "both achieved");
 #   - the aggregate terminates on ANY of its declared union set — the null
 #     envelope has no single operational objective (data/ogasp/petri/README.md), so
 #     achieving *an* objective ends the walk; ``completed_objectives`` records

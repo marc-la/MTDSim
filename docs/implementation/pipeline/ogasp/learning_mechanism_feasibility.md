@@ -7,6 +7,14 @@ topic: "L3 criterion axis 7 — a feasibility study over thirteen candidate lear
 
 # The learning-capability feasibility study — what the mechanism has to be, and which candidates can be it
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable investigation record. It builds nothing, moves no badge, declares
 no value and re-reads no committed experiment. It exists because axis 7's scope is
 open ([`model_scope_freeze.md`](model_scope_freeze.md) §0) and the decision about what

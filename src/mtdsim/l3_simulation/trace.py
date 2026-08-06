@@ -21,7 +21,7 @@ single layer's records can:
 Usage (module CLIs on this branch run with ``PYTHONPATH=src``)
 --------------------------------------------------------------
     PYTHONPATH=src python -m mtdsim.l3_simulation.trace aggregate
-    PYTHONPATH=src python -m mtdsim.l3_simulation.trace pure_steal --mapping v2_partial
+    PYTHONPATH=src python -m mtdsim.l3_simulation.trace objective_exfiltration --mapping v2_partial
     PYTHONPATH=src python -m mtdsim.l3_simulation.trace aggregate --scheme simultaneous
     PYTHONPATH=src python -m mtdsim.l3_simulation.trace aggregate --only token,controller
     PYTHONPATH=src python -m mtdsim.l3_simulation.trace aggregate --quiet   # verdict only

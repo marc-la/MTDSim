@@ -1,12 +1,12 @@
 {
-  "class_name": "pure_impediment",
+  "class_name": "objective_impact",
   "provenance": {
-    "class_name": "pure_impediment",
+    "class_name": "objective_impact",
     "granularity": "inter-tactic tactic-pair",
     "gap_path": "data/gap/gap_v0.5.json",
     "gasp_source_flow_count": 8,
     "gap_version": "0.5",
-    "build_date": "2026-07-04"
+    "build_date": "2026-08-06"
   },
   "places": [
     "collection",
@@ -3250,7 +3250,7 @@
     }
   ],
   "report": {
-    "class_name": "pure_impediment",
+    "class_name": "objective_impact",
     "entry_tactic": "reconnaissance",
     "n_places": 14,
     "n_transitions": 83,

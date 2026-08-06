@@ -13,11 +13,10 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 
 ---
 
-## Open work — four handoffs
+## Open work — three handoffs
 
 **(1) is unblocked; start there.** (3) is independent of the axis chain and can
-run alongside it. (4) is independent of all three but conflicts with each of
-them on files, so it wants a gap rather than a parallel slot.
+run alongside it.
 
 > **Reconciled on merge, 2026-08-05.** This chain was written on the boundary
 > branch, before the session branches were merged into `dev`. Three corrections
@@ -81,6 +80,30 @@ not a tempo one. Record:
 [`../implementation/pipeline/ogasp/stealth_exposure_metric.md`](../implementation/pipeline/ogasp/stealth_exposure_metric.md).)*
 
 
+*(Shipped 2026-08-06: the **GASP class rename**. The four classes are now
+`objective_exfiltration` / `objective_impact` / `objective_exfiltration_impact` /
+`objective_none_c2`, named against the declared `OBJECTIVE_TACTICS` mapping and
+**never** against a selection filter — the brief corrected the premise it was
+commissioned under, and `gasp_schema.md` §(c) now carries the permanent
+three-vocabulary crosswalk (frozen CSV label → retired spec label → tactic
+label). Membership, weights and walk semantics are untouched: the divergence
+report is bit-identical modulo keys, the 19:8:6:5 split and 98/62/57/39 node
+counts hold, and the suite is green at the **same 1 031 tests**. Two things did
+move, both diagnosed rather than absorbed. The **timeline library re-seeded** —
+seeds are content-addressed on a `run_id` that embeds the profile name, so
+renaming a profile re-draws its runs; `aggregate` reproducing bit-for-bit is the
+proof. That flipped `ordering_stable_across_sweep_extremes` false→true, which
+turns out to expose a **2.7 % near-tie at 100 runs/cell** rather than a
+structural property — neither value should be quoted as a finding
+(`data/ogasp/timeline/timeline_schema.md` § *Re-seeded by the 2026-08-06
+rename*, ruled by Marc). And the **15 retrace goldens were re-captured
+label-only** — byte-identical once the profile string is substituted, every
+behavioural manifest field unchanged (`baseline/CHANGELOG.md`). 30 investigation
+records were bannered rather than rewritten; the audit CSV's `stated_objective`
+column stays frozen. **Flagged:** 16 gitignored `data/results/` workspaces now
+have patched runners whose committed numbers were taken under the old labels.)*
+
+
 1. [`2026-08-05_apt_axis_measurement_metrics.md`](2026-08-05_apt_axis_measurement_metrics.md)
    — **a metric per axis**, so the APT criterion is scored by evidence rather
    than argument. Owns axes 1, 2, 4, 8 and the lettered rows; consumes the two
@@ -126,37 +149,12 @@ not a tempo one. Record:
    implementation settled and first results in hand.
 
 
-4. [`2026-08-06_gasp_class_rename.md`](2026-08-06_gasp_class_rename.md)
-   — **rename the four GASP classes** to self-documenting objective-tactic
-   labels, and carry it through 93 tracked files, 8 tracked artefact filenames,
-   ~40 gitignored figures and 16 experiment workspaces. **Unblocked** — Marc
-   ruled the fourth class `objective_none_c2` on 2026-08-06, against
-   `objective_command_and_control`, because that class is the only one of the
-   four with **zero** exfiltration and zero impact techniques while its C2 share
-   (11 %) barely exceeds the other three (7–9 %); the absence is what
-   distinguishes it, and the current name additionally collides with TA0042
-   *Resource Development*. Note that the brief **corrects the premise it
-   was commissioned under** — the classes were never filtered on terminating
-   tactic; membership is analyst-stated (`gasp_schema.md` §(a) central
-   invariant), the structural-terminal scheme is the *rejected* P1 candidate,
-   and the audit's own columns show only 7/19 `pure_steal` flows terminate on
-   exfiltration and 1/5 `infrastructure_setup` flows on C2. The rename is still
-   defensible, but named against the declared `OBJECTIVE_TACTICS` mapping rather
-   than any selection filter, and the brief forbids the filter framing in prose.
-   The corpus and ATT&CK pins were **verified current 2026-08-06** — 0 of 38
-   flows changed in anything L1 consumes, and ATT&CK v19.2 is a no-op across all
-   124 GAP techniques — so no upstream refresh gates the rename. Touches nearly
-   every file the axis chain writes into, so it should land *between* their
-   commits.
-
-
 **Suggested order for the rest of the week:** (1), which is unblocked and which
 settles the schema question and serves the rest — and note that the adjacent
 `MovementRecord` widenings it was told to bundle have now all landed
 (`interrupted_by_name` from the A6 repair, `n_compromised` from the disengagement
 measure, `exploitability` from the exposure reader), so **host identity is the
-only part left**. (2) when its ruling lands. (3) runs alongside either. (4) is
-unblocked and mechanical — take it in a gap between the others' commits.
+only part left**. (2) when its ruling lands. (3) runs alongside either.
 
 ---
 

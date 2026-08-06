@@ -41,8 +41,8 @@ def test_loads_and_out_weights_are_distributions(profile: str, overlay: bool) ->
 def test_d8_entry_arms() -> None:
     """Overlay arm seeds at reconnaissance (kill-chain head); observed-only arm
     seeds at initial-access (the comparison arm)."""
-    on = load_routing_net("double_extortion", with_synthetic_overlay=True)
-    off = load_routing_net("double_extortion", with_synthetic_overlay=False)
+    on = load_routing_net("objective_exfiltration_impact", with_synthetic_overlay=True)
+    off = load_routing_net("objective_exfiltration_impact", with_synthetic_overlay=False)
     assert on.entry_place == "reconnaissance"
     assert off.entry_place == "initial-access"
 
@@ -50,7 +50,7 @@ def test_d8_entry_arms() -> None:
 def test_synthetic_forward_chain_is_the_island_out_mass() -> None:
     """Where recon is an island, the forward chain recon -> resource-development
     -> initial-access carries the whole out-mass (share 1.0)."""
-    net = load_routing_net("double_extortion", with_synthetic_overlay=True)
+    net = load_routing_net("objective_exfiltration_impact", with_synthetic_overlay=True)
     assert net.base_out_weights("reconnaissance") == {"resource-development": 1.0}
     assert net.base_out_weights("resource-development") == {"initial-access": 1.0}
 
@@ -59,8 +59,8 @@ def test_backward_bridge_merge_rescales_observed_to_0_9() -> None:
     """initial-access has observed out-edges; the backward bridge to reconnaissance
     carries share 0.1, and the observed edges are scaled to 0.9 of their weights.
     The observed-only arm has no such bridge."""
-    on = load_routing_net("double_extortion", with_synthetic_overlay=True)
-    off = load_routing_net("double_extortion", with_synthetic_overlay=False)
+    on = load_routing_net("objective_exfiltration_impact", with_synthetic_overlay=True)
+    off = load_routing_net("objective_exfiltration_impact", with_synthetic_overlay=False)
 
     out_on = on.base_out_weights("initial-access")
     out_off = off.base_out_weights("initial-access")

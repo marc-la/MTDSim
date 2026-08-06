@@ -313,7 +313,7 @@ class UtilityModulator:
     term for criterion axis 6.
 
     Constructed per profile, because benefit is per-profile: an objective set is
-    per-profile (``infrastructure_setup`` contains no exfiltration or impact
+    per-profile (``objective_none_c2`` contains no exfiltration or impact
     place at all), so a benefit model keyed on a universal objective would be
     meaningless there.
 

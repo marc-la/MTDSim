@@ -1,7 +1,7 @@
 ---
 status: review record (boundary review 3 of 3) — closed; D-20/D-21/D-22 ruled (a), Marc 2026-08-03; cycle-2 adversarial pass done, confidence gate PASSED ≥ 95 % (§(g)); D-26/D-27 opened flag-grade
 created: 2026-08-02
-updated: 2026-08-03
+updated: 2026-08-06
 topic: "The direct attacker/defender channels — inventory, executed truth table, realised traffic from recorded runs, and the class-vs-mechanism pricing question put to Marc (D-20..D-22)"
 ---
 
@@ -184,10 +184,10 @@ perturbs the denominators):
 
 | profile | recon-verb (app-immune) | attack-verb | BRUTE_FORCE share | dwell-only | **application-exposed** | network-exposed |
 |---|--:|--:|--:|--:|--:|--:|
-| pure_steal | 28.4 % | 20.9 % | 1.7 % | 50.8 % | **71.6 %** | 100 % |
-| pure_impediment | 29.9 % | 20.8 % | 0.5 % | 49.4 % | **70.1 %** | 100 % |
-| double_extortion | 16.8 % | 27.5 % | 0.2 % | 55.7 % | **83.2 %** | 100 % |
-| infrastructure_setup | 42.7 % | 29.5 % | 2.1 % | 27.9 % | **57.3 %** | 100 % |
+| objective_exfiltration | 28.4 % | 20.9 % | 1.7 % | 50.8 % | **71.6 %** | 100 % |
+| objective_impact | 29.9 % | 20.8 % | 0.5 % | 49.4 % | **70.1 %** | 100 % |
+| objective_exfiltration_impact | 16.8 % | 27.5 % | 0.2 % | 55.7 % | **83.2 %** | 100 % |
+| objective_none_c2 | 42.7 % | 29.5 % | 2.1 % | 27.9 % | **57.3 %** | 100 % |
 | aggregate | 26.3 % | 21.1 % | 1.2 % | 52.6 % | **73.7 %** | 100 % |
 
 The recorded defended runs corroborate: application-class interrupt yield

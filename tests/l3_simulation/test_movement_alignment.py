@@ -302,7 +302,7 @@ def test_the_no_stall_check_has_teeth() -> None:
 # --- 6. the capability cursor agrees with the readiness learner's ------------
 
 
-@pytest.mark.parametrize("profile", ("pure_steal", "double_extortion"))
+@pytest.mark.parametrize("profile", ("objective_exfiltration", "objective_exfiltration_impact"))
 def test_the_duplicated_cursor_tracks_the_readiness_learner_step_for_step(
     profile,
 ) -> None:
@@ -371,9 +371,9 @@ def test_a_non_zero_alpha_changes_the_walk() -> None:
     as a difference, never as an improvement — which direction it moves is the
     sweep's question and is pre-registered rather than tested for here."""
     kwargs = dict(seed=0, mapping_version="v2_partial", mtd_scheme="simultaneous")
-    null = run_movement("pure_steal", horizon=3_000, **kwargs)
+    null = run_movement("objective_exfiltration", horizon=3_000, **kwargs)
     biased = run_movement(
-        "pure_steal",
+        "objective_exfiltration",
         horizon=3_000,
         attacker_state=_state(1.0, 0, "v2_partial"),
         **kwargs,

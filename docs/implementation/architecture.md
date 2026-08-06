@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-05-27
-updated: 2026-07-28
+updated: 2026-08-06
 ---
 
 # Architecture — L0→L4 pipeline and methodological positioning
@@ -235,14 +235,18 @@ in [`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md); the L2 builder is at
 is the architecture-level summary.
 
 - **Inputs.** L1 GAP; an **operational-objective specifier** drawn from the
-  canonical set `{pure_steal, pure_impediment, double_extortion,
-  infrastructure_setup}`. The class set is empirically derived from a 38-flow
-  audit-traced corpus
+  canonical set `{objective_exfiltration, objective_impact,
+  objective_exfiltration_impact, objective_none_c2}`. The class set is
+  empirically derived from a 38-flow audit-traced corpus
   ([`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(b) Decision 2) — a refinement
-  of Alshamrani's 3-goal NIST taxonomy that names *double-extortion*
-  explicitly and renames *position_for_future* to *infrastructure_setup*
-  because the corpus contains zero surveillance flows. The set is closed
-  for v0.5; corpus growth may promote it.
+  of Alshamrani's 3-goal NIST taxonomy that names double extortion
+  explicitly and declines Alshamrani's *position_for_future* because the
+  corpus contains zero surveillance flows. The set is closed
+  for v0.5; corpus growth may promote it. The labels name each class's
+  **declared objective tactic** (`OBJECTIVE_TACTICS`), never a selection
+  filter — membership is analyst-stated, per the §(a) central invariant; the
+  three-vocabulary crosswalk is in
+  [`gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(c).
 - **Outputs.** An operational-objective-conditioned subgraph of GAP — the
   techniques (surface) and edges drawn by analysts in flows assigned to the
   specified class. Boundary object: `SubgraphView` (`class_name`,
@@ -294,7 +298,7 @@ resolves the truncation pattern correctly. Per-flow defence in
 [`../notes/2026-05-28_l2_per_flow_justifications.md`](pipeline/gasp/per_flow_justifications.md).
 **If revisited:** If a corpus expansion or simulator-driven discrimination
 step reveals operator-aggregation is dominating per-class discrimination
-(e.g. the `double_extortion` class's signal is *the Conti signature* rather
+(e.g. the `objective_exfiltration_impact` class's signal is *the Conti signature* rather
 than a *double-extortion signature*), re-open the spec against the four
 mitigations in
 [`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../notes/ch3_design/operator_concentration.md)
@@ -579,14 +583,14 @@ ASR signal across the experiment matrix.
 - **GAP** — *Generalised APT Profile*. The L1 aggregated graph.
 - **GASP** — *Operational-objective-subgraphed APT Profile*. The L2
   operational-objective-conditioned subgraphs of GAP — four `SubgraphView`s,
-  one per class `{pure_steal, pure_impediment, double_extortion,
-  infrastructure_setup}`, per [`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md). (The
+  one per class `{objective_exfiltration, objective_impact, objective_exfiltration_impact,
+  objective_none_c2}`, per [`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md). (The
   earlier "motivation-subgraphed" expansion is investigation-time
   terminology; the live axis is operational objective.)
 - **OGASP** — *Operationalised GASP*. The L3 attacker-agent traversal of GASP
   within MTDSim.
 - **Operational-objective profile** — a categorical specifier from
-  `{pure_steal, pure_impediment, double_extortion, infrastructure_setup}`
+  `{objective_exfiltration, objective_impact, objective_exfiltration_impact, objective_none_c2}`
   parameterising the L1→L2 subgraphing step. (Supersedes the early
   "motivation profile" framing — see
   [`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(b) Decision 1.)
@@ -698,7 +702,7 @@ declared policy; the defensible claim is **fidelity-changes-the-answer over a
 CTI-grounded envelope**. *Rules out:* claiming a traversal *is* a named
 actor; reading the envelope MTTC as a real campaign's dwell time; reading
 weighted paths as actor-likelihood. Every downstream claim is phrased
-envelope-relative ("under the `pure_steal` envelope…") — the one-liners in
+envelope-relative ("under the `objective_exfiltration` envelope…") — the one-liners in
 [`metrics_semantics.md`](metrics_semantics.md) §(f) and
 [`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(a) enforce the same reading at
 their layers.

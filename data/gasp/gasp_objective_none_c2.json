@@ -1,5 +1,5 @@
 {
-  "class_name": "infrastructure_setup",
+  "class_name": "objective_none_c2",
   "node_set": [
     "T1003",
     "T1016",
@@ -636,7 +636,7 @@
     ]
   ],
   "provenance": {
-    "class_name": "infrastructure_setup",
+    "class_name": "objective_none_c2",
     "flow_ids": [
       "cisa_aa22_138b_vmware_workspace_alt",
       "cisa_aa22_138b_vmware_workspace_ta2",
@@ -649,6 +649,6 @@
     "gap_build_date": "2026-05-28",
     "audit_csv_path": "data/gasp/metadata_audit.csv",
     "gap_path": "data/gap/gap_v0.5.json",
-    "build_date": "2026-07-13"
+    "build_date": "2026-08-06"
   }
 }

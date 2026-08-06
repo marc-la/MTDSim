@@ -6,6 +6,14 @@ topic: "The duty-cycle study — the kill criterion fired. Which attacker looks 
 
 # Detectability as a duty cycle — the comparison is not robust, and the kill criterion says so
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable results record. It discharges the duty-cycle study.
 Conclusions and criteria were fixed in
 [`stealth_dutycycle_prereg.md`](stealth_dutycycle_prereg.md) and committed

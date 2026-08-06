@@ -7,6 +7,14 @@ topic: "Findings ledger (F1–F8) from the axis-6 session, re-read under the the
 
 # What greater attack fidelity implies for current MTD evaluation methods — a findings ledger
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 > **Relocated from `docs/handoffs/` on 2026-08-01, unchanged in substance.** It
 > was filed as a handoff and is not one: it commissions no work, sets no
 > validation gate, and will never be "shipped and deleted". By the placement

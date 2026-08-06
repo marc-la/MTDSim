@@ -264,10 +264,10 @@ def render_reachability_chart(
 
     out_path = Path(out_path)
     order = [
-        "pure_steal",
-        "pure_impediment",
-        "double_extortion",
-        "infrastructure_setup",
+        "objective_exfiltration",
+        "objective_impact",
+        "objective_exfiltration_impact",
+        "objective_none_c2",
         "aggregate",
     ]
     classes = [c for c in order if c in reports]

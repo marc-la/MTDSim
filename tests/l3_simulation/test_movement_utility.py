@@ -136,8 +136,8 @@ def test_a_live_modulator_logs_the_factors_it_applied() -> None:
     """A modulator that changes routing invisibly is unanalysable — the state's
     log must carry the non-unit factors so an experiment can see what the
     attacker preferred and why (seam record §6)."""
-    state = _state("pure_steal", 7, 1.0)
-    run_movement("pure_steal", seed=7, horizon=3_000,
+    state = _state("objective_exfiltration", 7, 1.0)
+    run_movement("objective_exfiltration", seed=7, horizon=3_000,
                  mapping_version="v2_partial", attacker_state=state)
     logged = [e for e in state.log if e["factors"]]
     assert logged, "a live modulator logged no factors"
@@ -195,13 +195,13 @@ def test_benefit_differs_between_profiles_for_the_same_tactic() -> None:
     }
     assert differing, "benefit is profile-invariant — it is re-deriving distance"
     # command-and-control is the sharpest case: the objective of
-    # infrastructure_setup (benefit 1.0) and merely instrumental elsewhere.
+    # objective_none_c2 (benefit 1.0) and merely instrumental elsewhere.
     assert "command-and-control" in differing
-    assert table["infrastructure_setup"]["command-and-control"] == 1.0
-    assert table["pure_steal"]["command-and-control"] < 1.0
+    assert table["objective_none_c2"]["command-and-control"] == 1.0
+    assert table["objective_exfiltration"]["command-and-control"] < 1.0
     # ... and impact inverts between the two single-objective profiles.
-    assert table["pure_impediment"]["impact"] > table["pure_steal"]["impact"]
-    assert table["pure_steal"]["exfiltration"] > table["pure_impediment"]["exfiltration"]
+    assert table["objective_impact"]["impact"] > table["objective_exfiltration"]["impact"]
+    assert table["objective_exfiltration"]["exfiltration"] > table["objective_impact"]["exfiltration"]
 
 
 def test_benefit_does_not_depend_on_the_source_place() -> None:
@@ -209,8 +209,8 @@ def test_benefit_does_not_depend_on_the_source_place() -> None:
     signed source→destination offset, so it cannot be reconstructed from a
     function that never sees the source. The modulator's utility is exactly such
     a function — asserted here by evaluating it with no source at all."""
-    modulator = utility_modulator_for("pure_steal", lam=1.0)
-    net = load_routing_net("pure_steal")
+    modulator = utility_modulator_for("objective_exfiltration", lam=1.0)
+    net = load_routing_net("objective_exfiltration")
     for place in net.places:
         out = net.base_out_weights(place)
         if len(out) < 2:
@@ -228,14 +228,14 @@ def test_the_gap_is_measured_to_the_profiles_own_objective() -> None:
     objective — hand-worked on the two profiles whose objectives sit at
     different lifecycle stages."""
     rules = load_utility_rules()
-    # infrastructure_setup's objective is command-and-control, stage 2.
-    assert stage_gap("command-and-control", "infrastructure_setup", rules) == 0
-    assert stage_gap("reconnaissance", "infrastructure_setup", rules) == 2
-    assert stage_gap("collection", "infrastructure_setup", rules) == 1
-    # pure_steal's is exfiltration, stage 3.
-    assert stage_gap("exfiltration", "pure_steal", rules) == 0
-    assert stage_gap("reconnaissance", "pure_steal", rules) == 3
-    assert stage_gap("discovery", "pure_steal", rules) == 1
+    # objective_none_c2's objective is command-and-control, stage 2.
+    assert stage_gap("command-and-control", "objective_none_c2", rules) == 0
+    assert stage_gap("reconnaissance", "objective_none_c2", rules) == 2
+    assert stage_gap("collection", "objective_none_c2", rules) == 1
+    # objective_exfiltration's is exfiltration, stage 3.
+    assert stage_gap("exfiltration", "objective_exfiltration", rules) == 0
+    assert stage_gap("reconnaissance", "objective_exfiltration", rules) == 3
+    assert stage_gap("discovery", "objective_exfiltration", rules) == 1
 
 
 # --- 5. the cost term: reused, floored, declared ----------------------------
@@ -258,10 +258,10 @@ def test_the_declared_floor_prices_the_off_clock_tactic() -> None:
     off-clock tactic is its benefit over the floor, and it moves when the floor
     is swept."""
     rules = load_utility_rules()
-    benefit = load_benefit()["pure_steal"]["resource-development"]
-    declared = utility_modulator_for("pure_steal", lam=1.0)
+    benefit = load_benefit()["objective_exfiltration"]["resource-development"]
+    declared = utility_modulator_for("objective_exfiltration", lam=1.0)
     assert declared.utility("resource-development") == pytest.approx(benefit / 4.5)
-    cheap = utility_modulator_for("pure_steal", lam=1.0, cost_floor_s=1.0)
+    cheap = utility_modulator_for("objective_exfiltration", lam=1.0, cost_floor_s=1.0)
     assert cheap.utility("resource-development") == pytest.approx(benefit / 1.0)
     assert cheap.utility("resource-development") > declared.utility(
         "resource-development"
@@ -273,7 +273,7 @@ def test_a_non_positive_floor_is_refused() -> None:
     zero; a floor that reintroduces the division fails loudly at construction."""
     with pytest.raises(ValueError, match="cost_floor_s must be positive"):
         UtilityModulator(
-            profile="pure_steal", benefit={"a": 1.0}, cost={"a": 0.0},
+            profile="objective_exfiltration", benefit={"a": 1.0}, cost={"a": 0.0},
             lam=1.0, cost_floor_s=0.0,
         )
 
@@ -281,7 +281,7 @@ def test_a_non_positive_floor_is_refused() -> None:
 def test_an_unpriced_destination_fails_loudly() -> None:
     """A net/table disagreement is a bug, not a cell to default to 1.0."""
     modulator = UtilityModulator(
-        profile="pure_steal", benefit={"a": 1.0}, cost={"a": 10.0},
+        profile="objective_exfiltration", benefit={"a": 1.0}, cost={"a": 10.0},
         lam=1.0, cost_floor_s=4.5,
     )
     with pytest.raises(UtilityCompileError, match="no declared benefit"):

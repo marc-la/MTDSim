@@ -31,10 +31,10 @@ from mtdsim.l2_subgraph.dedup import (
 )
 
 EXPECTED_CLASS_COUNTS = {
-    "pure_steal": 19,
-    "pure_impediment": 8,
-    "double_extortion": 6,
-    "infrastructure_setup": 5,
+    "objective_exfiltration": 19,
+    "objective_impact": 8,
+    "objective_exfiltration_impact": 6,
+    "objective_none_c2": 5,
 }
 
 
@@ -104,7 +104,7 @@ def _mean_pairwise_jsd(
 
 def test_subgraphview_roundtrip(tmp_path: Path) -> None:
     v = SubgraphView(
-        class_name="pure_steal",
+        class_name="objective_exfiltration",
         node_set=frozenset(("T1001", "T1003")),
         edge_set=frozenset((("T1001", "T1003"),)),
         provenance={"flow_ids": ["a", "b"], "source_flow_count": 2},

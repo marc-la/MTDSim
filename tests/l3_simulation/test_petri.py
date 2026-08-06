@@ -37,36 +37,36 @@ from mtdsim.l3_simulation.petri.synthetic_overlay import (
 
 # Locked expectations from the handoff component-mapping table.
 EXPECTED_PLACES = {
-    "pure_steal": 15,
-    "pure_impediment": 14,
-    "double_extortion": 14,
-    "infrastructure_setup": 13,
+    "objective_exfiltration": 15,
+    "objective_impact": 14,
+    "objective_exfiltration_impact": 14,
+    "objective_none_c2": 13,
 }
 EXPECTED_TRANSITIONS = {  # inter-tactic tactic-pairs
-    "pure_steal": 109,
-    "pure_impediment": 83,
-    "double_extortion": 72,
-    "infrastructure_setup": 57,
+    "objective_exfiltration": 109,
+    "objective_impact": 83,
+    "objective_exfiltration_impact": 72,
+    "objective_none_c2": 57,
 }
 EXPECTED_INTER_TACTIC_EDGES = {
-    "pure_steal": 363,
-    "pure_impediment": 225,
-    "double_extortion": 201,
-    "infrastructure_setup": 136,
+    "objective_exfiltration": 363,
+    "objective_impact": 225,
+    "objective_exfiltration_impact": 201,
+    "objective_none_c2": 136,
 }
 EXPECTED_SELFLOOPS_DROPPED = {
-    "pure_steal": 50,
-    "pure_impediment": 29,
-    "double_extortion": 24,
-    "infrastructure_setup": 12,
+    "objective_exfiltration": 50,
+    "objective_impact": 29,
+    "objective_exfiltration_impact": 24,
+    "objective_none_c2": 12,
 }
 # The recon -> initial-access prefix gap, per the inspect-the-base finding:
 # bridged (a single direct edge) in two classes, an island in the other two.
 EXPECTED_RECON_REACHES_IA = {
-    "pure_steal": True,
-    "pure_impediment": True,
-    "double_extortion": False,
-    "infrastructure_setup": False,
+    "objective_exfiltration": True,
+    "objective_impact": True,
+    "objective_exfiltration_impact": False,
+    "objective_none_c2": False,
 }
 
 
@@ -283,7 +283,7 @@ def test_prefix_gap_matches_inspect_the_base_finding(nets, gap, cls):
 # The profiles whose observed corpus leaves the pre-intrusion band detached —
 # the guard rule adds the synthetic connective tissue to exactly these
 # (synthetic_overlay.md island table).
-JOINED_PROFILES = ("double_extortion", "infrastructure_setup")
+JOINED_PROFILES = ("objective_exfiltration_impact", "objective_none_c2")
 
 # The bidirectional pre-intrusion connective tissue: forward chain (share 1.0
 # each, sole out of an island place) + backward regression bridge (declared

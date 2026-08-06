@@ -29,16 +29,16 @@ against the fixed aggregate exactly as the observed classes are.
 
 | Class | flows (raw → dedup) | mean JSD vs aggregate (dedup) | raw robustness | null p50 | null p95 | exceeds null p95? |
 |---|---|--:|--:|--:|--:|---|
-| `pure_steal` | 19 → 14 | 0.1919 | 0.1399 | 0.1580 | 0.2248 | **no** |
-| `pure_impediment` | 8 → 7 | 0.3330 | 0.3205 | 0.2973 | 0.4158 | **no** |
-| `double_extortion` | 6 → 4 | 0.3000 | 0.3256 | 0.3989 | 0.5281 | **no** |
-| `infrastructure_setup` | 5 → 4 | 0.3813 | 0.3939 | 0.3870 | 0.5101 | **no** |
+| `objective_exfiltration` | 19 → 14 | 0.1919 | 0.1399 | 0.1580 | 0.2248 | **no** |
+| `objective_impact` | 8 → 7 | 0.3330 | 0.3205 | 0.2973 | 0.4158 | **no** |
+| `objective_exfiltration_impact` | 6 → 4 | 0.3000 | 0.3256 | 0.3989 | 0.5281 | **no** |
+| `objective_none_c2` | 5 → 4 | 0.3813 | 0.3939 | 0.3870 | 0.5101 | **no** |
 
 Aggregate (null profile): 38 → 29 flows; its dedup-vs-raw self-divergence is mean JSD **0.0401** (robustness of the null profile to the dedup discipline).
 
 ## Per-place JSD vs the aggregate (dedup primary)
 
-| Place | `pure_steal` | `pure_impediment` | `double_extortion` | `infrastructure_setup` |
+| Place | `objective_exfiltration` | `objective_impact` | `objective_exfiltration_impact` | `objective_none_c2` |
 |---|--:|--:|--:|--:|
 | collection | 0.1138 | 0.7583 | 0.4934 | 0.7583 |
 | command-and-control | 0.1277 | 0.1505 | 0.1626 | 0.1738 |
@@ -67,10 +67,10 @@ in the nets; they are excluded from these statistics only.
 
 | Profile | supported / total transitions | reach from recon seed | reach from initial-access | objective from IA | shortest entry→obj | longest entry→obj | branching | distinct entry→obj paths | sinks | islands |
 |---|---|--:|--:|---|---|---|--:|--:|---|---|
-| `pure_steal` | 73 / 109 | 14 | 14 | exfiltration: yes | 0 hops (exfiltration → exfiltration) | 13 hops (resource-development → exfiltration) | 5.21 | 180,605 | impact | — |
-| `pure_impediment` | 51 / 83 | 14 | 14 | impact: yes | 1 hops (command-and-control → impact) | 12 hops (reconnaissance → impact) | 3.64 | 3,741 | — | — |
-| `double_extortion` | 45 / 72 | 1 | 12 | exfiltration: yes, impact: yes | 1 hops (command-and-control → exfiltration) | 10 hops (initial-access → exfiltration) | 4.09 | 2,426 | credential-access, reconnaissance, resource-development | reconnaissance, resource-development |
-| `infrastructure_setup` | 34 / 57 | 1 | 11 | command-and-control: yes | 0 hops (command-and-control → command-and-control) | 6 hops (initial-access → command-and-control) | 3.40 | 59 | defense-impairment, reconnaissance, resource-development | defense-impairment, resource-development |
+| `objective_exfiltration` | 73 / 109 | 14 | 14 | exfiltration: yes | 0 hops (exfiltration → exfiltration) | 13 hops (resource-development → exfiltration) | 5.21 | 180,605 | impact | — |
+| `objective_impact` | 51 / 83 | 14 | 14 | impact: yes | 1 hops (command-and-control → impact) | 12 hops (reconnaissance → impact) | 3.64 | 3,741 | — | — |
+| `objective_exfiltration_impact` | 45 / 72 | 1 | 12 | exfiltration: yes, impact: yes | 1 hops (command-and-control → exfiltration) | 10 hops (initial-access → exfiltration) | 4.09 | 2,426 | credential-access, reconnaissance, resource-development | reconnaissance, resource-development |
+| `objective_none_c2` | 34 / 57 | 1 | 11 | command-and-control: yes | 0 hops (command-and-control → command-and-control) | 6 hops (initial-access → command-and-control) | 3.40 | 59 | defense-impairment, reconnaissance, resource-development | defense-impairment, resource-development |
 | `aggregate` | 114 / 122 | 15 | 15 | command-and-control: yes, exfiltration: yes, impact: yes | 0 hops (command-and-control → command-and-control) | 14 hops (resource-development → command-and-control) | 7.60 | 45,665,097 | — | — |
 
 ## Verdict

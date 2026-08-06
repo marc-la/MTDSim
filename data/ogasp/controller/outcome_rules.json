@@ -265,7 +265,7 @@
       "provenance_tier": "declared-judgement",
       "status": "stable",
       "confidence": 78,
-      "scrutiny": "R1/R2 most-corroborated residual: flat 0.9 routed 15-41% to regress-to-execution. R2 fix halves it (exec-sink 2.752->1.598). KNOWN benign quirk: pure_steal defense-impairment->execution rises 0.5->0.583 (sparse-out-set renorm: sibling damped harder). Round 4 (stepwise) in progress.",
+      "scrutiny": "R1/R2 most-corroborated residual: flat 0.9 routed 15-41% to regress-to-execution. R2 fix halves it (exec-sink 2.752->1.598). KNOWN benign quirk: objective_exfiltration defense-impairment->execution rises 0.5->0.583 (sparse-out-set renorm: sibling damped harder). Round 4 (stepwise) in progress.",
       "changelog": [
         "R2: NEW rule. backward->execution 0.9 -> 0.35 (re-running code on a held foothold is a forward-level continuation, not a penalised regress). Decoupled from enables."
       ]

@@ -10,10 +10,10 @@ Build code: [`src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph).
 | Path | Tracked? | What |
 |---|---|---|
 | `classification.csv` | **computed** | flow_id → class_name + audit metadata carried through |
-| `gasp_pure_steal.json` | **computed** | `SubgraphView` for `pure_steal` (19 flows) |
-| `gasp_pure_impediment.json` | **computed** | `SubgraphView` for `pure_impediment` (8 flows) |
-| `gasp_double_extortion.json` | **computed** | `SubgraphView` for `double_extortion` (6 flows) |
-| `gasp_infrastructure_setup.json` | **computed** | `SubgraphView` for `infrastructure_setup` (5 flows) |
+| `gasp_objective_exfiltration.json` | **computed** | `SubgraphView` for `objective_exfiltration` (19 flows) |
+| `gasp_objective_impact.json` | **computed** | `SubgraphView` for `objective_impact` (8 flows) |
+| `gasp_objective_exfiltration_impact.json` | **computed** | `SubgraphView` for `objective_exfiltration_impact` (6 flows) |
+| `gasp_objective_none_c2.json` | **computed** | `SubgraphView` for `objective_none_c2` (5 flows) |
 | `_viz/` | gitignored | diagnostic visualisations (regenerable via `_viz/gasp_viz.py`) |
 
 The class subgraphs are a deterministic function of `data/gap/gap_v0.5.json`

@@ -7,6 +7,14 @@ topic: "The attacker-disengagement measure — built as a reader, validated agai
 
 # Attacker disengagement — the measure works, and it says the profiled attacker's collapse is not MTD's doing
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable results record. It discharges the attacker-disengagement
 handoff. Conclusions and criteria were fixed in
 [`attacker_disengagement_prereg.md`](attacker_disengagement_prereg.md) and
