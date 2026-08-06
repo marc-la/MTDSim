@@ -68,19 +68,21 @@ current shape.
 
 ### Two things the corpus does not contain
 
-**1. May and June are missing entirely.** `dev` carries **92 commits** across
-those two months (84 in May, 8 in June); there are **zero** transcript records
-with a May or June timestamp in any of the three account stores. The
-account-level `history.jsonl` files are ring buffers of ~20 records and hold only
-April, so they are not a recovery path. This was checked directly and is not an
-artefact of how the files were selected.
+**1. May and June are missing entirely — and this is benign.** `dev` carries
+**92 commits** across those two months (84 in May, 8 in June); there are **zero**
+transcript records with a May or June timestamp in any of the three account
+stores. The account-level `history.jsonl` files are ring buffers of ~20 records
+holding only April, so they are not a recovery path. This was checked directly
+and is not an artefact of how the files were selected.
 
-Do not paper over this. The annal must carry the blackout as a stated boundary,
-because May is not a quiet month in this project's history — it is where a large
-share of the substrate correction work landed. Two partial reconstructions are
-available and should be used rather than a shrug: `git log dev` for that window,
-and the supervisor updates *quoted inside* later prompts, which reference dates
-in May and June and summarise what had been done by then.
+It costs this exercise nothing, because **that window was introduction and
+literature-review work** (Marc, 2026-08-06), and both chapters are scoped out of
+this brief. Record the blackout in the annal as a one-line boundary with its
+explanation attached, so a future session does not mistake it for data loss and
+go hunting. Do **not** spend a stage reconstructing it from `git log` and quoted
+supervisor updates: that would be reconstructing the one part of the thesis this
+brief does not serve. The April→July gap in the record is therefore a gap in the
+transcripts, not a gap in the research record this brief produces.
 
 **2. The assistant is not a witness to Marc's reasoning, only to its
 expression.** A prompt records the intent Marc chose to articulate at a moment.
@@ -106,6 +108,12 @@ Reuse the idea; discard the format. And note the coverage gap: that pull predate
 the July 22–23 and all August work, so it covers well under half of what now
 exists.
 
+It is a **format precedent only**. That pull mined the corpus for *how Marc
+writes*; this one mines it for *what he decided and why*. The extraction
+mechanics are shared and the findings are not, so do not treat any conclusion in
+the voice record as evidence about content — and do not let a prompt's
+stylistic interest earn it a place in the annal.
+
 ### The duplication risk, which is the main way this goes wrong
 
 A great deal of this rationale is **already recorded** — often better than the
@@ -126,10 +134,56 @@ the evidence of this survey that will be concentrated in one band: the
 abandonments and reversals, which no document in this repo currently owns because
 shipped records describe what *is*, not what was discarded on the way.
 
+**But "already recorded" is a two-way test, and the second direction is the more
+valuable one.** Ideas developed over three months; the documents that carry them
+did not always keep up (Marc, 2026-08-06). So when a prompt and a shipped record
+disagree, there are two readings, and the triage must decide between them rather
+than defaulting to either:
+
+- the **prompt is superseded** — a position later abandoned, which the record
+  correctly reflects. Disposition `already-recorded`; the prompt may still earn
+  an annal entry as part of a reversal thread.
+- the **record has drifted** — the thinking moved on and the document lagged. The
+  prompt is the *later* evidence, and the shipped record is quietly stale.
+
+The second case is a real finding and one this exercise is unusually well placed
+to catch, because it is exactly what nobody notices from inside a working
+session: staleness is invisible until you read the intent and the artefact side
+by side, months apart. Chronology decides it — which is why Stage 0 carries
+timestamps and Stage 1 reads in date order. The disposition list below therefore
+has **five** entries, not four, and the drift flags are an output of this brief
+in their own right.
+
 ## Recommended approach
 
 Four stages. Stage 0 is cheap and should be done immediately, for a reason given
 below. Stages 1–3 are one session each at minimum; Stage 1 is likely two.
+
+### When to run this — Stage 0 now, Stages 1–3 in about a week
+
+Marc is holding the analysis until the implementation firms up, with roughly 90 %
+of it expected in place and first results being pulled within the week
+(2026-08-06). That is the right call and it is a scheduling decision, not a
+deferral, for three reasons:
+
+- **The corpus is still being written.** The next week of implementation and the
+  first results run will generate some of the most dissertation-relevant prompts
+  in the whole record — evaluation intent (band 4) is currently the thinnest
+  band, and it is thin because the evaluation has not happened yet. Mining now
+  guarantees a second pass later.
+- **`record-drifted` needs a settled record to measure drift against.** Running
+  the staleness test while the implementation is still moving produces flags that
+  are noise about a week-old document rather than findings about a stale one.
+- **`ch5_evaluation` notes cannot be written before results exist.** An
+  evaluation-framing note whose claim depends on an unrun experiment has to say
+  so under the rubric, which is a weak note by construction.
+
+Stage 0 is the exception and should not wait, because it is the only stage that
+protects against loss rather than producing analysis — and because the extractor
+is re-runnable by design, so running it today costs nothing when the corpus grows.
+Expect the re-run to exceed the numbers pinned below; that is the tool working,
+not drifting. Re-pin the sanity gate at Stage 1 against the corpus as it stands
+that day.
 
 ### Stage 0 — snapshot the corpus, then build the extractor (do this first)
 
@@ -195,14 +249,21 @@ took, drawn from the sample read during this survey.
    any as new, and expect this band to *confirm* rather than extend.
 7. **Noise** — refactors, context management, git chores, tool wrangling.
 
-Then attach one of four dispositions, and attach one to **every** prompt — a
+Then attach one of five dispositions, and attach one to **every** prompt — a
 prompt dropped silently is indistinguishable from a prompt never read, and the
 completeness of this table is what makes the annal trustworthy:
 
 - `already-recorded` → cite the file and section; no annal prose.
+- `record-drifted` → the prompt post-dates the record and the record did not keep
+  up. Cite the file, the prompt's date, and the specific divergence. **Flag for
+  Marc; do not edit the record** (see hard constraints).
 - `annal-entry` → unrecorded rationale; goes to Stage 2.
 - `note-candidate` → carries a dissertation argument; goes to Stage 3.
 - `noise` → band 7.
+
+`already-recorded` and `record-drifted` are separated by chronology, not by
+confidence: if the prompt is the later evidence and the record does not reflect
+it, it is drift, whatever the prompt's tone.
 
 Land this as a table in the new subtree. It is the audit trail for the claim
 "the corpus has been read", and it is what lets a future session re-run the
@@ -233,13 +294,43 @@ that file's contract requires it.
 
 ### Stage 3 — the notes the mining earns
 
-Only band 2–5 material, only where it is an argument. Run the rubric's
-cross-examination before committing each note, and load
-[`../workflows/voice.md`](../workflows/voice.md) first — this is dissertation-bound
-prose. Expected homes: design rationale to `ch3_design/`; constraint-driven
+Only band 2–5 material, only where it is an argument.
+
+**Four documents govern this stage, and all four are binding — not one of them is
+a suggestion.** Load them before drafting, in this order:
+
+1. [`../notes/_writing_guide.md`](../notes/_writing_guide.md) — **the one to read
+   first, and the one most likely to be skipped.** It states the one-line job of
+   each part of the dissertation, the drafting order, and how the notes system
+   maps onto it. A note drafted without it tends to be well-written material
+   aimed at no particular chapter job, which is the most expensive kind of note
+   to fix later because nothing about it looks wrong.
+2. [`../notes/_template.md`](../notes/_template.md) — **the required shape**, not
+   a starting suggestion: frontmatter (`status`, `chapter`, `created`,
+   `updated`), then *Position in the dissertation*, *The idea*, *Evidence and
+   repo anchors*, *Revisit conditions*. Every note uses these sections, in this
+   order. The *Evidence and repo anchors* footer is the **only** place a repo
+   path may appear — which matters more here than usual, since this stage's raw
+   material is full of file paths and session detail.
+3. [`../workflows/notes_rubric.md`](../workflows/notes_rubric.md) — the
+   seven-test cross-examination, run before committing each note.
+4. [`../workflows/voice.md`](../workflows/voice.md) — the sentence-level
+   contract; default for notes, and this is dissertation-bound prose.
+
+Expected homes: design rationale to `ch3_design/`; constraint-driven
 choices to `ch4_implementation/`; metric selection to `ch5_evaluation/`;
 abandonments and their lessons to `ch6_discussion/`, whose future-work material
 rides the *Revisit conditions* of the notes that spawn them.
+
+The transformation, and the reason the rubric's ban is not a mere formality:
+**a note is a rough draft of an idea, written an abstraction away from the
+session that produced it** (Marc, 2026-08-06). It is not a summary of what
+happened. The session's execution detail — the file that was edited, the run
+that failed, the tool that was built — is the *occasion* for the idea and almost
+never belongs in the note; what belongs is the concept or theme that would
+plausibly survive into a chapter, argued in research voice. A useful test on any
+Stage 3 draft: if it reads as an account of work, it is annal material that has
+escaped Stage 2. Rewrite it as the claim, or send it back.
 
 The chapter map has no `ch1`/`ch7` subdirs by design, and Marc has scoped the
 introduction and literature review out of this exercise, so nothing here should
@@ -268,19 +359,28 @@ be aimed at them.
 The work is done when all of these hold:
 
 1. `tools/prompt_corpus.py` is committed and reproduces **73 prompts / 63 900
-   words at ≥ 150 words** on the 2026-08-06 corpus.
+   words at ≥ 150 words** against the 2026-08-06 corpus specifically — a
+   regression check on the filter set, run over a pinned date bound, not over
+   whatever the corpus has since grown to.
 2. A raw snapshot of all 110 transcripts exists outside `~/.claude*`.
-3. The disposition table covers **73 of 73** prompts, each with one of the four
-   dispositions and, for `already-recorded`, a named file.
+3. The disposition table covers **every** prompt in the ≥ 150-word band as it
+   stands on the day Stage 1 runs — one of the five dispositions each, and a
+   named file for both `already-recorded` and `record-drifted`.
 4. Every thread file states what was abandoned, not only what was decided — a
    thread with no negative space has not been mined, it has been summarised.
-5. The May–June blackout is stated in the annal, with `git log dev` for that
-   window and the quoted supervisor updates used as the partial reconstruction.
-6. `docs_map.md` registers the new subtree, in the creating commit.
-7. Every new note passes the rubric's seven-test cross-examination, and the count
-   is small enough to be plausible — if Stage 3 produces twenty notes, the gate
-   has failed, not succeeded.
-8. No annal claim contradicts a shipped record without saying so explicitly and
+5. The `record-drifted` flags are collected in one list, each naming the record,
+   the prompt's date, and the divergence — and **none of them has been actioned**.
+6. The May–June blackout is stated in the annal as a one-line boundary with its
+   explanation (introduction and literature-review work, out of scope here), and
+   no stage has been spent reconstructing it.
+7. `docs_map.md` registers the new subtree, in the creating commit.
+8. Every new note follows `_template.md`'s section shape exactly, declares its
+   chapter job in the terms `_writing_guide.md` sets out, passes the rubric's
+   seven-test cross-examination, and reads as a claim rather than an account of
+   work. Repo paths appear in the evidence footer and nowhere else. The count is
+   small enough to be plausible — if Stage 3 produces twenty notes, the gate has
+   failed, not passed.
+9. No annal claim contradicts a shipped record without saying so explicitly and
    dating both.
 
 ## Hard constraints
@@ -295,13 +395,24 @@ The work is done when all of these hold:
   carries the date of the prompt it rests on. A reversed decision is recorded
   *as* reversed, with both dates. This is the retire-by-evidence rule applied to
   a primary source.
+- **Shipped records are dated evidence too.** The rule above cuts both ways: a
+  record states what was true when it was written, and three months is long
+  enough for one to fall behind the thinking. Neither side wins automatically —
+  chronology and evidence decide, and the outcome is a *flag*, never a silent
+  edit.
 - **The annal does not overrule shipped records.** Where a prompt and a shipped
-  record disagree, record both and flag it — the same standing rule that governs
-  papers against the code. Do not "correct" `architecture.md` from a prompt.
+  record disagree, record both, date both, and flag it — the same standing rule
+  that governs papers against the code. Do not "correct" `architecture.md` from a
+  prompt: a `record-drifted` flag is a candidate for Marc's disposition, exactly
+  as a candidate bug is. A three-month-old prompt is a weak warrant on its own;
+  what makes the flag worth raising is that Marc can see the divergence and rule
+  on it in one line.
 - **No new subtree without registration** in `docs_map.md`, same commit.
-- **Notes rubric and voice contract** apply in full to Stage 3, and to nothing in
-  Stage 2 — the annal is `implementation/` register and may use internal
-  vocabulary freely.
+- **The four notes documents — writing guide, template, rubric, voice — apply in
+  full to Stage 3**, and to nothing in Stage 2. The annal is `implementation/`
+  register and may use internal vocabulary freely; a note may not. In particular
+  the template's section shape is mandatory and the *Evidence and repo anchors*
+  footer is the only place a repo path appears.
 - **Never stage `~/.claude*` content into the repo** beyond the paraphrased
   annal. The snapshot is untracked. Transcripts contain absolute home paths and
   arbitrary tool output.
@@ -311,6 +422,10 @@ The work is done when all of these hold:
 
 ## Reading list
 
+- [`../notes/_writing_guide.md`](../notes/_writing_guide.md) and
+  [`../notes/_template.md`](../notes/_template.md) — **binding for Stage 3**: the
+  job each chapter does and how notes map onto it, and the mandatory section
+  shape. Read the guide before drafting anything, not after.
 - [`../workflows/notes_rubric.md`](../workflows/notes_rubric.md) — the seven-test
   cross-examination, and the explicit list of what a note is *not*. The gate for
   Stage 3 and the reason Stage 2 exists at all.
@@ -328,14 +443,18 @@ The work is done when all of these hold:
 ## Out of scope (explicitly)
 
 - **The introduction and literature review chapters.** Marc has scoped this to
-  design, implementation, evaluation and discussion/future-work.
+  design, implementation, evaluation and discussion/future-work. This is also
+  why the May–June transcript blackout costs nothing: that window *was* the
+  intro/lit-review work, so **reconstructing it is out of scope**, not deferred.
 - **Voice evidence.** That mining was done on 2026-07-13 and its conclusions are
   in `voice.md`. If the new extraction happens to strengthen it, that is a
   separate brief — do not re-open the voice contract here.
-- **Acting on anything found.** If the corpus reveals an unactioned decision or a
-  contradiction with a shipped record, it is **recorded and flagged**, not
-  fixed. Rulings are Marc's, and a three-month-old prompt is the weakest possible
-  warrant for changing today's code.
+- **Acting on anything found.** If the corpus reveals an unactioned decision, a
+  contradiction with a shipped record, or a `record-drifted` divergence, it is
+  **recorded and flagged**, not fixed — and this includes *documentation* fixes,
+  which will feel harmless and are the likeliest scope breach in the whole brief.
+  Rulings are Marc's, and a three-month-old prompt is the weakest possible
+  warrant for changing today's code or today's records.
 - **The other two projects** in the account stores (`304-game`, `CITS4505`).
 - **Closing `feat/stealth-exposure-reader`**, which is fully merged into `dev`
   (0 commits ahead) and by the session-start checklist should have been deleted

@@ -99,13 +99,18 @@ confirmed as already-ruled. Record:
    session transcripts. Off the axis chain entirely: it touches no code, gates
    nothing, and is gated by nothing. Scoped by measurement rather than estimate —
    **73 human prompts at ≥ 150 words, 63 900 words**, carrying most of the
-   argument mass; **May and June 2026 have no transcripts at all** against 92
-   commits on `dev`, and that blackout is a stated boundary of the record rather
-   than a gap to paper over. Splits deliberately: the annal is
-   `implementation/` material (the notes rubric bans session logs and decision
-   registers outright), and only what the mining *earns* becomes a note. Its
-   Stage 0 — snapshotting a corpus that lives unbacked outside the repo — is
-   cheap and should not wait on the rest.
+   argument mass. (May and June 2026 have no transcripts at all against 92
+   commits on `dev`; that window was intro/lit-review work, so the blackout is a
+   one-line boundary in the record and explicitly **not** a reconstruction job.)
+   Splits deliberately: the annal is `implementation/` material — the notes
+   rubric bans session logs and decision registers outright — and only what the
+   mining *earns* becomes a note, under the writing guide and template. Two
+   outputs beyond the annal: the **abandonments and reversals** no shipped record
+   owns, and a **`record-drifted` flag list** where the thinking moved on and the
+   document did not (flagged for Marc, never actioned).
+   **Timing: Stage 0 now, Stages 1–3 in about a week** — the extractor and a
+   snapshot of an unbacked corpus should not wait, but the analysis wants the
+   implementation settled and first results in hand.
 
 
 **Suggested order for the rest of the week:** (1), which is unblocked. Then (2),
