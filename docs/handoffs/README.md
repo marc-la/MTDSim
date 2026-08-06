@@ -117,18 +117,26 @@ have patched runners whose committed numbers were taken under the old labels.)*
    the case now rests on axis 1's foothold retention and axis 8's
    repeat-configuration reader alone.
 
-2. [`2026-08-04_vulnerability_memory_and_swift_mode.md`](2026-08-04_vulnerability_memory_and_swift_mode.md)
-   — **the axis-8 proof of concept**, rescoped 2026-08-05 to the stronger form:
-   host configurations held in memory, so a previously-seen image confers
-   success. **This reverses a ruled exclusion**, and the handoff argues the
-   reversal properly rather than overriding it — the exclusion was justified on
-   needing ML/RL inference, which a *memoisation* PoC does not engage. Three
-   records carry that exclusion and each needs a dated amendment before any
-   build. **Blocked on Marc's disposition**, and gated behind (2)'s
-   `repeat_configuration_compromise_rate` reader, which tells you whether
-   configurations ever recur on this substrate — if they do not, the PoC has
-   nothing to memoise and that is a cheap, legitimate result.
-
+2. [`2026-08-06_knowledge_gated_apt_attacker.md`](2026-08-06_knowledge_gated_apt_attacker.md)
+   — **one mechanism across axes 5, 7 and 8 (i)**, with axis 6 contested.
+   The attacker recons quietly, remembers which vulnerabilities it has beaten, and
+   spends `EXPLOIT_VULN` only when that knowledge says it will pay. **Absorbs and
+   replaces the vulnerability-memory / swift-mode brief** (deleted 2026-08-06):
+   that memory is its arm 1, swift mode is its arm 3, and the axis-8 scope
+   decision, reversal argument and composition hazard are carried forward in full.
+   **Its prerequisite check has run** — two-thirds of live vulnerability ids sit on
+   more than one host, so cross-host memory has traction; a mutation destroys ~80 %
+   of a *host's* vulnerability set, so the key must be identity and never
+   (host, vulnerability); and exact whole-host recurrence is **zero** (the apparent
+   9.87 % is precisely the five never-mutated endpoints), so axis-8 primitive (i)
+   in its exact-image form is dead on this substrate and must key coarser.
+   The design's load-bearing move is to build the **efficiency** claim and
+   *measure* stealth as an emergent consequence — optimising the metric you score
+   on would make the result definitional. It also inherits the shipped exposure
+   reader as its instrument, and sidesteps that reader's own kill criterion,
+   because its comparison is movement-versus-movement rather than cross-arm.
+   **Blocked on four rulings** (§2), of which reopening axis 6 and sanctioning
+   `mtd_ai` are the two that matter.
 
 3. [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
    — **the research record**, mined from Marc's own prompts across the 110
