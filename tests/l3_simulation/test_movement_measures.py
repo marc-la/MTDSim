@@ -594,7 +594,7 @@ def seeded_movement_run():
     from mtdsim.l3_simulation.movement.run import run_movement
 
     return run_movement(
-        "infrastructure_setup", seed=0, horizon=3_000,
+        "objective_none_c2", seed=0, horizon=3_000,
         mtd_scheme="random", mtd_interval=200,
     )
 
@@ -948,9 +948,14 @@ def test_the_baseline_trajectory_gates_on_compromise_not_on_uuid_presence() -> N
 from mtdsim.l3_simulation.movement.exposure import INVERSE, DIRECT, exposure_model
 
 TAU = 10.0
-QUIET = "stealth"        # tier 1 -> d = 0.125 at rho = 0.5
-LOUD = "impact"          # tier 4 -> d = 1.000 at rho = 0.5
-EXPLOITY = "initial-access"  # tier 3 -> d = 0.500 at rho = 0.5
+# Under R1 (2026-08-06) only a tactic that INVOKES a verb scores, so the fixtures
+# are drawn from the eight dispatching tactics. That narrows the reachable range
+# to tiers 1-3, which is the ruling's stated cost made concrete: `impact` and
+# `stealth` are dwell-only and now score exactly nothing.
+QUIET = "command-and-control"   # tier 1, invokes SCAN_NEIGHBOR -> d = 0.125
+LOUD = "privilege-escalation"   # tier 3, invokes EXPLOIT_VULN  -> d = 0.500
+EXPLOITY = "initial-access"     # tier 3, invokes EXPLOIT_VULN  -> d = 0.500
+D_LOUD, D_QUIET = 0.5, 0.125
 
 
 def exposure_test_model(**kwargs):
@@ -973,7 +978,7 @@ def test_the_level_starts_at_zero_so_the_first_visit_is_its_own_increment() -> N
     honest null rather than a choice, and it makes the first level readable
     without reference to anything."""
     curve = M.exposure_curve(run_of(*visits_at(LOUD, [0.0])), exposure_test_model())
-    assert curve.levels == (1.0,)
+    assert curve.levels == (D_LOUD,)
     assert curve.gaps == (0.0,)
 
 
@@ -988,9 +993,9 @@ def test_a_burst_of_noisy_actions_compounds() -> None:
         run_of(*visits_at(LOUD, [0.0, 1.0, 2.0])), exposure_test_model()
     )
     e = math.exp(-0.1)
-    assert curve.levels[0] == pytest.approx(1.0)
-    assert curve.levels[1] == pytest.approx(e + 1.0)
-    assert curve.levels[2] == pytest.approx((e + 1.0) * e + 1.0)
+    assert curve.levels[0] == pytest.approx(D_LOUD)
+    assert curve.levels[1] == pytest.approx(D_LOUD * e + D_LOUD)
+    assert curve.levels[2] == pytest.approx((D_LOUD * e + D_LOUD) * e + D_LOUD)
     assert curve.levels[0] < curve.levels[1] < curve.levels[2]
 
 
@@ -1005,7 +1010,7 @@ def test_an_idle_gap_decays_the_level() -> None:
     patient = M.exposure_curve(
         run_of(*visits_at(LOUD, [0.0, 50.0])), exposure_test_model()
     )
-    assert patient.levels[1] == pytest.approx(math.exp(-5.0) + 1.0)
+    assert patient.levels[1] == pytest.approx(D_LOUD * math.exp(-5.0) + D_LOUD)
     assert patient.levels[1] < burst.levels[1]
 
 
@@ -1016,7 +1021,7 @@ def test_a_stealth_only_run_stays_low() -> None:
     times = [0.0, 20.0, 40.0, 60.0, 80.0]
     quiet = M.exposure_curve(run_of(*visits_at(QUIET, times)), exposure_test_model())
     loud = M.exposure_curve(run_of(*visits_at(LOUD, times)), exposure_test_model())
-    assert loud.mean_exposure == pytest.approx(8.0 * quiet.mean_exposure)
+    assert loud.mean_exposure == pytest.approx(4.0 * quiet.mean_exposure)
     assert quiet.peak_exposure < loud.peak_exposure
 
 
@@ -1030,19 +1035,22 @@ def test_gaps_are_clamped_at_zero() -> None:
     ]
     curve = M.exposure_curve(run_of(*stream, termination=5.0), exposure_test_model())
     assert curve.gaps == (0.0, 0.0)
-    assert curve.levels == (1.0, 2.0)
+    assert curve.levels == (D_LOUD, 2 * D_LOUD)
 
 
-def test_dwell_only_visits_carry_their_tier_and_are_not_dropped() -> None:
-    """The ranking's three loudest tactics are dwell-only under v2_partial.
-    Scoring only attempted actions would leave the ranking's top rung inert and
-    score a campaign spending its time at its own objective as silent."""
+def test_dwell_only_visits_are_present_but_score_nothing() -> None:
+    """R1 (2026-08-06). A dwell-only visit stays IN the stream — it occupies the
+    attacker's time, so it must keep contributing to the gaps — and contributes no
+    increment. Dropping it from the stream instead would be arithmetically
+    identical here (the decay composes across a merged gap) and would lose the
+    event count, so it is kept and zeroed rather than filtered."""
     stream = [
-        rec(LOUD, step=0, verb="", verdict="", start=0.0, end=1.0, dwell=1.0,
+        rec("impact", step=0, verb="", verdict="", start=0.0, end=1.0, dwell=1.0,
             place_class=DWELL_ONLY),
     ]
     curve = M.exposure_curve(run_of(*stream), exposure_test_model())
-    assert curve.increments == (1.0,)
+    assert curve.increments == (0.0,)
+    assert curve.n_events == 1
     assert not M.action_records(run_of(*stream))  # dispatched nothing at all
 
 
@@ -1103,7 +1111,7 @@ def test_the_time_average_is_the_closed_form_integral() -> None:
     curve = M.exposure_curve(
         run_of(*visits_at(LOUD, [0.0]), termination=100.0), exposure_test_model()
     )
-    expected = TAU * (1.0 - math.exp(-10.0)) / 100.0
+    expected = D_LOUD * TAU * (1.0 - math.exp(-10.0)) / 100.0
     assert curve.time_average_exposure == pytest.approx(expected)
 
 
@@ -1135,7 +1143,7 @@ def test_mean_increment_ignores_the_clock_entirely() -> None:
     spread = M.exposure_curve(
         run_of(*visits_at(LOUD, [0.0, 500.0, 1000.0])), exposure_test_model()
     )
-    assert dense.mean_increment == spread.mean_increment == 1.0
+    assert dense.mean_increment == spread.mean_increment == D_LOUD
     assert dense.mean_exposure > spread.mean_exposure
 
 
@@ -1244,7 +1252,7 @@ def test_the_curve_re_derives_exactly_from_a_re_created_run(seeded_movement_run)
     from mtdsim.l3_simulation.movement.run import run_movement
 
     again = run_movement(
-        "infrastructure_setup", seed=0, horizon=3_000,
+        "objective_none_c2", seed=0, horizon=3_000,
         mtd_scheme="random", mtd_interval=200,
     )
     model = exposure_test_model()
@@ -1321,3 +1329,127 @@ def test_the_curve_computes_on_both_arms_from_one_seeded_run_each(
     assert movement.clock != baseline.clock
     # the one summary that compares with no caveat at all
     assert movement.mean_increment > 0 and baseline.mean_increment > 0
+
+
+# ---------------------------------------------------------------------------
+# §9b the duty-cycle summaries — stealth_dutycycle_prereg.md §3
+#
+# These exist because the two summaries above are provably blind to spacing, and
+# the tests below assert exactly that before testing what replaces them.
+# ---------------------------------------------------------------------------
+
+
+def test_the_time_average_is_algebraically_a_rate() -> None:
+    """The identity that retired it for this question: every event contributes
+    ``d*tau`` to the integral WHATEVER its spacing, so the time average is
+    ``tau * sum(d) / T`` — a count per unit time, blind to burstiness. Two runs
+    with identical events and wildly different spacing must agree."""
+    model = exposure_test_model()
+    dense = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 1.0, 2.0]), termination=900.0), model
+    )
+    spread = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 400.0, 800.0]), termination=900.0), model
+    )
+    predicted = D_LOUD * TAU * 3.0 / 900.0
+    assert dense.time_average_exposure == pytest.approx(predicted, rel=1e-3)
+    assert spread.time_average_exposure == pytest.approx(predicted, rel=1e-3)
+
+
+def test_the_concentration_ratio_is_degenerate_on_a_mostly_silent_run() -> None:
+    """**The pre-registered primary statistic fails here, and this pins why.**
+
+    ``p90/p50`` divides by a quantile that goes to zero whenever the attacker is
+    silent for most of the run — which is the normal case at a short decay
+    constant. Both runs below then return astronomically large numbers whose
+    ordering reflects how deep the silence got rather than how bursty the process
+    was, so the ratio is reporting a numerical artefact and not a duty cycle.
+
+    Recorded as a property of the statistic rather than worked around: the study
+    that pre-registered it fell back to the quiet-fraction frontier, which was
+    pre-registered alongside it and is bounded by construction (next test).
+    """
+    model = exposure_test_model()
+    dense = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 1.0, 2.0]), termination=900.0), model
+    )
+    spread = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 400.0, 800.0]), termination=900.0), model
+    )
+    assert dense.concentration() > 1e5
+    assert spread.concentration() > 1e5
+
+
+def test_the_quiet_fraction_frontier_discriminates_where_the_ratio_cannot() -> None:
+    """The bounded statistic on the same two runs. Three acts crammed into three
+    seconds leave the rest of the run silent; three acts spread across it do not,
+    so the dense run is quiet for MORE of its life at every threshold. Bounded in
+    [0, 1] by construction, so it cannot blow up the way the ratio does."""
+    model = exposure_test_model()
+    dense = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 1.0, 2.0]), termination=900.0), model
+    )
+    spread = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 400.0, 800.0]), termination=900.0), model
+    )
+    for theta in (0.01, 0.05, 0.25):
+        assert dense.quiet_fraction(theta) > spread.quiet_fraction(theta)
+        assert 0.0 <= spread.quiet_fraction(theta) <= 1.0
+
+
+def test_the_time_grid_starts_at_zero_before_the_first_event() -> None:
+    """Nothing had happened, so the level is zero — not the first increment
+    back-projected."""
+    curve = M.exposure_curve(
+        run_of(*visits_at(LOUD, [50.0]), termination=100.0), exposure_test_model()
+    )
+    grid = curve.time_grid(step=1.0)
+    assert grid[0] == 0.0 and grid[49] == 0.0
+    assert grid[50] == pytest.approx(D_LOUD)
+
+
+def test_the_time_grid_decays_between_events() -> None:
+    """One act at t = 0, tau = 10: the level at t = 10 is exactly 1/e of it."""
+    curve = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0]), termination=100.0), exposure_test_model()
+    )
+    grid = curve.time_grid(step=1.0)
+    assert grid[10] == pytest.approx(D_LOUD * math.exp(-1.0))
+
+
+def test_quiet_fraction_is_self_normalising_and_swept() -> None:
+    """The threshold is a reporting axis, not a declared value: it is a fraction
+    of the run's OWN peak, so the statistic is a shape rather than a level, and
+    it is monotone in the threshold."""
+    curve = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0]), termination=200.0), exposure_test_model()
+    )
+    fractions = [curve.quiet_fraction(t) for t in (0.01, 0.05, 0.25, 0.5)]
+    assert fractions == sorted(fractions)
+    assert 0.0 <= fractions[0] <= fractions[-1] <= 1.0
+
+
+def test_concentration_is_none_rather_than_infinite_on_a_silent_median() -> None:
+    """An arm quiet for more than half its run has no defined p90/p50, and
+    reporting a huge number there would be an artefact of dividing by nearly
+    nothing. None routes the reader to the quiet-fraction frontier instead."""
+    empty = M.exposure_curve(run_of(), exposure_test_model())
+    assert empty.concentration() is None
+    assert empty.time_quantile(0.5) is None
+
+
+def test_a_dwell_only_visit_contributes_time_but_no_signal() -> None:
+    """R1 end to end, through the reader: the dwell-only visit between two acts
+    adds no increment, and the gap it occupies still decays the level. That pair
+    of facts IS the low-and-slow mechanism."""
+    model = exposure_model()  # ruled defaults
+    stream = [
+        rec(EXPLOITY, step=0, start=0.0, end=1.0, dwell=1.0),
+        rec("impact", step=1, verb="", verdict="", start=50.0, end=90.0,
+            dwell=40.0, place_class=DWELL_ONLY),
+        rec(EXPLOITY, step=2, start=100.0, end=101.0, dwell=1.0),
+    ]
+    curve = M.exposure_curve(run_of(*stream, termination=200.0), model)
+    assert curve.increments[1] == 0.0
+    # the level at the third act is its own increment plus almost nothing
+    assert curve.levels[2] == pytest.approx(curve.increments[2], rel=1e-2)

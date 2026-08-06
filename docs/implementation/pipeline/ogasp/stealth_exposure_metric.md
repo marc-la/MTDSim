@@ -6,6 +6,31 @@ topic: "The axis-5 exposure reader — built, validated, and it inverts the pred
 
 # Stealth exposure — the measure works, and it says the profiled attacker is the loud one
 
+> **SUPERSEDED IN ITS SCORING CONVENTION, 2026-08-06 — read this record as
+> history.** Marc ruled the same day that **the increment fires on a tactic's
+> invocation of a verb**, so a dwell-only visit contributes elapsed time and no
+> increment (R1), and that arm-versus-arm readings are scored at **verb-level
+> tiers on both sides** (R2). Every figure below was computed under the opposite
+> convention — every visit scores, tactic-level tiers throughout — which is what
+> §5 already flagged as carrying 56–62 % of four profiles' exposure on tactics the
+> simulator never executes.
+>
+> **What that does to this record.** E1–E5 stand as scored: they were answered
+> against the instrument as it then was, and the pre-registration and the verdicts
+> are the audit trail. But the headline sentence — *the profiled attacker is the
+> loud one* — **must not be quoted forward**: it is an artefact of the superseded
+> convention, and under R1 three of five profiles fall below the baseline on the
+> same statistic.
+>
+> **What survives unchanged**, because none of it depends on the convention: the
+> 3.75× per-vulnerability inflation of the baseline's attack record (§3), the
+> qualification it forces on the parent record's §1.1 tempo claim, and the
+> measured inertness of the CVSS term (§1.1).
+>
+> The successor is [`stealth_dutycycle.md`](stealth_dutycycle.md), which rebuilds
+> the measure on both rulings — and whose own kill criterion then fired, for a
+> different and more fundamental reason.
+
 **Status:** durable results record. It discharges the axis-5 exposure-metric
 handoff. Conclusions and criteria were fixed in
 [`stealth_exposure_prereg.md`](stealth_exposure_prereg.md) and committed

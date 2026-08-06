@@ -192,6 +192,19 @@ class ExposureModel:
     direction: str
     tier_of: dict[str, int]
     verb_tier_of: dict[str, int]
+    #: **R1 (Marc, 2026-08-06).** The increment fires on a tactic's *invocation of
+    #: a verb*; a dwell-only visit contributes elapsed time and no increment. The
+    #: superseded convention — every visit scores — stays reachable because the
+    #: comparison between the two is itself a reported result, but it is not the
+    #: default: under it, 56-62 % of four profiles' exposure came from tactics the
+    #: simulator never executes.
+    score_dwell_only: bool = False
+    #: **R2 (Marc, 2026-08-06).** Score the movement arm at *verb* tiers rather
+    #: than tactic tiers. Off within an arm, where the corpus grounding is the
+    #: point; **on** for any arm-versus-arm reading, so that both sides are scored
+    #: by one identical rule and a cross-arm difference can only be *when*, never
+    #: *what*.
+    verb_level: bool = False
 
     def __post_init__(self) -> None:
         if self.tau <= 0.0:
@@ -203,18 +216,36 @@ class ExposureModel:
         tier_increment(MAX_TIER, self.rho)     # validates rho
         cvss_factor(0.5, self.delta, self.direction)  # validates delta / direction
 
+    #: ``tactic -> the verb it invokes``, empty string for a dwell-only tactic.
+    #: Derived from the declared artefact's own verb preimage rather than
+    #: hard-coded, so R1's dispatch test and the mapping stay one fact.
+    verb_of: dict[str, str] = field(default_factory=dict)
+
     # -- the two increment tables the reader consumes ------------------------
+    def invokes(self, place: str) -> bool:
+        """Does this tactic invoke a substrate verb? R1's test."""
+        return bool(self.verb_of.get(place, ""))
+
     def increment(self, place: str, exploitability: float = 0.0) -> float:
-        """``d`` for one movement-arm visit: the place's tier increment, modulated
-        by the CVSS term where a vulnerability was attempted."""
-        try:
-            tier = self.tier_of[place]
-        except KeyError:
+        """``d`` for one movement-arm visit.
+
+        **Zero for a dwell-only visit under R1** — it consumes the attacker's time
+        and dispatches nothing, so it contributes decay and no signal. That is the
+        whole of the low-and-slow mechanism: silence is what lets the level fall.
+        """
+        if place not in self.tier_of:
             raise ExposureCompileError(
                 f"no declared observability tier for place {place!r}; the ranking "
                 "is complete over the fifteen tactics, so an unranked place means "
                 "the net and the declared family have diverged"
-            ) from None
+            )
+        verb = self.verb_of.get(place, "")
+        if not verb and not self.score_dwell_only:
+            return 0.0
+        if verb and self.verb_level:
+            tier = self.verb_tier_of[verb]
+        else:
+            tier = self.tier_of[place]
         return tier_increment(tier, self.rho) * cvss_factor(
             exploitability, self.delta, self.direction
         )
@@ -262,6 +293,8 @@ def exposure_model(
     delta: float | None = None,
     direction: str = INVERSE,
     tier_overrides: Mapping[str, int] | None = None,
+    score_dwell_only: bool = False,
+    verb_level: bool = False,
 ) -> ExposureModel:
     """Resolve one point of the declared family.
 
@@ -270,6 +303,12 @@ def exposure_model(
     alternative rung — the movement-arm and baseline-arm tables are both rebuilt
     from it, so the two arms can never be scored against different tier
     assignments by accident.
+
+    ``score_dwell_only`` (R1) and ``verb_level`` (R2) default to the **ruled**
+    semantics of 2026-08-06: dwell-only visits do not score, and arm-versus-arm
+    readings pass ``verb_level=True`` so both sides are scored by one rule. The
+    superseded convention is reachable with ``score_dwell_only=True``, because the
+    comparison between the two is itself a reported result.
     """
     rules = rules if rules is not None else load_exposure_rules()
     tiers = dict(rules.tier_of)
@@ -286,6 +325,13 @@ def exposure_model(
         direction=direction,
         tier_of=tiers,
         verb_tier_of=_verb_tiers(tiers, rules.verb_preimage),
+        score_dwell_only=bool(score_dwell_only),
+        verb_level=bool(verb_level),
+        verb_of={
+            tactic: verb
+            for verb, tactics in rules.verb_preimage.items()
+            for tactic in tactics
+        },
     )
 
 
