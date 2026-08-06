@@ -13,9 +13,10 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 
 ---
 
-## Open work — three handoffs
+## Open work — four handoffs
 
-**(1) is unblocked; start there.**
+**(1) is unblocked; start there.** (4) is independent of the axis chain and can
+run alongside it.
 
 > **Reconciled on merge, 2026-08-05.** This chain was written on the boundary
 > branch, before the session branches were merged into `dev`. Three corrections
@@ -91,6 +92,20 @@ confirmed as already-ruled. Record:
    `repeat_configuration_compromise_rate` reader, which tells you whether
    configurations ever recur on this substrate — if they do not, the PoC has
    nothing to memoise and that is a cheap, legitimate result.
+
+
+4. [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
+   — **the research record**, mined from Marc's own prompts across the 110
+   session transcripts. Off the axis chain entirely: it touches no code, gates
+   nothing, and is gated by nothing. Scoped by measurement rather than estimate —
+   **73 human prompts at ≥ 150 words, 63 900 words**, carrying most of the
+   argument mass; **May and June 2026 have no transcripts at all** against 92
+   commits on `dev`, and that blackout is a stated boundary of the record rather
+   than a gap to paper over. Splits deliberately: the annal is
+   `implementation/` material (the notes rubric bans session logs and decision
+   registers outright), and only what the mining *earns* becomes a note. Its
+   Stage 0 — snapshotting a corpus that lives unbacked outside the repo — is
+   cheap and should not wait on the rest.
 
 
 **Suggested order for the rest of the week:** (1), which is unblocked. Then (2),
