@@ -14,7 +14,7 @@ Specification and the resolved judgements:
 
 Shape of the overlay (bidirectional pre-intrusion connective tissue,
 2026-07-21). For each profile whose observed corpus leaves the pre-intrusion
-band detached (``double_extortion``, ``infrastructure_setup``), the overlay
+band detached (``objective_exfiltration_impact``, ``objective_none_c2``), the overlay
 adds a **kill-chain-correct pre-intrusion chain plus a backward regression
 bridge**, so a successful attacker can traverse recon -> resource-development
 -> initial-access and a *failed* one can fall back into the pre-intrusion

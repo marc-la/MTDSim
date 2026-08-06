@@ -7,6 +7,14 @@ topic: "L3 M2 — the outcome (policy) overlay: a ground-up conditional-likeliho
 
 # The outcome (policy) overlay — a ground-up success/failure conditional-likelihood weighting over the whole tactic-pair set
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable. The design record that turns the **M2** ruling ("binary
 outcome selects between conditional weight treatments";
 [`supervisor_decision_register.md`](supervisor_decision_register.md) §M2) into an

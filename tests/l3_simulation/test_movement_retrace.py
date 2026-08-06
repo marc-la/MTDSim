@@ -27,20 +27,20 @@ HORIZON = 15_000
 
 # The profiles whose nets carry a sink under the overlay-on arm, and those that
 # do not — the second group is the internal control on the whole change.
-SINK_PROFILES = ("pure_steal", "double_extortion", "infrastructure_setup")
-SINKLESS_PROFILES = ("aggregate", "pure_impediment")
+SINK_PROFILES = ("objective_exfiltration", "objective_exfiltration_impact", "objective_none_c2")
+SINKLESS_PROFILES = ("aggregate", "objective_impact")
 
 # Carrying a sink and *reaching* it are different things, and the difference is a
 # fact about the synthetic pre-intrusion overlay rather than about the policy.
-# `infrastructure_setup` has `defense-impairment` as a structural sink but never
+# `objective_none_c2` has `defense-impairment` as a structural sink but never
 # walks into it with the overlay on (0 retraces over 10 seeds); with the overlay
 # off it strands at `reconnaissance` / `resource-development` and retraces freely
 # (49 over the same seeds). So the arm is part of the case, and the tests that
 # would otherwise pass vacuously say which arm they mean.
 RETRACING_ARMS = (
-    ("pure_steal", True),
-    ("double_extortion", True),
-    ("infrastructure_setup", False),
+    ("objective_exfiltration", True),
+    ("objective_exfiltration_impact", True),
+    ("objective_none_c2", False),
 )
 
 
@@ -107,7 +107,7 @@ def test_gate2_the_truncated_window_actually_opens() -> None:
     early in sim time, which is what shortened their per-profile denominator
     relative to the profiles that ran the full horizon. So the assertion is on
     the window, not on the event count — the event count is a consequence."""
-    for profile in ("pure_steal", "double_extortion"):
+    for profile in ("objective_exfiltration", "objective_exfiltration_impact"):
         off = _run(profile, retrace=False)
         on = _run(profile, retrace=True)
         assert terminal_mode(off) == "sink"
@@ -192,7 +192,7 @@ def test_gate5_suppression_is_one_shot() -> None:
     from no other. Asserted directly on the driver's own routing seam, because
     the property is about a single selection and a run-level statistic cannot
     see it."""
-    net = load_routing_net("pure_steal", with_synthetic_overlay=True)
+    net = load_routing_net("objective_exfiltration", with_synthetic_overlay=True)
     attacker = MovementAttacker.__new__(MovementAttacker)  # no sim needed
     attacker.routing = net
     attacker._visited = ["execution", "impact"]
@@ -230,7 +230,7 @@ def test_gate5_a_retrace_flag_lands_on_exactly_one_record() -> None:
     """The flag belongs to the record the retraced-to visit writes, and to that
     record only — otherwise the retrace count read off the records would not
     match the driver's."""
-    on = _run("pure_steal", retrace=True)
+    on = _run("objective_exfiltration", retrace=True)
     assert on.retrace_count > 0
     assert sum(1 for r in on.records if r.retrace) == on.retrace_count
 

@@ -3,6 +3,7 @@ status: canonical — GASP construction v1.0. Supersedes the
         v0.4 terminal-node-ancestor proxy and the architecture §(e)
         "motivation specifier {espionage, disruption, financial}" prose.
 created: 2026-05-28
+updated: 2026-08-06
 scope: L2 (GASP construction) only. L3/L4 are consumers, not in scope here.
 ---
 
@@ -45,7 +46,7 @@ synthesised *edges*; the GASP refuses synthesised *class memberships*.
 **Downstream reading:** each class subgraph — and any L3 net built from it —
 is a **behavioural envelope for its operational objective** (the union of
 5–19 flows), not any single actor's playbook; downstream claims are phrased
-envelope-relative ("under the `pure_steal` envelope…"). See
+envelope-relative ("under the `objective_exfiltration` envelope…"). See
 [`architecture.md`](../../architecture.md) §(j).
 
 Three corollaries:
@@ -84,9 +85,9 @@ which is where it matters for an MTD evaluation — phases 1–2 are invariant.
 (STIX `primary_motivation` populated), motivation re-enters as a comparable
 axis; the GASP would then carry both.
 
-**Decision 2 — class set is `{pure_steal, pure_impediment, double_extortion,
-infrastructure_setup}`, an empirical refinement of Alshamrani's 3-goal NIST
-baseline.**
+**Decision 2 — class set is `{objective_exfiltration, objective_impact,
+objective_exfiltration_impact, objective_none_c2}`, an empirical refinement of
+Alshamrani's 3-goal NIST baseline.**
 Alshamrani names *steal_data* / *damage* / *position_for_future*. This corpus
 contains **zero surveillance flows** (`position_for_future`-as-Alshamrani-
 names-it does not appear) and **six explicit double-extortion operations**
@@ -104,7 +105,7 @@ class would re-classify two `low`-confidence flows
 (`mac_malware_steals_crypto`, `searchawesome_adware`) that the 4-class scheme
 retains with explicit confidence downgrades. A corpus expansion that adds
 surveillance operations would re-instate Alshamrani's `position_for_future`
-distinct from `infrastructure_setup`.
+distinct from `objective_none_c2`.
 
 **Decision 3 — class membership is sourced from the audit-traced CSV, not
 the GAP's graph structure.**
@@ -147,7 +148,7 @@ objective using only class-resident techniques and their GAP dependencies),
 the class definition would re-introduce a bounded closure step. The current
 posture is that L3 reads the surface subgraph directly.
 
-**Decision 5 — the renamed residual class is `infrastructure_setup`, not
+**Decision 5 — the renamed residual class is `objective_none_c2`, not
 Alshamrani's `position_for_future`.**
 Alshamrani's `position_for_future` framing implies *ongoing surveillance* —
 APT actors maintaining footholds for future re-engagement. The five flows
@@ -159,15 +160,32 @@ Gootloader; plus two CISA AA22-138B variants with C2 / webshell terminals
 and no observed payload).
 **Why:** `position_for_future` as Alshamrani names it would imply
 *intended-surveillance* operations, which the corpus does not contain.
-Renaming to `infrastructure_setup` is faithful to what the corpus actually
+Renaming to `objective_none_c2` is faithful to what the corpus actually
 shows. This is *not* a synthetic analytical category — *"pre-payload"*,
 *"initial-access broker positioning"*, and *"evicted before mission
 complete"* are operational CTI vocabulary.
 **If revisited:** A corpus expansion that surfaces surveillance operations
 (persistent APT footholds with no observed exfil/impact, no eviction
-narrative — e.g. group-witnessed dormancy) would split `infrastructure_setup`
-into `infrastructure_setup` + `surveillance`. The current 5 flows would all
-stay in `infrastructure_setup`.
+narrative — e.g. group-witnessed dormancy) would split `objective_none_c2`
+into `objective_none_c2` + `surveillance`. The current 5 flows would all
+stay in `objective_none_c2`.
+
+**What the label names (2026-08-06 rename).** `objective_none_c2` names this
+class's **declared absorbing tactic**, not a realised objective. The
+`OBJECTIVE_TACTICS` mapping resolves the class to `command-and-control`, but
+the comment that declares it is explicit that C2 here is *"a foothold, not an
+attacker goal in the impact sense"* — which is the same thing this decision
+says. Two measurements settled the name over the set-consistent
+`objective_command_and_control`. This class's surface subgraph is the **only
+one of the four with zero exfiltration and zero impact techniques**, so the
+*absence* is what makes it a distinct class; and C2 is not distinctive for it
+— 5 of its 39 techniques (11 %) against 7–9 % in the other three classes.
+Naming it after C2 would invite the reading *"this is the C2 one"*, which the
+shares do not support. The retired `infrastructure_setup` was additionally the
+least MITRE-aligned label in the set: TA0042 *Resource Development* **is**
+adversary infrastructure setup (`T1583`, `T1584`), and `resource-development`
+is a live tactic in this repo's own vocabulary, so the old name read as "the
+TA0042 class", which this class is not.
 
 **Investigation provenance.** During the investigation that produced this
 spec, the accepted construction was named **P6 (compound-class disjoint)**
@@ -200,31 +218,50 @@ One row per flow at [`../notes/2026-05-28_l2_metadata_audit.csv`](../../../../da
 | `source_used` | Which CTI source(s) the classification was read from (CTID blurb, ATT&CK Group page, vendor URL) |
 | `notes` | Free-text justification — pointer to detailed per-flow defence in [`../notes/2026-05-28_l2_per_flow_justifications.md`](per_flow_justifications.md) |
 
-**CSV label ↔ spec label mapping.** The audit CSV's `stated_objective` column
-uses Alshamrani's original labels plus `double_extortion`; the spec uses
-this file's Decision 2 / Decision 5 renames. The L2 builder applies the
-mapping at read time:
+**The three-vocabulary crosswalk.** This seam now spans **three** vocabularies,
+not two, and this table is the canonical crosswalk for all of them. The audit
+CSV's `stated_objective` column uses Alshamrani's original labels plus
+`double_extortion`; the *spec labels* were this file's Decision 2 / Decision 5
+coinages; the *tactic labels* replaced those coinages in the 2026-08-06
+objective-tactic rename. The L2 builder applies the mapping at read time
+(`CSV_LABEL_TO_CLASS` in
+[`selector.py`](../../../../src/mtdsim/l2_subgraph/selector.py)):
 
-| CSV value | Spec class |
-|---|---|
-| `steal_data` | `pure_steal` |
-| `impediment` | `pure_impediment` |
-| `double_extortion` | `double_extortion` |
-| `position_for_future` | `infrastructure_setup` |
+| CSV value (frozen) | Old spec label (retired) | Tactic label (current) |
+|---|---|---|
+| `steal_data` | `pure_steal` | `objective_exfiltration` |
+| `impediment` | `pure_impediment` | `objective_impact` |
+| `double_extortion` | `double_extortion` | `objective_exfiltration_impact` |
+| `position_for_future` | `infrastructure_setup` | `objective_none_c2` |
 
-(If revisited: re-issue the CSV with renamed labels. The rename is
-mechanical and would touch only the CSV; investigation notes that reference
-`steal_data` etc. preserve their provenance value as written.)
+**What the tactic labels name, and what they do not.** Each names the class's
+**declared objective tactic** — the `OBJECTIVE_TACTICS` mapping in
+[`analysis.py`](../../../../src/mtdsim/l3_simulation/petri/analysis.py), the
+class-semantic tactic each profile's Petri net is analysed against. They are
+**not** a selection filter and must never be described as one: membership is
+analyst-stated, per the §(a) central invariant, and the structural-terminal
+scheme is the *rejected* P1 candidate ([`partition_decision.md`](partition_decision.md)),
+which disagrees with the audit on 15 of 38 flows. The audit's own descriptive
+columns make the point — only 7 of 19 `objective_exfiltration` flows terminate
+on exfiltration, and 1 of 5 `objective_none_c2` flows on command-and-control.
+
+**The left-hand column is frozen.** The *If revisited* clause that previously
+offered to re-issue the CSV with renamed labels is **declined** (2026-08-06).
+The `stated_objective` values are Alshamrani's vocabulary as the analysts
+applied it; they are the audit trail, and this seam is what keeps the
+provenance layer and the spec layer separately nameable. Only the right-hand
+side moved. Records that reference `steal_data` — or the retired middle column
+— preserve their provenance value as written.
 
 **Per-class distribution (the 19:8:6:5 split, post-verification round
 2026-05-28):**
 
 | Class | n flows | Conf: high | medium | low |
 |---|--:|--:|--:|--:|
-| `pure_steal` | 19 | 14 | 2 | 3 |
-| `pure_impediment` | 8 | 7 | 0 | 1 |
-| `double_extortion` | 6 | 6 | 0 | 0 |
-| `infrastructure_setup` | 5 | 3 | 0 | 2 |
+| `objective_exfiltration` | 19 | 14 | 2 | 3 |
+| `objective_impact` | 8 | 7 | 0 | 1 |
+| `objective_exfiltration_impact` | 6 | 6 | 0 | 0 |
+| `objective_none_c2` | 5 | 3 | 0 | 2 |
 | **total** | **38** | **30** | **2** | **6** |
 
 Low-confidence share is **6 / 38 = 15.8 %** — within the investigation's
@@ -245,7 +282,7 @@ is cheap.
 
 | Field | Type | Notes |
 |---|---|---|
-| `class_name` | str | `pure_steal` \| `pure_impediment` \| `double_extortion` \| `infrastructure_setup` |
+| `class_name` | str | `objective_exfiltration` \| `objective_impact` \| `objective_exfiltration_impact` \| `objective_none_c2` |
 | `node_set` | set[str] | technique IDs present in the class's flows (surface, §(b) Decision 4) |
 | `edge_set` | set[(str,str)] | GAP edges where both endpoints ∈ `node_set` |
 | `provenance` | obj | `flow_ids` (list of flow IDs in this class), `audit_csv_ref` (path + git SHA), `gap_ref` (gap_v0.5.json path + version) |
@@ -270,19 +307,19 @@ def class_subgraph(gap: GAP, audit_csv: AuditCSV, class_name: str) -> SubgraphVi
 
 | Class | n flows | nodes (of 124 GAP nodes) | edges (of 478 GAP edges) |
 |---|--:|--:|--:|
-| `pure_steal` | 19 | 98 | 413 |
-| `pure_impediment` | 8 | 62 | 254 |
-| `double_extortion` | 6 | 57 | 225 |
-| `infrastructure_setup` | 5 | 39 | 148 |
+| `objective_exfiltration` | 19 | 98 | 413 |
+| `objective_impact` | 8 | 62 | 254 |
+| `objective_exfiltration_impact` | 6 | 57 | 225 |
+| `objective_none_c2` | 5 | 39 | 148 |
 
 The class node sets are not disjoint — a technique drawn by analysts in flows
 across multiple classes appears in each class's `node_set`. *Disjointness is
 a property of class **memberships** (one flow → one class; §(b) Decision 2),
-not of class **node sets**.* This is why `pure_steal`'s 98 nodes plus the
+not of class **node sets**.* This is why `objective_exfiltration`'s 98 nodes plus the
 other classes' 62 + 57 + 39 = 256 exceeds the GAP's 124 — techniques recur
 across class subgraphs.
 
-The min class size (39 techniques for `infrastructure_setup`) **exceeds the
+The min class size (39 techniques for `objective_none_c2`) **exceeds the
 Petri-net primer's 10–20-technique tractability bound** — see §(h) open
 question 4. The L3 substrate (graph-driven traversal inside MTDSim/DES) is
 not bounded by Petri-net reachability-set size; the bound applies only if
@@ -366,9 +403,9 @@ this spec + the partition-decision note, not lifted across.
   50 trials). Observed: **mean technique JSD 0.317 vs null p95 0.148** —
   modest but real signal across all six class pairs (range 0.284–0.351).
 - **Discrimination-above-null with operator-deduplicated re-check.** The
-  load-bearing caveat. Half of `double_extortion`'s six flows are Conti
-  variants (G0102); 25 % of `pure_impediment`'s eight are Sandworm; 40 %
-  of `infrastructure_setup`'s five are CISA AA22-138B variants. The corpus
+  load-bearing caveat. Half of `objective_exfiltration_impact`'s six flows are Conti
+  variants (G0102); 25 % of `objective_impact`'s eight are Sandworm; 40 %
+  of `objective_none_c2`'s five are CISA AA22-138B variants. The corpus
   is not operator-uniformly distributed (16 / 38 flows belong to 8
   multi-flow operator clusters). The discrimination-above-null check must
   be re-run *after* collapsing multi-flow operators to one representative
@@ -394,7 +431,7 @@ Corpus-level JSD is supportive but not definitive.
 1. **ToolShell flow-split.** `toolshell_vulnerability_in_sharepoint`
    conflates two threat-actor clusters (CL-CRI-1040 → MachineKey exfil;
    4L4MD4R → ransomware) under one flow file. The audit classifies it
-   `pure_steal` (CL-CRI-1040 is the named, attribution-rich actor) with
+   `objective_exfiltration` (CL-CRI-1040 is the named, attribution-rich actor) with
    critique. Ideally it should be **split** into two flows — but that is a
    corpus-edit (L1-level), not a class-mechanism question. Flagged for the
    L2 implementation session.
@@ -408,12 +445,12 @@ Corpus-level JSD is supportive but not definitive.
 3. **Fifth class (`monetisation` / `multi-purpose`)?** Two flows
    (`mac_malware_steals_crypto`, `searchawesome_adware`) sit awkwardly within
    the 4-class scheme — credential/monetisation operations that don't cleanly
-   fit `pure_steal` or `pure_impediment`. A 5-class scheme with an explicit
+   fit `objective_exfiltration` or `objective_impact`. A 5-class scheme with an explicit
    `monetisation` class would re-classify both, but the current evidence (2
    of 38 flows, both `low`-confidence) does not justify the extra class.
 4. **Petri-net per-class tractability.** All four classes exceed the
    10–20-technique tractability bound for end-to-end Petri-net encoding
-   (min class is `infrastructure_setup` at 39 nodes). If Petri-net at L4
+   (min class is `objective_none_c2` at 39 nodes). If Petri-net at L4
    promotes from parallel-not-primary to primary
    ([`architecture.md`](../../architecture.md) §(f) revisit), per-class encoding
    would need manually-curated *slices* (e.g. the primer's 6-node hand-pick

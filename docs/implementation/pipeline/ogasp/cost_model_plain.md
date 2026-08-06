@@ -7,6 +7,14 @@ topic: "The attacker's cost model in plain terms (Part 1 of the rational-attacke
 
 # What the cost-sensitive attacker computes — the plain statement, and the simplification verdict
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** companion to
 [`incentive_rationality.md`](incentive_rationality.md), which argues the
 mechanism to an examiner. That record establishes *why* each piece is

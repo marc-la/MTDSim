@@ -240,7 +240,7 @@ def test_movement_arm_pays_the_same_confusion_penalty_as_the_native_arm() -> Non
     probe = _InterruptCostProbe()
     with probe:
         res = run_movement(
-            "pure_impediment", seed=42, with_synthetic_overlay=True,
+            "objective_impact", seed=42, with_synthetic_overlay=True,
             horizon=3000, mtd_scheme="simultaneous", mtd_interval=200,
         )
 

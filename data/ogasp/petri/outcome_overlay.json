@@ -2236,7 +2236,7 @@
       "stealth->persistence",
       "stealth->privilege-escalation"
     ],
-    "double_extortion": [
+    "objective_exfiltration_impact": [
       "collection->command-and-control",
       "collection->exfiltration",
       "collection->stealth",
@@ -2310,7 +2310,7 @@
       "stealth->persistence",
       "stealth->privilege-escalation"
     ],
-    "infrastructure_setup": [
+    "objective_none_c2": [
       "collection->command-and-control",
       "collection->lateral-movement",
       "collection->stealth",
@@ -2369,7 +2369,7 @@
       "stealth->persistence",
       "stealth->privilege-escalation"
     ],
-    "pure_impediment": [
+    "objective_impact": [
       "collection->stealth",
       "command-and-control->defense-impairment",
       "command-and-control->discovery",
@@ -2454,7 +2454,7 @@
       "stealth->persistence",
       "stealth->privilege-escalation"
     ],
-    "pure_steal": [
+    "objective_exfiltration": [
       "collection->command-and-control",
       "collection->credential-access",
       "collection->exfiltration",

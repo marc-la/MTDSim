@@ -7,6 +7,14 @@ topic: "The axis-measurement suite (movement/measures.py) — the M8b measuremen
 
 # The axis-measurement suite — what each measure is, which M8b field it discharges, and where it is blind
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable; the tracked account of the measurement suite the
 wave-5 handoff `2026-07-28_axis_measurement_suite.md` commissioned (closed by
 the commit that ships this record). The criterion

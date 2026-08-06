@@ -23,7 +23,7 @@ only orderings/ratios carry meaning.
 - Weight variants: `operator_dedup` primary; raw arm included (robustness), not deferred.
 - Objective rules: the four class nets terminate when the visited
   set covers **all** declared objective tactics (for
-  `double_extortion` that is the both-achieved visited-set
+  `objective_exfiltration_impact` that is the both-achieved visited-set
   condition); the **aggregate** terminates on **any** of its
   declared union set {command-and-control, exfiltration, impact} —
   the null envelope has no single operational objective (recorded
@@ -36,73 +36,73 @@ only orderings/ratios carry meaning.
 D8 asks for both entries. On the observed-only base the recon arm
 exists only where the prefix gap is bridged:
 
-- **`double_extortion`, entry `reconnaissance` — impossible.** reconnaissance is an island on the observed-only base (the prefix gap): recon cannot reach initial-access, so a recon-seeded token cannot reach the objective. The literature-grounded prefix bridge (GAP Decision 6 Option B) stays deferred; see data/ogasp/petri/README.md.
-- **`infrastructure_setup`, entry `reconnaissance` — impossible.** reconnaissance is an island on the observed-only base (the prefix gap): recon cannot reach initial-access, so a recon-seeded token cannot reach the objective. The literature-grounded prefix bridge (GAP Decision 6 Option B) stays deferred; see data/ogasp/petri/README.md.
+- **`objective_exfiltration_impact`, entry `reconnaissance` — impossible.** reconnaissance is an island on the observed-only base (the prefix gap): recon cannot reach initial-access, so a recon-seeded token cannot reach the objective. The literature-grounded prefix bridge (GAP Decision 6 Option B) stays deferred; see data/ogasp/petri/README.md.
+- **`objective_none_c2`, entry `reconnaissance` — impossible.** reconnaissance is an island on the observed-only base (the prefix gap): recon cannot reach initial-access, so a recon-seeded token cannot reach the objective. The literature-grounded prefix bridge (GAP Decision 6 Option B) stays deferred; see data/ogasp/petri/README.md.
 
 ## Primary cells — initial-access entry, weighted (operator-dedup), central dwells
 
 | Profile | outcomes | objective rate | median net t-to-obj | p10–p90 | mean states | top occupancy (mean dwell share) |
 |---|---|--:|--:|--:|--:|---|
-| `pure_steal` | objective 91, stalled 9 | 91% | 281.5 s | 121.5 s–635.0 s | 12.6 | stealth 18%, persistence 16%, exfiltration 15% |
-| `pure_impediment` | objective 100 | 100% | 270.8 s | 108.0 s–633.1 s | 12.2 | stealth 19%, impact 18%, command-and-control 15% |
-| `double_extortion` | objective 80, stalled 20 | 80% | 471.0 s | 232.1 s–1,153.1 s | 18.4 | stealth 22%, discovery 16%, command-and-control 15% |
-| `infrastructure_setup` | objective 82, stalled 18 | 82% | 139.5 s | 72.0 s–236.2 s | 6.4 | execution 30%, command-and-control 29%, discovery 8% |
+| `objective_exfiltration` | objective 92, stalled 8 | 92% | 333.2 s | 99.9 s–841.8 s | 14.8 | stealth 17%, persistence 15%, exfiltration 15% |
+| `objective_impact` | objective 100 | 100% | 255.0 s | 63.0 s–670.8 s | 12.1 | impact 22%, stealth 19%, execution 14% |
+| `objective_exfiltration_impact` | objective 83, stalled 17 | 83% | 699.0 s | 229.6 s–1,384.2 s | 23.8 | stealth 22%, discovery 16%, command-and-control 15% |
+| `objective_none_c2` | objective 87, stalled 13 | 87% | 134.0 s | 76.5 s–253.3 s | 7.0 | command-and-control 31%, execution 30%, discovery 8% |
 | `aggregate` | objective 100 | 100% | 117.0 s | 67.5 s–233.1 s | 5.8 | command-and-control 21%, stealth 14%, persistence 13% |
 
 ## Recon-seeded cells (bridged profiles only; same arm)
 
 | Profile | outcomes | objective rate | median net t-to-obj |
 |---|---|--:|--:|
-| `pure_steal` | objective 94, stalled 6 | 94% | 366.5 s |
-| `pure_impediment` | objective 100 | 100% | 287.0 s |
+| `objective_exfiltration` | objective 92, stalled 8 | 92% | 255.0 s |
+| `objective_impact` | objective 100 | 100% | 279.2 s |
 | `aggregate` | objective 100 | 100% | 100.2 s |
 
 ## Sweep extremes — does the ranking survive the band? (initial-access, weighted operator-dedup)
 
 | Profile | median net t-to-obj @ sweep_low | @ central | @ sweep_high |
 |---|--:|--:|--:|
-| `pure_steal` | 72.6 s | 281.5 s | 970.0 s |
-| `pure_impediment` | 73.7 s | 270.8 s | 931.5 s |
-| `double_extortion` | 130.3 s | 471.0 s | 1,553.0 s |
-| `infrastructure_setup` | 46.4 s | 139.5 s | 459.0 s |
+| `objective_exfiltration` | 80.5 s | 333.2 s | 1,031.0 s |
+| `objective_impact` | 65.8 s | 255.0 s | 950.0 s |
+| `objective_exfiltration_impact` | 131.2 s | 699.0 s | 1,956.0 s |
+| `objective_none_c2` | 44.5 s | 134.0 s | 529.0 s |
 | `aggregate` | 33.8 s | 117.0 s | 471.5 s |
 
 ## Policy and corpus-variant sensitivity (initial-access, central dwells)
 
 | Profile | median net t-to-obj weighted-dedup | weighted-raw | uniform (structural floor) | objective rate dedup / raw / uniform |
 |---|--:|--:|--:|---|
-| `pure_steal` | 281.5 s | 251.0 s | 414.2 s | 91% / 93% / 100% |
-| `pure_impediment` | 270.8 s | 242.5 s | 317.5 s | 100% / 100% / 100% |
-| `double_extortion` | 471.0 s | 533.5 s | 604.0 s | 80% / 75% / 100% |
-| `infrastructure_setup` | 139.5 s | 119.2 s | 89.0 s | 82% / 86% / 83% |
+| `objective_exfiltration` | 333.2 s | 266.8 s | 335.0 s | 92% / 98% / 100% |
+| `objective_impact` | 255.0 s | 256.5 s | 360.8 s | 100% / 100% / 100% |
+| `objective_exfiltration_impact` | 699.0 s | 483.0 s | 657.5 s | 83% / 77% / 100% |
+| `objective_none_c2` | 134.0 s | 144.0 s | 76.5 s | 87% / 87% / 84% |
 | `aggregate` | 117.0 s | 117.0 s | 134.5 s | 100% / 100% / 100% |
 
 ## Class vs aggregate — same-objective comparison (central dwells)
 
 The aggregate's any-rule runs are split by which union objective
 completed, so each class is compared against the aggregate runs that
-achieved *its* objective. `double_extortion` has no aggregate
+achieved *its* objective. `objective_exfiltration_impact` has no aggregate
 counterpart — the any-rule walk stops at its first objective and can
 never complete the both-achieved pair (recorded limit of the
 comparison).
 
 | Class | class median net t-to-obj | aggregate median (same objective, n) | occupancy L1 vs aggregate |
 |---|--:|--:|--:|
-| `pure_steal` | 281.5 s | 112.5 s (n=23) | 0.41 |
-| `pure_impediment` | 270.8 s | 118.8 s (n=26) | 0.42 |
-| `double_extortion` | 471.0 s | — | 0.48 |
-| `infrastructure_setup` | 139.5 s | 117.0 s (n=51) | 0.70 |
+| `objective_exfiltration` | 333.2 s | 112.5 s (n=23) | 0.37 |
+| `objective_impact` | 255.0 s | 118.8 s (n=26) | 0.49 |
+| `objective_exfiltration_impact` | 699.0 s | — | 0.47 |
+| `objective_none_c2` | 134.0 s | 117.0 s (n=51) | 0.72 |
 
 ## Verdict
 
-On the primary cell (initial-access entry, weighted routing on the operator-deduplicated corpus, central dwells) the envelopes rank `aggregate` < `infrastructure_setup` < `pure_impediment` < `pure_steal` < `double_extortion` by median net time-to-objective — an envelope statistic, not the DES MTTC.
+On the primary cell (initial-access entry, weighted routing on the operator-deduplicated corpus, central dwells) the envelopes rank `aggregate` < `objective_none_c2` < `objective_impact` < `objective_exfiltration` < `objective_exfiltration_impact` by median net time-to-objective — an envelope statistic, not the DES MTTC.
 
-That ordering does **not** survive the catalogue's sweep band — it changes at one or both duration extremes (low: aggregate, infrastructure_setup, pure_steal, pure_impediment, double_extortion; high: infrastructure_setup, aggregate, pure_impediment, pure_steal, double_extortion) — so any ranking claim must be quoted with its dwell variant.
+That ordering **survives the catalogue's own sweep band**: it is identical at both duration extremes (every dwell at its anchor-unit sweep bound), so the behavioural separation is not an artefact of the v0 dwell point-values.
 
-Under the uniform (structural-floor) policy the ordering differs (infrastructure_setup, aggregate, pure_impediment, pure_steal, double_extortion), so the W-A weight layer, not shape alone, carries part of the behavioural separation.
+Under the uniform (structural-floor) policy the ordering differs (objective_none_c2, aggregate, objective_exfiltration, objective_impact, objective_exfiltration_impact), so the W-A weight layer, not shape alone, carries part of the behavioural separation.
 
 The raw-corpus robustness arm preserves the ordering, so the operator-dedup discipline does not drive the ranking.
 
-`double_extortion`'s visited-set objective (impact **and** exfiltration) completes in 80% of primary-cell runs (the rest cap or stall) — the single-token both-achieved condition is exercisable but demanding on the observed-only base.
+`objective_exfiltration_impact`'s visited-set objective (impact **and** exfiltration) completes in 83% of primary-cell runs (the rest cap or stall) — the single-token both-achieved condition is exercisable but demanding on the observed-only base.
 
-Per-tactic occupancy separates the envelopes from the null profile by mean-dwell-share L1 distance 0.41 (`pure_steal`) to 0.70 (`infrastructure_setup`); the recon-seeded arm exists only where the prefix gap is bridged, and its impossibility on `double_extortion` / `infrastructure_setup` is itself a recorded envelope result.
+Per-tactic occupancy separates the envelopes from the null profile by mean-dwell-share L1 distance 0.37 (`objective_exfiltration`) to 0.72 (`objective_none_c2`); the recon-seeded arm exists only where the prefix gap is bridged, and its impossibility on `objective_exfiltration_impact` / `objective_none_c2` is itself a recorded envelope result.

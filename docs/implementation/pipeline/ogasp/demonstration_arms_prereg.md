@@ -7,6 +7,14 @@ updated: 2026-07-29
 
 # Pre-registration — the axis-1, axis-3 and axis-4 demonstration run
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 > **NOT EXECUTED (2026-07-29).** A parallel session ran the same handoff from the
 > same commit and shipped the result on `feat/exp02-ashen-lynx`; this run was
 > stopped as a duplicate at 207 of 6 900 rows on Marc's ruling. The document is

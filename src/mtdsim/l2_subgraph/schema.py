@@ -1,8 +1,8 @@
 """Data model for the GASP — the L2 boundary object.
 
 One ``SubgraphView`` per operational-objective class
-(``pure_steal`` | ``pure_impediment`` | ``double_extortion`` |
-``infrastructure_setup``). See
+(``objective_exfiltration`` | ``objective_impact`` | ``objective_exfiltration_impact`` |
+``objective_none_c2``). See
 [`docs/implementation/pipeline/gasp/gasp_schema.md`](../../../docs/implementation/pipeline/gasp/gasp_schema.md) §(d).
 """
 
@@ -14,10 +14,10 @@ from pathlib import Path
 from typing import Any
 
 CLASS_NAMES = (
-    "pure_steal",
-    "pure_impediment",
-    "double_extortion",
-    "infrastructure_setup",
+    "objective_exfiltration",
+    "objective_impact",
+    "objective_exfiltration_impact",
+    "objective_none_c2",
 )
 
 

@@ -22,11 +22,17 @@ from pathlib import Path
 from mtdsim.l2_subgraph.schema import CLASS_NAMES, SubgraphView
 
 # CSV stated_objective → spec class label (spec §c).
+#
+# The left-hand side is Alshamrani's vocabulary as the analysts applied it in
+# ``metadata_audit.csv`` and is **frozen** — it is the audit trail. Only the
+# right-hand side moved in the 2026-08-06 objective-tactic rename, which is
+# what this seam exists for: the provenance layer and the spec layer stay
+# separately nameable. Note ``double_extortion`` now appears on the left only.
 CSV_LABEL_TO_CLASS = {
-    "steal_data": "pure_steal",
-    "impediment": "pure_impediment",
-    "double_extortion": "double_extortion",
-    "position_for_future": "infrastructure_setup",
+    "steal_data": "objective_exfiltration",
+    "impediment": "objective_impact",
+    "double_extortion": "objective_exfiltration_impact",
+    "position_for_future": "objective_none_c2",
 }
 
 

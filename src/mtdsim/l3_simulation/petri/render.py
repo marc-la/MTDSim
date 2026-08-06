@@ -362,7 +362,7 @@ def write_readme(
         "class-semantic objectives (command-and-control, exfiltration, impact)",
         "— a recorded choice; the null envelope has no single operational",
         "objective. Note the operator clusters span classes (e.g. the CISA",
-        "AA22-138B trio splits across `pure_steal` and `infrastructure_setup`),",
+        "AA22-138B trio splits across `objective_exfiltration` and `objective_none_c2`),",
         "so deduplication can remove flows from several classes at once —",
         "dedup class sizes are 14 / 7 / 4 / 4 (Σ = 29).",
         "",

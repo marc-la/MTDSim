@@ -97,7 +97,7 @@ def test_rho_one_is_the_exact_ablation() -> None:
     placeholder the 2026-08-04 meeting proposed in its own words, and it must be
     bit-exact rather than nearly so — an ablation that is only approximately the
     null cannot attribute a difference to the mechanism."""
-    model = exposure_model(RULES, rho=1.0, delta=0.0)
+    model = exposure_model(RULES, rho=1.0, delta=0.0, score_dwell_only=True)
     assert {model.increment(t) for t in TACTICS} == {1.0}
 
 
@@ -117,7 +117,8 @@ def test_a_visit_that_attempted_no_vulnerability_is_never_modulated() -> None:
         for direction in (INVERSE, DIRECT):
             assert cvss_factor(0.0, delta, direction) == 1.0
     model = exposure_model(RULES, delta=1.0)
-    assert model.increment("stealth") == tier_increment(1, RULES.rho)
+    # an INVOKING tier-1 tactic: `stealth` is dwell-only and scores 0 under R1
+    assert model.increment("command-and-control") == tier_increment(1, RULES.rho)
 
 
 # ---------------------------------------------------------------------------
@@ -230,3 +231,80 @@ def test_an_unranked_place_raises_rather_than_scoring_zero() -> None:
 def test_overriding_an_unranked_tactic_is_refused() -> None:
     with pytest.raises(ExposureCompileError, match="carries no declared tier"):
         exposure_model(RULES, tier_overrides={"not-a-tactic": 2})
+
+
+# ---------------------------------------------------------------------------
+# The two rulings of 2026-08-06 (R1: dwell-only does not score; R2: verb-level
+# tiers across arms) — stealth_dutycycle_prereg.md §1
+# ---------------------------------------------------------------------------
+
+
+def test_r1_a_dwell_only_visit_scores_nothing() -> None:
+    """The ruled default. A tactic that dispatches no substrate verb raises no
+    detectability — it contributes elapsed time and nothing else, which is the
+    whole of the low-and-slow mechanism: silence is what lets the level fall."""
+    model = exposure_model(RULES)
+    for tactic in ("impact", "exfiltration", "stealth", "persistence",
+                   "collection", "defense-impairment", "resource-development"):
+        assert not model.invokes(tactic)
+        assert model.increment(tactic) == 0.0
+
+
+def test_r1_the_superseded_convention_stays_reachable() -> None:
+    """The comparison between the two conventions is itself a reported result, so
+    the old behaviour must remain computable rather than be deleted."""
+    old = exposure_model(RULES, score_dwell_only=True)
+    assert old.increment("impact") == tier_increment(4, RULES.rho)
+
+
+def test_r1_leaves_invoking_tactics_untouched() -> None:
+    """The ruling changes which visits score, never what an invoking visit is
+    worth — so the eight dispatching tactics keep exactly their declared tiers."""
+    ruled = exposure_model(RULES)
+    old = exposure_model(RULES, score_dwell_only=True)
+    invoking = [t for t in TACTICS if ruled.invokes(t)]
+    assert len(invoking) == 8
+    for tactic in invoking:
+        assert ruled.increment(tactic) == old.increment(tactic)
+
+
+def test_r1_narrows_the_realised_tier_range_to_one_through_three() -> None:
+    """The ruling's stated cost, asserted rather than trusted: tier 0 and the
+    whole of tier 4 are dwell-only under v2_partial, so the corpus ranking is
+    exercised over a narrowed range and no claim may rest on its extremes."""
+    ruled = exposure_model(RULES)
+    realised = {ruled.tier_of[t] for t in TACTICS if ruled.invokes(t)}
+    assert realised == {1, 2, 3}
+
+
+def test_r2_verb_level_scoring_makes_the_arms_identical_on_what() -> None:
+    """R2's point. Under verb-level tiers every dispatching tactic scores exactly
+    what the baseline's corresponding verb scores, so a cross-arm difference can
+    only be WHEN the attacker acts, never what it did."""
+    cross = exposure_model(RULES, verb_level=True)
+    for tactic in TACTICS:
+        if not cross.invokes(tactic):
+            continue
+        verb = cross.verb_of[tactic]
+        assert cross.increment(tactic) == cross.verb_increment(verb)
+
+
+def test_r2_is_off_within_an_arm_so_the_corpus_grounding_survives() -> None:
+    """Within the movement arm the tactic-level tiers are the entire point: the
+    three exploit-dispatching tactics must NOT collapse to one value, or the
+    between-profile comparison would be scored on the substrate's verb vocabulary
+    rather than on the corpus's."""
+    within = exposure_model(RULES)
+    assert within.increment("initial-access") == tier_increment(3, RULES.rho)
+    assert within.increment("execution") == tier_increment(2, RULES.rho)
+    assert within.increment("initial-access") != within.increment("execution")
+
+
+def test_the_verb_map_is_derived_from_the_declared_preimage() -> None:
+    """R1's dispatch test and the cross-arm mapping are one fact, not two: both
+    read the artefact's own verb preimage, so they cannot drift apart."""
+    model = exposure_model(RULES)
+    for verb, tactics in RULES.verb_preimage.items():
+        for tactic in tactics:
+            assert model.verb_of[tactic] == verb
+            assert model.invokes(tactic)

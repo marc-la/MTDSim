@@ -7,6 +7,14 @@ topic: "The iterated cost model — a state-conditioned expected cost and an ena
 
 # The iterated cost model — what the repair fixed, what it did not, and why the badge stays
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 ## 0. Two things happened after this record was written, and both belong at the top
 
 **The implementation is retired and the direction is closed (Marc, 2026-08-02).**

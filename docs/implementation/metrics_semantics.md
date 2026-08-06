@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-05-27
-updated: 2026-07-29
+updated: 2026-08-06
 ---
 
 # Metrics — semantics, faithfulness, and comparability
@@ -462,7 +462,7 @@ The regime, in full:
 
 One-liner for downstream claims: each class net is read as a **behavioural
 envelope for an operational objective**, not an actor's policy; every
-weighted-traversal claim is phrased envelope-relative ("under the `pure_steal`
+weighted-traversal claim is phrased envelope-relative ("under the `objective_exfiltration`
 envelope…") — see [`architecture.md`](architecture.md) §(j).
 
 This sits alongside the substrate-side comparability boundary in §(d): there, the

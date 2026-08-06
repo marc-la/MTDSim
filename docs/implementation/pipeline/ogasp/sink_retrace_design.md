@@ -7,6 +7,14 @@ updated: 2026-07-29
 
 # Sink retrace — the design, and its consequences, before the build
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable design record, written under the S5 ruling and **before the
 implementation**, because the meeting asked for the thinking rather than the patch.
 It supersedes the accept-and-censor behaviour recorded at

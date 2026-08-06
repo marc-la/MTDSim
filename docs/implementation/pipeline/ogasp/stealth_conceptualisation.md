@@ -7,6 +7,14 @@ topic: "Axis 5 stealth — the design record. Leads with the stealthy-versus-bas
 
 # Stealth for a substrate with no detector — the baseline-versus-profiled contrast, and what a stealth state would add on top of it
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable design record, and a **decision request**. It answers the
 supervisor's stealth question (Jin, 2026-07-28) — *what are the overarching
 qualities of the contrast between a stealthy attacker under this model and the

@@ -7,6 +7,14 @@ topic: "L3 S1 (study half) — the lifecycle-distance term folded into the outco
 
 # The routing-weight re-derivation and sensitivity study — folding lifecycle distance into the outcome overlay, and sweeping what it declares
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable. Executes the study half of **S1**
 ([`supervisor_decision_register.md`](supervisor_decision_register.md) §S1), the
 half its literature counterpart

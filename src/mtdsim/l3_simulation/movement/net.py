@@ -41,10 +41,10 @@ PETRI_DIR = _REPO_ROOT / "data" / "ogasp" / "petri"
 # The five profiles: four GASP classes + the aggregate null profile. Each has a
 # ``<profile>_structural.json`` net under PETRI_DIR.
 PROFILES: tuple[str, ...] = (
-    "pure_steal",
-    "pure_impediment",
-    "double_extortion",
-    "infrastructure_setup",
+    "objective_exfiltration",
+    "objective_impact",
+    "objective_exfiltration_impact",
+    "objective_none_c2",
     "aggregate",
 )
 

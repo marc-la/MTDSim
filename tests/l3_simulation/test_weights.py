@@ -275,7 +275,7 @@ def test_quotient_identity(nets, weights, edge_flows, profile_flows, gap, profil
 
 
 def test_weights_deterministic(nets, edge_flows, profile_flows):
-    p = "pure_impediment"
+    p = "objective_impact"
     a = compute_all_variants(nets[p], edge_flows, profile_flows[p])
     b = compute_all_variants(nets[p], edge_flows, profile_flows[p])
     assert a == b

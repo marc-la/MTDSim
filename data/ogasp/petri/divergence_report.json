@@ -1,19 +1,19 @@
 {
   "primary_variant": "operator_dedup",
   "n_flows": {
-    "pure_steal": {
+    "objective_exfiltration": {
       "raw": 19,
       "operator_dedup": 14
     },
-    "pure_impediment": {
+    "objective_impact": {
       "raw": 8,
       "operator_dedup": 7
     },
-    "double_extortion": {
+    "objective_exfiltration_impact": {
       "raw": 6,
       "operator_dedup": 4
     },
-    "infrastructure_setup": {
+    "objective_none_c2": {
       "raw": 5,
       "operator_dedup": 4
     },
@@ -23,7 +23,7 @@
     }
   },
   "per_place_jsd": {
-    "pure_steal": {
+    "objective_exfiltration": {
       "collection": 0.11383629354903713,
       "command-and-control": 0.12765121532369553,
       "credential-access": 0.05015955913374707,
@@ -39,7 +39,7 @@
       "resource-development": 0.45914791702724483,
       "stealth": 0.12729008209057432
     },
-    "pure_impediment": {
+    "objective_impact": {
       "collection": 0.7582766571931675,
       "command-and-control": 0.15048460090219834,
       "credential-access": 0.6474183524813153,
@@ -55,7 +55,7 @@
       "resource-development": 0.19087450462110955,
       "stealth": 0.2085723637908046
     },
-    "double_extortion": {
+    "objective_exfiltration_impact": {
       "collection": 0.49342260576014463,
       "command-and-control": 0.1625518948760904,
       "discovery": 0.4658871167383341,
@@ -68,7 +68,7 @@
       "privilege-escalation": 0.12961136541747656,
       "stealth": 0.125776488108856
     },
-    "infrastructure_setup": {
+    "objective_none_c2": {
       "collection": 0.7582766571931675,
       "command-and-control": 0.17378671324833894,
       "credential-access": 0.43984465636092385,
@@ -82,34 +82,34 @@
     }
   },
   "mean_jsd": {
-    "pure_steal": 0.1918553237588708,
-    "pure_impediment": 0.33301887942791314,
-    "double_extortion": 0.29996031943452306,
-    "infrastructure_setup": 0.38127915144365
+    "objective_exfiltration": 0.1918553237588708,
+    "objective_impact": 0.33301887942791314,
+    "objective_exfiltration_impact": 0.29996031943452306,
+    "objective_none_c2": 0.38127915144365
   },
   "mean_jsd_raw": {
-    "pure_steal": 0.1399406752614265,
-    "pure_impediment": 0.3205038006890258,
-    "double_extortion": 0.3256488494112737,
-    "infrastructure_setup": 0.3938832413197881
+    "objective_exfiltration": 0.1399406752614265,
+    "objective_impact": 0.3205038006890258,
+    "objective_exfiltration_impact": 0.3256488494112737,
+    "objective_none_c2": 0.3938832413197881
   },
   "null_band": {
-    "pure_steal": {
+    "objective_exfiltration": {
       "p50": 0.15801471978465595,
       "p95": 0.22476376487485353,
       "max": 0.25131226110553595
     },
-    "pure_impediment": {
+    "objective_impact": {
       "p50": 0.297344534694851,
       "p95": 0.41583079218565794,
       "max": 0.4682688440680621
     },
-    "double_extortion": {
+    "objective_exfiltration_impact": {
       "p50": 0.3988942915010421,
       "p95": 0.528126268525584,
       "max": 0.5918865656467436
     },
-    "infrastructure_setup": {
+    "objective_none_c2": {
       "p50": 0.3870293265903521,
       "p95": 0.5100628958537138,
       "max": 0.5596381819664181
@@ -118,15 +118,15 @@
   "null_trials": 200,
   "null_seed": 20260703,
   "exceeds_null_p95": {
-    "pure_steal": false,
-    "pure_impediment": false,
-    "double_extortion": false,
-    "infrastructure_setup": false
+    "objective_exfiltration": false,
+    "objective_impact": false,
+    "objective_exfiltration_impact": false,
+    "objective_none_c2": false
   },
   "aggregate_dedup_vs_raw_jsd": 0.040113384989133735,
   "discriminators": {
-    "pure_steal": {
-      "profile": "pure_steal",
+    "objective_exfiltration": {
+      "profile": "objective_exfiltration",
       "n_transitions": 109,
       "n_supported_transitions": 73,
       "n_zero_weight_transitions": 36,
@@ -205,8 +205,8 @@
       ],
       "island_places": []
     },
-    "pure_impediment": {
-      "profile": "pure_impediment",
+    "objective_impact": {
+      "profile": "objective_impact",
       "n_transitions": 83,
       "n_supported_transitions": 51,
       "n_zero_weight_transitions": 32,
@@ -283,8 +283,8 @@
       "sink_places": [],
       "island_places": []
     },
-    "double_extortion": {
-      "profile": "double_extortion",
+    "objective_exfiltration_impact": {
+      "profile": "objective_exfiltration_impact",
       "n_transitions": 72,
       "n_supported_transitions": 45,
       "n_zero_weight_transitions": 27,
@@ -352,8 +352,8 @@
         "resource-development"
       ]
     },
-    "infrastructure_setup": {
-      "profile": "infrastructure_setup",
+    "objective_none_c2": {
+      "profile": "objective_none_c2",
       "n_transitions": 57,
       "n_supported_transitions": 34,
       "n_zero_weight_transitions": 23,

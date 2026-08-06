@@ -7,6 +7,14 @@ topic: "L3 sink policy (supervisor S5) — the retrace rule that replaces accept
 
 # The sink policy — what a token does when it walks into a place it cannot leave
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status: superseded (reconciliation, 2026-08-01).** Two sink-retrace
 implementations were built in parallel from the same commit; the one that landed
 is [`sink_retrace_design.md`](sink_retrace_design.md)'s (`retrace_sinks`, with the

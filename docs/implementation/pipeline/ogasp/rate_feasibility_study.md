@@ -7,6 +7,14 @@ topic: "The rate feasibility study (S3, analysis half) — the pre-registered sw
 
 # The rate feasibility study — does any reported conclusion survive the arbitrariness of the timing numbers?
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status: run and reported, under both timing regimes.** §1–§5 — the question, the
 conclusions in scope, the acceptance criteria, the parameter space and the grid —
 were committed at `e84bd2a` with **no results in hand**, and are unedited below.

@@ -7,6 +7,14 @@ topic: "Experiment 2 (expo02_ashen_lynx) — the comparative run across the defe
 
 # Experiment 2 — the movement attacker across the defence family
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable. **§1–§6 are a pre-registration**: the matrix, the declared
 inputs, the conclusions, their criteria and the three badge criteria were written
 and committed **before a single result file existed**. This project has run three

@@ -8,6 +8,14 @@ lineage: formerly docs/notes @ 2026-05-28_l2_partition_decision.md (relocated in
 
 # L2 partition decision — compound-class disjoint (P6), conditional on simulator verification
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](gasp_schema.md) §(c).
+
 > **Provenance banner.** This note records the investigation that produced
 > GASP. The canonical spec is now at
 > [`../specs/02_gasp_schema.md`](gasp_schema.md) — read this

@@ -7,6 +7,14 @@ topic: "L3 criterion axis 7 — the progress credit rule: the achievement terms 
 
 # Progress credit — crediting what an action achieved rather than that it was permitted
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable build record. It reports what was built and what the mechanism
 does to the belief. **It makes no outcome claim, moves no badge, and runs no
 comparative experiment** — the sweep that asks whether this helps is

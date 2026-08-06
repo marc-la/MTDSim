@@ -212,8 +212,8 @@ def deepest_successful_stage(
 ) -> int | None:
     """The replacement progression measure: deepest consensus stage at which
     the run recorded a **success verdict**, not merely a visit. Visiting
-    saturates; succeeding should not (``pure_steal`` succeeds at almost
-    nothing, ``infrastructure_setup`` succeeds hundreds of times low in the
+    saturates; succeeding should not (``objective_exfiltration`` succeeds at almost
+    nothing, ``objective_none_c2`` succeeds hundreds of times low in the
     lifecycle). None when the run has no success at a mapped place — encode
     that as a depth *below* stage 0 (e.g. −1) before aggregating, rather than
     dropping the run, or the aggregate is biased toward the runs that
@@ -1517,6 +1517,88 @@ class ExposureCurve:
         contribution by exactly that offset.
         """
         return self.first_start + sum(self.gaps)
+
+    # -- the duty-cycle summaries (the second study) -------------------------
+    #
+    # The two summaries above cannot express a duty cycle, and that is provable
+    # rather than observed. ``mean_exposure`` samples D only at the instants the
+    # attacker acts — the top of every spike — so the troughs are never seen. And
+    # ``time_average_exposure`` satisfies ``∫D dt = τ·Σd`` **exactly**, because
+    # each event contributes ``d·τ`` to the integral whatever its spacing: it is a
+    # rate wearing a decay costume. A measure built around a decay term therefore
+    # could not report the one claim the decay term exists for.
+    #
+    # What follows samples D on a uniform TIME grid instead, so the level's
+    # distribution over the run is visible. None of it adds a declared value:
+    # the two ratios are threshold-free and the quiet fraction's threshold is a
+    # reporting axis, swept, never declared.
+
+    def time_grid(self, step: float = 1.0, horizon: float | None = None):
+        """``D`` sampled on a uniform time grid — the view in which a duty cycle
+        exists at all. Before the first event the level is zero, because nothing
+        had happened."""
+        end = self.elapsed if horizon is None else float(horizon)
+        if end <= 0.0 or not self.levels:
+            return []
+        times = [self.first_start]
+        for gap in self.gaps[1:]:
+            times.append(times[-1] + gap)
+        out: list[float] = []
+        idx = -1
+        t = 0.0
+        while t < end:
+            while idx + 1 < len(times) and times[idx + 1] <= t:
+                idx += 1
+            out.append(
+                0.0 if idx < 0
+                else self.levels[idx] * math.exp(-(t - times[idx]) / self.tau)
+            )
+            t += step
+        return out
+
+    def time_quantile(self, q: float, step: float = 1.0) -> float | None:
+        """The ``q``-quantile of ``D`` over time (0 ≤ q ≤ 1)."""
+        grid = sorted(self.time_grid(step))
+        if not grid:
+            return None
+        pos = min(len(grid) - 1, max(0, int(round(q * (len(grid) - 1)))))
+        return grid[pos]
+
+    def concentration(self, step: float = 1.0) -> float | None:
+        """``p90 / p50`` of ``D`` over time — **the primary duty-cycle statistic**.
+
+        Scale-free, so it is the summary least disturbed by the two arms carrying
+        different event counts and different clocks. It answers the question the
+        low-and-slow argument actually makes: *does the level come back to the
+        floor between actions?* An attacker whose peaks tower over its typical
+        level scores high; one that never gets back down scores near 1.
+
+        None when the median is zero — an arm quiet more than half the run has no
+        defined ratio, and reporting a large number there would be an artefact of
+        dividing by nothing. Report the quiet-fraction frontier in that case.
+        """
+        p50 = self.time_quantile(0.5, step)
+        p90 = self.time_quantile(0.9, step)
+        if p50 is None or p90 is None or p50 <= 0.0:
+            return None
+        return p90 / p50
+
+    def quiet_fraction(self, threshold: float, step: float = 1.0) -> float | None:
+        """Fraction of the run with ``D`` below ``threshold`` × this run's own peak.
+
+        The threshold is a **reporting axis, swept, never declared** — the same
+        move the disengagement measure made with patience `k`, and the reason this
+        study adds no value to the provenance ledger. Self-normalising by the run's
+        own peak, so it is a shape statistic rather than a level one.
+        """
+        grid = self.time_grid(step)
+        if not grid:
+            return None
+        peak = max(grid)
+        if peak <= 0.0:
+            return 1.0
+        cut = threshold * peak
+        return sum(1 for v in grid if v < cut) / len(grid)
 
     def comparable_with(self, other: "ExposureCurve") -> bool:
         """True only when the two curves' time-denominated summaries may be

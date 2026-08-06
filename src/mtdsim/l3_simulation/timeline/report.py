@@ -258,11 +258,11 @@ def _verdict(report: dict) -> list:
             "operator-dedup discipline does not drive the ranking."
         )
     de_cell = stats.get(
-        _cell_id("double_extortion", ENTRY_INITIAL_ACCESS, PRIMARY_ARM, "central")
+        _cell_id("objective_exfiltration_impact", ENTRY_INITIAL_ACCESS, PRIMARY_ARM, "central")
     )
     if de_cell:
         lines.append(
-            f"`double_extortion`'s visited-set objective (impact **and** "
+            f"`objective_exfiltration_impact`'s visited-set objective (impact **and** "
             f"exfiltration) completes in {de_cell['objective_rate']:.0%} of "
             f"primary-cell runs (the rest cap or stall) — the single-token "
             f"both-achieved condition is exercisable but demanding on the "
@@ -276,7 +276,7 @@ def _verdict(report: dict) -> list:
             f"profile by mean-dwell-share L1 distance "
             f"{l1[lo]:.2f} (`{lo}`) to {l1[hi]:.2f} (`{hi}`); the recon-seeded "
             f"arm exists only where the prefix gap is bridged, and its "
-            f"impossibility on `double_extortion` / `infrastructure_setup` is "
+            f"impossibility on `objective_exfiltration_impact` / `objective_none_c2` is "
             f"itself a recorded envelope result."
         )
     return lines
@@ -317,7 +317,7 @@ def write_report_md(report: dict, out_path: Path = REPORT_MD) -> Path:
         f"{d['raw_arm']}.",
         "- Objective rules: the four class nets terminate when the visited",
         "  set covers **all** declared objective tactics (for",
-        "  `double_extortion` that is the both-achieved visited-set",
+        "  `objective_exfiltration_impact` that is the both-achieved visited-set",
         "  condition); the **aggregate** terminates on **any** of its",
         "  declared union set {command-and-control, exfiltration, impact} —",
         "  the null envelope has no single operational objective (recorded",
@@ -424,7 +424,7 @@ def write_report_md(report: dict, out_path: Path = REPORT_MD) -> Path:
         "",
         "The aggregate's any-rule runs are split by which union objective",
         "completed, so each class is compared against the aggregate runs that",
-        "achieved *its* objective. `double_extortion` has no aggregate",
+        "achieved *its* objective. `objective_exfiltration_impact` has no aggregate",
         "counterpart — the any-rule walk stops at its first objective and can",
         "never complete the both-achieved pair (recorded limit of the",
         "comparison).",
@@ -436,10 +436,10 @@ def write_report_md(report: dict, out_path: Path = REPORT_MD) -> Path:
     agg_split = report["aggregate_conditional_net_tto_central"]
     l1 = report["occupancy_l1_vs_aggregate_central"]
     class_objective = {
-        "pure_steal": "exfiltration",
-        "pure_impediment": "impact",
-        "double_extortion": None,
-        "infrastructure_setup": "command-and-control",
+        "objective_exfiltration": "exfiltration",
+        "objective_impact": "impact",
+        "objective_exfiltration_impact": None,
+        "objective_none_c2": "command-and-control",
     }
     for profile in CLASS_NAMES:
         m = _median(stats, _cell_id(profile, ENTRY_INITIAL_ACCESS, PRIMARY_ARM, "central"))

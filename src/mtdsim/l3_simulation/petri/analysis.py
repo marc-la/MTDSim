@@ -29,10 +29,10 @@ from mtdsim.l3_simulation.petri.build import GapIndex, StructuralNet
 
 # Class-semantic objective tactic(s). The operational objective of each GASP
 # class, per the handoff "Step 4" and the feasibility study sec.4:
-# - pure_steal           -> exfiltration (steal the data);
-# - pure_impediment      -> impact (disrupt/destroy);
-# - double_extortion     -> exfiltration AND impact (steal then encrypt);
-# - infrastructure_setup -> command-and-control (no impact/exfiltration exists;
+# - objective_exfiltration           -> exfiltration (steal the data);
+# - objective_impact      -> impact (disrupt/destroy);
+# - objective_exfiltration_impact     -> exfiltration AND impact (steal then encrypt);
+# - objective_none_c2 -> command-and-control (no impact/exfiltration exists;
 #   its absorbing condition is C2-established, a foothold, not an attacker goal
 #   in the impact sense -- feasibility study sec.4 / F3).
 # This is distinct from the broad node-level ``is_objective`` flag (reported
@@ -42,10 +42,10 @@ from mtdsim.l3_simulation.petri.build import GapIndex, StructuralNet
 # (a recorded choice — the timeline-runner handoff requires the aggregate's
 # objective set to be declared, and union is the null-envelope reading).
 OBJECTIVE_TACTICS: dict[str, tuple[str, ...]] = {
-    "pure_steal": ("exfiltration",),
-    "pure_impediment": ("impact",),
-    "double_extortion": ("exfiltration", "impact"),
-    "infrastructure_setup": ("command-and-control",),
+    "objective_exfiltration": ("exfiltration",),
+    "objective_impact": ("impact",),
+    "objective_exfiltration_impact": ("exfiltration", "impact"),
+    "objective_none_c2": ("command-and-control",),
     "aggregate": ("command-and-control", "exfiltration", "impact"),
 }
 

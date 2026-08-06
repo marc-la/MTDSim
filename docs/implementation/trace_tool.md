@@ -1,7 +1,7 @@
 ---
 status: living
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-08-06
 ---
 
 # The trace tool — an event-by-event log of a run, across every layer
@@ -18,7 +18,7 @@ python -m mtdnetwork.trace --only attacker,compromise --no-colour > run.log
 
 PYTHONPATH=src python -m mtdsim.l3_simulation.trace aggregate                       # movement run, unopposed
 PYTHONPATH=src python -m mtdsim.l3_simulation.trace aggregate --scheme simultaneous # defended
-PYTHONPATH=src python -m mtdsim.l3_simulation.trace pure_steal --mapping v2_partial # select the controller mapping
+PYTHONPATH=src python -m mtdsim.l3_simulation.trace objective_exfiltration --mapping v2_partial # select the controller mapping
 PYTHONPATH=src python -m mtdsim.l3_simulation.trace aggregate --only token,controller --quiet
 ```
 

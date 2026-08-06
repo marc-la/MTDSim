@@ -8,6 +8,14 @@ lineage: formerly docs/notes @ 2026-06-18_l3_petri_feasibility.md (relocated in 
 
 # Encoding the four GASP classes as Petri nets — a feasibility, literature and design study
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 > **Provenance banner.** A feasibility + analysis + design study, not a build
 > record and not chapter prose. It answers a single question — *can the four
 > L2 GASP classes be encoded as Petri nets whose analytical evaluation

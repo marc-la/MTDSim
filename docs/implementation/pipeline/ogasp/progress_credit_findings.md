@@ -7,6 +7,14 @@ topic: "L3 criterion axis 7 — the progress-credit sweep: 7 000 runs, all five 
 
 # The progress-credit sweep — five conclusions, none confirmed, and where the result actually is
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable findings record. Criteria fixed in
 [`progress_credit_prereg.md`](progress_credit_prereg.md) §3 before a single row
 existed; the mechanism is [`progress_credit.md`](progress_credit.md). 7 000 runs,

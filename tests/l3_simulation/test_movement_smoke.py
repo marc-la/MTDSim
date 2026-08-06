@@ -205,7 +205,7 @@ def test_the_progress_trajectory_is_monotone_and_ends_at_the_run_total(scheme) -
     from mtdsim.l3_simulation.controller import load_outcome_overlay
     from mtdsim.l3_simulation.movement.run import run_movement
 
-    for profile in ("aggregate", "pure_steal"):
+    for profile in ("aggregate", "objective_exfiltration"):
         run = run_movement(
             profile, seed=5, horizon=6_000, mapping_version="v2_partial",
             overlay=load_outcome_overlay(version="v3_persistent_backward"),

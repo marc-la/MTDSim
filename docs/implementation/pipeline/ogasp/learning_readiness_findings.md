@@ -7,6 +7,14 @@ topic: "The readiness-keyed learner sweep — per-conclusion verdicts against th
 
 # The readiness-keyed learner — what the generalisation bought, and what it did not
 
+> **Retired class labels.** This record is investigation history and is left as
+> written: it reports the pre-2026-08-06 labels `pure_steal` / `pure_impediment` /
+> `double_extortion` / `infrastructure_setup`, which the objective-tactic rename
+> replaced with `objective_exfiltration` / `objective_impact` /
+> `objective_exfiltration_impact` / `objective_none_c2`. Rewriting them would
+> re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
+> [`gasp_schema.md`](../gasp/gasp_schema.md) §(c).
+
 **Status:** durable findings record. It reports the 4 600-run sweep and the
 800-run joint-composition check against the criteria fixed in
 [`learning_readiness_prereg.md`](learning_readiness_prereg.md) **before any output
