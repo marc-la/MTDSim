@@ -230,6 +230,24 @@ one. The full rows, with costed options, are in the disposition list of
 - **The retrace re-take** — the retrace-arm cells of the three sink-bearing
   profiles ran under the since-superseded sink implementation. Whether they are
   re-taken is open; Row B of the criterion re-scores against it if they are.
+- **Tempo claims: within-arm only?** The duty-cycle study's kill criterion fired —
+  which attacker returns to the floor **reverses** with how the inherited
+  attacker's exploit attempts are counted, because S3-R took the
+  per-vulnerability clock off the movement arm
+  ([`../implementation/pipeline/ogasp/stealth_dutycycle.md`](../implementation/pipeline/ogasp/stealth_dutycycle.md)
+  §8). The recommendation is to confine tempo claims to **within-arm**
+  comparisons, where the instrument works, rather than re-pricing the movement
+  arm (which would move every movement-arm timing figure on record). The
+  knowledge-gated brief is designed to need only within-arm comparisons, so this
+  ruling does not block it — but it does bound what any cross-arm stealth
+  sentence may say.
+- **The per-vulnerability row count.** `baseline_ledger` and everything built on
+  it count attack-record *rows*, which inflate **3.75×** against per-action
+  counts because `_do_exploit_vuln` writes one row per vulnerability tried. This
+  is no longer only a bookkeeping question: it is the axis the duty-cycle verdict
+  turned on. Whether the suite's cross-arm event definition is corrected — and
+  whether experiment 1's and experiment 2's affected figures are restated — is
+  open. `baseline_action_rows` is the correction; the restatement is the cost.
 
 ---
 
