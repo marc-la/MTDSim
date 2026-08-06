@@ -76,8 +76,8 @@ stated in the design record the build produces.
 | # | Ruling | Why it is not a session's call |
 |---|---|---|
 | **R-A** | **Reopen axis 6?** Marc's position (2026-08-06): there is now something to be rational *around* — maximising exploit success via memory, and minimising detectability by runtime steering. | The axis-6 **final disposition** (Marc, 2026-08-02) closed the row: *"this row is DESIGNED, and that is where it ends for this project."* More sharply, its stated reasoning **pre-rejects a readiness gate**: *"readiness — whether the next action can run — is real, state-dependent and conditionable, but it is competence, not incentive… a decision rule built on readiness would be a competence model wearing this row's name."* Arms 1–3 below **are** readiness. Only arm 4 is incentive-shaped, and arm 4 is the one with the definitional problem. A reversal must be dated and argued against that text, exactly as the axis-8 reversal was. |
-| **R-B** | **Is `mtd_ai` sanctioned as an experimental arm?** | Standing direction defers Tay's agent to the ablation phase, and the movement arm has never been run against it. This is the long-open §13 item 1 of the stealth conceptualisation record. **Without it, (B) has no in-simulation payoff on any defender** and arms 3–4 are measured, not demonstrated. |
-| **R-C** | **Is mutation-*timing* observation in scope?** | "Knowledge is fresh, i.e. no mutation since I scanned" is axis-8 primitive **(ii) beacon**, which stays excluded — the 2026-08-05 reversal licensed primitive **(i) memoisation only**. Marc's "MTD-aware attacker, will have this observation channel" reaches for (ii). §4's arm ladder is designed to **not need it**; if it is wanted, it needs its own reversal. |
+| **R-B** | **Is `mtd_ai` sanctioned as an experimental arm?** — and, separately, **reuse its weights or retrain?** | Standing direction defers Tay's agent to the ablation phase, and the movement arm has never been run against it. **Without it, (B) has no in-simulation payoff on any defender.** The integration, its defects, its determinism risk and the reuse-vs-retrain question now have their own brief: [`2026-08-06_mtd_ai_reintegration.md`](2026-08-06_mtd_ai_reintegration.md). |
+| **R-C** | **Is mutation-*timing* observation in scope?** | "Knowledge is fresh, i.e. no mutation since I scanned" is axis-8 primitive **(ii) beacon**, which stays excluded — the 2026-08-05 reversal licensed primitive **(i) memoisation only**. Marc's "MTD-aware attacker, will have this observation channel" reaches for (ii). §4's arm ladder is designed to **not need it**, and §5.1 narrows what is actually required: mutation *occurrence* is already observable through the attacker's own failures, and only mutation *targeting* needs (ii). If the endowed-policy form of §5.1 is taken, R-C may not be needed at all — but the axis-8 exclusion still needs a dated amendment either way. |
 | **R-D** | **Naming.** Narrowed 2026-08-06: with "swift mode" retired as a mechanism (§4.1) there is no mode to name and no naive/smart *class* split to label. What is left is the capability parameter itself. | The house pattern distinguishes capability *magnitude* (a parameter at zero versus a declared level), not attacker classes — so the ladder already encodes the split. Marc's call, but a smaller one than it was. |
 
 ---
@@ -133,6 +133,28 @@ fingerprints are sampled every 200 s against a 200 s mutation interval, so the
 sampler and the defender are synchronised; a successor wanting sub-interval
 structure should desynchronise them.
 
+### 3.1a Knowledge expires by becoming *unusable*, not by decaying — so measure saturation, not retention
+
+**Marc's reframing (2026-08-06), and it improves on what §3 measured.** What
+decides whether memory is worth holding is the **cardinality of the knowledge
+space relative to what the attacker can see in one campaign**. Remembering IP
+addresses is worthless — the space is vast and IP Shuffle is invisible to the
+attacker anyway. Remembering which of three operating systems, or which of a small
+service set, is worth a great deal. Knowledge does not decay; it **expires by
+becoming unusable**, and it is *retained in value* precisely when the thing it
+describes recurs.
+
+**So the measurement §3 reports is the wrong shape.** Retention (20 %) and sharing
+(58–70 %) are snapshots. What the design needs is a **coverage curve**: what
+fraction of the reachable knowledge space has the attacker observed by time *t*,
+and does it **saturate** inside the horizon? Saturation is the precondition for the
+strike half of the campaign arc (§4.1) — the attacker stops learning because there
+is nothing left to learn, and that is what makes striking rational.
+
+**Pre-register the coverage curve, per pool setting**, and report the saturation
+point (or its absence) as the finding. An attacker that never saturates has no
+principled moment to strike, and the arc will not appear.
+
 ### 3.1 The service pool is a design dimension, not a fixed fact (Marc, 2026-08-06)
 
 **Marc's point, and the measurement supports it:** if the service pool is
@@ -143,12 +165,23 @@ and ~790 vulnerability ids, against 3–11 services per host — so cross-host s
 is already 58–70 %, but nothing like saturation.
 
 **Treat pool size as a swept experimental parameter**, and pre-register what it is
-expected to do: as the pool narrows, cross-host sharing rises, the attacker's
-memory covers more of the network sooner, and arm 2's gate should fire earlier and
-more often. If arm 1–2's effect **only** appears at a constrained pool, that is
-itself the finding — *cross-host exploit memory pays when the estate is
-homogeneous* — which is a real and defensible claim about when this capability
-matters, and matches the homogeneity of real enterprise estates.
+expected to do: as the pool narrows, cross-host sharing rises, the coverage curve
+(§3.1a) saturates sooner, and arm 2's gate fires earlier and more often. If arm
+1–2's effect **only** appears at a constrained pool, that is itself the finding —
+*cross-host exploit memory pays when the estate is homogeneous* — which is a real
+and defensible claim about when this capability matters, and matches the
+homogeneity of real enterprise estates.
+
+**The sweep is finding-generating rather than a sensitivity check, and §3's own
+result is why.** Exact whole-host recurrence measured **zero** at the default pool,
+which killed primitive (i)'s exact-image form there. But recurrence is a
+combinatorial property of the pool, so **pool size is the axis along which that
+form goes from dead to alive**: narrow it far enough and the attacker sees whole
+host images again, and can reuse a workflow that already worked — which is Marc's
+own description of what the mechanism should do. **Compute the combinatorics
+before running the sweep** (hosts carry 3–11 services; the per-`(os, os_version)`
+catalogue is the draw space) so the sweep targets the range where recurrence
+becomes non-trivial, rather than scanning blindly for it.
 
 Two constraints on how that sweep is built:
 
@@ -286,81 +319,57 @@ stream".** It names four levers, each mechanically connected to a feature.
 
 ---
 
-### 5.1 Mutation avoidance does NOT tick axis 8 — the expected claim needs narrowing
+### 5.1 Mutation avoidance and axis 8 — revised 2026-08-06, and the revision matters
 
-**Marc's expectation (2026-08-06):** the attacker will be heavily optimised to
-avoid AI-MTD mutations, and reasoning about the MTD boundary that way ticks axis 8.
+**An earlier draft of this section argued that biasing the defender was not scheme
+awareness at all. That was too restrictive and is withdrawn.** Marc's counter is
+correct and the code supports it: if the attacker has *deduced* the relation
+between its own behaviour and the defender's response, it holds a model of the
+scheme — learned black-box rather than read off the source, which is exactly
+Jalowski's *"look for the mathematical logic behind the movement"*.
 
-**Three different things are being run together here, and only one of them is
-axis 8.** The distinction decides whether a badge move is defensible or an
-over-claim, so it is drawn before any build rather than after a result:
+**The verified fact that settles it.** `mtd_ai`'s action space includes
+**`action == 0`, a real and reachable DO NOTHING**, and it gates the whole
+register-and-trigger block
+([`2026-08-06_mtd_ai_reintegration.md`](2026-08-06_mtd_ai_reintegration.md) §1).
+So *"bias the result toward the defender's do-nothing"* is not a metaphor — it is
+an action the agent can take and that attacker behaviour can make more likely.
 
-1. **Timing actions to fall between mutations.** This *is* scheme awareness — and
-   it requires observing mutation timing, which is primitive **(ii) beacon** and
-   is **excluded** (R-C). The criterion also records that per-host mutation counts
-   *do not exist* in the substrate: no MTD strategy keeps per-target bookkeeping,
-   so a beacon primitive would have to instrument them first.
-2. **Holding knowledge that survives mutations.** This is what arm 1 does, and
-   step 0 shows why it works — the identity pool is closed, so what the attacker
-   learnt is still true after a shuffle. **This is not scheme awareness at all.**
-   It is a durable knowledge representation that happens to be robust.
-3. **Starving the reactive defender's inputs so it behaves differently.** This is
-   the §5 channel. The attacker neither observes nor models the scheme; it behaves
-   in a way that changes what the defender computes. §12 of the stealth
-   conceptualisation record already rules on the analogous case: a quieter
-   attacker *starves* the signal — *"it is not evading detection, because nothing
-   is detecting."* The same reasoning applies here.
+**Two ceilings bound the claim, both quantified, and they are what make it
+honest.** `static_degrade_factor = 2000` forces a *random* mutation after 2 000 s
+of inaction (≈ 7 forced mutations per 15 000 s run whatever the attacker does),
+and `choose_action` is ε-greedy so a deploying action fires regardless of state.
+**Report suppression against those floors, never against zero.**
 
-**So axis 8 moves off NOT ADDRESSED via arm 1 — primitive (i) in its coarse
-form — and via nothing else in this design.** Mutation avoidance, as such, is
-either excluded (1) or is not scheme awareness (3).
+#### What still decides whether this is axis 8 — how the capability is obtained
 
-**And there is a structural reason (1) may be unavailable regardless.** Under
-time-triggered mutation the schedule is a clock and attacker behaviour cannot move
-it. Under `mtd_ai` the agent chooses **which** mutation to deploy; whether the
-attacker can change *whether* one fires at all is unverified and should not be
-assumed.
+| how it is built | axis 8? | is it licensed? |
+|---|---|---|
+| the attacker **learns** the input→output relation at runtime | **yes** | **no.** This re-engages the original exclusion *head on* — its stated reason was that the primitives need *"an inference capability — machine learning or reinforcement learning over observed defender behaviour"*, and this is precisely that. Unlike the memoisation PoC, it does not narrow the exclusion; it asks for it to be lifted |
+| the attacker is **endowed** with a declared policy derived from an offline analysis of what the defender reads | **yes, and defensibly** | **yes, on the house's own discipline.** This is Marc's own framing — *"we can pretend the smart APT model has successfully used side-channelling techniques and deduced how to manoeuvre"* — and it is the **envelope, not actor** rule the criterion already applies everywhere: a run is *"one instantiation of a behavioural envelope under a declared policy"*. No learning at runtime, one declared family, ablatable to null |
 
-**Which points at the sharper and more measurable version of Marc's intuition.**
-Not *avoid* mutations — **shift the defender's mutation mix**. The evaluation
-already knows the mechanisms are not interchangeable against this attacker: a
-network-class firing delivers 0.92–1.00 of its disruption to the movement arm and
-an application-class one 0.67–0.83
-([`../implementation/disruption_wiring.md`](../implementation/disruption_wiring.md)),
-and IP Shuffle is documented as **invisible to the attacker** — no lineage paper
-gives it an IP-addressing model. So if the attacker's behaviour steers `mtd_ai`
-toward deploying mechanisms that cannot touch it and away from those that can,
-**that is a real, quantified adversarial advantage**, obtained with no new
-attacker mechanism and no scheme model.
+**Recommendation: build the endowed form.** It reaches the same behaviour, needs
+no ML/RL, fits the remaining timeframe, and carries a limitation that is *stated
+rather than hidden* — **the inference is granted, not modelled**. The claim becomes
+*"an adversary that has already characterised what this defender measures behaves
+thus, and here is what that buys it"*, which is a claim this project can actually
+support. Write the granted inference into the badge text; it is the difference
+between an honest axis-8 move and an over-claim.
 
-Report it as the **mutation-choice distribution**, not as an outcome — which is
-exactly what §17 of the stealth conceptualisation record already demands of the
-cheap falsifying run. This should be run **before** anything is built, for the
-same reason that record gives: if the choice distribution does not move across the
-profiles' existing spread, no declared mechanism will rescue it.
+#### What the attacker can already observe, corrected
 
----
+Also too restrictive earlier: **the attacker can detect that a mutation happened
+today, with no new channel.** It experiences the consequences directly — a
+network-layer firing clears its host cursor, an application-layer one interrupts
+its action, and a re-scan after a diversity firing returns different services.
+**The axis-7 learner already consumes exactly this signal**, forgetting on every
+`apply_mtd_interrupt_cost`. So "did the defender move?" is available; what remains
+unavailable is *which host was mutated while the attacker was elsewhere*, per-host
+mutation counts (no strategy keeps them), and the schedule itself.
 
-## 6. Where the honest claims land
-
-- **Axis 5 → DESIGNED is genuinely reachable at arm 2**, and for the first time on
-  real grounds: the model would have a stealth *mechanism* (tempo chosen from
-  state) rather than tempo that merely exists. **DEMONSTRATED still requires R-B**,
-  because it needs something in the run to punish detectability, and only `mtd_ai`
-  does.
-- **Axis 7 may genuinely move, and this is underrated.** Its M8b field says what is
-  missing is *"a learner whose credit signal carries progress rather than the
-  routing verdict"*. A success-gated exploit decision is progress-shaped. That is
-  the specific thing the badge has been waiting for.
-- **Axis 8 (i)** proceeds as scoped 2026-08-05, in the **coarse** form step 0
-  leaves available. **Mutation avoidance does not add to it** (§5.1), and the
-  exact-image form of primitive (i) is measured dead.
-- **Axis 6 must not be claimed** without R-A and a separable arm 4.
-- **Axis 3 (plurality) will probably fall**, as it has under every modulator so
-  far. Pre-register that expectation rather than discovering it.
-
-Two of eight axes moving from one mechanism is a strong return for the remaining
-time — **provided the claims stay this narrow**.
+That boundary is the useful one: **mutation *occurrence* is observable, mutation
+*targeting* is not.** A design that stays on the observable side of it needs no
+new channel and no R-C reversal.
 
 ---
 

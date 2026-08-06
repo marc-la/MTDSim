@@ -13,10 +13,11 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 
 ---
 
-## Open work — three handoffs
+## Open work — four handoffs
 
-**(1) is unblocked; start there.** (3) is independent of the axis chain and can
-run alongside it.
+**(1) is unblocked; start there.** (2) and (3) are a pair — (3) supplies the
+defender arm (2)'s consequential half needs. (4) is independent of the axis chain
+and can run alongside any of it.
 
 > **Reconciled on merge, 2026-08-05.** This chain was written on the boundary
 > branch, before the session branches were merged into `dev`. Three corrections
@@ -150,7 +151,25 @@ have patched runners whose committed numbers were taken under the old labels.)*
    framing — *move better, not move more* — with the four results that evidence it
    and the one clause the project's own data refuses.
 
-3. [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
+3. [`2026-08-06_mtd_ai_reintegration.md`](2026-08-06_mtd_ai_reintegration.md)
+   — **stand up Tay's reactive defender against the movement attacker**, which is
+   the arm every consequential stealth claim is gated on. Split out of (2) because
+   it carries its own defects and its own methodological question. Its motivating
+   fact is verified: `mtd_ai`'s action space includes a real, reachable
+   **`action == 0` do-nothing** that gates the whole trigger block — but
+   `static_degrade_factor = 2000` forces a random mutation after 2 000 s of
+   inaction and `choose_action` is ε-greedy, so suppression must be reported
+   against those floors and never against zero. **Escalates reuse-vs-retrain**:
+   the pretrained weights were trained against the *inherited* attacker, so
+   against the movement arm the agent is out of distribution, and "the attacker
+   steered the defender" would be indistinguishable from "the agent was never
+   trained for this". Also carries an unguarded divide-by-zero that the
+   quiet-attacker condition is exactly what triggers, and a **determinism risk**
+   (a neural forward pass inside the decision loop, against SIM-05). Its cheapest
+   output — the mutation-choice distribution across the profiles' existing spread,
+   run before any attacker mechanism — may falsify the whole direction cheaply.
+
+4. [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
    — **the research record**, mined from Marc's own prompts across the 110
    session transcripts. Off the axis chain entirely: it touches no code, gates
    nothing, and is gated by nothing. Scoped by measurement rather than estimate —
