@@ -90,6 +90,10 @@ Cold sessions discover open work via `ls docs/handoffs/` at session start (see �
 
 The next session should be able to start cold from the handoff alone.
 
+**Reporting back — the default return format.** When a session finishes (or abandons, or inverts) a handoff, what it says *back to me in the chat* is **framed in terms of the thesis, and succinct**. Not a diff summary, not a walk through what was done, and not a restatement of the record that was just committed — the record is where the detail belongs, and I can read it. The return answers: **what does this change about the dissertation's argument?** Which claim it licenses, weakens, or kills; which chapter or criterion row moves; what is now sayable that wasn't, or no longer sayable. A null or inverted result is a thesis-relevant finding and is reported the same way. Point at the committed record for everything else.
+
+A handoff may **specify otherwise** — a different return format, or an explicit "report the numbers" — in which case that overrides. Absent that instruction, this is the format.
+
 ## Notes workflow
 
 When the current session surfaces something dissertation-worthy — an argument worth making, a methodological tradeoff worth defending, a finding worth citing later — write it down as a **note**. Notes are the dissertation's staging layer: they feed [`../thesis/dissertation.tex`](../thesis/dissertation.tex) almost directly, so the entry bar is high.

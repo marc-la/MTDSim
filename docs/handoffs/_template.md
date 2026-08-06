@@ -34,3 +34,11 @@ The 3–5 files the next session must skim before touching anything:
 ## Out of scope (explicitly)
 
 What this handoff is *not* asking for. Use this to pre-empt scope creep.
+
+## Return format
+
+Delete this section unless it departs from the default. The default is the one in
+[`../workflows/session_workflow.md`](../workflows/session_workflow.md#handoff-workflow):
+report back **framed in terms of the thesis, and succinctly** — which claim moves,
+which chapter or criterion row is affected, what is now sayable — and point at the
+committed record for the detail.
