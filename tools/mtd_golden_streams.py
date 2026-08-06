@@ -202,6 +202,15 @@ def one_golden_run(
     # everything it already guarded.
     for rec in movement_records:
         rec.pop("interrupted_by_name", None)
+    # ``exploitability`` is the third field of the same kind and is popped for the
+    # third time on the same principle (axis-5 exposure reader, 2026-08-06): it
+    # samples the synthetic CVSS figure of the vulnerabilities an exploit action
+    # engaged, and nothing in the walk reads it to decide anything. It is
+    # *observation*, so it must not be able to move a digest — the goldens exist
+    # to catch behaviour changing, and a widening that moved them would spend
+    # their credibility on a field that changes nothing.
+    for rec in movement_records:
+        rec.pop("exploitability", None)
     mtd_records = [
         {k: _jsonable(v) for k, v in row.items()}
         for row in network.get_mtd_stats()._mtd_operation_record

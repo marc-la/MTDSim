@@ -1,0 +1,287 @@
+{
+  "meta": {
+    "generated_by": "python -m mtdsim.l3_simulation.movement.exposure --write",
+    "rules": "data/ogasp/movement/exposure_rules.json",
+    "note": "Generated. Never hand-edit. Increments are shown at the DECLARED rho; other rho values rescale every cell by the same rule, so the view pins the tier assignment rather than one point of the sweep. The CVSS term is not compiled here: it is per-action, not per-tactic.",
+    "rho": 0.5
+  },
+  "placements": {
+    "declared": {
+      "tier_overrides": {},
+      "tactics": {
+        "collection": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "command-and-control": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "credential-access": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "defense-impairment": {
+          "tier": 4,
+          "increment": 1.0
+        },
+        "discovery": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "execution": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "exfiltration": {
+          "tier": 4,
+          "increment": 1.0
+        },
+        "impact": {
+          "tier": 4,
+          "increment": 1.0
+        },
+        "initial-access": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "lateral-movement": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "persistence": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "privilege-escalation": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "reconnaissance": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "resource-development": {
+          "tier": 0,
+          "increment": 0.0625
+        },
+        "stealth": {
+          "tier": 1,
+          "increment": 0.125
+        }
+      },
+      "native_verbs": {
+        "BRUTE_FORCE": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "ENUM_HOST": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "EXPLOIT_VULN": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "SCAN_HOST": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "SCAN_NEIGHBOR": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "SCAN_PORT": {
+          "tier": 2,
+          "increment": 0.25
+        }
+      }
+    },
+    "recon_active": {
+      "tier_overrides": {
+        "reconnaissance": 3
+      },
+      "tactics": {
+        "collection": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "command-and-control": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "credential-access": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "defense-impairment": {
+          "tier": 4,
+          "increment": 1.0
+        },
+        "discovery": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "execution": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "exfiltration": {
+          "tier": 4,
+          "increment": 1.0
+        },
+        "impact": {
+          "tier": 4,
+          "increment": 1.0
+        },
+        "initial-access": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "lateral-movement": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "persistence": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "privilege-escalation": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "reconnaissance": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "resource-development": {
+          "tier": 0,
+          "increment": 0.0625
+        },
+        "stealth": {
+          "tier": 1,
+          "increment": 0.125
+        }
+      },
+      "native_verbs": {
+        "BRUTE_FORCE": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "ENUM_HOST": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "EXPLOIT_VULN": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "SCAN_HOST": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "SCAN_NEIGHBOR": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "SCAN_PORT": {
+          "tier": 2,
+          "increment": 0.25
+        }
+      }
+    },
+    "lateral_exploit": {
+      "tier_overrides": {
+        "lateral-movement": 3
+      },
+      "tactics": {
+        "collection": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "command-and-control": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "credential-access": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "defense-impairment": {
+          "tier": 4,
+          "increment": 1.0
+        },
+        "discovery": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "execution": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "exfiltration": {
+          "tier": 4,
+          "increment": 1.0
+        },
+        "impact": {
+          "tier": 4,
+          "increment": 1.0
+        },
+        "initial-access": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "lateral-movement": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "persistence": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "privilege-escalation": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "reconnaissance": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "resource-development": {
+          "tier": 0,
+          "increment": 0.0625
+        },
+        "stealth": {
+          "tier": 1,
+          "increment": 0.125
+        }
+      },
+      "native_verbs": {
+        "BRUTE_FORCE": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "ENUM_HOST": {
+          "tier": 3,
+          "increment": 0.5
+        },
+        "EXPLOIT_VULN": {
+          "tier": 2,
+          "increment": 0.25
+        },
+        "SCAN_HOST": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "SCAN_NEIGHBOR": {
+          "tier": 1,
+          "increment": 0.125
+        },
+        "SCAN_PORT": {
+          "tier": 2,
+          "increment": 0.25
+        }
+      }
+    }
+  }
+}

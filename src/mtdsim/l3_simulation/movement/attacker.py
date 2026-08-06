@@ -238,6 +238,35 @@ class MovementRecord:
     # field is substrate ground truth sampled in-layer, not a movement-layer
     # estimate, and it carries no host identity — only the count.
     n_compromised: int = 0
+    # The mean **initial** exploitability (``cvss / 5.5``) over the
+    # vulnerabilities this action engaged — 0.0 for every visit that engaged
+    # none, unambiguously: the substrate floors ``complexity`` strictly above
+    # zero and ``cvss = (complexity + impact) / 2``, so a real vulnerability's
+    # figure is strictly positive.
+    #
+    # **Initial, not live.** The substrate mutates a vulnerability's
+    # ``exploitability`` attribute upward when the host it sits on falls
+    # (``attack_operation._do_exploit_vuln``), so the live attribute at read
+    # time is a defender-side scoring artefact rather than a property of the
+    # act. ``cvss`` is never mutated, so ``cvss / 5.5`` recovers the value the
+    # act was taken against, exactly.
+    #
+    # It is here rather than derived because it cannot be derived: the record
+    # carries no vulnerability identity, the adversary's ``curr_vulns`` is
+    # overwritten by the next exploit action, and the substrate's own scorer
+    # channel records only the vulnerabilities of *compromise-causing* actions.
+    # The suite's standing preference is to extend the reader rather than widen
+    # the record, so the burden of proof sits on the widening: no reader can
+    # recover this, and exploit-dispatching actions are 25–30 % of the profiled
+    # attacker's attempted actions, so the omission is material rather than
+    # marginal. It is read by the axis-5 exposure reader (``measures.py`` §9)
+    # and by nothing the walk decides on.
+    #
+    # Boundary: an action the defence interrupted before its vulnerability loop
+    # ran still records the set it engaged. The attacker committed the attempt
+    # and spent the time; whether any single vulnerability was reached is the
+    # substrate's business, not the footprint's.
+    exploitability: float = 0.0
 
 
 # The distinguished routing verdict for a place that raised no verdict at all (a
@@ -499,6 +528,7 @@ class MovementAttacker:
                     interrupted_by_name=source.name,
                     retrace=is_retrace,
                     n_compromised=self._n_compromised(),
+                    exploitability=self._mean_exploitability(verb, blocked),
                 )
             )
             step_index += 1
@@ -519,6 +549,30 @@ class MovementAttacker:
             return len(self.adversary.get_compromised_hosts())
         except Exception:  # noqa: BLE001 - record enrichment only, never fatal
             return 0
+
+    def _mean_exploitability(self, verb: str, blocked: bool) -> float:
+        """The mean **initial** exploitability of the vulnerabilities this action
+        engaged, or 0.0 where it engaged none (see :class:`MovementRecord`).
+
+        Read off ``adversary.get_curr_vulns()``, which ``step`` populates for an
+        ``EXPLOIT_VULN`` dispatch before any time passes. Two gates keep a stale
+        list out of the record: a **blocked** dispatch never entered ``step``, and
+        every other verb leaves the list untouched from whenever an exploit last
+        ran — so both read 0.0 rather than the previous action's figure.
+
+        ``cvss / 5.5`` rather than the live ``exploitability`` attribute, because
+        the substrate mutates that attribute upward on compromise; ``cvss`` is
+        never mutated, so this is the value the act was taken against.
+        """
+        if verb != "EXPLOIT_VULN" or blocked:
+            return 0.0
+        try:
+            vulns = self.adversary.get_curr_vulns() or []
+            if not vulns:
+                return 0.0
+            return sum(v.cvss / 5.5 for v in vulns) / len(vulns)
+        except Exception:  # noqa: BLE001 - record enrichment only, never fatal
+            return 0.0
 
     def _dispatch(self, verb: str, duration: float, start_time: float):
         """Run one dispatched verb through the carved substrate for the time the

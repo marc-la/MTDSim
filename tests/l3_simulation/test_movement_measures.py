@@ -85,6 +85,7 @@ def rec(
     interrupted_by: str = "",
     place_class: str = ACTION_BEARING,
     n_compromised: int = 0,
+    exploitability: float = 0.0,
 ) -> MovementRecord:
     return MovementRecord(
         profile="test",
@@ -102,6 +103,7 @@ def rec(
         interrupted_by=interrupted_by,
         place_class=place_class,
         n_compromised=n_compromised,
+        exploitability=exploitability,
     )
 
 
@@ -927,3 +929,395 @@ def test_the_baseline_trajectory_gates_on_compromise_not_on_uuid_presence() -> N
     permanently out of step with ``baseline_ledger``'s own distinct-host count."""
     rows = [{"compromise_host": "None", "compromise_host_uuid": f"h{i}"} for i in range(5)]
     assert M.baseline_progress_trajectory(rows) == (0, 0, 0, 0, 0)
+
+
+# ---------------------------------------------------------------------------
+# §9 stealth exposure — the detectability curve (validation gate 1)
+#
+# Every case below is a hand-constructed visit stream with its expected level
+# worked out in the test. The declared family itself (the tier table, the two
+# nulls, the reproduction check) is pinned in test_movement_exposure.py; what is
+# pinned here is the reader's arithmetic over a record stream.
+#
+# The model used throughout is deliberately NOT the declared one: τ = 10 and
+# ρ = 0.5 with the CVSS term off, so every expected number is short enough to
+# write down. Places are chosen from the ranking's ends — `stealth` at tier 1
+# (d = 0.125) and `impact` at tier 4 (d = 1.0).
+# ---------------------------------------------------------------------------
+
+from mtdsim.l3_simulation.movement.exposure import INVERSE, DIRECT, exposure_model
+
+TAU = 10.0
+QUIET = "stealth"        # tier 1 -> d = 0.125 at rho = 0.5
+LOUD = "impact"          # tier 4 -> d = 1.000 at rho = 0.5
+EXPLOITY = "initial-access"  # tier 3 -> d = 0.500 at rho = 0.5
+
+
+def exposure_test_model(**kwargs):
+    """The hand-arithmetic model: τ = 10, ρ = 0.5, CVSS term off unless asked."""
+    params = {"tau": TAU, "rho": 0.5, "delta": 0.0}
+    params.update(kwargs)
+    return exposure_model(**params)
+
+
+def visits_at(place: str, times, **kwargs):
+    """A stream of one-second visits to ``place`` starting at each of ``times``."""
+    return [
+        rec(place, step=i, start=t, end=t + 1.0, dwell=1.0, **kwargs)
+        for i, t in enumerate(times)
+    ]
+
+
+def test_the_level_starts_at_zero_so_the_first_visit_is_its_own_increment() -> None:
+    """Before its first act the attacker has generated no signal. That is the
+    honest null rather than a choice, and it makes the first level readable
+    without reference to anything."""
+    curve = M.exposure_curve(run_of(*visits_at(LOUD, [0.0])), exposure_test_model())
+    assert curve.levels == (1.0,)
+    assert curve.gaps == (0.0,)
+
+
+def test_a_burst_of_noisy_actions_compounds() -> None:
+    """Three loud acts one second apart, τ = 10. Hand-worked:
+        D1 = 1
+        D2 = 1·e^-0.1 + 1 = 1.904837418
+        D3 = D2·e^-0.1 + 1 = 2.723707...
+    The level compounds because the decay across one second recovers almost all
+    of it — which is what 'a burst is louder than its parts' has to mean."""
+    curve = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 1.0, 2.0])), exposure_test_model()
+    )
+    e = math.exp(-0.1)
+    assert curve.levels[0] == pytest.approx(1.0)
+    assert curve.levels[1] == pytest.approx(e + 1.0)
+    assert curve.levels[2] == pytest.approx((e + 1.0) * e + 1.0)
+    assert curve.levels[0] < curve.levels[1] < curve.levels[2]
+
+
+def test_an_idle_gap_decays_the_level() -> None:
+    """The same two acts, separated by an idle gap instead of a second. At
+    Δ = 50 with τ = 10 the first act has decayed to e^-5 ≈ 0.0067 of itself, so
+    the second act arrives at an essentially clean network. This is the whole
+    behavioural claim: waiting buys the attacker something."""
+    burst = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 1.0])), exposure_test_model()
+    )
+    patient = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 50.0])), exposure_test_model()
+    )
+    assert patient.levels[1] == pytest.approx(math.exp(-5.0) + 1.0)
+    assert patient.levels[1] < burst.levels[1]
+
+
+def test_a_stealth_only_run_stays_low() -> None:
+    """Five visits to the ranking's quiet end against five to its loud end, on an
+    identical timeline. The separation is the ordinal ranking doing its one job,
+    and it is exactly the ρ^3 = 8-fold the tier gap declares."""
+    times = [0.0, 20.0, 40.0, 60.0, 80.0]
+    quiet = M.exposure_curve(run_of(*visits_at(QUIET, times)), exposure_test_model())
+    loud = M.exposure_curve(run_of(*visits_at(LOUD, times)), exposure_test_model())
+    assert loud.mean_exposure == pytest.approx(8.0 * quiet.mean_exposure)
+    assert quiet.peak_exposure < loud.peak_exposure
+
+
+def test_gaps_are_clamped_at_zero() -> None:
+    """Two records can share a start time when the movement layer draws a zero
+    dwell. A negative gap would make the decay a *gain*, so it is clamped —
+    coincident acts simply add."""
+    stream = [
+        rec(LOUD, step=0, start=5.0, end=5.0, dwell=0.0),
+        rec(LOUD, step=1, start=5.0, end=5.0, dwell=0.0),
+    ]
+    curve = M.exposure_curve(run_of(*stream, termination=5.0), exposure_test_model())
+    assert curve.gaps == (0.0, 0.0)
+    assert curve.levels == (1.0, 2.0)
+
+
+def test_dwell_only_visits_carry_their_tier_and_are_not_dropped() -> None:
+    """The ranking's three loudest tactics are dwell-only under v2_partial.
+    Scoring only attempted actions would leave the ranking's top rung inert and
+    score a campaign spending its time at its own objective as silent."""
+    stream = [
+        rec(LOUD, step=0, verb="", verdict="", start=0.0, end=1.0, dwell=1.0,
+            place_class=DWELL_ONLY),
+    ]
+    curve = M.exposure_curve(run_of(*stream), exposure_test_model())
+    assert curve.increments == (1.0,)
+    assert not M.action_records(run_of(*stream))  # dispatched nothing at all
+
+
+def test_bare_terminal_markers_are_excluded() -> None:
+    """A terminal marker names the place the run ended at; it consumed nothing
+    and dispatched nothing, so it must not add a final increment."""
+    stream = [
+        rec(LOUD, step=0, start=0.0, end=1.0, dwell=1.0),
+        rec(LOUD, step=1, verb="", verdict="", outcome="SIM_END",
+            next_place=None, start=1.0, end=1.0, dwell=0.0),
+    ]
+    curve = M.exposure_curve(run_of(*stream), exposure_test_model())
+    assert curve.n_events == 1
+
+
+# -- the CVSS term ----------------------------------------------------------
+
+
+def test_the_cvss_term_only_touches_visits_that_attempted_a_vulnerability() -> None:
+    """Two visits with the same tier, one carrying a vulnerability figure and one
+    not. The term modulates the first and leaves the second at its tier value —
+    which is what 'complementary, not substitutable' has to mean in arithmetic."""
+    model = exposure_test_model(delta=0.5, direction=INVERSE)
+    stream = [
+        rec(EXPLOITY, step=0, start=0.0, end=1.0, dwell=1.0, exploitability=0.25),
+        rec(EXPLOITY, step=1, start=100.0, end=101.0, dwell=1.0),
+    ]
+    curve = M.exposure_curve(run_of(*stream), model)
+    # tier 3 at rho 0.5 -> 0.5; m = 1 - 0.5 + 2(0.5)(1 - 0.25) = 1.25
+    assert curve.increments[0] == pytest.approx(0.625)
+    assert curve.increments[1] == pytest.approx(0.5)
+
+
+def test_the_two_cvss_directions_disagree_on_the_same_stream() -> None:
+    """E3 exists because the direction is a declared judgement with no
+    attestation on either side. The reader must therefore produce *different*
+    curves for the two readings on the same recorded run — if it did not, the
+    question would be unaskable rather than settled."""
+    stream = visits_at(EXPLOITY, [0.0, 5.0, 10.0], exploitability=0.9)
+    inverse = M.exposure_curve(
+        run_of(*stream), exposure_test_model(delta=0.5, direction=INVERSE)
+    )
+    direct = M.exposure_curve(
+        run_of(*stream), exposure_test_model(delta=0.5, direction=DIRECT)
+    )
+    assert inverse.mean_exposure < direct.mean_exposure  # a quiet easy exploit
+
+
+# -- the three summaries ----------------------------------------------------
+
+
+def test_the_time_average_is_the_closed_form_integral() -> None:
+    """One loud act at t = 0 on a run ending at t = 100, τ = 10. The level decays
+    from 1.0 for the whole run, so ∫D dt = 1·τ·(1 − e^-10) and the time average
+    is that over 100. Worked in closed form rather than sampled: a sampled
+    integral would depend on how often the arm happened to act, which is the bias
+    this summary exists to avoid."""
+    curve = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0]), termination=100.0), exposure_test_model()
+    )
+    expected = TAU * (1.0 - math.exp(-10.0)) / 100.0
+    assert curve.time_average_exposure == pytest.approx(expected)
+
+
+def test_the_mean_over_events_and_the_time_average_can_disagree() -> None:
+    """The disagreement is the finding, not a defect. A rare-but-loud campaign
+    and a frequent-but-quiet one can order one way on the mean over events and
+    the other way over the clock, and a tempo claim is exactly about that case."""
+    rare_loud = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 400.0]), termination=800.0),
+        exposure_test_model(),
+    )
+    often_quiet = M.exposure_curve(
+        run_of(*visits_at(QUIET, [t * 8.0 for t in range(100)]), termination=800.0),
+        exposure_test_model(),
+    )
+    assert rare_loud.mean_exposure > often_quiet.mean_exposure
+    assert rare_loud.time_average_exposure < often_quiet.time_average_exposure
+
+
+def test_mean_increment_ignores_the_clock_entirely() -> None:
+    """The clock-free control. Two runs visiting the same places in the same
+    order, one dense and one spread, agree exactly on the mean increment and
+    differ on the level — which is what separates *what* the attacker does from
+    *how fast*. A separation visible in this one is an action-mix claim, and axis
+    5 may not report it as tempo."""
+    dense = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 1.0, 2.0])), exposure_test_model()
+    )
+    spread = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0, 500.0, 1000.0])), exposure_test_model()
+    )
+    assert dense.mean_increment == spread.mean_increment == 1.0
+    assert dense.mean_exposure > spread.mean_exposure
+
+
+def test_an_empty_run_reports_none_rather_than_zero() -> None:
+    """No events is not 'silent': it is nothing to read. Reporting 0.0 would let
+    a degenerate run be averaged in as the quietest campaign on record."""
+    curve = M.exposure_curve(run_of(), exposure_test_model())
+    assert curve.mean_exposure is None
+    assert curve.mean_increment is None
+    assert curve.time_average_exposure is None
+    assert curve.peak_exposure is None
+
+
+# -- the cross-arm guard ----------------------------------------------------
+
+
+def test_two_curves_on_different_clocks_are_not_time_comparable() -> None:
+    """Under S3-R the movement layer prices all of its arm's time while the
+    baseline runs on substrate pricing, so the two arms' time-denominated
+    summaries are computed against different clocks. The type carries the caveat
+    so a consumer cannot drop it — and it returns a verdict rather than raising,
+    because the parent record permits the cross-clock figure *with* the asymmetry
+    stated."""
+    movement = M.exposure_curve(run_of(*visits_at(LOUD, [0.0])), exposure_test_model())
+    baseline = M.baseline_exposure_curve(
+        [{"name": "EXPLOIT_VULN", "start_time": 0.0, "finish_time": 1.0}],
+        exposure_test_model(),
+    )
+    assert movement.clock == M.MOVEMENT_CLOCK
+    assert baseline.clock == M.SUBSTRATE_CLOCK
+    assert not movement.comparable_with(baseline)
+    assert movement.comparable_with(movement)
+
+
+def test_a_different_tau_is_also_not_comparable() -> None:
+    """τ sets the level's scale, so two curves read at different decay constants
+    are two different measures rather than two readings of one."""
+    a = M.exposure_curve(run_of(*visits_at(LOUD, [0.0])), exposure_test_model())
+    b = M.exposure_curve(
+        run_of(*visits_at(LOUD, [0.0])), exposure_test_model(tau=60.0)
+    )
+    assert not a.comparable_with(b)
+
+
+# -- the baseline arm's event definition ------------------------------------
+
+
+def test_consecutive_exploit_rows_collapse_into_one_action() -> None:
+    """``_do_exploit_vuln`` appends one row per vulnerability tried, not per
+    action, inflating this arm's event count 3.81-fold on a measured pilot. The
+    collapse is exact rather than heuristic: the native FSM never dispatches
+    EXPLOIT_VULN twice in succession, so a run of consecutive exploit rows is one
+    action by construction. The first row of each run is kept — the action's
+    signal begins where the action does."""
+    rows = [
+        {"name": "SCAN_PORT", "start_time": 0.0, "finish_time": 1.0},
+        {"name": "EXPLOIT_VULN", "start_time": 1.0, "finish_time": 2.0},
+        {"name": "EXPLOIT_VULN", "start_time": 2.0, "finish_time": 3.0},
+        {"name": "EXPLOIT_VULN", "start_time": 3.0, "finish_time": 4.0},
+        {"name": "BRUTE_FORCE", "start_time": 4.0, "finish_time": 5.0},
+        {"name": "EXPLOIT_VULN", "start_time": 5.0, "finish_time": 6.0},
+    ]
+    collapsed = M.baseline_action_rows(rows)
+    assert [r["name"] for r in collapsed] == [
+        "SCAN_PORT", "EXPLOIT_VULN", "BRUTE_FORCE", "EXPLOIT_VULN"
+    ]
+    assert [r["start_time"] for r in collapsed] == [0.0, 1.0, 4.0, 5.0]
+
+
+def test_the_collapse_changes_the_baseline_level_it_would_otherwise_inflate() -> None:
+    """The point of the collapse, in arithmetic: uncollapsed, the three
+    per-vulnerability rows of one exploit action each add an increment, so the
+    arm is handed a threefold louder action by an accounting artefact."""
+    rows = [
+        {"name": "EXPLOIT_VULN", "start_time": float(t), "finish_time": t + 1.0}
+        for t in range(3)
+    ]
+    collapsed = M.baseline_exposure_curve(rows, exposure_test_model())
+    assert collapsed.n_events == 1
+    uncollapsed = M.baseline_exposure_curve(
+        [dict(r, name="SCAN_PORT") for r in rows], exposure_test_model()
+    )
+    assert uncollapsed.n_events == 3
+    assert collapsed.mean_exposure < uncollapsed.mean_exposure
+
+
+def test_the_baseline_arm_has_no_cvss_term_by_construction() -> None:
+    """Its rows carry no vulnerability figure, so every increment is its verb's
+    tier value alone at every δ. This is the structural asymmetry that makes
+    δ = 0 the primary cross-arm setting, where both arms are scored by the
+    identical rule."""
+    rows = [{"name": "EXPLOIT_VULN", "start_time": 0.0, "finish_time": 1.0}]
+    for delta in (0.0, 0.5, 1.0):
+        curve = M.baseline_exposure_curve(rows, exposure_test_model(delta=delta))
+        assert curve.increments == (0.25,)  # EXPLOIT_VULN -> tier 2 -> 0.5^2
+
+
+# -- seeded gates 2-4 -------------------------------------------------------
+
+
+def test_the_curve_re_derives_exactly_from_a_re_created_run(seeded_movement_run) -> None:
+    """Gate 3, determinism: the reader is a pure function of the records, so a
+    re-created run yields a bit-identical curve. Re-running the simulation rather
+    than re-reading the same object is the point — it pins the record stream as
+    well as the arithmetic."""
+    from mtdsim.l3_simulation.movement.run import run_movement
+
+    again = run_movement(
+        "infrastructure_setup", seed=0, horizon=3_000,
+        mtd_scheme="random", mtd_interval=200,
+    )
+    model = exposure_test_model()
+    first = M.exposure_curve(seeded_movement_run, model)
+    second = M.exposure_curve(again, model)
+    assert first == second
+
+
+def test_one_recorded_run_yields_the_whole_sweep(seeded_movement_run) -> None:
+    """The reader's cheapness property, inherited from the disengagement measure:
+    every declared parameter lives on the model, so a sweep costs no additional
+    simulation. If this ever needed re-running, the sweep would cost 40x what it
+    does."""
+    curves = {
+        (tau, rho): M.exposure_curve(
+            seeded_movement_run, exposure_test_model(tau=tau, rho=rho)
+        ).mean_exposure
+        for tau in (3.75, 15.0, 960.0)
+        for rho in (1.0, 0.5)
+    }
+    assert len(set(curves.values())) == len(curves)  # every cell distinct
+
+
+def test_the_exploitability_field_is_populated_only_by_exploit_dispatches(
+    seeded_movement_run,
+) -> None:
+    """The widening's own gate. A figure on a non-exploit record would mean the
+    driver read a stale ``curr_vulns``, which is the one way this field can lie —
+    and it would lie *silently*, since a stale figure is a plausible number."""
+    for r in seeded_movement_run.records:
+        if r.verb != "EXPLOIT_VULN" or r.blocked:
+            assert r.exploitability == 0.0, (r.verb, r.blocked, r.exploitability)
+        assert 0.0 <= r.exploitability <= 1.0
+
+
+def test_the_curve_computes_on_both_arms_from_one_seeded_run_each(
+    seeded_movement_run,
+) -> None:
+    """Gate 4, cross-arm: the same fields are present on both sides, and each
+    curve names its own clock so the pricing asymmetry travels with the figure
+    rather than with the reader's memory."""
+    import random
+
+    import numpy as np
+    import simpy
+
+    from mtdnetwork.component.adversary import Adversary
+    from mtdnetwork.component.time_network import TimeNetwork
+    from mtdnetwork.data.constants import ATTACKER_THRESHOLD
+    from mtdnetwork.operation.attack_operation import AttackOperation
+    from mtdsim.l3_simulation.movement.run import GEOMETRY
+
+    random.seed(0)
+    np.random.seed(0)
+    env = simpy.Environment()
+    end_event = env.event()
+    network = TimeNetwork(**GEOMETRY)
+    adversary = Adversary(network=network, attack_threshold=ATTACKER_THRESHOLD)
+    AttackOperation(
+        env=env, end_event=end_event, adversary=adversary, proceed_time=0
+    ).proceed_attack()
+    env.run(until=3_000)
+    rows = adversary.get_attack_stats().get_record()
+
+    model = exposure_test_model()
+    movement = M.exposure_curve(seeded_movement_run, model)
+    baseline = M.baseline_exposure_curve(rows, model, elapsed=float(env.now))
+
+    for curve in (movement, baseline):
+        assert curve.n_events > 0
+        assert curve.mean_exposure is not None
+        assert curve.mean_increment is not None
+        assert curve.time_average_exposure is not None
+    assert movement.clock != baseline.clock
+    # the one summary that compares with no caveat at all
+    assert movement.mean_increment > 0 and baseline.mean_increment > 0

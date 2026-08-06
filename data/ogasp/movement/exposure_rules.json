@@ -1,0 +1,134 @@
+{
+  "meta": {
+    "artefact": "The axis-5 exposure family — the declared rule model behind the post-hoc detectability curve D(t), its ordinal tier assignment over the fifteen tactics, and its three declared parameters",
+    "created": "2026-08-06",
+    "record": "docs/implementation/pipeline/ogasp/stealth_exposure_metric.md",
+    "prereg": "docs/implementation/pipeline/ogasp/stealth_exposure_prereg.md",
+    "parent": "docs/implementation/pipeline/ogasp/stealth_conceptualisation.md",
+    "precedent": "docs/implementation/declared_value_provenance.md",
+    "consumed_by": "src/mtdsim/l3_simulation/movement/exposure.py (the family), src/mtdsim/l3_simulation/movement/measures.py §9 (the reader)",
+    "compiled_view": "data/ogasp/movement/exposure_increments.json — regenerate with `python -m mtdsim.l3_simulation.movement.exposure --write`, verify with `--check`",
+    "boundary": "METRIC ONLY. D(t) is read by nothing in the run — not routing, not dwell, not any mutation selector. No attacker state is added and no S2 question arises. A binary 'detected' verdict is a separate decision-rule build, deliberately not made here.",
+    "cti_independence": "The authored artefact is the tier ORDER, which is transcribed from the corpus's own quoted observability evidence (stealth_conceptualisation.md §7) and from nothing else. Every MAGNITUDE — the ratio between rungs, the weight on the CVSS term, the decay constant — is declared and swept, and each has a null inside its band. No value here was chosen by looking at the runs it scores; the pre-registration was committed before the reader produced a row, and the git order is the audit trail.",
+    "scale": "D carries no units and no absolute figure is reportable. Its scale is set by rho and tau, neither of which is calibrated against anything outside this model. Comparisons between arms or profiles at a common setting are the only meaningful readings."
+  },
+  "model": {
+    "recursion": {
+      "form": "D(i) = D(i-1) * exp(-delta_t(i) / tau) + d(i),  D(0-) = 0",
+      "unit": "place visit — every record that consumed the attacker's time or dispatched a verb; bare terminal markers excluded",
+      "unit_rationale": "The tier ranking's three LOUDEST tactics (exfiltration, defence-impairment, impact) are dwell-only under v2_partial and dispatch no verb. Scoring only attempted actions would leave the ranking's entire top rung inert and would score a campaign spending its time at its objective as having done nothing. This is the same denominator visit_distribution already uses: engaging a tactic is behaviour whether or not a verb fired.",
+      "initial_condition": "D starts at zero — before its first act the attacker has generated no signal. The honest null rather than a choice.",
+      "decay_departure": "The parent record's §6 decays the level on the attacker's NEXT NOISY ACTION (event-driven). This family decays it with ELAPSED TIME. The two are not interchangeable: event-driven decay says only the attacker's own loud acts cost it what it built up, so waiting is inert and a tempo claim has nothing to rest on; time-driven decay says ambient noise erodes any signal regardless of what the attacker does next, which is what a low-and-slow claim requires. Pre-registered as a design choice, not asserted as a fact.",
+      "alternatives_rejected": [
+        "event-driven decay (the parent record's §6 rule) — kept as the named alternative; it cannot express that waiting buys the attacker anything, which is the one thing axis 5 is about",
+        "a threshold on D yielding a binary 'detected' flag — a decision-rule build, out of scope by the handoff's own hard constraint",
+        "normalising D to [0, 1] — it would manufacture an apparent probability of detection where none exists, which is exactly the over-claim the badge ceiling forbids"
+      ]
+    },
+    "increment": {
+      "form": "d(i) = rho ^ (4 - tier(place(i))) * m(i)",
+      "tier_source": "docs/implementation/pipeline/ogasp/stealth_conceptualisation.md §7 — the corpus's ordinal observability ranking, quoted evidence per rung. ORDINAL ONLY: the corpus carries no per-tactic detection probability anywhere, so this family takes the order from it and declares the magnitude separately.",
+      "cvss_modulation": {
+        "form": "m(i) = 1 - delta + 2 * delta * x(i);  x = 1 - e (inverse) or x = e (direct);  m = 1 where no vulnerability was attempted",
+        "e": "the mean INITIAL exploitability (cvss / 5.5) over the vulnerabilities that action attempted, recorded on MovementRecord.exploitability",
+        "why_initial": "The substrate mutates a vulnerability's live `exploitability` upward when the host it sits on falls (attack_operation.py:568-571), so the live attribute at read time is a defender-side scoring artefact rather than a property of the act. `cvss` is never mutated, so cvss / 5.5 recovers the value the act was taken against, exactly.",
+        "coverage": "EXPLOIT_VULN-dispatching visits only — initial-access, execution and privilege-escalation under v2_partial. The other five verbs and the seven dwell-only tactics have no CVSS reading at all, which is why this term MODULATES the tier term rather than replacing it. The baseline arm has no reading for any row: its attack record carries no vulnerability figure, so cross-arm figures are primary at delta = 0.",
+        "direction_is_declared": "Neither direction is attested. The inverse reading (a more easily exploitable vulnerability needs a smaller footprint, so it is quieter) is Marc's meeting framing; the direct reading (a higher-impact exploit is noisier) is its equally arguable opposite. E3 of the pre-registration fixes in advance what the study does with the pair."
+      }
+    },
+    "tiers": {
+      "0": {
+        "label": "essentially unobservable",
+        "tactics": ["resource-development"],
+        "evidence": "\"leaves no trace inside the victim estate\", \"largely invisible\"; off-network by construction (tactic profiles 01/02)"
+      },
+      "1": {
+        "label": "defined-stealthy, lowest on-network signal",
+        "tactics": ["stealth", "credential-access", "command-and-control", "reconnaissance"],
+        "evidence": "stealth \"minimising observable signals… indistinguishable from benign activity\"; credential-access \"make the adversary harder to detect\"; C2 \"low-signal… mimicking normal, expected traffic to avoid detection\"; passive reconnaissance \"the least risky… remain in the shadows\"",
+        "contested": "reconnaissance is §7's bimodal row (passive = 1, active = 3) and the net carries one place per tactic, so it must take one slot. Tier 1 is the declared primary by Marc's ruling of 2026-08-06, following his meeting framing that a scan-shaped act is near-silent. Swept to tier 3."
+      },
+      "2": {
+        "label": "low-signal cluster (living-off-the-land / blend; internal order soft)",
+        "tactics": ["discovery", "collection", "execution", "lateral-movement"],
+        "evidence": "discovery/collection \"staying unnoticed\" with native OS tools; execution \"keep low to go undetected\", fileless \"chosen… to evade\"; lateral-movement credential path \"quieter than exploitation\"",
+        "contested": "lateral-movement is §7's other bimodal row (credential-reuse = 2, exploitation = 3). Under v2_partial it maps to ENUM_HOST, which dispatches no exploit, so tier 2 is the declared primary. Swept to tier 3."
+      },
+      "3": {
+        "label": "discrete detectable events",
+        "tactics": ["initial-access", "persistence", "privilege-escalation"],
+        "evidence": "NONE — all three are §7's flagged judgement calls, placed by inference (an entry exploit is a discrete detectable event) and carrying no observability statement in their profiles. §7 names them as the first thing a sensitivity sweep should perturb.",
+        "contested": "the weakest rung in the table; its three members are the only tactics here with no quoted evidence at all."
+      },
+      "4": {
+        "label": "high-signal / noisy",
+        "tactics": ["exfiltration", "defense-impairment", "impact"],
+        "evidence": "defence-impairment \"a higher-privilege, higher-signal act… punctuated and decisive\"; impact \"fast and decisive… burst\", self-revealing availability destruction; exfiltration paced-but-\"can look suspicious\" in bulk"
+      }
+    },
+    "baseline_verb_tiers": {
+      "rule": "a native verb's tier is the MINIMUM tier over the tactics that map to it under v2_partial",
+      "rationale": "Charitable to the baseline on purpose. The minimum is the quietest reading available, so if the inherited attacker still reads louder than the profiled one, the finding is stronger than the construction that produced it. Taking the mean or the maximum would hand the prediction its own result.",
+      "preimage": {
+        "SCAN_HOST": ["reconnaissance"],
+        "EXPLOIT_VULN": ["initial-access", "execution", "privilege-escalation"],
+        "BRUTE_FORCE": ["credential-access"],
+        "SCAN_PORT": ["discovery"],
+        "ENUM_HOST": ["lateral-movement"],
+        "SCAN_NEIGHBOR": ["command-and-control"]
+      },
+      "event_definition": "Consecutive EXPLOIT_VULN attack-record rows uninterrupted by another verb are collapsed into ONE action before scoring. The native _do_exploit_vuln appends one row PER VULNERABILITY TRIED, not per action, inflating the baseline's event count against the movement arm's per-action records by a pilot-measured factor of 3.81 (3 748 rows against 983 actions over three seeds). The collapse is exact: _execute_exploit_vuln routes a compromise to SCAN_NEIGHBOR and a failure to BRUTE_FORCE, so the native FSM never dispatches EXPLOIT_VULN twice in succession."
+    }
+  },
+  "declared_parameters": {
+    "tau": {
+      "value": 15.0,
+      "unit": "simulated seconds",
+      "sweep": [3.75, 15.0, 60.0, 240.0, 960.0],
+      "tier": "declared-judgement",
+      "status": "provisional",
+      "confidence": 60,
+      "rationale": "The decay constant names the window over which a monitor could link two events, and this substrate contains no monitor — that absence IS axis 5's problem, so no honest external anchor exists. What the value must do instead is keep the instrument non-degenerate, and the attacker's own visit tempo is the only within-substrate scale that does: 15.0 s is the profiled attacker's pooled median inter-visit interval (14.76 s over 5 profiles x 3 pilot seeds), rounded.",
+      "band_argument": "Argued from the two ways the instrument can fail, and wide enough to contain both. Far BELOW the inter-visit gap the level is memoryless and D collapses to d (the low end, 0.25x: a decay factor of about 0.02 per visit). Far ABOVE it the level never decays and D collapses to a running count of acts (the high end, 64x: about 0.985 per visit, so roughly 65 increments accumulate). A band that excluded either degeneracy could not show that the declared centre sits between them. Factor of 256, five points, geometric.",
+      "not_anchored_to": "The MTD mutation interval was rejected outright as an anchor: it would make the instrument a function of the defence condition being compared, so the measure would move with the arm by construction.",
+      "pilot_not_reporting_set": "tau_0 is measured on seeds 0-2; the study reports seeds 0-9. The anchor is a scale rather than a fitted value, and it is still read off runs that are not the ones it is applied to.",
+      "scrutiny": "Authored 2026-08-06 with the rule; survived no adversarial review round. Its defence is the sweep and nothing else, and the ledger says so rather than letting the sweep's presence imply scrutiny it has not had.",
+      "changelog": []
+    },
+    "rho": {
+      "value": 0.5,
+      "sweep": [1.0, 0.75, 0.5, 0.25],
+      "tier": "declared-judgement",
+      "status": "provisional",
+      "confidence": 65,
+      "rationale": "The ratio between adjacent observability rungs. rho = 0.5 says a one-rung step doubles the footprint — the smallest interpretable statement an ordinal ranking can be given — putting a factor of 16 between 'essentially unobservable' and 'high-signal', which is the same order as the 18-fold interrupt-rate spread already measured across these tactics.",
+      "band_argument": "rho = 1.0 is the NULL and is the reader's exact ablation: every tier scores 1.0, the ranking does nothing at all, and D becomes a decayed count of acts. That is precisely the placeholder proposed in the 2026-08-04 meeting ('same weight for all six for now'), so the band's endpoint is a position someone actually argued for rather than a strawman. rho = 0.25 quadruples per rung, separating the extremes by 256, which is where an over-sharp ranking should visibly dominate the curve.",
+      "what_is_grounded": "The ORDER is corpus-grounded (§7's quoted evidence per rung). This ratio is not, and no reading of the corpus could supply it: the corpus carries no per-tactic detection probability anywhere. Recording which half of the term is grounded is the point of the split.",
+      "scrutiny": "Authored 2026-08-06 with the rule; survived no adversarial review round.",
+      "changelog": []
+    },
+    "delta": {
+      "value": 0.5,
+      "sweep": [0.0, 0.25, 0.5, 1.0],
+      "tier": "declared-judgement",
+      "status": "provisional",
+      "confidence": 55,
+      "rationale": "How much the exploited vulnerability's own exploitability moves the increment away from its tactic's tier value. delta = 0.5 lets the CVSS term vary the increment over [0.5x, 1.5x] of the tier value — enough to matter and not enough to overturn the ordinal ranking, which is the grounded half of the term and should not be swamped by the declared half.",
+      "band_argument": "delta = 0 is the tier-only ABLATION, so the CVSS term's entire contribution is measurable by subtraction. delta = 1.0 is where it dominates: m spans [0, 2], so a maximally exploitable vulnerability under the inverse reading contributes NOTHING at all, which is the reductio the band must contain for the term's weight to have been tested rather than assumed.",
+      "lowest_confidence_in_the_family": "This parameter multiplies a quantity whose DIRECTION is itself unattested (see model.increment.cvss_modulation.direction_is_declared). It is the family's weakest entry and is labelled as such rather than averaged into the others.",
+      "scrutiny": "Authored 2026-08-06 with the rule; survived no adversarial review round.",
+      "changelog": []
+    }
+  },
+  "ledger_meta": {
+    "tiers": {
+      "corpus-grounded": "derived from CTI / corpus data",
+      "attested-pattern/declared-magnitude": "the behaviour is documented in reports or literature; the exact magnitude is still declared",
+      "declared-judgement": "reasoned from first-principles logic; not attested. The honest floor tier."
+    },
+    "tier_row_argued_empty": "The `attested-pattern/declared-magnitude` tier is EMPTY in this family, and the reason is load-bearing rather than an oversight. The only quantitative detectability anchors within reach are Jafarian's detectability ratio (defender-side detectability of scanning) and Outkin's ATT&CK-Evaluations-fitted per-step detection probabilities, and the extraction for the latter explicitly records it as not transferable to SDR-family MTD without a calibration step that does not exist in the public record. No literature attests a per-tactic detection magnitude for this defence family, so no parameter here can reach that tier by any amount of reading.",
+    "review_history": [],
+    "reproducibility": "The compiled view (data/ogasp/movement/exposure_increments.json) is generated from these rules by `python -m mtdsim.l3_simulation.movement.exposure --write` and re-derived by `--check`, which reports differing cells over the 15 tactic increments and the 6 baseline verb increments at both recon-tier settings (42 cells). Never hand-edit the view.",
+    "maintenance": "docs/implementation/declared_value_provenance.md §4. Every value here is `provisional` and has survived no adversarial round; requirement 3 is discharged by the pre-registered sweep alone, which the precedent's §6.3 records as a legitimate intermediate state provided it is labelled."
+  }
+}

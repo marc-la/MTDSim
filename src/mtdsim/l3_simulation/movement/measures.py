@@ -76,12 +76,13 @@ import math
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable, Mapping, Sequence
+from typing import Any, Iterable, Mapping, Sequence
 
 import numpy as np
 from scipy.spatial.distance import jensenshannon
 
 from mtdsim.l3_simulation.movement.attacker import DWELL_ONLY, MovementRecord
+from mtdsim.l3_simulation.movement.exposure import ExposureModel, exposure_model
 from mtdsim.l3_simulation.movement.statistics import (
     COMPROMISE_EVENTS,
     MovementRunResult,
@@ -1373,8 +1374,286 @@ def baseline_progress_trajectory(
     return tuple(out)
 
 
+# --- §9 stealth exposure (axis 5's observable, made post-hoc) ----------------
+#
+# Axis 5 scores this model NOT ADDRESSED for a narrow reason: the substrate offers
+# the movement attacker no detection model to be stealthy against, so tempo has no
+# consequence, and tempo without a consequence is not evasion. What the model DOES
+# have is a tempo axis — seven of fifteen tactics consume time and dispatch
+# nothing. What it lacks is any observable that tempo moves. This section supplies
+# the observable, and nothing else.
+#
+# **A metric, never a mechanism, and the badge ceiling follows from that.** ``D``
+# is read by nothing in the run — not routing, not dwell, not any mutation
+# selector — so no attacker state is added and no S2 question arises. The runs it
+# scores are runs that would have happened anyway, which is what stops the measure
+# building in its own conclusion. It is also the ceiling: a metric nothing responds
+# to has not been shown to change an outcome, so this reaches DESIGNED and stops
+# (``stealth_conceptualisation.md`` §9).
+#
+# **The unit is the place visit, not the attempted action.** The corpus's ordinal
+# ranking puts exfiltration, defence-impairment and impact on its loudest rung, and
+# all three are dwell-only under ``v2_partial``. Scoring only attempted actions
+# would leave the ranking's entire top rung inert and would score a campaign that
+# spends its time at its own objective as having done nothing. This is the same
+# denominator :func:`visit_distribution` already uses: engaging a tactic is
+# behaviour whether or not a verb fired.
+#
+# **Three statistics per run, and the second two exist to keep the first honest.**
+# ``mean_exposure`` is the headline. ``time_average_exposure`` does not reward an
+# arm for sampling itself more often, and where the two disagree the disagreement
+# is the finding. ``mean_increment`` strips the decay entirely, so it is clock-free
+# and is the only one of the three that is cross-arm safe without caveat — it is
+# what separates *what the attacker does* from *how fast it does it*.
+#
+# **The cross-arm caveat is carried by the type, not by the caller.** Under S3-R
+# the movement layer prices all of that arm's time while the baseline runs on
+# substrate pricing, so ``D`` and its time average are time-denominated quantities
+# compared across two clocks. The parent record's §1.4 permits that only with the
+# asymmetry stated in the same breath, so :class:`ExposureCurve` carries the clock
+# name and :meth:`ExposureCurve.comparable_with` refuses to call two curves
+# time-comparable when their clocks differ.
+#
+# Declared family: ``exposure.py`` / ``data/ogasp/movement/exposure_rules.json``.
+# Pre-registration: ``docs/implementation/pipeline/ogasp/stealth_exposure_prereg.md``.
+
+#: The clock each arm's time is priced by (S3-R). Not cosmetic: two curves on
+#: different clocks may be compared event-wise and may not be compared on any
+#: time-denominated quantity without the asymmetry stated.
+MOVEMENT_CLOCK = "movement-priced"
+SUBSTRATE_CLOCK = "substrate-priced"
+
+#: The native verb whose attack-record rows are written **per vulnerability
+#: tried** rather than per action (``_do_exploit_vuln``), and which
+#: :func:`baseline_action_rows` therefore collapses.
+_PER_VULN_VERB = "EXPLOIT_VULN"
+
+
+@dataclass(frozen=True)
+class ExposureCurve:
+    """One run's detectability trajectory and the three summaries read off it.
+
+    ``levels[i]`` is ``D`` immediately after event ``i``; ``increments[i]`` is that
+    event's ``d``; ``gaps[i]`` is the simulated time since the previous event
+    began (0.0 for the first). Times are taken at each event's **start**: the act's
+    signal is generated when the act begins, and the level then decays across the
+    act's own duration like any other elapsed time.
+    """
+
+    arm: str            # "movement" | "baseline"
+    profile: str
+    clock: str          # MOVEMENT_CLOCK | SUBSTRATE_CLOCK
+    tau: float
+    levels: tuple[float, ...]
+    increments: tuple[float, ...]
+    gaps: tuple[float, ...]
+    elapsed: float      # run termination time, the time-average's denominator
+    first_start: float = 0.0  # sim time the first event began
+
+    @property
+    def n_events(self) -> int:
+        return len(self.levels)
+
+    @property
+    def mean_exposure(self) -> float | None:
+        """**The headline** — the mean of ``D`` over the run's events, which is
+        the "running average" of the measure's own motivating description. None
+        for a run with no events."""
+        if not self.levels:
+            return None
+        return sum(self.levels) / len(self.levels)
+
+    @property
+    def peak_exposure(self) -> float | None:
+        """The loudest the campaign ever got."""
+        return max(self.levels) if self.levels else None
+
+    @property
+    def mean_increment(self) -> float | None:
+        """The mean of ``d`` with **no decay at all** — how noisy the average thing
+        this attacker did was.
+
+        Clock-free, so it is the one summary here that compares across arms with
+        no caveat, and it is the control the tempo claim needs: a separation that
+        shows up in this too is a statement about the attacker's action *mix*, not
+        about its *pace*, and axis 5 may not claim the former as the latter.
+        """
+        if not self.increments:
+            return None
+        return sum(self.increments) / len(self.increments)
+
+    @property
+    def time_average_exposure(self) -> float | None:
+        """``(1/T) ∫ D dt`` over the whole run, in closed form.
+
+        Between consecutive events the level decays exponentially from its
+        post-event value, so each interval contributes ``D·τ·(1 − exp(−Δ/τ))``
+        exactly; the final event's tail runs to the run's termination. The span
+        before the first event contributes nothing, because nothing had happened.
+
+        Reported beside :attr:`mean_exposure` throughout, because the two answer
+        different questions: the mean over events asks how loud the attacker was
+        *when it acted*, this asks how loud the network was *over the campaign*.
+        An arm that acts rarely can win one and lose the other, and that is
+        precisely the case a tempo claim is about.
+        """
+        if not self.levels or self.elapsed <= 0.0:
+            return None
+        total = 0.0
+        # every event's level decays until the next event begins
+        for level, gap in zip(self.levels, self.gaps[1:]):
+            total += level * self.tau * (1.0 - math.exp(-gap / self.tau))
+        tail = max(0.0, self.elapsed - self.last_start)
+        total += self.levels[-1] * self.tau * (1.0 - math.exp(-tail / self.tau))
+        return total / self.elapsed
+
+    @property
+    def last_start(self) -> float:
+        """Sim time the final event began — ``first_start`` plus the gaps.
+
+        Carried rather than assumed zero-based: the baseline arm's first row does
+        not sit at ``t = 0`` (its opening scan has to finish first), and reading
+        the tail off a zero-based reconstruction would overstate the final level's
+        contribution by exactly that offset.
+        """
+        return self.first_start + sum(self.gaps)
+
+    def comparable_with(self, other: "ExposureCurve") -> bool:
+        """True only when the two curves' time-denominated summaries may be
+        compared: same clock, same τ.
+
+        Two curves on different clocks are **always** comparable on
+        :attr:`mean_increment`, which is why that summary exists. This guard
+        governs :attr:`mean_exposure` and :attr:`time_average_exposure` alone, and
+        it returns a verdict rather than raising so a caller can report the
+        cross-clock figure *with* the asymmetry stated — which the parent design
+        record permits — instead of being unable to report it at all.
+        """
+        return self.clock == other.clock and self.tau == other.tau
+
+
+def _accumulate(
+    increments: Sequence[float], gaps: Sequence[float], model: ExposureModel
+) -> tuple[float, ...]:
+    """The recursion, shared by both arms: ``D(i) = D(i−1)·decay(Δ) + d(i)``."""
+    levels: list[float] = []
+    level = 0.0
+    for d, gap in zip(increments, gaps):
+        level = level * model.decay(gap) + d
+        levels.append(level)
+    return tuple(levels)
+
+
+def _gaps_from(starts: Sequence[float]) -> tuple[float, ...]:
+    """Inter-event gaps, with 0.0 for the first event (nothing preceded it).
+
+    Clamped at zero: two records may share a start time when the movement layer
+    draws a zero dwell, and a negative gap would make the decay a *gain*.
+    """
+    if not starts:
+        return ()
+    return (0.0,) + tuple(max(0.0, b - a) for a, b in zip(starts, starts[1:]))
+
+
+def exposure_curve(
+    run: MovementRunResult, model: ExposureModel | None = None
+) -> ExposureCurve:
+    """The movement arm's detectability curve over one recorded run.
+
+    Pure over the records: no simulation, no RNG, no mutation. Every declared
+    parameter lives on ``model``, so one recorded run yields the entire sweep —
+    the same property that makes the disengagement reader cheap.
+    """
+    model = model or exposure_model()
+    visits = visit_records(run)
+    increments = tuple(
+        model.increment(r.place, r.exploitability) for r in visits
+    )
+    starts = [r.start_time for r in visits]
+    gaps = _gaps_from(starts)
+    return ExposureCurve(
+        arm="movement",
+        profile=run.profile,
+        clock=MOVEMENT_CLOCK,
+        tau=model.tau,
+        levels=_accumulate(increments, gaps, model),
+        increments=increments,
+        gaps=gaps,
+        elapsed=run.termination_time,
+        first_start=starts[0] if starts else 0.0,
+    )
+
+
+def baseline_action_rows(rows) -> list[Mapping]:
+    """The baseline arm's attack-record rows, collapsed to **one row per action**.
+
+    ``_do_exploit_vuln`` appends one row *per vulnerability tried*, not per
+    action, so the native record inflates against the movement arm's per-action
+    records — measured at **3.81×** on a three-seed pilot (3 748 rows against 983
+    actions). Left uncollapsed, an exposure sum over these rows would hand the
+    baseline a roughly fourfold louder campaign by an accounting artefact, and any
+    cross-arm conclusion would be won by bookkeeping.
+
+    The collapse is **exact**, not heuristic: the native FSM never dispatches
+    ``EXPLOIT_VULN`` twice in succession (``_execute_exploit_vuln`` routes a
+    compromise to ``SCAN_NEIGHBOR`` and a failure to ``BRUTE_FORCE``), so a run of
+    consecutive ``EXPLOIT_VULN`` rows is one action by construction. The kept row
+    is the first of each run — the action's start is where its signal begins.
+
+    Note this affects other row-counted baseline measures too
+    (``baseline_ledger``, and through it ``EventWiseComparable.n_events`` and
+    ``actions_per_distinct_host``), which count rows. Those are left alone here:
+    changing them would move figures already on record, and the discrepancy is
+    flagged rather than actioned.
+    """
+    out: list[Mapping] = []
+    previous: str | None = None
+    for row in _as_rows(rows):
+        name = str(row["name"])
+        if not (name == _PER_VULN_VERB and previous == _PER_VULN_VERB):
+            out.append(row)
+        previous = name
+    return out
+
+
+def baseline_exposure_curve(
+    rows,
+    model: ExposureModel | None = None,
+    *,
+    elapsed: float | None = None,
+) -> ExposureCurve:
+    """The baseline arm's detectability curve, from its own attack-record rows.
+
+    Two structural differences from the movement arm's, both reported rather than
+    smoothed. Rows are collapsed to actions first (:func:`baseline_action_rows`).
+    And there is **no CVSS term**: the native record carries no vulnerability
+    figure, so every increment is its verb's tier value alone — which is why
+    cross-arm figures are primary at ``delta = 0``, where the movement arm's
+    CVSS term is off too and the two are scored by the identical rule.
+    """
+    model = model or exposure_model()
+    actions = baseline_action_rows(rows)
+    increments = tuple(model.verb_increment(str(r["name"])) for r in actions)
+    starts = [float(r["start_time"]) for r in actions]
+    gaps = _gaps_from(starts)
+    finish = max((float(r["finish_time"]) for r in actions), default=0.0)
+    return ExposureCurve(
+        arm="baseline",
+        profile="baseline",
+        clock=SUBSTRATE_CLOCK,
+        tau=model.tau,
+        levels=_accumulate(increments, gaps, model),
+        increments=increments,
+        gaps=gaps,
+        elapsed=float(elapsed) if elapsed is not None else finish,
+        first_start=starts[0] if starts else 0.0,
+    )
+
+
 __all__ = [
     "CONSENSUS_PATH",
+    "MOVEMENT_CLOCK",
+    "SUBSTRATE_CLOCK",
     "NETWORK_RESOURCE",
     "TERMINAL_MODES",
     "TERMINAL_TAGS",
@@ -1440,6 +1719,11 @@ __all__ = [
     "abandonment_curve",
     "disengagement_snapshot",
     "baseline_progress_trajectory",
+    # §9 stealth exposure
+    "ExposureCurve",
+    "exposure_curve",
+    "baseline_exposure_curve",
+    "baseline_action_rows",
     # §7 intervals
     "Interval",
     "mean_ci",
