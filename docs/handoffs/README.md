@@ -13,10 +13,11 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 
 ---
 
-## Open work — three handoffs
+## Open work — four handoffs
 
 **(1) is unblocked; start there.** (3) is independent of the axis chain and can
-run alongside it.
+run alongside it. (4) is independent of all three but conflicts with each of
+them on files, so it wants a gap rather than a parallel slot.
 
 > **Reconciled on merge, 2026-08-05.** This chain was written on the boundary
 > branch, before the session branches were merged into `dev`. Three corrections
@@ -125,12 +126,32 @@ not a tempo one. Record:
    implementation settled and first results in hand.
 
 
+4. [`2026-08-06_gasp_class_rename.md`](2026-08-06_gasp_class_rename.md)
+   — **rename the four GASP classes** to self-documenting objective-tactic
+   labels, and carry it through 93 tracked files, 8 tracked artefact filenames,
+   ~40 gitignored figures and 16 experiment workspaces. **Blocked on Marc's
+   ruling** on the fourth class's label: `OBJECTIVE_TACTICS` maps
+   `infrastructure_setup` to `command-and-control`, but the schema defines that
+   class by the objective its flows never reached, so a C2 name asserts
+   something Decision 5 denies. Note that the brief **corrects the premise it
+   was commissioned under** — the classes were never filtered on terminating
+   tactic; membership is analyst-stated (`gasp_schema.md` §(a) central
+   invariant), the structural-terminal scheme is the *rejected* P1 candidate,
+   and the audit's own columns show only 7/19 `pure_steal` flows terminate on
+   exfiltration and 1/5 `infrastructure_setup` flows on C2. The rename is still
+   defensible, but named against the declared `OBJECTIVE_TACTICS` mapping rather
+   than any selection filter, and the brief forbids the filter framing in prose.
+   Touches nearly every file the axis chain writes into, so it should land
+   *between* their commits.
+
+
 **Suggested order for the rest of the week:** (1), which is unblocked and which
 settles the schema question and serves the rest — and note that the adjacent
 `MovementRecord` widenings it was told to bundle have now all landed
 (`interrupted_by_name` from the A6 repair, `n_compromised` from the disengagement
 measure, `exploitability` from the exposure reader), so **host identity is the
-only part left**. (2) when its ruling lands. (3) runs alongside either.
+only part left**. (2) when its ruling lands. (3) runs alongside either. (4) once
+its naming ruling lands, in a gap between the others' commits.
 
 ---
 
