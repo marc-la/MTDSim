@@ -126,19 +126,19 @@ data/ogasp/petri/{pure_steal,pure_impediment,double_extortion,infrastructure_set
 
 ## Recommended approach
 
-### 1. Get the ruling first (below), then fix the vocabulary in one commit
+### 1. Fix the vocabulary in one commit
 
 The name set is the only thing that cannot be reversed cheaply once ~90 tracked
-files have moved. Do not start until the fourth class's label is ruled.
+files have moved. It is now ruled (2026-08-06), so this is unblocked.
 
-**Recommended set** — `objective_`-prefixed, one token per ATT&CK tactic:
+**The set** — `objective_`-prefixed, one token per ATT&CK tactic:
 
 | Current | Proposed |
 |---|---|
 | `pure_steal` | `objective_exfiltration` |
 | `pure_impediment` | `objective_impact` |
 | `double_extortion` | `objective_exfiltration_impact` |
-| `infrastructure_setup` | `objective_command_and_control` *(the ruling)* |
+| `infrastructure_setup` | `objective_none_c2` — **ruled by Marc 2026-08-06**, reasoning below |
 
 **Why the prefix, rather than bare `exfiltration` / `impact` / `c2`.** The
 tactic vocabulary is *already in use as a first-class namespace* in this
@@ -295,34 +295,99 @@ readable.
   (`chore/gasp-class-rename`), stage by file, never push, delete this handoff in
   the commit that ships the work.
 
-## The ruling this needs before it starts
+## The fourth class — ruled 2026-08-06
 
-**What do we call `infrastructure_setup`?** `OBJECTIVE_TACTICS` maps it to
-`command-and-control`, but the code comment that declares the mapping says C2
-here is *"a foothold, not an attacker goal in the impact sense"*, and
-`gasp_schema.md` Decision 5 defines the class by what the flows **did not
-reach** — five pre-payload operations, three of them carrying DFIR's *"evicted
-before completing their mission"*. The other three classes are named after a
-tactic the operation was *for*; this one would be named after the tactic it
-*stopped at*.
+**`infrastructure_setup` → `objective_none_c2`.**
 
-| Option | Reads as | Against it |
-|---|---|---|
-| `objective_command_and_control` *(recommended)* | consistent with the other three; matches the declared `OBJECTIVE_TACTICS` mapping one-for-one | asserts C2 was the objective, which the schema explicitly denies |
-| `objective_none_c2_terminal` | honest — names the absence and the terminal | long; breaks the one-tactic-per-name pattern |
-| `pre_objective_c2` | keeps the pre-payload sense, still says C2 | `pre_objective` is a coinage, so the class stays half-coined |
-| keep `infrastructure_setup` | zero risk; the term is defended at length in Decision 5 | the set stays inconsistent — three tactic names and one coinage |
+`OBJECTIVE_TACTICS` maps this class to `command-and-control`, but the code
+comment that declares the mapping says C2 here is *"a foothold, not an attacker
+goal in the impact sense"*, and `gasp_schema.md` Decision 5 defines the class by
+what its flows **did not reach** — five pre-payload operations, three of them
+carrying DFIR's *"evicted before completing their mission"*. The other three
+classes are named after a tactic the operation was *for*; a bare C2 name would
+name this one after the tactic it *stopped at*.
 
-Recommendation: `objective_command_and_control`, **conditional on** the rename
-commit also adding a sentence to `gasp_schema.md` Decision 5 recording that the
-label names the class's declared absorbing tactic and not a realised objective.
-That keeps the caveat attached to the name at its definition site, which is
-where a reader will look.
+Two measurements decided it. First, the class's surface subgraph is **the only
+one of the four with zero exfiltration and zero impact techniques** — that
+absence, not any tactic's presence, is what makes it a distinct class. Second,
+C2 is **not** distinctive for it:
 
-A second, smaller ruling, only if the first goes ahead: whether
-`double_extortion` is renamed at all. It is the one label that is real CTI
-vocabulary rather than a coinage, and the schema defends it as such — but it is
-also the one whose tactic content a reader cannot guess.
+| Class | techniques | C2 | exfiltration | impact |
+|---|--:|--:|--:|--:|
+| `infrastructure_setup` | 39 | 5 (11 %) | **0** | **0** |
+| `pure_steal` | 98 | 10 (9 %) | 5 | 1 |
+| `pure_impediment` | 62 | 5 (8 %) | 0 | 7 |
+| `double_extortion` | 57 | 4 (7 %) | 2 | 6 |
+
+At 11 % against 7–9 % elsewhere, C2 is barely elevated.
+`objective_command_and_control` sitting beside `objective_exfiltration` would
+invite the reading *"this is the C2 one"*, and that inference is false.
+`objective_none_c2` states the distinctive fact first and keeps the declared
+absorbing tactic visible for anyone reading `OBJECTIVE_TACTICS`.
+
+Alternatives rejected: `objective_command_and_control` (set-consistency, but
+asserts what three sources deny and what the shares above do not support);
+`pre_objective_c2` (`pre_objective` is a coinage, leaving the class half-coined —
+the thing the rename exists to remove); keeping `infrastructure_setup` (see the
+collision below).
+
+**The current name is the least MITRE-aligned in the set, independently of all
+this.** MITRE TA0042 *Resource Development* is literally adversary
+infrastructure setup — `T1583 Acquire Infrastructure`, `T1584 Compromise
+Infrastructure` — and `resource-development` is a live tactic in this repo's own
+vocabulary. `infrastructure_setup` therefore reads as "the TA0042 class", which
+is adversary-side infrastructure and not what this class is at all. Renaming it
+is well-motivated on that ground alone.
+
+`gasp_schema.md` Decision 5 still gains a sentence in the rename commit
+recording that the label names the class's declared absorbing tactic and not a
+realised objective — the caveat belongs at the definition site.
+
+**Still open, smaller:** whether `double_extortion` is renamed at all. It is the
+one label that is real CTI vocabulary rather than a coinage, and the schema
+defends it as such — but it is also the one whose tactic content a reader cannot
+guess.
+
+## Corpus and ATT&CK freshness — verified 2026-08-06
+
+Checked before settling the vocabulary, since a stale corpus would undercut a
+tactic-derived naming scheme. **Nothing is pending; the rename proceeds on the
+committed artefacts.**
+
+- **The tactic vocabulary is stock ATT&CK, not a project coinage.** The pinned
+  bundle is `enterprise-attack-19.1.json`, **byte-identical (sha256) to
+  upstream**. `stealth` is TA0005 (renamed from *Defense Evasion* at v19) and
+  `defense-impairment` is TA0112 (new at v19). All 15 shortnames in
+  `gap_v0.5.json` are the bundle's own, so "MITRE-aligned" needs no caveat — the
+  namespace already is MITRE.
+- **ATT&CK v19.2 exists and is a no-op here.** Identical tactic vocabulary,
+  identical 697-technique live catalogue, and **0 changes** across all 124 GAP
+  techniques — no revocations, no renames, no tactic reassignments. Bumping the
+  pin would change nothing; leave it at 19.1 unless something else motivates it.
+- **The corpus was fetched *after* the version change, not before.** Attack Flow
+  v3.2.0 ("ATT&CK v19.1") was tagged 2026-05-15; `data/gap/_corpus_stix/` was
+  fetched 2026-05-27.
+- **0 of 38 flows have changed** in anything L1 consumes. All 38 live STIX
+  exports were re-fetched and compared on action count, technique set, operator
+  count and condition count: every flow identical. The sole delta is `Equifax
+  Breach` gaining 9 `x-detection` + 9 `x-mitigation` objects (AF-392,
+  2026-07-24) — a new annotation layer the GAP does not read; its 12 actions and
+  12 techniques are unchanged.
+- **One new upstream flow**, `OpenClaw Command & Control via Prompt Injection`
+  (2026-07-24) — an OpenClaw variant, covered by the exclusion already recorded
+  in `fetch.py` and in `per_flow_justifications.md` (§*Dropped from corpus*).
+  Worth one line in `fetch.py` naming it explicitly, so the next session does not
+  re-derive the exclusion.
+
+**One fragility found, out of scope for this handoff.** `CORPUS_BASE_URL` points
+at CTID's GitHub Pages docs site, which serves *current* content — so
+`CORPUS_REF = "attack-flow@v3.1.1"` is a recorded claim, not an enforced pin, and
+`python -m mtdsim.l0_cti --force` today would silently pull the Equifax
+annotation layer. Harmless as of this check, but the corpus half of L0 is
+unpinned in a way the ATT&CK half is not. Note also that v3.2.0 was already
+tagged 12 days before the fetch, so the recorded `v3.1.1` ref probably
+understates what is held — the substance is identical either way. Flagged for its
+own brief.
 
 ## Reading list
 
