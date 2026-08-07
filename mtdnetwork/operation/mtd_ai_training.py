@@ -111,9 +111,11 @@ class MTDAITraining:
             if action > 0:
                 # register an MTD
                 if not self.network.get_mtd_queue():
-                    self._mtd_scheme.register_mtd(mtd_action=action)
-                    # Register the mtd in scorer as well
-                    self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(action))
+                    # MTDAI-08 repair (2026-08-08) — see mtd_ai_operation.py.
+                    # Two MTDs were enqueued per decision, and the scorer entry
+                    # was named "None".
+                    registered = self._mtd_scheme.register_mtd(mtd_action=action)
+                    self.network.scorer.register_mtd(registered)
                 # trigger an MTD
                 if self.network.get_suspended_mtd():
                     mtd = self._mtd_scheme.trigger_suspended_mtd()

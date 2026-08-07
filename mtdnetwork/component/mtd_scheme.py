@@ -115,11 +115,16 @@ class MTDScheme:
     def _register_mtd_ai(self, mtd_technique):
         """
         register an MTD for AI scheme
-        """
-        if self._security_metric_record is not None:
-            self._security_metric_record.increment_metric(self._mtd_custom_strategies[mtd_technique - 1].__name__)
 
-        self._mtd_register(mtd=self._mtd_custom_strategies[mtd_technique - 1])
+        Returns the strategy that was enqueued, so a caller can name it without
+        having to call this method a second time (MTDAI-08).
+        """
+        strategy = self._mtd_custom_strategies[mtd_technique - 1]
+        if self._security_metric_record is not None:
+            self._security_metric_record.increment_metric(strategy.__name__)
+
+        self._mtd_register(mtd=strategy)
+        return strategy
 
     def trigger_suspended_mtd(self):
         """
@@ -146,11 +151,14 @@ class MTDScheme:
     def register_mtd(self, mtd_action=None):
         """
         call an MTD register scheme function
+
+        The register scheme's own return value is propagated so the AI path can
+        recover which strategy it enqueued; the other schemes return nothing and
+        their callers ignore it.
         """
         if mtd_action is not None:
-            self._mtd_register_scheme(mtd_action)
-        else:
-            self._mtd_register_scheme()
+            return self._mtd_register_scheme(mtd_action)
+        return self._mtd_register_scheme()
 
     def get_scheme(self):
         return self._scheme

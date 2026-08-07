@@ -116,13 +116,18 @@ class MTDAIOperation:
             if action > 0:
                 # register an MTD
                 if not self.network.get_mtd_queue():
+                    # MTDAI-08 repair (2026-08-08). The scorer registration used
+                    # to take `self._mtd_scheme.register_mtd(...)` as its
+                    # *argument*, so every decision enqueued two MTDs instead of
+                    # one, corrupting every mutation-rate figure; and since
+                    # register_mtd returned nothing, every scorer entry was named
+                    # "None". Register once, and name the scorer entry after the
+                    # strategy actually enqueued.
                     if self._mtd_scheme._scheme == 'mtd_ai':
-                        self._mtd_scheme.register_mtd(mtd_action=action)
-                        # Register the mtd in scorer as well
-                        self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(action))
+                        registered = self._mtd_scheme.register_mtd(mtd_action=action)
                     else:
-                        self._mtd_scheme.register_mtd(mtd_action=None)
-                        self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(mtd_action=None))
+                        registered = self._mtd_scheme.register_mtd(mtd_action=None)
+                    self.network.scorer.register_mtd(registered)
                 # trigger an MTD
                 if self.network.get_suspended_mtd():
                     mtd = self._mtd_scheme.trigger_suspended_mtd()
