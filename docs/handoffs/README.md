@@ -236,22 +236,32 @@ have patched runners whose committed numbers were taken under the old labels.)*
 
 
 5. [`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md)
-   — **axis 8 by the route that actually references the defender.** Split out of
-   (2) on 2026-08-07, absorbing its §5/§5.1/§5.2 in full. The attacker is *endowed*
-   with a declared policy derived from offline analysis of what the reactive
-   defender measures, and steers those measurements — four levers, each wired to a
-   named state feature, against a reward that carries −75 on ASR/RoA/risk and +75
-   on MTTC. The scoping test that split the pair: **does the capability reference
-   the defender?** Vulnerability memory does not and is axis 7; this does and has no
-   referent without one. **It is not one of Jalowski's three §4.1 primitives** — the
-   claim rests on his §4.3 corrective instead, and saying so is the difference
-   between an honest axis-8 move and one an examiner will check. Carries the serious
-   threat to validity: five candidate implementation quirks in the state
-   computation, including that the ASR/MTTC features describe a **run prefix**
-   rather than a recent window, and an unguarded divide-by-zero triggered by the
-   **tactic-to-verb mapping** rather than by tempo. **Gated on R-B** like (3), and
-   its cheapest output — the mutation-choice distribution across the profiles'
-   existing spread, no attacker mechanism — may falsify the whole route for one run.
+   — **axis 8 by the route that actually references the defender**, and the brief
+   for *what triggers a mutation, what avoids one*. Split out of (2) on 2026-08-07
+   absorbing its §5/§5.1/§5.2, then **cross-examined against the originating prompt
+   and substantially restored** — the first draft had lost the observability
+   boundary, the learned-vs-endowed table, the bidirectional question, the static
+   half of the state, and the *purpose*. The scoping test that split the pair:
+   **does the capability reference the defender?** Vulnerability memory does not and
+   is axis 7; this does and has no referent without one. **It is not one of
+   Jalowski's three §4.1 primitives** — it rests on his §4.3 corrective, and saying
+   so is the difference between an honest axis-8 move and one an examiner will
+   check. **Its purpose is time, not quiet:** suppress mutation → the network holds
+   still → the sibling's knowledge saturates → strike before the information set is
+   invalidated. So (2) and (5) are **each weaker alone than the pair**, recorded in
+   both. All eleven state features are now tabled, and two were missed first time:
+   **`attack_type` is the sharpest lever of all** — the verb the attacker is running
+   is literally a defender input, ordinally encoded and gated by a sensitivity draw
+   — and **`attack_path_exposure` is a degenerate constant 1.0**, so one of the five
+   static features the agent trained against carries no information here. Eight
+   threats to validity, including that the ASR/MTTC features describe a **run
+   prefix** rather than a recent window and that the divide-by-zero triggers on the
+   **tactic-to-verb mapping** rather than tempo. **Gated on R-B** with (3). Two
+   things survive even if the route dies: the **feature-ablation study** (which of
+   the eleven does the defender actually depend on?) needs no attacker mechanism,
+   and **`mtd_ai` is wanted for results pulling regardless** — the reactive defender
+   is a defence arm the evaluation wants independently of any attacker capability,
+   which widens R-B's stakes beyond this brief.
 
 **Suggested order for the rest of the week:** (1), which is unblocked and which
 settles the schema question and serves the rest — and note that the adjacent

@@ -100,6 +100,23 @@ So the honest description is **one learning mechanism with an incentive-shaped
 decision rule on top** — not one mechanism spanning four axes. The brief's title
 still says otherwise and should be read against this table.
 
+### The composition with the axis-8 brief — recorded in both, 2026-08-07
+
+The split is clean on axes but **not** on purpose, and pretending otherwise loses
+the argument. The sibling
+([`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md)
+§5) suppresses mutation so the network holds still; **this** brief needs the network
+to hold still so its knowledge can saturate before it strikes. Stated as the loop:
+manoeuvre so the defender reads safe → mutations fall toward their floors → the
+coverage curve (§3.1a) saturates → strike before the information set is invalidated
+(§4.1's arc).
+
+Two consequences. **Each brief is individually weaker than the pair**, so neither
+should be written up as though it stood alone. And §9's composition hazard applies
+with force rather than in principle — both mechanisms condition on exploit-shaped
+experience, so a joint check is owed and must never be assumed to transfer from the
+axis-6 × axis-7 precedent, which found its pair pulling *opposite* ways.
+
 ### The rulings
 
 1. **Aim the pre-registration at progress, not friction.** *Recommend yes.* §7
