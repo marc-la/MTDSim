@@ -48,14 +48,26 @@ def update_target_model(target_network, main_network):
     target_network.set_weights(main_network.get_weights())
 
 # Function to act based on model's output
-def choose_action(state, time_series, main_network, action_size, epsilon):
-    state = state.reshape((1,-1))
-    time_series = time_series.reshape((1,-1))
+def choose_action_traced(state, time_series, main_network, action_size, epsilon):
+    """Epsilon-greedy selection, reporting *how* the action was chosen.
+
+    Returns ``(action, source)`` with source in {"random", "greedy"}. The
+    calibration study needs the greedy share separated from the exploration
+    share: a no-op share measured over both is floored by ``epsilon / n_actions``
+    no matter what the policy has learned, so a ladder read off the pooled share
+    would report the exploration schedule rather than the policy.
+    """
+    state = np.asarray(state, dtype="float32").reshape((1, -1))
+    time_series = np.asarray(time_series, dtype="float32").reshape((1, -1))
 
     if np.random.rand() <= epsilon:
-        return random.randrange(action_size)
-    act_values = main_network.predict([state, time_series])
-    return np.argmax(act_values[0])
+        return random.randrange(action_size), "random"
+    act_values = np.asarray(main_network([state, time_series], training=False))
+    return int(np.argmax(act_values[0])), "greedy"
+
+
+def choose_action(state, time_series, main_network, action_size, epsilon):
+    return choose_action_traced(state, time_series, main_network, action_size, epsilon)[0]
 
 # Learning function
 def soft_update_target_model(target_network, main_network, tau=0.1):
@@ -65,29 +77,57 @@ def soft_update_target_model(target_network, main_network, tau=0.1):
 
 # Double Q-learning
 def replay(memory, main_network, target_network, batch_size, gamma, epsilon, epsilon_min, epsilon_decay, train_start):
+    """One Double-DQN update over a minibatch drawn from the replay buffer.
+
+    MTDAI-07 repair + vectorisation (2026-08-08). This used to loop over the
+    minibatch in Python, calling ``predict`` three times and ``fit`` once **per
+    sample**, all at batch size 1. Two consequences, one numerical and one
+    practical:
+
+    - A batch of one has a per-feature variance of exactly 0, so every
+      BatchNormalization layer decayed ``moving_variance`` as ``0.99 ** n``
+      toward zero and never recovered. Measured across Tay's checkpoints it is
+      *exactly* 0.0 everywhere, which at inference makes the layer compute
+      ``(x - mean) / sqrt(0 + 1e-3)`` — a x31.6 amplification at four stacked
+      layers, and the direct cause of the observed 10^4-10^6 Q-value gaps. Every
+      such checkpoint is numerically broken as an inference object regardless of
+      what it learned (mtd_ai_forensics.md §3(a)).
+    - Measured on this box the per-sample loop cost 26.5 s per call at batch 64,
+      which is what made Tay's sweep unaffordable and the study shallow
+      (forensics §4(c)). One batched update is two to three orders of magnitude
+      cheaper.
+
+    The epsilon decay that used to sit at the bottom of this function is also
+    gone: it multiplied a local float and was therefore dead. The schedule is
+    the caller's, and is now declared rather than incidental.
+    """
     if len(memory) < train_start:
         return
-    minibatch = random.sample(memory, batch_size)
-    for state, time_series, action, reward, next_state, next_time_series, done in minibatch:
-        state = state.reshape((1,-1))
-        time_series = time_series.reshape((1,-1))
-        next_state = next_state.reshape((1,-1))
-        next_time_series = next_time_series.reshape((1,-1))
+    minibatch = random.sample(memory, min(batch_size, len(memory)))
 
-        target = main_network.predict([state, time_series])
+    states = np.asarray([t[0] for t in minibatch], dtype="float32")
+    time_series = np.asarray([t[1] for t in minibatch], dtype="float32")
+    actions = np.asarray([t[2] for t in minibatch], dtype="int64")
+    rewards = np.asarray([t[3] for t in minibatch], dtype="float32")
+    next_states = np.asarray([t[4] for t in minibatch], dtype="float32")
+    next_time_series = np.asarray([t[5] for t in minibatch], dtype="float32")
+    dones = np.asarray([t[6] for t in minibatch], dtype=bool)
 
+    # Inference passes go through __call__ rather than predict(): predict()
+    # rebuilds a tf.function and a progress-bar callback per call, which
+    # dominates the cost at these batch sizes.
+    targets = np.asarray(main_network([states, time_series], training=False))
+    next_q_main = np.asarray(main_network([next_states, next_time_series], training=False))
+    next_q_target = np.asarray(target_network([next_states, next_time_series], training=False))
 
-        if done:
-            target[0][action] = reward
-        else:
-            t_next_action = np.argmax(main_network.predict([next_state, next_time_series])[0])
-            t_next_q = target_network.predict([next_state, next_time_series])[0][t_next_action]
-            target[0][action] = reward + gamma * t_next_q
+    rows = np.arange(len(minibatch))
+    # Double DQN: the main network picks the next action, the target network
+    # prices it.
+    best_next = np.argmax(next_q_main, axis=1)
+    bootstrap = np.where(dones, 0.0, next_q_target[rows, best_next])
+    targets[rows, actions] = rewards + gamma * bootstrap
 
-        main_network.fit([state, time_series], target, epochs=1, verbose=0)
-
-    if epsilon > epsilon_min:
-        epsilon *= epsilon_decay
+    main_network.train_on_batch([states, time_series], targets)
 
 
 
