@@ -251,6 +251,22 @@ class MTDAIOperation:
     def get_mtd_scheme(self):
         return self._mtd_scheme
     
+    # MTDAI-02 disposition (2026-08-08): the 8/3 head below stays commented, and
+    # the live 5/6 head below it is declared the canonical feature set.
+    #
+    # The only reason to restore this head was to feed Tay's checkpoints, and
+    # those are unusable on three independent grounds (mtd_ai_forensics.md §1,
+    # §3), so nothing is being fed. The choice is therefore about which metrics
+    # the agent should see, not about compatibility. Of the three inputs this
+    # head carries and the live one does not, two — shortest_path_variability
+    # and attack_type — are present in the live head as time-series features, so
+    # only their placement differs; the third, exposed_endpoints, is the nearest
+    # analogue to Tay's unimplemented T-FX-02, which Marc ruled low priority and
+    # dropped on 2026-08-07. The live head therefore loses nothing that has not
+    # already been ruled out, and it is the head the substrate actually
+    # computes. Kept rather than deleted because the forensics record cites it
+    # by line number.
+    #
     # def get_state_and_time_series(self):
     #     # State metrics
 
