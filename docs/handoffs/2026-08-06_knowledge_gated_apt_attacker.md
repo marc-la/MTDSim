@@ -91,6 +91,46 @@ stated in the design record the build produces.
 | **R-C** | **Is mutation-*timing* observation in scope?** | "Knowledge is fresh, i.e. no mutation since I scanned" is axis-8 primitive **(ii) beacon**, which stays excluded — the 2026-08-05 reversal licensed primitive **(i) memoisation only**. Marc's "MTD-aware attacker, will have this observation channel" reaches for (ii). §4's arm ladder is designed to **not need it**, and §5.1 narrows what is actually required: mutation *occurrence* is already observable through the attacker's own failures, and only mutation *targeting* needs (ii). If the endowed-policy form of §5.1 is taken, R-C may not be needed at all — but the axis-8 exclusion still needs a dated amendment either way. |
 | **R-D** | **Naming.** Narrowed 2026-08-06: with "swift mode" retired as a mechanism (§4.1) there is no mode to name and no naive/smart *class* split to label. What is left is the capability parameter itself. | The house pattern distinguishes capability *magnitude* (a parameter at zero versus a declared level), not attacker classes — so the ladder already encodes the split. Marc's call, but a smaller one than it was. |
 
+### 2.1 The rulings — Marc, 2026-08-07
+
+**R-A — REOPEN THE ROW FULLY.** Axis 6 is reopened, not merely for arm 4. The
+session recommended keeping it closed and Marc overrode that; the decision stands
+and this brief proceeds on it. What the ruling **owes**, and it must be paid before
+any build commit, is the dated reversal §10 already requires: an argument written
+against the closure text, exactly as the axis-8 reversal was.
+
+**The reversal has one thing it must answer, and today's check made it harder
+rather than easier.** The closure did not rest on the mechanisms tried; it rested
+on a property of the substrate — *"on this substrate the attacker has something to
+be rational about but nothing to be rational toward"*, because no payoff is ever
+banked. Today's B4 finding (§4.1) confirms that is still exactly true: no profile's
+operational objective connects to what the simulator scores, for either arm, so the
+*located* payoff the closure named as the precondition still does not exist.
+Memory-driven exploit success is a better estimate of whether an action will
+*work*, which the closure classes as competence; detectability steering is a payoff
+only if `mtd_ai` is sanctioned, which is R-B. A reversal that does not confront
+this reads as re-litigating a closed row rather than answering it. The honest forms
+available are that arm 4 supplies a payoff located in the *defender's* state rather
+than the network's, or that the row reopens on the strength of the mechanism with
+the missing-payoff limitation restated — not that the closure's premise has changed.
+
+**R-B — DEFERRED TO A CONCURRENT SESSION.** Marc is probing retraining separately.
+Nothing in this brief that depends on `mtd_ai` may open until that returns; arms
+0–2 do not depend on it, and the emergent stealth result at arm 2 is within-arm and
+stands without it. Context handed to that session is in §5.2.
+
+**R-C — ENDOWED DECLARED POLICY.** The attacker is granted a declared policy
+derived from offline analysis of what the defender reads; no runtime learning.
+Primitive **(ii) beacon stays excluded** and no R-C reversal is needed for it. The
+axis-8 exclusion still needs its dated amendment in the three records §10 names,
+covering primitive (i) in its coarse form plus the endowed policy — and **the
+granted inference must be written into the badge text**, per §5.1: the limitation
+is that the inference is granted, not modelled.
+
+**R-D — NOT PUT.** It has a conventional default and the house pattern already
+answers it: a declared capability *magnitude* at zero versus a declared level, as
+λ is for axis 6 and κ for axis 7. Proceeding on that unless Marc says otherwise.
+
 ---
 
 ## 3. Step 0 — RUN, 2026-08-06. The check the design rested on, and its answer
@@ -485,6 +525,65 @@ mutation counts (no strategy keeps them), and the schedule itself.
 That boundary is the useful one: **mutation *occurrence* is observable, mutation
 *targeting* is not.** A design that stays on the observable side of it needs no
 new channel and no R-C reversal.
+
+---
+
+### 5.2 Context handed to the concurrent retraining session (R-B, 2026-08-07)
+
+Marc is probing reuse-vs-retrain in a parallel session. Four things it needs that
+are **not** in the reintegration brief, verified here by code reading against
+`get_state_and_time_series` (lines ~299–438). Each still wants an instrumented run
+before anything is built on it — §5's standing warning applies to these too.
+
+1. **The ASR and MTTC features are computed over a run *prefix*, not a recent
+   window — and the prefix length is set by a recent-window count.**
+   `sub_record = record[record['cumulative_compromised_hosts'] <= compromised_num]`,
+   where `compromised_num` is the distinct hosts compromised **in the last 60 s**.
+   So the filter selects the opening stretch of the run during which the
+   *cumulative* compromise total had not yet passed the *recent* count. Every
+   feature downstream of `sub_record` — `attack_success_rate`,
+   `overall_time_to_compromise`, `mean_time_to_compromise` — inherits it. This is
+   not a windowing scheme that appears in Tay's paper, and it means a quiet
+   attacker does not merely lower these features, it **re-scopes which part of the
+   run they describe**.
+
+2. **The divide-by-zero has a sharper trigger than "a quiet attacker".**
+   `attack_success_rate = compromised_num / attack_event_num` is unguarded, and
+   `attack_event_num` counts **`SCAN_PORT` rows only**, summed over the attempted
+   hosts *inside that prefix*. On the movement arm the number of `SCAN_PORT` rows
+   is a function of the **tactic-to-verb mapping**, not of attacker tempo — so a
+   profile whose mapping dispatches few `SCAN_PORT` verbs can zero the denominator
+   irrespective of how loud it is. Check the mapping before running, not just the
+   tempo.
+
+3. **The reward's only positive term is a per-row mean, and the row count is under
+   an open ruling.** `mean_time_to_compromise` divides summed duration by the
+   **number of** `SCAN_PORT`/`EXPLOIT_VULN`/`BRUTE_FORCE` **rows**, and
+   `_do_exploit_vuln` writes one row **per vulnerability tried**
+   ([`attack_operation.py:546`](../../mtdnetwork/operation/attack_operation.py),
+   inside the loop) while the driven dispatch writes an additional row for the verb
+   ([`attack_operation.py:840`](../../mtdnetwork/operation/attack_operation.py)).
+   The two arms therefore do not write rows the same way, and this is exactly the
+   quantity the open **per-vulnerability row count** decision governs
+   ([`README.md`](README.md) § Decisions waiting on Marc) — the same accounting that
+   inverted the duty-cycle verdict. Whatever is decided there lands on the
+   defender's `+75` term. Magnitude needs measuring; the mechanism is confirmed.
+
+4. **A retrained agent changes what the comparison means, and the change is not
+   only methodological.** Standing direction is *replicate, never extend*
+   ([`../workflows/project_context.md`](../workflows/project_context.md)), and Tay's
+   agent is retained as an inherited benchmark. Retraining against the movement
+   attacker removes the out-of-distribution confound and simultaneously removes the
+   *inherited* status the benchmark's whole value rests on. If it is retrained, the
+   arm is a new defender rather than a replicated one, and the S2/defender-frozen
+   position in [`../implementation/architecture.md`](../implementation/architecture.md)
+   §(a) needs re-reading before the run, not after.
+
+**The cheapest falsifier is unchanged and should still go first**: the
+mutation-choice distribution across the profiles' existing spread, run with no
+attacker mechanism. If the agent's action mix does not move across profiles that
+already differ substantially, the consequential half of this design is dead before
+either training question is settled.
 
 ---
 
