@@ -31,6 +31,84 @@ rather than pre-empting any of them:
 
 ---
 
+## 0. In thesis terms — what this buys, what it costs, and what needs ruling
+
+**The build, in one sentence.** An attacker that remembers which vulnerabilities
+it has beaten and spends the loud verb only when that memory says it will pay —
+which is not a new capability so much as **the one ingredient the criterion has
+already named as missing**.
+
+**Why that sentence matters.** The dissertation's honest summary currently
+concedes the smart-attacker half of the literature's diagnosis: *"the learning,
+scheme-aware attacker the literature ultimately calls for remains future work"*
+(criterion §(g)). Axes 5–8 hold **zero DEMONSTRATED rows** between them. This build
+is the only proposal on the table that attacks that half directly.
+
+### What moves, and what evidence each move needs
+
+| Row | Today | Candidate | The bar it must clear |
+|---|---|---|---|
+| **7 learning** | DESIGNED | **DEMONSTRATED** | arm 2 raises **breadth or stage advance** against its own ablation arm |
+| **5 stealth** | NOT ADDRESSED | DESIGNED | arm 2 is a mechanism that changes what the attacker does, and costs it something |
+| **8 scheme awareness** | NOT ADDRESSED | DESIGNED | coarse primitive (i) + the endowed policy, with the granted inference in the badge text |
+| **1 persistence** | DESIGNED | candidate only | a measured back-loading knee; weakest of the four |
+| **3 plurality** | DEMONSTRATED | **expected to fall** | every modulator but one has narrowed traversal; report it, do not hide it |
+| **6 incentive** | DESIGNED | contested | arm 4 only, and it owes the reversal argument (§2.1) |
+| **Row B** | RECOMMENDATION | **untouched** | unless `mtd_ai` lands and adds a defence arm |
+
+**The load-bearing argument, and the brief does not currently state it this way.**
+Axis 7's own M8b field names **exactly one** remaining requirement: *"a learner
+whose credit signal carries **progress** — host compromise, stage advance, breadth
+— rather than the routing verdict, shown to raise breadth or stage advance against
+its own ablation arm. That is a credit-assignment redesign, not a parameter
+change."* The representational half was built and swept and is already discharged.
+**Arm 1 is that credit signal**: it keys on vulnerability identity and updates on
+*exploit success*, which is host compromise, where the existing learner updates on
+a routing verdict that is not progress. This build is therefore the credit-assignment
+redesign the criterion asked for by name — and if it lands it is the **first
+DEMONSTRATED row on the smart-attacker half**, which is a larger change to §(g)
+than anything else currently proposed.
+
+### One design defect this framing exposes, and it is load-bearing
+
+**§7's pre-registration cannot deliver the axis-7 move as written.** It pre-registers
+*"arm 2 raises successes-per-exploit-attempt against arm 0"* — a **friction-shaped**
+measure. Axis 7 has already been refused a badge twice on precisely friction-shaped
+evidence, and the readiness study carries an explicit warning that the friction
+measures cannot discriminate at all and *"must never be read as evidence"*. The
+gate's own precondition is fine as a sanity check, but **the claim must be
+pre-registered on breadth or stage advance against the ablation arm**, or the build
+succeeds and the row does not move.
+
+### The rulings
+
+1. **Aim the pre-registration at progress, not friction.** *Recommend yes* — without
+   it the headline move is unreachable. Costs nothing; it is a wording change made
+   before any run.
+2. **Drop the objective-conditioned half.** *Recommend yes* — B4 (§4.1) shows no
+   profile's objective connects to what the simulator scores, so it has nothing to
+   strike at, and repairing that is a substrate programme under S2. The arc survives
+   without it.
+3. **Hard gate or soft gate** (§4.1, §7). *Recommend soft* — a hard gate owes the
+   seam's `may_zero` licensing rule and a no-stall re-run across the band; a soft
+   one owes neither and still produces the arc.
+4. **The axis-6 reversal's form** (§2.1). You reopened the row fully. It still owes
+   a dated argument against a closure whose premise — no banked payoff — today's B4
+   check confirms is intact. *Recommend* reopening on the mechanism with the
+   missing-payoff limitation restated, rather than on a claim the premise changed.
+5. **Scope now.** *Recommend* building arms 0–2 and holding arm 4 until `mtd_ai`
+   returns. Arms 0–2 carry every badge move in the table above; arm 4 carries only
+   the contested row and the definitional risk.
+
+**What this build does not do, stated so it is not inferred.** It does not touch the
+project's headline result — Row B's recommendation grade rests on experiment 2, and
+a better attacker does not re-open it. It does not make the attacker reach the
+objective; the degenerate region is untouched. And on axis 5 it buys DESIGNED, never
+DEMONSTRATED: **stealth with no detector is still not evasion**, which is the axis's
+own argument and is what `mtd_ai` (R-B) would change.
+
+---
+
 ## 1. The idea, and the one reframe that makes it defensible
 
 **Marc's framing (2026-08-06).** The attacker builds a knowledge state through
