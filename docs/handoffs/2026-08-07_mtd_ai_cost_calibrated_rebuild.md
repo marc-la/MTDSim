@@ -5,11 +5,14 @@ created: 2026-08-07
 
 # Rebuild `mtd_ai` into an agent that trades cost against risk, and prove it does before any Kaya time is spent
 
-**Absorbs and replaces [`2026-08-06_mtd_ai_reintegration.md`](2026-08-06_mtd_ai_reintegration.md)**,
+**Absorbs and replaces the `mtd_ai` reintegration brief** (`2026-08-06`, deleted
+in the commit that opened this one; `git log -- docs/handoffs/2026-08-06_mtd_ai_reintegration.md`),
 whose two load-bearing premises were falsified by
 [`../implementation/pipeline/ogasp/mtd_ai_forensics.md`](../implementation/pipeline/ogasp/mtd_ai_forensics.md)
-(2026-08-07). Its surviving content — the defect list, the determinism gate, the
-wiring seam, the hard constraints — is carried forward here in full.
+(2026-08-07) — see that record's §6 and §8 for the falsifications themselves. Its
+surviving content — the defect list, the determinism gate, the wiring seam, the
+hard constraints — is carried forward here in full, and nothing in it needs to be
+read from the deleted file.
 
 **The deliverable is a go/no-go, not a trained model.** This handoff ends at a
 CPU-scale calibration result that either shows the agent trading downtime against

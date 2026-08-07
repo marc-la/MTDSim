@@ -3,10 +3,11 @@
 **Status:** investigation record, 2026-08-07. Read-only throughout: nothing in the
 substrate, the archive or the pipeline was modified to produce it.
 
-**Why this exists.** [`../../../handoffs/2026-08-06_mtd_ai_reintegration.md`](../../../handoffs/2026-08-06_mtd_ai_reintegration.md)
-proposed standing up Tay's reactive defender as the arm the consequential stealth
-claims are gated on, and offered two routes — reuse the pretrained weights as a
-control, or retrain. Marc's prior was that the weights would not behave as the
+**Why this exists.** The `mtd_ai` reintegration brief (`docs/handoffs/2026-08-06_mtd_ai_reintegration.md`,
+deleted 2026-08-07 once superseded; recoverable via `git log --diff-filter=D --`
+on that path) proposed standing up Tay's reactive defender as the arm the
+consequential stealth claims are gated on, and offered two routes — reuse the
+pretrained weights as a control, or retrain. Marc's prior was that the weights would not behave as the
 paper describes, on the grounds that the hyperparameter sensitivity studies read
 like an artefact of undertrained models. This record checks that prior against
 the archive, the code and the paper. **The prior is confirmed, and the mechanism

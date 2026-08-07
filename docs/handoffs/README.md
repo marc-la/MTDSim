@@ -170,9 +170,10 @@ have patched runners whose committed numbers were taken under the old labels.)*
 3. [`2026-08-07_mtd_ai_cost_calibrated_rebuild.md`](2026-08-07_mtd_ai_cost_calibrated_rebuild.md)
    — **rebuild `mtd_ai` into an agent that trades cost against risk, and prove it
    does before any Kaya time is spent.** Supersedes and absorbs the reintegration
-   brief (2026-08-06), which is kept, bannered and `status: superseded` because
-   its defect list, determinism gate and wiring seam all survive. Both of that
-   brief's load-bearing premises did not, per
+   brief (2026-08-06), **deleted** in the commit that opened this one — its defect
+   list, determinism gate, wiring seam and hard constraints are carried forward
+   in full, so nothing needs reading from it. Both of that brief's load-bearing
+   premises did not survive, per
    [`../implementation/pipeline/ogasp/mtd_ai_forensics.md`](../implementation/pipeline/ogasp/mtd_ai_forensics.md):
    **every figure in Tay's paper was produced by a uniform random selector** —
    `epsilon` defaults to 1.0 in `execute_ai_model` and the harness never overrides
