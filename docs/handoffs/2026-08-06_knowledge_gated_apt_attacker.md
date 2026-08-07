@@ -133,7 +133,58 @@ axis-6 × axis-7 precedent, which found its pair pulling *opposite* ways.
    the missing-payoff limitation restated, not a claim the premise changed.
 5. **Scope now.** Arms 0–2. The axis-8 half is a separate brief and is gated on R-B.
 
-### Two measurements before any build (approved 2026-08-07)
+### Both measurements — RUN 2026-08-07, and the premise survives
+
+`data/results/stealth_exposure/exploit_failure_decomposition.py`, 3 seeds ×
+{no-MTD, random MTD @200 s} × {Brown, Zhang} complexity ranges, on the **native
+FSM arm**. Every `EXPLOIT_VULN` dispatch classified into the outcome that ended it.
+
+| | COMPROMISED | ROLL_FAILED | NO_VULNS | INTERRUPT | of failures, memory-reachable |
+|---|--:|--:|--:|--:|--:|
+| Brown [0.4,1], no MTD | 44.8 % | 51.9 % | 3.3 % | 0.0 % | **94.0 %** |
+| Brown [0.4,1], MTD | 15.8 % | 34.0 % | 0.7 % | 49.5 % | **40.4 %** |
+| Zhang [0,1], no MTD | 39.2 % | 58.0 % | 2.8 % | 0.0 % | **95.3 %** |
+| Zhang [0,1], MTD | 12.5 % | 23.8 % | 0.0 % | 63.8 % | **27.2 %** |
+
+**Finding 1 — the premise holds, and the conflation mattered.** The failure mode
+memory can actually reach is `ROLL_FAILED`, and it is **the dominant one**: 94–95 %
+of all failures without MTD, 27–40 % with it. `NO_VULNS` — the precondition
+failure — is negligible at 0–3.3 %, which was the outcome that could have killed
+the design and did not. So the gate is aimed at a real term, though not at the one
+the brief's "49–99 % blocked" implied.
+
+**Finding 2 — MTD, not preconditions, is what bounds the gate.** Under mutation,
+interrupts take **half to two-thirds of all dispatches**, and every one of those is
+unreachable by memory. That is the honest ceiling on what the mechanism can buy in
+the reported configuration.
+
+> ⚠ **And it is very likely the wrong ceiling for this build, which is the one
+> thing here that still needs measuring.** This ran on the **native arm**. D-35
+> records that **`EXPLOIT_VULN` is uninterruptible in the movement arm** — the
+> diversity family loses 89–97 % of its exploit-blocking windows there — so on the
+> arm this design actually targets the `INTERRUPT` column should collapse toward
+> zero and `ROLL_FAILED` should dominate as it does in the no-MTD rows. **If that
+> holds, memory's headroom on the movement arm is ~94 % of failures even under
+> MTD**, which is a much stronger case than the native arm shows. Take that
+> measurement before the build; it is the same script against a movement run.
+
+**Finding 3 — the complexity range is exactly the lever Marc proposed, measured.**
+Widening `VULN_MIN_COMPLEXITY` from Brown's 0.4 to Zhang's 0.0 drops the mean
+encountered complexity from **0.719 to 0.537** and the per-roll success rate from
+**72.6 % to 54.4 %**, and the observed minimum from 0.401 to **0.002**. That is the
+whole point: at Brown's range the *worst* vulnerability still works two times in
+five, so knowing which to pick is worth little; at Zhang's range the worst is
+useless and knowing which to pick is worth a great deal. **The value of the memory
+is a function of a constant the lineage disagrees about**, which is a far better
+sentence than "we widened a parameter until the mechanism worked".
+
+**One confound to carry.** Widening complexity also makes the attacker weaker
+outright (compromises fall from 15.8 % to 12.5 % of dispatches under MTD), so the
+setting changes the terrain and not just the mechanism's headroom. Every complexity
+setting needs its own null arm, exactly as the pool sweep does, and no cross-setting
+comparison is valid without one.
+
+### The two measurements as originally scoped (approved 2026-08-07)
 
 - **Decompose the exploit failures** — coin-flip failure vs MTD interrupt vs
   no-vulnerabilities/precondition. This says which term the memory can move. The
