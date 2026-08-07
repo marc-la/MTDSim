@@ -168,6 +168,9 @@ class MTDOperation:
         try:
             yield request
             start_time = env.now + self._proceed_time
+            # Note the start so the downtime metric can charge a mutation that is
+            # still in flight; the execution record is only written at finish.
+            self.network.get_mtd_stats().mark_mtd_started(mtd, start_time)
 
             if self.logging:
                 logging.info('MTD: %s deployed in the network at %.1fs.' % (mtd.get_name(), start_time))

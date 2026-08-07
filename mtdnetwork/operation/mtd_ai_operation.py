@@ -21,7 +21,8 @@ from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatis
 class MTDAIOperation:
 
     def __init__(self, features,security_metrics_record ,env, end_event, network, attack_operation, scheme, adversary,proceed_time=0,
-                 mtd_trigger_interval=None, custom_strategies=None, main_network=None, attacker_sensitivity=None, epsilon=None, static_degrade_factor = 2000):
+                 mtd_trigger_interval=None, custom_strategies=None, main_network=None, attacker_sensitivity=None, epsilon=None, static_degrade_factor = 2000,
+                 downtime_window=200.0):
         """
         :param env: the parameter to facilitate simPY env framework
         :param network: the simulation network
@@ -64,6 +65,13 @@ class MTDAIOperation:
         self.attack_dict = {"SCAN_HOST": 1, "ENUM_HOST": 2, "SCAN_PORT": 3, "EXPLOIT_VULN": 4, "SCAN_NEIGHBOR": 5, "BRUTE_FORCE": 6}
         self.mtd_strategies = custom_strategies
         self.static_degrade_factor = static_degrade_factor
+
+        # Trailing window the downtime feature is read over. Declared, not
+        # inherited: no lineage paper specifies one. It defaults to the mutation
+        # trigger interval, so the reading answers "how much of the last
+        # decision cycle was the network down for" and a single mutation of
+        # 70-110 s reads as a fraction rather than saturating.
+        self.downtime_window = downtime_window
 
         # Per-decision ledger. The no-op share is the calibration study's
         # headline statistic and it is not recoverable from mtd_stats, which
@@ -192,6 +200,8 @@ class MTDAIOperation:
         request = self._get_mtd_resource(mtd).request()
         yield request
         start_time = env.now + self._proceed_time
+        # See MTDOperation: charge in-flight mutations to the downtime metric.
+        self.network.get_mtd_stats().mark_mtd_started(mtd, start_time)
 
         if self.logging:
             logging.info('MTD: %s deployed in the network at %.1fs.' % (mtd.get_name(), start_time))
@@ -480,6 +490,12 @@ class MTDAIOperation:
 
    
 
+        # Downtime / operational impact (Tay §4.1.2 ¶4, T-TS-02) — named in the
+        # paper as a time-series input and implemented nowhere in the inherited
+        # code. Definition and rationale in MTDStatistics.downtime_ratio.
+        downtime_ratio = self.network.get_mtd_stats().downtime_ratio(
+            self.env.now, self.downtime_window)
+
         # Create the time series filter
         time_series_filter = {
             "mtd_freq": mtd_freq,
@@ -488,6 +504,7 @@ class MTDAIOperation:
             "shortest_path_variability": shortest_path_variability,
             "ip_variability": ip_variability,
             "attack_type": current_attack_value,
+            "downtime_ratio": downtime_ratio,
         }
     
         # Create the state array based on state_filter keys
