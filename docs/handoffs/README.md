@@ -15,9 +15,15 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 
 ## Open work — five handoffs
 
-**(1) is unblocked; start there.** (2) is now unblocked too — its axis-8 half
-split off as (5), so nothing it needs is gated. (3) and (5) are the pair that wait
-on the `mtd_ai` sanction, and (3) supplies the defender arm (5) needs. (4) is
+**(2) is the live one — start there.** Its rulings all landed 2026-08-07 and its
+prerequisite checks and both approved measurements have run; what remains before a
+build is **one cheap measurement** (the exploit-failure decomposition re-taken on
+the *movement* arm, where D-35 says EXPLOIT_VULN is uninterruptible, so the
+memory's headroom should be far larger than the native arm showed) and **one owed
+record** (the dated axis-6 reversal, since R-A reopened a closed row). (1) is
+unblocked and settles the schema question. (3) and (5) are the pair that wait on
+the `mtd_ai` sanction, and (3) supplies the defender arm (5) needs — though (3) is
+wanted for results pulling regardless of whether (5) is ever built. (4) is
 independent of the axis chain and can run alongside any of it.
 
 > **Reconciled on merge, 2026-08-05.** This chain was written on the boundary
