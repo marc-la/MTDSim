@@ -133,113 +133,141 @@ def replay(memory, main_network, target_network, batch_size, gamma, epsilon, eps
 
 
 
-def normalize_array(arr, min_val=None, max_val=None):
-    if min_val is None:
-        min_val = np.min(arr)
-    if max_val is None:
-        max_val = np.max(arr)
-    return (arr - min_val) / (max_val - min_val) if max_val > min_val else arr
-# def normalize_array(arr):
-#     mean_val = np.mean(arr)
-#     std_val = np.std(arr)
-    
-#     # Avoid division by zero
-#     if std_val == 0:
-#         return np.zeros_like(arr)  # or return arr, depending on your preference
-    
-#     return (arr - mean_val) / std_val
+# --- the state vocabularies, and the reward -------------------------------
+#
+# The order of these two lists *is* the layout of the state and time-series
+# vectors. Both operation classes build their vectors from them and the reward
+# reads them back by the same index, so the two can never drift apart; the
+# inherited code built the vectors from a dict literal in one file and indexed
+# them by the caller's selection list in another, which happened to agree only
+# because the selection was always the whole vocabulary.
+
+STATE_FEATURE_ORDER = [
+    "host_compromise_ratio",
+    "attack_path_exposure",
+    "overall_asr_avg",
+    "roa",
+    "risk",
+]
+
+TIME_FEATURE_ORDER = [
+    "mtd_freq",
+    "overall_mttc_avg",
+    "time_since_last_mtd",
+    "shortest_path_variability",
+    "ip_variability",
+    "attack_type",
+    "downtime_ratio",
+]
+
+# Security-posture weights, inherited from Tay's implementation unchanged. The
+# paper contains no reward function at all -- §4.2 gives the Bellman target,
+# Figure 2 has a box captioned "Calculate Reward for Action" with nothing behind
+# it -- so these are the code's, undocumented, and they are kept rather than
+# re-derived so that the only deliberate change to the reward is the cost term
+# below.
+SECURITY_WEIGHTS = {
+    # static
+    "host_compromise_ratio": 0,
+    "attack_path_exposure": -75,
+    "overall_asr_avg": -75,
+    "roa": -75,
+    "risk": -75,
+    # time series
+    "mtd_freq": 0,
+    "overall_mttc_avg": 75,
+    "time_since_last_mtd": 0,
+    "shortest_path_variability": 75,
+    "ip_variability": 75,
+    "attack_type": 0,
+    "downtime_ratio": 0,   # priced by downtime_lambda, not here
+}
+
+# Full-scale range per feature, used to put the deltas on a common footing
+# before the weights are applied.
+#
+# MTDAI-12 (2026-08-08). The inherited normalisation was min-max against the
+# replay buffer *as it grew*, which makes the reward scale a function of how far
+# training has progressed: a transition stored at buffer size 50 and one stored
+# at 2000 are priced by different rulers, and both sit in the same buffer being
+# sampled against the same Q-function. It also read `item[5]` (the *next* time
+# series) where `item[1]` (the current one) was meant. Fixing the index would
+# not have fixed the scale, so the buffer-derived normaliser is replaced
+# outright by fixed divisors, and the index defect dissolves with it.
+#
+# Each divisor is the feature's natural full-scale range under the substrate's
+# own constants, not a fitted quantity:
+#   risk = complexity x impact, with complexity <= 1 and impact < 10  -> 10
+#   roa  = risk / exploit_time, with exploit_time >= 10 s             -> 1
+#   overall_mttc_avg is a mean over SCAN_PORT / EXPLOIT_VULN /
+#     BRUTE_FORCE durations, the largest of which is 25 s             -> 25
+#   the remaining priced features are already ratios in [0, 1]        -> 1
+# Features carrying weight 0 take 1 and are inert either way.
+REWARD_FEATURE_SCALE = {
+    "host_compromise_ratio": 1.0,
+    "attack_path_exposure": 1.0,
+    "overall_asr_avg": 1.0,
+    "roa": 1.0,
+    "risk": 10.0,
+    "mtd_freq": 1.0,
+    "overall_mttc_avg": 25.0,
+    "time_since_last_mtd": 1.0,
+    "shortest_path_variability": 1.0,
+    "ip_variability": 1.0,
+    "attack_type": 1.0,
+    "downtime_ratio": 1.0,
+}
 
 
+def calculate_reward(current_state, current_time_series, next_state, next_time_series,
+                     static_features, time_features, memory=None, downtime_lambda=0.0):
+    """Reward for one transition: security posture gained, downtime charged.
 
-def calculate_reward( current_state, current_time_series, next_state, next_time_series, static_features, time_features, memory):
- 
-    reward = 0
+        reward = sum of weighted security-posture deltas  -  lambda * delta downtime
 
-    # Check if memory has data for normalization
+    **The cost term is the point of this function's rework.** Every non-zero
+    weight in the inherited reward is improved by deploying a mutation -- a
+    mutation raises IP and path variability and MTTC and lowers exposure, ASR,
+    RoA and risk -- and the two features that could have priced moving too
+    often, `mtd_freq` and `time_since_last_mtd`, are weighted exactly 0. Under
+    that reward the optimal policy is to deploy on every decision and the no-op
+    has no route to positive value, which is why the paper's claim to have
+    "minimised unnecessary MTD deployments" has nothing in the implementation
+    that could produce it.
 
-    if len(memory) > 0:
-        memory_states = np.stack([item[0] for item in memory])
-        memory_time_series = np.stack([item[5] for item in memory])
-        
-        # Create DataFrames
-        memory_states_df = pd.DataFrame(memory_states)
-        memory_time_series_df = pd.DataFrame(memory_time_series)
+    `downtime_lambda` is the calibration knob. It is declared and swept, never
+    fitted, and **at lambda = 0 this function is exactly the pre-rework reward
+    up to the normalisation change**, so the ablation is exact.
 
-        # Convert to pandas Series before concatenating
-        memory_states_normalized = pd.concat([memory_states_df, pd.Series(current_state).to_frame().T], ignore_index=True)
-        memory_time_series_normalized = pd.concat([memory_time_series_df, pd.Series(current_time_series).to_frame().T], ignore_index=True)
-        memory_next_states_normalized = pd.concat([memory_states_df, pd.Series(next_state).to_frame().T], ignore_index=True)
-        memory_next_time_series_normalized = pd.concat([memory_time_series_df, pd.Series(next_time_series).to_frame().T], ignore_index=True)
+    The charge is on the *change* in downtime, not its level, which keeps it
+    dimensionally the same kind of quantity as every other term: recovering
+    availability is worth precisely what losing it cost, rather than the agent
+    paying a standing tax for having ever moved.
 
+    `static_features` and `time_features` are the *selected* feature sets. An
+    unselected feature is zeroed in both state vectors, so its delta is already
+    0; they are consulted only so that an ablation over the state head is also
+    an ablation over the reward. `memory` is retained for call compatibility and
+    is no longer read -- see REWARD_FEATURE_SCALE.
+    """
+    reward = 0.0
 
+    for index, feature in enumerate(STATE_FEATURE_ORDER):
+        if feature not in static_features:
+            continue
+        delta = (next_state[index] - current_state[index]) / REWARD_FEATURE_SCALE[feature]
+        reward += delta * SECURITY_WEIGHTS[feature]
 
-        # Print the normalized DataFrames
-        # print("Normalized Memory States:\n", memory_states_normalized)
-        # print("\nNormalized Memory Time Series:\n", memory_time_series_normalized)
-        # print("\nMemory Next States Normalized:\n", memory_next_states_normalized)
-        # print("\nMemory Next Time Series Normalized:\n", memory_next_time_series_normalized)
+    for index, feature in enumerate(TIME_FEATURE_ORDER):
+        if feature not in time_features:
+            continue
+        delta = (next_time_series[index] - current_time_series[index]) / REWARD_FEATURE_SCALE[feature]
+        reward += delta * SECURITY_WEIGHTS[feature]
 
+    if downtime_lambda and "downtime_ratio" in time_features:
+        index = TIME_FEATURE_ORDER.index("downtime_ratio")
+        delta = ((next_time_series[index] - current_time_series[index])
+                 / REWARD_FEATURE_SCALE["downtime_ratio"])
+        reward -= downtime_lambda * delta
 
-        # Normalize current and next states
-        norm_current_state = memory_states_normalized.apply(lambda x: normalize_array(x), axis=0).iloc[-1]
-        norm_next_state = memory_next_states_normalized.apply(lambda x: normalize_array(x), axis=0).iloc[-1]
-
-        # Normalize current and next time series
-        norm_current_time_series = memory_time_series_normalized.apply(lambda x: normalize_array(x), axis=0).iloc[-1]
-        norm_next_time_series = memory_next_time_series_normalized.apply(lambda x: normalize_array(x), axis=0).iloc[-1]
-
-    
-    else:
-        # Use raw values if memory is empty
-        norm_current_state = current_state
-        norm_next_state = next_state
-        norm_current_time_series = current_time_series
-        norm_next_time_series = next_time_series
-    # print(norm_current_state, norm_next_state,norm_current_time_series, norm_next_time_series )
-    # print(norm_current_state,norm_current_time_series)
-    # Dynamic weights based on context
-    context_multiplier = 1  # Adjust this dynamically based on system context
-    dynamic_weights = {
-        "host_compromise_ratio": 0,
-        "attack_path_exposure": -75 * context_multiplier,
-        "overall_asr_avg": -75 * context_multiplier,
-        "roa": -75 * context_multiplier,
-        "risk": -75 * context_multiplier,
-        
-    }
-
-    # Include time series features in the dynamic weights
-    time_series_weights = {
-        "mtd_freq": 0,
-        "overall_mttc_avg": 75 * context_multiplier,
-        "time_since_last_mtd": 0,
-        "shortest_path_variability": 75 * context_multiplier,
-        "ip_variability": 75 * context_multiplier,
-        "attack_type": 0
-    }
-
-    # Calculate reward using normalized or raw values
-    for index, feature in enumerate(static_features):
-        delta = (norm_next_state[index] - norm_current_state[index])
-        reward += delta * dynamic_weights.get(feature, 0)
-     
-    for index, time_series_feature in enumerate(time_features):
-        delta = (norm_next_time_series[index] - norm_current_time_series[index])
-        reward += delta * time_series_weights.get(time_series_feature, 0)
-    # Print normalized values
-    # print("\nNormalized Current State:")
-    # print(norm_current_state)
-
-    # print("\nNormalized Next State:")
-    # print(norm_next_state)
-
-    # print("\nNormalized Current Time Series:")
-    # print(norm_current_time_series)
-
-    # print("\nNormalized Next Time Series:")
-    # print(norm_next_time_series)
-    # print(reward)
-    return reward
-
-
-
+    return float(reward)

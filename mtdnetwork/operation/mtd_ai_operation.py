@@ -12,7 +12,7 @@ import simpy
 from mtdnetwork.component.mtd_scheme import MTDScheme
 from mtdnetwork.statistic.evaluation import Evaluation
 import numpy as np
-from mtdnetwork.mtdai.mtd_ai import choose_action_traced
+from mtdnetwork.mtdai.mtd_ai import choose_action_traced, STATE_FEATURE_ORDER, TIME_FEATURE_ORDER
 import pandas as pd
 import random
 from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatistics
@@ -507,10 +507,14 @@ class MTDAIOperation:
             "downtime_ratio": downtime_ratio,
         }
     
-        # Create the state array based on state_filter keys
-        state_array = np.array([value if key in self.features["static"] else 0 for key, value in state_filter.items()])
+        # Built from the canonical vocabularies rather than from these dicts'
+        # iteration order, so the vector layout and the reward's indexing cannot
+        # drift apart.
+        state_array = np.array([state_filter[key] if key in self.features["static"] else 0
+                                for key in STATE_FEATURE_ORDER])
 
-        time_series_array = np.array([value if key in self.features["time"] else 0 for key, value in time_series_filter.items()])
+        time_series_array = np.array([time_series_filter[key] if key in self.features["time"] else 0
+                                      for key in TIME_FEATURE_ORDER])
 
         return state_array, time_series_array
   

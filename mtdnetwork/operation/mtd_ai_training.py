@@ -12,7 +12,8 @@ import simpy
 from mtdnetwork.component.mtd_scheme import MTDScheme
 from mtdnetwork.statistic.evaluation import Evaluation
 import numpy as np
-from mtdnetwork.mtdai.mtd_ai import update_target_model, choose_action_traced, replay, calculate_reward
+from mtdnetwork.mtdai.mtd_ai import (update_target_model, choose_action_traced, replay,
+                                     calculate_reward, STATE_FEATURE_ORDER, TIME_FEATURE_ORDER)
 import pandas as pd
 import random
 from mtdnetwork.component.host import Host
@@ -189,7 +190,7 @@ class MTDAITraining:
                 new_state, new_time_series = self.get_state_and_time_series()
                 reward = calculate_reward(state, time_series, new_state, new_time_series,
                                           self.features['static'], self.features['time'],
-                                          self.memory)
+                                          self.memory, downtime_lambda=self.downtime_lambda)
                 self.memory.append((state, time_series, action, reward,
                                     new_state, new_time_series, False))
                 replay(self.memory, self.main_network, self.target_network, self.batch_size,
@@ -239,7 +240,9 @@ class MTDAITraining:
 
         # update reinforcement learning model
         new_state, new_time_series = self.get_state_and_time_series()
-        reward = calculate_reward(state, time_series, new_state, new_time_series, self.features['static'], self.features['time'], self.memory)
+        reward = calculate_reward(state, time_series, new_state, new_time_series,
+                                  self.features['static'], self.features['time'], self.memory,
+                                  downtime_lambda=self.downtime_lambda)
         done = False
         self.memory.append((state, time_series, action, reward, new_state, new_time_series, done))
         replay(self.memory, self.main_network, self.target_network, self.batch_size, self.gamma, self.epsilon, self.epsilon_min, self.epsilon_decay, self.train_start)
@@ -392,8 +395,14 @@ class MTDAITraining:
 
             # Calculate Mean Time to Compromise
             if compromised_num > 0:
+                # MTDAI-13 (2026-08-08): this line carried a trailing `/10`
+                # that the otherwise-identical method in mtd_ai_operation.py
+                # does not, so the agent was trained on an MTTC feature scaled
+                # ten times smaller than the one it is evaluated on. Nothing in
+                # the paper licenses either scaling; what it cannot be is two
+                # different ones. Removed to make the two heads agree.
                 mean_time_to_compromise = (overall_time_to_compromise / len(sub_record[sub_record[
-                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])])) /10
+                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]))
             else:
                 mean_time_to_compromise = 0
         else:
@@ -453,10 +462,14 @@ class MTDAITraining:
             "downtime_ratio": downtime_ratio,
         }
     
-        # Create the state array based on state_filter keys
-        state_array = np.array([value if key in self.features["static"] else 0 for key, value in state_filter.items()])
+        # Built from the canonical vocabularies rather than from these dicts'
+        # iteration order, so the vector layout and the reward's indexing cannot
+        # drift apart.
+        state_array = np.array([state_filter[key] if key in self.features["static"] else 0
+                                for key in STATE_FEATURE_ORDER])
 
-        time_series_array = np.array([value if key in self.features["time"] else 0 for key, value in time_series_filter.items()])
+        time_series_array = np.array([time_series_filter[key] if key in self.features["time"] else 0
+                                      for key in TIME_FEATURE_ORDER])
 
         # Output the filtered arrays for verification
         # print("Filtered State Array:", state_array)

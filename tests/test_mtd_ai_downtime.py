@@ -1,4 +1,5 @@
-"""Tests for the downtime / operational-impact metric.
+"""Tests for the downtime / operational-impact metric, and for the reward
+cost term charged against it.
 
 The metric is this project's construction of Tay's T-TS-02 — a time-series
 input his §4.1.2 names and nothing in the inherited code implements, in any
@@ -17,14 +18,18 @@ tests pin the properties that argument leans on:
   finish, so a reading taken mid-execution would otherwise report a quiet
   network while the network is down — precisely the state the agent needs to
   see.
+- **λ = 0 is null-equivalent.** The cost term must vanish exactly at zero, so
+  the ablation against the reward without it is exact rather than approximate.
 
-Nothing here pins a *magnitude* on a real run: the window is a declared
-parameter that the calibration ladder sweeps, and pinning a value would freeze
-a declared choice as if it were lineage.
+Nothing here pins a *magnitude* on a real run: the window and the cost weight
+are declared parameters that the calibration ladder sweeps, and pinning a value
+would freeze a declared choice as if it were lineage.
 """
 
+import numpy as np
 import pytest
 
+from mtdnetwork.mtdai.mtd_ai import calculate_reward
 from mtdnetwork.statistic.mtd_statistics import MTDStatistics
 
 
@@ -113,3 +118,46 @@ def test_downtime_ratio_is_bounded_by_the_number_of_busy_layers():
     ])
     assert stats.downtime_ratio(now=1000, window=200) == pytest.approx(2.0)
 
+
+# --- the reward cost term -------------------------------------------------
+
+_STATIC = ["host_compromise_ratio", "attack_path_exposure", "overall_asr_avg",
+           "roa", "risk"]
+_TIME = ["mtd_freq", "overall_mttc_avg", "time_since_last_mtd",
+         "shortest_path_variability", "ip_variability", "attack_type",
+         "downtime_ratio"]
+
+
+def _reward(downtime_lambda, downtime_delta):
+    """Reward for a transition whose only moving part is the downtime feature."""
+    current_state = np.zeros(len(_STATIC))
+    next_state = np.zeros(len(_STATIC))
+    current_series = np.zeros(len(_TIME))
+    next_series = np.zeros(len(_TIME))
+    next_series[_TIME.index("downtime_ratio")] = downtime_delta
+    return calculate_reward(current_state, current_series, next_state, next_series,
+                            _STATIC, _TIME, memory=[],
+                            downtime_lambda=downtime_lambda)
+
+
+def test_lambda_zero_is_null_equivalent():
+    """At λ = 0 the cost term contributes exactly nothing, so the ablation
+    against the reward without it is exact."""
+    assert _reward(downtime_lambda=0.0, downtime_delta=0.75) == pytest.approx(0.0)
+
+
+def test_the_cost_term_penalises_a_rise_in_downtime():
+    assert _reward(downtime_lambda=100.0, downtime_delta=0.5) == pytest.approx(-50.0)
+
+
+def test_the_cost_term_scales_linearly_in_lambda():
+    single = _reward(downtime_lambda=50.0, downtime_delta=0.4)
+    double = _reward(downtime_lambda=100.0, downtime_delta=0.4)
+    assert double == pytest.approx(2 * single)
+
+
+def test_a_fall_in_downtime_is_credited_not_penalised():
+    """The charge is on the *change*, so recovering availability is worth
+    exactly what losing it cost. Without this the term would be a standing tax
+    on having ever moved rather than a price on moving now."""
+    assert _reward(downtime_lambda=100.0, downtime_delta=-0.5) == pytest.approx(50.0)
