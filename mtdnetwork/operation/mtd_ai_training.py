@@ -12,7 +12,7 @@ import simpy
 from mtdnetwork.component.mtd_scheme import MTDScheme
 from mtdnetwork.statistic.evaluation import Evaluation
 import numpy as np
-from mtdnetwork.mtdai.mtd_ai import update_target_model, choose_action, replay, calculate_reward
+from mtdnetwork.mtdai.mtd_ai import update_target_model, choose_action_traced, replay, calculate_reward
 import pandas as pd
 import random
 from mtdnetwork.component.host import Host
@@ -64,6 +64,10 @@ class MTDAITraining:
         self.static_degrade_factor = static_degrade_factor
         self.attack_dict = {"SCAN_HOST": 1, "ENUM_HOST": 2, "SCAN_PORT": 3, "EXPLOIT_VULN": 4, "SCAN_NEIGHBOR": 5, "BRUTE_FORCE": 6}
 
+        # Per-decision ledger — see MTDAIOperation for why mtd_stats cannot
+        # substitute for it.
+        self.decision_log = []
+
         self.evaluation = Evaluation(self.network, self.adversary, self.security_metric_record)        
 
 
@@ -105,9 +109,28 @@ class MTDAITraining:
                 # D-14 fix (Marc, 2026-07-29) — see mtd_ai_operation.py: randint
                 # is inclusive, so `len + 1` could index past the strategy list.
                 action = random.randint(1, len(self.custom_strategies))
-            else: 
-                action = choose_action( state, time_series, self.main_network, len(self.custom_strategies) + 1, self.epsilon)
-                
+                source = 'forced'
+            else:
+                action, source = choose_action_traced(state, time_series, self.main_network,
+                                                      len(self.custom_strategies) + 1, self.epsilon)
+
+            self.decision_log.append({
+                'time': float(self.env.now),
+                'action': int(action),
+                'source': source,
+                'epsilon': float(self.epsilon),
+            })
+
+            # The exploration schedule is applied here, per decision. Tay's
+            # harness applied it once per *episode*, but the 0.980-0.998
+            # constants are per-step rates in the DQN literature the paper
+            # cites; over 100 episodes that carries epsilon from 1.0 to 0.13 at
+            # best and epsilon_min is never approached, so the agent never
+            # transitions to exploitation during training either
+            # (mtd_ai_forensics.md §4(b)). Per-episode decay remains reachable
+            # by passing epsilon_decay = 1.0 here and decaying in the driver.
+            if self.epsilon > self.epsilon_min:
+                self.epsilon *= self.epsilon_decay
 
             if action > 0 or self.network.get_last_mtd_triggered_time() == 0:
                 self.network.set_last_mtd_triggered_time(self.env.now)
@@ -271,9 +294,14 @@ class MTDAITraining:
 
     def get_mtd_scheme(self):
         return self._mtd_scheme
-    
-   
-    
+
+    def get_decision_log(self):
+        return self.decision_log
+
+    def get_epsilon(self):
+        return self.epsilon
+
+
     def get_state_and_time_series(self):
 
         previous_ips = self.network.scorer.current_hosts_ip
@@ -322,7 +350,6 @@ class MTDAITraining:
             compromised_hosts = record[record['compromise_host_uuid'] != 'None'].loc[record['start_time'] > (self.env.now - comp_check_interval)]['compromise_host_uuid'].unique()
             
             compromised_num = len(compromised_hosts)
-            print(compromised_num)
         else:
             compromised_num = 0    
         host_compromise_ratio = compromised_num/len(self.network.get_hosts()) 

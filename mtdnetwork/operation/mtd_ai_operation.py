@@ -12,7 +12,7 @@ import simpy
 from mtdnetwork.component.mtd_scheme import MTDScheme
 from mtdnetwork.statistic.evaluation import Evaluation
 import numpy as np
-from mtdnetwork.mtdai.mtd_ai import choose_action
+from mtdnetwork.mtdai.mtd_ai import choose_action_traced
 import pandas as pd
 import random
 from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatistics
@@ -65,6 +65,13 @@ class MTDAIOperation:
         self.mtd_strategies = custom_strategies
         self.static_degrade_factor = static_degrade_factor
 
+        # Per-decision ledger. The no-op share is the calibration study's
+        # headline statistic and it is not recoverable from mtd_stats, which
+        # only records mutations that executed: a decision that was forced by
+        # the static-degrade guard, one drawn by exploration, and one chosen by
+        # the policy are indistinguishable after the fact.
+        self.decision_log = []
+
     def proceed_mtd(self):
         if self.network.get_unfinished_mtd():
             for k, v in self.network.get_unfinished_mtd().items():
@@ -98,11 +105,18 @@ class MTDAIOperation:
                     # action whose register path indexes one past the strategy
                     # list (latent IndexError). Deploying actions are 1..len.
                     action = random.randint(1, len(self.mtd_strategies))
-                    
+                    source = 'forced'
 
                 else:
-                    action = choose_action(state, time_series, self.main_network, len(self.mtd_strategies) + 1, self.epsilon)
-                
+                    action, source = choose_action_traced(state, time_series, self.main_network,
+                                                          len(self.mtd_strategies) + 1, self.epsilon)
+
+                self.decision_log.append({
+                    'time': float(self.env.now),
+                    'action': int(action),
+                    'source': source,
+                })
+
                 if self.logging:
                     logging.info('Static period: %s' % (self.env.now - self.network.get_last_mtd_triggered_time()))
 
@@ -265,7 +279,10 @@ class MTDAIOperation:
 
     def get_mtd_scheme(self):
         return self._mtd_scheme
-    
+
+    def get_decision_log(self):
+        return self.decision_log
+
     # MTDAI-02 disposition (2026-08-08): the 8/3 head below stays commented, and
     # the live 5/6 head below it is declared the canonical feature set.
     #
@@ -478,9 +495,5 @@ class MTDAIOperation:
 
         time_series_array = np.array([value if key in self.features["time"] else 0 for key, value in time_series_filter.items()])
 
-        # Output the filtered arrays for verification
-        print("Filtered State Array:", state_array)
-        print("Filtered Time Series Array:", time_series_array)
-       
         return state_array, time_series_array
   
