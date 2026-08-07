@@ -336,5 +336,18 @@ its band against conclusions committed before any run.
   the eleven inputs does the reactive defender's behaviour actually depend on?* — and
   it needs no attacker mechanism at all. If this brief dies at the falsifier, that
   question survives it.
+- ⟲ **Retraining removes the *inherited* status the benchmark's value rests on** —
+  restored here 2026-08-07, having been lost in the split. The out-of-distribution
+  argument for retraining is well known: the weights were trained against the
+  inherited attacker, so against the movement arm the agent is out of distribution
+  and *"the attacker steered the defender"* is indistinguishable from *"the agent was
+  never trained for this"*. The less-discussed cost is the other direction. Standing
+  direction retains Tay's agent as an **inherited benchmark to replicate**
+  ([`../workflows/project_context.md`](../workflows/project_context.md)); a retrained
+  agent is a **new defender**, not a replicated one, and the defender-frozen position
+  in [`../implementation/architecture.md`](../implementation/architecture.md) §(a)
+  should be re-read *before* the run rather than after. Whichever way R-B lands, the
+  write-up must say which agent it ran and why — the two choices support different
+  sentences.
 - **Per-host mutation counts** remain the one genuinely absent input; a beacon
   primitive would have to derive or instrument them. Unchanged, still excluded.

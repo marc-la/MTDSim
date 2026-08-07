@@ -62,6 +62,34 @@ every per-host copy of an id keeps it. So `P(this exploit works)` is a genuine
 per-id constant, and step 0 measured two-thirds of live ids sitting on more than
 one host. The attacker would be estimating something that exists and recurs.
 
+### Two constraints on what the gate can reach — recorded 2026-08-07
+
+**The attacker chooses *when*, not *where*.** Host selection is not its decision:
+`_enum_host` sets the stack with
+`network.sort_by_distance_from_exposed_and_pivot_host(...)` and then takes
+`pop(0)` — nearest visible host from the exposed/pivot set, with a random
+tiebreak. So a gate that declines to exploit host H does **not** redirect the
+attacker to a host its memory likes better; it spends the time elsewhere and meets
+H again. Two consequences worth settling at pre-registration. The gate's benefit is
+a *timing* benefit — wait until the estimate improves, or until this host's
+vulnerability set is re-rolled by a mutation — not a *targeting* benefit, and the
+claim should not be written as though the attacker picks its battles. And if
+choosing *where* is wanted, that means reordering the host stack on a
+memory-derived key, which is a materially larger change reaching into substrate
+host selection, and it should be costed separately rather than assumed into arm 2.
+
+**Per-vulnerability credit is a declared observation channel, not a free read.**
+The attacker's own outcome signal is host-level: `_do_exploit_vuln` loops the top
+five vulnerabilities, **discards every return value**, and the caller sees one bit
+from `check_compromised()` (summed exploited impact ≥ 7). Five exploits, one bit.
+The per-vulnerability truth exists — `vuln.is_exploited()` — and is read in exactly
+**one** place in the repository today. Reading it is defensible (an attacker knows
+which of its exploits landed) but it is a new channel and must be **declared as
+one**, not slipped in, or the memory's key rests on an observation the model never
+justified. The alternative — crediting all five on a bundle outcome — is the same
+credit-assignment error axis 7 is already stuck on, so this is the choice that
+decides whether the build is the fix or a repeat.
+
 ### Where it lives — Marc, 2026-08-07, and this corrects the brief's assumption
 
 **The decision is encoded on `EXPLOIT_VULN` itself, in the substrate, taking the
