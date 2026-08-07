@@ -1,9 +1,42 @@
 ---
-status: open
+status: superseded by 2026-08-07_mtd_ai_cost_calibrated_rebuild.md
 created: 2026-08-06
 ---
 
 # Get Tay's reactive `mtd_ai` defender running against the movement attacker — the integration every consequential stealth claim is gated on
+
+> **Superseded 2026-08-07 — read this banner before anything below it.**
+> [`../implementation/pipeline/ogasp/mtd_ai_forensics.md`](../implementation/pipeline/ogasp/mtd_ai_forensics.md)
+> falsified both of this brief's load-bearing premises. It is kept for its defect
+> list (§3), its determinism gate (§4), its wiring seam (§5.3) and its hard
+> constraints (§7), all of which survive and are carried forward into
+> [`2026-08-07_mtd_ai_cost_calibrated_rebuild.md`](2026-08-07_mtd_ai_cost_calibrated_rebuild.md).
+> The two corrections:
+>
+> - **§1 is falsified as written.** `action == 0` is real and does gate the
+>   register-and-trigger block, as verified — but it also gates the
+>   `yield self.env.timeout(...)`, so a do-nothing decision advances no simulated
+>   time. Under ε-greedy selection it is rejection sampling; under a greedy policy
+>   it livelocks. **The do-nothing therefore never produces a stiller network**,
+>   and the suppression ceiling quantified here, while arithmetically correct,
+>   describes a mechanism unreachable in the code as written (forensics §6).
+>   Separately, the root cause is upstream: the reward has **no cost term**, so
+>   "always deploy" is optimal and action 0's Q-value is never a TD target
+>   (forensics §5).
+> - **§2's question is dissolved, not answered.** The reuse arm was proposed as a
+>   *control* on the assumption that Tay's reported behaviour is his weights'
+>   behaviour. It is not: `epsilon` defaults to 1.0 in `execute_ai_model` and the
+>   evaluation harness never overrides it, so **every figure in the paper was
+>   produced by a uniform random selector and `predict` was never called**
+>   (forensics §2, verified at five commits). The project's existing
+>   random-scheme defender over the same four mechanisms already *is* the
+>   faithful replication of those results, and is a cheaper and stronger control
+>   than the one proposed here.
+>
+> §6's cheap falsifying run also needs re-reading: it assumed a mutation-choice
+> distribution that responds to the attacker. Its generalisation — sweeping the
+> declared cost weight and reporting the no-op share — is Stage 3 of the
+> successor brief.
 
 **Why this is its own handoff.** The knowledge-gated attacker brief
 ([`2026-08-06_knowledge_gated_apt_attacker.md`](2026-08-06_knowledge_gated_apt_attacker.md))
