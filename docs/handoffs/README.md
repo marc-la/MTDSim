@@ -13,11 +13,12 @@ summaries are gone. Parked work is in [`__archive/`](__archive/).
 
 ---
 
-## Open work — four handoffs
+## Open work — five handoffs
 
-**(1) is unblocked; start there.** (2) and (3) are a pair — (3) supplies the
-defender arm (2)'s consequential half needs. (4) is independent of the axis chain
-and can run alongside any of it.
+**(1) is unblocked; start there.** (2) is now unblocked too — its axis-8 half
+split off as (5), so nothing it needs is gated. (3) and (5) are the pair that wait
+on the `mtd_ai` sanction, and (3) supplies the defender arm (5) needs. (4) is
+independent of the axis chain and can run alongside any of it.
 
 > **Reconciled on merge, 2026-08-05.** This chain was written on the boundary
 > branch, before the session branches were merged into `dev`. Three corrections
@@ -119,8 +120,28 @@ have patched runners whose committed numbers were taken under the old labels.)*
    repeat-configuration reader alone.
 
 2. [`2026-08-06_knowledge_gated_apt_attacker.md`](2026-08-06_knowledge_gated_apt_attacker.md)
-   — **one mechanism across axes 5, 7 and 8 (i)**, with axis 6 contested.
-   The attacker recons quietly, remembers which vulnerabilities it has beaten, and
+   — **a learning mechanism (axis 7) with an incentive-shaped decision rule on top
+   (axis 6)**; stealth is a measurement that emerges, not a claim.
+   **Re-scoped and retitled 2026-08-07** — it read "one mechanism across axes 5, 7
+   and 8 (i)", which the code does not support: the capability never references the
+   defender (it behaves identically with MTD off), so it is **not** scheme
+   awareness, and the axis-8 half is now handoff (5). §0 carries the honest axis
+   map and wins over the body. **Two corrections landed with it.** The decision is
+   coded on **`EXPLOIT_VULN` itself**, taking the attacker model's memory as an
+   input, with the verdict returning through the controller to the net — *not* as a
+   routing modulator on the attacker-state seam, which was an impedance mismatch
+   (memory is host/vulnerability-keyed, the seam is tactic-keyed) and which
+   dissolves the hard-vs-soft gate question entirely. And the target is now known to
+   be real: `Vulnerability.network()` succeeds iff `random() < complexity`, drawn
+   once at catalogue generation and preserved by every per-host copy, so there is a
+   genuine per-id constant to learn. **Two measurements precede any build**
+   (approved): decompose exploit failures into roll-failure vs MTD interrupt vs
+   no-vulnerabilities, since the brief's 49–99 % *blocked* fraction conflates them
+   and only the first is reachable by memory; and sweep the complexity range across
+   the lineage's own disagreement — `VULN_MIN_COMPLEXITY = 0.4` is faithful to Brown
+   Table I while Zhang §4.4.3 specifies [0, 1], which makes widening it a
+   lineage-grounded sensitivity rather than a convenience. The attacker recons
+   quietly, remembers which vulnerabilities it has beaten, and
    spends `EXPLOIT_VULN` only when that knowledge says it will pay. **Absorbs and
    replaces the vulnerability-memory / swift-mode brief** (deleted 2026-08-06):
    that memory is its arm 1, and the axis-8 scope decision, reversal argument and
@@ -213,6 +234,24 @@ have patched runners whose committed numbers were taken under the old labels.)*
    snapshot of an unbacked corpus should not wait, but the analysis wants the
    implementation settled and first results in hand.
 
+
+5. [`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md)
+   — **axis 8 by the route that actually references the defender.** Split out of
+   (2) on 2026-08-07, absorbing its §5/§5.1/§5.2 in full. The attacker is *endowed*
+   with a declared policy derived from offline analysis of what the reactive
+   defender measures, and steers those measurements — four levers, each wired to a
+   named state feature, against a reward that carries −75 on ASR/RoA/risk and +75
+   on MTTC. The scoping test that split the pair: **does the capability reference
+   the defender?** Vulnerability memory does not and is axis 7; this does and has no
+   referent without one. **It is not one of Jalowski's three §4.1 primitives** — the
+   claim rests on his §4.3 corrective instead, and saying so is the difference
+   between an honest axis-8 move and one an examiner will check. Carries the serious
+   threat to validity: five candidate implementation quirks in the state
+   computation, including that the ASR/MTTC features describe a **run prefix**
+   rather than a recent window, and an unguarded divide-by-zero triggered by the
+   **tactic-to-verb mapping** rather than by tempo. **Gated on R-B** like (3), and
+   its cheapest output — the mutation-choice distribution across the profiles'
+   existing spread, no attacker mechanism — may falsify the whole route for one run.
 
 **Suggested order for the rest of the week:** (1), which is unblocked and which
 settles the schema question and serves the rest — and note that the adjacent

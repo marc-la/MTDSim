@@ -3,7 +3,13 @@ status: open
 created: 2026-08-06
 ---
 
-# The knowledge-gated APT attacker — one mechanism across axes 5, 7 and 8 (i), with axis 6 contested: recon quietly, remember what works, and spend the loud verb only when it will pay
+# The knowledge-gated APT attacker — a learning mechanism with an incentive-shaped decision rule: remember which vulnerabilities have worked, and spend the loud verb only when they say it will pay
+
+> **Retitled 2026-08-07.** This read *"one mechanism across axes 5, 7 and 8 (i),
+> with axis 6 contested"*. On the code that over-claims: the capability never
+> references the defender, so it is not scheme awareness, and the axis-8 half has
+> been split into its own brief. The honest map is §0. The body below still argues
+> the old scope in places — read it against §0, which wins.
 
 **This handoff absorbs and replaces
 `2026-08-04_vulnerability_memory_and_swift_mode.md`**, deleted in the commit that
@@ -31,81 +37,101 @@ rather than pre-empting any of them:
 
 ---
 
-## 0. In thesis terms — what this buys, what it costs, and what needs ruling
+## 0. What this is, where it lives, and what it claims
 
-**The build, in one sentence.** An attacker that remembers which vulnerabilities
-it has beaten and spends the loud verb only when that memory says it will pay —
-which is not a new capability so much as **the one ingredient the criterion has
-already named as missing**.
+**Rewritten 2026-08-07** after Marc's architecture correction and the axis
+re-scoping. The earlier version of this section mapped the design onto the
+criterion's pre-registered slots, which is reverse-fitting a build to badge moves;
+that framing is withdrawn.
 
-**Why that sentence matters.** The dissertation's honest summary currently
-concedes the smart-attacker half of the literature's diagnosis: *"the learning,
-scheme-aware attacker the literature ultimately calls for remains future work"*
-(criterion §(g)). Axes 5–8 hold **zero DEMONSTRATED rows** between them. This build
-is the only proposal on the table that attacks that half directly.
+### The mechanism, in three parts
 
-### What moves, and what evidence each move needs
+1. **Memory** — a table `vulnerability id -> (times tried, times it worked)`,
+   filled in by reading `vuln.is_exploited()` after an attempt. Keyed on identity,
+   **never** on (host, vulnerability): a mutation destroys ~80 % of a *host's*
+   vulnerability set while the network-wide pool barely moves (§3, finding 2).
+2. **Estimate** — for the host in front of it, compute an expected success from the
+   ids it recognises among that host's visible vulnerabilities, with a declared
+   prior for ids never seen.
+3. **Decision** — spend `EXPLOIT_VULN` when the estimate clears a declared margin;
+   otherwise take a reconnaissance action instead.
 
-| Row | Today | Candidate | The bar it must clear |
-|---|---|---|---|
-| **7 learning** | DESIGNED | **DEMONSTRATED** | arm 2 raises **breadth or stage advance** against its own ablation arm |
-| **5 stealth** | NOT ADDRESSED | DESIGNED | arm 2 is a mechanism that changes what the attacker does, and costs it something |
-| **8 scheme awareness** | NOT ADDRESSED | DESIGNED | coarse primitive (i) + the endowed policy, with the granted inference in the badge text |
-| **1 persistence** | DESIGNED | candidate only | a measured back-loading knee; weakest of the four |
-| **3 plurality** | DEMONSTRATED | **expected to fall** | every modulator but one has narrowed traversal; report it, do not hide it |
-| **6 incentive** | DESIGNED | contested | arm 4 only, and it owes the reversal argument (§2.1) |
-| **Row B** | RECOMMENDATION | **untouched** | unless `mtd_ai` lands and adds a defence arm |
+**Why the target is real rather than notional.** `Vulnerability.network()` succeeds
+iff `random() < complexity`; complexity is drawn once at catalogue generation and
+every per-host copy of an id keeps it. So `P(this exploit works)` is a genuine
+per-id constant, and step 0 measured two-thirds of live ids sitting on more than
+one host. The attacker would be estimating something that exists and recurs.
 
-**The load-bearing argument, and the brief does not currently state it this way.**
-Axis 7's own M8b field names **exactly one** remaining requirement: *"a learner
-whose credit signal carries **progress** — host compromise, stage advance, breadth
-— rather than the routing verdict, shown to raise breadth or stage advance against
-its own ablation arm. That is a credit-assignment redesign, not a parameter
-change."* The representational half was built and swept and is already discharged.
-**Arm 1 is that credit signal**: it keys on vulnerability identity and updates on
-*exploit success*, which is host compromise, where the existing learner updates on
-a routing verdict that is not progress. This build is therefore the credit-assignment
-redesign the criterion asked for by name — and if it lands it is the **first
-DEMONSTRATED row on the smart-attacker half**, which is a larger change to §(g)
-than anything else currently proposed.
+### Where it lives — Marc, 2026-08-07, and this corrects the brief's assumption
 
-### One design defect this framing exposes, and it is load-bearing
+**The decision is encoded on `EXPLOIT_VULN` itself, in the substrate, taking the
+attacker model's memory as an input.** The verb's outcome is the signal that
+returns to the controller layer and the net; **the net decides the next step**.
+The mechanism does **not** move the token, and must not: there are no jumps.
 
-**§7's pre-registration cannot deliver the axis-7 move as written.** It pre-registers
-*"arm 2 raises successes-per-exploit-attempt against arm 0"* — a **friction-shaped**
-measure. Axis 7 has already been refused a badge twice on precisely friction-shaped
-evidence, and the readiness study carries an explicit warning that the friction
-measures cannot discriminate at all and *"must never be read as evidence"*. The
-gate's own precondition is fine as a sanity check, but **the claim must be
-pre-registered on breadth or stage advance against the ablation arm**, or the build
-succeeds and the row does not move.
+That corrects what the rest of this brief assumed — a routing modulator on the
+attacker-state seam — and it is a better fit, because the memory is keyed on
+*hosts and vulnerabilities* while the seam modulates *tactic routing*. The two
+speak different vocabularies, and forcing the gate through the seam was the
+impedance mismatch nobody had named.
+
+**One consequence: ruling 3 below is dissolved rather than answered.** The hard-vs-soft
+gate question existed only because a hard gate would have zeroed routing weights and
+tripped the seam's `may_zero` rule. With the decision on the verb there is no
+routing multiplier and no `may_zero` obligation. What replaces it is a smaller,
+different question: **when the gate declines, what verdict does the verb return** —
+and the answer should be whatever lets the net's *existing* failure routing carry
+the attacker to reconnaissance, so that declining to exploit is an outcome the net
+already knows how to read.
+
+### What it claims — the honest axis map
+
+| Axis | Verdict |
+|---|---|
+| **7 learning** | **The core of it.** Knowledge accumulates, behaviour changes as a result, and the credit is *compromise* rather than a routing verdict. Caveat: this is a **second** learning mechanism beside the existing per-place learner, both conditioning on exploit-shaped experience — §9's composition hazard, to be jointly checked and never assumed |
+| **6 incentive** | **Real, and stronger than the brief allowed.** The gate weighs an expected payoff against the cost of an attempt. The axis-6 closure's objection was that nothing enters the *capability vocabulary* — a statement about what the old rule could read, not about whether a payoff exists. Compromise does accumulate |
+| **5 stealth** | **A measurement that emerges**, on the shipped exposure reader. Fewer loud actions, readable. There is no detector, so it is not evasion, and no mechanism here changes that |
+| **8 scheme awareness** | **Not claimed.** The capability never references the defender — it behaves identically with MTD switched off. Cross-target memory that survives shuffling is not recognition of a shuffling scheme. The axis-8 route is the sibling brief, [`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md) |
+| **4 adaptivity** | **No.** The key is chosen *because* vulnerability identity survives mutation, so the memory does not respond to the defence |
+| **1 persistence** | Candidate only — a back-loading arc is a shape, not an outcome |
+| **3 plurality** | Expected to fall; report it |
+
+So the honest description is **one learning mechanism with an incentive-shaped
+decision rule on top** — not one mechanism spanning four axes. The brief's title
+still says otherwise and should be read against this table.
 
 ### The rulings
 
-1. **Aim the pre-registration at progress, not friction.** *Recommend yes* — without
-   it the headline move is unreachable. Costs nothing; it is a wording change made
-   before any run.
+1. **Aim the pre-registration at progress, not friction.** *Recommend yes.* §7
+   currently pre-registers successes-per-exploit-attempt, which is friction-shaped;
+   axis 7 has been refused a badge twice on friction-shaped evidence and the
+   readiness study warns those measures cannot discriminate between representations
+   at all. The claim wants **breadth or stage advance against the ablation arm**.
 2. **Drop the objective-conditioned half.** *Recommend yes* — B4 (§4.1) shows no
-   profile's objective connects to what the simulator scores, so it has nothing to
-   strike at, and repairing that is a substrate programme under S2. The arc survives
-   without it.
-3. **Hard gate or soft gate** (§4.1, §7). *Recommend soft* — a hard gate owes the
-   seam's `may_zero` licensing rule and a no-stall re-run across the band; a soft
-   one owes neither and still produces the arc.
-4. **The axis-6 reversal's form** (§2.1). You reopened the row fully. It still owes
-   a dated argument against a closure whose premise — no banked payoff — today's B4
-   check confirms is intact. *Recommend* reopening on the mechanism with the
-   missing-payoff limitation restated, rather than on a claim the premise changed.
-5. **Scope now.** *Recommend* building arms 0–2 and holding arm 4 until `mtd_ai`
-   returns. Arms 0–2 carry every badge move in the table above; arm 4 carries only
-   the contested row and the definitional risk.
+   profile's objective connects to what the simulator scores.
+3. ~~Hard gate or soft gate~~ — **dissolved** by the architecture correction above.
+   Replaced by: what verdict does a declined exploit return?
+4. **The axis-6 reversal's form** (§2.1). Reopened fully by ruling. It still owes a
+   dated argument against the closure text; the honest form is the mechanism plus
+   the missing-payoff limitation restated, not a claim the premise changed.
+5. **Scope now.** Arms 0–2. The axis-8 half is a separate brief and is gated on R-B.
 
-**What this build does not do, stated so it is not inferred.** It does not touch the
-project's headline result — Row B's recommendation grade rests on experiment 2, and
-a better attacker does not re-open it. It does not make the attacker reach the
-objective; the degenerate region is untouched. And on axis 5 it buys DESIGNED, never
-DEMONSTRATED: **stealth with no detector is still not evasion**, which is the axis's
-own argument and is what `mtd_ai` (R-B) would change.
+### Two measurements before any build (approved 2026-08-07)
+
+- **Decompose the exploit failures** — coin-flip failure vs MTD interrupt vs
+  no-vulnerabilities/precondition. This says which term the memory can move. The
+  brief justifies the work with experiment 1's 49–99 % *blocked* fraction, but
+  blocked and *the exploit roll failed* are different things and only the second is
+  reachable by memory.
+- **Sweep the complexity range across the lineage's own disagreement.**
+  `VULN_MIN_COMPLEXITY = 0.4` is faithful to **Brown 2023 Table I**, and
+  [`../implementation/provenance.md`](../implementation/provenance.md) records that
+  **Zhang §4.4.3 specifies [0, 1]**. At [0.4, 1] the mean is 0.7 and nearly
+  everything works; at [0, 1] vulnerabilities genuinely differ and knowing which
+  ones work is worth something. So widening it is a **lineage-grounded sensitivity,
+  not a convenience** — which is the defensible way to answer "the numbers are
+  holding the mechanism back". It is a substrate parameter: each setting needs its
+  own null arm, and a global change moves goldens.
 
 ---
 
@@ -503,174 +529,27 @@ the target, a general profile takes the network down broadly.
 
 ---
 
-## 5. The `mtd_ai` channel — what its state is actually made of
+## 5. The `mtd_ai` / defender-metric half — SPLIT OUT 2026-08-07
 
-Marc asked how the reactive defender's network metrics are computed, with a view
-to the attacker reasoning about the impact it has on them. Read from
-`mtd_ai_operation.get_state_and_time_series` (lines ~299–438). **This is a code
-reading, not a measurement, and every line of it needs verifying by an
-instrumented run before anything is built on it.**
+**Moved in full to
+[`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md)
+(Marc's call).** What lived here — the eleven-feature state and its four steerable
+levers, the reward that closes the loop, the `action == 0` suppression target and
+its two floors, the endowed-vs-learned ruling, the implementation-quirk threat to
+validity, and the context handed to the parallel retraining session — is that
+brief's §2 to §5. Nothing was dropped.
 
-The state is eleven features. The load-bearing ones are attacker-derived, and
-**four are directly steerable by the behaviour this design proposes**:
+**Why it split, and the reason is a scoping test worth keeping here.** Ask whether
+a capability **references the defender**. The vulnerability memory does not: it
+estimates `P(this exploit works)` from its own past attempts and behaves
+identically with MTD switched off. That is **learning — axis 7** — and this brief
+should claim it as that. Steering what the reactive defender measures *does*
+reference the defender, has no referent without one, and is the axis-8 claim. Two
+mechanisms, two axes, two briefs.
 
-| feature | how it is computed | the lever |
-|---|---|---|
-| `host_compromise_ratio` | compromised hosts **in the last 60 s** ÷ total hosts | **spacing.** Three compromises inside a minute read 3/50; the same three spread over five minutes read 1/50 at any instant. Temporal spacing lowers a defender input *mechanically* |
-| `roa`, `risk` | the **last** exploited vulnerability's `(complexity·impact)/exploit_time` and `complexity·impact` — `[-1]`, a single sample, not an aggregate | **vulnerability selection.** Preferring low-impact vulnerabilities sets what the defender reads. This is Marc's "network impact" term, literally |
-| `overall_asr_avg` | `compromised_num / attack_event_num`, where the denominator counts **`SCAN_PORT` rows only** | **the scan:exploit ratio.** More reconnaissance drives observed ASR down |
-| `overall_mttc_avg` | mean **duration** of `SCAN_PORT`/`EXPLOIT_VULN`/`BRUTE_FORCE` rows | **tempo.** Longer actions raise it |
-
-And the training reward closes the loop: `overall_asr_avg`, `roa`, `risk` carry
-**−75** while `overall_mttc_avg` carries **+75**. So an attacker that spaces its
-compromises, picks low-impact vulnerabilities, scans more than it exploits and
-moves slowly makes the defender's state read *safe*.
-
-**This is the concrete form of option 1(b), and it is far more specific than the
-conceptualisation record's "a slower attacker presents a different signal
-stream".** It names four levers, each mechanically connected to a feature.
-
-**Three warnings that travel with it, and the first is the serious one.**
-
-- **These may be implementation quirks rather than defence properties.** A 60 s
-  window that appears nowhere in Tay's paper; `roa`/`risk` read as a single most
-  recent sample rather than an aggregate; an ASR whose denominator counts only one
-  of the three attack verbs. An attacker tuned against these is **gaming Tay's
-  implementation, not evading a defence**, and a thesis claim built on it would be
-  a claim about a bug. This is a threat to validity and must be stated in the
-  design record, not discovered by an examiner. The honest form of the claim is
-  *behavioural change alters what this reactive agent observes* — never *the
-  attacker defeats reactive MTD*.
-- **A latent divide-by-zero.** `attack_success_rate = compromised_num /
-  attack_event_num` has no guard, and `attack_event_num` is zero whenever no
-  `SCAN_PORT` row exists in the window. A quiet attacker is *exactly* the
-  condition that produces it. Verify before running, and treat any fix as a
-  substrate change needing its own disposition.
-- **`replicate, never extend`.** Consuming `mtd_ai` unchanged as a defence arm may
-  be sanctioned (R-B); wiring anything of the attacker's into
-  `attacker_sensitivity` is reverse-modelling detection and stays forbidden.
-
----
-
-### 5.1 Mutation avoidance and axis 8 — revised 2026-08-06, and the revision matters
-
-**An earlier draft of this section argued that biasing the defender was not scheme
-awareness at all. That was too restrictive and is withdrawn.** Marc's counter is
-correct and the code supports it: if the attacker has *deduced* the relation
-between its own behaviour and the defender's response, it holds a model of the
-scheme — learned black-box rather than read off the source, which is exactly
-Jalowski's *"look for the mathematical logic behind the movement"*.
-
-**The fact that was thought to settle it — now falsified.** `mtd_ai`'s action
-space does include `action == 0`, and it does gate the register-and-trigger
-block. But it gates the `yield self.env.timeout(...)` as well, so a do-nothing
-decision **advances no simulated time**: under ε-greedy selection it is rejection
-sampling, and under a greedy policy it livelocks
-([`../implementation/pipeline/ogasp/mtd_ai_forensics.md`](../implementation/pipeline/ogasp/mtd_ai_forensics.md)
-§6, 2026-08-07). Upstream of that, `calculate_reward` weights `mtd_freq` and
-`time_since_last_mtd` at **zero**, so "always deploy" is optimal and action 0's
-Q-value is never a TD target (§5). *"Bias the result toward the defender's
-do-nothing"* is therefore **not currently an action the agent can take** — it
-becomes one only once
-[`2026-08-07_mtd_ai_cost_calibrated_rebuild.md`](2026-08-07_mtd_ai_cost_calibrated_rebuild.md)
-lands its Stage 0 repairs and Stage 2 cost term. The claim below is retained
-because it is the right claim to make *against a repaired agent*; it has no
-subject until then.
-
-**Two ceilings bound the claim, both quantified, and they are what make it
-honest.** `static_degrade_factor = 2000` forces a *random* mutation after 2 000 s
-of inaction (≈ 7 forced mutations per 15 000 s run whatever the attacker does),
-and `choose_action` is ε-greedy so a deploying action fires regardless of state.
-**Report suppression against those floors, never against zero.**
-
-#### What still decides whether this is axis 8 — how the capability is obtained
-
-| how it is built | axis 8? | is it licensed? |
-|---|---|---|
-| the attacker **learns** the input→output relation at runtime | **yes** | **no.** This re-engages the original exclusion *head on* — its stated reason was that the primitives need *"an inference capability — machine learning or reinforcement learning over observed defender behaviour"*, and this is precisely that. Unlike the memoisation PoC, it does not narrow the exclusion; it asks for it to be lifted |
-| the attacker is **endowed** with a declared policy derived from an offline analysis of what the defender reads | **yes, and defensibly** | **yes, on the house's own discipline.** This is Marc's own framing — *"we can pretend the smart APT model has successfully used side-channelling techniques and deduced how to manoeuvre"* — and it is the **envelope, not actor** rule the criterion already applies everywhere: a run is *"one instantiation of a behavioural envelope under a declared policy"*. No learning at runtime, one declared family, ablatable to null |
-
-**Recommendation: build the endowed form.** It reaches the same behaviour, needs
-no ML/RL, fits the remaining timeframe, and carries a limitation that is *stated
-rather than hidden* — **the inference is granted, not modelled**. The claim becomes
-*"an adversary that has already characterised what this defender measures behaves
-thus, and here is what that buys it"*, which is a claim this project can actually
-support. Write the granted inference into the badge text; it is the difference
-between an honest axis-8 move and an over-claim.
-
-#### What the attacker can already observe, corrected
-
-Also too restrictive earlier: **the attacker can detect that a mutation happened
-today, with no new channel.** It experiences the consequences directly — a
-network-layer firing clears its host cursor, an application-layer one interrupts
-its action, and a re-scan after a diversity firing returns different services.
-**The axis-7 learner already consumes exactly this signal**, forgetting on every
-`apply_mtd_interrupt_cost`. So "did the defender move?" is available; what remains
-unavailable is *which host was mutated while the attacker was elsewhere*, per-host
-mutation counts (no strategy keeps them), and the schedule itself.
-
-That boundary is the useful one: **mutation *occurrence* is observable, mutation
-*targeting* is not.** A design that stays on the observable side of it needs no
-new channel and no R-C reversal.
-
----
-
-### 5.2 Context handed to the concurrent retraining session (R-B, 2026-08-07)
-
-Marc is probing reuse-vs-retrain in a parallel session. Four things it needs that
-are **not** in the reintegration brief, verified here by code reading against
-`get_state_and_time_series` (lines ~299–438). Each still wants an instrumented run
-before anything is built on it — §5's standing warning applies to these too.
-
-1. **The ASR and MTTC features are computed over a run *prefix*, not a recent
-   window — and the prefix length is set by a recent-window count.**
-   `sub_record = record[record['cumulative_compromised_hosts'] <= compromised_num]`,
-   where `compromised_num` is the distinct hosts compromised **in the last 60 s**.
-   So the filter selects the opening stretch of the run during which the
-   *cumulative* compromise total had not yet passed the *recent* count. Every
-   feature downstream of `sub_record` — `attack_success_rate`,
-   `overall_time_to_compromise`, `mean_time_to_compromise` — inherits it. This is
-   not a windowing scheme that appears in Tay's paper, and it means a quiet
-   attacker does not merely lower these features, it **re-scopes which part of the
-   run they describe**.
-
-2. **The divide-by-zero has a sharper trigger than "a quiet attacker".**
-   `attack_success_rate = compromised_num / attack_event_num` is unguarded, and
-   `attack_event_num` counts **`SCAN_PORT` rows only**, summed over the attempted
-   hosts *inside that prefix*. On the movement arm the number of `SCAN_PORT` rows
-   is a function of the **tactic-to-verb mapping**, not of attacker tempo — so a
-   profile whose mapping dispatches few `SCAN_PORT` verbs can zero the denominator
-   irrespective of how loud it is. Check the mapping before running, not just the
-   tempo.
-
-3. **The reward's only positive term is a per-row mean, and the row count is under
-   an open ruling.** `mean_time_to_compromise` divides summed duration by the
-   **number of** `SCAN_PORT`/`EXPLOIT_VULN`/`BRUTE_FORCE` **rows**, and
-   `_do_exploit_vuln` writes one row **per vulnerability tried**
-   ([`attack_operation.py:546`](../../mtdnetwork/operation/attack_operation.py),
-   inside the loop) while the driven dispatch writes an additional row for the verb
-   ([`attack_operation.py:840`](../../mtdnetwork/operation/attack_operation.py)).
-   The two arms therefore do not write rows the same way, and this is exactly the
-   quantity the open **per-vulnerability row count** decision governs
-   ([`README.md`](README.md) § Decisions waiting on Marc) — the same accounting that
-   inverted the duty-cycle verdict. Whatever is decided there lands on the
-   defender's `+75` term. Magnitude needs measuring; the mechanism is confirmed.
-
-4. **A retrained agent changes what the comparison means, and the change is not
-   only methodological.** Standing direction is *replicate, never extend*
-   ([`../workflows/project_context.md`](../workflows/project_context.md)), and Tay's
-   agent is retained as an inherited benchmark. Retraining against the movement
-   attacker removes the out-of-distribution confound and simultaneously removes the
-   *inherited* status the benchmark's whole value rests on. If it is retrained, the
-   arm is a new defender rather than a replicated one, and the S2/defender-frozen
-   position in [`../implementation/architecture.md`](../implementation/architecture.md)
-   §(a) needs re-reading before the run, not after.
-
-**The cheapest falsifier is unchanged and should still go first**: the
-mutation-choice distribution across the profiles' existing spread, run with no
-attacker mechanism. If the agent's action mix does not move across profiles that
-already differ substantially, the consequential half of this design is dead before
-either training question is settled.
+**What this brief keeps from the split.** Nothing it needs to build. The stealth
+result at arm 2 is measured on the exposure reader and is **within-arm**, so it
+does not depend on `mtd_ai` and is not gated by R-B.
 
 ---
 
@@ -724,14 +603,20 @@ re-derived, and so whoever drafts it knows which clause the evidence refuses.
 Candidates, to be sharpened by the session that builds:
 
 - **Ablation exactness** — arm 0 is bit-identical to today's model.
-- **The gate's form — hard or soft** (§4.1, checked 2026-08-07). A hard gate zeroes
-  the refused destinations and owes the seam's `may_zero` obligations: a declared
-  rule licensing the zero, and a re-run of the no-stall check across the parameter
-  band. A soft gate owes neither. Settle it here, before the build, because it
-  changes the validation gate and what "gated" may mean in the claim.
+- ~~**The gate's form — hard or soft**~~ — **dissolved 2026-08-07** by the
+  architecture correction (§0): the decision lives on `EXPLOIT_VULN`, not on a
+  routing modulator, so there are no routing weights to zero and no `may_zero`
+  obligation. What replaces it: **what verdict does a declined exploit return**, so
+  that the net's existing failure routing carries the attacker to reconnaissance.
 - **The gate works** — arm 2 raises successes-per-exploit-attempt against arm 0.
-  This is the mechanism's own precondition; if it fails, nothing above it means
-  anything.
+  This is the mechanism's own precondition and a **sanity check only**; if it fails,
+  nothing above it means anything.
+- **The claim, and it must not be the bullet above.** Successes-per-attempt is
+  friction-shaped, and axis 7 has been refused a badge twice on friction-shaped
+  evidence — the readiness study warns those measures cannot discriminate at all.
+  Pre-register the claim on **compromise breadth or stage advance against the
+  ablation arm**, which is what a progress-carrying credit signal has to buy to be
+  worth anything.
 - **The emergent stealth claim** — arm 2's exposure is lower than arm 0's, on the
   duty-cycle statistics, *without* detectability appearing in the decision rule.
 - **The campaign arc** — arm 2's exploitation is back-loaded against arm 0's
