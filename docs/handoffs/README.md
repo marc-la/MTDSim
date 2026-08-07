@@ -136,6 +136,22 @@ have patched runners whose committed numbers were taken under the old labels.)*
    (host, vulnerability); and exact whole-host recurrence is **zero** (the apparent
    9.87 % is precisely the five never-mutated endpoints), so axis-8 primitive (i)
    in its exact-image form is dead on this substrate and must key coarser.
+   **Its three remaining checks have now run too (2026-08-07), all read-only, and
+   two change the design.** The **pool combinatorics falsify** the conjecture that
+   narrowing the service pool revives primitive (i)'s exact-image form: the binding
+   term is 16 versions per service name (`SERVICE_VERSIONS` ÷ `OS_VERSION_DICT`,
+   fixed), not `services_per_os`, and exact-image collisions measure **zero at
+   every setting down to the floor** over 20 000 host draws — so the form is
+   unreachable by construction rather than merely absent at the default, and the
+   sweep survives only as a sensitivity study over arm 1–2's effect size. The
+   **objective-conditioned half is recommended dropped**: the targeted-attacker
+   feasibility study already answers it, and its B4 blocker is deeper than the
+   flagged one — no profile's objective connects to what the simulator scores, for
+   either arm, so there is nothing to strike at without substrate work under S2.
+   The **seam check holds** — the arc in routing terms needs nothing built, keeping
+   the seam change off the cost — but surfaced an uncosted fork: a *hard* gate trips
+   the seam's `may_zero` rule and owes a licensing rule plus a no-stall re-run,
+   where a *soft* gate owes neither. Now a pre-registration item.
    The design's load-bearing move is to build the **efficiency** claim and
    *measure* stealth as an emergent consequence — optimising the metric you score
    on would make the result definitional. It also inherits the shipped exposure

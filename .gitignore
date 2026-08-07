@@ -199,3 +199,5 @@ docs/thesis/*.dvi
 docs/thesis/*.ps
 # compiled PDF (uncomment to keep the PDF out of version control)
 # docs/thesis/dissertation.pdf
+
+mtdsim-weights-archive

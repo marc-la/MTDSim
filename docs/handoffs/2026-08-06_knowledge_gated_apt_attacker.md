@@ -18,6 +18,95 @@ should be until §2's rulings land.** §3's prerequisite check **has** been run
 (2026-08-06) and its answers are folded in — it was a read-only probe over fresh
 runs, added no mechanism and moved nothing.
 
+**The three remaining open checks have now also been run (2026-08-07), all
+read-only, and two of them change the design.** They were not gated by §2's
+rulings, so they were taken first, and they make those rulings better-informed
+rather than pre-empting any of them:
+
+| check | where | outcome |
+|---|---|---|
+| the pool combinatorics, demanded before any sweep | §3.1 | **falsifies** the conjecture that pool size revives primitive (i)'s exact-image form — it is dead across the entire reachable range, not merely at the default |
+| does the targeted strategy have anything to drive? | §4.1 | **already answered** by a study on record, and worse than the flag: the deeper blocker is that no profile's objective connects to what the simulator scores at all. Recommendation is to drop that half |
+| is the attacker-state seam routing-only? | §4.1 | **holds** — the arc in routing terms needs nothing built on the seam, so the largest engineering item stays off the cost. One uncosted fork surfaced: a *hard* gate trips the seam's `may_zero` rule and owes two obligations a *soft* gate does not |
+
+---
+
+## 0. In thesis terms — what this buys, what it costs, and what needs ruling
+
+**The build, in one sentence.** An attacker that remembers which vulnerabilities
+it has beaten and spends the loud verb only when that memory says it will pay —
+which is not a new capability so much as **the one ingredient the criterion has
+already named as missing**.
+
+**Why that sentence matters.** The dissertation's honest summary currently
+concedes the smart-attacker half of the literature's diagnosis: *"the learning,
+scheme-aware attacker the literature ultimately calls for remains future work"*
+(criterion §(g)). Axes 5–8 hold **zero DEMONSTRATED rows** between them. This build
+is the only proposal on the table that attacks that half directly.
+
+### What moves, and what evidence each move needs
+
+| Row | Today | Candidate | The bar it must clear |
+|---|---|---|---|
+| **7 learning** | DESIGNED | **DEMONSTRATED** | arm 2 raises **breadth or stage advance** against its own ablation arm |
+| **5 stealth** | NOT ADDRESSED | DESIGNED | arm 2 is a mechanism that changes what the attacker does, and costs it something |
+| **8 scheme awareness** | NOT ADDRESSED | DESIGNED | coarse primitive (i) + the endowed policy, with the granted inference in the badge text |
+| **1 persistence** | DESIGNED | candidate only | a measured back-loading knee; weakest of the four |
+| **3 plurality** | DEMONSTRATED | **expected to fall** | every modulator but one has narrowed traversal; report it, do not hide it |
+| **6 incentive** | DESIGNED | contested | arm 4 only, and it owes the reversal argument (§2.1) |
+| **Row B** | RECOMMENDATION | **untouched** | unless `mtd_ai` lands and adds a defence arm |
+
+**The load-bearing argument, and the brief does not currently state it this way.**
+Axis 7's own M8b field names **exactly one** remaining requirement: *"a learner
+whose credit signal carries **progress** — host compromise, stage advance, breadth
+— rather than the routing verdict, shown to raise breadth or stage advance against
+its own ablation arm. That is a credit-assignment redesign, not a parameter
+change."* The representational half was built and swept and is already discharged.
+**Arm 1 is that credit signal**: it keys on vulnerability identity and updates on
+*exploit success*, which is host compromise, where the existing learner updates on
+a routing verdict that is not progress. This build is therefore the credit-assignment
+redesign the criterion asked for by name — and if it lands it is the **first
+DEMONSTRATED row on the smart-attacker half**, which is a larger change to §(g)
+than anything else currently proposed.
+
+### One design defect this framing exposes, and it is load-bearing
+
+**§7's pre-registration cannot deliver the axis-7 move as written.** It pre-registers
+*"arm 2 raises successes-per-exploit-attempt against arm 0"* — a **friction-shaped**
+measure. Axis 7 has already been refused a badge twice on precisely friction-shaped
+evidence, and the readiness study carries an explicit warning that the friction
+measures cannot discriminate at all and *"must never be read as evidence"*. The
+gate's own precondition is fine as a sanity check, but **the claim must be
+pre-registered on breadth or stage advance against the ablation arm**, or the build
+succeeds and the row does not move.
+
+### The rulings
+
+1. **Aim the pre-registration at progress, not friction.** *Recommend yes* — without
+   it the headline move is unreachable. Costs nothing; it is a wording change made
+   before any run.
+2. **Drop the objective-conditioned half.** *Recommend yes* — B4 (§4.1) shows no
+   profile's objective connects to what the simulator scores, so it has nothing to
+   strike at, and repairing that is a substrate programme under S2. The arc survives
+   without it.
+3. **Hard gate or soft gate** (§4.1, §7). *Recommend soft* — a hard gate owes the
+   seam's `may_zero` licensing rule and a no-stall re-run across the band; a soft
+   one owes neither and still produces the arc.
+4. **The axis-6 reversal's form** (§2.1). You reopened the row fully. It still owes
+   a dated argument against a closure whose premise — no banked payoff — today's B4
+   check confirms is intact. *Recommend* reopening on the mechanism with the
+   missing-payoff limitation restated, rather than on a claim the premise changed.
+5. **Scope now.** *Recommend* building arms 0–2 and holding arm 4 until `mtd_ai`
+   returns. Arms 0–2 carry every badge move in the table above; arm 4 carries only
+   the contested row and the definitional risk.
+
+**What this build does not do, stated so it is not inferred.** It does not touch the
+project's headline result — Row B's recommendation grade rests on experiment 2, and
+a better attacker does not re-open it. It does not make the attacker reach the
+objective; the degenerate region is untouched. And on axis 5 it buys DESIGNED, never
+DEMONSTRATED: **stealth with no detector is still not evasion**, which is the axis's
+own argument and is what `mtd_ai` (R-B) would change.
+
 ---
 
 ## 1. The idea, and the one reframe that makes it defensible
@@ -79,6 +168,46 @@ stated in the design record the build produces.
 | **R-B** | **Is `mtd_ai` sanctioned as an experimental arm?** — and, separately, **reuse its weights or retrain?** | Standing direction defers Tay's agent to the ablation phase, and the movement arm has never been run against it. **Without it, (B) has no in-simulation payoff on any defender.** The integration, its defects, its determinism risk and the reuse-vs-retrain question now have their own brief: [`2026-08-06_mtd_ai_reintegration.md`](2026-08-06_mtd_ai_reintegration.md). |
 | **R-C** | **Is mutation-*timing* observation in scope?** | "Knowledge is fresh, i.e. no mutation since I scanned" is axis-8 primitive **(ii) beacon**, which stays excluded — the 2026-08-05 reversal licensed primitive **(i) memoisation only**. Marc's "MTD-aware attacker, will have this observation channel" reaches for (ii). §4's arm ladder is designed to **not need it**, and §5.1 narrows what is actually required: mutation *occurrence* is already observable through the attacker's own failures, and only mutation *targeting* needs (ii). If the endowed-policy form of §5.1 is taken, R-C may not be needed at all — but the axis-8 exclusion still needs a dated amendment either way. |
 | **R-D** | **Naming.** Narrowed 2026-08-06: with "swift mode" retired as a mechanism (§4.1) there is no mode to name and no naive/smart *class* split to label. What is left is the capability parameter itself. | The house pattern distinguishes capability *magnitude* (a parameter at zero versus a declared level), not attacker classes — so the ladder already encodes the split. Marc's call, but a smaller one than it was. |
+
+### 2.1 The rulings — Marc, 2026-08-07
+
+**R-A — REOPEN THE ROW FULLY.** Axis 6 is reopened, not merely for arm 4. The
+session recommended keeping it closed and Marc overrode that; the decision stands
+and this brief proceeds on it. What the ruling **owes**, and it must be paid before
+any build commit, is the dated reversal §10 already requires: an argument written
+against the closure text, exactly as the axis-8 reversal was.
+
+**The reversal has one thing it must answer, and today's check made it harder
+rather than easier.** The closure did not rest on the mechanisms tried; it rested
+on a property of the substrate — *"on this substrate the attacker has something to
+be rational about but nothing to be rational toward"*, because no payoff is ever
+banked. Today's B4 finding (§4.1) confirms that is still exactly true: no profile's
+operational objective connects to what the simulator scores, for either arm, so the
+*located* payoff the closure named as the precondition still does not exist.
+Memory-driven exploit success is a better estimate of whether an action will
+*work*, which the closure classes as competence; detectability steering is a payoff
+only if `mtd_ai` is sanctioned, which is R-B. A reversal that does not confront
+this reads as re-litigating a closed row rather than answering it. The honest forms
+available are that arm 4 supplies a payoff located in the *defender's* state rather
+than the network's, or that the row reopens on the strength of the mechanism with
+the missing-payoff limitation restated — not that the closure's premise has changed.
+
+**R-B — DEFERRED TO A CONCURRENT SESSION.** Marc is probing retraining separately.
+Nothing in this brief that depends on `mtd_ai` may open until that returns; arms
+0–2 do not depend on it, and the emergent stealth result at arm 2 is within-arm and
+stands without it. Context handed to that session is in §5.2.
+
+**R-C — ENDOWED DECLARED POLICY.** The attacker is granted a declared policy
+derived from offline analysis of what the defender reads; no runtime learning.
+Primitive **(ii) beacon stays excluded** and no R-C reversal is needed for it. The
+axis-8 exclusion still needs its dated amendment in the three records §10 names,
+covering primitive (i) in its coarse form plus the endowed policy — and **the
+granted inference must be written into the badge text**, per §5.1: the limitation
+is that the inference is granted, not modelled.
+
+**R-D — NOT PUT.** It has a conventional default and the house pattern already
+answers it: a declared capability *magnitude* at zero versus a declared level, as
+λ is for axis 6 and κ for axis 7. Proceeding on that unless Marc says otherwise.
 
 ---
 
@@ -172,16 +301,63 @@ expected to do: as the pool narrows, cross-host sharing rises, the coverage curv
 and defensible claim about when this capability matters, and matches the
 homogeneity of real enterprise estates.
 
-**The sweep is finding-generating rather than a sensitivity check, and §3's own
-result is why.** Exact whole-host recurrence measured **zero** at the default pool,
-which killed primitive (i)'s exact-image form there. But recurrence is a
-combinatorial property of the pool, so **pool size is the axis along which that
-form goes from dead to alive**: narrow it far enough and the attacker sees whole
-host images again, and can reuse a workflow that already worked — which is Marc's
-own description of what the mechanism should do. **Compute the combinatorics
-before running the sweep** (hosts carry 3–11 services; the per-`(os, os_version)`
-catalogue is the draw space) so the sweep targets the range where recurrence
-becomes non-trivial, rather than scanning blindly for it.
+**~~The sweep is finding-generating rather than a sensitivity check~~ — the
+combinatorics were computed as this section demanded, and they falsify the
+conjecture. RUN 2026-08-07.** The argument was that exact whole-host recurrence is
+a combinatorial property of the pool, so **pool size would be the axis along which
+primitive (i)'s exact-image form goes from dead to alive** — narrow it far enough
+and the attacker sees whole host images again. It is not that axis, and the reason
+is structural.
+
+**The binding term is not `services_per_os`.** A host draws its services from the
+per-`(os_type, os_version)` catalogue, whose size is `names × versions-per-name`.
+The second factor is **16 at every pool setting**, because it is
+`len(SERVICE_VERSIONS) // len(OS_VERSION_DICT[os])` = 99 // 6 — fixed by two
+constants the sweep does not touch. Only the first factor moves, at
+`names ≈ services_per_os × 2.47` (the cross-platform multiplier at 0.5), so the
+whole sweep buys a 20-fold narrowing of a space that must shrink by orders of
+magnitude to matter: collision probability falls off as `n!/N^n` with `n ≥ 4`.
+
+| `services_per_os` | names/cell | draw space *N* | exact `(name, version)` key | name-only key |
+|---|--:|--:|--:|--:|
+| 20 (default) | 49.6 | 791 | **0** | **0** |
+| 8 | 19.9 | 320 | **0** | **0** |
+| 4 | 10.0 | 160 | **0** | **0** |
+| 3 | 7.5 | 120 | **0** | 0.015 |
+| 2 | 5.0 | 80 | **0** | 0.087 |
+| 1 (floor) | 2.5 | 40 | **0** | 1.125 |
+
+Colliding host pairs per network, 400 networks × 50 hosts per setting, drawn off
+real catalogues through the substrate's own generation path
+(`data/results/stealth_exposure/pool_recurrence_empirical.py`; the analytic
+`n!/N^n` cross-check and its brute-force validation are in
+`pool_combinatorics.py` alongside).
+
+**Two findings, and the first closes the question.** The exact-image key returns
+**zero collisions at every setting including the floor**, over 20 000 host draws —
+and at that floor a single collision would need on the order of 10⁵ networks. The
+form is not dead *at the default pool*; it is dead **across the entire range the
+parameter can reach**, so a sweep for it would scan a region whose answer is
+uniformly negative. Primitive (i) in its exact-image form should be reported as
+**unreachable by construction** — which §3 already offered as the cheaper of its
+two options, and which is now measured rather than predicted.
+
+Second, the **coarser key survives only into a degenerate estate**. Dropping the
+version — the "key on something coarser" route §3 finding 3 recommends — revives
+recurrence at `services_per_os ≤ 3`, but meaningfully only at the floor: 4.3 % of
+hosts share an image with another host at 2.5 service names per OS cell, 0.3 % at
+five. An estate with two-and-a-half distinct services per OS is not a homogeneous
+enterprise network, it is a degenerate one, and a finding taken there would not
+transfer.
+
+**What survives, and it is the half that mattered.** This falsifies the
+exact-image revival only. §3.1's *first* argument is untouched and still worth
+sweeping: as the pool narrows, cross-host **vulnerability-identity** sharing rises,
+the coverage curve (§3.1a) saturates sooner, and arm 2's gate fires earlier and
+more often. Arm 1 keys on vulnerability identity, never on host images, and step 0
+already measured its traction at two-thirds of live ids. The sweep remains a
+sensitivity study over arm 1–2's **effect size**; what it can no longer be is a
+route back to primitive (i)'s exact form.
 
 Two constraints on how that sweep is built:
 
@@ -243,6 +419,37 @@ simplifications:
    alone produces the arc, that work is not needed.** Check it before assuming
    either way: if the arc is wanted in *dwell* terms as well, the seam change
    returns and should be costed then.
+
+   > **CHECKED 2026-08-07, and it holds — the seam change is off the cost.** The
+   > seam is routing-only as assumed, verified against its own record
+   > ([`../implementation/pipeline/ogasp/attacker_state_seam.md`](../implementation/pipeline/ogasp/attacker_state_seam.md)
+   > §1, §5, §9): a modulator returns a per-destination multiplier that
+   > `ModulatedOverlay` applies to the composed routing distribution, while
+   > `StatefulTiming` only *observes* — it calls `observe_visit(place)` and then
+   > delegates `draw` untouched, which is precisely what the bit-identity
+   > guarantee requires. Dwell is unreachable from a modulator. So arm 2's gate,
+   > expressed as a routing factor over exploit-shaped destinations, needs
+   > **nothing built on the seam at all**, and the arc in routing terms is free.
+   > A dwell-shaped arc still needs the seam change, unchanged.
+   >
+   > **One constraint the design has not costed, and it is a real fork.** §4's arm
+   > 2 reads as a *hard* gate — "gated on a memory-derived success estimate
+   > exceeding a declared margin". A hard gate returns **0.0** for the refused
+   > destinations, and the seam refuses an undeclared zero: `modulate` raises
+   > `ValueError` unless the modulator declares `may_zero = True`, and that
+   > declaration owes **a declared rule licensing the zero and a re-run of the
+   > no-stall check across the parameter space** (§2 of the seam record; zeroing
+   > an out-set is the one way to manufacture a stall, and stalls are
+   > representable but unobserved). A *soft* gate — a margin-scaled multiplier
+   > bounded away from zero — owes neither, and is the cheaper build. Which one is
+   > wanted should be settled at pre-registration, because it changes both the
+   > validation gate and what "gated" means in the claim.
+   >
+   > A second consequence, in the design's favour: since the dwell-only routing
+   > change, **every** routing decision flows through `compose`, including the 7
+   > of 15 dwell-only tactics under `v2_partial`. The state therefore observes the
+   > whole trajectory, so arm 1's memory sees reconnaissance-shaped places it
+   > would otherwise have been blind to.
 3. **The arc becomes a result rather than an input**, which is strictly better for
    the thesis. A declared mode-flip would make "the attacker has two phases" true
    by construction. Emerging from the gate, it is something you *measure* — and
@@ -263,10 +470,36 @@ missing. Do not claim it without measuring it, but pre-register it as a candidat
 
 **The objective-conditioned half, per Marc:** once knowledge is sufficient the
 attacker strikes *according to its objective* — a target-seeking profile drives at
-the target, a general profile takes the network down broadly. **Flag before
-building:** `IS-SCN-03` records the inherited **targeted strategy as having no
-live code path**, so "swiftly go for the target" may have nothing to drive. This
-was *not* covered by step 0 and remains an open check.
+the target, a general profile takes the network down broadly.
+
+> **CHECKED 2026-08-07 — the check was already answered, and the answer is worse
+> than the flag.** It needed no new work: a feasibility study on record
+> ([`../implementation/pipeline/ogasp/targeted_attacker_feasibility.md`](../implementation/pipeline/ogasp/targeted_attacker_feasibility.md),
+> 2026-07-29, commissioned by Marc) spiked the whole question and found **five
+> construction blockers**. `IS-SCN-03`'s dead strategy is only the last of them
+> (B5). The one that governs this section is **B4**: the targeted termination is
+> commented out, `TimeNetwork.is_compromised()` overrides the parent with the
+> ratio test and never consults `is_target_compromised()` — which is called from
+> nowhere in the repo — so the only live objective for **both** arms is *compromise
+> 80 % of the network*, and the movement attacker's `reached_objective` is exactly
+> that flag. The study's own sentence is the finding: **"a profile's operational
+> objective has no connection whatsoever to what the simulator counts as
+> success."**
+>
+> So "strike according to its objective" has nothing to strike *at*, and this is
+> not a gap arm 2 can route around: the profiles differ in which tactics they
+> traverse, but every one of them is scored against the same network-wide ratio.
+> Repairing it is **substrate work under the S2 freeze** — the study costs it as a
+> construction repair (B1–B3), a termination ruling that is explicitly Marc's and
+> was flagged for Jin (B4), and an attacker behaviour to write (B5) — and it
+> cannot ride on the movement layer's portability argument.
+>
+> **Recommendation: drop the objective-conditioned half from this design.** The
+> accumulate-then-strike arc (§4.1) survives intact without it, because the arc is
+> measured on the exploit share of actions rather than on objective attainment.
+> Fold the objective binding back into the targeted-attacker study, whose §7
+> already sequences it and whose ruling 2 is the one that gates it. Carrying it
+> here would import a substrate programme into a movement-layer build.
 
 ---
 
@@ -373,6 +606,65 @@ new channel and no R-C reversal.
 
 ---
 
+### 5.2 Context handed to the concurrent retraining session (R-B, 2026-08-07)
+
+Marc is probing reuse-vs-retrain in a parallel session. Four things it needs that
+are **not** in the reintegration brief, verified here by code reading against
+`get_state_and_time_series` (lines ~299–438). Each still wants an instrumented run
+before anything is built on it — §5's standing warning applies to these too.
+
+1. **The ASR and MTTC features are computed over a run *prefix*, not a recent
+   window — and the prefix length is set by a recent-window count.**
+   `sub_record = record[record['cumulative_compromised_hosts'] <= compromised_num]`,
+   where `compromised_num` is the distinct hosts compromised **in the last 60 s**.
+   So the filter selects the opening stretch of the run during which the
+   *cumulative* compromise total had not yet passed the *recent* count. Every
+   feature downstream of `sub_record` — `attack_success_rate`,
+   `overall_time_to_compromise`, `mean_time_to_compromise` — inherits it. This is
+   not a windowing scheme that appears in Tay's paper, and it means a quiet
+   attacker does not merely lower these features, it **re-scopes which part of the
+   run they describe**.
+
+2. **The divide-by-zero has a sharper trigger than "a quiet attacker".**
+   `attack_success_rate = compromised_num / attack_event_num` is unguarded, and
+   `attack_event_num` counts **`SCAN_PORT` rows only**, summed over the attempted
+   hosts *inside that prefix*. On the movement arm the number of `SCAN_PORT` rows
+   is a function of the **tactic-to-verb mapping**, not of attacker tempo — so a
+   profile whose mapping dispatches few `SCAN_PORT` verbs can zero the denominator
+   irrespective of how loud it is. Check the mapping before running, not just the
+   tempo.
+
+3. **The reward's only positive term is a per-row mean, and the row count is under
+   an open ruling.** `mean_time_to_compromise` divides summed duration by the
+   **number of** `SCAN_PORT`/`EXPLOIT_VULN`/`BRUTE_FORCE` **rows**, and
+   `_do_exploit_vuln` writes one row **per vulnerability tried**
+   ([`attack_operation.py:546`](../../mtdnetwork/operation/attack_operation.py),
+   inside the loop) while the driven dispatch writes an additional row for the verb
+   ([`attack_operation.py:840`](../../mtdnetwork/operation/attack_operation.py)).
+   The two arms therefore do not write rows the same way, and this is exactly the
+   quantity the open **per-vulnerability row count** decision governs
+   ([`README.md`](README.md) § Decisions waiting on Marc) — the same accounting that
+   inverted the duty-cycle verdict. Whatever is decided there lands on the
+   defender's `+75` term. Magnitude needs measuring; the mechanism is confirmed.
+
+4. **A retrained agent changes what the comparison means, and the change is not
+   only methodological.** Standing direction is *replicate, never extend*
+   ([`../workflows/project_context.md`](../workflows/project_context.md)), and Tay's
+   agent is retained as an inherited benchmark. Retraining against the movement
+   attacker removes the out-of-distribution confound and simultaneously removes the
+   *inherited* status the benchmark's whole value rests on. If it is retrained, the
+   arm is a new defender rather than a replicated one, and the S2/defender-frozen
+   position in [`../implementation/architecture.md`](../implementation/architecture.md)
+   §(a) needs re-reading before the run, not after.
+
+**The cheapest falsifier is unchanged and should still go first**: the
+mutation-choice distribution across the profiles' existing spread, run with no
+attacker mechanism. If the agent's action mix does not move across profiles that
+already differ substantially, the consequential half of this design is dead before
+either training question is settled.
+
+---
+
 ### 6.1 What this feeds in the discussion — and it is the better-evidenced thesis line
 
 **Marc's framing (2026-08-06):** APT attackers are a latent risk to these
@@ -423,6 +715,11 @@ re-derived, and so whoever drafts it knows which clause the evidence refuses.
 Candidates, to be sharpened by the session that builds:
 
 - **Ablation exactness** — arm 0 is bit-identical to today's model.
+- **The gate's form — hard or soft** (§4.1, checked 2026-08-07). A hard gate zeroes
+  the refused destinations and owes the seam's `may_zero` obligations: a declared
+  rule licensing the zero, and a re-run of the no-stall check across the parameter
+  band. A soft gate owes neither. Settle it here, before the build, because it
+  changes the validation gate and what "gated" may mean in the claim.
 - **The gate works** — arm 2 raises successes-per-exploit-attempt against arm 0.
   This is the mechanism's own precondition; if it fails, nothing above it means
   anything.
