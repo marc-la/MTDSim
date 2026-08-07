@@ -116,7 +116,9 @@ def replay(memory, main_network, target_network, batch_size, gamma, epsilon, eps
     # Inference passes go through __call__ rather than predict(): predict()
     # rebuilds a tf.function and a progress-bar callback per call, which
     # dominates the cost at these batch sizes.
-    targets = np.asarray(main_network([states, time_series], training=False))
+    # np.array (not asarray): the tensor's buffer is read-only, and the target
+    # for the chosen action is written in place below.
+    targets = np.array(main_network([states, time_series], training=False))
     next_q_main = np.asarray(main_network([next_states, next_time_series], training=False))
     next_q_target = np.asarray(target_network([next_states, next_time_series], training=False))
 
