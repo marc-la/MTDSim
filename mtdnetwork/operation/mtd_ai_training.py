@@ -89,15 +89,19 @@ class MTDAITraining:
                 return
 
             state, time_series = self.get_state_and_time_series()
-            action = choose_action(state, time_series, self.main_network, 5, self.epsilon)
 
-            # Static network degradation factor (if exceed 1000 force to deploy MTD)
-
-            while (self.env.now - self.network.get_last_mtd_triggered_time()) > 2000 and action == 0:
-                action =  choose_action(state, time_series, self.main_network, 5, self.epsilon)
+            # MTDAI-03 repair (2026-08-08). Two dead selections used to precede
+            # this one: an unconditional `choose_action(..., 5, ...)` whose
+            # result was overwritten below, and a `while ... and action == 0`
+            # redraw loop against a hardcoded 2000 that the static-degrade
+            # branch below already covers. Both burned draws from the shared RNG
+            # stream (D-29) — and, at any epsilon below 1.0, `predict` calls —
+            # for a decision that was then discarded. The redraw loop is also
+            # the training-side twin of the livelock: an unchanged state has an
+            # unchanged argmax, so at epsilon = 0 it never terminates.
 
             # Static network degradation factor (if exceed static factor force to deploy MTD)
-            if (self.env.now - self.network.get_last_mtd_triggered_time()) > self.static_degrade_factor: 
+            if (self.env.now - self.network.get_last_mtd_triggered_time()) > self.static_degrade_factor:
                 # D-14 fix (Marc, 2026-07-29) — see mtd_ai_operation.py: randint
                 # is inclusive, so `len + 1` could index past the strategy list.
                 action = random.randint(1, len(self.custom_strategies))
@@ -138,9 +142,11 @@ class MTDAITraining:
                             logging.info('MTD: %s suspended at %.1fs due to resource occupation' %
                                     (mtd.get_name(), self.env.now + self._proceed_time))
 
-                # exponential time interval for triggering MTD operations
-                yield self.env.timeout(exponential_variates(self._mtd_scheme.get_mtd_trigger_interval(),
-                                                            self._mtd_scheme.get_mtd_trigger_std()))
+            # MTDAI-03 repair (2026-08-08) — see mtd_ai_operation.py for the
+            # argument. The no-op now costs one trigger interval of simulated
+            # time rather than re-entering the loop at an unchanged env.now.
+            yield self.env.timeout(exponential_variates(self._mtd_scheme.get_mtd_trigger_interval(),
+                                                        self._mtd_scheme.get_mtd_trigger_std()))
 
     def _mtd_execute_action(self, env, mtd, state, time_series, action):
         """

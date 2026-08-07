@@ -150,9 +150,24 @@ class MTDAIOperation:
                             logging.info('MTD: %s suspended at %.1fs due to resource occupation' %
                                     (mtd.get_name(), self.env.now + self._proceed_time))
 
-                # exponential time interval for triggering MTD operations
-                yield self.env.timeout(exponential_variates(self._mtd_scheme.get_mtd_trigger_interval(),
-                                                            self._mtd_scheme.get_mtd_trigger_std()))
+            # MTDAI-03 repair (2026-08-08): this yield used to sit *inside* the
+            # `if action > 0` block, so a no-op re-entered the loop at an
+            # unchanged env.now. Under Tay's epsilon = 1.0 that was rejection
+            # sampling — the do-nothing action silently became "redraw until you
+            # deploy" and cost no simulated time — and under a greedy policy it
+            # is an infinite loop, because an unchanged state has an unchanged
+            # argmax. The no-op draws the same exponential interval as a
+            # deployment: choosing it means no mutation *this cycle*, and the
+            # next decision arrives on the same clock either way, which is what
+            # makes the no-op produce stillness and what makes the no-op share a
+            # comparable statistic across policies.
+            #
+            # This adds an RNG draw on a path that previously made none. Per
+            # D-29 the mechanisms and the attacker share one stream, so a
+            # no-op-capable agent shifts the attacker's stream against a run
+            # without one; seed-matched arms across this change are not paired.
+            yield self.env.timeout(exponential_variates(self._mtd_scheme.get_mtd_trigger_interval(),
+                                                        self._mtd_scheme.get_mtd_trigger_std()))
 
     def _mtd_execute_action(self, env, mtd, state, time_series, action):
         """
