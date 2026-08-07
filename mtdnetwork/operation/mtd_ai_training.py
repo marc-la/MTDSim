@@ -148,6 +148,26 @@ class MTDAITraining:
             yield self.env.timeout(exponential_variates(self._mtd_scheme.get_mtd_trigger_interval(),
                                                         self._mtd_scheme.get_mtd_trigger_std()))
 
+            # MTDAI-04 repair (2026-08-08): store the no-op's transition.
+            # calculate_reward was reachable only from _mtd_execute_action, so
+            # the replay buffer held deploying actions exclusively and
+            # replay()'s `target[0][action] = ...` never wrote to index 0. The
+            # Q-value of the do-nothing action was therefore never a TD target
+            # under any reward design — it drifted only through the shared
+            # trunk. The no-op's next state is read after its interval elapses,
+            # which is the same measurement point a deployment's transition uses
+            # (there, the end of _mtd_execute_action).
+            if action == 0:
+                new_state, new_time_series = self.get_state_and_time_series()
+                reward = calculate_reward(state, time_series, new_state, new_time_series,
+                                          self.features['static'], self.features['time'],
+                                          self.memory)
+                self.memory.append((state, time_series, action, reward,
+                                    new_state, new_time_series, False))
+                replay(self.memory, self.main_network, self.target_network, self.batch_size,
+                       self.gamma, self.epsilon, self.epsilon_min, self.epsilon_decay,
+                       self.train_start)
+
     def _mtd_execute_action(self, env, mtd, state, time_series, action):
         """
         Action for executing MTD
