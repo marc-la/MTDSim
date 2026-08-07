@@ -167,23 +167,33 @@ have patched runners whose committed numbers were taken under the old labels.)*
    framing — *move better, not move more* — with the four results that evidence it
    and the one clause the project's own data refuses.
 
-3. [`2026-08-06_mtd_ai_reintegration.md`](2026-08-06_mtd_ai_reintegration.md)
-   — **stand up Tay's reactive defender against the movement attacker**, which is
-   the arm every consequential stealth claim is gated on. Split out of (2) because
-   it carries its own defects and its own methodological question. Its motivating
-   fact is verified: `mtd_ai`'s action space includes a real, reachable
-   **`action == 0` do-nothing** that gates the whole trigger block — but
-   `static_degrade_factor = 2000` forces a random mutation after 2 000 s of
-   inaction and `choose_action` is ε-greedy, so suppression must be reported
-   against those floors and never against zero. **Escalates reuse-vs-retrain**:
-   the pretrained weights were trained against the *inherited* attacker, so
-   against the movement arm the agent is out of distribution, and "the attacker
-   steered the defender" would be indistinguishable from "the agent was never
-   trained for this". Also carries an unguarded divide-by-zero that the
-   quiet-attacker condition is exactly what triggers, and a **determinism risk**
-   (a neural forward pass inside the decision loop, against SIM-05). Its cheapest
-   output — the mutation-choice distribution across the profiles' existing spread,
-   run before any attacker mechanism — may falsify the whole direction cheaply.
+3. [`2026-08-07_mtd_ai_cost_calibrated_rebuild.md`](2026-08-07_mtd_ai_cost_calibrated_rebuild.md)
+   — **rebuild `mtd_ai` into an agent that trades cost against risk, and prove it
+   does before any Kaya time is spent.** Supersedes and absorbs the reintegration
+   brief (2026-08-06), **deleted** in the commit that opened this one — its defect
+   list, determinism gate, wiring seam and hard constraints are carried forward
+   in full, so nothing needs reading from it. Both of that brief's load-bearing
+   premises did not survive, per
+   [`../implementation/pipeline/ogasp/mtd_ai_forensics.md`](../implementation/pipeline/ogasp/mtd_ai_forensics.md):
+   **every figure in Tay's paper was produced by a uniform random selector** —
+   `epsilon` defaults to 1.0 in `execute_ai_model` and the harness never overrides
+   it, so `predict` was never called (verified at five commits) — which dissolves
+   the reuse-vs-retrain question rather than answering it, since the project's
+   existing random-scheme arm already *is* the faithful replication of those
+   results. And **the do-nothing action advances no simulated time**: the
+   `yield` sits inside `if action > 0:`, so a no-op is rejection sampling under
+   ε-greedy and a livelock under a greedy policy. The root cause is upstream of
+   both — `calculate_reward` weights `mtd_freq` and `time_since_last_mtd` at
+   **zero**, so **"always deploy" is optimal** and action 0's Q-value is never a
+   TD target. The checkpoints are separately unusable: an `8/3 → 5` signature the
+   live head cannot produce, `moving_variance` collapsed to exactly 0 by
+   batch-size-1 `fit`, and 34 of 55 with a policy entropy under 0.5 bits (one
+   never trained at all). **The build is therefore Tay's own unimplemented
+   T-TS-02** — downtime / operational impact, as a *network metric only* (Marc,
+   2026-08-07) — plus a reward charge against it. Its kill criterion is a CPU-scale
+   `λ` ladder: if the no-op share does not move with the cost weight, the agent is
+   trading nothing off and Kaya cannot fix it. **Ends at a go/no-go, not a trained
+   model.**
 
 4. [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
    — **the research record**, mined from Marc's own prompts across the 110
@@ -210,6 +220,13 @@ settles the schema question and serves the rest — and note that the adjacent
 (`interrupted_by_name` from the A6 repair, `n_compromised` from the disengagement
 measure, `exploitability` from the exposure reader), so **host identity is the
 only part left**. (2) when its ruling lands. (3) runs alongside either.
+
+**(3) grew, 2026-08-07.** It was a wiring job; the forensics pass turned it into a
+rebuild. That does not block (2) — (2)'s arms 1 and 2 need no reactive defender —
+but it does mean **(2)'s consequential half now waits on a build rather than on a
+ruling**, and the R-B ruling it was blocked on ("sanction Tay's agent") is a
+narrower question than it was: what would be sanctioned is no longer Tay's
+trained agent, because there isn't one.
 
 ---
 

@@ -165,7 +165,7 @@ stated in the design record the build produces.
 | # | Ruling | Why it is not a session's call |
 |---|---|---|
 | **R-A** | **Reopen axis 6?** Marc's position (2026-08-06): there is now something to be rational *around* — maximising exploit success via memory, and minimising detectability by runtime steering. | The axis-6 **final disposition** (Marc, 2026-08-02) closed the row: *"this row is DESIGNED, and that is where it ends for this project."* More sharply, its stated reasoning **pre-rejects a readiness gate**: *"readiness — whether the next action can run — is real, state-dependent and conditionable, but it is competence, not incentive… a decision rule built on readiness would be a competence model wearing this row's name."* Arms 1–3 below **are** readiness. Only arm 4 is incentive-shaped, and arm 4 is the one with the definitional problem. A reversal must be dated and argued against that text, exactly as the axis-8 reversal was. |
-| **R-B** | **Is `mtd_ai` sanctioned as an experimental arm?** — and, separately, **reuse its weights or retrain?** | Standing direction defers Tay's agent to the ablation phase, and the movement arm has never been run against it. **Without it, (B) has no in-simulation payoff on any defender.** The integration, its defects, its determinism risk and the reuse-vs-retrain question now have their own brief: [`2026-08-06_mtd_ai_reintegration.md`](2026-08-06_mtd_ai_reintegration.md). |
+| **R-B** | **Is `mtd_ai` sanctioned as an experimental arm?** — the reuse-vs-retrain half is **dissolved**, see note | Standing direction defers Tay's agent to the ablation phase, and the movement arm has never been run against it. **Without it, (B) has no in-simulation payoff on any defender.** **Narrowed 2026-08-07:** there is no trained Tay agent to sanction — every figure in the paper came from a uniform random selector (`epsilon` defaults to 1.0 and the harness never overrides it), so reuse cannot serve as a control and the project's existing random-scheme arm already replicates Tay's published results. What R-B now asks is whether a **rebuilt** agent is sanctioned. Brief: [`2026-08-07_mtd_ai_cost_calibrated_rebuild.md`](2026-08-07_mtd_ai_cost_calibrated_rebuild.md); evidence: [`../implementation/pipeline/ogasp/mtd_ai_forensics.md`](../implementation/pipeline/ogasp/mtd_ai_forensics.md) §2, §8. |
 | **R-C** | **Is mutation-*timing* observation in scope?** | "Knowledge is fresh, i.e. no mutation since I scanned" is axis-8 primitive **(ii) beacon**, which stays excluded — the 2026-08-05 reversal licensed primitive **(i) memoisation only**. Marc's "MTD-aware attacker, will have this observation channel" reaches for (ii). §4's arm ladder is designed to **not need it**, and §5.1 narrows what is actually required: mutation *occurrence* is already observable through the attacker's own failures, and only mutation *targeting* needs (ii). If the endowed-policy form of §5.1 is taken, R-C may not be needed at all — but the axis-8 exclusion still needs a dated amendment either way. |
 | **R-D** | **Naming.** Narrowed 2026-08-06: with "swift mode" retired as a mechanism (§4.1) there is no mode to name and no naive/smart *class* split to label. What is left is the capability parameter itself. | The house pattern distinguishes capability *magnitude* (a parameter at zero versus a declared level), not attacker classes — so the ladder already encodes the split. Marc's call, but a smaller one than it was. |
 
@@ -561,12 +561,21 @@ between its own behaviour and the defender's response, it holds a model of the
 scheme — learned black-box rather than read off the source, which is exactly
 Jalowski's *"look for the mathematical logic behind the movement"*.
 
-**The verified fact that settles it.** `mtd_ai`'s action space includes
-**`action == 0`, a real and reachable DO NOTHING**, and it gates the whole
-register-and-trigger block
-([`2026-08-06_mtd_ai_reintegration.md`](2026-08-06_mtd_ai_reintegration.md) §1).
-So *"bias the result toward the defender's do-nothing"* is not a metaphor — it is
-an action the agent can take and that attacker behaviour can make more likely.
+**The fact that was thought to settle it — now falsified.** `mtd_ai`'s action
+space does include `action == 0`, and it does gate the register-and-trigger
+block. But it gates the `yield self.env.timeout(...)` as well, so a do-nothing
+decision **advances no simulated time**: under ε-greedy selection it is rejection
+sampling, and under a greedy policy it livelocks
+([`../implementation/pipeline/ogasp/mtd_ai_forensics.md`](../implementation/pipeline/ogasp/mtd_ai_forensics.md)
+§6, 2026-08-07). Upstream of that, `calculate_reward` weights `mtd_freq` and
+`time_since_last_mtd` at **zero**, so "always deploy" is optimal and action 0's
+Q-value is never a TD target (§5). *"Bias the result toward the defender's
+do-nothing"* is therefore **not currently an action the agent can take** — it
+becomes one only once
+[`2026-08-07_mtd_ai_cost_calibrated_rebuild.md`](2026-08-07_mtd_ai_cost_calibrated_rebuild.md)
+lands its Stage 0 repairs and Stage 2 cost term. The claim below is retained
+because it is the right claim to make *against a repaired agent*; it has no
+subject until then.
 
 **Two ceilings bound the claim, both quantified, and they are what make it
 honest.** `static_degrade_factor = 2000` forces a *random* mutation after 2 000 s
