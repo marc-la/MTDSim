@@ -18,6 +18,17 @@ should be until §2's rulings land.** §3's prerequisite check **has** been run
 (2026-08-06) and its answers are folded in — it was a read-only probe over fresh
 runs, added no mechanism and moved nothing.
 
+**The three remaining open checks have now also been run (2026-08-07), all
+read-only, and two of them change the design.** They were not gated by §2's
+rulings, so they were taken first, and they make those rulings better-informed
+rather than pre-empting any of them:
+
+| check | where | outcome |
+|---|---|---|
+| the pool combinatorics, demanded before any sweep | §3.1 | **falsifies** the conjecture that pool size revives primitive (i)'s exact-image form — it is dead across the entire reachable range, not merely at the default |
+| does the targeted strategy have anything to drive? | §4.1 | **already answered** by a study on record, and worse than the flag: the deeper blocker is that no profile's objective connects to what the simulator scores at all. Recommendation is to drop that half |
+| is the attacker-state seam routing-only? | §4.1 | **holds** — the arc in routing terms needs nothing built on the seam, so the largest engineering item stays off the cost. One uncosted fork surfaced: a *hard* gate trips the seam's `may_zero` rule and owes two obligations a *soft* gate does not |
+
 ---
 
 ## 1. The idea, and the one reframe that makes it defensible
@@ -172,16 +183,63 @@ expected to do: as the pool narrows, cross-host sharing rises, the coverage curv
 and defensible claim about when this capability matters, and matches the
 homogeneity of real enterprise estates.
 
-**The sweep is finding-generating rather than a sensitivity check, and §3's own
-result is why.** Exact whole-host recurrence measured **zero** at the default pool,
-which killed primitive (i)'s exact-image form there. But recurrence is a
-combinatorial property of the pool, so **pool size is the axis along which that
-form goes from dead to alive**: narrow it far enough and the attacker sees whole
-host images again, and can reuse a workflow that already worked — which is Marc's
-own description of what the mechanism should do. **Compute the combinatorics
-before running the sweep** (hosts carry 3–11 services; the per-`(os, os_version)`
-catalogue is the draw space) so the sweep targets the range where recurrence
-becomes non-trivial, rather than scanning blindly for it.
+**~~The sweep is finding-generating rather than a sensitivity check~~ — the
+combinatorics were computed as this section demanded, and they falsify the
+conjecture. RUN 2026-08-07.** The argument was that exact whole-host recurrence is
+a combinatorial property of the pool, so **pool size would be the axis along which
+primitive (i)'s exact-image form goes from dead to alive** — narrow it far enough
+and the attacker sees whole host images again. It is not that axis, and the reason
+is structural.
+
+**The binding term is not `services_per_os`.** A host draws its services from the
+per-`(os_type, os_version)` catalogue, whose size is `names × versions-per-name`.
+The second factor is **16 at every pool setting**, because it is
+`len(SERVICE_VERSIONS) // len(OS_VERSION_DICT[os])` = 99 // 6 — fixed by two
+constants the sweep does not touch. Only the first factor moves, at
+`names ≈ services_per_os × 2.47` (the cross-platform multiplier at 0.5), so the
+whole sweep buys a 20-fold narrowing of a space that must shrink by orders of
+magnitude to matter: collision probability falls off as `n!/N^n` with `n ≥ 4`.
+
+| `services_per_os` | names/cell | draw space *N* | exact `(name, version)` key | name-only key |
+|---|--:|--:|--:|--:|
+| 20 (default) | 49.6 | 791 | **0** | **0** |
+| 8 | 19.9 | 320 | **0** | **0** |
+| 4 | 10.0 | 160 | **0** | **0** |
+| 3 | 7.5 | 120 | **0** | 0.015 |
+| 2 | 5.0 | 80 | **0** | 0.087 |
+| 1 (floor) | 2.5 | 40 | **0** | 1.125 |
+
+Colliding host pairs per network, 400 networks × 50 hosts per setting, drawn off
+real catalogues through the substrate's own generation path
+(`data/results/stealth_exposure/pool_recurrence_empirical.py`; the analytic
+`n!/N^n` cross-check and its brute-force validation are in
+`pool_combinatorics.py` alongside).
+
+**Two findings, and the first closes the question.** The exact-image key returns
+**zero collisions at every setting including the floor**, over 20 000 host draws —
+and at that floor a single collision would need on the order of 10⁵ networks. The
+form is not dead *at the default pool*; it is dead **across the entire range the
+parameter can reach**, so a sweep for it would scan a region whose answer is
+uniformly negative. Primitive (i) in its exact-image form should be reported as
+**unreachable by construction** — which §3 already offered as the cheaper of its
+two options, and which is now measured rather than predicted.
+
+Second, the **coarser key survives only into a degenerate estate**. Dropping the
+version — the "key on something coarser" route §3 finding 3 recommends — revives
+recurrence at `services_per_os ≤ 3`, but meaningfully only at the floor: 4.3 % of
+hosts share an image with another host at 2.5 service names per OS cell, 0.3 % at
+five. An estate with two-and-a-half distinct services per OS is not a homogeneous
+enterprise network, it is a degenerate one, and a finding taken there would not
+transfer.
+
+**What survives, and it is the half that mattered.** This falsifies the
+exact-image revival only. §3.1's *first* argument is untouched and still worth
+sweeping: as the pool narrows, cross-host **vulnerability-identity** sharing rises,
+the coverage curve (§3.1a) saturates sooner, and arm 2's gate fires earlier and
+more often. Arm 1 keys on vulnerability identity, never on host images, and step 0
+already measured its traction at two-thirds of live ids. The sweep remains a
+sensitivity study over arm 1–2's **effect size**; what it can no longer be is a
+route back to primitive (i)'s exact form.
 
 Two constraints on how that sweep is built:
 
@@ -243,6 +301,37 @@ simplifications:
    alone produces the arc, that work is not needed.** Check it before assuming
    either way: if the arc is wanted in *dwell* terms as well, the seam change
    returns and should be costed then.
+
+   > **CHECKED 2026-08-07, and it holds — the seam change is off the cost.** The
+   > seam is routing-only as assumed, verified against its own record
+   > ([`../implementation/pipeline/ogasp/attacker_state_seam.md`](../implementation/pipeline/ogasp/attacker_state_seam.md)
+   > §1, §5, §9): a modulator returns a per-destination multiplier that
+   > `ModulatedOverlay` applies to the composed routing distribution, while
+   > `StatefulTiming` only *observes* — it calls `observe_visit(place)` and then
+   > delegates `draw` untouched, which is precisely what the bit-identity
+   > guarantee requires. Dwell is unreachable from a modulator. So arm 2's gate,
+   > expressed as a routing factor over exploit-shaped destinations, needs
+   > **nothing built on the seam at all**, and the arc in routing terms is free.
+   > A dwell-shaped arc still needs the seam change, unchanged.
+   >
+   > **One constraint the design has not costed, and it is a real fork.** §4's arm
+   > 2 reads as a *hard* gate — "gated on a memory-derived success estimate
+   > exceeding a declared margin". A hard gate returns **0.0** for the refused
+   > destinations, and the seam refuses an undeclared zero: `modulate` raises
+   > `ValueError` unless the modulator declares `may_zero = True`, and that
+   > declaration owes **a declared rule licensing the zero and a re-run of the
+   > no-stall check across the parameter space** (§2 of the seam record; zeroing
+   > an out-set is the one way to manufacture a stall, and stalls are
+   > representable but unobserved). A *soft* gate — a margin-scaled multiplier
+   > bounded away from zero — owes neither, and is the cheaper build. Which one is
+   > wanted should be settled at pre-registration, because it changes both the
+   > validation gate and what "gated" means in the claim.
+   >
+   > A second consequence, in the design's favour: since the dwell-only routing
+   > change, **every** routing decision flows through `compose`, including the 7
+   > of 15 dwell-only tactics under `v2_partial`. The state therefore observes the
+   > whole trajectory, so arm 1's memory sees reconnaissance-shaped places it
+   > would otherwise have been blind to.
 3. **The arc becomes a result rather than an input**, which is strictly better for
    the thesis. A declared mode-flip would make "the attacker has two phases" true
    by construction. Emerging from the gate, it is something you *measure* — and
@@ -263,10 +352,36 @@ missing. Do not claim it without measuring it, but pre-register it as a candidat
 
 **The objective-conditioned half, per Marc:** once knowledge is sufficient the
 attacker strikes *according to its objective* — a target-seeking profile drives at
-the target, a general profile takes the network down broadly. **Flag before
-building:** `IS-SCN-03` records the inherited **targeted strategy as having no
-live code path**, so "swiftly go for the target" may have nothing to drive. This
-was *not* covered by step 0 and remains an open check.
+the target, a general profile takes the network down broadly.
+
+> **CHECKED 2026-08-07 — the check was already answered, and the answer is worse
+> than the flag.** It needed no new work: a feasibility study on record
+> ([`../implementation/pipeline/ogasp/targeted_attacker_feasibility.md`](../implementation/pipeline/ogasp/targeted_attacker_feasibility.md),
+> 2026-07-29, commissioned by Marc) spiked the whole question and found **five
+> construction blockers**. `IS-SCN-03`'s dead strategy is only the last of them
+> (B5). The one that governs this section is **B4**: the targeted termination is
+> commented out, `TimeNetwork.is_compromised()` overrides the parent with the
+> ratio test and never consults `is_target_compromised()` — which is called from
+> nowhere in the repo — so the only live objective for **both** arms is *compromise
+> 80 % of the network*, and the movement attacker's `reached_objective` is exactly
+> that flag. The study's own sentence is the finding: **"a profile's operational
+> objective has no connection whatsoever to what the simulator counts as
+> success."**
+>
+> So "strike according to its objective" has nothing to strike *at*, and this is
+> not a gap arm 2 can route around: the profiles differ in which tactics they
+> traverse, but every one of them is scored against the same network-wide ratio.
+> Repairing it is **substrate work under the S2 freeze** — the study costs it as a
+> construction repair (B1–B3), a termination ruling that is explicitly Marc's and
+> was flagged for Jin (B4), and an attacker behaviour to write (B5) — and it
+> cannot ride on the movement layer's portability argument.
+>
+> **Recommendation: drop the objective-conditioned half from this design.** The
+> accumulate-then-strike arc (§4.1) survives intact without it, because the arc is
+> measured on the exploit share of actions rather than on objective attainment.
+> Fold the objective binding back into the targeted-attacker study, whose §7
+> already sequences it and whose ruling 2 is the one that gates it. Carrying it
+> here would import a substrate programme into a movement-layer build.
 
 ---
 
@@ -423,6 +538,11 @@ re-derived, and so whoever drafts it knows which clause the evidence refuses.
 Candidates, to be sharpened by the session that builds:
 
 - **Ablation exactness** — arm 0 is bit-identical to today's model.
+- **The gate's form — hard or soft** (§4.1, checked 2026-08-07). A hard gate zeroes
+  the refused destinations and owes the seam's `may_zero` obligations: a declared
+  rule licensing the zero, and a re-run of the no-stall check across the parameter
+  band. A soft gate owes neither. Settle it here, before the build, because it
+  changes the validation gate and what "gated" may mean in the claim.
 - **The gate works** — arm 2 raises successes-per-exploit-attempt against arm 0.
   This is the mechanism's own precondition; if it fails, nothing above it means
   anything.
