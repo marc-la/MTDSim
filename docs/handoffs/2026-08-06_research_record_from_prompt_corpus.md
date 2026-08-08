@@ -1,9 +1,17 @@
 ---
 status: open
 created: 2026-08-06
+updated: 2026-08-08
 ---
 
 # Mine the session transcripts for Marc's own prompts, and land them as a research record — the intent, the reversals, and the abandoned paths that no shipped document holds
+
+> **Stage 0 has run (2026-08-08). Stages 1–3 have not, and this brief cannot be
+> fully retired when they do** — see § *Stage 0 — done* and § *Why this stays open
+> past Stage 3* below, both of which override the body where they disagree with
+> it. The corpus is now backed up and the extractor is committed; the pinned
+> sanity figure has been **re-pinned**, because reproducing it uncovered a filter
+> the original survey lacked.
 
 ## State of play
 
@@ -42,6 +50,12 @@ session-log material has leaked through the gate.
 
 Not estimated — counted, on 2026-08-06, by parsing every transcript. The probe
 scripts are reproducible and Stage 0 below turns them into a committed tool.
+
+> **Superseded 2026-08-08 by the committed tool.** The figures below were taken by
+> an uncommitted probe and they are not all reproducible; the word mass in
+> particular is 5.5 % too high, for a reason that matters. Read § *Stage 0 — done*
+> for the corrected table. The claim the table exists to support — that the long
+> prompts carry the argument mass — survives unchanged.
 
 | Quantity | Value |
 |---|---|
@@ -154,17 +168,113 @@ timestamps and Stage 1 reads in date order. The disposition list below therefore
 has **five** entries, not four, and the drift flags are an output of this brief
 in their own right.
 
+## Stage 0 — done (2026-08-08)
+
+Both halves of it: the corpus is backed up, and the extractor is committed as
+[`../../tools/prompt_corpus.py`](../../tools/prompt_corpus.py) with the filter set
+and its provenance in the module docstring rather than in a session's memory.
+
+**The snapshot** is `~/mtdsim-corpus-snapshot/2026-08-08/` — outside `~/.claude*`,
+outside the repo, untracked, with a `README.md` and a `MANIFEST.sha256` over all
+290 files. 112 top-level transcripts, 237 MB, both account stores including their
+nested subagent directories. 105 of the 106 `acc1` transcripts verify
+byte-identical against the live store; the one mismatch is the transcript of the
+session that took the snapshot, still being written, which is the reason a live
+capture can never be perfectly clean.
+
+**The corpus, re-measured** by the committed tool. `stats` reproduces this table
+on demand, which is the point of it:
+
+| Quantity | 2026-08-06 survey | 2026-08-08, committed tool |
+|---|---|---|
+| Top-level transcripts | 110 | **112** |
+| Nested files (excluded) | 343 | **355** |
+| Human-authored records | 550 | **464** |
+| Of those, substantive (≥ 15 words) | ~367 | **313** |
+| **Human prompts ≥ 150 words** | **73 / 63 900 words** | **77 / 61 164 words** |
+| Distinct git branches touched | 21 | **25** |
+| Date range | 2026-04-19 → 2026-08-06 | 2026-04-19 → **2026-08-08** |
+| Month distribution, ≥ 150 band | 8 Apr / 48 Jul / 17 Aug | **7 Apr / 47 Jul / 23 Aug** |
+
+The counts that *grew* are the two new sessions; that is the tool working, as the
+brief predicted. The counts that *shrank* are the finding.
+
+**The sanity gate is re-pinned, and reproducing it found a filter the survey
+lacked.** Over the survey's own date bound the tool measures **73 prompts** — the
+same count — but **60 399 words**, 3 501 short of 63 900. The difference is fully
+accounted for. Two records in the corpus open `This session is being continued
+from a previous conversation`: they are **compaction continuation summaries, which
+the assistant writes about itself**, and they carry 2 464 and 1 161 words. Add
+them back and the total is 64 024, within 124 words of the survey's figure.
+
+So the survey counted the assistant summarising its own execution as part of
+Marc's design-argument corpus — 5.5 % of the word mass it reported, and the single
+longest "prompt" of that April. This is the brief's own thesis turning up in its
+own measurement instrument, and it is the sharpest available argument for why the
+extractor had to be committed rather than re-derived per session. The rule is now
+in the tool's `DROP_PREFIXES` with that reasoning attached, and the residual 124
+words is wrapper handling that cannot be attributed further, because the probe
+that produced 63 900 was never committed.
+
+The gate therefore now reads **73 prompts / 60 399 words at ≥ 150 words, timestamp
+≤ 2026-08-06**, and passes identically against the snapshot and the live store —
+which is itself the check that the snapshot is faithful. `gate` prints the
+superseded figure alongside, so the correction cannot be lost. Re-pin deliberately
+if the filter set is extended again, and say why.
+
+**One thing Stage 1 should expect from this.** The filter set was verified in both
+directions, not just forwards: none of the 31 task-notification records carries
+appended human text, and none of the 61 compaction preambles does either, so
+dropping them loses nothing. The corpus the tool emits is therefore clean of
+assistant prose as far as this pass could establish — but the two continuation
+summaries were found by *reading the length ranking*, not by the filter set, and
+that is the technique to repeat when the corpus next grows.
+
+**No new subtree yet, so nothing to register.** `docs/implementation/research_record/`
+is Stage 2's to create, and `docs_map.md` gets its entry in that commit, not this
+one. An empty registered subtree would be worse than none.
+
+## Why this stays open past Stage 3
+
+**Marc, 2026-08-08:** the implementation is still being finalised over the coming
+week — specifically the **per-axis measurement metrics for learning capability
+(axis 7), MTD evasion (axis 8) and stealth (axis 5)**, and the **retraining of the
+Tay 2024 model** for pulling results. That is the work on the open chain's items
+(1), (2), (3) and (5), and it changes this brief's lifecycle rather than only its
+timing:
+
+- **Stages 1–3 stay deferred**, on the reasoning already in § *When to run this* —
+  which the caveat strengthens rather than replaces. `record-drifted` cannot be
+  assessed against records that are still moving, and the three axis metrics are
+  exactly the records it would be measured against.
+- **A second extraction pass is owed after they land**, and it is not optional
+  bookkeeping. Evaluation intent (band 4) is the thinnest band in the corpus
+  *because the evaluation has not happened yet*; the prompts that set the axis
+  metrics and sanction the retrain are the ones a `ch5_evaluation` note would rest
+  on, and they are being written now. Re-run `gate`, then `stats`, and triage only
+  the prompts added since — which is what the disposition table is keyed by `uuid`
+  for.
+- **So completing Stages 1–3 does not retire this brief.** It becomes a brief for
+  the delta, and the retirement condition is that the corpus has stopped growing
+  in ways the dissertation depends on — not that the annal exists.
+
+Recording this here rather than acting on it: the axis work is out of scope for
+this brief in both directions, and a prompt written this week is the weakest
+possible warrant for touching the record it comments on.
+
 ## Recommended approach
 
-Four stages. Stage 0 is cheap and should be done immediately, for a reason given
-below. Stages 1–3 are one session each at minimum; Stage 1 is likely two.
+Four stages. **Stage 0 has run** — see above. Stages 1–3 are one session each at
+minimum; Stage 1 is likely two.
 
 ### When to run this — Stage 0 now, Stages 1–3 in about a week
 
 Marc is holding the analysis until the implementation firms up, with roughly 90 %
 of it expected in place and first results being pulled within the week
-(2026-08-06). That is the right call and it is a scheduling decision, not a
-deferral, for three reasons:
+(2026-08-06). **Restated and narrowed 2026-08-08** — the week's remaining work is
+now named, and § *Why this stays open past Stage 3* carries what it changes. That
+is the right call and it is a scheduling decision, not a deferral, for three
+reasons:
 
 - **The corpus is still being written.** The next week of implementation and the
   first results run will generate some of the most dissertation-relevant prompts
@@ -186,6 +296,10 @@ not drifting. Re-pin the sanity gate at Stage 1 against the corpus as it stands
 that day.
 
 ### Stage 0 — snapshot the corpus, then build the extractor (do this first)
+
+> **Done 2026-08-08** — § *Stage 0 — done* carries what it produced and the one
+> correction it forced. The rest of this section is kept because it is the
+> derivation of the filter set, and a future extension of the tool needs it.
 
 **The corpus is unbacked and lives outside the repo,** in two account-scoped
 directories under `~`. A Claude Code reinstall, an account cleanup, or a routine
@@ -227,6 +341,14 @@ Strip these wrappers but **keep** the surrounding record, which is Marc's:
 Sanity gate for the tool: it must reproduce **73 prompts at ≥ 150 words and
 63 900 words** on today's corpus. If it does not, the filter set has drifted and
 the discrepancy is a bug in the tool, not a new finding.
+
+> **Re-pinned 2026-08-08 to 73 prompts / 60 399 words** at the same bound. The
+> instruction above was right in spirit and wrong in one particular: the
+> discrepancy turned out to be a bug in the *survey*, not in the tool — the
+> survey's word mass includes two assistant-authored compaction summaries. Reaching
+> the pinned figure would have meant admitting 3 625 words of the assistant's own
+> prose into the record of Marc's intent. The gate now lives in the tool
+> (`python tools/prompt_corpus.py gate`) and prints both figures.
 
 ### Stage 1 — triage all 73, and record a disposition for every one
 
@@ -358,11 +480,15 @@ be aimed at them.
 
 The work is done when all of these hold:
 
-1. `tools/prompt_corpus.py` is committed and reproduces **73 prompts / 63 900
+1. ~~`tools/prompt_corpus.py` is committed and reproduces **73 prompts / 63 900
    words at ≥ 150 words** against the 2026-08-06 corpus specifically — a
    regression check on the filter set, run over a pinned date bound, not over
-   whatever the corpus has since grown to.
-2. A raw snapshot of all 110 transcripts exists outside `~/.claude*`.
+   whatever the corpus has since grown to.~~ **Met 2026-08-08, at a re-pinned
+   figure: 73 prompts / 60 399 words**, over the same bound, as
+   `python tools/prompt_corpus.py gate`. The word difference is the survey's two
+   compaction summaries and is recorded in the tool, not tuned away.
+2. ~~A raw snapshot of all 110 transcripts exists outside `~/.claude*`.~~ **Met
+   2026-08-08** — all 112, checksummed, at `~/mtdsim-corpus-snapshot/2026-08-08/`.
 3. The disposition table covers **every** prompt in the ≥ 150-word band as it
    stands on the day Stage 1 runs — one of the five dispositions each, and a
    named file for both `already-recorded` and `record-drifted`.
@@ -456,8 +582,9 @@ The work is done when all of these hold:
   Rulings are Marc's, and a three-month-old prompt is the weakest possible
   warrant for changing today's code or today's records.
 - **The other two projects** in the account stores (`304-game`, `CITS4505`).
-- **Closing `feat/stealth-exposure-reader`**, which is fully merged into `dev`
+- ~~**Closing `feat/stealth-exposure-reader`**, which is fully merged into `dev`
   (0 commits ahead) and by the session-start checklist should have been deleted
   when its work landed. Flagged, not actioned — its handoff is still open at
   position 1 of the chain, so the deletion wants Marc's eye rather than a
-  passing session's.
+  passing session's.~~ **Discharged 2026-08-08:** the branch no longer exists, so
+  the flag has been resolved by someone else acting on it. Nothing owed.

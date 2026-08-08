@@ -224,9 +224,19 @@ have patched runners whose committed numbers were taken under the old labels.)*
    outputs beyond the annal: the **abandonments and reversals** no shipped record
    owns, and a **`record-drifted` flag list** where the thinking moved on and the
    document did not (flagged for Marc, never actioned).
-   **Timing: Stage 0 now, Stages 1–3 in about a week** — the extractor and a
-   snapshot of an unbacked corpus should not wait, but the analysis wants the
-   implementation settled and first results in hand.
+   **Stage 0 shipped 2026-08-08; Stages 1–3 remain deferred.** The corpus is
+   backed up (`~/mtdsim-corpus-snapshot/2026-08-08/`, checksummed, untracked) and
+   the extractor is committed as `tools/prompt_corpus.py` with a self-checking
+   gate. Re-measured: **77 prompts / 61 164 words** at ≥ 150 words across 112
+   transcripts and 25 branches. **The pinned figure was re-pinned, and why is a
+   finding:** the survey's 63 900 words included two *compaction continuation
+   summaries* — 3 625 words the assistant wrote about its own execution, admitted
+   into the record of Marc's intent, which is the failure the brief was written to
+   prevent. Reproducing the number would have meant reproducing the defect.
+   **It also no longer retires at Stage 3** (Marc, 2026-08-08): the axis-5/7/8
+   metrics and the Tay retrain are still being finalised, so a second pass over the
+   prompts written this week is owed, and `record-drifted` cannot be measured
+   against records that are still moving.
 
 
 5. [`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md)
