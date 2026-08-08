@@ -96,6 +96,18 @@
 \subsection{Scope and the proof-of-concept commitment}
 \label{subsec:scope}
 
+% D5: substrate change is attacker-only -- network, HARM and the mechanisms are
+% untouched, deliberately, for comparability with the published lineage. This is
+% what licenses the comparability claims, so it is a commitment and not a caveat.
+\subsection{Attacker-only substrate scope}
+\label{subsec:substrate-scope}
+
+% The ruled-out directions, with their reasons: stealth semantics (future work,
+% blocked three independent ways), MTD-scheme awareness (ruled out of scope
+% 2026-07-28, not merely absent), IDS as a research thread, adversary emulation.
+\subsection{Ruled exclusions}
+\label{subsec:exclusions}
+
 \section{APT model fidelity criterion}
 \label{sec:criterion}
 
@@ -107,6 +119,15 @@
 
 \subsection{How the inherited attacker scores}
 \label{subsec:criterion-baseline}
+
+% The two lettered rows, which score on no numbered axis. Row B carries the
+% headline comparative claim, so the criterion that holds it has to be defined
+% here rather than introduced in the results chapter.
+\subsection{Evidential provenance}
+\label{subsec:criterion-provenance}
+
+\subsection{Evaluative consequence}
+\label{subsec:criterion-consequence}
 
 \section{The inherited MTDSim substrate}
 \label{sec:substrate}
@@ -159,6 +180,23 @@
 \section{L3: The executable movement attacker}
 \label{sec:l3-movement-attacker}
 
+% The formalism itself, and why a Petri net rather than the alternatives -- a
+% feasibility study sits behind this choice and the model is a single-token walk
+% over per-objective net structure.
+\subsection{The Petri-net formalism}
+\label{subsec:petri-formalism}
+
+% Composed in at net-build: the corpus begins at initial access, so the
+% pre-intrusion stages are structure this work adds rather than structure the
+% intelligence supplies.
+\subsection{Synthetic pre-intrusion structure}
+\label{subsec:synthetic-overlay}
+
+% D8: seed at initial-access (the corpus's real entry) versus the recon-back
+% curation. Both were tested.
+\subsection{Entry point selection}
+\label{subsec:entry-point}
+
 \subsection{Traversal and action selection}
 \label{subsec:traversal}
 
@@ -171,10 +209,26 @@
 \subsection{The substrate seam}
 \label{subsec:substrate-seam}
 
-\section{L3a: Per-tactic dwell times}
-\label{sec:l3a-dwell-times}
+% D1's other half: the net is also examined on its own, as timed state sequences
+% independent of the simulator. Analytical track only -- it is not the simulator's
+% input, and saying so prevents the two tracks being read as one.
+\subsection{The standalone analytical track}
+\label{subsec:analytical-track}
 
-\subsection{Standard of evidence}
+% Renamed from "Per-tactic dwell times": L3a is the nets *plus their
+% parameterisation*, which is transition weights (D3) as well as durations (D4).
+% Dwell times alone would leave the weights -- and the accepted corpus sparsity
+% that defends them -- without a home.
+\section{L3a: Net parameterisation}
+\label{sec:l3a-parameterisation}
+
+\subsection{Transition weights from flow proportions}
+\label{subsec:transition-weights}
+
+\subsection{Corpus sparsity, accepted}
+\label{subsec:corpus-sparsity}
+
+\subsection{Per-tactic dwell times: standard of evidence}
 \label{subsec:dwell-evidence-standard}
 
 \subsection{Calibration}
@@ -192,29 +246,41 @@
 \subsection{Tactic-to-verb dispatch}
 \label{subsec:tactic-verb-dispatch}
 
+% The standing caveat that bounds every claim in the results chapter, including
+% the comparative one. It is a chosen input parameter, not a derived mapping.
+\subsection{The mapping as a chosen input parameter}
+\label{subsec:mapping-caveat}
+
 \subsection{Verdict feedback and re-weighting}
 \label{subsec:verdict-feedback}
+
+% Routing composes three factors: corpus-derived base weights, the declared
+% outcome overlay conditioned on the simulator's verdict, and an optional product
+% of declared modulators. The null modulator configuration is bit-identical to the
+% model without it, which is what makes every capability ablatable rather than
+% merely present -- a design property of the model, and therefore methodology.
+\subsection{Routing composition and ablatability}
+\label{subsec:routing-composition}
 
 \subsection{The application layer the experiments vary}
 \label{subsec:controller-as-variable}
 
+% ---------------------------------------------------------------------
+% PROVISIONAL -- do not draft against this heading yet.
+%
+% Scope is unsettled as of 2026-08-08. Per docs/implementation/pipeline/ogasp/
+% model_scope_freeze.md, axes 1-5 and 8 are frozen; axis 6 closed 2026-08-02 with
+% full incentive rationality recorded as future work; axis 5 is future work
+% blocked three independent ways; axis 8 was ruled out of scope 2026-07-28. The
+% modulator capabilities that do exist are measured *negatives* -- the model is
+% explicitly "not a better attacker" -- and the reported headline configuration
+% runs the modulators null, which makes them ablation arms rather than components
+% of the reported model. A section presenting them as fidelity gains would invert
+% the finding. Settle the axis work first, then decide whether this is one section
+% or material split between the results chapter and the exclusions above.
+% ---------------------------------------------------------------------
 \section{Fidelity extensions}
 \label{sec:fidelity-extensions}
-
-\subsection{Incentive-driven disengagement}
-\label{subsec:ext-disengagement}
-
-\subsection{Outcome-driven learning}
-\label{subsec:ext-learning}
-
-\subsection{Stealth}
-\label{subsec:ext-stealth}
-
-\subsection{Scheme awareness}
-\label{subsec:ext-scheme-awareness}
-
-\subsection{Capability interaction}
-\label{subsec:ext-interaction}
 
 \section{Criterion axes instrumentation}
 \label{sec:axis-instrumentation}
