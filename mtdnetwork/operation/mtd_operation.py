@@ -202,6 +202,7 @@ class MTDOperation:
             if request in self._get_mtd_resource(mtd).users:
                 self._get_mtd_resource(mtd).release(request)
             self.network.get_unfinished_mtd().pop(mtd.get_resource_type(), None)
+            self.network.get_mtd_stats().clear_in_flight(mtd)
 
     def _get_mtd_resource(self, mtd):
         """Get the resource to be occupied by the mtd"""

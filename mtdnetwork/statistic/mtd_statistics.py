@@ -26,6 +26,15 @@ class MTDStatistics:
         """
         self._in_flight[mtd_strategy.get_priority()] = start_time
 
+    def clear_in_flight(self, mtd_strategy):
+        """Stop charging a mutation that will never write a record.
+
+        `_mtd_execute_action` returns early when the network has already been
+        compromised, so the record is never appended; without this the mutation
+        would be charged as in flight for the rest of the run.
+        """
+        self._in_flight.pop(mtd_strategy.get_priority(), None)
+
     def append_mtd_operation_record(self, mtd_strategy, start_time, finish_time, duration):
         self._in_flight.pop(mtd_strategy.get_priority(), None)
         self._mtd_operation_record.append({

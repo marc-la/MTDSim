@@ -211,6 +211,8 @@ class MTDAIOperation:
 
         # if network is already compromised while executing mtd:
         if self.network.is_compromised(compromised_hosts=self.attack_operation.get_adversary().get_compromised_hosts()):
+            # No record will be written, so stop charging it as in flight.
+            self.network.get_mtd_stats().clear_in_flight(mtd)
             return
 
         # execute mtd
