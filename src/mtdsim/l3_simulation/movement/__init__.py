@@ -33,10 +33,16 @@ from mtdsim.l3_simulation.movement.net import (
     RoutingNet,
     load_routing_net,
 )
-from mtdsim.l3_simulation.movement.run import run_movement, run_smoke_matrix
+from mtdsim.l3_simulation.movement.run import (
+    MTDAIConfig,
+    run_movement,
+    run_smoke_matrix,
+)
 from mtdsim.l3_simulation.movement.statistics import (
     MovementRunResult,
+    MTDDecision,
     ProfileSummary,
+    decision_summary,
     summarise,
     summarise_profile,
 )
@@ -58,7 +64,10 @@ __all__ = [
     "TacticTiming",
     "TimingSource",
     "MovementRunResult",
+    "MTDAIConfig",
+    "MTDDecision",
     "ProfileSummary",
+    "decision_summary",
     "summarise",
     "summarise_profile",
     "run_movement",

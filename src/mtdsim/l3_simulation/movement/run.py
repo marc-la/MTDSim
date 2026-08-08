@@ -44,7 +44,11 @@ from mtdsim.l3_simulation.movement.state import (
 )
 from mtdsim.l3_simulation.movement.timing import TacticTiming, TimingSource
 from mtdsim.l3_simulation.movement.net import load_routing_net
-from mtdsim.l3_simulation.movement.statistics import MovementRunResult, MTDExecution
+from mtdsim.l3_simulation.movement.statistics import (
+    MovementRunResult,
+    MTDDecision,
+    MTDExecution,
+)
 
 # Phase-0 default geometry (50/5/8/4), matching baseline/run_baseline.py and the
 # carve tests. (10/4/4 trips Finding F-06's gen_graph loop guard.)
@@ -98,6 +102,106 @@ def _build_sim(seed: int, geometry: dict | None):
     return env, end_event, network, adversary, attack_op
 
 
+@dataclass(frozen=True)
+class MTDAIConfig:
+    """The declared parameters for running the reactive `mtd_ai` defender.
+
+    Grouped rather than spread across ``run_movement``'s signature because they
+    travel together and because every one of them is a *declared* value that a
+    study has to state: an agent, the exploration rate it is consulted at, the
+    detection rate it reads the attacker's verb through, the idle period after
+    which the substrate forces a mutation regardless, and the window the
+    downtime feature is read over.
+
+    ``epsilon`` defaults to **0.0 — strictly greedy**, which is the opposite of
+    the inherited harness's default and is deliberate. Tay's runner never
+    overrode ``execute_ai_model``'s ``epsilon=1.0``, so no published figure ever
+    consulted the network; a movement run that wants to know what the *policy*
+    does has to ask the policy. Raise it only to characterise a floor.
+
+    ``features`` and ``strategies`` default to the canonical head and action
+    space owned by ``mtdnetwork.mtdai.mtd_ai``, so a run cannot accidentally
+    show the agent a different state, or re-point its action indices at a
+    different set of mechanisms, than the one it was trained against.
+    """
+
+    main_network: Any
+    epsilon: float = 0.0
+    attacker_sensitivity: float = 1.0
+    static_degrade_factor: float = 2000.0
+    downtime_window: float = 200.0
+    features: dict | None = None
+    strategies: list | None = None
+
+
+def _start_mtd_ai(
+    *,
+    env,
+    end_event,
+    network,
+    adversary,
+    attack_op,
+    mtd_interval: int | None,
+    config: MTDAIConfig,
+):
+    """Start the reactive defender against this run's attacker.
+
+    The movement attacker needs no adaptation to be legible to it. The agent
+    reads its state from the substrate's own attack record and from
+    ``adversary.get_curr_process()``, and the movement attacker drives the same
+    verb cores the inherited one does — so the rows that feed
+    ``host_compromise_ratio``, the ASR denominator and the MTTC mean are written
+    by the same call sites either way, and ``attack_type`` reports the verb the
+    walk is currently running.
+
+    One asymmetry is worth knowing rather than discovering. The movement
+    attacker spends part of every run *dwelling*, and ``DWELL`` is not in the
+    defender's ``attack_dict``, so it reads as 7 — the same "no information"
+    value the sensitivity draw produces on a miss. Dwell is therefore
+    indistinguishable, on that one feature, from an attacker the defender
+    failed to detect. That is a property of the inherited encoding, not
+    something this wiring introduces, and it is not repaired here.
+
+    The defender is given the **bare** attack operation, never the state-seam
+    proxy: nothing on the defence's own path should read through an attacker's
+    wrapper.
+    """
+    from mtdnetwork.mtdai.mtd_ai import CANONICAL_FEATURES, mtd_action_space
+    from mtdnetwork.operation.mtd_ai_operation import MTDAIOperation
+    from mtdnetwork.statistic.security_metric_statistics import (
+        SecurityMetricStatistics,
+    )
+
+    if config.main_network is None:
+        raise ValueError(
+            "mtd_scheme='mtd_ai' needs a trained agent: pass "
+            "MTDAIConfig(main_network=...). Build one with tools/mtd_ai_run.py."
+        )
+
+    operation = MTDAIOperation(
+        features=config.features if config.features is not None else CANONICAL_FEATURES,
+        security_metrics_record=SecurityMetricStatistics(),
+        env=env,
+        end_event=end_event,
+        network=network,
+        attack_operation=attack_op,
+        scheme="mtd_ai",
+        adversary=adversary,
+        proceed_time=0,
+        mtd_trigger_interval=mtd_interval,
+        custom_strategies=(
+            config.strategies if config.strategies is not None else mtd_action_space()
+        ),
+        main_network=config.main_network,
+        attacker_sensitivity=config.attacker_sensitivity,
+        epsilon=config.epsilon,
+        static_degrade_factor=config.static_degrade_factor,
+        downtime_window=config.downtime_window,
+    )
+    operation.proceed_mtd()
+    return operation
+
+
 def _maybe_start_mtd(
     *,
     env,
@@ -108,9 +212,29 @@ def _maybe_start_mtd(
     scheme: str | None,
     mtd_interval: int | None,
     custom_strategies,
+    mtd_ai: MTDAIConfig | None = None,
 ):
     if scheme is None or scheme == "None":
         return None
+    if scheme == "mtd_ai":
+        if mtd_ai is None:
+            raise ValueError(
+                "mtd_scheme='mtd_ai' needs an MTDAIConfig — pass mtd_ai=..."
+            )
+        return _start_mtd_ai(
+            env=env,
+            end_event=end_event,
+            network=network,
+            adversary=adversary,
+            attack_op=attack_op,
+            mtd_interval=mtd_interval,
+            config=mtd_ai,
+        )
+    if mtd_ai is not None:
+        raise ValueError(
+            f"mtd_ai config passed with scheme={scheme!r}; it applies to "
+            "mtd_scheme='mtd_ai' only"
+        )
     from mtdnetwork.operation.mtd_operation import MTDOperation
     from mtdnetwork.statistic.security_metric_statistics import (
         SecurityMetricStatistics,
@@ -149,6 +273,7 @@ def run_movement(
     mtd_scheme: str | None = None,
     mtd_interval: int | None = 200,
     custom_strategies=None,
+    mtd_ai: MTDAIConfig | None = None,
     geometry: dict | None = None,
     register_for_interrupts: bool = True,
     max_events: int = 50_000,
@@ -250,7 +375,7 @@ def run_movement(
     )
     attacker.start()
 
-    _maybe_start_mtd(
+    mtd_operation = _maybe_start_mtd(
         env=env,
         end_event=end_event,
         network=network,
@@ -259,6 +384,7 @@ def run_movement(
         scheme=mtd_scheme,
         mtd_interval=mtd_interval,
         custom_strategies=custom_strategies,
+        mtd_ai=mtd_ai,
     )
 
     env.run(until=horizon)
@@ -274,7 +400,23 @@ def run_movement(
         termination_time=termination_time,
         compromised_count=len(adversary.get_compromised_hosts()),
         retrace_count=attacker.retrace_count,
+        mtd_decisions=decision_snapshot(mtd_operation),
         **mtd_snapshot(network),
+    )
+
+
+def decision_snapshot(mtd_operation) -> tuple[MTDDecision, ...]:
+    """The reactive defender's per-decision ledger, or empty under every other
+    scheme. Read-only after the run, exactly as :func:`mtd_snapshot` is."""
+    if mtd_operation is None or not hasattr(mtd_operation, "get_decision_log"):
+        return ()
+    return tuple(
+        MTDDecision(
+            time=float(entry["time"]),
+            action=int(entry["action"]),
+            source=str(entry["source"]),
+        )
+        for entry in mtd_operation.get_decision_log()
     )
 
 
@@ -334,6 +476,8 @@ def run_smoke_matrix(
 
 __all__ = [
     "GEOMETRY",
+    "MTDAIConfig",
+    "decision_snapshot",
     "mtd_snapshot",
     "run_movement",
     "run_smoke_matrix",

@@ -19,21 +19,61 @@ decision, its reversal argument, its composition hazard and its hard constraints
 are carried forward in full (§9, §10). Nothing from it is lost and nothing of it
 should be re-derived.
 
-**Design only. No code, weight, mapping or golden has been changed, and none
-should be until §2's rulings land.** §3's prerequisite check **has** been run
-(2026-08-06) and its answers are folded in — it was a read-only probe over fresh
-runs, added no mechanism and moved nothing.
+**Design only. No code, weight, mapping or golden has been changed.** Everything
+below the line is read-only probing and design. **The build has not opened**, and
+two obligations are owed before it does (see *Owed before any build* below).
 
-**The three remaining open checks have now also been run (2026-08-07), all
-read-only, and two of them change the design.** They were not gated by §2's
-rulings, so they were taken first, and they make those rulings better-informed
-rather than pre-empting any of them:
+## Where this stands — session close, 2026-08-07
+
+**Everything blocking the build is now either ruled or measured, except one
+measurement and two owed records.** The design has changed materially since the
+brief was written, so read §0 first and treat the body as history where they
+disagree.
+
+**Ruled (Marc, 2026-08-07)** — full text in §2.1. **R-A:** axis 6 reopened
+*fully*, against this session's recommendation. **R-C:** the axis-8 capability is
+the **endowed declared policy**; primitive (ii) beacon stays excluded. **R-D:** not
+put — the house default (a declared capability magnitude) applies. **R-B** is
+deferred to a parallel `mtd_ai` retraining session. **Architecture:** the decision
+is coded **on `EXPLOIT_VULN` itself** with the memory as an input, the verdict
+returning through the controller to the net — not a routing modulator (§0).
+**Scope:** the axis-8 half is now its own brief,
+[`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md).
+
+**Run this session, all read-only** (scripts in `data/results/stealth_exposure/`,
+gitignored and regenerable):
 
 | check | where | outcome |
 |---|---|---|
-| the pool combinatorics, demanded before any sweep | §3.1 | **falsifies** the conjecture that pool size revives primitive (i)'s exact-image form — it is dead across the entire reachable range, not merely at the default |
-| does the targeted strategy have anything to drive? | §4.1 | **already answered** by a study on record, and worse than the flag: the deeper blocker is that no profile's objective connects to what the simulator scores at all. Recommendation is to drop that half |
-| is the attacker-state seam routing-only? | §4.1 | **holds** — the arc in routing terms needs nothing built on the seam, so the largest engineering item stays off the cost. One uncosted fork surfaced: a *hard* gate trips the seam's `may_zero` rule and owes two obligations a *soft* gate does not |
+| pool combinatorics, demanded before any sweep | §3.1 | **falsifies** the conjecture that pool size revives primitive (i)'s exact-image form — dead across the entire reachable range, not merely at the default |
+| does the targeted strategy have anything to drive? | §4.1 | **already answered** on record, and worse than the flag: no profile's objective connects to what the simulator scores. That half is dropped |
+| is the attacker-state seam routing-only? | §4.1, §0 | **holds**, and then became moot — the architecture ruling moves the decision off the seam entirely, dissolving the hard-vs-soft gate question |
+| exploit-failure decomposition | §0 | **premise survives** — the memory-reachable term is 94–95 % of failures without MTD, 27–40 % with it; the precondition failure that could have killed it is 0–3.3 % |
+| complexity range, Brown vs Zhang | §0 | **the lever works and is lineage-grounded** — mean complexity 0.719 → 0.537, per-roll success 72.6 % → 54.4 %, minimum 0.401 → 0.002 |
+
+**The one measurement still owed, and it should go first next session.** The
+decomposition ran on the **native arm**. D-35 records `EXPLOIT_VULN` as
+*uninterruptible in the movement arm*, so the INTERRUPT column should collapse
+there and the memory's headroom should rise toward the no-MTD figure even under
+mutation. Same script (`exploit_failure_decomposition.py`), movement run. This is
+cheap and it sets the honest ceiling on the whole build.
+
+**Owed before any build opens** — neither is optional, and both are dated-record
+work rather than code:
+
+1. **The axis-6 reversal** (§2.1). R-A reopened a row closed by a dated
+   disposition; the reversal must be argued against that closure's text, whose
+   premise — no banked payoff — this session's B4 check confirms is intact.
+2. **The axis-8 amendment** in three records. **That obligation moved with the
+   scope** to the sibling brief's §10 and is no longer this brief's.
+
+**Branch note for the next session.** This session's terminal was moved mid-work by
+a concurrent session: `chore/knowledge-gated-prereq-checks` was merged into `dev`
+and deleted, and the tree switched to `feat/mtd-ai-cost-calibrated`. The first two
+docs commits reached `dev`; the last two (`61a3091`, `f7274dd` — the measurement
+findings and the completeness sweep) are sitting on `feat/mtd-ai-cost-calibrated`
+instead. Not lost, but on the wrong branch, and untouched because that branch is
+someone else's in-flight work. Cherry-pick to `dev` and drop.
 
 ---
 
@@ -61,6 +101,34 @@ iff `random() < complexity`; complexity is drawn once at catalogue generation an
 every per-host copy of an id keeps it. So `P(this exploit works)` is a genuine
 per-id constant, and step 0 measured two-thirds of live ids sitting on more than
 one host. The attacker would be estimating something that exists and recurs.
+
+### Two constraints on what the gate can reach — recorded 2026-08-07
+
+**The attacker chooses *when*, not *where*.** Host selection is not its decision:
+`_enum_host` sets the stack with
+`network.sort_by_distance_from_exposed_and_pivot_host(...)` and then takes
+`pop(0)` — nearest visible host from the exposed/pivot set, with a random
+tiebreak. So a gate that declines to exploit host H does **not** redirect the
+attacker to a host its memory likes better; it spends the time elsewhere and meets
+H again. Two consequences worth settling at pre-registration. The gate's benefit is
+a *timing* benefit — wait until the estimate improves, or until this host's
+vulnerability set is re-rolled by a mutation — not a *targeting* benefit, and the
+claim should not be written as though the attacker picks its battles. And if
+choosing *where* is wanted, that means reordering the host stack on a
+memory-derived key, which is a materially larger change reaching into substrate
+host selection, and it should be costed separately rather than assumed into arm 2.
+
+**Per-vulnerability credit is a declared observation channel, not a free read.**
+The attacker's own outcome signal is host-level: `_do_exploit_vuln` loops the top
+five vulnerabilities, **discards every return value**, and the caller sees one bit
+from `check_compromised()` (summed exploited impact ≥ 7). Five exploits, one bit.
+The per-vulnerability truth exists — `vuln.is_exploited()` — and is read in exactly
+**one** place in the repository today. Reading it is defensible (an attacker knows
+which of its exploits landed) but it is a new channel and must be **declared as
+one**, not slipped in, or the memory's key rests on an observation the model never
+justified. The alternative — crediting all five on a bundle outcome — is the same
+credit-assignment error axis 7 is already stuck on, so this is the choice that
+decides whether the build is the fix or a repeat.
 
 ### Where it lives — Marc, 2026-08-07, and this corrects the brief's assumption
 
@@ -133,7 +201,58 @@ axis-6 × axis-7 precedent, which found its pair pulling *opposite* ways.
    the missing-payoff limitation restated, not a claim the premise changed.
 5. **Scope now.** Arms 0–2. The axis-8 half is a separate brief and is gated on R-B.
 
-### Two measurements before any build (approved 2026-08-07)
+### Both measurements — RUN 2026-08-07, and the premise survives
+
+`data/results/stealth_exposure/exploit_failure_decomposition.py`, 3 seeds ×
+{no-MTD, random MTD @200 s} × {Brown, Zhang} complexity ranges, on the **native
+FSM arm**. Every `EXPLOIT_VULN` dispatch classified into the outcome that ended it.
+
+| | COMPROMISED | ROLL_FAILED | NO_VULNS | INTERRUPT | of failures, memory-reachable |
+|---|--:|--:|--:|--:|--:|
+| Brown [0.4,1], no MTD | 44.8 % | 51.9 % | 3.3 % | 0.0 % | **94.0 %** |
+| Brown [0.4,1], MTD | 15.8 % | 34.0 % | 0.7 % | 49.5 % | **40.4 %** |
+| Zhang [0,1], no MTD | 39.2 % | 58.0 % | 2.8 % | 0.0 % | **95.3 %** |
+| Zhang [0,1], MTD | 12.5 % | 23.8 % | 0.0 % | 63.8 % | **27.2 %** |
+
+**Finding 1 — the premise holds, and the conflation mattered.** The failure mode
+memory can actually reach is `ROLL_FAILED`, and it is **the dominant one**: 94–95 %
+of all failures without MTD, 27–40 % with it. `NO_VULNS` — the precondition
+failure — is negligible at 0–3.3 %, which was the outcome that could have killed
+the design and did not. So the gate is aimed at a real term, though not at the one
+the brief's "49–99 % blocked" implied.
+
+**Finding 2 — MTD, not preconditions, is what bounds the gate.** Under mutation,
+interrupts take **half to two-thirds of all dispatches**, and every one of those is
+unreachable by memory. That is the honest ceiling on what the mechanism can buy in
+the reported configuration.
+
+> ⚠ **And it is very likely the wrong ceiling for this build, which is the one
+> thing here that still needs measuring.** This ran on the **native arm**. D-35
+> records that **`EXPLOIT_VULN` is uninterruptible in the movement arm** — the
+> diversity family loses 89–97 % of its exploit-blocking windows there — so on the
+> arm this design actually targets the `INTERRUPT` column should collapse toward
+> zero and `ROLL_FAILED` should dominate as it does in the no-MTD rows. **If that
+> holds, memory's headroom on the movement arm is ~94 % of failures even under
+> MTD**, which is a much stronger case than the native arm shows. Take that
+> measurement before the build; it is the same script against a movement run.
+
+**Finding 3 — the complexity range is exactly the lever Marc proposed, measured.**
+Widening `VULN_MIN_COMPLEXITY` from Brown's 0.4 to Zhang's 0.0 drops the mean
+encountered complexity from **0.719 to 0.537** and the per-roll success rate from
+**72.6 % to 54.4 %**, and the observed minimum from 0.401 to **0.002**. That is the
+whole point: at Brown's range the *worst* vulnerability still works two times in
+five, so knowing which to pick is worth little; at Zhang's range the worst is
+useless and knowing which to pick is worth a great deal. **The value of the memory
+is a function of a constant the lineage disagrees about**, which is a far better
+sentence than "we widened a parameter until the mechanism worked".
+
+**One confound to carry.** Widening complexity also makes the attacker weaker
+outright (compromises fall from 15.8 % to 12.5 % of dispatches under MTD), so the
+setting changes the terrain and not just the mechanism's headroom. Every complexity
+setting needs its own null arm, exactly as the pool sweep does, and no cross-setting
+comparison is valid without one.
+
+### The two measurements as originally scoped (approved 2026-08-07)
 
 - **Decompose the exploit failures** — coin-flip failure vs MTD interrupt vs
   no-vulnerabilities/precondition. This says which term the memory can move. The

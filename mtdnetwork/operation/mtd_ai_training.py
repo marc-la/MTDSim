@@ -12,7 +12,8 @@ import simpy
 from mtdnetwork.component.mtd_scheme import MTDScheme
 from mtdnetwork.statistic.evaluation import Evaluation
 import numpy as np
-from mtdnetwork.mtdai.mtd_ai import update_target_model, choose_action, replay, calculate_reward
+from mtdnetwork.mtdai.mtd_ai import (update_target_model, choose_action_traced, replay,
+                                     calculate_reward, STATE_FEATURE_ORDER, TIME_FEATURE_ORDER)
 import pandas as pd
 import random
 from mtdnetwork.component.host import Host
@@ -21,7 +22,8 @@ class MTDAITraining:
 
     def __init__(self,security_metric_record, features,env, end_event, network, attack_operation, scheme, adversary, proceed_time=0,
                  mtd_trigger_interval=None, custom_strategies=None, main_network=None, target_network=None, memory=None,
-                 gamma=None, epsilon=None, epsilon_min=None, epsilon_decay=None, train_start=None, batch_size=None, attacker_sensitivity = 1, static_degrade_factor = 2000):
+                 gamma=None, epsilon=None, epsilon_min=None, epsilon_decay=None, train_start=None, batch_size=None, attacker_sensitivity = 1, static_degrade_factor = 2000,
+                 downtime_window=200.0, downtime_lambda=0.0):
         """
         :param env: the parameter to facilitate simPY env framework
         :param network: the simulation network
@@ -62,7 +64,15 @@ class MTDAITraining:
         self.security_metric_record = security_metric_record
         self.attacker_sensitivity = attacker_sensitivity
         self.static_degrade_factor = static_degrade_factor
+        # See MTDAIOperation for the window's rationale; downtime_lambda is the
+        # reward's cost weight and is swept, never fitted.
+        self.downtime_window = downtime_window
+        self.downtime_lambda = downtime_lambda
         self.attack_dict = {"SCAN_HOST": 1, "ENUM_HOST": 2, "SCAN_PORT": 3, "EXPLOIT_VULN": 4, "SCAN_NEIGHBOR": 5, "BRUTE_FORCE": 6}
+
+        # Per-decision ledger — see MTDAIOperation for why mtd_stats cannot
+        # substitute for it.
+        self.decision_log = []
 
         self.evaluation = Evaluation(self.network, self.adversary, self.security_metric_record)        
 
@@ -89,21 +99,44 @@ class MTDAITraining:
                 return
 
             state, time_series = self.get_state_and_time_series()
-            action = choose_action(state, time_series, self.main_network, 5, self.epsilon)
 
-            # Static network degradation factor (if exceed 1000 force to deploy MTD)
-
-            while (self.env.now - self.network.get_last_mtd_triggered_time()) > 2000 and action == 0:
-                action =  choose_action(state, time_series, self.main_network, 5, self.epsilon)
+            # MTDAI-03 repair (2026-08-08). Two dead selections used to precede
+            # this one: an unconditional `choose_action(..., 5, ...)` whose
+            # result was overwritten below, and a `while ... and action == 0`
+            # redraw loop against a hardcoded 2000 that the static-degrade
+            # branch below already covers. Both burned draws from the shared RNG
+            # stream (D-29) — and, at any epsilon below 1.0, `predict` calls —
+            # for a decision that was then discarded. The redraw loop is also
+            # the training-side twin of the livelock: an unchanged state has an
+            # unchanged argmax, so at epsilon = 0 it never terminates.
 
             # Static network degradation factor (if exceed static factor force to deploy MTD)
-            if (self.env.now - self.network.get_last_mtd_triggered_time()) > self.static_degrade_factor: 
+            if (self.env.now - self.network.get_last_mtd_triggered_time()) > self.static_degrade_factor:
                 # D-14 fix (Marc, 2026-07-29) — see mtd_ai_operation.py: randint
                 # is inclusive, so `len + 1` could index past the strategy list.
                 action = random.randint(1, len(self.custom_strategies))
-            else: 
-                action = choose_action( state, time_series, self.main_network, len(self.custom_strategies) + 1, self.epsilon)
-                
+                source = 'forced'
+            else:
+                action, source = choose_action_traced(state, time_series, self.main_network,
+                                                      len(self.custom_strategies) + 1, self.epsilon)
+
+            self.decision_log.append({
+                'time': float(self.env.now),
+                'action': int(action),
+                'source': source,
+                'epsilon': float(self.epsilon),
+            })
+
+            # The exploration schedule is applied here, per decision. Tay's
+            # harness applied it once per *episode*, but the 0.980-0.998
+            # constants are per-step rates in the DQN literature the paper
+            # cites; over 100 episodes that carries epsilon from 1.0 to 0.13 at
+            # best and epsilon_min is never approached, so the agent never
+            # transitions to exploitation during training either
+            # (mtd_ai_forensics.md §4(b)). Per-episode decay remains reachable
+            # by passing epsilon_decay = 1.0 here and decaying in the driver.
+            if self.epsilon > self.epsilon_min:
+                self.epsilon *= self.epsilon_decay
 
             if action > 0 or self.network.get_last_mtd_triggered_time() == 0:
                 self.network.set_last_mtd_triggered_time(self.env.now)
@@ -111,9 +144,11 @@ class MTDAITraining:
             if action > 0:
                 # register an MTD
                 if not self.network.get_mtd_queue():
-                    self._mtd_scheme.register_mtd(mtd_action=action)
-                    # Register the mtd in scorer as well
-                    self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(action))
+                    # MTDAI-08 repair (2026-08-08) — see mtd_ai_operation.py.
+                    # Two MTDs were enqueued per decision, and the scorer entry
+                    # was named "None".
+                    registered = self._mtd_scheme.register_mtd(mtd_action=action)
+                    self.network.scorer.register_mtd(registered)
                 # trigger an MTD
                 if self.network.get_suspended_mtd():
                     mtd = self._mtd_scheme.trigger_suspended_mtd()
@@ -136,9 +171,31 @@ class MTDAITraining:
                             logging.info('MTD: %s suspended at %.1fs due to resource occupation' %
                                     (mtd.get_name(), self.env.now + self._proceed_time))
 
-                # exponential time interval for triggering MTD operations
-                yield self.env.timeout(exponential_variates(self._mtd_scheme.get_mtd_trigger_interval(),
-                                                            self._mtd_scheme.get_mtd_trigger_std()))
+            # MTDAI-03 repair (2026-08-08) — see mtd_ai_operation.py for the
+            # argument. The no-op now costs one trigger interval of simulated
+            # time rather than re-entering the loop at an unchanged env.now.
+            yield self.env.timeout(exponential_variates(self._mtd_scheme.get_mtd_trigger_interval(),
+                                                        self._mtd_scheme.get_mtd_trigger_std()))
+
+            # MTDAI-04 repair (2026-08-08): store the no-op's transition.
+            # calculate_reward was reachable only from _mtd_execute_action, so
+            # the replay buffer held deploying actions exclusively and
+            # replay()'s `target[0][action] = ...` never wrote to index 0. The
+            # Q-value of the do-nothing action was therefore never a TD target
+            # under any reward design — it drifted only through the shared
+            # trunk. The no-op's next state is read after its interval elapses,
+            # which is the same measurement point a deployment's transition uses
+            # (there, the end of _mtd_execute_action).
+            if action == 0:
+                new_state, new_time_series = self.get_state_and_time_series()
+                reward = calculate_reward(state, time_series, new_state, new_time_series,
+                                          self.features['static'], self.features['time'],
+                                          self.memory, downtime_lambda=self.downtime_lambda)
+                self.memory.append((state, time_series, action, reward,
+                                    new_state, new_time_series, False))
+                replay(self.memory, self.main_network, self.target_network, self.batch_size,
+                       self.gamma, self.epsilon, self.epsilon_min, self.epsilon_decay,
+                       self.train_start)
 
     def _mtd_execute_action(self, env, mtd, state, time_series, action):
         """
@@ -149,6 +206,8 @@ class MTDAITraining:
         request = self._get_mtd_resource(mtd).request()
         yield request
         start_time = env.now + self._proceed_time
+        # See MTDOperation: charge in-flight mutations to the downtime metric.
+        self.network.get_mtd_stats().mark_mtd_started(mtd, start_time)
 
         if self.logging:
             logging.info('MTD: %s deployed in the network at %.1fs.' % (mtd.get_name(), start_time))
@@ -158,6 +217,8 @@ class MTDAITraining:
 
         # if network is already compromised while executing mtd:
         if self.network.is_compromised(compromised_hosts=self.attack_operation.get_adversary().get_compromised_hosts()):
+            # No record will be written, so stop charging it as in flight.
+            self.network.get_mtd_stats().clear_in_flight(mtd)
             return
 
         # execute mtd
@@ -181,7 +242,9 @@ class MTDAITraining:
 
         # update reinforcement learning model
         new_state, new_time_series = self.get_state_and_time_series()
-        reward = calculate_reward(state, time_series, new_state, new_time_series, self.features['static'], self.features['time'], self.memory)
+        reward = calculate_reward(state, time_series, new_state, new_time_series,
+                                  self.features['static'], self.features['time'], self.memory,
+                                  downtime_lambda=self.downtime_lambda)
         done = False
         self.memory.append((state, time_series, action, reward, new_state, new_time_series, done))
         replay(self.memory, self.main_network, self.target_network, self.batch_size, self.gamma, self.epsilon, self.epsilon_min, self.epsilon_decay, self.train_start)
@@ -243,9 +306,14 @@ class MTDAITraining:
 
     def get_mtd_scheme(self):
         return self._mtd_scheme
-    
-   
-    
+
+    def get_decision_log(self):
+        return self.decision_log
+
+    def get_epsilon(self):
+        return self.epsilon
+
+
     def get_state_and_time_series(self):
 
         previous_ips = self.network.scorer.current_hosts_ip
@@ -294,7 +362,6 @@ class MTDAITraining:
             compromised_hosts = record[record['compromise_host_uuid'] != 'None'].loc[record['start_time'] > (self.env.now - comp_check_interval)]['compromise_host_uuid'].unique()
             
             compromised_num = len(compromised_hosts)
-            print(compromised_num)
         else:
             compromised_num = 0    
         host_compromise_ratio = compromised_num/len(self.network.get_hosts()) 
@@ -330,8 +397,14 @@ class MTDAITraining:
 
             # Calculate Mean Time to Compromise
             if compromised_num > 0:
+                # MTDAI-13 (2026-08-08): this line carried a trailing `/10`
+                # that the otherwise-identical method in mtd_ai_operation.py
+                # does not, so the agent was trained on an MTTC feature scaled
+                # ten times smaller than the one it is evaluated on. Nothing in
+                # the paper licenses either scaling; what it cannot be is two
+                # different ones. Removed to make the two heads agree.
                 mean_time_to_compromise = (overall_time_to_compromise / len(sub_record[sub_record[
-                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])])) /10
+                'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]))
             else:
                 mean_time_to_compromise = 0
         else:
@@ -374,6 +447,12 @@ class MTDAITraining:
 
    
 
+        # Downtime / operational impact (Tay §4.1.2 ¶4, T-TS-02) — named in the
+        # paper as a time-series input and implemented nowhere in the inherited
+        # code. Definition and rationale in MTDStatistics.downtime_ratio.
+        downtime_ratio = self.network.get_mtd_stats().downtime_ratio(
+            self.env.now, self.downtime_window)
+
         # Create the time series filter
         time_series_filter = {
             "mtd_freq": mtd_freq,
@@ -382,12 +461,17 @@ class MTDAITraining:
             "shortest_path_variability": shortest_path_variability,
             "ip_variability": ip_variability,
             "attack_type": current_attack_value,
+            "downtime_ratio": downtime_ratio,
         }
     
-        # Create the state array based on state_filter keys
-        state_array = np.array([value if key in self.features["static"] else 0 for key, value in state_filter.items()])
+        # Built from the canonical vocabularies rather than from these dicts'
+        # iteration order, so the vector layout and the reward's indexing cannot
+        # drift apart.
+        state_array = np.array([state_filter[key] if key in self.features["static"] else 0
+                                for key in STATE_FEATURE_ORDER])
 
-        time_series_array = np.array([value if key in self.features["time"] else 0 for key, value in time_series_filter.items()])
+        time_series_array = np.array([time_series_filter[key] if key in self.features["time"] else 0
+                                      for key in TIME_FEATURE_ORDER])
 
         # Output the filtered arrays for verification
         # print("Filtered State Array:", state_array)

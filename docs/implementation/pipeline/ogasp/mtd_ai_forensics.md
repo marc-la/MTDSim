@@ -3,6 +3,37 @@
 **Status:** investigation record, 2026-08-07. Read-only throughout: nothing in the
 substrate, the archive or the pipeline was modified to produce it.
 
+> **Superseded in part, 2026-08-08 — this record is history and is not
+> rewritten.** Seven of the twelve dispositions §9 opened have since been
+> actioned, each as its own commit, and the account of what was done and why is
+> [`mtd_ai_cost_calibration.md`](mtd_ai_cost_calibration.md) §1:
+> **MTDAI-02** (the live 5/6 head declared canonical rather than 8/3 restored),
+> **MTDAI-03**, **MTDAI-04**, **MTDAI-06** (the downtime metric built),
+> **MTDAI-07**, **MTDAI-08** and **MTDAI-12** are repaired or dispositioned;
+> **MTDAI-05** is repaired *and* swept, which is what that record exists to
+> report. **MTDAI-01**, **MTDAI-09**, **MTDAI-10** and **MTDAI-11** are
+> untouched and remain open exactly as written.
+>
+> One disposition is **new** and belongs to this namespace, so it is recorded
+> here rather than invented elsewhere. **MTDAI-13:** the training head divided
+> `overall_mttc_avg` by 10 where the otherwise-identical evaluation head did
+> not, so an agent was trained on a feature scaled ten times smaller than the
+> one it is evaluated on. Nothing in the paper licenses either scaling; what it
+> cannot be is two different ones. Repaired by making the two heads agree.
+>
+> Two further gaps were found during the rebuild and are **flagged, not
+> repaired**, because neither is in the handoff's scope and both change what a
+> result means. **MTDAI-14:** a deploying decision whose mutation is *suspended*
+> by resource occupation never reaches `_mtd_execute_action` and so stores no
+> transition, which means the deploy action's Q-value is trained only on the
+> occasions when deploying worked — the learning-side analogue of MTDAI-04, one
+> step out. **MTDAI-15:** `done` is hardcoded `False` on every stored
+> transition, so no episode boundary is ever terminal and the agent bootstraps
+> across the end of an episode into the start of an unrelated one.
+>
+> Everything below is left as written on 2026-08-07, including the line numbers
+> the repairs have since moved.
+
 **Why this exists.** The `mtd_ai` reintegration brief (`docs/handoffs/2026-08-06_mtd_ai_reintegration.md`,
 deleted 2026-08-07 once superseded; recoverable via `git log --diff-filter=D --`
 on that path) proposed standing up Tay's reactive defender as the arm the

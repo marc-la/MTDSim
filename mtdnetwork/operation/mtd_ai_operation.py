@@ -12,7 +12,7 @@ import simpy
 from mtdnetwork.component.mtd_scheme import MTDScheme
 from mtdnetwork.statistic.evaluation import Evaluation
 import numpy as np
-from mtdnetwork.mtdai.mtd_ai import choose_action
+from mtdnetwork.mtdai.mtd_ai import choose_action_traced, STATE_FEATURE_ORDER, TIME_FEATURE_ORDER
 import pandas as pd
 import random
 from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatistics
@@ -21,7 +21,8 @@ from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatis
 class MTDAIOperation:
 
     def __init__(self, features,security_metrics_record ,env, end_event, network, attack_operation, scheme, adversary,proceed_time=0,
-                 mtd_trigger_interval=None, custom_strategies=None, main_network=None, attacker_sensitivity=None, epsilon=None, static_degrade_factor = 2000):
+                 mtd_trigger_interval=None, custom_strategies=None, main_network=None, attacker_sensitivity=None, epsilon=None, static_degrade_factor = 2000,
+                 downtime_window=200.0):
         """
         :param env: the parameter to facilitate simPY env framework
         :param network: the simulation network
@@ -65,6 +66,20 @@ class MTDAIOperation:
         self.mtd_strategies = custom_strategies
         self.static_degrade_factor = static_degrade_factor
 
+        # Trailing window the downtime feature is read over. Declared, not
+        # inherited: no lineage paper specifies one. It defaults to the mutation
+        # trigger interval, so the reading answers "how much of the last
+        # decision cycle was the network down for" and a single mutation of
+        # 70-110 s reads as a fraction rather than saturating.
+        self.downtime_window = downtime_window
+
+        # Per-decision ledger. The no-op share is the calibration study's
+        # headline statistic and it is not recoverable from mtd_stats, which
+        # only records mutations that executed: a decision that was forced by
+        # the static-degrade guard, one drawn by exploration, and one chosen by
+        # the policy are indistinguishable after the fact.
+        self.decision_log = []
+
     def proceed_mtd(self):
         if self.network.get_unfinished_mtd():
             for k, v in self.network.get_unfinished_mtd().items():
@@ -98,11 +113,18 @@ class MTDAIOperation:
                     # action whose register path indexes one past the strategy
                     # list (latent IndexError). Deploying actions are 1..len.
                     action = random.randint(1, len(self.mtd_strategies))
-                    
+                    source = 'forced'
 
                 else:
-                    action = choose_action(state, time_series, self.main_network, len(self.mtd_strategies) + 1, self.epsilon)
-                
+                    action, source = choose_action_traced(state, time_series, self.main_network,
+                                                          len(self.mtd_strategies) + 1, self.epsilon)
+
+                self.decision_log.append({
+                    'time': float(self.env.now),
+                    'action': int(action),
+                    'source': source,
+                })
+
                 if self.logging:
                     logging.info('Static period: %s' % (self.env.now - self.network.get_last_mtd_triggered_time()))
 
@@ -116,13 +138,18 @@ class MTDAIOperation:
             if action > 0:
                 # register an MTD
                 if not self.network.get_mtd_queue():
+                    # MTDAI-08 repair (2026-08-08). The scorer registration used
+                    # to take `self._mtd_scheme.register_mtd(...)` as its
+                    # *argument*, so every decision enqueued two MTDs instead of
+                    # one, corrupting every mutation-rate figure; and since
+                    # register_mtd returned nothing, every scorer entry was named
+                    # "None". Register once, and name the scorer entry after the
+                    # strategy actually enqueued.
                     if self._mtd_scheme._scheme == 'mtd_ai':
-                        self._mtd_scheme.register_mtd(mtd_action=action)
-                        # Register the mtd in scorer as well
-                        self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(action))
+                        registered = self._mtd_scheme.register_mtd(mtd_action=action)
                     else:
-                        self._mtd_scheme.register_mtd(mtd_action=None)
-                        self.network.scorer.register_mtd(self._mtd_scheme.register_mtd(mtd_action=None))
+                        registered = self._mtd_scheme.register_mtd(mtd_action=None)
+                    self.network.scorer.register_mtd(registered)
                 # trigger an MTD
                 if self.network.get_suspended_mtd():
                     mtd = self._mtd_scheme.trigger_suspended_mtd()
@@ -145,9 +172,24 @@ class MTDAIOperation:
                             logging.info('MTD: %s suspended at %.1fs due to resource occupation' %
                                     (mtd.get_name(), self.env.now + self._proceed_time))
 
-                # exponential time interval for triggering MTD operations
-                yield self.env.timeout(exponential_variates(self._mtd_scheme.get_mtd_trigger_interval(),
-                                                            self._mtd_scheme.get_mtd_trigger_std()))
+            # MTDAI-03 repair (2026-08-08): this yield used to sit *inside* the
+            # `if action > 0` block, so a no-op re-entered the loop at an
+            # unchanged env.now. Under Tay's epsilon = 1.0 that was rejection
+            # sampling — the do-nothing action silently became "redraw until you
+            # deploy" and cost no simulated time — and under a greedy policy it
+            # is an infinite loop, because an unchanged state has an unchanged
+            # argmax. The no-op draws the same exponential interval as a
+            # deployment: choosing it means no mutation *this cycle*, and the
+            # next decision arrives on the same clock either way, which is what
+            # makes the no-op produce stillness and what makes the no-op share a
+            # comparable statistic across policies.
+            #
+            # This adds an RNG draw on a path that previously made none. Per
+            # D-29 the mechanisms and the attacker share one stream, so a
+            # no-op-capable agent shifts the attacker's stream against a run
+            # without one; seed-matched arms across this change are not paired.
+            yield self.env.timeout(exponential_variates(self._mtd_scheme.get_mtd_trigger_interval(),
+                                                        self._mtd_scheme.get_mtd_trigger_std()))
 
     def _mtd_execute_action(self, env, mtd, state, time_series, action):
         """
@@ -158,6 +200,8 @@ class MTDAIOperation:
         request = self._get_mtd_resource(mtd).request()
         yield request
         start_time = env.now + self._proceed_time
+        # See MTDOperation: charge in-flight mutations to the downtime metric.
+        self.network.get_mtd_stats().mark_mtd_started(mtd, start_time)
 
         if self.logging:
             logging.info('MTD: %s deployed in the network at %.1fs.' % (mtd.get_name(), start_time))
@@ -167,6 +211,8 @@ class MTDAIOperation:
 
         # if network is already compromised while executing mtd:
         if self.network.is_compromised(compromised_hosts=self.attack_operation.get_adversary().get_compromised_hosts()):
+            # No record will be written, so stop charging it as in flight.
+            self.network.get_mtd_stats().clear_in_flight(mtd)
             return
 
         # execute mtd
@@ -245,7 +291,26 @@ class MTDAIOperation:
 
     def get_mtd_scheme(self):
         return self._mtd_scheme
-    
+
+    def get_decision_log(self):
+        return self.decision_log
+
+    # MTDAI-02 disposition (2026-08-08): the 8/3 head below stays commented, and
+    # the live 5/6 head below it is declared the canonical feature set.
+    #
+    # The only reason to restore this head was to feed Tay's checkpoints, and
+    # those are unusable on three independent grounds (mtd_ai_forensics.md §1,
+    # §3), so nothing is being fed. The choice is therefore about which metrics
+    # the agent should see, not about compatibility. Of the three inputs this
+    # head carries and the live one does not, two — shortest_path_variability
+    # and attack_type — are present in the live head as time-series features, so
+    # only their placement differs; the third, exposed_endpoints, is the nearest
+    # analogue to Tay's unimplemented T-FX-02, which Marc ruled low priority and
+    # dropped on 2026-08-07. The live head therefore loses nothing that has not
+    # already been ruled out, and it is the head the substrate actually
+    # computes. Kept rather than deleted because the forensics record cites it
+    # by line number.
+    #
     # def get_state_and_time_series(self):
     #     # State metrics
 
@@ -427,6 +492,12 @@ class MTDAIOperation:
 
    
 
+        # Downtime / operational impact (Tay §4.1.2 ¶4, T-TS-02) — named in the
+        # paper as a time-series input and implemented nowhere in the inherited
+        # code. Definition and rationale in MTDStatistics.downtime_ratio.
+        downtime_ratio = self.network.get_mtd_stats().downtime_ratio(
+            self.env.now, self.downtime_window)
+
         # Create the time series filter
         time_series_filter = {
             "mtd_freq": mtd_freq,
@@ -435,16 +506,17 @@ class MTDAIOperation:
             "shortest_path_variability": shortest_path_variability,
             "ip_variability": ip_variability,
             "attack_type": current_attack_value,
+            "downtime_ratio": downtime_ratio,
         }
     
-        # Create the state array based on state_filter keys
-        state_array = np.array([value if key in self.features["static"] else 0 for key, value in state_filter.items()])
+        # Built from the canonical vocabularies rather than from these dicts'
+        # iteration order, so the vector layout and the reward's indexing cannot
+        # drift apart.
+        state_array = np.array([state_filter[key] if key in self.features["static"] else 0
+                                for key in STATE_FEATURE_ORDER])
 
-        time_series_array = np.array([value if key in self.features["time"] else 0 for key, value in time_series_filter.items()])
+        time_series_array = np.array([time_series_filter[key] if key in self.features["time"] else 0
+                                      for key in TIME_FEATURE_ORDER])
 
-        # Output the filtered arrays for verification
-        print("Filtered State Array:", state_array)
-        print("Filtered Time Series Array:", time_series_array)
-       
         return state_array, time_series_array
   

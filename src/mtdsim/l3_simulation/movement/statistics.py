@@ -64,6 +64,30 @@ class MTDExecution:
 
 
 @dataclass(frozen=True)
+class MTDDecision:
+    """One reactive-defender decision, snapshotted from ``MTDAIOperation``'s own
+    per-decision ledger.
+
+    Only the ``mtd_ai`` scheme produces these: every other scheme deploys on a
+    timer and takes no decision to record. The ledger exists because the
+    execution records cannot supply it — they hold only mutations that *ran*, so
+    a decision forced by the static-degrade guard, one drawn by exploration and
+    one chosen by the policy are indistinguishable after the fact, and the
+    no-op share is not recoverable from them at all.
+
+    ``source`` is one of ``greedy`` / ``random`` / ``forced``. The distinction is
+    load-bearing rather than diagnostic: at any epsilon above zero the pooled
+    no-op share is floored by ``epsilon / n_actions`` whatever the policy has
+    learned, so a share read over all three reports the exploration schedule and
+    not the defender's behaviour.
+    """
+
+    time: float
+    action: int  # 0 is the no-op; 1..4 index the deploying action space
+    source: str
+
+
+@dataclass(frozen=True)
 class MovementRunResult:
     """One run's outcome: the movement records plus the substrate metadata a
     reader needs to compute MTTC / ASR."""
@@ -90,6 +114,12 @@ class MovementRunResult:
     mtd_suspended_count: int = 0        # mutations deferred on resource contention
     mtd_attack_interrupted: int = 0     # substrate's own interrupt tally (cross-check
                                         # against the records' interrupted count)
+    # The reactive defender's per-decision ledger — empty under every scheme but
+    # ``mtd_ai``, which is the only one that takes a decision rather than firing
+    # on a timer. Carried on the result because the whole point of running the
+    # movement attacker against that defender is to read what the defender
+    # *chose*, and ``mtd_executions`` above records only what it deployed.
+    mtd_decisions: tuple[MTDDecision, ...] = ()
 
     def first_compromise_time(self) -> float | None:
         """Sim time of the first compromise the walk drove, or None if the run
@@ -160,11 +190,60 @@ def summarise(results: Sequence[MovementRunResult]) -> dict[str, ProfileSummary]
     return {p: summarise_profile(rs) for p, rs in sorted(by_profile.items())}
 
 
+def decision_summary(results: Sequence[MovementRunResult]) -> dict:
+    """The reactive defender's choice distribution over a run set.
+
+    This is the statistic the axis-8 falsifier is built around: *does what the
+    defender chooses differ across attacker profiles at all?* It is reported as
+    a distribution over the action space rather than as an outcome, because a
+    defender whose choices are unmoved by a large spread in attacker behaviour
+    cannot be steered by a smaller, deliberate one, and one cheap run says so.
+
+    The greedy share is separated from the pooled share for the reason
+    :class:`MTDDecision` records: the pooled one is floored by the exploration
+    rate and would report the schedule rather than the policy. Runs with no
+    ledger (any scheme but ``mtd_ai``) contribute nothing and are counted, so a
+    caller can tell an empty ledger from a defender that never acted.
+    """
+    ledger = [d for r in results for d in r.mtd_decisions]
+    greedy = [d for d in ledger if d.source == "greedy"]
+
+    by_action: dict[int, int] = {}
+    for decision in ledger:
+        by_action[decision.action] = by_action.get(decision.action, 0) + 1
+    by_source: dict[str, int] = {}
+    for decision in ledger:
+        by_source[decision.source] = by_source.get(decision.source, 0) + 1
+
+    n_noop = sum(1 for d in ledger if d.action == 0)
+    n_greedy_noop = sum(1 for d in greedy if d.action == 0)
+
+    return {
+        "n_runs": len(results),
+        "n_runs_with_ledger": sum(1 for r in results if r.mtd_decisions),
+        "n_decisions": len(ledger),
+        "action_counts": dict(sorted(by_action.items())),
+        "source_counts": dict(sorted(by_source.items())),
+        "noop_share": n_noop / len(ledger) if ledger else float("nan"),
+        # The verdict statistic. Read it against the two floors rather than
+        # against zero: the static-degrade guard forces a deployment after its
+        # idle period whatever the policy wants, and a uniform random selector
+        # over a five-action space sits at 0.2.
+        "greedy_noop_share": (
+            n_greedy_noop / len(greedy) if greedy else float("nan")
+        ),
+        "n_greedy": len(greedy),
+        "n_forced": by_source.get("forced", 0),
+    }
+
+
 __all__ = [
     "COMPROMISE_EVENTS",
+    "MTDDecision",
     "MTDExecution",
     "MovementRunResult",
     "ProfileSummary",
+    "decision_summary",
     "summarise",
     "summarise_profile",
 ]

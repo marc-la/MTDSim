@@ -80,6 +80,16 @@ class Evaluation:
         elapsed = record.iloc[-1]['finish_time'] - record.iloc[0]['start_time']
         return len(record) / elapsed if elapsed > 0 else 0
 
+    def downtime_ratio(self, now, window):
+        """Availability lost to MTD execution over the trailing `window`.
+
+        A defence-effort reading that stands on its own: it is defined for any
+        scheme, needs no agent, and measures the cost side of moving, which no
+        other metric in this suite does. The definition and the reasoning behind
+        it are in MTDStatistics.downtime_ratio.
+        """
+        return self.get_network().get_mtd_stats().downtime_ratio(now, window)
+
     def evaluation_result_by_compromise_checkpoint(self, checkpoint=None):
         """
         The time to reach compromise checkpoints
