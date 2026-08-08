@@ -162,6 +162,37 @@ TIME_FEATURE_ORDER = [
     "downtime_ratio",
 ]
 
+# The four mechanisms the action space ranges over, in Tay's order, and the
+# canonical feature selection that goes with them.
+#
+# These live here for the same reason the two vocabularies above do: an action
+# index is meaningless without the list it indexes, so a driver that builds its
+# own list can silently re-point action 1 at a different mechanism than the one
+# the agent was trained to deploy. Action 0 is the no-op, so the action space is
+# ``len(MTD_ACTION_SPACE) + 1``. Imported by every driver rather than restated —
+# ``tools/mtd_ai_run.py`` and the movement runner both read it from here.
+#
+# The import is deferred into the accessor so that reading the action space does
+# not drag TensorFlow in behind it: the movement runner wants the list on a path
+# that has no other reason to load a deep-learning stack.
+def mtd_action_space():
+    """The deploying actions, indexed 1..4 as the agent's output layer expects."""
+    from mtdnetwork.mtd.completetopologyshuffle import CompleteTopologyShuffle
+    from mtdnetwork.mtd.ipshuffle import IPShuffle
+    from mtdnetwork.mtd.osdiversity import OSDiversity
+    from mtdnetwork.mtd.servicediversity import ServiceDiversity
+
+    return [CompleteTopologyShuffle, IPShuffle, OSDiversity, ServiceDiversity]
+
+
+#: The live 5/6 state head (MTDAI-02). Both vectors are emitted at full width
+#: with unselected features zeroed, so the network signature is fixed by the
+#: vocabularies above rather than by this selection.
+CANONICAL_FEATURES = {
+    "static": list(STATE_FEATURE_ORDER),
+    "time": list(TIME_FEATURE_ORDER),
+}
+
 # Security-posture weights, inherited from Tay's implementation unchanged. The
 # paper contains no reward function at all -- §4.2 gives the Bellman target,
 # Figure 2 has a box captioned "Calculate Reward for Action" with nothing behind

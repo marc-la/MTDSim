@@ -54,11 +54,12 @@ import simpy
 from mtdnetwork.component.adversary import Adversary
 from mtdnetwork.component.time_network import TimeNetwork
 from mtdnetwork.data.constants import ATTACKER_THRESHOLD
-from mtdnetwork.mtd.completetopologyshuffle import CompleteTopologyShuffle
-from mtdnetwork.mtd.ipshuffle import IPShuffle
-from mtdnetwork.mtd.osdiversity import OSDiversity
-from mtdnetwork.mtd.servicediversity import ServiceDiversity
-from mtdnetwork.mtdai.mtd_ai import create_network, update_target_model
+from mtdnetwork.mtdai.mtd_ai import (
+    CANONICAL_FEATURES,
+    create_network,
+    mtd_action_space,
+    update_target_model,
+)
 from mtdnetwork.operation.attack_operation import AttackOperation
 from mtdnetwork.operation.mtd_ai_operation import MTDAIOperation
 from mtdnetwork.operation.mtd_ai_training import MTDAITraining
@@ -66,36 +67,16 @@ from mtdnetwork.statistic.evaluation import Evaluation
 from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatistics
 
 
-# The four mechanisms Tay's action space ranges over, in his order. Action 0 is
-# the no-op, so the action space is len(MTD_STRATEGIES) + 1 = 5.
-MTD_STRATEGIES = [
-    CompleteTopologyShuffle,
-    IPShuffle,
-    OSDiversity,
-    ServiceDiversity,
-]
+# The four mechanisms Tay's action space ranges over, in his order, and the live
+# 5/6 state head (MTDAI-02). Both now read from `mtdnetwork.mtdai.mtd_ai`, which
+# owns them alongside the state vocabularies, so this driver and the movement
+# runner cannot disagree about what action 1 deploys or what the agent can see.
+# Action 0 is the no-op, so the action space is len(MTD_STRATEGIES) + 1 = 5.
+MTD_STRATEGIES = mtd_action_space()
 
-# The live state head (MTDAI-02, declared in the rebuild record). Both vectors
-# are emitted at full width with unselected features zeroed, so the network
-# signature is fixed by these lists rather than by the selection.
-STATIC_FEATURES = [
-    "host_compromise_ratio",
-    "attack_path_exposure",
-    "overall_asr_avg",
-    "roa",
-    "risk",
-]
-TIME_FEATURES = [
-    "mtd_freq",
-    "overall_mttc_avg",
-    "time_since_last_mtd",
-    "shortest_path_variability",
-    "ip_variability",
-    "attack_type",
-    "downtime_ratio",
-]
-
-FEATURES = {"static": STATIC_FEATURES, "time": TIME_FEATURES}
+FEATURES = CANONICAL_FEATURES
+STATIC_FEATURES = FEATURES["static"]
+TIME_FEATURES = FEATURES["time"]
 
 STATE_SIZE = len(STATIC_FEATURES)
 TIME_SERIES_SIZE = len(TIME_FEATURES)

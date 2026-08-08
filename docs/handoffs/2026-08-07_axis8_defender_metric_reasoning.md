@@ -21,6 +21,182 @@ session. **Design only; no code written, none should be.**
 
 ---
 
+## 0. Amendment, 2026-08-08 — the premise is now conditional, and the arm it needs is wired but blocked
+
+**Read this section before any other.** It was written after the
+`feat/mtd-ai-cost-calibrated` rebuild landed, which this brief predates by one
+day and which moves the ground under §4, §7 and §8. Three things changed: the
+premise acquired a gate, the design acquired a hard constraint, and the arm
+acquired a blocker. Nothing below §0 has been rewritten — the corrections are
+recorded here so the original reasoning stays legible against them.
+
+### 0.1 There is no "no-op threshold", and under Tay's reward there is no no-op at all
+
+The brief is written as though the attacker could stay *below* a level at which
+the defender acts. **It cannot, because no such level exists.** The defender is
+an `argmax` over five Q-values (`mtd_ai_operation.py` ~line 119), not a
+threshold test. "Sliding under the no-op" is not a bar to stay beneath; it is
+the region of state-space in which `Q(s, 0)` happens to be the maximum, and
+whether that region is non-empty is an empirical property of a *specific set of
+trained weights* — not a structural property of the defender.
+
+**Under the inherited reward that region is empty by construction.**
+`calculate_reward`'s own docstring now states it: every non-zero weight is
+improved by deploying, and the two features that could have priced moving too
+often — `mtd_freq` and `time_since_last_mtd` — are weighted exactly 0. The
+calibration record pre-registers this as **C4**: the greedy no-op share at
+λ = 0 must sit **below 0.10**, and anything higher means the instrument is
+broken rather than the agent thoughtful.
+
+So the side-channel premise in §4 is **false at λ = 0**. There is nothing to
+hide beneath. The mechanism has a target only if the cost-calibrated agent at
+λ > 0 opens one, which is exactly **C1** — and
+[`../implementation/pipeline/ogasp/mtd_ai_cost_calibration.md`](../implementation/pipeline/ogasp/mtd_ai_cost_calibration.md)
+§3 is still unwritten. **That verdict is the gate on this entire brief.** If C1
+fails, no declared attacker policy rescues it, because there is no no-op region
+to steer the defender into.
+
+### 0.2 Three corrections to §4's channel table
+
+- **The reward is now on *deltas*, minus a downtime charge** — `Σ weighted
+  security-posture deltas − λ·Δdowntime_ratio`. §4's closing paragraph ("the
+  training reward closes the loop") describes the pre-rework reward and should
+  be read as history.
+- ⚠ **The two levers §4 calls sharpest carry weight exactly 0.**
+  `host_compromise_ratio` and `attack_type` are both `0` in `SECURITY_WEIGHTS`.
+  Spacing compromises and choosing the verb move the **policy input** — the
+  Q-network consumes the level vector — but contribute **nothing to the training
+  signal**. The distinction matters: the attacker manipulates levels, the agent
+  was trained on deltas, and only `overall_asr_avg`, `roa`, `risk`,
+  `overall_mttc_avg`, `shortest_path_variability` and `ip_variability` are live
+  in the reward at all.
+- **§7.6's degenerate `attack_path_exposure` is config-dependent, not
+  universal.** `target_node` defaults to `None` (`network.py:79`) but *is*
+  assigned when `network_type == 0` (`network.py:210–211`). Where it is constant
+  its −75 weight contributes exactly zero, since a constant has zero delta. Still
+  owed the instrumented run §4 asked for; do not quote it either way until then.
+
+### 0.3 ✚ The design constraint that decides the build — inherited from axis 6's failure
+
+§6 rules for the endowed form and §8 recommends a declared policy. **The obvious
+implementation of that — a static per-tactic "metric footprint" table — is
+already known to fail on this seam**, and the reason is measured rather than
+argued.
+
+[`../implementation/pipeline/ogasp/incentive_rationality.md`](../implementation/pipeline/ogasp/incentive_rationality.md)
+§6.3 records why the axis-6 build died: the modulator was *"a pure function of
+declared data and the current place, so its factor table is precomputable"* — a
+spike folded it into a plain overlay and reproduced the stateful run **30/30
+bit-identical**. *"The MTD condition is not among its inputs, so no parameter
+choice could have made it respond to MTD."*
+
+A static footprint table has exactly that shape. It would reference the defender
+nowhere and would **fail this brief's own §2 test**, the one that separates axis
+8 from axis 7. Two consequences, both binding:
+
+1. **The factor must depend on something that varies within the run as a
+   function of the defender's actual behaviour.** The seam already provides it:
+   `observe_mtd_interrupt` (`movement/state.py`) reports every mutation the
+   attacker absorbs, *before* the routing decision that follows. An attacker
+   belief updated by mutations it has actually taken is defender-conditioned in a
+   way no precomputation can capture. That hook is the mechanism's justification
+   for existing on this axis.
+2. **The acceptance gate is that the collapse test must *fail*.** Fold the
+   factor table into a static overlay; if the run reproduces bit-identically, the
+   mechanism is not axis 8 and must not be reported as it. Reuse
+   `data/results/axis6_rationality/collapse_test.py`. **Add this to §9.**
+
+A second inherited caution: a ratio normalised over the out-set is invariant to
+anything scaling uniformly across it, which is the other half of why axis 6
+died. Check the footprint is not near-proportional to declared dwell before
+committing, or the null reappears for the same reason.
+
+### 0.4 The dumb / smart split, and what must *not* go in the same mechanism
+
+The split is **one parameter**. λ = 0 is the exact null and is bit-identical to
+today, so the "dumb" APT is the current attacker for free and the ablation is
+exact; λ > 0 is the "smart" one. One declared family, one band, swept — the
+discipline the utility modulator already passed.
+
+⚠ **The accumulate-then-strike arc is a second mechanism and must not be folded
+into the first.** Constant λ buys suppression only. The arc needs λ gated on
+accumulated knowledge, which is the sibling brief's quantity — and with both in
+one modulator no effect can be attributed to either. §5's composition hazard
+applies exactly here. Note also the collision already on record
+([`../implementation/pipeline/ogasp/targeted_attacker_feasibility.md`](../implementation/pipeline/ogasp/targeted_attacker_feasibility.md)
+§7): a realised-success channel and the axis-7 learning modulator would read the
+same running estimate, and that boundary is owed *before* either is built on the
+other.
+
+### 0.5 ✚ What was built this session — the arm, and the blocker it exposed
+
+**The arm did not exist.** `tools/mtd_ai_run.py` builds the inherited
+`Adversary`, so there was no configuration in which the movement attacker faced
+the reactive defender at all — the falsifier §8 asks for was unrunnable. It is
+now wired:
+
+- `run_movement(..., mtd_scheme="mtd_ai", mtd_ai=MTDAIConfig(main_network=...))`
+  starts `MTDAIOperation` against the movement walk. The defender is given the
+  **bare** attack operation, never the state-seam proxy.
+- The action space and the canonical 5/6 feature head moved to
+  `mtdnetwork.mtdai.mtd_ai` (`mtd_action_space()`, `CANONICAL_FEATURES`) and both
+  drivers now read them from there, so no run can re-point action 1 at a
+  different mechanism than the agent was trained to deploy. The import is
+  deferred so the movement path does not load TensorFlow.
+- The per-decision ledger is carried onto the run result (`mtd_decisions`), and
+  `decision_summary()` reports the choice distribution with the **greedy** no-op
+  share separated from the pooled one — which is §9's first bullet, now
+  computable.
+
+**Verified end to end**: `objective_exfiltration_impact`, two seeds, 15 decisions
+each, ledger and mutation mix flowing. With an *untrained* agent at ε = 0 the
+greedy no-op share is 0.0 and every decision is action 1 — the degenerate
+constant argmax an untrained network should give, and an instrument check only.
+
+⚠ **BLOCKER, for Marc's disposition — §7.5 confirmed, and worse than predicted.**
+Two of the three profiles tried **crash the run outright** with
+`ZeroDivisionError` on `attack_success_rate = compromised_num / attack_event_num`
+(`mtd_ai_operation.py` ~line 448). Measured trigger, at the **first decision**
+(t = 200.1 s):
+
+| | value at crash |
+|---|---|
+| record rows | 1 |
+| `compromised_num` (60 s) | 0 |
+| `attempt_hosts` | **0** |
+| verbs in record | `{SCAN_HOST: 1}` |
+
+**§7.5 attributed this to a profile dispatching few `SCAN_PORT` verbs. The
+measurement refines that**: the proximate cause is `attempt_hosts == 0` — the
+walk has run only *host-independent* recon (`SCAN_HOST` writes
+`current_host_uuid = -1`), so the denominator never accumulates. Any profile
+whose opening stretch is host-independent trips it, and the inherited attacker
+escapes only because its phase order reaches a host-scoped verb before t = 200.
+
+This makes the blocker **flaky rather than categorical** — one profile in three
+survived — which is the worse failure mode, because a study could be run without
+noticing which arms were silently unrunnable.
+
+**Not repaired here**, per §10: this is a substrate change and needs its own
+disposition. It is now the **hard prerequisite for the §8 falsifier**, which
+cannot report a per-profile distribution while most profiles cannot complete a
+run.
+
+### 0.6 Revised order of work
+
+1. **Write the C1 / C4 verdict** into the calibration record §3. Everything else
+   is downstream; a C1 failure kills this brief.
+2. **Disposition the §7.5 divide-by-zero** (0.5). Until then the falsifier covers
+   only whichever profiles happen to survive, which is not a per-profile
+   distribution.
+3. **Then run the §8 falsifier** — now much cheaper than when §8 was written,
+   because the per-decision ledger and `decision_summary()` exist and are exactly
+   its instrument.
+4. **Only then design the policy** — and write the collapse test (0.3) *before*
+   the modulator, not after.
+
+---
+
 ## 1. The question, in the terms it was actually posed
 
 > *"The attacker doesn't see the model/scheme of the MTD, but can see whether the
