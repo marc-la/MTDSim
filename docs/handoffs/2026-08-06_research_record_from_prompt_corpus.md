@@ -122,6 +122,22 @@ Reuse the idea; discard the format. And note the coverage gap: that pull predate
 the July 22–23 and all August work, so it covers well under half of what now
 exists.
 
+> **Quantified 2026-08-08, and the answer clears the voice contract.** The defect
+> is worse than "no triage" sounds: 16 of that file's 142 blocks contain
+> harness-injected `task-notification` spans, and those spans carry **16 067 words
+> — 35.5 % of the file's word mass**. Nothing in the file marks them, and its
+> filename invites reading it as Marc's prompts.
+>
+> **But the analysis that used it was not fooled**, and this must be stated so that
+> no future session raises the alarm this check nearly did: §1 of
+> `voice_evidence_prompt_corpus_2026-07.md` buckets "harness/agent output
+> (task-notifications, tool results, ide tags), ~22 blocks, ~170 KB" and records it
+> **excluded entirely**. So the exposure is confined to the artefact, the voice
+> rules do not rest on assistant prose, and there is nothing here to action —
+> consistent with voice evidence being out of scope for this brief. What it does do
+> is price the format precedent: the exclusion survives only as prose in a separate
+> memory file, where `tools/prompt_corpus.py` makes it a filter that runs.
+
 It is a **format precedent only**. That pull mined the corpus for *how Marc
 writes*; this one mines it for *what he decided and why*. The extraction
 mechanics are shared and the findings are not, so do not treat any conclusion in
