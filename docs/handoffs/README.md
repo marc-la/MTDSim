@@ -21,9 +21,12 @@ build is **one cheap measurement** (the exploit-failure decomposition re-taken o
 the *movement* arm, where D-35 says EXPLOIT_VULN is uninterruptible, so the
 memory's headroom should be far larger than the native arm showed) and **one owed
 record** (the dated axis-6 reversal, since R-A reopened a closed row). (1) is
-unblocked and settles the schema question. (3) and (5) are the pair that wait on
-the `mtd_ai` sanction, and (3) supplies the defender arm (5) needs — though (3) is
-wanted for results pulling regardless of whether (5) is ever built. (4) is
+unblocked and settles the schema question. **(5)'s dependency is discharged in
+substance:** it wanted a reactive defender that responds to what it measures, and
+one now exists and runs — the rebuild shipped 2026-08-08 — so what is left of the
+`mtd_ai` sanction is Marc's ruling on *using* it in a reported experiment, not a
+question about whether there is anything to sanction. (3) is now the
+scaled-training proposal that rebuild opened, and it gates nothing. (4) is
 independent of the axis chain and can run alongside any of it.
 
 > **Reconciled on merge, 2026-08-05.** This chain was written on the boundary
@@ -194,33 +197,18 @@ have patched runners whose committed numbers were taken under the old labels.)*
    framing — *move better, not move more* — with the four results that evidence it
    and the one clause the project's own data refuses.
 
-3. [`2026-08-07_mtd_ai_cost_calibrated_rebuild.md`](2026-08-07_mtd_ai_cost_calibrated_rebuild.md)
-   — **rebuild `mtd_ai` into an agent that trades cost against risk, and prove it
-   does before any Kaya time is spent.** Supersedes and absorbs the reintegration
-   brief (2026-08-06), **deleted** in the commit that opened this one — its defect
-   list, determinism gate, wiring seam and hard constraints are carried forward
-   in full, so nothing needs reading from it. Both of that brief's load-bearing
-   premises did not survive, per
-   [`../implementation/pipeline/ogasp/mtd_ai_forensics.md`](../implementation/pipeline/ogasp/mtd_ai_forensics.md):
-   **every figure in Tay's paper was produced by a uniform random selector** —
-   `epsilon` defaults to 1.0 in `execute_ai_model` and the harness never overrides
-   it, so `predict` was never called (verified at five commits) — which dissolves
-   the reuse-vs-retrain question rather than answering it, since the project's
-   existing random-scheme arm already *is* the faithful replication of those
-   results. And **the do-nothing action advances no simulated time**: the
-   `yield` sits inside `if action > 0:`, so a no-op is rejection sampling under
-   ε-greedy and a livelock under a greedy policy. The root cause is upstream of
-   both — `calculate_reward` weights `mtd_freq` and `time_since_last_mtd` at
-   **zero**, so **"always deploy" is optimal** and action 0's Q-value is never a
-   TD target. The checkpoints are separately unusable: an `8/3 → 5` signature the
-   live head cannot produce, `moving_variance` collapsed to exactly 0 by
-   batch-size-1 `fit`, and 34 of 55 with a policy entropy under 0.5 bits (one
-   never trained at all). **The build is therefore Tay's own unimplemented
-   T-TS-02** — downtime / operational impact, as a *network metric only* (Marc,
-   2026-08-07) — plus a reward charge against it. Its kill criterion is a CPU-scale
-   `λ` ladder: if the no-op share does not move with the cost weight, the agent is
-   trading nothing off and Kaya cannot fix it. **Ends at a go/no-go, not a trained
-   model.**
+3. [`2026-08-08_mtd_ai_scaled_training_proposal.md`](2026-08-08_mtd_ai_scaled_training_proposal.md)
+   — **what a scaled `mtd_ai` training run would have to specify, costed against
+   a measured CPU baseline.** Opened 2026-08-08 by the rebuild it replaces, which
+   shipped; it is the proposal only and runs nothing. Its prerequisites come from
+   what the calibration measured rather than from general caution: per-worker RNG
+   ownership and a declared reproducibility status (the determinism gate found an
+   added defender-side draw shifts the shared streams — both of them, Python
+   `random` *and* numpy/scipy, which is wider than D-29's wording), policy entropy
+   as a first-class outcome (MTDAI-16), the static-degrade factor swept or
+   separated out (MTDAI-17), and MTDAI-14/15 repaired first. Cost baseline:
+   **692 s per agent** at Tay's own geometry, against ~22 hours for the same agent
+   under the inherited per-sample replay loop.
 
 4. [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
    — **the research record**, mined from Marc's own prompts across the 110
@@ -276,12 +264,29 @@ settles the schema question and serves the rest — and note that the adjacent
 measure, `exploitability` from the exposure reader), so **host identity is the
 only part left**. (2) when its ruling lands. (3) runs alongside either.
 
-**(3) grew, 2026-08-07.** It was a wiring job; the forensics pass turned it into a
-rebuild. That does not block (2) — (2)'s arms 1 and 2 need no reactive defender —
-but it does mean **(2)'s consequential half now waits on a build rather than on a
-ruling**, and the R-B ruling it was blocked on ("sanction Tay's agent") is a
-narrower question than it was: what would be sanctioned is no longer Tay's
-trained agent, because there isn't one.
+**(3) shipped, 2026-08-08, and what it returned changes (5)'s footing.** It was a
+wiring job, the forensics pass turned it into a rebuild, and the rebuild now
+exists: the no-op costs simulated time and stores a transition, moving is charged
+against a downtime metric readable under any scheme, and the replay update is
+batched. The `λ` ladder **passed its pre-registered criterion** — greedy no-op
+share **+0.732** between the bottom and top halves, same sign in all three seeds,
+against a bar of 0.15, with the instrument's own kill criterion intact (the λ = 0
+agent declines to deploy on 2.1 % of decisions, bar 10 %). Record:
+[`../implementation/pipeline/ogasp/mtd_ai_cost_calibration.md`](../implementation/pipeline/ogasp/mtd_ai_cost_calibration.md).
+
+**Read that verdict narrowly, because two of its findings are load-bearing
+elsewhere.** The response is a **step, not a gradient** — seventeen of eighteen
+agents are near-constant policies and `λ` selects which constant, which is the
+same degeneracy the forensics pass measured in Tay's own checkpoints, reappearing
+under a *repaired* reward (MTDAI-16). And the **static-degrade guard supplied 29
+of the 31 mutations** that fired at the top of the ladder, so the guard rather
+than the policy is doing the defending in exactly the region the study reports as
+success (MTDAI-17). Anything leaning on this defender — (5) most of all, whose
+premise is that the attacker steers what the defender measures — has to reckon
+with an agent that currently answers with one of two constants. The mutation-mix
+half is worse off still: the ladder's C3 is **recorded not held**, because at the
+top of the ladder the mix is the guard's uniform draw and at the bottom it is a
+single pinned mechanism.
 
 ---
 
@@ -300,7 +305,7 @@ one. The full rows, with costed options, are in the disposition list of
 | **D-19** | The commented-out OS success gate. Recommendation: leave commented and record | — |
 | **D-26** | `Host.total_users` is the index of the first password-reusing account, not the account count. **Same two-line loop as D-32** — rule together | — |
 | **D-27** | The credential channel carries 10–23 % of compromises and no mechanism in the reported family moves it | family scope |
-| **D-29** | Mechanisms and attacker share one RNG stream, so seed-matched arms are **independent, not paired** — record-grade | seed budgeting |
+| **D-29** | Mechanisms and attacker share one RNG stream, so seed-matched arms are **independent, not paired** — record-grade. **Widened 2026-08-08 by the `mtd_ai` determinism gate:** it is **two** shared streams, not one. Python `random` carries the forced-deploy draw, the exploration action choice and the detection-sensitivity draw against the attacker's host-ordering tie-break; **numpy/scipy** carries every `exponential_variates` call, which is both the defender's trigger and execution times *and* the attacker's action durations and confusion penalty. Measured: one extra draw shifts everything downstream by one position | seed budgeting |
 | **D-30/31/32** | NAV feed degeneracy; HostTopologyShuffle compromise-model desync; UserShuffle's ratchet — the latter two latent, gating those mechanisms' activation | latent-pool use |
 | **D-35** | EXPLOIT_VULN is uninterruptible in the movement arm, so the diversity family loses **89-97 %** of its exploit-blocking windows in the headline arm. Mapping policy (an S3-R consequence); the recommendation is to state the boundary rather than repair | the diversity family's cross-arm comparison |
 | **D-36** | A network-class mutation arriving during an application-class penalty **loses its cursor clear** — the gate fires, the counter increments, the documented position destruction does not happen. The one candidate *bug* of the disruption brief; repair recommended, bounded re-baseline (1.0/run at `simultaneous`, 0 elsewhere) | — |

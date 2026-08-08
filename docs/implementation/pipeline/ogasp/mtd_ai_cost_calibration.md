@@ -256,6 +256,15 @@ mechanisms and the attacker share one stream; what this adds is that the no-op
 repair *changes how many draws the defender takes*, since a deploying decision
 draws an execution time and a mutation's own randomness where a no-op does not.
 
+Two streams are shared, not one, and the repair touches both. The Python
+`random` stream carries the forced-deploy draw, the exploration draw's action
+choice and the detection-sensitivity draw on the defender side, and the
+attacker's host-ordering tie-break on the other. The **numpy/scipy** stream
+carries every `exponential_variates` call — which is what the no-op repair adds
+per decision, and which the attacker also draws its action durations and its
+confusion penalty from. D-29's finding is therefore wider than its wording, and
+the practical consequence is the same either way.
+
 **Verdict: deterministic, but not paired.** Every figure below is a seeded point
 that reproduces exactly, so SIM-05 holds and the seed budget does not inflate.
 What does **not** hold is seed-matching across arms: two λ arms at the same seed
@@ -272,5 +281,164 @@ three rather than as a pooled mean.
 
 ## §3 Results
 
-*(To be written when the ladder completes. This record is committed at §2 so
-that §0 is on the record before any result exists.)*
+Eighteen agents — six λ points × three seeds — each trained from scratch for 120
+episodes and then evaluated over five greedy episodes on fresh networks. 90
+evaluation episodes, 2 250 greedy decisions. Raw output and the analysis script
+are in the gitignored workspace `data/results/mtd_ai_cost_calibration/`.
+
+**A note on how it was run.** The ladder ran as six parallel single-λ processes
+rather than one serial sweep, after the host suspended for nine hours during a
+first serial attempt. Every cell is seeded independently of every other, so the
+restructure cannot change a result, and the λ = 0 seed 11 cell **reproduced the
+serial run's greedy no-op share to three decimal places** (0.064), which is the
+check that says so rather than the assertion.
+
+### The ladder
+
+Means over three seeds. `no-op (chosen)` excludes decisions the static-degrade
+guard forced; `forced` is the share of decisions the guard took over.
+
+| λ | no-op (all) | no-op (chosen) | forced | mutations / 1 000 s | downtime ratio | mean mutation duration (s) | hosts compromised |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 0 | 0.021 | 0.021 | 0.000 | 4.89 | 0.470 | 99.9 | 9.27 |
+| 25 | 0.000 | 0.000 | 0.000 | 5.00 | 0.453 | 90.0 | 7.07 |
+| 50 | 0.000 | 0.000 | 0.000 | 5.00 | 0.441 | 90.1 | 6.40 |
+| 100 | 0.379 | 0.405 | 0.027 | 3.11 | 0.275 | 93.2 | 7.00 |
+| 200 | 0.917 | 0.994 | 0.077 | 0.41 | 0.000 | 93.5 | 10.13 |
+| 400 | 0.920 | 0.992 | 0.072 | 0.40 | 0.000 | 88.7 | 9.67 |
+
+Per seed, which is what C1 turns on:
+
+| seed | λ=0 | λ=25 | λ=50 | λ=100 | λ=200 | λ=400 |
+|---|---:|---:|---:|---:|---:|---:|
+| 11 | 0.064 | 0.000 | 0.000 | 0.216 | 0.912 | 0.920 |
+| 22 | 0.000 | 0.000 | 0.000 | 0.000 | 0.920 | 0.920 |
+| 33 | 0.000 | 0.000 | 0.000 | 0.920 | 0.920 | 0.920 |
+
+### The pre-registered conclusions, applied
+
+**C4 — the instrument holds.** The λ = 0 greedy no-op share is **0.021**,
+against a bar of below 0.10. The cost-free reward's optimal policy is to deploy
+on every decision, and that is what the agent trained under it does. The zero
+point behaves, so a verdict is readable off the ladder.
+
+**C1 — HELD, and not marginally.** Top-half minus bottom-half greedy no-op
+share is **+0.732**, against a bar of 0.15, with the same sign in every seed
+(+0.661, +0.613, +0.920). The agent moves less when moving costs more.
+
+**C2 — held.** The realised mutation rate falls from **4.89 to 0.40 per
+1 000 s**, and the residue is the guard's floor rather than the policy: at
+λ ≥ 200, **29 of the 31 mutations that fired across fifteen evaluation episodes
+were forced deployments**, so the policy is contributing almost nothing to the
+rate. The downtime metric follows it to 0.000, which is the metric the charge is
+levied on doing what the charge asks.
+
+**C3 — passes its own arithmetic and is NOT interpretable. Recorded as not
+held.** Mean mutation duration falls 99.9 → 88.7 s and the cheap-mechanism share
+rises 0.003 → 0.567, which is what C3 asked for. Both readings are artefacts,
+and the ladder's own bookkeeping says which:
+
+- At the **top** of the ladder the mutations are overwhelmingly *forced*, and
+  the guard draws uniformly over the four mechanisms by construction. The pooled
+  λ = 400 mix is 0.23 / 0.20 / 0.33 / 0.23 — a uniform draw to within sampling
+  noise on 30 events. A "cheap share" of 0.567 there is the guard's coin, not a
+  preference.
+- At the **bottom** the policy is degenerate: λ = 0 fires **IPShuffle on 100 %**
+  of 367 mutations across all three seeds. A mean duration of 99.9 s is the
+  duration of IPShuffle, not an average over a choice.
+- Per seed the cheap share is wildly inconsistent at fixed λ — 0.009 / 0.000 /
+  0.000 at λ = 0, but 0.928 / 0.000 / 0.096 at λ = 50 — which is the direct
+  evidence that nothing in the mix is tracking cost.
+
+**C5 — no reliable movement, as pre-registered it was never a pass condition.**
+Compromise breadth reads 9.27 → 9.67 across the ladder with a dip to 6.40 at
+λ = 50, but the per-seed means at fixed λ swing far more than the ladder does
+(9.6 / 3.4 / 8.2 at λ = 25; 3.2 / 8.0 / 8.0 at λ = 50), and the pooled
+per-episode standard deviation is 2.3–3.8 hosts. Nothing here separates at three
+seeds and no directional claim should be read off it.
+
+### The finding the pass conceals, and it matters more than the pass
+
+**The response is a step, not a gradient.** Every one of the eighteen cells sits
+at one of two attractors: a greedy no-op share of ≈ 0.000, or ≈ 0.920 — which is
+exactly the static-degrade guard's ceiling, one forced deployment per ten
+decisions. Only one cell in eighteen (λ = 100, seed 11, at 0.216) is anywhere in
+between. Where the flip happens moves with the seed — seed 33 flips at λ = 100,
+seeds 11 and 22 between 100 and 200 — but each individual agent is
+near-constant.
+
+So what has been demonstrated is that **the cost term reaches the policy and can
+flip it**, not that the agent balances cost against risk at the margin. The
+agents are essentially constant-action policies, and λ selects which constant.
+This is the same policy degeneracy the forensics pass measured in Tay's own
+checkpoints — 34 of 55 below 0.5 bits of greedy-policy entropy, several
+literally constant — reappearing in a rebuilt agent under a repaired reward,
+which is evidence that the degeneracy is a property of the training regime
+rather than of those particular runs.
+
+**A second finding, and the one worth carrying into the discussion.** The λ = 0
+agent — the one whose reward is Tay's, unmodified — deploys at the maximum
+available rate and pins to **IPShuffle**, the single mechanism this project has
+separately verified changes nothing the attacker can read
+([`../../attacker_read_surface.md`](../../attacker_read_surface.md)). It
+compromises 9.27 hosts. The λ = 400 agent barely deploys at all and compromises
+9.67. Maximal movement into the attacker's blind spot buys, on this evidence,
+approximately what not moving buys. That is not a claim the ladder was built to
+test and the seeds do not separate it, but it is the shape of the thing and it
+bears directly on what "minimising unnecessary MTD deployments" could ever have
+meant here.
+
+### Verdict
+
+**GO, with the scope of the go stated narrowly.**
+
+C1 holds by a wide margin with C4 intact, so the pre-registered rule returns a
+pass: the rebuilt agent's willingness to do nothing is driven by the price of
+moving, and the architecture and training regime can express that. A scaled
+training proposal is therefore worth writing, and it is
+[`../../../handoffs/2026-08-08_mtd_ai_scaled_training_proposal.md`](../../../handoffs/2026-08-08_mtd_ai_scaled_training_proposal.md).
+
+**What the go does not license, and each of these is measured rather than
+cautionary:**
+
+- **Not graded cost sensitivity.** The ladder measured a threshold. An agent that
+  is either always-deploy or never-deploy is not "moving smartly"; it is picking
+  one of two constants. Any scaled run has to report policy entropy as a first-
+  class outcome, because a bigger network trained the same way will most likely
+  produce a bigger constant-action policy.
+- **Nothing about the mutation mix.** C3 is not interpretable, so the claim that
+  a cost-aware agent shifts *which* mechanism it fires is untested here.
+- **Nothing about security.** C5 does not separate. The trade-off is
+  demonstrated; whether the trade is a good one is not.
+- **Nothing about non-reactive defenders**, and no comparison to any published
+  Tay figure — those characterise a uniform random selector, and the project's
+  own random-scheme arm is the comparator.
+
+**The cheapest next thing, if the scaled run is approved,** is not a bigger
+network. It is to find out whether the step can be made a gradient at CPU scale
+— by sweeping the static-degrade factor (which currently *sets* the upper
+attractor), by reporting greedy-policy entropy per cell, and by putting ladder
+points between 100 and 200 where the flip actually happens. That is a day's
+compute against the several this brief's own proposal would cost.
+
+---
+
+## §4 Dispositions opened here
+
+Numbered in the `MTDAI-` namespace the forensics record opened; none is repaired.
+
+| # | What | Evidence | Recommendation |
+|---|---|---|---|
+| **MTDAI-14** | A deploying decision whose mutation is *suspended* by resource occupation never reaches `_mtd_execute_action`, so it stores no transition. The deploy action's Q-value is trained only on the occasions when deploying worked — the learning-side analogue of MTDAI-04, one step out | §1 | Repair before any scaled run; it biases the agent toward believing deployment always succeeds |
+| **MTDAI-15** | `done` is hardcoded `False` on every stored transition, so no episode boundary is terminal and the agent bootstraps across the end of one episode into an unrelated one | §1 | Repair before any scaled run |
+| **MTDAI-16** | The trained policies are near-constant: 17 of 18 cells sit at one of two attractors, and λ selects which. This reproduces the degeneracy measured in Tay's checkpoints under a *repaired* reward, so it is a property of the training regime | §3 | Report policy entropy as a first-class outcome; investigate at CPU scale before scaling up |
+| **MTDAI-17** | The static-degrade guard both **sets** the upper attractor (0.920 = one forced deployment in ten) and **supplies 29 of 31 mutations** at the top of the ladder, so it is doing the defending in exactly the region the study reports as success | §3 | Sweep it. Until then, no figure at λ ≥ 200 may be attributed to the policy |
+
+**One methodological item, recorded not actioned.** λ, the downtime window and
+the reward's per-feature divisors are declared values in the sense
+[`../../declared_value_provenance.md`](../../declared_value_provenance.md)
+means it. Their reasoning is in §0 of this record, which satisfies the handoff's
+requirement, but they are **not** entered in that ledger's machine-readable
+form with a generator and a scrutiny history. Whether they should be is Marc's
+call; the divisors are rule-derived from substrate constants and would pass the
+reproducibility requirement, and λ is swept rather than declared at a point.
