@@ -1,6 +1,7 @@
 ---
 status: durable
 created: 2026-08-06
+updated: 2026-08-09
 topic: "The duty-cycle study — the kill criterion fired. Which attacker looks stealthier flips entirely on how the baseline's exploit attempts are counted, so the tempo comparison cannot be made on this substrate until the S3-R pricing asymmetry is resolved. The one thing that did settle: the result is timing, not the tactic ranking"
 ---
 
@@ -212,6 +213,20 @@ dwell-only convention is settled by R1 and needs no further ruling. The
 per-vulnerability row count is no longer only a bookkeeping question about
 `baseline_ledger` — it is the axis this study's verdict turns on, which raises its
 priority.
+
+> **A third route was taken up on 2026-08-09 and it did not need either ruling:
+> change the statistic rather than the pricing**
+> ([`stealth_spacing_diagnostic.md`](stealth_spacing_diagnostic.md)). Measured on
+> **inter-invocation spacing** — the gap `D`'s decay actually integrates, rather
+> than the level's concentration — four of five profiles sit 1.5–1.8× above the
+> baseline with seed-level CIs disjoint, and an ablation attributes the whole
+> margin to the non-action tactics. **Nothing here rescores D1–D5**, and §5 of that
+> record reconciles the apparent tension with D2: `p90/p50` measures burstiness,
+> and an arm can be both more tightly clustered and more densely spaced than
+> another. What it changes is §8's recommendation — the within-arm confinement
+> stays the right ruling for *level* comparisons, but a **spacing** claim survives
+> the confound when it is stated in the collapsed unit with the per-vulnerability
+> reading shown beside it, which fig4 already does.
 
 ## 9. Evidence
 

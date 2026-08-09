@@ -1,6 +1,7 @@
 ---
 status: durable
 created: 2026-08-06
+updated: 2026-08-09
 topic: "The axis-5 exposure reader — built, validated, and it inverts the prediction it was written to test: the inherited attacker reads QUIETER than every profile, because the tempo contrast the design rested on was an artefact of per-vulnerability row counting. The measure discriminates; the low-and-slow story does not survive it"
 ---
 
@@ -37,7 +38,18 @@ topic: "The axis-5 exposure reader — built, validated, and it inverts the pred
 >
 > The successor is [`stealth_dutycycle.md`](stealth_dutycycle.md), which rebuilds
 > the measure on both rulings — and whose own kill criterion then fired, for a
-> different and more fundamental reason.
+> different and more fundamental reason. A third record,
+> [`stealth_spacing_diagnostic.md`](stealth_spacing_diagnostic.md), then re-read
+> the same corpus on inter-invocation spacing rather than on level, and found the
+> arm contrast this record's E2 was written to test — in the predicted direction,
+> and attributed by ablation to the non-action tactics.
+>
+> **Two of this record's figures were not reproducible when that was written**,
+> and the repair is worth knowing about before quoting them: the script's
+> hard-coded class labels no longer matched the corpus, and it had silently
+> drifted onto the R1/R2 defaults, so re-running it drew *study 2's* numbers under
+> study 1's titles. Both are fixed and the archived figures now reproduce exactly;
+> `fig1` was retired as superseded. Detail in the spacing record §7.
 
 **Status:** durable results record. It discharges the axis-5 exposure-metric
 handoff. Conclusions and criteria were fixed in
