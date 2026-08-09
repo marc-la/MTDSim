@@ -59,6 +59,17 @@ DEFAULT_ROOTS = [
     Path.home() / ".claude-acc2" / "projects" / "-home-marc-GitHub-MTDSim",
 ]
 
+# The snapshot the gate measures against. The live store is not a fixed corpus:
+# on 2026-08-08, nine transcripts were deleted from `acc1` within hours of the
+# snapshot being taken (106 files down to 97), which is why a regression check
+# pinned to the live store fails for reasons that have nothing to do with the
+# filter set. A snapshot is immutable by construction, so that is what `gate`
+# reads. See the handoff's § *The corpus is not stable* for the loss event.
+SNAPSHOT_ROOTS = [
+    Path.home() / "mtdsim-corpus-snapshot" / "2026-08-08" / "acc1",
+    Path.home() / "mtdsim-corpus-snapshot" / "2026-08-08" / "acc2",
+]
+
 # ---------------------------------------------------------------------------
 # The filter set.
 #
@@ -249,7 +260,7 @@ def harvest(roots, include_nested=False, since=None, until=None, min_words=0):
 
 def cmd_extract(args):
     records = harvest(
-        args.root,
+        args.root or DEFAULT_ROOTS,
         include_nested=args.include_nested,
         since=args.since,
         until=args.until,
@@ -271,14 +282,14 @@ def cmd_extract(args):
 
 def cmd_stats(args):
     records = harvest(
-        args.root, include_nested=args.include_nested, since=args.since, until=args.until
+        args.root or DEFAULT_ROOTS, include_nested=args.include_nested, since=args.since, until=args.until
     )
     if not records:
         print("no records")
         return
     bands = [(0, "all human-authored records"), (15, "substantive (>= 15 words)"),
              (150, "the design-argument corpus (>= 150 words)")]
-    print(f"roots: {', '.join(str(r) for r in args.root)}")
+    print(f"roots: {', '.join(str(r) for r in (args.root or DEFAULT_ROOTS))}")
     print(f"transcripts: {len(set(r['source'] for r in records))}")
     print(f"date range: {records[0]['timestamp'][:10]} -> {records[-1]['timestamp'][:10]}")
     print(f"branches touched: {len(set(r['gitBranch'] for r in records if r['gitBranch']))}")
@@ -321,8 +332,20 @@ def _month_gaps(months):
 
 
 def cmd_gate(args):
-    records = harvest(args.root, until=GATE_UNTIL, min_words=GATE_MIN_WORDS)
+    # Measure the snapshot unless a corpus was named explicitly. Pinning a
+    # regression check to a mutable store makes the check report data loss as
+    # filter drift, which is the opposite of useful.
+    roots = args.root or [r for r in SNAPSHOT_ROOTS if r.exists()]
+    if not roots:
+        print("SKIP — no snapshot at "
+              f"{SNAPSHOT_ROOTS[0].parent}. The pinned figure cannot be verified "
+              "against the live store, which loses transcripts; re-take a "
+              "snapshot (see the snapshot README) or pass --root explicitly.")
+        return 1
+
+    records = harvest(roots, until=GATE_UNTIL, min_words=GATE_MIN_WORDS)
     prompts, words = len(records), sum(r["words"] for r in records)
+    print(f"corpus: {', '.join(str(r) for r in roots)}")
     print(f"pinned: {GATE_PROMPTS} prompts / {GATE_WORDS} words "
           f"(>= {GATE_MIN_WORDS} words, timestamp <= {GATE_UNTIL})")
     print(f"measured: {prompts} prompts / {words} words")
@@ -330,8 +353,9 @@ def cmd_gate(args):
     if (prompts, words) == (GATE_PROMPTS, GATE_WORDS):
         print("PASS — filter set unchanged")
         return 0
-    print("FAIL — the filter set has drifted. This is a bug in the tool, not a "
-          "new finding: a wrapper form has started or stopped matching.")
+    print("FAIL — the filter set has drifted against a fixed corpus, so this is "
+          "a bug in the tool rather than a new finding: a wrapper form has "
+          "started or stopped matching.")
     return 1
 
 
@@ -371,7 +395,8 @@ def main(argv=None):
     p.set_defaults(func=cmd_gate)
 
     args = parser.parse_args(argv)
-    args.root = args.root or DEFAULT_ROOTS
+    # Each subcommand resolves its own corpus: extract/stats read the live
+    # store, gate reads the immutable snapshot.
     return args.func(args) or 0
 
 

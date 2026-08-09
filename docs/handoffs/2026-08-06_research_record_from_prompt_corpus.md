@@ -250,6 +250,39 @@ that is the technique to repeat when the corpus next grows.
 is Stage 2's to create, and `docs_map.md` gets its entry in that commit, not this
 one. An empty registered subtree would be worse than none.
 
+## The corpus is not stable — a loss event, hours after the snapshot
+
+**On 2026-08-08, nine transcripts were deleted from the `acc1` live store**
+between the snapshot being taken that morning and a re-check the same session:
+106 top-level files down to 97, and down again to 91 by the following day. The
+sessions lost were `02a6cd00`, `07c78ba1`, `2404f5f8`, `283c1fed`, `406e4201`,
+`7c861e06`, `d6dc2837`, `d6ed1838`, `f254e1ce`.
+
+Measured through the extractor, the ≥ 150-word band over the pinned date bound
+fell from **73 prompts / 60 399 words to 68 / 58 645** — five design-argument
+prompts and 1 754 words, gone from the live store inside a few hours. The
+snapshot still reproduces 73 / 60 399 exactly, so nothing is actually lost.
+
+**This is the brief's own risk premise, confirmed by event rather than by
+argument.** Stage 0 was justified on the grounds that "a Claude Code reinstall, an
+account cleanup, or a routine `~/.claude*` prune destroys three and a half months
+of irreplaceable primary source"; that turned out to be a description of the same
+day, not a hypothetical. Two consequences worth carrying forward:
+
+- **Snapshot before every mining session, not once.** The corpus is not
+  append-only — it loses records without notice, and the loss is silent.
+- **At least four of the deleted sessions are cited primary evidence**
+  (`2404`, `406e`, `283c`, `07c7` appear in the trait citations of
+  `voice_evidence_prompt_corpus_2026-07.md`). Any future attempt to verify a
+  voice-evidence quotation against its source must read the snapshot; the live
+  store can no longer answer.
+
+**The gate now measures the snapshot, not the live store** — a regression check
+pinned to a mutable corpus reports data loss as filter drift, which inverts its
+purpose. `gate` prints the corpus it read, defaults to the snapshot, and skips with
+an explanation if none is present. Pass `--root` to measure the live store
+deliberately.
+
 ## Why this stays open past Stage 3
 
 **Marc, 2026-08-08:** the implementation is still being finalised over the coming
