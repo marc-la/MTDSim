@@ -1,7 +1,8 @@
 ---
 status: findings
 created: 2026-08-09
-topic: "Attack-profile divergence, first corpus run — the profile_divergence measure clears its new execution-level null on every between-class pair, and the pre-registered size kill-criterion fires on the divergence-to-aggregate column (Spearman ρ = −1.0), so that column may not be read as objective conditioning"
+updated: 2026-08-09
+topic: "Attack-profile divergence, first corpus run — the profile_divergence measure clears its new execution-level null on every between-class pair, and the pre-registered size kill-criterion fires on the divergence-to-aggregate column (Spearman ρ = −1.0), so that column may not be read as objective conditioning. §7 decomposes what carries the divergence: the objective band leads, the invariant early-lifecycle prefix carries least"
 ---
 
 # Attack-profile divergence on a recorded corpus — the measure works, and its `aggregate` column is a flow-share re-expression
@@ -106,7 +107,74 @@ changes). Determinism exact (§1). Aggregates through `interval_report`;
 `ordering_supported` reported wherever an ordering could have been claimed, and
 it is False for the outcome half, so no ordering is claimed.
 
-## 6. What this leaves open
+## 6. What behaviour carries the divergence, and how it traces to construction
+
+Decomposition: `behaviour.py` in the workspace (per-tactic visit portraits,
+per-tactic JSD contributions, objective-band alignment; tables printed and
+`behaviour.json` written). Figures:
+`data/misc/_viz/profile_divergence/` (`behaviour_viz.py`; fig1 visit-portrait
+heatmap, fig2 divergence carriers, fig3 objective-band engagement, fig4
+terminal-tactic heatmap). Primary condition throughout; the portraits are
+near-identical under `random_200`, per §4's MTD-invariance.
+
+**The divergence is concentrated exactly where the partition was drawn.**
+Averaged over the six class pairs, the largest per-tactic JSD contributions are
+the objective band itself — `impact` (37 × 10⁻³) and `exfiltration`
+(20 × 10⁻³) — followed by the enabling tactics that differ per objective,
+`credential-access` (19.6) and `lateral-movement` (15.7). The smallest are the
+lifecycle's invariant prefix: `initial-access` (1.6), `execution` (2.7),
+`reconnaissance` (3.3). This is an execution-level echo of the structure the
+partition was built from — Alshamrani's lifecycle holds its early stages
+invariant and conditions its suffix on the objective, and the runtime walks
+reproduce that shape: profiles agree on how campaigns start and diverge on what
+they are for.
+
+**Construction reaches behaviour twice over.** First structurally: a class's
+net omits the objective places foreign to its label
+(`objective_impact` has no `exfiltration` place, `objective_none_c2` neither
+`exfiltration` nor `impact`, `objective_exfiltration_impact` no
+`defense-impairment`), so those cells are exact behavioural zeros — behaviour
+the unpartitioned attacker cannot exhibit, since `aggregate` routes everything
+(5.0 % / 5.3 % on exfiltration/impact). Second by weight: within the shared
+places, each class leans toward its own objective's enabling tactics —
+portraits below.
+
+- **`objective_exfiltration`** — a staging campaign: the highest
+  `credential-access` (12.2 %) and `collection` (8.0 %) shares, 7.0 % on
+  `exfiltration` itself, and near-nothing on `impact` (0.5 %) though the place
+  is present — the one profile whose objective restraint is behavioural rather
+  than structural.
+- **`objective_impact`** — disruption-shaped: highest `command-and-control`
+  (19.9 %) and `defense-impairment` (3.3 %), 10.6 % on `impact`, and almost no
+  staging (`collection` 1.2 %, `credential-access` 3.7 %).
+- **`objective_exfiltration_impact`** — escalate-and-detonate: highest
+  `discovery` (18.8 %), `privilege-escalation` (8.4 %) and `impact` (13.9 %),
+  lowest `credential-access` (1.2 %), both objectives engaged.
+- **`objective_none_c2`** — the behavioural outlier: 23.6 % `lateral-movement`
+  (three times any other profile), the most visits per run (680 against
+  467–505), the least dwell-only time (15.1 % against 38–44 %) and the most
+  blocked actions (30.1 %) — a fast, noisy positioning attacker, which is the
+  same composition the stealth spacing diagnostic identified as its inversion
+  case. One honest caveat: its *nominal* objective tactic,
+  `command-and-control`, is connective tissue every profile visits heavily
+  (10–20 %), and its own share (14.2 %) is not the highest — this class's
+  fingerprint is structural absence plus tempo, not C2 share.
+- **`aggregate`** sits near the flow-weighted middle of every column — the
+  visual restatement of §3's mixture confound.
+
+**Termination tactic correlates with construction, under the horizon caveat.**
+All runs are horizon-terminated, so a terminal place is where the walk spends
+its late time, not a chosen stop. Read that way: each class's terminal mass
+lands in or beside its own objective band — `objective_impact` ends 16 % of
+runs at `impact` (against 0 % for every class whose net lacks it),
+`objective_exfiltration` ends 22 % at `collection`+`exfiltration` (others
+0–4 %), `objective_none_c2` ends 28 % at `lateral-movement` — and no class can
+terminate on a place its construction omitted. The terminal-half JSD's failure
+to clear its null (§3 P4) is a power statement, not an absence of structure:
+the structure is visible in the heatmap and consistent with the visit half,
+but one terminal draw per run at 50 runs cannot separate it from noise.
+
+## 7. What this leaves open
 
 The badge question is untouched by design. A2 (classes separate from
 `aggregate` on an **outcome** measure with disjoint CIs) is not established
