@@ -453,6 +453,19 @@ own argument — stays empty on this axis for the life of the project;
 [`apt_model_criterion.md`](apt_model_criterion.md) §(d) axis 8 remains the
 criterion's bluntest honest negative, now as a ruled exclusion rather than
 unstarted work.
+**Amended 2026-08-09 — the exclusion is no longer only a timeframe one.**
+Jalowski's §4.3 metric-manipulation route (distinct from the three §4.1
+primitives this block rules on) was designed, wired and closed on evidence:
+triggering is clocked in every arm of the defence pool, so attacker behaviour
+cannot influence *when* the defender deliberates; and the one defence that reads
+attacker-derived metrics converges to constant-action policies that do not read
+their state, with the static-degrade timer supplying almost every mutation in
+the low-movement regime. Full reasoning and the caution against overclaiming
+this as "the substrate is time-based MTD" are in
+[`apt_model_criterion.md`](apt_model_criterion.md) axis 8, amendment 2026-08-09.
+Building an event-triggered defender to make the axis assessable was declined
+against the two decisions above (defence side is existing mechanisms only; IDS
+is not a research thread).
 **If revisited:** promotion to *encoded* changes the L3 contract and the
 attacker state space, not L1/L2 graph construction — and it re-opens the S2
 freeze's capability candidates, so it carries a fresh comparability argument

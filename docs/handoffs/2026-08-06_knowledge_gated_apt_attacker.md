@@ -38,7 +38,7 @@ deferred to a parallel `mtd_ai` retraining session. **Architecture:** the decisi
 is coded **on `EXPLOIT_VULN` itself** with the memory as an input, the verdict
 returning through the controller to the net — not a routing modulator (§0).
 **Scope:** the axis-8 half is now its own brief,
-[`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md).
+[`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md) axis 8 (amendment 2026-08-09 — that brief is closed and deleted).
 
 **Run this session, all read-only** (scripts in `data/results/stealth_exposure/`,
 gitignored and regenerable):
@@ -159,7 +159,7 @@ already knows how to read.
 | **7 learning** | **The core of it.** Knowledge accumulates, behaviour changes as a result, and the credit is *compromise* rather than a routing verdict. Caveat: this is a **second** learning mechanism beside the existing per-place learner, both conditioning on exploit-shaped experience — §9's composition hazard, to be jointly checked and never assumed |
 | **6 incentive** | **Real, and stronger than the brief allowed.** The gate weighs an expected payoff against the cost of an attempt. The axis-6 closure's objection was that nothing enters the *capability vocabulary* — a statement about what the old rule could read, not about whether a payoff exists. Compromise does accumulate |
 | **5 stealth** | **A measurement that emerges**, on the shipped exposure reader. Fewer loud actions, readable. There is no detector, so it is not evasion, and no mechanism here changes that |
-| **8 scheme awareness** | **Not claimed.** The capability never references the defender — it behaves identically with MTD switched off. Cross-target memory that survives shuffling is not recognition of a shuffling scheme. The axis-8 route is the sibling brief, [`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md) |
+| **8 scheme awareness** | **Not claimed.** The capability never references the defender — it behaves identically with MTD switched off. Cross-target memory that survives shuffling is not recognition of a shuffling scheme. The axis-8 route is the sibling brief, [`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md) axis 8 (amendment 2026-08-09 — that brief is closed and deleted) |
 | **4 adaptivity** | **No.** The key is chosen *because* vulnerability identity survives mutation, so the memory does not respond to the defence |
 | **1 persistence** | Candidate only — a back-loading arc is a shape, not an outcome |
 | **3 plurality** | Expected to fall; report it |
@@ -168,11 +168,36 @@ So the honest description is **one learning mechanism with an incentive-shaped
 decision rule on top** — not one mechanism spanning four axes. The brief's title
 still says otherwise and should be read against this table.
 
-### The composition with the axis-8 brief — recorded in both, 2026-08-07
+### ⚠ VOID, 2026-08-09 — the axis-8 sibling is closed, and this section's premise with it
+
+**Read this before the section below, which is retained for its reasoning and is
+no longer actionable.** The axis-8 brief was closed on evidence and its handoff
+deleted; the finding lives in
+[`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md)
+axis 8, amendment 2026-08-09.
+
+**There is no suppression mechanism to compose with.** The loop below opens with
+*"manoeuvre so the defender reads safe"*, and that step is unreachable on this
+substrate: triggering is clocked in every arm of the defence pool, and the one
+defence that reads attacker-derived metrics converges to constant-action
+policies that ignore their state (`mtd_ai_cost_calibration.md` §3 — 17 of 18
+agents at one of two attractors, and the static-degrade timer supplying 29 of 31
+mutations in the quiet regime).
+
+**Two consequences for this brief, and the first is good news.** The claim
+*"each brief is individually weaker than the pair"* no longer binds — there is no
+pair, so **this brief must now stand alone or not at all**, and it should be
+scoped and written up on its own merits. And the joint composition check owed
+below is **discharged as unnecessary** rather than outstanding: §9's hazard
+between the two mechanisms cannot arise when only one exists. The separate
+hazard between this brief's learner and the *existing* per-place learner (§159)
+is untouched and still owed.
+
+### The composition with the axis-8 brief — recorded in both, 2026-08-07 (VOID, see above)
 
 The split is clean on axes but **not** on purpose, and pretending otherwise loses
 the argument. The sibling
-([`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md)
+([`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md) axis 8 (amendment 2026-08-09 — that brief is closed and deleted)
 §5) suppresses mutation so the network holds still; **this** brief needs the network
 to hold still so its knowledge can saturate before it strikes. Stated as the loop:
 manoeuvre so the defender reads safe → mutations fall toward their floors → the
@@ -668,7 +693,7 @@ the target, a general profile takes the network down broadly.
 ## 5. The `mtd_ai` / defender-metric half — SPLIT OUT 2026-08-07
 
 **Moved in full to
-[`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md)
+[`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md) axis 8 (amendment 2026-08-09 — that brief is closed and deleted)
 (Marc's call).** What lived here — the eleven-feature state and its four steerable
 levers, the reward that closes the loop, the `action == 0` suppression target and
 its two floors, the endowed-vs-learned ruling, the implementation-quirk threat to

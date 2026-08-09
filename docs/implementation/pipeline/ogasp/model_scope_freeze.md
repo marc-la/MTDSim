@@ -95,7 +95,7 @@ outstanding).
 | 5 | Stealth | NOT ADDRESSED | **M + G** | Future work. Blocked three independent ways. |
 | 6 | Incentive rationality | DESIGNED | **X** | **CLOSED 2026-08-02 (Marc).** Scope finalised: DESIGNED is final, both attempted implementations are recorded as negative results, the iterated one is deleted, and full incentive rationality is **future work**. The attacker has something to be rational *about* (readiness) and nothing to be rational *toward* — no payoff is reachable or bankable — so the remaining gap is a measurement one and is answered by the disengagement reader, which scores an outcome and does not move this row. **Re-enters the freeze by this closure** (§0). Reasoning: [`../../apt_model_criterion.md`](../../apt_model_criterion.md) axis 6, final disposition. |
 | 7 | Learning | DESIGNED | **M** | Freeze the badge. ~~One mechanism could test its hypothesis (§5).~~ **Built and swept 2026-08-01 — the badge held; the gap narrowed from two candidate causes to one (the credit signal).** **Out of the freeze perimeter since 2026-08-02 (§0) — scope open.** |
-| 8 | Scheme awareness | NOT ADDRESSED | — | Ruled out of scope. Freeze. |
+| 8 | Scheme awareness | NOT ADDRESSED | — | Ruled out of scope. Freeze. **Reason strengthened 2026-08-09:** the three §4.1 primitives stay excluded on timeframe, but Jalowski's §4.3 metric-manipulation route was attempted and **closed on evidence** — triggering is clocked in every arm, and the one metric-reading defence converges to constant-action policies that ignore their state. Badge unchanged; the negative is now measured rather than scheduled. Reasoning: [`../../apt_model_criterion.md`](../../apt_model_criterion.md) axis 8, amendment 2026-08-09. |
 
 **Two demonstrated, four designed, two not addressed.** That is the honest final
 shape, and it is a stronger position than eight soft passes: every DESIGNED row
@@ -276,6 +276,11 @@ Stated concretely enough that a successor does not have to re-derive it.
    sensitivity path.
 3. **The three scheme-awareness primitives** (axis 8), ruled out on timeframe
    rather than on principle. The observation channel exists and is unwired.
+   **Note (2026-08-09):** this remains true of the primitives, but *not* of the
+   §4.3 metric-manipulation route, which was attempted and closed on measured
+   evidence — it needs a defence whose *timing* responds to the attacker, and no
+   arm in this pool has one. Future work on that route is a defender question
+   before it is an attacker one.
 4. **Reworking the inherited attacker's phase layer.** The model's ceiling is not
    its own: the host simulator's six-verb action vocabulary and rigid phase order
    bound how much fidelity any attacker driving it can express. A finer-grained
