@@ -463,6 +463,19 @@ composition says why: it carries the fewest non-action tactics of the five (15.2
 of visits against 37.3–43.4 %) and chains the cheapest verbs. So the profile with
 the least dwell is the one that loses, which is the mechanism working.
 
+**And the same four are quieter on the level, not only on the spacing** — mean
+detectability **0.40 against the baseline's 0.72**, a 45 % reduction, holding on
+the time-average (0.23 against 0.33) and on the median moment. That comparison
+was available to both earlier studies and neither made it: study 2 chose
+scale-free statistics on purpose, to dodge the two arms' clock asymmetry, and a
+scale-free statistic cancels exactly the quantity a *less detectable* claim is
+about. The cross-clock caveat therefore applies to this figure and is stated with
+it. A second fact makes the reading conservative rather than generous: the
+inherited attacker's record **stops when it runs out of reachable work**, at a
+mean 77 % of the horizon, so dividing by the full horizon hands it free silence —
+and inside its active span the union of its attack-record spans leaves **zero**
+uncovered time. It is not a fast attacker with short pauses; it has none.
+
 **An ablation attributes the entire margin to the non-action tactics** — delete
 them from the recorded stream and all five profiles fall under the baseline — and
 the ordering survives a counterfactual that re-prices every invoking visit at the
