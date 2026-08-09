@@ -5,6 +5,25 @@ created: 2026-08-09
 
 # Ablate the objective partition — establish whether axis 2's DEMONSTRATED badge measures objective conditioning, or five nets built from different flow subsets
 
+> **Progress, 2026-08-09 — the behavioural half is instrumented and has run;
+> the control arm (§ Recommended approach, arm 3) is what remains.**
+> `profile_divergence` now carries the execution-level null band §3 below asked
+> for (`split_half_divergence_null` / `divergence_report`, `measures.py` §2),
+> and the first corpus run is on record
+> ([`../implementation/pipeline/ogasp/profile_divergence_findings.md`](../implementation/pipeline/ogasp/profile_divergence_findings.md);
+> workspace `data/results/profile_divergence/`, pre-registered before output).
+> Three things a session picking this up must know. **A1 is discharged** — every
+> between-class pair clears the null by 40–110× on the visit stream. **The
+> size confound this handoff predicted is now measured, and it is total**: the
+> pre-registered kill criterion fired at Spearman ρ = −1.0 between a class's
+> JSD-to-`aggregate` and its flow count, so the class-versus-`aggregate`
+> comparison is established as uninterpretable on its own and the label-blind
+> size-matched arm is not merely recommended but forced. **The outcome half is
+> unseparated at 50 seeds** (`ordering_supported` False on distinct hosts in
+> both MTD conditions), so A2 needs either more seeds or a sharper outcome
+> measure. The analysis re-slices by re-invocation; run the control arm's runs
+> through the same `analyse.py` beside this corpus.
+
 ## State of play
 
 **Axis 2 is the only DEMONSTRATED badge on the criterion whose ablation has never
