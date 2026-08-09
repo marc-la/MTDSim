@@ -119,13 +119,26 @@ seed-noise ceiling** (worst pair `objective_exfiltration` ↔
 `objective_none_c2`, 0.111 against 0.0021; best 152×), and 32× when the
 `aggregate` pairs are included.
 
-The headline figure is `fig5_divergence_matrix.png`
-(`data/misc/_viz/profile_divergence/headline_viz.py`): the 5 × 5 JSD matrix
-with the **noise floor on the diagonal** — each diagonal cell is that profile's
-split-half median, each off-diagonal cell a between-profile figure, all in the
-same units. The comparison is structural rather than annotated: a white
-diagonal in a coloured field. The class-pair floor (53×) is the honest headline
-number; the `aggregate` column is shown but never summarised, per §3's kill.
+The headline figure is `fig6_divergence_ranked.png`
+(`data/misc/_viz/profile_divergence/headline_viz.py`): the ten between-profile
+figures as ranked dots on a log axis, against the shaded **seed-noise band**
+(split-half medians to the 97.5th-percentile ceiling) every dot must clear.
+The form is redundancy-free — a symmetric matrix states each figure twice and
+spends its diagonal restating the null five times, so the matrix
+(`fig5_divergence_matrix.png`) is kept as the pairwise-lookup companion, not
+the argument. Class pairs carry the headline; the `aggregate` pairs are drawn
+muted and never summarised, per §3's kill.
+
+Two calibration anchors travel with the number. **What overlap scores:** two
+profiles with genuinely the same behaviour score inside the band —
+≤ 0.003 — because the band *is* five same-behaviour comparisons (each profile
+against itself across seeds). **What the magnitude means:** JSD *x* is a
+difference as large as if fraction *x* of one profile's activity happened at
+tactics the other never visits — an equivalence reading, exact for disjoint
+mass and conservative for shared-tactic proportion shifts. The observed
+0.08–0.24 band therefore says the classes remain mostly overlapping (the
+invariant lifecycle prefix) while differing far beyond noise on what they are
+for — which is §6's decomposition in one number.
 
 ## 6. What behaviour carries the divergence, and how it traces to construction
 
