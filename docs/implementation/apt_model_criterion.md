@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-27
-updated: 2026-08-06
+updated: 2026-08-09
 topic: "The APT-attacker-model criterion (supervisor S6) — a literature-derived rubric of what an APT attacker model should capture, this model scored against it honestly, and the measurement recommendations (M8b) that ride with each claimed axis"
 ---
 
@@ -449,6 +449,42 @@ record's §1 states it, and it does so with a measurement rather than an argumen
 The remaining two M8b candidates are untouched: dwell fraction in non-action
 tactics is already in the suite, and tempo response to MTD frequency is
 deliberately out of that study's scope, which is no-MTD by design.
+
+**The tempo half is restored on a different statistic, 2026-08-09, and the badge
+still does not move**
+([`pipeline/ogasp/stealth_spacing_diagnostic.md`](pipeline/ogasp/stealth_spacing_diagnostic.md)).
+Both studies above compared the arms on the *level* of the exposure signal.
+Measured instead on **inter-invocation spacing** — the gap the decay term actually
+integrates — four of five profiles put their substrate verb invocations
+**1.5–1.8× further apart** than the inherited attacker, with seed-level intervals
+disjoint from it, and **28.7–35.4 % of their gaps beyond the declared decay
+constant against the baseline's 12.5 %**. The fifth profile inverts, and its
+composition says why: it carries the fewest non-action tactics of the five (15.2 %
+of visits against 37.3–43.4 %) and chains the cheapest verbs. So the profile with
+the least dwell is the one that loses, which is the mechanism working.
+
+**An ablation attributes the entire margin to the non-action tactics** — delete
+them from the recorded stream and all five profiles fall under the baseline — and
+the ordering survives a counterfactual that re-prices every invoking visit at the
+substrate's own `ATTACK_DURATION`, for four of five. That makes the contrast a
+**structural** claim about behaviour the inherited attacker cannot represent
+rather than a tuning artefact, which is the strongest form this axis's evidence
+has taken. It also kills the natural suspicion that the declared duration
+catalogue is suppressing the mechanism: under substrate pricing the margin
+*shrinks*, so the catalogue is currently helping.
+
+**The badge stays NOT ADDRESSED, on the same reasoning as twice before.** This is
+a reader; §9 of the parent design record reserves DESIGNED for a stealth *state*,
+and there is still no detection model for a spacing choice to matter against —
+which is this axis's own argument, unchanged. What moves is the **first M8b
+candidate**, which is now discharged in a form that survives its own kill test:
+the exposure proxy exists, it is measured, and it points the way the axis's §1
+always claimed. Two caveats ride with it and are load-bearing for any write-up.
+The duty-cycle study's D4 granularity confound is **not** resolved, so the claim
+is stated at invocation granularity with the per-vulnerability reading shown
+beside it. And a large part of the contrast is present before any decay is applied
+— 17.5–21.3 invoking events per 1 000 s against the baseline's 24.8 — so what the
+exponential adds is the *shape* of the quiet, not the separation.
 
 ### Axis 6 — Incentive-driven rationality
 
