@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-09
-topic: "The spacing diagnostic — the axis-5 contrast stated at the level it survives at. Four of five profiles space their substrate verb invocations 1.5–1.8× further apart than the inherited attacker, CI-disjoint, and an ablation attributes the entire margin to the non-action tactics. Not pre-registered: a re-read of the existing corpus, reported as a diagnostic"
+topic: "The spacing diagnostic — the axis-5 contrast stated at the level it survives at. Four of five profiles space their substrate verb invocations 1.5–1.8× further apart than the inherited attacker, CI-disjoint, run 45 % quieter on mean detectability, and an ablation attributes the entire margin to the non-action tactics. The earlier studies missed it because both of their statistics are scale-free by design. Not pre-registered: a re-read of the existing corpus, reported as a diagnostic"
 ---
 
 # Inter-invocation spacing — the low-and-slow contrast holds, and the non-action tactics are all of it
@@ -17,13 +17,21 @@ low-and-slow argument is actually about: **how far apart the attacker puts the
 acts the substrate can see**. The design record's §1 states the contrast as a
 tempo one; this measures the tempo directly, in the unit `D`'s decay integrates.
 
-**The headline.** Under R1 (a dwell-only tactic consumes time and scores nothing)
+**The headline, in two parts.** Under R1 (a dwell-only tactic consumes time and scores nothing)
 and with the baseline collapsed to invocations, **four of five profiles space
 their verb invocations 1.5–1.8× further apart than the inherited attacker**, with
 seed-level confidence intervals disjoint from the baseline's. The fifth,
 `objective_none_c2`, is **denser** than the baseline, also CI-disjoint. And an
 ablation attributes **the whole of the margin** to the non-action tactics: delete
 them from the recorded stream and every profile falls under the baseline.
+
+**And the same four are quieter on the level itself** — mean `D` 0.40 against the
+baseline's 0.72, a 45 % reduction, holding on the time-average and on the median
+too (§2a). That comparison was available to both earlier studies and neither made
+it, because both of study 2's statistics are **scale-free by construction** and a
+scale-free statistic cancels precisely the quantity a *less detectable* claim is
+about. This is the field where fig6 is read, and it now annotates the level rather
+than the spacing.
 
 ## 1. What was measured, and in what unit
 
@@ -91,6 +99,59 @@ loses**, which is the mechanism working rather than an anomaly.
 **Before any decay is applied**, the same contrast is already present as a rate:
 17.5–21.3 invoking events per 1 000 s for the four, against the baseline's 24.8
 and `objective_none_c2`'s 38.2. §6 says what this costs the claim.
+
+### 2a. The level, un-normalised — and it says the same thing
+
+Added 2026-08-09, after the figure was read as showing the opposite. **On every
+un-normalised level statistic, at the ruled R1/R2 configuration, four of five
+profiles are quieter than the inherited attacker:**
+
+| | mean `D` | time-average `D` | median `D` over time | p90 `D` |
+|---|--:|--:|--:|--:|
+| objective_impact | 0.395 | 0.225 | 0.185 | 0.473 |
+| aggregate | 0.407 | 0.233 | 0.190 | 0.490 |
+| objective_exfiltration_impact | 0.415 | 0.232 | 0.176 | 0.519 |
+| objective_exfiltration | 0.415 | 0.241 | 0.200 | 0.488 |
+| **baseline (invocations)** | **0.722** | **0.326** | **0.234** | **0.794** |
+| objective_none_c2 | 0.766 | 0.469 | 0.402 | 0.913 |
+
+A **45 % reduction** in mean level and **29 %** in the time-average. It is the
+spacing result restated, and provably so: `time_average_exposure` satisfies
+`∫D dt = τ·Σd`, so the time-averaged level is exactly `τ ×` (scored events per
+unit time) `×` (mean increment per scored event). The two arms' increment per
+*scored* event is close — 0.22 for the baseline against ≈0.20 for the profiles,
+because R2 puts both sides on one verb-level rule — so the level separation is
+carried by the rate, which is carried by the spacing.
+
+**Why neither earlier study saw this.** Both of study 2's statistics are
+**scale-free by construction**, and deliberately so: `p90/p50` is a ratio and
+`quiet_fraction` normalises by each run's own peak, chosen as "the summary least
+disturbed by the two arms carrying different event counts and different clocks".
+Scale-free statistics cancel exactly the quantity a *less detectable* claim is
+about. They answer whether the level returns to the floor — a question about
+shape — and the baseline wins that one because its silences are deep and rare
+while the profiles' are shallow and frequent. Nothing in D1–D5 is wrong; the axis
+was simply never asked the level question after R1 landed.
+
+**The cross-arm caveat holds and is not fatal.** These are time-denominated
+quantities compared across two clocks, which §1.4 of the parent record permits
+only with the asymmetry stated in the same breath — as it is here. §4's
+counterfactual is the relevant robustness check, and it holds four of five.
+
+### 2b. The baseline stops early, and it makes the result conservative
+
+The inherited attacker's record **ends before the horizon does**: its last verb
+finishes at 59–100 % of the 15 000 s run (mean ≈77 %), because it exhausts the
+reachable work — 28–41 of 50 hosts compromised. Every movement run occupies its
+horizon to 99.7 % or more.
+
+Two consequences, and they point the same way. Any statistic divided by the full
+horizon hands the baseline a stretch of free silence it did not earn by being
+stealthy, so §2a's separation is **understated**: scored over its own active span
+the baseline's time-average rises from 0.326 to roughly 0.42. And *within* that
+span the FSM is busy **end to end** — the union of its attack-record spans leaves
+**zero** uncovered time, which is the sharpest available statement of what it
+lacks. It is not a fast attacker with short pauses; it has no pauses at all.
 
 ## 3. The ablation — the non-action tactics are the whole of the margin
 
@@ -185,15 +246,16 @@ contributes the rest.
 
 ## 6. Which statistic should carry the claim
 
-**Not `p90/p50`.** It is the duty-cycle study's pre-registered primary and it
-answers a different question — whether the level *towers over* its own typical
-value. The baseline scores high on it because its gap distribution is bimodal,
-not because it is quiet. A spacing claim carried on a burstiness statistic will
-read as contradicted by D2 when it is not.
+**Not `p90/p50`, and not the quiet fraction.** Both are scale-free — see §2a —
+so both are blind to the claim. `p90/p50` answers whether the level *towers over*
+its own typical value, and the baseline scores high on it because its gap
+distribution is bimodal, not because it is quiet. A less-detectable claim carried
+on a burstiness statistic reads as contradicted by D2 when it is not.
 
-**The gap distribution, and the decay-weighted level over time.** The survival
-curve is bounded by construction, threshold-free, and it shows the shape of the
-disagreement rather than a single number that picks a side —
+**The un-normalised level, with the gap distribution behind it.** Mean `D` and
+the time-average are the statistics that say *quieter*; §2a reports them with the
+cross-clock caveat they require. The survival curve is the mechanism behind the
+number, bounded by construction and threshold-free —
 [fig7](../../../../data/misc/_viz/stealth_exposure/fig7_gap_survival.png).
 
 **And state what the decay adds over a raw event rate**, because §2's last
