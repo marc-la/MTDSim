@@ -799,6 +799,67 @@ keeps per-target bookkeeping — so a beacon primitive would additionally have
 to derive or instrument them. The encoded subset bounds the contribution
 (§(f)); it stays empty on this axis for the life of the project.
 
+#### Amendment, 2026-08-09 — the §4.3 route was attempted, and closed on evidence
+
+**The badge does not change. What changes is the reason, and it is now a
+measured one rather than a scheduling one.**
+
+Between 2026-08-06 and 2026-08-09 a fourth route onto this axis was designed and
+partially built: not one of the three §4.1 primitives above, but Jalowski's
+**§4.3 corrective** directly — an attacker that manoeuvres so the defender's own
+security metrics read *safe*, suppressing mutation and holding the network still.
+`mtd_ai` is the only defence in the pool that reads attacker-derived metrics at
+all, so it was the only possible target. The route is closed. **Two independent
+reasons, and they must be kept apart, because one is structural and the other is
+contingent on measurement.**
+
+**(1) Structural — triggering is clocked in every arm.** The decision epoch
+arrives on an exponential timer whether or not the previous decision deployed,
+and the static-degrade guard is elapsed-time. Attacker-derived metrics select
+*what* is decided at an epoch; nothing the attacker does changes *when* an epoch
+occurs. This eliminates the timing half of the §4.3 channel by construction —
+the attacker cannot trigger or defer the defender's deliberation.
+
+⚠ **This does not, on its own, eliminate metric manipulation**, and the record
+should not claim it does. A run of no-op decisions *does* shift when mutations
+actually land, so the content channel remains structurally open. The frequently
+convenient shorthand "the substrate is time-based MTD, therefore metric
+manipulation is impossible" is an **overclaim** and is contradicted by the
+eleven-feature state head; do not write it.
+
+**(2) Measured — the content channel is dead in practice.** The λ ladder in
+[`pipeline/ogasp/mtd_ai_cost_calibration.md`](pipeline/ogasp/mtd_ai_cost_calibration.md)
+§3 trained eighteen agents and evaluated 2 250 greedy decisions. Seventeen of the
+eighteen sit at one of two attractors (greedy no-op share ≈ 0.000 or ≈ 0.920);
+λ selects which constant. **A constant-action policy does not read its state**,
+so there is no input for an attacker to manipulate. And in the quiet regime
+**29 of the 31 mutations that fired were forced by the static-degrade guard** —
+the timer, not the policy, is doing the defending precisely where suppression
+would have been claimed.
+
+**Why this is the stronger closure.** The exclusion above rests on timeframe, and
+its future-work statement says explicitly that it is *not* that the simulator
+cannot support scheme awareness. For primitive (ii)'s observation channel that
+remains true. **For the §4.3 metric-manipulation route it is now qualified**: the
+substrate does impose a limit, the limit was measured rather than assumed, and
+the axis is closed with evidence rather than with an absence.
+
+**One cause, three failures.** This also subsumes the axis-6 collapse (a
+precomputable factor table that could not reference the defender) and the
+finding that under the *inherited* reward there is no no-op region to suppress
+toward at all. All three are consequences of the same property: **no defence in
+this pool lets attacker behaviour influence when the defender acts, and the one
+that reads attacker metrics converges to policies that ignore them.**
+
+**What was built and kept.** The arm itself — the movement attacker against
+`mtd_ai`, with the per-decision ledger and the greedy/forced split — is committed
+and is reusable evidence, not scaffolding. **What was declined**: building a
+bespoke event-triggered defender to make the axis assessable. That is defender
+innovation, ruled out twice in [`architecture.md`](architecture.md) (defence side
+is existing mechanisms only, Jin 19 Mar 2026; IDS is not a research thread), it
+would promote the work to a two-arm contribution, and an attacker evading a
+threshold the same author chose is circular by construction.
+
 **What would evidence a claim (M8b).** Per primitive: (i) repeat-compromise
 rate on previously-seen configurations vs unseen; (ii) correlation between
 attacker target-selection and defender mutation frequency (the natural

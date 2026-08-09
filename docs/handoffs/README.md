@@ -239,33 +239,30 @@ have patched runners whose committed numbers were taken under the old labels.)*
    against records that are still moving.
 
 
-5. [`2026-08-07_axis8_defender_metric_reasoning.md`](2026-08-07_axis8_defender_metric_reasoning.md)
-   — **axis 8 by the route that actually references the defender**, and the brief
-   for *what triggers a mutation, what avoids one*. Split out of (2) on 2026-08-07
-   absorbing its §5/§5.1/§5.2, then **cross-examined against the originating prompt
-   and substantially restored** — the first draft had lost the observability
-   boundary, the learned-vs-endowed table, the bidirectional question, the static
-   half of the state, and the *purpose*. The scoping test that split the pair:
-   **does the capability reference the defender?** Vulnerability memory does not and
-   is axis 7; this does and has no referent without one. **It is not one of
-   Jalowski's three §4.1 primitives** — it rests on his §4.3 corrective, and saying
-   so is the difference between an honest axis-8 move and one an examiner will
-   check. **Its purpose is time, not quiet:** suppress mutation → the network holds
-   still → the sibling's knowledge saturates → strike before the information set is
-   invalidated. So (2) and (5) are **each weaker alone than the pair**, recorded in
-   both. All eleven state features are now tabled, and two were missed first time:
-   **`attack_type` is the sharpest lever of all** — the verb the attacker is running
-   is literally a defender input, ordinally encoded and gated by a sensitivity draw
-   — and **`attack_path_exposure` is a degenerate constant 1.0**, so one of the five
-   static features the agent trained against carries no information here. Eight
-   threats to validity, including that the ASR/MTTC features describe a **run
-   prefix** rather than a recent window and that the divide-by-zero triggers on the
-   **tactic-to-verb mapping** rather than tempo. **Gated on R-B** with (3). Two
-   things survive even if the route dies: the **feature-ablation study** (which of
-   the eleven does the defender actually depend on?) needs no attacker mechanism,
-   and **`mtd_ai` is wanted for results pulling regardless** — the reactive defender
-   is a defence arm the evaluation wants independently of any attacker capability,
-   which widens R-B's stakes beyond this brief.
+5. [`2026-08-09_mtd_ai_mechanism_selection.md`](2026-08-09_mtd_ai_mechanism_selection.md)
+   — **what the reactive defender spends its budget on**, and the substrate
+   blocker in front of any study of it. Replaces `2026-08-07_axis8_defender_metric_reasoning.md`,
+   deleted 2026-08-09 when **axis 8 was closed on evidence**. That brief asked
+   whether an attacker could manoeuvre the defender's own security metrics into
+   suppressing mutation; the answer is no, for two independent reasons now
+   recorded in
+   [`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md)
+   axis 8 (amendment 2026-08-09). **Structurally**, triggering is clocked in every
+   arm — metrics select *what* is decided at an epoch, never *when* an epoch
+   occurs. **Empirically**, the one defence that reads attacker-derived metrics
+   converges to constant-action policies that ignore their state (17 of 18 agents
+   at one of two attractors), with the static-degrade timer supplying 29 of 31
+   mutations in the quiet regime. Keep the two apart: "the substrate is time-based
+   MTD, therefore metric manipulation is impossible" is an **overclaim** the
+   eleven-feature state head contradicts. One cause also subsumes the axis-6
+   collapse and the no-referent finding at λ = 0. **What survives** is
+   defender-side and needs no attacker capability: the unmodified-reward agent
+   fires **IPShuffle on 100 % of 367 mutations** — the one mechanism verified dead
+   to the attacker's readable projection — and compromises about what the
+   barely-moving agent does. That is a shape, **not** a result: C5 does not
+   separate at three seeds. Blocked meanwhile by a measured `ZeroDivisionError`
+   that kills two profiles in three at the first decision, unrepaired and awaiting
+   disposition.
 
 **Suggested order for the rest of the week:** (1), which is unblocked and which
 settles the schema question and serves the rest — and note that the adjacent
