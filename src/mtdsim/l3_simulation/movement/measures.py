@@ -73,6 +73,7 @@ from __future__ import annotations
 
 import json
 import math
+import random
 from collections import Counter
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -508,6 +509,126 @@ def profile_divergence(
     return ProfileDivergence(
         visit_stream={(a, b): jsd(visit_dists[a], visit_dists[b]) for a, b in pairs},
         terminal={(a, b): jsd(term_dists[a], term_dists[b]) for a, b in pairs},
+    )
+
+
+@dataclass(frozen=True)
+class DivergenceNull:
+    """One profile's execution-level null band: the JSD between random
+    half-splits of that profile's own runs, over ``n_splits`` seeded draws.
+
+    This is the divergence attributable to seed noise alone at this sample
+    size, derived from the corpus rather than declared — the null band the
+    measurement-suite record listed as :func:`profile_divergence`'s open blind
+    spot. A between-profile figure that does not clear it is a statement about
+    sampling variance, not about profiles.
+    """
+
+    profile: str
+    n_runs: int
+    n_splits: int
+    visit_stream: tuple[float, ...]
+    terminal: tuple[float, ...]
+
+
+def split_half_divergence_null(
+    runs: Sequence[MovementRunResult], *, n_splits: int = 200, seed: int = 0
+) -> DivergenceNull:
+    """Compute one profile's :class:`DivergenceNull` by repeated split-half.
+
+    The runs are shuffled and cut into two halves (``n // 2`` against the
+    rest), the JSD between the halves' pooled visit and terminal distributions
+    is taken, and the draw repeats. The RNG is a local ``random.Random(seed)``
+    — analysis RNG, never simulation RNG: no run is mutated and the module's
+    no-simulation contract holds. Requires at least four runs of a single
+    profile (below that a "half" is a single run and the band is not a band).
+    """
+    if len(runs) < 4:
+        raise ValueError(
+            f"split-half null needs at least 4 runs, got {len(runs)}"
+        )
+    profiles = {r.profile for r in runs}
+    if len(profiles) != 1:
+        raise ValueError(
+            f"split-half null is within-profile by definition; got {sorted(profiles)}"
+        )
+    rng = random.Random(seed)
+    idx = list(range(len(runs)))
+    half = len(runs) // 2
+    visit_draws: list[float] = []
+    term_draws: list[float] = []
+    for _ in range(n_splits):
+        rng.shuffle(idx)
+        a = [runs[i] for i in idx[:half]]
+        b = [runs[i] for i in idx[half:]]
+        visit_draws.append(jsd(visit_distribution(a), visit_distribution(b)))
+        term_draws.append(
+            jsd(terminal_place_distribution(a), terminal_place_distribution(b))
+        )
+    return DivergenceNull(
+        profile=next(iter(profiles)),
+        n_runs=len(runs),
+        n_splits=n_splits,
+        visit_stream=tuple(visit_draws),
+        terminal=tuple(term_draws),
+    )
+
+
+@dataclass(frozen=True)
+class ProfileDivergenceReport:
+    """:class:`ProfileDivergence` with each profile's null band attached, so a
+    between-profile figure can never be quoted without the noise floor it must
+    clear. ``q`` is the null quantile a figure is held to (the pre-registered
+    convention is 0.975).
+    """
+
+    divergence: ProfileDivergence
+    nulls: dict[str, DivergenceNull]
+    q: float
+
+    def pair_ceiling(self, a: str, b: str, half: str = "visit_stream") -> float:
+        """The null ceiling for pair ``(a, b)``: the ``q``-quantile of the two
+        profiles' pooled null draws on the named half. Pooled rather than
+        per-profile because the between-figure mixes both profiles' sampling
+        noise, so the floor it must clear is the pair's, not either side's."""
+        draws = getattr(self.nulls[a], half) + getattr(self.nulls[b], half)
+        return float(np.quantile(np.array(draws), self.q))
+
+    def cleared(self, half: str = "visit_stream") -> dict[tuple[str, str], bool]:
+        """``(a, b) -> did the between-profile JSD clear the pair's null
+        ceiling`` on the named half. The report's verdict surface: a pair at
+        False is indistinguishable from seed noise at this sample size."""
+        figures: Mapping[tuple[str, str], float] = getattr(self.divergence, half)
+        return {
+            pair: value > self.pair_ceiling(*pair, half=half)
+            for pair, value in figures.items()
+        }
+
+
+def divergence_report(
+    results: Sequence[MovementRunResult],
+    *,
+    n_splits: int = 200,
+    seed: int = 0,
+    q: float = 0.975,
+) -> ProfileDivergenceReport:
+    """:func:`profile_divergence` and every profile's split-half null, packaged.
+
+    One call per corpus slice, so re-slicing (a different profile set, a
+    different condition, a re-drawn corpus) is a re-invocation rather than a
+    re-derivation. Grouping is by ``result.profile``, exactly as
+    :func:`profile_divergence` groups.
+    """
+    by_profile: dict[str, list[MovementRunResult]] = {}
+    for r in results:
+        by_profile.setdefault(r.profile, []).append(r)
+    return ProfileDivergenceReport(
+        divergence=profile_divergence(results),
+        nulls={
+            p: split_half_divergence_null(rs, n_splits=n_splits, seed=seed)
+            for p, rs in sorted(by_profile.items())
+        },
+        q=q,
     )
 
 
@@ -1770,6 +1891,10 @@ __all__ = [
     "terminal_place_distribution",
     "ProfileDivergence",
     "profile_divergence",
+    "DivergenceNull",
+    "split_half_divergence_null",
+    "ProfileDivergenceReport",
+    "divergence_report",
     # §3 defender response
     "ActionMixShift",
     "interrupt_action_mix",

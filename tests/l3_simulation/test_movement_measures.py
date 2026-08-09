@@ -363,6 +363,52 @@ def test_profile_divergence_disjoint_streams_read_one():
     assert div.terminal[("p1", "p2")] == pytest.approx(1.0)
 
 
+def _prun(profile: str, *places: str, seed: int = 0) -> MovementRunResult:
+    return run_of(*(rec(p) for p in places), profile=profile, seed=seed)
+
+
+def test_split_half_null_identical_runs_is_zero():
+    # Four identical runs: any half-split's pooled distributions coincide, so
+    # every null draw is exactly zero — the band collapses where noise is zero.
+    runs = [_prun("p1", "a", "b", seed=s) for s in range(4)]
+    null = M.split_half_divergence_null(runs, n_splits=20, seed=0)
+    assert null.profile == "p1"
+    assert null.n_runs == 4 and null.n_splits == 20
+    assert all(v == pytest.approx(0.0) for v in null.visit_stream)
+    assert all(v == pytest.approx(0.0) for v in null.terminal)
+
+
+def test_split_half_null_is_deterministic_and_guarded():
+    runs = [
+        _prun("p1", "a", "b", seed=0),
+        _prun("p1", "a", "c", seed=1),
+        _prun("p1", "b", "c", seed=2),
+        _prun("p1", "a", "a", seed=3),
+    ]
+    one = M.split_half_divergence_null(runs, n_splits=10, seed=7)
+    two = M.split_half_divergence_null(runs, n_splits=10, seed=7)
+    assert one == two  # same analysis seed, same draws — SIM-05 for the reader
+    with pytest.raises(ValueError):
+        M.split_half_divergence_null(runs[:3], n_splits=10, seed=0)
+    with pytest.raises(ValueError):
+        M.split_half_divergence_null(
+            runs[:2] + [_prun("p2", "a", seed=0), _prun("p2", "b", seed=1)]
+        )
+
+
+def test_divergence_report_disjoint_profiles_clear_pooled_null():
+    # Two profiles on disjoint supports, each internally homogeneous: the
+    # between-figure is 1.0, every null draw is 0.0, so the pair clears its
+    # pooled ceiling on both halves.
+    runs = [_prun("p1", "a", "b", seed=s) for s in range(4)]
+    runs += [_prun("p2", "c", "d", seed=s) for s in range(4)]
+    report = M.divergence_report(runs, n_splits=20, seed=0)
+    assert report.divergence.visit_stream[("p1", "p2")] == pytest.approx(1.0)
+    assert report.pair_ceiling("p1", "p2", half="visit_stream") == pytest.approx(0.0)
+    assert report.cleared("visit_stream") == {("p1", "p2"): True}
+    assert report.cleared("terminal") == {("p1", "p2"): True}
+
+
 # ---------------------------------------------------------------------------
 # §3 Defender response
 # ---------------------------------------------------------------------------
