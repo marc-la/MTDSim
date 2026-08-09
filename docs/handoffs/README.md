@@ -275,20 +275,16 @@ Off the numbered chain; none of it blocks or is blocked by (1)–(5).
   nothing: each records what is built, measured and bounded on its axis so a
   proposal lands against the real bar. The axis-4 one now also points at the
   brief that arrived against it (below).
-- [`2026-08-09_plural_preference_instrumentation.md`](2026-08-09_plural_preference_instrumentation.md)
-  — **partially shipped:** the Hill/evenness/alignment readers, the
-  uniform-weight ablation and the committed pre-registration landed on
-  `feat/plural-preference-instrumentation` (`1da2e7a`), with the open record at
-  [`../implementation/pipeline/ogasp/plural_preference.md`](../implementation/pipeline/ogasp/plural_preference.md).
-  What remains: the seed-count convergence check, the three hypothesis-testing
-  arms, and the per-dimension verdicts.
 - [`2026-08-09_axis4_plural_recovery_instrumentation.md`](2026-08-09_axis4_plural_recovery_instrumentation.md)
   — the axis-4 sibling: plural *recovery* measured distributionally on the
   failure column, with experiment 2's verdict-blind arm as the free null and its
-  outcome negative as the unmovable ceiling. **Depends on the plural-preference
-  branch's readers** — build on `feat/plural-preference-instrumentation` or
-  after its merge; its own step 0, the failure-event census, gates everything
-  else in it.
+  outcome negative as the unmovable ceiling. **Its dependency has landed:** the
+  plural-preference readers (`measures.py` §10 — `hill_diversity`, the
+  per-dimension distributions, the alignment/Spearman readers — and
+  `uniform_weight_variant`) are in `dev`, with the completed study at
+  [`../implementation/pipeline/ogasp/plural_preference.md`](../implementation/pipeline/ogasp/plural_preference.md);
+  build on `dev` directly. Its own step 0, the failure-event census, gates
+  everything else in it.
 
 **Suggested order for the rest of the week:** (1), which is unblocked and which
 settles the schema question and serves the rest — and note that the adjacent

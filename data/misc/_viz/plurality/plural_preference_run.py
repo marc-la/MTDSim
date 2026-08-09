@@ -177,14 +177,24 @@ def _map(jobs, workers):
 # ---------------------------------------------------------------------------
 
 
-def convergence(max_seeds: int, workers: int) -> dict:
-    """P3: the smallest seed count at which the per-run dimensions' effective
-    number D is stable across two disjoint seed halves (|ΔD| ≤ 0.2), on the
-    corpus arm of the richest profile (aggregate). Per-event dimensions converge
-    trivially; the per-run dimensions (opening, terminal) are the binding ones,
-    and the check reports whether they converge at all inside the budget — a
-    dimension that does not is one whose *distribution shape* the study cannot
-    read at feasible N (its variety count still stands)."""
+# P3 stabilisation tolerances on the pooled growth ladder's last two steps.
+_D_TOL = 0.2       # the handoff's ±0.2 on the effective number
+_EVEN_TOL = 0.02   # evenness must also have settled (D can grow with N while the
+                   # ratio stabilises; the ratio is what the contrast reads)
+
+
+def convergence(max_seeds: int, workers: int, step: int = 20) -> dict:
+    """P3: is each dimension's plurality signature *stable* by the seed budget, on
+    the corpus arm of the richest profile (aggregate)?
+
+    The honest check is the **pooled growth ladder**, not a two-halves crossing:
+    for a per-run dimension whose support keeps growing, two equal-size samples
+    always roughly agree (low variance), which reads as false convergence while the
+    pooled estimate still drifts. So D and evenness are computed on the pooled
+    first-``n`` runs up a ladder, and a dimension is ``stabilised`` when the last
+    two rungs move less than the tolerances (|ΔD| ≤ 0.2 AND |Δevenness| ≤ 0.02).
+    A per-run dimension that never stabilises inside the budget has its
+    distribution-*shape* verdict withheld — its variety *count* still stands."""
     from mtdsim.l3_simulation.movement import measures as M
 
     jobs = [{"arm": "corpus", "profile": "aggregate", "seed": s}
@@ -208,27 +218,33 @@ def convergence(max_seeds: int, workers: int) -> dict:
                 counts.update(r["edges"])
         return M.hill_diversity(counts)
 
-    report: dict = {"max_seeds": max_seeds, "profile": "aggregate",
-                    "arm": "corpus", "criterion": "|D_half1 - D_half2| <= 0.2",
-                    "dimensions": {}}
+    ladder = list(range(step, max_seeds + 1, step))
+    report: dict = {
+        "max_seeds": max_seeds, "profile": "aggregate", "arm": "corpus",
+        "criterion": "pooled growth ladder; stabilised = last-two-rung "
+                     "|ΔD| ≤ 0.2 AND |Δevenness| ≤ 0.02",
+        "ladder": ladder, "dimensions": {},
+    }
     for dim in M.PLURAL_DIMENSIONS:
         series = []
-        converged_at = None
-        for n in range(4, max_seeds + 1, 2):
-            half = n // 2
-            d1 = pooled_hill(rows[:half], dim).effective_number
-            d2 = pooled_hill(rows[half:n], dim).effective_number
-            delta = abs(d1 - d2)
-            series.append({"n": n, "D_half1": round(d1, 3),
-                           "D_half2": round(d2, 3), "delta": round(delta, 3)})
-            if converged_at is None and delta <= 0.2:
-                converged_at = n
-        full = pooled_hill(rows, dim)
+        for n in ladder:
+            hd = pooled_hill(rows[:n], dim)
+            series.append({"n": n, "N": hd.support_n,
+                           "D": round(hd.effective_number, 3),
+                           "evenness": round(hd.evenness, 3)})
+        # stabilised iff the last two rungs are within tolerance (and there ARE two)
+        stabilised = (
+            len(series) >= 2
+            and abs(series[-1]["D"] - series[-2]["D"]) <= _D_TOL
+            and abs(series[-1]["evenness"] - series[-2]["evenness"]) <= _EVEN_TOL
+        )
         report["dimensions"][dim] = {
-            "converged_at": converged_at,
-            "D_full": round(full.effective_number, 3),
-            "N_full": full.support_n,
-            "evenness_full": round(full.evenness, 3),
+            "stabilised": stabilised,
+            "N_full": series[-1]["N"], "D_full": series[-1]["D"],
+            "evenness_full": series[-1]["evenness"],
+            "last_step_dD": round(abs(series[-1]["D"] - series[-2]["D"]), 3),
+            "last_step_devenness": round(
+                abs(series[-1]["evenness"] - series[-2]["evenness"]), 3),
             "series": series,
         }
     return report
@@ -249,11 +265,13 @@ def main() -> int:
     if args.mode == "convergence":
         report = convergence(args.max_seeds, args.workers)
         (HERE / "pp_convergence.json").write_text(json.dumps(report, indent=2))
-        print("convergence (corpus / aggregate), criterion |ΔD| ≤ 0.2:")
+        print("convergence (corpus / aggregate) — pooled growth ladder:")
         for dim, d in report["dimensions"].items():
-            print(f"  {dim:11} converged_at={d['converged_at']}  "
-                  f"D_full={d['D_full']:.3f}  N={d['N_full']}  "
-                  f"evenness={d['evenness_full']:.3f}")
+            flag = "STABLE  " if d["stabilised"] else "DRIFTING"
+            print(f"  {dim:11} {flag}  N={d['N_full']:3}  D={d['D_full']:6.2f}  "
+                  f"evenness={d['evenness_full']:.3f}  "
+                  f"(last-step ΔD={d['last_step_dD']:.3f}, "
+                  f"Δeven={d['last_step_devenness']:.3f})")
         print(f"\nwrote {HERE / 'pp_convergence.json'}")
         return 0
 
