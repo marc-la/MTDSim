@@ -14,7 +14,6 @@ established — so a proposal lands against the real bar rather than re-deriving
 wall someone already hit.
 
 Siblings, same date and same purpose, one per axis:
-[axis 1](2026-08-09_axis1_persistence_context.md),
 [axis 4](2026-08-09_axis4_adaptivity_context.md),
 [axis 6](2026-08-09_axis6_incentive_rationality_context.md).
 
