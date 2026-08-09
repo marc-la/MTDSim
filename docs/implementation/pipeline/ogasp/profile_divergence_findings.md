@@ -107,6 +107,26 @@ changes). Determinism exact (§1). Aggregates through `interval_report`;
 `ordering_supported` reported wherever an ordering could have been claimed, and
 it is False for the outcome half, so no ordering is claimed.
 
+## 5a. The metric, refined to its reporting form
+
+**Null-relative attack-profile divergence**: the pairwise visit-stream JSD (L2
+convention) reported against the within-profile split-half null. The null gives
+the number its meaning — a JSD of 0.1 says nothing until the reader knows the
+same profile compared with itself across seeds sits at 0.0003–0.0005 (median)
+with a 97.5th-percentile ceiling under 0.003. In that form the result is one
+sentence: **every pair of objective profiles diverges by at least 53× the
+seed-noise ceiling** (worst pair `objective_exfiltration` ↔
+`objective_none_c2`, 0.111 against 0.0021; best 152×), and 32× when the
+`aggregate` pairs are included.
+
+The headline figure is `fig5_divergence_matrix.png`
+(`data/misc/_viz/profile_divergence/headline_viz.py`): the 5 × 5 JSD matrix
+with the **noise floor on the diagonal** — each diagonal cell is that profile's
+split-half median, each off-diagonal cell a between-profile figure, all in the
+same units. The comparison is structural rather than annotated: a white
+diagonal in a coloured field. The class-pair floor (53×) is the honest headline
+number; the `aggregate` column is shown but never summarised, per §3's kill.
+
 ## 6. What behaviour carries the divergence, and how it traces to construction
 
 Decomposition: `behaviour.py` in the workspace (per-tactic visit portraits,
