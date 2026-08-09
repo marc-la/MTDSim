@@ -117,8 +117,75 @@ def rank_matrix(rows, interval):
     return ranks, hosts
 
 
+def fig_opening_variety(rows) -> None:
+    """The fidelity exhibit: distinct opening k-prefixes against the baseline's
+    structural single ordering.
+
+    Variety is the capacity for strategic plurality: the movement model admits
+    many openings where the scripted FSM admits exactly one, and the openings
+    are not uniform noise — every profile opens on the same entry tactic and
+    fans out with depth at a profile-specific rate, because the out-transition
+    weights are inherited from documented-campaign frequencies. Cross-seed
+    claims use prefixes, per the measurement suite's own guidance."""
+    cells_of = {
+        p: sel(rows, arm="movement", profile=p, condition="none",
+               interval=200, sink_policy="retrace")
+        for p in PROFILES
+    }
+    for p, cells in cells_of.items():
+        if len(cells) != 10:
+            raise SystemExit(f"expected 10 no-MTD runs for {p}, got {len(cells)}")
+
+    ks = (1, 2, 3, 4, 5)
+    counts = {}
+    for p, cells in cells_of.items():
+        seqs = [tuple(r["prefix5"].split("|")) for r in cells]
+        counts[p] = [len({s[:k] for s in seqs}) for k in ks]
+
+    fig, ax = plt.subplots(figsize=(8.6, 4.6))
+    markers = ("o", "s", "D", "^", "v")
+    greys = ("#111111", "#333333", "#555555", "#6e6e6e", "#888888")
+    for (p, series), mk, g in zip(counts.items(), markers, greys):
+        ax.plot(ks, series, marker=mk, markersize=6, linewidth=1.6,
+                color=g, label=PROFILE_LABEL[p])
+    ax.axhline(1, color="#999999", linewidth=1.4, linestyle=(0, (4, 3)))
+    ax.text(5.35, 1.18, "baseline FSM: 1 (structural)", fontsize=8,
+            color="#666666", va="bottom")
+
+    ax.set_xticks(ks)
+    ax.set_xlabel("opening length k (places)", fontsize=9)
+    ax.set_ylabel("distinct openings across 10 seeds", fontsize=9)
+    ax.set_ylim(0, 10.6)
+    ax.set_yticks(range(0, 11, 2))
+    ax.set_xlim(0.8, 6.6)
+    ax.grid(axis="y", color="#eeeeee", linewidth=0.8)
+    ax.set_axisbelow(True)
+    for side in ("top", "right"):
+        ax.spines[side].set_visible(False)
+    ax.legend(fontsize=8, frameon=False, loc="upper left")
+    fig.text(
+        0.5, 0.045,
+        "Distinct k-place opening sequences over ten seeds (ceiling 10 = "
+        "every run unique); the inherited FSM's scripted order admits one "
+        "opening, structurally.",
+        ha="center", fontsize=8, color="#444444")
+    fig.text(
+        0.5, 0.012,
+        "Movement arm (modulators null), no MTD, mapping v2_partial, sink "
+        "policy retrace, horizon 15 000 s; recorded runs, experiment 2 "
+        "(data/results/expo02_ashen_lynx).",
+        ha="center", fontsize=7.5, color="#444444")
+    fig.subplots_adjust(left=0.09, right=0.98, top=0.97, bottom=0.22)
+    out = HERE / "fig_opening_variety.png"
+    fig.savefig(out, dpi=200)
+    print(f"wrote {out}")
+    for p, series in counts.items():
+        print(f"  {p:30s} {series}")
+
+
 def main() -> int:
     rows = load()
+    fig_opening_variety(rows)
 
     fig, axes = plt.subplots(
         1, 2, figsize=(12.5, 4.5), sharey=True,

@@ -1,19 +1,31 @@
-# Plurality reporting — the nulls reconciled, the kill criterion fired, and the one figure that survived
+# Plurality reporting — variety instrumented against the baseline, the nulls reconciled, the entropy fan killed
 
 **Status:** closed 2026-08-09. Executes and retires the
 `2026-08-09_strategic_plurality_reporting` handoff. Readers only: nothing here
 simulated anything; every number is a re-read of recorded runs.
 
-**The ruling, up front.**
+**The ruling, up front** (re-ruled 2026-08-09, second pass — the first pass
+led with the interaction heatmap, which argues an evaluation consequence, not
+the fidelity of the attack model; Marc's direction reset the primary exhibit
+to the variety-against-baseline form).
 
-- **(a) The badge's numbers are a table** (§2, first block) — five profiles ×
-  (pooled entropy, distinct openings), the baseline as a structural zero. No
-  chart; five numbers do not earn one.
-- **(b) The profile × mechanism interaction is the figure** —
-  `data/misc/_viz/plurality/fig_interaction_rank.png`, drawn from experiment
-  2's recorded runs by the committed `plurality_figs.py`. It reproduces the
-  recorded verdict exactly (4 of 5 rankings distinct at 200 s, 5 of 5 at
-  2 000 s) and it is the demonstrative form of the badge's stronger half.
+- **The fidelity exhibit — the primary figure for axis 3 — is
+  `fig_opening_variety.png`**: distinct k-place opening sequences over ten
+  seeds, per profile, against the inherited FSM's structural single ordering.
+  Every profile opens on the same entry tactic (1 distinct at k = 1) and fans
+  out with depth at a profile-specific rate — `objective_exfiltration`
+  reaches the ten-seed ceiling by k = 4 while `objective_exfiltration_impact`
+  holds 2 — where the baseline holds 1 at every k, structurally. This is the
+  overlooked axis made visible: the model *possesses* what the scripted
+  attacker cannot.
+- **(a) The badge's numbers are a table** (§2) — five profiles × (pooled
+  entropy, distinct openings), the baseline as a structural zero. Prose plus
+  table; the entropy half earns no chart.
+- **(b) The profile × mechanism interaction is the secondary figure** —
+  `fig_interaction_rank.png`, reproducing the recorded verdict exactly (4 of
+  5 rankings distinct at 200 s, 5 of 5 at 2 000 s). It carries the
+  *consequence* of plurality — the defence ranking depends on the attacker
+  asked — not the fidelity claim itself.
 - **(c) The six-family narrowing fan is NOT drawn.** The pre-registered kill
   criterion P1 **fired**: Spearman ρ = **−0.967** between pooled path entropy
   and maximum single-place visit share across the figure's own 30 cells,
@@ -138,56 +150,96 @@ fan would have been a hub-occupancy fan, and it is not drawn. The narrowing
 family's evidential content survives in §3's table, which now carries the hub
 share beside the entropy so the coupling is visible rather than hidden.
 
-## 5. The figure that was drawn
+## 5. The figures that were drawn
 
-`fig_interaction_rank.png` (script `plurality_figs.py`, deterministic from
-`expo02_ashen_lynx/runs.jsonl`): within each profile, the seven defence
-conditions ranked by breadth suppression (1 = fewest mean distinct hosts),
-one panel per mutation interval, rank annotated in every cell over a single
-grey ramp. **4 of 5 rankings distinct at 200 s; 5 of 5 at 2 000 s** —
-reproducing §12's verdict from the raw rows. The reader sees non-constant
-columns directly: which defence works best depends on which attacker profile
-is asked. Conditions are carried in the figure itself (movement arm,
-modulators null, v2_partial, retrace, 10 seeds, horizon 15 000 s).
+Both from `plurality_figs.py`, deterministic from
+`expo02_ashen_lynx/runs.jsonl`; conditions carried in each figure (movement
+arm, modulators null, v2_partial, no MTD for the variety figure, retrace, 10
+seeds, horizon 15 000 s).
 
-This figure evidences the badge's interaction half. The §3 table evidences
-the criterion's §(b) census claim — that the rows are an inventory, not a
-scale, because capability dials measurably lower this row. Neither moves any
-badge.
+**`fig_opening_variety.png` — the fidelity exhibit.** Distinct k-prefix
+counts (k = 1…5) per profile against the baseline's structural 1. Prefixes,
+not whole sequences, per the measurement suite's cross-seed guidance; and a
+count of realised sequences, not pooled transitions, so the hub-domination
+blind spot that killed the entropy fan (§4) does not reach it. The shape
+carries two claims at once: the variety exists (2–10 distinct five-place
+openings where the baseline admits one), and the variety is *structured* —
+a common entry tactic, then profile-specific fan-out, because the
+out-transition weights are inherited from documented-campaign frequencies
+rather than sampled uniformly.
 
-## 6. Discussion point — emergent strategic conditioning (for the dissertation's discussion chapter)
+**`fig_interaction_rank.png` — the consequence exhibit.** Within each
+profile, the seven defence conditions ranked by breadth suppression (1 =
+fewest mean distinct hosts), one panel per mutation interval, rank annotated
+in every cell over a single grey ramp. **4 of 5 rankings distinct at 200 s;
+5 of 5 at 2 000 s** — reproducing §12's verdict from the raw rows. The
+reader sees non-constant columns directly: which defence works best depends
+on which attacker profile is asked.
 
-Recorded here so the chapter-placement pass finds it shaped; wording is
-constrained by three measured results.
+The variety figure evidences axis 3's fidelity claim; the rank heatmap
+evidences its consequence (the badge's interaction half); the §3 table
+evidences the criterion's §(b) census claim — that the rows are an
+inventory, not a scale, because capability dials measurably lower this row.
+None of the three moves any badge.
 
-The claim the evidence *licenses*: the movement layer's plurality is
-**emergent from the weighted transition structure alone** — the corpus-derived
-out-transition weights, realised as branching, produce campaign variety
-(§2) that a scripted FSM structurally cannot, and that variety is
-consequential: it changes which defence ranks best (§5). The conditioning
-dynamics — success/failure routing, utility, learning, alignment —
-demonstrably *reshape* that distribution, with lawful dose–response curves
-across four independent declared dials (§3).
+## 6. Discussion subsection — variety as prerequisite, strategic plurality as the open measure (for the results/discussion chapter)
 
-The claim the evidence *bars*: that the dynamics amount to emergent
-**strategy**. Three results close that door. (1) The badge's reported
-configuration is modulators-null — the headline plurality contains no
-dynamics by construction (model_scope_freeze §4). (2) The axis-4 ablation
-showed verdict-conditioned routing to be approximately free across 1 600
-paired runs — the signal operates without changing outcomes. (3) P1's firing
-(§4) shows what the dials actually do to the traversal distribution:
-concentrate it onto the modal place. Conditioning, as built, is
-**convergence, not choice** — it narrows toward a dominant tactic rather
-than selecting among alternatives.
+Recorded here so the chapter-placement pass finds it shaped; the framing is
+Marc's (2026-08-09), and the wording is held to what the measured results
+license — no more.
 
-The honest dissertation sentence is therefore shaped like: *plurality is
-emergent; strategy is not — the model's conditioning mechanisms trade
-plurality for their capability, and the one measured exception (the
-benefit-through-the-net repair, change B) shows the trade is an instrument
-choice rather than a law*. That framing converts three measured negatives
-into the discussion chapter's contribution: a census instrument on which a
-model can raise one row only by lowering another, demonstrated on its own
-attacker.
+**The organising distinction, stated precisely: variety is a *prerequisite*
+for strategic plurality, not the plurality itself.** A model can be various
+and strategically empty — uniform random branching produces many distinct
+openings and selects among none of them. So the variety figure (§5) does not,
+on its own, demonstrate strategic plurality. What it demonstrates is the
+enabling condition: the movement model admits 2–10 distinct five-place
+openings per profile where the scripted FSM admits one, structurally. The
+prerequisite holds, and it holds in an axis the inherited attacker cannot
+represent at all.
+
+**The argument the results chapter can therefore make.** Because the variety
+is *present and instrumented* — counted, per profile, against a structural
+baseline, reproducibly — strategic plurality over that variety is itself
+*instrumentable*. The measure exists to be built: it would ask not "how many
+openings?" but "is the mass concentrated on the openings that succeed, and
+does it move toward them within a run?" The results chapter establishes the
+substrate for that measure; it does not yet report it.
+
+**Why the variety is not uniform noise — the seed of the strategic reading.**
+The out-transition weights are frequencies quotiented from the L1/L2 corpus,
+which is built from analyst-curated Attack Flows of documented — i.e.
+succeeded — campaigns (gap_schema.md; CTID Attack Flow incidents). So the
+openings are weighted, and the weighting is toward tactic sequences that
+worked in the field: a minority of openings carries most of the probability
+mass, and that minority is success-aligned by construction. This is the hook
+the discussion chapter develops — the raw material of strategy (plural,
+success-weighted options) is present — but the record does not overclaim it
+as strategy. Whether that static weighting amounts to strategic plurality, and
+whether any within-run mechanism sharpens it, is the open question §5's figure
+makes it *possible* to pose against evidence.
+
+**What the project already knows about the exercise, kept honest.** Three
+measured results bound how far the current mechanisms take the prerequisite
+toward exercised strategy, and they belong in the same subsection so the claim
+is not read as larger than it is. The conditioning dials (utility, learner,
+alignment, succession) demonstrably reshape the realised distribution with
+lawful dose–response (§3); but verdict-conditioned routing was measured
+approximately free across 1 600 paired runs (axis-4 ablation); and P1's firing
+(§4) shows the dials concentrate the walk onto the modal place rather than
+selecting among alternatives (entropy and hub-share are rank-wise the same
+axis, ρ = −0.97). As built, the mechanisms *spend* the variety rather than
+steering it. The one measured exception — change B, which raises plurality
+against the declared arm (§3) — marks where a genuine selection rule could
+live.
+
+**The chapter's honest boundary.** Prerequisite: demonstrated and
+instrumented (the model has success-weighted plural options the baseline
+lacks). Strategic plurality over it: instrumentable on this substrate, not yet
+measured, and named as the next question rather than claimed as a result.
+That boundary is the fidelity defence for this overlooked axis — the material
+strategy would operate on is shown to exist and to be countable, in a
+dimension the inherited single-FSM attacker has no representation for.
 
 ## 7. Reproduction drift, flagged not fixed
 
