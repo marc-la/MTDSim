@@ -1,6 +1,7 @@
 ---
-status: open
+status: partially shipped
 created: 2026-08-09
+updated: 2026-08-09
 ---
 
 # Instrument plural preference across the attack model's dimensions — turn "there is no fixed strategy" into "the attacker favours a success-weighted mixed set over one rule"
@@ -30,6 +31,15 @@ narrow rather than steer, and P1 fired). Strategic plurality in this handoff =
 caption carries that boundary.
 
 ## State of play
+
+**Partially shipped, 2026-08-09 (same day, after writing).** Steps 1–2 and the
+§3 ablation are built: the Hill/evenness/alignment readers, the
+`uniform_weight_variant` net transform and the committed pre-registration landed
+on `feat/plural-preference-instrumentation` (`1da2e7a`), with the open record at
+[`../implementation/pipeline/ogasp/plural_preference.md`](../implementation/pipeline/ogasp/plural_preference.md).
+**What remains:** the seed-count convergence check (P3), the three
+hypothesis-testing arms, and the per-dimension verdicts — the record's §Results
+and §Verdicts are empty until they run.
 
 **Demonstrated and banked.** Variety at the opening level (the figure), pooled
 path entropy 1.451–2.714 bits, 2–10 distinct openings, and the profile ×
@@ -200,6 +210,12 @@ halves), not by eye. Every dimension shares the seed set.
   within-run selection. Do not let any figure read as axis-4 adaptation. The
   variety-not-strategy limit travels; this handoff sharpens "variety" to "plural
   preference," it does not promote it to "dynamic strategy."
+  **Cross-reference (2026-08-09):** the axis-4 sibling now exists,
+  *deliberately* and under its own ceiling —
+  [`2026-08-09_axis4_plural_recovery_instrumentation.md`](2026-08-09_axis4_plural_recovery_instrumentation.md)
+  measures the verdict-conditioned mixture with the same machinery. This
+  constraint keeps the two claims apart (stationary mixture here, conditional
+  mixture there); it does not make the territory unreachable.
 - **The reported-configuration pin holds.** Modulators null is the correct arm —
   this measures the *static corpus weighting*, which is exactly the
   modulators-null policy ([`model_scope_freeze.md`](../implementation/pipeline/ogasp/model_scope_freeze.md)
@@ -249,7 +265,10 @@ halves), not by eye. Every dimension shares the seed set.
 - **Re-scoring axis 3** or any row.
 - **Dissertation prose and chapter placement.** The record names what may be
   claimed; where it lands in the thesis is a later pass.
-- The axis-2 ablation and axis-4 unrun readers — adjacent, separately tracked.
+- The axis-2 ablation — adjacent, separately tracked. The axis-4 half is now
+  tracked by
+  [`2026-08-09_axis4_plural_recovery_instrumentation.md`](2026-08-09_axis4_plural_recovery_instrumentation.md)
+  (2026-08-09).
 
 ## Return format
 

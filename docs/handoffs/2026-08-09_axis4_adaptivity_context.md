@@ -13,6 +13,14 @@ supplies is what is built, what has been measured, and the bounds already
 established — so a proposal lands against the real bar rather than re-deriving a
 wall someone already hit.
 
+**The approach arrived, 2026-08-09 (same day, after writing):**
+[`2026-08-09_axis4_plural_recovery_instrumentation.md`](2026-08-09_axis4_plural_recovery_instrumentation.md)
+commissions the axis's instrumentation — the failure column's recovery
+repertoire measured *distributionally* (Hill diversity, redirect JSD against the
+verdict-blind null), inside the bounds this document records: §3's wall stands
+and is quoted as the ceiling, never contested. This document stays what it is —
+the context that brief executes against; read both.
+
 Siblings, same date and same purpose, one per axis:
 [axis 6](2026-08-09_axis6_incentive_rationality_context.md),
 [axis 7](2026-08-09_axis7_learning_context.md).
