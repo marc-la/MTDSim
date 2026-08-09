@@ -30,8 +30,8 @@ baseline's 0.72, a 45 % reduction, holding on the time-average and on the median
 too (§2a). That comparison was available to both earlier studies and neither made
 it, because both of study 2's statistics are **scale-free by construction** and a
 scale-free statistic cancels precisely the quantity a *less detectable* claim is
-about. This is the field where fig6 is read, and it now annotates the level rather
-than the spacing.
+about. This is the field fig6 now reports, and it took three passes to draw
+honestly — §7a records why, because the failure mode is general.
 
 ## 1. What was measured, and in what unit
 
@@ -286,6 +286,35 @@ that only surface when a figure is regenerated.
   `score_dwell_only=True, verb_level=False` explicitly and reproduces the archived
   figures exactly.
 
+### 7a. Three passes to draw fig6, and the reason is worth keeping
+
+The figure went through three designs, and only the third says what the numbers
+say. It is the same failure each time — **a chart that shows a level comparison
+without letting the eye compute one**:
+
+1. **Small multiples of one seed's trace, annotated with mean gap.** The
+   annotation described spacing while the panel was being read for loudness, and
+   the eye tracks peaks. The profiles *burst* — they spike above the baseline and
+   then decay to the floor — so a peak-legible chart of a mean-level result reads
+   as its own contradiction. The figure was reported as showing the opposite of
+   the table above it, and it was.
+2. **The same, with dwell/idle bands and a verb-invocation rug.** The overlays
+   were true and they carried the mechanism, but they added ink to a panel whose
+   problem was that its central quantity — area — was not legible at all.
+3. **What is drawn now.** Binned mean `D` over time, so the comparison is a
+   vertical distance between two lines rather than an integral the reader has to
+   estimate; and beneath it the **exceedance curve**, the fraction of the run
+   spent above each level, which states the claim without a summary statistic at
+   all. The baseline sits above all four low-and-slow profiles in **22 of 24**
+   time bins — the two exceptions being the opening burst, before any profile has
+   reached its first dwell tactic — and spends **21.4 %** of the window above
+   `D` = 0.6 against their **5.2–7.6 %**.
+
+The window is **0–6 000 s** for both panels, chosen because every baseline run is
+still working throughout it (§2b: the earliest stops at 8 914 s). That removes
+the one comparability threat a level comparison faces here, and it is why these
+figures do not divide by the full horizon.
+
 `fig1_exposure_trajectory.png` was **retired**: it is the study-1-convention
 trajectory, exactly superseded by fig6. fig2 and fig3 are kept as study 1's visual
 audit trail and now carry a SUPERSEDED CONVENTION line in the figure itself, so
@@ -296,8 +325,8 @@ neither can be pulled into a chapter without it.
 - `data/results/stealth_exposure/spacing.py` (untracked/regenerable) — every
   number above, writing `spacing.txt` and `spacing.json`.
 - `data/misc/_viz/stealth_exposure/spacing_viz.py` (untracked/regenerable) —
-  **fig6** the R1-scored trajectory per arm, **fig7** the gap survival curve
-  as-run and ablated.
+  **fig6** the level comparison — binned mean `D` over time, and the exceedance
+  curve — **fig7** the gap survival curve, as-run and ablated.
 - [`stealth_dutycycle.md`](stealth_dutycycle.md) — the R1/R2 rulings this reads
   at, D4's granularity flip, and the p90/p50 verdict §5 reconciles with.
 - [`stealth_exposure_metric.md`](stealth_exposure_metric.md) — study 1, and the
