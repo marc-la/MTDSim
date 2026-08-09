@@ -129,6 +129,20 @@ spends its diagonal restating the null five times, so the matrix
 the argument. Class pairs carry the headline; the `aggregate` pairs are drawn
 muted and never summarised, per §3's kill.
 
+**Dissertation-form renderings** are `thesis_figs.py` beside the working
+scripts, writing `thesis_fig_divergence.png` (the ranked-dot headline),
+`thesis_fig_visit_portrait.png` (§6's portraits) and
+`thesis_fig_divergence_carriers.png` (§6's carriers). They differ from the
+implementation-record figures only in presentation, and every difference is a
+dissertation constraint rather than a data change: serif type at
+document-matching sizes, no in-figure titles or footnotes (the argument moves
+to the caption — draft captions in `thesis_captions.tex`, written to the voice
+contract), plain-English profile names with no repo-internal labels
+(`aggregate` → "unsegregated", the classes by objective), and grayscale
+robustness (the size-confounded `aggregate` pairs are open markers rather than a
+second colour). The class-pair-versus-`aggregate` distinction the record turns
+on survives in monochrome, which is the point of the marker choice.
+
 Two calibration anchors travel with the number. **What overlap scores:** two
 profiles with genuinely the same behaviour score inside the band —
 ≤ 0.003 — because the band *is* five same-behaviour comparisons (each profile
