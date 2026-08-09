@@ -1853,6 +1853,317 @@ def baseline_exposure_curve(
     )
 
 
+# --- §10 plural preference (axis 3's thesis argument, past variety) -----------
+#
+# Axis 3 is DEMONSTRATED on *variety*: the attacker admits 2-10 distinct openings
+# per profile where the inherited FSM admits one (``plurality_reporting.md``).
+# But variety is only the *prerequisite* for strategic plurality — a model can be
+# various and strategically empty (uniform branching produces many openings and
+# prefers none of them). This section instruments the *positive* claim the thesis
+# leans on: not merely that the attacker has options (variety = the **support** of
+# the behaviour distribution), but that it favours a mixed *subset* of them (plural
+# preference = the **shape of the mass** over that support), and that the favoured
+# subset is the field-successful one.
+#
+# **A reader, never a mechanism — so this moves no badge.** Every function here is
+# a re-read of recorded runs; nothing simulates, nothing routes on the result. The
+# claim it evidences is a property of the model's **stationary policy** (a
+# success-weighted plural mixture, categorically unlike one deterministic rule),
+# NEVER within-run adaptive selection — axis 4 is DESIGNED and the verdict-blind
+# ablation measured routing approximately free. The variety-not-strategy limit
+# travels; this sharpens "variety" to "plural preference", it does not promote it
+# to "dynamic strategy".
+#
+# **The three-regime signature the measures separate, per behavioural dimension:**
+#
+#   | regime                  | support N | D = 2^H | evenness D/N | reading          |
+#   |-------------------------|-----------|---------|--------------|------------------|
+#   | baseline FSM            | 1         | 1       | -            | one strict rule  |
+#   | uniform variety (noise) | large     | ~= N    | ~= 1         | various, empty   |
+#   | plural preference       | > 1       | 1<D<N   | < 1          | favours a subset |
+#
+# **The linchpin is the contrast, not any single arm's number.** The uniform-weight
+# ablation (:func:`~mtdsim.l3_simulation.movement.net.uniform_weight_variant`) keeps
+# the reachable graph and strips only the corpus preference, so the gap between the
+# corpus-weighted arm and the uniform null on a dimension is the concentration the
+# *weights* buy, isolated from the concentration the *topology* forces. That gap can
+# run either way per dimension (the corpus weighting can concentrate a distribution
+# or, where uniform weights trap the walk in a shallow cycle, spread it), so the
+# direction-agnostic magnitude of strategic content is :func:`jsd` between the two
+# arms' distributions, floored by the split-half noise (§2's null machinery). The
+# signed evenness gap is the descriptive detail on top of it.
+#
+# **Measure at the behaviour level and across several dimensions.** The P1 lesson
+# (``plurality_reporting.md`` §4: pooled path entropy and hub-occupancy are rank-
+# wise one axis, rho = -0.97) is that a single hub can manufacture a step-level
+# entropy result. The defences are structural: the uniform null shares the hub, so
+# the *contrast* is hub-controlled by construction; and a preference read on one
+# dimension is a suspected artefact where one read across five is a policy property.
+#
+# Design + pre-registration + three-arm verdicts: ``plural_preference.md``.
+
+
+@dataclass(frozen=True)
+class HillDiversity:
+    """The plurality signature of one behavioural distribution: how many behaviours
+    carry mass, the effective number of them, and how evenly the mass is spread.
+
+    - ``support_n`` (**N**) — behaviours with positive mass. The variety count:
+      N = 1 is one rule, N > 1 is plural options.
+    - ``effective_number`` (**D = 2^H**, Hill number of order 1; H the Shannon
+      entropy in bits of the distribution) — D = 1 is one behaviour, D = N is a
+      flat distribution. The number of *equally-used* behaviours the mass is worth.
+    - ``evenness`` (**D / N**, Pielou) — below 1 is preference (mass on a subset),
+      at 1 is uniform. Defined but **only interpretable for N > 1**: at N = 1 it is
+      1.0 trivially (one rule is perfectly "even" over its single option), so read
+      ``support_n`` for the one-rule-vs-plural distinction and ``evenness`` for the
+      shape *given* plurality.
+
+    H (bits) is ``log2(effective_number)``; the Shannon formula is the one
+    :func:`path_entropy_from_transitions` uses per place, applied here to a single
+    flat distribution over a dimension's behaviours rather than per-place-then-
+    visit-weighted (that visit weighting is exactly what entangles the transition
+    measure with hub occupancy, P1)."""
+
+    support_n: int
+    effective_number: float
+    evenness: float
+
+    @property
+    def shannon_bits(self) -> float:
+        return math.log2(self.effective_number) if self.effective_number > 0 else 0.0
+
+
+def hill_diversity(weights: Mapping[Any, float]) -> HillDiversity:
+    """The :class:`HillDiversity` of a behaviour distribution given as any mapping
+    of non-negative weights — raw counts (a :class:`~collections.Counter`) or an
+    already-normalised distribution (e.g. :func:`visit_distribution`); the function
+    normalises internally, so both are accepted and agree.
+
+    Zero-weight behaviours are not in the support (they carry no mass and cannot be
+    "preferred against"). An empty or all-zero mapping is N = 0, D = 0, evenness
+    NaN — the degenerate input a caller must handle, not silently a "one rule"."""
+    positive = [float(w) for w in weights.values() if w > 0]
+    total = sum(positive)
+    if total <= 0:
+        return HillDiversity(support_n=0, effective_number=0.0, evenness=float("nan"))
+    n = len(positive)
+    h = -sum((w / total) * math.log2(w / total) for w in positive)
+    d = 2.0**h
+    return HillDiversity(support_n=n, effective_number=d, evenness=d / n)
+
+
+# The five behavioural dimensions the preference is instrumented on. A preference
+# that holds across dimensions is a policy property; one confined to a single
+# dimension is a suspected artefact (the P1 defence). Openings and terminals are
+# per-run (one observation per run — sparse, seed-count-sensitive, sized by the
+# convergence check); transitions, verbs and visits are per-event (well sampled
+# even at ten seeds).
+PLURAL_DIMENSIONS: tuple[str, ...] = (
+    "opening",      # k-place opening prefix (the variety figure's own unit)
+    "transition",   # realised out-edges "src>dst" — the path shape, flat over edges
+    "verb",         # dispatched-verb mix (present on BOTH arms — see below)
+    "visit",        # place-visit distribution (the L2 action-stream convention)
+    "terminal",     # terminal place (how the walk ended)
+)
+
+
+def opening_counts(runs: Sequence[MovementRunResult], k: int = 5) -> Counter[tuple]:
+    """Distribution over distinct length-``k`` opening prefixes — one observation
+    per run. The behaviour whose *variety* the fidelity figure already counts;
+    here its *shape* is scored too (are a few openings preferred, or all equally?)."""
+    return Counter(place_sequence(r)[:k] for r in runs)
+
+
+def transition_counts(runs: Sequence[MovementRunResult]) -> Counter[str]:
+    """Distribution over realised out-edges ``"place>next_place"``, pooled flat over
+    every transition in every run — the path shape as one distribution over edge
+    types. Flat-over-edges deliberately, not visit-weighted-per-place: this is the
+    Hill counterpart to :func:`path_entropy`, kept apart from it because the visit
+    weighting is what couples the per-place measure to hub occupancy (P1). The
+    uniform-null contrast controls the residual hub sensitivity structurally."""
+    counts: Counter[str] = Counter()
+    for run in runs:
+        for rec in run.records:
+            if rec.next_place is not None:
+                counts[f"{rec.place}>{rec.next_place}"] += 1
+    return counts
+
+
+def visit_counts(runs: Sequence[MovementRunResult]) -> Counter[str]:
+    """Place-visit counts pooled over the runs — the count form of
+    :func:`visit_distribution` (same denominator: every visit that consumed time or
+    dispatched a verb, dwell-only included). Kept as counts so :func:`hill_diversity`
+    reads it identically to the other dimensions."""
+    counts: Counter[str] = Counter()
+    for run in runs:
+        for rec in visit_records(run):
+            counts[rec.place] += 1
+    return counts
+
+
+def terminal_counts(runs: Sequence[MovementRunResult]) -> Counter[str]:
+    """Distribution over each run's terminal place — one observation per run. The
+    count form of :func:`terminal_place_distribution`."""
+    return Counter(run.records[-1].place for run in runs if run.records)
+
+
+def dimension_counts(
+    runs: Sequence[MovementRunResult], dimension: str, k: int = 5
+) -> Counter:
+    """The behaviour-count distribution for a named :data:`PLURAL_DIMENSIONS`
+    dimension — the one dispatch point the three-arm analyser calls, so a study
+    iterates dimensions without a per-dimension branch."""
+    if dimension == "opening":
+        return opening_counts(runs, k=k)
+    if dimension == "transition":
+        return transition_counts(runs)
+    if dimension == "verb":
+        return Counter(r.verb for run in runs for r in action_records(run))
+    if dimension == "visit":
+        return visit_counts(runs)
+    if dimension == "terminal":
+        return terminal_counts(runs)
+    raise ValueError(
+        f"unknown plural dimension {dimension!r}; expected one of {PLURAL_DIMENSIONS}"
+    )
+
+
+def plural_preference(
+    runs: Sequence[MovementRunResult], dimension: str, k: int = 5
+) -> HillDiversity:
+    """:func:`hill_diversity` of a named dimension's pooled behaviour distribution
+    over a run set — the per-dimension per-profile plurality signature."""
+    return hill_diversity(dimension_counts(runs, dimension, k=k))
+
+
+# --- success-alignment: is the favoured subset the successful subset? ---------
+#
+# Concentration alone is preference; concentration ON THE SUCCESSFUL BEHAVIOURS is
+# strategic. Two references answer "successful", and they answer different
+# questions — report both, because on this substrate they disagree, and the
+# disagreement is a load-bearing honesty statement (axis 7):
+#
+#  - **Corpus weight** (:func:`corpus_edge_weights`) is the *field-success prior*:
+#    the corpus is analyst-curated Attack Flows of documented — i.e. succeeded —
+#    campaigns (``gap_schema.md``), so a heavier corpus weight is a behaviour that
+#    worked in real campaigns. This is the primary reference, read at the edge
+#    dimension where a per-behaviour corpus weight exists directly.
+#  - **Substrate success rate** (:func:`verb_success_rates`) is *this simulator's*
+#    success: the fraction of a verb's dispatches the substrate returned success
+#    for. Axis 7 found substrate success is NOT a progress signal here (scanning
+#    succeeds far more often than exploiting), so a policy aligned with field
+#    success can read as *un*-aligned with substrate success — which is the
+#    substrate's limitation, reported, not the policy's failure.
+#
+# The value is in the **arm contrast**, which sidesteps the circularity of "the
+# corpus arm walks the corpus weights, so of course its realised mass tracks them":
+# the uniform null shares the topology and preconditions but has the weights
+# stripped, so a corpus-arm alignment materially above the uniform null's is the
+# weighting's contribution, isolated exactly as the evenness gap isolates it.
+
+
+def corpus_edge_weights(net: "RoutingNet") -> dict[str, float]:  # noqa: F821
+    """``"src>dst" -> corpus base out-weight`` over a routing net's positive edges —
+    the field-success-prior reference for :func:`corpus_weight_alignment`. Read from
+    the **corpus** net (never the uniform variant): it is the fixed reference both
+    arms' realised behaviour is scored against."""
+    ref: dict[str, float] = {}
+    for place in net.places:
+        for dst, w in net.base_out_weights(place).items():
+            if w > 0:
+                ref[f"{place}>{dst}"] = float(w)
+    return ref
+
+
+def realised_edge_mass(runs: Sequence[MovementRunResult]) -> dict[str, float]:
+    """Normalised realised out-edge frequencies pooled over the runs — the mass the
+    alignment correlates against the corpus reference."""
+    counts = transition_counts(runs)
+    total = sum(counts.values())
+    return {e: c / total for e, c in counts.items()} if total else {}
+
+
+def spearman_rho(xs: Sequence[float], ys: Sequence[float]) -> float:
+    """Spearman rank correlation with average-rank tie handling — the same
+    definition ``plurality_reporting.md``'s P1 uses, owned here as the one
+    implementation. NaN when fewer than two points or when either variable is
+    constant (rank variance zero — a correlation is undefined, not zero)."""
+    if len(xs) != len(ys):
+        raise ValueError("spearman_rho needs equal-length sequences")
+    if len(xs) < 2:
+        return float("nan")
+
+    def ranks(vals: Sequence[float]) -> list[float]:
+        order = sorted(range(len(vals)), key=lambda i: vals[i])
+        rk = [0.0] * len(vals)
+        i = 0
+        while i < len(order):
+            j = i
+            while j + 1 < len(order) and vals[order[j + 1]] == vals[order[i]]:
+                j += 1
+            avg = (i + j) / 2 + 1
+            for m in range(i, j + 1):
+                rk[order[m]] = avg
+            i = j + 1
+        return rk
+
+    rx, ry = ranks(xs), ranks(ys)
+    mx = sum(rx) / len(rx)
+    my = sum(ry) / len(ry)
+    num = sum((a - mx) * (b - my) for a, b in zip(rx, ry))
+    dx = math.sqrt(sum((a - mx) ** 2 for a in rx))
+    dy = math.sqrt(sum((b - my) ** 2 for b in ry))
+    return num / (dx * dy) if dx > 0 and dy > 0 else float("nan")
+
+
+def corpus_weight_alignment(
+    runs: Sequence[MovementRunResult], reference: Mapping[str, float]
+) -> float:
+    """Spearman between an arm's realised edge mass and the corpus-weight prior,
+    over the **reference's** edge support (an edge the arm never walked contributes
+    mass 0, not a dropped row — dropping them would let each arm be scored on a
+    different support and make the arms incomparable). A corpus-arm value well above
+    the uniform null's says the realised behaviour tracks the field-success prior
+    *because of the weighting*, which the null strips."""
+    mass = realised_edge_mass(runs)
+    edges = sorted(reference)
+    xs = [mass.get(e, 0.0) for e in edges]
+    ys = [reference[e] for e in edges]
+    return spearman_rho(xs, ys)
+
+
+def verb_success_rates(runs: Sequence[MovementRunResult]) -> dict[str, float]:
+    """``verb -> substrate success rate`` (success verdicts / attempts), pooled over
+    the runs — the substrate-success reference for :func:`substrate_success_alignment`.
+    Verbs never attempted are absent (an undefined rate, not zero)."""
+    attempts: Counter[str] = Counter()
+    successes: Counter[str] = Counter()
+    for run in runs:
+        for r in action_records(run):
+            attempts[r.verb] += 1
+            if r.verdict == "success":
+                successes[r.verb] += 1
+    return {v: successes[v] / n for v, n in attempts.items() if n}
+
+
+def substrate_success_alignment(runs: Sequence[MovementRunResult]) -> float:
+    """Spearman between each verb's realised mass and its substrate success rate,
+    over the verbs the arm attempted — the honesty check. Positive says the policy
+    spends its actions on the verbs that succeed *on this substrate*; axis 7's
+    finding predicts this need not be positive even when the field-success
+    alignment is, and that gap is the point, not a defect."""
+    rates = verb_success_rates(runs)
+    counts = Counter(r.verb for run in runs for r in action_records(run))
+    total = sum(counts.values())
+    if not total:
+        return float("nan")
+    verbs = sorted(rates)
+    xs = [counts.get(v, 0) / total for v in verbs]
+    ys = [rates[v] for v in verbs]
+    return spearman_rho(xs, ys)
+
+
 __all__ = [
     "CONSENSUS_PATH",
     "MOVEMENT_CLOCK",
@@ -1931,6 +2242,22 @@ __all__ = [
     "exposure_curve",
     "baseline_exposure_curve",
     "baseline_action_rows",
+    # §10 plural preference
+    "HillDiversity",
+    "hill_diversity",
+    "PLURAL_DIMENSIONS",
+    "opening_counts",
+    "transition_counts",
+    "visit_counts",
+    "terminal_counts",
+    "dimension_counts",
+    "plural_preference",
+    "corpus_edge_weights",
+    "realised_edge_mass",
+    "spearman_rho",
+    "corpus_weight_alignment",
+    "verb_success_rates",
+    "substrate_success_alignment",
     # §7 intervals
     "Interval",
     "mean_ci",

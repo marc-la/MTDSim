@@ -178,6 +178,7 @@ data/misc/_viz/*
 !data/misc/_viz/plurality/
 data/misc/_viz/plurality/*.png
 data/misc/_viz/plurality/*.json
+data/misc/_viz/plurality/*.jsonl
 data/misc/_viz/plurality/__pycache__/
 
 # Experiment workspaces — self-contained, regenerable runs (runner + numbers +

@@ -1499,3 +1499,165 @@ def test_a_dwell_only_visit_contributes_time_but_no_signal() -> None:
     assert curve.increments[1] == 0.0
     # the level at the third act is its own increment plus almost nothing
     assert curve.levels[2] == pytest.approx(curve.increments[2], rel=1e-2)
+
+
+# ---------------------------------------------------------------------------
+# §10 plural preference (Hill diversity, dimensions, success-alignment)
+# ---------------------------------------------------------------------------
+
+
+def test_hill_diversity_hand_worked() -> None:
+    """The three regimes the measure separates, worked by hand."""
+    one_rule = M.hill_diversity({"a": 10})
+    assert (one_rule.support_n, one_rule.effective_number, one_rule.evenness) == (1, 1.0, 1.0)
+
+    flat = M.hill_diversity({"a": 1, "b": 1, "c": 1, "d": 1})
+    assert flat.support_n == 4
+    assert flat.effective_number == pytest.approx(4.0)
+    assert flat.evenness == pytest.approx(1.0)
+    assert flat.shannon_bits == pytest.approx(2.0)
+
+    skewed = M.hill_diversity({"a": 7, "b": 1, "c": 1, "d": 1})  # concentrated
+    assert skewed.support_n == 4
+    assert skewed.effective_number == pytest.approx(2.5611285, abs=1e-6)
+    assert skewed.evenness == pytest.approx(0.6402821, abs=1e-6)
+    assert skewed.evenness < 1.0  # preference: mass on a subset
+
+
+def test_hill_diversity_accepts_counts_or_normalised_distribution() -> None:
+    """Raw counts and a normalised distribution of the same shape agree."""
+    counts = M.hill_diversity({"a": 3, "b": 1})
+    probs = M.hill_diversity({"a": 0.75, "b": 0.25})
+    assert counts.effective_number == pytest.approx(probs.effective_number)
+    assert counts.evenness == pytest.approx(probs.evenness)
+
+
+def test_hill_diversity_degenerate_input_is_not_a_one_rule() -> None:
+    """Empty / all-zero mass is N=0, D=0, evenness NaN — a caller must handle it,
+    never read it as a single behaviour."""
+    for empty in ({}, {"a": 0, "b": 0.0}):
+        hd = M.hill_diversity(empty)
+        assert hd.support_n == 0
+        assert hd.effective_number == 0.0
+        assert math.isnan(hd.evenness)
+
+
+def test_dimension_counts_over_a_hand_stream() -> None:
+    """The five dimensions read the streams they claim to. Two tiny runs:
+    run A opens recon->intrude, run B opens recon->recon; verbs and visits pooled."""
+    run_a = run_of(
+        rec("recon", step=0, verb="SCAN_HOST", next_place="intrude"),
+        rec("intrude", step=1, verb="EXPLOIT_VULN", next_place="operate"),
+        rec("operate", step=2, verb="", verdict="", dwell=5.0,
+            next_place=None, place_class=DWELL_ONLY),
+    )
+    run_b = run_of(
+        rec("recon", step=0, verb="SCAN_HOST", next_place="recon"),
+        rec("recon", step=1, verb="SCAN_HOST", next_place=None),
+    )
+    runs = [run_a, run_b]
+
+    assert M.dimension_counts(runs, "opening", k=2) == {
+        ("recon", "intrude"): 1,
+        ("recon", "recon"): 1,
+    }
+    assert M.dimension_counts(runs, "transition") == {
+        "recon>intrude": 1, "intrude>operate": 1, "recon>recon": 1,
+    }
+    assert M.dimension_counts(runs, "verb") == {"SCAN_HOST": 3, "EXPLOIT_VULN": 1}
+    # visit counts include the dwell-only operate visit (it consumed time)
+    assert M.dimension_counts(runs, "visit") == {"recon": 3, "intrude": 1, "operate": 1}
+    assert M.dimension_counts(runs, "terminal") == {"operate": 1, "recon": 1}
+
+    with pytest.raises(ValueError, match="unknown plural dimension"):
+        M.dimension_counts(runs, "not_a_dimension")
+
+
+def test_plural_preference_wraps_hill_on_a_dimension() -> None:
+    """`plural_preference` is `hill_diversity` of the dimension's pooled counts."""
+    # terminal reads the last record's *place* (where the token sits), not its
+    # next_place — so give each run a final record on a distinct place.
+    run_a = run_of(rec("recon", next_place="a"), rec("a", next_place="b"),
+                   rec("b", next_place=None))
+    run_b = run_of(rec("recon", next_place="a"), rec("a", next_place="c"),
+                   rec("c", next_place=None))
+    hd = M.plural_preference([run_a, run_b], "terminal")
+    # terminals: {b:1, c:1} -> flat over 2
+    assert (hd.support_n, hd.effective_number) == (2, pytest.approx(2.0))
+
+
+def test_spearman_rho_hand_worked() -> None:
+    assert M.spearman_rho([1, 2, 3, 4], [10, 20, 30, 40]) == pytest.approx(1.0)
+    assert M.spearman_rho([1, 2, 3, 4], [40, 30, 20, 10]) == pytest.approx(-1.0)
+    # no ties: xs ranks 1,2,3,4 ; ys ranks 2,1,4,3 -> Sum d^2 = 4 -> rho = 0.6
+    assert M.spearman_rho([1, 2, 3, 4], [2, 1, 4, 3]) == pytest.approx(0.6)
+    # constant input -> undefined (NaN), never 0
+    assert math.isnan(M.spearman_rho([1, 2, 3], [5, 5, 5]))
+    assert math.isnan(M.spearman_rho([1], [2]))
+
+
+def test_corpus_weight_alignment_tracks_a_planted_preference() -> None:
+    """An arm whose realised edge mass follows the corpus weights scores a
+    positive alignment; one whose mass ignores them scores near zero. The
+    reference support fixes the comparison — an unwalked edge is mass 0, not
+    dropped."""
+    reference = {"a>b": 0.8, "a>c": 0.1, "a>d": 0.1}
+    # aligned arm: mass order matches weight order (many a>b, few a>c/a>d)
+    aligned = run_of(
+        *[rec("a", step=i, next_place="b") for i in range(8)],
+        rec("a", step=8, next_place="c"),
+        rec("a", step=9, next_place="d"),
+    )
+    assert M.corpus_weight_alignment([aligned], reference) == pytest.approx(1.0)
+    # anti-aligned arm: mass on the low-weight edges
+    anti = run_of(
+        *[rec("a", step=i, next_place="d") for i in range(8)],
+        rec("a", step=8, next_place="c"),
+        rec("a", step=9, next_place="b"),
+    )
+    assert M.corpus_weight_alignment([anti], reference) < 0.0
+
+
+def test_verb_success_rates_and_substrate_alignment() -> None:
+    """Success rate is successes/attempts per verb; alignment correlates verb mass
+    against it. A policy that spends most on its highest-succeeding verb is
+    positively aligned."""
+    runs = [run_of(
+        rec("p", step=0, verb="SCAN_HOST", verdict="success", next_place="p"),
+        rec("p", step=1, verb="SCAN_HOST", verdict="success", next_place="p"),
+        rec("p", step=2, verb="SCAN_HOST", verdict="success", next_place="p"),
+        rec("p", step=3, verb="EXPLOIT_VULN", verdict="failure", next_place=None),
+    )]
+    rates = M.verb_success_rates(runs)
+    assert rates == {"SCAN_HOST": pytest.approx(1.0), "EXPLOIT_VULN": pytest.approx(0.0)}
+    # mass: SCAN 3/4, EXPLOIT 1/4 ; rates 1.0, 0.0 -> mass and rate co-order -> +1
+    assert M.substrate_success_alignment(runs) == pytest.approx(1.0)
+
+
+def test_plural_arm_contrast_on_a_seeded_run() -> None:
+    """Integration: on matched seeds the uniform-weight null and the corpus arm
+    produce genuinely different plurality signatures on at least one dimension,
+    and the corpus arm's field-success alignment is not below the null's — the
+    strategic-content contrast, in miniature (the full study pools many seeds)."""
+    from mtdsim.l3_simulation.movement.net import load_routing_net
+    from mtdsim.l3_simulation.movement.run import run_movement
+
+    kw = dict(
+        horizon=15_000,
+        mapping_version="v2_partial",
+        overlay_version="v3_persistent_backward",
+        retrace_sinks=True,
+    )
+    seeds = range(6)
+    corpus = [run_movement("aggregate", seed=s, uniform_weights=False, **kw) for s in seeds]
+    uniform = [run_movement("aggregate", seed=s, uniform_weights=True, **kw) for s in seeds]
+
+    # the visit distributions differ (JSD > 0): the ablation reshapes behaviour
+    assert M.jsd(M.visit_distribution(corpus), M.visit_distribution(uniform)) > 0.0
+
+    ref = M.corpus_edge_weights(load_routing_net("aggregate"))
+    corpus_align = M.corpus_weight_alignment(corpus, ref)
+    uniform_align = M.corpus_weight_alignment(uniform, ref)
+    # the corpus arm tracks the field-success prior at least as well as the null
+    # that has the prior stripped — the direction the strategic claim needs.
+    assert corpus_align >= uniform_align
