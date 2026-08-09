@@ -43,7 +43,7 @@ from mtdsim.l3_simulation.movement.state import (
     StatefulTiming,
 )
 from mtdsim.l3_simulation.movement.timing import TacticTiming, TimingSource
-from mtdsim.l3_simulation.movement.net import load_routing_net
+from mtdsim.l3_simulation.movement.net import load_routing_net, uniform_weight_variant
 from mtdsim.l3_simulation.movement.statistics import (
     MovementRunResult,
     MTDDecision,
@@ -278,6 +278,7 @@ def run_movement(
     register_for_interrupts: bool = True,
     max_events: int = 50_000,
     retrace_sinks: bool = False,
+    uniform_weights: bool = False,
 ) -> MovementRunResult:
     """Run one movement-layer simulation and return its :class:`MovementRunResult`.
 
@@ -319,6 +320,17 @@ def run_movement(
     behaviour silently. Experiment 2 names it; experiment 1's accept-and-censor arm
     stays reachable by leaving it unset.
 
+    ``uniform_weights`` selects the **uniform-weight ablation arm** of the
+    plural-preference study (``plural_preference.md``): each place's corpus
+    out-distribution is replaced by equiprobable mass over its own reachable
+    destination set (:func:`uniform_weight_variant`), so the reachable graph and
+    the synthetic-overlay arm are unchanged and only the corpus *preference* is
+    stripped. It defaults **off** for the same reason the other arm toggles do —
+    an unqualified run is the shipped corpus-weighted model — and it is the null
+    against which corpus concentration is the strategic content. Composes with
+    ``with_synthetic_overlay`` (the variant is taken of whichever net that
+    selects); leave modulators null when reading plurality, per the §4 pin.
+
     ``attacker_state`` attaches a within-run :class:`AttackerState` by wrapping
     the three collaborators the walk consumes — :class:`StatefulTiming` reports
     every place entry, :class:`ModulatedOverlay` reports every verdict and
@@ -333,6 +345,8 @@ def run_movement(
     env, end_event, network, adversary, attack_op = _build_sim(seed, geometry)
 
     routing_net = load_routing_net(profile, with_synthetic_overlay=with_synthetic_overlay)
+    if uniform_weights:
+        routing_net = uniform_weight_variant(routing_net)
     if controller is None:
         controller = load_controller(version=mapping_version)
     elif mapping_version is not None:

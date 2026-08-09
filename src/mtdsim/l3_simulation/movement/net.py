@@ -31,7 +31,7 @@ it walks — a malformed or future-versioned net fails loud at load, not mid-run
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 # …/src/mtdsim/l3_simulation/movement/net.py -> repo root is parents[4].
@@ -212,6 +212,36 @@ def _choose_entry(places: tuple[str, ...], with_synthetic_overlay: bool, entry_m
     )
 
 
+def uniform_weight_variant(net: RoutingNet) -> RoutingNet:
+    """The **uniform-weight ablation** of a routing net: every place's
+    out-distribution is replaced by equiprobable mass over *its own destination
+    set*, stripping the corpus preference while leaving the reachable graph
+    identical (the plural-preference study's linchpin arm — the null against
+    which corpus concentration is the *strategic* content, `plural_preference.md`).
+
+    "Destination set" is the set of destinations the corpus arm can actually
+    reach: the **positive-weight** out-edges. A zero-weight edge is present in the
+    net's transition list but carries no corpus mass, and the outcome overlay can
+    never resurrect it (``compose`` computes ``base·factor`` and drops anything
+    ``≤ 0``), so it is unreachable in the shipped arm. Uniformising over positive
+    weights therefore keeps the two arms on the **same reachable graph** and
+    changes only the *preference among reachable edges* — which is the one thing
+    the ablation exists to isolate. Including zero-weight edges would widen the
+    uniform arm's graph and confound reachability with preference.
+
+    A sink stays a sink (no positive out-edge → empty out-set, unchanged). Pure
+    data transform: no simulation, no RNG, no I/O — a returned :class:`RoutingNet`
+    identical to ``net`` in every field but ``_out``.
+    """
+    uniform_out: dict[str, dict[str, float]] = {}
+    for place in net.places:
+        positive = [dst for dst, w in net._out.get(place, {}).items() if w > 0]
+        uniform_out[place] = (
+            {dst: 1.0 / len(positive) for dst in positive} if positive else {}
+        )
+    return replace(net, _out=uniform_out)
+
+
 def load_routing_net(
     profile: str,
     with_synthetic_overlay: bool = True,
@@ -258,4 +288,5 @@ __all__ = [
     "NetSchemaError",
     "RoutingNet",
     "load_routing_net",
+    "uniform_weight_variant",
 ]
