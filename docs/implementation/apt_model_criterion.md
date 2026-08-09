@@ -208,6 +208,42 @@ carries a success-gated candidate replacement (deepest *successfully
 actioned* stage), to be adopted only if it is shown to discriminate; until
 then the coverage curve leads. Recommended, not built.
 
+#### Amendment, 2026-08-09 — the write-up position for this row, ratified
+
+**The badge does not change. What is recorded is how the dissertation defends
+the row**, ratified by Marc 2026-08-09 and landed as dissertation-bound prose in
+[`../notes/ch6_discussion/persistence_duration_premise.md`](../notes/ch6_discussion/persistence_duration_premise.md).
+
+The framing splits the axis's own definition in two. **Duration** — the
+"extended period of time" half of NIST clause (i) — is a *premise of the episode
+structure*, shared by both driving arms: the campaign lasts as long as the run
+because the run is the campaign, so any keeps-going measure has no contrast
+class anywhere in the design and saturates by construction. The §(h) withdrawal
+and the experiment-2 saturation of its successor are that premise's predicted
+consequences, not two independent instrument failures — though the second is
+additionally mapping-induced, and that cause is recorded separately
+([`pipeline/ogasp/measurement_suite.md`](pipeline/ogasp/measurement_suite.md)
+§(c)). A horizon "representing" a prolonged campaign is a stated abstraction
+premise, never a calibrated correspondence (shape-not-scale, per the
+disengagement record's patience anchoring). **Pursuit** — sustained staged
+advance under contest — is the measurable half, and its comparator is the
+defence condition rather than a second attacker: on that comparator the record
+already carries measured negatives (0/100 objective reaches; effort not
+converting to breadth; per-foothold retention 0.0–1.6 % against the defences
+that contest position; disengagement not attributable to the defence on the
+movement arm). DESIGNED is therefore defended as *duration unmeasurable by
+design, pursuit measured and negative so far* — never as *persistence captured
+structurally*, which §(f) bars.
+
+Two boundaries ride with the ratification. The campaign-scope ablation — an
+attacker that actually stops — **remains declined on the disengagement record's
+own gate** (the build was conditioned on the reader discriminating on the
+movement arm, and it did not;
+[`pipeline/ogasp/attacker_disengagement.md`](pipeline/ogasp/attacker_disengagement.md)
+§7), and D-09 stays open. And the M8b field above is unchanged: the coverage
+curve still leads, and remains the one route by which the pursuit half could
+move this badge.
+
 ### Axis 2 — Objective conditioning
 
 **What it is.** Alshamrani's *threat* property defines the APT by its
