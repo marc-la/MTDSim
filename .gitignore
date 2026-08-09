@@ -171,7 +171,14 @@ data/ogasp/timeline/_*
 
 # Misc scratch visualisations — diagnostic-quality, regenerable (e.g. via
 # data/misc/_viz/ckc_layer_viz.py). Same underscore-prefix pattern as above.
-data/misc/_viz/
+# Exception: the plurality reconciliation/figure scripts are committed (the
+# 2026-08-09 plurality-reporting validation gate requires the figures to
+# regenerate from a committed script); their outputs stay untracked.
+data/misc/_viz/*
+!data/misc/_viz/plurality/
+data/misc/_viz/plurality/*.png
+data/misc/_viz/plurality/*.json
+data/misc/_viz/plurality/__pycache__/
 
 # Experiment workspaces — self-contained, regenerable runs (runner + numbers +
 # figures + report) under data/results/<experiment>/. Untracked by design: the
