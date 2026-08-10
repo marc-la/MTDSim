@@ -268,14 +268,21 @@ have patched runners whose committed numbers were taken under the old labels.)*
 
 Off the numbered chain; none of it blocks or is blocked by (1)–(5).
 
-- **The axis context trio, now a pair** —
+- **The axis context trio — restored to three, 2026-08-10** —
+  [axis 4](2026-08-10_axis4_adaptivity_context.md),
   [axis 6](2026-08-09_axis6_incentive_rationality_context.md),
   [axis 7](2026-08-09_axis7_learning_context.md). Context only, commissioning
   nothing: each records what is built, measured and bounded on its axis so a
   proposal lands against the real bar. The axis-4 member and the recovery brief
   that arrived against it were superseded 2026-08-10 by the predictability brief
-  and **deleted 2026-08-10** in the commit that shipped it — the axis-4 bounds
-  live on in the permanent records that brief cited.
+  and deleted in the commit that shipped it. That supersession was half right:
+  the recovery brief *was* plurality-shaped and correctly landed as axis 3's
+  per-verdict decomposition — but the predictability instrument is axis 3's, not
+  axis 4's (`predictability.md`: "axis 4 stays DESIGNED … stationary policy,
+  never adaptivity"), so deleting the axis-4 *context* left the one DESIGNED
+  axis with no orientation file and no instrument commissioned. Restated
+  2026-08-10 ahead of the adaptivity-instrument work, with the verdict-slice
+  positive (composition splits 4/5) folded in as §3b.
 - **The predictability instrument shipped 2026-08-10** as
   [`../implementation/pipeline/ogasp/predictability.md`](../implementation/pipeline/ogasp/predictability.md):
   one trace-level scalar (P, with Hill-family companions N, D, E) applied to both
