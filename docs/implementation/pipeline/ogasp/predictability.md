@@ -94,6 +94,28 @@ why a perfectly predictable attacker produces different runs, and the answer is
 that the branch outcome the FSM conditions on is drawn by the environment, not
 chosen by the policy.
 
+**The statistic is a standard object, three times over — the framing is this
+project's, the maths is not.** P is not a bespoke score; it is a well-established
+quantity wearing three names in three fields, which is stronger provenance for the
+methods text than "we defined a predictability score":
+
+- **Per decision state**, `max_a π(a|c)` is the **Berger–Parker dominance index**
+  from ecology (the proportional share of the most-used next move), and its
+  reciprocal is the **Hill number of order ∞** — the q → ∞ member of the same Hill
+  family §10 already uses for N and D.
+- **The aggregate** `Σ_c p(c)·max_a π(a|c)` is exactly the **average guessing
+  probability** of information-theoretic security — the chance an optimal adversary
+  calls A in one try given side-information C — which equals `2^{−H_∞(A|C)}`, the
+  **conditional min-entropy** (Arimoto/Rényi order ∞). It is identically **1 minus
+  the Bayes error**: the accuracy of the best possible predictor of the next action
+  from the decision state.
+
+So D_policy (order 1, exponentiated Shannon conditional entropy) and P (order ∞,
+guessing probability) are the two ends of one Rényi/Hill ladder over the same
+conditional distribution. What the project supplies is the *framing* — naming it
+predictability, pinning the FSM at 1.00 by construction, and the pre-registered
+decision-state conditioning — never the estimator.
+
 ## The two pre-registration decisions that make or break the instrument (P4)
 
 Both fixed and committed **before any trace is read**. They are where the metric is
