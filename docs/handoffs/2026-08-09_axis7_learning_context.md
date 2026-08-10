@@ -13,8 +13,7 @@ supplies is what was tried, what each sweep returned, and the bounds already
 established — so a proposal lands against the real bar rather than re-deriving a
 wall someone already hit.
 
-Siblings, same date and same purpose, one per axis:
-[axis 4](2026-08-09_axis4_adaptivity_context.md),
+Sibling context handoff, same date and same purpose:
 [axis 6](2026-08-09_axis6_incentive_rationality_context.md).
 
 ## 0. A documentation hazard, stated before anything else
@@ -206,6 +205,11 @@ decision capability.
 - [`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md)
   §(d) axis 7 and §(e) — **stale, see §0**; read for the badge criterion and the
   fidelity placement, not for current state.
+
+**The transferable method** — how to instrument an axis, extracted from all eight and
+roughly 30 000 runs — is
+[`axis_instrumentation_method.md`](../implementation/pipeline/ogasp/axis_instrumentation_method.md).
+Read it before proposing an instrument, a control or a figure.
 
 ## Out of scope for this document
 
