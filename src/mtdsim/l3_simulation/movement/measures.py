@@ -2164,6 +2164,347 @@ def substrate_success_alignment(runs: Sequence[MovementRunResult]) -> float:
     return spearman_rho(xs, ys)
 
 
+# --- §11 predictability (strategic plurality as one scalar, both arms) --------
+#
+# §10 measures plurality at the *behaviour* level, pooled and unconditioned. This
+# section conditions on the model's **own decision state** and reads one
+# detectability-grade scalar — predictability — that applies to both attack models
+# and pins the scripted baseline at the boundary by construction.
+#
+# **The metric.** An attack model fixes a policy π(a | c): a distribution over next
+# actions ``a`` given its own decision state ``c``. Per state the composition's
+# numbers are §10's Hill family (N, D, E); the order-∞ member is the modal
+# probability :func:`modal_probability`. Two aggregates over states, visitation-
+# weighted p(c):
+#
+#   - **Predictability** ``P = Σ_c p(c)·max_a π̂(a|c)`` — how often an observer
+#     granted every variable the policy consults can call the next move.
+#   - **Effective behavioural breadth** ``D_policy = 2^{H(A|C)}`` with
+#     ``H(A|C) = Σ_c p(c)·H(a|c)`` — the exponentiated conditional entropy.
+#
+# **The decision state is each model's own consulted variables** (predictability.md
+# §The two decisions, pre-registered):
+#
+#   - movement arm: ``c = (place, verdict)`` — the arguments ``overlay.compose``
+#     reads; the successor is SAMPLED, so P < 1 is possible;
+#   - baseline FSM: ``c = (phase, branch)`` — the ``_do_*`` outcome the succession
+#     reads (finer than the binary verdict); the successor is a DETERMINISTIC
+#     function, so N = 1, D = 1, P = 1 exactly, by construction.
+#
+# Conditioning each model on its own consulted variables is the maximally-charitable
+# choice: spread that survives it is the policy's, not the observer's ignorance
+# (design fact 2 — the marginal/pooled trap on which even the FSM scores above 1).
+#
+# **Three layers**, cheapest first: the DECLARED composition
+# (:func:`declared_conditional_composition`, run-free, off the net + overlay), the
+# REALISED composition (:func:`conditional_composition` off recorded movement runs;
+# :func:`fsm_conditional_composition` off baseline attack-record rows), and the
+# aggregate scalar (:func:`predictability_report`). The baseline reader is a §6-style
+# adapter: it reads ``AttackStatistics`` rows and changes nothing.
+
+
+def modal_probability(weights: Mapping[Any, float]) -> float:
+    """The order-∞ Hill member of a behaviour distribution: the largest normalised
+    weight — the probability an observer who always guesses the modal action calls
+    the next move. 1.0 for a point mass (one behaviour carries all the mass), 1/N
+    for a flat distribution. NaN for an empty or all-zero mapping (no action to
+    call), the degenerate input a caller must handle — never silently 1.0."""
+    positive = [float(w) for w in weights.values() if w > 0]
+    total = sum(positive)
+    if total <= 0:
+        return float("nan")
+    return max(positive) / total
+
+
+# A conditional composition is ``decision-state -> Counter over next actions``. The
+# state key is a tuple whose meaning is the arm's: ``(place, verdict)`` on the
+# movement arm, ``(phase, branch)`` (or ``(phase,)``) on the baseline FSM.
+ConditionalComposition = dict
+
+
+def conditional_composition(
+    run: MovementRunResult,
+) -> dict[tuple[str, str], Counter[str]]:
+    """The movement arm's realised conditional composition from one run:
+    ``(place, verdict) -> Counter`` over the next place actually routed to.
+
+    The decision state is ``(record.place, record.verdict)`` — exactly the pair
+    ``overlay.compose`` consults (``verdict`` is ``"success"`` / ``"failure"`` /
+    ``""`` for a dwell-only or terminal-none routing). Only records that routed
+    (``next_place is not None``) contribute — a stall / sink / terminal made no
+    next-move choice. Pool across runs by summing the Counters."""
+    comp: dict[tuple[str, str], Counter[str]] = {}
+    for rec in run.records:
+        if rec.next_place is None:
+            continue
+        comp.setdefault((rec.place, rec.verdict), Counter())[rec.next_place] += 1
+    return comp
+
+
+def pooled_conditional_composition(
+    runs: Sequence[MovementRunResult],
+) -> dict[tuple[str, str], Counter[str]]:
+    """:func:`conditional_composition` pooled over a run set (per-profile), summing
+    the per-run Counters cell by cell."""
+    pooled: dict[tuple[str, str], Counter[str]] = {}
+    for run in runs:
+        for state, counts in conditional_composition(run).items():
+            pooled.setdefault(state, Counter()).update(counts)
+    return pooled
+
+
+def declared_conditional_composition(
+    net: "RoutingNet",  # noqa: F821
+    overlay: "OutcomeOverlay",  # noqa: F821
+    verdicts: Sequence[str] = ("success", "failure"),
+) -> dict[tuple[str, str], dict[str, float]]:
+    """The movement arm's **declared** conditional composition, run-free: for every
+    non-sink place and every verdict, the composed out-distribution the model
+    *declares* it will route with — ``overlay.compose(place, verdict, base_out)``,
+    read straight off the tables (predictability.md §2). No simulation, so no
+    visitation weight; the realised layer supplies that. A place whose composition
+    stalls (empty) under a verdict is omitted for that verdict — it declares no
+    move there."""
+    declared: dict[tuple[str, str], dict[str, float]] = {}
+    for place in net.places:
+        base_out = net.base_out_weights(place)
+        if not base_out:
+            continue  # sink: no declared out-move
+        for verdict in verdicts:
+            composed = overlay.compose(place, verdict, dict(base_out))
+            if composed:
+                declared[(place, verdict)] = composed
+    return declared
+
+
+@dataclass(frozen=True)
+class StateComposition:
+    """One decision state's next-action composition: its Hill signature, its modal
+    probability (order-∞), and the number of decisions observed there (the
+    visitation weight). ``n`` is 0 for a declared cell (no simulation)."""
+
+    state: tuple
+    n: int
+    hill: HillDiversity
+    modal_p: float
+
+    @property
+    def estimable(self) -> bool:
+        """A realised cell needs at least ``min_visits`` decisions to estimate a
+        distribution shape; :func:`predictability_report` rules on this. A declared
+        cell (``n == 0``) is exact and always estimable."""
+        return self.n == 0 or self.n >= _MIN_CELL_VISITS
+
+
+#: The census floor: a realised decision cell with fewer visits than this has its
+#: shape reported *unestimable* rather than massaged (predictability.md §0; the
+#: plural_preference.md P3 undersampling lesson). A point-mass cell (one observed
+#: successor) is exempt — one successor is one successor at any sample size, and the
+#: estimators bias toward the baseline, so a singleton cannot over-state plurality.
+_MIN_CELL_VISITS = 8
+
+
+@dataclass(frozen=True)
+class PredictabilityReport:
+    """The aggregate predictability signature of one policy (one arm, one profile),
+    over its decision states.
+
+    - ``predictability`` (**P**) = Σ_c p(c)·modal_p(c), visitation-weighted; the
+      rate the next move can be called. 1.0 for a deterministic policy.
+    - ``d_policy`` (**D_policy** = 2^{H(A|C)}) = exponentiated conditional entropy;
+      the effective number of next-moves the policy is worth across its states.
+    - ``cells`` — the per-state compositions, so a caller can read the map or slice.
+    - ``n_states`` / ``n_decisions`` — the support and the total visitation.
+    - ``unestimable_states`` — realised cells below the census floor, named not
+      dropped (their visitation still counts toward p(c); only their shape verdict
+      is withheld)."""
+
+    arm: str
+    profile: str
+    predictability: float
+    d_policy: float
+    cells: tuple[StateComposition, ...]
+    n_states: int
+    n_decisions: int
+    unestimable_states: tuple[tuple, ...]
+
+
+def predictability_report(
+    composition: Mapping[tuple, Mapping[str, float]],
+    *,
+    arm: str,
+    profile: str,
+) -> PredictabilityReport:
+    """Aggregate a conditional composition (realised Counters or declared
+    distributions) into a :class:`PredictabilityReport`.
+
+    Visitation weight p(c) is the cell's total mass over the whole (so a declared
+    composition, whose cells carry probability mass 1 each, weights every state
+    equally — which is the run-free reading, stated as such). ``max_a`` and the
+    per-cell entropy come from :func:`modal_probability` and
+    :func:`hill_diversity`; the aggregate conditional entropy is the visitation-
+    weighted mean of the per-cell Shannon bits, exponentiated."""
+    cells: list[StateComposition] = []
+    totals: dict[tuple, float] = {}
+    for state, counts in composition.items():
+        total = sum(float(w) for w in counts.values() if w > 0)
+        if total <= 0:
+            continue
+        totals[state] = total
+        cells.append(
+            StateComposition(
+                state=state,
+                n=int(round(total)) if all(
+                    float(w).is_integer() for w in counts.values()
+                ) else 0,
+                hill=hill_diversity(counts),
+                modal_p=modal_probability(counts),
+            )
+        )
+    grand_total = sum(totals.values())
+    if grand_total <= 0:
+        return PredictabilityReport(
+            arm=arm, profile=profile, predictability=float("nan"),
+            d_policy=float("nan"), cells=(), n_states=0, n_decisions=0,
+            unestimable_states=(),
+        )
+    p = sum(
+        (totals[c.state] / grand_total) * c.modal_p for c in cells
+    )
+    h_cond = sum(
+        (totals[c.state] / grand_total) * c.hill.shannon_bits for c in cells
+    )
+    unestimable = tuple(
+        c.state for c in cells if not c.estimable and c.hill.support_n > 1
+    )
+    return PredictabilityReport(
+        arm=arm,
+        profile=profile,
+        predictability=p,
+        d_policy=2.0**h_cond,
+        cells=tuple(cells),
+        n_states=len(cells),
+        n_decisions=int(round(grand_total)),
+        unestimable_states=unestimable,
+    )
+
+
+# --- the baseline FSM adapter — reconstruct (phase, branch) -> successor -------
+#
+# The scripted attacker never wrote a movement record; its behaviour lives in the
+# inherited ``AttackStatistics`` attack-operation rows. This adapter reads those
+# rows (never touches them, M7/D5) and reconstructs the FSM's phase-decision
+# sequence and the branch the succession consulted at each — so the same
+# :func:`predictability_report` reads it. The branch is recovered from SUBSTRATE
+# OBSERVABLES (compromise events, the compromised-host set), never from the
+# observed successor, which would make P = 1 circular.
+#
+# One row-granularity wrinkle handled here: ``EXPLOIT_VULN`` writes one row *per
+# vulnerability tried* (the ``_do_exploit_vuln`` loop), so a run of consecutive
+# EXPLOIT_VULN rows is one exploit episode, not several decisions. Every other verb
+# writes exactly one row per dispatch — including ``ENUM_HOST``, whose ENUM→ENUM
+# self-loop is a genuine sequence of decisions. The episode segmentation collapses
+# only the EXPLOIT_VULN vuln-loop, on that code-grounded rule.
+
+_FSM_NONE = "None"  # AttackStatistics' string sentinel
+
+
+@dataclass(frozen=True)
+class FSMDecision:
+    """One reconstructed FSM decision: the phase, the branch its succession read,
+    and the successor phase (None for the last decision in the run)."""
+
+    phase: str
+    branch: str
+    successor: str | None
+
+
+def fsm_decisions(rows) -> tuple[FSMDecision, ...]:
+    """Reconstruct the FSM's phase-decision sequence from attack-operation rows.
+
+    Consecutive ``EXPLOIT_VULN`` rows collapse to one episode; every other row is
+    its own decision. The branch is derived from substrate observables:
+
+    - ``EXPLOIT_VULN`` — ``compromised`` if any row in the episode compromised a
+      host, else ``uncompromised``;
+    - ``SCAN_PORT`` — ``reuse`` on a compromise this row, else ``no_reuse``;
+    - ``BRUTE_FORCE`` — ``compromised`` on a compromise, else ``not``;
+    - ``SCAN_HOST`` — ``found`` (it is followed by a successor), else ``none``;
+    - ``ENUM_HOST`` — ``already_compromised`` if the enumerated host is in the
+      compromised-host set accumulated so far, else ``fresh``;
+    - ``SCAN_NEIGHBOR`` — unconditional (branch ``""``).
+    """
+    rs = _as_rows(rows)
+
+    def compromised_here(r: Mapping) -> bool:
+        return str(r.get("compromise_host", _FSM_NONE)) != _FSM_NONE
+
+    # Segment into episodes (collapse only EXPLOIT_VULN vuln-loops).
+    episodes: list[dict] = []
+    i = 0
+    while i < len(rs):
+        name = str(rs[i]["name"])
+        if name == "EXPLOIT_VULN":
+            j = i
+            comp = False
+            while j < len(rs) and str(rs[j]["name"]) == "EXPLOIT_VULN":
+                comp = comp or compromised_here(rs[j])
+                j += 1
+            episodes.append({"name": name, "compromised": comp,
+                             "current_host_uuid": str(rs[i].get("current_host_uuid", -1))})
+            i = j
+        else:
+            episodes.append({"name": name, "compromised": compromised_here(rs[i]),
+                             "current_host_uuid": str(rs[i].get("current_host_uuid", -1))})
+            i += 1
+
+    # Walk episodes, tracking the compromised-host set for the ENUM_HOST branch.
+    compromised_uuids: set[str] = set()
+    decisions: list[FSMDecision] = []
+    for idx, ep in enumerate(episodes):
+        name = ep["name"]
+        successor = episodes[idx + 1]["name"] if idx + 1 < len(episodes) else None
+        if name == "EXPLOIT_VULN":
+            branch = "compromised" if ep["compromised"] else "uncompromised"
+        elif name == "SCAN_PORT":
+            branch = "reuse" if ep["compromised"] else "no_reuse"
+        elif name == "BRUTE_FORCE":
+            branch = "compromised" if ep["compromised"] else "not"
+        elif name == "SCAN_HOST":
+            branch = "found" if successor is not None else "none"
+        elif name == "ENUM_HOST":
+            branch = ("already_compromised"
+                      if ep["current_host_uuid"] in compromised_uuids else "fresh")
+        elif name == "SCAN_NEIGHBOR":
+            branch = ""
+        else:
+            branch = ""
+        decisions.append(FSMDecision(phase=name, branch=branch, successor=successor))
+        if ep["compromised"] and ep["current_host_uuid"] != "-1":
+            compromised_uuids.add(ep["current_host_uuid"])
+    return tuple(decisions)
+
+
+def fsm_conditional_composition(
+    rows, *, by: str = "phase_branch"
+) -> dict[tuple, Counter[str]]:
+    """The baseline FSM's conditional composition from attack-operation rows.
+
+    ``by="phase_branch"`` keys on ``(phase, branch)`` — the FSM's own decision state,
+    where the successor is a point mass by construction (calibration gate: the reader
+    must read N = 1, D = 1, P = 1). ``by="phase"`` keys on ``(phase,)`` alone — the
+    marginal reading, expected plural at the branching phases, which proves the reader
+    reads plurality and exposes design fact 2's trap. The last decision (successor
+    None) contributes no next-move and is skipped."""
+    comp: dict[tuple, Counter[str]] = {}
+    for d in fsm_decisions(rows):
+        if d.successor is None:
+            continue
+        key: tuple = (d.phase, d.branch) if by == "phase_branch" else (d.phase,)
+        comp.setdefault(key, Counter())[d.successor] += 1
+    return comp
+
+
 __all__ = [
     "CONSENSUS_PATH",
     "MOVEMENT_CLOCK",
@@ -2258,6 +2599,18 @@ __all__ = [
     "corpus_weight_alignment",
     "verb_success_rates",
     "substrate_success_alignment",
+    # §11 predictability
+    "modal_probability",
+    "ConditionalComposition",
+    "conditional_composition",
+    "pooled_conditional_composition",
+    "declared_conditional_composition",
+    "StateComposition",
+    "PredictabilityReport",
+    "predictability_report",
+    "FSMDecision",
+    "fsm_decisions",
+    "fsm_conditional_composition",
     # §7 intervals
     "Interval",
     "mean_ci",

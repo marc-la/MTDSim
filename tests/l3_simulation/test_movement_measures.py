@@ -10,6 +10,7 @@ one seeded run of each (gate 4b).
 from __future__ import annotations
 
 import math
+from collections import Counter
 
 import pytest
 
@@ -1661,3 +1662,132 @@ def test_plural_arm_contrast_on_a_seeded_run() -> None:
     # the corpus arm tracks the field-success prior at least as well as the null
     # that has the prior stripped — the direction the strategic claim needs.
     assert corpus_align >= uniform_align
+
+
+# ---------------------------------------------------------------------------
+# §11 predictability
+# ---------------------------------------------------------------------------
+
+
+def test_modal_probability_is_the_order_infinity_member() -> None:
+    assert M.modal_probability({"a": 5}) == 1.0            # point mass
+    assert M.modal_probability({"a": 1, "b": 1, "c": 1}) == pytest.approx(1 / 3)
+    assert M.modal_probability({"a": 3, "b": 1}) == pytest.approx(0.75)
+    assert math.isnan(M.modal_probability({}))            # no action to call
+    assert math.isnan(M.modal_probability({"a": 0}))
+
+
+def test_conditional_composition_keys_on_place_and_verdict() -> None:
+    # two decisions at (recon, success) -> intrude twice; one at (recon, failure)
+    r1 = rec("recon", verdict="success", next_place="intrude")
+    r2 = rec("recon", verdict="success", next_place="intrude")
+    r3 = rec("recon", verdict="failure", next_place="recon")
+    # a stall/terminal (next_place None) contributes no next-move choice
+    r4 = rec("recon", verdict="failure", next_place=None)
+    comp = M.conditional_composition(run_of(r1, r2, r3, r4))
+    assert comp[("recon", "success")] == {"intrude": 2}
+    assert comp[("recon", "failure")] == {"recon": 1}
+    assert ("recon", "failure") in comp and comp[("recon", "failure")].total() == 1
+
+
+def test_predictability_is_one_for_a_deterministic_policy() -> None:
+    """The calibration invariant, in the unit gate: a policy whose every decision
+    state carries a single successor reads N=1, D=1, P=1 exactly, at any sample
+    size (design fact 1 — a deterministic policy has zero conditional entropy)."""
+    det = {
+        ("EXPLOIT_VULN", "compromised"): Counter({"SCAN_NEIGHBOR": 40}),
+        ("EXPLOIT_VULN", "uncompromised"): Counter({"BRUTE_FORCE": 7}),
+        ("SCAN_NEIGHBOR", ""): Counter({"ENUM_HOST": 100}),
+    }
+    r = M.predictability_report(det, arm="baseline", profile="baseline")
+    assert r.predictability == pytest.approx(1.0)
+    assert r.d_policy == pytest.approx(1.0)
+    assert all(c.hill.support_n == 1 for c in r.cells)
+
+
+def test_predictability_of_a_plural_policy_is_below_one() -> None:
+    plural = {
+        ("recon", "success"): Counter({"a": 6, "b": 3, "c": 1}),   # modal 0.6
+        ("recon", "failure"): Counter({"a": 5, "b": 5}),           # modal 0.5
+    }
+    r = M.predictability_report(plural, arm="movement", profile="x")
+    # visitation-weighted: (10/20)*0.6 + (10/20)*0.5 = 0.55
+    assert r.predictability == pytest.approx(0.55)
+    assert r.d_policy > 1.0
+    assert r.n_states == 2 and r.n_decisions == 20
+
+
+def test_a_realised_cell_below_the_census_floor_is_named_unestimable() -> None:
+    sparse = {
+        ("p", "success"): Counter({"a": 3, "b": 2}),   # 5 visits, plural, < floor
+        ("q", "failure"): Counter({"a": 1}),           # singleton — exempt
+    }
+    r = M.predictability_report(sparse, arm="movement", profile="x")
+    assert ("p", "success") in r.unestimable_states
+    assert ("q", "failure") not in r.unestimable_states  # a point mass is exact
+
+
+def test_declared_composition_reads_the_overlay_off_the_tables() -> None:
+    """The run-free declared layer: overlay.compose over the net's base weights,
+    with no simulation. A verdict that suppresses every out-edge declares no move
+    (omitted); an unconditioned passthrough keeps the base proportions."""
+    from mtdsim.l3_simulation.controller import load_outcome_overlay
+    from mtdsim.l3_simulation.movement.net import load_routing_net
+
+    net = load_routing_net("aggregate")
+    overlay = load_outcome_overlay(version="v3_persistent_backward")
+    declared = M.declared_conditional_composition(net, overlay)
+    assert declared, "aggregate declares at least one conditioned move"
+    for (place, verdict), dist in declared.items():
+        assert verdict in ("success", "failure")
+        assert dist and abs(sum(dist.values()) - 1.0) < 1e-9  # a distribution
+        # the declared composition matches a direct compose() call
+        base = net.base_out_weights(place)
+        assert dist == overlay.compose(place, verdict, dict(base))
+
+
+def test_fsm_decisions_collapse_only_the_exploit_vuln_vuln_loop() -> None:
+    """EXPLOIT_VULN writes one row per vulnerability tried, so a run of them is one
+    episode; ENUM_HOST's self-loop is genuine per-decision rows and is kept."""
+    rows = [
+        {"name": "SCAN_PORT", "compromise_host": "None", "current_host_uuid": "h1"},
+        {"name": "EXPLOIT_VULN", "compromise_host": "None", "current_host_uuid": "h1"},
+        {"name": "EXPLOIT_VULN", "compromise_host": "None", "current_host_uuid": "h1"},
+        {"name": "EXPLOIT_VULN", "compromise_host": "9", "current_host_uuid": "h1"},
+        {"name": "SCAN_NEIGHBOR", "compromise_host": "None", "current_host_uuid": "h1"},
+        {"name": "ENUM_HOST", "compromise_host": "None", "current_host_uuid": "h2"},
+        {"name": "ENUM_HOST", "compromise_host": "None", "current_host_uuid": "h3"},
+    ]
+    decisions = M.fsm_decisions(rows)
+    phases = [d.phase for d in decisions]
+    # the three EXPLOIT_VULN rows collapse to one decision
+    assert phases == ["SCAN_PORT", "EXPLOIT_VULN", "SCAN_NEIGHBOR",
+                      "ENUM_HOST", "ENUM_HOST"]
+    # the collapsed exploit episode saw a compromise -> its branch and successor
+    exploit = decisions[1]
+    assert exploit.branch == "compromised" and exploit.successor == "SCAN_NEIGHBOR"
+    # SCAN_PORT reached EXPLOIT_VULN, so no reuse: branch no_reuse
+    assert decisions[0].branch == "no_reuse"
+
+
+def test_fsm_marginal_reads_plurality_the_branch_resolves() -> None:
+    """The reader reads the FSM's phase-level plurality (proving it is not rigged
+    to return 1), and conditioning on the branch resolves the resolvable part —
+    the conditioning ladder of the calibration self-test, in miniature."""
+    rows = [
+        {"name": "EXPLOIT_VULN", "compromise_host": "1", "current_host_uuid": "h1"},
+        {"name": "SCAN_NEIGHBOR", "compromise_host": "None", "current_host_uuid": "h1"},
+        {"name": "ENUM_HOST", "compromise_host": "None", "current_host_uuid": "h2"},
+        {"name": "SCAN_PORT", "compromise_host": "None", "current_host_uuid": "h2"},
+        {"name": "EXPLOIT_VULN", "compromise_host": "None", "current_host_uuid": "h2"},
+        {"name": "BRUTE_FORCE", "compromise_host": "None", "current_host_uuid": "h2"},
+        {"name": "ENUM_HOST", "compromise_host": "None", "current_host_uuid": "h3"},
+    ]
+    marginal = M.fsm_conditional_composition(rows, by="phase")
+    # EXPLOIT_VULN goes to SCAN_NEIGHBOR (compromised) and BRUTE_FORCE (not):
+    # plural at the phase level.
+    assert set(marginal[("EXPLOIT_VULN",)]) == {"SCAN_NEIGHBOR", "BRUTE_FORCE"}
+    branched = M.fsm_conditional_composition(rows, by="phase_branch")
+    # the branch splits them into point masses
+    assert branched[("EXPLOIT_VULN", "compromised")] == {"SCAN_NEIGHBOR": 1}
+    assert branched[("EXPLOIT_VULN", "uncompromised")] == {"BRUTE_FORCE": 1}
