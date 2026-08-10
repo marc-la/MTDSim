@@ -1,5 +1,5 @@
 ---
-status: in-progress
+status: durable
 created: 2026-08-10
 updated: 2026-08-10
 topic: "Predictability — one detectability-grade scalar for strategic plurality, applied to both attack models, with the scripted baseline pinned at P=1 by construction; pre-registration (committed before any trace is read) + census + calibration + declared/realised layers + decompositions"
@@ -268,30 +268,277 @@ overlap.
 
 ---
 
-## Census
+**Status: complete 2026-08-10.** Everything above this line is the pre-registration
+(committed at git `9475ec8`, before any trace or run output was read). Everything
+below is the run that followed: 100 matched seeds × four arms × five profiles
+(1 600 runs, 0 errors), plus a 600-run convergence check. Seed count fixed at 100 by
+the convergence check (§Census). Configuration exactly the plural-preference arm:
+v2_partial, overlay `v3_persistent_backward`, no MTD, modulators null, sink policy
+retrace, horizon 15 000 s.
 
-_Pending the run (§0). Committed empty above this line._
+**The result, up front.** The movement attacker's realised predictability is
+**P = 0.33 to 0.57** across the five profiles, every value CI-separated far below the
+scripted baseline's **constructed P = 1.00** — its next move cannot be called from
+its own decision state at anything approaching the rate the FSM's can, and it carries
+**D_policy = 2.7 to 5.9 effective next-moves per state against the FSM's one**. The
+verdict genuinely splits the composition (M2 produces two distinct static mixtures)
+in **four of five** profiles, CI-separated from the verdict-blind null — yet this is
+a property of the **stationary policy**, and the experiment-2 outcome negative
+travels with it unchanged: two distinct mixtures, no shown advantage.
 
-## Calibration
+## Census (§0) — every headline cell is estimable
 
-_Pending the run (§1)._
+Decision-state visitation, corpus arm, pooled over 100 seeds:
 
-## Declared layer
+| profile | states | decisions | verdict-carrying places | min cell | median cell | unestimable |
+|---|--:|--:|--:|--:|--:|--:|
+| `objective_exfiltration` | 21 | 51 294 | 8 | 35 | 1 095 | 0 |
+| `objective_impact` | 21 | 47 247 | 8 | 24 | 1 540 | 0 |
+| `objective_exfiltration_impact` | 20 | 47 013 | 8 | 4 | 1 635 | 0 |
+| `objective_none_c2` | 20 | 66 179 | 8 | 6 | 2 690 | 0 |
+| `aggregate` | 22 | 51 493 | 8 | 5 | 1 719 | 1 |
 
-_Pending the run (§2)._
+The per-event conditional composition is richly sampled — median cell above a
+thousand decisions — so unlike the per-run opening dimension of
+[`plural_preference.md`](plural_preference.md), no shape verdict is withheld for
+undersampling. The convergence check confirmed it: all five profiles' aggregate P and
+D_policy stabilise on the pooled growth ladder well inside 120 seeds
+(last-rung |ΔP| ≤ 0.003, |ΔD_policy| ≤ 0.01). Two cells fall below the census floor of
+8 visits and are **named, not dropped** — `aggregate`'s `resource-development|`
+(a dwell-only `VERDICT_NONE` state) and the verdict-blind arm's
+`objective_impact` `credential-access|success` — their visitation still counts toward
+p(c); only their per-cell shape is not asserted.
 
-## Realised layer — the headline
+## Calibration (§1) — the reader passes its self-test, and reads the FSM's marginal trap
 
-_Pending the run (§3)._
+**The reader returns exactly P = 1.000, D = 1.000 on the deterministic FSM transition
+table** (§The two decisions), which is what "P = 1 by construction" means
+operationally: the reader is not rigged, and it agrees with the code fact.
 
-## Decompositions and nulls
+Over the baseline traces the reader reads the FSM's plurality at the wrong
+granularity and collapses it toward 1 as conditioning deepens — the marginal trap of
+design fact 2, made concrete:
 
-_Pending the run (§4)._
+| conditioning | P | D_policy |
+|---|--:|--:|
+| marginal `(phase)` | 0.766 | 1.618 |
+| `(phase, branch)` | 0.868 | 1.304 |
+| constructed transition table | **1.000** | **1.000** |
+
+At the phase level the reader reads four plural cells (`ENUM_HOST`, `SCAN_PORT`,
+`EXPLOIT_VULN`, `BRUTE_FORCE` each show two–three successors) — proof it is *not*
+rigged to return 1. Conditioning on the branch resolves `SCAN_PORT` and
+`EXPLOIT_VULN` to exact point masses; the **three residual plural cells are exactly
+the FSM-internal state the attack record under-exposes** — `ENUM_HOST|fresh` and
+`ENUM_HOST|already_compromised` (the popped host's prior-compromise status is set
+*during* the core, after the row is appended) and `BRUTE_FORCE|not` (whose successor
+routes through `_enum_host`, which itself branches to `SCAN_HOST` on an empty visible
+host-stack). These are unmodelled *environment/enumeration* state, not policy
+plurality: the FSM is a deterministic program, its P = 1 is a theorem, and the reader
+recovers it exactly from the policy and asymptotically from the traces. The residual
+is a limit of trace reconstruction, recorded honestly rather than reconstructed
+circularly from the observed successor.
+
+## Declared layer (§2) — the model declares a preferred mixture
+
+Run-free, off each profile's net and the `v3_persistent_backward` overlay,
+`compose(place, verdict, base_out)` per decision state:
+
+| profile | states | plural states (N > 1) | median E of plural states |
+|---|--:|--:|--:|
+| `objective_exfiltration` | 28 | 24 | — |
+| `objective_impact` | 28 | 24 | — |
+| `objective_exfiltration_impact` | 26 | 20 | — |
+| `objective_none_c2` | 24 | 14 | — |
+| `aggregate` | 30 | **30** | 0.762 (range 0.358–0.917) |
+
+Every declared plural state carries D > 1 with E < 1 — the model's own tables
+*declare* a preferred mixture (mass on a subset, not a flat spread), at almost every
+decision state. There is no baseline counterpart, which is the point: the declared
+layer cannot carry the cross-model contrast; only the realised layer can.
+
+## Realised layer — the headline (§3)
+
+Per-seed aggregate P and D_policy, mean over 100 seeds with the 95 % bootstrap
+interval (the seed is the resampling unit); the scripted baseline is the constructed
+boundary, not a measurement:
+
+| profile | arm | P | D_policy |
+|---|---|--:|--:|
+| `objective_exfiltration` | **corpus** | **0.419 [0.415, 0.423]** | **4.19** |
+| | scripted baseline | **1.000 (constructed)** | **1.00** |
+| `objective_impact` | corpus | 0.404 [0.401, 0.408] | 3.80 |
+| `objective_exfiltration_impact` | corpus | 0.414 [0.410, 0.418] | 3.74 |
+| `objective_none_c2` | corpus | 0.570 [0.562, 0.577] | 2.73 |
+| `aggregate` | corpus | 0.327 [0.324, 0.330] | 5.85 |
+
+**The regime map is populated, and the movement attacker sits between the two
+degenerate poles in every profile.** Its predictability is CI-separated below the
+scripted baseline's 1.00 by a wide margin — the next move can be called at best 57 %
+of the time (`objective_none_c2`) and at worst 33 % (`aggregate`) from the full set of
+variables the policy consults, against 100 % for the FSM. Equivalently the policy is
+worth 2.7 to 5.9 effective next-moves per decision state where the FSM is worth one.
+This is P1's core prediction met on **five of five** profiles: realised 1 < D < N,
+P < 1, CI-separated below the constructed boundary. (The pooled-decision aggregate,
+which weights by decisions rather than by seed, runs 0.30–0.56 — the same regime; the
+per-seed mean is reported as the headline because it carries the inferential unit.)
+
+## Decompositions and nulls (§4)
+
+### Corpus against the uniform-weight null — the direction is profile-dependent
+
+Predictability P, corpus arm against the topology-only null (same reachable graph,
+corpus preference stripped):
+
+| profile | corpus P | uniform-null P | CI-separated | what the weights do |
+|---|--:|--:|:-:|---|
+| `objective_exfiltration` | 0.419 | 0.341 | **yes** | concentrate (more predictable) |
+| `objective_impact` | 0.404 | 0.385 | **yes** | concentrate |
+| `objective_exfiltration_impact` | 0.414 | 0.432 | **yes** | broaden (less predictable) |
+| `objective_none_c2` | 0.570 | **0.779** | **yes** | broaden strongly |
+| `aggregate` | 0.327 | 0.328 | no | prefer nothing (at the P scale) |
+
+The corpus weighting is CI-separated from what topology forces in **four of five**
+profiles, and — exactly as [`plural_preference.md`](plural_preference.md) found on
+evenness — the *direction* is not universal. For two profiles the weights concentrate
+the policy (raise P); for two they broaden it. `objective_none_c2` is the same
+broadening case that record reports: under uniform weights the walk collapses into a
+shallow reconnaissance↔initial-access funnel (P = 0.779, D_policy = 1.69), and the
+corpus weighting pulls it back out (P = 0.570, D_policy = 2.73). Both directions are
+purposeful departures from what topology forces, which is why the load-bearing
+statement is the CI-separation, not its sign. **`aggregate` is a reported negative at
+the predictability scale (P2(b)):** the corpus and uniform arms are indistinguishable
+on P, so at that profile the aggregate plurality the *modal* statistic sees is
+graph-forced. (This is consistent with the plural-preference record finding
+`aggregate` CI-separated on *evenness* — the order-1 and order-∞ statistics need not
+agree, and here they do not.)
+
+### The verdict slice — M2 produces two distinct static mixtures, in four of five profiles
+
+Per-place JSD between a place's post-success and post-failure next-distributions,
+visitation-weighted over the places carrying both slices (≥ 8 decisions each), corpus
+arm against the **verdict-blind null** — an overlay that never lets the verdict
+condition routing, so its two per-place slices are samples of the same distribution
+by construction:
+
+| profile | corpus per-place JSD | verdict-blind null | CI-separated |
+|---|--:|--:|:-:|
+| `objective_exfiltration` | 0.059 [0.058, 0.092] | 0.012 [0.013, 0.042] | **yes** |
+| `objective_impact` | 0.034 [0.029, 0.052] | 0.004 [0.004, 0.033] | no |
+| `objective_exfiltration_impact` | 0.016 [0.011, 0.027] | 0.001 [0.001, 0.008] | **yes** |
+| `objective_none_c2` | 0.059 [0.051, 0.073] | 0.002 [0.002, 0.016] | **yes** |
+| `aggregate` | 0.072 [0.074, 0.100] | 0.027 [0.027, 0.065] | **yes** |
+
+The corpus arm's verdict slices clear the null on the point estimate in **five of
+five** and CI-separate in **four of five** (`objective_impact` overlaps at this seed
+count — the reported partial negative). So the failure-conditioned routing (M2) is
+**not** a no-op on the composition: the policy declares and realises two genuinely
+different static mixtures depending on the substrate's verdict.
+
+**This does not move axis 4, and the distinction is load-bearing.** That the verdict
+splits the *composition* is a statement about the shape of the stationary policy; it
+is not a statement about *outcome*, which is what axis 4 turns on. The verdict-blind
+ablation on record showed no progression measure separating from the conditioned arm
+across 1 600 paired runs
+([`experiment_02_findings.md`](experiment_02_findings.md) §11) — routing on the
+verdict is *approximately free* in outcome terms. Both hold together: **the two
+mixtures differ, and switching between them confers no shown advantage.** That is the
+precise, and honest, characterisation — a different composition is not a better one.
 
 ## Verdicts
 
-_Pending the run._
+**The attack model demonstrates strategic plurality as a single detectability-grade
+scalar, applied to both attack models, with the scripted baseline pinned at the
+boundary by construction.** The movement attacker's realised predictability is
+0.33–0.57 against the scripted baseline's constructed 1.00, CI-separated in every
+profile, carrying 2.7–5.9 effective next-moves per decision state against the FSM's
+one. The metric sits inside the thesis's own premise — MTD rests on denying the
+attacker a predictable defence, and the adversary it is canonically evaluated against
+is itself perfectly predictable; this model changes exactly that property, and the
+instrument measures the change with one number the baseline pins at 1.00 with zero
+estimation noise.
+
+**Reported as findings, whichever way they landed:**
+
+- **`aggregate` shows no preferred concentration at the P scale (P2(b)):** corpus and
+  uniform-null predictability are indistinguishable there, so that profile's modal
+  plurality is graph-forced. The other four CI-separate, in *both* directions.
+- **`objective_impact`'s verdict slice does not CI-separate from the verdict-blind
+  null (P2(c), one profile):** the verdict measurably splits the composition in four
+  of five profiles, not five.
+- **The direction of the corpus-vs-uniform gap is profile-dependent** — concentrate
+  ×2, broaden ×2 — so the claim rests on the direction-agnostic CI-separation, never
+  the sign. This reproduces the plural-preference record's finding, including the
+  `objective_none_c2` broadening, on an independent (order-∞) statistic.
+
+**The boundary, unmovable:**
+
+- **No advantage.** A lower P is a plural preferred repertoire, not a better outcome;
+  the experiment-2 negative (§11) travels with every figure. The verdict-slice result
+  says M2 produces two distinct static mixtures, and says nothing about whether
+  switching between them helps — the ablation on record says it does not.
+- **Stationary policy, never adaptivity.** Every number is a re-read of the static
+  corpus weighting under the modulators-null configuration. Axis 4 stays DESIGNED and
+  axis 3 DEMONSTRATED; **no badge moves** — this is the thesis-argument evidence their
+  prose leans on, a superset of the badge, exactly as
+  [`plural_preference.md`](plural_preference.md) is.
+- **The FSM's P = 1 is a construct, not a measurement.** It is a theorem about a
+  deterministic program, confirmed by the reader self-test; the trace-based residual
+  above 1 is unmodelled enumeration state, not policy plurality.
+
+**What the thesis may now claim.** That the attack model is *less predictable than its
+procedural baseline* in a precise, single-scalar sense — its next move cannot be
+called from its own decision state at the rate the scripted attacker's can — measured
+on both models by one instrument that pins the baseline at 1.00 by construction, with
+the movement attacker between the deterministic and the uniform-dithering poles in
+every profile, and with the failure verdict shown to split its composition into two
+distinct static mixtures in four of five profiles. **What it may not claim:** any
+advantage from that plurality, or any within-run adaptive selection — the plurality
+is a property of the stationary policy, and it stops exactly there.
+
+## Reconciliation with plural_preference
+
+The two records measure different objects — this one conditions on the decision state,
+[`plural_preference.md`](plural_preference.md) pools unconditionally — so they are not
+expected to share numbers, but they agree qualitatively where they touch: the corpus
+weighting concentrates most profiles and broadens `objective_none_c2` out of a
+topological funnel (identical direction, identical profile), and the aggregate
+profile's order-1/order-∞ disagreement (evenness-separated there, P-unseparated here)
+is the expected behaviour of two different Hill orders on the same distribution. Both
+records carry the same boundary: variety-with-purpose in the *policy*, never dynamic
+strategy.
+
+## Figures
+
+Both from `predictability_figs.py`, deterministic from `pred_results.json`;
+diagnostic house style (no accentuation, shape + grey shade, greyscale/CVD-safe);
+conditions carried in the figure.
+
+- **`fig_predictability_regime.png`** — the headline. Per profile, the corpus arm's
+  predictability P and the uniform-weight null's with 95 % bootstrap CIs, against the
+  scripted baseline's constructed P = 1.00 reference line. The movement attacker sits
+  far below the baseline in every profile.
+- **`fig_calibration_ladder.png`** — the reader self-test. The FSM's effective breadth
+  D_policy at the three conditionings (1.62 → 1.30 → 1.00), collapsing toward the
+  construct; the movement corpus arm's D_policy band (2.7–5.9) beside it, surviving
+  full conditioning on every variable its policy consults.
 
 ## Reproduction
 
-_Pending the run._
+```
+PYTHONPATH=src python data/misc/_viz/predictability/predictability_run.py --mode convergence --max-seeds 120
+PYTHONPATH=src python data/misc/_viz/predictability/predictability_run.py --mode arms --seeds 100
+PYTHONPATH=src python data/misc/_viz/predictability/predictability_analyse.py
+PYTHONPATH=src python data/misc/_viz/predictability/predictability_figs.py
+```
+
+The runner persists per-run conditional compositions to `pred_runs.jsonl` (untracked);
+the analyser emits `pred_results.json`; the figure script reads that and writes the two
+PNGs — all deterministic (SIM-05). The four scripts are committed (the
+`data/misc/_viz/predictability/` gitignore exception); their outputs stay untracked.
+
+The reader lives in
+[`measures.py`](../../../../src/mtdsim/l3_simulation/movement/measures.py) §11
+(`modal_probability`, `conditional_composition`, `declared_conditional_composition`,
+`predictability_report`, `fsm_decisions`, `fsm_conditional_composition`), covered by
+`tests/l3_simulation/test_movement_measures.py`.

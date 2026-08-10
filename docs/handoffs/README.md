@@ -273,21 +273,17 @@ Off the numbered chain; none of it blocks or is blocked by (1)–(5).
   [axis 7](2026-08-09_axis7_learning_context.md). Context only, commissioning
   nothing: each records what is built, measured and bounded on its axis so a
   proposal lands against the real bar. The axis-4 member and the recovery brief
-  that arrived against it are both **superseded 2026-08-10** by the
-  predictability brief below (marked in their frontmatter; delete on the next
-  sweep) — the axis-4 bounds live on in the permanent records the new brief
-  cites.
-- [`2026-08-10_predictability_instrument.md`](2026-08-10_predictability_instrument.md)
-  — **predictability as the instrument for strategic plurality**: one
-  trace-level scalar (P, with Hill-family companions N, D, E) applied to both
-  attack models over each model's own declared decision state, the scripted
-  FSM at P = 1 *by construction* as the instrument's calibration point, the
-  movement attacker pre-registered for the preferred-mixture regime
-  (1 < D < N, E < 1, P < 1). Subsumes the superseded recovery brief's
-  failure-conditioned reading as its per-verdict decomposition, with the
-  verdict-blind and uniform-weight arms as the two free nulls and experiment
-  2's outcome negative as the unmovable ceiling. Depends on nothing open; its
-  own layer 0 (the decision-state census) gates everything else in it.
+  that arrived against it were superseded 2026-08-10 by the predictability brief
+  and **deleted 2026-08-10** in the commit that shipped it — the axis-4 bounds
+  live on in the permanent records that brief cited.
+- **The predictability instrument shipped 2026-08-10** as
+  [`../implementation/pipeline/ogasp/predictability.md`](../implementation/pipeline/ogasp/predictability.md):
+  one trace-level scalar (P, with Hill-family companions N, D, E) applied to both
+  attack models over each model's own decision state, the scripted FSM pinned at
+  P = 1 *by construction* and the movement attacker measured at P = 0.33–0.57 in
+  the preferred-mixture regime; the verdict splits the composition in four of five
+  profiles, and the experiment-2 outcome negative travels unmoved. The handoff is
+  deleted; the record is the permanent account.
 
 **Suggested order for the rest of the week:** (1), which is unblocked and which
 settles the schema question and serves the rest — and note that the adjacent

@@ -180,6 +180,13 @@ data/misc/_viz/plurality/*.png
 data/misc/_viz/plurality/*.json
 data/misc/_viz/plurality/*.jsonl
 data/misc/_viz/plurality/__pycache__/
+# The predictability study's scripts are committed (the 2026-08-10 validation gate
+# requires census/calibration/tables/figures to regenerate); outputs stay untracked.
+!data/misc/_viz/predictability/
+data/misc/_viz/predictability/*.png
+data/misc/_viz/predictability/*.json
+data/misc/_viz/predictability/*.jsonl
+data/misc/_viz/predictability/__pycache__/
 
 # Experiment workspaces — self-contained, regenerable runs (runner + numbers +
 # figures + report) under data/results/<experiment>/. Untracked by design: the
