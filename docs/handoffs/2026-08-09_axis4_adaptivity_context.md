@@ -1,7 +1,13 @@
 ---
-status: open
+status: superseded by 2026-08-10_predictability_instrument.md
 created: 2026-08-09
 ---
+
+> **Superseded 2026-08-10** by
+> [`2026-08-10_predictability_instrument.md`](2026-08-10_predictability_instrument.md).
+> The bounds recorded here live in the permanent records it cites
+> (`experiment_02_findings.md` §11, `measurement_suite.md` §(b), the criterion's
+> axis rows); nothing is lost by deleting this file on the next sweep.
 
 # Axis 4, adaptivity to defender resistance — context only: the loop reacts, a verdict-blind ablation cannot be told from it, and the axis's own three measurements have never been run
 

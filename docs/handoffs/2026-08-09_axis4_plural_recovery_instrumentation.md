@@ -1,7 +1,16 @@
 ---
-status: open
+status: superseded by 2026-08-10_predictability_instrument.md
 created: 2026-08-09
 ---
+
+> **Superseded 2026-08-10** by
+> [`2026-08-10_predictability_instrument.md`](2026-08-10_predictability_instrument.md)
+> (Marc's reframe: the missing instrument is a detectability-grade scalar for
+> strategic plurality itself — predictability — and this brief's
+> failure-conditioned reading survives inside it as the per-verdict
+> decomposition, layer 4). The census gate, both free nulls, the M1/M2
+> separation and the advantage ceiling are carried forward wholesale; delete
+> this file on the next sweep.
 
 # Instrument plural recovery on axis 4 — turn "reacts, without advantage" into "a demonstrated plural recovery repertoire", measured on the failure column
 
