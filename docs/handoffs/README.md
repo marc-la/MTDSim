@@ -268,23 +268,26 @@ have patched runners whose committed numbers were taken under the old labels.)*
 
 Off the numbered chain; none of it blocks or is blocked by (1)–(5).
 
-- **The axis context trio** —
-  [axis 4](2026-08-09_axis4_adaptivity_context.md),
+- **The axis context trio, now a pair** —
   [axis 6](2026-08-09_axis6_incentive_rationality_context.md),
   [axis 7](2026-08-09_axis7_learning_context.md). Context only, commissioning
   nothing: each records what is built, measured and bounded on its axis so a
-  proposal lands against the real bar. The axis-4 one now also points at the
-  brief that arrived against it (below).
-- [`2026-08-09_axis4_plural_recovery_instrumentation.md`](2026-08-09_axis4_plural_recovery_instrumentation.md)
-  — the axis-4 sibling: plural *recovery* measured distributionally on the
-  failure column, with experiment 2's verdict-blind arm as the free null and its
-  outcome negative as the unmovable ceiling. **Its dependency has landed:** the
-  plural-preference readers (`measures.py` §10 — `hill_diversity`, the
-  per-dimension distributions, the alignment/Spearman readers — and
-  `uniform_weight_variant`) are in `dev`, with the completed study at
-  [`../implementation/pipeline/ogasp/plural_preference.md`](../implementation/pipeline/ogasp/plural_preference.md);
-  build on `dev` directly. Its own step 0, the failure-event census, gates
-  everything else in it.
+  proposal lands against the real bar. The axis-4 member and the recovery brief
+  that arrived against it are both **superseded 2026-08-10** by the
+  predictability brief below (marked in their frontmatter; delete on the next
+  sweep) — the axis-4 bounds live on in the permanent records the new brief
+  cites.
+- [`2026-08-10_predictability_instrument.md`](2026-08-10_predictability_instrument.md)
+  — **predictability as the instrument for strategic plurality**: one
+  trace-level scalar (P, with Hill-family companions N, D, E) applied to both
+  attack models over each model's own declared decision state, the scripted
+  FSM at P = 1 *by construction* as the instrument's calibration point, the
+  movement attacker pre-registered for the preferred-mixture regime
+  (1 < D < N, E < 1, P < 1). Subsumes the superseded recovery brief's
+  failure-conditioned reading as its per-verdict decomposition, with the
+  verdict-blind and uniform-weight arms as the two free nulls and experiment
+  2's outcome negative as the unmovable ceiling. Depends on nothing open; its
+  own layer 0 (the decision-state census) gates everything else in it.
 
 **Suggested order for the rest of the week:** (1), which is unblocked and which
 settles the schema question and serves the rest — and note that the adjacent
