@@ -546,7 +546,18 @@ class AttackOperation:
             self.adversary.get_attack_stats().append_attack_operation_record(self.adversary.get_curr_process(),
                                                                              start_time,
                                                                              finish_time, self.adversary)
-            vuln.network(host=adversary.get_curr_host())
+            # Compound-exploit-learning (default-off; byte-identical when the
+            # adversary has it disabled — effective_exploit_prob returns None and
+            # the increment guard is False). `was_exploited` is False for the vulns
+            # reaching here (same-host exploited instances are filtered out of
+            # get_vulns), so a False->True transition is a genuine fresh success and
+            # banks one prior-success for this vulnerability TYPE.
+            was_exploited = vuln.is_exploited()
+            vuln.network(host=adversary.get_curr_host(),
+                         success_prob=adversary.effective_exploit_prob(vuln))
+            if adversary.is_exploit_learning_enabled() \
+                    and vuln.is_exploited() and not was_exploited:
+                adversary.record_exploit_success(vuln.id)
             # cumulative vulnerability exploitation attempts
             adversary.set_curr_attempts(adversary.get_curr_attempts() + 1)
         if not vulns:

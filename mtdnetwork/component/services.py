@@ -129,13 +129,23 @@ class Vulnerability:
         # return constants.VULN_MIN_EXPLOIT_TIME + (constants.VULN_MAX_EXPLOIT_TIME -
         # constants.VULN_MIN_EXPLOIT_TIME) * ( 1 - self.complexity) / ( self.exploit_attempt + 1)
 
-    def network(self, host=None):
+    def network(self, host=None, success_prob=None):
         """
         Tries to exploit the vulnerability
 
         Parameters:
             host:
                 the host instance that has the vulnerability to use to check if the vulnerability is OS dependent
+            success_prob:
+                optional override for the threshold the success roll is compared
+                against. When ``None`` (the default and the only value any native
+                or baseline path ever passes) the roll uses ``self.complexity``
+                exactly as before, so the draw is byte-identical. The movement
+                attacker's compound-exploit-learning mechanism passes a raised
+                probability here on cross-host re-encounter of a previously
+                exploited vulnerability *type*; it shapes the comparison value
+                and adds no RNG draw, so SIM-05 determinism is unaffected. See
+                docs/implementation/pipeline/ogasp/exploit_learning.md.
 
         Returns:
             the impact score if successfully exploited, otherwise 0.0
@@ -147,7 +157,8 @@ class Vulnerability:
         #     if host.os_type not in self.vuln_os_list:
         #         return 0.0
         self.exploit_attempt += 1
-        if random.random() < self.complexity:
+        threshold = self.complexity if success_prob is None else success_prob
+        if random.random() < threshold:
             self.exploited = True
             # if self.has_os_dependency:
                 # self.logger.info("OS DEPENDENT VULNERABILITY EXPLOITED!")

@@ -279,6 +279,7 @@ def run_movement(
     max_events: int = 50_000,
     retrace_sinks: bool = False,
     uniform_weights: bool = False,
+    exploit_learning_rate: float | None = None,
 ) -> MovementRunResult:
     """Run one movement-layer simulation and return its :class:`MovementRunResult`.
 
@@ -331,6 +332,15 @@ def run_movement(
     ``with_synthetic_overlay`` (the variant is taken of whichever net that
     selects); leave modulators null when reading plurality, per the §4 pin.
 
+    ``exploit_learning_rate`` enables the substrate-level compound-exploit-learning
+    mechanism at the given lambda (the per-success odds multiplier). Left ``None``
+    the adversary carries no such memory and the run is byte-identical to before;
+    ``0.0`` is the exact ablation arm — enabled but silent, bit-identical to
+    ``None``. It is orthogonal to ``attacker_state``: this shapes the ``EXPLOIT_VULN``
+    success roll on cross-host re-encounter of an already-exploited vulnerability
+    *type*, whereas the modulators on ``attacker_state`` shape routing. See
+    ``docs/implementation/pipeline/ogasp/exploit_learning.md``.
+
     ``attacker_state`` attaches a within-run :class:`AttackerState` by wrapping
     the three collaborators the walk consumes — :class:`StatefulTiming` reports
     every place entry, :class:`ModulatedOverlay` reports every verdict and
@@ -343,6 +353,15 @@ def run_movement(
     ``movement/state.py``).
     """
     env, end_event, network, adversary, attack_op = _build_sim(seed, geometry)
+
+    if exploit_learning_rate is not None:
+        # Substrate-level compound-exploit-learning (default-off; see
+        # docs/implementation/pipeline/ogasp/exploit_learning.md). Left None the
+        # adversary is untouched, so the run is byte-identical; rate == 0 is the
+        # exact ablation arm (bit-identical to None). Orthogonal to any routing
+        # modulator carried on attacker_state — this shapes the EXPLOIT_VULN
+        # success roll, not the routing.
+        adversary.enable_exploit_learning(exploit_learning_rate)
 
     routing_net = load_routing_net(profile, with_synthetic_overlay=with_synthetic_overlay)
     if uniform_weights:

@@ -1,3 +1,4 @@
+import collections
 import logging
 from mtdnetwork.statistic.attack_statistics import AttackStatistics
 from mtdnetwork.data.constants import HACKER_ATTACK_ATTEMPT_MULTIPLER
@@ -21,6 +22,17 @@ class Adversary:
         self._curr_attempts = 0
         self.target_compromised = False
         self.observed_changes = {}
+
+        # Compound-exploit-learning memory (default-off; see
+        # docs/implementation/pipeline/ogasp/exploit_learning.md).
+        # `n(vuln.id)`: the count of prior *successful* exploits per vulnerability
+        # TYPE, keyed on the uuid preserved across `Vulnerability.copy()`, so it is
+        # cross-host per-type knowledge. It persists across MTD mutations by design
+        # (no decay term) — diversity resists this learner structurally, by changing
+        # which types live on which hosts, not by decaying the memory.
+        self._exploit_learning_enabled = False
+        self._exploit_learning_rate = 0.0            # lambda: per-success odds multiplier
+        self._exploit_type_counts = collections.Counter()
 
         self._attack_stats = AttackStatistics()
         self._curr_process = 'SCAN_HOST'
@@ -136,3 +148,66 @@ class Adversary:
 
     def set_curr_process(self, curr_process):
         self._curr_process = curr_process
+
+    # --- Compound-exploit-learning (default-off) ---------------------------
+    # The mechanism raises the success probability of the EXPLOIT_VULN roll on a
+    # cross-host re-encounter of a vulnerability TYPE the attacker has already
+    # exploited. It is a deliberate design extension beyond the published lineage
+    # (Marc, 2026-08-11) — NOT a fidelity restoration of Zhang's per-type time
+    # discount. See docs/implementation/pipeline/ogasp/exploit_learning.md.
+
+    def enable_exploit_learning(self, rate):
+        """Turn the mechanism on and set lambda (the per-success odds multiplier).
+
+        Left off by every native / baseline / golden path, so those stay
+        byte-identical. `rate == 0` is the exact ablation arm: `effective_exploit_prob`
+        returns None for it, routing the roll through the unchanged
+        `random.random() < complexity` comparison, so an enabled-but-zero run is
+        bit-identical to a disabled one.
+        """
+        self._exploit_learning_enabled = True
+        self._exploit_learning_rate = rate
+
+    def is_exploit_learning_enabled(self):
+        return self._exploit_learning_enabled
+
+    def get_exploit_learning_rate(self):
+        return self._exploit_learning_rate
+
+    def get_exploit_type_count(self, vuln_id):
+        return self._exploit_type_counts[vuln_id]
+
+    def record_exploit_success(self, vuln_id):
+        """Bank one successful exploit of this vulnerability type (RNG-free)."""
+        self._exploit_type_counts[vuln_id] += 1
+
+    def effective_exploit_prob(self, vuln):
+        """The shaped success threshold for `vuln`, or None to use the base one.
+
+        Returns None whenever the roll must stay byte-identical to the
+        no-mechanism path — the mechanism is disabled, or the compounding factor
+        is exactly 1 (lambda == 0, the exact ablation; or n == 0, identity at
+        first encounter). Otherwise the exploit ODDS compound multiplicatively in
+        the number of prior successful exploits of this type:
+
+            o = (c / (1 - c)) * (1 + lambda) ** n
+            p_eff = o / (1 + o)
+
+        so p_eff(0) = c exactly, p_eff is monotone in n, and p_eff -> 1 as n grows
+        — a long, persistent, compounding advantage that saturates only in the
+        limit. No RNG is consumed here (SIM-05).
+        """
+        if not self._exploit_learning_enabled:
+            return None
+        n = self._exploit_type_counts[vuln.id]
+        factor = (1.0 + self._exploit_learning_rate) ** n
+        if factor == 1.0:
+            # lambda == 0 (exact ablation) or n == 0 (identity at first encounter):
+            # hand back None so the roll compares against the unchanged base
+            # threshold rather than a float that only algebraically equals it.
+            return None
+        c = vuln.complexity
+        if c >= 1.0:
+            return None
+        odds = (c / (1.0 - c)) * factor
+        return odds / (1.0 + odds)
