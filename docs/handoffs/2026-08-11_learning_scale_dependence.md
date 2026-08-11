@@ -1,19 +1,29 @@
 ---
 status: open
 created: 2026-08-11
-related: 2026-08-11_probability_shaped_exploit_learning.md
+related: 2026-08-11_fsm_hosted_learning_control_arm.md
 ---
 
 # Test the first-principles prediction that attacker-learning advantage is scale-dependent — and if it is absent, diagnose whether the cause is the mechanism or the implementation
 
-> **Related direction, not a duplicate (2026-08-11).** This handoff sweeps the
-> **existing** L3 routing-belief learner (axis 7) across *host-count* scale. A
-> sibling handoff,
-> [`2026-08-11_probability_shaped_exploit_learning.md`](2026-08-11_probability_shaped_exploit_learning.md),
-> instead **builds a new mechanism** — a probability boost on the `EXPLOIT_VULN`
-> success roll for previously-exploited vuln *types* — and sweeps it across
-> *vulnerability-pool* size and diversity. Different mechanism, different scale
-> factor. A session picking up either should read both to avoid conflating them.
+> **Sibling shipped; a third handoff is open (updated 2026-08-11).** This handoff
+> sweeps the **existing** L3 routing-belief learner (axis 7) across *host-count*
+> scale, and **as of 2026-08-11 it has not been executed** — no scale sweep
+> exists on `dev`. The sibling it originally pointed at
+> (`2026-08-11_probability_shaped_exploit_learning.md`) has since been executed
+> and deleted: it landed as the compound-exploit-learning mechanism
+> ([`../implementation/pipeline/ogasp/exploit_learning.md`](../implementation/pipeline/ogasp/exploit_learning.md))
+> and returned a **measured negative** — the mechanism operates on the movement
+> attacker but moves no outcome, diagnosed to out-of-order-FSM churn, axis 7
+> holding at DESIGNED
+> ([`../implementation/pipeline/ogasp/exploit_learning_findings.md`](../implementation/pipeline/ogasp/exploit_learning_findings.md)).
+> A third handoff,
+> [`2026-08-11_fsm_hosted_learning_control_arm.md`](2026-08-11_fsm_hosted_learning_control_arm.md),
+> now hosts that mechanism on the native FSM attacker as a positive-control arm,
+> to discriminate the structural from the mechanism-limited reading of that null.
+> Three distinct instruments — routing learner × scale (this), exploit learner ×
+> pool (shipped), exploit learner × host attacker (open) — a session picking up
+> any of them should read all three records to avoid conflation.
 
 ## State of play
 
