@@ -297,16 +297,83 @@
 \section{Experimental setup}
 \label{sec:experimental-setup}
 
-\subsection{The degenerate operating region}
+% SCAFFOLD (2026-08-11 design workshop). Structure + factor table only; the
+% argued prose is a separate voice-gated pass. Governing notes:
+%   - grading instrument + two-family organisation: notes/ch5_evaluation/evaluation_grading.md
+%   - what must be shown (stability AND divergence): notes/ch5_evaluation/evaluation_burden.md
+%   - the anchor result: notes/ch5_evaluation/defence_ranking_inversion.md
+%   - degenerate region: notes/ch5_evaluation/operating_point_discrimination.md
+
+% PREAMBLE prose to draft: state the research question (what greater attacker
+% fidelity implies for current MTD evaluation methods); the two dimensions the
+% evaluation answers it on (prior-model comparison; fresh evaluation); the
+% three-grade instrument every comparison is scored on (magnitude / ordering /
+% recommendation, committed before scoring); and the honest split between the
+% one already-observed anchor cell and the pre-registered robustness frontier.
+
+The evaluation answers a single question --- what greater attacker fidelity
+implies for current methods of evaluating moving target defence --- on two
+dimensions, and scores every comparison it reports on one three-grade instrument
+(Table~\ref{tab:eval-factors} fixes the factors both dimensions draw from).
+% The instrument (magnitude / ordering / recommendation) is specified in full in
+% the grading note; restate its three grades here claim-first before the table.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Dimensions of the evaluation --- the factors both experiment families
+  draw their cells from. Seeds are a claim-class convention stated once (ten
+  supports a rank comparison, not a significance test), not a factor.}
+  \label{tab:eval-factors}
+  \begin{tabular}{p{0.20\textwidth} p{0.42\textwidth} p{0.30\textwidth}}
+    \hline
+    \textbf{Factor} & \textbf{Levels} & \textbf{Role} \\
+    \hline
+    Attacker arm & inherited scripted; profiled campaign envelope
+      ($\times$ objective profiles) & the manipulation under test \\
+    Defence & none; each mechanism singly; shuffle-only pair; diversity-only
+      pair; shuffle $+$ diversity; execution schemes & the ranked object; the
+      lineage headlines are stated over exactly these \\
+    Network scale & small / medium / large & the axis each fidelity extension is
+      designed to show or vanish on \\
+    Connection density & held vs.\ varied at fixed node count & settles the
+      lineage's unresolved size-vs-density confound \\
+    Mutation tempo & operating interval; relaxed interval & the degenerate region
+      lives here; grades are stated with the tempo they were taken at \\
+    \hline
+  \end{tabular}
+\end{table}
+
+% Global conventions (fold the former standalone subsections here, in the
+% preamble, rather than as peer subsections): the degenerate operating region
+% that gates which grades a tempo can carry; comparing profiles on a common
+% substrate and seed set; determinism. Each is a shared rule, not a dimension.
 \label{subsec:degenerate-region}
-
-\subsection{Comparing profiles fairly}
 \label{subsec:fair-comparison}
-
-\subsection{Seeding and determinism}
 \label{subsec:seeding}
 
-\subsection{What the evaluation must demonstrate}
+\subsection{Prior-model comparison}
+\label{subsec:prior-model-comparison}
+% Dimension one. Re-run the lineage's own evaluations (Zhang, Brown, Ho) on this
+% simulator under BOTH attackers, so each published headline becomes testable.
+% Report the anchor cell (the observed ranking inversion) as OBSERVED, motivating
+% the sweep --- not as prediction. The lineage's internal disagreement
+% (shuffle-dominant vs diversity-dominant) is the phenomenon to explain, not to
+% reconcile. Feeds the discussion chapter.
+
+\subsection{Fresh evaluation}
+\label{subsec:fresh-evaluation}
+% Dimension two. The full crossing of Table~\ref{tab:eval-factors}. Two jobs:
+% (i) the PRE-REGISTERED robustness frontier --- does the anchor inversion
+% survive scale / density / tempo; (ii) give each fidelity extension a cell where
+% its intended effect should appear (network scale for the learning capability,
+% per the 2026-08-11 handoff; a non-dwell-proportional defence for the cost
+% rule). Also the evaluation-method findings the collapsed attacker hid
+% (tactic-resolved MTD effect; execution-not-planning reach; the fidelity-derived
+% success criterion that discriminates where the inherited one is degenerate).
+
+% What the evaluation must demonstrate (burden of proof) is specified in
+% evaluation_burden.md: stability AND divergence. Cross-reference it here rather
+% than restating.
 \label{subsec:burden-of-proof}
 
 \section{Threats to validity}
