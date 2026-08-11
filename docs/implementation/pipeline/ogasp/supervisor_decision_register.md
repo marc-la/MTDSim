@@ -1,8 +1,8 @@
 ---
 status: durable
 created: 2026-07-03
-topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5, M1–M8, S1–S6)"
-updated: 2026-07-28
+topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5, M1–M8, S1–S6, V1–V7)"
+updated: 2026-08-11
 lineage: formerly docs/notes @ 2026-07-03_supervisor_meeting_l3_decisions.md (relocated in the 2026-07-13 docs refactor)
 ---
 
@@ -328,6 +328,154 @@ the parked layer-reframe handoff.
   will not satisfy every axis, and the claim is that it captures the *missing
   essence* those three sources name, not that it closes the gap.
 
+## The 2026-08-11 meeting rulings (V1–V7)
+
+Provenance: Marc's written update of **9 August 2026** — the per-axis
+instrumentation table for the S6 criterion and the revised methodology
+boilerplate — and the **11-Aug-2026 meeting** it drove (~33 min with Dr Hong;
+update and transcript held by Marc outside the repo, per convention). Numbered
+**V** — the validation-phase trail — to stay distinct from the 03-Jul minutes
+(D), the 10-Jul written feedback (R), the 14-Jul meeting (M) and the
+post-experiment-1 rulings (S). One caution rides with this trail that the
+earlier ones do not: the meeting source is a raw auto-transcription that
+attributes every utterance to a single speaker, so speaker attribution is
+inferred from content; the rulings below are distilled conservatively, and
+wording is paraphrase except where quoted.
+
+**What the meeting reviewed.** The update's instrumentation table walks the
+eight criterion axes as presented: axis 1 argued as *not instrumentable*
+(campaign duration is a simulator input, so persistence is abstracted by the
+execution horizon); axis 2 evidenced by the attack-profile-divergence study
+(8–24 % JSD between profiles); axis 3 by the predictability scalar
+(baseline 1.00, movement 0.33–0.57); axis 4 argued *intractable* (the defender
+pool is time-based and attacker-blind, so there is no advantage for adaptivity
+to win); axis 5 by the decaying detectability reader (four profiles banded
+below the baseline, the pre-positioning profile the dwell-poor outlier); axes
+6–7 presented as implemented but not yet instrumented (axis 7 being the
+probability-shaped exploit-learning direction, cf. the 2026-08-11 handoff);
+axis 8 as attempted and closed to future work. The meeting also reviewed the
+update's revised methodology skeleton, whose §3.5 carries the same
+two-dimension experimental structure landed at `c909421` that morning.
+**Accepted in substance without a numbered ruling:** axis 1's
+characteristic-not-a-metric stance; axis 2's instrument (the profiles do
+diverge meaningfully — the *presentation* of the divergence figure is to be
+reworked, not the concept); axis 4's intractability statement; and the axis-6
+incentive description (rational disengagement once MTD makes the attack
+intractable).
+
+- **V1 — Every presented number is preliminary until hand-validated, and the
+  validation protocol is fixed.** For each new metric: build a simple network
+  small enough to trace manually (four or five nodes), calculate the metric by
+  hand, check the number makes sense, then scale up and run the full
+  configuration. The named catastrophic risk is an error in a formula or
+  algorithm forcing the evaluation to be redone — "make sure your formulas are
+  working correct" is the operative instruction. The walkthrough's figures
+  stand as *preliminary results* until this pass clears them; Marc runs it
+  before drafting the methodology.
+
+- **V2 — The predictability instrument: the baseline pin is challenged, and
+  the name must be checked.** Two directions. (1) The claim that the scripted
+  baseline is intrinsically P = 1 did not survive presentation: the baseline
+  attacker branches on the exploit verdict (success routes to scanning,
+  failure routes elsewhere), so "the next state can be called from the given
+  state" is not right as stated — conceded in the meeting ("I didn't dig deep
+  enough"). The shared expectation that the movement attacker is *less*
+  predictable stands; the derivation is to be reworked. What this does and
+  does not overturn is deliberately left open here:
+  [`predictability.md`](predictability.md) pins P = 1 over each model's *own
+  decision state*, conditioned on every variable the policy consults — whether
+  that construction answers the challenge (the verdict as a conditioning
+  variable) or the challenge stands **is** the owed rework. The record is
+  bannered accordingly. (2) "Predictability" is likely an established term —
+  verify existing usage before keeping the name, and compound or qualify it if
+  it collides.
+
+- **V3 — Tay's agent is used as-is; retraining is ruled out (axes 4 and 8).**
+  The update places the Tay question on axis 8 (the only event-based MTD
+  orchestration available) and the meeting reached it through axis 4; the
+  ruling covers both. The diagnosis presented was not disputed: the agent is
+  undertrained (training-start fills fast, then learning is too slow to
+  produce smart decisions; near-static preferences — no-op or IP shuffle
+  favoured), and retraining would cost about a week. The ruling: **"just use
+  the model as is"** — retraining is not a priority; test against it if
+  available. A simple non-AI event-based trigger was floated as buildable;
+  Marc named the calibration circularity (the trigger would be tuned on the
+  very metrics the attacker moves — the update's own axis-8 argument), and it
+  was left at leave-it-as-is, with axis 8 staying future work. Flagged
+  consequences, not actioned: the scaled-training proposal (open handoff,
+  2026-08-08) loses its motivation under this ruling, and "use it if it's
+  available, then test" reads as sanction to run the pretrained agent as an
+  evaluation arm — though the formal `mtd_ai` ratification the
+  knowledge-gated handoff waits on remains Marc's to give.
+
+- **V4 — Detectability runs: report steady state, at far more runs.** The
+  presented 10-run band is under-powered and the early spike is the
+  simulation's initial transient, not a finding — "there's always an initial
+  phase where you don't really rely on [it] as a steady state"; what is
+  measured is the region after convergence. The convergence standard named:
+  for random networked simulations, on the order of a few thousand runs per
+  plotted point; keep the raw data and append across batches, averaging per
+  point to smooth the jitter. Marc's two-timelines concern (baseline and
+  profiles run on different clocks, so timeline-to-timeline comparison is
+  fragile) was answered procedurally by the transient-plus-averaging protocol,
+  not adjudicated — the cross-clock caveats already on record (the stealth
+  records; D-37) stand.
+
+- **V5 — The research question is reworded, decomposed into three
+  sub-questions, and moves to the introduction.** The update's §3.5 wording —
+  *what does greater attack fidelity imply for current MTD evaluation
+  methods?* — is replaced by the APT-explicit headline **"How does MTD perform
+  against APT attackers?"**, because APT is the only profile family the model
+  carries. It branches into three sub-questions, which become the
+  methodology's spine: **(1) capture** — how APT attacker behaviour is
+  captured (the data collection, corpus to profiles); **(2) implementation** —
+  how it is implemented (the Petri-net mapping, weights, state semantics, and
+  the configuration justifications); **(3) evaluation** — how APT attackers
+  are evaluated (benchmark = the inherited non-APT baseline attacker; the
+  standard metric suite plus the APT-specific supplementary metrics, since
+  APT-shaped goals such as evasion are not measurable in the inherited
+  suite). The question is stated in the **introduction** — which carries a
+  compact version of the methodology and key experimental highlights — and
+  the experiments are organised *by sub-question*: the two-dimension
+  structure (prior-model comparison; fresh evaluation) is to be restructured
+  so each dimension of the factor table serves the sub-question it answers.
+  The dimensions are means, not the organising frame, and **not every
+  dimension need appear**. Two placement notes ride along: the literature
+  review should cover what exists on APT modelling ("very rare to find one
+  that's linked to MTD"), and the lineage's mechanism-preference findings
+  (Zhang's shuffle-dominates, Ho's diversity-dominates) belong in the
+  evaluation as comparison points, per the update's §3.5.1.
+
+- **V6 — Sensitivity analysis is the sanctioned regime for arbitrary
+  parameters.** Where a value is hard to derive empirically: declare it, sweep
+  it minimum-to-maximum at steps, and show how the results move — "to show
+  the effects of when these values are varied", with low values mapping to
+  weak-attacker expectations and high values to capable-attacker ones.
+  Placement: a **preamble to the results** — a table of the arbitrarily-set
+  parameters, the ranges swept, and the observed effects — before the main
+  dissection begins. Selectivity is part of the ruling: too many variables to
+  sweep them all, so pick the most impactful (timing and target durations
+  were named); the ~200-value success/failure overlay matrix is a
+  best-of-knowledge declaration whose variation is a per-user adoption
+  concern — appendix material, not a swept dimension. Run the sweeps as time
+  permits so they are ready in advance; completed sweeps that do not fit the
+  body go to an appendix.
+
+- **V7 — Dissertation structure: the inherited simulator moves out of the
+  methodology into a background section.** The update's §3.2 (network model,
+  defence model, procedural attacker) is not methodology — it describes
+  existing things, and goes to a **Background** section/chapter after the
+  introduction and before the literature review, written so the reader
+  understands what the simulator does. The methodology then carries: the
+  criterion (§3.1), the layer-by-layer modelling (§3.3, with the pipeline
+  box-and-flow diagrams expected there), the per-axis measurement
+  instruments (§3.4) validated under V1's protocol, the experimental setup
+  restructured per V5, and the sensitivity analysis (V6) if there is room.
+  The 15 000-word budget is expected to fill quickly — build first, then
+  select; completed experiments that do not fit go to appendices. Marc's
+  stated sequencing at close: finish the validation pass, then draft the
+  methodology in the week following the meeting.
+
 ## Still open with the supervisor
 
 - **Nothing structural in the execution model.** M1–M8 closed the
@@ -346,6 +494,12 @@ the parked layer-reframe handoff.
   measurements (M8b), now folded into the S6 criterion work as the "what would
   evidence each axis" half; and the dynamic, attacker-state-conditioned weights
   named as the eventual direction in S1.
+- **Owed back under the V trail (2026-08-11):** the predictability rework and
+  literature name-check (V2), and the hand-traced validation pass over every
+  presented instrument (V1) — both sequenced before the methodology draft.
+  Nothing structural was reopened; V3 settles the Tay retrain question the
+  scaled-training proposal had left implicitly open (use the pretrained agent
+  as-is).
 
 ## 2026-07-23 — outcome-overlay (M2/M3) numbers finalised
 
