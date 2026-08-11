@@ -402,6 +402,34 @@ from an MTD-induced state throw-back, and whether failure-conditioned routing
 measurably redirects effort (weight-set switch frequency vs progress). These
 discriminate "reacts" from "adapts usefully".
 
+#### Disposition, 2026-08-11 (Marc) — the null advantage is intractable via attacker-blindness
+
+**Ruling: axis 4's null advantage is not a model pitfall — it is intractable
+because the defence pool is attacker-blind, and MTD-AI evaluation is future
+work.** The experiment-2 null (no adaptive advantage over a verdict-blind matched
+control, [`pipeline/ogasp/experiment_02_findings.md`](pipeline/ogasp/experiment_02_findings.md) §11)
+was decomposed into three routes to advantage: **reactive** (exploit the
+defender's response to the attacker), **structural** (exploit persistence in the
+resistance itself), and **mechanism-shape** (a richer function of the same
+one-bit verdict). Mechanism-shape is ruled out first-principles (same input, same
+ceiling; five swept modulators all narrow traversal). The reactive route is
+**closed**: every defence in the pool is clocked and attacker-blind — there is no
+MTD-AI to react to, so no attacker of any shape can win on this route. That
+closure **is** the intractability, and it is the axis-4 story the write-up makes.
+
+The structural-route probe (does blockage persist or re-randomise) is **not
+pursued** under this ruling: with the reactive route closed and MTD-AI deferred,
+the coarse "intractable via attacker-blindness" claim is what the dissertation
+asserts. Re-opening axis 4 as a licensable *model* gap would require the reactive
+defender (**MTD-AI evaluation — future work**, cf. V3 ruling Tay used-as-is,
+retraining ruled out); until then the honest, current claim stands: the model
+*responds distinctly* to defender resistance (composition positive, CI-separated
+in four of five profiles) and the framework *measures* whether that response
+confers advantage (outcome null against a matched control) — statements the
+baseline attacker cannot make, since its adaptivity is incidental rather than
+declared, controllable and measured. Badge unchanged (DESIGNED). Retires the
+`2026-08-11_axis4_adaptivity_exploitability.md` handoff.
+
 ### Axis 5 — Stealth: low-and-slow tempo and evasion
 
 **What it is.** Cho et al.'s *stealthy* attacker does not exhibit identifiable
