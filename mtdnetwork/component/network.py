@@ -14,7 +14,8 @@ class Network:
 
     def __init__(self, total_nodes, total_endpoints, total_subnets, total_layers, total_database, target_layer=None,
                  users_to_nodes_ratio=constants.USER_TO_NODES_RATIO,
-                 prob_user_reuse_pass=constants.USER_PROB_TO_REUSE_PASS, seed=None):
+                 prob_user_reuse_pass=constants.USER_PROB_TO_REUSE_PASS, seed=None,
+                 services_per_os=constants.SERVICE_NO_OF_SERVICES_PER_OS):
         """
         Initialises the state of the network for the simulation.
 
@@ -55,7 +56,11 @@ class Network:
 
         self.tags = []
         self.tag_priority = []
-        self.service_generator = services.ServicesGenerator()
+        # services_per_os defaults to the constant, so the network generated for a
+        # given seed is byte-identical unless a study explicitly shrinks the pool
+        # of distinct service families (and thus distinct vulnerability types); see
+        # docs/implementation/pipeline/ogasp/exploit_learning_prereg.md.
+        self.service_generator = services.ServicesGenerator(services_per_os=services_per_os)
         self.nodes = [n for n in range(total_nodes)]
         self.mtd_strategies = []
 

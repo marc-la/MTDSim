@@ -133,13 +133,22 @@ _FROZEN_ACTION_SET = frozenset({
 })
 
 # The adversary's state fields. A new one means a new attacker ability, which is
-# exactly what the freeze forbids.
+# exactly what the freeze forbids — save for the one deliberate lift below.
+#
+# The three `_exploit_learning_*` / `_exploit_type_*` fields carry the
+# compound-exploit-learning memory. The S2 freeze is lifted for THIS ONE
+# mechanism by Marc's disposition (2026-08-11) — a sanctioned substrate
+# attack-model extension, not a bug fix
+# (docs/implementation/pipeline/ogasp/exploit_learning.md). They are enumerated
+# here rather than exempted so the guard still fails loudly on any *other*
+# unsanctioned state addition.
 _FROZEN_ADVERSARY_STATE = frozenset({
     "network", "_compromised_users", "_compromised_hosts", "_host_stack",
     "_attack_counter", "_stop_attack", "_attack_threshold", "_pivot_host_id",
     "_curr_host_id", "curr_host", "_curr_ports", "_curr_vulns",
     "_max_attack_attempts", "_curr_attempts", "target_compromised",
     "observed_changes", "_attack_stats", "_curr_process",
+    "_exploit_learning_enabled", "_exploit_learning_rate", "_exploit_type_counts",
 })
 
 
