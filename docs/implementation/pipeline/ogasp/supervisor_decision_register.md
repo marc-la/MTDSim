@@ -600,6 +600,13 @@ and partly reframed, since the sweep found two conclusions that do move.
     `stochastic_timing_implementation` (**S3**, build half); (4)
     `sink_retrace_experiment2` (**S5**, and the experiment-2 run that consumes
     the rest).
+  - **Forward chain (2026-08-11, executing V1–V7).** Three handoffs dated
+    `2026-08-11`: `predictability_rework` (**V2**) feeds
+    `instrument_validation_pass` (**V1**, plus **V4**'s detectability re-take);
+    `experiment_restructure_subquestions` (**V5–V7**) runs independently of
+    both. **V3** commissions nothing — the scaled-training proposal it
+    deflates was already deleted — and **V1**'s protocol gates Marc's
+    methodology draft rather than a handoff.
   - Retired by the 14-Jul meeting (deleted per the handoff lifecycle; git log
     is the record): the deferred replay-attacker build (its one-way replay
     premise died with D2→M1), the MVP-binding investigation + goal (its
