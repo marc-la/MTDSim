@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-10
-updated: 2026-08-10
+updated: 2026-08-11
 topic: "Predictability — one detectability-grade scalar for strategic plurality, applied to both attack models, with the scripted baseline pinned at P=1 by construction; pre-registration (committed before any trace is read) + census + calibration + declared/realised layers + decompositions"
 ---
 
@@ -15,6 +15,21 @@ runs: the arms simulate, but every *measure* is a re-read, and nothing here move
 badge** — axis 3 is DEMONSTRATED and axis 4 is DESIGNED, and this builds the
 thesis-argument evidence their prose leans on (a superset of the badge), exactly as
 [`plural_preference.md`](plural_preference.md) did.
+
+> **Challenged at the 2026-08-11 supervisor meeting — rework owed before any
+> figure here is quoted**
+> ([`supervisor_decision_register.md`](supervisor_decision_register.md) §V2).
+> Two directions from the meeting. **(1)** The baseline P = 1 pin did not
+> survive presentation: the scripted attacker branches on the exploit verdict
+> (success routes to scanning, failure routes elsewhere), so "the next state
+> can be called from the given state" was challenged and the rework conceded.
+> This record's construction conditions on every variable the policy consults —
+> whether that construction answers the challenge (the verdict as a
+> conditioning variable) or the challenge stands is exactly the owed rework;
+> until it lands, every figure here is preliminary under V1's hand-validation
+> protocol (a 4–5-node manually-traceable network before any quoted number).
+> **(2)** The term *predictability* is to be verified against established
+> usage before the name is kept — compound or qualify it if it collides.
 
 ## The vocabulary, fixed once (downstream prose inherits these terms)
 
