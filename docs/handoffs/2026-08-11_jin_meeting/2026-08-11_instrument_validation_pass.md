@@ -9,7 +9,7 @@ created: 2026-08-11
 
 The 11-Aug supervisor meeting ruled every presented criterion figure
 *preliminary* until hand-validated
-([`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)
+([`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md)
 §V1), and fixed the protocol: a network small enough to trace manually (four
 or five nodes), the metric calculated by hand, checked for sense, then scaled.
 The figures this covers: the attack-profile divergence (8–24 % JSD between
@@ -44,7 +44,7 @@ rework lands first):
    movement figure's arithmetic.
 
 Extend the trace tooling where it cannot show the needed events
-([`../implementation/trace_tool.md`](../implementation/trace_tool.md) charter:
+([`../../implementation/trace_tool.md`](../../implementation/trace_tool.md) charter:
 extend, don't print-debug). Record each check as hand-value vs computed-value
 with a match or a diagnosed mismatch — a mismatch is escalated as a finding,
 never patched silently, because the ruling's whole point is that a formula
@@ -73,15 +73,15 @@ with the diagnosis.
   during validation — a formula found wrong is a finding for Marc, not an
   in-session fix.
 - Branch / commit / never-push rules per
-  [`../workflows/session_workflow.md`](../workflows/session_workflow.md).
+  [`../../workflows/session_workflow.md`](../../workflows/session_workflow.md).
 
 ## Reading list
 
-- [`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md) — §V1, §V4
-- [`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md) — the axes each instrument serves
-- [`../implementation/pipeline/ogasp/predictability.md`](../implementation/pipeline/ogasp/predictability.md) — banner + construction
-- [`../implementation/pipeline/ogasp/stealth_exposure_metric.md`](../implementation/pipeline/ogasp/stealth_exposure_metric.md) (and `stealth_spacing_diagnostic.md`) — the detectability reader's declared parameters
-- [`../implementation/trace_tool.md`](../implementation/trace_tool.md) — the tracers this pass leans on
+- [`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md) — §V1, §V4
+- [`../../implementation/apt_model_criterion.md`](../../implementation/apt_model_criterion.md) — the axes each instrument serves
+- [`../../implementation/pipeline/ogasp/predictability.md`](../../implementation/pipeline/ogasp/predictability.md) — banner + construction
+- [`../../implementation/pipeline/ogasp/stealth_exposure_metric.md`](../../implementation/pipeline/ogasp/stealth_exposure_metric.md) (and `stealth_spacing_diagnostic.md`) — the detectability reader's declared parameters
+- [`../../implementation/trace_tool.md`](../../implementation/trace_tool.md) — the tracers this pass leans on
 
 ## Out of scope (explicitly)
 

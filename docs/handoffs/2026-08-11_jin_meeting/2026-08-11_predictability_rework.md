@@ -8,11 +8,11 @@ created: 2026-08-11
 ## State of play
 
 The 11-Aug supervisor meeting challenged the scripted baseline's P = 1 pin
-([`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)
+([`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md)
 §V2): the baseline attacker branches on the exploit verdict — success routes to
 scanning, failure routes elsewhere — so "the next state can be called from the
 given state" did not survive presentation, and the rework was conceded in the
-meeting. [`predictability.md`](../implementation/pipeline/ogasp/predictability.md)
+meeting. [`predictability.md`](../../implementation/pipeline/ogasp/predictability.md)
 is bannered accordingly. Its own construction pins P = 1 over each model's *own
 decision state*, conditioned on every variable the policy consults — so the open
 question is whether that construction already answers the challenge (the verdict
@@ -61,14 +61,14 @@ annotated. The instrument-validation pass can consume the result.
 - Annotate the record; never rewrite its pre-registration history.
 - No substrate changes (S2 freeze).
 - Branch / commit / never-push rules per
-  [`../workflows/session_workflow.md`](../workflows/session_workflow.md).
+  [`../../workflows/session_workflow.md`](../../workflows/session_workflow.md).
 
 ## Reading list
 
-- [`../implementation/pipeline/ogasp/predictability.md`](../implementation/pipeline/ogasp/predictability.md) — the pin's construction, the banner, the conditioning table
-- [`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md) — §V1–V2
+- [`../../implementation/pipeline/ogasp/predictability.md`](../../implementation/pipeline/ogasp/predictability.md) — the pin's construction, the banner, the conditioning table
+- [`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md) — §V1–V2
 - `mtdnetwork/operation/attack_operation.py` — the inherited attacker loop the claim is about (note: under concurrent edit on `feat/exploit-learning-mechanism` — re-verify freshness at session start)
-- [`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md) — axis 3
+- [`../../implementation/apt_model_criterion.md`](../../implementation/apt_model_criterion.md) — axis 3
 
 ## Out of scope (explicitly)
 
