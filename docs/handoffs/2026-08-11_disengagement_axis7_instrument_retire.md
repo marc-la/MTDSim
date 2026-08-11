@@ -52,12 +52,13 @@ content-safe:
 
 - My work was rebuilt cleanly onto `feat/axis7-disengagement-clean`; the polluted
   intermediate branch was deleted (content preserved).
-- **My findings commit `0ec01d2` is buried in `feat/exploit-learning-mechanism`'s
-  history** (the pool session built `031d78c` on top of it). It is
-  content-identical to the copy on this branch, so a `dev` merge is conflict-free,
-  but that branch carries a duplicate of my commit under its own trail. Dropping it
-  would be a history rewrite on an actively-used branch — **left for Marc**, not
-  actioned.
+- **Two of my commits are buried in `feat/exploit-learning-mechanism`'s history**
+  — findings `0ec01d2` and documentation `e75b761`, both landed there when the
+  concurrent session swapped HEAD mid-commit (twice). Both are content-identical to
+  the copies now on this branch (`c201409`, `06e1131`), so a `dev` merge is
+  conflict-free, but that branch carries duplicates of my commits under its own
+  trail. Dropping them would be a history rewrite on an actively-used branch —
+  **left for Marc**, not actioned.
 
 ## Retirement
 
