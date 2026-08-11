@@ -292,6 +292,32 @@ Off the numbered chain; none of it blocks or is blocked by (1)–(5).
   profiles, and the experiment-2 outcome negative travels unmoved. The handoff is
   deleted; the record is the permanent account.
 
+### Added 2026-08-11, after the supervisor meeting — the V-trail chain
+
+The meeting's in-repo record is the register's **V trail (V1–V7)**
+([`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md));
+three handoffs execute it:
+
+- [`2026-08-11_predictability_rework.md`](2026-08-11_predictability_rework.md)
+  (**V2**) — resolve the baseline-pin challenge and the metric's name-check;
+  **feeds** the validation pass below (predictability validates post-rework).
+- [`2026-08-11_instrument_validation_pass.md`](2026-08-11_instrument_validation_pass.md)
+  (**V1 + V4**) — hand-traced 4–5-node validation of every presented
+  instrument, plus the detectability re-take at steady-state scale. **Gates
+  quoting any instrument figure** in methodology or results prose.
+- [`2026-08-11_experiment_restructure_subquestions.md`](2026-08-11_experiment_restructure_subquestions.md)
+  (**V5–V7**) — the sub-question spine, the RQ to the introduction, the
+  Background chapter, the sensitivity preamble; touches
+  `evaluation_grading.md` and the dissertation skeleton. Independent of the
+  other two.
+
+**V3 commissions nothing** (use Tay's pretrained agent as-is; no retraining):
+the scaled-training proposal it deflates — entry (3) above — was already
+deleted from this directory before the meeting landed. **Staleness flag, left
+for a sweep rather than adjudicated here:** entries (2), (3) and (5) of the
+numbered chain above reference files that no longer exist in this directory;
+their outcomes live in `git log` and the records they name.
+
 **Suggested order for the rest of the week:** (1), which is unblocked and which
 settles the schema question and serves the rest — and note that the adjacent
 `MovementRecord` widenings it was told to bundle have now all landed
