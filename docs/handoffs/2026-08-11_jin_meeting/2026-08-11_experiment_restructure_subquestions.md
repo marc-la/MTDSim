@@ -8,11 +8,11 @@ created: 2026-08-11
 ## State of play
 
 The morning of the 11-Aug meeting, `c909421` landed the evaluation's grading
-instrument ([`../notes/ch5_evaluation/evaluation_grading.md`](../notes/ch5_evaluation/evaluation_grading.md))
+instrument ([`../../notes/ch5_evaluation/evaluation_grading.md`](../../notes/ch5_evaluation/evaluation_grading.md))
 and a two-dimension `sec:experimental-setup` scaffold in
-[`../thesis/dissertation.tex`](../thesis/dissertation.tex). The meeting then
+[`../../thesis/dissertation.tex`](../../thesis/dissertation.tex). The meeting then
 replaced the organising frame
-([`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)
+([`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md)
 §V5–V7): the research question is reworded APT-explicit — **"How does MTD
 perform against APT attackers?"** — stated in the *introduction* (with a
 compact methodology and key highlights), and decomposed into three
@@ -34,7 +34,7 @@ What survives untouched: the grading instrument's answer vocabulary
 sub-question 3's scoring, not a casualty. The two dimensions (prior-model
 comparison; fresh evaluation) survive as the internal split of sub-question 3.
 The learning-vs-scale hypothesis
-([`2026-08-11_learning_scale_dependence.md`](2026-08-11_learning_scale_dependence.md))
+([`2026-08-11_learning_scale_dependence.md`](../2026-08-11_learning_scale_dependence.md))
 becomes a candidate dimension within sub-question 3, not a parallel structure.
 
 ## Recommended approach
@@ -65,9 +65,9 @@ moving structure.
 
 ## Hard constraints
 
-- [`../workflows/voice.md`](../workflows/voice.md) is the **hard gate** for
+- [`../../workflows/voice.md`](../../workflows/voice.md) is the **hard gate** for
   any `thesis/` prose and the default for `notes/`; load it before writing
-  either. Load [`../workflows/notes_rubric.md`](../workflows/notes_rubric.md)
+  either. Load [`../../workflows/notes_rubric.md`](../../workflows/notes_rubric.md)
   in full before editing the note.
 - Thesis heading conventions: sentence case, no acronyms in headings; keep
   the L0–L4 prefixes, "movement attacker" and "APT" visible in the text.
@@ -76,15 +76,15 @@ moving structure.
   Do not introduce sub-problem framing.
 - Structure only: no experiments run, no results prose.
 - Branch / commit / never-push rules per
-  [`../workflows/session_workflow.md`](../workflows/session_workflow.md).
+  [`../../workflows/session_workflow.md`](../../workflows/session_workflow.md).
 
 ## Reading list
 
-- [`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md) — §V5–V7 (the operative rulings)
-- [`../notes/ch5_evaluation/evaluation_grading.md`](../notes/ch5_evaluation/evaluation_grading.md) — the note being re-aimed
-- [`../thesis/dissertation.tex`](../thesis/dissertation.tex) — `sec:experimental-setup` as landed at `c909421`
-- [`../workflows/voice.md`](../workflows/voice.md) + [`../workflows/notes_rubric.md`](../workflows/notes_rubric.md) — the gates
-- [`../notes/_writing_guide.md`](../notes/_writing_guide.md) — chapter-job map for the Background/introduction moves
+- [`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md) — §V5–V7 (the operative rulings)
+- [`../../notes/ch5_evaluation/evaluation_grading.md`](../../notes/ch5_evaluation/evaluation_grading.md) — the note being re-aimed
+- [`../../thesis/dissertation.tex`](../../thesis/dissertation.tex) — `sec:experimental-setup` as landed at `c909421`
+- [`../../workflows/voice.md`](../../workflows/voice.md) + [`../../workflows/notes_rubric.md`](../../workflows/notes_rubric.md) — the gates
+- [`../../notes/_writing_guide.md`](../../notes/_writing_guide.md) — chapter-job map for the Background/introduction moves
 
 ## Out of scope (explicitly)
 
