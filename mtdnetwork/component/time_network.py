@@ -2,13 +2,15 @@ from mtdnetwork.component.network import Network
 from mtdnetwork.statistic.mtd_statistics import MTDStatistics
 from mtdnetwork.component.host import Host
 from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatistics
+import mtdnetwork.data.constants as constants
 import random
 
 
 class TimeNetwork(Network):
 
     def __init__(self, total_nodes=50, total_endpoints=5, total_subnets=8, total_layers=4,
-                 target_layer=4, total_database=5, terminate_compromise_ratio=0.8):
+                 target_layer=4, total_database=5, terminate_compromise_ratio=0.8,
+                 services_per_os=constants.SERVICE_NO_OF_SERVICES_PER_OS):
         # default parameters
         self._mtd_stats = MTDStatistics()
         self._security_metric_stats = SecurityMetricStatistics()
@@ -19,7 +21,8 @@ class TimeNetwork(Network):
         if total_nodes < 2 * total_subnets:
             total_nodes = 2 * total_subnets
         super().__init__(total_nodes=total_nodes, total_endpoints=total_endpoints, total_subnets=total_subnets,
-                         total_layers=total_layers, target_layer=target_layer, total_database=total_database)
+                         total_layers=total_layers, target_layer=target_layer, total_database=total_database,
+                         services_per_os=services_per_os)
         self.init_network()
         self.last_mtd_triggered_time = 0
 
