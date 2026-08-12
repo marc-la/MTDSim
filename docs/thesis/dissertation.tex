@@ -80,11 +80,13 @@
 
 % Landmark-to-landmark compression straight to the gap (writing guide:
 % the examiner has largely judged the work by the end of this chapter).
-% Order when drafted: motivation hop -> the grey box below -> compact
-% methodology (V5: corpus -> profiles -> executable movement attacker ->
-% evaluation against the inherited baseline) -> one highlight result
-% (the anchor inversion, once the V1 hand-validation pass clears it) ->
+% Order when drafted: a recent lead-in event (e.g. Volt Typhoon) opening
+% the motivation hop -> the grey box below -> compact methodology (V5:
+% corpus -> profiles -> executable movement attacker -> evaluation
+% against the inherited baseline) -> one highlight result (the anchor
+% inversion, once the V1 hand-validation pass clears it) ->
 % contributions -> roadmap. Written last, many refinement passes.
+% Budget: 6 units (writing guide ledger).
 
 % The single-RQ decision (architecture (a)) is intact: the sub-questions
 % are methodological decomposition, not sub-problems.
@@ -170,119 +172,132 @@ that suite cannot express?
 \chapter{Methodology}
 \label{ch:methodology}
 
-% Chapter opening (unnumbered): the pipeline figure (box-and-flow per
-% V7), the capture -> model -> evaluate spine declared once, and the
-% movement/native vocabulary defined so later sections use it bare.
-% The three sections ARE the three sub-questions, in order (V5: the
-% sub-questions organise; the experiment dimensions serve).
+% BUDGET: 11 units of ~250 words (writing guide ledger; reallocation of
+% 2026-08-12: methodology 9->11, funded by background 6->5 and
+% discussion 10->9). Every subsection below is one unit --- one to two
+% concise paragraphs. Content marked "disclosure" is a sentence inside
+% its unit, never a new heading; more than two paragraphs means the
+% ledger pays for a branch, or the content compresses.
+%
+% Chapter opening (unnumbered, ~half a unit shared with sec:requirements):
+% the pipeline figure (box-and-flow per V7; the figure carries the
+% L0--L4 ladder so prose does not) and the capture -> model -> evaluate
+% spine declared once, with the sub-question map stated in a sentence so
+% the structure stays auditable against V5: sec:requirements poses what
+% must be captured; the movement attacker's first two subsections answer
+% capture and its last three answer model; sec:experimental-setup
+% answers evaluate.
 
-% ---------------------------------------------------------- capture --
-\section{Capturing APT attacker behaviour}
-\label{sec:capture}
+% ------------------------------------------------------ requirements --
+\section{What an APT attack model must capture}
+\label{sec:requirements}
 
-% Compressed problem definition: the ontology gap, unobservable APT
-% dwell times, the proof-of-concept commitment, and the attacker-only
+% 1 unit. Compressed problem definition: the ontology gap, unobservable
+% APT dwell times, the proof-of-concept commitment, the attacker-only
 % substrate scope (network, HARM and the mechanisms untouched ---
-% deliberately, for comparability; a commitment, not a caveat). Ruled
-% exclusions compressed to a paragraph; their reasons ride ch:futurework.
+% deliberately, for comparability; a commitment, not a caveat).
+% Disclosures: ruled exclusions in a sentence (reasons ride
+% ch:futurework); the observability argument's literature half lives in
+% sec:apt-survey.
 \subsection{The threat model MTD evaluation omits}
 \label{subsec:apt-omission}
 
-% Criteria before the thing judged: the literature-derived axes, the
-% epistemic badges, how the inherited attacker scores, the evidential
-% provenance rows, and the evaluative consequence.
+% 1 unit. Criteria before the thing judged: the literature-derived axes,
+% the epistemic badges, how the inherited attacker scores. Disclosures:
+% evidential provenance rows, evaluative consequence.
 \subsection{A fidelity criterion from the APT literature}
 \label{subsec:criterion}
 
-% The corpus, its snapshot, and its provenance.
-\subsection{The campaign corpus and its snapshot}
-\label{subsec:corpus-snapshot}
-
-% Aggregating flows into technique dependencies; consensus and
-% thresholds; what the graph cannot represent. (L1 in the pipeline
-% vocabulary.)
-\subsection{From campaigns to a technique graph}
-\label{subsec:technique-graph}
-
-% Objective over motivation; the four classes; what the partition
-% produced; operator concentration. (L2.)
-\subsection{Objective-conditioned attack profiles}
-\label{subsec:attack-profiles}
-
-% ------------------------------------------------------------ model --
+% -------------------------------------------- capture, then model ----
 \section{The movement attacker}
 \label{sec:movement-attacker}
 
-% The formalism and why a Petri net rather than the alternatives (a
-% feasibility study sits behind the choice; single-token walk over
-% per-objective net structure). The standalone analytical track is noted
-% here: the net is also examined as timed state sequences independent of
-% the simulator --- analytical only, never the simulator's input.
+% The build told end-to-end, structure -> parameters -> execution.
+% Selection discipline (Marc, 2026-08-12): relevant-and-interesting
+% only --- the full implementation record stays in the repo's
+% implementation docs, not the chapter.
+
+% 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
+% flows into technique dependencies. Answers capture. Disclosures:
+% consensus thresholds, what the graph cannot represent.
+\subsection{From campaigns to a technique graph}
+\label{subsec:technique-graph}
+
+% 1 unit (L2). Objective over motivation; the four classes. Answers
+% capture. Disclosures: what the partition produced, operator
+% concentration.
+\subsection{Objective-conditioned attack profiles}
+\label{subsec:attack-profiles}
+
+% 1 unit (L3). The formalism, the alternatives ranked in a sentence each
+% (a feasibility study sits behind the choice; single-token walk over
+% per-objective net structure). Answers model, with the next two.
+% Disclosures: synthetic pre-intrusion structure (the corpus begins at
+% initial access), entry-point selection (D8: both tested), the
+% standalone analytical track in one sentence if at all.
 \subsection{The Petri-net formalism}
 \label{subsec:petri-formalism}
 
-% The corpus begins at initial access, so pre-intrusion stages are
-% structure this work adds, not structure the intelligence supplies;
-% entry-point selection (D8: seed at initial access vs the recon-back
-% curation --- both tested).
-\subsection{Structure the intelligence does not supply}
-\label{subsec:synthetic-structure}
-
-% Traversal and action selection; outcome resolution; attacker state.
-\subsection{Traversal, action selection and outcome resolution}
-\label{subsec:traversal}
-
-% Transition weights from flow proportions (corpus sparsity accepted and
-% disclosed); per-tactic dwell times --- standard of evidence,
-% calibration, distribution shape. Sweep discipline points at the
-% results chapter's sensitivity preamble rather than restating it.
+% 1 unit. Transition weights from flow proportions (corpus sparsity
+% accepted and disclosed); per-tactic dwell times --- standard of
+% evidence, calibration, distribution shape. Sweep discipline points at
+% sec:sensitivity rather than restating it.
 \subsection{Parameterisation}
 \label{subsec:parameterisation}
 
-% Tactic-to-verb dispatch; the mapping as a chosen input parameter (the
-% standing caveat bounding every claim in the results chapter); verdict
-% feedback and re-weighting; routing composition and ablatability (the
-% null modulator configuration is bit-identical to the model without it,
-% which is what makes every capability ablatable rather than merely
-% present). The former "fidelity extensions" section dissolves: the
-% modulators are ablation arms in subsec:fresh-evaluation, not fidelity
-% gains --- the headline configuration runs them null.
-\subsection{The controller layer}
-\label{subsec:controller}
+% 1 unit --- traversal and the controller are the same machinery seen
+% net-side and simulator-side, so they share a unit (merged 2026-08-12).
+% Para 1, mechanics: action selection among enabled transitions,
+% tactic-to-verb dispatch, outcome resolution via the substrate verdict,
+% verdict feedback and re-weighting, attacker state, the attacker-only
+% seam. Para 2, the two commitments the merge must not lose: the mapping
+% as a chosen input parameter (the standing caveat bounding every claim
+% in the results chapter) and routing ablatability (the null modulator
+% configuration is bit-identical to the model without it; the former
+% fidelity-extensions section stays dissolved into subsec:families'
+% ablation arms).
+\subsection{Traversal and the controller}
+\label{subsec:execution}
 
-% The attacker-only seam into the simulator.
-\subsection{The seam into the simulator}
-\label{subsec:substrate-seam}
-
-% --------------------------------------------------------- evaluate --
+% ----------------------------------------------------------- evaluate --
 \section{Experimental setup}
 \label{sec:experimental-setup}
 
-% Burden of proof: stability AND divergence (evaluation_burden.md); the
-% three-grade instrument every reported comparison is scored on
-% (magnitude / ordering / recommendation), committed before scoring
-% (evaluation_grading.md).
+% 1 unit. Burden of proof: stability AND divergence
+% (evaluation_burden.md); the three-grade instrument every reported
+% comparison is scored on (magnitude / ordering / recommendation),
+% committed before scoring (evaluation_grading.md).
 \subsection{What the evaluation must show}
 \label{subsec:burden}
 
-% The inherited suite and its comparability boundary (within-substrate
-% comparison valid; cross-paper numeric comparison invalid); the
-% APT-specific supplementary measures, each validated under the V1
-% hand-trace protocol (four-to-five-node network, metric calculated by
-% hand, then scaled); predictability enters only in its reworked form
-% and under a collision-checked name (V2).
+% 1 unit. The inherited suite and its comparability boundary
+% (within-substrate comparison valid; cross-paper numeric comparison
+% invalid); the APT-specific supplementary measures. Disclosures: each
+% measure validated under the V1 hand-trace protocol (four-to-five-node
+% network, metric calculated by hand, then scaled); predictability
+% enters only in its reworked form and under a collision-checked
+% name (V2).
 \subsection{Metrics}
 \label{subsec:metrics}
 
-\subsection{Factors and conventions}
-\label{subsec:factors}
-
-% Global conventions, stated in this subsection's preamble rather than
-% as peer subsections: the degenerate operating region that gates which
-% grades a tempo can carry; comparing profiles on a common substrate and
-% seed set; determinism; steady-state reporting after the initial
-% transient, at V4's run-count standard (order of a few thousand runs
-% per plotted point, appended across batches, averaged per point).
+% 1 unit + the factor table (tables are word-cheap). Preamble prose
+% carries the global conventions: the degenerate operating region that
+% gates which grades a tempo can carry; common substrate and seed set;
+% determinism; V4 steady-state reporting after the initial transient at
+% the few-thousand-runs-per-point standard. Then a paragraph per family:
+% (1) prior-model comparison --- the lineage's own evaluations (Zhang,
+% Brown, Ho) re-run on this simulator under BOTH attackers, so each
+% published headline becomes testable; the anchor cell (the observed
+% ranking inversion) reported as OBSERVED, motivating the sweep; the
+% lineage's internal disagreement (shuffle- vs diversity-dominant) is
+% the phenomenon to explain, not to reconcile. (2) fresh evaluation ---
+% the full crossing of the factor table: the PRE-REGISTERED robustness
+% frontier (does the inversion survive scale / density / tempo) and each
+% ablatable capability's show-or-vanish cell (network scale for the
+% learning capability; a non-dwell-proportional defence for the cost
+% rule).
+\subsection{Dimensions and the two experiment families}
+\label{subsec:families}
 
 \begin{table}[htbp]
   \centering
@@ -310,27 +325,11 @@ that suite cannot express?
   \end{tabular}
 \end{table}
 
-% Dimension one (serves this sub-question; not the organising frame).
-% Re-run the lineage's own evaluations (Zhang, Brown, Ho) on this
-% simulator under BOTH attackers, so each published headline becomes
-% testable. The anchor cell (the observed ranking inversion) is reported
-% as OBSERVED, motivating the sweep --- not as prediction. The lineage's
-% internal disagreement (shuffle-dominant vs diversity-dominant) is the
-% phenomenon to explain, not to reconcile.
-\subsection{Prior-model comparison}
-\label{subsec:prior-model-comparison}
-
-% Dimension two: the full crossing of the factor table. Two jobs:
-% (i) the PRE-REGISTERED robustness frontier --- does the anchor
-% inversion survive scale / density / tempo; (ii) give each ablatable
-% capability a cell where its intended effect should appear (network
-% scale for the learning capability; a non-dwell-proportional defence
-% for the cost rule). Also the evaluation-method findings the collapsed
-% attacker hid (tactic-resolved MTD effect; execution-not-planning
-% reach; the fidelity-derived success criterion that discriminates where
-% the inherited one is degenerate).
-\subsection{Fresh evaluation}
-\label{subsec:fresh-evaluation}
+% NOTE: the evaluation-method findings the collapsed attacker hid
+% (tactic-resolved MTD effect; execution-not-planning reach; the
+% fidelity-derived success criterion that discriminates where the
+% inherited one is degenerate) are results material ---
+% subsec:supplementary-results carries them.
 
 % NOTE: no standalone threats-to-validity section. Parameter-shaped
 % threats are absorbed by the results chapter's sensitivity preamble

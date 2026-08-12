@@ -49,14 +49,16 @@ Working allocation (word targets exclude tables and figures; appendices are unbu
 |---|---|---|
 | Abstract | 300 | 1 |
 | Introduction | 1 500 | 6 |
-| Background | 1 500 | 6 |
+| Background | 1 250 | 5 |
 | Literature review | 3 000 | 12 |
-| Methodology | 2 250 | 9 |
+| Methodology | 2 750 | 11 |
 | Results | 2 250 | 9 |
-| Discussion | 2 500 | 10 |
+| Discussion | 2 250 | 9 |
 | Future work | 750 | 3 |
 | Conclusion | 500 | 2 |
 | **Total** | **≈14 550** | **58, +2 float** |
+
+Reallocation record: 2026-08-12 — methodology 9→11 for the ratified 11-unit methodology skeleton (the capture/model/evaluate workshop), funded by background 6→5 and discussion 10→9.
 
 Three rules keep the ledger honest:
 
