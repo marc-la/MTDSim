@@ -41,6 +41,7 @@ import simpy
 
 import mtdnetwork
 from mtdnetwork.component.adversary import Adversary
+from mtdnetwork.component.time_generator import set_exponential_regime
 from mtdnetwork.component.time_network import TimeNetwork
 from mtdnetwork.data.constants import ATTACKER_THRESHOLD
 from mtdnetwork.mtd.completetopologyshuffle import CompleteTopologyShuffle
@@ -174,6 +175,7 @@ def run_scenario(
     target_layer: int = 4,
     total_database: int = 2,
     terminate_compromise_ratio: float = 0.8,
+    timing_regime: str = "shifted",
     out_name: str | None = None,
 ) -> dict:
     cfg = SCENARIOS[scenario]
@@ -181,6 +183,7 @@ def run_scenario(
     os.makedirs(out_dir, exist_ok=True)
 
     _seed_all(seed)
+    set_exponential_regime(timing_regime)
 
     env = simpy.Environment()
     end_event = env.event()
@@ -251,6 +254,7 @@ def run_scenario(
             "target_layer": target_layer,
             "total_database": total_database,
             "terminate_compromise_ratio": terminate_compromise_ratio,
+            "timing_regime": timing_regime,
             "scheme": cfg["scheme"],
             "mtd_interval": cfg["mtd_interval"],
             "custom_strategies": (
@@ -309,6 +313,11 @@ def main() -> None:
     ap.add_argument("--target-layer", type=int, default=4)
     ap.add_argument("--total-database", type=int, default=2)
     ap.add_argument("--terminate-compromise-ratio", type=float, default=0.8)
+    ap.add_argument("--timing-regime", default="shifted",
+                    choices=["shifted", "exponential"],
+                    help="Distribution behind every exponential_variates draw: "
+                         "'shifted' (inherited baseline, mean + Exp(0.5)) or "
+                         "'exponential' (true Exp(mean), memoryless; D-08)")
     args = ap.parse_args()
 
     out_name = args.out_name or args.scenario
@@ -322,6 +331,7 @@ def main() -> None:
         target_layer=args.target_layer,
         total_database=args.total_database,
         terminate_compromise_ratio=args.terminate_compromise_ratio,
+        timing_regime=args.timing_regime,
         out_name=out_name,
     )
     print(json.dumps(summary["results"], indent=2, default=str))

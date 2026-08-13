@@ -1,7 +1,7 @@
 ---
 status: audit record
 created: 2026-07-28
-updated: 2026-08-02
+updated: 2026-08-13
 ---
 
 # Intent-spec conformance audit — the substrate against the literature-only yardstick
@@ -129,12 +129,20 @@ exponential with mean 110 cannot have σ = 0.5 unless it is exactly this shifted
 construction. The audit therefore classifies the *duration* rows as conforming and flags
 the fork itself for disposition (D-08) rather than asserting either reading.
 
+> **Fork dispositioned in two stages — see the D-08 rows in §n.** 2026-07-29:
+> µ-as-location kept as the operative reading. 2026-08-13: both readings become
+> **declared regimes** — `shifted` stays the default (goldens and every recorded
+> figure unchanged), and a true Exponential(µ) regime (µ-as-mean, uniform over
+> all draws) is selectable per run via `time_generator.set_exponential_regime` /
+> `--timing-regime`. Rows in this section describe the default regime; any
+> timing-sensitive claim names its regime.
+
 | ID | Verdict | Evidence |
 |---|---|---|
 | IS-TIM-01 | **CONFORMS-SUPERSEDED** (removed) | No uniform trigger anywhere; Brown's `MTD_MIN/MAX_TRIGGER_TIME = 1000/5000` survive only as comments (`constants.py:54-55`). The replacement is documented (Zhang) — nothing Brown-faithful remains to run. |
-| IS-TIM-02 | **CONFORMS** (delta) | Trigger interval drawn `exponential_variates(interval, 0.5)` (`mtd_operation.py:113-114`) — exponential-family, subject to the fork above (effective σ 0.5 about the mean). The means themselves — random/alternative **200**, simultaneous **700** (`constants.py:110-114`) — are documented nowhere (Zhang tested 50–200 s but published no per-scheme means); undocumented choices, with 700 outside Zhang's tested range. |
+| IS-TIM-02 | **CONFORMS** (delta) | Trigger interval drawn `exponential_variates(interval, 0.5)` (`mtd_operation.py:113-114`) — exponential-family, subject to the fork above (effective σ 0.5 about the mean). The means themselves — random/alternative **200**, simultaneous **700** (`constants.py:110-114`) — are documented nowhere (Zhang tested 50–200 s but published no per-scheme means); undocumented choices, with 700 outside Zhang's tested range. *(Annotated 2026-08-13: the fork is now a declared regime input — default `shifted` as described here; a true Exp(µ) trigger is selectable per run. D-08 ruling, §n.)* |
 | IS-TIM-03 | **CONFORMS** | `MTD_DURATION` (`constants.py:128-136`): CTS (110, 0.5), IPShuffle (100, 0.5), OSDiversity (80, 0.5), ServiceDiversity (70, 0.5) — Zhang Table 3 exactly; DAP inherits OSDiversity's 80 via the shared name (`osdiversityassignment.py:14-18`). Beyond-paper extras: HostTopologyShuffle (100, 0.5), PortShuffle (70, 0.5), UserShuffle (20, 0.5) — durations for Brown-era techniques documented nowhere. |
-| IS-TIM-04 | **CONFORMS** (fork flagged) | The exponential is the sole PDF for MTD intervals, MTD durations, per-vuln exploit time and the confusion penalty — all via `exponential_variates`. The µ-as-location reading (above) is applied uniformly. Weibull/normal/uniform/poisson helpers exist unused (`time_generator.py:12-25`). |
+| IS-TIM-04 | **CONFORMS** (fork flagged) | The exponential is the sole PDF for MTD intervals, MTD durations, per-vuln exploit time and the confusion penalty — all via `exponential_variates`. The µ-as-location reading (above) is applied uniformly. Weibull/normal/uniform/poisson helpers exist unused (`time_generator.py:12-25`). *(Annotated 2026-08-13: the wrapper now branches on the declared regime — `shifted` default as described, `exponential` = true Exp(µ) uniformly. D-08 ruling, §n.)* |
 | IS-TIM-05 | **CONFORMS** | Phase 1 constant: SCAN_PORT fixed 25, credential check instantaneous (`constants.py:140-148`, `attack_operation.py:127-133`); Phase 3 fixed budget: BRUTE_FORCE 20; Phase 2 variable per-vulnerability (below). |
 | IS-TIM-06 | **CONFORMS** (as far as testable) | Per-vuln exploit duration = `exponential_variates(vuln.exploit_time(host), 0.5)` (`attack_operation.py:455-457`) with base `15·(1 − complexity)` (`services.py:115`) — exponential form ✓, ACv-dependence ✓ (Zhang polarity: easier ⇒ faster); only unexploited vulns are attempted (`Service.get_vulns` filters exploited, `services.py:258-267`), so the exploited/unexploited split participates. The exact Eq 1–2 formula is unrecoverable (spec §q gap) — full conformance cannot be tested beyond these three normative properties. Beyond-paper term: ×2.5 when the vuln is OS-dependent and the host OS mismatches (`services.py:116-117`). |
 | IS-TIM-07 | **DIVERGES-DOCUMENTED-NOWHERE** | Zhang's cross-host learning (halve time for vuln *types* exploited on previous hosts) is unimplemented; what exists is a **per-instance** discount — re-exploiting the *same* `Vulnerability` object costs half (`services.py:118-124`) — which cannot express cross-host learning since instances are per-host copies (`Vulnerability.copy`). The per-type form survives only in commented-out code (`services.py:125-130`). |
@@ -769,3 +777,47 @@ brief's record rather than re-opened here.
 (exponential replaces uniform — documented), IS-CFL-04 (Scenario 1 only — documented),
 IS-CFL-05 (code sits on Tay's side), IS-CFL-06 (seventh technique = CompleteTopologyShuffle,
 verified).
+
+### Ruled 2026-08-13 — D-08 amended: the exponential fork becomes a declared regime input
+
+**How it re-opened.** The axis-8 timing-channel re-examination (handoff of
+2026-08-13, since retired) rediscovered the fork from the attacker's side: under
+the operative µ-as-location reading the MTD trigger is `mean + Exp(0.5)` — at the
+200 s operating interval a quasi-periodic clock with ~0.25 % jitter — so the
+planned "memoryless trigger" closure of the criterion's axis-8 timing half was
+falsified as stated, and the fork went back to Marc with the criterion
+consequences attached. The re-examination initially proposed a new row (D-39);
+it is recorded here instead because D-08 already carries this exact question.
+
+**The ruling (Marc, 2026-08-13).** The 2026-07-29 "kept as operative" ruling
+stands for the **default**: the shifted construction remains the baseline, so
+every golden and every recorded figure is unchanged. In addition, the µ-as-mean
+reading — a **true Exponential(µ)** whose mean is the nominal value, applied
+uniformly to every draw through the wrapper (trigger intervals, MTD execution
+times, per-vulnerability exploit time, confusion penalty — i.e. including the
+Table-3 durations, resolving Zhang's §4.5-vs-Table-3 internal inconsistency in
+favour of §4.5 *for this regime only*) — is now **accessible as a declared run
+input** rather than a hypothetical.
+
+**Implementation.** `time_generator.set_exponential_regime('shifted' |
+'exponential')` (`mtdnetwork/component/time_generator.py`), exposed as
+`--timing-regime` on `baseline/run_baseline.py` (recorded in `summary.json`
+params) and on `python -m mtdnetwork.trace`. Both regimes consume exactly one
+variate per call, so the seeded stream shared with every other draw site never
+desynchronises. Pinned by `tests/test_time_generator.py`: default bit-identity
+to the inherited wrapper, exponential moments (mean ≈ µ, σ ≈ µ), stream parity,
+setter validation. Verified load-bearing by trace (seed 42, `random`): deploy
+epochs 200.0 / 400.3 / 602.0 / … under `shifted` against 6.4 / 282.6 / 855.2 /
+… / 2134.7 / 2170.3 (memoryless clustering) under `exponential`. The
+movement-side runner's config surface does not yet declare the input (any
+driver can call the setter) — flagged, not actioned.
+
+**Consequence for claims.** Every figure on record was produced under
+`shifted` and any timing-sensitive claim must name its regime. In particular
+the criterion's axis-8 timing-half reason is regime-conditional: under the
+operating default the trigger schedule is trivially inferable (quasi-periodic),
+so no memorylessness-based intractability sentence is licensed for recorded
+results; under the `exponential` regime the memorylessness argument becomes
+available for any run that declares it. The dated axis-8 amendment in
+[`apt_model_criterion.md`](apt_model_criterion.md) §(d) carries the write-up
+position.
