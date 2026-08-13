@@ -80,14 +80,16 @@ The known register of LLM prose. None of these may appear in a T1 edit or T2 sug
 
 The list polices the reviewer's own output first. A draft passage by the author that happens to use one of these forms is judged on its merits, not pattern-matched as machine prose.
 
+In-repo, [`voice.md`](voice.md) §h is this list's draft-side twin — tells to remove *from the prose* — and where the two disagree, voice.md wins on voice: it carries ratified corrections this generic list lacks (the em-dash interpolation, for one, is licensed-but-rare in the author's register, not banned outright).
+
 ## (g) Structure ledger
 
 Chapters are locked; sections and subsections stay fluid until the writing settles. The base section unit is one to two self-contained paragraphs; one sentence carries one idea. The live skeleton and word budgets are [`../notes/_writing_guide.md`](../notes/_writing_guide.md) and [`../thesis/dissertation.tex`](../thesis/dissertation.tex). A grey-box session that lacks the ledger asks for the unit's budget before passing any length verdict — never infer a budget.
 
 ## (h) Voice exemplars and runtime disputes
 
-- In-repo, the sentence-level voice contract is [`voice.md`](voice.md) (default for `notes/`, hard gate for `thesis/`); this protocol governs *reviewer behaviour* and defers to voice.md on voice itself.
-- Grey-box, the session must be given two or three ratified passages as calibration exemplars before its verdicts count. When in doubt between the author's phrasing and a smoother one, the author's phrasing wins.
+- In-repo, the sentence-level voice contract is [`voice.md`](voice.md) (default for `notes/`, hard gate for `thesis/`); this protocol governs *reviewer behaviour* and defers to voice.md on voice itself. Calibration passages are pulled per voice.md §i — the most recently ratified notes (`git log docs/notes/`), never a frozen set.
+- Grey-box, the pack is **this file + voice.md + two or three ratified passages pulled from the corpus at pack time**. Voice.md alone does not suffice there: by its own §i it deliberately names no passages, so the examples must travel separately. No passages are frozen into either file — ratified prose supersedes as the research pivots. When in doubt between the author's phrasing and a smoother one, the author's phrasing wins.
 - **No runtime renegotiation.** A session that disagrees with this file still follows it; the disagreement is recorded under *Candidate amendments* below for Marc to rule on. Rules change in this file, not in chat.
 
 ## (i) Assurance — keeping the reviewer inside the contract
