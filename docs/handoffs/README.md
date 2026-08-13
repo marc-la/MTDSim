@@ -52,19 +52,17 @@ What is open:
   the probability-shaped exploit-learning brief, no longer exists in this
   directory — read its header note with that in mind.)
 
-- **The exploit-learning-null discriminators — a sibling pair, sequenced.** Both
-  take the compound-exploit learner's measured negative
+- **The exploit-learning-null discriminators.** Both take the compound-exploit
+  learner's measured negative
   ([`../implementation/pipeline/ogasp/exploit_learning_findings.md`](../implementation/pipeline/ogasp/exploit_learning_findings.md))
   and turn it from an inferred diagnosis into a demonstration; neither moves
-  axis 7's badge; neither introduces a named attacker.
-  - [`2026-08-13_movement_learning_yield_ledger.md`](2026-08-13_movement_learning_yield_ledger.md)
-    — **the primary, on-host exhibit. Do this first.** A within-run, within-arm
-    ledger of *where* the learner's bought successes land (fresh host vs
-    re-compromise), attributed by probability mass at the roll site — read-only,
-    determinism-trivial. Shows the mechanism operationalising on the movement
-    attacker and locates the null's cause on that same attacker, with **no
-    cross-attacker comparison** — which defuses the "demonstrated on the old
-    attacker because ours is worse" framing hazard.
+  axis 7's badge; neither introduces a named attacker. **The primary, on-host
+  exhibit shipped 2026-08-13** — the yield ledger, as
+  [`../implementation/pipeline/ogasp/exploit_learning_yield_findings.md`](../implementation/pipeline/ogasp/exploit_learning_yield_findings.md)
+  (prereg + read-only instrument alongside): the committed null branch fired, the
+  learner operationalises and its gains are absorbed on the movement attacker's own
+  terrain by exploit-insensitivity (X), with no cross-attacker comparison. What is
+  still open:
   - [`2026-08-11_fsm_hosted_learning_control_arm.md`](2026-08-11_fsm_hosted_learning_control_arm.md)
     — **the backup discriminator**, for the narrower global-deflationary residual
     the on-host ledger cannot reach ("does exploit capability convert on *any*
