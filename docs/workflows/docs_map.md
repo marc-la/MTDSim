@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-07-28
+updated: 2026-08-13
 ---
 
 # Docs map — where every document lives, and why
@@ -54,6 +54,7 @@ The always-loaded layer. Every session reads all of it (see [`../../CLAUDE.md`](
 - this file — where documents live.
 - [`notes_rubric.md`](notes_rubric.md) — the quality gate for `notes/`.
 - [`voice.md`](voice.md) — the prose contract for dissertation-bound writing (loaded before drafting `notes/` or `thesis/` prose, not every session).
+- [`critique_protocol.md`](critique_protocol.md) — the draft-review contract (edit tiers, verdict vocabulary, sentence diagnostics, reviewer banlist); loaded before critiquing any draft prose. Grey-box by design: usable standalone with exemplars pasted in.
 
 Contract: short, imperative, no duplication of content that lives elsewhere (link instead). A new subtree anywhere in `docs/` **must** be registered in this file in the same commit that creates it.
 
