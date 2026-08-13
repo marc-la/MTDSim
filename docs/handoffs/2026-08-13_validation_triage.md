@@ -18,7 +18,7 @@ pre-registration that predates the output. An item is *manual-review* when its
 correctness is a **semantic judgement** — a declared magnitude, a mapping
 choice, a cross-arm comparability assumption — that no test can arbitrate,
 or when it is a large AI-authored surface whose claims feed the criterion
-badges. The suite currently collects **1,109 tests**; test counts below are
+badges. The suite currently collects **1,114 tests**; test counts below are
 per-file `def test` counts as of today.
 
 ---
@@ -51,10 +51,11 @@ per-file `def test` counts as of today.
 | # | Contribution | Where | Existing verification |
 |---|---|---|---|
 | E1 | The axis-measurement suite: coverage/depth/retention, path entropy, JSD divergence + split-half nulls, interrupt mixes, cost ledger, disruption ledger, disengagement frontier (PCE algebra) | `movement/measures.py` (2,619 lines); `measurement_suite.md` | `test_movement_measures` (96, hand-worked expectations + two seeded integration checks); per-measure blind spots recorded |
-| E2 | Standalone instruments: effective behavioural breadth (the record's `predictability.md` name predates the 2026-08-13 rename), plural preference, stealth exposure + spacing readers | `movement/exposure.py`; `predictability.md`, `plural_preference.md`, `stealth_*` records | pre-registered with kill criteria (several fired and are honoured); `test_movement_exposure` (25) |
+| E2 | Standalone instruments: effective behavioural breadth (the record's `predictability.md` name predates the 2026-08-13 rename), plural preference, stealth exposure + spacing readers | `movement/exposure.py`; `predictability.md`, `plural_preference.md`, `stealth_*` records | pre-registered with kill criteria (several fired and are honoured); `test_movement_exposure` (25); the baseline breadth pin (one effective behaviour) survived the 2026-08-13 §V2 code-level cross-examination (register annotated resolved) |
 | E3 | Experiments 1–2 and the modulator sweeps; findings records with pre-registrations throughout | `experiment_0{1,2}_findings.md` + prereg/findings pairs | conclusions committed before outputs; ten-seed interval discipline (`interval_report`) |
 | E4 | Timeline + trace tooling (diagnostic, not claim-bearing) | `l3_simulation/timeline/`, `trace.py`; `mtdnetwork/trace.py` | `test_timeline` (12), `test_movement_trace` (8), `test_trace` |
 | E5 | L4 evaluation layer — **placeholder only** (`l4_evaluation/__init__.py`); evaluation currently lives in E1–E3 | `src/mtdsim/l4_evaluation/` | nothing to validate yet; note it so the enumeration is honest |
+| E6 | Axis-4 structural-route probe (2026-08-13, post-dates this handoff's opening): reader-only, pre-registered check of whether post-interrupt terrain rewards any tactic set — zero post-interrupt-rewarded tactics in 138 census instances at the decision configuration (16/947 sweep-wide, below the pre-registered noise budget); grounded the ratified axis-4 criterion amendment (all three routes to adaptive advantage closed, pivot kernel declined) | `axis4_structural_probe.md` (§1–§8 are the prereg); reader + regenerated runs in `data/results/axis4_structural_probe/` (**gitignored** — the scripts exist on disk only; the record is the tracked account) | prereg with a two-branch decision rule committed before a single record was read; the closing branch fired; per-run bit-identical regeneration asserted by the reader |
 
 ### Substrate stewardship — the inherited simulator made evaluable
 
@@ -63,12 +64,13 @@ per-file `def test` counts as of today.
 | S1 | Crash fix (R1–R3 silent integrity failure), C6 compromise-ratio fix, golden re-baseline, SIM-05 determinism | `mtdnetwork/`; `baseline/` | `test_crash_fix_regressions`, `test_mtd_golden_streams`, golden oracle + `BASELINE.md`/`CHANGELOG.md` |
 | S2 | Intent spec (literature-only) + row-level conformance audit; metrics semantics (C7, ATK-04, comparability boundary); provenance of load-bearing constants | `mtdsim_intent_spec.md`, `intent_conformance_audit.md`, `metrics_semantics.md`, `provenance.md` | audit method (four-way classification, code locators); D-01..D-15 open dispositions are *known* open, not unvalidated |
 | S3 | Boundary programme: read surface, write surfaces, disruption channels + wiring | four boundary records | `test_mtd_write_surfaces`, `test_action_layer_*` |
+| S4 | D-08 timing-regime ruling (2026-08-13, post-dates this handoff's opening): the substrate's loc-shifted exponential clocks ruled a **declared regime input** — the shifted construction stays the baseline default, a true Exponential(µ) regime selectable per run (`time_generator.set_exponential_regime` / `--timing-regime`; `substrate_timing_regime` at the movement seam, named apart from the movement dwell regime); the three drifted records (provenance trigger row, metrics-semantics §c, spec MTD-11/SIM-02) corrected | `mtdnetwork/component/time_generator.py`; `baseline/run_baseline.py`; `movement/run.py` + both tracers; ruling recorded at D-08 in `intent_conformance_audit.md` | default bit-identity (every golden unchanged) and stream parity pinned by `test_time_generator` (5); Marc ruling on record; the axis-8 criterion amendment carries the regime-conditional reason |
 
 ### Method — instruments that are themselves contributions
 
 | # | Contribution | Where | Existing verification |
 |---|---|---|---|
-| X1 | The APT criterion instrument: axes fixed from literature before scoring, badge vocabulary, rows A/B appended pre-scoring | `apt_model_criterion.md` | anti-reverse-fit provenance is documented in-file; supervisor-directed (S6) |
+| X1 | The APT criterion instrument: axes fixed from literature before scoring, badge vocabulary, rows A/B appended pre-scoring | `apt_model_criterion.md` | anti-reverse-fit provenance is documented in-file; supervisor-directed (S6); two dated 2026-08-13 amendments ratified in-file (axis 8: the falsified memorylessness closure replaced by the regime-conditional reason; axis 4: the structural route closed on the E6 probe's evidence, pivot kernel declined) |
 | X2 | The supervisor decision register + V trail; pre-registration protocol; axis-instrumentation method | `supervisor_decision_register.md`, `axis_instrumentation_method.md` | process artefacts; validated by use |
 
 ---
@@ -134,6 +136,14 @@ the AI-authored surface is large and feeds badges. Work top-down.
   criteria and declined badges are evidence the discipline held.
 - E4 tooling — diagnostic only; validate opportunistically while using it for
   items 2 and 6.
+- E6 axis-4 probe — pre-registration-protected end to end (decision rule
+  committed before any record was read; the closing branch fired). The one
+  spot-check worth taking: the probe scripts live only in the gitignored
+  `data/results/` working area, so confirm the record's method section is a
+  faithful account of the reader before quoting its numbers in prose.
+- S4 timing-regime plumbing — the bit-identity-at-default oracle holds (every
+  golden unchanged, stream parity regression-pinned); the regime *choice* is a
+  Marc ruling already on record at D-08, not an undischarged declared value.
 
 ## 4. Validation gate
 
