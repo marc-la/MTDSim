@@ -261,5 +261,179 @@ PYTHONPATH=src python data/results/axis4_structural_probe/analyse.py
 
 ---
 
-*Everything below this line is appended after the pre-registration commit,
-against the criteria above, without amending them.*
+# The verdict, as found
+
+*Everything above the line was committed before the run existed (`0fe4d77`).
+Everything below reports against those criteria without amending them.*
+
+**The run.** 800 runs, zero errored cells,
+`data/results/axis4_structural_probe/`. The rotation self-test passed on all
+800 runs (an offset-zero rotation reproduces the real partition
+bit-identically), and the analysis is the committed reader executed once.
+
+## 9. The decision — P1 NOT CONFIRMED; the structural route closes on evidence
+
+At the pre-registered decision configuration (blind arm, 200 s, n = 3):
+**zero rewarded tactics across 138 census-passing (cell × tactic) instances**,
+where noise alone at the 97.5th-percentile ceiling would be expected to
+produce ≈ 3.5 false exceedances. No profile and no condition contributes an
+instance, so the ≥ 2 × ≥ 2 bar is not approached, let alone met. P2 is not
+evaluated (its gate is P1). The pre-registered expectation held, and the
+branch that fires is the first: **the structural route closes on evidence,
+and no kernel is built.**
+
+## 10. What the post-interrupt window actually is
+
+The window is *distinguishable* — and the distinction is a penalty, not a
+prize. Pooled over the decision cells:
+
+| condition class | success share in-window | elsewhere |
+|---|--:|--:|
+| network (position destroyed) | **0.119** (n = 13 368) | 0.196 (n = 17 242) |
+| application (nothing destroyed) | 0.664 (n = 10 245) | 0.614 (n = 21 188) |
+
+On the network class the post-interrupt terrain is roughly 40 % *worse* in
+relative success terms — the cursor clear depressing every position-dependent
+verb until re-acquisition, which is the blockage-persistence half of the
+question answered in the direction that pays no kernel. On the application
+class, where an interrupt destroys nothing but time, the window is
+statistically indistinguishable tactic-by-tactic (mean census Δ +0.005, no
+exceedance). The class contrast lands exactly where the executed boundary
+record prices it: structure follows what the mechanism destroys, and the
+only structure present is punitive.
+
+The global statistics agree: S2 (the joint tactic × verdict profile) exceeds
+its null ceiling in 9 of 20 blind-arm cells at the decision configuration —
+the window differs, in the depressed-success direction the ordinary
+failure-column weights already route on. This is the decision rule's second
+flavour arriving via the first branch: what distinguishes the window is
+precisely what the interrupt-as-failure verdict already responds to.
+
+## 11. The sweep-wide census is itself sub-noise
+
+Across the entire reported sweep — three window lengths × two arms × two
+intervals, 947 census-passing instances — there are **16 exceedances, 1.7 %,
+against the 23.7 (2.5 %) that pure noise would produce.** The probe did not
+merely fail to find structure at the decision configuration; the whole grid
+under-fires its own false-positive budget.
+
+Four of the sixteen are a named degenerate artefact: `reconnaissance` at
+Δ = 0.0 "exceeding" a *negative* ceiling. Its success share is saturated at
+1.0 on both sides in those cells, and the ceiling goes negative only through
+a null asymmetry recorded here for any future user of this reader: **a
+rotation cannot un-interrupt a visit**, so really-interrupted visits enter
+the pseudo-partitions as ordinary failure-verdict visits, biasing null
+success shares downward. For reward detection that asymmetry is
+anti-conservative — it *lowers* ceilings — so the observed zero at the
+decision configuration holds a fortiori.
+
+## 12. The n = 5 sensitivity lead, recorded and bounded
+
+The discipline cuts both ways, so the one thing in the grid that looks like
+structure is recorded rather than buried. At **n = 5** (no decision weight,
+pre-registered as sensitivity only), `lateral-movement` exceeds its ceiling
+on **both** network conditions in `objective_impact` (Δ 0.108 and 0.083)
+and marginally in `objective_none_c2` under Complete Topology Shuffle
+(Δ 0.072 against a 0.068 ceiling). Had n = 5 been the decision window, the
+bar arithmetic would have been met — and three bounds say why it was not and
+should not be read as terrain reward:
+
+1. **The contrast class evaporates at wide windows.** At the 200 s interval
+   the walk makes ~7.4 visits per inter-interrupt gap, so n = 5 tiles most
+   of the run: in the `objective_impact` cells the elsewhere side shrinks
+   from 162 to 87–88 attempts, and it is the *elsewhere* rate that moves
+   (0.648 → 0.591) while the window rate barely does (0.691 → 0.699). The
+   quasi-periodic-trigger caveat the window definition exists to respect is
+   exactly this failure mode.
+2. **The verb is the re-acquisition act itself.** Under `v2_partial`,
+   `lateral-movement` dispatches `ENUM_HOST` — pop the next host, make it
+   current, set the pivot. Elevated late-window success for it is the
+   ordinary scan-then-re-acquire sequence completing after a cursor clear,
+   behaviour the walk already performs with no kernel.
+3. **The direction check closes 2 of 3.** The declared failure column
+   already routes toward `lateral-movement` at the interrupted places in
+   both `objective_impact` instances (already-favoured); the
+   `objective_none_c2` instance escapes by a 0.0012 routing-mass margin on
+   a 0.004 exceedance — noise-grade on both sides of the comparison.
+
+If anyone wants this lead, it requires its own pre-registration on a fresh
+grid; nothing is claimed from it here.
+
+## 13. The remaining characterisations
+
+- **Main-arm mirror (n = 3, 200 s):** three exceedances, the largest
+  `initial-access` in `aggregate` under OS Diversity (Δ 0.240 against a
+  0.116 ceiling) — one profile × one condition, below any bar, and the main
+  arm's windows are populated by the failure-column response itself, so its
+  exceedances confound terrain with the response the ordinary weights
+  already make.
+- **2 000 s cells:** census-thin as pre-registered (33 instances on the
+  decision arm), zero exceedances.
+- **Window bookkeeping:** 4–14.5 % of windows truncated below n = 3;
+  window coverage 19–43 % of visits per cell — the contrast class existed
+  everywhere the decision was taken.
+
+## 14. What this licenses, and what it does not
+
+The empirical sentence the 2026-08-11 disposition could not yet say: **the
+terrain in the window after an MTD interrupt rewards no tactic set over the
+ordinary weights — it is either indistinguishable (application class) or
+systematically punitive (network class) — so a pivot-to-recover kernel has
+no target on this substrate.** With the reactive route closed structurally
+(every defence in the pool clocked and attacker-blind) and mechanism-shape
+bounded first-principles (any kernel is a richer function of the same
+one-bit verdict), all three routes to adaptive advantage are now closed,
+the third by measurement.
+
+Boundaries that travel with it: measured on the four single-mechanism
+conditions at both intervals with the decision at the 200 s operating
+interval, ten seeds, the landed sink implementation, exceedance-of-a-
+measured-null as the only inferential statement; the n = 5 lead of §12 is
+on record; and the ceiling is verdict-denominated — even a rewarded tactic
+would have promised success *verdicts*, which the learning study showed are
+not progress. Nothing here moves the axis-4 badge (DESIGNED, unchanged),
+constitutes a ruling, or touches the MTD-AI future-work reservation: a
+reactive defender would reopen the reactive route, and this probe says
+nothing about that regime.
+
+## 15. The amendment, drafted for Marc's ratification
+
+The 2026-08-11 disposition stands until Marc reopens or extends it; the
+criterion file is deliberately not edited by this probe. The following
+paragraph is the §4.3-amendment-style text ready to land under
+`apt_model_criterion.md` §(d) axis 4 on ratification:
+
+> #### Amendment, 2026-08-13 — the structural route was probed, and closed on evidence
+>
+> **The badge does not change. What changes is the closure's third leg,
+> which is now measured rather than parked.** The 2026-08-11 disposition
+> closed the reactive route structurally and bounded mechanism-shape
+> first-principles, leaving the structural route — does post-interrupt
+> terrain carry structure a pivot-to-recover kernel could exploit —
+> explicitly not pursued. A pre-registered, reader-only probe over a seeded
+> regeneration of the experiment-2 arms
+> ([`pipeline/ogasp/axis4_structural_probe.md`](pipeline/ogasp/axis4_structural_probe.md);
+> 800 runs, verdict-blind and conditioned arms, cyclic time-rotation null,
+> census-gated) found **zero post-interrupt-rewarded tactics in 138
+> census-passing instances at the decision configuration** (≈ 3.5 expected
+> from noise), and 16 of 947 (1.7 %, below the 2.5 % noise budget) across
+> the whole sensitivity grid. The window is distinguishable — success
+> depressed ~40 % relative on the position-destroying class,
+> indistinguishable on the application class — but the distinction is
+> punitive, in exactly the direction the declared failure column already
+> routes on. All three routes to adaptive advantage are therefore closed:
+> **reactive structurally, mechanism-shape first-principles, structural
+> empirically.** The intractability claim no longer rests on a parked
+> question, and the pivot-kernel objection is answered with a measurement:
+> a "pivot to recover from disruption" mechanism has no terrain to pay it
+> on this substrate. Boundaries: decision at the 200 s operating interval
+> over the four single mechanisms at ten seeds; one sensitivity-window
+> lead recorded and bounded in the probe record §12; the closure is
+> verdict-denominated; MTD-AI evaluation remains the named future work
+> that would reopen the reactive route.
+
+## 16. Reproduce
+
+As §8; the analysis is deterministic given `runs.jsonl` (seeded rotations),
+and the runner regenerates `runs.jsonl` exactly (seeded grid, landed
+substrate).
