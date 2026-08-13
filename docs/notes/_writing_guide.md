@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-08-12
+updated: 2026-08-13
 provenance: distilled from a UWA research-writing seminar (April 2026) supplied by Marc; adapted from paper-writing to dissertation shape; unit ledger added 2026-08-12 from Marc's base-unit framing plus an independent chapter-weighting suggestion he supplied
 ---
 
@@ -13,6 +13,18 @@ provenance: distilled from a UWA research-writing seminar (April 2026) supplied 
 > restated in each chapter dir's README; this file holds the whole-document
 > guidance and the parts that have no notes dir (title, abstract, introduction,
 > conclusion).
+
+## The narrative spine — capture / model / evaluate
+
+The single research question decomposes into three methodological sub-questions (supervisor register §V5, 2026-08-11; the skeleton in [`../thesis/dissertation.tex`](../thesis/dissertation.tex) executes it): **capture** — how APT attacker behaviour is captured from published CTI; **model** — how the captured behaviour is made executable as an attacker traversing that structure in the simulator; **evaluate** — how MTD performance against the APT attack model differs from its performance against the inherited scripted attacker. These are *threads, not chapters*: each runs the length of the document, and the argument-carrying chapters are where the threads surface —
+
+| | Lit review | Methodology | Results | Discussion |
+|---|---|---|---|---|
+| **Capture** | what exists | how it was done | — | what the capture licenses |
+| **Model** | attacker models in MTD | the movement attacker | sensitivity of its parameters | fidelity verdict |
+| **Evaluate** | how MTD is evaluated | experimental design | the numbers | what changes for MTD evaluation |
+
+The introduction states the RQ and the three sub-questions (the grey box); the conclusion closes each thread. The capture row's empty results cell is deliberate — the capture produces artefacts, not measurements; its downstream test rides the model row's sensitivity analysis. This matrix is the whole-document coherence check: a proposed unit (see the ledger below) should be able to name its cell, and a unit that cannot is a cut candidate.
 
 ## The one-line job of each part
 
