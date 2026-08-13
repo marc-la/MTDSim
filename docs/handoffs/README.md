@@ -84,14 +84,6 @@ What is open:
   (or hands a target to a corpus-grounded kernel design). Gates the
   airtight form of any ch6 axis-4 intractability sentence.
 
-- [`2026-08-13_axis8_timing_channel_reexamination.md`](2026-08-13_axis8_timing_channel_reexamination.md)
-  — **the axis-8 timing-channel inversion**: the substrate's "exponential"
-  clocks verified as loc-shifted (quasi-periodic trigger), falsifying the
-  planned memorylessness closure and surfacing a candidate timing-distribution
-  divergence (documented nowhere; suggested D-39). **Waits on a Marc
-  disposition**; blocks any axis-8 timing-intractability prose and the
-  criterion amendment either way.
-
 - [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
   — **the research record**, mined from Marc's own prompts across the session
   transcripts. Off every chain: it touches no code, gates nothing, and is gated

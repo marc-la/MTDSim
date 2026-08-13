@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-27
-updated: 2026-08-09
+updated: 2026-08-13
 topic: "The APT-attacker-model criterion (supervisor S6) — a literature-derived rubric of what an APT attacker model should capture, this model scored against it honestly, and the measurement recommendations (M8b) that ride with each claimed axis"
 ---
 
@@ -980,6 +980,54 @@ inverse of Tay's IDS-sensitivity experiment, per §(f)); (iii) any
 invariant-feature observation channel at all. Each presupposes the primitive
 being encoded — a lift of the S2 freeze and a fresh comparability argument,
 not current work.
+
+#### Amendment, 2026-08-13 — the timing half: the memorylessness closure inverted on verification, and the trigger distribution became a declared input
+
+**The badge does not change. What changes is the reason the write-up gives for
+the timing half of this axis, and it is now regime-conditional.**
+
+A 2026-08-13 design discussion produced a candidate structural closure for the
+timing half of the schedule channel: *if* the MTD trigger is exponential it is
+memoryless — constant hazard, no phase to exploit, schedule knowledge worth
+nothing beyond the mean, and the mean-response already built and measured null
+as the axis-6 duration-sensitivity modulator. The closure carried one
+pre-stated verification gate — the shape of `exponential_variates` — and the
+gate fired: the substrate's "exponential" draws are **location-shifted**
+(`mean + Exp(0.5)`; the D-08 fork in
+[`intent_conformance_audit.md`](intent_conformance_audit.md)), so the trigger
+at the operating interval is 200 + Exp(0.5) — a quasi-periodic clock with
+~0.25 % jitter, the opposite of memoryless. **The intractability sentence is
+therefore not writable for any recorded result**, and the 2026-07-28
+exclusion's stated ground ("requires an inference capability the timeframe
+cannot support") does not cover this half: inferring a quasi-periodic schedule
+needs no ML — observe two interrupts and add the period.
+
+**The honest closure for recorded results is bounded value, not
+intractability.** The channel is open in principle and unencoded, declined on
+the same S2/scope grounds as the three primitives above — and what schedule
+awareness could buy is bounded and already partly priced. One interrupt lands
+per mutation regardless of schedule knowledge (the walk always has a visit in
+flight, and dwell-only visits are interruptible too, so the ~20 t/u confusion
+penalty is unavoidable); the salvageable remainder is the truncated work and
+the *placement* of what is in flight at the tick, further narrowed by D-35
+(EXPLOIT_VULN is already uninterruptible on the movement arm) and bounded by
+the cost ledger's confusion + re-work decomposition (D-37: 8.0–17.7 % of the
+simulated clock). An in-principle bound, not a demonstrated exploit — nothing
+schedule-aware is built or measured.
+
+**The fork itself was dispositioned rather than repaired (D-08 amended,
+Marc, 2026-08-13).** The trigger distribution is now a **declared run input**:
+the shifted construction stays the default, so every golden and every recorded
+figure is unchanged, and a true Exponential(µ) regime — µ-as-mean, uniform
+over all substrate draws — is selectable per run
+(`time_generator.set_exponential_regime`; `--timing-regime` on the baseline
+driver and tracer). Under the `exponential` regime the memorylessness argument
+becomes available exactly as originally argued, for any run that declares it;
+no recorded run does, so any future timing claim on this axis **names its
+regime**. The regime toggle also supplies a zero-build sensitivity arm this
+axis previously lacked: re-running any recorded configuration under
+`exponential` measures how much of a defence's effect rides the clock's phase
+structure — recommended as measurement, nothing built beyond the input.
 
 ## (d2) Rows A and B — evidential provenance and evaluative consequence
 
