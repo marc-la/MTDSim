@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-05-27
-updated: 2026-08-06
+updated: 2026-08-13
 ---
 
 # Metrics — semantics, faithfulness, and comparability
@@ -152,6 +152,21 @@ code's `(1 - self.complexity)`; `T_Aexploit` is `ATTACK_DURATION['EXPLOIT_VULN']
 time value" is the `exponential_variates` wrapper. The three properties this
 document previously called missing — exponential form, ACv-dependence, and
 the exploited/unexploited split — are all present.
+
+> **Annotation, 2026-08-13 (D-08): "exponential form" here means the shifted
+> construction, and the distributional consequence should not be under-read.**
+> `exponential_variates(loc, 0.5)` draws `loc + Exp(0.5)` — mean ≈ loc + 0.5,
+> σ = 0.5 — so under the default regime every "exponential" time in the
+> substrate (trigger intervals, MTD execution times, this exploit draw, the
+> confusion penalty) is quasi-deterministic about its nominal value, not an
+> Exponential(µ) with σ = µ, and in particular the trigger is quasi-periodic
+> rather than memoryless. This matches Zhang's Table 3 (printed σ = 0.5) and
+> diverges from her §4.5 (µ the historical mean) — her thesis is internally
+> inconsistent on the point, and the fork is dispositioned as D-08 in
+> [`intent_conformance_audit.md`](intent_conformance_audit.md) §n: the shifted
+> form is the ruled default, and a true Exponential(µ) regime is selectable
+> per run (`--timing-regime exponential`) since 2026-08-13. Every figure in
+> this document rides the shifted default.
 
 **What actually diverges is narrower, and precisely locatable.** Two items:
 

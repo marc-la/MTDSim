@@ -64,6 +64,7 @@ import numpy as np
 import simpy
 
 from mtdnetwork.component.adversary import Adversary
+from mtdnetwork.component.time_generator import set_exponential_regime
 from mtdnetwork.component.time_network import TimeNetwork
 from mtdnetwork.data.constants import ATTACKER_THRESHOLD, MTD_TRIGGER_INTERVAL
 from mtdnetwork.mtd import MTD
@@ -499,10 +500,12 @@ def run_trace(*, scheme: str = "random", mtd_interval: int | None = None,
               custom_strategies=None, seed: int = 1234, finish_time: float = 2000.0,
               total_nodes: int = 50, total_endpoints: int = 5, total_subnets: int = 8,
               total_layers: int = 4, target_layer: int = 4, total_database: int = 2,
-              terminate_compromise_ratio: float = 0.8) -> tuple[Tracer, float]:
+              terminate_compromise_ratio: float = 0.8,
+              timing_regime: str = "shifted") -> tuple[Tracer, float]:
     """Run one simulation with tracing on. Returns (tracer, horizon)."""
     random.seed(seed)
     np.random.seed(seed)
+    set_exponential_regime(timing_regime)
     env = simpy.Environment()
     end_event = env.event()
     network = TimeNetwork(
@@ -568,6 +571,10 @@ def main(argv=None) -> int:
                     help="comma-separated actors to show, e.g. attacker,compromise")
     ap.add_argument("--no-colour", action="store_true", help="plain text output")
     ap.add_argument("--quiet", action="store_true", help="verdict only, no event log")
+    ap.add_argument("--timing-regime", default="shifted",
+                    choices=["shifted", "exponential"],
+                    help="exponential_variates regime: 'shifted' (inherited, "
+                         "mean + Exp(0.5)) or 'exponential' (true Exp(mean); D-08)")
     args = ap.parse_args(argv)
 
     colour = not args.no_colour and sys.stdout.isatty()
@@ -586,6 +593,7 @@ def main(argv=None) -> int:
         scheme=args.scheme, mtd_interval=args.mtd_interval,
         custom_strategies=strategies, seed=args.seed,
         finish_time=args.finish_time, total_nodes=args.total_nodes,
+        timing_regime=args.timing_regime,
     )
 
     if not args.quiet:

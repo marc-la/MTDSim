@@ -1,7 +1,7 @@
 ---
 status: living
 created: 2026-07-28
-updated: 2026-08-06
+updated: 2026-08-13
 ---
 
 # The trace tool — an event-by-event log of a run, across every layer
@@ -21,6 +21,15 @@ PYTHONPATH=src python -m mtdsim.l3_simulation.trace aggregate --scheme simultane
 PYTHONPATH=src python -m mtdsim.l3_simulation.trace objective_exfiltration --mapping v2_partial # select the controller mapping
 PYTHONPATH=src python -m mtdsim.l3_simulation.trace aggregate --only token,controller --quiet
 ```
+
+Both tracers expose the **D-08 substrate timing regime** (2026-08-13; ruling in
+[`intent_conformance_audit.md`](intent_conformance_audit.md) §n): `--timing-regime
+{shifted,exponential}` on the substrate tracer, `--substrate-timing-regime` on the
+L3 tracer (named distinctly because the movement dwell regime is a separate,
+untouched input). Default `shifted` reproduces every recorded run; `exponential`
+makes every substrate clock — trigger, MTD execution, confusion penalty — a true
+memoryless Exp(mean). Comparing the DEPLOY epochs of one seed across the two
+regimes is the two-minute demonstration of what the fork changes.
 
 **Provenance.** The substrate tracer was ported 2026-07-28 from `main` (commit `31ce3be`, where it lives as `mtdsim/trace.py` against the rebuilt standalone simulator), with imports retargeted at dev's inherited substrate (`mtdnetwork.*`). The `main` and dev substrates have diverged; the port re-verified every hooked seam against dev's code and the full test file passes unchanged (one adaptation: dev's `MTDScheme.suspend_mtd` takes `mtd_strategy` by keyword). The unified L3 tracer was added the same day — the tool's first extension under its own charter.
 

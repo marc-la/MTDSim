@@ -27,6 +27,7 @@ import simpy
 from mtdnetwork.component.adversary import Adversary
 from mtdnetwork.component.time_network import TimeNetwork
 from mtdnetwork.data.constants import ATTACKER_THRESHOLD
+from mtdnetwork.component.time_generator import set_exponential_regime
 from mtdnetwork.operation.attack_operation import AttackOperation
 
 from mtdsim.l3_simulation.controller import load_controller
@@ -272,6 +273,7 @@ def run_movement(
     attacker_state: AttackerState | None = None,
     mtd_scheme: str | None = None,
     mtd_interval: int | None = 200,
+    substrate_timing_regime: str = "shifted",
     custom_strategies=None,
     mtd_ai: MTDAIConfig | None = None,
     geometry: dict | None = None,
@@ -350,6 +352,19 @@ def run_movement(
     off ``adversary.get_exploit_ledger().summary()`` after the run. See
     ``docs/implementation/pipeline/ogasp/exploit_learning_yield_prereg.md``.
 
+    ``substrate_timing_regime`` selects the distribution behind every
+    *substrate* ``exponential_variates`` draw this run makes — the MTD trigger
+    interval, MTD execution times and the confusion penalty. It is distinct
+    from ``timing`` above, which governs the movement layer's own per-tactic
+    dwell (a true exponential either way, untouched by this input):
+    ``"shifted"`` is the inherited ``mean + Exp(0.5)`` construction and
+    ``"exponential"`` a true, memoryless ``Exp(mean)`` (the D-08 regime input,
+    2026-08-13 — see ``docs/implementation/intent_conformance_audit.md`` §n).
+    It defaults to ``"shifted"`` for the same reason the other toggles default
+    off — an unqualified run reproduces what has always run — and it is set
+    per run, so a sweep mixing regimes never leaks one run's regime into the
+    next.
+
     ``attacker_state`` attaches a within-run :class:`AttackerState` by wrapping
     the three collaborators the walk consumes — :class:`StatefulTiming` reports
     every place entry, :class:`ModulatedOverlay` reports every verdict and
@@ -361,6 +376,7 @@ def run_movement(
     ``attacker_state=None`` (the null-equivalence guarantee; see
     ``movement/state.py``).
     """
+    set_exponential_regime(substrate_timing_regime)
     env, end_event, network, adversary, attack_op = _build_sim(seed, geometry)
 
     if exploit_learning_rate is not None:
