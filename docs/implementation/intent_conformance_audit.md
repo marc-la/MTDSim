@@ -809,8 +809,12 @@ to the inherited wrapper, exponential moments (mean ≈ µ, σ ≈ µ), stream p
 setter validation. Verified load-bearing by trace (seed 42, `random`): deploy
 epochs 200.0 / 400.3 / 602.0 / … under `shifted` against 6.4 / 282.6 / 855.2 /
 … / 2134.7 / 2170.3 (memoryless clustering) under `exponential`. The
-movement-side runner's config surface does not yet declare the input (any
-driver can call the setter) — flagged, not actioned.
+movement-side seam declares it too (same day): `run_movement(...,
+substrate_timing_regime=...)` and the unified L3 tracer's
+`--substrate-timing-regime`, named distinctly there because the movement
+layer's own dwell regime is a separate, untouched input — the substrate
+regime governs the trigger, MTD execution times and the confusion penalty
+only; every run sets it at start, so sweeps mixing regimes cannot leak state.
 
 **Consequence for claims.** Every figure on record was produced under
 `shifted` and any timing-sensitive claim must name its regime. In particular

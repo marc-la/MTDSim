@@ -65,6 +65,7 @@ from dataclasses import dataclass, field
 
 import simpy
 
+from mtdnetwork.component.time_generator import set_exponential_regime
 from mtdnetwork.operation.attack_operation import (
     EXPLOIT_HALTED,
     STEP_ABORTED,
@@ -436,6 +437,7 @@ def run_l3_trace(
     attacker_state: AttackerState | None = None,
     mtd_scheme: str | None = None,
     mtd_interval: int | None = 200,
+    substrate_timing_regime: str = "shifted",
     custom_strategies=None,
     geometry: dict | None = None,
     max_events: int = 50_000,
@@ -447,7 +449,12 @@ def run_l3_trace(
     (same builders, same construction order, same RNG discipline) so a traced
     run and an untraced run of the same configuration are identical — the parity
     test pins this. Returns ``(tracer, MovementRunResult)``.
+
+    ``substrate_timing_regime`` mirrors :func:`run_movement`'s declared input
+    of the same name (the D-08 regime seam: substrate draws only, movement
+    dwell untouched); the setter consumes no RNG, so parity holds either way.
     """
+    set_exponential_regime(substrate_timing_regime)
     env, end_event, network, adversary, attack_op = _build_sim(seed, geometry)
 
     routing_net = load_routing_net(profile, with_synthetic_overlay=with_synthetic_overlay)
@@ -757,6 +764,13 @@ def main(argv=None) -> int:
                          "as in run_movement): a token reaching a place the "
                          "corpus drew no exit from steps back instead of the "
                          "run being censored there")
+    ap.add_argument("--substrate-timing-regime", default="shifted",
+                    choices=["shifted", "exponential"],
+                    dest="substrate_timing_regime",
+                    help="substrate exponential_variates regime (trigger, MTD "
+                         "execution, penalty): 'shifted' (inherited, "
+                         "mean + Exp(0.5)) or 'exponential' (true Exp(mean); "
+                         "D-08). The movement dwell is untouched")
     ap.add_argument("--no-colour", action="store_true")
     ap.add_argument("--quiet", action="store_true", help="verdict only")
     args = ap.parse_args(argv)
@@ -789,6 +803,7 @@ def main(argv=None) -> int:
         attacker_state=attacker_state,
         mtd_scheme=args.scheme,
         mtd_interval=args.mtd_interval,
+        substrate_timing_regime=args.substrate_timing_regime,
         retrace_sinks=args.retrace,
     )
 
