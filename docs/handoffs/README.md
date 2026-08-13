@@ -46,13 +46,6 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   (declared-value families first) ordered by claim-bearing weight. Off every
   chain; consumed by Marc directly.
 
-- [`2026-08-13_axis4_structural_route_probe.md`](2026-08-13_axis4_structural_route_probe.md)
-  — **the axis-4 structural-route probe**: reader-only check of whether
-  post-interrupt terrain carries structure a pivot kernel could exploit;
-  converts the 2026-08-11 closure's parked route into an evidence-backed one
-  (or hands a target to a corpus-grounded kernel design). Gates the
-  airtight form of any ch6 axis-4 intractability sentence.
-
 - [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
   — **the research record**, mined from Marc's own prompts across the session
   transcripts. Off every chain: it touches no code, gates nothing, and is gated

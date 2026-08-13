@@ -430,6 +430,55 @@ baseline attacker cannot make, since its adaptivity is incidental rather than
 declared, controllable and measured. Badge unchanged (DESIGNED). Retires the
 `2026-08-11_axis4_adaptivity_exploitability.md` handoff.
 
+#### Amendment, 2026-08-13 (ratified by Marc) — the structural route was probed, and closed on evidence
+
+**The badge does not change. What changes is the closure's third leg, which is
+now measured rather than parked.** The 2026-08-11 disposition closed the
+reactive route structurally and bounded mechanism-shape first-principles,
+leaving the structural route — does post-interrupt terrain carry structure a
+pivot-to-recover kernel could exploit — explicitly not pursued. A
+pre-registered, reader-only probe over a seeded regeneration of the
+experiment-2 arms
+([`pipeline/ogasp/axis4_structural_probe.md`](pipeline/ogasp/axis4_structural_probe.md);
+800 runs, verdict-blind and conditioned arms, cyclic time-rotation null,
+census-gated) found **zero post-interrupt-rewarded tactics in 138
+census-passing instances at the decision configuration** (≈ 3.5 expected from
+noise), and 16 of 947 (1.7 %, below the 2.5 % noise budget) across the whole
+sensitivity grid. The window is distinguishable — success depressed ~40 %
+relative on the position-destroying class, indistinguishable on the
+application class — but the distinction is punitive, in exactly the direction
+the declared failure column already routes on. All three routes to adaptive
+advantage are therefore closed: **reactive structurally, mechanism-shape
+first-principles, structural empirically.** The intractability claim no longer
+rests on a parked question, and the pivot-kernel objection is answered with a
+measurement: a "pivot to recover from disruption" mechanism has no terrain to
+pay it on this substrate. Boundaries: decision at the 200 s operating interval
+over the four single mechanisms at ten seeds; one sensitivity-window lead
+recorded and bounded in the probe record §12; the closure is
+verdict-denominated; MTD-AI evaluation remains the named future work that
+would reopen the reactive route.
+
+**The kernel itself is declined as current work, with its reopening condition
+named rather than left open** (Marc, 2026-08-13, same ruling). The build was
+considered against the axis-6/7 precedent of building a capability expecting a
+measured negative, and declined on three grounds the probe record §15b
+argues in full: its null is *predetermined* by the terrain measurement above
+(the probe's universal closure — no kernel has a target — dominates the
+existential null one swept kernel could return); it moves no badge, because
+axis 4 already holds DESIGNED on a measured negative (the §11 verdict-blind
+ablation, now plus this probe); and it would spend a new declared family
+against Row A. The design is nevertheless fully specified for the successor
+programme: a declared recovery-tactic family plus a temporary
+weight-transformation modulator on the attacker-state seam, with an
+identity-kernel null giving bit-identical ablation. Its reopening condition is
+a **reactive defender** (the MTD-AI evaluation, ruled future work), whose
+response to attacker behaviour is what could create the post-interrupt
+structure this probe measured absent under the clocked, attacker-blind pool —
+under that regime the pivot kernel is the natural first attacker-side
+experiment, targeting the one question this probe's verdict-denominated
+boundary leaves open (sequencing/time-to-refoothold), with the friction
+precedent pricing the expectation.
+
 ### Axis 5 — Stealth: low-and-slow tempo and evasion
 
 **What it is.** Cho et al.'s *stealthy* attacker does not exhibit identifiable
