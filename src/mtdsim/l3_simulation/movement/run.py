@@ -280,6 +280,7 @@ def run_movement(
     retrace_sinks: bool = False,
     uniform_weights: bool = False,
     exploit_learning_rate: float | None = None,
+    exploit_ledger: bool = False,
 ) -> MovementRunResult:
     """Run one movement-layer simulation and return its :class:`MovementRunResult`.
 
@@ -341,6 +342,14 @@ def run_movement(
     *type*, whereas the modulators on ``attacker_state`` shape routing. See
     ``docs/implementation/pipeline/ogasp/exploit_learning.md``.
 
+    ``exploit_ledger`` attaches the read-only yield ledger to the run's adversary —
+    a measurement-only accounting of *where* the learner's bought successes land
+    (fresh host vs re-compromise of a host already owned), attributed by probability
+    mass at the roll site. It draws no RNG and changes no control flow, so an
+    ``exploit_ledger=True`` run is byte-identical to one without it; read the result
+    off ``adversary.get_exploit_ledger().summary()`` after the run. See
+    ``docs/implementation/pipeline/ogasp/exploit_learning_yield_prereg.md``.
+
     ``attacker_state`` attaches a within-run :class:`AttackerState` by wrapping
     the three collaborators the walk consumes — :class:`StatefulTiming` reports
     every place entry, :class:`ModulatedOverlay` reports every verdict and
@@ -362,6 +371,12 @@ def run_movement(
         # modulator carried on attacker_state — this shapes the EXPLOIT_VULN
         # success roll, not the routing.
         adversary.enable_exploit_learning(exploit_learning_rate)
+
+    if exploit_ledger:
+        # Read-only yield-ledger instrumentation (measurement only; not attacker
+        # state). Attached lazily so a run without it is byte-identical and the S2
+        # frozen-state guard is untouched. See exploit_learning_yield_prereg.md.
+        adversary.enable_exploit_ledger()
 
     routing_net = load_routing_net(profile, with_synthetic_overlay=with_synthetic_overlay)
     if uniform_weights:

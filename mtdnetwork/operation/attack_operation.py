@@ -553,11 +553,29 @@ class AttackOperation:
             # get_vulns), so a False->True transition is a genuine fresh success and
             # banks one prior-success for this vulnerability TYPE.
             was_exploited = vuln.is_exploited()
-            vuln.network(host=adversary.get_curr_host(),
-                         success_prob=adversary.effective_exploit_prob(vuln))
-            if adversary.is_exploit_learning_enabled() \
-                    and vuln.is_exploited() and not was_exploited:
+            # Compute the shaped threshold before the roll so the yield ledger can
+            # read it; effective_exploit_prob is a pure read (no RNG, no mutation —
+            # Counter access does not insert), so hoisting it above network() and
+            # get_curr_host() cannot change the draw. Left disabled it returns None.
+            success_prob = adversary.effective_exploit_prob(vuln)
+            ledger = adversary.get_exploit_ledger()
+            # Yield classification, read BEFORE the roll: is the target already
+            # owned? Only meaningful when a real roll happens (an already-exploited
+            # instance short-circuits in network() without rolling).
+            host_owned = (
+                adversary.get_curr_host_id() in adversary.get_compromised_hosts()
+                if ledger is not None and not was_exploited else False
+            )
+            vuln.network(host=adversary.get_curr_host(), success_prob=success_prob)
+            newly_exploited = vuln.is_exploited() and not was_exploited
+            if adversary.is_exploit_learning_enabled() and newly_exploited:
                 adversary.record_exploit_success(vuln.id)
+            if ledger is not None and not was_exploited:
+                # Read-only: attribute this roll's learning-bought mass and tag its
+                # yield. Draws no RNG and changes nothing the simulation reads.
+                ledger.record(host_id=adversary.get_curr_host_id(),
+                              c=vuln.complexity, p_eff=success_prob,
+                              success=newly_exploited, host_owned=host_owned)
             # cumulative vulnerability exploitation attempts
             adversary.set_curr_attempts(adversary.get_curr_attempts() + 1)
         if not vulns:
