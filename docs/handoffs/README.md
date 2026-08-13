@@ -28,48 +28,15 @@ carried went with them, per this file's own contract.
 
 What is open:
 
-- [`2026-08-11_jin_meeting/`](2026-08-11_jin_meeting/) — **the V-trail
-  executors** from the 11-Aug supervisor meeting with Jin (register §V1–V7,
-  [`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)):
-  the predictability rework (V2) **landed 2026-08-13** (register §V2 resolution —
-  pin survives, name kept-and-qualified) and feeds the instrument validation
-  pass (V1 + V4), which **gates quoting any instrument figure** in methodology
-  or results prose; and the experiment/chapter restructure onto the sub-question
-  spine (V5–V7), independent of the other two. V3 commissions nothing (use
-  Tay's pretrained agent as-is). The folder's README carries the trail.
-
-- [`2026-08-11_movement_objectives.md`](2026-08-11_movement_objectives.md) —
-  **a strategic-objective layer for the movement attacker** (`movement_general`
-  frontier discipline / `movement_targeted` located objective), curing the
-  out-of-order-FSM churn independently of the tactic net. Opened by the
-  exploit-learning diagnosis: the movement attacker wastes nine-tenths of its
-  actions re-compromising hosts it already owns because Brown's FSM succession
-  governed host-selection and the movement layer removed it without replacement.
-
-- [`2026-08-11_learning_scale_dependence.md`](2026-08-11_learning_scale_dependence.md)
-  — **is attacker-learning advantage scale-dependent?** Sweeps the existing
-  axis-7 routing-belief learner across host-count scale; if the advantage is
-  absent, diagnoses mechanism versus implementation. (Its `related:` sibling,
-  the probability-shaped exploit-learning brief, no longer exists in this
-  directory — read its header note with that in mind.)
-
-- **The exploit-learning-null discriminators.** Both take the compound-exploit
-  learner's measured negative
-  ([`../implementation/pipeline/ogasp/exploit_learning_findings.md`](../implementation/pipeline/ogasp/exploit_learning_findings.md))
-  and turn it from an inferred diagnosis into a demonstration; neither moves
-  axis 7's badge; neither introduces a named attacker. **The primary, on-host
-  exhibit shipped 2026-08-13** — the yield ledger, as
-  [`../implementation/pipeline/ogasp/exploit_learning_yield_findings.md`](../implementation/pipeline/ogasp/exploit_learning_yield_findings.md)
-  (prereg + read-only instrument alongside): the committed null branch fired, the
-  learner operationalises and its gains are absorbed on the movement attacker's own
-  terrain by exploit-insensitivity (X), with no cross-attacker comparison. What is
-  still open:
-  - [`2026-08-11_fsm_hosted_learning_control_arm.md`](2026-08-11_fsm_hosted_learning_control_arm.md)
-    — **the backup discriminator**, for the narrower global-deflationary residual
-    the on-host ledger cannot reach ("does exploit capability convert on *any*
-    attacker?"). Hosts the same frozen mechanism on the native FSM as a
-    pre-registered positive control. Gated by its own step-0 kill-cheap ceiling
-    pilot; retires by evidence if that pilot shows no headroom.
+**Swept 2026-08-13 (session close, on Marc's direction).** The 2026-08-11 set —
+the jin-meeting V-trail folder, the movement-objectives brief, the
+learning-scale-dependence brief, and the FSM-hosted learning control arm (the
+exploit-learning-null discriminators' last open item) — is removed on Marc's
+instruction rather than retired by evidence; the supervisor decision register
+and the shipped findings records remain the permanent account of what each
+carried, and `git log` the record of the briefs themselves. The axis-8
+timing-channel re-examination retired the same day in the commits that shipped
+its work (the D-08 regime ruling and the criterion's dated amendment).
 
 - [`2026-08-13_validation_triage.md`](2026-08-13_validation_triage.md) — **the
   validation map**: every contribution enumerated on the capture/model/evaluate
