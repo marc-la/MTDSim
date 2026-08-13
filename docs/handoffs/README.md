@@ -52,6 +52,24 @@ What is open:
   the probability-shaped exploit-learning brief, no longer exists in this
   directory — read its header note with that in mind.)
 
+- **The exploit-learning-null discriminators.** Both take the compound-exploit
+  learner's measured negative
+  ([`../implementation/pipeline/ogasp/exploit_learning_findings.md`](../implementation/pipeline/ogasp/exploit_learning_findings.md))
+  and turn it from an inferred diagnosis into a demonstration; neither moves
+  axis 7's badge; neither introduces a named attacker. **The primary, on-host
+  exhibit shipped 2026-08-13** — the yield ledger, as
+  [`../implementation/pipeline/ogasp/exploit_learning_yield_findings.md`](../implementation/pipeline/ogasp/exploit_learning_yield_findings.md)
+  (prereg + read-only instrument alongside): the committed null branch fired, the
+  learner operationalises and its gains are absorbed on the movement attacker's own
+  terrain by exploit-insensitivity (X), with no cross-attacker comparison. What is
+  still open:
+  - [`2026-08-11_fsm_hosted_learning_control_arm.md`](2026-08-11_fsm_hosted_learning_control_arm.md)
+    — **the backup discriminator**, for the narrower global-deflationary residual
+    the on-host ledger cannot reach ("does exploit capability convert on *any*
+    attacker?"). Hosts the same frozen mechanism on the native FSM as a
+    pre-registered positive control. Gated by its own step-0 kill-cheap ceiling
+    pilot; retires by evidence if that pilot shows no headroom.
+
 - [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
   — **the research record**, mined from Marc's own prompts across the session
   transcripts. Off every chain: it touches no code, gates nothing, and is gated

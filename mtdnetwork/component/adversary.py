@@ -4,6 +4,72 @@ from mtdnetwork.statistic.attack_statistics import AttackStatistics
 from mtdnetwork.data.constants import HACKER_ATTACK_ATTEMPT_MULTIPLER
 
 
+class ExploitYieldLedger:
+    """Read-only, within-run accounting of WHERE the compound-exploit learner's
+    bought successes land — attached for measurement only, never part of the
+    modelled attacker state (S2 freeze), so it is set lazily (not in
+    ``Adversary.__init__``) and a pristine adversary is byte-identical.
+
+    One entry per EXPLOIT_VULN roll that actually rolls at the consult site. The
+    attribution is by probability mass, not by an observed draw: a boosted success
+    drew ``u < p_eff`` and would also have succeeded at base iff ``u < c``, so the
+    probability it was *bought by learning* (would have failed at base) is
+    ``1 - c / p_eff``. Summing that over the run's successful boosted rolls gives the
+    expected number of learning-attributable successes, split by whether the target
+    host was already owned. No RNG is drawn and no control flow is changed — the
+    ledger only reads. See
+    docs/implementation/pipeline/ogasp/exploit_learning_yield_prereg.md.
+    """
+
+    def __init__(self):
+        self.attempts = 0                    # rolls reaching the site (an actual roll)
+        self.attempts_on_owned = 0           # rolls aimed at a host already owned
+        self.boosted_rolls = 0               # rolls the boost shaped (p_eff is not None)
+        self.boosted_successes = 0
+        self.attributable_mass = 0.0         # E[learning-bought successes]
+        self.attributable_mass_owned = 0.0   # ...landing on an already-owned host
+        # fresh-host mass is (attributable_mass - attributable_mass_owned)
+        # Host ids that received at least one boosted success — the concentration
+        # read: how few hosts absorb the mass, and (intersected with the final
+        # compromised set post-run) how few of them convert to breadth.
+        self.boosted_success_hosts = set()
+
+    def record(self, *, host_id, c, p_eff, success, host_owned):
+        # "Owned" is membership in the attacker's compromised set, read per roll but
+        # updated only AFTER the exploit loop, so it reads as "was this host already
+        # owned coming INTO this visit" — the right sense for the yield split. (The
+        # substrate's own check_compromised() is deliberately NOT consulted: it
+        # mutates host state, and it conflates "already owned" with "being
+        # compromised during this very visit".)
+        self.attempts += 1
+        if host_owned:
+            self.attempts_on_owned += 1
+        if p_eff is None:
+            return  # base roll: the boost did not shape it, so no attributable mass
+        self.boosted_rolls += 1
+        if success:
+            self.boosted_successes += 1
+            self.boosted_success_hosts.add(host_id)
+            mass = 1.0 - c / p_eff  # P(bought by learning | this boosted success)
+            self.attributable_mass += mass
+            if host_owned:
+                self.attributable_mass_owned += mass
+
+    def summary(self):
+        owned_frac = self.attempts_on_owned / self.attempts if self.attempts else 0.0
+        return {
+            "ledger_attempts": self.attempts,
+            "ledger_attempts_on_owned": self.attempts_on_owned,
+            "ledger_owned_attempt_frac": owned_frac,
+            "ledger_boosted_rolls": self.boosted_rolls,
+            "ledger_boosted_successes": self.boosted_successes,
+            "ledger_boosted_success_host_count": len(self.boosted_success_hosts),
+            "attributable_mass": self.attributable_mass,
+            "attributable_mass_owned": self.attributable_mass_owned,
+            "attributable_mass_fresh": self.attributable_mass - self.attributable_mass_owned,
+        }
+
+
 class Adversary:
     def __init__(self, network, attack_threshold):
         self.network = network
@@ -180,6 +246,23 @@ class Adversary:
     def record_exploit_success(self, vuln_id):
         """Bank one successful exploit of this vulnerability type (RNG-free)."""
         self._exploit_type_counts[vuln_id] += 1
+
+    # --- Yield ledger (measurement-only; attached lazily, never __init__) ----
+    # The ledger is instrumentation, not attacker state: it records where the
+    # learner's bought successes land without drawing RNG or changing control
+    # flow. It is attached lazily so a pristine adversary carries no such field
+    # and the S2 frozen-state guard stays byte-identical — the ledger is not part
+    # of the model, only of a measurement run. See ExploitYieldLedger.
+
+    def enable_exploit_ledger(self):
+        """Attach a fresh read-only yield ledger to this run and return it."""
+        self._exploit_ledger = ExploitYieldLedger()
+        return self._exploit_ledger
+
+    def get_exploit_ledger(self):
+        """The attached yield ledger, or None on every run that did not enable one
+        (which is every native / baseline / golden path, so they are untouched)."""
+        return getattr(self, "_exploit_ledger", None)
 
     def effective_exploit_prob(self, vuln):
         """The shaped success threshold for `vuln`, or None to use the base one.
