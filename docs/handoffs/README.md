@@ -52,11 +52,6 @@ What is open:
   the probability-shaped exploit-learning brief, no longer exists in this
   directory — read its header note with that in mind.)
 
-- [`2026-08-11_axis4_adaptivity_exploitability.md`](2026-08-11_axis4_adaptivity_exploitability.md)
-  — **axis 4's null advantage, decomposed before any mechanism is licensed.**
-  Workshop output for the supervisor discussion; commissions nothing beyond one
-  reader-side probe that decides which sentence the dissertation gets to make.
-
 - [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
   — **the research record**, mined from Marc's own prompts across the session
   transcripts. Off every chain: it touches no code, gates nothing, and is gated
