@@ -396,12 +396,14 @@ constitutes a ruling, or touches the MTD-AI future-work reservation: a
 reactive defender would reopen the reactive route, and this probe says
 nothing about that regime.
 
-## 15. The amendment, drafted for Marc's ratification
+## 15. The amendment — ratified and landed
 
-The 2026-08-11 disposition stands until Marc reopens or extends it; the
-criterion file is deliberately not edited by this probe. The following
-paragraph is the §4.3-amendment-style text ready to land under
-`apt_model_criterion.md` §(d) axis 4 on ratification:
+**Ratified by Marc, 2026-08-13**, in the session that reviewed these
+findings; the amendment below is landed verbatim (plus the §15b kernel
+ruling) as the dated 2026-08-13 amendment under
+[`../../apt_model_criterion.md`](../../apt_model_criterion.md) §(d) axis 4,
+which is now the authoritative copy. The draft is retained here as the text
+that was put for ratification:
 
 > #### Amendment, 2026-08-13 — the structural route was probed, and closed on evidence
 >
@@ -431,6 +433,51 @@ paragraph is the §4.3-amendment-style text ready to land under
 > lead recorded and bounded in the probe record §12; the closure is
 > verdict-denominated; MTD-AI evaluation remains the named future work
 > that would reopen the reactive route.
+
+## 15b. The kernel — declined as current work, named as future work
+
+**Ruled by Marc, 2026-08-13, with the amendment's ratification.** The
+alternative was put squarely: build the pivot kernel anyway and instrument
+it, mirroring the axis-6/7 practice of shipping a capability in the
+expectation of a measured negative. Declined, on three grounds:
+
+1. **The two builds would not sit at the same epistemic point.** Axis 7's
+   null was a discovery — the credit-signal finding (success verdicts are
+   not progress) was only knowable by building, and each built modulator in
+   this project has earned a novel causal finding (the exploit learner's
+   absorption cause included). The pivot kernel is the first candidate
+   whose causal finding exists *before* the build: this probe measured the
+   terrain directly, so a kernel sweep returns a null whose cause is
+   already on record. The method record's axis-6 worked example is the
+   standing warning against exactly that spend.
+2. **The probe's closure is logically stronger than a kernel's null.** The
+   probe quantifies over all kernels aimed at verdict-share structure ("no
+   recovery set has a target"); a built kernel's null is existential
+   ("this kernel didn't pay") and invites the wrong-kernel rejoinder.
+   Building would replace a universal measurement with a weaker decoration
+   of it.
+3. **No badge economics, real Row A cost.** Axes 6 and 7 moved
+   NOT ADDRESSED → DESIGNED by building; axis 4 already holds DESIGNED on a
+   measured negative (the experiment-2 §11 verdict-blind ablation, now
+   plus this probe), so the kernel moves no row — while its recovery-tactic
+   family would land new declared-judgement entries against Row A unless
+   the ch3 tactic profiles can attest post-disruption recovery patterns.
+
+**What is locked in instead — the design, fully specified without the
+build** (the axis-8 pattern: the channel named, the missing piece named): a
+declared recovery-tactic family plus a temporary weight-transformation
+modulator on the attacker-state seam, identity-kernel null giving
+bit-identical ablation at the null point, pre-registered and swept under
+the standing discipline. **Reopening condition, named:** a reactive
+defender — the MTD-AI evaluation already ruled future work — whose response
+to attacker behaviour is what could create the post-interrupt structure
+this probe measured absent under the clocked, attacker-blind pool. Under
+that regime the pivot kernel is the natural first attacker-side experiment
+of the programme, and its prereg should target the one question this
+probe's verdict-denominated boundary leaves open: sequencing —
+time-to-refoothold compression via the scan→`ENUM_HOST` re-acquisition
+pair — with the friction precedent (five swept modulators, all
+operate-without-advantage) pricing the expectation honestly.
 
 ## 16. Reproduce
 
