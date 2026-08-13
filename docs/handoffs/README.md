@@ -31,9 +31,10 @@ What is open:
 - [`2026-08-11_jin_meeting/`](2026-08-11_jin_meeting/) — **the V-trail
   executors** from the 11-Aug supervisor meeting with Jin (register §V1–V7,
   [`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)):
-  the predictability rework (V2), which feeds the instrument validation pass
-  (V1 + V4), which **gates quoting any instrument figure** in methodology or
-  results prose; and the experiment/chapter restructure onto the sub-question
+  the predictability rework (V2) **landed 2026-08-13** (register §V2 resolution —
+  pin survives, name kept-and-qualified) and feeds the instrument validation
+  pass (V1 + V4), which **gates quoting any instrument figure** in methodology
+  or results prose; and the experiment/chapter restructure onto the sub-question
   spine (V5–V7), independent of the other two. V3 commissions nothing (use
   Tay's pretrained agent as-is). The folder's README carries the trail.
 

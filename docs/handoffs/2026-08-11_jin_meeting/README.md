@@ -7,9 +7,11 @@ supervisor meeting with Jin. The meeting's in-repo record is the register's
 they are foldered together so their shared origin is legible from the directory
 listing.
 
-- [`2026-08-11_predictability_rework.md`](2026-08-11_predictability_rework.md)
-  (**V2**) — resolve the baseline-pin challenge and the metric's name-check;
-  **feeds** the validation pass (predictability validates post-rework).
+- ~~`2026-08-11_predictability_rework.md`~~ (**V2**) — **landed 2026-08-13**,
+  handoff deleted per the lifecycle. Baseline-pin challenge and name-check
+  resolved: pin survives against the code, name kept-and-qualified (register §V2
+  resolution; [`../../implementation/pipeline/ogasp/predictability.md`](../../implementation/pipeline/ogasp/predictability.md)
+  §Resolution). The validation pass may now consume the reworked instrument.
 - [`2026-08-11_instrument_validation_pass.md`](2026-08-11_instrument_validation_pass.md)
   (**V1 + V4**) — hand-traced 4–5-node validation of every presented
   instrument, plus the detectability re-take at steady-state scale. **Gates
