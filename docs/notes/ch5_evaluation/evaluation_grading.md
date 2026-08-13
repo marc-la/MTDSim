@@ -2,16 +2,18 @@
 status: durable
 chapter: ch5_evaluation
 created: 2026-08-11
-updated: 2026-08-11
+updated: 2026-08-13
 ---
 
 # The evaluation's grading instrument — magnitude, ordering, recommendation
 
 ## Position in the dissertation
 
-The methodology chapter's experimental-setup section: how each comparison the
-evaluation reports is scored, and the two families of comparison the scoring is
-applied to. It sits beside the burden-of-proof requirement (which fixes *what*
+The methodology chapter's experimental-setup section, as the scoring for the
+research question's evaluation sub-question — how the attack model's effect on
+moving target defence performance is evaluated. It fixes how each comparison the
+evaluation reports is scored and the two families of comparison the scoring is
+applied to; it sits beside the burden-of-proof requirement (which fixes *what*
 the evaluation must show) and supplies the vocabulary in which the headline
 result is stated.
 
@@ -61,9 +63,14 @@ each fidelity extension the attacker carries has at least one cell in which its
 intended effect should appear — network scale for the within-run learning
 capability, a defence whose cost is not proportional to dwell for the cost
 sensitivity — which turns "does this extension matter to an evaluation" from an
-assumption into a measured question. The two families answer one research
-question: what greater attacker fidelity implies for current methods of
-evaluating moving target defence.
+assumption into a measured question. The two families answer the research
+question's evaluation arm. The question — how moving target defence performs
+against advanced persistent threat attackers — is answered in three parts: how
+APT attacker behaviour is captured from published campaign intelligence, how
+the captured behaviour is made executable, and how the resulting attack model
+is evaluated against the attacker the simulator inherited. This instrument and
+both its families belong to the third part, as its internal organisation
+rather than its frame.
 
 One concession is load-bearing and is made here rather than left for a reader to
 find. The comparative run that anchors the first family has already been taken,
@@ -109,6 +116,10 @@ envelope discipline that governs every claim in this project governs this one.
 - The claim the grading protects:
   [`../../implementation/architecture.md`](../../implementation/architecture.md)
   §(j) (*fidelity changes the answer*).
+- The sub-question decomposition the note is aimed at (the reworded research
+  question and its capture / model / evaluate spine):
+  [`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md)
+  §V5.
 
 ## Revisit conditions
 
