@@ -1,8 +1,8 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-08-01
-provenance: distilled from a UWA research-writing seminar (April 2026) supplied by Marc; adapted from paper-writing to dissertation shape
+updated: 2026-08-13
+provenance: distilled from a UWA research-writing seminar (April 2026) supplied by Marc; adapted from paper-writing to dissertation shape; unit ledger added 2026-08-12 from Marc's base-unit framing plus an independent chapter-weighting suggestion he supplied
 ---
 
 # Writing guide — what each part of the dissertation does
@@ -13,6 +13,18 @@ provenance: distilled from a UWA research-writing seminar (April 2026) supplied 
 > restated in each chapter dir's README; this file holds the whole-document
 > guidance and the parts that have no notes dir (title, abstract, introduction,
 > conclusion).
+
+## The narrative spine — capture / model / evaluate
+
+The single research question decomposes into three methodological sub-questions (supervisor register §V5, 2026-08-11; the skeleton in [`../thesis/dissertation.tex`](../thesis/dissertation.tex) executes it): **capture** — how APT attacker behaviour is captured from published CTI; **model** — how the captured behaviour is made executable as an attacker traversing that structure in the simulator; **evaluate** — how MTD performance against the APT attack model differs from its performance against the inherited scripted attacker. These are *threads, not chapters*: each runs the length of the document, and the argument-carrying chapters are where the threads surface —
+
+| | Lit review | Methodology | Results | Discussion |
+|---|---|---|---|---|
+| **Capture** | what exists | how it was done | — | what the capture licenses |
+| **Model** | attacker models in MTD | the movement attacker | sensitivity of its parameters | fidelity verdict |
+| **Evaluate** | how MTD is evaluated | experimental design | the numbers | what changes for MTD evaluation |
+
+The introduction states the RQ and the three sub-questions (the grey box); the conclusion closes each thread. The capture row's empty results cell is deliberate — the capture produces artefacts, not measurements; its downstream test rides the model row's sensitivity analysis. This matrix is the whole-document coherence check: a proposed unit (see the ledger below) should be able to name its cell, and a unit that cannot is a cut candidate.
 
 ## The one-line job of each part
 
@@ -38,6 +50,35 @@ Work from the concrete to the framing — the framing is the hardest part and is
 4. **Literature review** — the chronological narrowing onto the gap.
 5. **Introduction** — the compressed retelling; expect it to be many refinement passes from acceptable.
 6. **Abstract**, and only then the **title**.
+
+## The unit ledger — budgeting the 15 000 words
+
+The dissertation is measured in **units of work**: one unit = one subsection = 1–2 concise paragraphs ≈ 250 words. The branching rule cuts both ways — content that needs more than two paragraphs branches into another subsection *and pays for it from the ledger*, or compresses; a subsection that cannot fill one paragraph is not a unit and folds into its neighbour.
+
+Working allocation (word targets exclude tables and figures; appendices are unbudgeted but sanctioned-use only — see below):
+
+| Chapter | Words | Units |
+|---|---|---|
+| Abstract | 300 | 1 |
+| Introduction | 1 500 | 6 |
+| Background | 1 250 | 5 |
+| Literature review | 3 000 | 12 |
+| Methodology | 2 750 | 11 |
+| Results | 2 250 | 9 |
+| Discussion | 2 250 | 9 |
+| Future work | 750 | 3 |
+| Conclusion | 500 | 2 |
+| **Total** | **≈14 550** | **58, +2 float** |
+
+Reallocation record: 2026-08-12 — methodology 9→11 for the ratified 11-unit methodology skeleton (the capture/model/evaluate workshop), funded by background 6→5 and discussion 10→9.
+
+Three rules keep the ledger honest:
+
+1. **Conservation.** The total is fixed. A unit added to any chapter names the unit it displaces — no silent growth. The two-unit float is spent by naming it, once; it is not borrowed against repeatedly. Reallocations between chapters are Marc's ruling, recorded here.
+2. **Skeleton discipline.** The headings in `dissertation.tex` *are* the ledger's units: every subsection heading is a claim on ~250 words, so a session proposing structure proposes its unit count in the same breath, and no heading is added without a budget line. (The failure mode this rule exists against: the 2026-08-11 methodology skeleton carried ~44 subsections — a coverage map of every defensible decision, ~11 000 words if drafted, five times the chapter's budget.)
+3. **Cut material has three sinks**, in order of preference: compression to a sentence-level disclosure inside a surviving unit; relocation to the chapter that owns it; the appendix, only for its sanctioned uses (register V6/V7: completed sensitivity sweeps that outgrow the results preamble, the overlay-matrix declaration, the original proposal). The appendix is not a fourth chapter.
+
+Pacing: at ~2 units per day the document is roughly 4–5 weeks of drafting (from 2026-08-12).
 
 ## Time allocation and the refine cycle
 

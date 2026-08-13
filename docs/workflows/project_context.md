@@ -6,7 +6,7 @@
 
 - Repo: a fork of **MTDSimTime** (`main`), a discrete-event simulator for evaluating Moving Target Defence (MTD).
 - Owner: Marc Labouchardiere — UWA honours (CSSE), supervised by Dr Jin Hong.
-- Thesis (current — **supersedes the proposal**): evaluate *existing* MTD mechanisms against behaviourally-grounded adversarial profiles derived from CTI. **Single RQ. No sub-problems.** Revisit criteria are in the single-RQ decision block of [`architecture.md`](../implementation/architecture.md) §(a).
+- Thesis (current — **supersedes the proposal**): evaluate *existing* MTD mechanisms against behaviourally-grounded adversarial profiles derived from CTI. **Single RQ. No sub-problems.** The RQ decomposes into three *methodological* sub-questions — **capture / model / evaluate** (register §V5, 2026-08-11) — which form the dissertation's narrative spine; the chapter-by-chapter matrix is in [`../notes/_writing_guide.md`](../notes/_writing_guide.md). Revisit criteria are in the single-RQ decision block of [`architecture.md`](../implementation/architecture.md) §(a).
 - IDS is **not** a research thread (culled; folded into lit-review §1.3 only). Do **not** build IDS/detection features. Tay's RL agent and its detection-sensitivity machinery are retained only as an inherited **benchmark defence mechanism to replicate** — never to extend, and **deferred to the evaluation/ablation phase** (later in semester), not current work.
 
 ## Direction & scope
