@@ -2,7 +2,7 @@
 status: durable
 created: 2026-08-10
 updated: 2026-08-13
-topic: "Predictability — one detectability-grade scalar for strategic plurality, applied to both attack models, with the scripted baseline pinned at P=1 by construction; pre-registration (committed before any trace is read) + census + calibration + declared/realised layers + decompositions. V2 rework 2026-08-13: baseline pin resolved against the code (survives), name kept-and-qualified."
+topic: "Strategic plurality measured as effective behavioural breadth — a deterministic-vs-stochastic-policy contrast over both attack models; pre-registration (committed before any trace is read) + census + calibration + declared/realised layers + decompositions. V2 rework 2026-08-13: the 'predictability' name and its [0,1] scalar are RETIRED for MTD-venue accuracy (Ghosh/Jalowski own the term for defender foreseeability); the argument leads with effective behavioural breadth (exp conditional entropy), the baseline established against the code as a deterministic policy = 1 effective behaviour."
 ---
 
 # Predictability — the rate at which an attack model's next move can be called from its own decision state
@@ -22,15 +22,25 @@ thesis-argument evidence their prose leans on (a superset of the badge), exactly
 > The meeting challenged the baseline P = 1 pin (the scripted attacker branches
 > on the exploit verdict) and asked that the name *predictability* be checked
 > against established usage. Both are discharged in §Resolution. **Verdict, up
-> front:** the pin **survives** — formalising the FSM against the code (not the
-> meeting summary) shows P = 1 is a property of the *policy*, which is a
-> deterministic function of its decision state; the challenged phrasing ("the
-> next state can be called from the given state") was loose and is corrected,
-> but "by construction" holds and every figure below stands. The name is
-> **kept, qualified** (*behavioural / policy predictability*), with the RL
-> policy-entropy lineage cited as provenance and the MTD defender-predictability
-> collision recorded. The pre-registration and results sections below are
-> unaltered; §Resolution annotates them.
+> front — the maths stands, the framing is corrected, and the name is retired.**
+> Formalising the FSM against the code (not the meeting summary) shows the
+> scripted attacker is a **deterministic policy**: given its decision state its
+> next verb is forced, so it exercises no behavioural choice of its own (R1–R5).
+> The challenged phrasing ("the next state can be called from the given state")
+> was loose — an exploit outcome is not knowable before acting, on either arm —
+> and is dropped. Because *predictability* carries a specific **defender-terrain
+> foreseeability** meaning in the MTD literature (which the FSM's outcome-driven
+> branching does not satisfy, and which is what the meeting caught), the name is
+> **retired in this venue** (R6–R7): the argument leads instead with **effective
+> behavioural breadth** — the effective number of next-moves per decision (the
+> exponential of the policy's conditional entropy, Hill order 1), on which the
+> baseline is a **deterministic policy with one effective behaviour** and the
+> movement attacker a **stochastic policy with 2.7–5.9**. The `[0,1]` scalar and
+> its inversion are dropped as surplus. **No figure changes**; the
+> pre-registration and results sections below are unaltered and §Resolution
+> annotates them. (The pre-registered body still says "predictability / P"
+> throughout — that is committed-before-results history and stays legible as
+> such; §Resolution R7 is the operative naming.)
 
 ## Resolution — V2 rework (2026-08-13)
 
@@ -173,42 +183,78 @@ absolute marginal differs only because it is an illustrative trajectory, not the
 100-seed trace. The invariant — decision-state P = 1.000 — is exact and matches.
 This clears the pin for the V1 instrument-validation pass.
 
-### R6. The name check — kept, qualified, collision recorded
+### R6. The name check — the collision that retires the term
 
-"Predictability" is an established term in two neighbouring literatures, with
-opposite consequences for keeping it:
+"Predictability" is an established term in two neighbouring literatures, and the
+two pull opposite ways:
 
-- **RL / control — established with essentially this meaning; strong provenance.**
-  Policy entropy *is* the standard measure of an agent's action predictability
-  (low entropy ⇒ predictable), and the term is used directly: *Predictability-
-  Aware RL* (PARL) quantifies predictability via the trajectory entropy rate, and
-  Trajectory-Entropy RL targets "predictable" control. The record's P (Hill order
-  ∞, guessing probability) and D_policy (order 1, exponentiated conditional
-  entropy) are the two extreme members of exactly this Rényi/entropy family over
-  the policy's conditional action distribution. So the name is not coined — it
-  denotes the established RL object. This is a **fourth** provenance for the
-  statistic, and the most on-point one for the *name*, alongside the three at
-  §The metric (Berger–Parker dominance, average guessing probability, conditional
-  min-entropy).
+- **RL / control — established with essentially this meaning.** Policy entropy
+  *is* the standard measure of an agent's action predictability (low entropy ⇒
+  predictable), and the word is used directly (*Predictability-Aware RL* via the
+  trajectory entropy rate; Trajectory-Entropy RL for "predictable" control). So
+  in that lineage the metric is a real object, not a coined score.
 - **MTD — established, but with the *defender* as subject; a genuine collision.**
   In the MTD literature "predictability" is a property of the *defender's cyber
   terrain*: MTD wins by *decreasing the predictability of our systems* (Ghosh
   2009), and low-entropy MTD "rotates within a predictable set of vulnerabilities"
-  (Jalowski 2026, on record in the extractions). The project applies the word to
-  the *attacker's policy* — the mirror subject. A reader steeped in MTD will
-  default to defender-predictability.
+  (Jalowski 2026, on record in the extractions). It is a *foreseeability* notion
+  about the defender, not a concentration property of the attacker's policy.
 
-**Verdict: keep the term, qualify the subject.** Use *behavioural predictability*
-or *policy / attacker predictability* on first use and wherever the MTD sense
-could be read in, cite the RL policy-entropy lineage as provenance in the methods
-text (it strengthens the "standard object" argument the record already makes),
-and disambiguate once from the MTD defender-predictability usage so the two are
-never conflated. This follows the handoff's instruction — compound or qualify
-rather than coin — and records the collision either way. The bare word
-*predictability* remains fine for the metric's short name once the subject is
-established.
+**Verdict (settled 2026-08-13 with Marc): retire the term in this venue.**
+Qualifying it (*behavioural / policy predictability*) was considered and
+rejected. Two reasons. First, *guessable* and *predictable* are synonyms, so no
+qualifier escapes the foreseeability reading — and that reading is exactly the
+one the `EXPLOIT_VULN` branch falsifies (you cannot foresee the FSM's next move,
+because the exploit outcome is not yet drawn). Second, this dissertation sits
+*inside* the MTD literature, which already owns the word for defender
+foreseeability; quietly repurposing it for a property of the attacker's policy
+reads as an error to a reader in the field, which is precisely what the meeting
+caught. The name is dropped; R7 is the reframing.
+
+### R7. The reframing — effective behavioural breadth (deterministic vs stochastic policy)
+
+The argument leads with the quantity the maths already computes on the
+uncontested side, under the standard names the two source fields give it:
+
+- **The measure is effective behavioural breadth** — the exponential of the
+  policy's conditional Shannon entropy, `2^{H(A|C)}` (the record's `D_policy`).
+  This is the Hill number of order 1 / Jost's "effective number of types" in
+  ecology, and the identical "effective number of actions, `e^{H}`" used for
+  exploration in reinforcement learning. Higher means a broader repertoire; it
+  needs no inversion and carries no loaded term.
+- **The contrast is the textbook RL distinction** between a **deterministic
+  policy** (one action per state) and a **stochastic policy** (a distribution
+  over actions per state). R1–R5 establish, against the code, that the scripted
+  baseline is a deterministic policy and the movement attacker a stochastic one.
+
+So the honest, venue-safe statement is: **the scripted baseline is a
+deterministic policy — one effective behaviour per decision, which is a
+definitional fact about a deterministic controller, not a claim that its runs are
+foreseeable; the movement attacker is a stochastic policy carrying 2.7–5.9
+effective behaviours per decision.** The property this evidences is unchanged —
+**strategic plurality** — and so is the honesty ceiling: a broader repertoire is
+not an advantage ([`experiment_02_findings.md`](experiment_02_findings.md) §11).
+
+**What is dropped, and what is kept.** The `[0,1]` scalar `P` (the order-∞ /
+guessing-probability member) and its "predictability" branding leave the
+argument. `P` stays in the tables below only as an already-computed companion
+statistic; it is no longer the headline, and the word does not travel with it.
+The baseline's role becomes the clean one it should always have been — *a
+deterministic policy has one effective behaviour* — with no "perfectly
+predictable / call its next move" phrasing anywhere, since that is the reading
+the `EXPLOIT_VULN` branch correctly falsifies. Nothing numerical changes: the
+effective breadths (baseline 1; movement 2.7–5.9) are the same figures the
+results section already carries, relabelled and led with rather than inverted.
 
 ## The vocabulary, fixed once (downstream prose inherits these terms)
+
+> **▸ Superseded by §Resolution R6–R7 (2026-08-13).** Everything from here down is
+> the pre-registration, committed before any trace was read, and is kept verbatim
+> as history. Its metric name — *predictability*, and the scalar *P* — is
+> **retired**: the operative term is **effective behavioural breadth** (the
+> `D_policy` below), and the baseline is described as a *deterministic policy with
+> one effective behaviour*, never as "perfectly predictable". Read the body for
+> the construction; read R7 for what the metric is now called and claimed.
 
 - **Strategic plurality** — the *property* claimed (as *stealth* is a property).
 - **Behaviour composition** — the *object* measured: the support and proportions

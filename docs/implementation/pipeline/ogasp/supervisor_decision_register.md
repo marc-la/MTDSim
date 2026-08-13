@@ -408,14 +408,22 @@ intractable).
   verdict too — so it factors out shared environmental stochasticity rather
   than flattering either arm. Hand-validated on a four-host trace under V1's
   protocol (decision-state P = 1.000 exactly; phase-only P < 1, the marginal
-  trap), agreeing with the calibration reader. **(2)** The name is **kept,
-  qualified**: *predictability* is the established RL policy-entropy object
-  (PARL, trajectory-entropy control — a fourth provenance for the statistic),
-  but it collides in subject with the MTD literature's *defender*-predictability
-  (Ghosh 2009, Jalowski 2026). Resolution: qualify the subject on first use
-  (*behavioural / policy predictability*), cite the RL lineage, disambiguate
-  once from the MTD sense. The shared expectation (movement attacker less
-  predictable than the baseline) is confirmed, not merely retained.
+  trap), agreeing with the calibration reader. **(2)** The name is **retired in
+  this venue**, not merely qualified. In the MTD literature *predictability*
+  denotes defender-terrain foreseeability (Ghosh 2009, Jalowski 2026), which the
+  FSM's outcome-driven branching does not satisfy; qualifying it fails because
+  *guessable* and *predictable* are synonyms, so no qualifier escapes the
+  foreseeability reading the `EXPLOIT_VULN` branch falsifies. The argument is
+  reframed onto **effective behavioural breadth** — the effective number of
+  next-moves per decision (exp of the policy's conditional entropy; Hill order 1
+  in ecology, "effective actions `e^H`" in RL) — under the textbook
+  **deterministic-vs-stochastic policy** contrast: the baseline is a
+  deterministic policy (one effective behaviour), the movement attacker a
+  stochastic one (2.7–5.9). The `[0,1]` scalar and the "predictability" branding
+  are dropped; **no figure changes** (the breadths are the same numbers,
+  relabelled and led with rather than inverted). The shared expectation — the
+  movement attacker carries a broader behavioural repertoire than the baseline —
+  is confirmed. Ruling settled with Marc 2026-08-13.
 
 - **V3 — Tay's agent is used as-is; retraining is ruled out (axes 4 and 8).**
   The update places the Tay question on axis 8 (the only event-based MTD
@@ -534,8 +542,10 @@ commit carrying this annotation, which also retires the trail's
   evidence each axis" half; and the dynamic, attacker-state-conditioned weights
   named as the eventual direction in S1.
 - **Owed back under the V trail (2026-08-11):** ~~the predictability rework and
-  literature name-check (V2)~~ — **done 2026-08-13** (§V2 resolution above: pin
-  survives against the code, name kept-and-qualified); and the hand-traced
+  literature name-check (V2)~~ — **done 2026-08-13** (§V2 resolution above: the
+  baseline pin survives against the code as a deterministic policy, the
+  "predictability" name is retired, and the metric is reframed as effective
+  behavioural breadth); and the hand-traced
   validation pass over every presented instrument (V1) — still owed, sequenced
   before the methodology draft (the predictability instrument's own hand-trace
   is cleared, §V2). Nothing structural was reopened; V3 settles the Tay retrain
