@@ -70,6 +70,27 @@ What is open:
     pre-registered positive control. Gated by its own step-0 kill-cheap ceiling
     pilot; retires by evidence if that pilot shows no headroom.
 
+- [`2026-08-13_validation_triage.md`](2026-08-13_validation_triage.md) — **the
+  validation map**: every contribution enumerated on the capture/model/evaluate
+  spine with its existing verification artefacts, and the manual-review queue
+  (declared-value families first) ordered by claim-bearing weight. Off every
+  chain; consumed by Marc directly.
+
+- [`2026-08-13_axis4_structural_route_probe.md`](2026-08-13_axis4_structural_route_probe.md)
+  — **the axis-4 structural-route probe**: reader-only check of whether
+  post-interrupt terrain carries structure a pivot kernel could exploit;
+  converts the 2026-08-11 closure's parked route into an evidence-backed one
+  (or hands a target to a corpus-grounded kernel design). Gates the
+  airtight form of any ch6 axis-4 intractability sentence.
+
+- [`2026-08-13_axis8_timing_channel_reexamination.md`](2026-08-13_axis8_timing_channel_reexamination.md)
+  — **the axis-8 timing-channel inversion**: the substrate's "exponential"
+  clocks verified as loc-shifted (quasi-periodic trigger), falsifying the
+  planned memorylessness closure and surfacing a candidate timing-distribution
+  divergence (documented nowhere; suggested D-39). **Waits on a Marc
+  disposition**; blocks any axis-8 timing-intractability prose and the
+  criterion amendment either way.
+
 - [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
   — **the research record**, mined from Marc's own prompts across the session
   transcripts. Off every chain: it touches no code, gates nothing, and is gated
