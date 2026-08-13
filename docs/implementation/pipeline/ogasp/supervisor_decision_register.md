@@ -390,6 +390,33 @@ intractable).
   verify existing usage before keeping the name, and compound or qualify it if
   it collides.
 
+  **Resolved 2026-08-13** ([`predictability.md`](predictability.md)
+  §Resolution; retires the `2026-08-11_predictability_rework` handoff). Both
+  directions discharged, no figure retracted. **(1)** The baseline FSM was
+  formalised against the code (`attack_operation.py`) zero-trust: the scripted
+  attacker is a deterministic program whose `_execute_*` succession is a total
+  function of (phase, branch), the branch including the exploit verdict. The
+  verdict is *both* an outcome revealed after the move commits *and* a variable
+  the succession consults — so P = 1 survives **as a property of the policy**
+  (given the decision state, the next verb is forced; the FSM exercises no
+  choice), which is the first of the two branches the banner left open. The
+  challenged phrasing "the next state can be called from the given state" was
+  loose (the verdict is not knowable *before* acting, on either arm) and is
+  corrected to "the policy is a deterministic function of its decision state";
+  "by construction" holds. Conditioning on the verdict is the *symmetric,
+  charitable* choice — the movement arm composes on its own environment-drawn
+  verdict too — so it factors out shared environmental stochasticity rather
+  than flattering either arm. Hand-validated on a four-host trace under V1's
+  protocol (decision-state P = 1.000 exactly; phase-only P < 1, the marginal
+  trap), agreeing with the calibration reader. **(2)** The name is **kept,
+  qualified**: *predictability* is the established RL policy-entropy object
+  (PARL, trajectory-entropy control — a fourth provenance for the statistic),
+  but it collides in subject with the MTD literature's *defender*-predictability
+  (Ghosh 2009, Jalowski 2026). Resolution: qualify the subject on first use
+  (*behavioural / policy predictability*), cite the RL lineage, disambiguate
+  once from the MTD sense. The shared expectation (movement attacker less
+  predictable than the baseline) is confirmed, not merely retained.
+
 - **V3 — Tay's agent is used as-is; retraining is ruled out (axes 4 and 8).**
   The update places the Tay question on axis 8 (the only event-based MTD
   orchestration available) and the meeting reached it through axis 4; the
@@ -506,12 +533,14 @@ commit carrying this annotation, which also retires the trail's
   measurements (M8b), now folded into the S6 criterion work as the "what would
   evidence each axis" half; and the dynamic, attacker-state-conditioned weights
   named as the eventual direction in S1.
-- **Owed back under the V trail (2026-08-11):** the predictability rework and
-  literature name-check (V2), and the hand-traced validation pass over every
-  presented instrument (V1) — both sequenced before the methodology draft.
-  Nothing structural was reopened; V3 settles the Tay retrain question the
-  scaled-training proposal had left implicitly open (use the pretrained agent
-  as-is).
+- **Owed back under the V trail (2026-08-11):** ~~the predictability rework and
+  literature name-check (V2)~~ — **done 2026-08-13** (§V2 resolution above: pin
+  survives against the code, name kept-and-qualified); and the hand-traced
+  validation pass over every presented instrument (V1) — still owed, sequenced
+  before the methodology draft (the predictability instrument's own hand-trace
+  is cleared, §V2). Nothing structural was reopened; V3 settles the Tay retrain
+  question the scaled-training proposal had left implicitly open (use the
+  pretrained agent as-is).
 
 ## 2026-07-23 — outcome-overlay (M2/M3) numbers finalised
 

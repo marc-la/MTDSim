@@ -1,8 +1,8 @@
 ---
 status: durable
 created: 2026-08-10
-updated: 2026-08-11
-topic: "Predictability — one detectability-grade scalar for strategic plurality, applied to both attack models, with the scripted baseline pinned at P=1 by construction; pre-registration (committed before any trace is read) + census + calibration + declared/realised layers + decompositions"
+updated: 2026-08-13
+topic: "Predictability — one detectability-grade scalar for strategic plurality, applied to both attack models, with the scripted baseline pinned at P=1 by construction; pre-registration (committed before any trace is read) + census + calibration + declared/realised layers + decompositions. V2 rework 2026-08-13: baseline pin resolved against the code (survives), name kept-and-qualified."
 ---
 
 # Predictability — the rate at which an attack model's next move can be called from its own decision state
@@ -16,20 +16,197 @@ badge** — axis 3 is DEMONSTRATED and axis 4 is DESIGNED, and this builds the
 thesis-argument evidence their prose leans on (a superset of the badge), exactly as
 [`plural_preference.md`](plural_preference.md) did.
 
-> **Challenged at the 2026-08-11 supervisor meeting — rework owed before any
-> figure here is quoted**
+> **Challenged at the 2026-08-11 supervisor meeting — resolved 2026-08-13
+> (§Resolution below), no figure retracted**
 > ([`supervisor_decision_register.md`](supervisor_decision_register.md) §V2).
-> Two directions from the meeting. **(1)** The baseline P = 1 pin did not
-> survive presentation: the scripted attacker branches on the exploit verdict
-> (success routes to scanning, failure routes elsewhere), so "the next state
-> can be called from the given state" was challenged and the rework conceded.
-> This record's construction conditions on every variable the policy consults —
-> whether that construction answers the challenge (the verdict as a
-> conditioning variable) or the challenge stands is exactly the owed rework;
-> until it lands, every figure here is preliminary under V1's hand-validation
-> protocol (a 4–5-node manually-traceable network before any quoted number).
-> **(2)** The term *predictability* is to be verified against established
-> usage before the name is kept — compound or qualify it if it collides.
+> The meeting challenged the baseline P = 1 pin (the scripted attacker branches
+> on the exploit verdict) and asked that the name *predictability* be checked
+> against established usage. Both are discharged in §Resolution. **Verdict, up
+> front:** the pin **survives** — formalising the FSM against the code (not the
+> meeting summary) shows P = 1 is a property of the *policy*, which is a
+> deterministic function of its decision state; the challenged phrasing ("the
+> next state can be called from the given state") was loose and is corrected,
+> but "by construction" holds and every figure below stands. The name is
+> **kept, qualified** (*behavioural / policy predictability*), with the RL
+> policy-entropy lineage cited as provenance and the MTD defender-predictability
+> collision recorded. The pre-registration and results sections below are
+> unaltered; §Resolution annotates them.
+
+## Resolution — V2 rework (2026-08-13)
+
+Discharges [`supervisor_decision_register.md`](supervisor_decision_register.md)
+§V2 and the `2026-08-11_predictability_rework` handoff. Formalised against
+`mtdnetwork/operation/attack_operation.py` zero-trust (not against the challenge
+summary), hand-validated under V1's protocol, name checked against the
+literature. Nothing here rewrites the pre-registration; the branch conditioning
+it defends was fixed at §The two decisions, committed before any trace was read.
+
+### R1. The baseline FSM's decision process, from the code
+
+The inherited attacker is a self-driving deterministic program
+(`AttackOperation`). There is no separate *decide* step: each verb's core
+`_do_*` performs the action and **returns its branch outcome**, and the matching
+`_execute_*` wrapper reads that return value and dispatches to a hard-coded
+successor. The policy is therefore exactly the six `_execute_*` dispatch rules,
+each a **total function from (its own `_do_*` outcome) to one successor verb**.
+Re-derived from the wrappers directly (`_execute_scan_host` …
+`_execute_scan_neighbors`), the transition table is identical to §The two
+decisions':
+
+| phase | branch (the `_do_*` outcome the succession reads) | successor |
+|---|---|---|
+| `SCAN_HOST` | hosts found / none | `ENUM_HOST` / terminate |
+| `ENUM_HOST` | popped host already-compromised / fresh | `ENUM_HOST` / `SCAN_PORT` |
+| `SCAN_PORT` | credential reuse compromise / not | `SCAN_NEIGHBOR` / `EXPLOIT_VULN` |
+| `EXPLOIT_VULN` | `EXPLOIT_COMPROMISED` / `EXPLOIT_UNCOMPROMISED` | `SCAN_NEIGHBOR` / `BRUTE_FORCE` |
+| `BRUTE_FORCE` | compromise / not | `SCAN_NEIGHBOR` / `ENUM_HOST` |
+| `SCAN_NEIGHBOR` | (unconditional) | `ENUM_HOST` |
+
+Every (phase, branch) cell carries exactly one successor.
+
+### R2. Where the exploit verdict sits — the crux, and why it is *both* things
+
+The meeting's objection targets `EXPLOIT_VULN`: `EXPLOIT_COMPROMISED` routes to
+`SCAN_NEIGHBOR`, `EXPLOIT_UNCOMPROMISED` routes to `BRUTE_FORCE`
+(`_execute_exploit_vuln`). The handoff's step 1 asked which of two things the
+verdict is; the code answer is that it is **both**, and being both is not a
+contradiction:
+
+- It is **an outcome revealed only after the move is committed.**
+  `_do_exploit_vuln` spends the action's time and rolls the exploit
+  (`vuln.network(...)`) *inside* the verb; the compromise verdict is a stochastic
+  environment output, not knowable before the verb runs. So the supervisor is
+  right that the *next state* cannot be called from the *phase before acting* —
+  and no attack model can, the movement attacker included.
+- It is **a variable the succession rule consults.** The `_execute_*` dispatch
+  is literally a branch on that return value. Given the verdict, the successor is
+  a deterministic function.
+
+Predictability (§The metric) is defined over the **decision state** *c*, which
+by construction is *every variable the policy consults* — for the FSM,
+c = (phase, branch), the branch including the verdict. Given *c*, the FSM's next
+verb is a point mass: N = 1, D = 1, max_a π(a | c) = 1. Hence **P = 1 exactly,
+by construction** — a theorem about a deterministic program, confirmed
+operationally by the calibration reader returning P = 1.000 on the transition
+table (§Calibration).
+
+### R3. Why conditioning on the verdict is the fair construction, not a thumb on the scale
+
+The move that answers the objection is **symmetric**, and that is what makes it
+legitimate rather than a dodge. The movement attacker's policy *also* consults a
+verdict drawn by the same environment: its overlay composes on (place, verdict)
+and *then samples* the successor (`movement/attacker.py`, `overlay.compose`
+followed by the sampled transition). Each arm is granted exactly the variables
+its own policy reads, so the distinction the metric isolates is the real one:
+
+- **FSM** — given its decision state, the successor is *computed* (deterministic
+  dispatch): zero policy choice, **P = 1**.
+- **Movement** — given its decision state, the successor is *sampled* from a
+  declared mixture: genuine policy plurality, **P = 0.33–0.57**.
+
+Both arms are subject to *identical* environmental stochasticity — the verdict is
+drawn, not chosen, on both. Conditioning on the decision state factors that
+shared stochasticity out, leaving only what each *policy* contributes. Refusing
+to condition on the verdict would not make the comparison fairer: it would
+inflate the FSM's apparent plurality with the hidden verdict (the marginal trap,
+design fact 2) *and* understate the movement attacker's, measuring neither
+policy. The construction is coherent only at decision-state granularity, and
+there the FSM is P = 1.
+
+### R4. What was actually wrong, and the corrected claim
+
+The sentence challenged in the meeting — "the next state can be called from the
+given state" — was loose, and the concession stands: read as *call the next
+state from the phase, before acting*, it is false, because the verdict has not
+been drawn yet. The claim the record makes and defends is the different, correct
+one:
+
+> **The scripted attacker's policy is a deterministic function of its decision
+> state — it exercises no choice; given the decision state, its next verb is
+> forced. Its run-to-run trace variation is entirely environmental (exploit
+> rolls, host draws), shared with the movement attacker, and is not policy
+> plurality.**
+
+So the meeting outcome is a **presentation fix that states the conditioning
+explicitly**, not a retraction of "by construction". The P = 1 pin is retained;
+every downstream figure (movement P = 0.33–0.57, CI-separated below 1.00) stands
+unchanged. This is the first of the two branches the pre-registration banner
+left open — *the verdict as a conditioning variable answers the challenge* — now
+closed on the code.
+
+The one honest residual, already recorded at §Calibration and unchanged: the
+reader reads P = 0.868 at (phase, branch) *from traces*, not 1.000, because three
+cells (`ENUM_HOST|fresh`, `ENUM_HOST|already_compromised`, `BRUTE_FORCE|not`)
+carry unmodelled enumeration/environment state the attack record under-exposes —
+not policy plurality. The 1.000 is the theorem over the policy's transition
+table; the trace residual is a limit of trace reconstruction, and it lies on the
+*predictable* side (residual P > constructed-marginal P), so it cannot
+manufacture spurious plurality against the movement arm.
+
+### R5. Hand-validation (V1 protocol) — P by hand agrees with the reader
+
+A worked trace on a four-host line network (exposed endpoint + h1, h2, h3),
+following one FSM trajectory and tallying the decision states c = (phase, branch)
+it visits with their forced successors:
+
+| decision state c = (phase, branch) | successor | visits | max_a π(a\|c) |
+|---|---|--:|--:|
+| `SCAN_HOST`, found | `ENUM_HOST` | 1 | 1 |
+| `ENUM_HOST`, fresh | `SCAN_PORT` | 3 | 1 |
+| `ENUM_HOST`, already | `ENUM_HOST` | 1 | 1 |
+| `SCAN_PORT`, no-reuse | `EXPLOIT_VULN` | 3 | 1 |
+| `EXPLOIT_VULN`, compromised | `SCAN_NEIGHBOR` | 2 | 1 |
+| `EXPLOIT_VULN`, uncompromised | `BRUTE_FORCE` | 1 | 1 |
+| `SCAN_NEIGHBOR`, — | `ENUM_HOST` | 2 | 1 |
+| `BRUTE_FORCE`, not | `ENUM_HOST` | 1 | 1 |
+
+Fourteen decisions; every cell is a point mass, so by hand
+**P = Σ_c p(c)·max_a π(a | c) = 1.000** and **D_policy = 2^{H(A|C)} = 2^0 = 1.00**
+— independent of the visitation distribution. Collapsing to phase-only
+conditioning reproduces the marginal trap by hand: at `EXPLOIT_VULN` the observed
+successors are {`SCAN_NEIGHBOR` ×2, `BRUTE_FORCE` ×1} ⇒ max = 2/3, and at
+`ENUM_HOST` {`SCAN_PORT` ×3, `ENUM_HOST` ×1} ⇒ max = 3/4, giving marginal
+P = 12/14 = **0.857 < 1**. The by-hand numbers match the calibration reader's
+recorded regime exactly in structure and ordering (decision-state 1.000;
+marginal < 1 — the reader recorded 1.000 and 0.766 on its own trace); the
+absolute marginal differs only because it is an illustrative trajectory, not the
+100-seed trace. The invariant — decision-state P = 1.000 — is exact and matches.
+This clears the pin for the V1 instrument-validation pass.
+
+### R6. The name check — kept, qualified, collision recorded
+
+"Predictability" is an established term in two neighbouring literatures, with
+opposite consequences for keeping it:
+
+- **RL / control — established with essentially this meaning; strong provenance.**
+  Policy entropy *is* the standard measure of an agent's action predictability
+  (low entropy ⇒ predictable), and the term is used directly: *Predictability-
+  Aware RL* (PARL) quantifies predictability via the trajectory entropy rate, and
+  Trajectory-Entropy RL targets "predictable" control. The record's P (Hill order
+  ∞, guessing probability) and D_policy (order 1, exponentiated conditional
+  entropy) are the two extreme members of exactly this Rényi/entropy family over
+  the policy's conditional action distribution. So the name is not coined — it
+  denotes the established RL object. This is a **fourth** provenance for the
+  statistic, and the most on-point one for the *name*, alongside the three at
+  §The metric (Berger–Parker dominance, average guessing probability, conditional
+  min-entropy).
+- **MTD — established, but with the *defender* as subject; a genuine collision.**
+  In the MTD literature "predictability" is a property of the *defender's cyber
+  terrain*: MTD wins by *decreasing the predictability of our systems* (Ghosh
+  2009), and low-entropy MTD "rotates within a predictable set of vulnerabilities"
+  (Jalowski 2026, on record in the extractions). The project applies the word to
+  the *attacker's policy* — the mirror subject. A reader steeped in MTD will
+  default to defender-predictability.
+
+**Verdict: keep the term, qualify the subject.** Use *behavioural predictability*
+or *policy / attacker predictability* on first use and wherever the MTD sense
+could be read in, cite the RL policy-entropy lineage as provenance in the methods
+text (it strengthens the "standard object" argument the record already makes),
+and disambiguate once from the MTD defender-predictability usage so the two are
+never conflated. This follows the handoff's instruction — compound or qualify
+rather than coin — and records the collision either way. The bare word
+*predictability* remains fine for the metric's short name once the subject is
+established.
 
 ## The vocabulary, fixed once (downstream prose inherits these terms)
 

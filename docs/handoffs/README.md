@@ -31,12 +31,13 @@ What is open:
 - [`2026-08-11_jin_meeting/`](2026-08-11_jin_meeting/) — **the V-trail
   executors** from the 11-Aug supervisor meeting with Jin (register §V1–V7,
   [`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)):
-  the predictability rework (V2), which feeds the instrument validation pass
-  (V1 + V4), which **gates quoting any instrument figure** in methodology or
-  results prose. V3 commissions nothing (use Tay's pretrained agent as-is);
-  the V5–V7 restructure shipped (skeleton, grading-note re-aim, register
-  annotation) and its handoff is retired. The folder's README carries the
-  trail.
+  the predictability rework (V2) **landed 2026-08-13** (register §V2 resolution —
+  pin survives, name kept-and-qualified) and feeds the instrument validation
+  pass (V1 + V4), which **gates quoting any instrument figure** in methodology
+  or results prose — the one item still open in this folder. V3 commissions
+  nothing (use Tay's pretrained agent as-is); the V5–V7 restructure shipped
+  (skeleton, grading-note re-aim, register annotation) and its handoff is
+  retired. The folder's README carries the trail.
 
 - [`2026-08-11_movement_objectives.md`](2026-08-11_movement_objectives.md) —
   **a strategic-objective layer for the movement attacker** (`movement_general`
@@ -70,6 +71,27 @@ What is open:
     attacker?"). Hosts the same frozen mechanism on the native FSM as a
     pre-registered positive control. Gated by its own step-0 kill-cheap ceiling
     pilot; retires by evidence if that pilot shows no headroom.
+
+- [`2026-08-13_validation_triage.md`](2026-08-13_validation_triage.md) — **the
+  validation map**: every contribution enumerated on the capture/model/evaluate
+  spine with its existing verification artefacts, and the manual-review queue
+  (declared-value families first) ordered by claim-bearing weight. Off every
+  chain; consumed by Marc directly.
+
+- [`2026-08-13_axis4_structural_route_probe.md`](2026-08-13_axis4_structural_route_probe.md)
+  — **the axis-4 structural-route probe**: reader-only check of whether
+  post-interrupt terrain carries structure a pivot kernel could exploit;
+  converts the 2026-08-11 closure's parked route into an evidence-backed one
+  (or hands a target to a corpus-grounded kernel design). Gates the
+  airtight form of any ch6 axis-4 intractability sentence.
+
+- [`2026-08-13_axis8_timing_channel_reexamination.md`](2026-08-13_axis8_timing_channel_reexamination.md)
+  — **the axis-8 timing-channel inversion**: the substrate's "exponential"
+  clocks verified as loc-shifted (quasi-periodic trigger), falsifying the
+  planned memorylessness closure and surfacing a candidate timing-distribution
+  divergence (documented nowhere; suggested D-39). **Waits on a Marc
+  disposition**; blocks any axis-8 timing-intractability prose and the
+  criterion amendment either way.
 
 - [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
   — **the research record**, mined from Marc's own prompts across the session
