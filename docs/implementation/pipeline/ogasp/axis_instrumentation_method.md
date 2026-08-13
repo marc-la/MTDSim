@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-09
-updated: 2026-08-09
+updated: 2026-08-13
 topic: "The method the axis-instrumentation programme arrived at, extracted from eight axes and roughly 30 000 runs — the diagnostic that decides whether an axis wants a mechanism, an instrument or nothing; the six design rules that separated the results that held from the ones that did not; and the failure modes that cost this project the most time"
 ---
 
@@ -106,17 +106,20 @@ The cheapest way to instrument a new axis is to reuse the *shape* of one that
 succeeded, not to design from scratch. The axis-5 detectability measure established a
 shape — **one scalar, computed over both attack models, with a declared family whose
 order is corpus-grounded and whose magnitudes are swept, each with a null in its
-band** — and that shape ported directly onto axis 3 as the **predictability** measure
-([`predictability.md`](predictability.md)), the rate at which a model's next move can
-be called from its own decision state.
+band** — and that shape ported directly onto axis 3 as the **effective behavioural
+breadth** measure ([`predictability.md`](predictability.md) — the record's filename
+predates the 2026-08-13 rename from "predictability", §Resolution R6–R7 there): the
+effective number of distinct next-moves per decision state (the exponential of the
+policy's conditional entropy).
 
 Two things travelled with the shape and are the reusable part:
 
 - **A calibration arm that the instrument must return a known value for.** The
-  scripted baseline is pinned at `P = 1` **by construction**, so the reader has a
-  self-test: if it does not return 1 there, the reader is wrong, not the attacker.
-  Building a cell whose answer is known in advance is the cheapest validity check
-  available, and it is independent of every result.
+  scripted baseline is a **deterministic policy**, so it carries **one effective
+  behaviour by construction**, and the reader has a self-test: if it does not
+  return 1 there, the reader is wrong, not the attacker. Building a cell whose
+  answer is known in advance is the cheapest validity check available, and it is
+  independent of every result.
 - **A census that gates everything.** Before any headline number, establish that each
   cell is estimable at the available sample size. It costs one pass and prevents a
   reported figure that the data could never have supported.

@@ -2164,12 +2164,22 @@ def substrate_success_alignment(runs: Sequence[MovementRunResult]) -> float:
     return spearman_rho(xs, ys)
 
 
-# --- §11 predictability (strategic plurality as one scalar, both arms) --------
+# --- §11 effective behavioural breadth (strategic plurality, both arms) --------
+#
+# NB — terminology (2026-08-13): the metric this section LEADS with is **effective
+# behavioural breadth** (``D_policy``). The identifiers below keep the older
+# "predictability" name (:func:`predictability_report`, the ``predictability``
+# field) for API/test stability, but *predictability* is **retired** as the
+# reported metric name: in an MTD venue it means defender-terrain foreseeability,
+# which the FSM's outcome-driven branching does not satisfy (predictability.md
+# §Resolution R6–R7). ``P`` is kept as a companion statistic, not the headline; the
+# baseline's ``P = 1`` is read as "a deterministic policy has one effective
+# behaviour", never as "perfectly predictable".
 #
 # §10 measures plurality at the *behaviour* level, pooled and unconditioned. This
-# section conditions on the model's **own decision state** and reads one
-# detectability-grade scalar — predictability — that applies to both attack models
-# and pins the scripted baseline at the boundary by construction.
+# section conditions on the model's **own decision state** and reads breadth as one
+# scalar over both attack models, with the scripted baseline a deterministic policy
+# (one effective behaviour) by construction.
 #
 # **The metric.** An attack model fixes a policy π(a | c): a distribution over next
 # actions ``a`` given its own decision state ``c``. Per state the composition's
@@ -2177,10 +2187,11 @@ def substrate_success_alignment(runs: Sequence[MovementRunResult]) -> float:
 # probability :func:`modal_probability`. Two aggregates over states, visitation-
 # weighted p(c):
 #
-#   - **Predictability** ``P = Σ_c p(c)·max_a π̂(a|c)`` — how often an observer
-#     granted every variable the policy consults can call the next move.
 #   - **Effective behavioural breadth** ``D_policy = 2^{H(A|C)}`` with
-#     ``H(A|C) = Σ_c p(c)·H(a|c)`` — the exponentiated conditional entropy.
+#     ``H(A|C) = Σ_c p(c)·H(a|c)`` — the exponentiated conditional entropy: the
+#     effective number of distinct next-moves per decision. **The headline.**
+#   - ``P = Σ_c p(c)·max_a π̂(a|c)`` — the order-∞ / guessing-probability member,
+#     retained as a companion (see the terminology note above), not the headline.
 #
 # **The decision state is each model's own consulted variables** (predictability.md
 # §The two decisions, pre-registered):
