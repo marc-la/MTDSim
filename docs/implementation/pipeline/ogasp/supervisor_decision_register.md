@@ -2,7 +2,7 @@
 status: durable
 created: 2026-07-03
 topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5, M1–M8, S1–S6, V1–V7)"
-updated: 2026-08-11
+updated: 2026-08-13
 lineage: formerly docs/notes @ 2026-07-03_supervisor_meeting_l3_decisions.md (relocated in the 2026-07-13 docs refactor)
 ---
 
@@ -476,6 +476,18 @@ intractable).
   stated sequencing at close: finish the validation pass, then draft the
   methodology in the week following the meeting.
 
+**V5–V7 executed (2026-08-12 / 2026-08-13).** The dissertation skeleton was
+restructured onto the sub-question spine at `fbc35d7` — the reworded research
+question and its three-part decomposition in an introduction grey box, the
+Background chapter carrying the inherited simulator (V7), the experimental
+setup organised by sub-question with the factor table serving the evaluation
+sub-question, and the sensitivity-analysis results preamble (V6) — then re-cut
+to the writing guide's unit budget at `77b4060`. The grading note
+([`../../../notes/ch5_evaluation/evaluation_grading.md`](../../../notes/ch5_evaluation/evaluation_grading.md))
+was re-aimed at the evaluation sub-question and rubric re-cleared in the
+commit carrying this annotation, which also retires the trail's
+`experiment_restructure_subquestions` executor handoff.
+
 ## Still open with the supervisor
 
 - **Nothing structural in the execution model.** M1–M8 closed the
@@ -603,7 +615,8 @@ and partly reframed, since the sweep found two conclusions that do move.
   - **Forward chain (2026-08-11, executing V1–V7).** Three handoffs dated
     `2026-08-11`: `predictability_rework` (**V2**) feeds
     `instrument_validation_pass` (**V1**, plus **V4**'s detectability re-take);
-    `experiment_restructure_subquestions` (**V5–V7**) runs independently of
+    `experiment_restructure_subquestions` (**V5–V7**; executed and retired —
+    see the V-trail annotation) ran independently of
     both. **V3** commissions nothing — the scaled-training proposal it
     deflates was already deleted — and **V1**'s protocol gates Marc's
     methodology draft rather than a handoff.

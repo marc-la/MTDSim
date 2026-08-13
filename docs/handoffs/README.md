@@ -33,9 +33,10 @@ What is open:
   [`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)):
   the predictability rework (V2), which feeds the instrument validation pass
   (V1 + V4), which **gates quoting any instrument figure** in methodology or
-  results prose; and the experiment/chapter restructure onto the sub-question
-  spine (V5–V7), independent of the other two. V3 commissions nothing (use
-  Tay's pretrained agent as-is). The folder's README carries the trail.
+  results prose. V3 commissions nothing (use Tay's pretrained agent as-is);
+  the V5–V7 restructure shipped (skeleton, grading-note re-aim, register
+  annotation) and its handoff is retired. The folder's README carries the
+  trail.
 
 - [`2026-08-11_movement_objectives.md`](2026-08-11_movement_objectives.md) —
   **a strategic-objective layer for the movement attacker** (`movement_general`
