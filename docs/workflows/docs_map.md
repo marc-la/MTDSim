@@ -55,6 +55,7 @@ The always-loaded layer. Every session reads all of it (see [`../../CLAUDE.md`](
 - [`notes_rubric.md`](notes_rubric.md) — the quality gate for `notes/`.
 - [`voice.md`](voice.md) — the prose contract for dissertation-bound writing (loaded before drafting `notes/` or `thesis/` prose, not every session).
 - [`critique_protocol.md`](critique_protocol.md) — the draft-review contract (edit tiers, verdict vocabulary, sentence diagnostics, reviewer banlist); loaded before critiquing any draft prose. Grey-box by design: usable standalone with exemplars pasted in.
+- [`draft_scrutiny.md`](draft_scrutiny.md) — the **content/intent** review contract: checks a draft against the research record, the chapter notes, and the implementation evidence for right argument, right framing, missing arguments, unowned concessions, and overclaims. Carries the corpus map (which documents scrutinise which chapter) and the scrutinise-never-generate rule. Loaded before scrutinising draft content or producing content-point scaffolds; the `scrutinise-draft` skill invokes it. Sits above `critique_protocol.md` (prose quality) and `voice.md` (sentences).
 
 Contract: short, imperative, no duplication of content that lives elsewhere (link instead). A new subtree anywhere in `docs/` **must** be registered in this file in the same commit that creates it.
 

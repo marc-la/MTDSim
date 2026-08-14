@@ -194,3 +194,22 @@ second extraction (post-metrics) also lowers its floor; the ≥ 150 band remains
 primary corpus, and nothing here changes a disposition already recorded above. The
 one substantive recovery — the time-as-cost objection — is now in the incentive
 thread where it belongs.
+
+### 15–75 band sanity check, 2026-08-14
+
+Also swept, on Marc's ask, to confirm nothing was left on the table below 75 words.
+**272 prompts / ~8 600 words**, averaging ~32 words — the floor of the corpus.
+A regex for argument signals (`because`, `the goal`, `makes no sense`, `incentive`,
+`fidelity`, `disagree`, …) over prompts ≥ 35 words flagged 42; each was read. The
+band is what the brief predicted: clarifying questions, diagram-and-figure tweaks,
+handoff reads, confirmations, and steering. The argument-bearing minority all resolve
+into threads already written — the weakest-link/measured-negative framing
+([`threads/comparability_and_census.md`](threads/comparability_and_census.md),
+[`threads/movement_objectives.md`](threads/movement_objectives.md)); the
+axis-3-vs-axis-4 vocabulary correction and the predictability-name retirement
+([`threads/criterion_lifecycle.md`](threads/criterion_lifecycle.md)); the
+build-in-baseline "validation by proxy" tactic (a facet of the learning and
+comparability threads); the recurring human-oversight-of-headings anxiety
+([`threads/rq_and_structure.md`](threads/rq_and_structure.md)). **No new decision,
+reversal, or abandoned path surfaced below 75 words** that a thread does not already
+own. The band does not warrant its own triage; recorded so it is not re-swept.
