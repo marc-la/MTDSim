@@ -1,17 +1,28 @@
 ---
 status: open
 created: 2026-08-06
-updated: 2026-08-08
+updated: 2026-08-14
 ---
 
 # Mine the session transcripts for Marc's own prompts, and land them as a research record — the intent, the reversals, and the abandoned paths that no shipped document holds
 
-> **Stage 0 has run (2026-08-08). Stages 1–3 have not, and this brief cannot be
-> fully retired when they do** — see § *Stage 0 — done* and § *Why this stays open
-> past Stage 3* below, both of which override the body where they disagree with
-> it. The corpus is now backed up and the extractor is committed; the pinned
-> sanity figure has been **re-pinned**, because reproducing it uncovered a filter
-> the original survey lacked.
+> **Stages 0–3 have run. This brief stays open for the delta pass only** — see
+> § *Why this stays open past Stage 3*. Stage 0 (2026-08-08): corpus snapshotted,
+> extractor committed, gate re-pinned. **Stages 1–3 (2026-08-14):** the corpus was
+> re-snapshotted (`~/mtdsim-corpus-snapshot/2026-08-14/`), the mining run over the
+> uuid-deduplicated union of both snapshots (107 prompts / 79 698 words), and the
+> outputs landed —
+> [`../implementation/research_record/`](../implementation/research_record/) (the
+> disposition table + fifteen decision-thread files, registered in `docs_map.md`),
+> the `docs/notes/` tree remapped onto the ratified chapter structure (ch2 background
+> / ch4 methods / ch5 results / ch6 discussion / ch7 future work), and four new
+> rubric-cleared notes. One `record-drifted` flag was actioned under Marc's
+> 2026-08-14 instruction (the alignment-dial "not built" sentence); the flags are
+> collected in the disposition table's § flags. **What remains** is the second
+> extraction pass owed once the axis-7/8/stealth metrics and the first results land
+> — triage only the prompts whose `uuid` is not already in `dispositions.md`. Until
+> then the body below is the derivation; the § *Why this stays open past Stage 3*
+> section governs the remaining scope.
 
 ## State of play
 
