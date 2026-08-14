@@ -168,6 +168,12 @@ data/gasp/_*
 # the underscore-prefixed dirs are ignored. Same pattern as data/gasp/_*.
 data/ogasp/petri/_*
 data/ogasp/timeline/_*
+# Parameter-sweep results (e.g. data/ogasp/movement/exploit_learning_yield_sweep.json)
+# are generated experiment outputs, not declared config: the tracked movement/ files
+# are the *_rules/_factors/_increments declared-value families, a sweep is results
+# across parameter points. Same disposition as data/results/ below — regenerable,
+# large, not tracked. The declared families that drive the sweep stay committed.
+data/ogasp/**/*_sweep.json
 
 # Misc scratch visualisations — diagnostic-quality, regenerable (e.g. via
 # data/misc/_viz/ckc_layer_viz.py). Same underscore-prefix pattern as above.
