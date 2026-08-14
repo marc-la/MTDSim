@@ -3,10 +3,10 @@
 > One source, extracted **as a cross-tactic whole-campaign duration bound** — it
 > prices the *outermost envelope* the emergent timeline must be able to span, not
 > a per-tactic dwell. Feeds the persistence/objective tactics' §4
-> ([`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md),
-> [`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md),
-> [`14_exfiltration`](../../notes/ch3_design/tactic_profiles/14_exfiltration.md),
-> [`15_impact`](../../notes/ch3_design/tactic_profiles/15_impact.md)) as the espionage long-and-slow
+> ([`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md),
+> [`06_privilege-escalation`](../../notes/ch4_methods/tactic_profiles/06_privilege-escalation.md),
+> [`14_exfiltration`](../../notes/ch4_methods/tactic_profiles/14_exfiltration.md),
+> [`15_impact`](../../notes/ch4_methods/tactic_profiles/15_impact.md)) as the espionage long-and-slow
 > counterpart to the fast ransomware envelope ([`ransomware_timing`](ransomware_timing.md)).
 > Source file: `docs/sources/tactic_profiles/step_d/5_persist/2509.07457v2.md`
 > (gitignored).
@@ -49,7 +49,7 @@ reconnaissance and were waiting for an opportune time to act" — direct evidenc
 of the *patient-wait* persistence character (recon done, foothold held, action
 deferred).
 
-**Maps to:** [`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md) §4
+**Maps to:** [`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md) §4
 (campaign-duration envelope — the foothold is held for a 137-day mean, up to
 years; the reset-survivor character quantified) and §2 (patient-wait);
 privesc/exfil/impact §4 (the same whole-campaign bound caps the summed dwell).

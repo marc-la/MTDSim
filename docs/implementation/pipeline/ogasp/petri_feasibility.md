@@ -72,7 +72,7 @@ the study:
    `double_extortion`, `infrastructure_setup` — not three. The fourth,
    `infrastructure_setup`, has **zero impact and zero exfiltration techniques**
    (it is a defender-eviction signature, [§4](#4-what-l2-actually-hands-forward)
-   / [`./2026-05-29_l2_synthesis.md`](../../../notes/ch3_design/objective_partition_findings.md) F3), so it
+   / [`./2026-05-29_l2_synthesis.md`](../../../notes/ch4_methods/objective_partition_findings.md) F3), so it
    has *no natural "objective reached" absorbing marking* and must be modelled
    with a **non-objective absorbing condition** (eviction / C2-established /
    max-dwell).
@@ -171,7 +171,7 @@ load-bearing:
   §(d)). **Every one exceeds the primer's ~10–20-dynamic-node analytical
   tractability bound.**
 - **They are weighted overlays over a shared substrate, not four disjoint
-  graphs** ([`./2026-05-29_l2_synthesis.md`](../../../notes/ch3_design/objective_partition_findings.md) F1):
+  graphs** ([`./2026-05-29_l2_synthesis.md`](../../../notes/ch4_methods/objective_partition_findings.md) F1):
   a 16-technique backbone sits in all four, the node sets union to 100 % of the
   GAP, pairwise node Jaccard is 0.295–0.422. The differentiation lives in
   *tactic-share weighting and per-class long tails*, not in *which techniques
@@ -597,7 +597,7 @@ the changes the workstream requires, for Marc to drive:
   constrained by [`../specs/01_gap_schema.md`](../gap/gap_schema.md)
   Decision 2 (the intended operator-preserving encoding).
 - **To the L2 findings.** Built directly on
-  [`./2026-05-29_l2_synthesis.md`](../../../notes/ch3_design/objective_partition_findings.md) F1 (weighted
+  [`./2026-05-29_l2_synthesis.md`](../../../notes/ch4_methods/objective_partition_findings.md) F1 (weighted
   overlays → the D4 shared-net design), F2 (thin recurring core → the rate and
   slice problems), F3 (`infrastructure_setup` as eviction-signature → the
   non-objective absorb).
@@ -618,7 +618,7 @@ the changes the workstream requires, for Marc to drive:
   so it drives the attacker (the L3b execution-semantics layer) —
   `handoffs/2026-06-18_l3b_execution_semantics.md` (shipped & deleted per handoff lifecycle; see git log),
   grounded by
-  [`./2026-06-18_cti_to_executable_behaviour.md`](../../../notes/ch3_design/structure_to_behaviour_binding.md),
+  [`./2026-06-18_cti_to_executable_behaviour.md`](../../../notes/ch4_methods/structure_to_behaviour_binding.md),
   gated by the discrimination probe
   `handoffs/2026-06-18_profile_discrimination_probe.md` (shipped & deleted per handoff lifecycle; see git log).
   The *analytical* (CTMC) track is the staged roadmap

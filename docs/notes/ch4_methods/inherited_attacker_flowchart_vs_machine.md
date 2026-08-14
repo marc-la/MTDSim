@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch4_implementation
+chapter: ch4_methods
 created: 2026-07-16
 updated: 2026-07-16
 ---

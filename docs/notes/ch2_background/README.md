@@ -1,4 +1,11 @@
-# ch2_background — notes feeding the Background & Literature Review chapter
+# ch2_background — notes feeding the Background chapter
+
+> Ratified structure (2026-08-11): the background chapter (ch2) sits between the
+> introduction and the literature review (ch3) and carries **what was inherited**
+> — the simulator lineage (network model, defence mechanisms, baseline attacker,
+> prior works) — written so the reader understands the platform before the
+> literature narrows onto the gap. The gap-narrowing survey work below serves
+> both ch2 and the ch3 literature review; ch3 keeps no notes dir of its own.
 
 ## What this chapter does
 

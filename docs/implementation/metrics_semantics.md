@@ -436,7 +436,7 @@ effective the step is.**
 The GAP is built from incident-derived CTI, which is a **survivorship-/
 observability-biased** sample (notable, well-documented, largely-successful
 campaigns; early kill-chain phases under-observed — see
-[`../notes/2026-05-27_gap_construction.md`](../notes/ch3_design/technique_graph_construction.md)).
+[`../notes/2026-05-27_gap_construction.md`](../notes/ch4_methods/technique_graph_construction.md)).
 Two consequences bound any GAP-driven evaluation:
 
 | GAP-driven reading | Valid? | Why |
@@ -492,7 +492,7 @@ is outside it by construction. That blindness is faithful to the defender's
 epistemic position rather than a defect, and where it ends is itself a threat-model
 input; the reasoning, and why a literature-inferred prefix (Decision 6) extends the
 model *within* CTI's limits rather than escaping them, is in
-[`../notes/2026-05-27_gap_construction.md`](../notes/ch3_design/technique_graph_construction.md).
+[`../notes/2026-05-27_gap_construction.md`](../notes/ch4_methods/technique_graph_construction.md).
 
 ## Where to look next
 

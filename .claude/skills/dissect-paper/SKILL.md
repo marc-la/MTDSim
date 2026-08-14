@@ -3,7 +3,7 @@ name: dissect-paper
 description: >
   Deep, multi-pass dissection of an APT / adversary-simulation / MTD / MITRE-ATT&CK
   paper into (1) a docs/sources/extractions/<key>.md record and (2) targeted evidence edits
-  across the 15 docs/notes/ch3_design/tactic_profiles/. Use when the user wants to extract, dissect,
+  across the 15 docs/notes/ch4_methods/tactic_profiles/. Use when the user wants to extract, dissect,
   mine, or "properly read" a valuable paper for per-tactic dwell / behaviour / MTD
   evidence. Counters GenAI skim-loss with a value-triaged, section-by-section,
   page-anchored protocol that preserves fine grain AND emergent ideas. Triggers:
@@ -64,11 +64,11 @@ Load the discipline (skim, don't re-derive):
   claims to reconcile, not ground truth**; never guess a locator or DOI.
 - [`docs/sources/extractions/_template.md`](../../../docs/sources/extractions/_template.md) — the
   extraction shape (bibliographic anchor, per-concept locators, disposition).
-- [`docs/notes/ch3_design/tactic_profiles/README.md`](../../../docs/notes/ch3_design/tactic_profiles/README.md) and
-  [`docs/notes/ch3_design/tactic_profiles/_template.md`](../../../docs/notes/ch3_design/tactic_profiles/_template.md)
+- [`docs/notes/ch4_methods/tactic_profiles/README.md`](../../../docs/notes/ch4_methods/tactic_profiles/README.md) and
+  [`docs/notes/ch4_methods/tactic_profiles/_template.md`](../../../docs/notes/ch4_methods/tactic_profiles/_template.md)
   — the 15 tactics (ATT&CK v19.1), the five timing groups, and the two claims each
   profile needs: **dwell character** + **MTD disruption**.
-- [`docs/notes/ch3_design/operational_validation.md`](../../../docs/notes/ch3_design/operational_validation.md)
+- [`docs/notes/ch4_methods/operational_validation.md`](../../../docs/notes/ch4_methods/operational_validation.md)
   — what evidence is *for*: group assignment, sweep width, tier badge. Timing
   never comes from the corpus / `observation_count`; breach-report *statistics* are
   allowed Tier-2 literature.
@@ -142,7 +142,7 @@ and that fight parsing-loss directly: **emergent ideas** (under a dedicated
 heading, not folded into concepts) and **open questions / things to verify**.
 
 **2 — The tactic-profile edits.** For each of the 15
-`docs/notes/ch3_design/tactic_profiles/NN_<tactic>.md` the paper touches:
+`docs/notes/ch4_methods/tactic_profiles/NN_<tactic>.md` the paper touches:
 - Add a **§4 Timing evidence** row: `Source (extraction §ref + page) | Claim |
   How adapted to this tactic | Confidence`. Flag `[fetched]` (you read it here) vs
   `[search]` (secondary). A "no direct value — confirms gap" row is valid and

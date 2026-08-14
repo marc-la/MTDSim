@@ -16,7 +16,7 @@ updated: 2026-08-01
 
 **The title's verb must be one the scorecard already earned.** The headline
 finding is locked in at
-[`ch5_evaluation/defence_ranking_inversion.md`](ch5_evaluation/defence_ranking_inversion.md)
+[`ch5_results/defence_ranking_inversion.md`](ch5_results/defence_ranking_inversion.md)
 and scored as the criterion's Row B at the **recommendation** grade
 ([`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md)
 §(d2)); the title may compress that claim and may not exceed it. Mechanism-in-brief
@@ -71,7 +71,7 @@ breath; 3 if the title must be one no examiner can lean on.
 (3) if either experiment-2 revisit condition fires: the mapping-sensitivity
 study not preserving the inversion, or the retrace-cell re-take moving a
 ranking position
-([`ch5_evaluation/defence_ranking_inversion.md`](ch5_evaluation/defence_ranking_inversion.md)
+([`ch5_results/defence_ranking_inversion.md`](ch5_results/defence_ranking_inversion.md)
 § Revisit conditions).
 
 ## The rejected forms, recorded so they are not re-proposed

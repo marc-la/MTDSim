@@ -1,4 +1,4 @@
-# `docs/notes/ch3_design/tactic_profiles/` — per-tactic APT × adversary-sim × MTD dwell profiles
+# `docs/notes/ch4_methods/tactic_profiles/` — per-tactic APT × adversary-sim × MTD dwell profiles
 
 One file per tactic in the L3a place-union — a **reconciled synthesis** of what
 an APT actor does in this tactic, how long (dwell character), and how an MTD

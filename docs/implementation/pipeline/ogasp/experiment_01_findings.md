@@ -164,7 +164,7 @@ kind.
   (routing policy), [`synthetic_overlay.md`](synthetic_overlay.md)
   (pre-intrusion structure).
 - **The burden it does not yet discharge:**
-  [`../../../notes/ch5_evaluation/evaluation_burden.md`](../../../notes/ch5_evaluation/evaluation_burden.md)
+  [`../../../notes/ch4_methods/evaluation_burden.md`](../../../notes/ch4_methods/evaluation_burden.md)
   — stability and divergence both remain untested; this run establishes neither.
 - **When to update:** when experiment 2 runs (this record stays as the
   experiment-1 account and gains a pointer, rather than being rewritten — it is

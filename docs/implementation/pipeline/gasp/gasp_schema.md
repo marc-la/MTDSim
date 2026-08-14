@@ -410,7 +410,7 @@ this spec + the partition-decision note, not lifted across.
   multi-flow operator clusters). The discrimination-above-null check must
   be re-run *after* collapsing multi-flow operators to one representative
   each (Mitigation 1 in
-  [`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch3_design/operator_concentration.md));
+  [`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch4_methods/operator_concentration.md));
   if the JSD signal survives, the per-class behaviour is class-driven, not
   operator-driven. If it collapses below null p95, the verdict reframes to
   operator-specific rather than class-specific behavioural fidelity.
@@ -436,7 +436,7 @@ Corpus-level JSD is supportive but not definitive.
    corpus-edit (L1-level), not a class-mechanism question. Flagged for the
    L2 implementation session.
 2. **Operator-aggregation mitigation choice.** The
-   [operator-aggregation concern note](../../../notes/ch3_design/operator_concentration.md)
+   [operator-aggregation concern note](../../../notes/ch4_methods/operator_concentration.md)
    names four mitigations (operator-deduplicated re-check, operator-weighted
    JSD, simulator-stratified holdout, corpus expansion). Mitigation 1 is
    cheap and decisive; Mitigation 3 is the test the thesis defence would
@@ -473,14 +473,14 @@ Corpus-level JSD is supportive but not definitive.
 - [`../notes/2026-05-28_l2_partition_decision.md`](partition_decision.md) —
   the investigation that produced this spec (the "P6 verdict", rubric +
   discrimination evidence, *If revisited* clauses). Provenance.
-- [`../notes/2026-05-28_l2_partition_reasoning.md`](../../../notes/ch3_design/objective_partition_rationale.md) —
+- [`../notes/2026-05-28_l2_partition_reasoning.md`](../../../notes/ch4_methods/objective_partition_rationale.md) —
   the framing-stage *why-L2 / why-operational-objective* note. Plain-English
   companion; condenses into §(a).
 - [`../notes/2026-05-28_l2_per_flow_justifications.md`](per_flow_justifications.md) —
   the per-flow defence of every class assignment in the audit CSV.
 - [`../notes/2026-05-28_l2_metadata_audit.csv`](../../../../data/gasp/metadata_audit.csv) —
   the load-bearing class-membership input (§c).
-- [`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch3_design/operator_concentration.md) —
+- [`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch4_methods/operator_concentration.md) —
   the operator-aggregation validation caveat (§g).
 - [`project_context.md`](../../../workflows/project_context.md) — the L0→L4 pipeline GASP sits in.
 - Prior art being superseded: the v0.4 terminal-node-ancestor proxy on

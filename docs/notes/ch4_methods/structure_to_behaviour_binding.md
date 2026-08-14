@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch3_design
+chapter: ch4_methods
 created: 2026-06-18
 updated: 2026-07-13
 lineage: 2026-06-18_cti_to_executable_behaviour.md
@@ -53,7 +53,7 @@ Two readings of the same net must not be conflated: an *analytical* reading (sol
 - Observation-counts-are-not-rates and metric-identity boundaries: [`../../implementation/metrics_semantics.md`](../../implementation/metrics_semantics.md) §(a), §(f).
 - The analytical track's feasibility verdict: [`../../implementation/pipeline/ogasp/petri_feasibility.md`](../../implementation/pipeline/ogasp/petri_feasibility.md); the supervisor decision register that fixed the v1 execution model: [`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md).
 - Inherited attacker code: `mtdnetwork/component/adversary.py`, `mtdnetwork/operation/attack_operation.py`; external precedents to reconcile before citing: Bland 2020 ([`bland2020`](../../sources/extractions/bland2020.md)), Rodríguez 2024 ([`rodriguez2024`](../../sources/extractions/rodriguez2024.md)), BRON / MulVAL (not yet extracted).
-- Siblings: [`objective_partition_findings.md`](objective_partition_findings.md) (what the profiles are), [`operational_validation.md`](operational_validation.md) (how the timing layer is defended), [`../ch5_evaluation/evaluation_burden.md`](../ch5_evaluation/evaluation_burden.md) (the proof burden).
+- Siblings: [`objective_partition_findings.md`](objective_partition_findings.md) (what the profiles are), [`operational_validation.md`](operational_validation.md) (how the timing layer is defended), [`../ch4_methods/evaluation_burden.md`](../ch4_methods/evaluation_burden.md) (the proof burden).
 
 ## Revisit conditions
 

@@ -96,7 +96,7 @@ reading alone.
 The one governing constraint, from the supervisor, frames the whole record: **the
 numbers are inherently arbitrary, so the justification is the deliverable, not the
 values.** This work therefore sits *inside* the existing operational-validation
-discipline ([`../../../notes/ch3_design/operational_validation.md`](../../../notes/ch3_design/operational_validation.md))
+discipline ([`../../../notes/ch4_methods/operational_validation.md`](../../../notes/ch4_methods/operational_validation.md))
 — the tier badges, the four anti-circularity rules, and shape-not-scale all carry
 over; what changes is that a declared value becomes a distribution's **mean**.
 
@@ -765,7 +765,7 @@ In enough detail that a cold session builds it without re-deriving a decision:
    [`../../provenance.md`](../../provenance.md), the runtime lifecycle in
    [`success_failure_overlay_design.md`](success_failure_overlay_design.md) §6, and
    the revisit condition in
-   [`../../../notes/ch3_design/operational_validation.md`](../../../notes/ch3_design/operational_validation.md).
+   [`../../../notes/ch4_methods/operational_validation.md`](../../../notes/ch4_methods/operational_validation.md).
 
 **Out of scope (from the handoff, restated so the build does not drift):**
 re-deriving the per-tactic values (they become means at current magnitudes);
@@ -785,7 +785,7 @@ timing; running experiment 2.
   ([`../../../handoffs/2026-07-27_controller_v2_partial_mapping.md`](../../../handoffs/2026-07-27_controller_v2_partial_mapping.md));
   that handoff explicitly defers "what a dwell-only tactic costs" to here.
 - **Governed by:** the validity framework
-  ([`../../../notes/ch3_design/operational_validation.md`](../../../notes/ch3_design/operational_validation.md),
+  ([`../../../notes/ch4_methods/operational_validation.md`](../../../notes/ch4_methods/operational_validation.md),
   [`../../../notes/ch2_background/tactic_duration_precedent_survey.md`](../../../notes/ch2_background/tactic_duration_precedent_survey.md))
   and the comparability boundary
   ([`../../metrics_semantics.md`](../../metrics_semantics.md) §(a)/(d)).

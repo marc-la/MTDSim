@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch3_design
+chapter: ch4_methods
 created: 2026-05-28
 updated: 2026-07-13
 lineage: 2026-05-28_l2_partition_reasoning.md
@@ -49,6 +49,6 @@ If partitioned attackers produce indistinguishable simulator traces — the same
 
 ## Revisit conditions
 
-- If the simulator-level discrimination test fails (see [`../ch5_evaluation/evaluation_burden.md`](../ch5_evaluation/evaluation_burden.md)) — rewrite around the negative-result disposition.
+- If the simulator-level discrimination test fails (see [`../ch4_methods/evaluation_burden.md`](../ch4_methods/evaluation_burden.md)) — rewrite around the negative-result disposition.
 - If the corpus grows enough that the residual class disambiguates (genuine surveillance vs pre-payload vs truncation) — the four-class cardinality re-opens.
 - If a hand-curated corpus extension materially changes the class ratio — the empirical premise for preferring the small taxonomy needs re-running.

@@ -5,7 +5,7 @@
 > does it actually revoke an attacker who has *already captured* the old one? Both
 > conclude **largely not** — which, with the location-independence of a stolen
 > credential, makes credential-access the archetypal **reset-survivor**.
-> Extracted for [`09_credential-access`](../../notes/ch3_design/tactic_profiles/09_credential-access.md) §3.
+> Extracted for [`09_credential-access`](../../notes/ch4_methods/tactic_profiles/09_credential-access.md) §3.
 > Source files (both `docs/sources/tactic_profiles/step_d/9_cred_access/`,
 > gitignored): `1866307.1866328.md`, `s10623-015-0071-9.md`.
 
@@ -49,7 +49,7 @@ Conclusion: the study "calls into question the merit of continuing the practice
 of password expiration" — **rotation fails to revoke a captured credential in a
 large fraction of cases.**
 
-**Maps to:** [`09_credential-access`](../../notes/ch3_design/tactic_profiles/09_credential-access.md)
+**Maps to:** [`09_credential-access`](../../notes/ch4_methods/tactic_profiles/09_credential-access.md)
 §3 (a credential-rotation "reset" is *leaky* — a captured credential survives it
 17–41% of the time; combined with location-independence (survives an IP/topology
 shuffle), credential-access is a strong reset-survivor → **narrow sweep on the
@@ -72,12 +72,12 @@ policies are at best **partial and minor**." Load-bearing for §3: expiration
 first access immediately … install keystroke-logging software or **other
 persistent malware to render ineffective subsequent password changes**" — i.e.
 **once a stolen credential is used to establish persistence, rotation is moot**
-(the [`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md) "adapt around a
+(the [`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md) "adapt around a
 periodic reset" link, from the credential side).
 
-**Maps to:** [`09_credential-access`](../../notes/ch3_design/tactic_profiles/09_credential-access.md)
+**Maps to:** [`09_credential-access`](../../notes/ch4_methods/tactic_profiles/09_credential-access.md)
 §3 (rotation's benefit is minor; a credential that has bootstrapped persistence is
-reset-immune) and [`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md) §3.
+reset-immune) and [`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md) §3.
 
 **Disposition for this thesis:** verified [fetched] — corroborates Zhang et al.
 analytically; reinforces the reset-survivor verdict.

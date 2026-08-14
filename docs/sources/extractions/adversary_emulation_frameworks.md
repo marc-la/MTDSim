@@ -42,7 +42,7 @@ first-hand read of the Caldera source.
 - **Transfer verdict: PARTIALLY TRANSFERS (abstraction only, not machinery).**
   The *pre-condition → behaviour → post-condition triple* is the same shape as
   candidate C2's capability contract and as the ch3 precondition/effect binding
-  ([`../../notes/ch3_design/structure_to_behaviour_binding.md`](../../notes/ch3_design/structure_to_behaviour_binding.md) §"the binding, done properly").
+  ([`../../notes/ch4_methods/structure_to_behaviour_binding.md`](../../notes/ch4_methods/structure_to_behaviour_binding.md) §"the binding, done properly").
   What **does not** transfer: Caldera executes *real commands on real agents*;
   it is an emulation platform, not a discrete-event model. In MTDSim the
   "facts" are the substrate's already-tracked capability footprint

@@ -763,7 +763,7 @@ critical, but worth a defence-of-thesis reader's attention:
   may want to split it.
 
 **Operator-aggregation concern** — see the dedicated note at
-[`./2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch3_design/operator_concentration.md).
+[`./2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch4_methods/operator_concentration.md).
 The corpus is not flow-uniformly distributed across operators: three
 Conti flows (G0102), two Turla emulation plans (G0010), two FIN13
 cases (G1016), and three CISA AA22-138B variants share base operators

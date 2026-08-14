@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch3_design
+chapter: ch4_methods
 created: 2026-05-28
 updated: 2026-07-13
 lineage: 2026-05-28_l2_operator_aggregation_concern.md
@@ -27,7 +27,7 @@ The honest framing that survives all of this: aggregation across operators can s
 - Operator-cluster table and the four mitigations in full: [`../../implementation/pipeline/gasp/partition_decision.md`](../../implementation/pipeline/gasp/partition_decision.md) and the original concern record in git history (lineage above).
 - The deduplicated re-check result: [`../../implementation/pipeline/gasp/gasp_schema.md`](../../implementation/pipeline/gasp/gasp_schema.md) §(g); `data/gasp/README.md`.
 - The thinness this interacts with: [`technique_graph_construction.md`](technique_graph_construction.md) (88% single-observation); the separation numbers: [`objective_partition_findings.md`](objective_partition_findings.md) finding 5.
-- Where the stratified holdout lands: [`../ch5_evaluation/evaluation_burden.md`](../ch5_evaluation/evaluation_burden.md).
+- Where the stratified holdout lands: [`../ch4_methods/evaluation_burden.md`](../ch4_methods/evaluation_burden.md).
 
 ## Revisit conditions
 

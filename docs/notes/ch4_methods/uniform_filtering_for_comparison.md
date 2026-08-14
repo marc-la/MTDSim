@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch3_design
+chapter: ch4_methods
 created: 2026-05-28
 updated: 2026-07-13
 lineage: 2026-05-28_filtering_heterogeneous_classes.md

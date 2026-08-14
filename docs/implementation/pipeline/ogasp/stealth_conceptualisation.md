@@ -36,7 +36,7 @@ ordinary meaning of stealth — reducing the probability of being detected — h
 referent for the profiled attacker as it stands**, and any mechanism that quietly
 assumes one is unbuildable. The project has already written this down twice: the
 tactic profile
-([`../../../notes/ch3_design/tactic_profiles/07_stealth.md`](../../../notes/ch3_design/tactic_profiles/07_stealth.md)
+([`../../../notes/ch4_methods/tactic_profiles/07_stealth.md`](../../../notes/ch4_methods/tactic_profiles/07_stealth.md)
 §3) — *"because there is no detector to hide from, stealth's gain has no direct
 substrate representation… a stealth tactic gets a time, not a detection model"* —
 and the criterion's axis 5 — *movement through evasion-named tactics carries no
@@ -633,7 +633,7 @@ Short list, with a recommendation on each.
   composition rule the stealth modulator generalises);
   [`experiment_01_findings.md`](experiment_01_findings.md) (the contrast's event-wise
   figures);
-  [`../../../notes/ch3_design/tactic_profiles/07_stealth.md`](../../../notes/ch3_design/tactic_profiles/07_stealth.md)
+  [`../../../notes/ch4_methods/tactic_profiles/07_stealth.md`](../../../notes/ch4_methods/tactic_profiles/07_stealth.md)
   §3 (the project's own position).
 - **Feeds:** the measurement suite
   ([`../../../handoffs/2026-07-28_axis_measurement_suite.md`](../../../handoffs/2026-07-28_axis_measurement_suite.md),

@@ -299,7 +299,7 @@ timing:
 - **A second extraction pass is owed after they land**, and it is not optional
   bookkeeping. Evaluation intent (band 4) is the thinnest band in the corpus
   *because the evaluation has not happened yet*; the prompts that set the axis
-  metrics and sanction the retrain are the ones a `ch5_evaluation` note would rest
+  metrics and sanction the retrain are the ones a `ch5_results` note would rest
   on, and they are being written now. Re-run `gate`, then `stats`, and triage only
   the prompts added since — which is what the disposition table is keyed by `uuid`
   for.
@@ -333,7 +333,7 @@ reasons:
 - **`record-drifted` needs a settled record to measure drift against.** Running
   the staleness test while the implementation is still moving produces flags that
   are noise about a week-old document rather than findings about a stale one.
-- **`ch5_evaluation` notes cannot be written before results exist.** An
+- **`ch5_results` notes cannot be written before results exist.** An
   evaluation-framing note whose claim depends on an unrun experiment has to say
   so under the rubric, which is a weak note by construction.
 
@@ -488,8 +488,8 @@ a suggestion.** Load them before drafting, in this order:
 4. [`../workflows/voice.md`](../workflows/voice.md) — the sentence-level
    contract; default for notes, and this is dissertation-bound prose.
 
-Expected homes: design rationale to `ch3_design/`; constraint-driven
-choices to `ch4_implementation/`; metric selection to `ch5_evaluation/`;
+Expected homes: design rationale to `ch4_methods/`; constraint-driven
+choices to `ch4_methods/`; metric selection to `ch5_results/`;
 abandonments and their lessons to `ch6_discussion/`, whose future-work material
 rides the *Revisit conditions* of the notes that spawn them.
 

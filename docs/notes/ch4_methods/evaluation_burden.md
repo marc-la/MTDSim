@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch5_evaluation
+chapter: ch4_methods
 created: 2026-07-07
 updated: 2026-07-28
 lineage: distilled from 2026-07-07_cross_sectional_review.md (the process review itself is retired; git history retains it)
@@ -65,13 +65,13 @@ One methodological note and one honest boundary. The sweep was run twice, becaus
 
 ## Evidence and repo anchors
 
-- The declared-parameter families and their bands: the per-tactic profiles at [`../ch3_design/tactic_profiles/`](../ch3_design/tactic_profiles/) (§5 blocks for durations, §3 for the reset arguments) and the shipped catalogue [`../../../data/ogasp/tactic_durations.json`](../../../data/ogasp/tactic_durations.json).
+- The declared-parameter families and their bands: the per-tactic profiles at [`../ch4_methods/tactic_profiles/`](../ch4_methods/tactic_profiles/) (§5 blocks for durations, §3 for the reset arguments) and the shipped catalogue [`../../../data/ogasp/tactic_durations.json`](../../../data/ogasp/tactic_durations.json).
 - The routing-weight family, its rationale, and its scrutiny record: [`../../implementation/pipeline/ogasp/success_failure_overlay_design.md`](../../implementation/pipeline/ogasp/success_failure_overlay_design.md) and [`../../implementation/declared_value_provenance.md`](../../implementation/declared_value_provenance.md); artefacts under [`../../../data/ogasp/controller/`](../../../data/ogasp/controller/). The dispatch mapping is [`../../implementation/pipeline/ogasp/controller.md`](../../implementation/pipeline/ogasp/controller.md).
 - The supervisor direction that made the weight sweep a requirement (S1), and the first coupled result the burden is now measured against: [`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md) and [`../../implementation/pipeline/ogasp/experiment_01_findings.md`](../../implementation/pipeline/ogasp/experiment_01_findings.md).
 - The first instalment itself — its design, its per-conclusion verdicts, and the numbers behind every claim in that section: [`../../implementation/pipeline/ogasp/weight_sensitivity_study.md`](../../implementation/pipeline/ogasp/weight_sensitivity_study.md).
 - The second instalment, likewise — its pre-registered criteria, the group ranges and their derivation from the catalogue, the distribution-shape comparison, and the degenerate-region table: [`../../implementation/pipeline/ogasp/rate_feasibility_study.md`](../../implementation/pipeline/ogasp/rate_feasibility_study.md). The timing regime it tests, its literature grounding, and the mean-versus-shape argument it checks: [`../../implementation/pipeline/ogasp/stochastic_timing_design.md`](../../implementation/pipeline/ogasp/stochastic_timing_design.md) §3.
 - The declare-and-sweep precedent: [`../ch2_background/tactic_duration_precedent_survey.md`](../ch2_background/tactic_duration_precedent_survey.md); extractions [`timed_attack_models`](../../sources/extractions/timed_attack_models.md), [`bland2020`](../../sources/extractions/bland2020.md), [`mcqueen2006`](../../sources/extractions/mcqueen2006.md).
-- The validity framework the sweep discipline belongs to: [`../ch3_design/operational_validation.md`](../ch3_design/operational_validation.md).
+- The validity framework the sweep discipline belongs to: [`../ch4_methods/operational_validation.md`](../ch4_methods/operational_validation.md).
 - The claim being protected: [`../../implementation/architecture.md`](../../implementation/architecture.md) §(j) (*fidelity changes the answer*).
 - The experiment's substrate: the timeline runner and weighted nets under [`../../../data/ogasp/`](../../../data/ogasp/); open L3 handoffs in [`../../handoffs/`](../../handoffs/).
 

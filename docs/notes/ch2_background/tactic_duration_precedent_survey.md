@@ -54,8 +54,8 @@ The gap statement ("no justified per-tactic duration catalogue exists") stands, 
 ## Evidence and repo anchors
 
 - Extractions behind each named source: [`rodriguez2024`](../../sources/extractions/rodriguez2024.md), [`bland2020`](../../sources/extractions/bland2020.md), [`mcqueen2006`](../../sources/extractions/mcqueen2006.md), [`xiong2021`](../../sources/extractions/xiong2021.md), [`ling2023`](../../sources/extractions/ling2023.md), [`syed2025`](../../sources/extractions/syed2025.md), [`selmanaj2024`](../../sources/extractions/selmanaj2024.md), [`chemat2024`](../../sources/extractions/chemat2024.md), [`timed_attack_models`](../../sources/extractions/timed_attack_models.md) (the wider declare-and-sweep precedent cluster), [`breach_reports_macro_timing`](../../sources/extractions/breach_reports_macro_timing.md) (the reconciled macro table), [`attackflow`](../../sources/extractions/attackflow.md), [`mendonca2023`](../../sources/extractions/mendonca2023.md).
-- The method this survey legitimises: [`../ch3_design/operational_validation.md`](../ch3_design/operational_validation.md).
-- The catalogue it grounds: [`../../../data/ogasp/tactic_durations.json`](../../../data/ogasp/tactic_durations.json) and the profiles at [`../ch3_design/tactic_profiles/`](../ch3_design/tactic_profiles/).
+- The method this survey legitimises: [`../ch4_methods/operational_validation.md`](../ch4_methods/operational_validation.md).
+- The catalogue it grounds: [`../../../data/ogasp/tactic_durations.json`](../../../data/ogasp/tactic_durations.json) and the profiles at [`../ch4_methods/tactic_profiles/`](../ch4_methods/tactic_profiles/).
 - Unreconciled tail (do not cite without primary-source reconciliation): Secureworks ~28 h median ransomware dwell (2024); IBM X-Force <4 d access→ransomware (2023); Unit 42 median exfiltration ~2 d (2025).
 
 ## Revisit conditions

@@ -51,9 +51,9 @@ as MTTD + MTTR (in days): the elapsed time between initial intrusion and
 threat eradication; "the longer the dwell time, the more opportunity the
 adversary has to cause harm."
 
-**Maps to:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md)
+**Maps to:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch4_methods/operational_validation.md)
 (stealth-low-and-slow vs objective-execution groups) ·
-[`../tactic_profiles/README.md`](../../notes/ch3_design/tactic_profiles/README.md) (five timing
+[`../tactic_profiles/README.md`](../../notes/ch4_methods/tactic_profiles/README.md) (five timing
 groups) · corroborates alshamrani2019's low-and-slow backbone with an
 emulation-practitioner vocabulary.
 
@@ -97,22 +97,22 @@ dwell-/reset-relevant content, mapped to each profile:
   directly interacting with the target … which is characteristic of an APT
   behavior" but "time-consuming"; active recon "can be detected … generally a
   sign of an ongoing attack"; and recon "can occur at any stage in the attack
-  life cycle" (recurrent). → [`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md)
+  life cycle" (recurrent). → [`01_reconnaissance`](../../notes/ch4_methods/tactic_profiles/01_reconnaissance.md)
   §2 (patient/off-network default; active modality is the detectable one the
   substrate scan-prices).
 - **Resource Development (TA0042):** "takes place outside of the company's
   protection and control. As a result, preventive measures may not be
-  effective" — explicitly off-network. → [`02_resource-development`](../../notes/ch3_design/tactic_profiles/02_resource-development.md)
+  effective" — explicitly off-network. → [`02_resource-development`](../../notes/ch4_methods/tactic_profiles/02_resource-development.md)
   §2/§3 (prep-off-network; an MTD shuffle cannot touch it — near-zero in-sim
   dwell + reset-immune).
 - **Initial Access (TA0001):** "the access they gain during initial access may
   be short-lived if the target changes their passwords or otherwise limits the
-  attackers' abilities" — foothold fragility. → [`03_initial-access`](../../notes/ch3_design/tactic_profiles/03_initial-access.md)
+  attackers' abilities" — foothold fragility. → [`03_initial-access`](../../notes/ch4_methods/tactic_profiles/03_initial-access.md)
   §3 (a shuffle *invalidates* an IP/topology-bound foothold — reset-vulnerable;
   strengthens the reset verdict).
 - **Execution (TA0002):** a fast enabling verb — "Once the attacker has
   successfully executed their code, they can start to carry out their malicious
-  goals" (fileless/in-memory, e.g. PowerShell). → [`04_execution`](../../notes/ch3_design/tactic_profiles/04_execution.md)
+  goals" (fileless/in-memory, e.g. PowerShell). → [`04_execution`](../../notes/ch4_methods/tactic_profiles/04_execution.md)
   §2 (the "fast verb in a stealth wrapper" finding flagged unsettled in Step B
   — Selmanaj frames execution as the quick pivot, not a dwell).
 - **Persistence (TA0003):** "maintain access … for an extended period" so the
@@ -123,31 +123,31 @@ dwell-/reset-relevant content, mapped to each profile:
   — an attacker *actively defeating credential-rotation defence*, the closest
   thing in the book to adapting to an MTD-like periodic reset; BITS Jobs create
   "long-standing jobs that persist even after the system reboots". →
-  [`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md) §3 (persistence is
+  [`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md) §3 (persistence is
   designed to *survive* disruption — a stolen-key-like reset-survivor, low reset
   probability; the account-manipulation-vs-rotation point is the sharpest
   MTD-interaction claim — persistence can adapt around a periodic reset).
 - **Privilege Escalation (TA0004):** exploit-shaped ("exploit weaknesses,
   misconfigurations, and vulnerabilities … to gain elevated access"; BYOVD). →
-  [`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md) §2
+  [`06_privilege-escalation`](../../notes/ch4_methods/tactic_profiles/06_privilege-escalation.md) §2
   (confirms exploit-shaped, Tier-1 substrate-priced).
 - **Defense Evasion (TA0005, "42 techniques"):** the pre-v19.1 umbrella —
   splits cleanly across the two v19.1 successors. **Hiding** goes to
-  [`07_stealth`](../../notes/ch3_design/tactic_profiles/07_stealth.md): "conceal their presence …
+  [`07_stealth`](../../notes/ch4_methods/tactic_profiles/07_stealth.md): "conceal their presence …
   encryption and obfuscation … abuse trusted processes to hide and disguise
   their malware" (Deobfuscate/Decode, Masquerading, Indirect Command
-  Execution). **Disabling** goes to [`08_defense-impairment`](../../notes/ch3_design/tactic_profiles/08_defense-impairment.md):
+  Execution). **Disabling** goes to [`08_defense-impairment`](../../notes/ch4_methods/tactic_profiles/08_defense-impairment.md):
   "uninstalling or disabling security software to prevent it from detecting
   malicious actions." Selmanaj's lead example (Duqu token theft) is a *stealth*
   behaviour, not a disable — consistent with Step B's finding that the corpus's
   evasion-avoidant APT rarely *disables* defences.
 - **Credential Access (TA0006):** Mimikatz credential dumping; OS credential
   dumping "used by attackers who have already gained access to a system with
-  elevated privileges" (sequenced after PE). → [`09_credential-access`](../../notes/ch3_design/tactic_profiles/09_credential-access.md)
+  elevated privileges" (sequenced after PE). → [`09_credential-access`](../../notes/ch4_methods/tactic_profiles/09_credential-access.md)
   §2/§3 (a stolen credential is the archetypal *reset-survivor* — survives an
   IP/topology shuffle; this is the book's clearest reset-immunity case).
 - **Discovery (TA0007):** "the discovery phase can take a long time" — but
-  scan-shaped in modality (map OS/software/open ports). → [`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md)
+  scan-shaped in modality (map OS/software/open ports). → [`10_discovery`](../../notes/ch4_methods/tactic_profiles/10_discovery.md)
   §2 (scan-shaped as modelled; the "can take a long time" tempers pure
   scan-speed — note the divergence like reconnaissance).
 - **Lateral Movement (TA0008):** exploit remote services *or* reuse stolen
@@ -155,17 +155,17 @@ dwell-/reset-relevant content, mapped to each profile:
   **Use Alternate Authentication Material (T1550)** — Pass the Hash / Pass the
   Ticket / Web Session Cookie / Application Access Token: stolen auth material
   lets attackers "bypass normal access controls and log in as you, even if they
-  don't know your password". → [`11_lateral-movement`](../../notes/ch3_design/tactic_profiles/11_lateral-movement.md)
+  don't know your password". → [`11_lateral-movement`](../../notes/ch4_methods/tactic_profiles/11_lateral-movement.md)
   §2 (the fast-exploit↔stolen-credential duality flagged in Step B; reset
   behaviour depends on which — exploit-move is reset-vulnerable; credential-
   *and alternate-auth-material* moves survive a password/topology shuffle,
   sharpening the reset-survivor class beyond dumped passwords).
 - **Collection (TA0009):** post-access; "compress and encrypt it before
   exfiltrating" (Archive Collected Data) — staging, objective-execution. →
-  [`12_collection`](../../notes/ch3_design/tactic_profiles/12_collection.md) §2.
+  [`12_collection`](../../notes/ch4_methods/tactic_profiles/12_collection.md) §2.
 - **Command and Control (TA0011):** "establish C2 channels that mimic normal
   network traffic to avoid detection"; beacon/proxy/CDN-fronting. →
-  [`13_command-and-control`](../../notes/ch3_design/tactic_profiles/13_command-and-control.md) §3
+  [`13_command-and-control`](../../notes/ch4_methods/tactic_profiles/13_command-and-control.md) §3
   (a C2 channel is IP/endpoint-bound — a shuffle can *sever* it, forcing
   re-establishment: reset-vulnerable, a key MTD-interaction claim). **Reset
   nuance (Proxy T1090, ~L2033):** proxies exist precisely to "provide
@@ -179,12 +179,12 @@ dwell-/reset-relevant content, mapped to each profile:
   so it looks like normal activity … during peak business hours … If data is
   being exfiltrated at random intervals, it can look suspicious … by scheduling
   the transfer, the attacker can make it appear … part of regular network
-  traffic." → [`14_exfiltration`](../../notes/ch3_design/tactic_profiles/14_exfiltration.md) §2
+  traffic." → [`14_exfiltration`](../../notes/ch4_methods/tactic_profiles/14_exfiltration.md) §2
   (direct support for the batched-low-and-slow end of the exfil width flagged
   in Step B — deliberately *paced*, not a burst).
 - **Impact (TA0040):** the fast/noisy objective mode — ransomware ("Data
   Encrypted for Impact"), endpoint/network DoS, system shutdown/reboot;
-  destructive and immediate. → [`15_impact`](../../notes/ch3_design/tactic_profiles/15_impact.md)
+  destructive and immediate. → [`15_impact`](../../notes/ch4_methods/tactic_profiles/15_impact.md)
   §2 (the ransomware-burst end — contrasts with espionage-never; supports the
   wide objective-execution sweep).
 

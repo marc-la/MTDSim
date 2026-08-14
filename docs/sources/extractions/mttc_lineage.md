@@ -5,7 +5,7 @@
 > §3 MTD-effect evidence. They corroborate the corpus
 > [`mcqueen2006`](mcqueen2006.md) anchor (1-day easy-exploit compromise), refine
 > its skill model, and — Maleki — relate MTD strength to attacker time/cost.
-> Feeds [`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md)
+> Feeds [`06_privilege-escalation`](../../notes/ch4_methods/tactic_profiles/06_privilege-escalation.md)
 > (and the exploit-shaped group generally).
 > Source files (all `docs/sources/tactic_profiles/step_d/6_privesc/`, gitignored):
 > `Estimating_a_Systems_Mean_Time-to-Compromise.md`,
@@ -49,8 +49,8 @@ easy-exploit figure. Adds a **skill model**: a continuous skills indicator ∈ [
 exploits (m = 450, McQueen's value from public exploit sites). So the declared
 per-state dwell is skill-parameterised, not a single point.
 
-**Maps to:** [`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md)
-/ [`03_initial-access`](../../notes/ch3_design/tactic_profiles/03_initial-access.md) §4 (the 1-day
+**Maps to:** [`06_privilege-escalation`](../../notes/ch4_methods/tactic_profiles/06_privilege-escalation.md)
+/ [`03_initial-access`](../../notes/ch4_methods/tactic_profiles/03_initial-access.md) §4 (the 1-day
 easy-exploit dwell, independently restated; the skill axis supports a *range*
 around the anchor) + method (per-state *declared* dwell — the precedent our Tier-3
 tactics follow).
@@ -74,7 +74,7 @@ cybersecurity metrics in practice" — i.e. declaring a per-state compromise tim
 *and refining it with CTI* is the mainstream method, exactly the register the
 method note claims.
 
-**Maps to:** [`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md)
+**Maps to:** [`06_privilege-escalation`](../../notes/ch4_methods/tactic_profiles/06_privilege-escalation.md)
 §4 (a CVSS-informed refinement of the exploit-shaped dwell) + the method note
 (declare-and-refine precedent; supports a distribution over the anchor, not a
 point).
@@ -98,7 +98,7 @@ MTD-specific + system parameters. Multi-level MTD compositions analyse by
 combining per-strategy analyses. Applied to IP-hopping and single/multiple-target
 hiding.
 
-**Maps to:** [`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md)
+**Maps to:** [`06_privilege-escalation`](../../notes/ch4_methods/tactic_profiles/06_privilege-escalation.md)
 §3 (MTD-effect: attacker success is a rising function of time-under-MTD → a faster
 reset caps success; the sweep axis is the MTD parameter) and the tuned-group §3
 generally.
