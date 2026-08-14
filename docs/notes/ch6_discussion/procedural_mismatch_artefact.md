@@ -2,7 +2,7 @@
 status: durable
 chapter: ch6_discussion
 created: 2026-08-01
-updated: 2026-08-01
+updated: 2026-08-14
 ---
 
 # Procedural mismatch manufactures attacker failure that an evaluation will misread as attacker weakness
@@ -83,11 +83,13 @@ one, then a factor that biases the attacker's routing by a controllable amount �
 from fully intelligence-derived order at one end to the simulator's native order
 at the other — turns the categorical observation into a measured quantity: sweep
 the dial and read off how much of the attacker's failure the simulator's
-rigidity accounts for. The instrument's null setting must reproduce the original
-finding at full strength, which makes it an ablation rather than a repair. It is
-designed but not built, and it must be reported as an instrument for measuring
-the host's rigidity — not as a fidelity improvement, since aligning an attacker
-with its host's expectations is the opposite of behavioural independence.
+rigidity accounts for. The instrument is now built — a declared alignment dial
+on the unit interval whose zero setting is bit-identical to a run without it, so
+the original finding is reproduced at full strength by construction and the
+sweep is an ablation rather than a repair. It must be reported as an instrument
+for measuring the host's rigidity — not as a fidelity improvement, since at its
+limiting end it tunes the attacker toward the host simulator's own procedural
+order, which is the opposite of behavioural independence.
 
 The transferable statement is a validity requirement rather than a result. Any
 evaluation that drives a host simulator with an attacker the simulator was not
@@ -122,11 +124,12 @@ apparatus effects belong in the error budget, not in the findings.
 
 ## Revisit conditions
 
-- If the alignment instrument is built and its sweep shows the rigidity penalty
-  is small, this note's "substantial part" weakens to "minor part" and the
-  attacker-weakness reading regains ground; the note is rewritten either way,
-  because the point of the instrument is to replace this note's categorical
-  claim with a number.
+- ~~If the alignment instrument is built…~~ **Built 2026-08-14 status:** the
+  dial exists (declared, null bit-identical). When its rigidity sweep is run and
+  reported: if the penalty is small, this note's "substantial part" weakens to
+  "minor part" and the attacker-weakness reading regains ground; the note is
+  rewritten either way, because the point of the instrument is to replace this
+  note's categorical claim with a number.
 - If a future mapping eliminates refusals entirely, the structural half of the
   diagnosis is falsified for this host and the note narrows to the mapping
   half.
