@@ -127,10 +127,10 @@ Asset-side counts after conversion: 222 attack steps on Windows, 134 Linux,
 "The full range of attacks/defenses (techniques/mitigations) detailed by the
 MITRE ATT&CK Matrix is covered in our proposed enterpriseLang" (§4, Step 2).
 
-**Maps to:** profiles [`07_stealth`](../../notes/ch3_design/tactic_profiles/07_stealth.md) /
-[`08_defense-impairment`](../../notes/ch3_design/tactic_profiles/08_defense-impairment.md) (the
+**Maps to:** profiles [`07_stealth`](../../notes/ch4_methods/tactic_profiles/07_stealth.md) /
+[`08_defense-impairment`](../../notes/ch4_methods/tactic_profiles/08_defense-impairment.md) (the
 old defense-evasion's 69-technique breadth is context for the v19.1 split
-allocation) · [`14_exfiltration`](../../notes/ch3_design/tactic_profiles/14_exfiltration.md)
+allocation) · [`14_exfiltration`](../../notes/ch4_methods/tactic_profiles/14_exfiltration.md)
 (thinnest tactic).
 
 **Disposition for this thesis:** verified [fetched] — background texture, no
@@ -152,7 +152,7 @@ userRights". Structurally: privilege-escalation is the state transition that
 *unlocks a whole class of downstream techniques* — its dwell is spent before
 an admin-only subset of every later tactic becomes reachable.
 
-**Maps to:** [`06_privilege-escalation`](../../notes/ch3_design/tactic_profiles/06_privilege-escalation.md)
+**Maps to:** [`06_privilege-escalation`](../../notes/ch4_methods/tactic_profiles/06_privilege-escalation.md)
 §4 (structural-role evidence; no timing).
 
 **Disposition for this thesis:** verified [fetched] — formal-model precedent
@@ -173,8 +173,8 @@ persistence/C2 dwell with objective-execution deferred to the end — narrative
 corroboration for the low-and-slow group at whole-campaign scale, financial
 (not espionage) motive.
 
-**Maps to:** profiles [`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md) /
-[`13_command-and-control`](../../notes/ch3_design/tactic_profiles/13_command-and-control.md) §4
+**Maps to:** profiles [`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md) /
+[`13_command-and-control`](../../notes/ch4_methods/tactic_profiles/13_command-and-control.md) §4
 (anecdote row) · consistent with alshamrani2019's APT dwell character.
 
 **Disposition for this thesis:** verified [fetched] (as the paper reports the

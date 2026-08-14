@@ -2,9 +2,9 @@
 
 > A consolidated bundle of ransomware IR-timeline and encryption-speed sources,
 > extracted **as Tier-2 macro anchors for the objective-execution tactics** —
-> [`04_execution`](../../notes/ch3_design/tactic_profiles/04_execution.md) (deploy = run the payload),
-> [`08_defense-impairment`](../../notes/ch3_design/tactic_profiles/08_defense-impairment.md) (EDR-kill
-> prevalence + pre-encryption dwell), [`15_impact`](../../notes/ch3_design/tactic_profiles/15_impact.md)
+> [`04_execution`](../../notes/ch4_methods/tactic_profiles/04_execution.md) (deploy = run the payload),
+> [`08_defense-impairment`](../../notes/ch4_methods/tactic_profiles/08_defense-impairment.md) (EDR-kill
+> prevalence + pre-encryption dwell), [`15_impact`](../../notes/ch4_methods/tactic_profiles/15_impact.md)
 > (encryption speed). Ransomware is the one attack type with published *per-stage*
 > timing, so it is the richest calibration target for the fast (eCrime) end of the
 > envelope — the espionage low-and-slow end is elsewhere ([`breach_reports_macro_timing`](breach_reports_macro_timing.md)).
@@ -54,10 +54,10 @@ broker-access to an interactive session and reaching AD. Five-stage pattern:
 Initial Access → Post-Exploitation Foothold → Recon/Cred-Harvest/Lateral → Data
 Collection & Exfil → Ransomware Deployment.
 
-**Maps to:** [`04_execution`](../../notes/ch3_design/tactic_profiles/04_execution.md) §4 (deployment =
+**Maps to:** [`04_execution`](../../notes/ch4_methods/tactic_profiles/04_execution.md) §4 (deployment =
 running the payload — the whole-chain access→deploy bounds the summed dwell of the
 intervening tactics under a fast eCrime profile) and
-[`15_impact`](../../notes/ch3_design/tactic_profiles/15_impact.md) §4.
+[`15_impact`](../../notes/ch4_methods/tactic_profiles/15_impact.md) §4.
 
 **Disposition for this thesis:** verified [fetched] — Tier-2 vendor IR. A
 whole-chain (access→deploy) duration, not a per-tactic dwell; the fast end.
@@ -76,10 +76,10 @@ configured MFA or had it bypassed**; EDR misconfigured/missing in >25% of all
 incidents; Impair Defenses (T1562.001, disable/modify tools) observed. This is a
 **prevalence/rate** phenomenon, **not** a per-phase duration.
 
-**Maps to:** [`08_defense-impairment`](../../notes/ch3_design/tactic_profiles/08_defense-impairment.md)
+**Maps to:** [`08_defense-impairment`](../../notes/ch4_methods/tactic_profiles/08_defense-impairment.md)
 §4 (the gap-documenting result: defence-disabling is measured as %-of-cases, not a
-dwell → Tier-3 wide sweep) and [`15_impact`](../../notes/ch3_design/tactic_profiles/15_impact.md) /
-[`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md) (17–44 d dwell — the slow
+dwell → Tier-3 wide sweep) and [`15_impact`](../../notes/ch4_methods/tactic_profiles/15_impact.md) /
+[`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md) (17–44 d dwell — the slow
 ransomware tail).
 
 **Disposition for this thesis:** verified [fetched] — Tier-2 IR. The dwell range
@@ -99,8 +99,8 @@ before triggering the payload (Phobos/Maze >30; Conti/Play/Black Basta <10). The
 duration is bimodal across actor tempo. (A 2024 Statista figure: victim downtime
 averages 24 days — an hours-long attack → weeks-long disruption.)
 
-**Maps to:** [`08_defense-impairment`](../../notes/ch3_design/tactic_profiles/08_defense-impairment.md)
-/ [`15_impact`](../../notes/ch3_design/tactic_profiles/15_impact.md) §4 (fast access→deploy; the
+**Maps to:** [`08_defense-impairment`](../../notes/ch4_methods/tactic_profiles/08_defense-impairment.md)
+/ [`15_impact`](../../notes/ch4_methods/tactic_profiles/15_impact.md) §4 (fast access→deploy; the
 pre-payload "18 actions" include the impair-defenses/lateral steps).
 
 **Disposition for this thesis:** verified [fetched] — Tier-2. A whole-chain
@@ -119,7 +119,7 @@ median **~42m52s**. The impact *act* (encryption) is minutes-to-a-couple-hours,
 and is throughput-bound (a genuine floor — you cannot encrypt faster than disk
 I/O).
 
-**Maps to:** [`15_impact`](../../notes/ch3_design/tactic_profiles/15_impact.md) §4 (the encryption
+**Maps to:** [`15_impact`](../../notes/ch4_methods/tactic_profiles/15_impact.md) §4 (the encryption
 action is minutes-to-hours, throughput-bound — the objective-execution act has a
 real, non-instant dwell).
 
@@ -157,9 +157,9 @@ per-family *encryption-speed* datum (the impact act), not a whole-campaign dwell
   by blocking lateral ransomware spread. The §3 MTD-vs-ransomware effect: shuffling
   the runtime surface contains lateral spread mid-attack.
 
-**Maps to:** [`15_impact`](../../notes/ch3_design/tactic_profiles/15_impact.md) §4 (dwell ~7–28 h;
+**Maps to:** [`15_impact`](../../notes/ch4_methods/tactic_profiles/15_impact.md) §4 (dwell ~7–28 h;
 encryption phases) and §3 (Barach: MTD contains lateral ransomware spread → a
-reset that limits blast radius); [`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md)
+reset that limits blast radius); [`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md)
 (dwell).
 
 **Disposition for this thesis:** verified [fetched] — Tier-2. Hou/Secureworks =

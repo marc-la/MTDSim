@@ -65,7 +65,7 @@ updated: 2026-07-15
   negative leaves open — and the test that could confirm or sink the thesis's
   "the profiles are meaningfully distinct" claim. High stakes, both directions.
 - **The per-tactic profiles already exist** — the 15
-  [`../tactic_profiles/`](../notes/ch3_design/tactic_profiles/) §5 blocks are the single source
+  [`../tactic_profiles/`](../notes/ch4_methods/tactic_profiles/) §5 blocks are the single source
   of truth for dwell/behaviour (catalogue consistency constraint). No
   *class-level* characterisation exists yet; that is the new artefact.
 - **Some objective-timing extractions already exist** and were the catalogue's
@@ -213,7 +213,7 @@ Done when:
   against these per-class criteria directly.
 - **Shape-not-scale throughout** — criteria are orderings/ratios/occupancy,
   never absolute hours
-  ([`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/ch3_design/operational_validation.md)).
+  ([`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/ch4_methods/operational_validation.md)).
 - **Pre-register before scoring** — the criteria commit predates the scoring
   commit, or the exercise is circular.
 - **Anti-circularity on sources** — do not validate a class against material
@@ -236,7 +236,7 @@ Done when:
 - [`../../data/ogasp/petri/divergence_report.md`](../../data/ogasp/petri/divergence_report.md)
   — the negative structural result this behavioural test is meant to answer;
   read the verdict and the small-class null-band note.
-- [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/ch3_design/operational_validation.md)
+- [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/ch4_methods/operational_validation.md)
   — shape-not-scale, tiers, held-out milestone, anti-circularity rules — the
   discipline this handoff extends to the class level.
 - [`../specs/02_gasp_schema.md`](../implementation/pipeline/gasp/gasp_schema.md) — the four

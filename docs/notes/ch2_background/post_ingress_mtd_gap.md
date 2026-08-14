@@ -48,14 +48,14 @@ It does not claim post-ingress MTD does not exist — only that it is the minori
 
 ## Evidence and repo anchors
 
-- The reset-split evidence: the per-tactic profiles at [`../ch3_design/tactic_profiles/`](../ch3_design/tactic_profiles/) (§3 blocks) and the substrate reset model in [`../../implementation/substrate_primer.md`](../../implementation/substrate_primer.md) §(e).
-- The same reversal, argued from the modelling side: [`../ch3_design/structure_to_behaviour_binding.md`](../ch3_design/structure_to_behaviour_binding.md).
+- The reset-split evidence: the per-tactic profiles at [`../ch4_methods/tactic_profiles/`](../ch4_methods/tactic_profiles/) (§3 blocks) and the substrate reset model in [`../../implementation/substrate_primer.md`](../../implementation/substrate_primer.md) §(e).
+- The same reversal, argued from the modelling side: [`../ch4_methods/structure_to_behaviour_binding.md`](../ch4_methods/structure_to_behaviour_binding.md).
 - Citation-anchor reconciliation targets: [`hong2018`](../../sources/extractions/hong2018.md), [`alshamrani2019`](../../sources/extractions/alshamrani2019.md) (deployment gap); [`evans2011_mtd_effectiveness`](../../sources/extractions/evans2011_mtd_effectiveness.md), [`mtd_scan_disruption`](../../sources/extractions/mtd_scan_disruption.md), [`mtd_stealth_effectiveness`](../../sources/extractions/mtd_stealth_effectiveness.md) (phase coverage); [`masud2025`](../../sources/extractions/masud2025.md), [`syed2025`](../../sources/extractions/syed2025.md), [`kim2026`](../../sources/extractions/kim2026.md) (AMTD scope — read before attributing).
 - Governing claim in the specs: [`../../implementation/architecture.md`](../../implementation/architecture.md) §(j); single research question in [`../../workflows/project_context.md`](../../workflows/project_context.md).
 
 ## Revisit conditions
 
 - If a survey shows post-ingress MTD is a well-populated area, the gap softens from "the field is missing this" to "the field does this differently", and the introduction reframes around *behavioural grounding* as the contribution rather than phase coverage.
-- If the evaluation's discrimination and sweep experiments (see [`../ch5_evaluation/evaluation_burden.md`](../ch5_evaluation/evaluation_burden.md)) do not demonstrate the reversal, the motivation retreats to a qualitative claim under the negative-result disposition.
+- If the evaluation's discrimination and sweep experiments (see [`../ch4_methods/evaluation_burden.md`](../ch4_methods/evaluation_burden.md)) do not demonstrate the reversal, the motivation retreats to a qualitative claim under the negative-result disposition.
 - If AMTD is found to already extend into post-ingress response, the "automation ≠ phase reach" argument fails and the gap narrows to the CTI-grounded evaluation method.
 - If the supervisor rejects "post-ingress" as the framing term, the terminology section is rewritten and dependent headers follow.

@@ -301,7 +301,7 @@ step reveals operator-aggregation is dominating per-class discrimination
 (e.g. the `objective_exfiltration_impact` class's signal is *the Conti signature* rather
 than a *double-extortion signature*), re-open the spec against the four
 mitigations in
-[`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../notes/ch3_design/operator_concentration.md)
+[`../notes/2026-05-28_l2_operator_aggregation_concern.md`](../notes/ch4_methods/operator_concentration.md)
 (operator-deduplicated re-check / operator-weighted JSD / stratified holdout
 / corpus expansion).
 
@@ -709,7 +709,7 @@ generative grammar for an operational objective** — the union of 5–19
 analyst-drawn flows, over-generating by construction (a token can stitch
 technique-A-from-one-campaign onto technique-B-from-another and produce a
 chain no real actor ever ran; rationale in
-[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/ch3_design/structure_to_behaviour_binding.md)
+[`../notes/2026-06-18_cti_to_executable_behaviour.md`](../notes/ch4_methods/structure_to_behaviour_binding.md)
 §1). *Commits to:* a run is *one instantiation* of the envelope under a
 declared policy; the defensible claim is **fidelity-changes-the-answer over a
 CTI-grounded envelope**. *Rules out:* claiming a traversal *is* a named

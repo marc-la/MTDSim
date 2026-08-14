@@ -44,7 +44,7 @@ and its provenance row ([`../../provenance.md`](../../provenance.md)).
 **What this is, and is not.** It is **structure = the net's legal-move grammar**
 (the D3 nets + the synthetic overlay); **policy = which enabled move fires on which
 verdict** (*this overlay*); **execution = one seeded walk**
-([`../../../notes/ch3_design/structure_to_behaviour_binding.md`](../../../notes/ch3_design/structure_to_behaviour_binding.md)).
+([`../../../notes/ch4_methods/structure_to_behaviour_binding.md`](../../../notes/ch4_methods/structure_to_behaviour_binding.md)).
 It is a **declared knowledge layer, not reverse-engineered weights** — real-world
 conditional-likelihood knowledge distilled into a file, not weights solved from the
 nets to make the token move a certain way. **Envelope, not actor:** it encodes

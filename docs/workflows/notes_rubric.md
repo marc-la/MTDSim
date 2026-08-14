@@ -39,7 +39,7 @@ Use [`../notes/_template.md`](../notes/_template.md). The shape:
 ```markdown
 ---
 status: durable | superseded
-chapter: ch3_design            # matches the subdir
+chapter: ch4_methods            # matches the subdir
 created: YYYY-MM-DD
 updated: YYYY-MM-DD
 lineage: <original filename, if renamed/refactored — else omit>

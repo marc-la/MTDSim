@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-08-13
+updated: 2026-08-14
 ---
 
 # Docs map — where every document lives, and why
@@ -71,6 +71,7 @@ The canonical record of what is built and why, in whatever register is clearest 
 - [`metrics_semantics.md`](../implementation/metrics_semantics.md) — internal MTTC, divergences (C7, ATK-04), comparability boundary.
 - [`provenance.md`](../implementation/provenance.md) — load-bearing constants → source → code → disposition.
 - [`trace_tool.md`](../implementation/trace_tool.md) — the event-log tracer (`mtdnetwork/trace.py`): usage, invariants, and its extension charter (a living diagnostic tool, `status: living`).
+- [`research_record/`](../implementation/research_record/) — the annal mined from Marc's own prompts (the transcript-corpus brief): the per-prompt disposition table and the decision-thread files carrying intent, reversals and abandoned paths that no shipped record owns. Prompts are dated evidence, never current truth; conflicts with shipped records are flagged there, not resolved. Re-run via `tools/prompt_corpus.py` against fresh snapshots.
 - **The component-boundary records** — the durable output of the 2026-08-02 boundary programme and the disruption-wiring brief that followed it, and the reference for anything touching the attacker/defender/network seams: [`attacker_read_surface.md`](../implementation/attacker_read_surface.md) (what the attacker perceives), [`mtd_write_surfaces.md`](../implementation/mtd_write_surfaces.md) (every mechanism's write set, plus the purview/fairness table), [`boundary_attacker_defender_channels.md`](../implementation/boundary_attacker_defender_channels.md) (the six direct disruption channels, priced per class), and [`disruption_wiring.md`](../implementation/disruption_wiring.md) (whether that pricing *arrives* at both driving arms — the per-mechanism truth table and traffic).
 - [`pipeline/gap/`](../implementation/pipeline/gap/) · [`pipeline/gasp/`](../implementation/pipeline/gasp/) · [`pipeline/ogasp/`](../implementation/pipeline/ogasp/) — per-stage data models plus the investigation records, audits, and decision registers that produced them.
 
@@ -80,15 +81,17 @@ Contract: **provenance-dated.** Every file carries frontmatter with `status`, `c
 
 Chapter-organised, rubric-gated prose. The full contract is [`notes_rubric.md`](notes_rubric.md); the short version: formal academic prose, self-contained, atomic (one idea per file), readable by Marc's supervisor without the repo, repo links confined to an evidence footer. The sentence-level voice is [`voice.md`](voice.md) — default for notes, hard gate for `thesis/`. Chapter subdirs mirror the dissertation:
 
+The subdirs track the **ratified chapter structure** (supervisor register V-series, 2026-08-11; remapped 2026-08-14): introduction (ch1), background (ch2), literature review (ch3), methodology (ch4), results (ch5), discussion (ch6), future work (ch7), conclusion (ch8).
+
 | Subdir | Dissertation chapter | What lands here |
 |---|---|---|
-| `ch2_background/` | Background & Literature Review | positioning, gap statements, precedent surveys |
-| `ch3_design/` | Design & Methodology | the modelling arguments: corpus → profiles → attacker; validity defences. Includes [`tactic_profiles/`](../notes/ch3_design/tactic_profiles/) (the 15 per-tactic evidence profiles + their `_rubric.md`) |
-| `ch4_implementation/` | Implementation | prose about *how* it was realised (rare — most of this is `implementation/` material until the chapter is drafted) |
-| `ch5_evaluation/` | Evaluation & Results | experimental-design arguments, what the evaluation must demonstrate, results framing |
-| `ch6_discussion/` | Discussion | interpretation, limitations synthesis |
+| `ch2_background/` | Background (ch2) | the inherited platform: simulator lineage, network/defence/attacker models; positioning, gap statements, precedent surveys (these also feed the ch3 literature review, which keeps no dir of its own) |
+| `ch4_methods/` | Methodology (ch4) | the modelling arguments (corpus → profiles → attacker; validity defences), the realisation arguments (built-beside, portability contract, bug-vs-design verification), and experimental design (burden of proof, grading, discrimination). Includes [`tactic_profiles/`](../notes/ch4_methods/tactic_profiles/) (the 15 per-tactic evidence profiles + their `_rubric.md`) |
+| `ch5_results/` | Results (ch5) | sensitivity-analysis and results framing — how a found result is stated and bounded |
+| `ch6_discussion/` | Discussion (ch6) | interpretation, limitations synthesis |
+| `ch7_future_work/` | Future work (ch7) | the named successor programme; only future-work arguments that are self-contained ideas (smaller candidates ride *Revisit conditions*) |
 
-The Introduction and Conclusion chapters deliberately have **no** notes subdir: both are syntheses written last from the other chapters' material (the introduction's motivation lives in `ch2_background/`; future-work candidates ride the *Revisit conditions* of the notes that spawn them). If a note genuinely fits neither maintained chapter, that is a placement smell — re-run the criterion above before inventing a new subdir. Section/subsection structure *below* chapter level is emergent — it will crystallise from the notes themselves, so do not encode sub-chapter numbering into filenames or dirs. Files named with a leading underscore (`_template.md`, `_rubric.md`) are process scaffolding, exempt from the prose register; each chapter dir carries a `README.md` opening with *what that chapter does* (its rhetorical job in the dissertation) and what belongs in it. Whole-document writing guidance — the job of each part including title/abstract/introduction/conclusion, the drafting order, and the refine–forget cycle — is [`../notes/_writing_guide.md`](../notes/_writing_guide.md); load it before drafting chapter prose.
+The Introduction, Literature Review and Conclusion chapters deliberately have **no** notes subdir: the introduction and conclusion are syntheses written last from the other chapters' material (the introduction's motivation lives in `ch2_background/`); the literature review is fed by `ch2_background/` survey notes and the tracked extractions. If a note genuinely fits neither maintained chapter, that is a placement smell — re-run the criterion above before inventing a new subdir. Section/subsection structure *below* chapter level is emergent — it will crystallise from the notes themselves, so do not encode sub-chapter numbering into filenames or dirs. Files named with a leading underscore (`_template.md`, `_rubric.md`) are process scaffolding, exempt from the prose register; each chapter dir carries a `README.md` opening with *what that chapter does* (its rhetorical job in the dissertation) and what belongs in it. Whole-document writing guidance — the job of each part including title/abstract/introduction/conclusion, the drafting order, and the refine–forget cycle — is [`../notes/_writing_guide.md`](../notes/_writing_guide.md); load it before drafting chapter prose.
 
 ### `handoffs/` — open work
 

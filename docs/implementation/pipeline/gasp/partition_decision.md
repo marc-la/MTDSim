@@ -71,7 +71,7 @@ Per-flow justifications + critique + citations live at
 [`./2026-05-28_l2_per_flow_justifications.md`](per_flow_justifications.md).
 
 The reasoning note at
-[`./2026-05-28_l2_partition_reasoning.md`](../../../notes/ch3_design/objective_partition_rationale.md)
+[`./2026-05-28_l2_partition_reasoning.md`](../../../notes/ch4_methods/objective_partition_rationale.md)
 argued the *partition axis* (operational objective vs motivation); this note
 records the *classification scheme* the next session implements at
 [`../../src/mtdsim/l2_subgraph/`](../../../../src/mtdsim/l2_subgraph).
@@ -213,7 +213,7 @@ operators/conditions) yields **8 : 12 : 20** with 1 overlap. Cross-checked
 against two other defensible terminal definitions (B — strict zero
 out-degree: 6 : 10 : 23 : 0; D — any-occurrence/reach: 13 / 13 / — / 3),
 none reproduce the handoff's table — though D reproduces the [GAP
-construction note's](../../../notes/ch3_design/technique_graph_construction.md) 13/13/3 *reach*
+construction note's](../../../notes/ch4_methods/technique_graph_construction.md) 13/13/3 *reach*
 finding exactly. The recomputation is from `gap_v0.5.json` directly and
 the YAMLs in [`../../data/gap/flows/`](../../../../data/gap/flows); the
 handoff's 11:7:21 appears to inherit from v0.4 prior art under a
@@ -320,7 +320,7 @@ The decision changes if any of these hold:
   if the simulator-level test fails, the verdict shifts to refusal with
   L1-only contribution (matches handoff §"Stopping rule" clause 2).
 - **The operator-aggregation re-check (Mitigation 1 in
-  [`./2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch3_design/operator_concentration.md))
+  [`./2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch4_methods/operator_concentration.md))
   shows the per-class JSD signal collapses under operator-deduplication.**
   Half of the `double_extortion` class is Conti variants (G0102); if
   the class's discrimination signal is in fact a *Conti signature*
@@ -393,7 +393,7 @@ covers two coupled tasks:
   `{pure_steal, pure_impediment, double_extortion, infrastructure_setup}`",
   pending implementation.
 - To the reasoning note:
-  [`./2026-05-28_l2_partition_reasoning.md`](../../../notes/ch3_design/objective_partition_rationale.md)
+  [`./2026-05-28_l2_partition_reasoning.md`](../../../notes/ch4_methods/objective_partition_rationale.md)
   framed *why* L2 exists and *which axis* it slices on. This note records
   *which classification*; the reasoning note's "Alshamrani three goals as
   the candidate to beat" phrasing should now be read as *the anchor* for
@@ -409,9 +409,9 @@ covers two coupled tasks:
   [`./2026-05-28_l2_per_flow_justifications.md`](per_flow_justifications.md)
 - Operator-aggregation concern (3 Conti, 2 Turla, 2 FIN13, 3 CISA
   AA22-138B variants — risks + 4 candidate mitigations):
-  [`./2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch3_design/operator_concentration.md)
+  [`./2026-05-28_l2_operator_aggregation_concern.md`](../../../notes/ch4_methods/operator_concentration.md)
 - Reasoning note (framing — *why* L2 exists, *which axis*):
-  [`./2026-05-28_l2_partition_reasoning.md`](../../../notes/ch3_design/objective_partition_rationale.md)
+  [`./2026-05-28_l2_partition_reasoning.md`](../../../notes/ch4_methods/objective_partition_rationale.md)
 - Sub-handoff (simulator verification + L2 implementation):
   `handoffs/2026-05-28_l2_simulator_verification.md` (shipped & deleted per handoff lifecycle; see git log)
 

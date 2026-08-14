@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-08-13
+updated: 2026-08-14
 provenance: distilled from a UWA research-writing seminar (April 2026) supplied by Marc; adapted from paper-writing to dissertation shape; unit ledger added 2026-08-12 from Marc's base-unit framing plus an independent chapter-weighting suggestion he supplied
 ---
 
@@ -32,13 +32,14 @@ The introduction states the RQ and the three sub-questions (the grey box); the c
 |---|---|
 | **Title** | Highlights the main *technical* contribution (and the application where the application is the novelty). Written **last**. A workshopped candidate shortlist is staged in [`_title_workshop.md`](_title_workshop.md). |
 | **Abstract** | States the technical gap and places the contribution against it, for an expert reader, as briefly as possible; ends with the single headline outcome. |
-| **Introduction (ch1)** | A compressed literature review that hops landmark-to-landmark straight to the technical gap, then the contributions, then one highlight result. Sells the whole dissertation — a reader should be able to judge the work's value from it alone. |
-| **Background / lit review (ch2)** | Tells each category of prior work as a chronological story — method, its limitation, why the next method came — and *narrows down onto the gap this work fills*, ending on the demonstrated need. |
-| **Design / methodology (ch3)** | Defines the technical problem precisely (a precisely-defined problem is more than half solved) and explains the solution *as simply as possible*, with inherited preliminaries separated from own contribution. |
-| **Implementation (ch4)** | Carries the realisation detail the method chapter deliberately excludes; implementation challenges are themselves contribution. |
-| **Evaluation (ch5)** | Empirical validation on shared benchmarks with shared metrics, comparison against prior methods (adapted nearest-neighbours if the problem is new), plus ablation — which component of the method contributes what. |
-| **Discussion (ch6)** | Interprets outcomes against the field — what changes because this exists — and owns the limitations. |
-| **Conclusion (ch7)** | *Not* the abstract in past tense. Emphasises the impact of the specific technical move, and names the next step in the line of research. |
+| **Introduction (ch1)** | A compressed literature review that hops landmark-to-landmark straight to the technical gap, then the contributions, then one highlight result. Sells the whole dissertation — a reader should be able to judge the work's value from it alone. States the RQ and the three sub-questions. |
+| **Background (ch2)** | The inherited platform, before the literature review: the simulator lineage (network model, defence mechanisms, baseline attacker, prior works), written so the reader understands what the simulator does. Existing things, not methodology (V-series ruling, 2026-08-11). |
+| **Literature review (ch3)** | Tells each category of prior work as a chronological story — method, its limitation, why the next method came — and *narrows down onto the gap this work fills*, ending on the demonstrated need. Survey of APT attackers; attacker models in MTD; how MTD is evaluated. |
+| **Methodology (ch4)** | Defines the technical problem precisely (a precisely-defined problem is more than half solved) and explains the solution *as simply as possible*: how APT attackers are modelled, the movement attacker, the experimental setup. Realisation arguments live here too — the ratified structure has no separate implementation chapter. |
+| **Results (ch5)** | Sensitivity analysis (the declared-parameter preamble), then the MTD evaluation: empirical validation on the shared substrate, comparison against the inherited baseline, plus ablation — which component of the model moves the outcome. |
+| **Discussion (ch6)** | Interprets outcomes against the field — what the movement attacker captured, the fidelity verdict, what changes for MTD evaluation — and owns the limitations. |
+| **Future work (ch7)** | Names the successor programme this work's own closures point at, with the conditions that would reopen each ruled exclusion. |
+| **Conclusion (ch8)** | *Not* the abstract in past tense. Emphasises the impact of the specific technical move, and names the next step in the line of research. |
 
 ## Writing order (when drafting a chapter or the whole document)
 
@@ -89,4 +90,4 @@ Pacing: at ~2 units per day the document is roughly 4–5 weeks of drafting (fro
 
 ## How this maps onto the notes system
 
-Notes are staged per chapter (see [`../workflows/docs_map.md`](../workflows/docs_map.md)); each chapter README opens with its purpose. The introduction and conclusion have no notes dirs because both are compressions of material staged elsewhere — the introduction compresses ch2's gap narrowing and ch3–ch5's contributions; the conclusion compresses impact and next steps already carried in notes' *Position* and *Revisit conditions* sections. When drafting begins, this file is the order-of-operations checklist.
+Notes are staged per chapter (see [`../workflows/docs_map.md`](../workflows/docs_map.md)); each chapter README opens with its purpose. The introduction and conclusion have no notes dirs because both are compressions of material staged elsewhere — the introduction compresses ch2–ch3's gap narrowing and ch4–ch5's contributions; the conclusion compresses impact and next steps already carried in notes' *Position* and *Revisit conditions* sections and in `ch7_future_work/`. When drafting begins, this file is the order-of-operations checklist.

@@ -2,11 +2,11 @@
 
 > A themed bundle of MTD-effect papers extracted **for §3 (MTD interaction) and
 > the sweep-width of the scan-shaped tactics** — reconnaissance
-> ([`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md)) and discovery
-> ([`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md)) — plus the shared
+> ([`01_reconnaissance`](../../notes/ch4_methods/tactic_profiles/01_reconnaissance.md)) and discovery
+> ([`10_discovery`](../../notes/ch4_methods/tactic_profiles/10_discovery.md)) — plus the shared
 > reset-vs-dwell *ratio* mechanism that governs every tuned tactic. These are the
 > closest the literature comes to the genuine unknown
-> ([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../../notes/ch3_design/structure_to_behaviour_binding.md) §5):
+> ([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../../notes/ch4_methods/structure_to_behaviour_binding.md) §5):
 > how a defensive move perturbs an attacker. **All timing here is declared /
 > modelled, not empirical APT dwell** — they price the *effect of a shuffle
 > interval*, which is exactly what §3's reset verdict + sweep need.
@@ -28,7 +28,7 @@ falls as the shuffle interval shortens relative to the attacker's action time.
 
 Recon/discovery §3 (declared reset verdict) + §4 (MTD-effect rows); the
 reset-vs-dwell ratio argument that underwrites the whole tuned-group sweep
-([`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md)).
+([`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch4_methods/operational_validation.md)).
 
 ## Bibliographic anchor
 
@@ -84,8 +84,8 @@ few shuffles a day suffice.
 > §3/§4/§5 (2026-07-09); the dissertation (§3.1 tactic profiles) cites the
 > value only ("roughly 63%").
 
-**Maps to:** [`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md) /
-[`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md) §3 (a shuffle *invalidates*
+**Maps to:** [`01_reconnaissance`](../../notes/ch4_methods/tactic_profiles/01_reconnaissance.md) /
+[`10_discovery`](../../notes/ch4_methods/tactic_profiles/10_discovery.md) §3 (a shuffle *invalidates*
 recon/discovery gains — reset verdict = re-discovery forced) and §4; the
 "sparse-vulnerable" condition bounds *how much* a shuffle bites (sweep width);
 the 45%-of-time-on-recon anchor supports recon as a large-share, low-and-slow
@@ -110,14 +110,14 @@ collapses (attacker success rises to the no-shuffle line); when it is shorter,
 recon knowledge is invalidated before it can be used. This *ratio*, not the
 absolute interval, is the reset mechanism — directly the project's "shuffle
 interval vs tactic dwell" punchline
-([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../../notes/ch3_design/structure_to_behaviour_binding.md) §6).
+([`../notes/2026-06-18_cti_to_executable_behaviour.md`](../../notes/ch4_methods/structure_to_behaviour_binding.md) §6).
 Connection-drop cost ~0.04 when inter-shuffle = wait time. Confirms honeypots
 (deception) often beat shuffling alone; combination best.
 
-**Maps to:** [`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md) §3
+**Maps to:** [`01_reconnaissance`](../../notes/ch4_methods/tactic_profiles/01_reconnaissance.md) §3
 (reset = invalidation *if* shuffle interval < recon-to-exploit gap; the sweep
 width is the uncertainty in that gap);
-[`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md) §3; the ratio game is the
+[`10_discovery`](../../notes/ch4_methods/tactic_profiles/10_discovery.md) §3; the ratio game is the
 operational-validation calibration lever for every tuned group.
 
 **Disposition for this thesis:** verified [fetched]. The reset verdict is
@@ -179,8 +179,8 @@ kill-chain stage:
   it is present** (H2 supported; Present-Informed most affected) — counter to the
   "deception must be hidden" folklore.
 
-**Maps to:** [`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md) /
-[`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md) §3 (a defensive perturbation
+**Maps to:** [`01_reconnaissance`](../../notes/ch4_methods/tactic_profiles/01_reconnaissance.md) /
+[`10_discovery`](../../notes/ch4_methods/tactic_profiles/10_discovery.md) §3 (a defensive perturbation
 bites hardest at the recon/discovery stage — wasted effort, delayed forward
 progress) and §4 (real human minutes-to-target).
 
@@ -217,10 +217,10 @@ agent restarts from phase 1. Results:
   not the opportunist.
 - Larger network lowers success (48% at 50 hosts vs 78% at 10 hosts, interval 25).
 
-**Maps to:** [`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md) §3 (a shuffle
+**Maps to:** [`10_discovery`](../../notes/ch4_methods/tactic_profiles/10_discovery.md) §3 (a shuffle
 invalidates the internal map → forced re-discovery; the effect scales with the
 mutation-interval ÷ scan-cadence ratio) and §4;
-[`11_lateral-movement`](../../notes/ch3_design/tactic_profiles/11_lateral-movement.md) §3 (the
+[`11_lateral-movement`](../../notes/ch4_methods/tactic_profiles/11_lateral-movement.md) §3 (the
 worm-agent's *resistance* to shuffling — scan-free spread survives address
 mutation better than scan-based movement).
 
@@ -245,7 +245,7 @@ of the cyber attack routine." No dwell (scan still completes in ~14 s; decoy
 latency 0.015 s vs real 0.00015 s), but qualitatively a clean reset of recon
 gains via obfuscation rather than address churn.
 
-**Maps to:** [`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md) §3
+**Maps to:** [`01_reconnaissance`](../../notes/ch4_methods/tactic_profiles/01_reconnaissance.md) §3
 (diversity/obfuscation reset — recon result made false) and §4 (recon-as-precursor
 statistic).
 
@@ -270,11 +270,11 @@ the attacker scans less than the full space (e.g. half the space ⇒ e⁻¹ᐟ²
 — corroborating Carroll's e⁻¹ ceiling. Focuses on **low-rate scanners/worms**
 (fast scanning is easy to detect) — the APT-relevant regime.
 
-**Maps to:** [`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md) /
-[`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md) §3 (restart-per-interval
+**Maps to:** [`10_discovery`](../../notes/ch4_methods/tactic_profiles/10_discovery.md) /
+[`01_reconnaissance`](../../notes/ch4_methods/tactic_profiles/01_reconnaissance.md) §3 (restart-per-interval
 = the reset verdict; the deterrence ratio is the *delay multiplier* a shuffle
 imposes — directly a sweep input) and §4;
-[`11_lateral-movement`](../../notes/ch3_design/tactic_profiles/11_lateral-movement.md) §3 (worm
+[`11_lateral-movement`](../../notes/ch4_methods/tactic_profiles/11_lateral-movement.md) §3 (worm
 slowdown).
 
 **Disposition for this thesis:** verified [fetched] — the cleanest statement of
@@ -299,11 +299,11 @@ offers no benefit over static** (mutation slower than the scan) — the same
 ratio-governs-reset law as Crouse, now on the scan/mutation timescale.
 Explicitly defends worm propagation by enlarging the scan space.
 
-**Maps to:** [`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md) /
-[`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md) §3 (reset strength
+**Maps to:** [`10_discovery`](../../notes/ch4_methods/tactic_profiles/10_discovery.md) /
+[`01_reconnaissance`](../../notes/ch4_methods/tactic_profiles/01_reconnaissance.md) §3 (reset strength
 = f(mutation-rate ÷ scan-rate); the sweep spans r<1 "strong reset" to r≥1 "no
 benefit") and §4;
-[`11_lateral-movement`](../../notes/ch3_design/tactic_profiles/11_lateral-movement.md) §3 (worm).
+[`11_lateral-movement`](../../notes/ch4_methods/tactic_profiles/11_lateral-movement.md) §3 (worm).
 
 **Disposition for this thesis:** verified [fetched] — quantifies the ratio law
 with a concrete miss curve. Simulation, declared rates.
@@ -322,8 +322,8 @@ Panjwani figure that **up to 70% of cyber attacks are preceded by scanning**. Th
 adaptive angle answers jalowski2026's point that APTs "learn mutation patterns" —
 an RL defender that co-adapts.
 
-**Maps to:** [`01_reconnaissance`](../../notes/ch3_design/tactic_profiles/01_reconnaissance.md) /
-[`10_discovery`](../../notes/ch3_design/tactic_profiles/10_discovery.md) §3 (magnitude of the scan-time
+**Maps to:** [`01_reconnaissance`](../../notes/ch4_methods/tactic_profiles/01_reconnaissance.md) /
+[`10_discovery`](../../notes/ch4_methods/tactic_profiles/10_discovery.md) §3 (magnitude of the scan-time
 penalty a mutation imposes — 26–59% longer; feeds the sweep) and §4.
 
 **Disposition for this thesis:** verified [fetched] — quantified scan-time
@@ -345,8 +345,8 @@ Central finding = an explicit **availability-vs-security trade-off in the
 migration interval** — shorter interval ⇒ more security, less availability — i.e.
 the MTD-cost side of the same ratio dial (mirrors Carroll's connection-loss cost).
 
-**Maps to:** [`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md) /
-[`04_execution`](../../notes/ch3_design/tactic_profiles/04_execution.md) §3 (a migration *invalidates*
+**Maps to:** [`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md) /
+[`04_execution`](../../notes/ch4_methods/tactic_profiles/04_execution.md) §3 (a migration *invalidates*
 a host-based foothold — reset verdict for the on-host tactics, not just recon) +
 the method precedent (SPN interval sweep with a declared cost).
 

@@ -22,7 +22,7 @@ were committed at `e84bd2a` with **no results in hand**, and are unedited below.
 full 1 740-run re-run after Marc reversed that regime the same day. The
 commit ordering in `git log` is the pre-registration evidence the validity
 framework demands
-([`../../../notes/ch3_design/operational_validation.md`](../../../notes/ch3_design/operational_validation.md),
+([`../../../notes/ch4_methods/operational_validation.md`](../../../notes/ch4_methods/operational_validation.md),
 anti-circularity rule 3's pre-registration ordering, ratified for this study by the
 handoff's step 1).
 

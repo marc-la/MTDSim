@@ -64,7 +64,7 @@ created: 2026-07-16
   [`../implementation/pipeline/gap/gap_schema.md`](../implementation/pipeline/gap/gap_schema.md) /
   [`../gasp/gasp_schema.md`](../implementation/pipeline/gasp/gasp_schema.md) /
   [`../ogasp/petri_feasibility.md`](../implementation/pipeline/ogasp/petri_feasibility.md)
-  (stage one-liners), plus `ch3_design` notes that narrate the pipeline
+  (stage one-liners), plus `ch4_methods` notes that narrate the pipeline
   (`structure_to_behaviour_binding.md` especially — its encoding ledger
   speaks the binding-era language).
 - **Investigation records are immutable history** — they get status banners
@@ -131,7 +131,7 @@ Done when:
 - [`../workflows/project_context.md`](../workflows/project_context.md) +
   [`../workflows/docs_map.md`](../workflows/docs_map.md) — the always-loaded
   definitions that must not drift from architecture.
-- [`../notes/ch3_design/structure_to_behaviour_binding.md`](../notes/ch3_design/structure_to_behaviour_binding.md)
+- [`../notes/ch4_methods/structure_to_behaviour_binding.md`](../notes/ch4_methods/structure_to_behaviour_binding.md)
   — the most binding-era-shaped note; likely the hardest classification
   call.
 - [`../implementation/pipeline/ogasp/supervisor_decision_register.md`](../implementation/pipeline/ogasp/supervisor_decision_register.md)

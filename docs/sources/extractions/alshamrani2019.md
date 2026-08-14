@@ -160,7 +160,7 @@ discipline.
 
 **Maps to:** all fifteen [`../tactic_profiles/`](../tactic_profiles/) files (§2/§4);
 the MTD-effect paragraph feeds their §3 (Step E) and
-[`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md).
+[`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch4_methods/operational_validation.md).
 
 **Disposition for this thesis:** *adopted-as-evidence.* No per-tactic *duration* is taken
 from this paper (it publishes none — that is the gap); the per-tactic *behaviour/dwell

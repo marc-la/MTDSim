@@ -2,9 +2,9 @@
 
 > The game-theoretic and system models of **periodic reset vs a stealthy,
 > persistent foothold** — extracted for §3 of the durability tactics
-> ([`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md),
-> [`07_stealth`](../../notes/ch3_design/tactic_profiles/07_stealth.md),
-> [`13_command-and-control`](../../notes/ch3_design/tactic_profiles/13_command-and-control.md)). These
+> ([`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md),
+> [`07_stealth`](../../notes/ch4_methods/tactic_profiles/07_stealth.md),
+> [`13_command-and-control`](../../notes/ch4_methods/tactic_profiles/13_command-and-control.md)). These
 > answer the core §3 question directly: *when does a defender's periodic move
 > invalidate a persistent gain, and how fast must it move?* All three price the
 > **reset-rate ÷ compromise-rate ratio** — the same lever as the scan-shuffle
@@ -54,8 +54,8 @@ same rate. Practical reading: whoever can move *faster and cheaper* controls the
 resource more of the time — so a cheap, frequent MTD reset erodes a persistent
 foothold's control fraction, and an expensive/rare one cedes it.
 
-**Maps to:** [`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md) /
-[`07_stealth`](../../notes/ch3_design/tactic_profiles/07_stealth.md) §3 (reset verdict: a periodic
+**Maps to:** [`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md) /
+[`07_stealth`](../../notes/ch4_methods/tactic_profiles/07_stealth.md) §3 (reset verdict: a periodic
 move *does* contest a persistent gain, but the outcome is set by the move-rate ÷
 move-cost ratio — so the reset is partial and rate-dependent, not clean → a wide
 sweep) and the group anchor.
@@ -79,7 +79,7 @@ can target the cleansing process itself (Trojaned utilities, tampered boot) — 
 the reset is not unconditionally clean. **The md is OCR-garbled — no exact cycle
 figures cited; mechanism only, exact numbers `[parse-uncertain]`.**
 
-**Maps to:** [`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md) §3
+**Maps to:** [`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md) §3
 (redundancy/rotation MTD periodically invalidates a foothold — the attacker must
 re-establish persistence each cycle; the reset is periodic, bounded, and itself
 attackable).
@@ -104,8 +104,8 @@ cause instability/overhead. Validated on IP-address dynamic hopping against
 scanning. Confirms "when to move" (the reset interval) is *the* decision variable
 and is adversary-conditioned.
 
-**Maps to:** [`05_persistence`](../../notes/ch3_design/tactic_profiles/05_persistence.md) /
-[`07_stealth`](../../notes/ch3_design/tactic_profiles/07_stealth.md) §3 (the reset interval is the
+**Maps to:** [`05_persistence`](../../notes/ch4_methods/tactic_profiles/05_persistence.md) /
+[`07_stealth`](../../notes/ch4_methods/tactic_profiles/07_stealth.md) §3 (the reset interval is the
 swept parameter; too-slow reset cedes the foothold) + method (FlipIt-lineage
 declare-and-optimise).
 

@@ -116,7 +116,7 @@ point:
   §7: validation experiments and **sensitivity analysis** named as future
   work.
 
-**Maps to:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md)
+**Maps to:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch4_methods/operational_validation.md)
 (Tier-3 discipline: declared + justified + swept is the lineage norm from the
 root) · [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../notes/ch2_background/tactic_duration_precedent_survey.md)
 (the "somewhat arbitrarily" bullet — confirmed [fetched], full text).
@@ -184,7 +184,7 @@ to a declared per-stage dwell for the hard, no-easy-exploit case, and a sane
 order-of-magnitude sanity check for any stealth-tactic dwell (weeks, not
 seconds or years).
 
-**Maps to:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md)
+**Maps to:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch4_methods/operational_validation.md)
 (a Tier-2/3 declared dwell with full provenance) · the objective/stealth group
 anchors (order-of-magnitude plausibility envelope).
 

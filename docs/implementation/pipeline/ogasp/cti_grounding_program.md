@@ -178,7 +178,7 @@ build**:
 - **Will touch, when a depth is chosen (not yet):** the L3 attacker seam in
   [`../../architecture.md`](../../architecture.md) §(f) (Marc-driven) and the
   substrate vuln model in [`../../../../mtdnetwork/component/services.py`](../../../../mtdnetwork/component/services.py);
-  the encoding ledger in [`../../../notes/ch3_design/structure_to_behaviour_binding.md`](../../../notes/ch3_design/structure_to_behaviour_binding.md)
+  the encoding ledger in [`../../../notes/ch4_methods/structure_to_behaviour_binding.md`](../../../notes/ch4_methods/structure_to_behaviour_binding.md)
   (the "vulnerability-instance binding" it calls the faithful ceiling is exactly
   the deep end of this spectrum, now reachable).
 

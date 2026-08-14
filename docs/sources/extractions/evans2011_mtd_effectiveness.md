@@ -19,7 +19,7 @@ Carroll, Crouse; the per-attack-class taxonomy of *when a shuffle helps*.
 ### Used in lit review
 
 §3 reset-verdict reasoning for all tuned tactics (esp.
-[`04_execution`](../../notes/ch3_design/tactic_profiles/04_execution.md)); the method note's
+[`04_execution`](../../notes/ch4_methods/tactic_profiles/04_execution.md)); the method note's
 "declared MTD-effect is the genuine unknown" — Evans supplies the *mechanism*,
 not a per-tactic number.
 
@@ -79,7 +79,7 @@ by ASLR/ISR re-randomisation. This directly reconciles execution's "unsettled
 group": the low-and-slow script-execution the corpus describes is *reset-immune*
 to the memory-diversity MTD, arguing against a strong reset and for a wide sweep.
 
-**Maps to:** [`04_execution`](../../notes/ch3_design/tactic_profiles/04_execution.md) §3 (script
+**Maps to:** [`04_execution`](../../notes/ch4_methods/tactic_profiles/04_execution.md) §3 (script
 execution circumvents memory-MTD → weak reset, wide sweep) + §2 (the group
 reconciliation); §3 of any tactic where the attacker uses stolen material vs a
 fresh exploit.
@@ -105,7 +105,7 @@ in ~216 s on average.
 **Maps to:** the **sweep-width justification** for every tuned tactic — MTD
 effect is hypersensitive to the shuffle-interval ÷ attacker-action-time ratio, so
 a wide sweep on that ratio is mandatory, not optional
-([`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch3_design/operational_validation.md)).
+([`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch4_methods/operational_validation.md)).
 
 **Disposition for this thesis:** verified [fetched] — quantifies why §3 declares
 a verdict *and a wide range*, never a point.

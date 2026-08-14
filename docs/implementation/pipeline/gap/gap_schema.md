@@ -291,7 +291,7 @@ GAP-measures-typical-workflow comparability boundary:
 commit/release tag — reproducibility), `attack_source` (**the ATT&CK STIX
 version pin** — e.g. `enterprise-attack-19.1`; this is the load-bearing field
 for tactic / technique vocabulary, including whether the build sees 14 or 15
-tactics; see [the CTI-ages note](../../../notes/ch3_design/cti_corpus_as_snapshot.md) for
+tactics; see [the CTI-ages note](../../../notes/ch4_methods/cti_corpus_as_snapshot.md) for
 why the field name and value matter to readers), `source_flow_count`,
 `node_count`, `edge_count`, `entry_nodes`, `objective_nodes`, `layers`
 (tactic_layer → [technique_ids], for layout).
@@ -407,7 +407,7 @@ pixel-proximity hack and `extract_ontology_edges` (Decision 1), and
    never in the default GAP. *Why:* preserves the §(a) no-synthesis claim
    unqualified while making supplementation a measurable, declared choice and
    turning the prefix-gap finding into a contribution. The observability-bias
-   analysis is in [`../notes/2026-05-27_gap_construction.md`](../../../notes/ch3_design/technique_graph_construction.md).
+   analysis is in [`../notes/2026-05-27_gap_construction.md`](../../../notes/ch4_methods/technique_graph_construction.md).
 
 ---
 

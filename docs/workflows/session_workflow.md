@@ -100,7 +100,7 @@ When the current session surfaces something dissertation-worthy — an argument 
 
 **Gate:** load [`notes_rubric.md`](notes_rubric.md) in full and run its cross-examination checklist *before* committing. A note that cannot yet clear the rubric is not a note — park the material in a handoff, or route it to [`../implementation/`](../implementation/) if it is really an investigation record (the placement criterion is in [`docs_map.md`](docs_map.md)).
 
-**Where:** [`../notes/<chapter>/`](../notes/) — the subdir is the dissertation chapter the idea lands in (`ch2_background/`, `ch3_design/`, …; chapter map in [`docs_map.md`](docs_map.md#notes--the-dissertations-staging-layer)). Naming: topical slug, no date prefix (`post_ingress_mtd_gap.md`); dates live in frontmatter.
+**Where:** [`../notes/<chapter>/`](../notes/) — the subdir is the dissertation chapter the idea lands in (`ch2_background/`, `ch4_methods/`, …; chapter map in [`docs_map.md`](docs_map.md#notes--the-dissertations-staging-layer)). Naming: topical slug, no date prefix (`post_ingress_mtd_gap.md`); dates live in frontmatter.
 
 **Lifecycle:**
 - **Created** in-session when the user asks, or when an observation is clearly thesis material — and it clears the rubric.
