@@ -76,7 +76,7 @@ fetched in this Step C
 (`step_c/mandiant_mtrends_2025.pdf`, `..._2026.pdf`) supersede it as the
 citable calibration target.
 
-**Maps to:** [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../notes/ch2_background/tactic_duration_precedent_survey.md)
+**Maps to:** [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../notes/ch3_lit_review/tactic_duration_precedent_survey.md)
 (macro-timing table, M-Trends row) — the whole-intrusion dwell observable,
 whole-campaign not per-tactic.
 

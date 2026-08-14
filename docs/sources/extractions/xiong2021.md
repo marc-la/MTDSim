@@ -58,7 +58,7 @@ work, pointing at the CSIMQ companion [56].
 > distributions to the attack steps/defenses in order to provide more
 > realistic simulation results [56]." (§8)
 
-**Maps to:** [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../notes/ch2_background/tactic_duration_precedent_survey.md)
+**Maps to:** [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../notes/ch3_lit_review/tactic_duration_precedent_survey.md)
 §"The one per-technique yes" (Xiong bullet — corrected)
 
 **Disposition for this thesis:** verified [fetched], **corrects the survey**:

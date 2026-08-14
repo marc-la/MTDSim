@@ -118,7 +118,7 @@ point:
 
 **Maps to:** [`../notes/2026-07-04_operational_validation_the_bar.md`](../../notes/ch4_methods/operational_validation.md)
 (Tier-3 discipline: declared + justified + swept is the lineage norm from the
-root) · [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../notes/ch2_background/tactic_duration_precedent_survey.md)
+root) · [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../notes/ch3_lit_review/tactic_duration_precedent_survey.md)
 (the "somewhat arbitrarily" bullet — confirmed [fetched], full text).
 
 **Disposition for this thesis:** verified [fetched] — the survey's

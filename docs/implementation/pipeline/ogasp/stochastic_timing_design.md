@@ -786,7 +786,7 @@ timing; running experiment 2.
   that handoff explicitly defers "what a dwell-only tactic costs" to here.
 - **Governed by:** the validity framework
   ([`../../../notes/ch4_methods/operational_validation.md`](../../../notes/ch4_methods/operational_validation.md),
-  [`../../../notes/ch2_background/tactic_duration_precedent_survey.md`](../../../notes/ch2_background/tactic_duration_precedent_survey.md))
+  [`../../../notes/ch3_lit_review/tactic_duration_precedent_survey.md`](../../../notes/ch3_lit_review/tactic_duration_precedent_survey.md))
   and the comparability boundary
   ([`../../metrics_semantics.md`](../../metrics_semantics.md) §(a)/(d)).
 - **Consumes formalism groundwork from:** [`petri_feasibility.md`](petri_feasibility.md)

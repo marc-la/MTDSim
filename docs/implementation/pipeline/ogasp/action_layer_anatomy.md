@@ -528,7 +528,7 @@ sense.
   primer reaches from the vuln side (synthetic vulns, no technique→vuln join;
   [`../../substrate_primer.md`](../../substrate_primer.md) §(b).3) and the coverage-gap
   note reaches from the MTD side
-  ([`../../../notes/ch2_background/post_ingress_mtd_gap.md`](../../../notes/ch2_background/post_ingress_mtd_gap.md)).
+  ([`../../../notes/ch3_lit_review/post_ingress_mtd_gap.md`](../../../notes/ch3_lit_review/post_ingress_mtd_gap.md)).
 
 ### 5.3 Are the implementations hardcoded?
 

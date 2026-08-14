@@ -15,7 +15,7 @@
 > (`dfir_report_confluence_..._lockbit`, `..._rdp_..._ransomhub`,
 > `..._blacksuit_ransomware`).
 > This bundle reconciles the precedent survey's `[search]`-flagged macro table
-> ([`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../notes/ch2_background/tactic_duration_precedent_survey.md)).
+> ([`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../notes/ch3_lit_review/tactic_duration_precedent_survey.md)).
 
 ### Relevance class
 
