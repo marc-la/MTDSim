@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch2_background
+chapter: ch3_lit_review
 created: 2026-07-04
 updated: 2026-07-13
 lineage: 2026-07-04_tactic_duration_precedent_survey.md
@@ -10,7 +10,7 @@ lineage: 2026-07-04_tactic_duration_precedent_survey.md
 
 ## Position in the dissertation
 
-The precedent survey behind the background chapter's gap statement for the timing layer, and the citable answer to an examiner's "did you look?". It also supplies the positioning claim the methodology chapter leans on: the declare-and-sweep discipline this thesis adopts *is* the field norm, and the calibration step goes further than that norm, not less far.
+The precedent survey behind the literature review's gap statement for the timing layer, and the citable answer to an examiner's "did you look?". It also supplies the positioning claim the methodology chapter leans on: the declare-and-sweep discipline this thesis adopts *is* the field norm, and the calibration step goes further than that norm, not less far.
 
 ## The idea
 

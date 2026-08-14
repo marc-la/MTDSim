@@ -47,7 +47,7 @@ The precedent survey (background chapter) confirms that no prior work assigns ju
 
 ## Evidence and repo anchors
 
-- The gap and precedent evidence: [`../ch2_background/tactic_duration_precedent_survey.md`](../ch2_background/tactic_duration_precedent_survey.md); extractions [`timed_attack_models`](../../sources/extractions/timed_attack_models.md), [`bland2020`](../../sources/extractions/bland2020.md), [`mcqueen2006`](../../sources/extractions/mcqueen2006.md), [`ling2023`](../../sources/extractions/ling2023.md).
+- The gap and precedent evidence: [`../ch3_lit_review/tactic_duration_precedent_survey.md`](../ch3_lit_review/tactic_duration_precedent_survey.md); extractions [`timed_attack_models`](../../sources/extractions/timed_attack_models.md), [`bland2020`](../../sources/extractions/bland2020.md), [`mcqueen2006`](../../sources/extractions/mcqueen2006.md), [`ling2023`](../../sources/extractions/ling2023.md).
 - The catalogue this note is the validity rationale for: [`../../../data/ogasp/tactic_durations.json`](../../../data/ogasp/tactic_durations.json); its evidence layer is [`tactic_profiles/`](tactic_profiles/).
 - Governing spec boundaries: [`../../implementation/metrics_semantics.md`](../../implementation/metrics_semantics.md) §(d)/§(f) (comparability; observation counts are not rates); duration-regime provenance in [`../../implementation/provenance.md`](../../implementation/provenance.md) and [`../../implementation/architecture.md`](../../implementation/architecture.md).
 - The July-2026 written ratification (R1 timing regime, R4 free simulation settings): [`../../implementation/pipeline/ogasp/supervisor_decision_register.md`](../../implementation/pipeline/ogasp/supervisor_decision_register.md).

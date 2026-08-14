@@ -20,6 +20,18 @@ give-up / timeout); and the simplification that carried the resolution (#59):
 "MTD in this simulator is a **progress-destroying exercise**, and thus the
 rationality of an attacker in this world is measured in progress / effort."
 
+**The objection that redirected the whole thread (75–150 band, 2026-08-01/02).**
+The first cost model made effort a function of *time*, and Marc rejected the input
+rather than the mechanism: "using time to weigh decisions when the times are
+inherently arbitrary is a bad research direction" — time-as-cost "directly conflicts
+with the low-and-slow of APT attackers", since a time-denominated utility rewards
+*fast* attacks, which is the opposite of the patience the disengagement argument
+needs, and the tactic durations are themselves declared and arbitrary, so
+"hardcoding further into this model is not the right decision". This is the reasoning
+behind the pivot away from a time-based cost that the later records only carry the
+outcome of; it sits below the 150-word band the main triage read, recovered in the
+2026-08-14 short-band scan.
+
 **Ideas tried and dropped on the way:** renaming objective classes onto tactic
 buckets to manufacture an incentive ("incentive ≠ objective", self-rejected
 within #57); attacker-gives-up-after-X-attempts as a built behaviour (#50 —

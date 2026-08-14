@@ -165,3 +165,51 @@ introduction and literature-review work, out of this record's scope. A boundary,
 | 52, 53, 36, 81, 99, 54 | `docs/notes/ch6_discussion/refusing_the_baseline_race.md` (new) |
 | 54, 99, 104, 53 | `docs/notes/ch7_future_work/successor_programme.md` (new) |
 | 16, 24, 42, 63, 97 | strengthened existing notes / thread files only — the arguments were already carried by `structure_to_behaviour_binding.md`, `host_simulator_contract.md`, the boundary records, and `procedural_mismatch_artefact.md`; a pointer beats a retelling |
+
+## Short-band scan (75–150 words), 2026-08-14
+
+Run in response to Marc's question whether argument hides below the ≥ 150-word cut.
+The band holds **65 prompts / ~6 900 words** (union of both snapshots). The brief's
+heuristic — long prompts carry the argument mass, short ones steer — held for the
+bulk of it: most are logistics (handoff reads, retire/merge instructions, diagram
+tweaks, confirmations). But it is not clean, and a dozen carry real argument. These
+were read; the band was **not** given full per-prompt dispositions (out of the
+brief's declared ≥ 150 scope), but the argument-bearing ones are recorded here, and
+the one genuine gap was folded into a thread.
+
+| Date | ~w | Argument | Action |
+|---|---|---|---|
+| 2026-08-01/02 | 142/91 | **Time-as-cost is the wrong input** — a time-denominated effort rewards fast attacks, against APT low-and-slow; the durations are themselves arbitrary. The *reasoning* behind the incentive thread's pivot. | **Folded** into [`threads/incentive_rationality.md`](threads/incentive_rationality.md) |
+| 2026-07-29 | 95 | The thesis in one line: "what does greater attack fidelity imply on current evaluation methods of MTD" | Covered by [`threads/comparability_and_census.md`](threads/comparability_and_census.md) (#53); recorded here as its tightest phrasing |
+| 2026-07-28 | 138 | Transparency demand on the overlay weighting — "surface your logic … it's not particularly transparent" | Methodological-correction instance; the pattern is in [`threads/outcome_overlay.md`](threads/outcome_overlay.md) |
+| 2026-07-29 | 141 | Learning must **generalise to any FSM**, not just this substrate; penalty-only routing will not produce the ordering, memory chains will | Reinforces [`threads/learning_capability.md`](threads/learning_capability.md) |
+| 2026-07-29 | 123 | Incentive via the targeted attacker — reuse Brown's general/targeted objective as the incentive channel | Covered by [`threads/incentive_rationality.md`](threads/incentive_rationality.md) |
+| 2026-08-09 | 108 | **Variety is not strategic plurality** — variety is the capacity, plurality is the measure over it | Shaped the effective-behavioural-breadth metric; in the criterion axis 3 |
+| 2026-08-06 | 100 | Discussion framing — APT as latent risk to under-moving networks; what/how/when to move as an optimisation | Candidate discussion/ch6 point; not yet a note |
+| 2026-08-11 | 126 | Churn diagnosis — the movement attacker lacks the baseline's pivot, so it recompromises held hosts | Covered by [`threads/movement_objectives.md`](threads/movement_objectives.md) |
+| 2026-08-12 | 136 | The capture/model/evaluate methodology section layout, worked in detail | Covered by [`threads/rq_and_structure.md`](threads/rq_and_structure.md) |
+
+**Reading for the delta pass:** the short band is worth a proper triage only if the
+second extraction (post-metrics) also lowers its floor; the ≥ 150 band remains the
+primary corpus, and nothing here changes a disposition already recorded above. The
+one substantive recovery — the time-as-cost objection — is now in the incentive
+thread where it belongs.
+
+### 15–75 band sanity check, 2026-08-14
+
+Also swept, on Marc's ask, to confirm nothing was left on the table below 75 words.
+**272 prompts / ~8 600 words**, averaging ~32 words — the floor of the corpus.
+A regex for argument signals (`because`, `the goal`, `makes no sense`, `incentive`,
+`fidelity`, `disagree`, …) over prompts ≥ 35 words flagged 42; each was read. The
+band is what the brief predicted: clarifying questions, diagram-and-figure tweaks,
+handoff reads, confirmations, and steering. The argument-bearing minority all resolve
+into threads already written — the weakest-link/measured-negative framing
+([`threads/comparability_and_census.md`](threads/comparability_and_census.md),
+[`threads/movement_objectives.md`](threads/movement_objectives.md)); the
+axis-3-vs-axis-4 vocabulary correction and the predictability-name retirement
+([`threads/criterion_lifecycle.md`](threads/criterion_lifecycle.md)); the
+build-in-baseline "validation by proxy" tactic (a facet of the learning and
+comparability threads); the recurring human-oversight-of-headings anxiety
+([`threads/rq_and_structure.md`](threads/rq_and_structure.md)). **No new decision,
+reversal, or abandoned path surfaced below 75 words** that a thread does not already
+own. The band does not warrant its own triage; recorded so it is not re-swept.

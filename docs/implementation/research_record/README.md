@@ -72,6 +72,17 @@ a candidate bug is.
 | [`threads/criterion_lifecycle.md`](threads/criterion_lifecycle.md) | The APT criterion as instrument: genesis, Marc's own axis vocabulary, the badge pushes, the kills |
 | [`threads/rq_and_structure.md`](threads/rq_and_structure.md) | The research question and the document: single RQ → capture/model/evaluate; the background-chapter ruling; the unit ledger |
 
+## How this record is used downstream
+
+Beyond being the annal, this record is the **intent yardstick for draft scrutiny**.
+When a session checks a draft dissertation section for right argument, right framing,
+drifted intent, or a missing argument, the threads here are the authority on what
+Marc decided and what he abandoned — the protocol and the chapter-to-document map are
+in [`../../workflows/draft_scrutiny.md`](../../workflows/draft_scrutiny.md) (invoked
+by the `scrutinise-draft` skill). The record is dated evidence, never current truth:
+a scrutineer *flags* a draft that contradicts a thread, and Marc rules — it never
+rewrites the draft to match an old prompt.
+
 ## Re-running the mining
 
 A second pass is owed once the axis-7/8/stealth metrics and the results land (see

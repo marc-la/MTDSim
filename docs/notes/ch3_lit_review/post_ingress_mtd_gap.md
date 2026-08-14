@@ -1,8 +1,8 @@
 ---
 status: durable
-chapter: ch2_background
+chapter: ch3_lit_review
 created: 2026-07-07
-updated: 2026-07-13
+updated: 2026-08-14
 lineage: 2026-07-07_post_ingress_mtd_gap.md
 ---
 
@@ -10,7 +10,7 @@ lineage: 2026-07-07_post_ingress_mtd_gap.md
 
 ## Position in the dissertation
 
-The research-gap statement of the background chapter, and the motivation the introduction opens with. The dissertation's Chapter 2 "Research Gap" section carries a placeholder pointing at exactly this argument.
+The research-gap statement the literature review narrows onto, and the motivation the introduction opens with. In the ratified structure the background chapter (ch2) carries the inherited platform; this gap argument — the field's coverage bias and what it leaves under-defended — is the literature review's occupying move (ch3) and the seed the introduction compresses.
 
 ## The idea
 
