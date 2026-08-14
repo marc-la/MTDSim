@@ -10,7 +10,7 @@ are not the catalogue itself.
   — operational validation: calibrate unobservable per-tactic dwells so the
   *emergent timeline shape* matches literature-reported campaign patterns; badge
   every value's validity; sweep it.
-- **Why the gap is real (precedent survey):** [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../ch2_background/tactic_duration_precedent_survey.md)
+- **Why the gap is real (precedent survey):** [`../notes/2026-07-04_tactic_duration_precedent_survey.md`](../../ch3_lit_review/tactic_duration_precedent_survey.md)
   — nobody assigns justified per-ATT&CK-*tactic* durations; the field norm is
   declare-and-sweep, which these profiles execute.
 - **The catalogue the §5 blocks feed:** [`../../data/ogasp/tactic_durations.json`](../../../../data/ogasp/tactic_durations.json)

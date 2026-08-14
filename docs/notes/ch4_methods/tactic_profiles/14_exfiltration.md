@@ -60,7 +60,7 @@ That gives exfiltration a dual character: a terminal objective (like impact) who
 is spread low-and-slow (like stealth). It joins collection and impact in the tuned
 `objective-execution` group / Tier 2 — the group the breach literature can calibrate, since it
 reports access→exfil milestones even though it publishes no per-tactic dwell (per the
-[precedent survey](../../ch2_background/tactic_duration_precedent_survey.md)). The batched,
+[precedent survey](../../ch3_lit_review/tactic_duration_precedent_survey.md)). The batched,
 IP-diversified spread argues its multiplier should admit a **wide range** (fast bulk transfer
 vs slow trickle). No point number (§5).
 

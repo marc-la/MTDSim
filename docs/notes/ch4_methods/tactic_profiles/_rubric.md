@@ -178,7 +178,7 @@ distillation of §2. Writing §3 well is writing the thesis, not feeding a JSON 
   [`./2026-06-18_cti_to_executable_behaviour.md`](../structure_to_behaviour_binding.md)
   (ontology gap, encoding ledger, MTD-reset-is-the-unknown, envelope-not-actor).
 - **The gap it defends** (framing crit. 2–3) is evidenced in
-  [`./2026-07-04_tactic_duration_precedent_survey.md`](../../ch2_background/tactic_duration_precedent_survey.md).
+  [`./2026-07-04_tactic_duration_precedent_survey.md`](../../ch3_lit_review/tactic_duration_precedent_survey.md).
 - **Needs a companion artefact:** a non-implementation-specific *substrate primer*
   (the attacker's-eye view of the HARM network + MTD mechanisms + what a successful
   recon/discovery attacker can know) so profiles reference it instead of re-deriving
