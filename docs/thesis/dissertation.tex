@@ -185,8 +185,33 @@ that suite cannot express?
 % spine declared once, with the sub-question map stated in a sentence so
 % the structure stays auditable against V5: sec:requirements poses what
 % must be captured; the movement attacker's first two subsections answer
-% capture and its last three answer model; sec:experimental-setup
+% capture and its last two answer model; sec:experimental-setup
 % answers evaluate.
+%
+% LADDER (Marc's ruling, 2026-08-16): the dissertation presents the
+% model's LOGICAL ladder --- L0--L1 intelligence to graph, L2 profiles,
+% L3 formalism, L4 attacker-agent traversal in MTDSim. Evaluation
+% carries no layer number: it is the manipulation of the L4 object.
+% This deviates from the repo's numbering (repo-L3 = OGASP traversal,
+% repo-L4 = evaluation); the divergence is recorded once in
+% docs/implementation/architecture.md (b) --- do not "correct" either
+% document to the other. The figure is the definition of the thesis
+% ladder.
+
+% PLACEHOLDER figure: controller-action visual standing in until the
+% box-and-flow pipeline figure (V7) is drawn to the thesis ladder above.
+% Caption to be rewritten long and self-contained at the figures pass.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{movement_controller_action}
+  \caption{[Placeholder --- to be replaced by the pipeline box-and-flow
+  figure.] The movement attacker end-to-end: campaign intelligence
+  aggregated into a technique graph (L0--L1), conditioned into
+  objective profiles (L2), given executable semantics as a generalised
+  stochastic Petri net (L3), and joined to the simulator as an
+  attacker-agent traversal (L4).}
+  \label{fig:pipeline}
+\end{figure}
 
 % ------------------------------------------------------ requirements --
 \section{What an APT attack model must capture}
@@ -216,47 +241,58 @@ that suite cannot express?
 % Selection discipline (Marc, 2026-08-12): relevant-and-interesting
 % only --- the full implementation record stays in the repo's
 % implementation docs, not the chapter.
+%
+% Section preamble (unnumbered, a few sentences, no unit claim): the
+% naming move --- "movement attacker" for the proposed model, "baseline
+% attacker" for the inherited scripted attacker (V5: "the inherited
+% non-APT baseline attacker") --- plus the one-sentence end-to-end
+% orientation. No ladder re-narration; the chapter-opening figure owns
+% the ladder.
 
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
 % flows into technique dependencies. Answers capture. Disclosures:
 % consensus thresholds, what the graph cannot represent.
-\subsection{From campaigns to a technique graph}
+\subsection{L0--L1: From cyber threat intelligence to attack graphs}
 \label{subsec:technique-graph}
 
 % 1 unit (L2). Objective over motivation; the four classes. Answers
 % capture. Disclosures: what the partition produced, operator
 % concentration.
-\subsection{Objective-conditioned attack profiles}
+\subsection{L2: Objective-conditioned attack profiles}
 \label{subsec:attack-profiles}
 
 % 1 unit (L3). The formalism, the alternatives ranked in a sentence each
 % (a feasibility study sits behind the choice; single-token walk over
-% per-objective net structure). Answers model, with the next two.
-% Disclosures: synthetic pre-intrusion structure (the corpus begins at
-% initial access), entry-point selection (D8: both tested), the
-% standalone analytical track in one sentence if at all.
-\subsection{The Petri-net formalism}
+% per-objective net structure). Answers model, with the next one.
+% GSPN semantics executed, not solved (stochastic_timing_design.md) ---
+% "generalised", never "general". Disclosures: synthetic pre-intrusion
+% structure (the corpus begins at initial access), entry-point selection
+% (D8: both tested), the standalone analytical track in one sentence if
+% at all.
+\subsection{L3: The generalised stochastic Petri-net formalism}
 \label{subsec:petri-formalism}
 
-% 1 unit. Transition weights from flow proportions (corpus sparsity
-% accepted and disclosed); per-tactic dwell times --- standard of
-% evidence, calibration, distribution shape. Sweep discipline points at
-% sec:sensitivity rather than restating it.
-\subsection{Parameterisation}
-\label{subsec:parameterisation}
-
-% 1 unit --- traversal and the controller are the same machinery seen
-% net-side and simulator-side, so they share a unit (merged 2026-08-12).
-% Para 1, mechanics: action selection among enabled transitions,
-% tactic-to-verb dispatch, outcome resolution via the substrate verdict,
-% verdict feedback and re-weighting, attacker state, the attacker-only
-% seam. Para 2, the two commitments the merge must not lose: the mapping
-% as a chosen input parameter (the standing caveat bounding every claim
-% in the results chapter) and routing ablatability (the null modulator
+% 2 units --- the backwards join onto the ch2 substrate, folded from the
+% former Parameterisation + Traversal-and-the-controller subsections
+% (Marc's ruling, 2026-08-16; traversal/controller were themselves
+% merged 2026-08-12). Any subsubsection heading added at drafting is a
+% unit claim on the ledger --- the fold holds exactly two.
+% Content the fold must carry:
+%  (i) parameterisation --- transition weights from flow proportions
+%      (corpus sparsity accepted and disclosed); per-tactic dwell times:
+%      standard of evidence, calibration, distribution shape; sweep
+%      discipline points at sec:sensitivity rather than restating it.
+%  (ii) mechanics --- action selection among enabled transitions,
+%      tactic-to-verb dispatch, outcome resolution via the substrate
+%      verdict, verdict feedback and re-weighting, attacker state, the
+%      attacker-only seam.
+% The two commitments the merges must not lose: the mapping as a chosen
+% input parameter (the standing caveat bounding every claim in the
+% results chapter) and routing ablatability (the null modulator
 % configuration is bit-identical to the model without it; the former
 % fidelity-extensions section stays dissolved into subsec:families'
 % ablation arms).
-\subsection{Traversal and the controller}
+\subsection{L4: The attacker-agent traversal in MTDSim}
 \label{subsec:execution}
 
 % ----------------------------------------------------------- evaluate --
