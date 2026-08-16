@@ -81,8 +81,49 @@ parameter** (the standing caveat bounding every results-chapter claim) and
 - **"Generalised"**, never "general", stochastic Petri net — GSPN semantics
   *executed, not solved* (`stochastic_timing_design.md` §1).
 - *Movement attacker* / *baseline attacker* is the ratified naming pair.
-- Open micro-flag left to Marc: "attack graphs" (plural) in the L0–L1 heading vs
-  the single aggregated technique graph L1 actually produces.
+- ~~Open micro-flag~~ **Ruled (Marc, 2026-08-16): "attack graph" singular** in the
+  L0–L1 heading — applied in the skeleton ("…to an attack graph").
+
+## The drafting pipeline (ratified in practice, 2026-08-16, on L0–L1)
+
+**Promoted to durable:** [`../workflows/drafting_pipeline.md`](../workflows/drafting_pipeline.md)
+is now the authority (Marc adopted the pipeline for all future drafting; this
+handoff retires with §4.2, the pipeline does not). Summary kept below for
+this section's sessions; on any divergence the workflows file wins.
+
+Five drafts per unit; **no pass after draft 1 writes prose** — that is what keeps
+the voice Marc's. Sequencing ruling: pilot one unit through all five (L0–L1,
+done), then batch drafts 1–2 for the remaining units while warm, then convert
+in a run.
+
+1. **Speak** the argument long (aim ~2–3× budget), transcribe raw.
+2. **Transcription repair + register 3a** (session task, bundled 2026-08-16 as
+   the `repair-dictation` skill — invoke it on any raw transcript): STT errors
+   fixed with technical vocabulary watched hardest, disfluencies and pads
+   dropped, run-ons split, meta-narration beheaded, hedges flagged as `[3b]`
+   markers never resolved; verify watchlist + change log returned. Scrutiny
+   rounds run interleaved as `[comments]` (see the scrutinise-draft skill's
+   inline-annotated format).
+3. **Register pass** (Marc, ~15 min/unit): four Ctrl+F sweeps — pads deleted,
+   run-ons split, hedges resolved to confidence or scope, meta-narration
+   beheaded. One-touch rule: delete/split/word-repair only, never rewrite a
+   sentence; if it needs rewriting, mark `% P5?` and leave. Read-aloud check:
+   sounds like Marc being careful, not a journal.
+   **Ratified split (2026-08-16):** *3a* (session): detection + pure
+   deletion/splits only — pads deleted, run-ons split at conjunctions with
+   clause order untouched, meta-narration beheaded where the next sentence
+   stands; every hedge flagged as a `[3b]` marker, never resolved; zero
+   synonyms, zero reordering. *3b* (Marc): walk the `[3b]` markers (each is a
+   binary or a word choice), rule the globals (contractions, second person),
+   read aloud. Rationale: deleting Marc's words can't inject a session's; the
+   AI-flatten risk lives in repairs-that-choose-words, so those all route to 3b.
+4. **Content scrutiny** (session task): `/scrutinise-draft` on the unit, ≤3
+   moves. Runs after register, before compression; re-run cheaply if
+   compression cuts >half.
+5. **Compression** (Marc): per sentence, one binary — "does the unit still
+   answer its question without this?" Cut order: duplicates → re-explanations →
+   second examples → covered qualifiers. Never cut: must-carry disclosure
+   sentences, numbers, citations. Sentence fusion allowed only once cuts stall.
 
 ## Validation gate
 
@@ -100,8 +141,37 @@ most three prioritised moves. Voice is Marc's own gate
 - Ledger conservation: the section holds 5 units; growth names what it displaces.
 - Branch/commit rules per [`../workflows/guardrails.md`](../workflows/guardrails.md).
 
-## Loose thread
+## Loose threads
 
-One-line heads-up owed to Jin in the next update: the dissertation's L3/L4 tokens
-now mean formalism/traversal, while the register trail he has been ruling on uses
-L3 = execution model.
+- One-line heads-up owed to Jin in the next update: the dissertation's L3/L4 tokens
+  now mean formalism/traversal, while the register trail he has been ruling on uses
+  L3 = execution model.
+- **From the 2026-08-16 L0–L1 drafting passes:**
+  - Marc owes a **brief appendix entry** on the co-occurrence preliminary runs
+    (single-digit edge counts above a confidence threshold) — it anchors the
+    abandonment claim in §4.2.1, which cites it as "Appendix [X]".
+  - The **ATT&CK v19.1 pin lost its in-section home** when Marc cut the
+    staleness/taxonomy passage from §4.2.1; the pin must surface elsewhere
+    (experimental setup is the natural spot) — it is a reproducibility datum.
+  - ~~Consensus-thresholds must-carry~~ **Resolved by evidence (2026-08-16):**
+    Marc signed the unit off without it, confirming the earlier "not that
+    interesting" ruling; the skeleton comment is amended (disclosure list now
+    "what the graph cannot represent" only). The lossless/views record stays in
+    the repo (`gap_schema.md` Decision 3).
+  - **L0–L1 pilot complete through pass 5 (2026-08-16), signed off at ~400
+    words.** Open on the unit: the ~1.6-unit ledger overdraft (further cut or
+    an explicit named overdraft at the ledger pass); the 80% confidence
+    threshold CONFIRM; both appendix entries. **Flag for the L3 drafting:** the
+    cycles-preserved sentence was cut from L0–L1 at pass 5, so L3 must
+    introduce loop preservation itself — readers default to assuming attack
+    graphs are acyclic.
+  - Ruled out of §4.2.1 at drafting, on the record: the Tesla worked example
+    (word count), the staleness/map-not-milk passage, the L2 bridge sentence
+    (bridges live at the start of each subsection), and — **ruled twice, do
+    not re-flag** — the defender-validity argument and the "observability
+    boundary" naming (Marc, 2026-08-16: the limitation's "so what" is the
+    synthetic pre-intrusion structure, which is the L3 unit's disclosure;
+    stating the defence in L0–L1 is premature elaboration. The unit ends on
+    the forward pointer; if the term is wanted, L3 or ch6 coins it. This
+    supersedes the technique_graph_construction note's ch4 placement of the
+    threat-model-input reframe for this unit).

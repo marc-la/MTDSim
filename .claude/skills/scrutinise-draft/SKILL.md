@@ -86,6 +86,23 @@ dissertation is that it is in Marc's voice, and that is what this skill protects
 Each of those is a content point with a supporting document and no drafted prose —
 that is the shape every finding takes.
 
+## Alternate return format — the inline-annotated draft (on request)
+
+When Marc asks for the scrutiny **as comments breaking up the draft** (so he can run
+through and act on findings in real time), return his draft text **verbatim** with
+the findings interleaved as clearly-delimited bracketed blocks — e.g.
+`**[M1 — <question-set type>]** …` — inserted at the exact sentence each finding
+attaches to. Rules unchanged, only the presentation moves:
+
+- His sentences are never altered, trimmed, or reordered; comments sit *between*
+  them, never inside them.
+- Every comment still names its grounding document, and the at-most-three-moves
+  prioritisation still holds — number comments by the move they belong to (`M1`–`M3`),
+  and mark standing/minor notes as such (`[minor]`), so priority survives the
+  interleaving.
+- The no-generation rule binds inside comments too: a comment names the gap and the
+  grounding document; it never supplies the fixed wording.
+
 ## Boundaries
 
 - **Not prose review** — rhythm, tells, and voice belong to `voice.md` and
