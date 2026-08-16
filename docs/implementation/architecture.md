@@ -128,6 +128,24 @@ inside this substrate is valid; cross-paper numeric comparison against
 Zhang/Tay published values is **not** (see
 [`metrics_semantics.md`](metrics_semantics.md) §d for the comparability boundary).
 
+**Decision — the dissertation numbers the ladder differently (Marc, 2026-08-16).**
+The dissertation presents the model's *logical* ladder: thesis-L3 = the GSPN
+formalism, thesis-L4 = the attacker-agent traversal in MTDSim (the artefact this
+repo numbers L3/OGASP). Evaluation carries **no layer number** in the thesis — it
+is the manipulation of the thesis-L4 object (register V5's *evaluate*
+sub-question), not a pipeline stage.
+**Why:** evaluation is not a transformation in the artefact chain, and giving it a
+rung made it read as one; the logical ladder also maps cleanly onto the V5 spine
+(capture = L0–L2, model = L3–L4, evaluate = the experiments on the L4 object).
+**Cost:** "L3"/"L4" become homographs across the two document families. Repo
+numbering is **unchanged** everywhere else — implementation records, the code
+(`mtdsim.l3_simulation`), `data/` paths, and this file's diagram above all keep
+L3 = OGASP execution, L4 = evaluation. Sessions must not "correct" either document
+family to the other; the dissertation's chapter-opening pipeline figure is the
+definition of the thesis ladder.
+**If revisited:** renumbering the repo to match would mean renaming code packages
+and data directories to serve a heading scheme — ruled out as disproportionate.
+
 ---
 
 ## (c) L0 — Raw CTI
