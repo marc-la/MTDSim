@@ -16,9 +16,12 @@
 %% =====================================================================
 \documentclass{cshonours}
 
-% plainnat, not acm: the preamble loads natbib in author-year mode
-% (\citep/\citet), which a numeric .bst like acm cannot support.
-\bibliographystyle{plainnat}
+% IEEE numeric referencing (Marc's ruling, 2026-08-16), matching the
+% lit review. natbib runs in numbers mode so the \citep/\citet calls in
+% the prose keep working, rendering [4] / Author [4]. Style is ieeetr
+% (in this TeX Live install); swap to IEEEtran.bst at submission if the
+% polished IEEE list is wanted --- the calls need no change.
+\bibliographystyle{ieeetr}
 
 % --- packages ---------------------------------------------------------
 \usepackage{graphicx}          % UWA crest on the title page + figures
@@ -28,7 +31,7 @@
 \graphicspath{{figures/}}      % keep figures in the figures/ folder
 \usepackage[margin=2.5cm]{geometry}
 \usepackage[australian]{babel}
-\usepackage[round,authoryear]{natbib}   % \citep / \citet
+\usepackage[numbers,sort&compress]{natbib}   % \citep / \citet -> [n]
 \usepackage{tcolorbox}         % the research-question grey box (ch1)
 \newcommand{\tactic}[1]{\texttt{#1}}    % tactic place-names in monospace
 
@@ -250,10 +253,85 @@ that suite cannot express?
 % the ladder.
 
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
-% flows into technique dependencies. Answers capture. Disclosures:
-% consensus thresholds, what the graph cannot represent.
-\subsection{L0--L1: From cyber threat intelligence to attack graphs}
+% flows into tactic dependencies. Answers capture. Disclosures: what
+% the graph cannot represent. (Consensus-thresholds disclosure removed
+% per Marc's ruling, 2026-08-16 --- the lossless/views record lives in
+% the repo, not the chapter.)
+\subsection{L0--L1: From cyber threat intelligence to an attack graph}
 \label{subsec:technique-graph}
+
+% DRAFT STATE (2026-08-16): passes 1--5 COMPLETE; Marc signed the unit
+% off at ~400 words (leave-and-forget until the next editing round).
+% OPEN, recorded in the handoff: (a) the unit sits at ~1.6 ledger
+% units --- a further cut or an explicit named overdraft at the ledger
+% pass; (b) appendix entries owed (app:cooccurrence: the co-occurrence
+% runs --- 80% confidence threshold, CONFIRM --- and the keyword-mining
+% results); (c) v19.1 pin still needs a home in sec:experimental-setup;
+% (d) the cycles-preserved sentence was cut at pass 5 --- the L3 unit
+% must now introduce loop preservation itself (readers default to
+% assuming attack graphs are acyclic).
+
+We made the attack graph using Attack Flow. Attack Flow is maintained
+by the Center for Threat-Informed Defense (CTID), which sits under
+MITRE Engenuity \citep{ctid2025attackflow}. This is a project that
+documents the per-incident behaviour of an APT attacker --- done by
+adding sequence and dependency to APTs' known tradecraft. Attack Flow
+maintains a documented attack-behaviour corpus spanning 2017 to 2024.
+Other approaches were considered to produce this corpus for our
+pipeline. Co-occurrence mining gave very low coverage and keyword
+mining poor fidelity (Appendix~\ref{app:cooccurrence}).
+% CONFIRM: the appendix entries pin the numbers (the 80% confidence
+% threshold, the single-digit edge counts) --- both entries owed.
+NLP-based approaches we ruled out as a class: we judged the relatively
+low fidelity of the threat intelligence they produce to be something
+we could not defend over the life of the project
+\citep{rahman2025, buchel2025}. The strength of using Attack Flow's
+corpus is that a human analyst drew every single dependency, so there
+is a degree of fidelity that other approaches could not provide.
+
+Importantly, instead of using each incident independently of each
+other --- where there's not a lot of insight in the corpus --- we
+aggregated the 38 usable attack flows. We added the graphs together:
+we stripped out all of the unnecessary details, like specific attack
+procedures or human analyst notes, preserving the logical AND/OR
+structure. But aggregating these graphs, the logical AND becomes
+vacuous, because there are lots of OR paths which an attacker agent
+can traverse. Once we had decided on Attack Flow as the preferred mode
+of CTI, we then had to decide what the correct resolution was (tactic
+or technique). That is why we decided to prioritise coverage at this
+stage, whereas in earlier stages fidelity was a large concern. We
+leaned towards tactic, because 88\% of the technique-to-technique
+directed flows came from a single incident. But once you aggregate,
+the tactic-to-tactic directed flows had much greater coverage, and we
+judged this trade-off between coverage and fidelity was necessary to
+capture the generalised behaviour of APT attackers. There is also
+precedent for using tactics as the node granularity
+\citep{rodriguez2024}.
+
+The aggregate APT attack graph (L1) is a weighted directed graph where
+the nodes are the MITRE ATT\&CK tactics, and each edge is weighted on
+how many times it's observed in the corpus. Importantly, we are using
+human-analyst-drawn dependency graphs, and this is very sparse input
+data. The edge weight is a recurrence value; therefore, we cannot rely
+on these weights alone for attacker agent traversal. Instead, we treat
+the L1 attack graph as a skeleton of behaviour.
+% (Cycles-preserved sentence cut at pass 5 --- L3 now introduces loop
+%  preservation itself; recorded in the handoff for the L3 drafting.)
+
+Another limitation we encountered was an issue with a lack of
+pre-intrusion dependencies: any tactics before initial access were
+very sparse compared to the rest of the corpus. Pre-intrusion activity
+typically happens on the attacker's infrastructure --- infrastructure
+setup, passive recon --- and is not detectable on the defender's side.
+Hence, in the corpus, reconnaissance only has a mention in 10 out of
+the 38 attack flows. But since we're producing an attack model for
+defender evaluation, we will later have to draw these flows in.
+Notably, this is persistent across CTI, so it's something that we
+would have to deal with regardless of our input.
+% [RULED (Marc, 2026-08-16), do not re-flag: the defender-validity
+%  sentence and the observability-boundary naming stay OUT --- the "so
+%  what" is the synthetic pre-intrusion structure, the L3 unit's
+%  disclosure; if the term is wanted, L3 or ch6 coins it.]
 
 % 1 unit (L2). Objective over motivation; the four classes. Answers
 % capture. Disclosures: what the partition produced, operator
@@ -467,6 +545,16 @@ that suite cannot express?
 % adoption concern, not a swept dimension).
 \chapter{Supplementary sensitivity analyses}
 \label{app:sensitivity}
+
+
+% Owed (Marc's rulings, 2026-08-16): brief entries documenting BOTH
+% preliminary extraction attempts --- the co-occurrence runs
+% (single-digit edge counts above the 80% confidence threshold ---
+% CONFIRM the 80%) and the keyword-mining/regex tests (the poor-fidelity
+% results) --- anchoring the abandonment claims in
+% subsec:technique-graph.
+\chapter{Preliminary corpus extraction runs}
+\label{app:cooccurrence}
 
 
 % =====================================================================
