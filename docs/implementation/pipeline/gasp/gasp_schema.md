@@ -397,11 +397,30 @@ this spec + the partition-decision note, not lifted across.
   (the GASP partition is mono-class by construction; the P5 multi-membership
   scheme is the dropped alternative). *Disjointness applies to flow → class
   mappings; class node sets overlap by design — see §(d).*
-- **Discrimination-above-null check.** Mean pairwise Jensen-Shannon
-  divergence on per-class technique frequency distributions exceeds the
-  null p95 calibrated against random 19:19 partitions of the 38 flows (n =
-  50 trials). Observed: **mean technique JSD 0.317 vs null p95 0.148** —
-  modest but real signal across all six class pairs (range 0.284–0.351).
+- **Discrimination-above-null check (historical calibration; lenient
+  null).** Mean pairwise Jensen-Shannon divergence on per-class technique
+  frequency distributions against a null calibrated on random 19:19
+  partitions of the 38 flows (n = 50 trials). Observed: **mean technique JSD
+  0.317 vs null p95 0.148** (*nats* — computed with scipy's default base;
+  0.457 / 0.213 bits) — modest signal across all six class pairs (range
+  0.284–0.351). Marc's ruling (2026-08-17): a half-split null understates
+  chance separation for a 19:8:6:5 partition (small classes sit far from
+  anything by sampling alone); it is disclosed as lenient and is no longer
+  the load-bearing check.
+- **Discrimination check, size-matched null, tactic-to-tactic resolution
+  (load-bearing after 2026-08-17).** Mean pairwise JSD (bits) on per-class
+  *transition-share* distributions — distinct flows per inter-tactic
+  primary-tactic pair, the count L3's W-A weights are built from — against a
+  size-matched label-shuffle null (class sizes preserved, 2 000 relabellings,
+  seed 20260528). Observed: **0.501 vs null p50 0.500 / p95 0.576, *p* =
+  0.50 (n = 38); 0.534 vs 0.558 / 0.632, *p* = 0.73 (n = 29)**. The profiles'
+  transition-share distributions do **not** separate beyond chance at this
+  corpus size; the only resolution that clears the strict null is the
+  15-cell tactic share (*p* = 0.02 / 0.03), and only across the
+  impact-present / impact-absent line. Recorded verdict and cited numbers
+  are pinned by `test_transition_share_size_matched_null_verdict`; the full
+  statistics, the pooling sensitivity and the chapter-facing number set are
+  in [`tactic_profile_statistics.md`](tactic_profile_statistics.md).
 - **Discrimination-above-null with operator-deduplicated re-check.** The
   load-bearing caveat. Half of `objective_exfiltration_impact`'s six flows are Conti
   variants (G0102); 25 % of `objective_impact`'s eight are Sandworm; 40 %
@@ -416,8 +435,11 @@ this spec + the partition-decision note, not lifted across.
   operator-specific rather than class-specific behavioural fidelity.
   *Run by the L2 build's test gate (`tests/l2_subgraph/test_gasp.py`); the
   current numbers land in [`../../data/gasp/README.md`](../../../../data/gasp) —
-  observed mean JSD survives null p95, so the per-class signal is
-  operator-robust on the n=29 deduplicated corpus.*
+  observed mean JSD survives the half-split null p95 (0.454 vs 0.267 bits),
+  so the technique-level signal is operator-robust under that null. Under
+  the size-matched null it is not (technique, n = 29: 0.454 vs p95 0.503,
+  *p* = 0.33) — see the size-matched row above; "operator-robust" is now
+  claimed only for the tactic-share statistic.*
 
 The simulator-level discrimination check — does the L4 substrate (MTTC /
 ASR / event traces) reproduce the corpus-level JSD signal? — is *out of
