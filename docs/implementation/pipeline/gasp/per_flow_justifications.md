@@ -2,7 +2,7 @@
 status: durable
 created: 2026-05-28
 topic: L2 partition — per-flow P6 class assignment justifications
-updated: 2026-07-13
+updated: 2026-08-17
 lineage: formerly docs/notes @ 2026-05-28_l2_per_flow_justifications.md (relocated in the 2026-07-13 docs refactor)
 ---
 
@@ -29,6 +29,15 @@ lineage: formerly docs/notes @ 2026-05-28_l2_per_flow_justifications.md (relocat
 > `toolshell_vulnerability_in_sharepoint` flow-split) are L1-level
 > corpus edits, not L2 work — flagged but not actioned. The body below
 > is preserved as audit-trail.
+>
+> **Status update (2026-08-17).** A second verification round re-audited
+> the eight non-`high` flows under the composite approach (terminal read
+> → CTID blurb → the CTID `.afb` flow file's per-node analyst narrative →
+> ATT&CK G-page → vendor); tally 30 / 2 / 6 → **35 high / 1 medium / 2 low**,
+> membership unchanged. Outcomes below and in
+> [`structural_baseline.md`](structural_baseline.md) §(d); the individual
+> entries carry a *2026-08-17* addendum. The `toolshell` flow-split flag is
+> withdrawn by evidence (the flow file has no ransomware half).
 
 ## Why this exists
 
@@ -70,16 +79,20 @@ case for sourcing classification from narrative.
 
 | Class | n flows | Confidence: high | medium | low |
 |---|--:|--:|--:|--:|
-| pure_steal | 19 | 14 | 2 | 3 |
+| pure_steal | 19 | 18 | 1 | 0 |
 | pure_impediment | 8 | 7 | 0 | 1 |
 | double_extortion | 6 | 6 | 0 | 0 |
-| infrastructure_setup | 5 | 3 | 0 | 2 |
-| **total** | **38** | **30** | **2** | **6** |
+| infrastructure_setup | 5 | 4 | 0 | 1 |
+| **total** | **38** | **35** | **1** | **2** |
 
-The six `low`-confidence flows are: three CISA URLs (WebFetch blocked) plus
-three flows where the verification round (below) surfaced source-tensions
-or ambiguous fit within the 4-class scheme (`mac_malware_steals_crypto`,
-`searchawesome_adware`, `toolshell_vulnerability_in_sharepoint`).
+*(Round-1 tally, 2026-05-28, for the record: 30 / 2 / 6 — the six lows were
+the three CISA-403 flows plus `mac_malware_steals_crypto`,
+`searchawesome_adware`, `toolshell_vulnerability_in_sharepoint`.)* After
+round 2 (2026-08-17, below) the two remaining `low` flows are
+`cisa_aa22_138b_vmware_workspace_alt` (a specific, checkable doubt — the
+flow may be TA1's script drawn without its exfil step) and
+`searchawesome_adware` (no source attests impact; a named misfit); the one
+`medium` is `mac_malware_steals_crypto` (dual monetisation at malware level).
 
 ## Verification round (2026-05-28)
 
@@ -113,11 +126,47 @@ The verification round had two material effects on the verdict:
 
 ---
 
+## Verification round 2 (2026-08-17)
+
+Executed the handoff `2026-08-17_l2_classification_confidence_validation.md`
+under Marc's §4.2.2 ruling: *terminal tactic as the primary evidence for
+objective, cross-referenced against the CTID blurb, the ATT&CK Group /
+Campaign page and vendor reports*. One source was added that round 1 did not
+have — the CTID `.afb` flow file's **per-node analyst narrative** (the local
+YAMLs carry names and tactics only), fetched from the
+`center-for-threat-informed-defense/attack-flow` corpus. CISA was 403 at the
+network edge for the session (all routes; Internet Archive offline); the two
+advisory sentences cited were located by exact-phrase search indexed against
+the `cisa.gov` page and are marked *verify* for Marc. Full evidence table:
+[`structural_baseline.md`](structural_baseline.md) §(d).
+
+| Flow | Round-1 conf. | **Round-2 conf.** | Deciding source |
+|---|---|---|---|
+| `cisa_aa22_138b_vmware_workspace_ta1` | low | **high** | terminal T1041 + flow narrative (collect → tar → exfil by GET) + advisory "collect and exfiltrate sensitive data" (verify) |
+| `cisa_aa22_138b_vmware_workspace_ta2` | low | **high** | flow narrative (webshells, SOCKS proxy, no payload) + advisory "installed multiple webshells and a reverse … SOCKS proxy" (verify) |
+| `cisa_aa22_138b_vmware_workspace_alt` | low | **low** | flow narrative confirms no realised objective, but its tooling overlaps TA1 (`fd86ald0.pem`, `20.232.97.189`, CVE-2022-22960 escalation) → possible truncation artefact; **disposition needed** |
+| `mac_malware_steals_crypto` | low | **medium** | flow narrative: two exfiltration actions, miner encoded as tool transfer; Unit 42 leads with theft; residual = dual monetisation ((h)3) |
+| `toolshell_vulnerability_in_sharepoint` | low | **high** | the flow file has **no** ransomware/impact action; blurb "credential theft"; narrative MachineKey → exfil ×3; Unit 42 CL-CRI-1040. Flow-split flag withdrawn |
+| `muddy_water` | medium | **high** | narrative "Exfiltrate intellectual property"; T1486 at `confidence: 0`; G0069 espionage; Talos "no encryption, wiping, or ransom demands" |
+| `uber_breach` | medium | **high** | narrative "exfiltrated internal Slack messages and information from a finance tool"; G1004; Uber's statement. Attribution stays `G1004?` |
+| `searchawesome_adware` | low | **low** | no impact-tactic and no exfiltration action in the narrative; Malwarebytes "doesn't directly exfiltrate user data"; **named misfit, disposition needed** |
+
+Spot-check of the highs (one per class plus all three non-Conti
+double-extortion flows and one Conti): all confirmed; two flags without
+re-grade — `swift_heist` (realised objective is fraudulent payment orders,
+class by analogy, as already recorded) and `conti_ransomware` (the flow's own
+exfiltration node is beacon telemetry; the exfiltration half rests on the
+operator-level source). What 38 / 38 would require is three rulings, listed in
+[`structural_baseline.md`](structural_baseline.md) §(d).
+
+---
+
 ## pure_steal (n = 19)
 
 Operations whose analyst-stated objective is data theft only — espionage,
-financial-data exfil, credential / PII harvesting. **Nine of 19 reach an
-exfiltration terminal structurally (Def A)**; the other ten are *truncated*
+financial-data exfil, credential / PII harvesting. **Seven of 19 terminate on
+exfiltration structurally (Def A, as pinned 2026-08-17; the round-1 text said
+nine under the uncommitted terminal rule)**; the other twelve are *truncated*
 reports — the analyst drew the operation up to the point of detection,
 before the exfiltration step appeared as a flow terminal — or *capability-
 aggregating* threat-actor flows whose terminals are mid-kill-chain. Under P1
@@ -131,7 +180,7 @@ pure_impediment), `muddy_water` (was double_extortion),
 `toolshell_vulnerability_in_sharepoint` (was double_extortion). Their
 revised entries are below.
 
-### `cisa_aa22_138b_vmware_workspace_ta1` — *pure_steal* · confidence: **low**
+### `cisa_aa22_138b_vmware_workspace_ta1` — *pure_steal* · confidence: **high** *(round 2; was low)*
 
 CISA AA22-138B documents threat-actor TA1 exploiting VMware Workspace ONE
 Access (CVE-2022-22954/22960) for credential harvesting + data staging
@@ -146,6 +195,9 @@ structural exfil terminal carry the call).
   ransomware deployment rather than credential exfil, this flips to
   `pure_impediment` or `double_extortion`. **Re-verify against the CISA
   advisory's full text before defence.**
+
+
+**2026-08-17 (round 2):** CTID flow narrative: *"script collects sensitive files, including user names, passwords, master keys, and firewall rules and stored them in a tar ball"* → *"sensitive data stored in tar ball is exfiltrated by GET request"*. Advisory (phrase-indexed on cisa.gov, page 403 to the session — verify): *"TA1 downloaded a malicious shell script, which they used to collect and exfiltrate sensitive data."* Terminal read exfil. The round-1 "could flip to impediment / double_extortion" doubt is closed — no ransomware anywhere in the TA1 narrative or the advisory sentence.
 
 ### `cobalt_kitty_campaign` — *pure_steal* · confidence: **high**
 
@@ -215,7 +267,7 @@ network).
 - **SANS GIAC paper**: https://www.giac.org/paper/gsec/36190/minimizing-damage-jp-morgans-data-breach/143120
 - **Critique**: none — canonical.
 
-### `mac_malware_steals_crypto` — *pure_steal* · confidence: **low**
+### `mac_malware_steals_crypto` — *pure_steal* · confidence: **medium** *(round 2; was low)*
 
 *Revised from `pure_impediment` after the verification round (2026-05-28).*
 OSX.DarthMiner — Mac malware that mines cryptocurrency *and* steals
@@ -234,6 +286,9 @@ verification surfaced that Unit 42's framing leads with theft.
   is the lesser of two bad fits given Unit 42's emphasis. A future
   framework with a `monetisation` / `multi-purpose` class would re-classify.
   Confidence is `low` because the call is acknowledged as ambiguous.
+
+
+**2026-08-17 (round 2):** CTID flow narrative encodes **two** exfiltration actions (*"Uploads browser cookies to a remote server"*; *"Uploads stolen information to a remote server, including wallet-related file paths and private keys"*) — tactic-only nodes, invisible to L1 — and the XMRig / Koto miner as *Ingress Tool Transfer*, not as an impact action. Every source agrees theft is primary; none contradicts. Residual is the (h)3 scheme question (dual monetisation), not source disagreement; **high** requires the dominant-objective ruling.
 
 ### `marriott_breach` — *pure_steal* · confidence: **high**
 
@@ -254,7 +309,7 @@ exfiltration via Ivanti exploitation. Structurally reaches exfil.
 - **MITRE Engenuity**: https://medium.com/mitre-engenuity/technical-deep-dive-understanding-the-anatomy-of-a-cyber-intrusion-080bddc679f3
 - **Critique**: none — well-documented and self-reported.
 
-### `muddy_water` — *pure_steal* · confidence: **medium**
+### `muddy_water` — *pure_steal* · confidence: **high** *(round 2; was medium)*
 
 *Revised from `double_extortion` after the verification round (2026-05-28).*
 MuddyWater (G0069) — Iranian cyber-espionage group. Talos's Turkey-campaign
@@ -277,6 +332,9 @@ not an observed behaviour.
   Confidence is `medium`: the espionage class is correct for G0069, but
   the capability-aggregating scope of this particular flow file makes
   the call about the actor's typical objective, not the flow's specific one.
+
+
+**2026-08-17 (round 2):** CTID flow narrative: *"Collects intellectual property data from private entities, universities, and research labs"* → *"Exfiltrate intellectual property"* (tactic-only nodes). With G0069 (espionage) and Talos (*"no encryption, wiping, or ransom demands"*) every source agrees. The scope caveat (capability-aggregating actor flow) stands as written; it is not a source disagreement and does not move the label.
 
 ### `oceanlotus` — *pure_steal* · confidence: **high**
 
@@ -326,7 +384,7 @@ vendor pivot. Reaches exfil structurally.
 - **Senate report**: https://www.commerce.senate.gov/services/files/24d3c229-4f2f-405d-b8db-a3a67f183883
 - **Critique**: none — canonical.
 
-### `toolshell_vulnerability_in_sharepoint` — *pure_steal* · confidence: **low**
+### `toolshell_vulnerability_in_sharepoint` — *pure_steal* · confidence: **high** *(round 2; was low)*
 
 *Revised from `double_extortion` after the verification round (2026-05-28).*
 CVE-2025-49704 / 49706 / 53770 SharePoint RCE chain ("ToolShell"). Unit 42
@@ -349,6 +407,9 @@ flow file.
   → pure_impediment), but that's a corpus-edit, not a classification call.
   Flagged for the simulator-verification sub-handoff as a candidate flow
   to split if the toolchain supports it.
+
+
+**2026-08-17 (round 2):** **The flow file contains no ransomware / impact action at all** (checked in the local YAML and the CTID `.afb`): the analyst drew MachineKey extraction → *Exfiltration Over C2 Channel* (×3) → ViewState persistence; blurb *"leads to remote code execution and credential theft"*. The 4L4MD4R half exists only in vendor coverage. So the flow does *not* conflate two actors — the round-1 flow-split recommendation ([`gasp_schema.md`](gasp_schema.md) (h)1) is withdrawn by evidence. Terminal read now exfil under the pinned baseline.
 
 ### `turla_carbon_emulation_plan` — *pure_steal* · confidence: **high**
 
@@ -375,7 +436,7 @@ Carbon (emulation-plan, not incident).
 - **DOJ Snake takedown**: https://www.justice.gov/usao-edny/pr/justice-department-announces-court-authorized-disruption-snake-malware-network
 - **Critique**: same as Carbon — emulation-plan scope.
 
-### `uber_breach` — *pure_steal* · confidence: **medium**
+### `uber_breach` — *pure_steal* · confidence: **high** *(round 2; was medium)*
 
 2022 Uber breach attributed to Lapsus$ (G1004 in ATT&CK). Credential theft
 + source-code access. Reaches no exfil/impact terminal structurally —
@@ -394,6 +455,9 @@ some sources name a Lapsus$-affiliated individual rather than the group).
   deployment, re-classify.
 
 ---
+
+
+**2026-08-17 (round 2):** CTID flow narrative: *"Attacker exfiltrated internal Slack messages and information from a finance tool used to manage invoices"* (tactic-only node). ATT&CK G1004: extortion operations *"including destructive attacks without the use of ransomware"*. Uber: *"downloaded some internal Slack messages, as well as accessed or downloaded information from an internal tool our finance team uses to manage some invoices"*; no production / user-data access, no encryption. Objective agreed by every source; the `G1004?` attribution doubt is orthogonal to the label and stays.
 
 ## pure_impediment (n = 8)
 
@@ -442,7 +506,7 @@ CrowdStrike + DoJ indictment characterise as destructive wiper.
   recoverable decryption) marks it as `pure_impediment` rather than
   double_extortion (no exfil-and-leak component).
 
-### `searchawesome_adware` — *pure_impediment* · confidence: **low**
+### `searchawesome_adware` — *pure_impediment* · confidence: **low** *(round 2: unchanged — named misfit)*
 
 SearchAwesome adware — intercepts encrypted web traffic (MitM the user's
 browser certificates) to inject ads. *Confidence downgraded to `low`
@@ -463,6 +527,9 @@ by analogy but is the weakest classification in the class.
   would require a clearer criterion than "doesn't fit the 4-class
   scheme cleanly" — and SearchAwesome *is* analyst-curated CTI of
   observed real-world malware, just not adversary-objective-typical.
+
+
+**2026-08-17 (round 2):** CTID flow narrative: root certificate install, adversary-in-the-middle, mitmproxy, malvertising, browser-session hijack, JS injection, C2, self-delete — **no impact-tactic action and no exfiltration action**. Together with Malwarebytes' *"doesn't directly exfiltrate user data"*, no source attests impact; `pure_impediment` remains analogy. Disposition needed: accept as the one named misfit, or drop with a stated criterion (it *is* analyst-curated real-malware CTI, so the openclaw criterion does not apply).
 
 ### `shamoon` — *pure_impediment* · confidence: **high**
 
@@ -613,7 +680,7 @@ before the downstream objective was reached. *Not* surveillance and *not*
 truncated breach — these are operations whose intended objective is
 documented as **not yet realised in the flow record**.
 
-### `cisa_aa22_138b_vmware_workspace_alt` — *infrastructure_setup* · confidence: **low**
+### `cisa_aa22_138b_vmware_workspace_alt` — *infrastructure_setup* · confidence: **low** *(round 2: unchanged — disposition needed)*
 
 Alt-method variant of the CISA AA22-138B advisory (same VMware Workspace
 ONE vulnerabilities as ta1 / ta2). Structural terminal at stealth only;
@@ -625,13 +692,19 @@ describes an alternative exploitation method without observed payload.
   stealth, no exfil / impact reach). If the advisory's full text names
   a specific payload, this could flip.
 
-### `cisa_aa22_138b_vmware_workspace_ta2` — *infrastructure_setup* · confidence: **low**
+
+**2026-08-17 (round 2):** CTID flow narrative: bash script exploits and escalates (`horizon` → sudo, CVE-2022-22960), *"compresses files containing network interface configurations, users, passwords, masterkeys, hosts, and domains to a TAR archive"*, C2 to `20.232.97.189`, *attempted* MoneroOcean miner download, *attempted* JSP webshell download; no exfil / impact action — so "no realised objective" is what the flow says. **But** `fd86ald0.pem`, `20.232.97.189` and the CVE-2022-22960 escalation are all TA1's (TA1 flow: script `80b6ae2cea.sh`, deletes `fd86ald0.pem`; the advisory names `20.232.97[.]189/up/80b6ae2cea.sh` as TA1's download — excerpt, verify), so this flow reads as the advisory's analysis of TA1's script drawn without its exfil step. If that is right, `infrastructure_setup` (defined as pre-payload, *not* truncated breach) is a truncation artefact and the honest home is `pure_steal` — or the flow is a duplicate encoding of TA1 (L1 corpus question). Either is a membership / corpus change → Marc reads AA22-138B and rules. Kept `low` until then.
+
+### `cisa_aa22_138b_vmware_workspace_ta2` — *infrastructure_setup* · confidence: **high** *(round 2; was low)*
 
 Threat Actor 2 variant of the AA22-138B advisory. Structural terminal
 at C2 only — pre-positioning. Same CISA-403 caveat as `alt`.
 
 - **CISA** (403): https://www.cisa.gov/uscert/ncas/alerts/aa22-138b
 - **Critique**: same as `alt`.
+
+
+**2026-08-17 (round 2):** CTID flow narrative: GET requests *"to obtain RCE, upload binaries, and upload webshells"*, Godzilla (`app.jsp`) and Dingo J-spy webshells, `/etc/passwd` + `/etc/shadow` viewed, XOR-encrypted webshell traffic, reverse SOCKS proxy — no exfiltration, no impact. Advisory (verify): *"TA2 interacted with the server (without automation or scripts) and installed multiple webshells and a reverse secure socket (SOCKS) proxy"*; the advisory's own contrast with TA1 ("collect and exfiltrate") is the evidence that TA2 realised no objective. Terminal read C2.
 
 ### `dfir_bumblebee_round_2` — *infrastructure_setup* · confidence: **high**
 

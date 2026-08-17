@@ -17,6 +17,7 @@ and acknowledgements pages, submission statement).
 | `references.bib` | Bibliography (renamed from `cshonours.bib`); replace the seed entries. |
 | `uwa-crest.png` | UWA crest used on the title page. |
 | `figures/` | Put your figures here (`\graphicspath` points at it). |
+| `tables/` | Generated table fragments to `\input` (e.g. `objective_classification_audit.tex` from `tools/gasp_structural_baseline.py --tex`); do not hand-edit. |
 
 ## Compile
 
