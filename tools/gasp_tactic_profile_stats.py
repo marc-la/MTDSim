@@ -486,3 +486,27 @@ for label, flows in (("full corpus n=38", ALL_FLOWS), ("operator-deduplicated n=
     for _ in range(NULL_TRIALS):
         rng.shuffle(pool); cnt += deviance_stripped([pool[:na], pool[na:]]) >= obs
     print(f"  exfiltration vs impact deviance, stripped: observed {obs:.1f}; p = {cnt / NULL_TRIALS:.3f}")
+
+
+# ============================================================================
+# 9. What is ATTRIBUTABLE to the objective label (Marc, 2026-08-17): how often
+#    does a random size-matched group show the reachability signature the real
+#    class has? Reachability = the class draws at least one technique of the
+#    objective tactic. 20 000 relabellings.
+# ============================================================================
+section("9. Reachability signatures of the real classes vs random size-matched groups")
+flow_tacs = {f: {primary[t] for t in flow_techs[f]} for f in ALL_FLOWS}
+def reaches(g, tac): return any(tac in flow_tacs[f] for f in g)
+print(f"flows drawing impact {sum('impact' in v for v in flow_tacs.values())}/38; exfiltration "
+      f"{sum('exfiltration' in v for v in flow_tacs.values())}/38; neither "
+      f"{sum(not (v & OBJECTIVE_TACTICS) for v in flow_tacs.values())}/38")
+rng = np.random.default_rng(NULL_SEED); N = 20000
+hits = Counter()
+for _ in range(N):
+    g19, g8, g6, g5 = relabel(rng, list(ALL_FLOWS), [19, 8, 6, 5])
+    hits["5-flow group reaches neither objective  [none_c2 signature]"] += not reaches(g5, "impact") and not reaches(g5, "exfiltration")
+    hits["8-flow group has impact and no exfiltration  [impact signature]"] += reaches(g8, "impact") and not reaches(g8, "exfiltration")
+    hits["6-flow group reaches both  [exfiltration_impact signature]"] += reaches(g6, "impact") and reaches(g6, "exfiltration")
+    hits["19-flow group reaches exfiltration  [exfiltration signature]"] += reaches(g19, "exfiltration")
+for k, v in hits.items():
+    print(f"  P({k}) = {v / N:.4f}")
