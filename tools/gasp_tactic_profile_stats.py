@@ -325,3 +325,164 @@ section("7. Same-operator-same-class check (Marc's 2026-08-17 reframe)")
 from mtdsim.l2_subgraph.dedup import OPERATOR_CLUSTERS  # noqa: E402
 for name, members in OPERATOR_CLUSTERS.items():
     print(f"  {name:<16} {[SHORT[cls_of[m]] for m in members]}")
+
+
+# ============================================================================
+# 8. The "what next" test (Marc, 2026-08-17): the profiles are weighted directed
+#    graphs whose weights are PER-PLACE out-transition proportions. Does the
+#    conditional P(next tactic | current tactic) differ by class beyond a
+#    size-matched relabelling? Two statistics, both permutation-tested:
+#      (a) mean per-place JSD between the two classes' out-distributions over
+#          comparable places (the L3 divergence.py form, but class-vs-class);
+#      (b) the deviance (G) of the class-conditional transition model against
+#          the pooled model — a likelihood-ratio statistic that weights each
+#          place by its support instead of averaging sparse places equally.
+# ============================================================================
+
+def out_counts(flows):
+    """place -> {target: number of distinct flows drawing place->target}."""
+    c: dict[str, Counter] = defaultdict(Counter)
+    for f in flows:
+        for (a, b) in flow_pair_occ[f]:
+            c[a][b] += 1
+    return c
+
+
+def out_dists(flows):
+    return {p: {t: n / sum(d.values()) for t, n in d.items()} for p, d in out_counts(flows).items()}
+
+
+def dict_jsd(d1, d2):
+    keys = sorted(set(d1) | set(d2))
+    p = np.array([d1.get(k, 0.0) for k in keys]); q = np.array([d2.get(k, 0.0) for k in keys])
+    return jsd(p, q)
+
+
+def per_place_jsd_pair(a, b, weighted=False):
+    da, db = out_dists(a), out_dists(b)
+    ca, cb = out_counts(a), out_counts(b)
+    places = sorted(set(da) & set(db))
+    if not places:
+        return 0.0
+    vals = np.array([dict_jsd(da[p], db[p]) for p in places])
+    if not weighted:
+        return float(vals.mean())
+    w = np.array([sum(ca[p].values()) + sum(cb[p].values()) for p in places], float)
+    return float((vals * w).sum() / w.sum())
+
+
+def deviance(groups):
+    """G = 2 * sum_c sum_p sum_t n_c(p,t) * ln( P_c(t|p) / P_pool(t|p) )."""
+    pooled = out_counts([f for g in groups for f in g])
+    pooled_p = {p: {t: n / sum(d.values()) for t, n in d.items()} for p, d in pooled.items()}
+    g = 0.0
+    for grp in groups:
+        cg = out_counts(grp)
+        for p, d in cg.items():
+            tot = sum(d.values())
+            for t, n in d.items():
+                g += 2 * n * np.log((n / tot) / pooled_p[p][t])
+    return float(g)
+
+
+def deviance_by_place(groups):
+    pooled = out_counts([f for g in groups for f in g])
+    pooled_p = {p: {t: n / sum(d.values()) for t, n in d.items()} for p, d in pooled.items()}
+    out = Counter()
+    for grp in groups:
+        cg = out_counts(grp)
+        for p, d in cg.items():
+            tot = sum(d.values())
+            for t, n in d.items():
+                out[p] += 2 * n * np.log((n / tot) / pooled_p[p][t])
+    return out
+
+
+def relabel(rng, pool, sizes):
+    rng.shuffle(pool); cur = 0; gs = []
+    for s in sizes:
+        gs.append(pool[cur:cur + s]); cur += s
+    return gs
+
+
+for label, flows in (("full corpus n=38", ALL_FLOWS), ("operator-deduplicated n=29", DEDUP_FLOWS)):
+    c2f = by_class(flows); groups = [c2f[c] for c in CLASSES]; sizes = [len(g) for g in groups]
+    section(f"8. WHAT-NEXT: per-place out-distribution divergence — {label}")
+
+    # (a) mean pairwise per-place JSD, unweighted and support-weighted, 4-group null
+    for weighted in (False, True):
+        fn = lambda gs: float(np.mean([per_place_jsd_pair(x, y, weighted) for x, y in itertools.combinations(gs, 2)]))
+        obs = fn(groups)
+        rng = np.random.default_rng(NULL_SEED); pool = list(flows)
+        null = np.array([fn(relabel(rng, pool, sizes)) for _ in range(NULL_TRIALS)])
+        print(f"  mean pairwise per-place JSD ({'support-weighted' if weighted else 'unweighted'}): "
+              f"observed {obs:.3f}; null p50 {np.percentile(null, 50):.3f} p95 {np.percentile(null, 95):.3f}; "
+              f"p = {np.mean(null >= obs):.3f}")
+
+    # (b) deviance of class-conditional model vs pooled
+    obs_g = deviance(groups)
+    rng = np.random.default_rng(NULL_SEED); pool = list(flows)
+    null_g = np.array([deviance(relabel(rng, pool, sizes)) for _ in range(NULL_TRIALS)])
+    print(f"  deviance G (class-conditional next-tactic model vs pooled): observed {obs_g:.1f}; "
+          f"null p50 {np.percentile(null_g, 50):.1f} p95 {np.percentile(null_g, 95):.1f}; p = {np.mean(null_g >= obs_g):.3f}")
+
+    # (b') per-place deviance and per-place permutation p
+    obs_pl = deviance_by_place(groups)
+    rng = np.random.default_rng(NULL_SEED); pool = list(flows)
+    null_pl = defaultdict(list)
+    for _ in range(NULL_TRIALS):
+        d = deviance_by_place(relabel(rng, pool, sizes))
+        for p in TACTICS:
+            null_pl[p].append(d.get(p, 0.0))
+    print("  per-place deviance (which 'what next' distributions differ by class):")
+    print(f"    {'place':<24}{'G_obs':>8}{'null p95':>10}{'p':>8}   out-transitions by class (flow-presence counts)")
+    for p in TACTICS:
+        pv = float(np.mean(np.array(null_pl[p]) >= obs_pl.get(p, 0.0)))
+        oc = [out_counts(g).get(p, {}) for g in groups]
+        summ = " | ".join(",".join(f"{t[:5]}:{n}" for t, n in sorted(c.items(), key=lambda kv: -kv[1])[:4]) or "—" for c in oc)
+        print(f"    {p:<24}{obs_pl.get(p, 0.0):8.1f}{np.percentile(null_pl[p], 95):10.1f}{pv:8.3f}{'  *' if pv < .05 else '   '}  {summ}")
+
+    # (c) per-pair permutation on the per-place statistics
+    print("  per-pair permutation (unweighted per-place JSD / support-weighted / pairwise deviance):")
+    for a, b in itertools.combinations(CLASSES, 2):
+        cells = []
+        for fn in (lambda x, y: per_place_jsd_pair(x, y, False), lambda x, y: per_place_jsd_pair(x, y, True), lambda x, y: deviance([x, y])):
+            obs = fn(c2f[a], c2f[b]); rng = np.random.default_rng(PERM_SEED); pool = c2f[a] + c2f[b]; na = len(c2f[a]); cnt = 0
+            for _ in range(NULL_TRIALS):
+                rng.shuffle(pool); cnt += fn(pool[:na], pool[na:]) >= obs
+            cells.append(f"{obs:.3f} ({fmt_p(cnt / NULL_TRIALS)})")
+        print(f"    {SHORT[a]:>20} vs {SHORT[b]:<20}  " + "   ".join(f"{c:>20}" for c in cells))
+
+
+# 8d. Is the exfiltration-vs-impact "what next" difference more than the objective
+#     tactic appearing as a target? Deviance with objective-tactic transitions removed.
+def deviance_stripped(groups):
+    def oc(flows):
+        c: dict[str, Counter] = defaultdict(Counter)
+        for f in flows:
+            for (a, b) in flow_pair_occ[f]:
+                if not ({a, b} & OBJECTIVE_TACTICS):
+                    c[a][b] += 1
+        return c
+    pooled = oc([f for g in groups for f in g])
+    pooled_p = {p: {t: n / sum(d.values()) for t, n in d.items()} for p, d in pooled.items()}
+    g = 0.0
+    for grp in groups:
+        for p, d in oc(grp).items():
+            tot = sum(d.values())
+            for t, n in d.items():
+                g += 2 * n * np.log((n / tot) / pooled_p[p][t])
+    return float(g)
+
+
+for label, flows in (("full corpus n=38", ALL_FLOWS), ("operator-deduplicated n=29", DEDUP_FLOWS)):
+    c2f = by_class(flows); groups = [c2f[c] for c in CLASSES]; sizes = [len(g) for g in groups]
+    section(f"8d. WHAT-NEXT with objective-tactic transitions stripped — {label}")
+    obs = deviance_stripped(groups); rng = np.random.default_rng(NULL_SEED); pool = list(flows)
+    null = np.array([deviance_stripped(relabel(rng, pool, sizes)) for _ in range(NULL_TRIALS)])
+    print(f"  4-class deviance, stripped: observed {obs:.1f}; null p50 {np.percentile(null, 50):.1f} p95 {np.percentile(null, 95):.1f}; p = {np.mean(null >= obs):.3f}")
+    a, b = c2f["objective_exfiltration"], c2f["objective_impact"]
+    obs = deviance_stripped([a, b]); rng = np.random.default_rng(PERM_SEED); pool = a + b; na = len(a); cnt = 0
+    for _ in range(NULL_TRIALS):
+        rng.shuffle(pool); cnt += deviance_stripped([pool[:na], pool[na:]]) >= obs
+    print(f"  exfiltration vs impact deviance, stripped: observed {obs:.1f}; p = {cnt / NULL_TRIALS:.3f}")
