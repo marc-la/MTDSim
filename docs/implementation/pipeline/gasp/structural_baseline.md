@@ -4,7 +4,8 @@ status: investigation record — pins the one structural baseline the L2 chapter
         classification. Tool: tools/gasp_structural_baseline.py; test:
         tests/l2_subgraph/test_structural_baseline.py. The three per-flow
         dispositions of §(d) were ruled by Marc later the same day — §(g):
-        membership 19/8/6/5 → 19/7/7/5, L2–L3 rebuilt.
+        membership 19/8/6/5 → 19/7/7/5, L2–L3 rebuilt; 38 / 38 high after
+        Marc's read of AA22-138B.
 created: 2026-08-17
 updated: 2026-08-17
 scope: L2 (GASP) — descriptive structural columns and confidence column of the
@@ -231,7 +232,7 @@ the session's):
 | flow | ruling | class after | confidence |
 |---|---|---|---|
 | `mac_malware_steals_crypto` | *"monetisation … two different methods to extract money from the person, so logically it would fall into double extortion"* — two monetisation channels (credential / cookie / wallet-key theft; XMRig/Koto mining = resource hijacking, the corpus's own reading of XMRig in `cisa_iranian_apt`) in one flow → the class defined as *both impact and exfiltration in the same flow* | `objective_exfiltration_impact` | high |
-| `cisa_aa22_138b_vmware_workspace_alt` | *"threat actor one is known for data exfiltration … it's a truncated exfiltration flow"* — the flow is TA1's script analysis drawn without the exfil step (§(d)); the class definition excludes truncated breach reports | `objective_exfiltration` | medium — until Marc confirms on AA22-138B that the alternative-method section is TA1's; then high |
+| `cisa_aa22_138b_vmware_workspace_alt` | *"threat actor one is known for data exfiltration … it's a truncated exfiltration flow"* — the flow is TA1's script analysis drawn without the exfil step (§(d)); the class definition excludes truncated breach reports | `objective_exfiltration` | high — Marc read AA22-138B (2026-08-17): it states TA1 deployed `80b6ae2cea.sh`, which overwrites `publishCaCert.hzn` using `fd86ald0.pem` to enable credential theft, and identifies the script's purpose as exfiltration of sensitive system data. Was medium for the hour between the ruling and the read |
 | `searchawesome_adware` | *"no realised objective category with high confidence, we have systematically ruled the other three"* — no exfiltration action, no impact-tactic action, hence not both; the residual by elimination | `objective_none_c2` | high |
 
 Two notes the record must carry with the rulings. (i) The Mac ruling is
@@ -244,8 +245,8 @@ technique-less nodes are C2 and discovery). SearchAwesome is the one
 `objective_none_c2` member there by elimination rather than pre-payload
 structure: it realises ad injection, which is not an objective tactic.
 
-**Result.** Partition **19 / 7 / 7 / 5**; confidence **37 high / 1 medium / 0
-low** (the medium is Alt). Structural baseline unchanged (7 / 11 / 1 / 19; 19
+**Result.** Partition **19 / 7 / 7 / 5**; confidence **38 / 38 high** (Alt was
+medium until Marc's read of the advisory the same day). Structural baseline unchanged (7 / 11 / 1 / 19; 19
 exact / 15 any-overlap — Alt moved from agree to disagree and SearchAwesome the
 other way; the exact-disagreement composition is now 14 silent + 4 impact-only
 ransomware + 1 contradiction with `cisa_…_alt` in and `searchawesome_adware` out
@@ -288,8 +289,8 @@ of the silent group). Mean technique JSD 0.429 → 0.443 bits.
   §10): verdicts unchanged qualitatively; gate pins 0.499 / 0.532 bits; the
   exfiltration-vs-impact what-next pair no longer clears 0.05.
 - Chapter numbers to move: every 19 / 8 / 6 / 5; "half of double extortion is
-  Conti" → three of seven; the two-misfits concession → gone (37 / 38 high with
-  Alt medium pending the advisory); the class name follows the definition.
+  Conti" → three of seven; the two-misfits concession → gone (38 / 38 high); the
+  class name follows the definition.
 
 Not touched, flagged: [`../../../notes/ch4_methods/objective_partition_findings.md`](../../../notes/ch4_methods/objective_partition_findings.md)
 carries the pre-ruling numbers in prose (banner added, body left for the

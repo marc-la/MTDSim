@@ -1,5 +1,5 @@
 flow_id,class_name,metadata_confidence,attribution
-cisa_aa22_138b_vmware_workspace_alt,objective_exfiltration,medium,unknown
+cisa_aa22_138b_vmware_workspace_alt,objective_exfiltration,high,unknown
 cisa_aa22_138b_vmware_workspace_ta1,objective_exfiltration,high,unknown
 cobalt_kitty_campaign,objective_exfiltration,high,G0050
 equifax_breach,objective_exfiltration,high,unknown

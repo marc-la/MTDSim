@@ -50,10 +50,9 @@ def test_the_two_concordance_rules_give_15_and_19() -> None:
 def test_confidence_tally_after_2026_08_17_rulings() -> None:
     """Round 2 re-audit (35 / 1 / 2) followed by Marc's three membership rulings
     the same day: mac -> exfiltration_impact (high), alt -> exfiltration (medium
-    until the advisory is read), searchawesome -> none_c2 (high)."""
+    until Marc read the advisory, then high), searchawesome -> none_c2 (high)."""
     rows = list(csv.DictReader(open(sb.AUDIT)))
     tally = Counter(r["metadata_confidence"] for r in rows)
-    assert dict(tally) == {"high": 37, "medium": 1}
-    assert {r["flow_id"] for r in rows if r["metadata_confidence"] == "medium"} == {"cisa_aa22_138b_vmware_workspace_alt"}
+    assert dict(tally) == {"high": 38}
     classes = Counter(r["stated_objective"] for r in rows)
     assert dict(classes) == {"steal_data": 19, "impediment": 7, "double_extortion": 7, "position_for_future": 5}
