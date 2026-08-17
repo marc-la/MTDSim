@@ -225,6 +225,72 @@ and the remainder is spread thinly across single-flow transitions (the
 largest single contributor to any pair is 6 %). The partition's signal, at
 tactic resolution, is the objective tactic itself.
 
+### 6b. The "what next" test — per-place conditionals, not the marginal
+
+Marc's objection (2026-08-17, on reading the above): the profiles are
+weighted *directed* graphs whose weights are **per-place out-transition
+proportions** — at execution, two flows go on to impact and one to stealth,
+so 2/3 and 1/3 — and the transition-share statistic above is the *marginal*
+over all 122 pairs, not that conditional. The *what* (which transitions
+exist) may well be null; the *what next* (given the current tactic, where the
+attacker goes) is what the profile encodes and what should differ. Two
+statistics test it, both against the same size-matched null (tool §8):
+
+- **(a) mean per-place JSD, class vs class** — for each pair of classes, the
+  JSD between their out-distributions at each place where both have one,
+  averaged over those places (the `divergence.py` form, but between classes
+  rather than class-vs-aggregate); unweighted, and support-weighted so that
+  sparse places do not count as much as execution or command-and-control.
+- **(b) the deviance G** of the class-conditional next-tactic model against
+  the pooled model, 2 Σ n_c(p→t) ln[P_c(t|p) / P_pool(t|p)] — the
+  likelihood-ratio statistic for "the next-transition probabilities depend
+  on class", weighting every place by its support; permutation-tested, so no
+  distributional assumption. Also decomposed by place, and per pair.
+
+| statistic | corpus | observed | null p50 | null p95 | *p* |
+|---|---|--:|--:|--:|--:|
+| (a) mean pairwise per-place JSD, unweighted | n = 38 | 0.564 | 0.568 | 0.636 | 0.55 |
+| | n = 29 | 0.584 | 0.603 | 0.673 | 0.69 |
+| (a) support-weighted | n = 38 | 0.457 | 0.467 | 0.542 | 0.57 |
+| | n = 29 | 0.489 | 0.518 | 0.596 | 0.78 |
+| (b) deviance G, four-class model vs pooled | n = 38 | 289.0 | 282.6 | 311.8 | 0.36 |
+| | n = 29 | 277.7 | 257.0 | 283.2 | 0.10 |
+| (b) deviance G, objective-tactic transitions stripped | n = 38 | 224.2 | 228.5 | 254.8 | 0.60 |
+| | n = 29 | 221.4 | 207.4 | 231.4 | 0.17 |
+
+**Four-class verdict: the conditionals do not separate either.** The
+per-place JSD sits at the null median; the deviance clears nothing (*p* =
+0.36; *p* = 0.10 on the deduplicated corpus, and 0.17 with the objective
+transitions removed). "What next" is as null as "what", for the four-way
+question.
+
+**Where it is not null.** Two places where the *what next* does show, both
+of them the objective again:
+
+- **Per place**, the one tactic whose out-distribution differs by class is
+  **discovery** (G = 37.9 vs null p95 34.8, *p* = 0.013; deduplicated *p* =
+  0.009): after discovery the exfiltration class goes to collection,
+  command-and-control and credential-access; the impact class to
+  command-and-control; double extortion to impact and stealth; `none_c2` to
+  command-and-control. Execution is next (*p* = 0.09 / 0.10: exfiltration
+  → stealth/persistence 7/7 flows; impact → impact 3). Fifteen places were
+  tested, so one at *p* ≈ 0.01 is not multiplicity-robust (Bonferroni
+  threshold 0.003) — but its direction is the mechanism the partition is
+  built on, not noise.
+- **Per pair**, the one pair whose next-transition structure separates is
+  **exfiltration vs impact** — the two largest classes, the pair with the
+  power: deviance *p* = 0.030 (n = 38), 0.011 (n = 29); per-place JSD *p* =
+  0.058 / 0.029. With the objective-tactic transitions stripped it is *p* =
+  0.106 / 0.021 — suggestive on one corpus, not on the other. No other pair
+  separates on any what-next statistic (all *p* > 0.13).
+
+So the intuition is half right, and the record now says which half: **theft
+versus ransomware do route differently after discovery and execution**, and
+that is measurable at 19 vs 8 flows; the four-way claim, and every pair
+involving a 5- or 6-flow class, is not — the null band for a 4-flow class's
+conditionals at fifteen places is wider than any real difference the corpus
+could carry.
+
 **Consistency with L3.** The committed L3 structural report
 ([`data/ogasp/petri/divergence_report.md`](../../../../data/ogasp/petri/divergence_report.md))
 already says the same thing from the other side: on the deduplicated corpus
@@ -268,12 +334,19 @@ null.
   lean in the two small classes. At the coarse tactic-share resolution this
   clears the strict null (*p* = .02), and only across the impact-present /
   impact-absent line.
-- **As tactic-to-tactic transition distributions, the profiles do not differ
-  from chance** at this corpus size (*p* = 0.50 / 0.73 under the size-matched
-  null; L3's per-place report agrees). Half to four-fifths of each profile's
+- **As tactic-to-tactic transition distributions — marginal *or* per-place
+  conditional — the four profiles do not differ from chance** at this corpus
+  size (marginal *p* = 0.50 / 0.73; conditional deviance *p* = 0.36 / 0.10;
+  L3's per-place report agrees). Half to four-fifths of each profile's
   transitions are single-flow. This is a power statement about a 38-flow
   corpus quotiented onto 122 cells as much as a structural one — but it is
   the honest statement, and the one the dissertation carries.
+- **The one pairwise exception is theft vs ransomware**: exfiltration and
+  impact — the two classes large enough to test — route differently after
+  discovery and execution (next-transition deviance *p* = 0.03 / 0.01;
+  discovery's out-distribution differs by class at *p* ≈ 0.01, the only
+  place that does). Sayable as *the objective shows in the routing of the
+  two largest classes*; not sayable as a four-way result.
 
 **Not sayable (retired):** "the separation signal is real, operator-robust"
 (finding 5) as an unqualified statement; "clears the null" without naming
@@ -301,6 +374,9 @@ pinned by the gate):
 | separation, transition share | 0.501 bits vs null p50 0.500 / p95 0.576, *p* = 0.50 (n = 38); 0.534 vs 0.558 / 0.632, *p* = 0.73 (n = 29) | mean pairwise JSD, size-matched null, 2 000 trials | verified; **gate-pinned** |
 | separation, tactic share | 0.100 vs p95 0.090, *p* = 0.02 (n = 38); 0.120 vs 0.112, *p* = 0.03 (n = 29) | as above, 15-cell tactic share | verified |
 | pairs separating at tactic share | 3 of 6, all across the impact-present/absent line | per-pair permutation, *p* < .05 | verified |
+| what-next (per-place conditional), four-class | deviance G 289.0 vs null p95 311.8, *p* = 0.36 (n = 38); *p* = 0.10 (n = 29) | class-conditional next-tactic model vs pooled, size-matched permutation | verified |
+| what-next, exfiltration vs impact | deviance *p* = 0.030 / 0.011; objective-stripped 0.106 / 0.021 | pairwise permutation | verified |
+| places whose next-tactic distribution differs by class | discovery (*p* = 0.013 / 0.009); execution borderline (0.09 / 0.10); of 15 | per-place deviance, permutation | verified; not multiplicity-robust |
 
 ## 9. What changed in the repo (this session)
 
