@@ -291,6 +291,18 @@ involving a 5- or 6-flow class, is not — the null band for a 4-flow class's
 conditionals at fifteen places is wider than any real difference the corpus
 could carry.
 
+**What is attributable to the label, made concrete (tool §9).** How often
+does a *random* size-matched group carry the reachability signature the real
+class has? Over 20 000 relabellings: a random 5-flow group reaches *neither*
+objective in **0.6 %** of them (`none_c2` does); a random 8-flow group has
+impact and *no exfiltration* in **2.3 %** (`impact` does); a random 6-flow
+group reaches *both* in **87.5 %** (so double extortion's "reaches both" is
+not a signature — it is what six flows of this corpus do); a random 19-flow
+group reaches exfiltration always. The objective-defined reachability of
+`none_c2` and `impact` is therefore the label's, not the sampling's, and it is
+behavioural at runtime by construction: an attacker on the `none_c2` net never
+reaches an objective place; one on the `impact` net never exfiltrates.
+
 **Consistency with L3.** The committed L3 structural report
 ([`data/ogasp/petri/divergence_report.md`](../../../../data/ogasp/petri/divergence_report.md))
 already says the same thing from the other side: on the deduplicated corpus
@@ -348,6 +360,55 @@ null.
   place that does). Sayable as *the objective shows in the routing of the
   two largest classes*; not sayable as a four-way result.
 
+### 8a. How the null and the partition's warrant reconcile (Marc's ruling, 2026-08-17)
+
+The null answers a question the partition never asked. Two questions have to
+be held apart:
+
+1. **Are the class assignments right?** This is answered by the
+   classification criteria — the terminal objective read from the flow,
+   cross-referenced against the CTID blurb, the ATT&CK Group/Campaign page
+   and the vendor reports, audit-traced per flow (the appendix table; the
+   confidence re-grade is the sibling validation's job). The structural
+   statistics say **nothing** about it. Finding 4 already established that
+   objective cannot be read *off* the drawn structure — so structure could
+   not have been the warrant for the labels, and its silence now is not
+   evidence against them. The partition was **not** drawn at random; the
+   null draws random partitions only to ask what the corpus's structure
+   looks like under *any* 19 : 8 : 6 : 5 grouping.
+2. **Does the objective label predict movement structure beyond the
+   objective tactic, at this corpus size?** This is what the null tests, and
+   the answer is: not detectably. That is a statement about **power** — a
+   38-flow corpus quotiented onto 122 transitions cannot reveal label-driven
+   differences finer than the objective itself, and it would fail to reveal
+   them whether or not they exist. "Indistinguishable from a random
+   grouping" is not "random": a low-power test fails to reject the null for
+   real effects too.
+
+The reconciliation, then, is that the partition's warrant is **external and
+criterial** (the audit), its structural consequence is **definitional and
+attributable** where the objective is concerned (reachability, objective
+in-mass, the theft-vs-ransomware routing — §6, §6b, §9), and it is
+**structurally silent beyond that at this size**. What the profiles carry
+beyond the objective is the *observed* movement of correctly-classified
+operations with that objective — a behavioural envelope as this corpus
+records it — not movement *attributed* to the objective. That is finding 5's
+closing sentence, unchanged: the class structure this corpus contains, not
+the class structure such operations naturally have.
+
+Two consequences for how the chapter speaks. First, the statistics are
+**de-emphasised, not hidden**: the chapter carries the criteria and the
+audit as the partition's grounds, the definitional differences as what the
+profiles give L3, and the null as one disclosed concession — *any partition
+of this corpus into groups of these sizes yields envelopes that behave
+distinctly when executed; what makes this partition the right one is not that
+it separates the corpus best but that its axis is the one the research
+question is about and its labels are audited.* Second, the runtime question
+— do the four envelopes, executed, differ *because of the objective* — is
+settled neither by structure nor by the audit; it is settled by the
+execution-level measure run on shuffled-label envelopes (arm 3), which is the
+open item.
+
 **Not sayable (retired):** "the separation signal is real, operator-robust"
 (finding 5) as an unqualified statement; "clears the null" without naming
 the null; any implication that L3 inherits four *statistically distinct*
@@ -377,6 +438,7 @@ pinned by the gate):
 | what-next (per-place conditional), four-class | deviance G 289.0 vs null p95 311.8, *p* = 0.36 (n = 38); *p* = 0.10 (n = 29) | class-conditional next-tactic model vs pooled, size-matched permutation | verified |
 | what-next, exfiltration vs impact | deviance *p* = 0.030 / 0.011; objective-stripped 0.106 / 0.021 | pairwise permutation | verified |
 | places whose next-tactic distribution differs by class | discovery (*p* = 0.013 / 0.009); execution borderline (0.09 / 0.10); of 15 | per-place deviance, permutation | verified; not multiplicity-robust |
+| reachability signature vs random size-matched group | `none_c2` reaches neither: 0.6 % of random 5-flow groups do; `impact` no exfiltration: 2.3 % of random 8-flow groups; double extortion reaches both: 87.5 % of random 6-flow groups | 20 000 relabellings | verified |
 
 ## 9. What changed in the repo (this session)
 
