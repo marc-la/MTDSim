@@ -264,11 +264,11 @@ from the 2026-05-28 verification round until then):**
 
 | Class | n flows | Conf: high | medium | low |
 |---|--:|--:|--:|--:|
-| `objective_exfiltration` | 19 | 18 | 1 | 0 |
+| `objective_exfiltration` | 19 | 19 | 0 | 0 |
 | `objective_impact` | 7 | 7 | 0 | 0 |
 | `objective_exfiltration_impact` | 7 | 7 | 0 | 0 |
 | `objective_none_c2` | 5 | 5 | 0 | 0 |
-| **total** | **38** | **37** | **1** | **0** |
+| **total** | **38** | **38** | **0** | **0** |
 
 **The 19 : 7 : 7 : 5 split** dates from Marc's three per-flow rulings of
 2026-08-17 (`mac_malware_steals_crypto` → exfiltration+impact;
@@ -277,7 +277,9 @@ none, by elimination), recorded with their reasoning and everything they moved
 in [`structural_baseline.md`](structural_baseline.md) §(g). Before them the
 split was 19 : 8 : 6 : 5 (round 1, 2026-05-28: 30 / 2 / 6 confidence, 15.8 % low
 — within the investigation's 20 % gate; round 2 re-audit, 2026-08-17: 35 / 1 / 2).
-The one `medium` is the Alt flow, pending Marc's read of AA22-138B. Records
+Alt was `medium` for the hour between the ruling and Marc's read of AA22-138B
+(which states TA1's `80b6ae2cea.sh` is the credential-theft-and-exfiltration
+script the flow draws); the column is 38 / 38 high. Records
 dated before 2026-08-17 that say 19 : 8 : 6 : 5 are correct for their date.
 Per-flow citations and critique are in
 [`../notes/2026-05-28_l2_per_flow_justifications.md`](per_flow_justifications.md).

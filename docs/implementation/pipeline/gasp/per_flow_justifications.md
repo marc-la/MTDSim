@@ -40,7 +40,7 @@ lineage: formerly docs/notes @ 2026-05-28_l2_per_flow_justifications.md (relocat
 > withdrawn by evidence (the flow file has no ransomware half). Later the same
 > day Marc ruled the three remaining flows into classes (Mac →
 > double_extortion, Alt → pure_steal, SearchAwesome → infrastructure_setup):
-> partition 19 : 7 : 7 : 5, tally 37 / 1 / 0 — [`structural_baseline.md`](structural_baseline.md) §(g).
+> partition 19 : 7 : 7 : 5, tally 38 / 0 / 0 once Marc had read AA22-138B — [`structural_baseline.md`](structural_baseline.md) §(g).
 
 ## Why this exists
 
@@ -82,14 +82,14 @@ case for sourcing classification from narrative.
 
 | Class | n flows | Confidence: high | medium | low |
 |---|--:|--:|--:|--:|
-| pure_steal | 19 | 18 | 1 | 0 |
+| pure_steal | 19 | 19 | 0 | 0 |
 | pure_impediment | 7 | 7 | 0 | 0 |
 | double_extortion | 7 | 7 | 0 | 0 |
 | infrastructure_setup | 5 | 5 | 0 | 0 |
-| **total** | **38** | **37** | **1** | **0** |
+| **total** | **38** | **38** | **0** | **0** |
 
 *(After Marc's three membership rulings of 2026-08-17 — Mac → double_extortion,
-Alt → pure_steal (medium until the advisory is read), SearchAwesome →
+Alt → pure_steal (medium until Marc read the advisory, then high), SearchAwesome →
 infrastructure_setup by elimination; [`structural_baseline.md`](structural_baseline.md)
 §(g). The round-2 tally before the rulings was 35 / 1 / 2. The per-class
 sections below keep the flows under their round-1 headings, each moved flow
@@ -713,7 +713,7 @@ describes an alternative exploitation method without observed payload.
 **2026-08-17 (round 2):** CTID flow narrative: bash script exploits and escalates (`horizon` → sudo, CVE-2022-22960), *"compresses files containing network interface configurations, users, passwords, masterkeys, hosts, and domains to a TAR archive"*, C2 to `20.232.97.189`, *attempted* MoneroOcean miner download, *attempted* JSP webshell download; no exfil / impact action — so "no realised objective" is what the flow says. **But** `fd86ald0.pem`, `20.232.97.189` and the CVE-2022-22960 escalation are all TA1's (TA1 flow: script `80b6ae2cea.sh`, deletes `fd86ald0.pem`; the advisory names `20.232.97[.]189/up/80b6ae2cea.sh` as TA1's download — excerpt, verify), so this flow reads as the advisory's analysis of TA1's script drawn without its exfil step. If that is right, `infrastructure_setup` (defined as pre-payload, *not* truncated breach) is a truncation artefact and the honest home is `pure_steal` — or the flow is a duplicate encoding of TA1 (L1 corpus question). Either is a membership / corpus change → Marc reads AA22-138B and rules. Kept `low` until then.
 
 
-**2026-08-17 (Marc's ruling):** **Moved to `pure_steal` (`objective_exfiltration`), medium.** TA1 is the collect-and-exfiltrate actor and the flow is TA1's script drawn without its exfil step — a truncated exfiltration flow, which the residual class definition excludes. Medium until Marc confirms on AA22-138B that the alternative-method section is TA1's; then high.
+**2026-08-17 (Marc's ruling):** **Moved to `pure_steal` (`objective_exfiltration`), high.** TA1 is the collect-and-exfiltrate actor and the flow is TA1's script drawn without its exfil step — a truncated exfiltration flow, which the residual class definition excludes. Medium for an hour, then high on Marc's read of the advisory: AA22-138B states TA1 deployed `80b6ae2cea.sh`, which overwrites `publishCaCert.hzn` using `fd86ald0.pem` to enable credential theft, and identifies the script's purpose as exfiltration of sensitive system data.
 
 ### `cisa_aa22_138b_vmware_workspace_ta2` — *infrastructure_setup* · confidence: **high** *(round 2; was low)*
 

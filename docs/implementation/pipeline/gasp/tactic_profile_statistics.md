@@ -557,8 +557,8 @@ impact and exfiltration in the same flow") names all seven; "half of the class
 is one operator's variants" becomes three of seven; (iii) the two "no clean
 home" flows are no longer retained at downgraded confidence — they were ruled
 into classes (Mac → exfiltration+impact, SearchAwesome → none by elimination) and
-the confidence column is 37 high / 1 medium / 0 low, the medium being the Alt
-flow until the advisory is read; (iv) `impact` lost `defense-impairment` and
+the confidence column is 38 / 38 high (Alt was medium until Marc read the
+advisory the same day); (iv) `impact` lost `defense-impairment` and
 gained a structural sink at `collection`; `none_c2`'s sink moved from
 `defense-impairment` to `privilege-escalation` and its `resource-development`
 place is no longer an island (SearchAwesome's malvertising), which is what
