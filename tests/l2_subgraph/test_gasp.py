@@ -1,12 +1,29 @@
-"""L2 GASP — sanity tests + the operator-deduplicated JSD re-check.
+"""L2 GASP — sanity tests + the two discrimination checks.
 
-The JSD re-check is Mitigation 1 from
-``docs/notes/ch3_design/operator_concentration.md``: collapse
-multi-flow operator clusters to one representative each (highest
-``n_actions``), then re-compute mean pairwise technique-JSD across the
-four classes. If it survives above the random-shuffle null p95, the
-per-class discrimination is operator-robust. If it collapses, the test
-fails *as a finding*, not a bug — flag back to Marc per spec §g.
+1. The operator-deduplicated technique-JSD re-check (Mitigation 1 from
+   ``docs/notes/ch4_methods/operator_concentration.md``): collapse multi-flow
+   operator clusters to one representative each (highest ``n_actions``), then
+   re-compute mean pairwise technique-JSD across the four classes against a
+   random **half-split** null. This is the historical calibration (spec §g);
+   Marc's 2026-08-17 ruling records its null as the lenient one for a
+   19:8:6:5 partition — a half-split compares two 14–19-flow halves, while
+   the observed statistic averages pairs that include 4–8-flow classes, whose
+   sparse distributions sit far apart by sampling alone.
+
+2. The **size-matched label-shuffle** check at **tactic-to-tactic
+   (transition-share) resolution** — the null L3 ``divergence.py`` uses and
+   the resolution the L3 nets quotient into. This is the load-bearing check
+   after the 2026-08-17 ruling. Its recorded verdict is that the four
+   profiles' transition-share distributions do **not** separate beyond
+   chance at this corpus size (mean pairwise JSD sits at the null median);
+   the test pins that verdict and the cited numbers, so a corpus change that
+   flips it fails loudly and reopens
+   ``docs/implementation/pipeline/gasp/tactic_profile_statistics.md``.
+
+JSD unit: **bits** (``jensenshannon(..., base=2) ** 2``, in [0, 1]) — the L3
+convention. Numbers recorded before 2026-08-17 (spec §g's 0.317 / 0.148, the
+README's 0.3149 / 0.1849) were computed with scipy's default natural-log base
+and are in nats; divide by ln 2 to compare (0.3149 nats = 0.454 bits).
 """
 
 from __future__ import annotations
@@ -92,10 +109,15 @@ def _mean_pairwise_jsd(
         for j in range(i + 1, len(classes))
     ]
     # ``jensenshannon`` returns the JS *distance* (sqrt of divergence). Square
-    # to recover the divergence in [0, 1] (base 2 by default).
+    # to recover the divergence; ``base=2`` puts it in bits, in [0, 1] (scipy's
+    # default base is e, which is what the pre-2026-08-17 numbers were in).
     return float(
-        np.mean([jensenshannon(dists[a], dists[b]) ** 2 for a, b in pairs])
+        np.mean([_jsd(dists[a], dists[b]) for a, b in pairs])
     )
+
+
+def _jsd(p: np.ndarray, q: np.ndarray) -> float:
+    return float(jensenshannon(p, q, base=2) ** 2)
 
 
 # ---------------------------------------------------------------------------
@@ -147,7 +169,7 @@ def test_subgraphs_are_subsets_of_gap(
 
 
 # ---------------------------------------------------------------------------
-# 4. Operator-deduplicated JSD re-check (the load-bearing test)
+# 4. Operator-deduplicated JSD re-check (historical calibration — half-split null)
 # ---------------------------------------------------------------------------
 
 def test_operator_deduplicated_jsd_above_null(
@@ -176,7 +198,7 @@ def test_operator_deduplicated_jsd_above_null(
         rng.shuffle(flows)
         d_a = _technique_dist(gap, set(flows[:half]))
         d_b = _technique_dist(gap, set(flows[half:]))
-        null_samples.append(float(jensenshannon(d_a, d_b) ** 2))
+        null_samples.append(_jsd(d_a, d_b))
     null_p95 = float(np.percentile(null_samples, 95))
 
     # Write the validation note to data/gasp/README.md — fixture side-effect
@@ -184,7 +206,7 @@ def test_operator_deduplicated_jsd_above_null(
     msg = (
         f"operator-dedup mean JSD = {observed:.4f}  "
         f"(null p95 = {null_p95:.4f}, n={len(kept)} flows kept; "
-        f"see docs/notes/ch3_design/operator_concentration.md)"
+        f"see docs/notes/ch4_methods/operator_concentration.md)"
     )
     print("\n" + msg)
     _write_validation_note(observed, null_p95, n_kept=len(kept))
@@ -210,10 +232,10 @@ def _write_validation_note(observed: float, null_p95: float, *, n_kept: int) -> 
         return
     marker = "**Operator-dedup JSD re-check:**"
     line = (
-        f"{marker} mean JSD = {observed:.4f}, null p95 = {null_p95:.4f}, "
+        f"{marker} mean JSD = {observed:.4f} bits, half-split null p95 = {null_p95:.4f}, "
         f"n_kept = {n_kept} flows. "
-        f"See [`docs/notes/ch3_design/operator_concentration.md`]"
-        f"(../../docs/notes/ch3_design/operator_concentration.md) "
+        f"See [`docs/notes/ch4_methods/operator_concentration.md`]"
+        f"(../../docs/notes/ch4_methods/operator_concentration.md) "
         f"for the mitigation rationale.\n"
     )
     text = readme.read_text()
@@ -225,3 +247,115 @@ def _write_validation_note(observed: float, null_p95: float, *, n_kept: int) -> 
     else:
         sep = "" if text.endswith("\n") else "\n"
         readme.write_text(text + sep + "\n" + line)
+
+
+# ---------------------------------------------------------------------------
+# 5. Size-matched null at tactic-to-tactic resolution (the load-bearing check
+#    after Marc's 2026-08-17 ruling; pins the recorded verdict + cited numbers)
+# ---------------------------------------------------------------------------
+
+SIZE_MATCHED_TRIALS = 2000
+SIZE_MATCHED_SEED = 20260528
+# Recorded in docs/implementation/pipeline/gasp/tactic_profile_statistics.md;
+# tools/gasp_tactic_profile_stats.py reproduces them.
+RECORDED_TRANSITION_JSD = {"full": 0.501, "dedup": 0.534}
+
+
+def _transition_share(gap: dict, flow_ids: set[str], pairs: list[tuple[str, str]]) -> np.ndarray:
+    """P(tactic-pair transition | class): distinct flows drawing each
+    inter-tactic pair (primary_tactic; intra-tactic edges dropped, as the L3
+    quotient drops them), normalised over all pairs. Flow-presence pooling —
+    the count the L3 W-A weight layer is built from."""
+    tactic_of = {t: n["primary_tactic"] for t, n in gap["nodes"].items()}
+    idx = {p: i for i, p in enumerate(pairs)}
+    seen: set[tuple[str, tuple[str, str]]] = set()
+    counts = np.zeros(len(pairs), dtype=float)
+    for e in gap["edges"]:
+        a, b = tactic_of[e["source_id"]], tactic_of[e["target_id"]]
+        if a == b:
+            continue
+        for f in e["flow_ids"]:
+            if f in flow_ids and (f, (a, b)) not in seen:
+                seen.add((f, (a, b)))
+                counts[idx[(a, b)]] += 1
+    total = counts.sum()
+    return counts / total if total else counts
+
+
+def _inter_tactic_pairs(gap: dict) -> list[tuple[str, str]]:
+    tactic_of = {t: n["primary_tactic"] for t, n in gap["nodes"].items()}
+    return sorted({
+        (tactic_of[e["source_id"]], tactic_of[e["target_id"]])
+        for e in gap["edges"]
+        if tactic_of[e["source_id"]] != tactic_of[e["target_id"]]
+    })
+
+
+def _mean_pairwise_transition_jsd(gap, pairs, groups: list[list[str]]) -> float:
+    dists = [_transition_share(gap, set(g), pairs) for g in groups]
+    return float(np.mean([
+        _jsd(dists[i], dists[j])
+        for i in range(len(dists)) for j in range(i + 1, len(dists))
+    ]))
+
+
+@pytest.mark.parametrize("corpus", ["full", "dedup"])
+def test_transition_share_size_matched_null_verdict(
+    gap: dict, classification: dict[str, str], corpus: str
+) -> None:
+    flows = sorted(classification) if corpus == "full" else sorted(_operator_deduplicated_flows())
+    pairs = _inter_tactic_pairs(gap)
+    assert len(pairs) == 122
+    groups = [[f for f in flows if classification[f] == c] for c in CLASS_NAMES]
+    sizes = [len(g) for g in groups]
+    observed = _mean_pairwise_transition_jsd(gap, pairs, groups)
+
+    rng = np.random.default_rng(seed=SIZE_MATCHED_SEED)
+    pool = list(flows)
+    null = np.empty(SIZE_MATCHED_TRIALS)
+    for i in range(SIZE_MATCHED_TRIALS):
+        rng.shuffle(pool)
+        cur, trial = 0, []
+        for s in sizes:
+            trial.append(pool[cur:cur + s]); cur += s
+        null[i] = _mean_pairwise_transition_jsd(gap, pairs, trial)
+    p95 = float(np.percentile(null, 95))
+    p_value = float(np.mean(null >= observed))
+    msg = (
+        f"[{corpus} n={len(flows)}] transition-share mean pairwise JSD = {observed:.4f} bits; "
+        f"size-matched null p50 = {np.percentile(null, 50):.4f}, p95 = {p95:.4f}, p = {p_value:.3f}"
+    )
+    print("\n" + msg)
+    if corpus == "dedup":
+        _write_size_matched_note(observed, p95, p_value, n=len(flows))
+
+    # Pin the cited number (3 d.p.). A drift here means the corpus or the
+    # quotient changed: regenerate tactic_profile_statistics.md.
+    assert abs(observed - RECORDED_TRANSITION_JSD[corpus]) < 0.0015, msg
+    # Pin the recorded verdict: no separation beyond chance at this
+    # resolution. If this fires, the profiles now clear the strict null —
+    # a corpus change worth a new record, not a bug.
+    assert observed <= p95, (
+        f"transition-share separation now clears the size-matched null p95 — "
+        f"reopen tactic_profile_statistics.md. {msg}"
+    )
+
+
+def _write_size_matched_note(observed: float, p95: float, p_value: float, *, n: int) -> None:
+    readme = Path(__file__).resolve().parents[2] / "data" / "gasp" / "README.md"
+    if not readme.exists():
+        return
+    marker = "**Size-matched null, tactic-to-tactic resolution:**"
+    line = (
+        f"{marker} mean pairwise transition-share JSD = {observed:.4f} bits, "
+        f"size-matched null p95 = {p95:.4f}, p = {p_value:.3f}, n = {n} flows "
+        f"(does not clear — the recorded verdict; see "
+        f"[`docs/implementation/pipeline/gasp/tactic_profile_statistics.md`]"
+        f"(../../docs/implementation/pipeline/gasp/tactic_profile_statistics.md)).\n"
+    )
+    text = readme.read_text()
+    if marker in text:
+        readme.write_text("".join(line if marker in raw else raw for raw in text.splitlines(keepends=True)))
+    else:
+        sep = "" if text.endswith("\n") else "\n"
+        readme.write_text(text + sep + line)
