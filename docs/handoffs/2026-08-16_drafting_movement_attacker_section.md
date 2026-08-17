@@ -262,6 +262,33 @@ most three prioritised moves. Voice is Marc's own gate
     risk; Appendix~[X]/[Y] stay placeholders until the appendix is wired.
     Pass 5 (compression, Marc) is next; the P3 tighten proposal folds into
     it. Never-cut list and cut order recorded in the session return.**
+- **From the 2026-08-17 L3 pre-drafting scan (content-point scaffold returned
+  in chat; no prose):**
+  - **D8 "both tested" is not on the record as an experiment.** The entry
+    toggle exists and is test-pinned (`_choose_entry`: recon seed with the
+    overlay on / `initial-access` seed observed-only; `test_petri.py` §7), and
+    `demonstration_arms_prereg.md` records "synthetic overlay on — the D8 arm
+    every published run uses"; no published run seeds at `initial-access`.
+    The skeleton comment's "(D8: both tested)" should read *both testable /
+    the comparison arm is a toggle* unless a run is added — `[VERIFY]` before
+    it enters prose.
+  - **Reversal hygiene on the pack note** `structure_to_behaviour_binding.md`
+    (updated 2026-07-13): three positions in it are superseded — the
+    capability precondition/effect contract as "the right target" (M4 resolved
+    the join shallow: substrate as outcome oracle; S2 froze the action set),
+    "timing and success probabilities come from the simulator" (S3-R: the
+    movement layer supplies every unit of attacker time), and "envelope, not
+    actor" (Marc, 2026-08-17: the word is not used in the chapter). Read it
+    for the structure/policy/execution trichotomy and the ontology-gap
+    argument only.
+  - **Loop preservation has a twist L3 must state:** the L1 graph preserves
+    cycles including self-loops (technique_graph_construction: ~37% of edges
+    backward, two-thirds of tactics self-loop); the tactic-place nets keep the
+    inter-tactic cycles (backward edges are real transitions) but **drop
+    intra-tactic self-loops at structural build** — in-tactic time is the
+    dwell catalogue's job, not a self-loop weight
+    (`data/ogasp/petri/README.md`). So "loops preserved" is true of the walk,
+    with self-loops re-expressed as dwell.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
