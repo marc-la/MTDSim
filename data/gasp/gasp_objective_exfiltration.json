@@ -58,7 +58,6 @@
     "T1204",
     "T1205",
     "T1210",
-    "T1211",
     "T1217",
     "T1218",
     "T1219",
@@ -67,7 +66,6 @@
     "T1486",
     "T1497",
     "T1505",
-    "T1518",
     "T1543",
     "T1546",
     "T1547",
@@ -387,10 +385,6 @@
     ],
     [
       "T1036",
-      "T1518"
-    ],
-    [
-      "T1036",
       "T1550"
     ],
     [
@@ -448,10 +442,6 @@
     [
       "T1047",
       "T1505"
-    ],
-    [
-      "T1047",
-      "T1518"
     ],
     [
       "T1048",
@@ -615,10 +605,6 @@
     ],
     [
       "T1059",
-      "T1211"
-    ],
-    [
-      "T1059",
       "T1218"
     ],
     [
@@ -632,10 +618,6 @@
     [
       "T1059",
       "T1505"
-    ],
-    [
-      "T1059",
-      "T1518"
     ],
     [
       "T1059",
@@ -1470,10 +1452,6 @@
       "T1620"
     ],
     [
-      "T1518",
-      "T1059"
-    ],
-    [
       "T1543",
       "T1070"
     ],
@@ -1757,6 +1735,7 @@
   "provenance": {
     "class_name": "objective_exfiltration",
     "flow_ids": [
+      "cisa_aa22_138b_vmware_workspace_alt",
       "cisa_aa22_138b_vmware_workspace_ta1",
       "cobalt_kitty_campaign",
       "equifax_breach",
@@ -1764,7 +1743,6 @@
       "fin13_case_2",
       "ivanti_vulnerabilities",
       "jp_morgan_breach",
-      "mac_malware_steals_crypto",
       "marriott_breach",
       "mitre_nerve",
       "muddy_water",
@@ -1782,6 +1760,6 @@
     "gap_build_date": "2026-05-28",
     "audit_csv_path": "data/gasp/metadata_audit.csv",
     "gap_path": "data/gap/gap_v0.5.json",
-    "build_date": "2026-08-06"
+    "build_date": "2026-08-17"
   }
 }

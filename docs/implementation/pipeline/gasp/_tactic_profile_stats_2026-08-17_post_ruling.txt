@@ -1,0 +1,280 @@
+
+==============================================================================
+0. Corpus and quotient
+==============================================================================
+flows 38 (dedup 29); techniques 124; tactics 15; GAP edges 478 of which intra-tactic (dropped) 56; inter-tactic transitions 122
+multi-tactic techniques: 20 of 124
+
+==============================================================================
+1. Structure — full corpus n=38  sizes {'exfiltration': 19, 'impact': 7, 'exfiltration_impact': 7, 'none_c2': 5}
+==============================================================================
+tactic places per class:       {'exfiltration': 15, 'impact': 13, 'exfiltration_impact': 14, 'none_c2': 13} of 15
+inter-tactic transitions:      {'exfiltration': 90, 'impact': 46, 'exfiltration_impact': 47, 'none_c2': 41} of 122
+in all four classes: tactics 12  transitions 14
+  missing tactics per class: {'exfiltration': [], 'impact': ['defense-impairment', 'exfiltration'], 'exfiltration_impact': ['defense-impairment'], 'none_c2': ['exfiltration', 'impact']}
+  common transitions: [('command-and-control', 'discovery'), ('command-and-control', 'execution'), ('command-and-control', 'lateral-movement'), ('command-and-control', 'persistence'), ('command-and-control', 'stealth'), ('execution', 'command-and-control'), ('execution', 'discovery'), ('execution', 'persistence'), ('initial-access', 'execution'), ('lateral-movement', 'execution'), ('persistence', 'command-and-control'), ('persistence', 'discovery'), ('stealth', 'discovery'), ('stealth', 'execution')]
+  transitions unique to one class: {'exfiltration': 38, 'impact': 5, 'exfiltration_impact': 9, 'none_c2': 8}
+    exfiltration: [('collection', 'credential-access'), ('collection', 'exfiltration'), ('command-and-control', 'reconnaissance'), ('credential-access', 'collection'), ('credential-access', 'execution'), ('credential-access', 'exfiltration'), ('credential-access', 'persistence'), ('credential-access', 'reconnaissance'), ('credential-access', 'stealth'), ('defense-impairment', 'execution'), ('defense-impairment', 'initial-access'), ('defense-impairment', 'stealth'), ('execution', 'initial-access'), ('exfiltration', 'collection'), ('exfiltration', 'command-and-control'), ('exfiltration', 'discovery'), ('initial-access', 'discovery'), ('initial-access', 'lateral-movement'), ('initial-access', 'persistence'), ('initial-access', 'reconnaissance'), ('lateral-movement', 'persistence'), ('lateral-movement', 'reconnaissance'), ('persistence', 'collection'), ('persistence', 'defense-impairment'), ('persistence', 'reconnaissance'), ('persistence', 'stealth'), ('privilege-escalation', 'collection'), ('privilege-escalation', 'command-and-control'), ('privilege-escalation', 'execution'), ('reconnaissance', 'command-and-control'), ('reconnaissance', 'lateral-movement'), ('reconnaissance', 'persistence'), ('resource-development', 'initial-access'), ('stealth', 'credential-access'), ('stealth', 'defense-impairment'), ('stealth', 'exfiltration'), ('stealth', 'initial-access'), ('stealth', 'lateral-movement')]
+    impact: [('discovery', 'persistence'), ('impact', 'command-and-control'), ('lateral-movement', 'privilege-escalation'), ('reconnaissance', 'initial-access'), ('resource-development', 'command-and-control')]
+    exfiltration_impact: [('discovery', 'lateral-movement'), ('exfiltration', 'execution'), ('exfiltration', 'impact'), ('exfiltration', 'stealth'), ('impact', 'collection'), ('impact', 'discovery'), ('impact', 'execution'), ('impact', 'persistence'), ('initial-access', 'privilege-escalation')]
+    none_c2: [('collection', 'lateral-movement'), ('command-and-control', 'defense-impairment'), ('command-and-control', 'resource-development'), ('credential-access', 'command-and-control'), ('credential-access', 'defense-impairment'), ('defense-impairment', 'command-and-control'), ('defense-impairment', 'credential-access'), ('resource-development', 'execution')]
+pairwise Jaccard (tactic sets / transition sets):
+          exfiltration vs impact                0.867   0.295
+          exfiltration vs exfiltration_impact   0.933   0.292
+          exfiltration vs none_c2               0.867   0.297
+                impact vs exfiltration_impact   0.929   0.388
+                impact vs none_c2               0.857   0.318
+   exfiltration_impact vs none_c2               0.800   0.239
+mean transition-set Jaccard: observed 0.305; size-matched null p5/p50/p95 0.244/0.301/0.355; p(null <= observed) = 0.545
+
+==============================================================================
+2. Tactic-share table (% of (flow,technique) occurrences, primary_tactic) — full corpus n=38
+==============================================================================
+  tactic                   exfiltration       impact exfiltration      none_c2   | all-tactics pooling
+  collection                        7.6          1.0          1.0          3.3   |   7.5   0.8   0.8   4.3
+  command-and-control              11.5         10.4          7.8         16.4   |   9.9   8.2   6.6  14.5
+  credential-access                 9.4          4.2          3.9          8.2   |   7.8   3.3   3.3   7.2
+  defense-impairment                1.4          0.0          0.0          3.3   |   1.7   0.8   4.1   4.3
+  discovery                        12.8         14.6         19.6         19.7   |  11.6  12.3  18.2  18.8
+  execution                        10.1         11.5         12.7         18.0   |   8.4   9.0  10.7  15.9
+  exfiltration                      3.8          0.0          2.9          0.0   |   3.2   0.0   2.5   0.0
+  impact                            0.3         15.6         15.7          0.0   |   0.3  12.3  13.2   0.0
+  initial-access                    9.7          7.3          7.8          3.3   |   8.1   5.7   6.6   2.9
+  lateral-movement                  5.6          6.2          2.0          4.9   |   4.6   4.9   1.7   4.3
+  persistence                       8.7          8.3          5.9          4.9   |  10.4  11.5   6.6   5.8
+  privilege-escalation              2.1          5.2          5.9          3.3   |   8.1  10.7   9.1   5.8
+  reconnaissance                    3.5          2.1          1.0          1.6   |   2.9   1.6   0.8   1.4
+  resource-development              1.0          1.0          2.0          3.3   |   0.9   0.8   1.7   2.9
+  stealth                          12.5         12.5         11.8          9.8   |  14.5  18.0  14.0  11.6
+
+==============================================================================
+3. Transition-share profiles (flow-presence pooling = L3 W-A count) — full corpus n=38
+==============================================================================
+  exfiltration (n=19, 90 transitions; 43 of them (48%) backed by a single flow; median flows per transition 2, max 7):
+    top transitions (% of flow-presence mass): [('execution→persistence', 3.7), ('initial-access→execution', 3.7), ('execution→stealth', 3.1), ('command-and-control→stealth', 3.1), ('command-and-control→discovery', 2.6), ('discovery→command-and-control', 2.6), ('persistence→stealth', 2.6), ('collection→exfiltration', 2.6)]
+    mass into objective tactics: {'exfiltration': 6.3, 'impact': 0.5}; feeders: {'exfiltration': ['collection', 'command-and-control', 'credential-access', 'discovery', 'stealth'], 'impact': ['execution']}
+  impact (n=7, 46 transitions; 29 of them (63%) backed by a single flow; median flows per transition 1, max 3):
+    top transitions (% of flow-presence mass): [('execution→impact', 4.5), ('stealth→execution', 4.5), ('stealth→discovery', 4.5), ('command-and-control→impact', 3.0), ('execution→lateral-movement', 3.0), ('execution→discovery', 3.0), ('command-and-control→stealth', 3.0), ('command-and-control→lateral-movement', 3.0)]
+    mass into objective tactics: {'exfiltration': 0.0, 'impact': 13.6}; feeders: {'exfiltration': [], 'impact': ['command-and-control', 'discovery', 'execution', 'persistence', 'stealth']}
+  exfiltration_impact (n=7, 47 transitions; 38 of them (81%) backed by a single flow; median flows per transition 1, max 3):
+    top transitions (% of flow-presence mass): [('execution→stealth', 5.3), ('command-and-control→discovery', 3.5), ('discovery→impact', 3.5), ('command-and-control→exfiltration', 3.5), ('discovery→stealth', 3.5), ('execution→impact', 3.5), ('impact→discovery', 3.5), ('initial-access→stealth', 3.5)]
+    mass into objective tactics: {'exfiltration': 5.3, 'impact': 14.0}; feeders: {'exfiltration': ['command-and-control', 'discovery'], 'impact': ['command-and-control', 'discovery', 'execution', 'exfiltration', 'persistence', 'stealth']}
+  none_c2 (n=5, 41 transitions; 27 of them (66%) backed by a single flow; median flows per transition 1, max 3):
+    top transitions (% of flow-presence mass): [('credential-access→lateral-movement', 5.4), ('command-and-control→defense-impairment', 3.6), ('command-and-control→stealth', 3.6), ('defense-impairment→command-and-control', 3.6), ('execution→command-and-control', 3.6), ('execution→collection', 3.6), ('execution→discovery', 3.6), ('discovery→command-and-control', 3.6)]
+    mass into objective tactics: {'exfiltration': 0.0, 'impact': 0.0}; feeders: {'exfiltration': [], 'impact': []}
+
+==============================================================================
+4. Separation — mean pairwise JSD vs nulls — full corpus n=38
+==============================================================================
+size-matched null: 2000 relabellings, seed 20260528; half-split: 200 trials (gate calibration, for the diff only)
+  statistic                                      observed null p50 null p95  p (perm)  half p95
+  technique                                         0.443    0.362    0.420     0.013     0.219
+  tactic share (primary)                            0.109    0.056    0.089     0.013     0.037
+  transition share (flow-presence) [PRIMARY]        0.499    0.498    0.572     0.487     0.349
+  transition share (edge-occurrence)                0.505    0.490    0.572     0.378     0.344
+  transition share, objective tactics stripped      0.447    0.472    0.558     0.727     0.323
+
+==============================================================================
+5. Per-pair permutation tests (2000 relabellings, seed 1) — full corpus n=38
+==============================================================================
+  pair                                           transition (presence)   transition (occurrence)      obj-stripped      tactic share         technique
+          exfiltration vs impact                      0.475    p=0.192          0.492    p=0.148  0.408    p=0.412  0.130  p=0.002 *  0.369    p=0.070
+          exfiltration vs exfiltration_impact         0.505    p=0.184          0.481    p=0.211  0.422    p=0.411  0.136  p=0.001 *  0.388  p=0.035 *
+          exfiltration vs none_c2                     0.438    p=0.531          0.421    p=0.503  0.409    p=0.604  0.072    p=0.148  0.457  p=0.030 *
+                impact vs exfiltration_impact         0.428    p=0.872          0.480    p=0.626  0.423    p=0.930  0.032    p=0.660  0.455  p=0.033 *
+                impact vs none_c2                     0.515    p=0.358          0.485    p=0.444  0.465    p=0.623  0.133  p=0.034 *  0.486    p=0.092
+   exfiltration_impact vs none_c2                     0.634    p=0.289          0.669    p=0.174  0.552    p=0.461  0.151  p=0.021 *  0.505  p=0.028 *
+
+==============================================================================
+6. What carries the transition-share divergence — top contributing transitions per pair — full corpus n=38
+==============================================================================
+  exfiltration vs impact (JSD 0.475; 26% of it on objective-tactic transitions): ['execution→stealth 3%', 'command-and-control→impact 3%', 'execution→lateral-movement 3%', 'impact→stealth 3%', 'stealth→impact 3%', 'execution→impact 3%']
+  exfiltration vs exfiltration_impact (JSD 0.505; 34% of it on objective-tactic transitions): ['discovery→stealth 3%', 'impact→discovery 3%', 'discovery→impact 3%', 'collection→exfiltration 3%', 'discovery→command-and-control 3%', 'persistence→stealth 3%']
+  exfiltration vs none_c2 (JSD 0.438; 10% of it on objective-tactic transitions): ['command-and-control→defense-impairment 4%', 'defense-impairment→command-and-control 4%', 'lateral-movement→command-and-control 4%', 'collection→exfiltration 3%', 'persistence→stealth 3%', 'initial-access→persistence 2%']
+  impact vs exfiltration_impact (JSD 0.428; 26% of it on objective-tactic transitions): ['execution→stealth 6%', 'command-and-control→exfiltration 4%', 'impact→discovery 4%', 'discovery→command-and-control 4%', 'execution→lateral-movement 4%', 'lateral-movement→stealth 4%']
+  impact vs none_c2 (JSD 0.515; 18% of it on objective-tactic transitions): ['credential-access→lateral-movement 5%', 'execution→impact 4%', 'defense-impairment→command-and-control 3%', 'command-and-control→defense-impairment 3%', 'execution→stealth 3%', 'execution→credential-access 3%']
+  exfiltration_impact vs none_c2 (JSD 0.634; 26% of it on objective-tactic transitions): ['credential-access→lateral-movement 4%', 'command-and-control→defense-impairment 3%', 'defense-impairment→command-and-control 3%', 'discovery→command-and-control 3%', 'execution→collection 3%', 'execution→credential-access 3%']
+
+==============================================================================
+1. Structure — operator-deduplicated n=29  sizes {'exfiltration': 14, 'impact': 6, 'exfiltration_impact': 5, 'none_c2': 4}
+==============================================================================
+tactic places per class:       {'exfiltration': 15, 'impact': 13, 'exfiltration_impact': 12, 'none_c2': 13} of 15
+inter-tactic transitions:      {'exfiltration': 74, 'impact': 43, 'exfiltration_impact': 47, 'none_c2': 39} of 122
+in all four classes: tactics 10  transitions 11
+  missing tactics per class: {'exfiltration': [], 'impact': ['defense-impairment', 'exfiltration'], 'exfiltration_impact': ['defense-impairment', 'reconnaissance', 'resource-development'], 'none_c2': ['exfiltration', 'impact']}
+  common transitions: [('command-and-control', 'discovery'), ('command-and-control', 'lateral-movement'), ('command-and-control', 'persistence'), ('command-and-control', 'stealth'), ('execution', 'command-and-control'), ('execution', 'persistence'), ('initial-access', 'execution'), ('persistence', 'command-and-control'), ('persistence', 'discovery'), ('stealth', 'discovery'), ('stealth', 'execution')]
+  transitions unique to one class: {'exfiltration': 32, 'impact': 6, 'exfiltration_impact': 14, 'none_c2': 9}
+    exfiltration: [('collection', 'credential-access'), ('collection', 'exfiltration'), ('command-and-control', 'reconnaissance'), ('credential-access', 'collection'), ('credential-access', 'execution'), ('credential-access', 'exfiltration'), ('credential-access', 'persistence'), ('credential-access', 'stealth'), ('defense-impairment', 'execution'), ('defense-impairment', 'initial-access'), ('exfiltration', 'command-and-control'), ('initial-access', 'command-and-control'), ('initial-access', 'discovery'), ('initial-access', 'lateral-movement'), ('initial-access', 'persistence'), ('initial-access', 'reconnaissance'), ('lateral-movement', 'persistence'), ('lateral-movement', 'reconnaissance'), ('persistence', 'collection'), ('persistence', 'defense-impairment'), ('persistence', 'reconnaissance'), ('persistence', 'stealth'), ('privilege-escalation', 'command-and-control'), ('privilege-escalation', 'execution'), ('reconnaissance', 'command-and-control'), ('reconnaissance', 'lateral-movement'), ('resource-development', 'initial-access'), ('stealth', 'credential-access'), ('stealth', 'defense-impairment'), ('stealth', 'exfiltration'), ('stealth', 'initial-access'), ('stealth', 'lateral-movement')]
+    impact: [('discovery', 'persistence'), ('impact', 'command-and-control'), ('initial-access', 'collection'), ('lateral-movement', 'privilege-escalation'), ('reconnaissance', 'initial-access'), ('resource-development', 'command-and-control')]
+    exfiltration_impact: [('command-and-control', 'exfiltration'), ('discovery', 'exfiltration'), ('discovery', 'impact'), ('discovery', 'lateral-movement'), ('exfiltration', 'execution'), ('exfiltration', 'impact'), ('exfiltration', 'stealth'), ('impact', 'collection'), ('impact', 'discovery'), ('impact', 'execution'), ('impact', 'persistence'), ('initial-access', 'privilege-escalation'), ('persistence', 'privilege-escalation'), ('privilege-escalation', 'lateral-movement')]
+    none_c2: [('collection', 'lateral-movement'), ('collection', 'stealth'), ('command-and-control', 'defense-impairment'), ('command-and-control', 'privilege-escalation'), ('command-and-control', 'resource-development'), ('credential-access', 'defense-impairment'), ('defense-impairment', 'command-and-control'), ('defense-impairment', 'credential-access'), ('resource-development', 'execution')]
+pairwise Jaccard (tactic sets / transition sets):
+          exfiltration vs impact                0.867   0.286
+          exfiltration vs exfiltration_impact   0.800   0.260
+          exfiltration vs none_c2               0.867   0.284
+                impact vs exfiltration_impact   0.786   0.385
+                impact vs none_c2               0.857   0.302
+   exfiltration_impact vs none_c2               0.667   0.229
+mean transition-set Jaccard: observed 0.291; size-matched null p5/p50/p95 0.211/0.262/0.306; p(null <= observed) = 0.854
+
+==============================================================================
+2. Tactic-share table (% of (flow,technique) occurrences, primary_tactic) — operator-deduplicated n=29
+==============================================================================
+  tactic                   exfiltration       impact exfiltration      none_c2   | all-tactics pooling
+  collection                        7.3          1.2          1.1          3.7   |   7.7   1.0   1.0   4.8
+  command-and-control              10.7         10.8          9.2         11.1   |   9.3   8.7   7.8   9.7
+  credential-access                11.7          4.8          2.3          7.4   |   9.7   3.8   1.9   6.5
+  defense-impairment                1.5          0.0          0.0          1.9   |   2.0   1.0   4.9   3.2
+  discovery                        12.1         14.5         20.7         22.2   |  11.3  12.5  19.4  21.0
+  execution                         9.7         12.0         11.5         18.5   |   8.1   9.6   9.7  16.1
+  exfiltration                      3.4          0.0          3.4          0.0   |   2.8   0.0   2.9   0.0
+  impact                            0.5         15.7         16.1          0.0   |   0.4  12.5  13.6   0.0
+  initial-access                    9.7          7.2          5.7          3.7   |   8.1   5.8   4.9   3.2
+  lateral-movement                  5.8          7.2          2.3          5.6   |   4.8   5.8   1.9   4.8
+  persistence                       8.7          8.4          6.9          5.6   |  10.5  11.5   6.8   6.5
+  privilege-escalation              1.5          4.8          6.9          3.7   |   7.3  10.6   9.7   6.5
+  reconnaissance                    4.4          2.4          0.0          1.9   |   3.6   1.9   0.0   1.6
+  resource-development              1.5          1.2          0.0          3.7   |   1.2   1.0   0.0   3.2
+  stealth                          11.7          9.6         13.8         11.1   |  13.3  14.4  15.5  12.9
+
+==============================================================================
+3. Transition-share profiles (flow-presence pooling = L3 W-A count) — operator-deduplicated n=29
+==============================================================================
+  exfiltration (n=14, 74 transitions; 45 of them (61%) backed by a single flow; median flows per transition 1, max 6):
+    top transitions (% of flow-presence mass): [('execution→persistence', 4.7), ('command-and-control→stealth', 3.9), ('initial-access→execution', 3.9), ('command-and-control→discovery', 3.1), ('execution→stealth', 3.1), ('persistence→stealth', 3.1), ('initial-access→persistence', 3.1), ('collection→exfiltration', 3.1)]
+    mass into objective tactics: {'exfiltration': 5.4, 'impact': 0.8}; feeders: {'exfiltration': ['collection', 'credential-access', 'stealth'], 'impact': ['execution']}
+  impact (n=6, 43 transitions; 29 of them (67%) backed by a single flow; median flows per transition 1, max 3):
+    top transitions (% of flow-presence mass): [('execution→impact', 5.2), ('command-and-control→impact', 3.4), ('command-and-control→stealth', 3.4), ('command-and-control→lateral-movement', 3.4), ('execution→lateral-movement', 3.4), ('execution→discovery', 3.4), ('discovery→command-and-control', 3.4), ('execution→persistence', 3.4)]
+    mass into objective tactics: {'exfiltration': 0.0, 'impact': 12.1}; feeders: {'exfiltration': [], 'impact': ['command-and-control', 'execution', 'persistence', 'stealth']}
+  exfiltration_impact (n=5, 47 transitions; 38 of them (81%) backed by a single flow; median flows per transition 1, max 3):
+    top transitions (% of flow-presence mass): [('execution→stealth', 5.3), ('command-and-control→discovery', 3.5), ('discovery→impact', 3.5), ('command-and-control→exfiltration', 3.5), ('discovery→stealth', 3.5), ('execution→impact', 3.5), ('impact→discovery', 3.5), ('initial-access→stealth', 3.5)]
+    mass into objective tactics: {'exfiltration': 5.3, 'impact': 14.0}; feeders: {'exfiltration': ['command-and-control', 'discovery'], 'impact': ['command-and-control', 'discovery', 'execution', 'exfiltration', 'persistence', 'stealth']}
+  none_c2 (n=4, 39 transitions; 28 of them (72%) backed by a single flow; median flows per transition 1, max 3):
+    top transitions (% of flow-presence mass): [('credential-access→lateral-movement', 5.9), ('command-and-control→stealth', 3.9), ('execution→discovery', 3.9), ('execution→stealth', 3.9), ('execution→command-and-control', 3.9), ('execution→collection', 3.9), ('discovery→command-and-control', 3.9), ('lateral-movement→command-and-control', 3.9)]
+    mass into objective tactics: {'exfiltration': 0.0, 'impact': 0.0}; feeders: {'exfiltration': [], 'impact': []}
+
+==============================================================================
+4. Separation — mean pairwise JSD vs nulls — operator-deduplicated n=29
+==============================================================================
+size-matched null: 2000 relabellings, seed 20260528; half-split: 200 trials (gate calibration, for the diff only)
+  statistic                                      observed null p50 null p95  p (perm)  half p95
+  technique                                         0.462    0.431    0.494     0.188     0.267
+  tactic share (primary)                            0.121    0.070    0.109     0.018     0.047
+  transition share (flow-presence) [PRIMARY]        0.532    0.552    0.624     0.708     0.389
+  transition share (edge-occurrence)                0.538    0.549    0.623     0.603     0.392
+  transition share, objective tactics stripped      0.481    0.528    0.610     0.887     0.373
+
+==============================================================================
+5. Per-pair permutation tests (2000 relabellings, seed 1) — operator-deduplicated n=29
+==============================================================================
+  pair                                           transition (presence)   transition (occurrence)      obj-stripped      tactic share         technique
+          exfiltration vs impact                      0.530    p=0.184          0.553    p=0.128  0.489    p=0.372  0.130  p=0.006 *  0.392    p=0.219
+          exfiltration vs exfiltration_impact         0.589    p=0.173          0.562    p=0.216  0.502    p=0.487  0.180  p=0.003 *  0.438    p=0.112
+          exfiltration vs none_c2                     0.485    p=0.639          0.470    p=0.652  0.463    p=0.745  0.072    p=0.292  0.502    p=0.088
+                impact vs exfiltration_impact         0.444    p=0.890          0.495    p=0.643  0.416    p=0.947  0.058    p=0.252  0.457    p=0.137
+                impact vs none_c2                     0.508    p=0.598          0.477    p=0.694  0.465    p=0.788  0.118    p=0.098  0.494    p=0.270
+   exfiltration_impact vs none_c2                     0.636    p=0.344          0.671    p=0.185  0.553    p=0.542  0.169  p=0.033 *  0.491    p=0.068
+
+==============================================================================
+6. What carries the transition-share divergence — top contributing transitions per pair — operator-deduplicated n=29
+==============================================================================
+  exfiltration vs impact (JSD 0.530; 19% of it on objective-tactic transitions): ['command-and-control→impact 3%', 'execution→discovery 3%', 'execution→lateral-movement 3%', 'collection→exfiltration 3%', 'execution→stealth 3%', 'initial-access→persistence 3%']
+  exfiltration vs exfiltration_impact (JSD 0.589; 32% of it on objective-tactic transitions): ['command-and-control→exfiltration 3%', 'impact→discovery 3%', 'discovery→stealth 3%', 'discovery→impact 3%', 'collection→exfiltration 3%', 'initial-access→persistence 3%']
+  exfiltration vs none_c2 (JSD 0.485; 8% of it on objective-tactic transitions): ['execution→discovery 4%', 'lateral-movement→command-and-control 4%', 'lateral-movement→execution 4%', 'collection→exfiltration 3%', 'persistence→stealth 3%', 'initial-access→persistence 3%']
+  impact vs exfiltration_impact (JSD 0.444; 28% of it on objective-tactic transitions): ['execution→stealth 6%', 'command-and-control→exfiltration 4%', 'discovery→impact 4%', 'impact→discovery 4%', 'discovery→command-and-control 4%', 'execution→lateral-movement 4%']
+  impact vs none_c2 (JSD 0.508; 15% of it on objective-tactic transitions): ['credential-access→lateral-movement 6%', 'execution→impact 5%', 'execution→collection 4%', 'execution→stealth 4%', 'command-and-control→impact 3%', 'lateral-movement→stealth 3%']
+  exfiltration_impact vs none_c2 (JSD 0.636; 26% of it on objective-tactic transitions): ['credential-access→lateral-movement 5%', 'discovery→command-and-control 3%', 'execution→collection 3%', 'lateral-movement→command-and-control 3%', 'persistence→execution 3%', 'discovery→stealth 3%']
+
+==============================================================================
+7. Same-operator-same-class check (Marc's 2026-08-17 reframe)
+==============================================================================
+  Conti            ['exfiltration_impact', 'exfiltration_impact', 'exfiltration_impact']
+  Turla            ['exfiltration', 'exfiltration']
+  FIN13            ['exfiltration', 'exfiltration']
+  CISA_AA22_138B   ['exfiltration', 'exfiltration', 'none_c2']
+  OceanLotus       ['exfiltration', 'exfiltration']
+  Sandworm         ['impact', 'impact']
+  Lazarus          ['impact', 'exfiltration']
+
+==============================================================================
+8. WHAT-NEXT: per-place out-distribution divergence — full corpus n=38
+==============================================================================
+  mean pairwise per-place JSD (unweighted): observed 0.531; null p50 0.567 p95 0.631; p = 0.841
+  mean pairwise per-place JSD (support-weighted): observed 0.438; null p50 0.463 p95 0.535; p = 0.741
+  deviance G (class-conditional next-tactic model vs pooled): observed 280.1; null p50 283.7 p95 312.3; p = 0.579
+  per-place deviance (which 'what next' distributions differ by class):
+    place                      G_obs  null p95       p   out-transitions by class (flow-presence counts)
+    collection                  10.2      17.5   0.699     exfil:5,steal:2,comma:2,crede:1 | — | comma:1 | later:1,steal:1
+    command-and-control         29.4      40.2   0.582     steal:6,disco:5,execu:4,persi:3 | later:2,steal:2,impac:2,persi:1 | disco:2,exfil:2,persi:1,crede:1 | defen:2,steal:2,execu:1,disco:1
+    credential-access           18.8      31.5   0.867     later:3,exfil:3,steal:2,colle:2 | initi:1 | — | later:3,comma:1,defen:1
+    defense-impairment           8.3      13.2   0.627     initi:1,execu:1,steal:1 | — | — | comma:2,crede:1
+    discovery                   37.1      34.8   0.020  *  comma:5,colle:4,crede:2,privi:2 | comma:2,execu:1,persi:1,steal:1 | impac:2,steal:2,privi:1,later:1 | comma:2,crede:1,colle:1,execu:1
+    execution                   36.5      36.5   0.050  *  persi:7,steal:6,privi:3,comma:3 | impac:3,later:2,disco:2,persi:2 | steal:3,impac:2,persi:1,comma:1 | crede:2,disco:2,steal:2,colle:2
+    exfiltration                 9.6      15.1   0.652     comma:2,disco:1,colle:1 | — | execu:1,impac:1,steal:1 | —
+    impact                       7.6      16.3   0.785     — | steal:2,comma:1 | disco:2,colle:1,persi:1,steal:1 | —
+    initial-access              19.3      34.8   0.860     execu:7,persi:4,crede:3,comma:3 | execu:2,steal:1,colle:1,crede:1 | steal:2,execu:1,privi:1 | execu:1
+    lateral-movement            27.5      34.1   0.317     crede:3,colle:2,steal:2,recon:1 | steal:2,execu:1,initi:1,comma:1 | execu:1,disco:1 | execu:2,comma:2,colle:1,crede:1
+    persistence                 27.3      37.4   0.576     steal:5,execu:4,crede:3,comma:3 | disco:2,crede:1,later:1,execu:1 | comma:1,disco:1,privi:1,impac:1 | execu:2,disco:1,comma:1
+    privilege-escalation        11.6      21.0   0.764     steal:2,disco:2,comma:2,execu:1 | steal:2,persi:1 | persi:1,later:1,steal:1,disco:1 | —
+    reconnaissance               4.5      11.1   0.949     comma:1,later:1,persi:1 | initi:1 | — | —
+    resource-development         6.6       6.6   0.271     initi:1 | comma:1 | — | execu:1
+    stealth                     25.7      37.8   0.674     comma:4,execu:3,persi:3,disco:3 | disco:3,execu:3,persi:2,impac:2 | persi:2,execu:1,colle:1,impac:1 | execu:2,disco:1,comma:1
+  per-pair permutation (unweighted per-place JSD / support-weighted / pairwise deviance):
+            exfiltration vs impact                     0.563 (p=0.165)        0.432 (p=0.240)      106.614 (p=0.129)
+            exfiltration vs exfiltration_impact        0.526 (p=0.448)        0.445 (p=0.299)       91.196 (p=0.640)
+            exfiltration vs none_c2                    0.520 (p=0.416)        0.392 (p=0.609)       82.668 (p=0.476)
+                  impact vs exfiltration_impact        0.431 (p=0.895)        0.386 (p=0.856)       57.992 (p=0.792)
+                  impact vs none_c2                    0.541 (p=0.434)        0.442 (p=0.527)       59.304 (p=0.726)
+     exfiltration_impact vs none_c2                    0.606 (p=0.568)        0.532 (p=0.585)       61.023 (p=0.774)
+
+==============================================================================
+8. WHAT-NEXT: per-place out-distribution divergence — operator-deduplicated n=29
+==============================================================================
+  mean pairwise per-place JSD (unweighted): observed 0.559; null p50 0.599 p95 0.667; p = 0.862
+  mean pairwise per-place JSD (support-weighted): observed 0.477; null p50 0.513 p95 0.586; p = 0.846
+  deviance G (class-conditional next-tactic model vs pooled): observed 270.9; null p50 260.1 p95 286.3; p = 0.244
+  per-place deviance (which 'what next' distributions differ by class):
+    place                      G_obs  null p95       p   out-transitions by class (flow-presence counts)
+    collection                  12.2      17.3   0.462     exfil:4,comma:2,crede:1 | — | comma:1 | later:1,steal:1
+    command-and-control         30.1      38.3   0.467     steal:5,disco:4,execu:2,recon:1 | later:2,steal:2,impac:2,persi:1 | disco:2,exfil:2,persi:1,crede:1 | steal:2,disco:1,later:1,persi:1
+    credential-access           14.5      25.0   0.871     later:3,steal:2,colle:2,exfil:2 | initi:1 | — | later:3,defen:1
+    defense-impairment           5.5       8.3   0.504     initi:1,execu:1 | — | — | comma:1,crede:1
+    discovery                   35.9      33.7   0.022  *  comma:3,colle:3,crede:2,execu:1 | comma:2,execu:1,persi:1,steal:1 | impac:2,steal:2,privi:1,later:1 | comma:2,crede:1,colle:1,execu:1
+    execution                   36.3      34.2   0.022  *  persi:6,steal:4,privi:2,comma:1 | impac:3,later:2,disco:2,persi:2 | steal:3,impac:2,persi:1,comma:1 | disco:2,steal:2,colle:2,comma:2
+    exfiltration                 6.7      10.5   0.679     comma:2 | — | execu:1,impac:1,steal:1 | —
+    impact                       6.2      15.6   0.853     — | steal:1,comma:1 | disco:2,colle:1,persi:1,steal:1 | —
+    initial-access              20.7      31.4   0.709     execu:5,persi:4,crede:2,steal:1 | execu:2,steal:1,colle:1,crede:1 | steal:2,execu:1,privi:1 | execu:1
+    lateral-movement            30.9      32.9   0.108     crede:3,colle:2,recon:1,persi:1 | steal:2,execu:1,initi:1,comma:1 | execu:1,disco:1 | execu:2,comma:2,colle:1,crede:1
+    persistence                 27.4      34.9   0.471     steal:4,execu:3,crede:3,later:2 | disco:2,crede:1,later:1,execu:1 | comma:1,disco:1,privi:1,impac:1 | execu:2,disco:1,comma:1
+    privilege-escalation         9.0      17.8   0.815     execu:1,steal:1,disco:1,comma:1 | steal:1,persi:1 | persi:1,later:1,steal:1,disco:1 | —
+    reconnaissance               3.8       6.6   0.894     comma:1,later:1 | initi:1 | — | —
+    resource-development         6.6       6.6   0.316     initi:1 | comma:1 | — | execu:1
+    stealth                     25.0      38.3   0.816     execu:2,comma:2,crede:2,colle:1 | persi:2,disco:2,execu:2,impac:1 | persi:2,execu:1,colle:1,impac:1 | execu:2,disco:1,comma:1
+  per-pair permutation (unweighted per-place JSD / support-weighted / pairwise deviance):
+            exfiltration vs impact                     0.606 (p=0.104)        0.494 (p=0.188)       98.265 (p=0.070)
+            exfiltration vs exfiltration_impact        0.588 (p=0.366)        0.527 (p=0.307)       94.042 (p=0.236)
+            exfiltration vs none_c2                    0.570 (p=0.347)        0.453 (p=0.614)       80.669 (p=0.220)
+                  impact vs exfiltration_impact        0.442 (p=0.936)        0.398 (p=0.889)       54.448 (p=0.836)
+                  impact vs none_c2                    0.539 (p=0.752)        0.450 (p=0.605)       57.202 (p=0.586)
+     exfiltration_impact vs none_c2                    0.608 (p=0.565)        0.539 (p=0.603)       60.087 (p=0.803)
+
+==============================================================================
+8d. WHAT-NEXT with objective-tactic transitions stripped — full corpus n=38
+==============================================================================
+  4-class deviance, stripped: observed 215.8; null p50 229.0 p95 254.7; p = 0.813
+  exfiltration vs impact deviance, stripped: observed 84.0; p = 0.322
+
+==============================================================================
+8d. WHAT-NEXT with objective-tactic transitions stripped — operator-deduplicated n=29
+==============================================================================
+  4-class deviance, stripped: observed 214.7; null p50 210.1 p95 232.6; p = 0.365
+  exfiltration vs impact deviance, stripped: observed 85.8; p = 0.098
+
+==============================================================================
+9. Reachability signatures of the real classes vs random size-matched groups
+==============================================================================
+flows drawing impact 13/38; exfiltration 13/38; neither 15/38
+  P(5-flow group reaches neither objective  [none_c2 signature]) = 0.0061
+  P(7-flow group has impact and no exfiltration  [impact signature]) = 0.0393
+  P(7-flow group reaches both  [exfiltration_impact signature]) = 0.9260
+  P(19-flow group reaches exfiltration  [exfiltration signature]) = 1.0000

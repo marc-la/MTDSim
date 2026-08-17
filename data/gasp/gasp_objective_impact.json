@@ -31,7 +31,6 @@
     "T1135",
     "T1136",
     "T1140",
-    "T1185",
     "T1190",
     "T1195",
     "T1204",
@@ -51,8 +50,6 @@
     "T1543",
     "T1547",
     "T1552",
-    "T1553",
-    "T1557",
     "T1561",
     "T1566",
     "T1569",
@@ -371,10 +368,6 @@
     ],
     [
       "T1059",
-      "T1185"
-    ],
-    [
-      "T1059",
       "T1210"
     ],
     [
@@ -627,10 +620,6 @@
     ],
     [
       "T1105",
-      "T1553"
-    ],
-    [
-      "T1105",
       "T1569"
     ],
     [
@@ -772,10 +761,6 @@
     [
       "T1140",
       "T1569"
-    ],
-    [
-      "T1185",
-      "T1070"
     ],
     [
       "T1190",
@@ -974,22 +959,6 @@
       "T1078"
     ],
     [
-      "T1553",
-      "T1105"
-    ],
-    [
-      "T1553",
-      "T1195"
-    ],
-    [
-      "T1553",
-      "T1557"
-    ],
-    [
-      "T1557",
-      "T1553"
-    ],
-    [
       "T1561",
       "T1529"
     ],
@@ -1039,10 +1008,6 @@
     ],
     [
       "T1570",
-      "T1557"
-    ],
-    [
-      "T1570",
       "T1595"
     ],
     [
@@ -1088,17 +1053,16 @@
       "cisa_iranian_apt",
       "maastricht_university_ransomware",
       "notpetya",
-      "searchawesome_adware",
       "shamoon",
       "sony_malware",
       "tesla_kubernetes_breach",
       "whispergate"
     ],
-    "source_flow_count": 8,
+    "source_flow_count": 7,
     "gap_version": "0.5",
     "gap_build_date": "2026-05-28",
     "audit_csv_path": "data/gasp/metadata_audit.csv",
     "gap_path": "data/gap/gap_v0.5.json",
-    "build_date": "2026-08-06"
+    "build_date": "2026-08-17"
   }
 }

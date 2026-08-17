@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-21
-updated: 2026-07-21
+updated: 2026-08-17 (share rule generalised)
 topic: "L3 synthetic overlay — the declared pre-intrusion structural sublayer: bidirectional connective tissue (recon→resource-development→initial-access forward chain + initial-access→reconnaissance backward regression bridge) for the profiles whose observed corpus leaves the pre-intrusion band detached"
 lineage: extracted + reframed from controller.md (formerly tactic_action_map.md) §6 (the former 'M6 prefix join')
 ---
@@ -77,26 +77,43 @@ bidirectional chain resolves that: resource-development now has an in-edge
 alive, and the backward bridge makes the whole pre-intrusion band a participant in
 the failure-regression structure (Marc's direction).
 
-## 3. Guard and merge rules
+## 3. Guard and share rule
+
+*(Rewritten 2026-08-17. Until then the forward edges were added only out of
+island places and `curate_synthetic_overlay` refused any other shape; the
+backward bridge was the single merged edge. When SearchAwesome's malvertising
+step gave `objective_none_c2` an observed `resource-development →
+{command-and-control, execution}` — Marc's 2026-08-17 membership ruling — the
+forward edge `resource-development → initial-access` would have merged into an
+observed distribution. Marc's ruling: **improve the mechanism, do not exempt one
+profile.** The rule below is the result: one share rule for every synthetic
+edge, read off the observed net.)*
 
 - **Guard.** The overlay acts only where the observed net leaves reconnaissance
-  unable to reach initial-access. The two **forward** chain edges are added only
-  out of **island places** (reconnaissance and resource-development have no
-  observed out-edges in these profiles), so each is the sole out-transition of its
-  source and touches no observed distribution. `curate_synthetic_overlay` raises
-  if reconnaissance *or* resource-development has observed out-edges yet recon
-  cannot reach initial-access — that shape needs a new declared decision, not a
-  silently invented weight.
-- **Merge (the declared exception).** The one **backward** edge leaves
-  `initial-access`, which *does* carry observed out-edges. It therefore carries a
-  declared **share** of initial-access's composed out-mass (`BACKWARD_SHARE = 0.1`);
-  the observed edges keep their relative flow proportions across the remaining
-  `1 − share`. This is a declared, documented departure from the original overlay's
-  "never renormalise an observed distribution" rule — **confined to the single
-  backward bridge**, flagged synthetic, and applied only in the composed runtime
-  net (the observed `*_structural.json` artefacts stay byte-identical, exactly as
-  the forward edges do). *This is the one place the synthetic overlay perturbs a
-  D3 flow-proportion distribution — surfaced here for review, not hidden.*
+  unable to reach initial-access (and reconnaissance, resource-development and
+  initial-access all exist as places). It then adds the same three edges in
+  every such profile: `reconnaissance → resource-development`,
+  `resource-development → initial-access`, `initial-access → reconnaissance`.
+- **Share rule (`declared_share`).** Each synthetic edge's declared share is
+  decided by whether its *source* has observed out-transitions:
+  - **island source** (no observed out-edges) → the synthetic edge is the
+    place's whole out-mass (`ISLAND_SHARE = 1.0`); it perturbs no observed
+    distribution;
+  - **source with observed out-edges** → the synthetic edge carries
+    `MERGE_SHARE = 0.1` of that place's composed out-mass and the observed edges
+    are scaled to `1 − Σshare` in their flow proportions.
+  The rescaling exists only in the composed runtime net; the observed
+  `*_structural.json` artefacts stay byte-identical. *This is the one mechanism
+  by which the synthetic overlay perturbs a D3 flow-proportion distribution —
+  surfaced here for review, not hidden — and it now applies wherever the observed
+  net puts a synthetic edge's source, not to one named edge.*
+- **What the rule gives today.** In `objective_exfiltration_impact` recon and
+  resource-development are islands: forward edges 1.0, backward bridge 0.1
+  (unchanged from 2026-07-21). In `objective_none_c2` recon is an island (1.0),
+  resource-development is not (`resource-development → initial-access` at 0.1;
+  the observed `→ command-and-control / execution` keep 0.9), backward bridge 0.1.
+  The exfiltration and impact profiles bridge recon → initial-access in the
+  observed corpus and get no overlay.
 
 ## 4. Weights (declared routing shares, no flow backing)
 
@@ -106,14 +123,17 @@ apply; it carries a **declared routing share** instead
 unmodified — it weights observed edges only, so the no-synthesis invariant on
 `transitions` is untouched):
 
-- Forward chain edges: share **1.0** (sole out-transition of their island source).
-- Backward bridge: share **0.1** of initial-access's composed out-mass.
+- Out of an island source: share **1.0** (the place's whole out-mass).
+- Out of a source with observed out-edges: share **0.1** of the composed
+  out-mass (`MERGE_SHARE`; the historical `BACKWARD_SHARE` and `FORWARD_SHARE`
+  names are aliases of `MERGE_SHARE` and `ISLAND_SHARE`).
 
 The composed per-place routing distribution merges observed flow-proportions and
-declared shares per the merge rule (§3); the runtime consumer (the profiled-attacker
-driver) implements the merge. Every synthetic spec carries `synthetic: true` and the
-overlay provenance string, so it is never mistaken for corpus structure
-([`provenance.md`](../../provenance.md), synthetic-overlay row).
+declared shares per the share rule (§3); the runtime consumer
+([`movement/net.py`](../../../../src/mtdsim/l3_simulation/movement/net.py)
+`_compose_out`) implements the merge generically. Every synthetic spec carries
+`synthetic: true` and the overlay provenance string, so it is never mistaken for
+corpus structure ([`provenance.md`](../../provenance.md), synthetic-overlay row).
 
 ## 5. Separation, invariant, composition
 
@@ -145,9 +165,10 @@ overlay provenance string, so it is never mistaken for corpus structure
   the synthetic edges as ordinary structure to condition (the backward bridge is the
   regression edge its failure treatment amplifies in the island profiles).
 - **Provenance:** [`provenance.md`](../../provenance.md) synthetic-overlay row.
-- **When to update:** if the guard/merge rules or declared shares change; if a
-  substrate verb is later mapped to resource-development (it stops being a pure
-  pass-through — the durations catalogue and the policy overlay gain a
-  resource-development verdict); if a new class regresses to an island (the guard
-  raises — a new declared decision). This is a code snapshot dated in the
+- **When to update:** if the guard or share rule or the declared shares change;
+  if a substrate verb is later mapped to resource-development (it stops being a
+  pure pass-through — the durations catalogue and the policy overlay gain a
+  resource-development verdict); if a profile's observed net changes shape at
+  the pre-intrusion band (the share rule re-reads it — record which shares
+  moved, as §3 does for 2026-08-17). This is a code snapshot dated in the
   frontmatter.

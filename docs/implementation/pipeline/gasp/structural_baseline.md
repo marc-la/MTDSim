@@ -2,12 +2,14 @@
 status: investigation record — pins the one structural baseline the L2 chapter
         cites, and the 2026-08-17 confidence re-audit of the objective
         classification. Tool: tools/gasp_structural_baseline.py; test:
-        tests/l2_subgraph/test_structural_baseline.py. Three per-flow
-        dispositions pending on Marc (§(d)).
+        tests/l2_subgraph/test_structural_baseline.py. The three per-flow
+        dispositions of §(d) were ruled by Marc later the same day — §(g):
+        membership 19/8/6/5 → 19/7/7/5, L2–L3 rebuilt.
 created: 2026-08-17
 updated: 2026-08-17
 scope: L2 (GASP) — descriptive structural columns and confidence column of the
-       audit CSV. Class membership untouched (central invariant, gasp_schema.md §(a)).
+       audit CSV (§(a)–(f)); then, by Marc's per-flow dispositions, three
+       membership changes and the L2/L3 rebuild they forced (§(g)).
 ---
 
 # The structural baseline the chapter cites, and the confidence re-audit — 2026-08-17
@@ -219,3 +221,90 @@ two flags, no re-grades:
   `data/gasp/classification.csv` (carried-through confidence).
 - Per-flow trail: [`per_flow_justifications.md`](per_flow_justifications.md)
   § *Verification round 2 (2026-08-17)*.
+
+
+## (g) Marc's rulings on the three flows, and what they moved (2026-08-17, later)
+
+Marc's dispositions (dictated; the per-flow reasoning is his, the record is
+the session's):
+
+| flow | ruling | class after | confidence |
+|---|---|---|---|
+| `mac_malware_steals_crypto` | *"monetisation … two different methods to extract money from the person, so logically it would fall into double extortion"* — two monetisation channels (credential / cookie / wallet-key theft; XMRig/Koto mining = resource hijacking, the corpus's own reading of XMRig in `cisa_iranian_apt`) in one flow → the class defined as *both impact and exfiltration in the same flow* | `objective_exfiltration_impact` | high |
+| `cisa_aa22_138b_vmware_workspace_alt` | *"threat actor one is known for data exfiltration … it's a truncated exfiltration flow"* — the flow is TA1's script analysis drawn without the exfil step (§(d)); the class definition excludes truncated breach reports | `objective_exfiltration` | medium — until Marc confirms on AA22-138B that the alternative-method section is TA1's; then high |
+| `searchawesome_adware` | *"no realised objective category with high confidence, we have systematically ruled the other three"* — no exfiltration action, no impact-tactic action, hence not both; the residual by elimination | `objective_none_c2` | high |
+
+Two notes the record must carry with the rulings. (i) The Mac ruling is
+consistent with the chapter's *definition* of the compound class and with the
+tactic label; it is not "extortion" in the ransom sense, so the chapter's name
+for the class should follow the definition (double extortion is what six of
+its seven members are). (ii) The Alt truncation is the CTID analyst's — the
+`.afb` file itself has no exfiltration node — not an L1 excision (Alt's two
+technique-less nodes are C2 and discovery). SearchAwesome is the one
+`objective_none_c2` member there by elimination rather than pre-payload
+structure: it realises ad injection, which is not an objective tactic.
+
+**Result.** Partition **19 / 7 / 7 / 5**; confidence **37 high / 1 medium / 0
+low** (the medium is Alt). Structural baseline unchanged (7 / 11 / 1 / 19; 19
+exact / 15 any-overlap — Alt moved from agree to disagree and SearchAwesome the
+other way; the exact-disagreement composition is now 14 silent + 4 impact-only
+ransomware + 1 contradiction with `cisa_…_alt` in and `searchawesome_adware` out
+of the silent group). Mean technique JSD 0.429 → 0.443 bits.
+
+**What the rebuild moved (all regenerated, all tests re-pinned):**
+
+- L2: `classification.csv`, four class subgraphs — exfiltration 96 n / 408 e,
+  impact 59 / 246, exfiltration+impact 59 / 229, none 39 / 141.
+- L3a Petri: places 15 / 13 / 14 / 13 (impact lost `defense-impairment`, which
+  only SearchAwesome carried), transitions 109 / 76 / 72 / 57, inter-tactic
+  edges 358 / 217 / 205 / 130, self-loops dropped 50 / 29 / 24 / 11; divergence
+  report and README regenerated. `objective_impact` now carries a structural
+  sink (`collection` lost its only out-edge with SearchAwesome); `objective_none_c2`'s
+  sink moved from `defense-impairment` to `privilege-escalation`, and — the
+  consequential one — its `resource-development` place is no longer an island
+  (SearchAwesome's malvertising draws `resource-development → command-and-control
+  / execution`), so the M6 synthetic overlay's forward edge
+  `resource-development → initial-access` had to merge into an observed
+  out-distribution. **Marc's ruling: improve the mechanism, not exempt one
+  profile** — the overlay now applies one share rule to every synthetic edge
+  (island source → the whole out-mass; source with observed out-edges →
+  `MERGE_SHARE` 0.1, observed rescaled to 1 − Σs), which is what the backward
+  bridge already did ([`../ogasp/synthetic_overlay.md`](../ogasp/synthetic_overlay.md)
+  §3–4; register §M6 addendum). Only `objective_none_c2`'s
+  `resource-development → initial-access` edge changes share (1.0 → 0.1) under
+  the rule today.
+- L3b timeline: report, example and figures regenerated. Median net
+  time-to-objective ranking (primary cell): aggregate < none < impact <
+  exfiltration < exfiltration+impact; survives the sweep extremes; weighted vs
+  uniform not stable (as before — check `timeline_report.md`).
+- Movement (behavioural, not artefacts): `objective_none_c2` walks now strand
+  at `privilege-escalation` early on most seeds (seed 0: t ≈ 106 of a 3 000
+  horizon) unless retrace is on — a real profile change worth a sentence
+  wherever the none profile's walks are described; `objective_impact` now
+  retraces (both arms); every class retraces with the overlay on. Test pins
+  moved accordingly (`test_movement_retrace.py`, the seeded fixture in
+  `test_movement_measures.py` → seed 11).
+- L2 statistics ([`tactic_profile_statistics.md`](tactic_profile_statistics.md)
+  §10): verdicts unchanged qualitatively; gate pins 0.499 / 0.532 bits; the
+  exfiltration-vs-impact what-next pair no longer clears 0.05.
+- Chapter numbers to move: every 19 / 8 / 6 / 5; "half of double extortion is
+  Conti" → three of seven; the two-misfits concession → gone (37 / 38 high with
+  Alt medium pending the advisory); the class name follows the definition.
+
+Not touched, flagged: [`../../../notes/ch4_methods/objective_partition_findings.md`](../../../notes/ch4_methods/objective_partition_findings.md)
+carries the pre-ruling numbers in prose (banner added, body left for the
+drafting session); [`partition_decision.md`](partition_decision.md) and
+[`tactic_resolution_restatement.md`](tactic_resolution_restatement.md) are
+investigation history and are left as written. The L3 records that
+state the pre-ruling sink facts (`objective_impact` sinkless; `objective_none_c2`
+sink at `defense-impairment`) — [`../ogasp/sink_retrace_design.md`](../ogasp/sink_retrace_design.md),
+[`../ogasp/demonstration_arms_prereg.md`](../ogasp/demonstration_arms_prereg.md),
+[`../ogasp/demonstration_arms_cross_examination.md`](../ogasp/demonstration_arms_cross_examination.md),
+[`../ogasp/experiment_02_findings.md`](../ogasp/experiment_02_findings.md) — are
+dated designs and results on the 19 : 8 : 6 : 5 nets and are left as written;
+any re-run of those experiments on the 19 : 7 : 7 : 5 nets must re-derive its
+sink/sinkless arms from `load_routing_net(...).is_sink` (only the aggregate is
+sinkless now) and re-capture its own goldens, as the `*_retrace` goldens were
+here (the 15 retrace goldens on `objective_exfiltration_impact` moved; the 39
+aggregate-profile goldens are byte-identical, so no defender-side behaviour
+drifted).

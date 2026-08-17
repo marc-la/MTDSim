@@ -239,8 +239,12 @@ def test_movement_arm_pays_the_same_confusion_penalty_as_the_native_arm() -> Non
 
     probe = _InterruptCostProbe()
     with probe:
+        # seed 1 (was 42 before 2026-08-17): after Marc's membership rulings the
+        # objective_impact net carries a sink at `collection`, which seed 42
+        # reaches at t≈13 before any MTD fires; seed 1 walks the horizon with
+        # 24 interrupts.
         res = run_movement(
-            "objective_impact", seed=42, with_synthetic_overlay=True,
+            "objective_impact", seed=1, with_synthetic_overlay=True,
             horizon=3000, mtd_scheme="simultaneous", mtd_interval=200,
         )
 

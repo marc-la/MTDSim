@@ -624,6 +624,13 @@ and partly reframed, since the sweep found two conclusions that do move.
     bidirectional pre-intrusion connective tissue (forward chain recon →
     resource-development → initial-access + backward regression bridge
     initial-access → reconnaissance).
+    **M6 addendum 2026-08-17 (Marc):** when a membership ruling gave
+    `objective_none_c2` an observed out-edge from resource-development, the
+    overlay's forward edge would have merged into an observed distribution;
+    Marc's direction — *improve the mechanism, not an exception for one
+    profile* — generalised the merge rule to one share rule for every
+    synthetic edge (island source → whole out-mass; source with observed
+    out-edges → declared share 0.1, observed rescaled). Spec §3.
   - [`success_failure_overlay_design.md`](success_failure_overlay_design.md)
     — designs the **M2** contract as reframed 2026-07-21 (Marc's direction):
     the success/failure outcome overlay as a declared **policy** layer (two

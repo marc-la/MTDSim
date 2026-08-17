@@ -32,6 +32,7 @@
     "T1189",
     "T1203",
     "T1204",
+    "T1211",
     "T1218",
     "T1219",
     "T1484",
@@ -41,6 +42,7 @@
     "T1490",
     "T1491",
     "T1497",
+    "T1518",
     "T1543",
     "T1546",
     "T1555",
@@ -209,6 +211,10 @@
       "T1112"
     ],
     [
+      "T1047",
+      "T1518"
+    ],
+    [
       "T1057",
       "T1105"
     ],
@@ -274,6 +280,10 @@
     ],
     [
       "T1059",
+      "T1211"
+    ],
+    [
+      "T1059",
       "T1218"
     ],
     [
@@ -291,6 +301,10 @@
     [
       "T1059",
       "T1490"
+    ],
+    [
+      "T1059",
+      "T1518"
     ],
     [
       "T1059",
@@ -817,6 +831,10 @@
       "T1560"
     ],
     [
+      "T1518",
+      "T1059"
+    ],
+    [
       "T1543",
       "T1070"
     ],
@@ -968,14 +986,15 @@
       "conti_cisa_alert",
       "conti_pwc",
       "conti_ransomware",
+      "mac_malware_steals_crypto",
       "ragnar_locker",
       "revil"
     ],
-    "source_flow_count": 6,
+    "source_flow_count": 7,
     "gap_version": "0.5",
     "gap_build_date": "2026-05-28",
     "audit_csv_path": "data/gasp/metadata_audit.csv",
     "gap_path": "data/gap/gap_v0.5.json",
-    "build_date": "2026-08-06"
+    "build_date": "2026-08-17"
   }
 }

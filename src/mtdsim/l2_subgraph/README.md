@@ -34,7 +34,7 @@ PYTHONPATH=src python -m pytest tests/l2_subgraph/ # validation gate (incl. oper
 
 ## Validation
 
-`tests/l2_subgraph/test_gasp.py` covers: schema round-trip, the 19:8:6:5
+`tests/l2_subgraph/test_gasp.py` covers: schema round-trip, the 19:7:7:5
 class-count invariant, subgraph-subset-of-GAP sanity, and the operator-
 deduplicated JSD re-check (spec §g; Mitigation 1 from
 [`../../../docs/notes/ch3_design/operator_concentration.md`](../../../docs/notes/ch3_design/operator_concentration.md)).

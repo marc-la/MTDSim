@@ -6,12 +6,12 @@
       "operator_dedup": 14
     },
     "objective_impact": {
-      "raw": 8,
-      "operator_dedup": 7
+      "raw": 7,
+      "operator_dedup": 6
     },
     "objective_exfiltration_impact": {
-      "raw": 6,
-      "operator_dedup": 4
+      "raw": 7,
+      "operator_dedup": 5
     },
     "objective_none_c2": {
       "raw": 5,
@@ -25,41 +25,39 @@
   "per_place_jsd": {
     "objective_exfiltration": {
       "collection": 0.11383629354903713,
-      "command-and-control": 0.12765121532369553,
+      "command-and-control": 0.12173861555319818,
       "credential-access": 0.05015955913374707,
       "defense-impairment": 0.3112781244591328,
-      "discovery": 0.1918469689125709,
-      "execution": 0.09340837269879751,
+      "discovery": 0.17904786225721545,
+      "execution": 0.14544429470676226,
       "exfiltration": 0.39581560200335836,
       "initial-access": 0.07025136164948192,
       "lateral-movement": 0.20685008405543434,
       "persistence": 0.08697292585284448,
-      "privilege-escalation": 0.2605915212471627,
+      "privilege-escalation": 0.20155737938191612,
       "reconnaissance": 0.19087450462110955,
       "resource-development": 0.45914791702724483,
-      "stealth": 0.12729008209057432
+      "stealth": 0.09385109900717631
     },
     "objective_impact": {
-      "collection": 0.7582766571931675,
-      "command-and-control": 0.15048460090219834,
-      "credential-access": 0.6474183524813153,
-      "defense-impairment": 0.3112781244591328,
+      "command-and-control": 0.15512722989050737,
+      "credential-access": 0.7287131042890485,
       "discovery": 0.3146523624385525,
-      "execution": 0.18599300430265928,
+      "execution": 0.23473388873410503,
       "impact": 0.43003653257726576,
       "initial-access": 0.2281807712206948,
       "lateral-movement": 0.3059401513781186,
       "persistence": 0.15527476976682675,
       "privilege-escalation": 0.3161341998316932,
       "reconnaissance": 0.45914791702724483,
-      "resource-development": 0.19087450462110955,
+      "resource-development": 0.45914791702724483,
       "stealth": 0.2085723637908046
     },
     "objective_exfiltration_impact": {
       "collection": 0.49342260576014463,
-      "command-and-control": 0.1625518948760904,
+      "command-and-control": 0.1079562211914301,
       "discovery": 0.4658871167383341,
-      "execution": 0.24478911171285117,
+      "execution": 0.18267790383599466,
       "exfiltration": 0.23645279766002802,
       "impact": 0.07932311029696901,
       "initial-access": 0.3685032135640959,
@@ -69,29 +67,30 @@
       "stealth": 0.125776488108856
     },
     "objective_none_c2": {
-      "collection": 0.7582766571931675,
-      "command-and-control": 0.17378671324833894,
-      "credential-access": 0.43984465636092385,
-      "discovery": 0.22165961255521904,
-      "execution": 0.11907712641531903,
+      "collection": 0.6099865470109875,
+      "command-and-control": 0.1948941554603941,
+      "credential-access": 0.3927911256879761,
+      "defense-impairment": 0.3112781244591328,
+      "discovery": 0.21747919723285436,
+      "execution": 0.11643391219008277,
       "initial-access": 0.4464586940687572,
       "lateral-movement": 0.26635401533874087,
       "persistence": 0.33087083604071316,
-      "privilege-escalation": 0.7582766571931675,
-      "stealth": 0.29818654602215294
+      "resource-development": 0.45914791702724483,
+      "stealth": 0.3375967332743081
     }
   },
   "mean_jsd": {
-    "objective_exfiltration": 0.1918553237588708,
-    "objective_impact": 0.33301887942791314,
-    "objective_exfiltration_impact": 0.29996031943452306,
-    "objective_none_c2": 0.38127915144365
+    "objective_exfiltration": 0.18763040166126133,
+    "objective_impact": 0.3329717673310089,
+    "objective_exfiltration_impact": 0.2893506029289306,
+    "objective_none_c2": 0.33484465979919925
   },
   "mean_jsd_raw": {
-    "objective_exfiltration": 0.1399406752614265,
-    "objective_impact": 0.3205038006890258,
-    "objective_exfiltration_impact": 0.3256488494112737,
-    "objective_none_c2": 0.3938832413197881
+    "objective_exfiltration": 0.13713595692119773,
+    "objective_impact": 0.3325239507547281,
+    "objective_exfiltration_impact": 0.3124980252897182,
+    "objective_none_c2": 0.324580811438131
   },
   "null_band": {
     "objective_exfiltration": {
@@ -100,14 +99,14 @@
       "max": 0.25131226110553595
     },
     "objective_impact": {
-      "p50": 0.297344534694851,
-      "p95": 0.41583079218565794,
-      "max": 0.4682688440680621
+      "p50": 0.32563808465962363,
+      "p95": 0.44662836355033564,
+      "max": 0.5127963692662314
     },
     "objective_exfiltration_impact": {
-      "p50": 0.3988942915010421,
-      "p95": 0.528126268525584,
-      "max": 0.5918865656467436
+      "p50": 0.3559814978401249,
+      "p95": 0.47806695332969307,
+      "max": 0.521181818019869
     },
     "objective_none_c2": {
       "p50": 0.3870293265903521,
@@ -128,8 +127,8 @@
     "objective_exfiltration": {
       "profile": "objective_exfiltration",
       "n_transitions": 109,
-      "n_supported_transitions": 73,
-      "n_zero_weight_transitions": 36,
+      "n_supported_transitions": 74,
+      "n_zero_weight_transitions": 35,
       "reachable_from_recon_seed": [
         "collection",
         "command-and-control",
@@ -198,8 +197,8 @@
         "entry": "resource-development",
         "objective": "exfiltration"
       },
-      "branching_factor": 5.214285714285714,
-      "distinct_entry_to_objective_paths": 180605,
+      "branching_factor": 5.285714285714286,
+      "distinct_entry_to_objective_paths": 198774,
       "sink_places": [
         "impact"
       ],
@@ -207,14 +206,13 @@
     },
     "objective_impact": {
       "profile": "objective_impact",
-      "n_transitions": 83,
-      "n_supported_transitions": 51,
-      "n_zero_weight_transitions": 32,
+      "n_transitions": 76,
+      "n_supported_transitions": 43,
+      "n_zero_weight_transitions": 33,
       "reachable_from_recon_seed": [
         "collection",
         "command-and-control",
         "credential-access",
-        "defense-impairment",
         "discovery",
         "execution",
         "impact",
@@ -223,14 +221,12 @@
         "persistence",
         "privilege-escalation",
         "reconnaissance",
-        "resource-development",
         "stealth"
       ],
       "reachable_from_initial_access": [
         "collection",
         "command-and-control",
         "credential-access",
-        "defense-impairment",
         "discovery",
         "execution",
         "impact",
@@ -239,7 +235,6 @@
         "persistence",
         "privilege-escalation",
         "reconnaissance",
-        "resource-development",
         "stealth"
       ],
       "objective_reachable_from_initial_access": {
@@ -258,36 +253,36 @@
       },
       "longest_entry_to_objective": {
         "reachable": true,
-        "n_places": 13,
-        "n_hops": 12,
+        "n_places": 11,
+        "n_hops": 10,
         "path": [
-          "reconnaissance",
-          "initial-access",
-          "collection",
-          "stealth",
-          "discovery",
-          "execution",
+          "resource-development",
+          "command-and-control",
           "lateral-movement",
           "privilege-escalation",
           "persistence",
           "credential-access",
-          "defense-impairment",
-          "command-and-control",
+          "initial-access",
+          "stealth",
+          "discovery",
+          "execution",
           "impact"
         ],
-        "entry": "reconnaissance",
+        "entry": "resource-development",
         "objective": "impact"
       },
-      "branching_factor": 3.642857142857143,
-      "distinct_entry_to_objective_paths": 3741,
-      "sink_places": [],
+      "branching_factor": 3.5833333333333335,
+      "distinct_entry_to_objective_paths": 1192,
+      "sink_places": [
+        "collection"
+      ],
       "island_places": []
     },
     "objective_exfiltration_impact": {
       "profile": "objective_exfiltration_impact",
       "n_transitions": 72,
-      "n_supported_transitions": 45,
-      "n_zero_weight_transitions": 27,
+      "n_supported_transitions": 47,
+      "n_zero_weight_transitions": 25,
       "reachable_from_recon_seed": [
         "reconnaissance"
       ],
@@ -327,10 +322,10 @@
         "path": [
           "initial-access",
           "stealth",
-          "execution",
           "persistence",
           "privilege-escalation",
           "lateral-movement",
+          "execution",
           "discovery",
           "impact",
           "collection",
@@ -340,8 +335,8 @@
         "entry": "initial-access",
         "objective": "exfiltration"
       },
-      "branching_factor": 4.090909090909091,
-      "distinct_entry_to_objective_paths": 2426,
+      "branching_factor": 4.2727272727272725,
+      "distinct_entry_to_objective_paths": 2968,
       "sink_places": [
         "credential-access",
         "reconnaissance",
@@ -355,8 +350,8 @@
     "objective_none_c2": {
       "profile": "objective_none_c2",
       "n_transitions": 57,
-      "n_supported_transitions": 34,
-      "n_zero_weight_transitions": 23,
+      "n_supported_transitions": 39,
+      "n_zero_weight_transitions": 18,
       "reachable_from_recon_seed": [
         "reconnaissance"
       ],
@@ -364,6 +359,7 @@
         "collection",
         "command-and-control",
         "credential-access",
+        "defense-impairment",
         "discovery",
         "execution",
         "initial-access",
@@ -371,6 +367,7 @@
         "persistence",
         "privilege-escalation",
         "reconnaissance",
+        "resource-development",
         "stealth"
       ],
       "objective_reachable_from_initial_access": {
@@ -388,8 +385,8 @@
       },
       "longest_entry_to_objective": {
         "reachable": true,
-        "n_places": 7,
-        "n_hops": 6,
+        "n_places": 9,
+        "n_hops": 8,
         "path": [
           "initial-access",
           "execution",
@@ -397,22 +394,20 @@
           "discovery",
           "collection",
           "lateral-movement",
+          "credential-access",
+          "defense-impairment",
           "command-and-control"
         ],
         "entry": "initial-access",
         "objective": "command-and-control"
       },
-      "branching_factor": 3.4,
-      "distinct_entry_to_objective_paths": 59,
+      "branching_factor": 3.5454545454545454,
+      "distinct_entry_to_objective_paths": 192,
       "sink_places": [
-        "defense-impairment",
-        "reconnaissance",
-        "resource-development"
+        "privilege-escalation",
+        "reconnaissance"
       ],
-      "island_places": [
-        "defense-impairment",
-        "resource-development"
-      ]
+      "island_places": []
     },
     "aggregate": {
       "profile": "aggregate",

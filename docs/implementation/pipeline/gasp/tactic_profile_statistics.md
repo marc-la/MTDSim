@@ -4,13 +4,24 @@ status: durable — the verified statistics of the four L2 attack profiles at
         rulings of 2026-08-17. Supersedes tactic_resolution_restatement.md
         (kept as the drafting-session record it verifies).
 created: 2026-08-17
-updated: 2026-08-17
+updated: 2026-08-17 (post-ruling §10 added)
 scope: L2 (GASP). Tool: tools/gasp_tactic_profile_stats.py (independent
        re-derivation). Gate: tests/l2_subgraph/test_gasp.py (size-matched
        transition-share check added; JSD unit corrected to bits).
 ---
 
 # The four attack profiles at tactic-to-tactic resolution — verified statistics under the size-matched null
+
+> **Post-ruling regeneration (2026-08-17, later the same day).** Marc's three
+> membership rulings moved the partition from 19 : 8 : 6 : 5 to **19 : 7 : 7 : 5**
+> (`mac_malware_steals_crypto` → exfiltration+impact; `cisa_aa22_138b_vmware_workspace_alt`
+> → exfiltration; `searchawesome_adware` → no realised objective — record:
+> [`structural_baseline.md`](structural_baseline.md) §(g)). §§1–9 below are the
+> record as verified on the 19 : 8 : 6 : 5 partition and are left as written;
+> **§10 holds the regenerated headline numbers** from the same tool on the new
+> partition. Every verdict survives qualitatively; the gate pins moved from
+> 0.501 / 0.534 to 0.499 / 0.532 bits. The tool's reachability block now reads
+> the class sizes from the classification instead of hard-coding 19 / 8 / 6 / 5.
 
 ## 0. The rulings this record executes
 
@@ -474,3 +485,81 @@ pinned by the gate):
   Lazarus umbrella straddles impact / exfiltration; the CISA AA22-138B
   advisory trio splits exfiltration / none_c2 ×2. Five of five single-G-ID
   clusters are within-class.
+
+
+## 10. Post-ruling regeneration — the 19 : 7 : 7 : 5 partition (2026-08-17)
+
+Same tool, same seeds, same conventions; only `classification.csv` changed
+(three flows). Full output:
+`_tactic_profile_stats_2026-08-17_post_ruling.txt` beside this file.
+
+**Structure.** Tactic places per profile 15 / 13 / 14 / 13 of 15 (impact lost
+`defense-impairment` — SearchAwesome carried it); inter-tactic transitions
+90 / 46 / 47 / 41 of 122; 12 tactics and 14 transitions in all four;
+transition-set Jaccard 0.24–0.39 (mean 0.305 vs size-matched null p50 0.301,
+*p* = 0.55; dedup 0.291 vs 0.262, *p* = 0.85). Missing tactics: impact lacks
+defense-impairment and exfiltration; exfiltration+impact lacks
+defense-impairment; none lacks exfiltration and impact. Mass into objective
+tactics (flow-presence): exfiltration 6.3 / 0 / 5.3 / 0 %; impact
+0.5 / 13.6 / 14.0 / 0 % (the 0.5 % in the exfiltration profile is `muddy_water`'s
+`confidence: 0` T1486 — unchanged).
+
+**Separation, size-matched null (2 000 relabellings, seed 20260528):**
+
+| statistic | corpus | observed | null p50 | null p95 | *p* | half-split p95 |
+|---|---|--:|--:|--:|--:|--:|
+| **transition share (flow-presence) — the profile** | n = 38 | 0.499 | 0.498 | 0.572 | **0.487** | 0.349 |
+| | n = 29 | 0.532 | 0.552 | 0.624 | **0.708** | 0.389 |
+| transition share (edge-occurrence) | n = 38 | 0.505 | 0.490 | 0.572 | 0.378 | 0.344 |
+| | n = 29 | 0.538 | 0.549 | 0.623 | 0.603 | 0.392 |
+| transition share, objective-tactic transitions stripped | n = 38 | 0.447 | 0.472 | 0.558 | 0.727 | 0.323 |
+| | n = 29 | 0.481 | 0.528 | 0.610 | 0.887 | 0.373 |
+| tactic share (15 cells) | n = 38 | 0.109 | 0.056 | 0.089 | **0.013** | 0.037 |
+| | n = 29 | 0.121 | 0.070 | 0.109 | **0.018** | 0.047 |
+| technique (124 cells) | n = 38 | 0.443 | 0.362 | 0.420 | 0.013 | 0.219 |
+| | n = 29 | 0.462 | 0.431 | 0.494 | 0.188 | 0.267 |
+
+**Reading — unchanged.** At transition-share resolution the profiles sit at
+the median of the size-matched null (*p* = 0.49 full, 0.71 dedup) and move
+further into it once objective-tactic transitions are stripped (0.73 / 0.89);
+tactic share still clears (0.013 / 0.018) and only across the impact-present /
+impact-absent line (per pair, tactic share: exfiltration vs impact *p* = 0.002,
+exfiltration vs exfiltration+impact 0.001, impact vs none 0.034,
+exfiltration+impact vs none 0.021; exfiltration vs none 0.148 and impact vs
+exfiltration+impact 0.660 do not).
+
+**What-next (per-place conditional).** Four-class deviance G = 280.1 vs null
+p50 283.7 / p95 312.3, *p* = 0.58 (n = 38); 270.9 vs 260.1 / 286.3, *p* = 0.24
+(n = 29). Per place: discovery *p* = 0.020 and execution *p* = 0.050 are the two
+that differ by class (of fifteen; not multiplicity-robust) — the same two as
+before. **One pairwise result weakened:** the exfiltration-vs-impact
+next-tactic deviance, previously *p* = 0.030 / 0.011, is now *p* = 0.129
+(n = 38) / 0.070 (n = 29) — with SearchAwesome out of `impact` and one fewer
+flow, the "theft and ransomware route differently after discovery and
+execution" pair no longer clears 0.05. No pair does on the conditional now
+(unweighted per-place JSD / support-weighted / pairwise deviance all *p* > 0.05
+for all six pairs). Any chapter sentence built on that pair must be re-read
+against §10, not §8.
+
+**Reachability signature vs random size-matched groups (20 000 relabellings):**
+a random 5-flow group reaches neither objective in 0.6 % of draws (`none_c2`
+signature — unchanged); a random **7**-flow group has impact without
+exfiltration in 3.9 % (was 2.3 % for 8); a random **7**-flow group reaches both
+in 92.6 % (was 87.5 % for 6). The behavioural-by-construction reading of the
+none and impact labels stands; the compound class remains what most 7-flow
+groups of this corpus do.
+
+**What moved that the chapter should know.** (i) 19 : 8 : 6 : 5 → 19 : 7 : 7 : 5
+everywhere; (ii) the exfiltration+impact class is no longer all ransomware —
+six ransomware operations plus one dual-monetisation malware — so "double
+extortion" names six of its seven members and the class definition ("both
+impact and exfiltration in the same flow") names all seven; "half of the class
+is one operator's variants" becomes three of seven; (iii) the two "no clean
+home" flows are no longer retained at downgraded confidence — they were ruled
+into classes (Mac → exfiltration+impact, SearchAwesome → none by elimination) and
+the confidence column is 37 high / 1 medium / 0 low, the medium being the Alt
+flow until the advisory is read; (iv) `impact` lost `defense-impairment` and
+gained a structural sink at `collection`; `none_c2`'s sink moved from
+`defense-impairment` to `privilege-escalation` and its `resource-development`
+place is no longer an island (SearchAwesome's malvertising), which is what
+generalised the M6 overlay's share rule ([`../ogasp/synthetic_overlay.md`](../ogasp/synthetic_overlay.md) §3).

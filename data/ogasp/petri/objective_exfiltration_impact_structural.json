@@ -4,9 +4,9 @@
     "class_name": "objective_exfiltration_impact",
     "granularity": "inter-tactic tactic-pair",
     "gap_path": "data/gap/gap_v0.5.json",
-    "gasp_source_flow_count": 6,
+    "gasp_source_flow_count": 7,
     "gap_version": "0.5",
-    "build_date": "2026-08-06"
+    "build_date": "2026-08-17"
   },
   "places": [
     "collection",
@@ -134,20 +134,20 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "black_basta_ransomware"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "black_basta_ransomware"
           ]
@@ -219,10 +219,10 @@
       "weights": {
         "operator_dedup": {
           "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "denominator": 10,
+          "weight": 0.2,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
           "backing_flow_ids": [
             "black_basta_ransomware",
             "conti_ransomware"
@@ -230,10 +230,10 @@
         },
         "raw": {
           "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "denominator": 10,
+          "weight": 0.2,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
           "backing_flow_ids": [
             "black_basta_ransomware",
             "conti_ransomware"
@@ -265,20 +265,24 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 9,
-          "weight": 0.0,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "mac_malware_steals_crypto"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 9,
-          "weight": 0.0,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
+          "backing_flow_ids": [
+            "mac_malware_steals_crypto"
+          ]
         }
       }
     },
@@ -303,10 +307,10 @@
       "weights": {
         "operator_dedup": {
           "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "denominator": 10,
+          "weight": 0.2,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
           "backing_flow_ids": [
             "black_basta_ransomware",
             "revil"
@@ -314,10 +318,10 @@
         },
         "raw": {
           "numerator": 2,
-          "denominator": 9,
-          "weight": 0.2222222222222222,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.5,
+          "denominator": 10,
+          "weight": 0.2,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.4,
           "backing_flow_ids": [
             "black_basta_ransomware",
             "revil"
@@ -342,20 +346,20 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "ragnar_locker"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "ragnar_locker"
           ]
@@ -379,20 +383,20 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "black_basta_ransomware"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "black_basta_ransomware"
           ]
@@ -424,20 +428,20 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "black_basta_ransomware"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "black_basta_ransomware"
           ]
@@ -457,17 +461,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 9,
+          "denominator": 10,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 9,
+          "denominator": 10,
           "weight": 0.0,
-          "flows_leaving_source": 4,
+          "flows_leaving_source": 5,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -498,20 +502,20 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "conti_ransomware"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 9,
-          "weight": 0.1111111111111111,
-          "flows_leaving_source": 4,
-          "flow_proportion": 0.25,
+          "denominator": 10,
+          "weight": 0.1,
+          "flows_leaving_source": 5,
+          "flow_proportion": 0.2,
           "backing_flow_ids": [
             "conti_ransomware"
           ]
@@ -718,6 +722,10 @@
       "gasp_edges": [
         [
           "T1012",
+          "T1059"
+        ],
+        [
+          "T1518",
           "T1059"
         ]
       ],
@@ -1007,20 +1015,20 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
             "conti_ransomware"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
             "conti_ransomware"
           ]
@@ -1044,17 +1052,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 8,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 8,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1065,6 +1073,10 @@
       "src_tactic": "execution",
       "dst_tactic": "discovery",
       "gasp_edges": [
+        [
+          "T1047",
+          "T1518"
+        ],
         [
           "T1059",
           "T1018"
@@ -1092,24 +1104,32 @@
         [
           "T1059",
           "T1135"
+        ],
+        [
+          "T1059",
+          "T1518"
         ]
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 0,
-          "denominator": 6,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "mac_malware_steals_crypto"
+          ]
         },
         "raw": {
-          "numerator": 0,
-          "denominator": 6,
-          "weight": 0.0,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.0,
-          "backing_flow_ids": []
+          "numerator": 1,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
+          "backing_flow_ids": [
+            "mac_malware_steals_crypto"
+          ]
         }
       }
     },
@@ -1142,10 +1162,10 @@
       "weights": {
         "operator_dedup": {
           "numerator": 2,
-          "denominator": 6,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
+          "denominator": 8,
+          "weight": 0.25,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
             "black_basta_ransomware",
             "revil"
@@ -1153,10 +1173,10 @@
         },
         "raw": {
           "numerator": 2,
-          "denominator": 6,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
+          "denominator": 8,
+          "weight": 0.25,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.5,
           "backing_flow_ids": [
             "black_basta_ransomware",
             "revil"
@@ -1177,17 +1197,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 8,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 8,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1218,20 +1238,20 @@
       "weights": {
         "operator_dedup": {
           "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
             "black_basta_ransomware"
           ]
         },
         "raw": {
           "numerator": 1,
-          "denominator": 6,
-          "weight": 0.16666666666666666,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.3333333333333333,
+          "denominator": 8,
+          "weight": 0.125,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.25,
           "backing_flow_ids": [
             "black_basta_ransomware"
           ]
@@ -1251,17 +1271,17 @@
       "weights": {
         "operator_dedup": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 8,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         },
         "raw": {
           "numerator": 0,
-          "denominator": 6,
+          "denominator": 8,
           "weight": 0.0,
-          "flows_leaving_source": 3,
+          "flows_leaving_source": 4,
           "flow_proportion": 0.0,
           "backing_flow_ids": []
         }
@@ -1287,6 +1307,10 @@
         [
           "T1059",
           "T1140"
+        ],
+        [
+          "T1059",
+          "T1211"
         ],
         [
           "T1059",
@@ -1319,24 +1343,26 @@
       ],
       "weights": {
         "operator_dedup": {
-          "numerator": 2,
-          "denominator": 6,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
+          "numerator": 3,
+          "denominator": 8,
+          "weight": 0.375,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.75,
           "backing_flow_ids": [
             "black_basta_ransomware",
+            "mac_malware_steals_crypto",
             "revil"
           ]
         },
         "raw": {
-          "numerator": 2,
-          "denominator": 6,
-          "weight": 0.3333333333333333,
-          "flows_leaving_source": 3,
-          "flow_proportion": 0.6666666666666666,
+          "numerator": 3,
+          "denominator": 8,
+          "weight": 0.375,
+          "flows_leaving_source": 4,
+          "flow_proportion": 0.75,
           "backing_flow_ids": [
             "black_basta_ransomware",
+            "mac_malware_steals_crypto",
             "revil"
           ]
         }
@@ -2834,7 +2860,7 @@
     "entry_tactic": "reconnaissance",
     "n_places": 14,
     "n_transitions": 72,
-    "n_inter_tactic_edges": 201,
+    "n_inter_tactic_edges": 205,
     "n_intra_tactic_selfloops_dropped": 24,
     "objective_tactics": [
       "exfiltration",
@@ -2842,7 +2868,8 @@
     ],
     "objective_tactics_data": [
       "reconnaissance",
-      "resource-development"
+      "resource-development",
+      "stealth"
     ],
     "reachable_from_entry_marking": [
       "reconnaissance"
@@ -2929,10 +2956,11 @@
     "primary_variant": "operator_dedup",
     "variants": {
       "operator_dedup": {
-        "n_profile_flows": 4,
+        "n_profile_flows": 5,
         "profile_flow_ids": [
           "black_basta_ransomware",
           "conti_ransomware",
+          "mac_malware_steals_crypto",
           "ragnar_locker",
           "revil"
         ],
@@ -2941,12 +2969,13 @@
         ]
       },
       "raw": {
-        "n_profile_flows": 6,
+        "n_profile_flows": 7,
         "profile_flow_ids": [
           "black_basta_ransomware",
           "conti_cisa_alert",
           "conti_pwc",
           "conti_ransomware",
+          "mac_malware_steals_crypto",
           "ragnar_locker",
           "revil"
         ],
