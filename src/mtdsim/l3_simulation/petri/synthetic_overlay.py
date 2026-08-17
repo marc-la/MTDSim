@@ -21,33 +21,34 @@ bridge**, so a successful attacker can traverse recon -> resource-development
 tactics:
 
 - **Forward chain.** ``reconnaissance -> resource-development`` and
-  ``resource-development -> initial-access``. Each is the **sole out-transition
-  of an island place** (recon and resource-development have no observed
-  out-edges in these profiles), so each carries a declared routing share of
-  **1.0** and perturbs no observed distribution. resource-development becomes a
+  ``resource-development -> initial-access``. resource-development becomes a
   genuine forward pass-through (off-clock: x0 dwell, no mapped action yet — the
   action set is extensible, so a verb may later map to it).
-- **Backward regression bridge.** ``initial-access -> reconnaissance``. This is
-  the one edge that leaves a place *with* observed out-edges, so it carries a
-  **declared share** ``BACKWARD_SHARE`` of initial-access's composed out-mass;
-  the observed edges keep their relative flow proportions across the remaining
-  ``1 - BACKWARD_SHARE`` (the merge rule below). It lets a failed attacker route
-  back to the pre-intrusion band (and from recon re-enter the forward chain).
+- **Backward regression bridge.** ``initial-access -> reconnaissance``. It lets
+  a failed attacker route back to the pre-intrusion band (and from recon
+  re-enter the forward chain).
 
-Guard + merge rules:
+Guard + share rule (one rule for every synthetic edge — Marc's ruling
+2026-08-17, replacing the island-only forward rule with its single backward
+exception):
 
 - **Guard.** The overlay acts only where the observed net leaves recon unable to
-  reach initial-access. The two forward edges are added only out of places with
-  **no** observed out-transitions (islands), so they never touch an observed
-  distribution. The one backward edge is the declared exception (below).
-- **Merge (the declared exception).** A synthetic edge out of a place that has
-  observed out-edges carries a declared **share** ``s`` of that place's composed
-  out-mass; the observed edges are scaled to ``(1 - Σs)`` in their flow
-  proportions. The observed ``*_structural.json`` artefacts stay **byte-
-  identical** — the rescaling exists only in the composed runtime net, exactly
-  as the forward synthetic edges do. This is a declared, documented departure
-  from the original overlay's "never renormalise an observed distribution" rule,
-  confined to the single backward bridge and flagged as synthetic.
+  reach initial-access (and the three pre-intrusion places exist). It then adds
+  the same three edges in every such profile.
+- **Share.** Each synthetic edge's declared share is read off the observed net
+  by ``declared_share``: out of an **island** source (no observed
+  out-transitions) the synthetic edge is the place's whole out-mass
+  (``ISLAND_SHARE = 1.0``, perturbing no observed distribution); out of a source
+  **with** observed out-transitions it carries ``MERGE_SHARE`` of that place's
+  composed out-mass and the observed edges are scaled to ``(1 - Σs)`` in their
+  flow proportions. The observed ``*_structural.json`` artefacts stay
+  **byte-identical** — the rescaling exists only in the composed runtime net.
+  Historically (2026-07-21 → 2026-08-17) recon and resource-development were
+  islands in both bridged profiles, so the forward edges carried 1.0 and the
+  backward bridge was the only merged edge; when SearchAwesome's malvertising
+  step gave ``objective_none_c2`` an observed ``resource-development ->
+  {command-and-control, execution}``, the rule was made uniform rather than
+  refusing the shape.
 - **Separation.** The overlay lives in ``StructuralNet.synthetic_transitions``,
   never in ``transitions``; the ``*_structural.json`` artefacts stay observed-
   only and the no-synthesis invariant on ``transitions`` is untouched. The
@@ -84,23 +85,40 @@ OVERLAY_PROVENANCE = (
 # source place; the backward bridge carries a declared minority share of
 # initial-access's composed out-mass (the observed edges keep the remainder in
 # their flow proportions).
-FORWARD_SHARE = 1.0
-BACKWARD_SHARE = 0.1
+# One rule for every synthetic edge (Marc's ruling 2026-08-17 — a mechanism,
+# not a per-place exception): a synthetic edge out of an ISLAND source (no
+# observed out-transitions) is that place's whole out-mass (share 1.0); a
+# synthetic edge out of a source WITH observed out-transitions carries the
+# declared MERGE_SHARE of that place's composed out-mass and the observed edges
+# rescale to (1 - Σshare) in their flow proportions. Before 2026-08-17 the
+# forward edges were only ever added out of islands (and the code refused
+# otherwise); the backward bridge was the single merged edge. The rule now
+# decides the share from the observed net, uniformly.
+ISLAND_SHARE = 1.0
+MERGE_SHARE = 0.1
+# Historical names, kept for callers/tests: the forward chain's island share and
+# the backward bridge's merged share.
+FORWARD_SHARE = ISLAND_SHARE
+BACKWARD_SHARE = MERGE_SHARE
 
 _GUARD_RULE = (
     "the overlay acts only where the observed net leaves reconnaissance unable "
-    "to reach initial-access; the two forward chain edges are added only out of "
-    "island places (no observed out-transitions), so they never touch an "
-    "observed distribution; the single backward bridge is the declared "
-    "exception (see merge_rule)"
+    "to reach initial-access (and all three pre-intrusion places exist); it then "
+    "adds the same three edges everywhere — reconnaissance -> resource-development, "
+    "resource-development -> initial-access, initial-access -> reconnaissance — "
+    "each weighted by the one share rule (see merge_rule), which reads the "
+    "observed net to decide island (1.0) or merged (MERGE_SHARE)"
 )
 
 _MERGE_RULE = (
     "a synthetic edge out of a place with observed out-edges carries a declared "
     "share s of that place's composed out-mass; the observed edges are scaled to "
     "(1 - Σs) in their flow proportions. The observed *_structural.json artefacts "
-    "stay byte-identical — the rescaling exists only in the composed runtime net "
-    "(as the forward synthetic edges do). Confined to the backward bridge."
+    "stay byte-identical — the rescaling exists only in the composed runtime net. "
+    "One rule for every synthetic edge (2026-08-17): island source -> share 1.0 "
+    "(the whole out-mass); source with observed out-edges -> MERGE_SHARE. Before "
+    "2026-08-17 the merge applied to the backward bridge only and forward edges "
+    "out of non-island places were refused."
 )
 
 _RESOLUTION = (
@@ -115,15 +133,14 @@ _RESOLUTION = (
 
 
 def curate_synthetic_overlay(snet: StructuralNet) -> tuple[TransitionSpec, ...]:
-    """The profile's synthetic overlay transitions under the guard rule.
+    """The profile's synthetic overlay transitions under the guard + share rule.
 
     Empty where the observed corpus already bridges recon -> initial-access (or
-    any pre-intrusion place is absent). Where recon is an island, returns the
-    forward chain (recon -> resource-development -> initial-access) plus the
-    backward regression bridge (initial-access -> reconnaissance). Raises where
-    recon or resource-development has observed out-edges yet recon cannot reach
-    initial-access — mixing a synthetic edge into an observed *forward*
-    out-distribution would need a new declared decision, not a silent one.
+    any pre-intrusion place is absent). Otherwise returns the forward chain
+    (recon -> resource-development -> initial-access) plus the backward
+    regression bridge (initial-access -> reconnaissance), each edge's declared
+    share decided by :func:`declared_share` from the observed net — 1.0 out of
+    an island source, ``MERGE_SHARE`` out of a source with observed out-edges.
     """
     tactic_set = set(snet.tactics)
     for place in (RECONNAISSANCE, INITIAL_ACCESS, RESOURCE_DEVELOPMENT):
@@ -132,25 +149,20 @@ def curate_synthetic_overlay(snet: StructuralNet) -> tuple[TransitionSpec, ...]:
     adj = _observed_adjacency(snet)
     if _reaches(adj, RECONNAISSANCE, INITIAL_ACCESS):
         return ()
-    if adj.get(RECONNAISSANCE):
-        raise ValueError(
-            f"{snet.class_name}: reconnaissance has observed out-transitions "
-            f"({sorted(adj[RECONNAISSANCE])}) but does not reach initial-access "
-            "— the synthetic-overlay forward-chain rule (sole out-edge of an "
-            "island place) does not cover this shape; a new declared decision "
-            "is required"
+    return tuple(
+        _spec(src, dst, declared_share(adj, src))
+        for src, dst in (
+            (RECONNAISSANCE, RESOURCE_DEVELOPMENT),
+            (RESOURCE_DEVELOPMENT, INITIAL_ACCESS),
+            (INITIAL_ACCESS, RECONNAISSANCE),
         )
-    if adj.get(RESOURCE_DEVELOPMENT):
-        raise ValueError(
-            f"{snet.class_name}: resource-development has observed out-"
-            f"transitions ({sorted(adj[RESOURCE_DEVELOPMENT])}) — the forward "
-            "chain assumes it is an island; a new declared decision is required"
-        )
-    return (
-        _spec(RECONNAISSANCE, RESOURCE_DEVELOPMENT, FORWARD_SHARE),
-        _spec(RESOURCE_DEVELOPMENT, INITIAL_ACCESS, FORWARD_SHARE),
-        _spec(INITIAL_ACCESS, RECONNAISSANCE, BACKWARD_SHARE),
     )
+
+
+def declared_share(adj: dict[str, set[str]], src: str) -> float:
+    """The one share rule: 1.0 out of an island source, ``MERGE_SHARE`` out of a
+    source with observed out-transitions."""
+    return MERGE_SHARE if adj.get(src) else ISLAND_SHARE
 
 
 def _spec(src: str, dst: str, share: float) -> TransitionSpec:
@@ -247,12 +259,11 @@ def overlay_payload(nets: dict[str, StructuralNet]) -> dict:
         "merge_rule": _MERGE_RULE,
         "weight_regime": (
             "declared routing share (no flow backing — the D3 W-A flow-"
-            "proportion regime does not apply). Forward chain edges are the sole "
-            "out-transition of their island source place (share 1.0). The "
-            "backward bridge carries share "
-            f"{BACKWARD_SHARE} of initial-access's composed out-mass; the "
-            "observed edges keep the remaining "
-            f"{round(1 - BACKWARD_SHARE, 3)} in their flow proportions."
+            "proportion regime does not apply). One rule for every synthetic edge: "
+            f"share {ISLAND_SHARE} out of an island source (its whole out-mass); "
+            f"share {MERGE_SHARE} of the composed out-mass out of a source with "
+            "observed out-transitions, the observed edges keeping the remaining "
+            f"{round(1 - MERGE_SHARE, 3)} in their flow proportions."
         ),
         "resolution": _RESOLUTION,
         "composition": (

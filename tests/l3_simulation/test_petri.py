@@ -31,34 +31,37 @@ from mtdsim.l3_simulation.petri.build import (
 from mtdsim.l3_simulation.petri.synthetic_overlay import (
     BACKWARD_SHARE,
     FORWARD_SHARE,
+    MERGE_SHARE,
     OVERLAY_PATH,
     overlay_payload,
 )
 
-# Locked expectations from the handoff component-mapping table.
+# Locked expectations from the handoff component-mapping table; re-pinned
+# 2026-08-17 after Marc's three membership rulings (19/8/6/5 -> 19/7/7/5:
+# mac -> exfiltration_impact, alt -> exfiltration, searchawesome -> none_c2).
 EXPECTED_PLACES = {
     "objective_exfiltration": 15,
-    "objective_impact": 14,
+    "objective_impact": 13,
     "objective_exfiltration_impact": 14,
     "objective_none_c2": 13,
 }
 EXPECTED_TRANSITIONS = {  # inter-tactic tactic-pairs
     "objective_exfiltration": 109,
-    "objective_impact": 83,
+    "objective_impact": 76,
     "objective_exfiltration_impact": 72,
     "objective_none_c2": 57,
 }
 EXPECTED_INTER_TACTIC_EDGES = {
-    "objective_exfiltration": 363,
-    "objective_impact": 225,
-    "objective_exfiltration_impact": 201,
-    "objective_none_c2": 136,
+    "objective_exfiltration": 358,
+    "objective_impact": 217,
+    "objective_exfiltration_impact": 205,
+    "objective_none_c2": 130,
 }
 EXPECTED_SELFLOOPS_DROPPED = {
     "objective_exfiltration": 50,
     "objective_impact": 29,
     "objective_exfiltration_impact": 24,
-    "objective_none_c2": 12,
+    "objective_none_c2": 11,
 }
 # The recon -> initial-access prefix gap, per the inspect-the-base finding:
 # bridged (a single direct edge) in two classes, an island in the other two.
@@ -288,11 +291,22 @@ JOINED_PROFILES = ("objective_exfiltration_impact", "objective_none_c2")
 # The bidirectional pre-intrusion connective tissue: forward chain (share 1.0
 # each, sole out of an island place) + backward regression bridge (declared
 # minority share of initial-access's composed out-mass).
-EXPECTED_SYNTHETIC = (
-    ("reconnaissance", "resource-development", FORWARD_SHARE),
-    ("resource-development", "initial-access", FORWARD_SHARE),
-    ("initial-access", "reconnaissance", BACKWARD_SHARE),
-)
+# Per bridged profile: the same three edges, each share read off the observed
+# net by the one rule (island -> 1.0, observed out-edges -> MERGE_SHARE).
+# objective_none_c2's resource-development stopped being an island on
+# 2026-08-17 (SearchAwesome: malvertising -> C2 / execution).
+EXPECTED_SYNTHETIC = {
+    "objective_exfiltration_impact": (
+        ("reconnaissance", "resource-development", FORWARD_SHARE),
+        ("resource-development", "initial-access", FORWARD_SHARE),
+        ("initial-access", "reconnaissance", BACKWARD_SHARE),
+    ),
+    "objective_none_c2": (
+        ("reconnaissance", "resource-development", FORWARD_SHARE),
+        ("resource-development", "initial-access", MERGE_SHARE),
+        ("initial-access", "reconnaissance", BACKWARD_SHARE),
+    ),
+}
 
 
 @pytest.fixture(scope="module")
@@ -308,7 +322,7 @@ def test_overlay_adds_exactly_the_specified_edges(joined_nets):
                 tuple(
                     (s.src_tactic, s.dst_tactic, s.declared_weight) for s in synth
                 )
-                == EXPECTED_SYNTHETIC
+                == EXPECTED_SYNTHETIC[profile]
             )
         else:
             assert synth == ()
@@ -321,11 +335,16 @@ def test_synthetic_spec_contract(joined_nets, profile):
         assert spec.synthetic is True
         assert spec.edges == ()  # no GASP provenance is claimed
         assert "synthetic overlay" in spec.provenance
-    # Forward chain: sole out-transition of an island place (no observed out).
-    for src in ("reconnaissance", "resource-development"):
-        assert [t for t in net.transitions if t.src_tactic == src] == []
-    # Backward bridge: leaves initial-access, which DOES have observed out-edges
-    # (the declared-share merge case — not a sole-out edge).
+    # The one share rule, checked against the observed net: a share of 1.0 means
+    # the source is an island (no observed out-transitions); MERGE_SHARE means it
+    # has observed out-edges (the declared-share merge case).
+    for spec in net.synthetic_transitions:
+        observed_out = [t for t in net.transitions if t.src_tactic == spec.src_tactic]
+        if spec.declared_weight == FORWARD_SHARE:
+            assert observed_out == [], (profile, spec.name)
+        else:
+            assert spec.declared_weight == MERGE_SHARE and observed_out != [], (profile, spec.name)
+    # The backward bridge always leaves initial-access, which has observed out-edges.
     assert [
         t for t in net.transitions if t.src_tactic == "initial-access"
     ] != []

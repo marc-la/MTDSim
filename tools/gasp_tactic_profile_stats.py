@@ -502,11 +502,14 @@ print(f"flows drawing impact {sum('impact' in v for v in flow_tacs.values())}/38
       f"{sum(not (v & OBJECTIVE_TACTICS) for v in flow_tacs.values())}/38")
 rng = np.random.default_rng(NULL_SEED); N = 20000
 hits = Counter()
+# class sizes read from the classification (19/8/6/5 until 2026-08-17; 19/7/7/5 after)
+_sz = {c: sum(1 for f in ALL_FLOWS if cls_of[f] == c) for c in CLASSES}
+n_ex, n_im, n_ei, n_nc = (_sz[c] for c in CLASSES)
 for _ in range(N):
-    g19, g8, g6, g5 = relabel(rng, list(ALL_FLOWS), [19, 8, 6, 5])
-    hits["5-flow group reaches neither objective  [none_c2 signature]"] += not reaches(g5, "impact") and not reaches(g5, "exfiltration")
-    hits["8-flow group has impact and no exfiltration  [impact signature]"] += reaches(g8, "impact") and not reaches(g8, "exfiltration")
-    hits["6-flow group reaches both  [exfiltration_impact signature]"] += reaches(g6, "impact") and reaches(g6, "exfiltration")
-    hits["19-flow group reaches exfiltration  [exfiltration signature]"] += reaches(g19, "exfiltration")
+    g_ex, g_im, g_ei, g_nc = relabel(rng, list(ALL_FLOWS), [n_ex, n_im, n_ei, n_nc])
+    hits[f"{n_nc}-flow group reaches neither objective  [none_c2 signature]"] += not reaches(g_nc, "impact") and not reaches(g_nc, "exfiltration")
+    hits[f"{n_im}-flow group has impact and no exfiltration  [impact signature]"] += reaches(g_im, "impact") and not reaches(g_im, "exfiltration")
+    hits[f"{n_ei}-flow group reaches both  [exfiltration_impact signature]"] += reaches(g_ei, "impact") and reaches(g_ei, "exfiltration")
+    hits[f"{n_ex}-flow group reaches exfiltration  [exfiltration signature]"] += reaches(g_ex, "exfiltration")
 for k, v in hits.items():
     print(f"  P({k}) = {v / N:.4f}")

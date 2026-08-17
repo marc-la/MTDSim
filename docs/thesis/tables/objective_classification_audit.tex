@@ -2,7 +2,7 @@
 % (terminal read = Def A, the L1 contraction; see
 %  docs/implementation/pipeline/gasp/structural_baseline.md). Do not hand-edit;
 %  regenerate. Requires booktabs (already in the preamble).
-% Confidence tally at generation: high 35, medium 1, low 2 of 38.
+% Confidence tally at generation: high 37, medium 1, low 0 of 38.
 
 \begin{table}[htbp]
 \centering\small
@@ -12,6 +12,7 @@
 \toprule
 Flow & Terminal read & Terminal tactics & Source & Conf. \\
 \midrule
+CISA AA22-138B VMWare Workspace (Alt) & neither & collection, execution & CTID blurb; flow narrative; cisa.gov; marc\_ruling\_2026-08-17 & medium \\
 CISA AA22-138B VMWare Workspace (TA1) & exfiltration & exfiltration & CTID blurb; flow narrative; cisa.gov & high \\
 Cobalt Kitty Campaign & neither & execution, lateral-movement & CTID blurb; cybereason.com & high \\
 Equifax Breach & neither & command-and-control, initial-access, reconnaissance, stealth & CTID blurb; csoonline.com & high \\
@@ -19,7 +20,6 @@ FIN13 Case 1 & neither & command-and-control, credential-access, defense-impairm
 FIN13 Case 2 & exfiltration & collection, discovery, exfiltration, lateral-movement & CTID blurb; ATT\&CK G1016 & high \\
 Ivanti Vulnerabilities & neither & collection, command-and-control, credential-access, discovery, persistence, reconnaissance, stealth & CTID blurb; volexity.com & high \\
 JP Morgan Breach & neither & initial-access, privilege-escalation, resource-development & CTID blurb; flow structure & high \\
-Mac Malware Steals Crypto & neither & discovery, stealth & CTID blurb; flow narrative; unit42 & medium \\
 Marriott Breach & neither & collection, command-and-control, credential-access, reconnaissance, stealth & CTID blurb; flow structure & high \\
 MITRE NERVE & exfiltration & command-and-control, discovery, execution, exfiltration, stealth & CTID blurb; medium.com & high \\
 Muddy Water & impact & impact, initial-access, stealth & CTID blurb; flow narrative; ATT\&CK G0069; talos & high \\
@@ -37,7 +37,7 @@ Uber Breach & neither & credential-access, resource-development & CTID blurb; fl
 
 \begin{table}[htbp]
 \centering\small
-\caption{Impact objective (\texttt{objective\_impact}, $n=8$): per-flow terminal read against the stated objective, with the source that decides the class and the audit confidence.}
+\caption{Impact objective (\texttt{objective\_impact}, $n=7$): per-flow terminal read against the stated objective, with the source that decides the class and the audit confidence.}
 \label{tab:objective-audit-impact}
 \begin{tabular}{@{}p{0.26\textwidth}p{0.10\textwidth}p{0.19\textwidth}p{0.26\textwidth}p{0.07\textwidth}@{}}
 \toprule
@@ -46,7 +46,6 @@ Flow & Terminal read & Terminal tactics & Source & Conf. \\
 CISA Iranian APT & neither & credential-access & CTID blurb; flow structure & high \\
 Maastricht University Ransomware & impact & command-and-control, credential-access, impact, initial-access, privilege-escalation, reconnaissance & CTID blurb; flow structure & high \\
 NotPetya & impact & credential-access, discovery, impact, privilege-escalation, stealth & CTID blurb; ATT\&CK G0034 & high \\
-SearchAwesome Adware & neither & stealth & CTID blurb; flow narrative; malwarebytes & low \\
 Shamoon & impact & discovery, impact, lateral-movement & CTID blurb; mcafee.com & high \\
 Sony Malware & impact & execution, impact, privilege-escalation & CTID blurb; ATT\&CK G0032 & high \\
 Tesla Kubernetes Breach & impact & collection, impact & CTID blurb; flow structure & high \\
@@ -57,7 +56,7 @@ WhisperGate & impact & command-and-control, impact, stealth & CTID blurb; ATT\&C
 
 \begin{table}[htbp]
 \centering\small
-\caption{Double extortion (exfiltration and impact) (\texttt{objective\_exfiltration\_impact}, $n=6$): per-flow terminal read against the stated objective, with the source that decides the class and the audit confidence.}
+\caption{Double extortion (exfiltration and impact) (\texttt{objective\_exfiltration\_impact}, $n=7$): per-flow terminal read against the stated objective, with the source that decides the class and the audit confidence.}
 \label{tab:objective-audit-exfiltration-impact}
 \begin{tabular}{@{}p{0.26\textwidth}p{0.10\textwidth}p{0.19\textwidth}p{0.26\textwidth}p{0.07\textwidth}@{}}
 \toprule
@@ -67,6 +66,7 @@ Black Basta Ransomware & neither & credential-access, discovery, stealth & CTID 
 Conti CISA Alert & impact & credential-access, discovery, execution, impact, initial-access, lateral-movement, reconnaissance, resource-development & CTID blurb; ATT\&CK G0102 & high \\
 Conti PWC & impact & discovery, execution, impact, initial-access, resource-development & CTID blurb; ATT\&CK G0102 & high \\
 Conti Ransomware & impact & impact, stealth & CTID blurb; ATT\&CK G0102 & high \\
+Mac Malware Steals Crypto & neither & discovery, stealth & CTID blurb; flow narrative; unit42; marc\_ruling\_2026-08-17 & high \\
 Ragnar Locker & impact & credential-access, execution, impact, initial-access, privilege-escalation & CTID blurb; ATT\&CK G0125 & high \\
 REvil & both & discovery, exfiltration, impact & CTID blurb; ATT\&CK G0115 & high \\
 \bottomrule
@@ -81,11 +81,11 @@ REvil & both & discovery, exfiltration, impact & CTID blurb; ATT\&CK G0115 & hig
 \toprule
 Flow & Terminal read & Terminal tactics & Source & Conf. \\
 \midrule
-CISA AA22-138B VMWare Workspace (Alt) & neither & collection, execution & CTID blurb; flow narrative; cisa.gov & low \\
 CISA AA22-138B VMWare Workspace (TA2) & neither & (none: cyclic) & CTID blurb; flow narrative; cisa.gov & high \\
 DFIR - BumbleBee Round 2 & neither & (none: cyclic) & CTID blurb; thedfirreport.com & high \\
 Gootloader & neither & discovery, execution, initial-access, resource-development & CTID blurb; thedfirreport.com & high \\
 Hancitor DLL & neither & privilege-escalation, reconnaissance & CTID blurb; thedfirreport.com & high \\
+SearchAwesome Adware & neither & stealth & CTID blurb; flow narrative; malwarebytes; marc\_ruling\_2026-08-17 & high \\
 \bottomrule
 \end{tabular}
 \end{table}

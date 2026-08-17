@@ -37,7 +37,10 @@ lineage: formerly docs/notes @ 2026-05-28_l2_per_flow_justifications.md (relocat
 > membership unchanged. Outcomes below and in
 > [`structural_baseline.md`](structural_baseline.md) §(d); the individual
 > entries carry a *2026-08-17* addendum. The `toolshell` flow-split flag is
-> withdrawn by evidence (the flow file has no ransomware half).
+> withdrawn by evidence (the flow file has no ransomware half). Later the same
+> day Marc ruled the three remaining flows into classes (Mac →
+> double_extortion, Alt → pure_steal, SearchAwesome → infrastructure_setup):
+> partition 19 : 7 : 7 : 5, tally 37 / 1 / 0 — [`structural_baseline.md`](structural_baseline.md) §(g).
 
 ## Why this exists
 
@@ -80,10 +83,18 @@ case for sourcing classification from narrative.
 | Class | n flows | Confidence: high | medium | low |
 |---|--:|--:|--:|--:|
 | pure_steal | 19 | 18 | 1 | 0 |
-| pure_impediment | 8 | 7 | 0 | 1 |
-| double_extortion | 6 | 6 | 0 | 0 |
-| infrastructure_setup | 5 | 4 | 0 | 1 |
-| **total** | **38** | **35** | **1** | **2** |
+| pure_impediment | 7 | 7 | 0 | 0 |
+| double_extortion | 7 | 7 | 0 | 0 |
+| infrastructure_setup | 5 | 5 | 0 | 0 |
+| **total** | **38** | **37** | **1** | **0** |
+
+*(After Marc's three membership rulings of 2026-08-17 — Mac → double_extortion,
+Alt → pure_steal (medium until the advisory is read), SearchAwesome →
+infrastructure_setup by elimination; [`structural_baseline.md`](structural_baseline.md)
+§(g). The round-2 tally before the rulings was 35 / 1 / 2. The per-class
+sections below keep the flows under their round-1 headings, each moved flow
+carrying a dated addendum; the section counts in the headings are the
+pre-ruling counts.)*
 
 *(Round-1 tally, 2026-05-28, for the record: 30 / 2 / 6 — the six lows were
 the three CISA-403 flows plus `mac_malware_steals_crypto`,
@@ -289,6 +300,9 @@ verification surfaced that Unit 42's framing leads with theft.
 
 
 **2026-08-17 (round 2):** CTID flow narrative encodes **two** exfiltration actions (*"Uploads browser cookies to a remote server"*; *"Uploads stolen information to a remote server, including wallet-related file paths and private keys"*) — tactic-only nodes, invisible to L1 — and the XMRig / Koto miner as *Ingress Tool Transfer*, not as an impact action. Every source agrees theft is primary; none contradicts. Residual is the (h)3 scheme question (dual monetisation), not source disagreement; **high** requires the dominant-objective ruling.
+
+
+**2026-08-17 (Marc's ruling):** **Moved to `double_extortion` (`objective_exfiltration_impact`), high.** Two monetisation channels in one flow — credential / cookie / wallet-key theft, and XMRig / Koto mining (resource hijacking; the corpus reads XMRig as impact in `cisa_iranian_apt`) — satisfy the class definition *both impact and exfiltration in the same flow*. Not extortion in the ransom sense; the class name follows the definition.
 
 ### `marriott_breach` — *pure_steal* · confidence: **high**
 
@@ -531,6 +545,9 @@ by analogy but is the weakest classification in the class.
 
 **2026-08-17 (round 2):** CTID flow narrative: root certificate install, adversary-in-the-middle, mitmproxy, malvertising, browser-session hijack, JS injection, C2, self-delete — **no impact-tactic action and no exfiltration action**. Together with Malwarebytes' *"doesn't directly exfiltrate user data"*, no source attests impact; `pure_impediment` remains analogy. Disposition needed: accept as the one named misfit, or drop with a stated criterion (it *is* analyst-curated real-malware CTI, so the openclaw criterion does not apply).
 
+
+**2026-08-17 (Marc's ruling):** **Moved to `infrastructure_setup` (`objective_none_c2`), high — by elimination.** No exfiltration action, no impact-tactic action, hence not both; the flow realises ad injection, which is not an objective tactic. The one residual member there by elimination rather than pre-payload structure. Structural consequence: it brings `resource-development → command-and-control / execution` into the class, which generalised the M6 overlay's share rule.
+
 ### `shamoon` — *pure_impediment* · confidence: **high**
 
 Disk-wiping malware family (Shamoon 1 — Saudi Aramco 2012; Shamoon 2/3 —
@@ -694,6 +711,9 @@ describes an alternative exploitation method without observed payload.
 
 
 **2026-08-17 (round 2):** CTID flow narrative: bash script exploits and escalates (`horizon` → sudo, CVE-2022-22960), *"compresses files containing network interface configurations, users, passwords, masterkeys, hosts, and domains to a TAR archive"*, C2 to `20.232.97.189`, *attempted* MoneroOcean miner download, *attempted* JSP webshell download; no exfil / impact action — so "no realised objective" is what the flow says. **But** `fd86ald0.pem`, `20.232.97.189` and the CVE-2022-22960 escalation are all TA1's (TA1 flow: script `80b6ae2cea.sh`, deletes `fd86ald0.pem`; the advisory names `20.232.97[.]189/up/80b6ae2cea.sh` as TA1's download — excerpt, verify), so this flow reads as the advisory's analysis of TA1's script drawn without its exfil step. If that is right, `infrastructure_setup` (defined as pre-payload, *not* truncated breach) is a truncation artefact and the honest home is `pure_steal` — or the flow is a duplicate encoding of TA1 (L1 corpus question). Either is a membership / corpus change → Marc reads AA22-138B and rules. Kept `low` until then.
+
+
+**2026-08-17 (Marc's ruling):** **Moved to `pure_steal` (`objective_exfiltration`), medium.** TA1 is the collect-and-exfiltrate actor and the flow is TA1's script drawn without its exfil step — a truncated exfiltration flow, which the residual class definition excludes. Medium until Marc confirms on AA22-138B that the alternative-method section is TA1's; then high.
 
 ### `cisa_aa22_138b_vmware_workspace_ta2` — *infrastructure_setup* · confidence: **high** *(round 2; was low)*
 

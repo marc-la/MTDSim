@@ -71,10 +71,10 @@ the headline chart needs `matplotlib` (both house dependencies of
 
 | Profile | Flows (raw → dedup) | Places | Transitions | Inter-tactic edges | Self-loops dropped | Objective reachable from recon | recon→initial-access |
 |---|---|--:|--:|--:|--:|---|---|
-| `objective_exfiltration` | 19 → 14 | 15 | 109 | 363 | 50 | yes | bridged |
-| `objective_impact` | 8 → 7 | 14 | 83 | 225 | 29 | yes | bridged |
-| `objective_exfiltration_impact` | 6 → 4 | 14 | 72 | 201 | 24 | **no** | **disconnected** |
-| `objective_none_c2` | 5 → 4 | 13 | 57 | 136 | 12 | **no** | **disconnected** |
+| `objective_exfiltration` | 19 → 14 | 15 | 109 | 358 | 50 | yes | bridged |
+| `objective_impact` | 7 → 6 | 13 | 76 | 217 | 29 | yes | bridged |
+| `objective_exfiltration_impact` | 7 → 5 | 14 | 72 | 205 | 24 | **no** | **disconnected** |
+| `objective_none_c2` | 5 → 4 | 13 | 57 | 130 | 11 | **no** | **disconnected** |
 | `aggregate` | 38 → 29 | 15 | 122 | 422 | 56 | yes | bridged |
 
 The aggregate's declared objective set is the union of the four
@@ -87,10 +87,10 @@ dedup class sizes are 14 / 7 / 4 / 4 (Σ = 29).
 
 ## Divergence from the aggregate (headline)
 
-- **objective_exfiltration** — mean per-place JSD 0.1919 vs aggregate; does NOT exceed the shuffled-label null p95 (0.2248).
-- **objective_impact** — mean per-place JSD 0.3330 vs aggregate; does NOT exceed the shuffled-label null p95 (0.4158).
-- **objective_exfiltration_impact** — mean per-place JSD 0.3000 vs aggregate; does NOT exceed the shuffled-label null p95 (0.5281).
-- **objective_none_c2** — mean per-place JSD 0.3813 vs aggregate; does NOT exceed the shuffled-label null p95 (0.5101).
+- **objective_exfiltration** — mean per-place JSD 0.1876 vs aggregate; does NOT exceed the shuffled-label null p95 (0.2248).
+- **objective_impact** — mean per-place JSD 0.3330 vs aggregate; does NOT exceed the shuffled-label null p95 (0.4466).
+- **objective_exfiltration_impact** — mean per-place JSD 0.2894 vs aggregate; does NOT exceed the shuffled-label null p95 (0.4781).
+- **objective_none_c2** — mean per-place JSD 0.3348 vs aggregate; does NOT exceed the shuffled-label null p95 (0.5101).
 
 Full tables, discriminators and the verdict paragraph:
 [`divergence_report.md`](divergence_report.md).

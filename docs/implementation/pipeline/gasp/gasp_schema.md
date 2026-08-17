@@ -259,24 +259,26 @@ provenance layer and the spec layer separately nameable. Only the right-hand
 side moved. Records that reference `steal_data` — or the retired middle column
 — preserve their provenance value as written.
 
-**Per-class distribution (the 19:8:6:5 split, post-verification round
-2026-05-28):**
+**Per-class distribution (19 : 7 : 7 : 5 after the 2026-08-17 rulings; 19 : 8 : 6 : 5
+from the 2026-05-28 verification round until then):**
 
 | Class | n flows | Conf: high | medium | low |
 |---|--:|--:|--:|--:|
 | `objective_exfiltration` | 19 | 18 | 1 | 0 |
-| `objective_impact` | 8 | 7 | 0 | 1 |
-| `objective_exfiltration_impact` | 6 | 6 | 0 | 0 |
-| `objective_none_c2` | 5 | 4 | 0 | 1 |
-| **total** | **38** | **35** | **1** | **2** |
+| `objective_impact` | 7 | 7 | 0 | 0 |
+| `objective_exfiltration_impact` | 7 | 7 | 0 | 0 |
+| `objective_none_c2` | 5 | 5 | 0 | 0 |
+| **total** | **38** | **37** | **1** | **0** |
 
-Low-confidence share is **2 / 38 = 5.3 %** after the 2026-08-17 re-audit
-(round 1, 2026-05-28: 30 / 2 / 6, 15.8 % low — within the investigation's 20 %
-gate). The two `low` flows are `cisa_aa22_138b_vmware_workspace_alt` (a
-checkable doubt: the flow may be TA1's script drawn without its exfil step) and
-`searchawesome_adware` (no source attests impact; a named misfit); the
-`medium` is `mac_malware_steals_crypto`. What 38 / 38 would take is three
-rulings recorded in [`structural_baseline.md`](structural_baseline.md) §(d).
+**The 19 : 7 : 7 : 5 split** dates from Marc's three per-flow rulings of
+2026-08-17 (`mac_malware_steals_crypto` → exfiltration+impact;
+`cisa_aa22_138b_vmware_workspace_alt` → exfiltration; `searchawesome_adware` →
+none, by elimination), recorded with their reasoning and everything they moved
+in [`structural_baseline.md`](structural_baseline.md) §(g). Before them the
+split was 19 : 8 : 6 : 5 (round 1, 2026-05-28: 30 / 2 / 6 confidence, 15.8 % low
+— within the investigation's 20 % gate; round 2 re-audit, 2026-08-17: 35 / 1 / 2).
+The one `medium` is the Alt flow, pending Marc's read of AA22-138B. Records
+dated before 2026-08-17 that say 19 : 8 : 6 : 5 are correct for their date.
 Per-flow citations and critique are in
 [`../notes/2026-05-28_l2_per_flow_justifications.md`](per_flow_justifications.md).
 
@@ -319,16 +321,17 @@ def class_subgraph(gap: GAP, audit_csv: AuditCSV, class_name: str) -> SubgraphVi
 
 | Class | n flows | nodes (of 124 GAP nodes) | edges (of 478 GAP edges) |
 |---|--:|--:|--:|
-| `objective_exfiltration` | 19 | 98 | 413 |
-| `objective_impact` | 8 | 62 | 254 |
-| `objective_exfiltration_impact` | 6 | 57 | 225 |
-| `objective_none_c2` | 5 | 39 | 148 |
+| `objective_exfiltration` | 19 | 96 | 408 |
+| `objective_impact` | 7 | 59 | 246 |
+| `objective_exfiltration_impact` | 7 | 59 | 229 |
+| `objective_none_c2` | 5 | 39 | 141 |
 
-The class node sets are not disjoint — a technique drawn by analysts in flows
+*(Post-ruling 2026-08-17; before it: 98 / 413, 62 / 254, 57 / 225, 39 / 148 on
+19 : 8 : 6 : 5.)* The class node sets are not disjoint — a technique drawn by analysts in flows
 across multiple classes appears in each class's `node_set`. *Disjointness is
 a property of class **memberships** (one flow → one class; §(b) Decision 2),
-not of class **node sets**.* This is why `objective_exfiltration`'s 98 nodes plus the
-other classes' 62 + 57 + 39 = 256 exceeds the GAP's 124 — techniques recur
+not of class **node sets**.* This is why `objective_exfiltration`'s 96 nodes plus the
+other classes' 59 + 59 + 39 = 253 exceeds the GAP's 124 — techniques recur
 across class subgraphs.
 
 The min class size (39 techniques for `objective_none_c2`) **exceeds the
@@ -415,8 +418,10 @@ this spec + the partition-decision note, not lifted across.
   partitions of the 38 flows (n = 50 trials). Observed: **mean technique JSD
   0.317 vs null p95 0.148** (*nats* — computed with scipy's default base;
   0.457 / 0.213 bits) — modest signal across all six class pairs (range
-  0.284–0.351). Marc's ruling (2026-08-17): a half-split null understates
-  chance separation for a 19:8:6:5 partition (small classes sit far from
+  0.284–0.351; on 19 : 8 : 6 : 5 — 0.443 bits on the 19 : 7 : 7 : 5 partition,
+  [`tactic_profile_statistics.md`](tactic_profile_statistics.md) §10). Marc's
+  ruling (2026-08-17): a half-split null understates
+  chance separation for a 19:8:6:5 (now 19:7:7:5) partition (small classes sit far from
   anything by sampling alone); it is disclosed as lenient and is no longer
   the load-bearing check.
 - **Discrimination check, size-matched null, tactic-to-tactic resolution
@@ -424,11 +429,13 @@ this spec + the partition-decision note, not lifted across.
   *transition-share* distributions — distinct flows per inter-tactic
   primary-tactic pair, the count L3's W-A weights are built from — against a
   size-matched label-shuffle null (class sizes preserved, 2 000 relabellings,
-  seed 20260528). Observed: **0.501 vs null p50 0.500 / p95 0.576, *p* =
-  0.50 (n = 38); 0.534 vs 0.558 / 0.632, *p* = 0.73 (n = 29)**. The profiles'
+  seed 20260528). Observed (19 : 7 : 7 : 5, post-ruling): **0.499 vs null p50
+  0.498 / p95 0.572, *p* = 0.49 (n = 38); 0.532 vs 0.552 / 0.624, *p* = 0.71
+  (n = 29)** — on 19 : 8 : 6 : 5 it was 0.501 / 0.500 / 0.576, *p* = 0.50 and
+  0.534 / 0.558 / 0.632, *p* = 0.73. The profiles'
   transition-share distributions do **not** separate beyond chance at this
   corpus size; the only resolution that clears the strict null is the
-  15-cell tactic share (*p* = 0.02 / 0.03), and only across the
+  15-cell tactic share (*p* = 0.013 / 0.018 post-ruling; 0.02 / 0.03 before), and only across the
   impact-present / impact-absent line. Recorded verdict and cited numbers
   are pinned by `test_transition_share_size_matched_null_verdict`; the full
   statistics, the pooling sensitivity and the chapter-facing number set are
@@ -479,12 +486,14 @@ Corpus-level JSD is supportive but not definitive.
    cheap and decisive; Mitigation 3 is the test the thesis defence would
    actually need to point to. Picking which to run when belongs to the
    simulator-driven evaluation phase, not here.
-3. **Fifth class (`monetisation` / `multi-purpose`)?** Two flows
-   (`mac_malware_steals_crypto`, `searchawesome_adware`) sit awkwardly within
-   the 4-class scheme — credential/monetisation operations that don't cleanly
-   fit `objective_exfiltration` or `objective_impact`. A 5-class scheme with an explicit
-   `monetisation` class would re-classify both, but the current evidence (2
-   of 38 flows, both `low`-confidence) does not justify the extra class.
+3. **Fifth class (`monetisation` / `multi-purpose`)? — closed by ruling
+   (2026-08-17).** The two flows that sat awkwardly (`mac_malware_steals_crypto`,
+   `searchawesome_adware`) were ruled into the existing classes: Mac into
+   `objective_exfiltration_impact` (two monetisation channels = both objective
+   tactics in one flow), SearchAwesome into `objective_none_c2` by elimination
+   (it realises neither objective tactic). No fifth class; the residual class
+   now has one member there by elimination rather than pre-payload structure
+   ([`structural_baseline.md`](structural_baseline.md) §(g)).
 4. **Petri-net per-class tractability.** All four classes exceed the
    10–20-technique tractability bound for end-to-end Petri-net encoding
    (min class is `objective_none_c2` at 39 nodes). If Petri-net at L4
@@ -492,7 +501,8 @@ Corpus-level JSD is supportive but not definitive.
    ([`architecture.md`](../../architecture.md) §(f) revisit), per-class encoding
    would need manually-curated *slices* (e.g. the primer's 6-node hand-pick
    within the T1486 cone), not full class subgraphs.
-5. **Corpus growth thresholds.** The 19:8:6:5 split is corpus-faithful; a
+5. **Corpus growth thresholds.** The 19:7:7:5 split (19:8:6:5 before the
+   2026-08-17 rulings) is corpus-faithful; a
    hand-curated incident addition (per the GAP per-flow seam,
    [`01_gap_schema.md`](../gap/gap_schema.md) Decision 4) that materially changes
    the ratio re-opens whether the 4-class cardinality is right.

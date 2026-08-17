@@ -640,8 +640,12 @@ def test_interval_report_on_a_measure_separates_only_disjoint_pairs():
 def seeded_movement_run():
     from mtdsim.l3_simulation.movement.run import run_movement
 
+    # seed 11 (was 0 before 2026-08-17): after Marc's membership rulings the
+    # none_c2 net's sink moved to `privilege-escalation`, which seed 0 reaches at
+    # t≈106 with no MTD interrupt (the walk ends there; the MTD clock does not).
+    # Seed 11 walks to t≈2112 with nine interrupts — the shape these tests need.
     return run_movement(
-        "objective_none_c2", seed=0, horizon=3_000,
+        "objective_none_c2", seed=11, horizon=3_000,
         mtd_scheme="random", mtd_interval=200,
     )
 
@@ -1299,7 +1303,7 @@ def test_the_curve_re_derives_exactly_from_a_re_created_run(seeded_movement_run)
     from mtdsim.l3_simulation.movement.run import run_movement
 
     again = run_movement(
-        "objective_none_c2", seed=0, horizon=3_000,
+        "objective_none_c2", seed=11, horizon=3_000,
         mtd_scheme="random", mtd_interval=200,
     )
     model = exposure_test_model()

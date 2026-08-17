@@ -283,10 +283,10 @@ is the architecture-level summary.
   0.284–0.351), and the operator-deduplicated re-check
   ([`02_gasp_schema.md`](pipeline/gasp/gasp_schema.md) §(g)) survives that null
   on the n=29 corpus. **Ruled 2026-08-17 (Marc):** the half-split null is the
-  lenient comparator for a 19:8:6:5 partition; under the size-matched
+  lenient comparator for a 19:7:7:5 partition; under the size-matched
   label-shuffle null, at the tactic-to-tactic resolution L3 consumes, the
   profiles' transition-share distributions do *not* separate beyond chance
-  (*p* = 0.50 / 0.73) — the partition's signal is the objective tactic itself
+  (*p* = 0.49 / 0.71 on the post-ruling partition; 0.50 / 0.73 before) — the partition's signal is the objective tactic itself
   ([`tactic_profile_statistics.md`](pipeline/gasp/tactic_profile_statistics.md)).
   Simulator-level discrimination is L3/L4-scoped, not L2, and now carries the
   discrimination claim.

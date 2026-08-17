@@ -11,8 +11,8 @@ Build code: [`src/mtdsim/l2_subgraph/`](../../src/mtdsim/l2_subgraph).
 |---|---|---|
 | `classification.csv` | **computed** | flow_id → class_name + audit metadata carried through |
 | `gasp_objective_exfiltration.json` | **computed** | `SubgraphView` for `objective_exfiltration` (19 flows) |
-| `gasp_objective_impact.json` | **computed** | `SubgraphView` for `objective_impact` (8 flows) |
-| `gasp_objective_exfiltration_impact.json` | **computed** | `SubgraphView` for `objective_exfiltration_impact` (6 flows) |
+| `gasp_objective_impact.json` | **computed** | `SubgraphView` for `objective_impact` (7 flows) |
+| `gasp_objective_exfiltration_impact.json` | **computed** | `SubgraphView` for `objective_exfiltration_impact` (7 flows) |
 | `gasp_objective_none_c2.json` | **computed** | `SubgraphView` for `objective_none_c2` (5 flows) |
 | `_viz/` | gitignored | diagnostic visualisations (regenerable via `_viz/gasp_viz.py`) |
 
@@ -47,12 +47,12 @@ OceanLotus, Sandworm, Lazarus) to one representative — the flow with the
 highest `n_actions`. If the JSD signal survives the deduplication, the
 per-class discrimination is operator-robust. Its null is a random
 **half-split** of the corpus — recorded (Marc, 2026-08-17) as the lenient
-comparator for a 19:8:6:5 partition; the load-bearing check is now the
+comparator for a 19:7:7:5 partition; the load-bearing check is now the
 **size-matched label-shuffle** null at **tactic-to-tactic (transition-share)
 resolution**, whose recorded verdict is that the profiles do *not* separate
 beyond chance at this corpus size. Both lines below are written by the gate;
 JSD is in bits (`jensenshannon(..., base=2) ** 2`, in [0, 1]) — the
 pre-2026-08-17 numbers (0.3149 / 0.1849) were in nats.
 
-**Operator-dedup JSD re-check:** mean JSD = 0.4543 bits, half-split null p95 = 0.2667, n_kept = 29 flows. See [`docs/notes/ch4_methods/operator_concentration.md`](../../docs/notes/ch4_methods/operator_concentration.md) for the mitigation rationale.
-**Size-matched null, tactic-to-tactic resolution:** mean pairwise transition-share JSD = 0.5344 bits, size-matched null p95 = 0.6322, p = 0.733, n = 29 flows (does not clear — the recorded verdict; see [`docs/implementation/pipeline/gasp/tactic_profile_statistics.md`](../../docs/implementation/pipeline/gasp/tactic_profile_statistics.md)).
+**Operator-dedup JSD re-check:** mean JSD = 0.4623 bits, half-split null p95 = 0.2667, n_kept = 29 flows. See [`docs/notes/ch4_methods/operator_concentration.md`](../../docs/notes/ch4_methods/operator_concentration.md) for the mitigation rationale.
+**Size-matched null, tactic-to-tactic resolution:** mean pairwise transition-share JSD = 0.5319 bits, size-matched null p95 = 0.6236, p = 0.708, n = 29 flows (does not clear — the recorded verdict; see [`docs/implementation/pipeline/gasp/tactic_profile_statistics.md`](../../docs/implementation/pipeline/gasp/tactic_profile_statistics.md)).

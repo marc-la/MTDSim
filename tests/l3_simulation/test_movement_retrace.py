@@ -27,19 +27,33 @@ HORIZON = 15_000
 
 # The profiles whose nets carry a sink under the overlay-on arm, and those that
 # do not — the second group is the internal control on the whole change.
-SINK_PROFILES = ("objective_exfiltration", "objective_exfiltration_impact", "objective_none_c2")
-SINKLESS_PROFILES = ("aggregate", "objective_impact")
+# Re-pinned 2026-08-17 after Marc's membership rulings (19/8/6/5 -> 19/7/7/5):
+# `objective_impact` lost SearchAwesome and with it `collection`'s only
+# out-edge, so it now carries a sink (`collection`) and is no longer a control;
+# `objective_none_c2`'s sink moved from `defense-impairment` to
+# `privilege-escalation`. Only the aggregate is sinkless now.
+SINK_PROFILES = (
+    "objective_exfiltration",
+    "objective_impact",
+    "objective_exfiltration_impact",
+    "objective_none_c2",
+)
+SINKLESS_PROFILES = ("aggregate",)
 
 # Carrying a sink and *reaching* it are different things, and the difference is a
 # fact about the synthetic pre-intrusion overlay rather than about the policy.
-# `objective_none_c2` has `defense-impairment` as a structural sink but never
-# walks into it with the overlay on (0 retraces over 10 seeds); with the overlay
-# off it strands at `reconnaissance` / `resource-development` and retraces freely
-# (49 over the same seeds). So the arm is part of the case, and the tests that
+# Before 2026-08-17 `objective_none_c2` had `defense-impairment` as a structural
+# sink but never walked into it with the overlay on (0 retraces over 10 seeds),
+# retracing only with the overlay off (stranding at `reconnaissance` /
+# `resource-development`). Its post-ruling sink `privilege-escalation` is
+# reached on both arms (~20 retraces per seed), so every class now retraces
+# with the overlay on; the arm is still part of the case, and the tests that
 # would otherwise pass vacuously say which arm they mean.
 RETRACING_ARMS = (
     ("objective_exfiltration", True),
+    ("objective_impact", True),
     ("objective_exfiltration_impact", True),
+    ("objective_none_c2", True),
     ("objective_none_c2", False),
 )
 
@@ -151,10 +165,14 @@ def test_gate1_retraces_are_a_small_fraction_of_the_walk(profile, overlay) -> No
     frequency stays low — so the frequency is asserted, not assumed. A failure
     here is the design's premise breaking, and the response is to re-open §3.4,
     not to raise the threshold."""
+    total = 0
     for seed in SEEDS:
         on = _run(profile, retrace=True, seed=seed, with_synthetic_overlay=overlay)
-        assert on.retrace_count > 0
+        # Whether a given seed reaches a sink at all is stochastic (exfiltration
+        # seed 42 does not, post-2026-08-17); non-vacuity is asserted pooled.
+        total += on.retrace_count
         assert on.retrace_count / len(on.records) < 0.10
+    assert total > 0, f"{profile} never retraced — the gate would pass vacuously"
 
 
 # --- gate 3: determinism (SIM-05), and no new RNG stream --------------------

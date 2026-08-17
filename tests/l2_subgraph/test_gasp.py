@@ -49,8 +49,8 @@ from mtdsim.l2_subgraph.dedup import (
 
 EXPECTED_CLASS_COUNTS = {
     "objective_exfiltration": 19,
-    "objective_impact": 8,
-    "objective_exfiltration_impact": 6,
+    "objective_impact": 7,
+    "objective_exfiltration_impact": 7,
     "objective_none_c2": 5,
 }
 
@@ -258,7 +258,7 @@ SIZE_MATCHED_TRIALS = 2000
 SIZE_MATCHED_SEED = 20260528
 # Recorded in docs/implementation/pipeline/gasp/tactic_profile_statistics.md;
 # tools/gasp_tactic_profile_stats.py reproduces them.
-RECORDED_TRANSITION_JSD = {"full": 0.501, "dedup": 0.534}
+RECORDED_TRANSITION_JSD = {"full": 0.499, "dedup": 0.532}  # re-pinned 2026-08-17 (19/7/7/5)
 
 
 def _transition_share(gap: dict, flow_ids: set[str], pairs: list[tuple[str, str]]) -> np.ndarray:

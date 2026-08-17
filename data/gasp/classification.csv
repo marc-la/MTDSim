@@ -1,4 +1,5 @@
 flow_id,class_name,metadata_confidence,attribution
+cisa_aa22_138b_vmware_workspace_alt,objective_exfiltration,medium,unknown
 cisa_aa22_138b_vmware_workspace_ta1,objective_exfiltration,high,unknown
 cobalt_kitty_campaign,objective_exfiltration,high,G0050
 equifax_breach,objective_exfiltration,high,unknown
@@ -6,7 +7,6 @@ fin13_case_1,objective_exfiltration,high,G1016
 fin13_case_2,objective_exfiltration,high,G1016
 ivanti_vulnerabilities,objective_exfiltration,high,unknown
 jp_morgan_breach,objective_exfiltration,high,unknown
-mac_malware_steals_crypto,objective_exfiltration,medium,unknown
 marriott_breach,objective_exfiltration,high,unknown
 mitre_nerve,objective_exfiltration,high,unknown
 muddy_water,objective_exfiltration,high,G0069
@@ -22,18 +22,18 @@ black_basta_ransomware,objective_exfiltration_impact,high,unknown
 conti_cisa_alert,objective_exfiltration_impact,high,G0102
 conti_pwc,objective_exfiltration_impact,high,G0102
 conti_ransomware,objective_exfiltration_impact,high,G0102
+mac_malware_steals_crypto,objective_exfiltration_impact,high,unknown
 ragnar_locker,objective_exfiltration_impact,high,G0125
 revil,objective_exfiltration_impact,high,G0115
 cisa_iranian_apt,objective_impact,high,unknown
 maastricht_university_ransomware,objective_impact,high,unknown
 notpetya,objective_impact,high,G0034
-searchawesome_adware,objective_impact,low,unknown
 shamoon,objective_impact,high,unknown
 sony_malware,objective_impact,high,G0032
 tesla_kubernetes_breach,objective_impact,high,unknown
 whispergate,objective_impact,high,G0034
-cisa_aa22_138b_vmware_workspace_alt,objective_none_c2,low,unknown
 cisa_aa22_138b_vmware_workspace_ta2,objective_none_c2,high,unknown
 dfir_bumblebee_round_2,objective_none_c2,high,unknown
 gootloader,objective_none_c2,high,unknown
 hancitor_dll,objective_none_c2,high,unknown
+searchawesome_adware,objective_none_c2,high,unknown

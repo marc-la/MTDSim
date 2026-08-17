@@ -43,38 +43,38 @@ exists only where the prefix gap is bridged:
 
 | Profile | outcomes | objective rate | median net t-to-obj | p10–p90 | mean states | top occupancy (mean dwell share) |
 |---|---|--:|--:|--:|--:|---|
-| `objective_exfiltration` | objective 92, stalled 8 | 92% | 333.2 s | 99.9 s–841.8 s | 14.8 | stealth 17%, persistence 15%, exfiltration 15% |
-| `objective_impact` | objective 100 | 100% | 255.0 s | 63.0 s–670.8 s | 12.1 | impact 22%, stealth 19%, execution 14% |
-| `objective_exfiltration_impact` | objective 83, stalled 17 | 83% | 699.0 s | 229.6 s–1,384.2 s | 23.8 | stealth 22%, discovery 16%, command-and-control 15% |
-| `objective_none_c2` | objective 87, stalled 13 | 87% | 134.0 s | 76.5 s–253.3 s | 7.0 | command-and-control 31%, execution 30%, discovery 8% |
+| `objective_exfiltration` | objective 88, stalled 12 | 88% | 328.8 s | 99.0 s–875.5 s | 14.4 | stealth 16%, persistence 16%, exfiltration 14% |
+| `objective_impact` | objective 79, stalled 21 | 79% | 175.5 s | 70.2 s–515.5 s | 8.6 | impact 20%, stealth 16%, execution 16% |
+| `objective_exfiltration_impact` | objective 84, stalled 16 | 84% | 701.2 s | 230.2 s–1,464.6 s | 24.1 | stealth 23%, discovery 16%, command-and-control 14% |
+| `objective_none_c2` | objective 79, stalled 21 | 79% | 117.0 s | 72.0 s–262.9 s | 5.7 | command-and-control 30%, execution 30%, stealth 10% |
 | `aggregate` | objective 100 | 100% | 117.0 s | 67.5 s–233.1 s | 5.8 | command-and-control 21%, stealth 14%, persistence 13% |
 
 ## Recon-seeded cells (bridged profiles only; same arm)
 
 | Profile | outcomes | objective rate | median net t-to-obj |
 |---|---|--:|--:|
-| `objective_exfiltration` | objective 92, stalled 8 | 92% | 255.0 s |
-| `objective_impact` | objective 100 | 100% | 279.2 s |
+| `objective_exfiltration` | objective 95, stalled 5 | 95% | 276.0 s |
+| `objective_impact` | objective 70, stalled 30 | 70% | 200.5 s |
 | `aggregate` | objective 100 | 100% | 100.2 s |
 
 ## Sweep extremes — does the ranking survive the band? (initial-access, weighted operator-dedup)
 
 | Profile | median net t-to-obj @ sweep_low | @ central | @ sweep_high |
 |---|--:|--:|--:|
-| `objective_exfiltration` | 80.5 s | 333.2 s | 1,031.0 s |
-| `objective_impact` | 65.8 s | 255.0 s | 950.0 s |
-| `objective_exfiltration_impact` | 131.2 s | 699.0 s | 1,956.0 s |
-| `objective_none_c2` | 44.5 s | 134.0 s | 529.0 s |
+| `objective_exfiltration` | 87.2 s | 328.8 s | 972.0 s |
+| `objective_impact` | 57.1 s | 175.5 s | 799.0 s |
+| `objective_exfiltration_impact` | 149.7 s | 701.2 s | 1,922.0 s |
+| `objective_none_c2` | 37.1 s | 117.0 s | 529.0 s |
 | `aggregate` | 33.8 s | 117.0 s | 471.5 s |
 
 ## Policy and corpus-variant sensitivity (initial-access, central dwells)
 
 | Profile | median net t-to-obj weighted-dedup | weighted-raw | uniform (structural floor) | objective rate dedup / raw / uniform |
 |---|--:|--:|--:|---|
-| `objective_exfiltration` | 333.2 s | 266.8 s | 335.0 s | 92% / 98% / 100% |
-| `objective_impact` | 255.0 s | 256.5 s | 360.8 s | 100% / 100% / 100% |
-| `objective_exfiltration_impact` | 699.0 s | 483.0 s | 657.5 s | 83% / 77% / 100% |
-| `objective_none_c2` | 134.0 s | 144.0 s | 76.5 s | 87% / 87% / 84% |
+| `objective_exfiltration` | 328.8 s | 269.0 s | 335.0 s | 88% / 97% / 100% |
+| `objective_impact` | 175.5 s | 194.8 s | 299.5 s | 79% / 76% / 73% |
+| `objective_exfiltration_impact` | 701.2 s | 475.0 s | 657.5 s | 84% / 79% / 100% |
+| `objective_none_c2` | 117.0 s | 117.0 s | 63.0 s | 79% / 75% / 86% |
 | `aggregate` | 117.0 s | 117.0 s | 134.5 s | 100% / 100% / 100% |
 
 ## Class vs aggregate — same-objective comparison (central dwells)
@@ -88,10 +88,10 @@ comparison).
 
 | Class | class median net t-to-obj | aggregate median (same objective, n) | occupancy L1 vs aggregate |
 |---|--:|--:|--:|
-| `objective_exfiltration` | 333.2 s | 112.5 s (n=23) | 0.37 |
-| `objective_impact` | 255.0 s | 118.8 s (n=26) | 0.49 |
-| `objective_exfiltration_impact` | 699.0 s | — | 0.47 |
-| `objective_none_c2` | 134.0 s | 117.0 s (n=51) | 0.72 |
+| `objective_exfiltration` | 328.8 s | 112.5 s (n=23) | 0.36 |
+| `objective_impact` | 175.5 s | 118.8 s (n=26) | 0.51 |
+| `objective_exfiltration_impact` | 701.2 s | — | 0.48 |
+| `objective_none_c2` | 117.0 s | 117.0 s (n=51) | 0.64 |
 
 ## Verdict
 
@@ -99,10 +99,10 @@ On the primary cell (initial-access entry, weighted routing on the operator-dedu
 
 That ordering **survives the catalogue's own sweep band**: it is identical at both duration extremes (every dwell at its anchor-unit sweep bound), so the behavioural separation is not an artefact of the v0 dwell point-values.
 
-Under the uniform (structural-floor) policy the ordering differs (objective_none_c2, aggregate, objective_exfiltration, objective_impact, objective_exfiltration_impact), so the W-A weight layer, not shape alone, carries part of the behavioural separation.
+Under the uniform (structural-floor) policy the ordering differs (objective_none_c2, aggregate, objective_impact, objective_exfiltration, objective_exfiltration_impact), so the W-A weight layer, not shape alone, carries part of the behavioural separation.
 
 The raw-corpus robustness arm preserves the ordering, so the operator-dedup discipline does not drive the ranking.
 
-`objective_exfiltration_impact`'s visited-set objective (impact **and** exfiltration) completes in 83% of primary-cell runs (the rest cap or stall) — the single-token both-achieved condition is exercisable but demanding on the observed-only base.
+`objective_exfiltration_impact`'s visited-set objective (impact **and** exfiltration) completes in 84% of primary-cell runs (the rest cap or stall) — the single-token both-achieved condition is exercisable but demanding on the observed-only base.
 
-Per-tactic occupancy separates the envelopes from the null profile by mean-dwell-share L1 distance 0.37 (`objective_exfiltration`) to 0.72 (`objective_none_c2`); the recon-seeded arm exists only where the prefix gap is bridged, and its impossibility on `objective_exfiltration_impact` / `objective_none_c2` is itself a recorded envelope result.
+Per-tactic occupancy separates the envelopes from the null profile by mean-dwell-share L1 distance 0.36 (`objective_exfiltration`) to 0.64 (`objective_none_c2`); the recon-seeded arm exists only where the prefix gap is bridged, and its impossibility on `objective_exfiltration_impact` / `objective_none_c2` is itself a recorded envelope result.
