@@ -437,168 +437,103 @@ which is known for double extortion, so we are not surprised there.
 \subsection{L3: Generalised stochastic Petri-net formalism}
 \label{subsec:petri-formalism}
 
-% ---- Marc's dictation, pass 2 + 3a applied (2026-08-17); 3b walked by
-%      Marc; pass 4 inline scrutiny run and ruled on 2026-08-17; all
-%      session proposals ACCEPTED and applied 2026-08-17 (each built from
-%      Marc's dictated rulings). Remaining bracketed comments are open
-%      flags for Marc's rulings. ----
-To
-understand this, we need to touch on what we got from L0--L2: these L2 attack profiles are cyclic (37\% of the L1 edges go backwards in
-terms of the sequential order provided by the cyber kill chain),
-pre-intrusion is a missing element, and we needed some sort of data
-structure, or unified structure, to pipe in these attack profiles from
-L2 as an input. This is what the Petri
-nets provide.
-% [TIGHTEN PROPOSAL 1, deletion only] "some sort of data structure, or
-%   unified structure," -> "some sort of data structure," We ruled out attack graphs, which we already have from L1, because
-they do not supply the timing and stochastic elements we needed, so we
-needed a more nuanced data structure; DAGs, because they are acyclic;
-% [TIGHTEN PROPOSAL 2, deletion only] "...we needed, so we needed a more
-%   nuanced data structure; DAGs, ..." -> "...we needed; DAGs, ..." (the
-%   P1 sentence carries "we needed a data structure").
-and the other forms of Petri net because of the timing on the
-transitions, which is not what we needed: an SPN puts an exponential
-clock on every transition, so the routing becomes a race of
-transitions, and a DSPN puts a fixed delay on the transition, so we
-used a GSPN, which provides the immediate transitions we are using.
+% ---- Marc's pass-5 compression (2026-08-18), written in with his rulings
+%      on the session's scrutiny of it applied. Earlier pass records live
+%      in the drafting handoff and git history. Order ruled: why GSPN >
+%      the model > pre-intrusion solution > limits that carry to L4. ----
+% [topic-sentence slot --- yours: "PETRI NETS RIGHT FIT."]
+We ruled out attack graphs, which we already have from L1, because they
+do not supply the timing and stochastic elements we needed, so we needed
+a more nuanced data structure; DAGs, because they are acyclic (the L1
+attack graph is cyclic); and the other forms of Petri net because of the
+requirement of timing on the transitions, so we used a GSPN, which
+provides the immediate transitions we are using. There is also a large
+precedent for stochastic Petri nets in the MTD evaluation
+space~\citep{cai2016, chobenasher2018, mendonca2023}.
+% [APPLIED, your ruling] the sentence head restored ("We ruled out attack
+%   graphs, which we already have from L1, because ...").
+% PROPOSAL (SPN/DSPN clause, from your words this round: SPN not the right
+%   mechanism, DSPN over-engineered, we chose the one in the middle) ---
+%   replace "and the other forms of Petri net ... we are using" with:
+%   and the other forms of Petri net: an SPN does not have the right
+%   mechanism, since it times every transition, and a DSPN is
+%   over-engineered, adding a fixed delay we do not need, so we used the
+%   one in the middle, a GSPN, which provides the immediate transitions we
+%   are using.
+% [open, minor] the 37% number went with the cut sentence; "never cut
+%   numbers" --- "(the L1 attack graph is cyclic: 37% of its edges run
+%   backward)" is five words. Your call.
 
+Petri nets have their places, which are the Enterprise ATT\&CK
+tactics~\citep{mitre2026attackv19}. The transitions are tactic--tactic
+pairs. Self-loops are dropped, because those are represented through the
+dwell times we are providing: each tactic has a time allotted to it. We
+are using one token, placed at the earliest tactic --- reconnaissance
+with the pre-intrusion overlay in place, and in lieu of that, initial
+access. We construct this Petri net before execution of the simulator.
+% [RULED, do not re-flag] "analyst-drawn from L2" stays out --- Marc:
+%   sits badly beside the synthetic overlay paragraph; the L2 subsection
+%   carries provenance.
+% [open, minor, unruled] the one-token trade-off (AND structures <->
+%   groundable weights) is out; restore as one clause after "one token"
+%   or leave.
 
-Petri nets have their places, which are the ATT\&CK
-tactics. The Enterprise ATT\&CK tactics are up to 15~\citep{mitre2026attackv19}, depending on which are adopted
-from the L2 attack profiles. The transitions are tactic--tactic pairs,
-analyst-drawn from L2 as well.
-% [MERGE applied: ¶2 + ¶3 joined --- one topic, what the net is.]
-Self-loops are dropped, because those are
-represented through the dwell times we are providing: each tactic has a
-time allotted to it, and that is what the self-loop represented.
-% [TIGHTEN PROPOSAL 3, deletion only] "...each tactic has a time allotted
-%   to it, and that is what the self-loop represented." -> "...each tactic
-%   has a time allotted to it."
-The marking, or the token: we are using one token, placed at the
-earliest tactic --- reconnaissance with the pre-intrusion overlay in
-place, and in lieu of that, initial access.
-A trade-off with using one token is that we
-will not be able to use the logical AND structures that were provided
-from earlier in the pipeline, but this allows us to produce groundable,
-usable weights that will allow an attacker agent to traverse the
-network. We construct this Petri net
-before execution of the simulator.
-% [CUT applied: "This is built in SNAKES in Python." --- tooling; lives in
-%   the implementation record / experimental setup.]
-% [TIGHTEN PROPOSAL 4, deletion only] "...the logical AND structures that
-%   were provided from earlier in the pipeline, but this allows us to
-%   produce groundable, usable weights that will allow an attacker agent
-%   to traverse the network." -> "...the logical AND structures, but this
-%   allows us to produce groundable, usable weights."
-
-There exists the issue of pre-intrusion not being built in. MITRE has
-what was known as PRE-ATT\&CK~\citep{strom2018mitre}, now unified into
-the ATT\&CK framework~\citep{mitre2020attackv8}:
-the phases reconnaissance and resource development, before initial
-access, and these are not well connected in our attack profiles. So we
-drew in synthetic out-transitions from reconnaissance to resource
-development to initial access, as well as a backwards transition from
-initial access to reconnaissance, so that we could model the runtime
-behaviour of the attacker agent. This pre-intrusion overlay is a
-sub-Petri-net in its own right: we join it to the attack profiles to
-produce the executable Petri net, and it is declared and kept apart from
-the observed profiles. We can assume that they perform these
-because we know they do that; we just can't detect it in the CTI, and
-it is defensible because nothing detects pre-intrusion activity
-anyway.
-% [CUT applied: "That deals with that blind spot."]
-% [TIGHTEN PROPOSAL 5, deletion only --- keep the second half (Jin's M6
-%   rationale in your words)] "We can assume that they perform these
-%   because we know they do that; we just can't detect it in the CTI, and
-%   it is defensible because nothing detects pre-intrusion activity
-%   anyway." -> "We can assume that they perform these because we know
-%   they do that, and it is defensible because nothing detects
-%   pre-intrusion activity anyway."
-% [VERIFIED 2026-08-17] PRE-ATT\&CK merged into Enterprise ATT\&CK as the
-%   Reconnaissance and Resource Development tactics in ATT\&CK v8,
-%   released 27 Oct 2020 (mitre2020attackv8, fetched); Strom et al. 2018
-%   (verified against the primary PDF, MP180360R1, McLean VA) describes
-%   PRE-ATT\&CK as a *complementary model* published 2017 --- it predates
-%   the merge, so it anchors "MITRE has PRE-ATT\&CK", not the merge.
-%   Both cites inserted; both records in references.bib with their
-%   verification notes.
-% [APPLIED, accepted] sub-Petri-net sentence, with the record clause
-%   ("declared and kept apart from the observed profiles") kept on your
-%   "on the note yes" --- cut at pass 5 if you read that differently.
-%   Terminology ruling: the chapter says *pre-intrusion overlay*, the repo
-%   says *synthetic overlay* --- same object, logical upgrade, no
-%   re-flag. Still not said anywhere: it fires only in the two profiles
-%   whose observed net leaves recon an island.
-Secondly, due to the thinness of our corpus, some
-sink places exist, and we will have to deal with this later in the
-pipeline.
-
-The places are the ATT\&CK tactics, and these allow us
-to produce stochastic times. The attacker agent will consume some
-stochastic amount of time to perform a procedure to achieve a goal,
-which is the tactic. Generalised means that
-% [CUT applied: "We use exponential firing." --- carried by "drawn
-%   exponentially" below.]
-% [TIGHTEN PROPOSAL 6, deletion only] "The places are the ATT\&CK tactics,
-%   and these allow us to produce stochastic times." -> "These allow us to
-%   produce stochastic times." --- NB "These" then points at ¶2's places
-%   two paragraphs back; if that reads loose, the alternative deletion is
-%   the whole sentence, since the next sentence already says the agent
-%   consumes stochastic time at the tactic. Your call which.
-the Petri net provides the capacity for immediate transitions, which we
-are using: each tactic has a time associated with it, drawn
-exponentially to provide stochasticity to the simulator, and the
-out-transitions are immediate.
-% [APPLIED, your ruling: "we're using GSPN because it provides the capacity
-%   for immediate transitions"] --- the places-are-timed phrasing dropped.
-The out-transitions are not timed; they are weighted, and the weighting
-is covered in the L4 parameterisation, so the attacker agent will go from
-goal to goal, tactic to tactic.
-% [CUT applied: "This is not sufficient, because ... dynamic re-weighting
-%   later in the pipeline." --- L4-(ii) mechanics; the next sentence
-%   carries the verdict-acts-on-routing point at this unit's altitude.]
-% [TIGHTEN PROPOSAL 7, deletion only] "The out-transitions are not timed;
-%   they are weighted, and the weighting is covered..." -> "The
-%   out-transitions are weighted, and the weighting is covered..."
 The idea is the Petri net supplies the timing and a component of the
 direction to the attacker agent in the simulator: the out-transitions
 bound where it can go, and the success and failure signals from the
-simulator act on that. The GSPN supplies only the structure --- what the
-attacker can do; the policy, which tactic the attacker agent will do and
-when, emerges through the execution, which is L4.
-This is plug and play, so we can put in our various attack
+simulator act on that. The places in GSPN allow us to produce stochastic
+times. The attacker agent will consume some stochastic amount of time to
+perform a procedure to achieve a goal, which is the tactic. Each tactic
+has a time associated with it, drawn exponentially to provide
+stochasticity to the simulator, and the out-transitions are immediate.
+The GSPN structure is plug and play, so we can put in our various attack
 profiles as an input into these Petri nets, and this provides separation
-and discipline. There is also a large precedent for stochastic Petri
-nets in the MTD evaluation space~\citep{cai2016, chobenasher2018, mendonca2023}.
-% [APPLIED, your ruling: cite the family, not GSPN specifically] "for
-%   stochastic Petri nets" inserted --- the argument holds and is stronger
-%   for it: Cai is GSPN (same formalism), Cho SPN, Mendonça DSPN.
-% [VERIFIED 2026-08-17] all three are SPN-family analytical MTD models:
-%   Cai 2016 GSPN (title; abstract read by Marc); Cho \& Ben-Asher 2018
-%   SPN in SPNP v6, IDS+deception+MTD, MTD = longer attacker recon dwell
-%   (extracted --- extractions/chobenasher2018.md; bib entry transcribed
-%   from the source header, DOI 10.1177/1548512917699725); Mendonça 2023
-%   DSPN, time-based MTD, no attacker (extraction). cai2016 is your
-%   record; the other two are NOT from your verified set --- flagged in
-%   references.bib. (bland2020 remains active as the executable-SPN
-%   *attacker* precedent, if you want it here.)
+and discipline.
+% [APPLIED, your ruling] "(see sensitivity analysis ch5)" deleted --- the
+%   closing paragraph already sends parameters to L4, which declares and
+%   points at ch5.
+% PROPOSAL (M2, the ownership sentence restored by FOLDING it into the
+%   first sentence, so the point is made once --- your words from both
+%   sentences; the join words are "that structure" / "that is") ---
+%   replace the first sentence of this paragraph with:
+%   The Petri net supplies only the structure to the attacker agent in
+%   the simulator: the timing, and the out-transitions that bound where
+%   it can go. The policy --- which tactic the attacker agent will do,
+%   and when --- emerges through the execution, where the success and
+%   failure signals from the simulator act on that structure; that is L4.
+% [open, minor] "generalised" is now carried only by "the out-transitions
+%   are immediate"; a clause naming the coexistence (timed dwell +
+%   immediate routing) is the heading's must-carry --- yours.
 
+The phases reconnaissance and resource development, before initial
+access, are not well connected in our attack profiles. So we drew in
+synthetic out-transitions from reconnaissance to resource development to
+initial access, as well as a backwards transition from initial access to
+reconnaissance, so that we could model the runtime behaviour of the
+attacker agent. This pre-intrusion overlay is a sub-Petri-net in its own
+right: we join it to the attack profiles to produce the executable Petri
+net.
+% [APPLIED, your ruling] PRE-ATT\&CK head dropped as lit-review background
+%   (strom2018mitre / mitre2020attackv8 stay in the bib for ch3); the
+%   fragment repaired by deletion only ("and these" removed).
+% PROPOSAL (M6 justification, one sentence, your earlier words in the
+%   tightened form) --- append after "...the executable Petri net.":
+%   We can assume that they perform these because we know they do that,
+%   and it is defensible because nothing detects pre-intrusion activity
+%   anyway.
+% [open, minor, unruled] "declared and kept apart from the observed
+%   profiles" is out --- the examiner leg; restore or leave.
 
-But there are limits to what the GSPN can provide: parameters
-(the timings of how long the attacker dwells at a tactic; the exponential defence of the dwell times)
-and some mechanics (reweighting the out-transitions a token may choose at
-runtime, based possibly on the success of an attacker agent in the
-simulator; other policies to guide the Petri
-net, like a sink retrace policy). The dwell times do not exist in the
-literature or in any report, so they are inherently arbitrary; they are
-justified against the literature and swept in the sensitivity analysis
-in Chapter~5, and the success signal comes from the simulator at
-execution.
-% [APPLIED 2026-08-18 on your confirmation of the pass-two ruling: replaces
-%   "To keep this project tractable, these are imported: the dwell times
-%   from the literature ...". Chapter~5 -> \ref{sec:sensitivity} when
-%   wired.]
-% [3b] "based possibly on the success" --- hedge; sure or scoped.
+But there are limits to what the GSPN can provide: parameters (the
+timings of how long the attacker dwells at a tactic; the exponential
+defence of the dwell times) and mechanics (reweighting the
+out-transitions a token may choose at runtime, based on the success of
+an attacker agent in the simulator; sink retrace policy). L4 deals with
+this.
+% [note] the "dwell times exist nowhere -> inherently arbitrary ->
+%   justified against the literature -> swept in ch5" sentence moved out
+%   of L3 with this compression; it is 4.2.4.1's opening obligation
+%   (skeleton comment carries it).
 
 
 

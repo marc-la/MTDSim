@@ -433,6 +433,22 @@ most three prioritised moves. Voice is Marc's own gate
     sentence; no fifth rung); L4 heading restored to the ratified "The
     attacker-agent traversal in MTDSim". The earlier "move
     parameterisation into L3" suggestion is superseded.
+  - **L3 pass-5 compression written in (Marc's arrangement, 2026-08-18: why
+    GSPN > the model > pre-intrusion solution > limits that carry to L4;
+    ~330 words live).** Rulings applied, do not re-flag: alternatives head
+    restored; "(see sensitivity analysis ch5)" deleted; PRE-ATT&CK head
+    dropped as lit-review background — `strom2018mitre` and
+    `mitre2020attackv8` are now uncited in the tex but stay active in the
+    bib for ch3; "analyst-drawn from L2" stays out (sits badly beside the
+    overlay paragraph; L2 carries provenance); the arbitrariness/justified/
+    swept sentence leaves L3 for 4.2.4.1. **Three proposals open in the
+    tex** (his words): the SPN-not-right-mechanism / DSPN-over-engineered /
+    GSPN-in-the-middle clause; the M2 ownership fold (structure only; policy
+    emerges through execution = L4) folded into the "supplies the timing"
+    sentence so it is said once; the one-sentence M6 justification (nothing
+    detects pre-intrusion). **Unruled minors:** the 37% number; the
+    "generalised" coexistence clause; the one-token AND trade-off; "declared
+    and kept apart from the observed profiles".
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
