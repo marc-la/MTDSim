@@ -445,21 +445,16 @@ which is known for double extortion, so we are not surprised there.
 We ruled out attack graphs, which we already have from L1, because they
 do not supply the timing and stochastic elements we needed, so we needed
 a more nuanced data structure; DAGs, because they are acyclic (the L1
-attack graph is cyclic); and the other forms of Petri net because of the
-requirement of timing on the transitions, so we used a GSPN, which
-provides the immediate transitions we are using. There is also a large
+attack graph is cyclic); and the other forms of Petri net: an SPN does
+not have the right mechanism, since it times every transition, and a
+DSPN is over-engineered, adding a fixed delay we do not need, so we used
+the one in the middle, a GSPN, which provides the immediate transitions
+we are using. There is also a large
 precedent for stochastic Petri nets in the MTD evaluation
 space~\citep{cai2016, chobenasher2018, mendonca2023}.
 % [APPLIED, your ruling] the sentence head restored ("We ruled out attack
 %   graphs, which we already have from L1, because ...").
-% PROPOSAL (SPN/DSPN clause, from your words this round: SPN not the right
-%   mechanism, DSPN over-engineered, we chose the one in the middle) ---
-%   replace "and the other forms of Petri net ... we are using" with:
-%   and the other forms of Petri net: an SPN does not have the right
-%   mechanism, since it times every transition, and a DSPN is
-%   over-engineered, adding a fixed delay we do not need, so we used the
-%   one in the middle, a GSPN, which provides the immediate transitions we
-%   are using.
+% [APPLIED 2026-08-18] SPN / DSPN / GSPN-in-the-middle clause (yours).
 % [open, minor] the 37% number went with the cut sentence; "never cut
 %   numbers" --- "(the L1 attack graph is cyclic: 37% of its edges run
 %   backward)" is five words. Your call.
@@ -474,14 +469,17 @@ access. We construct this Petri net before execution of the simulator.
 % [RULED, do not re-flag] "analyst-drawn from L2" stays out --- Marc:
 %   sits badly beside the synthetic overlay paragraph; the L2 subsection
 %   carries provenance.
-% [open, minor, unruled] the one-token trade-off (AND structures <->
-%   groundable weights) is out; restore as one clause after "one token"
-%   or leave.
+% [RULED 2026-08-18, do not re-flag] the one-token AND trade-off stays out
+%   of the chapter --- a property of this work's constraints, not of the
+%   formalism; multi-token would use the AND structure --- recorded as a
+%   future-work candidate (structure_to_behaviour_binding.md revisit
+%   conditions; drafting handoff).
 
-The idea is the Petri net supplies the timing and a component of the
-direction to the attacker agent in the simulator: the out-transitions
-bound where it can go, and the success and failure signals from the
-simulator act on that. The places in GSPN allow us to produce stochastic
+The Petri net supplies only the structure to the attacker agent in the
+simulator: the timing, and the out-transitions that bound where it can
+go. The policy --- which tactic the attacker agent will do, and when ---
+emerges through the execution, where the success and failure signals
+from the simulator act on that structure; that is L4. The places in GSPN allow us to produce stochastic
 times. The attacker agent will consume some stochastic amount of time to
 perform a procedure to achieve a goal, which is the tactic. Each tactic
 has a time associated with it, drawn exponentially to provide
@@ -492,18 +490,9 @@ and discipline.
 % [APPLIED, your ruling] "(see sensitivity analysis ch5)" deleted --- the
 %   closing paragraph already sends parameters to L4, which declares and
 %   points at ch5.
-% PROPOSAL (M2, the ownership sentence restored by FOLDING it into the
-%   first sentence, so the point is made once --- your words from both
-%   sentences; the join words are "that structure" / "that is") ---
-%   replace the first sentence of this paragraph with:
-%   The Petri net supplies only the structure to the attacker agent in
-%   the simulator: the timing, and the out-transitions that bound where
-%   it can go. The policy --- which tactic the attacker agent will do,
-%   and when --- emerges through the execution, where the success and
-%   failure signals from the simulator act on that structure; that is L4.
-% [open, minor] "generalised" is now carried only by "the out-transitions
-%   are immediate"; a clause naming the coexistence (timed dwell +
-%   immediate routing) is the heading's must-carry --- yours.
+% [APPLIED 2026-08-18] M2 ownership fold (structure only; policy emerges
+%   through execution = L4). "Generalised" coexistence clause: Marc ---
+%   not important; carried by "the out-transitions are immediate".
 
 The phases reconnaissance and resource development, before initial
 access, are not well connected in our attack profiles. So we drew in
@@ -512,15 +501,13 @@ initial access, as well as a backwards transition from initial access to
 reconnaissance, so that we could model the runtime behaviour of the
 attacker agent. This pre-intrusion overlay is a sub-Petri-net in its own
 right: we join it to the attack profiles to produce the executable Petri
-net.
+net. We can assume that they perform these because we know they do
+that, and it is defensible because nothing detects pre-intrusion
+activity anyway.
 % [APPLIED, your ruling] PRE-ATT\&CK head dropped as lit-review background
 %   (strom2018mitre / mitre2020attackv8 stay in the bib for ch3); the
 %   fragment repaired by deletion only ("and these" removed).
-% PROPOSAL (M6 justification, one sentence, your earlier words in the
-%   tightened form) --- append after "...the executable Petri net.":
-%   We can assume that they perform these because we know they do that,
-%   and it is defensible because nothing detects pre-intrusion activity
-%   anyway.
+% [APPLIED 2026-08-18] M6 justification sentence.
 % [open, minor, unruled] "declared and kept apart from the observed
 %   profiles" is out --- the examiner leg; restore or leave.
 

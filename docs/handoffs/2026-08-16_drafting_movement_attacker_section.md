@@ -446,9 +446,13 @@ most three prioritised moves. Voice is Marc's own gate
     GSPN-in-the-middle clause; the M2 ownership fold (structure only; policy
     emerges through execution = L4) folded into the "supplies the timing"
     sentence so it is said once; the one-sentence M6 justification (nothing
-    detects pre-intrusion). **Unruled minors:** the 37% number; the
-    "generalised" coexistence clause; the one-token AND trade-off; "declared
-    and kept apart from the observed profiles".
+    detects pre-intrusion) — **all three approved and applied 2026-08-18.**
+    Ruled: the "generalised" clause not important (out); the one-token AND
+    trade-off out of the chapter — a constraint of this work, not the
+    formalism; multi-token = **future-work candidate**, recorded in
+    `structure_to_behaviour_binding.md` revisit conditions for ch7.
+    **Still unruled, minor:** the 37% number; "declared and kept apart from
+    the observed profiles". L3 live text ~370 words.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
