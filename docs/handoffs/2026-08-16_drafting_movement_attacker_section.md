@@ -354,8 +354,19 @@ most three prioritised moves. Voice is Marc's own gate
     Ben-Asher 2018 pending records — Marc will try to obtain Cai (record
     currently: off-limits, second-hand via Mendonça). Precedent sentence
     cites `mendonca2023` only for now.
-  - **Draft state:** ~550 words with proposals uncommitted; Marc to accept /
-    reword proposals, then pass 5.
+  - **Draft state (2026-08-17, later):** Marc accepted every proposal; all
+    applied as live text (~850 words against ~250 — pass 5 will be heavy;
+    the L2-style cut order applies: duplicates → re-explanations → second
+    examples → covered qualifiers; never-cut: the alternatives sentence,
+    the overlay + entry disclosures, the weighted-not-timed sentence, the
+    ceiling paragraph, citations). Open flags left in the tex for his
+    rulings: SPN "weighted vs timing" `[VERIFY]`; self-loop "prior stages"
+    `[WRONG minor]`; PRE-ATT&CK citation anchor `[VERIFY]`; the overlay
+    declared/never-in-observed-nets leg `[INSERT minor]`; "calibrated"
+    `[3b]`; the two `[NOTE]` join-word disclosures; the weighting bracket
+    (`[covered later in the pipeline]`); Cho & Ben-Asher record; "from
+    the literature" `[SCOPE]`; "possibly" `[3b]`. Cai 2016 record obtained
+    and cited (label settled GSPN).
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
