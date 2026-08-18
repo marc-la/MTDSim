@@ -54,7 +54,7 @@ record stays in the repo. The problem definition is NOT this section's job
 | L0–L1 technique graph | how campaigns become structure | consensus thresholds; what the graph cannot represent | `notes/ch4_methods/technique_graph_construction.md`, `cti_corpus_as_snapshot.md` |
 | L2 attack profiles | how structure becomes objective-conditioned | objective over motivation; the four classes; operator concentration | `objective_partition_rationale.md`, `objective_partition_findings.md`, `operator_concentration.md` |
 | L3 GSPN formalism | why this formalism | alternatives ranked one sentence each (feasibility study behind it); synthetic pre-intrusion structure; entry-point selection (D8) | `implementation/pipeline/ogasp/petri_feasibility.md`, `stochastic_timing_design.md` |
-| L4 traversal (2 units) | where the numbers come from + how the net drives the simulator | corpus sparsity; dwell standard-of-evidence; sweep pointer at ch5 (never restated); mapping-as-chosen-input-parameter; routing ablatability | `structure_to_behaviour_binding.md`, `operational_validation.md`, `exponential_as_tractability_choice.md`, `pipeline/ogasp/controller.md` |
+| L4 traversal (2 units; two subsubsections ruled 2026-08-18: Parameterisation / Mechanics and the join) | what the Petri net cannot supply, and how the net is joined to MTDSim — where the numbers come from + how the net drives the simulator | corpus sparsity; dwell standard-of-evidence; sweep pointer at ch5 (never restated); mapping-as-chosen-input-parameter; routing ablatability | `structure_to_behaviour_binding.md`, `operational_validation.md`, `exponential_as_tractability_choice.md`, `pipeline/ogasp/controller.md` |
 
 The two commitments the L4 fold must not lose (from the 2026-08-12 merge, carried
 through the 2026-08-16 fold): **the tactic-to-verb mapping as a chosen input
@@ -424,9 +424,15 @@ most three prioritised moves. Voice is Marc's own gate
     Mechanics / Join to MTDSim) — coherent only on the portability line
     (mechanics = simulator-agnostic walk rules; join = what does not lift:
     tactic→verb table, verdict source, state seam, penalty, bit-identity
-    ablation); a third heading is a named overdraft on the ledger. Session
-    recommendation: two unless Mechanics earns its own ~250 at dictation.
-    The earlier "move parameterisation into L3" suggestion is superseded.
+    ablation); a third heading is a named overdraft on the ledger.
+    **Ruled (Marc, 2026-08-18): two** — the three-way split "not well
+    motivated". Written into the skeleton: `\subsubsection{Parameterisation}`
+    and `\subsubsection{Mechanics and the join to MTDSim}` under a
+    re-framed L4 comment ("what the Petri net cannot supply, and how the
+    net is joined to MTDSim"; cross-layer supply may be said in a
+    sentence; no fifth rung); L4 heading restored to the ratified "The
+    attacker-agent traversal in MTDSim". The earlier "move
+    parameterisation into L3" suggestion is superseded.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).

@@ -605,25 +605,51 @@ execution.
 % 2 units --- the backwards join onto the ch2 substrate, folded from the
 % former Parameterisation + Traversal-and-the-controller subsections
 % (Marc's ruling, 2026-08-16; traversal/controller were themselves
-% merged 2026-08-12). Any subsubsection heading added at drafting is a
-% unit claim on the ledger --- the fold holds exactly two.
-% Content the fold must carry:
-%  (i) parameterisation --- transition weights from flow proportions
-%      (corpus sparsity accepted and disclosed); per-tactic dwell times:
-%      standard of evidence, calibration, distribution shape; sweep
-%      discipline points at sec:sensitivity rather than restating it.
-%  (ii) mechanics --- action selection among enabled transitions,
-%      tactic-to-verb dispatch, outcome resolution via the substrate
-%      verdict, verdict feedback and re-weighting, attacker state, the
-%      attacker-only seam.
+% merged 2026-08-12). The fold holds exactly two units and, per Marc's
+% ruling of 2026-08-18, exactly TWO subsubsections --- one per unit, named
+% below (a three-way Parameterisation / Mechanics / Join split was
+% considered and declined as not well motivated). Any further heading is
+% a unit claim on the ledger and displaces one of these.
+% FRAMING (Marc, 2026-08-18): L4 is *what the Petri net cannot supply,
+% and how the net is joined to MTDSim* --- it answers the L3 ceiling
+% paragraph one-to-one (parameters; mechanics), and it may say in a
+% sentence that parameterisation and mechanics are supplied across the
+% layers (movement / controller / action --- architecture §(f)) rather
+% than by any one of them. No fifth rung: execution IS the join.
+%
+%  4.2.4.1 Parameterisation --- the values, declared before any run:
+%      transition weights from flow proportions (corpus sparsity accepted
+%      and disclosed); per-tactic dwell times: standard of evidence,
+%      tiers, distribution shape (values are DECLARED and justified
+%      against the literature --- never "calibrated" or "from the
+%      literature"; S3-R: the movement layer supplies every unit of
+%      attacker time); sweep discipline points at sec:sensitivity rather
+%      than restating it. The L3 pointer "covered in the L4
+%      parameterisation" lands here.
+%  4.2.4.2 Mechanics and the join --- the behaviour at runtime and the
+%      MTDSim-specific binding: action selection among enabled
+%      transitions, verdict-conditioned re-weighting (success/failure
+%      sets; directionality without a kill-chain stage machine), sink
+%      retrace, tactic-to-verb dispatch, outcome resolution via the
+%      substrate verdict (the action layer as outcome oracle), attacker
+%      state, the attacker-only seam, the confusion penalty staying
+%      substrate-side. Heading form to be settled at drafting (sentence
+%      case; "MTDSim" is a name, not an acronym).
 % The two commitments the merges must not lose: the mapping as a chosen
 % input parameter (the standing caveat bounding every claim in the
 % results chapter) and routing ablatability (the null modulator
 % configuration is bit-identical to the model without it; the former
 % fidelity-extensions section stays dissolved into subsec:families'
-% ablation arms).
-\subsection{L4: Attacker-agent traversal in MTDSim}
+% ablation arms). Both live in 4.2.4.2.
+\subsection{L4: The attacker-agent traversal in MTDSim}
 \label{subsec:execution}
+
+% [heading: "The" restored to the ratified form (handoff, 2026-08-16).]
+\subsubsection{Parameterisation}
+\label{subsubsec:parameterisation}
+
+\subsubsection{Mechanics and the join to MTDSim}
+\label{subsubsec:mechanics-join}
 
 % ----------------------------------------------------------- evaluate --
 \section{Experimental setup}
