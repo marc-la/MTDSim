@@ -449,52 +449,21 @@ pre-intrusion is a missing element (those flows are very sparse
 relative to the rest of the corpus), and we needed some sort of data
 structure, or unified structure, to pipe in these attack profiles from
 L2 as an input. This is what the Petri
-nets provide. We ruled out attack graphs and DAGs because they are
-acyclic, and we ruled out the other forms of Petri net because they did
-not provide the mechanisms we needed: an SPN puts timing on the
-out-transitions, which is not what we were looking for; a DSPN is not
-stochastic, and the behaviour of APT attackers is; and a closed-form
-solve is not tractable, because our Petri net adapts at runtime, its
-transition weighting changing on the success signals that come from the
-simulator.
-% [FACT-CHECK stands, 2026-08-17] SPN: exponential clock on every
-%   transition (routing = race of clocks). DSPN: adds a deterministic
-%   fixed-delay transition class --- still stochastic. GSPN: exponential +
-%   immediate transitions coexist. Marc: no 1980s formalism citations ---
-%   not wanted.
-% [CROSS-CHECK on your new framing] ruling out attack graphs "for being
-%   acyclic" contradicts §4.2.1 (the L1 artefact *is* an attack graph and
-%   is cyclic) --- agreed, dropped. Your replacement reason holds at the
-%   broad-category level: the L1 attack graph is a weighted directed graph
-%   with recurrence weights and no timing or stochastic semantics
-%   (§4.2.1: "a skeleton of behaviour"); the Petri net is what adds them.
-%   DAGs stay ruled out for acyclicity (by definition). SPN/DSPN ruled out
-%   for the timing on the transitions; GSPN kept for its immediate
-%   transitions --- consistent with the record (stochastic_timing_design
-%   §1) and with your "generalised" sentence below.
-% PROPOSAL 2 (from your dictation this round) --- replace the alternatives
-%   sentence with:
-%   We ruled out attack graphs, which we already have from L1, because
-%   they do not supply the timing and stochastic elements we needed, so we
-%   needed a more nuanced data structure; DAGs, because they are acyclic;
-%   and the other forms of Petri net because of the timing on the
-%   transitions, which is not what we needed: an SPN puts an exponential
-%   clock on every transition, so the routing becomes a race of
-%   transitions, and a DSPN puts a fixed delay on the transition, so we
-%   used a GSPN, which provides the immediate transitions we are using.
-%   A closed-form solve is not tractable, because our Petri net adapts at
-%   runtime, its transition weighting changing on the success signals that
-%   come from the simulator.
+nets provide. We ruled out attack graphs, which we already have from L1, because
+they do not supply the timing and stochastic elements we needed, so we
+needed a more nuanced data structure; DAGs, because they are acyclic;
+and the other forms of Petri net because of the timing on the
+transitions, which is not what we needed: an SPN puts an exponential
+clock on every transition, so the routing becomes a race of
+transitions, and a DSPN puts a fixed delay on the transition, so we
+used a GSPN, which provides the immediate transitions we are using.
+
 
 Petri nets have their places, which are the ATT\&CK
 tactics. The Enterprise ATT\&CK tactics are up to 15~\citep{mitre2026attackv19}, depending on which are adopted
 from the L2 attack profiles. The transitions are tactic--tactic pairs,
 analyst-drawn from L2 as well.
-% [APPLIED, your ruling] "Enterprise" specified; the 15 pinned to the v19
-%   release note (verified by fetch: "Enterprise: 15 Tactics", 28 Apr
-%   2026, Defense Evasion → Stealth TA0005 + Defense Impairment TA0112).
-%   The v19.1 pin itself lives in the lit review / background per your
-%   ruling --- assumed, not restated here.
+
 Self-loops are dropped, because those are
 represented through the dwell times we are providing: each tactic has a
 time allotted to it, and that is what the self-loop represented.
