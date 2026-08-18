@@ -204,17 +204,17 @@ that suite cannot express?
 % PLACEHOLDER figure: controller-action visual standing in until the
 % box-and-flow pipeline figure (V7) is drawn to the thesis ladder above.
 % Caption to be rewritten long and self-contained at the figures pass.
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{movement_controller_action}
-  \caption{[Placeholder --- to be replaced by the pipeline box-and-flow
-  figure.] The movement attacker end-to-end: campaign intelligence
-  aggregated into a technique graph (L0--L1), conditioned into
-  objective profiles (L2), given executable semantics as a generalised
-  stochastic Petri net (L3), and joined to the simulator as an
-  attacker-agent traversal (L4).}
-  \label{fig:pipeline}
-\end{figure}
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=\textwidth]{movement_controller_action}
+%   \caption{[Placeholder --- to be replaced by the pipeline box-and-flow
+%   figure.] The movement attacker end-to-end: campaign intelligence
+%   aggregated into a technique graph (L0--L1), conditioned into
+%   objective profiles (L2), given executable semantics as a generalised
+%   stochastic Petri net (L3), and joined to the simulator as an
+%   attacker-agent traversal (L4).}
+%   \label{fig:pipeline}
+% \end{figure}
 
 % ------------------------------------------------------ requirements --
 \section{What an APT attack model must capture}
@@ -257,7 +257,7 @@ that suite cannot express?
 % the graph cannot represent. (Consensus-thresholds disclosure removed
 % per Marc's ruling, 2026-08-16 --- the lossless/views record lives in
 % the repo, not the chapter.)
-\subsection{L0--L1: From cyber threat intelligence to an attack graph}
+\subsection{L0--L1: Cyber threat intelligence to attack graph}
 \label{subsec:technique-graph}
 
 % DRAFT STATE (2026-08-16): passes 1--5 COMPLETE; Marc signed the unit
@@ -315,33 +315,6 @@ judged this trade-off between coverage and fidelity was necessary to
 capture the generalised behaviour of APT attackers. There is also
 precedent for using tactics as the node granularity
 \citep{rodriguez2024}.
-
-\begin{figure}[tp]
-  \centering
-  \includegraphics[width=\textwidth]{l1_attack_graph}
-  \caption{From campaign intelligence to the aggregate APT attack graph
-  (L1), on one shared axis: the fifteen MITRE ATT\&CK (v19.1) tactics,
-  top to bottom, in the order ATT\&CK lists them.
-  (a)~One attack flow as its analyst drew it (CISA advisory AA22-138B,
-  TA1): each node is an ATT\&CK technique carrying its tactic, each
-  arrow a dependency the analyst recorded, the AND join kept;
-  procedures and analyst notes are already stripped.
-  (b)~The 38 usable attack flows added together at technique level:
-  one dot per technique (124) in its tactic's row, one curve per
-  technique-to-technique dependency (478), drawn darker the more
-  incidents drew it. 419 of the 478 (88\%) were drawn in a single
-  incident; the recurring core is the handful of dark curves.
-  (c)~The same aggregate at tactic level --- the aggregate APT attack
-  graph: one node per tactic, sized by the number of flows in which
-  the tactic occurs (the counts in the middle column; reconnaissance
-  in 10 of 38, resource development in 8), and one arc per observed
-  tactic-to-tactic transition (132), weighted by its summed
-  observation count; forward transitions bulge right, backward
-  transitions left, self-transitions are the small loops, and the
-  heaviest transitions are labelled. The incident in (a) is tinted
-  through (b) and (c) to show where one flow lands in the aggregate.}
-  \label{fig:l1-graph}
-\end{figure}
 
 The aggregate APT attack graph (L1; Figure~\ref{fig:l1-graph}c) is a
 weighted directed graph where the nodes are the MITRE ATT\&CK tactics,
@@ -461,7 +434,7 @@ which is known for double extortion, so we are not surprised there.
 % executed-not-solved / CTMC closed-form vocabulary and the standalone
 % analytical track are not wanted in the chapter --- the record holds
 % them (stochastic_timing_design.md §1).
-\subsection{L3: The generalised stochastic Petri-net formalism}
+\subsection{L3: Generalised stochastic Petri-net formalism}
 \label{subsec:petri-formalism}
 
 % ---- Marc's dictation, pass 2 + 3a applied (2026-08-17); 3b walked by
@@ -484,32 +457,60 @@ stochastic, and the behaviour of APT attackers is; and a closed-form
 solve is not tractable, because our Petri net adapts at runtime, its
 transition weighting changing on the success signals that come from the
 simulator.
-% [VERIFY] you dictated "SPN ... introduced *weighted* out transitions" ---
-%   the record's objection to SPN is *timed* (an exponential clock on the
-%   routing choice, stochastic_timing_design §1); written as "timing".
-%   Your DSPN "not stochastic" and closed-form "adapts at runtime" reasons
-%   are yours (the record's closed-form reasons were tactic quotient /
-%   discrimination-as-input / different metric --- feasibility §6; either
-%   stands).
+% [FACT-CHECK, 2026-08-17, per your ask] SPN (Molloy 1982): *every*
+%   transition carries an exponential clock, so which out-edge fires is
+%   decided by a race of clocks --- timing and routing are the same
+%   mechanism; that is the record's objection (stochastic_timing_design
+%   §1). GSPN (Ajmone Marsan, Conte, Balbo 1984): adds *immediate*
+%   (zero-time, weighted) transitions beside the exponential ones --- that
+%   coexistence IS the "generalised", and it is what lets the dwell sit on
+%   the place-exit and the routing be a weighted immediate choice. DSPN
+%   (Ajmone Marsan & Chiola 1987): adds a *deterministic fixed-delay*
+%   class --- it is still stochastic ("deterministic AND stochastic"), so
+%   "a DSPN is not stochastic" is WRONG; the record's reason for rejecting
+%   it is that a fixed-delay transition's use here would be the periodic
+%   MTD trigger, which lives on the frozen substrate, not in the net
+%   (stochastic_timing_design §1; feasibility §6.3 --- Mendonça chose DSPN
+%   for exactly that periodic trigger). "Attack graphs and DAGs are
+%   acyclic": DAGs by definition; attack graphs are not universally
+%   acyclic (state-based AGs cycle) --- the inherited HARM lineage's is.
+%   Closed-form: your runtime-adaptation reason stands (the verdict is an
+%   external input, so the walk is not a fixed chain); the record's
+%   reasons (tactic quotient, discrimination-as-input, different metric ---
+%   feasibility §6) are also available.
+% PROPOSAL (amendment, from your dictation with the two record-derived
+%   clauses marked *) --- replace the alternatives sentence with:
+%   We ruled out attack graphs and DAGs because they are acyclic, and we
+%   ruled out the other forms of Petri net because they did not provide
+%   the mechanisms we needed: *an SPN times every transition, so which edge
+%   is taken becomes a race of clocks and the timing and the routing are
+%   no longer separate; *a DSPN adds a fixed-delay transition, whose use
+%   here would be the periodic MTD trigger, and that lives in the
+%   simulator, not in the net; and a closed-form solve is not tractable,
+%   because our Petri net adapts at runtime, its transition weighting
+%   changing on the success signals that come from the simulator.
+% [VERIFY, citation anchors] the three formalism papers are not in the
+%   bib: Molloy 1982 (IEEE Trans. Computers C-31(9)), Ajmone Marsan, Conte
+%   & Balbo 1984 (ACM TOCS 2(2) 93--122), Ajmone Marsan & Chiola 1987
+%   (LNCS 266). Paywalled classics --- your to-download list; cite at least
+%   the 1984 GSPN paper if the "generalised" definition is stated.
 
 Petri nets have their places, which are the ATT\&CK
 tactics. The ATT\&CK tactics are up to 15, depending on which are adopted
 from the L2 attack profiles. The transitions are tactic--tactic pairs,
-analyst-drawn from L2 as well. Self-loops are dropped, because those are
+analyst-drawn from L2 as well.
+% [VERIFIED + INSERT minor] "up to 15": Enterprise ATT\&CK has 15 tactics
+%   only since v19 (28 Apr 2026) split defense-evasion into stealth
+%   (TA0005) and defense-impairment (TA0112) --- tactic_profiles/README,
+%   08_defense-impairment §"The v19.1 split". This is the natural home for
+%   the ATT\&CK v19.1 pin that lost its place in §4.2.1 (handoff loose
+%   thread): one parenthetical here discharges it.
+Self-loops are dropped, because those are
 represented through the dwell times we are providing: each tactic has a
 time allotted to it, and that is what the self-loop represented.
-% [SCOPE, kept out] "the sensitivity analysis will determine the
-%   exponential curves of the timings" --- values are declared, the sweep
-%   shows movement (V6; operational_validation); ch5's.
-% [WRONG, minor] "that's why we removed them from prior stages" --- L1
-%   keeps its self-loops; they are dropped at the L3 structural build
-%   (petri README). Say "at this stage" or leave the where unsaid.
 The marking, or the token: we are using one token, placed at the
 earliest tactic --- reconnaissance with the pre-intrusion overlay in
 place, and in lieu of that, initial access.
-% [record note] this is also the D8 entry disclosure; the record holds
-%   "both testable" (the initial-access seed is a toggle, no published
-%   run) --- do not write "both tested".
 A trade-off with using one token is that we
 will not be able to use the logical AND structures that were provided
 from earlier in the pipeline, but this allows us to produce groundable,
@@ -518,7 +519,8 @@ network. This is built in SNAKES in Python. We construct this Petri net
 before execution of the simulator.
 
 There exists the issue of pre-intrusion not being built in. MITRE has
-what was known as PRE-ATT\&CK, now unified into the ATT\&CK framework:
+what was known as PRE-ATT\&CK~\citep{strom2018mitre}, now unified into
+the ATT\&CK framework~\citep{mitre2020attackv8}:
 the phases reconnaissance and resource development, before initial
 access, and these are not well connected in our attack profiles. So we
 drew in synthetic out-transitions from reconnaissance to resource
@@ -528,14 +530,23 @@ behaviour of the attacker agent. We can assume that they perform these
 because we know they do that; we just can't detect it in the CTI, and
 it is defensible because nothing detects pre-intrusion activity
 anyway. That deals with that blind spot.
-% [VERIFY] PRE-ATT\&CK's merge into Enterprise ATT\&CK (v8, Oct 2020) needs
-%   a MITRE citation anchor --- none in the bib; the v19.1 pin also owes a
-%   home (handoff loose thread).
-% [INSERT, minor, open --- not dictated, so not written] the leg an
-%   examiner needs: the overlay is declared, flagged synthetic, composed
-%   at build and never folded into the observed nets; it fires only in
-%   the two profiles whose observed net leaves recon an island
-%   (synthetic_overlay.md §3, §5).
+% [VERIFIED 2026-08-17] PRE-ATT\&CK merged into Enterprise ATT\&CK as the
+%   Reconnaissance and Resource Development tactics in ATT\&CK v8,
+%   released 27 Oct 2020 (mitre2020attackv8, fetched); Strom et al. 2018
+%   (verified against the primary PDF, MP180360R1, McLean VA) describes
+%   PRE-ATT\&CK as a *complementary model* published 2017 --- it predates
+%   the merge, so it anchors "MITRE has PRE-ATT\&CK", not the merge.
+%   Both cites inserted; both records in references.bib with their
+%   verification notes.
+% PROPOSAL (INSERT, from your dictation) --- append after "so that we could
+%   model the runtime behaviour of the attacker agent.":
+%   This pre-intrusion overlay is a sub-Petri-net in its own right: we join
+%   it to the attack profiles to produce the executable Petri net[, and it
+%   is declared and kept apart from the observed profiles].
+% [NOTE] the bracketed clause is the record's leg (declared / flagged
+%   synthetic / never folded into the observed nets --- synthetic_overlay
+%   §5), not your words; keep or drop. Still not said anywhere: it fires
+%   only in the two profiles whose observed net leaves recon an island.
 Secondly, due to the thinness of our corpus, some
 sink places exist, and we will have to deal with this later in the
 pipeline.
@@ -547,14 +558,11 @@ which is the tactic. We use exponential firing. Generalised means that
 the places of the Petri net are timed on an exponential basis while the
 out-transitions are immediate: each tactic has a time associated with
 it, drawn exponentially to provide stochasticity to the simulator.
-% [3b] "calibrated so that there is some exponentiality" --- "calibrated"
-%   is the word the record refuses (calibration refused, values declared;
-%   operational_validation); written as "drawn exponentially" --- yours.
-% [NOTE] "while the out-transitions are immediate" is the record's
-%   definition of the G (timed + immediate coexisting), not your dictated
-%   words --- keep or drop.
-% [RULED, do not re-flag] executed-not-solved / CTMC closed-form vocabulary
-%   is NOT wanted in the chapter (Marc, 2026-08-17).
+% [3b, minor --- formal nit, yours] in a GSPN it is *transitions* that are
+%   timed or immediate, not places; the record's own loose phrasing is
+%   "the place holds the time" (stochastic_timing_design §1), i.e. the
+%   token dwells at the place for an exponential draw and then routes
+%   immediately. Say it either way.
 The out-transitions are not timed; they are weighted, and the weighting
 is [covered later in the pipeline], so the attacker agent will go from
 goal to goal, tactic to tactic. This is not sufficient, because if we
@@ -562,11 +570,9 @@ have success signals from the simulator then some of the weights do not
 make sense in terms of progression, and if the attacker fails then some
 of the out-transitions do not make sense; that is why we introduce
 dynamic re-weighting later in the pipeline.
-% [WRONG, minor --- the bracket is yours to fill] you said "we talk about
-%   the weighting in the L2" --- the flow-proportion routing weights are
-%   the L4 unit-(i) parameterisation (skeleton); L1 carried recurrence
-%   counts and your sec 4.2.1 says those cannot be relied on for
-%   traversal. Point forward, not back.
+% PROPOSAL (from your ruling: point forward to L4) --- replace
+%   "[covered later in the pipeline]" with:
+%   covered in the L4 parameterisation
 The idea is the Petri net supplies the timing and a component of the
 direction to the attacker agent in the simulator: the out-transitions
 bound where it can go, and the success and failure signals from the
@@ -578,13 +584,16 @@ when, emerges through the execution, which is L4.
 This is plug and play, so we can put in our various attack
 profiles as an input into these Petri nets, and this provides separation
 and discipline. There is also a large precedent in the MTD evaluation
-space~\citep{cai2016, mendonca2023}. % + cho2018 when its record lands
-% [VERIFY] Cho \& Ben-Asher 2018 unextracted, no record --- joins the
-%   \citep when you have it. cai2016 is your pasted publisher record
-%   (re-keyed, abstract stripped); mendonca2023 was transcribed from the
-%   extraction anchor, NOT your verified set --- flagged in
-%   references.bib for your check. (bland2020 is active in the bib as the
-%   executable-SPN *attacker* precedent, if you want it here.)
+space~\citep{cai2016, chobenasher2018, mendonca2023}.
+% [VERIFIED 2026-08-17] all three are SPN-family analytical MTD models:
+%   Cai 2016 GSPN (title; abstract read by Marc); Cho \& Ben-Asher 2018
+%   SPN in SPNP v6, IDS+deception+MTD, MTD = longer attacker recon dwell
+%   (extracted --- extractions/chobenasher2018.md; bib entry transcribed
+%   from the source header, DOI 10.1177/1548512917699725); Mendonça 2023
+%   DSPN, time-based MTD, no attacker (extraction). cai2016 is your
+%   record; the other two are NOT from your verified set --- flagged in
+%   references.bib. (bland2020 remains active as the executable-SPN
+%   *attacker* precedent, if you want it here.)
 
 
 But there are limits to what the GSPN can provide: parameters
@@ -596,10 +605,14 @@ net, like a sink retrace policy). To keep this project tractable, these
 are imported: the dwell times from the literature, because they do not
 exist in the prior pipeline, and the success signal from the simulator
 at execution; to make up for the ceiling of these Petri nets.
-% [SCOPE] "from the literature" --- Row A: ~one-sixth externally fixed,
-%   ~three-fifths declared judgement (apt_model_criterion sec (d2));
-%   "justified against the literature" is what the record earns --- your
-%   wording.
+% PROPOSAL (rescope, from your ruling: dwell times exist nowhere, so
+%   inherently arbitrary → justified against the literature + swept in
+%   ch5; "to keep this project tractable" dropped; the success signal is
+%   the simulator's) --- replace the last sentence with:
+%   The dwell times do not exist in the literature or in any report, so
+%   they are inherently arbitrary; they are justified against the
+%   literature and swept in the sensitivity analysis in Chapter~5, and the
+%   success signal comes from the simulator at execution.
 % [3b] "based possibly on the success" --- hedge; sure or scoped.
 
 

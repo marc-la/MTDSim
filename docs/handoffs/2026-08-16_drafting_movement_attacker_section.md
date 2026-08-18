@@ -367,6 +367,35 @@ most three prioritised moves. Voice is Marc's own gate
     (`[covered later in the pipeline]`); Cho & Ben-Asher record; "from
     the literature" `[SCOPE]`; "possibly" `[3b]`. Cai 2016 record obtained
     and cited (label settled GSPN).
+  - **Third L3 pass (2026-08-17, Marc's rulings on the open flags):** DSPN
+    "not stochastic" fact-checked WRONG (DSPN = deterministic *and*
+    stochastic; the record's reason is the periodic MTD trigger living on
+    the substrate); SPN objection restated as timing/routing conflation;
+    amendment PROPOSAL in the tex with the two record-derived clauses
+    starred; formalism cites (Molloy 1982; Ajmone Marsan/Conte/Balbo 1984;
+    Ajmone Marsan/Chiola 1987) flagged as anchors to obtain. **All
+    subsection facts verified:** 37% backward = 176/478 = 36.8% recomputed
+    on gap_v0.5 (15-tactic layer); "up to 15" true only under the v19
+    defense-evasion split (stealth/defense-impairment) — the v19.1 pin's
+    natural home, flagged; entry rule, overlay edges, self-loops-as-dwell,
+    SNAKES build-time, weighted-immediate routing, exponential dwell all
+    confirmed against code/record; PRE-ATT&CK merge verified (ATT&CK v8,
+    27 Oct 2020) and cited (`mitre2020attackv8`, fetched); Strom 2018
+    record verified against the primary PDF (MP180360R1, McLean VA; URL
+    replaced with the verified attack.mitre.org locator) — it predates the
+    merge, cited for "MITRE has PRE-ATT&CK" only. **Cho & Ben-Asher 2018
+    extracted** (`extractions/chobenasher2018.md`, targeted) and cited;
+    Cai ruled low-risk by Marc (abstract read). Resolved and deleted:
+    sensitivity-determines-curves (ch5, agreed), self-loops "prior
+    stages", entry "both testable" note, "calibrated→drawn", "while the
+    out-transitions are immediate", executed-not-solved. New proposals in
+    the tex: sub-Petri-net overlay clause (his words, record leg
+    bracketed); weighting bracket → "covered in the L4 parameterisation";
+    ceiling paragraph rescoped (dwell times exist nowhere → inherently
+    arbitrary → justified against the literature + ch5 sweep; "to keep
+    this project tractable" dropped). Open: the four PROPOSALs; join-words
+    `[NOTE]`; formal timed-transitions-not-places `[3b minor]`;
+    "possibly" `[3b]`; formalism citation anchors.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
