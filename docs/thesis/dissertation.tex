@@ -445,13 +445,17 @@ which is known for double extortion, so we are not surprised there.
 To
 understand this, we need to touch on what we got from L0--L2: these L2 attack profiles are cyclic (37\% of the L1 edges go backwards in
 terms of the sequential order provided by the cyber kill chain),
-pre-intrusion is a missing element (those flows are very sparse
-relative to the rest of the corpus), and we needed some sort of data
+pre-intrusion is a missing element, and we needed some sort of data
 structure, or unified structure, to pipe in these attack profiles from
 L2 as an input. This is what the Petri
-nets provide. We ruled out attack graphs, which we already have from L1, because
+nets provide.
+% [TIGHTEN PROPOSAL 1, deletion only] "some sort of data structure, or
+%   unified structure," -> "some sort of data structure," We ruled out attack graphs, which we already have from L1, because
 they do not supply the timing and stochastic elements we needed, so we
 needed a more nuanced data structure; DAGs, because they are acyclic;
+% [TIGHTEN PROPOSAL 2, deletion only] "...we needed, so we needed a more
+%   nuanced data structure; DAGs, ..." -> "...we needed; DAGs, ..." (the
+%   P1 sentence carries "we needed a data structure").
 and the other forms of Petri net because of the timing on the
 transitions, which is not what we needed: an SPN puts an exponential
 clock on every transition, so the routing becomes a race of
@@ -463,10 +467,13 @@ Petri nets have their places, which are the ATT\&CK
 tactics. The Enterprise ATT\&CK tactics are up to 15~\citep{mitre2026attackv19}, depending on which are adopted
 from the L2 attack profiles. The transitions are tactic--tactic pairs,
 analyst-drawn from L2 as well.
-
+% [MERGE applied: ¶2 + ¶3 joined --- one topic, what the net is.]
 Self-loops are dropped, because those are
 represented through the dwell times we are providing: each tactic has a
 time allotted to it, and that is what the self-loop represented.
+% [TIGHTEN PROPOSAL 3, deletion only] "...each tactic has a time allotted
+%   to it, and that is what the self-loop represented." -> "...each tactic
+%   has a time allotted to it."
 The marking, or the token: we are using one token, placed at the
 earliest tactic --- reconnaissance with the pre-intrusion overlay in
 place, and in lieu of that, initial access.
@@ -474,8 +481,15 @@ A trade-off with using one token is that we
 will not be able to use the logical AND structures that were provided
 from earlier in the pipeline, but this allows us to produce groundable,
 usable weights that will allow an attacker agent to traverse the
-network. This is built in SNAKES in Python. We construct this Petri net
+network. We construct this Petri net
 before execution of the simulator.
+% [CUT applied: "This is built in SNAKES in Python." --- tooling; lives in
+%   the implementation record / experimental setup.]
+% [TIGHTEN PROPOSAL 4, deletion only] "...the logical AND structures that
+%   were provided from earlier in the pipeline, but this allows us to
+%   produce groundable, usable weights that will allow an attacker agent
+%   to traverse the network." -> "...the logical AND structures, but this
+%   allows us to produce groundable, usable weights."
 
 There exists the issue of pre-intrusion not being built in. MITRE has
 what was known as PRE-ATT\&CK~\citep{strom2018mitre}, now unified into
@@ -491,7 +505,15 @@ produce the executable Petri net, and it is declared and kept apart from
 the observed profiles. We can assume that they perform these
 because we know they do that; we just can't detect it in the CTI, and
 it is defensible because nothing detects pre-intrusion activity
-anyway. That deals with that blind spot.
+anyway.
+% [CUT applied: "That deals with that blind spot."]
+% [TIGHTEN PROPOSAL 5, deletion only --- keep the second half (Jin's M6
+%   rationale in your words)] "We can assume that they perform these
+%   because we know they do that; we just can't detect it in the CTI, and
+%   it is defensible because nothing detects pre-intrusion activity
+%   anyway." -> "We can assume that they perform these because we know
+%   they do that, and it is defensible because nothing detects
+%   pre-intrusion activity anyway."
 % [VERIFIED 2026-08-17] PRE-ATT\&CK merged into Enterprise ATT\&CK as the
 %   Reconnaissance and Resource Development tactics in ATT\&CK v8,
 %   released 27 Oct 2020 (mitre2020attackv8, fetched); Strom et al. 2018
@@ -514,7 +536,15 @@ pipeline.
 The places are the ATT\&CK tactics, and these allow us
 to produce stochastic times. The attacker agent will consume some
 stochastic amount of time to perform a procedure to achieve a goal,
-which is the tactic. We use exponential firing. Generalised means that
+which is the tactic. Generalised means that
+% [CUT applied: "We use exponential firing." --- carried by "drawn
+%   exponentially" below.]
+% [TIGHTEN PROPOSAL 6, deletion only] "The places are the ATT\&CK tactics,
+%   and these allow us to produce stochastic times." -> "These allow us to
+%   produce stochastic times." --- NB "These" then points at ¶2's places
+%   two paragraphs back; if that reads loose, the alternative deletion is
+%   the whole sentence, since the next sentence already says the agent
+%   consumes stochastic time at the tactic. Your call which.
 the Petri net provides the capacity for immediate transitions, which we
 are using: each tactic has a time associated with it, drawn
 exponentially to provide stochasticity to the simulator, and the
@@ -523,11 +553,13 @@ out-transitions are immediate.
 %   for immediate transitions"] --- the places-are-timed phrasing dropped.
 The out-transitions are not timed; they are weighted, and the weighting
 is covered in the L4 parameterisation, so the attacker agent will go from
-goal to goal, tactic to tactic. This is not sufficient, because if we
-have success signals from the simulator then some of the weights do not
-make sense in terms of progression, and if the attacker fails then some
-of the out-transitions do not make sense; that is why we introduce
-dynamic re-weighting later in the pipeline.
+goal to goal, tactic to tactic.
+% [CUT applied: "This is not sufficient, because ... dynamic re-weighting
+%   later in the pipeline." --- L4-(ii) mechanics; the next sentence
+%   carries the verdict-acts-on-routing point at this unit's altitude.]
+% [TIGHTEN PROPOSAL 7, deletion only] "The out-transitions are not timed;
+%   they are weighted, and the weighting is covered..." -> "The
+%   out-transitions are weighted, and the weighting is covered..."
 The idea is the Petri net supplies the timing and a component of the
 direction to the attacker agent in the simulator: the out-transitions
 bound where it can go, and the success and failure signals from the
@@ -557,18 +589,15 @@ But there are limits to what the GSPN can provide: parameters
 and some mechanics (reweighting the out-transitions a token may choose at
 runtime, based possibly on the success of an attacker agent in the
 simulator; other policies to guide the Petri
-net, like a sink retrace policy). To keep this project tractable, these
-are imported: the dwell times from the literature, because they do not
-exist in the prior pipeline, and the success signal from the simulator
-at execution; to make up for the ceiling of these Petri nets.
-% PROPOSAL (rescope, from your ruling: dwell times exist nowhere, so
-%   inherently arbitrary → justified against the literature + swept in
-%   ch5; "to keep this project tractable" dropped; the success signal is
-%   the simulator's) --- replace the last sentence with:
-%   The dwell times do not exist in the literature or in any report, so
-%   they are inherently arbitrary; they are justified against the
-%   literature and swept in the sensitivity analysis in Chapter~5, and the
-%   success signal comes from the simulator at execution.
+net, like a sink retrace policy). The dwell times do not exist in the
+literature or in any report, so they are inherently arbitrary; they are
+justified against the literature and swept in the sensitivity analysis
+in Chapter~5, and the success signal comes from the simulator at
+execution.
+% [APPLIED 2026-08-18 on your confirmation of the pass-two ruling: replaces
+%   "To keep this project tractable, these are imported: the dwell times
+%   from the literature ...". Chapter~5 -> \ref{sec:sensitivity} when
+%   wired.]
 % [3b] "based possibly on the success" --- hedge; sure or scoped.
 
 
