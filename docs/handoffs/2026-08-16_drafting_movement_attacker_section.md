@@ -307,6 +307,55 @@ most three prioritised moves. Voice is Marc's own gate
     dwell catalogue's job, not a self-loop weight
     (`data/ogasp/petri/README.md`). So "loops preserved" is true of the walk,
     with self-loops re-expressed as dwell.
+- **From the 2026-08-17 L3 drafting passes (pass 2+3a done; 3b walked; pass 4
+  inline scrutiny run and Marc's rulings applied — do not re-flag):**
+  - **Executed-not-solved / CTMC closed-form vocabulary and the standalone
+    analytical track are OUT of the chapter** (Marc: "not critical … not
+    something I want to talk about"); the record holds them
+    (`stochastic_timing_design.md` §1). Skeleton comment amended.
+  - **Alternatives ranked:** one sentence, broad categories only — attack
+    graphs/DAGs (acyclic), the other Petri-net forms (SPN puts timing on the
+    out-transitions; DSPN not stochastic; closed-form solve not tractable
+    because the net re-weights at runtime on the success signal). **No
+    appendix** for the data-structure-by-data-structure breakdown; the
+    feasibility record stays in the repo. Proposal in the tex from his
+    dictation; his SPN reason was heard as "weighted" — written "timing"
+    per the record, `[VERIFY]`.
+  - **Marking sentence:** Marc keeps his "earliest tactic" framing;
+    reconciled with `_choose_entry` (recon with overlay / initial-access
+    without; "largest connected component" has no mechanism behind it);
+    proposal replaces it with his own dictated form, which doubles as the
+    D8 disclosure ("both testable").
+  - **Direction:** Marc's ruling — direction is *partly* the net's (the
+    out-transitions bound it; the verdict acts on that); trichotomy: net =
+    structure only, policy emergent at runtime, execution L4. Proposal in
+    the tex.
+  - **Wait/weight:** 3b had resolved to "no weight"; ruled — transitions are
+    weighted, not timed; base weights insufficient under success/failure →
+    dynamic re-weighting later in the pipeline. His "weighting covered at
+    L2" corrected to point forward (L4 unit (i)).
+  - **Overlay paragraph:** expanded from his dictation (PRE-ATT&CK unified
+    into ATT&CK; recon → resource-development → initial-access + backward
+    bridge; "nothing detects pre-intrusion activity anyway"); "faithfully"
+    deleted (SCOPE). Still open, not dictated: the declared / flagged /
+    never-in-the-observed-nets / two-island-profiles leg. `[VERIFY]`
+    PRE-ATT&CK merge citation anchor (none in bib).
+  - **Self-loops:** insert accepted from his dictation (represented through
+    dwell); the sweep-determines-the-curves clause kept out (ch5 pre-claim).
+  - **Ceiling paragraph:** framing kept, source split by kind (dwell values
+    justified against literature; simulator supplies the success signal) —
+    proposal in the tex; "from the literature" flagged against Row A.
+  - **Citations:** Marc's hand-verified lit-review `references.bib` (22 May
+    2026) merged into `docs/thesis/references.bib` as the primary body
+    (his entries supersede same-key repo entries); uncited entries parked
+    (commented, at-sign stripped — BibTeX parses `%`-prefixed entries
+    otherwise, tested); `mendonca2023` added from the extraction anchor
+    and **flagged VERIFY** (not from his verified set); Cai 2016 / Cho &
+    Ben-Asher 2018 pending records — Marc will try to obtain Cai (record
+    currently: off-limits, second-hand via Mendonça). Precedent sentence
+    cites `mendonca2023` only for now.
+  - **Draft state:** ~550 words with proposals uncommitted; Marc to accept /
+    reword proposals, then pass 5.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
