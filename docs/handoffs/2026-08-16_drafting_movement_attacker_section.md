@@ -414,6 +414,19 @@ most three prioritised moves. Voice is Marc's own gate
     removed (accepted); precedent sentence cites the *family* ("for
     stochastic Petri nets"). Open: PROPOSAL 2 (alternatives) and the
     ceiling-paragraph rescope proposal; "possibly" `[3b]`. ~880 words.
+  - **Pass-5 ruling (Marc, 2026-08-18, promoted to `drafting_pipeline.md`):
+    the first complete pass-5 draft may be well over budget; the cut to the
+    ledger is a later refinement over the assembled section. L3 stands at
+    ~700 words after the first cut, seven deletion-only tighten proposals
+    open in the tex; the ceiling paragraph applied on his confirmed
+    ruling. **L4 structure discussed, not ruled:** ratified fold = two
+    units; Marc floated three subsubsections (Parameterisation /
+    Mechanics / Join to MTDSim) — coherent only on the portability line
+    (mechanics = simulator-agnostic walk rules; join = what does not lift:
+    tactic→verb table, verdict source, state seam, penalty, bit-identity
+    ablation); a third heading is a named overdraft on the ledger. Session
+    recommendation: two unless Mechanics earns its own ~250 at dictation.
+    The earlier "move parameterisation into L3" suggestion is superseded.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
