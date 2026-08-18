@@ -457,54 +457,44 @@ stochastic, and the behaviour of APT attackers is; and a closed-form
 solve is not tractable, because our Petri net adapts at runtime, its
 transition weighting changing on the success signals that come from the
 simulator.
-% [FACT-CHECK, 2026-08-17, per your ask] SPN (Molloy 1982): *every*
-%   transition carries an exponential clock, so which out-edge fires is
-%   decided by a race of clocks --- timing and routing are the same
-%   mechanism; that is the record's objection (stochastic_timing_design
-%   §1). GSPN (Ajmone Marsan, Conte, Balbo 1984): adds *immediate*
-%   (zero-time, weighted) transitions beside the exponential ones --- that
-%   coexistence IS the "generalised", and it is what lets the dwell sit on
-%   the place-exit and the routing be a weighted immediate choice. DSPN
-%   (Ajmone Marsan & Chiola 1987): adds a *deterministic fixed-delay*
-%   class --- it is still stochastic ("deterministic AND stochastic"), so
-%   "a DSPN is not stochastic" is WRONG; the record's reason for rejecting
-%   it is that a fixed-delay transition's use here would be the periodic
-%   MTD trigger, which lives on the frozen substrate, not in the net
-%   (stochastic_timing_design §1; feasibility §6.3 --- Mendonça chose DSPN
-%   for exactly that periodic trigger). "Attack graphs and DAGs are
-%   acyclic": DAGs by definition; attack graphs are not universally
-%   acyclic (state-based AGs cycle) --- the inherited HARM lineage's is.
-%   Closed-form: your runtime-adaptation reason stands (the verdict is an
-%   external input, so the walk is not a fixed chain); the record's
-%   reasons (tactic quotient, discrimination-as-input, different metric ---
-%   feasibility §6) are also available.
-% PROPOSAL (amendment, from your dictation with the two record-derived
-%   clauses marked *) --- replace the alternatives sentence with:
-%   We ruled out attack graphs and DAGs because they are acyclic, and we
-%   ruled out the other forms of Petri net because they did not provide
-%   the mechanisms we needed: *an SPN times every transition, so which edge
-%   is taken becomes a race of clocks and the timing and the routing are
-%   no longer separate; *a DSPN adds a fixed-delay transition, whose use
-%   here would be the periodic MTD trigger, and that lives in the
-%   simulator, not in the net; and a closed-form solve is not tractable,
-%   because our Petri net adapts at runtime, its transition weighting
-%   changing on the success signals that come from the simulator.
-% [VERIFY, citation anchors] the three formalism papers are not in the
-%   bib: Molloy 1982 (IEEE Trans. Computers C-31(9)), Ajmone Marsan, Conte
-%   & Balbo 1984 (ACM TOCS 2(2) 93--122), Ajmone Marsan & Chiola 1987
-%   (LNCS 266). Paywalled classics --- your to-download list; cite at least
-%   the 1984 GSPN paper if the "generalised" definition is stated.
+% [FACT-CHECK stands, 2026-08-17] SPN: exponential clock on every
+%   transition (routing = race of clocks). DSPN: adds a deterministic
+%   fixed-delay transition class --- still stochastic. GSPN: exponential +
+%   immediate transitions coexist. Marc: no 1980s formalism citations ---
+%   not wanted.
+% [CROSS-CHECK on your new framing] ruling out attack graphs "for being
+%   acyclic" contradicts §4.2.1 (the L1 artefact *is* an attack graph and
+%   is cyclic) --- agreed, dropped. Your replacement reason holds at the
+%   broad-category level: the L1 attack graph is a weighted directed graph
+%   with recurrence weights and no timing or stochastic semantics
+%   (§4.2.1: "a skeleton of behaviour"); the Petri net is what adds them.
+%   DAGs stay ruled out for acyclicity (by definition). SPN/DSPN ruled out
+%   for the timing on the transitions; GSPN kept for its immediate
+%   transitions --- consistent with the record (stochastic_timing_design
+%   §1) and with your "generalised" sentence below.
+% PROPOSAL 2 (from your dictation this round) --- replace the alternatives
+%   sentence with:
+%   We ruled out attack graphs, which we already have from L1, because
+%   they do not supply the timing and stochastic elements we needed, so we
+%   needed a more nuanced data structure; DAGs, because they are acyclic;
+%   and the other forms of Petri net because of the timing on the
+%   transitions, which is not what we needed: an SPN puts an exponential
+%   clock on every transition, so the routing becomes a race of
+%   transitions, and a DSPN puts a fixed delay on the transition, so we
+%   used a GSPN, which provides the immediate transitions we are using.
+%   A closed-form solve is not tractable, because our Petri net adapts at
+%   runtime, its transition weighting changing on the success signals that
+%   come from the simulator.
 
 Petri nets have their places, which are the ATT\&CK
-tactics. The ATT\&CK tactics are up to 15, depending on which are adopted
+tactics. The Enterprise ATT\&CK tactics are up to 15~\citep{mitre2026attackv19}, depending on which are adopted
 from the L2 attack profiles. The transitions are tactic--tactic pairs,
 analyst-drawn from L2 as well.
-% [VERIFIED + INSERT minor] "up to 15": Enterprise ATT\&CK has 15 tactics
-%   only since v19 (28 Apr 2026) split defense-evasion into stealth
-%   (TA0005) and defense-impairment (TA0112) --- tactic_profiles/README,
-%   08_defense-impairment §"The v19.1 split". This is the natural home for
-%   the ATT\&CK v19.1 pin that lost its place in §4.2.1 (handoff loose
-%   thread): one parenthetical here discharges it.
+% [APPLIED, your ruling] "Enterprise" specified; the 15 pinned to the v19
+%   release note (verified by fetch: "Enterprise: 15 Tactics", 28 Apr
+%   2026, Defense Evasion → Stealth TA0005 + Defense Impairment TA0112).
+%   The v19.1 pin itself lives in the lit review / background per your
+%   ruling --- assumed, not restated here.
 Self-loops are dropped, because those are
 represented through the dwell times we are providing: each tactic has a
 time allotted to it, and that is what the self-loop represented.
@@ -526,7 +516,10 @@ access, and these are not well connected in our attack profiles. So we
 drew in synthetic out-transitions from reconnaissance to resource
 development to initial access, as well as a backwards transition from
 initial access to reconnaissance, so that we could model the runtime
-behaviour of the attacker agent. We can assume that they perform these
+behaviour of the attacker agent. This pre-intrusion overlay is a
+sub-Petri-net in its own right: we join it to the attack profiles to
+produce the executable Petri net, and it is declared and kept apart from
+the observed profiles. We can assume that they perform these
 because we know they do that; we just can't detect it in the CTI, and
 it is defensible because nothing detects pre-intrusion activity
 anyway. That deals with that blind spot.
@@ -538,15 +531,13 @@ anyway. That deals with that blind spot.
 %   the merge, so it anchors "MITRE has PRE-ATT\&CK", not the merge.
 %   Both cites inserted; both records in references.bib with their
 %   verification notes.
-% PROPOSAL (INSERT, from your dictation) --- append after "so that we could
-%   model the runtime behaviour of the attacker agent.":
-%   This pre-intrusion overlay is a sub-Petri-net in its own right: we join
-%   it to the attack profiles to produce the executable Petri net[, and it
-%   is declared and kept apart from the observed profiles].
-% [NOTE] the bracketed clause is the record's leg (declared / flagged
-%   synthetic / never folded into the observed nets --- synthetic_overlay
-%   §5), not your words; keep or drop. Still not said anywhere: it fires
-%   only in the two profiles whose observed net leaves recon an island.
+% [APPLIED, accepted] sub-Petri-net sentence, with the record clause
+%   ("declared and kept apart from the observed profiles") kept on your
+%   "on the note yes" --- cut at pass 5 if you read that differently.
+%   Terminology ruling: the chapter says *pre-intrusion overlay*, the repo
+%   says *synthetic overlay* --- same object, logical upgrade, no
+%   re-flag. Still not said anywhere: it fires only in the two profiles
+%   whose observed net leaves recon an island.
 Secondly, due to the thinness of our corpus, some
 sink places exist, and we will have to deal with this later in the
 pipeline.
@@ -555,36 +546,32 @@ The places are the ATT\&CK tactics, and these allow us
 to produce stochastic times. The attacker agent will consume some
 stochastic amount of time to perform a procedure to achieve a goal,
 which is the tactic. We use exponential firing. Generalised means that
-the places of the Petri net are timed on an exponential basis while the
-out-transitions are immediate: each tactic has a time associated with
-it, drawn exponentially to provide stochasticity to the simulator.
-% [3b, minor --- formal nit, yours] in a GSPN it is *transitions* that are
-%   timed or immediate, not places; the record's own loose phrasing is
-%   "the place holds the time" (stochastic_timing_design §1), i.e. the
-%   token dwells at the place for an exponential draw and then routes
-%   immediately. Say it either way.
+the Petri net provides the capacity for immediate transitions, which we
+are using: each tactic has a time associated with it, drawn
+exponentially to provide stochasticity to the simulator, and the
+out-transitions are immediate.
+% [APPLIED, your ruling: "we're using GSPN because it provides the capacity
+%   for immediate transitions"] --- the places-are-timed phrasing dropped.
 The out-transitions are not timed; they are weighted, and the weighting
-is [covered later in the pipeline], so the attacker agent will go from
+is covered in the L4 parameterisation, so the attacker agent will go from
 goal to goal, tactic to tactic. This is not sufficient, because if we
 have success signals from the simulator then some of the weights do not
 make sense in terms of progression, and if the attacker fails then some
 of the out-transitions do not make sense; that is why we introduce
 dynamic re-weighting later in the pipeline.
-% PROPOSAL (from your ruling: point forward to L4) --- replace
-%   "[covered later in the pipeline]" with:
-%   covered in the L4 parameterisation
 The idea is the Petri net supplies the timing and a component of the
 direction to the attacker agent in the simulator: the out-transitions
 bound where it can go, and the success and failure signals from the
 simulator act on that. The GSPN supplies only the structure --- what the
 attacker can do; the policy, which tactic the attacker agent will do and
 when, emerges through the execution, which is L4.
-% [NOTE] "bound where it can go" / "act on that" are the join words, not
-%   yours --- the rest is your dictation.
 This is plug and play, so we can put in our various attack
 profiles as an input into these Petri nets, and this provides separation
-and discipline. There is also a large precedent in the MTD evaluation
-space~\citep{cai2016, chobenasher2018, mendonca2023}.
+and discipline. There is also a large precedent for stochastic Petri
+nets in the MTD evaluation space~\citep{cai2016, chobenasher2018, mendonca2023}.
+% [APPLIED, your ruling: cite the family, not GSPN specifically] "for
+%   stochastic Petri nets" inserted --- the argument holds and is stronger
+%   for it: Cai is GSPN (same formalism), Cho SPN, Mendonça DSPN.
 % [VERIFIED 2026-08-17] all three are SPN-family analytical MTD models:
 %   Cai 2016 GSPN (title; abstract read by Marc); Cho \& Ben-Asher 2018
 %   SPN in SPNP v6, IDS+deception+MTD, MTD = longer attacker recon dwell
@@ -637,7 +624,7 @@ at execution; to make up for the ceiling of these Petri nets.
 % configuration is bit-identical to the model without it; the former
 % fidelity-extensions section stays dissolved into subsec:families'
 % ablation arms).
-\subsection{L4: The attacker-agent traversal in MTDSim}
+\subsection{L4: Attacker-agent traversal in MTDSim}
 \label{subsec:execution}
 
 % ----------------------------------------------------------- evaluate --

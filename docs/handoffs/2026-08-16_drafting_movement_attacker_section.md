@@ -396,6 +396,24 @@ most three prioritised moves. Voice is Marc's own gate
     this project tractable" dropped). Open: the four PROPOSALs; join-words
     `[NOTE]`; formal timed-transitions-not-places `[3b minor]`;
     "possibly" `[3b]`; formalism citation anchors.
+  - **Fourth L3 pass (2026-08-17, later):** attack-graphs-acyclic ruling
+    withdrawn by Marc (contradicts §4.2.1's cyclic L1 attack graph);
+    replacement reason = attack graphs supply no timing/stochastic
+    elements; SPN/DSPN ruled out for timing on the transitions; GSPN kept
+    for its immediate transitions — **PROPOSAL 2** in the tex from his
+    dictation. **No 1980s formalism citations** (Marc: not relevant, not
+    interesting) — flag deleted. Applied on his rulings: "Enterprise
+    ATT&CK … up to 15~\citep{mitre2026attackv19}" (v19 release note
+    fetched and verified: 28 Apr 2026, "Enterprise: 15 Tactics"; the
+    v19.1 pin lives in the lit review / background — assumed, not
+    restated); the sub-Petri-net overlay sentence with the record clause;
+    *pre-intrusion overlay* is the chapter's term for the repo's
+    *synthetic overlay* (same object, no re-flag); the "generalised"
+    sentence recast on his words (GSPN for its immediate transitions);
+    "covered in the L4 parameterisation"; direction join-word note
+    removed (accepted); precedent sentence cites the *family* ("for
+    stochastic Petri nets"). Open: PROPOSAL 2 (alternatives) and the
+    ceiling-paragraph rescope proposal; "possibly" `[3b]`. ~880 words.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
