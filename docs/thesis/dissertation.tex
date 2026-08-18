@@ -441,15 +441,27 @@ which is known for double extortion, so we are not surprised there.
 %      on the session's scrutiny of it applied. Earlier pass records live
 %      in the drafting handoff and git history. Order ruled: why GSPN >
 %      the model > pre-intrusion solution > limits that carry to L4. ----
-% [topic-sentence slot --- yours: "PETRI NETS RIGHT FIT." --- still open;
-%   the paragraph currently opens on the ruling-out with no lead sentence.]
+% [topic-sentence slot --- open. Your prior iterations DID have one: the
+%   first dictation opened "Why are we using the generalised stochastic
+%   Petri-net formalism? To understand this we need to touch on what we
+%   got from L0--L2: ... and we needed some sort of data structure to pipe
+%   in these attack profiles from L2 as an input. This is what the Petri
+%   nets provide." --- cut at compression. Candidates, all your words:
+%   (a) the question: "Why are we using the generalised stochastic
+%       Petri-net formalism?" (then the ruling-out answers it);
+%   (b) the need: "We needed a data structure to pipe in these attack
+%       profiles from L2 as an input, and this is what the Petri nets
+%       provide." (then "We ruled out ...");
+%   (c) both, in that order --- question, need, ruling-out.
+%   Pick or re-say; (b) is the one that makes "We ruled out attack graphs"
+%   follow without a jolt.]
 % [RULED 2026-08-18, do not re-flag] the 37% number stays out (not needed);
 %   "declared and kept apart from the observed profiles" stays out
 %   (implicit in "sub-Petri-net ... we join it").
 We ruled out attack graphs, which we already have from L1, because they
 do not supply the timing and stochastic elements we needed, so we needed
 a more nuanced data structure; DAGs, because they are acyclic (the L1
-attack graph is cyclic); and the other forms of Petri net: an SPN does
+attack graph is cyclic). The other forms of Petri net: an SPN does
 not have the right mechanism, since it times every transition, and a
 DSPN is over-engineered, adding a fixed delay we do not need, so we used
 the one in the middle, a GSPN, which provides the immediate transitions
@@ -475,12 +487,7 @@ access. We construct this Petri net before execution of the simulator.
 %   formalism; multi-token would use the AND structure --- recorded as a
 %   future-work candidate (structure_to_behaviour_binding.md revisit
 %   conditions; drafting handoff).
-
-The Petri net supplies only the structure to the attacker agent in the
-simulator: the timing, and the out-transitions that bound where it can
-go. The policy --- which tactic the attacker agent will do, and when ---
-emerges through the execution, where the success and failure signals
-from the simulator act on that structure; that is L4. The places in GSPN allow us to produce stochastic
+The places in GSPN allow us to produce stochastic
 times. The attacker agent will consume some stochastic amount of time to
 perform a procedure to achieve a goal, which is the tactic. Each tactic
 has a time associated with it, drawn exponentially to provide
@@ -491,9 +498,12 @@ and discipline.
 % [APPLIED, your ruling] "(see sensitivity analysis ch5)" deleted --- the
 %   closing paragraph already sends parameters to L4, which declares and
 %   points at ch5.
-% [APPLIED 2026-08-18] M2 ownership fold (structure only; policy emerges
-%   through execution = L4). "Generalised" coexistence clause: Marc ---
-%   not important; carried by "the out-transitions are immediate".
+% [RULED 2026-08-18, do not re-flag] the ownership fold ("supplies only
+%   the structure ... policy emerges through execution; that is L4") CUT
+%   by Marc --- reads as a limitation/characterisation; the ceiling
+%   paragraph's "L4 deals with this" carries the boundary. ¶2 + ¶3 merged
+%   (our model = structure + semantics) --- four paragraphs, matching the
+%   ruled order. "Generalised" coexistence clause: not important.
 
 The phases reconnaissance and resource development, before initial
 access, are not well connected in our attack profiles. So we drew in
