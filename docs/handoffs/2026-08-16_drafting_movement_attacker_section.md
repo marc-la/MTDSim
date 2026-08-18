@@ -453,6 +453,36 @@ most three prioritised moves. Voice is Marc's own gate
     `structure_to_behaviour_binding.md` revisit conditions for ch7.
     **Still unruled, minor:** the 37% number; "declared and kept apart from
     the observed profiles". L3 live text ~370 words.
+  - **From the 2026-08-18 L4 pre-drafting scan (content-point scaffold
+    returned in chat; no prose).** Scaffold order: .1 = L3 obligation
+    (arbitrary→justified→swept) > base weights (D3; closed-world +
+    recurrence-not-efficacy) > dwell standard of evidence (tiers, four
+    anchors, shape-not-scale, S3-R) > exponential-as-tractability (mean
+    load-bearing; interrupt-channel leak named as prediction only) > V6
+    pointer. .2 = the runtime loop (M1) > mapping as input parameter (S4;
+    v2_partial 8/7; host ceiling; standing caveat) > substrate as oracle
+    (M4; precondition-unmet and MTD-interrupt read as failure) > direction
+    without a stage machine (M2/M3; success/failure asymmetry; anti-fitting
+    rule; adversarial review + lifecycle-distance constraint) > sink retrace
+    (S5) > confusion penalty stays on the border > attacker-only seam
+    (D5/M7, beside-not-inside) > routing ablatability (null = bit-identical).
+    **Flags for Marc:** (1) placement of the overlay *values* (.1 family vs
+    .2 mechanism; V6 sends the table to an appendix); (2) `[VERIFY
+    wording]` Tier-1 post-S3-R — magnitudes still *sourced from* substrate
+    constants (scan 35 = 5+5+25; exploit 4.5 median) though no longer
+    *charged* by it on the movement arm; (3) `[SCOPE]`
+    operational_validation's Tier-2 "calibrated" vocabulary is aspirational
+    (catalogue v0-uncalibrated; R1 sequenced calibration post-MVP) — chapter
+    says declared→justified→swept only; (4) `[SCOPE]` whether experiment-1
+    numbers (sink censoring 74–210 vs ~500 actions; v1 mapping's friction/
+    churn) may motivate S4/S5 in §4.2.4 or stay ch5; (5) `[3b]`
+    interrupt-as-failure at the routing verdict vs host_simulator_contract's
+    "interrupt distinguishable from failure" — routed alike, recorded apart;
+    (6) host_simulator_contract.md positions itself for an "implementation
+    chapter" that no longer exists — portability is one sentence at most,
+    ceiling "priced, exercised on one host"; (7) if the recon→impact zero is
+    cited, it is inert on this corpus (no three-stage transition exists) — a
+    defensible-parameter result, not behavioural.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
