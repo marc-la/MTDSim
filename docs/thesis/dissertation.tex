@@ -605,14 +605,6 @@ so that we can evaluate the MTD mechanisms using different APT attack
 profiles. We made all of the actions independent of each other in MTDSim,
 and we've produced this join through the controller layer to our movement
 layer.
-% [TIGHTEN applied, your ruling 2026-08-19] the closing "This instruments
-%   ... via the token in the Petri net" sentence cut --- it pre-told
-%   4.2.4.2's mechanism.
-% [3b] dictated framing still unplaced, your integration choice: "we have
-%   produced this self-driving state of an attacker, linking it to our
-%   simulator for the evaluation of defence mechanisms" --- flag before it
-%   lands: the record uses "self-driving" for the INHERITED FSM
-%   (inherited_attacker_flowchart_vs_machine.md); confirm the referent.
 
 % [heading: "The" restored to the ratified form (handoff, 2026-08-16).]
 \subsubsection{Parameterisation}
@@ -642,15 +634,15 @@ attacker, because an attacker here can succeed or they can fail. These
 reports only capture the success; there is survivorship bias there. These
 values are necessary, but they're not sufficient, so we have to supplement
 them with additional re-weighting to consider if the attacker agent fails.
-All the out-transitions are the complete set of choices the attacker agent
-can choose via the token in the Petri net; a subset of these tactics will be
-visible to the token depending on success, depending on failure, and their
-weightings will be different depending on such a success signal.
-% [3b minor] the record words this as a declared ASSUMPTION (the observed
-%   out-edges treated as the complete choice set --- an assumption the corpus
-%   does not itself justify, adopted explicitly; metrics_semantics.md (f)).
-%   Your sentence states it as fact --- choose whether the assumption status
-%   is named.
+We assume that all the out-transitions are the complete set of choices the
+attacker agent can choose via the token in the Petri net; a subset of these
+tactics will be visible to the token depending on success, depending on
+failure, and their weightings will be different depending on such a success
+signal.
+% [PROPOSAL --- your accept/deny, built from your 2026-08-19 dictation] add
+%   after that sentence: "This is an explicit assumption of this work: the
+%   Attack Flow corpus is all we have to draw on, and if you change the
+%   corpus, the out-transitions and their weightings will be different."
 
 Based on all the dwell times from the original simulator: this is how we
 derived our new dwell times for our tactics. What we could take from the
@@ -667,18 +659,20 @@ to feed into our attacker model. On top of that there's also a distribution:
 we're using GSPN, so exponential is there, so that our model is more tractable.
 We are not claiming that the attacker dwell is exponentially distributed,
 but the behaviour of APT attackers is stochastic: stochastic means it can be
-measured, but it cannot be predicted. Having fixed timings for the tactics
+measured, but it cannot be predicted. We're trying to model the stochastic
+behaviour of these APT attackers: how are we going to do that without some
+capability for that? The capability is provided using this exponentiation
+mechanism, which makes the times stochastic (the base dwell times are not).
+Having fixed timings for the tactics
 is not stochastic, and that is why we introduced this exponential element.
 The literature can back us up on the stochastic nature.
-% [VERIFY --- citation slot] "the literature can back us up": no anchor
-%   wired. Candidates from the record (exponential_as_tractability_choice.md):
-%   bland2020 (stochastic-net attacker precedent), mcqueen2006, and the
-%   Madan 2004 semi-Markov lineage (timed_attack_models extraction; not yet
-%   a bib entry). Also [3b]: "stochastic means it can be measured, but it
-%   cannot be predicted" is a definitional claim --- yours to stand behind
-%   or soften.
-% [open --- M3 remainder] "sensitivity-swept" still points nowhere: the
-%   ruled pattern is declare here, point at \ref{sec:sensitivity} (V6).
+% [VERIFY --- citation slot, still owed] anchor for "the literature can back
+%   us up": candidates bland2020, mcqueen2006, the Madan 2004 lineage
+%   (timed_attack_models extraction; no bib entry yet).
+% [RULED 2026-08-19, do not re-flag] the sweep pointer goes to the APPENDIX,
+%   not a ch5 restatement ("the sweep is not as interesting"); Appendix
+%   placeholder wired at the appendix pass. Pass-5 note: the "fixed timings
+%   are not stochastic" leg now appears twice --- cut-order candidate.
 
 \subsubsection{Mechanics and the join to MTDSim}
 \label{subsubsec:mechanics-join}
@@ -759,24 +753,20 @@ literature and we overlaid the attack
 phases~\citep{hutchins2011, alshamrani2019, mandiant2013, chemat2024}.
 Through that work we produced the four broad phases of an attack:
 preparation, intrusion, post-intrusion operations, and objective. We
-assigned a distance value: if the tactic-to-tactic transition was within the
-same phase, it would be weighted a high value; if it was one away, it would
-be weighted a lower value; if it was two away, an even lower value; and the
-maximum distance is weighted zero.
-% [WRONG --- you asked for this verification] the declared kernel does NOT
-%   penalise one stage away: within-stage d = 1.0; ONE stage away d = 1.0
-%   (adjacent travel is never penalised --- gamma^(delta-1)); TWO away 0.25;
-%   THREE away 0.0625, which reads as exactly 0 under the z = 0.1 floor.
-%   Forward and backward have separate decays (gamma = delta = 0.25), and
-%   the kernel is FOLDED INTO the declared failure/success semantics rules
-%   (multiplied), not a standalone producer of the values
-%   (lifecycle_consensus.md section 6; weight_sensitivity_study.md). Your
-%   "if not, that's how it should be done" would be a re-declaration ---
-%   that re-opens the sweep; the provenance handoff carries the question.
-% [left out, flag] your closing "How did you come up with the values? We
-%   swept them" was not inserted: sweeping DEFENDS declared values, it does
-%   not produce them (the declare-then-sweep boundary, V6; the anti-fitting
-%   rule) --- confirm or re-dictate that line.
+assigned a distance value: a transition within the same phase, or one phase
+away, is not penalised; two phases away keeps a quarter of its weight; and
+the maximum distance is weighted zero. There is a floor of 0.1: through the
+multiplication and the renormalisation of all the edges, if an edge falls
+below this threshold, it goes down to zero.
+% [applied per your fix-and-simplify ruling 2026-08-19 --- reword freely]
+%   values from the record (lifecycle_consensus.md section 6): within-stage
+%   1.0; one away 1.0; two away 0.25; three away 0.0625, read as exactly 0
+%   under the z = 0.1 floor. Forward and backward decays are separately
+%   declared (currently equal at 0.25) --- if the asymmetric-decay idea
+%   lands (feasibility handoff, third arm), this sentence changes.
+% [RULED 2026-08-19, do not re-flag] the "How did you come up with the
+%   values? We swept them" line stays out --- the sweep defends the declared
+%   values (appendix), it does not produce them.
 It makes no sense for an attacker to go from recon directly
 to impact in the MITRE framework, because they are multiple steps away from
 each other, as the literature would say. This can be found in the appendix,
@@ -819,9 +809,6 @@ supplied by the Petri net; there is this confusion penalty exception.
 %   must-carry (null modulator bit-identical) is CUT from this unit; the
 %   guarantee stays repo-side (attacker_state_seam.md section 2) and ch5's
 %   ablation arms cite it there.
-% [open --- M2 remainder] the read-never-re-rolled verdict rule (M4: the
-%   substrate is the outcome oracle; no second dice) remains unruled for
-%   this unit --- controller.md section 4.
 
 % ----------------------------------------------------------- evaluate --
 \section{Experimental setup}

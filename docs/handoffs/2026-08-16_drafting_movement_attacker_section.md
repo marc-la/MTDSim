@@ -525,6 +525,31 @@ most three prioritised moves. Voice is Marc's own gate
     2026-08-19_failure_weight_provenance.md (his decomposition idea:
     failure kernel x distance kernel -> aggregated matrix) --- the owed
     failure-encoding paragraph waits on them.
+  - **L4 flag walk (2026-08-19, later) --- rulings applied, do not
+    re-flag:** the self-driving framing DELETED (Marc: a conflation, he
+    misspoke --- no replacement); closed-world named as an assumption
+    (minimal fix "We assume that ..." applied; a PROPOSAL sentence from his
+    corpus-bound dictation open in the tex); the why-GSPN dictation folded
+    into the exponential block (stochastic behaviour needs a capability;
+    exponentiation provides it; base dwells are not stochastic) --- the
+    definitional "measured but not predicted" claim re-affirmed by Marc, its
+    [3b] dropped; the kernel narrative FIXED to the record values on his
+    fix-and-simplify ruling (1 / 1 / 0.25 / floor 0.1 -> exactly 0) with the
+    floor explained in his words; the swept-line stays out (ruled: the sweep
+    defends, it does not produce); **the sweep pointer goes to the APPENDIX,
+    not ch5** ("the sweep is not as interesting") --- note: V6 put swept
+    parameters in a results preamble; if an examiner-facing tension appears
+    it is Marc's to reconcile; a sweep-wiring handoff is a MAYBE (his "leave
+    that as a handoff as well"), owed when the appendix is built; the M2
+    read-never-re-rolled point REMOVED on his ruling (what it was, for the
+    record: M4's rule that the verdict is read from the substrate's own
+    outcome, never re-rolled --- stays repo-side in controller.md section 4).
+    **New idea under exploration (his concurrent session + the feasibility
+    handoff's third arm): failure encoded purely as asymmetric kernel decay
+    (backward decays differently) --- one mechanism; the destination-aware
+    foothold gates are what it cannot express.** Still open in the tex: the
+    closed-world PROPOSAL; the stochastic-nature citation slot; the kernel
+    sentence's reword-freely note; pass-5 overlap notes.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).

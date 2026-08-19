@@ -39,7 +39,22 @@ verdict), because "one set of values is more defendable than two".
 3. **Blast radius before any adoption:** every published figure is keyed on
    `v3_persistent_backward`. Number the re-run cost, ask Marc once with a
    recommendation (membership-rulings convention).
-4. Verdict framed for the dissertation: does success-conditioning do work the
+4. **Third arm (Marc, 2026-08-19): kernel-only failure via asymmetric
+   decay.** Encode failure PURELY as the distance kernel with a backward
+   decay that differs from the forward one (delta != gamma) --- no failure
+   semantics rules at all. Already representable as a parameter
+   re-declaration (delta was 0.5 before the 2026-07-28 re-declaration to
+   0.25). **What it cannot express, to be checked against outcomes:** the
+   failure rules are destination-aware, not just direction-aware --- the
+   foothold gates (IA-failure sends foothold-dependent destinations to 0.02
+   while the IA->recon bridge carries 0.9; the validated 83% mass split)
+   cannot come from a uniform per-offset decay, which gives every
+   destination at the same offset the same factor. If those behaviours do
+   not matter to outcomes, the simplification wins and the defensibility
+   story collapses to one mechanism. **Marc has a concurrent session
+   exploring exactly this --- sync with it before building anything here**
+   (concurrent-sessions rule: re-verify artefact freshness).
+5. Verdict framed for the dissertation: does success-conditioning do work the
    base weights do not already do? If success ≈ pass-through behaviourally,
    Marc's simplification is nearly free AND the asymmetry concession
    simplifies to one declared object.
