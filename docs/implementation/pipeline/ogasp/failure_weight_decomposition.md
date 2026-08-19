@@ -38,9 +38,10 @@ three-panel figure, TikZ at 12 pt) and `docs/thesis/tables/outcome_overlay_weigh
 (the appendix tables: both rule ledgers, the kernel parameters, the complete
 success and failure sets for the version), and prints every number quoted
 below. `--verdict success` produces the sibling decomposition of the success
-set on demand; it is not committed, because the sibling feasibility brief
-(`2026-08-19_failure_only_overlay_feasibility.md`) may retire the success set.
-The failure decomposition is invariant to that ruling either way.
+set on demand; it is not committed, because the sibling feasibility study
+([`success_null_overlay_feasibility.md`](success_null_overlay_feasibility.md))
+may retire the success set — its ruling slot is open. The failure decomposition
+is invariant to that ruling either way.
 
 ---
 
@@ -289,7 +290,8 @@ paragraph in `subsubsec:mechanics-join`.
 7. **Hold for the sibling ruling:** if the failure-only overlay is adopted,
    point 1 simplifies to one declared object and the success half of the
    sentence above the slot is re-dictated; if not, nothing here changes.
-   (`2026-08-19_failure_only_overlay_feasibility.md`.)
+   ([`success_null_overlay_feasibility.md`](success_null_overlay_feasibility.md)
+   §8 — recommendation: keep `v3`, carry the study as the ablation.)
 
 ### 5.2 The appendix wiring — for Marc to verify, then paste
 
@@ -416,7 +418,9 @@ scope).
   `overlays/manifest.json`; `src/mtdsim/l3_simulation/controller/rules.py`.
 - **Feeds:** `subsubsec:mechanics-join`'s owed failure-encoding paragraph
   (§5.1) and `app:sensitivity`'s weight-set section (§5.2); the sibling
-  feasibility verdict (which keeps the failure set whichever way it rules).
+  feasibility verdict ([`success_null_overlay_feasibility.md`](success_null_overlay_feasibility.md),
+  which keeps the failure set whichever way it rules, and whose §5.8 rules
+  the kernel-only alternative out on expressiveness).
 - **Artefacts:** `tools/failure_weight_decomposition_figure.py`;
   `docs/thesis/figures/failure_weight_decomposition.{tex,pdf}`;
   `docs/thesis/tables/outcome_overlay_weights.tex`.

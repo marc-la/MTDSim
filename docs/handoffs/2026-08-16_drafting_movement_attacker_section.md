@@ -525,6 +525,13 @@ most three prioritised moves. Voice is Marc's own gate
     2026-08-19_failure_weight_provenance.md (his decomposition idea:
     failure kernel x distance kernel -> aggregated matrix) --- the owed
     failure-encoding paragraph waits on them.
+    **Feasibility handoff shipped (2026-08-19):** record
+    `implementation/pipeline/ogasp/success_null_overlay_feasibility.md` —
+    success column priced by a 4 000-run ablation (profile-signed 1–3 host
+    effect, no headline moved; kernel-only third arm ruled out on
+    expressiveness: loses the foothold gate, stalls a profile); ruling slot
+    §8 open, recommendation keep `v3` + carry as ablation + write the
+    paragraph on the premise. Content points in its §9.
     **Provenance handoff shipped its presentation (2026-08-19):** figure
     `fig:failure-weight-decomposition` + appendix tables generated
     (`tools/failure_weight_decomposition_figure.py`); the §4.2.4.2
@@ -555,7 +562,10 @@ most three prioritised moves. Voice is Marc's own gate
     **New idea under exploration (his concurrent session + the feasibility
     handoff's third arm): failure encoded purely as asymmetric kernel decay
     (backward decays differently) --- one mechanism; the destination-aware
-    foothold gates are what it cannot express.** Still open in the tex: the
+    foothold gates are what it cannot express** — now measured:
+    `success_null_overlay_feasibility.md` §5.8 (4–11 % vs 65–83 % back to
+    reconnaissance on a failed initial access; the adjacent form stalls
+    `objective_exfiltration` in 47/160 runs). Still open in the tex: the
     closed-world PROPOSAL; the stochastic-nature citation slot; the kernel
     sentence's reword-freely note; pass-5 overlap notes.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);

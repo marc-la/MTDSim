@@ -82,4 +82,4 @@ has its scaffold; the appendix artefact exists or is precisely specified.
 2. `docs/implementation/pipeline/ogasp/lifecycle_consensus.md` (§4 stages; §6 the kernel)
 3. `docs/implementation/pipeline/ogasp/weight_sensitivity_study.md` (fold-in + sweep)
 4. `docs/implementation/declared_value_provenance.md` (ledger discipline)
-5. `docs/handoffs/2026-08-19_failure_only_overlay_feasibility.md` (sibling — run first or together; a failure-only ruling changes deliverable 1's shape)
+5. `docs/implementation/pipeline/ogasp/success_null_overlay_feasibility.md` (the sibling feasibility — **shipped 2026-08-19**; its §8 ruling is open, recommendation keep `v3`; a failure-only ruling changes deliverable 1's shape)

@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-21
-updated: 2026-07-28
+updated: 2026-08-19
 topic: "L3 M2 — the outcome (policy) overlay: a ground-up conditional-likelihood weighting over the whole directed tactic-pair set, composed multiplicatively with the base weights and the substrate's binary verdict at runtime"
 ---
 
@@ -347,6 +347,14 @@ judgement: an incident report almost never records what an attacker did when a s
 from kill-chain and foothold-dependency logic, not attested. This gap is itself a
 methodological finding, not a hole to apologise for; the dissertation reports it as
 one and the artefact flags it (`evidence_tiers`).
+
+> **Re-read 2026-08-19** ([`success_null_overlay_feasibility.md`](success_null_overlay_feasibility.md)
+> §1): under Marc's premise that the corpus proportions already encode
+> success routing, the success treatment is a declared *sharpening* of an
+> attested layer rather than independent evidence, and the failure treatment
+> is the only layer no corpus supplies. The asymmetry above stands as stated;
+> what it is evidence *of* is re-read there, the success column is priced by
+> ablation, and the failure-only ruling is open in that record's §8.
 
 ---
 

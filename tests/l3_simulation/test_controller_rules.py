@@ -316,3 +316,66 @@ def test_rules_and_consensus_must_seat_the_same_tactics(tmp_path, rules) -> None
     broken.write_text(json.dumps(consensus), encoding="utf-8")
     with pytest.raises(RuleCompileError, match="seat different"):
         load_rule_set(RULES_PATH, broken)
+
+
+# --- the failure-only variant: success compiled as a pass-through -----------
+# Feasibility record: docs/implementation/pipeline/ogasp/success_null_overlay_feasibility.md
+
+
+def _success_null_spec():
+    from dataclasses import replace
+
+    return replace(
+        spec_from_registry_entry(load_overlay_registry().get(V3).spec),
+        success_passthrough=True,
+    )
+
+
+def test_success_passthrough_compiles_the_success_table_to_the_identity(rules) -> None:
+    """Every success cell is 1.0 under the ``passthrough`` rule id, and there are
+    still 210 of them — the variant drops no pair, it neutralises the column."""
+    from mtdsim.l3_simulation.controller.rules import PASSTHROUGH_RULE
+
+    table = compile_table(rules, "success", _success_null_spec())
+    cells = [c for dsts in table.values() for c in dsts.values()]
+    assert len(cells) == N_PAIRS
+    assert all(c["v"] == 1.0 and c["rule"] == PASSTHROUGH_RULE for c in cells)
+
+
+def test_success_passthrough_leaves_the_failure_table_exactly_v3(rules) -> None:
+    """The flag touches one verdict. The failure column compiles cell for cell to
+    the pinned v3_persistent_backward failure view."""
+    want = compile_table(rules, "failure", spec_from_registry_entry(load_overlay_registry().get(V3).spec))
+    got = compile_table(rules, "failure", _success_null_spec())
+    assert got == want
+
+
+@pytest.mark.parametrize("profile", PROFILES)
+def test_success_null_routes_on_base_weights_on_success_and_on_v3_on_failure(rules, profile) -> None:
+    """The behavioural identity the variant means: at every place of every net a
+    success verdict composes to the base out-weights renormalised (the blind
+    arm's distribution), and a failure verdict composes to exactly what the
+    pinned conditioned arm produces."""
+    from mtdsim.l3_simulation.controller.outcome import verdict_blind_overlay
+
+    success_null = OutcomeOverlay.from_values(compile_values(rules, _success_null_spec()))
+    conditioned = load_outcome_overlay(version=V3)
+    blind = verdict_blind_overlay()
+    net = load_routing_net(profile, with_synthetic_overlay=True)
+    for place in net.places:
+        base = net.base_out_weights(place)
+        if not base:
+            continue
+        assert success_null.compose(place, "success", dict(base)) == pytest.approx(
+            blind.compose(place, "success", dict(base))
+        )
+        assert success_null.compose(place, "failure", dict(base)) == pytest.approx(
+            conditioned.compose(place, "failure", dict(base))
+        )
+
+
+def test_success_passthrough_is_off_for_every_registered_version() -> None:
+    """No registered version compiles with the flag — the variant is in memory
+    until a published run consumes it, on the registry's own immutability rule."""
+    for version in load_overlay_registry().versions:
+        assert spec_from_registry_entry(version.spec).success_passthrough is False
