@@ -497,6 +497,34 @@ most three prioritised moves. Voice is Marc's own gate
     appendix") and the full tactic-to-tactic weight sets (V6 already routes
     the overlay matrix to an appendix). 3b walk is Marc's; then
     /scrutinise-draft runs pass 4.
+  - **L4 pass 4 run and Marc's rulings applied (2026-08-19), do not
+    re-flag:** timeline-dead-end expansion, beside-MTDSim reframe, preamble
+    tighten, closed-world sentence, exponential non-claim, mapping-as-input
+    sentences, forced-total-mapping reconciliation (VERIFIED: v1_ckc_total
+    tried, experiment-1 friction/churn --- the #16 rejection was the separate
+    replace-the-FSM idea), overlay paragraph reworked (15-by-14 no
+    self-loops; stages preparation / intrusion / post-intrusion operations /
+    objective; citations wired: hutchins2011 + mandiant2013 added to the
+    bib, chemat2024 unparked; Ussath cited via Alshamrani). **Routing
+    ablatability must-carry CUT by Marc** (skeleton comment amended; the
+    guarantee stays repo-side, ch5 cites attacker_state_seam.md). **Open in
+    the tex:** the kernel [WRONG] (declared kernel does NOT penalise one
+    stage away --- his narrative does; his "that's how it should be done" =
+    candidate re-declaration, provenance handoff carries it); the left-out
+    "we swept them" Q&A line (declare-then-sweep boundary); the
+    self-driving-framing [3b]; closed-world assumption-status [3b minor];
+    stochastic-nature citation slot; the sec:sensitivity pointer; M2's
+    read-never-re-rolled insert (unruled). **Figure slots ruled:** the
+    runtime data-flow loop (primary figure of the subsection, drawn after
+    polish; spec in the tex comment) and the four-phase overlay diagram
+    (placeholder). **For sec:experimental-setup:** mapping-swap as an
+    experiment dimension (Marc's ask). **Pass-5 candidates he floated:**
+    the 45 s / 0 s worked examples ("not strong"); the doubled zero-or-one
+    constraint sentences. **Two handoffs spun out:**
+    2026-08-19_failure_only_overlay_feasibility.md and
+    2026-08-19_failure_weight_provenance.md (his decomposition idea:
+    failure kernel x distance kernel -> aggregated matrix) --- the owed
+    failure-encoding paragraph waits on them.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).

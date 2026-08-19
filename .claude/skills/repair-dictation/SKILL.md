@@ -114,6 +114,11 @@ here** rather than leaving the knowledge in chat.
 | another quick | another quirk |
 | 22nd (confusion penalty) | 20-second |
 | defend a sportsy (attacker) | defender thwarts the (attacker) |
+| attacker door | attacker dwell |
+| cyber kill train | Cyber Kill Chain |
+| encapture | capture |
+| tackle (zero or one actions) | tactic |
+| attack lines (precomputed) | attack timelines |
 
 ### Danger minimal pairs — a mishear flips a claim, always verify-list these
 
