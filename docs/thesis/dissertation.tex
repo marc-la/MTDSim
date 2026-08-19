@@ -614,7 +614,21 @@ In terms of what the Petri nets cannot provide that we need for this two-way
 join, the first one is the dwell times. Each tactic will consume some time in
 the simulator, as the previous attack phases did from the action layer. Our
 new movement layer will have to supply a dwell time or duration to be
-consumed by the simulator, so that we can plug this in. This is a time
+consumed by the simulator, so that we can plug this in.
+% [INSERT --- M1, fresh pass 2026-08-19] S3-R is only implied here, never
+%   stated: on the movement arm the movement layer supplies EVERY unit of
+%   the attacker's time --- the substrate's own action prices are not
+%   consumed (the dwell IS the dispatched action's duration). Without the
+%   positive statement, a reader can assume the dwell sits ON TOP of the
+%   native action costs --- exactly the hybrid built once and reversed. Two
+%   record-owned consequences also become sayable: the same verb costs
+%   different amounts depending on the invoking tactic (the price belongs to
+%   the behaviour, not the verb), and a blocked attempt still costs its
+%   dwell (an unsatisfiable place must not be a free move).
+%   stochastic_timing_design.md S3-R banner; movement/attacker.py docstring.
+%   The closing confusion-penalty sentence currently carries this by
+%   exception only.
+This is a time
 duration value on the nodes themselves, for each tactic: you can imagine it
 as each tactic consumes X amount of time by the attacker agent. But the issue
 with this is that we cannot derive this from anything that we've done in the
@@ -657,6 +671,10 @@ defender's perspective this is off-network and untrackable. We judged that
 this was a plausible, literature-bounded and sensitivity-swept set of values
 to feed into our attacker model. On top of that there's also a distribution:
 we're using GSPN, so exponential is there, so that our model is more tractable.
+% [TIGHTEN --- minor, fresh pass] "we're using GSPN, so exponential is
+%   there" re-tells L3's formalism sentence (L3 owns exponential draws +
+%   immediate transitions); L4 owns the values and the defence. Cut-order
+%   candidate at the assembly pass, on the L3/L4 boundary.
 We are not claiming that the attacker dwell is exponentially distributed,
 but the behaviour of APT attackers is stochastic: stochastic means it can be
 measured, but it cannot be predicted. We're trying to model the stochastic
@@ -666,9 +684,17 @@ mechanism, which makes the times stochastic (the base dwell times are not).
 Having fixed timings for the tactics
 is not stochastic, and that is why we introduced this exponential element.
 The literature can back us up on the stochastic nature.
+% [KEEP --- fresh pass] the stochasticity three-step now composes exactly as
+%   the record wants it: stochastic behaviour motivates A distribution,
+%   tractability picks the exponential, the non-claim bounds it
+%   (exponential_as_tractability_choice.md). Don't re-touch at pass 5 beyond
+%   the noted overlap cut.
 % [VERIFY --- citation slot, still owed] anchor for "the literature can back
 %   us up": candidates bland2020, mcqueen2006, the Madan 2004 lineage
-%   (timed_attack_models extraction; no bib entry yet).
+%   (timed_attack_models extraction; no bib entry yet). Fresh-pass addition:
+%   Holm 2014 (203,025 intrusions, fitted compromise-time distributions ---
+%   initial_access_timing extraction) is the strongest EMPIRICAL anchor for
+%   "attack timing is stochastic and measured"; needs a bib entry if taken.
 % [RULED 2026-08-19, do not re-flag] the sweep pointer goes to the APPENDIX,
 %   not a ch5 restatement ("the sweep is not as interesting"); Appendix
 %   placeholder wired at the appendix pass. Pass-5 note: the "fixed timings
@@ -686,6 +712,11 @@ inputs is the mapping, so you can swap the mapping and see: does this change
 anything?
 % [note, your ask 2026-08-19] the mapping-swap-as-experiment point is
 %   recorded for sec:experimental-setup (drafting handoff carries it).
+% [INSERT --- minor, fresh pass] one clause the record adds to "you can swap
+%   the mapping": every mapping tried is VERSIONED AND KEPT, so "which
+%   mapping produced these numbers" stays answerable after the fact (S4;
+%   controller_mapping_v2.md section 4). The reproducibility leg of the
+%   input-parameter claim.
 We've tried some other things: forcing a total mapping was just
 another input that didn't work. What we're doing is a direct mapping with
 certain constraints on it: a tactic can go to only zero or one verbs, and a
@@ -758,6 +789,14 @@ away, is not penalised; two phases away keeps a quarter of its weight; and
 the maximum distance is weighted zero. There is a floor of 0.1: through the
 multiplication and the renormalisation of all the edges, if an edge falls
 below this threshold, it goes down to zero.
+% [WRONG --- M3, fresh pass 2026-08-19] the floor tests the DISTANCE-KERNEL
+%   value at fold-in (d < z read as exactly 0 BEFORE composition ---
+%   lifecycle_consensus.md section 6), not the multiplied/renormalised edge
+%   weight. As written, an examiner with the artefact can find renormalised
+%   edge weights below 0.1 that are not zero, which falsifies the sentence.
+%   Fact to swap: the floor zeroes the distance factor, not the finished
+%   edge. (Partly my transcription of your dictation --- flagged, not
+%   silently fixed; wording yours.)
 % [applied per your fix-and-simplify ruling 2026-08-19 --- reword freely]
 %   values from the record (lifecycle_consensus.md section 6): within-stage
 %   1.0; one away 1.0; two away 0.25; three away 0.0625, read as exactly 0
@@ -779,6 +818,20 @@ along with the full set of tactic-to-tactic weight sets.
 %   encoded is owed here once the two failure-overlay handoffs land
 %   (feasibility of a failure-only matrix; the decomposition presentation:
 %   distance kernel x failure kernel -> aggregated matrix).
+% [INSERT --- M2, fresh pass 2026-08-19: content points for that owed
+%   paragraph's dictation] the examiner's next question is unanswered in the
+%   unit: how do we know the declared weights weren't tuned until the
+%   attacker moved "correctly"? The record's two earned answers: (a) the
+%   anti-fitting boundary --- the overlay is a deliberately separate layer
+%   from the CTI nets, never reverse-engineered to make any net traverse
+%   well (your #28: "knowledge and real world data working together at
+%   runtime to produce a result that I am here to measure";
+%   success_failure_overlay_design.md section 1); (b) the adversarial-review
+%   defence --- the values survived structured red-team scrutiny including a
+%   reviewer whose sole job was catching reverse-engineering
+%   (outcome_overlay_directionality.md). Sequence the dictation AFTER the
+%   concurrent overlay session reports --- an adopted success-null or
+%   kernel-only overlay changes this paragraph's shape.
 
 In terms of policy, we employed a sink-retrace policy, because the token
 would frequently hit some sinks in the Petri net and would terminate the run.
