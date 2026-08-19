@@ -565,12 +565,188 @@ this.
 \subsection{L4: The attacker-agent traversal in MTDSim}
 \label{subsec:execution}
 
+% ---- Pass 2+3a applied 2026-08-19 (repair-dictation): Marc's dictation,
+%      transcription-repaired + register-swept only, no word choices made.
+%      [3b] markers are Marc's 3b walk; verify watchlist in the session
+%      return. Split ruled by Marc: preamble / Parameterisation / Mechanics
+%      and the join to MTDSim.
+The question for L4 is: what can the Petri nets not supply, and how do we
+join this to MTDSim? For this stage we have these attack profiles, and these
+have been formalised into Petri nets.
+% [3b] "operationalized or formalised" dictated as a pair --- resolved to the
+%   second form; confirm (the repo's term is "operationalised"; the L3
+%   heading owns "formalism").
+These Petri nets can act as inputs, but they're like source code: they have
+no way of actually running. You can run a Petri net, but what we found is
+that that would produce a timeline of what the attacker did (you're tracing
+the token), but we want a two-way interactive behaviour between the Petri
+nets and the simulator. We had to produce a two-way join. That's why I am
+introducing some new terminology.
+% [3b] person: "I am introducing" against "we" everywhere else --- global
+%   ruling (the L0--L3 units run on "we").
+Everything from L0 to L3 is what I'm considering the movement layer, because
+the attacker is moving: the token is moving through all these tactics. Within
+the simulator, MTDSim, the inherited attacker model has its attack operations
+and has six phases, as outlined in the background. This is what we're calling
+the action layer. To produce results we have to join these two layers
+together, and we're doing this through the controller layer. We're joining
+the work, and we scoped it down: for this paper we are adopting the existing
+attack actions from the simulator and pulling results from that.
+% [3b] "for this paper" --- paper / project / dissertation (both "paper" and
+%   "project" dictated in this unit).
+Future work can look into changing the underlying action layer, but this has
+been scoped out for this project. The movement layer lives beside MTDSim; it
+is not directly embedded into it, and that's just the nature of what we've
+done.
+% [3b] "the movement layer that we lives beside" --- "that we" dropped as a
+%   disfluency; if "that we built" was meant, restore it.
+We made all of the actions independent of each other in MTDSim, and we've
+produced this join through the controller layer to our movement layer. This
+instruments the attacker model at runtime: there's this two-way dynamic
+re-weighting, and then success signals, and then this is going to feed into
+the next tactic that the attacker agent will choose, via the token in the
+Petri net.
+
 % [heading: "The" restored to the ratified form (handoff, 2026-08-16).]
 \subsubsection{Parameterisation}
 \label{subsubsec:parameterisation}
 
+In terms of what the Petri nets cannot provide that we need for this two-way
+join, the first one is the dwell times. Each tactic will consume some time in
+the simulator, like the previous attack phases did from the action layer. Our
+new movement layer will have to supply a dwell time or duration to be
+consumed by the simulator, so that we can plug this in. This is a time
+duration value on the nodes themselves, for each tactic: you can imagine it
+as each tactic consumes X amount of time by the attacker agent. But the issue
+with this is that we cannot derive this from anything that we've done in the
+movement layer itself. The dwell times do not exist in the literature; they
+do not exist in CTI vendor reports. Prior papers that have done similar work
+here describe this as inherently arbitrary: trying to put times on an attack.
+I think probably there is no MITRE tactic mapping to time resource --- this
+does not exist.
+% [3b] "I think probably" --- sure-or-scoped: the record is definite (D4 ---
+%   no ready-made MITRE-tactic-to-time resource exists).
+How long does defence evasion take? This is a parameter of the model itself,
+not an invariant.
+
+So what do we have? From the movement layer we've got the base transition
+weights: the proportion of outflows from a tactic. This is the only
+quantitative evidence that we have, but this is as described in prior
+subsections, I think in L1 or L2.
+% [3b] "I think in L1 or L2" --- name the cross-reference (the corpus
+%   thinness sentence lives in the L0--L1 unit; recurrence-not-efficacy is on
+%   the record at metrics_semantics (f)).
+This is what we have: this is recurrence, but this is not reflective of an
+attacker, because an attacker here can succeed or they can fail. These
+reports only capture the success; there is survivorship bias there. These
+values are necessary but they're not sufficient, so we have to supplement
+them with additional re-weighting to consider if the attacker agent fails.
+
+Based on all the dwell times from the original simulator: this is how we
+derived our new dwell times for our tactics. What we could take from the
+original simulator we used, from the six original verbs from the action
+layer. If that wasn't sufficient then we used some multiplier of those values
+to produce the tactic draw times, and if not we would decide what shape would
+fit best for this tactic. You can see the appendix for this: for example
+stealth-low-and-slow, we had, I think it was 45 seconds, which was 10 times
+the exploit shape.
+% [3b] "I think it was 45 seconds" --- the catalogue confirms 45.0 s = 10x
+%   the 4.5 s exploit-shaped median (data/ogasp/tactic_durations.json);
+%   keep-the-hedge or state it plainly.
+But then resource-development we deemed as zero seconds, because from the
+defender's perspective this is off-network and untrackable. We judged that
+this was a plausible, literature-bounded and sensitivity-swept set of values
+to feed into our attacker model. On top of that there's also a distribution:
+we're using GSPN, so exponentials there, so that our model is more tractable.
+% [3b] "exponential increase there" heard --- repaired to "exponentials
+%   there"; confirm the intended clause (per-tactic exponential draws whose
+%   mean is the declared value).
+
 \subsubsection{Mechanics and the join to MTDSim}
 \label{subsubsec:mechanics-join}
+
+% [meta-narration beheaded: "OK so now we need to discuss the mechanics and
+%   how to join that to MTDSim" --- the heading carries it.]
+This will not map one to one. We needed a mapping from our Petri-net nodes,
+or attack tactics, to the action layer, the verbs. We're calling this the
+tactic-to-verb mapping. There is no real mapping here, so we used our best
+judgement. We've tried some other things: we tried directly piping the Petri
+net into the finite state machine, and this didn't work because, for a lot of
+the tactics, they do not have a sufficiently adjacent capability in the
+action layer. We also considered using MITRE Caldera, which also is an
+operationalisation of the MITRE ATT\&CK framework, but this would introduce
+too much overhead and the results were unclear of the practical implication
+of that. We landed on tactic operationalisation: we used a tactic mapping,
+where a tactic would map to zero or one verbs in the action layer. Several
+tactics could map to the same verb, but if there is no mapping then the
+tactic would be considered dwell-only: the attacker would consume time in the
+simulator, and it would be doing something offline. The dwell-only is a
+concession: the original attacker model that we're plugging into on the
+action layer has gaps. You can see this in the diagram provided: there are
+many dwell-only tactics.
+% [figure slot] "the diagram they would provide" read as a spoken figure
+%   instruction --- the controller-mapping figure is the natural candidate
+%   (data/misc/_viz/controller_mapping); wired at the figures pass.
+Therefore the ceiling of this project really lies on the action layer that we
+are adopting from the original simulator: the attacker model that we produce
+can only be as good as what we're adopting. But the beauty of it is that it
+is extendable, it's modular, because you can take our movement layer and map
+it to anything, if you can provide an appropriate mapping. Or you can build a
+stronger underlying attack model, maybe, that operationalises all of MITRE's
+tactics, and that would produce a much greater and more useful attacker
+model. We simply did not have the time to do this.
+
+Also, to produce this two-way mapping, we use the action layer to send
+signals: success signals. Success or failure of the attack model at runtime
+will come from the action layer and is brought up.
+% [3b] "the attack model" as dictated --- the verdict is read per dispatched
+%   action: attack / action / attacker model?
+An action fails if the preconditions of the action itself were missing. For
+example, they're trying to exploit a vulnerability but you haven't scanned
+for those vulnerabilities: there are objects that are being passed around in
+the simulator, and if the verbs have not been run then it can fail. The
+signal is propagated upwards. The same goes for the moving target defence: if
+MTD interrupts the attacker, then whatever verb it is on will fail. But if
+they're on a dwell-only, there is no verdict, so this is not felt by the
+token in the Petri net.
+
+To pull this all together, we used verdict-conditioned re-weighting. The base
+proportion (which is the recurrence value from the movement layer) on all of
+the edges is multiplied by a declared weight set and renormalised. If the
+attacker succeeds, we're overlaying the success tactic-to-tactic weight set
+onto all the out-transitions that a token sees. This will influence the set,
+and the probability, of which tactic the token will move to next, and this
+encodes direction. This is the same for failure: if the attack fails then the
+weight set will be different, and so it would produce a different set of
+options open to the attacker agent's Petri-net token to decide from, and this
+encodes direction. These two weight sets are 15-by-15 matrices for all the
+attack tactics, from source to destination tactic, weighted by X amount. This
+was done through a sensitivity analysis, where the tactic weights were
+largely a product of the distance of the tactics from each other, based on
+the literature. It makes no sense for an attacker to go from recon directly
+to impact in the MITRE framework, because they are multiple steps away from
+each other, as the literature would say. We have aggregated literature and we
+found four major phases that an attacker moves through: recon, establish
+foothold, foothold, and then act on objectives.
+% [3b] "recon, establish foothold, foothold, act on objectives" --- the third
+%   stage as heard is bare "foothold"; lifecycle_consensus.md names the four
+%   consensus stages --- confirm the intended names.
+This can be found in the appendix, along with the full set of
+tactic-to-tactic weight sets.
+
+In terms of policy, we employed a sink-retrace policy, because the token
+would frequently hit some sinks in the Petri net and would terminate the run.
+We found that this would terminate a lot of runs, and this is a concession of
+the thinness of the corpus. To deal with this issue we would retrace the edge
+travelled. Another quirk that we ran into is that the simulator that we are
+inheriting largely has to do with confusion and disruption of the attacker:
+we're modelling the disruption to an attacker using these defence mechanisms,
+and this was modelled through a confusion penalty, the 20-second confusion
+penalty that would hit the attacker at certain phases of its attack. How the
+defender thwarts the attacker in a simulator is inherently tied to the
+simulator; it is an invariant of the simulator, so we had to maintain that.
+We're maintaining that 20-second confusion penalty, so not all the timing is
+supplied by the Petri net; there is this confusion penalty exception.
 
 % ----------------------------------------------------------- evaluate --
 \section{Experimental setup}

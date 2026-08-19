@@ -90,6 +90,30 @@ here** rather than leaving the knowledge in chat.
 | attachment motivation | attacker's motivation |
 | rich (exfiltration) | reach (exfiltration) |
 | attack files (objective-conditioned) | attack profiles |
+| Patriots / patronet / patronage | Petri nets / Petri net |
+| empty SIM | MTDSim |
+| movement lay | movement layer |
+| two way joint | two-way join |
+| dual times | dwell times |
+| (necessary but) not suspicious | not sufficient |
+| defence aversion | defence evasion |
+| cushion man | question mark (spoken punctuation) |
+| still slow and slow | stealth-low-and-slow |
+| GSP in | GSPN |
+| finite same machine | finite state machine |
+| Mitzis (tactics) | MITRE's (tactics) |
+| the same good (verb) | the same verb |
+| tool only | dwell-only |
+| moving target offence | moving target defence |
+| verbatone | verb it's on |
+| White set / wait set | weight set |
+| way to buy X amount | weighted by X amount |
+| recurrent value | recurrence value |
+| the taxes (distance) | the tactics |
+| Sync Retrace | sink retrace |
+| another quick | another quirk |
+| 22nd (confusion penalty) | 20-second |
+| defend a sportsy (attacker) | defender thwarts the (attacker) |
 
 ### Danger minimal pairs — a mishear flips a claim, always verify-list these
 

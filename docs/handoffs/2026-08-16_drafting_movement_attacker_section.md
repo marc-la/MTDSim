@@ -483,6 +483,20 @@ most three prioritised moves. Voice is Marc's own gate
     ceiling "priced, exercised on one host"; (7) if the recon→impact zero is
     cited, it is inert on this corpus (no three-stage transition exists) — a
     defensible-parameter result, not behavioural.
+  - **L4 pass 2+3a done (2026-08-19, repair-dictation):** Marc's dictation
+    repaired into the tex under his ruled split (preamble + Parameterisation +
+    Mechanics and the join; the beside-not-embedded / runtime-instrumentation
+    point folded into the preamble from his follow-up dictation). ~1,100
+    words against the 2-unit ~500 (within the speak-long 2--3x aim). Nine
+    `[3b]` markers + one `[figure slot]` open in the tex. Verify watchlist
+    returned in chat --- highest-value repairs: "from the original simulator"
+    self-correction resolved to "from the movement layer" (base weights);
+    "not suspicious"->"not sufficient"; "22nd"->"20-second confusion
+    penalty"; "defend a sportsy"->"the defender thwarts the". Two NEW
+    appendix debts dictated: the dwell-time derivation table ("see the
+    appendix") and the full tactic-to-tactic weight sets (V6 already routes
+    the overlay matrix to an appendix). 3b walk is Marc's; then
+    /scrutinise-draft runs pass 4.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
