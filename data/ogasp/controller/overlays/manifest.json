@@ -1,21 +1,21 @@
 {
   "meta": {
-    "artefact": "The outcome-overlay registry \u2014 every success/failure value set that has been run, how it was compiled, and which experiment consumed it",
+    "artefact": "The outcome-overlay registry — every success/failure value set that has been run, how it was compiled, and which experiment consumed it",
     "created": "2026-07-28",
     "record": "docs/implementation/pipeline/ogasp/weight_sensitivity_study.md",
     "why": "The overlay values are a declared-knowledge layer, and the S1 ruling changed them: a lifecycle-distance dependency now grades a transition by how far it travels, not only by its direction. Experiment 1 ran on the pre-distance values, so overwriting them in place would have made a published result unreproducible from the repo. Instead each value set is a named version, exactly as a controller mapping is: a version is selected at the experiment seam, and no layer below there prefers one.",
-    "compiled_not_authored": "Neither version is hand-authored. Both are compiled from the single rule set at ../outcome_rules.json by mtdsim.l3_simulation.controller.rules, and the 'spec' field below is the whole recipe. `python -m mtdsim.l3_simulation.controller.rules --check` re-compiles every registered version and reports any cell that differs from what is committed \u2014 the reproduction check that distinguishes rule-generated values from fitted ones.",
+    "compiled_not_authored": "Neither version is hand-authored. Both are compiled from the single rule set at ../outcome_rules.json by mtdsim.l3_simulation.controller.rules, and the 'spec' field below is the whole recipe. `python -m mtdsim.l3_simulation.controller.rules --check` re-compiles every registered version and reports any cell that differs from what is committed — the reproduction check that distinguishes rule-generated values from fitted ones.",
     "schema": {
       "name": "the version name a caller selects",
       "dir": "the directory holding this version's success.json and failure.json",
-      "spec": "the compilation recipe: relationship_source ('bands' | 'consensus_stages'), whether the distance term applies, and the kernel parameters when it does",
+      "spec": "the compilation recipe: relationship_source ('bands' | 'consensus_stages'), whether the distance term applies, the kernel parameters when it does, and success_passthrough (true: the success table compiles to the identity and only the failure table conditions — the failure-only overlay, v4)",
       "consumed_by": "the experiments that have run on this version",
       "produced": "what it produced, in one sentence",
       "immutable": "true once an experiment has consumed it, so a published result stays reproducible"
     }
   },
   "default": "v1_band_relationship",
-  "default_rationale": "The default is the experiment-1 value, so an unqualified load reproduces what has always run. It is deliberately NOT the newest version: promoting a version to default would re-bake an experiment's choice into the pipeline, which is the coupling this registry exists to remove. Experiments select their version explicitly \u2014 the same ruling the controller mapping registry carries. Note that the go-forward version is now v3_persistent_backward, not v2 \u2014 an experiment must name it explicitly.",
+  "default_rationale": "The default is the experiment-1 value, so an unqualified load reproduces what has always run. It is deliberately NOT the newest version: promoting a version to default would re-bake an experiment's choice into the pipeline, which is the coupling this registry exists to remove. Experiments select their version explicitly — the same ruling the controller mapping registry carries. Note that the go-forward version is now v4_failure_only (Marc's 2026-08-19 ruling), not v3 — an experiment must name it explicitly; every record published before 2026-08-19 is keyed on v3.",
   "versions": [
     {
       "name": "v1_band_relationship",
@@ -28,7 +28,7 @@
       "construction": "the R2 rule set with the relationship term read from the declared five-band kill-chain prior (0 prep, 1 intrusion, 2 consolidate, 3 expand, 4 objective) and no distance dependency: a pair's value is its first-matching rule's value, full stop",
       "rationale": "the values as finalised at R2 after four adversarial cross-examination rounds, certified 82% on internal coherence. Retained unchanged because experiment 1 ran on them.",
       "consumed_by": [
-        "experiment 1 \u2014 movement vs baseline (data/results/exp01_movement_vs_baseline; docs/implementation/pipeline/ogasp/experiment_01_findings.md)"
+        "experiment 1 — movement vs baseline (data/results/exp01_movement_vs_baseline; docs/implementation/pipeline/ogasp/experiment_01_findings.md)"
       ],
       "produced": "ASR 0.00 across all 100 movement runs in two profile-determined failure modes (friction and churn). The supervisor's S1 objection is against this version: because relationship is graded by direction only, reconnaissance -> impact carried mass comparable to reconnaissance -> initial-access.",
       "record": "docs/implementation/pipeline/ogasp/success_failure_overlay_design.md",
@@ -54,7 +54,7 @@
         "the S1 sensitivity study (docs/implementation/pipeline/ogasp/weight_sensitivity_study.md)",
         "the tactic-rate feasibility study (docs/implementation/pipeline/ogasp/rate_feasibility_study.md)"
       ],
-      "produced": "40 of 210 pairs change relationship class, all inside the consensus's weakly-ordered post-intrusion middle; 6 pairs per verdict fall to exactly zero (preparation-stage sources to objective-stage destinations). Swept over the declared bands across 2600 runs on both controller mappings, the verdict is mixed: ASR stays 0.00 everywhere and MTD-invariance holds at every point, while the intermediate profile's failure-mode classification and any ordering of profiles by progress do move. The floor z turned out behaviourally inert \u2014 no profile net carries a three-stage transition for it to act on, which also means the pair that motivated S1 (reconnaissance -> impact) was a defect in the declared table that never routed mass.",
+      "produced": "40 of 210 pairs change relationship class, all inside the consensus's weakly-ordered post-intrusion middle; 6 pairs per verdict fall to exactly zero (preparation-stage sources to objective-stage destinations). Swept over the declared bands across 2600 runs on both controller mappings, the verdict is mixed: ASR stays 0.00 everywhere and MTD-invariance holds at every point, while the intermediate profile's failure-mode classification and any ordering of profiles by progress do move. The floor z turned out behaviourally inert — no profile net carries a three-stage transition for it to act on, which also means the pair that motivated S1 (reconnaissance -> impact) was a defect in the declared table that never routed mass.",
       "record": "docs/implementation/pipeline/ogasp/weight_sensitivity_study.md",
       "immutable": true,
       "immutability_note": "Frozen 2026-07-28: two studies have consumed it, so its values must stay reproducible. Superseded as the go-forward version by v3_persistent_backward, which differs only in delta_ratio."
@@ -73,12 +73,37 @@
         }
       },
       "construction": "identical to v2_lifecycle_distance except delta_ratio, the backward decay per extra stage crossed, which moves 0.5 -> 0.25. Same rule set, same relationship ordering, same forward kernel, same floor. Nothing hand-edited.",
-      "rationale": "Marc's persistence ruling (2026-07-28). Under v2 a full-campaign collapse after a failure \u2014 exfiltration falling back to reconnaissance \u2014 sat at 0.0625: 14x below a one-step fallback, but not impossible. The ruling is that an attacker persistent enough to reach exfiltration does not abandon its foothold to re-scan the perimeter, so that jump should read as exactly 0, as the three-stage forward leap already does.",
-      "consumed_by": [],
-      "produced": "not yet run. The 6 three-stage backward pairs fall to exactly 0 on both verdicts, and the 22 two-stage backward pairs halve again (factor 0.5 -> 0.25). Forward values are untouched. Side effect worth naming: with gamma = delta_ratio the two kernels are now numerically identical, so direction is carried entirely by the rule tier.",
+      "rationale": "Marc's persistence ruling (2026-07-28). Under v2 a full-campaign collapse after a failure — exfiltration falling back to reconnaissance — sat at 0.0625: 14x below a one-step fallback, but not impossible. The ruling is that an attacker persistent enough to reach exfiltration does not abandon its foothold to re-scan the perimeter, so that jump should read as exactly 0, as the three-stage forward leap already does.",
+      "consumed_by": [
+        "experiment 2 — expo02_ashen_lynx (data/results/expo02_ashen_lynx; docs/implementation/pipeline/ogasp/experiment_02_findings.md) and every published movement-arm study since 2026-07-29 (axis-4 structural probe, FSM alignment/succession, disruption frontier, learning readiness, progress credit, predictability, plural preference, …)",
+        "the failure-only overlay feasibility study, as the conditioned arm (docs/implementation/pipeline/ogasp/success_null_overlay_feasibility.md)"
+      ],
+      "produced": "experiment 2's headline: ASR degenerate at 200 s, breadth suppression per mechanism, the mechanism x profile interaction, and the verdict-blind control indistinguishable from the conditioned arm (axis 4 DESIGNED). The 2026-08-19 feasibility study priced its success table by ablation: a profile-signed 1-3 host effect through the enables tier's coupling to the mapping, no headline moved.",
       "record": "docs/implementation/pipeline/ogasp/weight_sensitivity_study.md",
+      "immutable": true,
+      "immutability_note": "Frozen 2026-08-19: experiment 2 and the studies after it consumed it, so its values must stay reproducible. Superseded as the go-forward version by v4_failure_only on Marc's 2026-08-19 ruling."
+    },
+    {
+      "name": "v4_failure_only",
+      "dir": "v4_failure_only",
+      "created": "2026-08-19",
+      "spec": {
+        "relationship_source": "consensus_stages",
+        "distance": true,
+        "kernel": {
+          "gamma": 0.25,
+          "delta_ratio": 0.25,
+          "z": 0.1
+        },
+        "success_passthrough": true
+      },
+      "construction": "identical to v3_persistent_backward on the failure side — same nine failure rules, same consensus relationship ordering, same kernel (gamma 0.25, delta_ratio 0.25, z 0.1) — and the success table compiled as the constant 1.0 (rule id 'passthrough'), the multiplicative identity, so a success verdict routes on the base flow proportions unchanged. The five success rules stay in outcome_rules.json for v1-v3's reproducibility and are not consulted. Nothing hand-edited.",
+      "rationale": "Marc's failure-only ruling (2026-08-19). The base flow proportions are taken from reports of campaigns that worked, so base(a->b) already answers 'given success at a, where next' — a success matrix re-weights that measured answer with declared values for the same question, which is a second, weaker-tier encoding of a thing the base already encodes and overrules the evidence wherever it differs. The failure matrix has the opposite status: no corpus records what an attacker did after a step failed, so declared knowledge is the only source. One declared object, encoding the one thing no corpus can. The M2 ruling still holds — the success treatment is the identity (the corpus), the failure treatment is the matrix. Feasibility, the static and behavioural pricing of the dropped column, and the evidence-tier inversion weighed: docs/implementation/pipeline/ogasp/success_null_overlay_feasibility.md.",
+      "consumed_by": [],
+      "produced": "not yet run as a published configuration. As the in-memory success_null arm of the feasibility study (same values): against v3, a profile-signed effect on breadth of one to three hosts (objective_none_c2 up — its whole v3 deficit was the success table's — objective_exfiltration_impact down), via the enables tier's coupling to the mapping's precondition chain; no experiment-2 headline moved; the failure column alone reacts (more actions, fewer retraces) without changing breadth.",
+      "record": "docs/implementation/pipeline/ogasp/success_null_overlay_feasibility.md",
       "immutable": false,
-      "immutability_note": "Becomes immutable once experiment 2 consumes it."
+      "immutability_note": "Becomes immutable once a published run consumes it."
     }
   ]
 }

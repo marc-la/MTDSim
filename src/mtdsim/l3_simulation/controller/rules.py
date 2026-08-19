@@ -25,7 +25,7 @@ Three terms decide a pair's value, applied in this order:
 
 So a compiled cell is ``rule_value * d(a, b)``, and with the distance term
 switched off (``distance=False``) the compiler reproduces the pre-distance table
-exactly — which is how both registered overlay versions are generated from one
+exactly — which is how every registered overlay version is generated from one
 rule set rather than from two divergent files.
 
 One further switch, ``success_passthrough``, compiles the **success** table to

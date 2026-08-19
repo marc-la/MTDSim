@@ -16,7 +16,7 @@ and acknowledgements pages, submission statement).
 | `cshonours.cls` | UWA honours class; title page modified (changes tagged `%mtd`). |
 | `references.bib` | Bibliography (renamed from `cshonours.bib`); replace the seed entries. |
 | `uwa-crest.png` | UWA crest used on the title page. |
-| `figures/` | Figures (`\graphicspath` points at it). Generated figures carry their generator: `l1_attack_graph.{tex,pdf}` is written by `tools/l1_attack_graph_figure.py` from `data/gap/gap_v0.5.json` + one flow extract; `failure_weight_matrix`, `success_weight_matrix`, `failure_weight_decomposition` and `distance_kernel_bands` (`.{tex,pdf}`) by `tools/failure_weight_decomposition_figure.py` from the outcome rules + lifecycle consensus + the routing nets through the tracked compiler and net loader — regenerate, never hand-edit. |
+| `figures/` | Figures (`\graphicspath` points at it). Generated figures carry their generator: `l1_attack_graph.{tex,pdf}` is written by `tools/l1_attack_graph_figure.py` from `data/gap/gap_v0.5.json` + one flow extract; `failure_weight_matrix`, `failure_weight_decomposition` and `distance_kernel_bands` (`.{tex,pdf}`; `success_weight_matrix` is the retired pre-2026-08-19 success table, kept as a record and not wired) by `tools/failure_weight_decomposition_figure.py` from the outcome rules + lifecycle consensus + the routing nets through the tracked compiler and net loader — regenerate, never hand-edit. |
 | `tables/` | Generated table fragments to `\input` (e.g. `objective_classification_audit.tex` from `tools/gasp_structural_baseline.py --tex`; `outcome_overlay_weights.tex` from `tools/failure_weight_decomposition_figure.py`); do not hand-edit. |
 
 ## Compile

@@ -46,7 +46,7 @@ one accent marks the declared point in the bands figure.
 
 Usage:
   PYTHONPATH=src python tools/failure_weight_decomposition_figure.py
-      [--layout all|matrix|decomposition|bands] [--version v3_persistent_backward]
+      [--layout all|matrix|decomposition|bands] [--version v4_failure_only]
       [--verdict failure|success] [--walk a->b ...] [--no-compile] [--no-tables]
       [--dry-run-adjacent]
 
@@ -565,6 +565,22 @@ def emit_tables(rs: RuleSet, spec: RuleSpec, version: str) -> str:
     L.append("")
     L += _rules_table(rs, "failure", "tab:overlay-failure-rules")
     L.append("")
+    if spec.success_passthrough:
+        # The failure-only ruling (2026-08-19): the success table of this version
+        # is the identity, so a 210-cell table of ones is not printed and the
+        # success rules are not in the reported configuration. One sentence, in
+        # a comment, says so; the retired rule ledger stays in outcome_rules.json
+        # (and in the v1–v3 views) for the record.
+        L.append(r"% No success-rules table and no success-set table for " + version + ":")
+        L.append(r"%   the success table of this version is the multiplicative identity (every")
+        L.append(r"%   cell 1.0, rule `passthrough`) — on a success verdict the token routes on")
+        L.append(r"%   the corpus proportions unchanged, and only the failure table is declared.")
+        L.append(r"%   The retired success rules remain in outcome_rules.json, unconsulted.")
+        L.append("")
+        L += _kernel_table(rs, spec, "tab:overlay-distance-kernel")
+        L.append("")
+        L += _matrix_table(rs, decompose(rs, spec, "failure"), "failure", version, "tab:overlay-failure-set")
+        return "\n".join(L) + "\n"
     L += _rules_table(rs, "success", "tab:overlay-success-rules")
     L.append("")
     L += _kernel_table(rs, spec, "tab:overlay-distance-kernel")
@@ -613,8 +629,10 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--layout", default="all", choices=("all", "matrix", "decomposition", "bands"),
                     help="which figure(s) to write (default: all three)")
-    ap.add_argument("--version", default="v3_persistent_backward",
-                    help="overlay registry version to decompose (default: the reported one)")
+    ap.add_argument("--version", default="v4_failure_only",
+                    help="overlay registry version to decompose (default: the reported one — "
+                         "v4_failure_only since Marc's 2026-08-19 failure-only ruling; its failure "
+                         "table is v3_persistent_backward's cell for cell)")
     ap.add_argument("--verdict", default="failure", choices=("failure", "success"))
     ap.add_argument("--walk", action="append", default=[], metavar="A->B",
                     help="print one pair's decomposition (repeatable); defaults to two worked pairs")

@@ -529,9 +529,20 @@ most three prioritised moves. Voice is Marc's own gate
     `implementation/pipeline/ogasp/success_null_overlay_feasibility.md` —
     success column priced by a 4 000-run ablation (profile-signed 1–3 host
     effect, no headline moved; kernel-only third arm ruled out on
-    expressiveness: loses the foothold gate, stalls a profile); ruling slot
-    §8 open, recommendation keep `v3` + carry as ablation + write the
-    paragraph on the premise. Content points in its §9.
+    expressiveness: loses the foothold gate, stalls a profile).
+    **RULED 2026-08-19 — failure-only adopted** ("having a success matrix
+    makes no sense logically"): `v4_failure_only` registered as the
+    go-forward overlay (v3's failure table; success = the corpus
+    proportions, unconditioned); `v3` frozen under the published records.
+    **Consequences for the tex:** the §4.2.4 dictation's "15-by-14 failure
+    and success matrices" and "if the attacker succeeds, we're overlaying
+    the success tactic-to-tactic weight set" describe the retired
+    configuration — Marc re-dictates that half (one declared matrix, on
+    failure; on success the token routes on the corpus proportions, which
+    already encode what successful campaigns did next); `success_weight_matrix`
+    drops out of ch4; the owed failure-encoding paragraph is unblocked.
+    Content points in the record's §9; the published ch5 numbers stay on
+    `v3` unless the re-key ruling (README) says otherwise.
     **Provenance handoff shipped and retired (2026-08-19), on Marc's
     split:** ch4 gets the committed matrix (`fig:failure-weight-matrix`,
     rule letter in every cell; `success_weight_matrix` generated too for

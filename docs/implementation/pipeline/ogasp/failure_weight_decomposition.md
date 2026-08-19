@@ -39,21 +39,27 @@ them; it derives nothing of its own.
 
 ```
 PYTHONPATH=src python tools/failure_weight_decomposition_figure.py \
-    [--layout all|matrix|decomposition|bands] [--version v3_persistent_backward] \
+    [--layout all|matrix|decomposition|bands] [--version v4_failure_only] \
     [--verdict failure|success] [--walk a->b ...] [--dry-run-adjacent] \
     [--no-compile] [--no-tables]
 ```
 
 writes `docs/thesis/figures/{failure_weight_matrix, failure_weight_decomposition,
 distance_kernel_bands}.{tex,pdf}` (TikZ at 12 pt; `--verdict success` gives
-`success_weight_matrix`, also committed, for the case the pair is kept), and
+`success_weight_matrix`, also committed — now the record of the retired configuration), and
 `docs/thesis/tables/outcome_overlay_weights.tex` (the appendix tables: both rule
 ledgers, the kernel parameters, the complete success and failure sets for the
 version). Every number quoted below is printed on a run. The failure
 decomposition is invariant to the failure-only ruling
 ([`success_null_overlay_feasibility.md`](success_null_overlay_feasibility.md)
-§8, recommendation keep `v3`): if `v4` were adopted the success matrix becomes
-a constant and drops out of ch4; the failure figures stand as they are.
+§8) — **ruled 2026-08-19: failure-only adopted, `v4_failure_only` is the
+go-forward overlay** (v3's failure table cell for cell; success compiled as
+the identity). So the success matrix is a constant and drops out of ch4
+(`success_weight_matrix` stays committed only as the record of the retired
+configuration), the failure figures stand exactly as they are, and the
+appendix's success-set table documents a retired table — regenerate with
+`--version v4_failure_only` when the tex wiring is applied, so the captions
+name the configuration the chapter reports.
 
 ---
 
@@ -102,7 +108,7 @@ parameterised terms (ledger §4, last paragraph).
 `Δ = s(b) − s(a)` over the consensus stages (preparation 0, intrusion 1,
 post-intrusion operations 2, objective 3;
 [`lifecycle_consensus.md`](lifecycle_consensus.md) §4) and the declared
-parameters `γ = δ = 0.25`, `z = 0.1` (§6 there; `v3_persistent_backward`):
+parameters `γ = δ = 0.25`, `z = 0.1` (§6 there; `v3_persistent_backward`, and identically `v4_failure_only`):
 
 | Δ | d | pairs | reading |
 |--:|--:|--:|---|
@@ -174,7 +180,7 @@ bands figure).
 
 | figure | file | home | what it shows | what it must *not* be read as |
 |---|---|---|---|---|
-| **the matrix** | `failure_weight_matrix` (and `success_weight_matrix` if the pair is kept) | **ch4 §4.2.4.2**, at the overlay paragraph | the committed set alone: every cell its value **and the letter of the rule that produced it**, stage-grouped axis, one grey scale; the nine-line key (letter, rule id, declared value) in-figure | a typed table — the letters are there precisely so it reads as generated; rationale and tier are not here (they are in the appendix ledger table) |
+| **the matrix** | `failure_weight_matrix` (`success_weight_matrix` is retired from ch4 by the failure-only ruling) | **ch4 §4.2.4.2**, at the overlay paragraph | the committed set alone: every cell its value **and the letter of the rule that produced it**, stage-grouped axis, one grey scale; the nine-line key (letter, rule id, declared value) in-figure | a typed table — the letters are there precisely so it reads as generated; rationale and tier are not here (they are in the appendix ledger table) |
 | **the decomposition** | `failure_weight_decomposition` | **appendix `app:sensitivity`** (Marc's "sweep pointer ruled to appendix", `bdf3de7`), opening the overlay's sensitivity entry | (a) failure kernel, (b) distance kernel with Δ as subscript, (c) = (a) × (b) — three aligned 15 × 14 panels, one 0–1 scale, every cell printed | the sweep's output — it is **the declared point**: (b) is what the sweep's three parameters move, (a) is what the sweep holds fixed |
 | **the declared point in its bands** | `distance_kernel_bands` | **appendix `app:sensitivity`**, beside the decomposition | d(Δ) at the declared `γ = δ = 0.25` (accent) and at the band edges 0.1 / 0.5 (greys); the floor strip {0, 0.05, 0.1} with `d < z → 0`; under the axis: declared pairs per Δ (6/22/44/66/44/22/6) and **base edges with mass per Δ on the five current routing nets** (0/12/66/146/84/15/0 of 323) | a results figure — it shows *where the point sits and what the corpus can exercise*; the sweep's *results* panel is owed to the v3 re-sweep (§6) |
 
@@ -279,16 +285,15 @@ and the appendix lead are session-drafted and owed the voice pass; caption
 numbers are the tool's printed numbers.
 
 **(i) ch4 §4.2.4.2 — after the overlay paragraph, at the `[figure slot ---
-four-phase overlay]` comment.** One figure if `v4` is adopted; add the second
-`\includegraphics` (or a sibling figure) for `success_weight_matrix` if the
-pair stays (the recommendation).
+four-phase overlay]` comment.** One figure — `v4` is adopted (2026-08-19),
+so the failure matrix alone; `success_weight_matrix` is not wired.
 
 ```latex
 % FIGURE (2026-08-19): the committed failure weight set, every cell with the
 % letter of the declared rule that produced it --- generated by
 % tools/failure_weight_decomposition_figure.py --layout matrix from the
 % outcome rules + lifecycle consensus through the tracked compiler (overlay
-% version v3_persistent_backward). Regenerate, never hand-edit. Caption is
+% version v4_failure_only; failure table identical to v3's). Regenerate, never hand-edit. Caption is
 % SESSION-DRAFTED and owed Marc's voice pass. Decomposition + the declared
 % point in its sweep bands live in app:sensitivity; the rule ledger (rationale,
 % tier) is tab:overlay-failure-rules there.
@@ -328,7 +333,7 @@ declared point in its bands, the tables.** Directly under `\label{app:sensitivit
 % tools/failure_weight_decomposition_figure.py from
 % data/ogasp/controller/outcome_rules.json + lifecycle_consensus.json through
 % the tracked compiler and the routing-net loader (overlay version
-% v3_persistent_backward). Regenerate, never hand-edit; re-check the caption
+% v4_failure_only; failure table identical to v3's). Regenerate, never hand-edit; re-check the caption
 % numbers if a rule or parameter is re-declared. Lead + captions are
 % SESSION-DRAFTED and owed Marc's voice pass. Record:
 % docs/implementation/pipeline/ogasp/failure_weight_decomposition.md.
@@ -341,16 +346,16 @@ declared point in its bands, the tables.** Directly under `\label{app:sensitivit
 % [session-drafted lead, owed Marc's voice pass] The failure weight set of
 % Section~\ref{subsubsec:mechanics-join} (Figure~\ref{fig:failure-weight-matrix})
 % is the product of two declared kernels: the value of the first-matching
-% semantics rule (Table~\ref{tab:overlay-failure-rules}; the success rules in
-% Table~\ref{tab:overlay-success-rules}) and a lifecycle-distance factor over
+% semantics rule (Table~\ref{tab:overlay-failure-rules}) and a lifecycle-distance factor over
 % the four consensus stages (Table~\ref{tab:overlay-distance-kernel}).
 % Figure~\ref{fig:failure-weight-decomposition} shows the set decomposed then
 % aggregated. The nine rule values are declared and defended by argument and
 % adversarial review; they are not swept. The three kernel parameters are the
 % swept set: Figure~\ref{fig:distance-kernel-bands} shows the declared point
 % inside its declared bands, and which stage offsets this corpus can exercise.
-% Tables~\ref{tab:overlay-failure-set} and \ref{tab:overlay-success-set} are
-% the complete sets as committed.
+% Table~\ref{tab:overlay-failure-set} is the complete set as committed; on a
+% success verdict the token routes on the corpus proportions unchanged, so
+% there is no success set to print (the failure-only ruling, 2026-08-19).
 
 \begin{figure}[p]
   \centering
@@ -418,7 +423,7 @@ mistaken for outputs of a sensitivity study. The homes:
 
 | number | kind | produced by | lives at |
 |---|---|---|---|
-| the nine failure rule values (A–I) and the five success rule values | **declared** magnitudes | R2 authoring + four adversarial rounds, finalised 2026-07-23 (ledger) | the rule ledger tables in the appendix (`tab:overlay-failure-rules`, `tab:overlay-success-rules`: key, id, value, tier, rationale); letters in the ch4 matrix cells; rationale narrative in ch4 (point 3 of §5.1) |
+| the nine failure rule values (A–I) | **declared** magnitudes | R2 authoring + four adversarial rounds, finalised 2026-07-23 (ledger) | the rule ledger table in the appendix (`tab:overlay-failure-rules`: key, id, value, tier, rationale); letters in the ch4 matrix cells; rationale narrative in ch4 (point 3 of §5.1). *(The five success rule values are retired from the reported configuration by the failure-only ruling, 2026-08-19 — `v4_failure_only` compiles the success table as the identity; they stay in `outcome_rules.json` and the v1–v3 views for the record, and the generator prints no success tables for a pass-through version.)* |
 | the rule *order* (first match wins) and the firing sets | declared structure | the rules file | the ch4 matrix (which letter where); design record §2.3 |
 | `γ`, `δ`, `z` and their bands | **declared parameters (the swept set)** | the lifecycle consensus + the persistence ruling (2026-07-27/28) | `tab:overlay-distance-kernel` (appendix); the bands figure; the V6 row in ch5 §5.1 |
 | the four stages and the per-tactic seats | sourced / rule-resolved / declared, per tactic | the lifecycle consensus overlay | ch4 overlay paragraph (already); `tab:overlay-distance-kernel` |
@@ -477,8 +482,9 @@ ruling now closed (§4) nothing else gates it. Flagged here; not actioned
   failure_weight_decomposition, distance_kernel_bands}.{tex,pdf}`;
   `docs/thesis/tables/outcome_overlay_weights.tex`.
 - **When to update:** if any rule value or kernel parameter is re-declared
-  (regenerate; re-check captions); if the failure-only overlay is adopted as
-  `v4` (drop `success_weight_matrix` from ch4; the success tables re-caption;
-  `--version v4_…`); if the asymmetric-decay idea lands (the bands figure
+  (regenerate; re-check captions); **the failure-only overlay is adopted as
+  `v4_failure_only` (2026-08-19)** — drop `success_weight_matrix` from ch4,
+  re-caption the success tables as retired, regenerate with `--version
+  v4_failure_only` at the wiring pass; if the asymmetric-decay idea lands (the bands figure
   gains a second curve family; the ch4 sentence changes); when the v3
   re-sweep runs (the appendix gains its results figure beside the bands).

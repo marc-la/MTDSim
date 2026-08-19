@@ -8,6 +8,7 @@
     "generated_from": "outcome_rules.json + lifecycle_consensus.json \u2014 DO NOT hand-edit; regenerate with `python -m mtdsim.l3_simulation.controller.rules --write`",
     "relationship_source": "bands",
     "distance": null,
+    "success_passthrough": false,
     "coverage": "complete 210 directed pairs (corpus-agnostic)",
     "format": "by_source[src][dst] = {v: value, rule: rule-id}; rationale via outcome_rules.json rules[rule]"
   },

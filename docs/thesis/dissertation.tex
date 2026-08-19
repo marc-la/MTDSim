@@ -782,6 +782,19 @@ worth writing about, so the failures are not encoded, and that is what we're
 trying to encode here. The simplest way we did this was that we used the
 literature and we overlaid the attack
 phases~\citep{hutchins2011, alshamrani2019, mandiant2013, chemat2024}.
+% [RULED 2026-08-19 --- failure-only adopted; re-dictate the success half
+%   of this paragraph] the model is now ONE declared matrix: on a failure
+%   verdict the out-transitions are re-weighted by the failure
+%   tactic-to-tactic set; on a success verdict the token routes on the base
+%   proportions unchanged, because (your own sentence above) the CTI already
+%   encodes success --- a success matrix would re-encode that answer at a
+%   weaker tier and overrule the measured proportions wherever it differs.
+%   So "we're overlaying the success tactic-to-tactic weight set" and "a set
+%   of 15-by-14 failure and success matrices" describe the retired
+%   configuration (v3); the reported one is v4_failure_only (failure set
+%   identical). Record: implementation/pipeline/ogasp/
+%   success_null_overlay_feasibility.md (sections 1, 7, 8; content points
+%   section 9). success_weight_matrix drops out of ch4.
 Through that work we produced the four broad phases of an attack:
 preparation, intrusion, post-intrusion operations, and objective. We
 assigned a distance value: a transition within the same phase, or one phase

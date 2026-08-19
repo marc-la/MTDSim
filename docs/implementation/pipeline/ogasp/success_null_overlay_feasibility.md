@@ -9,9 +9,16 @@ topic: "Feasibility of collapsing the outcome overlay to a failure-only matrix (
 
 **Status:** durable. Executes
 `docs/handoffs/2026-08-19_failure_only_overlay_feasibility.md` (deleted in the
-commit that ships this record). **This is feasibility and evidence, not
-adoption**: §8 carries the ruling slot, and nothing keyed on
-`v3_persistent_backward` is touched until Marc rules.
+commit that shipped this record). **Ruled 2026-08-19 — failure-only adopted**
+(§8): the go-forward overlay is **`v4_failure_only`** (v3's failure table; the
+success table compiled as the identity), registered and compile-checked;
+`v3_persistent_backward` is frozen and every record published before the
+ruling stays keyed on it (§6). Marc's ground for the ruling was the §1
+argument, not the §5 numbers: *a success matrix makes no sense logically* —
+the corpus proportions already answer "given success, where next", and a
+declared matrix over them re-encodes that answer at a weaker tier and
+overrules the evidence wherever it differs. §2–§5 stand as the pricing of the
+retired column.
 
 **The premise, in Marc's words** (L4 pass 4 dictation, 2026-08-19, now in
 §4.2.4 of the tex): "*failure is not something that is just encoded: the CTI
@@ -522,7 +529,7 @@ re-key every published movement-arm record — §6), keep `v3` as the reported
 configuration and carry this study as the **ablation** that prices the success
 column, or decline the idea?
 
-**Recommendation: keep `v3` as the reported configuration; carry this study
+**Recommendation as written before the ruling (superseded by the row below): keep `v3` as the reported configuration; carry this study
 as the ablation; write the chapter's overlay paragraph on the premise.** The
 premise is the better *argument* and it can be made on the page without
 re-keying anything: the dissertation says the base encodes the corpus's
@@ -538,7 +545,20 @@ rule; the pinned arm stays reproducible).
 
 | ruling | date | by |
 |---|---|---|
-| *pending* | | Marc |
+| **Adopt failure-only.** Ground: defensibility — "having a success matrix makes no sense logically": the base already encodes success routing; a declared success matrix is a weaker-tier re-encoding of the same question that overrules measured proportions wherever it differs. The behavioural numbers were explicitly *not* the ground ("I don't really care about the results or the numbers, I value primarily what is defensible"). | 2026-08-19 | Marc |
+
+**Applied (2026-08-19, same day):** `v4_failure_only` registered in
+`overlays/manifest.json` (spec = v3's + `success_passthrough: true`), compiled
+by the generator and reproduction-checked (0 of 420 differing cells on all
+four versions); `v3` marked immutable; `outcome_rules.json` carries the R5
+status, the `passthrough_rule` ledger entry and the retained-unconsulted
+success rules; tests pin v4 = v3 on failure and the identity on success.
+**The published records are not re-run**: every record dated before
+2026-08-19 is keyed on `v3` and stays so, with this study as the bridge
+between the two configurations (the retired column's effect on each
+profile's breadth is §5.1–§5.2); any *new* published run names `v4`. The
+question of whether experiment 2 is re-keyed under `v4` before ch5 is written
+is carried in the handoffs README, not here.
 
 ---
 
@@ -563,10 +583,12 @@ For the owed §4.2.4 paragraph on how failure was encoded (Marc dictates):
   and a per-offset decay is destination-blind (4–11 % against 65–83 % back to
   reconnaissance); the adjacent form stalls one profile — so the one declared
   object is a matrix of nine rules times one kernel, not a kernel.
-- Ties to the sibling provenance handoff: the decomposition presentation
-  (failure kernel × distance kernel → aggregated matrix) is unchanged by this
-  ruling if `v3` stays; if `v4` is adopted the success panel of that figure
-  becomes a constant and the presentation is of one matrix.
+- Ties to the sibling decomposition record: the presentation (failure kernel
+  × distance kernel → aggregated matrix) is unchanged by the ruling — v4's
+  failure table is v3's — and is now of one matrix; `success_weight_matrix`
+  is out of ch4 and the appendix prints no success tables for a pass-through
+  version (the figures and tables were regenerated under `v4_failure_only`
+  when the ruling was applied).
 
 ## 10. Where this connects, and when to update
 
@@ -586,8 +608,7 @@ For the owed §4.2.4 paragraph on how failure was encoded (Marc dictates):
 - **Code:** `src/mtdsim/l3_simulation/controller/rules.py`
   (`RuleSpec.success_passthrough`, `PASSTHROUGH_RULE`);
   `tests/l3_simulation/test_controller_rules.py` (four pins).
-- **When to update:** when Marc rules (§8 table; if `v4`, register it in
-  `overlays/manifest.json` with `success_passthrough: true`, bump the ledger,
-  and open the re-key handoff); if the axis-4 record is re-examined on the
-  rebuilt nets (§5.4 flag); if the nets are rebuilt again (§2 and §5 are on
-  the 2026-08-17 nets).
+- **When to update:** if experiment 2 (or any published record) is re-keyed
+  under `v4` (then §6's "not re-run" sentence changes and the record gains the
+  v4 numbers); if the axis-4 record is re-examined on the rebuilt nets (§5.4
+  flag); if the nets are rebuilt again (§2 and §5 are on the 2026-08-17 nets).

@@ -353,8 +353,12 @@ one and the artefact flags it (`evidence_tiers`).
 > success routing, the success treatment is a declared *sharpening* of an
 > attested layer rather than independent evidence, and the failure treatment
 > is the only layer no corpus supplies. The asymmetry above stands as stated;
-> what it is evidence *of* is re-read there, the success column is priced by
-> ablation, and the failure-only ruling is open in that record's §8.
+> what it is evidence *of* is re-read there, and the success column is priced
+> by ablation. **Ruled 2026-08-19 (Marc): failure-only adopted** — the
+> go-forward overlay is `v4_failure_only` (§2.2's success treatment retired to
+> the identity; §2.3's failure treatment unchanged); `v3` frozen for the
+> records that ran on it. From v4 on, the two-treatment reading of M2 is:
+> success = the corpus proportions, failure = this record's declared matrix.
 
 ---
 

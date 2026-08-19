@@ -374,8 +374,32 @@ def test_success_null_routes_on_base_weights_on_success_and_on_v3_on_failure(rul
         )
 
 
-def test_success_passthrough_is_off_for_every_registered_version() -> None:
-    """No registered version compiles with the flag — the variant is in memory
-    until a published run consumes it, on the registry's own immutability rule."""
-    for version in load_overlay_registry().versions:
-        assert spec_from_registry_entry(version.spec).success_passthrough is False
+V4 = "v4_failure_only"
+
+
+def test_only_v4_carries_the_passthrough_flag() -> None:
+    """The failure-only ruling (Marc, 2026-08-19) is a new registered version,
+    not an edit: v1–v3 still compile both tables, and v4 is the one whose
+    success table is the identity."""
+    flags = {v.name: spec_from_registry_entry(v.spec).success_passthrough
+             for v in load_overlay_registry().versions}
+    assert flags[V4] is True
+    assert all(flag is False for name, flag in flags.items() if name != V4)
+
+
+def test_v4_is_v3_on_failure_and_the_identity_on_success() -> None:
+    """The registered v4 views, cell for cell: the failure view equals v3's,
+    and every success cell is 1.0 under the passthrough rule."""
+    from mtdsim.l3_simulation.controller.rules import PASSTHROUGH_RULE
+
+    v3, v4 = load_outcome_overlay(version=V3), load_outcome_overlay(version=V4)
+    assert v4.by_verdict["failure"] == v3.by_verdict["failure"]
+    assert v4.by_rule["failure"] == v3.by_rule["failure"]
+    cells = [(v, r) for src in v4.by_verdict["success"].values() for v in src.values()
+             for r in [PASSTHROUGH_RULE]]
+    assert len(cells) == N_PAIRS and all(v == 1.0 for v, _ in cells)
+    assert all(r == PASSTHROUGH_RULE for src in v4.by_rule["success"].values() for r in src.values())
+
+
+def test_v3_is_frozen_now_that_experiment_2_consumed_it() -> None:
+    assert load_overlay_registry().get(V3).immutable is True
