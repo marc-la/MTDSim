@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-"""Dissertation figure + appendix tables: the failure tactic-to-tactic weight
-set, DECOMPOSED then aggregated (methodology §4.2.4.2; appendix).
+"""Dissertation figures + appendix tables for the outcome-overlay weight sets:
+the committed failure matrix (ch4), its decomposition (ch5 sensitivity), the
+declared kernel point inside its sweep bands (ch5 sensitivity), and the
+appendix tables (the rule ledgers, the kernel parameters, the full sets).
 
 The failure weight set is not authored cell by cell. Every one of its 210
 values (15 x 14, no self-loops) is the product of two declared kernels, each
@@ -17,24 +19,38 @@ small enough to print on one line:
   (c) the failure weight set — (a) x (b), which is exactly what the registry
                               version's failure.json holds.
 
-The three are drawn as three aligned 15 x 14 matrices on one shared,
-stage-grouped tactic axis (rows = source tactic a, columns = destination b)
-on ONE uniform 0–1 grey scale, every cell printed with its value, so a
-reader can take any cell of (c) back to its rule and its distance factor by
-eye. Diagnostic register: no arrows, no highlights, no circles.
+Three figures, each with a home (Marc's split, 2026-08-19):
+
+  --layout matrix         docs/thesis/figures/<verdict>_weight_matrix
+      ch4 §4.2.4.2: panel (c) alone — the committed set, every cell printed
+      with its value AND the letter of the rule that produced it, so the
+      matrix reads as rule-generated on the page; the key is in-figure, the
+      rules' rationale/tier live in the appendix ledger table.
+  --layout decomposition  docs/thesis/figures/<verdict>_weight_decomposition
+      ch5 sensitivity study: (a), (b), (c) as three aligned 15 x 14 matrices
+      on one shared stage-grouped axis and ONE uniform 0–1 grey scale — what
+      the sweep's parameters touch (b) and what they hold fixed (a).
+  --layout bands          docs/thesis/figures/distance_kernel_bands
+      ch5 sensitivity study: the declared kernel point inside its declared
+      sweep bands — d(Delta) at the declared parameters and at the band
+      edges, the floor, the 210-pair count per Delta, and the base-edge
+      census per Delta over the five current routing nets (which Delta
+      classes the corpus actually exercises).
 
 Everything is computed through the tracked compiler
-(mtdsim.l3_simulation.controller.rules) from the committed artefacts — no
-value is typed here, and the numbers a caption may quote are printed to
-stdout for cross-checking.
+(mtdsim.l3_simulation.controller.rules) and the tracked net loader
+(mtdsim.l3_simulation.movement.net) from the committed artefacts — no value is
+typed here, and the numbers a caption may quote are printed to stdout for
+cross-checking. Diagnostic register: no arrows, no highlights, no circles; the
+one accent marks the declared point in the bands figure.
 
 Usage:
   PYTHONPATH=src python tools/failure_weight_decomposition_figure.py
-      [--version v3_persistent_backward] [--verdict failure|success]
-      [--walk a->b ...] [--no-compile] [--no-tables] [--dry-run-adjacent]
+      [--layout all|matrix|decomposition|bands] [--version v3_persistent_backward]
+      [--verdict failure|success] [--walk a->b ...] [--no-compile] [--no-tables]
+      [--dry-run-adjacent]
 
-Writes
-  docs/thesis/figures/<verdict>_weight_decomposition.tex (+ .pdf via pdflatex)
+Writes the figures above (+ .pdf via pdflatex) and
   docs/thesis/tables/outcome_overlay_weights.tex  (the appendix wiring: the
       rule ledgers, the kernel parameters, and the full success + failure
       weight sets for the version — unless --no-tables)
@@ -58,6 +74,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "src"))
 
 from mtdsim.l3_simulation.controller.outcome import load_overlay_registry  # noqa: E402
+from mtdsim.l3_simulation.movement.net import PROFILES, load_routing_net  # noqa: E402
 from mtdsim.l3_simulation.controller.rules import (  # noqa: E402
     DistanceKernel,
     RuleSet,
@@ -120,6 +137,7 @@ PANEL_GAP = 0.75       # vertical gap between panels (holds the two-line panel h
 HEADER_W = 15.4        # text width of a panel header (== the figure width)
 GRID = "black!18"
 STAGE_RULE = "black!55"
+ACCENT_RGB = "31,84,140"   # the one accent (shared with fig:l1-graph): the declared point
 
 
 def _esc(s: str) -> str:
@@ -133,6 +151,15 @@ def _fmt(v: float) -> str:
         return "0"
     s = f"{v:.4f}".rstrip("0").rstrip(".")
     return s
+
+
+def _value_letter(v: float, letter: str) -> str:
+    """A cell's 'value + rule letter' label. Long values (four decimals) are
+    set a touch smaller so the pair stays inside a 0.78 cm cell."""
+    txt = _fmt(v)
+    if len(txt) >= 6:
+        txt = r"\scalebox{0.85}{%s}" % txt
+    return "%s\\hspace{0.5pt}{\\color{black!%s}\\scalebox{0.8}{%s}}" % (txt, "70" if v <= 0.5 else "30", letter)
 
 
 def stage_grouped_order(rs: RuleSet) -> list[str]:
@@ -251,8 +278,7 @@ def emit_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, version: s
     y = 0.0
     # (a) the verdict kernel — rule value, keyed by rule letter
     vals_a = {p: c["kernel"] for p, c in dec.items()}
-    lab_a = {p: "%s\\,{\\color{black!%s}%s}" % (_fmt(c["kernel"]), "70" if c["kernel"] <= 0.5 else "30", keys[c["rule"]])
-             for p, c in dec.items()}
+    lab_a = {p: _value_letter(c["kernel"], keys[c["rule"]]) for p, c in dec.items()}
     hdr_a = (r"(a)\; %s kernel: the value of the first-matching declared rule "
              r"(rule key A--%s, below)" % (verdict, keys[rs.order[verdict][-1]]))
     y = emit_panel(w, y, order, rs, vals_a, lab_a, hdr_a, show_col_labels=True) - PANEL_GAP
@@ -277,19 +303,152 @@ def emit_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, version: s
              r"(\texttt{%s})" % (verdict, _esc(version)))
     y = emit_panel(w, y, order, rs, vals_c, lab_c, hdr_c, show_col_labels=True)
 
-    # rule key — two columns, id + value, read from the rules file
+    emit_key(w, rs, verdict, keys, y, "rule key (match order; value $\\times$ $d$ gives the cell in (c)):")
+    w(r"\end{tikzpicture}")
+    w(r"\end{document}")
+    return "\n".join(L) + "\n"
+
+
+def emit_key(w, rs: RuleSet, verdict: str, keys: dict[str, str], y: float, lead: str) -> None:
+    """The rule key under a matrix: letter, rule id, declared value — two
+    columns, read from the rules file. Rationale and tier are NOT here; they
+    live in the appendix ledger table the caption points at."""
     rules = {r["id"]: r for r in rs.doc[f"{verdict}_rules"]}
     ids = list(rs.order[verdict])
     half = (len(ids) + 1) // 2
     y_key = y - 0.32
     x_cols = (0.0, 8.2)
-    w(r"\node[anchor=north west,font=\tiny,text=black!60] at (%.2f,%.2f) {rule key (match order; value $\times$ $d$ gives the cell in (c)):};"
-      % (x_cols[0], y_key + 0.26))
+    w(r"\node[anchor=north west,font=\tiny,text=black!60] at (%.2f,%.2f) {%s};" % (x_cols[0], y_key + 0.26, lead))
     for col, chunk in enumerate((ids[:half], ids[half:])):
         for r_i, rid in enumerate(chunk):
             r = rules[rid]
             w(r"\node[anchor=north west,font=\tiny] at (%.2f,%.2f) {\textbf{%s}\; \texttt{%s} $=$ %s};"
               % (x_cols[col], y_key - r_i * 0.27, keys[rid], _esc(rid), _fmt(float(r["value"]))))
+
+
+def emit_matrix_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, version: str) -> str:
+    """ch4: the committed set alone — panel (c) with the producing rule's
+    letter in each cell, so the matrix reads as generated, not typed."""
+    order = stage_grouped_order(rs)
+    keys = rule_keys(rs, verdict)
+    L: list[str] = []
+    w = L.append
+    w(r"\documentclass[tikz,12pt,border=2pt]{standalone}")
+    w(r"\usepackage[T1]{fontenc}")
+    w(r"\usetikzlibrary{calc}")
+    w(r"\begin{document}")
+    w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt}]")
+    vals = {p: c["v"] for p, c in dec.items()}
+    lab = {p: _value_letter(c["v"], keys[c["rule"]]) for p, c in dec.items()}
+    hdr = (r"the %s weight set (\texttt{%s}): each cell is the value the token's out-transition "
+           r"is multiplied by on a %s verdict, with the letter of the declared rule that produced it"
+           % (verdict, _esc(version), verdict))
+    y = emit_panel(w, 0.0, order, rs, vals, lab, hdr, show_col_labels=True)
+    emit_key(w, rs, verdict, keys, y, "rule key (match order; each value is then multiplied by the lifecycle-distance factor):")
+    w(r"\end{tikzpicture}")
+    w(r"\end{document}")
+    return "\n".join(L) + "\n"
+
+
+def edge_census(rs: RuleSet) -> tuple[Counter, dict[str, Counter]]:
+    """Base edges with mass on the five current routing nets (synthetic overlay
+    on, the reported arm), counted by signed consensus-stage offset — which
+    Delta classes the corpus actually exercises. Self-loops are not pairs."""
+    total: Counter = Counter()
+    per: dict[str, Counter] = {}
+    for profile in PROFILES:
+        net = load_routing_net(profile, with_synthetic_overlay=True)
+        c: Counter = Counter()
+        for a in net.places:
+            for b, wgt in net.base_out_weights(a).items():
+                if wgt > 0 and a != b:
+                    c[rs.stage_of[b] - rs.stage_of[a]] += 1
+        per[profile] = c
+        total.update(c)
+    return total, per
+
+
+def emit_bands_figure(rs: RuleSet, spec: RuleSpec, dec: dict, census: Counter, version: str) -> str:
+    """ch5: the declared kernel point inside its declared sweep bands."""
+    declared = rs.consensus["declared_parameters"]
+    k = spec.kernel
+    g_band = [float(x) for x in declared["gamma"]["sweep"]]
+    d_band = [float(x) for x in declared["delta_ratio"]["sweep"]]
+    z_band = [float(x) for x in declared["z"]["sweep"]]
+    deltas = list(range(-3, 4))
+    pairs_per = Counter(c["delta"] for c in dec.values())
+
+    def kern(delta: int, gamma: float, dr: float) -> float:
+        if delta == 0:
+            return 1.0
+        return gamma ** (delta - 1) if delta > 0 else dr ** (-delta - 1)
+
+    # geometry
+    X0, X1 = 2.6, 11.2          # plot x-range (cm)
+    Y0, Y1 = 0.0, 3.6           # plot y-range (cm) for d in [0, 1]
+    xs = {d: X0 + (d + 3) * (X1 - X0) / 6 for d in deltas}
+    ys = lambda v: Y0 + v * (Y1 - Y0)  # noqa: E731
+
+    L: list[str] = []
+    w = L.append
+    w(r"\documentclass[tikz,12pt,border=2pt]{standalone}")
+    w(r"\usepackage[T1]{fontenc}")
+    w(r"\usetikzlibrary{calc}")
+    w(r"\definecolor{accent}{RGB}{%s}" % ACCENT_RGB)
+    w(r"\definecolor{accentlight}{RGB}{200,214,232}")
+    w(r"\begin{document}")
+    w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=\tiny}]")
+    # floor band (the z sweep set) and the declared floor
+    zmax = max(z_band)
+    w(r"\fill[black!6] (%.2f,%.3f) rectangle (%.2f,%.3f);" % (X0, ys(0), X1, ys(zmax)))
+    w(r"\draw[black!45,line width=0.3pt,dash pattern=on 1pt off 1pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (X0, ys(k.z), X1, ys(k.z)))
+    w(r"\node[anchor=south,text=black!55] at (%.2f,%.3f) {floor $z=%s$ (swept \{%s\}); $d<z$ reads as 0};"
+      % ((X0 + X1) / 2, ys(zmax) + 0.04, _fmt(k.z), ", ".join(_fmt(v) for v in z_band)))
+    # axes
+    w(r"\draw[black!60,line width=0.4pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (X0, Y0, X1, Y0))
+    w(r"\draw[black!60,line width=0.4pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (X0, Y0, X0, Y1))
+    for v in (0.0, 0.25, 0.5, 0.75, 1.0):
+        w(r"\draw[black!60,line width=0.3pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (X0 - 0.06, ys(v), X0, ys(v)))
+        w(r"\node[anchor=east] at (%.2f,%.3f) {%s};" % (X0 - 0.1, ys(v), _fmt(v)))
+        if v > 0:
+            w(r"\draw[black!10,line width=0.2pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (X0, ys(v), X1, ys(v)))
+    w(r"\node[rotate=90,anchor=south] at (%.2f,%.3f) {distance factor $d$};" % (X0 - 0.75, (Y0 + Y1) / 2))
+    for d in deltas:
+        sign = "+" if d > 0 else ("" if d == 0 else "$-$")
+        w(r"\draw[black!60,line width=0.3pt] (%.3f,%.2f) -- (%.3f,%.2f);" % (xs[d], Y0, xs[d], Y0 - 0.06))
+        w(r"\node[anchor=north] at (%.3f,%.2f) {%s%d};" % (xs[d], Y0 - 0.1, sign, abs(d)))
+    w(r"\node[anchor=north] at (%.2f,%.2f) {signed stage offset $\Delta = s(b)-s(a)$ \quad (backward $\leftarrow$ \ $\delta$ \ $|$ \ $\gamma$ \ $\rightarrow$ forward)};"
+      % ((X0 + X1) / 2, Y0 - 0.38))
+    # curves: band edges in greys, declared in the accent; only the pre-floor value
+    # is drawn (the floor is the shaded strip), so the reader sees what falls under it
+    series = []
+    greys = ("black!35", "black!70")   # one ramp: lighter = smaller decay ratio
+    for (gb, db), grey in zip(zip(g_band, d_band), greys):
+        series.append((gb, db, grey, 0.4, "band edge $\\gamma=\\delta=%s$" % _fmt(gb)))
+    series.insert(1, (k.gamma, k.delta_ratio, "accent", 0.8, "declared $\\gamma=%s$, $\\delta=%s$" % (_fmt(k.gamma), _fmt(k.delta_ratio))))
+    for gamma, dr, col, lw, _ in series:
+        pts = " -- ".join("(%.3f,%.3f)" % (xs[d], ys(kern(d, gamma, dr))) for d in deltas)
+        w(r"\draw[%s,line width=%.1fpt] %s;" % (col, lw, pts))
+        for d in deltas:
+            w(r"\fill[%s] (%.3f,%.3f) circle (0.5mm);" % (col, xs[d], ys(kern(d, gamma, dr))))
+    # legend (inside the plot, upper left — the region above the rising edge is empty)
+    ly = Y1 - 0.12
+    lx = X0 + 0.15
+    for gamma, dr, col, lw, lab in series:
+        w(r"\draw[%s,line width=%.1fpt] (%.2f,%.3f) -- (%.2f,%.3f);" % (col, lw, lx, ly, lx + 0.4, ly))
+        w(r"\fill[%s] (%.2f,%.3f) circle (0.5mm);" % (col, lx + 0.2, ly))
+        w(r"\node[anchor=west] at (%.2f,%.3f) {%s};" % (lx + 0.5, ly, lab))
+        ly -= 0.28
+    # the two census rows under the axis: pairs in the 210-set, and base edges on the nets
+    ty = Y0 - 0.9
+    w(r"\node[anchor=east,text=black!60] at (%.2f,%.3f) {declared pairs (of 210):};" % (X0 - 0.1, ty))
+    w(r"\node[anchor=east,text=black!60] at (%.2f,%.3f) {base edges, five nets (of %d):};" % (X0 - 0.1, ty - 0.3, sum(census.values())))
+    w(r"\node[anchor=east,text=black!60] at (%.2f,%.3f) {$d$ at the declared point:};" % (X0 - 0.1, ty - 0.6))
+    for d in deltas:
+        w(r"\node at (%.3f,%.3f) {%d};" % (xs[d], ty, pairs_per.get(d, 0)))
+        n = census.get(d, 0)
+        w(r"\node[%s] at (%.3f,%.3f) {%d};" % ("text=black!45" if n == 0 else "", xs[d], ty - 0.3, n))
+        w(r"\node at (%.3f,%.3f) {%s};" % (xs[d], ty - 0.6, _fmt(k(d))))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return "\n".join(L) + "\n"
@@ -452,6 +611,8 @@ def dry_run_adjacent(rs: RuleSet, spec: RuleSpec, verdict: str) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--layout", default="all", choices=("all", "matrix", "decomposition", "bands"),
+                    help="which figure(s) to write (default: all three)")
     ap.add_argument("--version", default="v3_persistent_backward",
                     help="overlay registry version to decompose (default: the reported one)")
     ap.add_argument("--verdict", default="failure", choices=("failure", "success"))
@@ -475,12 +636,20 @@ def main() -> None:
     verdict = args.verdict
     dec = decompose(rs, spec, verdict)
 
-    # --- the figure -------------------------------------------------------
-    stem = f"{verdict}_weight_decomposition"
+    # --- the figures ----------------------------------------------------------
     FIG_DIR.mkdir(parents=True, exist_ok=True)
-    tex_path = FIG_DIR / f"{stem}.tex"
-    tex_path.write_text(emit_figure(rs, spec, verdict, dec, args.version))
-    print(f"wrote {tex_path.relative_to(REPO)}")
+    census, census_per = edge_census(rs)
+    figures: list[tuple[str, str]] = []
+    if args.layout in ("all", "matrix"):
+        figures.append((f"{verdict}_weight_matrix", emit_matrix_figure(rs, spec, verdict, dec, args.version)))
+    if args.layout in ("all", "decomposition"):
+        figures.append((f"{verdict}_weight_decomposition", emit_figure(rs, spec, verdict, dec, args.version)))
+    if args.layout in ("all", "bands"):
+        figures.append(("distance_kernel_bands", emit_bands_figure(rs, spec, dec, census, args.version)))
+    for stem, tex in figures:
+        tex_path = FIG_DIR / f"{stem}.tex"
+        tex_path.write_text(tex)
+        print(f"wrote {tex_path.relative_to(REPO)}")
 
     # --- the appendix tables -------------------------------------------------
     if not args.no_tables:
@@ -505,6 +674,11 @@ def main() -> None:
     print(f"cells exactly 0={sum(1 for c in dec.values() if c['v']==0)}  "
           f"cells touched by distance (d<1)={sum(1 for c in dec.values() if c['d']<1)}")
 
+    print("base edges with mass on the five current nets, by Delta: "
+          + ", ".join(f"{d:+d}:{census.get(d, 0)}" for d in range(-3, 4))
+          + f"  (total {sum(census.values())}; per profile: "
+          + "; ".join(f"{p} " + "/".join(str(c.get(d, 0)) for d in range(-3, 4)) for p, c in census_per.items())
+          + ")")
     walks = args.walk or ["initial-access->discovery", "exfiltration->execution"]
     for wk in walks:
         a, b = (s.strip() for s in wk.split("->"))
@@ -517,16 +691,17 @@ def main() -> None:
         dry_run_adjacent(rs, spec, verdict)
 
     if not args.no_compile:
-        r = subprocess.run(["pdflatex", "-interaction=nonstopmode", "-halt-on-error", tex_path.name],
-                           cwd=FIG_DIR, capture_output=True, text=True)
-        if r.returncode != 0:
-            print(r.stdout[-3000:])
-            raise SystemExit("pdflatex failed")
-        for ext in (".aux", ".log"):
-            p = FIG_DIR / f"{stem}{ext}"
-            if p.exists():
-                p.unlink()
-        print(f"wrote {(FIG_DIR / (stem + '.pdf')).relative_to(REPO)}")
+        for stem, _ in figures:
+            r = subprocess.run(["pdflatex", "-interaction=nonstopmode", "-halt-on-error", f"{stem}.tex"],
+                               cwd=FIG_DIR, capture_output=True, text=True)
+            if r.returncode != 0:
+                print(r.stdout[-3000:])
+                raise SystemExit(f"pdflatex failed on {stem}")
+            for ext in (".aux", ".log"):
+                p = FIG_DIR / f"{stem}{ext}"
+                if p.exists():
+                    p.unlink()
+            print(f"wrote {(FIG_DIR / (stem + '.pdf')).relative_to(REPO)}")
 
 
 if __name__ == "__main__":

@@ -532,14 +532,20 @@ most three prioritised moves. Voice is Marc's own gate
     expressiveness: loses the foothold gate, stalls a profile); ruling slot
     §8 open, recommendation keep `v3` + carry as ablation + write the
     paragraph on the premise. Content points in its §9.
-    **Provenance handoff shipped its presentation (2026-08-19):** figure
-    `fig:failure-weight-decomposition` + appendix tables generated
-    (`tools/failure_weight_decomposition_figure.py`); the §4.2.4.2
-    content-point scaffold and the appendix wiring block are in
-    `implementation/pipeline/ogasp/failure_weight_decomposition.md` §5 —
-    **not wired into the tex** (Marc: verify first). The kernel
-    `[WRONG]` stays open pending his ruling (record §4,
-    keep-as-declared recommended).
+    **Provenance handoff shipped and retired (2026-08-19), on Marc's
+    split:** ch4 gets the committed matrix (`fig:failure-weight-matrix`,
+    rule letter in every cell; `success_weight_matrix` generated too for
+    the keep-the-pair case), the appendix gets the decomposition
+    (`fig:failure-weight-decomposition`) + the declared point in its sweep
+    bands (`fig:distance-kernel-bands`) + the rule-ledger / kernel / full-set
+    tables — all by `tools/failure_weight_decomposition_figure.py`. The
+    §4.2.4.2 content-point scaffold, the three wiring blocks
+    (compile-checked; **not applied** — Marc verifies first) and the
+    where-every-number-lives table are in
+    `implementation/pipeline/ogasp/failure_weight_decomposition.md` §5.
+    The kernel `[WRONG]` closed with his flag walk (`bdf3de7`); the M3
+    floor-semantics flag on that paragraph remains his to word (the bands
+    figure draws the correct semantics).
   - **L4 flag walk (2026-08-19, later) --- rulings applied, do not
     re-flag:** the self-driving framing DELETED (Marc: a conflation, he
     misspoke --- no replacement); closed-world named as an assumption
