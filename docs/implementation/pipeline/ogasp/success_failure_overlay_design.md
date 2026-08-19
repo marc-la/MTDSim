@@ -483,6 +483,10 @@ code is the profiled-attacker build.
   [`../../metrics_semantics.md`](../../metrics_semantics.md) §(f); the AAR corpus.
 - **Feeds:** the profiled-attacker build (composition, lifecycle, record schema) and
   the first-numbers matrix.
+- **Presented (2026-08-19):** the failure treatment's values, decomposed on the
+  page as rule kernel × distance kernel → committed matrix —
+  [`failure_weight_decomposition.md`](failure_weight_decomposition.md) (figure,
+  appendix tables, two-pair walkthrough, the open kernel ruling).
 - **Artefact:** [`outcome_overlay.json`](../../../../data/ogasp/petri/outcome_overlay.json)
   (value semantics, composition rule, the model, the resolved 123-pair table);
   provenance row in [`../../provenance.md`](../../provenance.md).

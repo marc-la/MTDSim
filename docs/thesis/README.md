@@ -16,8 +16,8 @@ and acknowledgements pages, submission statement).
 | `cshonours.cls` | UWA honours class; title page modified (changes tagged `%mtd`). |
 | `references.bib` | Bibliography (renamed from `cshonours.bib`); replace the seed entries. |
 | `uwa-crest.png` | UWA crest used on the title page. |
-| `figures/` | Figures (`\graphicspath` points at it). Generated figures carry their generator: `l1_attack_graph.{tex,pdf}` is written by `tools/l1_attack_graph_figure.py` from `data/gap/gap_v0.5.json` + one flow extract — regenerate, never hand-edit. |
-| `tables/` | Generated table fragments to `\input` (e.g. `objective_classification_audit.tex` from `tools/gasp_structural_baseline.py --tex`); do not hand-edit. |
+| `figures/` | Figures (`\graphicspath` points at it). Generated figures carry their generator: `l1_attack_graph.{tex,pdf}` is written by `tools/l1_attack_graph_figure.py` from `data/gap/gap_v0.5.json` + one flow extract; `failure_weight_decomposition.{tex,pdf}` by `tools/failure_weight_decomposition_figure.py` from the outcome rules + lifecycle consensus through the tracked compiler — regenerate, never hand-edit. |
+| `tables/` | Generated table fragments to `\input` (e.g. `objective_classification_audit.tex` from `tools/gasp_structural_baseline.py --tex`; `outcome_overlay_weights.tex` from `tools/failure_weight_decomposition_figure.py`); do not hand-edit. |
 
 ## Compile
 

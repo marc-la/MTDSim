@@ -1,7 +1,24 @@
 ---
-status: open
+status: open — deliverables 1–3 shipped 2026-08-19; only the kernel ruling (deliverable 4) remains, Marc's
 created: 2026-08-19
+updated: 2026-08-19
 ---
+
+> **State 2026-08-19 (session close).** Shipped:
+> `tools/failure_weight_decomposition_figure.py` → `docs/thesis/figures/failure_weight_decomposition.{tex,pdf}`
+> (three aligned 15×14 panels, stage-grouped, one grey scale, every cell printed:
+> failure kernel × distance kernel → committed set) and
+> `docs/thesis/tables/outcome_overlay_weights.tex` (both rule ledgers, the kernel
+> parameters, the complete success + failure sets, v3); the record
+> [`../implementation/pipeline/ogasp/failure_weight_decomposition.md`](../implementation/pipeline/ogasp/failure_weight_decomposition.md)
+> (two-pair walkthrough §2; §4.2.4.2 scaffold §5.1; the appendix wiring block
+> §5.2, compile-checked in a scratch copy, **not applied** to the tex — Marc:
+> "don't wire into my thesis before I verify"; the sweep's honest status as
+> ch5 backing §6). **Open:** the kernel-discrepancy ruling, record §4 —
+> keep-as-declared recommended; the re-declaration costed there (132/210
+> failure cells move, 44 newly zero, the bridge 0.9 → 0.225, 28 mass-carrying
+> edges hard-suppressed, v4 + re-sweep). Delete this handoff when Marc rules
+> and the ruling is recorded in the record and the tex comment.
 
 # Cement the failure weight set's provenance — the decomposition presentation
 

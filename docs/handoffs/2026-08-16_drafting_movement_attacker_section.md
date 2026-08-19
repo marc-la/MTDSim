@@ -525,6 +525,14 @@ most three prioritised moves. Voice is Marc's own gate
     2026-08-19_failure_weight_provenance.md (his decomposition idea:
     failure kernel x distance kernel -> aggregated matrix) --- the owed
     failure-encoding paragraph waits on them.
+    **Provenance handoff shipped its presentation (2026-08-19):** figure
+    `fig:failure-weight-decomposition` + appendix tables generated
+    (`tools/failure_weight_decomposition_figure.py`); the §4.2.4.2
+    content-point scaffold and the appendix wiring block are in
+    `implementation/pipeline/ogasp/failure_weight_decomposition.md` §5 —
+    **not wired into the tex** (Marc: verify first). The kernel
+    `[WRONG]` stays open pending his ruling (record §4,
+    keep-as-declared recommended).
   - **L4 flag walk (2026-08-19, later) --- rulings applied, do not
     re-flag:** the self-driving framing DELETED (Marc: a conflation, he
     misspoke --- no replacement); closed-world named as an assumption
