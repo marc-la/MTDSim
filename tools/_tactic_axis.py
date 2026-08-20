@@ -6,8 +6,8 @@ worth as much as its single source, so this module derives the axis from the
 bundle under `data/gap/` rather than restating it:
 
 * **order** — the Enterprise matrix's own `tactic_refs` sequence, which is the
-  reading order `fig:l1-graph` uses (it agrees row-for-row with the GAP's
-  `tactic_layer`, checked at build time by `check_against`);
+  reading order the appendix attack graphs use (it agrees row-for-row with the
+  GAP's `tactic_layer`, checked at build time by `check_against`);
 * **labels** — the bundle's tactic names, down-cased to the sentence case the
   figure family sets. US spelling inside an ATT&CK proper name is therefore
   *looked up, not translated* — the 2026-08-20 Australianisation ruling
@@ -16,7 +16,8 @@ bundle under `data/gap/` rather than restating it:
   every derived float states in its caption.
 
 Two orders are legal, and a figure declares which it takes. `matrix_order` is
-the raw ATT&CK reading order (`fig:l1-graph`). `stage_grouped_order` sorts by
+the raw ATT&CK reading order (the appendix attack graphs; `fig:l1-graph` was
+the original example and was deleted on 2026-08-20). `stage_grouped_order` sorts by
 consensus lifecycle stage first, keeping the matrix order inside a stage
 (`fig:failure-weight-matrix`, and any figure that draws stage bands); the two
 differ only in that stage grouping lifts command and control above collection.
@@ -24,7 +25,12 @@ differ only in that stage grouping lifts command and control above collection.
 Not wired into the two generators that predate it — they carry their own copies
 of the label map. Rewiring them would regenerate shipped figures for no visual
 change, so it is left as a follow-up; this module is the single source for
-anything built after it.
+anything built after it, with one deliberate exception: `gap_appendix_figures.py`
+(2026-08-20, written concurrently with this module) keeps its own copy because
+this module reads the ATT&CK bundle under `data/gap/_attack/`, which is
+gitignored, while that generator runs from tracked artefacts alone. Its order and
+label map were checked against `load_axis()` on 2026-08-20 and are identical; if
+this module ever grows a tracked-artefact path, wire it up and drop the copy.
 """
 
 from __future__ import annotations
