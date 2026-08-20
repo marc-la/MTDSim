@@ -282,7 +282,8 @@ the contributions list, linking
 %      no "successful"; "parsing and" removed; "attack profiles" (ratified
 %      noun); "not touching" stays as sure; the "Any upgrades are in
 %      Chapter 2" sentence CUT as a duplicate of "see Chapter 2"
-%      (reversible); contractions stay. M2 withdrawn (input claim, not a
+%      (reversible); contractions stay (SUPERSEDED 2026-08-20: Marc's global
+%      ruling --- contractions expand, everywhere). M2 withdrawn (input claim, not a
 %      fidelity claim). Pass 5 (Marc) next: ~150 words against ~125; the
 %      one duplicate pair is marked.
 % ---- Pass 5 applied 2026-08-19 on Marc's "apply the table" ruling: the
@@ -302,26 +303,25 @@ the contributions list, linking
 %      [3b minor] "tick off" is spoken register --- pass-6 candidate, your
 %      call. [note] the next sentence also carries the axes + the naming
 %      move --- one of the two naming clauses is a pass-5 cut candidate.
-This is the threat model that we've produced, and we're terming it the
+This is the threat model that we have produced, and we are terming it the
 movement attacker: it aims to tick off the axes from
 Section~\ref{sec:requirements}.
 % [note] \ref{sec:requirements} renders "4.1" per your dictation; the axes'
 %   exact home is subsec:criterion --- swap if you want the deeper ref.
-Now that we've outlined the eight axes that we are going to be measuring
-our model against, this is our implementation, and we're calling it the
+Now that we have outlined the eight axes that we are going to be measuring
+our model against, this is our implementation, and we are calling it the
 movement attacker. We are replacing the baseline attacker, the inherited
 scripted six-phase attacker from MTDSim (see Chapter~\ref{ch:background}),
 with the movement attacker: it adopts its action set, and the movement is
 dictated by the Petri net and by the attacker model at runtime. We are
 grounding it in CTI in a way that captures the behaviour of APT attackers
-in the real world, and boiling it down into something that we can
+in the real world, and distilling it into something that we can
 operationalise and join into our existing simulator to evaluate our
-defence mechanisms. This is built beside MTDSim; we're not touching the
-original simulator, so that we can compare our results by construction.
-The pipeline (Figure~\ref{fig:pipeline}) has three phases: L0 to L2 are
-structure, L3 and L4 are semantics and parameterisation, and execution is
-that we ran it: an attacker agent traversing MTDSim, guided by our attack
-profiles.
+defence mechanisms. This is built beside MTDSim; we are not touching the
+simulator, so that we can compare our results by construction.
+The pipeline (Figure~\ref{fig:pipeline}) has three stages: L0 to L2 are
+structure, L3 and L4 are semantics and parameterisation, and execution
+is an attacker agent traversing MTDSim, guided by our attack profiles.
 
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
 % flows into tactic dependencies. Answers capture. Disclosures: what
@@ -389,7 +389,7 @@ precedent for using tactics as the node granularity
 
 The aggregate APT attack graph (L1; Figure~\ref{fig:l1-graph}c) is a
 weighted directed graph where the nodes are the MITRE ATT\&CK tactics,
-and each edge is weighted on how many times it's observed in the
+and each edge is weighted on how many times it is observed in the
 corpus. We are using
 human-analyst-drawn dependency graphs, and this is sparse input
 data. The edge weight is a recurrence value; therefore, we cannot rely
@@ -404,7 +404,7 @@ sparse compared to the rest of the corpus. Pre-intrusion activity
 typically happens on the attacker's infrastructure --- infrastructure
 setup, passive recon --- and is not detectable on the defender's side.
 Hence, in the corpus, reconnaissance only has a mention in 10 out of
-the 38 attack flows. But since we're producing an attack model for
+the 38 attack flows. But since we are producing an attack model for
 defender evaluation, we will later have to draw these flows in.
 This is persistent across CTI, so we
 would have to address it regardless of our input.
@@ -426,8 +426,8 @@ would have to address it regardless of our input.
 % ---- sentence + the Conti example. Deletions + his dictated sentences only.
 
 The literature tells us that APT attackers are not a homogeneous group,
-and so they are distinguished by campaign-level intent. You cannot
-produce an APT attack model that you could consider as behavioural,
+and so they are distinguished by campaign-level intent. We cannot
+produce an APT attack model that could be considered behavioural,
 because the L1 aggregate carries so many different motivations and
 objectives which influence behaviour \citep{alshamrani2019}.
 
@@ -576,7 +576,7 @@ reconnaissance, so that we could model the runtime behaviour of the
 attacker agent. This pre-intrusion overlay is a sub-Petri-net in its own
 right: we join it to the attack profiles to produce the executable Petri
 net. We can assume that they perform these because we know they do
-that, and it is defensible because nothing detects pre-intrusion
+that (Section~\ref{sec:apt-survey}), and it is defensible because nothing detects pre-intrusion
 activity anyway.
 % [APPLIED, your ruling] PRE-ATT\&CK head dropped as lit-review background
 %   (strom2018mitre / mitre2020attackv8 stay in the bib for ch3); the
@@ -654,7 +654,7 @@ this.
 %      history (bd2abb4).
 The question for L4 is: what can the Petri nets not supply, and how do we
 join this to MTDSim? The Petri nets can act as inputs, but
-they're like source code: they have no way of running. A Petri net can be run
+they are like source code: they have no way of running. A Petri net can be run
 on its own, but that produces a timeline of what the
 attacker did (tracing the token). The timeline is a dead end: it is a
 pregenerated sequence, and there is no input from the simulator.
@@ -665,12 +665,12 @@ timeline world, where we precompute the attack timelines, the script will
 just follow the next tactic. This was not representative of what we thought
 the attack model should capture. We had to produce a two-way join.
 
-Everything from L0 to L3 is what we're considering the movement layer, because
+Everything from L0 to L3 is what we are considering the movement layer, because
 the attacker is moving: the token is moving through all these tactics. Within
 the simulator, MTDSim, the baseline attacker has its verbs
-and has six phases, as outlined in Chapter~\ref{ch:background}. This is what we're calling
+and has six phases, as outlined in Chapter~\ref{ch:background}. This is what we are calling
 the action layer. To produce results, we have to join these two layers
-together, and we're doing this through the controller layer. We scoped it
+together, and we are doing this through the controller layer. We scoped it
 down: for this thesis we adopt the existing verbs from the simulator,
 and we built the movement layer beside MTDSim --- not embedded in it --- so
 that we can evaluate the MTD mechanisms using different APT attack profiles by
@@ -678,7 +678,7 @@ construction.
 % [rephrase applied per your ruling: the two "beside MTDSim" sentences folded
 %   into one, "beside" carried once.]
 Future work can look into changing the underlying action layer, but this has
-been scoped out for this thesis. We've combined knowledge and real-world data
+been scoped out for this thesis. We have combined knowledge and real-world data
 working together at runtime to produce a result that we are here to measure.
 
 % [heading renamed on Marc's ruling 2026-08-19: "Parameterisation" -> "The
@@ -697,9 +697,13 @@ the simulator, as the previous attack phases did from the action layer. But we
 cannot derive the dwell times from anything we have done in
 the movement layer itself. The dwell times do not exist in the literature; they
 do not exist in CTI vendor reports. Prior papers that have done similar work
-describe this as inherently arbitrary: trying to put times on an attack.
-% [citation owed, pass 6: the prior-papers claim needs its \citep --- flagged,
-%  not supplied.]
+describe this as inherently arbitrary: trying to put times on an
+attack~\citep{bland2020, mcqueen2006, mendonca2023}.
+% [citations wired, pass 6 (Marc's ask): the record's in-print arbitrariness
+%  statements --- bland2020 "notional and randomly selected"; mcqueen2006
+%  "somewhat arbitrarily, we decided"; mendonca2023 "? ... reasonably
+%  estimated" (stochastic_timing_design.md 3.2(1)). Outkin 2023 is the
+%  parameter-grounding precedent, a different leg --- parked in the bib.]
 There is no MITRE tactic mapping to time resource. How
 long does reconnaissance take? This is a parameter of the model itself, not an
 invariant.
@@ -707,7 +711,7 @@ invariant.
 We derived our new dwell times for the tactics from the dwell times of
 MTDSim. What we could take from the six original verbs of the action layer,
 we used directly.
-If that wasn't sufficient, then we used some multiplier of those values to
+If that was not sufficient, then we used some multiplier of those values to
 produce the tactic dwell times, and if not, we decided what shape fitted
 best for this tactic. The derivation is in the appendix: the stealth tactic,
 for example, is 45.0 seconds, which is 10 times the exploit shape.
@@ -717,30 +721,30 @@ the same verb, but in reality the tactics, we would assume, do not take the same
 amount of time --- there might be more effort, more time, more resources
 required --- so different tactics that map to the same verb still provide a
 different amount of time.
+% [RULED 2026-08-20, do not re-flag: the 45.0 s / 0 s worked examples stay,
+%  and so do the zero-or-one constraint sentences below --- Marc withdrew both
+%  as pass-5 cut candidates.]
 
 We are not claiming that the attacker dwell is exponentially distributed, but
 the behaviour of APT attackers is stochastic: stochastic means it can be
-measured, but it cannot be predicted. We're trying to model the stochastic
+measured, but it cannot be predicted. We are trying to model the stochastic
 behaviour of these APT attackers: how are we going to do that without some
 capability for that? The capability is provided by the exponential draw,
 which makes the times stochastic (the base dwell times are not).
 There is evidence in the literature for
 stochastic attack behaviour~\citep{holm2014, madan2004, bland2020}.
-% [your re-dictation applied ("there is evidence in the literature for
-%   stochastic attack behaviour"). Citations wired --- VERIFY the subset:
-%   holm2014 (empirical, fitted compromise-time distributions), madan2004
-%   (semi-Markov lineage), bland2020 (stochastic-net attacker precedent);
-%   mcqueen2006 also available. Trim to taste.]
+% [RULED 2026-08-20: citation set kept at three --- each carries a distinct
+%  leg (holm2014 empirical; madan2004 lineage; bland2020 method precedent).]
 
 The Petri nets do not map one-to-one. We needed a mapping from the places of
-the Petri net, or attack tactics, to the action layer, the verbs. We're calling this
+the Petri net, or attack tactics, to the action layer, the verbs. We are calling this
 the tactic-to-verb mapping. There is no real mapping here, so we used our best
 judgement. We use a direct mapping with certain
 constraints: a tactic can go to only zero or one verbs, and a tactic can
 only execute either zero or one actions in the simulator at a time, so this
 problem remains tractable. Where there is no mapping, the tactic is dwell-only:
 it consumes time in the simulator and dispatches nothing. The dwell-only is a
-concession: the baseline attacker that we're plugging into on the action
+concession: the baseline attacker that we are plugging into on the action
 layer has gaps. Many tactics are dwell-only (Figure~\ref{fig:controller-mapping}).
 % [figure slot --- label RESERVED 2026-08-20 at the appendix-wiring pass:
 %   fig:controller-mapping. The ref above is live and will read ?? until
@@ -750,16 +754,14 @@ layer has gaps. Many tactics are dwell-only (Figure~\ref{fig:controller-mapping}
 %   (drafting handoff carries it), so it is not here.
 
 We tried other mappings: forcing a total mapping was just another input
-that didn't work. It was running a tightly ordered finite state machine in an
+that did not work. It was running a tightly ordered finite state machine in an
 unordered but stochastic manner, and this resulted in poor performance
 (Appendix~\ref{app:experiment-one}). We expected the
 movement layer to perform the same, or worse, because it is the same thing
-in proxy. We also considered using MITRE Caldera, which is also an
+in proxy. We also considered using MITRE Caldera~\citep{applebaum2016}, which is also an
 operationalisation of the MITRE ATT\&CK framework, but this would introduce too
 much overhead, and the results were unclear about the practical implication of
 that.
-% [source owed, pass 6: the Caldera overhead/results claim needs a source or
-%  a "we judged" scope --- Marc's call; flagged, not supplied.]
 % [wired 2026-08-20, appendix pass] app:experiment-one --- the
 %   experiment-1 poor-performance record, distilled from
 %   experiment_01_findings.md into Table~\ref{tab:experiment-one}. Its
@@ -779,7 +781,7 @@ the token --- an explicit assumption, since the Attack Flow corpus is all we
 have to draw on, and a different corpus would give different transitions and
 weightings. But a recurrence value does not reflect an attacker, because an
 attacker can succeed or fail, and these reports only capture success --- there
-is survivorship bias. These values are necessary, but they're not sufficient,
+is survivorship bias. These values are necessary, but they are not sufficient,
 so we have to supplement them with re-weighting to consider if the
 attacker agent fails.
 % [rephrase applied: base-weights passage compressed to its consequence + the
@@ -787,13 +789,13 @@ attacker agent fails.
 
 One concern was trying to overfit the tactic-to-tactic failure matrix
 to the baseline attacker's action layer. This is a
-separate layer, independent from the nets and from the action layer: we didn't
+separate layer, independent from the nets and from the action layer: we did not
 reverse-engineer any of these values. They can be
 justified; they can be defended.
 
 We employed a failure matrix because this is the blind spot of the CTI: the CTI
 naturally encodes success, so the failures are what is not encoded, and that is
-what we're trying to encode here. We needed a 15-by-14 tactic-to-tactic
+what we are trying to encode here. We needed a 15-by-14 tactic-to-tactic
 failure weight matrix (excluding
 self-loops), shaped by two components. The first is the failure rules,
 independently decided: each tactic-to-tactic transition was placed into a given
@@ -825,7 +827,7 @@ of values to feed into our attacker model.
 
 We made all of the actions in MTDSim independent of each other, and produced
 the join through the controller layer, so that the movement layer supplies all
-the timing of the attacker agent at runtime. The loop runs as follows: the
+the tactic timing of the attacker agent at runtime. The loop runs as follows: the
 token selects the next tactic; the tactic has a dwell time and an exponential
 draw, which is fed into the discrete-event simulator and consumed as time;
 the mapping resolves the tactic to a verb (or to dwell-only); once the time is
@@ -850,7 +852,7 @@ An action fails if the preconditions of the action itself were missing --- for
 example, trying to exploit a vulnerability without having scanned for it:
 objects are passed around in the simulator, and if the verbs have not been run,
 it fails. The same holds for the moving target defence: if MTD interrupts the
-attacker, then whatever verb it is on fails. But if they're on a dwell-only,
+attacker, then whatever verb it is on fails. But if they are on a dwell-only,
 there is no verdict, so this is not felt by the token in the Petri net.
 
 We employed a sink-retrace policy, because the token would
@@ -862,9 +864,8 @@ that hits the attacker at certain phases. How the defender thwarts the attacker
 is inherently tied to the simulator; it is an invariant of the simulator, so we
 maintain that 20-second confusion penalty. Not all the timing is supplied by
 the Petri net: the confusion penalty is the exception.
-% [OPEN, pass 6 item 24: this exception contradicts the subsubsection's opening
-%  "supplies all the timing of the attacker agent" --- both sentences ruled-in;
-%  the reconciliation wording is Marc's.]
+% [RESOLVED 2026-08-20 on Marc's wording: the opening now claims "all the
+%  tactic timing", so the penalty exception no longer contradicts it.]
 % [figure slot --- ruled 2026-08-19: the subsection's primary figure, the
 %   runtime data-flow loop (\ref target fig:movement-dataflow above --- label
 %   RESERVED 2026-08-20 at the appendix-wiring pass), drawn AFTER the

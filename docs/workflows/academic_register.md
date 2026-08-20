@@ -41,7 +41,10 @@ the working vocabulary has overshot.
 ## (b) Register conventions
 
 1. **Contractions expand** (*don't* → *does not*) — universal in formal CS
-   prose (Zobel; Day & Gastel). Marc's standing 3b global rules any exception.
+   prose (Zobel; Day & Gastel). **Ratified as a standing global (Marc,
+   2026-08-20): expand, everywhere in dissertation-bound prose** — no longer a
+   3b item; executed mechanically at pass 2/3a (`repair-dictation`). This
+   supersedes the earlier §4.2-preamble "contractions stay" ruling.
 2. **Person is a global, held consistently.** *We* is conventional in CS even
    for single-author theses; *I* is licensed where the decision is genuinely
    the author's own ruling. The choice per context is Marc's; the pass

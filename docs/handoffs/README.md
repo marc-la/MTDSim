@@ -54,6 +54,19 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   against); failure-weight wiring gated on the v4 re-key ruling in the table
   below. The umbrella retires when the last component ships.
 
+*(The §4.2 voice-pass remainder brief opened and closed 2026-08-20 in one day —
+Marc ruled every item: contractions expand globally (wired into
+`repair-dictation` 3a and `academic_register.md` §b1), the all-timing
+contradiction resolved on his "tactic timing" wording, both citation debts
+wired (bland/mcqueen/mendonca for the arbitrariness claim; `applebaum2016` for
+Caldera), M6 grounded by the §sec:apt-survey pointer, the preamble-deferred
+edits applied, the attacker-agent carve-out ratified in the registry. The
+brief was created and closed within one uncommitted session, so it never
+entered history; this note and the commit message are its record. The §4.2
+integration check is next. One CONFIRM survives it,
+owned by Marc with the lit review: the ATT&CK pin — record says v19.1, his
+2026-08-20 dictation said "19.2".)*
+
 *(Deleted by Marc 2026-08-20, `git log` holding each: the §4.2 drafting
 context (2026-08-16 — its ruling trail is restated where the figures programme
 consumes it, and the shipped records are the permanent account), the

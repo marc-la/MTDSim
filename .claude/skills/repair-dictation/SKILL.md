@@ -145,8 +145,9 @@ here** rather than leaving the knowledge in chat.
   self-corrections) — clean-verbatim. Keep rhetorical questions, emphasis,
   and spoken idiom: they are voice, not noise.
 - **Add sentence punctuation following the spoken rhythm.** Never reorder
-  clauses; never change person (I/we as dictated — flag inconsistency, don't
-  normalise without a standing ruling).
+  clauses. Person: the standing global is **we** (first person plural; Marc,
+  2026-08-20) — normalise dictated *I* to *we* in dissertation-bound prose and
+  log each instance.
 - **Honour spoken stage directions** ("insert paragraph", "insert reference
   here", "as per the prior amendment") as instructions, not text. Reference
   slots become citation placeholders or live keys if ratified keys exist.
@@ -169,7 +170,13 @@ Four sweeps over the repaired text, in order:
    never invented).
 3. **Meta-narration — behead** ("Now I'll talk about...") where the next
    sentence already works as the topic sentence; flag where it doesn't.
-4. **Hedges — flag, never resolve.** "I think", "we believe", "I guess",
+4. **Contractions — expand, mechanically.** Standing global ruling (Marc,
+   2026-08-20, superseding the earlier preamble-scoped "contractions stay"):
+   every contraction in dissertation-bound prose expands (*we're* → *we are*,
+   *didn't* → *did not*, *they're* → *they are*). Not a 3b item; log the
+   expansions in one bulk line. Possessive apostrophes (*the attacker's*) are
+   not contractions — leave them.
+5. **Hedges — flag, never resolve.** "I think", "we believe", "I guess",
    "a bit", "a certain X", vague scopes ("than usual", "across CTI") each get
    a marker: `% [3b] <quote> --- <the binary or scope question it poses>`.
    Each marker poses ONE decision — sure-or-scoped, name-it-or-soften-it,
@@ -192,8 +199,9 @@ deletion, one neutral conjunction to close a deletion gap. Nothing else.
 
 ## What comes after (not this skill's job)
 
-Pass 3b (Marc: hedge rulings, flagged recasts, contraction/person globals,
-read-aloud) → pass 4 (`/scrutinise-draft` against the corpus pack) → pass 5
+Pass 3b (Marc: hedge rulings, flagged recasts, read-aloud; the
+contraction and person globals are ruled — expand, and *we* — and now run
+mechanically in 3a) → pass 4 (`/scrutinise-draft` against the corpus pack) → pass 5
 (Marc's compression to the ledger). The full pipeline — roles, sequencing,
 gates — is the durable
 [`docs/workflows/drafting_pipeline.md`](../../../docs/workflows/drafting_pipeline.md);
