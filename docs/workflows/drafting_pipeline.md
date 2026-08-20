@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-16
-updated: 2026-08-16
+updated: 2026-08-20
 ---
 
 # The drafting pipeline — how every unit of dissertation prose gets written
@@ -24,6 +24,12 @@ sentence, it has left the rails (the sole exception: edits Marc explicitly
 authorises, assembled from his own dictated words and marked for his
 ratification).
 
+Pass 6 (below) extends that exception into a structured channel, ruled by
+Marc (2026-08-20): the session may **propose** register conversions, cuts,
+and re-termings — every proposal ruled by Marc item by item before it is
+applied. The ratification gate is what keeps the property; an unratified
+proposal is never applied.
+
 ## The five passes, per unit
 
 | # | Pass | Who | What |
@@ -36,6 +42,22 @@ ratification).
 
 Iteration inside a pass is normal (a unit may loop dictation→scrutiny several
 times before converting); the pass boundaries and their owners do not move.
+
+## Pass 6 — the section voice pass (per section, not per unit)
+
+Added by Marc's ruling, 2026-08-20. Once every unit of a section is through
+pass 5, the `voice-pass` skill runs over the **assembled section**, end to
+end: the first read of the section as one piece of writing.
+
+| # | Pass | Who | What |
+|---|---|---|---|
+| 6 | **Voice pass** | session proposes, Marc rules | Three sweeps + the gate: (1) **register** — converge dictation residue onto academic register per [`academic_register.md`](academic_register.md), closer to academic than to speech, never through a voice.md licensed device; (2) **cuts** — vacuous / non-relevant sentences by the three-part survival test, plus cross-unit duplicates; (3) **terminology** — census against the living registry [`terminology.md`](terminology.md), ratified rows enforced as batch proposals, new clusters added to the registry as PROPOSED rows. Then the **voice.md §(f) gate**, all nine checks, reported per check. Returns one prioritised proposal ledger; applies nothing unratified. |
+
+Out of scope for pass 6, by design: flow, ordering, transitions between units
+— those belong to the **integration check** that follows it (not yet
+specified; pass 6 hands over one-line observations at most).
+
+## Sequencing across units
 
 ## Sequencing across units
 
@@ -69,6 +91,11 @@ them is still cheap.
   — append new observations there, not in chat).
 - Pass 4: [`../../.claude/skills/scrutinise-draft/SKILL.md`](../../.claude/skills/scrutinise-draft/SKILL.md)
   + [`draft_scrutiny.md`](draft_scrutiny.md) (question set + corpus map).
+- Pass 6: [`../../.claude/skills/voice-pass/SKILL.md`](../../.claude/skills/voice-pass/SKILL.md)
+  + [`academic_register.md`](academic_register.md) (the target register and
+  spoken-residue inventory) + [`terminology.md`](terminology.md) (the living
+  one-term-per-concept registry — RATIFIED rows enforced, PROPOSED rows
+  awaiting Marc's ruling pass).
 - Voice and prose-quality layers: [`voice.md`](voice.md),
   [`critique_protocol.md`](critique_protocol.md) — below this pipeline, loaded
   when the task reaches sentences.
