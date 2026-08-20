@@ -33,6 +33,8 @@
 \usepackage[australian]{babel}
 \usepackage[numbers,sort&compress]{natbib}   % \citep / \citet -> [n]
 \usepackage{tcolorbox}         % the research-question grey box (ch1)
+\usepackage{pdfpages}          % appendix A: original proposal included
+                               % as compiled pages (see app:proposal)
 \newcommand{\tactic}[1]{\texttt{#1}}    % tactic place-names in monospace
 
 
@@ -110,6 +112,22 @@ attacker, on the standard metric suite and on the APT-specific measures
 that suite cannot express?
 \end{tcolorbox}
 
+% [PLACEHOLDER --- contributions list, Marc's ruling 2026-08-20]
+% A numbered contributions list closes this chapter (corpus form:
+% rahman2024 p. 2; literature_conventions.md (g)). Marc drafts it via
+% the dictation pipeline. The three parts of the RQ box above carry SQ
+% labels (SQ1 capture / SQ2 model / SQ3 evaluate) when Marc re-dictates
+% the box --- single-RQ architecture (a) stands; SQs are labels on the
+% decomposition, not new top-level questions.
+%
+% [PLACEHOLDER --- artefact availability, Marc's ruling 2026-08-20]
+% One availability sentence rides the contributions list, linking
+% https://github.com/marc-la/MTDSim (corpus forms: ferraz2024 p. 1
+% footnote "available at GitHub, to enable full reproducibility";
+% rahman2024 p. 2 "We open-source the dataset and ... models").
+% NOTE before drafting: the public repo's main branch is the standalone
+% simulator (deliberate dev/main split) --- decide what the link should
+% land on for a reader (main as-is, or a thesis release tag).
 
 % =====================================================================
 \chapter{Background}
@@ -251,6 +269,41 @@ that suite cannot express?
 % non-APT baseline attacker") --- plus the one-sentence end-to-end
 % orientation. No ladder re-narration; the chapter-opening figure owns
 % the ladder.
+
+% ---- Preamble: Marc's dictation (2026-08-19), passes 2-4 applied and his
+%      3b walk ruled the same day (all markers resolved; P1/P2 from his
+%      ruling dictation applied as live text). Rulings, do not re-flag:
+%      "eight axes" (keep it simple --- no criterion/criteria discussion);
+%      "we are going to" stays; "by the attacker model at runtime" stays;
+%      no "successful"; "parsing and" removed; "attack profiles" (ratified
+%      noun); "not touching" stays as sure; the "Any upgrades are in
+%      Chapter 2" sentence CUT as a duplicate of "see Chapter 2"
+%      (reversible); contractions stay. M2 withdrawn (input claim, not a
+%      fidelity claim). Pass 5 (Marc) next: ~150 words against ~125; the
+%      one duplicate pair is marked.
+% ---- Pass 5 applied 2026-08-19 on Marc's "apply the table" ruling: the
+%      four-slot grey box (bridge / naming pair / grounding + scope /
+%      orientation), deletions and folds of his own words only. Seams
+%      closed: (i) the ch2 apposition folded into the replacing sentence;
+%      (ii) "beside" now carried once, in the scope sentence; (iii) the
+%      traversing sentence joined to the execution clause with a colon
+%      (cut: "--- the implementation of L0 to L4 in MTDSim", "This is").
+%      Pre-pass-5 text in git history.
+Now that we've outlined the eight axes that we are going to be measuring
+our model against, this is our implementation, and we're calling it the
+movement attacker. We are replacing the baseline attacker, the inherited
+scripted six-phase attacker from MTDSim (see Chapter~\ref{ch:background}),
+with the movement attacker: it adopts its action set, and the movement is
+dictated by the Petri net and by the attacker model at runtime. We are
+grounding it in CTI in a way that captures the behaviour of APT attackers
+in the real world, and boiling it down into something that we can
+operationalise and join into our existing simulator to evaluate our
+defence mechanisms. This is built beside MTDSim; we're not touching the
+original simulator, so that we can compare our results by construction.
+The pipeline (Figure~\ref{fig:pipeline}) has three phases: L0 to L2 are
+structure, L3 and L4 are semantics and parameterisation, and execution is
+that we ran it: an attacker agent traversing MTDSim, guided by our attack
+profiles.
 
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
 % flows into tactic dependencies. Answers capture. Disclosures: what
@@ -604,7 +657,12 @@ is not directly embedded into it. We built this movement layer beside MTDSim
 so that we can evaluate the MTD mechanisms using different APT attack
 profiles. We made all of the actions independent of each other in MTDSim,
 and we've produced this join through the controller layer to our movement
-layer.
+layer. We've combined knowledge and real-world data working together at
+runtime to produce a result that I am here to measure.
+% [placed on your ruling 2026-08-19 ("this sentence can find its way into
+%   the preamble"). If you meant the SECTION preamble (sec:movement-attacker,
+%   now pass-5'd to the four-slot box by the concurrent session), move it ---
+%   this is the L4 subsection preamble.]
 
 % [heading: "The" restored to the ratified form (handoff, 2026-08-16).]
 \subsubsection{Parameterisation}
@@ -614,20 +672,21 @@ In terms of what the Petri nets cannot provide that we need for this two-way
 join, the first one is the dwell times. Each tactic will consume some time in
 the simulator, as the previous attack phases did from the action layer. Our
 new movement layer will have to supply a dwell time or duration to be
-consumed by the simulator, so that we can plug this in.
-% [INSERT --- M1, fresh pass 2026-08-19] S3-R is only implied here, never
-%   stated: on the movement arm the movement layer supplies EVERY unit of
-%   the attacker's time --- the substrate's own action prices are not
-%   consumed (the dwell IS the dispatched action's duration). Without the
-%   positive statement, a reader can assume the dwell sits ON TOP of the
-%   native action costs --- exactly the hybrid built once and reversed. Two
-%   record-owned consequences also become sayable: the same verb costs
-%   different amounts depending on the invoking tactic (the price belongs to
-%   the behaviour, not the verb), and a blocked attempt still costs its
-%   dwell (an unsatisfiable place must not be a free move).
-%   stochastic_timing_design.md S3-R banner; movement/attacker.py docstring.
-%   The closing confusion-penalty sentence currently carries this by
-%   exception only.
+consumed by the simulator, so that we can plug this in. The movement layer
+supplies all the timing of the attacker agent at runtime in the simulator:
+the token selects the next tactic; the tactic has a dwell time associated
+with it and an exponential factor, and this is fed back into the simulator
+(the discrete-event simulator) and is consumed as time. Once this time is
+consumed, the next tactic is selected, the time is calculated, and so forth.
+Some tactics map to the same verb, and that is just the practical, judged
+mapping that we provided, but in reality the tactics, we would assume, do
+not take the same amount of time: there might be more effort, more time,
+more resources required, and as such the tactics have different timings. As
+a result, different tactics map to the same verb in the action layer, but
+they provide a different amount of time.
+% [pass 5 note] "This is a time duration value on the nodes themselves ...
+%   consumes X amount of time" below now overlaps the loop description
+%   above --- cut-order candidate.
 This is a time
 duration value on the nodes themselves, for each tactic: you can imagine it
 as each tactic consumes X amount of time by the attacker agent. But the issue
@@ -652,11 +711,9 @@ We assume that all the out-transitions are the complete set of choices the
 attacker agent can choose via the token in the Petri net; a subset of these
 tactics will be visible to the token depending on success, depending on
 failure, and their weightings will be different depending on such a success
-signal.
-% [PROPOSAL --- your accept/deny, built from your 2026-08-19 dictation] add
-%   after that sentence: "This is an explicit assumption of this work: the
-%   Attack Flow corpus is all we have to draw on, and if you change the
-%   corpus, the out-transitions and their weightings will be different."
+signal. This is an explicit assumption of this work: the Attack Flow
+corpus is all we have to draw on, and if you change the corpus, the
+out-transitions and their weightings will be different.
 
 Based on all the dwell times from the original simulator: this is how we
 derived our new dwell times for our tactics. What we could take from the
@@ -669,12 +726,7 @@ the exploit shape.
 But then resource-development we deemed as zero seconds, because from the
 defender's perspective this is off-network and untrackable. We judged that
 this was a plausible, literature-bounded and sensitivity-swept set of values
-to feed into our attacker model. On top of that there's also a distribution:
-we're using GSPN, so exponential is there, so that our model is more tractable.
-% [TIGHTEN --- minor, fresh pass] "we're using GSPN, so exponential is
-%   there" re-tells L3's formalism sentence (L3 owns exponential draws +
-%   immediate transitions); L4 owns the values and the defence. Cut-order
-%   candidate at the assembly pass, on the L3/L4 boundary.
+to feed into our attacker model.
 We are not claiming that the attacker dwell is exponentially distributed,
 but the behaviour of APT attackers is stochastic: stochastic means it can be
 measured, but it cannot be predicted. We're trying to model the stochastic
@@ -684,17 +736,17 @@ mechanism, which makes the times stochastic (the base dwell times are not).
 Having fixed timings for the tactics
 is not stochastic, and that is why we introduced this exponential element.
 The literature can back us up on the stochastic nature.
-% [KEEP --- fresh pass] the stochasticity three-step now composes exactly as
-%   the record wants it: stochastic behaviour motivates A distribution,
-%   tractability picks the exponential, the non-claim bounds it
-%   (exponential_as_tractability_choice.md). Don't re-touch at pass 5 beyond
-%   the noted overlap cut.
-% [VERIFY --- citation slot, still owed] anchor for "the literature can back
-%   us up": candidates bland2020, mcqueen2006, the Madan 2004 lineage
-%   (timed_attack_models extraction; no bib entry yet). Fresh-pass addition:
-%   Holm 2014 (203,025 intrusions, fitted compromise-time distributions ---
-%   initial_access_timing extraction) is the strongest EMPIRICAL anchor for
-%   "attack timing is stochastic and measured"; needs a bib entry if taken.
+% [RULED 2026-08-19 + keys wired] you flagged your own sentence as tacked
+%   on / "not academically phrased" --- re-dictation yours: the shape you
+%   gave in the ruling was "literature says attack behaviour is stochastic;
+%   we need to model this somehow; the best fit is GSPN". Anchors now ALL in
+%   the bib: holm2014 (empirical: 203,025 intrusions, fitted compromise-time
+%   distributions --- the strongest "stochastic and measured" anchor),
+%   madan2004 (the semi-Markov modelling lineage), mcqueen2006 (unparked),
+%   bland2020 (already active). Wire whichever subset the re-dictated
+%   sentence earns. Note: the GSPN-sentence cut removed "tractable" from
+%   this block --- the re-dictated sentence is the natural place to restore
+%   the tractability leg if wanted.
 % [RULED 2026-08-19, do not re-flag] the sweep pointer goes to the APPENDIX,
 %   not a ch5 restatement ("the sweep is not as interesting"); Appendix
 %   placeholder wired at the appendix pass. Pass-5 note: the "fixed timings
@@ -712,22 +764,33 @@ inputs is the mapping, so you can swap the mapping and see: does this change
 anything?
 % [note, your ask 2026-08-19] the mapping-swap-as-experiment point is
 %   recorded for sec:experimental-setup (drafting handoff carries it).
-% [INSERT --- minor, fresh pass] one clause the record adds to "you can swap
-%   the mapping": every mapping tried is VERSIONED AND KEPT, so "which
-%   mapping produced these numbers" stays answerable after the fact (S4;
-%   controller_mapping_v2.md section 4). The reproducibility leg of the
-%   input-parameter claim.
+We just settled on it because we judged it was the best in terms of what
+made sense as a tactic mapping to the verb set that we had inherited from
+the simulator, just so that we could get our results. The tactic mapping is
+not a logical one; rather, it is just one that we thought was the best fit.
+% [pass 5 note] the judged-mapping point is now made three times in this
+%   opening ("best judgement" / "what made sense to us" / "the best fit")
+%   --- cut-order candidate.
 We've tried some other things: forcing a total mapping was just
-another input that didn't work. What we're doing is a direct mapping with
+another input that didn't work. It was running a tightly ordered finite
+state machine in an unordered but stochastic manner, and this resulted in
+very poor performance (Appendix~[X]). This is also foreshadowing what is to
+come: we expected the movement layer to perform the same, or even worse,
+because it is the same thing in proxy. But the beauty of our simulator is that it provides a
+framework, a methodology, extensibility: this underlying groundwork can be
+extended upon in future work, which will be able to achieve the goals of
+this work.
+% [applied 2026-08-19: SCOPE fix on your "act on that" --- the
+%   pre-registered-expectation form, your own #24 words.]
+% [pass 5 note] the framework/extensibility leg here duplicates the later
+%   "But the beauty of it is that it is extendable, it's modular" sentence
+%   --- one of the two carries it.
+% [appendix debt] Appendix~[X] = the experiment-1 poor-performance record
+%   (experiment_01_findings.md distilled).
+What we're doing is a direct mapping with
 certain constraints on it: a tactic can go to only zero or one verbs, and a
 tactic can only execute either zero or one actions in the simulator at a
 time, so this problem remains tractable.
-% [VERIFIED 2026-08-19, your ask] the forced-total-mapping story checks out:
-%   v1_ckc_total (every tactic forced onto exactly one verb) was tried, and
-%   the record attributes much of experiment 1's friction and churn to that
-%   construction (controller.md banner; experiment_01_findings.md). The
-%   pre-build #16 rejection was the separate "replace the FSM" idea ---
-%   distinct, and no longer claimed here.
 We also considered using MITRE Caldera, which is also an
 operationalisation of the MITRE ATT\&CK framework, but this would introduce
 too much overhead, and the results were unclear about the practical implication
@@ -766,15 +829,18 @@ token in the Petri net.
 
 To pull this all together, we used verdict-conditioned re-weighting. The base
 proportion (which is the recurrence value from the movement layer) on all of
-the edges is multiplied by a declared weight set and renormalised. If the
-attacker succeeds, we're overlaying the success tactic-to-tactic weight set
-onto all the out-transitions that a token sees. This will influence the set,
-and the probability, of which tactic the token will move to next, and this
-encodes direction. This is the same for failure: if the attack fails, then the
+the edges is multiplied by a declared weight set and renormalised. This
+will influence the set, and the probability, of which tactic the token will
+move to next, and this encodes direction. If the attack fails, then the
 weight set will be different, and so it would produce a different set of
 options open to the attacker agent's Petri-net token to decide from, and this
-encodes direction. From the logical perspective, we needed a set of 15-by-14 failure and
-success matrices (excluding self-loops) to re-weight the out-transitions an
+encodes direction.
+% [restructure seam --- your ruling 2026-08-19: the retired success matrix
+%   is never mentioned; the success sentence is deleted, so this paragraph
+%   has one arm now ("the weight set will be different" hangs; "encodes
+%   direction" appears twice). Yours at pass 5.]
+From the logical perspective, we needed a 15-by-14 failure
+matrix (excluding self-loops) to re-weight the out-transitions an
 attacker sees and will choose, because failure is not something that is just
 encoded: the CTI that we're using naturally encodes success, because these
 are well-known successful incidents that have resulted in impact and were
@@ -782,40 +848,13 @@ worth writing about, so the failures are not encoded, and that is what we're
 trying to encode here. The simplest way we did this was that we used the
 literature and we overlaid the attack
 phases~\citep{hutchins2011, alshamrani2019, mandiant2013, chemat2024}.
-% [RULED 2026-08-19 --- failure-only adopted; re-dictate the success half
-%   of this paragraph] the model is now ONE declared matrix: on a failure
-%   verdict the out-transitions are re-weighted by the failure
-%   tactic-to-tactic set; on a success verdict the token routes on the base
-%   proportions unchanged, because (your own sentence above) the CTI already
-%   encodes success --- a success matrix would re-encode that answer at a
-%   weaker tier and overrule the measured proportions wherever it differs.
-%   So "we're overlaying the success tactic-to-tactic weight set" and "a set
-%   of 15-by-14 failure and success matrices" describe the retired
-%   configuration (v3); the reported one is v4_failure_only (failure set
-%   identical). Record: implementation/pipeline/ogasp/
-%   success_null_overlay_feasibility.md (sections 1, 7, 8; content points
-%   section 9). success_weight_matrix drops out of ch4.
 Through that work we produced the four broad phases of an attack:
 preparation, intrusion, post-intrusion operations, and objective. We
 assigned a distance value: a transition within the same phase, or one phase
 away, is not penalised; two phases away keeps a quarter of its weight; and
-the maximum distance is weighted zero. There is a floor of 0.1: through the
-multiplication and the renormalisation of all the edges, if an edge falls
-below this threshold, it goes down to zero.
-% [WRONG --- M3, fresh pass 2026-08-19] the floor tests the DISTANCE-KERNEL
-%   value at fold-in (d < z read as exactly 0 BEFORE composition ---
-%   lifecycle_consensus.md section 6), not the multiplied/renormalised edge
-%   weight. As written, an examiner with the artefact can find renormalised
-%   edge weights below 0.1 that are not zero, which falsifies the sentence.
-%   Fact to swap: the floor zeroes the distance factor, not the finished
-%   edge. (Partly my transcription of your dictation --- flagged, not
-%   silently fixed; wording yours.)
-% [applied per your fix-and-simplify ruling 2026-08-19 --- reword freely]
-%   values from the record (lifecycle_consensus.md section 6): within-stage
-%   1.0; one away 1.0; two away 0.25; three away 0.0625, read as exactly 0
-%   under the z = 0.1 floor. Forward and backward decays are separately
-%   declared (currently equal at 0.25) --- if the asymmetric-decay idea
-%   lands (feasibility handoff, third arm), this sentence changes.
+the maximum distance is weighted zero. There is a floor of 0.1: if a
+distance value falls below this threshold, it is read as exactly zero at
+fold-in.
 % [RULED 2026-08-19, do not re-flag] the "How did you come up with the
 %   values? We swept them" line stays out --- the sweep defends the declared
 %   values (appendix), it does not produce them.
@@ -827,24 +866,28 @@ along with the full set of tactic-to-tactic weight sets.
 %   "there is a very good diagram in the corpus" --- candidate: the lifecycle
 %   /CKC overlay viz (data/misc/_viz/ckc_lifecycle/); wired at the figures
 %   pass.
-% [pending, your ask 2026-08-19] a further paragraph on HOW failure was
-%   encoded is owed here once the two failure-overlay handoffs land
-%   (feasibility of a failure-only matrix; the decomposition presentation:
-%   distance kernel x failure kernel -> aggregated matrix).
-% [INSERT --- M2, fresh pass 2026-08-19: content points for that owed
-%   paragraph's dictation] the examiner's next question is unanswered in the
-%   unit: how do we know the declared weights weren't tuned until the
-%   attacker moved "correctly"? The record's two earned answers: (a) the
-%   anti-fitting boundary --- the overlay is a deliberately separate layer
-%   from the CTI nets, never reverse-engineered to make any net traverse
-%   well (your #28: "knowledge and real world data working together at
-%   runtime to produce a result that I am here to measure";
-%   success_failure_overlay_design.md section 1); (b) the adversarial-review
-%   defence --- the values survived structured red-team scrutiny including a
-%   reviewer whose sole job was catching reverse-engineering
-%   (outcome_overlay_directionality.md). Sequence the dictation AFTER the
-%   concurrent overlay session reports --- an adopted success-null or
-%   kernel-only overlay changes this paragraph's shape.
+One of the big concerns was trying to overfit the tactic-to-tactic weight
+set to our existing attacker model, the inherited action layer.
+So this is a separate layer, independent from the nets and from the action
+layer: we didn't reverse-engineer any of these values. These are
+independent, and they can be justified; they can be defended.
+% [RULED 2026-08-19, do not re-flag] the adversarial-review defence stays
+%   OUT of the chapter (Marc: an AI-scrutiny methodology point, not for
+%   here).
+We employed a failure matrix because this is the blind spot of the CTI. It
+has been shaped by the failure rules, which were independently decided:
+each tactic-to-tactic transition was placed into a given shape (rules A to
+I in the diagram), and in addition to that, distance: the distance between
+the tactics was a component. This was taken from the literature, and the
+literature decided on the shape: preparation, intrusion, post-intrusion,
+objective.
+% [from your 2026-08-19 dictation; placement open --- you said "either the
+%   appendix or somewhere": it sits here for your pass-5 restructure. Two
+%   repairs logged: "shapes A to H" -> "rules A to I" (nine failure rules,
+%   lettered A--I in the committed failure_weight_matrix figure); "recon" ->
+%   "preparation" (your earlier ruling today; recon sits inside
+%   preparation). Pass-5 overlap: the blind-spot leg repeats the "failures
+%   are not encoded" sentence above.]
 
 In terms of policy, we employed a sink-retrace policy, because the token
 would frequently hit some sinks in the Petri net and would terminate the run.
@@ -1016,6 +1059,17 @@ supplied by the Petri net; there is this confusion penalty exception.
 
 \chapter{Original honours proposal}
 \label{app:proposal}
+
+% The proposal is included as submitted (13 March 2026), compiled from
+% the standalone proposal.tex alongside this file --- rebuild it with
+% pdflatex before compiling the dissertation if it changes. It keeps its
+% own bibliography: its citations are deliberately NOT merged into
+% references.bib (unchecked against the vetted list; the cai2016 key
+% would collide).
+The proposal is reproduced on the following pages as submitted in
+March 2026, with its own reference list.
+
+\includepdf[pages=-]{proposal.pdf}
 
 
 % Completed sensitivity sweeps too verbose for the results preamble; the
