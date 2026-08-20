@@ -47,6 +47,7 @@ string are legitimate (noted per row).
 | The L2 object | **attack profiles** (10) | bare *the nets* for profiles — the GSPN is the L3 formalisation of a profile, not a synonym; flag conflations only | ratified (V-series) |
 | The L3 formalism | **generalised stochastic Petri net** | *general* stochastic Petri net — never | Marc, 2026-08-16 |
 | The added pre-intrusion structure | **pre-intrusion overlay** | *synthetic overlay* (repo term — stays out of the chapter) | Marc, 2026-08-17 |
+| The genre identification | **threat model** is the field's recognised term for the section's role; **movement attacker** is this work's name for the model ("we are putting names on things") — the identification is stated **once**, in the §4.2 preamble opener, and after it *movement attacker* carries; *threat model* recurs only when speaking the genre's language against the literature, never as a drifting synonym for our model | bare *threat model* as a name for our model anywhere past the opener — watch (census: 2 — the §4.1.1 heading and the preamble opener) | Marc, 2026-08-20 |
 
 ### Proposed — awaiting Marc's ruling pass
 

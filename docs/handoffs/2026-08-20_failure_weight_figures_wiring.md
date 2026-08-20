@@ -61,8 +61,9 @@ version either way.
 4. **The M3 floor-semantics flag** on the kernel paragraph remains Marc's to
    word — the bands figure draws the correct semantics; wiring must not
    silently resolve the prose flag.
-5. Tactic labels: the Australianisation ruling applies before regeneration
-   (parent handoff, cross-cutting).
+5. Tactic labels: Australianisation RULED (Marc, 2026-08-20) — ATT&CK names
+   keep US spelling in figures (`figure_table_conventions.md` §i); no spelling
+   constraint on regeneration.
 
 ## Validation gate
 

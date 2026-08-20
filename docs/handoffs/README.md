@@ -43,14 +43,14 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
 - [`2026-08-20_section42_figures_tables_appendix.md`](2026-08-20_section42_figures_tables_appendix.md)
   — **the §4.2 figure / table / appendix programme**: Marc's 2026-08-20 ruled
   inventory, the cross-cutting rules, and the open CONFIRMs (fig:l1-graph
-  stays; audit-table columns; threat-model framing; the maybe-appendix
-  renders). The work is split into nine component briefs (2026-08-20, Marc's
+  stays; audit-table columns; the maybe-appendix renders — threat-model
+  framing and Australianisation both RULED 2026-08-20 and recorded). The work
+  is split into nine component briefs (2026-08-20, Marc's
   ask), indexed in that file — figures: model/data-flow diagram,
   controller-mapping bipartite, pipeline redraw, failure-weight wiring;
   tables/appendix: dwell catalogue, full technique graph, L2 classification,
   preliminary-extraction entries, appendix wiring + labels. **Order:** the
-  Australianisation-of-tactic-names ruling before any tactic-labelled figure
-  regenerates; the appendix-wiring brief early (labels the others resolve
+  appendix-wiring brief early (labels the others resolve
   against); failure-weight wiring gated on the v4 re-key ruling in the table
   below. The umbrella retires when the last component ships.
 

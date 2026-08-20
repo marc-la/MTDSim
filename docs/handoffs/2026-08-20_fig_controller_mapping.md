@@ -33,9 +33,9 @@ mapping diagram adds to the argument.)**
 
 ## Considerations
 
-1. **Australianisation ruling first** — tactic labels appear verbatim here;
-   the open "Defense impairment" ruling (2026-08-17) must be taken once before
-   this and every other tactic-labelled figure is generated.
+1. **Australianisation RULED (Marc, 2026-08-20)** — ATT&CK-named tactics keep
+   MITRE's US spelling in figures; the dissertation's own common nouns stay AU
+   (`figure_table_conventions.md` §i). Unblocked.
 2. **Presentation names in the generator spec, never hard-coded corpus facts**
    (the mechanism-not-exception ruling applies to figure tooling).
 3. **Verb names are presentation names too** — `SCAN_HOST` etc. are raw code

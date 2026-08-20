@@ -105,6 +105,13 @@ The examiner stake: Tim French's lit-review feedback (missing images/examples co
 
 ## i) Open choices (flag to Marc before first use, then record here)
 
+- ~~Whether figures Australianise ATT&CK-named tactics~~ **Ruled (Marc,
+  2026-08-20): they do not.** MITRE is not Australian: inside ATT&CK proper
+  names the framework's US spelling stands in figures and tables exactly as in
+  prose ("Defense impairment" in `fig:l1-graph` is correct as drawn —
+  [`literature_conventions.md`](literature_conventions.md) §b4/§c1); the
+  dissertation's own common nouns stay AU ("defence") everywhere. No figure
+  regenerates on spelling grounds.
 - Whether ch3's related-work positioning uses a ✓-matrix (genre §e1) — natural fit for the "prior simulators vs this model" argument, but Marc has not ruled on wanting one.
 - Whether best-in-column marking in results tables is bold (rahman/he style) or underline (buechel style) — recommend bold; needs one ruling before ch5 tables exist.
 - Subfigure mechanics (`subcaption` package is not yet loaded in `dissertation.tex`) — add when the first multi-panel figure lands, not before.

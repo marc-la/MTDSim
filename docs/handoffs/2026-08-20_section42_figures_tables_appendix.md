@@ -134,17 +134,14 @@ for this") — and its defence is the sensitivity analysis, not this table.
    the shared tactic axis, and only if cited from prose — an uncited appendix
    figure is weight without argument. Ask before building.
 
-## Threat-model framing (OPEN — Marc's proposal, 2026-08-20)
+## Threat-model framing — RULED (Marc, 2026-08-20): option (a), applied
 
-§4.2 *is* the dissertation's threat-model definition, and the literature's
-methods genre expects a threat-model section
-([`../workflows/literature_conventions.md`](../workflows/literature_conventions.md)).
-Make the identification explicit. Options: **(a)** one preamble sentence — this
-section defines the threat model, which we term the movement attacker — cheap,
-no skeleton change (recommended); **(b)** retitle the section (e.g. "The threat
-model: the movement attacker") — touches the ratified skeleton heading, so it
-needs his explicit ruling (sentence case, "movement attacker" stays visible).
-Either way the sentence is Marc's to write — no session prose.
+The identification sentence opens the §4.2 preamble, from Marc's dictation
+(transcription-repaired; flags in the tex — "tick off" register, the overlap
+with the next sentence's naming clause). The heading stays "The movement
+attacker". The pair is ratified in the terminology registry: *threat model* =
+the field's genre term, *movement attacker* = this work's name, identification
+stated once. Option (b) (retitle) not taken.
 
 ## Component handoffs (split out 2026-08-20, on Marc's ask — one per unit of work)
 
@@ -170,11 +167,12 @@ above; each becomes a brief only once ruled in.
 
 ## Cross-cutting rules (bind every component)
 
-1. **The Australianisation ruling comes before the batch.** The open
-   "Defense impairment" question (2026-08-17) now touches every tactic-labelled
-   artefact — the mapping figure, the dwell table, the failure matrices, the
-   full graph. One ruling from Marc, then generate; regenerating the family
-   twice is the avoidable cost.
+1. **Australianisation — RULED (Marc, 2026-08-20), the batch is unblocked.**
+   ATT&CK-named tactics keep MITRE's US spelling in every figure and table
+   ("Defense impairment" stands as drawn); the dissertation's own common nouns
+   stay AU ("defence"). Matches `literature_conventions.md` §c1; recorded in
+   `figure_table_conventions.md` §i. No figure regenerates on spelling
+   grounds.
 2. **Captions are dissertation prose.** Session-drafted long captions carry the
    voice.md gate and Marc's voice pass; §4.2's pass-6 voice sweep should run
    *after* captions land, or the captions get a second sweep — sequence
