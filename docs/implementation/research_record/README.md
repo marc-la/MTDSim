@@ -1,14 +1,16 @@
 ---
 status: living
 created: 2026-08-14
-updated: 2026-08-14
+updated: 2026-08-20
 ---
 
 # Research record — the annal mined from Marc's own prompts
 
 **What this is.** The durable record of the research *process* — intent, reversals,
-and abandoned paths — mined from the session-transcript corpus under
-[`../../handoffs/2026-08-06_research_record_from_prompt_corpus.md`](../../handoffs/2026-08-06_research_record_from_prompt_corpus.md).
+and abandoned paths — mined from the session-transcript corpus under the
+2026-08-06 research-record brief (retired 2026-08-20 with Stages 1–3 complete;
+`git log` holds the brief, and the post-metrics delta pass it stayed open for
+now rides this README's re-run instructions).
 The premise, Marc's own: **the prompts are the record of human intent; the
 assistant's output is an execution layer.** Where the two disagree about what the
 research was, the prompts win. Shipped records describe what *is*; this subtree

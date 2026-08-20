@@ -69,21 +69,12 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   (declared-value families first) ordered by claim-bearing weight. Off every
   chain; consumed by Marc directly.
 
-- [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
-  — **the research record**, mined from Marc's own prompts across the session
-  transcripts. Off every chain: it touches no code, gates nothing, and is gated
-  by nothing. Splits deliberately: the annal is `implementation/` material — the
-  notes rubric bans session logs and decision registers outright — and only what
-  the mining *earns* becomes a note. Two outputs beyond the annal: the
-  **abandonments and reversals** no shipped record owns, and a **`record-drifted`
-  flag list** where the thinking moved on and the document did not (flagged for
-  Marc, never actioned). **Stage 0 shipped 2026-08-08; Stages 1–3 remain
-  deferred** while the instruments and records they would be measured against are
-  still moving — the corpus is backed up (`~/mtdsim-corpus-snapshot/2026-08-08/`,
-  checksummed, untracked), the extractor is committed as
-  `tools/prompt_corpus.py` with a self-checking gate, and a second extraction
-  pass is owed once the axis metrics and the Tay decision settle, so **it does
-  not retire at Stage 3**.
+*(The research-record brief retired 2026-08-20 with Stages 1–3 complete — the
+annal is the permanent account
+([`../implementation/research_record/`](../implementation/research_record/),
+whose living README carries the re-run instructions); the post-metrics delta
+pass it stayed open for rides that README now, not a handoff. `git log` holds
+the brief.)*
 
 ---
 
