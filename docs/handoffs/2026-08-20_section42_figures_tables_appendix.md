@@ -146,36 +146,60 @@ model: the movement attacker") — touches the ratified skeleton heading, so it
 needs his explicit ruling (sentence case, "movement attacker" stays visible).
 Either way the sentence is Marc's to write — no session prose.
 
-## Build worklist
+## Component handoffs (split out 2026-08-20, on Marc's ask — one per unit of work)
 
-1. `tools/` generator: the model / data-flow figure (new).
-2. `tools/` generator: the controller-mapping figure (new; reads the tracked
-   mapping artefact).
-3. Extend `l1_attack_graph_figure.py`: full-page technique graph at threshold.
-4. The chapter-opening pipeline figure redraw (thesis ladder, box-and-flow).
-5. Table emitters (LaTeX bodies from tracked artefacts): dwell table +
-   derivation; audit table; rejected partitions; weight sets + ledgers.
-6. Wire the failure-weight figures per the ruling change (after checking the
-   re-key ruling); retire `success_weight_matrix.{tex,pdf}`.
-7. Assign real appendix labels; resolve the double `Appendix~[X]`; add the
-   appendix chapters the new entries need.
-8. Captions: long, self-contained, decoding every encoding, version-pinned —
-   session-drafted captions are listed for Marc's voice pass.
+This file is now the **ruling trail and cross-cutting layer**; the work is
+tracked per component. Each brief starts cold on its own; this file retires
+when the last of them ships.
 
-## Validation gate
+| Component | Brief |
+|---|---|
+| The model / data-flow diagram (primary figure) | [`2026-08-20_fig_model_dataflow_diagram.md`](2026-08-20_fig_model_dataflow_diagram.md) |
+| The controller-mapping bipartite | [`2026-08-20_fig_controller_mapping.md`](2026-08-20_fig_controller_mapping.md) |
+| The chapter-opening pipeline redraw | [`2026-08-20_fig_pipeline_redraw.md`](2026-08-20_fig_pipeline_redraw.md) |
+| The failure-weight family wiring (chapter + appendix residue + success-fig retirement) | [`2026-08-20_failure_weight_figures_wiring.md`](2026-08-20_failure_weight_figures_wiring.md) |
+| The dwell catalogue (chapter table + derivation + exponential entry) | [`2026-08-20_dwell_table_and_derivation.md`](2026-08-20_dwell_table_and_derivation.md) |
+| The full technique-level graph (appendix; carries the fig:l1-graph CONFIRM) | [`2026-08-20_app_full_technique_graph.md`](2026-08-20_app_full_technique_graph.md) |
+| The L2 classification tables (audit + rejected partitions) | [`2026-08-20_app_l2_classification_tables.md`](2026-08-20_app_l2_classification_tables.md) |
+| The preliminary-extraction entries (`app:cooccurrence`) | [`2026-08-20_app_preliminary_extraction_entries.md`](2026-08-20_app_preliminary_extraction_entries.md) |
+| Appendix wiring + labels (run **early**; carries the experiment-1 entry) | [`2026-08-20_appendix_wiring_and_labels.md`](2026-08-20_appendix_wiring_and_labels.md) |
+
+Not spun out (rulings, not work): the threat-model framing (a/b), the
+per-profile-render MAYBE, the four-phase overlay slot — all in the OPEN items
+above; each becomes a brief only once ruled in.
+
+## Cross-cutting rules (bind every component)
+
+1. **The Australianisation ruling comes before the batch.** The open
+   "Defense impairment" question (2026-08-17) now touches every tactic-labelled
+   artefact — the mapping figure, the dwell table, the failure matrices, the
+   full graph. One ruling from Marc, then generate; regenerating the family
+   twice is the avoidable cost.
+2. **Captions are dissertation prose.** Session-drafted long captions carry the
+   voice.md gate and Marc's voice pass; §4.2's pass-6 voice sweep should run
+   *after* captions land, or the captions get a second sweep — sequence
+   deliberately, don't discover it.
+3. **Version pins ride every caption** (§b5): ATT&CK pin, Attack Flow corpus
+   pin, `v2_partial`, `v4_failure_only`. The v19.1 experimental-setup home
+   remains a separate open debt — captions don't discharge it.
+4. **Artefact freshness before every emit** (concurrent sessions mutate
+   `data/`): regenerate from the tracked artefact at build time; a mismatch
+   with a validated number set is stop-and-report.
+5. **No hard-coded corpus facts in generators** (mechanism-not-exception);
+   presentation names are declared spec, counts are computed.
+6. **Print-size check on paper terms** (§g/§h): no glyph under ~8pt equivalent
+   after inclusion scaling; landscape/split before shrink.
+7. **Appendix connective prose is Marc's** — sessions emit floats and flag
+   prose slots, per the no-prose-generation rule.
+8. Figure-pipeline + no-accentuation rulings sit above the conventions file;
+   no value typed anywhere.
+
+## Validation gate (section-level)
 
 No `[figure slot]` or `Appendix~[X|Y]` placeholder left in §4.2; every wired
 float has a conventions-clearing caption; `pdflatex` clean; the CONFIRM/OPEN
-items above each carry Marc's ruling or an explicit deferral.
-
-## Hard constraints
-
-- Figure-pipeline + no-accentuation rulings sit above the conventions file.
-- No value typed: every number in a figure or table flows from a tracked
-  artefact or the generator.
-- No prose generation; caption drafts are flagged for Marc's voice pass.
-- `v4_failure_only` is the go-forward overlay for regenerated failure figures,
-  gated on the re-key ruling.
+items above each carry Marc's ruling or an explicit deferral. Per-component
+gates live in the component briefs.
 
 ## Reading list
 
