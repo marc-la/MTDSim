@@ -634,6 +634,26 @@ most three prioritised moves. Voice is Marc's own gate
     trimmed from the tex to fight bulk. **NEXT: pass 5 (Marc's compression
     --- "this is getting too bulky"), then re-critique on the restructured
     text.**
+  - **L4 pass-5 structural analysis returned in chat (2026-08-19, latest;
+    Marc's ask --- structure not word counts).** Diagnosis: the join problem
+    is stated three times; the parameterisation/mechanics cut is not
+    input-vs-runtime (mapping + failure matrix sit in Mechanics); the
+    controller layer is named once and never used again --- the three
+    declared inputs (mapping / dwell+exponential / failure matrix) are never
+    tied to it; the base-weights passage does upstream definition work where
+    L4 owes only the survivorship consequence; Mechanics has no spine.
+    Proposed skeleton (chat): preamble 2 paragraphs (problem+join;
+    trichotomy+scope) -> .1 = the controller's three declared inputs, one
+    block each, spine sentence TO DICTATE -> .2 = runtime: the loop + the
+    figure, verdicts, run policies (sink retrace; penalty close). Two
+    subsubsections KEPT per the 2026-08-18 two-unit ruling (heading renames
+    = Marc's call; a third heading is a ledger claim). The layer trichotomy
+    does NOT move to the section preamble (ratified four-slot box).
+    **Marc's structure ruling pending; then his pass-5 executes against the
+    plan; then re-scrutiny.** Terminology handoff spun out
+    (2026-08-19_terminology_standardisation.md) --- registry ruled before
+    other sections are drafted; guardrails wired into repair-dictation +
+    scrutinise-draft after the ruling.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
