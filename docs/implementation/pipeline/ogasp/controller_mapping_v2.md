@@ -172,7 +172,32 @@ tests are
 (the end-to-end behaviour). Version 1 produces no dwell-only records at all, so
 the new path is dormant under it and experiment 1's numbers are untouched.
 
-**The figures**, regenerable by `data/misc/_viz/controller_mapping/controller_mapping_v2_viz.py`,
+**The dissertation figure and its table.** This mapping is published for the
+thesis as a pair, both emitted by
+[`../../../../tools/controller_mapping_figure.py`](../../../../tools/controller_mapping_figure.py)
+so the two cannot disagree:
+
+- `fig:controller-mapping` (§4.2.4.1) — the bipartite map itself, which tactic
+  dispatches which action, `docs/thesis/figures/controller_mapping.{tex,pdf}`;
+- `tab:controller-mapping` (appendix, "Why each tactic maps as it does") — the
+  per-row reason, `docs/thesis/tables/controller_mapping_reasons.tex`.
+
+The split is Marc's ruling (2026-08-20): a diagram carries the mapping, and the
+reasoning is table material. The generator reads this version from the registry,
+the tactic axis, display names and ATT&CK version pin from the pinned bundle,
+and the stage bands from `lifecycle_consensus.json`, so neither float can drift
+from the mapping it claims to draw.
+
+Together they supersede the diagnostic PNGs below as the *published* view: those
+stay diagnostic-grade and gitignored, and are never promoted. Three differences
+are deliberate, and are the thesis conventions rather than this record changing
+its mind: the axis is the tactic column (tactics left, verbs right,
+`figure_table_conventions.md` §b6); the six saturated hues give way to greys plus
+the one accent, spent on the dwell-only rows because they are what the figure
+argues; and the verbs are named in domain terms, since a raw code identifier in
+a figure is a named anti-pattern (§g).
+
+**The diagnostic figures**, regenerable by `data/misc/_viz/controller_mapping/controller_mapping_v2_viz.py`,
 which reads both versions from the registry rather than restating them:
 
 - `data/misc/_viz/controller_mapping/controller_mapping_v2.png` — the version-2 map in the same
