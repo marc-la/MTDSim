@@ -654,6 +654,28 @@ most three prioritised moves. Voice is Marc's own gate
     (2026-08-19_terminology_standardisation.md) --- registry ruled before
     other sections are drafted; guardrails wired into repair-dictation +
     scrutinise-draft after the ruling.
+  - **L4 PASS 5 restructure applied to the tex (2026-08-19) on Marc's
+    acceptance of the proposed redraft.** Structure now: preamble (join
+    problem; trichotomy+scope, "beside" folded once, knowledge-and-real-
+    world close) -> **4.2.4.1 renamed "The controller layer"** (from
+    "Parameterisation", Marc's ruling; label subsubsec:controller) opening
+    on his dictated spine sentence (the controller is the join; carries
+    three things: dwell+exponential / tactic-to-verb mapping / failure
+    matrix), one block per input, closing on the promoted "our attack
+    model" sentence -> **4.2.4.2 Mechanics** = runtime loop+figure /
+    verdicts / run policies (penalty close). All approved cuts/moves/
+    rephrases in; base-weights redefinition cut (defined at L1/L2); success
+    matrix unmentioned; the one-arm re-weighting paragraph fixed to
+    success=base-passthrough. Live prose ~2400 -> ~1900 words. **Still
+    open:** the stochastic-nature sentence took his re-dictation ("there is
+    evidence in the literature for stochastic attack behaviour") with
+    holm2014+madan2004+bland2020 wired --- VERIFY the subset; the two figure
+    slots (controller-mapping; the primary data-flow loop, ref placeholder
+    "[data-flow]"); the four-phase overlay figure; Appendix~[X] (experiment-1
+    poor-performance) and Appendix (dwell-derivation + weight sets) debts;
+    ".2 heading may want 'and the join' dropped now that .1 is the controller
+    layer" --- Marc's call. **NEXT: re-scrutiny on the restructured text**
+    (Marc's "more critique after this"), then his final compression.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
