@@ -12,31 +12,31 @@
 \centering
 \scriptsize
 \setlength{\tabcolsep}{4pt}
-\caption[Exfiltration objective: per-flow classification]{Exfiltration objective (\texttt{objective\_exfiltration}, $n=19$): how each flow in the class was classified. \emph{Terminal read} is what the flow's dependency graph gives on its own --- the objective tactic of its terminal techniques, listed beside it --- and \emph{override} records whether the assigned class kept that reading or set it aside for what the sources attest; 12 of the 19 flows here are overridden. \emph{Sources} lists what was read to decide the class: the CTID index blurb, the flow's own narrative or structure, the ATT\&CK Group page where the flow is attributed, and the vendor report, cited by its identifier in Table~\ref{tab:objective-audit-sources}. Corpus: Attack Flow published export v3.1.1 (schema 2.0.0), 38 usable incidents, ATT\&CK Enterprise v19.1. \emph{Author adjudication} marks a flow whose class was settled by a reading of the cited advisory, recorded in the project's audit trail.}
+\caption[Exfiltration objective: per-flow classification]{Exfiltration objective (\texttt{objective\_exfiltration}, $n=19$): how each flow in the class was classified. \emph{Terminal read} is what the flow's dependency graph gives on its own --- the objective tactic of its terminal techniques, listed beside it --- and \emph{override} records whether the assigned class kept that reading or set it aside for what the sources attest; 12 of the 19 flows here are overridden. \emph{Sources} lists what was read to decide the class: the per-flow blurb on the corpus index \citep{ctid2025attackflow}, the flow's own narrative or structure, the ATT\&CK Group page the flow is attributed to \citep{mitre2026attackv19}, and the vendor or government report itself. Corpus: Attack Flow published export v3.1.1 (schema 2.0.0), 38 usable incidents, ATT\&CK Enterprise v19.1. \emph{Author adjudication} marks a flow whose class was settled by a reading of the cited advisory, recorded in the project's audit trail.}
 \label{tab:objective-audit-exfiltration}
 \begin{tabular}{@{}A{0.175\textwidth}A{0.100\textwidth}A{0.245\textwidth}A{0.100\textwidth}A{0.225\textwidth}A{0.045\textwidth}@{}}
 \toprule
 Flow & Terminal read & Terminal tactics & Override & Sources & Conf. \\
 \midrule
-CISA AA22-138B VMWare Workspace (Alt) & neither & Collection, execution & overridden & CTID blurb; flow narrative; author adjudication; V2 & high \\
-CISA AA22-138B VMWare Workspace (TA1) & exfiltration & Exfiltration & maintained & CTID blurb; flow narrative; V2 & high \\
-Cobalt Kitty Campaign & neither & Execution, lateral movement & overridden & CTID blurb; V3 & high \\
-Equifax Breach & neither & Command and control, initial access, reconnaissance, stealth & overridden & CTID blurb; V5 & high \\
+CISA AA22-138B VMWare Workspace (Alt) & neither & Collection, execution & overridden & CTID blurb; flow narrative; author adjudication; \citep{cisaaa22138b} & high \\
+CISA AA22-138B VMWare Workspace (TA1) & exfiltration & Exfiltration & maintained & CTID blurb; flow narrative; \citep{cisaaa22138b} & high \\
+Cobalt Kitty Campaign & neither & Execution, lateral movement & overridden & CTID blurb; \citep{cybereasoncobaltkitty} & high \\
+Equifax Breach & neither & Command and control, initial access, reconnaissance, stealth & overridden & CTID blurb; \citep{csoequifax2020} & high \\
 FIN13 Case 1 & neither & Command and control, credential access, defense impairment, discovery, stealth & overridden & CTID blurb; ATT\&CK G1016 & high \\
 FIN13 Case 2 & exfiltration & Collection, discovery, exfiltration, lateral movement & maintained & CTID blurb; ATT\&CK G1016 & high \\
-Ivanti Vulnerabilities & neither & Collection, command and control, credential access, discovery, persistence, reconnaissance, stealth & overridden & CTID blurb; V8 & high \\
+Ivanti Vulnerabilities & neither & Collection, command and control, credential access, discovery, persistence, reconnaissance, stealth & overridden & CTID blurb; \citep{volexityivanti2024} & high \\
 JP Morgan Breach & neither & Initial access, privilege escalation, resource development & overridden & CTID blurb; flow structure & high \\
 Marriott Breach & neither & Collection, command and control, credential access, reconnaissance, stealth & overridden & CTID blurb; flow structure & high \\
-MITRE NERVE & exfiltration & Command and control, discovery, execution, exfiltration, stealth & maintained & CTID blurb; V10 & high \\
-Muddy Water & impact & Impact, initial access, stealth & overridden & CTID blurb; flow narrative; ATT\&CK G0069; V11 & high \\
+MITRE NERVE & exfiltration & Command and control, discovery, execution, exfiltration, stealth & maintained & CTID blurb; \citep{engenuitynerve} & high \\
+Muddy Water & impact & Impact, initial access, stealth & overridden & CTID blurb; flow narrative; ATT\&CK G0069; \citep{talosmuddywater2022} & high \\
 OceanLotus & neither & (none: cyclic) & overridden & CTID blurb; ATT\&CK G0050 & high \\
 SolarWinds & exfiltration & Command and control, credential access, discovery, exfiltration, persistence & maintained & CTID blurb; ATT\&CK G0016 & high \\
 SWIFT Heist & neither & Command and control, initial access, stealth & overridden & CTID blurb; ATT\&CK G0082 & high \\
 Target Breach & exfiltration & Command and control, exfiltration, initial access, persistence, reconnaissance & maintained & CTID blurb; flow structure & high \\
-ToolShell Vulnerability in Sharepoint & exfiltration & Exfiltration & maintained & CTID blurb; flow narrative; V14 & high \\
+ToolShell Vulnerability in Sharepoint & exfiltration & Exfiltration & maintained & CTID blurb; flow narrative; \citep{unit42sharepoint2025} & high \\
 Turla - Carbon Emulation Plan & neither & Collection, credential access, discovery, initial access, lateral movement, persistence, privilege escalation & overridden & CTID blurb; ATT\&CK G0010 & high \\
 Turla - Snake Emulation Plan & exfiltration & Collection, credential access, discovery, execution, exfiltration, persistence & maintained & CTID blurb; ATT\&CK G0010 & high \\
-Uber Breach & neither & Credential access, resource development & overridden & CTID blurb; flow narrative; ATT\&CK G1004; V15 & high \\
+Uber Breach & neither & Credential access, resource development & overridden & CTID blurb; flow narrative; ATT\&CK G1004; \citep{uberbreach2022} & high \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -45,7 +45,7 @@ Uber Breach & neither & Credential access, resource development & overridden & C
 \centering
 \scriptsize
 \setlength{\tabcolsep}{4pt}
-\caption[Impact objective: per-flow classification]{Impact objective (\texttt{objective\_impact}, $n=7$): how each flow in the class was classified. \emph{Terminal read} is what the flow's dependency graph gives on its own --- the objective tactic of its terminal techniques, listed beside it --- and \emph{override} records whether the assigned class kept that reading or set it aside for what the sources attest; 1 of the 7 flows here are overridden. \emph{Sources} lists what was read to decide the class: the CTID index blurb, the flow's own narrative or structure, the ATT\&CK Group page where the flow is attributed, and the vendor report, cited by its identifier in Table~\ref{tab:objective-audit-sources}. Corpus: Attack Flow published export v3.1.1 (schema 2.0.0), 38 usable incidents, ATT\&CK Enterprise v19.1.}
+\caption[Impact objective: per-flow classification]{Impact objective (\texttt{objective\_impact}, $n=7$): how each flow in the class was classified. \emph{Terminal read} is what the flow's dependency graph gives on its own --- the objective tactic of its terminal techniques, listed beside it --- and \emph{override} records whether the assigned class kept that reading or set it aside for what the sources attest; 1 of the 7 flows here are overridden. \emph{Sources} lists what was read to decide the class: the per-flow blurb on the corpus index \citep{ctid2025attackflow}, the flow's own narrative or structure, the ATT\&CK Group page the flow is attributed to \citep{mitre2026attackv19}, and the vendor or government report itself. Corpus: Attack Flow published export v3.1.1 (schema 2.0.0), 38 usable incidents, ATT\&CK Enterprise v19.1.}
 \label{tab:objective-audit-impact}
 \begin{tabular}{@{}A{0.175\textwidth}A{0.100\textwidth}A{0.245\textwidth}A{0.100\textwidth}A{0.225\textwidth}A{0.045\textwidth}@{}}
 \toprule
@@ -54,7 +54,7 @@ Flow & Terminal read & Terminal tactics & Override & Sources & Conf. \\
 CISA Iranian APT & neither & Credential access & overridden & CTID blurb; flow structure & high \\
 Maastricht University Ransomware & impact & Command and control, credential access, impact, initial access, privilege escalation, reconnaissance & maintained & CTID blurb; flow structure & high \\
 NotPetya & impact & Credential access, discovery, impact, privilege escalation, stealth & maintained & CTID blurb; ATT\&CK G0034 & high \\
-Shamoon & impact & Discovery, impact, lateral movement & maintained & CTID blurb; V13 & high \\
+Shamoon & impact & Discovery, impact, lateral movement & maintained & CTID blurb; \citep{mcafeeshamoon} & high \\
 Sony Malware & impact & Execution, impact, privilege escalation & maintained & CTID blurb; ATT\&CK G0032 & high \\
 Tesla Kubernetes Breach & impact & Collection, impact & maintained & CTID blurb; flow structure & high \\
 WhisperGate & impact & Command and control, impact, stealth & maintained & CTID blurb; ATT\&CK G0034 & high \\
@@ -66,17 +66,17 @@ WhisperGate & impact & Command and control, impact, stealth & maintained & CTID 
 \centering
 \scriptsize
 \setlength{\tabcolsep}{4pt}
-\caption[Double extortion (exfiltration and impact): per-flow classification]{Double extortion (exfiltration and impact) (\texttt{objective\_exfiltration\_impact}, $n=7$): how each flow in the class was classified. \emph{Terminal read} is what the flow's dependency graph gives on its own --- the objective tactic of its terminal techniques, listed beside it --- and \emph{override} records whether the assigned class kept that reading or set it aside for what the sources attest; 6 of the 7 flows here are overridden. \emph{Sources} lists what was read to decide the class: the CTID index blurb, the flow's own narrative or structure, the ATT\&CK Group page where the flow is attributed, and the vendor report, cited by its identifier in Table~\ref{tab:objective-audit-sources}. Corpus: Attack Flow published export v3.1.1 (schema 2.0.0), 38 usable incidents, ATT\&CK Enterprise v19.1. \emph{Author adjudication} marks a flow whose class was settled by a reading of the cited advisory, recorded in the project's audit trail.}
+\caption[Double extortion (exfiltration and impact): per-flow classification]{Double extortion (exfiltration and impact) (\texttt{objective\_exfiltration\_impact}, $n=7$): how each flow in the class was classified. \emph{Terminal read} is what the flow's dependency graph gives on its own --- the objective tactic of its terminal techniques, listed beside it --- and \emph{override} records whether the assigned class kept that reading or set it aside for what the sources attest; 6 of the 7 flows here are overridden. \emph{Sources} lists what was read to decide the class: the per-flow blurb on the corpus index \citep{ctid2025attackflow}, the flow's own narrative or structure, the ATT\&CK Group page the flow is attributed to \citep{mitre2026attackv19}, and the vendor or government report itself. Corpus: Attack Flow published export v3.1.1 (schema 2.0.0), 38 usable incidents, ATT\&CK Enterprise v19.1. \emph{Author adjudication} marks a flow whose class was settled by a reading of the cited advisory, recorded in the project's audit trail.}
 \label{tab:objective-audit-exfiltration-impact}
 \begin{tabular}{@{}A{0.175\textwidth}A{0.100\textwidth}A{0.245\textwidth}A{0.100\textwidth}A{0.225\textwidth}A{0.045\textwidth}@{}}
 \toprule
 Flow & Terminal read & Terminal tactics & Override & Sources & Conf. \\
 \midrule
-Black Basta Ransomware & neither & Credential access, discovery, stealth & overridden & CTID blurb; V1 & high \\
+Black Basta Ransomware & neither & Credential access, discovery, stealth & overridden & CTID blurb; \citep{unit42basta2022} & high \\
 Conti CISA Alert & impact & Credential access, discovery, execution, impact, initial access, lateral movement, reconnaissance, resource development & overridden & CTID blurb; ATT\&CK G0102 & high \\
 Conti PWC & impact & Discovery, execution, impact, initial access, resource development & overridden & CTID blurb; ATT\&CK G0102 & high \\
 Conti Ransomware & impact & Impact, stealth & overridden & CTID blurb; ATT\&CK G0102 & high \\
-Mac Malware Steals Crypto & neither & Discovery, stealth & overridden & CTID blurb; flow narrative; author adjudication; V9 & high \\
+Mac Malware Steals Crypto & neither & Discovery, stealth & overridden & CTID blurb; flow narrative; author adjudication; \citep{unit42maccookies2019} & high \\
 Ragnar Locker & impact & Credential access, execution, impact, initial access, privilege escalation & overridden & CTID blurb; ATT\&CK G0125 & high \\
 REvil & both & Discovery, exfiltration, impact & maintained & CTID blurb; ATT\&CK G0115 & high \\
 \bottomrule
@@ -87,46 +87,17 @@ REvil & both & Discovery, exfiltration, impact & maintained & CTID blurb; ATT\&C
 \centering
 \scriptsize
 \setlength{\tabcolsep}{4pt}
-\caption[No realised objective: per-flow classification]{No realised objective (\texttt{objective\_none\_c2}, $n=5$): how each flow in the class was classified. \emph{Terminal read} is what the flow's dependency graph gives on its own --- the objective tactic of its terminal techniques, listed beside it --- and \emph{override} records whether the assigned class kept that reading or set it aside for what the sources attest; 0 of the 5 flows here are overridden. \emph{Sources} lists what was read to decide the class: the CTID index blurb, the flow's own narrative or structure, the ATT\&CK Group page where the flow is attributed, and the vendor report, cited by its identifier in Table~\ref{tab:objective-audit-sources}. Corpus: Attack Flow published export v3.1.1 (schema 2.0.0), 38 usable incidents, ATT\&CK Enterprise v19.1. \emph{Author adjudication} marks a flow whose class was settled by a reading of the cited advisory, recorded in the project's audit trail.}
+\caption[No realised objective: per-flow classification]{No realised objective (\texttt{objective\_none\_c2}, $n=5$): how each flow in the class was classified. \emph{Terminal read} is what the flow's dependency graph gives on its own --- the objective tactic of its terminal techniques, listed beside it --- and \emph{override} records whether the assigned class kept that reading or set it aside for what the sources attest; 0 of the 5 flows here are overridden. \emph{Sources} lists what was read to decide the class: the per-flow blurb on the corpus index \citep{ctid2025attackflow}, the flow's own narrative or structure, the ATT\&CK Group page the flow is attributed to \citep{mitre2026attackv19}, and the vendor or government report itself. Corpus: Attack Flow published export v3.1.1 (schema 2.0.0), 38 usable incidents, ATT\&CK Enterprise v19.1. \emph{Author adjudication} marks a flow whose class was settled by a reading of the cited advisory, recorded in the project's audit trail.}
 \label{tab:objective-audit-none-c2}
 \begin{tabular}{@{}A{0.175\textwidth}A{0.100\textwidth}A{0.245\textwidth}A{0.100\textwidth}A{0.225\textwidth}A{0.045\textwidth}@{}}
 \toprule
 Flow & Terminal read & Terminal tactics & Override & Sources & Conf. \\
 \midrule
-CISA AA22-138B VMWare Workspace (TA2) & neither & (none: cyclic) & maintained & CTID blurb; flow narrative; V2 & high \\
-DFIR - BumbleBee Round 2 & neither & (none: cyclic) & maintained & CTID blurb; V4 & high \\
-Gootloader & neither & Discovery, execution, initial access, resource development & maintained & CTID blurb; V6 & high \\
-Hancitor DLL & neither & Privilege escalation, reconnaissance & maintained & CTID blurb; V7 & high \\
-SearchAwesome Adware & neither & Stealth & maintained & CTID blurb; flow narrative; author adjudication; V12 & high \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[htbp]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{4pt}
-\caption[Vendor reports read for the classification]{The vendor and government reports read to classify the corpus, cited by identifier in the four tables above. All 15 are the analyst's own citations, carried through from the incident's bundle in the Attack Flow corpus (v3.1.1) rather than sought independently, so a report listed here is one the flow's author named as the basis for the diagram. Where a classification rests on no report --- the flow is unattributed and the CTID blurb carries it alone --- the source cell above says so.}
-\label{tab:objective-audit-sources}
-\begin{tabular}{@{}l A{0.20\textwidth} A{0.62\textwidth}@{}}
-\toprule
-ID & Publisher & Report \\
-\midrule
-V1 & Unit 42 & \url{https://unit42.paloaltonetworks.com/threat-assessment-black-basta-ransomware/} \\
-V2 & CISA & \url{https://www.cisa.gov/uscert/ncas/alerts/aa22-138b} \\
-V3 & Cybereason & \url{https://www.cybereason.com/blog/operation-cobalt-kitty-apt} \\
-V4 & The DFIR Report & \url{https://thedfirreport.com/2022/09/26/bumblebee-round-two/} \\
-V5 & CSO Online & \url{https://www.csoonline.com/article/3444488/equifax-data-breach-faq-what-happened-who-was-affected-what-was-the-impact.html} \\
-V6 & The DFIR Report & \url{https://thedfirreport.com/2022/05/09/seo-poisoning-a-gootloader-story/} \\
-V7 & The DFIR Report & \url{https://thedfirreport.com/2021/11/01/from-zero-to-domain-admin/} \\
-V8 & Volexity & \url{https://www.volexity.com/blog/2024/01/10/active-exploitation-of-two-zero-day-vulnerabilities-in-ivanti-connect-secure-vpn/} \\
-V9 & Unit 42 & \url{https://unit42.paloaltonetworks.com/mac-malware-steals-cryptocurrency-exchanges-cookies/} \\
-V10 & MITRE Engenuity & \url{https://medium.com/mitre-engenuity/technical-deep-dive-understanding-the-anatomy-of-a-cyber-intrusion-080bddc679f3} \\
-V11 & Cisco Talos & \url{https://blog.talosintelligence.com/iranian-apt-muddywater-targets-turkey/} \\
-V12 & Malwarebytes Labs & \url{https://www.malwarebytes.com/blog/news/2018/10/mac-malware-intercepts-encrypted-web-traffic-for-ad-injection} \\
-V13 & McAfee Labs & \url{https://www.mcafee.com/blogs/other-blogs/mcafee-labs/shamoon-returns-to-wipe-systems-in-middle-east-europe/} \\
-V14 & Unit 42 & \url{https://unit42.paloaltonetworks.com/microsoft-sharepoint-cve-2025-49704-cve-2025-49706-cve-2025-53770/} \\
-V15 & Uber Newsroom & \url{https://www.uber.com/newsroom/security-update/} \\
+CISA AA22-138B VMWare Workspace (TA2) & neither & (none: cyclic) & maintained & CTID blurb; flow narrative; \citep{cisaaa22138b} & high \\
+DFIR - BumbleBee Round 2 & neither & (none: cyclic) & maintained & CTID blurb; \citep{dfirbumblebee2022} & high \\
+Gootloader & neither & Discovery, execution, initial access, resource development & maintained & CTID blurb; \citep{dfirgootloader2022} & high \\
+Hancitor DLL & neither & Privilege escalation, reconnaissance & maintained & CTID blurb; \citep{dfirdomainadmin2021} & high \\
+SearchAwesome Adware & neither & Stealth & maintained & CTID blurb; flow narrative; author adjudication; \citep{malwarebytesadware2018} & high \\
 \bottomrule
 \end{tabular}
 \end{table}

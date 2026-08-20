@@ -786,3 +786,146 @@
 %   year      = {2014},
 %   doi       = {10.1145/2663474.2663479}
 % }
+
+
+% =====================================================================
+% The CTI corpus's own vendor and government reports (added 2026-08-20)
+%
+% These are the reports the Attack Flow analysts named as the basis for the
+% incident diagrams, and the sources the L2 objective classification was read
+% from. They are cited per-flow in Appendix~\ref{app:classification-audit}.
+% Grey literature: no DOIs. The ieeetr style drops a `url` field, so each
+% entry carries its URL inside `note` in the IEEE online form --- otherwise
+% the reference list would name a vendor blog post with no way to reach it.
+% Titles VERIFIED 2026-08-20 by fetch except where a VERIFY line says
+% otherwise. Provenance: data/gap/_corpus_stix/*.json -> data/gap/flows/*.yaml
+% `references[]`, joined to metadata_audit.csv `source_used` on the URL host.
+% =====================================================================
+
+@misc{unit42basta2022,
+  author       = {Elsad, Amer},
+  title        = {Threat Assessment: {Black Basta} Ransomware},
+  howpublished = {Unit 42, Palo Alto Networks},
+  year         = {2022},
+  note         = {Published 25~August 2022. [Online]. Available: \url{https://unit42.paloaltonetworks.com/threat-assessment-black-basta-ransomware/}. Accessed 20~August 2026}
+}
+
+%% VERIFY (cisaaa22138b): title and release date read from the project's audit
+%% trail, not by fetch --- cisa.gov returns HTTP 403 to automated retrieval
+%% (recorded in partition_decision.md). The advisory is cited by its identifier,
+%% which is canonical for CISA alerts; confirm the full title before submission.
+@misc{cisaaa22138b,
+  author       = {{Cybersecurity and Infrastructure Security Agency}},
+  title        = {Alert {AA22-138B}},
+  howpublished = {CISA},
+  year         = {2022},
+  note         = {Accessed 20~August 2026. [Online]. Available: \url{https://www.cisa.gov/uscert/ncas/alerts/aa22-138b}. Accessed 20~August 2026}
+}
+
+@misc{cybereasoncobaltkitty,
+  author       = {Dahan, Assaf},
+  title        = {Operation {Cobalt Kitty}: A Large-Scale {APT} in {Asia} Carried Out by the {OceanLotus} Group},
+  howpublished = {Cybereason},
+  year         = {2017},
+  note         = {No publication date shown on the page; accessed 20~August 2026. [Online]. Available: \url{https://www.cybereason.com/blog/operation-cobalt-kitty-apt}. Accessed 20~August 2026}
+}
+
+@misc{dfirbumblebee2022,
+  author       = {{The DFIR Report}},
+  title        = {{BumbleBee}: Round Two},
+  howpublished = {The DFIR Report},
+  year         = {2022},
+  note         = {Published 26~September 2022. [Online]. Available: \url{https://thedfirreport.com/2022/09/26/bumblebee-round-two/}. Accessed 20~August 2026}
+}
+
+@misc{csoequifax2020,
+  author       = {Fruhlinger, Josh},
+  title        = {{Equifax} Data Breach {FAQ}: What Happened, Who Was Affected, What Was the Impact?},
+  howpublished = {CSO Online},
+  year         = {2020},
+  note         = {Published 12~February 2020. [Online]. Available: \url{https://www.csoonline.com/article/3444488/equifax-data-breach-faq-what-happened-who-was-affected-what-was-the-impact.html}. Accessed 20~August 2026}
+}
+
+@misc{dfirgootloader2022,
+  author       = {{The DFIR Report}},
+  title        = {{SEO} Poisoning --- A {Gootloader} Story},
+  howpublished = {The DFIR Report},
+  year         = {2022},
+  note         = {Published 9~May 2022. [Online]. Available: \url{https://thedfirreport.com/2022/05/09/seo-poisoning-a-gootloader-story/}. Accessed 20~August 2026}
+}
+
+@misc{dfirdomainadmin2021,
+  author       = {{The DFIR Report}},
+  title        = {From Zero to Domain Admin},
+  howpublished = {The DFIR Report},
+  year         = {2021},
+  note         = {Published 1~November 2021. [Online]. Available: \url{https://thedfirreport.com/2021/11/01/from-zero-to-domain-admin/}. Accessed 20~August 2026}
+}
+
+@misc{volexityivanti2024,
+  author       = {Meltzer, Matthew and Mora, Robert Jan and Koessel, Sean and Adair, Steven and Lancaster, Tom},
+  title        = {Active Exploitation of Two Zero-Day Vulnerabilities in {Ivanti Connect Secure VPN}},
+  howpublished = {Volexity},
+  year         = {2024},
+  note         = {Published 10~January 2024. [Online]. Available: \url{https://www.volexity.com/blog/2024/01/10/active-exploitation-of-two-zero-day-vulnerabilities-in-ivanti-connect-secure-vpn/}. Accessed 20~August 2026}
+}
+
+@misc{unit42maccookies2019,
+  author       = {Chen, Yue and Zheng, Cong and Hu, Wenjun and Xu, Zhi},
+  title        = {{Mac} Malware Steals Cryptocurrency Exchanges' Cookies},
+  howpublished = {Unit 42, Palo Alto Networks},
+  year         = {2019},
+  note         = {Published 31~January 2019. [Online]. Available: \url{https://unit42.paloaltonetworks.com/mac-malware-steals-cryptocurrency-exchanges-cookies/}. Accessed 20~August 2026}
+}
+
+%% VERIFY (engenuitynerve): title and date read from the publication URL ---
+%% medium.com returns HTTP 403 to automated retrieval. Confirm before submission.
+@misc{engenuitynerve,
+  author       = {{MITRE Engenuity}},
+  title        = {Technical Deep Dive: Understanding the Anatomy of a Cyber Intrusion},
+  howpublished = {MITRE Engenuity},
+  year         = {2024},
+  note         = {Accessed 20~August 2026. [Online]. Available: \url{https://medium.com/mitre-engenuity/technical-deep-dive-understanding-the-anatomy-of-a-cyber-intrusion-080bddc679f3}. Accessed 20~August 2026}
+}
+
+@misc{talosmuddywater2022,
+  author       = {Malhotra, Asheer and Ventura, Vitor},
+  title        = {Iranian {APT MuddyWater} Targets {Turkish} Users via Malicious {PDFs}, Executables},
+  howpublished = {Cisco Talos Intelligence},
+  year         = {2022},
+  note         = {Published 31~January 2022. [Online]. Available: \url{https://blog.talosintelligence.com/iranian-apt-muddywater-targets-turkey/}. Accessed 20~August 2026}
+}
+
+@misc{malwarebytesadware2018,
+  author       = {Reed, Thomas},
+  title        = {{Mac} Malware Intercepts Encrypted Web Traffic for Ad Injection},
+  howpublished = {Malwarebytes Labs},
+  year         = {2018},
+  note         = {Published 24~October 2018. [Online]. Available: \url{https://www.malwarebytes.com/blog/news/2018/10/mac-malware-intercepts-encrypted-web-traffic-for-ad-injection}. Accessed 20~August 2026}
+}
+
+%% VERIFY (mcafeeshamoon): title, author and date read from the publication URL
+%% --- mcafee.com times out to automated retrieval. Confirm before submission.
+@misc{mcafeeshamoon,
+  author       = {{McAfee Labs}},
+  title        = {{Shamoon} Returns to Wipe Systems in {Middle East}, {Europe}},
+  howpublished = {McAfee Labs},
+  year         = {2018},
+  note         = {Accessed 20~August 2026. [Online]. Available: \url{https://www.mcafee.com/blogs/other-blogs/mcafee-labs/shamoon-returns-to-wipe-systems-in-middle-east-europe/}. Accessed 20~August 2026}
+}
+
+@misc{unit42sharepoint2025,
+  author       = {{Unit 42}},
+  title        = {Active Exploitation of {Microsoft SharePoint} Vulnerabilities: Threat Brief},
+  howpublished = {Unit 42, Palo Alto Networks},
+  year         = {2025},
+  note         = {Published 31~July 2025, updated 12~August 2025. [Online]. Available: \url{https://unit42.paloaltonetworks.com/microsoft-sharepoint-cve-2025-49704-cve-2025-49706-cve-2025-53770/}. Accessed 20~August 2026}
+}
+
+@misc{uberbreach2022,
+  author       = {{Uber Technologies}},
+  title        = {Security Update},
+  howpublished = {Uber Newsroom},
+  year         = {2022},
+  note         = {Published 16~September 2022. [Online]. Available: \url{https://www.uber.com/newsroom/security-update/}. Accessed 20~August 2026}
+}

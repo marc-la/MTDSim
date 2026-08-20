@@ -214,32 +214,42 @@ def _host(url: str) -> str:
     return urlparse(url).netloc.replace("www.", "")
 
 
-PUBLISHER = {
-    "unit42.paloaltonetworks.com": "Unit 42",
-    "thedfirreport.com": "The DFIR Report",
-    "blog.talosintelligence.com": "Cisco Talos",
-    "medium.com": "MITRE Engenuity",
-    "cisa.gov": "CISA",
-    "csoonline.com": "CSO Online",
-    "cybereason.com": "Cybereason",
-    "volexity.com": "Volexity",
-    "malwarebytes.com": "Malwarebytes Labs",
-    "mcafee.com": "McAfee Labs",
-    "uber.com": "Uber Newsroom",
+# The corpus's vendor and government reports, keyed by the URL the analyst
+# cited, mapped to their entry in docs/thesis/references.bib. These are real
+# bibliography entries with titles, authors and dates (verified 2026-08-20 by
+# fetch, except the three the bib marks VERIFY) --- a classification cites its
+# source the way any other claim in the thesis does, not as a bare link.
+# A new vendor URL entering the corpus fails loudly below rather than being
+# silently dropped: add the bib entry, then add the key here.
+CITE_KEY = {
+    "https://unit42.paloaltonetworks.com/threat-assessment-black-basta-ransomware/": "unit42basta2022",
+    "https://www.cisa.gov/uscert/ncas/alerts/aa22-138b": "cisaaa22138b",
+    "https://www.cybereason.com/blog/operation-cobalt-kitty-apt": "cybereasoncobaltkitty",
+    "https://thedfirreport.com/2022/09/26/bumblebee-round-two/": "dfirbumblebee2022",
+    "https://www.csoonline.com/article/3444488/equifax-data-breach-faq-what-happened-who-was-affected-what-was-the-impact.html": "csoequifax2020",
+    "https://thedfirreport.com/2022/05/09/seo-poisoning-a-gootloader-story/": "dfirgootloader2022",
+    "https://thedfirreport.com/2021/11/01/from-zero-to-domain-admin/": "dfirdomainadmin2021",
+    "https://www.volexity.com/blog/2024/01/10/active-exploitation-of-two-zero-day-vulnerabilities-in-ivanti-connect-secure-vpn/": "volexityivanti2024",
+    "https://unit42.paloaltonetworks.com/mac-malware-steals-cryptocurrency-exchanges-cookies/": "unit42maccookies2019",
+    "https://medium.com/mitre-engenuity/technical-deep-dive-understanding-the-anatomy-of-a-cyber-intrusion-080bddc679f3": "engenuitynerve",
+    "https://blog.talosintelligence.com/iranian-apt-muddywater-targets-turkey/": "talosmuddywater2022",
+    "https://www.malwarebytes.com/blog/news/2018/10/mac-malware-intercepts-encrypted-web-traffic-for-ad-injection": "malwarebytesadware2018",
+    "https://www.mcafee.com/blogs/other-blogs/mcafee-labs/shamoon-returns-to-wipe-systems-in-middle-east-europe/": "mcafeeshamoon",
+    "https://unit42.paloaltonetworks.com/microsoft-sharepoint-cve-2025-49704-cve-2025-49706-cve-2025-53770/": "unit42sharepoint2025",
+    "https://www.uber.com/newsroom/security-update/": "uberbreach2022",
 }
 
 
-def vendor_ledger(rows: list[dict]) -> tuple[dict[str, str], list[tuple[str, str, str]]]:
-    """The vendor reports the audit actually read, numbered V1..Vn.
+def vendor_citations(rows: list[dict]) -> dict[str, str]:
+    """flow_id -> the \\citep the audit's vendor source resolves to.
 
     Sources live in the tracked corpus, one bundle per flow: the per-flow YAML's
     ``references[]`` is the analyst's own citation list, carried through from
     ``data/gap/_corpus_stix/*.json``. The audit CSV's ``source_used`` records
-    which of them decided the class; this joins the two on the URL host, so the
-    citation printed beside a classification is the report that was read, not a
-    hostname retyped.
+    which of them decided the class. This joins the two on the URL host, then
+    resolves the URL to a bibliography key, so what prints beside a
+    classification is a citation to the report that was actually read.
     """
-    ledger: dict[str, tuple[str, str]] = {}
     per_flow: dict[str, list[str]] = {}
     for r in sorted(rows, key=lambda x: x["flow_id"]):
         refs = [x for x in (load_flow(r["flow_id"]).get("references") or []) if x.get("url")]
@@ -251,13 +261,14 @@ def vendor_ledger(rows: list[dict]) -> tuple[dict[str, str], list[tuple[str, str
             match = next((x for x in refs if want.split(".")[0] in _host(x["url"])), None)
             if match is None:
                 raise SystemExit(f"unjoinable vendor source {want!r} on {r['flow_id']}")
-            url = match["url"]
-            if url not in ledger:
-                name = PUBLISHER.get(_host(url)) or (match.get("source_name") or _host(url)).strip()
-                ledger[url] = (f"V{len(ledger) + 1}", name)
-            per_flow.setdefault(r["flow_id"], []).append(ledger[url][0])
-    out = [(vid, name, url) for url, (vid, name) in ledger.items()]
-    return {k: "; ".join(v) for k, v in per_flow.items()}, out
+            key = CITE_KEY.get(match["url"])
+            if key is None:
+                raise SystemExit(
+                    f"no bibliography entry for {match['url']}\n"
+                    f"  (cited by {r['flow_id']}). Add the @misc to "
+                    f"docs/thesis/references.bib, then its key to CITE_KEY.")
+            per_flow.setdefault(r["flow_id"], []).append(key)
+    return {k: "\\citep{" + ",".join(dict.fromkeys(v)) + "}" for k, v in per_flow.items()}
 
 
 def _sources_cell(row: dict, vendor_ids: str | None) -> str:
@@ -294,7 +305,7 @@ def _pins() -> dict[str, str]:
 
 def write_tex() -> None:
     rows = list(csv.DictReader(open(AUDIT)))
-    vendor_by_flow, ledger = vendor_ledger(rows)
+    vendor_by_flow = vendor_citations(rows)
     by_class: dict[str, list[dict]] = {k: [] for k, _, _ in CLASS_ORDER}
     overridden = 0
     for r in rows:
@@ -336,10 +347,11 @@ def write_tex() -> None:
             "its terminal techniques, listed beside it --- and \\emph{override} records "
             "whether the assigned class kept that reading or set it aside for what the "
             f"sources attest; {n_over} of the {len(rs)} flows here are overridden. "
-            "\\emph{Sources} lists what was read to decide the class: the CTID index "
-            "blurb, the flow's own narrative or structure, the ATT\\&CK Group page where "
-            "the flow is attributed, and the vendor report, cited by its identifier in "
-            "Table~\\ref{tab:objective-audit-sources}. Corpus: Attack Flow published "
+            "\\emph{Sources} lists what was read to decide the class: the per-flow "
+            "blurb on the corpus index \\citep{ctid2025attackflow}, the flow's own "
+            "narrative or structure, the ATT\\&CK Group page the flow is attributed "
+            "to \\citep{mitre2026attackv19}, and the vendor or government report itself. "
+            "Corpus: Attack Flow published "
             f"export {p['flow_corpus']} (schema {p['schema']}), {len(rows)} usable "
             f"incidents, ATT\\&CK Enterprise v{p['attack']}."
         )
@@ -366,37 +378,13 @@ def write_tex() -> None:
         out.append("\\end{table}")
         out.append("")
 
-    out.append("\\begin{table}[htbp]")
-    out.append("\\centering")
-    out.append("\\scriptsize")
-    out.append("\\setlength{\\tabcolsep}{4pt}")
-    out.append(
-        "\\caption[Vendor reports read for the classification]{The vendor and "
-        "government reports read to classify the corpus, cited by identifier in the "
-        f"four tables above. All {len(ledger)} are the analyst's own citations, carried "
-        "through from the incident's bundle in the Attack Flow corpus "
-        f"({p['flow_corpus']}) rather than sought independently, so a report listed here "
-        "is one the flow's author named as the basis for the diagram. Where a "
-        "classification rests on no report --- the flow is unattributed and the CTID "
-        "blurb carries it alone --- the source cell above says so.}")
-    out.append("\\label{tab:objective-audit-sources}")
-    out.append("\\begin{tabular}{@{}l A{0.20\\textwidth} A{0.62\\textwidth}@{}}")
-    out.append("\\toprule")
-    out.append("ID & Publisher & Report \\\\")
-    out.append("\\midrule")
-    for vid, name, url in ledger:
-        out.append(f"{vid} & {_tex(name)} & \\url{{{url}}} \\\\")
-    out.append("\\bottomrule")
-    out.append("\\end{tabular}")
-    out.append("\\end{table}")
-    out.append("")
-
     TEX_OUT.parent.mkdir(parents=True, exist_ok=True)
     TEX_OUT.write_text("\n".join(out))
     print(f"wrote {TEX_OUT}")
     print(f"  {len(rows)} flows; {overridden} overridden / {len(rows) - overridden} maintained")
     print(f"  confidence: {dict(tally)}")
-    print(f"  vendor ledger: {len(ledger)} reports")
+    print(f"  cited reports: {len(set(vendor_by_flow.values()))} distinct citations "
+          f"over {len(vendor_by_flow)} flows")
     print(f"  pins: Attack Flow {p['flow_corpus']} (schema {p['schema']}); "
           f"ATT&CK Enterprise v{p['attack']}")
 
