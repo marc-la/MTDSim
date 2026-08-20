@@ -63,6 +63,14 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   §4.2.2 and the ch4 findings note. Depends on the drafting context above;
   blocks nothing else.
 
+- [`2026-08-20_section42_figures_tables_appendix.md`](2026-08-20_section42_figures_tables_appendix.md)
+  — **the §4.2 figure / table / appendix build**: Marc's 2026-08-20 ruled
+  inventory (three in-prose figures, one table, the consolidated appendix
+  ledger) plus the open CONFIRMs (fig:l1-graph stays; audit-table columns;
+  threat-model framing; the maybe-appendix renders). Depends on the drafting
+  context above for the ruling trail; its failure-figure wiring is gated on the
+  v4 re-key ruling in the table below.
+
 - [`2026-08-13_validation_triage.md`](2026-08-13_validation_triage.md) — **the
   validation map**: every contribution enumerated on the capture/model/evaluate
   spine with its existing verification artefacts, and the manual-review queue

@@ -676,6 +676,8 @@ most three prioritised moves. Voice is Marc's own gate
     ".2 heading may want 'and the join' dropped now that .1 is the controller
     layer" --- Marc's call. **NEXT: re-scrutiny on the restructured text**
     (Marc's "more critique after this"), then his final compression.
-  - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
-    the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
-    comparison (§4.2.2).
+  - ~~Appendix debts now three~~ **Superseded 2026-08-20:** the full appendix
+    ledger (nine entries) and the ruled figure/table set now live in
+    [`2026-08-20_section42_figures_tables_appendix.md`](2026-08-20_section42_figures_tables_appendix.md)
+    — Marc's 2026-08-20 dictated rulings; that handoff is the figures pass's
+    brief and the single inventory.
