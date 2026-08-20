@@ -22,14 +22,14 @@ a rough transcript — anything read through ambiguity carries a CONFIRM.
 
 | Artefact | State |
 |---|---|
-| `fig:l1-graph` (`l1_attack_graph.{tex,pdf}`, `tools/l1_attack_graph_figure.py`) | live in §4.2.1, three prose refs; caption owed Marc's voice pass |
+| `fig:l1-graph` (`l1_attack_graph.{tex,pdf}`, `tools/l1_attack_graph_figure.py`) | **NOT wired** (corrected 2026-08-20 at the appendix pass): the PDF exists and §4.2.1 carries three prose refs, but there is no `figure` environment for it anywhere in the tex — the refs have read `??` since 2026-08-17. Marc ruled the wiring to the graph brief, which carries the keep-or-remove CONFIRM; caption still owed his voice pass |
 | `fig:pipeline` (chapter opening) | placeholder PNG, commented out; awaiting the box-and-flow redraw to the thesis ladder (V7) — **rework re-flagged (ruled 2026-08-20)**: current pipeline diagram too large, redraw at this pass |
 | `failure_weight_matrix.{tex,pdf}` | generated (rule letters A–I in cells), not yet wired |
 | `failure_weight_decomposition.{tex,pdf}` | generated, not yet wired |
 | `distance_kernel_bands.{tex,pdf}` | generated, appendix-bound |
 | `success_weight_matrix.{tex,pdf}` | **retired** — v4_failure_only ruling; the chapter never mentions the success matrix. Do not wire; remove at this pass so it cannot land by accident |
 | Diagnostic viz (`data/misc/_viz/controller_mapping/`, `ckc_lifecycle/`, `data/gasp/_viz/` per-profile renders) | composition reference only — never promote a PNG; anything chapter- or appendix-bound is regenerated as TikZ |
-| Appendix skeleton | `app:proposal`, `app:sensitivity`, `app:cooccurrence` exist as chapters. **Label collision:** two distinct `Appendix~[X]` placeholders — §4.2.2 (rejected partitions, l.450) and §4.2.4.1 (experiment-1 record, l.738). Assign distinct labels at wiring |
+| Appendix skeleton | **DONE 2026-08-20.** Structure ruled by Marc: one sectioned chapter `app:movement` (B.1–B.6) in pipeline order, `app:sensitivity` and `app:cooccurrence` kept as their own chapters. The `[X]` collision is resolved into `app:rejected-partitions` and `app:experiment-one`, `[Y]` into `app:classification-audit`; `fig:movement-dataflow` and `fig:controller-mapping` reserved. Ledger below |
 
 ## In-prose figures (three)
 
@@ -159,11 +159,58 @@ when the last of them ships.
 | The full technique-level graph (appendix; carries the fig:l1-graph CONFIRM) | [`2026-08-20_app_full_technique_graph.md`](2026-08-20_app_full_technique_graph.md) |
 | The L2 classification tables (audit + rejected partitions) | [`2026-08-20_app_l2_classification_tables.md`](2026-08-20_app_l2_classification_tables.md) |
 | The preliminary-extraction entries (`app:cooccurrence`) | [`2026-08-20_app_preliminary_extraction_entries.md`](2026-08-20_app_preliminary_extraction_entries.md) |
-| Appendix wiring + labels (run **early**; carries the experiment-1 entry) | [`2026-08-20_appendix_wiring_and_labels.md`](2026-08-20_appendix_wiring_and_labels.md) |
+| ~~Appendix wiring + labels~~ | **SHIPPED 2026-08-20**, brief retired — every other component now has its label; `git log` holds the brief, the ledger it produced is the section below |
 
 Not spun out (rulings, not work): the threat-model framing (a/b), the
 per-profile-render MAYBE, the four-phase overlay slot — all in the OPEN items
 above; each becomes a brief only once ruled in.
+
+## The label ledger — wired 2026-08-20, every component's target
+
+The appendix-wiring pass ran first, as planned, and every component below now
+has a real `\label` to land on. **Do not delete a section without pruning its
+`\ref` in the same commit** — concurrent sessions read the tex, and a half-wired
+label is the state that rule exists to prevent.
+
+| Label | Home | Owed by |
+|---|---|---|
+| `app:full-graph` | §B.1 | [`2026-08-20_app_full_technique_graph.md`](2026-08-20_app_full_technique_graph.md) |
+| `app:classification-audit` | §B.2 | [`2026-08-20_app_l2_classification_tables.md`](2026-08-20_app_l2_classification_tables.md) |
+| `app:rejected-partitions` | §B.3 | [`2026-08-20_app_l2_classification_tables.md`](2026-08-20_app_l2_classification_tables.md) |
+| `app:dwell-derivation` | §B.4 | [`2026-08-20_dwell_table_and_derivation.md`](2026-08-20_dwell_table_and_derivation.md) |
+| `app:weight-sets` | §B.5 | [`2026-08-20_failure_weight_figures_wiring.md`](2026-08-20_failure_weight_figures_wiring.md) |
+| `app:experiment-one` | §B.6 | — filled at the wiring pass (`tab:experiment-one`) |
+| `fig:movement-dataflow` | §4.2.4.2 | [`2026-08-20_fig_model_dataflow_diagram.md`](2026-08-20_fig_model_dataflow_diagram.md) |
+| `fig:controller-mapping` | §4.2.4.1 | [`2026-08-20_fig_controller_mapping.md`](2026-08-20_fig_controller_mapping.md) |
+| `fig:l1-graph` | §4.2.1 | [`2026-08-20_app_full_technique_graph.md`](2026-08-20_app_full_technique_graph.md) — see below |
+| `fig:pipeline` | ch4 opening | [`2026-08-20_fig_pipeline_redraw.md`](2026-08-20_fig_pipeline_redraw.md) |
+
+Each figure ref is **live and reads `??`** until its brief lands the float. That
+is deliberate: a loud, tracked debt beats a silent `[data-flow]` string that
+would ship unnoticed. Six such references stand; each closes with its brief.
+
+**What the wiring pass found, for the briefs that inherit it:**
+
+- **`fig:l1-graph` was never wired** (the "What already exists" row is corrected
+  above). Marc ruled 2026-08-20 that the graph brief owns the decision — wire it
+  or prune the three prose refs, but do not leave it as it is. `fig:pipeline` is
+  the redraw brief's equivalent.
+- **Two generated table bodies already exist and nothing `\input`s them:**
+  `docs/thesis/tables/objective_classification_audit.tex` and
+  `outcome_overlay_weights.tex`. Check them against the brief's column spec and
+  for freshness before regenerating from scratch; the §B.2 and §B.5 tex comments
+  carry the same flag.
+- **Short captions are now mandatory** on every float — `\caption[short]{long…}`,
+  ruled into `figure_table_conventions.md` §c and demonstrated on
+  `tab:experiment-one`. Long decoding captions (§b2) flood the Lists of
+  Figures/Tables without it.
+- **`subcaption` is not loaded and should not be** (conventions §i, closed at the
+  wiring pass on the session's recommendation): panel letters are drawn in-TikZ
+  family-wide, as `fig:l1-graph` already does. Multi-panel floats stay single
+  `figure` environments with one caption decoding each panel in turn.
+- **`\includepdf` page numbering is fine** — appendix A runs pp. 15–21 and B
+  opens at p. 22; included pages are counted and following chapters follow
+  cleanly.
 
 ## Cross-cutting rules (bind every component)
 
