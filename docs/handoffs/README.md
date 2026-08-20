@@ -47,7 +47,8 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   framing and Australianisation both RULED 2026-08-20 and recorded). The work
   is split into nine component briefs (2026-08-20, Marc's
   ask), indexed in that file — figures: model/data-flow diagram,
-  controller-mapping bipartite, pipeline redraw, failure-weight wiring;
+  controller-mapping bipartite, failure-weight wiring (the pipeline
+  redraw shipped 2026-08-20);
   tables/appendix: dwell catalogue, full technique graph, L2 classification,
   preliminary-extraction entries, appendix wiring + labels. **Order:** the
   appendix-wiring brief early (labels the others resolve

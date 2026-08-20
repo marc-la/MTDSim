@@ -153,7 +153,7 @@ when the last of them ships.
 |---|---|
 | The model / data-flow diagram (primary figure) | [`2026-08-20_fig_model_dataflow_diagram.md`](2026-08-20_fig_model_dataflow_diagram.md) |
 | The controller-mapping bipartite | [`2026-08-20_fig_controller_mapping.md`](2026-08-20_fig_controller_mapping.md) |
-| The chapter-opening pipeline redraw | [`2026-08-20_fig_pipeline_redraw.md`](2026-08-20_fig_pipeline_redraw.md) |
+| ~~The chapter-opening pipeline redraw~~ | **SHIPPED 2026-08-20**, brief retired — `fig:pipeline` live as `pipeline_ladder` (`tools/pipeline_ladder_figure.py`); see the ruling note below |
 | The failure-weight family wiring (chapter + appendix residue + success-fig retirement) | [`2026-08-20_failure_weight_figures_wiring.md`](2026-08-20_failure_weight_figures_wiring.md) |
 | The dwell catalogue (chapter table + derivation + exponential entry) | [`2026-08-20_dwell_table_and_derivation.md`](2026-08-20_dwell_table_and_derivation.md) |
 | The full technique-level graph (appendix; carries the fig:l1-graph CONFIRM) | [`2026-08-20_app_full_technique_graph.md`](2026-08-20_app_full_technique_graph.md) |
@@ -183,11 +183,58 @@ label is the state that rule exists to prevent.
 | `fig:movement-dataflow` | §4.2.4.2 | [`2026-08-20_fig_model_dataflow_diagram.md`](2026-08-20_fig_model_dataflow_diagram.md) |
 | `fig:controller-mapping` | §4.2.4.1 | [`2026-08-20_fig_controller_mapping.md`](2026-08-20_fig_controller_mapping.md) |
 | `fig:l1-graph` | §4.2.1 | [`2026-08-20_app_full_technique_graph.md`](2026-08-20_app_full_technique_graph.md) — see below |
-| `fig:pipeline` | ch4 opening | [`2026-08-20_fig_pipeline_redraw.md`](2026-08-20_fig_pipeline_redraw.md) |
+| ~~`fig:pipeline`~~ | ch4 opening | **WIRED 2026-08-20** — `pipeline_ladder` |
 
 Each figure ref is **live and reads `??`** until its brief lands the float. That
 is deliberate: a loud, tracked debt beats a silent `[data-flow]` string that
-would ship unnoticed. Six such references stand; each closes with its brief.
+would ship unnoticed. Five such references now stand (`fig:pipeline` closed 2026-08-20); each closes with its brief.
+
+## `fig:pipeline` — what Marc ruled at the redraw, 2026-08-20
+
+The redraw brief's spec (plain rectangles, stages left→right, per-stage content
+kept to a phrase) is **superseded by Marc's dictation of the same day**, which
+kept the placeholder's strengths and named what to change. What he ruled:
+
+1. **Keep the per-stage visual content** — the symbolism and positioning were
+   the placeholder's strength and carry forward. The complaint was page fit and
+   genre, not detail.
+2. **Focus on movement → controller → the join.** The action layer is
+   *background*: abstracted to attacker / network / defender, subdued, with the
+   detail (the verb FSM, the three HARM layers, the MTD mechanism list) gone.
+3. **Break the controller layer down** — it has multiple aspects and they
+   should be visible: the failure matrix, the tactic-to-verb mapping, and the
+   dwell times with the exponential draw.
+4. **Standardise the terminology, drop the acronyms, cut the words.** No CTI /
+   GAP / GASP / HARM / raw class identifiers on the face; the layer names are
+   the registry's (movement / controller / action).
+5. **Treat every fact in the placeholder as false and revalidate.** It was:
+   membership read `19 / 6 / 8 / 5` under the retired spec labels
+   (`pure_steal`, `pure_impediment`, `infrastructure_setup`) against the ruled
+   `19 / 7 / 7 / 5` and the chapter's own names; the controller was drawn as
+   `15 tactics ⇄ 6 verbs` (the retired total mapping) rather than
+   `v2_partial`'s 8 mapped / 7 dwell-only; and the transition probabilities and
+   technique ids on its net face had no live artefact behind them. The
+   generator now reads **every** number from a tracked artefact and prints a
+   fact sheet.
+6. **No title, no in-figure summary paragraph.** The caption is the title, and
+   the caption itself is **Marc's, on a later prompt** — the tex carries a
+   minimal accurate stand-in plus the decode checklist it must satisfy.
+
+**One overlap to watch, flagged not resolved.** Ruling (3) puts the three
+controller inputs on this figure, which the model/data-flow brief also claims.
+They are kept disjoint by *what they show of them*: `fig:pipeline` draws the
+controller's **anatomy** (three declared inputs as static glyphs, and a two-way
+join summarised as four labelled edges — tactic down, re-weighting up; verb
+down, verdict up); `fig:movement-dataflow` owes the **runtime loop** — the
+ordering, the time consumed in the discrete-event simulator, the verdict
+propagation and the dwell-only branch that returns none. The data-flow brief
+should be read against this seam before it draws, and should not redraw the
+glyphs as objects.
+
+**Pre-existing debt this pass did not touch:** `fig:l1-graph` is still
+unwired — three live `\ref`s, no float, and `l1_attack_graph.tex/.pdf` are
+deleted in a concurrent session's working tree. That is the graph brief's call
+(above), unchanged by this one.
 
 **What the wiring pass found, for the briefs that inherit it:**
 

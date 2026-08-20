@@ -114,6 +114,19 @@ The examiner stake: Tim French's lit-review feedback (missing images/examples co
   [`literature_conventions.md`](literature_conventions.md) §b4/§c1); the
   dissertation's own common nouns stay AU ("defence") everywhere. No figure
   regenerates on spelling grounds.
+- **Ladder orientation in the chapter-opening pipeline figure — session
+  decision, Marc's confirmation owed.** §b6 fixes the *tactic* axis as
+  left→right in kill-chain order, and §d1's exemplar runs its *stages*
+  left→right too. `fig:pipeline` (2026-08-20 redraw) cannot do both at
+  \textwidth: five stages of graph content side by side is illegible on a
+  single-column page. It therefore runs the **ladder top→bottom** and gives the
+  horizontal to the shared tactic axis, so L0's flow rows, L1's technique
+  columns, L2's profile rows and L3's places all sit over one axis and the
+  transformations read as one continuous structure. §b6 is satisfied (the
+  tactic axis is left→right and never reordered); §d1's stage direction is
+  the part traded. Recommend adopting this as the house pattern for
+  full-page framework figures; flag if you want it turned.
+
 - Whether ch3's related-work positioning uses a ✓-matrix (genre §e1) — natural fit for the "prior simulators vs this model" argument, but Marc has not ruled on wanting one.
 - Whether best-in-column marking in results tables is bold (rahman/he style) or underline (buechel style) — recommend bold; needs one ruling before ch5 tables exist.
 - ~~Subfigure mechanics~~ **Closed (2026-08-20, appendix-wiring pass — session recommendation applied; overturn by loading the package).** `subcaption` is **not** loaded and should not be. `fig:l1-graph` already draws its panel letters inside the TikZ picture and its three prose refs address them as `Figure~\ref{fig:l1-graph}a`; adopting `subcaption` now would mean either regenerating that figure to strip the drawn letters or carrying two panel-lettering mechanisms in one family. The in-TikZ pattern is therefore the family-wide one: panel letters are drawn by the generator, the overall caption carries the shared message and decodes each panel in turn (§b2, §b3), and multi-panel floats stay single `figure` environments. The cost is that panels get no separate List-of-Figures line and no independent `\ref` target — accepted, since the corpus's own multi-panel figures (hong2018 Fig. 5, brown2023 Figs. 4–5) are cited as wholes.
