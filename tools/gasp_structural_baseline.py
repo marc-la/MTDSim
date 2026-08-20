@@ -177,6 +177,8 @@ def write_descriptive() -> None:
 
 
 TEX_OUT = ROOT / "docs" / "thesis" / "tables" / "objective_classification_audit.tex"
+FLOWS_DIR = ROOT / "data" / "gap" / "flows"
+GAP_JSON = ROOT / "data" / "gap" / "gap_v0.5.json"
 CLASS_ORDER = [
     ("steal_data", "objective_exfiltration", "Exfiltration objective"),
     ("impediment", "objective_impact", "Impact objective"),
@@ -185,16 +187,83 @@ CLASS_ORDER = [
 ]
 READ_LABEL = {"exfil": "exfiltration", "impact": "impact", "both": "both", "neither": "neither"}
 
+# Tactic display names, shared with the appendix figures so a tactic is spelled
+# the same wherever the thesis prints it (conventions §g: no raw identifiers in
+# a float; §i: ATT&CK's own US spelling inside proper names).
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from gap_appendix_figures import TACTIC_LABEL  # noqa: E402
+
+
+def _tactic_list(tactics: list[str]) -> str:
+    if not tactics:
+        return "(none: cyclic)"
+    return ", ".join(TACTIC_LABEL.get(t, t).lower() for t in tactics).capitalize()
+# The chapter's own count at subsec:attack-profiles: "19 of the 38 attack flows
+# land in a different category from the one defined by the terminal tactic
+# alone". The override column IS that count, so it is gated here.
+EXPECT_OVERRIDDEN = 19
+
 
 def _tex(s: str) -> str:
     return (s.replace("\\", "\\textbackslash{}").replace("&", "\\&").replace("%", "\\%")
              .replace("$", "\\$").replace("#", "\\#").replace("_", "\\_"))
 
 
-def _source_label(src: str) -> str:
-    """Compress the audit's source_used token string to a printable source list."""
-    parts = []
-    for tok in src.split("+"):
+def _host(url: str) -> str:
+    from urllib.parse import urlparse
+    return urlparse(url).netloc.replace("www.", "")
+
+
+PUBLISHER = {
+    "unit42.paloaltonetworks.com": "Unit 42",
+    "thedfirreport.com": "The DFIR Report",
+    "blog.talosintelligence.com": "Cisco Talos",
+    "medium.com": "MITRE Engenuity",
+    "cisa.gov": "CISA",
+    "csoonline.com": "CSO Online",
+    "cybereason.com": "Cybereason",
+    "volexity.com": "Volexity",
+    "malwarebytes.com": "Malwarebytes Labs",
+    "mcafee.com": "McAfee Labs",
+    "uber.com": "Uber Newsroom",
+}
+
+
+def vendor_ledger(rows: list[dict]) -> tuple[dict[str, str], list[tuple[str, str, str]]]:
+    """The vendor reports the audit actually read, numbered V1..Vn.
+
+    Sources live in the tracked corpus, one bundle per flow: the per-flow YAML's
+    ``references[]`` is the analyst's own citation list, carried through from
+    ``data/gap/_corpus_stix/*.json``. The audit CSV's ``source_used`` records
+    which of them decided the class; this joins the two on the URL host, so the
+    citation printed beside a classification is the report that was read, not a
+    hostname retyped.
+    """
+    ledger: dict[str, tuple[str, str]] = {}
+    per_flow: dict[str, list[str]] = {}
+    for r in sorted(rows, key=lambda x: x["flow_id"]):
+        refs = [x for x in (load_flow(r["flow_id"]).get("references") or []) if x.get("url")]
+        for tok in r["source_used"].split("+"):
+            tok = tok.strip()
+            if not tok.startswith("vendor:"):
+                continue
+            want = tok.split(":", 1)[1].split("(")[0].strip().replace("www.", "")
+            match = next((x for x in refs if want.split(".")[0] in _host(x["url"])), None)
+            if match is None:
+                raise SystemExit(f"unjoinable vendor source {want!r} on {r['flow_id']}")
+            url = match["url"]
+            if url not in ledger:
+                name = PUBLISHER.get(_host(url)) or (match.get("source_name") or _host(url)).strip()
+                ledger[url] = (f"V{len(ledger) + 1}", name)
+            per_flow.setdefault(r["flow_id"], []).append(ledger[url][0])
+    out = [(vid, name, url) for url, (vid, name) in ledger.items()]
+    return {k: "; ".join(v) for k, v in per_flow.items()}, out
+
+
+def _sources_cell(row: dict, vendor_ids: str | None) -> str:
+    """What was read to decide this flow's class, as printable citations."""
+    parts: list[str] = []
+    for tok in row["source_used"].split("+"):
         tok = tok.strip()
         if tok == "ctid_blurb":
             parts.append("CTID blurb")
@@ -203,53 +272,131 @@ def _source_label(src: str) -> str:
         elif tok == "in_flow_only":
             parts.append("flow structure")
         elif tok.startswith("attack_group:"):
-            parts.append("ATT\\&CK " + tok.split(":", 1)[1])
+            parts.append("ATT\\&CK " + _tex(tok.split(":", 1)[1]))
         elif tok.startswith("vendor:"):
-            host = tok.split(":", 1)[1]
-            host = host.split("(")[0]  # drop the route annotation
-            host = host.replace("www.", "")
-            parts.append(_tex(host))
+            continue  # rendered from the ledger, below
+        elif tok.startswith("marc_ruling"):
+            parts.append("author adjudication")
         else:
             parts.append(_tex(tok))
+    if vendor_ids:
+        parts.append(vendor_ids)
     return "; ".join(parts)
+
+
+def _pins() -> dict[str, str]:
+    g = json.loads(GAP_JSON.read_text())
+    ref = g["corpus_ref"]
+    return {"flow_corpus": ref.split("@", 1)[1].split(" ", 1)[0] if "@" in ref else ref,
+            "attack": g["attack_source"].replace("enterprise-attack-", ""),
+            "schema": g["attack_flow_schema_version"]}
 
 
 def write_tex() -> None:
     rows = list(csv.DictReader(open(AUDIT)))
+    vendor_by_flow, ledger = vendor_ledger(rows)
     by_class: dict[str, list[dict]] = {k: [] for k, _, _ in CLASS_ORDER}
+    overridden = 0
     for r in rows:
-        flow = load_flow(r["flow_id"])
-        read, techs, tacs = read_terminal(flow)
+        read, techs, tacs = read_terminal(load_flow(r["flow_id"]))
+        exact, _ = concordance(read, r["stated_objective"])
         r["_read"] = READ_LABEL[read]
-        r["_tacs"] = ", ".join(tacs) if tacs else "(none: cyclic)"
+        r["_tacs"] = _tactic_list(tacs)
+        r["_override"] = "maintained" if exact else "overridden"
+        r["_sources"] = _sources_cell(r, vendor_by_flow.get(r["flow_id"]))
+        overridden += 0 if exact else 1
         by_class[r["stated_objective"]].append(r)
     tally = Counter(r["metadata_confidence"] for r in rows)
+    if overridden != EXPECT_OVERRIDDEN:
+        raise SystemExit(
+            f"REFUSING TO EMIT: {overridden} flows overridden, the chapter says "
+            f"{EXPECT_OVERRIDDEN}. Reconcile subsec:attack-profiles before regenerating.")
+    p = _pins()
+
     out = []
-    out.append("% GENERATED by tools/gasp_structural_baseline.py --tex from data/gasp/metadata_audit.csv")
-    out.append("% (terminal read = Def A, the L1 contraction; see")
-    out.append("%  docs/implementation/pipeline/gasp/structural_baseline.md). Do not hand-edit;")
-    out.append("%  regenerate. Requires booktabs (already in the preamble).")
-    out.append("% Confidence tally at generation: " + ", ".join(f"{k} {tally[k]}" for k in ("high", "medium", "low")) + " of 38.")
+    out.append("% GENERATED by tools/gasp_structural_baseline.py --tex from")
+    out.append("%   data/gasp/metadata_audit.csv (classification, confidence, sources read) and")
+    out.append("%   data/gap/flows/*.yaml (the analyst's own citation list, carried through from")
+    out.append("%   the tracked corpus bundles in data/gap/_corpus_stix/). Terminal read = Def A,")
+    out.append("%   the L1 contraction; see docs/implementation/pipeline/gasp/structural_baseline.md.")
+    out.append("% Do not hand-edit; regenerate. Requires booktabs + array (both in the preamble).")
+    out.append(f"% At generation: {len(rows)} flows, {overridden} overridden / "
+               f"{len(rows) - overridden} maintained, confidence "
+               + ", ".join(f"{k} {tally[k]}" for k in ("high", "medium", "low")) + ".")
+    out.append("")
+    out.append("\\newcolumntype{A}[1]{>{\\raggedright\\arraybackslash}p{#1}}")
     out.append("")
     for csv_label, tactic_label, title in CLASS_ORDER:
         rs = by_class[csv_label]
+        n_over = sum(1 for r in rs if r["_override"] == "overridden")
+        cap = (
+            f"{title} (\\texttt{{{_tex(tactic_label)}}}, $n={len(rs)}$): "
+            "how each flow in the class was classified. \\emph{Terminal read} is what "
+            "the flow's dependency graph gives on its own --- the objective tactic of "
+            "its terminal techniques, listed beside it --- and \\emph{override} records "
+            "whether the assigned class kept that reading or set it aside for what the "
+            f"sources attest; {n_over} of the {len(rs)} flows here are overridden. "
+            "\\emph{Sources} lists what was read to decide the class: the CTID index "
+            "blurb, the flow's own narrative or structure, the ATT\\&CK Group page where "
+            "the flow is attributed, and the vendor report, cited by its identifier in "
+            "Table~\\ref{tab:objective-audit-sources}."
+        )
+        if any("author adjudication" in r["_sources"] for r in rs):
+            cap += (" \\emph{Author adjudication} marks a flow whose class was settled "
+                    "by a reading of the cited advisory, recorded in the project's audit "
+                    "trail.")
         out.append("\\begin{table}[htbp]")
-        out.append("\\centering\\small")
-        out.append(f"\\caption{{{title} (\\texttt{{{_tex(tactic_label)}}}, $n={len(rs)}$): per-flow terminal read against the stated objective, with the source that decides the class and the audit confidence.}}")
+        out.append("\\centering")
+        out.append("\\scriptsize")
+        out.append("\\setlength{\\tabcolsep}{4pt}")
+        out.append(f"\\caption[{_tex(title)}: per-flow classification]{{{cap}}}")
         out.append(f"\\label{{tab:objective-audit-{tactic_label.replace('objective_', '').replace('_', '-')}}}")
-        out.append("\\begin{tabular}{@{}p{0.26\\textwidth}p{0.10\\textwidth}p{0.19\\textwidth}p{0.26\\textwidth}p{0.07\\textwidth}@{}}")
+        out.append("\\begin{tabular}{@{}A{0.175\\textwidth}A{0.100\\textwidth}A{0.245\\textwidth}"
+                   "A{0.100\\textwidth}A{0.225\\textwidth}A{0.045\\textwidth}@{}}")
         out.append("\\toprule")
-        out.append("Flow & Terminal read & Terminal tactics & Source & Conf. \\\\")
+        out.append("Flow & Terminal read & Terminal tactics & Override & Sources & Conf. \\\\")
         out.append("\\midrule")
         for r in sorted(rs, key=lambda x: x["flow_id"]):
-            out.append(f"{_tex(r['flow_name'])} & {r['_read']} & {_tex(r['_tacs'])} & {_source_label(r['source_used'])} & {r['metadata_confidence']} \\\\")
+            out.append(f"{_tex(r['flow_name'])} & {r['_read']} & {_tex(r['_tacs'])} & "
+                       f"{r['_override']} & {r['_sources']} & {r['metadata_confidence']} \\\\")
         out.append("\\bottomrule")
         out.append("\\end{tabular}")
         out.append("\\end{table}")
         out.append("")
+
+    out.append("\\begin{table}[htbp]")
+    out.append("\\centering")
+    out.append("\\scriptsize")
+    out.append("\\setlength{\\tabcolsep}{4pt}")
+    out.append(
+        "\\caption[Vendor reports read for the classification]{The vendor and "
+        "government reports read to classify the corpus, cited by identifier in the "
+        f"four tables above. All {len(ledger)} are the analyst's own citations, carried "
+        "through from the incident's bundle in the Attack Flow corpus "
+        f"({p['flow_corpus']}) rather than sought independently, so a report listed here "
+        "is one the flow's author named as the basis for the diagram. Where a "
+        "classification rests on no report --- the flow is unattributed and the CTID "
+        "blurb carries it alone --- the source cell above says so.}")
+    out.append("\\label{tab:objective-audit-sources}")
+    out.append("\\begin{tabular}{@{}l A{0.20\\textwidth} A{0.62\\textwidth}@{}}")
+    out.append("\\toprule")
+    out.append("ID & Publisher & Report \\\\")
+    out.append("\\midrule")
+    for vid, name, url in ledger:
+        out.append(f"{vid} & {_tex(name)} & \\url{{{url}}} \\\\")
+    out.append("\\bottomrule")
+    out.append("\\end{tabular}")
+    out.append("\\end{table}")
+    out.append("")
+
     TEX_OUT.parent.mkdir(parents=True, exist_ok=True)
     TEX_OUT.write_text("\n".join(out))
-    print("wrote", TEX_OUT)
+    print(f"wrote {TEX_OUT}")
+    print(f"  {len(rows)} flows; {overridden} overridden / {len(rows) - overridden} maintained")
+    print(f"  confidence: {dict(tally)}")
+    print(f"  vendor ledger: {len(ledger)} reports")
+    print(f"  pins: Attack Flow {p['flow_corpus']} (schema {p['schema']}); "
+          f"ATT&CK Enterprise v{p['attack']}")
 
 
 def main(check: bool = False) -> int:

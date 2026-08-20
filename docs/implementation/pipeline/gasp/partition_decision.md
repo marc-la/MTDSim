@@ -16,6 +16,32 @@ lineage: formerly docs/notes @ 2026-05-28_l2_partition_decision.md (relocated in
 > re-attribute evidence to labels that did not exist when it was taken. Crosswalk:
 > [`gasp_schema.md`](gasp_schema.md) §(c).
 
+> **Stale numbers — do not transcribe from this record (added 2026-08-20).**
+> Four figures below no longer hold, found when the appendix's rejected-partition
+> table was generated against the current audit CSV. The record is left as
+> written, as its labels are: it is investigation history. Recompute instead with
+> `PYTHONPATH=src python tools/gasp_partition_candidates.py`, which prints every
+> one of them.
+>
+> - **P2's cardinality.** "15-class" here, and "v0.4 30-bucket" in
+>   [`gasp_schema.md`](gasp_schema.md) §(b), neither reproduces. Under the pinned
+>   Def A there are **36** distinct terminal-technique sets across the 38 flows
+>   (34 held by one flow alone), drawn from 88 distinct terminal techniques, and
+>   two flows are cyclic with no terminal technique at all.
+> - **The double-extortion count.** Six throughout this record; the 2026-08-17
+>   rulings moved the split to **19 / 7 / 7 / 5**, so it is seven. P5's
+>   multi-membership arithmetic re-derives to **26 / 14 / 5**, 45 memberships
+>   over 38 flows.
+> - **Confidence.** "6 / 38 low" here; the CSV is now **38 / 38 high**.
+> - **The JSD table contradicts itself** — P6's technique JSD is given as 0.317
+>   in the table's note and 0.302 in the reading paragraph — as well as predating
+>   the 2026-08-17 rulings. It is why no discrimination number went onto the
+>   appendix float: recomputing would mean materialising all five schemes.
+>
+> What *does* still reproduce, exactly: the terminal read (7 / 11 / 1 / 19), the
+> reach read (10 / 10 / 3 / 15), and both concordance counts
+> ([`structural_baseline.md`](structural_baseline.md)).
+
 > **Provenance banner.** This note records the investigation that produced
 > GASP. The canonical spec is now at
 > [`../specs/02_gasp_schema.md`](gasp_schema.md) — read this
