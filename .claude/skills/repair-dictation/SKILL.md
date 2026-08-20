@@ -69,6 +69,27 @@ here** rather than leaving the knowledge in chat.
 | all paths | OR paths |
 | the logical end | the logical AND |
 | general (the net) | generalised (ruled term: "generalised", never "general") |
+| Apgujeet | APT group |
+| Alchemrani / Al Shamrani | Alshamrani |
+| sticks / the stick starter set | STIX / the STIX (?) set — second half unresolved, flag |
+| empty evaluation | MTD evaluation |
+| the tech players | threat actors (verify-listed once, 2026-08-17) |
+| Jacquard | Jaccard |
+| for this joint (graphs) | four disjoint (graphs) |
+| attack grass | attack graphs |
+| objective condition (attacker/graph) | objective-conditioned |
+| Sea appendix | see Appendix |
+| attack web corpus / attack bloat corpus / blue corpus | Attack Flow corpus |
+| the older floors | whole flows |
+| AP2 group | APT group |
+| terminal taxi | terminal tactic |
+| petitions | partitions |
+| a heave against | behave against |
+| the six data set | the STIX data set |
+| mother (has decided) | MITRE (has decided) |
+| attachment motivation | attacker's motivation |
+| rich (exfiltration) | reach (exfiltration) |
+| attack files (objective-conditioned) | attack profiles |
 
 ### Danger minimal pairs — a mishear flips a claim, always verify-list these
 
@@ -80,6 +101,14 @@ here** rather than leaving the knowledge in chat.
 - Project names: GSPN / Petri / GAP / GASP / OGASP / MTDSim / HARM /
   Engenuity / CTID; people: Jin, Hong, Alshamrani, Rodríguez, Rahman,
   Büchel, Brown, Zhang, Ho, Tay.
+- **Background speech (backchat).** Marc sometimes dictates with other
+  people talking nearby; fragments that do not parse against the argument
+  ("spend the money", "how does that react") are dropped and **listed in the
+  change log as dropped backchat**, never repaired into text. Where a burst
+  sits inside one of his sentences, repair the gap minimally and flag the
+  seam as `[3b]` for him to confirm. Watch hardest for self-corrections that
+  *look* like backchat ("No, not an issue, this is a feature") — keep those,
+  resolved to the second form, and flag.
 - **Drop disfluencies** ("um", "you know", "right", "yes so", false starts,
   self-corrections) — clean-verbatim. Keep rhetorical questions, emphasis,
   and spoken idiom: they are voice, not noise.
@@ -99,7 +128,7 @@ Four sweeps over the repaired text, in order:
    "stuff" (flag if deletion breaks the sentence — replacement noun is
    Marc's), "just", "very, very" → "very", emphatic "did" ("did toss" →
    "tossed"), sentence-initial "So" / "And so" / "And yes" / "Yep OK so",
-   "I would say", "what we did is", "the key with this is" (keep if
+   "I would say", "what we did is", "OK", "Well" (sentence-initial), "the key with this is" (keep if
    load-bearing), doubled connectives ("So therefore" → keep one). Rule: if
    deleting leaves a grammatical sentence, delete and move on; else smallest
    word-level repair, logged.

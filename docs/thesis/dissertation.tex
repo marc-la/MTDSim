@@ -339,6 +339,82 @@ would have to deal with regardless of our input.
 \subsection{L2: Objective-conditioned attack profiles}
 \label{subsec:attack-profiles}
 
+% ---- Pass 5b, 2026-08-17: Marc's further cuts applied --- the "idea to
+% ---- capture" opener, the numbers clause, the second concession, the
+% ---- skeleton close all gone; the concession reparented to P4 as his one
+% ---- confidence sentence; the operator point as his one characteristic
+% ---- sentence + the Conti example. Deletions + his dictated sentences only.
+
+The literature tells us that APT attackers are not a homogeneous group,
+and so they are distinguished by campaign-level intent. You cannot
+produce an APT attack model that you could consider as behavioural,
+because the L1 aggregate carries so many different motivations and
+objectives which influence behaviour \citep{alshamrani2019}.
+
+Motivation is something that we cannot ascertain. We can see what an
+APT group did; at the end of the day this is an analyst inference.
+Motivation, although it is a taxonomy that is built into STIX and is
+well defined, is left unpopulated in the ATT\&CK STIX data set, in
+ATT\&CK groups and in Attack Flow. Objective then becomes what the
+attacker has been observed to have done, and this is evident through
+the attack flows that the analysts drew.
+
+We are extrapolating the literature and saying the prefix is invariant,
+so we are going to treat the prefix of attackers as invariant and we are
+going to look at the terminal tactic \citep{alshamrani2019}. Attack Flow
+is composite data, with structure and dependency manually drawn to a
+high level of fidelity; however, coverage is an issue. Attack Flow also
+uses and operationalises the MITRE ATT\&CK framework, but it does not
+limit itself to its taxonomy, and so the attack flows can have nodes
+which do not directly map to the MITRE framework, which the prior levels
+in the pipeline removed. Some of the attack flows could be left
+incomplete, and that is why we had to cross-reference the objective,
+because we could not rely on the objective tactic alone.
+% [3b, standing] "we are going to" x2; citation here and in P1; "removed".
+
+Hence, we landed on a four-way partition based on the shape of our
+corpus. Terminal tactic is the primary evidence for objective, but we
+cross-checked against the CTID blurb, against the ATT\&CK page, against
+vendor reports. That is why 19 of the 38 attack flows land in a
+different category than the one defined by the terminal tactic alone
+(see Appendix~[Y]). There is exfiltration objective (19), impact
+objective (7), double extortion (which we define as containing both
+impact and exfiltration in the same attack flow) (7), and no realised
+objective (5). This partitioning that we chose, we have judged this is
+the right balance for corpus coverage: the smallest attack profile has a
+minimum of five flows, which provides enough coverage. Six other
+partitions were considered and dismissed (see Appendix~[X]).
+% [CUT per ruling (pass 5c): the rhetorical question "is this the right
+%      objective for the incident?"; the parenthetical "(impact,
+%      exfiltration, both, or neither)"; the "Through this criteria ..."
+%      confidence sentence (duplication). Confidence basis now implicit in
+%      the cross-check sentence; 38/38 rides in Appendix~[Y].]
+% [3b] "based on the shape of our corpus" --- still up for "based on the
+%      terminal tactic".
+
+They are not four disjoint graphs, because they come from the same
+aggregate. They differ by what transitions exist. Granted, some of the
+flows that come from the same APT attacker, where there are multiple
+incidents, go to the same objective attack profile, and this shows that
+the motivation of these APT attackers typically translates to similar
+objectives. Three of the seven
+flows in the double extortion profile come from one APT group, Conti,
+which is known for double extortion, so we are not surprised there.
+% [CUT per ruling: "The idea is to capture ..." (fluff); the numbers
+%      clause ": the four profiles share twelve tactics, and what
+%      distinguishes them is the objective tactic ..." (not yours); the
+%      skeleton close paragraph.]
+% [TRANSPLANTED, repaired: "As a characteristic of the flows ... single-
+%      digit number of APT groups" from your ruling.]
+% [ONE FLAG, then dropped: the cut clause was the record's verified "what
+%      distinguishes them" (the objective tactic; tactic_profile_statistics
+%      8). "They differ by what transitions exist" is now the unit's only
+%      structural statement of what L2 hands L3. Reinstate in your words or
+%      leave --- your call, not re-raised.]
+% [APPLIED: "As a characteristic ... single-digit number of APT groups"
+%      cut; the Granted sentence re-dictated (APT group; objective attack
+%      profile).]
+
 % 1 unit (L3). The formalism, the alternatives ranked in a sentence each
 % (a feasibility study sits behind the choice; single-token walk over
 % per-objective net structure). Answers model, with the next one.

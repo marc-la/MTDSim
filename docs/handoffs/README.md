@@ -40,6 +40,29 @@ carried, and `git log` the record of the briefs themselves. The axis-8
 timing-channel re-examination retired the same day in the commits that shipped
 its work (the D-08 regime ruling and the criterion's dated amendment).
 
+- [`2026-08-16_drafting_movement_attacker_section.md`](2026-08-16_drafting_movement_attacker_section.md)
+  — **the §4.2 drafting context** (standing; retires with the section). Two
+  validation handoffs spun out of the §4.2.2 passes on 2026-08-17, both
+  gating numbers the chapter will cite and both to run in fresh sessions:
+  [`2026-08-17_l2_classification_confidence_validation.md`](2026-08-17_l2_classification_confidence_validation.md)
+  (one structural baseline for the 13→19→15 number trail; can the composite
+  terminal-tactic + CTI approach reach 38/38 high confidence) and
+  the tactic-resolution validation (independent re-derivation of the
+  profile numbers; the null ruling) — **retired 2026-08-17** in the commits
+  that shipped
+  [`tactic_profile_statistics.md`](../implementation/pipeline/gasp/tactic_profile_statistics.md):
+  size-matched null and tactic-to-tactic resolution ruled, gate pinned, the
+  partition's warrant reconciled with the structural null. The
+  classification-confidence one **retired 2026-08-17 too** (`83a6d0b`,
+  `3c35870`, `f309c07`): baseline pinned, 38 / 38 high, Marc's three
+  membership rulings applied (19 / 7 / 7 / 5), L2–L3 rebuilt — record
+  [`structural_baseline.md`](../implementation/pipeline/gasp/structural_baseline.md).
+  What it leaves is prose, not numbers:
+  [`2026-08-17_post_ruling_chapter_numbers.md`](2026-08-17_post_ruling_chapter_numbers.md)
+  — carry 19 / 7 / 7 / 5, the pinned baseline and the 38 / 38 column into
+  §4.2.2 and the ch4 findings note. Depends on the drafting context above;
+  blocks nothing else.
+
 - [`2026-08-13_validation_triage.md`](2026-08-13_validation_triage.md) — **the
   validation map**: every contribution enumerated on the capture/model/evaluate
   spine with its existing verification artefacts, and the manual-review queue

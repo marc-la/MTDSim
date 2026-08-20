@@ -103,6 +103,31 @@ attaches to. Rules unchanged, only the presentation moves:
 - The no-generation rule binds inside comments too: a comment names the gap and the
   grounding document; it never supplies the fixed wording.
 
+### The flag taxonomy for inline comments (ratified by Marc, 2026-08-17)
+
+Every inline comment opens with **one flag** from this closed set, then its
+priority (`M1`–`M3` or `[minor]`), then the grounding document. The flag tells
+Marc what *he* does with it; the set is deliberately small so it becomes
+reflex. Flags name the action, never supply the words.
+
+| flag | meaning | what Marc does |
+|---|---|---|
+| `[WRONG]` | a fact, number or attribution contradicts the record / data — the correct value and its source are named | replace the fact; wording his |
+| `[INSERT]` | an argument or disclosure the record has earned is missing here — named, with its document | dictate the missing point |
+| `[SCOPE]` | overclaim, badge-ceiling breach, or a claim that belongs to another chapter (pre-claiming ch5/ch6, re-describing ch2) | pull the claim back to what is earned, or move it |
+| `[REFRAME]` | right content, wrong frame or emphasis — the frame the record supports is named | re-cast the point |
+| `[REORDER]` | the sentence/paragraph belongs elsewhere — where, and why | move it |
+| `[TIGHTEN]` | the point is made twice, or in more words than it earns — which sentence carries it is named | cut to that sentence |
+| `[EXPAND]` | too terse / abrupt — a claim without its evidence leg or its "so what" — what it needs is named | add the leg |
+| `[CUT]` | does not earn its budget or is ruled out (appendix material, apology, flourish) | delete |
+| `[VERIFY]` | a number or citation gated on a validation artefact or an anchor not yet in the bib | confirm before it enters prose |
+| `[KEEP]` | works — and *why* (calibrates the scrutineer as much as a negative flag) | nothing |
+| `[3b]` | word choice / hedge / self-correction left for Marc's register walk (inherited from `repair-dictation`) | choose |
+
+Rules: one flag per comment (if two apply, split the comment); the three
+priority moves are still at most three, each built from the flags it bundles;
+`[KEEP]` is used, not hoarded — a draft with no `[KEEP]` is under-calibrated.
+
 ## Boundaries
 
 - **Not prose review** — rhythm, tells, and voice belong to `voice.md` and
