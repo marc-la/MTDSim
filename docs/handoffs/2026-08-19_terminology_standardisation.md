@@ -41,6 +41,26 @@ pilot.
   attacker naming pair (V5); "attack profiles"; "generalised stochastic
   Petri net"; sentence-case, no-acronym headings; Australian English.
 
+## Progress (2026-08-20 — pass-6 session)
+
+Steps 1–2 executed; the enforcement home moved by Marc's 2026-08-20 ask:
+
+- **Registry created:** [`../workflows/terminology.md`](../workflows/terminology.md)
+  — the eight clusters seeded with census counts from `dissertation.tex`
+  (2026-08-20). Six rows RATIFIED from existing rulings (movement/baseline
+  attacker, the layer trichotomy, attack profiles, GSPN, pre-intrusion
+  overlay); four rows PROPOSED with one recommendation each (simulator
+  naming, the operation noun — recommendation *verb*, anchored on the ruled
+  "tactic-to-verb mapping" phrase — the weight object post-v4, dwell time).
+- **Primary enforcement is now pass 6**, the `voice-pass` skill (sweep 3):
+  ratified rows enforced as batch proposals per section, new clusters
+  harvested into the registry as PROPOSED rows. Back-apply to §4.2 (step 5)
+  happens as pass 6's first run on the section.
+- **Still open:** Marc's single ruling pass over the PROPOSED table (step 3);
+  then the `repair-dictation` `[term]` sweep and the `scrutinise-draft`
+  consistency row (step 4 — deliberately deferred until the ruling, per this
+  handoff's own plan).
+
 ## Recommended approach
 
 1. **Census.** A small script (or disciplined grep) over
