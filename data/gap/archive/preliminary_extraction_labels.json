@@ -1,0 +1,67 @@
+{
+  "_comment": [
+    "Editorial text for tab:preliminary-extraction (app:cooccurrence). Text lives",
+    "here, never in the generator: tools carry no corpus facts, and this file is",
+    "what a voice pass edits. Every NUMBER in the table is computed by",
+    "tools/preliminary_extraction_table.py from the built artefacts --- none is",
+    "recorded here.",
+    "",
+    "SESSION-DRAFTED (2026-08-20). Flagged for Marc's voice pass; the appendix's",
+    "framing paragraph is Marc's and is not drafted anywhere in this repo."
+  ],
+  "question": "How is dependency between tactics obtained?",
+  "modes": [
+    {
+      "key": "co_occurrence",
+      "name": "Co-occurrence mining",
+      "evidence_source": "co_occurrence",
+      "artefact": "v0_4",
+      "rests_on": "two techniques being used by the same actor or tool",
+      "direction_from": "assumed tactic ordering",
+      "why_not": "Association is symmetric, so the ordering had to be assumed rather than learned; and because a total order admits no backward edge, no loop could be expressed."
+    },
+    {
+      "key": "keyword",
+      "name": "Keyword extraction",
+      "evidence_source": "ontology",
+      "artefact": "v0_4",
+      "rests_on": "precondition wording in a technique's own description",
+      "direction_from": "assumed tactic ordering",
+      "why_not": "A description that names another technique is cross-referencing it, not asserting a dependency on it; direction again came from the assumption."
+    },
+    {
+      "key": "attack_flow",
+      "name": "Attack Flow",
+      "evidence_source": "attack_flow",
+      "artefact": "v0_4",
+      "adopted": true,
+      "rests_on": "a dependency an analyst drew in one incident",
+      "direction_from": "the analyst's drawing",
+      "why_not": "Adopted."
+    }
+  ],
+  "not_attempted": {
+    "note": "ruled out on the literature and never run, named here so the table cannot be read as reporting them.",
+    "modes": [
+      "Natural-language extraction from threat-intelligence prose",
+      "Process mining over incident event logs"
+    ]
+  },
+  "shipped_axis_fold": {
+    "_why": [
+      "The shipped L1 (v0.5) resolves on this project's 15-tactic axis, which splits",
+      "ATT&CK's defense-evasion into stealth and defense-impairment. The superseded",
+      "v0.4 profile resolves on stock ATT&CK's 14. Folding the split back is what",
+      "makes the caption's shipped figure comparable with the table body instead of",
+      "quoting two coverage fractions against two different denominators."
+    ],
+    "stealth": "defense-evasion",
+    "defense-impairment": "defense-evasion"
+  },
+  "display": {
+    "_why": "Presentation names for artefact pins (conventions \u00a7g: never a raw identifier in a float).",
+    "v0_4_attack_source": "ATT\\&CK Enterprise",
+    "v0_5_corpus": "Attack Flow corpus v3.1.1",
+    "v0_5_attack_source": "ATT\\&CK Enterprise v19.1"
+  }
+}

@@ -358,9 +358,11 @@ is an attacker agent traversing MTDSim, guided by our attack profiles.
 % off at ~400 words (leave-and-forget until the next editing round).
 % OPEN, recorded in the handoff: (a) the unit sits at ~1.6 ledger
 % units --- a further cut or an explicit named overdraft at the ledger
-% pass; (b) appendix entries owed (app:cooccurrence: the co-occurrence
-% runs --- 80% confidence threshold, CONFIRM --- and the keyword-mining
-% results); (c) v19.1 pin still needs a home in sec:experimental-setup;
+% pass; (b) DISCHARGED 2026-08-20 --- app:cooccurrence is filled
+% (Table~\ref{tab:preliminary-extraction}); its framing paragraph is the
+% only prose still owed there, and the 80% CONFIRM is STRUCK, not
+% resolved (see the note at the appendix chapter); (c) v19.1 pin still
+% needs a home in sec:experimental-setup;
 % (d) the cycles-preserved sentence was cut at pass 5 --- the L3 unit
 % must now introduce loop preservation itself (readers default to
 % assuming attack graphs are acyclic).
@@ -382,8 +384,26 @@ maintains a documented attack-behaviour corpus spanning 2017 to 2024.
 Other approaches were considered to produce this corpus for our
 pipeline. Co-occurrence mining gave low coverage and keyword
 mining poor fidelity (Appendix~\ref{app:cooccurrence}).
-% CONFIRM: the appendix entries pin the numbers (the 80% confidence
-% threshold, the single-digit edge counts) --- both entries owed.
+% CONFIRM DISCHARGED (2026-08-20). Appendix~D now carries the entry as one
+% table. Neither number this comment asked for survived contact with the
+% record: the 80% threshold is in no committed artefact (see the appendix
+% chapter's note), and "single-digit edge counts" matches nothing --- the
+% runs produced 42 and 60 technique edges. Both are struck rather than
+% pinned, and the appendix deliberately quotes NO threshold.
+%
+% What the appendix DOES license, read at tactic resolution --- which is
+% where "low coverage" is true, and it is true relative to Attack Flow, as
+% Marc means it: of the 182 transitions 14 tactics admit, co-occurrence
+% recovered 19 (10%) and keyword extraction 25 (14%), against Attack Flow's
+% 91 (50%) on the same build and 113 (62%) in the graph that ships.
+% So the sentence above stands as written; the appendix supplies its scale.
+%
+% AVAILABLE, not taken (Marc's call at the next editing round): the one
+% argument the chapter does not yet make is that co-occurrence takes its
+% direction from an assumed tactic ordering, so it can express no loop at
+% all --- while this graph preserves loops deliberately. That is a
+% structural incapacity rather than a tuning complaint, and it is immune to
+% the threshold question. One sentence, if the ledger can carry it.
 NLP-based approaches we ruled out as a class: we judged the relatively
 low fidelity of the threat intelligence they produce to be something
 we could not defend over the life of the project
@@ -1698,14 +1718,60 @@ Hosts & $0.18 \pm 0.12$ & $0.46 \pm 0.22$ & $-0.28 \pm 0.19$ \\
 
 
 
-% Owed (Marc's rulings, 2026-08-16): brief entries documenting BOTH
-% preliminary extraction attempts --- the co-occurrence runs
-% (single-digit edge counts above the 80% confidence threshold ---
-% CONFIRM the 80%) and the keyword-mining/regex tests (the poor-fidelity
-% results) --- anchoring the abandonment claims in
-% subsec:technique-graph.
+% FILLED 2026-08-20. The owed entry is one table, not two: the entry answers
+% ONE question --- how is dependency between tactics obtained? --- and the
+% two abandoned modes are rows under it, so a reader compares them down a
+% column instead of across two floats.
+%
+% The 80% CONFIRM this comment used to carry is STRUCK, not resolved.
+% Searched end to end: design schema v0.1/v0.2/v0.3, the miner (committed
+% once, never amended) and all nine versions of the build notebook specify
+% support 0.1 / confidence 0.6 with a median cut. The only 0.8 in the code
+% is the constant the keyword extractor stamped on its own edges. Marc's
+% recollection of an 80% co-occurrence threshold is of a run made in
+% uncommitted working state and cannot be sourced --- so the table quotes
+% NO threshold, and neither should the prose. Same for the
+% "single-digit edge counts": that number is not in any artefact either.
+%
+% Marc's abstraction ruling (2026-08-20): the April parameters moved around,
+% so nothing threshold-sensitive is printed --- no support, confidence,
+% median cut, lift or corroboration count. What is printed either cannot
+% move with any parameter (what a dependency rests on; where its direction
+% comes from) or is a relative comparison at tactic resolution, stamped to
+% its build. An entry built this way cannot be falsified by a threshold
+% nobody can source.
+%
+% PROSE OWED --- MARC'S. One short framing paragraph before the table, and
+% nothing else. What it must carry, and no more: (a) the question, in the
+% terms the project opened in --- the campaign corpus gives tradecraft
+% without structure or dependency, and something had to supply the ordering
+% between tactics; (b) that two modes were built and run, and one class
+% (NLP) and one further route (process mining) were ruled out on the
+% literature and never run --- that boundary must stay legible, because the
+% table reports only what was RUN; (c) hand off to the table. Do NOT
+% relitigate the abandonment: gap_schema.md Decision 1 owns that ruling and
+% subsec:technique-graph states the claim; this entry only evidences it.
+%
+% Two concrete failures worth a clause each if the paragraph has room ---
+% both come off the run log, neither is threshold-sensitive:
+%   * keyword: T1110 (Brute Force)'s ATT&CK description says adversaries may
+%     "brute force access to [Valid Accounts]" --- a cross-reference, which
+%     the extractor read as a precondition and emitted as four separate
+%     edges off the one sentence, direction inverted.
+%   * co-occurrence: T1059 was the source of 24 of the 42 mined edges,
+%     because it is the most-used technique in ATT&CK (560 of 952 actors
+%     and tools) --- the rules recorded that it is common, not that
+%     anything depends on it.
+%
+% OPEN, for Marc: the chapter label is still app:cooccurrence, which names
+% one of two modes and is cited in live prose at subsec:technique-graph.
+% Recommend renaming to app:preliminary-extraction (the chapter title
+% already reads that way) --- a one-line change in two places, left undone
+% because it edits Marc's sentence.
 \chapter{Preliminary corpus extraction runs}
 \label{app:cooccurrence}
+
+\input{tables/preliminary_extraction}
 
 
 % =====================================================================
