@@ -40,6 +40,7 @@ REQUIRED_ENTRY_FIELDS = (
     "not_tuned",
     "sweep_range",
     "source",
+    "short_justification",
     "justification",
 )
 
