@@ -64,12 +64,18 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   blocks nothing else.
 
 - [`2026-08-20_section42_figures_tables_appendix.md`](2026-08-20_section42_figures_tables_appendix.md)
-  — **the §4.2 figure / table / appendix build**: Marc's 2026-08-20 ruled
-  inventory (three in-prose figures, one table, the consolidated appendix
-  ledger) plus the open CONFIRMs (fig:l1-graph stays; audit-table columns;
-  threat-model framing; the maybe-appendix renders). Depends on the drafting
-  context above for the ruling trail; its failure-figure wiring is gated on the
-  v4 re-key ruling in the table below.
+  — **the §4.2 figure / table / appendix programme**: Marc's 2026-08-20 ruled
+  inventory, the cross-cutting rules, and the open CONFIRMs (fig:l1-graph
+  stays; audit-table columns; threat-model framing; the maybe-appendix
+  renders). The work is split into nine component briefs (2026-08-20, Marc's
+  ask), indexed in that file — figures: model/data-flow diagram,
+  controller-mapping bipartite, pipeline redraw, failure-weight wiring;
+  tables/appendix: dwell catalogue, full technique graph, L2 classification,
+  preliminary-extraction entries, appendix wiring + labels. **Order:** the
+  Australianisation-of-tactic-names ruling before any tactic-labelled figure
+  regenerates; the appendix-wiring brief early (labels the others resolve
+  against); failure-weight wiring gated on the v4 re-key ruling in the table
+  below. The umbrella retires when the last component ships.
 
 - [`2026-08-13_validation_triage.md`](2026-08-13_validation_triage.md) — **the
   validation map**: every contribution enumerated on the capture/model/evaluate
