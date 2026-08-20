@@ -164,7 +164,7 @@ when the last of them ships.
 
 | Component | Brief |
 |---|---|
-| The model / data-flow diagram (primary figure) | [`2026-08-20_fig_model_dataflow_diagram.md`](2026-08-20_fig_model_dataflow_diagram.md) |
+| ~~The model / data-flow diagram (primary figure)~~ | **SHIPPED 2026-08-20**, brief retired — `fig:movement-dataflow` live (`tools/movement_dataflow_figure.py`): the runtime loop as six numbered band-to-band edges, net schematic, controller inputs as emblems (the fig:pipeline seam honoured), dwell-only visible twice, confusion penalty deliberately absent; caption session-drafted, owed the voice pass |
 | ~~The controller-mapping bipartite~~ | **SHIPPED 2026-08-20**, brief retired — `fig:controller-mapping` live (`tools/controller_mapping_figure.py`), with the per-row reasoning split to `tab:controller-mapping` in §B.5 on Marc's ruling; record: [`../implementation/pipeline/ogasp/controller_mapping_v2.md`](../implementation/pipeline/ogasp/controller_mapping_v2.md) |
 | ~~The chapter-opening pipeline redraw~~ | **SHIPPED 2026-08-20**, brief retired — `fig:pipeline` live as `pipeline_ladder` (`tools/pipeline_ladder_figure.py`); see the ruling note below |
 | ~~The failure-weight family wiring~~ | **SHIPPED 2026-08-20**, brief retired — one chapter float (all three views), the bands figure + three tables in §B.6, `success_weight_matrix` deleted; record: [`../implementation/pipeline/ogasp/failure_weight_decomposition.md`](../implementation/pipeline/ogasp/failure_weight_decomposition.md) §5.2 |
@@ -194,7 +194,7 @@ label is the state that rule exists to prevent.
 | `app:controller-mapping` | §B.5 | — **filled 2026-08-20** (`tab:controller-mapping`); lead prose slot open |
 | `app:weight-sets` | §B.6 | — **filled 2026-08-20** (`fig:distance-kernel-bands`, `tab:overlay-failure-rules`, `tab:overlay-distance-kernel`, `tab:overlay-failure-set`); lead prose slot open |
 | `app:experiment-one` | §B.7 | — filled at the wiring pass (`tab:experiment-one`) |
-| `fig:movement-dataflow` | §4.2.4.2 | [`2026-08-20_fig_model_dataflow_diagram.md`](2026-08-20_fig_model_dataflow_diagram.md) |
+| ~~`fig:movement-dataflow`~~ | §4.2.4.2 | **WIRED 2026-08-20** — `movement_dataflow` |
 | ~~`fig:controller-mapping`~~ | §4.2.4.1 | **WIRED 2026-08-20** — `controller_mapping`, plus `tab:controller-mapping` (app:controller-mapping) |
 | ~~`fig:l1-graph`~~ | — | **removed 2026-08-20** (Marc's ruling); the refs went with it |
 | ~~`fig:pipeline`~~ | ch4 opening | **WIRED 2026-08-20** — `pipeline_ladder` |
