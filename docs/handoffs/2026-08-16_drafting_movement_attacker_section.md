@@ -585,6 +585,32 @@ most three prioritised moves. Voice is Marc's own gate
     `objective_exfiltration` in 47/160 runs). Still open in the tex: the
     closed-world PROPOSAL; the stochastic-nature citation slot; the kernel
     sentence's reword-freely note; pass-5 overlap notes.
+  - **L4 second flag walk (2026-08-19, after the v4 adoption) --- rulings
+    applied, do not re-flag:** S3-R dictated in (the movement layer supplies
+    all attacker timing at runtime; same-verb-different-time from the
+    invoking tactic --- "different" inferred, [3b] in the tex); the GSPN
+    re-tell TIGHTEN agreed (cut at assembly); the stochastic-nature sentence
+    ruled "tacked on" by Marc --- HIS re-dictation owed, anchors all wired
+    (holm2014 + madan2004 ADDED to the bib from extraction metadata,
+    mcqueen2006 unparked, bland2020 already active); judged-best-fit mapping
+    dictation in (three restatements now --- pass-5 note); forced-total-
+    mapping reason in (tightly ordered FSM run unordered-but-stochastic;
+    Appendix~[X] = experiment-1 record --- NEW appendix debt) with the
+    foreshadowing sentence carried under a [SCOPE minor] (ch5 pre-claim;
+    sanctioned form = the #24 pre-registered expectation); floor sentence
+    corrected on his sanction (floor tests the kernel value at fold-in);
+    anti-fitting dictation in with a [3b] on its direction (his spoken form
+    inverts the record's boundary); **adversarial-review defence ruled OUT
+    of the chapter** (an AI-scrutiny methodology point); the
+    knowledge-and-real-world-data sentence placed at the L4 subsection
+    preamble close (note in tex: move if the SECTION preamble was meant);
+    the pending failure-paragraph slot replaced by a PROPOSAL block of
+    content points from the shipped success_null_overlay_feasibility.md
+    section 9 (both 2026-08-19 handoffs closed by the concurrent session;
+    v4_failure_only adopted --- the success-half sentences still carry that
+    session's re-dictation flag). dissertation.tex left UNCOMMITTED: the
+    concurrent session has in-flight section-preamble hunks in the same
+    file; whoever commits next carries both.
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).

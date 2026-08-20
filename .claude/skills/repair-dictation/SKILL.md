@@ -119,6 +119,9 @@ here** rather than leaving the knowledge in chat.
 | encapture | capture |
 | tackle (zero or one actions) | tactic |
 | attack lines (precomputed) | attack timelines |
+| the produce (of the movement layer) | the product |
+| Tech Detective white set | tactic-to-tactic weight set |
+| for the titan (ruling walk) | for the TIGHTEN |
 
 ### Danger minimal pairs — a mishear flips a claim, always verify-list these
 
