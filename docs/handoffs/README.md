@@ -51,9 +51,11 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   redraw shipped 2026-08-20);
   tables/appendix: dwell catalogue, full technique graph, L2 classification,
   preliminary-extraction entries, appendix wiring + labels. **Order:** the
-  appendix-wiring brief early (labels the others resolve
-  against); failure-weight wiring gated on the v4 re-key ruling in the table
-  below. The umbrella retires when the last component ships.
+  appendix-wiring brief early (labels the others resolve against) — shipped
+  2026-08-20, as is the failure-weight wiring (one chapter float carrying all
+  three views; `fig:distance-kernel-bands` and the ledger / kernel / full-set
+  tables in `app:weight-sets` §B.5). The umbrella retires when the last
+  component ships.
 
 *(The §4.2 voice-pass remainder brief opened and closed 2026-08-20 in one day —
 Marc ruled every item: contractions expand globally (wired into
@@ -96,7 +98,7 @@ one. The full rows, with costed options, are in the disposition list of
 
 | # | What | Blocks |
 |---|---|---|
-| **Overlay: re-key experiment 2 under `v4`?** | The failure-only ruling is **taken and applied** (2026-08-19, Marc: "having a success matrix makes no sense logically"): `v4_failure_only` is the go-forward overlay, registered and compile-checked; `v3` frozen ([`success_null_overlay_feasibility.md`](../implementation/pipeline/ogasp/success_null_overlay_feasibility.md) §8). What remains is whether the published records — experiment 2 first, the chapter's headline source — are re-run under `v4` before ch5 is drafted, or stand on `v3` with the feasibility study as the bridge (the retired success table's effect is a profile-signed 1–3 hosts, no headline moved; ≈ 27 000 rows for the full set, 2 760 for experiment 2 alone, §6). The sibling kernel-discrepancy ruling **closed 2026-08-19** (keep as declared; [`failure_weight_decomposition.md`](../implementation/pipeline/ogasp/failure_weight_decomposition.md) §4), whose figure set regenerates under `--version v4_failure_only` at the tex wiring pass | the ch5 numbers; the owed §4.2.4 failure-encoding paragraph is unblocked |
+| **Overlay: re-key experiment 2 under `v4`?** | The failure-only ruling is **taken and applied** (2026-08-19, Marc: "having a success matrix makes no sense logically"): `v4_failure_only` is the go-forward overlay, registered and compile-checked; `v3` frozen ([`success_null_overlay_feasibility.md`](../implementation/pipeline/ogasp/success_null_overlay_feasibility.md) §8). What remains is whether the published records — experiment 2 first, the chapter's headline source — are re-run under `v4` before ch5 is drafted, or stand on `v3` with the feasibility study as the bridge (the retired success table's effect is a profile-signed 1–3 hosts, no headline moved; ≈ 27 000 rows for the full set, 2 760 for experiment 2 alone, §6). The sibling kernel-discrepancy ruling **closed 2026-08-19** (keep as declared; [`failure_weight_decomposition.md`](../implementation/pipeline/ogasp/failure_weight_decomposition.md) §4), whose figure set regenerates under `--version v4_failure_only` — **wired into the tex 2026-08-20**, so the chapter page now *states* `v4_failure_only` in Figure~4.2's caption and in the appendix set table. That raises the cost of the standing-on-`v3` option: it is no longer only a numbers question but two overlay versions on the page, needing a sentence to reconcile them | the ch5 numbers; the owed §4.2.4 failure-encoding paragraph is unblocked |
 | **D-09** | Zhang's unimplemented MTD-interruption give-up threshold (IS-INT-06) — wanted, and in which form? | no handoff — the measure that generalises it **shipped**; the ruling now bears on whether that generalisation is ratified ([`../implementation/pipeline/ogasp/attacker_disengagement.md`](../implementation/pipeline/ogasp/attacker_disengagement.md) §8, alongside the axis-6 ratification) |
 | **D-16** | Eq 2's `V_exploited` half is not charged into phase-2 duration | — |
 | **D-17** | The OSDA MIP formulation is decoupled; ranked recommendation is withdraw ≥ replace ≫ repair | — |

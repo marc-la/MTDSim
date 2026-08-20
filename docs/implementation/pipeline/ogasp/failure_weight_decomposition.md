@@ -1,8 +1,8 @@
 ---
 status: durable
 created: 2026-08-19
-updated: 2026-08-19
-topic: "L3/L4 — the failure tactic-to-tactic weight set presented as a decomposition: (declared failure kernel) × (lifecycle-distance kernel) → the committed matrix; three figures with three homes (ch4 matrix / appendix decomposition + declared-point-in-bands); the two-pair walkthrough; where every number lives; the kernel-discrepancy ruling (resolved: keep as declared)"
+updated: 2026-08-20
+topic: "L3/L4 — the failure tactic-to-tactic weight set presented as a decomposition: (declared failure kernel) × (lifecycle-distance kernel) → the committed matrix; three figures, WIRED 2026-08-20 on Marc's dictation (ch4 = the decomposition, all three views in one float; app:weight-sets = the bands figure + the ledger, kernel and full-set tables; the standalone matrix figure generated but unwired); the two-pair walkthrough; where every number lives; the kernel-discrepancy ruling (resolved: keep as declared)"
 ---
 
 # The failure weight set, decomposed then aggregated — provenance on the page
@@ -180,9 +180,9 @@ bands figure).
 
 | figure | file | home | what it shows | what it must *not* be read as |
 |---|---|---|---|---|
-| **the matrix** | `failure_weight_matrix` (`success_weight_matrix` is retired from ch4 by the failure-only ruling) | **ch4 §4.2.4.2**, at the overlay paragraph | the committed set alone: every cell its value **and the letter of the rule that produced it**, stage-grouped axis, one grey scale; the nine-line key (letter, rule id, declared value) in-figure | a typed table — the letters are there precisely so it reads as generated; rationale and tier are not here (they are in the appendix ledger table) |
-| **the decomposition** | `failure_weight_decomposition` | **appendix `app:sensitivity`** (Marc's "sweep pointer ruled to appendix", `bdf3de7`), opening the overlay's sensitivity entry | (a) failure kernel, (b) distance kernel with Δ as subscript, (c) = (a) × (b) — three aligned 15 × 14 panels, one 0–1 scale, every cell printed | the sweep's output — it is **the declared point**: (b) is what the sweep's three parameters move, (a) is what the sweep holds fixed |
-| **the declared point in its bands** | `distance_kernel_bands` | **appendix `app:sensitivity`**, beside the decomposition | d(Δ) at the declared `γ = δ = 0.25` (accent) and at the band edges 0.1 / 0.5 (greys); the floor strip {0, 0.05, 0.1} with `d < z → 0`; under the axis: declared pairs per Δ (6/22/44/66/44/22/6) and **base edges with mass per Δ on the five current routing nets** (0/12/66/146/84/15/0 of 323) | a results figure — it shows *where the point sits and what the corpus can exercise*; the sweep's *results* panel is owed to the v3 re-sweep (§6) |
+| **the matrix** | `failure_weight_matrix` (`success_weight_matrix` retired from ch4 by the failure-only ruling, deleted 2026-08-20) | **unwired** (2026-08-20) — its content is the decomposition's panel (c), so wiring both would print the committed set twice | the committed set alone: every cell its value **and the letter of the rule that produced it**, stage-grouped axis, one grey scale; the nine-line key (letter, rule id, declared value) in-figure | a typed table — the letters are there precisely so it reads as generated; rationale and tier are not here (they are in the appendix ledger table) |
+| **the decomposition** | `failure_weight_decomposition` | **ch4 §4.2.4.1** (`fig:failure-weight-decomposition`), on its own float page after the failure-matrix paragraph — Marc's 2026-08-20 dictation ("the decomposition … put it in as is") taken on the 2026-08-20 all-three-views ruling | (a) failure kernel, (b) distance kernel with Δ as subscript, (c) = (a) × (b) — three aligned 15 × 14 panels, one 0–1 scale, every cell printed | the sweep's output — it is **the declared point**: (b) is what the sweep's three parameters move, (a) is what the sweep holds fixed |
+| **the declared point in its bands** | `distance_kernel_bands` | **appendix `app:weight-sets`** (§B.5, inside `app:movement`) — Marc's 2026-08-20 dictation: a strong diagram, but it supports the distance argument rather than making it, so it does not sit in the chapter. Supersedes the earlier `app:sensitivity` home | d(Δ) at the declared `γ = δ = 0.25` (accent) and at the band edges 0.1 / 0.5 (greys); the floor strip {0, 0.05, 0.1} with `d < z → 0`; under the axis: declared pairs per Δ (6/22/44/66/44/22/6) and **base edges with mass per Δ on the five current routing nets** (0/12/66/146/84/15/0 of 323) | a results figure — it shows *where the point sits and what the corpus can exercise*; the sweep's *results* panel is owed to the v3 re-sweep (§6) |
 
 The bands figure carries the two facts the sweep narrative turns on, both
 read fresh from the artefacts on every run rather than quoted from the study:
@@ -251,8 +251,9 @@ and the feasibility study's §9; they are not repeated where those own them.
 2. **The values are nine rules and three parameters, not 210 numbers** —
    first-matching semantics rule × lifecycle distance, multiplied, then onto
    the base proportion and renormalised (the composition sentence is already
-   above the slot). Point at the ch4 matrix figure: *every cell carries the
-   letter of the rule that produced it*. (§1; `fig:failure-weight-matrix`.)
+   above the slot). Point at the ch4 decomposition figure: *every cell of
+   panel (a) carries the letter of the rule that produced it*. (§1;
+   `fig:failure-weight-decomposition`.)
 3. **What the nine rules say, in one breath** — two foothold gates (no
    foothold, no post-intrusion move), two dampers (a full collapse to
    preparation is minor; re-running code on a held foothold is a retry, not a
@@ -278,142 +279,57 @@ and the feasibility study's §9; they are not repeated where those own them.
    (one to three hosts, profile-signed, no headline moved). (Feasibility
    study §9 — sequence the dictation after Marc's §8 ruling.)
 
-### 5.2 Wiring blocks — for Marc to verify, then paste (NOT applied to the tex)
+### 5.2 Wiring — APPLIED 2026-08-20; the tex is now the live artefact
 
-Compile-checked together in a scratch copy (clean; no overfull boxes). Captions
-and the appendix lead are session-drafted and owed the voice pass; caption
-numbers are the tool's printed numbers.
+The three blocks drafted here on 2026-08-19 were never pasted as drafted: Marc's
+2026-08-20 dictation moved the decomposition into the chapter and the bands
+figure to the movement appendix, which changed both homes. What shipped is in
+`docs/thesis/dissertation.tex` — read it there, not from a copy here — and this
+is the account of what changed on the way in:
 
-**(i) ch4 §4.2.4.2 — after the overlay paragraph, at the `[figure slot ---
-four-phase overlay]` comment.** One figure — `v4` is adopted (2026-08-19),
-so the failure matrix alone; `success_weight_matrix` is not wired.
+- **Chapter, §4.2.4.1 (`fig:failure-weight-decomposition`).** One float, `[p]`,
+  `width=\textwidth`, immediately after the failure-matrix paragraph. Not the
+  matrix figure: the decomposition already carries all three views the
+  2026-08-20 ruling asked for, and its panel (c) *is* the committed matrix, so
+  wiring both would print the set twice.
+- **Two prose deictics resolved to live refs** (the wiring idiom the appendix
+  pass established, both flagged in the tex): "rules A to I in the diagram" →
+  `Figure~\ref{fig:failure-weight-decomposition}`, and "This can be found in
+  the appendix" → `Appendix~\ref{app:weight-sets}`. Nothing else in Marc's
+  sentences was touched.
+- **The caption was cut to fit the page, twice.** At the drafted length the
+  float ran 133 pt over `\textheight` and LaTeX refused the page. The panels
+  were **not** scaled down to make room (conventions §g); the caption was
+  compressed to its decode instead — the rule-family enumeration (two gates,
+  two dampers, the ladder) dropped, since it is Marc's prose two paragraphs
+  above and the ledger table carries it per rule — and `\abovecaptionskip` cut
+  to 6 pt inside that float for the last 2 pt. Zero overfull boxes.
+- **Appendix, `app:weight-sets` (§B.5), not `app:sensitivity`.** The bands
+  figure plus `\input{tables/outcome_overlay_weights}` — the A–I ledger
+  (`tab:overlay-failure-rules`), the kernel table
+  (`tab:overlay-distance-kernel`) and the complete set
+  (`tab:overlay-failure-set`). The appendix lead is a flagged prose slot with
+  its content points listed: Marc's to write.
+- **The must-carry caveat** (threat-model parameters, simulator-specific, not
+  real-world values) is a flagged slot beside the chapter float, deliberately
+  not drafted.
+- **Generator change:** the three table emitters now emit `\caption[short]{long}`
+  per the 2026-08-20 short-caption ruling (conventions §c) — the decode
+  captions were flooding the List of Tables with twelve-line entries. Figure
+  `.tex` output is unchanged by the change and byte-identical on re-run, which
+  is the reproducibility check.
+- **Still open, and not this pass's to close:** the sweep-results paragraph
+  (§6), the A–I rationale narrative in the chapter (§5.1 point 3), and the
+  experiment-2 re-key ruling — the chapter page now states `v4_failure_only`,
+  so standing ch5 on `v3` would put two versions on the page and need a
+  sentence to reconcile them.
 
-```latex
-% FIGURE (2026-08-19): the committed failure weight set, every cell with the
-% letter of the declared rule that produced it --- generated by
-% tools/failure_weight_decomposition_figure.py --layout matrix from the
-% outcome rules + lifecycle consensus through the tracked compiler (overlay
-% version v4_failure_only; failure table identical to v3's). Regenerate, never hand-edit. Caption is
-% SESSION-DRAFTED and owed Marc's voice pass. Decomposition + the declared
-% point in its sweep bands live in app:sensitivity; the rule ledger (rationale,
-% tier) is tab:overlay-failure-rules there.
-\begin{figure}[tbp]
-  \centering
-  \includegraphics[width=\textwidth]{failure_weight_matrix}
-  \caption{The failure tactic-to-tactic weight set (\texttt{v3\_persistent\_backward}).
-  Rows are the source tactic $a$ whose action returned the failure verdict,
-  columns the candidate next tactic $b$, grouped into the four consensus
-  phases of the APT lifecycle (preparation, intrusion, post-intrusion
-  operations, objective) with the ATT\&CK reading order inside a phase; one
-  grey scale from 0 to 1. Each cell is the value the token's base
-  out-transition is multiplied by on a failure verdict, and the letter is the
-  declared rule that produced it (key below the matrix; each rule's rationale
-  and evidence tier are in Table~\ref{tab:overlay-failure-rules}): two
-  foothold gates (A, C) fill the initial-access and reconnaissance rows, a
-  pre-intrusion damper (D) the two preparation columns below the intrusion
-  block, an execution damper (E) the execution column, and the
-  backward\,/\,lateral\,/\,forward ladder (F, G, H\,/\,I) everything else.
-  The rule's value is then multiplied by the lifecycle-distance factor
-  (unchanged within a phase or one phase away, a quarter two phases away,
-  zero at the maximum distance), which is why the far corners are zero and
-  the two-phase bands carry a quarter of their rule's value; the
-  decomposition is Figure~\ref{fig:failure-weight-decomposition}. The set is
-  declared and rule-generated; none of its values was produced by, or tuned
-  on, a simulation run.}
-  \label{fig:failure-weight-matrix}
-\end{figure}
-```
-
-**(ii) appendix `app:sensitivity` — the overlay's entry: the decomposition, the
-declared point in its bands, the tables.** Directly under `\label{app:sensitivity}`.
-
-```latex
-% ---- the outcome overlay: the declared point, decomposed, and its sweep ----
-% GENERATED (2026-08-19): three figures + the tables by
-% tools/failure_weight_decomposition_figure.py from
-% data/ogasp/controller/outcome_rules.json + lifecycle_consensus.json through
-% the tracked compiler and the routing-net loader (overlay version
-% v4_failure_only; failure table identical to v3's). Regenerate, never hand-edit; re-check the caption
-% numbers if a rule or parameter is re-declared. Lead + captions are
-% SESSION-DRAFTED and owed Marc's voice pass. Record:
-% docs/implementation/pipeline/ogasp/failure_weight_decomposition.md.
-% The sweep RESULTS paragraph/figure is owed to the v3 re-sweep under the
-% current timing regime (record section 6) --- the 2026-07-28 study is
-% fixed-dwell and delta = 0.1 is unswept; describe it as recorded until then.
-\section{The outcome-overlay weight sets and their sensitivity}
-\label{app:overlay-weights}
-
-% [session-drafted lead, owed Marc's voice pass] The failure weight set of
-% Section~\ref{subsubsec:mechanics-join} (Figure~\ref{fig:failure-weight-matrix})
-% is the product of two declared kernels: the value of the first-matching
-% semantics rule (Table~\ref{tab:overlay-failure-rules}) and a lifecycle-distance factor over
-% the four consensus stages (Table~\ref{tab:overlay-distance-kernel}).
-% Figure~\ref{fig:failure-weight-decomposition} shows the set decomposed then
-% aggregated. The nine rule values are declared and defended by argument and
-% adversarial review; they are not swept. The three kernel parameters are the
-% swept set: Figure~\ref{fig:distance-kernel-bands} shows the declared point
-% inside its declared bands, and which stage offsets this corpus can exercise.
-% Table~\ref{tab:overlay-failure-set} is the complete set as committed; on a
-% success verdict the token routes on the corpus proportions unchanged, so
-% there is no success set to print (the failure-only ruling, 2026-08-19).
-
-\begin{figure}[p]
-  \centering
-  \includegraphics[width=\textwidth]{failure_weight_decomposition}
-  \caption{The failure weight set decomposed, then aggregated --- the declared
-  point the sensitivity sweep is taken around. All three panels share one
-  axis (rows the source tactic $a$ on a failure verdict, columns the candidate
-  next tactic $b$), grouped into the four consensus stages with the ATT\&CK
-  reading order inside a stage, and one grey scale from 0 to 1.
-  (a)~The failure kernel: for each pair, the value of the first of the nine
-  declared failure rules that matches it (key below the panels;
-  Table~\ref{tab:overlay-failure-rules}) --- eight distinct values across 210
-  pairs. These values are not a sweep dimension.
-  (b)~The lifecycle-distance kernel $d(a,b)$, a pure function of how many
-  consensus stages the transition crosses (the subscript is the signed offset
-  $\Delta = s(b) - s(a)$): within a stage or to the adjacent stage $d = 1$;
-  two stages away $d = \gamma = \delta = 0.25$; three stages away $0.0625$,
-  which falls under the floor $z = 0.1$ and reads as exactly $0$ --- the
-  floor acts on this factor, not on a finished edge weight. The kernel is
-  block-structured: the twelve corner cells are zero, the 44 cells two
-  stages from the diagonal block carry 0.25, and the remaining 154 are
-  untouched. $\gamma$, $\delta$ and $z$ are the swept parameters.
-  (c)~The committed set: every cell is (a) multiplied by (b) --- fourteen
-  distinct values, twelve exact zeros, every non-zero cell traceable by eye
-  to one rule letter and one distance factor.}
-  \label{fig:failure-weight-decomposition}
-\end{figure}
-
-\begin{figure}[tbp]
-  \centering
-  \includegraphics[width=0.82\textwidth]{distance_kernel_bands}
-  \caption{The declared distance-kernel point inside its declared sweep bands.
-  The distance factor $d$ against the signed stage offset $\Delta$ at the
-  declared parameters ($\gamma = \delta = 0.25$, the tinted curve) and at the
-  band edges ($0.1$ and $0.5$, grey); the shaded strip is the floor's swept
-  set $\{0, 0.05, 0.1\}$, with the declared $z = 0.1$ dashed --- a factor
-  below it reads as exactly zero, which is what zeroes the three-stage
-  corners. Beneath the axis: how many of the 210 declared pairs sit at each
-  offset, how many base edges with mass the five routing nets carry at each
-  offset (323 in all), and $d$ at the declared point. No net carries a
-  three-stage transition in either direction, so the floor has nothing to act
-  on in this corpus and its sensitivity is zero by structure rather than by
-  measurement; the offsets the kernel actually moves mass on are $\pm 2$ (15
-  forward and 12 backward edges). The point was declared from the lifecycle
-  consensus and the persistence ruling before any run; the sweep defends it,
-  it did not choose it.}
-  \label{fig:distance-kernel-bands}
-\end{figure}
-
-\input{tables/outcome_overlay_weights}
-```
-
-**(iii) ch5 `sec:sensitivity` — the V6 parameter table.** No figure; one row
-per swept family. The overlay's row: *lifecycle-distance kernel — `γ`, `δ`
-(0.1–0.5), `z` ({0, 0.05, 0.1}) — declared `0.25 / 0.25 / 0.1` — effects:
-`δ` largest (fallback distance), `γ` second, `z` inert by corpus structure —
-appendix §\ref{app:overlay-weights}.* The nine rule values do **not** get a
-row; their provenance row is the ledger table in the appendix.
+**(iii) ch5 `sec:sensitivity` — the V6 parameter table.** Unwired, unchanged.
+No figure; one row per swept family. The overlay's row: *lifecycle-distance
+kernel — `γ`, `δ` (0.1–0.5), `z` ({0, 0.05, 0.1}) — declared `0.25 / 0.25 /
+0.1` — effects: `δ` largest (fallback distance), `γ` second, `z` inert by
+corpus structure — appendix §\ref{app:weight-sets}.* The nine rule values do
+**not** get a row; their provenance row is the ledger table in the appendix.
 
 ### 5.3 Where every number lives
 
@@ -423,11 +339,11 @@ mistaken for outputs of a sensitivity study. The homes:
 
 | number | kind | produced by | lives at |
 |---|---|---|---|
-| the nine failure rule values (A–I) | **declared** magnitudes | R2 authoring + four adversarial rounds, finalised 2026-07-23 (ledger) | the rule ledger table in the appendix (`tab:overlay-failure-rules`: key, id, value, tier, rationale); letters in the ch4 matrix cells; rationale narrative in ch4 (point 3 of §5.1). *(The five success rule values are retired from the reported configuration by the failure-only ruling, 2026-08-19 — `v4_failure_only` compiles the success table as the identity; they stay in `outcome_rules.json` and the v1–v3 views for the record, and the generator prints no success tables for a pass-through version.)* |
-| the rule *order* (first match wins) and the firing sets | declared structure | the rules file | the ch4 matrix (which letter where); design record §2.3 |
+| the nine failure rule values (A–I) | **declared** magnitudes | R2 authoring + four adversarial rounds, finalised 2026-07-23 (ledger) | the rule ledger table in the appendix (`tab:overlay-failure-rules`: key, id, value, tier, rationale); letters in the cells of the ch4 decomposition's panel (a); rationale narrative in ch4 (point 3 of §5.1). *(The five success rule values are retired from the reported configuration by the failure-only ruling, 2026-08-19 — `v4_failure_only` compiles the success table as the identity; they stay in `outcome_rules.json` and the v1–v3 views for the record, and the generator prints no success tables for a pass-through version.)* |
+| the rule *order* (first match wins) and the firing sets | declared structure | the rules file | the ch4 decomposition, panel (a) (which letter where); design record §2.3 |
 | `γ`, `δ`, `z` and their bands | **declared parameters (the swept set)** | the lifecycle consensus + the persistence ruling (2026-07-27/28) | `tab:overlay-distance-kernel` (appendix); the bands figure; the V6 row in ch5 §5.1 |
 | the four stages and the per-tactic seats | sourced / rule-resolved / declared, per tactic | the lifecycle consensus overlay | ch4 overlay paragraph (already); `tab:overlay-distance-kernel` |
-| the 210 compiled cells per verdict | **derived** (rule × d) | the tracked compiler | the ch4 matrix; the appendix set tables; the decomposition figure |
+| the 210 compiled cells per verdict | **derived** (rule × d) | the tracked compiler | the ch4 decomposition, panel (c); the appendix set table `tab:overlay-failure-set` |
 | pairs per Δ (6/22/44/66/44/22/6) | derived from the stages | the compiler | the bands figure |
 | base edges per Δ (0/12/66/146/84/15/0 of 323) | **corpus** (L2 nets, current) | the routing-net loader | the bands figure; the inert-`z` sentence |
 | the sweep's results (C1–C4; influence ranking) | **measured** | `weight_sensitivity_study.md` (fixed-dwell; to be re-run) | appendix, the sweep paragraph/figure — owed (§6) |
@@ -474,16 +390,19 @@ ruling now closed (§4) nothing else gates it. Flagged here; not actioned
   `overlays/manifest.json`, `data/ogasp/petri/*_structural.json` +
   `synthetic_overlay.json`; `src/mtdsim/l3_simulation/controller/rules.py`,
   `movement/net.py`.
-- **Feeds:** ch4 §4.2.4.2 (the matrix figure; the owed failure paragraph,
-  §5.1); `app:sensitivity` (decomposition, bands, tables, §5.2); ch5 §5.1's
-  V6 table row.
+- **Feeds:** ch4 §4.2.4.1 (`fig:failure-weight-decomposition`, wired
+  2026-08-20; the owed failure paragraph, §5.1); `app:weight-sets` §B.5
+  (bands figure + the three tables, wired 2026-08-20); ch5 §5.1's V6 table
+  row (unwired).
 - **Artefacts:** `tools/failure_weight_decomposition_figure.py`;
-  `docs/thesis/figures/{failure_weight_matrix, success_weight_matrix,
-  failure_weight_decomposition, distance_kernel_bands}.{tex,pdf}`;
+  `docs/thesis/figures/{failure_weight_matrix, failure_weight_decomposition,
+  distance_kernel_bands}.{tex,pdf}` (`success_weight_matrix.{tex,pdf}` deleted
+  2026-08-20 with the wiring; `--verdict success` regenerates it if the
+  retired configuration is ever wanted again);
   `docs/thesis/tables/outcome_overlay_weights.tex`.
 - **When to update:** if any rule value or kernel parameter is re-declared
   (regenerate; re-check captions); **the failure-only overlay is adopted as
-  `v4_failure_only` (2026-08-19)** — drop `success_weight_matrix` from ch4,
+  `v4_failure_only` (2026-08-19, wired 2026-08-20)** — `success_weight_matrix` dropped,
   re-caption the success tables as retired, regenerate with `--version
   v4_failure_only` at the wiring pass; if the asymmetric-decay idea lands (the bands figure
   gains a second curve family; the ch4 sentence changes); when the v3

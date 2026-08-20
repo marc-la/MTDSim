@@ -5,7 +5,7 @@
 
 \begin{table}[htbp]
 \centering\scriptsize
-\caption{The failure rules of the outcome overlay, in match order (first match wins), with the value each declares, its provenance tier and its one-sentence rationale, as carried in the rule ledger. The key letter is the one the decomposition figure prints in each cell.}
+\caption[The declared failure rules of the outcome overlay]{The failure rules of the outcome overlay, in match order (first match wins), with the value each declares, its provenance tier and its one-sentence rationale, as carried in the rule ledger. The key letter is the one the decomposition figure prints in each cell.}
 \label{tab:overlay-failure-rules}
 \begin{tabular}{@{}l l r p{0.17\textwidth} p{0.42\textwidth}@{}}
 \toprule
@@ -32,7 +32,7 @@ I & \texttt{forward\_from\_prep} & 0.3 & declared-judgement & forward after fail
 
 \begin{table}[htbp]
 \centering\scriptsize
-\caption{The lifecycle-distance kernel: the four consensus stages the signed offset $\Delta = s(b) - s(a)$ is measured over, and the three declared parameters with their provenance tier and the band the sensitivity study sweeps. $d(a,b) = 1$ for $\Delta = 0$, $\gamma^{\Delta-1}$ for $\Delta \geq 1$, $\delta^{|\Delta|-1}$ for $\Delta \leq -1$; a value below $z$ reads as exactly $0$.}
+\caption[The lifecycle-distance kernel and its declared parameters]{The lifecycle-distance kernel: the four consensus stages the signed offset $\Delta = s(b) - s(a)$ is measured over, and the three declared parameters with their provenance tier and the band the sensitivity study sweeps. $d(a,b) = 1$ for $\Delta = 0$, $\gamma^{\Delta-1}$ for $\Delta \geq 1$, $\delta^{|\Delta|-1}$ for $\Delta \leq -1$; a value below $z$ reads as exactly $0$.}
 \label{tab:overlay-distance-kernel}
 \begin{tabular}{@{}c p{0.36\textwidth} p{0.50\textwidth}@{}}
 \toprule
@@ -59,7 +59,7 @@ $z$ (zero floor) & 0.1 & declared-judgement & \{0, 0.05, 0.1\} \\
 \begin{table}[htbp]
 \centering\tiny
 \setlength{\tabcolsep}{2.2pt}
-\caption{The complete failure weight set (\texttt{v4\_failure\_only}): rows are the source tactic $a$ whose action returned the failure verdict, columns the candidate next tactic $b$; every cell is rule value $\times$ $d(a,b)$ (decomposition in Figure~\ref{fig:failure-weight-decomposition} for the failure set). Stage-grouped axis; the diagonal is not a pair (self-loops are the stepping layer's bounded retry, not an overlay cell).}
+\caption[The complete failure weight set as committed]{The complete failure weight set (\texttt{v4\_failure\_only}): rows are the source tactic $a$ whose action returned the failure verdict, columns the candidate next tactic $b$; every cell is rule value $\times$ $d(a,b)$ (decomposition in Figure~\ref{fig:failure-weight-decomposition} for the failure set). Stage-grouped axis; the diagonal is not a pair (self-loops are the stepping layer's bounded retry, not an overlay cell).}
 \label{tab:overlay-failure-set}
 \begin{tabular}{@{}lrrrrrrrrrrrrrrr@{}}
 \toprule

@@ -24,10 +24,10 @@ a rough transcript — anything read through ambiguity carries a CONFIRM.
 |---|---|
 | `fig:l1-graph` (`l1_attack_graph.{tex,pdf}`, `tools/l1_attack_graph_figure.py`) | **NOT wired** (corrected 2026-08-20 at the appendix pass): the PDF exists and §4.2.1 carries three prose refs, but there is no `figure` environment for it anywhere in the tex — the refs have read `??` since 2026-08-17. Marc ruled the wiring to the graph brief, which carries the keep-or-remove CONFIRM; caption still owed his voice pass |
 | `fig:pipeline` (chapter opening) | placeholder PNG, commented out; awaiting the box-and-flow redraw to the thesis ladder (V7) — **rework re-flagged (ruled 2026-08-20)**: current pipeline diagram too large, redraw at this pass |
-| `failure_weight_matrix.{tex,pdf}` | generated (rule letters A–I in cells), not yet wired |
-| `failure_weight_decomposition.{tex,pdf}` | generated, not yet wired |
-| `distance_kernel_bands.{tex,pdf}` | generated, appendix-bound |
-| `success_weight_matrix.{tex,pdf}` | **retired** — v4_failure_only ruling; the chapter never mentions the success matrix. Do not wire; remove at this pass so it cannot land by accident |
+| `failure_weight_matrix.{tex,pdf}` | generated, **deliberately unwired 2026-08-20** — the decomposition's panel (c) is the same committed set, so wiring both prints it twice |
+| `failure_weight_decomposition.{tex,pdf}` | **WIRED 2026-08-20** — `fig:failure-weight-decomposition`, ch4 §4.2.4.1, own float page |
+| `distance_kernel_bands.{tex,pdf}` | **WIRED 2026-08-20** — `fig:distance-kernel-bands`, `app:weight-sets` §B.5 (Marc's dictation: supports the distance argument, does not make it) |
+| `success_weight_matrix.{tex,pdf}` | **retired and deleted 2026-08-20** with the failure-weight wiring; `--verdict success` regenerates it if the retired configuration is ever wanted |
 | Diagnostic viz (`data/misc/_viz/controller_mapping/`, `ckc_lifecycle/`, `data/gasp/_viz/` per-profile renders) | composition reference only — never promote a PNG; anything chapter- or appendix-bound is regenerated as TikZ |
 | Appendix skeleton | **DONE 2026-08-20.** Structure ruled by Marc: one sectioned chapter `app:movement` (B.1–B.6) in pipeline order, `app:sensitivity` and `app:cooccurrence` kept as their own chapters. The `[X]` collision is resolved into `app:rejected-partitions` and `app:experiment-one`, `[Y]` into `app:classification-audit`; `fig:movement-dataflow` and `fig:controller-mapping` reserved. Ledger below |
 
@@ -55,7 +55,10 @@ a rough transcript — anything read through ambiguity carries a CONFIRM.
    drawn (panel b) and the pre-intrusion sparsity drawn (panel c).
 
 **Ruling change (ruled 2026-08-20) — the failure-weight set moves into the
-chapter, all three views:** the decomposed failure-rule kernel, the
+chapter, all three views** — **WIRED 2026-08-20 as one float**, the
+decomposition (its three panels are the three views; Marc: "put it in as is"),
+with `fig:distance-kernel-bands` pushed to `app:weight-sets` on the same
+dictation. The rest of this entry is the standing record of the ruling:** the decomposed failure-rule kernel, the
 distance/direction kernel, and the aggregated committed matrix ("all three, like
 in the diagram proposed — critical"). This supersedes the 2026-08-19 provenance
 split (chapter = committed matrix only; appendix = decomposition). Whether that
@@ -118,10 +121,12 @@ for this") — and its defence is the sensitivity analysis, not this table.
    mapping). **Keep (ruled 2026-08-20):** the prose cites it and the
    foreshadowing sentence leans on it.
 6. **The dwell-derivation table** (debt dictated 2026-08-19; see table above).
-7. **The full tactic-to-tactic weight sets** (prose cites "the appendix, along
-   with the full set…"; V6 routes the overlay declaration here) **+ the
-   failure-rule ledger (A–I decode) + kernel tables + `fig:distance-kernel-bands`**
-   — the decomposition residue after the ruling change.
+7. ~~**The full tactic-to-tactic weight sets** + the failure-rule ledger (A–I
+   decode) + kernel tables + `fig:distance-kernel-bands`~~ — **SHIPPED
+   2026-08-20** into `app:weight-sets` §B.5. The prose's "the appendix" now
+   resolves to `Appendix~\ref{app:weight-sets}`; the appendix lead is a
+   flagged prose slot, Marc's to write. V6's overlay declaration is routed
+   there.
 8. **Exponential-shape justification** → `app:sensitivity` **(ruled
    2026-08-20)**: how the exponential was settled is additional sensitivity
    analysis, not chapter prose (the chapter keeps the declaration + the
@@ -154,7 +159,7 @@ when the last of them ships.
 | The model / data-flow diagram (primary figure) | [`2026-08-20_fig_model_dataflow_diagram.md`](2026-08-20_fig_model_dataflow_diagram.md) |
 | The controller-mapping bipartite | [`2026-08-20_fig_controller_mapping.md`](2026-08-20_fig_controller_mapping.md) |
 | ~~The chapter-opening pipeline redraw~~ | **SHIPPED 2026-08-20**, brief retired — `fig:pipeline` live as `pipeline_ladder` (`tools/pipeline_ladder_figure.py`); see the ruling note below |
-| The failure-weight family wiring (chapter + appendix residue + success-fig retirement) | [`2026-08-20_failure_weight_figures_wiring.md`](2026-08-20_failure_weight_figures_wiring.md) |
+| ~~The failure-weight family wiring~~ | **SHIPPED 2026-08-20**, brief retired — one chapter float (all three views), the bands figure + three tables in §B.5, `success_weight_matrix` deleted; record: [`../implementation/pipeline/ogasp/failure_weight_decomposition.md`](../implementation/pipeline/ogasp/failure_weight_decomposition.md) §5.2 |
 | The dwell catalogue (chapter table + derivation + exponential entry) | [`2026-08-20_dwell_table_and_derivation.md`](2026-08-20_dwell_table_and_derivation.md) |
 | The full technique-level graph (appendix; carries the fig:l1-graph CONFIRM) | [`2026-08-20_app_full_technique_graph.md`](2026-08-20_app_full_technique_graph.md) |
 | The L2 classification tables (audit + rejected partitions) | [`2026-08-20_app_l2_classification_tables.md`](2026-08-20_app_l2_classification_tables.md) |
@@ -178,7 +183,7 @@ label is the state that rule exists to prevent.
 | `app:classification-audit` | §B.2 | [`2026-08-20_app_l2_classification_tables.md`](2026-08-20_app_l2_classification_tables.md) |
 | `app:rejected-partitions` | §B.3 | [`2026-08-20_app_l2_classification_tables.md`](2026-08-20_app_l2_classification_tables.md) |
 | `app:dwell-derivation` | §B.4 | [`2026-08-20_dwell_table_and_derivation.md`](2026-08-20_dwell_table_and_derivation.md) |
-| `app:weight-sets` | §B.5 | [`2026-08-20_failure_weight_figures_wiring.md`](2026-08-20_failure_weight_figures_wiring.md) |
+| `app:weight-sets` | §B.5 | — **filled 2026-08-20** (`fig:distance-kernel-bands`, `tab:overlay-failure-rules`, `tab:overlay-distance-kernel`, `tab:overlay-failure-set`); lead prose slot open |
 | `app:experiment-one` | §B.6 | — filled at the wiring pass (`tab:experiment-one`) |
 | `fig:movement-dataflow` | §4.2.4.2 | [`2026-08-20_fig_model_dataflow_diagram.md`](2026-08-20_fig_model_dataflow_diagram.md) |
 | `fig:controller-mapping` | §4.2.4.1 | [`2026-08-20_fig_controller_mapping.md`](2026-08-20_fig_controller_mapping.md) |

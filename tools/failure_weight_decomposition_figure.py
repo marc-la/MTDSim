@@ -464,9 +464,11 @@ def _rules_table(rs: RuleSet, verdict: str, label: str) -> list[str]:
     L = []
     L.append(r"\begin{table}[htbp]")
     L.append(r"\centering\scriptsize")
-    L.append(r"\caption{The %s rules of the outcome overlay, in match order (first match wins), with the "
+    L.append(r"\caption[The declared %s rules of the outcome overlay]{The %s rules of the "
+             r"outcome overlay, in match order (first match wins), with the "
              r"value each declares, its provenance tier and its one-sentence rationale, as carried in the "
-             r"rule ledger. The key letter is the one the decomposition figure prints in each cell.}" % verdict)
+             r"rule ledger. The key letter is the one the decomposition figure prints in each cell.}"
+             % (verdict, verdict))
     L.append(r"\label{%s}" % label)
     L.append(r"\begin{tabular}{@{}l l r p{0.17\textwidth} p{0.42\textwidth}@{}}")
     L.append(r"\toprule")
@@ -489,7 +491,8 @@ def _kernel_table(rs: RuleSet, spec: RuleSpec, label: str) -> list[str]:
     L = []
     L.append(r"\begin{table}[htbp]")
     L.append(r"\centering\scriptsize")
-    L.append(r"\caption{The lifecycle-distance kernel: the four consensus stages the signed offset "
+    L.append(r"\caption[The lifecycle-distance kernel and its declared parameters]{"
+             r"The lifecycle-distance kernel: the four consensus stages the signed offset "
              r"$\Delta = s(b) - s(a)$ is measured over, and the three declared parameters with their "
              r"provenance tier and the band the sensitivity study sweeps. "
              r"$d(a,b) = 1$ for $\Delta = 0$, $\gamma^{\Delta-1}$ for $\Delta \geq 1$, "
@@ -529,12 +532,13 @@ def _matrix_table(rs: RuleSet, dec: dict, verdict: str, version: str, label: str
     L.append(r"\begin{table}[htbp]")
     L.append(r"\centering\tiny")
     L.append(r"\setlength{\tabcolsep}{2.2pt}")
-    L.append(r"\caption{The complete %s weight set (\texttt{%s}): rows are the source tactic $a$ whose action "
+    L.append(r"\caption[The complete %s weight set as committed]{"
+             r"The complete %s weight set (\texttt{%s}): rows are the source tactic $a$ whose action "
              r"returned the %s verdict, columns the candidate next tactic $b$; every cell is "
              r"rule value $\times$ $d(a,b)$ (decomposition in Figure~\ref{fig:%s-weight-decomposition} "
              r"for the failure set). Stage-grouped axis; the diagonal is not a pair (self-loops are the "
              r"stepping layer's bounded retry, not an overlay cell).}"
-             % (verdict, _esc(version), verdict, "failure"))
+             % (verdict, verdict, _esc(version), verdict, "failure"))
     L.append(r"\label{%s}" % label)
     L.append(r"\begin{tabular}{@{}l%s@{}}" % ("r" * len(order)))
     L.append(r"\toprule")
