@@ -611,6 +611,29 @@ most three prioritised moves. Voice is Marc's own gate
     session's re-dictation flag). dissertation.tex left UNCOMMITTED: the
     concurrent session has in-flight section-preamble hunks in the same
     file; whoever commits next carries both.
+  - **L4 third flag walk (2026-08-19, latest) --- rulings applied, do not
+    re-flag:** "different amount of time" accepted; the closed-world
+    PROPOSAL applied as live text; the GSPN re-tell sentence CUT now (not
+    deferred to assembly) --- "tractable" left the block, the owed
+    stochastic-nature re-dictation may restore it (tex note); the foreshadow
+    SCOPE fix applied in the #24 expectation form; the anti-fitting
+    direction corrected (Marc: "I may have misspoken" --- the concern is
+    overfitting the WEIGHT SET to the attacker model); **the retired
+    success matrix is never mentioned in the chapter** (Marc: "don't even
+    talk about it") --- the success-overlay sentence deleted, "failure and
+    success matrices" -> "a failure matrix", the concurrent session's
+    re-dictate flag superseded and removed, a [restructure seam] comment
+    marks the one-armed verdict paragraph for pass 5; the failure-matrix
+    paragraph landed from his dictation (blind spot of the CTI; rules
+    independently decided, lettered A--I in the committed matrix figure ---
+    "A to H" repaired, nine rules; "recon" -> "preparation" per his earlier
+    stage ruling), placement open (chapter here vs appendix, his pass-5
+    call); **feasibility-record content points (ii) (iii) (iv) ruled OUT of
+    the chapter** (kernel-vs-matrix leg, firing profile, ablation pricing
+    --- "not important"; the record keeps them); completed-ruling comments
+    trimmed from the tex to fight bulk. **NEXT: pass 5 (Marc's compression
+    --- "this is getting too bulky"), then re-critique on the restructured
+    text.**
   - **Appendix debts now three:** co-occurrence preliminary runs (§4.2.1);
     the audit CSV polished + membership rule (§4.2.2); the candidate-scheme
     comparison (§4.2.2).
