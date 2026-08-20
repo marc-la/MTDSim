@@ -169,7 +169,7 @@ when the last of them ships.
 | ~~The chapter-opening pipeline redraw~~ | **SHIPPED 2026-08-20**, brief retired — `fig:pipeline` live as `pipeline_ladder` (`tools/pipeline_ladder_figure.py`); see the ruling note below |
 | ~~The failure-weight family wiring~~ | **SHIPPED 2026-08-20**, brief retired — one chapter float (all three views), the bands figure + three tables in §B.6, `success_weight_matrix` deleted; record: [`../implementation/pipeline/ogasp/failure_weight_decomposition.md`](../implementation/pipeline/ogasp/failure_weight_decomposition.md) §5.2 |
 | The dwell catalogue (chapter table + derivation + exponential entry) | [`2026-08-20_dwell_table_and_derivation.md`](2026-08-20_dwell_table_and_derivation.md) |
-| ~~The full technique-level graph (appendix; carried the fig:l1-graph CONFIRM)~~ | **shipped 2026-08-20** — brief deleted with the work, per the lifecycle |
+| ~~The full technique-level graph (appendix; carried the fig:l1-graph CONFIRM)~~ | **shipped 2026-08-20** — brief deleted with the work, per the lifecycle. **Still owed from Marc:** the voice pass on all four session-drafted captions (rule 2 below), and the `app:full-graph` framing prose slot, marked in the tex |
 | The L2 classification tables (audit + rejected partitions) | [`2026-08-20_app_l2_classification_tables.md`](2026-08-20_app_l2_classification_tables.md) |
 | The preliminary-extraction entries (`app:cooccurrence`) | [`2026-08-20_app_preliminary_extraction_entries.md`](2026-08-20_app_preliminary_extraction_entries.md) |
 | ~~Appendix wiring + labels~~ | **SHIPPED 2026-08-20**, brief retired — every other component now has its label; `git log` holds the brief, the ledger it produced is the section below |
@@ -187,7 +187,7 @@ label is the state that rule exists to prevent.
 
 | Label | Home | Owed by |
 |---|---|---|
-| `app:full-graph` | §B.1 | **filled 2026-08-20** — four figures, `tools/gap_appendix_figures.py` |
+| `app:full-graph` | §B.1 | **filled 2026-08-20** — four figures (`fig:app-flow-exemplar`, `fig:app-technique-graph`, `fig:app-technique-core`, `fig:app-tactic-graph`), `tools/gap_appendix_figures.py`; three landscape pages, all type at 8.0pt |
 | `app:classification-audit` | §B.2 | [`2026-08-20_app_l2_classification_tables.md`](2026-08-20_app_l2_classification_tables.md) |
 | `app:rejected-partitions` | §B.3 | [`2026-08-20_app_l2_classification_tables.md`](2026-08-20_app_l2_classification_tables.md) |
 | `app:dwell-derivation` | §B.4 | [`2026-08-20_dwell_table_and_derivation.md`](2026-08-20_dwell_table_and_derivation.md) |
