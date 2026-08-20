@@ -204,7 +204,7 @@ gates live in the component briefs.
 ## Reading list
 
 1. [`../workflows/figure_table_conventions.md`](../workflows/figure_table_conventions.md)
-2. [`2026-08-16_drafting_movement_attacker_section.md`](2026-08-16_drafting_movement_attacker_section.md) — the section's ruling trail
+2. the §4.2 ruling trail — lived in the 2026-08-16 drafting handoff, retired by Marc 2026-08-20 (`git log` holds it); every ruling this programme executes is restated in this file
 3. [`../implementation/pipeline/ogasp/failure_weight_decomposition.md`](../implementation/pipeline/ogasp/failure_weight_decomposition.md) §5 — where every failure-figure number lives
 4. `docs/thesis/figures/l1_attack_graph.tex` — the canonical style block
 5. [`../workflows/docs_map.md`](../workflows/docs_map.md) — placement

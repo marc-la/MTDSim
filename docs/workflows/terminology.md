@@ -8,8 +8,8 @@ updated: 2026-08-20
 
 **Status: living.** The dissertation-surface registry the drafting pipeline
 standardises against: one canonical term per concept, ruled by Marc, growing
-as drafting meets new clusters. Executes the registry step of
-[`../handoffs/2026-08-19_terminology_standardisation.md`](../handoffs/2026-08-19_terminology_standardisation.md);
+as drafting meets new clusters. Executes the registry step of the 2026-08-19
+terminology-standardisation handoff (retired 2026-08-20; `git log` holds it);
 consumed by pass 6 (the `voice-pass` skill), and — once ruled — by
 `repair-dictation` (`[term]` flags) and `scrutinise-draft` (consistency row).
 
