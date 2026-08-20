@@ -218,6 +218,9 @@ docs/thesis/*.fdb_latexmk
 docs/thesis/*.synctex.gz
 docs/thesis/*.dvi
 docs/thesis/*.ps
+# the compiled dissertation is a build artefact; proposal.pdf is NOT --- it
+# is the frozen as-submitted proposal, included by \includepdf, and tracked
+docs/thesis/dissertation.pdf
 # compiled PDF (uncomment to keep the PDF out of version control)
 # docs/thesis/dissertation.pdf
 

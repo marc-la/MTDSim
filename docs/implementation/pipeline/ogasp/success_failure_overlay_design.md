@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-21
-updated: 2026-07-28
+updated: 2026-08-19
 topic: "L3 M2 — the outcome (policy) overlay: a ground-up conditional-likelihood weighting over the whole directed tactic-pair set, composed multiplicatively with the base weights and the substrate's binary verdict at runtime"
 ---
 
@@ -348,6 +348,18 @@ from kill-chain and foothold-dependency logic, not attested. This gap is itself 
 methodological finding, not a hole to apologise for; the dissertation reports it as
 one and the artefact flags it (`evidence_tiers`).
 
+> **Re-read 2026-08-19** ([`success_null_overlay_feasibility.md`](success_null_overlay_feasibility.md)
+> §1): under Marc's premise that the corpus proportions already encode
+> success routing, the success treatment is a declared *sharpening* of an
+> attested layer rather than independent evidence, and the failure treatment
+> is the only layer no corpus supplies. The asymmetry above stands as stated;
+> what it is evidence *of* is re-read there, and the success column is priced
+> by ablation. **Ruled 2026-08-19 (Marc): failure-only adopted** — the
+> go-forward overlay is `v4_failure_only` (§2.2's success treatment retired to
+> the identity; §2.3's failure treatment unchanged); `v3` frozen for the
+> records that ran on it. From v4 on, the two-treatment reading of M2 is:
+> success = the corpus proportions, failure = this record's declared matrix.
+
 ---
 
 ## 5. Relationship to the substrate reset model and the MTD interrupt
@@ -483,6 +495,10 @@ code is the profiled-attacker build.
   [`../../metrics_semantics.md`](../../metrics_semantics.md) §(f); the AAR corpus.
 - **Feeds:** the profiled-attacker build (composition, lifecycle, record schema) and
   the first-numbers matrix.
+- **Presented (2026-08-19):** the failure treatment's values, decomposed on the
+  page as rule kernel × distance kernel → committed matrix —
+  [`failure_weight_decomposition.md`](failure_weight_decomposition.md) (figure,
+  appendix tables, two-pair walkthrough, the open kernel ruling).
 - **Artefact:** [`outcome_overlay.json`](../../../../data/ogasp/petri/outcome_overlay.json)
   (value semantics, composition rule, the model, the resolved 123-pair table);
   provenance row in [`../../provenance.md`](../../provenance.md).

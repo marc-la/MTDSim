@@ -25,8 +25,18 @@ Three terms decide a pair's value, applied in this order:
 
 So a compiled cell is ``rule_value * d(a, b)``, and with the distance term
 switched off (``distance=False``) the compiler reproduces the pre-distance table
-exactly — which is how both registered overlay versions are generated from one
+exactly — which is how every registered overlay version is generated from one
 rule set rather than from two divergent files.
+
+One further switch, ``success_passthrough``, compiles the **success** table to
+the constant 1.0 (rule id ``passthrough``) while the failure table is compiled
+as usual. Under the composition rule a factor of 1.0 at every destination is a
+no-op, so a success verdict then routes on the base flow proportions unchanged
+and only a failure verdict conditions the walk — the *failure-only* overlay
+variant whose feasibility ``success_null_overlay_feasibility.md`` studies. It is a
+compilation option, not a rule edit: the five success rules stay in the rule set
+and are simply not consulted, so the variant is rule-generated and reproducible
+like every other, and it reverts by flipping the flag.
 
 Determinism: sorted iteration throughout, no clock, no randomness. Same rules +
 same spec -> byte-identical tables.
@@ -52,6 +62,13 @@ VERDICTS: tuple[str, ...] = ("success", "failure")
 RELATIONSHIP_SOURCES: frozenset[str] = frozenset({"bands", "consensus_stages"})
 
 FORWARD, LATERAL, BACKWARD = "forward", "lateral", "backward"
+
+#: The rule id a success cell carries when the spec compiles the success table
+#: as a pass-through (``RuleSpec.success_passthrough``). Its value is always 1.0
+#: — the multiplicative identity — so composition leaves the base out-set
+#: untouched on a success verdict. It is not a member of the rule set's
+#: ``success_rules`` list: the rules are not edited, they are not consulted.
+PASSTHROUGH_RULE = "passthrough"
 
 
 class RuleCompileError(ValueError):
@@ -109,6 +126,10 @@ class RuleSpec:
     relationship_source: str = "consensus_stages"
     distance: bool = True
     kernel: DistanceKernel = DistanceKernel()
+    #: Compile the success table as the constant 1.0 (rule ``passthrough``) so a
+    #: success verdict routes on the base proportions unchanged; the failure
+    #: table is unaffected. The failure-only overlay variant.
+    success_passthrough: bool = False
 
     def __post_init__(self) -> None:
         if self.relationship_source not in RELATIONSHIP_SOURCES:
@@ -273,10 +294,15 @@ def compile_pair(
     of the compiled table can see *why* a value is what it is without
     re-running the compiler.
     """
+    delta = rs.stage_of[dst] - rs.stage_of[src]
+    if verdict == "success" and spec.success_passthrough:
+        # The multiplicative identity, deliberately without the distance term:
+        # on a success verdict the walk is the corpus's own routing, nothing
+        # declared multiplies it. The offset is still recorded for the reader.
+        return {"v": 1.0, "rule": PASSTHROUGH_RULE, "delta": delta}
     ordering = rs.ordering(spec.relationship_source)
     rule_id = _RULE_FOR[verdict](rs, src, dst, ordering)
     base = rs.values[verdict][rule_id]
-    delta = rs.stage_of[dst] - rs.stage_of[src]
     factor = spec.kernel(delta) if spec.distance else 1.0
     cell = {"v": round(base * factor, 6), "rule": rule_id}
     if spec.distance:
@@ -369,6 +395,7 @@ def view_document(rs: RuleSet, verdict: str, spec: RuleSpec, meta: dict) -> dict
             "`python -m mtdsim.l3_simulation.controller.rules --write`",
             "relationship_source": spec.relationship_source,
             "distance": spec.kernel.as_dict() if spec.distance else None,
+            "success_passthrough": spec.success_passthrough,
             "coverage": "complete 210 directed pairs (corpus-agnostic)",
             "format": (
                 "by_source[src][dst] = {v: value, rule: rule-id"
@@ -391,6 +418,7 @@ def spec_from_registry_entry(spec: dict) -> RuleSpec:
             delta_ratio=float(kernel.get("delta_ratio", 0.5)),
             z=float(kernel.get("z", 0.1)),
         ),
+        success_passthrough=bool(spec.get("success_passthrough", False)),
     )
 
 
@@ -487,6 +515,7 @@ __all__ = [
     "RULES_PATH",
     "VERDICTS",
     "DistanceKernel",
+    "PASSTHROUGH_RULE",
     "RuleCompileError",
     "RuleSet",
     "RuleSpec",

@@ -69,21 +69,12 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   (declared-value families first) ordered by claim-bearing weight. Off every
   chain; consumed by Marc directly.
 
-- [`2026-08-06_research_record_from_prompt_corpus.md`](2026-08-06_research_record_from_prompt_corpus.md)
-  — **the research record**, mined from Marc's own prompts across the session
-  transcripts. Off every chain: it touches no code, gates nothing, and is gated
-  by nothing. Splits deliberately: the annal is `implementation/` material — the
-  notes rubric bans session logs and decision registers outright — and only what
-  the mining *earns* becomes a note. Two outputs beyond the annal: the
-  **abandonments and reversals** no shipped record owns, and a **`record-drifted`
-  flag list** where the thinking moved on and the document did not (flagged for
-  Marc, never actioned). **Stage 0 shipped 2026-08-08; Stages 1–3 remain
-  deferred** while the instruments and records they would be measured against are
-  still moving — the corpus is backed up (`~/mtdsim-corpus-snapshot/2026-08-08/`,
-  checksummed, untracked), the extractor is committed as
-  `tools/prompt_corpus.py` with a self-checking gate, and a second extraction
-  pass is owed once the axis metrics and the Tay decision settle, so **it does
-  not retire at Stage 3**.
+*(The research-record brief retired 2026-08-20 with Stages 1–3 complete — the
+annal is the permanent account
+([`../implementation/research_record/`](../implementation/research_record/),
+whose living README carries the re-run instructions); the post-metrics delta
+pass it stayed open for rides that README now, not a handoff. `git log` holds
+the brief.)*
 
 ---
 
@@ -95,6 +86,7 @@ one. The full rows, with costed options, are in the disposition list of
 
 | # | What | Blocks |
 |---|---|---|
+| **Overlay: re-key experiment 2 under `v4`?** | The failure-only ruling is **taken and applied** (2026-08-19, Marc: "having a success matrix makes no sense logically"): `v4_failure_only` is the go-forward overlay, registered and compile-checked; `v3` frozen ([`success_null_overlay_feasibility.md`](../implementation/pipeline/ogasp/success_null_overlay_feasibility.md) §8). What remains is whether the published records — experiment 2 first, the chapter's headline source — are re-run under `v4` before ch5 is drafted, or stand on `v3` with the feasibility study as the bridge (the retired success table's effect is a profile-signed 1–3 hosts, no headline moved; ≈ 27 000 rows for the full set, 2 760 for experiment 2 alone, §6). The sibling kernel-discrepancy ruling **closed 2026-08-19** (keep as declared; [`failure_weight_decomposition.md`](../implementation/pipeline/ogasp/failure_weight_decomposition.md) §4), whose figure set regenerates under `--version v4_failure_only` at the tex wiring pass | the ch5 numbers; the owed §4.2.4 failure-encoding paragraph is unblocked |
 | **D-09** | Zhang's unimplemented MTD-interruption give-up threshold (IS-INT-06) — wanted, and in which form? | no handoff — the measure that generalises it **shipped**; the ruling now bears on whether that generalisation is ratified ([`../implementation/pipeline/ogasp/attacker_disengagement.md`](../implementation/pipeline/ogasp/attacker_disengagement.md) §8, alongside the axis-6 ratification) |
 | **D-16** | Eq 2's `V_exploited` half is not charged into phase-2 duration | — |
 | **D-17** | The OSDA MIP formulation is decoupled; ranked recommendation is withdraw ≥ replace ≫ repair | — |

@@ -12,6 +12,7 @@
       "delta_ratio": 0.25,
       "z": 0.1
     },
+    "success_passthrough": false,
     "coverage": "complete 210 directed pairs (corpus-agnostic)",
     "format": "by_source[src][dst] = {v: value, rule: rule-id, d: distance factor, delta: signed stage offset}; rationale via outcome_rules.json rules[rule]"
   },

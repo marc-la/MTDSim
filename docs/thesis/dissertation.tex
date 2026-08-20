@@ -33,6 +33,8 @@
 \usepackage[australian]{babel}
 \usepackage[numbers,sort&compress]{natbib}   % \citep / \citet -> [n]
 \usepackage{tcolorbox}         % the research-question grey box (ch1)
+\usepackage{pdfpages}          % appendix A: original proposal included
+                               % as compiled pages (see app:proposal)
 \newcommand{\tactic}[1]{\texttt{#1}}    % tactic place-names in monospace
 
 
@@ -110,6 +112,24 @@ attacker, on the standard metric suite and on the APT-specific measures
 that suite cannot express?
 \end{tcolorbox}
 
+% Both blocks below are visible placeholders (Marc's rulings 2026-08-20;
+% conventions + corpus exemplars in literature_conventions.md (g)). Marc
+% drafts the prose via the dictation pipeline. SQ labels (SQ1 capture /
+% SQ2 model / SQ3 evaluate) ride the RQ box above when re-dictated ---
+% single-RQ architecture (a) stands; SQs label the decomposition, not
+% new top-level questions.
+\medskip
+\noindent\emph{[Placeholder --- numbered contributions list closes this
+chapter, keyed SQ1 (capture) / SQ2 (model) / SQ3 (evaluate).]}
+
+\medskip
+% NOTE before drafting the availability sentence: the public repo's main
+% branch is the standalone simulator (deliberate dev/main split) ---
+% decide what the link lands on for a reader (main as-is, or a thesis
+% release tag).
+\noindent\emph{[Placeholder --- artefact availability sentence riding
+the contributions list, linking
+\url{https://github.com/marc-la/MTDSim}.]}
 
 % =====================================================================
 \chapter{Background}
@@ -204,17 +224,17 @@ that suite cannot express?
 % PLACEHOLDER figure: controller-action visual standing in until the
 % box-and-flow pipeline figure (V7) is drawn to the thesis ladder above.
 % Caption to be rewritten long and self-contained at the figures pass.
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{movement_controller_action}
-  \caption{[Placeholder --- to be replaced by the pipeline box-and-flow
-  figure.] The movement attacker end-to-end: campaign intelligence
-  aggregated into a technique graph (L0--L1), conditioned into
-  objective profiles (L2), given executable semantics as a generalised
-  stochastic Petri net (L3), and joined to the simulator as an
-  attacker-agent traversal (L4).}
-  \label{fig:pipeline}
-\end{figure}
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=\textwidth]{movement_controller_action}
+%   \caption{[Placeholder --- to be replaced by the pipeline box-and-flow
+%   figure.] The movement attacker end-to-end: campaign intelligence
+%   aggregated into a technique graph (L0--L1), conditioned into
+%   objective profiles (L2), given executable semantics as a generalised
+%   stochastic Petri net (L3), and joined to the simulator as an
+%   attacker-agent traversal (L4).}
+%   \label{fig:pipeline}
+% \end{figure}
 
 % ------------------------------------------------------ requirements --
 \section{What an APT attack model must capture}
@@ -252,12 +272,47 @@ that suite cannot express?
 % orientation. No ladder re-narration; the chapter-opening figure owns
 % the ladder.
 
+% ---- Preamble: Marc's dictation (2026-08-19), passes 2-4 applied and his
+%      3b walk ruled the same day (all markers resolved; P1/P2 from his
+%      ruling dictation applied as live text). Rulings, do not re-flag:
+%      "eight axes" (keep it simple --- no criterion/criteria discussion);
+%      "we are going to" stays; "by the attacker model at runtime" stays;
+%      no "successful"; "parsing and" removed; "attack profiles" (ratified
+%      noun); "not touching" stays as sure; the "Any upgrades are in
+%      Chapter 2" sentence CUT as a duplicate of "see Chapter 2"
+%      (reversible); contractions stay. M2 withdrawn (input claim, not a
+%      fidelity claim). Pass 5 (Marc) next: ~150 words against ~125; the
+%      one duplicate pair is marked.
+% ---- Pass 5 applied 2026-08-19 on Marc's "apply the table" ruling: the
+%      four-slot grey box (bridge / naming pair / grounding + scope /
+%      orientation), deletions and folds of his own words only. Seams
+%      closed: (i) the ch2 apposition folded into the replacing sentence;
+%      (ii) "beside" now carried once, in the scope sentence; (iii) the
+%      traversing sentence joined to the execution clause with a colon
+%      (cut: "--- the implementation of L0 to L4 in MTDSim", "This is").
+%      Pre-pass-5 text in git history.
+Now that we've outlined the eight axes that we are going to be measuring
+our model against, this is our implementation, and we're calling it the
+movement attacker. We are replacing the baseline attacker, the inherited
+scripted six-phase attacker from MTDSim (see Chapter~\ref{ch:background}),
+with the movement attacker: it adopts its action set, and the movement is
+dictated by the Petri net and by the attacker model at runtime. We are
+grounding it in CTI in a way that captures the behaviour of APT attackers
+in the real world, and boiling it down into something that we can
+operationalise and join into our existing simulator to evaluate our
+defence mechanisms. This is built beside MTDSim; we're not touching the
+original simulator, so that we can compare our results by construction.
+The pipeline (Figure~\ref{fig:pipeline}) has three phases: L0 to L2 are
+structure, L3 and L4 are semantics and parameterisation, and execution is
+that we ran it: an attacker agent traversing MTDSim, guided by our attack
+profiles.
+
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
 % flows into tactic dependencies. Answers capture. Disclosures: what
 % the graph cannot represent. (Consensus-thresholds disclosure removed
 % per Marc's ruling, 2026-08-16 --- the lossless/views record lives in
 % the repo, not the chapter.)
-\subsection{L0--L1: From cyber threat intelligence to an attack graph}
+\subsection{L0--L1: Cyber threat intelligence to attack graph}
 \label{subsec:technique-graph}
 
 % DRAFT STATE (2026-08-16): passes 1--5 COMPLETE; Marc signed the unit
@@ -270,6 +325,12 @@ that suite cannot express?
 % (d) the cycles-preserved sentence was cut at pass 5 --- the L3 unit
 % must now introduce loop preservation itself (readers default to
 % assuming attack graphs are acyclic).
+% FIGURE (2026-08-17): fig:l1-graph inserted after P2 --- generated by
+% tools/l1_attack_graph_figure.py from data/gap/gap_v0.5.json + the
+% CISA AA22-138B (TA1) flow extract; regenerate, never hand-edit the
+% PDF. Caption is SESSION-DRAFTED (long, self-contained per the writing
+% guide) and owed Marc's voice pass; the three (Figure~\ref{...}) refs
+% are the only in-prose edits --- parentheticals on his sentences.
 
 We made the attack graph using Attack Flow. Attack Flow is maintained
 by the Center for Threat-Informed Defense (CTID), which sits under
@@ -286,12 +347,14 @@ NLP-based approaches we ruled out as a class: we judged the relatively
 low fidelity of the threat intelligence they produce to be something
 we could not defend over the life of the project
 \citep{rahman2025, buchel2025}. The strength of using Attack Flow's
-corpus is that a human analyst drew every single dependency, so there
-is a degree of fidelity that other approaches could not provide.
+corpus is that a human analyst drew every single dependency
+(Figure~\ref{fig:l1-graph}a), so there is a degree of fidelity that
+other approaches could not provide.
 
 Importantly, instead of using each incident independently of each
 other --- where there's not a lot of insight in the corpus --- we
-aggregated the 38 usable attack flows. We added the graphs together:
+aggregated the 38 usable attack flows (Figure~\ref{fig:l1-graph}b). We
+added the graphs together:
 we stripped out all of the unnecessary details, like specific attack
 procedures or human analyst notes, preserving the logical AND/OR
 structure. But aggregating these graphs, the logical AND becomes
@@ -308,9 +371,10 @@ capture the generalised behaviour of APT attackers. There is also
 precedent for using tactics as the node granularity
 \citep{rodriguez2024}.
 
-The aggregate APT attack graph (L1) is a weighted directed graph where
-the nodes are the MITRE ATT\&CK tactics, and each edge is weighted on
-how many times it's observed in the corpus. Importantly, we are using
+The aggregate APT attack graph (L1; Figure~\ref{fig:l1-graph}c) is a
+weighted directed graph where the nodes are the MITRE ATT\&CK tactics,
+and each edge is weighted on how many times it's observed in the
+corpus. Importantly, we are using
 human-analyst-drawn dependency graphs, and this is very sparse input
 data. The edge weight is a recurrence value; therefore, we cannot rely
 on these weights alone for attacker agent traversal. Instead, we treat
@@ -418,36 +482,377 @@ which is known for double extortion, so we are not surprised there.
 % 1 unit (L3). The formalism, the alternatives ranked in a sentence each
 % (a feasibility study sits behind the choice; single-token walk over
 % per-objective net structure). Answers model, with the next one.
-% GSPN semantics executed, not solved (stochastic_timing_design.md) ---
 % "generalised", never "general". Disclosures: synthetic pre-intrusion
 % structure (the corpus begins at initial access), entry-point selection
-% (D8: both tested), the standalone analytical track in one sentence if
-% at all.
-\subsection{L3: The generalised stochastic Petri-net formalism}
+% (D8: both *testable* --- the initial-access seed is a toggle, no
+% published run; scan 2026-08-17). RULED OUT (Marc, 2026-08-17): the
+% executed-not-solved / CTMC closed-form vocabulary and the standalone
+% analytical track are not wanted in the chapter --- the record holds
+% them (stochastic_timing_design.md §1).
+\subsection{L3: Generalised stochastic Petri-net formalism}
 \label{subsec:petri-formalism}
+
+% ---- Marc's pass-5 compression (2026-08-18), written in with his rulings
+%      on the session's scrutiny of it applied. Earlier pass records live
+%      in the drafting handoff and git history. Order ruled: why GSPN >
+%      the model > pre-intrusion solution > limits that carry to L4. ----
+% [APPLIED 2026-08-18: topic sentence (b), Marc's own words from the first
+%   dictation, chosen over (a) the question.]
+We needed a data structure to pipe in these attack profiles from L2 as
+an input, and this is what the Petri nets provide.
+% [RULED 2026-08-18, do not re-flag] the 37% number stays out (not needed);
+%   "declared and kept apart from the observed profiles" stays out
+%   (implicit in "sub-Petri-net ... we join it").
+We ruled out attack graphs, which we already have from L1, because they
+do not supply the timing and stochastic elements we needed, so we needed
+a more nuanced data structure; DAGs, because they are acyclic (the L1
+attack graph is cyclic). The other forms of Petri net: an SPN does
+not have the right mechanism, since it times every transition, and a
+DSPN is over-engineered, adding a fixed delay we do not need, so we used
+the one in the middle, a GSPN, which provides the immediate transitions
+we are using. There is also a large
+precedent for stochastic Petri nets in the MTD evaluation
+space~\citep{cai2016, chobenasher2018, mendonca2023}.
+% [APPLIED, your ruling] the sentence head restored ("We ruled out attack
+%   graphs, which we already have from L1, because ...").
+% [APPLIED 2026-08-18] SPN / DSPN / GSPN-in-the-middle clause (yours).
+
+Petri nets have their places, which are the Enterprise ATT\&CK
+tactics~\citep{mitre2026attackv19}. The transitions are tactic--tactic
+pairs. Self-loops are dropped, because those are represented through the
+dwell times we are providing: each tactic has a time allotted to it. We
+are using one token, placed at the earliest tactic --- reconnaissance
+with the pre-intrusion overlay in place, and in lieu of that, initial
+access. We construct this Petri net before execution of the simulator.
+% [RULED, do not re-flag] "analyst-drawn from L2" stays out --- Marc:
+%   sits badly beside the synthetic overlay paragraph; the L2 subsection
+%   carries provenance.
+% [RULED 2026-08-18, do not re-flag] the one-token AND trade-off stays out
+%   of the chapter --- a property of this work's constraints, not of the
+%   formalism; multi-token would use the AND structure --- recorded as a
+%   future-work candidate (structure_to_behaviour_binding.md revisit
+%   conditions; drafting handoff).
+The places in GSPN allow us to produce stochastic
+times. The attacker agent will consume some stochastic amount of time to
+perform a procedure to achieve a goal, which is the tactic. Each tactic
+has a time associated with it, drawn exponentially to provide
+stochasticity to the simulator, and the out-transitions are immediate.
+The GSPN structure is plug and play, so we can put in our various attack
+profiles as an input into these Petri nets, and this provides separation
+and discipline.
+% [APPLIED, your ruling] "(see sensitivity analysis ch5)" deleted --- the
+%   closing paragraph already sends parameters to L4, which declares and
+%   points at ch5.
+% [RULED 2026-08-18, do not re-flag] the ownership fold ("supplies only
+%   the structure ... policy emerges through execution; that is L4") CUT
+%   by Marc --- reads as a limitation/characterisation; the ceiling
+%   paragraph's "L4 deals with this" carries the boundary. ¶2 + ¶3 merged
+%   (our model = structure + semantics) --- four paragraphs, matching the
+%   ruled order. "Generalised" coexistence clause: not important.
+
+The phases reconnaissance and resource development, before initial
+access, are not well connected in our attack profiles. So we drew in
+synthetic out-transitions from reconnaissance to resource development to
+initial access, as well as a backwards transition from initial access to
+reconnaissance, so that we could model the runtime behaviour of the
+attacker agent. This pre-intrusion overlay is a sub-Petri-net in its own
+right: we join it to the attack profiles to produce the executable Petri
+net. We can assume that they perform these because we know they do
+that, and it is defensible because nothing detects pre-intrusion
+activity anyway.
+% [APPLIED, your ruling] PRE-ATT\&CK head dropped as lit-review background
+%   (strom2018mitre / mitre2020attackv8 stay in the bib for ch3); the
+%   fragment repaired by deletion only ("and these" removed).
+% [APPLIED 2026-08-18] M6 justification sentence.
+
+But there are limits to what the GSPN can provide: parameters (the
+timings of how long the attacker dwells at a tactic; the exponential
+defence of the dwell times) and mechanics (reweighting the
+out-transitions a token may choose at runtime, based on the success of
+an attacker agent in the simulator; sink retrace policy). L4 deals with
+this.
+% [note] the "dwell times exist nowhere -> inherently arbitrary ->
+%   justified against the literature -> swept in ch5" sentence moved out
+%   of L3 with this compression; it is 4.2.4.1's opening obligation
+%   (skeleton comment carries it).
+
+
 
 % 2 units --- the backwards join onto the ch2 substrate, folded from the
 % former Parameterisation + Traversal-and-the-controller subsections
 % (Marc's ruling, 2026-08-16; traversal/controller were themselves
-% merged 2026-08-12). Any subsubsection heading added at drafting is a
-% unit claim on the ledger --- the fold holds exactly two.
-% Content the fold must carry:
-%  (i) parameterisation --- transition weights from flow proportions
-%      (corpus sparsity accepted and disclosed); per-tactic dwell times:
-%      standard of evidence, calibration, distribution shape; sweep
-%      discipline points at sec:sensitivity rather than restating it.
-%  (ii) mechanics --- action selection among enabled transitions,
-%      tactic-to-verb dispatch, outcome resolution via the substrate
-%      verdict, verdict feedback and re-weighting, attacker state, the
-%      attacker-only seam.
+% merged 2026-08-12). The fold holds exactly two units and, per Marc's
+% ruling of 2026-08-18, exactly TWO subsubsections --- one per unit, named
+% below (a three-way Parameterisation / Mechanics / Join split was
+% considered and declined as not well motivated). Any further heading is
+% a unit claim on the ledger and displaces one of these.
+% FRAMING (Marc, 2026-08-18): L4 is *what the Petri net cannot supply,
+% and how the net is joined to MTDSim* --- it answers the L3 ceiling
+% paragraph one-to-one (parameters; mechanics), and it may say in a
+% sentence that parameterisation and mechanics are supplied across the
+% layers (movement / controller / action --- architecture §(f)) rather
+% than by any one of them. No fifth rung: execution IS the join.
+%
+%  4.2.4.1 Parameterisation --- the values, declared before any run:
+%      transition weights from flow proportions (corpus sparsity accepted
+%      and disclosed); per-tactic dwell times: standard of evidence,
+%      tiers, distribution shape (values are DECLARED and justified
+%      against the literature --- never "calibrated" or "from the
+%      literature"; S3-R: the movement layer supplies every unit of
+%      attacker time); sweep discipline points at sec:sensitivity rather
+%      than restating it. The L3 pointer "covered in the L4
+%      parameterisation" lands here.
+%  4.2.4.2 Mechanics and the join --- the behaviour at runtime and the
+%      MTDSim-specific binding: action selection among enabled
+%      transitions, verdict-conditioned re-weighting (success/failure
+%      sets; directionality without a kill-chain stage machine), sink
+%      retrace, tactic-to-verb dispatch, outcome resolution via the
+%      substrate verdict (the action layer as outcome oracle), attacker
+%      state, the attacker-only seam, the confusion penalty staying
+%      substrate-side. Heading form to be settled at drafting (sentence
+%      case; "MTDSim" is a name, not an acronym).
 % The two commitments the merges must not lose: the mapping as a chosen
 % input parameter (the standing caveat bounding every claim in the
 % results chapter) and routing ablatability (the null modulator
 % configuration is bit-identical to the model without it; the former
 % fidelity-extensions section stays dissolved into subsec:families'
-% ablation arms).
+% ablation arms). Both live in 4.2.4.2.
+% AMENDED (Marc, 2026-08-19): the routing-ablatability must-carry is CUT
+% from the chapter text --- the guarantee stays in the repo record
+% (attacker_state_seam.md) and ch5 cites it there. The mapping must-carry
+% stands and is now in the draft.
 \subsection{L4: The attacker-agent traversal in MTDSim}
 \label{subsec:execution}
+
+% ---- PASS 5 restructure applied 2026-08-19 on Marc's acceptance of the
+%      proposed redraft (chat). His sentences reassigned; deletions, moves
+%      and flagged minimal glue only. Structure: preamble (join problem;
+%      trichotomy+scope) -> 4.2.4.1 "The controller layer" (renamed from
+%      "Parameterisation" on his ruling) = the three declared inputs, one
+%      block each (dwell+exponential / mapping / failure matrix), spine
+%      sentence from his dictation -> 4.2.4.2 Mechanics = runtime loop +
+%      figure / verdicts / run policies. Provenance of each move is in the
+%      drafting handoff and the chat proposal. Pre-restructure text in git
+%      history (bd2abb4).
+The question for L4 is: what can the Petri nets not supply, and how do we
+join this to MTDSim? For this stage we have these attack profiles, and these
+have been formalised into Petri nets. These Petri nets can act as inputs, but
+they're like source code: they have no way of actually running. You can run a
+Petri net, but what we found is that that would produce a timeline of what the
+attacker did (you're tracing the token). The timeline is a dead end: it is a
+pregenerated sequence, and there is no input from the simulator, and this is
+not what we're after. Say, for example, your attacker was thwarted by the MTD
+mechanism through a mutation. This would definitely lead to a different next
+course of action for an attacker in real life, but in this one-way replay
+timeline world, where we precompute the attack timelines, the script will
+just follow the next tactic. This was not representative of what we thought
+the attack model should capture. We had to produce a two-way join.
+
+Everything from L0 to L3 is what I'm considering the movement layer, because
+the attacker is moving: the token is moving through all these tactics. Within
+the simulator, MTDSim, the inherited attacker model has its attack operations
+and has six phases, as outlined in the background. This is what we're calling
+the action layer. To produce results, we have to join these two layers
+together, and we're doing this through the controller layer. We scoped it
+down: for this paper we adopt the existing attack actions from the simulator,
+and we built the movement layer beside MTDSim --- not embedded in it --- so
+that we can evaluate the MTD mechanisms using different APT attack profiles by
+construction.
+% [rephrase applied per your ruling: the two "beside MTDSim" sentences folded
+%   into one, "beside" carried once.]
+Future work can look into changing the underlying action layer, but this has
+been scoped out for this paper. We've combined knowledge and real-world data
+working together at runtime to produce a result that I am here to measure.
+
+% [heading renamed on Marc's ruling 2026-08-19: "Parameterisation" -> "The
+%   controller layer" --- the controller is defined in the preamble above and
+%   is the join; label updated (nothing referenced the old one).]
+\subsubsection{The controller layer}
+\label{subsubsec:controller}
+
+The controller layer is the join between the Petri nets and our simulator, and
+it carries three things: the dwell times (the stochastic dwell times), the
+tactic-to-verb mapping, and the failure matrix.
+% [spine sentence --- Marc's dictation 2026-08-19, was the placeholder.]
+
+In terms of what the Petri nets cannot provide that we need for this two-way
+join, the first one is the dwell times. Each tactic will consume some time in
+the simulator, as the previous attack phases did from the action layer. But the
+issue with this is that we cannot derive this from anything that we've done in
+the movement layer itself. The dwell times do not exist in the literature; they
+do not exist in CTI vendor reports. Prior papers that have done similar work
+here describe this as inherently arbitrary: trying to put times on an attack.
+There is no MITRE tactic mapping to time resource --- this does not exist. How
+long does defence evasion take? This is a parameter of the model itself, not an
+invariant.
+
+Based on all the dwell times from the original simulator: this is how we
+derived our new dwell times for our tactics. What we could take from the
+original simulator we used, from the six original verbs from the action layer.
+If that wasn't sufficient, then we used some multiplier of those values to
+produce the tactic draw times, and if not, we would decide what shape would fit
+best for this tactic. You can see the appendix for this: for example
+stealth-low-and-slow, it is 45.0 seconds, which was 10 times the exploit shape.
+But then resource-development we deemed as zero seconds, because from the
+defender's perspective this is off-network and untrackable. Some tactics map to
+the same verb, but in reality the tactics, we would assume, do not take the same
+amount of time --- there might be more effort, more time, more resources
+required --- so different tactics that map to the same verb still provide a
+different amount of time.
+
+We are not claiming that the attacker dwell is exponentially distributed, but
+the behaviour of APT attackers is stochastic: stochastic means it can be
+measured, but it cannot be predicted. We're trying to model the stochastic
+behaviour of these APT attackers: how are we going to do that without some
+capability for that? The capability is provided using this exponentiation
+mechanism, which makes the times stochastic (the base dwell times are not).
+Having fixed timings for the tactics is not stochastic, and that is why we
+introduced this exponential element. There is evidence in the literature for
+stochastic attack behaviour~\citep{holm2014, madan2004, bland2020}.
+% [your re-dictation applied ("there is evidence in the literature for
+%   stochastic attack behaviour"). Citations wired --- VERIFY the subset:
+%   holm2014 (empirical, fitted compromise-time distributions), madan2004
+%   (semi-Markov lineage), bland2020 (stochastic-net attacker precedent);
+%   mcqueen2006 also available. Trim to taste.]
+
+The Petri nets will not map one-to-one. We needed a mapping from our Petri-net
+nodes, or attack tactics, to the action layer, the verbs. We're calling this
+the tactic-to-verb mapping. There is no real mapping here, so we used our best
+judgement. The tactic mapping is not a logical one; rather, it is just one that
+we thought was the best fit. What we're doing is a direct mapping with certain
+constraints on it: a tactic can go to only zero or one verbs, and a tactic can
+only execute either zero or one actions in the simulator at a time, so this
+problem remains tractable. Where there is no mapping, the tactic is dwell-only:
+it consumes time in the simulator and dispatches nothing. The dwell-only is a
+concession: the original attacker model that we're plugging into on the action
+layer has gaps. You can see this in the diagram provided: there are many
+dwell-only tactics.
+% [figure slot] the controller-mapping figure is the candidate
+%   (data/misc/_viz/controller_mapping); wired at the figures pass.
+% [note] the mapping-swap-as-experiment point goes to sec:experimental-setup
+%   (drafting handoff carries it), so it is not here.
+
+We've tried some other things: forcing a total mapping was just another input
+that didn't work. It was running a tightly ordered finite state machine in an
+unordered but stochastic manner, and this resulted in very poor performance
+(Appendix~[X]). This is also foreshadowing what is to come: we expected the
+movement layer to perform the same, or even worse, because it is the same thing
+in proxy. We also considered using MITRE Caldera, which is also an
+operationalisation of the MITRE ATT\&CK framework, but this would introduce too
+much overhead, and the results were unclear about the practical implication of
+that.
+% [appendix debt] Appendix~[X] = the experiment-1 poor-performance record
+%   (experiment_01_findings.md distilled).
+
+The ceiling of this paper lies in the action layer that we are adopting from
+the original simulator: the attacker model that we produce can only be as good
+as what we're adopting. But the beauty of it is that it is extendable, it's
+modular: you can take our movement layer and map it to anything, if you can
+provide an appropriate mapping, or you can build a stronger underlying attack
+model that operationalises all of MITRE's tactics, and that would produce a
+much greater and more useful attacker model. We did not have the time to do
+this.
+
+The base transition weights are a recurrence value from the earlier levels, and
+we assume the observed out-transitions are the complete set of choices open to
+the token --- an explicit assumption, since the Attack Flow corpus is all we
+have to draw on, and a different corpus would give different transitions and
+weightings. But a recurrence value is not reflective of an attacker, because an
+attacker can succeed or fail, and these reports only capture success --- there
+is survivorship bias. These values are necessary, but they're not sufficient,
+so we have to supplement them with additional re-weighting to consider if the
+attacker agent fails.
+% [rephrase applied: base-weights passage compressed to its consequence + the
+%   closed-world assumption, not re-defining the weights (defined at L1/L2).]
+
+One of the big concerns was trying to overfit the tactic-to-tactic weight set
+to our existing attacker model, the inherited action layer. So this is a
+separate layer, independent from the nets and from the action layer: we didn't
+reverse-engineer any of these values. These are independent, and they can be
+justified; they can be defended.
+
+We employed a failure matrix because this is the blind spot of the CTI: the CTI
+naturally encodes success, so the failures are what is not encoded, and that is
+what we're trying to encode here. We needed a 15-by-14 failure matrix (excluding
+self-loops), shaped by two components. The first is the failure rules,
+independently decided: each tactic-to-tactic transition was placed into a given
+shape (rules A to I in the diagram). The second is distance: we used the
+literature and overlaid the attack
+phases~\citep{hutchins2011, alshamrani2019, mandiant2013, chemat2024}, which
+gave the four broad phases of an attack --- preparation, intrusion,
+post-intrusion operations, and objective. We assigned a distance value: a
+transition within the same phase, or one phase away, is not penalised; two
+phases away keeps a quarter of its weight; and the maximum distance is weighted
+zero. There is a floor of 0.1: if a distance value falls below this threshold,
+it is read as exactly zero at fold-in. It makes no sense for an attacker to go
+from recon directly to impact in the MITRE framework, because they are multiple
+steps away from each other, as the literature would say. This can be found in
+the appendix, along with the full set of tactic-to-tactic weight sets.
+% [merge applied: the old "15-by-14 failure matrix" opener folded into the
+%   "blind spot of the CTI" dictation; the duplicated four-phases statement
+%   dropped.]
+% [figure slot --- four-phase overlay, placeholder] candidate: the
+%   lifecycle/CKC overlay viz (data/misc/_viz/ckc_lifecycle/); figures pass.
+
+We judged these were a plausible, literature-bounded and sensitivity-swept set
+of values to feed into our attacker model.
+% [unit close, promoted per your ruling to cover all three inputs --- "this is
+%   basically our attack model", one sentence at the end.]
+
+\subsubsection{Mechanics and the join to MTDSim}
+\label{subsubsec:mechanics-join}
+
+We made all of the actions in MTDSim independent of each other, and produced
+the join through the controller layer, so that the movement layer supplies all
+the timing of the attacker agent at runtime. The loop runs as follows: the
+token selects the next tactic; the tactic has a dwell time and an exponential
+factor, which is fed into the discrete-event simulator and consumed as time;
+the mapping resolves the tactic to a verb (or to dwell-only); once the time is
+consumed, a success or failure signal returns, the matching weight set
+re-weights the token's out-transitions, and the next tactic is selected
+(Figure~[data-flow]).
+% [rephrase applied: your dictated loop spec compressed to one runtime
+%   sentence + the figure ref; the action-carve moved here from the preamble.]
+
+This is verdict-conditioned re-weighting. The base proportion on all of the
+edges is multiplied by a declared weight set and renormalised. On success the
+token routes on the base proportions, since the corpus already encodes success;
+on failure the declared failure weight set applies, producing a different set of
+options for the token to decide from. This is what encodes direction.
+% [rephrase applied: the one-arm seam fixed --- success = route on the base
+%   proportions (v4_failure_only); "encodes direction" once. The retired
+%   success matrix is not mentioned, per your ruling.]
+
+To produce this two-way join, we use the action layer to send success signals:
+success or failure at runtime comes from the action layer and is propagated up.
+An action fails if the preconditions of the action itself were missing --- for
+example, trying to exploit a vulnerability without having scanned for it:
+objects are passed around in the simulator, and if the verbs have not been run,
+it fails. The same goes for the moving target defence: if MTD interrupts the
+attacker, then whatever verb it is on will fail. But if they're on a dwell-only,
+there is no verdict, so this is not felt by the token in the Petri net.
+
+In terms of policy, we employed a sink-retrace policy, because the token would
+frequently hit sinks in the Petri net and terminate the run --- a concession of
+the thinness of the corpus; to deal with this, we retrace the edge travelled.
+Another quirk is that the simulator we are inheriting largely models the
+confusion and disruption of the attacker through a 20-second confusion penalty
+that hits the attacker at certain phases. How the defender thwarts the attacker
+is inherently tied to the simulator; it is an invariant of the simulator, so we
+maintain that 20-second confusion penalty. So not all the timing is supplied by
+the Petri net: there is this confusion penalty exception.
+% [figure slot --- ruled 2026-08-19: the subsection's primary figure, the
+%   runtime data-flow loop (\ref target [data-flow] above), drawn AFTER the
+%   prose is polished. Spec: token selects tactic -> mapping resolves
+%   dwell-only or verb -> simulator executes and consumes the drawn stochastic
+%   time -> success/failure signal propagates up -> invokes the failure weight
+%   set -> multiplied onto the token's out-transitions -> token chooses next
+%   tactic. Three controller artefacts drawn in the middle (mapping, failure
+%   matrix, dwell times), each invoked when required; movement layer above,
+%   simulator below. Same grey ramp / tactic-axis as fig:l1-graph and the L3
+%   figure.]
+% [RULED, do not re-flag] routing-ablatability must-carry CUT from this unit;
+%   guarantee stays repo-side (attacker_state_seam.md); ch5 cites it there.
 
 % ----------------------------------------------------------- evaluate --
 \section{Experimental setup}
@@ -489,31 +894,6 @@ which is known for double extortion, so we are not surprised there.
 \subsection{Dimensions and the two experiment families}
 \label{subsec:families}
 
-\begin{table}[htbp]
-  \centering
-  \caption{Dimensions of the evaluation --- the factors both experiment
-  families draw their cells from. Seeds are a claim-class convention
-  stated once (ten supports a rank comparison, not a significance test),
-  not a factor.}
-  \label{tab:eval-factors}
-  \begin{tabular}{p{0.20\textwidth} p{0.42\textwidth} p{0.30\textwidth}}
-    \hline
-    \textbf{Factor} & \textbf{Levels} & \textbf{Role} \\
-    \hline
-    Attacker arm & inherited scripted; profiled campaign envelope
-      ($\times$ objective profiles) & the manipulation under test \\
-    Defence & none; each mechanism singly; shuffle-only pair; diversity-only
-      pair; shuffle $+$ diversity; execution schemes & the ranked object; the
-      lineage headlines are stated over exactly these \\
-    Network scale & small / medium / large & the axis each fidelity extension is
-      designed to show or vanish on \\
-    Connection density & held vs.\ varied at fixed node count & settles the
-      lineage's unresolved size-vs-density confound \\
-    Mutation tempo & operating interval; relaxed interval & the degenerate region
-      lives here; grades are stated with the tempo they were taken at \\
-    \hline
-  \end{tabular}
-\end{table}
 
 % NOTE: the evaluation-method findings the collapsed attacker hid
 % (tactic-resolved MTD effect; execution-not-planning reach; the
@@ -614,6 +994,17 @@ which is known for double extortion, so we are not surprised there.
 
 \chapter{Original honours proposal}
 \label{app:proposal}
+
+% The proposal is included as submitted (13 March 2026), compiled from
+% the standalone proposal.tex alongside this file --- rebuild it with
+% pdflatex before compiling the dissertation if it changes. It keeps its
+% own bibliography: its citations are deliberately NOT merged into
+% references.bib (unchecked against the vetted list; the cai2016 key
+% would collide).
+The proposal is reproduced on the following pages as submitted in
+March 2026, with its own reference list.
+
+\includepdf[pages=-]{proposal.pdf}
 
 
 % Completed sensitivity sweeps too verbose for the results preamble; the

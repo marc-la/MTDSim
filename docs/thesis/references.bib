@@ -1,42 +1,188 @@
-%% =====================================================================
-%%  references.bib  --- bibliography for the CITS4010 dissertation
-%%
-%%  The entries below are REAL, well-known seed references included so
-%%  the boilerplate compiles and demonstrates \cite{}. Verify each one
-%%  and replace/extend with your own sources. Per the project brief,
-%%  prefer peer-reviewed Q1 (Q2 acceptable) works, and 2025--2026 for
-%%  state-of-the-art claims; older works are fine for fundamentals.
-%% =====================================================================
-
 % =====================================================================
-%  refs.bib — bibliography for docs/thesis/tactic_profiling_defence.tex
+% References — Adaptive MTD Literature Review (CITS4010)
+% Consolidated from author-pasted, publisher-verbatim records — 22 May 2026
 %
-%  PROVENANCE. Every entry is transcribed from the bibliographic anchor
-%  of its docs/sources/extractions/*.md record (the in-repo source of truth),
-%  noted per entry as `% <- extractions/<file>.md`. DOIs are included
-%  ONLY where the extraction states one; where the extraction gives no
-%  DOI/page range it is omitted and a `VERIFY:` note is placed OUTSIDE
-%  the entry, rather than guessed (docs/workflows/guardrails.md: never guess
-%  a locator).
+% IMPORTANT — cite keys: every entry below is RE-KEYED to the key used by
+%   \cite{...} in the .tex sources (cho2020, brown2023, ...), NOT the raw
+%   publisher key (8949517, 10189166, ...). If you paste the publisher keys
+%   verbatim, every \cite in the document breaks. Field CONTENT is taken
+%   verbatim from the records you resolved; abstracts/keywords stripped and
+%   DOIs bared (https://doi.org/ prefix removed) for a clean IEEE list.
 %
-%  IMPORTANT (BibTeX): `%` is NOT a comment inside an @entry{...} block.
-%  All caveats therefore live BETWEEN entries, never inside the braces.
+% Four entries are MANUAL (no machine-readable record): ghosh2009nitrd,
+%   bianco2013, tay2024, ctid2025attackflow — carried from the prior bib.
 %
-%  KEY MAP. Keys are exactly the ones the .tex \cite-s. Where an
-%  extraction uses a different internal key for the same work, the
-%  alternate is noted between entries.
-%
-%  NOT REPO-BACKED: `sargent` and `grimm` have no extraction file — they
-%  are the operational-validation method references named in
-%  docs/notes/ch4_methods/operational_validation.md, reconstructed
-%  from general knowledge. Confirm venue/pages before submission.
-%
-%  ENCODING: UTF-8 (biblatex/biber) or bibtex + \usepackage[utf8]{inputenc};
-%  diacritics written as TeX escapes for portability.
+% NOTE — Rahman: your latest paste was the arXiv PREPRINT (2401.01883, 2024).
+%   This file keeps the PUBLISHED, peer-reviewed journal version (KIS 2025)
+%   instead — do not downgrade to the preprint.
 % =====================================================================
 
-% ---- APT behaviour / adversary framing --------------------------------
 
+% =====================================================================
+% §1 Moving Target Defense
+% =====================================================================
+
+% --- Ghosh 2009 — foundational MTD framing. MANUAL (institutional report).
+% Anchors the 2009 NITRD-summit origin of MTD. Corroborated in the surrounding
+% literature: Masud (2025) cites this same Co-Chairs' report. (The 2011 Huang &
+% Ghosh chapter, previously kept as an alternative, has been removed.)
+
+% ---------------------------------------------------------------------
+% Session note (2026-08-17, Marc's instruction): the lit-review set above
+% is authoritative -- every entry hand-verified by Marc, no AI-generated
+% records. It is merged here as the primary body. Entries NOT cited by
+% docs/thesis/dissertation.tex are PARKED: commented out with the entry's
+% leading at-sign removed (BibTeX would otherwise still parse a %-prefixed
+% entry). To reactivate an entry: uncomment its lines and restore the
+% at-sign on its head line. Repo-extraction entries that are not in the
+% lit-review set follow in their own parked section, with their original
+% provenance comments. Cited-key scan at merge time:
+%   alshamrani2019, buchel2025, ctid2025attackflow, rahman2025, rodriguez2024
+% plus mendonca2023 / bland2020 kept ACTIVE for the sec 4.2.3 precedent
+% sentence now being drafted.
+% ---------------------------------------------------------------------
+%
+% techreport{ghosh2009nitrd,
+%   author      = {{Networking and Information Technology Research and Development (NITRD) Program}},
+%   title       = {National Cyber Leap Year Summit 2009 Co-Chairs' Report},
+%   institution = {Networking and Information Technology Research and Development ({NITRD}) Program},
+%   address     = {Washington, DC, USA},
+%   year        = {2009},
+%   type        = {Technical Report},
+%   note        = {Multi-author summit report; Moving Target Defense working group co-chaired by A.\ K.\ Ghosh, D.\ Pendarakis, and W.\ Sanders. Sponsored by the {U.S.} Office of Science and Technology Policy ({OSTP})},
+%   url         = {https://www.nitrd.gov/nitrdgroups/images/b/bd/National_Cyber_Leap_Year_Summit_2009_CoChairs_Report.pdf}
+% }
+%
+%
+%% Cho 2020 — IEEE COMST. Publisher key 8949517.
+% article{cho2020,
+%   author  = {Cho, Jin-Hee and Sharma, Dilli P. and Alavizadeh, Hooman and Yoon, Seunghyun and Ben-Asher, Noam and Moore, Terrence J. and Kim, Dong Seong and Lim, Hyuk and Nelson, Frederica F.},
+%   title   = {Toward Proactive, Adaptive Defense: A Survey on Moving Target Defense},
+%   journal = {IEEE Communications Surveys \& Tutorials},
+%   volume  = {22},
+%   number  = {1},
+%   pages   = {709--745},
+%   year    = {2020},
+%   doi     = {10.1109/COMST.2019.2963791}
+% }
+%
+%
+%% Hong 2018 — Elsevier Computers & Security. Publisher key HONG201833.
+% article{hong2018,
+%   author  = {Hong, Jin B. and Enoch, Simon Yusuf and Kim, Dong Seong and Nhlabatsi, Armstrong and Fetais, Noora and Khan, Khaled M.},
+%   title   = {Dynamic security metrics for measuring the effectiveness of moving target defense techniques},
+%   journal = {Computers \& Security},
+%   volume  = {79},
+%   pages   = {33--52},
+%   year    = {2018},
+%   issn    = {0167-4048},
+%   doi     = {10.1016/j.cose.2018.08.003}
+% }
+%
+%
+%% Brown 2023 — IEEE/ACM EnCyCriS. Publisher key 10189166.
+%% (Authors/pages/DOI confirmed verbatim: Brown, Alex / Lee, Tze-Wen / Hong;
+%%  pp. 1-8; DOI suffix 00005.)
+%% Location Melbourne, Australia from DBLP/ICSE 2023 records (not in IEEE export).
+% inproceedings{brown2023,
+%   author    = {Brown, Alex and Lee, Tze-Wen and Hong, Jin B.},
+%   title     = {Evaluating Moving Target Defenses against Realistic Attack Scenarios},
+%   booktitle = {2023 IEEE/ACM 4th International Workshop on Engineering and Cybersecurity of Critical Systems (EnCyCriS)},
+%   pages     = {1--8},
+%   year      = {2023},
+%   address   = {Melbourne, Australia},
+%   doi       = {10.1109/EnCyCriS59249.2023.00005}
+% }
+%
+%
+%% Tay 2024 — UWA GENG5512 research-project report. MANUAL (no DOI).
+% mastersthesis{tay2024,
+%   author  = {Tay, Joo Kai},
+%   title   = {Using Artificial Intelligence to Automate the Deployment of Moving Target Defence Operations},
+%   school  = {The University of Western Australia},
+%   year    = {2024},
+%   type    = {{GENG5512} Engineering Research Project Report},
+%   address = {Perth, Australia},
+%   month   = oct
+% }
+%
+%
+%% Masud 2025 — Elsevier Computers & Security. Publisher key MASUD2025104380.
+%% (Title spelling CONFIRMED: British "defence" twice, verbatim from ScienceDirect.)
+% article{masud2025,
+%   author  = {Masud, Mohammed Tanvir and Keshk, Marwa and Moustafa, Nour and Turnbull, Benjamin and Susilo, Willy},
+%   title   = {Vulnerability defence using hybrid moving target defence in {Internet} of {Things} systems},
+%   journal = {Computers \& Security},
+%   volume  = {153},
+%   pages   = {104380},
+%   year    = {2025},
+%   issn    = {0167-4048},
+%   doi     = {10.1016/j.cose.2025.104380}
+% }
+%
+%
+%% He 2025 — IEEE TDSC. Publisher key 10962442.
+% article{he2025,
+%   author  = {He, Ke and Kim, Dan Dongseong and Asghar, Muhammad Rizwan},
+%   title   = {{MTD-AD}: Moving Target Defense as Adversarial Defense},
+%   journal = {IEEE Transactions on Dependable and Secure Computing},
+%   volume  = {22},
+%   number  = {5},
+%   pages   = {5047--5059},
+%   year    = {2025},
+%   doi     = {10.1109/TDSC.2025.3560246}
+% }
+%
+%
+%
+%% =====================================================================
+%% §2 Threat Landscape & Adversary Behaviour
+%% =====================================================================
+%
+%% Al-Sada 2024 — ACM Computing Surveys. Publisher key 10.1145/3687300.
+%% (articleno 12 + numpages 37; IEEEtran ignores both, so no locator renders.)
+% article{alsada2024,
+%   author    = {Al-Sada, Bader and Sadighian, Alireza and Oligeri, Gabriele},
+%   title     = {{MITRE ATT\&CK}: State of the Art and Way Forward},
+%   journal   = {ACM Computing Surveys},
+%   volume    = {57},
+%   number    = {1},
+%   articleno = {12},
+%   numpages  = {37},
+%   year      = {2024},
+%   issn      = {0360-0300},
+%   doi       = {10.1145/3687300}
+% }
+%
+%
+%% Bianco 2013 — Pyramid of Pain blog. MANUAL (no DOI).
+% misc{bianco2013,
+%   author       = {Bianco, David},
+%   title        = {The Pyramid of Pain},
+%   year         = {2013},
+%   howpublished = {Enterprise Detection \& Response blog},
+%   url          = {http://detect-respond.blogspot.com/2013/03/the-pyramid-of-pain.html},
+%   note         = {Accessed 4~May 2026}
+% }
+%
+%
+%% Sadlek 2022 — ACM ARES '22. Publisher key 10.1145/3538969.3544458.
+%% (articleno 91 + numpages 8. Location Vienna, Austria added from the verbatim
+%%  record — makes conference-location handling consistent with buchel2025.)
+% inproceedings{sadlek2022,
+%   author    = {Sadlek, Luk{\'a}{\v{s}} and {\v{C}}eleda, Pavel and Tovar{\v{n}}{\'a}k, Daniel},
+%   title     = {Current Challenges of Cyber Threat and Vulnerability Identification Using Public Enumerations},
+%   booktitle = {Proceedings of the 17th International Conference on Availability, Reliability and Security (ARES '22)},
+%   articleno = {91},
+%   numpages  = {8},
+%   year      = {2022},
+%   isbn      = {9781450396707},
+%   address   = {Vienna, Austria},
+%   doi       = {10.1145/3538969.3544458}
+% }
+
+
+% Alshamrani 2019 — IEEE COMST. Publisher key 8606252.
 @article{alshamrani2019,
   author  = {Alshamrani, Adel and Myneni, Sowmya and Chowdhary, Ankur and Huang, Dijiang},
   title   = {A Survey on Advanced Persistent Threats: Techniques, Solutions, Challenges, and Research Opportunities},
@@ -47,357 +193,7 @@
   year    = {2019},
   doi     = {10.1109/COMST.2019.2891891}
 }
-% <- extractions/alshamrani2019.md
 
-@article{chemat2024,
-  author  = {Che Mat, Nur Ilzam and Jamil, Norziana and Yusoff, Yunus and Mat Kiah, Miss Laiha},
-  title   = {A Systematic Literature Review on Advanced Persistent Threat Behaviors and Its Detection Strategy},
-  journal = {Journal of Cybersecurity},
-  volume  = {10},
-  number  = {1},
-  pages   = {tyad023},
-  year    = {2024},
-  doi     = {10.1093/cybsec/tyad023}
-}
-% <- extractions/chemat2024.md
-
-@article{alsada2024,
-  author  = {Al-Sada, Bader and Sadighian, Alireza and Oligeri, Gabriele},
-  title   = {{MITRE ATT\&CK}: State of the Art and Way Forward},
-  journal = {ACM Computing Surveys},
-  volume  = {57},
-  number  = {1},
-  pages   = {Article 12},
-  year    = {2024},
-  doi     = {10.1145/3687300}
-}
-% <- extractions/al-sada2024.md
-
-@book{selmanaj2024,
-  author    = {Selmanaj, Drinor},
-  title     = {Adversary Emulation with {MITRE ATT\&CK}: Bridging the Gap Between the Red and Blue Teams},
-  publisher = {O'Reilly Media},
-  edition   = {1},
-  year      = {2024},
-  isbn      = {978-1-098-14376-3}
-}
-% <- extractions/selmanaj2024.md
-
-% ---- MTD surveys / effectiveness / reset mechanism --------------------
-
-@article{cho2020,
-  author  = {Cho, Jin-Hee and Sharma, Dilli P. and Alavizadeh, Hooman and Yoon, Seunghyun and Ben-Asher, Noam and Moore, Terrence J. and Kim, Dong Seong and Lim, Hyuk and Nelson, Frederica F.},
-  title   = {Toward Proactive, Adaptive Defense: A Survey on Moving Target Defense},
-  journal = {IEEE Communications Surveys \& Tutorials},
-  volume  = {22},
-  number  = {1},
-  pages   = {709--745},
-  year    = {2020},
-  doi     = {10.1109/COMST.2019.2963791}
-}
-% <- extractions/cho2020.md
-
-% VERIFY (evans2011): full book subtitle + editors not stated in the extraction;
-% the anchor gives "Springer Moving Target Defense volume (AIS 54), Ch. 2, pp. 29-46".
-@incollection{evans2011,
-  author    = {Evans, David and Nguyen-Tuong, Anh and Knight, John},
-  title     = {Effectiveness of Moving Target Defenses},
-  booktitle = {Moving Target Defense},
-  series    = {Advances in Information Security},
-  volume    = {54},
-  chapter   = {2},
-  pages     = {29--46},
-  publisher = {Springer},
-  year      = {2011},
-  doi       = {10.1007/978-1-4614-0977-9_2}
-}
-% <- extractions/evans2011_mtd_effectiveness.md
-
-% VERIFY (jalowski2026): co-author given names expanded from initials in the
-% extraction ("M. Zmuda, M. Rawski, P. Rekosz"); confirm spellings.
-@article{jalowski2026,
-  author  = {Jalowski, {\L}ukasz and Zmuda, Mariusz and Rawski, Mariusz and Rekosz, Pawe{\l}},
-  title   = {Rethinking the Security Assurances of {MTD}: A Gap Analysis for Network Defense},
-  journal = {Future Internet},
-  volume  = {18},
-  number  = {2},
-  pages   = {89},
-  year    = {2026},
-  doi     = {10.3390/fi18020089}
-}
-% <- extractions/jalowski2026.md
-
-% Alt key in repo: `vandijk2013_flipit`. DOI from source-file id s00145-012-9134-5.
-% VERIFY: page range not stated in the extraction.
-@article{flipit2013,
-  author  = {van Dijk, Marten and Juels, Ari and Oprea, Alina and Rivest, Ronald L.},
-  title   = {{FlipIt}: The Game of ``Stealthy Takeover''},
-  journal = {Journal of Cryptology},
-  volume  = {26},
-  number  = {4},
-  year    = {2013},
-  doi     = {10.1007/s00145-012-9134-5}
-}
-% <- extractions/persistence_reset_models.md
-
-% VERIFY (maleki2016): no DOI/pages in the extraction (mttc_lineage.md bundles it).
-@inproceedings{maleki2016,
-  author    = {Maleki, Hoda and Valizadeh, Saeed and Koch, William and Bestavros, Azer and van Dijk, Marten},
-  title     = {Markov Modeling of Moving Target Defense Games},
-  booktitle = {Proceedings of the 2016 ACM Workshop on Moving Target Defense (MTD'16)},
-  year      = {2016}
-}
-% <- extractions/mttc_lineage.md
-
-% ---- Timed attack models / MTTC lineage / ATT&CK operationalisation ----
-
-@article{ling2023,
-  author  = {Rencelj Ling, Engla and Ekstedt, Mathias},
-  title   = {Estimating Time-To-Compromise for Industrial Control System Attack Techniques Through Vulnerability Data},
-  journal = {SN Computer Science},
-  volume  = {4},
-  pages   = {318},
-  year    = {2023},
-  doi     = {10.1007/s42979-023-01750-z}
-}
-% <- extractions/ling2023.md
-
-@inproceedings{mcqueen2006,
-  author    = {McQueen, Miles A. and Boyer, Wayne F. and Flynn, Mark A. and Beitel, George A.},
-  title     = {Time-to-Compromise Model for Cyber Risk Reduction Estimation},
-  booktitle = {Quality of Protection (QoP Workshop @ ESORICS 2005)},
-  pages     = {49--64},
-  publisher = {Springer},
-  year      = {2006},
-  doi       = {10.1007/978-0-387-36584-8_5},
-  note      = {INL preprint INL/CON-05-00649; OSTI 911165}
-}
-% <- extractions/mcqueen2006.md
-
-@article{xiong2021,
-  author  = {Xiong, Wenjun and Legrand, Emeline and {\AA}berg, Oscar and Lagerstr{\"o}m, Robert},
-  title   = {Cyber Security Threat Modeling Based on the {MITRE} Enterprise {ATT\&CK} Matrix},
-  journal = {Software and Systems Modeling},
-  volume  = {21},
-  pages   = {157--177},
-  year    = {2021},
-  doi     = {10.1007/s10270-021-00898-7},
-  note    = {SoSyM vol.\ 21, 2022; published online 18 June 2021}
-}
-% <- extractions/xiong2021.md
-
-% Rodriguez 2024 — SBC Journal of Internet Services and Applications.
-% (Verified record from the lit-review bib, 22 May 2026.)
-@article{rodriguez2024,
-  author  = {Rodr{\'\i}guez, Marcelo and Betarte, Gustavo and Calegari, Daniel},
-  title   = {A process mining-based method for attacker profiling using the {MITRE ATT\&CK} taxonomy},
-  journal = {Journal of Internet Services and Applications},
-  volume  = {15},
-  number  = {1},
-  pages   = {212--232},
-  year    = {2024},
-  month   = aug,
-  doi     = {10.5753/jisa.2024.3902},
-  url     = {https://journals-sol.sbc.org.br/index.php/jisa/article/view/3902},
-  note    = {Brazilian SBC publication; distinct from the Springer JISA}
-}
-% <- extractions/rodriguez2024.md
-
-@article{bland2020,
-  author  = {Bland, John A. and Petty, Mikel D. and Whitaker, Tymaine S. and Maxwell, Katia P. and Cantrell, Walter A.},
-  title   = {Machine Learning Cyberattack and Defense Strategies},
-  journal = {Computers \& Security},
-  volume  = {92},
-  pages   = {101738},
-  year    = {2020},
-  doi     = {10.1016/j.cose.2020.101738}
-}
-% <- extractions/bland2020.md
-
-% ---- Reset-magnitude / MTD-effect evidence ----------------------------
-
-% Alt key in repo: `zhang2010_expiration`.
-% VERIFY: no DOI/pages in the extraction (password_rotation_efficacy.md bundles it).
-@inproceedings{zhangMonroseReiter2010,
-  author    = {Zhang, Yinqian and Monrose, Fabian and Reiter, Michael K.},
-  title     = {The Security of Modern Password Expiration: An Algorithmic Framework and Empirical Analysis},
-  booktitle = {Proceedings of the 17th ACM Conference on Computer and Communications Security (CCS '10)},
-  year      = {2010}
-}
-% <- extractions/password_rotation_efficacy.md
-
-% VERIFY (barach2026): author given name + DOI/pages not in the extraction
-% (ransomware_timing.md bundles it; anchor gives "Barach, CMC 86(2), 2026").
-@article{barach2026,
-  author  = {Barach, John},
-  title   = {Ransomware Resilience via Moving Target Defense},
-  journal = {Computers, Materials \& Continua},
-  volume  = {86},
-  number  = {2},
-  year    = {2026}
-}
-% <- extractions/ransomware_timing.md
-
-% ---- Substrate lineage (this simulator) -------------------------------
-
-% VERIFY (brown2023): DOI/pages not captured in the extraction anchor.
-@inproceedings{brown2023,
-  author    = {Brown, Alex and Lee, Tze-Wen and Hong, Jin B.},
-  title     = {Evaluating Moving Target Defenses Against Realistic Attack Scenarios},
-  booktitle = {2023 IEEE/ACM International Workshop on Engineering and Cybersecurity of Critical Systems (EnCyCriS)},
-  year      = {2023}
-}
-% <- extractions/brown2023.md
-
-@mastersthesis{zhang2023,
-  author = {Zhang, Wenxiao},
-  title  = {Evaluating Multiple Moving Target Defence in the Time Domain},
-  school = {University of Western Australia},
-  year   = {2023},
-  note   = {Supervised by Jin Hong}
-}
-% <- extractions/zhang2023.md
-
-% ---- Simulation-validation method (NOT repo-backed — VERIFY) -----------
-% These ground the "operational validation / pattern-oriented modelling"
-% claim in the epistemic-contract subsection. No docs/sources/extractions/ record
-% exists; both reconstructed from the method note — confirm before submission.
-
-% VERIFY (sargent): multiple canonical versions exist (this J. Simulation 2013
-% article and the recurring Winter Simulation Conference tutorial). Confirm the
-% one you cite.
-@article{sargent,
-  author  = {Sargent, Robert G.},
-  title   = {Verification and Validation of Simulation Models},
-  journal = {Journal of Simulation},
-  volume  = {7},
-  number  = {1},
-  pages   = {12--24},
-  year    = {2013},
-  doi     = {10.1057/jos.2012.20}
-}
-
-% VERIFY (grimm): reconstructed from general knowledge, not a repo extraction.
-@article{grimm,
-  author  = {Grimm, Volker and Revilla, Eloy and Berger, Uta and Jeltsch, Florian and Mooij, Wolf M. and Railsback, Steven F. and Thulke, Hans-Hermann and Weiner, Jacob and Wiegand, Thorsten and DeAngelis, Donald L.},
-  title   = {Pattern-Oriented Modeling of Agent-Based Complex Systems: Lessons from Ecology},
-  journal = {Science},
-  volume  = {310},
-  number  = {5750},
-  pages   = {987--991},
-  year    = {2005},
-  doi     = {10.1126/science.1116681}
-}
-
-% ---- Scan-disruption / address-mutation primaries ----------------------
-% Transcribed from the bibliographic anchors of
-% extractions/mtd_scan_disruption.md and extractions/worm_propagation_models.md.
-
-% VERIFY (carroll2014): pages/DOI not stated in the extraction anchor.
-@inproceedings{carroll2014,
-  author    = {Carroll, Thomas E. and Crouse, Michael and Fulp, Errin W. and Berenhaut, Kenneth S.},
-  title     = {Analysis of Network Address Shuffling as a Moving Target Defense},
-  booktitle = {2014 IEEE International Conference on Communications (ICC)},
-  year      = {2014}
-}
-% <- extractions/mtd_scan_disruption.md
-
-% VERIFY (reti2022): given names expanded from the extraction's surname list;
-% pages/DOI not stated in the extraction anchor.
-@inproceedings{reti2022,
-  author    = {Reti, Daniel and Elzer, Karina and Fraunholz, Daniel and Schneider, Daniel and Schotten, Hans Dieter},
-  title     = {Evaluating Deception and Moving Target Defense with Network Attack Simulation},
-  booktitle = {Proceedings of the 9th ACM Workshop on Moving Target Defense (MTD'22)},
-  year      = {2022}
-}
-% <- extractions/mtd_scan_disruption.md
-
-% VERIFY (alshaer2012_rhm): author order/given names and pages not stated in
-% the extraction anchor (source file: alshaer2012_random_host_mutation_securecomm.md).
-@inproceedings{alshaer2012_rhm,
-  author    = {Al-Shaer, Ehab and Duan, Qi and Jafarian, Jafar Haadi},
-  title     = {Random Host Mutation for Moving Target Defense},
-  booktitle = {Security and Privacy in Communication Networks (SecureComm 2012)},
-  publisher = {Springer},
-  year      = {2012}
-}
-% <- extractions/worm_propagation_models.md
-
-% VERIFY (jafarian2012_ofrhm): pages/DOI not stated in the extraction anchor
-% (source file: 2342441.2342467.md).
-@inproceedings{jafarian2012_ofrhm,
-  author    = {Jafarian, Jafar Haadi and Al-Shaer, Ehab and Duan, Qi},
-  title     = {OpenFlow Random Host Mutation: Transparent Moving Target Defense Using Software Defined Networking},
-  booktitle = {Proceedings of the First Workshop on Hot Topics in Software Defined Networks (HotSDN '12)},
-  year      = {2012}
-}
-% <- extractions/worm_propagation_models.md
-
-% ---- Breach-timing vendor reporting ------------------------------------
-
-% VERIFY (sophos_aar2025): exact report title/URL before submission; the
-% dwell-floor quote is confirmed in docs/sources/.../sophos_aar_2025.md.
-@misc{sophos_aar2025,
-  author       = {{Sophos}},
-  title        = {The 2025 Sophos Active Adversary Report},
-  howpublished = {Sophos X-Ops incident-response report},
-  year         = {2025},
-  note         = {Analyses 2024 incident-response case data}
-}
-% <- extractions/breach_reports_macro_timing.md
-
-% ---- Boilerplate seed keys (cited in Chapters 1--2) ---------------------
-% Restored so the skeleton chapters compile; NOT repo-backed by an
-% extraction. Reconstructed from general knowledge -- confirm before
-% submission (same status as sargent/grimm above).
-
-% Corroboration: evans2011 above is Chapter 2 of this same volume (AIS 54,
-% Springer 2011); the book DOI is the chapter DOI minus its suffix.
-@book{jajodia2011mtd,
-  editor    = {Jajodia, Sushil and Ghosh, Anup K. and Swarup, Vipin and Wang, Cliff and Wang, X. Sean},
-  title     = {Moving Target Defense: Creating Asymmetric Uncertainty for Cyber Threats},
-  series    = {Advances in Information Security},
-  volume    = {54},
-  publisher = {Springer},
-  year      = {2011},
-  doi       = {10.1007/978-1-4614-0977-9}
-}
-
-% VERIFY (strom2020attack): report number/revision date before submission.
-@techreport{strom2020attack,
-  author      = {Strom, Blake E. and Applebaum, Andy and Miller, Doug P. and Nickels, Kathryn C. and Pennington, Adam G. and Thomas, Cody B.},
-  title       = {{MITRE ATT\&CK}: Design and Philosophy},
-  institution = {The MITRE Corporation},
-  year        = {2020},
-  note        = {Revised March 2020}
-}
-
-% VERIFY (zhuang2014mtd): pages/DOI before submission.
-@inproceedings{zhuang2014mtd,
-  author    = {Zhuang, Rui and DeLoach, Scott A. and Ou, Xinming},
-  title     = {Towards a Theory of Moving Target Defense},
-  booktitle = {Proceedings of the First ACM Workshop on Moving Target Defense (MTD '14)},
-  pages     = {31--40},
-  year      = {2014},
-  doi       = {10.1145/2663474.2663479}
-}
-
-% Verified records from the lit-review bib (author-pasted,
-% publisher-verbatim, 22 May 2026) — keys as used by \cite in the .tex.
-
-% Rahman 2025 — Springer Knowledge and Information Systems (PUBLISHED).
-% NOTE: do not downgrade to the arXiv preprint (2401.01883, 2024).
-@article{rahman2025,
-  author  = {Rahman, Md Rayhanur and Wroblewski, Brandon and Matthews, Quinn and Morgan, Brantley and Menzies, Timothy and Williams, Laurie},
-  title   = {Mining temporal attack patterns from cyberthreat intelligence reports},
-  journal = {Knowledge and Information Systems},
-  volume  = {67},
-  number  = {10},
-  pages   = {8941--8981},
-  year    = {2025},
-  issn    = {0219-3116},
-  doi     = {10.1007/s10115-025-02491-6}
-}
 
 % Buechel 2025 — USENIX Security 25. Publisher key 309688.
 @inproceedings{buchel2025,
@@ -412,6 +208,136 @@
   month     = aug,
   url       = {https://www.usenix.org/conference/usenixsecurity25/presentation/buechel}
 }
+%
+%
+%% Ferraz 2026 — arXiv preprint, to appear ASIACCS 2026.
+%% (Title CONFIRMED against the arXiv listing 22 May 2026: "Structured CTI:
+%%  A Measurement-Driven STIX Analysis". The "ATT&CK-in-STIX: Measuring
+%%  Procedural Sufficiency" string seen elsewhere is a running-header/earlier
+%%  artefact, NOT the citation title.)
+% misc{ferraz2026,
+%   author        = {Ferraz, {\'A}gney Lopes Roth and Barbieri, Sidnei and de Souza, Murray Evangelista and Pereira J{\'u}nior, Louren{\c{c}}o Alves},
+%   title         = {The Procedural Semantics Gap in Structured {CTI}: A Measurement-Driven {STIX} Analysis for {APT} Emulation},
+%   year          = {2026},
+%   eprint        = {2512.12078},
+%   archivePrefix = {arXiv},
+%   primaryClass  = {cs.CR},
+%   url           = {https://arxiv.org/abs/2512.12078},
+%   note          = {To appear in Proceedings of the 21st ACM Asia Conference on Computer and Communications Security (ASIACCS 2026), Bangalore, India}
+% }
+
+
+% Rahman 2025 — Springer Knowledge and Information Systems (PUBLISHED).
+% NOTE: your latest paste was the arXiv preprint (2401.01883). This published,
+%   peer-reviewed, page-anchored version supersedes it — keep this one.
+@article{rahman2025,
+  author  = {Rahman, Md Rayhanur and Wroblewski, Brandon and Matthews, Quinn and Morgan, Brantley and Menzies, Timothy and Williams, Laurie},
+  title   = {Mining temporal attack patterns from cyberthreat intelligence reports},
+  journal = {Knowledge and Information Systems},
+  volume  = {67},
+  number  = {10},
+  pages   = {8941--8981},
+  year    = {2025},
+  issn    = {0219-3116},
+  doi     = {10.1007/s10115-025-02491-6}
+}
+
+
+% Rodriguez 2024 — SBC Journal of Internet Services and Applications.
+@article{rodriguez2024,
+  author  = {Rodr{\'\i}guez, Marcelo and Betarte, Gustavo and Calegari, Daniel},
+  title   = {A process mining-based method for attacker profiling using the {MITRE ATT\&CK} taxonomy},
+  journal = {Journal of Internet Services and Applications},
+  volume  = {15},
+  number  = {1},
+  pages   = {212--232},
+  year    = {2024},
+  month   = aug,
+  doi     = {10.5753/jisa.2024.3902},
+  url     = {https://journals-sol.sbc.org.br/index.php/jisa/article/view/3902},
+  note    = {Brazilian SBC publication; distinct from the Springer JISA}
+}
+%
+%
+%% AttacKG+ / Zhang Y. 2025 — Elsevier Computers & Security. Key ZHANG2025104220.
+% article{zhangY2025,
+%   author  = {Zhang, Yongheng and Du, Tingwen and Ma, Yunshan and Wang, Xiang and Xie, Yi and Yang, Guozheng and Lu, Yuliang and Chang, Ee-Chien},
+%   title   = {{AttacKG+}: Boosting attack graph construction with Large Language Models},
+%   journal = {Computers \& Security},
+%   volume  = {150},
+%   pages   = {104220},
+%   year    = {2025},
+%   issn    = {0167-4048},
+%   doi     = {10.1016/j.cose.2024.104220}
+% }
+%
+%
+%% Jalowski 2026 — MDPI Future Internet. Publisher key fi18020089.
+%% (Author CONFIRMED: Rekosz, Paulina — the earlier "M. Rekosz" was wrong.)
+% article{jalowski2026,
+%   author    = {Jalowski, {\L}ukasz and Zmuda, Marek and Rawski, Mariusz and Rekosz, Paulina},
+%   title     = {Rethinking the Security Assurances of {MTD}: A Gap Analysis for Network Defense},
+%   journal   = {Future Internet},
+%   volume    = {18},
+%   number    = {2},
+%   articleno = {89},
+%   year      = {2026},
+%   issn      = {1999-5903},
+%   doi       = {10.3390/fi18020089},
+%   url       = {https://www.mdpi.com/1999-5903/18/2/89}
+% }
+%
+%
+%% Kim 2026 — Elsevier Future Generation Computer Systems. Key KIM2026108419.
+%% (Authors CONFIRMED: Minjune Kim + Tina Moghaddam; vol 181. Note lowercase "in depth".)
+% article{kim2026,
+%   author  = {Kim, Minjune and Cho, Jin-Hee and Lim, Hyuk and Moghaddam, Tina and Moore, Terrence J. and Nelson, Frederica F. and Kim, Dan Dongseong},
+%   title   = {{MTD} in depth: Multi-phased moving target defense techniques against cyber-attacks based on cyber kill chain},
+%   journal = {Future Generation Computer Systems},
+%   volume  = {181},
+%   pages   = {108419},
+%   year    = {2026},
+%   issn    = {0167-739X},
+%   doi     = {10.1016/j.future.2026.108419}
+% }
+
+
+
+% =====================================================================
+% §3 Attacker formalisms / evaluation data
+% =====================================================================
+
+% Bland 2020 — Elsevier Computers & Security. Publisher key BLAND2020101738.
+@article{bland2020,
+  author  = {Bland, John A. and Petty, Mikel D. and Whitaker, Tymaine S. and Maxwell, Katia P. and Cantrell, Walter Alan},
+  title   = {Machine Learning Cyberattack and Defense Strategies},
+  journal = {Computers \& Security},
+  volume  = {92},
+  pages   = {101738},
+  year    = {2020},
+  issn    = {0167-4048},
+  doi     = {10.1016/j.cose.2020.101738}
+}
+%
+%
+%% Outkin 2023 — IEEE TDSC. Publisher key 9758675.
+%% (Year 2023; key kept as outkin2022 to match the existing \cite{outkin2022}.)
+% article{outkin2022,
+%   author  = {Outkin, Alexander V. and Schulz, Patricia V. and Schulz, Timothy and Tarman, Thomas D. and Pinar, Ali},
+%   title   = {Defender Policy Evaluation and Resource Allocation With {MITRE ATT\&CK} Evaluations Data},
+%   journal = {IEEE Transactions on Dependable and Secure Computing},
+%   volume  = {20},
+%   number  = {3},
+%   pages   = {1909--1926},
+%   year    = {2023},
+%   doi     = {10.1109/TDSC.2022.3165624}
+% }
+
+
+
+% =====================================================================
+% Framework / corpus reference
+% =====================================================================
 
 % CTID Attack Flow — MITRE Engenuity. MANUAL (project documentation; no DOI).
 @misc{ctid2025attackflow,
@@ -422,3 +348,425 @@
   note         = {Version 3.2.0, accessed 21~May 2026},
   url          = {https://center-for-threat-informed-defense.github.io/attack-flow/}
 }
+
+
+
+% =====================================================================
+% Added this session (not in the lit-review set)
+% =====================================================================
+
+% ATT&CK v19 release note — the anchor for "Enterprise ATT&CK has 15
+% tactics" (Defense Evasion split into Stealth TA0005 and Defense Impairment
+% TA0112). VERIFIED 2026-08-17 by fetch: "ATT&CK v19", "April 28, 2026",
+% "Enterprise: 15 Tactics". Web page, no DOI. The dissertation pins v19.1
+% (the point release the corpus was built against); the tactic set is v19's.
+@misc{mitre2026attackv19,
+  author       = {{The MITRE Corporation}},
+  title        = {{ATT\&CK} Updates --- April 2026 ({ATT\&CK} v19)},
+  howpublished = {MITRE ATT\&CK website},
+  year         = {2026},
+  month        = apr,
+  note         = {Released 28~April 2026; Enterprise: 15 tactics; accessed 17~August 2026},
+  url          = {https://attack.mitre.org/resources/updates/updates-april-2026/}
+}
+
+% Cho & Ben-Asher 2018 — SAGE JDMS. TRANSCRIBED 2026-08-17 from the source
+% markdown's own header (docs/sources/lit_review/chobenasher2018.md: "JDMS
+% Special Issue Article ... 2018, Vol. 15(2) 147-160 ... DOI:
+% 10.1177/1548512917699725"); extraction at
+% docs/sources/extractions/chobenasher2018.md. Not from Marc's verified set.
+@article{chobenasher2018,
+  author  = {Cho, Jin-Hee and Ben-Asher, Noam},
+  title   = {Cyber defense in breadth: Modeling and analysis of integrated defense systems},
+  journal = {Journal of Defense Modeling and Simulation: Applications, Methodology, Technology},
+  volume  = {15},
+  number  = {2},
+  pages   = {147--160},
+  year    = {2018},
+  doi     = {10.1177/1548512917699725}
+}
+
+% Strom et al. 2018 — MITRE technical report. Marc supplied an AI-generated
+% record 2026-08-17; VERIFIED this session against the primary PDF at
+% attack.mitre.org (title page: "MITRE ATT&CK: Design and Philosophy";
+% authors as below; "Originally Published July 2018, Revised March 2020";
+% MP180360R1; "McLean, VA"; (c)2020 The MITRE Corporation). Corrections to
+% the supplied record: url replaced (the mitre.org news-insights URL could
+% not be verified — 403 — the attack.mitre.org PDF is the verified locator);
+% number + note added. Supersedes the parked repo entry strom2020attack.
+% NB: this report predates ATT&CK v8 and describes PRE-ATT&CK as a
+% *complementary model* — it does NOT document the v8 merge; cite
+% mitre2020attackv8 for that.
+@techreport{strom2018mitre,
+  title       = {{MITRE ATT\&CK}: Design and Philosophy},
+  author      = {Strom, Blake E. and Applebaum, Andy and Miller, Doug P. and Nickels, Kathryn C. and Pennington, Adam G. and Thomas, Cody B.},
+  institution = {The MITRE Corporation},
+  year        = {2018},
+  type        = {Technical Report},
+  number      = {MP180360R1},
+  address     = {McLean, VA},
+  note        = {Originally published July 2018; revised March 2020},
+  url         = {https://attack.mitre.org/docs/ATTACK_Design_and_Philosophy_March_2020.pdf}
+}
+
+% ATT&CK v8 release note — the anchor for "PRE-ATT&CK was merged into
+% Enterprise ATT&CK as the Reconnaissance and Resource Development tactics".
+% VERIFIED 2026-08-17 by fetch: "ATT&CK v8, released October 27, 2020 ...
+% This release deprecates and removes the PRE-ATT&CK domain from ATT&CK,
+% replacing its scope with two new Tactics in Enterprise ATT&CK Reconnaissance
+% and Resource Development." Web page, no DOI; accessed date is the fetch date.
+@misc{mitre2020attackv8,
+  author       = {{The MITRE Corporation}},
+  title        = {{ATT\&CK} Updates --- October 2020 ({ATT\&CK} v8)},
+  howpublished = {MITRE ATT\&CK website},
+  year         = {2020},
+  month        = oct,
+  note         = {Released 27~October 2020; accessed 17~August 2026},
+  url          = {https://attack.mitre.org/resources/updates/updates-october-2020/}
+}
+
+% Cai 2016 — Springer ACA 2016 (CCIS). Publisher record pasted by Marc
+% 2026-08-17; re-keyed from 10.1007/978-981-10-2209-8_16 to cai2016 (the key
+% the .tex cites); abstract stripped per the file convention; all other
+% fields verbatim. Title confirms the formalism is GSPN (the feasibility
+% study's DSPN/GSPN label uncertainty is settled by this record).
+@inproceedings{cai2016,
+  author    = {Cai, Guilin and Wang, Baosheng and Luo, Yuebin and Hu, Wei},
+  editor    = {Wu, Junjie and Li, Lian},
+  title     = {A Model for Evaluating and Comparing Moving Target Defense Techniques Based on Generalized Stochastic {Petri} Net},
+  booktitle = {Advanced Computer Architecture},
+  year      = {2016},
+  publisher = {Springer Singapore},
+  address   = {Singapore},
+  pages     = {184--197},
+  isbn      = {978-981-10-2209-8},
+  doi       = {10.1007/978-981-10-2209-8_16}
+}
+
+% Mendonça 2023 — SAGE JDMS. TRANSCRIBED FROM docs/sources/extractions/mendonca2023.md
+% (bibliographic anchor: vol 20 no 1 pp 41-58, doi 10.1177/15485129211036937).
+% NOT from Marc's verified lit-review set — VERIFY against the publisher record
+% before submission (author initials/ordering, journal title form).
+@article{mendonca2023,
+  author  = {Mendon{\c{c}}a, J{\'u}lio and Cho, Jin-Hee and Moore, Terrence J. and Nelson, Frederica F. and Lim, Hyuk and Kim, Dan Dongseong},
+  title   = {Performance impact analysis of services under a time-based moving target defense mechanism},
+  journal = {Journal of Defense Modeling and Simulation: Applications, Methodology, Technology},
+  volume  = {20},
+  number  = {1},
+  pages   = {41--58},
+  year    = {2023},
+  doi     = {10.1177/15485129211036937}
+}
+
+
+% =====================================================================
+% PARKED — repo-extraction entries not in the lit-review set (not cited
+% by dissertation.tex at merge time). Original provenance comments kept.
+% =====================================================================
+%
+% Added 2026-08-19 for the S1 lifecycle-consensus citation set (section
+% 4.2.4.2). Venue for hutchins2011: the white-paper PDF carries no venue
+% imprint; the ICIW 2011 attribution is citation convention --- VERIFY before
+% final submission (extraction: docs/sources/extractions/hutchins2011.md).
+@misc{hutchins2011,
+  author       = {Hutchins, Eric M. and Cloppert, Michael J. and Amin, Rohan M.},
+  title        = {Intelligence-Driven Computer Network Defense Informed by Analysis of Adversary Campaigns and Intrusion Kill Chains},
+  howpublished = {Lockheed Martin Corporation white paper},
+  year         = {2011}
+}
+
+@article{holm2014,
+  author  = {Holm, Hannes},
+  title   = {A Large-Scale Study of the Time Required to Compromise a Computer System},
+  journal = {IEEE Transactions on Dependable and Secure Computing},
+  volume  = {11},
+  number  = {1},
+  pages   = {2--15},
+  year    = {2014}
+}
+
+@article{madan2004,
+  author  = {Madan, Bharat B. and Go{\v s}eva-Popstojanova, Katerina and Vaidyanathan, Kalyanaraman and Trivedi, Kishor S.},
+  title   = {A method for modeling and quantifying the security attributes of intrusion tolerant systems},
+  journal = {Performance Evaluation},
+  volume  = {56},
+  number  = {1--4},
+  pages   = {167--186},
+  year    = {2004}
+}
+
+@misc{mandiant2013,
+  author       = {{Mandiant}},
+  title        = {{APT1}: Exposing One of {China}'s Cyber Espionage Units},
+  howpublished = {Mandiant, Alexandria, VA},
+  year         = {2013}
+}
+
+@article{chemat2024,
+  author  = {Che Mat, Nur Ilzam and Jamil, Norziana and Yusoff, Yunus and Mat Kiah, Miss Laiha},
+  title   = {A Systematic Literature Review on Advanced Persistent Threat Behaviors and Its Detection Strategy},
+  journal = {Journal of Cybersecurity},
+  volume  = {10},
+  number  = {1},
+  pages   = {tyad023},
+  year    = {2024},
+  doi     = {10.1093/cybsec/tyad023}
+}
+%
+%% <- extractions/al-sada2024.md
+% book{selmanaj2024,
+%   author    = {Selmanaj, Drinor},
+%   title     = {Adversary Emulation with {MITRE ATT\&CK}: Bridging the Gap Between the Red and Blue Teams},
+%   publisher = {O'Reilly Media},
+%   edition   = {1},
+%   year      = {2024},
+%   isbn      = {978-1-098-14376-3}
+% }
+%
+%% <- extractions/cho2020.md
+%
+%% VERIFY (evans2011): full book subtitle + editors not stated in the extraction;
+%% the anchor gives "Springer Moving Target Defense volume (AIS 54), Ch. 2, pp. 29-46".
+% incollection{evans2011,
+%   author    = {Evans, David and Nguyen-Tuong, Anh and Knight, John},
+%   title     = {Effectiveness of Moving Target Defenses},
+%   booktitle = {Moving Target Defense},
+%   series    = {Advances in Information Security},
+%   volume    = {54},
+%   chapter   = {2},
+%   pages     = {29--46},
+%   publisher = {Springer},
+%   year      = {2011},
+%   doi       = {10.1007/978-1-4614-0977-9_2}
+% }
+%
+%% <- extractions/jalowski2026.md
+%
+%% Alt key in repo: `vandijk2013_flipit`. DOI from source-file id s00145-012-9134-5.
+%% VERIFY: page range not stated in the extraction.
+% article{flipit2013,
+%   author  = {van Dijk, Marten and Juels, Ari and Oprea, Alina and Rivest, Ronald L.},
+%   title   = {{FlipIt}: The Game of ``Stealthy Takeover''},
+%   journal = {Journal of Cryptology},
+%   volume  = {26},
+%   number  = {4},
+%   year    = {2013},
+%   doi     = {10.1007/s00145-012-9134-5}
+% }
+%
+%% <- extractions/persistence_reset_models.md
+%
+%% VERIFY (maleki2016): no DOI/pages in the extraction (mttc_lineage.md bundles it).
+% inproceedings{maleki2016,
+%   author    = {Maleki, Hoda and Valizadeh, Saeed and Koch, William and Bestavros, Azer and van Dijk, Marten},
+%   title     = {Markov Modeling of Moving Target Defense Games},
+%   booktitle = {Proceedings of the 2016 ACM Workshop on Moving Target Defense (MTD'16)},
+%   year      = {2016}
+% }
+%
+%% <- extractions/mttc_lineage.md
+%
+%% ---- Timed attack models / MTTC lineage / ATT&CK operationalisation ----
+% article{ling2023,
+%   author  = {Rencelj Ling, Engla and Ekstedt, Mathias},
+%   title   = {Estimating Time-To-Compromise for Industrial Control System Attack Techniques Through Vulnerability Data},
+%   journal = {SN Computer Science},
+%   volume  = {4},
+%   pages   = {318},
+%   year    = {2023},
+%   doi     = {10.1007/s42979-023-01750-z}
+% }
+%
+%% <- extractions/ling2023.md
+@inproceedings{mcqueen2006,
+  author    = {McQueen, Miles A. and Boyer, Wayne F. and Flynn, Mark A. and Beitel, George A.},
+  title     = {Time-to-Compromise Model for Cyber Risk Reduction Estimation},
+  booktitle = {Quality of Protection (QoP Workshop (at) ESORICS 2005)},
+  pages     = {49--64},
+  publisher = {Springer},
+  year      = {2006},
+  doi       = {10.1007/978-0-387-36584-8_5},
+  note      = {INL preprint INL/CON-05-00649; OSTI 911165}
+}
+%
+%% <- extractions/mcqueen2006.md
+% article{xiong2021,
+%   author  = {Xiong, Wenjun and Legrand, Emeline and {\AA}berg, Oscar and Lagerstr{\"o}m, Robert},
+%   title   = {Cyber Security Threat Modeling Based on the {MITRE} Enterprise {ATT\&CK} Matrix},
+%   journal = {Software and Systems Modeling},
+%   volume  = {21},
+%   pages   = {157--177},
+%   year    = {2021},
+%   doi     = {10.1007/s10270-021-00898-7},
+%   note    = {SoSyM vol.\ 21, 2022; published online 18 June 2021}
+% }
+%
+%% <- extractions/bland2020.md
+%
+%% ---- Reset-magnitude / MTD-effect evidence ----------------------------
+%
+%% Alt key in repo: `zhang2010_expiration`.
+%% VERIFY: no DOI/pages in the extraction (password_rotation_efficacy.md bundles it).
+% inproceedings{zhangMonroseReiter2010,
+%   author    = {Zhang, Yinqian and Monrose, Fabian and Reiter, Michael K.},
+%   title     = {The Security of Modern Password Expiration: An Algorithmic Framework and Empirical Analysis},
+%   booktitle = {Proceedings of the 17th ACM Conference on Computer and Communications Security (CCS '10)},
+%   year      = {2010}
+% }
+%
+%% <- extractions/password_rotation_efficacy.md
+%
+%% VERIFY (barach2026): author given name + DOI/pages not in the extraction
+%% (ransomware_timing.md bundles it; anchor gives "Barach, CMC 86(2), 2026").
+% article{barach2026,
+%   author  = {Barach, John},
+%   title   = {Ransomware Resilience via Moving Target Defense},
+%   journal = {Computers, Materials \& Continua},
+%   volume  = {86},
+%   number  = {2},
+%   year    = {2026}
+% }
+%
+%% <- extractions/brown2023.md
+% mastersthesis{zhang2023,
+%   author = {Zhang, Wenxiao},
+%   title  = {Evaluating Multiple Moving Target Defence in the Time Domain},
+%   school = {University of Western Australia},
+%   year   = {2023},
+%   note   = {Supervised by Jin Hong}
+% }
+%
+%% <- extractions/zhang2023.md
+%
+%% ---- Simulation-validation method (NOT repo-backed — VERIFY) -----------
+%% These ground the "operational validation / pattern-oriented modelling"
+%% claim in the epistemic-contract subsection. No docs/sources/extractions/ record
+%% exists; both reconstructed from the method note — confirm before submission.
+%
+%% VERIFY (sargent): multiple canonical versions exist (this J. Simulation 2013
+%% article and the recurring Winter Simulation Conference tutorial). Confirm the
+%% one you cite.
+% article{sargent,
+%   author  = {Sargent, Robert G.},
+%   title   = {Verification and Validation of Simulation Models},
+%   journal = {Journal of Simulation},
+%   volume  = {7},
+%   number  = {1},
+%   pages   = {12--24},
+%   year    = {2013},
+%   doi     = {10.1057/jos.2012.20}
+% }
+%
+%
+%% VERIFY (grimm): reconstructed from general knowledge, not a repo extraction.
+% article{grimm,
+%   author  = {Grimm, Volker and Revilla, Eloy and Berger, Uta and Jeltsch, Florian and Mooij, Wolf M. and Railsback, Steven F. and Thulke, Hans-Hermann and Weiner, Jacob and Wiegand, Thorsten and DeAngelis, Donald L.},
+%   title   = {Pattern-Oriented Modeling of Agent-Based Complex Systems: Lessons from Ecology},
+%   journal = {Science},
+%   volume  = {310},
+%   number  = {5750},
+%   pages   = {987--991},
+%   year    = {2005},
+%   doi     = {10.1126/science.1116681}
+% }
+%
+%
+%% ---- Scan-disruption / address-mutation primaries ----------------------
+%% Transcribed from the bibliographic anchors of
+%% extractions/mtd_scan_disruption.md and extractions/worm_propagation_models.md.
+%
+%% VERIFY (carroll2014): pages/DOI not stated in the extraction anchor.
+% inproceedings{carroll2014,
+%   author    = {Carroll, Thomas E. and Crouse, Michael and Fulp, Errin W. and Berenhaut, Kenneth S.},
+%   title     = {Analysis of Network Address Shuffling as a Moving Target Defense},
+%   booktitle = {2014 IEEE International Conference on Communications (ICC)},
+%   year      = {2014}
+% }
+%
+%% <- extractions/mtd_scan_disruption.md
+%
+%% VERIFY (reti2022): given names expanded from the extraction's surname list;
+%% pages/DOI not stated in the extraction anchor.
+% inproceedings{reti2022,
+%   author    = {Reti, Daniel and Elzer, Karina and Fraunholz, Daniel and Schneider, Daniel and Schotten, Hans Dieter},
+%   title     = {Evaluating Deception and Moving Target Defense with Network Attack Simulation},
+%   booktitle = {Proceedings of the 9th ACM Workshop on Moving Target Defense (MTD'22)},
+%   year      = {2022}
+% }
+%
+%% <- extractions/mtd_scan_disruption.md
+%
+%% VERIFY (alshaer2012_rhm): author order/given names and pages not stated in
+%% the extraction anchor (source file: alshaer2012_random_host_mutation_securecomm.md).
+% inproceedings{alshaer2012_rhm,
+%   author    = {Al-Shaer, Ehab and Duan, Qi and Jafarian, Jafar Haadi},
+%   title     = {Random Host Mutation for Moving Target Defense},
+%   booktitle = {Security and Privacy in Communication Networks (SecureComm 2012)},
+%   publisher = {Springer},
+%   year      = {2012}
+% }
+%
+%% <- extractions/worm_propagation_models.md
+%
+%% VERIFY (jafarian2012_ofrhm): pages/DOI not stated in the extraction anchor
+%% (source file: 2342441.2342467.md).
+% inproceedings{jafarian2012_ofrhm,
+%   author    = {Jafarian, Jafar Haadi and Al-Shaer, Ehab and Duan, Qi},
+%   title     = {OpenFlow Random Host Mutation: Transparent Moving Target Defense Using Software Defined Networking},
+%   booktitle = {Proceedings of the First Workshop on Hot Topics in Software Defined Networks (HotSDN '12)},
+%   year      = {2012}
+% }
+%
+%% <- extractions/worm_propagation_models.md
+%
+%% ---- Breach-timing vendor reporting ------------------------------------
+%
+%% VERIFY (sophos_aar2025): exact report title/URL before submission; the
+%% dwell-floor quote is confirmed in docs/sources/.../sophos_aar_2025.md.
+% misc{sophos_aar2025,
+%   author       = {{Sophos}},
+%   title        = {The 2025 Sophos Active Adversary Report},
+%   howpublished = {Sophos X-Ops incident-response report},
+%   year         = {2025},
+%   note         = {Analyses 2024 incident-response case data}
+% }
+%
+%% <- extractions/breach_reports_macro_timing.md
+%
+%% ---- Boilerplate seed keys (cited in Chapters 1--2) ---------------------
+%% Restored so the skeleton chapters compile; NOT repo-backed by an
+%% extraction. Reconstructed from general knowledge -- confirm before
+%% submission (same status as sargent/grimm above).
+%
+%% Corroboration: evans2011 above is Chapter 2 of this same volume (AIS 54,
+%% Springer 2011); the book DOI is the chapter DOI minus its suffix.
+% book{jajodia2011mtd,
+%   editor    = {Jajodia, Sushil and Ghosh, Anup K. and Swarup, Vipin and Wang, Cliff and Wang, X. Sean},
+%   title     = {Moving Target Defense: Creating Asymmetric Uncertainty for Cyber Threats},
+%   series    = {Advances in Information Security},
+%   volume    = {54},
+%   publisher = {Springer},
+%   year      = {2011},
+%   doi       = {10.1007/978-1-4614-0977-9}
+% }
+%
+%
+%% VERIFY (strom2020attack): report number/revision date before submission.
+% techreport{strom2020attack,
+%   author      = {Strom, Blake E. and Applebaum, Andy and Miller, Doug P. and Nickels, Kathryn C. and Pennington, Adam G. and Thomas, Cody B.},
+%   title       = {{MITRE ATT\&CK}: Design and Philosophy},
+%   institution = {The MITRE Corporation},
+%   year        = {2020},
+%   note        = {Revised March 2020}
+% }
+%
+%
+%% VERIFY (zhuang2014mtd): pages/DOI before submission.
+% inproceedings{zhuang2014mtd,
+%   author    = {Zhuang, Rui and DeLoach, Scott A. and Ou, Xinming},
+%   title     = {Towards a Theory of Moving Target Defense},
+%   booktitle = {Proceedings of the First ACM Workshop on Moving Target Defense (MTD '14)},
+%   pages     = {31--40},
+%   year      = {2014},
+%   doi       = {10.1145/2663474.2663479}
+% }

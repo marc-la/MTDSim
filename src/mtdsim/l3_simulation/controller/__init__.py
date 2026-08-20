@@ -29,7 +29,7 @@ dwell-only or the load raises.
 **The outcome overlay is versioned data too**, on the same principle and in the
 same shape: ``data/ogasp/controller/overlays/``, one directory per value set plus
 a manifest, selected by ``load_outcome_overlay(version=...)`` and defaulting to
-experiment 1's. Both registered versions are compiled from the one rule set at
+experiment 1's. Every registered version is compiled from the one rule set at
 ``data/ogasp/controller/outcome_rules.json`` by
 :mod:`mtdsim.l3_simulation.controller.rules`, which is also the reproduction
 check (``--check``) that keeps the committed values traceable to stated rules:
@@ -40,6 +40,13 @@ check (``--check``) that keeps the committed values traceable to stated rules:
                             APT-lifecycle consensus, times a declared distance
                             kernel, so a transition's likelihood falls with how
                             far across the campaign it travels.
+    v3_persistent_backward  experiment 2. v2 with the backward decay 0.5 -> 0.25
+                            (Marc's persistence ruling); frozen.
+    v4_failure_only         the go-forward version (Marc's failure-only ruling,
+                            2026-08-19). v3's failure table; the success table
+                            compiled as the identity, so a success verdict
+                            routes on the corpus proportions unchanged and only
+                            failure is declared.
 """
 
 from mtdsim.l3_simulation.controller.controller import (

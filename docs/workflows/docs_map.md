@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-08-14
+updated: 2026-08-20
 ---
 
 # Docs map — where every document lives, and why
@@ -54,6 +54,8 @@ The always-loaded layer. Every session reads all of it (see [`../../CLAUDE.md`](
 - this file — where documents live.
 - [`notes_rubric.md`](notes_rubric.md) — the quality gate for `notes/`.
 - [`voice.md`](voice.md) — the prose contract for dissertation-bound writing (loaded before drafting `notes/` or `thesis/` prose, not every session).
+- [`figure_table_conventions.md`](figure_table_conventions.md) — the visual-artefact counterpart to `voice.md`: MTD-literature figure/table conventions distilled from a page-level survey of the lit-review corpus (per-genre grammars, table genres, caption/decoding rules, corpus anti-patterns). Loaded before generating or revising any dissertation figure or table, or writing a figure generator in `tools/`; sits below the figure-pipeline and no-accentuation rulings.
+- [`literature_conventions.md`](literature_conventions.md) — the same survey's **prose/methods** distillation: ATT&CK referencing and version-pinning rules, framework version-stamping, field terminology (SDR, what/when/how-to-move, AU-spelling licence), metric definition-before-use discipline, and the methods-reporting genre checklist (threat-model section, parameter tables, evaluation-ladder positioning, limitations ownership). Loaded before drafting or scrutinising methodology/results prose, or anything naming ATT&CK, CVSS, a kill-chain model, or a security metric.
 - [`critique_protocol.md`](critique_protocol.md) — the draft-review contract (edit tiers, verdict vocabulary, sentence diagnostics, reviewer banlist); loaded before critiquing any draft prose. Grey-box by design: usable standalone with exemplars pasted in.
 - [`draft_scrutiny.md`](draft_scrutiny.md) — the **content/intent** review contract: checks a draft against the research record, the chapter notes, and the implementation evidence for right argument, right framing, missing arguments, unowned concessions, and overclaims. Carries the corpus map (which documents scrutinise which chapter) and the scrutinise-never-generate rule. Loaded before scrutinising draft content or producing content-point scaffolds; the `scrutinise-draft` skill invokes it. Sits above `critique_protocol.md` (prose quality) and `voice.md` (sentences).
 - [`drafting_pipeline.md`](drafting_pipeline.md) — **how every unit of dissertation prose gets written** (ratified on the §4.2.1 pilot, 2026-08-16): the five-pass dictation pipeline (speak → repair+register via the `repair-dictation` skill → Marc's marker walk → `scrutinise-draft` → Marc's compression), the roles, the sequencing rule, and the gates. No pass after draft 1 writes prose. Loaded before any dissertation drafting session.

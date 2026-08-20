@@ -61,3 +61,4 @@ Two readings of the same net must not be conflated: an *analytical* reading (sol
 - If the simulator adopts real (NVD) CVEs — the vulnerability-instance binding becomes feasible and the capability-level contract is no longer the ceiling.
 - If the envelope-not-actor framing is rejected in favour of per-incident single-actor nets — the aggregation tradeoff re-opens from the start.
 - If the network model is ever changed — the "attacker-side only" scoping no longer holds and must be re-argued.
+- If concurrent tactics are wanted (a multi-token net) — the single-token walk was a constraint this work placed on its own parameters, not a property of the formalism (Marc, 2026-08-18); a multi-token GSPN would make the AND-join structure the technique graph preserves usable again, at the state-space cost the feasibility study records. A future-work candidate for ch7, riding here per the ch7 README convention.
