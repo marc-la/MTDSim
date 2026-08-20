@@ -339,7 +339,9 @@ def write_tex() -> None:
             "\\emph{Sources} lists what was read to decide the class: the CTID index "
             "blurb, the flow's own narrative or structure, the ATT\\&CK Group page where "
             "the flow is attributed, and the vendor report, cited by its identifier in "
-            "Table~\\ref{tab:objective-audit-sources}."
+            "Table~\\ref{tab:objective-audit-sources}. Corpus: Attack Flow published "
+            f"export {p['flow_corpus']} (schema {p['schema']}), {len(rows)} usable "
+            f"incidents, ATT\\&CK Enterprise v{p['attack']}."
         )
         if any("author adjudication" in r["_sources"] for r in rs):
             cap += (" \\emph{Author adjudication} marks a flow whose class was settled "
