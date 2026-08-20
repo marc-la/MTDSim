@@ -58,7 +58,7 @@ Writes the figures above (+ .pdf via pdflatex) and
 Style: TikZ at the document's 12 pt base so \\scriptsize / \\tiny land at
 8 pt / 6 pt in the thesis; greys carry the value on one sequential ramp; no
 colour carries a category; text in the document font. Same conventions as
-tools/l1_attack_graph_figure.py so the figures read as one system.
+tools/gap_appendix_figures.py so the figures read as one system.
 """
 from __future__ import annotations
 
@@ -88,7 +88,8 @@ FIG_DIR = REPO / "docs" / "thesis" / "figures"
 TAB_DIR = REPO / "docs" / "thesis" / "tables"
 TABLES_STEM = "outcome_overlay_weights"
 
-# ATT&CK v19.1 display names (the same map fig:l1-graph uses). "Defense
+# ATT&CK v19.1 display names (the same map the appendix attack graphs use).
+# "Defense
 # impairment" keeps ATT&CK's own spelling as the tactic's name.
 TACTIC_LABEL = {
     "reconnaissance": "Reconnaissance",
@@ -137,7 +138,7 @@ PANEL_GAP = 0.75       # vertical gap between panels (holds the two-line panel h
 HEADER_W = 15.4        # text width of a panel header (== the figure width)
 GRID = "black!18"
 STAGE_RULE = "black!55"
-ACCENT_RGB = "31,84,140"   # the one accent (shared with fig:l1-graph): the declared point
+ACCENT_RGB = "31,84,140"   # the one accent (family-wide): the declared point
 
 
 def _esc(s: str) -> str:
@@ -164,7 +165,8 @@ def _value_letter(v: float, letter: str) -> str:
 
 def stage_grouped_order(rs: RuleSet) -> list[str]:
     """Rows/columns: consensus stage, then the ATT&CK reading order within a
-    stage (the order fig:l1-graph uses), so the four stage blocks are visible
+    stage (kill-chain order, as every figure in the family uses), so the four
+    stage blocks are visible
     and within-block order asserts nothing — the consensus declares the
     post-intrusion middle unordered."""
     attack_order = list(TACTIC_LABEL)

@@ -42,9 +42,10 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
 
 - [`2026-08-20_section42_figures_tables_appendix.md`](2026-08-20_section42_figures_tables_appendix.md)
   — **the §4.2 figure / table / appendix programme**: Marc's 2026-08-20 ruled
-  inventory, the cross-cutting rules, and the open CONFIRMs (fig:l1-graph
-  stays; audit-table columns; the maybe-appendix renders — threat-model
-  framing and Australianisation both RULED 2026-08-20 and recorded). The work
+  inventory, the cross-cutting rules, and the open CONFIRMs (audit-table
+  columns; the maybe-appendix renders — threat-model framing and
+  Australianisation both RULED 2026-08-20 and recorded; the fig:l1-graph
+  CONFIRM was answered *remove* on 2026-08-20 and the figure is gone). The work
   is split into nine component briefs (2026-08-20, Marc's
   ask), indexed in that file — figures: model/data-flow diagram,
   controller-mapping bipartite, failure-weight wiring (the pipeline
@@ -54,7 +55,7 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   appendix-wiring brief early (labels the others resolve against) — shipped
   2026-08-20, as is the failure-weight wiring (one chapter float carrying all
   three views; `fig:distance-kernel-bands` and the ledger / kernel / full-set
-  tables in `app:weight-sets` §B.5). The umbrella retires when the last
+  tables in `app:weight-sets` §B.6). The umbrella retires when the last
   component ships.
 
 *(The §4.2 voice-pass remainder brief opened and closed 2026-08-20 in one day —

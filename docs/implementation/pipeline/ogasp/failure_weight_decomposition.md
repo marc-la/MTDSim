@@ -192,11 +192,11 @@ the post-rebuild nets), and the only Δ classes the kernel moves mass on are
 ±2 (15 forward, 12 backward base edges).
 
 **Conventions, all three.** Consensus stage, then the ATT&CK reading order
-within a stage — the order `fig:l1-graph` uses, with one move:
+within a stage — kill-chain order, as the whole figure family uses, with one move:
 `command-and-control` sits in the post-intrusion block, where the consensus
 seats it. TikZ standalone at the document's 12 pt base, greys carry the value
 on one ramp, the single accent marks the declared point, document font; the
-same conventions as `tools/l1_attack_graph_figure.py`. Sizes: matrix
+same conventions as `tools/gap_appendix_figures.py`. Sizes: matrix
 ≈ 470 × 215 pt (a normal float), decomposition ≈ 464 × 535 pt (a float page),
 bands ≈ 353 × 155 pt. All three, plus the five appendix tables, compile with
 no overfull boxes in a scratch copy of the thesis (2026-08-19). No number is

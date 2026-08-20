@@ -23,7 +23,8 @@ process/data-flow diagram, wired at a real label replacing `Figure~[data-flow]`.
   *or* verb → simulator executes and consumes the drawn stochastic time →
   success/failure verdict propagates up → failure weight set multiplied onto
   the token's out-transitions → next tactic.
-- Grey ramp + one accent, consistent with `fig:l1-graph` / the failure figures.
+- Grey ramp + one accent, consistent with the appendix attack graphs / the
+  failure figures (`fig:l1-graph` was deleted 2026-08-20).
 
 ## Considerations (surfaced 2026-08-20 — encode in the drawing)
 
@@ -66,4 +67,4 @@ considerations above visibly honoured; caption listed for Marc's voice pass.
 2. [`../workflows/figure_table_conventions.md`](../workflows/figure_table_conventions.md) §b, §d1, §d5, §h
 3. `docs/thesis/dissertation.tex` — the `[data-flow]` slot comment and the Mechanics prose it must match
 4. [`../implementation/architecture.md`](../implementation/architecture.md) §(f) — movement / controller / action layers
-5. `docs/thesis/figures/l1_attack_graph.tex` — canonical style block
+5. `tools/gap_appendix_figures.py` — canonical style block (since 2026-08-20)
