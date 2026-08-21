@@ -214,6 +214,41 @@ breadth, friction — and the Tier-0 disruption-per-downtime frontier joins
 the tempo frontier (C2) as one figure family. No new runs beyond §5's
 budgets; one new metric promotion and its V1 pass.
 
+### Amendment, same session — Tier 0 is already built and already run; both rulings taken
+
+**Correction, on a deeper look at the code and records: the Tier-0
+description above under-credits the repo.** The availability measure is not
+"currently consumed only by the `mtd_ai` path": a **derived disruption
+ledger already exists** (`DisruptionLedger` in
+`src/mtdsim/l3_simulation/movement/measures.py` — occupancy, reconfiguration
+time by layer and mechanism, executions per ksec, computed entirely from the
+substrate's own per-mutation execution records, snapshotted per run on
+`MovementRunResult.mtd_executions`, cross-arm safe on defender-side time),
+**and the frontier has already been run and reported**, pre-registered, as
+[`mtd_disruption_frontier.md`](mtd_disruption_frontier.md) (2026-08-01). Its
+headline strengthens the §1b disruption story rather than merely pricing it:
+**whether MTD involves a trade-off at all depends on the attacker** — against
+the inherited attacker the Pareto set is a singleton (Service Diversity:
+best suppression at lowest occupancy, a free lunch), against the movement
+attacker six of seven conditions are Pareto-efficient and the ~90 %
+suppression of the position-destroying family costs occupancy 0.50–0.70. The
+Tier-0 work remaining is therefore **integration, not construction**: carry
+the ledger's frontier into E3's reporting beside the tempo frontier, at E3's
+configuration and seed budget, with its V1 pass if any new statistic is
+added.
+
+**Rulings taken (Marc, 2026-08-21, this session):** (1) **Tier 0 is
+ratified** — the availability-denominated cost frontier is the overhead
+answer this work reports, with its currency caveat in the sentence. (2)
+**Tier 2 is the named future work**, with the portability claim made
+explicit: the model's knowledge and semantics — corpus-derived campaign
+structure, objective-conditioned profiles, the Petri-net execution
+semantics, the controller pattern — carry to a future emulation, because the
+join is two declared inputs (mapping, parameter catalogue) authored per
+environment. Documented as the future-work chapter's third programme:
+[`../../../notes/ch7_future_work/emulation_rung.md`](../../../notes/ch7_future_work/emulation_rung.md).
+Tier 1 stays rejected.
+
 ## 2. Working backwards — the claim ladder
 
 Each row: the claim as the dissertation would state it → where it stands →

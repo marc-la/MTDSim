@@ -18,3 +18,8 @@ guidance: [`../_writing_guide.md`](../_writing_guide.md)).
 Current notes: [`successor_programme.md`](successor_programme.md) — the named
 successor: a reactive defence pool and a tactic-capability action layer, the two
 substrate upgrades this work's closures identify as the binding constraints.
+[`emulation_rung.md`](emulation_rung.md) — the third programme: carrying the
+model up the evaluation ladder to an emulated environment, where the
+deployment-overhead question (latency, CPU, reconfiguration traffic) becomes
+measurable; the portability contract (what carries, what is re-derived) and
+the disruption frontier as the carried result.
