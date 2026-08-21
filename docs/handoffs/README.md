@@ -40,6 +40,18 @@ carried, and `git log` the record of the briefs themselves. The axis-8
 timing-channel re-examination retired the same day in the commits that shipped
 its work (the D-08 regime ruling and the criterion's dated amendment).
 
+- [`2026-08-21_targeted_objective_diagnosis.md`](2026-08-21_targeted_objective_diagnosis.md)
+  — **the targeted-objective line, for a fresh session**: wire the located
+  APT target (`is_target_compromised`, dead code) as an additive objective and
+  use it to diagnose what the movement attacker lacks as an MTD-evaluation
+  instrument. Tests Marc's "movement reaches the target better than baseline"
+  claim on the right axis (efficiency/survivability, not raw reach rate — the
+  baseline floods and reaches by collateral). Output = a ranked barrier +
+  minimal-change recommendations record, then Marc rules the objective fork.
+  Depends on nothing; feeds the final campaign's objective choice. Retire when
+  the diagnostic record lands. (Supersedes the narrower Gate 0 reachability
+  probe, folded in as step 2.)
+
 - [`2026-08-21_drafting_requirements_section.md`](2026-08-21_drafting_requirements_section.md)
   — **the standing §4.1 drafting context** ("What an APT attack model must
   capture"): the per-unit framework (chapter opening / problem definition /
