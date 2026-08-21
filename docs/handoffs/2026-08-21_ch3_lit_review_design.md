@@ -284,6 +284,17 @@ are drafted, with captions written long and squeezed as the body absorbs them.
    Costs the same 250 words either way; the choice is whether the chapter's most
    important paragraph appears in the table of contents.
 
+## Scrutiny of the source review
+
+The submitted review has since been read against this design and the critique
+protocol; the record is
+[`2026-08-21_lit_review_scrutiny.md`](2026-08-21_lit_review_scrutiny.md). It carries
+per-section keep/rework/cut verdicts, the diagnosis of why the gap section reads
+weak, and **a revision to CONFIRM 2 below**: on the evidence (the phase-coverage
+argument appears nowhere in the review), fidelity should be the chapter's spine and
+coverage its consequence, rather than the evaluation-altitude framing recommended
+here.
+
 ## What is not yet staged
 
 The chapter directory holds two notes — the gap statement and the timing-precedent
