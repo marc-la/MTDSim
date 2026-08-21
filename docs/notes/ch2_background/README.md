@@ -67,7 +67,9 @@ subsections. Folding the chapter opener and the retired *Prior work* section int
 single §2.2 preamble is what frees the words §2.2.2 needs.
 
 **§2.1 — the field, and the discipline that keeps it here.** Cited to Cho 2020, with
-Hong 2018 where the field's partition is extended. **It surveys no works.** The
+the premise anchored to the field's NITRD origin (`ghosh2009nitrd`); Hong 2018 no
+longer appears here — its metric-partition material followed the inherited suite to
+ch4/ch3 under the 2026-08-21 metrics ruling. **It surveys no works.** The
 moment it starts naming papers and their limitations it has become ch3, and the fix
 is to cut, not to balance. Its job is to make ch3 readable: §3.2 (*attacker models in
 MTD*) and §3.3 (*how MTD is evaluated*) both presuppose a reader who knows what a

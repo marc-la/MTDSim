@@ -140,33 +140,60 @@ the contributions list, linking
 \chapter{Background}
 \label{ch:background}
 
-% V7: the inherited simulator is not methodology --- it describes existing
-% things. Descriptive register throughout; the arguments about these
-% components (comparability boundary, baseline scoring) live in the
-% methodology. Written so a reader understands what the simulator does.
+% The vocabulary and the platform the rest of the document uses. V7:
+% existing things, described for comprehension --- not methodology; the
+% arguments about these components (comparability boundary, baseline
+% scoring) live in ch3/ch4. Scope widened 2026-08-21: the MTD concept
+% material re-homed here from the literature review. Shape authority:
+% docs/notes/ch2_background/README.md. Ledger: 1250 words / 5 units.
+% Chapter opener (unnumbered, ~60 w): the frame, two sentences.
 
-% The Brown -> Zhang -> Ho -> Tay lineage, what each paper added, so
-% cross-paper overlap reads as evolution rather than contradiction. The
-% lineage's mechanism-preference headlines (Zhang shuffle-dominant, Ho
+% Unit (250 w): the field's vocabulary, cited as definitions --- attack
+% surface; what / how / when to move; shuffle--diversity--redundancy;
+% proactive / reactive / hybrid triggers (cho2020 throughout;
+% ghosh2009nitrd for the premise --- both PARKED in references.bib,
+% reactivate on first \cite). SURVEYS NO WORKS: the moment it names
+% papers and their limitations it has become ch3, and the fix is to cut.
+% Roster test: a reader must be able to classify the five inherited
+% actions (IP shuffle, OS/service diversity, topology shuffle, no-op)
+% from this unit alone. Assembly awaiting Marc's ratification:
+% docs/handoffs/2026-08-21_ch2_background_context.md Part 3.
+\section{Moving target defence}
+\label{sec:mtd-concept}
+
+% Preamble (~120 w): what MTDSim is (a discrete-event simulator over a
+% three-layer HARM), then the lineage's *shape* in two sentences over
+% Table 2.1 --- per-work narration cut, attribution rides as clauses
+% where each addition is described. Table 2.1 (float, outside the word
+% budget): work / what it added / what this thesis inherits --- Brown
+% 2023 / Zhang 2023 / Ho 2024 / Tay 2024. The lineage's
+% mechanism-preference headlines (Zhang shuffle-dominant, Ho
 % diversity-dominant) do NOT live here --- V5 places them in the
 % evaluation as comparison points.
-\section{Prior work}
-\label{sec:lineage}
+\section{MTDSim}
+\label{sec:mtdsim}
 
-% Terrain: topology, host/service structure, exposure.
-\section{Network model}
-\label{sec:network-model}
+% Unit (250 w): terrain --- topology, host/service structure, exposure.
+% Written from scratch (the review has no source prose); scope set by
+% what ch4/ch5 refer back to (open question in the ch2 README).
+\subsection{Network model}
+\label{subsec:network-model}
 
-% The mechanism family, the execution schemes, and the reactive
-% (learning-based) defender --- used as-is per V3, retraining ruled out.
-\section{Defence mechanisms}
-\label{sec:defence-mechanisms}
+% Unit (~300 w): the roster wearing 2.1's labels --- shuffle and
+% diversity only, no redundancy (the honest scope note ch6 leans on);
+% the execution schemes Zhang added; the reactive DDQN selector, used
+% as-is per V3, retraining ruled out.
+\subsection{Defence mechanisms}
+\label{subsec:defence-mechanisms}
 
-% The scripted six-phase attacker the whole dissertation benchmarks
-% against, and the inherited metric suite it is measured by (description
-% only --- the comparability argument is sec:experimental-setup's).
-\section{Attacker model}
-\label{sec:attacker-model}
+% Unit (250 w): the scripted six-phase attacker the whole dissertation
+% benchmarks against --- its two scenarios, its RoA-ordered exploit
+% choice; may name the kill chain and ATT&CK as design attribution with
+% a forward pointer (a background chapter may name a framework it does
+% not teach). Metrics reduce to ONE forward-pointing clause --- the
+% inherited suite is described at subsec:metrics (ruling 2026-08-21).
+\subsection{Attacker model}
+\label{subsec:attacker-model}
 
 
 % =====================================================================
