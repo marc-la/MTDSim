@@ -187,6 +187,30 @@ than ten (predesign §5 — the bootstrap already shows the observed effects
 are far from marginal, so the real risk is per-profile denial/delay leaves
 in the weaker diversity conditions, which the OR structure absorbs).
 
+Two execution risks this discipline does not cover by itself, named here so
+they are built for rather than discovered (they are the substance of the
+generic caution that a design this wide needs careful gate execution and
+power management):
+
+- **Power does not transfer to new scales.** The §5 budgets are derived
+  from variance measured on the 50-host network; nothing licenses assuming
+  either the wall-cost *or the variance* at E4's larger scales. E4's
+  pre-registration therefore opens with a **pilot that sizes both** — the
+  wall-cost curve already required, plus a small-seed variance estimate per
+  scale from which E4's own seed budget is computed before its grid is
+  fixed. A frontier cell run at a seed count inherited from a different
+  geometry is the power failure this tree exists to prevent.
+- **The verdict bookkeeping is mechanical or it is wrong.** Sixteen H1
+  leaves × conditions under Holm, a fixed-sequence chain, TOST margins on
+  the equivalence leaves — done by hand across analysis sessions, this
+  *will* drift. The leaf table (§4 tuples) is therefore maintained
+  machine-readable, and the campaign's analysis computes every gate verdict
+  from it programmatically, so the tree's logic is executed by code that
+  can be reviewed once rather than by discipline that must hold every
+  time. The equivalence margins are declared in the same table (they ride
+  §8 ruling 1, beside the effect floors), because a TOST margin chosen
+  after seeing a sweep is not an equivalence test.
+
 ## 6. Failure dispositions, per gated node — stated before anything runs
 
 - **An H1 profile branch fails** → the headline narrows honestly: "MTD
