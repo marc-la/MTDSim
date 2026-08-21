@@ -1,7 +1,7 @@
 ---
 status: open — pre-design investigation; becomes the source for the final campaign's pre-registrations once Marc rules on §7's gates
 created: 2026-08-21
-updated: 2026-08-21
+updated: 2026-08-21 — §1b re-aim added same day (the disruption headline; the overhead tiers)
 topic: "Pre-design feasibility study for the final experimental campaign — working backwards from the headline the dissertation wants to the experiments that would license it. Audits the workshopped 'MTD thwarted 4 APT profiles' headline against the record (not licensable; the licensable headline is stronger), answers the null-hypothesis/p-value question for a seeded discrete-event substrate, prices every claim upgrade in seeds and wall-clock from the recorded experiment-2 variance (a fresh probe over expo02's runs.jsonl, reproducing the published cell means), and orders the ruling gates a consolidated re-take would discharge. Analysis-only: no run, no ruling, no parameter change."
 ---
 
@@ -100,6 +100,119 @@ in the row), a scope-and-assumptions discipline (envelope-not-actor, the
 mapping caveat, the comparability boundary), and a named future-work
 roadmap (the successor programme rows throughout the criterion). No new
 mechanism is needed to satisfy it.
+
+## 1b. Re-aim, same day — the disruption headline, and the overhead question
+
+**Marc's correction to §1 (2026-08-21, same session): the wanted headline is
+not the inversion but the direct question — *does MTD still disrupt APT
+attackers?* — with the workshopped follow-on that reviewers will ask for the
+system overhead (CPU, latency, bandwidth) of the shuffling.** Two findings,
+one per half.
+
+### The disruption headline is claimable — it is the ratified RQ, and the data already carries it
+
+"Does MTD still disrupt APT attackers" **is** V5's research question ("How
+does MTD perform against APT attackers?"), so the re-aim is not a new claim
+but the RQ answered in disruption-denominated vocabulary — which is exactly
+the vocabulary the degenerate region leaves open (breadth, time, effort;
+never ASR at the operating interval). A probe over the same recorded
+`runs.jsonl` (movement arm, pooled five profiles × ten seeds, within-arm
+only, so no cross-clock caveat applies) shows the record already carries
+**three disruption channels**:
+
+| condition (200 s) | runs achieving any compromise | median first-compromise (s), where achieved | mean interrupts |
+|---|--:|--:|--:|
+| none | 100 % | 1 509 | 0.0 |
+| complete_topology | 52 % | 4 198 | 75.0 |
+| ip_shuffle | 56 % | 3 602 | 75.0 |
+| simultaneous_multi | 48 % | 3 692 | 127.0 |
+| os_diversity | 98 % | 2 140 | 52.7 |
+| service_diversity | 96 % | 2 188 | 52.4 |
+
+- **Denial** — at the operating tempo the position-destroying family denies
+  the movement attacker *any* compromise in roughly half of runs (48–56 %
+  vs 100 % under no MTD).
+- **Delay** — where compromise happens at all, first compromise lands
+  2.4–2.8× later (median 1 509 s → 3 602–4 198 s).
+- **Containment** — breadth suppressed 87.8–89.8 % (E1, CI-disjoint), plus
+  the friction ledger (blocked fractions, ~75–127 interrupts/run, the ~9 %
+  dwell surcharge, learner-belief destruction).
+
+At 2 000 s all three channels largely close (94–100 % achieve compromise;
+median delay shrinks to ≤ 1.3×) — so the headline is honest only with its
+two conditions attached: **yes, MTD still disrupts the APT-shaped attacker
+— at tempo, and through the *opposite* mechanism family from the one the
+inherited evaluation recommends.** The inversion is not a rival headline;
+it is this headline's second clause. Wording discipline stands: *APT-shaped
+behavioural envelopes derived from CTI*, never "real attackers" (no
+simulation study can claim a real attacker — the workshopped "does this MTD
+actually slow down a real attacker" is unclaimable by anyone at the
+simulation rung, ours included); *disrupts/delays/denies/contains*, never
+*thwarts/neutralises* (§1).
+
+**Instrument consequence for §4.** First-compromise time is **censored**
+data — half the runs under the strong family never compromise — so
+conditional means are survivor-biased and the correct instrument is
+survival analysis: Kaplan–Meier curves per condition, log-rank tests, and
+restricted-mean-survival-time deltas as the effect size. This is a standard,
+examiner-legible instrument, it upgrades the delay claim from a median
+comparison to the field's proper form, and it slots into E3 with no new
+runs. It needs a V1 hand-validation like every other statistic.
+
+### The overhead half — why CPU/latency/bandwidth is not possible here, and what would be needed
+
+**Not possible with what we have, structurally.** MTDSim is a discrete-event
+abstraction: a mutation is a timed event seizing a resource-layer token, not
+a resource consumer. There is no CPU model, no packet, no link, no queue of
+traffic anywhere in the substrate — nothing for a latency or bandwidth
+number to be measured *on*. The workshopped advice presupposes an
+emulation/testbed evaluation; this study sits on the simulation rung of the
+evaluation ladder, where the lineage sits too (none of Brown/Zhang/Ho/Tay
+reports system overhead), and the methods conventions already require the
+rung to be positioned explicitly. Three tiers of response, in ascending
+cost:
+
+- **Tier 0 — in scope now, analysis-only: the availability frontier.** The
+  substrate *does* carry a defender-cost half: `MTD_DURATION` per mechanism
+  (Zhang 2023 Table 3, badged faithful in
+  [`../../provenance.md`](../../provenance.md)) and `downtime_ratio`
+  ([`mtd_statistics.py`](../../../../mtdnetwork/statistic/mtd_statistics.py))
+  — cumulative availability loss over the mutation execution records, this
+  project's own definition, currently consumed only by the `mtd_ai` path.
+  Promoting it into the reported suite prices disruption in the simulator's
+  own vocabulary: **disruption bought per unit availability lost**, as a
+  frontier over the interval sweep and the schemes (the 127-vs-75
+  interrupt confound already shows the scheme dimension is cost-relevant).
+  The honest sentence it buys: *disruption is bought with tempo, and tempo
+  costs availability* — at 200 s the strong family denies and delays, and
+  charges ~75–127 mutations/run at 70–110 s execution each; at 2 000 s both
+  the disruption and the cost largely vanish. Needs: a metrics-suite entry,
+  a V1 hand-trace, no substrate change (derived-only, so the defender
+  freeze is untouched). Caveat travels in the sentence: this is
+  *availability* cost, not CPU/latency/bandwidth, and is said so.
+- **Tier 1 — possible, recommended against: declared resource prices.**
+  Attach declared per-mutation CPU/bandwidth prices from literature and
+  multiply through the execution records. Rejected on Row A grounds: it is
+  a new declared family with no external anchor and no validation target
+  (three-fifths of the ledger is already declared judgement), and it would
+  manufacture exactly the overhead numbers a reviewer would then treat as
+  measured. The Tier-0 proxy is more honest and answers the same reviewer.
+- **Tier 2 — the real thing, and it is the successor programme:** an
+  emulation/testbed rung — SDN (e.g. Mininet) or a container/VM testbed in
+  which IP shuffling is an actual controller reconfiguration and OS/service
+  diversity an actual redeploy, measuring added RTT, packet loss during
+  reconvergence, controller CPU, and rule-install traffic. A different
+  instrument class and at least a semester of work on its own; the
+  movement layer's portability contract (the mapping as a declared seam) is
+  what makes the swap-in describable as future work rather than a rebuild.
+  This is the "3-year PhD roadmap" item the workshopped framing asked for,
+  stated at the rung where it is true.
+
+**What this adds to the campaign (§6):** E3 gains a *disruption panel* —
+denial fraction, first-compromise survival curves with log-rank/RMST,
+breadth, friction — and the Tier-0 disruption-per-downtime frontier joins
+the tempo frontier (C2) as one figure family. No new runs beyond §5's
+budgets; one new metric promotion and its V1 pass.
 
 ## 2. Working backwards — the claim ladder
 
