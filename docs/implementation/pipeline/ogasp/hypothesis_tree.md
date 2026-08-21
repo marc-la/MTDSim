@@ -270,6 +270,128 @@ realisation — which is the structure the supervisor's signal asks for.
 5. **Whether H1's AND is over four profiles or five** (the aggregate
    envelope currently rides as characterisation, C-agg).
 
+## 8b. Predicted outcomes, and the action-layer decision (2026-08-21)
+
+Marc asked, before committing to the campaign: given the many experiments
+already run (which map to these leaves loosely, not one-to-one), what is
+**bound to fail** under the no-simulator-upgrade constraint, and what is the
+**minimal** action-layer change that would lift it — with the predicted
+result named first, so the decision to lift the freeze is made knowing what
+it buys.
+
+### What is bound to pass (from experiment 2 and the probes over its runs)
+
+- **All sixteen H1 leaves, via the OR over conditions.** At 200 s the
+  position-destroying family denies any compromise in ~half of runs (48–56 %),
+  delays first compromise 2.4–2.8×, and contains breadth 87–89 %, every
+  profile, CI-disjoint. Every profile branch holds because it needs only one
+  channel × condition to reject, and this family clears three channels.
+- **H2 at the recommendation grade**, 200 s (ρ = −0.893; no seed-resample of
+  2 000 goes non-negative). **C-cost** (the free-lunch/steep-trade frontier).
+  **L-H2-prior** most likely holds.
+
+### What is bound to fail — and the failure is one fact, stated three ways
+
+**The profiled attacker reaches the substrate objective 0 times in 400 runs
+*without any MTD*, so no leaf denominated on objective achievement can be
+claimed — and the tree was built to avoid them for exactly this reason.**
+The cause is not weak parameters; it is a **mismatched objective**. The
+substrate's objective is `terminate_compromise_ratio = 0.8` — compromise 40
+of 50 hosts, a **mass-compromise** goal. The low-and-slow, position-driven
+profiled attacker spreads to ≈ 5.9 hosts unopposed by construction (it spends
+37–43 % of visits in dwell-only tactics), so it is nowhere near a 40-host
+threshold; the baseline, a fast vulnerability-sweeper, sits at 38.4 and clears
+it sometimes. The objective is a *non-APT* objective, and an APT-shaped
+attacker cannot satisfy it however it is tuned.
+
+Three consequences, all the same fact:
+
+1. **"MTD thwarts the APT from its goal" is unclaimable** — there is no
+   unopposed goal-achievement for MTD to deny. H1 is therefore, honestly,
+   *MTD disrupts the attacker's host-compromise activity* (deny/delay/contain
+   host spread), not *MTD stops the campaign*.
+2. **The disruption is measured on the compromise sub-loop the baseline
+   shares** — scan → exploit → propagate, the only thing the six verbs
+   express. The CTI structure changes *which* defence bites (the inversion);
+   it does not give the attacker a distinct objective to be disrupted *from*.
+   This is the sharp form of the "so what" objection.
+3. **Axes 1 and 6 stay DESIGNED** (out of the tree, but this is why): no
+   staged advance to measure, no payoff to be rational toward.
+
+**V-tempo is a boundary, not a failure, but it binds the headline:** the
+disruption is real and evaporates by 2 000 s, so H1 and the H2 inversion are
+**operating-tempo claims**. That is defensible and already owned; it is not a
+leaf that fails.
+
+### Why the action layer is the bind, exactly
+
+Six verbs, all host-compromise (`_do_scan_host`, `_enum_host`, `_scan_port`,
+`_exploit_vuln`, `_brute_force`, `_scan_neighbors`). No verb for
+exfiltration, impact, collection or C2 — the actual APT objective tactics —
+so the objective band is dwell-only under `v2_partial` and the substrate can
+only score *mass host compromise*. The attacker can accumulate position and
+never cash it into the one thing the objective rewards.
+
+### The trap that makes this decision non-trivial
+
+**The inversion — the headline — is measured on the current tactic→verb
+mapping.** Change the action layer and the mapping changes with it, so the
+inversion becomes a *new* experiment, not an improved one; it might not
+survive. This is precisely why V-map is the tree's one tree-demoting leaf. An
+action-layer upgrade is not "improve the result"; it is "reset the anchor and
+re-roll". Any decision to lift the freeze must treat the current inversion as
+a result to *preserve and report*, with the upgraded layer as a second study.
+
+### The minimal changes, ranked, with predicted results
+
+- **Option A — wire the located objective (small; possibly config-scale).**
+  The machinery already exists and is **dead code**: `is_target_compromised()`
+  reads whether a single `target_node` (at `target_layer = 4`, with
+  `total_database = 5`) is compromised, and nothing calls it — the same
+  "targeted strategy has no live code path" the criterion records as
+  IS-SCN-03. Wiring it as an alternative movement objective replaces the
+  *non-APT* mass-compromise goal with the *APT* goal: reach the crown jewels.
+  **Predicted result, with its uncertainty named:** *if* the low-and-slow
+  attacker's traversal reaches a layer-4 target in a healthy fraction of
+  *unopposed* runs, the objective becomes non-degenerate and the headline
+  upgrades from "MTD contains the attacker's spread" to **"MTD denies/delays
+  the APT reaching its objective"** — a strictly stronger and more authentic
+  claim, and one that also lifts axes 1 and 6 out of their DESIGNED holding.
+  *If it does not reach the target even unopposed*, that is itself the proof
+  that the six verbs — not the objective definition — are the true bind, and
+  Option B is necessary. **This is unmeasured**: breadth was measured, depth-
+  to-target was not.
+- **The decisive probe** (one cheap run resolves A-vs-B): movement attacker,
+  no MTD, located-target objective, all five profiles, ~350 seeds — measure
+  the target-reach fraction and reach time. Minutes of compute, no mapping
+  change, fully reversible. **It converts this entire prediction into a
+  measured fact and is the recommended next action before any freeze
+  decision.**
+- **Option B — build tactic-level objective verbs (heavy).** Give the
+  objective tactics real actions (exfiltrate/impact/collection) so the band
+  dispatches and can succeed or fail. Predicted: campaign-level disruption
+  becomes claimable and axes 1/6 can move — but this **is** the successor
+  "tactic-capability action layer", it changes the mapping wholesale, resets
+  the inversion, and needs full re-validation. Not an honours-timeline change;
+  it is the future-work programme already named
+  ([`../../../notes/ch7_future_work/successor_programme.md`](../../../notes/ch7_future_work/successor_programme.md)).
+- **Option C — do nothing.** The tree passes; the headline is the inversion
+  plus tempo-bound disruption of host compromise; the upgrade is future work.
+  The record's standing recommendation.
+
+### Recommendation
+
+Run the Option A probe before deciding. It is the single measurement that
+tells you whether your instinct — that the action layer is the bind — costs a
+small objective-rewire or a full action-layer rebuild, and it answers Marc's
+own condition (know the result before doing the work). If the target is
+reachable unopposed, Option A is a small change that materially strengthens
+the headline and is the more faithful APT framing; if it is not, Option B is
+vindicated as necessary and stays honestly in future work — with a
+measurement behind the decision either way. Protect the inversion as the
+anchor throughout: it is measured on the current mapping and is not
+automatically carried by any upgrade.
+
 ## 9. Evidence and anchors
 
 - The commissioning chain and the statistical instrument this tree consumes:
