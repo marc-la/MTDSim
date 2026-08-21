@@ -17,7 +17,11 @@ literature review's structure) and
 verdicts on the source material). This file carries the **ch2 half of the same
 split**: the passages of the 22 May 2026 review that belong to the background
 chapter rather than the literature review, located precisely, plus an honest account
-of how much of ch2 the review does *not* supply.
+of how much of ch2 the review does *not* supply. A third companion,
+[`2026-08-21_ch2_lineage_description_precedents.md`](2026-08-21_ch2_lineage_description_precedents.md),
+carries the craft side: how the four lineage papers themselves described the
+simulator, scrutinised into per-unit precedents and anti-patterns for the
+dictation sessions. This file stays authoritative on shape and budget.
 
 ## What the chapter is, in one line
 

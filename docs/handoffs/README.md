@@ -52,6 +52,14 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   the diagnostic record lands. (Supersedes the narrower Gate 0 reachability
   probe, folded in as step 2.)
 
+- [`2026-08-21_ch2_lineage_description_precedents.md`](2026-08-21_ch2_lineage_description_precedents.md)
+  — **the ch2 precedent base**: how Brown / Zhang / Ho / Tay each described the
+  simulator, scrutinised; the affinity board of adoptable moves keyed to the
+  ratified §2.1–§2.2.3 skeleton, the anti-pattern sweep list, and the standing
+  facts-from-records-not-papers warning (ATK-04/C7). Companion to the ch2
+  background context brief, which stays authoritative on shape and budget.
+  Feeds the ch2 dictation sessions; retires with the ch2 drafting programme.
+
 - [`2026-08-21_drafting_requirements_section.md`](2026-08-21_drafting_requirements_section.md)
   — **the standing §4.1 drafting context** ("What an APT attack model must
   capture"): the per-unit framework (chapter opening / problem definition /
