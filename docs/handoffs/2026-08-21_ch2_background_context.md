@@ -272,87 +272,126 @@ two things break under the wider scope:
    answer — ch2's four papers are not prior work in the survey sense, they are the
    *provenance of an artefact* — is exactly what the heading obscures.
 
-## (d) The proposal — 5 units, 1 250 words, ledger untouched
+## (d) The proposal — Marc's two-part shape, 5 units, ledger untouched
 
-| | Current | Proposed |
+**Marc's shape (2026-08-21), adopted.** It supersedes the flat four-section version
+first proposed in this brief, and it is better for a reason worth recording: the flat
+version put §2.1 *Moving target defence* — a field — at the same heading level as
+§2.2 *Network model*, one component of one simulator. Nesting the components fixes
+the altitude mismatch. It is also **closer to V7 than the current tex is**: V7 names
+exactly three components for this chapter (network model, defence model, procedural
+attacker), and this shape gives them exactly three subsections.
+
+| Heading | Job | Words |
 |---|---|---|
-| opener (rides §2.1) | what the simulator is, 2–3 sentences | chapter frame **+ the lineage**, four sentences over **Table 2.1** |
-| §2.1 | Prior work | **Moving target defence** *(new)* |
-| §2.2 | Network model | Network model *(unchanged)* |
-| §2.3 | Defence mechanisms | Defence mechanisms *(+ §2.1's labels applied)* |
-| §2.4 | Attacker model | Attacker model *(metrics → ch4)* |
+| *(chapter opener, unnumbered)* | the frame, two sentences | ~60 |
+| **§2.1 Moving target defence** | attack surface; *what / how / when*; SDR; proactive / reactive / hybrid. Cho 2020, Hong 2018. **Surveys nothing.** | 250 |
+| **§2.2 MTDSim** *(preamble)* | what the simulator is — discrete-event, over a three-layer HARM — then the lineage in two sentences over **Table 2.1** | ~120 |
+| §2.2.1 Network model | topology, host and service structure, exposure. Written from scratch | 250 |
+| §2.2.2 Defence mechanisms | the roster wearing §2.1's labels; the execution schemes; the reactive selector | ~300 |
+| §2.2.3 Attacker model | the scripted six-phase attacker, the two scenarios, the RoA-ordered exploit choice; metrics reduce to a forward clause | 250 |
 
-Four sections before, four after; one heading swapped; five units before, five
-after. **No ledger change, no float spent, nothing displaced.**
+≈1 230 words against a 1 250 budget; five heading-claims against five units. **No
+ledger change, no float spent.** *(Heading form: `MTDSim` is a proper name, and the
+tex already carries it in a ratified heading — `L4: The attacker-agent traversal in
+MTDSim`. Alternative considered: `The simulator`, which loses the identification the
+terminology registry asks for at first use.)*
 
-**Opener (rides §2.1).** Where the new unit comes from. It is currently budgeted a
-full 250 words to do "two or three sentences" of work — roughly 170 words of slack
-sitting in the ledger. It now carries the chapter frame *and* the lineage: MTDSim as
-a discrete-event simulator over a three-layer HARM (Brown), the line read as
-evolution rather than contradiction, and what this thesis extends — over **Table 2.1**
-(paper / what it added / what this work inherits).
+**The shape pays for the dense unit.** Folding the chapter opener and the old
+Prior-work section into one §2.2 preamble frees ~125 words, and §2.2.2 is where they
+go — the unit carrying the roster, the labels, the execution schemes *and* the
+learned selector. The overflow trigger named in the flat proposal is now unlikely to
+fire, and the float stays unspent.
 
-**§2.1 Moving target defence** *(~250 w, new)*. Attack surface; *what / how / when*;
-shuffle–diversity–redundancy; proactive / reactive / hybrid. Cited to Cho 2020, with
-Hong 2018 where the field's partition is extended. Surveys nothing. *(Alternative
-heading considered: "The moving target defence design space" — more accurate to
-Cho's framing, longer, and the extra words buy nothing the first sentence cannot.)*
+### (d.1) The lineage — narration cut, table kept
 
-**§2.2 Network model** *(unchanged)*. HARM's layers as terrain: topology, host and
-service structure, exposure. Written from scratch against the implementation
-records and Brown directly. Open question 2 — how much of it the document needs —
-is **not** settled by this proposal; it is set by what ch4 and ch5 refer back to.
+**Agreed on the narration.** Walking through the students' work is not relevant,
+because everything relevant about it is described where it is used: Zhang's
+execution schemes and Tay's selector in §2.2.2, Ho's metric suite in ch4. Attribution
+rides as a clause — *the execution schemes Zhang added* — not as a section. That is
+the "describe once" discipline in Part 1's Boundaries, applied.
 
-**§2.3 Defence mechanisms.** The roster, wearing §2.1's labels; the execution
-schemes; the reactive selector. The labels earn their keep in their first two
-sentences, which is the test Part 1 sets for anything entering this chapter:
+**The table stays**, because it does three jobs no component sentence does, and it
+costs nothing (floats sit outside the word budget):
 
-- the simulator carries **shuffle and diversity only — no redundancy**
-  (`substrate_primer` §(c) states this as an honest scope note), a limit ch6 leans
-  on and the SDR vocabulary is what makes it sayable in one clause;
-- the operations sort by **which layer of terrain they mutate** — position
-  (reachability, addressing) versus surface (versions, ports) — which is the reading
-  ch4 and ch5 actually use, and which needs the *what to move* question posed first.
+1. **Ch4's comparability boundary** — cross-paper numeric comparison invalid,
+   within-substrate comparison valid — presupposes a reader who knows these are four
+   studies over one evolving codebase.
+2. **Ch5's first experiment family re-runs the lineage's own published
+   evaluations.** It introduces the headline results itself (V5 keeps
+   shuffle-dominant / diversity-dominant out of ch2), but it should not also have to
+   establish from scratch that the lineage exists.
+3. **Research integrity.** A thesis extending three prior students' code needs one
+   visible place where inherited and built are separated. Four rows do that better
+   than four paragraphs, and an examiner looks for it.
 
-**§2.4 Attacker model.** The scripted six-phase attacker, the two scenarios
-(network-wide and targeted), the RoA-ordered choice over scanned exploits. Metrics
-reduce to a single forward-pointing clause per (b).
+Table 2.1 is therefore not a lineage section in disguise: *paper / what it added /
+what this thesis inherits*, with the prose beside it carrying only the shape of the
+evolution.
 
-### Why the lineage loses its heading and not one word of its content
+## (e) The other input — why Attack Flow does not come to ch2
 
-- **V7 names three components for this chapter** — network model, defence model,
-  procedural attacker. "Prior works" is the chapter README's fourth, not the
-  register's. Dropping the *heading* does not touch the ruling.
-- **The lineage is the most table-shaped content in the document** — four papers ×
-  three columns — and tables sit outside the word budget. Converting it is free.
-- **It is also the unit with the least source prose** (Part 1: Zhang and Ho are
-  absent from the review entirely). A table needs facts, not narration; this is the
-  cheapest place in the chapter to buy a unit.
-- The prose that survives carries only the *shape* of the evolution, which is the
-  part a reader cannot get from a table.
+The question is whether the attack-profiling material (the review's §III-D) and the
+Attack Flow corpus should join the background, on the reasonable intuition that ch2
+ought to describe *both* things this thesis joins rather than only the defence side.
+**Recommendation: no** — on a distinction worth stating explicitly, because it will
+recur:
 
-### Where the float goes if it goes
+> **Ch2 carries what is inherited. Ch3 earns what is chosen.**
 
-§2.3 is the dense unit — roster, labels, schemes, learned selector. If draft zero
-runs past ~350 words, the split to make is on the field's own seam: **what/how** (the
-mechanisms) versus **when** (the schemes and the selector), giving §2.3 Defence
-mechanisms / §2.4 Mechanism selection and pushing the attacker to §2.5. Six units,
-one of the ledger's two unspent float units, booked in the writing guide's
-reallocation record when it fires — not before. Recommendation: **hold the float**;
-the trigger is a measurement, and it also makes §2.1 structurally load-bearing
-rather than decorative, since the split runs along the vocabulary's own axis.
+MTDSim is inherited: no alternative was weighed, it arrived with the lineage.
+Attack Flow was **chosen, and chosen by argument** — §III-D spends a full page
+trading manual curation against automated extraction and concludes that automated
+extraction "does not yet recover technique-level behaviour reliably enough to ground
+an adversary on", which is why the analyst-curated corpus wins. The scrutiny record
+calls that passage the review's internal exemplar. Three consequences:
 
-## (e) Consequences to book if this is ratified
+1. **Pre-installing it in ch2 spends ch3's best argument early.** A reader who has
+   already met Attack Flow as *the format this thesis uses* reads the page-long
+   trade as retrospective justification for a settled decision. The review is meant
+   to earn it.
+2. **It cannot come alone.** Flow objects are keyed to ATT&CK techniques — the
+   format cannot be described without the vocabulary. So Attack Flow into ch2 drags
+   ATT&CK in, and ATT&CK's ch3 job (the durability argument licensing
+   technique-and-tactic-level modelling — what justifies the pipeline's whole unit of
+   analysis) is argumentative and cannot follow it. Definition in ch2, argument in
+   ch3, is precisely the double-touch (b) has just finished cutting from the metrics.
+3. **Nothing before ch4 needs it, and ch3 hands it over on the way.** Ch2's job is
+   to make ch3 readable. The capture strand introduces the artefact as it argues for
+   it, and the methodology uses it one chapter later.
+
+**The asymmetry is real, and worth naming rather than repairing.** This thesis
+inherits its defence side and builds its attacker side, so the defence side arrives
+un-argued (background) while the attacker side is argued into existence (review →
+methodology). Ch2 describing MTD but not CTI is that asymmetry showing through the
+structure, not a gap in it. Expect the same test to keep returning a *yes* for
+MTD-side material and a *no* for CTI-side material.
+
+**The condition that reopens it.** If drafting §4.2.1 (L0→L1) turns out to need
+~150 words explaining what a flow object *is* before the construction can be
+described, the artefact needs an earlier definitional home — and the cheap fix then
+is two definitional sentences in ch3 §3.1.3, where it is already being introduced,
+not a new ch2 section.
+
+## (f) Consequences to book if this is ratified
 
 - **Three documents still describe ch2 as platform-only** and each needs one line
   changed: the writing guide's Background row, `docs/notes/ch2_background/README.md`,
   and the tex comment block above `\chapter{Background}`. The chapter's one-line job
   becomes *the vocabulary and the platform the rest of the document uses.*
-- **`dissertation.tex` is untouched by this brief.** Cutting the skeleton is a
-  separate, ratified pass.
+- **The tex change is now a section restructure, not a heading swap** — four
+  `\section` blocks become two, with three `\subsection`s under the second, and the
+  `sec:lineage` label disappears (nothing currently `\ref`s it; verify before
+  cutting). Still a separate, ratified pass; `dissertation.tex` is untouched by this
+  brief.
+- **Table 2.1 is a new float** and follows the figure/table conventions —
+  `\caption[short]{long…}`, the short form a noun phrase for the List of Tables.
+- **Nothing in the ch3 brief moves.** (e) leaves §3.1's three units intact; the
+  vocabulary migration of (a) was already assumed by CONFIRM 3 of that brief.
 - **Open question 4 (does the opener need the pipeline figure): recommend no.** The
-  opener now carries Table 2.1, and the pipeline belongs to the ladder figure at
-  ch4's opening. Cheap to revisit if the lineage table lands thin.
-- **Open questions 1 and 3 are answered above** — 1 by (d) (the lineage rides the
-  opener over a table), 3 by (b) (metrics to ch4, on the evidence of the existing
-  ch4 skeleton). Open question 2 stands.
+  simulator's preamble now carries Table 2.1, and the pipeline belongs to the ladder
+  figure at ch4's opening.
+- **Open questions 1 and 3 are answered** — 1 by (d.1) (narration cut, table kept
+  under §2.2), 3 by (b) (metrics to ch4, on the evidence of the existing ch4
+  skeleton). **Open question 2 stands**: how much network model the document needs is
+  set by what ch4 and ch5 refer back to, and this brief does not settle it.
