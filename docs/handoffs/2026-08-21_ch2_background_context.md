@@ -29,6 +29,12 @@ scoring of its threat model) are ch3's and ch4's; ch2 describes and hands over.
 
 ## Budget and skeleton
 
+> **Superseded in part by Part 2 (below), 2026-08-21.** The chapter's scope opened
+> after this section was written — moving-target-defence vocabulary was re-homed
+> here from the literature review — and Part 2 proposes a revised skeleton at the
+> same budget. The word budget, the unit count and the no-spare-section constraint
+> below all still hold; the *section list* is the part under revision.
+
 **1 250 words / 5 units** (writing guide ledger; ch2 was cut 6→5 on 2026-08-12 to
 fund the methodology's 11-unit skeleton). The four sections in
 [`../thesis/dissertation.tex`](../thesis/dissertation.tex) plus a short opener is
@@ -179,3 +185,174 @@ run grey-box on Marc's instruction and did not read them.)
 
 Drafting ch2 prose; editing `dissertation.tex`; reading or reconciling the
 implementation records named above; the ch3 briefs' open CONFIRMs.
+
+---
+
+# Part 2 — The widened scope, and a structure that carries it (2026-08-21)
+
+Part 1 was written when ch2's only job was the inherited platform. It no longer is:
+the moving-target-defence concept material — the review's §II-A, verdict
+**relocate (ch2)** in
+[`2026-08-21_lit_review_scrutiny.md`](2026-08-21_lit_review_scrutiny.md), and
+CONFIRM 3 of [`2026-08-21_ch3_lit_review_design.md`](2026-08-21_ch3_lit_review_design.md)
+— comes here. This part rules on whether that is right, sweeps the review for
+anything else that is misfiled rather than merely weak, and proposes a skeleton.
+
+## (a) Is the re-home the right call? Yes — and the reason is register, not topic
+
+**The ruling that created this chapter is a register ruling.** V7's own words
+(supervisor decision register): the simulator's description "is not methodology — it
+describes existing things". The attack surface, the *what / how / when* questions,
+the shuffle–diversity–redundancy family and the proactive / reactive / hybrid
+trigger regimes are also existing things — definitional vocabulary, cited to Cho,
+argued by nobody. V7's criterion admits them; no new ruling is needed to let them in.
+
+The literature review cannot hold them, and the reason is its contract, not its
+topic. Ch3 tells each category of prior work as a chronological story — a method,
+its limitation, why the next method came — and narrows onto the demonstrated need.
+Vocabulary has no such arc. Parked at the front of ch3 it is inert prose that
+narrows nothing, and it spends ~250 of the survey's 3 000 words doing it.
+
+**The placement test, stated once so it settles the next case too: ch2 carries the
+terms and artefacts the rest of the document *uses*; ch3 carries the claims the
+document *argues against*.** Descriptive and definitional here; evaluative and
+narrowing there.
+
+Two things the move buys beyond tidiness:
+
+1. **It fixes a hole, not just a filing error.** Ch3 §3.2 is *attacker models in
+   MTD* and §3.3 is *how MTD is evaluated*. Both presuppose a reader who knows what
+   a shuffle is and where a trigger regime sits. Nothing in the current skeleton
+   teaches that — the vocabulary was going to arrive by osmosis.
+2. **It repairs the chapter order.** Background-before-literature-review read
+   slightly oddly while ch2 was one artefact described before the field it belongs
+   to. With the vocabulary here the sequence is a funnel: terms → survey → gap.
+
+**The cost, plainly.** Ch2 becomes a two-register chapter and can drift into being a
+second literature review. One tripwire holds it: **§2.1 surveys no works.** Every
+claim in it is cited as a definition (Cho 2020; Hong 2018 where the metrics
+partition is extended) and none is scored. The moment it starts naming papers and
+their limitations it has become ch3, and the fix is to cut, not to balance.
+
+## (b) The rest of the review, swept — what else is misfiled
+
+The prompt's question was broader than MTD ("some other things that don't really
+make sense to live in the lit review"). Swept against the scrutiny's section
+verdicts, the answer is narrower than expected:
+
+| Material | Ruling | Why |
+|---|---|---|
+| §II-A concept and taxonomy | **→ ch2 §2.1** | The one genuine migration. See (a). |
+| §II-B, the MTDSim / HARM paragraph | **→ ch2 opener** | Already in Part 1's port map. |
+| §II-C, the Tay DDQN paragraph | **→ ch2 defence mechanisms** | Already in Part 1's port map; the cleanest direct port in the review. |
+| §II-B, the evaluation ladder + Table I | **stays ch3** (3.3.1 / 3.3.2) | Argumentative: it positions this work on the ladder and carries the metrics-are-scored-*over*-the-attacker hinge. Definitional-looking, evaluative in use. |
+| §III-A ATT&CK, §III-B durability | **stays ch3** (3.1.2) | Ch3 needs them to license modelling at technique-and-tactic level. Ch2 names both frameworks only as attribution for the inherited attacker's design, with a forward pointer — a background chapter may name a framework it does not teach. |
+| §II-C Masud (specified-pole orchestration) | **stays ch3** (3.2.4) | Evidence for the rhetoric-versus-execution pattern, not platform description. |
+| The asymmetry sentence (`LIT_REVIEW.md:89`) | **ch1 or ch3 preamble, once** | Part 1's ruling stands. |
+| §III-B the pyramid as a frame | **cut** | Scrutiny (a). Not a relocation. |
+| **The inherited metric suite** | **→ ch4 §4.3.2** — *new ruling, answers open question 3* | Evidence, not preference: `dissertation.tex` already gives `subsec:metrics` "the inherited suite and its comparability boundary". Describing it in ch2 as well makes three metric touches in a 14 550-word document (ch3 field-level, ch2 inherited, ch4 inherited-plus-boundary). Description and its argument belong in one place. Ch2 keeps one forward-pointing clause. |
+
+**So the only genuine ch3 → ch2 migration is the vocabulary.** Everything else the
+review misplaces is a cut or a rework *inside* ch3. That is worth knowing before the
+workshop: the widened scope is one unit of new material, not a general re-opening.
+
+## (c) Why the current four headings stop working
+
+They are MTDSim-shaped — a component-by-component walkthrough of one artefact — and
+two things break under the wider scope:
+
+1. **§2.3 would carry two registers in one heading.** The field's taxonomy *and*
+   this simulator's operations, in 250 words. Part 1's ruling ("SDR enters as labels
+   applied to the inherited mechanisms… perhaps eighty words survive") was correct
+   for a platform-only chapter and is under-scoped for this one: eighty words cannot
+   carry attack surface, *what / how / when*, SDR and the trigger regimes with
+   citations.
+2. **"Prior work" sits one page before a chapter called "Literature review".** A
+   reader is entitled to ask why prior work is split across two chapters. The honest
+   answer — ch2's four papers are not prior work in the survey sense, they are the
+   *provenance of an artefact* — is exactly what the heading obscures.
+
+## (d) The proposal — 5 units, 1 250 words, ledger untouched
+
+| | Current | Proposed |
+|---|---|---|
+| opener (rides §2.1) | what the simulator is, 2–3 sentences | chapter frame **+ the lineage**, four sentences over **Table 2.1** |
+| §2.1 | Prior work | **Moving target defence** *(new)* |
+| §2.2 | Network model | Network model *(unchanged)* |
+| §2.3 | Defence mechanisms | Defence mechanisms *(+ §2.1's labels applied)* |
+| §2.4 | Attacker model | Attacker model *(metrics → ch4)* |
+
+Four sections before, four after; one heading swapped; five units before, five
+after. **No ledger change, no float spent, nothing displaced.**
+
+**Opener (rides §2.1).** Where the new unit comes from. It is currently budgeted a
+full 250 words to do "two or three sentences" of work — roughly 170 words of slack
+sitting in the ledger. It now carries the chapter frame *and* the lineage: MTDSim as
+a discrete-event simulator over a three-layer HARM (Brown), the line read as
+evolution rather than contradiction, and what this thesis extends — over **Table 2.1**
+(paper / what it added / what this work inherits).
+
+**§2.1 Moving target defence** *(~250 w, new)*. Attack surface; *what / how / when*;
+shuffle–diversity–redundancy; proactive / reactive / hybrid. Cited to Cho 2020, with
+Hong 2018 where the field's partition is extended. Surveys nothing. *(Alternative
+heading considered: "The moving target defence design space" — more accurate to
+Cho's framing, longer, and the extra words buy nothing the first sentence cannot.)*
+
+**§2.2 Network model** *(unchanged)*. HARM's layers as terrain: topology, host and
+service structure, exposure. Written from scratch against the implementation
+records and Brown directly. Open question 2 — how much of it the document needs —
+is **not** settled by this proposal; it is set by what ch4 and ch5 refer back to.
+
+**§2.3 Defence mechanisms.** The roster, wearing §2.1's labels; the execution
+schemes; the reactive selector. The labels earn their keep in their first two
+sentences, which is the test Part 1 sets for anything entering this chapter:
+
+- the simulator carries **shuffle and diversity only — no redundancy**
+  (`substrate_primer` §(c) states this as an honest scope note), a limit ch6 leans
+  on and the SDR vocabulary is what makes it sayable in one clause;
+- the operations sort by **which layer of terrain they mutate** — position
+  (reachability, addressing) versus surface (versions, ports) — which is the reading
+  ch4 and ch5 actually use, and which needs the *what to move* question posed first.
+
+**§2.4 Attacker model.** The scripted six-phase attacker, the two scenarios
+(network-wide and targeted), the RoA-ordered choice over scanned exploits. Metrics
+reduce to a single forward-pointing clause per (b).
+
+### Why the lineage loses its heading and not one word of its content
+
+- **V7 names three components for this chapter** — network model, defence model,
+  procedural attacker. "Prior works" is the chapter README's fourth, not the
+  register's. Dropping the *heading* does not touch the ruling.
+- **The lineage is the most table-shaped content in the document** — four papers ×
+  three columns — and tables sit outside the word budget. Converting it is free.
+- **It is also the unit with the least source prose** (Part 1: Zhang and Ho are
+  absent from the review entirely). A table needs facts, not narration; this is the
+  cheapest place in the chapter to buy a unit.
+- The prose that survives carries only the *shape* of the evolution, which is the
+  part a reader cannot get from a table.
+
+### Where the float goes if it goes
+
+§2.3 is the dense unit — roster, labels, schemes, learned selector. If draft zero
+runs past ~350 words, the split to make is on the field's own seam: **what/how** (the
+mechanisms) versus **when** (the schemes and the selector), giving §2.3 Defence
+mechanisms / §2.4 Mechanism selection and pushing the attacker to §2.5. Six units,
+one of the ledger's two unspent float units, booked in the writing guide's
+reallocation record when it fires — not before. Recommendation: **hold the float**;
+the trigger is a measurement, and it also makes §2.1 structurally load-bearing
+rather than decorative, since the split runs along the vocabulary's own axis.
+
+## (e) Consequences to book if this is ratified
+
+- **Three documents still describe ch2 as platform-only** and each needs one line
+  changed: the writing guide's Background row, `docs/notes/ch2_background/README.md`,
+  and the tex comment block above `\chapter{Background}`. The chapter's one-line job
+  becomes *the vocabulary and the platform the rest of the document uses.*
+- **`dissertation.tex` is untouched by this brief.** Cutting the skeleton is a
+  separate, ratified pass.
+- **Open question 4 (does the opener need the pipeline figure): recommend no.** The
+  opener now carries Table 2.1, and the pipeline belongs to the ladder figure at
+  ch4's opening. Cheap to revisit if the lineage table lands thin.
+- **Open questions 1 and 3 are answered above** — 1 by (d) (the lineage rides the
+  opener over a table), 3 by (b) (metrics to ch4, on the evidence of the existing
+  ch4 skeleton). Open question 2 stands.
