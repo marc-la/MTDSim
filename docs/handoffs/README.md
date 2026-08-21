@@ -40,6 +40,15 @@ carried, and `git log` the record of the briefs themselves. The axis-8
 timing-channel re-examination retired the same day in the commits that shipped
 its work (the D-08 regime ruling and the criterion's dated amendment).
 
+- [`2026-08-21_drafting_requirements_section.md`](2026-08-21_drafting_requirements_section.md)
+  — **the standing §4.1 drafting context** ("What an APT attack model must
+  capture"): the per-unit framework (chapter opening / problem definition /
+  the eight-axis criterion), the pose-don't-score boundary, term rulings, and
+  three open CONFIRMs (subsection split; the axes' \ref anchor; whether any
+  scorecard column appears in §4.1.2 or defers whole to ch6). Depends on
+  nothing; the §4.2 preamble's shipped prose already leans on its output.
+  Retire when both §4.1 units are drafted and scrutinised.
+
 - [`2026-08-20_section42_figures_tables_appendix.md`](2026-08-20_section42_figures_tables_appendix.md)
   — **the §4.2 figure / table / appendix programme**: Marc's 2026-08-20 ruled
   inventory, the cross-cutting rules, and the open CONFIRMs (audit-table
