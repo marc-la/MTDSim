@@ -151,15 +151,51 @@ the contributions list, linking
 % Unit (250 w): the field's vocabulary, cited as definitions --- attack
 % surface; what / how / when to move; shuffle--diversity--redundancy;
 % proactive / reactive / hybrid triggers (cho2020 throughout;
-% ghosh2009nitrd for the premise --- both PARKED in references.bib,
-% reactivate on first \cite). SURVEYS NO WORKS: the moment it names
-% papers and their limitations it has become ch3, and the fix is to cut.
-% Roster test: a reader must be able to classify the five inherited
-% actions (IP shuffle, OS/service diversity, topology shuffle, no-op)
-% from this unit alone. Assembly awaiting Marc's ratification:
-% docs/handoffs/2026-08-21_ch2_background_context.md Part 3.
+% ghosh2009nitrd for the premise --- both reactivated in references.bib
+% 2026-08-21). SURVEYS NO WORKS: the moment it names papers and their
+% limitations it has become ch3, and the fix is to cut. Roster test: a
+% reader must be able to classify the five inherited actions (IP
+% shuffle, OS/service diversity, topology shuffle, no-op) from this
+% unit alone.
+% DRAFT STATE (2026-08-21): ASSEMBLED from the submitted lit review's
+% own sentences (port ledger: the ch2 handoff Part 3); decisions D1--D5
+% ratified by Marc 2026-08-21 and applied as recommended. Voice (f)
+% gate run at insertion. Pass 6 pending over the assembled section once
+% the 2.2 units exist; one integration flag rides with ch1 (the MTD
+% expansion is duplicated in the RQ box --- dedupe when ch1 is drafted).
 \section{Moving target defence}
 \label{sec:mtd-concept}
+
+Moving target defence (MTD) is the timely manipulation of system
+configurations to modify and control the \emph{attack surface}: the set
+of points at which an attacker engages with the system \citep{cho2020}.
+It inverts the conventional assumption that vulnerabilities can be
+eliminated and system configurations held stable: no system is
+perfectly secure, so attacks can be thwarted but not prevented
+\citep{ghosh2009nitrd}. By continuously changing the configurations an
+attacker relies on, MTD shifts uncertainty onto the adversary, whose
+reconnaissance decays faster than it can be acted upon \citep{cho2020}.
+
+The MTD design space is organised around three questions: \emph{what}
+to move, \emph{how} to move it, and \emph{when} to move \citep{cho2020}.
+The first concerns the configurable attributes available to the
+defender: IP addresses, network topologies, operating systems, software
+stacks. The second is captured by the canonical
+shuffle--diversity--redundancy (SDR) taxonomy, whose three primitives
+are complementary rather than partitioned \citep{cho2020}.
+\emph{Shuffling} rearranges or randomises existing components (IP
+mutation, topology reconfiguration), invalidating reconnaissance the
+attacker has already performed. \emph{Diversity} deploys different
+implementations of the same function, so that an exploit against one
+variant is unlikely to apply to others. \emph{Redundancy} replicates
+components to preserve service while the other two operate.
+
+The third question, when to move, distinguishes proactive
+(time-triggered), reactive (event-triggered), and hybrid scheduling
+regimes \citep{cho2020}. This is the tension between cost and security:
+moving too often imposes overhead on legitimate users; moving too
+rarely leaves the attacker's reconnaissance valid for longer than it
+should be.
 
 % Preamble (~120 w): what MTDSim is (a discrete-event simulator over a
 % three-layer HARM), then the lineage's *shape* in two sentences over

@@ -580,15 +580,25 @@ ledger below.
    Until ch1 is dictated, §2.1 keeps its own.
 7. **Count:** ~233 of 250; both ledger float units untouched.
 
-## (e) State landed this session (2026-08-21, evening)
+## (e) State landed this session (2026-08-21, evening — updated after ratification)
 
+- **D1–D5 all ratified by Marc as recommended, same session** ("all your 5
+  decisions are fine, insert on fix"), and **the unit is inserted**: the assembly
+  in (c) now sits verbatim in `dissertation.tex` under `sec:mtd-concept`, with a
+  `% DRAFT STATE` comment recording the port, the ratification, and the two
+  pending items (pass 6 once the §2.2 units exist; the ch1 MTD-expansion dedupe).
+  The voice §(f) gate was run at insertion — the nine checks from (d) on this
+  exact text, calibration inherently satisfied (the sentences are Marc's
+  submitted, audited prose plus his ratified adaptations).
 - `dissertation.tex` restructured to the ratified nested shape — labels
   `sec:mtd-concept`, `sec:mtdsim`, `subsec:network-model` /
   `subsec:defence-mechanisms` / `subsec:attacker-model`; `sec:lineage` gone (zero
   `\ref`s confirmed before cutting). Skeleton comments carry the unit budgets and
-  the Part 2 rulings. Prose not planted — the assembly above awaits ratification.
-- `references.bib`: `cho2020` and `ghosh2009nitrd` are PARKED per the bib's own
-  convention; reactivate both when §2.1's `\cite`s land.
-- Remaining for §2.1: Marc rules D1–D5, converts the assembly into the tex (his
-  hand or an authorised session edit), then pass 6 runs over the assembled section
-  once §2.2's units exist.
+  the Part 2 rulings.
+- `references.bib`: `ghosh2009nitrd` and `cho2020` REACTIVATED (uncommented,
+  `@` restored) now that §2.1's `\cite`s land; `hong2018` stays parked. Build verified: full
+  `pdflatex → bibtex → pdflatex ×2` cycle exits clean, zero errors, both keys
+  resolve in the aux.
+- Remaining for §2.1: nothing until section assembly — pass 6 runs over the whole
+  §2 once the §2.2 preamble and three subsections exist; the ch1 expansion dedupe
+  rides the integration check.
