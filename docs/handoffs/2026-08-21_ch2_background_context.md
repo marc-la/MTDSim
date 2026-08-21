@@ -399,3 +399,196 @@ not a new ch2 section.
   under §2.2), 3 by (b) (metrics to ch4, on the evidence of the existing ch4
   skeleton). **Open question 2 stands**: how much network model the document needs is
   set by what ch4 and ch5 refer back to, and this brief does not settle it.
+
+---
+
+# Part 3 — §2.1 assembled from the review's own sentences (2026-08-21)
+
+Executes the §2.1 half of the workshop with Marc in-session: a grey-box requirements
+pass, §II-A measured against it, and the unit assembled sentence-by-sentence from
+the submitted review. **Mode note:** every sentence below is Marc's — ported from
+the review with locators — or a marked adaptation of one, awaiting his ratification;
+no new sentence was composed (the drafting pipeline's authorised-assembly exception,
+invoked by Marc: "assemble the section 2.1 from the lit review context; if you are
+missing sentences, I can fill you in"). **Result: no missing sentences** — the
+review supplies the full critical list.
+
+## (a) What §2.1 must do — derived grey-box, then corroborated
+
+Derived from the section's function alone (250 words; the reader next meets §2.2.2's
+roster, ch3's survey, ch4's schemes), then found to match `literature_conventions.md`
+§c3–c4 independently: the field expects each mechanism to arrive wearing its SDR
+class and its trigger semantics, in those exact terms.
+
+**The job in one line: install the field's vocabulary so the document can speak it —
+every MTD term used from §2.2.2 onward must be parseable from these 250 words.**
+
+Five critical functions, each named with the later passage that leans on it:
+
+1. **Name the object** — MTD defined via the *attack surface* (the term itself
+   recurs in ch3 §3.3's metric vocabulary). One sentence plus the defining gloss.
+2. **One sentence of premise** — perfect security abandoned; configurations move so
+   attacker knowledge decays. Load-bearing beyond politeness: the dissertation's
+   whole evaluation is the contest between attacker reconnaissance and defender
+   movement, and "reconnaissance decays faster than it can be acted upon" is the
+   mechanism the movement attacker is built to actually experience.
+3. **The three-questions frame** (what / how / when) — the sort order §2.2.2 uses;
+   *when* is the axis the execution schemes (ch4) and the timing results (ch5) live
+   on.
+4. **SDR, one functional definition each, phrased as attacker-effect** — shuffling →
+   completed reconnaissance invalidated; diversity → exploits do not transfer;
+   redundancy → service preserved. The attacker-effect phrasing is not decoration:
+   this thesis evaluates from the attacker side, so these are the clauses ch4/ch5
+   reuse (position versus surface). Redundancy is defined *so its absence can be
+   stated* — §2.2.2's shuffle-and-diversity-only scope note, which ch6 leans on, is
+   meaningless to a reader who never met the third primitive.
+5. **Trigger regimes + the cost–security tension** — proactive / reactive / hybrid
+   in the field's exact terms, and the tension sentence (move too often → overhead;
+   too rarely → reconnaissance stays valid), which is why *when to move* is a
+   research question at all and why MTTC moves with interval.
+
+Useful but displaceable: the movable-attribute examples (chosen as the simulator's
+own, they foreshadow §2.2.2 for free) and the SDR complementarity clause (licenses
+the combined deployments Brown's contribution and ch5's comparisons speak of).
+
+Not this section's job, each with a home: field history beyond one citation;
+survey-register claims (modelling traditions, research directions) → ch3; metrics
+and validation methods → ch3/ch4; any named paper, verdict, or gap sentence → ch3;
+the SDR relationship figure (illustrates a taxonomy discussion not being had);
+anything attacker-side (ATT&CK, APT, profiling) → ch3. At 250 words, every
+non-critical inclusion displaces a critical one.
+
+**Success tests:** (1) *forward-use* — every term defined is used later, every MTD
+term used later is defined here; (2) *roster* — a reader with only §2.1 can classify
+each of the five inherited actions by family and trigger; (3) *the tripwire* — zero
+works surveyed, citations definitional only.
+
+## (b) The §II-A verdict — Marc's rating holds, made precise
+
+**§II-A is the review's one purely definitional section — it was written to install
+vocabulary for the review's own later sections, which is ch2's job too — so it ports
+at ~90 % reuse where the rest of §II ports at ~25 %.** Function by function: the
+object (line 43) verbatim-portable; the frame and attributes (line 45) portable with
+a trim; SDR (line 47) supplies exactly the attacker-effect phrasing the framework
+demands, needing only the figure reference and one survey-register sentence cut; the
+trigger regimes and the tension sentence (line 49) near-verbatim. The premise is the
+one function §II-A lacks — it lives in §I ¶1 (line 20), whose first two sentences
+are pyramid-free (the scrutiny's rework verdict on §I falls on the frame, entering
+at ¶3, not on these).
+
+The arithmetic is the striking part: ~205 words of §II-A plus ~55 of §I ¶1 → ~233
+assembled against 250 budgeted. **The port is nearly word-neutral — the compression
+that funds the premise import is exactly the two survey-register cuts** ("Hybrid
+combinations … are an active research direction"; the Fig. 1 apparatus) plus the
+example trims.
+
+One caveat bounds the verdict: the section is content-ratified but sentence-suspect.
+The review is class-C at sentence level on the authored-prose record, and §II-A
+carries six em-dashes in ~190 words — denser than the document-wide 1-per-73 the
+scrutiny flagged as the loudest machine tell. The port therefore keeps Marc's
+sentences and converts the punctuation, each conversion marked (D2).
+
+## (c) The assembly — ~233 / 250 words
+
+Three paragraphs; citation keys are the parked bib entries. Sentence numbers key the
+ledger below.
+
+> (S1) Moving target defence (MTD) is the timely manipulation of system
+> configurations to modify and control the \emph{attack surface}: the set of points
+> at which an attacker engages with the system \citep{cho2020}. (S2) It inverts the
+> conventional assumption that vulnerabilities can be eliminated and system
+> configurations held stable: no system is perfectly secure, so attacks can be
+> thwarted but not prevented \citep{ghosh2009nitrd}. (S3) By continuously changing
+> the configurations an attacker relies on, MTD shifts uncertainty onto the
+> adversary, whose reconnaissance decays faster than it can be acted upon
+> \citep{cho2020}.
+>
+> (S4) The MTD design space is organised around three questions: \emph{what} to
+> move, \emph{how} to move it, and \emph{when} to move \citep{cho2020}. (S5) The
+> first concerns the configurable attributes available to the defender: IP
+> addresses, network topologies, operating systems, software stacks. (S6) The
+> second is captured by the canonical shuffle–diversity–redundancy (SDR) taxonomy,
+> whose three primitives are complementary rather than partitioned \citep{cho2020}.
+> (S7) \emph{Shuffling} rearranges or randomises existing components (IP mutation,
+> topology reconfiguration), invalidating reconnaissance the attacker has already
+> performed. (S8) \emph{Diversity} deploys different implementations of the same
+> function, so that an exploit against one variant is unlikely to apply to others.
+> (S9) \emph{Redundancy} replicates components to preserve service while the other
+> two operate.
+>
+> (S10) The third question, when to move, distinguishes proactive (time-triggered),
+> reactive (event-triggered), and hybrid scheduling regimes \citep{cho2020}.
+> (S11) This is the tension between cost and security: moving too often imposes
+> overhead on legitimate users; moving too rarely leaves the attacker's
+> reconnaissance valid for longer than it should be.
+
+### The port ledger
+
+| # | Source (`LIT_REVIEW.md`) | Status |
+|---|---|---|
+| S1 | :43 | adapted — first-use expansion moved here, sentence-case ("Moving target defence"); em-dash → colon [D2]; \emph at first fix (review italicises it too) |
+| S2 | :20 s1 | adapted — subject → "It" (the definition now leads); "it proceeds from the premise that" folded into the colon; "so that" → "so" [D5] |
+| S3 | :20 s2 | **verbatim** |
+| — | :20 s3 | cut — "complement … rather than a replacement" [D4] |
+| S4 | :45 s1 | **verbatim** |
+| S5 | :45 s2 | adapted — em-dash → colon [D2]; list trimmed 6→4, keeping only original items the document reuses (ports, virtual machines dropped); all four attested in Cho's own technique families per the extraction (IP mutation / topology shuffle / OS rotation / software-stack diversity) [D3] |
+| S6 | :47 s1 | adapted — "(Fig. 1)" cut (the figure does not travel); expansion lower-cased, en-dashed |
+| S7 | :47 s2 | adapted — em-dash pair → parenthesis (voice.md: the parenthesis is the authored device) [D2]; "port hopping" trimmed [D3] |
+| S8 | :47 s3 | **verbatim** |
+| S9 | :47 s4 | **verbatim** |
+| — | :47 s5 | cut — "Hybrid combinations … active research direction": the tripwire cut (survey register); S6's complementarity clause keeps combined deployments licensed, and the cut removes a two-sense collision ("hybrid" as SDR combination three sentences before "hybrid" as trigger regime) |
+| S10 | :49 s1 | adapted — em-dash pair → commas [D2] |
+| S11 | :49 s2 | **verbatim** — the section's one licensed vivid sentence; its colon-semicolon opposition is the signature move |
+
+### Decisions for Marc
+
+- **D1 — the premise's home (S2–S3 here, or ch1's?).** Recommendation: **here**. Ch2
+  carries definitions (placement test 1), and ch1 — synthesised last — can motivate
+  without defining; if ch1's dictation later wants the inversion line, the cut comes
+  from ch1. Watch the overlap when ch1 is drafted.
+- **D2 — em-dash policy.** All six of the source's em-dashes are converted (colon
+  ×2, parenthesis ×1, comma pair ×1, two removed with cuts), leaving zero. One
+  ruling covers the lot; per-sentence reversal available.
+- **D3 — example trimming** (S5 6→4; S7 3→2). Recommendation: as shown — examples
+  double as §2.2.2 foreshadowing. Alternative: verbatim lists (+7 words).
+- **D4 — the complement-not-replacement sentence** (:20 s3, ~15 w). Recommendation:
+  **omit** — nothing later leans on it; the float stays unspent.
+- **D5 — S2's light compression.** Binary: keep as assembled, or restore verbatim
+  ("…held stable: it proceeds from the premise that no system is perfectly secure,
+  so that attacks can be thwarted but not prevented").
+
+## (d) Read-over findings
+
+1. **Coherence.** Reads as one unit. The one seam is S3 → S4 (premise paragraph to
+   design-space paragraph — a section boundary in the review). Acceptable in
+   background register; if Marc wants a stitch it is his sentence to write, but the
+   recommendation is none.
+2. **Enumeration.** "Three questions" announced at S4 and walked to completion, with
+   the third crossing a paragraph break — deliberate, since *when to move* is the
+   axis the thesis leans on hardest and earns the tension sentence beside it.
+3. **Voice diagnostics** (§(f) run as diagnostic, not gate): claim-first holds per
+   paragraph; zero banned tells; zero em-dashes after D2; exactly one vivid sentence
+   (S11); italics only at first-fix terms; AU spelling throughout.
+4. **The tripwire holds.** Zero works named, zero verdicts; two definitional
+   citation keys. Hong 2018 correctly absent (README line fixed this session).
+5. **Forward-use test passes both directions.** attack surface → ch3 §3.3;
+   what/how/when → §2.2.2 order, ch4 schemes; shuffling/diversity → §2.2.2 roster;
+   redundancy → §2.2.2/ch6 absence note; proactive/reactive/hybrid → §2.2.2 schemes
+   and selector, ch4. Nothing defined is orphaned; nothing later-used is missing.
+6. **One integration flag.** "moving target defence (MTD)" is already expanded in
+   ch1's RQ box; at document integration one expansion survives (likely ch1's).
+   Until ch1 is dictated, §2.1 keeps its own.
+7. **Count:** ~233 of 250; both ledger float units untouched.
+
+## (e) State landed this session (2026-08-21, evening)
+
+- `dissertation.tex` restructured to the ratified nested shape — labels
+  `sec:mtd-concept`, `sec:mtdsim`, `subsec:network-model` /
+  `subsec:defence-mechanisms` / `subsec:attacker-model`; `sec:lineage` gone (zero
+  `\ref`s confirmed before cutting). Skeleton comments carry the unit budgets and
+  the Part 2 rulings. Prose not planted — the assembly above awaits ratification.
+- `references.bib`: `cho2020` and `ghosh2009nitrd` are PARKED per the bib's own
+  convention; reactivate both when §2.1's `\cite`s land.
+- Remaining for §2.1: Marc rules D1–D5, converts the assembly into the tex (his
+  hand or an authorised session edit), then pass 6 runs over the assembled section
+  once §2.2's units exist.
