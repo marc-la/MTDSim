@@ -33,7 +33,7 @@ The introduction states the RQ and the three sub-questions (the grey box); the c
 | **Title** | Highlights the main *technical* contribution (and the application where the application is the novelty). Written **last**. A workshopped candidate shortlist is staged in [`_title_workshop.md`](_title_workshop.md). |
 | **Abstract** | States the technical gap and places the contribution against it, for an expert reader, as briefly as possible; ends with the single headline outcome. |
 | **Introduction (ch1)** | A compressed literature review that hops landmark-to-landmark straight to the technical gap, then the contributions, then one highlight result. Sells the whole dissertation — a reader should be able to judge the work's value from it alone. States the RQ and the three sub-questions. |
-| **Background (ch2)** | The inherited platform, before the literature review: the simulator lineage (network model, defence mechanisms, baseline attacker, prior works), written so the reader understands what the simulator does. Existing things, not methodology (V-series ruling, 2026-08-11). |
+| **Background (ch2)** | The two existing things this thesis builds on, before the literature review: the moving-target-defence vocabulary the document speaks (2.1) and the inherited simulator it runs on (2.2, with the network model, defence mechanisms and baseline attacker nested beneath it). Existing things, not methodology (V-series ruling, 2026-08-11); scope widened 2026-08-21 when the MTD concept material was re-homed from the literature review. Structure, the lineage table's placement, and the two placement tests that keep ch2 and ch3 apart: [`ch2_background/README.md`](ch2_background/README.md). |
 | **Literature review (ch3)** | Tells each category of prior work as a chronological story — method, its limitation, why the next method came — and *narrows down onto the gap this work fills*, ending on the demonstrated need. Survey of APT attackers; attacker models in MTD; how MTD is evaluated. |
 | **Methodology (ch4)** | Defines the technical problem precisely (a precisely-defined problem is more than half solved) and explains the solution *as simply as possible*: how APT attackers are modelled, the movement attacker, the experimental setup. Realisation arguments live here too — the ratified structure has no separate implementation chapter. |
 | **Results (ch5)** | Sensitivity analysis (the declared-parameter preamble), then the MTD evaluation: empirical validation on the shared substrate, comparison against the inherited baseline, plus ablation — which component of the model moves the outcome. |
@@ -71,7 +71,7 @@ Working allocation (word targets exclude tables and figures; appendices are unbu
 | Conclusion | 500 | 2 |
 | **Total** | **≈14 550** | **58, +2 float** |
 
-Reallocation record: 2026-08-12 — methodology 9→11 for the ratified 11-unit methodology skeleton (the capture/model/evaluate workshop), funded by background 6→5 and discussion 10→9.
+Reallocation record: 2026-08-12 — methodology 9→11 for the ratified 11-unit methodology skeleton (the capture/model/evaluate workshop), funded by background 6→5 and discussion 10→9. 2026-08-21 — **no change**, recorded because it looks like one should have happened: ch2's scope widened to carry the MTD vocabulary re-homed from the literature review, and the five units absorbed it internally (the *Prior work* section dissolved into a lineage table, which sits outside the word budget). Both float units remain unspent.
 
 Three rules keep the ledger honest:
 
