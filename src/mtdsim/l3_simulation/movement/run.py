@@ -455,6 +455,14 @@ def run_movement(
 
     records = tuple(attacker.records)
     termination_time = records[-1].end_time if records else float(env.now)
+    # Located-objective (crown-jewel) reach, read-only from substrate ground truth
+    # after the run (targeted_objective_diagnosis.md). The database set exists in
+    # every run regardless of network_type, so this needs no substrate repair.
+    database = set(network.get_database())
+    database_hosts_reached = len(set(adversary.get_compromised_hosts()) & database)
+    first_database_reach_time = next(
+        (r.end_time for r in records if r.database_held), None
+    )
     return MovementRunResult(
         profile=profile,
         seed=seed,
@@ -465,6 +473,8 @@ def run_movement(
         compromised_count=len(adversary.get_compromised_hosts()),
         retrace_count=attacker.retrace_count,
         mtd_decisions=decision_snapshot(mtd_operation),
+        database_hosts_reached=database_hosts_reached,
+        first_database_reach_time=first_database_reach_time,
         **mtd_snapshot(network),
     )
 

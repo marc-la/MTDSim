@@ -120,6 +120,17 @@ class MovementRunResult:
     # movement attacker against that defender is to read what the defender
     # *chose*, and ``mtd_executions`` above records only what it deployed.
     mtd_decisions: tuple[MTDDecision, ...] = ()
+    # Located-objective (crown-jewel) reach, the targeted-objective diagnosis line
+    # (targeted_objective_diagnosis.md). Derived read-only from substrate ground
+    # truth after the run: ``database_hosts_reached`` is how many of the database
+    # (deepest-layer) hosts the adversary held at the end, and
+    # ``first_database_reach_time`` is the sim time the walk first held any of them
+    # (None if it never did). Both default to the never-reached values so a
+    # construction that does not set them (a test double) is unaffected, and
+    # neither is read by any control flow — a run is byte-identical with or
+    # without them populated.
+    database_hosts_reached: int = 0
+    first_database_reach_time: float | None = None
 
     def first_compromise_time(self) -> float | None:
         """Sim time of the first compromise the walk drove, or None if the run

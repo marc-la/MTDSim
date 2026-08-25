@@ -267,6 +267,24 @@ class MovementRecord:
     # and spent the time; whether any single vulnerability was reached is the
     # substrate's business, not the footprint's.
     exploitability: float = 0.0
+    # Whether the adversary held **at least one database (crown-jewel) host** at
+    # the moment this record was written — ``set(compromised) &
+    # set(network.get_database())`` non-empty, read-only over substrate ground
+    # truth exactly as ``n_compromised`` is. It is here rather than derived for
+    # the same reason ``n_compromised`` is: the record carries no host identity,
+    # so a post-hoc reader over the count cannot tell *which* hosts were held,
+    # and the located-objective line (targeted_objective_diagnosis.md) turns on
+    # exactly that — the first record with this flag set stamps the time the
+    # attacker first reached the crown jewels (time-to-target), and the flag over
+    # the run gives reach/no-reach. The database set (nodes
+    # ``total_nodes-total_database .. total_nodes-1``) exists in every run
+    # regardless of ``network_type``, so this needs no substrate repair and is
+    # the working realisation of the targeted objective the broken ``target_node``
+    # machinery could not supply (targeted_attacker_feasibility.md B1–B3). It
+    # draws no RNG and no control flow reads it, so a run is byte-identical with
+    # or without the field populated (default ``False`` for any construction that
+    # does not set it, e.g. a test double).
+    database_held: bool = False
 
 
 # The distinguished routing verdict for a place that raised no verdict at all (a
@@ -472,6 +490,7 @@ class MovementAttacker:
                         place_class=DWELL_ONLY,
                         retrace=is_retrace,
                         n_compromised=self._n_compromised(),
+                        database_held=self._database_held(),
                     )
                 )
                 step_index += 1
@@ -529,6 +548,7 @@ class MovementAttacker:
                     retrace=is_retrace,
                     n_compromised=self._n_compromised(),
                     exploitability=self._mean_exploitability(verb, blocked),
+                    database_held=self._database_held(),
                 )
             )
             step_index += 1
@@ -549,6 +569,19 @@ class MovementAttacker:
             return len(self.adversary.get_compromised_hosts())
         except Exception:  # noqa: BLE001 - record enrichment only, never fatal
             return 0
+
+    def _database_held(self) -> bool:
+        """Whether the adversary holds at least one database (crown-jewel) host —
+        the located-objective reach flag (see :class:`MovementRecord`). Read-only
+        over substrate ground truth, one set intersection per record. Defensive
+        against an adversary/network that does not expose the accessors so a test
+        double need not implement them."""
+        try:
+            held = set(self.adversary.get_compromised_hosts())
+            database = set(self.adversary.get_network().get_database())
+            return bool(held & database)
+        except Exception:  # noqa: BLE001 - record enrichment only, never fatal
+            return False
 
     def _mean_exploitability(self, verb: str, blocked: bool) -> float:
         """The mean **initial** exploitability of the vulnerabilities this action
@@ -865,6 +898,7 @@ class MovementAttacker:
                 interrupted_by="",
                 place_class=place_class,
                 n_compromised=self._n_compromised(),
+                database_held=self._database_held(),
             )
         )
 
