@@ -1,5 +1,5 @@
 ---
-status: open — pre-registration committed 2026-08-25; results appended after the run
+status: open — results landed 2026-08-25; awaiting Marc's fork ruling (§7.3)
 created: 2026-08-25
 updated: 2026-08-25
 handoff: 2026-08-21_targeted_objective_diagnosis.md
@@ -8,7 +8,7 @@ topic: "The targeted-objective (crown-jewel reach) probe — does the movement a
 
 # The targeted-objective probe — does the movement attacker reach a located target, and what does it lack?
 
-**Status: pre-registration committed, results pending.** This record executes
+**Status: results landed; the fork is Marc's to rule (§7.3).** This record executes
 the [`2026-08-21_targeted_objective_diagnosis.md`](../../../handoffs/2026-08-21_targeted_objective_diagnosis.md)
 handoff and the Option-A probe the tree names as the decisive next action
 ([`hypothesis_tree.md`](hypothesis_tree.md) §8b, §8e). Everything in §§1–4 was
@@ -167,17 +167,260 @@ MTD evaluation, and names the minimal change that would lift each:
   of reach at that footprint, or reachable and just not sought? The reach/
   footprint split (§3.1) adjudicates B-i vs B-iii directly.
 
-## 5. Gate 0 — unopposed reach
+## 5. Gate 0 — unopposed reach (350 seeds/arm, 2 100 runs)
 
-*(appended after the run)*
+**The Gate precondition fails, decisively and in the predicted direction.** No
+movement profile reaches the crown jewels in anything near a healthy fraction of
+unopposed runs; the inherited baseline reaches them in three runs of four.
 
-## 6. Reach under MTD
+| Arm / profile | reach rate | 95 % CI | runs reached | footprint at reach | median time-to-target | mean hosts total |
+|---|--:|--|--:|--:|--:|--:|
+| **baseline** | **0.751** | [0.706, 0.797] | 263 / 350 | 29.4 | 9 744 s | 39.7 |
+| aggregate | 0.006 | [0.000, 0.014] | 2 / 350 | 7.5 | 13 749 s | 6.3 |
+| objective_exfiltration | 0.003 | [0.000, 0.009] | 1 / 350 | 5.0 | 10 413 s | 4.1 |
+| objective_impact | 0.003 | [0.000, 0.009] | 1 / 350 | 4.0 | 4 274 s | 3.5 |
+| objective_exfiltration_impact | 0.003 | [0.000, 0.009] | 1 / 350 | 8.0 | 9 409 s | 1.9 |
+| objective_none_c2 | 0.000 | [0.000, 0.000] | 0 / 350 | — | — | 0.1 |
 
-*(appended after the run)*
+Five movement runs of 1 750 reached a database host (0.29 % pooled). In **every
+one**, the footprint at reach equals the run's total footprint (4–8 hosts) — the
+crown jewel was the *last* host owned, reached at the frontier of a small spread,
+not pursued. The baseline reaches by flooding: mean footprint at reach 29.4
+hosts, total spread 39.7 of 50 (min 7, max 41). The movement profiles cap out at
+1.9–6.3 hosts (p95 ≤ 10), and nodes 48–49 at the deepest layer are essentially
+never inside that footprint.
 
-## 7. Diagnosis and the fork
+### 5.1 The "better" threshold, ruled against the numbers
 
-*(appended after the run)*
+Marc's claim — the movement attacker reaches a located target *better* than the
+baseline — is **falsified on the evidence**, against the criteria committed
+before the numbers were seen (§3.2):
+
+- **Better more often? No.** Baseline 0.751 vs movement ≤ 0.006; the CIs do not
+  come within 70 percentage points of overlapping. The baseline wins the reach
+  race overwhelmingly, exactly as the scrutiny prediction warned — it owns a
+  deep host as *collateral* of mass compromise, a route the low-breadth movement
+  attacker structurally lacks.
+- **Better more efficiently? Unmeasurable, with a hint that does not clear the
+  bar.** The five movement reaches carry footprint 4–8 against the baseline's
+  29.4 — a directedness-shaped signal in the pre-registered direction. But at
+  `n_reached` ≤ 2 per profile it cannot clear the non-overlapping-CI /
+  ≥ 3-host requirement, and the reaches are incidental (frontier collisions, not
+  navigation), so this is a hint that host-level targeting *could* pay, not
+  evidence that the current attacker reaches efficiently.
+- **Better more survivably? No** (§6): unopposed movement reach is ~0, so
+  reach-under-MTD is ~0 by construction — there is no reach for MTD to preserve.
+
+The Gate precondition (§3.3, ≥ 20 %) is not met by any profile (max 0.6 %). The
+located objective is **degenerate on the movement arm** — the ASR-pinned-at-zero
+pathology re-instantiated on a new objective. The fork (§3.4) therefore falls to
+**Option B/C**: the named gaps are the barrier, and the breadth-based tree
+stands.
+
+## 6. Reach under MTD (100 seeds/cell, 4 single mechanisms, 2 400 runs)
+
+**On the movement arm there is nothing for MTD to deny — target reach is 0.000
+under every mechanism, because it was already ~0 unopposed.** The material MTD
+effect on the movement arm lives on *breadth*, not target reach (§6.2). On the
+**baseline** arm, MTD denies the target strongly and mechanism-dependently — and
+the dependence is the inversion, visible on the located objective.
+
+### 6.1 Baseline target reach — MTD denies it, and *which* mechanism differs
+
+| Condition | baseline reach | retention (vs 0.751) | baseline mean hosts |
+|---|--:|--:|--:|
+| unopposed | 0.751 | 1.000 | 39.7 |
+| ip_shuffle | 0.510 | 0.679 | 30.8 |
+| complete_topology | 0.220 | 0.293 | 31.3 |
+| os_diversity | **0.000** | **0.000** | **4.4** |
+| service_diversity | **0.000** | **0.000** | **4.4** |
+
+The **diversity family annihilates the baseline** — target reach to zero, total
+spread from 39.7 to 4.4 hosts — while the **severance family only dents it**
+(reach retained 0.29–0.68, spread ~31). This is the H2 inversion on the located
+objective: the flooding baseline leans on the vulnerability re-roll that OS/
+Service Diversity destroys, so diversity is *strong* against it, exactly opposite
+to the movement arm, where diversity is the weak family and severance the strong
+one (§8d of [`hypothesis_tree.md`](hypothesis_tree.md)). The target objective
+makes the inversion visible **as objective denial for the baseline**, which the
+mass objective could not.
+
+### 6.2 Movement breadth under MTD — where the movement disruption actually is
+
+| Condition | movement `aggregate` mean hosts | vs unopposed 6.3 |
+|---|--:|--:|
+| ip_shuffle | 0.6 | crushed (severance) |
+| complete_topology | 0.9 | crushed (severance) |
+| os_diversity | 4.4 | mild (surface re-roll) |
+| service_diversity | 4.5 | mild (surface re-roll) |
+
+The movement arm's inversion is on breadth: severance (IP/topology) crushes it,
+diversity barely touches it — the mirror image of the baseline's target-reach
+pattern. So the H2 inversion is real on *both* arms; it simply reads out on
+different quantities because the two attackers have different objectives-in-fact
+(the baseline reaches a deep host, the movement attacker does not).
+
+### 6.3 Tuning — no threat-model parameter moves the movement attacker's reach
+
+Marc's question: do threat-model parameters change the result? **No.** A
+confirmatory sweep of the most reach-favourable knobs for the best-reaching
+profile (`aggregate`, unopposed, 150 seeds each) leaves reach on the floor:
+
+| Config | reach rate | mean hosts |
+|---|--:|--:|
+| v2_partial (shipped) | 0.007 | 6.3 |
+| uniform weights (strip corpus preference) | 0.000 | 6.6 |
+| no synthetic overlay | 0.013 | 5.9 |
+| retrace sinks on | 0.007 | 6.3 |
+| exponential timing regime | 0.007 | 6.3 |
+| **horizon doubled to 30 000 s** | **0.040** | **12.4** |
+| v1_ckc mapping | 0.000 | 0.3 |
+
+The only knob that moves reach at all is **more time**, and it does so by leaking
+more *incidental* breadth (12.4 hosts, 4 % reach at double the horizon), not by
+directing the attacker. This confirms the barrier is **structural, not tunable**:
+no dwell/timing/weight/overlay parameter adds navigation toward the target or
+lifts the breadth cap. It also aligns with the prior finding that every declared
+modulator (utility λ, learning, forgetting) *narrows* traversal
+([`apt_model_criterion.md`](../../apt_model_criterion.md) axes 3/6/7), so those
+knobs make reach the same or worse, never better. The lever that would work is
+not a parameter but a **capability** — host-level targeting (§7.1 B-i).
+
+## 7. Diagnosis — the ranked barriers, and the fork
+
+**Headline finding.** Under an APT-authentic *located* objective (reach the
+crown jewels), the profiled movement attacker essentially never succeeds even
+unopposed (≤ 0.6 %), while the inherited mass-compromise baseline reaches the
+target 75 % of the time as a by-product of flooding. **The movement attacker
+models APT tactical *behaviour* without APT *target-seeking*** — a named gap, and
+the sharp form of the "so what" objection stated as a measured fact rather than a
+worry. This confirms the tree §8b prediction verbatim: the target is not
+reachable unopposed, so *the six verbs and the traversal, not the objective
+definition, are the true bind* — Option A (wire the located objective as-is) buys
+nothing, because it would replace one degenerate objective (mass compromise,
+0/400) with another (target reach, 5/1750).
+
+### 7.1 The barriers, ranked by evaluation impact
+
+The reach/footprint split adjudicates the candidates directly:
+
+1. **B-i — no host-level targeting (primary).** The attacker's conditioning is
+   tactical, never navigational: it cannot prefer a path toward the target. Its
+   five reaches are frontier collisions (the database host was the last owned),
+   not pursuit. **This is the binding barrier for the located objective.**
+   Minimal lift: the `movement_targeted` host-selection variant — re-key the
+   distance sort toward the database set via `get_path_from_exposed`
+   ([`movement_objectives_design.md`](movement_objectives_design.md) §7.3). It is
+   a **movement-layer** change (the objective lives on the host-selection seam,
+   §1 of that record), *not* substrate work, so it is honours-feasible — but it
+   re-opens scoped work and interacts with the Row-B inversion headline (removing
+   churn may shift the ranking; that record §5–§6), so it is **Marc's ruling**,
+   not a session action.
+2. **B-iii — breadth-capped traversal (compounding cause).** The movement
+   attacker spreads to ~2–6 hosts and stops (the structural churn of
+   [`movement_objectives_design.md`](movement_objectives_design.md) §2); the
+   deepest-layer target is almost never inside that footprint. B-iii is *why* the
+   target is out of reach and B-i is *why* the small footprint is never pointed
+   at it — they are entangled, and the same `movement_targeted` policy
+   (exclude-owned-and-re-select) is the minimal change that addresses both,
+   because it converts re-compromise churn into forward progress. Predicted
+   effect: reach becomes non-incidental and footprint-to-target stays low (the
+   directedness the five lucky reaches hint at) — **the direct test of Marc's
+   actual hypothesis**, and the measurement that would flip the fork if it pays.
+3. **B-ii — no terminal-objective action (downstream, moot until B-i lifts).**
+   The objective tactics dispatch nothing under `v2_partial` (dwell-only); "reach
+   the target" is a compromise proxy, not the objective itself. But this cannot
+   bind until the attacker can reach the target host at all, so it ranks last.
+   Minimal lift: the tactic-level action layer — the successor programme
+   ([`../../../notes/ch7_future_work/successor_programme.md`](../../../notes/ch7_future_work/successor_programme.md)),
+   heavy, resets the mapping, future work.
+
+### 7.2 Reconciliation with the axis-6 final disposition
+
+The axis-6 final disposition (Marc, 2026-08-02;
+[`apt_model_criterion.md`](../../apt_model_criterion.md) axis 6) recorded that a
+located objective is *substrate work* outside the honours timeframe. This probe
+refines that on evidence: the located objective **as a measurement** needs no
+substrate work (it is read-only over the always-present database set — B1–B3
+avoided), and now exists. What that disposition correctly identified as heavy is
+split by this probe into two pieces of different weight: **host-level
+target-seeking** (`movement_targeted`) is *movement-layer* and honours-feasible
+(the B-i lift), while the **terminal-objective action** (B-ii) is the substrate/
+successor work the disposition named. The disposition's substance — "something to
+be rational about but nothing to be rational *toward*" — is exactly what the
+probe measures: the attacker has no pull toward the payoff, and its reaches are
+accidental.
+
+### 7.3 The fork Marc rules
+
+- **Option A — wire located objective as-is: declined by evidence.** It
+  re-denominates on an objective the attacker reaches 0.3 % of the time; it
+  strengthens nothing.
+- **Option B′ — build host-level targeting (`movement_targeted`):** the honours-
+  feasible middle the tree's binary A-vs-B missed. It is the minimal change that
+  could make the located objective non-degenerate and directly tests Marc's
+  directedness claim. Re-opens scoped work; interacts with the inversion
+  headline; **needs Marc's ruling** before any build. Recommended *as the next
+  measurement* only if Marc wants to pursue the located-objective spine.
+- **Option C — do nothing:** the tree passes on the breadth denominator; the
+  headline is the inversion plus tempo-bound containment of host spread; the
+  located objective and its target-seeking are future work with a measurement
+  behind the call. The record's standing recommendation, and honest as it stands.
+
+**The inversion (H2) is untouched** by all of this — it is measured on host-
+compromise breadth on the current mapping, and this probe changes no mapping and
+runs no defence against the movement arm's routing.
+
+### 7.4 How it would be implemented — the metric change is empty, the mechanism change is the point
+
+Marc's own framing separates two layers, and the probe shows only the second
+matters:
+
+- **Layer 1 — the success metric ("did I reach the target host" vs "did I own
+  80 %").** This is the easy change and it is **already done** as a read-only
+  measurement (§1); making it the *termination* condition is a few lines. But on
+  its own it is **empty**: the attacker reaches the target host 0.3 % of the time,
+  so re-denominating success on it just swaps one degenerate objective for
+  another. Changing the metric without changing behaviour buys nothing — the
+  probe is the proof.
+- **Layer 2 — the host-selection mechanism (Marc's "order them by distance
+  *toward the objective*").** This is the real lever, and Marc has it exactly
+  right. The six phases need no new verbs: the objective lives on
+  **host-selection**, not tactic order
+  ([`movement_objectives_design.md`](movement_objectives_design.md) §1). Today,
+  after a scan the attacker sorts the frontier by
+  `sort_by_distance_from_exposed_and_pivot_host` — nearest-from-exposed/pivot,
+  plus a random tiebreak (`network.py:873`). The targeted variant re-keys that
+  sort by **distance toward the target** (the database set) via
+  `get_path_from_exposed` — "this host is in the direction of my objective, go
+  there." Brown's own targeted strategy already encodes this
+  (`get_host_id_priority` / `tag_priority` toward the target layer,
+  `network.py:764`), but it is vestigial — never called from the attack chain
+  (feasibility B5). So the change is: **make the frontier sort objective-directed
+  instead of exposure-directed**, on the host-selection seam, in the movement
+  layer — no substrate repair, no new verb.
+- **Layer 3 — the six phases *toward* the objective (Marc's second question).**
+  Even with targeting, the six verbs are all host-compromise verbs; none is a
+  *terminal objective action* (exfiltrate/impact/collect at the target). So
+  "reach the target host" stays a compromise proxy for the objective, not the
+  objective itself. Making the phases actually serve the objective is the heavier
+  successor work (B-ii), and it is a later question — targeting (Layer 2) is the
+  honours-feasible first step and the direct test of the directedness hypothesis.
+
+**Will Layer 2 change anything? — the open empirical question, and why it is not a
+session action.** The five lucky reaches at footprint 4–8 (§5) show a deep host
+*can* fall inside a small spread when the path happens to run there, so directing
+the path is a live hypothesis, not a lost cause. Two risks ride with it, both on
+record: the breadth cap (B-iii) means a directed attacker may still churn short
+of the target unless the same change carries the exclude-owned-and-re-select half
+([`movement_objectives_design.md`](movement_objectives_design.md) §3); and the
+**Row-B confound** — removing churn may weaken or shift the inversion headline
+(that record §5) — which is why a host-selection change **re-opens scoped work and
+is the single open supervisor question** (§6 of that record). It is therefore
+Marc's ruling, not a session action. **In one sentence, the bottleneck: the
+movement attacker has no navigation toward a host, and adding it (the `movement_targeted`
+sort) is the one change that could make the located objective non-degenerate — but
+it re-opens the inversion headline, so it needs a ruling before it is built.**
 
 ## 8. Evidence and anchors
 
