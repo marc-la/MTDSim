@@ -417,21 +417,50 @@ validating the disruption claims. SQ1 (capture) is construction, not a
 hypothesis. This is the cleaner map to the ratified spine and supersedes the
 impression that the tree was the whole methodology — it is Limb B.
 
-## 8d. Where the disruption comes from — explicit vs implicit (bears on H1 and D-tax)
+## 8d. Where the disruption comes from — three channels, not two (bears on H1, D-tax; a C obligation)
 
-A measurement (experiment 2, movement arm, 200 s) that answers whether the
-disruption "makes sense" as more than the inherited 20 s confusion penalty:
-**position-destroying** mechanisms disrupt through the *implicit* channel
-(blocked fraction 0.15 → 0.72 — the surface change fails the attacker's actions)
-plus a 10 % time penalty, so the ~88 % headline suppression is real surface
-disruption; **diversity** mechanisms leave blocked fraction at the no-MTD level
-(0.16) and disrupt only through the *explicit* penalty (7.2 %) — which is why
-they barely suppress the movement attacker. **The explicit/implicit split is the
-mechanism of the inversion**, and the penalty-ablation experiment (penalty 0 vs
-20 s) isolates it per mechanism. Full teaser and the recommended experiment:
+Marc's question — is the disruption mechanism-dependent, and does IP Shuffle do
+anything implicit given the threat model has no IP-addressing capability? —
+splits the "implicit" half in two. Verified against
+[`../../attacker_read_surface.md`](../../attacker_read_surface.md), the movement
+attacker is disrupted through **three** channels, and which one fires is fixed by
+the mechanism's resource class:
+
+1. **Explicit time tax** — the inherited 20 s confusion penalty, charged on
+   every interrupt (`apply_mtd_interrupt_cost`), roughly class-uniform (7–17 %
+   of the clock). The hard-coded invariant Marc distrusts.
+2. **Position severance** — **network-layer** MTD (IP Shuffle, Complete
+   Topology) clears the host cursor (Zhang IS-INT-04, class-based immediate
+   failure; read surface §202–209). The attacker loses its foothold; subsequent
+   actions fail. **This is the dominant implicit channel — blocked fraction
+   0.15 → 0.72 — and it is *not* IP-tracking:** the attacker has no IP model
+   (Marc is right there), so IP Shuffle disrupts by severing position, exactly
+   as Complete Topology does. The two are one attacker-facing effect
+   (blocked 0.721 vs 0.725).
+3. **Surface re-roll** — **application-layer** MTD (OS, Service Diversity)
+   re-rolls the *vulnerability set* on **uncompromised** hosts only (service
+   identity is invisible to the attacker — read surface findings 4; the reset
+   never un-owns a held host — D-02). This barely reaches the movement attacker,
+   because it is position-driven, not exploit-driven, and EXPLOIT_VULN is
+   uninterruptible on the movement arm (D-35). Blocked fraction stays at the
+   no-MTD level (~0.16), so OS/Service are one weak effect (0.164 vs 0.162).
+
+**This inverts the naive reading and is the mechanism of the inversion.** IP
+Shuffle does a great deal (via severance, not addressing); OS/Service diversity
+does little to *this* attacker (the vuln re-roll it depends on barely fires).
+The family structure is therefore a **2 × 2**: {network: IP, topology} = severance
+= strong; {application: OS, service} = surface re-roll = weak. The 20 s penalty is
+the *only* teeth the weak family has against the movement attacker; the strong
+family does not need it.
+
+**The isolating experiment (a C obligation, per Marc):** ablate the penalty —
+run with the confusion penalty at 0 vs the inherited 20 s. Pre-registered
+prediction: network-layer suppression stays ~88 % (severance survives), the
+diversity family collapses toward ~0 %. That measures how much of each
+mechanism's disruption is the hard-coded assumption versus a real surface effect
+— the direct answer to "does taking away the penalty do anything, or is it all
+position destruction". Full teaser and design:
 [`../../../handoffs/2026-08-21_targeted_objective_diagnosis.md`](../../../handoffs/2026-08-21_targeted_objective_diagnosis.md).
-This upgrades D-tax from a friction footnote to a channel that decomposes the
-headline; it is a characterisation obligation (C limb), not a gate.
 
 ## 9. Evidence and anchors
 

@@ -100,39 +100,43 @@ barriers to test and rank by evaluation impact (add any the data surfaces):
 
 ## Second diagnostic — where the disruption actually comes from (explicit vs implicit)
 
-Marc's hunch: disruption should come mostly from the **implicit** channel (the
-mutation changes the attack surface, so the attacker's actions fail) rather than
-the **explicit** channel (the hard-coded 20 s confusion penalty charged on every
-interrupt, an invariant since the lineage began). He expected ~80 % implicit /
-20 % explicit and suspected it was the other way round. A teaser measurement over
-experiment 2's recorded runs (movement arm, 200 s) says it is **mechanism-
-dependent, and the split *is* the inversion**:
+Marc's hunch: disruption should come mostly from the attack-surface change
+rather than the hard-coded 20 s confusion penalty (an invariant since the
+lineage began). Verified against
+[`../implementation/attacker_read_surface.md`](../implementation/attacker_read_surface.md),
+the "implicit" half is really **two** channels, so there are **three** in total,
+and which fires is fixed by the mechanism's resource class:
 
-- **Position-destroying (topology / IP):** blocked fraction rockets from 0.15
-  (no MTD) to **0.72** — the surface change is doing the work; plus a 10.3 %
-  time penalty. **Implicit-dominant.** Strip the penalty and these still crush
-  breadth, because 72 % of actions already fail.
-- **Diversity (OS / service):** blocked fraction stays at **0.16 ≈ the no-MTD
-  level** — the surface change does almost nothing to the movement attacker
-  (it does not depend on those preconditions); the only disruption is the 7.2 %
-  penalty plus the token throw-back. **Explicit-dominant.** Strip the penalty
-  and these suppress almost nothing — which is why they barely touch the
-  movement attacker (the inversion's losing arm).
+1. **Explicit time tax** — the 20 s confusion penalty on interrupt, roughly
+   class-uniform (7–17 % of the clock).
+2. **Position severance** — network-layer MTD (IP Shuffle, Complete Topology)
+   clears the host cursor (Zhang IS-INT-04, class-based immediate failure). The
+   attacker loses its foothold. **Dominant: blocked fraction 0.15 → 0.72.**
+   Crucially this is **not IP-tracking** — the attacker has no IP model, so IP
+   Shuffle disrupts by *severance*, identically to Complete Topology (blocked
+   0.721 vs 0.725: one effect).
+3. **Surface re-roll** — application-layer MTD (OS, Service Diversity) re-rolls
+   the *vulnerability set* on **uncompromised** hosts only (service identity is
+   invisible; a held host is never un-owned — D-02). Barely reaches the
+   movement attacker (position-driven, and EXPLOIT_VULN uninterruptible on the
+   movement arm — D-35): **blocked fraction stays ~0.16** (OS 0.164 vs
+   Service 0.162: one weak effect).
 
-**The reassuring headline this gives Marc:** the ~88 % suppression that carries
-the thesis (position-destroying family) is **real attack-surface disruption, not
-the hard-coded penalty**. The penalty only dominates for the mechanisms that
-barely work anyway. This defuses the "it's all just a 20 s hack" worry for the
-result that matters.
+**So the family is a 2 × 2** — {network: IP, topology} = severance = strong
+(~88 % suppression); {application: OS, service} = surface re-roll = weak
+(37–41 %). The ~88 % that carries the thesis is **real position destruction, not
+the hard-coded penalty**; the 20 s penalty is the *only* teeth the weak family
+has, and the strong family does not need it. This both inverts the naive reading
+(IP Shuffle does a lot; OS diversity little) and defuses the "it's all a 20 s
+hack" worry for the result that matters.
 
-**The clean experiment to nail it (recommended):** ablate the penalty — run the
-matrix with the confusion penalty set to 0 vs its inherited 20 s, and report
-which mechanisms' suppression survives. That isolates explicit from implicit per
-mechanism with a bit-identical control (the penalty is a run input on the
-substrate side). Pre-register that penalty-0 leaves position-destroying
-suppression roughly intact and collapses diversity suppression toward zero.
-Feeds the tree's D-tax vs D-contain channels directly and answers whether the
-disruption "makes sense" as more than a hard-coded assumption.
+**The isolating experiment (recommended; a C-limb characterisation obligation):**
+ablate the penalty — run the matrix with the confusion penalty at 0 vs its
+inherited 20 s, bit-identical control (the penalty is a substrate-side run
+input). Pre-registered prediction: network-layer suppression stays ~88 %
+(severance survives), diversity suppression collapses toward ~0 %. Report
+per-mechanism as the three-channel decomposition; feeds the tree's D-tax /
+D-contain channels and answers Marc's question directly.
 
 ## Visualisation deliverable (Marc's ask — "how do we visualise this")
 
