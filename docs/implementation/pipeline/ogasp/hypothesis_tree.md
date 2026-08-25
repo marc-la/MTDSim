@@ -462,6 +462,62 @@ mechanism's disruption is the hard-coded assumption versus a real surface effect
 position destruction". Full teaser and design:
 [`../../../handoffs/2026-08-21_targeted_objective_diagnosis.md`](../../../handoffs/2026-08-21_targeted_objective_diagnosis.md).
 
+## 8e. The targeted-objective cascade — how it changes H1, and how H2/V/C follow
+
+Sequence: **run the targeted-objective handoff first (the Gate)**, then §5.2 (the
+MTD evaluation) follows. The handoff's probe is the precondition on which the
+whole cascade hangs, and the reason is the oddity Marc named: **under the mass
+objective the attacker reaches the goal 0/400 even with no MTD, so "MTD denies
+the objective" is vacuous — there is nothing to deny.** H1 is currently
+denominated on *host-compromise breadth* precisely to route around that vacuum.
+The targeted objective is what fills it. The cascade, conditional at the top:
+
+**Precondition (the Gate probe).** No-MTD target-reach must be non-degenerate —
+the attacker must reach the located target in a healthy fraction of *unopposed*
+runs. Everything below assumes this holds; if it does not, H1 stays on breadth
+(the current tree) and the targeted objective is proven not to help.
+
+**H1 changes — this is the "how come".** With an achievable goal, H1's deny and
+delay channels **re-denominate from "any host" to "the target"**:
+- D-deny: MTD reduces the fraction of runs reaching the **target** (was: any host).
+- D-delay: MTD postpones **target-reach** (survival analysis on time-to-target).
+- D-contain / D-tax: unchanged, and **kept** — breadth is the degenerate-region-
+  proof backbone that works at every tempo, target-reach is the headline that
+  works where it discriminates. Report both; do not trade the robust signal away.
+
+So H1 upgrades from *"MTD reduces the attacker's host spread"* (true, but no goal
+denied) to *"MTD denies/delays the APT reaching its objective"* (the meaningful
+claim) — because the objective is now something the attacker preconditions on and
+can actually achieve.
+
+**H2 follows — same question, new denominator.** H2 (attacker-dependence, the
+inversion) re-measures on the **target-denial ranking**: does the defence that
+best denies the target differ between the baseline and the movement attacker?
+This is a **new measurement, not carried automatically** (the V-map caution).
+Predicted to hold or sharpen, because the dependency structure that drives it is
+unchanged — the baseline reaches the target by flooding (disrupted by the vuln
+re-roll it leans on), the movement attacker by directed position (disrupted by
+severance) — but it must be re-established, not assumed.
+
+**V follows — one new leaf, one re-check.** The sensitivity limb gains a
+**target-placement** leaf (the target is one host at layer 4 — does the verdict
+depend on *which* host?), and V-tempo **re-checks the degenerate region on the new
+objective**: target-reach is likely degenerate under high MTD pressure, so each
+target-denominated claim states the tempo at which it discriminates, exactly as
+the ASR discipline does now.
+
+**C follows — decompositions re-report, plus reach-shape.** The three-channel
+decomposition (§8d), the cost frontier and the stealth contrast all re-report on
+the target objective, and C gains **reach efficiency** (footprint-to-target) and
+**reach path** (which layers/hosts en route) — the characterisation that shows
+*how* an APT-shaped attacker reaches a target differently from a flooder.
+
+**Chapter mapping (§5.2).** The targeted objective is the spine of the **fresh
+evaluation** (`subsec:fresh-results`); the **mass objective is retained for the
+prior-model comparison** (`subsec:prior-model-results`), because the lineage
+(Zhang/Ho/Brown) ran the mass objective and it is the comparability bridge. The
+two objectives serve the two result families — they are not in competition.
+
 ## 9. Evidence and anchors
 
 - The commissioning chain and the statistical instrument this tree consumes:
