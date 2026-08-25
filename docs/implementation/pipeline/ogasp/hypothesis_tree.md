@@ -392,6 +392,47 @@ measurement behind the decision either way. Protect the inversion as the
 anchor throughout: it is measured on the current mapping and is not
 automatically carried by any upgrade.
 
+## 8c. How the tree maps to the three sub-questions (2026-08-21, Marc's framing)
+
+Marc read the tree as covering only SQ3 and asked where the eight axes and the
+sensitivity analysis sit. They are not missing — they are a different limb. The
+RQ decomposes (V5) into capture / model / evaluate, and the full hypothesis
+structure has **two experiment-bearing limbs, one per testable sub-question**:
+
+- **Limb A — SQ2 (model / fidelity): the movement attacker differs from the
+  baseline in ways that matter for APT evaluation.** This *is* the eight-axis
+  criterion, and it is Marc's proposed "hypothesis 1". It is answered by the
+  **criterion instrument**, not by the disruption experiments: some axes are
+  DEMONSTRATED by their own experiments (axis 2 objective conditioning, axis 3
+  plurality), others are DESIGNED arguments. The criterion's badges are exactly
+  the honest scoring of this limb, and it feeds the ch6 fidelity verdict.
+- **Limb B — SQ3 (evaluate): how MTD performs against the profiles.** This is
+  the tree in §3: **H1** (MTD disrupts the four profiles) and **H2** (the answer
+  is attacker-dependent — the inversion), with the **V** limb (sensitivity /
+  validity) and **C** limb (characterisation) hanging under it.
+
+So: the **criteria (eight axes) sit *beside* the disruption tree as Limb A**,
+not above it; the **sensitivity analysis sits *inside* Limb B as the V limb**,
+validating the disruption claims. SQ1 (capture) is construction, not a
+hypothesis. This is the cleaner map to the ratified spine and supersedes the
+impression that the tree was the whole methodology — it is Limb B.
+
+## 8d. Where the disruption comes from — explicit vs implicit (bears on H1 and D-tax)
+
+A measurement (experiment 2, movement arm, 200 s) that answers whether the
+disruption "makes sense" as more than the inherited 20 s confusion penalty:
+**position-destroying** mechanisms disrupt through the *implicit* channel
+(blocked fraction 0.15 → 0.72 — the surface change fails the attacker's actions)
+plus a 10 % time penalty, so the ~88 % headline suppression is real surface
+disruption; **diversity** mechanisms leave blocked fraction at the no-MTD level
+(0.16) and disrupt only through the *explicit* penalty (7.2 %) — which is why
+they barely suppress the movement attacker. **The explicit/implicit split is the
+mechanism of the inversion**, and the penalty-ablation experiment (penalty 0 vs
+20 s) isolates it per mechanism. Full teaser and the recommended experiment:
+[`../../../handoffs/2026-08-21_targeted_objective_diagnosis.md`](../../../handoffs/2026-08-21_targeted_objective_diagnosis.md).
+This upgrades D-tax from a friction footnote to a channel that decomposes the
+headline; it is a characterisation obligation (C limb), not a gate.
+
 ## 9. Evidence and anchors
 
 - The commissioning chain and the statistical instrument this tree consumes:
