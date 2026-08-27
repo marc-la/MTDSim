@@ -15,9 +15,10 @@ and acknowledgements pages, submission statement).
 | `dissertation.tex` | Main document — edit this (renamed from `main.tex`). |
 | `cshonours.cls` | UWA honours class; title page modified (changes tagged `%mtd`). |
 | `references.bib` | Bibliography (renamed from `cshonours.bib`); replace the seed entries. |
+| `FLOATS.md` | Manifest of every figure and table: position, file, label, generator. |
 | `uwa-crest.png` | UWA crest used on the title page. |
-| `figures/` | Figures (`\graphicspath` points at it). Generated figures carry their generator: the four appendix attack graphs (`gap_flow_exemplar`, `gap_technique_graph`, `gap_technique_core`, `gap_tactic_graph`, each `.{tex,pdf}`) are written by `tools/gap_appendix_figures.py` from `data/gap/gap_v0.5.json` + `data/gap/flows/` — they replaced `l1_attack_graph.{tex,pdf}`, deleted 2026-08-20 on Marc's ruling; `failure_weight_matrix`, `failure_weight_decomposition` and `distance_kernel_bands` (`.{tex,pdf}`; `success_weight_matrix` is the retired pre-2026-08-19 success table, kept as a record and not wired) by `tools/failure_weight_decomposition_figure.py` from the outcome rules + lifecycle consensus + the routing nets through the tracked compiler and net loader — regenerate, never hand-edit. |
-| `tables/` | Generated table fragments to `\input` (e.g. `objective_classification_audit.tex` from `tools/gasp_structural_baseline.py --tex`; `outcome_overlay_weights.tex` from `tools/failure_weight_decomposition_figure.py`); do not hand-edit. |
+| `figures/` | Figures (`\graphicspath` points at it). Every file is named for its dissertation position — `fig_<chapter>-<section>-<subsection><order>_<name>` — see `FLOATS.md` for the full manifest (position, label, generator) and `docs/workflows/figure_table_conventions.md` §j for the rule. Generated, never hand-edited. |
+| `tables/` | Generated table fragments to `\input`, named `tab_<position>_<name>.tex` on the same rule; manifest in `FLOATS.md`. Do not hand-edit. |
 
 ## Compile
 

@@ -122,6 +122,13 @@ here** rather than leaving the knowledge in chat.
 | the produce (of the movement layer) | the product |
 | Tech Detective white set | tactic-to-tactic weight set |
 | for the titan (ruling walk) | for the TIGHTEN |
+| MTSIM | MTDSim |
+| Ham (model) | HARM (model) |
+| Alavides as tulias (harm model) | Alavizadeh et al.'s (HARM model) |
+| Dewalt strogatz | Watts–Strogatz |
+| CSCBSS values | CVSS values |
+| export … exceed | exploit … succeed |
+| laser depths | layers of depth |
 
 ### Danger minimal pairs — a mishear flips a claim, always verify-list these
 

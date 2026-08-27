@@ -19,19 +19,19 @@ small enough to print on one line:
   (c) the failure weight set — (a) x (b), which is exactly what the registry
                               version's failure.json holds.
 
-Three figures, each with a home (Marc's split, 2026-08-19):
+Three figures, each with a home (Marc's split, 2026-08-19; wired that way 2026-08-27):
 
-  --layout matrix         docs/thesis/figures/<verdict>_weight_matrix
-      ch4 §4.2.4.2: panel (c) alone — the committed set, every cell printed
+  --layout matrix         docs/thesis/figures/fig_4-2-4b_<verdict>_weight_matrix
+      ch4 §4.2.4: panel (c) alone — the committed set, every cell printed
       with its value AND the letter of the rule that produced it, so the
       matrix reads as rule-generated on the page; the key is in-figure, the
       rules' rationale/tier live in the appendix ledger table.
-  --layout decomposition  docs/thesis/figures/<verdict>_weight_decomposition
-      ch5 sensitivity study: (a), (b), (c) as three aligned 15 x 14 matrices
+  --layout decomposition  docs/thesis/figures/fig_B-6a_<verdict>_weight_decomposition
+      appendix B.6 (weight sets): (a), (b), (c) as three aligned 15 x 14 matrices
       on one shared stage-grouped axis and ONE uniform 0–1 grey scale — what
       the sweep's parameters touch (b) and what they hold fixed (a).
-  --layout bands          docs/thesis/figures/distance_kernel_bands
-      ch5 sensitivity study: the declared kernel point inside its declared
+  --layout bands          docs/thesis/figures/fig_B-6b_distance_kernel_bands
+      appendix B.6 (weight sets): the declared kernel point inside its declared
       sweep bands — d(Delta) at the declared parameters and at the band
       edges, the floor, the 210-pair count per Delta, and the base-edge
       census per Delta over the five current routing nets (which Delta
@@ -51,7 +51,7 @@ Usage:
       [--dry-run-adjacent]
 
 Writes the figures above (+ .pdf via pdflatex) and
-  docs/thesis/tables/outcome_overlay_weights.tex  (the appendix wiring: the
+  docs/thesis/tables/tab_B-6a_outcome_overlay_weights.tex  (the appendix wiring: the
       rule ledgers, the kernel parameters, and the full success + failure
       weight sets for the version — unless --no-tables)
 
@@ -63,6 +63,7 @@ tools/gap_appendix_figures.py so the figures read as one system.
 from __future__ import annotations
 
 import argparse
+from dataclasses import dataclass
 import json
 import subprocess
 import sys
@@ -86,7 +87,13 @@ from mtdsim.l3_simulation.controller.rules import (  # noqa: E402
 
 FIG_DIR = REPO / "docs" / "thesis" / "figures"
 TAB_DIR = REPO / "docs" / "thesis" / "tables"
-TABLES_STEM = "outcome_overlay_weights"
+TABLES_STEM = "tab_B-6a_outcome_overlay_weights"
+# File stems follow the thesis float-naming rule (figure_table_conventions.md §j):
+# fig_<chapter>-<section>-<subsection><order>_<name>. The matrix layout has no
+# float in dissertation.tex for the success verdict, hence "unplaced".
+MATRIX_STEM = {"failure": "fig_4-2-4b_failure_weight_matrix", "success": "fig_unplaced_success_weight_matrix"}
+DECOMP_STEM = {"failure": "fig_B-6a_failure_weight_decomposition", "success": "fig_unplaced_success_weight_decomposition"}
+BANDS_STEM = "fig_B-6b_distance_kernel_bands"
 
 # ATT&CK v19.1 display names (the same map the appendix attack graphs use).
 # "Defense
@@ -129,13 +136,34 @@ TACTIC_SHORT = {
 STAGE_SHORT = {0: "preparation", 1: "intrusion", 2: "post-intrusion", 3: "objective"}
 
 # --- geometry (cm) ---------------------------------------------------------
-CELL_W = 0.78          # column pitch
-CELL_H = 0.27          # row pitch
-LABEL_X = 4.20         # right edge of the row labels (figure x origin at 0)
-STAGE_X = 1.40         # right edge of the row-stage labels; bracket just right of it
-COL_LABEL_H = 1.00     # height reserved above each panel for rotated headers
-PANEL_GAP = 0.75       # vertical gap between panels (holds the two-line panel header)
-HEADER_W = 15.4        # text width of a panel header (== the figure width)
+# Two presets, because the printed type size is the invariant (conventions §h):
+#   APPENDIX — the three-panel decomposition, \tiny cells on a 0.78 cm pitch;
+#              included at \textwidth (natural ~16.3 cm, scale ~0.9). A known
+#              under-floor figure (§i), accepted for the appendix.
+#   CHAPTER  — the matrix alone, \scriptsize cells, short row labels, natural
+#              width held under \textwidth (14.5 cm) so it is included at
+#              natural size with a bare \includegraphics and 8 pt is 8 pt.
+@dataclass(frozen=True)
+class Geom:
+    cell_w: float        # column pitch
+    cell_h: float        # row pitch
+    label_x: float       # right edge of the row labels (figure x origin at 0)
+    stage_x: float       # right edge of the row-stage labels; bracket just right of it
+    col_label_h: float   # height reserved above each panel for rotated headers
+    panel_gap: float     # vertical gap between panels (holds the two-line panel header)
+    header_w: float      # text width of a panel header (== the figure width)
+    f_cell: str          # cell / label font
+    f_hdr: str           # panel-header font
+    key_x2: float        # x of the key's second column
+    key_row: float       # key row pitch
+    short_rows: bool     # row labels from TACTIC_SHORT (chapter) or TACTIC_LABEL
+    shrink: bool         # scalebox long values / letters (only sound when the figure is not at the floor)
+    two_line: bool       # value over rule letter in the cell (a six-character value does not fit 0.9 cm at 8 pt)
+    stage_rotate: bool   # row-stage labels set vertically beside the bracket (saves ~1.5 cm of width)
+
+APPENDIX = Geom(0.78, 0.27, 4.20, 1.40, 1.00, 0.75, 15.4, r"\tiny", r"\scriptsize", 8.2, 0.27, False, True, False, False)
+CHAPTER = Geom(0.88, 0.74, 2.30, 0.42, 1.35, 0.75, 14.6, r"\scriptsize", r"\footnotesize", 7.4, 0.36, True, False, True, True)
+PANEL_GAP = APPENDIX.panel_gap
 GRID = "black!18"
 STAGE_RULE = "black!55"
 ACCENT_RGB = "31,84,140"   # the one accent (family-wide): the declared point
@@ -154,13 +182,19 @@ def _fmt(v: float) -> str:
     return s
 
 
-def _value_letter(v: float, letter: str) -> str:
-    """A cell's 'value + rule letter' label. Long values (four decimals) are
-    set a touch smaller so the pair stays inside a 0.78 cm cell."""
+def _value_letter(v: float, letter: str, shrink: bool = True, two_line: bool = False) -> str:
+    """A cell's 'value + rule letter' label. In the appendix geometry long
+    values (four decimals) and the letter are set a touch smaller so the pair
+    stays inside a 0.78 cm cell; the chapter geometry never shrinks (the
+    figure sits at the 8 pt floor, so a scalebox would go under it)."""
     txt = _fmt(v)
-    if len(txt) >= 6:
+    if shrink and len(txt) >= 6:
         txt = r"\scalebox{0.85}{%s}" % txt
-    return "%s\\hspace{0.5pt}{\\color{black!%s}\\scalebox{0.8}{%s}}" % (txt, "70" if v <= 0.5 else "30", letter)
+    let = r"\scalebox{0.8}{%s}" % letter if shrink else letter
+    tone = "70" if v <= 0.5 else "30"
+    if two_line:
+        return "%s\\\\[-1.5pt]{\\color{black!%s}%s}" % (txt, tone, let)
+    return "%s\\hspace{0.5pt}{\\color{black!%s}%s}" % (txt, tone, let)
 
 
 def stage_grouped_order(rs: RuleSet) -> list[str]:
@@ -208,61 +242,66 @@ def cell_style(v: float) -> tuple[str, str]:
 
 def emit_panel(w, y_top: float, order: list[str], rs: RuleSet,
                values: dict[tuple[str, str], float], labels: dict[tuple[str, str], str],
-               header: str, show_col_labels: bool) -> float:
-    """Draw one 15 x 14 matrix with its top-left at (LABEL_X, y_top) after the
+               header: str, show_col_labels: bool, G: Geom = APPENDIX) -> float:
+    """Draw one 15 x 14 matrix with its top-left at (G.label_x, y_top) after the
     column-label band. Returns the y of its bottom edge."""
     n = len(order)
-    x0 = LABEL_X + 0.12
-    y0 = y_top - (COL_LABEL_H if show_col_labels else 0.0)
+    x0 = G.label_x + 0.12
+    y0 = y_top - (G.col_label_h if show_col_labels else 0.0)
     # panel header (left-aligned above the column-label band)
-    w(r"\node[anchor=south west,font=\scriptsize,align=left,text width=%.1fcm] at (%.2f,%.2f) {%s};"
-      % (HEADER_W, 0.0, y_top + 0.06, header))
+    w(r"\node[anchor=south west,font=%s,align=left,text width=%.1fcm] at (%.2f,%.2f) {%s};"
+      % (G.f_hdr, G.header_w, 0.0, y_top + 0.06, header))
     # column headers
     if show_col_labels:
         for j, b in enumerate(order):
-            xc = x0 + (j + 0.5) * CELL_W
-            w(r"\node[anchor=west,rotate=55,font=\tiny] at (%.3f,%.3f) {%s};"
-              % (xc - 0.06, y0 + 0.08, _esc(TACTIC_SHORT[b])))
+            xc = x0 + (j + 0.5) * G.cell_w
+            w(r"\node[anchor=west,rotate=55,font=%s] at (%.3f,%.3f) {%s};"
+              % (G.f_cell, xc - 0.06, y0 + 0.08, _esc(TACTIC_SHORT[b])))
     # cells
     for i, a in enumerate(order):
-        yc = y0 - (i + 0.5) * CELL_H
+        yc = y0 - (i + 0.5) * G.cell_h
         for j, b in enumerate(order):
-            xc = x0 + (j + 0.5) * CELL_W
+            xc = x0 + (j + 0.5) * G.cell_w
             if a == b:
                 w(r"\draw[%s,line width=0.2pt] (%.3f,%.3f) -- (%.3f,%.3f);"
-                  % (GRID, xc - CELL_W / 2, yc - CELL_H / 2, xc + CELL_W / 2, yc + CELL_H / 2))
+                  % (GRID, xc - G.cell_w / 2, yc - G.cell_h / 2, xc + G.cell_w / 2, yc + G.cell_h / 2))
                 continue
             v = values[(a, b)]
             fill, tc = cell_style(v)
             w(r"\fill[%s] (%.3f,%.3f) rectangle (%.3f,%.3f);"
-              % (fill, xc - CELL_W / 2, yc - CELL_H / 2, xc + CELL_W / 2, yc + CELL_H / 2))
-            w(r"\node[font=\tiny,text=%s] at (%.3f,%.3f) {%s};" % (tc, xc, yc, labels[(a, b)]))
+              % (fill, xc - G.cell_w / 2, yc - G.cell_h / 2, xc + G.cell_w / 2, yc + G.cell_h / 2))
+            w(r"\node[font=%s,text=%s%s] at (%.3f,%.3f) {%s};"
+              % (G.f_cell, tc, ",align=center" if G.two_line else "", xc, yc, labels[(a, b)]))
     # grid + stage rules
     for i in range(n + 1):
-        y = y0 - i * CELL_H
+        y = y0 - i * G.cell_h
         col = STAGE_RULE if (0 < i < n and rs.stage_of[order[i]] != rs.stage_of[order[i - 1]]) else GRID
         lw = 0.5 if col == STAGE_RULE else 0.2
-        w(r"\draw[%s,line width=%.1fpt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, lw, x0, y, x0 + n * CELL_W, y))
+        w(r"\draw[%s,line width=%.1fpt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, lw, x0, y, x0 + n * G.cell_w, y))
     for j in range(n + 1):
-        x = x0 + j * CELL_W
+        x = x0 + j * G.cell_w
         col = STAGE_RULE if (0 < j < n and rs.stage_of[order[j]] != rs.stage_of[order[j - 1]]) else GRID
         lw = 0.5 if col == STAGE_RULE else 0.2
-        w(r"\draw[%s,line width=%.1fpt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, lw, x, y0, x, y0 - n * CELL_H))
+        w(r"\draw[%s,line width=%.1fpt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, lw, x, y0, x, y0 - n * G.cell_h))
     w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);"
-      % (x0, y0, x0 + n * CELL_W, y0 - n * CELL_H))
+      % (x0, y0, x0 + n * G.cell_w, y0 - n * G.cell_h))
     # row labels + row-stage labels
     for i, a in enumerate(order):
-        yc = y0 - (i + 0.5) * CELL_H
-        w(r"\node[anchor=east,font=\tiny] at (%.2f,%.3f) {%s};" % (LABEL_X, yc, _esc(TACTIC_LABEL[a])))
+        yc = y0 - (i + 0.5) * G.cell_h
+        w(r"\node[anchor=east,font=%s] at (%.2f,%.3f) {%s};" % (G.f_cell, G.label_x, yc, _esc((TACTIC_SHORT if G.short_rows else TACTIC_LABEL)[a])))
     stages = sorted({rs.stage_of[t] for t in order})
     for s in stages:
         rows = [i for i, t in enumerate(order) if rs.stage_of[t] == s]
-        yc = y0 - (rows[0] + rows[-1] + 1) / 2 * CELL_H
-        y_a, y_b = y0 - rows[0] * CELL_H, y0 - (rows[-1] + 1) * CELL_H
-        w(r"\draw[%s,line width=0.4pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (STAGE_RULE, STAGE_X + 0.08, y_a - 0.02, STAGE_X + 0.08, y_b + 0.02))
-        w(r"\node[font=\tiny,text=black!60,anchor=east] at (%.2f,%.3f) {%s};"
-          % (STAGE_X, yc, _esc(STAGE_SHORT[s])))
-    return y0 - n * CELL_H
+        yc = y0 - (rows[0] + rows[-1] + 1) / 2 * G.cell_h
+        y_a, y_b = y0 - rows[0] * G.cell_h, y0 - (rows[-1] + 1) * G.cell_h
+        w(r"\draw[%s,line width=0.4pt] (%.2f,%.3f) -- (%.2f,%.3f);" % (STAGE_RULE, G.stage_x + 0.08, y_a - 0.02, G.stage_x + 0.08, y_b + 0.02))
+        if G.stage_rotate:
+            w(r"\node[font=%s,text=black!60,rotate=90,anchor=south] at (%.2f,%.3f) {%s};"
+              % (G.f_cell, G.stage_x, yc, _esc(STAGE_SHORT[s])))
+        else:
+            w(r"\node[font=%s,text=black!60,anchor=east] at (%.2f,%.3f) {%s};"
+              % (G.f_cell, G.stage_x, yc, _esc(STAGE_SHORT[s])))
+    return y0 - n * G.cell_h
 
 
 def emit_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, version: str) -> str:
@@ -311,7 +350,7 @@ def emit_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, version: s
     return "\n".join(L) + "\n"
 
 
-def emit_key(w, rs: RuleSet, verdict: str, keys: dict[str, str], y: float, lead: str) -> None:
+def emit_key(w, rs: RuleSet, verdict: str, keys: dict[str, str], y: float, lead: str, G: Geom = APPENDIX) -> None:
     """The rule key under a matrix: letter, rule id, declared value — two
     columns, read from the rules file. Rationale and tier are NOT here; they
     live in the appendix ledger table the caption points at."""
@@ -319,17 +358,17 @@ def emit_key(w, rs: RuleSet, verdict: str, keys: dict[str, str], y: float, lead:
     ids = list(rs.order[verdict])
     half = (len(ids) + 1) // 2
     y_key = y - 0.32
-    x_cols = (0.0, 8.2)
-    w(r"\node[anchor=north west,font=\tiny,text=black!60] at (%.2f,%.2f) {%s};" % (x_cols[0], y_key + 0.26, lead))
+    x_cols = (0.0, G.key_x2)
+    w(r"\node[anchor=north west,font=%s,text=black!60] at (%.2f,%.2f) {%s};" % (G.f_cell, x_cols[0], y_key + 0.26, lead))
     for col, chunk in enumerate((ids[:half], ids[half:])):
         for r_i, rid in enumerate(chunk):
             r = rules[rid]
-            w(r"\node[anchor=north west,font=\tiny] at (%.2f,%.2f) {\textbf{%s}\; \texttt{%s} $=$ %s};"
-              % (x_cols[col], y_key - r_i * 0.27, keys[rid], _esc(rid), _fmt(float(r["value"]))))
+            w(r"\node[anchor=north west,font=%s] at (%.2f,%.2f) {\textbf{%s}\; \texttt{%s} $=$ %s};"
+              % (G.f_cell, x_cols[col], y_key - r_i * G.key_row, keys[rid], _esc(rid), _fmt(float(r["value"]))))
 
 
 def emit_matrix_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, version: str) -> str:
-    """ch4: the committed set alone — panel (c) with the producing rule's
+    """ch4 §4.2.4: the committed set alone, at the chapter geometry (8 pt floor at natural size) — panel (c) with the producing rule's
     letter in each cell, so the matrix reads as generated, not typed."""
     order = stage_grouped_order(rs)
     keys = rule_keys(rs, verdict)
@@ -341,12 +380,12 @@ def emit_matrix_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, ver
     w(r"\begin{document}")
     w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt}]")
     vals = {p: c["v"] for p, c in dec.items()}
-    lab = {p: _value_letter(c["v"], keys[c["rule"]]) for p, c in dec.items()}
+    lab = {p: _value_letter(c["v"], keys[c["rule"]], shrink=CHAPTER.shrink, two_line=CHAPTER.two_line) for p, c in dec.items()}
     hdr = (r"the %s weight set (\texttt{%s}): each cell is the value the token's out-transition "
            r"is multiplied by on a %s verdict, with the letter of the declared rule that produced it"
            % (verdict, _esc(version), verdict))
-    y = emit_panel(w, 0.0, order, rs, vals, lab, hdr, show_col_labels=True)
-    emit_key(w, rs, verdict, keys, y, "rule key (match order; each value is then multiplied by the lifecycle-distance factor):")
+    y = emit_panel(w, 0.0, order, rs, vals, lab, hdr, show_col_labels=True, G=CHAPTER)
+    emit_key(w, rs, verdict, keys, y, "rule key (match order; each value is then multiplied by the lifecycle-distance factor):", G=CHAPTER)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return "\n".join(L) + "\n"
@@ -665,11 +704,11 @@ def main() -> None:
     census, census_per = edge_census(rs)
     figures: list[tuple[str, str]] = []
     if args.layout in ("all", "matrix"):
-        figures.append((f"{verdict}_weight_matrix", emit_matrix_figure(rs, spec, verdict, dec, args.version)))
+        figures.append((MATRIX_STEM[verdict], emit_matrix_figure(rs, spec, verdict, dec, args.version)))
     if args.layout in ("all", "decomposition"):
-        figures.append((f"{verdict}_weight_decomposition", emit_figure(rs, spec, verdict, dec, args.version)))
+        figures.append((DECOMP_STEM[verdict], emit_figure(rs, spec, verdict, dec, args.version)))
     if args.layout in ("all", "bands"):
-        figures.append(("distance_kernel_bands", emit_bands_figure(rs, spec, dec, census, args.version)))
+        figures.append((BANDS_STEM, emit_bands_figure(rs, spec, dec, census, args.version)))
     for stem, tex in figures:
         tex_path = FIG_DIR / f"{stem}.tex"
         tex_path.write_text(tex)

@@ -47,7 +47,7 @@ REPO = Path(__file__).resolve().parent.parent
 LABELS = REPO / "data" / "gap" / "archive" / "preliminary_extraction_labels.json"
 EVIDENCE = REPO / "data" / "gap" / "archive" / "v0_4_extraction_run.json"
 SHIPPED = REPO / "data" / "gap" / "gap_v0.5.json"
-OUT = REPO / "docs" / "thesis" / "tables" / "preliminary_extraction.tex"
+OUT = REPO / "docs" / "thesis" / "tables" / "tab_D-0a_preliminary_extraction.tex"
 
 # The v0.4 GAP is not on `dev` --- it is the superseded artefact, held on the
 # archive branches. Both carry byte-identical copies (checked 2026-08-20); the

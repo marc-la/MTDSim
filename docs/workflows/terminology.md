@@ -1,7 +1,7 @@
 ---
 status: living
 created: 2026-08-20
-updated: 2026-08-20   # voice-pass ruling: all six PROPOSED rows RATIFIED and applied to §4.2
+updated: 2026-08-27   # §2.1 voice pass: attacker/adversary row ratified; §2.2.1 pass 6: level-vs-layer and exposed-endpoints rows ratified
 ---
 
 # Terminology registry — one term per concept across the dissertation
@@ -53,13 +53,16 @@ string are legitimate (noted per row).
 | The declared weight object | **failure matrix**; long form at first substantive use: *the tactic-to-tactic failure weight matrix* (placed at the §4.2.4.1 defining ¶ — the ruled spine sentence keeps the short form) | *failure weight set*, bare *weight set*; *outcome overlay* (repo term, stays out) | Marc, 2026-08-20 (voice-pass ruling) |
 | Attacker time on a tactic | **dwell time** | *duration*, *draw time*, *tactic timing* when meaning dwell; *dwell* alone fine in compounds (dwell catalogue, dwell standard-of-evidence) | Marc, 2026-08-20 (voice-pass ruling) |
 | The work's self-name | **this thesis** | *this paper* (dictation residue from paper-framing); *this work* / *this dissertation* unused | Marc, 2026-08-20 (voice-pass ruling) |
+| The party MTD defends against (generic, any chapter) | **attacker** (106) | *adversary* (1, §2.1 S3 — replaced 2026-08-27); the field's *adversary* stays only inside quoted or cited phrasing | Marc, 2026-08-27 (§2.1 voice-pass ruling) |
 | The mechanism that makes dwell stochastic | **the exponential draw** (noun form; *drawn exponentially* as the verbal form) | *exponentiation mechanism* (also imprecise: exponentiation is raising to a power), *exponential element*, *exponential factor*; *the exponential defence* (L3 ceiling ¶) is a different object (the justification, not the mechanism) — never merged | Marc, 2026-08-20 (voice-pass ruling) |
+| Network depth (the tiers hosts sit in, ingress first) | **level** (Brown 2023's word: "levels of depth") | *layer* in the depth sense — collides with the three HARM layers (host / service / vulnerability); *depth* stays as the axis noun (*levels of depth*, the figure's face label) | Marc, 2026-08-27 (§2.2.1 voice-pass ruling) |
+| The ingress hosts | **exposed endpoints** at first fix; **the endpoints** thereafter | *exposed first-layer hosts*, *the endpoints, the first layer* — appositive re-definitions | Marc, 2026-08-27 (§2.2.1 voice-pass ruling) |
 
 ### Proposed — awaiting Marc's ruling pass
 
 | Concept | Recommendation | Alternatives considered | Census |
 |---|---|---|---|
-| *(none open — the 2026-08-20 voice-pass ruling ratified the whole table; all six applied to §4.2 the same day)* | | | |
+| *(none open — the 2026-08-27 §2.2.1 ruling ratified both rows raised that day)* | | | |
 
 ## Ruling workflow
 

@@ -46,7 +46,7 @@ Usage:
 
 Style: TikZ at the document's 12 pt base, greys carry the structure, one
 accent (RGB 31,84,140) marks what this thesis builds. Written to
-docs/thesis/figures/pipeline_ladder.tex (+ .pdf unless --no-compile).
+docs/thesis/figures/fig_4-0a_pipeline_ladder.tex (+ .pdf unless --no-compile).
 """
 from __future__ import annotations
 
@@ -75,7 +75,7 @@ OVERLAY_JSON = PETRI_DIR / "synthetic_overlay.json"
 DURATIONS_JSON = REPO / "data" / "ogasp" / "tactic_durations.json"
 MAPPING_DIR = REPO / "data" / "ogasp" / "controller" / "mappings"
 OUT_DIR = REPO / "docs" / "thesis" / "figures"
-STEM = "pipeline_ladder"
+STEM = "fig_4-0a_pipeline_ladder"
 
 # The four objective classes, in the order the chapter names them
 # (subsec:attack-profiles). Presentation names are the chapter's own words ---

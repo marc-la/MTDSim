@@ -42,7 +42,7 @@ Run from the repo root:  PYTHONPATH=src python tools/gasp_structural_baseline.py
 Inputs: data/gap/flows/<flow_id>.yaml (38 active flows), data/gasp/metadata_audit.csv.
 --check exits non-zero if the recomputation does not reproduce the CSV columns
 or the pinned numbers (used by tests/l2_subgraph/test_structural_baseline.py).
---tex writes docs/thesis/tables/objective_classification_audit.tex — the
+--tex writes docs/thesis/tables/tab_B-2a_objective_classification_audit.tex — the
 appendix-ready per-class tables (flow, terminal read, stated objective, source,
 confidence) the chapter points at; regenerate whenever the CSV changes.
 --write-descriptive rewrites the CSV's four descriptive structural columns
@@ -176,7 +176,7 @@ def write_descriptive() -> None:
         w.writerows(rows)
 
 
-TEX_OUT = ROOT / "docs" / "thesis" / "tables" / "objective_classification_audit.tex"
+TEX_OUT = ROOT / "docs" / "thesis" / "tables" / "tab_B-2a_objective_classification_audit.tex"
 FLOWS_DIR = ROOT / "data" / "gap" / "flows"
 GAP_JSON = ROOT / "data" / "gap" / "gap_v0.5.json"
 CLASS_ORDER = [

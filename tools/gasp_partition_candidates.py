@@ -49,7 +49,7 @@ from gasp_structural_baseline import (  # noqa: E402
 
 LEDGER = ROOT / "data" / "gasp" / "partition_candidates.csv"
 GAP = ROOT / "data" / "gap" / "gap_v0.5.json"
-TEX_OUT = ROOT / "docs" / "thesis" / "tables" / "rejected_partitions.tex"
+TEX_OUT = ROOT / "docs" / "thesis" / "tables" / "tab_B-3a_rejected_partitions.tex"
 
 # The corpus state this float is licensed against (structural_baseline.md).
 EXPECT_N = 38

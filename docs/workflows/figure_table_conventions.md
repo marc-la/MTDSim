@@ -64,7 +64,7 @@ For each genre the literature has a settled visual grammar. New figures should b
 4. **Attacker-procedure flowchart** — rounded rectangles, numbered steps, decision edges labelled Success/Failure, loop-back edges labelled in words (brown2023 Fig. 3 — the direct ancestor of our movement-model figures).
 5. **Petri net** — circles = places, rectangles = transitions, IDs on the nodes (`cP1`, `cT3`), meanings in companion **ledger tables** (ID | description | rate), colour used only to single out special transitions (bland2020 Fig. 8 + Tables 7–8). This is the published precedent for the L3 net figure and its appendix ledgers.
 6. **Network topology** — surveys use 3D icon clip-art (cho2020 Fig. 13); evaluation papers use abstract node-link drawings coloured by layer/level (brown2023 Fig. 2). Ours are always the abstract kind.
-7. **Tactic-keyed matrix / heatmap** — the ATT&CK-navigator genre: tactic columns, technique cells, fill marking membership or weight (al-sada2024 Fig. 2). Our weight matrices (`failure_weight_matrix.tex`) are this genre with a numeric fill; keep every cell printed (the corpus prints values in cells wherever cells are few enough to read — tay2024 Fig. 6, cho2020 pies).
+7. **Tactic-keyed matrix / heatmap** — the ATT&CK-navigator genre: tactic columns, technique cells, fill marking membership or weight (al-sada2024 Fig. 2). Our weight matrices (`fig_4-2-4b_failure_weight_matrix.tex`) are this genre with a numeric fill; keep every cell printed (the corpus prints values in cells wherever cells are few enough to read — tay2024 Fig. 6, cho2020 pies).
 8. **Timeline** — event marks as vertical lines colour-coded by kind on a labelled time axis (cho2020 Fig. 2), or phase spans annotated with braces and per-phase symbols (kim2026 Fig. 7).
 9. **Icon/scenario cartoon** (alshamrani2019 Figs. 6–7; jalowski2026) — a survey-register genre. **Do not use**: it collides with the greys ruling and dates quickly.
 
@@ -114,12 +114,15 @@ The examiner stake: Tim French's lit-review feedback (missing images/examples co
 
 ## i) Open choices (flag to Marc before first use, then record here)
 
-- **Three shipped figures print under the ~8pt floor — regenerate or accept?**
+- **Shipped figures under the ~8pt floor — regenerate or accept?**
   Measured 2026-08-20 against §h's arithmetic, at `\textwidth` (or the stated
-  inclusion width): `failure_weight_matrix` `\tiny` → **5.3pt**;
-  `distance_kernel_bands` `\tiny` at `0.82\textwidth` → **5.8pt**;
-  `pipeline_ladder` `\scriptsize` → **7.5pt**. `controller_mapping` is the
-  first built to the corrected rule and clears it at ~9.8pt. This is the §g
+  inclusion width): `distance_kernel_bands` `\tiny` at `0.82\textwidth` → **5.8pt**;
+  `pipeline_ladder` `\scriptsize` → **7.5pt**; the three-panel
+  `failure_weight_decomposition` `\tiny` → ~5.3pt (now appendix B.6, where it
+  was accepted as the *how* figure — Marc, 2026-08-27). `controller_mapping` is the
+  first built to the corrected rule and clears it at ~9.8pt; the chapter
+  `failure_weight_matrix` was rebuilt on 2026-08-27 to clear it (`\scriptsize`
+  cells, value over rule letter, natural size under `\textwidth`, ~15.7 cm). This is the §g
   illegible-tick-label anti-pattern the conventions name — brown2023's ~3pt
   labels are the same failure, and it is a marked surface (Tim French).
   Fixing it means re-running each generator on a `\footnotesize`/`\small`
@@ -149,3 +152,40 @@ The examiner stake: Tim French's lit-review feedback (missing images/examples co
 - Whether ch3's related-work positioning uses a ✓-matrix (genre §e1) — natural fit for the "prior simulators vs this model" argument, but Marc has not ruled on wanting one.
 - Whether best-in-column marking in results tables is bold (rahman/he style) or underline (buechel style) — recommend bold; needs one ruling before ch5 tables exist.
 - ~~Subfigure mechanics~~ **Closed (2026-08-20, appendix-wiring pass — session recommendation applied; overturn by loading the package).** `subcaption` is **not** loaded and should not be. the ruling was argued on `fig:l1-graph`, which drew its panel letters inside the TikZ picture; that figure was deleted on 2026-08-20 (Marc's ruling — it compressed three graphs into one `\textwidth` float and read as a garble), and what it carried now stands as four full-page single-panel appendix figures, so the family currently has **no** multi-panel float. The ruling stands on its own terms: adopting `subcaption` would mean carrying two panel-lettering mechanisms the moment the next multi-panel figure is drawn. The in-TikZ pattern is therefore the family-wide one: panel letters are drawn by the generator, the overall caption carries the shared message and decodes each panel in turn (§b2, §b3), and multi-panel floats stay single `figure` environments. The cost is that panels get no separate List-of-Figures line and no independent `\ref` target — accepted, since the corpus's own multi-panel figures (hong2018 Fig. 5, brown2023 Figs. 4–5) are cited as wholes.
+
+## j) File naming — floats are keyed to where they land in the dissertation (ruled 2026-08-27)
+
+Every file in `docs/thesis/figures/` and `docs/thesis/tables/` is named for the
+dissertation position it is included at, so the folder can be scanned by
+section and the right file found for an Overleaf paste without opening the tex:
+
+```
+<kind>_<chapter>-<section>-<subsection><order>_<name>.<ext>
+fig_4-2-4b_failure_weight_decomposition.pdf
+tab_B-6a_outcome_overlay_weights.tex
+```
+
+- `kind` is `fig` or `tab`. Tables are the `\input` fragments; a fragment
+  holding several `table` environments is one file (`tab_B-6a_…` carries three).
+- The position is the numbered heading the float is included under, to the
+  depth that exists: `2-2` (§2.2), `4-2-4` (§4.2.4), `4-0` (chapter 4 before
+  its first section), `D-0` (appendix D, chapter-level). Appendices use their
+  letter. Subsubsections are not encoded (nothing yet needs them). Separators
+  are **hyphens**, never dots — a dot in a graphics stem breaks
+  `\includegraphics`'s extension parsing.
+- `order` is a letter giving order of appearance within that heading, counted
+  separately for figures and tables (`fig_B-1a` … `fig_B-1d`; `tab_4-2-4a`).
+- `name` is the descriptive stem the generator has always used.
+- A generated file with no float in `dissertation.tex` yet takes `unplaced`
+  in the position slot (e.g. `fig_unplaced_success_weight_matrix`, if the
+  success verdict were ever drawn), so it sorts apart and cannot be mistaken
+  for a wired one.
+- **Labels do not follow the file name.** `\label{fig:controller-mapping}`
+  stays semantic; the file prefix is a location index, not an identity, and
+  it is **re-keyed when a float moves or a heading is renumbered** — moving a
+  float is a rename of its file, its generator's `STEM`, and the tex
+  `\includegraphics`/`\input` line, in one commit. The generator's STEM is the
+  single point of truth for the name; the tex and the manifest follow it.
+- The manifest at [`../thesis/FLOATS.md`](../thesis/FLOATS.md) lists every
+  float with its position, file, label and generator; update it in the same
+  commit as any rename or new float.

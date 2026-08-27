@@ -168,7 +168,7 @@ def main() -> None:
         L.append(f"{esc(axis.label[name])} & {FAMILY_LABEL[e['anchor']]} & "
                  f"{mult} & {num(e['duration_s'])} \\\\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
-    (OUT_DIR / "dwell_catalogue.tex").write_text("\n".join(L))
+    (OUT_DIR / "tab_4-2-4a_dwell_catalogue.tex").write_text("\n".join(L))
 
     # --------------------------------------------------------- appendix ----
     short_a = "Derivation of the declared dwell times"
@@ -205,10 +205,10 @@ def main() -> None:
           r"is shown as a dash: the tactic is off-clock, so there is nothing to "
           r"sweep.}\\",
           r"\end{tabular}", r"\end{table}", ""]
-    (OUT_DIR / "dwell_derivation.tex").write_text("\n".join(A))
+    (OUT_DIR / "tab_B-4a_dwell_derivation.tex").write_text("\n".join(A))
 
-    print(f"wrote {OUT_DIR/'dwell_catalogue.tex'}")
-    print(f"wrote {OUT_DIR/'dwell_derivation.tex'}")
+    print(f"wrote {OUT_DIR/'tab_4-2-4a_dwell_catalogue.tex'}")
+    print(f"wrote {OUT_DIR/'tab_B-4a_dwell_derivation.tex'}")
     print(f"  {len(tactics)} tactics, {len(anchors)} families, "
           f"{len(set(t['duration_s'] for t in tactics.values()))} distinct values; "
           f"catalogue {version}, ATT&CK v{pin}")

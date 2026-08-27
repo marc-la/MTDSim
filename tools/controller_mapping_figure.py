@@ -50,8 +50,8 @@ intended behaviour — a silently restated axis is the drift `_tactic_axis` exis
 to prevent.
 
 Usage: `python tools/controller_mapping_figure.py [--version v2_partial]
-[--no-compile]` -> `docs/thesis/figures/controller_mapping.{tex,pdf}` and
-`docs/thesis/tables/controller_mapping_reasons.tex`.
+[--no-compile]` -> `docs/thesis/figures/fig_4-2-4a_controller_mapping.{tex,pdf}` and
+`docs/thesis/tables/tab_B-5a_controller_mapping_reasons.tex`.
 """
 
 from __future__ import annotations
@@ -70,7 +70,8 @@ REPO = Path(__file__).resolve().parent.parent
 MAPPINGS = REPO / "data" / "ogasp" / "controller" / "mappings"
 OUT_DIR = REPO / "docs" / "thesis" / "figures"
 TAB_DIR = REPO / "docs" / "thesis" / "tables"
-STEM = "controller_mapping"
+STEM = "fig_4-2-4a_controller_mapping"
+TAB_STEM = "tab_B-5a_controller_mapping_reasons"
 
 DWELL_ONLY = "dwell-only"
 
@@ -367,7 +368,7 @@ def main() -> None:
     print(f"wrote {tex_path.relative_to(REPO)}")
 
     TAB_DIR.mkdir(parents=True, exist_ok=True)
-    tab_path = TAB_DIR / f"{STEM}_reasons.tex"
+    tab_path = TAB_DIR / f"{TAB_STEM}.tex"
     tab_path.write_text(emit_table(rows, entry, axis, stage_of, stage_name))
     print(f"wrote {tab_path.relative_to(REPO)}")
 

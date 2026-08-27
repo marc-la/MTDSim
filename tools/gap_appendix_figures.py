@@ -778,6 +778,12 @@ def main() -> None:
     ap.add_argument("--no-compile", action="store_true")
     args = ap.parse_args()
     want = (lambda s: args.only is None or s in args.only)
+    # --only keys stay short; file stems carry the thesis float-naming prefix
+    # (figure_table_conventions.md §j): appendix B §B.1, in order of appearance.
+    stem = {"gap_flow_exemplar": "fig_B-1a_gap_flow_exemplar",
+            "gap_technique_graph": "fig_B-1b_gap_technique_graph",
+            "gap_technique_core": "fig_B-1c_gap_technique_core",
+            "gap_tactic_graph": "fig_B-1d_gap_tactic_graph"}
     compile_pdf = not args.no_compile
     gap = load_gap()
     print(f"GAP {gap['version']}: {gap['node_count']} techniques / "
@@ -786,19 +792,19 @@ def main() -> None:
     if want("gap_flow_exemplar"):
         g, facts = build_flow(args.flow)
         canvas = Canvas(g.layout("dot"), PORTRAIT_BOX, g.natural)
-        write("gap_flow_exemplar", (canvas, g, facts, "dot"), compile_pdf)
+        write(stem["gap_flow_exemplar"], (canvas, g, facts, "dot"), compile_pdf)
     if want("gap_technique_graph"):
-        write("gap_technique_graph",
+        write(stem["gap_technique_graph"],
               choose(lambda m: build_technique(gap, 1, m, LANDSCAPE_BOX),
                      ["inline", "id"] if args.full_names else ["id"],
                      LANDSCAPE_BOX), compile_pdf)
     if want("gap_technique_core"):
-        write("gap_technique_core",
+        write(stem["gap_technique_core"],
               choose(lambda m: build_technique(gap, args.min_obs, m,
                                                LANDSCAPE_BOX),
                      ["inline"], LANDSCAPE_BOX), compile_pdf)
     if want("gap_tactic_graph"):
-        write("gap_tactic_graph",
+        write(stem["gap_tactic_graph"],
               choose(lambda pr: build_tactic(gap, args.min_weight, pr),
                      [3, 4, 5, 6], LANDSCAPE_BOX), compile_pdf)
 
