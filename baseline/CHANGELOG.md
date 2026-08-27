@@ -7,6 +7,157 @@ diff is a regression to chase, not a re-baseline to accept.
 
 ---
 
+## 2026-08-27 (follow-up, same day) — OS-compatibility granularity ruled (name, version); OSD-bearing goldens re-captured
+
+Marc ruled the agent's flagged decision: a service is compatible with an OS
+version when that OS version carries the service at its **name and version**,
+not by name alone (`services.py:service_is_compatible_with_os`). Re-captured:
+`baseline/golden_movement` OSDiversity / OSDiversityAssignment streams (18) and
+`baseline/golden` `single-osdiversity`, `random-multi`, `alternative-multi`,
+`simultaneous-multi`, `primary-random-15k`. Full suite 899 passed after the
+re-capture, with the ATK-04 (calls, fires) pins unchanged — the stricter test
+moved no pinned headline at these seeds. Also confirmed by Marc: a refused
+attempt feeds the native per-host give-up threshold (as implemented).
+
+---
+
+## 2026-08-27 — OS Diversity made a distinct mechanism: the OS-gated exploit channel reinstated (D-19) and the inert compatibility guard repaired (D-18); every golden re-baselined, both arms
+
+**Ruling (Marc, 2026-08-27, "option 1").** OS Diversity becomes a faithful,
+distinct mechanism through two changes, both under the D-05 procedure
+(deliberate re-baseline, this entry, SIM-05):
+
+- **(A) The OS-gated exploit success channel is on** —
+  `Vulnerability.network` (`mtdnetwork/component/services.py`) now refuses an
+  OS-dependent vulnerability on a host whose `os_type` is outside its
+  `vuln_os_list`, returning 0.0 before any roll. This closes **D-19** as
+  documented-intent-unimplemented: Brown 2023 §III-B(6) states OS Diversity
+  "changes the OS on the device, avoiding any OS-specific exploits"
+  (`docs/sources/lit_review/brown2023.md:97`); the gate was inherited
+  commented-out. Design decision ruled on recommendation: a refused attempt
+  **counts as a failed attempt** (`exploit_attempt += 1`), so a host whose
+  vulnerabilities are all OS-gated cannot absorb attempts for free — but it
+  **draws no randomness**, so a refusal shifts no downstream draw. The
+  exploit-time ×2.5 mismatch term is untouched (native arm only; the movement
+  arm still declines it via `charge_time=False`, S3-R).
+- **(B) `service_is_compatible_with_os` repaired** — the inherited test
+  compared a `Service` instance against the service-name strings keyed under
+  the OS, and `Service.__eq__` rejects non-`Service` operands, so it was
+  False in every reachable state and `OSDiversity` replaced every non-target
+  service on every firing (**D-18**). Compatibility is now membership by
+  service name (True for a service against its own OS/version, 600/600 live
+  and pinned), so OS Diversity redraws **only the services the new OS cannot
+  run** — measured 4 of 331 per firing at seed 42 (49/331 at seed 43) against
+  ServiceDiversity's 331/331. Exposed-endpoint and target-node exemptions,
+  version-index preservation and port immobility are unchanged.
+  ServiceDiversity is untouched; OSDiversityAssignment (withdrawn, D-17 c)
+  inherits the repaired helper and nothing else.
+
+**Both arms are affected by design.** The gate sits at the one exploit call
+site both attackers share (`attack_operation.py`, `vuln.network(...)`), and
+vulnerabilities carry OS dependencies from generation
+(`VULN_PROB_DEPENDS_ON_OS` = 0.8 on cross-platform services), so **every**
+scenario moves — the no-MTD controls included — not only those with OS
+Diversity in the pool. The OS relabel now reaches the attacker through
+exploit success as well as the ×2.5 time term.
+
+**Native goldens (`baseline/golden`, 9/9 moved; seed 1234, 15 ks unless
+noted), attacks · MTDs · HCR old → new:**
+
+| scenario | old | new |
+|---|---|---|
+| `no-mtd` (+ `_seed1234_repeat`) | 1494 · 0 · 0.82 | 1676 · 0 · 0.68 |
+| `no-mtd_seed9999` | 1688 · 0 · 0.82 | 1684 · 0 · 0.76 |
+| `single-ipshuffle` | 1584 · 75 · 0.64 | 1315 · 75 · 0.18 |
+| `single-osdiversity` | 2023 · 75 · 0.06 | 1456 · 75 · 0.38 |
+| `random-multi` | 1829 · 75 · 0.32 | 1708 · 75 · 0.22 |
+| `alternative-multi` | 1814 · 75 · 0.20 | 1771 · 75 · 0.18 |
+| `simultaneous-multi` (int. 700) | 1704 · 88 · 0.54 | 1639 · 88 · 0.46 |
+| `primary-random-15k` (100n, seed 42) | 1801 · 75 · 0.06 | 1833 · 75 · 0.08 |
+
+Re-captured with `baseline/run_baseline.py` per scenario (`--finish-time
+15000`; `primary-random-15k` = `random-multi --seed 42 --total-nodes 100`).
+Pins moved with them: the seed-1234 no-MTD headline (1494/41 → 1676/34) in
+`tests/test_action_layer_carve.py` G1, `tests/test_action_layer_dispositions.py`
+(ATK-08 cap still inert; the run now ends at the horizon on 34, not at the
+objective), `tests/l3_simulation/test_movement_integration.py` and
+`tests/l3_simulation/test_movement_smoke.py`; and the nine
+`tests/test_atk04_reexploit_discount.py` (calls, discount_fires) pairs.
+
+**Movement goldens (`baseline/golden_movement`, 69/69 moved), summed over
+each mechanism's streams, old → new:**
+
+| mechanism (streams) | compromised | interrupts | mtd_executions |
+|---|---|---|---|
+| no-mtd (9) | 67 → 58 | 0 → 0 | 0 → 0 |
+| IPShuffle (9) | 4 → 4 | 675 → 675 | 675 → 675 |
+| OSDiversity (6) | 24 → 33 | 341 → 336 | 450 → 450 |
+| ServiceDiversity (9) | 47 → 36 | 526 → 523 | 675 → 675 |
+| OSDiversityAssignment (9, withdrawn oracle) | 42 → 60 | 527 → 516 | 675 → 675 |
+| PortShuffle (6) | 31 → 32 | 331 → 341 | 450 → 450 |
+| UserShuffle (9) | 71 → 56 | 3 → 3 | 675 → 675 |
+| HostTopologyShuffle (6) | 2 → 1 | 450 → 450 | 450 → 450 |
+| CompleteTopologyShuffle (6) | 2 → 2 | 450 → 450 | 450 → 450 |
+
+`mtd_executions` is unchanged everywhere (the scheduler is untouched); the
+moves are in exploit outcomes and the walk they drive. Re-captured with
+`PYTHONPATH=src python tools/mtd_golden_streams.py capture`.
+
+**Tracer.** Both tracers now narrate `EXPLOIT REFUSED` (ATTACKER) with the
+vulnerability's OS list against the host's OS, tally
+`exploits_refused_by_os` in the verdict, and report a diversity firing's
+service writes as a fraction of the internal pool (`4/331 internal
+service(s) redrawn`). Substrate arm, seed 42, 3000 t/u: OSDiversity 2/50
+owned, 15 interrupts, 161 refused; ServiceDiversity 5/50, 13, 98.
+Movement arm (`aggregate`, `v2_partial`, seed 0, 4000 t/u): 1/50 owned and
+16 interrupts under both, 108 vs 110 refused — the two mechanisms now
+separate on the native arm; on the movement arm at this seed/horizon the
+walk does not get past its foothold under either, so the separation must be
+read off the goldens above (OSDiversity 24 → 33 vs ServiceDiversity 47 →
+36), not this single trace.
+
+**Spec-IDs / audit-IDs:** IS-MTD-06 (now conforms), D-18 (repaired), D-19
+(closed: documented-intent-unimplemented → implemented), SIM-05.
+
+## 2026-08-27 — MTD pool restoration: all 69 movement goldens re-captured; 55 schema-only, 14 behavioural under ruled repairs
+
+**Schema drift (55 streams, not a re-baseline).** Commit `ca6cd72c`
+(crown-jewel reach, 2026-08-20) added `database_held` to every
+`MovementRecord` and `database_hosts_reached` / `first_database_reach_time`
+to the run summary. The serialiser writes every dataclass field, so every
+digest moved while every behavioural field stayed byte-identical — verified
+by stripping the three keys and comparing all 69 documents against `HEAD`.
+Root-caused by bisection over the 97 commits since the 2026-08-17 capture.
+
+**Behavioural moves (14 streams), each under a ruling of 2026-08-27
+(`docs/handoffs/2026-08-27_mtd_pool_restoration.md`):**
+
+- `UserShuffle_*` (9): **D-32** repaired (`set_host_users` recomputes
+  `total_users` / `p_u_compromise` per call) and **R2** applied (exposed
+  endpoints exempt, graph-keyed, family rule D-23). R1 keeps the same-pool
+  redraw.
+- `HostTopologyShuffle_seed0_overlay` (1): **D-31** repaired — in-place
+  remap keeps the `network.compromised_hosts` alias; `reachable` rebuilt
+  from the moved set; ip-feed refreshed. The other five HTS streams were
+  bit-identical, i.e. no swap in them touched a foothold.
+- `OSDiversity_seed1_observed`, `ServiceDiversity_seed1_observed`,
+  `no-mtd_seed1_overlay_retrace`, `no-mtd_seed2_overlay` (4): **D-26**
+  repaired (`total_users = len(users)`, the brute-force divisor) — moves
+  only streams in which BRUTE_FORCE rolled against a host whose count was
+  wrong.
+
+**Headline counts unchanged in all 69** (`compromised`, `interrupts`,
+`mtd_executions`, `retraces` equal old vs new); the behavioural moves are
+in-record draws, not outcomes — consistent with D-26's measured near-nil
+effect (1 brute-force compromise in 488 calls).
+
+Withdrawn by ruling D-17(c) the same day: OSDiversityAssignment stays in the
+golden set as a regression oracle for code that remains in the tree, but is
+in no pool. New named pools: `lineage` (default, the four) and `full`
+(Brown's seven); the goldens run `single`, so the pool change moves nothing.
+
+---
+
 ## 2026-08-06 — GASP class rename: the 15 retrace goldens re-captured, label-only; **not** a re-baseline
 
 **What changed and why.** The four GASP class labels were renamed to

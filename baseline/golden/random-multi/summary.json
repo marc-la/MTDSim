@@ -10,71 +10,61 @@
     "target_layer": 4,
     "total_database": 2,
     "terminate_compromise_ratio": 0.8,
+    "timing_regime": "shifted",
     "scheme": "random",
     "mtd_interval": 200,
     "custom_strategies": null
   },
   "results": {
-    "n_attack_events": 1829,
+    "n_attack_events": 1708,
     "n_mtd_events": 75,
-    "n_compromised_hosts": 16,
-    "host_compromise_ratio": 0.32,
-    "sim_wallclock_seconds": 0.6167762279510498,
+    "n_compromised_hosts": 11,
+    "host_compromise_ratio": 0.22,
+    "sim_wallclock_seconds": 1.2622058391571045,
     "mtttc_eval_checkpoints": [
       {
-        "time_to_compromise": 8.690048782454275,
-        "attack_success_rate": 0.015463917525773196,
+        "time_to_compromise": 8.475783285281398,
+        "attack_success_rate": 0.016304347826086956,
         "host_compromise_ratio": 0.06,
-        "mtd_execution_frequency": 0.005033129052737339,
+        "mtd_execution_frequency": 0.005030291631806139,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6778492063492064,
-        "roa": 0.0066288543495905804,
+        "attack_path_exposure": 0.582531746031746,
+        "roa": 0.8783895044659562,
         "shortest_path_variability": 0.0,
-        "risk": 0.008328806493999056
+        "risk": 3.8624000117495374
       },
       {
-        "time_to_compromise": 8.39242497150983,
-        "attack_success_rate": 0.017964071856287425,
+        "time_to_compromise": 8.53551183741897,
+        "attack_success_rate": 0.008888888888888889,
         "host_compromise_ratio": 0.12,
-        "mtd_execution_frequency": 0.005033129052737339,
+        "mtd_execution_frequency": 0.005030291631806139,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6778492063492064,
-        "roa": 0.0066288543495905804,
+        "attack_path_exposure": 0.582531746031746,
+        "roa": 0.8783895044659562,
         "shortest_path_variability": 0.0,
-        "risk": 0.008328806493999056
+        "risk": 3.8624000117495374
       },
       {
-        "time_to_compromise": 8.491799384963898,
-        "attack_success_rate": 0.02373887240356083,
+        "time_to_compromise": 8.357907944124975,
+        "attack_success_rate": 0.009768009768009768,
         "host_compromise_ratio": 0.16,
-        "mtd_execution_frequency": 0.005033129052737339,
+        "mtd_execution_frequency": 0.005030291631806139,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6778492063492064,
-        "roa": 0.0066288543495905804,
+        "attack_path_exposure": 0.582531746031746,
+        "roa": 0.8783895044659562,
         "shortest_path_variability": 0.0,
-        "risk": 0.008328806493999056
+        "risk": 3.8624000117495374
       },
       {
-        "time_to_compromise": 7.9910911057312735,
-        "attack_success_rate": 0.017741935483870968,
+        "time_to_compromise": 8.166827857799888,
+        "attack_success_rate": 0.007768361581920904,
         "host_compromise_ratio": 0.22,
-        "mtd_execution_frequency": 0.005033129052737339,
+        "mtd_execution_frequency": 0.005030291631806139,
         "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6778492063492064,
-        "roa": 0.0066288543495905804,
+        "attack_path_exposure": 0.582531746031746,
+        "roa": 0.8783895044659562,
         "shortest_path_variability": 0.0,
-        "risk": 0.008328806493999056
-      },
-      {
-        "time_to_compromise": 7.8101880860492,
-        "attack_success_rate": 0.013292433537832311,
-        "host_compromise_ratio": 0.26,
-        "mtd_execution_frequency": 0.005033129052737339,
-        "total_number_of_ports": 373,
-        "attack_path_exposure": 0.6778492063492064,
-        "roa": 0.0066288543495905804,
-        "shortest_path_variability": 0.0,
-        "risk": 0.008328806493999056
+        "risk": 3.8624000117495374
       }
     ]
   },
@@ -89,8 +79,8 @@
     "seaborn": "0.13.2"
   },
   "git": {
-    "branch": "fix/intent-audit-dispositions",
-    "head": "82a850cfd06b5e64c3faabbbd72e877727248473",
+    "branch": "feat/targeted-objective-probe",
+    "head": "9d2e14327fa253a1a96ea9e3b4a437e6f6d31654",
     "dirty": true
   }
 }

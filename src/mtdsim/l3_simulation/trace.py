@@ -632,6 +632,10 @@ def _l3_verdict(tracer: L3Tracer, result: MovementRunResult, horizon: float,
         lines.append(f"  {tracer.interrupted_steps} step(s) interrupted by MTD "
                      f"({tracer.verb_interrupts} mid-verb, {dwell_cut} "
                      "mid-dwell), each read as a failure verdict.")
+    if tracer.exploits_refused_by_os:
+        lines.append(f"  {tracer.exploits_refused_by_os} exploit attempt(s) refused "
+                     "outright by the OS gate: the vulnerability needs an OS the "
+                     "host is not running (each counted as a failed attempt).")
 
     if tracer.attacker_state is not None:
         state = tracer.attacker_state
@@ -725,6 +729,33 @@ def _l3_verdict(tracer: L3Tracer, result: MovementRunResult, horizon: float,
     return "\n".join(lines)
 
 
+def _resolve_mtds(names, scheme=None):
+    """Map --mtd class names onto the substrate's mechanism classes. The
+    substrate's `single` scheme takes one class, not a list (as the substrate
+    tracer passes it); the other schemes take a list."""
+    if not names:
+        return None
+    import importlib, inspect
+    from mtdnetwork.mtd import MTD
+    found = {}
+    for mod in ("completetopologyshuffle", "hosttopologyshuffle", "ipshuffle",
+                "portshuffle", "osdiversity", "servicediversity", "usershuffle",
+                "osdiversityassignment"):
+        m = importlib.import_module(f"mtdnetwork.mtd.{mod}")
+        for _, cls in inspect.getmembers(m, inspect.isclass):
+            if issubclass(cls, MTD) and cls is not MTD:
+                found[cls.__name__] = cls
+    try:
+        classes = [found[n] for n in names]
+        if scheme == "single":
+            if len(classes) != 1:
+                raise SystemExit("--scheme single takes exactly one --mtd")
+            return classes[0]
+        return classes
+    except KeyError as e:
+        raise SystemExit(f"unknown --mtd {e}; choose from {sorted(found)}")
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(
         description="Unified event log of an L3 movement run: token, controller "
@@ -737,6 +768,9 @@ def main(argv=None) -> int:
                     help="outcome-overlay version (e.g. v1_band_relationship)")
     ap.add_argument("--scheme", default=None,
                     help="MTD scheme (e.g. simultaneous); omit for unopposed")
+    ap.add_argument("--mtd", action="append", default=None, dest="mtds",
+                    help="MTD mechanism class name (repeatable) for the single / "
+                         "alternative schemes, e.g. --mtd PortShuffle")
     ap.add_argument("--interval", type=int, default=200, dest="mtd_interval")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--horizon", type=float, default=15_000)
@@ -804,6 +838,7 @@ def main(argv=None) -> int:
         mtd_scheme=args.scheme,
         mtd_interval=args.mtd_interval,
         substrate_timing_regime=args.substrate_timing_regime,
+        custom_strategies=_resolve_mtds(args.mtds, args.scheme),
         retrace_sinks=args.retrace,
     )
 

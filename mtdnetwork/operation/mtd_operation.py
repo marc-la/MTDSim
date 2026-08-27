@@ -17,9 +17,10 @@ import random
 class MTDOperation:
 
     def __init__(self,security_metrics_record,env, end_event, network, attack_operation, scheme, adversary, proceed_time=0,
-                 mtd_trigger_interval=None, custom_strategies=None):
+                 mtd_trigger_interval=None, custom_strategies=None, pool=None):
         """
 
+        :param pool: named mechanism pool ('lineage' | 'full'), used when custom_strategies is None
         :param env: the parameter to facilitate simPY env framework
         :param network: the simulation network
         :param attack_operation: the attack operation
@@ -38,7 +39,8 @@ class MTDOperation:
 
         self.security_metric_record = security_metrics_record
         self._mtd_scheme = MTDScheme(network=network, scheme=scheme, mtd_trigger_interval=mtd_trigger_interval,
-                                     custom_strategies=custom_strategies, security_metric_record=self.security_metric_record)
+                                     custom_strategies=custom_strategies, security_metric_record=self.security_metric_record,
+                                     pool=pool)
         self._proceed_time = proceed_time
 
         self.application_layer_resource = simpy.Resource(self.env, 1)

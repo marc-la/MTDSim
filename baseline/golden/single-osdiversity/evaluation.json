@@ -1,13 +1,57 @@
 [
   {
-    "time_to_compromise": 7.594236828798724,
-    "attack_success_rate": 0.005504587155963303,
+    "time_to_compromise": 9.447743632891408,
+    "attack_success_rate": 0.04285714285714286,
     "host_compromise_ratio": 0.06,
-    "mtd_execution_frequency": 0.005026625880143383,
+    "mtd_execution_frequency": 0.0050259777777710915,
     "total_number_of_ports": 373,
-    "attack_path_exposure": 0.6823888888888889,
-    "roa": 0.08575933627503303,
+    "attack_path_exposure": 0.659547619047619,
+    "roa": 1.1562296242539873,
     "shortest_path_variability": 0.0,
-    "risk": 0.3675362052405286
+    "risk": 4.590327722082173
+  },
+  {
+    "time_to_compromise": 9.749246850768541,
+    "attack_success_rate": 0.018072289156626505,
+    "host_compromise_ratio": 0.12,
+    "mtd_execution_frequency": 0.0050259777777710915,
+    "total_number_of_ports": 373,
+    "attack_path_exposure": 0.659547619047619,
+    "roa": 1.1562296242539873,
+    "shortest_path_variability": 0.0,
+    "risk": 4.590327722082173
+  },
+  {
+    "time_to_compromise": 9.60304911389849,
+    "attack_success_rate": 0.017094017094017096,
+    "host_compromise_ratio": 0.16,
+    "mtd_execution_frequency": 0.0050259777777710915,
+    "total_number_of_ports": 373,
+    "attack_path_exposure": 0.659547619047619,
+    "roa": 1.1562296242539873,
+    "shortest_path_variability": 0.0,
+    "risk": 4.590327722082173
+  },
+  {
+    "time_to_compromise": 9.029617525782701,
+    "attack_success_rate": 0.011351909184726523,
+    "host_compromise_ratio": 0.22,
+    "mtd_execution_frequency": 0.0050259777777710915,
+    "total_number_of_ports": 373,
+    "attack_path_exposure": 0.659547619047619,
+    "roa": 1.1562296242539873,
+    "shortest_path_variability": 0.0,
+    "risk": 4.590327722082173
+  },
+  {
+    "time_to_compromise": 8.999898767033036,
+    "attack_success_rate": 0.013171225937183385,
+    "host_compromise_ratio": 0.26,
+    "mtd_execution_frequency": 0.0050259777777710915,
+    "total_number_of_ports": 373,
+    "attack_path_exposure": 0.659547619047619,
+    "roa": 1.1562296242539873,
+    "shortest_path_variability": 0.0,
+    "risk": 4.590327722082173
   }
 ]

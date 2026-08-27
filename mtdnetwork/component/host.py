@@ -483,15 +483,23 @@ class Host:
             users_list:
                 the tuple users list specifying the username and if the user reuses their password
         """
+        # D-32: this setter is re-entered by UserShuffle on every firing, so the
+        # per-host counters must describe the CURRENT users only. Without the
+        # reset, total_users grew monotonically (hardening the brute-force
+        # divisor at compromise_with_users on every firing) and p_u_compromise
+        # latched True forever. The first call from a fresh Host (total_users
+        # == 0, p_u_compromise == False) is unchanged by the reset.
+        # D-26 (ruled 2026-08-27, Marc: repair): total_users is the account
+        # count, assigned outside the reuse loop. It used to be incremented
+        # inside a loop that broke at the first password-reusing account, so
+        # it counted to that account's position and stopped -- the brute-force
+        # divisor at compromise_with_users was then too small on ~24 % of hosts.
         self.users = {
             user_tuple[0]: user_tuple[1]
             for user_tuple in users_list
         }
-        for user_reuse in self.users.values():
-            self.total_users += 1
-            if user_reuse:
-                self.p_u_compromise = True
-                break
+        self.total_users = len(self.users)
+        self.p_u_compromise = any(self.users.values())
 
     def graph_choose_target_and_exposed(self, graph, target_distance):
         """

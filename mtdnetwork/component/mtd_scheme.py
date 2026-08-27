@@ -14,21 +14,41 @@ from heapq import heappush, heappop
 
 class MTDScheme:
 
-    def __init__(self, scheme: str, network, mtd_trigger_interval=None, mtd_trigger_std=0.5, custom_strategies=None, security_metric_record=None):
+    def __init__(self, scheme: str, network, mtd_trigger_interval=None, mtd_trigger_std=0.5, custom_strategies=None, security_metric_record=None, pool=None):
         self._scheme = scheme
         self._mtd_trigger_interval = mtd_trigger_interval
         self._mtd_trigger_std = mtd_trigger_std
         self._mtd_register_scheme = None
+        # The LINEAGE pool: Zhang 2023's selected four, run by every recorded
+        # experiment and by Tay's five-action selector. It is the default so
+        # that random / alternative / simultaneous streams stay comparable
+        # with the lineage's own evaluations (golden streams, SIM-05).
         self._mtd_strategies = [
                                 CompleteTopologyShuffle,
-                                # HostTopologyShuffle,
                                 IPShuffle,
                                 OSDiversity,
-                                # PortShuffle,
-                                # OSDiversityAssignment,
                                 ServiceDiversity,
-                                # UserShuffle
                                 ]
+        # Named pools (pool restoration, ruled 2026-08-27 — see
+        # docs/handoffs/2026-08-27_mtd_pool_restoration.md). `full` is Brown
+        # 2023's pool restored: HostTopologyShuffle (D-31 repaired), PortShuffle
+        # (activated as-is) and UserShuffle (D-32 repaired) join the four.
+        # OSDiversityAssignment is withdrawn by ruling D-17(c) and belongs to
+        # no pool. Select with `pool='full'`; `custom_strategies` still wins.
+        self.MTD_POOLS = {
+            'lineage': list(self._mtd_strategies),
+            'full': [
+                CompleteTopologyShuffle,
+                HostTopologyShuffle,
+                IPShuffle,
+                OSDiversity,
+                PortShuffle,
+                ServiceDiversity,
+                UserShuffle,
+            ],
+        }
+        if custom_strategies is None and pool is not None:
+            custom_strategies = list(self.MTD_POOLS[pool])
         self._mtd_custom_strategies = custom_strategies
         # One instance per strategy class per scheme (= per run). Registration
         # used to construct a fresh instance every cycle, which silently reset

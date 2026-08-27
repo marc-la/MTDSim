@@ -165,8 +165,10 @@ def test_global_attack_attempt_cap_is_inert() -> None:
         "the global attack-attempt cap appears to be enforced again; it is "
         "dispositioned inert (ATK-08) and restoring it re-baselines the goldens"
     )
-    # The run was NOT truncated by the cap — it ran on past it to the objective.
-    assert len(adv.get_compromised_hosts()) >= 40
+    # The run was NOT truncated by the cap — it ran on past it to the committed
+    # no-MTD golden headline (34 hosts since the 2026-08-27 re-baseline under the
+    # reinstated OS-gated exploit channel, D-19; 41 before it).
+    assert len(adv.get_compromised_hosts()) == 34
 
 
 # --- ATK-05: the confusion penalty is paid by one arm only -------------------

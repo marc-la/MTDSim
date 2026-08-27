@@ -64,6 +64,7 @@ import numpy as np
 import simpy
 
 from mtdnetwork.component.adversary import Adversary
+from mtdnetwork.component.services import Vulnerability
 from mtdnetwork.component.time_generator import set_exponential_regime
 from mtdnetwork.component.time_network import TimeNetwork
 from mtdnetwork.data.constants import ATTACKER_THRESHOLD, MTD_TRIGGER_INTERVAL
@@ -135,6 +136,11 @@ class Tracer:
     first_compromise: float | None = None
     compromise_times: list[float] = field(default_factory=list)
     exploit_attempts: int = 0
+    # exploits refused outright by the OS gate (D-19 reinstated 2026-08-27):
+    # the vulnerability needs an OS the host is not running; no roll happens
+    exploits_refused_by_os: int = 0
+    # measured write set of every mutation, (mechanism, dict) — see _measure_writes
+    mutation_writes: list = field(default_factory=list)
 
     def emit(self, actor: str, message: str, detail: str = "") -> None:
         self.events.append(Event(float(self.env.now), actor, message, detail))
@@ -266,6 +272,24 @@ def _install(tracer: Tracer, attack_op, mtd_op) -> list:
             patch(AttackOperation, cand, exploit)
             break
 
+    # The OS gate (services.py, Vulnerability.network — D-19 reinstated
+    # 2026-08-27): an OS-dependent vulnerability on a host running an OS outside
+    # its list is refused before any roll. The refusal condition is re-read here
+    # from the same state the gate reads, so the wrapper adds no draw.
+    def network(orig):
+        def w(self_v, host=None, success_prob=None):
+            if (not self_v.exploited and self_v.has_os_dependency and host is not None
+                    and host.os_type not in self_v.vuln_os_list):
+                tracer.exploits_refused_by_os += 1
+                tracer.emit("ATTACKER",
+                            f"EXPLOIT REFUSED host {host.host_id}: vuln needs "
+                            f"{'/'.join(self_v.vuln_os_list)}, host runs {host.os_type}",
+                            "OS-specific exploit — counted as a failed attempt, no roll")
+            return orig(self_v, host=host, success_prob=success_prob)
+        return w
+
+    patch(Vulnerability, "network", network)
+
     # --- the attacker scoring ---------------------------------------------
     def compromise(orig):
         def w(self_ao, now, proceed_time):
@@ -310,9 +334,12 @@ def _install(tracer: Tracer, attack_op, mtd_op) -> list:
 
     def mutate(orig):
         def w(self_mtd, adversary=None):
+            before = _snapshot(tracer.network, adversary)
             r = orig(self_mtd, adversary)
+            writes = _measure_writes(before, _snapshot(tracer.network, adversary))
+            tracer.mutation_writes.append((self_mtd.get_name(), writes))
             tracer.emit("MUTATION", f"{self_mtd.get_name()}: {_describe(self_mtd)}",
-                        "anything the attacker had learned about this is now stale")
+                        _writes_line(writes))
             return r
         return w
 
@@ -391,6 +418,152 @@ def _mtd_subclasses():
     return seen
 
 
+# --- measured write sets ----------------------------------------------------
+# Read-only snapshots of everything a mechanism can write, taken either side of
+# `mtd_operation`, so the MUTATION line reports what the firing actually moved
+# rather than a canned sentence. No RNG, no writes (design invariant).
+
+def _snapshot(network, adversary) -> dict:
+    g = network.get_graph()
+    hosts = {}
+    endpoints = set(network.exposed_endpoints)
+    # the diversity mechanisms' redraw pool: service-bearing nodes on internal hosts
+    services_in_pool = 0
+    for nid, data in g.nodes(data=True):
+        h = data.get("host")
+        if h is None:
+            continue
+        hg = h.graph
+        hosts[nid] = {
+            "inst": id(h),
+            "ip": h.ip,
+            "os": (h.os_type, h.os_version),
+            "users": tuple(sorted(h.users)),
+            "ports": tuple((n, hg.nodes[n].get("port")) for n in sorted(hg.nodes)),
+            "services": tuple((n, getattr(hg.nodes[n].get("service"), "id", None))
+                              for n in sorted(hg.nodes)),
+        }
+        if nid not in endpoints:
+            services_in_pool += sum(1 for n in hg.nodes if hg.nodes[n].get("service") is not None)
+    curr = adversary.get_curr_host() if adversary is not None else None
+    return {
+        "hosts": hosts,
+        "edges": {frozenset(e) for e in g.edges()},
+        "endpoints": endpoints,
+        "services_in_pool": services_in_pool,
+        "compromised": list(network.compromised_hosts),
+        "adv_compromised": (list(adversary.get_compromised_hosts())
+                            if adversary is not None else None),
+        "reachable": set(getattr(network, "reachable", [])),
+        "curr_host": getattr(curr, "host_id", None) if curr is not None else None,
+        "curr_ports": tuple(adversary.get_curr_ports() or ()) if adversary is not None else (),
+    }
+
+
+def _measure_writes(a: dict, b: dict) -> dict:
+    ha, hb = a["hosts"], b["hosts"]
+    ep = b["endpoints"]
+    w = {k: 0 for k in ("ip", "os", "services", "ports", "users", "swapped", "endpoint_writes")}
+    for nid in ha:
+        if nid not in hb:
+            continue
+        x, y = ha[nid], hb[nid]
+        touched = False
+        if x["inst"] != y["inst"]:
+            w["swapped"] += 1; touched = True
+            continue  # contents travelled with the instance; compare by id only
+        if x["ip"] != y["ip"]: w["ip"] += 1; touched = True
+        if x["os"] != y["os"]: w["os"] += 1; touched = True
+        sd = sum(1 for p, q in zip(x["services"], y["services"]) if p != q)
+        pd = sum(1 for p, q in zip(x["ports"], y["ports"]) if p != q)
+        if sd: w["services"] += sd; touched = True
+        if pd: w["ports"] += pd; touched = True
+        if x["users"] != y["users"]: w["users"] += 1; touched = True
+        if touched and nid in ep:
+            w["endpoint_writes"] += 1
+    w["edges_changed"] = len(a["edges"] ^ b["edges"])
+    w["services_in_pool"] = a["services_in_pool"]
+    w["compromised_before"] = len(a["compromised"])
+    w["compromised_after"] = len(b["compromised"])
+    w["alias_ok"] = (b["adv_compromised"] is None
+                     or sorted(b["compromised"]) == sorted(b["adv_compromised"]))
+    w["reachable_before"] = len(a["reachable"])
+    w["reachable_after"] = len(b["reachable"])
+    # what the attacker had in hand, and whether it still means anything
+    ch = a["curr_host"]
+    w["curr_host"] = ch
+    w["curr_host_moved"] = (ch is not None and ch in ha and ch in hb
+                            and ha[ch]["inst"] != hb[ch]["inst"])
+    if ch is not None and ch in hb and a["curr_ports"]:
+        live = {p for _, p in hb[ch]["ports"]}
+        stale = [p for p in a["curr_ports"] if p not in live]
+        w["ports_in_hand"] = len(a["curr_ports"])
+        w["ports_stale"] = len(stale)
+    else:
+        w["ports_in_hand"] = len(a["curr_ports"])
+        w["ports_stale"] = 0
+    return w
+
+
+def _writes_line(w: dict) -> str:
+    parts = []
+    if w["swapped"]: parts.append(f"{w['swapped']} host(s) swapped position")
+    if w["ip"]: parts.append(f"{w['ip']} IP(s) moved")
+    if w["edges_changed"]: parts.append(f"{w['edges_changed']} edge(s) rewired")
+    if w["os"]: parts.append(f"{w['os']} OS relabelled")
+    if w["services"]:
+        parts.append(f"{w['services']}/{w['services_in_pool']} internal service(s) redrawn")
+    if w["ports"]: parts.append(f"{w['ports']} port(s) moved")
+    if w["users"]: parts.append(f"{w['users']} host(s) had users redrawn")
+    if not parts: parts.append("NOTHING WRITTEN")
+    parts.append(f"endpoint writes {w['endpoint_writes']}")
+    kept = (w["compromised_after"] == w["compromised_before"]) and w["alias_ok"]
+    parts.append(f"owned {w['compromised_before']}->{w['compromised_after']}"
+                 + ("" if kept else " !!"))
+    parts.append(f"visible {w['reachable_before']}->{w['reachable_after']}")
+    if w["curr_host"] is not None:
+        tag = "target host swapped away" if w["curr_host_moved"] else f"on host {w['curr_host']}"
+        if w["ports_in_hand"]:
+            tag += f", {w['ports_stale']}/{w['ports_in_hand']} scanned ports now stale"
+        parts.append(tag)
+    return " · ".join(parts)
+
+
+def _writes_summary(tracer) -> list[str]:
+    """Per-mechanism aggregate of the measured write sets, for the verdict."""
+    by = {}
+    for name, w in tracer.mutation_writes:
+        agg = by.setdefault(name, {"n": 0, "ip": 0, "os": 0, "services": 0, "ports": 0,
+                                   "users": 0, "swapped": 0, "edges": 0, "ep": 0,
+                                   "owned_bad": 0, "stale_hits": 0, "moved_away": 0,
+                                   "pool": 0})
+        agg["n"] += 1
+        agg["pool"] = w.get("services_in_pool", 0)
+        for k in ("ip", "os", "services", "ports", "users", "swapped"):
+            agg[k] += w[k]
+        agg["edges"] += w["edges_changed"]
+        agg["ep"] += w["endpoint_writes"]
+        if w["compromised_after"] != w["compromised_before"] or not w["alias_ok"]:
+            agg["owned_bad"] += 1
+        if w["ports_stale"]: agg["stale_hits"] += 1
+        if w["curr_host_moved"]: agg["moved_away"] += 1
+    lines = []
+    for name, a in by.items():
+        n = a["n"]
+        items = [f"{a[k] / n:.0f} {lbl}" for k, lbl in (
+            ("swapped", "hosts swapped"), ("ip", "IPs"), ("edges", "edges"),
+            ("os", "OS relabels"), ("services", f"of {a['pool']} services"),
+            ("ports", "ports"), ("users", "user sets")) if a[k]]
+        lines.append(f"  {name}: {n} firing(s), per firing wrote "
+                     + (", ".join(items) if items else "nothing")
+                     + f"; endpoint writes {a['ep']}"
+                     + (f"; !! compromised set disturbed {a['owned_bad']}x" if a["owned_bad"] else
+                        "; compromised set intact every time")
+                     + (f"; scanned ports invalidated {a['stale_hits']}x" if a["stale_hits"] else "")
+                     + (f"; attacker's target swapped away {a['moved_away']}x" if a["moved_away"] else ""))
+    return lines
+
+
 def _describe(mtd) -> str:
     """One plain sentence about what this strategy changes."""
     return {
@@ -435,6 +608,10 @@ def _verdict(tracer: Tracer, horizon: float, colour: bool) -> str:
     if tracer.give_ups:
         lines.append(f"  Gave up on {tracer.give_ups} host(s) after "
                      f"{ATTACKER_THRESHOLD} failed attempts each.")
+    if tracer.exploits_refused_by_os:
+        lines.append(f"  {tracer.exploits_refused_by_os} exploit attempt(s) refused "
+                     "outright: the vulnerability needs an OS the host is not "
+                     "running (each counted as a failed attempt).")
 
     head("How the defence did")
     if tracer.mtd_triggered == 0:
@@ -451,6 +628,9 @@ def _verdict(tracer: Tracer, horizon: float, colour: bool) -> str:
             hit_rate = 100 * tracer.interrupts / tracer.mtd_completed
             lines.append(f"  Hit rate: {hit_rate:.0f}% of mutations landed on the "
                          f"attacker rather than firing into empty air.")
+        if tracer.mutation_writes:
+            head("What each mutation actually wrote (measured)")
+            lines.extend(_writes_summary(tracer))
 
     head("Reading the contest")
     if tracer.mtd_triggered == 0:

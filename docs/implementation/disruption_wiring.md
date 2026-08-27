@@ -18,7 +18,9 @@ What was open is whether the model *arrives*. Two of the four reported
 mechanisms have no live network-state coupling to the attacker at all — IP
 Shuffle writes a field no verb reads, and OS Diversity's relabel reaches
 exploitation through nothing (D-19) — so for those two, these channels are their
-entire measured effect. If the channels reach the two arms differently, the
+entire measured effect. *(OS Diversity: true at the time of measurement; the OS
+gate was reinstated 2026-08-27 (D-19 ruled), so its relabel now reaches exploit
+success and this record's diversity-family numbers predate that.)* If the channels reach the two arms differently, the
 comparison measures driving mode rather than defence.
 
 **The headline: they do reach the two arms differently, the difference is

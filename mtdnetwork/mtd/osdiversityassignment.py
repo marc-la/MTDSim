@@ -1,3 +1,13 @@
+# WITHDRAWN FROM THE MTD POOL -- ruling D-17 (c), 2026-08-27 (Marc).
+# The DAP-optimised OS diversity (IS-MTD-08) is ruled out for this thesis, not
+# deferred: the formulation is decoupled (constraint 7 was never written, so
+# presolve deletes the model and the returned assignment is an arbitrary
+# feasible point), OS choice prices no attacker outcome in this simulator
+# (D-18/D-19), and the DAP presupposes a targeted server class that the
+# untargeted arm lacks. Code is left in place as the record; it is not in the
+# default strategy set and must not be re-registered. Full record:
+# docs/implementation/intent_conformance_audit.md (D-17 ruling banner, section n;
+# IS-MTD-08; section m3) and docs/implementation/mtd_write_surfaces.md (g)4.
 import random
 
 import networkx as nx

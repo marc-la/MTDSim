@@ -229,7 +229,9 @@ practice (D-07's record stands; nothing new to rule).
 > unit is the **disruption class** — what kind of thing a mutation destroys
 > (position vs surface) — dosed by the orchestration scheme; mechanisms within
 > a class are duplicate witnesses of one effect until a mechanism-specific
-> coupling is ruled live (that lever is D-18/D-19, not these channels). The
+> coupling is ruled live (that lever is D-18/D-19, not these channels — **pulled
+> 2026-08-27**: gate reinstated, guard repaired; OSD now carries a mechanism-specific
+> coupling of its own). The
 > exposure asymmetry (§(d)) is ratified as mapping policy and is *used*, not
 > removed: part of the diversity family's rank loss against the profiled
 > attacker is that a realistic campaign spends 17–43 % of its clock in

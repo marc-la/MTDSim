@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-02
-updated: 2026-08-03
+updated: 2026-08-27
 topic: "The defender write side — per-mechanism write-set enumeration for all eight MTD mechanisms, live-verified; the purview/fairness table for the reported family; answers to the boundary brief's shared questions"
 ---
 
@@ -37,10 +37,10 @@ OSDiversityAssignment. The scheduler always passes the adversary
 | **CompleteTopologyShuffle** | whole `network.graph` regenerated (`completetopologyshuffle.py:19` → `gen_graph`, network.py:101-288: fresh `nx.Graph`, plus `colour_map`, `pos`, `node_per_layer`; **re-selects `target_node` when `network_type == 0`**, network.py:210-212); host instances re-attached by node id (`completetopologyshuffle.py:20-21`); `reachable` rewritten (`:22` → `update_reachable_mtd`, network.py:694-727); scorer feeds (`:26-27, :38`) | all adjacency moved **including endpoint-incident edges** (8 → 5); node-id set unchanged; host instances, `ip`, `os`, services, ports all preserved; `net.compromised_hosts` `[7,8]` survives; `target_node` `None → None` (type-1 network) |
 | **OSDiversity** | `host.os_type`/`os_version` per non-endpoint host, version **index** preserved (`osdiversity.py:22-29`); every non-target service node's `"service"` redrawn compatible with the new OS (`osdiversity.py:31-44`; guard inert per D-18 → always fires); scorer feeds (`:46-48`) | every internal host relabelled (31/45 change value — the draw includes the incumbent type); **331/331** non-target service nodes redrawn; version-index preservation verified on all 45; 0 endpoint writes; ports untouched |
 | **ServiceDiversity** | every non-target service node's `"service"` on non-endpoint hosts redrawn at a random compatible service and version (`servicediversity.py:18-30`, post-D-05); scorer feeds (`:32-34`). Constructor's `shuffles=50` is dead state (`servicediversity.py:5-6`, read nowhere) | **331/331** non-target service nodes redrawn; 0 endpoint writes; ports, os, users, adjacency untouched |
-| **PortShuffle** *(latent)* | every non-target service node's `"port"` on non-endpoint hosts (`portshuffle.py:16-29`) | 331/331 ports moved; services untouched; 0 endpoint writes |
-| **UserShuffle** *(latent)* | `host.users` on **every** host — **no endpoint exemption** (`usershuffle.py:15-21`) | users moved on all 50 hosts including the 5 endpoints |
-| **HostTopologyShuffle** *(latent)* | pairwise swap of host instances between node ids within a layer (`hosttopologyshuffle.py:44-50`), `host.host_id` swapped (`:46-47`); adversary id-keyed state remapped (`:57` → `adversary.py:28-60`); `reachable` rewritten (`:59`); scorer feeds (`:62-64`) | 44 instance swaps (22 pairs of 45 internal hosts; leftovers stay put); endpoints exempt; adjacency, ips-per-instance, services-per-instance unchanged (the *mapping* moves, not the contents) |
-| **OSDiversityAssignment** *(latent)* | as OSDiversity (same exposed/target exemptions, same always-firing guard — it inherits D-18's always-replace behaviour, `osdiversityassignment.py:64-74`) with the OS drawn from the MIP result (arbitrary per D-17); **no derived/scorer refresh calls at all** | every internal host relabelled (30/45 change value); 331/331 services redrawn; no scorer entries |
+| **PortShuffle** *(latent — activated as-is, ruled 2026-08-27)* | every non-target service node's `"port"` on non-endpoint hosts (`portshuffle.py:16-33`); exemption now keyed on the graph key like IPShuffle (hygiene, 2026-08-27) | 331/331 ports moved; services untouched; 0 endpoint writes |
+| **UserShuffle** *(latent — repaired D-32/D-26 and activated in the `full` pool, 2026-08-27)* | `host.users` on every **non-endpoint** host (`usershuffle.py`, graph-keyed exemption per R2); `total_users` / `p_u_compromise` recomputed per call | users moved on the 45 internal hosts; 0 endpoint writes (was: all 50, pre-R2) |
+| **HostTopologyShuffle** *(latent — repaired D-31 and activated in the `full` pool, 2026-08-27)* | pairwise swap of host instances between node ids within a layer (`hosttopologyshuffle.py:44-50`), `host.host_id` swapped (`:46-47`); adversary id-keyed state remapped (`:57` → `adversary.py:28-60`); `reachable` rewritten (`:59`); scorer feeds (`:62-64`) | 44 instance swaps (22 pairs of 45 internal hosts; leftovers stay put); endpoints exempt; adjacency, ips-per-instance, services-per-instance unchanged (the *mapping* moves, not the contents) |
+| **OSDiversityAssignment** *(latent — withdrawn, D-17 c, 2026-08-27)* | as OSDiversity (same exposed/target exemptions, same always-firing guard — it inherits D-18's always-replace behaviour, `osdiversityassignment.py:64-74`) with the OS drawn from the MIP result (arbitrary per D-17); **no derived/scorer refresh calls at all** | every internal host relabelled (30/45 change value); 331/331 services redrawn; no scorer entries |
 
 Geometry caveat for CTS, upgraded by cycle 2's pass from argued to verified:
 `gen_graph` has a node floor that can exceed `total_nodes` (the reconciliation
@@ -143,8 +143,8 @@ just at setup.
    |---|---|---|
    | inter-host adjacency | CTS | HTS (mapping only) |
    | host ip | IPShuffle (dead **to the attacker** — brief 1; live to the NAV metric feed and the RL state, corrected 2026-08-02) | — |
-   | host os label | OSD (dead surface — D-19) | OSDA |
-   | service identity / vulnerability surface | SD, OSD (equal per D-18) | OSDA |
+   | host os label | OSD (dead surface — D-19; **live from 2026-08-27**: OS-gated exploit success reinstated) | OSDA |
+   | service identity / vulnerability surface | SD, OSD (equal per D-18 until 2026-08-27; OSD now redraws only OS-incompatible services) | OSDA |
    | ports | **none** | PortShuffle |
    | users / credentials | **none** | UserShuffle |
    | host-internal service topology | **none** | **none** (no mechanism in the pool rewires `host.graph` edges; `gen_internal_network` runs once at construction, `host.py:537+`) |
@@ -169,18 +169,21 @@ verdicts hold for both; time-channel entries note the S3-R decline).
 |---|---|---|---|---|
 | CompleteTopologyShuffle | all inter-host adjacency (incl. endpoint edges); `reachable` | none (holdings persist by design, D-02; node ids stable) | `update_reachable_mtd`; scorer: SAPV (degenerate, D-24), APE (type-0 only), ip-feed (all 50 old IPs) | **live** — adjacency read by SCAN_HOST/SCAN_NEIGHBOR via `get_hacker_visible_graph`/`get_neighbors` and by path-distance sorting (`attack_operation.py:250-303`) |
 | IPShuffle | `host.ip` (45 internal) | exposed endpoints (documented, IS-MTD-01) | scorer ip-feed only (45 internal IPs — endpoints omitted, asymmetric with CTS's 50) | **dead to the attacker** — verified by projection diff: one firing changes *nothing* the six verbs can read. The cross-filled claim of "zero readers repo-wide" is **corrected 2026-08-02** — there are three, all defender-side (`completetopologyshuffle.py:35`; `mtd_ai_operation.py:308` and `mtd_ai_training.py:254`, computing Ho's **NAV**, IS-MET-04, into the RL state vector). The measured effect against the attacker arrives only via brief 3's interrupt channels, and that is **documented** behaviour under IS-INT-04's class-based recast rather than an integration shortfall — [`attacker_read_surface.md`](attacker_read_surface.md) §(f) finding 1 |
-| OSDiversity | os label (45 internal); all 331 non-target services (D-18) | exposed endpoints (beyond-paper → D-23); target node (structural, §b2) | scorer: SAPV (degenerate, D-24), APE (type-0 only) | os label **dead** (success gate commented out, D-19; ×2.5 time term native-arm-only, declined under movement by S3-R); service redraw **live** (SCAN_PORT/EXPLOIT_VULN read services and vulns) |
+| OSDiversity *(D-18/D-19 repaired 2026-08-27 — row's numbers are pre-repair; re-verify)* | os label (45 internal); all 331 non-target services (D-18) — **from 2026-08-27 only the services incompatible with the new OS** | exposed endpoints (beyond-paper → D-23); target node (structural, §b2) | scorer: SAPV (degenerate, D-24), APE (type-0 only) | os label **dead** (success gate commented out, D-19; ×2.5 time term native-arm-only, declined under movement by S3-R); service redraw **live** (SCAN_PORT/EXPLOIT_VULN read services and vulns) |
 | ServiceDiversity | all 331 non-target services (random service, random version, post-D-05) | exposed endpoints (beyond-paper → D-23); target node (structural) | scorer: SAPV (degenerate, D-24), APE (type-0 only) | **live** — services/vulns read by SCAN_PORT/EXPLOIT_VULN; revocation semantics per §b5; addressing (ports) deliberately unmoved (§b3) |
-| PortShuffle *(latent)* | all 331 non-target ports | exposed endpoints; target node (structural — no port exists) | none | ports are the attacker's discovery key (`get_services_from_ports`) — would be live if ever in the default set. Two cycle-2 limits: the entry service nodes of every host stay discoverable regardless (`host.py:299-301` auto-injects `host.exposed_endpoints`' ports into every scan), and this is the one mechanism keying its exemption on `host_instance.host_id` rather than the graph dict key (`portshuffle.py:19`) — equivalent today, desynchronisable by exactly HostTopologyShuffle |
-| UserShuffle *(latent)* | users on all 50 hosts — **plus two side-effect writes the Part A enumeration missed (cycle 2, D-32)**: `host.total_users` is incremented without reset on every `set_host_users` call (`host.py:490-491` — monotone growth; brute-force probability divides by it, `host.py:179`, so each firing *hardens* every host as an artefact), and `host.p_u_compromise` latches True and is never cleared (`host.py:492-494`) | **none** | none | users read by BRUTE_FORCE / credential reuse — would be live. Also: `network.users_list` is never redrawn and `adversary._compromised_users` never cleared, so a shuffle can re-seat an already-compromised username onto a fresh host. Repair before any default-set activation; the `total_users` semantics are D-26's finding, compounded here |
-| HostTopologyShuffle *(latent)* | id↔instance mapping (22 pairs/firing); `host.host_id`; adversary id-keyed state | exposed endpoints; unpaired leftovers stay put (opportunistic pairing, `hosttopologyshuffle.py:39-43` — a delta on IS-MTD-04's "swap **all** hosts", latent) | `update_reachable_mtd`; scorer SAPV (degenerate) | node ids are the attacker's entire host-addressing space (brief 1) — would be live. **Cycle-2 defect (D-31):** the adversary remap **rebinds** `_compromised_hosts` to a new list (`adversary.py:49`), severing the alias `update_reachable_compromise` establishes (`network.py:735` assigns the adversary's list object to `network.compromised_hosts`) — the network keeps the pre-swap ids, and `hosttopologyshuffle.py:59` then rebuilds `reachable` from those stale ids, erasing the attacker's foothold from the visibility model; `network.compromised_hosts`, `reachable` and the id-keyed scorer series are never remapped, and no ip-feed update follows the id↔instance move. Repair before any default-set activation |
-| OSDiversityAssignment *(latent)* | os label (MIP-arbitrary, D-17); all 331 services (inherits D-18) | exposed endpoints; target node | **none** (asymmetric with its sibling OSD) | as OSD |
+| PortShuffle *(latent — activated as-is, ruled 2026-08-27)* | all 331 non-target ports | exposed endpoints; target node (structural — no port exists) | none | **live, through one channel only — ruled faithful to Brown, 2026-08-27.** Discovery is structural, not a port-space scan: `Host.port_scan` (`host.py:326-351`) returns the *current* port numbers of the services the attacker can structurally see (the host's `exposed_endpoints`, i.e. the service-graph entry nodes, plus services reachable through an already-exploited service); ports are only the key `get_services_from_ports` (`host.py:281-324`) later matches on, and that lookup re-injects the entry services at their current ports (`host.py:299-301`). A firing therefore bites in exactly one way: `adversary.curr_ports` goes stale, so the EXPLOIT_VULN lookup (`attack_operation.py:833`) finds fewer *internal* services (entry services are never lost); and, being application-class, the firing interrupts the attacker and forces a SCAN_PORT (`attack_operation.py:234-242`), which returns the new ports and ends the effect. No service, vulnerability or exploit changes. This is Brown's own design and Brown's own finding: §III-B(2) "reassigning the ports … interrupting any attacker performing operations using an incorrect port number" (`docs/sources/lit_review/brown2023.md:87`); §V — IP and port shuffle "generate more blocks" yet perform "similarly or worse" on attempts-to-compromise "because when the attacker is blocked, the attacker simply needs to reconnect and then exploit the same vulnerabilities" (`brown2023.md:168`). A pure interrupt mechanism. **Consequence:** PortShuffle's row measures the application-class interrupt channel alone (D-20 class-level pricing), as IPShuffle's row measures the network-class interrupt alone — a ch6 discussion pairing, not a defect ([`../notes/ch6_discussion/pure_interrupt_pair.md`](../notes/ch6_discussion/pure_interrupt_pair.md)). Ruled out: cost-bearing port discovery (a port-space search a shuffle would waste) — beyond every lineage paper, changes the attacker on both arms, mechanism-level pricing against D-20; future work at most. The auto-injection of entry-service ports is the model (exposed services are exposed by definition), not a defect. Former cycle-2 remark on the exemption key is closed: `portshuffle.py` now keys the exemption on the graph dict key, as IPShuffle does, so it cannot desync under HostTopologyShuffle |
+| UserShuffle *(repaired D-32/D-26, endpoints exempt R2, `full` pool — 2026-08-27)* | users on the 45 internal hosts (was all 50) — **plus two side-effect writes the Part A enumeration missed (cycle 2, D-32)**: `host.total_users` is incremented without reset on every `set_host_users` call (`host.py:490-491` — monotone growth; brute-force probability divides by it, `host.py:179`, so each firing *hardens* every host as an artefact), and `host.p_u_compromise` latches True and is never cleared (`host.py:492-494`) | **none** | none | users read by BRUTE_FORCE / credential reuse — would be live. Also: `network.users_list` is never redrawn and `adversary._compromised_users` never cleared, so a shuffle can re-seat an already-compromised username onto a fresh host. Repair before any default-set activation; the `total_users` semantics are D-26's finding, compounded here. **Repaired 2026-08-27** (D-32 + D-26 ruled together): counters recomputed per call and `total_users = len(users)`; R1 keeps the same-pool redraw (a harvested credential stays valid wherever the account re-seats — Brown's mechanism); R2 exempts endpoints. Liveness now realised, through `host.users` reads by BRUTE_FORCE / credential reuse |
+| HostTopologyShuffle *(repaired D-31, `full` pool — 2026-08-27)* | id↔instance mapping (22 pairs/firing); `host.host_id`; adversary id-keyed state | exposed endpoints; unpaired leftovers stay put (opportunistic pairing, `hosttopologyshuffle.py:39-43` — a delta on IS-MTD-04's "swap **all** hosts", latent) | `update_reachable_mtd`; scorer SAPV (degenerate) | node ids are the attacker's entire host-addressing space (brief 1) — would be live. **Cycle-2 defect (D-31):** the adversary remap **rebinds** `_compromised_hosts` to a new list (`adversary.py:49`), severing the alias `update_reachable_compromise` establishes (`network.py:735` assigns the adversary's list object to `network.compromised_hosts`) — the network keeps the pre-swap ids, and `hosttopologyshuffle.py:59` then rebuilds `reachable` from those stale ids, erasing the attacker's foothold from the visibility model; `network.compromised_hosts`, `reachable` and the id-keyed scorer series are never remapped, and no ip-feed update follows the id↔instance move. Repair before any default-set activation. **Repaired 2026-08-27** (D-31): slice-assignment remap keeps the alias; `network.compromised_hosts` remapped in place when not aliased; `reachable` rebuilt from the moved set; ip-feed refreshed as CTS does. Consequence stated for the prose: a swapped foothold stays compromised (D-02) but drops out of `reachable` if its new position has no compromised neighbour — CTS's semantics, the substrate's visibility model, not a defect |
+| OSDiversityAssignment *(latent — withdrawn, D-17 c, 2026-08-27)* | os label (MIP-arbitrary, D-17); all 331 services (inherits D-18) | exposed endpoints; target node | **none** (asymmetric with its sibling OSD) | as OSD |
 
 **The fairness statement.** Any ranking claim over the reported family
 compares: one mechanism that moves the attacker's path structure (CTS), one
 that moves nothing the attacker reads (IPShuffle), and two that are a single
 service-surface effect with and without a dead OS relabel (OSD/SD, D-18/D-19,
-decision C). The exemption profile is uniform across the four (endpoints
+decision C). *Superseded 2026-08-27: with the gate reinstated and the guard
+repaired, OSD is a partial redraw plus an OS-applicability shift and SD a full
+redraw — two mechanisms; decision C's cardinality statement lapses once the
+re-baselined family sub-study confirms the separation.* The exemption profile is uniform across the four (endpoints
 exempt; holdings persist; ports/users/entry-set frozen), so within-family
 comparisons are not confounded by differential exemptions — the asymmetries
 that matter are the liveness ones already recorded, plus the scorer-feed
@@ -201,7 +204,7 @@ audit's existing rows:
   latest-version behaviour; the fix landed 2026-07-29
   (`servicediversity.py:21-30` now draws random service at random version).
   Annotated in the audit this session.
-- **IS-MTD-06** — D-18/D-19 consumed as inputs, not re-opened; the write-set
+- **IS-MTD-06** — D-18/D-19 consumed as inputs, not re-opened *(both ruled 2026-08-27: repaired/reinstated)*; the write-set
   verification adds the version-index-preservation confirmation and the
   structural reading of the target-node skip.
 - **IS-MTD-07** (CONFORMS, stands) — "changing every involved host's
@@ -213,7 +216,8 @@ audit's existing rows:
   topology regeneration re-sites the target → **D-25**. Inert in every
   recorded experiment (time-domain arm is type 1).
 - **IS-MTD-08** — D-17 stands; noted that OSDA also inherits the D-18
-  always-replace guard and performs no derived refreshes.
+  always-replace guard and performs no derived refreshes. *(D-17 ruled
+  2026-08-27 → (c) withdraw; evidence here retained as the record.)*
 
 ## (e) Findings requiring disposition (opened in the audit's list)
 
@@ -304,9 +308,11 @@ plumbing, none touching a recorded ranking:**
    figures, so the objective cannot discriminate), the infeasible-MIP crash
    path (`_checkpoint.pop(0)` on every re-entered solve), and the
    OSDiversity/OSDA name collision in the priority-keyed suspension dict —
-   each strengthens D-17's ranked recommendation (c) withdraw.
+   each strengthens D-17's ranked recommendation (c) withdraw *(ruled (c),
+   2026-08-27 — the mechanism is withdrawn from the pool)*.
 5. **Micro-facts recorded in place:** the PortShuffle discovery-injection
-   and exemption-keying limits (§c row); the IPShuffle uniqueness pool not
+   limit (§c row; ruled the model, 2026-08-27) and its exemption-keying
+   remark (closed by the graph-key hygiene fix, 2026-08-27); the IPShuffle uniqueness pool not
    covering retained endpoint IPs (0 collisions in 200 firings; invariant
    unenforced); `update_reachable_mtd`'s unguarded first loop admitting
    duplicates (consumers set-normalise, inert); the geometry hazards (§a
@@ -325,10 +331,10 @@ corrected where cycle 2 found latent-pool gaps; the adversarial-pass item
 now genuinely discharged — a fresh-eyes review that did find things, and
 everything it found lands outside the reported family's write surfaces
 (latent mechanisms, AI-arm metric plumbing, non-default geometries).
-Residual doubts, named: the latent-pool defects (D-31/D-32) are boundaries
-on *future* family changes, not on any recorded result — activating HTS or
-UserShuffle without their repairs would invalidate this table, and the
-D-numbers now gate that; the NAV/SAPV degeneracies matter iff the AI
+Residual doubts, named: the latent-pool defects (D-31/D-32) were boundaries
+on *future* family changes, not on any recorded result — both repaired and the
+mechanisms activated in the `full` pool 2026-08-27 (the lineage pool of four
+is unchanged, so this table's reported-family rows stand); the NAV/SAPV degeneracies matter iff the AI
 benchmark phase runs (D-24/D-30 are its stated preconditions); brief 1's
 D-28 (the reachability invariant) can move a ranking but is a read-side
 defect owned and now being repaired under that brief's rulings — it does not

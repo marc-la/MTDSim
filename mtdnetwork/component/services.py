@@ -153,9 +153,18 @@ class Vulnerability:
         if self.exploited:
             return self.impact
 
-        # if self.has_os_dependency and host is not None:
-        #     if host.os_type not in self.vuln_os_list:
-        #         return 0.0
+        # D-19 closed (Marc's ruling, 2026-08-27, "option 1"): the OS-gated success
+        # channel is Brown 2023 §III-B(6) documented intent — OS Diversity "changes
+        # the OS on the device, avoiding any OS-specific exploits"
+        # (docs/sources/lit_review/brown2023.md:97) — inherited commented-out and
+        # reinstated here so the OS relabel reaches exploit success on both arms.
+        # A refused attempt COUNTS as a failed attempt (ruled on recommendation):
+        # a host whose vulnerabilities are all OS-gated cannot absorb attempts
+        # for free. It draws NO randomness — the return precedes the roll — so a
+        # refusal shifts no downstream draw (SIM-05).
+        if self.has_os_dependency and host is not None and host.os_type not in self.vuln_os_list:
+            self.exploit_attempt += 1
+            return 0.0
         self.exploit_attempt += 1
         threshold = self.complexity if success_prob is None else success_prob
         if random.random() < threshold:
@@ -410,7 +419,22 @@ class ServicesGenerator:
         Returns:
             True is the service is compatible, false otherwise
         """
-        return service in list(self.os_services[os_type][os_version].keys())
+        # D-18 repaired (Marc's ruling, 2026-08-27; D-05 precedent). The inherited
+        # test compared a Service *instance* against the service-name *strings*
+        # keyed under the OS, and Service.__eq__ rejects non-Service operands, so
+        # it was False in every reachable state and OS Diversity replaced every
+        # service. Compatibility is membership by name: a service is compatible
+        # with an OS/version when that OS/version carries a service of its name
+        # AND its version (Marc's ruling, 2026-08-27, on the agent's flag: the
+        # generator slices service versions per OS version, so compatibility is
+        # the (name, version) pair — a bare name is not enough). A name string
+        # is accepted for callers without a version and tests the name only.
+        catalogue = self.os_services[os_type][os_version]
+        if not isinstance(service, Service):
+            return service in catalogue
+        if service.name not in catalogue:
+            return False
+        return any(s.version == service.version for s in catalogue[service.name])
 
     def gen_services(self):
         """

@@ -116,6 +116,15 @@ class Adversary:
         status. (Observed: 20 of 38 shuffles left the pivot on a host absent from
         `compromised_hosts`.) The strategy is commented out of the default set, so
         this was latent rather than active.
+
+        D-31 (mtd_write_surfaces.md §c): the remap must mutate the existing list
+        objects, never rebind them. `network.update_reachable_compromise`
+        (network.py) assigns the adversary's `_compromised_hosts` list object to
+        `network.compromised_hosts`, so the two are one list; rebinding here left
+        the network holding the pre-swap ids, and `update_reachable_mtd` then
+        rebuilt `reachable` from those stale ids, erasing the foothold from the
+        visibility model. Slice assignment keeps the alias intact (D-02: the
+        foothold stays compromised through the network change).
         """
         def swapped(i):
             if i == host_id:
@@ -124,9 +133,9 @@ class Adversary:
                 return host_id
             return i
 
-        self._compromised_hosts = [swapped(i) for i in self._compromised_hosts]
-        self._host_stack = [swapped(i) for i in self._host_stack]
-        self._stop_attack = [swapped(i) for i in self._stop_attack]
+        self._compromised_hosts[:] = [swapped(i) for i in self._compromised_hosts]
+        self._host_stack[:] = [swapped(i) for i in self._host_stack]
+        self._stop_attack[:] = [swapped(i) for i in self._stop_attack]
         self._pivot_host_id = swapped(self._pivot_host_id)
         self._curr_host_id = swapped(self._curr_host_id)
 

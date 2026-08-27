@@ -11,7 +11,7 @@ Covers the handoff's validation gate:
 
   G1 — baseline neutrality. The native FSM (entered via ``proceed_attack`` and
        driven by the ``_execute_*`` wrappers) still reproduces the seeded no-MTD
-       golden headline (1494 attack events, 41 compromised on seed 1234), and is
+       golden headline (1676 attack events, 34 compromised on seed 1234), and is
        byte-deterministic across repeat runs (SIM-05). The primary G1 evidence
        is the bit-for-bit reproduction of all nine ``baseline/golden`` scenarios;
        this test is the in-repo regression guard against carve-induced drift.
@@ -79,20 +79,22 @@ def _record_names(adversary):
 def test_g1_native_run_reproduces_no_mtd_golden_headline() -> None:
     """The carved native FSM reproduces the no-MTD golden headline exactly.
 
-    1494 attack events and 41 compromised hosts is the committed
-    ``baseline/golden/no-mtd`` result (seed 1234, 50-node geometry, 15 ks). If
-    the carve perturbed the native path this count would move.
+    1676 attack events and 34 compromised hosts is the committed
+    ``baseline/golden/no-mtd`` result (seed 1234, 50-node geometry, 15 ks;
+    re-baselined 2026-08-27 under the reinstated OS-gated exploit channel,
+    D-19 — see baseline/CHANGELOG.md). If the carve perturbed the native path
+    this count would move.
     """
     env, _end, _tn, adv, ao = _fresh_sim(seed=1234)
     ao.proceed_attack()
     env.run(until=15000)
 
-    assert len(adv.get_attack_stats().get_record()) == 1494, (
-        "G1 regression: no-MTD native run no longer produces 1494 attack events "
+    assert len(adv.get_attack_stats().get_record()) == 1676, (
+        "G1 regression: no-MTD native run no longer produces 1676 attack events "
         "(carve is not baseline-neutral)"
     )
-    assert len(adv.get_compromised_hosts()) == 41, (
-        "G1 regression: no-MTD native run no longer compromises 41 hosts"
+    assert len(adv.get_compromised_hosts()) == 34, (
+        "G1 regression: no-MTD native run no longer compromises 34 hosts"
     )
 
 
@@ -276,7 +278,7 @@ def test_g3_step_refuses_out_of_context_verb() -> None:
 
 if __name__ == "__main__":
     test_g1_native_run_reproduces_no_mtd_golden_headline()
-    print("G1 (native run reproduces no-MTD golden headline 1494/41): OK")
+    print("G1 (native run reproduces no-MTD golden headline 1676/34): OK")
     test_g1_native_run_is_deterministic()
     print("G1 (SIM-05 seeded determinism): OK")
     test_g2_scan_host_callable_as_is()

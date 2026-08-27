@@ -3,7 +3,7 @@
 Covers the M7 handoff's remaining gates:
 
   G1  goldens pass: the native 6-phase attacker still reproduces the no-MTD golden
-      headline (1494 events / 41 compromised, seed 1234, 15 ks) — the movement-layer
+      headline (1676 events / 34 compromised, seed 1234, 15 ks; re-baselined 2026-08-27, D-19/D-18) — the movement-layer
       additions changed no shared code path.
   G5  the smoke matrix: all five profiles (4 classes + aggregate) run to horizon on
       the smoke cell, emitting non-degenerate records the statistics reader turns
@@ -108,8 +108,8 @@ def test_g1_native_no_mtd_golden_headline_unperturbed() -> None:
     attack_op.proceed_attack()
     env.run(until=15000)
 
-    assert len(adversary.get_attack_stats().get_record()) == 1494
-    assert len(adversary.get_compromised_hosts()) == 41
+    assert len(adversary.get_attack_stats().get_record()) == 1676
+    assert len(adversary.get_compromised_hosts()) == 34
 
 
 # --- G6: the action-set freeze, as a structural invariant -------------------
