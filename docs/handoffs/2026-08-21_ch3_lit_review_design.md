@@ -288,7 +288,7 @@ are drafted, with captions written long and squeezed as the body absorbs them.
 
 The submitted review has since been read against this design and the critique
 protocol; the record is
-[`2026-08-21_lit_review_scrutiny.md`](2026-08-21_lit_review_scrutiny.md). It carries
+the lit-review scrutiny brief (retired 2026-08-30; `git show c03231b4:docs/handoffs/2026-08-21_lit_review_scrutiny.md`). It carries
 per-section keep/rework/cut verdicts, the diagnosis of why the gap section reads
 weak, and **a revision to CONFIRM 2 below**: on the evidence (the phase-coverage
 argument appears nowhere in the review), fidelity should be the chapter's spine and

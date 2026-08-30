@@ -103,7 +103,7 @@ well as in layer.
   `port_scan`), `mtdnetwork/mtd/portshuffle.py`, `mtdnetwork/mtd/ipshuffle.py`.
 - Related note: [`state_bounds_measurable_disruption.md`](state_bounds_measurable_disruption.md)
   (the general form: a defence destroys only the state the attacker carries).
-- Pool-restoration brief: `docs/handoffs/2026-08-27_mtd_pool_restoration.md`.
+- Pool-restoration brief: retired 2026-08-30, `git show d127f443:docs/handoffs/2026-08-27_mtd_pool_restoration.md`.
 
 ## Revisit conditions
 

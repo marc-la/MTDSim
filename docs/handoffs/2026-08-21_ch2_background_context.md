@@ -13,7 +13,7 @@ created: 2026-08-21
 Companion to the two ch3 briefs of the same date —
 [`2026-08-21_ch3_lit_review_design.md`](2026-08-21_ch3_lit_review_design.md) (the
 literature review's structure) and
-[`2026-08-21_lit_review_scrutiny.md`](2026-08-21_lit_review_scrutiny.md) (the
+the lit-review scrutiny brief (retired 2026-08-30; `git show c03231b4:docs/handoffs/2026-08-21_lit_review_scrutiny.md`) (the
 verdicts on the source material). This file carries the **ch2 half of the same
 split**: the passages of the 22 May 2026 review that belong to the background
 chapter rather than the literature review, located precisely, plus an honest account
@@ -197,7 +197,7 @@ implementation records named above; the ch3 briefs' open CONFIRMs.
 Part 1 was written when ch2's only job was the inherited platform. It no longer is:
 the moving-target-defence concept material — the review's §II-A, verdict
 **relocate (ch2)** in
-[`2026-08-21_lit_review_scrutiny.md`](2026-08-21_lit_review_scrutiny.md), and
+the lit-review scrutiny brief (retired 2026-08-30; `git show c03231b4:docs/handoffs/2026-08-21_lit_review_scrutiny.md`), and
 CONFIRM 3 of [`2026-08-21_ch3_lit_review_design.md`](2026-08-21_ch3_lit_review_design.md)
 — comes here. This part rules on whether that is right, sweeps the review for
 anything else that is misfiled rather than merely weak, and proposes a skeleton.
@@ -395,6 +395,9 @@ not a new ch2 section.
 - **Open question 4 (does the opener need the pipeline figure): recommend no.** The
   simulator's preamble now carries Table 2.1, and the pipeline belongs to the ladder
   figure at ch4's opening.
+  *2026-08-27:* still no pipeline figure — but the preamble now carries a
+  three-module model diagram (Figure 2.1) beside Table 2.1, ruled by Marc; see
+  [`2026-08-27_ch2_model_diagram_plan.md`](2026-08-27_ch2_model_diagram_plan.md).
 - **Open questions 1 and 3 are answered** — 1 by (d.1) (narration cut, table kept
   under §2.2), 3 by (b) (metrics to ch4, on the evidence of the existing ch4
   skeleton). **Open question 2 stands**: how much network model the document needs is
@@ -602,3 +605,84 @@ ledger below.
 - Remaining for §2.1: nothing until section assembly — pass 6 runs over the whole
   §2 once the §2.2 preamble and three subsections exist; the ch1 expansion dedupe
   rides the integration check.
+
+## (f) Pass 6 on §2.1 — run and applied (2026-08-27)
+
+Run on §2.1 alone at Marc's request (the §2.2 units do not yet exist; the
+cross-unit duplication sweep and the roster / forward-use test stay pending).
+Scrutiny and voice pass returned together; Marc ruled the same session and every
+accepted item is applied to `dissertation.tex`.
+
+| Item | Ruling | Applied |
+|---|---|---|
+| M1 structure — P2 announced three questions and delivered two, P3 carried the third alone (the (c) assembly had merged the review's `:45` and `:47` paragraphs; read-over finding (d).2 called the crossing "deliberate" — Marc disagreed) | **(a)**: one paragraph per axis after the object paragraph — P2 = S4–S5, P3 = S6–S9, P4 = S10–S11; the review's own break restored | yes |
+| M3 SDR attribution — Cho adopts the taxonomy from Hong & Kim 2016 | cite the origin on S6, Cho keeps the complementarity clause | yes — `hongkim2016` added to `references.bib` (Marc supplied the BibTeX; TDSC 13(2) 2016, DOI 10.1109/TDSC.2015.2443790) |
+| Voice 1 — S11 naked *This* | attach the head noun: *When to move is the tension…* (Marc's stated intent: the when-to-move axis *is* the cost–security tradeoff) | yes |
+| Voice 2 — S9 *the other two* → *the other two primitives* | **rejected**: *primitives* does nothing there — do not re-flag | no |
+| Voice 3 — S10 glosses proactive and reactive, not hybrid | not ruled; left as is — restate at the integration check | no |
+| Voice 4 — cut sweep | no cuts; ratified | — |
+| Voice 5 — S3 *adversary* vs *attacker* | *attacker*; registry row RATIFIED (`terminology.md`) | yes |
+| Voice 6 — S7–S9 shared skeleton | keep: definitional list of three by design — do not re-flag | — |
+| M2 forward-use test | fine; runs once §2.2.2 exists (Zhang's execution schemes are all proactive, the DDQN selector reactive — S10's regimes are the right hooks) | pending |
+
+§(f) gate after application: checks 1 and 2 (claim-first, enumeration) now pass
+under the four-paragraph shape; the other seven were passing before. Section
+count ~233 words, unchanged. **§2.1 is through pass 6**; the integration check
+(ch1 MTD-expansion dedupe, voice item 3) is next, once ch1 and §2.2 exist.
+
+## (g) Pass 6 on §2.2.1 — run and applied (2026-08-27)
+
+Run on the unit alone; every fact treated as false until verified against
+the code (`network.py`, `host.py`, `services.py`, `constants.py`) and the
+write-surface record. Marc ruled the same session; accepted items applied.
+
+| Item | Ruling | Applied |
+|---|---|---|
+| Fact: BA builds *subnets* per level, joined level-to-level, not "the topology" | more precision — levels are subnets built with BA graphs, joined | yes — wording from the dictated ruling, **ratify on read** |
+| Fact: *scale-free* is not Brown's word | keep *scale-free*; Brown's "mimics the characteristics of a real-world network" worked in; cite the originals from Brown's list | yes — `barabasi1999`, `watts1998` added (Brown [16], [24]); Marc verifies references later |
+| Fact: endpoints "never mutated" over-claims (CTS moves their adjacency) | more precision — the endpoint hosts persist as a unit through the run while everything around them moves | yes — "never rewritten … persist unchanged … while everything around them can move", **ratify on read** |
+| Fact: complexity sets success *and* exploit time | timing dropped — the movement attacker supplies its own times; keep only complexity → success | yes |
+| Fact: compromise rule incomplete (threshold is per service; host falls on a compromised service adjacent to its internal target node) | accept, with precision; internal target node may be described | yes — **FLAG**: Marc's closing recollection ("impact doesn't accumulate, it's a dependency chain, exploit the one next to the internal node") does not match the code: `Service.is_exploited` sums exploited-vulnerability impact and compares to `SERVICE_COMPROMISED_THRESHOLD` (7); the host falls when such a service neighbours the internal target (`host.py:424`). The prose states the code's rule. Dependency (`dependent_vuln_id`, 10 % of vulns) is the precondition gate cut under C3, not the compromise rule |
+| `hongkim2012harm` pages | use Cho 2020's | yes — 1–8 (Cho [72]); Zhang [7] says 74–81; bib note flags VERIFY |
+| 1 *a handful* → *a small number of* | accept | yes |
+| 2 P1 fragments → full sentences from Marc's words | accept | yes |
+| 3 *will take* → present | accept (then mooted by the timing cut) | — |
+| 4 *reachability between them is the edges* | accept | yes |
+| 5 OS out of the service-graph clause | accept | yes |
+| 7 *topology of the graph* → *topology* | accept | yes |
+| 9 CVSS: no expansion, no citation | ruled — bare "CVSS complexity" | yes |
+| 12 depth *layer* → **level** | accept (Brown's word); registry RATIFIED | yes |
+| 13 endpoints: *exposed endpoints* at first fix, *the endpoints* after | accept; registry RATIFIED | yes |
+| 14 figure + caption errors: layer names (network/host/vuln vs ruled host/service/vuln); vulnerability layer drawn as an attack tree with OR/AND gates (no tree in code — C3) | **booked, not fixed here** — redraw `tools/mtdsim_model_figure.html` labels and the vulnerability panel, then rewrite the caption from the ratified prose, facts verified | no |
+| 11 cuts | none in the ledger; **follow-up ruling (Marc, same day):** P4's closer *Visibility grows outwards from the foothold* cut as a given adding nothing | yes |
+| Follow-up: P2 opener carried five clauses | split into three sentences (*hosts are placed in levels of depth. / Each level is a set of subnets … joined to the level before it. / The construction mimics …*) | yes |
+
+Count after application: 291 words against 250 (was 264): the three precision rulings (levels-of-subnets, endpoints-persist, compromise rule) cost ~32 words net of the timing cut. Over budget by 46 — a cut ledger is owed, or the float is spent. The unit is
+through pass 6 pending the two ratify-on-read sentences; the forward-use
+test against Figure 2.1 waits on item 14; the integration check carries P2's
+soft claim-first opener and the endpoint sentence's placement.
+
+## (h) §2.2.3 — dictated, repaired, scrutinised and through pass 6 (2026-08-27)
+
+Dictated the same day; inserted with two floats (Table 2.2 states, Table 2.3
+objectives) so the prose carries rules and assumptions, not the procedure.
+Pass 4 (M1 recovery order fixed to the record; M2 targeted objective kept live
+by Marc's ruling — the record is his to fix, not a session's; M3 pivot sentence
+dictated, give-up exemption cut) and pass 6 rulings, all applied:
+
+| Item | Ruling |
+|---|---|
+| 1 naked *This* + *moving forward* + duplicate opener | merged into one sentence from Marc's two |
+| 2 progressive chain → present simple; 3 doubled *using*; 4 *drawn out* → *draws it* | accepted |
+| 5 / 8 rhetorical-question openers | cut; **possessions sentence cut outright** — Marc: the knowledge/possession distinction collapses, the pivot sentence carries it. Do not re-flag |
+| 6 imperative *see Brown* → *Brown gives*; 7 *at any given time* cut; 9 *stay compromised* (Zhang's phrase); 10 *returns to*; 11 recovery sentence rebuilt | accepted |
+| 13–15 cuts (attribution frame, closing restatement, original-threat-model sentence) | accepted |
+| Terminology: *phases* → *states*; *FSM* acronym dropped; *attacker model recovers* → *the attacker recovers* | accepted; **objective** RATIFIED over *scenario* |
+| Triad *pivot / sight / keys* | ruled keep (pass 4) — do not re-flag |
+
+**Unruled, parked as `% [pass 6 PROPOSED]` comments in the tex:** #12 the
+interrupt-scope sentence rebuilt on the verified fact; a bridge sentence so
+the states may be called *attack phases*; `\citep{zhang2023}` on Table 2.3's
+80 %. **Owed by Marc:** the one metrics forward clause to `subsec:metrics`
+(skeleton must-carry). Gate after application: 1, 4, 7 now pass; 3 pending the
+caption cite; 9 recalibrated. ~185 prose words against 250.
