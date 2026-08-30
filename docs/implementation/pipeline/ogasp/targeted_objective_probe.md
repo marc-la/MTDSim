@@ -1,7 +1,7 @@
 ---
 status: open — results landed 2026-08-25; awaiting Marc's fork ruling (§7.3)
 created: 2026-08-25
-updated: 2026-08-25
+updated: 2026-08-30
 handoff: 2026-08-21_targeted_objective_diagnosis.md
 topic: "The targeted-objective (crown-jewel reach) probe — does the movement attacker reach a located deep target better than the inherited baseline, and what does it lack? Records the working operationalisation (the database set, not the broken target_node), the pre-registered reach/efficiency/survivability criteria and the 'better' threshold (committed before any number was seen), the Gate 0 unopposed result, the reach-under-MTD result, the ranked barrier diagnosis, and the fork Marc rules."
 ---
@@ -443,3 +443,81 @@ it re-opens the inversion headline, so it needs a ruling before it is built.**
   handoff retires in that commit.
 - If the geometry's `total_database` or `target_layer` changes, the located
   target set changes and the reach numbers re-derive.
+
+## 10. Re-verification on the current code, and Marc's host-priority question (2026-08-30)
+
+Marc asked, cold, whether the targeted objective (dissertation §2.2.3,
+Table 2.3 "Targeted") is *properly implemented and geared toward the target* —
+recalling that Brown codes the targeted attacker's **host priority differently**
+from the general attacker's. Everything below was re-run or re-read against the
+tree at `042afc5f` (after the MTD-pool restore `d127f443` and the fresh-host
+contract `ce8739ad`, both of which touched the substrate since §1 was written).
+
+**Verdict: the targeted objective is not implemented as a live attacker in this
+repository, in either arm.** What exists is (a) a correct **read-only reach
+measurement** over the database set (§1), and (b) Brown's targeted machinery,
+**present but vestigial and unconstructable** on the shipped geometry. Marc's
+recollection is right, and it is the sharpest form of the finding: Brown *does*
+specify a distinct host-priority rule for the targeted attacker (IS-SCN-03 /
+B-ATK-02: the target itself if found → hosts on the target's layer → hosts on
+other layers, moving toward the target's layer), and the code **carries that
+rule verbatim** as `assign_tag_priority` / `get_host_id_priority`
+(`network.py:764–816`) — but **no line of the attack chain ever calls it**. Host
+selection in both scenarios, and on both arms, is
+`sort_by_distance_from_exposed_and_pivot_host` (`attack_operation.py:397`):
+nearest-from-foothold, the *general* attacker's rule (IS-SCN-02, Brown Fig 3
+box 2). So the two objectives in Table 2.3 share one host-selection policy in
+the code; only the objective *label* differs, and even that label is dead
+(`network_type = 1` hardcoded, `network.py:71`).
+
+### 10.1 What was re-verified, item by item
+
+| Claim | Status at `042afc5f` | Evidence |
+|---|---|---|
+| `network_type` hardcoded to 1 (general) in every constructible network | **holds** | `network.py:71`; `TimeNetwork` never overrides; `tests/test_action_layer_dispositions.py:95` pins it |
+| `target_node` is `None` in every run to date | **holds** | spike: `target_node None` on the phase-0 geometry, seed 0 |
+| B1/B2 — `network_type = 0` + `target_layer = 4` crashes (`colour_map[None]`) | **holds, all seeds tried** | spike: `TypeError` at seeds 0, 1, 2 |
+| B3 — construction is seed-dependent at other target layers | **holds, bit-identical to the feasibility table** | `target_layer = 3`: 1/3 (node 40); `target_layer = 2`: 3/3 (nodes 37, 26, 33) |
+| B4 — targeted termination commented out; `is_target_compromised` uncalled | **holds** | `attack_operation.py:732–737` still commented; `is_target_compromised` has no caller in `mtdnetwork/`, `src/`, `tools/`, `tests/`; on the shipped network it *raises* (`AttributeError` on `get_host(None)`) |
+| B5 — Brown's priority rule never reaches host selection | **holds** | `get_host_id_priority` / `tag_priority` have no caller outside `network.py`; `_do_enum_host` sorts by distance only |
+| **B6 (new)** — `TargetNetwork.copy_network`, Brown's original targeted entry point, cannot run against `TimeNetwork` | **fails** | reads `network.total_layers`, which `Network` never sets (it stores `self.layers`, `network.py:51`): `AttributeError` on call; nothing in the tree constructs `TargetNetwork` |
+| The priority rule itself is Brown-correct when it *is* evaluated | **holds** | spike at `target_layer = 2`: `tag_priority = [application, db, file, web]` → same layer first, then adjacent layers, then the far layer; target scores 0, same-layer 1 — exactly B-ATK-02 |
+| The read-only reach measurement is correct | **holds** | `run.py:489–493` and `attacker.py:677–688` intersect `get_compromised_hosts()` with `get_database()` ({48, 49}, both at layer 3 = deepest); the baseline arm reads `compromise_host` / `finish_time` off the attack-statistics dataframe (`run_probe.py:172–182`) — same target set, both arms |
+| Give-up protection for the target (IS-SCN-04) | live code, dead branch | `attack_operation.py:421` gates on `network_type == 0`, so it never fires |
+
+One labelling quirk worth carrying, *to verify against Brown, not a bug claim*:
+`HOST_TAGS` assigns the tag `db` to **layer 1** and `file` to layer 3, while the
+`_database` (crown-jewel) set sits at **layer 3**. Brown's default geometry is
+five layers with `target_layer = 2` (`target_network.py:6`); the tag order was
+presumably written for that geometry and never re-keyed for the four-layer
+time-domain network. It has no effect today (nothing reads the tags), but a
+targeted build that priorities "the same layer as the database" would need to
+key on `get_layers()` and `get_database()`, not on the `db` tag.
+
+### 10.2 What this means for §2.2.3 of the dissertation
+
+Table 2.3 describes **Brown's design** — two objectives on identical
+capabilities — and as background on Brown's MTDSim that is accurate. It is
+*not* true of the simulator this dissertation runs: Zhang refactored only
+Scenario 1 into the time domain (IS-SCN-06, IS-CFL-04), and the repository
+inherits that narrowing with the targeted remnants unreachable. The prose
+"the attacker holds an objective, of which two exist" therefore reads as a
+claim about the live simulator that the code does not support. This is the M2
+item already flagged in the tex comment (ruled 2026-08-27: Marc's to fix, not a
+session's); the evidence above is what that fix has to reconcile with. The
+honest framing is Brown's two objectives as *design*, and the general objective
+as the one the time-domain lineage — and every experiment in this dissertation
+— actually runs, with the located objective reached in this project only as the
+§1 measurement.
+
+### 10.3 What "properly implemented and geared toward the target" would take
+
+Unchanged from §7.4, now with the seam pinned: not a substrate repair of
+B1–B6 (which would restore Brown's *targeted network*, not a targeted
+*attacker*), but the `movement_targeted` host-selection variant on the movement
+seam — re-key the frontier sort toward `get_database()` (or call Brown's own
+`get_host_id_priority` keyed to the database layer), plus the exclude-owned
+half of [`movement_objectives_design.md`](movement_objectives_design.md) §3 —
+and, only if target-reach becomes the win condition, a termination on
+`database_held` in place of the ratio. All of it re-opens the inversion
+headline (§7.4), so it stays Marc's ruling.
