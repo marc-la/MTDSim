@@ -50,6 +50,16 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   quotes −0.893. Depends on nothing; **blocks any ch5 prose that states the
   inversion** and sits above the T4 outline in priority.
 
+- [`2026-08-30_targeted_attacker_build.md`](2026-08-30_targeted_attacker_build.md)
+  — **proposed, awaiting Marc's two rulings**: encode the targeted objective
+  into the movement attacker — target chosen on the seam (database set or
+  Brown's `TX` layer), Brown's layer-priority host selection as a sort hook on
+  the shared `_do_enum_host` core (policy in the movement layer, three
+  default-preserving substrate lines), never-give-up on the target,
+  termination on target compromise, and a seven-rung verification ladder
+  ending in the pre-registered Gate 0 re-ask. Retires the vacuous-input
+  bit-identity test. Depends on the `attack_objective` wiring (`4e7bf172`).
+
 - [`2026-08-21_targeted_objective_diagnosis.md`](2026-08-21_targeted_objective_diagnosis.md)
   — **the targeted-objective line, for a fresh session**: wire the located
   APT target (`is_target_compromised`, dead code) as an additive objective and
