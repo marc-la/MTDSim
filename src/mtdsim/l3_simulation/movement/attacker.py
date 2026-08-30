@@ -399,6 +399,17 @@ def _outcome_tag(outcome: Any) -> str:
     return str(outcome)
 
 
+#: The attack objectives the attack model accepts (Brown 2023 §III-C(1);
+#: intent spec IS-SCN-02 / IS-SCN-03). ``"general"`` is Scenario 1 — the only
+#: scenario the time-domain lineage ever ran (IS-SCN-06) and the one every
+#: experiment in this repository runs. ``"targeted"`` is Scenario 2, **wired
+#: vacuously** (2026-08-30, Marc's ask): the value is validated, carried and
+#: echoed onto the run result, and read by no control flow — a run is
+#: byte-identical under either value until the targeted host-selection policy
+#: lands (targeted_objective_probe.md §10.3, §11).
+ATTACK_OBJECTIVES: tuple[str, ...] = ("general", "targeted")
+
+
 class MovementAttacker:
     """Drives the class net's single token live inside MTDSim, alongside the
     inherited 6-phase attacker (per-run selection). See the module docstring for
@@ -448,8 +459,20 @@ class MovementAttacker:
         # bound to an FSM-succession modulator registered on this run's
         # attacker state. None means the routing is exactly today's.
         token_hold: Any | None = None,
+        # The attack objective (see ``ATTACK_OBJECTIVES``), vacuous today:
+        # validated and stored, consulted by nothing. The seam exists so the
+        # targeted policy has one named input to hang off when it is built,
+        # rather than a network_type flag buried in the substrate.
+        attack_objective: str = "general",
     ) -> None:
         import random
+
+        if attack_objective not in ATTACK_OBJECTIVES:
+            raise ValueError(
+                f"attack_objective must be one of {ATTACK_OBJECTIVES}, "
+                f"got {attack_objective!r}"
+            )
+        self.attack_objective = attack_objective
 
         self.env = env
         self.end_event = end_event

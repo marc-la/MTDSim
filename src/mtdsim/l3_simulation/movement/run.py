@@ -285,6 +285,7 @@ def run_movement(
     exploit_ledger: bool = False,
     fresh_host_contract: bool = True,
     token_hold: Any | None = None,
+    attack_objective: str = "general",
 ) -> MovementRunResult:
     """Run one movement-layer simulation and return its :class:`MovementRunResult`.
 
@@ -384,6 +385,15 @@ def run_movement(
     state the modulator tracks; at α = 0 the modulator itself acts on nothing).
     Default ``None`` — the reported configuration routes exactly as before.
 
+    ``attack_objective`` names Brown's attack scenario — ``"general"``
+    (Scenario 1, the only one the time-domain lineage runs; IS-SCN-02/06) or
+    ``"targeted"`` (Scenario 2, IS-SCN-03). **Vacuous today**: validated,
+    carried on :class:`MovementAttacker` and echoed onto the result as
+    ``MovementRunResult.attack_objective``, read by no control flow, so a run
+    is byte-identical under either value. It is the top-level input the
+    targeted host-selection policy will key on when built
+    (``targeted_objective_probe.md`` §11); until then ``"targeted"`` is a label.
+
     ``attacker_state`` attaches a within-run :class:`AttackerState` by wrapping
     the three collaborators the walk consumes — :class:`StatefulTiming` reports
     every place entry, :class:`ModulatedOverlay` reports every verdict and
@@ -464,6 +474,7 @@ def run_movement(
         retrace_sinks=retrace_sinks,
         fresh_host_contract=fresh_host_contract,
         token_hold=token_hold,
+        attack_objective=attack_objective,
     )
     attacker.start()
 
@@ -503,6 +514,7 @@ def run_movement(
         mtd_decisions=decision_snapshot(mtd_operation),
         database_hosts_reached=database_hosts_reached,
         first_database_reach_time=first_database_reach_time,
+        attack_objective=attacker.attack_objective,
         **mtd_snapshot(network),
     )
 

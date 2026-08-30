@@ -521,3 +521,138 @@ half of [`movement_objectives_design.md`](movement_objectives_design.md) §3 —
 and, only if target-reach becomes the win condition, a termination on
 `database_held` in place of the ratio. All of it re-opens the inversion
 headline (§7.4), so it stays Marc's ruling.
+
+## 11. Proposal — what it takes to run Brown's targeted attacker (2026-08-30)
+
+Marc's ask: wire `attack_objective ∈ {general, targeted}` as a top-level input
+on the attack model **vacuously** now (done — see §11.1), and propose the changes
+that would make the targeted value do Brown's work. The proposal is ranked as a
+build order; every step is default-preserving (the `general` arm and every
+golden stay byte-identical), and the steps that cross a governance line say so.
+Nothing below is built except §11.1.
+
+### 11.1 Done — the vacuous input
+
+`run_movement(attack_objective="general")` → `MovementAttacker.attack_objective`
+→ `MovementRunResult.attack_objective`; validated against
+`movement/attacker.py::ATTACK_OBJECTIVES = ("general", "targeted")`; read by no
+control flow. `tests/l3_simulation/test_movement_attack_objective.py` pins the
+default, the echo, the refusal of any third value, and — deliberately, to be
+retired the day the policy lands — that `"targeted"` is bit-identical to
+`"general"`. The input sits on the movement seam because that is where Marc's
+integration lands; §11.3 argues the *behaviour* belongs one layer down.
+
+### 11.2 What Brown's targeted attacker is (the spec to build against)
+
+Four rules, all `[behav]`, none with a time-domain spec (IS-SCN-06 — so this is
+recorded as an **extension**, not a restoration):
+
+| # | Rule | Source | Status in code |
+|---|---|---|---|
+| T-a | The target is a **single host at a chosen depth** `TX` (target in the X-th layer), swept as an experimental variable | Brown §III-C(1), §V; B-ATK-02 | `target_node` / `target_layer`, unconstructable (B1–B3, B6) |
+| T-b | **Host priority**: the target itself if it is visible → hosts on the target's layer → hosts on other layers, nearer the target's layer first | IS-SCN-03 / B-ATK-02 | `get_host_id_priority` — correct, never called (B5) |
+| T-c | **Never give up on the target**; give up on any other host after 10 failed attempts | IS-SCN-04 / B-ATK-06 | `attack_operation.py:421`, gated on `network_type == 0`, never fires |
+| T-d | **Terminate on target compromise**, not on the 80 % ratio | Brown §III-C(1) | commented out, `attack_operation.py:732–737` (B4) |
+
+Everything else (the six verbs, RoA exploit ordering, credential stuffing, C2
+pivoting) is identical across the two scenarios by design (IS-SCN-01) and needs
+no change.
+
+### 11.3 The changes, in build order
+
+**Step 1 — the target, chosen without repairing `gen_graph`.** Do not resurrect
+`target_node` (B1–B3, B6 are four separate construction defects, and fixing
+them changes the generation RNG sequence for every seed, which re-baselines
+every golden on both arms). Instead choose the target **after** the network is
+built, on the seam, from the seeded RNG: `target_hosts = {one host drawn from
+[h for h, layer in network.get_layers().items() if layer == target_layer]}`,
+or, for the geometry-fixed crown-jewel reading used by this probe,
+`set(network.get_database())`. Both realise Brown's `TX` sweep
+(`target_layer ∈ {1, 2, 3}` on the four-layer geometry), both are identical for
+the two arms, and neither touches a substrate line. Carry the choice as
+`target_hosts: frozenset[int]` beside `attack_objective`; `general` runs carry
+the empty set. Re-key on `get_layers()`, never on the `db` tag (§10.1 quirk).
+
+**Step 2 — host priority (T-b), the one change that makes the attacker
+targeted.** The pop happens in the shared core `_do_enum_host`
+(`attack_operation.py:396–402`): D-28 filter → `sort_by_distance_from_exposed_and_pivot_host`
+→ `pop(0)`. The movement arm reaches the same lines through
+`_reselect_fresh_host` (`attacker.py`), so **one hook serves both arms**. Give
+`AttackOperation` the objective and the target set at construction
+(`AttackOperation(..., attack_objective="general", target_hosts=frozenset())`),
+and in `_do_enum_host` branch once:
+
+- `general` → today's sort, untouched (byte-identical; the branch is the whole
+  default-preservation argument).
+- `targeted` → sort the visible stack by
+  `(priority(host), distance_from_exposed_or_pivot(host), tiebreak)` where
+  `priority` is Brown's own `get_host_id_priority` re-keyed to the target set
+  (0 if `host in target_hosts`; else `|layer(host) − target_layer| + 1`), and the
+  distance sort is kept as the **within-class** order so the attacker still moves
+  toward the nearest host of the preferred class. Rule T-b's first clause
+  ("attack only the target if found") falls out of priority 0 sorting first.
+
+The tiebreak draws `random.random()` per queued host from the global stream
+today; keep exactly that draw count in the targeted branch so the two arms'
+stream discipline (D-29) is unchanged. Fresh-host contract composes unchanged —
+the loop still pops through the same core; it just pops in a different order.
+
+**Step 3 — never give up on the target (T-c).** Replace the dead guard
+`network.network_type == 0 and curr_host_id == network.get_target_node()` at
+`attack_operation.py:421` with `curr_host_id in self.target_hosts`. Empty set
+under `general` → identical behaviour.
+
+**Step 4 — termination (T-d).** Two arms, two lines. Movement: in
+`run_movement`, after `attacker.start()`, a watcher (or a check in the record
+writer where `_database_held` is already computed) fires `end_event.succeed()`
+when `held & target_hosts` is non-empty **and** `attack_objective == "targeted"`;
+`reached_objective` then means target reached. Baseline: re-enable the commented
+block at `attack_operation.py:732` keyed to `target_hosts`, not `network_type`.
+Keep `TimeNetwork.is_compromised` (the ratio) as the `general` criterion — it is
+the comparability bridge to Zhang/Ho/Brown and must not be replaced.
+
+**Step 5 — tests and goldens.** (i) The §11.1 bit-identity test is retired and
+replaced by a **general-arm** bit-identity test (targeted machinery present, the
+general run unchanged — the gate that avoids a re-baseline). (ii) Unit tests
+on the sort: target visible → popped first; target not visible → same-layer
+hosts before adjacent layers before far layers; within a class, nearest first.
+(iii) T-c: attempt counter on the target passes 10 and the target is never
+appended to `stop_attack`. (iv) T-d: `end_event` fires on target compromise
+with fewer than 40 hosts held. (v) A trace-tool row for the objective and the
+target set (`mtdsim.l3_simulation.trace`), so a run can be shown to be targeted.
+
+**Step 6 — the experiment (pre-registered, per §3).** Brown's design: sweep
+`target_layer ∈ {1, 2, 3}` (his `TX`), both arms, five profiles + baseline,
+unopposed then the four-mechanism family, 350 / 100 seeds; report reach rate,
+time-to-target (censored, Kaplan–Meier) and footprint-at-reach. The Gate 0
+question re-asked with navigation present: does the movement attacker now
+reach a **shallow** target in ≥ 20 % of unopposed runs (§3.3)? This is the
+direct test of Marc's directedness hypothesis the probe could not run.
+
+### 11.4 What each step costs, and who rules it
+
+| Step | Layer | Governance | Cost |
+|---|---|---|---|
+| 1 target choice | seam (`run.py`) + `AttackOperation` ctor | none — additive, default empty | small |
+| 2 host priority | **substrate core** `_do_enum_host`, branched, default untouched | crosses the S2 freeze and the host-selection gate of [`movement_objectives_design.md`](movement_objectives_design.md) §6; **Marc's ruling** — it is the same seam the fresh-host contract just opened, so the precedent exists | medium; the one real design |
+| 3 give-up | substrate, one guard | same ruling as 2 | trivial |
+| 4 termination | seam + one substrate block | same ruling | small |
+| 5 tests | tests | none | small |
+| 6 experiment | `data/results/` harness | pre-register first | ~15 min compute |
+
+Two risks ride with step 2, both already on record: the **breadth cap** (B-iii) —
+a directed attacker that still churns on owned hosts may stop short of a deep
+target, which is why the fresh-host contract (now on by default) is its
+prerequisite; and the **Row-B confound** — re-ordering host selection can shift
+the inversion headline, so H2 is re-established on the targeted objective, never
+carried (§3.4). And one modelling caveat for the write-up: Brown's T-b assumes
+the attacker "can identify target characteristics" — that it knows the target's
+*layer* before it can see the target. That is a knowledge assumption the
+general attacker does not make; the dissertation states it as Brown's, not
+argued fresh.
+
+**In one sentence:** the targeted attacker is one branch in `_do_enum_host`
+(priority-then-distance instead of distance), a one-line give-up guard and a
+termination on the target set — with the target drawn on the seam rather than
+in `gen_graph`, so no golden moves — and the only thing standing between the
+vacuous flag and Brown's work is the host-selection ruling.

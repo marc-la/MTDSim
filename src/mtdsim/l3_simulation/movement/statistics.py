@@ -131,6 +131,10 @@ class MovementRunResult:
     # without them populated.
     database_hosts_reached: int = 0
     first_database_reach_time: float | None = None
+    # The attack objective the run was labelled with (``"general"`` /
+    # ``"targeted"``; ``movement/attacker.py`` ``ATTACK_OBJECTIVES``). Vacuous
+    # at 2026-08-30: echoed from the attacker, read by nothing.
+    attack_objective: str = "general"
 
     def first_compromise_time(self) -> float | None:
         """Sim time of the first compromise the walk drove, or None if the run
