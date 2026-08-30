@@ -31,6 +31,11 @@ from mtdnetwork.component.time_generator import set_exponential_regime
 from mtdnetwork.operation.attack_operation import AttackOperation
 
 from mtdsim.l3_simulation.controller import load_controller
+from mtdsim.l3_simulation.movement.targeting import (
+    ATTACK_OBJECTIVES,
+    TargetedSorter,
+    choose_target_hosts,
+)
 from mtdsim.l3_simulation.movement.attacker import (
     MovementAttacker,
     OutcomeOverlayLike,
@@ -286,6 +291,7 @@ def run_movement(
     fresh_host_contract: bool = True,
     token_hold: Any | None = None,
     attack_objective: str = "general",
+    target_layer: int | None = None,
 ) -> MovementRunResult:
     """Run one movement-layer simulation and return its :class:`MovementRunResult`.
 
@@ -387,12 +393,16 @@ def run_movement(
 
     ``attack_objective`` names Brown's attack scenario — ``"general"``
     (Scenario 1, the only one the time-domain lineage runs; IS-SCN-02/06) or
-    ``"targeted"`` (Scenario 2, IS-SCN-03). **Vacuous today**: validated,
-    carried on :class:`MovementAttacker` and echoed onto the result as
-    ``MovementRunResult.attack_objective``, read by no control flow, so a run
-    is byte-identical under either value. It is the top-level input the
-    targeted host-selection policy will key on when built
-    (``targeted_objective_probe.md`` §11); until then ``"targeted"`` is a label.
+    ``"targeted"`` (Scenario 2, IS-SCN-03; built 2026-08-30 as an extension,
+    handoff ``2026-08-30_targeted_attacker_build.md``). Under ``"targeted"``
+    the target set is resolved on this seam by :func:`choose_target_hosts`
+    (``target_layer=None`` → the database set; an int → one host drawn on
+    that layer, Brown's ``TX``), Brown's priority-then-distance
+    :class:`TargetedSorter` is installed as the core's ``host_sorter``, the
+    give-up rule spares the target, and the run ends when a target host is
+    compromised (``reached_objective`` then means *target reached*). Under
+    ``"general"`` none of that is installed and the run is byte-identical to
+    every run before the objective existed; the 80 % ratio stays its criterion.
 
     ``attacker_state`` attaches a within-run :class:`AttackerState` by wrapping
     the three collaborators the walk consumes — :class:`StatefulTiming` reports
@@ -414,6 +424,9 @@ def run_movement(
             )
     set_exponential_regime(substrate_timing_regime)
     env, end_event, network, adversary, attack_op = _build_sim(seed, geometry)
+    target_hosts, resolved_layer, target_sorter = _install_objective(
+        attack_op, network, attack_objective, target_layer=target_layer, seed=seed
+    )
 
     if exploit_learning_rate is not None:
         # Substrate-level compound-exploit-learning (default-off; see
@@ -475,6 +488,8 @@ def run_movement(
         fresh_host_contract=fresh_host_contract,
         token_hold=token_hold,
         attack_objective=attack_objective,
+        target_hosts=target_hosts,
+        target_sorter=target_sorter,
     )
     attacker.start()
 
@@ -515,8 +530,31 @@ def run_movement(
         database_hosts_reached=database_hosts_reached,
         first_database_reach_time=first_database_reach_time,
         attack_objective=attacker.attack_objective,
+        target_hosts=tuple(sorted(target_hosts)),
+        target_layer=resolved_layer,
         **mtd_snapshot(network),
     )
+
+
+def _install_objective(attack_op, network, attack_objective: str, *,
+                       target_layer: int | None, seed: int):
+    """Resolve the objective on the seam and install its two hooks on the shared
+    core. Under ``general`` nothing is installed (the core's defaults) and the
+    return is ``(frozenset(), None, None)``. Shared with the trace tool so a
+    traced run wires identically."""
+    if attack_objective not in ATTACK_OBJECTIVES:
+        raise ValueError(
+            f"attack_objective must be one of {ATTACK_OBJECTIVES}, got {attack_objective!r}"
+        )
+    if attack_objective == "general":
+        if target_layer is not None:
+            raise ValueError("target_layer is only meaningful under attack_objective='targeted'")
+        return frozenset(), None, None
+    target_hosts, resolved = choose_target_hosts(network, target_layer=target_layer, seed=seed)
+    sorter = TargetedSorter(network, target_hosts, resolved)
+    attack_op.host_sorter = sorter
+    attack_op.target_hosts = target_hosts
+    return target_hosts, resolved, sorter
 
 
 def decision_snapshot(mtd_operation) -> tuple[MTDDecision, ...]:

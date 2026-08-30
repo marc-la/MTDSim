@@ -321,6 +321,14 @@ class MovementRecord:
     holds: int = 0
     hold_dwell: float = 0.0
     hold_fell_through: bool = False
+    # -- the targeted objective (Brown Scenario 2; 2026-08-30) ---------------
+    # The priority class of the host this visit **selected** as ``curr_host``
+    # under the targeted objective — an ENUM_HOST pop, or a compromise verb
+    # whose fresh-host guard re-selected through the same core: 0 the target
+    # itself, 1 the target's layer, ``d + 1`` a layer ``d`` away. ``None`` on
+    # every other row and under the general objective — observation only, so
+    # a general run is unchanged.
+    target_class: int | None = None
 
 
 # The verbs that act on ``curr_host`` and can therefore be judged against the
@@ -402,12 +410,10 @@ def _outcome_tag(outcome: Any) -> str:
 #: The attack objectives the attack model accepts (Brown 2023 §III-C(1);
 #: intent spec IS-SCN-02 / IS-SCN-03). ``"general"`` is Scenario 1 — the only
 #: scenario the time-domain lineage ever ran (IS-SCN-06) and the one every
-#: experiment in this repository runs. ``"targeted"`` is Scenario 2, **wired
-#: vacuously** (2026-08-30, Marc's ask): the value is validated, carried and
-#: echoed onto the run result, and read by no control flow — a run is
-#: byte-identical under either value until the targeted host-selection policy
-#: lands (targeted_objective_probe.md §10.3, §11).
-ATTACK_OBJECTIVES: tuple[str, ...] = ("general", "targeted")
+#: experiment before 2026-08-30 ran. ``"targeted"`` is Scenario 2, built as an
+#: extension on the host-selection seam (``movement/targeting.py``; handoff
+#: 2026-08-30_targeted_attacker_build.md). Re-exported from ``targeting``.
+from mtdsim.l3_simulation.movement.targeting import ATTACK_OBJECTIVES  # noqa: E402
 
 
 class MovementAttacker:
@@ -464,6 +470,12 @@ class MovementAttacker:
         # targeted policy has one named input to hang off when it is built,
         # rather than a network_type flag buried in the substrate.
         attack_objective: str = "general",
+        # The targeted objective's target set and the sorter installed on the
+        # core (``targeting.TargetedSorter``); both None/empty under general.
+        # The attacker reads them only to annotate ENUM rows (``target_class``)
+        # — the behaviour lives on the core's seam, not here.
+        target_hosts: frozenset[int] = frozenset(),
+        target_sorter: Any | None = None,
     ) -> None:
         import random
 
@@ -473,6 +485,10 @@ class MovementAttacker:
                 f"got {attack_objective!r}"
             )
         self.attack_objective = attack_objective
+        self.target_hosts = frozenset(target_hosts)
+        self.target_sorter = target_sorter
+        if attack_objective == "targeted" and not self.target_hosts:
+            raise ValueError("attack_objective='targeted' needs a non-empty target_hosts")
 
         self.env = env
         self.end_event = end_event
@@ -670,6 +686,9 @@ class MovementAttacker:
                     n_compromised=self._n_compromised(),
                     exploitability=exploitability,
                     database_held=self._database_held(),
+                    target_class=self._target_class(
+                        verb, blocked, interrupted, reselected=note.reselected
+                    ),
                     on_owned_host=note.on_owned_host,
                     reselected=note.reselected,
                     enum_repops=note.enum_repops,
@@ -696,6 +715,33 @@ class MovementAttacker:
             return len(self.adversary.get_compromised_hosts())
         except Exception:  # noqa: BLE001 - record enrichment only, never fatal
             return 0
+
+    def _target_class(self, verb: str, blocked: bool, interrupted: bool,
+                      *, reselected: bool = False) -> int | None:
+        """The priority class of ``curr_host`` after a visit that **selected**
+        it under the targeted objective — an ENUM_HOST pop, or a compromise
+        verb whose fresh-host guard re-selected through the same core (see
+        :class:`MovementRecord`); None otherwise. Read-only over the sorter's
+        own key, so the annotation cannot disagree with the order the core
+        applied."""
+        if self.target_sorter is None or blocked or interrupted:
+            return None
+        if verb != "ENUM_HOST" and not reselected:
+            return None
+        try:
+            host_id = self.adversary.get_curr_host_id()
+            if host_id is None or host_id == -1:
+                return None
+            return int(self.target_sorter.priority(host_id))
+        except Exception:  # noqa: BLE001 - record enrichment only, never fatal
+            return None
+
+    def target_held(self) -> bool:
+        """Whether the adversary holds a target host (substrate ground truth)."""
+        try:
+            return bool(set(self.adversary.get_compromised_hosts()) & self.target_hosts)
+        except Exception:  # noqa: BLE001
+            return False
 
     def _database_held(self) -> bool:
         """Whether the adversary holds at least one database (crown-jewel) host —

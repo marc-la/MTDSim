@@ -85,7 +85,12 @@ from mtdsim.l3_simulation.movement.attacker import (
     load_dwell_catalogue,
 )
 from mtdsim.l3_simulation.movement.net import PROFILES, load_routing_net
-from mtdsim.l3_simulation.movement.run import GEOMETRY, _build_sim, _maybe_start_mtd
+from mtdsim.l3_simulation.movement.run import (
+    GEOMETRY,
+    _build_sim,
+    _install_objective,
+    _maybe_start_mtd,
+)
 from mtdsim.l3_simulation.movement.learning import LearningModulator
 from mtdsim.l3_simulation.movement.state import (
     AttackerState,
@@ -125,6 +130,12 @@ class L3Tracer(Tracer):
     reselected_steps: int = 0
     enum_repops: int = 0
     token_hold: object = None
+    # the targeted objective (2026-08-30)
+    attack_objective: str = "general"
+    target_hosts: tuple = ()
+    target_layer: object = None
+    host_layers: dict = field(default_factory=dict)
+    enum_pops_by_class: dict = field(default_factory=dict)
     held_decisions: int = 0
     holds: int = 0
     hold_time: float = 0.0
@@ -347,6 +358,8 @@ class _NarratingRecords(list):
             t.held_decisions += 1
             t.holds += rec.holds
             t.hold_time += rec.hold_dwell
+        if rec.target_class is not None:
+            t.enum_pops_by_class[rec.target_class] = t.enum_pops_by_class.get(rec.target_class, 0) + 1
         if rec.hold_fell_through:
             t.hold_fall_throughs += 1
 
@@ -395,6 +408,16 @@ class _NarratingRecords(list):
                     f"{rec.enum_repops} owned pop(s)]")
         elif rec.enum_repops:
             what = f"{what}  [re-popped {rec.enum_repops} owned host(s) to a fresh one]"
+        # The targeted objective, made visible where it acts: which host the
+        # ENUM pop chose and its priority class (0 = the target itself).
+        if rec.target_class is not None:
+            host_id = t.adversary.get_curr_host_id()
+            layer = t.host_layers.get(host_id, "?")
+            label = ("THE TARGET" if rec.target_class == 0 else
+                     "the target's layer" if rec.target_class == 1 else
+                     f"{rec.target_class - 1} layer(s) from the target's")
+            how = "re-selected" if rec.verb != "ENUM_HOST" else "popped"
+            what = f"{what}  [{how} host {host_id} (class {rec.target_class}: {label}, layer {layer})]"
         # The token-hold rule (T1): the draw landed on an FSM-illegal place and
         # the token stayed, paying extra dwell, until a licensed draw came up.
         if rec.holds:
@@ -486,6 +509,8 @@ def run_l3_trace(
     retrace_sinks: bool = False,
     fresh_host_contract: bool = True,
     token_hold=None,
+    attack_objective: str = "general",
+    target_layer: int | None = None,
 ) -> tuple[L3Tracer, MovementRunResult]:
     """Run one movement-layer simulation with unified tracing on.
 
@@ -500,6 +525,9 @@ def run_l3_trace(
     """
     set_exponential_regime(substrate_timing_regime)
     env, end_event, network, adversary, attack_op = _build_sim(seed, geometry)
+    target_hosts, resolved_layer, target_sorter = _install_objective(
+        attack_op, network, attack_objective, target_layer=target_layer, seed=seed
+    )
 
     routing_net = load_routing_net(profile, with_synthetic_overlay=with_synthetic_overlay)
     controller = load_controller(version=mapping_version)
@@ -549,9 +577,16 @@ def run_l3_trace(
         retrace_sinks=retrace_sinks,
         fresh_host_contract=fresh_host_contract,
         token_hold=token_hold,
+        attack_objective=attack_objective,
+        target_hosts=target_hosts,
+        target_sorter=target_sorter,
     )
     tracer.token_hold = token_hold
     tracer.fresh_host_contract = fresh_host_contract
+    tracer.attack_objective = attack_objective
+    tracer.target_hosts = tuple(sorted(target_hosts))
+    tracer.target_layer = resolved_layer
+    tracer.host_layers = dict(network.get_layers())
     attacker.records = _NarratingRecords(tracer)
     attacker.start()
 
@@ -575,8 +610,12 @@ def run_l3_trace(
         tracer.emit("NETWORK",
                     f"Network generated: {geo['total_nodes']} hosts, "
                     f"{geo['total_endpoints']} internet-facing",
-                    f"objective is {geo['terminate_compromise_ratio']:.0%} "
-                    "of the network")
+                    (f"objective is {geo['terminate_compromise_ratio']:.0%} "
+                     "of the network") if attack_objective == "general" else
+                    (f"objective is TARGETED: compromise host(s) "
+                     f"{sorted(target_hosts)} on layer {resolved_layer} "
+                     "(Brown Scenario 2; priority-then-distance host order, "
+                     "never gives up on the target, ends on its compromise)"))
         tracer.emit("TOKEN",
                     f"Walk begins: profile {profile}, entry at "
                     f"{routing_net.entry_place}",
@@ -601,6 +640,9 @@ def run_l3_trace(
         reached_objective=bool(end_event.triggered),
         termination_time=termination_time,
         compromised_count=len(adversary.get_compromised_hosts()),
+        attack_objective=attack_objective,
+        target_hosts=tuple(sorted(target_hosts)),
+        target_layer=resolved_layer,
     )
     return tracer, result
 
@@ -685,6 +727,14 @@ def _l3_verdict(tracer: L3Tracer, result: MovementRunResult, horizon: float,
                      "outright by the OS gate: the vulnerability needs an OS the "
                      "host is not running (each counted as a failed attempt).")
 
+    if tracer.attack_objective == "targeted":
+        head("The targeted objective")
+        lines.append(f"  Target host(s) {list(tracer.target_hosts)} on layer "
+                     f"{tracer.target_layer}; ENUM pops by priority class: "
+                     f"{dict(sorted(tracer.enum_pops_by_class.items()))} "
+                     "(0 = the target, 1 = its layer, d+1 = d layers away).")
+        lines.append("  Run ended on the target's compromise: "
+                     f"{'YES' if result.reached_objective else 'no'}.")
     head("The host-selection contract")
     n_comp = sum(tracer.dispatches_by_verb.get(v, 0)
                  for v in ("SCAN_PORT", "EXPLOIT_VULN", "BRUTE_FORCE"))
@@ -892,6 +942,13 @@ def main(argv=None) -> int:
     ap.add_argument("--hold", action="store_true",
                     help="attach the token-hold rule (register T1, opaque "
                          "reading) on an FSM-succession modulator at alpha = 0")
+    ap.add_argument("--attack-objective", default="general",
+                    choices=("general", "targeted"),
+                    help="Brown's scenario: general (80 %% ratio) or targeted "
+                         "(priority-then-distance host order, ends on the target)")
+    ap.add_argument("--target-layer", type=int, default=None,
+                    help="targeted only: draw one target on this layer (Brown's TX); "
+                         "default = the database (crown-jewel) set")
     ap.add_argument("--no-colour", action="store_true")
     ap.add_argument("--quiet", action="store_true", help="verdict only")
     args = ap.parse_args(argv)
@@ -945,6 +1002,8 @@ def main(argv=None) -> int:
         retrace_sinks=args.retrace,
         fresh_host_contract=not args.no_fresh_host,
         token_hold=token_hold,
+        attack_objective=args.attack_objective,
+        target_layer=args.target_layer,
     )
 
     if not args.quiet:

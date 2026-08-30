@@ -65,6 +65,17 @@ class AttackOperation:
         self._interrupted_mtd = None
         self._proceed_time = proceed_time
         self.logging = False
+        # The targeted-objective seams (Brown Scenario 2; decision A, Marc
+        # 2026-08-30 — docs/handoffs/2026-08-30_targeted_attacker_build.md).
+        # Both default to "no target": ``host_sorter`` None means the core sorts
+        # the visible queue exactly as it always has, and an empty
+        # ``target_hosts`` leaves the give-up rule and the termination check
+        # unchanged, so a general run is byte-identical by construction. The
+        # policy (Brown's priority-then-distance order) lives in the movement
+        # layer, ``mtdsim.l3_simulation.movement.targeting``; the substrate
+        # holds only the hook.
+        self.host_sorter = None
+        self.target_hosts = frozenset()
  
 
     def proceed_attack(self):
@@ -394,7 +405,10 @@ class AttackOperation:
                 "queue holds only hosts with no path from an exposed endpoint "
                 "(SCAN_HOST rebuilds it).")
         adversary.set_host_stack(visible_stack)
-        adversary.set_host_stack(network.sort_by_distance_from_exposed_and_pivot_host(
+        # The host-selection seam: the installed sorter (targeted objective) or
+        # the inherited distance sort (general — the line as it always was).
+        sorter = self.host_sorter or network.sort_by_distance_from_exposed_and_pivot_host
+        adversary.set_host_stack(sorter(
             adversary.get_host_stack(),
             adversary.get_compromised_hosts(),
             pivot_host_id=adversary.get_pivot_host_id()
@@ -414,12 +428,15 @@ class AttackOperation:
         # re-enumerated up to 50 times against Brown's bound of 10.
         #
         # Restored to Brown's polarity: give up on any host that hits the threshold,
-        # unless it is the target node of a targeted network.
+        # unless it is a target of the targeted objective. (Keyed on the seam's
+        # ``target_hosts`` since 2026-08-30 — the ``network_type == 0`` /
+        # ``target_node`` form could never fire, the targeted network being
+        # unconstructable; targeted_objective_probe.md §10. Empty set → the
+        # rule applies to every host, exactly as before.)
         adversary.get_attack_counter()[adversary.get_curr_host_id()] += 1
         if adversary.get_attack_counter()[
                 adversary.get_curr_host_id()] >= adversary.get_attack_threshold():
-            is_protected_target = (network.network_type == 0 and
-                                   adversary.get_curr_host_id() == network.get_target_node())
+            is_protected_target = adversary.get_curr_host_id() in self.target_hosts
             if not is_protected_target and \
                     adversary.get_curr_host_id() not in adversary.get_stop_attack():
                 adversary.get_stop_attack().append(adversary.get_curr_host_id())
@@ -729,14 +746,15 @@ class AttackOperation:
                     self.end_event.succeed()
                 return
 
-            # If target network, set adversary as done once adversary has compromised target node
-            # if self.network.get_target_node() == self._curr_host_id:
-            # if self.network.get_network_type() == 0:
-            #      # terminate the whole process
-            #     self.target_compromised = True
-            #     self.end_event.succeed()
-            #     return
-            #
+            # The targeted objective's termination (Brown §III-C(1), T-d):
+            # compromising a target host ends the run. Re-enabled 2026-08-30
+            # keyed on the seam's ``target_hosts`` (the commented-out inherited
+            # form keyed on ``network_type == 0``); empty under the general
+            # objective, so the ratio above stays the only criterion there.
+            if adversary.get_curr_host_id() in self.target_hosts:
+                if not self.end_event.triggered:
+                    self.end_event.succeed()
+                return
 
     # --- Controller-facing surface (never called by the native FSM) ---------
     def assert_action_context(self, verb):

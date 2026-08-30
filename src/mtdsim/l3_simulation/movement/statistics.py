@@ -131,10 +131,13 @@ class MovementRunResult:
     # without them populated.
     database_hosts_reached: int = 0
     first_database_reach_time: float | None = None
-    # The attack objective the run was labelled with (``"general"`` /
-    # ``"targeted"``; ``movement/attacker.py`` ``ATTACK_OBJECTIVES``). Vacuous
-    # at 2026-08-30: echoed from the attacker, read by nothing.
+    # The attack objective the run ran under (``"general"`` / ``"targeted"``;
+    # ``movement/targeting.py``). Under ``targeted`` the resolved target set and
+    # the layer the priority key measured distance to, so a row is
+    # self-describing; empty / None under general.
     attack_objective: str = "general"
+    target_hosts: tuple[int, ...] = ()
+    target_layer: int | None = None
 
     def first_compromise_time(self) -> float | None:
         """Sim time of the first compromise the walk drove, or None if the run
