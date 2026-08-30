@@ -538,6 +538,12 @@ headline (§7.4), so it stays Marc's ruling.
 
 ## 11. Proposal — what it takes to run Brown's targeted attacker (2026-08-30)
 
+> **Built the same day under decision A**; the build, its verification and the
+> Gate 0 re-ask are in [`targeted_attacker_findings.md`](targeted_attacker_findings.md).
+> The Gate holds at layer 1 on `aggregate` (38 %) and the directedness disjunct
+> is won at every depth (footprint at reach 5.8 vs 13.1); the deep target stays
+> below the Gate (9.7 %) — B-iii binds there.
+
 Marc's ask: wire `attack_objective ∈ {general, targeted}` as a top-level input
 on the attack model **vacuously** now (done — see §11.1), and propose the changes
 that would make the targeted value do Brown's work. The proposal is ranked as a
