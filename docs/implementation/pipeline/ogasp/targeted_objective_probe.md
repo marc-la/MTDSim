@@ -286,6 +286,20 @@ modulator (utility λ, learning, forgetting) *narrows* traversal
 knobs make reach the same or worse, never better. The lever that would work is
 not a parameter but a **capability** — host-level targeting (§7.1 B-i).
 
+> **Annotation, 2026-08-30 — the sentence is confirmed on the fixed attacker,
+> with a rider.** The fresh-host contract (Marc's loop-fix ruling; the
+> re-compromise churn was 45 % of the movement attacker's compromise verbs,
+> measured at 5 × 350 seeds) is now the reported configuration, and
+> [`fsm_token_hold_findings.md`](fsm_token_hold_findings.md) H5 re-measures
+> reach on it: **1.4 %** on `aggregate` at 15 000 s against this record's 20 %
+> Gate 0 bar — still degenerate, so *structural, not tunable* stands, and B-i
+> is still the binding barrier (footprint at reach 17.9 hosts: frontier
+> collisions, not pursuit). The rider is the 30 000 s point: the fixed attacker
+> reaches **14.6 %** (this table's 4.0 % on the churning one), because the fix
+> removed enough of B-iii's breadth cap (10.6 → 18.5 hosts) that horizon alone
+> now moves reach materially. Jin's token-hold rule, the other candidate, does
+> not: 0.3 % at either horizon, degenerate (H3 there).
+
 ## 7. Diagnosis — the ranked barriers, and the fork
 
 **Headline finding.** Under an APT-authentic *located* objective (reach the

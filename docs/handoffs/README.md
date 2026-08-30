@@ -40,6 +40,16 @@ carried, and `git log` the record of the briefs themselves. The axis-8
 timing-channel re-examination retired the same day in the commits that shipped
 its work (the D-08 regime ruling and the criterion's dated amendment).
 
+- [`2026-08-30_headline_on_restored_substrate.md`](2026-08-30_headline_on_restored_substrate.md)
+  — **the headline does not reproduce on the restored substrate**: the
+  token-hold record's pre-registered kill criterion fired — ρ = −0.071 between
+  the inherited and the (unfixed) movement attacker at 50 seeds against the
+  −0.893 on record, because the *inherited* attacker's defence response moved
+  under `d127f443` (2026-08-27) and nothing re-measured it. Decompose which
+  repair moved it, re-run experiment 2 on HEAD, banner every record that
+  quotes −0.893. Depends on nothing; **blocks any ch5 prose that states the
+  inversion** and sits above the T4 outline in priority.
+
 - [`2026-08-21_targeted_objective_diagnosis.md`](2026-08-21_targeted_objective_diagnosis.md)
   — **the targeted-objective line, for a fresh session**: wire the located
   APT target (`is_target_compromised`, dead code) as an additive objective and

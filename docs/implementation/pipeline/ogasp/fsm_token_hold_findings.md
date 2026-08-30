@@ -1,5 +1,5 @@
 ---
-status: open — pre-registration committed 2026-08-30; verdicts pending below the fold
+status: durable — pre-registered 2026-08-30 (042afc5f), verdicts landed 2026-08-30; the headline finding (H0) is spun out to 2026-08-30_headline_on_restored_substrate.md
 created: 2026-08-30
 updated: 2026-08-30
 handoff: 2026-08-30_fsm_token_hold_rule.md
@@ -244,5 +244,224 @@ PYTHONPATH=src python -m mtdsim.l3_simulation.trace aggregate --mapping v2_parti
 
 # The verdict, as found
 
-*Pending — appended in a separate commit after the runs, scored against §3
-without amending it.*
+*Everything above the fold was committed before the runs existed (`042afc5f`).
+Everything below reports against those criteria without amending them. One
+arithmetic slip above is corrected rather than edited: stage B without the hold
+arm is 4 400 runs (8 conditions × 50 seeds × [1 inherited + 2 arms × 5
+profiles]), not 2 400.*
+
+**The runs.** Stage A: 14 700 runs, zero errored cells. Stage B: 4 400 runs,
+zero errored cells; the hold arm was not run (H1′ NOT MET, below).
+`data/results/fsm_token_hold/` (untracked, as every results directory is);
+`analyse.py` regenerates `verdict.txt` / `verdicts.json`.
+
+## H1 — HELD. The loop fix is "much better progress"; the hold rule is not
+
+Pooled distinct hosts under no MTD, five profiles × 350 seeds, 95 % CI:
+
+| arm | 15 000 s | 30 000 s | gap to the inherited attacker closed |
+|---|--:|--:|--:|
+| inherited attacker | 33.18 ± 0.90 | 35.83 ± 0.92 | — |
+| `null` (contract off, hold off — the pre-2026-08-30 attacker) | 5.13 ± 0.11 | 9.01 ± 0.19 | 0 |
+| **`loop` (the reported configuration)** | **7.92 ± 0.20** | **14.49 ± 0.37** | **+9.9 % / +20.5 %** |
+| `hold` (Jin's rule on the old attacker) | 2.66 ± 0.13 | 4.38 ± 0.20 | −8.8 % / −17.3 % |
+| `loop+hold` | 3.26 ± 0.18 | 5.18 ± 0.25 | −6.7 % / −14.3 % |
+
+On the `aggregate` profile alone (the probe's denominator): 5.62 → 9.11 at
+15 000 s, 10.61 → 18.47 at 30 000 s.
+
+Read beside the alignment programme's two instruments, this is the third
+answer to the same question and the first positive one: factor 8 closed
+≤ 7.4 % of the breadth gap, factor 9 *widened* it by 10.4 %, the loop fix
+closes **9.9 % at the operating horizon and 20.5 % when the attacker is given
+T2's longer one**. The two negatives were procedural-*order* instruments; the
+positive is a host-*selection* repair — which is what
+[`movement_objectives_design.md`](movement_objectives_design.md) §1 argued the
+objective actually lives on.
+
+**Jin's rule does not produce "much better progress" — it produces less.** The
+opaque hold on its own lands below the null with disjoint CIs at both horizons,
+and layered on the loop fix it takes back most of what the fix bought. **H1′
+NOT MET**, so the hold is not layered onto the reported configuration and its
+headline arm was not run — the ruling's ordering, executed by the numbers. The
+mechanism is in H6: the hold consumes **77 % of the run** holding, at 2.1 holds
+per consulted decision, and the FSM-legal share of the CTI out-sets is small
+enough that 42 % of decisions are held at all. The "slower" Jin accepted is
+most of the clock.
+
+One profile is the exception worth naming rather than averaging away:
+`objective_exfiltration_impact` gains nothing from the loop fix (6.24 → 7.96
+at 15 000 s but 9.67 → 8.85 at 30 000 s) and is the only profile the hold does
+not crush (6.64 / 9.73). Its net routes through the compromise verbs rarely
+enough that host selection is not its bind; it is the profile on which every
+one of these instruments has always been closest to the null.
+
+## H3 — the guard: `loop` clean, both hold arms DEGENERATE
+
+| arm @ horizon | hosts (modal) | succ/act | actions | places | entropy | verdict |
+|---|--:|--:|--:|--:|--:|---|
+| `null` @15k | 5.13 (5) | 0.659 | 325.4 | 13.12 | 2.805 | ok |
+| `loop` @15k | 7.92 (6) | 0.487 | 325.9 | 13.16 | 2.803 | ok |
+| `hold` @15k | 2.66 (**0**) | 0.202 | 309.7 | 9.97 | 0.731 | **DEGENERATE** — succ/act < half, immobile |
+| `loop+hold` @15k | 3.26 (**0**) | 0.166 | 314.3 | 10.04 | 0.771 | **DEGENERATE** — succ/act < half, immobile |
+| `null` @30k | 9.01 (10) | 0.669 | 649.3 | 13.24 | 2.811 | ok |
+| `loop` @30k | 14.49 (10) | 0.441 | 648.9 | 13.31 | 2.806 | ok |
+| `hold` @30k | 4.38 (**0**) | 0.197 | 629.6 | 10.77 | 0.682 | **DEGENERATE** — hosts < half, succ/act < half, immobile |
+| `loop+hold` @30k | 5.18 (**0**) | 0.139 | 641.9 | 10.79 | 0.735 | **DEGENERATE** — succ/act < half, immobile |
+
+The prior was wrong about *which* clause: the activity clause did not fire
+(actions per run barely move, because holds are counted as time inside a visit,
+not as actions), the immobility clause did — **the modal hold run compromises
+nothing**, the exact signature factor 8's α = 1 and factor 9's α = 1 showed.
+Every reading of Jin's rule now has a measured degenerate point: transparent
+(factor 9's α = 1, 2.18 hosts, modal 0) and opaque (here, 2.66 hosts, modal 0).
+The defence-assists clause, scored in stage B, is 0/7 on both arms run.
+
+Two costs of the contract itself, quoted rather than argued away: the `loop`
+arm's **blocked fraction rises from 15.3 % to 25.4 %** (the fresh-host guard
+converts a would-be re-compromise into a blocked visit when the visible queue is
+dry — the "pure block" cost the design warned of, now measured at ~10 points),
+and its successes-per-action falls from 0.659 to 0.487 for the same reason plus
+the three verdict rows now reading failure where they always read success. The
+attacker acts less "successfully" per action and owns more hosts: the old
+figure was counting re-compromises as successes.
+
+## H4 — HELD. Plurality collapses under the hold, not under the fix
+
+Pooled path entropy (bits) / distinct places per run: `null` 2.805 / 13.12,
+`loop` 2.803 / 13.16, `hold` 0.731 / 9.97, `loop+hold` 0.771 / 10.04 at
+15 000 s (2.811 / 2.806 / 0.682 / 0.735 at 30 000 s). **The loop fix costs
+plurality nothing** — the contract changes which host a verb acts on, not which
+tactic the token walks to — so axis 3's demonstrated badge is untouched by the
+reported-configuration change. The hold takes the attacker from 2.80 bits to
+0.73, far below factor 9's already-degenerate 1.682: the verb chain has become
+the FSM's chain, as the T1 annotation said it would, and the record says so.
+
+## H5 — the probe's "structural, not tunable" sentence: CONFIRMED, with a rider
+
+| arm | reach @15k (aggregate) | reach @30k (aggregate) | footprint at reach @30k |
+|---|--:|--:|--:|
+| inherited | 0.611 | 0.700 | 28.3 |
+| `null` | 0.000 | 0.017 | 11.5 |
+| `loop` | **0.014** [0.003, 0.029] | **0.146** [0.111, 0.183] | 17.9 |
+| `hold` | 0.003 | 0.003 | 5.7 |
+| `loop+hold` | 0.003 | 0.014 | 12.6 |
+
+At the operating horizon the fixed attacker reaches the crown jewels in 1.4 %
+of unopposed runs against the probe's 20 % Gate 0 bar: the located objective
+stays degenerate on the movement arm, and the sentence in
+[`targeted_objective_probe.md`](targeted_objective_probe.md) §6.3 stands.
+The rider: at 30 000 s the fixed attacker's reach is **14.6 %** (pooled 9.5 %)
+— an order of magnitude above the null's at the same horizon and within reach
+of the bar. The barrier is still B-i (no navigation toward the target — the
+footprint at reach, 17.9 hosts, says the reaches are still frontier collisions),
+but the fix has removed enough of B-iii's breadth cap that horizon alone now
+moves reach materially. What a `movement_targeted` host-selection variant would
+add is now a sharper question than the probe could pose.
+
+## H6 — the hold's own rates (the bound on what it could have done)
+
+| arm @ horizon | decisions | held | holds / decision | share of run holding | fell through (bound 20) | abstained | capability fallbacks |
+|---|--:|--:|--:|--:|--:|--:|--:|
+| `hold` @15k | 564 843 | 41.8 % | 2.10 | **77.2 %** | 1.18 % | 43.8 % | 0.77 % |
+| `loop+hold` @15k | 577 412 | 41.0 % | 2.05 | 76.1 % | 1.13 % | 44.8 % | 0.75 % |
+| `hold` @30k | 1 141 262 | 42.3 % | 2.12 | 77.5 % | 1.18 % | 43.4 % | 0.38 % |
+| `loop+hold` @30k | 1 175 551 | 41.1 % | 2.05 | 76.1 % | 1.12 % | 44.8 % | 0.37 % |
+
+The bound acted at ~1.2 % of decisions, so the result is the rule's, not the
+backstop's. The abstention rate — **44 % of routing decisions offered no
+FSM-legal destination at all** — is the number that explains why "leave the
+token there" cannot do what the meeting expected: at nearly half the decisions
+the CTI out-set contains nothing the inherited FSM would run next, the rule
+declines to act (the alternative is a stall), and the token moves off-chain
+anyway; at the other half it pays, on average, two extra dwells to get back on
+it. The CTI structure and the FSM's chain are not two orderings of the same
+verbs; they mostly do not overlap.
+
+## H7 — the churn, at scale
+
+In the `null` arm **44.7 %** of compromise verbs fire on a host already owned at
+15 000 s (51.7 % at 30 000 s; 40–52 % by profile). The record's 89 % was one
+seed of one profile on a different denominator (`EXPLOIT_COMPROMISED` events
+only, where a re-compromise is "successful" by construction); the per-verb
+figure is the honest one and it is still close to half the attacker's offensive
+actions. The `loop` arm's share is 0 by construction (the invariant is asserted
+in the suite); it re-selects 33 times and re-pops 25 owned hosts per 15 000 s
+run to keep it so. The `hold` arm's churn falls to 9.5 % without any guard —
+the FSM chain pivots after a compromise — but at the cost above.
+
+## H0 — FIRED. The inversion on record does not reproduce on the restored substrate — on the *unfixed* attacker
+
+This is the finding of the record, and it is not about either mechanism.
+
+Stage B, eight conditions × 50 seeds × eleven arms (4 400 runs, 0 errored),
+pooled breadth suppression at 200 s, experiment 2's E5 construction verbatim:
+
+| mechanism | inherited (exp. 2, 2026-07-29) | **inherited (today)** | `null` movement | `loop` movement |
+|---|--:|--:|--:|--:|
+| Service Diversity | 90.4 % | **93.6 %** | 28.9 % | 38.5 % |
+| OS Diversity | 88.8 % | **58.0 %** | 8.2 % | 10.5 % |
+| IP Shuffle | 22.1 % | **67.5 %** | 93.0 % | 95.2 % |
+| Complete Topology Shuffle | 18.2 % | **55.5 %** | 91.4 % | 94.3 % |
+| random / simultaneous / alternative multi | — | 66.6 / 65.2 / 65.8 % | 72.3 / 90.1 / 72.7 % | 81.1 / 93.5 / 80.8 % |
+| no-MTD breadth | 38.40 | 32.96 ± 2.49 | 5.03 ± 0.29 | 7.62 ± 0.51 |
+
+**ρ(`null`) = −0.071** against a kill criterion of ≤ −0.5, experiment 2's
+−0.893 and factor 9's band [−1.000, −0.821]. The pre-registered consequence
+applies: **no ρ in this record is a statement about the inversion's response
+to the fix**, and H2 is descriptive — ρ(`loop`) = −0.036, the two movement
+orderings differing only in the `random` / `alternative` tie. Defence-assists:
+0/7 on both arms.
+
+**Where it went.** The movement attacker's ordering is the one on record —
+severance crushes it (IP Shuffle 93 %, Complete Topology 91 %), diversity
+barely touches it (OS 8 %, Service 29 %) — and the fix does not move it. What
+moved is the **inherited attacker**: OS Diversity's suppression of it fell from
+89 % to 58 % and IP Shuffle's rose from 22 % to 68 %, so its ordering is now
+Service Diversity ≫ everything else ≈ 55–68 %, and the two attackers no longer
+disagree about the family that matters. Every artefact the −0.893 rests on
+predates the **2026-08-27 substrate restoration** (`d127f443`: OS Diversity
+made a selective redraw under D-18, the OS-gated exploit channel reinstated
+under D-19, the MTD pool restored to seven mechanisms, every substrate golden
+re-baselined) — experiment 2's rows are dated 2026-07-29, factor 9's
+2026-08-03, the probe's 2026-08-25 — and no record re-measured the inherited
+attacker's defence response after it. **This record is the first to, and the
+inversion is not there.** The multi-mechanism conditions are also no longer the
+same conditions: the schemes now draw from the restored seven-mechanism pool,
+so `random` / `simultaneous` / `alternative` here are not experiment 2's.
+
+**What this record may and may not say.** It may say: the loop fix does not
+change the movement attacker's defence ordering (the two movement columns
+agree to a tie), and the movement attacker's severance-versus-diversity pattern
+is robust to the fix. It may not say that the inversion stands or shifts,
+because the phenomenon it was pre-registered to decompose is absent from the
+null arm. Whether the inversion returns under a decomposition of `d127f443`
+(which repair moved the inherited attacker — the selective OS redraw, the OS
+gate, or the enlarged pool behind the multi schemes) is a re-establishment of
+experiment 2, not a fix to this record, and it is spun out:
+[`2026-08-30_headline_on_restored_substrate.md`](../../../handoffs/2026-08-30_headline_on_restored_substrate.md).
+
+## What this leaves
+
+1. **The reported configuration is the fixed attacker, and it costs nothing
+   the criterion scores.** Breadth +54 % at the operating horizon (5.13 →
+   7.92) and +61 % at 30 000 s, plurality unchanged (2.805 → 2.803 bits), the
+   defence ordering unchanged, the churn gone (45 % → 0 of compromise verbs).
+   Axis 3's DEMONSTRATED badge is untouched; no badge moves.
+2. **Jin's rule is a measured negative in both of its readings.** The
+   transparent hold was factor 9's α = 1 (2.18 hosts, modal 0); the opaque hold
+   is 2.66 hosts, modal 0, 77 % of the run spent holding, plurality 0.73 bits.
+   The standing question for Jin (which reading he meant) is answered by
+   measuring both: neither produces progress, because at 44 % of routing
+   decisions the CTI out-set contains nothing the inherited FSM would run next.
+   Under T5 — under-performing is acceptable, not progressing is not — the
+   fixed attacker progresses (H1) and the held one does not (H3); the
+   procedural-order confound is now refuted three ways (factors 8, 9, and the
+   hold) and the host-selection repair is what progress actually needed.
+3. **The located objective stays degenerate at the operating horizon (1.4 %)
+   and is no longer hopeless at T2's (14.6 %).** The probe's fork (§7.3 there)
+   is sharpened, not decided: B-i is still the bind, B-iii is materially lifted.
+4. **The headline inversion is currently unsayable on the current substrate**
+   — not because of this work, and it would have been unsayable whether or not
+   the loop fix landed. That is the item to put to Jin with these numbers,
+   before the results-outline review (T4).

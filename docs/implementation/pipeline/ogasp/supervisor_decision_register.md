@@ -523,6 +523,186 @@ was re-aimed at the evaluation sub-question and rubric re-cleared in the
 commit carrying this annotation, which also retires the trail's
 `experiment_restructure_subquestions` executor handoff.
 
+## The 2026-08-25 meeting rulings (T1–T5)
+
+Provenance: the **25-Aug-2026 meeting** with Dr Hong (46 min, shared with a
+second student; Marc's segment is the final third — transcript held by Marc
+outside the repo, per convention; minutes at
+`~/mtdsim-meeting-minutes/2026-08-25_supervisor_meeting.md`). Numbered **T** —
+the *token-hold* trail — to stay distinct from D, R, M, S and V. The same
+caution as the V trail rides with it: the source is a raw auto-transcription
+with a single attributed speaker, so attribution is inferred from content and
+wording is paraphrase except where quoted.
+
+**What the meeting reviewed.** Marc reported the targeted-objective probe's
+headline ([`targeted_objective_probe.md`](targeted_objective_probe.md) §5–§7):
+under a located crown-jewel objective the movement attacker reaches the target
+in well under 1 % of unopposed runs, the inherited baseline in three of four;
+and under the inherited mass objective the movement attacker reaches nothing
+either. Marc's account of the mechanism in the meeting was procedural — the
+Petri net can route the token along a tactic→tactic edge whose *verb* the
+inherited finite-state attacker does not license from where it stands, so the
+`EXPLOIT → SCAN_NEIGHBOR → ENUM_HOST` progression that moves `curr_host` to a
+fresh host is rarely completed and the attacker "scans and scans" from where it
+is. Marc's own two options were to leave the model as intended behaviour and
+write the negative result, or to zero out every non-FSM edge — which he judged
+would collapse the model into the baseline attacker. Jin proposed a third.
+
+- **T1 — The token-hold rule: when the net's draw lands on a move the inherited
+  FSM does not allow from the current state, leave the token where it is.**
+  Jin's fix, verbatim in substance: *"when that jump happens on the Petri net
+  that takes you to another location, if it's not allowed on this graph, you
+  leave the token there. Then you will see much better progress."* The framing
+  that makes it acceptable: the APT attacker is assumed slower than the
+  scripted attacker anyway, so a rule that only ever delays it is behaviourally
+  honest — *"it's just going to be slower, essentially"* — whereas the present
+  behaviour "jumbles up the process". Agreed as *"a quick and appropriate fix"*;
+  Marc: *"let's do that, and then I'm going to have numbers next."*
+
+  **Session annotation (2026-08-30) — the rule has a measured near-twin, and
+  the meeting did not know it.** The repo already carries an instrument whose
+  limiting end is this rule: the FSM-succession overlay (composition factor 9,
+  [`fsm_succession_overlay.md`](fsm_succession_overlay.md)) attenuates every
+  out-edge whose verb the FSM does not license by (1 − α), and at **α = 1**
+  removes them outright. Which of the two readings of Jin's rule that
+  corresponds to is the design question the handoff carries:
+
+  - *Transparent hold* — dwell-only tactics (seven of fifteen under
+    `v2_partial`; they fire no verb, so they cannot violate the FSM) remain
+    legal destinations. Holding-and-redrawing until a legal destination comes
+    up is rejection sampling from the same base distribution, so it selects the
+    **same conditional distribution as α = 1**. That point was swept at 2 080
+    runs ([`fsm_succession_prereg.md`](fsm_succession_prereg.md) B2–B3, §4):
+    hosts fell from 5.60 to **2.18 (modal run 0)**, actions per run from 363
+    to 165, dwell-only share of visits rose to 67.6 % — **DEGENERATE**, and the
+    gap to the baseline *widened* by 10.4 %. Mechanism: when the licensed verb
+    set is narrow, mass shifts onto the seven transparent dwell places, not the
+    one licensed verb; the attacker pivots and waits. Under this reading Jin's
+    fix is **already measured, and it does not produce better progress.**
+  - *Opaque hold* — the token is held until the draw lands on a place whose
+    verb the FSM licenses, dwell-only places included in what is held out.
+    **Not measured.** It makes the verb chain the FSM's chain exactly, with the
+    CTI weights choosing only *among* licensed successors, and the hold itself
+    costing time (a re-dwell at the current place — the "slower" Jin accepts).
+    It is the reading Marc feared would reduce the model to the baseline — it
+    does not quite, the routing among licensed successors and the dwell
+    regime stay CTI-derived — but plurality will collapse toward the FSM and
+    the record must say so. This is the reading the handoff builds and
+    measures, as an additional band point beside factor 9 rather than a
+    repair of it.
+
+  Two further facts the meeting reasoned without, both on record. **The pivot
+  is not missing — the loop is** ([`movement_objectives_design.md`](movement_objectives_design.md)
+  §2): `ENUM_HOST` sets the pivot for both arms, but `_do_scan_neighbors`
+  returns *already-owned* hosts to the stack and only the native skip-owned
+  loop absorbs them — the movement attacker re-compromises reachable owned
+  hosts 89 % of the time with **no MTD at all**. A perfect FSM order does not
+  remove that; the exclude-owned-and-re-select policy (§3 of that record) is
+  its companion, and the handoff runs the hold rule with and without it. And
+  the probe's tuning sweep ([`targeted_objective_probe.md`](targeted_objective_probe.md)
+  §6.3) found the located-target barrier *structural* — no timing, weight or
+  overlay knob lifts reach; only more horizon does, and only by leaking
+  breadth. Jin's rule is a routing constraint, so it is a new knob rather than
+  one already swept — but on the evidence the honest prior is that it lifts
+  mass-objective breadth somewhat and located-target reach little, because
+  nothing in it points the attacker at the database hosts (barrier B-i).
+
+  **Marc's ruling, 2026-08-30 — fix the seam first.** The dropped `ENUM_HOST`
+  skip-owned loop is classified a *carve-out bug* (Brown's chain ends Enum
+  Host in selection of a target host, IS-PRC-01; the native wrapper loops on an
+  owned host; the movement layer lost that when it took one outcome per
+  visit). Marc opens the host-selection gate of
+  [`movement_objectives_design.md`](movement_objectives_design.md) §6 for this
+  one change: restore the loop, re-baseline the movement goldens, re-run the
+  headline matrix on the fixed attacker, and layer the hold rule on top only
+  if the loop fix alone leaves the attacker short — "quick and easy,
+  appropriate given the time". Handoff step 0.
+
+  **Stopping rule carried over.** Factor 9's pre-registration says a degenerate
+  limiting end is a recorded negative, *not repaired into a third factor*. The
+  hold rule is executed here because the supervisor directed it, as a **T1
+  band point** with its own pre-registered criteria — not as a re-opening of
+  the alignment programme — and its result, whichever way it falls, is
+  reported beside factors 8 and 9.
+
+  **Result (2026-08-30, [`fsm_token_hold_findings.md`](fsm_token_hold_findings.md),
+  14 700 + 4 400 runs, pre-registered at `042afc5f`).** *The loop fix works;
+  the hold rule does not; the headline is not where it was left.* (i) The
+  fresh-host contract lifts pooled unopposed breadth 5.13 → 7.92 hosts at
+  15 000 s and 9.01 → 14.49 at 30 000 s (disjoint CIs; 9.9 % / 20.5 % of the
+  gap to the inherited attacker closed, against factor 8's ≤ 7.4 % and factor
+  9's −10.4 %) at no cost to plurality (2.805 → 2.803 bits) and with the churn
+  measured at 45 % of compromise verbs before it and 0 after. It is the
+  reported configuration. (ii) The opaque hold is DEGENERATE on the guard's
+  immobility clause (modal run 0 hosts; 2.66 hosts vs the null's 5.13; 77 % of
+  the run spent holding; plurality 0.73 bits), on the old attacker and layered
+  on the fixed one alike; the layering condition was not met and its headline
+  arm was not run. The answer to the standing transparent-vs-opaque question is
+  that both readings are now measured and both are degenerate, for one
+  mechanism: at 44 % of routing decisions the CTI out-set contains nothing the
+  FSM licenses next. (iii) **The kill criterion fired on the null arm**:
+  ρ = −0.071 against the inherited attacker at 50 seeds (record −0.893), before
+  any fix — the inherited attacker's defence response changed under the
+  2026-08-27 substrate restoration (`d127f443`; OS Diversity 89 % → 58 %, IP
+  Shuffle 22 % → 68 %), which no record had re-measured. The movement arm's
+  ordering is unchanged. Spun out as
+  `2026-08-30_headline_on_restored_substrate.md`; nothing in this record may
+  be read as the inversion standing or shifting.
+
+- **T2 — Slower is legitimate; set the horizon and let the APT attacker use
+  it.** Jin: *"you must set an upper limit on the simulation, right? Given some
+  APTs take months and months, that may also make sense."* An APT attacker
+  that needs a longer horizon than the scripted attacker is a modelled
+  characteristic, not a defect (cf. axis 1's persistence stance, V trail). The
+  probe's horizon-doubling point (reach 0.7 % → 4.0 %, hosts 6.3 → 12.4 at
+  30 000 s) is the existing evidence; the handoff carries the hold rule at the
+  operating horizon and one extended horizon.
+
+- **T3 — The dissertation structure is ratified as tabled.** The three
+  sub-questions (capture / model / evaluate) run as the spine through the
+  literature review, the methodology and the results-and-discussion —
+  *"structure sounds okay"*. The results chapter splits as Marc described it:
+  **§5.1** the eight-axis fidelity demonstration (the APT-specific metrics —
+  Jin checked these were retained: *"you do have the additional metrics we were
+  discussing before"*), **§5.2** the evaluation of the MTD mechanisms against
+  the APT attacker. No change to the V5–V7 skeleton.
+
+- **T4 — Results into the outline first, with placeholders and expected
+  results, then review.** Marc's plan (next one to two weeks): pull the numbers
+  after T1, put every result into the chapter outline Jin holds, and call a
+  review. Jin's addition: for every result not yet in hand, put a **placeholder
+  with a brief expected-result description** — what the experiment is for and
+  what it is expected to show — *"then it will give us a better understanding
+  of how to restructure if needed."* Marc is to re-send the outline.
+
+- **T5 — Under-performing the baseline is acceptable; not progressing is not.**
+  Marc's position, accepted: the inherited attacker is *"basically a DDoS
+  script"*, so an APT attacker with less breadth is an expected result and can
+  be argued as such (this is the standing headline framing). What Jin did not
+  accept is an attacker that fails to make progress at all because of routing
+  rather than because of the defence — that is what T1 removes, so the numbers
+  reported are the defence's effect and not the routing artefact's. Corollary
+  (Jin, asked twice): *"did you trace it?"* / *"do you not have a log output?"*
+  — Marc owes Jin the trace that shows the behaviour; the tracer
+  ([`../../trace_tool.md`](../../trace_tool.md)) exists for exactly this, and
+  the record's numbers already stand behind it.
+
+**Carried from the first two-thirds of the meeting (general guidance, other
+student's segment) that binds this project too:** the introduction is to state
+that the full source is available at the repository (Marc had already executed
+the availability placeholder at `54c6d626`; the main-vs-tag choice is still
+Marc's); architecture pictures of the simulator should be added for the next
+student ("what is connected to what"); tidy-as-you-go, and the dev branch is to
+be merged and tidied at project end; small deterministic hand-checks before
+trusting any number (V1 restated); and emulation on a real network is named as
+the gold-standard future-work direction — expensive and out of honours scope.
+
+**Forward chain (T1, T2, T5).** One handoff, `2026-08-30_fsm_token_hold_rule.md`:
+build the opaque hold as a declared succession-modulator variant, pre-register
+its criteria against factor 9's band, run it with and without the exclude-owned
+re-select companion at the operating and an extended horizon, and produce the
+trace Jin asked for. T3 and T4 commission no code — T4 is Marc's outline work.
+
 ## Still open with the supervisor
 
 - **Nothing structural in the execution model.** M1–M8 closed the
@@ -541,6 +721,16 @@ commit carrying this annotation, which also retires the trail's
   measurements (M8b), now folded into the S6 criterion work as the "what would
   evidence each axis" half; and the dynamic, attacker-state-conditioned weights
   named as the eventual direction in S1.
+- **Owed back under the T trail (2026-08-25):** ~~the token-hold rule's numbers
+  (T1) and the behaviour trace Jin asked for (T5)~~ — **both landed 2026-08-30**
+  ([`fsm_token_hold_findings.md`](fsm_token_hold_findings.md); the seed-0
+  before / after / hold traces under `data/results/fsm_token_hold/`), owed to
+  Jin as a send, not as work; the transparent-vs-opaque question is answered
+  by measuring both (both degenerate, T1 result). Still Marc's: the
+  results-with-placeholders outline (T4), and — new, above the outline in
+  priority — **whether the −0.893 inversion is re-established on the restored
+  substrate** before any results chapter leans on it (the T1 result's item
+  (iii)).
 - **Owed back under the V trail (2026-08-11):** ~~the predictability rework and
   literature name-check (V2)~~ — **done 2026-08-13** (§V2 resolution above: the
   baseline pin survives against the code as a deterministic policy, the
