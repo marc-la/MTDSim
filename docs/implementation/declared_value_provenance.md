@@ -365,6 +365,32 @@ published figures had surfaced. **Where a declared artefact transcribes somethin
 that runs, run it** — and where it transcribes something that does not, say so, so
 a reader knows which kind of assurance the entry carries.
 
+### 6.5a A rider on the fifth instance — the token-hold bound (register T1, no axis)
+
+Recorded as a rider rather than a seventh instance because it declares nothing
+new about the attacker: it is one backstop integer attached to the same rules
+artefact, and the rule it bounds is a *supervisor-directed band point* beside
+factor 9, not a factor.
+
+- **Rules and ledger:** [`../../data/ogasp/movement/succession_rules.json`](../../data/ogasp/movement/succession_rules.json)
+  §`token_hold` — one declared parameter, `max_consecutive_holds` = 20,
+  declared-judgement, provisional.
+- **What it bounds:** the opaque token hold (Jin's T1 fix): the token is held
+  at its place, paying a re-dwell per hold, until the draw lands on a place
+  whose verb the inherited FSM licenses. Holds are geometric in the licensed
+  mass of the composed out-distribution, so the bound turns a vanishing
+  licensed mass into a counted fall-through rather than a consumed horizon.
+- **Record:** [`pipeline/ogasp/fsm_token_hold_findings.md`](pipeline/ogasp/fsm_token_hold_findings.md).
+
+**What it adds to the precedent: a backstop is declared like a value but
+defended like a rate.** The number itself carries no claim (no operating
+point is a statement about any adversary, exactly as α's is not); what the
+ledger owes is the *rate at which the backstop acted*, reported beside every
+result the rule produces. A bound whose fall-through rate is material has
+become part of the mechanism, and the record must then say so rather than
+quote the rule's result as the rule's alone. The stopping rule forbids
+re-tuning it on the numbers.
+
 ### 6.6 The sixth instance — the axis-5 exposure family (criterion axis 5's metric)
 
 The first family whose **grounded half and declared half sit inside a single
