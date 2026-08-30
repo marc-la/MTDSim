@@ -232,26 +232,41 @@ def test_the_progress_trajectory_is_monotone_and_ends_at_the_run_total(scheme) -
 
 
 def test_compromise_events_over_count_distinct_hosts() -> None:
-    """The measurement that justified widening the record, kept as a regression.
+    """The measurement that justified widening the record, kept as a regression
+    — and revisited on 2026-08-30, as its own docstring required.
 
     The suite's standing preference is to extend the reader rather than widen the
     schema, so the burden of proof sat on this: cumulative compromise *events*
     are not a sound proxy for distinct hosts, because the record carries no host
-    identity and re-compromise is counted again. If this ever stops holding, the
-    field's justification should be revisited rather than silently kept.
+    identity and re-compromise is counted again. That over-count WAS the
+    re-compromise churn, and the fresh-host contract (on by default since
+    2026-08-30) removes it by construction: a compromise verb fires only on a
+    fresh host, so every compromise event is a new host and the two counts
+    coincide. Both halves are pinned — the over-count on the attacker the field
+    was measured on (contract off, still reachable), and the equality the
+    contract restores (which is the contract's invariant restated on the record,
+    and the reason the field is now *verifiable* rather than merely necessary).
     """
     from mtdsim.l3_simulation.controller import load_outcome_overlay
     from mtdsim.l3_simulation.movement import measures as M
     from mtdsim.l3_simulation.movement.run import run_movement
 
-    run = run_movement(
-        "aggregate", seed=1, horizon=15_000, mapping_version="v2_partial",
+    common = dict(
+        horizon=15_000, mapping_version="v2_partial",
         overlay=load_outcome_overlay(version="v3_persistent_backward"),
         mtd_scheme=None, mtd_interval=200,
     )
-    events = sum(1 for r in run.records if M.is_compromise(r))
-    assert run.compromised_count > 0
-    assert events > run.compromised_count, (
-        "compromise events no longer over-count distinct hosts; the schema "
-        "change's justification needs re-checking"
+    churning = run_movement("aggregate", seed=1, fresh_host_contract=False, **common)
+    events = sum(1 for r in churning.records if M.is_compromise(r))
+    assert churning.compromised_count > 0
+    assert events > churning.compromised_count, (
+        "compromise events no longer over-count distinct hosts on the contract-off "
+        "attacker; the schema change's justification needs re-checking"
+    )
+    fixed = run_movement("aggregate", seed=1, **common)
+    events = sum(1 for r in fixed.records if M.is_compromise(r))
+    assert fixed.compromised_count > 0
+    assert events == fixed.compromised_count, (
+        "under the fresh-host contract every compromise event must be a fresh "
+        "host — a compromise verb fired on an owned host"
     )

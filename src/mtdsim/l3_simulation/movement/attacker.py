@@ -83,6 +83,11 @@ from mtdnetwork.operation.attack_operation import (
     ActionContextError,
 )
 
+from mtdsim.l3_simulation.controller.verdict import (
+    ENUM_EXHAUSTED,
+    NEIGHBORS_NONE_FRESH,
+    SCAN_PORT_EMPTY,
+)
 from mtdsim.l3_simulation.movement.timing import TacticTiming, TimingSource
 
 Verdict = str  # "success" | "failure" (binary outcome only, M2)
@@ -285,6 +290,66 @@ class MovementRecord:
     # or without the field populated (default ``False`` for any construction that
     # does not set it, e.g. a test double).
     database_held: bool = False
+    # -- the fresh-host contract (the order-independent verb contract, Marc's
+    # ruling 2026-08-30; handoff 2026-08-30_fsm_token_hold_rule §Design) ------
+    # Whether ``curr_host`` was **already owned** when this verb fired — read
+    # off the substrate's compromised list before ``step`` ran, for the four
+    # verbs that act on ``curr_host``. Observation only (no control flow reads
+    # it): it is what makes the re-compromise churn a per-record fact rather
+    # than a one-seed anecdote, and with the contract on it is ``False`` for
+    # every compromise verb by construction (asserted in the suite).
+    on_owned_host: bool = False
+    # The fresh-host guard fired at this visit: the compromise verb the token
+    # chose found ``curr_host`` owned and re-selected a fresh target *before*
+    # firing (or failed to, and the visit blocked). The verb is never changed.
+    reselected: bool = False
+    # Extra clock-free ``_do_enum_host`` pops taken at this visit beyond the one
+    # ``step`` itself performed — the retry-until-fresh loop's cost, recorded
+    # per visit so the declared divergence from native pricing (native charged
+    # ``ATTACK_DURATION['ENUM_HOST']`` per pop; this arm charges one dwell per
+    # place visit) is auditable rather than hidden.
+    enum_repops: int = 0
+    # -- the token-hold rule (register T1, Jin 2026-08-25) --------------------
+    # How many times the token was **held** at this place: the sampled next
+    # place dispatched a verb the inherited FSM does not license from the
+    # current state, so the token stayed, paid one more dwell draw, and drew
+    # again. ``hold_dwell`` is the time those holds consumed (included in
+    # ``dwell``, so the time decomposition and the penalty derivation still
+    # hold); ``hold_fell_through`` marks a decision that hit the declared bound
+    # and accepted the plain draw. All three stay at their defaults unless a
+    # hold rule is attached, so a run without one is byte-identical.
+    holds: int = 0
+    hold_dwell: float = 0.0
+    hold_fell_through: bool = False
+
+
+# The verbs that act on ``curr_host`` and can therefore be judged against the
+# fresh-host contract: the three that compromise (the invariant's subjects) and
+# ``SCAN_NEIGHBOR`` (observed only — from a held host is *correct* there).
+_COMPROMISE_VERBS: frozenset[str] = frozenset({"SCAN_PORT", "EXPLOIT_VULN", "BRUTE_FORCE"})
+_HOST_VERBS: frozenset[str] = _COMPROMISE_VERBS | {"SCAN_NEIGHBOR"}
+
+
+class ContractNote(NamedTuple):
+    """What the fresh-host contract did at one dispatch (record enrichment)."""
+
+    on_owned_host: bool = False
+    reselected: bool = False
+    enum_repops: int = 0
+
+
+NO_CONTRACT = ContractNote()
+
+
+class HoldNote(NamedTuple):
+    """What the token-hold rule did at one routing decision."""
+
+    next_place: str | None
+    holds: int = 0
+    hold_dwell: float = 0.0
+    fell_through: bool = False
+    interrupted: bool = False
+    source: InterruptSource = NO_INTERRUPT
 
 
 # The distinguished routing verdict for a place that raised no verdict at all (a
@@ -368,6 +433,21 @@ class MovementAttacker:
         # exactly as it names its mapping and its overlay version. The
         # accept-and-censor arm it supersedes stays reachable for the same reason.
         retrace_sinks: bool = False,
+        # The fresh-host contract (order-independent verb contract), ON by
+        # default — the one behaviour switch in this driver that defaults on,
+        # because Marc ruled it *into* the reported configuration (register
+        # T1 annotation, 2026-08-30): the dropped ENUM_HOST skip-owned loop is a
+        # carve-out bug under the bug-vs-design instrument (IS-PRC-01 ends Enum
+        # Host in *selection of a target host*; the native wrapper loops on an
+        # owned host; the movement layer lost that when it took one outcome per
+        # visit). ``False`` reproduces every pre-2026-08-30 record stream bit
+        # for bit and is how the 2 x 2 x 2 measures the fix against its absence.
+        fresh_host_contract: bool = True,
+        # The token-hold rule (T1), OFF by default: a
+        # :class:`~mtdsim.l3_simulation.movement.succession.TokenHoldRule`
+        # bound to an FSM-succession modulator registered on this run's
+        # attacker state. None means the routing is exactly today's.
+        token_hold: Any | None = None,
     ) -> None:
         import random
 
@@ -411,6 +491,14 @@ class MovementAttacker:
         # retrace budget and surfaces the frequency instead, so a high count is
         # data rather than something a knob quietly held down.
         self.retrace_count = 0
+        # -- the fresh-host contract (see the constructor argument) ----------
+        self.fresh_host_contract = bool(fresh_host_contract)
+        #: How many dispatches the fresh-host guard re-selected before firing.
+        self.reselects = 0
+        #: Clock-free re-pops taken across the run (the loop's total cost).
+        self.enum_repops_total = 0
+        # -- the token-hold rule (see the constructor argument) ---------------
+        self.token_hold = token_hold
 
     # -- lifecycle ----------------------------------------------------------
     def start(self) -> simpy.Process:
@@ -469,8 +557,10 @@ class MovementAttacker:
                 # which no overlay registers: the composed distribution is the
                 # base weights renormalised, sampled identically (overlay design
                 # §3 stands — an unconditioned place routes on base weights).
-                next_place = self._route(place, VERDICT_NONE)
-                next_place, exhausted = self._maybe_retrace(place, next_place)
+                held = yield from self._route_with_hold(place, VERDICT_NONE)
+                next_place, exhausted = self._maybe_retrace(place, held.next_place)
+                if held.interrupted and not interrupted:
+                    interrupted, source = True, held.source
                 self.records.append(
                     MovementRecord(
                         profile=self.routing.profile,
@@ -484,13 +574,16 @@ class MovementAttacker:
                         next_place=next_place,
                         start_time=start_time,
                         end_time=self.env.now,
-                        dwell=dwell,
+                        dwell=dwell + held.hold_dwell,
                         interrupted_by=source.resource_type,
                         interrupted_by_name=source.name,
                         place_class=DWELL_ONLY,
                         retrace=is_retrace,
                         n_compromised=self._n_compromised(),
                         database_held=self._database_held(),
+                        holds=held.holds,
+                        hold_dwell=held.hold_dwell,
+                        hold_fell_through=held.fell_through,
                     )
                 )
                 step_index += 1
@@ -519,7 +612,7 @@ class MovementAttacker:
             # disagreed.
             self.adversary.set_curr_process(verb)
 
-            outcome_tag, verdict, interrupted, blocked, source, dwell = (
+            outcome_tag, verdict, interrupted, blocked, source, dwell, note = (
                 yield from self._dispatch(verb, dwell, start_time)
             )
             if outcome_tag == _SIM_END:
@@ -527,8 +620,13 @@ class MovementAttacker:
                                     dwell=dwell, start_time=start_time)
                 return
 
-            next_place = self._route(place, verdict)
-            next_place, exhausted = self._maybe_retrace(place, next_place)
+            # Read BEFORE the hold: a hold's extra draws leave curr_vulns
+            # untouched, but reading here keeps the figure the act was taken on.
+            exploitability = self._mean_exploitability(verb, blocked)
+            held = yield from self._route_with_hold(place, verdict)
+            next_place, exhausted = self._maybe_retrace(place, held.next_place)
+            if held.interrupted and not interrupted:
+                interrupted, source = True, held.source
             self.records.append(
                 MovementRecord(
                     profile=self.routing.profile,
@@ -542,13 +640,19 @@ class MovementAttacker:
                     next_place=next_place,
                     start_time=start_time,
                     end_time=self.env.now,
-                    dwell=dwell,
+                    dwell=dwell + held.hold_dwell,
                     interrupted_by=source.resource_type,
                     interrupted_by_name=source.name,
                     retrace=is_retrace,
                     n_compromised=self._n_compromised(),
-                    exploitability=self._mean_exploitability(verb, blocked),
+                    exploitability=exploitability,
                     database_held=self._database_held(),
+                    on_owned_host=note.on_owned_host,
+                    reselected=note.reselected,
+                    enum_repops=note.enum_repops,
+                    holds=held.holds,
+                    hold_dwell=held.hold_dwell,
+                    hold_fell_through=held.fell_through,
                 )
             )
             step_index += 1
@@ -607,12 +711,103 @@ class MovementAttacker:
         except Exception:  # noqa: BLE001 - record enrichment only, never fatal
             return 0.0
 
+    # -- the fresh-host contract ----------------------------------------------
+    def _curr_host_owned(self) -> bool:
+        """Is the substrate's ``curr_host`` a host the adversary already owns?
+        Read-only over substrate ground truth; False whenever the cursor is
+        unset (a network-layer interrupt clears it) or a test double does not
+        expose the accessors."""
+        try:
+            host_id = self.adversary.get_curr_host_id()
+            if host_id is None or host_id == -1 or self.adversary.get_curr_host() is None:
+                return False
+            return host_id in self.adversary.get_compromised_hosts()
+        except Exception:  # noqa: BLE001 - contract read, never fatal
+            return False
+
+    def _reselect_fresh_host(self) -> tuple[int, bool]:
+        """The retry-until-fresh loop: pop the visible queue through the shared
+        ``_do_enum_host`` core until it yields a host the adversary does **not**
+        own, or the visible queue runs dry. Returns ``(pops, fresh)``.
+
+        This is the native ``_execute_enum_host`` loop branch (an owned host ->
+        ``_enum_host()`` again) reproduced on the movement seam, exactly as the
+        native arm does it and through the same core, so the attempt counter,
+        the give-up rule and the pivot bookkeeping are the native ones. Two
+        declared divergences from native pricing, both recorded per visit:
+
+        - **clock-free** — the native arm charges ``ATTACK_DURATION['ENUM_HOST']``
+          per pop; this arm charges one dwell per place visit whatever the pop
+          count (S3-R: the tactic prices "select and act", not the pop count).
+          ``enum_repops`` on the record is the audit trail.
+        - **not RNG-free** — every pop re-sorts the queue through
+          ``sort_by_distance_from_exposed_and_pivot_host``, whose tiebreak draws
+          ``random.random()`` per queued internal host from the substrate's
+          *global* stream (network.py:901, the D-29 shared stream). The native
+          loop draws identically per pop, so this brings the movement arm's
+          stream usage *closer* to native; it is stated here because the handoff
+          brief asserted the pops draw nothing, and they do.
+
+        The queue running dry raises ``ActionContextError`` from the core's own
+        D-28 guard (no visible target), which is Brown Fig 3's "there is not
+        another host" — surfaced to the caller as ``fresh=False`` and, by the
+        caller, as the ``ENUM_EXHAUSTED`` verdict the net routes on. No verb is
+        dispatched by this loop: the net, not the guard, decides what comes next.
+        """
+        pops = 0
+        while True:
+            try:
+                owned = self.attack_op._do_enum_host()
+            except ActionContextError:
+                return pops, False
+            pops += 1
+            if not owned:
+                return pops, True
+
     def _dispatch(self, verb: str, duration: float, start_time: float):
         """Run one dispatched verb through the carved substrate for the time the
         movement layer supplies, and read the verdict. Returns ``(outcome_tag,
-        verdict, interrupted, blocked, source, served)``, where ``served``
-        is the time the place actually consumed; ``outcome_tag == _SIM_END`` means
-        the sim ended mid-verb (the caller emits a terminal record and stops)."""
+        verdict, interrupted, blocked, source, served, note)``, where ``served``
+        is the time the place actually consumed and ``note`` is what the
+        fresh-host contract did; ``outcome_tag == _SIM_END`` means the sim
+        ended mid-verb (the caller emits a terminal record and stops).
+
+        **The fresh-host contract (on by default; see the constructor).** Two
+        halves, both movement-side, neither touching the shared cores:
+
+        1. *The fresh-host guard*, before ``step``: a compromise verb
+           (``SCAN_PORT`` / ``EXPLOIT_VULN`` / ``BRUTE_FORCE``) fires only on a
+           fresh, reachable ``curr_host``. If the cursor points at an owned
+           host, the retry-until-fresh loop re-selects first; if it cannot, the
+           visit blocks on ``PRECONDITION_UNMET`` exactly as any unmet
+           precondition does. The guard never changes the verb the token chose.
+        2. *The retry-until-fresh loop* on ``ENUM_HOST`` itself, after ``step``
+           popped an owned host: keep popping until a fresh one, or run the
+           queue dry and report ``ENUM_EXHAUSTED``.
+
+        And the three state-delta verdict rows (``controller/verdict.py``):
+        ``ENUM_EXHAUSTED``, ``SCAN_PORT_EMPTY`` (no open port, no reuse),
+        ``NEIGHBORS_NONE_FRESH`` (no not-owned neighbour discovered) — each read
+        off the substrate's state after the core ran, never re-rolled.
+        """
+        note = NO_CONTRACT
+        repops = 0
+        reselected = False
+        if self.fresh_host_contract and verb in _COMPROMISE_VERBS and self._curr_host_owned():
+            reselected = True
+            self.reselects += 1
+            repops, fresh = self._reselect_fresh_host()
+            self.enum_repops_total += repops
+            if not fresh:
+                served, interrupted, source = yield from self._serve_time(
+                    duration, start_time
+                )
+                return (
+                    _PRECONDITION_UNMET, _UNACTIONABLE_VERDICT, interrupted, True,
+                    source, served, ContractNote(False, True, repops),
+                )
+        on_owned = verb in _HOST_VERBS and self._curr_host_owned()
+        note = ContractNote(on_owned, reselected, repops)
         # Unmet precondition: the substrate cannot run this verb from its current
         # state, so there is NO substrate outcome for the controller's verdict
         # adapter to judge. This is a movement-layer routing condition, not a
@@ -635,7 +830,7 @@ class MovementAttacker:
             )
             return (
                 _PRECONDITION_UNMET, _UNACTIONABLE_VERDICT, interrupted, True,
-                source, served,
+                source, served, note,
             )
 
         interrupted = False
@@ -661,7 +856,7 @@ class MovementAttacker:
             # Inferring the abort from that flag discarded exactly the compromise that
             # completed the run, leaving ASR scoring it a success while MTTC dropped it
             # for having no compromise event.
-            return _SIM_END, "", False, False, "", served
+            return _SIM_END, "", False, False, NO_INTERRUPT, served, note
 
         # Every verb — EXPLOIT_VULN included — propagates an MTD interrupt out of
         # step() as simpy.Interrupt (the carve's driven=True re-raise), caught
@@ -670,10 +865,46 @@ class MovementAttacker:
             tag, verdict, was_interrupted, was_blocked, source = (
                 yield from self._read_interrupt(verb, outcome)
             )
-            return tag, verdict, was_interrupted, was_blocked, source, served
+            return tag, verdict, was_interrupted, was_blocked, source, served, note
 
+        if self.fresh_host_contract:
+            outcome, extra = self._contract_outcome(verb, outcome)
+            if extra:
+                repops += extra
+                self.enum_repops_total += extra
+                note = ContractNote(on_owned, reselected, repops)
         verdict = self.verdict_of(verb, outcome, False)
-        return _outcome_tag(outcome), verdict, False, False, NO_INTERRUPT, served
+        return _outcome_tag(outcome), verdict, False, False, NO_INTERRUPT, served, note
+
+    def _contract_outcome(self, verb: str, outcome: Any) -> tuple[Any, int]:
+        """Apply the contract's post-core rows to a bare outcome. Returns the
+        (possibly richer) outcome and the extra re-pops taken. Pure state reads
+        after the core ran — no clock, no re-roll (M4)."""
+        adversary = self.adversary
+        if verb == "ENUM_HOST" and outcome is True:
+            # step's own pop landed on an owned host: run the native loop branch.
+            pops, fresh = self._reselect_fresh_host()
+            return (False if fresh else ENUM_EXHAUSTED), pops
+        if verb == "SCAN_PORT" and outcome is False:
+            try:
+                if len(adversary.get_curr_ports()) == 0:
+                    return SCAN_PORT_EMPTY, 0
+            except Exception:  # noqa: BLE001 - contract read, never fatal
+                pass
+        if verb == "SCAN_NEIGHBOR" and outcome is None:
+            try:
+                host = adversary.get_curr_host()
+                stop = set(adversary.get_stop_attack())
+                owned = set(adversary.get_compromised_hosts())
+                # The same discovery the core just performed (a pure graph read,
+                # no RNG), minus the give-up list the core filters — i.e. what it
+                # prepended to the queue. Success iff any of it is not yet owned.
+                found = [n for n in host.discover_neighbors() if n not in stop]
+                if not any(n not in owned for n in found):
+                    return NEIGHBORS_NONE_FRESH, 0
+            except Exception:  # noqa: BLE001 - contract read, never fatal
+                pass
+        return outcome, 0
 
     def _read_interrupt(self, verb: str, outcome: Any):
         """Handle an MTD interrupt: pay the substrate's price for being blocked, read
@@ -760,7 +991,96 @@ class MovementAttacker:
     def _route(self, place: str, verdict: str) -> str | None:
         """Condition the base out-distribution on the verdict (overlay.compose)
         and sample the next place. None on a stall (empty composed distribution)
-        or a sink (no base out-edges).
+        or a sink (no base out-edges). The hold-free routing decision — the walk
+        itself goes through :meth:`_route_with_hold`, which is this plus the
+        token-hold rule when one is attached."""
+        return self._sample(self._compose(place, verdict))
+
+    def _route_with_hold(self, place: str, verdict: str):
+        """One routing decision, with the token-hold rule (T1) applied when a
+        rule is attached. A SimPy generator (holds consume time); returns a
+        :class:`HoldNote`.
+
+        The rule, verbatim from register T1 in its *opaque* reading: sample the
+        next place; if the place it landed on dispatches a verb the inherited
+        FSM does not license from the attacker's current FSM state — dwell-only
+        places included in what is held out — the token **stays where it is**,
+        pays one more dwell draw at the current place (the "slower" Jin
+        accepts), and draws again from the *same* composed distribution. Two
+        factor-9 rules are kept: the **abstention rule** (if no destination in
+        the out-set is licensed the rule does nothing — a stall stays
+        structurally impossible) and the **capability fallback** (a licensed
+        successor that cannot run in the current capability state is replaced by
+        the first-step verbs that make it runnable). A declared bound on
+        consecutive holds falls through to the plain draw and is counted.
+
+        Two streams are consumed and both are the attacker's own (SIM-05): the
+        re-draw uses the token sampler, the hold's dwell the timing stream. An
+        MTD interrupt landing mid-hold is paid (the substrate's penalty and
+        lost-cursor semantics, exactly as a dwell-only interrupt is) and
+        re-keys the licensed set through the modulator's interrupt table; the
+        composed distribution itself is not recomposed — the verdict that
+        produced it was already read once (M2).
+        """
+        composed = self._compose(place, verdict)
+        draw = self._sample(composed)
+        rule = self.token_hold
+        if rule is None or draw is None:
+            return HoldNote(draw)
+        licensed = rule.licensed_destinations(composed)
+        rule.decisions += 1
+        if not licensed:
+            rule.abstentions += 1
+            rule.log.append({"place": place, "licensed": [], "rejected": [],
+                             "accepted": draw, "abstained": True,
+                             "fell_through": False})
+            return HoldNote(draw)
+        holds = 0
+        hold_dwell = 0.0
+        interrupted = False
+        source = NO_INTERRUPT
+        # Each rejection is logged WITH the licensed set it was rejected under:
+        # an interrupt mid-hold re-keys that set, so the final set alone would
+        # misdescribe the earlier holds (the V1 hand-trace reads this log).
+        rejected: list[tuple[str, list[str]]] = []
+        fell_through = False
+        abstained = False
+        while draw not in licensed:
+            if holds >= rule.max_consecutive:
+                rule.fall_throughs += 1
+                fell_through = True
+                break
+            rejected.append((draw, sorted(licensed)))
+            holds += 1
+            dwell = self.timing.draw(place)
+            start = self.env.now
+            served, hit, hit_source = yield from self._serve_time(dwell, start)
+            hold_dwell += served
+            if hit:
+                interrupted = True
+                if not source.resource_type:
+                    source = hit_source
+                # The mutation re-keyed the FSM state (the interrupt table wins
+                # over the succession, as the substrate's own handler does).
+                licensed = rule.licensed_destinations(composed)
+                if not licensed:
+                    # Abstention after the re-key: nothing in this out-set is
+                    # licensed from the restart state, so the plain draw stands.
+                    rule.abstentions += 1
+                    abstained = True
+                    draw = self._sample(composed)
+                    break
+            draw = self._sample(composed)
+        rule.holds += holds
+        rule.hold_dwell += hold_dwell
+        rule.log.append({"place": place, "licensed": sorted(licensed),
+                         "rejected": rejected, "accepted": draw,
+                         "abstained": abstained, "fell_through": fell_through})
+        return HoldNote(draw, holds, hold_dwell, fell_through, interrupted, source)
+
+    def _compose(self, place: str, verdict: str) -> dict[str, float]:
+        """The verdict-conditioned out-distribution at ``place`` — the routing
+        decision's distribution, before sampling. Empty on a stall or a sink.
 
         A pending **one-shot retrace suppression** for this place is applied first
         and cleared as it is applied (S5; ``sink_retrace_design.md`` §3.1): the
@@ -771,13 +1091,12 @@ class MovementAttacker:
         what makes it a re-drawn choice rather than a reweighted one."""
         base_out = self.routing.base_out_weights(place)
         if not base_out:
-            return None
+            return {}
         suppressed = self._suppressed_edge
         if suppressed is not None and suppressed[0] == place:
             base_out.pop(suppressed[1], None)
             self._suppressed_edge = None  # one-shot, consumed here
-        composed = self.overlay.compose(place, verdict, base_out)
-        return self._sample(composed)
+        return self.overlay.compose(place, verdict, base_out)
 
     # -- the S5 sink-retrace policy (sink_retrace_design.md) ------------------
     def _maybe_retrace(self, place: str, next_place: str | None) -> tuple[str | None, bool]:
@@ -909,6 +1228,8 @@ __all__ = [
     "OutcomeOverlayLike",
     "MovementRecord",
     "MovementAttacker",
+    "ContractNote",
+    "HoldNote",
     "InterruptSource",
     "NO_INTERRUPT",
     "TimingSource",

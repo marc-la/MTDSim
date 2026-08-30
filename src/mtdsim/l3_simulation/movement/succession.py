@@ -361,8 +361,30 @@ class FsmSuccessionModulator:
         verbs that make one of them runnable. The fallback is what stops the dial
         driving the token at a dispatch the substrate would refuse.
         """
+        return self._resolve(self.targets, count=count)
+
+    def licensed_now(self, *, count: bool = True) -> frozenset[str]:
+        """The licensed verbs **as of right now**, for a reader that consults the
+        FSM state *between* verdicts — the token-hold rule (T1).
+
+        Identical to :meth:`effective_targets` except that an MTD interrupt
+        observed since the last verdict is honoured immediately: the substrate's
+        own handler overrides its dispatch the moment it is hit, so a hold that
+        is interrupted must aim at the interrupt table's restart verb rather
+        than at the stale successors of the verb that ran. ``factors`` never
+        sees a pending interrupt (the state consumes it at the verdict that
+        precedes every composition), so factor 9's arithmetic is untouched.
+        """
+        base = (
+            self.fsm.after_interrupt(self._pending_interrupt)
+            if self._pending_interrupt is not None
+            else self.targets
+        )
+        return self._resolve(base, count=count)
+
+    def _resolve(self, targets: frozenset[str], *, count: bool) -> frozenset[str]:
         held = self.cursor.held
-        runnable = {v for v in self.targets if self.model.requires[v] <= held}
+        runnable = {v for v in targets if self.model.requires[v] <= held}
         if runnable:
             return frozenset(runnable)
         if count:
@@ -370,7 +392,7 @@ class FsmSuccessionModulator:
             # counter — an introspection call that mutated bookkeeping would
             # inflate the reported fallback rate by one per snapshot.
             self.fallbacks += 1
-        return self._enabling_verbs(self.targets)
+        return self._enabling_verbs(targets)
 
     # -- the composition factor ---------------------------------------------
     def factors(
@@ -423,6 +445,121 @@ class FsmSuccessionModulator:
             "suppressed_candidates": self.suppressed,
             "capability_fallbacks": self.fallbacks,
             "abstentions": self.abstentions,
+        }
+
+
+# --- the token-hold rule (register T1) --------------------------------------
+
+
+@dataclass(frozen=True)
+class TokenHoldParameters:
+    """The hold rule's one declared parameter, read from the rules artefact."""
+
+    max_consecutive_holds: int
+    version: str
+
+
+def load_token_hold_parameters(
+    path: Path | str = SUCCESSION_RULES_PATH,
+) -> TokenHoldParameters:
+    doc = json.loads(Path(path).read_text(encoding="utf-8"))
+    block = doc["token_hold"]["declared_parameters"]["max_consecutive_holds"]
+    return TokenHoldParameters(
+        max_consecutive_holds=int(block["value"]),
+        version=str(doc["token_hold"]["version"]),
+    )
+
+
+class TokenHoldRule:
+    """The token-hold rule — Jin's fix (register **T1**, 2026-08-25) in its
+    *opaque* reading, as a declared variant beside factor 9 rather than a
+    repair of it.
+
+    **What it is.** When the net's draw lands on a place whose verb the
+    inherited FSM does not license from the attacker's current state, the token
+    is held where it is: it pays one more dwell draw at the current place and
+    draws again, until the draw lands on a place whose verb *is* licensed.
+    Dwell-only places are held out too — a draw onto one is a hold, not a
+    visit — which is what makes this the opaque hold and not factor 9's α = 1
+    point (transparent dwell-only places, measured DEGENERATE at 2 080 runs:
+    ``fsm_succession_prereg.md`` B2–B3, §4). The verb chain becomes the FSM's
+    chain; the CTI weights choose only *among* licensed successors; the dwell
+    regime stays CTI-derived.
+
+    **What it is not.** It is not a modulator: it reweights nothing. It reads
+    the FSM state that an :class:`FsmSuccessionModulator` tracks (at α = 0 the
+    modulator tracks and acts on nothing, so the hold is the only mechanism in
+    play) and the driver applies the hold at its routing decision
+    (``MovementAttacker._route_with_hold``). It scores no axis of the APT
+    criterion and may never be reported as one, for factor 9's three reasons;
+    it is a supervisor-directed band point with its own pre-registration
+    (``fsm_token_hold_findings.md``), not a third alignment factor.
+
+    **The two rules it keeps from factor 9** (``fsm_succession_overlay.md``
+    §2.1–2.2, and the reasons given there): the abstention rule — where the
+    out-set offers no licensed destination at all the rule does nothing, so a
+    stall stays structurally impossible; and the capability fallback — a
+    licensed successor that cannot run in the current capability state is
+    replaced by the first-step verbs that make it runnable, so the hold never
+    aims the token at a dispatch the substrate would refuse.
+
+    **The one declared parameter** is the bound on consecutive holds
+    (``max_consecutive_holds``, ``succession_rules.json`` §token_hold): after
+    that many holds at one decision the plain draw is accepted and the
+    fall-through is counted. Every hold costs sim time, so the run cannot spin
+    without the bound; the bound exists so a decision with vanishing licensed
+    mass cannot consume the horizon, and its rate is reported beside every
+    result.
+    """
+
+    name = "token-hold"
+
+    def __init__(
+        self,
+        modulator: FsmSuccessionModulator,
+        *,
+        max_consecutive: int | None = None,
+        rules_path: Path | str = SUCCESSION_RULES_PATH,
+    ) -> None:
+        if max_consecutive is None:
+            max_consecutive = load_token_hold_parameters(rules_path).max_consecutive_holds
+        if int(max_consecutive) < 1:
+            raise ValueError(
+                f"max_consecutive must be >= 1, got {max_consecutive!r}"
+            )
+        self.modulator = modulator
+        self.max_consecutive = int(max_consecutive)
+        #: Ledger for the record and the sweep.
+        self.decisions = 0        # routing decisions the rule was consulted at
+        self.holds = 0            # holds taken across the run
+        self.hold_dwell = 0.0     # sim time consumed by holds
+        self.fall_throughs = 0    # decisions that hit the bound
+        self.abstentions = 0      # decisions with no licensed destination
+        #: One entry per consulted decision: the licensed set, the rejected
+        #: draws, the accepted one — the hand-trace's evidence (V1).
+        self.log: list[dict[str, Any]] = []
+
+    def licensed_destinations(self, composed: Mapping[str, float]) -> frozenset[str]:
+        """The destinations in ``composed`` whose verb the FSM licenses right
+        now (capability fallback applied). Dwell-only destinations are never
+        licensed — the opaque reading."""
+        targets = self.modulator.licensed_now()
+        t2v = self.modulator.tactic_to_verb
+        return frozenset(
+            dst
+            for dst, weight in composed.items()
+            if weight > 0.0 and t2v.get(dst) is not None and t2v.get(dst) in targets
+        )
+
+    def snapshot(self) -> dict[str, Any]:
+        return {
+            "max_consecutive_holds": self.max_consecutive,
+            "decisions": self.decisions,
+            "holds": self.holds,
+            "hold_dwell": self.hold_dwell,
+            "fall_throughs": self.fall_throughs,
+            "abstentions": self.abstentions,
+            "succession": self.modulator.snapshot(),
         }
 
 
@@ -567,6 +704,9 @@ __all__ = [
     "FsmSuccessionModulator",
     "SuccessionParameters",
     "SuccessionStallFinding",
+    "TokenHoldParameters",
+    "TokenHoldRule",
     "load_succession_parameters",
+    "load_token_hold_parameters",
     "succession_stall_report",
 ]

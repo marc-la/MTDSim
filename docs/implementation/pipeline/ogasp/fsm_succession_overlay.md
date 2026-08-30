@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-03
-updated: 2026-08-03
+updated: 2026-08-30
 topic: "The FSM-succession overlay (composition-register factor 9) — a declared comparability concession to the inherited attacker's rigidity, its verdict-conditioned successor relation cross-examined against three independent sources, and the abstention rule that makes a stall structurally impossible"
 ---
 
@@ -240,6 +240,13 @@ PYTHONPATH=src python -m pytest tests/l3_simulation/test_movement_succession.py
   here and for the same reason — both condition on the capability state against
   the same artefact, and two factors that agree may compound where two that
   disagreed did not.
+- **A band point beside it, not a repair of it (2026-08-30):** the token-hold
+  rule — Jin's T1 fix in its *opaque* reading — reads the FSM state this
+  modulator tracks at α = 0 and holds the token instead of reweighting; it is
+  pre-registered and measured in
+  [`fsm_token_hold_findings.md`](fsm_token_hold_findings.md) against this
+  factor's band. Its *transparent* reading is this factor's α = 1 point and is
+  not re-run.
 - **When to update:** if the succession relation, the mapping registry or the
   overlay registry changes in a way that could move the no-stall check (re-run it
   — it is cheap and exhaustive); when the sweep's verdict lands.

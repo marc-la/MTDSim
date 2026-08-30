@@ -283,6 +283,8 @@ def run_movement(
     uniform_weights: bool = False,
     exploit_learning_rate: float | None = None,
     exploit_ledger: bool = False,
+    fresh_host_contract: bool = True,
+    token_hold: Any | None = None,
 ) -> MovementRunResult:
     """Run one movement-layer simulation and return its :class:`MovementRunResult`.
 
@@ -365,6 +367,23 @@ def run_movement(
     per run, so a sweep mixing regimes never leaks one run's regime into the
     next.
 
+    ``fresh_host_contract`` selects the **order-independent verb contract**
+    (the fresh-host guard, the ENUM_HOST retry-until-fresh loop and the three
+    state-delta verdict rows; ``movement/attacker.py`` ``_dispatch``). It is the
+    one input at this seam that defaults **on**, because Marc ruled the loop
+    fix *into* the reported configuration on 2026-08-30 (the dropped skip-owned
+    loop is a carve-out bug under the bug-vs-design instrument; register T1
+    annotation). ``False`` reproduces every record stream taken before that
+    date bit for bit and is the "loop fix off" arm of the token-hold
+    measurement.
+
+    ``token_hold`` attaches the token-hold rule (register T1) — a
+    :class:`~mtdsim.l3_simulation.movement.succession.TokenHoldRule` bound to
+    an :class:`~mtdsim.l3_simulation.movement.succession.FsmSuccessionModulator`
+    that must be registered on ``attacker_state`` (the rule reads the FSM
+    state the modulator tracks; at α = 0 the modulator itself acts on nothing).
+    Default ``None`` — the reported configuration routes exactly as before.
+
     ``attacker_state`` attaches a within-run :class:`AttackerState` by wrapping
     the three collaborators the walk consumes — :class:`StatefulTiming` reports
     every place entry, :class:`ModulatedOverlay` reports every verdict and
@@ -376,6 +395,13 @@ def run_movement(
     ``attacker_state=None`` (the null-equivalence guarantee; see
     ``movement/state.py``).
     """
+    if token_hold is not None:
+        if attacker_state is None or token_hold.modulator not in attacker_state.modulators:
+            raise ValueError(
+                "token_hold reads the FSM state its modulator tracks: register "
+                "token_hold.modulator on attacker_state (AttackerState(modulators=...)) "
+                "and pass both"
+            )
     set_exponential_regime(substrate_timing_regime)
     env, end_event, network, adversary, attack_op = _build_sim(seed, geometry)
 
@@ -436,6 +462,8 @@ def run_movement(
         register_for_interrupts=register_for_interrupts,
         max_events=max_events,
         retrace_sinks=retrace_sinks,
+        fresh_host_contract=fresh_host_contract,
+        token_hold=token_hold,
     )
     attacker.start()
 

@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-01
-updated: 2026-08-03
+updated: 2026-08-30
 topic: "The composition register — every routing factor the model carries, which seam each lives on, which are active in the reported configuration, and why that boundary is the portability claim made structural"
 ---
 
@@ -50,6 +50,17 @@ inventing a magnitude or inverting the within-class ordering.
 | 8 | **FSM-alignment overlay** (capability-distance dial) | movement | α (declared **0.0**, the null); the objective-productive verb set is a transcription, not a declared magnitude | α = 0 → no factors returned, bit-identical | **no** — **superseded as an instrument by factor 9**, retained with its sweep as a measured negative |
 | 9 | **FSM-succession overlay** (the procedural-order dial) | movement | α (declared **0.0**, the null), a float over [0, 1] | α = 0 → no factors returned, bit-identical | **no** |
 | 10 | **FSM succession relation** | controller | verdict-conditioned successors + the interrupt table + the objective-productive verb set, versioned (`v1_brown_fig3`) | consulted only by factor 9; inert when α = 0 | **no** (rides with factor 9) |
+
+**Two 2026-08-30 mechanisms are deliberately *not* rows.** The **fresh-host
+contract** (`fresh_host_contract`, on by default — Marc's loop-fix ruling,
+register T1 annotation) is a host-selection invariant in the driver's dispatch
+and reweights nothing; it changes which host a verb acts on, not the routing
+composition above. The **token-hold rule** (`token_hold`, off) holds the token
+rather than reweighting, reading the FSM state factor 9 tracks at α = 0; it is a
+supervisor-directed band point beside factor 9, not a factor
+([`fsm_token_hold_findings.md`](fsm_token_hold_findings.md)). Neither is active
+in the routing composition of the reported configuration; the contract *is*
+active in the reported configuration as an attacker invariant.
 
 **Factor 4 gained a credit-rule selector and factor 6 gained achievement terms on
 2026-08-02** ([`progress_credit.md`](progress_credit.md)). Neither changes this

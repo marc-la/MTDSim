@@ -118,6 +118,17 @@ class L3Tracer(Tracer):
     steps: int = 0
     dwell_only_steps: int = 0
     retraced_steps: int = 0  # visits the token stepped back into (S5)
+    # the fresh-host contract (2026-08-30) and the token-hold rule (T1)
+    fresh_host_contract: bool = True
+    on_owned_host_steps: int = 0
+    compromise_verbs_on_owned: int = 0
+    reselected_steps: int = 0
+    enum_repops: int = 0
+    token_hold: object = None
+    held_decisions: int = 0
+    holds: int = 0
+    hold_time: float = 0.0
+    hold_fall_throughs: int = 0
     blocked_dispatches: int = 0
     verdict_successes: int = 0
     verdict_failures: int = 0
@@ -325,6 +336,19 @@ class _NarratingRecords(list):
             t.dwell_only_steps += 1
         if rec.retrace:
             t.retraced_steps += 1
+        if rec.on_owned_host:
+            t.on_owned_host_steps += 1
+            if rec.verb in ("SCAN_PORT", "EXPLOIT_VULN", "BRUTE_FORCE"):
+                t.compromise_verbs_on_owned += 1
+        if rec.reselected:
+            t.reselected_steps += 1
+        t.enum_repops += rec.enum_repops
+        if rec.holds:
+            t.held_decisions += 1
+            t.holds += rec.holds
+            t.hold_time += rec.hold_dwell
+        if rec.hold_fell_through:
+            t.hold_fall_throughs += 1
 
         if rec.outcome in ("SIM_END", "MAX_EVENTS", "SINK_EXHAUSTED"):
             t.terminal_tag = rec.outcome
@@ -358,6 +382,24 @@ class _NarratingRecords(list):
         # reader seeing the token inexplicably double back.
         if rec.retrace:
             what = f"{what}  [retraced here from a sink]"
+        # The fresh-host contract, made visible where it acts: a verb that fired
+        # on a host already owned (the churn the loop fix removes), a guard that
+        # re-selected before firing, and the re-pops the loop took. This is the
+        # before/after Jin asked for (T5) — the same seed with the contract off
+        # shows the compromise verbs landing on owned hosts; with it on, the
+        # re-selects and re-pops that replace them.
+        if rec.on_owned_host:
+            what = f"{what}  [on a host ALREADY OWNED]"
+        if rec.reselected:
+            what = (f"{what}  [fresh-host guard re-selected after "
+                    f"{rec.enum_repops} owned pop(s)]")
+        elif rec.enum_repops:
+            what = f"{what}  [re-popped {rec.enum_repops} owned host(s) to a fresh one]"
+        # The token-hold rule (T1): the draw landed on an FSM-illegal place and
+        # the token stayed, paying extra dwell, until a licensed draw came up.
+        if rec.holds:
+            what = (f"{what}  [HELD x{rec.holds}, +{rec.hold_dwell:.1f} t/u"
+                    f"{' — fell through to the plain draw' if rec.hold_fell_through else ''}]")
         # The residual is what the substrate charged on top of the tactic's time.
         # It must be 0.0 on every uninterrupted event: S3-R retired MTDSim's own
         # action costs on this arm, so a non-zero value here is the hybrid coming
@@ -442,6 +484,8 @@ def run_l3_trace(
     geometry: dict | None = None,
     max_events: int = 50_000,
     retrace_sinks: bool = False,
+    fresh_host_contract: bool = True,
+    token_hold=None,
 ) -> tuple[L3Tracer, MovementRunResult]:
     """Run one movement-layer simulation with unified tracing on.
 
@@ -503,7 +547,11 @@ def run_l3_trace(
         seed=seed,
         max_events=max_events,
         retrace_sinks=retrace_sinks,
+        fresh_host_contract=fresh_host_contract,
+        token_hold=token_hold,
     )
+    tracer.token_hold = token_hold
+    tracer.fresh_host_contract = fresh_host_contract
     attacker.records = _NarratingRecords(tracer)
     attacker.start()
 
@@ -636,6 +684,38 @@ def _l3_verdict(tracer: L3Tracer, result: MovementRunResult, horizon: float,
         lines.append(f"  {tracer.exploits_refused_by_os} exploit attempt(s) refused "
                      "outright by the OS gate: the vulnerability needs an OS the "
                      "host is not running (each counted as a failed attempt).")
+
+    head("The host-selection contract")
+    n_comp = sum(tracer.dispatches_by_verb.get(v, 0)
+                 for v in ("SCAN_PORT", "EXPLOIT_VULN", "BRUTE_FORCE"))
+    if tracer.fresh_host_contract:
+        lines.append("  Fresh-host contract ON (the reported configuration since "
+                     "2026-08-30): a compromise verb fires only on a fresh host.")
+        lines.append(f"  {tracer.reselected_steps} dispatch(es) re-selected a fresh "
+                     f"host before firing; {tracer.enum_repops} clock-free owned-host "
+                     "pop(s) in total (the native skip-owned loop, restored).")
+        lines.append(f"  Compromise verbs fired on an already-owned host: "
+                     f"{tracer.compromise_verbs_on_owned} of {n_comp} "
+                     "(0 by construction under the contract).")
+    else:
+        lines.append("  Fresh-host contract OFF (the pre-2026-08-30 attacker): no "
+                     "guard, no skip-owned loop.")
+        lines.append(f"  Compromise verbs fired on an already-owned host: "
+                     f"{tracer.compromise_verbs_on_owned} of {n_comp} — the "
+                     "re-compromise churn, as data.")
+
+    if tracer.token_hold is not None:
+        snap = tracer.token_hold.snapshot()
+        head("The token hold (register T1)")
+        lines.append(f"  Opaque hold ON, bound {snap['max_consecutive_holds']} "
+                     "consecutive holds.")
+        lines.append(f"  Consulted at {snap['decisions']} routing decision(s): "
+                     f"{tracer.held_decisions} held (total {snap['holds']} hold(s), "
+                     f"{snap['hold_dwell']:.0f} t/u spent holding), "
+                     f"{snap['abstentions']} abstained (no licensed destination), "
+                     f"{snap['fall_throughs']} fell through the bound.")
+        lines.append(f"  Capability fallbacks while holding: "
+                     f"{snap['succession']['capability_fallbacks']}.")
 
     if tracer.attacker_state is not None:
         state = tracer.attacker_state
@@ -805,6 +885,13 @@ def main(argv=None) -> int:
                          "execution, penalty): 'shifted' (inherited, "
                          "mean + Exp(0.5)) or 'exponential' (true Exp(mean); "
                          "D-08). The movement dwell is untouched")
+    ap.add_argument("--no-fresh-host", action="store_true",
+                    help="turn the fresh-host contract OFF (the pre-2026-08-30 "
+                         "attacker: no skip-owned loop, no guard) — the 'before' "
+                         "half of the T5 trace")
+    ap.add_argument("--hold", action="store_true",
+                    help="attach the token-hold rule (register T1, opaque "
+                         "reading) on an FSM-succession modulator at alpha = 0")
     ap.add_argument("--no-colour", action="store_true")
     ap.add_argument("--quiet", action="store_true", help="verdict only")
     args = ap.parse_args(argv)
@@ -826,6 +913,22 @@ def main(argv=None) -> int:
             learner = LearningModulator(kappa=learner.kappa, rho=args.rho)
         attacker_state = AttackerState(seed=args.seed, modulators=(learner,))
 
+    token_hold = None
+    if args.hold:
+        if attacker_state is not None:
+            ap.error("--hold registers its own modulator; drop --demo-state / --learning")
+        from mtdsim.l3_simulation.movement.learning_readiness import load_tactic_to_verb
+        from mtdsim.l3_simulation.movement.succession import (
+            FsmSuccessionModulator,
+            TokenHoldRule,
+        )
+
+        modulator = FsmSuccessionModulator(
+            alpha=0.0, tactic_to_verb=load_tactic_to_verb(args.mapping_version)
+        )
+        token_hold = TokenHoldRule(modulator)
+        attacker_state = AttackerState(seed=args.seed, modulators=(modulator,))
+
     tracer, result = run_l3_trace(
         args.profile,
         mapping_version=args.mapping_version,
@@ -840,6 +943,8 @@ def main(argv=None) -> int:
         substrate_timing_regime=args.substrate_timing_regime,
         custom_strategies=_resolve_mtds(args.mtds, args.scheme),
         retrace_sinks=args.retrace,
+        fresh_host_contract=not args.no_fresh_host,
+        token_hold=token_hold,
     )
 
     if not args.quiet:

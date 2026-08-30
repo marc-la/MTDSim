@@ -40,7 +40,13 @@
   "declared_parameters": {
     "alpha": {
       "value": 0.0,
-      "sweep": [0.0, 0.25, 0.5, 0.75, 1.0],
+      "sweep": [
+        0.0,
+        0.25,
+        0.5,
+        0.75,
+        1.0
+      ],
       "tier": "declared-judgement",
       "status": "provisional",
       "confidence": 75,
@@ -62,5 +68,30 @@
     ],
     "reproducibility": "There is no compiled value table to reproduce: the succession relation is a transcription and the dial declares nothing per cell. What stands in its place is the cross-examination of the relation against three independent sources (the substrate code, Brown Fig 3, Zhang Fig 7), pinned by test, plus the exhaustive no-stall check.",
     "maintenance": "docs/implementation/declared_value_provenance.md §4."
+  },
+  "token_hold": {
+    "version": "v1_token_hold",
+    "created": "2026-08-30",
+    "record": "docs/implementation/pipeline/ogasp/fsm_token_hold_findings.md",
+    "ruling": "supervisor_decision_register.md T1 (Jin, 2026-08-25): when the net's draw lands on a move the inherited FSM does not allow from the current state, leave the token where it is.",
+    "consumed_by": "src/mtdsim/l3_simulation/movement/succession.py (TokenHoldRule) and MovementAttacker._route_with_hold",
+    "reading": "OPAQUE hold — dwell-only destinations are held out too. The transparent reading is rejection sampling from factor 9's alpha = 1 conditional and was measured DEGENERATE (fsm_succession_prereg.md B2-B3, section 4); it is not re-run under this name.",
+    "scores_no_axis": "Inherits factor 9's exclusion verbatim: not learning, not adaptivity to the defender, not a fidelity improvement. A supervisor-directed band point with its own pre-registration, not a third alignment factor (factor 9's stopping rule).",
+    "rules_kept_from_factor_9": [
+      "abstention (no licensed destination -> the rule does nothing; a stall stays structurally impossible)",
+      "capability fallback (an unrunnable licensed successor is replaced by the first-step verbs that make it runnable)"
+    ],
+    "declared_parameters": {
+      "max_consecutive_holds": {
+        "value": 20,
+        "tier": "declared-judgement",
+        "status": "provisional",
+        "confidence": 60,
+        "rationale": "The bound on consecutive holds at one routing decision; past it the plain draw is accepted and counted as a fall-through. Holds are geometric in the licensed mass p of the composed out-distribution, so the fall-through probability at a decision is (1 - p)^20: 1.2 % at p = 0.2, 12 % at p = 0.1, 36 % at p = 0.05. The value is chosen so that a decision with ordinary licensed mass essentially never falls through while a decision with vanishing licensed mass cannot consume the horizon holding. It is a backstop, not an operating point: the fall-through RATE is reported beside every result, and a material rate means the hold's result is partly the bound's.",
+        "not_reported_as": "Never tuned to make the hold 'work' — factor 9's stopping rule binds (report what it does). Any reported hold arm quotes its fall-through rate.",
+        "scrutiny": "Authored 2026-08-30 with the rule, before any hold run existed. Has survived no adversarial review round; the pre-registered run is the whole of its defence.",
+        "changelog": []
+      }
+    }
   }
 }

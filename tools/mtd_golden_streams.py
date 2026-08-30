@@ -157,6 +157,7 @@ def one_golden_run(
         register_for_interrupts=True,
         max_events=50_000,
         retrace_sinks=retrace_sinks,
+        fresh_host_contract=True,
     )
     attacker.start()
 
@@ -211,6 +212,19 @@ def one_golden_run(
     # their credibility on a field that changes nothing.
     for rec in movement_records:
         rec.pop("exploitability", None)
+    # ``on_owned_host`` is the fourth observation-only field (the fresh-host
+    # contract, 2026-08-30): whether curr_host was already owned when the verb
+    # fired, read before ``step`` and read by nothing the walk decides. Popped on
+    # the same principle. ``reselected`` / ``enum_repops`` are NOT popped — they
+    # are behaviour (the contract acted), and the contract is a declared input
+    # of every golden captured on or after 2026-08-30 (config["fresh_host_contract"]).
+    # The three hold fields are popped: no golden attaches a hold rule, so the
+    # schema follows that input exactly as it follows ``retrace``.
+    for rec in movement_records:
+        rec.pop("on_owned_host", None)
+        rec.pop("holds", None)
+        rec.pop("hold_dwell", None)
+        rec.pop("hold_fell_through", None)
     mtd_records = [
         {k: _jsonable(v) for k, v in row.items()}
         for row in network.get_mtd_stats()._mtd_operation_record
@@ -227,6 +241,11 @@ def one_golden_run(
         "mapping": MAPPING,
         "horizon": HORIZON,
         "interval": INTERVAL,
+        # The order-independent verb contract, on since 2026-08-30 (Marc's ruling,
+        # register T1 annotation). Named in the config so a golden states which
+        # attacker it pins; the 2026-08-30 re-baseline is the only time the
+        # movement goldens have moved for an attacker-side reason.
+        "fresh_host_contract": True,
     }
     summary = {
         "events": len(movement_records),

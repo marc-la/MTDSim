@@ -1,5 +1,48 @@
 # Baseline goldens — change log
 
+## 2026-08-30 — movement goldens re-baselined under the fresh-host contract
+
+**What moved.** All 70 streams in `baseline/golden_movement/` (the movement
+arm's per-mechanism goldens captured by `tools/mtd_golden_streams.py`). The
+substrate goldens in `baseline/golden/` did **not** move: the change is
+movement-side only (`src/mtdsim/l3_simulation/movement/attacker.py`), and the
+native 6-phase attacker reproduces its 1676-event / 34-host headline unchanged
+(`tests/l3_simulation/test_movement_smoke.py::test_g1_*`).
+
+**Why.** Marc's ruling of 2026-08-30 (supervisor decision register, T1
+annotation): the movement layer's dropped `ENUM_HOST` skip-owned loop is a
+carve-out bug under the bug-vs-design instrument (IS-PRC-01 ends Enum Host in
+*selection of a target host*; the native wrapper loops on an owned host; the
+movement layer lost that when it took one outcome per visit). The
+**fresh-host contract** — the retry-until-fresh loop, the fresh-host guard on
+compromise verbs, and three state-delta verdict rows — is on by default from
+this commit and becomes the reported configuration. Record:
+`docs/implementation/pipeline/ogasp/fsm_token_hold_findings.md`.
+
+**The fixture diff (horizon 3 000, `v2_partial`, `v3_persistent_backward`,
+retrace on; `tests/l3_simulation/fixtures/movement_{prechange,contract}_2026-08-30.json`):**
+
+| cell | hosts before → after | records before → after | re-selects | re-pops |
+|---|--:|--:|--:|--:|
+| aggregate / 0 / none | 1 → 2 | 93 → 93 | 2 | 4 |
+| aggregate / 1234 / none | 1 → 1 | 84 → 84 | 0 | 1 |
+| objective_exfiltration / 1234 / none | 2 → 2 | 105 → 108 | 2 | 2 |
+| objective_none_c2 / 0 / none | 1 → 1 | 84 → 84 | 1 | 1 |
+| objective_none_c2 / 1234 / none | 1 → 1 | 110 → 113 | 11 | 3 |
+| every `simultaneous` cell (6) | unchanged (0) | unchanged | 0 | 0 |
+
+At the 3 000 s horizon the walks diverge only once the contract first acts;
+the 15 000 s effect is the record's business. `fresh_host_contract=False`
+reproduces the pre-change fixture bit for bit (pinned in
+`tests/l3_simulation/test_movement_fresh_host.py`), so every figure on record
+before this date is still reproducible by naming the input.
+
+**Schema.** Golden documents now carry `config.fresh_host_contract: true` and
+the per-record `reselected` / `enum_repops` fields (behaviour, so they may move
+a digest). `on_owned_host` and the three hold fields are popped as
+observation-only / not-an-input, on the tool's standing principle.
+
+
 Every intentional re-baseline lands here with what / why / spec-IDs. The
 on-disk goldens are the behavioural oracle for the inherited substrate;
 *any* change to their headline numbers must have an entry below or the
