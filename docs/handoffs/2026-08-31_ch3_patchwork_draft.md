@@ -1,5 +1,5 @@
 ---
-status: open                  # awaiting Marc's unit-by-unit ruling; retire when the ratified text is inserted into dissertation.tex
+status: open                  # INSERTED into dissertation.tex 2026-08-31 on Marc's instruction (batch conversions and stitches applied as recommended, reversible per item via the ledgers below); kept while the gaps G0--G8 are open, retire when the last gap is dictated
 created: 2026-08-31
 executes: 2026-08-31_ch3_port_plan.md
 ---
