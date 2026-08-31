@@ -23,6 +23,9 @@ Files in this directory:
 | `volt_typhoon_aa24038a.json` | the STIX 2.1 Attack Flow bundle (the canonical machine form; the same four-SDO grammar the corpus flows use) |
 | `volt_typhoon_aa24038a.yaml` | the per-flow extract, **produced by the repo's own parser** from the bundle (not hand-typed) — the round-trip is the fidelity proof |
 | this `README.md` | the human-readable record: fidelity contract, node/edge ledger, validation, placement |
+| `build_volt_typhoon_exemplar.py` | generator for the reduced **ch3 schema-exemplar** subset (below) — emits the `.afb` and a subset STIX bundle |
+| `volt_typhoon_exemplar.afb` | the reduced subset as an **Attack Flow Builder** file (`attack_flow_v2`) — open in the Builder and export SVG |
+| `volt_typhoon_exemplar.json` | the same subset as a STIX 2.1 bundle (parser-validated fallback) |
 
 Regenerate (idempotent, deterministic ids):
 
@@ -116,6 +119,85 @@ predecessor (attacker-side prep), plus the entry precondition and two defence-ev
 actions the advisory does not sequence (`T1112` PortProxy registry mod, `T1027.002` UPX
 packing). They float as entry points rather than being wired with invented edges — the
 faithful choice.
+
+## Pedagogical exemplar — the ch3 §3.1.2 schema figure
+
+Marc's ruling (2026-08-31): the Attack Flow schema exemplar in ch3 §3.1.2 is the
+Volt Typhoon subset, **replacing** the 2018 Tesla flow. The full 67-node flow is the
+*evidence* artefact (the coverage-cost argument); it is not the figure. The figure is a
+deliberately small teaching subset built by `build_volt_typhoon_exemplar.py`.
+
+**It is a true induced subgraph of the full flow** — every one of its 13 nodes and 13
+edges also exists in `volt_typhoon_aa24038a.json` — so the figure never contradicts the
+evidence artefact. It shows the whole Attack Flow grammar on one legible APT spine:
+
+```mermaid
+flowchart TD
+  c0{{Unpatched appliance · FortiGate/CVE-2022-42475}}
+  a1[T1190 Exploit Public-Facing App]
+  a2[T1068 Priv-Esc]
+  a3[T1552 Unsecured Credentials]
+  o1([OR])
+  a4[T1078 Valid Accounts]
+  a5[T1021.001 RDP to Domain Controller]
+  a6[T1006 vssadmin shadow copy]
+  a7[T1047 WMIC / ntdsutil copy]
+  a8[T1003.003 OS Cred Dumping: NTDS]
+  a9[T1110.002 Password Cracking offline]
+  a10[T1563 Access OT-adjacent systems]
+  c1{{Pre-positioned for OT disruption — no destructive action}}
+  c0 -->|on_true| a1
+  a1 --> a2
+  a1 --> a3
+  a2 --> o1
+  a3 --> o1
+  o1 --> a4 --> a5 --> a6 --> a7 --> a8 --> a9 --> a10 --> c1
+```
+
+Grammar on show: an entry **condition**; a two-input **OR operator** (either credential
+source satisfies the join); **effect edges** carrying precondition semantics down the
+NTDS.dit procedure; and a terminal **condition** encoding the restraint finding. The
+`.afb` uses the OR (not an AND) precisely so the subset stays a faithful subgraph of the
+full flow, whose NTDS chain is linear; the operator grammar is still demonstrated.
+
+### Turning it into the figure (Attack Flow Builder → SVG)
+
+1. Open `volt_typhoon_exemplar.afb` in the Attack Flow Builder
+   (<https://center-for-threat-informed-defense.github.io/attack-flow/builder/>).
+2. Tidy the auto-layout (drag nodes; the generator lays them out top-down but the Builder
+   re-routes edges on open) and switch the theme to light if exporting for print.
+3. Export → SVG (or PNG). That SVG is the ch3 §3.1.2 figure.
+
+**Caveat — the `.afb` is best-effort, validate by opening.** It is cloned object-for-object
+from the corpus Tesla `.afb` invariants (schema `attack_flow_v2`; 12 angle-anchors per
+node; edges as `dynamic_line` → `generic_latch` pairs with a `generic_handle`; matching
+`layout`/`camera`), and passes internal-consistency checks (every referenced instance
+exists; every line latch is anchored; layout covers all nodes/latches). But it **cannot be
+validated locally** — the Builder is a web app and the upstream AF CLI does not run in the
+`mtdsim` env (its `stix2` enforces a STIX 2.0 bundle profile; its `validate` hits a
+jsonschema `$ref` error — both fail identically on the known-good corpus Tesla bundle). If
+the Builder refuses the file, use the fallback:
+
+- **Fallback A (import):** try importing `volt_typhoon_exemplar.json` (STIX) if your Builder
+  build supports STIX import.
+- **Fallback B (rebuild — ~15 min):** build the 13 nodes by hand in the Builder from the
+  mermaid above. Node properties (technique id, tactic, name) are in
+  `build_volt_typhoon_exemplar.py`'s `NODES` table; the 13 edges are its `EDGES` table.
+
+Regenerate both artefacts (deterministic):
+
+```sh
+PYTHONPATH=src python3 data/gap/hand_curated/build_volt_typhoon_exemplar.py
+```
+
+### Knock-on for the ch3 draft
+
+The §3.1.2 sentence currently teaches the schema on Tesla's three-input **AND**
+(`T1610`+`T1090`+`T1571` → `T1496`). Replacing the figure means rewriting that sentence
+around the Volt Typhoon subset — most naturally on the **OR** join (either a
+privilege-escalation exploit or a credential stored on the appliance yields the valid
+account) and the effect-edge NTDS chain. Not done here (prose is Marc's); flagged so the
+figure swap and the sentence land together.
 
 ## Follow-ups (not done here)
 

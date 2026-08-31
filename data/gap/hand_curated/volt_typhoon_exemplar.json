@@ -1,0 +1,305 @@
+{
+  "type": "bundle",
+  "id": "bundle--70888625-708c-4ba0-b5ad-06042b1162d3",
+  "spec_version": "2.1",
+  "created": "2024-02-08T00:00:00.000Z",
+  "modified": "2024-02-08T00:00:00.000Z",
+  "objects": [
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--af5a256c-7cf2-45ad-941c-73fcf826b17a",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--268836e8-a890-4fab-875c-934cfd3ca891",
+      "start_refs": [
+        "attack-condition--7482fb2a-4b6c-4810-af12-f3219e98af7e"
+      ],
+      "name": "Volt Typhoon \u2014 Attack Flow schema exemplar (AA24-038A subset)",
+      "description": "A 13-node teaching subset of the Volt Typhoon flow: entry condition, an OR operator over two credential sources, the NTDS.dit effect-edge chain, and a terminal restraint condition. Induced subgraph of the full hand-curated flow; source AA24-038A.",
+      "scope": "campaign",
+      "external_references": [
+        {
+          "source_name": "CISA AA24-038A",
+          "description": "PRC State-Sponsored Actors Compromise and Maintain Persistent Access to U.S. Critical Infrastructure. 8 Feb 2024.",
+          "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--268836e8-a890-4fab-875c-934cfd3ca891",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "name": "MTDSim (hand-curated from AA24-038A)",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--7482fb2a-4b6c-4810-af12-f3219e98af7e",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Unpatched public-facing appliance (e.g. FortiGate 300D, CVE-2022-42475)",
+      "on_true_refs": [
+        "attack-action--dc66ffa7-5bb6-403f-a26d-9f51bf1a4157"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--dc66ffa7-5bb6-403f-a26d-9f51bf1a4157",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exploit Public-Facing Application",
+      "tactic_id": "TA0001",
+      "tactic_ref": "x-mitre-tactic--ffd5bcee-6e16-4dd2-8eca-7b3beedf33ca",
+      "technique_id": "T1190",
+      "description": "Exploits a vulnerability in a public-facing network appliance.",
+      "effect_refs": [
+        "attack-action--96273cb9-1afb-4813-bd29-ffa3372124b8",
+        "attack-action--565f1281-a82c-432a-a58d-2ae39ac11cab"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--96273cb9-1afb-4813-bd29-ffa3372124b8",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exploitation for Privilege Escalation",
+      "tactic_id": "TA0004",
+      "tactic_ref": "x-mitre-tactic--5e29b093-294e-49e9-a803-dab3d73b77dd",
+      "technique_id": "T1068",
+      "description": "Obtains admin credentials via a privilege-escalation vulnerability.",
+      "effect_refs": [
+        "attack-operator--b4d47f97-c6c2-4442-83d0-a587d3ee5b25"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--565f1281-a82c-432a-a58d-2ae39ac11cab",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Unsecured Credentials",
+      "tactic_id": "TA0006",
+      "tactic_ref": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263",
+      "technique_id": "T1552",
+      "description": "Obtains a credential insecurely stored on the appliance.",
+      "effect_refs": [
+        "attack-operator--b4d47f97-c6c2-4442-83d0-a587d3ee5b25"
+      ]
+    },
+    {
+      "type": "attack-operator",
+      "id": "attack-operator--b4d47f97-c6c2-4442-83d0-a587d3ee5b25",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "operator": "OR",
+      "effect_refs": [
+        "attack-action--274d2c60-33a8-49ce-8353-14b6b10c2f81"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--274d2c60-33a8-49ce-8353-14b6b10c2f81",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Valid Accounts",
+      "tactic_id": "TA0003",
+      "tactic_ref": "x-mitre-tactic--5bc1d813-693e-4823-9961-abf9af4b0e92",
+      "technique_id": "T1078",
+      "description": "Uses valid administrator credentials for persistence and access.",
+      "effect_refs": [
+        "attack-action--40ee4b54-eeb4-4a40-b565-f1c86a2baaf6"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--40ee4b54-eeb4-4a40-b565-f1c86a2baaf6",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote Services: Remote Desktop Protocol",
+      "tactic_id": "TA0008",
+      "tactic_ref": "x-mitre-tactic--7141578b-e50b-4dcc-bfa4-08a8dd689e9e",
+      "technique_id": "T1021.001",
+      "description": "Moves laterally to the domain controller over RDP.",
+      "effect_refs": [
+        "attack-action--b5dea9ec-43ad-4799-b76a-007c3781cd9f"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b5dea9ec-43ad-4799-b76a-007c3781cd9f",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Direct Volume Access",
+      "tactic_id": "TA0005",
+      "tactic_ref": "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a",
+      "technique_id": "T1006",
+      "description": "Runs vssadmin to create a volume shadow copy on the DC.",
+      "effect_refs": [
+        "attack-action--e5e87280-0e7a-4cad-9c7d-1c37e10977cc"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--e5e87280-0e7a-4cad-9c7d-1c37e10977cc",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Windows Management Instrumentation",
+      "tactic_id": "TA0002",
+      "tactic_ref": "x-mitre-tactic--4ca45d45-df4d-4613-8980-bac22d278fa5",
+      "technique_id": "T1047",
+      "description": "Uses WMIC/ntdsutil to copy NTDS.dit from the shadow copy.",
+      "effect_refs": [
+        "attack-action--0d960f6a-c929-4844-9c7a-f4a812684e1b"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--0d960f6a-c929-4844-9c7a-f4a812684e1b",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "OS Credential Dumping: NTDS",
+      "tactic_id": "TA0006",
+      "tactic_ref": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263",
+      "technique_id": "T1003.003",
+      "description": "Extracts the Active Directory database (NTDS.dit) -> full domain compromise.",
+      "effect_refs": [
+        "attack-action--5608d02a-0873-482d-80c9-b7f29302cd93"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--5608d02a-0873-482d-80c9-b7f29302cd93",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Brute Force: Password Cracking",
+      "tactic_id": "TA0006",
+      "tactic_ref": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263",
+      "technique_id": "T1110.002",
+      "description": "Cracks the extracted hashes offline.",
+      "effect_refs": [
+        "attack-action--b359e3fa-f9a0-44e0-ad1a-81348c5cc95d"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b359e3fa-f9a0-44e0-ad1a-81348c5cc95d",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote Service Session Hijacking",
+      "tactic_id": "TA0008",
+      "tactic_ref": "x-mitre-tactic--7141578b-e50b-4dcc-bfa4-08a8dd689e9e",
+      "technique_id": "T1563",
+      "description": "Uses recovered access to reach OT-adjacent systems.",
+      "effect_refs": [
+        "attack-condition--3357f805-12f3-49a7-90a1-0473aa9e653c"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--3357f805-12f3-49a7-90a1-0473aa9e653c",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Pre-positioned for OT disruption; no destructive action executed"
+    },
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ]
+    }
+  ]
+}
