@@ -26,6 +26,7 @@ Files in this directory:
 | `build_volt_typhoon_exemplar.py` | generator for the reduced **ch3 schema-exemplar** subset (below) — emits the `.afb` and a subset STIX bundle |
 | `volt_typhoon_exemplar.afb` | the reduced subset as an **Attack Flow Builder** file (`attack_flow_v2`) — open in the Builder and export SVG |
 | `volt_typhoon_exemplar.json` | the same subset as a STIX 2.1 bundle (parser-validated fallback) |
+| `volt_typhoon_exemplar.presentation.svg` | the Builder's Presentation-mode SVG export of the `.afb` — the input to the figure restyle pipeline (below) |
 
 Regenerate (idempotent, deterministic ids):
 
@@ -160,13 +161,40 @@ NTDS.dit procedure; and a terminal **condition** encoding the restraint finding.
 `.afb` uses the OR (not an AND) precisely so the subset stays a faithful subgraph of the
 full flow, whose NTDS chain is linear; the operator grammar is still demonstrated.
 
-### Turning it into the figure (Attack Flow Builder → SVG)
+### The figure pipeline (option B — restyle the Builder export)
+
+Marc's ruling (2026-08-31): keep the **recognisable Attack Flow render** (the Builder's
+own layout and notation — condition True/False tabs, the OR node, effect-edge routing) but
+bring it into the thesis figure house style, rather than redraw it in TikZ (a redraw would
+read as *our* drawing, not an Attack Flow artefact). Recognisability lives in the grammar,
+not the palette, so the palette is neutralised to greys + one accent.
+
+```
+volt_typhoon_exemplar.afb
+  --(Attack Flow Builder, manual)-->  volt_typhoon_exemplar.presentation.svg   [committed here]
+  --(tools/restyle_attackflow_svg.py)-->  docs/thesis/figures/fig_3-1a_attack_flow_volt_typhoon.{svg,pdf}
+```
 
 1. Open `volt_typhoon_exemplar.afb` in the Attack Flow Builder
-   (<https://center-for-threat-informed-defense.github.io/attack-flow/builder/>).
-2. Tidy the auto-layout (drag nodes; the generator lays them out top-down but the Builder
-   re-routes edges on open) and switch the theme to light if exporting for print.
-3. Export → SVG (or PNG). That SVG is the ch3 §3.1.2 figure.
+   (<https://center-for-threat-informed-defense.github.io/attack-flow/builder/>); tidy the
+   auto-layout if needed and export **Presentation-mode SVG**. The current export is saved
+   as `volt_typhoon_exemplar.presentation.svg` (the pipeline input — re-save it if you
+   re-export).
+2. `python3 tools/restyle_attackflow_svg.py` restyles it: recolours to greys + the thesis
+   accent (RGB 31,84,140) on the OR operator (the one accented node class), tints the
+   conditions `accentlight`, greys the actions and edges, **injects the ATT&CK technique id
+   above each action box** (Presentation mode drops the ids the §3.1.2 prose cites), and
+   sizes labels to **8.05pt at the landscape typeblock** (702.78pt) so they clear the ~8pt
+   floor (`figure_table_conventions.md` §h). Output: `docs/thesis/figures/fig_3-1a_attack_flow_volt_typhoon.svg` and `.pdf`.
+3. Include the `.pdf` on a **landscape** page at full `\linewidth` (the figure is inherently
+   wide — a five-step top row; at portrait `\textwidth` its labels would be ~5pt). This is
+   the ch3 §3.1.2 figure.
+
+**Note.** The 14→15u label bump (needed to clear the 8pt floor) leaves a couple of boxes
+mildly tight, since the Builder sized them to 14u text; nudge those boxes wider in the
+Builder and re-export + re-run the tool if it bothers you. The True/False tab letters stay
+at their small size as Attack Flow *notation marks* (like arrowheads), not information
+glyphs. `cairosvg` does the SVG→PDF conversion (a dev dependency; `pip install cairosvg`).
 
 **Caveat — the `.afb` is best-effort, validate by opening.** It is cloned object-for-object
 from the corpus Tesla `.afb` invariants (schema `attack_flow_v2`; 12 angle-anchors per
