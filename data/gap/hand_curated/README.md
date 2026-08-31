@@ -187,30 +187,30 @@ volt_typhoon_exemplar.afb
    leaves the Builder's **native 14u label size untouched** — bumping it overflows the boxes
    (the Builder sizes each box to its 14u text). Output:
    `docs/thesis/figures/fig_3-1a_attack_flow_volt_typhoon.svg` and `.pdf`.
-3. The tool sizes the `.pdf` to the measured landscape typeblock (702.78pt wide) and
-   downconverts it to PDF 1.5 (cairosvg emits 1.7; `dissertation.tex` caps inclusion at
-   1.5). Include it on a **landscape** page with a **bare** `\includegraphics` (no width
-   macro), which fills the page at natural size and keeps labels at ~7.5pt — the figure is
-   inherently wide (a five-step top row; at portrait `\textwidth` its labels would be ~5pt):
+3. The tool downconverts the `.pdf` to PDF 1.5 (cairosvg emits 1.7; `dissertation.tex` caps
+   inclusion at 1.5). Include it **portrait** at `\textwidth` (Marc's ruling: no landscape):
 
    ```latex
-   \begin{landscape}
-   \begin{figure}[p]
+   \begin{figure}[htbp]
      \centering
-     \includegraphics{fig_3-1a_attack_flow_volt_typhoon}
+     \includegraphics[width=\textwidth]{fig_3-1a_attack_flow_volt_typhoon}
      \caption[Attack Flow of the Volt Typhoon campaign]{...}
      \label{fig:attack-flow-volt-typhoon}
    \end{figure}
-   \end{landscape}
    ```
 
-   This is the ch3 §3.1.2 figure (verified to compile in a throwaway build).
+   This is the ch3 §3.1.2 figure (applied to `dissertation.tex` and verified to compile).
+   **Legibility trade:** the figure is wide (2.46:1), so at portrait `\textwidth` its labels
+   land ~4.9pt, under the ~8pt guide (`figure_table_conventions.md` §h). A legible version
+   would need a taller/narrower relayout in the Builder (drag the five-step top row into a
+   column) and a re-export — the restyle tool then reapplies unchanged.
 
-**Sizing note.** At the landscape typeblock (702.78pt / 1310u) the native 14u labels print
-**~7.5pt**, just under the ~8pt guide (`figure_table_conventions.md` §h) — accepted over box
-overflow. Clearing the floor cleanly would need a Builder relayout (wider boxes), not a font
-hack. The True/False tab letters stay small as Attack Flow *notation marks* (like
-arrowheads), not information glyphs.
+**Sizing note.** At portrait `\textwidth` (455.24pt / 1310u) the native 14u labels print
+**~4.9pt**, under the ~8pt guide (`figure_table_conventions.md` §h) — the accepted trade for
+portrait (see the legibility note above). Font is left at native to avoid box overflow;
+clearing the floor would need a taller/narrower Builder relayout, not a font hack. The
+True/False tab letters stay small as Attack Flow *notation marks* (like arrowheads), not
+information glyphs.
 
 **Font note.** `cairosvg` does the SVG→PDF conversion (a dev dependency; `pip install
 cairosvg`). The Builder sizes each box to **Inter** metrics; a machine without Inter matches

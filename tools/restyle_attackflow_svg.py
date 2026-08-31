@@ -17,9 +17,9 @@ What it does, and why (see docs/workflows/figure_table_conventions.md):
   - Injects the ATT&CK technique id above each action box (Presentation mode
     drops it; the §3.1.2 prose cites the ids).
   - Leaves the Builder's native 14u label size untouched (bumping it overflows
-    the boxes). This figure is inherently wide (a 5-step top row), so it is a
-    landscape-page figure; at the landscape typeblock (702.78pt) labels print
-    ~7.5pt, just under the ~8pt guide (§h) — accepted over box overflow.
+    the boxes). Included portrait at \\textwidth (Marc's ruling: no landscape);
+    the figure is wide (2.46:1), so labels land ~4.9pt on the page, under the
+    ~8pt guide (§h) — an accepted legibility trade for portrait.
 
 Palette classes are detected by the Builder's own fills:
     action    fill #5286e7   condition fill #0e662a   operator  fill #ad2a2a
@@ -37,14 +37,13 @@ SRC = ROOT / "data" / "gap" / "hand_curated" / "volt_typhoon_exemplar.presentati
 OUT = ROOT / "docs" / "thesis" / "figures" / "fig_3-1a_attack_flow_volt_typhoon.svg"
 OUT_PDF = OUT.with_suffix(".pdf")
 
-# The figure is wide (viewBox 1310u), so it is a landscape-page figure. Emit the
-# PDF sized so its natural width fills the measured landscape typeblock
-# (702.78pt, figure_table_conventions.md §h); the .tex then includes it with a
-# bare \includegraphics (no width macro), which sidesteps the scaling trap and
-# puts native 14u labels on the page at ~7.5pt. cairosvg output_width is in px
-# (96dpi); px * 0.75 = pt, so 702.78pt / 0.75 = 937.04px.
-LANDSCAPE_PT = 702.78
-PDF_OUTPUT_WIDTH_PX = LANDSCAPE_PT / 0.75
+# The PDF is emitted at cairosvg's natural size; the .tex includes it portrait at
+# \includegraphics[width=\textwidth] (Marc's ruling: no landscape), which scales
+# it to the portrait typeblock (455.24pt). The figure is wide (viewBox 1310u), so
+# native 14u labels land ~4.9pt on the page (14 * 455.24 / 1310) -- under the ~8pt
+# guide (figure_table_conventions.md §h), an accepted legibility trade for
+# portrait; a legible version would need a taller/narrower Builder relayout.
+PORTRAIT_PT = 455.24
 
 # --- house palette ----------------------------------------------------------
 ACCENT = "#1f548c"        # RGB 31,84,140 (thesis accent)
@@ -62,9 +61,9 @@ B_OP_FILL, B_OP_LINE = "#ad2a2a", "#ff5959"
 WHITE = "#FFFFFF"
 
 # Font size is left at the Builder's native 14u — bumping it overflows the boxes
-# (the Builder sizes each box to its 14u text). Consequence: at the landscape
-# typeblock (702.78pt / 1310u) labels print ~7.5pt, just under the ~8pt guide;
-# clearing the floor would need a Builder relayout (wider boxes), not a font hack.
+# (the Builder sizes each box to its 14u text). Consequence: at portrait
+# \\textwidth (455.24pt / 1310u) labels print ~4.9pt, under the ~8pt guide;
+# clearing the floor would need a taller/narrower Builder relayout, not a font hack.
 TID_FS = "14"     # match the native label size
 
 # ATT&CK technique id per action, keyed by the box's visible name.
@@ -151,12 +150,11 @@ def main() -> None:
     n_tid = svg.count(f'font-size="{TID_FS}" font-weight="700"')
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(svg)
-    # emit the thesis PDF sized to the landscape typeblock (bare-include ready).
+    # emit the thesis PDF (natural size; the .tex scales it via width=\\textwidth).
     pdf_note = "skipped (cairosvg not importable)"
     try:
         import cairosvg  # noqa: E402
-        cairosvg.svg2pdf(bytestring=svg.encode(), write_to=str(OUT_PDF),
-                         output_width=PDF_OUTPUT_WIDTH_PX)
+        cairosvg.svg2pdf(bytestring=svg.encode(), write_to=str(OUT_PDF))
         # cairosvg emits PDF 1.7; dissertation.tex's pdfTeX caps inclusion at 1.5.
         # Downconvert with ghostscript (vectors preserved) so the thesis build is
         # warning-free; if gs is absent, keep the 1.7 PDF (it still includes).
@@ -169,16 +167,16 @@ def main() -> None:
                  "-dAutoRotatePages=/None", "-sDEVICE=pdfwrite",
                  f"-sOutputFile={tmp}", str(OUT_PDF)], check=True)
             tmp.replace(OUT_PDF)
-            pdf_note = f"{OUT_PDF.relative_to(ROOT)} (~{LANDSCAPE_PT:.0f}pt natural width, PDF 1.5)"
+            pdf_note = f"{OUT_PDF.relative_to(ROOT)} (PDF 1.5)"
         else:
-            pdf_note = f"{OUT_PDF.relative_to(ROOT)} (~{LANDSCAPE_PT:.0f}pt natural width, PDF 1.7 -- gs absent)"
+            pdf_note = f"{OUT_PDF.relative_to(ROOT)} (PDF 1.7 -- gs absent)"
     except Exception as exc:  # pragma: no cover - dev convenience
         pdf_note = f"skipped ({exc})"
-    printed = 14.0 * (LANDSCAPE_PT / 1310.0)
+    printed = 14.0 * (PORTRAIT_PT / 1310.0)
     print(f"wrote {OUT.relative_to(ROOT)}")
     print(f"wrote {pdf_note}")
     print(f"technique-id tags injected: {n_tid}/10")
-    print(f"native 14u labels -> ~{printed:.1f}pt at full landscape width ({LANDSCAPE_PT:.0f}pt)")
+    print(f"native 14u labels -> ~{printed:.1f}pt at portrait \\textwidth ({PORTRAIT_PT:.0f}pt)")
 
 
 if __name__ == "__main__":

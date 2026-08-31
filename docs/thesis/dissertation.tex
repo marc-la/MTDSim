@@ -406,37 +406,42 @@ execute until the upstream one completes), with AND/OR operators
 expressing multi-input dependencies and conditions capturing
 environmental state \citep{ctid2025attackflow}. This is the structure a
 linear kill chain or flat intrusion-set membership cannot express:
-Figure~\ref{fig:attack-flow-tesla} reconstructs the 2018 Tesla
-cryptojacking incident on the model, where a three-input AND operator
-joins Deploy Container (T1610), Proxy (T1090), and Non-Standard Port
-(T1571) into Resource Hijacking (T1496). CTID maintains a corpus of
-flows reconstructed by analysts from publicly reported incidents
+Figure~\ref{fig:attack-flow-volt-typhoon} reconstructs the Volt Typhoon
+critical-infrastructure campaign on the model, where an OR operator
+joins two alternative credential sources, Exploitation for Privilege
+Escalation (T1068) and Unsecured Credentials (T1552), into Valid
+Accounts (T1078). CTID maintains a corpus of such flows reconstructed by
+analysts from publicly reported incidents
 \citep{ctid2025attackflow}: reliable structured behaviour, bought at a
 coverage cost.
 
-% FIGURE 3.1 --- PLACEHOLDER. Regenerate the review's Fig. 2 from
-% docs/thesis/lit_review/.../fig_attck_attackflow.tex under the thesis
-% figure pipeline (12pt, greys + one accent; tikz is not loaded in this
-% preamble, so it lands as figures/fig_3-1a_attack_flow_tesla.pdf).
-% CONFIRM for Marc: the appendix already carries an Attack Flow
-% exemplar (fig:app-flow-exemplar, the CISA VMware flow --- corpus
-% input). This one is a literature example of the schema; two flow
-% figures with different jobs, or one --- his call. Caption ports the
-% review's.
+% FIGURE 3.1 --- the Volt Typhoon Attack Flow exemplar (replaces the Tesla
+% placeholder; Marc's ruling 2026-08-31). Hand-authored from CISA AA24-038A,
+% reduced to a teaching subset and restyled to the house palette; asset and
+% pipeline in data/gap/hand_curated/ (README) and
+% tools/restyle_attackflow_svg.py. Included portrait at \textwidth (Marc's
+% ruling: no landscape); the figure is wide (2.46:1), so labels land ~5pt on
+% the page, under the ~8pt guide --- a legibility trade accepted for portrait.
+% CAPTION SESSION-DRAFTED --- yours for the voice pass.
 \begin{figure}[htbp]
   \centering
-  % \includegraphics[width=\textwidth]{fig_3-1a_attack_flow_tesla}
-  \fbox{\parbox{0.9\textwidth}{\centering\emph{[Figure placeholder ---
-  the Tesla Kubernetes cryptojacking Attack Flow, regenerated from the
-  review's TikZ source.]}}}
-  \caption[Attack Flow excerpt for the 2018 Tesla cryptojacking
-  incident]{Attack Flow excerpt for the 2018 Tesla Kubernetes
-  cryptojacking incident, adapted from the MITRE/CTID example corpus
-  \citep{ctid2025attackflow}. Supporting STIX objects (here the shared
-  Infrastructure node) are linked by generic \texttt{related-to}
-  relationships rather than \emph{effect} edges. Edge conventions and
-  the $\dagger$ speculation marker are given in the legend.}
-  \label{fig:attack-flow-tesla}
+  \includegraphics[width=\textwidth]{fig_3-1a_attack_flow_volt_typhoon}
+  \caption[Attack Flow of the Volt Typhoon campaign]{An Attack Flow of the
+  Volt Typhoon critical-infrastructure campaign, reconstructed by hand from
+  the joint advisory AA24-038A \citep{cisaaa24038a} and reduced to its spine.
+  Grey rounded boxes are actions, each an ATT\&CK technique (v19.1) labelled
+  with its identifier; arrows are \emph{effect} edges carrying precondition
+  semantics (a downstream action cannot execute until the upstream one
+  completes). The accented circle is the OR operator: either credential
+  source --- Exploitation for Privilege Escalation (T1068) or Unsecured
+  Credentials (T1552) --- satisfies the join into Valid Accounts (T1078). The
+  two pale boxes are conditions, carrying Attack Flow's True/False branch
+  tabs: the exploited entry point, and the campaign's terminal state, which
+  records its restraint --- pre-positioned for operational-technology
+  disruption without executing it. Volt Typhoon has no flow in the CTID
+  corpus; this one was reconstructed from the advisory, the coverage cost the
+  text names made concrete.}
+  \label{fig:attack-flow-volt-typhoon}
 \end{figure}
 
 % 1 unit. Review Sec. III-D nearly verbatim (the review's exemplar
