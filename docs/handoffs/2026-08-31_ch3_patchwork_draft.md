@@ -6,6 +6,8 @@ executes: 2026-08-31_ch3_port_plan.md
 
 # Ch3 patchwork first draft — the review's own sentences assembled into the 12-unit shape, gaps left as labelled holes
 
+**Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled).
+
 Every sentence below is from the submitted review (`docs/sources/lit_review/LIT_REVIEW.md`, line numbers in the ledgers) or from a rubric-gated note in `docs/notes/ch3_lit_review/`, with three exceptions marked **[stitch]** — connective sentences a session composed so the unit reads; each is Marc's to accept, replace, or cut. Gaps are `[GAP Gn …]` placeholders keyed to the port plan §4 (G8 added: the adverse-sample warrant). Citations are `\citep` keys; the bib status is at the end.
 
 Conversions applied throughout, each a batch ruling (the §2.1 precedent): **[D2]** every em-dash converted (parenthesis, colon, or comma pair); **[T]** generic *adversary* → *attacker*, *adversarial profile* → *attack profile* (registry), untouched inside quotations and cited titles; **[FP]** paragraph-closing forward pointers cut; **[PoP]** every Pyramid-of-Pain clause cut. Relevance filter: a sentence that neither characterises the APT (capture), the attacker model (model), nor the evaluation instrument (evaluate) was cut; the ledgers say which.
@@ -31,7 +33,7 @@ The capability to close this gap already exists in literatures adjacent to MTD, 
 
 ## 3.1 Survey of APT attackers
 
-### 3.1.1 What makes the campaign different
+### 3.1.1 Advanced persistent threats
 
 An APT is a class of cyber threat in which a well-resourced attacker, typically nation-state or organisation-sponsored, pursues a specific objective against a specific target over an extended time horizon, adapting to defender resistance and retooling at a tempo that outpaces reactive defence \citep{alshamrani2019}. The three terms name three properties: \emph{advanced} tooling and tradecraft (custom malware, coordinated attack vectors), a \emph{persistent} low-and-slow tempo that trades speed for evasion across months or years, and a \emph{threat} defined by its objective: data exfiltration, impediment of mission-critical components, or positioning for future operations \citep{alshamrani2019}. NIST states the same profile behaviourally: an APT actor pursues its objectives repeatedly, adapts to the defender's resistance, and sustains the interaction needed to meet its goal \citep{alshamrani2019}\emph{[GAP G7a --- cite NIST SP 800-39 directly; bib entry to add]}. This is precisely what the commodity attacker is not: single-run, smash-and-grab operations that neither hide nor adapt and end at first detection \citep{alshamrani2019}.
 
@@ -49,7 +51,7 @@ APT campaigns are well-documented in the CTI record. MITRE ATT\&CK catalogues at
 | — | :127 s6 | cut — "The next subsection turns to attack profiling" [FP] |
 | flag | :127 | names ATT&CK and Attack Flow before 3.1.2 teaches them (the review's order was A → C). Acceptable as naming-not-teaching; alternative is to move this paragraph to the end of 3.1.2 |
 
-### 3.1.2 The behavioural record
+### 3.1.2 MITRE ATT&CK and Attack Flow
 
 MITRE ATT\&CK is a knowledge base of attacker behaviours derived from real-world observations, developed by the MITRE Corporation following its 2013 Fort Meade Experiment \citep{strom2018mitre}. ATT\&CK organises behaviour into a four-level hierarchy of tactics, techniques and sub-techniques, and procedures. A tactic refers to \emph{what} an attacker does to achieve a goal; a technique refers to \emph{how} that tactic is realised; a sub-technique refines a technique into a specific variant; a procedure is a particular instance of a technique, capturing the steps by which it has been implemented \citep{rodriguez2024}. The Initial Access tactic (TA0001), for example, may be realised through Phishing (T1566), via the Spearphishing Attachment sub-technique (T1566.001), with a procedure describing a crafted Office document whose macro executes a PowerShell payload on open.
 
@@ -71,7 +73,7 @@ Yet this serialisation, the ATT\&CK-in-STIX export, records \emph{which} techniq
 | 14–15 | :105 | adapted — [D2] → parenthesis; "Figure 2" → `\ref` |
 | 16 | :107 | adapted — two sentences fused; "taken up in Section III-D" [FP] and "supplies the data substrate for the adversarial profiles this review motivates" (method) cut |
 
-### 3.1.3 From reports to structure
+### 3.1.3 Attack profiling
 
 Attack profiling captures attacker behaviour as structured representations: connecting individual tactics, techniques, and procedures into chains shaped by the attacker's objectives, motivations, and knowledge \citep{rodriguez2024}. CTI, the raw material for this work, ranges from low-level indicators of compromise to structured descriptions of TTPs, and in its unstructured form (narrative reports, blog posts, vendor write-ups) requires manual normalisation before systematic use \citep{ferraz2026}. The persistent obstacle is a procedural-semantic gap: CTI describes \emph{what} attackers do but routinely omits the sequencing, preconditions, and dependencies (the \emph{how}) required to operationalise behaviour as an executable or simulable process \citep{ferraz2026}.
 
@@ -94,7 +96,7 @@ Of the two strands, automated extraction holds the coverage advantage, but on th
 
 ## 3.2 How MTD is evaluated
 
-### 3.2.1 The ladder of methods
+### 3.2.1 Validation methods
 
 An MTD evaluation study selects a network setting (enterprise, cloud, software-defined, Internet of Things, or cyber-physical), adopts a threat model, deploys one or more MTD mechanisms, and assesses the result against a metric set using one of several validation methods \citep{cho2020}. Cho et al. classify the validation methods into four categories, analytical, simulation, emulation, and real testbed, with the analytical category splitting into probabilistic and graphical-security-model approaches \citep{cho2020}.
 
@@ -107,7 +109,7 @@ An MTD evaluation study selects a network setting (enterprise, cloud, software-d
 | 2 | :59 | adapted — "With model and metrics specified, the remaining commitment is validation method." cut (the order is now ladder-first); [D2] |
 | — | :61 | cut — the MTDSim/HARM paragraph is ch2 §2.2's. Its first sentence ("The lineage this dissertation extends combines a graphical-security-model structural representation with discrete-event simulation as the execution engine") is the ch4 ladder-positioning sentence, available there |
 
-### 3.2.2 The metric suite
+### 3.2.2 Metrics
 
 Cho et al. partition the MTD metric space along two axes (Table~\ref{tab:mtd-metrics}): \emph{perspective} (attacker-side or defender-side) and \emph{purpose} (effectiveness, capturing how well the MTD reduces attack success, and efficiency, capturing the cost the MTD imposes) \citep{cho2020}. Hong et al. \citep{hong2018} extend this partition with network-state-dynamic measures (marked $\dagger$ in Table~\ref{tab:mtd-metrics}) that quantify how the security posture shifts as MTD operations execute across consecutive network states.
 
@@ -117,7 +119,7 @@ Cho et al. partition the MTD metric space along two axes (Table~\ref{tab:mtd-met
 |---|---|---|
 | 1–2 | :55 | **verbatim** but for the `\ref` forms |
 
-### 3.2.3 What the metrics are scored over
+### 3.2.3 The attacker model as a bound on the metrics
 
 Whether the orchestration is specified or learned, the defender's growing sophistication concentrates on one side of the engagement: reinforcement-learning orchestrators such as Tay's \citep{tay2024} are one example among a small but growing body of multi-mechanism MTD, and the broader paradigm inherits its training attacker from whatever simulator it is built on.
 
@@ -142,7 +144,7 @@ Two MTD surveys, six years apart, identify attacker-model under-development as a
 | — | :157 s3–s5 | cut — the pyramid as reference point [PoP]; "Section IV-B turns that diagnosis into measurement …" [FP] |
 | 5 | — | **[stitch]** |
 
-### 3.3.1 What the literature says a capable attacker is
+### 3.3.1 A criterion for APT attacker models
 
 Cho et al. name three under-developed dimensions of the attacker model \citep[Sec.~V-D]{cho2020}. The first is the smart, learning-capable attacker: where defenders are routinely granted machine-learning capability, the attacker is assumed to follow fixed patterns rather than to learn and adapt, an asymmetry Cho et al. note runs contrary to practice, where the attacker is often the more sophisticated of the two. The second is the scarcity of multi-strategy scenarios, in which attacker and defender each branch across plural options; most MTD work instead pairs one mechanism against one attack path. The third is the asymmetric application of the rational-actor framing: the agent optimising for cost-effective outcome is modelled as such on the defender side and seldom on the attacker's. The same survey names four characteristics of a sophisticated attacker \citep{cho2020}, which align with the APT profile of Section~\ref{sec:apt-survey}: \emph{persistent}, operating across multiple stages with measurable dwell time rather than as a one-time intrusion; \emph{adaptive}, responding to changing system and defensive conditions, including awareness of the defence itself; \emph{stealthy}, blending with legitimate traffic rather than operating at observable indicator levels; and \emph{incentive-driven}, conditioning decisions on a cost/benefit signal, not merely possessing an objective.
 
@@ -161,7 +163,7 @@ Where those properties describe the attacker qualitatively, a fidelity descripto
 | 12 | :170–:175 | adapted — numbered list → one prose sentence |
 | 13 | :161 s2 | adapted — "The first is drawn from Cho et al. [2]; the second is constructed here." → "The descriptor is this thesis's own construction." |
 
-### 3.3.2 How the field has modelled its attacker
+### 3.3.2 Attacker modelling traditions
 
 \emph{[GAP G4a --- the default adversary: the abstract, probabilistic, surface-directed attacker of the analytic security-modelling tradition (attack graphs, HARM) --- what it assumes and why those assumptions were reasonable for the question that tradition asked. Grounding: `hongkim2012harm`, `hongkim2016`, `cho2020`.]}
 
@@ -176,7 +178,7 @@ Bland et al. \citep{bland2020} build an attacker that observes partial state, ac
 | 1–2 | :57 | **verbatim** (repurposed from §II-B: it is model material, not evaluation material) |
 | 3–6 | :217 | adapted — moved up from the synthesis (scrutiny §(i)); "the surveyed evaluations omit" → "MTD evaluation omits" and "the surveyed models" → "the MTD evaluations of Section 3.3.3" (the cross-section now follows, not precedes); [D2]; "That is the contribution this review motivates." cut |
 
-### 3.3.3 What recent work actually assumes
+### 3.3.3 Threat models in recent MTD evaluations
 
 Table~\ref{tab:attacker-cross-section} scores recent MTD evaluations against the eight properties and the fidelity descriptor. The selection spans the simulator lineage this thesis extends \citep{brown2023, zhang2023, ho2024, tay2024}, recent IoT-cloud orchestration \citep{masud2025}, and a recent Cyber Kill Chain-aware MTD framework deployed on a physical testbed \citep{kim2026}. \emph{[GAP G8 --- the adverse-sample warrant: these are recent, well-regarded, and in two cases explicitly ATT\&CK-framed, so they are the works most likely to model an attacker well; the claim is existence over a favourable sample, not generalisation from n = 3.]} The pattern across the cross-section is a rhetoric-versus-execution gap: the threat models encode few of the properties, even where the surrounding framing suggests otherwise.
 
@@ -211,7 +213,7 @@ Across the cross-section, attacker modelling is consistently secondary to the de
 | 18–19 | :195 s1–s3 | adapted — He et al. clauses removed from the roll-call (no longer a row); "Table II shows" cut; the parenthetical listing of He et al. at parametric cut |
 | — | :195 s4–s5 | cut — the pyramid sentence [PoP] and "That located asymmetry … is the gap Section V takes up" [FP] (its content is 3.3.4's) |
 
-### 3.3.4 The demonstrated need
+### 3.3.4 The research gap
 
 Seen from the attacker's side, the gap sharpens: where the surveyed works grant the attacker any rationality, it is a defender-computed heuristic such as RoA \citep{brown2023}, over which the attacker optimises exploits it cannot sequence, adapt, or remember, choosing the computationally best move without modelling whether a real attacker could, or would, make it. The parametric rung, in other words, is rationality without capability.
 
