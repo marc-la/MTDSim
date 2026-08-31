@@ -35,6 +35,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "data" / "gap" / "hand_curated" / "volt_typhoon_exemplar.presentation.svg"
 OUT = ROOT / "docs" / "thesis" / "figures" / "fig_3-1a_attack_flow_volt_typhoon.svg"
+OUT_PDF = OUT.with_suffix(".pdf")
+
+# The figure is wide (viewBox 1310u), so it is a landscape-page figure. Emit the
+# PDF sized so its natural width fills the measured landscape typeblock
+# (702.78pt, figure_table_conventions.md §h); the .tex then includes it with a
+# bare \includegraphics (no width macro), which sidesteps the scaling trap and
+# puts native 14u labels on the page at ~7.5pt. cairosvg output_width is in px
+# (96dpi); px * 0.75 = pt, so 702.78pt / 0.75 = 937.04px.
+LANDSCAPE_PT = 702.78
+PDF_OUTPUT_WIDTH_PX = LANDSCAPE_PT / 0.75
 
 # --- house palette ----------------------------------------------------------
 ACCENT = "#1f548c"        # RGB 31,84,140 (thesis accent)
@@ -141,11 +151,34 @@ def main() -> None:
     n_tid = svg.count(f'font-size="{TID_FS}" font-weight="700"')
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(svg)
-    # report printed label size at the landscape typeblock (§h: 702.78pt).
-    printed = 14.0 * (702.78 / 1310.0)
+    # emit the thesis PDF sized to the landscape typeblock (bare-include ready).
+    pdf_note = "skipped (cairosvg not importable)"
+    try:
+        import cairosvg  # noqa: E402
+        cairosvg.svg2pdf(bytestring=svg.encode(), write_to=str(OUT_PDF),
+                         output_width=PDF_OUTPUT_WIDTH_PX)
+        # cairosvg emits PDF 1.7; dissertation.tex's pdfTeX caps inclusion at 1.5.
+        # Downconvert with ghostscript (vectors preserved) so the thesis build is
+        # warning-free; if gs is absent, keep the 1.7 PDF (it still includes).
+        import shutil
+        import subprocess
+        if shutil.which("gs"):
+            tmp = OUT_PDF.with_suffix(".pdf.tmp")
+            subprocess.run(
+                ["gs", "-q", "-dBATCH", "-dNOPAUSE", "-dCompatibilityLevel=1.5",
+                 "-dAutoRotatePages=/None", "-sDEVICE=pdfwrite",
+                 f"-sOutputFile={tmp}", str(OUT_PDF)], check=True)
+            tmp.replace(OUT_PDF)
+            pdf_note = f"{OUT_PDF.relative_to(ROOT)} (~{LANDSCAPE_PT:.0f}pt natural width, PDF 1.5)"
+        else:
+            pdf_note = f"{OUT_PDF.relative_to(ROOT)} (~{LANDSCAPE_PT:.0f}pt natural width, PDF 1.7 -- gs absent)"
+    except Exception as exc:  # pragma: no cover - dev convenience
+        pdf_note = f"skipped ({exc})"
+    printed = 14.0 * (LANDSCAPE_PT / 1310.0)
     print(f"wrote {OUT.relative_to(ROOT)}")
+    print(f"wrote {pdf_note}")
     print(f"technique-id tags injected: {n_tid}/10")
-    print(f"native 14u labels -> ~{printed:.1f}pt at full landscape width (702.78pt)")
+    print(f"native 14u labels -> ~{printed:.1f}pt at full landscape width ({LANDSCAPE_PT:.0f}pt)")
 
 
 if __name__ == "__main__":

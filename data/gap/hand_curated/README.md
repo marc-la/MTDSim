@@ -187,9 +187,24 @@ volt_typhoon_exemplar.afb
    leaves the Builder's **native 14u label size untouched** — bumping it overflows the boxes
    (the Builder sizes each box to its 14u text). Output:
    `docs/thesis/figures/fig_3-1a_attack_flow_volt_typhoon.svg` and `.pdf`.
-3. Include the `.pdf` on a **landscape** page at full `\linewidth` (the figure is inherently
-   wide — a five-step top row; at portrait `\textwidth` its labels would be ~5pt). This is
-   the ch3 §3.1.2 figure.
+3. The tool sizes the `.pdf` to the measured landscape typeblock (702.78pt wide) and
+   downconverts it to PDF 1.5 (cairosvg emits 1.7; `dissertation.tex` caps inclusion at
+   1.5). Include it on a **landscape** page with a **bare** `\includegraphics` (no width
+   macro), which fills the page at natural size and keeps labels at ~7.5pt — the figure is
+   inherently wide (a five-step top row; at portrait `\textwidth` its labels would be ~5pt):
+
+   ```latex
+   \begin{landscape}
+   \begin{figure}[p]
+     \centering
+     \includegraphics{fig_3-1a_attack_flow_volt_typhoon}
+     \caption[Attack Flow of the Volt Typhoon campaign]{...}
+     \label{fig:attack-flow-volt-typhoon}
+   \end{figure}
+   \end{landscape}
+   ```
+
+   This is the ch3 §3.1.2 figure (verified to compile in a throwaway build).
 
 **Sizing note.** At the landscape typeblock (702.78pt / 1310u) the native 14u labels print
 **~7.5pt**, just under the ~8pt guide (`figure_table_conventions.md` §h) — accepted over box
