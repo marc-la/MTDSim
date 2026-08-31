@@ -1,6 +1,7 @@
 ---
 status: open                  # design only; retire when the ch3 skeleton is ratified into dissertation.tex and the strand notes are written
 created: 2026-08-21
+superseded-in-part: 2026-08-31_ch3_port_plan.md — Part 2's unit ledger and section order are revised there (capture → evaluate → model; 1/3/3/5; the eight axes derived in ch3 §3.3.1); Part 1's contract stands
 ---
 
 # Standing context for the literature review (ch3) — what the chapter has to achieve, and a unit-level structure that achieves it

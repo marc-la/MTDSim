@@ -50,6 +50,16 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   quotes −0.893. Depends on nothing; **blocks any ch5 prose that states the
   inversion** and sits above the T4 outline in priority.
 
+- [`2026-08-31_ch3_port_plan.md`](2026-08-31_ch3_port_plan.md) — **the ch3
+  executing brief**: Marc's 2026-08-31 working plan critiqued, the 12-unit
+  shape (capture → evaluate → model, the eight axes derived in §3.3.1 and
+  adopted in §4.1), the section-level port ledger from the submitted review,
+  the seven gaps only dictation can fill, and six CONFIRMs. Supersedes Part 2
+  of the 2026-08-21 design brief (whose Part 1 contract stands). **CONFIRM 2
+  re-points the §4.2 preamble's axes `\ref` and folds §4.1 to one unit** —
+  rule it before the §4.1 drafting brief is executed. Retires with the last
+  assembled section.
+
 - [`2026-08-21_targeted_objective_diagnosis.md`](2026-08-21_targeted_objective_diagnosis.md)
   — **the targeted-objective line, for a fresh session**: wire the located
   APT target (`is_target_compromised`, dead code) as an additive objective and
