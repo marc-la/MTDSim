@@ -6,7 +6,7 @@ executes: 2026-08-31_ch3_port_plan.md
 
 # Ch3 patchwork first draft — the review's own sentences assembled into the 12-unit shape, gaps left as labelled holes
 
-**Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*.
+**Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
 Every sentence below is from the submitted review (`docs/sources/lit_review/LIT_REVIEW.md`, line numbers in the ledgers) or from a rubric-gated note in `docs/notes/ch3_lit_review/`, with three exceptions marked **[stitch]** — connective sentences a session composed so the unit reads; each is Marc's to accept, replace, or cut. Gaps are `[GAP Gn …]` placeholders keyed to the port plan §4 (G8 added: the adverse-sample warrant). Citations are `\citep` keys; the bib status is at the end.
 
@@ -119,7 +119,7 @@ Cho et al. partition the MTD metric space along two axes (Table~\ref{tab:mtd-met
 |---|---|---|
 | 1–2 | :55 | **verbatim** but for the `\ref` forms |
 
-### 3.2.3 The attacker model as a bound on the metrics
+### 3.2.3 Metrics and the attacker model
 
 Whether the orchestration is specified or learned, the defender's growing sophistication concentrates on one side of the engagement: reinforcement-learning orchestrators such as Tay's \citep{tay2024} are one example among a small but growing body of multi-mechanism MTD, and the broader paradigm inherits its training attacker from whatever simulator it is built on.
 
