@@ -1,0 +1,1414 @@
+{
+  "type": "bundle",
+  "id": "bundle--b7eeed3a-f1db-4ada-be8c-6c4eee7c4866",
+  "spec_version": "2.1",
+  "created": "2024-02-08T00:00:00.000Z",
+  "modified": "2024-02-08T00:00:00.000Z",
+  "objects": [
+    {
+      "type": "attack-flow",
+      "id": "attack-flow--c91ab0dd-2528-458a-a35f-f3cda0a70cbe",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "created_by_ref": "identity--0e27ee31-0f39-4c67-89f9-c2251b190a7c",
+      "start_refs": [
+        "attack-action--8bbe3f06-9e93-4147-bee6-be759ce4d0c4",
+        "attack-action--b6e7b755-a909-4b3a-94f2-a45b11cdac4f",
+        "attack-action--bf0f83f6-48dc-487e-88b2-10e0ebba2a69",
+        "attack-action--2a8218a5-6be9-4b06-b688-4293a892bebe",
+        "attack-action--677d56b2-6c55-4768-883e-9c5532a99660",
+        "attack-action--57b20e4e-4f8f-4f4f-9626-f27230d4db8a",
+        "attack-action--23656c09-6766-405a-8960-0ff675900074",
+        "attack-action--887419ae-8eb0-4304-a4c0-a8029bbb54a6",
+        "attack-action--77ead6ed-5d38-4e35-9c1a-a94ad52b4d53",
+        "attack-action--f9db95da-188b-4350-a41a-a9f5b7f13036",
+        "attack-action--148424c7-960c-4484-bb1d-1a58dc19f8ca",
+        "attack-action--a7fdfe99-7aed-4eef-a5ea-8e7d694afeea",
+        "attack-action--83eab2b2-b7f3-4c18-95e5-1b3d5a12768e",
+        "attack-condition--8e217ff8-d090-496c-a64e-441770e11658"
+      ],
+      "name": "Volt Typhoon Critical Infrastructure Intrusion (AA24-038A)",
+      "description": "Hand-curated Attack Flow of PRC state-sponsored actor Volt Typhoon, reconstructed solely from joint advisory AA24-038A (CISA/NSA/FBI et al., 8 Feb 2024). Campaign-typical behaviour: edge-appliance exploitation, VPN/valid-account persistence, NTDS.dit domain compromise via vssadmin+ntdsutil, LOTL discovery, and pre-positioning toward OT assets without executing destructive action.",
+      "scope": "campaign",
+      "external_references": [
+        {
+          "source_name": "CISA AA24-038A",
+          "description": "PRC State-Sponsored Actors Compromise and Maintain Persistent Access to U.S. Critical Infrastructure. CISA, NSA, FBI, with DOE, EPA, TSA, ASD's ACSC, CCCS, NCSC-UK, NCSC-NZ. 8 Feb 2024.",
+          "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a"
+        },
+        {
+          "source_name": "ASD's ACSC (republication)",
+          "description": "Text source used for this reconstruction (cisa.gov blocks automated retrieval).",
+          "url": "https://www.cyber.gov.au/about-us/view-all-content/alerts-and-advisories/prc-state-sponsored-actors-compromise-and-maintain-persistent-access-us-critical-infrastructure"
+        }
+      ]
+    },
+    {
+      "type": "identity",
+      "id": "identity--0e27ee31-0f39-4c67-89f9-c2251b190a7c",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "name": "MTDSim (hand-curated from AA24-038A)",
+      "identity_class": "organization"
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--8bbe3f06-9e93-4147-bee6-be759ce4d0c4",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Gather Victim Org Information",
+      "tactic_id": "TA0043",
+      "tactic_ref": "x-mitre-tactic--daa4cbb1-b4f4-4723-a824-7f1efd6e0592",
+      "technique_id": "T1591",
+      "description": "Extensive pre-compromise reconnaissance to learn about the target organization.",
+      "effect_refs": [
+        "attack-action--323ba169-7ad0-4802-b2e6-e9ed67849e35"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b6e7b755-a909-4b3a-94f2-a45b11cdac4f",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Gather Victim Network Information",
+      "tactic_id": "TA0043",
+      "tactic_ref": "x-mitre-tactic--daa4cbb1-b4f4-4723-a824-7f1efd6e0592",
+      "technique_id": "T1590",
+      "description": "Pre-compromise reconnaissance to learn the target's network topology and protocols.",
+      "effect_refs": [
+        "attack-action--323ba169-7ad0-4802-b2e6-e9ed67849e35"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--bf0f83f6-48dc-487e-88b2-10e0ebba2a69",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Gather Victim Identity Information",
+      "tactic_id": "TA0043",
+      "tactic_ref": "x-mitre-tactic--daa4cbb1-b4f4-4723-a824-7f1efd6e0592",
+      "technique_id": "T1589",
+      "description": "Pre-compromise reconnaissance on staff, especially key network and IT administrators.",
+      "effect_refs": [
+        "attack-action--323ba169-7ad0-4802-b2e6-e9ed67849e35"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--2a8218a5-6be9-4b06-b688-4293a892bebe",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Gather Victim Host Information",
+      "tactic_id": "TA0043",
+      "tactic_ref": "x-mitre-tactic--daa4cbb1-b4f4-4723-a824-7f1efd6e0592",
+      "technique_id": "T1592",
+      "description": "Web searches for victim host information.",
+      "effect_refs": [
+        "attack-action--323ba169-7ad0-4802-b2e6-e9ed67849e35"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--677d56b2-6c55-4768-883e-9c5532a99660",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Search Open Websites/Domains",
+      "tactic_id": "TA0043",
+      "tactic_ref": "x-mitre-tactic--daa4cbb1-b4f4-4723-a824-7f1efd6e0592",
+      "technique_id": "T1593",
+      "description": "Uses FOFA, Shodan, and Censys to search for exposed infrastructure.",
+      "effect_refs": [
+        "attack-action--323ba169-7ad0-4802-b2e6-e9ed67849e35"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--57b20e4e-4f8f-4f4f-9626-f27230d4db8a",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Search Victim-Owned Websites",
+      "tactic_id": "TA0043",
+      "tactic_ref": "x-mitre-tactic--daa4cbb1-b4f4-4723-a824-7f1efd6e0592",
+      "technique_id": "T1594",
+      "description": "Searches victim-owned sites for host, identity, and network information.",
+      "effect_refs": [
+        "attack-action--323ba169-7ad0-4802-b2e6-e9ed67849e35"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--23656c09-6766-405a-8960-0ff675900074",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Acquire Infrastructure: Virtual Private Server",
+      "tactic_id": "TA0042",
+      "tactic_ref": "x-mitre-tactic--d679bca2-e57d-4935-8650-8031c87a4400",
+      "technique_id": "T1583.003",
+      "description": "Multi-hop C2 proxy composed of virtual private servers (VPSs).",
+      "effect_refs": [
+        "attack-action--c5d20036-5b24-4aa1-b08b-580d45a41855"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--887419ae-8eb0-4304-a4c0-a8029bbb54a6",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Compromise Infrastructure: Botnet",
+      "tactic_id": "TA0042",
+      "tactic_ref": "x-mitre-tactic--d679bca2-e57d-4935-8650-8031c87a4400",
+      "technique_id": "T1584.005",
+      "description": "Cisco and NETGEAR end-of-life SOHO routers implanted with KV Botnet malware.",
+      "effect_refs": [
+        "attack-action--c5d20036-5b24-4aa1-b08b-580d45a41855"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--77ead6ed-5d38-4e35-9c1a-a94ad52b4d53",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Compromise Infrastructure: Server",
+      "tactic_id": "TA0042",
+      "tactic_ref": "x-mitre-tactic--d679bca2-e57d-4935-8650-8031c87a4400",
+      "technique_id": "T1584.004",
+      "description": "Converted a compromised PRTG server into a proxy for C2 traffic.",
+      "effect_refs": [
+        "attack-action--dc31a8bc-f28a-4ad2-af70-66a137828ce3"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--f9db95da-188b-4350-a41a-a9f5b7f13036",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Develop Capabilities: Exploits",
+      "tactic_id": "TA0042",
+      "tactic_ref": "x-mitre-tactic--d679bca2-e57d-4935-8650-8031c87a4400",
+      "technique_id": "T1587.004",
+      "description": "Adept at discovering and exploiting zero-day vulnerabilities.",
+      "effect_refs": [
+        "attack-action--323ba169-7ad0-4802-b2e6-e9ed67849e35"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--148424c7-960c-4484-bb1d-1a58dc19f8ca",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Obtain Capabilities: Exploits",
+      "tactic_id": "TA0042",
+      "tactic_ref": "x-mitre-tactic--d679bca2-e57d-4935-8650-8031c87a4400",
+      "technique_id": "T1588.005",
+      "description": "Uses publicly available exploit code for known vulnerabilities.",
+      "effect_refs": [
+        "attack-action--323ba169-7ad0-4802-b2e6-e9ed67849e35"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--323ba169-7ad0-4802-b2e6-e9ed67849e35",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exploit Public-Facing Application",
+      "tactic_id": "TA0001",
+      "tactic_ref": "x-mitre-tactic--ffd5bcee-6e16-4dd2-8eca-7b3beedf33ca",
+      "technique_id": "T1190",
+      "description": "Exploits vulnerabilities in networking appliances (Fortinet, Ivanti, NETGEAR, Citrix, Cisco); one confirmed case exploited CVE-2022-42475 in an unpatched FortiGate 300D.",
+      "effect_refs": [
+        "attack-action--1210ab92-c503-425e-8928-5523d1f7e4b4",
+        "attack-action--92a5212e-19a5-4609-9352-c6cfe484b4e4",
+        "attack-action--39c92fe9-d9ee-416f-8b74-ee7f3bfabad9"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--1210ab92-c503-425e-8928-5523d1f7e4b4",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "External Remote Services",
+      "tactic_id": "TA0001",
+      "tactic_ref": "x-mitre-tactic--ffd5bcee-6e16-4dd2-8eca-7b3beedf33ca",
+      "technique_id": "T1133",
+      "description": "Connects to the victim network via VPN sessions for discreet follow-on activity.",
+      "effect_refs": [
+        "attack-action--11d200d6-4bac-436a-abe3-c39dc26b89c3"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b79d8d65-3275-4605-8814-5af0df90673d",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Command and Scripting Interpreter",
+      "tactic_id": "TA0002",
+      "tactic_ref": "x-mitre-tactic--4ca45d45-df4d-4613-8980-bac22d278fa5",
+      "technique_id": "T1059",
+      "description": "Hands-on-keyboard execution via the command-line.",
+      "effect_refs": [
+        "attack-action--9ae463eb-5c80-4c18-9ded-1050bd9ddb0e"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--142b49f1-0359-4182-bade-4903688e6c8d",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Command and Scripting Interpreter: PowerShell",
+      "tactic_id": "TA0002",
+      "tactic_ref": "x-mitre-tactic--4ca45d45-df4d-4613-8980-bac22d278fa5",
+      "technique_id": "T1059.001",
+      "description": "Executes FRP clients and scripts via PowerShell.",
+      "effect_refs": [
+        "attack-action--99448d34-8dca-4667-bd70-9e7195b7e338",
+        "attack-action--b5b63f4e-7397-4c13-b4cd-d780177a546d"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b5b63f4e-7397-4c13-b4cd-d780177a546d",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Command and Scripting Interpreter: Unix Shell",
+      "tactic_id": "TA0002",
+      "tactic_ref": "x-mitre-tactic--4ca45d45-df4d-4613-8980-bac22d278fa5",
+      "technique_id": "T1059.004",
+      "description": "Brightmetricagent.exe CLI library can leverage PowerShell, WMI, and Z Shell."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--9339b71c-8a07-450c-b567-d28e030adf27",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Windows Management Instrumentation",
+      "tactic_id": "TA0002",
+      "tactic_ref": "x-mitre-tactic--4ca45d45-df4d-4613-8980-bac22d278fa5",
+      "technique_id": "T1047",
+      "description": "WMIC commands execute ntdsutil to copy NTDS.dit and the SYSTEM hive from a shadow copy.",
+      "effect_refs": [
+        "attack-action--c5a7fa6b-948d-4a67-96ae-209326f1476a"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--11d200d6-4bac-436a-abe3-c39dc26b89c3",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Valid Accounts",
+      "tactic_id": "TA0003",
+      "tactic_ref": "x-mitre-tactic--5bc1d813-693e-4823-9961-abf9af4b0e92",
+      "technique_id": "T1078",
+      "description": "Primarily relies on valid credentials for persistence.",
+      "effect_refs": [
+        "attack-action--91fe2f09-1ba0-4684-9b62-da81878853ce",
+        "attack-action--8a065f9f-6b45-4fee-b876-6baa816af6d1",
+        "attack-action--de95f5b0-294e-4e95-a3c0-0edbff070c9a",
+        "attack-action--117c51e3-fde7-4095-a66a-e73500bd7fad",
+        "attack-action--dd123da5-77da-4e3a-81cf-9443053c955a",
+        "attack-action--52f30289-b7b4-4328-a168-53d492dcc391",
+        "attack-action--f3a28c18-3913-421c-bcfe-fc0664cdc516",
+        "attack-action--dd3d50d0-5b7d-4b6a-8b36-ad7c4ba0f011",
+        "attack-action--20daa578-5334-4102-bbcd-910737cea4e5",
+        "attack-action--e477732c-e330-42a6-8dde-7bc66703bd92",
+        "attack-action--3f279858-b4a0-4994-8dba-78c0e708c0e1",
+        "attack-action--06939cd8-0767-4dd0-a248-2d165a1e3415",
+        "attack-action--35dd18d5-c126-487f-82ff-edea0a6adf6f",
+        "attack-action--eeba3c2c-8e78-4425-aca0-ed9a11e35488",
+        "attack-action--4c2a8276-46a1-401a-b662-9a1036347efc",
+        "attack-action--2314eb9a-989a-45b5-99ce-48bc1ce1e291",
+        "attack-action--f7a234d2-6cf0-4da0-8c3b-8d06d11e86ae",
+        "attack-action--ebaef61d-5216-4a43-92f1-dcc185ddfdcc",
+        "attack-action--b79d8d65-3275-4605-8814-5af0df90673d"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--92a5212e-19a5-4609-9352-c6cfe484b4e4",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exploitation for Privilege Escalation",
+      "tactic_id": "TA0004",
+      "tactic_ref": "x-mitre-tactic--5e29b093-294e-49e9-a803-dab3d73b77dd",
+      "technique_id": "T1068",
+      "description": "Obtains credentials from public-facing appliances by exploiting privilege-escalation vulnerabilities in the OS or network services.",
+      "effect_refs": [
+        "attack-operator--e00e257c-573a-4d3b-a287-123062ab7eb7"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--9d63229d-ce05-4001-aebe-71d0e5649a63",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Direct Volume Access",
+      "tactic_id": "TA0005",
+      "tactic_ref": "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a",
+      "technique_id": "T1006",
+      "description": "Executes the Windows-native vssadmin command to create a volume shadow copy.",
+      "effect_refs": [
+        "attack-action--9339b71c-8a07-450c-b567-d28e030adf27"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--ec4f4907-b1aa-4244-8f80-913bd41a09fa",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Indicator Removal: Clear Windows Event Logs",
+      "tactic_id": "TA0005",
+      "tactic_ref": "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a",
+      "technique_id": "T1070.001",
+      "description": "Selectively clears Windows Event Logs to remove evidence. (v19.1: revoked -> T1685.005.)",
+      "effect_refs": [
+        "attack-action--3fe8eba9-e9d5-4e5f-9054-2181acb3bb23"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--8a78a4ee-0e9e-40e0-a7df-2db576a872ec",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Indicator Removal: File Deletion",
+      "tactic_id": "TA0005",
+      "tactic_ref": "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a",
+      "technique_id": "T1070.004",
+      "description": "Created systeminfo.dat in C:\\Users\\Public\\Documents, then deleted it."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--3fe8eba9-e9d5-4e5f-9054-2181acb3bb23",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Indicator Removal: Clear Persistence",
+      "tactic_id": "TA0005",
+      "tactic_ref": "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a",
+      "technique_id": "T1070.009",
+      "description": "Clears system logs and other technical artifacts to remove intrusion evidence."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--cc06c0f2-71e7-4013-9ba3-af7163056bf0",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Masquerading: Match Legitimate Name or Location",
+      "tactic_id": "TA0005",
+      "tactic_ref": "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a",
+      "technique_id": "T1036.005",
+      "description": "Masquerades file names; downloaded comsvcs.dll to a non-standard folder.",
+      "effect_refs": [
+        "attack-action--b20e8113-5a9d-4529-b416-bcaec32bfad6"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--a7fdfe99-7aed-4eef-a5ea-8e7d694afeea",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Modify Registry",
+      "tactic_id": "TA0005",
+      "tactic_ref": "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a",
+      "technique_id": "T1112",
+      "description": "Uses netsh to create a PortProxy registry modification on the PRTG server.",
+      "effect_refs": [
+        "attack-action--dc31a8bc-f28a-4ad2-af70-66a137828ce3"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--83eab2b2-b7f3-4c18-95e5-1b3d5a12768e",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Obfuscated Files or Information: Software Packing",
+      "tactic_id": "TA0005",
+      "tactic_ref": "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a",
+      "technique_id": "T1027.002",
+      "description": "Packed FRP clients and ScanLine with UPX.",
+      "effect_refs": [
+        "attack-action--142b49f1-0359-4182-bade-4903688e6c8d"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--9ae463eb-5c80-4c18-9ded-1050bd9ddb0e",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Binary Proxy Execution",
+      "tactic_id": "TA0005",
+      "tactic_ref": "x-mitre-tactic--78b23412-0651-46d7-a540-170a1ce8bd5a",
+      "technique_id": "T1218",
+      "description": "LOTL / LOLBins: native tools and processes to maintain and expand access."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--39c92fe9-d9ee-416f-8b74-ee7f3bfabad9",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Unsecured Credentials",
+      "tactic_id": "TA0006",
+      "tactic_ref": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263",
+      "technique_id": "T1552",
+      "description": "Obtained a domain-admin credential insecurely stored on the appliance.",
+      "effect_refs": [
+        "attack-operator--e00e257c-573a-4d3b-a287-123062ab7eb7"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b8af77f2-9cfc-48f1-ade2-45cc67579f1a",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Unsecured Credentials: Private Keys",
+      "tactic_id": "TA0006",
+      "tactic_ref": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263",
+      "technique_id": "T1552.004",
+      "description": "Accessed the Chrome Local State file holding the AES key that decrypts stored passwords."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b9051548-9392-48b1-86f9-052a18bc2c8b",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "OS Credential Dumping: LSASS Memory",
+      "tactic_id": "TA0006",
+      "tactic_ref": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263",
+      "technique_id": "T1003.001",
+      "description": "Used comsvcs.dll MiniDump with the LSASS PID to dump LSASS process memory."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--c5a7fa6b-948d-4a67-96ae-209326f1476a",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "OS Credential Dumping: NTDS",
+      "tactic_id": "TA0006",
+      "tactic_ref": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263",
+      "technique_id": "T1003.003",
+      "description": "Extracts the Active Directory database (NTDS.dit) from the DC -> full domain compromise.",
+      "effect_refs": [
+        "attack-action--69797ec4-b612-4da4-a318-c365722c0e9c",
+        "attack-action--2300a498-da21-4822-b9e8-66473294aa17",
+        "attack-action--e042c55a-601e-4d15-9341-b1386311f835",
+        "attack-action--ec4f4907-b1aa-4244-8f80-913bd41a09fa",
+        "attack-action--cc06c0f2-71e7-4013-9ba3-af7163056bf0"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--69797ec4-b612-4da4-a318-c365722c0e9c",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Brute Force: Password Cracking",
+      "tactic_id": "TA0006",
+      "tactic_ref": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263",
+      "technique_id": "T1110.002",
+      "description": "Exfiltrates NTDS.dit and the SYSTEM hive to crack passwords offline.",
+      "effect_refs": [
+        "attack-action--695d2886-3cd8-4e5f-a072-0e982bdda164",
+        "attack-action--a64fc6a0-89c5-4596-a150-6b685bcc1a82",
+        "attack-action--5f5eb8da-8245-4ba1-9e12-4e4603d772a3"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--ff4d7071-d137-4ac4-a220-8042fd275741",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Credentials from Password Stores",
+      "tactic_id": "TA0006",
+      "tactic_ref": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263",
+      "technique_id": "T1555",
+      "description": "Harvests saved passwords, history, and cookies from browsers."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--22f7c332-793b-42d9-a2aa-8d262493c63a",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Credentials from Web Browsers",
+      "tactic_id": "TA0006",
+      "tactic_ref": "x-mitre-tactic--2558fd61-8c75-4730-94c4-11926db2a263",
+      "technique_id": "T1555.003",
+      "description": "Targets network-administrator browser history and stored credentials.",
+      "effect_refs": [
+        "attack-action--ff4d7071-d137-4ac4-a220-8042fd275741",
+        "attack-action--26d9a502-f4c4-463d-8da6-75aed10b821f",
+        "attack-action--b8af77f2-9cfc-48f1-ade2-45cc67579f1a",
+        "attack-action--122da05f-0498-4e82-b0ce-1be13c00ae22"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--8a065f9f-6b45-4fee-b876-6baa816af6d1",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Information Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1082",
+      "description": "LOTL utilities for system-information discovery."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--de95f5b0-294e-4e95-a3c0-0edbff070c9a",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Network Service Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1046",
+      "description": "LOTL utilities for network-service discovery."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--117c51e3-fde7-4095-a66a-e73500bd7fad",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Permission Groups Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1069",
+      "description": "LOTL utilities for group discovery."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--dd123da5-77da-4e3a-81cf-9443053c955a",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Owner/User Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1033",
+      "description": "LOTL utilities for user discovery."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--52f30289-b7b4-4328-a168-53d492dcc391",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "File and Directory Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1083",
+      "description": "Enumerated directories containing vulnerability-testing content and facilities data.",
+      "effect_refs": [
+        "attack-action--cb89fd8c-e0ed-4fcf-a22c-8ee8a84f2eb8"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--f3a28c18-3913-421c-bcfe-fc0664cdc516",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Process Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1057",
+      "description": "Executed tasklist /v for a detailed process listing."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--dd3d50d0-5b7d-4b6a-8b36-ad7c4ba0f011",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Account Discovery: Local Account",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1087.001",
+      "description": "Executed net user and quser for account information."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--20daa578-5334-4102-bbcd-910737cea4e5",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Internet Connection Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1016.001",
+      "description": "Employs ping with various IPs to check network connectivity."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--e477732c-e330-42a6-8dde-7bc66703bd92",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Service Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1007",
+      "description": "Uses net start to list running services."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--3f279858-b4a0-4994-8dba-78c0e708c0e1",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Application Window Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1010",
+      "description": "rult3uil.log captured window-title information and focus shifts."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--06939cd8-0767-4dd0-a248-2d165a1e3415",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Log Enumeration",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1654",
+      "description": "Captured successful logon events (Event ID 4624) via PowerShell queries.",
+      "effect_refs": [
+        "attack-action--8a78a4ee-0e9e-40e0-a7df-2db576a872ec"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--35dd18d5-c126-487f-82ff-edea0a6adf6f",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Query Registry",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1012",
+      "description": "Enumerated stored PuTTY sessions.",
+      "effect_refs": [
+        "attack-action--695d2886-3cd8-4e5f-a072-0e982bdda164"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--eeba3c2c-8e78-4425-aca0-ed9a11e35488",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Software Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1518",
+      "description": "Obtained the victim's list of installed applications."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--4c2a8276-46a1-401a-b662-9a1036347efc",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Peripheral Device Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1120",
+      "description": "Obtained screen dimension and display-device information.",
+      "effect_refs": [
+        "attack-action--0ed228da-66d5-48a1-b3a8-ec9e246de08c"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--2314eb9a-989a-45b5-99ce-48bc1ce1e291",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Location Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1614",
+      "description": "Obtained the victim's system locale."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--f7a234d2-6cf0-4da0-8c3b-8d06d11e86ae",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "System Time Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1124",
+      "description": "Obtained the victim's system timezone."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--ebaef61d-5216-4a43-92f1-dcc185ddfdcc",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Browser Information Discovery",
+      "tactic_id": "TA0007",
+      "tactic_ref": "x-mitre-tactic--c17c5845-175e-4421-9713-829d0573dbc9",
+      "technique_id": "T1217",
+      "description": "Enumerated browser history and stored data.",
+      "effect_refs": [
+        "attack-action--22f7c332-793b-42d9-a2aa-8d262493c63a"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--91fe2f09-1ba0-4684-9b62-da81878853ce",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote Services: Remote Desktop Protocol",
+      "tactic_id": "TA0008",
+      "tactic_ref": "x-mitre-tactic--7141578b-e50b-4dcc-bfa4-08a8dd689e9e",
+      "technique_id": "T1021.001",
+      "description": "Moves laterally to the DC via an interactive RDP session with a domain-admin account.",
+      "effect_refs": [
+        "attack-action--9d63229d-ce05-4001-aebe-71d0e5649a63"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--695d2886-3cd8-4e5f-a072-0e982bdda164",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote Service Session Hijacking",
+      "tactic_id": "TA0008",
+      "tactic_ref": "x-mitre-tactic--7141578b-e50b-4dcc-bfa4-08a8dd689e9e",
+      "technique_id": "T1563",
+      "description": "PuTTY profiles for water-treatment, wells, a substation, and OT systems would enable access to those critical systems.",
+      "effect_refs": [
+        "attack-condition--339bbec6-2f69-45fe-95d5-fc532784c369"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b6b71c87-17b1-413c-909e-970b35313ec5",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Remote Services: Cloud Services",
+      "tactic_id": "TA0008",
+      "tactic_ref": "x-mitre-tactic--7141578b-e50b-4dcc-bfa4-08a8dd689e9e",
+      "technique_id": "T1021.007",
+      "description": "[Attribution inconclusive] anomalous login attempts to an Azure tenant."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--5f5eb8da-8245-4ba1-9e12-4e4603d772a3",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Use Alternate Authentication Material",
+      "tactic_id": "TA0008",
+      "tactic_ref": "x-mitre-tactic--7141578b-e50b-4dcc-bfa4-08a8dd689e9e",
+      "technique_id": "T1550",
+      "description": "[May be capable] Pass-the-Hash or Pass-the-Ticket after full AD compromise."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--a64fc6a0-89c5-4596-a150-6b685bcc1a82",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Valid Accounts: Cloud Accounts",
+      "tactic_id": "TA0008",
+      "tactic_ref": "x-mitre-tactic--7141578b-e50b-4dcc-bfa4-08a8dd689e9e",
+      "technique_id": "T1078.004",
+      "description": "[Attribution inconclusive] Azure logins potentially using credentials stolen via NTDS.dit.",
+      "effect_refs": [
+        "attack-action--b6b71c87-17b1-413c-909e-970b35313ec5"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--cb89fd8c-e0ed-4fcf-a22c-8ee8a84f2eb8",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Archive Collected Data",
+      "tactic_id": "TA0009",
+      "tactic_ref": "x-mitre-tactic--d108ce10-2419-4cf9-a774-46161d6c6cfe",
+      "technique_id": "T1560",
+      "description": "Collected sensitive file-server information in multiple zipped files.",
+      "effect_refs": [
+        "attack-action--2300a498-da21-4822-b9e8-66473294aa17"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--e042c55a-601e-4d15-9341-b1386311f835",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Archive Collected Data: Archive via Utility",
+      "tactic_id": "TA0009",
+      "tactic_ref": "x-mitre-tactic--d108ce10-2419-4cf9-a774-46161d6c6cfe",
+      "technique_id": "T1560.001",
+      "description": "Compressed extracted NTDS.dit and registry hives with ronf.exe (a renamed rar.exe)."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--26d9a502-f4c4-463d-8da6-75aed10b821f",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Data Staged",
+      "tactic_id": "TA0009",
+      "tactic_ref": "x-mitre-tactic--d108ce10-2419-4cf9-a774-46161d6c6cfe",
+      "technique_id": "T1074",
+      "description": "Saved History.zip to the Downloads directory for exfiltration.",
+      "effect_refs": [
+        "attack-action--cb89fd8c-e0ed-4fcf-a22c-8ee8a84f2eb8"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--0ed228da-66d5-48a1-b3a8-ec9e246de08c",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Screen Capture",
+      "tactic_id": "TA0009",
+      "tactic_ref": "x-mitre-tactic--d108ce10-2419-4cf9-a774-46161d6c6cfe",
+      "technique_id": "T1113",
+      "description": "Captured a screenshot using gdi32.dll and gdiplus.dll."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--99448d34-8dca-4667-bd70-9e7195b7e338",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Proxy",
+      "tactic_id": "TA0011",
+      "tactic_ref": "x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813",
+      "technique_id": "T1090",
+      "description": "FRP clients establish covert C2 channels; SOHO routers and VPSs proxy C2 traffic.",
+      "effect_refs": [
+        "attack-action--0be4a6f7-77f8-4c97-8249-64297dfd77ab"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--dc31a8bc-f28a-4ad2-af70-66a137828ce3",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Proxy: Internal Proxy",
+      "tactic_id": "TA0011",
+      "tactic_ref": "x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813",
+      "technique_id": "T1090.001",
+      "description": "netsh PortProxy modification on the PRTG server redirects port traffic.",
+      "effect_refs": [
+        "attack-action--99448d34-8dca-4667-bd70-9e7195b7e338"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--c5d20036-5b24-4aa1-b08b-580d45a41855",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Proxy: Multi-hop Proxy",
+      "tactic_id": "TA0011",
+      "tactic_ref": "x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813",
+      "technique_id": "T1090.003",
+      "description": "Multi-hop proxies (VPSs / SOHO routers) for C2 infrastructure.",
+      "effect_refs": [
+        "attack-action--99448d34-8dca-4667-bd70-9e7195b7e338"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--b20e8113-5a9d-4529-b416-bcaec32bfad6",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Ingress Tool Transfer",
+      "tactic_id": "TA0011",
+      "tactic_ref": "x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813",
+      "technique_id": "T1105",
+      "description": "Downloaded an outdated comsvcs.dll to the DC in a non-standard folder.",
+      "effect_refs": [
+        "attack-action--b9051548-9392-48b1-86f9-052a18bc2c8b"
+      ]
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--0be4a6f7-77f8-4c97-8249-64297dfd77ab",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Encrypted Channel",
+      "tactic_id": "TA0011",
+      "tactic_ref": "x-mitre-tactic--f72804c5-f15a-449e-a5da-2eecd181f813",
+      "technique_id": "T1573",
+      "description": "FRP clients open reverse proxies establishing covert (encrypted) C2 channels."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--2300a498-da21-4822-b9e8-66473294aa17",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Exfiltration Over Alternative Protocol",
+      "tactic_id": "TA0010",
+      "tactic_ref": "x-mitre-tactic--9a4e74ab-5008-408c-84bf-a10dfbc53462",
+      "technique_id": "T1048",
+      "description": "Likely exfiltrated collected files via Server Message Block (SMB)."
+    },
+    {
+      "type": "attack-action",
+      "id": "attack-action--122da05f-0498-4e82-b0ce-1be13c00ae22",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "name": "Gather Victim Identity Information: Email Addresses",
+      "tactic_id": "TA0043",
+      "tactic_ref": "x-mitre-tactic--daa4cbb1-b4f4-4723-a824-7f1efd6e0592",
+      "technique_id": "T1589.002",
+      "description": "Post-compromise: targets the personal emails of key network and IT staff, informed by harvested browser data."
+    },
+    {
+      "type": "attack-operator",
+      "id": "attack-operator--e00e257c-573a-4d3b-a287-123062ab7eb7",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "operator": "OR",
+      "effect_refs": [
+        "attack-action--11d200d6-4bac-436a-abe3-c39dc26b89c3"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--8e217ff8-d090-496c-a64e-441770e11658",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "A public-facing network appliance is unpatched and exploitable (one confirmed case: CVE-2022-42475 in a FortiGate 300D).",
+      "on_true_refs": [
+        "attack-action--323ba169-7ad0-4802-b2e6-e9ed67849e35"
+      ]
+    },
+    {
+      "type": "attack-condition",
+      "id": "attack-condition--339bbec6-2f69-45fe-95d5-fc532784c369",
+      "spec_version": "2.1",
+      "created": "2024-02-08T00:00:00.000Z",
+      "modified": "2024-02-08T00:00:00.000Z",
+      "extensions": {
+        "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4": {
+          "extension_type": "new-sdo"
+        }
+      },
+      "description": "Volt Typhoon is pre-positioned on the IT network with the capability to reach OT assets; consistent with the advisory, no destructive OT action is executed -- the objective is long-term, stealthy persistence."
+    },
+    {
+      "type": "extension-definition",
+      "id": "extension-definition--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "spec_version": "2.1",
+      "created": "2022-08-02T19:34:35.143Z",
+      "modified": "2022-08-02T19:34:35.143Z",
+      "name": "Attack Flow",
+      "description": "Extends STIX 2.1 with features to create Attack Flows.",
+      "created_by_ref": "identity--fb9c968a-745b-4ade-9b25-c324172197f4",
+      "schema": "https://center-for-threat-informed-defense.github.io/attack-flow/stix/attack-flow-schema-2.0.0.json",
+      "version": "2.0.0",
+      "extension_types": [
+        "new-sdo"
+      ]
+    }
+  ]
+}

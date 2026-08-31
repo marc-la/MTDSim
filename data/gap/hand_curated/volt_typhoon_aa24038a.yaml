@@ -1,0 +1,624 @@
+flow_id: volt_typhoon_aa24038a
+flow_name: Volt Typhoon Critical Infrastructure Intrusion (AA24-038A)
+scope: campaign
+source: hand_curated
+schema_version: 2.0.0
+references:
+- source_name: CISA AA24-038A
+  url: https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a
+  description: PRC State-Sponsored Actors Compromise and Maintain Persistent Access
+    to U.S. Critical Infrastructure. CISA, NSA, FBI, with DOE, EPA, TSA, ASD's ACSC,
+    CCCS, NCSC-UK, NCSC-NZ. 8 Feb 2024.
+- source_name: ASD's ACSC (republication)
+  url: https://www.cyber.gov.au/about-us/view-all-content/alerts-and-advisories/prc-state-sponsored-actors-compromise-and-maintain-persistent-access-us-critical-infrastructure
+  description: Text source used for this reconstruction (cisa.gov blocks automated
+    retrieval).
+start_refs:
+- a34
+- a46
+- a50
+- a16
+- a26
+- a24
+- a14
+- a31
+- a29
+- a66
+- a9
+- a42
+- a30
+- c2
+nodes:
+- id: a1
+  kind: action
+  technique_id: T1654
+  name: Log Enumeration
+  tactic: discovery
+- id: a2
+  kind: action
+  technique_id: T1573
+  name: Encrypted Channel
+  tactic: command-and-control
+- id: a3
+  kind: action
+  technique_id: T1113
+  name: Screen Capture
+  tactic: collection
+- id: a4
+  kind: action
+  technique_id: T1069
+  name: Permission Groups Discovery
+  tactic: discovery
+- id: a5
+  kind: action
+  technique_id: T1078
+  name: Valid Accounts
+  tactic: persistence
+- id: a6
+  kind: action
+  technique_id: T1133
+  name: External Remote Services
+  tactic: initial-access
+- id: a7
+  kind: action
+  technique_id: T1589
+  sub_technique_id: T1589.002
+  name: 'Gather Victim Identity Information: Email Addresses'
+  tactic: reconnaissance
+- id: a8
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.001
+  name: 'Command and Scripting Interpreter: PowerShell'
+  tactic: execution
+- id: a9
+  kind: action
+  technique_id: T1588
+  sub_technique_id: T1588.005
+  name: 'Obtain Capabilities: Exploits'
+  tactic: resource-development
+- id: a10
+  kind: action
+  technique_id: T1016
+  sub_technique_id: T1016.001
+  name: Internet Connection Discovery
+  tactic: discovery
+- id: a11
+  kind: action
+  technique_id: T1555
+  sub_technique_id: T1555.003
+  name: Credentials from Web Browsers
+  tactic: credential-access
+- id: a12
+  kind: action
+  technique_id: T1048
+  name: Exfiltration Over Alternative Protocol
+  tactic: exfiltration
+- id: a13
+  kind: action
+  technique_id: T1614
+  name: System Location Discovery
+  tactic: discovery
+- id: a14
+  kind: action
+  technique_id: T1583
+  sub_technique_id: T1583.003
+  name: 'Acquire Infrastructure: Virtual Private Server'
+  tactic: resource-development
+- id: a15
+  kind: action
+  technique_id: T1074
+  name: Data Staged
+  tactic: collection
+- id: a16
+  kind: action
+  technique_id: T1592
+  name: Gather Victim Host Information
+  tactic: reconnaissance
+- id: a17
+  kind: action
+  technique_id: T1190
+  name: Exploit Public-Facing Application
+  tactic: initial-access
+- id: a18
+  kind: action
+  technique_id: T1012
+  name: Query Registry
+  tactic: discovery
+- id: a19
+  kind: action
+  technique_id: T1552
+  name: Unsecured Credentials
+  tactic: credential-access
+- id: a20
+  kind: action
+  technique_id: T1010
+  name: Application Window Discovery
+  tactic: discovery
+- id: a21
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.009
+  name: 'Indicator Removal: Clear Persistence'
+  tactic: defense-evasion
+- id: a22
+  kind: action
+  technique_id: T1120
+  name: Peripheral Device Discovery
+  tactic: discovery
+- id: a23
+  kind: action
+  technique_id: T1083
+  name: File and Directory Discovery
+  tactic: discovery
+- id: a24
+  kind: action
+  technique_id: T1594
+  name: Search Victim-Owned Websites
+  tactic: reconnaissance
+- id: a25
+  kind: action
+  technique_id: T1550
+  name: Use Alternate Authentication Material
+  tactic: lateral-movement
+- id: a26
+  kind: action
+  technique_id: T1593
+  name: Search Open Websites/Domains
+  tactic: reconnaissance
+- id: a27
+  kind: action
+  technique_id: T1563
+  name: Remote Service Session Hijacking
+  tactic: lateral-movement
+- id: a28
+  kind: action
+  technique_id: T1110
+  sub_technique_id: T1110.002
+  name: 'Brute Force: Password Cracking'
+  tactic: credential-access
+- id: a29
+  kind: action
+  technique_id: T1584
+  sub_technique_id: T1584.004
+  name: 'Compromise Infrastructure: Server'
+  tactic: resource-development
+- id: a30
+  kind: action
+  technique_id: T1027
+  sub_technique_id: T1027.002
+  name: 'Obfuscated Files or Information: Software Packing'
+  tactic: defense-evasion
+- id: a31
+  kind: action
+  technique_id: T1584
+  sub_technique_id: T1584.005
+  name: 'Compromise Infrastructure: Botnet'
+  tactic: resource-development
+- id: a32
+  kind: action
+  technique_id: T1082
+  name: System Information Discovery
+  tactic: discovery
+- id: a33
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.004
+  name: 'Indicator Removal: File Deletion'
+  tactic: defense-evasion
+- id: a34
+  kind: action
+  technique_id: T1591
+  name: Gather Victim Org Information
+  tactic: reconnaissance
+- id: a35
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.001
+  name: 'Remote Services: Remote Desktop Protocol'
+  tactic: lateral-movement
+- id: a36
+  kind: action
+  technique_id: T1068
+  name: Exploitation for Privilege Escalation
+  tactic: privilege-escalation
+- id: a37
+  kind: action
+  technique_id: T1047
+  name: Windows Management Instrumentation
+  tactic: execution
+- id: a38
+  kind: action
+  technique_id: T1090
+  name: Proxy
+  tactic: command-and-control
+- id: a39
+  kind: action
+  technique_id: T1218
+  name: System Binary Proxy Execution
+  tactic: defense-evasion
+- id: a40
+  kind: action
+  technique_id: T1006
+  name: Direct Volume Access
+  tactic: defense-evasion
+- id: a41
+  kind: action
+  technique_id: T1078
+  sub_technique_id: T1078.004
+  name: 'Valid Accounts: Cloud Accounts'
+  tactic: lateral-movement
+- id: a42
+  kind: action
+  technique_id: T1112
+  name: Modify Registry
+  tactic: defense-evasion
+- id: a43
+  kind: action
+  technique_id: T1105
+  name: Ingress Tool Transfer
+  tactic: command-and-control
+- id: a44
+  kind: action
+  technique_id: T1059
+  sub_technique_id: T1059.004
+  name: 'Command and Scripting Interpreter: Unix Shell'
+  tactic: execution
+- id: a45
+  kind: action
+  technique_id: T1021
+  sub_technique_id: T1021.007
+  name: 'Remote Services: Cloud Services'
+  tactic: lateral-movement
+- id: a46
+  kind: action
+  technique_id: T1590
+  name: Gather Victim Network Information
+  tactic: reconnaissance
+- id: a47
+  kind: action
+  technique_id: T1059
+  name: Command and Scripting Interpreter
+  tactic: execution
+- id: a48
+  kind: action
+  technique_id: T1552
+  sub_technique_id: T1552.004
+  name: 'Unsecured Credentials: Private Keys'
+  tactic: credential-access
+- id: a49
+  kind: action
+  technique_id: T1003
+  sub_technique_id: T1003.001
+  name: 'OS Credential Dumping: LSASS Memory'
+  tactic: credential-access
+- id: a50
+  kind: action
+  technique_id: T1589
+  name: Gather Victim Identity Information
+  tactic: reconnaissance
+- id: a51
+  kind: action
+  technique_id: T1003
+  sub_technique_id: T1003.003
+  name: 'OS Credential Dumping: NTDS'
+  tactic: credential-access
+- id: a52
+  kind: action
+  technique_id: T1090
+  sub_technique_id: T1090.003
+  name: 'Proxy: Multi-hop Proxy'
+  tactic: command-and-control
+- id: a53
+  kind: action
+  technique_id: T1560
+  name: Archive Collected Data
+  tactic: collection
+- id: a54
+  kind: action
+  technique_id: T1036
+  sub_technique_id: T1036.005
+  name: 'Masquerading: Match Legitimate Name or Location'
+  tactic: defense-evasion
+- id: a55
+  kind: action
+  technique_id: T1090
+  sub_technique_id: T1090.001
+  name: 'Proxy: Internal Proxy'
+  tactic: command-and-control
+- id: a56
+  kind: action
+  technique_id: T1033
+  name: System Owner/User Discovery
+  tactic: discovery
+- id: a57
+  kind: action
+  technique_id: T1087
+  sub_technique_id: T1087.001
+  name: 'Account Discovery: Local Account'
+  tactic: discovery
+- id: a58
+  kind: action
+  technique_id: T1046
+  name: Network Service Discovery
+  tactic: discovery
+- id: a59
+  kind: action
+  technique_id: T1560
+  sub_technique_id: T1560.001
+  name: 'Archive Collected Data: Archive via Utility'
+  tactic: collection
+- id: a60
+  kind: action
+  technique_id: T1007
+  name: System Service Discovery
+  tactic: discovery
+- id: a61
+  kind: action
+  technique_id: T1217
+  name: Browser Information Discovery
+  tactic: discovery
+- id: a62
+  kind: action
+  technique_id: T1070
+  sub_technique_id: T1070.001
+  name: 'Indicator Removal: Clear Windows Event Logs'
+  tactic: defense-evasion
+- id: a63
+  kind: action
+  technique_id: T1518
+  name: Software Discovery
+  tactic: discovery
+- id: a64
+  kind: action
+  technique_id: T1057
+  name: Process Discovery
+  tactic: discovery
+- id: a65
+  kind: action
+  technique_id: T1124
+  name: System Time Discovery
+  tactic: discovery
+- id: a66
+  kind: action
+  technique_id: T1587
+  sub_technique_id: T1587.004
+  name: 'Develop Capabilities: Exploits'
+  tactic: resource-development
+- id: a67
+  kind: action
+  technique_id: T1555
+  name: Credentials from Password Stores
+  tactic: credential-access
+- id: op1
+  kind: operator
+  operator: OR
+- id: c1
+  kind: condition
+  description: Volt Typhoon is pre-positioned on the IT network with the capability
+    to reach OT assets; consistent with the advisory, no destructive OT action is
+    executed -- the objective is long-term, stealthy persistence.
+- id: c2
+  kind: condition
+  description: 'A public-facing network appliance is unpatched and exploitable (one
+    confirmed case: CVE-2022-42475 in a FortiGate 300D).'
+edges:
+- source: a1
+  target: a33
+  type: effect
+- source: a11
+  target: a15
+  type: effect
+- source: a11
+  target: a48
+  type: effect
+- source: a11
+  target: a67
+  type: effect
+- source: a11
+  target: a7
+  type: effect
+- source: a14
+  target: a52
+  type: effect
+- source: a15
+  target: a53
+  type: effect
+- source: a16
+  target: a17
+  type: effect
+- source: a17
+  target: a19
+  type: effect
+- source: a17
+  target: a36
+  type: effect
+- source: a17
+  target: a6
+  type: effect
+- source: a18
+  target: a27
+  type: effect
+- source: a19
+  target: op1
+  type: effect
+- source: a22
+  target: a3
+  type: effect
+- source: a23
+  target: a53
+  type: effect
+- source: a24
+  target: a17
+  type: effect
+- source: a26
+  target: a17
+  type: effect
+- source: a27
+  target: c1
+  type: effect
+- source: a28
+  target: a25
+  type: effect
+- source: a28
+  target: a27
+  type: effect
+- source: a28
+  target: a41
+  type: effect
+- source: a29
+  target: a55
+  type: effect
+- source: a30
+  target: a8
+  type: effect
+- source: a31
+  target: a52
+  type: effect
+- source: a34
+  target: a17
+  type: effect
+- source: a35
+  target: a40
+  type: effect
+- source: a36
+  target: op1
+  type: effect
+- source: a37
+  target: a51
+  type: effect
+- source: a38
+  target: a2
+  type: effect
+- source: a40
+  target: a37
+  type: effect
+- source: a41
+  target: a45
+  type: effect
+- source: a42
+  target: a55
+  type: effect
+- source: a43
+  target: a49
+  type: effect
+- source: a46
+  target: a17
+  type: effect
+- source: a47
+  target: a39
+  type: effect
+- source: a5
+  target: a1
+  type: effect
+- source: a5
+  target: a10
+  type: effect
+- source: a5
+  target: a13
+  type: effect
+- source: a5
+  target: a18
+  type: effect
+- source: a5
+  target: a20
+  type: effect
+- source: a5
+  target: a22
+  type: effect
+- source: a5
+  target: a23
+  type: effect
+- source: a5
+  target: a32
+  type: effect
+- source: a5
+  target: a35
+  type: effect
+- source: a5
+  target: a4
+  type: effect
+- source: a5
+  target: a47
+  type: effect
+- source: a5
+  target: a56
+  type: effect
+- source: a5
+  target: a57
+  type: effect
+- source: a5
+  target: a58
+  type: effect
+- source: a5
+  target: a60
+  type: effect
+- source: a5
+  target: a61
+  type: effect
+- source: a5
+  target: a63
+  type: effect
+- source: a5
+  target: a64
+  type: effect
+- source: a5
+  target: a65
+  type: effect
+- source: a50
+  target: a17
+  type: effect
+- source: a51
+  target: a12
+  type: effect
+- source: a51
+  target: a28
+  type: effect
+- source: a51
+  target: a54
+  type: effect
+- source: a51
+  target: a59
+  type: effect
+- source: a51
+  target: a62
+  type: effect
+- source: a52
+  target: a38
+  type: effect
+- source: a53
+  target: a12
+  type: effect
+- source: a54
+  target: a43
+  type: effect
+- source: a55
+  target: a38
+  type: effect
+- source: a6
+  target: a5
+  type: effect
+- source: a61
+  target: a11
+  type: effect
+- source: a62
+  target: a21
+  type: effect
+- source: a66
+  target: a17
+  type: effect
+- source: a8
+  target: a38
+  type: effect
+- source: a8
+  target: a44
+  type: effect
+- source: a9
+  target: a17
+  type: effect
+- source: c2
+  target: a17
+  type: on_true
+- source: op1
+  target: a5
+  type: effect
