@@ -125,6 +125,12 @@ def main() -> None:
     svg = SRC.read_text()
     # 1) node groups.
     svg = GROUP_RE.sub(lambda m: restyle_group(m.group(0)), svg)
+    # 1b) font stack. The Builder sized every box to *Inter* metrics, but on a box
+    # without Inter installed a renderer matches "Inter"/"sans-serif" to DejaVu Sans,
+    # which is wider than Inter and overflows the boxes in the PDF (the browser SVG,
+    # with real Inter, fits). Lead with Arial/Helvetica so the SVG->PDF renderer picks
+    # a Helvetica-metric font (TeX Gyre Heros), which is close to Inter and fits.
+    svg = svg.replace("Inter, Arial, sans-serif", "Arial, Helvetica, sans-serif")
     # 2) edges + arrowheads (top level, outside groups): both use the Builder line hue.
     svg = svg.replace(f'stroke="{B_ACTION_LINE}"', f'stroke="{EDGE_GREY}"')
     svg = svg.replace(f'<polygon data-v-4a541c10="" points', '<polygon data-v-4a541c10="" points')  # noop guard

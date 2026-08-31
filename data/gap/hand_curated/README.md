@@ -195,8 +195,15 @@ volt_typhoon_exemplar.afb
 **~7.5pt**, just under the ~8pt guide (`figure_table_conventions.md` §h) — accepted over box
 overflow. Clearing the floor cleanly would need a Builder relayout (wider boxes), not a font
 hack. The True/False tab letters stay small as Attack Flow *notation marks* (like
-arrowheads), not information glyphs. `cairosvg` does the SVG→PDF conversion (a dev
-dependency; `pip install cairosvg`).
+arrowheads), not information glyphs.
+
+**Font note.** `cairosvg` does the SVG→PDF conversion (a dev dependency; `pip install
+cairosvg`). The Builder sizes each box to **Inter** metrics; a machine without Inter matches
+"Inter"/"sans-serif" to **DejaVu Sans**, which is wider and **overflows the boxes in the
+PDF** even though the browser SVG (real Inter) fits. The tool therefore rewrites the output
+font stack to `Arial, Helvetica, sans-serif`, which resolves to a Helvetica-metric font (TeX
+Gyre Heros) that is close to Inter and fits — and embeds in the PDF, so the figure is
+self-contained at LaTeX time. If you re-export from the Builder, just re-run the tool.
 
 **Caveat — the `.afb` is best-effort, validate by opening.** It is cloned object-for-object
 from the corpus Tesla `.afb` invariants (schema `attack_flow_v2`; 12 angle-anchors per
