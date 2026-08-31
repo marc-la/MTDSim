@@ -16,10 +16,10 @@ What it does, and why (see docs/workflows/figure_table_conventions.md):
     class that carries the accent ("the one thing the figure is about").
   - Injects the ATT&CK technique id above each action box (Presentation mode
     drops it; the §3.1.2 prose cites the ids).
-  - Bumps the label type size so that, included at the measured landscape
-    typeblock width (702.78pt), on-page glyphs clear the ~8pt floor (§h). This
-    figure is inherently wide (a 5-step top row), so it is a landscape-page
-    figure; at portrait \\textwidth its labels would be ~5pt.
+  - Leaves the Builder's native 14u label size untouched (bumping it overflows
+    the boxes). This figure is inherently wide (a 5-step top row), so it is a
+    landscape-page figure; at the landscape typeblock (702.78pt) labels print
+    ~7.5pt, just under the ~8pt guide (§h) — accepted over box overflow.
 
 Palette classes are detected by the Builder's own fills:
     action    fill #5286e7   condition fill #0e662a   operator  fill #ad2a2a
@@ -51,8 +51,11 @@ B_COND_FILL, B_COND_LINE = "#0e662a", "#24a64b"
 B_OP_FILL, B_OP_LINE = "#ad2a2a", "#ff5959"
 WHITE = "#FFFFFF"
 
-LABEL_FS = "15"   # -> ~8.05pt at the landscape typeblock (702.78pt / 1310u)
-TID_FS = "15"
+# Font size is left at the Builder's native 14u — bumping it overflows the boxes
+# (the Builder sizes each box to its 14u text). Consequence: at the landscape
+# typeblock (702.78pt / 1310u) labels print ~7.5pt, just under the ~8pt guide;
+# clearing the floor would need a Builder relayout (wider boxes), not a font hack.
+TID_FS = "14"     # match the native label size
 
 # ATT&CK technique id per action, keyed by the box's visible name.
 NAME_TO_TID = {
@@ -88,17 +91,12 @@ def visible_name(block: str) -> str:
     return re.sub(r"\s+", " ", txt).strip()
 
 
-def bump_label_fontsize(block: str) -> str:
-    return block.replace('font-size="14"', f'font-size="{LABEL_FS}"')
-
-
 def restyle_group(block: str) -> str:
     cls = node_class(block)
     if cls == "action":
         block = block.replace(f'fill="{B_ACTION_FILL}"', f'fill="{GREY_FILL}"')
         block = block.replace(f'stroke="{B_ACTION_LINE}"', f'stroke="{GREY_LINE}"')
         block = block.replace(f'fill="{WHITE}"', f'fill="{INK}"')       # label text
-        block = bump_label_fontsize(block)
         # inject the technique id above the box, centred.
         name = visible_name(block)
         tid = NAME_TO_TID.get(name)
@@ -116,12 +114,10 @@ def restyle_group(block: str) -> str:
         block = block.replace(f'fill="{WHITE}"', f'fill="{INK}"')           # label; circle fills restored below
         # the True/False tab circles were white-filled -> keep them white (not ink).
         block = block.replace(f'fill="{INK}" stroke="{ACCENT}"', f'fill="{WHITE}" stroke="{ACCENT}"')
-        block = bump_label_fontsize(block)
     elif cls == "operator":
         block = block.replace(f'fill="{B_OP_FILL}"', f'fill="{ACCENT}"')
         block = block.replace(f'stroke="{B_OP_LINE}"', f'stroke="{ACCENT_DK}"')
-        # keep the white "OR" label on the accent fill; just resize.
-        block = bump_label_fontsize(block)
+        # keep the white "OR" label on the accent fill.
     return block
 
 
@@ -140,10 +136,10 @@ def main() -> None:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(svg)
     # report printed label size at the landscape typeblock (§h: 702.78pt).
-    printed = float(LABEL_FS) * (702.78 / 1310.0)
+    printed = 14.0 * (702.78 / 1310.0)
     print(f"wrote {OUT.relative_to(ROOT)}")
     print(f"technique-id tags injected: {n_tid}/10")
-    print(f"label size {LABEL_FS}u -> {printed:.2f}pt at full landscape width (702.78pt); floor ~8pt")
+    print(f"native 14u labels -> ~{printed:.1f}pt at full landscape width (702.78pt)")
 
 
 if __name__ == "__main__":

@@ -182,19 +182,21 @@ volt_typhoon_exemplar.afb
    re-export).
 2. `python3 tools/restyle_attackflow_svg.py` restyles it: recolours to greys + the thesis
    accent (RGB 31,84,140) on the OR operator (the one accented node class), tints the
-   conditions `accentlight`, greys the actions and edges, **injects the ATT&CK technique id
-   above each action box** (Presentation mode drops the ids the §3.1.2 prose cites), and
-   sizes labels to **8.05pt at the landscape typeblock** (702.78pt) so they clear the ~8pt
-   floor (`figure_table_conventions.md` §h). Output: `docs/thesis/figures/fig_3-1a_attack_flow_volt_typhoon.svg` and `.pdf`.
+   conditions `accentlight`, greys the actions and edges, and **injects the ATT&CK technique
+   id above each action box** (Presentation mode drops the ids the §3.1.2 prose cites). It
+   leaves the Builder's **native 14u label size untouched** — bumping it overflows the boxes
+   (the Builder sizes each box to its 14u text). Output:
+   `docs/thesis/figures/fig_3-1a_attack_flow_volt_typhoon.svg` and `.pdf`.
 3. Include the `.pdf` on a **landscape** page at full `\linewidth` (the figure is inherently
    wide — a five-step top row; at portrait `\textwidth` its labels would be ~5pt). This is
    the ch3 §3.1.2 figure.
 
-**Note.** The 14→15u label bump (needed to clear the 8pt floor) leaves a couple of boxes
-mildly tight, since the Builder sized them to 14u text; nudge those boxes wider in the
-Builder and re-export + re-run the tool if it bothers you. The True/False tab letters stay
-at their small size as Attack Flow *notation marks* (like arrowheads), not information
-glyphs. `cairosvg` does the SVG→PDF conversion (a dev dependency; `pip install cairosvg`).
+**Sizing note.** At the landscape typeblock (702.78pt / 1310u) the native 14u labels print
+**~7.5pt**, just under the ~8pt guide (`figure_table_conventions.md` §h) — accepted over box
+overflow. Clearing the floor cleanly would need a Builder relayout (wider boxes), not a font
+hack. The True/False tab letters stay small as Attack Flow *notation marks* (like
+arrowheads), not information glyphs. `cairosvg` does the SVG→PDF conversion (a dev
+dependency; `pip install cairosvg`).
 
 **Caveat — the `.afb` is best-effort, validate by opening.** It is cloned object-for-object
 from the corpus Tesla `.afb` invariants (schema `attack_flow_v2`; 12 angle-anchors per
