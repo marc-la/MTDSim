@@ -1,0 +1,243 @@
+---
+status: open                  # awaiting Marc's unit-by-unit ruling; retire when the ratified text is inserted into dissertation.tex
+created: 2026-08-31
+executes: 2026-08-31_ch3_port_plan.md
+---
+
+# Ch3 patchwork first draft — the review's own sentences assembled into the 12-unit shape, gaps left as labelled holes
+
+Every sentence below is from the submitted review (`docs/sources/lit_review/LIT_REVIEW.md`, line numbers in the ledgers) or from a rubric-gated note in `docs/notes/ch3_lit_review/`, with three exceptions marked **[stitch]** — connective sentences a session composed so the unit reads; each is Marc's to accept, replace, or cut. Gaps are `[GAP Gn …]` placeholders keyed to the port plan §4 (G8 added: the adverse-sample warrant). Citations are `\citep` keys; the bib status is at the end.
+
+Conversions applied throughout, each a batch ruling (the §2.1 precedent): **[D2]** every em-dash converted (parenthesis, colon, or comma pair); **[T]** generic *adversary* → *attacker*, *adversarial profile* → *attack profile* (registry), untouched inside quotations and cited titles; **[FP]** paragraph-closing forward pointers cut; **[PoP]** every Pyramid-of-Pain clause cut. Relevance filter: a sentence that neither characterises the APT (capture), the attacker model (model), nor the evaluation instrument (evaluate) was cut; the ledgers say which.
+
+Word count of the assembled text: ≈ 3 450 (gaps excluded) against a 3 000 budget. Pass 5 reconciles across the assembled section, per the 2026-08-18 ruling.
+
+---
+
+## Preamble (unnumbered)
+
+Two literatures have developed alongside one another without converging. On the defence side, MTD evaluation has progressed from fixed-interval mechanisms toward adaptive, increasingly learned orchestration of when and what to move \citep{cho2020}. In parallel, the threat-intelligence community has built an apparatus around attacker behaviour: MITRE ATT\&CK established a behavioural vocabulary in 2013 \citep{strom2018mitre}, and the structured extraction of that behaviour from cyber threat intelligence (CTI) has advanced rapidly since 2022 \citep{ctid2025attackflow}. The defender has grown more sophisticated; the attacker against which it is evaluated has not.
+
+The capability to close this gap already exists in literatures adjacent to MTD, but has not been adopted within it. Attack profiling reconstructs attacker behaviour from CTI as structured representations at the level of tactics, techniques, and procedures (TTPs) \citep{rodriguez2024}, and the documented durability of advanced persistent threat (APT) tradecraft makes such profiles a stable basis for evaluation \citep{alshamrani2019}.
+
+\emph{[GAP G0 --- the scissors: the three strands (Section 3.1 capture: the behavioural record; 3.2 evaluate: the instruments; 3.3 model: the attacker they are scored over) keyed to the three sub-questions; the selection rule (first / most established / latest); the coverage claim planted in one sentence.]}
+
+| S | Source | Status |
+|---|---|---|
+| P1–P4 | :22 | adapted — "Pyramid of Pain … both around 2013" clause cut [PoP]; ATT&CK cited to `strom2018mitre` (origin, not survey); "adversary" → "attacker" [T]; the signature line kept **here, once** (its §II-C twin is cut) |
+| P5–P6 | :26 s1–s2 | adapted — TTPs expanded at first chapter use; [T] |
+| — | :26 s3 | cut — "This review surveys … MTDSim" (approach; ch1/ch4) |
+| — | :20, :24, :28–32 | cut — :20 is in ch2 §2.1; :24 is the pyramid frame; RQ and roadmap are ch1's |
+
+## 3.1 Survey of APT attackers
+
+### 3.1.1 What makes the campaign different
+
+An APT is a class of cyber threat in which a well-resourced attacker, typically nation-state or organisation-sponsored, pursues a specific objective against a specific target over an extended time horizon, adapting to defender resistance and retooling at a tempo that outpaces reactive defence \citep{alshamrani2019}. The three terms name three properties: \emph{advanced} tooling and tradecraft (custom malware, coordinated attack vectors), a \emph{persistent} low-and-slow tempo that trades speed for evasion across months or years, and a \emph{threat} defined by its objective: data exfiltration, impediment of mission-critical components, or positioning for future operations \citep{alshamrani2019}. NIST states the same profile behaviourally: an APT actor pursues its objectives repeatedly, adapts to the defender's resistance, and sustains the interaction needed to meet its goal \citep{alshamrani2019}\emph{[GAP G7a --- cite NIST SP 800-39 directly; bib entry to add]}. This is precisely what the commodity attacker is not: single-run, smash-and-grab operations that neither hide nor adapt and end at first detection \citep{alshamrani2019}.
+
+APT operations follow a recognisable five-phase lifecycle: reconnaissance, foothold establishment, lateral movement, exfiltration or impediment, and post-operation cleanup \citep{alshamrani2019}. The first two phases are invariant; the remaining three are contingent on the attacker's objective (data theft, disruption of mission-critical components, or positioning for future operations, the last of which may forgo exfiltration entirely) \citep{alshamrani2019}.
+
+\emph{[GAP G5 --- the latest slot: current campaign reporting as live evidence of long dwell and objective-driven pacing (M-Trends 2026: global median dwell 14 days, espionage 122 days --- verified in `breach_reports_macro_timing.md`); Volt Typhoon cited to its advisory (bib entry to add).]}
+
+APT campaigns are well-documented in the CTI record. MITRE ATT\&CK catalogues attributed operations, linking named groups to their campaigns and software families at technique resolution \citep{alsada2024}, and groups such as APT29, Lazarus Group, and Volt Typhoon each carry dozens of observed techniques across multiple operations. The Attack Flow project \citep{ctid2025attackflow} curates these incidents into structured records, and across them a group's toolchains and sequencing recur from one operation to the next: the consistency analysts rely on for attribution. Because APT behaviour is both well-documented and recurrent, it can be reconstructed into a reusable attack profile rather than replayed as a single incident. Unlike the heterogeneity of commodity attackers, this makes the APT an appropriate attacker to model when evaluating defences whose value scales with multi-step commitment.
+
+| S | Source | Status |
+|---|---|---|
+| 1–4 | :123 | adapted — [D2] ×3; [T]; APT not re-expanded (preamble expands it; ch1 will too — one survives at integration) |
+| 5–6 | :125 | adapted — [D2] → parenthesis |
+| 7–11 | :127 s1–s5 | adapted — "(Cozy Bear)" cut; [D2]; [T] "adversarial profile" → "attack profile"; "adversary" → "attacker" |
+| — | :127 s6 | cut — "The next subsection turns to attack profiling" [FP] |
+| flag | :127 | names ATT&CK and Attack Flow before 3.1.2 teaches them (the review's order was A → C). Acceptable as naming-not-teaching; alternative is to move this paragraph to the end of 3.1.2 |
+
+### 3.1.2 The behavioural record
+
+MITRE ATT\&CK is a knowledge base of attacker behaviours derived from real-world observations, developed by the MITRE Corporation following its 2013 Fort Meade Experiment \citep{strom2018mitre}. ATT\&CK organises behaviour into a four-level hierarchy of tactics, techniques and sub-techniques, and procedures. A tactic refers to \emph{what} an attacker does to achieve a goal; a technique refers to \emph{how} that tactic is realised; a sub-technique refines a technique into a specific variant; a procedure is a particular instance of a technique, capturing the steps by which it has been implemented \citep{rodriguez2024}. The Initial Access tactic (TA0001), for example, may be realised through Phishing (T1566), via the Spearphishing Attachment sub-technique (T1566.001), with a procedure describing a crafted Office document whose macro executes a PowerShell payload on open.
+
+Beyond the matrix itself, ATT\&CK catalogues named attacker groups (G0016 for APT29), software (S0154 for Cobalt Strike), and campaigns (C0024 for the SolarWinds Compromise), each group characterised by the techniques observed across its operations \citep{alsada2024}. These catalogues are serialised in Structured Threat Information Expression (STIX) 2.1, the standard machine-readable interchange format for CTI; among public STIX exports, the Enterprise bundle preserves the richest campaign-level structure \citep{ferraz2026}. ATT\&CK has become the \emph{lingua franca} for attacker behaviour \citep{ferraz2026, buchel2025}. Its distinguishing contribution is technique-level granularity, finer than the phase-level Cyber Kill Chain \citep{hutchins2011, alsada2024}. **[stitch]** It is also the durable level at which to model. Sadlek et al. identify TTPs as ``the most mature indicators used for the security defense'' \citep[p.~3]{sadlek2022}, placing them in a behavioural class categorically distinct from disposable atomic indicators: the validity of an IP address decays within a day \citep{sadlek2022}, whereas behavioural patterns persist as long as the attacker's operational habits do. That durability is the point: behaviour at the technique-and-tactic level is stable enough to model an attacker against.
+
+Yet this serialisation, the ATT\&CK-in-STIX export, records \emph{which} techniques an attacker used without recording \emph{how} they fit together: it encodes no temporal order, explicit prerequisites, environmental constraints, or branching logic between techniques \citep{ferraz2026}. Attack Flow, a STIX 2.1 extension language released by MITRE Engenuity's Center for Threat-Informed Defense (CTID) in 2022, supplies exactly this missing structure, representing the sequence and dependency relationships between techniques observed in real incidents \citep{ctid2025attackflow}. In a flow, actions (the ATT\&CK techniques) are joined by \emph{effect} edges that carry precondition semantics (a downstream action cannot execute until the upstream one completes), with AND/OR operators expressing multi-input dependencies and conditions capturing environmental state \citep{ctid2025attackflow}. This is the structure a linear kill chain or flat intrusion-set membership cannot express: Figure~\ref{fig:attack-flow-tesla} reconstructs the 2018 Tesla cryptojacking incident on the model, where a three-input AND operator joins Deploy Container (T1610), Proxy (T1090), and Non-Standard Port (T1571) into Resource Hijacking (T1496). CTID maintains a corpus of flows reconstructed by analysts from publicly reported incidents \citep{ctid2025attackflow}: reliable structured behaviour, bought at a coverage cost.
+
+> **Figure 3.1** (`fig:attack-flow-tesla`): the review's Fig. 2, regenerated from `docs/thesis/lit_review/…/fig_attck_attackflow.tex` under the thesis figure pipeline. Caption ports from :110.
+
+| S | Source | Status |
+|---|---|---|
+| 1–4 | :97 | adapted — "adversary behaviours" → "attacker behaviours" [T] (MITRE's own phrase; reversible); ATT&CK cited to `strom2018mitre`; technique form `Phishing (T1566)` kept — pass 6 may convert to the `T1566: Phishing` convention |
+| — | :99 | cut — the three matrices; the Enterprise pin survives in S6 |
+| 5–8 | :101 | adapted — "e.g.," and code font dropped from the IDs; "which is why this review centres on it" cut (method); "or category-level STRIDE" cut (no later use); kill chain cited to its origin `hutchins2011` [G7b executed] |
+| 9 | — | **[stitch]** "It is also the durable level at which to model." — bridges to Sadlek; cut if the Sadlek sentences stand alone |
+| 10–11 | :116 s2–s3 | adapted — "the pyramid is a practitioner heuristic … but the ordering it asserts is corroborated" (s1) cut [PoP]; "at the base" cut [PoP]; "and it is the rung MTD claims to disrupt — the asymmetry the rest of this review develops" cut [PoP][FP]; "TTP rung" → "technique-and-tactic level" |
+| — | :114, :119 | cut — the pyramid paragraph and Fig. 3 [PoP] |
+| 12–13 | :103 | adapted — [D2] |
+| 14–15 | :105 | adapted — [D2] → parenthesis; "Figure 2" → `\ref` |
+| 16 | :107 | adapted — two sentences fused; "taken up in Section III-D" [FP] and "supplies the data substrate for the adversarial profiles this review motivates" (method) cut |
+
+### 3.1.3 From reports to structure
+
+Attack profiling captures attacker behaviour as structured representations: connecting individual tactics, techniques, and procedures into chains shaped by the attacker's objectives, motivations, and knowledge \citep{rodriguez2024}. CTI, the raw material for this work, ranges from low-level indicators of compromise to structured descriptions of TTPs, and in its unstructured form (narrative reports, blog posts, vendor write-ups) requires manual normalisation before systematic use \citep{ferraz2026}. The persistent obstacle is a procedural-semantic gap: CTI describes \emph{what} attackers do but routinely omits the sequencing, preconditions, and dependencies (the \emph{how}) required to operationalise behaviour as an executable or simulable process \citep{ferraz2026}.
+
+Bridging this gap takes two forms, manual curation and automated extraction, that trade coverage against fidelity. The analyst-curated Attack Flow corpus exemplifies the manual path: reliable structured representations from analyst review, at a pace and effort cost that limits coverage \citep{ctid2025attackflow}. Automated extraction dominates the literature \citep{buchel2025} and spans three families: natural language processing (NLP), process mining (PM), and large language models (LLMs). PM-based approaches, exemplified by Rodríguez et al. \citep{rodriguez2024}, discover attacker process models from labelled runtime event logs, recovering process structure in formalisms such as Petri nets; the manual cost shifts from narrative curation to authoring and maintaining the technique-labelling rules. NLP-based approaches, exemplified by ChronoCTI \citep{rahman2025}, combine domain-fine-tuned language models with supervised classifiers to extract structured behaviour from text at scale: applied to 713 reports, it mines 124 recurring temporal patterns \citep{rahman2025}, surfacing chains such as phishing followed by macro execution that individual reports describe in isolation. LLM-based pipelines, exemplified by AttacKG+ \citep{zhangY2025}, replace the trained classifier with prompted LLM stages, the appeal being generalisation to unseen knowledge types without per-task training. However, a recent Systematization of Knowledge (SoK) on TTP extraction finds that generative and embedder-based methods do not yet beat traditional NLP classifiers in realistic open-set evaluation: even on the 50 most common TTPs, the best systems plateau near $F_1 = 0.70$ \citep{buchel2025}.
+
+Of the two strands, automated extraction holds the coverage advantage, but on the SoK's evidence it does not yet recover technique-level behaviour reliably enough to ground an attacker on; manual curation supplies that fidelity, at the coverage cost noted above. Yet the whole apparatus for reconstructing behaviour from CTI, automated and manual alike, sits within the threat-intelligence and incident-response literature, not within MTD evaluation. **[stitch]** And what neither strand supplies is tempo. Public incident corpora encode order, not tempo: the Attack Flow schema defines optional per-action start and end timestamps, the exact intended home for this data, but the public corpus leaves them empty, because breach reports rarely contain machine-usable timestamps; ATT\&CK campaign records carry only month-granularity first- and last-seen dates \citep{ctid2025attackflow, mitre2026attackv19}.
+
+| S | Source | Status |
+|---|---|---|
+| 1–3 | :131 | adapted — [D2] → parentheses; [T] |
+| 4 | :133 | adapted — [D2] |
+| 5–6 | :135 | adapted — "(Section III-A)" cut |
+| 7 | :137 | **verbatim** |
+| 8 | :139 | **verbatim** |
+| 9–10 | :141 | **verbatim** |
+| 11 | :143 s1 | adapted — [T] |
+| 12 | :143 s2 | adapted — "the profiles this review motivates drawn from there rather than from the MTD evaluation Section IV turns to" → "not within MTD evaluation" [FP] |
+| 13 | — | **[stitch]** "And what neither strand supplies is tempo." |
+| 14 | note `tactic_duration_precedent_survey.md`, "Corpora and emulation frameworks" ¶ s1–s3 | adapted — [D2]; three sentences fused into one; citations attached (the note carries them in its footer) |
+
+## 3.2 How MTD is evaluated
+
+### 3.2.1 The ladder of methods
+
+An MTD evaluation study selects a network setting (enterprise, cloud, software-defined, Internet of Things, or cyber-physical), adopts a threat model, deploys one or more MTD mechanisms, and assesses the result against a metric set using one of several validation methods \citep{cho2020}. Cho et al. classify the validation methods into four categories, analytical, simulation, emulation, and real testbed, with the analytical category splitting into probabilistic and graphical-security-model approaches \citep{cho2020}.
+
+\emph{[GAP G6 --- what each rung can and cannot support (Cho 2020 Table VI: the pros and cons per method), why simulation dominates the field, and the cost simulation carries (parameterisation realism, abstraction) that ch4 will own when it positions this work on the ladder.]}
+
+| S | Source | Status |
+|---|---|---|
+| 1 | :53 s1 | adapted — [D2] → parenthesis; "(IoT)" expansion dropped (no later use) |
+| — | :53 s2 | cut — "This section examines …" (roadmap) |
+| 2 | :59 | adapted — "With model and metrics specified, the remaining commitment is validation method." cut (the order is now ladder-first); [D2] |
+| — | :61 | cut — the MTDSim/HARM paragraph is ch2 §2.2's. Its first sentence ("The lineage this dissertation extends combines a graphical-security-model structural representation with discrete-event simulation as the execution engine") is the ch4 ladder-positioning sentence, available there |
+
+### 3.2.2 The metric suite
+
+Cho et al. partition the MTD metric space along two axes (Table~\ref{tab:mtd-metrics}): \emph{perspective} (attacker-side or defender-side) and \emph{purpose} (effectiveness, capturing how well the MTD reduces attack success, and efficiency, capturing the cost the MTD imposes) \citep{cho2020}. Hong et al. \citep{hong2018} extend this partition with network-state-dynamic measures (marked $\dagger$ in Table~\ref{tab:mtd-metrics}) that quantify how the security posture shifts as MTD operations execute across consecutive network states.
+
+> **Table 3.1** (`tab:mtd-metrics`): the review's Table I verbatim, `[2]` → `cho2020`, `[10]` → `hong2018`; footnote as in the review. Genre: comparison table with citation column.
+
+| S | Source | Status |
+|---|---|---|
+| 1–2 | :55 | **verbatim** but for the `\ref` forms |
+
+### 3.2.3 What the metrics are scored over
+
+Whether the orchestration is specified or learned, the defender's growing sophistication concentrates on one side of the engagement: reinforcement-learning orchestrators such as Tay's \citep{tay2024} are one example among a small but growing body of multi-mechanism MTD, and the broader paradigm inherits its training attacker from whatever simulator it is built on.
+
+\emph{[GAP G1 --- the hinge, one unit: every metric in Table 3.1 is computed against an attacker's progress (attack success probability over compromise events, MTTC over time-to-compromise, Hong's path measures over the attack graph's attacker assumptions), so the attacker model is not an input to the evaluation but a bound on what any of its metrics can express. Grounding: `cho2020`, `hong2018`, `mttc_lineage.md`.]}
+
+| S | Source | Status |
+|---|---|---|
+| 1 | :89 s1–s2 | adapted — two sentences fused; "orchestration" made explicit since §II-C is gone; "RL-orchestrated" expanded; [T] |
+| — | :89 s3–s4 | cut — the signature line's twin ("The defender's decision-making has advanced …") and "That asymmetry is what the rest of this review takes up" [FP] |
+| — | :83–:87 | cut — the orchestration survey (Masud returns in 3.3.3; Tay is ch2 lineage) |
+
+## 3.3 Attacker models in MTD
+
+*(interstitial, unnumbered)*
+
+Two MTD surveys, six years apart, identify attacker-model under-development as a primary limitation of the field. Cho et al. \citep{cho2020} document it in 2020; Jalowski et al. \citep{jalowski2026} document it again in 2026. The persistence of this critique six years on is structural, not incidental: the attacker model MTD literature evaluates against does not match the attacker it claims to defend. Both surveys, however, stop at diagnosis: naming the attacker model as under-developed is not the same as measuring how far short any given evaluation falls, and neither survey resolves the critique onto specific papers, nor onto a scale against which an individual threat model can be placed. **[stitch]** This section builds that scale from the literature the surveys themselves draw on, and then measures.
+
+| S | Source | Status |
+|---|---|---|
+| 1–3 | :151 | **verbatim** |
+| 4 | :157 s1–s2 | adapted — fused |
+| — | :157 s3–s5 | cut — the pyramid as reference point [PoP]; "Section IV-B turns that diagnosis into measurement …" [FP] |
+| 5 | — | **[stitch]** |
+
+### 3.3.1 What the literature says a capable attacker is
+
+Cho et al. name three under-developed dimensions of the attacker model \citep[Sec.~V-D]{cho2020}. The first is the smart, learning-capable attacker: where defenders are routinely granted machine-learning capability, the attacker is assumed to follow fixed patterns rather than to learn and adapt, an asymmetry Cho et al. note runs contrary to practice, where the attacker is often the more sophisticated of the two. The second is the scarcity of multi-strategy scenarios, in which attacker and defender each branch across plural options; most MTD work instead pairs one mechanism against one attack path. The third is the asymmetric application of the rational-actor framing: the agent optimising for cost-effective outcome is modelled as such on the defender side and seldom on the attacker's. The same survey names four characteristics of a sophisticated attacker \citep{cho2020}, which align with the APT profile of Section~\ref{sec:apt-survey}: \emph{persistent}, operating across multiple stages with measurable dwell time rather than as a one-time intrusion; \emph{adaptive}, responding to changing system and defensive conditions, including awareness of the defence itself; \emph{stealthy}, blending with legitimate traffic rather than operating at observable indicator levels; and \emph{incentive-driven}, conditioning decisions on a cost/benefit signal, not merely possessing an objective.
+
+Jalowski et al. reach the same diagnosis six years later, through a systematic gap-analysis of MTD's design principles and threat-modelling assumptions that names the attacker model ``the most glaring flaw in the MTD literature'' \citep[p.~8]{jalowski2026}. Their critique is concrete about why. The active-scanning baselines (e.g., Nmap) against which MTD is typically tested are too naive for an APT, which relies on passive reconnaissance to stay hidden and learns the defender's mutation patterns over time. The corrective they prescribe is an attacker modelled at a higher level of capability, one that reasons about the MTD scheme itself and the logic driving its movement, not a scripted intruder oblivious to the defence.
+
+**[stitch]** Read together with the APT characterisation of Section~3.1.1, these sources yield eight properties an attack model can be scored on: (1) persistence, as multi-stage campaign structure \citep{cho2020, alshamrani2019}; (2) objective conditioning \citep{alshamrani2019}; (3) strategic plurality, the multi-strategy branching Cho finds scarce; (4) adaptivity to defender resistance \citep{cho2020, alshamrani2019}; (5) stealth, the low-and-slow tempo and evasion \citep{cho2020, alshamrani2019, jalowski2026}; (6) incentive-driven rationality \citep{cho2020}; (7) learning capability \citep{cho2020, jalowski2026}; and (8) awareness of the MTD scheme itself \citep{jalowski2026}. The properties are the literature's; the selection and the merge of NIST's clauses onto Cho's characteristics are this thesis's own synthesis.
+
+Where those properties describe the attacker qualitatively, a fidelity descriptor captures what a threat model \emph{actually does} at the level of attacker decision-making, ordered by depth from static parameters to learned behaviour: \emph{parametric} (success probabilities, fixed durations, or design-time parameters; no per-step decision during execution); \emph{scripted} (pre-coded sequences against specific CVEs or attack paths); \emph{procedural} (rule-based decision-making within an attack progression at runtime, beyond design-time configuration); and \emph{behavioural} (campaign-level intent, motivation conditioning, and learning capability). The descriptor is this thesis's own construction. \emph{[GAP G3 --- earn the rungs: why four, why this order, where each boundary falls (the boundary cases are the placements in 3.3.3: design-time thresholds swept are parametric; a CVE-graph traversal is scripted; a runtime rule over live state is procedural).]}
+
+| S | Source | Status |
+|---|---|---|
+| 1–4 | :153 | adapted — [D2]; "(ML)" expansion dropped |
+| 5 | :163–:168 | adapted — bullet list → one prose sentence; "Operating at the TTP tier of the Pyramid of Pain" → "blending with legitimate traffic rather than operating at observable indicator levels" [PoP]; "as in multi-stage APT operations [8]" folded into the Section 3.1 cross-ref |
+| 6–9 | :155 | adapted — [D2] |
+| 10–11 | — | **[stitch]** the eight-axis enumeration: names and sources are the criterion's §(a)/§(c) (`apt_model_criterion.md`), numbered in the criterion's order (never renumbered); the synthesis flag is the criterion's own |
+| 12 | :170–:175 | adapted — numbered list → one prose sentence |
+| 13 | :161 s2 | adapted — "The first is drawn from Cho et al. [2]; the second is constructed here." → "The descriptor is this thesis's own construction." |
+
+### 3.3.2 How the field has modelled its attacker
+
+\emph{[GAP G4a --- the default adversary: the abstract, probabilistic, surface-directed attacker of the analytic security-modelling tradition (attack graphs, HARM) --- what it assumes and why those assumptions were reasonable for the question that tradition asked. Grounding: `hongkim2012harm`, `hongkim2016`, `cho2020`.]}
+
+Modelling techniques cluster into game-theoretic, evolutionary, and learning-based traditions, with game-theoretic formulations dominating by volume \citep{cho2020}. A representative game-theoretic formulation casts the defender as a leader committing to a configuration-switching strategy and the attacker as a follower that performs reconnaissance before launching, typically drawing on exploits from public enumerations such as the Common Vulnerabilities and Exposures (CVE) database, with attacker-type uncertainty encoded as a prior distribution \citep{cho2020}.
+
+\emph{[GAP G4b --- what the strategic attacker buys (interaction, timing, equilibrium reasoning) and costs (a payoff function standing in for behaviour: strategically sophisticated and behaviourally empty at once); the learned attacker as reward-shaped exploration over an abstract state space rather than a campaign pursuing an objective. Grounding: `chobenasher2018.md`, `rl_security_environments.md`.]}
+
+Bland et al. \citep{bland2020} build an attacker that observes partial state, acts at a cost, and learns its strategy against a dynamic defender. Their attacker runs over expert-validated Common Attack Pattern Enumeration and Classification (CAPEC) patterns: evidence that the sequencing, adaptive attacker MTD evaluation omits is constructible, if so far only on narrow, hand-built cases. Outkin et al. \citep{outkin2022} address the parameters: they fit an attacker's per-step detection probabilities to real MITRE ATT\&CK Evaluations data, where the MTD evaluations of Section~3.3.3 derive theirs from CVSS. Profiled behaviour, an agent to enact it, parameters grounded in real engagement data: the apparatus is in place and validated; it has simply never been brought to MTD evaluation.
+
+| S | Source | Status |
+|---|---|---|
+| 1–2 | :57 | **verbatim** (repurposed from §II-B: it is model material, not evaluation material) |
+| 3–6 | :217 | adapted — moved up from the synthesis (scrutiny §(i)); "the surveyed evaluations omit" → "MTD evaluation omits" and "the surveyed models" → "the MTD evaluations of Section 3.3.3" (the cross-section now follows, not precedes); [D2]; "That is the contribution this review motivates." cut |
+
+### 3.3.3 What recent work actually assumes
+
+Table~\ref{tab:attacker-cross-section} scores recent MTD evaluations against the eight properties and the fidelity descriptor. The selection spans the simulator lineage this thesis extends \citep{brown2023, zhang2023, ho2024, tay2024}, recent IoT-cloud orchestration \citep{masud2025}, and a recent Cyber Kill Chain-aware MTD framework deployed on a physical testbed \citep{kim2026}. \emph{[GAP G8 --- the adverse-sample warrant: these are recent, well-regarded, and in two cases explicitly ATT\&CK-framed, so they are the works most likely to model an attacker well; the claim is existence over a favourable sample, not generalisation from n = 3.]} The pattern across the cross-section is a rhetoric-versus-execution gap: the threat models encode few of the properties, even where the surrounding framing suggests otherwise.
+
+Brown et al.'s threat model is two scripted scenarios, general (network-wide compromise) and targeted (specific-host compromise), executed through a finite-state machine inspired by the Cyber Kill Chain and MITRE ATT\&CK \citep{brown2023}. The attacker's only decision signal is a priority ordering over scanned exploits by return on attack (RoA), a cost/impact ratio derived from Common Vulnerability Scoring System (CVSS) metrics; the simulator's metrics are computed over outcomes rather than over attacker decisions. Brown et al. are candid about the limitation, noting that ``the exploitation skills are not configured to distinguish the different skills of adversaries'' \citep[p.~7]{brown2023}. **[stitch]** The three later works on the same simulator (Table~\ref{tab:lineage}) are defender-side contributions; Zhang adds a time model to the attacker (per-phase durations and a speed-up on vulnerabilities exploited before) that parameterises the same scripted progression \citep{zhang2023}, and the others inherit the attacker unchanged, so its parametric fidelity carries through. Tay's one attacker-adjacent experiment varies an intrusion detection system's sensitivity from 0\% to 100\% and feeds the resulting attacker-action signal to the agent \citep{tay2024}; the variation is in the defender's \emph{observability} of the attacker, not in the attacker's \emph{behaviour}: the attacker remains oblivious to both the IDS and the RL policy. Masud et al. realise the attacker as an exhaustive, pre-coded traversal of a CVE/CVSS-parameterised attack graph, with no decision-making agent: scripted fidelity \citep{masud2025}. The framing claims more than this: the attackers are said to be ``modeled after techniques in the cyber kill chain and MITRE ATT\&CK'' \citep[p.~7]{masud2025}, but that grounding does not reach the executed threat model, which carries no technique-level behaviour beyond the graph it enumerates. Kim et al.'s defender side is genuinely multi-phase, mapping MTD sub-techniques across the Cyber Kill Chain and onto corresponding ATT\&CK techniques, and the framing repeatedly invokes multi-phase MTD against multi-phase cyber-attacks \citep{kim2026}. The threat model used for evaluation does not match this depth: the case study is a single path-traversal vulnerability (CVE-2021-41773) driven by an automated script on a Poisson arrival schedule, with ATT\&CK invoked taxonomically rather than as behavioural grounding. The work is itself candid that ``the overlap in time between each phase is out of scope'' \citep[p.~7]{kim2026}: the multi-phase attacker is, in execution, a sequential script across collapsed phases.
+
+**[stitch]** One adjacent work is worth setting beside the table without a row in it. He et al.'s MTD-AD, a boundary-perturbation defence of an anomaly-based intrusion detector, formalises an adaptive-knowledge attacker that knows the defence is deployed and adjusts to it \citep{he2025}: the only threat model in this survey that responds to the defence at all. Two qualifiers bound that credit: the response is design-time configuration rather than runtime decision-making (a single surrogate-model threshold, swept across fixed values rather than learned in the loop), and the attack class is detection-evasion of a machine-learning classifier, a single attack family with no multi-stage structure. The methodological move toward a defence-aware attacker transfers; the attack class does not.
+
+Across the cross-section, attacker modelling is consistently secondary to the defence being proposed: persistence is absent throughout; adaptivity in the campaign-aware sense is absent; stealth is not operationalised; and incentive-driven behaviour appears only as partial operationalisations of the RoA heuristic in the simulator lineage. On the fidelity descriptor the works cluster at parametric (the lineage) and scripted (Masud et al., Kim et al.); none reach procedural, let alone behavioural.
+
+> **Table 3.2** (`tab:attacker-cross-section`) — draft cells, phrases not ticks (CONFIRM 3 of the port plan). Rows: MTDSim lineage \citep{brown2023, zhang2023, ho2024, tay2024} · Masud et al. 2025 · Kim et al. 2026. Columns: the eight properties, then the rung.
+>
+> | | 1 Persistence | 2 Objective | 3 Plurality | 4 Adaptivity | 5 Stealth | 6 Incentive | 7 Learning | 8 Scheme-aware | Rung |
+> |---|---|---|---|---|---|---|---|---|---|
+> | MTDSim lineage | six-phase FSM per host, restarted on interruption | two scenarios (network-wide; single target) | — | — (IDS varied on the defender side only) | — | RoA ordering over scanned exploits | exploit-time speed-up on repeat vulnerabilities (Zhang) | — | parametric |
+> | Masud et al. | — | — | — | — | — | — | — | — | scripted |
+> | Kim et al. | phases named, executed sequentially | — | — | — | — | — | — | — | scripted |
+>
+> The learning cell for the lineage is Zhang's *published* time model (Z-TIM-07); the code does not implement it (ATK-04), and ch2 §2.2.3 states the inherited attacker from the record. Ch3 scores the published threat models. **Verify the cell wording against `zhang2023.md` before the table is built.**
+
+| S | Source | Status |
+|---|---|---|
+| 1–2 | :177 s1–s2 | adapted — five works → three rows (He et al. out; Brown + Tay → one lineage row); "(CKC)" and "NIDS" expansions dropped |
+| 3 | :177 s3 | adapted — "Cho et al.'s characteristics" → "the properties" |
+| — | :177 s4 | cut — "The per-paper discussion below justifies each placement." |
+| 4–6 | :181 | adapted — "Section II-B introduced MTDSim and its motivating gap …" (s1) cut (ch2's); "The threat model is therefore parametric." cut (the table says it); "the future-work item this project takes up" cut (ch4's) |
+| 7 | — | **[stitch]** the lineage sentence — replaces :183 s1–s2, whose "attacker module is inherited from [9] essentially unchanged" is **not accurate for Zhang** (Z-TIM-07: exploit-time halving; the extraction records an attacker time model). Wording to verify |
+| 8 | :183 s3–s4 | adapted — "the lineage's closest contact with the IDS thread this project develops" cut (IDS is not a thread); "with a reported cutoff near 0.7 …" cut (defender-side detail); "Brown et al.'s skill-homogeneity limitation is therefore left unaddressed." cut (repeat) |
+| 9–10 | :185 | adapted — [D2]; "orchestrating MTD techniques analytically against an IoT-cloud topology" cut (covered in S2); "The placement turns on that gap …" cut (repeat) |
+| 11–13 | :193 | adapted — "propose MTDID, a multi-phase MTD framework deployed on a physical SDN testbed" folded into S2 |
+| 14 | — | **[stitch]** "One adjacent work is worth setting beside the table without a row in it." |
+| 15–17 | :187–:191 | adapted — six sentences → three; "(Kitsune)" and the grey-box/white-box variants cut; "This is a genuine step toward the attacker formalism the other works lack." cut; [D2] |
+| 18–19 | :195 s1–s3 | adapted — He et al. clauses removed from the roll-call (no longer a row); "Table II shows" cut; the parenthetical listing of He et al. at parametric cut |
+| — | :195 s4–s5 | cut — the pyramid sentence [PoP] and "That located asymmetry … is the gap Section V takes up" [FP] (its content is 3.3.4's) |
+
+### 3.3.4 The demonstrated need
+
+Seen from the attacker's side, the gap sharpens: where the surveyed works grant the attacker any rationality, it is a defender-computed heuristic such as RoA \citep{brown2023}, over which the attacker optimises exploits it cannot sequence, adapt, or remember, choosing the computationally best move without modelling whether a real attacker could, or would, make it. The parametric rung, in other words, is rationality without capability.
+
+The means to close it already exist in MTD-adjacent literatures. Attack profiling recovers TTP-level behaviour from raw CTI \citep{rodriguez2024, rahman2025, zhangY2025}, the durable layer the surveyed attacker models never reach, grounded in documented APT tradecraft rather than a CVSS-derived heuristic; this supplies the behavioural content, what the attacker does. **[stitch]** The agent to enact it and the engagement data to parameterise it exist too (Section~3.3.2).
+
+\emph{[GAP G2 --- the closing move: the three strands closed in one paragraph (the behaviour is capturable; the instruments cannot see past the attacker model they are scored over; the models never leave the scripted rung), then the consequence: a threat model at that rung cannot represent a campaign past initial access, so MTD's performance against a footholded attacker is unmeasured because of the fidelity ceiling. Name what would have to be built, and stop --- building it is Chapter 4.]}
+
+| S | Source | Status |
+|---|---|---|
+| — | :213 s1 | cut — "Section IV-A showed … Section IV-B bore this out …" (the conclusion's third statement) |
+| 1–2 | :213 s2–s3 | adapted — [D2]; [T] |
+| 3–4 | :215 | adapted — "in two strands" cut (the second strand now lives in 3.3.2); "apex-of-the-pyramid layer" → "the durable layer" [PoP]; "(Section III-D)" cut; [D2] |
+| 5 | — | **[stitch]** replaces :217 (moved to 3.3.2) |
+| — | :219–:233 | cut — Approach (ch4) and Research Question (ch1) |
+
+---
+
+## Bib status
+
+Active: `cho2020`, `strom2018mitre`, `ctid2025attackflow`, `mitre2026attackv19`, `rodriguez2024`, `alshamrani2019`, `hutchins2011`, `buchel2025`, `rahman2025`, `bland2020`, `brown2023`, `zhang2023`, `hongkim2012harm`, `hongkim2016`.
+**Uncomment at first cite** (drafted, commented out in `references.bib`): `hong2018`, `jalowski2026`, `sadlek2022`, `alsada2024`, `ferraz2026`, `zhangY2025`, `masud2025`, `kim2026`, `he2025`, `tay2024`, `outkin2022` (the key stays `outkin2022`).
+**To add**: `ho2024` (the GENG5512 report), NIST SP 800-39 (G7a), a Volt Typhoon advisory (G5).
+
+## Integration flags (not for this pass)
+
+- APT and MTD are expanded in ch1's research-question prose and again here; one expansion survives at integration.
+- `\ref{tab:lineage}` assumes ch2's Table 2.1 label; `\ref{sec:apt-survey}` is the existing ch3 label; `subsec:` labels for the nine subsections are to be cut with the skeleton.
+- The §4.2 preamble's "the axes from Section~\ref{sec:requirements}" re-points to 3.3.1's label once CONFIRM 2 is executed.
+- Technique mention form (`T1566: Phishing`) and the ATT&CK version sentence are pass-6 / ch4 matters respectively.
