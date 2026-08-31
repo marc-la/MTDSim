@@ -185,16 +185,20 @@
 % }
 
 %% CISA AA24-038A — the Volt Typhoon joint advisory for the ch3 §3.1.1 latest
-%% slot (GAP G5). VERIFY title, date and URL before uncommenting: from memory,
-%% not fetched.
-% misc{cisaaa24038a,
-%   author       = {{Cybersecurity and Infrastructure Security Agency}},
-%   title        = {{PRC} State-Sponsored Actors Compromise and Maintain Persistent Access to {U.S.} Critical Infrastructure},
-%   howpublished = {Joint Cybersecurity Advisory AA24-038A},
-%   year         = {2024},
-%   month        = feb,
-%   url          = {https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a}
-% }
+%% slot (GAP G5); also the sole source for the hand-curated Attack Flow at
+%% data/gap/hand_curated/. ACTIVATED 2026-08-31: title, advisory ID and
+%% first-published date (8 Feb 2024) read from the ASD's ACSC republication
+%% (cisa.gov returns HTTP 403 to automated retrieval); co-sealing agencies per
+%% the advisory's Summary. ieeetr drops a `url` field, so the URL rides in
+%% `note` (as with cisaaa22138b and the §3 grey-lit entries).
+@misc{cisaaa24038a,
+  author       = {{Cybersecurity and Infrastructure Security Agency}},
+  title        = {{PRC} State-Sponsored Actors Compromise and Maintain Persistent Access to {U.S.} Critical Infrastructure},
+  howpublished = {Joint Cybersecurity Advisory {AA24-038A}},
+  year         = {2024},
+  month        = feb,
+  note         = {Authored by {CISA}, {NSA}, and {FBI}, with {DOE}, {EPA}, {TSA}, {ASD's ACSC}, {CCCS}, {NCSC-UK}, and {NCSC-NZ}. First published 8~February 2024. [Online]. Available: \url{https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a}. Accessed 31~August 2026}
+}
 %
 %
 %% Masud 2025 — Elsevier Computers & Security. Publisher key MASUD2025104380.
