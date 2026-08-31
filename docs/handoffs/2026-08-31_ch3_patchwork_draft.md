@@ -6,7 +6,7 @@ executes: 2026-08-31_ch3_port_plan.md
 
 # Ch3 patchwork first draft — the review's own sentences assembled into the 12-unit shape, gaps left as labelled holes
 
-**Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled).
+**Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*.
 
 Every sentence below is from the submitted review (`docs/sources/lit_review/LIT_REVIEW.md`, line numbers in the ledgers) or from a rubric-gated note in `docs/notes/ch3_lit_review/`, with three exceptions marked **[stitch]** — connective sentences a session composed so the unit reads; each is Marc's to accept, replace, or cut. Gaps are `[GAP Gn …]` placeholders keyed to the port plan §4 (G8 added: the adverse-sample warrant). Citations are `\citep` keys; the bib status is at the end.
 
@@ -51,7 +51,7 @@ APT campaigns are well-documented in the CTI record. MITRE ATT\&CK catalogues at
 | — | :127 s6 | cut — "The next subsection turns to attack profiling" [FP] |
 | flag | :127 | names ATT&CK and Attack Flow before 3.1.2 teaches them (the review's order was A → C). Acceptable as naming-not-teaching; alternative is to move this paragraph to the end of 3.1.2 |
 
-### 3.1.2 MITRE ATT&CK and Attack Flow
+### 3.1.2 MITRE ATT&CK
 
 MITRE ATT\&CK is a knowledge base of attacker behaviours derived from real-world observations, developed by the MITRE Corporation following its 2013 Fort Meade Experiment \citep{strom2018mitre}. ATT\&CK organises behaviour into a four-level hierarchy of tactics, techniques and sub-techniques, and procedures. A tactic refers to \emph{what} an attacker does to achieve a goal; a technique refers to \emph{how} that tactic is realised; a sub-technique refines a technique into a specific variant; a procedure is a particular instance of a technique, capturing the steps by which it has been implemented \citep{rodriguez2024}. The Initial Access tactic (TA0001), for example, may be realised through Phishing (T1566), via the Spearphishing Attachment sub-technique (T1566.001), with a procedure describing a crafted Office document whose macro executes a PowerShell payload on open.
 
@@ -144,7 +144,7 @@ Two MTD surveys, six years apart, identify attacker-model under-development as a
 | — | :157 s3–s5 | cut — the pyramid as reference point [PoP]; "Section IV-B turns that diagnosis into measurement …" [FP] |
 | 5 | — | **[stitch]** |
 
-### 3.3.1 A criterion for APT attacker models
+### 3.3.1 Attacker model criterion
 
 Cho et al. name three under-developed dimensions of the attacker model \citep[Sec.~V-D]{cho2020}. The first is the smart, learning-capable attacker: where defenders are routinely granted machine-learning capability, the attacker is assumed to follow fixed patterns rather than to learn and adapt, an asymmetry Cho et al. note runs contrary to practice, where the attacker is often the more sophisticated of the two. The second is the scarcity of multi-strategy scenarios, in which attacker and defender each branch across plural options; most MTD work instead pairs one mechanism against one attack path. The third is the asymmetric application of the rational-actor framing: the agent optimising for cost-effective outcome is modelled as such on the defender side and seldom on the attacker's. The same survey names four characteristics of a sophisticated attacker \citep{cho2020}, which align with the APT profile of Section~\ref{sec:apt-survey}: \emph{persistent}, operating across multiple stages with measurable dwell time rather than as a one-time intrusion; \emph{adaptive}, responding to changing system and defensive conditions, including awareness of the defence itself; \emph{stealthy}, blending with legitimate traffic rather than operating at observable indicator levels; and \emph{incentive-driven}, conditioning decisions on a cost/benefit signal, not merely possessing an objective.
 
