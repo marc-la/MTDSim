@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-16
-updated: 2026-08-20
+updated: 2026-09-02
 ---
 
 # The drafting pipeline — how every unit of dissertation prose gets written
@@ -38,7 +38,7 @@ proposal is never applied.
 | 2+3a | **Repair + register sweep** | session | The `repair-dictation` skill: STT repair (technical vocabulary hardest — mangle dictionary in the skill), disfluencies dropped, pads deleted, run-ons split at conjunctions, meta-narration beheaded, hedges flagged `[3b]` never resolved. Returns verify watchlist + change log. |
 | 3b | **Marker walk** | Marc | Each `[3b]` marker is one binary or one word choice; plus the globals (contractions, second person, I/we) and the read-aloud check — sounds like Marc being careful, not a journal. |
 | 4 | **Content scrutiny** | session | The `scrutinise-draft` skill against the chapter's pack row (`draft_scrutiny.md` §c): ≤3 prioritised moves, each grounded. Runs after 3b, before compression; re-run cheaply if compression cuts more than half. Inline `[comment]` format on request. |
-| 5 | **Compress** | Marc | Per sentence, one binary: "does the unit still answer its question without this?" Cut order: duplicates → re-explanations → second examples → qualifiers a citation/appendix already carries. Never cut: must-carry disclosure sentences, numbers, citations. Sentence fusion only once whole-sentence cuts stall. **Ruling (Marc, 2026-08-18): the first complete pass-5 draft may sit well over budget** — pass 5's job at first completion is the low-value cut (duplicates, re-explanations, flourishes, out-of-unit mechanics); the cut to the ledger is a later refinement across the assembled section, once every unit exists and the ledger's overdrafts can be reconciled together rather than unit by unit. |
+| 5 | **Compress** | Marc, or session proposes / Marc rules (the `compress-to-ledger` skill — structured delegation ruled 2026-09-02, piloted on §2.2.2) | Per sentence, one binary: "does the unit still answer its question without this?" Cut order: duplicates → re-explanations → second examples → qualifiers a citation/appendix already carries. Never cut: must-carry disclosure sentences, numbers, citations. Sentence fusion only once whole-sentence cuts stall. **Ruling (Marc, 2026-08-18): the first complete pass-5 draft may sit well over budget** — pass 5's job at first completion is the low-value cut (duplicates, re-explanations, flourishes, out-of-unit mechanics); the cut to the ledger is a later refinement across the assembled section, once every unit exists and the ledger's overdrafts can be reconciled together rather than unit by unit. |
 
 Iteration inside a pass is normal (a unit may loop dictation→scrutiny several
 times before converting); the pass boundaries and their owners do not move.
@@ -91,6 +91,14 @@ them is still cheap.
   — append new observations there, not in chat).
 - Pass 4: [`../../.claude/skills/scrutinise-draft/SKILL.md`](../../.claude/skills/scrutinise-draft/SKILL.md)
   + [`draft_scrutiny.md`](draft_scrutiny.md) (question set + corpus map).
+- Pass 5 (delegated form): [`../../.claude/skills/compress-to-ledger/SKILL.md`](../../.claude/skills/compress-to-ledger/SKILL.md)
+  — deletion/merge-only proposal ledger, ratification-gated.
+- **Split-stream mode (passes 4–6, ruled 2026-09-02):** on request, each of
+  these passes runs twice — a white-box stream in the main thread (full
+  session context, ruling-aware) and a black-box subagent (protocol + pack +
+  draft only, fresh eyes) — merged in the main thread with novel black-box
+  facts verified before endorsement and same-session rulings protected.
+  Details in each skill's "Split-stream mode" section.
 - Pass 6: [`../../.claude/skills/voice-pass/SKILL.md`](../../.claude/skills/voice-pass/SKILL.md)
   + [`academic_register.md`](academic_register.md) (the target register and
   spoken-residue inventory) + [`terminology.md`](terminology.md) (the living

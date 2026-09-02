@@ -267,7 +267,7 @@ Each cluster: the move, its best exemplar, and where it lands in Marc's shape.
     in the implementation records. Zhang's worked-example move (`:346`) is the
     fallback if one abstract sentence will not carry the resource rule — but at
     this budget the example is a luxury.
-12. **The reactive selector in the Tay-paragraph shape** — the review's §II-C ¶3
+12. **The reactive selector [→ MTDShield, classified hybrid; ruled 2026-09-02] in the Tay-paragraph shape** — the review's §II-C ¶3
     port (already flagged in the companion brief as the cleanest direct port):
     the DDQN, the five actions, no-op as learned restraint. Tay's own §4.1
     architecture detail (LSTM stacks, layer widths) stays out — that is the

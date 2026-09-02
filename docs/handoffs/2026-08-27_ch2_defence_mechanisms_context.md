@@ -44,7 +44,7 @@ papers and every record before 2026-08-27 describe the old state.
 | The terrain: exploit success on complexity alone | **Exploit success now also requires the host OS to be in the vulnerability's OS list** (~40 % of vulnerabilities carry one: cross-platform services × 0.8). Fires with or without a defence — a terrain fact, so every baseline moved | provenance "OS-gated exploit success" |
 
 Everything else in the 2026-08-21 brief stands: budget, the §2.1 → §2.2.2
-wiring, the execution schemes, the reactive selector, the metrics-to-ch4
+wiring, the execution schemes, the reactive selector [→ MTDShield, classified hybrid; ruled 2026-09-02], the metrics-to-ch4
 ruling, the no-figure-in-this-unit ruling (Figure 2.1 is the preamble's).
 
 ## 2. The unit's job, as ruled (unchanged)
@@ -52,7 +52,7 @@ ruling, the no-figure-in-this-unit ruling (Figure 2.1 is the preamble's).
 - ~300 words; the dense unit — the ~125 words freed by folding the opener and
   *Prior work* into the §2.2 preamble were spent here.
 - Three things in the order Figure 2.1 draws them, left to right: **roster →
-  execution scheme → reactive selector**. Opens on the defence box.
+  execution scheme → reactive selector [→ MTDShield, classified hybrid; ruled 2026-09-02]**. Opens on the defence box.
 - **§2.1's vocabulary must be cashed in the first two sentences** or it was
   decoration (README rule; Zhang taught-never-used and Ho used-never-taught are
   the two failures it repairs). Each mechanism arrives wearing its class; the
@@ -125,7 +125,7 @@ mechanisms serving the same layer cannot deploy concurrently. Do not lift
 Zhang's worked example — it mis-places complete topology shuffle on the
 application layer.
 
-**5. The reactive selector — *when*, reactive (Tay; ~60 w).** The review's
+**5. The reactive selector [→ MTDShield, classified hybrid; ruled 2026-09-02] — *when*, reactive (Tay; ~60 w).** The review's
 cleanest port (`LIT_REVIEW.md:87`): a DDQN reading network security metrics at
 each evaluation tick and selecting one of **five actions**, the lineage four
 plus **no operation**. Marc's point, already made: the fifth action encodes
