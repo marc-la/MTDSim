@@ -114,7 +114,7 @@ Three things, in the order §2.2.2 describes them, left-to-right or stacked:
 2. **The execution scheme** — one box between roster and network: *which
    mechanism fires, when* (simultaneous / random / alternating / single).
    Zhang's contribution; the proactive/time-triggered regime of §2.1.
-3. **The reactive selector** — the DDQN choosing among the four plus no-op,
+3. **The reactive selector [→ MTDShield, classified hybrid; ruled 2026-09-02]** — the DDQN choosing among the four plus no-op,
    drawn as an alternative feeding the same scheme slot. Tay's contribution;
    the reactive regime of §2.1.
 
@@ -561,3 +561,20 @@ feeding the roster. The dashed selector panel is gone. Caption updated.
 | one label per meaning | duplicate "target" removed from the service ring (filled gear + caption) ✔ |
 | referenced from prose | `\ref{fig:mtdsim-model}` at two places in §2.2.3 ✔ |
 | residual | caption ≈ 380 words — long, but the convention (§b2) requires the decode; Marc's voice pass may compress. Confidence the figure conforms: ~95 %. |
+
+
+## 18. §2.2.2 draft check (Marc, 2026-08-31)
+
+Marc's drafted defence-mechanisms points verified against the face. Held
+already: indirectness (opposite sides, every defence arrow lands on the
+network), seven mechanisms, the pinned endpoints, clock = when, no
+detection channel claimed anywhere (the recovery edges trigger on
+rewrites). Added: two hairline separators grouping the roster by landing
+(host layer / service layer / credentials), and a struck-circle glyph
+after the chip so the selector's no-move choice — the *when not to move* —
+is on the face, not caption-only. Stays prose: the four time-triggered
+scheme names, "hybrid not pure reactive" (an argument, ch2 describes),
+and the no-redundancy scope note (absence + caption; an empty slot was
+rejected). Nuance recorded: the shield's recovery edges are the interrupt
+channel — in code the one defender→attacker coupling — drawn as the
+machine's own transitions, which keeps the indirectness reading honest.

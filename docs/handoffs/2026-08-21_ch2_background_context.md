@@ -292,7 +292,7 @@ attacker), and this shape gives them exactly three subsections.
 | **§2.1 Moving target defence** | attack surface; *what / how / when*; SDR; proactive / reactive / hybrid. Cho 2020, Hong 2018. **Surveys nothing.** | 250 |
 | **§2.2 MTDSim** *(preamble)* | what the simulator is — discrete-event, over a three-layer HARM — then the lineage in two sentences over **Table 2.1** | ~120 |
 | §2.2.1 Network model | topology, host and service structure, exposure. Written from scratch | 250 |
-| §2.2.2 Defence mechanisms | the roster wearing §2.1's labels; the execution schemes; the reactive selector | ~300 |
+| §2.2.2 Defence mechanisms | the roster wearing §2.1's labels; the execution schemes; the reactive selector [→ MTDShield, classified hybrid; ruled 2026-09-02] | ~300 |
 | §2.2.3 Attacker model | the scripted six-phase attacker, the two scenarios, the RoA-ordered exploit choice; metrics reduce to a forward clause | 250 |
 
 ≈1 230 words against a 1 250 budget; five heading-claims against five units. **No

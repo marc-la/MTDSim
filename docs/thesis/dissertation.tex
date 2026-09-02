@@ -145,6 +145,22 @@ chapter, keyed SQ1 (capture) / SQ2 (model) / SQ3 (evaluate).]}
 % docs/notes/ch2_background/README.md. Ledger: 1250 words / 5 units.
 % Chapter opener (unnumbered, ~60 w): the frame, two sentences.
 
+% DRAFT STATE (2026-09-02): opener SESSION-GENERATED under Marc's standing
+% green light for connective prose (preambles / interstitial paragraphs:
+% tie existing sections together --- common thread stated, then each
+% section as is; no new content; ruled 2026-09-02) --- RATIFY ON READ,
+% voice pass owed. Revised same day on Marc's altitude ruling: the
+% "builds on two things" narrative frame was too high --- the opener now
+% states the sections' content plainly (the three movement questions
+% named verbatim) and keeps one flourish, the inherit/build opposition
+% (placement test 2, not the asymmetry sentence, which stays ruled to
+% ch1/ch3).
+This chapter sets out the background the rest of this thesis assumes.
+Section~\ref{sec:mtd-concept} defines moving target defence and its
+organising questions (what to move, how to move it, and when);
+Section~\ref{sec:mtdsim} describes MTDSim, the simulator this thesis
+inherits, in which the evaluation runs.
+
 % Unit (250 w): the field's vocabulary, cited as definitions --- attack
 % surface; what / how / when to move; shuffle--diversity--redundancy;
 % proactive / reactive / hybrid triggers (cho2020 throughout;
@@ -222,48 +238,109 @@ should be.
 % scenario drawn (the target host), per Marc's ruling; the accent carries
 % the inter-module arrows only. Caption session-drafted, flagged for
 % Marc's voice pass. The preamble sentence that references it is Marc's.
-\begin{figure}[tp]
+% Placement [t], not [tp] (2026-09-02): at ~55% of the text height the
+% figure satisfies the class's floatpagefraction=0.5, so allowing 'p'
+% hands it a float page of its own before 't' is even tried; [t] pins it
+% to a page top with text beneath.
+\begin{figure}[t]
   \centering
   \includegraphics{fig_2-2a_mtdsim_model}
-  \caption[The three modules of MTDSim]{The three modules of MTDSim. The
-  network is a three-layer hierarchical attack representation model, read
-  top to bottom as successive magnifications. The host layer draws hosts
-  as computers and reachability as the cables between them, in layers of
-  depth from the exposed endpoints on the left, through subnets generated
-  as Barabási--Albert graphs, to the target on the right; the pinned column
-  is fixed, never rewritten by any mechanism. Shaded computers are hosts
-  the attacker has compromised, the dashed accented path its trace through
-  them, and the dashed region is its visible
-  subgraph, the endpoints, its footholds and their neighbours; hosts
-  outside it are drawn faint because the attacker cannot see them. The
-  service layer opens one foothold: its operating system, holding its
-  address and its users' credentials, runs the host's services, joined in
-  a Watts--Strogatz graph around one target service. The vulnerability
-  layer opens one service: its vulnerabilities form a chain, and
-  exploiting the chain compromises the host. The attacker holds an
-  objective, its visible subgraph, and the hosts and credentials it has
-  taken, which no rewrite takes back (the lock). Its procedure is the
-  six-state machine shown, the inherited scripted attacker: it scans for
-  hosts, enumerates one, scans its ports and exploits it, or brute-forces
-  it with reused credentials; the accented transitions are the three ways
-  a host is compromised, each leading to the discovery of its neighbours,
-  and every other transition falls back to enumeration. A defence
-  rewrite interrupts the machine (dashed): a host-layer rewrite returns
-  it to scanning for hosts, a service-layer rewrite to scanning ports.
-  Only the targeted objective is drawn; under the opportunistic objective the loop
-  runs until the network is owned. The defence
-  module fires on a periodic tick; which mechanism fires is drawn by the
-  execution scheme or chosen by the learned selector (the chip), which may
-  also choose not to move. Services are drawn as gears, the operating
-  system as a window, ports as sockets. Each mechanism rewrites the
-  network; the accented arrows show what each mechanism
-  rewrites, the three shuffles the host layer, the diversity mechanisms
-  and port shuffle the service layer, and user shuffle the hosts'
-  credentials. The full pool of seven is drawn; the lineage's
-  experiments and the selector's action space use the first four. The
-  simulator carries shuffle and diversity mechanisms only.}
+  \caption[The three modules of MTDSim]{The three modules of MTDSim. 
+  % The
+  % network is a three-layer hierarchical attack representation model, read
+  % top to bottom as successive magnifications. The host layer draws hosts
+  % as computers and reachability as the cables between them, in layers of
+  % depth from the exposed endpoints on the left, through subnets generated
+  % as Barabási--Albert graphs, to the target on the right; the pinned column
+  % is fixed, never rewritten by any mechanism. Shaded computers are hosts
+  % the attacker has compromised, the dashed accented path its trace through
+  % them, and the dashed region is its visible
+  % subgraph, the endpoints, its footholds and their neighbours; hosts
+  % outside it are drawn faint because the attacker cannot see them. The
+  % service layer opens one foothold: its operating system, holding its
+  % address and its users' credentials, runs the host's services, joined in
+  % a Watts--Strogatz graph around one target service. The vulnerability
+  % layer opens one service: its vulnerabilities form a chain, and
+  % exploiting the chain compromises the host. The attacker holds an
+  % objective, its visible subgraph, and the hosts and credentials it has
+  % taken, which no rewrite takes back (the lock). Its procedure is the
+  % six-state machine shown, the inherited scripted attacker: it scans for
+  % hosts, enumerates one, scans its ports and exploits it, or brute-forces
+  % it with reused credentials; the accented transitions are the three ways
+  % a host is compromised, each leading to the discovery of its neighbours,
+  % and every other transition falls back to enumeration. A defence
+  % rewrite interrupts the machine (dashed): a host-layer rewrite returns
+  % it to scanning for hosts, a service-layer rewrite to scanning ports.
+  % Only the targeted objective is drawn; under the opportunistic objective the loop
+  % runs until the network is owned. The defence
+  % module fires on a periodic tick; which mechanism fires is drawn by the
+  % execution scheme or chosen by the learned selector (the chip), whose choices
+  % include not moving at all (the struck circle). Hairlines group the
+  % mechanisms by what they rewrite. Services are drawn as gears, the operating
+  % system as a window, ports as sockets. Each mechanism rewrites the
+  % network; the accented arrows show what each mechanism
+  % rewrites, the three shuffles the host layer, the diversity mechanisms
+  % and port shuffle the service layer, and user shuffle the hosts'
+  % credentials. The full pool of seven is drawn; the lineage's
+  % experiments and the selector's action space use the first four. The
+  % simulator carries shuffle and diversity mechanisms only.
+  }
   \label{fig:mtdsim-model}
 \end{figure}
+
+% DRAFT STATE (2026-09-02): preamble SESSION-GENERATED on Marc's explicit
+% green light ("not really introducing any new content") --- RATIFY ON
+% READ, voice pass owed. Shape per ch2_background/README.md: identity
+% sentence, question-decomposition over the three subsections, lineage
+% shape in two sentences over Table 2.1. The question-frame (what /
+% implemented+orchestrated / evaluated-against) now lives HERE at parent
+% level, per Marc's 2026-09-02 ruling --- this resolves the §2.2.2
+% integration flag: both commented-out openers in that unit stay cut.
+MTDSim is a discrete-event simulator built to evaluate MTD mechanisms
+singly and in combination \citep{brown2023}.
+Figure~\ref{fig:mtdsim-model} draws its three modules, and the
+subsections describe them in turn: what network is being defended
+(Section~\ref{subsec:network-model}), what defence mechanisms are
+implemented and how their deployment is orchestrated
+(Section~\ref{subsec:defence-mechanisms}), and what attacker the
+defence is evaluated against (Section~\ref{subsec:attacker-model}). The
+simulator is the product of four studies over one evolving codebase;
+Table~\ref{tab:mtdsim-lineage} lists what each work added to the
+codebase, and each addition is described where it is used.
+
+% Table 2.1 --- cells are fact-scaffold from ch2_background/README.md's
+% indicative rows (ratify on read). Ruled 2026-09-02 (Marc): the
+% inherits column is CUT --- two columns, work / contribution; the
+% inheritance is implicit in the subsections (network / defence /
+% attacker describe what is used). Diverges from the README's
+% third-column-earns-the-table rationale --- README row owed an update
+% when this lands. Contributions are codebase-level, not field-level
+% (README row rule). The Brown row discharges the C7 condition booked
+% from §2.2.1's compression (service layer added to Alavizadeh's
+% two-layer HARM). VERIFY: no Alavizadeh entry exists in references.bib
+% --- citation anchor owed before submission. Tay's selector named
+% MTDShield and not called "reactive", per the 2026-09-02
+% reclassification ruling.
+\begin{table}[htbp]
+  \centering
+  \caption[The MTDSim lineage]{The four studies of the MTDSim lineage
+  and what each added to the codebase.}
+  \label{tab:mtdsim-lineage}
+  \small
+  \begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.68\textwidth}@{}}
+    \toprule
+    Work & Contribution \\
+    \midrule
+    Brown \citep{brown2023} & MTDSim: the three-layer HARM network
+    model, adding a service layer to Alavizadeh et al.'s two-layer
+    HARM, the scripted attacker, and the combined-MTD evaluation \\
+    Zhang \citep{zhang2023} & the time domain: mean time to compromise
+    and the MTD execution schemes \\
+    Ho \citep{ho2024} & the extended metric suite \\
+    Tay \citep{tay2024} & MTDShield, the double deep Q-network selector \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 
 % Unit (250 w): terrain --- topology, host/service structure, exposure.
 % Written from scratch (the review has no source prose); scope set by
@@ -338,31 +415,98 @@ all of their neighbours.
 \label{subsec:defence-mechanisms}
 
 % Table cells are fact-scaffold from the write-surface census and the
-% 2026-08-27 pool rulings --- ratify on read (caption cite + pool column
-% ruled 2026-09-02). Row order: shuffles by landing, then diversity.
+% 2026-08-27 pool rulings --- ratify on read. Ruled 2026-09-02: caption
+% cite; hierarchy class -> layer -> mechanism; lineage column removed
+% (the lineage-pool fact returns to prose/ch4).
 \begin{table}[htbp]
   \centering
-  \caption[The seven defence mechanisms]{The seven defence mechanisms,
-  from the pool of Brown~\citep{brown2023}. The marked rows form the
-  lineage pool: the four mechanisms the lineage's evaluations
-  ran~\citep{zhang2023} and the reactive selector's action
-  space~\citep{tay2024}; the full pool is all seven.}
+  \caption[The seven defence mechanisms]{What to
+  move and how: the seven defence mechanisms, from the pool of
+  Brown~\citep{brown2023}, added to by Zhang~\citep{zhang2023},
+  grouped by class and by what each rewrites.}
   \label{tab:defence-mechanisms}
   \small
-  \begin{tabular}{@{}lllcp{0.30\textwidth}@{}}
+  \begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{3.1cm}p{0.42\textwidth}@{}}
     \toprule
-    Mechanism & Class & Rewrites & Lineage & What it does \\
+    SDR & \textit{What} to move & Mechanism & Description \\
     \midrule
-    IP shuffle & shuffle & host layer & \checkmark & reassigns every internal host's address \\
-    Complete topology shuffle & shuffle & host layer & \checkmark & regenerates the graph; host instances and their compromise state kept \\
-    Host topology shuffle & shuffle & host layer & & swaps hosts' positions within a level of depth \\
-    Port shuffle & shuffle & service layer & & moves every non-target service's port; services and vulnerabilities untouched \\
-    User shuffle & shuffle & credentials & & redraws each internal host's user accounts from the network's pool \\
-    OS diversity & diversity & service layer & \checkmark & changes each internal host's operating system and redraws the services the new OS cannot run; exploits are OS-specific, so known vulnerabilities may stop applying \\
-    Service diversity & diversity & service layer & \checkmark & redraws every non-target service on internal hosts \\
+    Shuffle & host layer & IP shuffle & reassigns every internal host's address \\
+    & & Complete topology shuffle & regenerates the graph; host instances and their compromise state kept \\
+    & & Host topology shuffle & swaps hosts' positions within a level of depth \\
+    \cmidrule(l){2-4}
+    & service layer & Port shuffle & moves every non-target service's port on internal hosts; services and vulnerabilities untouched \\
+    \cmidrule(l){2-4}
+    & credentials & User shuffle & redraws each internal host's user accounts from the network's pool \\
+    \midrule
+    Diversity & service layer & OS diversity & changes each internal host's operating system and redraws the services the new OS cannot run; exploits are OS-specific, so known vulnerabilities may stop applying \\
+    & & Service diversity & redraws every non-target service on internal hosts \\
     \bottomrule
   \end{tabular}
 \end{table}
+
+% Strategies table --- cells are fact-scaffold, ratify on read. Ruled
+% 2026-09-02: blocks 3+4 conjoined as one float; regimes proactive /
+% hybrid (selector reclassified vs Tay's "reactive" --- Cho's reactive
+% is detection-triggered, absent here; booked for a ch3 clause and a
+% record consistency sweep); name MTDShield (Tay's own); covering term
+% "deployment strategies"; absence sentences to prose.
+\begin{table}[htbp]
+  \centering
+  \caption[The five deployment strategies]{The five deployment strategies, grouped by scheduling regime; the
+  four execution schemes, as termed by Zhang~\citep{zhang2023}, and MTDShield, the
+  reinforcement-learning selector of Tay~\citep{tay2024}.}
+  \label{tab:deployment-strategies}
+  \small
+  \begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{0.58\textwidth}@{}}
+    \toprule
+    \textit{When} to move & Execution Scheme & Description \\
+    \midrule
+    proactive & random & draws one mechanism from the pool at random on each interval \\
+    & alternative & rotates through the pool in a fixed order, one per interval \\
+    & simultaneous & deploys every mechanism on each interval \\
+    & single & deploys one fixed mechanism throughout the run \\
+    \midrule
+    hybrid & MTDShield & re-evaluates on a fixed tick: a double deep Q-network reads the network's security metrics and selects one mechanism to deploy, or no operation, so movement follows the observed posture rather than the schedule \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% Dictated 2026-09-02; passes 2+3a, 3b, 4 (split-stream), 5
+% (split-stream), and 6 (split-stream voice pass) all applied
+% 2026-09-02; pass-6 ledger V1-V12 + registry rows blanket-accepted.
+% DO NOT RE-FLAG: the endpoint "although the topology around them can
+% move" rider (W-6 repair --- two black boxes have proposed cutting it;
+% it scopes the claim); the lineage-pool / four-of-seven clause
+% (explained through citations, ch4's job); C2-A/C3-A pass-5 cuts.
+% Person regime: simulator facts artefact-subject (V11). Gate: passes
+% post-ledger. Next: integration check (both openers re-perform 2.1's
+% frame --- ordering call, not this unit's).
+% The question is how MTD mechanisms are implemented (the what and the
+% how) and orchestrated (the when) in MTDSim.
+MTDSim implements shuffle
+and diversity only; there is no redundancy. These two families are
+split on attacker effect (Table~\ref{tab:defence-mechanisms}): shuffle
+renames or relocates resources without changing what they can do, and
+diversity changes the software stack so that found exploits no longer
+apply. The optimised OS assignment variant \citep{zhang2023} has been
+withdrawn from the mechanism pool: it added overhead without providing
+the diversity-assignment value we needed. Across all seven mechanisms, the endpoints are not
+manipulated, so their attack surface remains the same throughout the
+attack campaign, although the topology around them can move
+(Section~\ref{subsec:network-model}).
+
+% That is the what and the how; when do we move? 
+There are five
+deployment strategies in MTDSim (Table~\ref{tab:deployment-strategies}).
+Four are time-triggered, or proactive; one is hybrid: MTDShield, Tay's
+reinforcement-learning selector \citep{tay2024}. \emph{No operation} is a
+policy choice: MTDShield chooses one of four of the MTD mechanisms, or
+nothing. That is the when not to move. The interval between deployments
+is drawn exponentially \citep{zhang2023}. Two mechanisms rewriting the
+same layer cannot operate concurrently \citep{zhang2023}. There are no
+purely reactive deployment strategies in the simulator: no detection
+channel is encoded, so a detection-triggered strategy, such as an
+IDS-based scheme, is not possible.
 
 % Unit (250 w): the scripted six-phase attacker the whole dissertation
 % benchmarks against --- its two scenarios, its RoA-ordered exploit
@@ -409,7 +553,7 @@ implementation detail.
   \small
   \begin{tabular}{@{}lp{0.72\textwidth}@{}}
     \toprule
-    State & What it does \\
+    State & Description \\
     \midrule
     \texttt{SCAN\_HOST} & builds the target queue: the endpoints plus the uncompromised neighbours of compromised hosts, nearest to the foothold first; nothing found ends the run \\
     \texttt{ENUM\_HOST} & takes the next host from the queue; ten enumerations of one host and it is given up \\
@@ -431,7 +575,7 @@ implementation detail.
   \small
   \begin{tabular}{@{}lp{0.72\textwidth}@{}}
     \toprule
-    Objective & What the attacker is trying to do \\
+    Objective & Description \\
     \midrule
     Opportunistic & compromise the network: 80\,\% of the hosts, or until nothing new is discovered \\
     Targeted & compromise one specific deep-embedded host, such as a database \\
@@ -467,7 +611,9 @@ scanning hosts, after an application-layer one to scanning ports
 % distinction. Do not re-flag.
 % [WRONG, M1 applied 2026-08-27] layers swapped to the record's order
 % (attack_operation.py:233-243; Brown §III-D; IS-INT-01/02). Layer names
-% are the code's (network / application); align with §2.2.2's once drafted.
+% are the code's (network / application); align with Table~2.1's Rewrites
+% column (host / service / credentials) --- the sole carrier of the mapping
+% since pass 5 (C3-A, 2026-09-02); "layer" sense collision deferred to pass 6.
 % [WRONG, minor] "at any one of these states" over-claims: a network-layer
 % mutation interrupts any state, an application-layer one only scan
 % ports / exploit / brute force (mtd_operation.py:223-236; Zhang Fig 7).
@@ -698,7 +844,7 @@ Attack profiling captures attacker behaviour as structured
 representations: connecting individual tactics, techniques, and
 procedures into chains shaped by the attacker's objectives,
 motivations, and knowledge \citep{rodriguez2024}. CTI, the raw material
-for this work, ranges from low-level indicators of compromise to
+for this thesis, ranges from low-level indicators of compromise to
 structured descriptions of TTPs, and in its unstructured form
 (narrative reports, blog posts, vendor write-ups) requires manual
 normalisation before systematic use \citep{ferraz2026}. The persistent
@@ -776,7 +922,7 @@ graphical-security-model approaches \citep{cho2020}.
 2020 Table VI: the pros and cons per method), why simulation dominates
 the field, and the cost simulation carries (parameterisation realism,
 abstraction) that Chapter~\ref{ch:methodology} owns when it positions
-this work on the ladder.]}
+this thesis on the ladder.]}
 
 % 1 unit. Review Sec. II-B para 3 + Table I. Families and origins only;
 % the inherited suite's definitions (equation, direction) are ch4's
@@ -1025,7 +1171,7 @@ about the limitation, noting that ``the exploitation skills are not
 configured to distinguish the different skills of adversaries''
 \citep[p.~7]{brown2023}.
 % [stitch] next sentence (replaces the review's Tay paragraph opener)
-The three later works on the same simulator (Table~\ref{tab:lineage})
+The three later works on the same simulator (Table~\ref{tab:mtdsim-lineage})
 are defender-side contributions; Zhang adds a time model to the
 attacker (per-phase durations and a speed-up on vulnerabilities
 exploited before) that parameterises the same scripted progression

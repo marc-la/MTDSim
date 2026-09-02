@@ -128,6 +128,37 @@ Rules: one flag per comment (if two apply, split the comment); the three
 priority moves are still at most three, each built from the flags it bundles;
 `[KEEP]` is used, not hoarded — a draft with no `[KEEP]` is under-calibrated.
 
+## Split-stream mode — white box + black box (ratified by Marc, 2026-09-02)
+
+On request ("black box this", "split stream", "two independent approaches"),
+the pass runs twice, independently, and merges in the main thread:
+
+- **White box — the main thread.** Full session context: the dictation trail,
+  the same-day rulings, the handoffs already loaded. Its edge is
+  ruling-awareness (it will not re-open what Marc ruled an hour ago); its
+  blind spot is authorship anchoring — it under-audits content the session
+  itself produced (captions, table cells, clauses assembled from ruling
+  audio).
+- **Black box — one subagent.** Gets ONLY: the relevant skill file(s), the
+  governing workflow contract(s), the pack/context documents, and the draft's
+  location. No session history. Instruct it to read `%` comments ONLY as a
+  do-not-re-flag list — the comment trail records rulings and partially
+  de-blinds it (observed on the 2026-09-02 pilot: the black box endorsed a
+  same-day ruling it had read in a comment). For a fully blind run, hand it
+  comment-stripped prose.
+- **The merge — main thread, before anything reaches Marc.** (1) Verify every
+  *novel* black-box fact against its named source before endorsing — zero
+  trust (the pilot's two caption findings, the Zhang scheme count and the CTS
+  attribution, were both novel and both verified true). (2) Reject black-box
+  proposals that re-open same-session rulings, and say so explicitly (the
+  pilot's W-6 endpoint rider). (3) Convergent findings are the strongest
+  signal — present them as a block for blanket ruling. (4) Return ONE merged
+  set, tagged WB / BB / both, still under this skill's prioritisation cap.
+
+The mode's measured value: the black box catches what the white box authored;
+the white box protects what the black box cannot know. Marc rules on the
+merged set, never on two raw streams.
+
 ## Boundaries
 
 - **Not prose review** — rhythm, tells, and voice belong to `voice.md` and

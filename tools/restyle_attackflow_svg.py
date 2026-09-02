@@ -18,8 +18,10 @@ What it does, and why (see docs/workflows/figure_table_conventions.md):
     drops it; the §3.1.2 prose cites the ids).
   - Leaves the Builder's native 14u label size untouched (bumping it overflows
     the boxes). Included portrait at \\textwidth (Marc's ruling: no landscape);
-    the figure is wide (2.46:1), so labels land ~4.9pt on the page, under the
-    ~8pt guide (§h) — an accepted legibility trade for portrait.
+    the figure is wide, so labels land under the ~8pt guide (§h) — an accepted
+    legibility trade for portrait. The printed size is a function of the
+    export's viewBox width and is reported per run; a tighter Builder relayout
+    (narrower canvas) is the lever that grows it.
 
 Palette classes are detected by the Builder's own fills:
     action    fill #5286e7   condition fill #0e662a   operator  fill #ad2a2a
@@ -39,10 +41,10 @@ OUT_PDF = OUT.with_suffix(".pdf")
 
 # The PDF is emitted at cairosvg's natural size; the .tex includes it portrait at
 # \includegraphics[width=\textwidth] (Marc's ruling: no landscape), which scales
-# it to the portrait typeblock (455.24pt). The figure is wide (viewBox 1310u), so
-# native 14u labels land ~4.9pt on the page (14 * 455.24 / 1310) -- under the ~8pt
-# guide (figure_table_conventions.md §h), an accepted legibility trade for
-# portrait; a legible version would need a taller/narrower Builder relayout.
+# it to the portrait typeblock (455.24pt). Native 14u labels therefore print at
+# 14 * 455.24 / <viewBox width> -- the width is parsed from the export and the
+# resulting size reported per run against the ~8pt guide
+# (figure_table_conventions.md §h); a narrower Builder relayout grows it.
 PORTRAIT_PT = 455.24
 
 # --- house palette ----------------------------------------------------------
@@ -61,9 +63,8 @@ B_OP_FILL, B_OP_LINE = "#ad2a2a", "#ff5959"
 WHITE = "#FFFFFF"
 
 # Font size is left at the Builder's native 14u — bumping it overflows the boxes
-# (the Builder sizes each box to its 14u text). Consequence: at portrait
-# \\textwidth (455.24pt / 1310u) labels print ~4.9pt, under the ~8pt guide;
-# clearing the floor would need a taller/narrower Builder relayout, not a font hack.
+# (the Builder sizes each box to its 14u text). Printed size follows the export's
+# viewBox width (see above); growing it is a Builder-relayout job, not a font hack.
 TID_FS = "14"     # match the native label size
 
 # ATT&CK technique id per action, keyed by the box's visible name.
@@ -81,6 +82,7 @@ NAME_TO_TID = {
 }
 
 GROUP_RE = re.compile(r"<g\b[^>]*>.*?</g>", re.DOTALL)
+VIEWBOX_RE = re.compile(r'viewBox="0 0 ([0-9.]+) [0-9.]+"')
 TSPAN_RE = re.compile(r"<tspan[^>]*>(.*?)</tspan>", re.DOTALL)
 RECTW_RE = re.compile(r'<rect[^>]*\bwidth="([0-9.]+)"')
 
@@ -172,11 +174,15 @@ def main() -> None:
             pdf_note = f"{OUT_PDF.relative_to(ROOT)} (PDF 1.7 -- gs absent)"
     except Exception as exc:  # pragma: no cover - dev convenience
         pdf_note = f"skipped ({exc})"
-    printed = 14.0 * (PORTRAIT_PT / 1310.0)
+    vb = VIEWBOX_RE.search(svg)
+    assert vb, "no viewBox on the export's <svg> root"
+    vb_width = float(vb.group(1))
+    printed = 14.0 * (PORTRAIT_PT / vb_width)
     print(f"wrote {OUT.relative_to(ROOT)}")
     print(f"wrote {pdf_note}")
     print(f"technique-id tags injected: {n_tid}/10")
-    print(f"native 14u labels -> ~{printed:.1f}pt at portrait \\textwidth ({PORTRAIT_PT:.0f}pt)")
+    print(f"viewBox width {vb_width:.0f}u; native 14u labels -> "
+          f"~{printed:.1f}pt at portrait \\textwidth ({PORTRAIT_PT:.0f}pt)")
 
 
 if __name__ == "__main__":

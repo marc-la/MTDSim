@@ -55,7 +55,7 @@ spent, so any new heading still has to name what it displaces.
 | **2.1 Moving target defence** | attack surface; *what / how / when*; shuffle–diversity–redundancy; proactive / reactive / hybrid | 250 |
 | **2.2 MTDSim** *(preamble)* | what the simulator is, then the lineage in two sentences over **Table 2.1** | ~120 |
 | 2.2.1 Network model | topology, host and service structure, exposure | 250 |
-| 2.2.2 Defence mechanisms | the roster wearing 2.1's labels; the execution schemes; the reactive selector | ~300 |
+| 2.2.2 Defence mechanisms | the roster wearing 2.1's labels; the execution schemes; the reactive selector [→ MTDShield, classified hybrid; ruled 2026-09-02] | ~300 |
 | 2.2.3 Attacker model | the scripted six-phase attacker, its two scenarios, its exploit ordering | 250 |
 
 **Why it nests.** A flat four-section version was proposed first and rejected on
