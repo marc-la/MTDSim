@@ -42,6 +42,16 @@ executes: 2026-08-31_ch3_port_plan.md
 >    (IT-vs-OT repair, the 14-day global-median scope, the Volt-Typhoon-vs-
 >    class subject scope). Bib anchors `mtrends2026`, `cisaaa24038a`,
 >    `nist2011sp80039` all active. 3b walk is Marc's; pass 4 follows.
+> 7. **§3.1.1 through pass 5's C-block** (2026-09-02): 3b walk blanket-
+>    accepted; pass 4 M1a/M1b implemented as ratify-on-read wordings, M3b's
+>    Chapter-1 clause removed; pass 5 run split-stream (WB+BB subagents,
+>    merged ledger), Marc blanket-accepted the convergent C-block (−56 w,
+>    345 → ~289 vs the 250 budget). Open: E1 (commodity foil) / E2
+>    (espionage contrast) elastic cuts, unruled; pass-4 M2 (3.1.2 insert
+>    option) and M3a (3.1.3/preamble durability dedup). Pass-5 rejections
+>    R1–R4 are do-not-re-flag (NIST behavioural sentence, currency opener,
+>    "against a specific target", the sponsorship clause). The full trail
+>    is the unit's header comment in the tex.
 >
 > Rationale: Cho 2020's §V → §VII → §VIII precedence order, and the felt
 > duplication between the Metrics heading and the hinge's retitled heading

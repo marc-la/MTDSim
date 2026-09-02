@@ -714,10 +714,9 @@ scales with multi-step commitment.
 An APT is a class of cyber threat in which a well-resourced attacker,
 typically nation-state or organisation-sponsored, pursues a specific
 objective against a specific target over an extended time horizon,
-adapting to defender resistance and retooling at a tempo that outpaces
+retooling at a tempo that outpaces
 reactive defence \citep{alshamrani2019}. The three terms name three
-properties: \emph{advanced} tooling and tradecraft (custom malware,
-coordinated attack vectors), a \emph{persistent} low-and-slow tempo
+properties: \emph{advanced} tooling and tradecraft, a \emph{persistent} low-and-slow tempo
 that trades speed for evasion across months or years, and a
 \emph{threat} defined by its objective: data exfiltration, impediment
 of mission-critical components, or positioning for future operations
@@ -735,36 +734,48 @@ This is precisely what the commodity attacker is
 not: single-run, smash-and-grab operations that neither hide nor adapt
 and end at first detection \citep{alshamrani2019}.
 
-APT operations follow a recognisable five-phase lifecycle:
+APT operations follow a five-phase lifecycle:
 reconnaissance, foothold establishment, lateral movement, exfiltration
 or impediment, and post-operation cleanup \citep{alshamrani2019}. The
 first two phases are invariant; the remaining three are contingent on
-the attacker's objective (data theft, disruption of mission-critical
-components, or positioning for future operations, the last of which may
+the attacker's objective (positioning for future operations may
 forgo exfiltration entirely) \citep{alshamrani2019}.
 
 % [G5 DRAFT, dictated by Marc 2026-09-02; repaired (pass 2+3a),
 % arranged to the scaffold order on his ask. 3b WALK DONE 2026-09-02
 % ("all the 3b markers I accept"): every marker resolved in the
 % direction it flagged, each ruling logged inline --- flip any by its
-% log. ~135 w against a 1-unit ledger already carrying two paragraphs
-% --- pass 5 reconciles. PASS 4 RUN 2026-09-02; Marc RULED on 3.1.1
-% same day: M1a/M1b implemented as session-proposed wording
-% (ratify-on-read, originals in their logs), M3b resolved by removing
-% the Chapter~1 clause on the convention answer, the minor 3b resolved
-% by naming M-Trends. Still open elsewhere in 3.1: [INSERT M2]
-% (3.1.2), [TIGHTEN M3a] (3.1.3) --- not yet ruled. Guardrails:
+% log. PASS 4 RUN 2026-09-02; Marc RULED on 3.1.1 same day: M1a/M1b
+% implemented as session-proposed wording (ratify-on-read, originals in
+% their logs), M3b resolved by removing the Chapter~1 clause on the
+% convention answer, the minor 3b resolved by naming M-Trends. Still
+% open elsewhere in 3.1: [INSERT M2] (3.1.2), [TIGHTEN M3a] (3.1.3).
+% PASS 5 RUN 2026-09-02, split-stream (WB+BB subagents), merged ledger;
+% Marc blanket-ACCEPTED the convergent C-block (C1-C10, -56 w, applied
+% across the whole subsection): triad dedup to the definitional site
+% (S6 keeps only the forgo-exfiltration rider); "These reports..."
+% sentence cut (supersedes, not reverses, its 3b noun ruling); S7
+% trimmed to the currency clause; "For example," cut from the M1a
+% sentence; "using capability and infrastructure" cut (colon-gloss
+% carries it); the low-and-slow law-of-the-land flourish cut; espionage
+% pads cut; S1's adaptation clause cut (attribution now rides on the
+% NIST sentence); the custom-malware parenthetical cut (citation
+% carries it); "recognisable" cut. STILL OPEN, unruled: E1 (commodity
+% foil S4 --- cut -22 or tighten -6) and E2 (espionage-contrast
+% sentence --- cut -21 or keep). DO NOT RE-FLAG (pass-5 rejections):
+% R1 the NIST behavioural sentence stays (G7a resolution); R2 the
+% currency opener stays (claim-first); R3 "against a specific target"
+% stays; R4 the sponsorship clause stays. Unit now ~289 w vs 250; the
+% residual reconciles at section assembly (2026-08-18 overdraft
+% ruling) unless E1/E2 are taken. Pass 6 (batched voice pass) next.
+% Guardrails:
 % the advisory is cited for what a documented campaign looks like and
 % on what timescale, never as an MTD claim; no MTD mention here (that
 % move is ch1's, notes/ch1_introduction/
 % mtd_absent_from_volt_typhoon_response.md); do not imply the campaign
 % is modelled (flow outside the corpus).]
-APT attackers are well documented and they are still being documented
-today. These reports are capturing present-tense descriptions of APT
-attackers.
-% [3b ruled 2026-09-02, accepted: "these profiles" -> "these reports"
-% (profiles are not introduced until 3.1.3).]
-For example, Mandiant's M-Trends 2026 report places the global median
+APT attackers are still being documented
+today. Mandiant's M-Trends 2026 report places the global median
 dwell time across all intrusions at 14 days; espionage-class
 intrusions sit at a median of 122 days \citep{mtrends2026}.
 % [M1a IMPLEMENTED 2026-09-02, Marc's ruling ("propose a more nuanced,
@@ -776,10 +787,9 @@ intrusions sit at a median of 122 days \citep{mtrends2026}.
 % global median dwell time of 14 days and espionage-class intrusions
 % 122 days". Grounding: breach_reports_macro_timing.md.]
 The pacing depends on the objectives. Volt Typhoon established
-footholds in victim IT environments for at least five years using
-capability and infrastructure \citep{cisaaa24038a}: living off the
-land and valid accounts, the low-and-slow is really the law of the
-land here.
+footholds in victim IT environments for at least five
+years \citep{cisaaa24038a}: living off the
+land and valid accounts.
 % [M3b RESOLVED 2026-09-02, Marc's ruling on the convention answer
 % (reviews do not justify an example by its use in the introduction;
 % cross-references run intro -> chapter, not the reverse): the clause
@@ -822,7 +832,7 @@ disruption.
 % disruption", whose attribution now rides on the citation and the
 % next sentence. Flip if the agencies-attribution should be in prose.]
 This is not consistent with traditional cyber espionage, where there is
-some sort of exfiltration involved over a shorter time frame.
+exfiltration over a shorter time frame.
 % [3b ruled 2026-09-02, accepted: "impact" -> "exfiltration" (the
 % advisory's contrast class is espionage/intelligence gathering, i.e.
 % collection).]
