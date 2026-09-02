@@ -109,8 +109,18 @@ executes: 2026-08-31_ch3_port_plan.md
 >    S0002 Mimikatz (its toolkit) / C0035 KV Botnet Activity (its
 >    campaign) — verified against the pinned v19.1 bundle; C0039 Versa
 >    Director was the alternative campaign. Connectives 3b-flagged.
->
-> Rationale: Cho 2020's §V → §VII → §VIII precedence order, and the felt
+> 12. **Knowledge-base citation added** (Marc's ruling, 2026-09-02,
+>    citation review): new key `mitre2026attackkb` (The MITRE
+>    Corporation, MITRE ATT&CK, Enterprise v19.1, url =
+>    attack.mitre.org root) — the single carrier for catalogue-page
+>    facts, cited at the catalogue sentence (beside alsada2024, which
+>    keeps the characterisation claim) and at the worked example
+>    (codes + the G1017 procedure); the Figure 3.1 caption swapped
+>    onto it from mitre2026attackv19, which stays the anchor for
+>    version-specific claims (the 15-tactic set). Review verdicts:
+>    strom2018mitre predates G1017/C0035 and cannot carry them;
+>    rodriguez2024 on the definitions sentence noted as secondary
+>    (primary = strom2018mitre) but left, ported with its cite. Cho 2020's §V → §VII → §VIII precedence order, and the felt
 > duplication between the Metrics heading and the hinge's retitled heading
 > (2026-09-02 session); for item 5, the paragraph was doing the strand's
 > interstitial work and duplicating 3.1.2's catalogue teaching and the
@@ -343,7 +353,7 @@ The means to close it already exist in MTD-adjacent literatures. Attack profilin
 
 ## Bib status
 
-Active: `cho2020`, `strom2018mitre`, `ctid2025attackflow`, `mitre2026attackv19`, `rodriguez2024`, `alshamrani2019`, `hutchins2011`, `buchel2025`, `rahman2025`, `bland2020`, `brown2023`, `zhang2023`, `hongkim2012harm`, `hongkim2016`.
+Active: `cho2020`, `strom2018mitre`, `ctid2025attackflow`, `mitre2026attackv19`, `mitre2026attackkb`, `rodriguez2024`, `alshamrani2019`, `hutchins2011`, `buchel2025`, `rahman2025`, `bland2020`, `brown2023`, `zhang2023`, `hongkim2012harm`, `hongkim2016`.
 **Uncomment at first cite** (drafted, commented out in `references.bib`): `hong2018`, `jalowski2026`, `sadlek2022`, `alsada2024`, `ferraz2026`, `zhangY2025`, `masud2025`, `kim2026`, `he2025`, `tay2024`, `outkin2022` (the key stays `outkin2022`).
 **To add**: `ho2024` (the GENG5512 report), NIST SP 800-39 (G7a), a Volt Typhoon advisory (G5).
 

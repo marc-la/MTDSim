@@ -890,7 +890,7 @@ Pre-positioning is NIST's third objective class \citep{nist2011sp80039}.
 MITRE ATT\&CK is a knowledge base of attacker behaviours derived from
 real-world observations, developed by the MITRE Corporation in 2013
 \citep{strom2018mitre}. ATT\&CK has
-become the \emph{lingua franca} for attacker behaviour
+become the lingua franca for attacker behaviour
 \citep{ferraz2026, buchel2025}.
 % [moved 2026-09-02 restructure: the lingua-franca sentence forward
 % from mid-P2 --- the subsection's purpose sentence, now stated before
@@ -905,7 +905,10 @@ named attacker groups (\attackid{G1017} for Volt Typhoon), software
 (\attackid{S0002} for Mimikatz, in Volt Typhoon's toolkit), and
 campaigns (\attackid{C0035} for its KV Botnet Activity), each
 group characterised by the techniques observed across its operations
-\citep{alsada2024}.
+\citep{mitre2026attackkb, alsada2024}.
+% [cite placement 2026-09-02 (Marc's ruling, citation review): the
+% knowledge base vouches for the catalogue entries, Al-Sada for the
+% characterisation claim.]
 % [3b --- merge joint, flagged: "The knowledge base holds the attack
 % matrix alongside catalogues of" replaces "Beyond the matrix itself,
 % ATT&CK catalogues" (your ruling: the matrix must be named before
@@ -945,7 +948,7 @@ through Valid Accounts (\attackid{T1078}), via the Domain Accounts
 sub-technique (\attackid{T1078.002}), with a procedure recording Volt
 Typhoon's use of
 compromised domain accounts to authenticate to devices on compromised
-networks (Figure~\ref{fig:attack-matrix}).
+networks \citep{mitre2026attackkb} (Figure~\ref{fig:attack-matrix}).
 % [repair 2026-09-02, flagged: the figure pointer folded in as a
 % parenthetical --- the compress licence's mechanical fold.]
 % [3b --- re-walked per your 2026-09-02 ruling: the Phishing/T1566.001
@@ -1011,9 +1014,10 @@ operations.
 % CAPTION STRIPPED to one line (Marc's 2026-09-02 ruling): the walk
 % was duplicating the prose and the diagram's own labels, and the
 % STIX-bundle provenance line goes --- the reader-facing source is the
-% ATT&CK website, cited via the existing v19 anchor
-% (mitre2026attackv19, url -> attack.mitre.org). Full provenance
-% stays here and in the generator. CAPTION SESSION-DRAFTED --- yours
+% ATT&CK website, cited via the knowledge-base anchor
+% (mitre2026attackkb, url -> attack.mitre.org root; swapped from
+% mitre2026attackv19 on the 2026-09-02 citation review). Full
+% provenance stays here and in the generator. CAPTION SESSION-DRAFTED --- yours
 % for the voice pass.
 % Placement [t], not [htbp] (integration check 2026-09-02): at ~60% of
 % the text height (figure + caption) the float satisfies the class's
@@ -1026,7 +1030,7 @@ operations.
   \caption[The ATT\&CK Enterprise matrix and its hierarchy]{The
   MITRE ATT\&CK Enterprise matrix (v19.1), with the hierarchy beneath
   one technique opened to the procedure level
-  \citep{mitre2026attackv19}.}
+  \citep{mitre2026attackkb}.}
   \label{fig:attack-matrix}
 \end{figure}
 
