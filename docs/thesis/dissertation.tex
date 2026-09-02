@@ -748,10 +748,12 @@ forgo exfiltration entirely) \citep{alshamrani2019}.
 % ("all the 3b markers I accept"): every marker resolved in the
 % direction it flagged, each ruling logged inline --- flip any by its
 % log. ~135 w against a 1-unit ledger already carrying two paragraphs
-% --- pass 5 reconciles. PASS 4 RUN 2026-09-02: findings sit inline
-% below and across 3.1.2 / 3.1.3 as [SCOPE M1] x2, [INSERT M2],
-% [TIGHTEN M3] + [VERIFY M3], [KEEP] x3 --- Marc rules on each in
-% place. Guardrails:
+% --- pass 5 reconciles. PASS 4 RUN 2026-09-02; Marc RULED on 3.1.1
+% same day: M1a/M1b implemented as session-proposed wording
+% (ratify-on-read, originals in their logs), M3b resolved by removing
+% the Chapter~1 clause on the convention answer, the minor 3b resolved
+% by naming M-Trends. Still open elsewhere in 3.1: [INSERT M2]
+% (3.1.2), [TIGHTEN M3a] (3.1.3) --- not yet ruled. Guardrails:
 % the advisory is cited for what a documented campaign looks like and
 % on what timescale, never as an MTD claim; no MTD mention here (that
 % move is ch1's, notes/ch1_introduction/
@@ -762,51 +764,56 @@ today. These reports are capturing present-tense descriptions of APT
 attackers.
 % [3b ruled 2026-09-02, accepted: "these profiles" -> "these reports"
 % (profiles are not introduced until 3.1.3).]
-For example, this CTI vendor report reports that APT attacks
-have a global median dwell time of 14 days and espionage-class
-intrusions 122 days \citep{mtrends2026}.
-% [SCOPE, M1 --- pass 4, 2026-09-02; breach_reports_macro_timing.md]
-% 14 d is M-Trends' global median across ALL intrusions (an
-% eCrime-dominated IR population), not APT attacks; the 122 d
-% espionage-class figure is the APT-relevant one. As worded the
-% sentence also undercuts the next one: if APT dwell were 14 days,
-% the pacing-divergence point collapses. Re-scope; wording yours.
-% [3b, minor] "this CTI vendor report" reads as a spoken stage
-% direction --- name M-Trends, or let the citation carry it. Yours.
-The pacing depends on the objectives. The example that we bring up in
-Chapter~1, Volt Typhoon, established footholds in victim IT
-environments for at least five years using capability and
-infrastructure \citep{cisaaa24038a}: living off the land and valid
-accounts, the low-and-slow is really the law of the land here.
+For example, Mandiant's M-Trends 2026 report places the global median
+dwell time across all intrusions at 14 days; espionage-class
+intrusions sit at a median of 122 days \citep{mtrends2026}.
+% [M1a IMPLEMENTED 2026-09-02, Marc's ruling ("propose a more nuanced,
+% more accurate sentence") --- SESSION-PROPOSED WORDING, ratify-on-read.
+% Carries the nuance: 14 d = all intrusions (eCrime-dominated
+% population), 122 d = the espionage class. Also resolves the [3b]
+% stage direction by naming M-Trends. Original dictated sentence: "For
+% example, this CTI vendor report reports that APT attacks have a
+% global median dwell time of 14 days and espionage-class intrusions
+% 122 days". Grounding: breach_reports_macro_timing.md.]
+The pacing depends on the objectives. Volt Typhoon established
+footholds in victim IT environments for at least five years using
+capability and infrastructure \citep{cisaaa24038a}: living off the
+land and valid accounts, the low-and-slow is really the law of the
+land here.
+% [M3b RESOLVED 2026-09-02, Marc's ruling on the convention answer
+% (reviews do not justify an example by its use in the introduction;
+% cross-references run intro -> chapter, not the reverse): the clause
+% "The example that we bring up in Chapter~1," is REMOVED, minimal
+% surgery, rest of the sentence untouched. The ch1 case study itself
+% is unaffected (its note stands).]
 % [KEEP --- pass 4] "The pacing depends on the objectives" is the
 % unit's hinge: it is simultaneously M-Trends' own pacing-divergence
 % framing (breach_reports_macro_timing.md) and Alshamrani's
 % objective-conditioned suffix --- one sentence welds the statistical
 % evidence to the definitional claim two paragraphs up.
-% [VERIFY, M3 --- pass 4] "that we bring up in Chapter~1": forward
-% dependency on an undrafted chapter. The ch1 case study is planned
-% (notes/ch1_introduction/mtd_absent_from_volt_typhoon_response.md),
-% so the dependency is planned, not broken --- but re-verify once ch1
-% exists, and whether ch3 leans on ch1 or stands alone is yours.
 % [3b ruled 2026-09-02, accepted: "may establish" -> "established"
 % (the advisory reports observed fact).]
 % [VERIFY watchlist] dictated "OT environment" repaired to "IT
 % environments" --- the advisory's words are "within some victim IT
 % environments" (OT is the target; IT is where the footholds sit).
 NTDS.dit was dumped from three domain controllers over a four-year
-period; APT attackers were very silent after credential dumping and
-would perform discovery without bulk exfiltration, persistence
+period; Volt Typhoon actors were largely silent after credential
+dumping, performing discovery without bulk exfiltration: persistence
 maintained and revalidated.
 % [3b ruled 2026-09-02, accepted: seam kept; "from three domain
 % controllers" inserted per the marker (advisory fact, Overview of
 % Activity).]
-% [SCOPE, M1 --- pass 4, 2026-09-02; cisaaa24038a.md Concept 2] the
-% silence / discovery-without-exfiltration / re-validation facts are
-% the advisory's observations of Volt Typhoon SPECIFICALLY; the
-% sentence generalises to "APT attackers". Class-level claims come
-% from the survey (Alshamrani's own "what is NOT an APT" boundary,
-% S II-B); exemplar claims from the exemplar. Subject is Volt Typhoon;
-% wording yours.
+% [M1b IMPLEMENTED 2026-09-02, Marc's ruling --- SESSION-PROPOSED
+% WORDING, ratify-on-read. Subject re-scoped from "APT attackers" to
+% "Volt Typhoon actors" (the advisory's own term; the silence /
+% discovery / re-validation facts are its observations of this
+% campaign specifically, cisaaa24038a.md Concept 2). Two further
+% repairs in the same move: "very silent" -> "largely silent" (the
+% advisory reports "minimal activity"), and "and would perform" ->
+% ", performing" to carry the re-scoped subject. Original dictated
+% sentence: "... APT attackers were very silent after credential
+% dumping and would perform discovery without bulk exfiltration,
+% persistence maintained and revalidated".]
 That is pre-positioning as an objective, for possible future OT
 disruption.
 % [3b ruled 2026-09-02, accepted: doubled halves cut to one --- the
