@@ -650,10 +650,10 @@ scanning hosts, after an application-layer one to scanning ports
 % -> instrument -> measurement -> verdict). Ruling trail:
 % docs/handoffs/2026-08-31_ch3_patchwork_draft.md (amendment note).
 % Bib (2026-08-31): every key this chapter cites is
-% active in references.bib (eleven uncommented, ho2024 added); NIST SP
-% 800-39 (G7a) and the Volt Typhoon advisory AA24-038A (G5) are planted
-% as commented VERIFY stubs there --- confirm the metadata before
-% uncommenting. \ref{tab:lineage} assumes ch2's Table 2.1 label.
+% active in references.bib (eleven uncommented, ho2024 added). NIST SP
+% 800-39 (G7a) ACTIVATED 2026-09-02, verified against the PDF; the Volt
+% Typhoon advisory AA24-038A (G5) was ACTIVATED 2026-08-31 --- both
+% await Marc's sighting. \ref{tab:lineage} assumes ch2's Table 2.1 label.
 
 % Preamble (unnumbered, 1 unit). Verbatim/adapted from review Sec. I
 % para 2 and para 4 s1-s2; the signature line lives HERE, once.
@@ -711,8 +711,14 @@ of mission-critical components, or positioning for future operations
 \citep{alshamrani2019}. NIST states the same profile behaviourally: an
 APT actor pursues its objectives repeatedly, adapts to the defender's
 resistance, and sustains the interaction needed to meet its goal
-\citep{alshamrani2019}\emph{[GAP G7a --- cite NIST SP 800-39 directly;
-bib entry to add]}. This is precisely what the commodity attacker is
+\citep{nist2011sp80039}.
+% [G7a resolved 2026-09-02] direct cite of SP 800-39's APT definition
+% (App. B, p. B-1): "(i) pursues its objectives repeatedly over an
+% extended period of time; (ii) adapts to defenders' efforts to resist
+% it; and (iii) is determined to maintain the level of interaction
+% needed to execute its objectives". Paraphrase checked against the PDF
+% Marc supplied; bib entry activated from its VERIFY stub, Marc to sight.
+This is precisely what the commodity attacker is
 not: single-run, smash-and-grab operations that neither hide nor adapt
 and end at first detection \citep{alshamrani2019}.
 
@@ -729,7 +735,12 @@ forgo exfiltration entirely) \citep{alshamrani2019}.
 as live evidence of long dwell and objective-driven pacing (M-Trends
 2026: global median dwell 14 days, espionage 122 days --- verified in
 breach\_reports\_macro\_timing.md); Volt Typhoon cited to its advisory
-(bib entry to add).]}
+\citep{cisaaa24038a}: footholds in some victim IT environments held at
+least five years, NTDS.dit extracted from three domain controllers
+over a four-year period, pre-positioning for OT disruption ``not
+consistent with traditional cyber espionage'' --- all quotes
+fetch-verified 2026-09-02 in extractions/cisaaa24038a.md (Concepts
+2--4).]}
 \medskip
 
 APT campaigns are well-documented in the CTI record. MITRE ATT\&CK

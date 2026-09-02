@@ -170,19 +170,24 @@
   month   = oct
 }
 
-%% NIST SP 800-39 — the primary source for the APT behavioural clauses that
-%% ch3 §3.1.1 currently cites via Alshamrani (GAP G7a). VERIFY against the
-%% NIST record before uncommenting: metadata below is from memory, not fetched.
-% techreport{nist2011sp80039,
-%   author      = {{Joint Task Force Transformation Initiative}},
-%   title       = {Managing Information Security Risk: Organization, Mission, and Information System View},
-%   institution = {National Institute of Standards and Technology},
-%   type        = {{NIST} Special Publication},
-%   number      = {800-39},
-%   year        = {2011},
-%   address     = {Gaithersburg, MD, USA},
-%   doi         = {10.6028/NIST.SP.800-39}
-% }
+%% NIST SP 800-39 — the primary source for the APT behavioural clauses in
+%% ch3 §3.1.1 (GAP G7a). ACTIVATED 2026-09-02: author, title, month/year and
+%% address verified against the SP 800-39 PDF Marc supplied (cover page +
+%% "NIST Special Publication 800-39, 88 pages (March 2011)"); DOI from the
+%% NIST landing page Marc gave (https://doi.org/10.6028/NIST.SP.800-39).
+%% The APT definition cited in §3.1.1 is Appendix B, p. B-1. Marc to sight
+%% before submission.
+@techreport{nist2011sp80039,
+  author      = {{Joint Task Force Transformation Initiative}},
+  title       = {Managing Information Security Risk: Organization, Mission, and Information System View},
+  institution = {National Institute of Standards and Technology},
+  type        = {{NIST} Special Publication},
+  number      = {800-39},
+  year        = {2011},
+  month       = mar,
+  address     = {Gaithersburg, MD, USA},
+  doi         = {10.6028/NIST.SP.800-39}
+}
 
 %% CISA AA24-038A — the Volt Typhoon joint advisory for the ch3 §3.1.1 latest
 %% slot (GAP G5); also the sole source for the hand-curated Attack Flow at
