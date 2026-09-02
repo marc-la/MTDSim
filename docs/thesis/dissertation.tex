@@ -708,7 +708,7 @@ scales with multi-step commitment.
 % interstitial, S2's salvage clause and S3 into 3.1.2, S4 to open 3.1.3,
 % the duplicated halves of S2/S3 cut. Subsection shape is now
 % definition -> lifecycle -> G5 current reporting.]
-\subsection{Advanced persistent threats}
+\subsection{Advanced persistent threat}
 \label{subsec:apt}
 
 An APT is a class of cyber threat in which a well-resourced attacker,
@@ -976,7 +976,12 @@ against.
 % Enterprise v19.1 STIX bundle (data/gap/_attack/); every name, count,
 % tab, and procedure row read from the artefact, nothing typed.
 % CAPTION SESSION-DRAFTED --- yours for the voice pass.
-\begin{figure}[htbp]
+% Placement [t], not [htbp] (integration check 2026-09-02): at ~60% of
+% the text height (figure + caption) the float satisfies the class's
+% floatpagefraction=0.5, so allowing 'p' hands it a float page before
+% 't' is tried --- the Figure 2.1 trap; [t] pins it to a page top with
+% text beneath.
+\begin{figure}[t]
   \centering
   \includegraphics[width=\textwidth]{fig_3-1-2a_attack_matrix}
   \caption[The ATT\&CK Enterprise matrix and its hierarchy]{The

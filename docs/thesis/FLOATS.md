@@ -12,6 +12,8 @@ new float.
 | Position | File (stem) | Label | Generator |
 |---|---|---|---|
 | §2.2 MTDSim | `fig_2-2a_mtdsim_model` (.pdf; .png preview is gitignored) | `fig:mtdsim-model` | `tools/mtdsim_model_figure.py` (SVG in `tools/mtdsim_model_figure.html`) |
+| §3.1.2 MITRE ATT&CK | `fig_3-1-2a_attack_matrix` | `fig:attack-matrix` | `tools/attack_matrix_figure.py` (reads `data/gap/_attack/enterprise-attack-19.1.json`) |
+| §3.1.3 Attack profiling | `fig_3-1a_attack_flow_volt_typhoon` (.pdf from .svg) | `fig:attack-flow-volt-typhoon` | hand-authored (`data/gap/hand_curated/`), restyled by `tools/restyle_attackflow_svg.py`; stem predates its 2026-09-02 move from §3.1.2 --- position here is authoritative |
 | Ch 4 opening | `fig_4-0a_pipeline_ladder` | `fig:pipeline` | `tools/pipeline_ladder_figure.py` |
 | §4.2.4 L4 execution | `fig_4-2-4a_controller_mapping` | `fig:controller-mapping` | `tools/controller_mapping_figure.py` |
 | §4.2.4 L4 execution | `fig_4-2-4b_failure_weight_matrix` | `fig:failure-weight-matrix` | `tools/failure_weight_decomposition_figure.py --layout matrix` (chapter geometry, natural size) |
