@@ -99,6 +99,16 @@ executes: 2026-08-31_ch3_port_plan.md
 >    mitre2026attackv19 (the ATT&CK-website anchor) — the walk and the
 >    STIX-bundle provenance line deleted (provenance stays in the tex
 >    comment and the generator).
+> 11. **ATT&CK IDs to code font + catalogue examples rethreaded**
+>    (Marc's ruling, 2026-09-02, fourth session): new `\attackid{}`
+>    macro (monospace, sibling of `\tactic{}`) applied to every ATT&CK
+>    identifier in body prose and captions (3.1.2 catalogue + worked
+>    example; 3.1.3 flow paragraph + Figure 3.2 caption; the two ch4
+>    occurrences are comments, untouched; generated figures keep their
+>    own typography). Catalogue examples now all Volt Typhoon: G1017 /
+>    S0002 Mimikatz (its toolkit) / C0035 KV Botnet Activity (its
+>    campaign) — verified against the pinned v19.1 bundle; C0039 Versa
+>    Director was the alternative campaign. Connectives 3b-flagged.
 >
 > Rationale: Cho 2020's §V → §VII → §VIII precedence order, and the felt
 > duplication between the Metrics heading and the hinge's retitled heading
