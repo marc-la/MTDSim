@@ -1,7 +1,7 @@
 ---
 status: living
 created: 2026-08-20
-updated: 2026-09-02   # four rows ratified from the §2.2.2 pass-6 ledger (deployment strategy, MTDShield, deployment, shuffle)
+updated: 2026-09-02   # four rows ratified from the §2.2.2 pass-6 ledger (deployment strategy, MTDShield, deployment, shuffle); +1 PROPOSED from the §3.1.1 pass-6 census (APT attacker vs APT actor)
 ---
 
 # Terminology registry — one term per concept across the dissertation
@@ -67,7 +67,7 @@ string are legitimate (noted per row).
 
 | Concept | Recommendation | Alternatives considered | Census |
 |---|---|---|---|
-| *(none open — the 2026-08-27 §2.2.3 ruling ratified the objective row)* | | | |
+| The APT party as a named class member | **APT attacker** — also Alshamrani 2019's own phrase ("An APT attacker: (i) pursues…"); *actor* stays only inside source-echo phrasing (*Volt Typhoon actors* is the advisory's term — legitimate, cited-adjacent) | *APT actor* (the §3.1.1 NIST sentence's current word — neither NIST's nor Alshamrani's verbatim) | 2026-09-02, dissertation.tex: *APT attacker(s)* 13, *APT actor* 1 (§3.1.1), *Volt Typhoon actors* 2 (advisory phrasing) |
 
 ## Ruling workflow
 
