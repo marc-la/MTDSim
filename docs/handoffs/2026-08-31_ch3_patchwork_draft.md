@@ -27,10 +27,27 @@ executes: 2026-08-31_ch3_port_plan.md
 > 4. **The interstitial's closing stitch revised** for the swap ("This section
 >    surveys the models the critique is aimed at, builds that scale …") —
 >    Marc's to accept, like every stitch.
+> 5. **3.1.1's third paragraph DISSOLVED** (Marc's ruling, 2026-09-02, second
+>    session): S1 + S5 verbatim to a new 3.1 interstitial; S2's salvage clause
+>    ("Groups such as APT29 … across multiple operations") into 3.1.2's
+>    catalogue paragraph, its duplicated first half cut; S3 beside 3.1.2's
+>    Sadlek durability passage (its Attack Flow half flagged for trimming);
+>    S4 opens 3.1.3 as its thesis sentence. Nothing is welded — every
+>    insertion carries a NOT-yet-fitted comment for Marc's later pass. This
+>    resolves the :78 forward-naming flag and makes 3.1.1 three paragraphs:
+>    definition → lifecycle → the latest slot.
+> 6. **GAP G5 is dictated** (2026-09-02): Marc's spoken unit repaired
+>    (pass 2+3a) and its sentences arranged to the scaffold order at his ask;
+>    landed in 3.1.1 with inline [3b] markers and a verify watchlist
+>    (IT-vs-OT repair, the 14-day global-median scope, the Volt-Typhoon-vs-
+>    class subject scope). Bib anchors `mtrends2026`, `cisaaa24038a`,
+>    `nist2011sp80039` all active. 3b walk is Marc's; pass 4 follows.
 >
 > Rationale: Cho 2020's §V → §VII → §VIII precedence order, and the felt
 > duplication between the Metrics heading and the hinge's retitled heading
-> (2026-09-02 session). The ledger stays 1 / 3 / 3 / 5 = 12 units.
+> (2026-09-02 session); for item 5, the paragraph was doing the strand's
+> interstitial work and duplicating 3.1.2's catalogue teaching and the
+> preamble's durability claim. The ledger stays 1 / 3 / 3 / 5 = 12 units.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
