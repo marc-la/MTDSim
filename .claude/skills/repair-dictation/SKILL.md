@@ -137,6 +137,13 @@ here** rather than leaving the knowledge in chat.
 | compromised posts | compromised hosts |
 | athen tejiang / Touche to sheng | Zhang (2023) --- citation slot |
 | empty disrupts | MTD disrupts |
+| cyber synod | cyber espionage |
+| nice 3rd objective class | NIST's third objective class |
+| living after land | living off the land |
+| Unvolt Typhoon | (in ...) Volt Typhoon |
+| CTR vendor report | CTI vendor report |
+| global medium dual time | global median dwell time |
+| apartment campaigns | APT campaigns |
 
 ### Danger minimal pairs — a mishear flips a claim, always verify-list these
 
@@ -145,6 +152,9 @@ here** rather than leaving the knowledge in chat.
 - **AND vs OR vs and/or** — join semantics in the graph.
 - **NLP vs LLM** — distinct method families with distinct rulings.
 - **weight vs wait**, **flows vs floors/flaws**, **dwell vs duel/do well**.
+- **IT vs OT** — one phoneme apart and the claim flips (footholds sit in IT
+  environments; OT is the target). Caught 2026-09-02 ("O T environment" for
+  the advisory's "victim IT environments") — always verify-list.
 - Project names: GSPN / Petri / GAP / GASP / OGASP / MTDSim / HARM /
   Engenuity / CTID; people: Jin, Hong, Alshamrani, Rodríguez, Rahman,
   Büchel, Brown, Zhang, Ho, Tay.

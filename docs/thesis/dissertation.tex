@@ -691,10 +691,23 @@ claim planted in one sentence.]}
 \section{Survey of APT attackers}
 \label{sec:apt-survey}
 
-% 1 unit. Review Sec. III-C, tightened. Flag: names ATT&CK and Attack
-% Flow one unit before 3.1.2 teaches them (the review's order was
-% A -> C); naming-not-teaching, or move the last paragraph to the end of
-% 3.1.2 --- Marc's call.
+% [3.1 INTERSTITIAL --- assembled 2026-09-02 under the ratified dissolve
+% of 3.1.1's third paragraph: its S1 and S5, verbatim, session-moved
+% under the connective-prose greenlight. Ratify-on-read; NOT yet fitted
+% --- Marc's later pass welds it.]
+APT campaigns are well-documented in the CTI record.
+% [3b] "this makes" below dangled off the dissolved paragraph's S4
+% ("because well-documented and recurrent ..."), which now opens 3.1.3
+% --- re-anchor or recast, yours.
+Unlike the heterogeneity of commodity attackers, this makes the APT an
+appropriate attacker to model when evaluating defences whose value
+scales with multi-step commitment.
+
+% 1 unit. Review Sec. III-C, tightened. [Flag resolved 2026-09-02, Marc's
+% ruling: the third paragraph is DISSOLVED --- S1+S5 up to the 3.1
+% interstitial, S2's salvage clause and S3 into 3.1.2, S4 to open 3.1.3,
+% the duplicated halves of S2/S3 cut. Subsection shape is now
+% definition -> lifecycle -> G5 current reporting.]
 \subsection{Advanced persistent threats}
 \label{subsec:apt}
 
@@ -730,65 +743,65 @@ the attacker's objective (data theft, disruption of mission-critical
 components, or positioning for future operations, the last of which may
 forgo exfiltration entirely) \citep{alshamrani2019}.
 
-\medskip
-\noindent\emph{[GAP G5 --- the latest slot: current campaign reporting
-as live evidence of long dwell and objective-driven pacing (M-Trends
-2026: global median dwell 14 days, espionage 122 days --- verified in
-breach\_reports\_macro\_timing.md); Volt Typhoon cited to its advisory
-\citep{cisaaa24038a}: footholds in some victim IT environments held at
-least five years, NTDS.dit extracted from three domain controllers
-over a four-year period, pre-positioning for OT disruption ``not
-consistent with traditional cyber espionage'' --- all quotes
-fetch-verified 2026-09-02 in extractions/cisaaa24038a.md (Concepts
-2--4).]}
-% [G5 dictation scaffold, 2026-09-02 --- point order for Marc's unit.
-% Grounding: extractions/breach_reports_macro_timing.md +
-% extractions/cisaaa24038a.md Concepts 2-4. Budget: the subsection is 1
-% unit and already carries three paragraphs; aim ~100 w, pass 5
-% reconciles.]
-% 1. Pivot (one sentence, Marc's): the profile above is a present-tense
-%    description, not history --- current reporting is the "latest" leg
-%    of the selection rule.
-% 2. Statistical frame: M-Trends 2026 --- global median dwell 14 days;
-%    espionage-class intrusions 122 days \citep{mtrends2026}. Pacing
-%    diverges by objective (eCrime races, espionage persists). Say
-%    "espionage-class": the 122 d cohort is espionage + DPRK IT worker.
-% 3. Exemplar dwell: Volt Typhoon --- footholds in some victim IT
-%    environments "at least five years" \citep{cisaaa24038a}; optional
-%    subordinate clause: LOTL + valid accounts as the mechanism of
-%    long-term undiscovered persistence (grounds para 1's low-and-slow
-%    trades-speed-for-evasion clause).
-% 4. Objective-driven pacing: NTDS.dit extracted from three domain
-%    controllers over a four-year period; largely silent after
-%    credential dumping, discovery without bulk exfiltration ---
-%    persistence maintained and re-validated rather than cashed in.
-% 5. The echo (the closing move): the agencies assess pre-positioning
-%    for OT disruption, "not consistent with traditional cyber
-%    espionage" --- the third NIST objective class (positioning for
-%    future operations, forgoing exfiltration), taught as a definitional
-%    clause two paragraphs up, observed live in current reporting.
-% Guardrails: cite the advisory for what a documented campaign looks
-% like and on what timescale, never as an analytic claim about MTD
-% (extraction relevance note); no MTD mention here --- that move is
-% ch1's (notes/ch1_introduction/mtd_absent_from_volt_typhoon_response.md);
-% do not imply the campaign is modelled (the hand-curated flow is
-% outside the corpus, gap_schema.md Decision 6).
-\medskip
-
-APT campaigns are well-documented in the CTI record. MITRE ATT\&CK
-catalogues attributed operations, linking named groups to their
-campaigns and software families at technique resolution
-\citep{alsada2024}, and groups such as APT29, Lazarus Group, and Volt
-Typhoon each carry dozens of observed techniques across multiple
-operations. The Attack Flow project \citep{ctid2025attackflow} curates
-these incidents into structured records, and across them a group's
-toolchains and sequencing recur from one operation to the next: the
-consistency analysts rely on for attribution. Because APT behaviour is
-both well-documented and recurrent, it can be reconstructed into a
-reusable attack profile rather than replayed as a single incident.
-Unlike the heterogeneity of commodity attackers, this makes the APT an
-appropriate attacker to model when evaluating defences whose value
-scales with multi-step commitment.
+% [G5 DRAFT, dictated by Marc 2026-09-02; repaired (pass 2+3a) and the
+% sentences ARRANGED into the scaffold's order on Marc's ask --- every
+% sentence is his dictation, no session prose. 3b markers + the verify
+% watchlist are inline below; 3b walk is Marc's, then scrutinise-draft
+% runs pass 4. ~115 w against a 1-unit ledger already carrying two
+% paragraphs --- pass 5 reconciles. Guardrails: the advisory is cited
+% for what a documented campaign looks like and on what timescale,
+% never as an MTD claim; no MTD mention here (that move is ch1's,
+% notes/ch1_introduction/mtd_absent_from_volt_typhoon_response.md); do
+% not imply the campaign is modelled (flow outside the corpus).]
+APT attackers are well documented and they are still being documented
+today.
+% [3b] "these profiles" --- profiles are not introduced until 3.1.3;
+% which noun: "these reports"? "the record"? Yours.
+These profiles are capturing present-tense descriptions of APT
+attackers. For example, this CTI vendor report reports that APT attacks
+have a global median dwell time of 14 days and espionage-class
+intrusions 122 days \citep{mtrends2026}.
+% [VERIFY watchlist] M-Trends' 14 d is the global median across ALL
+% intrusions, not APT attacks specifically; the 122 d espionage-class
+% figure is the APT-relevant one (breach_reports_macro_timing.md).
+% Scope decision yours. "This CTI vendor report" also reads as a spoken
+% stage direction --- name the report, or let the citation carry it.
+The pacing depends on the objectives. The example that we bring up in
+Chapter~1, Volt Typhoon, may establish footholds in victim IT
+environments for at least five years using capability and
+infrastructure \citep{cisaaa24038a}: living off the land and valid
+accounts, the low-and-slow is really the law of the land here.
+% [VERIFY watchlist] dictated "OT environment" repaired to "IT
+% environments" --- the advisory's words are "within some victim IT
+% environments" (OT is the target; IT is where the footholds sit).
+% [3b] "may establish" --- the advisory reports observed fact ("have
+% recently observed indications of ... at least five years"): observed,
+% or hedged? Yours.
+% [3b] seam --- the next sentence assembles the dictated fragment "I
+% know the fact that NTDS found that over a four year"; the advisory's
+% fuller fact ("from three domain controllers") was scaffolded but not
+% spoken --- add it or not, yours.
+NTDS.dit was dumped over a four-year period; APT attackers were very
+silent after credential dumping and would perform discovery without
+bulk exfiltration, persistence maintained and revalidated.
+% [VERIFY watchlist] subject scope: the silence / discovery /
+% re-validation facts are the advisory's observations of Volt Typhoon
+% specifically; the sentence generalises to "APT attackers". Volt
+% Typhoon, or the class? Yours.
+That is pre-positioning as an objective, for possible future OT
+disruption; the agencies assess pre-positioning for OT disruption.
+% [3b] the two halves above carry the same point in your two dictated
+% forms --- keep one.
+This is not consistent with traditional cyber espionage, where there is
+some sort of impact involved over a shorter time frame.
+% [3b] "impact ... over a shorter time frame" as the descriptor of
+% espionage --- the advisory's contrast class is "traditional cyber
+% espionage or intelligence gathering", i.e. collection/exfiltration,
+% not impact. Exfiltration over a shorter time frame? Yours.
+This is NIST's third objective class.
+% [3b] closing sentence can carry \citep{nist2011sp80039} (the triad is
+% cited two paragraphs up) --- cite again here or let the echo stand
+% bare? Yours.
 
 % 1 unit. Review Sec. III-A whole + Sec. III-B para 2 (Sadlek; pyramid
 % cut). Attack Flow is a component of ATT&CK here, as in the review's
@@ -813,7 +826,14 @@ whose macro executes a PowerShell payload on open.
 Beyond the matrix itself, ATT\&CK catalogues named attacker groups
 (G0016 for APT29), software (S0154 for Cobalt Strike), and campaigns
 (C0024 for the SolarWinds Compromise), each group characterised by the
-techniques observed across its operations \citep{alsada2024}. These
+techniques observed across its operations \citep{alsada2024}.
+% [moved 2026-09-02, ratified dissolve of 3.1.1 para 3: S2's salvage
+% clause, verbatim minus its leading "and"; the duplicated first half
+% (ATT&CK catalogues attributed operations, alsada2024) is cut. NOT yet
+% fitted --- Marc's later pass.]
+Groups such as APT29, Lazarus Group, and Volt Typhoon each carry dozens
+of observed techniques across multiple operations.
+These
 catalogues are serialised in Structured Threat Information Expression
 (STIX) 2.1, the standard machine-readable interchange format for CTI;
 among public STIX exports, the Enterprise bundle preserves the richest
@@ -829,7 +849,17 @@ TTPs as ``the most mature indicators used for the security defense''
 categorically distinct from disposable atomic indicators: the validity
 of an IP address decays within a day \citep{sadlek2022}, whereas
 behavioural patterns persist as long as the attacker's operational
-habits do. That durability is the point: behaviour at the
+habits do.
+% [moved 2026-09-02, ratified dissolve of 3.1.1 para 3: S3 placed
+% beside the durability argument (toolchains recur ~ behavioural
+% patterns persist). Its first half (Attack Flow curates) duplicates
+% the teaching in the next paragraph --- trim in Marc's pass. NOT yet
+% fitted.]
+The Attack Flow project \citep{ctid2025attackflow} curates
+these incidents into structured records, and across them a group's
+toolchains and sequencing recur from one operation to the next: the
+consistency analysts rely on for attribution.
+That durability is the point: behaviour at the
 technique-and-tactic level is stable enough to model an attacker
 against.
 
@@ -890,6 +920,14 @@ coverage cost.
 % section); closer from notes/ch3_lit_review/tactic_duration_precedent_survey.md.
 \subsection{Attack profiling}
 \label{subsec:profiling}
+
+% [moved 2026-09-02, ratified dissolve of 3.1.1 para 3: S4 is this
+% subsection's thesis sentence per the port plan row. Left as its own
+% lead paragraph, NOT yet welded to the opening below --- Marc's later
+% pass.]
+Because APT behaviour is
+both well-documented and recurrent, it can be reconstructed into a
+reusable attack profile rather than replayed as a single incident.
 
 Attack profiling captures attacker behaviour as structured
 representations: connecting individual tactics, techniques, and
