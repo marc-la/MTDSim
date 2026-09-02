@@ -41,6 +41,10 @@
 \usepackage{pdflscape}         % rotated pages for the wide appendix
                                % attack graphs (app:full-graph)
 \newcommand{\tactic}[1]{\texttt{#1}}    % tactic place-names in monospace
+\newcommand{\attackid}[1]{\texttt{#1}}  % ATT&CK identifiers (TA/T/G/S/C
+                                        % codes) in monospace --- Marc's
+                                        % ruling 2026-09-02; body prose and
+                                        % captions, not the generated figures
 
 
 % --- front-matter metadata -------------------------------------------
@@ -897,8 +901,9 @@ become the \emph{lingua franca} for attacker behaviour
 % decomposition -> Enterprise richest. The earlier [GAP] (name the
 % matrix) is filled by the merged contents sentence below.]
 The knowledge base holds the attack matrix alongside catalogues of
-named attacker groups (G0016 for APT29), software (S0154 for Cobalt
-Strike), and campaigns (C0024 for the SolarWinds Compromise), each
+named attacker groups (\attackid{G1017} for Volt Typhoon), software
+(\attackid{S0002} for Mimikatz, in Volt Typhoon's toolkit), and
+campaigns (\attackid{C0035} for its KV Botnet Activity), each
 group characterised by the techniques observed across its operations
 \citep{alsada2024}.
 % [3b --- merge joint, flagged: "The knowledge base holds the attack
@@ -906,6 +911,16 @@ group characterised by the techniques observed across its operations
 % ATT&CK catalogues" (your ruling: the matrix must be named before
 % anything is "beyond" it); the joint words are session-chosen ---
 % yours to keep or re-noun.]
+% [3b --- examples rethreaded through Volt Typhoon (your 2026-09-02
+% ruling: group / its software / its campaign, the recurring
+% illustration): G0016 APT29 -> G1017 Volt Typhoon; S0154 Cobalt
+% Strike -> S0002 Mimikatz (in the bundle's G1017 uses-list; picked
+% for reader recognisability over the LOTL system tools also listed);
+% C0024 SolarWinds Compromise -> C0035 KV Botnet Activity (one of two
+% campaigns the bundle attributes to G1017; the other is C0039 Versa
+% Director Zero Day Exploitation). All three verified against the
+% pinned v19.1 bundle this session. Connectives "in Volt Typhoon's
+% toolkit" / "for its" are session-chosen --- yours.]
 The attack matrix decomposes into Enterprise, ICS, and Mobile; among
 public exports, the Enterprise bundle preserves the richest
 campaign-level structure \citep{ferraz2026}.
@@ -925,9 +940,10 @@ attacker does to achieve a goal; a technique refers to \emph{how} that
 tactic is realised; a sub-technique refines a technique into a specific
 variant; a procedure is a particular instance of a technique, capturing
 the steps by which it has been implemented \citep{rodriguez2024}. The
-Initial Access tactic (TA0001), for example, may be realised through
-Valid Accounts (T1078), via the Domain Accounts sub-technique
-(T1078.002), with a procedure recording Volt Typhoon's use of
+Initial Access tactic (\attackid{TA0001}), for example, may be realised
+through Valid Accounts (\attackid{T1078}), via the Domain Accounts
+sub-technique (\attackid{T1078.002}), with a procedure recording Volt
+Typhoon's use of
 compromised domain accounts to authenticate to devices on compromised
 networks (Figure~\ref{fig:attack-matrix}).
 % [repair 2026-09-02, flagged: the figure pointer folded in as a
@@ -1141,8 +1157,8 @@ linear kill chain or flat intrusion-set membership cannot express:
 Figure~\ref{fig:attack-flow-volt-typhoon} reconstructs the Volt Typhoon
 critical-infrastructure campaign on the model, where an OR operator
 joins two alternative credential sources, Exploitation for Privilege
-Escalation (T1068) and Unsecured Credentials (T1552), into Valid
-Accounts (T1078). CTID maintains a corpus of such flows reconstructed by
+Escalation (\attackid{T1068}) and Unsecured Credentials
+(\attackid{T1552}), into Valid Accounts (\attackid{T1078}). CTID maintains a corpus of such flows reconstructed by
 analysts from publicly reported incidents
 \citep{ctid2025attackflow}: reliable structured behaviour, bought at a
 coverage cost.
@@ -1172,8 +1188,9 @@ coverage cost.
   with its identifier; arrows are \emph{effect} edges carrying precondition
   semantics (a downstream action cannot execute until the upstream one
   completes). The accented circle is the OR operator: either credential
-  source --- Exploitation for Privilege Escalation (T1068) or Unsecured
-  Credentials (T1552) --- satisfies the join into Valid Accounts (T1078). The
+  source --- Exploitation for Privilege Escalation (\attackid{T1068}) or
+  Unsecured Credentials (\attackid{T1552}) --- satisfies the join into
+  Valid Accounts (\attackid{T1078}). The
   two pale boxes are conditions, carrying Attack Flow's True/False branch
   tabs: the exploited entry point, and the campaign's terminal state, which
   records its restraint --- pre-positioned for operational-technology
@@ -1186,7 +1203,7 @@ coverage cost.
 % ------------------------------------------------------ 3.2 evaluate --
 % Feeds evaluate: the instruments are mature, and every one of them is
 % scored over an attacker. 3 units.
-\section{How MTD is evaluated}
+\section{MTD Evaluation}
 \label{sec:mtd-evaluation-survey}
 
 % Strand opener (unnumbered): the anatomy sentence, moved out of the
