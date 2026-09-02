@@ -1,7 +1,7 @@
 ---
-status: open — design; becomes the experimental structure of §4.3 and the pre-registration skeleton for the final campaign once Marc rules the open items in §8
+status: open — design; becomes the experimental structure of §4.3 and the pre-registration skeleton for the final campaign once Marc rules the open items in §8. §8f (2026-08-31) restates the leaf table for the restored substrate — the observed H2 anchor is unreproduced there and the mechanism pool has changed — and files the exploit-learning pool line under C
 created: 2026-08-21
-updated: 2026-08-21
+updated: 2026-08-31
 topic: "The hypothesis tree — the RQ and its evaluation sub-question decomposed, hypothesis-first, into an AND/OR-gated claim tree whose leaf nodes are the experiments. Root: MTD disrupts the four CTI-grounded attack profiles (Marc's headline) AND the answer is attacker-dependent (the burden's divergence half). Typed nodes (scope ruling / gated claim / characterisation obligation), typed leaves (superiority / equivalence / characterisation), per-leaf epistemic status (observed / pre-registered / unrun), fixed-sequence α-spending, and the leaf→experiment mapping onto E3–E6. Inverts the parameter-sweep-first framing: every run exists as the test of a named sub-hypothesis, and the sweeps are demoted to validity leaves."
 ---
 
@@ -69,7 +69,7 @@ disrupt APT attackers"):
 | S2 | "Disrupt" is operationalised as four channels (§2). The success-rate channel is excluded at the operating tempo by the degenerate-region rule. | [`operating_point_discrimination.md`](../../../notes/ch4_methods/operating_point_discrimination.md) |
 | S3 | All claims are within-substrate; no cross-paper magnitude comparison. | [`../../metrics_semantics.md`](../../metrics_semantics.md) |
 | S4 | Emulation/testbed validation is the successor programme, not a branch. | [`../../../notes/ch7_future_work/emulation_rung.md`](../../../notes/ch7_future_work/emulation_rung.md) |
-| S5 | Every unrun leaf executes on the post-gate configuration (`v4_failure_only`, landed sink, D-33 ruled, corrected event counts). | predesign §7 |
+| S5 | Every unrun leaf executes on the post-gate configuration (`v4_failure_only`, landed sink, D-33 ruled, corrected event counts) **on the restored substrate** (`d127f443`, 2026-08-27: D-18 selective OS redraw, D-19 OS-gated exploit success, seven-mechanism pool) **with the fresh-host contract** (the reported movement configuration since 2026-08-30). Nothing observed before 2026-08-27 is a measurement of this configuration (§8f). | predesign §7; [`fsm_token_hold_findings.md`](fsm_token_hold_findings.md) H1, H0 |
 | S6 | Cross-arm comparisons are event-wise or defender-side only; unpaired tests only (D-29). | [`measurement_suite.md`](measurement_suite.md) §(d), predesign §4d |
 
 ## 2. The disruption channels — the operationalisation layer
@@ -99,7 +99,8 @@ R  "How does MTD perform against the APT attack profiles?"   [AND: H1 ∧ H2; V 
 │
 ├── H1  MTD disrupts the four profiles                        [AND over the four profiles]
 │   ├── H1.P1  objective_exfiltration is disrupted            [OR over channels]
-│   │   ├── L-P1-deny     D-deny    vs none @ 200 s           [OR over 7 MTD conditions, Holm-corrected]
+│   │   ├── L-P1-deny     D-deny    vs none @ 200 s           [OR over the MTD conditions, Holm-corrected —
+│   │   │                                                      seven singles + three schemes on the restored pool; §8f]
 │   │   ├── L-P1-delay    D-delay   vs none @ 200 s
 │   │   ├── L-P1-contain  D-contain vs none @ 200 s
 │   │   └── L-P1-tax      D-tax     vs none @ 200 s
@@ -109,7 +110,8 @@ R  "How does MTD perform against the APT attack profiles?"   [AND: H1 ∧ H2; V 
 │
 ├── H2  the answer is attacker-dependent                      [graded, not binary]
 │   ├── L-H2-rank   the defence ordering differs between arms (permutation test on
-│   │               rank correlation; observed ρ = −0.893 @ 10 seeds)     [ordering grade]
+│   │               rank correlation; observed ρ = −0.893 @ 10 seeds PRE-RESTORATION —
+│   │               UNREPRODUCED on the restored substrate, ρ = −0.071 @ 50 seeds; §8f) [ordering grade]
 │   ├── L-H2-rec    the top-ranked mechanism differs                      [recommendation grade]
 │   └── L-H2-prior  each lineage headline (Zhang / Brown / Ho), re-run under
 │                   both arms, holds or falls per arm                     [characterisation, graded]
@@ -131,8 +133,11 @@ R  "How does MTD perform against the APT attack profiles?"   [AND: H1 ∧ H2; V 
     ├── C-family   per-mechanism resolution as the 2 × 2 family contrast
     │              (position-destroying vs diversity; within-family ranks reported as ties)
     ├── C-agg      the aggregate envelope beside the four objective profiles
-    └── C-supp     supplementary channels (spacing/stealth contrast, learner-belief
-                   destruction, disengagement frontier) — reported where they stand
+    ├── C-supp     supplementary channels (spacing/stealth contrast, learner-belief
+    │              destruction, disengagement frontier) — reported where they stand
+    └── C-pool     diversity's precondition probed: exploit learning under a constrained
+                   vulnerability pool — the negative control on §8d channel 3
+                   [OBSERVED pre-restoration, null; revisit condition in §8f]
 ```
 
 **Gate semantics.** An AND node holds when every child holds; an OR node
@@ -155,14 +160,23 @@ pre-registration row it becomes:
 > unrun) **· failure disposition · experiment cell.**
 
 Current status census, so hindsight is not laundered into prediction: the
-sixteen H1 leaves and L-H2-rank/rec are **observed at ten seeds**
+sixteen H1 leaves and L-H2-rank/rec were **observed at ten seeds**
 (experiment 2 and the probes over its recorded runs) — their re-take at
 powered seeds under S5 is what gets pre-registered, and they are reported
 as anchor-motivated, per the grading note's anchor/frontier partition.
-V-stab-w and V-stab-d are **observed and held** (the two instalments).
-C-cost is **observed** (the frontier). L-H2-prior, V-stab-r, V-map and
-V-gen are **unrun**, and they are the only leaves for which a genuine
-prediction can be claimed.
+**Amended 2026-08-31 (§8f):** every one of those observations predates the
+substrate restoration. The H1 leaves are expected to survive it (the movement
+attacker's severance ≫ diversity pattern is re-measured on the restored
+substrate at 50 seeds and unchanged); L-H2-rank and L-H2-rec are **not** —
+the inherited attacker's ordering moved, and the inversion is absent at 50
+seeds. Their status is therefore *observed pre-restoration, unreproduced*:
+they are anchor-motivated for the re-take, but the re-take is now a genuine
+test, not a confirmation. V-stab-w and V-stab-d are **observed and held**
+(the two instalments, pre-restoration). C-cost is **observed** (the
+frontier, pre-restoration). C-pool is **observed, null** (§8f). L-H2-prior,
+V-stab-r, V-map and V-gen are **unrun**, and with L-H2-rank/rec on the
+restored substrate they are the leaves for which a genuine prediction can
+be claimed.
 
 ## 5. The α-spending discipline
 
@@ -244,8 +258,10 @@ leaves rather than a parameter excursion:
 | **E4** — generality frontier | V-gen | scale × density grid, pre-registered after E3 freezes configuration; wall-cost curve first |
 | **E5** — prior-model comparison | L-H2-prior | three lineage configurations × both arms |
 | **E6** — mapping sensitivity | V-map | candidate mappings × the H1/H2 core cells |
+| **E2-R** — headline re-establishment on the restored substrate | L-H2-rank, L-H2-rec (re-observed, not carried); the sixteen H1 leaves re-read at 50 seeds | the four-toggle decomposition of `d127f443` on the inherited arm, then experiment 2's harness on HEAD @ 50 seeds, both intervals — [`../../../handoffs/2026-08-30_headline_on_restored_substrate.md`](../../../handoffs/2026-08-30_headline_on_restored_substrate.md); precedes E3 |
+| **E7** — under-MTD matrix on the layer-1 target (awaits Marc's ruling) | the §8e target-denominated D-deny / D-delay leaves, on `aggregate` only; H2 re-established on target denial; the V target-placement leaf | four single mechanisms × both arms × 100 seeds @ 200 s — [`targeted_attacker_findings.md`](targeted_attacker_findings.md) §4.3 |
 | (V6 sweeps, standing) | V-stab-r; V-stab-w/d already held | per V6 selectivity |
-| (no experiment) | C-supp | reported from existing records |
+| (no experiment) | C-supp; C-pool | reported from existing records |
 
 The §4.3 skeleton's two families are preserved, reorganised: the
 prior-model family is the L-H2-prior branch; the fresh-evaluation family is
@@ -518,6 +534,145 @@ prior-model comparison** (`subsec:prior-model-results`), because the lineage
 (Zhang/Ho/Brown) ran the mass objective and it is the comparability bridge. The
 two objectives serve the two result families — they are not in competition.
 
+## 8f. The restored substrate, the Gate 0 result, and the pool line — what moves in the leaf table (2026-08-31)
+
+Written after a scan of every record and handoff that post-dates this tree,
+prompted by Marc's litmus question: is the exploit-learning-under-a-constrained-
+pool line inside this structure, or a tangent to it? The scan found that the
+tree's *logic* holds — every named experiment in the record maps to H1 / H2 /
+V / C or to Limb A — but its *leaf table* is stale in four places, and the pool
+line is the one closed experiment the C limb never listed. Each item below
+names what changed, the record that measured it, and the edit taken above.
+
+### 1. The observed H2 anchor does not reproduce on the restored substrate
+
+The token-hold record ([`fsm_token_hold_findings.md`](fsm_token_hold_findings.md)
+H0) re-ran experiment 2's E5 statistic at 50 seeds as a pre-registered kill
+criterion and it fired: **ρ = −0.071** on the unfixed movement attacker against
+the inherited one, where the tree quotes −0.893 (10 seeds, 2026-07-29). The
+movement attacker's ordering is unchanged (IP Shuffle 93 %, Complete Topology
+91 %, Service 29 %, OS 8 %); **the inherited attacker's moved** — OS Diversity's
+suppression of it fell 89 % → 58 %, IP Shuffle's rose 22 % → 68 %, Complete
+Topology's 18 % → 56 %, so its ordering is now Service Diversity ≫ a 55–68 %
+plateau, and the two attackers no longer disagree about the family that
+matters. Every artefact the −0.893 rests on predates `d127f443` (2026-08-27),
+and no record re-measured the inherited attacker after it until this one did,
+incidentally.
+
+*Edit:* L-H2-rank re-labelled in §3 as observed pre-restoration, unreproduced;
+§4's census amended; **E2-R** added to §7 ahead of E3. *Disposition, from §6,
+applied early:* "the inversion's disappearance under the post-gate
+configuration would itself be a reportable reversal" — it has, provisionally,
+and until E2-R runs, no prose may state the inversion as a fact of the current
+substrate. The handoff's step 3 already names this record for bannering; this
+section is that banner. *Prior for E2-R, stated for falsification:* D-19 is the
+cause (the OS gate refuses exploits the inherited attacker used to land, so a
+position change now costs it more and a selective OS redraw costs it less);
+if the four-toggle table names D-19, H2 may return as a *family* contrast at
+a lower ρ, and its grade re-scores under §5.
+
+### 2. The MTD condition set is not experiment 2's
+
+`d127f443` restored Host Topology Shuffle, User Shuffle and Port Shuffle to the
+pool and withdrew DAP (D-17 c). The four `single` conditions keep their
+meaning; the `random` / `simultaneous` / `alternative` schemes now draw from
+seven mechanisms where experiment 2's drew from four — they are different
+conditions, not re-measurements, and the multi-scheme columns in the
+token-hold record (66.6 / 65.2 / 65.8 % on the inherited arm) are the first
+observations of them. *Edit:* the H1 leaf annotation in §3 now reads "seven
+singles + three schemes on the restored pool"; E3's matrix inherits that set,
+and the three restored singles enter the Holm family with **no prior** — they
+have never been run against the movement attacker.
+
+### 3. S5 gains two terms
+
+The post-gate configuration now includes the restored substrate and the
+**fresh-host contract** (Marc's loop-fix ruling: breadth 5.13 → 7.92 at no
+plurality cost, defence ordering unchanged, the 45 % re-compromise churn gone —
+[`fsm_token_hold_findings.md`](fsm_token_hold_findings.md) H1). *Edit:* S5
+restated in §1. Consequence for §8b: the "profiled attacker spreads to ≈ 5.9
+hosts unopposed" figure there is the pre-contract number; the reported
+configuration spreads to ≈ 7.9, which does not change §8b's argument (still
+nowhere near a 40-host threshold) but changes every breadth denominator the
+re-take will report.
+
+### 4. The Gate 0 result forces §8 ruling 5
+
+[`targeted_attacker_findings.md`](targeted_attacker_findings.md) §4 (8 400
+runs, 2026-08-30): the located objective is non-degenerate **at layer 1 on
+`aggregate` only** (38.3 % [33.1, 43.1] against the 20 % bar), marginal at
+layer 2 (21.1 %, CI straddling — not ruled as holding), failed at layer 3 and
+on the database set (9.4 %, 9.7 %). **The four objective-conditioned profiles
+fail the Gate at every depth** (`objective_exfiltration` 12.6 % at layer 1,
+the impact profiles ≤ 6.3 %, `objective_none_c2` never). Directedness won at
+every target (footprint at reach 5.8 vs 13.1 at layer 1, CIs disjoint).
+
+This is §8e's precondition holding in a narrower form than §8e assumed. The
+consequence for the tree is exact: the target-denominated D-deny / D-delay
+leaves of §8e exist for **one profile**, so a targeted headline is a headline
+about the aggregate envelope, and §8 ruling 5 (four profiles or five) is no
+longer optional — if the targeted objective is used at all, `aggregate` must
+be a *branch* of H1 (H1.P0), not the characterisation C-agg, or the targeted
+leaves have nowhere to hang. The breadth-denominated H1 over the four
+objective profiles is unaffected and remains the backbone (§8e's "keep both").
+*Edit:* **E7** (the under-MTD matrix: four single mechanisms × both arms × 100
+seeds, layer-1 target) added to §7 as the pre-registered next step, gated on
+Marc's ruling; the §8e sentence "H2 is re-established on it, never carried"
+stands and is now doubly required by item 1.
+
+### 5. The exploit-learning pool line — inside the structure, closed, and never listed
+
+The line Marc named (vulnerability memory in the attacker state, so that
+constrained OS/service pools raise re-encounters and expose diversity's
+precondition) is **not a tangent to this tree; it is a probe of §8d channel 3**
+— and it has already run. It was pre-registered on 2026-08-11
+([`exploit_learning_prereg.md`](exploit_learning_prereg.md), ratified, the
+headline stated as diversity's pool-mediation rather than attacker advantage)
+and returned a measured negative the same day
+([`exploit_learning_findings.md`](exploit_learning_findings.md)): the mechanism
+operates, but diversity's protection is **pool-invariant and λ-invariant**
+(null branches B and C). The yield ledger
+([`exploit_learning_yield_findings.md`](exploit_learning_yield_findings.md))
+localised why: the learner's bought successes (up to ~30 per run, rising as
+the pool shrinks) land on hosts being freshly taken anyway, on ~6–8 hosts of
+which ~6 compromise with or without the boost — breadth is gated by host
+compromise, not exploit-success count. This is the same fact §8d states from
+the defence side: application-layer MTD reaches the movement attacker weakly
+because the attacker is position-driven, not exploit-driven.
+
+Its place is therefore under C, as the negative control on channel 3, beside
+the penalty ablation that isolates channels 1 and 2. *Edit:* **C-pool** added
+to §3 and §7; it spends no α and gates nothing, per §2's exclusion of the
+learning arm. As Limb A evidence it is axis 7's measured negative, which the
+criterion already carries.
+
+**The one reopening condition, not previously recorded anywhere.** Every
+exploit-learning number predates `d127f443`, and that commit changed exactly
+the channel this line probes: D-19 reinstated the **OS-gated exploit-success
+channel** (OS-dependent vulnerabilities now fail on a mismatched host) and D-18
+made OS Diversity a selective redraw. The 2026-08-11 null rests on a
+*perfect-exploit ceiling* — a roll that always succeeds adds ≈ 0 hosts, so no
+exploit-phase capability has headroom. If the OS gate now refuses a material
+fraction of the movement attacker's exploits, that ceiling has dropped and the
+learner has headroom it did not have; and the original sweep moved only
+`services_per_os`, never the OS pool, which D-19 has made a live lever. So the
+line *can* be revived honestly — as a **re-test on the restored substrate with
+the OS pool as a second lever**, filed under C-pool / Limb A axis 7, its
+prediction the prereg's Dimension 3 restated. It cannot be revived as an H1 or
+H2 generator, and it sits below E2-R and E7 in priority: the absorption
+mechanism (breadth gated by host compromise) is structural, and the
+OS-gate's effect on the movement attacker's exploit-success rate is unmeasured
+— measuring that rate on one no-MTD cell is the cheap pre-check that decides
+whether the re-test is worth its 370 runs.
+
+### What this section does not change
+
+The limb structure (§8c), the channel operationalisation (§2), the
+α-discipline (§5) and the failure dispositions (§6) are untouched; every edit
+above is a status or set-membership change in the leaf table, which is what
+§5's "mechanical bookkeeping" rule exists to absorb. The §8 rulings stand as
+posed, with ruling 5 now forced by item 4.
+
 ## 9. Evidence and anchors
 
 - The commissioning chain and the statistical instrument this tree consumes:
@@ -530,6 +685,14 @@ two objectives serve the two result families — they are not in competition.
   [`weight_sensitivity_study.md`](weight_sensitivity_study.md),
   [`rate_feasibility_study.md`](rate_feasibility_study.md).
 - The measures every leaf names: [`measurement_suite.md`](measurement_suite.md).
+- The §8f amendments: [`fsm_token_hold_findings.md`](fsm_token_hold_findings.md)
+  (H0 the unreproduced inversion, H1 the fresh-host contract),
+  [`../../../handoffs/2026-08-30_headline_on_restored_substrate.md`](../../../handoffs/2026-08-30_headline_on_restored_substrate.md)
+  (E2-R), [`targeted_attacker_findings.md`](targeted_attacker_findings.md) §4
+  (Gate 0, E7), [`exploit_learning_prereg.md`](exploit_learning_prereg.md) /
+  [`exploit_learning_findings.md`](exploit_learning_findings.md) /
+  [`exploit_learning_yield_findings.md`](exploit_learning_yield_findings.md)
+  (C-pool), `intent_conformance_audit.md` D-18 / D-19 (the reopening condition).
 - The dissertation slots this structure feeds: `sec:experimental-setup`
   (`subsec:burden`, `subsec:metrics`, `subsec:families`) and the results
   chapter's V6 preamble ([`../../../thesis/dissertation.tex`](../../../thesis/dissertation.tex)).

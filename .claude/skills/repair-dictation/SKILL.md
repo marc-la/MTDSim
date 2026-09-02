@@ -129,6 +129,14 @@ here** rather than leaving the knowledge in chat.
 | CSCBSS values | CVSS values |
 | export … exceed | exploit … succeed |
 | laser depths | layers of depth |
+| throat model | threat model |
+| faces (of the FSM) | phases |
+| cyber kill trans | Cyber Kill Chain |
+| sight / site (Brown 2023) | cite (stage direction) |
+| (compromised hosts are never) provoked | revoked |
+| compromised posts | compromised hosts |
+| athen tejiang / Touche to sheng | Zhang (2023) --- citation slot |
+| empty disrupts | MTD disrupts |
 
 ### Danger minimal pairs — a mishear flips a claim, always verify-list these
 

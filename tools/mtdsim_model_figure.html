@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>fig:mtdsim-model — the three modules of MTDSim</title>
+<style>
+  :root { --ink:#111; --ink2:#444; --mute:#7a7a7a; --hair:#cfcfcf; --panel:#f4f4f4; --accent:#1f548c; --accentlight:#c8d6e8; }
+  html, body { margin:0; background:#fff; }
+  body { width: 1100px; }
+  @media print { @page { size: 16cm 11.64cm; margin:0; } body { width:16cm; } svg { width:16cm; height:11.64cm; } }
+  svg { display:block; font-family: "Latin Modern Roman", "LMRoman10", "CMU Serif", "DejaVu Serif", serif; }
+  text { fill: var(--ink); }
+  .title { font-size: 26px; font-weight: bold; }
+  .brand { font-size: 28px; font-weight: bold; }
+  .lbl { font-size: 20px; }
+  .sm { font-size: 20px; fill: var(--ink2); }
+  .tiny { font-size: 20px; fill: var(--mute); }
+  .acc { fill: var(--accent); }
+  .ital { font-style: italic; fill: var(--mute); font-size: 20px; }
+  .module { fill:#fff; stroke:#333; stroke-width:1.4; }
+  .panel { fill: var(--panel); stroke: var(--hair); stroke-width:1; }
+  .cable { stroke:#8a8a8a; stroke-width:2.2; fill:none; stroke-linecap:round; }
+  .cable.dim { stroke:#cfcfcf; }
+  .edge { stroke:#9a9a9a; stroke-width:1.3; fill:none; }
+  .wedge { fill:#e4e4e4; opacity:0.55; stroke:none; }
+  .zoomline { stroke:#b5b5b5; stroke-width:1; fill:none; }
+  .svc { fill:#fff; stroke:#333; stroke-width:1.3; }
+  .svc.t { fill:#222; }
+  .flow { stroke: var(--accent); stroke-width:3; fill:none; }
+  .flowd { stroke: var(--accent); stroke-width:2.4; fill:none; stroke-dasharray: 7 5; }
+  .perim { fill: rgba(31,84,140,0.06); stroke: var(--accent); stroke-width:1.6; stroke-dasharray: 6 5; }
+  .glow { fill: var(--accentlight); stroke: var(--accent); stroke-width:1.4; }
+  .grey { stroke:#666; stroke-width:1.6; fill:none; }
+  .icon { fill:none; stroke:#333; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+  .icon.f { fill:#333; stroke:none; }
+  .icon.a { stroke: var(--accent); }
+  .dim { opacity: 0.35; }
+  .gate { fill:#fff; stroke:#333; stroke-width:1.4; }
+  .chip { fill:#fff; stroke:#555; stroke-width:1.1; }
+  .halo { paint-order: stroke; stroke: #f4f4f4; stroke-width: 7px; stroke-linejoin: round; }
+</style>
+</head>
+<body>
+<svg id="fig" viewBox="0 0 1100 800" width="1100" height="800" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="mA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f548c"/></marker>
+  <marker id="mS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#444"/></marker>
+  <marker id="mM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#999"/></marker>
+
+  <g id="shield"><path class="icon" d="M0,-13 L11,-8 V1 C11,8 6,13 0,15 C-6,13 -11,8 -11,1 V-8 Z"/><path class="icon" d="M-4,1 L-1,4 L5,-3"/></g>
+  <g id="hacker"><path class="icon f" d="M-11,15 C-11,4 -6,-1 0,-1 C6,-1 11,4 11,15 Z"/><path class="icon f" d="M-8,-4 C-8,-13 -4,-17 0,-17 C4,-17 8,-13 8,-4 C6,-5 4,-6 0,-6 C-4,-6 -6,-5 -8,-4 Z"/><path d="M-5,-4 C-3,-2 3,-2 5,-4 C4,0 -4,0 -5,-4 Z" fill="#fff"/></g>
+  <g id="db"><ellipse class="icon" cx="0" cy="-8" rx="9" ry="3.5"/><path class="icon" d="M-9,-8 V8 C-9,10 -5,11.5 0,11.5 C5,11.5 9,10 9,8 V-8"/><path class="icon" d="M-9,0 C-9,2 -5,3.5 0,3.5 C5,3.5 9,2 9,0"/></g>
+  <g id="key"><circle class="icon" cx="-6" cy="0" r="5"/><path class="icon" d="M-1,0 H11 M7,0 V4 M10,0 V3"/></g>
+  <g id="eye"><path class="icon" d="M-12,0 C-6,-8 6,-8 12,0 C6,8 -6,8 -12,0 Z"/><circle class="icon f" cx="0" cy="0" r="3"/></g>
+  <g id="bug"><ellipse class="icon" cx="0" cy="2" rx="6" ry="8"/><path class="icon" d="M-4,-5 C-3,-9 3,-9 4,-5 M0,-6 V10 M-6,0 H-11 M6,0 H11 M-5,5 L-10,8 M5,5 L10,8 M-5,-3 L-10,-6 M5,-3 L10,-6"/></g>
+  <g id="clock"><circle class="icon" cx="0" cy="0" r="9"/><path class="icon" d="M0,-5 V0 H4"/></g>
+  <g id="dice"><rect class="icon" x="-8" y="-8" width="16" height="16" rx="2"/><circle class="icon f" cx="-3.5" cy="-3.5" r="1.6"/><circle class="icon f" cx="3.5" cy="3.5" r="1.6"/><circle class="icon f" cx="0" cy="0" r="1.6"/></g>
+  <g id="chipic"><rect class="icon" stroke="#999" x="-8" y="-8" width="16" height="16" rx="2"/><path class="icon" stroke="#999" d="M-4,-8 V-12 M0,-8 V-12 M4,-8 V-12 M-4,8 V12 M0,8 V12 M4,8 V12 M-8,-4 H-12 M-8,0 H-12 M-8,4 H-12 M8,-4 H12 M8,0 H12 M8,4 H12"/></g>
+  <g id="swap"><path class="icon" d="M-9,-3 H7 M4,-7 L8,-3 L4,1 M9,4 H-7 M-4,0 L-8,4 L-4,8"/></g>
+  <g id="user"><circle class="icon" cx="0" cy="-5" r="4.5"/><path class="icon" d="M-8,9 C-8,2 8,2 8,9"/></g>
+  <g id="pin"><path class="icon" d="M0,10 V2 M-5,2 H5 L3,-4 H-3 Z M-3,-4 V-8 H3 V-4"/></g>
+  <g id="pc"><rect class="icon" fill="#fff" x="-11" y="-9" width="22" height="15" rx="2"/><path class="icon" d="M-5,11 H5 M0,6 V11"/></g>
+  <g id="pcbig"><rect class="icon" fill="#fff" x="-16" y="-13" width="32" height="22" rx="2.5"/><path class="icon" d="M-8,16 H8 M0,9 V16"/></g>
+  <g id="gear"><path class="icon" fill="#fff" d="M0,-9 L2.5,-8.5 L3.5,-6 L6.5,-6.5 L8,-4 L6,-2 L6,2 L8,4 L6.5,6.5 L3.5,6 L2.5,8.5 L0,9 L-2.5,8.5 L-3.5,6 L-6.5,6.5 L-8,4 L-6,2 L-6,-2 L-8,-4 L-6.5,-6.5 L-3.5,-6 L-2.5,-8.5 Z"/><circle class="icon" fill="#fff" r="3"/></g>
+  <g id="geart"><path class="icon f" d="M0,-9 L2.5,-8.5 L3.5,-6 L6.5,-6.5 L8,-4 L6,-2 L6,2 L8,4 L6.5,6.5 L3.5,6 L2.5,8.5 L0,9 L-2.5,8.5 L-3.5,6 L-6.5,6.5 L-8,4 L-6,2 L-6,-2 L-8,-4 L-6.5,-6.5 L-3.5,-6 L-2.5,-8.5 Z"/><circle r="3" fill="#fff"/></g>
+  <g id="oswin"><rect class="icon" x="-9" y="-9" width="18" height="18" rx="1.5"/><path class="icon" d="M0,-9 V9 M-9,0 H9"/></g>
+  <g id="plug"><rect class="icon" x="-7" y="-2" width="14" height="10" rx="1.5"/><path class="icon" d="M-4,-2 V-8 M4,-2 V-8 M0,8 V12"/></g>
+  <g id="magnifier"><circle class="icon" r="7"/><path class="icon" d="M5,5 L11,11"/></g>
+</defs>
+
+<rect x="8" y="8" width="1084" height="784" rx="6" fill="#fff" stroke="#777" stroke-width="1.2"/>
+<text class="brand" x="24" y="38">MTDSim</text>
+
+<!-- ====================== modules ====================== -->
+<g id="attacker">
+  <rect class="module" x="24" y="56" width="300" height="720" rx="5"/>
+  <use href="#hacker" x="54" y="84"/>
+  <text class="title" x="76" y="88">Attacker</text>
+</g>
+<g id="network" transform="translate(90,0)">
+  <rect class="module" x="256" y="56" width="496" height="720" rx="5"/>
+  <g transform="translate(286,82)"><circle class="icon f" r="3" cx="-10" cy="-6"/><circle class="icon f" r="3" cx="10" cy="-6"/><circle class="icon f" r="3" cx="0" cy="8"/><path class="icon" d="M-10,-6 L10,-6 L0,8 Z"/></g>
+  <text class="title" x="308" y="88">Network</text>
+</g>
+<g id="defence" transform="translate(90,0)">
+  <rect class="module" x="776" y="56" width="200" height="720" rx="5"/>
+  <use href="#shield" x="806" y="82"/>
+  <text class="title" x="828" y="88">Defence</text>
+</g>
+
+<g id="network-content" transform="translate(90,0)">
+<!-- zoom wedges first: the filled panels mask them, so they show only in the gaps -->
+<polygon class="wedge" points="418,246 442,246 736,368 272,368"/>
+<line class="zoomline" x1="418" y1="246" x2="272" y2="368"/><line class="zoomline" x1="442" y1="246" x2="736" y2="368"/>
+<polygon class="wedge" points="570,455 588,455 736,598 272,598"/>
+<line class="zoomline" x1="570" y1="455" x2="272" y2="598"/><line class="zoomline" x1="588" y1="455" x2="736" y2="598"/>
+
+<!-- ====================== NETWORK LAYER ====================== -->
+<rect class="panel" x="272" y="108" width="464" height="230" rx="3"/>
+<text class="ital" x="282" y="126">Host layer</text>
+<text class="tiny" x="726" y="126" text-anchor="end">subnets Barabási–Albert</text>
+
+<!-- depth columns: d1 exposed (336), d2 (430), d3 (524), d4 (612), target (692) -->
+<path class="perim" d="M306,150 L456,150 L456,170 L552,176 L552,272 L456,266 L456,314 L306,314 Z"/>
+<g class="cable">
+  <line x1="336" y1="176" x2="430" y2="176"/><line x1="336" y1="176" x2="430" y2="232"/>
+  <line x1="336" y1="232" x2="430" y2="232"/><line x1="336" y1="232" x2="430" y2="288"/>
+  <line x1="336" y1="288" x2="430" y2="288"/><line x1="336" y1="288" x2="430" y2="232"/>
+  <line x1="430" y1="232" x2="524" y2="250"/><line x1="430" y1="232" x2="524" y2="196"/>
+</g>
+<g class="cable dim">
+  <line x1="430" y1="176" x2="524" y2="196"/><line x1="430" y1="288" x2="524" y2="304"/>
+  <line x1="430" y1="288" x2="524" y2="250"/>
+  <line x1="524" y1="196" x2="612" y2="214"/><line x1="524" y1="250" x2="612" y2="214"/>
+  <line x1="524" y1="250" x2="612" y2="284"/><line x1="524" y1="304" x2="612" y2="284"/>
+  <line x1="612" y1="214" x2="692" y2="250"/><line x1="612" y1="284" x2="692" y2="250"/>
+</g>
+<path class="flowd" d="M336,232 L430,232"/>
+
+<g transform="translate(336,176)"><use href="#pc"/></g>
+<g transform="translate(336,232)"><circle class="glow" r="17"/><use href="#pc"/></g>
+<g transform="translate(336,288)"><use href="#pc"/></g>
+<g transform="translate(430,176)"><use href="#pc"/></g>
+<g transform="translate(430,232)"><circle class="glow" r="17"/><use href="#pc"/></g>
+<g transform="translate(430,288)"><use href="#pc"/></g>
+<g transform="translate(524,196)"><use href="#pc"/></g>
+<g transform="translate(524,250)"><use href="#pc"/></g>
+<g class="dim"><g transform="translate(524,304)"><use href="#pc"/></g>
+<g transform="translate(612,214)"><use href="#pc"/></g><g transform="translate(612,284)"><use href="#pc"/></g></g>
+<g transform="translate(692,250)"><circle fill="#fff" stroke="#333" stroke-width="1.4" r="17"/><use href="#db"/></g>
+<text class="tiny" x="692" y="290" text-anchor="middle">target</text>
+
+<path class="grey" d="M310,162 H302 V302 H310"/>
+<use href="#pin" x="294" y="140"/>
+<text class="tiny" x="336" y="332" text-anchor="middle">exposed, fixed</text>
+<path class="grey" stroke="#aaa" marker-end="url(#mM)" d="M520,326 H640"/>
+<text class="tiny" x="508" y="331" text-anchor="end">depth</text>
+<text class="tiny acc" x="470" y="140" text-anchor="middle">visible subgraph</text>
+
+<!-- ====================== HOST LAYER ====================== -->
+<rect class="panel" x="272" y="368" width="464" height="200" rx="3"/>
+<text class="ital" x="282" y="386">Service layer</text>
+<use href="#magnifier" x="416" y="380"/>
+<text class="tiny" x="726" y="386" text-anchor="end">services, Watts–Strogatz</text>
+
+<g transform="translate(316,450)"><circle class="glow" r="27"/><use href="#pcbig"/></g>
+<!-- inside the computer: the operating system, holding its address and its users' credentials -->
+<line class="zoomline" x1="332" y1="426" x2="372" y2="404"/><line class="zoomline" x1="332" y1="474" x2="372" y2="536"/>
+<rect class="chip" x="372" y="404" width="118" height="132" rx="4" stroke="#333"/>
+<g transform="translate(408,418) scale(0.8)"><use href="#oswin"/></g><text class="tiny" x="424" y="424">OS</text>
+<rect class="chip" x="384" y="436" width="94" height="24" rx="3"/><text class="tiny" x="431" y="453" text-anchor="middle">IP</text>
+<rect class="chip" x="384" y="468" width="94" height="56" rx="3"/>
+<g transform="translate(406,496)"><use href="#user"/></g><g transform="translate(446,496)"><use href="#key"/></g>
+<text class="tiny" x="431" y="550" text-anchor="middle">users, credentials</text>
+<!-- the OS runs the services -->
+<path class="grey" marker-end="url(#mS)" d="M490,470 H544"/>
+<g transform="translate(628,470)">
+  <g class="edge">
+    <polygon points="0,-52 50,-24 50,24 0,52 -50,24 -50,-24" fill="none"/>
+    <line x1="0" y1="-52" x2="0" y2="52"/><line x1="-50" y1="-24" x2="50" y2="24"/>
+  </g>
+  <path class="flowd" d="M-50,-24 L0,-52 L50,-24"/>
+  <g transform="translate(50,-24) scale(0.85)"><use href="#geart"/></g>
+  <g transform="translate(0,-52) scale(0.85)"><use href="#gear"/></g>
+  <g transform="translate(50,24) scale(0.85)"><use href="#gear"/></g>
+  <g transform="translate(0,52) scale(0.85)"><use href="#gear"/></g>
+  <g transform="translate(-50,24) scale(0.85)"><use href="#gear"/></g>
+  <g transform="translate(-50,-24) scale(0.85)"><use href="#gear"/></g>
+  
+</g>
+
+<!-- ====================== VULNERABILITY LAYER ====================== -->
+<rect class="panel" x="272" y="598" width="464" height="164" rx="3"/>
+<text class="ital" x="282" y="616">Vulnerability layer</text>
+<use href="#magnifier" x="484" y="610"/>
+<text class="tiny" x="726" y="616" text-anchor="end">one service</text>
+
+<g transform="translate(360,690)">
+  <g transform="scale(0.85)"><use href="#gear"/></g>
+  <path class="grey" marker-end="url(#mS)" d="M10,0 H40"/>
+  <g transform="translate(64,0)"><use href="#bug"/></g>
+  <path class="flow" marker-end="url(#mA)" d="M80,0 H112"/>
+  <g transform="translate(136,0)"><use href="#bug"/></g>
+  <path class="flow" marker-end="url(#mA)" d="M152,0 H184"/>
+  <g transform="translate(208,0)"><circle r="16" fill="#c8d6e8" stroke="#1f548c" stroke-width="2" stroke-dasharray="7 5"/><use href="#bug"/></g>
+  <path class="flow" marker-end="url(#mA)" d="M228,0 H286"/>
+  <g transform="translate(316,0)"><circle class="glow" r="22"/><use href="#pc"/></g>
+  <text class="tiny" x="316" y="44" text-anchor="middle">host compromised</text>
+</g>
+<text class="tiny" x="504" y="742" text-anchor="middle">vulnerability chain</text>
+
+</g>
+
+<!-- ====================== ATTACKER panels ====================== -->
+<!-- holds: objective, visible subgraph, compromised hosts + credentials (locked: they persist) -->
+<rect class="panel" x="40" y="108" width="268" height="100" rx="3"/>
+<text class="ital" x="50" y="128">Holds</text>
+<g transform="translate(78,172)"><circle class="icon a" r="11"/><circle class="icon a" r="4"/><path class="icon a" d="M0,-15 V-8 M0,8 V15 M-15,0 H-8 M8,0 H15"/></g>
+<g transform="translate(112,172)"><use href="#db"/></g>
+<g transform="translate(150,150)"><use href="#eye"/></g>
+<g transform="translate(140,182)">
+  <g class="edge"><line x1="0" y1="0" x2="22" y2="-9"/><line x1="0" y1="0" x2="22" y2="9"/><line x1="22" y1="-9" x2="44" y2="-3" stroke-dasharray="3 3"/><line x1="22" y1="9" x2="44" y2="7" stroke-dasharray="3 3"/></g>
+  <circle class="glow" r="5"/><circle class="svc" cx="22" cy="-9" r="5"/><circle class="svc" cx="22" cy="9" r="5"/>
+  <circle cx="44" cy="-3" r="5" fill="none" stroke="#bbb" stroke-dasharray="2 2"/><circle cx="44" cy="7" r="5" fill="none" stroke="#bbb" stroke-dasharray="2 2"/>
+</g>
+<g transform="translate(222,166)"><circle class="glow" r="9"/><circle class="glow" cx="20" r="9"/></g>
+<g transform="translate(272,166)"><use href="#key"/></g>
+<g transform="translate(250,194)"><rect class="icon" x="-6" y="-3" width="12" height="9" rx="1.5"/><path class="icon" d="M-4,-3 V-6 A4,4 0 0 1 4,-6 V-3"/></g>
+
+<!-- the state machine -->
+<rect class="panel" x="40" y="226" width="268" height="518" rx="3"/>
+<text class="ital" x="50" y="246">Procedure</text>
+<g id="fsm" transform="translate(174,518)">
+  <!-- states on a ring of radius 100: 11, 1, 3, 5, 7, 9 o'clock -->
+  <g class="grey">
+    <path marker-end="url(#mS)" d="M-36,-93 A100,100 0 0 1 34,-93"/>
+    <path marker-end="url(#mS)" d="M63,-77 A100,100 0 0 1 98,-17"/>
+    <path marker-end="url(#mS)" d="M98,17 A100,100 0 0 1 63,77"/>
+    <path marker-end="url(#mS)" d="M34,93 A100,100 0 0 1 -34,93"/>
+    <!-- fall-backs: brute-force fail -> enumerate; neighbours -> enumerate -->
+    <path marker-end="url(#mS)" d="M-40,74 L40,-74"/>
+    <path marker-end="url(#mS)" d="M-86,-14 L36,-82"/>
+  </g>
+  <!-- compromise edges (accent): scan ports, exploit, brute-force -> neighbours -->
+  <g class="flow">
+    <path marker-end="url(#mA)" d="M-63,77 A100,100 0 0 1 -98,17"/>
+    <path marker-end="url(#mA)" d="M-48,-74 L-88,-18"/>
+    <path marker-end="url(#mA)" d="M84,0 H-84"/>
+  </g>
+  <g transform="translate(-50,-87)"><circle class="svc" r="15"/><g transform="scale(0.85)"><use href="#eye"/></g></g>
+  <text class="tiny halo" x="-36" y="-114" text-anchor="end">scan hosts</text>
+  <g transform="translate(50,-87)"><circle class="svc" r="15"/><g transform="scale(0.75)"><use href="#pc"/></g></g>
+  <text class="tiny halo" x="36" y="-114">enumerate</text>
+  <g transform="translate(100,0)"><circle class="svc" r="15"/><g transform="translate(0,-3) scale(0.8)"><use href="#plug"/></g></g>
+  <text class="tiny halo" x="130" y="44" text-anchor="end">scan ports</text>
+  <g transform="translate(50,87)"><circle class="svc" r="15"/><g transform="scale(0.75)"><use href="#bug"/></g></g>
+  <text class="tiny" x="36" y="128">exploit</text>
+  <g transform="translate(-50,87)"><circle class="svc" r="15"/><g transform="scale(0.7)"><use href="#key"/></g></g>
+  <text class="tiny" x="-36" y="128" text-anchor="end">brute-force</text>
+  <g transform="translate(-100,0)"><circle class="glow" r="15"/><g transform="scale(0.65)"><circle class="icon f" r="2.6" cx="-8" cy="-6"/><circle class="icon f" r="2.6" cx="8" cy="-6"/><circle class="icon f" r="2.6" cx="0" cy="7"/><path class="icon" d="M-8,-6 L8,-6 L0,7 Z"/></g></g>
+  <text class="tiny" x="-130" y="44">neighbours</text>
+  <!-- MTD disruption (dashed): a host-layer rewrite throws it back to scan hosts, a service-layer rewrite to scan ports -->
+  <g transform="translate(0,-176)"><use href="#shield"/></g>
+  <g stroke="#666" stroke-width="1.6" fill="none" stroke-dasharray="6 5">
+    <path marker-end="url(#mS)" d="M-12,-172 C-96,-186 -118,-118 -66,-97"/>
+    <path marker-end="url(#mS)" d="M10,-166 C58,-150 84,-90 96,-18"/>
+  </g>
+</g>
+
+<!-- attacker -> network: enters at the exposed endpoints; exploit -> vulnerability layer -->
+<path class="flow" marker-end="url(#mA)" d="M324,232 H402"/>
+<text class="tiny acc" x="328" y="220">enters</text>
+<path class="flow" marker-end="url(#mA)" d="M239,605 H340 V712 H362"/>
+<text class="tiny acc" x="332" y="700" text-anchor="middle">exploits</text>
+
+<g id="defence-content" transform="translate(90,0)">
+<!-- ====================== DEFENCE panels ====================== -->
+<rect class="panel" x="792" y="108" width="168" height="108" rx="3"/>
+<text class="ital" x="802" y="128">Execution scheme</text>
+<!-- when: a periodic tick; which: drawn at random, or chosen by the learned selector -->
+<use href="#clock" x="820" y="156"/><text class="sm" x="838" y="162">when</text>
+<use href="#dice" x="820" y="194"/><text class="sm" x="838" y="200">which</text>
+<text class="tiny" x="896" y="200">or</text>
+<use href="#chipic" x="932" y="194"/>
+<path class="grey" marker-end="url(#mS)" d="M876,216 V232"/>
+
+<rect class="panel" x="792" y="234" width="168" height="412" rx="3"/>
+<text class="ital" x="802" y="254">Mechanisms</text>
+<g transform="translate(0,28)">
+<!-- shuffles: rewrite the host layer -->
+<g transform="translate(818,254)"><g transform="scale(0.8)"><use href="#pc"/></g><g transform="translate(18,0) scale(0.65)"><use href="#swap"/></g></g>
+<text class="lbl" x="848" y="260">IP shuffle</text>
+<g transform="translate(818,306)"><circle class="icon f" r="2.6" cx="-8" cy="-7"/><circle class="icon f" r="2.6" cx="8" cy="-7"/><circle class="icon f" r="2.6" cx="-8" cy="7"/><circle class="icon f" r="2.6" cx="8" cy="7"/><path class="icon" d="M-8,-7 L8,-7 L8,7"/><path class="icon" stroke-dasharray="2 2" d="M-8,-7 L-8,7 L8,-7"/></g>
+<text class="lbl" x="848" y="300">Topology</text><text class="lbl" x="848" y="322">shuffle</text>
+<g transform="translate(818,364)"><g transform="translate(-8,0) scale(0.6)"><use href="#pc"/></g><g transform="translate(10,0) scale(0.6)"><use href="#pc"/></g><g transform="translate(1,-14) scale(0.55)"><use href="#swap"/></g></g>
+<text class="lbl" x="848" y="358">Host topology</text><text class="lbl" x="848" y="380">shuffle</text>
+<!-- diversity: rewrite the service layer -->
+<g transform="translate(818,426)"><g transform="scale(0.8)"><use href="#oswin"/></g><g transform="translate(18,0) scale(0.65)"><use href="#swap"/></g></g>
+<text class="lbl" x="848" y="432">OS diversity</text>
+<g transform="translate(818,484)"><g transform="scale(0.85)"><use href="#gear"/></g><g transform="translate(18,0) scale(0.65)"><use href="#swap"/></g></g>
+<text class="lbl" x="848" y="478">Service</text><text class="lbl" x="848" y="500">diversity</text>
+<g transform="translate(818,538)"><g transform="scale(0.85)"><use href="#plug"/></g><g transform="translate(18,2) scale(0.65)"><use href="#swap"/></g></g>
+<text class="lbl" x="848" y="546">Port shuffle</text>
+<!-- credentials -->
+<g transform="translate(818,600)"><g transform="translate(-4,0) scale(0.8)"><use href="#user"/></g><g transform="translate(18,0) scale(0.65)"><use href="#swap"/></g></g>
+<text class="lbl" x="848" y="606">User shuffle</text>
+</g>
+
+
+<path class="flow" marker-end="url(#mA)" d="M792,344 H766 V232 H736"/>
+<path class="flow" marker-end="url(#mA)" d="M792,512 H756 V468 H736"/>
+<path class="flow" marker-end="url(#mA)" d="M792,628 H746 V545 H512 V496 H494"/>
+</g>
+</svg>
+</body>
+</html>

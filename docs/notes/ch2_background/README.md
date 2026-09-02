@@ -107,6 +107,11 @@ Zhang 2023 (the time domain, MTTC, the MTD execution schemes) → the schemes as
 the supplementary measures, described in ch4; Tay 2024 (the reactive DDQN selector) →
 the selector used as-is, retraining ruled out (V3).
 
+**Condition booked from §2.2.1's compression (2026-08-27, cut C7):** the Brown row's
+*what it added* cell must carry that Brown extended Alavizadeh et al.'s two-layer HARM
+with a service layer — the attribution was cut from the prose on the condition that
+the table carries it.
+
 Rows are what each work **added to this codebase**, not what each paper contributed
 to the field — those diverge, and the field-level headlines (Zhang shuffle-dominant,
 Ho diversity-dominant) are V5's comparison points for the evaluation, not ch2's.
@@ -132,16 +137,31 @@ place where inherited and built are separated.
   needs ~150 words explaining what a flow object **is** before the construction can
   be described, the fix is two definitional sentences in ch3 §3.1.3, not a ch2
   section.
-- **No figure.** The pipeline belongs to the ladder figure at ch4's opening.
+- **No pipeline figure.** The ladder belongs to ch4's opening. Ch2 carries one
+  float of its own besides Table 2.1: **Figure 2.1**, the three-module model
+  diagram in the §2.2 preamble (ruled 2026-08-27; generator
+  `tools/mtdsim_model_figure.py`, plan
+  [`../../handoffs/2026-08-27_ch2_model_diagram_plan.md`](../../handoffs/2026-08-27_ch2_model_diagram_plan.md)).
+  It frames the three subsections and pre-installs the layer-landing reading
+  (shuffles rewrite the network layer, diversity the host layer) ch4 and ch5 use.
 - **No gap talk, no lineage headlines, no fidelity verdicts.** All three are other
   chapters' and spending them here spends them twice.
 
 ### Still open
 
-**How much network model the document needs.** §2.2.1 is written from scratch — the
-submitted review contains one clause of relevance — so its scope is set by what ch4
-and ch5 actually refer back to, and it is worth deciding against the methodology
-skeleton before drafting rather than after.
+**§2.2.2 dictation context (2026-08-27):** the unit's academic context, refreshed
+for the seven-mechanism pool and the distinct OS diversity, is
+[`../../handoffs/2026-08-27_ch2_defence_mechanisms_context.md`](../../handoffs/2026-08-27_ch2_defence_mechanisms_context.md)
+— read it with the two 2026-08-21 briefs before scaffolding; every record dated
+before 2026-08-27 describes the four-mechanism, OSD-equals-SD state.
+
+**How much network model the document needs — answered 2026-08-27.** §2.2.1 is
+drafted (dictated, passes 2–5 run, 264 words against 250) and carries exactly what
+ch4/ch5 lean on: the three layers, the generators, depth and the fixed ingress, priced
+and synthetic vulnerabilities, and the visible subgraph (the reset model's premise).
+Preconditions, the targeted scenario and the behaviour-binding forward clause were cut
+as not leaned on. Voice gate and the forward-use test against Figure 2.1 are pending
+the figure's wiring.
 
 ### State of `dissertation.tex`
 

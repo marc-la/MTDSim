@@ -1,7 +1,7 @@
 ---
 status: living
 created: 2026-08-20
-updated: 2026-08-27   # §2.1 voice pass: attacker/adversary row ratified; §2.2.1 pass 6: level-vs-layer and exposed-endpoints rows ratified
+updated: 2026-08-31   # objective row re-ruled: opportunistic replaces general (Marc); 2026-08-27: §2.2.3 objective row RATIFIED, §2.1 attacker/adversary, §2.2.1 level-vs-layer and exposed-endpoints
 ---
 
 # Terminology registry — one term per concept across the dissertation
@@ -57,12 +57,13 @@ string are legitimate (noted per row).
 | The mechanism that makes dwell stochastic | **the exponential draw** (noun form; *drawn exponentially* as the verbal form) | *exponentiation mechanism* (also imprecise: exponentiation is raising to a power), *exponential element*, *exponential factor*; *the exponential defence* (L3 ceiling ¶) is a different object (the justification, not the mechanism) — never merged | Marc, 2026-08-20 (voice-pass ruling) |
 | Network depth (the tiers hosts sit in, ingress first) | **level** (Brown 2023's word: "levels of depth") | *layer* in the depth sense — collides with the three HARM layers (host / service / vulnerability); *depth* stays as the axis noun (*levels of depth*, the figure's face label) | Marc, 2026-08-27 (§2.2.1 voice-pass ruling) |
 | The ingress hosts | **exposed endpoints** at first fix; **the endpoints** thereafter | *exposed first-layer hosts*, *the endpoints, the first layer* — appositive re-definitions | Marc, 2026-08-27 (§2.2.1 voice-pass ruling) |
+| The two objectives of the baseline attacker | **objective** as the noun; **opportunistic objective** / **targeted objective** as the pair | *scenario* (Brown 2023's word) and *general* (Brown's label for the first objective) --- both stay only inside Brown's cited phrasing; the mapping is stated **once**, in the Table 2.3 caption (*Brown's general and target attack scenarios*), and after it *opportunistic* carries. *Takeover* (Brown's gloss), *network-wide*, *untargeted* --- never as names (as parenthetical descriptions, legitimate). **The manner sense of *opportunistic* is a distinct sense** (credentials reused opportunistically, opportunistic re-scan, holm2014's opportunistic population in the exponential note) --- never merged; flag conflations only. Repo vocabulary keeps *general* (`network_type == 1`, the probes, the handoffs, the code comments) --- registry scope rule | Marc, 2026-08-27 (*objective*, §2.2.3 voice-pass ruling); Marc, 2026-08-31 (*opportunistic* replaces *general*) |
 
 ### Proposed — awaiting Marc's ruling pass
 
 | Concept | Recommendation | Alternatives considered | Census |
 |---|---|---|---|
-| *(none open — the 2026-08-27 §2.2.1 ruling ratified both rows raised that day)* | | | |
+| *(none open — the 2026-08-27 §2.2.3 ruling ratified the objective row)* | | | |
 
 ## Ruling workflow
 

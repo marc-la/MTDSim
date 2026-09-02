@@ -225,3 +225,5 @@ docs/thesis/dissertation.pdf
 # docs/thesis/dissertation.pdf
 
 mtdsim-weights-archive
+# figure previews rendered by tools/*_figure.py --png
+docs/thesis/figures/*.png
