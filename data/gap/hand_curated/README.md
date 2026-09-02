@@ -251,14 +251,12 @@ privilege-escalation exploit or a credential stored on the appliance yields the 
 account) and the effect-edge NTDS chain. Not done here (prose is Marc's); flagged so the
 figure swap and the sentence land together.
 
-## Follow-ups (not done here)
+## Follow-ups (both done since)
 
-- A `docs/sources/extractions/cisaaa24038a.md` extract, if the advisory is also mined for
-  prose claims (e.g. the ch3 G5 dwell facts: NTDS.dit dumped from three DCs over four
-  years; five-year undiscovered persistence).
-- The `cisaaa24038a` bib entry is currently a commented VERIFY stub in `references.bib`;
-  the metadata here (title, ID, date, co-sealing agencies, URL) is fetch-verified and can
-  seed it.
+- ~~A `docs/sources/extractions/cisaaa24038a.md` extract~~ — exists (Concepts 1–5;
+  the G5 dwell facts re-verified against the live ACSC page 2026-09-02).
+- ~~The `cisaaa24038a` bib entry is a commented VERIFY stub~~ — activated in
+  `references.bib` 2026-08-31 from the metadata here.
 
 ---
 
