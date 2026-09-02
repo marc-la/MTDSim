@@ -52,6 +52,14 @@ executes: 2026-08-31_ch3_port_plan.md
 >    R1–R4 are do-not-re-flag (NIST behavioural sentence, currency opener,
 >    "against a specific target", the sponsorship clause). The full trail
 >    is the unit's header comment in the tex.
+> 8. **§3.1.1 THROUGH PASS 6** (2026-09-02): elastic rulings E1 (commodity
+>    foil cut in full, claim-flagged) / E2 (espionage contrast keeps pared
+>    form); voice-pass P1–P4 accepted and applied (demonstrative run broken
+>    at the close, NTDS.dit + OT defined at first use, advisory cite
+>    repeated at its run's end). Gate: nine of nine. ~270 w vs 250 —
+>    residual to section assembly. Open: the APT-attacker/actor PROPOSED
+>    registry row; 3.1.2's M2 insert option; 3.1.3's M3a durability dedup;
+>    then the §3.1 integration check.
 >
 > Rationale: Cho 2020's §V → §VII → §VIII precedence order, and the felt
 > duplication between the Metrics heading and the hinge's retitled heading
