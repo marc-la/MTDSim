@@ -1,0 +1,76 @@
+% =====================================================================
+% Front matter: Abstract + Introduction
+% =====================================================================
+
+\begin{abstract}
+
+Moving Target Defence (MTD) locates its defensive value at the apex of the Pyramid of Pain, claiming to disrupt the tactics, techniques, and procedures (TTPs) most costly to change. Yet the attacker models against which MTD is evaluated typically operate near the base—fixed parameters and scripted exploit sequences—a mismatch the field's surveys have named twice, six years apart. Surveying the MTD evaluation and threat-intelligence literatures—the latter spanning MITRE ATT\&CK and the structured extraction of attacker behaviour from cyber threat intelligence (CTI)—this review finds attacker models in recent evaluations clustering at parametric and scripted fidelity, never reaching the procedural or behavioural rungs at which MTD claims to operate. The means to close this gap lie in adjacent literatures—attack profiling reconstructs durable, TTP-level behaviour from CTI—but remain unadopted in MTD. This review motivates evaluating MTD mechanisms against behaviourally-grounded adversarial profiles, built over manually-curated CTI and operationalised in the MTDSim discrete-event simulator.
+
+\end{abstract}
+
+
+% =====================================================================
+% §1 Introduction
+% =====================================================================
+
+\section{Introduction}
+\label{sec:introduction}
+
+Moving Target Defence (MTD) inverts the conventional assumption that
+vulnerabilities can be eliminated and system configurations held stable: it
+proceeds from the premise that no system is perfectly secure, so that attacks
+can be thwarted but not prevented~\cite{ghosh2009nitrd}. By continuously
+changing the configurations an attacker relies on, MTD shifts uncertainty onto
+the adversary, whose reconnaissance decays faster than it can be acted
+upon~\cite{cho2020}. It is positioned as a complement to existing defences
+rather than a replacement for them~\cite{cho2020}.
+
+Two literatures have developed alongside one another without converging. On the
+defence side, MTD evaluation has progressed from fixed-interval mechanisms
+toward adaptive, increasingly learned orchestration of when and what to
+move~\cite{cho2020}. In parallel, the threat-intelligence community has built an
+apparatus around adversary behaviour: MITRE ATT\&CK (Adversarial Tactics, Techniques, and Common Knowledge)~\cite{alsada2024}
+established a behavioural vocabulary and the Pyramid of Pain~\cite{bianco2013} a
+cost ranking for intelligence indicators, both around 2013, and the structured
+extraction of that behaviour from cyber threat
+intelligence (CTI) has advanced rapidly since 2022~\cite{ctid2025attackflow}.
+The defender has grown more sophisticated; the adversary against which it is
+evaluated has not.
+
+The result is a mismatch between what MTD claims and what it is evaluated
+against. MTD locates its defensive value at the apex of the Pyramid of
+Pain---the tactics, techniques, and procedures (TTPs) most costly for an adversary to
+change~\cite{bianco2013}---yet the attacker models used in MTD evaluation
+typically operate near its base, through fixed parameters and scripted exploit
+sequences. A defence that claims to disrupt an adversary at the apex must be
+evaluated against an adversary modelled there. The MTD field's own surveys have
+identified this under-modelling of the attacker as a primary limitation, six
+years apart and without resolution~\cite{cho2020, jalowski2026}.
+
+The capability to close this gap already exists in literatures adjacent to MTD,
+but has not been adopted within it. Attack profiling reconstructs adversary
+behaviour from CTI as structured, TTP-level representations~\cite{rodriguez2024},
+and the documented durability of advanced persistent threat (APT) tradecraft
+makes such profiles a stable basis for evaluation~\cite{alshamrani2019}. This
+review surveys the MTD evaluation and threat-intelligence literatures,
+substantiates the attacker-modelling gap between them, and motivates the
+evaluation of MTD mechanisms against behaviourally-grounded adversarial
+profiles---built over manually-curated CTI and operationalised in the MTDSim
+discrete-event simulator~\cite{brown2023}.
+
+These observations motivate the research question that frames the project this
+review supports:
+\begin{quote}
+\textit{How do existing MTD mechanisms perform against behaviourally-grounded
+adversarial profiles derived from cyber threat intelligence?}
+\end{quote}
+The remainder of this review is structured as follows.
+Section~\ref{sec:mtd} reviews moving target defence---its taxonomy, evaluation
+paradigms, and the adaptive orchestration frontier.
+Section~\ref{sec:threat_landscape} surveys two conceptual lenses (MITRE
+ATT\&CK and the Pyramid of Pain), the advanced persistent threat as an
+adversary class, and attack profiling---the method that reconstructs behaviour
+from cyber threat intelligence. Section~\ref{sec:convergence} brings
+the two literatures together, establishing the attacker-modelling gap across a
+cross-section of recent MTD evaluations. Section~\ref{sec:gap} synthesises the
+gap and sets out the approach this review motivates.

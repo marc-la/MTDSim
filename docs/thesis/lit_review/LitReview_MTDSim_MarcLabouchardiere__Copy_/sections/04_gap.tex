@@ -1,0 +1,80 @@
+% =====================================================================
+% §4 Research Gap and Approach 
+% =====================================================================
+
+\section{Research Gap and Approach}
+\label{sec:gap}
+
+Section~\ref{subsec:attackers_mtd} showed the field's own surveys naming
+attacker under-modelling as a primary limitation, and
+Section~\ref{subsec:threat_model_eval} bore this out across a recent
+five-paper cross-section, its attacker models clustering at parametric or
+scripted fidelity with none reaching the procedural or behavioural rungs
+at which MTD claims to operate. Seen from the attacker's side, the same
+gap sharpens: where the surveyed works grant the attacker any rationality,
+it is a defender-computed heuristic such as RoA~\cite{brown2023}, over
+which the attacker optimises exploits it cannot sequence, adapt, or
+remember---choosing the computationally best move without modelling
+whether a real adversary could, or would, make it. The parametric rung, in
+other words, is rationality without capability.
+
+The means to close it already exist in MTD-adjacent literatures, in two
+strands. Attack profiling
+(Section~\ref{subsec:cti_profiling})~\cite{zhangY2025, rahman2025,
+rodriguez2024} recovers TTP-level behaviour from raw CTI---the durable,
+apex-of-the-pyramid layer the surveyed attacker models never reach,
+grounded in documented APT tradecraft rather than a CVSS-derived
+heuristic. This supplies the behavioural content: what the adversary does.
+
+The second strand supplies the agent that enacts it. Bland et
+al.~\cite{bland2020} build an attacker that observes partial state, acts
+at a cost, and learns its strategy against a dynamic defender. Their
+attacker runs over expert-validated Common Attack Pattern Enumeration and
+Classification (CAPEC) patterns---evidence that the sequencing, adaptive
+adversary the surveyed evaluations omit is constructible, if so far only
+on narrow, hand-built cases. Outkin et al.~\cite{outkin2022} address the
+parameters: they fit an attacker's per-step detection probabilities to
+real MITRE ATT\&CK Evaluations data, where the surveyed models derive
+theirs from CVSS. Profiled behaviour, an agent to enact it, parameters
+grounded in real engagement data---the apparatus is in place and
+validated; it has simply never been brought to MTD evaluation. That is the
+contribution this review motivates.
+
+\subsection{Approach}
+\label{subsec:approach}
+
+This review motivates evaluating MTD mechanisms against adversarial
+profiles built by attack profiling over manually-curated CTI. The choice
+of curated input is deliberate: automated extraction dominates the
+literature but still falls short of reliable technique recovery in
+realistic settings~\cite{buchel2025}, whereas the analyst-validated Attack
+Flow corpus (Section~\ref{subsec:mitre}) trades coverage for the fidelity
+an adversarial profile requires. The profiles supply the behaviour; a
+Bland-style agent enacts it, parameterised against engagement data after
+Outkin et al.---the two strands assembled into the adversary the
+cross-section was found to lack, grounded in the tactics, techniques, and
+procedures of documented APT operations rather than a defender-computed
+heuristic over CVEs.
+
+These profiles are operationalised in MTDSim~\cite{brown2023}, the
+discrete-event simulator this work extends: it supports the shuffle,
+diversity, and redundancy families, is agnostic to specific network
+configurations, and lets the profiles run against the same parametric and
+scripted baselines the cross-section surveyed---holding the defender at
+baseline so that the attacker, not the orchestrator, is the variable under
+test.
+
+\subsection{Research Question}
+\label{subsec:rq}
+
+MTD mechanisms have not been evaluated against attackers modelled at
+behavioural fidelity. The research question follows.
+\begin{quote}
+\textbf{RQ:} \textit{How do existing MTD mechanisms perform against behaviourally-grounded adversarial profiles derived from cyber threat intelligence?}
+\end{quote}
+The question is posed across two axes: the shuffle, diversity, and
+redundancy families (Section~\ref{subsec:mtd_concept}), and profiles
+differentiated by operational objective (Section~\ref{subsec:apt})---the
+dimension along which APT campaigns vary, and which parametric models
+collapse.
+

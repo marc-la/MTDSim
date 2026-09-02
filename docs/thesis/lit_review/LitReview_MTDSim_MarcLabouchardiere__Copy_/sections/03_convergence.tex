@@ -1,0 +1,89 @@
+% =====================================================================
+% §3 Attack Modelling in MTD Evaluation
+% =====================================================================
+
+\section{Attack Modelling in MTD Evaluation}
+\label{sec:convergence}
+
+This section examines how MTD evaluation models the attacker it is tested against. Section~\ref{subsec:attackers_mtd} shows that the field's own surveys name attacker under-modelling as a primary limitation; Section~\ref{subsec:threat_model_eval} then demonstrates systematically that the gap persists across a cross-section of recent work, setting up the synthesis in Section~\ref{sec:gap}.
+
+
+
+\subsection{Surveys Naming the Gap}
+\label{subsec:attackers_mtd}
+
+Two MTD surveys, six years apart, identify attacker-model under-development as a primary limitation of the field. Cho et al.~\cite{cho2020} document it in 2020; Jalowski et al.~\cite{jalowski2026} document it again in 2026. The persistence of this critique six years on is structural, not incidental: the attacker model MTD literature evaluates against does not match the attacker it claims to defend.
+
+Cho et al. name three under-developed dimensions of the attacker model~\cite[Sec.~V-D]{cho2020}. The first is the smart, learning-capable attacker: where defenders are routinely granted machine-learning (ML) capability, the attacker is assumed to follow fixed patterns rather than to learn and adapt --- an asymmetry Cho et al. note runs contrary to practice, where the attacker is often the more sophisticated of the two. The second is the scarcity of multi-strategy scenarios, in which attacker and defender each branch across plural options; most MTD work instead pairs one mechanism against one attack path. The third is the asymmetric application of the rational-actor framing: the agent optimising for cost-effective outcome is modelled as such on the defender side and seldom on the attacker's.
+
+Jalowski et al. reach the same diagnosis six years later, through a systematic gap-analysis of MTD's design principles and threat-modelling assumptions that names the attacker model ``the most glaring flaw in the MTD literature''~\cite[p.~8]{jalowski2026}. Their critique is concrete about why. The active-scanning baselines (e.g., Nmap) against which MTD is typically tested are too naive for an APT, which relies on passive reconnaissance to stay hidden and learns the defender's mutation patterns over time. The corrective they prescribe is an attacker modelled at a higher level of capability --- one that reasons about the MTD scheme itself and the logic driving its movement --- not a scripted intruder oblivious to the defence.
+
+Both surveys, however, stop at diagnosis. Naming the attacker model as under-developed is not the same as measuring how far short any given evaluation falls: neither survey resolves the critique onto specific papers, nor onto a scale against which an individual threat model can be placed. Such a scale needs a reference point for attacker capability, and the Pyramid of Pain (Section~\ref{subsec:pop}) supplies one. MTD locates its value at the TTP rung, the level most costly for an adversary to change; a defence that claims the apex must be evaluated against an attacker modelled there, and where the evaluation's attacker instead sits at the base --- fixed parameters, scripted sequences, no learning --- the claim is left empirically unsupported. Section~\ref{subsec:threat_model_eval} turns that diagnosis into measurement, placing the attacker in each of a recent cross-section of MTD evaluations on a fidelity scale anchored to this rung --- establishing not merely that the gap exists, but how far each evaluation falls short.
+
+\subsection{Systematic Attacker-Model Evaluation Across Recent MTD Works}
+\label{subsec:threat_model_eval}
+
+Measuring how far short an evaluation's attacker falls requires two instruments: a set of characteristics describing what a capable adversary encodes, and a scale for how deeply a threat model realises attacker decision-making. The first is drawn from Cho et al.~\cite{cho2020}; the second is constructed here.
+
+The four characteristics of a sophisticated attacker named by Cho et al.~\cite{cho2020} broadly align with the APT operations of Section~\ref{subsec:apt}:
+\begin{itemize}
+    \item \textbf{Persistent.} Operating across multiple stages with measurable dwell time, as in multi-stage APT operations~\cite{alshamrani2019}, rather than as a one-time intrusion.
+    \item \textbf{Adaptive.} Responding to changing system and defensive conditions, including awareness of the defence itself.
+    \item \textbf{Stealthy.} Operating at the TTP tier of the Pyramid of Pain~\cite{bianco2013}, blending with legitimate traffic rather than at observable indicator levels.
+    \item \textbf{Incentive-driven.} Conditioning decisions on a cost/benefit signal, not merely possessing an objective.
+\end{itemize}
+
+Where those characteristics describe the attacker qualitatively, a fidelity descriptor captures what a threat model \emph{actually does} at the level of attacker decision-making, ordered by depth from static parameters to learned behaviour:
+\begin{enumerate}
+    \item \textbf{Parametric.} Success probabilities, fixed durations, or design-time parameters; no per-step decision during execution.
+    \item \textbf{Scripted.} Pre-coded sequences against specific CVEs or attack paths.
+    \item \textbf{Procedural.} Rule-based decision-making within an attack progression at runtime, beyond design-time configuration.
+    \item \textbf{Behavioural.} Campaign-level intent, motivation conditioning, and learning capability.
+\end{enumerate}
+
+Table~\ref{tab:threat_model_eval} maps the five papers against both instruments. The selection spans the project's lineage (Brown et al., Tay), recent IoT-cloud orchestration (Masud et al.), state-of-the-art ML network intrusion detection system (NIDS) adversarial defence (He et al.), and a recent Cyber Kill Chain (CKC)-aware MTD framework (Kim et al.). The pattern across the cross-section is a rhetoric-versus-execution gap: the threat models encode few of Cho et al.'s characteristics, even where the surrounding framing suggests otherwise. The per-paper discussion below justifies each placement.
+
+\begin{table*}[!t]
+\centering
+\caption{Threat Model Evaluation Across Recent MTD Papers}
+\label{tab:threat_model_eval}
+\begin{tabular}{lccccc}
+\toprule
+Paper & Persistent & Adaptive & Stealthy & Incentive-aware & Fidelity-level \\
+\midrule
+Brown et al.~\cite{brown2023}       & \ding{55} & \ding{55} & \ding{55} & \ding{55}\textsuperscript{*} & Parametric \\
+Tay~\cite{tay2024}      & \ding{55} & \ding{55} & \ding{55} & \ding{55}\textsuperscript{*} & Parametric \\
+Masud et al.~\cite{masud2025} & \ding{55} & \ding{55} & \ding{55} & \ding{55}                    & Scripted   \\
+He et al.~\cite{he2025}          & \ding{55} & \ding{51}\textsuperscript{*} & \ding{51} & \ding{55}    & Parametric \\
+Kim et al.~\cite{kim2026}          & \ding{55} & \ding{55} & \ding{55} & \ding{55}                    & Scripted   \\
+\bottomrule
+\addlinespace[2pt]
+\multicolumn{6}{@{}l@{}}{\footnotesize\textsuperscript{*}~Partial operationalisation; see per-paper discussion.} \\
+\end{tabular}
+\end{table*}
+
+\subsubsection{Brown et al., 2023}
+
+Section~\ref{subsec:mtd_eval} introduced MTDSim and its motivating gap in ``realistic attack scenarios''~\cite[p.~1]{brown2023}. The threat model proposed to address that gap is two scripted scenarios --- general (network-wide compromise) and targeted (specific-host compromise) --- executed through a finite-state machine inspired by the Cyber Kill Chain and MITRE ATT\&CK. The attacker's only decision signal is a priority ordering over scanned exploits by RoA, a cost/impact ratio derived from Common Vulnerability Scoring System (CVSS) metrics; the simulator's metrics are computed over outcomes rather than over attacker decisions~\cite{brown2023}. The threat model is therefore parametric. Brown et al.\ are candid about the limitation, noting that ``the exploitation skills are not configured to distinguish the different skills of adversaries''~\cite[p.~7]{brown2023} --- the future-work item this project takes up.
+
+\subsubsection{Tay, 2024}
+
+Section~\ref{subsec:mtd_orchestration} framed Tay's work as a reinforcement-learning orchestrator: a DDQN agent that decides when to trigger MTD and which technique to deploy, replacing Brown et al.'s fixed-interval scheduler~\cite{tay2024}. The contribution is defender-side; the attacker module is inherited from~\cite{brown2023} essentially unchanged, so its parametric fidelity carries through. One experiment does probe a detection dimension --- the lineage's closest contact with the IDS thread this project develops --- varying an intrusion detection system (IDS) sensitivity parameter from 0\% to 100\% and feeding the resulting attacker-action signal to the agent, with a reported cutoff near 0.7 below which the signal is too sparse to beat the no-IDS baseline. The variation, however, is in the defender's \emph{observability} of the attacker, not in the attacker's \emph{behaviour}: the attacker remains oblivious to both the IDS and the RL policy. Brown et al.'s skill-homogeneity limitation is therefore left unaddressed.
+
+\subsubsection{Masud et al., 2025}
+
+Masud et al.\ propose a hybrid MTD over a three-layer THARM, orchestrating MTD techniques analytically against an IoT-cloud topology~\cite{masud2025}. The attacker is realised as an exhaustive, pre-coded traversal of a CVE/CVSS-parameterised attack graph, with no decision-making agent --- scripted fidelity. The framing claims more than this: the attackers are said to be ``modeled after techniques in the cyber kill chain and MITRE ATT\&CK''~\cite[p.~7]{masud2025}, but that grounding does not reach the executed threat model, which carries no technique-level behaviour beyond the graph it enumerates. The placement turns on that gap between the behavioural framing and the path enumeration the evaluation runs.
+
+\subsubsection{He et al., 2025}
+
+He et al.\ propose MTD-AD, a stochastic boundary-perturbation scheme defending an anomaly-based NIDS (Kitsune) against adversarial-machine-learning attacks~\cite{he2025}. Its threat model is a goal/knowledge/capability formalism with three attacker variants distinguished by knowledge level: grey-box, white-box, and adaptive-knowledge. The adaptive-knowledge variant is the only threat model in the cross-section to formalise an attacker that responds to the defence at all --- it knows MTD-AD is deployed and adjusts to it. This is a genuine step toward the attacker formalism the other works lack.
+
+Two qualifiers bound that credit. The response is design-time configuration rather than runtime decision-making: MTD-awareness reduces to a single surrogate-model threshold that pushes adversarial examples further from the decision boundary, swept across fixed values rather than learned in the loop --- parametric, not procedural. And the attack class is detection-evasion of an ML classifier: a single attack family with no multi-stage structure, not the APT-style network compromise the ladder is built around. The methodological move toward a defence-aware attacker transfers; the attack class does not.
+
+\subsubsection{Kim et al., 2026}
+
+Kim et al.\ propose MTDID, a multi-phase MTD framework deployed on a physical SDN testbed~\cite{kim2026}. The defender side is genuinely multi-phase, mapping MTD sub-techniques across the Cyber Kill Chain and onto corresponding MITRE ATT\&CK techniques, and the framing repeatedly invokes multi-phase MTD against multi-phase cyber-attacks. The threat model used for evaluation does not match this depth: the case study is a single path-traversal vulnerability (CVE-2021-41773) driven by an automated script on a Poisson arrival schedule, with ATT\&CK invoked taxonomically rather than as behavioural grounding --- scripted fidelity. The work is itself candid that ``the overlap in time between each phase is out of scope''~\cite[p.~7]{kim2026}: the multi-phase attacker is, in execution, a sequential script across collapsed phases.
+
+\subsubsection{General Observations}
+
+Across the cross-section, attacker modelling is consistently secondary to the defence being proposed. Table~\ref{tab:threat_model_eval} shows persistence absent throughout; adaptivity in the campaign-aware sense is absent, with only He et al.\ approaching it; stealth is operationalised only by He et al., where the attack frame is detection-evasion of an ML classifier rather than APT-style compromise; and incentive-driven behaviour appears only as partial operationalisations of the RoA heuristic in the project's lineage (Brown et al., Tay). On the fidelity ladder the papers cluster at parametric (Brown et al., Tay, He et al.) and scripted (Masud et al., Kim et al.); none reach procedural, let alone behavioural. Measured against the rung MTD claims to operate at, the cross-section confirms concretely what Section~\ref{subsec:attackers_mtd}'s surveys asserted in the abstract: the defender is evaluated at the apex it claims, while the attacker against which it is evaluated sits at the base. That located asymmetry --- not the absence of any one characteristic --- is the gap Section~\ref{sec:gap} takes up, and the opening for evaluation against behaviourally-grounded adversarial profiles.

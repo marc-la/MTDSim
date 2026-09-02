@@ -1,0 +1,195 @@
+% =====================================================================
+% §1 Moving Target Defence
+% =====================================================================
+
+\section{Moving Target Defence}
+\label{sec:mtd}
+
+This section introduces the three design questions that organise MTD, traces how the field models, quantifies, and evaluates MTD techniques in practice, and turns to the adaptive-selection frontier where orchestration research now concentrates.
+
+
+
+\subsection{MTD Concept and Taxonomy}
+\label{subsec:mtd_concept}
+
+MTD is the timely manipulation of system configurations to modify and control the \emph{attack surface}---the set of points at which an attacker engages with the system~\cite{cho2020}.
+
+The MTD design space is organised around three questions: \emph{what} to move, \emph{how} to move it, and \emph{when} to move~\cite{cho2020}. The first concerns the configurable attributes available to the defender---IP addresses, ports, network topologies, operating systems, software stacks, virtual machines.
+
+The second is captured by the canonical Shuffle-Diversity-Redundancy (SDR) taxonomy~\cite{cho2020}, whose three primitives are complementary rather than partitioned (Fig.~\ref{fig:sdr-relationships}). \emph{Shuffling} rearranges or randomises existing components---IP mutation, port hopping, topology reconfiguration---invalidating reconnaissance the attacker has already performed. \emph{Diversity} deploys different implementations of the same function, so that an exploit against one variant is unlikely to apply to others. \emph{Redundancy} replicates components to preserve service while the other two operate. Hybrid combinations of SDR primitives are an active research direction~\cite{cho2020}.
+
+The third question---when to move---distinguishes proactive (time-triggered), reactive (event-triggered), and hybrid scheduling regimes~\cite{cho2020}. This is the tension between cost and security: moving too often imposes overhead on legitimate users; moving too rarely leaves the attacker's reconnaissance valid for longer than it should be.
+
+\begin{figure}[t]
+\centering
+\resizebox{\columnwidth}{!}{%
+\begin{tikzpicture}[
+  >=stealth,
+  every node/.style={font=\small},
+  prop/.style={draw, rectangle, minimum height=6mm, inner sep=3pt},
+  op/.style={draw, ellipse, minimum width=22mm, minimum height=9mm},
+]
+  \node[op, fill=green!25]  (div) at (0,2)     {Diversity};
+  \node[op, fill=orange!25] (shf) at (-3,-0.6) {Shuffling};
+  \node[op, fill=blue!18]   (red) at (3,-0.6)  {Redundancy};
+
+  \node[prop, fill=green!45]  (res)  at (0,3.6)   {Resilience / Robustness};
+  \node[prop, fill=orange!35] (perf) at (-3,-2.1) {Performance / Efficiency};
+  \node[prop, fill=blue!30]   (rel)  at (3,-2.1)  {Reliability / Availability};
+
+  % property connectors -- plain lines, NO arrowheads
+  \draw (res) -- (div);
+  \draw (shf) -- (perf);
+  \draw (red) -- (rel);
+
+  % SDR relationships -- bidirectional, matching Cho Fig. 4
+  \draw[<->] (shf) to[bend left=25]  (div);
+  \draw[<->] (div) to[bend left=25]  (red);
+  \draw[<->] (shf) to[bend right=25] (red);
+\end{tikzpicture}%
+}
+\caption{Relationships between Shuffling, Diversity, and Redundancy (SDR). Adapted from \cite[Fig.~4]{cho2020}.}
+\label{fig:sdr-relationships}
+\end{figure}
+
+
+
+\subsection{MTD Evaluation Paradigms}
+\label{subsec:mtd_eval}
+
+An MTD evaluation study selects a network setting --- enterprise, cloud,
+software-defined, Internet of Things (IoT), or cyber-physical --- adopts a
+threat model, deploys one or more MTD mechanisms, and assesses the result
+against a metric set using one of several validation methods~\cite{cho2020}.
+This section examines the modelling traditions, metric families, and
+validation methods these choices draw from.
+
+Modelling techniques cluster into game-theoretic, evolutionary, and
+learning-based traditions, with game-theoretic formulations dominating by
+volume~\cite{cho2020}. A representative game-theoretic formulation casts the
+defender as a leader committing to a configuration-switching strategy and the
+attacker as a follower that performs reconnaissance before launching, typically
+drawing on exploits from public enumerations such as the Common Vulnerabilities
+and Exposures (CVE) database, with attacker-type uncertainty encoded as a prior
+distribution~\cite{cho2020}.
+
+Cho et al.~\cite{cho2020} partition the MTD metric space along two axes
+(Table~\ref{tab:mtd-metrics}): \emph{perspective} (attacker-side or
+defender-side) and \emph{purpose} (effectiveness, capturing how well the MTD
+reduces attack success, and efficiency, capturing the cost the MTD imposes).
+Hong et al.~\cite{hong2018} extend this partition with network-state-dynamic
+measures (marked $\dagger$ in Table~\ref{tab:mtd-metrics}) that quantify how
+the security posture shifts as MTD operations execute across consecutive
+network states.
+
+\begin{table*}[!t]
+  \centering
+  \caption{Representative MTD metrics by perspective and purpose.}
+  \label{tab:mtd-metrics}
+  \setlength{\tabcolsep}{10pt}
+  \renewcommand{\arraystretch}{1.15}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{Perspective} & \textbf{Effectiveness} & \textbf{Efficiency} \\
+    \midrule
+    Attacker-side &
+      \begin{tabular}[t]{@{}l@{}}
+        Attack success probability (ASP)~\cite{cho2020}\\
+        Mean time to compromise (MTTC)~\cite{cho2020}\\
+        Attack surface~\cite{cho2020}\\
+        Attack path variation (APV)$^\dagger$~\cite{hong2018}\\
+        Attack path number (APN)$^\dagger$~\cite{hong2018}\\
+        Attack path exposure (APE)$^\dagger$~\cite{hong2018}
+      \end{tabular} &
+      \begin{tabular}[t]{@{}l@{}}
+        Attack cost~\cite{cho2020}\\
+        Payoff penalty~\cite{cho2020}
+      \end{tabular} \\
+    \addlinespace
+    Defender-side &
+      \begin{tabular}[t]{@{}l@{}}
+        Defence success probability (DSP)~\cite{cho2020}\\
+        Mean time to failure (MTTF)~\cite{cho2020}\\
+        System security (CIA)~\cite{cho2020}\\
+        Degree of vulnerability~\cite{cho2020}
+      \end{tabular} &
+      \begin{tabular}[t]{@{}l@{}}
+        Defence cost~\cite{cho2020}\\
+        Quality of service (QoS)~\cite{cho2020}\\
+        System overhead~\cite{cho2020}\\
+        Node variant cost (NVC)$^\dagger$~\cite{hong2018}\\
+        Edge variation cost (EVC)$^\dagger$~\cite{hong2018}
+      \end{tabular} \\
+    \bottomrule
+    \addlinespace[2pt]
+    \multicolumn{3}{@{}l@{}}{\footnotesize\textit{Partition adapted from~\cite{cho2020}. $^\dagger$~network-state-dynamic measures, computed across consecutive network states.}} \\
+  \end{tabular}
+\end{table*}
+
+With model and metrics specified, the remaining commitment is validation
+method. Cho et al.~\cite{cho2020} classify these into four categories ---
+analytical, simulation, emulation, and real testbed --- with the analytical
+category splitting into probabilistic and graphical-security-model approaches.
+
+The lineage this dissertation extends combines a graphical-security-model
+structural representation with discrete-event simulation as the execution
+engine. Brown et al.~\cite{brown2023} introduce MTDSim, a discrete-event
+simulator built on a three-layer Hierarchical Attack Representation Model (HARM);
+its principal
+contribution is enabling combined-MTD evaluation, comparing shuffle,
+diversity, and hybrid combinations against attack scenarios drawn from the
+Cyber Kill Chain and MITRE ATT\&CK\@. MTDSim is the codebase this
+dissertation extends; subsequent UWA work continues the line. The threat model itself --- named at the outset but examined nowhere above --- is the subject of Section~\ref{sec:convergence}, which argues it to be the dimension MTD evaluation most consistently leaves under-developed.
+
+
+
+\subsection{MTD Orchestration and Adaptive Selection}
+\label{subsec:mtd_orchestration}
+
+Adaptive selection --- the choice of which MTD operation to deploy
+at which moment --- is the frontier of defender sophistication, and
+where the orchestration literature has concentrated. Across the
+proactive, reactive, and hybrid scheduling regimes, the most capable
+approaches sit between the extremes: pure proactive movement wastes
+resources observing nothing, while pure reactive movement depends on
+detection that is rarely complete or timely~\cite{cho2020}. How that
+choice is made spans a spectrum from specified to learned --- explicit,
+designer-authored rules at one end, a policy learned from interaction at
+the other. The two works below mark its poles.
+
+At the specified pole, the orchestration \emph{is} a set of explicit
+conflict-resolution rules. Masud et al.~\cite{masud2025} address
+the ``when to move'' question within a three-layer Temporal HARM (THARM) for IoT networks, where
+MTD-mechanism coexistence is itself the orchestration problem: IP
+shuffling and redundancy both modify network-layer attack paths and
+cannot run concurrently, while OS diversity operates at the service
+layer and can. Their trigger remains periodic and proactive, but
+registration of an MTD operation enters a priority queue, and operations
+blocked by an active conflict go to a suspension list until the
+contested resource frees~\cite{masud2025}. The contribution lies in the conflict-resolution rules rather than the
+trigger logic: these rules determine which mechanism deploys when
+several are eligible. Evaluation across
+attack risk, attack cost, and Return on Attack (RoA; a risk-to-cost ratio) shows combined
+shuffle+diversity outperforming any single mechanism, at the cost of the
+coexistence logic the orchestration layer must explicitly manage.
+
+At the learned pole, specified rules give way to a policy learned from
+interaction. Tay's UWA-lineage work~\cite{tay2024} sits
+on the same MTDSim discrete-event platform examined in
+Section~\ref{subsec:mtd_eval}~\cite{brown2023}, and trains a Double Deep
+Q-Network (DDQN) agent that receives network security metrics at each
+evaluation tick and selects one of five actions: IP shuffle, OS
+diversity, service diversity, complete topology shuffle, or no
+operation. The fifth action is structurally important --- restraint is
+encoded as a policy choice rather than a global interval parameter,
+which is the reinforcement learning (RL) paradigm's own answer to the ``when not to move'' half
+of the lever.
+
+Whether specified or learned, orchestration concentrates the defender's
+growing sophistication on one side of the engagement. Tay's agent is one
+example among a small but growing body of RL-orchestrated
+multi-mechanism MTD; the broader paradigm inherits its training
+adversary from whatever simulator it is built on. The defender's
+decision-making has advanced; the adversary against which it is
+evaluated is inherited, not modelled. That asymmetry is what the rest of
+this review takes up.

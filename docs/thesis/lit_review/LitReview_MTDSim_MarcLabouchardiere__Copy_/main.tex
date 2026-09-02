@@ -1,0 +1,85 @@
+% =====================================================================
+% Literature Review — Adaptive MTD for Dynamic Networks
+% Author: Marc Labouchardiere (23857377)
+% Supervisor: Dr Jin B. Hong (UWA, CSSE)
+% Unit: CITS4010 — 24-point honours research project
+% Deadline: 22 May 2026 (W12)
+% Spec: 5,000–6,000 words excl. references and AI-use statement
+%       10–20 references; IEEE referencing style
+% =====================================================================
+
+\documentclass[conference,a4paper,10pt]{IEEEtran}
+
+% =====================================================================
+% IEEEtran conversion notes (17 May 2026):
+% Class switched from article to IEEEtran/conference for two-column
+% A4 layout. Packages explicitly removed because IEEEtran handles
+% their concerns natively or because they actively interfere:
+%   - geometry   : IEEEtran sets its own column metrics
+%   - setspace   : IEEEtran is single-spaced by typographic design
+%   - parskip    : IEEEtran uses indented paragraphs (its visual identity)
+%   - titlesec   : IEEEtran's section/subsection formatting is canonical
+%   - placeins   : two-column float algorithm handles subsection drift
+% hyperref switched to print-friendly black/hidelinks (IEEE convention).
+% =====================================================================
+
+% --- Encoding & fonts ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% --- Graphics ---
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc,shapes.geometric}
+
+% --- Links (print-friendly per IEEE convention) ---
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+
+% --- Bibliography (IEEE style) ---
+\usepackage{cite}
+
+% --- Tables ---
+\usepackage{booktabs}
+\usepackage{pifont}
+
+% --- Document ---
+\title{\Large Adaptive Moving Target Defence for Dynamic Networks:\\
+Behaviourally-Grounded Adversarial Profiles for MTD Evaluation\\[0.3em]
+{\large CITS4010 Literature Review}}
+
+\author{%
+  \IEEEauthorblockN{Marc Labouchardiere (23857377)}\\
+  \IEEEauthorblockA{%
+    School of Physics, Mathematics and Computing\\
+    The University of Western Australia\\
+    Supervisor: Dr Jin B. Hong\\
+    22 May 2026
+  }
+}
+
+\begin{document}
+\maketitle
+
+\input{sections/00_introduction}
+
+\input{sections/01_mtd}
+\input{sections/02_threat_landscape}
+\input{sections/03_convergence}
+\input{sections/04_gap}
+
+% =====================================================================
+% Bibliography
+% =====================================================================
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+% =====================================================================
+% AI-use statement (excluded from word count)
+% =====================================================================
+\input{sections/ai_use_statement}
+
+\end{document}

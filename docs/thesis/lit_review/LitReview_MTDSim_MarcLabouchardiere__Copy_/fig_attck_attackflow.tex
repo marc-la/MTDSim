@@ -1,0 +1,200 @@
+% =====================================================================
+% Figure for lit-review §2.1 — Attack Flow excerpt (Tesla Kubernetes
+% cryptojacking, 2018).
+%
+% Adapted from MITRE/CTID Attack Flow example corpus
+% (`Tesla_Kubernetes_Breach.afb`). The figure carries §2.1 P3's claim
+% that Attack Flow encodes precondition logic, sequencing, and
+% dependency structure between MITRE ATT&CK techniques — i.e. it does
+% what intrusion-set membership cannot.
+%
+% Pedagogical features visible in this excerpt:
+%   (1) Condition object (green) — an environmental precondition (the
+%       publicly-exposed Kubernetes dashboard) that gates the
+%       initial-access action; only the `true' branch is realised.
+%   (2) Fan-out from T1133 — two parallel attack paths (credential
+%       exfiltration; cryptomining), demonstrating Attack Flow's
+%       multi-path representation.
+%   (3) AND operator (red) — three-input join in the cryptomining
+%       branch; T1496 Resource Hijacking required deploy-container,
+%       proxy, and non-standard-port all to succeed. The structural
+%       feature a linear kill-chain or intrusion-set cannot express.
+%   (4) Infrastructure object (grey cylinder) — a STIX-typed entity
+%       (Unlisted mining pool) related to both T1583.004 and T1496
+%       via `related-to' edges, illustrating that Attack Flow nodes
+%       carry STIX objects beyond techniques themselves. Cylinder
+%       shape signals that this is a different kind of node from
+%       the action rectangles.
+%   (5) Dagger marker (T1552) — the credential-branch path is analyst
+%       speculation in the source, not observed activity; the figure
+%       preserves provenance fidelity rather than presenting it as
+%       fact. Explained in the in-figure legend.
+%
+% Edge conventions:
+%   - Solid arrow (->): `effect' edge — downstream technique cannot
+%     execute until upstream completes (Attack Flow's precondition
+%     semantics).
+%   - Dashed line (no head): `related-to' STIX relationship — no
+%     causal ordering implied. Routed along outer columns (x=3.4 and
+%     x=13.6), descending below the action grid and turning into
+%     Infrastructure's west/east anchors, so neither dashed line
+%     crosses any node.
+%
+% Required packages (loaded in main.tex preamble):
+%   \usepackage{tikz}
+%   \usetikzlibrary{positioning, arrows.meta, calc, shapes.geometric}
+%   \usepackage{xcolor}
+% Note: shapes.geometric is required for the cylinder infra style.
+%
+% Usage:
+%   \input{fig_attck_attackflow}
+% wrapped in a figure* environment in sections/02_threat_landscape.tex.
+%
+% Sizing (21 May 2026): natural size approx 16.1 x 7.3 cm. Under the
+% current IEEEtran a4paper class, \textwidth approx 18.14 cm, so the
+% figure is \input at natural width (NO \resizebox) — it sits inside
+% \textwidth with a small margin and is not upscaled. The earlier
+% article-class \resizebox{\textwidth}{!}{...} wrapper upscaled the
+% artwork approx 13% (inflating its height) and has been removed.
+% Vertical spacing was tightened (this revision) to reduce footprint;
+% horizontal layout is unchanged. If a future class makes it overflow
+% \textwidth, re-wrap the \input in \resizebox{\textwidth}{!}{...}.
+% =====================================================================
+
+\begin{tikzpicture}[
+  >={Latex[length=2mm,width=1.5mm]},
+  every node/.style={font=\scriptsize, inner sep=0pt},
+  /tikz/every node/.append style={
+    execute at begin node={\hyphenpenalty=10000\exhyphenpenalty=10000}
+  },
+  action/.style={
+    rectangle, rounded corners=2pt,
+    draw=blue!55!black, line width=0.45pt,
+    fill=blue!5,
+    text width=22mm, align=center,
+    minimum height=10mm, inner sep=1mm
+  },
+  condition/.style={
+    rectangle, rounded corners=3pt,
+    draw=green!50!black, line width=0.55pt,
+    fill=green!10,
+    text width=24mm, align=center,
+    minimum height=10mm, inner sep=1mm
+  },
+  op/.style={
+    circle, draw=red!65!black, line width=0.55pt,
+    fill=red!15,
+    minimum size=10mm, inner sep=0pt,
+    font=\footnotesize\bfseries
+  },
+  infra/.style={
+    cylinder, shape border rotate=90, aspect=0.18,
+    draw=black!55, line width=0.5pt,
+    fill=black!7,
+    text width=22mm, align=center,
+    minimum height=11mm, inner sep=1mm,
+    font=\scriptsize
+  },
+  effect/.style={->, semithick, black!75},
+  trunk/.style={semithick, black!75},
+  related/.style={dashed, semithick, black!55}
+]
+
+% ---- Nodes ----
+% Top credential row (y = 1.7)
+\node[condition] (cond)  at (0,    1.7)  {%
+  \textbf{Precondition}\\
+  Kubernetes dashboard\\
+  exposed; no password};
+
+\node[action]    (t1133) at (3.4,  1.7)  {%
+  \textbf{T1133}\\
+  External Remote Services\\
+  \emph{console login}};
+
+\node[action]    (t1552) at (6.8,  1.7)  {%
+  \textbf{T1552}$^{\dagger}$\\
+  Unsecured Credentials\\
+  \emph{view AWS keys}};
+
+\node[action]    (t1078) at (10.2, 1.7)  {%
+  \textbf{T1078.004}\\
+  Cloud Accounts\\
+  \emph{auth.\ to AWS S3}};
+
+\node[action]    (t1530) at (13.6, 1.7)  {%
+  \textbf{T1530}\\
+  Data from Cloud Storage\\
+  \emph{access S3 buckets}};
+
+% Cryptomining fan-in column (tightened: ~1.35--1.45 cm centre-to-centre)
+\node[action]    (t1610) at (6.8,  0.40) {%
+  \textbf{T1610}\\
+  Deploy Container\\
+  \emph{new container}};
+
+\node[action]    (t1090) at (6.8, -0.90) {%
+  \textbf{T1090}\\
+  Proxy\\
+  \emph{Cloudflare CDN}};
+
+\node[action]    (t1571) at (6.8, -2.30) {%
+  \textbf{T1571}\\
+  Non-Standard Port\\
+  \emph{non-default port}};
+
+\node[action]    (t1583) at (3.4, -1.60) {%
+  \textbf{T1583.004}\\
+  Server\\
+  \emph{host mining pool}};
+
+\node[op]        (and)   at (10.2,-0.90) {AND};
+
+\node[action]    (t1496) at (13.6,-0.90) {%
+  \textbf{T1496}\\
+  Resource Hijacking\\
+  \emph{run cryptominer}};
+
+\node[infra]     (infra) at (10.2, -3.45) {%
+  \textbf{Infrastructure}\\
+  Unlisted mining pool};
+
+% ---- Effect edges (solid; Attack Flow precondition semantics) ----
+\draw[effect] (cond)  -- node[above, font=\scriptsize, midway] {true} (t1133);
+\draw[effect] (t1133) -- (t1552);
+\draw[effect] (t1552) -- (t1078);
+\draw[effect] (t1078) -- (t1530);
+
+% T1133 fans down to T1610 (initial access branches into cryptomining)
+\draw[effect] (t1133.south) |- (t1610.west);
+
+% T1583 trunks east then splits up to T1090 and down to T1571
+\coordinate (tsplit) at (5.5, -1.60);
+\draw[trunk]  (t1583.east) -- (tsplit);
+\draw[effect] (tsplit) |- (t1090.west);
+\draw[effect] (tsplit) |- (t1571.west);
+
+% Three-input fan-in to AND (top, left, bottom)
+\draw[effect] (t1610.east) -| (and.north);
+\draw[effect] (t1090.east) -- (and.west);
+\draw[effect] (t1571.east) -| (and.south);
+
+\draw[effect] (and.east)   -- (t1496.west);
+
+% ---- Related-to edges (dashed; STIX relationship, no causal order) ----
+% Routed along the outer columns (x=3.4 from T1583, x=13.6 from T1496),
+% descending below the action grid before turning in to Infrastructure's
+% west/east anchors. Neither dashed line crosses a node.
+\draw[related] (t1583.south) |- (infra.west);
+\draw[related] (t1496.south) |- (infra.east);
+
+% ---- In-figure legend strip ----
+\begin{scope}[shift={(0, -4.5)}, font=\scriptsize]
+  \draw[effect] (0.0,0) -- (0.7,0);
+  \node[anchor=west] at (0.75,0) {\emph{effect} (precondition)};
+  \draw[related] (4.5,0) -- (5.2,0);
+  \node[anchor=west] at (5.25,0) {\emph{related-to} (no causal order)};
+  \node[anchor=west] at (9.6,0) {$\dagger$ analyst speculation, not observed};
+\end{scope}
+
+\end{tikzpicture}
