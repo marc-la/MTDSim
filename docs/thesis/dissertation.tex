@@ -772,8 +772,14 @@ forgo exfiltration entirely) \citep{alshamrani2019}.
 % section assembly (2026-08-18 ruling). DO NOT RE-FLAG (pass-5 rejections):
 % R1 the NIST behavioural sentence stays (G7a resolution); R2 the
 % currency opener stays (claim-first); R3 "against a specific target"
-% stays; R4 the sponsorship clause stays. Pass 6 (batched voice pass)
-% next. Guardrails:
+% stays; R4 the sponsorship clause stays. PASS 6 RUN AND RULED
+% 2026-09-02: P1-P4 accepted and applied (demonstrative run broken,
+% NTDS.dit and OT defined at first use, advisory cite repeated at its
+% run's end); gate now passes all nine checks. The APT-attacker/actor
+% registry row remains PROPOSED (terminology.md) --- the NIST
+% sentence's "an APT actor" awaits that ruling pass. §3.1.1 is THROUGH
+% PASS 6; the integration check runs on the assembled 3.1 once 3.1.2 /
+% 3.1.3 clear their passes (M2 / M3a still open there). Guardrails:
 % the advisory is cited for what a documented campaign looks like and
 % on what timescale, never as an MTD claim; no MTD mention here (that
 % move is ch1's, notes/ch1_introduction/
@@ -811,10 +817,14 @@ land and valid accounts.
 % [VERIFY watchlist] dictated "OT environment" repaired to "IT
 % environments" --- the advisory's words are "within some victim IT
 % environments" (OT is the target; IT is where the footholds sit).
-NTDS.dit was dumped from three domain controllers over a four-year
+NTDS.dit, the Active Directory database, was dumped from three domain
+controllers over a four-year
 period; Volt Typhoon actors were largely silent after credential
 dumping, performing discovery without bulk exfiltration: persistence
 maintained and revalidated.
+% [pass 6 P2 applied 2026-09-02, accepted: NTDS.dit defined at first
+% use by the advisory's own apposition ("the Active Directory
+% database").]
 % [3b ruled 2026-09-02, accepted: seam kept; "from three domain
 % controllers" inserted per the marker (advisory fact, Overview of
 % Activity).]
@@ -829,20 +839,28 @@ maintained and revalidated.
 % sentence: "... APT attackers were very silent after credential
 % dumping and would perform discovery without bulk exfiltration,
 % persistence maintained and revalidated".]
-That is pre-positioning as an objective, for possible future OT
-disruption.
+That is pre-positioning as an objective, for possible future
+operational technology (OT) disruption.
+% [pass 6 P3 applied 2026-09-02, accepted: OT spelled at first use.]
 % [3b ruled 2026-09-02, accepted: doubled halves cut to one --- the
 % FIRST kept (carries "as an objective" and the future OT disruption);
 % the cut half was "the agencies assess pre-positioning for OT
 % disruption", whose attribution now rides on the citation and the
 % next sentence. Flip if the agencies-attribution should be in prose.]
 This is not consistent with traditional cyber espionage, where there is
-exfiltration over a shorter time frame.
+exfiltration over a shorter time frame \citep{cisaaa24038a}.
+% [pass 6 P4 applied 2026-09-02, accepted: the advisory cite repeated
+% at the end of its derived run (NTDS -> pre-positioning -> espionage
+% contrast), closing gate check 3.]
 % [3b ruled 2026-09-02, accepted: "impact" -> "exfiltration" (the
 % advisory's contrast class is espionage/intelligence gathering, i.e.
 % collection).]
-This is NIST's third objective class \citep{nist2011sp80039}.
+Pre-positioning is NIST's third objective class \citep{nist2011sp80039}.
 % [3b ruled 2026-09-02, accepted: closing cite added.]
+% [pass 6 P1 applied 2026-09-02, accepted: "This is" -> "Pre-positioning
+% is" --- breaks the run of three demonstrative openers (voice SS d:
+% pairs, never three) and anchors the referent; the remaining "That
+% is... This is..." pair is the licensed two-beat.]
 % [KEEP --- pass 4] the close pays off the lifecycle paragraph's "may
 % forgo exfiltration entirely" with the live campaign --- faithful to
 % both sources (nist2011sp80039 App. B; cisaaa24038a.md Concept 4),
