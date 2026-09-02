@@ -1,7 +1,7 @@
 ---
 status: living
 created: 2026-08-20
-updated: 2026-09-02   # four rows ratified from the §2.2.2 pass-6 ledger (deployment strategy, MTDShield, deployment, shuffle); +1 PROPOSED from the §3.1.1 pass-6 census (APT attacker vs APT actor)
+updated: 2026-09-02   # four rows ratified from the §2.2.2 pass-6 ledger (deployment strategy, MTDShield, deployment, shuffle); APT-attacker row ratified same day from the §3.1.1 pass-6 census
 ---
 
 # Terminology registry — one term per concept across the dissertation
@@ -62,12 +62,13 @@ string are legitimate (noted per row).
 | Tay's selector | **MTDShield** (Tay's own name); first-use apposition *Tay's reinforcement-learning selector*; classified **hybrid** (time-triggered evaluation, posture-conditioned movement) | *the reactive selector* (superseded 2026-09-02 — Tay's own word, kept only in cited phrasing), *learned selector*, *the defender agent* as its name | Marc, 2026-09-02 (hybrid ruling + §2.2.2 pass 6) |
 | The defensive move as a scheduling event (the thing whose interval is drawn) | **deployment** | *MTD mutation* (only inside Zhang's cited phrasing); **rewrite is a distinct sense** — what a mechanism does to the network (the Rewrites column, "never rewritten") — never merged | Marc, 2026-09-02 (§2.2.2 pass 6) |
 | The S family of SDR (class noun) | **shuffle** (with *diversity* as its pair) | *shuffling* — only inside the cited taxonomy's own phrasing (§2.1's primitive walk, Cho/Hong--Kim) | Marc, 2026-09-02 (§2.2.2 pass 6) |
+| The APT party as a named class member | **APT attacker** (Alshamrani 2019's own phrase) | *APT actor* — never as the class name; *actor* stays only inside source-echo phrasing (*Volt Typhoon actors* is the advisory's term — legitimate, cited-adjacent) | Marc, 2026-09-02 (§3.1.1 pass-6 ruling) |
 
 ### Proposed — awaiting Marc's ruling pass
 
 | Concept | Recommendation | Alternatives considered | Census |
 |---|---|---|---|
-| The APT party as a named class member | **APT attacker** — also Alshamrani 2019's own phrase ("An APT attacker: (i) pursues…"); *actor* stays only inside source-echo phrasing (*Volt Typhoon actors* is the advisory's term — legitimate, cited-adjacent) | *APT actor* (the §3.1.1 NIST sentence's current word — neither NIST's nor Alshamrani's verbatim) | 2026-09-02, dissertation.tex: *APT attacker(s)* 13, *APT actor* 1 (§3.1.1), *Volt Typhoon actors* 2 (advisory phrasing) |
+| *(none open — the 2026-09-02 §3.1.1 ruling ratified the APT-attacker row)* | | | |
 
 ## Ruling workflow
 
