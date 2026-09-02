@@ -77,6 +77,28 @@ executes: 2026-08-31_ch3_port_plan.md
 >    Valid Accounts → Domain Accounts → Volt Typhoon's G1017 procedure
 >    row (the recurring illustration). Seam flagged: the prose worked
 >    example still walks Phishing/T1566.001 — re-dictate or keep both.
+> 10. **3.1.2 P1 RESHAPED on Marc's feedback walk** (2026-09-02, fourth
+>    session): P1 = what ATT&CK is + lingua franca + contents + domain
+>    decomposition; P2 = the Enterprise matrix hierarchy + walk +
+>    durability. Executed per his rulings: Fort Meade clause cut ("in
+>    2013" stays); the [GAP] matrix-naming sentence filled by merging
+>    his dictation into the catalogue sentence (joint flagged); the
+>    Enterprise/ICS/Mobile decomposition sentence repaired from his
+>    dictation; S2 salvage sentence (groups deepening) CUT per
+>    "groups as a concept only" (revivable); the STIX sentence MOVED
+>    to 3.1.3 heading the "Yet this serialisation" paragraph (defines
+>    STIX where used — partially heals move-seam 2; new referent +
+>    citation residue noted there); the worked example RE-WALKED onto
+>    Valid Accounts → Domain Accounts → Volt Typhoon's procedure
+>    (closes item 9's seam; recast flagged 3b); "It is the durable
+>    level at which to model" and the IP-decay sentence CUT (sadlek2022
+>    now uncited; decay-vs-persist evidence leg leaves the thesis —
+>    technical-claim flag in the tex CUT log); durability compressed to
+>    one closer sentence assembled from his spoken feedback (3b,
+>    ratify-on-read); the figure caption STRIPPED to one line citing
+>    mitre2026attackv19 (the ATT&CK-website anchor) — the walk and the
+>    STIX-bundle provenance line deleted (provenance stays in the tex
+>    comment and the generator).
 >
 > Rationale: Cho 2020's §V → §VII → §VIII precedence order, and the felt
 > duplication between the Metrics heading and the hinge's retitled heading
