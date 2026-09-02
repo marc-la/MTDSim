@@ -6,6 +6,32 @@ executes: 2026-08-31_ch3_port_plan.md
 
 # Ch3 patchwork first draft — the review's own sentences assembled into the 12-unit shape, gaps left as labelled holes
 
+> **Structure amended 2026-09-02 (Marc's ruling; content and gaps unchanged, no
+> unit added or deleted).** The section bodies below stand as ledgered, but four
+> structural changes are applied in `dissertation.tex` and supersede this file's
+> ordering and headings:
+> 1. **3.2 reordered to Cho's own order** (metrics §VII before evaluation
+>    methods §VIII): the study-anatomy sentence is now an unnumbered strand
+>    opener under the 3.2 heading; **3.2.1 is Metrics** (below as 3.2.2);
+>    **3.2.2 is Evaluation methods** — renamed from *Validation methods*
+>    (Cho's §VIII title is "Evaluation Methods"; label now
+>    `subsec:evaluation-methods`).
+> 2. **The hinge (below as 3.2.3 "Metrics and the attacker model") lost its
+>    heading** and is an unnumbered strand closer mirroring 3.3's interstitial —
+>    the retitled heading read as a metrics duplicate, and the strand now ends
+>    on the hinge it hands to 3.3. GAP G1 unchanged; label dropped (no refs).
+> 3. **3.3 subsections swapped**: 3.3.1 is now *Attacker modelling traditions*,
+>    3.3.2 *Attacker model criterion* — survey → instrument → measurement →
+>    verdict, the criterion sitting directly against the table it scores.
+>    GAPs G4a/G4b move with the traditions unit; G3 stays with the criterion.
+> 4. **The interstitial's closing stitch revised** for the swap ("This section
+>    surveys the models the critique is aimed at, builds that scale …") —
+>    Marc's to accept, like every stitch.
+>
+> Rationale: Cho 2020's §V → §VII → §VIII precedence order, and the felt
+> duplication between the Metrics heading and the hinge's retitled heading
+> (2026-09-02 session). The ledger stays 1 / 3 / 3 / 5 = 12 units.
+
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
 Every sentence below is from the submitted review (`docs/sources/lit_review/LIT_REVIEW.md`, line numbers in the ledgers) or from a rubric-gated note in `docs/notes/ch3_lit_review/`, with three exceptions marked **[stitch]** — connective sentences a session composed so the unit reads; each is Marc's to accept, replace, or cut. Gaps are `[GAP Gn …]` placeholders keyed to the port plan §4 (G8 added: the adverse-sample warrant). Citations are `\citep` keys; the bib status is at the end.

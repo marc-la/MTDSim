@@ -2,6 +2,7 @@
 status: open                  # the executing brief for the ch3 boil-down; retire when the ch3 skeleton is cut into dissertation.tex and every portable unit is assembled
 created: 2026-08-31
 supersedes-in-part: 2026-08-21_ch3_lit_review_design.md (Part 2's unit ledger and section order; Part 1's contract stands)
+amended: 2026-09-02 — §2's within-strand order revised on Marc's ruling (see the amendment note atop 2026-08-31_ch3_patchwork_draft.md): 3.2 runs opener → metrics → evaluation methods (renamed) → hinge as unnumbered closer; 3.3 runs interstitial → traditions → criterion → cross-section → gap. Ledger and gaps unchanged.
 ---
 
 # Porting the literature review into ch3 — Marc's working plan critiqued, the ruled-on shape, the section-level port ledger, and the gaps that have to be written
