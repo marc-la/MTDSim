@@ -502,6 +502,25 @@
   url          = {https://attack.mitre.org/resources/updates/updates-april-2026/}
 }
 
+% The ATT&CK knowledge base itself — added 2026-09-02 (Marc's ruling,
+% §3.1.2 citation review): the carrier for catalogue-page facts (the
+% group / software / campaign entries, tactic and technique codes,
+% procedure examples) — one citation to the knowledge base at the
+% pinned version, never per-page cites. The prose IDs it vouches for
+% are verified against the pinned v19.1 STIX bundle
+% (data/gap/_attack/enterprise-attack-19.1.json). mitre2026attackv19
+% above stays the anchor for version-specific claims (the 15-tactic
+% set); strom2018mitre predates the cited entries (G1017, C0035 are
+% 2023–24 additions) and cannot carry them.
+@misc{mitre2026attackkb,
+  author       = {{The MITRE Corporation}},
+  title        = {{MITRE ATT\&CK}},
+  howpublished = {Knowledge base},
+  year         = {2026},
+  note         = {Enterprise domain, v19.1; accessed 2~September 2026},
+  url          = {https://attack.mitre.org}
+}
+
 % Cho & Ben-Asher 2018 — SAGE JDMS. TRANSCRIBED 2026-08-17 from the source
 % markdown's own header (docs/sources/lit_review/chobenasher2018.md: "JDMS
 % Special Issue Article ... 2018, Vol. 15(2) 147-160 ... DOI:
