@@ -747,9 +747,11 @@ forgo exfiltration entirely) \citep{alshamrani2019}.
 % arranged to the scaffold order on his ask. 3b WALK DONE 2026-09-02
 % ("all the 3b markers I accept"): every marker resolved in the
 % direction it flagged, each ruling logged inline --- flip any by its
-% log. The two VERIFY-watchlist scope items remain OPEN (below).
-% ~135 w against a 1-unit ledger already carrying two paragraphs ---
-% pass 5 reconciles. Next: scrutinise-draft runs pass 4. Guardrails:
+% log. ~135 w against a 1-unit ledger already carrying two paragraphs
+% --- pass 5 reconciles. PASS 4 RUN 2026-09-02: findings sit inline
+% below and across 3.1.2 / 3.1.3 as [SCOPE M1] x2, [INSERT M2],
+% [TIGHTEN M3] + [VERIFY M3], [KEEP] x3 --- Marc rules on each in
+% place. Guardrails:
 % the advisory is cited for what a documented campaign looks like and
 % on what timescale, never as an MTD claim; no MTD mention here (that
 % move is ch1's, notes/ch1_introduction/
@@ -763,17 +765,29 @@ attackers.
 For example, this CTI vendor report reports that APT attacks
 have a global median dwell time of 14 days and espionage-class
 intrusions 122 days \citep{mtrends2026}.
-% [VERIFY watchlist --- OPEN] M-Trends' 14 d is the global median
-% across ALL intrusions, not APT attacks specifically; the 122 d
-% espionage-class figure is the APT-relevant one
-% (breach_reports_macro_timing.md). Scope decision yours. "This CTI
-% vendor report" also reads as a spoken stage direction --- name the
-% report, or let the citation carry it.
+% [SCOPE, M1 --- pass 4, 2026-09-02; breach_reports_macro_timing.md]
+% 14 d is M-Trends' global median across ALL intrusions (an
+% eCrime-dominated IR population), not APT attacks; the 122 d
+% espionage-class figure is the APT-relevant one. As worded the
+% sentence also undercuts the next one: if APT dwell were 14 days,
+% the pacing-divergence point collapses. Re-scope; wording yours.
+% [3b, minor] "this CTI vendor report" reads as a spoken stage
+% direction --- name M-Trends, or let the citation carry it. Yours.
 The pacing depends on the objectives. The example that we bring up in
 Chapter~1, Volt Typhoon, established footholds in victim IT
 environments for at least five years using capability and
 infrastructure \citep{cisaaa24038a}: living off the land and valid
 accounts, the low-and-slow is really the law of the land here.
+% [KEEP --- pass 4] "The pacing depends on the objectives" is the
+% unit's hinge: it is simultaneously M-Trends' own pacing-divergence
+% framing (breach_reports_macro_timing.md) and Alshamrani's
+% objective-conditioned suffix --- one sentence welds the statistical
+% evidence to the definitional claim two paragraphs up.
+% [VERIFY, M3 --- pass 4] "that we bring up in Chapter~1": forward
+% dependency on an undrafted chapter. The ch1 case study is planned
+% (notes/ch1_introduction/mtd_absent_from_volt_typhoon_response.md),
+% so the dependency is planned, not broken --- but re-verify once ch1
+% exists, and whether ch3 leans on ch1 or stands alone is yours.
 % [3b ruled 2026-09-02, accepted: "may establish" -> "established"
 % (the advisory reports observed fact).]
 % [VERIFY watchlist] dictated "OT environment" repaired to "IT
@@ -786,10 +800,13 @@ maintained and revalidated.
 % [3b ruled 2026-09-02, accepted: seam kept; "from three domain
 % controllers" inserted per the marker (advisory fact, Overview of
 % Activity).]
-% [VERIFY watchlist --- OPEN] subject scope: the silence / discovery /
-% re-validation facts are the advisory's observations of Volt Typhoon
-% specifically; the sentence generalises to "APT attackers". Volt
-% Typhoon, or the class? Yours.
+% [SCOPE, M1 --- pass 4, 2026-09-02; cisaaa24038a.md Concept 2] the
+% silence / discovery-without-exfiltration / re-validation facts are
+% the advisory's observations of Volt Typhoon SPECIFICALLY; the
+% sentence generalises to "APT attackers". Class-level claims come
+% from the survey (Alshamrani's own "what is NOT an APT" boundary,
+% S II-B); exemplar claims from the exemplar. Subject is Volt Typhoon;
+% wording yours.
 That is pre-positioning as an objective, for possible future OT
 disruption.
 % [3b ruled 2026-09-02, accepted: doubled halves cut to one --- the
@@ -804,6 +821,11 @@ some sort of exfiltration involved over a shorter time frame.
 % collection).]
 This is NIST's third objective class \citep{nist2011sp80039}.
 % [3b ruled 2026-09-02, accepted: closing cite added.]
+% [KEEP --- pass 4] the close pays off the lifecycle paragraph's "may
+% forgo exfiltration entirely" with the live campaign --- faithful to
+% both sources (nist2011sp80039 App. B; cisaaa24038a.md Concept 4),
+% and it pre-loads the objective-conditioning story the model chapters
+% need the literature to have told.
 
 % 1 unit. Review Sec. III-A whole + Sec. III-B para 2 (Sadlek; pyramid
 % cut). Attack Flow is a component of ATT&CK here, as in the review's
@@ -861,6 +883,15 @@ The Attack Flow project \citep{ctid2025attackflow} curates
 these incidents into structured records, and across them a group's
 toolchains and sequencing recur from one operation to the next: the
 consistency analysts rely on for attribution.
+% [INSERT, M2 --- pass 4, 2026-09-02; cisaaa24038a.md Concept 3] an
+% earned live instance sits unused at exactly this point: Volt
+% Typhoon's LOTL + valid accounts means conventional atomic IOCs are
+% largely ABSENT from the campaign, and the advisory itself frames
+% detection as necessarily behavioural --- Sadlek's indicator-decay
+% argument made concrete by current, co-sealed reporting. Budget
+% caveat: the section runs ~450 w over ledger, so this is a named
+% option, not an obligation (the #86 sell-upwards posture says it
+% earns its words). Dictate or decline.
 That durability is the point: behaviour at the
 technique-and-tactic level is stable enough to model an attacker
 against.
@@ -897,6 +928,12 @@ coverage cost.
 % ruling: no landscape); the figure is wide (2.46:1), so labels land ~5pt on
 % the page, under the ~8pt guide --- a legibility trade accepted for portrait.
 % CAPTION SESSION-DRAFTED --- yours for the voice pass.
+% [KEEP --- pass 4, 2026-09-02] the caption's restraint sentence
+% ("pre-positioned ... without executing it") is the hand-curated
+% flow's fidelity contract #3 (terminal condition, not an Impact
+% technique), and "no flow in the CTID corpus" is the README's
+% coverage-cost fact --- grounded end to end. None of the 13 exemplar
+% nodes is touched by the v14->v19.1 deltas the README records.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{fig_3-1a_attack_flow_volt_typhoon}
@@ -930,6 +967,11 @@ coverage cost.
 Because APT behaviour is
 both well-documented and recurrent, it can be reconstructed into a
 reusable attack profile rather than replayed as a single incident.
+% [TIGHTEN, M3 --- pass 4, 2026-09-02] this claim now appears at both
+% strand entry and strand exit: the chapter preamble's "documented
+% durability of APT tradecraft makes such profiles a stable basis for
+% evaluation" (alshamrani2019) and this sentence. One should carry it
+% --- pass 5's call which; ruling yours.
 
 Attack profiling captures attacker behaviour as structured
 representations: connecting individual tactics, techniques, and
