@@ -871,25 +871,32 @@ Pre-positioning is NIST's third objective class \citep{nist2011sp80039}.
 % need the literature to have told.
 
 % 1 unit. Review Sec. III-A whole + Sec. III-B para 2 (Sadlek; pyramid
-% cut). Attack Flow is a component of ATT&CK here, as in the review's
-% own section --- no split (ruled 2026-08-31).
+% cut). RESTRUCTURED 2026-09-02 (Marc's ruling): the argument inverted
+% big-to-small --- P1 the knowledge base and its status, P2 the matrix
+% and the hierarchy, with a matrix-derivation figure. The Attack Flow
+% material (S3 clause + the serialisation-gap paragraph + Figure)
+% moved to the bottom of 3.1.3 --- REVERSES the 2026-08-31 no-split
+% ruling, Marc's own reversal: Attack Flow is now introduced with
+% attack profiling, where the manual-curation exemplar uses it.
+% Sentences are Marc's, rearranged; seams and gaps flagged, not
+% written over.
 \subsection{MITRE ATT\&CK}
 \label{subsec:attack}
 
 MITRE ATT\&CK is a knowledge base of attacker behaviours derived from
 real-world observations, developed by the MITRE Corporation following
-its 2013 Fort Meade Experiment \citep{strom2018mitre}. ATT\&CK
-organises behaviour into a four-level hierarchy of tactics, techniques
-and sub-techniques, and procedures. A tactic refers to \emph{what} an
-attacker does to achieve a goal; a technique refers to \emph{how} that
-tactic is realised; a sub-technique refines a technique into a specific
-variant; a procedure is a particular instance of a technique, capturing
-the steps by which it has been implemented \citep{rodriguez2024}. The
-Initial Access tactic (TA0001), for example, may be realised through
-Phishing (T1566), via the Spearphishing Attachment sub-technique
-(T1566.001), with a procedure describing a crafted Office document
-whose macro executes a PowerShell payload on open.
-
+its 2013 Fort Meade Experiment \citep{strom2018mitre}. ATT\&CK has
+become the \emph{lingua franca} for attacker behaviour
+\citep{ferraz2026, buchel2025}.
+% [moved 2026-09-02 restructure: the lingua-franca sentence forward
+% from mid-P2 --- the subsection's purpose sentence, now stated before
+% the mechanics rather than after them.]
+% [GAP --- dictate: a sentence naming what MITRE maintains --- the
+% attack matrix plus the group / software / campaign catalogues (your
+% sketch: "they maintain an attack matrix, they maintain attack
+% groups, software, campaigns"; the Enterprise domain if you want it).
+% The next sentence's "Beyond the matrix itself" leans on the matrix
+% having been named here.]
 Beyond the matrix itself, ATT\&CK catalogues named attacker groups
 (G0016 for APT29), software (S0154 for Cobalt Strike), and campaigns
 (C0024 for the SolarWinds Compromise), each group characterised by the
@@ -904,102 +911,96 @@ These
 catalogues are serialised in Structured Threat Information Expression
 (STIX) 2.1, the standard machine-readable interchange format for CTI;
 among public STIX exports, the Enterprise bundle preserves the richest
-campaign-level structure \citep{ferraz2026}. ATT\&CK has become the
-\emph{lingua franca} for attacker behaviour \citep{ferraz2026,
-buchel2025}. Its distinguishing contribution is technique-level
-granularity, finer than the phase-level Cyber Kill Chain
-\citep{hutchins2011, alsada2024}.
-% [stitch] next sentence
-It is also the durable level at which to model. Sadlek et al.\ identify
-TTPs as ``the most mature indicators used for the security defense''
-\citep[p.~3]{sadlek2022}, placing them in a behavioural class
-categorically distinct from disposable atomic indicators: the validity
+campaign-level structure \citep{ferraz2026}.
+
+% [P2 --- the matrix. Restructure ruling 2026-09-02: the hierarchy
+% teaching now follows the status paragraph (big to small).]
+ATT\&CK
+organises behaviour into a four-level hierarchy of tactics, techniques
+and sub-techniques, and procedures. A tactic refers to \emph{what} an
+attacker does to achieve a goal; a technique refers to \emph{how} that
+tactic is realised; a sub-technique refines a technique into a specific
+variant; a procedure is a particular instance of a technique, capturing
+the steps by which it has been implemented \citep{rodriguez2024}. The
+Initial Access tactic (TA0001), for example, may be realised through
+Phishing (T1566), via the Spearphishing Attachment sub-technique
+(T1566.001), with a procedure describing a crafted Office document
+whose macro executes a PowerShell payload on open
+(Figure~\ref{fig:attack-matrix}).
+% [repair 2026-09-02, flagged: the figure pointer folded in as a
+% parenthetical --- the compress licence's mechanical fold.]
+% [seam --- flagged 2026-09-02 (recurring-illustration ruling): the
+% figure's zoom path walks Valid Accounts (T1078) -> Domain Accounts
+% (T1078.002) -> the Volt Typhoon procedure row (G1017), tying it to
+% 3.1.1's campaign and the Attack Flow figure; this sentence's worked
+% example still walks Phishing/T1566.001. Re-dictate the walk onto the
+% Valid Accounts path, or keep both examples --- yours.]
+It is the durable level at which to model.
+% [seam --- flagged 2026-09-02: "also" deleted (it hung off the cut
+% granularity sentence), and "It" now dangles --- its antecedent
+% (technique-level behaviour) was cut with that sentence. Re-anchor is
+% yours.]
+The validity
 of an IP address decays within a day \citep{sadlek2022}, whereas
 behavioural patterns persist as long as the attacker's operational
 habits do.
-% [moved 2026-09-02, ratified dissolve of 3.1.1 para 3: S3 placed
-% beside the durability argument (toolchains recur ~ behavioural
-% patterns persist). Its first half (Attack Flow curates) duplicates
-% the teaching in the next paragraph --- trim in Marc's pass. NOT yet
-% fitted.]
-The Attack Flow project \citep{ctid2025attackflow} curates
-these incidents into structured records, and across them a group's
-toolchains and sequencing recur from one operation to the next: the
-consistency analysts rely on for attribution.
-% [INSERT, M2 --- pass 4, 2026-09-02; cisaaa24038a.md Concept 3] an
-% earned live instance sits unused at exactly this point: Volt
-% Typhoon's LOTL + valid accounts means conventional atomic IOCs are
-% largely ABSENT from the campaign, and the advisory itself frames
-% detection as necessarily behavioural --- Sadlek's indicator-decay
-% argument made concrete by current, co-sealed reporting. Budget
-% caveat: the section runs ~450 w over ledger, so this is a named
-% option, not an obligation (the #86 sell-upwards posture says it
-% earns its words). Dictate or decline.
+% [pare 2026-09-02, ruled: the Sadlek direct quote ("the most mature
+% indicators used for the security defense") and its lead-in clause
+% cut (direct-quote convention); the decay-vs-persist evidence leg
+% kept with its cite. Claim dropped with the quote: TTPs as the *most
+% mature* indicator class --- no other carrier in the thesis.]
 That durability is the point: behaviour at the
 technique-and-tactic level is stable enough to model an attacker
 against.
+% [CUT log, restructure ruling 2026-09-02, do-not-re-flag:
+% (1) "Its distinguishing contribution is technique-level granularity,
+% finer than the phase-level Cyber Kill Chain" (hutchins2011,
+% alsada2024) --- cut; hutchins2011 stays cited in ch2 and ch4; the
+% level claim is carried by the durability closer.
+% (2) The M2 [INSERT] option (Volt Typhoon LOTL / absent-IOC live
+% instance beside the decay sentence, cisaaa24038a.md Concept 3) ---
+% DECLINED by the restructure's two-paragraph target; revive by
+% asking.]
 
-Yet this serialisation, the ATT\&CK-in-STIX export, records
-\emph{which} techniques an attacker used without recording \emph{how}
-they fit together: it encodes no temporal order, explicit
-prerequisites, environmental constraints, or branching logic between
-techniques \citep{ferraz2026}. Attack Flow, a STIX 2.1 extension
-language released by MITRE Engenuity's Center for Threat-Informed
-Defense (CTID) in 2022, supplies exactly this missing structure,
-representing the sequence and dependency relationships between
-techniques observed in real incidents \citep{ctid2025attackflow}. In a
-flow, actions (the ATT\&CK techniques) are joined by \emph{effect}
-edges that carry precondition semantics (a downstream action cannot
-execute until the upstream one completes), with AND/OR operators
-expressing multi-input dependencies and conditions capturing
-environmental state \citep{ctid2025attackflow}. This is the structure a
-linear kill chain or flat intrusion-set membership cannot express:
-Figure~\ref{fig:attack-flow-volt-typhoon} reconstructs the Volt Typhoon
-critical-infrastructure campaign on the model, where an OR operator
-joins two alternative credential sources, Exploitation for Privilege
-Escalation (T1068) and Unsecured Credentials (T1552), into Valid
-Accounts (T1078). CTID maintains a corpus of such flows reconstructed by
-analysts from publicly reported incidents
-\citep{ctid2025attackflow}: reliable structured behaviour, bought at a
-coverage cost.
-
-% FIGURE 3.1 --- the Volt Typhoon Attack Flow exemplar (replaces the Tesla
-% placeholder; Marc's ruling 2026-08-31). Hand-authored from CISA AA24-038A,
-% reduced to a teaching subset and restyled to the house palette; asset and
-% pipeline in data/gap/hand_curated/ (README) and
-% tools/restyle_attackflow_svg.py. Included portrait at \textwidth (Marc's
-% ruling: no landscape); the figure is wide (2.46:1), so labels land ~5pt on
-% the page, under the ~8pt guide --- a legibility trade accepted for portrait.
+% FIGURE --- the ATT&CK matrix (Marc's ruling trail 2026-09-02, three
+% refinements: not a screenshot; then "almost identical to the
+% original" design; then the meet-in-the-middle --- base matrix in the
+% site's design language but SHAPE ONLY (silhouette at page width,
+% minutiae on zoom), zoom cascade reusing the site's gestures: accent
+% region box -> technique cells -> sub-techniques out the side behind
+% the dark spine -> the technique page's Procedure Examples. Sans
+% typography per the site. The zoom path is the recurring
+% illustration: Valid Accounts -> Domain Accounts -> Volt Typhoon's
+% G1017 procedure row, threading 3.1.1's campaign and the Attack Flow
+% figure.) Generated by tools/attack_matrix_figure.py from the pinned
+% Enterprise v19.1 STIX bundle (data/gap/_attack/); every name, count,
+% tab, and procedure row read from the artefact, nothing typed.
 % CAPTION SESSION-DRAFTED --- yours for the voice pass.
-% [KEEP --- pass 4, 2026-09-02] the caption's restraint sentence
-% ("pre-positioned ... without executing it") is the hand-curated
-% flow's fidelity contract #3 (terminal condition, not an Impact
-% technique), and "no flow in the CTID corpus" is the README's
-% coverage-cost fact --- grounded end to end. None of the 13 exemplar
-% nodes is touched by the v14->v19.1 deltas the README records.
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{fig_3-1a_attack_flow_volt_typhoon}
-  \caption[Attack Flow of the Volt Typhoon campaign]{An Attack Flow of the
-  Volt Typhoon critical-infrastructure campaign, reconstructed by hand from
-  the joint advisory AA24-038A \citep{cisaaa24038a} and reduced to its spine.
-  Grey rounded boxes are actions, each an ATT\&CK technique (v19.1) labelled
-  with its identifier; arrows are \emph{effect} edges carrying precondition
-  semantics (a downstream action cannot execute until the upstream one
-  completes). The accented circle is the OR operator: either credential
-  source --- Exploitation for Privilege Escalation (T1068) or Unsecured
-  Credentials (T1552) --- satisfies the join into Valid Accounts (T1078). The
-  two pale boxes are conditions, carrying Attack Flow's True/False branch
-  tabs: the exploited entry point, and the campaign's terminal state, which
-  records its restraint --- pre-positioned for operational-technology
-  disruption without executing it. Volt Typhoon has no flow in the CTID
-  corpus; this one was reconstructed from the advisory, the coverage cost the
-  text names made concrete.}
-  \label{fig:attack-flow-volt-typhoon}
+  \includegraphics[width=\textwidth]{fig_3-1-2a_attack_matrix}
+  \caption[The ATT\&CK Enterprise matrix and its hierarchy]{The
+  ATT\&CK Enterprise matrix (v19.1) and the hierarchy beneath one
+  cell, drawn to the knowledge base's own design. Top: the fifteen
+  tactic columns in matrix order, one cell per technique; a grey side
+  tab marks a technique that carries sub-techniques. The accented box
+  is the zoom region: the Initial Access tactic (TA0001) opens into
+  its eleven techniques, and Valid Accounts (T1078) decomposes into
+  its four sub-techniques, with Domain Accounts (T1078.002) accented.
+  The final panel is the sub-technique's page: its procedure examples
+  --- the procedure level, which has no cell in the matrix --- led by
+  Volt Typhoon (G1017), the campaign of
+  Section~\ref{subsec:apt}. Every name, count, tab, and
+  procedure row is drawn from MITRE's Enterprise ATT\&CK v19.1 STIX
+  bundle.}
+  \label{fig:attack-matrix}
 \end{figure}
 
 % 1 unit. Review Sec. III-D nearly verbatim (the review's exemplar
 % section); closer from notes/ch3_lit_review/tactic_duration_precedent_survey.md.
+% APPENDED 2026-09-02 (restructure ruling): the Attack Flow material
+% from 3.1.2 now sits at the bottom of this subsection --- see the
+% move comment there. Overdraft accordingly; reconcile at assembly.
 \subsection{Attack profiling}
 \label{subsec:profiling}
 
@@ -1071,6 +1072,88 @@ data, but the public corpus leaves them empty, because breach reports
 rarely contain machine-usable timestamps; ATT\&CK campaign records
 carry only month-granularity first- and last-seen dates
 \citep{ctid2025attackflow, mitre2026attackv19}.
+
+% [MOVED 2026-09-02, restructure ruling: the Attack Flow material from
+% 3.1.2 --- the S3 salvage clause and the whole serialisation-gap
+% paragraph, with the Volt Typhoon figure --- appended here verbatim,
+% per Marc: "append it to the bottom of 3.1.3 ... I'll rework this in
+% a future session". Reverses the 2026-08-31 no-split ruling (his
+% reversal): Attack Flow is introduced where attack profiling uses it.
+% KNOWN SEAMS for that rework: (1) "these incidents" in the S3 clause
+% has lost its referent (was the catalogued campaigns in 3.1.2); (2)
+% "Yet this serialisation" now follows the tempo paragraph, not the
+% STIX sentence it answered; (3) the serialisation-gap claim
+% (ferraz2026) duplicates the procedural-semantic-gap paragraph in P2
+% above --- the merge candidate; (4) P3's earlier backreference "the
+% analyst-curated Attack Flow corpus exemplifies the manual path" now
+% precedes the introduction. NOT fitted.]
+% [moved 2026-09-02, ratified dissolve of 3.1.1 para 3: S3 --- its
+% first half (Attack Flow curates) duplicates the teaching in the next
+% paragraph --- trim in Marc's pass. NOT yet fitted.]
+The Attack Flow project \citep{ctid2025attackflow} curates
+these incidents into structured records, and across them a group's
+toolchains and sequencing recur from one operation to the next: the
+consistency analysts rely on for attribution.
+
+Yet this serialisation, the ATT\&CK-in-STIX export, records
+\emph{which} techniques an attacker used without recording \emph{how}
+they fit together: it encodes no temporal order, explicit
+prerequisites, environmental constraints, or branching logic between
+techniques \citep{ferraz2026}. Attack Flow, a STIX 2.1 extension
+language released by MITRE Engenuity's Center for Threat-Informed
+Defense (CTID) in 2022, supplies exactly this missing structure,
+representing the sequence and dependency relationships between
+techniques observed in real incidents \citep{ctid2025attackflow}. In a
+flow, actions (the ATT\&CK techniques) are joined by \emph{effect}
+edges that carry precondition semantics (a downstream action cannot
+execute until the upstream one completes), with AND/OR operators
+expressing multi-input dependencies and conditions capturing
+environmental state \citep{ctid2025attackflow}. This is the structure a
+linear kill chain or flat intrusion-set membership cannot express:
+Figure~\ref{fig:attack-flow-volt-typhoon} reconstructs the Volt Typhoon
+critical-infrastructure campaign on the model, where an OR operator
+joins two alternative credential sources, Exploitation for Privilege
+Escalation (T1068) and Unsecured Credentials (T1552), into Valid
+Accounts (T1078). CTID maintains a corpus of such flows reconstructed by
+analysts from publicly reported incidents
+\citep{ctid2025attackflow}: reliable structured behaviour, bought at a
+coverage cost.
+
+% FIGURE --- the Volt Typhoon Attack Flow exemplar (replaces the Tesla
+% placeholder; Marc's ruling 2026-08-31). MOVED with the Attack Flow
+% material, 2026-09-02. Hand-authored from CISA AA24-038A,
+% reduced to a teaching subset and restyled to the house palette; asset and
+% pipeline in data/gap/hand_curated/ (README) and
+% tools/restyle_attackflow_svg.py. Included portrait at \textwidth (Marc's
+% ruling: no landscape); the figure is wide (2.46:1), so labels land ~5pt on
+% the page, under the ~8pt guide --- a legibility trade accepted for portrait.
+% CAPTION SESSION-DRAFTED --- yours for the voice pass.
+% [KEEP --- pass 4, 2026-09-02] the caption's restraint sentence
+% ("pre-positioned ... without executing it") is the hand-curated
+% flow's fidelity contract #3 (terminal condition, not an Impact
+% technique), and "no flow in the CTID corpus" is the README's
+% coverage-cost fact --- grounded end to end. None of the 13 exemplar
+% nodes is touched by the v14->v19.1 deltas the README records.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{fig_3-1a_attack_flow_volt_typhoon}
+  \caption[Attack Flow of the Volt Typhoon campaign]{An Attack Flow of the
+  Volt Typhoon critical-infrastructure campaign, reconstructed by hand from
+  the joint advisory AA24-038A \citep{cisaaa24038a} and reduced to its spine.
+  Grey rounded boxes are actions, each an ATT\&CK technique (v19.1) labelled
+  with its identifier; arrows are \emph{effect} edges carrying precondition
+  semantics (a downstream action cannot execute until the upstream one
+  completes). The accented circle is the OR operator: either credential
+  source --- Exploitation for Privilege Escalation (T1068) or Unsecured
+  Credentials (T1552) --- satisfies the join into Valid Accounts (T1078). The
+  two pale boxes are conditions, carrying Attack Flow's True/False branch
+  tabs: the exploited entry point, and the campaign's terminal state, which
+  records its restraint --- pre-positioned for operational-technology
+  disruption without executing it. Volt Typhoon has no flow in the CTID
+  corpus; this one was reconstructed from the advisory, the coverage cost the
+  text names made concrete.}
+  \label{fig:attack-flow-volt-typhoon}
+\end{figure}
 
 % ------------------------------------------------------ 3.2 evaluate --
 % Feeds evaluate: the instruments are mature, and every one of them is
