@@ -171,7 +171,7 @@ synthetic-model caveats are recorded for §3 and the validity rationale respecti
 
 ## Open questions / things to verify
 
-- The "according to NIST" framing at §II-A (p. 1853) carries reference [3] in Alshamrani's bibliography. The lit review currently cites Alshamrani [8] for the NIST behavioural restatement rather than NIST SP 800-39 directly; for the dissertation bibliography, decide whether to (a) keep the indirect citation through Alshamrani as the *secondary source where this triad becomes load-bearing for APT framing*, or (b) chase the NIST primary source (SP 800-39 / SP 800-30) and cite it directly. Defer to lit-review citation policy.
+- ~~The "according to NIST" framing at §II-A (p. 1853) carries reference [3] in Alshamrani's bibliography. The lit review currently cites Alshamrani [8] for the NIST behavioural restatement rather than NIST SP 800-39 directly; decide (a) keep the indirect citation, or (b) chase the NIST primary and cite it directly.~~ **Resolved 2026-09-02 (ch3 GAP G7a): option (b) taken** — SP 800-39 acquired, the behavioural triad verified against its Appendix B (p. B-1), and ch3 §3.1.1 now cites `nist2011sp80039` directly for that sentence; Alshamrani remains the citation for everything else in the paragraph.
 - Alshamrani §II-A also references Chen et al. [4] for the APT-vs-traditional comparison table (Table I, §II-A, p. 1853) — confirm whether the commodity-vs-APT contrast at [`../sources/LIT_REVIEW.md:123`](../lit_review/LIT_REVIEW.md#L123) intends to inherit Alshamrani's framing exclusively, or whether Chen's table is a complementary anchor worth surfacing.
 
 ## Out of scope for this thesis
