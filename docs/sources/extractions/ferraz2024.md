@@ -6,7 +6,7 @@
 
 ## Bibliographic anchor
 
-- **Citation key**: `ferraz2025` (renamed from the earlier `ferraz2024` per Marc's confirmation — first arXiv post 12 December 2025, so the publication-year key is 2025, not the filename year).
+- **Citation key**: `ferraz2026` — the key in `references.bib` (the ASIACCS 2026 appearance year; anchor updated 2026-09-03 to match the bib, which supersedes this file's earlier `ferraz2025`, itself renamed from `ferraz2024`).
 - **DOI / URL**: arXiv:2512.12078 (preprint, no DOI; arXiv handle `https://doi.org/10.48550/arXiv.2512.12078`). The source PDF in `docs/sources/` is an earlier draft with the original "ATT&CK-in-STIX" title and a 43.0% campaign-coverage figure, whereas arXiv v1+ uses the "Structured CTI" title and reports 35.6%. Pass 2 will need to anchor on a specific arXiv version (current v3, 6 May 2026) and reconcile any quoted figures against the source PDF's earlier draft.
 - **Pages cited from**: full text
 

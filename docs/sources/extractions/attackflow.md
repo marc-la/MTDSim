@@ -6,7 +6,7 @@
 
 ## Bibliographic anchor
 
-- **Citation key**: `ctid-attackflow`
+- **Citation key**: `ctid2025attackflow` — the key in `references.bib` (anchor previously said `ctid-attackflow`; updated 2026-09-03 to match the bib)
 - **DOI / URL**: https://center-for-threat-informed-defense.github.io/attack-flow/
 - **Source-document version**: Attack Flow **v3.2.0** as declared in the frontmatter of [`../sources/2_1_attackflowdoc.md`](../lit_review/2_1_attackflowdoc.md) (some sub-pages still served v3.0.0 content at extraction time — noted inline in the source).
 - **Schema version the thesis pins**: *pending architecture decision* — [`../specs/architecture.md`](../../implementation/architecture.md) §(c) records the Attack Flow schema version as an open build-time decision (v3.2.0 vs in-tree v2.x under `notebooks/attack-flow/`), and §(l) lists it under open architectural questions. Until that lands, this anchor cites the source document version (v3.2.0) and will be re-pinned once the architecture decision resolves. [`../specs/project_context.md`](../../workflows/project_context.md) does not currently carry an Attack Flow schema entry.
@@ -78,6 +78,18 @@ Quote sparingly, paraphrase liberally. Each excerpt below sits under copyright f
 **Maps to:** [`../specs/architecture.md`](../../implementation/architecture.md) §(c) L0 inputs (the corpus) → §(d) L1 GAP construction. The Tesla flow is the per-campaign `.afb` graph the parser-contract consumes in miniature.
 
 **Disposition for this thesis:** verified — the lit review's Figure 2 framing of Attack Flow's discriminating structural property (preconditioned multi-input joins via AND operators) is consistent with the §2–§3 schema description in this source. Recorded here as the canonical illustration; no separate methodological commitment beyond Concepts 1–3.
+
+---
+
+### Concept 5 — Per-action timestamps: defined by the schema, unused by the corpus (verified 2026-09-03)
+
+**Source locator:** §3 Language Specification — Attack Action property table: `execution_start` and `execution_end`, both *(optional)* — "Timestamp when execution began/ended" (source markdown `docs/sources/lit_review/2_1_attackflowdoc.md`, property-table rows).
+
+**Paraphrase:** The `attack-action` SDO defines optional `execution_start` / `execution_end` timestamp fields — the schema's intended home for per-action tempo. Measured against the in-tree corpus snapshot (`data/gap/_corpus_stix/`, 38 flows, 2026-09-03): 36 of 38 flows carry neither field on any action; the two that do (MITRE NERVE; DFIR — BumbleBee Round 2) populate `execution_start` with 1970-01-01 epoch-placeholder dates carrying clock times only — relative sequencing artefacts, not real-world campaign dates. No flow in the corpus carries a machine-usable real-world timestamp.
+
+**Maps to:** [`../../notes/ch3_lit_review/tactic_duration_precedent_survey.md`](../../notes/ch3_lit_review/tactic_duration_precedent_survey.md) — the "corpora encode order, not tempo" claim, which this measurement now grounds at the extraction layer; the dissertation's §3.1.3 tempo paragraph cites `ctid2025attackflow` for the schema half.
+
+**Disposition for this thesis:** *verified* — the survey note's "the public corpus leaves them empty" holds for 36 of 38 flows and holds in substance for all 38 (the two populated flows carry no real-world dates). The dissertation sentence's literal wording is flagged in the tex (`[3b]`: keep, or soften to "all but empty") — Marc's word.
 
 ---
 
