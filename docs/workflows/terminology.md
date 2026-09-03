@@ -1,7 +1,7 @@
 ---
 status: living
 created: 2026-08-20
-updated: 2026-09-02   # four rows ratified from the §2.2.2 pass-6 ledger (deployment strategy, MTDShield, deployment, shuffle); APT-attacker row ratified same day from the §3.1.1 pass-6 census
+updated: 2026-09-03   # flow-instance row (flow lowercase, Attack Flow reserved for the language) ratified from the §3.1.3 pass-6 split-stream census
 ---
 
 # Terminology registry — one term per concept across the dissertation
@@ -63,12 +63,13 @@ string are legitimate (noted per row).
 | The defensive move as a scheduling event (the thing whose interval is drawn) | **deployment** | *MTD mutation* (only inside Zhang's cited phrasing); **rewrite is a distinct sense** — what a mechanism does to the network (the Rewrites column, "never rewritten") — never merged | Marc, 2026-09-02 (§2.2.2 pass 6) |
 | The S family of SDR (class noun) | **shuffle** (with *diversity* as its pair) | *shuffling* — only inside the cited taxonomy's own phrasing (§2.1's primitive walk, Cho/Hong--Kim) | Marc, 2026-09-02 (§2.2.2 pass 6) |
 | The APT party as a named class member | **APT attacker** (Alshamrani 2019's own phrase) | *APT actor* — never as the class name; *actor* stays only inside source-echo phrasing (*Volt Typhoon actors* is the advisory's term — legitimate, cited-adjacent) | Marc, 2026-09-02 (§3.1.1 pass-6 ruling) |
+| An instance document of the Attack Flow language | **flow** (lowercase; *Attack Flow* reserved for the language/project) | *an Attack Flow* as a count noun; *example Attack Flow* | Marc, 2026-09-03 (§3.1.3 pass-6 ruling) |
 
 ### Proposed — awaiting Marc's ruling pass
 
 | Concept | Recommendation | Alternatives considered | Census |
 |---|---|---|---|
-| *(none open — the 2026-09-02 §3.1.1 ruling ratified the APT-attacker row)* | | | |
+| *(none open — the 2026-09-03 §3.1.3 ruling ratified the flow-instance row)* | | | |
 
 ## Ruling workflow
 
