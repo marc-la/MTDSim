@@ -125,6 +125,27 @@ executes: 2026-08-31_ch3_port_plan.md
 > (2026-09-02 session); for item 5, the paragraph was doing the strand's
 > interstitial work and duplicating 3.1.2's catalogue teaching and the
 > preamble's durability claim. The ledger stays 1 / 3 / 3 / 5 = 12 units.
+> 13. **3.1.3 RESHAPED on Marc's shape ruling** (2026-09-03): one
+>    subsection, no subsubsections; paragraph spine what+why → gap →
+>    other approaches → Attack Flow → what it still does not carry
+>    (tempo + the TI/IR-not-MTD sentence as strand exit, original
+>    joint order kept). Approved cuts applied (tex CUT LOG: the
+>    CTI-ranging/"raw material for this thesis" sentence — ruled wrong
+>    framing, thesis material is the Attack Flow corpus; the
+>    "curates these incidents…attribution" sentence — dead referent;
+>    the early Attack Flow exemplar sentence — pre-empted the
+>    introduction; both claims carried by the corpus landing
+>    sentence). Seams of the 2026-09-02 append-move: (1) and (4)
+>    resolved by those cuts; (2) and (3) pending merge rulings.
+>    PENDING Marc's accept/deny in chat: M-A (serialisation-sentence
+>    opener deletion, gap dedup), M-B (STIX sentence subject repair,
+>    word his), M-C (verdict tail ", at the coverage cost noted
+>    above"), M-D (AND/OR + conditions clause vs caption), M-E
+>    (optional family trims). MISSING slot for his dictation: the
+>    so-what sentence (P1 second position). Open [3b]s: the "supplies
+>    exactly this missing structure" antecedent / manual-path pivot;
+>    strand-exit sentence order; whether P1+P2 weld to match his
+>    "three tight paragraphs" reading.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
