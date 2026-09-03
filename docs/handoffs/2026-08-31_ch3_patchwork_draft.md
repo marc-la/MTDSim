@@ -137,15 +137,22 @@ executes: 2026-08-31_ch3_port_plan.md
 >    introduction; both claims carried by the corpus landing
 >    sentence). Seams of the 2026-09-02 append-move: (1) and (4)
 >    resolved by those cuts; (2) and (3) pending merge rulings.
->    PENDING Marc's accept/deny in chat: M-A (serialisation-sentence
->    opener deletion, gap dedup), M-B (STIX sentence subject repair,
->    word his), M-C (verdict tail ", at the coverage cost noted
->    above"), M-D (AND/OR + conditions clause vs caption), M-E
->    (optional family trims). MISSING slot for his dictation: the
->    so-what sentence (P1 second position). Open [3b]s: the "supplies
->    exactly this missing structure" antecedent / manual-path pivot;
->    strand-exit sentence order; whether P1+P2 weld to match his
->    "three tight paragraphs" reading.
+>    Merges ALL RULED same day: M-A accepted (opener deleted, gap
+>    dedup by adjacency), M-B accepted (subject → "ATT&CK's
+>    catalogues", word [3b]-flagged; STIX sentence still uncited —
+>    open verification), M-C accepted (verdict tail cut), M-E accepted
+>    (both family trims; technical-claim flag: PM's
+>    automation-isn't-free counterweight loses its carrier), M-D
+>    INVERTED (prose keeps the mechanics sentence in full; the Figure
+>    3.2 caption stripped to one sentence — advisory + citation, with
+>    "reduced to its spine" kept as the honesty disclosure). Two
+>    grounded claims left the caption without a prose carrier
+>    (restraint / VT absent from the CTID corpus) — dictation slots
+>    offered. MISSING slot for his dictation: the so-what sentence
+>    (P1 second position). Open [3b]s: the "supplies exactly this
+>    missing structure" antecedent / manual-path pivot; strand-exit
+>    sentence order; whether P1+P2 weld to match his "three tight
+>    paragraphs" reading.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
