@@ -196,6 +196,39 @@ executes: 2026-08-31_ch3_port_plan.md
 >    non-carry (objective_pivot) absent from the strand exit — here
 >    or ch4. Pass-4 KEEP block: all other empirical claims verified
 >    against extractions by both streams independently.
+>
+>    PASS 5 RUN 2026-09-03 (compress-to-ledger, split-stream WB + BB;
+>    merged ledger ruled by Marc in three steps: X1/X2 + C1–C5 +
+>    R1–R8 accepted, then Q1/Q2 flipped to accepted, then the full
+>    floor set F1–F5 accepted on read — "it looks strong"). Landed
+>    ~720 → **448 words**, four-paragraph spine (what+why+gap →
+>    approaches → Attack Flow + artefact → exit); the ~2-unit
+>    overdraft ruling ("500–600 is gonna be alright") was overtaken
+>    by his own floor acceptance. Cut whole: the well-documented/
+>    recurrent sentence (C1; resolves the pass-4 TIGHTEN M3 — the
+>    chapter preamble carries durability; reconstruct-vs-replay
+>    contrast loses its prose carrier), the PM exemplar (R1), the
+>    two-forms fork (F1), the figure-walk sentence (F3; OR-join
+>    example now figure-only, ref folded into the mechanics sentence),
+>    the terminal-condition block = dictated slot 3 (F4; restraint
+>    claim now carried only by the README fidelity contract #3 and
+>    cisaaa24038a.md Concepts 4–5; hutchins2011 leaves the subsection,
+>    keeps ch2/ch4 carriers; slot-3 [3b]s and the pre-positioning
+>    confirm-or-soften die), the flexibility recap (C2). Merged: the
+>    slot-2 pivot into the definition sentence (Q2; "supplies exactly
+>    this missing structure" lost). Moved: corpus sentence above the
+>    curation reveal (X1). Full tighten/cut log in the tex's PASS 5
+>    comment. TWO LIVE RULING INTERACTIONS ([3b] in tex): (i) F1+R6
+>    orphan "neither strand" in the exit paragraph; (ii) F3 inverted
+>    C5's premise — the sole figure ref sits on the mechanics
+>    sentence, arguably belongs on the curation sentence. Still live:
+>    [3b] "ATT&CK's", [3b] "leaves them empty", exit half-order [3b],
+>    ratify-on-read items from pass 4, ACCEPTED-OPEN placements (a)
+>    corpus exclusion / (b) motivation non-carry — note the section
+>    now has ~50 words of headroom for (a) if placed here. The
+>    three-paragraph question (merge Attack Flow + exit) answered in
+>    chat, Marc's call pending. Unit is through pass 5; pass 6
+>    (voice-pass) runs on the assembled section.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
