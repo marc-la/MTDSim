@@ -1077,6 +1077,82 @@ operations.
 % --- pre-empted the introduction; both its claims are carried
 % verbatim by the corpus landing sentence in the Attack Flow
 % paragraph.]
+% [PASS 5 RULED 2026-09-03 (compress-to-ledger, split-stream WB+BB;
+% merged ledger in chat). ACCEPTED and applied, deletion/merge only:
+% X1 (corpus sentence moved above the curation reveal), X2 (opening
+% paragraph merged into the gap paragraph), C1-C5, R1-R8, Q1, Q2,
+% and --- Marc's follow-up ruling on read --- the full floor set
+% F1-F5. Spine is now four paragraphs: what+why+gap -> approaches ->
+% Attack Flow + artefact -> exit. Nothing left unruled from the
+% merged ledger.
+% PASS 5 CUT LOG (quotes abbreviated; full text in git history):
+% (C1) "Because APT behaviour is both well-documented and recurrent,
+%   it can be reconstructed into a reusable attack profile rather
+%   than replayed as a single incident." --- resolves pass-4 TIGHTEN
+%   M3 (durability carried at the chapter preamble, alshamrani2019);
+%   the reconstruct-vs-replay contrast loses its prose carrier.
+% (R1) the PM exemplar sentence (Rodriguez et al., process models
+%   from event logs, Petri nets) --- PM now named-not-exemplified;
+%   rodriguez2024 keeps carriers here and in 3.3; Petri precedent
+%   carried by ch4.
+% (F1) "Bridging this gap takes two forms, manual curation and
+%   automated extraction, that trade coverage against fidelity."
+%   --- the trade is carried by the strand verdict and "bought at a
+%   coverage cost"; the approaches paragraph now opens cold on
+%   "Automated extraction dominates".
+% (F3) the figure-walk sentence ("This is the structure a linear
+%   kill chain or flat intrusion-set membership cannot express ...
+%   OR operator ... T1068 / T1552 -> T1078") --- the OR-join worked
+%   example now lives in the figure alone (accepted with the ~5pt
+%   portrait legibility trade known); the pointer folded into the
+%   mechanics sentence per the fold licence.
+% (F4) the terminal-condition block, Marc's dictated slot 3 of
+%   2026-09-03 ("The terminal condition represents the objective of
+%   Volt Typhoon here"; "This encapsulates something that may not
+%   fit ... pre-positioning is not a technique"; the Cyber Kill
+%   Chain contrast, hutchins2011) --- the restraint claim's carriers
+%   are now the hand-curated README fidelity contract #3 and
+%   cisaaa24038a.md Concepts 4-5, not thesis prose; hutchins2011
+%   leaves this subsection (carriers ch2 l.536, ch4 l.2488);
+%   cisaaa24038a keeps its prose carrier on the advisory sentence.
+%   The slot-3 [3b]s ("the culmination", "other frameworks") and the
+%   pre-positioning confirm-or-soften die with the block.
+% (C2) "Attack Flow allows for more flexibility in encapsulating
+%   preconditions and terminal objectives of APT attackers." ---
+%   pure recap; no claim lost.
+% (F5) ", as a human analyst would" --- analyst-parity carried by
+%   the corpus sentence's "reconstructed by analysts".
+% TIGHTEN log: Q1 (the which/how frame off the export sentence; the
+% gap sentence's what/how carries the frame); Q2 (pivot merged into
+% the definition sentence; "supplies exactly this missing structure"
+% lost, carried by the mechanics and 57/16 sentences); F2 (STIX
+% status clause; the claim moves to the oasis2021stix citation); R2
+% (LLM-appeal foil; SoK verdict stands alone); R3; R5; R6; R7 + C5;
+% C3 (the "; pre-positioning is not" tail --- then subsumed by F4);
+% C4; R8 ("individual", "recent", "in 2022" --- the citation carries
+% the source ---, "executable or" keeping "simulable").
+% Mechanical repairs, flagged: "Automated" capitalised (R3), "The
+% Attack Flow schema" capitalised (C4), "an" -> "a" before
+% "simulable" (R8).
+% RULING INTERACTIONS, both live for Marc's walk:
+% (i) F1 + R6 together orphan "neither strand" in the exit paragraph
+%   (the two-forms fork and "automated and manual alike" are both
+%   cut) --- flagged [3b] at the sentence: revive one anchor or
+%   accept the looser read.
+% (ii) F3 inverts C5's premise (C5 deleted the curation sentence's
+%   figure ref as the *second* ref; F3 then cut the first). Literal
+%   application kept: the sole ref now sits as the fold parenthetical
+%   on the mechanics sentence; [3b] at the curation sentence if the
+%   ref should sit there instead.
+% Marker dispositions: pass-4 TIGHTEN M3 resolved by C1; slot-4 [3b]
+% "structure" resolved by deletion (R7); slot-3 [3b]s and the
+% pre-positioning confirm-or-soften dead with F4. Still LIVE: [3b]
+% "ATT&CK's" (M-B), [3b] "leaves them empty", the exit-paragraph
+% half-order [3b], and interactions (i)-(ii).
+% Overdraft ruling (Marc, 2026-09-03): ~2 units accepted for this
+% subsection ("500-600 is gonna be alright"); the floor set landed it
+% near ~450. The three-paragraph question (merge Attack Flow + exit
+% paragraphs) re-answered in chat post-floor-cuts --- Marc's call.]
 
 % [PASS 4 M1 RULED 2026-09-03 ("track the paper properly"): the trait
 % triple restored to Rodr\'iguez's verbatim wording --- the draft's
@@ -1085,7 +1161,7 @@ operations.
 % Concept 2 / Concern 1: the paper's \S7 reads "objectives, knowledge,
 % and modus operandi"). Do not re-flag.]
 Attack profiling captures attacker behaviour as structured
-representations: connecting individual tactics, techniques, and
+representations: connecting tactics, techniques, and
 procedures into chains shaped by the attacker's objectives, knowledge,
 and modus operandi \citep{rodriguez2024}.
 % [DICTATED 2026-09-03 (slot 1: the so-what), repaired per pass 2+3a.
@@ -1100,22 +1176,14 @@ and modus operandi \citep{rodriguez2024}.
 Producing reusable attack profiles allows us to operationalise these
 profiles for evaluation of defence mechanisms such as moving target
 defence.
-% [moved 2026-09-03 from the subsection lead (the 3.1.1-dissolve S4,
-% ported 2026-09-02): now the opening paragraph's third element.]
-Because APT behaviour is
-both well-documented and recurrent, it can be reconstructed into a
-reusable attack profile rather than replayed as a single incident.
-% [TIGHTEN, M3 --- pass 4, 2026-09-02, still open] this claim appears
-% at both strand entry (the chapter preamble's "documented durability
-% of APT tradecraft makes such profiles a stable basis for
-% evaluation", alshamrani2019) and here. One should carry it ---
-% pass 5's call which; ruling yours.
-
+% [C1 cut here (the APT well-documented/recurrent sentence, the
+% ported 3.1.1-dissolve S4) --- see the pass-5 log above. X2: the
+% paragraphs joined.]
 The persistent
 obstacle is a procedural-semantic gap: CTI describes \emph{what}
 attackers do but routinely omits the sequencing, preconditions, and
 dependencies (the \emph{how}) required to operationalise behaviour as
-an executable or simulable process \citep{ferraz2026}.
+a simulable process \citep{ferraz2026}.
 % [M-B ACCEPTED 2026-09-03: subject repaired "These catalogues" ->
 % "ATT\&CK's catalogues" (session-applied from the chat candidates).
 % [3b] confirm the word on your walk. CITED (pass 4 M3, 2026-09-03):
@@ -1125,20 +1193,22 @@ an executable or simulable process \citep{ferraz2026}.
 % it --- entry fields from session knowledge, marked VERIFY in the
 % bib, confirm on read.]
 ATT\&CK's catalogues are serialised in Structured Threat Information
-Expression (STIX) 2.1, the standard machine-readable interchange
-format for CTI \citep{oasis2021stix}.
+Expression (STIX) 2.1 \citep{oasis2021stix}.
+% [F2 pass 5: the standard-interchange status clause cut; the claim
+% moves to the oasis2021stix citation.]
 % [M-A ACCEPTED 2026-09-03: opener "Yet this serialisation, the
 % ATT\&CK-in-STIX export, records" -> "The ATT\&CK-in-STIX export
 % records" --- deletion only; the sentence now reads as the gap's
-% concrete instance. Do not re-flag the general/instance adjacency.]
-The ATT\&CK-in-STIX export records
-\emph{which} techniques an attacker used without recording \emph{how}
-they fit together: it encodes no temporal order, explicit
+% concrete instance. Do not re-flag the general/instance adjacency.
+% Q1 pass 5: the which/how frame deleted; the enumeration stands.]
+The ATT\&CK-in-STIX export encodes no temporal order, explicit
 prerequisites, environmental constraints, or branching logic between
 techniques \citep{ferraz2026}.
 
-Bridging this gap takes two forms, manual curation and automated
-extraction, that trade coverage against fidelity. Automated extraction
+% [F1 cut here (the two-forms fork sentence) --- see the pass-5 log;
+% interaction (i): "neither strand" in the exit paragraph now lacks
+% its anchor.]
+Automated extraction
 dominates the literature \citep{buchel2025} and spans three families:
 natural language processing (NLP), process mining (PM), and large
 language models (LLMs).
@@ -1149,19 +1219,16 @@ language models (LLMs).
 % its carrier; the SoK verdict still carries the paragraph's
 % conclusion. (b) NLP tail ", surfacing chains such as phishing
 % followed by macro execution that individual reports describe in
-% isolation" cut (second example; the 713/124 numbers stay).]
-PM-based approaches, exemplified by
-Rodr\'iguez et al.\ \citep{rodriguez2024}, discover attacker process
-models from labelled runtime event logs, recovering process structure
-in formalisms such as Petri nets.
+% isolation" cut (second example; the 713/124 numbers stay).
+% R1 pass 5: the PM sentence M-E(a) trimmed is now cut whole --- see
+% the pass-5 log.]
 NLP-based approaches, exemplified by ChronoCTI \citep{rahman2025},
 combine domain-fine-tuned language models with supervised classifiers
 to extract structured behaviour from text at scale: applied to 713
 reports, it mines 124 recurring temporal patterns \citep{rahman2025}.
 LLM-based pipelines,
 exemplified by AttacKG+ \citep{zhangY2025}, replace the trained
-classifier with prompted LLM stages, the appeal being generalisation to
-unseen knowledge types without per-task training. However, a recent
+classifier with prompted LLM stages. However, a
 Systematization of Knowledge (SoK) on TTP extraction finds that
 generative and embedder-based methods do not yet beat traditional NLP
 classifiers in realistic open-set evaluation: even on the 50 most
@@ -1175,85 +1242,55 @@ common TTPs, the best systems plateau near $F_1 = 0.70$
 % text extraction, not process mining (buechel2025.md), so "it" swept
 % PM under a verdict never rendered on it. Session words "its
 % text-extraction families" --- ratify on read.]
-Of the two strands, automated extraction holds the coverage advantage,
+Automated extraction holds the coverage advantage,
 but on the SoK's evidence its text-extraction families do not yet
 recover technique-level behaviour reliably enough to ground an
 attacker on; manual curation supplies that fidelity.
 
 % [slot 2 --- session-proposed pivot RATIFIED in chat 2026-09-03
 % ("just accept"); resolves the manual-path / "this missing
-% structure" antecedent [3b]. Session words, ratify-on-read stands.]
-That manual path's exemplar is Attack Flow.
-Attack Flow, a STIX 2.1 extension
+% structure" antecedent [3b]. Session words, ratify-on-read stands.
+% Q2 pass 5: pivot merged into the definition sentence (pivot words
+% verbatim as the head; "supplies exactly this missing structure,"
+% deleted); R8: "in 2022" deleted.]
+That manual path's exemplar is Attack Flow, a STIX 2.1 extension
 language released by MITRE Engenuity's Center for Threat-Informed
-Defense (CTID) in 2022, supplies exactly this missing structure,
-representing the sequence and dependency relationships between
-techniques observed in real incidents \citep{ctid2025attackflow}.
+Defense (CTID), representing the sequence and dependency relationships
+between techniques observed in real incidents
+\citep{ctid2025attackflow}.
 % [M-D RULED 2026-09-03, INVERTED from the session's proposal: the
 % content lives in the PROSE; the caption is stripped lean (Marc:
 % caption is AI-generated context, boil it to one sentence). This
 % sentence stays in full. Do not re-flag the prose/caption overlap
-% --- the caption side was the one cut.]
+% --- the caption side was the one cut.
+% F3 pass 5: the figure pointer folded in as the parenthetical (the
+% fold licence); the sentence itself untouched per M-D.]
 In a
 flow, actions (the ATT\&CK techniques) are joined by \emph{effect}
 edges that carry precondition semantics (a downstream action cannot
 execute until the upstream one completes), with AND/OR operators
 expressing multi-input dependencies and conditions capturing
-environmental state \citep{ctid2025attackflow}. This is the structure a
-linear kill chain or flat intrusion-set membership cannot express:
-Figure~\ref{fig:attack-flow-volt-typhoon} reconstructs the Volt Typhoon
-critical-infrastructure campaign on the model, where an OR operator
-joins two alternative credential sources, Exploitation for Privilege
-Escalation (\attackid{T1068}) and Unsecured Credentials
-(\attackid{T1552}), into Valid Accounts (\attackid{T1078}).
-% [DICTATED 2026-09-03 (slot 3: the restraint / terminal condition),
-% repaired per pass 2+3a. VERIFY watchlist: "of what type in here"
-% repaired to "of Volt Typhoon here"; "now the coffin" -> "the
-% culmination" [3b --- word supplied over a mangle, confirm]; "other
-% Matrices I'm sorry other cyber chains frameworks" resolved to the
-% second form as "other frameworks" [3b]; "action on objective" ->
-% the Kill Chain stage name "actions-on-objectives"; "cyber kill
-% train" -> Cyber Kill Chain and "apartment" -> APT (dictionary);
-% "May I not fit" -> "may not fit". SCRUTINY: "pre-positioning is
-% not a technique" is stronger than the grounded claim (fidelity
-% contract #3 says the terminal state is not an *Impact* technique;
-% VT's pre-positioning itself used techniques) --- confirm or soften
-% on your walk. WALK GROUNDING (pass 4 split-stream, 2026-09-03,
-% blanket-accepted): the advisory maps the campaign to 67 techniques
-% across 13 tactics, no Impact technique (cisaaa24038a.md Concept 5);
-% alshamrani's NIST objective triad accommodates "position-for-future"
-% as an APT objective (\S II-C) --- so "may not fit" is safe scoped to
-% the matrix/kill-chain FORMALISM (no Impact-class technique to
-% terminate on), not to APT frameworks generally. Cites added per the
-% accepted minors: cisaaa24038a on the terminal-condition sentence
-% (Concept 4 is the restraint carrier), hutchins2011 on the Kill
-% Chain sentence.]
-The terminal condition represents the objective of Volt Typhoon here
-\citep{cisaaa24038a}.
-This encapsulates something that may not fit into the standard attack
-matrix, because pre-positioning is not a technique. Other frameworks
-such as the Cyber Kill Chain will often state that
-actions-on-objectives or Impact is the culmination of an attack
-campaign \citep{hutchins2011}; pre-positioning is not. Attack Flow allows for more
-flexibility in encapsulating preconditions and terminal objectives of
-APT attackers.
+environmental state \citep{ctid2025attackflow}
+(Figure~\ref{fig:attack-flow-volt-typhoon}).
+% [F3 cut: the figure-walk sentence. F4 cut: the terminal-condition
+% block (the dictated slot 3 of 2026-09-03, its VERIFY watchlist and
+% walk-grounding record with it --- full provenance in git history
+% and handoff item 13). C2 cut: the flexibility recap. All three per
+% the pass-5 log above.]
+% [X1 MOVE pass 5: the corpus sentence up from below the (cut)
+% terminal-condition block, so corpus -> curation reads causal.]
 CTID maintains a corpus of such flows reconstructed by
 analysts from publicly reported incidents
 \citep{ctid2025attackflow}: reliable structured behaviour, bought at a
 coverage cost.
 % [DICTATED 2026-09-03 (slot 4: the corpus absence), repaired per
-% pass 2+3a. VERIFY watchlist: "no attack flow example attack flow"
-% resolved to the second form, "no example Attack Flow"; "condensing
-% it into you know street adding sequencing independency" repaired to
-% "condensing it into structure, adding sequencing and dependency"
-% [3b --- "structure" supplied over a mangle, confirm];
-% meta-narration ("we kind of position it ... they can be like oh")
-% beheaded; trailing fragment ("right to") dropped; "we use" -> "We
-% used" (tense). "See Figure 3.2" honoured as the parenthetical ref
-% (second ref to the figure in this paragraph --- minor, pass 5's
-% call). NOTE: "reconstructed from the advisory" now carried in both
-% this sentence pair and the caption --- intended (caption
-% identifies, prose narrates), flagged for the voice pass.]
+% pass 2+3a; full VERIFY watchlist in git history. Pass 5: R7 cut
+% the "taking the CTI and condensing it into structure ..." clause
+% (its [3b] "structure" resolved by deletion); C5 cut the figure
+% ref; F5 cut ", as a human analyst would"; R5 cut "to do so".
+% [3b] interaction (ii): the section's sole figure ref now sits on
+% the mechanics sentence (F3's fold) --- move it to this sentence
+% instead if the curated artefact should carry it, your call.]
 % [PASS 4 minor SCOPE, ACCEPTED 2026-09-03: "no example Attack Flow"
 % -> "no example Attack Flow in this corpus" --- the grounded claim is
 % CTID-corpus-scoped (hand_curated README; cisaaa24038a.md Concept 5);
@@ -1261,11 +1298,8 @@ coverage cost.
 % the corpus sentence above. Repair words session-supplied ---
 % ratify on read.]
 Volt Typhoon had no example Attack Flow in this corpus, so we manually
-curated one
-(Figure~\ref{fig:attack-flow-volt-typhoon}), as a human analyst would:
-taking the CTI and condensing it into structure, adding sequencing and
-dependency to it. We used the joint advisory AA24-038A
-\citep{cisaaa24038a} to do so.
+curated one. We used the joint advisory AA24-038A
+\citep{cisaaa24038a}.
 % [PASS 4 M2 INSERT, ACCEPTED 2026-09-03 --- SESSION WORDS, ratify on
 % read. The record's reserved argument (cisaaa24038a.md Concept 1:
 % "the residual prose->structure gap the chapter argues";
@@ -1324,10 +1358,14 @@ measured on our own artefact.
 % the stitch chains off it. [3b]: this order ends the section on the
 % ch4 dwell hook (month-granularity dates); swapping the halves would
 % end it on the exit into 3.2's instruments instead --- your call.]
-Yet the whole
-apparatus for reconstructing behaviour from CTI, automated and manual
-alike, sits within the threat-intelligence and incident-response
+Yet the
+apparatus for reconstructing behaviour from CTI sits within the
+threat-intelligence and incident-response
 literature, not within MTD evaluation.
+% [R6 pass 5: "whole" and ", automated and manual alike," cut.
+% [3b] interaction (i): with F1's fork sentence also cut, "neither
+% strand" below has lost both its anchors --- revive "automated and
+% manual alike" here, or accept the looser read; your call.]
 % [stitch] next sentence; the one after is from the precedent-survey note
 % [PASS 4 M3 VERIFIED + carrier repair, 2026-09-03. (a) Schema half
 % verified against the source markdown (2_1_attackflowdoc.md, the
@@ -1345,10 +1383,13 @@ literature, not within MTD evaluation.
 % cite moves mitre2026attackv19 -> mitre2026attackkb per your
 % 2026-09-02 carrier ruling (references.bib comment). Do not
 % re-flag.]
-And what neither strand supplies is tempo. Public incident corpora
-encode order, not tempo: the Attack Flow schema defines optional
-per-action start and end timestamps, the exact intended home for this
-data, but the public corpus leaves them empty, because breach reports
+And what neither strand supplies is tempo.
+% [C4 pass 5: "Public incident corpora encode order, not tempo: "
+% cut (duplicated the stitch sentence; "The" capitalised ---
+% mechanical) and ", the exact intended home for this data" cut.]
+The Attack Flow schema defines optional
+per-action start and end timestamps, but the public corpus leaves
+them empty, because breach reports
 rarely contain machine-usable timestamps; ATT\&CK campaign records
 carry only month-granularity first- and last-seen dates
 \citep{ctid2025attackflow, mitre2026attackkb}.
