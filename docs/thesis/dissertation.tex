@@ -1160,8 +1160,12 @@ operations.
 % substitution the extraction had already flagged (rodriguez2024.md
 % Concept 2 / Concern 1: the paper's \S7 reads "objectives, knowledge,
 % and modus operandi"). Do not re-flag.]
+% [PASS 6 P1-signpost RULED 2026-09-03 (voice-pass, accepted): "ATT&CK's"
+% prepended to the TTP list --- ties the section's opening definition
+% back to 3.1.2's subject (the "what is it relating to" gap in Marc's
+% read). Deletion/insertion of his own bridge noun.]
 Attack profiling captures attacker behaviour as structured
-representations: connecting tactics, techniques, and
+representations: connecting ATT\&CK's tactics, techniques, and
 procedures into chains shaped by the attacker's objectives, knowledge,
 and modus operandi \citep{rodriguez2024}.
 % [DICTATED 2026-09-03 (slot 1: the so-what), repaired per pass 2+3a.
@@ -1173,9 +1177,12 @@ and modus operandi \citep{rodriguez2024}.
 % carried by "reusable". SCRUTINY: claim is in scope (matches the
 % preamble's framing, no overclaim); "reusable" now appears here AND
 % in the next sentence --- TIGHTEN candidate for pass 5.]
-Producing reusable attack profiles allows us to operationalise these
-profiles for evaluation of defence mechanisms such as moving target
-defence.
+% [PASS 6 RULED 2026-09-03 (voice-pass, accepted): V1 "these profiles"
+% -> "them" (doubled noun, pass-2 self-repair residue); V6 "moving
+% target defence" -> "MTD" (defined at intro l.111 --- abbreviation
+% after definition).]
+Producing reusable attack profiles allows us to operationalise them
+for evaluation of defence mechanisms such as MTD.
 % [C1 cut here (the APT well-documented/recurrent sentence, the
 % ported 3.1.1-dissolve S4) --- see the pass-5 log above. X2: the
 % paragraphs joined.]
@@ -1205,10 +1212,15 @@ The ATT\&CK-in-STIX export encodes no temporal order, explicit
 prerequisites, environmental constraints, or branching logic between
 techniques \citep{ferraz2026}.
 
-% [F1 cut here (the two-forms fork sentence) --- see the pass-5 log;
-% interaction (i): "neither strand" in the exit paragraph now lacks
-% its anchor.]
-Automated extraction
+% [PASS 6 RULED 2026-09-03 (voice-pass, accepted): F1 REVIVED at the
+% P2 head, superseding the pass-5 F1 cut. Marc's read named the
+% automated->manual pivot as weak; the two-forms fork restores the
+% antecedent that makes "that manual path's exemplar" land and gives
+% "neither strand" (exit paragraph) its introduction --- fixing the
+% pivot, interaction (i), and the missing frame in one move. His own
+% words, restored verbatim.]
+Bridging this gap takes two forms, manual curation and automated
+extraction, that trade coverage against fidelity. Automated extraction
 dominates the literature \citep{buchel2025} and spans three families:
 natural language processing (NLP), process mining (PM), and large
 language models (LLMs).
@@ -1222,10 +1234,16 @@ language models (LLMs).
 % isolation" cut (second example; the 713/124 numbers stay).
 % R1 pass 5: the PM sentence M-E(a) trimmed is now cut whole --- see
 % the pass-5 log.]
-NLP-based approaches, exemplified by ChronoCTI \citep{rahman2025},
+% [PASS 6 RULED 2026-09-03 (voice-pass, accepted): V2 --- the naked
+% "it" (plural subject "approaches ... combine", singular verb
+% reaching into the appositive for ChronoCTI) given its head noun;
+% the duplicated \citep{rahman2025} after "ChronoCTI" removed, the
+% end-of-sentence cite covers both claims.]
+NLP-based approaches, exemplified by ChronoCTI,
 combine domain-fine-tuned language models with supervised classifiers
 to extract structured behaviour from text at scale: applied to 713
-reports, it mines 124 recurring temporal patterns \citep{rahman2025}.
+reports, ChronoCTI mines 124 recurring temporal patterns
+\citep{rahman2025}.
 LLM-based pipelines,
 exemplified by AttacKG+ \citep{zhangY2025}, replace the trained
 classifier with prompted LLM stages. However, a
@@ -1297,7 +1315,11 @@ coverage cost.
 % the unscoped form asserted no flow exists anywhere. Antecedent is
 % the corpus sentence above. Repair words session-supplied ---
 % ratify on read.]
-Volt Typhoon had no example Attack Flow in this corpus, so we manually
+% [PASS 6 RULED 2026-09-03 (voice-pass, accepted): V5 "no example
+% Attack Flow" -> "no example flow" --- Attack Flow reserved for the
+% language, lowercase flow for an instance (terminology row ratified
+% same day). The pass-4 "in this corpus" scope repair stands.]
+Volt Typhoon had no example flow in this corpus, so we manually
 curated one. We used the joint advisory AA24-038A
 \citep{cisaaa24038a}.
 % [PASS 4 M2 INSERT, ACCEPTED 2026-09-03 --- SESSION WORDS, ratify on
@@ -1306,9 +1328,17 @@ curated one. We used the joint advisory AA24-038A
 % hand_curated README fidelity contract #2: 57 stated / 16 inferred
 % of 73 edges): the section's own artefact quantifies the P2
 % procedural-semantic gap, previously unclaimed here.]
+% [PASS 6 RULED 2026-09-03 (voice-pass, accepted): M2 option A --- the
+% appositive ": the procedural-semantic gap, measured on our own
+% artefact" cut. Marc's read: the self-reference read "snarky and
+% smarmy" (claimed to have arrived at the literature's gap by drawing
+% a diagram); the numbers now stand as a plain fact. The P1 gap link
+% is left for the reader to make (the gap is established in P1). Also
+% resolves the S13/S15 skeleton echo the voice pass flagged. Reversible
+% to option B (": an instance of the procedural-semantic gap") on
+% read if the link should be explicit.]
 The advisory states the ordering behind 57 of the flow's 73 edges; the
-remaining 16 we inferred from its prose: the procedural-semantic gap,
-measured on our own artefact.
+remaining 16 we inferred from its prose.
 % [PASS 4 ACCEPTED-OPEN, placement yours (2026-09-03) --- two content
 % candidates, this section or ch4; dictation slots once placed:
 % (a) the prose never says the hand-curated flow stays OUT of the
@@ -1358,15 +1388,19 @@ measured on our own artefact.
 % the stitch chains off it. [3b]: this order ends the section on the
 % ch4 dwell hook (month-granularity dates); swapping the halves would
 % end it on the exit into 3.2's instruments instead --- your call.]
-Yet the
-apparatus for reconstructing behaviour from CTI sits within the
-threat-intelligence and incident-response
-literature, not within MTD evaluation.
-% [R6 pass 5: "whole" and ", automated and manual alike," cut.
-% [3b] interaction (i): with F1's fork sentence also cut, "neither
-% strand" below has lost both its anchors --- revive "automated and
-% manual alike" here, or accept the looser read; your call.]
-% [stitch] next sentence; the one after is from the precedent-survey note
+% [PASS 6 M1 RULED 2026-09-03 (voice-pass, accepted): the exit
+% paragraph reworked --- claim-first opener assembled from Marc's
+% chat seed ("attack profiling doesn't exist in MTD evaluation and
+% we're missing tempo"), the two halves SWAPPED (tempo first, the
+% TI/IR placement last, so the section ends on the 3.2 hook per his
+% half-order ruling), and "automated and manual alike" REVIVED on the
+% placement sentence (interaction (i) anchor for "neither strand";
+% R6's "whole" stays cut). "And what neither strand supplies is
+% tempo" fused into the tempo sentence at a colon (drops the
+% sentence-initial And; voice-pass V8). Opener is assembled
+% connective prose --- ratify-on-read.]
+Two gaps remain.
+% [stitch] the one after is from the precedent-survey note
 % [PASS 4 M3 VERIFIED + carrier repair, 2026-09-03. (a) Schema half
 % verified against the source markdown (2_1_attackflowdoc.md, the
 % attack-action property table: execution_start / execution_end, both
@@ -1383,16 +1417,19 @@ literature, not within MTD evaluation.
 % cite moves mitre2026attackv19 -> mitre2026attackkb per your
 % 2026-09-02 carrier ruling (references.bib comment). Do not
 % re-flag.]
-And what neither strand supplies is tempo.
 % [C4 pass 5: "Public incident corpora encode order, not tempo: "
-% cut (duplicated the stitch sentence; "The" capitalised ---
-% mechanical) and ", the exact intended home for this data" cut.]
-The Attack Flow schema defines optional
+% cut (duplicated the stitch sentence) and ", the exact intended home
+% for this data" cut. Pass 6: "And what neither strand supplies is
+% tempo" fused into this sentence's head at a colon (V8).]
+Neither strand supplies tempo: the Attack Flow schema defines optional
 per-action start and end timestamps, but the public corpus leaves
 them empty, because breach reports
 rarely contain machine-usable timestamps; ATT\&CK campaign records
 carry only month-granularity first- and last-seen dates
 \citep{ctid2025attackflow, mitre2026attackkb}.
+The apparatus for reconstructing behaviour from CTI, automated and
+manual alike, sits within the threat-intelligence and
+incident-response literature, not within MTD evaluation.
 
 % ------------------------------------------------------ 3.2 evaluate --
 % Feeds evaluate: the instruments are mature, and every one of them is

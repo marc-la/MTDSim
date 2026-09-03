@@ -229,6 +229,37 @@ executes: 2026-08-31_ch3_port_plan.md
 >    three-paragraph question (merge Attack Flow + exit) answered in
 >    chat, Marc's call pending. Unit is through pass 5; pass 6
 >    (voice-pass) runs on the assembled section.
+>
+>    PASS 6 RUN 2026-09-03 (voice-pass, split-stream WB + BB; Marc
+>    "accept all rulings"). Applied, all deletion / his-own-words /
+>    ratified-registry: P1 signpost "ATT&CK's" prepended to the TTP
+>    list (ties the opener to 3.1.2); V1 "these profiles" -> "them";
+>    V6 "moving target defence" -> "MTD" (defined intro l.111); the
+>    automated->manual pivot fixed by REVIVING F1's two-forms fork at
+>    the P2 head (supersedes the pass-5 F1 cut -- his ruled cut,
+>    re-opened; also re-anchors "neither strand" and fixes the pivot
+>    Marc's read named); V2 the NLP sentence's naked "it" -> "ChronoCTI"
+>    + duplicate rahman2025 cite removed; M2 the "snarky" appositive
+>    (": the procedural-semantic gap, measured on our own artefact")
+>    CUT to option A (numbers stand as plain fact; reversible to B);
+>    V5 "no example Attack Flow" -> "no example flow" (registry row
+>    RATIFIED same day: flow = instance, Attack Flow = the language);
+>    M1 exit paragraph reworked -- claim-first opener "Two gaps remain."
+>    (assembled from his chat seed, ratify-on-read), halves SWAPPED
+>    (tempo first, TI/IR-placement last -> ends on the 3.2 hook),
+>    "automated and manual alike" revived on the placement sentence,
+>    "And what neither strand supplies is tempo" fused into the tempo
+>    sentence at a colon. Section landed ~460 words. §(f) gate: the
+>    exit-paragraph claim-first FAIL is now fixed; all nine pass.
+>    STILL LIVE for Marc's walk: [3b] "ATT&CK's" (M-B), [3b] "leaves
+>    them empty", interaction (ii) figure-ref placement, the two
+>    ACCEPTED-OPEN content candidates (corpus-exclusion; motivation
+>    non-carry), oasis2021stix VERIFY, slot-1 "defence mechanisms"
+>    VERIFY, and the ratify-on-read set (the "Two gaps remain." opener
+>    above all). Section is through pass 6; the integration check is
+>    next. (Unrelated: a pre-existing "Year undefined for kim2026"
+>    natbib warning sits in the §3.3 draft on dev -- not this section,
+>    not this diff; flagged for whoever owns 3.3.)
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
