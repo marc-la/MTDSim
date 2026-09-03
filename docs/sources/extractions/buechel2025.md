@@ -6,7 +6,7 @@
 
 ## Bibliographic anchor
 
-- **Citation key**: `buechel2025sok`
+- **Citation key**: `buchel2025` — the key in `references.bib` (anchor previously said `buechel2025sok`; updated 2026-09-03 to match the bib)
 - **DOI / URL**: https://www.usenix.org/conference/usenixsecurity25/presentation/buechel
 - **Pages cited from**: full text
 

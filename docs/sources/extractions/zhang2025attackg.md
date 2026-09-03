@@ -6,7 +6,7 @@
 
 ## Bibliographic anchor
 
-- **Citation key**: `zhang2025attackg`
+- **Citation key**: `zhangY2025` — the key in `references.bib` (anchor previously said `zhang2025attackg`; updated 2026-09-03 to match the bib)
 - **DOI / URL**: 10.1016/j.cose.2024.104220
 - **Pages cited from**: full text
 

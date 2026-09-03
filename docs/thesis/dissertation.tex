@@ -1078,10 +1078,16 @@ operations.
 % verbatim by the corpus landing sentence in the Attack Flow
 % paragraph.]
 
+% [PASS 4 M1 RULED 2026-09-03 ("track the paper properly"): the trait
+% triple restored to Rodr\'iguez's verbatim wording --- the draft's
+% "objectives, motivations, and knowledge" was a paraphrastic
+% substitution the extraction had already flagged (rodriguez2024.md
+% Concept 2 / Concern 1: the paper's \S7 reads "objectives, knowledge,
+% and modus operandi"). Do not re-flag.]
 Attack profiling captures attacker behaviour as structured
 representations: connecting individual tactics, techniques, and
-procedures into chains shaped by the attacker's objectives,
-motivations, and knowledge \citep{rodriguez2024}.
+procedures into chains shaped by the attacker's objectives, knowledge,
+and modus operandi \citep{rodriguez2024}.
 % [DICTATED 2026-09-03 (slot 1: the so-what), repaired per pass 2+3a.
 % Repair log: self-correction "execute sorry operationalise" resolved
 % to the second form; "known defence mechanisms" (STT of "you know,
@@ -1112,12 +1118,15 @@ dependencies (the \emph{how}) required to operationalise behaviour as
 an executable or simulable process \citep{ferraz2026}.
 % [M-B ACCEPTED 2026-09-03: subject repaired "These catalogues" ->
 % "ATT\&CK's catalogues" (session-applied from the chat candidates).
-% [3b] confirm the word on your walk. OPEN: sentence still uncited ---
-% the "standard interchange format" claim needs a verified key before
-% pass 6 (candidates unchecked: ferraz2026, ctid2025attackflow).]
+% [3b] confirm the word on your walk. CITED (pass 4 M3, 2026-09-03):
+% both prior candidates checked and neither carries the
+% interchange-format claim per their extractions; a DRAFT bib entry
+% for the OASIS STIX 2.1 standard itself (oasis2021stix) now carries
+% it --- entry fields from session knowledge, marked VERIFY in the
+% bib, confirm on read.]
 ATT\&CK's catalogues are serialised in Structured Threat Information
 Expression (STIX) 2.1, the standard machine-readable interchange
-format for CTI.
+format for CTI \citep{oasis2021stix}.
 % [M-A ACCEPTED 2026-09-03: opener "Yet this serialisation, the
 % ATT\&CK-in-STIX export, records" -> "The ATT\&CK-in-STIX export
 % records" --- deletion only; the sentence now reads as the gap's
@@ -1161,10 +1170,15 @@ common TTPs, the best systems plateau near $F_1 = 0.70$
 % [M-C ACCEPTED 2026-09-03: tail ", at the coverage cost noted above"
 % cut (referent died with cut (3); the claim's one carrier is the
 % corpus landing sentence). Do not re-flag.]
+% [PASS 4 minor SCOPE, ACCEPTED 2026-09-03: the verdict's subject
+% narrowed --- the SoK's protocol covers NER / embedder / generative
+% text extraction, not process mining (buechel2025.md), so "it" swept
+% PM under a verdict never rendered on it. Session words "its
+% text-extraction families" --- ratify on read.]
 Of the two strands, automated extraction holds the coverage advantage,
-but on the SoK's evidence it does not yet recover technique-level
-behaviour reliably enough to ground an attacker on; manual curation
-supplies that fidelity.
+but on the SoK's evidence its text-extraction families do not yet
+recover technique-level behaviour reliably enough to ground an
+attacker on; manual curation supplies that fidelity.
 
 % [slot 2 --- session-proposed pivot RATIFIED in chat 2026-09-03
 % ("just accept"); resolves the manual-path / "this missing
@@ -1204,13 +1218,23 @@ Escalation (\attackid{T1068}) and Unsecured Credentials
 % not a technique" is stronger than the grounded claim (fidelity
 % contract #3 says the terminal state is not an *Impact* technique;
 % VT's pre-positioning itself used techniques) --- confirm or soften
-% on your walk.]
-The terminal condition represents the objective of Volt Typhoon here.
+% on your walk. WALK GROUNDING (pass 4 split-stream, 2026-09-03,
+% blanket-accepted): the advisory maps the campaign to 67 techniques
+% across 13 tactics, no Impact technique (cisaaa24038a.md Concept 5);
+% alshamrani's NIST objective triad accommodates "position-for-future"
+% as an APT objective (\S II-C) --- so "may not fit" is safe scoped to
+% the matrix/kill-chain FORMALISM (no Impact-class technique to
+% terminate on), not to APT frameworks generally. Cites added per the
+% accepted minors: cisaaa24038a on the terminal-condition sentence
+% (Concept 4 is the restraint carrier), hutchins2011 on the Kill
+% Chain sentence.]
+The terminal condition represents the objective of Volt Typhoon here
+\citep{cisaaa24038a}.
 This encapsulates something that may not fit into the standard attack
 matrix, because pre-positioning is not a technique. Other frameworks
 such as the Cyber Kill Chain will often state that
 actions-on-objectives or Impact is the culmination of an attack
-campaign; pre-positioning is not. Attack Flow allows for more
+campaign \citep{hutchins2011}; pre-positioning is not. Attack Flow allows for more
 flexibility in encapsulating preconditions and terminal objectives of
 APT attackers.
 CTID maintains a corpus of such flows reconstructed by
@@ -1230,11 +1254,37 @@ coverage cost.
 % call). NOTE: "reconstructed from the advisory" now carried in both
 % this sentence pair and the caption --- intended (caption
 % identifies, prose narrates), flagged for the voice pass.]
-Volt Typhoon had no example Attack Flow, so we manually curated one
+% [PASS 4 minor SCOPE, ACCEPTED 2026-09-03: "no example Attack Flow"
+% -> "no example Attack Flow in this corpus" --- the grounded claim is
+% CTID-corpus-scoped (hand_curated README; cisaaa24038a.md Concept 5);
+% the unscoped form asserted no flow exists anywhere. Antecedent is
+% the corpus sentence above. Repair words session-supplied ---
+% ratify on read.]
+Volt Typhoon had no example Attack Flow in this corpus, so we manually
+curated one
 (Figure~\ref{fig:attack-flow-volt-typhoon}), as a human analyst would:
 taking the CTI and condensing it into structure, adding sequencing and
 dependency to it. We used the joint advisory AA24-038A
 \citep{cisaaa24038a} to do so.
+% [PASS 4 M2 INSERT, ACCEPTED 2026-09-03 --- SESSION WORDS, ratify on
+% read. The record's reserved argument (cisaaa24038a.md Concept 1:
+% "the residual prose->structure gap the chapter argues";
+% hand_curated README fidelity contract #2: 57 stated / 16 inferred
+% of 73 edges): the section's own artefact quantifies the P2
+% procedural-semantic gap, previously unclaimed here.]
+The advisory states the ordering behind 57 of the flow's 73 edges; the
+remaining 16 we inferred from its prose: the procedural-semantic gap,
+measured on our own artefact.
+% [PASS 4 ACCEPTED-OPEN, placement yours (2026-09-03) --- two content
+% candidates, this section or ch4; dictation slots once placed:
+% (a) the prose never says the hand-curated flow stays OUT of the
+% pipeline's corpus --- the README treats the exclusion as
+% load-bearing (the GAP's author-independent provenance), and a
+% reader here could infer the figure's flow feeds the build.
+% (b) the other known non-carry: Attack Flow does not maintain
+% motivation for APT groups (objective_pivot thread) --- the fact
+% that forced L2's design; candidate for the strand-exit "what it
+% does not carry" close, or ch4's story.]
 
 % FIGURE --- the Volt Typhoon Attack Flow exemplar (replaces the Tesla
 % placeholder; Marc's ruling 2026-08-31). MOVED with the Attack Flow
@@ -1279,13 +1329,29 @@ apparatus for reconstructing behaviour from CTI, automated and manual
 alike, sits within the threat-intelligence and incident-response
 literature, not within MTD evaluation.
 % [stitch] next sentence; the one after is from the precedent-survey note
+% [PASS 4 M3 VERIFIED + carrier repair, 2026-09-03. (a) Schema half
+% verified against the source markdown (2_1_attackflowdoc.md, the
+% attack-action property table: execution_start / execution_end, both
+% optional) --- ctid2025attackflow carries it; attackflow.md
+% extraction extended with the record (Concept 5). (b) Corpus half
+% MEASURED against data/gap/_corpus_stix/ (38 flows): 36 carry no
+% timestamps; two (MITRE NERVE, DFIR BumbleBee Round 2) populate
+% execution_start with 1970-01-01 epoch placeholders --- clock times
+% only, no real-world dates. Substance of "leaves them empty" holds
+% for all 38 (no machine-usable real-world tempo anywhere); the
+% literal wording is falsified at the margin. [3b] keep "leaves them
+% empty" or soften ("all but empty") --- your word. (c) Cite carrier:
+% month-granularity campaign dates are a catalogue-page fact, so the
+% cite moves mitre2026attackv19 -> mitre2026attackkb per your
+% 2026-09-02 carrier ruling (references.bib comment). Do not
+% re-flag.]
 And what neither strand supplies is tempo. Public incident corpora
 encode order, not tempo: the Attack Flow schema defines optional
 per-action start and end timestamps, the exact intended home for this
 data, but the public corpus leaves them empty, because breach reports
 rarely contain machine-usable timestamps; ATT\&CK campaign records
 carry only month-granularity first- and last-seen dates
-\citep{ctid2025attackflow, mitre2026attackv19}.
+\citep{ctid2025attackflow, mitre2026attackkb}.
 
 % ------------------------------------------------------ 3.2 evaluate --
 % Feeds evaluate: the instruments are mature, and every one of them is

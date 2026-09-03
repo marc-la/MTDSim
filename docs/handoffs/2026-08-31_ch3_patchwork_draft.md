@@ -162,6 +162,40 @@ executes: 2026-08-31_ch3_port_plan.md
 >    strand-exit sentence order; P1+P2 weld; "reusable" dup (slot 1
 >    vs the motivation sentence, pass 5). STIX sentence still
 >    uncited (verification open).
+>
+>    PASS 4 RUN 2026-09-03 (split-stream, white box + black box; Marc
+>    ruled the merged ledger: M1 "track the paper", M2/M3 accept,
+>    minors blanket-accepted; all applied same day, compile clean):
+>    M1 — opening triple restored to Rodríguez's verbatim
+>    "objectives, knowledge, and modus operandi" (the extraction's
+>    Concern 1; the draft's "motivations" was a paraphrastic
+>    substitution). M2 — 57-stated/16-inferred residual-gap sentence
+>    inserted after the curation sentences (SESSION WORDS,
+>    ratify-on-read). M3 — (a) month-granularity cite moved
+>    mitre2026attackv19 → mitre2026attackkb per the 2026-09-02
+>    carrier ruling; (b) timestamps claim VERIFIED: schema half
+>    against the source markdown, corpus half measured (36/38 flows
+>    empty; MITRE NERVE + DFIR BumbleBee Round 2 carry 1970-01-01
+>    epoch placeholders — substance holds, literal "leaves them
+>    empty" [3b]-flagged); attackflow.md extraction extended
+>    (Concept 5); (c) STIX sentence cited to new DRAFT bib entry
+>    oasis2021stix (OASIS STIX 2.1 standard; fields from session
+>    knowledge, VERIFY-marked in the bib). Minors applied: slot 4
+>    scoped "in this corpus"; SoK verdict subject narrowed to "its
+>    text-extraction families" (session words, ratify-on-read; the
+>    SoK never evaluated PM); hutchins2011 added on the Kill Chain
+>    sentence, cisaaa24038a on the terminal-condition sentence;
+>    pre-positioning walk grounding added to the slot-3 comment
+>    (alshamrani NIST triad "position-for-future"; 67 techniques /
+>    13 tactics, no Impact technique — scope "may not fit" to the
+>    formalism); four extraction bibliographic anchors updated to
+>    the bib's keys. ACCEPTED-OPEN, placement Marc's (comment in
+>    tex at P4 close): (a) the hand-curated flow's exclusion from
+>    the pipeline corpus is unstated in prose (README: exclusion is
+>    load-bearing for provenance); (b) Attack Flow's motivation
+>    non-carry (objective_pivot) absent from the strand exit — here
+>    or ch4. Pass-4 KEEP block: all other empirical claims verified
+>    against extractions by both streams independently.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
