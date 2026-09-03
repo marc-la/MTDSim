@@ -147,12 +147,21 @@ executes: 2026-08-31_ch3_port_plan.md
 >    3.2 caption stripped to one sentence — advisory + citation, with
 >    "reduced to its spine" kept as the honesty disclosure). Two
 >    grounded claims left the caption without a prose carrier
->    (restraint / VT absent from the CTID corpus) — dictation slots
->    offered. MISSING slot for his dictation: the so-what sentence
->    (P1 second position). Open [3b]s: the "supplies exactly this
->    missing structure" antecedent / manual-path pivot; strand-exit
->    sentence order; whether P1+P2 weld to match his "three tight
->    paragraphs" reading.
+>    (restraint / VT absent from the CTID corpus) — both re-entered
+>    via Marc's dictated slots the same day. SLOTS FILLED 2026-09-03:
+>    slot 1 (so-what, P1 second position), slot 3 (restraint /
+>    terminal condition, after the OR-join sentence), slot 4 (corpus
+>    absence + hand-curation method, paragraph close) all dictated
+>    and repaired per pass 2+3a with verify watchlists in the tex;
+>    slot 2 (manual-path pivot "That manual path's exemplar is Attack
+>    Flow.") is session-proposed, ratified in chat, ratify-on-read.
+>    Open [3b]s: "ATT&CK's" subject word; "the culmination" and
+>    "structure" (words supplied over mangles); "other frameworks"
+>    resolution; the "pre-positioning is not a technique" strength
+>    (scrutiny: grounded claim is not-an-*Impact*-technique);
+>    strand-exit sentence order; P1+P2 weld; "reusable" dup (slot 1
+>    vs the motivation sentence, pass 5). STIX sentence still
+>    uncited (verification open).
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 

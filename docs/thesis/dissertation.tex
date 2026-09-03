@@ -1082,9 +1082,18 @@ Attack profiling captures attacker behaviour as structured
 representations: connecting individual tactics, techniques, and
 procedures into chains shaped by the attacker's objectives,
 motivations, and knowledge \citep{rodriguez2024}.
-% [MISSING --- yours to dictate (slot ruled 2026-09-03): the so-what
-% sentence --- what a profile buys the evaluator; the power of attack
-% profiling. Second position: what -> so-what -> why-possible.]
+% [DICTATED 2026-09-03 (slot 1: the so-what), repaired per pass 2+3a.
+% Repair log: self-correction "execute sorry operationalise" resolved
+% to the second form; "known defence mechanisms" (STT of "you know,
+% defence mechanisms") -> "defence mechanisms" --- VERIFY; deletions
+% "by"/"its"/"this" close the dangler ("by producing its ... this
+% allows us"); pads dropped. The first formulation's reuse point is
+% carried by "reusable". SCRUTINY: claim is in scope (matches the
+% preamble's framing, no overclaim); "reusable" now appears here AND
+% in the next sentence --- TIGHTEN candidate for pass 5.]
+Producing reusable attack profiles allows us to operationalise these
+profiles for evaluation of defence mechanisms such as moving target
+defence.
 % [moved 2026-09-03 from the subsection lead (the 3.1.1-dissolve S4,
 % ported 2026-09-02): now the opening paragraph's third element.]
 Because APT behaviour is
@@ -1157,11 +1166,10 @@ but on the SoK's evidence it does not yet recover technique-level
 behaviour reliably enough to ground an attacker on; manual curation
 supplies that fidelity.
 
-% [3b, 2026-09-03] "supplies exactly this missing structure" --- the
-% antecedent (the procedural-semantic gap) is now two paragraphs up,
-% and with cut (3) nothing names Attack Flow as the manual path until
-% "reconstructed by analysts" below. Confirm it resolves on read, or
-% dictate a pivot sentence here.
+% [slot 2 --- session-proposed pivot RATIFIED in chat 2026-09-03
+% ("just accept"); resolves the manual-path / "this missing
+% structure" antecedent [3b]. Session words, ratify-on-read stands.]
+That manual path's exemplar is Attack Flow.
 Attack Flow, a STIX 2.1 extension
 language released by MITRE Engenuity's Center for Threat-Informed
 Defense (CTID) in 2022, supplies exactly this missing structure,
@@ -1183,10 +1191,50 @@ Figure~\ref{fig:attack-flow-volt-typhoon} reconstructs the Volt Typhoon
 critical-infrastructure campaign on the model, where an OR operator
 joins two alternative credential sources, Exploitation for Privilege
 Escalation (\attackid{T1068}) and Unsecured Credentials
-(\attackid{T1552}), into Valid Accounts (\attackid{T1078}). CTID maintains a corpus of such flows reconstructed by
+(\attackid{T1552}), into Valid Accounts (\attackid{T1078}).
+% [DICTATED 2026-09-03 (slot 3: the restraint / terminal condition),
+% repaired per pass 2+3a. VERIFY watchlist: "of what type in here"
+% repaired to "of Volt Typhoon here"; "now the coffin" -> "the
+% culmination" [3b --- word supplied over a mangle, confirm]; "other
+% Matrices I'm sorry other cyber chains frameworks" resolved to the
+% second form as "other frameworks" [3b]; "action on objective" ->
+% the Kill Chain stage name "actions-on-objectives"; "cyber kill
+% train" -> Cyber Kill Chain and "apartment" -> APT (dictionary);
+% "May I not fit" -> "may not fit". SCRUTINY: "pre-positioning is
+% not a technique" is stronger than the grounded claim (fidelity
+% contract #3 says the terminal state is not an *Impact* technique;
+% VT's pre-positioning itself used techniques) --- confirm or soften
+% on your walk.]
+The terminal condition represents the objective of Volt Typhoon here.
+This encapsulates something that may not fit into the standard attack
+matrix, because pre-positioning is not a technique. Other frameworks
+such as the Cyber Kill Chain will often state that
+actions-on-objectives or Impact is the culmination of an attack
+campaign; pre-positioning is not. Attack Flow allows for more
+flexibility in encapsulating preconditions and terminal objectives of
+APT attackers.
+CTID maintains a corpus of such flows reconstructed by
 analysts from publicly reported incidents
 \citep{ctid2025attackflow}: reliable structured behaviour, bought at a
 coverage cost.
+% [DICTATED 2026-09-03 (slot 4: the corpus absence), repaired per
+% pass 2+3a. VERIFY watchlist: "no attack flow example attack flow"
+% resolved to the second form, "no example Attack Flow"; "condensing
+% it into you know street adding sequencing independency" repaired to
+% "condensing it into structure, adding sequencing and dependency"
+% [3b --- "structure" supplied over a mangle, confirm];
+% meta-narration ("we kind of position it ... they can be like oh")
+% beheaded; trailing fragment ("right to") dropped; "we use" -> "We
+% used" (tense). "See Figure 3.2" honoured as the parenthetical ref
+% (second ref to the figure in this paragraph --- minor, pass 5's
+% call). NOTE: "reconstructed from the advisory" now carried in both
+% this sentence pair and the caption --- intended (caption
+% identifies, prose narrates), flagged for the voice pass.]
+Volt Typhoon had no example Attack Flow, so we manually curated one
+(Figure~\ref{fig:attack-flow-volt-typhoon}), as a human analyst would:
+taking the CTI and condensing it into structure, adding sequencing and
+dependency to it. We used the joint advisory AA24-038A
+\citep{cisaaa24038a} to do so.
 
 % FIGURE --- the Volt Typhoon Attack Flow exemplar (replaces the Tesla
 % placeholder; Marc's ruling 2026-08-31). MOVED with the Attack Flow
@@ -1201,17 +1249,13 @@ coverage cost.
 % content in the prose, caption lean --- "reconstructed from the joint
 % advisory, then the citation"). "reduced to its spine" retained as
 % the honesty disclosure (the figure is a subset, not the full
-% campaign) --- cut it on read if unwanted. TWO CLAIMS LEFT THE
-% CAPTION WITHOUT A PROSE CARRIER, both grounded (the old pass-4 KEEP:
-% restraint = hand-curated flow's fidelity contract #3, corpus absence
-% = the README's coverage-cost fact); dictation slots proposed in
-% chat, Marc's call whether either re-enters via the prose:
-% (a) the terminal condition records the campaign's RESTRAINT
-% (pre-positioned for operational-technology disruption without
-% executing it); (b) Volt Typhoon has NO FLOW in the CTID corpus ---
-% this one was reconstructed from the advisory (the coverage cost
-% made concrete). None of the 13 exemplar nodes is touched by the
-% v14->v19.1 deltas the README records.
+% campaign) --- cut it on read if unwanted. The two claims that left
+% the caption (restraint / corpus absence) RE-ENTERED VIA THE PROSE,
+% Marc's dictated slots 3 and 4 (2026-09-03) --- both grounded (the
+% old pass-4 KEEP: restraint = hand-curated flow's fidelity contract
+% #3, corpus absence = the README's coverage-cost fact). None of the
+% 13 exemplar nodes is touched by the v14->v19.1 deltas the README
+% records.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\textwidth]{fig_3-1a_attack_flow_volt_typhoon}
