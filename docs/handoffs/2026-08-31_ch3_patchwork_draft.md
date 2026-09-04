@@ -260,6 +260,24 @@ executes: 2026-08-31_ch3_port_plan.md
 >    next. (Unrelated: a pre-existing "Year undefined for kim2026"
 >    natbib warning sits in the §3.3 draft on dev -- not this section,
 >    not this diff; flagged for whoever owns 3.3.)
+> 14. **3.1 INTERSTITIAL WRITTEN** (2026-09-04, Marc's ruling after four
+>    chat rounds): session-generated connective prose under the standing
+>    green light — one sentence stating the strand's question (the port
+>    plan's own 3.1 framing: whether a machine-usable specification of an
+>    APT campaign can be produced from the literature, and which elements
+>    it still lacks), then functional signposts built from each
+>    subsection's own claim-sentence nouns. The two orphan sentences from
+>    the item-5 dissolve (S1 "well-documented in the CTI record", S5 the
+>    commodity/multi-step-commitment contrast) are CUT in full: S1 was
+>    uncited, and the commodity-attacker thread is dead elsewhere in the
+>    chapter (E1). Rulings recorded in the tex comment (surveys /
+>    machine-usable / current limitations / no lingua-franca echo / no
+>    SQ keying). Pass 6 run: no proposals, gate passes. OPEN, BOOKED FOR
+>    MARC: the 3.1.3 exit paragraph's "Two gaps remain." opener — his
+>    read: three-word declarative, more confident than the evidence,
+>    wants the nuance back (the [3b] "leaves them empty" margin case is
+>    the same complaint). A session rework proposal was tabled in chat
+>    2026-09-04, not applied.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
