@@ -593,6 +593,26 @@ executes: 2026-08-31_ch3_port_plan.md
 >    when added (16(k)). Sharma 2025 joins the MTTC "Reported by" cell
 >    only once in the bib. Every row's cells are verify-listed above;
 >    nothing enters the tex until Marc rules the column set.
+>    **BUILT 2026-09-04** on Marc's ruling ("good design, get a draft
+>    done; keep it simple; be confident in the facts; I verify later").
+>    Table in the tex under a DRAFT STATE comment carrying every cell's
+>    extraction locator and four [VERIFY] items (kim2026 attack success
+>    time as MTTC family; brown2023 attempts as attack cost; the
+>    unpredictability and tempo rows unmarked for ch4). Facts checked
+>    while building: ho2024 REPORTS MTTC (source l.503--547, Figure 5
+>    MTTC-optimisation results), so it joins that row; kim2026 reports
+>    ASP and attack-success time per CKC phase and a QoS measure (FFJ,
+>    source l.394--414); he2025 reports ADR/MDR detection rates, fits
+>    no family, omitted; masud2025 reports risk, attack cost, RoA
+>    (source l.64, l.122). Bib style is numeric (ieeetr + natbib
+>    numbers), so \citet renders "(author?)": author names in captions
+>    and cells are written "Cho et al.\ \citep" per the document's
+>    convention. Compiles clean, one portrait page at \small, no
+>    overfull box. Papers the build could not verify against and would
+>    upgrade cells (Marc's to-download list, 16(k)): Manadhata & Wing
+>    2011 (attack-surface origin), Zaffarano 2015 (DSP origin),
+>    Alavizadeh 2018 (RoA / risk / HCR origin per ho2024 l.224), Sharma
+>    2025 (MTTC reported-by). None blocks the draft.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 

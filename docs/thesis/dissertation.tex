@@ -1599,34 +1599,117 @@ objective cross-evaluation of MTD techniques intractable to date
 % metrics reported; defender frozen) is a ch4 subsec:metrics disclosure,
 % noted in the handoff. Unit ends here, ~205 words.
 
-% TABLE 3.1 --- the review's Table I, re-keyed. Comparison table with
-% citation column (figure_table_conventions e2).
+% TABLE 3.1 --- DRAFT STATE 2026-09-04 (session-built on Marc's ruling of
+% handoff item 19; Marc verifies and validates cell by cell). Genre e2
+% (approach-comparison, booktabs). Cho's perspective x purpose kept as
+% the four group rows; one row per metric FAMILY; the "Computed over"
+% column absorbs Hong's dynamic-vs-static distinction (no dagger) and
+% plants G1's hinge as description. Selection rule in the caption.
+% Cell grounding (extractions): ASP/ASR ho2024 H-MET-06, tay2024
+% T-EVAL-01, kim2026 source l.408 (ASP per CKC phase); MTTC mcqueen2006,
+% zhang2023 Z-EVAL-04, ho2024 source l.503-547 (MTTC optimisation
+% results), tay2024 T-EVAL-01, kim2026 l.406/410 (attack success time,
+% per phase); path measures hong2018 s5.1, ho2024 H-MET-01/10, tay2024
+% T-EVAL-01 (APE); utility cho2020 s.VII-A; unpredictability cho2020
+% [66][110][145], jalowski2026 s4.1; attack cost cho2020 s.VII-B,
+% brown2023 B-MET-02, ho2024 H-MET-03, tay2024 T-EVAL-01, masud2025
+% source l.64/122; DSP cho2020 (Zaffarano [173]); system security cho2020
+% s.VII-A, ho2024 H-MET-02/04, tay2024 (Risk), masud2025 l.64; defence
+% cost cho2020 s.VII-B, mendonca2023 Concept 4, kim2026 l.394 (FFJ);
+% NVC/EVC hong2018 s5.2; tempo cho2020 (periodicity), ho2024 H-MET-07/09.
+% [VERIFY] kim2026's phase-indexed "attack success time" counted as the
+%   MTTC family (session's reading). [VERIFY] brown2023's
+%   attempts-required counted as attack cost/effort (session's reading).
+% [VERIFY] Unpredictability row left unmarked for ch4 ("predictability
+%   enters only in its reworked form", subsec:metrics comment) --- mark
+%   only if ch4 reports it. [VERIFY] Movement tempo unmarked: a swept
+%   factor in ch4, not a reported metric.
+% Origin cells: defining work where the bib has one (mcqueen2006,
+%   hong2018, ho2024 for MEF/TSLM); otherwise the survey that groups the
+%   family. Upgrades when the bib grows (16(k)): attack surface ->
+%   Manadhata & Wing 2011; DSP -> Zaffarano 2015; RoA / risk / HCR ->
+%   Alavizadeh 2018 (Ho's own attribution, ho2024 source l.224); MTTC
+%   "Reported by" gains Sharma 2025.
+% he2025 omitted: reports detection rates (ADR/MDR), no family here.
 \begin{table}[htbp]
   \centering
-  \caption[Representative MTD metrics by perspective and purpose]{Representative
-  MTD metrics by perspective and purpose. Partition adapted from
-  \citet{cho2020}; $\dagger$ marks the network-state-dynamic measures
-  of \citet{hong2018}, computed across consecutive network states.}
+  \caption[Metric families in MTD evaluation]{Metric families in MTD
+  evaluation, grouped by the perspective and purpose partition of
+  Cho et al.\ \citep{cho2020}. \emph{Computed over} names the quantity a family is
+  scored on; \emph{Origin} gives the defining work where one is cited,
+  otherwise the survey that groups the family; \emph{Reported by} lists
+  the evaluation papers in this chapter that report the family as an
+  outcome; \checkmark\ marks the families reported in
+  Chapter~\ref{ch:methodology}. A family enters if Cho et al.\ \citep{cho2020} name
+  it as a trend in their census or a paper in this chapter reports it.}
   \label{tab:mtd-metrics}
   \small
-  \begin{tabular}{@{}lll@{}}
+  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.3cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{1.5cm}>{\raggedright\arraybackslash}p{2.3cm}c@{}}
     \toprule
-    Perspective & Effectiveness & Efficiency \\
+    Family & Computed over & Origin & Reported by & Ch.~\ref{ch:methodology} \\
     \midrule
-    Attacker-side
-      & Attack success probability (ASP) \citep{cho2020} & Attack cost \citep{cho2020} \\
-      & Mean time to compromise (MTTC) \citep{cho2020} & Payoff penalty \citep{cho2020} \\
-      & Attack surface \citep{cho2020} & \\
-      & Attack path variation (APV)$^\dagger$ \citep{hong2018} & \\
-      & Attack path number (APN)$^\dagger$ \citep{hong2018} & \\
-      & Attack path exposure (APE)$^\dagger$ \citep{hong2018} & \\
+    \multicolumn{5}{@{}l}{\emph{Attacker-side, effectiveness}} \\
+    Attack success probability or rate
+      & attacker attempts and compromise events
+      & \citep{cho2020}
+      & \citep{ho2024, tay2024, kim2026}
+      & \checkmark \\
+    Mean time to compromise (MTTC); read by Cho et al.\ \citep{cho2020} as the same quantity as mean time to failure
+      & attacker action durations
+      & \citep{mcqueen2006}
+      & \citep{zhang2023, ho2024, tay2024, kim2026}
+      & \checkmark \\
+    Attack path measures (path variation, number, and exposure; attack surface)
+      & attack-graph paths across consecutive network states
+      & \citep{hong2018}
+      & \citep{ho2024, tay2024}
+      & \checkmark \\
+    Attacker utility or payoff
+      & game outcome
+      & \citep{cho2020}
+      &
+      & \\
+    Unpredictability, entropy
+      & the configuration space
+      & \citep{cho2020, jalowski2026}
+      &
+      & \\
     \midrule
-    Defender-side
-      & Defence success probability (DSP) \citep{cho2020} & Defence cost \citep{cho2020} \\
-      & Mean time to failure (MTTF) \citep{cho2020} & Quality of service (QoS) \citep{cho2020} \\
-      & System security (CIA) \citep{cho2020} & System overhead \citep{cho2020} \\
-      & Degree of vulnerability \citep{cho2020} & Node variant cost (NVC)$^\dagger$ \citep{hong2018} \\
-      & & Edge variation cost (EVC)$^\dagger$ \citep{hong2018} \\
+    \multicolumn{5}{@{}l}{\emph{Attacker-side, efficiency}} \\
+    Attack cost and effort (attack cost, payoff penalty, attempts required, return on attack)
+      & attacker resource: time, attempts, scans
+      & \citep{cho2020}
+      & \citep{brown2023, ho2024, tay2024, masud2025}
+      & \checkmark \\
+    \midrule
+    \multicolumn{5}{@{}l}{\emph{Defender-side, effectiveness}} \\
+    Defence success probability; mission metrics
+      & defender task completion
+      & \citep{cho2020}
+      &
+      & \\
+    System security (confidentiality, integrity, availability; degree of vulnerability; risk; host compromise ratio)
+      & a system-state snapshot
+      & \citep{cho2020}
+      & \citep{ho2024, tay2024, masud2025}
+      & \\
+    \midrule
+    \multicolumn{5}{@{}l}{\emph{Defender-side, efficiency}} \\
+    Defence cost, overhead, quality of service
+      & defender operations
+      & \citep{cho2020}
+      & \citep{mendonca2023, kim2026}
+      & \\
+    Node and edge variation cost
+      & consecutive network states
+      & \citep{hong2018}
+      &
+      & \\
+    Movement tempo (periodicity; execution frequency; time since last move)
+      & the defender's schedule
+      & \citep{cho2020, ho2024}
+      & \citep{ho2024}
+      & \\
     \bottomrule
   \end{tabular}
 \end{table}
