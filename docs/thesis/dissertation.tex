@@ -113,10 +113,15 @@
 How does moving target defence (MTD) perform against advanced persistent
 threat (APT) attackers? This question decomposes into three sub-questions:
 how APT attacker behaviour is captured, from published campaign intelligence
-to behavioural attack profiles; how that behaviour is made executable, as an
-attacker that traverses the captured structure inside the simulator; and how
-MTD performance against the resulting attack model differs from its
-performance against the inherited scripted attacker.
+to behavioural attack profiles (SQ1); how that behaviour is made executable,
+as an attacker that traverses the captured structure inside the simulator
+(SQ2); and how MTD performance against the resulting attack model differs
+from its performance against the inherited scripted attacker (SQ3).
+% [2026-09-04] SQ1--SQ3 labels inserted as parentheticals on Marc's ch4
+% ruling ("giving identifiers to the sub research questions") --- this is
+% the definition site; ch4's preamble and section key use them. Minimal
+% insert into the ratified 2026-08-21 sentence, ratify-on-read; the
+% contributions list below keys to the same labels.
 
 % Both blocks below are visible placeholders (Marc's rulings 2026-08-20;
 % conventions + corpus exemplars in literature_conventions.md (g)). Marc
@@ -2458,28 +2463,65 @@ building it is Chapter~\ref{ch:attacker-model}.]}
 %      Word count ~185 against the ~125--150 half-unit; the remainder sits
 %      in ratified material (spine sentence, opener, commitments) ---
 %      Marc's cut, if any.
+% ---- PASS 6 ROUND 2 (2026-09-04): Marc's walk of the pass-6 text, his
+%      dictation applied (repaired per pass 2+3a; "drops" -> "adopts" STT).
+%      (a) \emph on "movement attacker" at its first fix (voice d: italics
+%      introduce a term); the Section 3.3.4 pointer CUT --- the gap is the
+%      section immediately before this chapter, and a pointer to 3.3.4
+%      that itself points to 3.3.2 "makes no sense"; the 3.3.2 axes
+%      pointer stays. (b) Replacement sentence re-dictated with the
+%      movement attacker as subject, "inherited" restored in the
+%      appositive by his dictation (the registry deprecates *inherited
+%      attacker* as a NAME; as a description here it is his word), the
+%      Petri net named in full ("more buzzwords": generalised stochastic
+%      Petri net, the ratified L3 term). [3b] "aims to" now opens two
+%      consecutive sentences (aims to meet / aims to replace) --- "replaces"
+%      is the one-word alternative, your call. [3b] emphasis on "baseline
+%      attacker" was a "maybe": NOT applied, because its first fix is ch2
+%      §2.2.3 ("what we term the baseline attacker"); apply if wanted.
+%      (c) "Two commitments hold." CUT (Marc: vacuous, inflated).
+%      (d) The beside-MTDSim sentence re-dictated: "instrumenting our
+%      existing attacker model with the movement attacker" is his frame;
+%      "by construction" kept from the ratified text as the referent of
+%      his "essentially" --- [3b] cut if not wanted. "This is" -> "It is"
+%      (Marc: "This what is this"; the referent is the previous
+%      sentence's subject). (e) Proof-of-concept sentence re-dictated:
+%      "testing whether behavioural fidelity changes existing MTD
+%      evaluation" (his words); the negative-scope tail "not whether the
+%      model is true" KEPT --- it is the ceiling clause the cut §4.1
+%      owed --- [3b] cut if his re-dictation was meant to replace it.
+%      (f) P2 spine sentence split "with logic" into the three
+%      sub-questions, each tagged SQ1 / SQ2 / SQ3 in a parenthesis; the
+%      "Those are the three sub-questions of Chapter 1" sentence is
+%      thereby absorbed; "structured representations" is his new noun
+%      (parallels ch3 §3.1.3's attack-profiling definition). (g) The
+%      section key now names the identifiers instead of ordinals.
+%      SQ IDENTIFIERS (his ask): SQ1--SQ3 fixed at their definition site,
+%      the ch1 sub-question sentence (three parenthetical labels inserted
+%      there, minimal, ratify-on-read; the ch1 comment already reserved
+%      the labels for that sentence). Convention note: with one research
+%      question (architecture (a)) SQn is the fitting form; RQ1.1 would
+%      imply several top-level questions.
 The APT attacker model that we have produced, which we are terming the
-movement attacker, is the model that the research gap
-(Section~\ref{subsec:research-gap}) motivated; it aims to meet the axes
-from Section~\ref{subsec:attacker-criterion}. We are replacing the
-baseline attacker, the scripted six-phase attacker
-(Chapter~\ref{ch:background}), with the movement attacker: it adopts its
-action set, and the movement is dictated by the Petri net and by the
-attacker model at runtime. Two commitments hold. This is built beside
-MTDSim; we are not touching the simulator, so that we can compare our
-results by construction. This is a proof of concept: it is built to test
-whether behavioural fidelity changes the answer, not whether the model
-is true.
+\emph{movement attacker}, is the model that the research gap motivated;
+it aims to meet the axes from Section~\ref{subsec:attacker-criterion}.
+The movement attacker aims to replace the baseline attacker, the
+inherited scripted six-phase attacker (Chapter~\ref{ch:background}); it
+adopts its action set, and its movement is dictated by the generalised
+stochastic Petri net and by the attacker model at runtime. It is built
+beside MTDSim: we are instrumenting our existing attacker model with the
+movement attacker, so that we can compare our results by construction.
+This is a proof of concept, testing whether behavioural fidelity changes
+existing MTD evaluation, not whether the model is true.
 
-We are grounding it in CTI in a way that captures the behaviour of APT
-attackers in the real world, and distilling it into something that we
-can operationalise and join into our existing simulator to evaluate our
-defence mechanisms. Those are the three sub-questions of
-Chapter~\ref{ch:intro}, and Figure~\ref{fig:pipeline} is the pipeline
-that answers them. Sections~\ref{sec:technique-graph}
-and~\ref{sec:attack-profiles} answer the first;
-Sections~\ref{sec:petri-formalism} and~\ref{sec:execution} the second;
-the third is Chapter~\ref{ch:experimental-setup}.
+We are grounding it in CTI to capture the behaviour of APT attackers in
+the real world (SQ1). We are distilling that behaviour into structured
+representations that we can operationalise and join to our existing
+simulator (SQ2), to evaluate our defence mechanisms (SQ3).
+Figure~\ref{fig:pipeline} is the pipeline that answers them:
+Sections~\ref{sec:technique-graph} and~\ref{sec:attack-profiles} answer
+SQ1; Sections~\ref{sec:petri-formalism} and~\ref{sec:execution} answer
+SQ2; Chapter~\ref{ch:experimental-setup} answers SQ3.
 
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
 % flows into tactic dependencies. Answers capture. Disclosures: what
