@@ -858,6 +858,11 @@ executes: 2026-08-31_ch3_port_plan.md
 >    risk accepted). Not applied: BB's L4 whole-sentence cut of the
 >    modelling sentence (BB's own default decline); the bold/shading
 >    sentence stays cut. Prose ~120 words; caption three sentences.
+>    **Corrected same day (Marc):** the "no common benchmark" clause
+>    REINSTATED and the ch4 pointer BACK IN THE CAPTION --- both
+>    afternoon rulings stand; only the opener colon-clause cut and the
+>    row-pairing cut survive from the BB set. Prose ~130 words; caption
+>    four sentences. Through pass 5.
 > 21. **TABLE 3.1 VERIFIED, split-stream (WB + BB) on the table alone
 >    --- RULED and APPLIED** (2026-09-04, Marc: "black box verification
 >    and crit ... treat every fact as wrong until you verified it ... are
