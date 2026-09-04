@@ -647,7 +647,9 @@ executes: 2026-08-31_ch3_port_plan.md
 >    names (three uses every cell must serve: forward = shape of the
 >    space in ten seconds; backward = a ch4/ch5 metric name -> kind,
 >    basis, who to read; sideways = the paper to read). Rulings: (1)
->    purpose as ROTATED row-group labels on the left, UNSHADED; (2)
+>    purpose as ROTATED row-group labels on the left, shaded with the
+>    row (Marc first ruled the column unshaded, then reversed it the
+>    same day: full-width zebra is the stronger convention); (2)
 >    "Basis" is the ruled header for computed-over, and it is the row
 >    key; (3) the two perspectives are the columns, so a row is one
 >    measure read from each side (Cho's pairings) and an empty cell = no
@@ -664,7 +666,7 @@ executes: 2026-08-31_ch3_port_plan.md
 >    family feature matrix (3.3.3's shape); hairlines (weaker read).
 >    Preamble additions: xcolor[table], multirow. Rotated label sits in
 >    the last row of its block (negative multirow) so it draws after the
->    shading; \cellcolor{white} keeps the label column unshaded.
+>    shading.
 >    Footnote size, arraystretch 1.2, just over a third of a page, on
 >    the same page as the 3.2.1 prose. Open: the four [VERIFY] cell
 >    classifications in the tex comment; a game-theoretic exemplar for
