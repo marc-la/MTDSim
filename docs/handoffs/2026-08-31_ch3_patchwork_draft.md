@@ -639,8 +639,9 @@ executes: 2026-08-31_ch3_port_plan.md
 >    system-security rows. Bib: four entries appended to references.bib
 >    (zaffarano2015 without page range --- not printed in the PDF;
 >    VERIFY against the ACM DL). Pre-existing, not from this pass:
->    natbib "Year undefined" for masud2025 and kim2026 (bib entries lack
->    a year field) --- fix at the bib pass. Table recompiled clean.
+>    natbib "Year undefined" warnings for masud2025 and kim2026 (both
+>    entries DO carry a year; present before this pass, so a bbl/natbib
+>    parsing quirk to chase at the bib pass). Table recompiled clean.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
