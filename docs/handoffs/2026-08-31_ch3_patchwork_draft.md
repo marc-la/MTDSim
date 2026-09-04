@@ -820,6 +820,20 @@ executes: 2026-08-31_ch3_port_plan.md
 >    dominance scope [3b], the P1 minors ("judge our ... attacker
 >    model", metrics vs families, "snapshots"), and every
 >    ratify-on-read joint above. Unit ~195 words. Pass 5 next.
+>    **SECOND RULING ROUND, same day, applied:** (1) the Hong sentence
+>    CUT in full (Marc: the inclusion no longer makes sense once the
+>    extension frame is gone; hong2018 keeps its P2, table and G1
+>    carriers --- "cutting a bad sentence is cutting a bad sentence");
+>    (2)+(3) the opener recast from his spoken words: "simulator" ->
+>    "model", "defence, network, or attacker model" -> "defence
+>    mechanisms", the effective-and-efficient apposition added
+>    (ratify-on-read); the metrics -> validation method -> tradition ->
+>    attack model line he described is the strand opener's, no action;
+>    (4) ASP dominance scoped to "the effectiveness metrics" (closes
+>    the item-18 [3b]); (5) cite moved onto the axes clause, "metric
+>    families"; (6) all ratify-on-read joints ACCEPTED FOR NOW, to be
+>    judged at the voice pass; (7) the registry row stands as is.
+>    3.2.1 is through pass 4; ~190 words. Pass 5 next.
 > 21. **TABLE 3.1 VERIFIED, split-stream (WB + BB) on the table alone
 >    --- RULED and APPLIED** (2026-09-04, Marc: "black box verification
 >    and crit ... treat every fact as wrong until you verified it ... are

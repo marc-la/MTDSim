@@ -1526,42 +1526,55 @@ result against a metric set using one of several validation methods
 %
 % P1 --- the what. Question: what instrument does an MTD evaluation read
 % its verdict from, and how does the field organise it?
-Metrics are a precondition for MTD evaluation: typically we have to
-instrument our simulator, run it and measure, and then from those
-values we can judge our defence, network, or attacker model.
+Metrics are a precondition for MTD evaluation, that is, testing
+whether defence mechanisms are effective and efficient: typically we
+have to instrument our model, run it and measure, and then from those
+values we can judge our defence mechanisms.
+% RULED 2026-09-04 (pass 4, items 2+3): "simulator" -> "model" (the
+%   ladder is 3.2.2's; Marc: "you must first instrument your model with
+%   metrics"); "our defence, network, or attacker model" -> "our defence
+%   mechanisms" (Marc: "we are evaluating our defence mechanisms", not
+%   the network or attack models); the effective-and-efficient
+%   apposition assembled from his spoken words ("testing your defence
+%   mechanism, are they efficient and are they effective") --- it also
+%   seeds the purpose axis. Ratify-on-read. SUPERSEDED: "Metrics are a
+%   precondition for MTD evaluation: typically we have to instrument
+%   our simulator, run it and measure, and then from those values we
+%   can judge our defence, network, or attacker model." The
+%   metrics -> validation method -> modelling tradition -> attack model
+%   line Marc described is carried by the strand opener (Cho's anatomy
+%   sentence), not here.
 Metrics can be split on perspective, attacker-side or defender-side,
-and purpose, effectiveness or efficiency, as used in
-Table~\ref{tab:mtd-metrics}, enumerating commonly used metrics in the
-literature \citep{cho2020}.
+and purpose, effectiveness or efficiency \citep{cho2020}, as used in
+Table~\ref{tab:mtd-metrics}, enumerating commonly used metric
+families in the literature.
+% RULED 2026-09-04 (pass 4, item 5): cite moved onto the axes clause
+%   (Cho supplies the axes, not the enumeration --- the Hong / Ho /
+%   Alavizadeh / HCR rows are not his); "metrics" -> "metric families"
+%   to match the caption and the one-row-per-family design.
 % cite check: both axes are Cho's Sec. VII structure (VII-A
 %   effectiveness / VII-B efficiency, each split attacker's / defender's
 %   metrics); "perspective" is Cho's own word (:574, :904); "purpose" is
 %   the review's label, not Cho's. Attribution holds for the axes.
-Dynamic security metrics are metrics as a property of consecutive
-snapshots of a network state \citep{hong2018}.
-% cite check: Hong's terms are "dynamic security metrics" (Sec. 5) and
-%   "network state" (Sec. 4.1), computed between consecutive states.
-%   Faithful.
-% RULED 2026-09-04 (pass 4, M3): the "This partitioning can be extended
-%   into" frame CUT --- Hong 2018 precedes Cho 2020 and never references
-%   Cho's axes; the extension was a flow device, not a claim (Marc: "he
-%   was just trying to make the sentences flow"). Deletion + "are";
-%   ratify-on-read. SUPERSEDED text: "This partitioning can be extended
-%   into dynamic security metrics, which are metrics as a property of
-%   consecutive snapshots of a network state".
-% [3b] whether the sentence earns its place at all without an evaluation
-%   leg (README: every cited work earns one) --- Marc's static-vs-dynamic
-%   question answered in chat 2026-09-04: Hong's "static" = a property
-%   of ONE configuration (the graphical-security-model tradition's
-%   attack-graph measures), "dynamic" = a property of the trajectory of
-%   configurations MTD produces; NOT runtime-vs-after-the-fact. Cut
-%   option open. [3b] "snapshots of a network state" --- Hong: network
-%   STATES, each a configuration.
-In the field, attack success probability dominates \citep{cho2020}.
+% CUT 2026-09-04 (pass 4, item 1, Marc): the Hong sentence in full ---
+%   "Dynamic security metrics are metrics as a property of consecutive
+%   snapshots of a network state \citep{hong2018}." (earlier form: "This
+%   partitioning can be extended into dynamic security metrics, which
+%   are ..."). Reason: with the extension frame gone (Hong 2018 precedes
+%   Cho 2020; the frame was a flow device) the sentence names a family
+%   and stops --- "cutting a bad sentence is cutting a bad sentence".
+%   hong2018 stays cited on the P2 topic sentence, on two table rows,
+%   and in G1 (:73). Hong's static/dynamic distinction (a property of
+%   one configuration vs of the trajectory of configurations; not
+%   runtime-vs-after-the-fact) is explained in the handoff item 20
+%   trail if a leg is ever wanted. Reversible.
+In the field, attack success probability dominates the effectiveness
+metrics \citep{cho2020}.
 % cite check: Cho :636 --- "a dominant metric used for the
 %   EFFECTIVENESS of MTD", census of 27 papers 2011-2018.
-% [3b] "In the field ... dominates" is broader than Cho's scope
-%      (effectiveness metrics, to 2018) --- scope it or leave.
+% RULED 2026-09-04 (pass 4, item 4): scoped to the effectiveness
+%   metrics (Cho's scope; efficiency scoped out); the 2011-2018 census
+%   window left implicit. Closes the item-18 [3b].
 Overall this is heavily dependent on the particular mode of modelling:
 game-theoretic approaches often look at payoff and utility
 \citep{cho2020}.
