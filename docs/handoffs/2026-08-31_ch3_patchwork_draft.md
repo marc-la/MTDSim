@@ -278,6 +278,16 @@ executes: 2026-08-31_ch3_port_plan.md
 >    wants the nuance back (the [3b] "leaves them empty" margin case is
 >    the same complaint). A session rework proposal was tabled in chat
 >    2026-09-04, not applied.
+> 15. **3.1.3 EXIT PARAGRAPH REWORKED** (2026-09-04, Marc's ruling on
+>    the item-14 proposal, option A): "Two gaps remain. Neither strand
+>    supplies tempo:" → "The curated record supplies order and
+>    dependency, not tempo:" (session-proposed, ratified in chat);
+>    "leaves them empty" → "leaves them all but empty", closing the
+>    pass-4 M3 [3b] on the measured margin. Rest of the paragraph
+>    untouched; the placement sentence stays as the strand exit
+>    (option B's 3.3.2 echo declined by default). Interaction (i)
+>    ("neither strand" anchor) is moot. Section remains through pass
+>    6; integration check next.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
