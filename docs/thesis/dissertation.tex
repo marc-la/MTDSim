@@ -1528,8 +1528,7 @@ result against a metric set using one of several validation methods
 % its verdict from, and how does the field organise it?
 Metrics are a precondition for MTD evaluation, that is, testing
 whether defence mechanisms are effective and efficient: typically we
-have to instrument our model, run it and measure, and then from those
-values we can judge our defence mechanisms.
+have to instrument our model, run it and measure.
 % RULED 2026-09-04 (pass 4, items 2+3): "simulator" -> "model" (the
 %   ladder is 3.2.2's; Marc: "you must first instrument your model with
 %   metrics"); "our defence, network, or attacker model" -> "our defence
@@ -1546,8 +1545,7 @@ values we can judge our defence mechanisms.
 %   sentence), not here.
 Metrics can be split on perspective, attacker-side or defender-side,
 and purpose, effectiveness or efficiency \citep{cho2020}, as used in
-Table~\ref{tab:mtd-metrics}, enumerating commonly used metric
-families in the literature.
+Table~\ref{tab:mtd-metrics}.
 % RULED 2026-09-04 (pass 4, item 5): cite moved onto the axes clause
 %   (Cho supplies the axes, not the enumeration --- the Hong / Ho /
 %   Alavizadeh / HCR rows are not his); "metrics" -> "metric families"
@@ -1575,7 +1573,7 @@ metrics \citep{cho2020}.
 % RULED 2026-09-04 (pass 4, item 4): scoped to the effectiveness
 %   metrics (Cho's scope; efficiency scoped out); the 2011-2018 census
 %   window left implicit. Closes the item-18 [3b].
-Overall this is heavily dependent on the particular mode of modelling:
+This is dependent on the mode of modelling:
 game-theoretic approaches often look at payoff and utility
 \citep{cho2020}.
 % cite check: Cho :636 --- "due to a large volume of game theoretic
@@ -1592,8 +1590,8 @@ a persistent finding \citep{hong2018, cho2020, jalowski2026}:
 metrics are
 produced on an ad hoc basis, there is little consensus on how to
 measure and instrument, there are too many metric families with no
-agreement between them, and there is no common benchmark that exists
-in the MTD literature to measure effectiveness or efficiency.
+agreement between them, and there is no common benchmark to measure
+effectiveness or efficiency.
 % RULED 2026-09-04 (pass 4, M2): (b) the "largest" ranking ATTRIBUTED
 %   to Jalowski ("primary issue in the current state of the art", :123;
 %   "already been raised in existing surveys ... very little has been
@@ -1636,6 +1634,22 @@ date \citep{jalowski2026}.
 %   CUT --- Marc: the claim is already made and cited in the block's
 %   first sentence; "today" not needed, the thesis is dated. Reversible.
 
+% PASS 5 RUN 2026-09-04 (compress-to-ledger, split-stream WB + BB;
+% Marc: "every single ruling I'm happy with" --- the FULL set). Applied,
+% all deletion: P3 tail "and then from those values we can judge our
+% defence mechanisms" (restated the effective-and-efficient
+% apposition); P2 tail ", enumerating commonly used metric families in
+% the literature" (the caption title carries it); P1 pads "Overall" /
+% "heavily" / "particular"; P4 qualifier "that exists in the MTD
+% literature". Caption: the selection-rule sentence, the
+% citation-order sentence and the bold/shading sentence CUT (see the
+% caption's own comment). DECLINED (do-not-re-flag): BB's cut of the
+% whole opener colon clause (Marc's own words, today's ruled recast);
+% BB's cut of the "no common benchmark" clause (the ruled carrier);
+% BB's move of the ch4 pointer out of the caption (layout ruling 6);
+% BB's tighten of the row-pairing decode (the only carrier of the
+% pairing). Prose ~155 words vs ~250. Unit is through pass 5; pass 6
+% (voice-pass) runs on the assembled section.
 % RULED 2026-09-04 (Marc): the remaining cue-card blocks are NOT
 % dictated here. Mechanism (specificity vs portability) and the
 % minority-column/deployment sentence DROPPED as symptoms of the
@@ -1790,19 +1804,26 @@ date \citep{jalowski2026}.
 % reworked-predictability measure may make it five).
 \begin{table}[htbp]
   \centering
+  % CAPTION PARED 2026-09-04 (pass 5, Marc's ruling: bare bones, decodes
+  % only). CUT verbatim, revivable as a table footnote (conventions
+  % §b4) if the concurrent table session wants the provenance under
+  % the float: "A family is listed if a paper this review cites
+  % reports it, if the census in Cho et al.\ names it as dominant, or
+  % if Cho et al.\ name it as the counterpart of one of those; the
+  % survey's remaining families are omitted." / "Citations follow the
+  % name they report: the defining work where one is cited, then the
+  % papers that report the family under that name or a variant." /
+  % "Bold marks abbreviations; row shading is a reading aid only."
+  % (the shading half was already ruled no-decode on 2026-09-04). Kept:
+  % the axes decode, the Basis gloss, the row-pairing + empty-cell
+  % decode, the ruled ch4 pointer.
   \caption[Metric families in MTD evaluation]{Metric families in MTD
   evaluation, by purpose (row groups) and perspective (columns) after
   Cho et al.\ \citep{cho2020}. \emph{Basis} is the quantity a family
   measures. The two families on a row are one measure read from each
-  side; an empty cell means the family has no counterpart. A family is
-  listed if a paper this review cites reports it, if the census in Cho
-  et al.\ names it as dominant, or if Cho et al.\ name it as the
-  counterpart of one of those; the survey's remaining families are
-  omitted. Citations follow the name they report: the defining work
-  where one is cited, then the papers that report the family under
-  that name or a variant. Bold marks abbreviations; row shading is a
-  reading aid only. The four families this thesis reports are defined
-  in Section~\ref{sec:metrics}.}
+  side; an empty cell means the family has no counterpart. The four
+  families this thesis reports are defined in
+  Section~\ref{sec:metrics}.}
   \label{tab:mtd-metrics}
   \footnotesize
   \renewcommand{\arraystretch}{1.2}

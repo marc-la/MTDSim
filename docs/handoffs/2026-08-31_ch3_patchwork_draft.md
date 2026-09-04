@@ -834,6 +834,20 @@ executes: 2026-08-31_ch3_port_plan.md
 >    families"; (6) all ratify-on-read joints ACCEPTED FOR NOW, to be
 >    judged at the voice pass; (7) the registry row stands as is.
 >    3.2.1 is through pass 4; ~190 words. Pass 5 next.
+>    **PASS 5 RUN 2026-09-04** (compress-to-ledger, split-stream WB +
+>    BB, merged ledger presented inline; Marc accepted the FULL set).
+>    Prose: opener tail, table-sentence participle tail, three pads,
+>    the "that exists in the MTD literature" qualifier --- all cut;
+>    ~155 words. Caption pared to decodes + the ruled ch4 pointer
+>    (~60 words): selection rule, citation-order rule and bold/shading
+>    sentence cut, kept verbatim in a comment above the caption for
+>    the concurrent table session to revive as a footnote if wanted
+>    (the footnote crossing into the table environment was not taken
+>    without its say). Declined, do-not-re-flag: BB's whole-colon-
+>    clause cut, BB's "no common benchmark" cut, BB's pointer move,
+>    BB's row-pairing tighten. Branch feat/ch3-metrics-pass5 (dev was
+>    the tree after the concurrent merge b4241c4b). Unit is through
+>    pass 5; pass 6 runs on the assembled §3.2.
 > 21. **TABLE 3.1 VERIFIED, split-stream (WB + BB) on the table alone
 >    --- RULED and APPLIED** (2026-09-04, Marc: "black box verification
 >    and crit ... treat every fact as wrong until you verified it ... are
