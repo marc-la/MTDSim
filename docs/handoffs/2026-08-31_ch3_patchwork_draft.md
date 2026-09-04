@@ -642,6 +642,33 @@ executes: 2026-08-31_ch3_port_plan.md
 >    natbib "Year undefined" warnings for masud2025 and kim2026 (both
 >    entries DO carry a year; present before this pass, so a bbl/natbib
 >    parsing quirk to chase at the bib pass). Table recompiled clean.
+>    **LAYOUT RULED 2026-09-04 (Marc), after four mocks.** First
+>    principles first: the table is the LOOKUP INSTRUMENT for metric
+>    names (three uses every cell must serve: forward = shape of the
+>    space in ten seconds; backward = a ch4/ch5 metric name -> kind,
+>    basis, who to read; sideways = the paper to read). Rulings: (1)
+>    purpose as ROTATED row-group labels on the left, UNSHADED; (2)
+>    "Basis" is the ruled header for computed-over, and it is the row
+>    key; (3) the two perspectives are the columns, so a row is one
+>    measure read from each side (Cho's pairings) and an empty cell = no
+>    counterpart --- the "read by Cho as the same as MTTF" nuance is
+>    dropped because the row says it; (4) zebra rows (black!5) as a
+>    reading aid, D over D-prime (shading-by-pair would be an encoding
+>    needing a decode); (5) bold abbreviations as lookup keys; (6) NO
+>    origin column, NO ch4 column: cites inline (defining work first,
+>    then users), caption points forward to subsec:metrics; (7) coverage
+>    rule: complete over the lineage four, exemplar elsewhere; (8) every
+>    metric name used in ch4/ch5 findable under that name (ASR added as
+>    alias). Rejected: a separate tree figure (Cho's Figs 6-7 redrawn;
+>    the mirror as a FIGURE is a G1 option, not 3.2.1's); a paper-by-
+>    family feature matrix (3.3.3's shape); hairlines (weaker read).
+>    Preamble additions: xcolor[table], multirow. Rotated label sits in
+>    the last row of its block (negative multirow) so it draws after the
+>    shading; \cellcolor{white} keeps the label column unshaded.
+>    Footnote size, arraystretch 1.2, just over a third of a page, on
+>    the same page as the 3.2.1 prose. Open: the four [VERIFY] cell
+>    classifications in the tex comment; a game-theoretic exemplar for
+>    the utility row (bib addition) if Marc wants no survey-only cell.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 

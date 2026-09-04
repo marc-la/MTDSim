@@ -29,6 +29,8 @@
 \usepackage{amssymb}      % \checkmark in tab:rejected-partitions
 \usepackage{array}            % ragged-right p-columns in the appendix tables
 \usepackage{booktabs}          % nicer tables (\toprule, \midrule ...)
+\usepackage[table]{xcolor}     % \rowcolor / \cellcolor for tab:mtd-metrics (zebra rows, greys grammar)
+\usepackage{multirow}          % rotated row-group labels in tab:mtd-metrics
 \usepackage[hidelinks]{hyperref}
 \usepackage{xurl}             % break the long report URLs in the reference list
 \graphicspath{{figures/}}      % keep figures in the figures/ folder
@@ -1599,21 +1601,26 @@ objective cross-evaluation of MTD techniques intractable to date
 % metrics reported; defender frozen) is a ch4 subsec:metrics disclosure,
 % noted in the handoff. Unit ends here, ~205 words.
 
-% TABLE 3.1 --- DRAFT STATE 2026-09-04, layout ruled by Marc the same day
-% (handoff item 19): the lookup instrument for metric names. Purpose is
-% the two blocks, perspective is the two columns, a row is a
-% complementary pair (Cho's own pairings: ASP/DSP, MTTC/MTTF, the two
-% utilities, the two costs); an empty cell = no counterpart. Citations
-% inline: defining work first, then the chapter's papers that report the
-% family under its name or a variant. No origin column, no ch4 column
-% (caption points forward to subsec:metrics instead).
+% TABLE 3.1 --- DRAFT STATE 2026-09-04. Layout RULED by Marc the same
+% day (handoff item 19, variant D): the lookup instrument for metric
+% names. Purpose as rotated row-group labels on the left (unshaded);
+% "Basis" (Marc's ruled header for computed-over) as the row key; the
+% two perspectives as columns, so a row is one measure read from each
+% side (Cho's own pairings: ASP/DSP, MTTC/MTTF, the two utilities, the
+% two costs) and an empty cell = no counterpart; zebra rows at black!5
+% as a reading aid (not an encoding, so no caption decode); bold
+% abbreviations as the lookup keys; citations inline, defining work
+% first, then the chapter's papers that report the family under its
+% name or a variant. Needs xcolor[table] + multirow (preamble, added
+% 2026-09-04). The rotated label sits in the LAST row of its block
+% (negative multirow) so it is drawn after the row shading.
 % Three uses every cell must serve: forward (shape of the space in ten
-% seconds), backward (a ch4/ch5 metric name -> kind, computed over, who
-% to read), sideways (the paper to read). Rules: every metric name used
-% in ch4/ch5 is findable here under that name (MTTC, ASR, APE, RoA);
+% seconds), backward (a ch4/ch5 metric name -> kind, basis, who to
+% read), sideways (the paper to read). Rules: every metric name used in
+% ch4/ch5 is findable here under that name (MTTC, ASR, APE, RoA);
 % coverage complete over the lineage four (brown, zhang, ho, tay),
-% exemplar elsewhere; the selection rule is Cho's census trends or a
-% paper in this chapter reporting it.
+% exemplar elsewhere; selection = Cho's census trends or a paper in this
+% chapter reporting it.
 % Cell grounding (extractions / sources): ASP-ASR ho2024 H-MET-06,
 % tay2024 T-EVAL-01, kim2026 l.408; DSP zaffarano2015 s4 (mission
 % success), brown2023 B-MET-01 attack actions blocked [VERIFY: the
@@ -1637,8 +1644,9 @@ objective cross-evaluation of MTD techniques intractable to date
 \begin{table}[htbp]
   \centering
   \caption[Metric families in MTD evaluation]{Metric families in MTD
-  evaluation, by purpose and perspective after Cho et al.\
-  \citep{cho2020}. The two families on a row are one measure read from
+  evaluation, by purpose (row groups) and perspective (columns) after
+  Cho et al.\ \citep{cho2020}. \emph{Basis} is the quantity a family is
+  computed over. The two families on a row are one measure read from
   each side; an empty cell means the family has no counterpart.
   Citations give the defining work where one is cited, then the papers
   in this chapter that report the family under its name or a variant.
@@ -1646,46 +1654,44 @@ objective cross-evaluation of MTD techniques intractable to date
   Section~\ref{subsec:metrics}.}
   \label{tab:mtd-metrics}
   \footnotesize
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}p{5.6cm}>{\raggedright\arraybackslash}p{5.6cm}>{\raggedright\arraybackslash}p{2.9cm}@{}}
+  \renewcommand{\arraystretch}{1.2}
+  \begin{tabular}{@{}c>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{5.5cm}>{\raggedright\arraybackslash}p{5.5cm}@{}}
     \toprule
-    Attacker-side & Defender-side & Computed over \\
+    & Basis & Attacker-side & Defender-side \\
     \midrule
-    \multicolumn{3}{@{}l}{\emph{Effectiveness}} \\
-    \addlinespace[2pt]
-    Attack success probability or rate (ASP, ASR) \citep{cho2020, ho2024, tay2024, kim2026}
-      & Defence success probability (DSP) \citep{zaffarano2015, brown2023}
-      & success events \\
-    \addlinespace[3pt]
-    Mean time to compromise (MTTC) \citep{mcqueen2006, zhang2023, ho2024, tay2024, kim2026, sharma2025}
-      & Mean time to failure (MTTF) \citep{cho2020}
-      & attacker time \\
-    \addlinespace[3pt]
-    Attack utility \citep{cho2020}
-      & Defence utility \citep{cho2020}
-      & game payoff \\
-    \addlinespace[3pt]
-    Attack surface \citep{manadhatawing2011}; attack path variation, number and exposure (APV, APN, APE) \citep{hong2018, ho2024, tay2024}
+    \rowcolor{black!5}
+    \cellcolor{white} & success events
+      & Attack success probability or rate (\textbf{ASP}, \textbf{ASR}) \citep{cho2020, ho2024, tay2024, kim2026}
+      & Defence success probability (\textbf{DSP}) \citep{zaffarano2015, brown2023} \\
+    & attacker time
+      & Mean time to compromise (\textbf{MTTC}) \citep{mcqueen2006, zhang2023, ho2024, tay2024, kim2026, sharma2025}
+      & Mean time to failure (\textbf{MTTF}) \citep{cho2020} \\
+    \rowcolor{black!5}
+    \cellcolor{white} & game payoff
+      & Attack utility \citep{cho2020}
+      & Defence utility \citep{cho2020} \\
+    & attack graph, across network states
+      & Attack surface \citep{manadhatawing2011}; attack path variation, number and exposure (\textbf{APV}, \textbf{APN}, \textbf{APE}) \citep{hong2018, ho2024, tay2024}
+      & \\
+    \rowcolor{black!5}
+    \cellcolor{white} & configuration space
+      & Unpredictability \citep{cho2020, jalowski2026}
+      & \\
+    \multirow{-6}{*}{\rotatebox{90}{\emph{Effectiveness}}} & system state
       &
-      & attack graph, across network states \\
-    \addlinespace[3pt]
-    Unpredictability \citep{cho2020, jalowski2026}
-      &
-      & configuration space \\
-    \addlinespace[3pt]
-      & System security: risk, degree of vulnerability, CIA, host compromise ratio (HCR) \citep{cho2020, alavizadeh2022, ho2024, tay2024, masud2025, sharma2025}
-      & system state \\
+      & System security: risk, degree of vulnerability, CIA, host compromise ratio (\textbf{HCR}) \citep{cho2020, alavizadeh2022, ho2024, tay2024, masud2025, sharma2025} \\
     \midrule
-    \multicolumn{3}{@{}l}{\emph{Efficiency}} \\
-    \addlinespace[2pt]
-    Attack cost: effort, payoff penalty, return on attack (RoA) \citep{cho2020, alavizadeh2022, brown2023, ho2024, tay2024, masud2025}
-      & Defence cost: overhead, quality of service \citep{cho2020, mendonca2023, kim2026}
-      & resource spent \\
-    \addlinespace[3pt]
-      & Node and edge variation cost (NVC, EVC) \citep{hong2018}
-      & network-state change \\
-    \addlinespace[3pt]
-      & Movement tempo: execution frequency, time since last move \citep{cho2020, ho2024}
-      & defender schedule \\
+    \rowcolor{black!5}
+    \cellcolor{white} & resource spent
+      & Attack cost: effort, payoff penalty, return on attack (\textbf{RoA}) \citep{cho2020, alavizadeh2022, brown2023, ho2024, tay2024, masud2025}
+      & Defence cost: overhead, quality of service \citep{cho2020, mendonca2023, kim2026} \\
+    & network-state change
+      &
+      & Node and edge variation cost (\textbf{NVC}, \textbf{EVC}) \citep{hong2018} \\
+    \rowcolor{black!5}
+    \cellcolor{white}\multirow{-3}{*}{\rotatebox{90}{\emph{Efficiency}}} & defender schedule
+      &
+      & Movement tempo: execution frequency, time since last move \citep{cho2020, ho2024} \\
     \bottomrule
   \end{tabular}
 \end{table}
