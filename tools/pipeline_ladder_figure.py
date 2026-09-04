@@ -78,7 +78,7 @@ OUT_DIR = REPO / "docs" / "thesis" / "figures"
 STEM = "fig_4-0a_pipeline_ladder"
 
 # The four objective classes, in the order the chapter names them
-# (subsec:attack-profiles). Presentation names are the chapter's own words ---
+# (sec:attack-profiles). Presentation names are the chapter's own words ---
 # never the class identifiers, which are code (conventions §g).
 PROFILE_ORDER = (
     "objective_exfiltration",

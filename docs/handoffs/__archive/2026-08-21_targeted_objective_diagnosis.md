@@ -95,7 +95,7 @@ barriers to test and rank by evaluation impact (add any the data surfaces):
 - **It does not** → the named gaps are the barrier, documented with evidence;
   the breadth-based tree stands (headline = inversion + tempo-bound
   containment), and the missing capability is future work
-  ([`../notes/ch7_future_work/successor_programme.md`](../notes/ch7_future_work/successor_programme.md))
+  ([`../notes/ch8_future_work/successor_programme.md`](../notes/ch8_future_work/successor_programme.md))
   with a measurement behind the call.
 
 ## Second diagnostic — where the disruption actually comes from (explicit vs implicit)
@@ -188,5 +188,5 @@ Marc then rules the fork. This handoff retires in that commit.
 4. [`../implementation/apt_model_criterion.md`](../implementation/apt_model_criterion.md)
    axis 6 final disposition (located objective / IS-SCN-03) and axis 1
    (persistence — the target-reach measure bears on it).
-5. [`../notes/ch7_future_work/successor_programme.md`](../notes/ch7_future_work/successor_programme.md)
+5. [`../notes/ch8_future_work/successor_programme.md`](../notes/ch8_future_work/successor_programme.md)
    (the action-layer programme the "not reachable" fork feeds).

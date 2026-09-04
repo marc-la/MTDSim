@@ -192,7 +192,7 @@ def build(f: dict, ledger: list[dict], p: dict) -> str:
         "%   data/gasp/metadata_audit.csv (every number). Def A, the reach read and",
         "%   the concordance rules are imported from tools/gasp_structural_baseline.py,",
         "%   which emits the sibling audit table --- the 19-of-38 count appears in both",
-        "%   floats and in the chapter at subsec:attack-profiles, so it has one home.",
+        "%   floats and in the chapter at sec:attack-profiles, so it has one home.",
         "% Do not hand-edit; regenerate. Requires booktabs (already in the preamble).",
         f"% Corpus at generation: {f['n_flows']} flows, "
         f"{f['a_exfil']}/{f['a_impact']}/{f['a_both']}/{f['a_none']}, all high confidence.",

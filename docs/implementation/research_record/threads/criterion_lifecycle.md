@@ -36,7 +36,7 @@ the kill record in Marc's own words: axis 1 accepted as characteristic-not-metri
 axis 8 killed on calibration circularity (see
 [`axis8_rise_and_fall.md`](axis8_rise_and_fall.md)), and #78 the
 persistence-has-no-contrast-class argument later ratified into
-[`../../../notes/ch6_discussion/persistence_duration_premise.md`](../../../notes/ch6_discussion/persistence_duration_premise.md).
+[`../../../notes/ch7_discussion/persistence_duration_premise.md`](../../../notes/ch7_discussion/persistence_duration_premise.md).
 #104 (2026-08-13) is the last movement: the pivot-kernel frame for axis 4,
 answered by the structural probe and the declined kernel the criterion's
 2026-08-13 amendment records.

@@ -306,7 +306,7 @@ ablation), [`learning_readiness_findings.md`](learning_readiness_findings.md)
 (representation versus reward).
 
 The dissertation-side companion is
-[`../../../notes/ch6_discussion/instruments_fail_silently.md`](../../../notes/ch6_discussion/instruments_fail_silently.md),
+[`../../../notes/ch7_discussion/instruments_fail_silently.md`](../../../notes/ch7_discussion/instruments_fail_silently.md),
 which argues the **instrument-failure taxonomy** for a chapter audience. This record is
 its methodological other half and is deliberately session-facing: the note asks what
 the failures mean, this asks what to do next time.

@@ -212,7 +212,7 @@ then the coverage curve leads. Recommended, not built.
 
 **The badge does not change. What is recorded is how the dissertation defends
 the row**, ratified by Marc 2026-08-09 and landed as dissertation-bound prose in
-[`../notes/ch6_discussion/persistence_duration_premise.md`](../notes/ch6_discussion/persistence_duration_premise.md).
+[`../notes/ch7_discussion/persistence_duration_premise.md`](../notes/ch7_discussion/persistence_duration_premise.md).
 
 The framing splits the axis's own definition in two. **Duration** — the
 "extended period of time" half of NIST clause (i) — is a *premise of the episode

@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch6_discussion
+chapter: ch7_discussion
 created: 2026-08-14
 updated: 2026-08-14
 ---
@@ -87,7 +87,7 @@ finding is what its presence makes visible about how the field measures defence.
 - The census-not-scale reading of the fidelity criterion:
   [`../../implementation/apt_model_criterion.md`](../../implementation/apt_model_criterion.md) §(b).
 - The headline comparative result this framing governs:
-  [`../ch5_results/defence_ranking_inversion.md`](../ch5_results/defence_ranking_inversion.md).
+  [`../ch6_results/defence_ranking_inversion.md`](../ch6_results/defence_ranking_inversion.md).
 - The substrate-rigidity source of the weaker headline performance:
   [`procedural_mismatch_artefact.md`](procedural_mismatch_artefact.md).
 - Sibling on scope honesty: [`instruments_fail_silently.md`](instruments_fail_silently.md).

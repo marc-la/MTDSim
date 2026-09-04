@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch5_results
+chapter: ch6_results
 created: 2026-08-01
 updated: 2026-08-01
 ---
@@ -125,11 +125,11 @@ parameters it considers uncertain.
   profiles ran under a superseded implementation variant (divergence bounded
   small; re-take is an open ruling).
 - The burden this discharges, and the stability half that precedes it:
-  [`evaluation_burden.md`](evaluation_burden.md).
+  [`evaluation_burden.md`](../ch5_experimental_setup/evaluation_burden.md).
 - The degenerate-region constraint that forced the second interval:
   [`../../implementation/pipeline/ogasp/rate_feasibility_study.md`](../../implementation/pipeline/ogasp/rate_feasibility_study.md)
   §7 (C5); the standalone argument is
-  [`operating_point_discrimination.md`](operating_point_discrimination.md).
+  [`operating_point_discrimination.md`](../ch5_experimental_setup/operating_point_discrimination.md).
 - The attacker model's honest scorecard, and where this result sits in it (it
   scores on no axis, deliberately):
   [`../../implementation/apt_model_criterion.md`](../../implementation/apt_model_criterion.md)
@@ -139,7 +139,7 @@ parameters it considers uncertain.
   [`../../implementation/pipeline/ogasp/controller.md`](../../implementation/pipeline/ogasp/controller.md)
   and [`../../implementation/pipeline/ogasp/controller_mapping_v2.md`](../../implementation/pipeline/ogasp/controller_mapping_v2.md).
 - The measurement-failure companion (why several inherited instruments could not
-  see this result): [`../ch6_discussion/instruments_fail_silently.md`](../ch6_discussion/instruments_fail_silently.md).
+  see this result): [`../ch7_discussion/instruments_fail_silently.md`](../ch7_discussion/instruments_fail_silently.md).
 
 ## Revisit conditions
 

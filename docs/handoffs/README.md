@@ -55,10 +55,11 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   shape (capture → evaluate → model, the eight axes derived in §3.3.1 and
   adopted in §4.1), the section-level port ledger from the submitted review,
   the seven gaps only dictation can fill, and six CONFIRMs. Supersedes Part 2
-  of the 2026-08-21 design brief (whose Part 1 contract stands). **CONFIRM 2
-  re-points the §4.2 preamble's axes `\ref` and folds §4.1 to one unit** —
-  rule it before the §4.1 drafting brief is executed. Retires with the last
-  assembled section.
+  of the 2026-08-21 design brief (whose Part 1 contract stands). **CONFIRM 2 was
+  overtaken 2026-09-04** by Marc's structural ruling: §4.1 is cut outright
+  (not folded), the ch4 preamble's axes `\ref` now points at the ch3
+  criterion, and the §4.1 drafting brief retired by evidence in the same
+  commit. Retires with the last assembled section.
 
 - [`2026-08-21_targeted_objective_diagnosis.md`](2026-08-21_targeted_objective_diagnosis.md)
   — **the targeted-objective line, for a fresh session**: wire the located
@@ -79,15 +80,6 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   facts-from-records-not-papers warning (ATK-04/C7). Companion to the ch2
   background context brief, which stays authoritative on shape and budget.
   Feeds the ch2 dictation sessions; retires with the ch2 drafting programme.
-
-- [`2026-08-21_drafting_requirements_section.md`](2026-08-21_drafting_requirements_section.md)
-  — **the standing §4.1 drafting context** ("What an APT attack model must
-  capture"): the per-unit framework (chapter opening / problem definition /
-  the eight-axis criterion), the pose-don't-score boundary, term rulings, and
-  three open CONFIRMs (subsection split; the axes' \ref anchor; whether any
-  scorecard column appears in §4.1.2 or defers whole to ch6). Depends on
-  nothing; the §4.2 preamble's shipped prose already leans on its output.
-  Retire when both §4.1 units are drafted and scrutinised.
 
 - [`2026-08-20_section42_figures_tables_appendix.md`](2026-08-20_section42_figures_tables_appendix.md)
   — **the §4.2 figure / table / appendix programme**: Marc's 2026-08-20 ruled

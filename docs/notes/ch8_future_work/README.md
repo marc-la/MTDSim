@@ -1,8 +1,8 @@
-# ch7_future_work — notes feeding the Future Work chapter
+# ch8_future_work — notes feeding the Future Work chapter
 
 ## What this chapter does
 
-The future-work chapter (ch7 in the ratified structure; ~3 units in the ledger)
+The future-work chapter (ch8 since the 2026-09-04 restructure; ~3 units in the ledger)
 names the **next step in the line of research** — not a wish list, but the
 specific successor programme this work's own negative results and ruled
 exclusions point at, each with the condition that would make it worth building.

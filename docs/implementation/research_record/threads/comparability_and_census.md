@@ -4,7 +4,7 @@
 Landed: [`../../metrics_semantics.md`](../../metrics_semantics.md) (comparability
 boundary), the criterion's census-not-scale rule
 ([`../../apt_model_criterion.md`](../../apt_model_criterion.md) §(b)), and the new
-note [`../../../notes/ch6_discussion/refusing_the_baseline_race.md`](../../../notes/ch6_discussion/refusing_the_baseline_race.md).
+note [`../../../notes/ch7_discussion/refusing_the_baseline_race.md`](../../../notes/ch7_discussion/refusing_the_baseline_race.md).
 
 **Reversal one — cross-paper comparability (#17, 2026-07-13).** The assistant
 was treating preservation of MTTC comparability with Zhang/Tay as a hard

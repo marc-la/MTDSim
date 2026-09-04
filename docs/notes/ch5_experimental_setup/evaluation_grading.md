@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch4_methods
+chapter: ch5_experimental_setup
 created: 2026-08-11
 updated: 2026-08-13
 ---
@@ -100,7 +100,7 @@ envelope discipline that governs every claim in this project governs this one.
   caveats: [`../../implementation/apt_model_criterion.md`](../../implementation/apt_model_criterion.md)
   §(d2) Row B.
 - The anchor result the top grade rests on:
-  [`defence_ranking_inversion.md`](defence_ranking_inversion.md) and its source
+  [`defence_ranking_inversion.md`](../ch6_results/defence_ranking_inversion.md) and its source
   run [`../../implementation/pipeline/ogasp/experiment_02_findings.md`](../../implementation/pipeline/ogasp/experiment_02_findings.md)
   §9.
 - What the evaluation must demonstrate (the stability ∧ divergence burden this

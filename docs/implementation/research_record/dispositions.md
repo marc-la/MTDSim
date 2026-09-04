@@ -136,7 +136,7 @@ introduction and literature-review work, out of this record's scope. A boundary,
 
 ## Record-drifted flags (collected; the one edit made is stated)
 
-1. **`docs/notes/ch6_discussion/procedural_mismatch_artefact.md`** (written 2026-08-01)
+1. **`docs/notes/ch7_discussion/procedural_mismatch_artefact.md`** (written 2026-08-01)
    states the alignment instrument is "designed but not built". The instrument **was
    built** as the alignment dial (`src/mtdsim/l3_simulation/movement/alignment.py`,
    landed via `chore/boundary-network-defender-review`, 2026-08-03; prompts #65–66 are
@@ -162,8 +162,8 @@ introduction and literature-review work, out of this record's scope. A boundary,
 |---|---|
 | 27, 28, 30, 34, 44 | `docs/notes/ch4_methods/outcome_overlay_directionality.md` (new) |
 | 46, 47, 40, 4 | `docs/notes/ch4_methods/bug_or_design_verification.md` (new) |
-| 52, 53, 36, 81, 99, 54 | `docs/notes/ch6_discussion/refusing_the_baseline_race.md` (new) |
-| 54, 99, 104, 53 | `docs/notes/ch7_future_work/successor_programme.md` (new) |
+| 52, 53, 36, 81, 99, 54 | `docs/notes/ch7_discussion/refusing_the_baseline_race.md` (new) |
+| 54, 99, 104, 53 | `docs/notes/ch8_future_work/successor_programme.md` (new) |
 | 16, 24, 42, 63, 97 | strengthened existing notes / thread files only — the arguments were already carried by `structure_to_behaviour_binding.md`, `host_simulator_contract.md`, the boundary records, and `procedural_mismatch_artefact.md`; a pointer beats a retelling |
 
 ## Short-band scan (75–150 words), 2026-08-14

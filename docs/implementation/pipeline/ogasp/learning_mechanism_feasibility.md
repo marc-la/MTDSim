@@ -56,7 +56,7 @@ pull. And the non-action-only scope question was never evaluated at all.
 state-conditioned *marginal*: it knows whether it is ready, never what makes it ready,
 and never what worked before. That gap is not named in any current record — the
 project's own account of the remaining work names the *reward*
-([`learning_without_context.md`](../../../notes/ch6_discussion/learning_without_context.md))
+([`learning_without_context.md`](../../../notes/ch7_discussion/learning_without_context.md))
 and treats the representation half as discharged. It is discharged only for the
 narrower reading of "representation" as *situation*; as *sequence* it is untouched.
 

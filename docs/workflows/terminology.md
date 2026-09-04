@@ -1,7 +1,7 @@
 ---
 status: living
 created: 2026-08-20
-updated: 2026-09-03   # flow-instance row (flow lowercase, Attack Flow reserved for the language) ratified from the §3.1.3 pass-6 split-stream census
+updated: 2026-09-04   # PROPOSED attacker-model/threat-model split row (§3.2.1 walk); 2026-09-03 flow-instance row (flow lowercase, Attack Flow reserved for the language) ratified from the §3.1.3 pass-6 split-stream census
 ---
 
 # Terminology registry — one term per concept across the dissertation
@@ -47,7 +47,7 @@ string are legitimate (noted per row).
 | The L2 object | **attack profiles** (10) | bare *the nets* for profiles — the GSPN is the L3 formalisation of a profile, not a synonym; flag conflations only | ratified (V-series) |
 | The L3 formalism | **generalised stochastic Petri net** | *general* stochastic Petri net — never | Marc, 2026-08-16 |
 | The added pre-intrusion structure | **pre-intrusion overlay** | *synthetic overlay* (repo term — stays out of the chapter) | Marc, 2026-08-17 |
-| The genre identification | **threat model** is the field's recognised term for the section's role; **movement attacker** is this work's name for the model ("we are putting names on things") — the identification is stated **once**, in the §4.2 preamble opener, and after it *movement attacker* carries; *threat model* recurs only when speaking the genre's language against the literature, never as a drifting synonym for our model | bare *threat model* as a name for our model anywhere past the opener — watch (census: 2 — the §4.1.1 heading and the preamble opener) | Marc, 2026-08-20 |
+| The genre identification | **threat model** is the field's recognised term for the section's role; **movement attacker** is this work's name for the model ("we are putting names on things") — the identification is stated **once**, in the ch4 preamble opener (the §4.2 preamble until the 2026-09-04 restructure), and after it *movement attacker* carries; *threat model* recurs only when speaking the genre's language against the literature, never as a drifting synonym for our model | bare *threat model* as a name for our model anywhere past the opener — watch (census: 2 — the §4.1.1 heading and the preamble opener; the §4.1.1 heading is gone with the 2026-09-04 cut of §4.1, so 1) | Marc, 2026-08-20 |
 | The simulator | **MTDSim** at first use and wherever ambiguity threatens; **the simulator** as the running short form | *the original simulator*, *the inherited simulator* — the inheritance is established once in ch2; the qualifier re-argues it every time. *"the simulator we are inheriting"* (§4.2.4.2 penalty ¶) kept: the inheritance clause does argument work there (why the penalty is maintained) | Marc, 2026-08-20 (voice-pass ruling) |
 | The six inherited operations (the callable unit) | **verb** — fixed by the load-bearing ruled phrase *tactic-to-verb mapping* | *attack operation*, *attack action*, *attack phase*. *Action* meaning a runtime execution (e.g. "the actions in MTDSim", "zero or one actions at a time") read as a distinct sense and left — flag conflations only | Marc, 2026-08-20 (voice-pass ruling) |
 | The declared weight object | **failure matrix**; long form at first substantive use: *the tactic-to-tactic failure weight matrix* (placed at the §4.2.4.1 defining ¶ — the ruled spine sentence keeps the short form) | *failure weight set*, bare *weight set*; *outcome overlay* (repo term, stays out) | Marc, 2026-08-20 (voice-pass ruling) |
@@ -69,7 +69,7 @@ string are legitimate (noted per row).
 
 | Concept | Recommendation | Alternatives considered | Census |
 |---|---|---|---|
-| *(none open — the 2026-09-03 §3.1.3 ruling ratified the flow-instance row)* | | | |
+| The attacker-model / threat-model split, thesis-wide | **attacker model** as the one term for the modelled adversary everywhere the thesis speaks in its own voice; *threat model* survives only inside quotations, cited section titles, and where a surveyed work's own threat-model statement is the object (its genre role, per the ratified 2026-08-20 row). Marc's spoken ask (2026-09-04, §3.2.1 walk): "standardise to attacker models ... threat model is the superset ... so we're referring to the same thing everywhere". **Conflict to rule:** the RATIFIED row above already licenses *threat model* "when speaking the genre's language against the literature", which covers most of ch3 §3.3 (the cross-section scores the works' threat models; Table 3.2 caption; the §3.3.3 heading) and ch4 §4.1.1's heading (gone: §4.1 cut 2026-09-04). Applied in §3.2.1 only. **Data point, 2026-09-04:** Marc titled the restructured ch4 "APT attacker model" — own voice, *attacker model*; he queried *threat model definition* and rejected it ("means different things to different people") — consistent with (a), which stays his to rule thesis-wide. | (a) apply thesis-wide, retitle §3.3.3 and §4.1.1, recast the ch2 opener ("The threat model that existed originally", l.529); (b) keep the 2026-08-20 boundary and treat §3.2.1 as our-voice (done); (c) *attack model* (Cho's §V-D term) — rejected, third variant | tex 2026-09-04: *threat model* 17 prose occurrences outside §3.2.1 (l.529 ch2; l.1474 strand opener, Cho's own list; l.1677, 1791, 1813, 1826, 1830, 1859, 1864, 1877, 1905–1909, 1959 in §3.3; l.2041, 2095 in ch4), *attacker model* 8 |
 
 ## Ruling workflow
 

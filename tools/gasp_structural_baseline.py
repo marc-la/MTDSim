@@ -198,7 +198,7 @@ def _tactic_list(tactics: list[str]) -> str:
     if not tactics:
         return "(none: cyclic)"
     return ", ".join(TACTIC_LABEL.get(t, t).lower() for t in tactics).capitalize()
-# The chapter's own count at subsec:attack-profiles: "19 of the 38 attack flows
+# The chapter's own count at sec:attack-profiles: "19 of the 38 attack flows
 # land in a different category from the one defined by the terminal tactic
 # alone". The override column IS that count, so it is gated here.
 EXPECT_OVERRIDDEN = 19
@@ -321,7 +321,7 @@ def write_tex() -> None:
     if overridden != EXPECT_OVERRIDDEN:
         raise SystemExit(
             f"REFUSING TO EMIT: {overridden} flows overridden, the chapter says "
-            f"{EXPECT_OVERRIDDEN}. Reconcile subsec:attack-profiles before regenerating.")
+            f"{EXPECT_OVERRIDDEN}. Reconcile sec:attack-profiles before regenerating.")
     p = _pins()
 
     out = []

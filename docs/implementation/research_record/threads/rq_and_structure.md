@@ -43,3 +43,34 @@ notes tree onto the ratified chapters and commissioned this record's Stages 1–
 methodology coverage map (killed by the unit ledger); "predictability" as the
 plurality metric's name (V2 — retired for the MTD-venue collision, reframed as
 effective behavioural breadth).
+
+**September: the document's shape followed the literature review (2026-09-04).**
+Porting the review into ch3 exposed a duplication the skeleton had carried since
+the 11-Aug workshop: ch4 §4.1.1 ("The threat model MTD evaluation omits") was
+ch3 §3.3's verdict restated, and §4.1.2 ("A fidelity criterion from the APT
+literature") was the criterion ch3 §3.3.2 derives — the port plan's CONFIRM 2 had
+already moved the derivation to ch3 and left §4.1.2 as a half-unit adoption stub.
+Marc's ruling took it to the end point: §4.1 is cut outright and the research gap
+hands off directly ("the literature does not formally define its attacker models;
+building one is Chapter 4"); the former §4.2 "The movement attacker" *is* the
+chapter, its preamble the chapter preamble and its four L-subsections now §4.1–§4.4;
+the former §4.3 "Experimental setup" is its own chapter, structure unchanged
+("keep the structure as is for now"). The document is now intro / background /
+lit review / **APT attacker model** / **experimental setup** / results /
+discussion / future work / conclusion (nine chapters; the notes dirs were
+renumbered to match, and a `ch5_experimental_setup/` dir took the three
+experimental-design notes). Two things §4.1 owed were re-homed rather than lost:
+this project's commitments (proof-of-concept boundary; attacker-only scope) are
+two sentences owed to the ch4 preamble, and the scoring discipline (the badge
+vocabulary; axes fixed before the model was scored) opens the discussion chapter's
+fidelity verdict. Two naming rulings rode with it. The chapter is titled **"APT
+attacker model"**: *attacker model* is the own-voice term (Marc rejected *threat
+model definition* — "means different things to different people"), *definition*
+was dropped as redundant with the chapter's position, and **"movement attacker"
+is the model's name and lives in the prose, not in headings** — "a rhetorical
+flourish that should live in the content itself" — which supersedes the
+2026-08-09 keep-"movement attacker"-in-headings preference. Ledger: methodology
+11 → attacker model 6 + experimental setup 3, the cut §4.1's two units back to
+the float (now 4). Capture / model / evaluate is untouched; evaluate simply gains
+its own methodological chapter. The four-chapter spine matrix in the writing
+guide gained a column.

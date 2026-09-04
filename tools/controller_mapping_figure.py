@@ -50,7 +50,7 @@ intended behaviour — a silently restated axis is the drift `_tactic_axis` exis
 to prevent.
 
 Usage: `python tools/controller_mapping_figure.py [--version v2_partial]
-[--no-compile]` -> `docs/thesis/figures/fig_4-2-4a_controller_mapping.{tex,pdf}` and
+[--no-compile]` -> `docs/thesis/figures/fig_4-4a_controller_mapping.{tex,pdf}` and
 `docs/thesis/tables/tab_B-5a_controller_mapping_reasons.tex`.
 """
 
@@ -70,7 +70,7 @@ REPO = Path(__file__).resolve().parent.parent
 MAPPINGS = REPO / "data" / "ogasp" / "controller" / "mappings"
 OUT_DIR = REPO / "docs" / "thesis" / "figures"
 TAB_DIR = REPO / "docs" / "thesis" / "tables"
-STEM = "fig_4-2-4a_controller_mapping"
+STEM = "fig_4-4a_controller_mapping"
 TAB_STEM = "tab_B-5a_controller_mapping_reasons"
 
 DWELL_ONLY = "dwell-only"

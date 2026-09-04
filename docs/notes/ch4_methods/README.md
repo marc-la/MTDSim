@@ -1,29 +1,30 @@
-# ch4_methods — notes feeding the Methodology chapter
+# ch4_methods — notes feeding the APT attacker model chapter
 
 ## What this chapter does
 
-The methodology chapter (ch4 in the ratified structure: introduction, background,
-literature review, **methodology**, results, discussion, future work, conclusion)
-does two jobs, in order. First it **defines the technical problem precisely** — not
-"MTD evaluation is unrealistic" (an application complaint) but the specific
-technical gaps beneath it: the attacker-fidelity gap, the ontology gap between
-intelligence-derived structure and the simulator, the unobservable-timing problem.
-A precisely-defined technical problem is more than half solved. Second, it
-**explains the solution as simply as the material allows**, along the ratified
-spine: *how APT attackers are modelled* (criterion, corpus → technique graph →
-objective profiles → the executable movement attacker → fidelity extensions),
-then *how the model is evaluated* (instrument validation, experimental setup).
+The attacker-model chapter (ch4 in the structure as restructured 2026-09-04:
+introduction, background, literature review, **APT attacker model**, experimental
+setup, results, discussion, future work, conclusion; the dir keeps its `methods`
+name) does one job: it **defines the attacker model and explains it as simply as
+the material allows**. The chapter preamble names the model (the movement
+attacker), states the commitments (built beside the simulator, attacker-only
+scope, proof of concept), and then the chapter runs the pipeline as four
+sections — L0–L1 intelligence to attack graph, L2 objective-conditioned attack
+profiles, L3 the Petri-net formalism, L4 the attacker-agent traversal. The
+precise problem statement and the fidelity criterion the model is built toward
+are **the literature review's** (ch3 §3.3, the research gap and the attacker
+model criterion): the former §4.1 restated them and was cut as a duplicate. The
+experimental setup is now its own chapter ([`../ch5_experimental_setup/`](../ch5_experimental_setup/)).
 The inherited simulator is **not** this chapter's material — it moved to the
 background chapter by supervisor ruling (2026-08-11); realisation arguments that
-were previously staged for a separate implementation chapter now land here, since
+were previously staged for a separate implementation chapter land here, since
 the ratified structure has no implementation chapter. Every declared modelling
 value carries its validity badge and sweep. (Whole-document guidance:
 [`../_writing_guide.md`](../_writing_guide.md).)
 
-What lands here: the *modelling and experimental-design arguments* — how threat
-intelligence becomes an executable attacker, the validity defences each step
-carries, how the realisation choices are justified, and what the evaluation must
-demonstrate before results are read. This is the thickest chapter dir; it also
+What lands here: the *modelling arguments* — how threat intelligence becomes an
+executable attacker, the validity defences each step carries, and how the
+realisation choices are justified. This is the thickest chapter dir; it also
 hosts [`tactic_profiles/`](tactic_profiles/), the 15 per-tactic evidence profiles
 with their own [`_rubric.md`](tactic_profiles/_rubric.md). Rubric-gated
 ([`../../workflows/notes_rubric.md`](../../workflows/notes_rubric.md)).
@@ -45,8 +46,6 @@ success/failure overlay as declared directionality). Realisation arguments:
 (built beside, not inside),
 [`host_simulator_contract.md`](host_simulator_contract.md) (the portability
 contract), [`bug_or_design_verification.md`](bug_or_design_verification.md)
-(the literature-only intent spec as bug/design arbiter). Experimental design:
-[`evaluation_burden.md`](evaluation_burden.md) (the two-part burden of proof),
-[`evaluation_grading.md`](evaluation_grading.md) (the scoring vocabulary),
-[`operating_point_discrimination.md`](operating_point_discrimination.md) (show
-the operating point discriminates before reporting the metric).
+(the literature-only intent spec as bug/design arbiter). The experimental-design
+notes (burden of proof, grading vocabulary, operating-point discrimination) moved
+to [`../ch5_experimental_setup/`](../ch5_experimental_setup/) with the chapter.

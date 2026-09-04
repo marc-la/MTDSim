@@ -80,6 +80,14 @@ answer to the §4.1 brief's open CONFIRM 1 (Marc's own dictation queried
 whether §4.1 needs two subsections at all): fold §4.1 to one unit, problem
 definition plus adoption of the yardstick, and return a unit to the ledger.
 
+> **Overtaken 2026-09-04 (Marc's structural ruling).** §4.1 is cut outright,
+> not folded: both its units return to the float, the ch4 preamble's axes
+> `\ref` points at `subsec:attacker-criterion`, the scoring discipline (badges;
+> axes fixed before scoring) opens the discussion chapter's fidelity verdict,
+> and the movement-attacker section becomes the chapter ("APT attacker model");
+> the experimental setup is its own chapter. Trail:
+> `docs/implementation/research_record/threads/rq_and_structure.md`.
+
 **(c) §3.1 from III-C, III-D, III-A — adopt the content, fix the order.** III-D
 (attack profiling) cites Attack Flow as its manual strand, and Attack Flow is
 introduced in III-A; III-D cannot precede III-A. The order that is both

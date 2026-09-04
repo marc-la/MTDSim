@@ -1,9 +1,9 @@
 # The movement-objectives problem — churn diagnosed, the weakest link conceded, the race refused
 
 **Span:** 2026-08-01 and 2026-08-11. **Prompts:** #54, #96–#99. Partially
-recorded ([`../../../notes/ch6_discussion/procedural_mismatch_artefact.md`](../../../notes/ch6_discussion/procedural_mismatch_artefact.md)
+recorded ([`../../../notes/ch7_discussion/procedural_mismatch_artefact.md`](../../../notes/ch7_discussion/procedural_mismatch_artefact.md)
 carries the artefact argument); the concession's *scope logic* is argued in
-[`../../../notes/ch6_discussion/refusing_the_baseline_race.md`](../../../notes/ch6_discussion/refusing_the_baseline_race.md).
+[`../../../notes/ch7_discussion/refusing_the_baseline_race.md`](../../../notes/ch7_discussion/refusing_the_baseline_race.md).
 
 **The acceptance (#54, 2026-08-01).** "I think I have accepted the fact that
 with (1) no changes to the underlying attack phases … the performance of my
