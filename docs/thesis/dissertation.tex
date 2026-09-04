@@ -1527,8 +1527,7 @@ result against a metric set using one of several validation methods
 % P1 --- the what. Question: what instrument does an MTD evaluation read
 % its verdict from, and how does the field organise it?
 Metrics are a precondition for MTD evaluation, that is, testing
-whether defence mechanisms are effective and efficient: typically we
-have to instrument our model, run it and measure.
+whether defence mechanisms are effective and efficient.
 % RULED 2026-09-04 (pass 4, items 2+3): "simulator" -> "model" (the
 %   ladder is 3.2.2's; Marc: "you must first instrument your model with
 %   metrics"); "our defence, network, or attacker model" -> "our defence
@@ -1545,7 +1544,8 @@ have to instrument our model, run it and measure.
 %   sentence), not here.
 Metrics can be split on perspective, attacker-side or defender-side,
 and purpose, effectiveness or efficiency \citep{cho2020}, as used in
-Table~\ref{tab:mtd-metrics}.
+Table~\ref{tab:mtd-metrics} (the four families this thesis reports
+are defined in Section~\ref{sec:metrics}).
 % RULED 2026-09-04 (pass 4, item 5): cite moved onto the axes clause
 %   (Cho supplies the axes, not the enumeration --- the Hong / Ho /
 %   Alavizadeh / HCR rows are not his); "metrics" -> "metric families"
@@ -1589,9 +1589,8 @@ al.'s reading \citep{jalowski2026}, is that they cannot be benchmarked,
 a persistent finding \citep{hong2018, cho2020, jalowski2026}:
 metrics are
 produced on an ad hoc basis, there is little consensus on how to
-measure and instrument, there are too many metric families with no
-agreement between them, and there is no common benchmark to measure
-effectiveness or efficiency.
+measure and instrument, and there are too many metric families with
+no agreement between them.
 % RULED 2026-09-04 (pass 4, M2): (b) the "largest" ranking ATTRIBUTED
 %   to Jalowski ("primary issue in the current state of the art", :123;
 %   "already been raised in existing surveys ... very little has been
@@ -1648,8 +1647,23 @@ date \citep{jalowski2026}.
 % BB's cut of the "no common benchmark" clause (the ruled carrier);
 % BB's move of the ch4 pointer out of the caption (layout ruling 6);
 % BB's tighten of the row-pairing decode (the only carrier of the
-% pairing). Prose ~155 words vs ~250. Unit is through pass 5; pass 6
-% (voice-pass) runs on the assembled section.
+% pairing). Prose ~155 words vs ~250.
+% THEN, same day, Marc APPROVED all four declined BB items ("I do
+% approve those as well"), applied: the opener's colon clause CUT in
+% full (SUPERSEDED: ": typically we have to instrument our model, run
+% it and measure"); the "no common benchmark to measure effectiveness
+% or efficiency" clause CUT --- HIS REVERSAL of the afternoon carrier
+% ruling; "cannot be benchmarked" in the head now carries it, and the
+% list's "and" moved to the third item (joint, ratify-on-read); the ch4
+% pointer MOVED from the caption into the table sentence as a
+% parenthetical --- HIS REVERSAL of layout ruling 6; the caption's
+% row-pairing clause CUT (SUPERSEDED: "The two families on a row are
+% one measure read from each side; " --- the pairing now has no
+% decode; the empty-cell clause stays). Not applied: BB's whole-cut of
+% the modelling sentence (L4), which BB itself declined by default; the
+% bold/shading sentence stays cut (a ruling, not a BB proposal). Prose
+% ~120 words. Unit is through pass 5; pass 6 (voice-pass) runs on the
+% assembled section.
 % RULED 2026-09-04 (Marc): the remaining cue-card blocks are NOT
 % dictated here. Mechanism (specificity vs portability) and the
 % minority-column/deployment sentence DROPPED as symptoms of the
@@ -1817,13 +1831,16 @@ date \citep{jalowski2026}.
   % (the shading half was already ruled no-decode on 2026-09-04). Kept:
   % the axes decode, the Basis gloss, the row-pairing + empty-cell
   % decode, the ruled ch4 pointer.
+  % THEN 2026-09-04, Marc approved the two remaining BB caption items:
+  % the row-pairing clause "The two families on a row are one measure
+  % read from each side; " CUT (no decode of the pairing remains ---
+  % flagged risk accepted); the ch4 pointer "The four families this
+  % thesis reports are defined in Section~\ref{sec:metrics}." MOVED to
+  % the prose (his reversal of layout ruling 6).
   \caption[Metric families in MTD evaluation]{Metric families in MTD
   evaluation, by purpose (row groups) and perspective (columns) after
   Cho et al.\ \citep{cho2020}. \emph{Basis} is the quantity a family
-  measures. The two families on a row are one measure read from each
-  side; an empty cell means the family has no counterpart. The four
-  families this thesis reports are defined in
-  Section~\ref{sec:metrics}.}
+  measures. An empty cell means the family has no counterpart.}
   \label{tab:mtd-metrics}
   \footnotesize
   \renewcommand{\arraystretch}{1.2}

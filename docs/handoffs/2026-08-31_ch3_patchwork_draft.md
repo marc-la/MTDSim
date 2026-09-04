@@ -848,6 +848,16 @@ executes: 2026-08-31_ch3_port_plan.md
 >    BB's row-pairing tighten. Branch feat/ch3-metrics-pass5 (dev was
 >    the tree after the concurrent merge b4241c4b). Unit is through
 >    pass 5; pass 6 runs on the assembled §3.2.
+>    **Then, same day: the four declined BB items APPROVED by Marc**
+>    and applied --- opener colon clause cut in full; the "no common
+>    benchmark" clause cut (HIS REVERSAL of the afternoon carrier
+>    ruling; "cannot be benchmarked" carries; list "and" moved, joint
+>    ratify-on-read); the ch4 pointer moved from the caption into the
+>    table sentence as a parenthetical (HIS REVERSAL of layout ruling
+>    6); the caption's row-pairing clause cut (pairing now undecoded,
+>    risk accepted). Not applied: BB's L4 whole-sentence cut of the
+>    modelling sentence (BB's own default decline); the bold/shading
+>    sentence stays cut. Prose ~120 words; caption three sentences.
 > 21. **TABLE 3.1 VERIFIED, split-stream (WB + BB) on the table alone
 >    --- RULED and APPLIED** (2026-09-04, Marc: "black box verification
 >    and crit ... treat every fact as wrong until you verified it ... are
