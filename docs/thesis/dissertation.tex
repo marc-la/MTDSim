@@ -1535,12 +1535,26 @@ literature \citep{cho2020}.
 %   effectiveness / VII-B efficiency, each split attacker's / defender's
 %   metrics); "perspective" is Cho's own word (:574, :904); "purpose" is
 %   the review's label, not Cho's. Attribution holds for the axes.
-This partitioning can be extended into dynamic security metrics, which
-are metrics as a property of consecutive snapshots of a network state
-\citep{hong2018}.
+Dynamic security metrics are metrics as a property of consecutive
+snapshots of a network state \citep{hong2018}.
 % cite check: Hong's terms are "dynamic security metrics" (Sec. 5) and
 %   "network state" (Sec. 4.1), computed between consecutive states.
 %   Faithful.
+% RULED 2026-09-04 (pass 4, M3): the "This partitioning can be extended
+%   into" frame CUT --- Hong 2018 precedes Cho 2020 and never references
+%   Cho's axes; the extension was a flow device, not a claim (Marc: "he
+%   was just trying to make the sentences flow"). Deletion + "are";
+%   ratify-on-read. SUPERSEDED text: "This partitioning can be extended
+%   into dynamic security metrics, which are metrics as a property of
+%   consecutive snapshots of a network state".
+% [3b] whether the sentence earns its place at all without an evaluation
+%   leg (README: every cited work earns one) --- Marc's static-vs-dynamic
+%   question answered in chat 2026-09-04: Hong's "static" = a property
+%   of ONE configuration (the graphical-security-model tradition's
+%   attack-graph measures), "dynamic" = a property of the trajectory of
+%   configurations MTD produces; NOT runtime-vs-after-the-fact. Cut
+%   option open. [3b] "snapshots of a network state" --- Hong: network
+%   STATES, each a configuration.
 In the field, attack success probability dominates \citep{cho2020}.
 % cite check: Cho :636 --- "a dominant metric used for the
 %   EFFECTIVENESS of MTD", census of 27 papers 2011-2018.
@@ -1557,13 +1571,26 @@ game-theoretic approaches often look at payoff and utility
 
 % P2 --- the so-what. Question: what does the state of the instrument
 % mean for any evaluation built on it, and what distinction survives?
-The largest persistent issue facing MTD defence mechanisms is that
-they cannot be benchmarked \citep{hong2018, cho2020, jalowski2026}:
+The primary issue facing MTD defence mechanisms, in Jalowski et
+al.'s reading \citep{jalowski2026}, is that they cannot be benchmarked,
+a persistent finding \citep{hong2018, cho2020, jalowski2026}:
 metrics are
 produced on an ad hoc basis, there is little consensus on how to
-measure and instrument, there are few available metrics to measure
-effectiveness, and there is no common benchmark that exists in the MTD
-literature to measure effectiveness or efficiency.
+measure and instrument, there are too many metric families with no
+agreement between them, and there is no common benchmark that exists
+in the MTD literature to measure effectiveness or efficiency.
+% RULED 2026-09-04 (pass 4, M2): (b) the "largest" ranking ATTRIBUTED
+%   to Jalowski ("primary issue in the current state of the art", :123;
+%   "already been raised in existing surveys ... very little has been
+%   done", :209 carries "persistent") --- the thesis's own ranking is
+%   the attacker-model gap (3.3). Session wording, ratify-on-read;
+%   SUPERSEDED: "The largest persistent issue facing MTD defence
+%   mechanisms is that they cannot be benchmarked". (a) "there are few
+%   available metrics to measure effectiveness" CUT as Hong 2018's
+%   dated diagnosis (:75); replaced by Marc's spoken clause ("too many
+%   families ... no agreement"), grounded jalowski :209 ("many authors
+%   introduce their own metrics, which adds to the overall confusion")
+%   and :35 ("no consensus regarding how to measure"). Ratify-on-read.
 % cite check, clause by clause: "ad hoc" = jalowski2026 :123 ("ad hoc
 %   methods provided by their own creators"); "little consensus" =
 %   jalowski2026 :35 ("no consensus regarding how to measure");
@@ -1577,12 +1604,14 @@ literature to measure effectiveness or efficiency.
 %   carries it via the topic-sentence cite.
 % RULED 2026-09-04: topic sentence made impersonal in Marc's wording
 %   ("facing MTD defence mechanisms is that they cannot be benchmarked").
-There is a lack of a common framework \citep{jalowski2026}.
-% cite check: jalowski2026 :118 ("no common framework for measuring MTD
-%   security currently exists"). Faithful.
-What this means is that there is a lack of a benchmark, which makes
-objective cross-evaluation of MTD techniques intractable to date
-\citep{jalowski2026}.
+% RULED 2026-09-04 (pass 4, M2c): "no common benchmark" is the ONE
+%   carrier (Marc: "I like benchmark better"). CUT: "There is a lack of
+%   a common framework \citep{jalowski2026}." (jalowski :118, still
+%   cited via the topic sentence); the so-what's restating head "What
+%   this means is that there is a lack of a benchmark, which makes"
+%   trimmed to "This makes" --- deletion + joint, ratify-on-read.
+This makes objective cross-evaluation of MTD techniques intractable to
+date \citep{jalowski2026}.
 % ratify-on-read: your chat reword (replaces the near-verbatim :125
 %   clause). cite check: jalowski2026 :121 "currently impossible to
 %   compare different techniques meaningfully"; :125 "prevents any

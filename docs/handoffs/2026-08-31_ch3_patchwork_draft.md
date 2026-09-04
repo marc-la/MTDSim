@@ -802,6 +802,24 @@ executes: 2026-08-31_ch3_port_plan.md
 >    blind spot the mode exists for; the WB rejected one BB proposal on
 >    a ruling it could not see (Tay in the tempo cell) and protected the
 >    spine on M2(b). Marc rules on this merged set only.
+>    **RULED 2026-09-04 (Marc, spoken), applied same day.** M1 and every
+>    table minor WITHDRAWN from this pass: Table 3.1 is owned by a
+>    concurrent session and is excluded from scrutiny here (the verified
+>    cell findings stay on record above for that session to take or
+>    leave). M2 accepted: (a) the dated "few available metrics" clause
+>    cut, his spoken "too many families, no agreement" clause in its
+>    place (jalowski :209/:35); (b) the ranking attributed to Jalowski
+>    ("primary issue", :123), "persistent" kept on the three-survey
+>    cite; (c) "no common benchmark" the one carrier --- the framework
+>    sentence cut, the so-what's restating head trimmed to "This
+>    makes". M3 (a)/(b) accepted: the "extended into" frame cut, Hong's
+>    sentence stands as a bare family sentence with a cut option open
+>    (Marc does not buy the static/dynamic contribution; the
+>    distinction explained in chat and in the tex comment). Open: M3(c)
+>    "instrument our simulator" (ladder pre-emption), M3(d) ASP
+>    dominance scope [3b], the P1 minors ("judge our ... attacker
+>    model", metrics vs families, "snapshots"), and every
+>    ratify-on-read joint above. Unit ~195 words. Pass 5 next.
 > 21. **TABLE 3.1 VERIFIED, split-stream (WB + BB) on the table alone
 >    --- RULED and APPLIED** (2026-09-04, Marc: "black box verification
 >    and crit ... treat every fact as wrong until you verified it ... are
