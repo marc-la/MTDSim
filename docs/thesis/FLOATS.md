@@ -38,4 +38,5 @@ new float.
 | App. D preliminary extraction | `tab_D-0a_preliminary_extraction.tex` | `tab:preliminary-extraction` | `tools/preliminary_extraction_table.py` |
 
 Inline (typed directly in `dissertation.tex`, no file): `tab:experiment-one` (§B.7),
-`tab:anchor-sensitivity` (§C.1), `tab:shape-substitution` (§C.2).
+`tab:anchor-sensitivity` (§C.1), `tab:shape-substitution` (§C.2),
+`tab:mtd-metrics` (§3.2.1, Table 3.1).

@@ -693,20 +693,22 @@
 %
 %% <- extractions/cho2020.md
 %
-%% VERIFY (evans2011): full book subtitle + editors not stated in the extraction;
-%% the anchor gives "Springer Moving Target Defense volume (AIS 54), Ch. 2, pp. 29-46".
-% incollection{evans2011,
-%   author    = {Evans, David and Nguyen-Tuong, Anh and Knight, John},
-%   title     = {Effectiveness of Moving Target Defenses},
-%   booktitle = {Moving Target Defense},
-%   series    = {Advances in Information Security},
-%   volume    = {54},
-%   chapter   = {2},
-%   pages     = {29--46},
-%   publisher = {Springer},
-%   year      = {2011},
-%   doi       = {10.1007/978-1-4614-0977-9_2}
-% }
+%% Uncommented 2026-09-04 for Table 3.1 (ASP: the first ASP-for-MTD evaluation
+%% per Hong 2018 :75). Book subtitle and editors copied from the sibling chapter
+%% entry manadhatawing2011 (same AIS 54 volume); VERIFY against the volume.
+@incollection{evans2011,
+  author    = {Evans, David and Nguyen-Tuong, Anh and Knight, John},
+  title     = {Effectiveness of Moving Target Defenses},
+  booktitle = {Moving Target Defense: Creating Asymmetric Uncertainty for Cyber Threats},
+  editor    = {Jajodia, Sushil and Ghosh, Anup K. and Swarup, Vipin and Wang, Cliff and Wang, X. Sean},
+  series    = {Advances in Information Security},
+  volume    = {54},
+  chapter   = {2},
+  pages     = {29--46},
+  publisher = {Springer},
+  year      = {2011},
+  doi       = {10.1007/978-1-4614-0977-9_2}
+}
 %
 %% <- extractions/jalowski2026.md
 %
@@ -746,10 +748,16 @@
 % }
 %
 %% <- extractions/ling2023.md
-@inproceedings{mcqueen2006,
+%% booktitle corrected 2026-09-04 (was "Quality of Protection (QoP Workshop (at)
+%% ESORICS 2005)"): the DOI's book is the Springer QoP volume; series, volume and
+%% editors added from that volume --- VERIFY against the book's front matter.
+@incollection{mcqueen2006,
   author    = {McQueen, Miles A. and Boyer, Wayne F. and Flynn, Mark A. and Beitel, George A.},
   title     = {Time-to-Compromise Model for Cyber Risk Reduction Estimation},
-  booktitle = {Quality of Protection (QoP Workshop (at) ESORICS 2005)},
+  booktitle = {Quality of Protection: Security Measurements and Metrics},
+  editor    = {Gollmann, Dieter and Massacci, Fabio and Yautsiukhin, Artsiom},
+  series    = {Advances in Information Security},
+  volume    = {23},
   pages     = {49--64},
   publisher = {Springer},
   year      = {2006},
@@ -1095,6 +1103,8 @@
   year      = {2011},
   doi       = {10.1007/978-1-4614-0977-9_1}
 }
+%% pages 3--10 per Cho et al. 2020 reference [173] (the PDF prints none);
+%% VERIFY against the ACM DL.
 @inproceedings{zaffarano2015,
   author    = {Zaffarano, Kara and Taylor, Joshua and Hamilton, Samuel},
   title     = {A Quantitative Framework for Moving Target Defense Effectiveness Evaluation},
@@ -1102,7 +1112,17 @@
   address   = {Denver, CO, USA},
   publisher = {ACM},
   year      = {2015},
+  pages     = {3--10},
   doi       = {10.1145/2808475.2808476}
+}
+%% RoA's defining work per Alavizadeh et al. 2022 reference [16], transcribed
+%% from that reference list (initials as printed); VERIFY against the original,
+%% which is on Marc's to-obtain list.
+@inproceedings{cremonini2005,
+  author    = {Cremonini, M. and Martini, P.},
+  title     = {Evaluating Information Security Investments from Attackers Perspective: The Return-On-Attack ({ROA})},
+  booktitle = {Proceedings of the Workshop on the Economics of Information Security (WEIS)},
+  year      = {2005}
 }
 @article{alavizadeh2022,
   author  = {Alavizadeh, Hooman and Aref, Samin and Kim, Dong Seong and Jang-Jaccard, Julian},

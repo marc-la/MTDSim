@@ -802,6 +802,133 @@ executes: 2026-08-31_ch3_port_plan.md
 >    blind spot the mode exists for; the WB rejected one BB proposal on
 >    a ruling it could not see (Tay in the tempo cell) and protected the
 >    spine on M2(b). Marc rules on this merged set only.
+> 21. **TABLE 3.1 VERIFIED, split-stream (WB + BB) on the table alone
+>    --- RULED and APPLIED** (2026-09-04, Marc: "black box verification
+>    and crit ... treat every fact as wrong until you verified it ... are
+>    all the blanks warranted ... too many citations ... have a look at
+>    Cho 2020 specifically"). Method: WB = the main thread with the
+>    item 16--20 trail, a term-count matrix over the fourteen cited
+>    full texts, then a context read per (cell, key); BB = one subagent
+>    given draft_scrutiny.md, the conventions, a COMMENT-STRIPPED copy
+>    of the table, the ruled purpose and coverage rules, and the source
+>    markdown only (Cho §VII with its reference list, Hong §3/§5,
+>    Jalowski, the twelve cited papers, the McQueen / MTTC extractions,
+>    the bib) --- no handoffs, no tex comments, no session history. BB
+>    returned 127 findings (87 KEEP, 13 INSERT, 11 VERIFY, 5 WRONG,
+>    5 REFRAME, 4 TIGHTEN, 1 CUT, 1 SCOPE); every novel BB fact was
+>    re-verified against its source before use (Zhang's "attack
+>    compromise duration" expansion of Hong's ACD :254; Cremonini &
+>    Martini 2005 as RoA's origin, alav:883; Kim's AST / ART names
+>    :406--414; Zaffarano's mirrored Table 4; Masud's "IP variation
+>    (IPV)" §3.6.1; Hong never expanding NVC / NVDT, PDF text checked).
+>    The two reports sit in the session scratchpad, not the repo; this
+>    item is the record.
+>    **Marc's rulings** on the three merged moves: (1) ACCEPT --- repair
+>    the cites that fail the caption's own rule and re-seat DSP's
+>    origin; (2) "Basis was the previous computed-over caption, changed
+>    to something more prescriptive ... it's more so a mechanism a
+>    family tree operates on" --- the term may change if needed; (3)
+>    ACCEPT --- close the lineage-completeness gaps and the caption's
+>    referent. Then: "mechanically fix and verify each outstanding
+>    issue, so that the counts other than keep are addressed."
+>    **Convergent [both]:** DSP is Cho's coinage (:594) and cho2020 was
+>    not cited in its cell; jalowski2026 neither names nor reports
+>    unpredictability (entropy argued at :125 / :151--163); attack
+>    surface (methods, channels, data --- mw:897) does not sit on an
+>    attack-graph-across-states basis; Cho files periodicity under
+>    EFFECTIVENESS (:621), not the efficiency row it was on; Hong 2018
+>    has nine modules and the table showed five (ACE §5.1.4, ACD
+>    §5.1.5, NVDT §5.2.2, EVT §5.2.4 absent, hong2018 uncited in the
+>    cost and time cells); zhang2023's NCR (:420), tay2024's TSLM (:250)
+>    and node-replacement downtime (:248), ho2024's host IP variability
+>    (:433) had no cite or no cell; Cho's vastness (:618, tied to [114]
+>    = manadhatawing2011) is the defender-side configuration-space
+>    counterpart, so that blank was not warranted; the caption stated
+>    no selection rule, so Cho's long tail read as omitted by accident;
+>    "the papers in this chapter" was false for zaffarano2015,
+>    alavizadeh2022, sharma2025 (table-only) and mcqueen2006 (ch4 only).
+>    **WB-only:** system performance (Cho's largest efficiency family,
+>    :658) was present by descriptor "overhead" but not by name;
+>    FLOATS.md had no row for the table (conventions §j); Zaffarano's
+>    pages are 3--10 per Cho [173]. **BB-only:** QoS is a service
+>    quantity, not "resource spent" (:653); the caption's ref target
+>    subsec:metrics is the ch4 stub (by design, kept); "movement tempo"
+>    was table coinage; Ho's MEF / TSLM abbreviations were missing;
+>    Kim has zero MTTC hits; Alavizadeh's reliability (:252--268) is
+>    Cho's MTTF sense; Zaffarano's attack confidentiality / integrity
+>    is an attacker-side reading of CIA (Cho files it defender-side).
+>    **Applied (the table now, commit this item):** ten rows, seven
+>    effectiveness + three efficiency, zebra continuous down the table;
+>    caption carries the Basis gloss ("the quantity a family measures"),
+>    the selection rule, the cite grammar and the bold / shading decode
+>    (DRAFT, ratify-on-read). Cell grammar: citations FOLLOW THE NAME
+>    THEY REPORT (family (ABBR) \citep{defining, survey, reporters};
+>    variant \citep{reporters}); cho2020 cited where Cho's list is the
+>    family's source and no defining work is, not where one is (McQueen,
+>    Manadhata--Wing, Cremonini--Martini, Hong). R1: ASP led by
+>    evans2011 (first ASP-for-MTD evaluation per hong:75; bib entry
+>    uncommented, item 20's INSERT), Zaffarano's attack success and
+>    mission success named, DSP re-seated on cho2020, he2025's detection
+>    rate added under Cho's DSP sense ([38]). R2: kim2026 named as its
+>    own variant "attack success time" (not folded into MTTC); Hong's
+>    ACD added; MTTF gains alavizadeh2022 "reliability". R4: basis
+>    "attack paths" (Ho's APE is a one-time-point quantity, item 20
+>    M1(f), so "across network states" dropped); SAPV named. R5:
+>    attack surface MOVED here beside unpredictability; jalowski2026
+>    CUT; Vastness \citep{cho2020} fills the blank. R6: attacker-side
+>    "attack confidentiality and integrity" \citep{zaffarano2015}
+>    [VERIFY]; NCR added with zhang2023. R7 (new, effectiveness):
+>    Periodicity (Cho) with MEF, TSLM (ho, tay), IPV (ho, masud) ---
+>    the tempo row moved up from efficiency. R8: AC / ACE (hong) /
+>    attempts required (brown, named) / RoA led by cremonini2005;
+>    defence cost AND system performance named. R9 (new): QoS on its
+>    own "service to users" basis. R10: NVC, NVDT, EVC, EVT in Hong's
+>    own words plus Tay's node-replacement downtime. Bib: evans2011
+>    uncommented (subtitle + editors copied from the manadhatawing2011
+>    entry, same AIS 54 volume --- VERIFY); cremonini2005 added
+>    (transcribed from Alavizadeh's ref [16], initials as printed ---
+>    VERIFY / obtain); zaffarano2015 pages 3--10; mcqueen2006 booktitle
+>    corrected to the QoP volume title (series, volume, editors added
+>    --- VERIFY against the front matter). FLOATS.md lists the table.
+>    Build clean (no errors, no undefined keys, no bibtex warnings);
+>    the table now fills printed page 13 on its own; the 4pt overfull
+>    vbox nearby is the pre-existing page-break artefact Marc ruled
+>    cosmetic.
+>    **Relation to item 20 (rulings were pending):** settles its table
+>    points --- M1(a) Brown / RoA: the single-group cell was the
+>    problem; Brown is now cited by his own name "attempts required"
+>    (an attack-effort reading of Cho's attack cost) with the [VERIFY]
+>    kept, not cut; M1(b) jalowski cut --- applied; M1(c) tempo ---
+>    moved to effectiveness on Cho's periodicity, and Tay's TSLM IS
+>    inserted (Marc's move-3 acceptance reverses item 20's rejection of
+>    the BB's Tay point); M1(d) Kim --- named variant; M1(e) attack
+>    surface --- moved; M1(f) APE basis --- "attack paths". Minors:
+>    Evans first in ASP --- applied; RoA origin --- now verified
+>    (Cremonini & Martini 2005, Alavizadeh's [16]); DSP coinage ---
+>    applied; caption rule for survey-only cells and the bold decode ---
+>    applied; QoS not a resource --- split row; NVC wording --- Hong's;
+>    "four families" --- kept at four (MTTC, ASR, APE, RoA; the V2
+>    predictability measure may make it five, ch4's call); selection
+>    rule --- stated; zaffarano pages and mcqueen booktitle --- fixed.
+>    Item 20's prose findings (M2, M3, the prose minors) are untouched
+>    and still await Marc.
+>    **Recorded, not applied (Marc's call):** the four [VERIFY] cell
+>    readings (Brown's blocked actions as a DSP variant; Brown's
+>    attempts as attack effort; Ho's MTTC as an optimisation target
+>    rather than a reported outcome; Zaffarano's attack CIA on the
+>    attacker side); a citation cap (defining + lineage four + one
+>    exemplar) would delete about six keys --- not applied, every key
+>    now sits by the name it reports; bland2020's RL reward as a
+>    game-payoff exemplar (left out: not a game payoff); ho2024's
+>    "Attack Stage" (a state descriptor, no cell); Cho's omitted
+>    families are now omitted BY RULE (learning by attackers /
+>    defenders [181], controllability, worm propagation speed,
+>    uniqueness / revocability / distinguishability, loss vs optimal,
+>    switching cost, power). **Papers to obtain / verify:** Cremonini &
+>    Martini 2005 (WEIS; the RoA original); Manadhata & Wing 2011 TSE
+>    "An attack surface metric" (Cho's [112]) if the metric paper is
+>    preferred over the formal-model chapter in the bib; the Springer
+>    QoP volume front matter for mcqueen2006.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 

@@ -1601,58 +1601,152 @@ objective cross-evaluation of MTD techniques intractable to date
 % metrics reported; defender frozen) is a ch4 subsec:metrics disclosure,
 % noted in the handoff. Unit ends here, ~205 words.
 
-% TABLE 3.1 --- DRAFT STATE 2026-09-04. Layout RULED by Marc the same
-% day (handoff item 19, variant D): the lookup instrument for metric
-% names. Purpose as rotated row-group labels on the left (shaded with
-% the row: Marc reversed the unshaded-column ruling the same day);
-% "Basis" (Marc's ruled header for computed-over) as the row key; the
-% two perspectives as columns, so a row is one measure read from each
-% side (Cho's own pairings: ASP/DSP, MTTC/MTTF, the two utilities, the
-% two costs) and an empty cell = no counterpart; zebra rows at black!5
-% as a reading aid (not an encoding, so no caption decode); bold
-% abbreviations as the lookup keys; citations inline, defining work
-% first, then the chapter's papers that report the family under its
-% name or a variant. Needs xcolor[table] + multirow (preamble, added
-% 2026-09-04). The rotated label sits in the LAST row of its block
-% (negative multirow) so it is drawn after the row shading.
-% Three uses every cell must serve: forward (shape of the space in ten
-% seconds), backward (a ch4/ch5 metric name -> kind, basis, who to
-% read), sideways (the paper to read). Rules: every metric name used in
-% ch4/ch5 is findable here under that name (MTTC, ASR, APE, RoA);
-% coverage complete over the lineage four (brown, zhang, ho, tay),
-% exemplar elsewhere; selection = Cho's census trends or a paper in this
-% chapter reporting it.
-% Cell grounding (extractions / sources): ASP-ASR ho2024 H-MET-06,
-% tay2024 T-EVAL-01, kim2026 l.408; DSP zaffarano2015 s4 (mission
-% success), brown2023 B-MET-01 attack actions blocked [VERIFY: the
-% session's reading of "blocked actions" as a defence-success measure];
-% MTTC mcqueen2006, zhang2023 Z-EVAL-04, ho2024 l.503-547 [VERIFY:
-% optimisation target vs reported outcome], tay2024, sharma2025 s4.1/s6.2,
-% kim2026 l.406/410 [VERIFY: phase-indexed attack success time as the
-% MTTC family]; MTTF cho2020 :595; utilities cho2020 s.VII-A; attack
-% surface manadhatawing2011 s1.1.2; APV/APN/APE hong2018 s5.1, ho2024
-% H-MET-01/10 (APE, SAPV), tay2024 (APE); unpredictability cho2020
-% [66][110][145], jalowski2026 s4.1; system security cho2020 s.VII-A,
-% alavizadeh2022 s.III-D (risk), ho2024 H-MET-02/04 (risk, HCR), tay2024
-% (Risk), masud2025 l.64, sharma2025 s4.2; attack cost cho2020 s.VII-B,
-% alavizadeh2022 s.III-D (RoA = risk / attack cost), brown2023 B-MET-02
-% [VERIFY: attempts-required as cost], ho2024 H-MET-03, tay2024,
-% masud2025 l.122; defence cost cho2020 s.VII-B, mendonca2023 Concept 4,
-% kim2026 l.394 (FFJ); NVC/EVC hong2018 s5.2; tempo cho2020
-% (periodicity), ho2024 H-MET-07/09. he2025 omitted (detection rates,
-% no family here). Utility row: no exemplar in the chapter; one
-% game-theoretic MTD paper from Cho's list is the bib addition if wanted.
+% TABLE 3.1 --- DRAFT STATE 2026-09-04, VERIFIED the same day by a
+% split-stream pass on the table alone (white box in-session, black box
+% subagent with the sources only; merged in the main thread; record in
+% handoff 2026-08-31_ch3_patchwork_draft.md item 21, which also settles
+% item 20's table findings). Marc's rulings on the merged moves:
+% (1) ACCEPT --- repair the cites that fail the caption's own rule (DSP
+% re-seated on Cho, jalowski2026 cut from unpredictability, the tempo
+% row re-seated on Cho's periodicity, Kim named as his own variant);
+% (2) "Basis" = the mechanism a family measures (the earlier "computed
+% over" gloss was the looser reading; the header term may still
+% change); (3) ACCEPT --- close the lineage-completeness gaps (Zhang's
+% NCR, Tay's TSLM and downtime, Ho's host IP variability, Hong's
+% ACE / ACD / NVDT / EVT). Then "mechanically fix and verify each
+% outstanding issue": every non-KEEP finding is applied below or
+% recorded here as a reasoned no-change.
+%
+% Layout (ruled 2026-09-04, variant D, unchanged): rotated purpose
+% labels on the left, shaded with the row; Basis as the row key; the
+% two perspectives as columns, a row = one measure read from each side
+% (Cho's pairings ASP/DSP, MTTC/MTTF, the utilities, the costs; Cho's
+% vastness-to-attack-surface link at his [114]; Zaffarano's mirrored
+% Table 4); empty cell = no counterpart; zebra at black!5 continuous
+% down the table; bold abbreviations; the rotated label sits in the
+% LAST row of its block (negative multirow: -7 effectiveness,
+% -3 efficiency). Needs xcolor[table] + multirow (preamble).
+% Cell grammar (new): CITATIONS FOLLOW THE NAME THEY REPORT --- family
+% name (ABBR) \citep{defining work, then the survey that lists it, then
+% reporters}; variant name \citep{its reporters}. A key may sit by each
+% name it reports (ho/tay by risk and by HCR); a group after a
+% multi-name family means "reports at least one of these" (ho/tay
+% report APE, not APV/APN). cho2020 is cited where Cho's list is the
+% source of the family and no defining work is cited (ASP, DSP, the
+% utilities, MTTF, unpredictability, vastness, CIA, periodicity, AC,
+% defence cost, QoS); it is not cited where a defining work is (MTTC
+% McQueen, attack surface Manadhata--Wing, RoA Cremonini--Martini,
+% APV/APN/APE Hong).
+% Selection (now stated in the caption): a family is in if a paper this
+% review cites reports it, or Cho's census names it dominant, or Cho
+% names it as the counterpart of one of those; the rest of Cho's
+% Sec. VII list is omitted BY RULE --- learning by attackers /
+% defenders [181], controllability [134], worm propagation speed
+% [3][86][87], uniqueness / revocability / distinguishability [66][110],
+% loss vs optimal deployment [141], strategy switching cost [141],
+% power consumption [175]; Jalowski Sec. 2.3's policy-conflict analysis
+% likewise. ho2024's "Attack Stage" is a state descriptor, not a family
+% (no cell).
+% Cell grounding (docs/sources/lit_review markdown :line unless noted):
+%  R1 ASP: evans2011 = first ASP-for-MTD evaluation per hong:75 (bib
+%     entry uncommented; VERIFY note kept there); cho:578; kim:408
+%     ASP_REC / ASP_DEI; masud:432 Sec. 3.5.1; attack success zaf
+%     Table 4; ASR ho:358, tay:286. DSP is Cho's coinage cho:594 ("We
+%     call ... DSP in this work"); mission success zaf Table 4 (Cho's
+%     exemplar [173]); attack actions blocked brown Fig. 4 :145
+%     [VERIFY, Marc: Brown files it as attack effort, :200]; detection
+%     rate he:229-237 (Cho's DSP sense, his [38]).
+%  R2 MTTC: mcqueen2006 = lineage root (extractions/mcqueen2006.md,
+%     metrics_semantics.md; Cho's own MTTC refs are [4][26][27][32]
+%     [186]; the word "mean" enters with Leversage & Byres 2008);
+%     zhang:114; ho:372 (defined; used as an optimisation target
+%     :503-517 [VERIFY, Marc: target vs reported outcome]); tay:286;
+%     sharma:244 Eq. 2. ACD hong Sec. 5.1.5 / 5.3.5, expanded "attack
+%     compromise duration" at zhang:254 (Hong never expands it).
+%     Attack success time kim:406-414 AST_REC / AST_DEI --- named as
+%     Kim's own variant rather than folded into MTTC (Kim has zero MTTC
+%     hits), which closes the earlier VERIFY. MTTF cho:596 ("the same
+%     as MTTC"); reliability alav:252-254, :265-268 ("under certain
+%     attack circumstances", SHARPE) = Cho's "system reliability
+%     metric" sense.
+%  R3 utilities cho:580, :598; survey-only on both sides (Cho's
+%     exemplars [22][134][141][181] are not in the bib; bland2020's RL
+%     reward is the nearest chapter paper, not a game payoff, left out).
+%  R4 APV/APN/APE hong Sec. 5.1.1-5.1.3 (across consecutive states);
+%     APE ho:326, tay:238 / :286 --- Ho's APE is a per-host
+%     new-vulnerability fraction on the shortest path at one time point
+%     (hong2018.md open question; item 20 M1(f)), so the basis is now
+%     "attack paths" (what both measure) without "across network
+%     states" (Hong only); SAPV ho:384.
+%  R5 attack surface mw:897 (methods, channels, data; bib = Cho's
+%     [114], the Springer formal-model chapter; Cho also cites [112],
+%     the TSE "attack surface metric") --- MOVED here from R4: it is not
+%     computed over an attack graph or across states, the one cell
+%     Marc's Basis ruling breaks; unpredictability cho:586 [66][110]
+%     [145] (jalowski2026 CUT: it argues entropy, jal:125 / :151-163,
+%     never names or reports the metric); vastness cho:618 "the size of
+%     spaces that a given defense mechanism can cover", tied by Cho to
+%     [114]'s attack surface measurements = the defender-side
+%     counterpart, so the cell is no longer empty.
+%  R6 attack confidentiality / integrity zaf Table 4 (Cho quotes both
+%     at :604-606 but files them under the DEFENDER's CIA bullets)
+%     [VERIFY, Marc: an attacker-side reading of Zaffarano's mirrored
+%     set; cut the cell if Cho's filing is preferred]; CIA + degree of
+%     vulnerability cho:602-610; risk alav:252 / :272, ho:336, tay:286,
+%     masud:436, sharma:336 / :396 (not a Cho Sec. VII name; Cho's
+%     "degree of vulnerability" cites [4][5][6] = Alavizadeh's risk
+%     papers); HCR ho:350, tay:234; NCR zhang:420. No source cites a
+%     defining work for risk or HCR.
+%  R7 periodicity cho:621 (Cho files it under EFFECTIVENESS, defender,
+%     "other metrics" --- the row moved here from efficiency; "movement
+%     tempo" was table coinage, dropped); MEF ho:366; TSLM ho:378,
+%     tay:250; host IP variability ho:433; IP variation masud Sec.
+%     3.6.1. In this thesis the interval is a swept PARAMETER (as kim
+%     Table 4, zhang:418, brown:139); it is a metric family only under
+%     adaptive schedulers (Ho, Tay) and in Cho's list.
+%  R8 attack cost / payoff penalty cho:645-647; alav:253 / :326-331;
+%     masud:442 (ho:348 defines AC as the time to exploit, inside RoA);
+%     ACE hong Sec. 5.1.4 (:433 "attack cost of exploitation");
+%     attempts required brown Fig. 5 :153, named as Brown's own
+%     measure [VERIFY, Marc: an attack-effort reading of Cho's attack
+%     cost --- item 20 M1(a) read the single-group cell as citing Brown
+%     for RoA and said cut; the named variant is the fix]; RoA
+%     cremonini2005 = defining work per alav:340 / :883-884 (bib entry
+%     transcribed from Alavizadeh's reference list [VERIFY against the
+%     original]), alav:340-353, ho:342, tay:286, masud:446 (also
+%     "return on cost", :628). Defence cost cho:659; system performance
+%     cho:658 (the family name was absent); mend Sec. 4.2 :744-893
+%     (throughput, response time, total cost).
+%  R9 QoS cho:653 (its own family in Cho and a service quantity, not a
+%     resource --- split out of R8); mend:53; kim:394 FFJ "a QoS-based
+%     performance metric".
+%  R10 NVC / NVDT / EVC / EVT hong Sec. 5.2.1-5.2.4 in Hong's own words
+%     ("variant assignment cost" :294-300, "edge variation cost" :320,
+%     "edge variation time" :330; Hong never expands NVC / NVDT ---
+%     Fig. 4c labels them "Node Defense Efforts"); node replacement
+%     downtime tay:248.
+% Open for Marc (recorded, not applied): the four [VERIFY] cell
+% readings above (Brown blocked, Brown attempts, Ho MTTC, Zaffarano
+% attacker-side CIA); a citation cap (defining work + lineage four +
+% one exemplar) would delete about six keys --- not applied, every key
+% now sits by the name it reports; \ref{subsec:metrics} points at the
+% ch4 stub by design (the four reported families are MTTC, ASR, APE,
+% RoA; the V2 reworked-predictability measure may make it five).
 \begin{table}[htbp]
   \centering
   \caption[Metric families in MTD evaluation]{Metric families in MTD
   evaluation, by purpose (row groups) and perspective (columns) after
-  Cho et al.\ \citep{cho2020}. \emph{Basis} is the quantity a family is
-  computed over. The two families on a row are one measure read from
-  each side; an empty cell means the family has no counterpart.
-  Citations give the defining work where one is cited, then the papers
-  in this chapter that report the family under its name or a variant.
-  The four families this thesis reports are defined in
-  Section~\ref{subsec:metrics}.}
+  Cho et al.\ \citep{cho2020}. \emph{Basis} is the quantity a family
+  measures. The two families on a row are one measure read from each
+  side; an empty cell means the family has no counterpart. A family is
+  listed if a paper this review cites reports it, if the census in Cho
+  et al.\ names it as dominant, or if Cho et al.\ name it as the
+  counterpart of one of those; the survey's remaining families are
+  omitted. Citations follow the name they report: the defining work
+  where one is cited, then the papers that report the family under
+  that name or a variant. Bold marks abbreviations; row shading is a
+  reading aid only. The four families this thesis reports are defined
+  in Section~\ref{subsec:metrics}.}
   \label{tab:mtd-metrics}
   \footnotesize
   \renewcommand{\arraystretch}{1.2}
@@ -1662,37 +1756,40 @@ objective cross-evaluation of MTD techniques intractable to date
     \midrule
     \rowcolor{black!5}
     & success events
-      & Attack success probability or rate (\textbf{ASP}, \textbf{ASR}) \citep{cho2020, ho2024, tay2024, kim2026}
-      & Defence success probability (\textbf{DSP}) \citep{zaffarano2015, brown2023} \\
+      & Attack success probability (\textbf{ASP}) \citep{evans2011, cho2020, kim2026, masud2025}; attack success \citep{zaffarano2015}; attack success rate (\textbf{ASR}) \citep{ho2024, tay2024}
+      & Defence success probability (\textbf{DSP}) \citep{cho2020}; mission success \citep{zaffarano2015}; attack actions blocked \citep{brown2023}; detection rate \citep{he2025} \\
     & attacker time
-      & Mean time to compromise (\textbf{MTTC}) \citep{mcqueen2006, zhang2023, ho2024, tay2024, kim2026, sharma2025}
-      & Mean time to failure (\textbf{MTTF}) \citep{cho2020} \\
+      & Mean time to compromise (\textbf{MTTC}) \citep{mcqueen2006, zhang2023, ho2024, tay2024, sharma2025}; attack compromise duration (\textbf{ACD}) \citep{hong2018}; attack success time \citep{kim2026}
+      & Mean time to failure (\textbf{MTTF}) \citep{cho2020}; reliability \citep{alavizadeh2022} \\
     \rowcolor{black!5}
     & game payoff
       & Attack utility \citep{cho2020}
       & Defence utility \citep{cho2020} \\
-    & attack graph, across network states
-      & Attack surface \citep{manadhatawing2011}; attack path variation, number and exposure (\textbf{APV}, \textbf{APN}, \textbf{APE}) \citep{hong2018, ho2024, tay2024}
+    & attack paths
+      & Attack path variation, number and exposure (\textbf{APV}, \textbf{APN}, \textbf{APE}) \citep{hong2018, ho2024, tay2024}; shortest attack path variability (\textbf{SAPV}) \citep{ho2024}
       & \\
     \rowcolor{black!5}
     & configuration space
-      & Unpredictability \citep{cho2020, jalowski2026}
-      & \\
-    \multirow{-6}{*}{\rotatebox{90}{\emph{Effectiveness}}} & system state
+      & Attack surface \citep{manadhatawing2011}; unpredictability \citep{cho2020}
+      & Vastness \citep{cho2020} \\
+    & system state
+      & Attack confidentiality and integrity \citep{zaffarano2015}
+      & System security: confidentiality, integrity, availability and degree of vulnerability \citep{cho2020}; risk \citep{alavizadeh2022, ho2024, tay2024, masud2025, sharma2025}; host or network compromise ratio (\textbf{HCR}, \textbf{NCR}) \citep{zhang2023, ho2024, tay2024} \\
+    \rowcolor{black!5}
+    \multirow{-7}{*}{\rotatebox{90}{\emph{Effectiveness}}} & network-state change
       &
-      & System security: risk, degree of vulnerability, CIA, host compromise ratio (\textbf{HCR}) \citep{cho2020, alavizadeh2022, ho2024, tay2024, masud2025, sharma2025} \\
+      & Periodicity \citep{cho2020}; MTD execution frequency (\textbf{MEF}) \citep{ho2024}; time since last MTD (\textbf{TSLM}) \citep{ho2024, tay2024}; host IP variability or variation (\textbf{IPV}) \citep{ho2024, masud2025} \\
     \midrule
-    \rowcolor{black!5}
     & resource spent
-      & Attack cost: effort, payoff penalty, return on attack (\textbf{RoA}) \citep{cho2020, alavizadeh2022, brown2023, ho2024, tay2024, masud2025}
-      & Defence cost: overhead, quality of service \citep{cho2020, mendonca2023, kim2026} \\
-    & network-state change
-      &
-      & Node and edge variation cost (\textbf{NVC}, \textbf{EVC}) \citep{hong2018} \\
+      & Attack cost or payoff penalty (\textbf{AC}) \citep{cho2020, alavizadeh2022, masud2025}; attack cost of exploitation (\textbf{ACE}) \citep{hong2018}; attempts required \citep{brown2023}; return on attack (\textbf{RoA}) \citep{cremonini2005, alavizadeh2022, ho2024, tay2024, masud2025}
+      & Defence cost and system performance overhead \citep{cho2020, mendonca2023} \\
     \rowcolor{black!5}
-    \multirow{-3}{*}{\rotatebox{90}{\emph{Efficiency}}} & defender schedule
+    & service to users
       &
-      & Movement tempo: execution frequency, time since last move \citep{cho2020, ho2024} \\
+      & Quality of service (\textbf{QoS}) \citep{cho2020, mendonca2023, kim2026} \\
+    \multirow{-3}{*}{\rotatebox{90}{\emph{Efficiency}}} & network-state change
+      &
+      & Variant assignment cost and downtime (\textbf{NVC}, \textbf{NVDT}), edge variation cost and time (\textbf{EVC}, \textbf{EVT}) \citep{hong2018}; node replacement downtime \citep{tay2024} \\
     \bottomrule
   \end{tabular}
 \end{table}
