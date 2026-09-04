@@ -481,6 +481,118 @@ executes: 2026-08-31_ch3_port_plan.md
 >    is booked for ch4 subsec:metrics, not ch3. 3.2.1 is COMPLETE at
 >    ~205 words, on budget; open: [3b] ASP-dominance scope, "mode of
 >    modelling" ratify-on-read, the registry row. Pass 4 next.
+> 19. **TABLE 3.1 REDESIGN --- PROPOSAL, UNRULED** (2026-09-04, session;
+>    supersedes 16(j)). Marc's brief: the table must serve a reader asking
+>    "what metrics exist, what lives where, which would I use"; it must
+>    stop reading as two surveys ripped; it must stop conflating
+>    attacker-side with Hong's dynamic metrics; it complements P1's
+>    descriptive sentence (Cho's perspective x purpose stays because the
+>    prose borrows it). Design only; nothing in the tex changed.
+>    **Diagnosis of the current table.** It is Cho's §VII list keyed to
+>    a 2x2 grid, with Hong's five metrics daggered into two cells. Every
+>    cell carries the same citation, so the table conveys nothing the
+>    prose sentence does not. The dagger is a category error: Hong's
+>    "dynamic" is HOW a metric is computed (over consecutive network
+>    states, hong2018.md §5), not a perspective, so the 2x2 has nowhere
+>    to say it. No column answers "who uses this" or "where does it come
+>    from", so the reader's question goes unanswered.
+>    **Recommended design (B): family rows under Cho's four blocks.**
+>    Genre e2 (approach-comparison, booktabs, no vertical rules). The
+>    2x2 grid becomes four group-header rows (Attacker-side,
+>    effectiveness / Attacker-side, efficiency / Defender-side,
+>    effectiveness / Defender-side, efficiency), so Cho's partition is
+>    still the visible skeleton. One row per metric FAMILY (canonical
+>    name, aliases in the cell), never one per metric. Five data columns:
+>    Family | Computed over | Origin | Reported by | Ch.~4. "Computed
+>    over" is the column that does the work: attacker events / attacker
+>    time / attack-graph paths across consecutive states / game payoff /
+>    system-state snapshot / defender operations. It absorbs Hong's
+>    dynamic-vs-static distinction as a cell value (no dagger) and plants
+>    G1's hinge as description (the reader can see that every attacker-
+>    side effectiveness row is computed over the attacker's progress)
+>    without arguing it here. "Origin" is the work that defined the
+>    family (McQueen 2006 for MTTC; Hong 2018 for the path measures and
+>    NVC/EVC; Ho 2024 for RoA-as-ratio, HCR, MEF/TSLM); where the origin
+>    is not in the bib the cell says "surveyed in cho2020" until it is.
+>    "Reported by" lists the ch3 evaluation papers that REPORT the family
+>    as an outcome (not as an RL feature): Brown, Zhang, Ho, Tay, Masud,
+>    Mendonça. Empty cells are the information (e1 convention: empty,
+>    never x): the game-theoretic utility family, dominant in Cho's
+>    census, is reported by no simulation-lineage paper; DSP and NVC/EVC
+>    by none. "Ch.~4" is a check mark on the four families the thesis
+>    reports (MTTC primary; ASR, APE, RoA secondary, architecture §g);
+>    the empty defender-side efficiency column IS the efficiency
+>    concession, shown rather than said (booked for ch4 subsec:metrics).
+>    Caption: one sentence + decode of the columns and the mark.
+>    **Selection rule (so the row set is not arbitrary):** a family
+>    enters if (a) it is a trend Cho names in his 2011--2018 census (:636)
+>    or (b) at least one paper in this chapter's cross-section or lineage
+>    reports it. Cho's "other metrics" list (controllability, uniqueness,
+>    revocability, distinguishability, worm speed) is cut by the rule; the
+>    caption states the rule.
+>    **Draft row set (11 rows; each cell to be verified against the
+>    extraction cited):**
+>    - A/eff: Attack success probability / rate (ASP; ASR) --- over
+>      attacker attempts and compromise events --- origin: census-dominant,
+>      cho2020 :636 --- reported: ho2024 (H-MET-06), tay2024 (T-EVAL-01) ---
+>      Ch.4 ✓.
+>    - A/eff: Time to compromise (MTTC; Cho :595 = MTTF defender-side) ---
+>      over attacker action durations --- origin: mcqueen2006 --- reported:
+>      zhang2023 (Z-EVAL-04, headline), tay2024; ho2024 as a trained
+>      objective only [VERIFY whether that counts as reported] --- Ch.4 ✓.
+>    - A/eff: Attack path measures (APV, APN, APE; Ho's SAPV; attack
+>      surface) --- over the attack graph across consecutive network states
+>      --- origin: hong2018 §5.1; attack surface Manadhata & Wing 2011 (bib
+>      gap) --- reported: ho2024 (APE, SAPV), tay2024 (APE) --- Ch.4 ✓
+>      (APE; the Hong/Ho name collision is the ch4 VERIFY).
+>    - A/eff: Attacker utility / payoff --- over game outcome --- origin:
+>      game-theoretic MTD (cho2020 §VII-A) --- reported: none --- Ch.4
+>      empty.
+>    - A/eff: Unpredictability / entropy --- over the configuration space
+>      --- origin: cho2020 [66],[110],[145]; jalowski2026 §4.1 --- reported:
+>      none --- Ch.4 [VERIFY: "predictability enters only in its reworked
+>      form" (ch4 comment); mark only if ch4 reports it].
+>    - A/effic: Attack cost / effort (attack cost, payoff penalty, attempts
+>      required, RoA as the risk/cost ratio) --- over attacker resource
+>      (time, attempts, scans) --- origin: cho2020 §VII-B (Nmap overhead
+>      [93]); RoA-as-ratio ho2024 H-MET-03 --- reported: brown2023
+>      (B-MET-02 attempts [3b: classifying Brown's attempts-required as
+>      cost is the session's reading]), ho2024, tay2024, masud2025 (RoA),
+>      --- Ch.4 ✓ (RoA).
+>    - D/eff: Defence success probability / mission metrics --- over
+>      defender task completion --- origin: Zaffarano 2015 (bib gap;
+>      "surveyed in cho2020" meanwhile) --- reported: none --- empty.
+>    - D/eff: System security (CIA, degree of vulnerability, risk, host
+>      compromise ratio) --- over a system-state snapshot --- origin:
+>      cho2020 §VII-A; risk and HCR ho2024 H-MET-02/04 --- reported: ho2024,
+>      tay2024 (Risk), masud2025 (attack risk) --- Ch.4 empty.
+>    - D/effic: Defence cost / overhead / QoS --- over defender operations
+>      --- origin: cho2020 §VII-B --- reported: mendonca2023 (the whole
+>      panel, Concept 4) --- Ch.4 empty (defender frozen).
+>    - D/effic: Node and edge variation cost (NVC, EVC, NVDT, EVT) --- over
+>      consecutive network states --- origin: hong2018 §5.2 --- reported:
+>      none --- empty.
+>    - D/effic: Movement tempo (periodicity; MEF, TSLM) --- over the
+>      defender's schedule --- origin: cho2020 "periodicity" [66],[110];
+>      ho2024 H-MET-07/09 --- reported: ho2024; tay2024 as a feature only
+>      --- Ch.4 empty [VERIFY: tempo is a swept factor in ch4, not a
+>      reported metric; empty is correct if so].
+>    **Rejected alternatives.** (A) Keep the 2x2 grid and add
+>    superscript "used-by" keys per cell: cheap, but still Cho's shape,
+>    and the grid has no place for "computed over", so the dynamic
+>    conflation survives. (C) An e1 feature matrix, rows = papers,
+>    columns = families: answers "what lives where" best from the paper
+>    side but loses perspective, purpose, and origin, and duplicates the
+>    3.3.3 cross-section's shape; if wanted it is that table's companion,
+>    not this one.
+>    **Cost.** Five columns with short-phrase cells fit portrait at
+>    \small; if "Reported by" cells with four keys overflow, landscape
+>    per 16(j). Bib this design needs beyond the active set: none for a
+>    first cut (origins outside the bib say "surveyed in cho2020");
+>    Manadhata & Wing 2011 and Zaffarano 2015 upgrade two Origin cells
+>    when added (16(k)). Sharma 2025 joins the MTTC "Reported by" cell
+>    only once in the bib. Every row's cells are verify-listed above;
+>    nothing enters the tex until Marc rules the column set.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
