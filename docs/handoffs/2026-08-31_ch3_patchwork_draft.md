@@ -435,6 +435,32 @@ executes: 2026-08-31_ch3_port_plan.md
 >    (the last three are extracted in mttc_lineage.md /
 >    mtd_stealth_effectiveness.md; cite via the extraction's anchor once
 >    added).
+> 18. **3.2.1 DICTATED (P1 + P2 limitation block) and 3b-WALKED**
+>    (2026-09-04). Marc's spoken draft repaired pass 2+3a and landed at
+>    subsec:mtd-metrics (the ported :57 sentence pair kept in a
+>    SUPERSEDED comment); watchlist and change log returned in chat.
+>    His 3b rulings, applied same day: generic second person -> we/our;
+>    "threat model or attacker model" -> attacker model (thesis-wide
+>    ask; CONFLICTS with the ratified 2026-08-20 registry row, so
+>    applied in 3.2.1 only and raised as a PROPOSED registry row with the
+>    17 other tex occurrences for his ruling); "your respective" cut;
+>    attacker-side / defender-side to match the table; "mode of
+>    evaluation" -> "mode of modelling" (ratify-on-read; the traditions
+>    unit is 3.3.1); "game-theoretic approaches"; the First/Second/Third
+>    walk DROPPED, the three reasons kept as complementary clauses ("a
+>    little taster ... not the focus of our work"); the topic sentence
+>    cited to all three surveys; the near-verbatim Jalowski :125 clause
+>    replaced by his chat reword ("a lack of a benchmark, which makes
+>    objective cross-evaluation of MTD techniques intractable to date",
+>    ratify-on-read; [3b] on "intractable" vs Jalowski's "impossible ...
+>    meaningfully"). Every citation checked against the source markdown
+>    and annotated at its sentence (all faithful; one [VERIFY]: the "no
+>    standard metrics proposed" clause is near-verbatim Cho :568).
+>    Still open: [3b] ASP-dominance scope; [3b] "we cannot benchmark"
+>    reads first-person-specific; [3b] "moving target defence" vs MTD;
+>    [3b] "today". Landed ~205 words. STILL TO DICTATE (the [GAP] in the
+>    tex): mechanism, minority column + negative scope, the pivot and
+>    handover. Then pass 4 on the whole unit.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 

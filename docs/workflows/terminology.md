@@ -1,7 +1,7 @@
 ---
 status: living
 created: 2026-08-20
-updated: 2026-09-03   # flow-instance row (flow lowercase, Attack Flow reserved for the language) ratified from the §3.1.3 pass-6 split-stream census
+updated: 2026-09-04   # PROPOSED attacker-model/threat-model split row (§3.2.1 walk); 2026-09-03 flow-instance row (flow lowercase, Attack Flow reserved for the language) ratified from the §3.1.3 pass-6 split-stream census
 ---
 
 # Terminology registry — one term per concept across the dissertation
@@ -69,7 +69,7 @@ string are legitimate (noted per row).
 
 | Concept | Recommendation | Alternatives considered | Census |
 |---|---|---|---|
-| *(none open — the 2026-09-03 §3.1.3 ruling ratified the flow-instance row)* | | | |
+| The attacker-model / threat-model split, thesis-wide | **attacker model** as the one term for the modelled adversary everywhere the thesis speaks in its own voice; *threat model* survives only inside quotations, cited section titles, and where a surveyed work's own threat-model statement is the object (its genre role, per the ratified 2026-08-20 row). Marc's spoken ask (2026-09-04, §3.2.1 walk): "standardise to attacker models ... threat model is the superset ... so we're referring to the same thing everywhere". **Conflict to rule:** the RATIFIED row above already licenses *threat model* "when speaking the genre's language against the literature", which covers most of ch3 §3.3 (the cross-section scores the works' threat models; Table 3.2 caption; the §3.3.3 heading) and ch4 §4.1.1's heading. Applied in §3.2.1 only. | (a) apply thesis-wide, retitle §3.3.3 and §4.1.1, recast the ch2 opener ("The threat model that existed originally", l.529); (b) keep the 2026-08-20 boundary and treat §3.2.1 as our-voice (done); (c) *attack model* (Cho's §V-D term) — rejected, third variant | tex 2026-09-04: *threat model* 17 prose occurrences outside §3.2.1 (l.529 ch2; l.1474 strand opener, Cho's own list; l.1677, 1791, 1813, 1826, 1830, 1859, 1864, 1877, 1905–1909, 1959 in §3.3; l.2041, 2095 in ch4), *attacker model* 8 |
 
 ## Ruling workflow
 
