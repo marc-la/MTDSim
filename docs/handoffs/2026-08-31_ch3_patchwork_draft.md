@@ -834,6 +834,59 @@ executes: 2026-08-31_ch3_port_plan.md
 >    families"; (6) all ratify-on-read joints ACCEPTED FOR NOW, to be
 >    judged at the voice pass; (7) the registry row stands as is.
 >    3.2.1 is through pass 4; ~190 words. Pass 5 next.
+>    **PASS 5 RUN 2026-09-04** (compress-to-ledger, split-stream WB +
+>    BB, merged ledger presented inline; Marc accepted the FULL set).
+>    Prose: opener tail, table-sentence participle tail, three pads,
+>    the "that exists in the MTD literature" qualifier --- all cut;
+>    ~155 words. Caption pared to decodes + the ruled ch4 pointer
+>    (~60 words): selection rule, citation-order rule and bold/shading
+>    sentence cut, kept verbatim in a comment above the caption for
+>    the concurrent table session to revive as a footnote if wanted
+>    (the footnote crossing into the table environment was not taken
+>    without its say). Declined, do-not-re-flag: BB's whole-colon-
+>    clause cut, BB's "no common benchmark" cut, BB's pointer move,
+>    BB's row-pairing tighten. Branch feat/ch3-metrics-pass5 (dev was
+>    the tree after the concurrent merge b4241c4b). Unit is through
+>    pass 5; pass 6 runs on the assembled §3.2.
+>    **Then, same day: the four declined BB items APPROVED by Marc**
+>    and applied --- opener colon clause cut in full; the "no common
+>    benchmark" clause cut (HIS REVERSAL of the afternoon carrier
+>    ruling; "cannot be benchmarked" carries; list "and" moved, joint
+>    ratify-on-read); the ch4 pointer moved from the caption into the
+>    table sentence as a parenthetical (HIS REVERSAL of layout ruling
+>    6); the caption's row-pairing clause cut (pairing now undecoded,
+>    risk accepted). Not applied: BB's L4 whole-sentence cut of the
+>    modelling sentence (BB's own default decline); the bold/shading
+>    sentence stays cut. Prose ~120 words; caption three sentences.
+>    **Corrected same day (Marc):** the "no common benchmark" clause
+>    REINSTATED and the ch4 pointer BACK IN THE CAPTION --- both
+>    afternoon rulings stand; only the opener colon-clause cut and the
+>    row-pairing cut survive from the BB set. Prose ~130 words; caption
+>    four sentences. Through pass 5.
+>    **TABLE 3.1 FOOTPRINT + CAPTION, second round (2026-09-04, Marc):**
+>    caption cut to the title + citation ("Metric families in MTD
+>    evaluation \citep{cho2020}."): the purpose/perspective decode is
+>    the prose's, Cho carried by the cite not the name, the Basis gloss
+>    cut because a header needing a gloss is a bad header, the
+>    empty-cell decode and the ch4 pointer cut (his call, reversing the
+>    same-day reinstatement). Header "Basis" -> "Measures" (session
+>    choice, reads as the verb; alternatives "Computed over" /
+>    "Quantity"; ratify-on-read). Footprint: arraystretch 1.2 -> 1.0,
+>    Measures column 2.3 -> 1.9 cm, perspective columns 5.5 -> 6.1 cm
+>    (wider cells wrap less); type stays \footnotesize --- the
+>    convention's ~8 pt floor is exactly \scriptsize, held in reserve.
+>    Result: the table moved from its own page (13) to page 12, sharing
+>    it with P2 and the 3.2.2 opener, ~half a page. NOTE: this crossed
+>    into the table environment the concurrent table session owns ---
+>    on Marc's direct ask; cells untouched.
+>    Follow-up same session: float placement [htbp] -> [tbp] (the
+>    table pins to the top of page 12, P2 and the 3.2.2 opener beneath
+>    it); the persistent "Overfull vbox" in the log was the rotated
+>    multirow labels' nominal box (3 nominal rows shorter than the
+>    rotated word "Efficiency"), fixed by \smash on both labels ---
+>    log clean of vbox warnings. Residual: a 3 pt overfull hbox in the
+>    configuration-space cell ("unpredictability" not breaking at 6.1
+>    cm), cosmetic.
 > 21. **TABLE 3.1 VERIFIED, split-stream (WB + BB) on the table alone
 >    --- RULED and APPLIED** (2026-09-04, Marc: "black box verification
 >    and crit ... treat every fact as wrong until you verified it ... are

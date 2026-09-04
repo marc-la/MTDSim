@@ -1527,9 +1527,7 @@ result against a metric set using one of several validation methods
 % P1 --- the what. Question: what instrument does an MTD evaluation read
 % its verdict from, and how does the field organise it?
 Metrics are a precondition for MTD evaluation, that is, testing
-whether defence mechanisms are effective and efficient: typically we
-have to instrument our model, run it and measure, and then from those
-values we can judge our defence mechanisms.
+whether defence mechanisms are effective and efficient.
 % RULED 2026-09-04 (pass 4, items 2+3): "simulator" -> "model" (the
 %   ladder is 3.2.2's; Marc: "you must first instrument your model with
 %   metrics"); "our defence, network, or attacker model" -> "our defence
@@ -1546,8 +1544,7 @@ values we can judge our defence mechanisms.
 %   sentence), not here.
 Metrics can be split on perspective, attacker-side or defender-side,
 and purpose, effectiveness or efficiency \citep{cho2020}, as used in
-Table~\ref{tab:mtd-metrics}, enumerating commonly used metric
-families in the literature.
+Table~\ref{tab:mtd-metrics}.
 % RULED 2026-09-04 (pass 4, item 5): cite moved onto the axes clause
 %   (Cho supplies the axes, not the enumeration --- the Hong / Ho /
 %   Alavizadeh / HCR rows are not his); "metrics" -> "metric families"
@@ -1575,7 +1572,7 @@ metrics \citep{cho2020}.
 % RULED 2026-09-04 (pass 4, item 4): scoped to the effectiveness
 %   metrics (Cho's scope; efficiency scoped out); the 2011-2018 census
 %   window left implicit. Closes the item-18 [3b].
-Overall this is heavily dependent on the particular mode of modelling:
+This is dependent on the mode of modelling:
 game-theoretic approaches often look at payoff and utility
 \citep{cho2020}.
 % cite check: Cho :636 --- "due to a large volume of game theoretic
@@ -1592,8 +1589,8 @@ a persistent finding \citep{hong2018, cho2020, jalowski2026}:
 metrics are
 produced on an ad hoc basis, there is little consensus on how to
 measure and instrument, there are too many metric families with no
-agreement between them, and there is no common benchmark that exists
-in the MTD literature to measure effectiveness or efficiency.
+agreement between them, and there is no common benchmark to measure
+effectiveness or efficiency.
 % RULED 2026-09-04 (pass 4, M2): (b) the "largest" ranking ATTRIBUTED
 %   to Jalowski ("primary issue in the current state of the art", :123;
 %   "already been raised in existing surveys ... very little has been
@@ -1636,6 +1633,43 @@ date \citep{jalowski2026}.
 %   CUT --- Marc: the claim is already made and cited in the block's
 %   first sentence; "today" not needed, the thesis is dated. Reversible.
 
+% PASS 5 RUN 2026-09-04 (compress-to-ledger, split-stream WB + BB;
+% Marc: "every single ruling I'm happy with" --- the FULL set). Applied,
+% all deletion: P3 tail "and then from those values we can judge our
+% defence mechanisms" (restated the effective-and-efficient
+% apposition); P2 tail ", enumerating commonly used metric families in
+% the literature" (the caption title carries it); P1 pads "Overall" /
+% "heavily" / "particular"; P4 qualifier "that exists in the MTD
+% literature". Caption: the selection-rule sentence, the
+% citation-order sentence and the bold/shading sentence CUT (see the
+% caption's own comment). DECLINED (do-not-re-flag): BB's cut of the
+% whole opener colon clause (Marc's own words, today's ruled recast);
+% BB's cut of the "no common benchmark" clause (the ruled carrier);
+% BB's move of the ch4 pointer out of the caption (layout ruling 6);
+% BB's tighten of the row-pairing decode (the only carrier of the
+% pairing). Prose ~155 words vs ~250.
+% THEN, same day, Marc APPROVED all four declined BB items ("I do
+% approve those as well"), applied: the opener's colon clause CUT in
+% full (SUPERSEDED: ": typically we have to instrument our model, run
+% it and measure"); the "no common benchmark to measure effectiveness
+% or efficiency" clause CUT --- HIS REVERSAL of the afternoon carrier
+% ruling; "cannot be benchmarked" in the head now carries it, and the
+% list's "and" moved to the third item (joint, ratify-on-read); the ch4
+% pointer MOVED from the caption into the table sentence as a
+% parenthetical --- HIS REVERSAL of layout ruling 6; the caption's
+% row-pairing clause CUT (SUPERSEDED: "The two families on a row are
+% one measure read from each side; " --- the pairing now has no
+% decode; the empty-cell clause stays). Not applied: BB's whole-cut of
+% the modelling sentence (L4), which BB itself declined by default; the
+% bold/shading sentence stays cut (a ruling, not a BB proposal).
+% CORRECTED same day (Marc: "no, there are no common benchmark I am
+% keeping; in the caption, pointed to the layout, that's fine"): the
+% "no common benchmark" clause REINSTATED (the afternoon carrier ruling
+% stands, list "and" back on the fourth item); the ch4 pointer BACK IN
+% THE CAPTION, the prose parenthetical removed (layout ruling 6
+% stands). Standing from the BB set: the opener colon-clause cut and
+% the caption's row-pairing cut. Prose ~130 words. Unit is through
+% pass 5; pass 6 (voice-pass) runs on the assembled section.
 % RULED 2026-09-04 (Marc): the remaining cue-card blocks are NOT
 % dictated here. Mechanism (specificity vs portability) and the
 % minority-column/deployment sentence DROPPED as symptoms of the
@@ -1788,27 +1822,57 @@ date \citep{jalowski2026}.
 % (ruled 2026-09-04). \ref{subsec:metrics} points at the ch4 stub by
 % design (the four reported families are MTTC, ASR, APE, RoA; the V2
 % reworked-predictability measure may make it five).
-\begin{table}[htbp]
+\begin{table}[tbp]
   \centering
+  % CAPTION PARED 2026-09-04 (pass 5, Marc's ruling: bare bones, decodes
+  % only). CUT verbatim, revivable as a table footnote (conventions
+  % §b4) if the concurrent table session wants the provenance under
+  % the float: "A family is listed if a paper this review cites
+  % reports it, if the census in Cho et al.\ names it as dominant, or
+  % if Cho et al.\ name it as the counterpart of one of those; the
+  % survey's remaining families are omitted." / "Citations follow the
+  % name they report: the defining work where one is cited, then the
+  % papers that report the family under that name or a variant." /
+  % "Bold marks abbreviations; row shading is a reading aid only."
+  % (the shading half was already ruled no-decode on 2026-09-04). Kept:
+  % the axes decode, the Basis gloss, the row-pairing + empty-cell
+  % decode, the ruled ch4 pointer.
+  % THEN 2026-09-04, Marc approved the two remaining BB caption items:
+  % the row-pairing clause "The two families on a row are one measure
+  % read from each side; " CUT (no decode of the pairing remains ---
+  % flagged risk accepted). The ch4 pointer was briefly moved to the
+  % prose, then Marc corrected the same day: it STAYS in the caption
+  % (layout ruling 6 stands).
+  % CAPTION CUT TO THE TITLE 2026-09-04 (Marc's ruling, second caption
+  % round): the purpose/perspective decode lives in the prose; Cho is
+  % carried by the citation, not name-dropped; the Basis gloss cut ---
+  % a header that needs a gloss is a bad header, so the header is
+  % renamed (see below); the empty-cell decode and the ch4 pointer cut
+  % as evident / not wanted. SUPERSEDED: "Metric families in MTD
+  % evaluation, by purpose (row groups) and perspective (columns) after
+  % Cho et al.\ \citep{cho2020}. \emph{Basis} is the quantity a family
+  % measures. An empty cell means the family has no counterpart. The
+  % four families this thesis reports are defined in
+  % Section~\ref{sec:metrics}."
+  % HEADER "Basis" -> "Measures" (session choice, ratify-on-read): reads
+  % as the verb --- "attack success probability MEASURES success events"
+  % --- so the column needs no gloss; alternatives "Computed over"
+  % (the pre-ruling term), "Quantity".
+  % FOOTPRINT 2026-09-04 (Marc: full page, floats away from the prose):
+  % arraystretch 1.2 -> 1.0; Measures column 2.3 -> 1.9 cm; the two
+  % perspective columns 5.5 -> 6.1 cm each (wider cells wrap less, so
+  % fewer lines per row; textwidth is 16.06 cm). Type stays
+  % \footnotesize (10 pt): the convention's floor is ~8 pt, which
+  % \scriptsize sits exactly on --- available as a last resort, not
+  % taken first.
   \caption[Metric families in MTD evaluation]{Metric families in MTD
-  evaluation, by purpose (row groups) and perspective (columns) after
-  Cho et al.\ \citep{cho2020}. \emph{Basis} is the quantity a family
-  measures. The two families on a row are one measure read from each
-  side; an empty cell means the family has no counterpart. A family is
-  listed if a paper this review cites reports it, if the census in Cho
-  et al.\ names it as dominant, or if Cho et al.\ name it as the
-  counterpart of one of those; the survey's remaining families are
-  omitted. Citations follow the name they report: the defining work
-  where one is cited, then the papers that report the family under
-  that name or a variant. Bold marks abbreviations; row shading is a
-  reading aid only. The four families this thesis reports are defined
-  in Section~\ref{sec:metrics}.}
+  evaluation \citep{cho2020}.}
   \label{tab:mtd-metrics}
   \footnotesize
-  \renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{@{}c>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{5.5cm}>{\raggedright\arraybackslash}p{5.5cm}@{}}
+  \renewcommand{\arraystretch}{1.0}
+  \begin{tabular}{@{}c>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{6.1cm}>{\raggedright\arraybackslash}p{6.1cm}@{}}
     \toprule
-    & Basis & Attacker-side & Defender-side \\
+    & Measures & Attacker-side & Defender-side \\
     \midrule
     \rowcolor{black!5}
     & success events
@@ -1832,7 +1896,7 @@ date \citep{jalowski2026}.
       & Attack confidentiality and integrity \citep{zaffarano2015}
       & System security: confidentiality, integrity, availability and degree of vulnerability \citep{cho2020}; risk \citep{alavizadeh2022, ho2024, tay2024, masud2025, sharma2025}; host or network compromise ratio (\textbf{HCR}, \textbf{NCR}) \citep{zhang2023, ho2024, tay2024} \\
     \rowcolor{black!5}
-    \multirow{-7}{*}{\rotatebox{90}{\emph{Effectiveness}}} & network-state change
+    \multirow{-7}{*}{\smash{\rotatebox{90}{\emph{Effectiveness}}}} & network-state change
       &
       & Periodicity \citep{cho2020}; MTD execution frequency (\textbf{MEF}) \citep{ho2024}; time since last MTD (\textbf{TSLM}) \citep{ho2024, tay2024}; host IP variability or variation (\textbf{IPV}) \citep{ho2024, masud2025} \\
     \midrule
@@ -1843,7 +1907,7 @@ date \citep{jalowski2026}.
     & service to users
       &
       & Quality of service (\textbf{QoS}) \citep{cho2020, mendonca2023, kim2026} \\
-    \multirow{-3}{*}{\rotatebox{90}{\emph{Efficiency}}} & network-state change
+    \multirow{-3}{*}{\smash{\rotatebox{90}{\emph{Efficiency}}}} & network-state change
       &
       & Variant assignment cost and downtime (\textbf{NVC}, \textbf{NVDT}), edge variation cost and time (\textbf{EVC}, \textbf{EVT}) \citep{hong2018}; node replacement downtime \citep{tay2024} \\
     \bottomrule
@@ -2354,29 +2418,68 @@ building it is Chapter~\ref{ch:attacker-model}.]}
 %      [3b minor] "tick off" is spoken register --- pass-6 candidate, your
 %      call. [note] the next sentence also carries the axes + the naming
 %      move --- one of the two naming clauses is a pass-5 cut candidate.
-This is the threat model that we have produced, and we are terming it the
-movement attacker: it aims to tick off the axes from
-Section~\ref{subsec:attacker-criterion}.
-% [note] re-pointed 2026-09-04 from the cut §4.1 to the ch3 criterion
-%   (renders "3.3.2"); "the axes from" still reads. [pass-6] "Now that we
-%   have outlined the eight axes" now refers a chapter back --- keep or
-%   cut, your call. [owed, your dictation] the two commitment sentences
-%   the cut §4.1.1 carried: the proof-of-concept boundary; the attacker-only
-%   scope is already the "built beside MTDSim" sentence below.
-Now that we have outlined the eight axes that we are going to be measuring
-our model against, this is our implementation, and we are calling it the
-movement attacker. We are replacing the baseline attacker, the inherited
-scripted six-phase attacker from MTDSim (see Chapter~\ref{ch:background}),
-with the movement attacker: it adopts its action set, and the movement is
-dictated by the Petri net and by the attacker model at runtime. We are
-grounding it in CTI in a way that captures the behaviour of APT attackers
-in the real world, and distilling it into something that we can
-operationalise and join into our existing simulator to evaluate our
-defence mechanisms. This is built beside MTDSim; we are not touching the
-simulator, so that we can compare our results by construction.
-The pipeline (Figure~\ref{fig:pipeline}) has three stages: L0 to L2 are
-structure, L3 and L4 are semantics and parameterisation, and execution
-is an attacker agent traversing MTDSim, guided by our attack profiles.
+% ---- PASS 6 RUN AND RULED 2026-09-04 (voice-pass, split-stream WB + BB;
+%      merged ledger in chat; Marc accepted all nine items). Restructured
+%      as the CHAPTER preamble: two paragraphs, P1 the object and its
+%      terms (pickup, naming pair, what "movement" means, the two
+%      commitments), P2 the reader's map (spine sentence, figure, the
+%      sub-question key). Applied: (1) opener re-nouned to parallel the
+%      chapter title --- "The APT attacker model that we have produced,
+%      which we are terming the movement attacker" (Marc's dictation;
+%      terminology standardisation --- SUPERSEDES the 2026-08-20 "threat
+%      model" opener; registry genre row amended, the thesis-wide
+%      attacker-model row gains the data point); "motivated" is his verb;
+%      (2) the L0--L4 glosses on the section key CUT (caption owns the
+%      ladder), key by ordinal until ch1's contributions list fixes the
+%      capture / model / evaluate labels; (3) the proof-of-concept
+%      parenthesis CUT ("behavioural envelope", "declared policy" are repo
+%      vocabulary, nowhere else in the tex); (4) "tick off" -> "meet";
+%      (5) sentence-initial "And" dropped --- "This is built ... / This is
+%      a proof ..." is the licensed two-beat pair; (6) "Two commitments
+%      hold for the whole chapter" -> "Two commitments hold."; (7) the
+%      proof-of-concept sentence in the hypothesis form ("built to test
+%      whether ... not whether the model is true") --- SESSION WORDING,
+%      accepted, Marc's re-dictation still welcome; (8) "the build that
+%      answers them" -> "the pipeline that answers them"; (9) the
+%      baseline appositive pared to "the scripted six-phase attacker
+%      (Chapter 2)" ("inherited" is the registry's deprecated qualifier;
+%      ch1 already glosses the inheritance). CUT with the restructure:
+%      the second naming sentence ("Now that we have outlined the eight
+%      axes ... we are calling it the movement attacker" --- duplicate of
+%      the opener, back-reference a chapter away) and the three-stage
+%      ladder sentence ("L0 to L2 are structure ..." --- competed with
+%      capture / model / evaluate and placed execution outside the
+%      chapter). Pre-pass-6 text in git history.
+%      DO NOT RE-FLAG: "our existing simulator" (inside the ratified spine
+%      sentence, Marc's hand only); "by the attacker model at runtime";
+%      "in the real world"; the P2 opener's "it".
+%      Handed to the integration check: fig:pipeline is a [p] float, so
+%      the caption may name the movement attacker before the prose does.
+%      Word count ~185 against the ~125--150 half-unit; the remainder sits
+%      in ratified material (spine sentence, opener, commitments) ---
+%      Marc's cut, if any.
+The APT attacker model that we have produced, which we are terming the
+movement attacker, is the model that the research gap
+(Section~\ref{subsec:research-gap}) motivated; it aims to meet the axes
+from Section~\ref{subsec:attacker-criterion}. We are replacing the
+baseline attacker, the scripted six-phase attacker
+(Chapter~\ref{ch:background}), with the movement attacker: it adopts its
+action set, and the movement is dictated by the Petri net and by the
+attacker model at runtime. Two commitments hold. This is built beside
+MTDSim; we are not touching the simulator, so that we can compare our
+results by construction. This is a proof of concept: it is built to test
+whether behavioural fidelity changes the answer, not whether the model
+is true.
+
+We are grounding it in CTI in a way that captures the behaviour of APT
+attackers in the real world, and distilling it into something that we
+can operationalise and join into our existing simulator to evaluate our
+defence mechanisms. Those are the three sub-questions of
+Chapter~\ref{ch:intro}, and Figure~\ref{fig:pipeline} is the pipeline
+that answers them. Sections~\ref{sec:technique-graph}
+and~\ref{sec:attack-profiles} answer the first;
+Sections~\ref{sec:petri-formalism} and~\ref{sec:execution} the second;
+the third is Chapter~\ref{ch:experimental-setup}.
 
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
 % flows into tactic dependencies. Answers capture. Disclosures: what
