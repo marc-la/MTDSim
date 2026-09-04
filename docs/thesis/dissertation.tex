@@ -1475,20 +1475,106 @@ threat model, deploys one or more MTD mechanisms, and assesses the
 result against a metric set using one of several validation methods
 \citep{cho2020}.
 
-% 1 unit. Review Sec. II-B para 3 + Table I. Families and origins only;
-% the inherited suite's definitions (equation, direction) are ch4's
-% under the 2026-08-21 metrics ruling.
+% 1 unit. Families and origins only; the inherited suite's definitions
+% (equation, direction) are ch4's under the 2026-08-21 metrics ruling.
+%
+% DRAFT STATE (2026-09-04): DICTATED by Marc, repaired (pass 2+3a) the
+% same session. Shape ruled 2026-09-04 (handoff 2026-08-31_ch3_patchwork
+% _draft.md items 16-17): two paragraphs, P1 the what (metrics as the
+% precondition; the partition; the dynamic extension; the census), P2
+% the so-what (the limitation block DICTATED below; its mechanism, the
+% minority column + negative scope, and the scored-over pivot + handover
+% are STILL TO DICTATE, see the [GAP] at the end of P2). Citations were
+% attached from the cue card where the sentence tracks a source; pass 4
+% confirms each. [3b] markers are Marc's. The ported review sentences
+% this supersedes (review :57 verbatim) are kept below as SUPERSEDED for
+% reversibility. Table 3.1 untouched (consolidation deferred).
+%
+% SUPERSEDED 2026-09-04 (ported text, for reversibility):
+%   Cho et al.\ partition the MTD metric space along two axes
+%   (Table~\ref{tab:mtd-metrics}): \emph{perspective} (attacker-side or
+%   defender-side) and \emph{purpose} (effectiveness, capturing how well
+%   the MTD reduces attack success, and efficiency, capturing the cost
+%   the MTD imposes) \citep{cho2020}. Hong et al.\ \citep{hong2018}
+%   extend this partition with network-state-dynamic measures (marked
+%   $\dagger$ in Table~\ref{tab:mtd-metrics}) that quantify how the
+%   security posture shifts as MTD operations execute across consecutive
+%   network states.
 \subsection{Metrics}
 \label{subsec:mtd-metrics}
 
-Cho et al.\ partition the MTD metric space along two axes
-(Table~\ref{tab:mtd-metrics}): \emph{perspective} (attacker-side or
-defender-side) and \emph{purpose} (effectiveness, capturing how well
-the MTD reduces attack success, and efficiency, capturing the cost the
-MTD imposes) \citep{cho2020}. Hong et al.\ \citep{hong2018} extend this
-partition with network-state-dynamic measures (marked $\dagger$ in
-Table~\ref{tab:mtd-metrics}) that quantify how the security posture
-shifts as MTD operations execute across consecutive network states.
+% P1 --- the what. Question: what instrument does an MTD evaluation read
+% its verdict from, and how does the field organise it?
+% [3b] generic second person ("you have to instrument your simulator",
+%      "you can judge", P2 "you cannot benchmark") --- we / one / recast
+%      is your register call; left as dictated throughout, rule once.
+Metrics are a precondition for MTD evaluation: typically you have to
+instrument your simulator, run it and measure, and then from those
+values you can judge your respective defence, network, or threat model
+or attacker model.
+% [3b] "threat model or attacker model" --- one term or both? The
+%      registry carries both in this chapter (3.3 heading "Threat models
+%      in recent MTD evaluations"; section "Attacker models in MTD").
+% [3b] "your respective" --- respective to what? scope or drop.
+Metrics can be split on perspective, such as attacker or defence, and
+purpose, effectiveness or efficiency, as used in
+Table~\ref{tab:mtd-metrics}, enumerating commonly used metrics in the
+literature \citep{cho2020}.
+% [3b] "attacker or defence" --- the table says attacker-side /
+%      defender-side; match the table or leave.
+This partitioning can be extended into dynamic security metrics, which
+are metrics as a property of consecutive snapshots of a network state
+\citep{hong2018}.
+In the field, attack success probability dominates \citep{cho2020}.
+Overall this is heavily dependent on the particular mode of evaluation:
+game-theoretic often looks at payoff and utility \citep{cho2020}.
+% [3b] "mode of evaluation" --- Cho's finding is about the MODELLING
+%      tradition (the volume of game-theoretic work), not the evaluation
+%      method (3.2.2's ladder); "mode of evaluation" will be read as the
+%      ladder. Name it or scope it.
+% [3b] "game-theoretic often looks at" --- wants a noun (work /
+%      approaches / formulations); yours to supply.
+
+% P2 --- the so-what. Question: what does the state of the instrument
+% mean for any evaluation built on it, and what distinction survives?
+The largest persistent issue is that you cannot benchmark MTD defence
+mechanisms.
+% [3b] "largest persistent" --- persistence is the three-survey claim
+%      (hong2018 / cho2020 / jalowski2026); cite here or at the close.
+% [3b] the walk announces no count ("First / Second / Third" follow) ---
+%      announce it in the topic sentence or leave the enumeration bare.
+First, metrics are produced on an ad hoc basis; there is little
+consensus on how to measure and instrument \citep{jalowski2026}.
+Second, there are few available metrics to measure effectiveness
+\citep{hong2018}.
+Third, there are no standard metrics proposed to measure effectiveness
+or efficiency \citep{cho2020}.
+There is a lack of a common framework \citep{jalowski2026}.
+What this means is that there is no benchmark for MTD mechanisms to
+date: there is a lack of universal metrics, which prevents any
+objective cross-technique comparison \citep{jalowski2026}.
+% [VERIFY] the previous clause is near-verbatim jalowski2026 §3.1 (:125
+%      "the lack of a universal metric prevents any objective
+%      cross-technique comparison") --- quote it with a page, or reword
+%      in your own terms.
+This is the main structural issue facing moving target defence
+literature today.
+% [3b] "moving target defence" --- MTD is defined (intro l.111); the
+%      3.1.3 voice pass converted the same phrase to MTD (V6), not a
+%      global ruling.
+% [3b] "today" --- dated-fact convention; the date is Jalowski 2026.
+
+\medskip
+\noindent\emph{[GAP --- P2 continues, cue card blocks still to dictate:
+the mechanism (specificity vs portability: hong2018 §7.2, jalowski2026
+§3.1/§5); the minority column and the deployment sentence with its
+negative scope (cho2020 :646/:677/:873/:928, mendonca2023 §4.4,
+jalowski2026 §4.2); the pivot (Cho's own concessions :574/:595/:646;
+computed-over-the-attacker vs computed-over-the-system, flagged as this
+thesis's synthesis; masud2025 / mendonca2023 as the poles; the attacker
+inside the attacker-side definitions by lineage: mcqueen2006, evans2011,
+maleki2016; hong2018 :73 "the evaluation results are dictated by the
+threat model used", scoped to IRS). STOP before the bound --- G1's.]}
 
 % TABLE 3.1 --- the review's Table I, re-keyed. Comparison table with
 % citation column (figure_table_conventions e2).
