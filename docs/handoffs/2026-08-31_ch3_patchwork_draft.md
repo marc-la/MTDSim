@@ -671,6 +671,137 @@ executes: 2026-08-31_ch3_port_plan.md
 >    the same page as the 3.2.1 prose. Open: the four [VERIFY] cell
 >    classifications in the tex comment; a game-theoretic exemplar for
 >    the utility row (bib addition) if Marc wants no survey-only cell.
+> 20. **3.2.1 PASS 4 RUN, split-stream WB + BB, merged ledger --- RULINGS
+>    PENDING** (2026-09-04, Marc's ask: "run scrutinise-draft on it, with
+>    both white box and black box approaches"). White box = main thread
+>    with the item 16--19 trail; black box = one subagent given only the
+>    skill, draft_scrutiny.md, the conventions, the pack (extractions,
+>    source markdown, ch3 README, metrics_semantics, architecture §g, the
+>    bib) and a COMMENT-STRIPPED copy of the strand (opener through the
+>    G1 placeholder) --- no handoffs, no tex, no git. Every novel BB fact
+>    was verified against its named source before it entered this list.
+>    Tags: [both] convergent, [WB] / [BB] single-stream. Same-session
+>    rulings protected (not re-flagged by either stream): no definitions
+>    here; no origin / ch4 column; zebra undecoded; we/our; the
+>    efficiency concession to ch4; the pivot + handover in G1.
+>    **M1 [both] --- Table 3.1 cells whose cited paper does not report
+>    the family, or whose basis/purpose is the session's, not Cho's.**
+>    (a) [WRONG, BB, verified] brown2023 in the attack-cost/RoA cell:
+>    Brown §IV last paragraph DEFERS cost, RoA and probability of success
+>    ("depend on other external factors"; B-MET-03); RoA appears in
+>    Brown only as the attacker's exploit-ordering signal. The build's
+>    attempts-as-cost [VERIFY] is answered by Brown himself: cut.
+>    (b) [WRONG, BB, verified] jalowski2026 in the unpredictability
+>    cell: Jalowski §2.3 (:96--:112) restates Cho's families and omits
+>    unpredictability; the word occurs only as generic prose (:33,
+>    :223). Cut the cite. (c) [WRONG, both] tempo under Efficiency,
+>    cited to cho2020: Cho's "periodicity" sits under §VII-A defender's
+>    EFFECTIVENESS "other metrics"; Ho's MEF/TSLM are RL state features
+>    (H-MET-07/09), tay2024 :250 lists TSLM as a feature too --- so
+>    neither source assigns tempo to efficiency, and no paper in the
+>    chapter REPORTS it as an outcome. Purpose placement is the
+>    thesis's own; the caption's "after Cho" does not cover it. (BB's
+>    "Tay is missing from the cell" REJECTED: the caption rule is
+>    reporters, and Tay uses it as a feature.) (d) [VERIFY, both]
+>    kim2026 in the MTTC cell: the source has zero hits for MTTC / time
+>    to compromise; Kim reports AST (attack success time) per CKC
+>    phase --- the build's open [VERIFY] stands, BB reads it as not the
+>    family; Marc's call. (e) [WRONG, both] attack surface on the basis
+>    "attack graph, across network states": Manadhata--Wing :41 and Cho
+>    :591 define it over the system's methods, channels and data items
+>    --- no graph, no state sequence. Needs its own basis row or a
+>    different home. (f) [VERIFY, both] APE cell: hong2018 as defining
+>    work with ho2024/tay2024 as reporters --- Ho's APE (H-MET-01,
+>    per-host new-vulnerability fraction on the shortest path, one time
+>    point) is a different quantity under the same name (hong2018.md
+>    open question; conventions §d2 reserved-acronym rule); the basis
+>    "across network states" covers Hong only. The table is where the
+>    reader first meets the name ch4 will define.
+>    **M2 [both] --- P2 folds three dated diagnoses into one undated
+>    list, and ranks it.** (a) [WRONG/SCOPE, both] "there are few
+>    available metrics to measure effectiveness" is Hong 2018's :75
+>    diagnosis; Jalowski 2026 diagnoses the opposite (:209 "many authors
+>    introduce their own metrics", :123 "isolated worlds"); the clause
+>    contradicts the table above it and the shared three-survey cite
+>    reads the list as a present-tense consensus. The README's
+>    chronological-story contract wants Hong 2018 too few -> Cho 2020
+>    no standard (:565) -> Jalowski 2026 ad hoc and unframed as a dated
+>    narrowing. (b) [SCOPE, WB only] "The largest persistent issue
+>    facing MTD defence mechanisms": ranks the benchmark gap above the
+>    attacker-model gap the chapter's spine argues (jalowski §4.3 "most
+>    glaring flaw"; cho §V-D; design handoff blade two; port plan
+>    §1(a)). Jalowski's own word is "the primary issue in the current
+>    state of the art" (§3.1 :123) --- attributable to him, not the
+>    thesis's ranking. BB KEPT the superlative as earned by :123/:209;
+>    it cannot see the spine, so WB protects. (c) [TIGHTEN, both] no
+>    common benchmark / lack of a common framework / lack of a
+>    benchmark --- one claim three times (S6 clause 4, S7, S8); pass-5
+>    territory, flagged now. (d) [3b, BB] "intractable" --- Jalowski
+>    :117 "impossible ... meaningfully", :125 "prevents any objective
+>    cross-technique comparison"; Marc ruled the word stays (item 18),
+>    noted only.
+>    **M3 [both] --- P1's missing legs.** (a) [EXPAND, WB] Hong's
+>    sentence carries no evaluation leg (README: every cited work earns
+>    one): the why of dynamic --- static-snapshot metrics miss the
+>    between-state change (hong source :79 on Zaffarano; hong2018.md
+>    network-state framing); one clause, and the point that matters for
+>    a time-domain simulator. (b) [REFRAME, BB] "This partitioning can
+>    be extended into dynamic security metrics \citep{hong2018}" ---
+>    Hong 2018 precedes Cho 2020 and never references Cho's axes; the
+>    extension is the thesis's synthesis and reads as Hong's claim.
+>    (c) [SCOPE, both] "instrument our simulator, run it and measure"
+>    presupposes the simulation rung one subsection before 3.2.2 lays
+>    the four rungs; the strand opener says "one of several validation
+>    methods". (d) [SCOPE/3b, both] "In the field, attack success
+>    probability dominates" --- Cho :631 is a count over 27 papers
+>    2011--2018, effectiveness metrics; no date or sample in the
+>    sentence (the item-18 open [3b]).
+>    **Minors.** [REFRAME, WB] "judge our defence, network, or attacker
+>    model" --- metrics are computed over the attacker (G1); judging
+>    the attacker model by them inverts the hinge. [SCOPE, BB] "as used
+>    in Table 3.1, enumerating commonly used metrics in the literature
+>    \citep{cho2020}" --- the Hong, Ho, Alavizadeh, HCR families are not
+>    Cho's enumeration; and [3b, WB] "metrics" vs the caption's
+>    "families". [3b, WB] "consecutive snapshots of a network state"
+>    --- Hong: consecutive network STATES. [INSERT, both] ASP cell is
+>    survey-led; Evans 2011 is the first ASP-for-MTD evaluation per
+>    hong :75 (extracted; bib entry commented l.700) --- conventions §f
+>    origin over survey. [VERIFY, BB, verified] RoA: Cho :348 credits
+>    Alavizadeh [6] (TrustCom 2018); the cell orders cho2020 before
+>    alavizadeh2022 and Cho's §VII cost family has no RoA; whether RoA
+>    predates Alavizadeh is UNVERIFIED. [VERIFY, BB, verified] DSP: the
+>    NAME is Cho's coinage (:599 "we call ... DSP in this work") over
+>    Zaffarano's mission/attack success rate --- which the caption's
+>    "defining work" intends. [EXPAND, both] the caption's citation
+>    rule does not cover survey-only cells (attack utility, defence
+>    utility, MTTF, unpredictability) and does not decode the bold
+>    keys. [VERIFY, BB] QoS is service quality to users (Cho :651), not
+>    "resource spent". [VERIFY, BB] NVC is Hong's node VARIANT cost
+>    (§5.3.6); "variation" is the session's word. [VERIFY, WB] "The four
+>    families this thesis reports" = architecture §g MTTC/ASR/APE/RoA;
+>    the ch4 subsec:metrics comment adds the V2 reworked-predictability
+>    measure --- the count may become five. [INSERT, WB] the row-set
+>    selection rule (item 19) is stated nowhere. [VERIFY, BB] bib:
+>    zaffarano2015 no pages (Cho [173] gives 3--10); mcqueen2006
+>    booktitle garbled ("QoP Workshop (at) ESORICS 2005"). [VERIFY, BB]
+>    twelve table-only works earn no sentence of evaluation in this
+>    unit (README contract) --- whether they earn one elsewhere in the
+>    chapter is the assembly check's.
+>    **KEEP [both].** "as used in Table 3.1" owning the table, axes
+>    "after Cho" (resolves 16(b)); MTTC/MTTF on one row (Cho :595 by
+>    structure --- the fact G1 stands on); the MTTC cell's five verified
+>    reporters (kim excepted); APV/APN/APE to hong2018 on the
+>    across-states basis; HCR under system security; brown2023 in DSP
+>    (actions blocked, a variant); kim2026/mendonca2023 in defence cost;
+>    alavizadeh2022/masud2025/sharma2025 placements; the three-survey
+>    cite carrying "persistent"; the game-theoretic utility sentence;
+>    S8 the so-what; empty-cell/booktabs conventions met.
+>    **Method note for the record.** The BB caught four session-authored
+>    cells the WB had waved through (brown/RoA, jalowski/unpredictability,
+>    kim/MTTC as a firm negative, NVC naming) --- the authorship-anchoring
+>    blind spot the mode exists for; the WB rejected one BB proposal on
+>    a ruling it could not see (Tay in the tempo cell) and protected the
+>    spine on M2(b). Marc rules on this merged set only.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
