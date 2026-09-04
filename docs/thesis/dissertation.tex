@@ -1624,12 +1624,17 @@ objective cross-evaluation of MTD techniques intractable to date
 %   enters only in its reworked form", subsec:metrics comment) --- mark
 %   only if ch4 reports it. [VERIFY] Movement tempo unmarked: a swept
 %   factor in ch4, not a reported metric.
-% Origin cells: defining work where the bib has one (mcqueen2006,
-%   hong2018, ho2024 for MEF/TSLM); otherwise the survey that groups the
-%   family. Upgrades when the bib grows (16(k)): attack surface ->
-%   Manadhata & Wing 2011; DSP -> Zaffarano 2015; RoA / risk / HCR ->
-%   Alavizadeh 2018 (Ho's own attribution, ho2024 source l.224); MTTC
-%   "Reported by" gains Sharma 2025.
+% Origin cells: defining work where the bib has one; otherwise the
+%   survey that groups the family. Upgraded 2026-09-04 against the
+%   sources (docs/sources/lit_review/): attack surface ->
+%   manadhatawing2011 (s1.1.2 the metric; s1.4 damage-potential/effort);
+%   DSP / mission metrics -> zaffarano2015 (s4, mission and attack
+%   variants of productivity, success, confidentiality, integrity);
+%   RoA as risk over attack cost, and system risk -> alavizadeh2022
+%   (s.III-D, the four metrics Risk / AC / RoA / Reliability; Ho's [23]);
+%   sharma2025 (Electronics 14(11):2205) REPORTS attack-path MTTC by
+%   attacker skill and shuffle rate (s4.1, s6.2) and security-risk
+%   reduction (s4.2), so it joins the MTTC and system-security rows.
 % he2025 omitted: reports detection rates (ADR/MDR), no family here.
 \begin{table}[htbp]
   \centering
@@ -1657,11 +1662,11 @@ objective cross-evaluation of MTD techniques intractable to date
     Mean time to compromise (MTTC); read by Cho et al.\ \citep{cho2020} as the same quantity as mean time to failure
       & attacker action durations
       & \citep{mcqueen2006}
-      & \citep{zhang2023, ho2024, tay2024, kim2026}
+      & \citep{zhang2023, ho2024, tay2024, kim2026, sharma2025}
       & \checkmark \\
     Attack path measures (path variation, number, and exposure; attack surface)
       & attack-graph paths across consecutive network states
-      & \citep{hong2018}
+      & \citep{hong2018, manadhatawing2011}
       & \citep{ho2024, tay2024}
       & \checkmark \\
     Attacker utility or payoff
@@ -1678,20 +1683,20 @@ objective cross-evaluation of MTD techniques intractable to date
     \multicolumn{5}{@{}l}{\emph{Attacker-side, efficiency}} \\
     Attack cost and effort (attack cost, payoff penalty, attempts required, return on attack)
       & attacker resource: time, attempts, scans
-      & \citep{cho2020}
+      & \citep{cho2020, alavizadeh2022}
       & \citep{brown2023, ho2024, tay2024, masud2025}
       & \checkmark \\
     \midrule
     \multicolumn{5}{@{}l}{\emph{Defender-side, effectiveness}} \\
     Defence success probability; mission metrics
       & defender task completion
-      & \citep{cho2020}
+      & \citep{zaffarano2015}
       &
       & \\
     System security (confidentiality, integrity, availability; degree of vulnerability; risk; host compromise ratio)
       & a system-state snapshot
-      & \citep{cho2020}
-      & \citep{ho2024, tay2024, masud2025}
+      & \citep{cho2020, alavizadeh2022}
+      & \citep{ho2024, tay2024, masud2025, sharma2025}
       & \\
     \midrule
     \multicolumn{5}{@{}l}{\emph{Defender-side, efficiency}} \\
