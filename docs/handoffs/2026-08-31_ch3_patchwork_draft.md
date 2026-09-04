@@ -879,6 +879,14 @@ executes: 2026-08-31_ch3_port_plan.md
 >    it with P2 and the 3.2.2 opener, ~half a page. NOTE: this crossed
 >    into the table environment the concurrent table session owns ---
 >    on Marc's direct ask; cells untouched.
+>    Follow-up same session: float placement [htbp] -> [tbp] (the
+>    table pins to the top of page 12, P2 and the 3.2.2 opener beneath
+>    it); the persistent "Overfull vbox" in the log was the rotated
+>    multirow labels' nominal box (3 nominal rows shorter than the
+>    rotated word "Efficiency"), fixed by \smash on both labels ---
+>    log clean of vbox warnings. Residual: a 3 pt overfull hbox in the
+>    configuration-space cell ("unpredictability" not breaking at 6.1
+>    cm), cosmetic.
 > 21. **TABLE 3.1 VERIFIED, split-stream (WB + BB) on the table alone
 >    --- RULED and APPLIED** (2026-09-04, Marc: "black box verification
 >    and crit ... treat every fact as wrong until you verified it ... are
