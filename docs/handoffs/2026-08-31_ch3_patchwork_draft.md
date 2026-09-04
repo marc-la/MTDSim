@@ -468,6 +468,19 @@ executes: 2026-08-31_ch3_port_plan.md
 >    "today"). Every \citep in the unit checked against
 >    docs/sources/lit_review/ source markdown by locator, annotated at
 >    its sentence; the one [VERIFY] (near-verbatim Cho :568) stands.
+>    Third walk: the Cho :568 clause reworded in his words ("no common
+>    benchmark that exists in the MTD literature..."), VERIFY closed.
+>    THEN RULED: the remaining cue-card blocks are NOT dictated ---
+>    mechanism and minority-column/deployment sentence DROPPED as
+>    symptoms of the benchmark gap ("moonlighting a critique"; his
+>    2026-09-04 deployment-gap idea revivable from item 16(c)/17); the
+>    pivot + handover RELOCATED into the G1 placeholder's grounding (the
+>    field's critique stays in 3.2.1, the thesis's synthesis lives in
+>    G1). The efficiency-column concession (no efficiency metrics
+>    reported; defender frozen; hong2018.md NVC/EVC contrasted-against)
+>    is booked for ch4 subsec:metrics, not ch3. 3.2.1 is COMPLETE at
+>    ~205 words, on budget; open: [3b] ASP-dominance scope, "mode of
+>    modelling" ratify-on-read, the registry row. Pass 4 next.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
