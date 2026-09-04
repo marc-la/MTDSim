@@ -51,10 +51,10 @@ being explicit, evidenced, illustrated, and critically self-aware.
 It is not one block of prose; it threads three chapters (write once, cross-reference):
 - **ch4_methods** — the model and the declared-knowledge stance (why declared, the three
   factors, the composition contract). The *what and why*.
-- **ch5_results** — the validation-by-scrutiny methodology and its outputs (the CTI-
+- **ch6_results** — the validation-by-scrutiny methodology and its outputs (the CTI-
   independence proof, the composed-net validation, the stepwise simulation, the confidence
   trajectory). The *how we know it holds*.
-- **ch6_discussion** — the honest limitations, the inherent ceiling, and the methodological
+- **ch7_discussion** — the honest limitations, the inherent ceiling, and the methodological
   contribution. The *what it costs and what it gives*.
 
 The through-line question the section must answer for the examiner: **"why should I believe

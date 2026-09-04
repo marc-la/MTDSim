@@ -124,8 +124,8 @@ place where inherited and built are separated.
 
 ### Deliberately absent
 
-- **The inherited metric suite → ch4 §4.3.2.** `dissertation.tex` already gives
-  `subsec:metrics` "the inherited suite and its comparability boundary"; describing
+- **The inherited metric suite → ch5 §5.2 (Experimental setup, Metrics; was ch4 §4.3.2 until the 2026-09-04 restructure).** `dissertation.tex` already gives
+  `sec:metrics` "the inherited suite and its comparability boundary"; describing
   it here as well made three metric touches in the document. §2.2.3 keeps one
   forward-pointing clause.
 - **Attack Flow and ATT&CK → ch3 §3.1.** Test 2 above. Flow objects are ATT&CK-keyed,
@@ -133,7 +133,7 @@ place where inherited and built are separated.
   licensing technique-and-tactic-level modelling) is argumentative and cannot follow.
   §2.2.3 may name the kill chain and ATT&CK as attribution for the inherited
   attacker's design, with a forward pointer — a background chapter may name a
-  framework it does not teach. *Reopening condition:* if drafting §4.2.1 (L0→L1)
+  framework it does not teach. *Reopening condition:* if drafting §4.1 (L0→L1)
   needs ~150 words explaining what a flow object **is** before the construction can
   be described, the fix is two definitional sentences in ch3 §3.1.3, not a ch2
   section.

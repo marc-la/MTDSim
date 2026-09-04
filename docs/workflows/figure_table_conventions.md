@@ -64,7 +64,7 @@ For each genre the literature has a settled visual grammar. New figures should b
 4. **Attacker-procedure flowchart** — rounded rectangles, numbered steps, decision edges labelled Success/Failure, loop-back edges labelled in words (brown2023 Fig. 3 — the direct ancestor of our movement-model figures).
 5. **Petri net** — circles = places, rectangles = transitions, IDs on the nodes (`cP1`, `cT3`), meanings in companion **ledger tables** (ID | description | rate), colour used only to single out special transitions (bland2020 Fig. 8 + Tables 7–8). This is the published precedent for the L3 net figure and its appendix ledgers.
 6. **Network topology** — surveys use 3D icon clip-art (cho2020 Fig. 13); evaluation papers use abstract node-link drawings coloured by layer/level (brown2023 Fig. 2). Ours are always the abstract kind.
-7. **Tactic-keyed matrix / heatmap** — the ATT&CK-navigator genre: tactic columns, technique cells, fill marking membership or weight (al-sada2024 Fig. 2). Our weight matrices (`fig_4-2-4b_failure_weight_matrix.tex`) are this genre with a numeric fill; keep every cell printed (the corpus prints values in cells wherever cells are few enough to read — tay2024 Fig. 6, cho2020 pies).
+7. **Tactic-keyed matrix / heatmap** — the ATT&CK-navigator genre: tactic columns, technique cells, fill marking membership or weight (al-sada2024 Fig. 2). Our weight matrices (`fig_4-4b_failure_weight_matrix.tex`) are this genre with a numeric fill; keep every cell printed (the corpus prints values in cells wherever cells are few enough to read — tay2024 Fig. 6, cho2020 pies).
 8. **Timeline** — event marks as vertical lines colour-coded by kind on a labelled time axis (cho2020 Fig. 2), or phase spans annotated with braces and per-phase symbols (kim2026 Fig. 7).
 9. **Icon/scenario cartoon** (alshamrani2019 Figs. 6–7; jalowski2026) — a survey-register genre. **Do not use**: it collides with the greys ruling and dates quickly.
 
@@ -161,20 +161,20 @@ section and the right file found for an Overleaf paste without opening the tex:
 
 ```
 <kind>_<chapter>-<section>-<subsection><order>_<name>.<ext>
-fig_4-2-4b_failure_weight_decomposition.pdf
+fig_4-4b_failure_weight_decomposition.pdf
 tab_B-6a_outcome_overlay_weights.tex
 ```
 
 - `kind` is `fig` or `tab`. Tables are the `\input` fragments; a fragment
   holding several `table` environments is one file (`tab_B-6a_…` carries three).
 - The position is the numbered heading the float is included under, to the
-  depth that exists: `2-2` (§2.2), `4-2-4` (§4.2.4), `4-0` (chapter 4 before
+  depth that exists: `2-2` (§2.2), `4-4` (§4.4), `4-0` (chapter 4 before
   its first section), `D-0` (appendix D, chapter-level). Appendices use their
   letter. Subsubsections are not encoded (nothing yet needs them). Separators
   are **hyphens**, never dots — a dot in a graphics stem breaks
   `\includegraphics`'s extension parsing.
 - `order` is a letter giving order of appearance within that heading, counted
-  separately for figures and tables (`fig_B-1a` … `fig_B-1d`; `tab_4-2-4a`).
+  separately for figures and tables (`fig_B-1a` … `fig_B-1d`; `tab_4-4a`).
 - `name` is the descriptive stem the generator has always used.
 - A generated file with no float in `dissertation.tex` yet takes `unplaced`
   in the position slot (e.g. `fig_unplaced_success_weight_matrix`, if the

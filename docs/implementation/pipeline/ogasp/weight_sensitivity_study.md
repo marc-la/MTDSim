@@ -27,7 +27,7 @@ separable things are delivered, and they answer different questions:
 2. **A sensitivity study.** The declared magnitudes are swept over their declared
    bands and the experiment's conclusions are checked for movement. This is the
    discipline the evaluation's burden-of-proof note
-   ([`../../../notes/ch4_methods/evaluation_burden.md`](../../../notes/ch4_methods/evaluation_burden.md))
+   ([`../../../notes/ch5_experimental_setup/evaluation_burden.md`](../../../notes/ch5_experimental_setup/evaluation_burden.md))
    has been promising since before the numbers existed, and the first declared
    family for which it has actually been run.
 
@@ -611,7 +611,7 @@ on that evidence.
   inherits three things from §5 and §6: the host-count MTD effect to confirm, the
   seed count the ordering claim needs, and the saturated progression metric to
   replace. Also
-  [`../../../notes/ch4_methods/evaluation_burden.md`](../../../notes/ch4_methods/evaluation_burden.md),
+  [`../../../notes/ch5_experimental_setup/evaluation_burden.md`](../../../notes/ch5_experimental_setup/evaluation_burden.md),
   whose stability half now has its first instalment.
 - **Artefacts:** `data/ogasp/controller/outcome_rules.json` (the rules, plus the
   `distance_rule` ledger entry and the `model.relationship` / `model.distance`

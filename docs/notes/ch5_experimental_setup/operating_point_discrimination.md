@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch4_methods
+chapter: ch5_experimental_setup
 created: 2026-08-01
 updated: 2026-08-01
 ---
@@ -94,7 +94,7 @@ demonstrated, and about the design rule that follows.
 - The burden-of-proof note this rule now rides inside:
   [`evaluation_burden.md`](evaluation_burden.md) (second instalment); the
   headline result whose design obeys it:
-  [`defence_ranking_inversion.md`](defence_ranking_inversion.md).
+  [`defence_ranking_inversion.md`](../ch6_results/defence_ranking_inversion.md).
 
 ## Revisit conditions
 

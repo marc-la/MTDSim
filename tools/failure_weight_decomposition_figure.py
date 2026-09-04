@@ -21,7 +21,7 @@ small enough to print on one line:
 
 Three figures, each with a home (Marc's split, 2026-08-19; wired that way 2026-08-27):
 
-  --layout matrix         docs/thesis/figures/fig_4-2-4b_<verdict>_weight_matrix
+  --layout matrix         docs/thesis/figures/fig_4-4b_<verdict>_weight_matrix
       ch4 §4.2.4: panel (c) alone — the committed set, every cell printed
       with its value AND the letter of the rule that produced it, so the
       matrix reads as rule-generated on the page; the key is in-figure, the
@@ -91,7 +91,7 @@ TABLES_STEM = "tab_B-6a_outcome_overlay_weights"
 # File stems follow the thesis float-naming rule (figure_table_conventions.md §j):
 # fig_<chapter>-<section>-<subsection><order>_<name>. The matrix layout has no
 # float in dissertation.tex for the success verdict, hence "unplaced".
-MATRIX_STEM = {"failure": "fig_4-2-4b_failure_weight_matrix", "success": "fig_unplaced_success_weight_matrix"}
+MATRIX_STEM = {"failure": "fig_4-4b_failure_weight_matrix", "success": "fig_unplaced_success_weight_matrix"}
 DECOMP_STEM = {"failure": "fig_B-6a_failure_weight_decomposition", "success": "fig_unplaced_success_weight_decomposition"}
 BANDS_STEM = "fig_B-6b_distance_kernel_bands"
 

@@ -25,11 +25,11 @@ scope: L2 (GASP). Tool: tools/gasp_tactic_profile_stats.py (independent
 
 ## 0. The rulings this record executes
 
-Marc, 2026-08-17, at the §4.2.2 scrutiny and after reading
+Marc, 2026-08-17, at the §4.2.2 (now §4.2) scrutiny and after reading
 [`tactic_resolution_restatement.md`](tactic_resolution_restatement.md):
 
 1. **Resolution.** The L2 unit speaks in **tactic-to-tactic attack
-   profiles** — the tactic-pair transition structure §4.2.1 describes and
+   profiles** — the tactic-pair transition structure §4.1 (then §4.2.1) describes and
    L3 quotients into transitions — not in technique frequencies.
 2. **Null.** The discrimination claim stands on the **most structurally
    rigorous null, not the lenient one**: the **size-matched label shuffle**

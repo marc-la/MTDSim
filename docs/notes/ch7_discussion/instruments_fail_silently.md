@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch6_discussion
+chapter: ch7_discussion
 created: 2026-08-01
 updated: 2026-08-01
 ---
@@ -125,7 +125,7 @@ this simulator.
   the full argument is the sibling note
   [`learning_without_context.md`](learning_without_context.md).
 - The floored headline metric (operating point, not instrument):
-  [`../ch4_methods/operating_point_discrimination.md`](../ch4_methods/operating_point_discrimination.md).
+  [`../ch5_experimental_setup/operating_point_discrimination.md`](../ch5_experimental_setup/operating_point_discrimination.md).
 - The consolidated measurement-gap disposition at freeze:
   [`../../implementation/pipeline/ogasp/model_scope_freeze.md`](../../implementation/pipeline/ogasp/model_scope_freeze.md)
   §2 (axis 1).

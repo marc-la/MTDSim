@@ -62,7 +62,7 @@ runtime overhead to apologise for, and no "upstream action-set constraint"
 on compute. What the workshop framing has garbled is the **action-layer
 ceiling**, which is real, already owned, and not a performance concession:
 the movement attacker can only be as good as the verbs it adopts, seven of
-fifteen tactics are dwell-only under `v2_partial`, and §4.2.4 of the
+fifteen tactics are dwell-only under `v2_partial`, and §4.4 of the
 dissertation already carries this as a scoped commitment with the mapping
 declared a chosen input parameter. Writing it as a runtime problem would
 replace an owned design boundary with a fictitious engineering failure.
@@ -81,7 +81,7 @@ is on file, graded, and instrumented:
 That is Row B of the criterion at its top (recommendation) grade
 ([`../../apt_model_criterion.md`](../../apt_model_criterion.md) §(d2)), the
 three-grade instrument's designed use
-([`../../../notes/ch4_methods/evaluation_grading.md`](../../../notes/ch4_methods/evaluation_grading.md)),
+([`../../../notes/ch5_experimental_setup/evaluation_grading.md`](../../../notes/ch5_experimental_setup/evaluation_grading.md)),
 and the modest-claim ceiling's sharpest permitted form: *behavioural
 fidelity changes the answer* — never "the model is true", never "MTD
 works". The closest honest neighbour of the wowie sentence also exists and
@@ -246,7 +246,7 @@ structure, objective-conditioned profiles, the Petri-net execution
 semantics, the controller pattern — carry to a future emulation, because the
 join is two declared inputs (mapping, parameter catalogue) authored per
 environment. Documented as the future-work chapter's third programme:
-[`../../../notes/ch7_future_work/emulation_rung.md`](../../../notes/ch7_future_work/emulation_rung.md).
+[`../../../notes/ch8_future_work/emulation_rung.md`](../../../notes/ch8_future_work/emulation_rung.md).
 Tier 1 stays rejected.
 
 ## 2. Working backwards — the claim ladder
@@ -266,7 +266,7 @@ what upgrades it → what gates it. Grades are the grading instrument's
 | C7 | Supplementary-measure findings (coverage, stealth spacing, disengagement frontier) | on record, within-arm | V4 steady-state re-take at the few-thousand-runs standard for any figure promoted to ch5 | V1 hand-validation per new statistic |
 
 The negative-result disposition stays as pre-stated in
-[`evaluation_burden.md`](../../../notes/ch4_methods/evaluation_burden.md):
+[`evaluation_burden.md`](../../../notes/ch5_experimental_setup/evaluation_burden.md):
 if C3 breaks the inversion somewhere on the frontier, the frontier location
 is the finding, and the claim narrows to the surveyed region rather than
 softening.
@@ -341,7 +341,7 @@ declared effect floor is vacuous under these run costs.
   p-values. Any success-rate-shaped hypothesis is registered **only for
   cells at ≥ 1 600 s** — inside the degenerate region ASR cannot vary, so a
   test on it is undefined by design, and pre-registering one there would be
-  an instrument error ([`operating_point_discrimination.md`](../../../notes/ch4_methods/operating_point_discrimination.md)).
+  an instrument error ([`operating_point_discrimination.md`](../../../notes/ch5_experimental_setup/operating_point_discrimination.md)).
 - **C5 (stability).** NHST is the *wrong shape* here: failing to find a
   difference at some n is not evidence of stability. Use **equivalence
   testing (TOST)**: declare a margin within which "the conclusion does not
@@ -459,10 +459,10 @@ programme's gates are decisions, not resources.**
 6. **V1 validation** interleaved: each statistic hand-traced once before
    its first reported use.
 
-Sequencing note: E3 before any §4.3 prose is drafted if possible — the
+Sequencing note: E3 before any experimental-setup (ch5) prose is drafted if possible — the
 experimental-setup section then describes the design actually run, and the
 anchor/frontier pre-registration partition
-([`evaluation_grading.md`](../../../notes/ch4_methods/evaluation_grading.md))
+([`evaluation_grading.md`](../../../notes/ch5_experimental_setup/evaluation_grading.md))
 stays clean.
 
 ## 7. The gates — open rulings this campaign is blocked behind
@@ -484,8 +484,8 @@ disposition list); this section only orders them by what they block here.
 ## 8. Evidence anchors
 
 - The headline result and its caveats: [`experiment_02_findings.md`](experiment_02_findings.md) §9–§10, §17; Row B in [`../../apt_model_criterion.md`](../../apt_model_criterion.md) §(d2).
-- The burden and the grading instrument: [`evaluation_burden.md`](../../../notes/ch4_methods/evaluation_burden.md), [`evaluation_grading.md`](../../../notes/ch4_methods/evaluation_grading.md).
-- The degenerate region: [`rate_feasibility_study.md`](rate_feasibility_study.md) §7; [`operating_point_discrimination.md`](../../../notes/ch4_methods/operating_point_discrimination.md).
+- The burden and the grading instrument: [`evaluation_burden.md`](../../../notes/ch5_experimental_setup/evaluation_burden.md), [`evaluation_grading.md`](../../../notes/ch5_experimental_setup/evaluation_grading.md).
+- The degenerate region: [`rate_feasibility_study.md`](rate_feasibility_study.md) §7; [`operating_point_discrimination.md`](../../../notes/ch5_experimental_setup/operating_point_discrimination.md).
 - The V-trail (V1 validation, V4 run standard, V5 spine, V6 sensitivity regime): [`supervisor_decision_register.md`](supervisor_decision_register.md).
 - Open dispositions and the unowned metrics finding: [`../../../handoffs/README.md`](../../../handoffs/README.md); [`../../intent_conformance_audit.md`](../../intent_conformance_audit.md).
 - The probe's data: `data/results/expo02_ashen_lynx/runs.jsonl` (untracked, present and fresh as of 2026-08-21).

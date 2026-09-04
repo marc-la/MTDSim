@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch7_future_work
+chapter: ch8_future_work
 created: 2026-08-21
 updated: 2026-08-21
 ---
@@ -98,9 +98,9 @@ of the overhead question a reviewer actually asks.
   (MTD-14, Zhang 2023 Table 3).
 - The controller layer as the declared join (mapping, dwell catalogue,
   failure matrix): [`../../implementation/pipeline/ogasp/controller.md`](../../implementation/pipeline/ogasp/controller.md);
-  the dissertation's own portability and Caldera sentences in §4.2.4
+  the dissertation's own portability and Caldera sentences in §4.4
   ([`../../thesis/dissertation.tex`](../../thesis/dissertation.tex),
-  `subsec:execution`; Caldera: `applebaum2016` in `references.bib`).
+  `sec:execution`; Caldera: `applebaum2016` in `references.bib`).
 - The sibling programmes this one sits beside and composes with:
   [`successor_programme.md`](successor_programme.md).
 - The rung analysis and its commissioning context (the tiered overhead

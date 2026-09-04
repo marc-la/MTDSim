@@ -1,5 +1,5 @@
 ---
-status: open — design; becomes the experimental structure of §4.3 and the pre-registration skeleton for the final campaign once Marc rules the open items in §8. §8f (2026-08-31) restates the leaf table for the restored substrate — the observed H2 anchor is unreproduced there and the mechanism pool has changed — and files the exploit-learning pool line under C
+status: open — design; becomes the experimental structure of the experimental-setup chapter (ch5; was ch4 §4.3 until 2026-09-04) and the pre-registration skeleton for the final campaign once Marc rules the open items in §8. §8f (2026-08-31) restates the leaf table for the restored substrate — the observed H2 anchor is unreproduced there and the mechanism pool has changed — and files the exploit-learning pool line under C
 created: 2026-08-21
 updated: 2026-08-31
 topic: "The hypothesis tree — the RQ and its evaluation sub-question decomposed, hypothesis-first, into an AND/OR-gated claim tree whose leaf nodes are the experiments. Root: MTD disrupts the four CTI-grounded attack profiles (Marc's headline) AND the answer is attacker-dependent (the burden's divergence half). Typed nodes (scope ruling / gated claim / characterisation obligation), typed leaves (superiority / equivalence / characterisation), per-leaf epistemic status (observed / pre-registered / unrun), fixed-sequence α-spending, and the leaf→experiment mapping onto E3–E6. Inverts the parameter-sweep-first framing: every run exists as the test of a named sub-hypothesis, and the sweeps are demoted to validity leaves."
@@ -46,7 +46,7 @@ instrument and §5 budgets this design consumes). Two directives shape it:
 > stated grade (magnitude / ordering / recommendation).
 
 H1 is Marc's headline sentence made precise. H2 is the burden of proof's
-divergence half ([`../../../notes/ch4_methods/evaluation_burden.md`](../../../notes/ch4_methods/evaluation_burden.md))
+divergence half ([`../../../notes/ch5_experimental_setup/evaluation_burden.md`](../../../notes/ch5_experimental_setup/evaluation_burden.md))
 and the reason H1 is a contribution rather than a rerun: without H2, "MTD
 disrupts the profiles" is a fact about this simulator that the inherited
 evaluation would have reported anyway. With H2, the evaluation itself is
@@ -66,9 +66,9 @@ disrupt APT attackers"):
 | id | ruling | source |
 |---|---|---|
 | S1 | The profiles are behavioural envelopes derived from CTI, one instantiation per run — never named actors, never "real attackers". No leaf can lift this. | criterion §(b), architecture §(j) |
-| S2 | "Disrupt" is operationalised as four channels (§2). The success-rate channel is excluded at the operating tempo by the degenerate-region rule. | [`operating_point_discrimination.md`](../../../notes/ch4_methods/operating_point_discrimination.md) |
+| S2 | "Disrupt" is operationalised as four channels (§2). The success-rate channel is excluded at the operating tempo by the degenerate-region rule. | [`operating_point_discrimination.md`](../../../notes/ch5_experimental_setup/operating_point_discrimination.md) |
 | S3 | All claims are within-substrate; no cross-paper magnitude comparison. | [`../../metrics_semantics.md`](../../metrics_semantics.md) |
-| S4 | Emulation/testbed validation is the successor programme, not a branch. | [`../../../notes/ch7_future_work/emulation_rung.md`](../../../notes/ch7_future_work/emulation_rung.md) |
+| S4 | Emulation/testbed validation is the successor programme, not a branch. | [`../../../notes/ch8_future_work/emulation_rung.md`](../../../notes/ch8_future_work/emulation_rung.md) |
 | S5 | Every unrun leaf executes on the post-gate configuration (`v4_failure_only`, landed sink, D-33 ruled, corrected event counts) **on the restored substrate** (`d127f443`, 2026-08-27: D-18 selective OS redraw, D-19 OS-gated exploit success, seven-mechanism pool) **with the fresh-host contract** (the reported movement configuration since 2026-08-30). Nothing observed before 2026-08-27 is a measurement of this configuration (§8f). | predesign §7; [`fsm_token_hold_findings.md`](fsm_token_hold_findings.md) H1, H0 |
 | S6 | Cross-arm comparisons are event-wise or defender-side only; unpaired tests only (D-29). | [`measurement_suite.md`](measurement_suite.md) §(d), predesign §4d |
 
@@ -263,7 +263,7 @@ leaves rather than a parameter excursion:
 | (V6 sweeps, standing) | V-stab-r; V-stab-w/d already held | per V6 selectivity |
 | (no experiment) | C-supp; C-pool | reported from existing records |
 
-The §4.3 skeleton's two families are preserved, reorganised: the
+The experimental-setup chapter's two families are preserved, reorganised: the
 prior-model family is the L-H2-prior branch; the fresh-evaluation family is
 E3 + E4. What changes is the presentation order the chapter can now use —
 hypothesis, then its leaves, then the factor table as the leaves'
@@ -390,7 +390,7 @@ a result to *preserve and report*, with the upgraded layer as a second study.
   "tactic-capability action layer", it changes the mapping wholesale, resets
   the inversion, and needs full re-validation. Not an honours-timeline change;
   it is the future-work programme already named
-  ([`../../../notes/ch7_future_work/successor_programme.md`](../../../notes/ch7_future_work/successor_programme.md)).
+  ([`../../../notes/ch8_future_work/successor_programme.md`](../../../notes/ch8_future_work/successor_programme.md)).
 - **Option C — do nothing.** The tree passes; the headline is the inversion
   plus tempo-bound disruption of host compromise; the upgrade is future work.
   The record's standing recommendation.
@@ -678,8 +678,8 @@ posed, with ruling 5 now forced by item 4.
 - The commissioning chain and the statistical instrument this tree consumes:
   [`evaluation_predesign.md`](evaluation_predesign.md) §§1b, 4, 5, 7.
 - The burden and grading instruments the limbs implement:
-  [`../../../notes/ch4_methods/evaluation_burden.md`](../../../notes/ch4_methods/evaluation_burden.md),
-  [`../../../notes/ch4_methods/evaluation_grading.md`](../../../notes/ch4_methods/evaluation_grading.md).
+  [`../../../notes/ch5_experimental_setup/evaluation_burden.md`](../../../notes/ch5_experimental_setup/evaluation_burden.md),
+  [`../../../notes/ch5_experimental_setup/evaluation_grading.md`](../../../notes/ch5_experimental_setup/evaluation_grading.md).
 - The observed leaves: [`experiment_02_findings.md`](experiment_02_findings.md)
   (§9–§13, §17, §20), [`mtd_disruption_frontier.md`](mtd_disruption_frontier.md),
   [`weight_sensitivity_study.md`](weight_sensitivity_study.md),
@@ -693,8 +693,8 @@ posed, with ruling 5 now forced by item 4.
   [`exploit_learning_findings.md`](exploit_learning_findings.md) /
   [`exploit_learning_yield_findings.md`](exploit_learning_yield_findings.md)
   (C-pool), `intent_conformance_audit.md` D-18 / D-19 (the reopening condition).
-- The dissertation slots this structure feeds: `sec:experimental-setup`
-  (`subsec:burden`, `subsec:metrics`, `subsec:families`) and the results
+- The dissertation slots this structure feeds: `ch:experimental-setup`
+  (`sec:burden`, `sec:metrics`, `sec:families`) and the results
   chapter's V6 preamble ([`../../../thesis/dissertation.tex`](../../../thesis/dissertation.tex)).
 
 ## 10. Revisit conditions

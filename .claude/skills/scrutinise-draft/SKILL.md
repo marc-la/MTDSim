@@ -73,7 +73,7 @@ dissertation is that it is in Marc's voice, and that is what this skill protects
   match the baseline — the record shows this framing was reached and reversed on
   2026-07-29; the current position is the census reading. See
   `research_record/threads/comparability_and_census.md` and the note
-  `ch6_discussion/refusing_the_baseline_race.md`."*
+  `ch7_discussion/refusing_the_baseline_race.md`."*
 - *"Missing argument (completeness): the timing section states the durations are
   declared but does not carry the shape-not-scale defence the work already earned —
   `ch4_methods/operational_validation.md` §shape-not-scale. Without it an examiner

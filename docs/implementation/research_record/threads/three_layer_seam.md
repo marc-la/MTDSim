@@ -35,7 +35,7 @@ much I want the model to succeed", preserving "strategic pluralism, or the
 facade of it". Built as `alignment.py`; its null must reproduce the unaligned
 finding, making it an ablation instrument for measuring the host's rigidity
 (the productive form of the procedural-mismatch diagnosis —
-[`../../../notes/ch6_discussion/procedural_mismatch_artefact.md`](../../../notes/ch6_discussion/procedural_mismatch_artefact.md)).
+[`../../../notes/ch7_discussion/procedural_mismatch_artefact.md`](../../../notes/ch7_discussion/procedural_mismatch_artefact.md)).
 
 **Abandoned on this thread:** running tactics as genuinely concurrent tokens
 (single-token ruling, June); any direct petri→FSM phase mapping as the model

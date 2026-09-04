@@ -135,7 +135,7 @@ def main() -> None:
         "multiplier shown, and that dwell is the \\emph{mean} of an exponential "
         "draw, $\\mathrm{Exp}(\\mu)$; resource development is the one exception, "
         "an immediate transition in the sense of "
-        "Section~\\ref{subsec:petri-formalism} rather than a degenerate "
+        "Section~\\ref{sec:petri-formalism} rather than a degenerate "
         "$\\mathrm{Exp}(0)$. The evidence column reads: \\emph{priced by MTDSim}, "
         "the value is the simulator's own action cost, inherited and not tuned; "
         "\\emph{declared and swept}, a declared value whose robustness across its "
@@ -168,7 +168,7 @@ def main() -> None:
         L.append(f"{esc(axis.label[name])} & {FAMILY_LABEL[e['anchor']]} & "
                  f"{mult} & {num(e['duration_s'])} \\\\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
-    (OUT_DIR / "tab_4-2-4a_dwell_catalogue.tex").write_text("\n".join(L))
+    (OUT_DIR / "tab_4-4a_dwell_catalogue.tex").write_text("\n".join(L))
 
     # --------------------------------------------------------- appendix ----
     short_a = "Derivation of the declared dwell times"
@@ -207,7 +207,7 @@ def main() -> None:
           r"\end{tabular}", r"\end{table}", ""]
     (OUT_DIR / "tab_B-4a_dwell_derivation.tex").write_text("\n".join(A))
 
-    print(f"wrote {OUT_DIR/'tab_4-2-4a_dwell_catalogue.tex'}")
+    print(f"wrote {OUT_DIR/'tab_4-4a_dwell_catalogue.tex'}")
     print(f"wrote {OUT_DIR/'tab_B-4a_dwell_derivation.tex'}")
     print(f"  {len(tactics)} tactics, {len(anchors)} families, "
           f"{len(set(t['duration_s'] for t in tactics.values()))} distinct values; "

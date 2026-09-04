@@ -56,6 +56,6 @@ It does not claim post-ingress MTD does not exist — only that it is the minori
 ## Revisit conditions
 
 - If a survey shows post-ingress MTD is a well-populated area, the gap softens from "the field is missing this" to "the field does this differently", and the introduction reframes around *behavioural grounding* as the contribution rather than phase coverage.
-- If the evaluation's discrimination and sweep experiments (see [`../ch4_methods/evaluation_burden.md`](../ch4_methods/evaluation_burden.md)) do not demonstrate the reversal, the motivation retreats to a qualitative claim under the negative-result disposition.
+- If the evaluation's discrimination and sweep experiments (see [`../ch5_experimental_setup/evaluation_burden.md`](../ch5_experimental_setup/evaluation_burden.md)) do not demonstrate the reversal, the motivation retreats to a qualitative claim under the negative-result disposition.
 - If AMTD is found to already extend into post-ingress response, the "automation ≠ phase reach" argument fails and the gap narrows to the CTI-grounded evaluation method.
 - If the supervisor rejects "post-ingress" as the framing term, the terminology section is rewritten and dependent headers follow.

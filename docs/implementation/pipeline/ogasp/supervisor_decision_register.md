@@ -518,7 +518,7 @@ Background chapter carrying the inherited simulator (V7), the experimental
 setup organised by sub-question with the factor table serving the evaluation
 sub-question, and the sensitivity-analysis results preamble (V6) — then re-cut
 to the writing guide's unit budget at `77b4060`. The grading note
-([`../../../notes/ch4_methods/evaluation_grading.md`](../../../notes/ch4_methods/evaluation_grading.md))
+([`../../../notes/ch5_experimental_setup/evaluation_grading.md`](../../../notes/ch5_experimental_setup/evaluation_grading.md))
 was re-aimed at the evaluation sub-question and rubric re-cleared in the
 commit carrying this annotation, which also retires the trail's
 `experiment_restructure_subquestions` executor handoff.

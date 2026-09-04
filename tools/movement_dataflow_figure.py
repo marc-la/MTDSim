@@ -53,7 +53,7 @@ Usage:
 Style: TikZ at the document's 12 pt base, greys carry the structure, one
 accent (RGB 31,84,140); movement-bound edges take the accent, action-bound
 edges stay grey (the fig:pipeline join convention). Written to
-docs/thesis/figures/fig_4-2-4c_movement_dataflow.tex (+ .pdf unless --no-compile).
+docs/thesis/figures/fig_4-4c_movement_dataflow.tex (+ .pdf unless --no-compile).
 """
 from __future__ import annotations
 
@@ -75,7 +75,7 @@ GAP_JSON = REPO / "data" / "gap" / "gap_v0.5.json"
 DURATIONS_JSON = REPO / "data" / "ogasp" / "tactic_durations.json"
 MAPPING_DIR = REPO / "data" / "ogasp" / "controller" / "mappings"
 OUT_DIR = REPO / "docs" / "thesis" / "figures"
-STEM = "fig_4-2-4c_movement_dataflow"
+STEM = "fig_4-4c_movement_dataflow"
 
 # --- geometry (cm) ---------------------------------------------------------
 ROT_X = 0.30            # x of the rotated band labels

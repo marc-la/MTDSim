@@ -9,7 +9,7 @@ updated: 2026-07-28
 
 ## Position in the dissertation
 
-The methodology chapter's validity defence for the *shape* of the timing
+The attacker-model chapter's validity defence for the *shape* of the timing
 distribution, sitting beside the defence of its *values* in
 [`operational_validation.md`](operational_validation.md). It is the answer to the
 examiner's question "real attacker dwell is not memoryless, so why is your model
@@ -159,7 +159,7 @@ world. Saying so is stronger than pretending otherwise.
 - Extractions behind each named source: [`bland2020`](../../sources/extractions/bland2020.md) (§2.1, notional rates); [`mendonca2023`](../../sources/extractions/mendonca2023.md) (§2.3 solvability rationale; §4.1 the `?`-badged parameter table); [`mcqueen2006`](../../sources/extractions/mcqueen2006.md) (§1 unvalidated assumptions; §3.4 expected values only); [`timed_attack_models`](../../sources/extractions/timed_attack_models.md) (Madan 2004: §1 semi-Markov rationale, §"mean sojourn time" — the extraction records the mean-sufficiency result for the steady-state analysis); [`initial_access_timing`](../../sources/extractions/initial_access_timing.md) (Holm 2014, §5.2.1–§5.2.2); [`persistence_reset_models`](../../sources/extractions/persistence_reset_models.md) (FlipIt, §4.3 renewal-game Theorem 4); [`xiong2021`](../../sources/extractions/xiong2021.md) (§6.1, §8); [`zhang2023`](../../sources/extractions/zhang2023.md) (§4.3.4, §4.5).
 - The design record carrying the technical form of this argument, the formalism ruling, and the per-tactic parameterisation: [`../../implementation/pipeline/ogasp/stochastic_timing_design.md`](../../implementation/pipeline/ogasp/stochastic_timing_design.md) §1, §3.
 - The catalogue of declared durations this regime turns into distribution means: [`../../../data/ogasp/tactic_durations.json`](../../../data/ogasp/tactic_durations.json).
-- Sibling notes: [`operational_validation.md`](operational_validation.md) (the defence of the *values*, and the shape-not-scale discipline this note inherits); [`../ch3_lit_review/tactic_duration_precedent_survey.md`](../ch3_lit_review/tactic_duration_precedent_survey.md) (the declare-and-sweep precedent and the gap statement); [`../ch4_methods/evaluation_burden.md`](../ch4_methods/evaluation_burden.md) (the commitment to report a negative sensitivity result).
+- Sibling notes: [`operational_validation.md`](operational_validation.md) (the defence of the *values*, and the shape-not-scale discipline this note inherits); [`../ch3_lit_review/tactic_duration_precedent_survey.md`](../ch3_lit_review/tactic_duration_precedent_survey.md) (the declare-and-sweep precedent and the gap statement); [`../ch5_experimental_setup/evaluation_burden.md`](../ch5_experimental_setup/evaluation_burden.md) (the commitment to report a negative sensitivity result).
 - The sweep that tests this note's central prediction: [`../../handoffs/2026-07-28_tactic_rate_feasibility_study.md`](../../handoffs/2026-07-28_tactic_rate_feasibility_study.md).
 
 ## Revisit conditions

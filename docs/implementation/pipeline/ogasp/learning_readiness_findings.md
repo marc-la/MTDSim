@@ -45,7 +45,7 @@ attacker with no learning at all already was, and stops there. The badge gate
 turned on beating that arm, so **axis 7 holds at DESIGNED** (§4).
 
 That result is the one the discussion note
-[`../../../notes/ch6_discussion/learning_without_context.md`](../../../notes/ch6_discussion/learning_without_context.md)
+[`../../../notes/ch7_discussion/learning_without_context.md`](../../../notes/ch7_discussion/learning_without_context.md)
 predicted in advance: it argued that the credit **signal** and the **representation**
 must move together, and only the representation moved here. The learner still
 updates on the binary routing verdict; keying that verdict by readiness stops it
@@ -338,7 +338,7 @@ the configuration described is the configuration measured.
   key ruling and its measured sparsity budget).
 - **Supplies verdicts to:** [`modulator_composition.md`](modulator_composition.md)
   §5 (J1/J2).
-- **Qualifies:** [`../../../notes/ch6_discussion/learning_without_context.md`](../../../notes/ch6_discussion/learning_without_context.md)
+- **Qualifies:** [`../../../notes/ch7_discussion/learning_without_context.md`](../../../notes/ch7_discussion/learning_without_context.md)
   — its revisit condition is engaged and its diagnosis survives (§1); the note is
   updated with the separating evidence rather than retracted.
 - **When to update:** if a progress-carrying credit signal is built and swept, at

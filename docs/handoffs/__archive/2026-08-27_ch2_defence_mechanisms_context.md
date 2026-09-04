@@ -159,7 +159,7 @@ axis the evaluation varies.
 - *Port shuffle is a pure interrupt mechanism by Brown's own reading* (§V:
   "the attacker simply needs to reconnect and then exploit the same
   vulnerabilities") — ch2 describes it; the pairing with IP shuffle as the two
-  interrupt classes is ch6's ([`../notes/ch6_discussion/pure_interrupt_pair.md`](../notes/ch6_discussion/pure_interrupt_pair.md)).
+  interrupt classes is ch6's ([`../notes/ch7_discussion/pure_interrupt_pair.md`](../notes/ch7_discussion/pure_interrupt_pair.md)).
 
 ## 5. Traps — the standing warning, updated
 

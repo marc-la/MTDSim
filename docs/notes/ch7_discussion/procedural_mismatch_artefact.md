@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch6_discussion
+chapter: ch7_discussion
 created: 2026-08-01
 updated: 2026-08-14
 ---

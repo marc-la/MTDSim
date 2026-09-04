@@ -42,4 +42,4 @@ a named reopening condition (a genuinely reactive defender).
 mechanism, reframed from evasion to learning); the detectability reader (axis 5,
 shipped as a measurement); the reactive-defender evaluation as the named
 successor programme
-([`../../../notes/ch7_future_work/successor_programme.md`](../../../notes/ch7_future_work/successor_programme.md)).
+([`../../../notes/ch8_future_work/successor_programme.md`](../../../notes/ch8_future_work/successor_programme.md)).

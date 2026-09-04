@@ -341,7 +341,7 @@ not a claim of full-spectrum (adaptive, detection-evading) APT fidelity.
 - [`../notes/2026-07-04_operational_validation_the_bar.md`](../notes/ch4_methods/operational_validation.md)
   — why the reset fraction is declared-and-swept, not measured.
 - [`../notes/2026-07-07_thesis_backbone_rubric.md`](../notes/ch4_methods/tactic_profiles/_rubric.md)
-  and [`../notes/2026-07-07_cross_sectional_review.md`](../notes/ch4_methods/evaluation_burden.md)
+  and [`../notes/2026-07-07_cross_sectional_review.md`](../notes/ch5_experimental_setup/evaluation_burden.md)
   — the rubric this primer serves and the review that scoped it.
 - [`metrics_semantics.md`](metrics_semantics.md) — MTTC and the comparability
   boundary; §(f) the `observation_count`-is-not-a-rate prohibition.

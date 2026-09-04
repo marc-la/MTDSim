@@ -145,7 +145,7 @@ pathology, re-instantiated on a new objective) and cannot discriminate MTD.
 - **It does not** → the named gaps (§4) are the barrier, documented with
   evidence; the breadth-based tree stands (headline = inversion +
   tempo-bound containment of host spread), and the missing capability is future
-  work ([`../../../notes/ch7_future_work/successor_programme.md`](../../../notes/ch7_future_work/successor_programme.md)).
+  work ([`../../../notes/ch8_future_work/successor_programme.md`](../../../notes/ch8_future_work/successor_programme.md)).
   Option B/C.
 
 ## 4. The candidate barriers, to rank by evaluation impact (pre-registered list)
@@ -346,7 +346,7 @@ The reach/footprint split adjudicates the candidates directly:
    the target" is a compromise proxy, not the objective itself. But this cannot
    bind until the attacker can reach the target host at all, so it ranks last.
    Minimal lift: the tactic-level action layer — the successor programme
-   ([`../../../notes/ch7_future_work/successor_programme.md`](../../../notes/ch7_future_work/successor_programme.md)),
+   ([`../../../notes/ch8_future_work/successor_programme.md`](../../../notes/ch8_future_work/successor_programme.md)),
    heavy, resets the mapping, future work.
 
 ### 7.2 Reconciliation with the axis-6 final disposition

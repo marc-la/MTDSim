@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch7_future_work
+chapter: ch8_future_work
 created: 2026-08-14
 updated: 2026-08-14
 ---
@@ -97,13 +97,13 @@ is the most useful thing a completed honours project can leave behind.
   [`../../implementation/research_record/threads/axis8_rise_and_fall.md`](../../implementation/research_record/threads/axis8_rise_and_fall.md).
 - The action-layer ceiling and the extensibility design it would exercise:
   [`../ch4_methods/host_simulator_contract.md`](../ch4_methods/host_simulator_contract.md),
-  [`procedural_mismatch_artefact.md`](../ch6_discussion/procedural_mismatch_artefact.md),
+  [`procedural_mismatch_artefact.md`](../ch7_discussion/procedural_mismatch_artefact.md),
   [`../../implementation/research_record/threads/movement_objectives.md`](../../implementation/research_record/threads/movement_objectives.md).
 - The measured negatives that bound each programme:
   [`../../implementation/research_record/threads/learning_capability.md`](../../implementation/research_record/threads/learning_capability.md),
   [`../../implementation/research_record/threads/incentive_rationality.md`](../../implementation/research_record/threads/incentive_rationality.md);
-  siblings [`learning_without_context.md`](../ch6_discussion/learning_without_context.md),
-  [`state_bounds_measurable_disruption.md`](../ch6_discussion/state_bounds_measurable_disruption.md).
+  siblings [`learning_without_context.md`](../ch7_discussion/learning_without_context.md),
+  [`state_bounds_measurable_disruption.md`](../ch7_discussion/state_bounds_measurable_disruption.md).
 - The lineage reinforcement-learning defence a reactive pool would revive: [`tay2024`](../../sources/extractions/tay2024.md).
 
 ## Revisit conditions

@@ -1,6 +1,6 @@
 ---
 status: durable
-chapter: ch4_methods
+chapter: ch5_experimental_setup
 created: 2026-07-07
 updated: 2026-07-28
 lineage: distilled from 2026-07-07_cross_sectional_review.md (the process review itself is retired; git history retains it)
