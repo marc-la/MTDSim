@@ -288,6 +288,127 @@ executes: 2026-08-31_ch3_port_plan.md
 >    (option B's 3.3.2 echo declined by default). Interaction (i)
 >    ("neither strand" anchor) is moot. Section remains through pass
 >    6; integration check next.
+> 16. **3.2.1 METRICS SCRUTINISED, design-only** (2026-09-04, Marc's ask:
+>    read and critique, no drafting; rulings pending). The unit as it
+>    stands is one ported sentence-pair (review :57 verbatim) plus the
+>    review's Table I re-keyed, and it carries no argument: the caption
+>    and the paragraph do the same decoding work, and every table cell
+>    cites cho2020. Findings, grounded:
+>    (a) **[REFRAME, M1]** the unit's job in the strand is to set the hinge
+>    (G1) up, and nothing in it does. Cho's own §VII-A licenses the set-up
+>    without a stitch: "the attacker's high performance refers to the
+>    defender's low performance, and vice-versa"; MTTF "is the same as
+>    MTTC under the attacker's metrics" (source `1_1_cho2020toward.md`
+>    :574, :595). Read that way the perspective axis is bookkeeping and
+>    the load-bearing split is scored-over-the-attacker (both
+>    effectiveness columns) vs scored-over-the-system (the efficiency
+>    column, QoS / overhead / defence cost, which the thesis leaves alone,
+>    defender frozen, `hong2018.md` NVC/EVC "contrasted-against"). That
+>    reading is the thesis's synthesis and must be flagged as such; it
+>    also answers Marc's cold-read complaint at root: Cho's attacker-side
+>    "efficiency" (attack cost, payoff penalty) is effectiveness-shaped in
+>    plain English, and Cho concedes "both metrics are concerned about
+>    resources the attacker needs to invest" (:646).
+>    (b) **[WRONG/VERIFY]** "Cho et al. partition the MTD metric space
+>    along two axes (Table 3.1)": Cho's printed Table I is a
+>    survey-comparison table; the perspective x purpose matrix is the
+>    review's own tabulation of §VII's heading structure (`cho2020.md`
+>    open question, l.101). Both axes ARE Cho's (§VII-A/B x attacker's/
+>    defender's), so attribute the axes to §VII and own the table as this
+>    thesis's consolidation. Owning it is what unlocks (c)-(e).
+>    (c) **[INSERT, M2]** the table cherry-picks Cho's census silently.
+>    Dropped from Cho §VII: attack utility / defence utility (Cho names
+>    payoff/utility the second DOMINANT family, :636, on the volume of
+>    game-theoretic work; it is also 3.3.2's game-theoretic paragraph's
+>    hook and the strongest case for the hinge, a payoff function
+>    standing in for behaviour), learning by attackers / defenders,
+>    unpredictability, controllability, worm propagation speed, vastness,
+>    periodicity, uniqueness, revocability, distinguishability, loss in
+>    rewards, address-space overhead, flow-table size, integrated
+>    performance cost, strategy switching cost, power consumption. Kept:
+>    ASP, MTTC, attack surface, DSP, MTTF, CIA, degree of vulnerability,
+>    attack cost, payoff penalty, defence cost, QoS, "system overhead"
+>    (Cho's term is "system performance"). No selection rule is stated;
+>    Cho's three trend findings (:636: ASP dominant; utility dominant;
+>    system-level vulnerability/reliability major) are the citable rule
+>    and are unused. "Degree of vulnerability" is a sub-item of Cho's
+>    "system security", tabled as its peer.
+>    (d) **[INSERT, M2]** citation-to-origin (`literature_conventions.md`
+>    §f; design brief constraint sheet): every cell cites the survey.
+>    Origins: MTTC -> `mcqueen2006` (active in bib; `mcqueen2006.md` "the
+>    MTTC lineage root"); ASP as an MTD-effectiveness metric -> Evans 2011
+>    (`evans2011_mtd_effectiveness.md`; bib entry commented out, l.700);
+>    attack surface -> Manadhata & Wing 2011 (Cho [112]; NOT in bib);
+>    DSP/mission metrics -> Zaffarano 2015 (Cho [173]; NOT in bib);
+>    Risk/AC/RoA triad -> Alavizadeh et al. (Cho §IV-D [6]; NOT in bib);
+>    APV/APN/APE/NVC/EVC -> hong2018 (already). Cho then carries only the
+>    synthesis claim (the dominance trends), which is what the convention
+>    says a survey is for.
+>    (e) **[INSERT, M2]** the table plants none of the families ch4
+>    §4.3.2 will define under the 2026-08-21 ruling (ch3 catalogues
+>    families + origins; ch4 defines). Thesis metrics (`architecture.md`
+>    §g): internal MTTC primary; ASR, APE, RoA secondary. In the table:
+>    MTTC yes; APE only as Hong's path-duration quantity, which is NOT
+>    Ho's APE (`hong2018.md` open question: same name, different
+>    quantity, `literature_conventions.md` §d2 reserved-acronym rule);
+>    ASR absent (Ho's C_t/A_t is not Cho's ASP); RoA absent entirely
+>    though the lineage's exploit ordering runs on it. A lineage column
+>    or mark (zhang2023 Z-EVAL-03..06; ho2024 H-MET-01..11; tay2024
+>    T-EVAL-01) consolidates a third source and ties the table to 3.3.3's
+>    lineage row. APE's name collision is a cross-chapter VERIFY for
+>    whichever chapter defines it.
+>    (f) **[REFRAME]** Hong is flattened to "extend this partition with
+>    network-state-dynamic measures". Hong's own move (§2, §3, §5) is a
+>    DIFFERENT partition, attack efforts vs defence efforts, motivated by
+>    Pendleton 2016's call for direct measurement of attack effort and by
+>    the static-snapshot critique: a metric as a property of a transition
+>    between network states, not of a configuration. The static/dynamic
+>    turn is the substantive point for a time-domain simulator, and
+>    "attack efforts over the attack graph's path set" is the G1 grounding
+>    for the path measures. "Network-state-dynamic" is a synthesised
+>    label, not Hong's ("dynamic security metrics").
+>    (g) **[INSERT, M3]** the selection rule (first / most established /
+>    latest, G0) is unapplied: only the most-established slot is filled.
+>    First: Evans 2011 (extracted) for ASP-as-MTD-effectiveness, or
+>    McQueen 2006 for MTTC. Latest: `jalowski2026` §2.3 (source :75-:118)
+>    sets two groupings side by side (Sengupta 2020 qualitative /
+>    quantitative; Cho's attacker / defender) and rules "no common
+>    framework for measuring MTD security currently exists"; its §5 ASP
+>    critique ("too naive ... commonly calculated using simple Nmap scans
+>    as a baseline", :209) IS the hinge in the latest survey's words and
+>    belongs in G1, not here (`jalowski2026.md` open question l.98 flags
+>    exactly this transfer). Hong §2 (:73-:79) is a ready chronological
+>    spine (Evans 2011 -> Zhuang 2012 -> Xu 2014 -> Zaffarano 2015 ->
+>    Maleki 2016 -> Lei 2016), but citing those originals means reading
+>    them; only Evans and Maleki (`mttc_lineage.md`) are extracted.
+>    Optional latest: kim2026 already scores ASP/AST/ART per collapsed
+>    kill-chain phase (`kim2026.md`), a phase-resolved-metric precedent;
+>    sharma2025 (`mtd_stealth_effectiveness.md`) MTTC-in-MTD, IoT.
+>    (h) **[TIGHTEN]** caption duplicates the paragraph. Conventions
+>    (`figure_table_conventions.md` §b2/§b4) put the decode in the
+>    caption/footnote; the prose then carries only (a). **[KEEP]** the
+>    perspective x purpose frame (verifiably Cho's §VII structure); MTTC
+>    in the table; the dagger device; definitions kept out (ruling).
+>    (i) **Budget.** Marc's instinct (half a unit) holds only if the
+>    table carries the consolidation ((c)-(e)) and G1 keeps its full
+>    unit; the saved half-unit is G1's. A half-unit of prose cannot
+>    carry the set-up (a), the static/dynamic turn (f) AND the
+>    first/latest slots (g); (g)'s latest-survey verdict routes to G1.
+>    (j) **Table design (proposal, unruled).** Rows = metric families,
+>    not individual metrics; columns = family / perspective / purpose /
+>    computed over (attacker events, attack paths, system state) /
+>    origin / surveyed in (cho2020, hong2018, jalowski2026) / lineage use
+>    (zhang, ho, tay). Genre e2 (approach-comparison with Ref(s) column),
+>    booktabs; landscape if the phrase cells will not fit. Caption one
+>    sentence + decode of marks.
+>    (k) **Bib to add** (paper-acquisition division): Manadhata & Wing
+>    2011 (IEEE TSE, paywalled, Marc), Zaffarano 2015 (ACM MTD'15,
+>    paywalled, Marc), Alavizadeh 2018 MTD'18 (ACM, Marc), Sengupta 2020
+>    (ACM CSUR; arXiv 1905.00964 OA), Pendleton 2016 (ACM CSUR; arXiv
+>    1601.05792 OA); activate evans2011. Minor: §3.2 heading "MTD
+>    Evaluation" is title case (l.1465; convention is sentence case);
+>    "Cho et al.\ partition" / "Hong et al.\ \citep" -> \citet as
+>    subject (voice §d).
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
