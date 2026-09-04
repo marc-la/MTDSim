@@ -38,6 +38,8 @@
 \usepackage[australian]{babel}
 \usepackage[numbers,sort&compress]{natbib}   % \citep / \citet -> [n]
 \usepackage{tcolorbox}         % the research-question grey box (ch1)
+\usepackage{enumitem}          % the SQ1--SQ3 list in ch1: label = SQ\arabic*,
+                               % \ref{sq:*} renders the identifier
 \usepackage{pdfpages}          % appendix A: original proposal included
                                % as compiled pages (see app:proposal)
 \usepackage{pdflscape}         % rotated pages for the wide appendix
@@ -110,18 +112,40 @@
 % scaffolding is fluff --- each label is implicit in its own sub-question ---
 % so the three are stated plainly in order, which the contributions list
 % (capture / model / evaluate) still keys to.
+% RQ FORM RULED 2026-09-04 (Marc's ask: "what is the convention ... apply
+% it to our placeholder"). The convention is the one already ratified in
+% literature_conventions.md (g)1 (2026-08-20): ONE research question, its
+% three-part decomposition carrying SQ labels, findings keyed to the
+% labels. Typeset form, applied here: the RQ as prose, the three
+% sub-questions as a labelled list (enumitem, label SQ\arabic*), each a
+% direct question, each with a \label so every later mention is a
+% \ref{sq:*} that renders the identifier --- ch4's preamble and section
+% key already do this. Reference convention: the bare identifier (SQ1)
+% in prose, never "the first sub-question", never RQ1.1 (which would
+% imply several top-level questions; the single-RQ architecture (a)
+% stands). This is STRUCTURE, not the "answered in three parts / First /
+% Second / Third" scaffolding cut on 2026-08-21 --- the labels replace
+% that scaffolding. WORDING: Marc's ratified 2026-08-21 clauses recast
+% from indirect to direct questions (the corpus's RQ idiom) --- the only
+% change is the interrogative frame; ratify-on-read, his original:
+%   "... three sub-questions: how APT attacker behaviour is captured,
+%   from published campaign intelligence to behavioural attack profiles;
+%   how that behaviour is made executable, as an attacker that traverses
+%   the captured structure inside the simulator; and how MTD performance
+%   against the resulting attack model differs from its performance
+%   against the inherited scripted attacker."
 How does moving target defence (MTD) perform against advanced persistent
 threat (APT) attackers? This question decomposes into three sub-questions:
-how APT attacker behaviour is captured, from published campaign intelligence
-to behavioural attack profiles (SQ1); how that behaviour is made executable,
-as an attacker that traverses the captured structure inside the simulator
-(SQ2); and how MTD performance against the resulting attack model differs
-from its performance against the inherited scripted attacker (SQ3).
-% [2026-09-04] SQ1--SQ3 labels inserted as parentheticals on Marc's ch4
-% ruling ("giving identifiers to the sub research questions") --- this is
-% the definition site; ch4's preamble and section key use them. Minimal
-% insert into the ratified 2026-08-21 sentence, ratify-on-read; the
-% contributions list below keys to the same labels.
+\begin{enumerate}[label=SQ\arabic*, ref=SQ\arabic*, leftmargin=*,
+                  widest=SQ3, nosep]
+  \item\label{sq:capture} How is APT attacker behaviour captured, from
+  published campaign intelligence to behavioural attack profiles?
+  \item\label{sq:model} How is that behaviour made executable, as an
+  attacker that traverses the captured structure inside the simulator?
+  \item\label{sq:evaluate} How does MTD performance against the
+  resulting attack model differ from its performance against the
+  inherited scripted attacker?
+\end{enumerate}
 
 % Both blocks below are visible placeholders (Marc's rulings 2026-08-20;
 % conventions + corpus exemplars in literature_conventions.md (g)). Marc
@@ -2521,13 +2545,15 @@ of concept, testing whether behavioural fidelity changes existing MTD
 evaluation.
 
 We are grounding it in CTI to capture the behaviour of APT attackers in
-the real world (SQ1). We are distilling that behaviour into structured
-representations that we can operationalise and join to our existing
-simulator (SQ2), to evaluate our defence mechanisms (SQ3).
-Figure~\ref{fig:pipeline} is the pipeline that answers them:
-Sections~\ref{sec:technique-graph} and~\ref{sec:attack-profiles} answer
-SQ1; Sections~\ref{sec:petri-formalism} and~\ref{sec:execution} answer
-SQ2; Chapter~\ref{ch:experimental-setup} answers SQ3.
+the real world (\ref{sq:capture}). We are distilling that behaviour into
+structured representations that we can operationalise and join to our
+existing simulator (\ref{sq:model}), to evaluate our defence mechanisms
+(\ref{sq:evaluate}). Figure~\ref{fig:pipeline} is the pipeline that
+answers them: Sections~\ref{sec:technique-graph}
+and~\ref{sec:attack-profiles} answer \ref{sq:capture};
+Sections~\ref{sec:petri-formalism} and~\ref{sec:execution} answer
+\ref{sq:model}; Chapter~\ref{ch:experimental-setup} answers
+\ref{sq:evaluate}.
 
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
 % flows into tactic dependencies. Answers capture. Disclosures: what
