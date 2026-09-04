@@ -863,6 +863,22 @@ executes: 2026-08-31_ch3_port_plan.md
 >    afternoon rulings stand; only the opener colon-clause cut and the
 >    row-pairing cut survive from the BB set. Prose ~130 words; caption
 >    four sentences. Through pass 5.
+>    **TABLE 3.1 FOOTPRINT + CAPTION, second round (2026-09-04, Marc):**
+>    caption cut to the title + citation ("Metric families in MTD
+>    evaluation \citep{cho2020}."): the purpose/perspective decode is
+>    the prose's, Cho carried by the cite not the name, the Basis gloss
+>    cut because a header needing a gloss is a bad header, the
+>    empty-cell decode and the ch4 pointer cut (his call, reversing the
+>    same-day reinstatement). Header "Basis" -> "Measures" (session
+>    choice, reads as the verb; alternatives "Computed over" /
+>    "Quantity"; ratify-on-read). Footprint: arraystretch 1.2 -> 1.0,
+>    Measures column 2.3 -> 1.9 cm, perspective columns 5.5 -> 6.1 cm
+>    (wider cells wrap less); type stays \footnotesize --- the
+>    convention's ~8 pt floor is exactly \scriptsize, held in reserve.
+>    Result: the table moved from its own page (13) to page 12, sharing
+>    it with P2 and the 3.2.2 opener, ~half a page. NOTE: this crossed
+>    into the table environment the concurrent table session owns ---
+>    on Marc's direct ask; cells untouched.
 > 21. **TABLE 3.1 VERIFIED, split-stream (WB + BB) on the table alone
 >    --- RULED and APPLIED** (2026-09-04, Marc: "black box verification
 >    and crit ... treat every fact as wrong until you verified it ... are

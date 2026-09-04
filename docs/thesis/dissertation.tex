@@ -1843,18 +1843,36 @@ date \citep{jalowski2026}.
   % flagged risk accepted). The ch4 pointer was briefly moved to the
   % prose, then Marc corrected the same day: it STAYS in the caption
   % (layout ruling 6 stands).
+  % CAPTION CUT TO THE TITLE 2026-09-04 (Marc's ruling, second caption
+  % round): the purpose/perspective decode lives in the prose; Cho is
+  % carried by the citation, not name-dropped; the Basis gloss cut ---
+  % a header that needs a gloss is a bad header, so the header is
+  % renamed (see below); the empty-cell decode and the ch4 pointer cut
+  % as evident / not wanted. SUPERSEDED: "Metric families in MTD
+  % evaluation, by purpose (row groups) and perspective (columns) after
+  % Cho et al.\ \citep{cho2020}. \emph{Basis} is the quantity a family
+  % measures. An empty cell means the family has no counterpart. The
+  % four families this thesis reports are defined in
+  % Section~\ref{sec:metrics}."
+  % HEADER "Basis" -> "Measures" (session choice, ratify-on-read): reads
+  % as the verb --- "attack success probability MEASURES success events"
+  % --- so the column needs no gloss; alternatives "Computed over"
+  % (the pre-ruling term), "Quantity".
+  % FOOTPRINT 2026-09-04 (Marc: full page, floats away from the prose):
+  % arraystretch 1.2 -> 1.0; Measures column 2.3 -> 1.9 cm; the two
+  % perspective columns 5.5 -> 6.1 cm each (wider cells wrap less, so
+  % fewer lines per row; textwidth is 16.06 cm). Type stays
+  % \footnotesize (10 pt): the convention's floor is ~8 pt, which
+  % \scriptsize sits exactly on --- available as a last resort, not
+  % taken first.
   \caption[Metric families in MTD evaluation]{Metric families in MTD
-  evaluation, by purpose (row groups) and perspective (columns) after
-  Cho et al.\ \citep{cho2020}. \emph{Basis} is the quantity a family
-  measures. An empty cell means the family has no counterpart. The
-  four families this thesis reports are defined in
-  Section~\ref{sec:metrics}.}
+  evaluation \citep{cho2020}.}
   \label{tab:mtd-metrics}
   \footnotesize
-  \renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{@{}c>{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{5.5cm}>{\raggedright\arraybackslash}p{5.5cm}@{}}
+  \renewcommand{\arraystretch}{1.0}
+  \begin{tabular}{@{}c>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{6.1cm}>{\raggedright\arraybackslash}p{6.1cm}@{}}
     \toprule
-    & Basis & Attacker-side & Defender-side \\
+    & Measures & Attacker-side & Defender-side \\
     \midrule
     \rowcolor{black!5}
     & success events
