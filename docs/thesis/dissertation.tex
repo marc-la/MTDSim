@@ -2418,29 +2418,68 @@ building it is Chapter~\ref{ch:attacker-model}.]}
 %      [3b minor] "tick off" is spoken register --- pass-6 candidate, your
 %      call. [note] the next sentence also carries the axes + the naming
 %      move --- one of the two naming clauses is a pass-5 cut candidate.
-This is the threat model that we have produced, and we are terming it the
-movement attacker: it aims to tick off the axes from
-Section~\ref{subsec:attacker-criterion}.
-% [note] re-pointed 2026-09-04 from the cut §4.1 to the ch3 criterion
-%   (renders "3.3.2"); "the axes from" still reads. [pass-6] "Now that we
-%   have outlined the eight axes" now refers a chapter back --- keep or
-%   cut, your call. [owed, your dictation] the two commitment sentences
-%   the cut §4.1.1 carried: the proof-of-concept boundary; the attacker-only
-%   scope is already the "built beside MTDSim" sentence below.
-Now that we have outlined the eight axes that we are going to be measuring
-our model against, this is our implementation, and we are calling it the
-movement attacker. We are replacing the baseline attacker, the inherited
-scripted six-phase attacker from MTDSim (see Chapter~\ref{ch:background}),
-with the movement attacker: it adopts its action set, and the movement is
-dictated by the Petri net and by the attacker model at runtime. We are
-grounding it in CTI in a way that captures the behaviour of APT attackers
-in the real world, and distilling it into something that we can
-operationalise and join into our existing simulator to evaluate our
-defence mechanisms. This is built beside MTDSim; we are not touching the
-simulator, so that we can compare our results by construction.
-The pipeline (Figure~\ref{fig:pipeline}) has three stages: L0 to L2 are
-structure, L3 and L4 are semantics and parameterisation, and execution
-is an attacker agent traversing MTDSim, guided by our attack profiles.
+% ---- PASS 6 RUN AND RULED 2026-09-04 (voice-pass, split-stream WB + BB;
+%      merged ledger in chat; Marc accepted all nine items). Restructured
+%      as the CHAPTER preamble: two paragraphs, P1 the object and its
+%      terms (pickup, naming pair, what "movement" means, the two
+%      commitments), P2 the reader's map (spine sentence, figure, the
+%      sub-question key). Applied: (1) opener re-nouned to parallel the
+%      chapter title --- "The APT attacker model that we have produced,
+%      which we are terming the movement attacker" (Marc's dictation;
+%      terminology standardisation --- SUPERSEDES the 2026-08-20 "threat
+%      model" opener; registry genre row amended, the thesis-wide
+%      attacker-model row gains the data point); "motivated" is his verb;
+%      (2) the L0--L4 glosses on the section key CUT (caption owns the
+%      ladder), key by ordinal until ch1's contributions list fixes the
+%      capture / model / evaluate labels; (3) the proof-of-concept
+%      parenthesis CUT ("behavioural envelope", "declared policy" are repo
+%      vocabulary, nowhere else in the tex); (4) "tick off" -> "meet";
+%      (5) sentence-initial "And" dropped --- "This is built ... / This is
+%      a proof ..." is the licensed two-beat pair; (6) "Two commitments
+%      hold for the whole chapter" -> "Two commitments hold."; (7) the
+%      proof-of-concept sentence in the hypothesis form ("built to test
+%      whether ... not whether the model is true") --- SESSION WORDING,
+%      accepted, Marc's re-dictation still welcome; (8) "the build that
+%      answers them" -> "the pipeline that answers them"; (9) the
+%      baseline appositive pared to "the scripted six-phase attacker
+%      (Chapter 2)" ("inherited" is the registry's deprecated qualifier;
+%      ch1 already glosses the inheritance). CUT with the restructure:
+%      the second naming sentence ("Now that we have outlined the eight
+%      axes ... we are calling it the movement attacker" --- duplicate of
+%      the opener, back-reference a chapter away) and the three-stage
+%      ladder sentence ("L0 to L2 are structure ..." --- competed with
+%      capture / model / evaluate and placed execution outside the
+%      chapter). Pre-pass-6 text in git history.
+%      DO NOT RE-FLAG: "our existing simulator" (inside the ratified spine
+%      sentence, Marc's hand only); "by the attacker model at runtime";
+%      "in the real world"; the P2 opener's "it".
+%      Handed to the integration check: fig:pipeline is a [p] float, so
+%      the caption may name the movement attacker before the prose does.
+%      Word count ~185 against the ~125--150 half-unit; the remainder sits
+%      in ratified material (spine sentence, opener, commitments) ---
+%      Marc's cut, if any.
+The APT attacker model that we have produced, which we are terming the
+movement attacker, is the model that the research gap
+(Section~\ref{subsec:research-gap}) motivated; it aims to meet the axes
+from Section~\ref{subsec:attacker-criterion}. We are replacing the
+baseline attacker, the scripted six-phase attacker
+(Chapter~\ref{ch:background}), with the movement attacker: it adopts its
+action set, and the movement is dictated by the Petri net and by the
+attacker model at runtime. Two commitments hold. This is built beside
+MTDSim; we are not touching the simulator, so that we can compare our
+results by construction. This is a proof of concept: it is built to test
+whether behavioural fidelity changes the answer, not whether the model
+is true.
+
+We are grounding it in CTI in a way that captures the behaviour of APT
+attackers in the real world, and distilling it into something that we
+can operationalise and join into our existing simulator to evaluate our
+defence mechanisms. Those are the three sub-questions of
+Chapter~\ref{ch:intro}, and Figure~\ref{fig:pipeline} is the pipeline
+that answers them. Sections~\ref{sec:technique-graph}
+and~\ref{sec:attack-profiles} answer the first;
+Sections~\ref{sec:petri-formalism} and~\ref{sec:execution} the second;
+the third is Chapter~\ref{ch:experimental-setup}.
 
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
 % flows into tactic dependencies. Answers capture. Disclosures: what
