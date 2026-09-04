@@ -409,6 +409,32 @@ executes: 2026-08-31_ch3_port_plan.md
 >    Evaluation" is title case (l.1465; convention is sentence case);
 >    "Cho et al.\ partition" / "Hong et al.\ \citep" -> \citet as
 >    subject (voice §d).
+> 17. **3.2.1 SHAPE RULED + CUE CARD STAGED** (2026-09-04, Marc). Ruled
+>    in chat after item 16: two paragraphs, what -> so-what; description
+>    before critique (the chapter's method/achievement/limitation
+>    contract); the table complements P1's descriptive sentence; the
+>    specificity-vs-portability trade-off folds under the limitation as
+>    its MECHANISM; the unit still ends on the handover (scored-over
+>    split + the attacker inside the attacker-side definitions), never on
+>    the standardisation critique (the fidelity spine stands, port plan
+>    §1(a)); the deployment gap is ONE sentence with explicit negative
+>    scope; realism legs route to 3.2.2 (ladder) and G1 (Nmap baseline);
+>    the race (Evans, analytical) is kept distinct from the game-theoretic
+>    utility family; "lacking" calibrated to fragmented / attacker-scoped,
+>    not invalid. Budget: Marc is happy with two paragraphs; overdraft
+>    then cut, not extreme. Table design and bib gaps DEFERRED until the
+>    structure is dictated. The cue card (phrases, keys, locators into
+>    the source markdown; Marc dictates from it and says/cuts each) was
+>    returned in chat the same day and is reproduced at the unit in the
+>    tex when the dictation lands. Bib status for the card: active
+>    cho2020, hong2018, jalowski2026, mcqueen2006, mendonca2023, masud2025,
+>    zhang2023, ho2024, tay2024; commented (activate at first cite)
+>    evans2011 (l.700), maleki2016 (l.730); NOT in bib: Manadhata &
+>    Wing 2011, Zaffarano 2015, Alavizadeh 2018, Sengupta 2020, Pendleton
+>    2016, Farris & Cybenko, Sharma 2025, Leversage 2008, Zieger 2018
+>    (the last three are extracted in mttc_lineage.md /
+>    mtd_stealth_effectiveness.md; cite via the extraction's anchor once
+>    added).
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
