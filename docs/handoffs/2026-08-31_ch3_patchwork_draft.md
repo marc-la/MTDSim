@@ -947,6 +947,24 @@ executes: 2026-08-31_ch3_port_plan.md
 >    "An attack surface metric" (Cho's [112]) if the metric paper is
 >    preferred over the formal-model chapter in the bib; the Springer
 >    QoP volume front matter for mcqueen2006.
+>    **Addendum 2026-09-04 (Marc's replies):** citation cap --- "no
+>    citation cap", ruled; the per-name grammar stands as applied.
+>    Papers obtained by Marc the same evening and verified against
+>    their PDFs: cremonini2005.pdf (Cremonini, Marco and Martini,
+>    Patrizia --- full names now in the bib; the venue is not printed on
+>    the paper and follows Alavizadeh's reference [16]) and
+>    manadhata2010.pdf, which is the TSE 37(3) 2011 issue of "An Attack
+>    Surface Metric" (Cho's [112]; renamed manadhatawing2011tse.pdf to
+>    match its new bib key; DOI 10.1109/TSE.2010.60, pp. 371--386) ---
+>    now cited first in the attack-surface cell, ahead of the
+>    formal-model chapter. Ghostscript text copies written beside both
+>    PDFs. McQueen 2006: Marc's Scholar record confirms the corrected
+>    booktitle; CrossRef (book DOI 10.1007/978-0-387-36584-8) confirms
+>    the subtitle, the editors (Gollmann, Massacci, Yautsiukhin) and the
+>    series; neither CrossRef nor Open Library carries the volume
+>    number, so it is dropped from the entry rather than kept
+>    unverified. Branch pushed to origin on Marc's ask so the working
+>    draft is viewable.
 
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 

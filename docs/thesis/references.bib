@@ -749,15 +749,16 @@
 %
 %% <- extractions/ling2023.md
 %% booktitle corrected 2026-09-04 (was "Quality of Protection (QoP Workshop (at)
-%% ESORICS 2005)"): the DOI's book is the Springer QoP volume; series, volume and
-%% editors added from that volume --- VERIFY against the book's front matter.
+%% ESORICS 2005)"). Confirmed: booktitle by Marc's Scholar record and CrossRef
+%% (book DOI 10.1007/978-0-387-36584-8); subtitle, editors and series by CrossRef.
+%% The series volume number is carried by neither CrossRef nor Open Library, so
+%% it is omitted rather than kept unverified.
 @incollection{mcqueen2006,
   author    = {McQueen, Miles A. and Boyer, Wayne F. and Flynn, Mark A. and Beitel, George A.},
   title     = {Time-to-Compromise Model for Cyber Risk Reduction Estimation},
   booktitle = {Quality of Protection: Security Measurements and Metrics},
   editor    = {Gollmann, Dieter and Massacci, Fabio and Yautsiukhin, Artsiom},
   series    = {Advances in Information Security},
-  volume    = {23},
   pages     = {49--64},
   publisher = {Springer},
   year      = {2006},
@@ -1091,6 +1092,18 @@
 }
 %
 % ---- Added 2026-09-04 for Table 3.1 (metric-family origins); sources in docs/sources/lit_review/ ----
+%% The attack surface METRIC paper (Cho's [112]); the formal-model chapter below
+%% is Cho's [114]. Verified against lit_review/manadhatawing2011tse.pdf (2026-09-04).
+@article{manadhatawing2011tse,
+  author    = {Manadhata, Pratyusa K. and Wing, Jeannette M.},
+  title     = {An Attack Surface Metric},
+  journal   = {IEEE Transactions on Software Engineering},
+  volume    = {37},
+  number    = {3},
+  pages     = {371--386},
+  year      = {2011},
+  doi       = {10.1109/TSE.2010.60}
+}
 @incollection{manadhatawing2011,
   author    = {Manadhata, Pratyusa K. and Wing, Jeannette M.},
   title     = {A Formal Model for a System's Attack Surface},
@@ -1115,11 +1128,11 @@
   pages     = {3--10},
   doi       = {10.1145/2808475.2808476}
 }
-%% RoA's defining work per Alavizadeh et al. 2022 reference [16], transcribed
-%% from that reference list (initials as printed); VERIFY against the original,
-%% which is on Marc's to-obtain list.
+%% RoA's defining work per Alavizadeh et al. 2022 reference [16]. Author names
+%% verified against the PDF (lit_review/cremonini2005.pdf, obtained 2026-09-04);
+%% the venue is not printed on the paper and follows Alavizadeh's reference.
 @inproceedings{cremonini2005,
-  author    = {Cremonini, M. and Martini, P.},
+  author    = {Cremonini, Marco and Martini, Patrizia},
   title     = {Evaluating Information Security Investments from Attackers Perspective: The Return-On-Attack ({ROA})},
   booktitle = {Proceedings of the Workshop on the Economics of Information Security (WEIS)},
   year      = {2005}

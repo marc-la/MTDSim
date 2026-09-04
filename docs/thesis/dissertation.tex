@@ -644,6 +644,8 @@ scanning hosts, after an application-layer one to scanning ports
 % the eight axes are derived here and adopted in sec:requirements
 % (CONFIRM 2 --- the sec:movement-attacker preamble's axes \ref still
 % points at sec:requirements; re-point once sec:requirements is folded).
+% [2026-09-04] EXECUTED past CONFIRM 2: §4.1 is cut, not folded; the ch4
+% preamble's \ref now points at subsec:attacker-criterion.
 % Ledger: 3 000 words / 12 units = preamble 1 / 3.1 3 / 3.2 3 / 3.3 5;
 % assembled text ~3 450 excluding gaps, pass 5 reconciles across the
 % section. Headings ruled 2026-08-31 (sharp noun phrases; ATT&CK treated
@@ -1707,9 +1709,10 @@ date \citep{jalowski2026}.
 %     (hong2018.md open question; item 20 M1(f)), so the basis is now
 %     "attack paths" (what both measure) without "across network
 %     states" (Hong only); SAPV ho:384.
-%  R5 attack surface mw:897 (methods, channels, data; bib = Cho's
-%     [114], the Springer formal-model chapter; Cho also cites [112],
-%     the TSE "attack surface metric") --- MOVED here from R4: it is not
+%  R5 attack surface mw:897 (methods, channels, data), cited to both
+%     Manadhata--Wing works: the TSE metric paper (Cho's [112], obtained
+%     2026-09-04) first, then the Springer formal-model chapter (Cho's
+%     [114]) --- MOVED here from R4: it is not
 %     computed over an attack graph or across states, the one cell
 %     Marc's Basis ruling breaks; unpredictability cho:586 [66][110]
 %     [145] (jalowski2026 CUT: it argues entropy, jal:125 / :151-163,
@@ -1758,7 +1761,7 @@ date \citep{jalowski2026}.
 % readings above (Brown blocked, Brown attempts, Ho MTTC, Zaffarano
 % attacker-side CIA); a citation cap (defining work + lineage four +
 % one exemplar) would delete about six keys --- not applied, every key
-% now sits by the name it reports; \ref{subsec:metrics} points at the
+% now sits by the name it reports; \ref{sec:metrics} points at the
 % ch4 stub by design (the four reported families are MTTC, ASR, APE,
 % RoA; the V2 reworked-predictability measure may make it five).
 \begin{table}[htbp]
@@ -1775,7 +1778,7 @@ date \citep{jalowski2026}.
   where one is cited, then the papers that report the family under
   that name or a variant. Bold marks abbreviations; row shading is a
   reading aid only. The four families this thesis reports are defined
-  in Section~\ref{subsec:metrics}.}
+  in Section~\ref{sec:metrics}.}
   \label{tab:mtd-metrics}
   \footnotesize
   \renewcommand{\arraystretch}{1.2}
@@ -1799,7 +1802,7 @@ date \citep{jalowski2026}.
       & \\
     \rowcolor{black!5}
     & configuration space
-      & Attack surface \citep{manadhatawing2011}; unpredictability \citep{cho2020}
+      & Attack surface \citep{manadhatawing2011tse, manadhatawing2011}; unpredictability \citep{cho2020}
       & Vastness \citep{cho2020} \\
     & system state
       & Attack confidentiality and integrity \citep{zaffarano2015}
@@ -1841,7 +1844,7 @@ graphical-security-model approaches \citep{cho2020}.
 \noindent\emph{[GAP G6 --- what each rung can and cannot support (Cho
 2020 Table VI: the pros and cons per method), why simulation dominates
 the field, and the cost simulation carries (parameterisation realism,
-abstraction) that Chapter~\ref{ch:methodology} owns when it positions
+abstraction) that Chapter~\ref{ch:attacker-model} owns when it positions
 this thesis on the ladder.]}
 
 % Strand closer (unnumbered, 1 unit): the hinge into 3.3. Was 3.2.3
@@ -1958,7 +1961,8 @@ engagement data: the apparatus is in place and validated; it has simply
 never been brought to MTD evaluation.
 
 % 1 unit. The eight axes DERIVED here as the literature's
-% characterisation (port plan CONFIRM 2); sec:requirements ADOPTS them
+% characterisation (port plan CONFIRM 2); ch4 cites them here (§4.1
+% cut 2026-09-04; the scoring discipline opens sec:fidelity-verdict) ---
 % (badges, pre-commitment, rows A/B). Axis numbers are the criterion's
 % (apt_model_criterion.md (c)) and are never renumbered. The fidelity
 % descriptor is Marc's own instrument --- never a paper's claim.
@@ -2188,27 +2192,53 @@ leave the scripted rung), then the consequence: a threat model at that
 rung cannot represent a campaign past initial access, so MTD's
 performance against a footholded attacker is unmeasured because of the
 fidelity ceiling. Name what would have to be built, and stop ---
-building it is Chapter~\ref{ch:methodology}.]}
+building it is Chapter~\ref{ch:attacker-model}.]}
 
 % =====================================================================
-\chapter{Methodology}
-\label{ch:methodology}
+\chapter{APT attacker model}
+\label{ch:attacker-model}
 
-% BUDGET: 11 units of ~250 words (writing guide ledger; reallocation of
-% 2026-08-12: methodology 9->11, funded by background 6->5 and
-% discussion 10->9). Every subsection below is one unit --- one to two
-% concise paragraphs. Content marked "disclosure" is a sentence inside
-% its unit, never a new heading; more than two paragraphs means the
-% ledger pays for a branch, or the content compresses.
+% STRUCTURE AMENDED 2026-09-04 (Marc's ruling; trail in
+% docs/implementation/research_record/threads/rq_and_structure.md and the
+% writing guide's reallocation record). The chapter is the attacker-model
+% definition and nothing else. (i) The former §4.1 "What an APT attack
+% model must capture" is CUT: §4.1.1 restated ch3 §3.3's verdict and
+% §4.1.2 restated the criterion ch3 §3.3.2 derives --- port plan CONFIRM 2
+% taken to its end point; the axes are cited at their ch3 home
+% (subsec:attacker-criterion). (ii) The former §4.2 "The movement
+% attacker" is dissolved into the chapter: its preamble is the chapter
+% preamble and its four subsections are §4.1--§4.4, labels re-prefixed
+% sec:. (iii) The former §4.3 "Experimental setup" is its own chapter
+% (ch:experimental-setup), structure unchanged --- Marc: "keep the
+% structure as is for now". (iv) Title "APT attacker model": own-voice
+% term per the registry (attacker model, not threat model); "movement
+% attacker" is the model's NAME and lives in the prose, not in headings
+% ("a rhetorical flourish that should live in the content itself");
+% "definition" dropped as redundant with the chapter's position --- the
+% preamble's first sentence does the defining. Label ch:methodology
+% retired with the title.
+% Two things the cut §4.1 owed, re-homed: this project's commitments
+% (the proof-of-concept boundary; the attacker-only scope --- the scope
+% sentence is already in the preamble) are two sentences owed to the
+% preamble, Marc's dictation; the scoring discipline (badge vocabulary;
+% axes fixed before the model was scored) opens sec:fidelity-verdict.
 %
-% Chapter opening (unnumbered, ~half a unit shared with sec:requirements):
+% BUDGET: 6 units of ~250 words (writing guide ledger, 2026-09-04: the
+% former methodology 11 = this chapter 6 + experimental setup 3 + 2
+% returned to the float from the cut §4.1). The four sections are one
+% unit each; the chapter opening (figure + spine) and the preamble share
+% one; one unit of slack stays with the chapter, Marc's to spend or
+% return. Content marked "disclosure" is a sentence inside its unit,
+% never a new heading; more than two paragraphs means the ledger pays
+% for a branch, or the content compresses.
+%
+% Chapter opening (unnumbered, ~half a unit shared with the preamble):
 % the pipeline figure (box-and-flow per V7; the figure carries the
 % L0--L4 ladder so prose does not) and the capture -> model -> evaluate
 % spine declared once, with the sub-question map stated in a sentence so
-% the structure stays auditable against V5: sec:requirements poses what
-% must be captured; the movement attacker's first two subsections answer
-% capture and its last two answer model; sec:experimental-setup
-% answers evaluate.
+% the structure stays auditable against V5: the criterion (ch3 §3.3.2)
+% poses what must be captured; §4.1--§4.2 answer capture and §4.3--§4.4
+% answer model; ch:experimental-setup answers evaluate.
 %
 % LADDER (Marc's ruling, 2026-08-16): the dissertation presents the
 % model's LOGICAL ladder --- L0--L1 intelligence to graph, L2 profiles,
@@ -2230,7 +2260,7 @@ building it is Chapter~\ref{ch:methodology}.]}
 % CAPTION SLOT --- the long caption below is a MINIMAL accurate stand-in so
 % the build is clean and \ref resolves. It is Marc's to write (his own
 % prompt): this caption does definitional work and is owed more care than
-% any other §4.2 caption. It must decode, per conventions §b2: the shared
+% any other ch4 caption. It must decode, per conventions §b2: the shared
 % tactic axis (columns/places are the fifteen ATT&CK tactics in kill-chain
 % order, never reordered); the accent (what this thesis builds --- the
 % movement and controller layers, the declared pre-intrusion overlay drawn
@@ -2255,36 +2285,14 @@ building it is Chapter~\ref{ch:methodology}.]}
   \label{fig:pipeline}
 \end{figure}
 
-% ------------------------------------------------------ requirements --
-\section{What an APT attack model must capture}
-\label{sec:requirements}
-
-% 1 unit. Compressed problem definition: the ontology gap, unobservable
-% APT dwell times, the proof-of-concept commitment, the attacker-only
-% substrate scope (network, HARM and the mechanisms untouched ---
-% deliberately, for comparability; a commitment, not a caveat).
-% Disclosures: ruled exclusions in a sentence (reasons ride
-% ch:futurework); the observability argument's literature half lives in
-% sec:apt-survey.
-\subsection{The threat model MTD evaluation omits}
-\label{subsec:apt-omission}
-
-% 1 unit. Criteria before the thing judged: the literature-derived axes,
-% the epistemic badges, how the inherited attacker scores. Disclosures:
-% evidential provenance rows, evaluative consequence.
-\subsection{A fidelity criterion from the APT literature}
-\label{subsec:criterion}
-
-% -------------------------------------------- capture, then model ----
-\section{The movement attacker}
-\label{sec:movement-attacker}
-
+% ------------------------------------------------------------ preamble --
 % The build told end-to-end, structure -> parameters -> execution.
 % Selection discipline (Marc, 2026-08-12): relevant-and-interesting
 % only --- the full implementation record stays in the repo's
 % implementation docs, not the chapter.
 %
-% Section preamble (unnumbered, a few sentences, no unit claim): the
+% Chapter preamble (the former §4.2 section preamble, promoted
+% 2026-09-04; unnumbered, a few sentences, no unit claim): the
 % naming move --- "movement attacker" for the proposed model, "baseline
 % attacker" for the inherited scripted attacker (V5: "the inherited
 % non-APT baseline attacker") --- plus the one-sentence end-to-end
@@ -2315,16 +2323,22 @@ building it is Chapter~\ref{ch:methodology}.]}
 %      identification sentence opens the preamble, from his dictation
 %      (transcription-repaired: "we're terminate the" -> "we're terming it";
 %      run-on split at the colon, clause order untouched); the section
-%      heading stays "The movement attacker". Registry: threat model =
+%      heading stays "The movement attacker" (SUPERSEDED 2026-09-04: the
+%      section is dissolved into the chapter and the name lives in the
+%      prose; chapter title "APT attacker model"). Registry: threat model =
 %      genre term / movement attacker = the name (terminology.md, ratified).
 %      [3b minor] "tick off" is spoken register --- pass-6 candidate, your
 %      call. [note] the next sentence also carries the axes + the naming
 %      move --- one of the two naming clauses is a pass-5 cut candidate.
 This is the threat model that we have produced, and we are terming it the
 movement attacker: it aims to tick off the axes from
-Section~\ref{sec:requirements}.
-% [note] \ref{sec:requirements} renders "4.1" per your dictation; the axes'
-%   exact home is subsec:criterion --- swap if you want the deeper ref.
+Section~\ref{subsec:attacker-criterion}.
+% [note] re-pointed 2026-09-04 from the cut §4.1 to the ch3 criterion
+%   (renders "3.3.2"); "the axes from" still reads. [pass-6] "Now that we
+%   have outlined the eight axes" now refers a chapter back --- keep or
+%   cut, your call. [owed, your dictation] the two commitment sentences
+%   the cut §4.1.1 carried: the proof-of-concept boundary; the attacker-only
+%   scope is already the "built beside MTDSim" sentence below.
 Now that we have outlined the eight axes that we are going to be measuring
 our model against, this is our implementation, and we are calling it the
 movement attacker. We are replacing the baseline attacker, the inherited
@@ -2345,8 +2359,8 @@ is an attacker agent traversing MTDSim, guided by our attack profiles.
 % the graph cannot represent. (Consensus-thresholds disclosure removed
 % per Marc's ruling, 2026-08-16 --- the lossless/views record lives in
 % the repo, not the chapter.)
-\subsection{L0--L1: Cyber threat intelligence to attack graph}
-\label{subsec:technique-graph}
+\section{L0--L1: Cyber threat intelligence to attack graph}
+\label{sec:technique-graph}
 
 % DRAFT STATE (2026-08-16): passes 1--5 COMPLETE; Marc signed the unit
 % off at ~400 words (leave-and-forget until the next editing round).
@@ -2455,8 +2469,8 @@ would have to address it regardless of our input.
 % 1 unit (L2). Objective over motivation; the four classes. Answers
 % capture. Disclosures: what the partition produced, operator
 % concentration.
-\subsection{L2: Objective-conditioned attack profiles}
-\label{subsec:attack-profiles}
+\section{L2: Objective-conditioned attack profiles}
+\label{sec:attack-profiles}
 
 % ---- Pass 5b, 2026-08-17: Marc's further cuts applied --- the "idea to
 % ---- capture" opener, the numbers clause, the second concession, the
@@ -2546,8 +2560,8 @@ which is known for double extortion, so we are not surprised there.
 % executed-not-solved / CTMC closed-form vocabulary and the standalone
 % analytical track are not wanted in the chapter --- the record holds
 % them (stochastic_timing_design.md §1).
-\subsection{L3: Generalised stochastic Petri-net formalism}
-\label{subsec:petri-formalism}
+\section{L3: Generalised stochastic Petri-net formalism}
+\label{sec:petri-formalism}
 
 % ---- Marc's pass-5 compression (2026-08-18), written in with his rulings
 %      on the session's scrutiny of it applied. Earlier pass records live
@@ -2597,9 +2611,9 @@ stochasticity to the simulator, and the out-transitions are immediate.
 The GSPN structure is plug and play, so we can put in our various attack
 profiles as an input into these Petri nets, and this provides separation
 and discipline.
-% [APPLIED, your ruling] "(see sensitivity analysis ch5)" deleted --- the
+% [APPLIED, your ruling] "(see sensitivity analysis ch6)" deleted --- the
 %   closing paragraph already sends parameters to L4, which declares and
-%   points at ch5.
+%   points at ch6.
 % [RULED 2026-08-18, do not re-flag] the ownership fold ("supplies only
 %   the structure ... policy emerges through execution; that is L4") CUT
 %   by Marc --- reads as a limitation/characterisation; the ceiling
@@ -2629,8 +2643,8 @@ out-transitions a token may choose at runtime, based on the success of
 an attacker agent in the simulator; sink retrace policy). L4 deals with
 this.
 % [note] the "dwell times exist nowhere -> inherently arbitrary ->
-%   justified against the literature -> swept in ch5" sentence moved out
-%   of L3 with this compression; it is 4.2.4.1's opening obligation
+%   justified against the literature -> swept in ch6" sentence moved out
+%   of L3 with this compression; it is 4.4.1's opening obligation
 %   (skeleton comment carries it).
 
 
@@ -2650,7 +2664,7 @@ this.
 % layers (movement / controller / action --- architecture §(f)) rather
 % than by any one of them. No fifth rung: execution IS the join.
 %
-%  4.2.4.1 Parameterisation --- the values, declared before any run:
+%  4.4.1 Parameterisation --- the values, declared before any run:
 %      transition weights from flow proportions (corpus sparsity accepted
 %      and disclosed); per-tactic dwell times: standard of evidence,
 %      tiers, distribution shape (values are DECLARED and justified
@@ -2659,7 +2673,7 @@ this.
 %      attacker time); sweep discipline points at sec:sensitivity rather
 %      than restating it. The L3 pointer "covered in the L4
 %      parameterisation" lands here.
-%  4.2.4.2 Mechanics and the join --- the behaviour at runtime and the
+%  4.4.2 Mechanics and the join --- the behaviour at runtime and the
 %      MTDSim-specific binding: action selection among enabled
 %      transitions, verdict-conditioned re-weighting (success/failure
 %      sets; directionality without a kill-chain stage machine), sink
@@ -2673,21 +2687,21 @@ this.
 % results chapter) and routing ablatability (the null modulator
 % configuration is bit-identical to the model without it; the former
 % fidelity-extensions section stays dissolved into subsec:families'
-% ablation arms). Both live in 4.2.4.2.
+% ablation arms). Both live in 4.4.2.
 % AMENDED (Marc, 2026-08-19): the routing-ablatability must-carry is CUT
 % from the chapter text --- the guarantee stays in the repo record
-% (attacker_state_seam.md) and ch5 cites it there. The mapping must-carry
+% (attacker_state_seam.md) and ch6 cites it there. The mapping must-carry
 % stands and is now in the draft.
-\subsection{L4: The attacker-agent traversal in MTDSim}
-\label{subsec:execution}
+\section{L4: The attacker-agent traversal in MTDSim}
+\label{sec:execution}
 
 % ---- PASS 5 restructure applied 2026-08-19 on Marc's acceptance of the
 %      proposed redraft (chat). His sentences reassigned; deletions, moves
 %      and flagged minimal glue only. Structure: preamble (join problem;
-%      trichotomy+scope) -> 4.2.4.1 "The controller layer" (renamed from
+%      trichotomy+scope) -> 4.4.1 "The controller layer" (renamed from
 %      "Parameterisation" on his ruling) = the three declared inputs, one
 %      block each (dwell+exponential / mapping / failure matrix), spine
-%      sentence from his dictation -> 4.2.4.2 Mechanics = runtime loop +
+%      sentence from his dictation -> 4.4.2 Mechanics = runtime loop +
 %      figure / verdicts / run policies. Provenance of each move is in the
 %      drafting handoff and the chat proposal. Pre-restructure text in git
 %      history (bd2abb4).
@@ -2789,7 +2803,7 @@ stochastic attack behaviour~\citep{holm2014, madan2004, bland2020}.
 %   panel (a) is what makes the four-anchors-not-fifteen argument visible.
 %   Badges are decoded in the caption, not the table (conventions §b2).
 %   Generated by tools/dwell_catalogue_tables.py --- regenerate, never edit.
-\input{tables/tab_4-2-4a_dwell_catalogue}
+\input{tables/tab_4-4a_dwell_catalogue}
 
 The Petri nets do not map one-to-one. We needed a mapping from the places of
 the Petri net, or attack tactics, to the action layer, the verbs. We are calling this
@@ -2808,7 +2822,7 @@ layer has gaps. Many tactics are dwell-only (Figure~\ref{fig:controller-mapping}
 %   CAPTION IS DRAFTED, NOT RATIFIED --- yours for the voice pass.]
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.78\textwidth]{fig_4-2-4a_controller_mapping}
+  \includegraphics[width=0.78\textwidth]{fig_4-4a_controller_mapping}
   \caption[The tactic-to-verb mapping]{The tactic-to-verb mapping the movement
   layer runs on (\texttt{v2\_partial}), across the fifteen tactics of MITRE
   ATT\&CK v19.1. Every tactic dispatches at most one substrate action: eight
@@ -2917,7 +2931,7 @@ failure weights.
   % under \textwidth at \scriptsize, so 8pt in the tool is 8pt on the page
   % (conventions h). The three-panel decomposition this set is the product of
   % is Appendix~\ref{app:weight-sets}, Figure~\ref{fig:failure-weight-decomposition}.
-  \includegraphics{fig_4-2-4b_failure_weight_matrix}
+  \includegraphics{fig_4-4b_failure_weight_matrix}
   \caption[The committed failure weight set]{The failure weight set as
   committed (\texttt{v4\_failure\_only}). Rows are the source tactic $a$
   whose action returned the failure verdict, columns the candidate next
@@ -3005,7 +3019,7 @@ the Petri net: the confusion penalty is the exception.
 % float, the caption is the place.
 \begin{figure}[tp]
   \centering
-  \includegraphics[width=\textwidth]{fig_4-2-4c_movement_dataflow}
+  \includegraphics[width=\textwidth]{fig_4-4c_movement_dataflow}
   \caption[The movement attacker's runtime loop]{The movement attacker's
   runtime loop. The movement layer is drawn schematically --- circles are
   tactic-places, bars are transitions, and the accented dot is the token;
@@ -3027,18 +3041,26 @@ the Petri net: the confusion penalty is the exception.
   \label{fig:movement-dataflow}
 \end{figure}
 % [RULED, do not re-flag] routing-ablatability must-carry CUT from this unit;
-%   guarantee stays repo-side (attacker_state_seam.md); ch5 cites it there.
+%   guarantee stays repo-side (attacker_state_seam.md); ch6 cites it there.
 
-% ----------------------------------------------------------- evaluate --
-\section{Experimental setup}
-\label{sec:experimental-setup}
+% =====================================================================
+\chapter{Experimental setup}
+\label{ch:experimental-setup}
+
+% STRUCTURE AMENDED 2026-09-04 (Marc's ruling): own chapter, was ch4 §4.3;
+% the three units and their contracts are unchanged ("keep the structure
+% as is for now --- I will figure that out later"). Labels re-prefixed
+% sec:. BUDGET: 3 units (see the ch:attacker-model header for the split).
+% Chapter opening (unnumbered, owed, Marc's dictation): what this chapter
+% does with the attacker model --- evaluate is the manipulation of the L4
+% object and carries no layer number (ladder ruling, 2026-08-16).
 
 % 1 unit. Burden of proof: stability AND divergence
 % (evaluation_burden.md); the three-grade instrument every reported
 % comparison is scored on (magnitude / ordering / recommendation),
 % committed before scoring (evaluation_grading.md).
-\subsection{What the evaluation must show}
-\label{subsec:burden}
+\section{What the evaluation must show}
+\label{sec:burden}
 
 % 1 unit. The inherited suite and its comparability boundary
 % (within-substrate comparison valid; cross-paper numeric comparison
@@ -3047,8 +3069,8 @@ the Petri net: the confusion penalty is the exception.
 % network, metric calculated by hand, then scaled); predictability
 % enters only in its reworked form and under a collision-checked
 % name (V2).
-\subsection{Metrics}
-\label{subsec:metrics}
+\section{Metrics}
+\label{sec:metrics}
 
 % 1 unit + the factor table (tables are word-cheap). Preamble prose
 % carries the global conventions: the degenerate operating region that
@@ -3066,8 +3088,8 @@ the Petri net: the confusion penalty is the exception.
 % ablatable capability's show-or-vanish cell (network scale for the
 % learning capability; a non-dwell-proportional defence for the cost
 % rule).
-\subsection{Dimensions and the two experiment families}
-\label{subsec:families}
+\section{Dimensions and the two experiment families}
+\label{sec:families}
 
 
 % NOTE: the evaluation-method findings the collapsed attacker hid
@@ -3136,6 +3158,10 @@ the Petri net: the confusion penalty is the exception.
 % The criterion scored honestly, badges and all; the structural
 % limitations owned here: the proof-of-concept boundary, the
 % tactic-to-verb mapping as a chosen input, the comparability boundary.
+% Opens with the scoring discipline the cut §4.1.2 carried (2026-09-04):
+% the badge vocabulary (demonstrated / designed / conjectured / not
+% addressed) and the anti-reverse-fitting provenance --- the axes were
+% fixed from the literature (ch3 §3.3.2) before the model was scored.
 \section{Fidelity verdict}
 \label{sec:fidelity-verdict}
 
@@ -3185,7 +3211,7 @@ March 2026, with its own reference list.
 % =====================================================================
 % STRUCTURE RULED (Marc, 2026-08-20, appendix-wiring pass): the movement
 % attacker's supplementary material is ONE chapter, sectioned in pipeline
-% order, so the appendix mirrors sec:movement-attacker's L0--L4 spine.
+% order, so the appendix mirrors ch:attacker-model's L0--L4 spine.
 % app:sensitivity and app:cooccurrence stay their own chapters.
 %
 % Every \label below is a reservation consumed by a §4.2 component brief
@@ -3214,7 +3240,7 @@ March 2026, with its own reference list.
 \section{The generalised attack graph at both resolutions}
 \label{app:full-graph}
 
-% [prose slot --- Marc] the framing. What §4.2.1 cites this for is the
+% [prose slot --- Marc] the framing. What §4.1 cites this for is the
 %   coverage-versus-fidelity trade: the technique resolution was tried
 %   and discontinued, the tactic resolution carried forward. The figures
 %   are ordered as that argument runs --- one incident as drawn, the
@@ -3369,7 +3395,7 @@ March 2026, with its own reference list.
 %
 % The last column is a constructibility fact, not a promise: it marks the
 %   schemes whose membership could still be derived today. If the V6
-%   sensitivity regime takes them up, ch5 gains one swept parameter and this
+%   sensitivity regime takes them up, ch6 gains one swept parameter and this
 %   caption is what earns the pointer --- the two structural schemes are a
 %   membership swap, while the multi-member one would need L2's disjointness
 %   relaxed, so it is not the same cost. Not commissioned.
@@ -3583,7 +3609,7 @@ March 2026, with its own reference list.
   for unmet preconditions --- the friction mode. Terminal names where the
   run ended: at the objective, at the horizon, or at a Petri-net sink
   with no onward routing. Profiles are named as in
-  Section~\ref{subsec:attack-profiles}; the record predates the
+  Section~\ref{sec:attack-profiles}; the record predates the
   objective-tactic rename.}
   \label{tab:experiment-one}
   \small
