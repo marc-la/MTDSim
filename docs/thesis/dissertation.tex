@@ -2502,17 +2502,23 @@ building it is Chapter~\ref{ch:attacker-model}.]}
 %      the labels for that sentence). Convention note: with one research
 %      question (architecture (a)) SQn is the fitting form; RQ1.1 would
 %      imply several top-level questions.
+%      3b WALK RULED (Marc, 2026-09-04, same day): "aims to replace" ->
+%      "replaces"; \emph on "baseline attacker" APPLIED (his call, the
+%      ch2 first fix notwithstanding); "by construction" CUT; the tail
+%      "not whether the model is true" CUT (Marc: the X-not-Y form is not
+%      his, and "the answer" was vacuous). No [3b] left open on this
+%      preamble. Through pass 6; the integration check is next.
 The APT attacker model that we have produced, which we are terming the
 \emph{movement attacker}, is the model that the research gap motivated;
 it aims to meet the axes from Section~\ref{subsec:attacker-criterion}.
-The movement attacker aims to replace the baseline attacker, the
+The movement attacker replaces the \emph{baseline attacker}, the
 inherited scripted six-phase attacker (Chapter~\ref{ch:background}); it
 adopts its action set, and its movement is dictated by the generalised
 stochastic Petri net and by the attacker model at runtime. It is built
 beside MTDSim: we are instrumenting our existing attacker model with the
-movement attacker, so that we can compare our results by construction.
-This is a proof of concept, testing whether behavioural fidelity changes
-existing MTD evaluation, not whether the model is true.
+movement attacker, so that we can compare our results. This is a proof
+of concept, testing whether behavioural fidelity changes existing MTD
+evaluation.
 
 We are grounding it in CTI to capture the behaviour of APT attackers in
 the real world (SQ1). We are distilling that behaviour into structured
