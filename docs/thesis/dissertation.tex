@@ -581,7 +581,9 @@ IDS-based scheme, is not possible.
 % below are open. Two floats (states table, objectives table) carry the
 % procedure and the scenarios so the prose carries rules and assumptions.
 
-The threat model that existed originally in the simulator is what we
+% RULED 2026-09-05: "threat model" -> "attacker model" (thesis-wide
+% standardisation, terminology.md row ratified). Noun swap only.
+The attacker model that existed originally in the simulator is what we
 term the baseline attacker. It is scripted: every attacker is identical
 and uniform in skill \citep{brown2023}. It is
 implemented as a closed six-state machine:
@@ -710,6 +712,25 @@ scanning hosts, after an application-layer one to scanning ports
 % model"); 3.3 subsections swapped to traditions -> criterion (survey
 % -> instrument -> measurement -> verdict). Ruling trail:
 % docs/handoffs/2026-08-31_ch3_patchwork_draft.md (amendment note).
+% STRUCTURE AMENDED 2026-09-05 (Marc's ruling, design session then
+% item-by-item approval; branch feat/ch3-evaluation-anatomy). 3.2 now
+% carries Cho's anatomy in full: opener (anatomy in the registry's
+% terms; network model + defence mechanisms dispatched to ch2; the
+% attacker model to 3.3) -> 3.2.1 Defence modelling approaches (NEW
+% heading, Cho Sec. VI; the traditions paragraph moved here, G4b
+% re-homed as its P2) -> 3.2.2 Metrics (the "mode of modelling" [3b]
+% resolved to the registry term; the scored-over pivot parked at its
+% P2 tail as G1a) -> 3.2.3 Evaluation methods (G4a re-homed, fused
+% with G6) -> closer (G1 trimmed to the synthesis). 3.3: "Attacker
+% modelling traditions" DELETED as a heading (Bland/Outkin -> the
+% gap); the interstitial cut to the move; the diagnosis stated ONCE,
+% in the criterion; "Threat models in recent MTD evaluations" ->
+% "Attacker models in recent MTD evaluations"; "The research gap" ->
+% "Research gap". threat model -> attacker model thesis-wide in own
+% voice (terminology.md row RATIFIED 2026-09-05). Ledger: 11 units =
+% preamble 1 / 3.1 3 / 3.2 3 / 3.3 4, one unit of slack returned.
+% Guardrail carried on 3.2.1 (Marc's trap): it names where the FIELD's
+% attacker comes from and never says "this thesis uses none of these".
 % Bib (2026-08-31): every key this chapter cites is
 % active in references.bib (eleven uncommented, ho2024 added). NIST SP
 % 800-39 (G7a) ACTIVATED 2026-09-02, verified against the PDF; the Volt
@@ -1518,19 +1539,85 @@ incident-response literature, not within MTD evaluation.
 
 % ------------------------------------------------------ 3.2 evaluate --
 % Feeds evaluate: the instruments are mature, and every one of them is
-% scored over an attacker. 3 units.
-\section{MTD Evaluation}
+% scored over an attacker. 3 units (opener 1/4 + approaches 1/2 +
+% metrics 1 + methods 1 + closer 1/4; amended 2026-09-05).
+\section{MTD evaluation}
 \label{sec:mtd-evaluation-survey}
 
 % Strand opener (unnumbered): the anatomy sentence, moved out of the
 % old 3.2.1 as the strand's lead-in. Reorder ruled 2026-09-02: metrics
 % before methods (Cho's own Sec. VII -> VIII order), the hinge as an
 % unnumbered strand closer.
-An MTD evaluation study selects a network setting (enterprise, cloud,
-software-defined, Internet of Things, or cyber-physical), adopts a
-threat model, deploys one or more MTD mechanisms, and assesses the
-result against a metric set using one of several validation methods
-\citep{cho2020}.
+% RECAST 2026-09-05 (Marc's ruling, item 2): the anatomy in the
+% registry's terms so ch2's headings (Network model / Defence
+% mechanisms / Attacker model) carry into ch3 unchanged; "threat
+% model" and "validation methods" leave the sentence. Cite check: the
+% five-commitment anatomy is Cho's Sec. I framing; the approaches are
+% his Sec. VI, cited separately so the anatomy sentence attributes no
+% sixth item to him. The dispatch sentences are session wording,
+% ratify-on-read. SUPERSEDED (ported, Cho's own list): "An MTD
+% evaluation study selects a network setting (enterprise, cloud,
+% software-defined, Internet of Things, or cyber-physical), adopts a
+% threat model, deploys one or more MTD mechanisms, and assesses the
+% result against a metric set using one of several validation methods
+% \citep{cho2020}."
+An MTD evaluation commits to a network model, an attacker model, a set
+of defence mechanisms, a metric set, and an evaluation method
+\citep{cho2020}; the mechanisms are themselves designed under a defence
+modelling approach \citep[Sec.~VI]{cho2020}. Two of these are fixed by
+the simulator this thesis inherits, the network model
+(Section~\ref{subsec:network-model}) and the defence mechanisms
+(Section~\ref{subsec:defence-mechanisms}); the attacker model is
+Section~\ref{sec:mtd-attacker-models}'s. The three the field varies,
+the approach, the metrics, and the method, are surveyed here in that
+order.
+
+% 1/2 unit. NEW HEADING 2026-09-05 (Marc's ruling, item 3): Cho
+% Sec. VI, the theoretical approaches the DEFENCE is designed under
+% (game theory, genetic algorithms, machine learning), carried here as
+% an evaluate-strand commitment, not an attacker-modelling one. Why it
+% earns a heading when this thesis uses none of them: three later
+% arguments depend on it (the metrics unit's "dependent on the defence
+% modelling approach" sentence; the criterion's two Cho Sec. V-D
+% asymmetries, learning and rational-actor, granted to the defender;
+% the gap's "rationality without capability"). GUARDRAIL (Marc's trap,
+% 2026-09-05): this unit names where the FIELD's attacker comes from;
+% the sentence "this thesis uses none of these" never appears here ---
+% positioning on the ladder is ch4's opening. Shape mirrors the
+% metrics unit: P1 the what (moved verbatim from the deleted 3.3.1
+% "Attacker modelling traditions"), P2 the so-what (the attacker each
+% approach imports --- the re-homed G4b, Marc's dictation). Heading +
+% registry term "defence modelling approach" ruled 2026-09-05: the
+% qualifier says whose model it is; bare "modelling" is the attacker's
+% word in this thesis.
+\subsection{Defence modelling approaches}
+\label{subsec:defence-modelling-approaches}
+
+% P1 --- the what. Moved 2026-09-05 from 3.3.1 unchanged. [term] for
+% pass 6: "Modelling techniques ... traditions" is the ported wording;
+% the heading's noun is "approaches" (Cho's own). Flagged, not changed.
+Modelling techniques cluster into game-theoretic, evolutionary, and
+learning-based traditions, with game-theoretic formulations dominating
+by volume \citep{cho2020}. A representative game-theoretic formulation
+casts the defender as a leader committing to a configuration-switching
+strategy and the attacker as a follower that performs reconnaissance
+before launching, typically drawing on exploits from public
+enumerations such as the Common Vulnerabilities and Exposures (CVE)
+database, with attacker-type uncertainty encoded as a prior
+distribution \citep{cho2020}.
+
+% P2 --- the so-what. Question: what attacker does each approach
+% import? Re-homed G4b (was 3.3.1's), rewritten as this unit's prompt.
+\medskip
+\noindent\emph{[GAP G4b --- the attacker each approach imports: the
+game-theoretic follower buys interaction, timing, and equilibrium
+reasoning at the cost of a payoff function standing in for behaviour
+(strategically sophisticated and behaviourally empty at once); the
+learned orchestrator's attacker is whatever its training environment
+supplies, reward-shaped exploration over an abstract state space
+rather than a campaign pursuing an objective. The Tay sentence in the
+strand closer is this paragraph's worked example. Grounding: cho2020
+Sec.~VI, chobenasher2018.md, rl\_security\_environments.md.]}
 
 % 1 unit. Families and origins only; the inherited suite's definitions
 % (equation, direction) are ch4's under the 2026-08-21 metrics ruling.
@@ -1625,14 +1712,17 @@ metrics \citep{cho2020}.
 % RULED 2026-09-04 (pass 4, item 4): scoped to the effectiveness
 %   metrics (Cho's scope; efficiency scoped out); the 2011-2018 census
 %   window left implicit. Closes the item-18 [3b].
-This is dependent on the mode of modelling:
+This is dependent on the defence modelling approach:
 game-theoretic approaches often look at payoff and utility
 \citep{cho2020}.
 % cite check: Cho :636 --- "due to a large volume of game theoretic
 %   approaches ... the payoff or utility of attackers or defenders is
 %   also one of the dominant metrics". Faithful; "approaches" is Cho's
 %   noun too.
-% [3b] "mode of modelling" --- your chat suggestion, ratify on read.
+% RESOLVED 2026-09-05 (item 4): "mode of modelling" -> "defence
+%   modelling approach", the registry term ruled the same day; 3.2.1
+%   now precedes this sentence and introduces the term. Was: [3b]
+%   "mode of modelling" --- your chat suggestion, ratify on read.
 
 % P2 --- the so-what. Question: what does the state of the instrument
 % mean for any evaluation built on it, and what distinction survives?
@@ -1685,6 +1775,30 @@ date \citep{jalowski2026}.
 %   ("This is the main structural issue facing MTD literature today")
 %   CUT --- Marc: the claim is already made and cited in the block's
 %   first sentence; "today" not needed, the thesis is dated. Reversible.
+
+% P2 TAIL --- the scored-over pivot + handover, STILL TO DICTATE (the
+% 2026-09-04 header already parks it here). MOVED IN 2026-09-05 (item
+% 6) from the strand closer's G1, which is now the synthesis only.
+\medskip
+\noindent\emph{[GAP G1a --- the scored-over pivot: every metric in
+Table~\ref{tab:mtd-metrics} is computed against an attacker's progress
+(attack success probability over compromise events, MTTC over
+time-to-compromise, the path measures over the attack graph's attacker
+assumptions). Cho's own concessions (:574 attacker-high =
+defender-low; :595 MTTF is the same as MTTC; :646 attacker-side
+efficiency and effectiveness both cost the attacker) mean the split
+that survives his partition is computed-over-the-attacker vs
+computed-over-the-system, flagged as this thesis's synthesis; the
+poles made concrete (masud2025 Alg.~2, metrics = the path
+enumeration; mendonca2023 §4.4, a full panel with no attacker); the
+attacker inside the attacker-side definitions by lineage (mcqueen2006
+skill-conditioned MTTC; evans2011 the exploit-time vs
+re-randomisation race; maleki2016 success vs attacker time/cost;
+sharma2025 MTTC across skill levels); hong2018 :73 ``the evaluation
+results are dictated by the threat model used'' (said of IRS, scope
+honestly); jalowski2026 :209 ASP ``too naive'', Nmap baseline --- the
+latest survey saying so. Grounding: cho2020, hong2018,
+mttc\_lineage.md.]}
 
 % PASS 5 RUN 2026-09-04 (compress-to-ledger, split-stream WB + BB;
 % Marc: "every single ruling I'm happy with" --- the FULL set). Applied,
@@ -1969,7 +2083,10 @@ date \citep{jalowski2026}.
 % Methods"; the anatomy sentence moved up to the strand opener). The
 % MTDSim/HARM paragraph is ch2's; its first sentence (graphical
 % security model + discrete-event simulation) is ch4's
-% ladder-positioning sentence.
+% ladder-positioning sentence. Now 3.2.3 (2026-09-05); shape mirrors
+% the metrics unit: P1 the what (the sentence below), P2 the so-what
+% (G6 fused with the re-homed G4a --- the default attacker the
+% graphical-security-model composition brings with it).
 \subsection{Evaluation methods}
 \label{subsec:evaluation-methods}
 
@@ -1978,18 +2095,29 @@ categories, analytical, simulation, emulation, and real testbed, with
 the analytical category splitting into probabilistic and
 graphical-security-model approaches \citep{cho2020}.
 
+% P2 --- the so-what. G4a (was 3.3.1's opening marker) fused with G6,
+% 2026-09-05 (item 5).
 \medskip
-\noindent\emph{[GAP G6 --- what each rung can and cannot support (Cho
-2020 Table VI: the pros and cons per method), why simulation dominates
-the field, and the cost simulation carries (parameterisation realism,
-abstraction) that Chapter~\ref{ch:attacker-model} owns when it positions
-this thesis on the ladder.]}
+\noindent\emph{[GAP G6 (+G4a) --- what each rung can and cannot support
+(Cho 2020 Table VI: the pros and cons per method), why simulation
+dominates the field, and the cost simulation carries (parameterisation
+realism, abstraction) that Chapter~\ref{ch:attacker-model} owns when it
+positions this thesis on the ladder; then the default attacker that
+composition brings with it: the abstract, probabilistic,
+surface-directed attacker of the attack-graph / HARM tradition, what it
+assumes and why those assumptions suited the question that tradition
+asked. Grounding: cho2020 Sec.~VIII, hongkim2012harm, hongkim2016.]}
 
-% Strand closer (unnumbered, 1 unit): the hinge into 3.3. Was 3.2.3
+% Strand closer (unnumbered, 1/4 unit): the hinge into 3.3. Was 3.2.3
 % "Metrics and the attacker model"; heading dropped 2026-09-02 (the
 % title read as a metrics duplicate; the block mirrors 3.3's
 % unnumbered interstitial, and the strand now ends on the hinge). One
 % ported sentence (review Sec. II-C last para, fused); the rest is G1.
+% TRIMMED 2026-09-05 (Marc's ruling, item 6): G1 cut to the closing
+% synthesis; the scored-over pivot and its lineage citations MOVED to
+% the metrics unit's P2 tail as G1a (where the 2026-09-04 header
+% already parked them). The Tay sentence stays: it is 3.2.1 P2's
+% worked example for the learning-based approach.
 \medskip
 \noindent
 Whether the orchestration is specified or learned, the defender's
@@ -2000,103 +2128,51 @@ the broader paradigm inherits its training attacker from whatever
 simulator it is built on.
 
 \medskip
-\noindent\emph{[GAP G1 --- the hinge, one unit: every metric in
-Table~\ref{tab:mtd-metrics} is computed against an attacker's progress
-(attack success probability over compromise events, MTTC over
-time-to-compromise, the path measures over the attack graph's attacker
-assumptions), so the attacker model is not an input to the evaluation
-but a bound on what any of its metrics can express. Grounding: cho2020,
-hong2018, mttc\_lineage.md. ABSORBED from the 3.2.1 cue card
-(2026-09-04): the pivot --- Cho's own concessions (:574 attacker-high =
-defender-low; :595 MTTF is the same as MTTC; :646 attacker-side
-efficiency and effectiveness both cost the attacker), so the split that
-survives his partition is computed-over-the-attacker vs
-computed-over-the-system, flagged as this thesis's synthesis; the poles
-made concrete (masud2025 Alg.~2, metrics = the path enumeration;
-mendonca2023 §4.4, a full panel with no attacker); the attacker inside
-the attacker-side definitions by lineage (mcqueen2006 skill-conditioned
-MTTC; evans2011 the exploit-time vs re-randomisation race; maleki2016
-success vs attacker time/cost; sharma2025 MTTC across skill levels);
-hong2018 :73 "the evaluation results are dictated by the threat model
-used" (said of IRS, scope honestly); jalowski2026 :209 ASP "too naive",
-Nmap baseline --- the latest survey saying so.]}
+\noindent\emph{[GAP G1 --- the closing synthesis, a few sentences: each
+of the three commitments surveyed imports an attacker (the approach
+its decision logic, the metrics the progress they are computed over,
+the method its fidelity ceiling) and none of them specifies one, so
+the attacker model is not an input to the evaluation but a bound on
+what any of it can express. The pivot's evidence is G1a in the metrics
+unit; this block only closes the strand and hands to 3.3.]}
 
 % --------------------------------------------------------- 3.3 model --
-% Feeds model: the field says so about itself; the traditions the
-% critique is about; the rubric; the scoring; the gap. 5 units
-% (interstitial 1/2 + 1 + 1 + 1 1/2 + 1). Subsection order swapped
-% 2026-09-02: traditions before criterion (survey -> instrument ->
-% measurement -> verdict; the criterion now sits against the table it
-% scores).
+% Feeds model: the field says so about itself; the rubric; the
+% scoring; the gap. 4 units (interstitial 1/2 + 1 + 1 1/2 + 1).
+% Subsection order swapped 2026-09-02: traditions before criterion.
+% AMENDED 2026-09-05 (Marc's ruling, item 8): "Attacker modelling
+% traditions" DELETED as a heading --- its Cho Sec. VI paragraph and
+% G4b are 3.2.1's, G4a is 3.2.3's, Bland/Outkin are the gap's. Label
+% subsec:modelling-traditions retired (its one referent, the gap's
+% stitch, is replaced by the moved paragraph). Order is now instrument
+% -> measurement -> verdict, the diagnosis stated ONCE, in the
+% criterion, where it is the axes' source.
 \section{Attacker models in MTD}
 \label{sec:mtd-attacker-models}
 
 % Interstitial (unnumbered, ~1/2 unit). Review Sec. IV-A cut to its two
-% claims.
+% claims. CUT 2026-09-05 (item 7) to the move: on a cold read the
+% diagnosis appeared three times (here, the criterion, the gap) and
+% read as repetition; the sourced version lives in the criterion's Cho
+% and Jalowski paragraphs. SUPERSEDED, reversible: "The persistence of
+% this critique six years on is structural, not incidental: the
+% attacker model MTD literature evaluates against does not match the
+% attacker it claims to defend. Both surveys, however, stop at
+% diagnosis: naming the attacker model as under-developed is not the
+% same as measuring how far short any given evaluation falls, and
+% neither survey resolves the critique onto specific papers, nor onto
+% a scale against which an individual threat model can be placed."
 Two MTD surveys, six years apart, identify attacker-model
 under-development as a primary limitation of the field. Cho et al.\
 \citep{cho2020} document it in 2020; Jalowski et al.\
-\citep{jalowski2026} document it again in 2026. The persistence of
-this critique six years on is structural, not incidental: the attacker
-model MTD literature evaluates against does not match the attacker it
-claims to defend. Both surveys, however, stop at diagnosis: naming the
-attacker model as under-developed is not the same as measuring how far
-short any given evaluation falls, and neither survey resolves the
-critique onto specific papers, nor onto a scale against which an
-individual threat model can be placed.
-% [stitch] next sentence --- revised 2026-09-02 for the subsection
-% swap (was "This section builds that scale from the literature the
-% surveys themselves draw on, and then measures."); Marc's to accept.
-This section surveys the models the critique is aimed at, builds that
-scale from the literature the surveys themselves draw on, and then
-measures.
-
-% 1 unit. Chronological: the default -> the strategic -> the learned;
-% Bland and Outkin moved up from the review's synthesis (scrutiny (i)).
-% Moved ahead of the criterion 2026-09-02.
-\subsection{Attacker modelling traditions}
-\label{subsec:modelling-traditions}
-
-\noindent\emph{[GAP G4a --- the default attacker: the abstract,
-probabilistic, surface-directed attacker of the attack-graph / HARM
-tradition, what it assumes and why those assumptions suited the
-question that tradition asked. Grounding: hongkim2012harm, hongkim2016,
-cho2020.]}
-\medskip
-
-Modelling techniques cluster into game-theoretic, evolutionary, and
-learning-based traditions, with game-theoretic formulations dominating
-by volume \citep{cho2020}. A representative game-theoretic formulation
-casts the defender as a leader committing to a configuration-switching
-strategy and the attacker as a follower that performs reconnaissance
-before launching, typically drawing on exploits from public
-enumerations such as the Common Vulnerabilities and Exposures (CVE)
-database, with attacker-type uncertainty encoded as a prior
-distribution \citep{cho2020}.
-
-\medskip
-\noindent\emph{[GAP G4b --- what the strategic attacker buys
-(interaction, timing, equilibrium reasoning) and costs (a payoff
-function standing in for behaviour: strategically sophisticated and
-behaviourally empty at once); the learned attacker as reward-shaped
-exploration over an abstract state space rather than a campaign
-pursuing an objective. Grounding: chobenasher2018.md,
-rl\_security\_environments.md.]}
-\medskip
-
-Bland et al.\ \citep{bland2020} build an attacker that observes partial
-state, acts at a cost, and learns its strategy against a dynamic
-defender. Their attacker runs over expert-validated Common Attack
-Pattern Enumeration and Classification (CAPEC) patterns: evidence that
-the sequencing, adaptive attacker MTD evaluation omits is
-constructible, if so far only on narrow, hand-built cases. Outkin et
-al.\ \citep{outkin2022} address the parameters: they fit an attacker's
-per-step detection probabilities to real MITRE ATT\&CK Evaluations
-data, where the MTD evaluations of
-Section~\ref{subsec:recent-threat-models} derive theirs from CVSS.
-Profiled behaviour, an agent to enact it, parameters grounded in real
-engagement data: the apparatus is in place and validated; it has simply
-never been brought to MTD evaluation.
+\citep{jalowski2026} document it again in 2026.
+% [stitch] recast 2026-09-05 (was "This section surveys the models the
+% critique is aimed at, builds that scale from the literature the
+% surveys themselves draw on, and then measures." --- the surveying
+% clause went with the traditions unit; "that scale" lost its
+% antecedent with the cut above); Marc's to accept.
+This section builds a scale from the literature the surveys themselves
+draw on, and then measures.
 
 % 1 unit. The eight axes DERIVED here as the literature's
 % characterisation (port plan CONFIRM 2); ch4 cites them here (§4.1
@@ -2158,7 +2234,7 @@ selection and the merge of NIST's clauses onto Cho's characteristics
 are this thesis's own synthesis.
 
 Where those properties describe the attacker qualitatively, a fidelity
-descriptor captures what a threat model \emph{actually does} at the
+descriptor captures what an attacker model \emph{actually does} at the
 level of attacker decision-making, ordered by depth from static
 parameters to learned behaviour: \emph{parametric} (success
 probabilities, fixed durations, or design-time parameters; no per-step
@@ -2180,7 +2256,9 @@ over live state is procedural).]}
 % lineage row. Zhang: the review's "inherited essentially unchanged" is
 % not accurate for Zhang (zhang2023.md Z-TIM-07, an attacker time model
 % with a repeat-exploit speed-up) --- wording to verify.
-\subsection{Threat models in recent MTD evaluations}
+% RETITLED 2026-09-05 (item 9): "Threat models" -> "Attacker models",
+% the thesis-wide standardisation; label kept (ch4 and G3/G8 \ref it).
+\subsection{Attacker models in recent MTD evaluations}
 \label{subsec:recent-threat-models}
 
 Table~\ref{tab:attacker-cross-section} scores recent MTD evaluations
@@ -2193,11 +2271,11 @@ adverse-sample warrant: these are recent, well-regarded, and in two
 cases explicitly ATT\&CK-framed, so they are the works most likely to
 model an attacker well; the claim is existence over a favourable
 sample, not generalisation from $n = 3$.]} The pattern across the
-cross-section is a rhetoric-versus-execution gap: the threat models
+cross-section is a rhetoric-versus-execution gap: the attacker models
 encode few of the properties, even where the surrounding framing
 suggests otherwise.
 
-Brown et al.'s threat model is two scripted scenarios, opportunistic
+Brown et al.'s attacker model is two scripted scenarios, opportunistic
 (network-wide compromise) and targeted (specific-host compromise),
 executed through a finite-state machine inspired by the Cyber Kill
 Chain and MITRE ATT\&CK \citep{brown2023}. The attacker's only decision
@@ -2226,12 +2304,12 @@ decision-making agent: scripted fidelity \citep{masud2025}. The framing
 claims more than this: the attackers are said to be ``modeled after
 techniques in the cyber kill chain and MITRE ATT\&CK''
 \citep[p.~7]{masud2025}, but that grounding does not reach the
-executed threat model, which carries no technique-level behaviour
+executed attacker model, which carries no technique-level behaviour
 beyond the graph it enumerates. Kim et al.'s defender side is genuinely
 multi-phase, mapping MTD sub-techniques across the Cyber Kill Chain and
 onto corresponding ATT\&CK techniques, and the framing repeatedly
 invokes multi-phase MTD against multi-phase cyber-attacks
-\citep{kim2026}. The threat model used for evaluation does not match
+\citep{kim2026}. The attacker model used for evaluation does not match
 this depth: the case study is a single path-traversal vulnerability
 (CVE-2021-41773) driven by an automated script on a Poisson arrival
 schedule, with ATT\&CK invoked taxonomically rather than as behavioural
@@ -2244,7 +2322,7 @@ One adjacent work is worth setting beside the table without a row in
 it. He et al.'s MTD-AD, a boundary-perturbation defence of an
 anomaly-based intrusion detector, formalises an adaptive-knowledge
 attacker that knows the defence is deployed and adjusts to it
-\citep{he2025}: the only threat model in this survey that responds to
+\citep{he2025}: the only attacker model in this survey that responds to
 the defence at all. Two qualifiers bound that credit: the response is
 design-time configuration rather than runtime decision-making (a single
 surrogate-model threshold, swept across fixed values rather than
@@ -2272,11 +2350,11 @@ alone behavioural.
 % zhang2023.md before the table is final.
 \begin{table}[htbp]
   \centering
-  \caption[Threat models in recent MTD evaluations, scored on the eight
-  properties]{Threat models in recent MTD evaluations, scored on the
-  eight properties of Section~\ref{subsec:attacker-criterion} and
-  placed on the fidelity descriptor. A cell names what the executed
-  threat model operationalises; a dash means nothing. The lineage
+  \caption[Attacker models in recent MTD evaluations, scored on the
+  eight properties]{Attacker models in recent MTD evaluations, scored
+  on the eight properties of Section~\ref{subsec:attacker-criterion}
+  and placed on the fidelity descriptor. A cell names what the executed
+  attacker model operationalises; a dash means nothing. The lineage
   column covers the four works on one simulator
   \citep{brown2023, zhang2023, ho2024, tay2024}.}
   \label{tab:attacker-cross-section}
@@ -2303,8 +2381,13 @@ alone behavioural.
 \end{table}
 
 % 1 unit. Review Sec. V para 1 s2-s3 and para 2 (pyramid cut); the
-% second strand (Bland, Outkin) moved to 3.3.2. Closes on G2 and STOPS.
-\subsection{The research gap}
+% second strand (Bland, Outkin) moved to 3.3.2 on 2026-08-31 and BACK
+% HERE 2026-09-05 (item 10) as the "means exist" paragraph, replacing
+% the stitch that pointed at the deleted traditions unit. Closes on G2
+% and STOPS. RETITLED 2026-09-05: "The research gap" -> "Research gap"
+% (Marc: the article read as pretentious; the noun stays because it is
+% what an examiner's rubric looks for).
+\subsection{Research gap}
 \label{subsec:research-gap}
 
 Seen from the attacker's side, the gap sharpens: where the surveyed
@@ -2321,19 +2404,36 @@ rahman2025, zhangY2025}, the durable layer the surveyed attacker models
 never reach, grounded in documented APT tradecraft rather than a
 CVSS-derived heuristic; this supplies the behavioural content, what the
 attacker does.
-% [stitch] next sentence
-The agent to enact it and the engagement data to parameterise it exist
-too (Section~\ref{subsec:modelling-traditions}).
+% MOVED IN 2026-09-05 (item 10) verbatim from the deleted 3.3.1; its
+% \ref to the cross-section is now a back reference, wording unchanged.
+% SUPERSEDED stitch: "The agent to enact it and the engagement data to
+% parameterise it exist too (Section~\ref{subsec:modelling-traditions})."
+Bland et al.\ \citep{bland2020} build an attacker that observes partial
+state, acts at a cost, and learns its strategy against a dynamic
+defender. Their attacker runs over expert-validated Common Attack
+Pattern Enumeration and Classification (CAPEC) patterns: evidence that
+the sequencing, adaptive attacker MTD evaluation omits is
+constructible, if so far only on narrow, hand-built cases. Outkin et
+al.\ \citep{outkin2022} address the parameters: they fit an attacker's
+per-step detection probabilities to real MITRE ATT\&CK Evaluations
+data, where the MTD evaluations of
+Section~\ref{subsec:recent-threat-models} derive theirs from CVSS.
+Profiled behaviour, an agent to enact it, parameters grounded in real
+engagement data: the apparatus is in place and validated; it has simply
+never been brought to MTD evaluation.
 
+% TRIMMED 2026-09-05 (item 10): G2 no longer re-lists the means (the
+% two paragraphs above carry them) or the 3.2 closer's claim.
 \medskip
-\noindent\emph{[GAP G2 --- the closing move: the three strands closed
-in one paragraph (the behaviour is capturable; the instruments cannot
-see past the attacker model they are scored over; the models never
-leave the scripted rung), then the consequence: a threat model at that
-rung cannot represent a campaign past initial access, so MTD's
-performance against a footholded attacker is unmeasured because of the
-fidelity ceiling. Name what would have to be built, and stop ---
-building it is Chapter~\ref{ch:attacker-model}.]}
+\noindent\emph{[GAP G2 --- the closing move, the consequence and stop:
+an attacker model at the scripted rung cannot represent a campaign
+past initial access, so MTD's performance against a footholded
+attacker is unmeasured because of the fidelity ceiling. The strands
+are already closed (the behaviour is capturable and the means to enact
+and parameterise it exist, above; the instruments cannot see past the
+attacker they are scored over, the 3.2 closer). Name what would have
+to be built, and stop --- building it is
+Chapter~\ref{ch:attacker-model}.]}
 
 % =====================================================================
 \chapter{APT attacker model}
