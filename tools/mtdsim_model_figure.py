@@ -14,9 +14,13 @@ build step around it:
      -> docs/thesis/figures/fig_2-2a_mtdsim_model.pdf, included at natural size;
   3. optionally renders a PNG preview (--png) for iteration.
 
-Type arithmetic: the SVG is 1000 px wide and prints at 16 cm (455 pt), so
-1 px = 0.455 pt; the smallest class in the SVG is 17.5 px = 8.0 pt, the
-figure-conventions floor. Do not add text below that size.
+Type arithmetic: the SVG is 1100 px wide and prints at 16 cm (455 pt), so
+1 px = 0.414 pt. The face is the house figure sans (Nimbus Sans = Helvetica
+metrics, figure_table_conventions.md §l), set at 0.92 of the nominal size
+exactly as `helvet`'s `scaled=0.92` does in the TikZ generators, so that its
+x-height matches the 12 pt body face; the smallest class is 18.4 px =
+8.0 pt nominal (7.6 pt set), the figure-conventions floor. Do not add text
+below that size.
 
 Plan and rulings: docs/handoffs/2026-08-27_ch2_model_diagram_plan.md.
 Usage: python tools/mtdsim_model_figure.py [--png] [--out-png PATH]
@@ -36,6 +40,7 @@ OUT_DIR = REPO / "docs" / "thesis" / "figures"
 STEM = "fig_2-2a_mtdsim_model"
 WIDTH_CM = 16.0
 PX = 1100
+FACE_SCALE = 0.92   # helvet scaled=0.92 equivalent; the floor is checked at nominal size
 
 # code class -> the presentation name the SVG must carry (figure spec, §g)
 ROSTER = {   # the FULL pool (Marc, 2026-08-30): ch2 describes the platform as restored
@@ -67,10 +72,10 @@ def validate(html: str) -> None:
     if missing:
         raise SystemExit(f"SVG does not name: {missing}")
     sizes = [float(x) for x in re.findall(r"font-size:\s*([\d.]+)px", html)]
-    floor = min(sizes) * (WIDTH_CM / 2.54 * 72) / PX
+    floor = min(sizes) * (WIDTH_CM / 2.54 * 72) / PX / FACE_SCALE
     if floor < 7.95:
         raise SystemExit(f"smallest type prints at {floor:.1f}pt (< 8pt floor)")
-    print(f"roster ok; smallest type {min(sizes)}px -> {floor:.1f}pt at {WIDTH_CM} cm")
+    print(f"roster ok; smallest type {min(sizes)}px -> {floor:.1f}pt nominal ({floor * FACE_SCALE:.1f}pt set) at {WIDTH_CM} cm")
 
 
 def main() -> None:

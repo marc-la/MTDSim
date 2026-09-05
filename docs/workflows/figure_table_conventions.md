@@ -107,6 +107,7 @@ The examiner stake: Tim French's lit-review feedback (missing images/examples co
   > printed pt = natural pt × (411.4 ÷ natural width in pt)
 
   So **choose the type scale and the inclusion width together**, not by habit. A text-dense figure at ~16–17 cm natural needs `\footnotesize`/`\small` as its two sizes to clear the floor; only a figure narrow enough to be scaled *up* can afford `\scriptsize`/`\tiny`. The floor has a ceiling to match: a narrow figure included at full `\textwidth` is scaled up, and its labels then print *larger* than the prose around them, which reads as amateurish. Set the inclusion width so figure labels land near or just below body size — `fig:controller-mapping` is 11.6 cm natural at `0.78\textwidth`, printing at ~9.8–10.7pt against 12pt body. Where the widest element sets the width — a reason or label column — cap its length in the generator and enforce the cap, so a later edit cannot quietly push the whole figure under the floor. Measure after any change to width, type scale, or inclusion width; `gs -sDEVICE=bbox` gives the natural size, and the check belongs in the generator's own output.
+- **Face:** every figure is set in the house figure sans — §l.
 - Grey grammar (from `tools/gap_appendix_figures.py`, the canonical block since 2026-08-20): hairlines/gridlines `black!12`, secondary text `black!60`, structure in blacks/greys, `accent`/`accentlight` for the one thing the figure is about.
 - **The landscape typeblock, measured (2026-08-20, at the appendix attack graphs).** Inside `pdflscape`'s `landscape` environment the typeblock is the portrait one rotated: **702.78pt (24.79 cm) wide by 455.24pt (16.06 cm) tall**. (`\the\textwidth` read inside the environment still reports the portrait 455.24pt — it is the shipped page that swaps, so measure the printed page, not the macro.) A full-page landscape figure therefore has ~23.5 cm to work in with a decoding caption under it. Flagged for reconciliation: §h's arithmetic above quotes `\textwidth` as 411.4pt, but `dissertation.tex` loads `geometry` with `margin=2.5cm`, which makes it **455.24pt** — the two numbers disagree, and the second is what the document actually compiles with.
 - **Including at natural size sidesteps the scaling trap entirely.** If the generator packs the figure to the page box itself and the float includes it with a bare `\includegraphics{...}` — no width macro — then 8pt in the generator is 8pt on the page, and no later inclusion-width edit can quietly push it under the floor. `tools/gap_appendix_figures.py` works this way and prints the effective type size of every figure it writes.
@@ -310,3 +311,66 @@ labelled sub-blocks, the conversion that fixed the rules above);
 `tab:mtdsim-lineage` (single-level); `tab:attacker-cross-section` (Table 3.2
 — a comparison matrix in the style, with a dash for "nothing", decoded in
 its caption).
+
+## l) Figure typography — the house figure face (ruled 2026-09-05)
+
+**The rule.** Figure text is a sans face; body text stays the class's
+Computer Modern. Every generated figure is Helvetica, and the three build
+routes land on the same URW Nimbus Sans metrics:
+
+| Route | Where it is set | The lines |
+|---|---|---|
+| TikZ standalone (every `tools/*_figure.py`, `gap_appendix_figures.py`) | the emitted preamble, after `fontenc` | `\usepackage[scaled=0.92]{helvet}` + `\renewcommand{\familydefault}{\sfdefault}` |
+| hand-authored SVG through Chromium (`tools/mtdsim_model_figure.html`) | the `svg {}` CSS rule | `font-family: "Nimbus Sans", "TeX Gyre Heros", Helvetica, Arial, sans-serif`, class sizes at 0.92 of nominal (`FACE_SCALE` in the generator) |
+| Attack Flow Builder export (`tools/restyle_attackflow_svg.py`) | the font stack rewrite | `Arial, Helvetica, sans-serif` (Builder metrics are Inter; Helvetica-metric fits its boxes) |
+
+**Why a sans, and why this one.** Read from the embedded font lists of the
+§a corpus: every paper that draws its own figures sets the body in a serif
+(Times, Computer Modern, Charis) and the figure text in a sans —
+Helvetica in cho2020, alshamrani2019, brown2023, he2025 and outkin2023;
+Arial in al-sada2024 and buechel2025; Nimbus Sans (the Helvetica clone) in
+rahman2024; Computer Modern Sans in hong2018; Univers in bland2020. Figure
+text is read as the labels of a picture, not as prose, and a figure set in
+the body face reads as a paragraph that has been cut up: the eye cannot
+tell a label from the caption under it, and at 8 pt the serifs of Computer
+Modern clog. Marc's reading of the shipped set (2026-09-05) was exactly
+this split: Figures 3.1 and 3.2, already sans, "read right"; Figures 2.1
+and 4.1, in Computer Modern, "jarring", "tacky", "too similar to the
+thesis itself". Helvetica rather than Computer Modern Sans because the
+corpus is Helvetica/Arial, because Figure 3.1 imitates the ATT&CK site
+(Roboto, a Helvetica-grade grotesque) and is the figure to match, and
+because the Attack Flow route cannot set a TeX face.
+
+**Why `scaled=0.92`.** Helvetica's x-height is about a tenth larger than
+Computer Modern's, so an unscaled 8 pt helvet reads a size larger than
+8 pt CM and every figure would visibly outgrow its caption. At 0.92 the
+two faces sit at the same optical size, which keeps the §g floor and the
+§h arithmetic honest: **the floor is still counted at nominal size** —
+`\scriptsize` (8 pt) in a 12 pt standalone at natural size, printing at
+7.4 pt set — and every generator's own type-size check is unchanged. The
+SVG route applies the same 0.92 to its pixel sizes and divides by it in
+its floor check, so the two routes agree to the decimal.
+
+**What the rule does not change.** Math stays Computer Modern (helvet
+leaves the math fonts alone), which is the corpus norm — Times body with
+CM math is the IEEE default — and is what the B.6 kernel figures now show.
+Code identifiers stay `\texttt` (the rule key under the failure matrix;
+the identifiers ruling). Sizes, greys, accent, natural-size inclusion and
+the type scale within a figure are §h's and were not touched: the
+2026-09-05 regeneration of all eleven generated figures was **face only**.
+Eight natural sizes are unchanged to the point; three narrowed because
+Helvetica's widest label sets their width — the failure matrix by 2 pt
+(446 pt wide), the B.6 decomposition by 8 pt (457 pt), the kernel bands
+by 22 pt (328 pt, so its `0.82\textwidth` inclusion now scales it by
+1.15 rather than 1.08; it was already accepted under the floor in §i).
+The dissertation builds clean against the new set.
+
+**Still open, Marc's rework, not the face rule's.** Figure 2.1's headings
+sit near body size (nominal 11.6 pt brand, 10.8 pt panel titles) and its
+labels carry words the reader does not need ("subnets Barabási–Albert",
+"one service", "vulnerability chain"); Figure 4.1's captions under the
+controller glyphs ("8 mapped, 7 dwell-only", "15 × 14 tactic pairs") and
+its band titles ("the fifteen tactics, in kill-chain order", "six inherited
+verbs") say in the figure what the prose already says. Both are wording
+and scale, to be reworked one figure at a time; the face is now the same
+across the set, so that rework starts from a common baseline.

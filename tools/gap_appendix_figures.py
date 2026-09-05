@@ -244,6 +244,9 @@ def bezier_mid(pts: list[tuple[float, float]]) -> tuple[float, float]:
 PREAMBLE = [
     r"\documentclass[tikz,12pt,border=2pt]{standalone}",
     r"\usepackage[T1]{fontenc}",
+    # house figure face: sans, x-height matched to the 12 pt body (figure_table_conventions.md §l)
+    r"\usepackage[scaled=0.92]{helvet}",
+    r"\renewcommand{\familydefault}{\sfdefault}",
     r"\usetikzlibrary{arrows.meta,shapes.geometric}",
     r"\definecolor{accent}{RGB}{31,84,140}",
     r"\definecolor{accentlight}{RGB}{200,214,232}",
