@@ -365,12 +365,16 @@ by 22 pt (328 pt, so its `0.82\textwidth` inclusion now scales it by
 1.15 rather than 1.08; it was already accepted under the floor in §i).
 The dissertation builds clean against the new set.
 
-**Still open, Marc's rework, not the face rule's.** Figure 2.1's headings
-sit near body size (nominal 11.6 pt brand, 10.8 pt panel titles) and its
-labels carry words the reader does not need ("subnets Barabási–Albert",
-"one service", "vulnerability chain"); Figure 4.1's captions under the
-controller glyphs ("8 mapped, 7 dwell-only", "15 × 14 tactic pairs") and
-its band titles ("the fifteen tactics, in kill-chain order", "six inherited
-verbs") say in the figure what the prose already says. Both are wording
-and scale, to be reworked one figure at a time; the face is now the same
-across the set, so that rework starts from a common baseline.
+**The rework that followed (ruled by Marc, 2026-09-05, from a numbered
+proposal).** Figure 2.1: two sizes (8 pt labels, 8.5 pt bold panel titles),
+the brand line dropped, the generator annotations and the vulnerability
+layer's three labels cut, the Defence panel widened so every mechanism
+name sits on one line (the roster names must match Table 2.2, so the
+overlap was fixed by width, never by renaming). Figure 4.1: axis header
+"ATT&CK tactics", the controller glyph footers and the action-box
+sublabels cut, the mapping glyph turned so its tactic row runs the way
+the shared axis does, the L3 gutter one line, and the caption pared to
+the §b2 decode (axis, accent, grey) because the figure names its own
+rungs and the chapter preamble carries the argument. The pattern to
+reuse: only component names are text; facts the prose states are not
+repeated as footers; a caption decodes, it does not narrate.

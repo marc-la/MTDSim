@@ -2515,14 +2515,15 @@ Chapter~\ref{ch:attacker-model}.]}
 \begin{figure}[p]
   \centering
   \includegraphics[width=\textwidth]{fig_4-0a_pipeline_ladder}
+  % Pared back 2026-09-05 (Marc): the rungs and joins are named in the
+  % figure itself and the preamble above carries the argument, so the
+  % caption keeps only what conventions §b2 owes --- the axis and the
+  % two colour encodings. Ratify-on-read.
   \caption[The movement attacker end to end]{The movement attacker end to
-  end. Campaign intelligence is aggregated into an attack graph (L0--L1),
-  conditioned on objective into four attack profiles (L2), given
-  executable semantics as a generalised stochastic Petri net (L3), and
-  joined to MTDSim through the controller layer as an attacker-agent
-  traversal (L4). Columns are the fifteen tactics in kill-chain order
-  throughout. The accent marks what this thesis builds; the action layer,
-  in grey, is inherited unchanged.}
+  end, from campaign intelligence (L0) to an attacker-agent traversal in
+  MTDSim (L4). Columns are the ATT\&CK tactics in kill-chain order; the
+  accent marks what this thesis builds, and the grey action layer is
+  inherited unchanged.}
   \label{fig:pipeline}
 \end{figure}
 

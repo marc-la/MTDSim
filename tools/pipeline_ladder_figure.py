@@ -116,14 +116,11 @@ H_L2_ROW = 0.66         # one profile row
 H_L3 = 1.56             # the net
 H_ARROW = 0.52          # a between-rung arrow
 H_JOIN = 0.94           # a between-band join
-H_CTRL = 3.20           # the controller band
-H_ACT = 2.34            # the action band
+H_CTRL = 2.86           # the controller band (no fact footers, Marc 2026-09-05)
+H_ACT = 1.80            # the action band (names only, Marc 2026-09-05)
 PAD = 0.20              # band padding above the first rung / below the last
 
 ACCENT = "accent"
-WORD = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
-        7: "seven", 8: "eight", 9: "nine", 10: "ten"}
-
 
 def esc(s: str) -> str:
     return (s.replace("\\", r"\textbackslash{}").replace("&", r"\&")
@@ -227,15 +224,6 @@ def gutter(w, y, title, sub=None):
       r"at (%.3f,%.3f) {%s};" % (GUT_W, GUT_R, y, body))
 
 
-def foot(w, x, y, width, text):
-    """A cell's fact line, centred and wrapped inside the cell."""
-    # one centred line; the caller keeps the text inside its cell (checked at
-    # render, since a wrap here would hang below the band).
-    assert width > 0
-    w(r"\node[anchor=north,font=\scriptsize,text=black!58] at (%.3f,%.3f) {%s};"
-      % (x, y + 0.10, text))
-
-
 def down_arrow(w, x, y_from, y_to, label, colour="black!55", side="right"):
     w(r"\draw[->,%s,line width=0.5pt] (%.3f,%.3f) -- (%.3f,%.3f);"
       % (colour, x, y_from, x, y_to))
@@ -283,7 +271,7 @@ def emit(gap, order, nets, overlay_edges, durations, mapping, verbs,
     w(r"\node[anchor=south east,font=\scriptsize,text=black!58] at (%.3f,%.3f) {impact};"
       % (AX1 + 0.10, y + 0.07))
     w(r"\node[anchor=south,font=\scriptsize,text=black!58] at (%.3f,%.3f) "
-      r"{the fifteen tactics, in kill-chain order};" % ((AX0 + AX1) / 2, y + 0.07))
+      r"{ATT\&CK tactics};" % ((AX0 + AX1) / 2, y + 0.07))
     y -= H_AXIS * 0.38
 
     # ---- L0: one row per attack flow -------------------------------------
@@ -425,8 +413,7 @@ def emit(gap, order, nets, overlay_edges, durations, mapping, verbs,
     w(r"\fill[%s] (%.3f,%.3f) circle (0.052);" % (ACCENT, col[entry], ry))
     facts["net"] = (profile, len(places), len(doc["transitions"]), len(overlay_edges))
     gutter(w, ry, r"\textbf{L3} \enspace Petri net",
-           r"%d places, %d transitions\\one token, one profile shown"
-           % (len(places), len(doc["transitions"])))
+           r"%d places, %d transitions" % (len(places), len(doc["transitions"])))
     y -= H_L3
 
     y -= PAD
@@ -453,8 +440,7 @@ def emit(gap, order, nets, overlay_edges, durations, mapping, verbs,
     cx = [BAND_L + 0.45 + cell_w * (i + 0.5) for i in range(3)]
     head_y = y - 0.30
     body_top = y - 0.62
-    body_bot = ctrl_top - H_CTRL + 0.46
-    foot_y = ctrl_top - H_CTRL + 0.24
+    body_bot = ctrl_top - H_CTRL + 0.30
 
     for i in (1, 2):
         sx = BAND_L + 0.45 + cell_w * i
@@ -488,35 +474,36 @@ def emit(gap, order, nets, overlay_edges, durations, mapping, verbs,
     w(r"\draw[->,black!45,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);"
       % (bar_x0 + bar_max + 0.10, (body_top + body_bot) / 2,
          ex_x0 - 0.10, (body_top + body_bot) / 2))
-    foot(w, cx[0], foot_y, cell_w, r"%d declared means" % len(durations))
 
     # (ii) the tactic-to-verb mapping
     w(r"\node[font=\scriptsize] at (%.3f,%.3f) {Tactic-to-verb mapping};" % (cx[1], head_y))
-    lx, rx = cx[1] - 0.95, cx[1] + 0.95
-    tp = (body_top - body_bot) / (len(order) - 1)
-    ty = {t: body_top - i * tp for i, t in enumerate(order)}
-    vp = (body_top - body_bot) / max(len(verbs) - 1, 1)
-    vy = {v: body_top - i * vp for i, v in enumerate(verbs)}
+    # Horizontal (Marc, 2026-09-05): the tactic row runs the same way as the
+    # figure's shared tactic axis, the verb row sits beneath it.
+    row_l, row_r = cx[1] - 0.62, cx[1] + 1.36
+    ty_row, vy_row = body_top - 0.12, body_bot + 0.12
+    tp = (row_r - row_l) / (len(order) - 1)
+    tx = {t: row_l + i * tp for i, t in enumerate(order)}
+    vp = (row_r - row_l) / max(len(verbs) - 1, 1)
+    vx = {v: row_l + i * vp for i, v in enumerate(verbs)}
     for t in order:
         v = mapping.get(t)
         if v:
             w(r"\draw[black!45,line width=0.3pt] (%.3f,%.3f) -- (%.3f,%.3f);"
-              % (lx, ty[t], rx, vy[v]))
+              % (tx[t], ty_row, vx[v], vy_row))
     for t in order:
         if mapping.get(t):
-            w(r"\fill[black!68] (%.3f,%.3f) circle (0.9pt);" % (lx, ty[t]))
+            w(r"\fill[black!68] (%.3f,%.3f) circle (0.9pt);" % (tx[t], ty_row))
         else:
-            w(r"\draw[black!42,line width=0.35pt] (%.3f,%.3f) circle (0.9pt);" % (lx, ty[t]))
+            w(r"\draw[black!42,line width=0.35pt] (%.3f,%.3f) circle (0.9pt);" % (tx[t], ty_row))
     for v in verbs:
-        w(r"\fill[black!68] (%.3f,%.3f) circle (1.1pt);" % (rx, vy[v]))
+        w(r"\fill[black!68] (%.3f,%.3f) circle (1.1pt);" % (vx[v], vy_row))
     w(r"\node[anchor=east,font=\scriptsize,text=black!58] at (%.3f,%.3f) {tactics};"
-      % (lx - 0.14, (body_top + body_bot) / 2))
-    w(r"\node[anchor=west,font=\scriptsize,text=black!58] at (%.3f,%.3f) {verbs};"
-      % (rx + 0.14, (body_top + body_bot) / 2))
+      % (row_l - 0.16, ty_row))
+    w(r"\node[anchor=east,font=\scriptsize,text=black!58] at (%.3f,%.3f) {verbs};"
+      % (row_l - 0.16, vy_row))
     n_mapped = sum(1 for t in order if mapping.get(t))
     n_dwell = len(order) - n_mapped
     facts["mapping"] = (mapping_version, n_mapped, n_dwell, len(verbs))
-    foot(w, cx[1], foot_y, cell_w, r"%d mapped, %d dwell-only" % (n_mapped, n_dwell))
 
     # (iii) the failure matrix
     w(r"\node[font=\scriptsize] at (%.3f,%.3f) {Failure matrix};" % (cx[2], head_y))
@@ -539,8 +526,6 @@ def emit(gap, order, nets, overlay_edges, durations, mapping, verbs,
     w(r"\draw[black!35,line width=0.3pt] (%.3f,%.3f) rectangle (%.3f,%.3f);"
       % (mx0, my0 - side, mx0 + side, my0))
     facts["failure"] = (overlay_version, len(order), len(order) - 1, n_rules)
-    foot(w, cx[2], foot_y, cell_w,
-         r"%d $\times$ %d tactic pairs" % (len(order), len(order) - 1))
 
     y = ctrl_top - H_CTRL
     band(w, ctrl_top, y, "accent!45")
@@ -562,17 +547,15 @@ def emit(gap, order, nets, overlay_edges, durations, mapping, verbs,
     act_top = y_act_top
     band(w, act_top, act_top - H_ACT, "black!22", "black!4")
     rot_label(w, act_top, act_top - H_ACT, "Action layer", "black!55")
-    boxes = [("Attacker", r"%s inherited verbs" % WORD.get(len(verbs), len(verbs))),
-             ("Network", r"hosts, services\\and vulnerabilities"),
-             ("Defender", r"moving target\\defence")]
+    boxes = ["Attacker", "Network", "Defender"]   # names only (Marc, 2026-09-05)
     bw = 2.70
     bxs = [BAND_L + 0.55 + bw / 2, (BAND_L + BAND_R) / 2, BAND_R - 0.55 - bw / 2]
     by_c = act_top - H_ACT / 2
-    for (title, sub), bx in zip(boxes, bxs):
+    by_c -= 0.10   # the strap above needs its own line
+    for title, bx in zip(boxes, bxs):
         w(r"\draw[black!38,fill=white,line width=0.4pt,rounded corners=1.4pt] "
-          r"(%.3f,%.3f) rectangle (%.3f,%.3f);" % (bx - bw / 2, by_c - 0.58, bx + bw / 2, by_c + 0.58))
-        w(r"\node[font=\scriptsize,align=center,text width=%.2fcm] at (%.3f,%.3f) "
-          r"{%s\\[1.5pt]\color{black!58}%s};" % (bw - 0.16, bx, by_c, title, sub))
+          r"(%.3f,%.3f) rectangle (%.3f,%.3f);" % (bx - bw / 2, by_c - 0.36, bx + bw / 2, by_c + 0.36))
+        w(r"\node[font=\scriptsize] at (%.3f,%.3f) {%s};" % (bx, by_c, title))
     for i in (0, 2):
         x1 = bxs[i] + (bw / 2 if i == 0 else -bw / 2)
         x2 = bxs[1] + (-bw / 2 if i == 0 else bw / 2)
