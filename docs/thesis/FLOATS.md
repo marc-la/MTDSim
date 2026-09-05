@@ -17,7 +17,6 @@ new float.
 | Ch 4 opening | `fig_4-0a_pipeline_ladder` | `fig:pipeline` | `tools/pipeline_ladder_figure.py` |
 | §4.4 L4 execution | `fig_4-4a_controller_mapping` | `fig:controller-mapping` | `tools/controller_mapping_figure.py` |
 | §4.4 L4 execution | `fig_4-4b_failure_weight_matrix` | `fig:failure-weight-matrix` | `tools/failure_weight_decomposition_figure.py --layout matrix` (chapter geometry, natural size) |
-| §4.4 L4 execution | `fig_4-4c_movement_dataflow` | `fig:movement-dataflow` | `tools/movement_dataflow_figure.py` |
 | §B.1 attack graph | `fig_B-1a_gap_flow_exemplar` | `fig:app-flow-exemplar` | `tools/gap_appendix_figures.py --only gap_flow_exemplar` |
 | §B.1 attack graph | `fig_B-1b_gap_technique_graph` | `fig:app-technique-graph` | `tools/gap_appendix_figures.py --only gap_technique_graph` |
 | §B.1 attack graph | `fig_B-1c_gap_technique_core` | `fig:app-technique-core` | `tools/gap_appendix_figures.py --only gap_technique_core` |

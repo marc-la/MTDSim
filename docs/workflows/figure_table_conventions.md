@@ -375,6 +375,12 @@ overlap was fixed by width, never by renaming). Figure 4.1: axis header
 sublabels cut, the mapping glyph turned so its tactic row runs the way
 the shared axis does, the L3 gutter one line, and the caption pared to
 the §b2 decode (axis, accent, grey) because the figure names its own
-rungs and the chapter preamble carries the argument. The pattern to
+rungs and the chapter preamble carries the argument. Later that day the
+runtime-loop figure (`fig:movement-dataflow`, Figure 4.4) was **folded into
+the ladder** and its generator retired: its lower half duplicated the
+ladder's controller and action bands, and what it added — six numbered
+steps, the dwell-time arrow, the failure/success split — fits on the
+ladder's two join gaps, which were widened to carry them. A figure earns
+its float; a duplicate of another figure's bands does not. The pattern to
 reuse: only component names are text; facts the prose states are not
 repeated as footers; a caption decodes, it does not narrate.
