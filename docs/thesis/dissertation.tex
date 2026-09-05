@@ -3151,20 +3151,16 @@ layer has gaps. Many tactics are dwell-only (Figure~\ref{fig:controller-mapping}
 %   CAPTION IS DRAFTED, NOT RATIFIED --- yours for the voice pass.]
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.78\textwidth]{fig_4-4a_controller_mapping}
-  \caption[The tactic-to-verb mapping]{The tactic-to-verb mapping the movement
-  layer runs on (\texttt{v2\_partial}), across the fifteen tactics of MITRE
-  ATT\&CK v19.1. Every tactic dispatches at most one substrate action: eight
-  do, and the seven drawn in blue against an empty slot are dwell-only --- they
-  consume simulated time, dispatch nothing and raise no verdict, so the token
-  routes on the base transition weights alone. Those seven are the action
-  layer's coverage concession; Table~\ref{tab:controller-mapping} gives the
-  reason each row holds the value it does. Bands are the lifecycle-consensus
-  stages. Substrate actions are named in domain terms rather than by the
-  simulator's own identifiers, and the column is ordered by the tactics each
-  action serves rather than by the substrate's call order, because under this
-  mapping the two no longer agree; only the vulnerability exploit carries more
-  than one tactic.}
+  % Natural size (conventions §h): the generator sets names at \footnotesize,
+  % so 10pt in the tool is 10pt on the page. Condensed and the caption pared
+  % 2026-09-05 (Marc: it is a mapping, arbitrarily chosen; the figure took
+  % too much page). Ratify-on-read.
+  \includegraphics{fig_4-4a_controller_mapping}
+  \caption[The tactic-to-verb mapping]{The tactic-to-verb mapping
+  (\texttt{v2\_partial}). Each ATT\&CK tactic dispatches at most one verb of
+  the action set, named as in the simulator's code; the seven in blue against
+  an empty slot have no mapping and are dwell-only. Bands are the lifecycle
+  stages. Table~\ref{tab:controller-mapping} gives the reason for each row.}
   \label{fig:controller-mapping}
 \end{figure}
 % [note] the mapping-swap-as-experiment point goes to sec:experimental-setup
@@ -3261,21 +3257,16 @@ failure weights.
   % (conventions h). The three-panel decomposition this set is the product of
   % is Appendix~\ref{app:weight-sets}, Figure~\ref{fig:failure-weight-decomposition}.
   \includegraphics{fig_4-4b_failure_weight_matrix}
+  % Caption pared 2026-09-05 (Marc): the decode only; the distance factor
+  % and the rule rationale live in the appendix. Ratify-on-read.
   \caption[The committed failure weight set]{The failure weight set as
-  committed (\texttt{v4\_failure\_only}). Rows are the source tactic $a$
-  whose action returned the failure verdict, columns the candidate next
-  tactic $b$, grouped into the four consensus phases (preparation,
-  intrusion, post-intrusion, objective) with the ATT\&CK reading order
-  inside a phase; the diagonal is not a pair, since a self-loop is the
-  stepping layer's bounded retry rather than an overlay cell. Each cell
-  prints the multiplier applied to the token's out-transition on that
-  verdict, on one grey scale from 0 (white) to 1, and beneath it the letter
-  of the declared rule that produced it, decoded in the key under the
-  matrix: the nine rule values are argued, not swept, and the rationale and
-  provenance tier of each is Table~\ref{tab:overlay-failure-rules}. A value
-  smaller than its rule's is the lifecycle-distance factor at work (a
-  two-phase move is scaled by $0.25$, a three-phase move reads as exactly
-  $0$); how the two kernels compose, cell by cell, is drawn in
+  committed (\texttt{v4\_failure\_only}). Rows are the tactic whose verb
+  returned the failure verdict, columns the candidate next tactic, grouped
+  into the four lifecycle phases; the hatched diagonal is not a pair. Each
+  cell is the multiplier applied to the token's out-transition, shaded from
+  0 (white) to 1, with the letter of the declared rule that set it, decoded
+  in the key beneath. The rules are argued in
+  Table~\ref{tab:overlay-failure-rules}; their composition cell by cell is
   Figure~\ref{fig:failure-weight-decomposition}.}
   \label{fig:failure-weight-matrix}
 \end{figure}

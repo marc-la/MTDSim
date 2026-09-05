@@ -21,13 +21,13 @@ Everything load-bearing is read, never typed:
 Two classes of string are authored here rather than read, and both are
 presentation text, which §g licenses as part of the figure spec:
 
-1. **Verb names.** `SCAN_NEIGHBOR` is a code identifier, and raw identifiers in
-   figures are a named anti-pattern (§g, the tay2024 failure). VERB_LABEL maps
-   each to its domain term from `attacker_phase_catalogue.md` §§1--6. Note
-   "Neighbour reveal": the verb name is the dissertation's own common noun, so
-   it takes AU spelling, while the tactic names beside it keep MITRE's US
-   spelling because they are looked-up proper names — the two halves of the
-   2026-08-20 Australianisation ruling (§i), visible in one figure.
+1. **Verb names.** Ruled 2026-09-05 (Marc): the six verbs are named as in the
+   simulator's code, in `\texttt`, exactly as Table 2.4 (`tab:attacker-states`)
+   names them — they are the action set's proper names, not raw identifiers
+   leaking from a config file (the §g anti-pattern is tay2024's
+   `sensitivity_1.0`; these are the names the dissertation itself uses for
+   the states). VERB_ORDER pins the six the mapping may name. The earlier
+   domain-term labels ("Neighbour reveal") were retired with that ruling.
 2. **Reasons.** REASON distils each row's `reason` column for the appendix
    table. The generator fails loudly if the mapping carries a tactic with no
    reason, so a new or renamed row cannot ship without one; it cannot, however,
@@ -75,16 +75,14 @@ TAB_STEM = "tab_B-5a_controller_mapping_reasons"
 
 DWELL_ONLY = "dwell-only"
 
-# Substrate verbs in domain terms (attacker_phase_catalogue.md §§1--6). See the
-# module docstring on why these are authored and why "Neighbour" is AU.
-VERB_LABEL = {
-    "SCAN_HOST": "Reachable-host scan",
-    "ENUM_HOST": "Host enumeration",
-    "SCAN_PORT": "Port scan",
-    "EXPLOIT_VULN": "Vulnerability exploit",
-    "BRUTE_FORCE": "Credential brute force",
-    "SCAN_NEIGHBOR": "Neighbour reveal",
-}
+# The six verbs of the inherited action set, by their code names (the names
+# Table 2.4 uses); the figure and the appendix table set them in \texttt.
+VERB_ORDER = ("SCAN_HOST", "ENUM_HOST", "SCAN_PORT", "EXPLOIT_VULN",
+              "BRUTE_FORCE", "SCAN_NEIGHBOR")
+
+
+def verb_tex(verb: str) -> str:
+    return r"\texttt{%s}" % verb.replace("_", r"\_")
 
 # One row's reason, distilled from the mapping's own `reason` column for the
 # appendix table (`tab:controller-mapping`). These do NOT appear in the figure:
@@ -136,22 +134,22 @@ REASON = {
 # and its labels would print larger than the prose around them. The type scale
 # is a step larger than the older family figures, which at \scriptsize/\tiny
 # print around 5--7pt (see figure_table_conventions.md §h, §i).
-NAME_FONT = r"\small"          # tactic and verb names (10.95pt natural)
-SMALL_FONT = r"\footnotesize"  # headers and stage labels (10pt natural)
+NAME_FONT = r"\footnotesize"   # tactic and verb names (10pt natural, included at natural size)
+SMALL_FONT = r"\scriptsize"    # headers, key and stage labels (8pt natural, the floor)
 
 # With the reasons moved to the appendix table the figure is narrow enough to
 # label its stage bands horizontally, which the earlier reason-column layout had
 # no room for: a rotated gutter label ("preparation", ~2.1 cm at SMALL_FONT)
 # overruns a two-row band 1.4 cm tall and collides with its neighbour, whereas a
 # horizontal label in a left gutter fits any band height.
-ROW_PITCH = 0.72
+ROW_PITCH = 0.50            # condensed 2026-09-05 (Marc: the figure took too much page)
 STAGE_X = 0.0               # left edge of the horizontal stage-band labels
-STAGE_W = 2.25              # measured width of "post-intrusion" plus a pad
-TACTIC_X = STAGE_W + 3.35   # right edge of the tactic names
+STAGE_W = 1.85              # width of "post-intrusion" at SMALL_FONT plus a pad
+TACTIC_X = STAGE_W + 3.30   # right edge of the tactic names
 EDGE_X0 = TACTIC_X + 0.18   # edges and dashes leave here
-VERB_L = EDGE_X0 + 1.74     # left edge of the verb column
-VERB_W = 4.05
-VERB_H = 0.54
+VERB_L = EDGE_X0 + 1.50     # left edge of the verb column
+VERB_W = 3.05
+VERB_H = 0.42
 VERB_CX = VERB_L + VERB_W / 2
 VERB_R = VERB_L + VERB_W
 FIG_R = VERB_R
@@ -192,7 +190,7 @@ def check(rows: list[dict], axis, stage_of: dict[str, int]) -> None:
         mapped = r["disposition"] != DWELL_ONLY
         if mapped and not r["sim_phase"]:
             raise SystemExit(f"{r['tactic']}: mapped but names no verb")
-        if mapped and r["sim_phase"] not in VERB_LABEL:
+        if mapped and r["sim_phase"] not in VERB_ORDER:
             raise SystemExit(f"{r['tactic']}: no domain name for verb {r['sim_phase']!r}")
         if not mapped and r["sim_phase"]:
             raise SystemExit(f"{r['tactic']}: dwell-only but names a verb")
@@ -245,21 +243,21 @@ def emit(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str:
     # --- the key, then the column headers ------------------------------------
     # The empty slot is a drawn symbol, so it gets a symbol legend inside the
     # figure (§d2) as well as the caption decode (§b2).
-    ky = ROW_PITCH * 1.75
+    ky = 1.02
     w(r"\draw[%s,line width=0.4pt,dash pattern=on 1.1pt off 1.3pt] "
       r"(%.2f,%.3f) -- (%.2f,%.3f);" % (ACCENT, 0.16, ky, 0.99, ky))
     w(r"\draw[%s,line width=0.4pt] (%.2f,%.3f) rectangle (%.2f,%.3f);"
       % (ACCENT, 0.99, ky - 0.11, 1.21, ky + 0.11))
     w(r"\node[anchor=west,font=%s,text=%s] at (%.2f,%.3f) "
-      r"{no verb: the tactic dwells and dispatches nothing (%d of %d)};"
+      r"{no mapping (%d of %d)};"
       % (SMALL_FONT, ACCENT, 1.33, ky, len(dwell), len(order)))
 
-    hy = ROW_PITCH * 0.80
+    hy = 0.50
     w(r"\node[anchor=west,font=%s,text=black!60] at (%.2f,%.2f) {lifecycle stage};"
       % (SMALL_FONT, STAGE_X + 0.08, hy))
     w(r"\node[anchor=east,font=%s,text=black!60] at (%.2f,%.2f) {ATT\&CK tactic};"
       % (SMALL_FONT, TACTIC_X, hy))
-    w(r"\node[anchor=center,font=%s,text=black!60] at (%.2f,%.2f) {substrate action};"
+    w(r"\node[anchor=center,font=%s,text=black!60] at (%.2f,%.2f) {verb};"
       % (SMALL_FONT, VERB_CX, hy))
 
     # --- tactic rows ---------------------------------------------------------
@@ -297,7 +295,7 @@ def emit(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str:
         # No "n tactics" line: the fan-in already carries the multiplicity, and
         # only one verb has more than one edge. The caption names that verb.
         w(r"\node[anchor=center] at (%.3f,%.3f) {%s};"
-          % (VERB_CX, vy, _esc(VERB_LABEL[verb])))
+          % (VERB_CX, vy, verb_tex(verb)))
 
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
@@ -343,8 +341,8 @@ def emit_table(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str
             L.append(r"\addlinespace")
         prev_stage = stage_of[t]
         verb = by_tactic[t]["sim_phase"]
-        action = VERB_LABEL[verb] if verb else "---"
-        L.append(r"%s & %s & %s \\" % (_esc(axis.label[t]), _esc(action), REASON[t]))
+        action = verb_tex(verb) if verb else "---"
+        L.append(r"%s & %s & %s \\" % (_esc(axis.label[t]), action, REASON[t]))
     L.append(r"\bottomrule")
     L.append(r"\end{tabular}")
     L.append(r"\end{table}")
@@ -382,10 +380,10 @@ def main() -> None:
     multi = {v: sum(1 for r in mapped if r["sim_phase"] == v) for v in verbs}
     print(f"mapping={entry['name']}  ATT&CK={axis.version}  tactics={len(rows)}  "
           f"mapped={len(mapped)}  dwell-only={len(dwell)}  verbs used={len(verbs)}/"
-          f"{len(VERB_LABEL)}")
+          f"{len(VERB_ORDER)}")
     print("coverage (registry): " + entry["coverage"])
     print("verbs carrying >1 tactic: "
-          + (", ".join(f"{VERB_LABEL[v]}={n}" for v, n in multi.items() if n > 1) or "none"))
+          + (", ".join(f"{v}={n}" for v, n in multi.items() if n > 1) or "none"))
     print("dwell-only: " + ", ".join(axis.label[r["tactic"]] for r in dwell))
     # the band decode the caption must carry, in the order the figure draws it
     order = axis.stage_grouped_order(stage_of)

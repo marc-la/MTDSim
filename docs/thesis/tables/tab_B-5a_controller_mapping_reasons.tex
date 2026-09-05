@@ -8,20 +8,20 @@
 \toprule
 Tactic & Substrate action & Reason \\
 \midrule
-Reconnaissance & Reachable-host scan & Builds the queue of attackable hosts from the current foothold --- the substrate's only survey act. \\
+Reconnaissance & \texttt{SCAN\_HOST} & Builds the queue of attackable hosts from the current foothold --- the substrate's only survey act. \\
 Resource development & --- & Acquires capability off-target, and no world outside the victim network is modelled. \\
 \addlinespace
-Initial access & Vulnerability exploit & The only verb whose deliberate effect converts a host the attacker does not own into one it does. \\
-Execution & Vulnerability exploit & Applies a vulnerability's effect to a service --- the only act of running something on a target. \\
+Initial access & \texttt{EXPLOIT\_VULN} & The only verb whose deliberate effect converts a host the attacker does not own into one it does. \\
+Execution & \texttt{EXPLOIT\_VULN} & Applies a vulnerability's effect to a service --- the only act of running something on a target. \\
 \addlinespace
 Persistence & --- & A compromised host stays compromised unconditionally, so there is no access artefact to plant or maintain. \\
-Privilege escalation & Vulnerability exploit & The substrate has no privilege dimension; the stand-in is exploited impact accruing toward the threshold at which a host falls. \\
+Privilege escalation & \texttt{EXPLOIT\_VULN} & The substrate has no privilege dimension; the stand-in is exploited impact accruing toward the threshold at which a host falls. \\
 Stealth & --- & Nothing observes the attacker, so there is no state evasion could alter --- the model's stealth gap, made explicit. \\
 Defense impairment & --- & MTD scheduling is a defender-side process the attacker can neither observe nor touch. \\
-Credential access & Credential brute force & Attempts a login against the current host from the pool of compromised usernames --- T1110 with no interpretation. \\
-Discovery & Port scan & Enumerates the open ports reachable on the current host (T1046), which is what lets a later exploit run at all. \\
-Lateral movement & Host enumeration & Pops the next host, makes it current and sets the pivot --- the act of moving to a remote system. \\
-Command and control & Neighbour reveal & The one row the inherited design states itself: Brown describes this verb as command and control revealing connected hosts. \\
+Credential access & \texttt{BRUTE\_FORCE} & Attempts a login against the current host from the pool of compromised usernames --- T1110 with no interpretation. \\
+Discovery & \texttt{SCAN\_PORT} & Enumerates the open ports reachable on the current host (T1046), which is what lets a later exploit run at all. \\
+Lateral movement & \texttt{ENUM\_HOST} & Pops the next host, makes it current and sets the pivot --- the act of moving to a remote system. \\
+Command and control & \texttt{SCAN\_NEIGHBOR} & The one row the inherited design states itself: Brown describes this verb as command and control revealing connected hosts. \\
 \addlinespace
 Collection & --- & The substrate has no data --- hosts carry services and vulnerabilities, nothing gatherable. \\
 Exfiltration & --- & Neither half exists: nothing to take, and nowhere to send it. \\
