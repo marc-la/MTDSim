@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-20
-updated: 2026-08-20
+updated: 2026-09-05
 ---
 
 # Figure and table conventions — what the MTD literature does, and what this dissertation adopts
@@ -77,7 +77,7 @@ For each genre the literature has a settled visual grammar. New figures should b
 5. **Results table** — booktabs; grouped column headers with spanning rules under the group label (he2025 TABLE III's per-device ADR|RI pairs; buechel2025 Table 5's per-dataset Prec|Rec|F1); numerals right-aligned at fixed decimals; best-in-column marked bold or underlined; cell shading allowed only with a decoding footnote (§b2, §b4).
 6. **Ledger table** — companion to an ID-labelled diagram: ID | meaning (| rate) (bland2020 Tables 7–8). The L3 appendix ledgers follow this.
 
-**Rule style:** the 2019–2020 IEEE surveys use fully boxed grids with bold header rows; everything 2024+ (rahman, he, buechel, kim, al-sada) is booktabs — top/mid/bottom rules, **no vertical rules**. The dissertation is booktabs throughout (`\usepackage{booktabs}` is already loaded); never emit `\hline` grids from a generator.
+**Rule style:** the 2019–2020 IEEE surveys use fully boxed grids with bold header rows; everything 2024+ (rahman, he, buechel, kim, al-sada) is booktabs — top/mid/bottom rules, **no vertical rules**. The dissertation is booktabs throughout (`\usepackage{booktabs}` is already loaded); never emit `\hline` grids from a generator. The typographic house style every table is set in — type size, shading, row groups, column types — is §k.
 
 ## f) Results-chart conventions
 
@@ -189,3 +189,124 @@ tab_B-6a_outcome_overlay_weights.tex
 - The manifest at [`../thesis/FLOATS.md`](../thesis/FLOATS.md) lists every
   float with its position, file, label and generator; update it in the same
   commit as any rename or new float.
+
+
+## k) The house table style — one look for every table (ruled 2026-09-05)
+
+Table 3.1 (`tab:mtd-metrics`, the metric-families table) is the reference
+design: it was worked to the point where the layout carries the argument —
+the row groups are the purpose axis, the columns the perspective axis, and
+nothing is spent on rules. Marc's ruling (2026-09-05) is that every table in
+the dissertation is set the same way, and the chapter 2 tables were
+converted that day. The style lives in the preamble of `dissertation.tex`
+as three macros, so a table is *declared* into the style rather than
+hand-styled:
+
+| Macro | What it does |
+|---|---|
+| `\tablestyle` | `\footnotesize`, `\arraystretch` 1.0, zebra rows via `\rowcolors{2}{}{black!5}` — the first body row is shaded, then alternate |
+| `\rowgroup{<n>}{<label>}` | a rotated, italic group label spanning the *n* rows above and including the row it sits in (`\multirow{-n}` + `\rotatebox{90}` + `\smash`) |
+| `P{<width>}` | a ragged-right paragraph column (`>{\raggedright\arraybackslash}p{}`) |
+
+The skeleton every table float follows:
+
+```latex
+\begin{table}[htbp]
+  \centering
+  \caption[Short noun phrase]{Long caption, decoding every encoding (§b2).}
+  \label{tab:semantic-name}
+  \tablestyle
+  \begin{tabular}{@{}cP{2.4cm}P{3.1cm}P{8.6cm}@{}}
+    \toprule
+    & Inner key & Name & Description \\
+    \midrule
+    & first block & … & … \\
+    & & … & … \\
+    \rowgroup{2}{Outer group} & second block & … & … \\
+    \midrule
+    …
+    \bottomrule
+  \end{tabular}
+\end{table}
+```
+
+The rules, and the mechanism behind each:
+
+1. **One type size.** `\footnotesize` (10 pt) for every table body, chapter
+   and appendix alike, at the default `\tabcolsep`. A table that will not
+   fit `\textwidth` at that size drops to `\scriptsize` (8 pt — exactly the
+   §g floor) and 4 pt `\tabcolsep` *together*, as the appendix ledgers do;
+   below that is landscape, never a smaller face. Never `\small`: it was
+   the chapter 2 size until 2026-09-05 and made those tables read as a
+   different document from Table 3.1.
+2. **Stripes separate rows; rules separate structure.** Row shading
+   (`black!5`, from the greys grammar in §h) is the only separator between
+   body rows. Booktabs rules appear in exactly three places: `\toprule` and
+   `\midrule` around the header, `\midrule` between row groups, and
+   `\bottomrule`. **Never a `\cmidrule` inside a striped body** — measured
+   2026-09-05: booktabs' full-width rules do not count as rows for
+   `\rowcolors`, but a partial rule *does*, so one `\cmidrule` shifts every
+   stripe below it by one row. This is what settles the sub-group question
+   in Table 2.2 (host / service / credentials inside Shuffle): the
+   sub-group is keyed by its label alone (rule 4), not by a hairline.
+3. **Shading is a reading aid, not an encoding** — it carries no meaning,
+   so it needs no decode in the caption (ruled on the Table 3.1 caption
+   round, 2026-09-04, and generalised here). Anything that *does* carry
+   meaning — bold, a symbol, a dash — is decoded (§b2, §b4).
+4. **Two levels of row key, no more.** The *outer* key is a `\rowgroup` in
+   an unheaded first column (`c`; the header cell is empty), written in the
+   group's **last** row — multirow's negative span is what lets the label
+   sit on top of the shading — and groups are separated by `\midrule`. The
+   *inner* key is a text column whose label appears on the first row of its
+   block and is blank on the rest; the block boundary is legible from the
+   label column plus the stripes. A table with a single level of key uses
+   the inner form (Table 2.3, Table 2.4). A third level is a sign the table
+   should be two tables.
+5. **Paragraph columns are always `P`** (ragged right). A bare `p{}` column
+   justifies its cells and opens word gaps in a 10 pt line — the "spacing
+   between words" Marc saw across the chapter 2 tables. Widths are given in
+   cm and chosen so the tabular fills `\textwidth` (16.0 cm, 455.24 pt,
+   under the document's `geometry`): with `@{}` at both edges the tabular
+   is the column widths plus 12 pt per interior column boundary (2 ×
+   `\tabcolsep`), so four columns spend 36 pt (1.27 cm) on gutters and a
+   rotated-label `c` column takes ~0.5 cm. Check the log for an overfull
+   box after any width change — Table 2.3's 11 pt overflow on conversion
+   was exactly this arithmetic.
+6. **Header row plain.** Sentence case, no bold, no rule under individual
+   headers; the only italics are the *What*/*When* of the SDR vocabulary
+   (what / when / how to move — [`literature_conventions.md`](literature_conventions.md)),
+   which is a term, not emphasis. A header that needs a gloss in the
+   caption is a bad header — rename it (the 2026-09-04 ruling on Table
+   3.1's "Basis" → "Measures").
+7. **Cells are fragments.** Name cells (a mechanism, a metric family, a
+   state) take an initial capital; description and gloss cells are
+   lowercase fragments; neither ends in a full stop. Code names stay in
+   `\texttt{}` (Table 2.4's state names, per the identifiers ruling).
+8. **Float placement.** `[htbp]` is the default. The preamble raises the
+   class's `\floatpagefraction` from 0.5 to 0.8 (with `\topfraction` 0.85
+   and `\textfraction` 0.15 so no float can fall between the thresholds and
+   stall): a float, or a run of them, must fill 80 % of the text height
+   before it is given a page of its own. This closed the page that
+   Tables 2.4 and 2.5 had to themselves on 2026-09-05 and is the general
+   form of the two per-figure `[t]` workarounds already in the tex, which
+   stay as belt and braces. A table that *still* floats to its own page
+   at 0.8 is too tall for a chapter and belongs in an appendix or in two.
+9. **A table earns its float.** Two rows with one-line cells (Table 2.5)
+   is a sentence, not a table; the count of tables in a chapter is a
+   thing to keep down, and a table that exists only because the material
+   was dictated as a list is a candidate to fold into prose. Flag, do not
+   fold unilaterally — a chapter's tables are ratified content.
+10. **Generated tables emit the same skeleton.** A generator writes
+    `\tablestyle` and `P` columns exactly as a hand-set table does, and
+    nothing else about type or colour (the no-value-typed rule of §h is
+    unchanged). The generators in `tools/` predate the style and still
+    emit their own `\footnotesize`/`\scriptsize` and column types — see
+    the handoff `2026-09-05_generated_tables_house_style.md`.
+
+**Reference tables as of 2026-09-05:** `tab:mtd-metrics` (the design origin,
+two-level keys); `tab:defence-mechanisms` (Table 2.2 — two-level keys with
+labelled sub-blocks, the conversion that fixed the rules above);
+`tab:deployment-strategies`, `tab:attacker-states`, `tab:attacker-objectives`,
+`tab:mtdsim-lineage` (single-level); `tab:attacker-cross-section` (Table 3.2
+— a comparison matrix in the style, with a dash for "nothing", decoded in
+its caption).

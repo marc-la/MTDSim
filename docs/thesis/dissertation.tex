@@ -31,6 +31,27 @@
 \usepackage{booktabs}          % nicer tables (\toprule, \midrule ...)
 \usepackage[table]{xcolor}     % \rowcolor / \cellcolor for tab:mtd-metrics (zebra rows, greys grammar)
 \usepackage{multirow}          % rotated row-group labels in tab:mtd-metrics
+% --- house table style (docs/workflows/figure_table_conventions.md §k) --
+% Every table float opens with \tablestyle: one type size, unit row
+% height, zebra rows in the greys grammar (\rowcolors numbers the header
+% row 1 and shades even rows, so the first body row is shaded; booktabs'
+% \toprule/\midrule do not count as rows but \cmidrule DOES --- never put
+% one inside a striped body, it shifts the stripes). Row-group labels are set
+% rotated with \rowgroup{<rows>}{<label>} in the group's LAST row
+% (multirow's negative-span idiom, which is what makes the label sit on
+% top of the shading). P{<width>} is a ragged-right paragraph column;
+% never a bare p{}, whose justified cells open word gaps.
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcommand{\tablestyle}{\footnotesize\renewcommand{\arraystretch}{1.0}\rowcolors{2}{}{black!5}}
+\newcommand{\rowgroup}[2]{\multirow{-#1}{*}{\smash{\rotatebox{90}{\emph{#2}}}}}
+% Float-page threshold, raised from the class's 0.5 (the Figure 2.1 trap,
+% worked around twice with [t]; Tables 2.4 + 2.5 fell into it as a pair on
+% 2026-09-05): a float, or a run of them, now needs 80 % of the text height
+% before it is given a page of its own. topfraction is raised with it so
+% that no float sits in the gap between the two thresholds and stalls.
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\floatpagefraction}{0.8}
 \usepackage[hidelinks]{hyperref}
 \usepackage{xurl}             % break the long report URLs in the reference list
 \graphicspath{{figures/}}      % keep figures in the figures/ folder
@@ -361,8 +382,8 @@ codebase, and each addition is described where it is used.
   \caption[The MTDSim lineage]{The four studies of the MTDSim lineage
   and what each added to the codebase.}
   \label{tab:mtdsim-lineage}
-  \small
-  \begin{tabular}{@{}l>{\raggedright\arraybackslash}p{0.68\textwidth}@{}}
+  \tablestyle
+  \begin{tabular}{@{}lP{0.72\textwidth}@{}}
     \toprule
     Work & Contribution \\
     \midrule
@@ -460,21 +481,24 @@ all of their neighbours.
   Brown~\citep{brown2023}, added to by Zhang~\citep{zhang2023},
   grouped by class and by what each rewrites.}
   \label{tab:defence-mechanisms}
-  \small
-  \begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{3.1cm}p{0.42\textwidth}@{}}
+  % Restyled to the house table style 2026-09-05 (Marc's design, after
+  % Table 3.1): the SDR class carried as a rotated group label, no
+  % header over it; one zebra row per mechanism; layer sub-groups keyed
+  % by the first row's label alone --- no \cmidrule inside a striped
+  % block (conventions §k). Session choice, ratify-on-read.
+  \tablestyle
+  \begin{tabular}{@{}cP{2.4cm}P{3.1cm}P{8.6cm}@{}}
     \toprule
-    SDR & \textit{What} to move & Mechanism & Description \\
+    & \textit{What} to move & Mechanism & Description \\
     \midrule
-    Shuffle & host layer & IP shuffle & reassigns every internal host's address \\
+    & host layer & IP shuffle & reassigns every internal host's address \\
     & & Complete topology shuffle & regenerates the graph; host instances and their compromise state kept \\
     & & Host topology shuffle & swaps hosts' positions within a level of depth \\
-    \cmidrule(l){2-4}
     & service layer & Port shuffle & moves every non-target service's port on internal hosts; services and vulnerabilities untouched \\
-    \cmidrule(l){2-4}
-    & credentials & User shuffle & redraws each internal host's user accounts from the network's pool \\
+    \rowgroup{5}{Shuffle} & credentials & User shuffle & redraws each internal host's user accounts from the network's pool \\
     \midrule
-    Diversity & service layer & OS diversity & changes each internal host's operating system and redraws the services the new OS cannot run; exploits are OS-specific, so known vulnerabilities may stop applying \\
-    & & Service diversity & redraws every non-target service on internal hosts \\
+    & service layer & OS diversity & changes each internal host's operating system and redraws the services the new OS cannot run; exploits are OS-specific, so known vulnerabilities may stop applying \\
+    \rowgroup{2}{Diversity} & & Service diversity & redraws every non-target service on internal hosts \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -491,10 +515,10 @@ all of their neighbours.
   four execution schemes, as termed by Zhang~\citep{zhang2023}, and MTDShield, the
   reinforcement-learning selector of Tay~\citep{tay2024}.}
   \label{tab:deployment-strategies}
-  \small
-  \begin{tabular}{@{}ll>{\raggedright\arraybackslash}p{0.58\textwidth}@{}}
+  \tablestyle
+  \begin{tabular}{@{}llP{0.62\textwidth}@{}}
     \toprule
-    \textit{When} to move & Execution Scheme & Description \\
+    \textit{When} to move & Execution scheme & Description \\
     \midrule
     proactive & random & draws one mechanism from the pool at random on each interval \\
     & alternative & rotates through the pool in a fixed order, one per interval \\
@@ -585,8 +609,8 @@ implementation detail.
   the baseline attacker, named as in the simulator's code, and the rule
   each applies. Transitions are drawn in Figure~\ref{fig:mtdsim-model}.}
   \label{tab:attacker-states}
-  \small
-  \begin{tabular}{@{}lp{0.72\textwidth}@{}}
+  \tablestyle
+  \begin{tabular}{@{}lP{0.76\textwidth}@{}}
     \toprule
     State & Description \\
     \midrule
@@ -607,8 +631,8 @@ implementation detail.
   attack scenarios \citep{brown2023}; the opportunistic objective's
   termination ratio is Zhang's \citep{zhang2023}.}
   \label{tab:attacker-objectives}
-  \small
-  \begin{tabular}{@{}lp{0.72\textwidth}@{}}
+  \tablestyle
+  \begin{tabular}{@{}lP{0.80\textwidth}@{}}
     \toprule
     Objective & Description \\
     \midrule
@@ -1897,46 +1921,43 @@ date \citep{jalowski2026}.
   \caption[Metric families in MTD evaluation]{Metric families in MTD
   evaluation \citep{cho2020}.}
   \label{tab:mtd-metrics}
-  \footnotesize
-  \renewcommand{\arraystretch}{1.0}
-  \begin{tabular}{@{}c>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{6.1cm}>{\raggedright\arraybackslash}p{6.1cm}@{}}
+  % The reference design for the house table style (conventions §k);
+  % migrated to the \tablestyle / \rowgroup macros 2026-09-05 with no
+  % visual change (\rowcolors reproduces the hand-placed \rowcolor rows).
+  \tablestyle
+  \begin{tabular}{@{}cP{1.9cm}P{6.1cm}P{6.1cm}@{}}
     \toprule
     & Measures & Attacker-side & Defender-side \\
     \midrule
-    \rowcolor{black!5}
     & success events
       & Attack success probability (\textbf{ASP}) \citep{evans2011, cho2020, kim2026, masud2025}; attack success \citep{zaffarano2015}; attack success rate (\textbf{ASR}) \citep{ho2024, tay2024}
       & Defence success probability (\textbf{DSP}) \citep{cho2020}; mission success \citep{zaffarano2015}; attack actions blocked \citep{brown2023}; detection rate \citep{he2025} \\
     & attacker time
       & Mean time to compromise (\textbf{MTTC}) \citep{mcqueen2006, zhang2023, ho2024, tay2024, sharma2025}; attack compromise duration (\textbf{ACD}) \citep{hong2018}; attack success time \citep{kim2026}
       & Mean time to failure (\textbf{MTTF}) \citep{cho2020}; reliability \citep{alavizadeh2022} \\
-    \rowcolor{black!5}
     & game payoff
       & Attack utility \citep{cho2020}
       & Defence utility \citep{cho2020} \\
     & attack paths
       & Attack path variation, number and exposure (\textbf{APV}, \textbf{APN}, \textbf{APE}) \citep{hong2018, ho2024, tay2024}; shortest attack path variability (\textbf{SAPV}) \citep{ho2024}
       & \\
-    \rowcolor{black!5}
     & configuration space
       & Attack surface \citep{manadhatawing2011tse, manadhatawing2011}; unpredictability \citep{cho2020}
       & Vastness \citep{cho2020} \\
     & system state
       & Attack confidentiality and integrity \citep{zaffarano2015}
       & System security: confidentiality, integrity, availability and degree of vulnerability \citep{cho2020}; risk \citep{alavizadeh2022, ho2024, tay2024, masud2025, sharma2025}; host or network compromise ratio (\textbf{HCR}, \textbf{NCR}) \citep{zhang2023, ho2024, tay2024} \\
-    \rowcolor{black!5}
-    \multirow{-7}{*}{\smash{\rotatebox{90}{\emph{Effectiveness}}}} & network-state change
+    \rowgroup{7}{Effectiveness} & network-state change
       &
       & Periodicity \citep{cho2020}; MTD execution frequency (\textbf{MEF}) \citep{ho2024}; time since last MTD (\textbf{TSLM}) \citep{ho2024, tay2024}; host IP variability or variation (\textbf{IPV}) \citep{ho2024, masud2025} \\
     \midrule
     & resource spent
       & Attack cost or payoff penalty (\textbf{AC}) \citep{cho2020, alavizadeh2022, masud2025}; attack cost of exploitation (\textbf{ACE}) \citep{hong2018}; attempts required \citep{brown2023}; return on attack (\textbf{RoA}) \citep{cremonini2005, alavizadeh2022, ho2024, tay2024, masud2025}
       & Defence cost and system performance overhead \citep{cho2020, mendonca2023} \\
-    \rowcolor{black!5}
     & service to users
       &
       & Quality of service (\textbf{QoS}) \citep{cho2020, mendonca2023, kim2026} \\
-    \multirow{-3}{*}{\smash{\rotatebox{90}{\emph{Efficiency}}}} & network-state change
+    \rowgroup{3}{Efficiency} & network-state change
       &
       & Variant assignment cost and downtime (\textbf{NVC}, \textbf{NVDT}), edge variation cost and time (\textbf{EVC}, \textbf{EVT}) \citep{hong2018}; node replacement downtime \citep{tay2024} \\
     \bottomrule
@@ -2259,10 +2280,13 @@ alone behavioural.
   column covers the four works on one simulator
   \citep{brown2023, zhang2023, ho2024, tay2024}.}
   \label{tab:attacker-cross-section}
-  \small
-  \begin{tabular}{@{}lp{0.34\textwidth}p{0.17\textwidth}p{0.2\textwidth}@{}}
+  % House table style 2026-09-05; column heads cite by number as
+  % Table 2.1 does (\citeyearpar printed "(year?)" under ieeetr, which
+  % carries no year for natbib). Ratify-on-read.
+  \tablestyle
+  \begin{tabular}{@{}P{3.7cm}P{5.1cm}P{2.6cm}P{3.0cm}@{}}
     \toprule
-    Property & MTDSim lineage & Masud et al.\ \citeyearpar{masud2025} & Kim et al.\ \citeyearpar{kim2026} \\
+    Property & MTDSim lineage & Masud et al.~\citep{masud2025} & Kim et al.~\citep{kim2026} \\
     \midrule
     1 Persistence & six-phase state machine per host, restarted on interruption & --- & phases named, executed sequentially \\
     2 Objective conditioning & two scenarios (network-wide; single target) & --- & --- \\

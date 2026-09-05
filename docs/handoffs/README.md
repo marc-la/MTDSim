@@ -40,6 +40,13 @@ carried, and `git log` the record of the briefs themselves. The axis-8
 timing-channel re-examination retired the same day in the commits that shipped
 its work (the D-08 regime ruling and the criterion's dated amendment).
 
+- [`2026-09-05_generated_tables_house_style.md`](2026-09-05_generated_tables_house_style.md)
+  — **the generated and appendix tables onto the house table style** ruled
+  2026-09-05 (`figure_table_conventions.md` §k): each `tools/` table
+  generator emits `\tablestyle` / `P{}` instead of its own size and column
+  types; the three inline appendix tables convert by hand. Typography only,
+  no number moves. Depends on nothing; blocks nothing.
+
 - [`2026-08-30_headline_on_restored_substrate.md`](2026-08-30_headline_on_restored_substrate.md)
   — **the headline does not reproduce on the restored substrate**: the
   token-hold record's pre-registered kill criterion fired — ρ = −0.071 between
