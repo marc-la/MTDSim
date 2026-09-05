@@ -35,8 +35,14 @@ structural nets, the synthetic overlay, the dwell catalogue, the controller
 mapping registry and the outcome-overlay rule set. Nothing is typed. The
 numbers a caption may quote are printed to stdout.
 
-Deliberately NOT drawn here (they belong to the sibling figures): the runtime
-loop's choreography (fig:movement-dataflow), the mapping row by row
+The runtime loop is drawn on the joins (folded in from the retired
+fig:movement-dataflow, Marc 2026-09-05): six badges number one iteration ---
+(1) tactic down, (2) drawn dwell time and (3) verb down into the action layer,
+(4) verdict up, splitting into a failure arm that enters the failure matrix and
+a success arm that bypasses the controller band on the right, (5) re-weighting
+up, (6) the token's next tactic on the L3 rung.
+
+Deliberately NOT drawn here (they belong to the sibling figures): the mapping row by row
 (fig:controller-mapping), the failure weights cell by cell
 (fig:failure-matrix). This figure is the ladder; those are the mechanics.
 
@@ -115,7 +121,7 @@ H_L1 = 2.14             # technique scatter
 H_L2_ROW = 0.66         # one profile row
 H_L3 = 1.56             # the net
 H_ARROW = 0.52          # a between-rung arrow
-H_JOIN = 0.94           # a between-band join
+H_JOIN = 1.25           # a between-band join (carries the numbered loop since 2026-09-05)
 H_CTRL = 2.86           # the controller band (no fact footers, Marc 2026-09-05)
 H_ACT = 1.80            # the action band (names only, Marc 2026-09-05)
 PAD = 0.20              # band padding above the first rung / below the last
@@ -222,6 +228,12 @@ def gutter(w, y, title, sub=None):
     # applied un-grouped rather than wrapped around the whole sub-line.
     w(r"\node[anchor=east,align=right,text width=%.2fcm,font=\scriptsize] "
       r"at (%.3f,%.3f) {%s};" % (GUT_W, GUT_R, y, body))
+
+
+def badge(w, x, y, n):
+    """A circled step number of the runtime loop."""
+    w(r"\node[circle,draw=black!60,text=black!70,inner sep=0.5pt,minimum size=8.5pt,"
+      r"line width=0.35pt,font=\scriptsize] at (%.3f,%.3f) {%d};" % (x, y, n))
 
 
 def down_arrow(w, x, y_from, y_to, label, colour="black!55", side="right"):
@@ -411,6 +423,9 @@ def emit(gap, order, nets, overlay_edges, durations, mapping, verbs,
           % (col[t], ry))
     entry = order[0] if order[0] in places else places[0]
     w(r"\fill[%s] (%.3f,%.3f) circle (0.052);" % (ACCENT, col[entry], ry))
+    badge(w, col[places[2]], ry - 0.44, 6)
+    w(r"\node[anchor=west,font=\scriptsize,text=black!58] at (%.3f,%.3f) {next tactic};"
+      % (col[places[2]] + 0.20, ry - 0.44))
     facts["net"] = (profile, len(places), len(doc["transitions"]), len(overlay_edges))
     gutter(w, ry, r"\textbf{L3} \enspace Petri net",
            r"%d places, %d transitions" % (len(places), len(doc["transitions"])))
@@ -428,10 +443,12 @@ def emit(gap, order, nets, overlay_edges, durations, mapping, verbs,
       % (x_a, mv_bot - 0.08, x_a, y_ctrl_top + 0.08))
     w(r"\node[anchor=east,font=\scriptsize,text=accent] at (%.3f,%.3f) {tactic};"
       % (x_a - 0.10, (mv_bot + y_ctrl_top) / 2))
+    badge(w, x_a + 0.26, (mv_bot + y_ctrl_top) / 2, 1)
     w(r"\draw[->,accent!70,line width=0.7pt] (%.3f,%.3f) -- (%.3f,%.3f);"
       % (x_b, y_ctrl_top + 0.08, x_b, mv_bot - 0.08))
     w(r"\node[anchor=west,font=\scriptsize,text=accent] at (%.3f,%.3f) {re-weighting};"
       % (x_b + 0.10, (mv_bot + y_ctrl_top) / 2))
+    badge(w, x_b - 0.26, (mv_bot + y_ctrl_top) / 2, 5)
 
     # ============================================== the controller layer ==
     y = y_ctrl_top
@@ -534,14 +551,31 @@ def emit(gap, order, nets, overlay_edges, durations, mapping, verbs,
 
     # ================================================== join to the action ==
     y_act_top = ctrl_bot - H_JOIN
+    jm = (ctrl_bot + y_act_top) / 2
+    # (2) the drawn dwell time and (3) the verb go down, each from the cell
+    # that produces it; (4) the verdict comes up under the failure matrix and
+    # splits: the failure arm enters the matrix, the success arm bypasses the
+    # controller band on the right and re-enters the movement layer directly.
+    for n, x, text in ((2, cx[0], "drawn dwell time"), (3, cx[1], "verb")):
+        w(r"\draw[->,black!55,line width=0.7pt] (%.3f,%.3f) -- (%.3f,%.3f);"
+          % (x, ctrl_bot - 0.08, x, y_act_top + 0.08))
+        badge(w, x + 0.26, jm, n)
+        w(r"\node[anchor=west,font=\scriptsize,text=black!58] at (%.3f,%.3f) {%s};"
+          % (x + 0.48, jm, text))
+    xv = cx[2]
+    y_split = y_act_top + 0.42
     w(r"\draw[->,black!55,line width=0.7pt] (%.3f,%.3f) -- (%.3f,%.3f);"
-      % (x_a, ctrl_bot - 0.08, x_a, y_act_top + 0.08))
-    w(r"\node[anchor=east,font=\scriptsize,text=black!58] at (%.3f,%.3f) {verb};"
-      % (x_a - 0.10, (ctrl_bot + y_act_top) / 2))
-    w(r"\draw[->,black!55,line width=0.7pt] (%.3f,%.3f) -- (%.3f,%.3f);"
-      % (x_b, y_act_top + 0.08, x_b, ctrl_bot - 0.08))
-    w(r"\node[anchor=west,font=\scriptsize,text=black!58] at (%.3f,%.3f) {verdict};"
-      % (x_b + 0.10, (ctrl_bot + y_act_top) / 2))
+      % (xv, y_act_top + 0.08, xv, ctrl_bot - 0.08))
+    badge(w, xv - 0.26, y_act_top + 0.24, 4)
+    w(r"\node[anchor=east,font=\scriptsize,text=black!58] at (%.3f,%.3f) {verdict};"
+      % (xv - 0.48, y_act_top + 0.24))
+    w(r"\node[anchor=east,font=\scriptsize,text=black!58] at (%.3f,%.3f) {failure};"
+      % (xv - 0.10, ctrl_bot - 0.30))
+    byp_x = BAND_R + 0.34
+    w(r"\draw[->,black!55,line width=0.7pt,rounded corners=3pt] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f);"
+      % (xv, y_split, byp_x, y_split, byp_x, mv_bot - 0.08))
+    w(r"\node[rotate=90,anchor=center,font=\scriptsize,text=black!58] at (%.3f,%.3f) {success};"
+      % (byp_x + 0.24, (y_split + mv_bot) / 2))
 
     # ===================================================== the action layer ==
     act_top = y_act_top
