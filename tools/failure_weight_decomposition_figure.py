@@ -312,6 +312,9 @@ def emit_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, version: s
     w = L.append
     w(r"\documentclass[tikz,12pt,border=2pt]{standalone}")
     w(r"\usepackage[T1]{fontenc}")
+    # house figure face: sans, x-height matched to the 12 pt body (figure_table_conventions.md §l)
+    w(r"\usepackage[scaled=0.92]{helvet}")
+    w(r"\renewcommand{\familydefault}{\sfdefault}")
     w(r"\usetikzlibrary{calc}")
     w(r"\begin{document}")
     w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt}]")
@@ -376,6 +379,9 @@ def emit_matrix_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, ver
     w = L.append
     w(r"\documentclass[tikz,12pt,border=2pt]{standalone}")
     w(r"\usepackage[T1]{fontenc}")
+    # house figure face: sans, x-height matched to the 12 pt body (figure_table_conventions.md §l)
+    w(r"\usepackage[scaled=0.92]{helvet}")
+    w(r"\renewcommand{\familydefault}{\sfdefault}")
     w(r"\usetikzlibrary{calc}")
     w(r"\begin{document}")
     w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt}]")
@@ -434,6 +440,9 @@ def emit_bands_figure(rs: RuleSet, spec: RuleSpec, dec: dict, census: Counter, v
     w = L.append
     w(r"\documentclass[tikz,12pt,border=2pt]{standalone}")
     w(r"\usepackage[T1]{fontenc}")
+    # house figure face: sans, x-height matched to the 12 pt body (figure_table_conventions.md §l)
+    w(r"\usepackage[scaled=0.92]{helvet}")
+    w(r"\renewcommand{\familydefault}{\sfdefault}")
     w(r"\usetikzlibrary{calc}")
     w(r"\definecolor{accent}{RGB}{%s}" % ACCENT_RGB)
     w(r"\definecolor{accentlight}{RGB}{200,214,232}")

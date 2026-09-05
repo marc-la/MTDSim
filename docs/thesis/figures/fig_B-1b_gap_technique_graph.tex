@@ -1,40 +1,42 @@
 \documentclass[tikz,12pt,border=2pt]{standalone}
 \usepackage[T1]{fontenc}
+\usepackage[scaled=0.92]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
 \usetikzlibrary{arrows.meta,shapes.geometric}
 \definecolor{accent}{RGB}{31,84,140}
 \definecolor{accentlight}{RGB}{200,214,232}
 \begin{document}
 \begin{tikzpicture}[x=1pt,y=1pt]
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,329.88) rectangle (554.73,349.32);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,339.60) {Reconnaissance\,\,{\itshape 6}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,307.44) rectangle (554.73,326.88);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,317.16) {Resource development\,\,{\itshape 5}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,285.00) rectangle (554.73,304.44);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,294.72) {Initial access\,\,{\itshape 7}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,262.56) rectangle (554.73,282.00);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,272.28) {Execution\,\,{\itshape 9}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,240.12) rectangle (554.73,259.56);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,249.84) {Persistence\,\,{\itshape 12}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,217.68) rectangle (554.73,237.12);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,227.40) {Privilege escalation\,\,{\itshape 4}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,195.24) rectangle (554.73,214.68);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,204.96) {Stealth\,\,{\itshape 11}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,172.80) rectangle (554.73,192.24);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,182.52) {Defense impairment\,\,{\itshape 2}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,150.36) rectangle (554.73,169.80);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,160.08) {Credential access\,\,{\itshape 11}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,109.48) rectangle (554.73,147.36);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,128.42) {Discovery\,\,{\itshape 19}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,87.04) rectangle (554.73,106.48);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,96.76) {Lateral movement\,\,{\itshape 6}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,64.60) rectangle (554.73,84.04);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,74.32) {Collection\,\,{\itshape 8}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,42.16) rectangle (554.73,61.60);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,51.88) {Command and control\,\,{\itshape 10}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,19.72) rectangle (554.73,39.16);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,29.44) {Exfiltration\,\,{\itshape 5}};
-\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-108.58,-2.72) rectangle (554.73,16.72);
-\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-104.58,7.00) {Impact\,\,{\itshape 9}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,329.88) rectangle (558.23,349.32);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,339.60) {Reconnaissance\,\,{\itshape 6}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,307.44) rectangle (558.23,326.88);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,317.16) {Resource development\,\,{\itshape 5}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,285.00) rectangle (558.23,304.44);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,294.72) {Initial access\,\,{\itshape 7}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,262.56) rectangle (558.23,282.00);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,272.28) {Execution\,\,{\itshape 9}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,240.12) rectangle (558.23,259.56);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,249.84) {Persistence\,\,{\itshape 12}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,217.68) rectangle (558.23,237.12);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,227.40) {Privilege escalation\,\,{\itshape 4}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,195.24) rectangle (558.23,214.68);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,204.96) {Stealth\,\,{\itshape 11}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,172.80) rectangle (558.23,192.24);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,182.52) {Defense impairment\,\,{\itshape 2}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,150.36) rectangle (558.23,169.80);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,160.08) {Credential access\,\,{\itshape 11}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,109.48) rectangle (558.23,147.36);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,128.42) {Discovery\,\,{\itshape 19}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,87.04) rectangle (558.23,106.48);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,96.76) {Lateral movement\,\,{\itshape 6}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,64.60) rectangle (558.23,84.04);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,74.32) {Collection\,\,{\itshape 8}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,42.16) rectangle (558.23,61.60);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,51.88) {Command and control\,\,{\itshape 10}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,19.72) rectangle (558.23,39.16);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,29.44) {Exfiltration\,\,{\itshape 5}};
+\draw[rounded corners=2.50pt,draw=black!15,fill=black!4,line width=0.40pt] (-105.08,-2.72) rectangle (558.23,16.72);
+\node[anchor=west,text=black!60,align=left,font=\fontsize{8.00}{9.20}\selectfont] at (-101.08,7.00) {Impact\,\,{\itshape 9}};
 \draw[draw=accent!32,line width=0.25pt,-{Stealth[length=3.20pt,width=2.00pt]}] (21.81,58.90) .. controls (38.58,73.97) and (78.12,109.52) .. (97.82,127.23) -- (101.49,130.52);
 \draw[draw=accent!32,line width=0.25pt,-{Stealth[length=3.20pt,width=2.00pt]}] (27.01,58.90) .. controls (55.55,74.29) and (123.63,111.01) .. (155.71,128.32) -- (159.81,130.52);
 \draw[draw=accent!32,line width=0.25pt,-{Stealth[length=3.20pt,width=2.00pt]}] (28.19,56.13) .. controls (75.49,70.31) and (227.78,115.94) .. (281.35,131.99) -- (285.92,133.36);

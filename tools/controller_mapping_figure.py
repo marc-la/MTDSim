@@ -220,6 +220,9 @@ def emit(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str:
 
     w(r"\documentclass[tikz,12pt,border=2pt]{standalone}")
     w(r"\usepackage[T1]{fontenc}")
+    # house figure face: sans, x-height matched to the 12 pt body (figure_table_conventions.md §l)
+    w(r"\usepackage[scaled=0.92]{helvet}")
+    w(r"\renewcommand{\familydefault}{\sfdefault}")
     w(r"\usetikzlibrary{arrows.meta,positioning,calc}")
     w(r"\definecolor{accent}{RGB}{31,84,140}")
     w(r"\definecolor{accentlight}{RGB}{200,214,232}")
