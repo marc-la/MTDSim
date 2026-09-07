@@ -3118,8 +3118,20 @@ enumeration are this thesis's own synthesis.
 % their numbers, rotated (\rothead, the \rowgroup mechanism turned);
 % years typed into the row labels (Marc: "a critical part of it is the
 % year"; lineage 2023--2024, Masud 2025, Kim 2026), so the roll-call's
-% close reads off the table. Width: 4.4 cm label + 8 x 0.95 cm + 8
-% gutters (3.39 cm) = 15.4 cm under the 16.06 cm textwidth.
+% close reads off the table. Width: 5.3 cm label + 8 x 0.85 cm + 8
+% gutters (3.39 cm) = 15.5 cm (+0.4 for column 6) under the 16.06 cm textwidth; column 6's
+% three-line head (1.27 cm) widens its column via \multicolumn{c}.
+% ROUND 2 (Marc, same day): the decode re-anchored --- "met" read as
+% "fully implemented", which nothing ever is (abstraction, assumption);
+% the bar is now Table 3.2's one-clause definition: \CIRCLE\ has the
+% property as Table 3.2 defines it, \LEFTcircle\ a feature under the
+% heading that falls short of that definition. The lineage cite moved
+% from the caption into the row label (genre §e1: citation in the row
+% label, as Masud and Kim already had); the caption's lineage sentence
+% cut (Table 2.1 defines the lineage). Heads as \multicolumn{1}{c} so
+% a rotated block wider than its p-cell (column 6) widens the column
+% instead of overfilling it; "6 Incentive-driven rationality" split to
+% three lines so the header height is set by "conditioning".
 % MARKS (each verified, handoff §10.9): lineage 1 (B-ATK-03), 2
 % (B-ATK-01), 6 (B-ATK-03), 7 (zhang2023.md Z-TIM-07, PUBLISHED time
 % model, not in the code --- ATK-04; ch2 makes no learning claim);
@@ -3134,24 +3146,24 @@ enumeration are this thesis's own synthesis.
   \caption[Attacker models in recent MTD evaluations, scored on the
   eight properties]{Attacker models in recent MTD evaluations, scored
   on the eight properties of Section~\ref{subsec:attacker-criterion}.
-  \CIRCLE\ the property is operationalised; \LEFTcircle\ something
-  under it is operationalised without meeting it, named in the text;
-  an empty cell, nothing. The lineage row covers the four works on one
-  simulator \citep{brown2023, zhang2023, ho2024, tay2024}.}
+  \CIRCLE\ the attacker model has the property as
+  Table~\ref{tab:attacker-properties} defines it; \LEFTcircle\ a
+  feature under the heading that falls short of that definition, named
+  in the text; an empty cell, none.}
   \label{tab:attacker-cross-section}
   \tablestyle
-  \begin{tabular}{@{}P{4.4cm}*{8}{>{\centering\arraybackslash}p{0.95cm}}@{}}
+  \begin{tabular}{@{}P{5.3cm}*{8}{>{\centering\arraybackslash}p{0.85cm}}@{}}
     \toprule
-    & \rothead{1 Persistence}
-    & \rothead{2 Objective\\conditioning}
-    & \rothead{3 Strategic\\plurality}
-    & \rothead{4 Adaptivity}
-    & \rothead{5 Stealth}
-    & \rothead{6 Incentive-driven\\rationality}
-    & \rothead{7 Learning}
-    & \rothead{8 Scheme\\awareness} \\
+    & \multicolumn{1}{c}{\rothead{1 Persistence}}
+    & \multicolumn{1}{c}{\rothead{2 Objective\\conditioning}}
+    & \multicolumn{1}{c}{\rothead{3 Strategic\\plurality}}
+    & \multicolumn{1}{c}{\rothead{4 Adaptivity}}
+    & \multicolumn{1}{c}{\rothead{5 Stealth}}
+    & \multicolumn{1}{c}{\rothead{6 Incentive-\\driven\\rationality}}
+    & \multicolumn{1}{c}{\rothead{7 Learning}}
+    & \multicolumn{1}{c@{}}{\rothead{8 Scheme\\awareness}} \\
     \midrule
-    MTDSim lineage, 2023--2024 & \LEFTcircle & \LEFTcircle & & & & \LEFTcircle & \LEFTcircle & \\
+    MTDSim lineage, 2023--2024~\citep{brown2023, zhang2023, ho2024, tay2024} & \LEFTcircle & \LEFTcircle & & & & \LEFTcircle & \LEFTcircle & \\
     Masud et al., 2025~\citep{masud2025} & & & & & & & & \\
     Kim et al., 2026~\citep{kim2026} & \LEFTcircle & & & & & & & \\
     \bottomrule
