@@ -2905,72 +2905,45 @@ literature the surveys themselves draw on, and then measures.
 % carve-out.
 Cho et al.\ name three under-developed dimensions of the attacker model
 \citep[Sec.~V-D]{cho2020}. The first is the smart, learning-capable
-attacker (property~7): where defenders are routinely granted machine-learning
-capability, the attacker is assumed to follow fixed patterns rather
-than to learn and adapt, an asymmetry Cho et al.\ note runs contrary to
-practice, where the attacker is often the more sophisticated of the
-two. The second is the scarcity of multi-strategy scenarios, in which
-attacker and defender each branch across plural options (property~3).
-The third is the asymmetric application of the rational-actor framing
-(property~6): the agent
-optimising for cost-effective outcome is modelled as such on the
-defender side and seldom on the attacker's. Jalowski et al.\ reach the
-same diagnosis through a systematic gap-analysis of MTD's design
-principles and threat-modelling assumptions that names the attacker
-model ``the most glaring flaw in the MTD literature''
-\citep[p.~8]{jalowski2026}. Their critique is concrete about why. The
+attacker (property~7 of Table~\ref{tab:attacker-properties}): where
+defenders are routinely granted machine-learning capability, the
+attacker is assumed to follow fixed patterns rather than to learn and
+adapt. Cho et al.\ note that this asymmetry runs contrary to practice,
+where the attacker is often the more sophisticated of the two. The
+second is the scarcity of multi-strategy scenarios, in which attacker
+and defender each branch across plural options (property~3). The third
+is the asymmetric application of the rational-actor framing
+(property~6): the agent optimising for a cost-effective outcome is
+modelled on the defender side and seldom on the attacker's. Jalowski
+et al.\ reach the same diagnosis through a gap analysis of MTD, and
+name the attacker model ``the most glaring flaw in the MTD literature''
+\citep[p.~8]{jalowski2026}. Their critique is concrete about why: the
 active-scanning baselines (e.g., Nmap) against which MTD is typically
-tested are too naive for an APT, which relies on passive reconnaissance
-to stay hidden (property~5) and learns the defender's mutation patterns
-over time (property~7). The corrective they prescribe is an attacker
-modelled at a higher level of capability, one that reasons about the
-MTD scheme itself and the logic driving its movement (property~8), not
-a scripted intruder oblivious to the defence.
+tested are too naive for an APT attacker, which relies on passive
+reconnaissance to stay hidden (property~5) and learns the defender's
+mutation patterns over time (property~7). The corrective they
+prescribe is an attacker that reasons about the MTD scheme itself and
+the logic driving its movement (property~8), not a scripted intruder
+oblivious to the defence.
 
-% P2 --- description. Q: what does the literature say a sophisticated
-% attacker is? S1 is the ported characteristics sentence RE-GLOSSED
-% against Cho V-A (:377-:398) 2026-09-07 --- the review's glosses had
-% drifted: "with measurable dwell time" (not Cho's) CUT; "including
-% awareness of the defence itself" (V-D's smart attacker and
-% Jalowski's corrective, not V-A's adaptive --- it pre-loaded property
-% 8 into property 4) CUT; "blending with legitimate traffic rather
-% than operating at observable indicator levels" -> Cho's own sense
-% (no identifiable attack behaviour until the moment of harm); "not
-% merely possessing an objective" CUT (the review's gloss, and it
-% pre-empted property 2). Each gloss now tracks V-A's bullet;
-% ratify on read. The opener's "and hold that APT attackers show
-% these features" is Cho's own sentence (V-A :400, "APT attackers show
-% the above features") --- SESSION-FOUND grounding: the licence to read
-% the four with §3.1.1's APT definition is Cho's move, not the
-% thesis's. [DICTATE, Marc] S2, the merge, stated ONCE here (the P1
-% alignment aside and the old stitch's "merge" clause both cut):
-% §3.1.1's NIST clauses restate three of the four behaviourally ---
-% (i) pursues objectives repeatedly over an extended period <->
-% persistent; (ii) adapts to defenders' efforts to resist it <->
-% adaptive; (iii) maintains the interaction needed to execute its
-% objectives --- and add what Cho's four do not carry: the objective as
-% what conditions behaviour after the foothold (Alshamrani's
-% invariant-prefix / objective-conditioned-suffix claim, Sec. II-C,
-% already in prose at §3.1.1's lifecycle paragraph). Cites:
-% \citep{alshamrani2019, nist2011sp80039}. This sentence licenses
-% Alshamrani on properties 1, 2, 4, 5 in the table.
-Cho et al.\ name four characteristics of a sophisticated attacker
-\citep[Sec.~V-A]{cho2020}, and hold that APT attackers show them:
-\emph{persistent}, operating across multiple stages, from
+Cho et al.\ also name four characteristics of a sophisticated attacker
+\citep[Sec.~V-A]{cho2020}, and hold that APT attackers, more or less,
+show them: \emph{persistent}, operating across multiple stages, from
 reconnaissance through exploitation, rather than as a one-time
 intrusion (property~1); \emph{adaptive}, responding to changing system
 and environmental conditions within its resource limits (property~4);
 \emph{stealthy}, showing no identifiable attack behaviour until the
-moment an attack is calculated to do the most harm (property~5); and
-\emph{incentive-driven}, a rational actor sensitive to incentives such
-as attack success at minimum cost (property~6). The NIST definition of
-an APT attacker (Section~\ref{subsec:apt}) mirrors Cho's enumeration:
-persistence and adaptive behaviour are integral to it (properties 1
-and~4), and the objective it names conditions behaviour after the
-foothold (property~2) \citep{alshamrani2019, nist2011sp80039}. Read
+moment an attack is calculated to inflict serious harm (property~5);
+and \emph{incentive-driven}, a rational actor sensitive to incentives
+such as attack success at minimum cost (property~6). The NIST
+definition of an APT attacker (Section~\ref{subsec:apt}) overlaps with
+Cho et al.'s enumeration: persistence and adaptivity are integral to it
+(properties 1 and~4) \citep{nist2011sp80039}; Alshamrani et al.\ hold
+that the objective it names is what conditions behaviour after the
+foothold (property~2) \citep[Sec.~II-C]{alshamrani2019}. Read
 together, these sources yield the eight properties of
-Table~\ref{tab:attacker-properties}; the selection, and the merge of
-the definition onto the enumeration, are this thesis's own synthesis.
+Table~\ref{tab:attacker-properties}; the selection and the merge of
+the definition onto the enumeration are this thesis's own synthesis.
 % PROPERTY TAGS (Marc's ask 2026-09-07, "link it to the table ...
 % enumerate them"): each clause that yields a property carries its
 % number in a parenthesis, keyed to Table 3.2's first column --- the
@@ -2999,6 +2972,40 @@ the definition onto the enumeration, are this thesis's own synthesis.
 % EXCLUSION SLOT DROPPED (Marc's ruling 2026-09-07: "comes down to the
 % discrimination of the literature review process; happy leaving it
 % as is") --- do not re-flag. The unit is two paragraphs + the table.
+% PASS 6 RUN 2026-09-07 (voice-pass, split-stream WB + BB, merged; Marc:
+% "happy with all recommendations; where there was a failure of
+% consensus side with the action"). APPLIED: Cho's "more or less" hedge
+% carried; "the most harm" -> "serious harm" (Cho V-A :383, verified);
+% the NIST/Alshamrani attribution split (NIST carries 1 and 4;
+% Alshamrani Sec. II-C carries the conditioning claim) with the
+% "is what conditions" garden-path repair; "higher level of capability"
+% frame cut; "systematic" cut (not in Jalowski's record --- the word's
+% only occurrence is a reference title), "gap-analysis" -> "gap
+% analysis", "that names" -> ", and name"; S2 split at the appositive
+% ("Cho et al.\ note that this asymmetry"); first tag carries the table
+% ref; "as such" cut; "for a cost-effective outcome"; S6 merged into S7
+% at a colon (S7 rides it for attribution); "mirrors" -> "overlaps
+% with" (the honest scope); "adaptive behaviour" -> "adaptivity" (the
+% row name); S11 commas dropped; the S5 clause "of MTD's design
+% principles and threat-modelling assumptions" CUT (over budget + the
+% registry row-67 breach) --- "of MTD" is the session joint, ratify on
+% read; batch: "an APT" -> "an APT attacker", "Cho's" -> "Cho et al.'s";
+% P2 opener varied with "also" (the identical-opener question, action
+% taken). TABLE: NIST added to rows 1 and 4; rows 7 and 8 -> noun
+% phrases; boundary clauses on 4 / 7 / 8 (reacts as they occur /
+% retained across deployments / a model of the scheme) --- SESSION
+% WORDS, ratify on read; "low-and-slow tempo" MOVED OUT of row 5
+% (Alshamrani files it under persistent; row 1 carries the extended
+% period) --- the criterion's §(c) row 5 still reads "low-and-slow tempo
+% and evasion", to be brought to the table with the §(c) column (handoff
+% §2); Cho V-D added to row 8 (bullet 3, "leverage how MTD works",
+% :462); row 3's "rather than one attack path" cut (session-authored
+% contrast). REJECTED at the merge (do not re-flag): BB's "mutation
+% patterns" against the deployment row --- Jalowski's own phrase
+% (:197), cited wording stays. HANDED to the integration check: gate 1
+% claim-first is a soft fail by the ruled shape (source-walk openers,
+% the claim lands last). Gate: 2, 3, 5, 7, 8, 9 pass; 4 and 6 clear with
+% the batch; clarity clears. Unit is THROUGH PASS 6.
 % TABLE RESTORED 2026-09-07: the round-2 fold deleted it by accident
 % (the replaced span ran past it); recovered verbatim from 33c19763.
 % TABLE --- the eight properties. RULED IN 2026-09-07 (Marc: "I'm happy
@@ -3024,14 +3031,14 @@ the definition onto the enumeration, are this thesis's own synthesis.
     \toprule
     & Property & What it names & Source \\
     \midrule
-    1 & Persistence & a campaign across multiple stages, pursued over an extended period & \citep[Sec.~V-A]{cho2020}; \citep[Sec.~II-A, II-C]{alshamrani2019} \\
+    1 & Persistence & a campaign across multiple stages, pursued over an extended period & \citep[Sec.~V-A]{cho2020}; \citep[Sec.~II-A, II-C]{alshamrani2019}; \citep{nist2011sp80039} \\
     2 & Objective conditioning & behaviour after the foothold conditioned on the attacker's objective & \citep[Sec.~II-A, II-C]{alshamrani2019} \\
-    3 & Strategic plurality & branching across plural attack options rather than one attack path & \citep[Sec.~V-D]{cho2020} \\
-    4 & Adaptivity & response to changing conditions and to the defender's resistance & \citep[Sec.~V-A]{cho2020}; \citep[Sec.~II-A]{alshamrani2019} \\
-    5 & Stealth & low-and-slow tempo, evasion, and passive reconnaissance & \citep[Sec.~V-A]{cho2020}; \citep[Sec.~II-A, II-C]{alshamrani2019}; \citep[Sec.~4.3]{jalowski2026} \\
+    3 & Strategic plurality & branching across plural attack options & \citep[Sec.~V-D]{cho2020} \\
+    4 & Adaptivity & reaction to changing conditions and to the defender's resistance as they occur & \citep[Sec.~V-A]{cho2020}; \citep[Sec.~II-A]{alshamrani2019}; \citep{nist2011sp80039} \\
+    5 & Stealth & evasion and passive reconnaissance & \citep[Sec.~V-A]{cho2020}; \citep[Sec.~II-A, II-C]{alshamrani2019}; \citep[Sec.~4.3]{jalowski2026} \\
     6 & Incentive-driven rationality & decisions conditioned on a cost/benefit signal & \citep[Sec.~V-A, V-D]{cho2020} \\
-    7 & Learning & learns the defender's patterns over time & \citep[Sec.~V-D]{cho2020}; \citep[Sec.~4.3]{jalowski2026} \\
-    8 & Scheme awareness & reasons about the MTD scheme itself and the logic of its movement & \citep[Sec.~4.3]{jalowski2026} \\
+    7 & Learning & the defender's patterns learned over time and retained across deployments & \citep[Sec.~V-D]{cho2020}; \citep[Sec.~4.3]{jalowski2026} \\
+    8 & Scheme awareness & a model of the MTD scheme itself and the logic of its movement & \citep[Sec.~V-D]{cho2020}; \citep[Sec.~4.3]{jalowski2026} \\
     \bottomrule
   \end{tabular}
 \end{table}
