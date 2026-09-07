@@ -68,6 +68,17 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   criterion, and the §4.1 drafting brief retired by evidence in the same
   commit. Retires with the last assembled section.
 
+- [`2026-09-07_ch3_s33_context.md`](2026-09-07_ch3_s33_context.md) — **the
+  §3.3 standing context**: what the model strand is for, what it owes ch1 /
+  ch4 / ch7 (the eight axes by number, the descriptor, Table 3.2's return),
+  what it refuses, where each unit stands (~1 560 words against 1 000, no
+  pass run), the two refits Marc expects (the roll-call still speaks four
+  properties beside an eight-row table; the DRAFT cells verified cell by
+  cell against the extractions, with the filled-cell-is-not-the-property
+  decode owed to the caption), the three gaps in dictation order (G3 first),
+  and the finishing order. Executes the port plan's §3.3 rows; retires with
+  it in the commit that takes §3.3 through pass 6.
+
 - [`2026-08-21_targeted_objective_diagnosis.md`](2026-08-21_targeted_objective_diagnosis.md)
   — **the targeted-objective line, for a fresh session**: wire the located
   APT target (`is_target_compromised`, dead code) as an additive objective and
