@@ -31,7 +31,7 @@
 \usepackage{booktabs}          % nicer tables (\toprule, \midrule ...)
 \usepackage[table]{xcolor}     % \rowcolor / \cellcolor for tab:mtd-metrics (zebra rows, greys grammar)
 \usepackage{multirow}          % rotated row-group labels in tab:mtd-metrics
-\usepackage[nointegrals]{wasysym}  % \CIRCLE / \LEFTcircle, the feature-matrix marks of tab:attacker-cross-section
+\usepackage[nointegrals]{wasysym}  % \CIRCLE / \Circle behind \propmet / \propstandin (tab:attacker-cross-section)
 % --- house table style (docs/workflows/figure_table_conventions.md §k) --
 % Every table float opens with \tablestyle: one type size, unit row
 % height, zebra rows in the greys grammar (\rowcolors numbers the header
@@ -49,6 +49,12 @@
 % lines (break with \\), bottom-aligned so every head sits on the rule.
 % Same mechanism as \rowgroup, turned for columns (Table 3.3, 2026-09-07).
 \newcommand{\rothead}[1]{\rotatebox{90}{\begin{tabular}[b]{@{}l@{}}#1\end{tabular}}}
+% Property-matrix marks (Table 3.3 and its ch7 return): met = solid;
+% stand-in = a hollow ring, greyed, so the shell-without-substance
+% reading is the visual one and the eye is not told "half credit"
+% (Marc, 2026-09-07: the Harvey half read as "the lineage does it all").
+\newcommand{\propmet}{\CIRCLE}
+\newcommand{\propstandin}{\textcolor{black!55}{\Circle}}
 % Float-page threshold, raised from the class's 0.5 (the Figure 2.1 trap,
 % worked around twice with [t]; Tables 2.4 + 2.5 fell into it as a pair on
 % 2026-09-05): a float, or a run of them, now needs 80 % of the text height
@@ -3132,6 +3138,11 @@ enumeration are this thesis's own synthesis.
 % a rotated block wider than its p-cell (column 6) widens the column
 % instead of overfilling it; "6 Incentive-driven rationality" split to
 % three lines so the header height is set by "conditioning".
+% GLYPHS REVISED 2026-09-07 (Marc: with only the Harvey half on the
+% page "it looks like MTDSim does everything"): stand-in = greyed
+% hollow ring (\propstandin), met = solid disc (\propmet, absent from
+% this copy by construction, present in ch7's). Design trail and the
+% alternatives not taken: handoff 2026-09-07_ch3_s33_context.md §10.11.
 % MARKS --- EVERY CELL INDEPENDENTLY VERIFIED 2026-09-07 against the
 % six source papers (one pass per paper, full text, not the
 % extractions or the review); the line-anchored evidence is the
@@ -3173,10 +3184,11 @@ enumeration are this thesis's own synthesis.
   \caption[Attacker models in recent MTD evaluations, scored on the
   eight properties]{Attacker models in recent MTD evaluations, scored
   on the eight properties of Section~\ref{subsec:attacker-criterion}.
-  \CIRCLE\ the attacker model has the property as
-  Table~\ref{tab:attacker-properties} defines it; \LEFTcircle\
-  something the executed attacker does under the heading that falls
-  short of that definition, named in the text; an empty cell, none.}
+  \propmet\ the attacker model has the property as
+  Table~\ref{tab:attacker-properties} defines it; \propstandin\ a
+  stand-in, something the executed attacker does under the heading
+  that falls short of that definition, named in the text; an empty
+  cell, nothing.}
   \label{tab:attacker-cross-section}
   \tablestyle
   \begin{tabular}{@{}P{5.3cm}*{8}{>{\centering\arraybackslash}p{0.85cm}}@{}}
@@ -3190,9 +3202,9 @@ enumeration are this thesis's own synthesis.
     & \multicolumn{1}{c}{\rothead{7 Learning}}
     & \multicolumn{1}{c@{}}{\rothead{8 Scheme\\awareness}} \\
     \midrule
-    MTDSim lineage, 2023--2024~\citep{brown2023, zhang2023, ho2024, tay2024} & \LEFTcircle & \LEFTcircle & \LEFTcircle & \LEFTcircle & & \LEFTcircle & \LEFTcircle & \\
+    MTDSim lineage, 2023--2024~\citep{brown2023, zhang2023, ho2024, tay2024} & \propstandin & \propstandin & \propstandin & \propstandin & & \propstandin & \propstandin & \\
     Masud et al., 2025~\citep{masud2025} & & & & & & & & \\
-    Kim et al., 2026~\citep{kim2026} & \LEFTcircle & & & & \LEFTcircle & & & \\
+    Kim et al., 2026~\citep{kim2026} & \propstandin & & & & \propstandin & & & \\
     \bottomrule
   \end{tabular}
 \end{table}
