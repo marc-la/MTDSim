@@ -2903,55 +2903,63 @@ literature the surveys themselves draw on, and then measures.
 % Assumptions") --- cited-title language under registry row 67; swap
 % to "attacker-model assumptions" if the paraphrase does not earn the
 % carve-out.
+% OPENER --- SESSION-DRAFTED 2026-09-07 on Marc's green light ("if the
+% opening is just prescriptive I'm happy for you to draft something
+% up"), RATIFY ON READ. Claim-first (clears gate check 1's soft fail)
+% and the unit's one pointer at the table, placed before the source
+% walk so the reader knows the table is coming. The close keeps only
+% the ownership flag so the two do not repeat (Marc: "it's kind of
+% repetitive").
+Table~\ref{tab:attacker-properties} lists the eight properties of a
+sophisticated attacker, drawn from what the two surveys say MTD's
+attacker models lack and from the APT definition of
+Section~\ref{subsec:apt}.
 Cho et al.\ name three under-developed dimensions of the attacker model
 \citep[Sec.~V-D]{cho2020}. The first is the smart, learning-capable
-attacker (property~7 of Table~\ref{tab:attacker-properties}): where
+attacker: where
 defenders are routinely granted machine-learning capability, the
 attacker is assumed to follow fixed patterns rather than to learn and
 adapt. Cho et al.\ note that this asymmetry runs contrary to practice,
 where the attacker is often the more sophisticated of the two. The
 second is the scarcity of multi-strategy scenarios, in which attacker
-and defender each branch across plural options (property~3). The third
-is the asymmetric application of the rational-actor framing
-(property~6): the agent optimising for a cost-effective outcome is
+and defender each branch across plural options. The third
+is the asymmetric application of the rational-actor framing: the agent optimising for a cost-effective outcome is
 modelled on the defender side and seldom on the attacker's. Jalowski
 et al.\ reach the same diagnosis through a gap analysis of MTD, and
 name the attacker model ``the most glaring flaw in the MTD literature''
 \citep[p.~8]{jalowski2026}. Their critique is concrete about why: the
 active-scanning baselines (e.g., Nmap) against which MTD is typically
 tested are too naive for an APT attacker, which relies on passive
-reconnaissance to stay hidden (property~5) and learns the defender's
-mutation patterns over time (property~7). The corrective they
+reconnaissance to stay hidden and learns the defender's
+mutation patterns over time. The corrective they
 prescribe is an attacker that reasons about the MTD scheme itself and
-the logic driving its movement (property~8), not a scripted intruder
+the logic driving its movement, not a scripted intruder
 oblivious to the defence.
 
 Cho et al.\ also name four characteristics of a sophisticated attacker
 \citep[Sec.~V-A]{cho2020}, and hold that APT attackers, more or less,
 show them: \emph{persistent}, operating across multiple stages, from
 reconnaissance through exploitation, rather than as a one-time
-intrusion (property~1); \emph{adaptive}, responding to changing system
-and environmental conditions within its resource limits (property~4);
+intrusion; \emph{adaptive}, responding to changing system
+and environmental conditions within its resource limits;
 \emph{stealthy}, showing no identifiable attack behaviour until the
-moment an attack is calculated to inflict serious harm (property~5);
+moment an attack is calculated to inflict serious harm;
 and \emph{incentive-driven}, a rational actor sensitive to incentives
-such as attack success at minimum cost (property~6). The NIST
+such as attack success at minimum cost. The NIST
 definition of an APT attacker (Section~\ref{subsec:apt}) overlaps with
-Cho et al.'s enumeration: persistence and adaptivity are integral to it
-(properties 1 and~4) \citep{nist2011sp80039}; Alshamrani et al.\ hold
+Cho et al.'s enumeration: persistence and adaptivity are integral to it \citep{nist2011sp80039}; Alshamrani et al.\ hold
 that the objective it names is what conditions behaviour after the
-foothold (property~2) \citep[Sec.~II-C]{alshamrani2019}. Read
-together, these sources yield the eight properties of
-Table~\ref{tab:attacker-properties}; the selection and the merge of
-the definition onto the enumeration are this thesis's own synthesis.
-% PROPERTY TAGS (Marc's ask 2026-09-07, "link it to the table ...
-% enumerate them"): each clause that yields a property carries its
-% number in a parenthesis, keyed to Table 3.2's first column --- the
-% requirements-style convention; the table's Source column closes the
-% loop the other way. Tags run out of order in the prose because the
-% numbering is the criterion's and is never renumbered. Coverage: 7, 3,
-% 6 (Cho V-D); 5, 7, 8 (Jalowski); 1, 4, 5, 6 (Cho V-A); 1, 4, 2 (the
-% NIST merge) --- all eight tagged at least once.
+foothold \citep[Sec.~II-C]{alshamrani2019}. The
+selection of the eight and the merge of the definition onto the
+enumeration are this thesis's own synthesis.
+% PROPERTY TAGS RETIRED 2026-09-07 (Marc, second ruling the same day):
+% the "(property n)" parentheticals read as an unordered scatter
+% because the numbering is thematic (1--4 campaign half, 5--8 smart
+% half) and the sources cut across it. The table's Source column
+% carries the clause-to-row mapping instead; the opener points at the
+% table once. Do not reinstate. Renumbering to first-appearance order
+% was considered and declined (the axes are cited by number across the
+% repo record; a thesis-to-repo mapping would be permanent).
 % THE MERGE --- SESSION-ASSEMBLED 2026-09-07 from Marc's spoken gist
 % ("persistence and adaptive behaviour are integral in the NIST
 % definition; the objective conditions behaviour after the foothold;
