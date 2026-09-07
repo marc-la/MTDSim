@@ -247,9 +247,12 @@ The rules, and the mechanism behind each:
    `\bottomrule`. **Never a `\cmidrule` inside a striped body** — measured
    2026-09-05: booktabs' full-width rules do not count as rows for
    `\rowcolors`, but a partial rule *does*, so one `\cmidrule` shifts every
-   stripe below it by one row. This is what settles the sub-group question
-   in Table 2.2 (host / service / credentials inside Shuffle): the
-   sub-group is keyed by its label alone (rule 4), not by a hairline.
+   stripe below it by one row. (The shift is undoable — a `\noalign`
+   that decrements `\rownum` after the `\cmidrule` restores the phase,
+   mocked up 2026-09-07 — but the sub-block hairline was still not
+   taken for Table 2.2: booktabs pads each rule, so one-row sub-blocks
+   end up boxed between two rules and a group reads as several small
+   tables. Rule 4 settles the sub-group question instead.)
 3. **Shading is a reading aid, not an encoding** — it carries no meaning,
    so it needs no decode in the caption (ruled on the Table 3.1 caption
    round, 2026-09-04, and generalised here). Anything that *does* carry
@@ -262,7 +265,18 @@ The rules, and the mechanism behind each:
    block and is blank on the rest; the block boundary is legible from the
    label column plus the stripes. A table with a single level of key uses
    the inner form (Table 2.3, Table 2.4). A third level is a sign the table
-   should be two tables.
+   should be two tables — or that the third key is a **row attribute**
+   and belongs on every row (ruled on Table 2.2, Marc, 2026-09-07). The
+   original conversion keyed the layer sub-blocks inside Shuffle by their
+   first row's label, and Marc's reading was that it did not work: the
+   stripes separate rows while the key spans several, so nothing on the
+   page says which rows a block owns. The fix is to repeat the layer on
+   every row. A repeated key is a column of attributes, not a level of
+   hierarchy, so the table stays within two levels; there is no block for
+   the stripes to contradict; and no new mechanism enters the style.
+   Mocked-up alternatives, not taken: a sub-block hairline (rule 2's
+   parenthesis) and shading by block instead of by row, which swaps the
+   stripe grammar for one table and loses the within-block row separator.
 5. **Paragraph columns are always `P`** (ragged right). A bare `p{}` column
    justifies its cells and opens word gaps in a 10 pt line — the "spacing
    between words" Marc saw across the chapter 2 tables. Widths are given in
@@ -306,7 +320,8 @@ The rules, and the mechanism behind each:
 
 **Reference tables as of 2026-09-05:** `tab:mtd-metrics` (the design origin,
 two-level keys); `tab:defence-mechanisms` (Table 2.2 — two-level keys with
-labelled sub-blocks, the conversion that fixed the rules above);
+the layer repeated per row as an attribute, the conversion that fixed the
+rules above and the 2026-09-07 repeated-key ruling);
 `tab:deployment-strategies`, `tab:attacker-states`, `tab:attacker-objectives`,
 `tab:mtdsim-lineage` (single-level); `tab:attacker-cross-section` (Table 3.2
 — a comparison matrix in the style, with a dash for "nothing", decoded in

@@ -491,22 +491,24 @@ all of their neighbours.
   \label{tab:defence-mechanisms}
   % Restyled to the house table style 2026-09-05 (Marc's design, after
   % Table 3.1): the SDR class carried as a rotated group label, no
-  % header over it; one zebra row per mechanism; layer sub-groups keyed
-  % by the first row's label alone --- no \cmidrule inside a striped
-  % block (conventions §k). Session choice, ratify-on-read.
+  % header over it; one zebra row per mechanism. Ruled 2026-09-07
+  % (Marc): the layer is repeated on every row rather than keyed by a
+  % sub-block's first row --- per-row stripes and a per-block key
+  % contradicted each other, and a repeated key makes the layer a row
+  % attribute, not a third level (conventions §k rule 4).
   \tablestyle
   \begin{tabular}{@{}cP{2.4cm}P{3.1cm}P{8.6cm}@{}}
     \toprule
     & \textit{What} to move & Mechanism & Description \\
     \midrule
     & host layer & IP shuffle & reassigns every internal host's address \\
-    & & Complete topology shuffle & regenerates the graph; host instances and their compromise state kept \\
-    & & Host topology shuffle & swaps hosts' positions within a level of depth \\
+    & host layer & Complete topology shuffle & regenerates the graph; host instances and their compromise state kept \\
+    & host layer & Host topology shuffle & swaps hosts' positions within a level of depth \\
     & service layer & Port shuffle & moves every non-target service's port on internal hosts; services and vulnerabilities untouched \\
     \rowgroup{5}{Shuffle} & credentials & User shuffle & redraws each internal host's user accounts from the network's pool \\
     \midrule
     & service layer & OS diversity & changes each internal host's operating system and redraws the services the new OS cannot run; exploits are OS-specific, so known vulnerabilities may stop applying \\
-    \rowgroup{2}{Diversity} & & Service diversity & redraws every non-target service on internal hosts \\
+    \rowgroup{2}{Diversity} & service layer & Service diversity & redraws every non-target service on internal hosts \\
     \bottomrule
   \end{tabular}
 \end{table}
