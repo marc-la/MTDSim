@@ -1550,6 +1550,23 @@ incident-response literature, not within MTD evaluation.
 % Feeds evaluate: the instruments are mature, and every one of them is
 % scored over an attacker. 3 units (opener 1/4 + approaches 1/2 +
 % metrics 1 + methods 1 + closer 1/4; amended 2026-09-05).
+% PASS 6 RUN 2026-09-07 (voice-pass, white box, on the assembled 3.2;
+% Marc: "I accept all the changes, a blanket"). Applied V1-V8 and the
+% registry batch (defence mechanism canonical: opener "an MTD
+% mechanism", 3.2.2 "MTD defence mechanisms", "MTD techniques"; cited
+% authors as subject in the "et al.\ ... \citep" form: 3.2.1 S1).
+% Session-chosen forms under the blanket: "a simulator" (V1), "This
+% dominance" x2 with "This makes" kept (V3), "report" (V6), "The
+% effectiveness metrics" without the instances clause (V8). Gate:
+% 4 now passes; 7 partial resolved. DO NOT RE-FLAG: the three
+% unit-closers on attacker assumptions (the strand's spine, not a
+% duplicate --- handed to the integration check); the closer's "a
+% single or small set of attacks" (Cho's phrase); the possessive
+% "Jalowski et al.'s reading" (outside the ratified subject form).
+% Section ~520 words vs 3 units. SECTION IS THROUGH PASS 6; the
+% integration check is next. Outside this pass: the ch2 "MTD
+% mechanism" sites (4) now fall under the ratified row --- a batch for
+% ch2's next pass.
 \section{MTD evaluation}
 \label{sec:mtd-evaluation-survey}
 
@@ -1594,8 +1611,8 @@ incident-response literature, not within MTD evaluation.
 % mechanisms, and assesses the result against a metric set using one of
 % several validation methods \citep{cho2020}." Reorder ruled 2026-09-02
 % (metrics before methods, Cho's Sec. VII -> VIII order) stands.
-This section surveys how the field evaluates an MTD mechanism and the
-steps involved in such an evaluation. A defence mechanism is designed
+This section surveys how the field evaluates a defence mechanism and
+the steps involved in such an evaluation. A defence mechanism is designed
 under a defence modelling approach
 (Section~\ref{subsec:defence-modelling-approaches}), instrumented with
 metrics (Section~\ref{subsec:mtd-metrics}), and evaluated under an
@@ -1736,9 +1753,13 @@ evaluation method (Section~\ref{subsec:evaluation-methods}).
 %
 % P1 --- the what. Question: what is a defence modelling approach, and
 % which ones does the field use?
-\citet{cho2020} cluster defence modelling into game-theoretic,
+Cho et al.\ cluster defence modelling into game-theoretic,
 genetic-algorithm and machine-learning approaches, with game theory
-dominating by volume.
+dominating by volume \citep{cho2020}.
+% PASS 6 on §3.2 (2026-09-07, registry RATIFIED the same day, blanket
+%   accept): \citet subject -> "Cho et al.\ ... \citep" --- the
+%   census-majority form (13 sites); supersedes this unit's own pass-6
+%   \citet choice of 2026-09-07.
 Game-theoretic approaches involve an attacker and a defender as rational
 players competing over the same resources.
 % RE-DICTATED 2026-09-06 (pass-4 marker 1), repaired: "I'm operating over"
@@ -1843,7 +1864,11 @@ assumptions, then the logic of the defence mechanisms is limited.
 %
 % P1 --- the what. Question: what instrument does an MTD evaluation read
 % its verdict from, and how does the field organise it?
-Metrics involve instrumenting defence mechanisms for whether they are effective and efficient.
+Metrics instrument defence mechanisms for whether they are effective
+and efficient.
+% PASS 6 V2 (2026-09-07, blanket accept): "involve instrumenting" ->
+%   "instrument" --- register b5 and the fourth "X involve" skeleton
+%   after 3.2.1's ruled three-beat walk.
 % RULED 2026-09-04 (pass 4, items 2+3): "simulator" -> "model" (the
 %   ladder is 3.2.2's; Marc: "you must first instrument your model with
 %   metrics"); "our defence, network, or attacker model" -> "our defence
@@ -1881,16 +1906,22 @@ Table~\ref{tab:mtd-metrics}.
 %   one configuration vs of the trajectory of configurations; not
 %   runtime-vs-after-the-fact) is explained in the handoff item 20
 %   trail if a leg is ever wanted. Reversible.
-In the field, attack success probability dominates the effectiveness
-metrics \citep{cho2020}.
+Attack success probability dominates the effectiveness metrics
+\citep{cho2020}.
+% PASS 6 V5 (2026-09-07, blanket accept): "In the field," DELETED ---
+%   the scope residue pass 5 cut from 3.2.3 (P1); register b4.
 % cite check: Cho :636 --- "a dominant metric used for the
 %   EFFECTIVENESS of MTD", census of 27 papers 2011-2018.
 % RULED 2026-09-04 (pass 4, item 4): scoped to the effectiveness
 %   metrics (Cho's scope; efficiency scoped out); the 2011-2018 census
 %   window left implicit. Closes the item-18 [3b].
-This is dependent on the defence modelling approach:
-game-theoretic approaches often look at payoff and utility
+This dominance is dependent on the defence modelling approach:
+game-theoretic approaches report payoff and utility
 \citep{cho2020}.
+% PASS 6 V3 + V6 (2026-09-07, blanket accept): "This" -> "This
+%   dominance" (naked referent, register h); "often look at" ->
+%   "report" (h phrasal; "often" under-claimed Cho :636 "one of the
+%   dominant metrics" and 3.2.1 dropped its "often" hedges).
 % cite check: Cho :636 --- "due to a large volume of game theoretic
 %   approaches ... the payoff or utility of attackers or defenders is
 %   also one of the dominant metrics". Faithful; "approaches" is Cho's
@@ -1902,7 +1933,7 @@ game-theoretic approaches often look at payoff and utility
 
 % P2 --- the so-what. Question: what does the state of the instrument
 % mean for any evaluation built on it, and what distinction survives?
-The primary issue facing MTD defence mechanisms, in Jalowski et
+The primary issue facing defence mechanisms, in Jalowski et
 al.'s reading \citep{jalowski2026}, is that they cannot be benchmarked,
 a persistent finding \citep{hong2018, cho2020, jalowski2026}:
 metrics are
@@ -1941,8 +1972,13 @@ effectiveness or efficiency.
 %   cited via the topic sentence); the so-what's restating head "What
 %   this means is that there is a lack of a benchmark, which makes"
 %   trimmed to "This makes" --- deletion + joint, ratify-on-read.
-This makes objective cross-evaluation of MTD techniques intractable to
-date \citep{jalowski2026}.
+This makes objective cross-evaluation of defence mechanisms intractable
+\citep{jalowski2026}.
+% PASS 6 V7 + registry (2026-09-07, blanket accept): "to date" DELETED
+%   (Marc's own rationale on the cut verdict sentence: the thesis is
+%   dated); "MTD techniques" -> "defence mechanisms" (RATIFIED row,
+%   Jalowski's noun stays only inside cited phrasing). "This makes"
+%   KEPT (the least ambiguous of the three "This" openers).
 % ratify-on-read: your chat reword (replaces the near-verbatim :125
 %   clause). cite check: jalowski2026 :121 "currently impossible to
 %   compare different techniques meaningfully"; :125 "prevents any
@@ -1976,8 +2012,12 @@ date \citep{jalowski2026}.
 % attacker inside the attacker-side definitions by lineage (mcqueen2006;
 % evans2011; maleki2016; sharma2025); hong2018 :73; jalowski2026 :209
 % ASP 'too naive', Nmap baseline.]" Revivable from git history.
-Many of the metrics are dependent on how the attacker was implemented,
-and therefore on the assumptions that underlie it \citep{hong2018}.
+The effectiveness metrics are dependent on how the attacker was
+implemented, and therefore on the assumptions that underlie it
+\citep{hong2018}.
+% PASS 6 V8 (2026-09-07, blanket accept): "Many of the metrics" -> "The
+%   effectiveness metrics" (Table 3.1's honest scope; register b4). The
+%   instances clause NOT taken (take-or-leave, left). Both [3b] closed.
 % [3b] "Many of the metrics" --- the honest scope from Table 3.1 is
 %   the effectiveness metrics (success events, attacker time, attack
 %   paths, configuration space); "many" is the quantifier pass 6 cut
@@ -2403,9 +2443,11 @@ category splits into probabilistic and graphical security models
 %   "graphical-security-model approaches" --- Cho's own noun (Sec.
 %   VIII-A-2 title); registry reserves "approach" for the defence
 %   modelling approach. Keep as cited phrasing, or "models"?
-Each evaluation method has its trade-offs. Moving from analytical
-models to a real testbed, flexibility and validity rise. Scalability
-falls and cost climbs \citep{cho2020}.
+Moving from analytical models to a real testbed, flexibility and
+validity rise. Scalability falls and cost climbs \citep{cho2020}.
+% PASS 6 V4 (2026-09-07, blanket accept): "Each evaluation method has
+%   its trade-offs." CUT --- a preview of the sentence that follows
+%   (register e); trims the pass-4 C5 promise, which C5 itself keeps.
 % C5 LANDED 2026-09-07 (Marc: "just write it in like that; the citation
 %   is doing the heavy lifting"). Option 2 of three (table with Cho's
 %   unrated cells shown / one ordering sentence / one sentence per
@@ -2510,8 +2552,9 @@ Simulation remains the dominant method \citep{cho2020}.
 %   the survey. RULED 2026-09-07: "approach" -> "method" (Marc: the
 %   approach is how the defence mechanism is designed; the method is
 %   not) --- registry row proposed in terminology.md.
-This is because of the high flexibility, above all in modelling attack
-behaviours \citep{cho2020}, and low barrier to entry.
+This dominance is because of the high flexibility, above all in
+modelling attack behaviours \citep{cho2020}, and low barrier to entry.
+% PASS 6 V3 (2026-09-07, blanket accept): "This" -> "This dominance".
 % C3 (pass 4 M2, APPROVED 2026-09-07, RATIFY ON READ): the hinge clause
 %   "above all in modelling attack behaviours" is Cho VIII-B's
 %   "flexibility in modeling specific attack behaviors" (periodic, DDoS,
@@ -2527,9 +2570,12 @@ behaviours \citep{cho2020}, and low barrier to entry.
 %   gloss, stands. Table VI (read the same day) now backs it from the
 %   other end: testbeds carry the "highest cost among all available
 %   evaluation tools".
-However, as a trade-off, parameters that are not captured in the
+However, as a trade-off, parameters that are not captured in a
 simulator \citep{cho2020} are not accounted for in defence mechanism
 logic.
+% PASS 6 V1 (2026-09-07, blanket accept): "the simulator" -> "a
+%   simulator" --- the registry's "the simulator" is MTDSim; this
+%   sentence means simulation in general (conflation).
 % S6 --- dictated. Repair: false start "at this is that mechanisms What"
 %   dropped; "are are" -> "are". VERIFY cite scope: the first half
 %   tracks Cho VIII-B's con ("all possible variables may not be

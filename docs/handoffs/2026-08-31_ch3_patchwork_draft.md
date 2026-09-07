@@ -1240,6 +1240,34 @@ executes: 2026-08-31_ch3_port_plan.md
 >    little" split it). ~160 words. 3.2.3 is THROUGH PASS 5; pass 6
 >    (voice-pass) runs on the assembled section.
 
+> 26. **§3.2 THROUGH PASS 6 --- voice-pass on the assembled section,
+>    blanket accept** (2026-09-07, Marc: "I accept all the changes, a
+>    blanket"). White box only. Applied: V1 3.2.3 "the simulator" -> "a
+>    simulator" (registry conflation with MTDSim's short form); V2
+>    3.2.2 "Metrics involve instrumenting" -> "Metrics instrument"; V3
+>    "This" -> "This dominance" in 3.2.2 P1 and 3.2.3 P2 ("This makes"
+>    kept); V4 3.2.3 "Each evaluation method has its trade-offs." CUT
+>    (preview of C5); V5 3.2.2 "In the field," cut; V6 "often look at"
+>    -> "report"; V7 "to date" cut; V8 "Many of the metrics" -> "The
+>    effectiveness metrics" (both 3.2.2 [3b] closed, instances clause
+>    not taken). Registry: two rows RATIFIED at option (a) --- *defence
+>    mechanism* canonical (opener "an MTD mechanism", 3.2.2 "MTD
+>    defence mechanisms" and "MTD techniques" swapped; 4 ch2 "MTD
+>    mechanism" sites are a ch2 batch, not touched) and cited authors
+>    as subject in the "et al.\ ... \citep" form (3.2.1 S1's \citet
+>    swapped, superseding its own pass-6 choice; natbib is in numbers
+>    mode, so both forms render as "Cho et al. ... [n]" --- Marc asked
+>    for the author-name check the same day). Gate: 9/9 after the
+>    swaps; recorded exceptions stand (3.2.1 P2 claim-last; the two
+>    uncited glosses in 3.2.3; 3.2.1's MTDShield example pending).
+>    Do-not-re-flag: the three unit-closers on attacker assumptions
+>    (the strand's spine); the closer's "a single or small set of
+>    attacks" (Cho's phrase); the possessive "Jalowski et al.'s
+>    reading". ~520 words vs 3 units. Handover to the integration
+>    check: the three closers on one beat; S9's training-environment
+>    claim vs the strand closer (one home); G2's stale pointer; the C4
+>    flag at the introduction.
+
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
 Every sentence below is from the submitted review (`docs/sources/lit_review/LIT_REVIEW.md`, line numbers in the ledgers) or from a rubric-gated note in `docs/notes/ch3_lit_review/`, with three exceptions marked **[stitch]** — connective sentences a session composed so the unit reads; each is Marc's to accept, replace, or cut. Gaps are `[GAP Gn …]` placeholders keyed to the port plan §4 (G8 added: the adverse-sample warrant). Citations are `\citep` keys; the bib status is at the end.
