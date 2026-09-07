@@ -1033,6 +1033,64 @@ executes: 2026-08-31_ch3_port_plan.md
 >    unverified. Branch pushed to origin on Marc's ask so the working
 >    draft is viewable.
 
+> 22. **3.2.1 DEFENCE MODELLING APPROACHES --- DICTATED, PASSES 2--5 RUN AND
+>    RULED IN ONE SESSION** (2026-09-06, Marc). Design first (chat): the
+>    unit is a definition-and-import unit, not a survey --- half a unit,
+>    P1 the what (Cho Sec. VI's triad in Cho's nouns, volume dominance,
+>    one clause per approach on what it is for, Cho's residual bucket
+>    for mechanisms designed under none --- the roster test that places
+>    Table 2.3's four execution schemes; MTDShield is the pool's one
+>    learning-based defence, so "none of the above" is only half true of
+>    the inherited pool and the guardrail against positioning stands),
+>    P2 the import (the attacker each approach brings with it,
+>    descriptive not diagnostic; the Sec. V-D asymmetry stays in the
+>    criterion; the Tay sentence stays at the strand closer). The ported
+>    P1 is SUPERSEDED (its Stackelberg sentence cut on evidence: recon-
+>    before-launch / CVE / prior-over-types are Sengupta's, not in Cho
+>    Sec. VI; Cho never mentions CVE). G4b filled and removed. Pass 4
+>    split-stream WB + BB: M1 (both) the ML run scoped to the attacker a
+>    learning-based defence imports --- the opponent inside its training
+>    environment --- attacker-side-RL framing cut (it contradicted
+>    3.3.3's Bland endorsement), carriers tay2024 Sec. 7.1--7.2 + ho2024
+>    Sec. 5.1/5.5 attached; M2 (WB) volume dominance revived (3.2.2's
+>    payoff sentence is Cho :636's causal link to it); M3 (BB)
+>    "utility-maximising" -> "intelligent" (Cho :508) with the
+>    which-attackers scope added from Marc's keywords; minors all
+>    accepted (attack model -> attacker model, registry row 67; "and its
+>    usability" cut, sense collision with Cho's security--usability
+>    tradeoff; "mechanisms" KEPT over "deployment strategies" ---
+>    standardisation noun, Cho uses mechanism/technique interchangeably;
+>    two P1 sentences re-dictated: rational players "competing over the
+>    same resources"; GA "over a fitness function of attack resilience,
+>    diversity in time and space"). Pass 5 (WB): floor set 1--9
+>    approved, then the three claim-level blocks ACCEPTED on the
+>    session's case --- the utility-vs-campaign clause (carrier: 3.3.3
+>    + criterion properties 1/2), the not-befitting sentence (cites
+>    moved to the training-environment sentence), the ingrained-into-
+>    decision-logic clause (G1 now OWNS it; note added to the G1
+>    placeholder). Unit ~175 words vs the 1/2 unit; residue is P1's five
+>    definitional sentences. THROUGH PASS 5. Open for the section
+>    voice pass: the doubled "over ... over" in the GA sentence (as
+>    dictated); "amongst"-free now. Full trail in the unit's tex
+>    comment. Mangle dictionary gained "STR operation -> SDR operation".
+>    **THROUGH PASS 6** (2026-09-07, voice-pass white box on this unit
+>    alone at Marc's scoping; blanket accept). Applied: S7 colon clause
+>    cut (restated its head); S3 "over ... against" (pass-5 open item
+>    closed); S6 "reduces to the attacker's payoff function"; S1 active
+>    with \citet as subject and "game theory dominating by volume"
+>    (registry); S9 "many" deleted (route (b), a dictated clause naming
+>    Tay/Ho's actual assumptions, stays available); hyphenation batch;
+>    S10 "defence mechanisms"; S2 "an attacker and a defender".
+>    Do-not-re-flag: the two three-beat walks (enumerate-then-walk); S5
+>    "subsumed by the SDR operation alone" (question only). Gate 7/9:
+>    P2 claim-last by the beheading ruling; concreteness partial until
+>    G1's Tay sentence says what MTDShield trained against (one clause,
+>    Marc's words, when G1 is dictated). Registry: triad-member row
+>    (game-theoretic / genetic-algorithm / machine-learning) RATIFIED
+>    the same day. ~176 words vs the 1/2 unit. Handover to the
+>    integration check: S9's training-environment claim recurs as the
+>    strand closer's final clause --- one home when G1 lands.
+
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
 Every sentence below is from the submitted review (`docs/sources/lit_review/LIT_REVIEW.md`, line numbers in the ledgers) or from a rubric-gated note in `docs/notes/ch3_lit_review/`, with three exceptions marked **[stitch]** — connective sentences a session composed so the unit reads; each is Marc's to accept, replace, or cut. Gaps are `[GAP Gn …]` placeholders keyed to the port plan §4 (G8 added: the adverse-sample warrant). Citations are `\citep` keys; the bib status is at the end.

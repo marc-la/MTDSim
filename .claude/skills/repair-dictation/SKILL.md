@@ -144,6 +144,7 @@ here** rather than leaving the knowledge in chat.
 | CTR vendor report | CTI vendor report |
 | global medium dual time | global median dwell time |
 | apartment campaigns | APT campaigns |
+| STR operation | SDR operation |
 
 ### Danger minimal pairs — a mishear flips a claim, always verify-list these
 

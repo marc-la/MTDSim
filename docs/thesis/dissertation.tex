@@ -1593,31 +1593,179 @@ order.
 \subsection{Defence modelling approaches}
 \label{subsec:defence-modelling-approaches}
 
-% P1 --- the what. Moved 2026-09-05 from 3.3.1 unchanged. [term] for
-% pass 6: "Modelling techniques ... traditions" is the ported wording;
-% the heading's noun is "approaches" (Cho's own). Flagged, not changed.
-Modelling techniques cluster into game-theoretic, evolutionary, and
-learning-based traditions, with game-theoretic formulations dominating
-by volume \citep{cho2020}. A representative game-theoretic formulation
-casts the defender as a leader committing to a configuration-switching
-strategy and the attacker as a follower that performs reconnaissance
-before launching, typically drawing on exploits from public
-enumerations such as the Common Vulnerabilities and Exposures (CVE)
-database, with attacker-type uncertainty encoded as a prior
-distribution \citep{cho2020}.
+% DRAFT STATE (2026-09-06): DICTATED by Marc, repaired (pass 2+3a) and
+% 3b-walked the same session; every marker ruled, the three assembled
+% sentences ratified on read. SUPERSEDES the ported P1 (review :55,
+% moved here 2026-09-05): "Modelling techniques cluster into
+% game-theoretic, evolutionary, and learning-based traditions, with
+% game-theoretic formulations dominating by volume \citep{cho2020}. A
+% representative game-theoretic formulation casts the defender as a
+% leader committing to a configuration-switching strategy and the
+% attacker as a follower that performs reconnaissance before launching,
+% typically drawing on exploits from public enumerations such as the
+% Common Vulnerabilities and Exposures (CVE) database, with attacker-type
+% uncertainty encoded as a prior distribution \citep{cho2020}." The
+% Stackelberg sentence is CUT on evidence: its specifics (attacker
+% reconnaissance before launching, CVE exploits, a prior over attacker
+% types) are not in Cho Sec. VI --- Cho describes leader/follower payoff
+% only and never mentions CVE --- they are Sengupta et al.'s formulation
+% ported under Cho's cite; nothing downstream referenced leader/follower.
+% The [term] flag closes with the supersession (Marc's own noun,
+% "approaches", now heads the sentence; triad in Cho's nouns per his
+% "stick to Cho" ruling). G4b placeholder REMOVED --- P2 fills it.
+% RULINGS 2026-09-06, do not re-flag: "There is no agency involved."
+% cut as the duplicate; "tries to maximise reward functions in the
+% short term" cut (Marc: the reward function is not the bad thing);
+% the "no reward and cost functions in the real world" sentence not
+% carried (same retraction); "often" hedges removed throughout (his
+% ruling on the closing sentence, applied to the three in the ML run
+% on his blanket accept --- reversible); "fantasy" -> "unrealistic";
+% the beheaded P2 question stays beheaded. VERIFY (Marc): "PET models /
+% PET simulators" heard twice, rendered "RL models / RL simulators"
+% from context; the fitness-function sentence reads diversity in time
+% and space INTO the fitness function where Cho VI-B ranks on attack
+% resilience while seeking diversity --- his reading, ratified.
+% Citation anchors: cho2020 at S1 and at the P1 run's end; cho2020 on
+% the game-theory limitation (Sec. VI-A cons). The ML run has NO
+% carrier in the bib (nearest: bland2020, tay2024; the CyberBattleSim /
+% NASim keys of rl_security_environments.md are not in references.bib)
+% --- open for pass 4. Pass-5 candidates noted: "not realistic ... based
+% on unrealistic assumptions" doubling. ~210 words vs the 1/2 unit.
+%
+% PASS 4 RUN 2026-09-06, split-stream (WB main thread + BB subagent),
+% merged ledger in chat; Marc RULED the same day. APPLIED: M1 (both
+% streams) the machine-learning run SCOPED to the attacker a learning-
+% based defence imports --- the opponent inside its training environment
+% --- "reduces to an agent trying to fit to a training environment,
+% instead of executing a campaign with a long-term objective, which is
+% hard to encode" CUT (attacker-side RL framing, contradicted 3.3.3's
+% Bland endorsement; "hard to encode" had no leg in the pack --- Marc:
+% "the point is already made"); the earlier dictated head "is supplied
+% by the training environment" REVIVED as the sentence; "and RL
+% simulators" CUT (no bib carrier for the generalisation); cites tay2024
+% (Sec. 7.1--7.2) + ho2024 (Sec. 5.1, 5.5) attached as the carriers.
+% M2 (WB) the volume-dominance clause REVIVED on S1 from the ported
+% sentence (3.2.2's "game-theoretic approaches often look at payoff and
+% utility" is Cho :636's causal link to it). M3 (BB) "utility-maximising"
+% -> "intelligent", Cho's own word (:508) --- Marc: "intelligent is the
+% key word"; the WHICH-attackers scope stays open, see [3b]. MINORS all
+% accepted: "attack model" -> "attacker model" (registry row 67); "(RL)"
+% at first use; "and its usability" CUT (sense collision with Cho's
+% security--usability tradeoff; restores the first dictation's close);
+% the payoff-attribution [VERIFY] and the mechanisms/strategies noun left
+% as [3b] --- both need his words. Consequence to note: the long-term-
+% objective clause (ruled "a long-term objective" on the 3b walk) left
+% with the cut sentence; revivable. Forward: the "ingrained into defender
+% decision logic" close pre-states G1's first clause --- one home when
+% G1 is dictated.
+% PASS 5 RUN 2026-09-06 (white box), Marc APPROVED proposals 1--9, all
+% deletion/merge: "amongst each other" cut; "rationality is assumed,
+% and" cut (S2 carries it); "realistically" cut; "as a score of the
+% fitness function" cut (claim flag: no-agency now carried by "no
+% attacker as an agent" + the landscape metaphor; alternative kept in
+% chat); S9+S10 merged at his dictated "which"; "very" cut; "of these
+% RL models" cut; "are not realistic," cut (pass-4 doubling cleared,
+% forced joint "and"); S12+S13 merged at "but" (sentence-initial But
+% gone). ~230 words vs the 1/2 unit; three claim-level blocks (the S7
+% "and" clause; the not-befitting sentence; the ingrained-into-decision-
+% logic clause) presented separately; Marc ACCEPTED ALL THREE the same
+% day. CUT with carriers: (A) "and a utility-maximising agent does not
+% capture the complexity of an attack campaign or its long-term
+% objectives" --- carried by 3.3.3's "rationality without capability"
+% sentence and criterion properties (1)/(2); supersedes the marker-4
+% assembly's second clause (its first clause, Cho's con, stays). (B) "The
+% assumptions result in an attacker model that is not befitting of a
+% real-world representation" --- tay2024/ho2024 cites MOVED onto the
+% training-environment sentence (Tay Sec. 7.2 is a claim about the
+% environment); "(RL)" abbreviation dropped with its only later use.
+% (C) "In each approach, attacker model assumptions are ingrained into
+% defender decision logic, but" --- premise restated by the conditional
+% close; G1 (strand closer) now OWNS the clause. Unit ~175 words vs the
+% 1/2 unit; residue is P1's five definitional sentences. Unit is through
+% pass 5.
+% PASS 6 RUN 2026-09-07 (voice-pass, white box, on this unit alone at
+% Marc's scoping; ledger in chat; Marc BLANKET-ACCEPTED). Applied: S7's
+% colon clause cut (restated its head); S3 "over ... over" -> "over ...
+% against" (the pass-5 open item, closed); S6 "is a reduction of the
+% agent's" -> "reduces to the attacker's" (nominalisation; the
+% agent/attacker question resolved to the registry's canonical ---
+% reversible); S1 recast active with \citet as subject, and "game-
+% theoretic formulations" -> "game theory" (registry row 68, approach
+% is the term); S9 "many" deleted (register b4, route (a); route (b), a
+% dictated clause naming Tay 7.1--7.2 / Ho 5.1's actual assumptions,
+% stays available); hyphenation "machine-learning approaches",
+% "reinforcement-learning agents"; S10 "defence mechanisms" (number);
+% S2 "an attacker and a defender". DO NOT RE-FLAG (ruled keep): the two
+% three-beat walks (P1 "involve" x3, P2 "In ..." x3) --- enumerate-
+% then-walk, not a tic; S5 "subsumed by the SDR operation alone"
+% (clarity question posed, no change asked). Gate: 7 of 9 pass; P2
+% claim-last by the 2026-09-06 beheading ruling (not a defect to fix);
+% concreteness partial until G1's Tay sentence says what MTDShield
+% trained against. ~176 words vs the 1/2 unit; overdraft sits until
+% §3.2 assembles (2026-08-18 ruling). Unit is THROUGH PASS 6; the
+% integration check runs on the assembled §3.2.
+%
+% P1 --- the what. Question: what is a defence modelling approach, and
+% which ones does the field use?
+\citet{cho2020} cluster defence modelling into game-theoretic,
+genetic-algorithm and machine-learning approaches, with game theory
+dominating by volume.
+Game-theoretic approaches involve an attacker and a defender as rational
+players competing over the same resources.
+% RE-DICTATED 2026-09-06 (pass-4 marker 1), repaired: "I'm operating over"
+%   -> "over" (STT/disfluency); the "I don't know, something like that"
+%   hedge dropped. SUPERSEDED: "... rational players, and the defence
+%   switching strategy is chosen against an opponent's payoff." (inverted
+%   Cho :475/:483). [3b] "over the same resources" --- Cho's contested
+%   object is the attack surface / system configurations; your noun.
+%   [3b minor] "amongst each other" for two players.
+Genetic algorithms involve searching over defence configurations against
+a fitness function of attack resilience, diversity in time and space.
+% RE-DICTATED 2026-09-06 (pass-4 marker 2). SUPERSEDED: "...
+%   configurations; the fitness function is attack resilience, diversity
+%   in time and diversity in space." Indefinite "a fitness function" now
+%   carries the Crouse-and-Fulp-is-one-instance point. [3b minor] the
+%   doubled "over ... over" is as dictated.
+Machine learning involves learning the defence strategy from the observed
+state, or hindering the attacker's own learning.
+Mechanisms that are not built using these approaches are subsumed by the
+SDR operation alone \citep{cho2020}.
+% RULED 2026-09-06 (pass-4 marker 3): "mechanisms" KEPT --- the
+%   standardisation noun (defence mechanisms); Cho's "techniques" is the
+%   how-to-move sense and he uses "MTD mechanism" interchangeably, so no
+%   collision. Do not re-flag.
 
-% P2 --- the so-what. Question: what attacker does each approach
-% import? Re-homed G4b (was 3.3.1's), rewritten as this unit's prompt.
-\medskip
-\noindent\emph{[GAP G4b --- the attacker each approach imports: the
-game-theoretic follower buys interaction, timing, and equilibrium
-reasoning at the cost of a payoff function standing in for behaviour
-(strategically sophisticated and behaviourally empty at once); the
-learned orchestrator's attacker is whatever its training environment
-supplies, reward-shaped exploration over an abstract state space
-rather than a campaign pursuing an objective. The Tay sentence in the
-strand closer is this paragraph's worked example. Grounding: cho2020
-Sec.~VI, chobenasher2018.md, rl\_security\_environments.md.]}
+% P2 --- the import. Question: what attacker does each approach bring
+% with it? The Tay sentence in the strand closer is this paragraph's
+% worked example (one home; not repeated here).
+In game theory the attacker is a utility maximiser: behaviour reduces to
+the attacker's payoff function.
+However, attackers are not necessarily rational or intelligent
+\citep{cho2020}.
+% RULED 2026-09-06 (pass-4 marker 4) --- SESSION-ASSEMBLED from Marc's
+%   ruling keywords ("unrealistic incentives, unintelligent actors,
+%   utility maximising, does not capture the complexity of an attack
+%   campaign or long-term objectives"), RATIFY ON READ. The colon clause
+%   was Cho's con (:508--510: low-intelligence mass; incentives not
+%   compatible); the "and" clause left at pass 5 (block A). PASS 6
+%   (2026-09-07, Marc's blanket accept): the colon clause CUT as a
+%   restatement of its head --- the sentence is now the bare Cho :508
+%   near-verbatim with the cite. SUPERSEDED: ": incentives may be
+%   unrealistic and actors unintelligent".
+In genetic algorithms there is no attacker as an agent: the attacker
+lives in the fitness landscape.
+In machine-learning approaches the attacker model is supplied by the
+training environment, which is built on assumptions, at a high level of
+abstraction, to allow reinforcement-learning agents to be trained
+\citep{tay2024, ho2024}.
+% [cite] tay2024 Sec. 7.1--7.2 (no real-world data; results "may not
+%   generalise ... artifacts of small simulation space"); ho2024 Sec. 5.1
+%   ("more complex adversaries --- only one type in the simulator"), 5.5
+%   (no real-life scenario testing). Both carry the lineage's instance;
+%   neither carries a claim about RL simulators in general, which is why
+%   that generalisation is cut.
+If attacker models have no agency and are based on unrealistic
+assumptions, then the logic of the defence mechanisms is limited.
 
 % 1 unit. Families and origins only; the inherited suite's definitions
 % (equation, direction) are ch4's under the 2026-08-21 metrics ruling.
@@ -1666,8 +1814,7 @@ Sec.~VI, chobenasher2018.md, rl\_security\_environments.md.]}
 %
 % P1 --- the what. Question: what instrument does an MTD evaluation read
 % its verdict from, and how does the field organise it?
-Metrics are a precondition for MTD evaluation, that is, testing
-whether defence mechanisms are effective and efficient.
+Metrics involve instrumenting defence mechanisms for whether they are effective and efficient.
 % RULED 2026-09-04 (pass 4, items 2+3): "simulator" -> "model" (the
 %   ladder is 3.2.2's; Marc: "you must first instrument your model with
 %   metrics"); "our defence, network, or attacker model" -> "our defence
@@ -2130,8 +2277,11 @@ simulator it is built on.
 \medskip
 \noindent\emph{[GAP G1 --- the closing synthesis, a few sentences: each
 of the three commitments surveyed imports an attacker (the approach
-its decision logic, the metrics the progress they are computed over,
-the method its fidelity ceiling) and none of them specifies one, so
+its decision logic (the clause 3.2.1's P2 close gave up at pass 5,
+2026-09-06: attacker-model assumptions are ingrained into defender
+decision logic --- G1 now owns it), the metrics the progress they are
+computed over, the method its fidelity ceiling) and none of them
+specifies one, so
 the attacker model is not an input to the evaluation but a bound on
 what any of it can express. The pivot's evidence is G1a in the metrics
 unit; this block only closes the strand and hands to 3.3.]}
