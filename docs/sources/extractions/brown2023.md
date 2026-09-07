@@ -134,3 +134,26 @@ not a contradiction. Recorded; do not auto-resolve without code check.
 
 These map directly onto the lit-review direction of replacing the attacker
 with CTI-grounded adversary profiles.
+
+---
+
+## Eight-property verification (2026-09-07, independent pass for Table 3.3)
+
+Source read in full (`lit_review/brown2023.md`, l.1–200), scored against Table 3.2's definitions; framing recorded separately from execution. Marks: FULL = has the property as defined; HALF = the executed attacker does something under the heading that falls short of the definition; NONE. Line numbers are the source markdown's; PDF printed page = physical page throughout.
+
+Executed attacker: a fixed-flowchart agent (host discovery → port scan → credential stuffing from harvested accounts → RoA-ranked exploit stack → brute force → next host), two goal variants on one 200-host HARM — Scenario 1 weakest-first to compromise everything; Scenario 2 the target if seen, else same-level hosts, else other-level, never giving up on the target — every MTD block costing a time penalty and a forced re-scan; previously compromised hosts regained instantly.
+
+| # | Property | Mark | Evidence | Reason |
+|---|---|---|---|---|
+| 1 | Persistence | HALF (borderline FULL) | "The attacker will commence with the host discovery phase… Host reconnaissance is performed next… Once the attacker has successfully compromised a host, they will assume command and control functionality" (l.115, §III.C.2); "never give up on the target node" (l.196, §V.C) | multi-stage per-host loop continued across hosts and through MTD disruptions; no dwell or extended-period quantity — the period is whatever the run takes |
+| 2 | Objective conditioning | HALF (borderline FULL) | "In case of the target host is found, the attacker will only attack the target host. If the target host is not found… prioritize attacking hosts that exhibit similar characteristics with the target host (i.e., … same level…)" (l.109–111, §III.C.1); "two attack scenarios with the same capabilities but with different goals" (l.103) | post-foothold host preference and the give-up rule differ by goal and are executed; a fixed per-scenario priority rule set at design time, not a runtime evaluation of the objective |
+| 3 | Strategic plurality | HALF | "first attempt to perform a credentialstuffing attack… Next, a service… selected for exploitation… If the attack fails, they will then commence a brute force attack. If all attack options fail, they will then choose another host" (l.115, §III.C.2) | three vectors and plural hosts/paths, tried in a fixed fallback order — never a branch chosen among alternatives |
+| 4 | Adaptivity | HALF | "forced to re-perform the host discovery phase" (l.121, §III.D.1); "force them to re-perform a port scan" (l.123, §III.D.2); "forcing them to look for vulnerabilities on the host" (l.135, §III.D.3); "a time penalty whenever the attacker is blocked… and forces them to re-scan" (l.186, §V.A) | three distinct scripted responses to the three block types, plus instant regain (l.192); the paper's own words are "forced" — a simulator-imposed restart of a fixed procedure, not a change of strategy |
+| 5 | Stealth | NONE | silent; closest "performing a scan on the network to discover all exposed hosts… running port scans" (l.115) | active, unconstrained scanning; no detection model, no evasion |
+| 6 | Incentive-driven rationality | HALF (borderline FULL) | "The vulnerabilities from all the services scanned will be put into a priority stack based on their return on attack (RoA) [13]" (l.115); RoA from CVSS complexity [0.4, 1] and impact [0, 1] (l.73, §III.A) | a per-step cost/benefit ordering of exploits within a host; host choice is by scenario rule, no abstention or cost-based stopping (the 10-attempt cap is a counter, l.133) |
+| 7 | Learning | NONE (borderline HALF) | silent on learning; closest "credentialstuffing attack using user account information from previously compromised hosts" (l.115); instant regain of previously compromised hosts (l.192) | within-run memory of credentials and footholds; nothing about the defender learned, nothing retained across runs |
+| 8 | Scheme awareness | NONE | silent; closest "uncertain of the status of the hosts" (l.121); "impractical to program the randomness of confusion accurately" (l.186) | no model of which MTD runs, its Uniform(1000, 5000) ms trigger (l.133, l.139) or its logic; the restart is technique-agnostic |
+
+Framing vs execution: "theoretically intelligent adversary" (l.51, §III) vs "All attacker agents… will always follow the attack procedure (as shown in Figure 3)" (l.184, §V.A); Scenario 2 "like APT-style attacks" (l.109) vs HARM-level knowledge only; abstract/intro "realistic attack scenarios… derived using Cyber Kill Chain and MITRE ATT&CK" vs l.184's concession that the framework is inspiration for the flowchart. Skill differentiation is explicitly future work (l.196).
+
+Locators verified against the PDF: "the exploitation skills are not configured to distinguish the different skills of adversaries" — p.7, §V.C (l.196). Also p.4 for the RoA priority stack (l.115) and the Scenario 2 rule (l.109–111); p.5 Table I; p.7 for l.186/192/196. Fig. 3 is an image with no text layer.

@@ -211,3 +211,24 @@ The action flow (Fig 7):
   in MTDSimTime; the codebase appears to support it via `network_type==0`
   paths in `Network.gen_graph` — likely partial inherited logic from Brown
   era. Worth a code-side check.
+
+---
+
+## Eight-property verification (2026-09-07, independent pass for Table 3.3)
+
+Source read in full (`lit_review/zhang2023.md`); scored what this report adds or changes on the attacker side over Brown 2023. Attacker model at §4.4 (l.356–398; PDF printed pp.27–30). Marks as in the Table 3.3 decode.
+
+Executed attacker: Brown's MTDSim attacker refactored onto SimPy with only the compromise-as-many-hosts scenario kept ("only the first attack scenario… is selected to be refactored", l.364, §4.4.1.1), a fixed per-host cascade (scan/enum → nearest discovered host → Phase 1 port scan + credential stuffing → Phase 2 exploitation → Phase 3 brute force → scan neighbours → pivot), each phase consuming exponentially distributed simulated time, Phase 2 time halved on vulnerabilities exploited on earlier hosts, a time penalty on every MTD interruption, to 80 % compromise (l.420), 100 runs per scenario.
+
+| # | Property | Mark | Evidence | Reason |
+|---|---|---|---|---|
+| 1 | Persistence | HALF (borderline FULL) — inherited; the campaign now has measured duration | "pivot themselves on each of the compromised hosts and form an attack path of compromised hosts to target new hosts… compromised hosts will always stay compromised" (l.368, §4.4.1.3); termination at NCR 0.8 (l.420) | the per-host loop repeated to 80 % compromise over simulated time; no campaign plan beyond the loop |
+| 2 | Objective conditioning | HALF (borderline NONE) — inherited and narrowed | l.364 (one scenario kept); "the adversary's current decision is based on the distance to each discovered host" (l.519, §6.3) | one objective retained, so nothing for behaviour to be conditioned on; target choice by distance |
+| 3 | Strategic plurality | HALF (borderline NONE) — inherited | "always follows a sequence of attack actions" (l.366); "If the user credential attack fails, the adversary will move on to Phase 2… If these vulnerabilities cannot be exploited… Phase 3" (l.376, §4.4.2); "a fixed list of actions" (l.517) | three vectors in a fixed fall-through, never a branch |
+| 4 | Adaptivity | HALF — inherited restart/abandon; adds the confusion penalty | "must restart the attack action from Phase 1, regardless of their progress… If the number of interruptions… reaches a certain threshold, the attack event will fail and the adversary will shift their focus to other hosts" (l.382, §4.4.2); "The time penalty is assigned each time the attack event is interrupted or stopped by MTD" (l.392, §4.4.3) | every response scripted (fail-and-rediscover, restart from Phase 1, abandon after N, absorb a penalty); never described as adapting |
+| 5 | Stealth | NONE — inherited | silent; reconnaissance is "Scan Host", "Enum Host", "Scan Neighbour" (l.374) | active scanning only; no detection model |
+| 6 | Incentive-driven rationality | NONE on this report's side (borderline HALF) | l.519 distance heuristic; "the time duration of Phase 2 can be affected by the attack complexity (ACv)… produced randomly from a range of [0, 1]" (l.390) | this report is silent on RoA ordering (AC/RoA appear only as prior metrics, l.248); ACv scales time, it is not weighed |
+| 7 | Learning | HALF — THIS report's attacker-side addition | "the attack model is designed to halve the exploitation time spent on the vulnerabilities that were exploited in the previous attack operations conducted on previous hosts" (l.392, §4.4.3, PDF p.30); Eq. 2 recovered from the PDF: T_Aphase2 = [Σ_{v∈V_unexploited}(1−AC_v) + Σ_{v∈V_exploited}(1−AC_v)/2] · T_Aexploit | the report calls it "learning capabilities"; what is learned is the network's vulnerabilities, within a run; the defender's patterns are not learned and cross-run retention is not stated. **"halved" verified**, per vulnerability, hard-coded /2 |
+| 8 | Scheme awareness | NONE — inherited | silent; "recognised by the adversary immediately upon regaining access, regardless of any network changes made by MTD" (l.368) is retained access, not scheme knowledge | no model of which MTD runs or its interval |
+
+Framing vs execution: §3.3 (l.240) describes Brown's attacker as "adaptively changing actions based on simulation time and specific events" — the executed reactions are scripted; §6.3 (l.517–519) admits "a fixed list of actions" and names a "more intelligent attack profile" as future work. No numeric attacker-phase durations are given anywhere (Table 3 is MTD execution times). Locators: l.392/Eq. 2 printed p.30; l.368 p.28; l.382 p.29; l.364 p.27; l.519 p.42.
