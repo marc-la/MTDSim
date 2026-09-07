@@ -49,12 +49,14 @@
 % Same mechanism as \rowgroup, turned for columns (Table 3.3, 2026-09-07).
 \newcommand{\rothead}[1]{\rotatebox{90}{\begin{tabular}[b]{@{}l@{}}#1\end{tabular}}}
 % Property-matrix marks (Table 3.3 and its ch7 return): met = tick,
-% the genre's own mark for present (conventions §e1); stand-in = tilde,
-% the conventional "partial" of comparison tables (Marc, 2026-09-07 ---
-% the Harvey half read as "the lineage does it all"; the greyed ring
-% was the session's over-engineered fix, retired the same day).
+% the genre's own mark for present (conventions §e1); stand-in = a
+% small dot, "they did something here, as opposed to nothing" (Marc,
+% 2026-09-07 --- the Harvey half read as "the lineage does it all"; the
+% greyed ring and then the tilde were retired the same day, the tilde
+% as "too much visual space"). Rendered: $\cdot$ vanishes on the shaded
+% rows; \textbullet at 0.55 reads as a clean small dot.
 \newcommand{\propmet}{\checkmark}
-\newcommand{\propstandin}{$\sim$}
+\newcommand{\propstandin}{\scalebox{0.55}{\textbullet}}
 % Float-page threshold, raised from the class's 0.5 (the Figure 2.1 trap,
 % worked around twice with [t]; Tables 2.4 + 2.5 fell into it as a pair on
 % 2026-09-05): a float, or a run of them, now needs 80 % of the text height
