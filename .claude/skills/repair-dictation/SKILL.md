@@ -145,6 +145,8 @@ here** rather than leaving the knowledge in chat.
 | global medium dual time | global median dwell time |
 | apartment campaigns | APT campaigns |
 | STR operation | SDR operation |
+| Wanna tackle | one attacker (in the triad "one network, one defence, one attacker") |
+| (high level of) obstruction | abstraction |
 
 ### Danger minimal pairs — a mishear flips a claim, always verify-list these
 

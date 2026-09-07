@@ -1127,6 +1127,109 @@ executes: 2026-08-31_ch3_port_plan.md
 >    worth a clause. Retired placeholder text kept SUPERSEDED in the
 >    tex comment; revivable from git history.
 
+> 24. **3.2.3 EVALUATION METHODS --- SCRUTINISED, CUE-CARDED, DICTATED,
+>    PASSES 2--3a RUN AND THE 3b WALK RULED IN ONE SESSION** (2026-09-07,
+>    Marc). Scrutiny first (chat): the unit mirrors 3.2.1/3.2.2, P1 the
+>    what (Cho's four categories) / P2 the so-what (which method the
+>    field uses, what it costs); brief by design. Three moves: Cho's
+>    simulation-dominance sentence as the P2 spine; the attacker cost
+>    and the positioning OUT (3.2.1 P2's close and ch4 respectively,
+>    per the 2026-09-05 guardrail); end on multi-mechanism evaluation.
+>    Cue card written into the tex under the heading (S1--S8, EXISTS /
+>    DICTATE / DECIDE). Dictated S3--S6 and S8 against it; S1/S2 are the
+>    ported sentence split ("validation" -> "evaluation methods", the
+>    last prose occurrence). G6 placeholder REMOVED with the dictation.
+>    **G4a (S7) RULED OUT** --- Marc: "It's what we've inherited, which
+>    we describe in background already" (its hongkim2016 carrier had no
+>    source markdown in the repo anyway). **G1 RULED CUT** in chat ("not
+>    even important") --- placeholder still in the tex because a
+>    concurrent session edited it the same day (G1a retirement); cut it
+>    at the next touch. Verify items ruled: "Wanna tackle" = "one
+>    attacker" (mangle dictionary row added; Marc: "a colloquialism");
+>    "low barrier to entry" his gloss; the cost sentence's second half
+>    ("not accounted for in defence mechanism logic") his extension,
+>    cite moved onto Cho's half; one-mechanism norm's one-home risk
+>    with the criterion acknowledged for pass 5; citation group on the
+>    multi-mechanism clause "sure". 3b rulings: "approach" -> "method"
+>    for Cho's Sec. VIII categories (Marc: the approach is how the
+>    defence is designed; the method is not --- registry row); plural
+>    "Simulations" -> "simulation"; "one network" -> "one network
+>    model"; "multi-defence" -> "multi-mechanism" (the closer's term);
+>    "hitting the frontier" stays; the "trade-off" echo stays, with a
+>    GLOBAL: term repetition is never to be flagged ("staying for the
+>    rest of eternity"). "remains" verified: no 2026 carrier (Jalowski
+>    does not census methods), stands on Cho. **Table VI read from the
+>    PDF** (image-omitted in the markdown; transcribed into
+>    extractions/cho2020.md): it INVERTS S3's testbed half --- Cho gives
+>    real testbeds the highest flexibility and validity, their cons
+>    being scalability and cost --- so S3 carries a [WRONG] with two
+>    deletion-only repairs offered, wording Marc's; the table itself is
+>    NOT going in (Marc: argued to the degree needed). Then Marc's
+>    clarification: the S8 sentence was his RE-DICTATION of the strand
+>    closer (the ported Tay sentence) at a higher level of abstraction
+>    --- S8 MOVED to the closer, the Tay sentence SUPERSEDED (item 6's
+>    "the Tay sentence stays" overtaken; its training-attacker
+>    inheritance clause, the old hinge, leaves with it --- claim flag
+>    at the site), and **G1 CUT** in the tex. 3.2.3 is two paragraphs
+>    of six sentences (~95 words) and the strand closes on the one
+>    dictated sentence. Consequence for G2 (3.3.3): its placeholder
+>    still points at "the 3.2 closer" for the instruments-cannot-see-
+>    past-the-attacker claim; that claim now lives in 3.2.2's closing
+>    sentence (hong2018) --- re-point when G2 is dictated. S3
+>    RE-DICTATED the same day on the Table VI finding ("Each evaluation
+>    method has its trade-offs. Simulation is high flexibility, high
+>    level of abstraction, but low validity, whereas a real testbed has
+>    high flexibility and validity but is not scalable and is high cost
+>    to implement"); no table (his call); one STT verify ("my" -> "high"
+>    flexibility, follows Cho's cell). Unit ~125 words. Next: pass 4.
+
+> 25. **3.2.3 PASS 4 RUN, split-stream WB + BB, merged --- WALK OPEN**
+>    (2026-09-07, Marc's ask "white and black box approaches"). Black box
+>    ran on comment-stripped prose (fully blind); its four novel facts
+>    were verified at source before entry (Cho IV-D hybrid section
+>    :340-353; Cho X open item :871 "optimal deployment of multiple,
+>    hybrid MTD techniques ... has not been investigated";
+>    lit_review/alavizadeh2022.md exists, abstract confirms S+D+R, no
+>    extraction; tay2024 T-ACT-01 one technique per decision). Merged
+>    ledger is in the tex under the strand closer. Three moves: **M1 the
+>    closer** --- "one network model" is not in Cho V-D (both streams;
+>    the single-network reading is the lineage's, architecture.md s(j));
+>    "hitting the frontier" re-raised once on NEW evidence (Cho already
+>    catalogues hybrid MTD 2017-18 and names its evaluation as the open
+>    item; two carriers predate the survey) --- Marc ruled the wording,
+>    this is the claim, his call; carriers: brown/masud/alavizadeh2022
+>    fit, chobenasher2018 is multi-defence not multi-MTD, tay2024 selects
+>    one technique (ho2024 pairwise fits), kim2026 multi-phase MTD is an
+>    uncited 2026 carrier; "one defence, one attacker" is 3.3.1's second
+>    dimension (pass-5 one-home). **M2 hinge insert** (BB, WB endorsed):
+>    Cho VIII-B's simulation advantage is "flexibility in modeling
+>    specific attack behaviors" --- the method is chosen FOR attacker
+>    flexibility, and 3.3 finds the attacker the weakest part; carries
+>    the hinge the Tay sentence's loss opened, one clause on S5 or the
+>    closer. **M3 routed out**: "adopt a simulator, wind back its
+>    assumptions" has no home --- ch4's opening does not say it
+>    (architecture s(i)/s(j) ground it); flag carried to ch4. REJECTED
+>    BB items (re-opened same-day rulings): abstraction gloss, barrier
+>    gloss, defence-logic extension, closer-vs-G2 pointer. Keeps:
+>    S1/S2, S3 testbed half, S4. Side fix: extractions/cho2020.md :72
+>    paraphrase corrected to validity-vs-cost/scalability. Next: Marc's
+>    3b walk on the ledger, then pass 5.
+>    WALKED 2026-09-07, C1-C7 APPROVED and applied (ratify-on-read
+>    wordings, the pass-4 precedent of item 20): C1 "one network model"
+>    deleted, norm restated in Cho V-D's frame ("one defence against a
+>    single or small set of attacks", cite [Sec.~V-D]); C2 "hitting the
+>    frontier" deleted, SIMPLIFIED on Marc's ruling --- the
+>    technique-vs-mechanism altitude distinction is his alone and would
+>    confuse the reader, so the closer says only "evaluating multiple
+>    defence mechanisms together is where the recent work sits";
+>    chobenasher2018 dropped, kim2026 added; C3 hinge clause on S5
+>    ("above all in modelling attack behaviours", Cho VIII-B, cite moved
+>    onto it); C4 re-routed to the INTRODUCTION (his: "probably
+>    introduction"), flag at the contributions placeholder; C5 his to
+>    dictate, [DICTATE C5] marker at S3 with Table VI's two cells; C6
+>    "graphical security models"; C7 G2 marker placed. Unit ~135 words +
+>    C5. Next: pass 5 on 3.2.3 once C5 is dictated.
+
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
 Every sentence below is from the submitted review (`docs/sources/lit_review/LIT_REVIEW.md`, line numbers in the ledgers) or from a rubric-gated note in `docs/notes/ch3_lit_review/`, with three exceptions marked **[stitch]** — connective sentences a session composed so the unit reads; each is Marc's to accept, replace, or cut. Gaps are `[GAP Gn …]` placeholders keyed to the port plan §4 (G8 added: the adverse-sample warrant). Citations are `\citep` keys; the bib status is at the end.

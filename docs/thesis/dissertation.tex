@@ -175,6 +175,14 @@ threat (APT) attackers? This question decomposes into three sub-questions:
 % single-RQ architecture (a) stands; SQs label the decomposition, not
 % new top-level questions.
 \medskip
+% [FLAG C4, routed here 2026-09-07 from 3.2.3 pass 4, Marc: "it can live
+% in the abstract or in the introduction ... probably introduction"]: the
+% thesis adopts the field's dominant evaluation method (simulation, Cho
+% Sec. VIII-B) on purpose and winds back its attacker assumptions ---
+% grounded in implementation/architecture.md s(i) ("the inherited
+% HARM-structural + DES-execution composition is treated as a deliberate
+% choice, not a default") and s(j); a rhetorical positioning line, his
+% to dictate with the contributions.
 \noindent\emph{[Placeholder --- numbered contributions list closes this
 chapter, keyed SQ1 (capture) / SQ2 (model) / SQ3 (evaluate).]}
 
@@ -2276,55 +2284,455 @@ and therefore on the assumptions that underlie it \citep{hong2018}.
 \subsection{Evaluation methods}
 \label{subsec:evaluation-methods}
 
-Cho et al.\ classify the validation methods into four
-categories, analytical, simulation, emulation, and real testbed, with
-the analytical category splitting into probabilistic and
-graphical-security-model approaches \citep{cho2020}.
+% CUE CARD (2026-09-07, scrutiny pass, Marc's ask): two paragraphs,
+% P1 the what / P2 the so-what, mirroring 3.2.1 and 3.2.2. Brief by
+% design (~120-150 w; the strand is well under its 3 units). EXISTS =
+% carried by text already in the tex, skip on dictation; DICTATE =
+% Marc's; DECIDE = his call before dictating. Keywords and cites only,
+% no prose. Grounding: cho2020 Sec. VIII (source
+% docs/sources/lit_review/1_1_cho2020toward.md, the VIII-A..D pros/cons
+% paragraphs; extraction cho2020.md l.72 flexibility-vs-validity).
+%
+% P1 --- the what. Q: what evaluation methods does the field have?
+%  S1 EXISTS, tidy: Cho's four categories --- analytical, simulation,
+%     emulation, real testbed \citep{cho2020}. [term] "validation
+%     methods" -> "evaluation methods" (heading, opener, registry all
+%     moved 2026-09-02; this is the last prose occurrence).
+%  S2 EXISTS, split off S1: analytical = probabilistic (SPN, ASP models)
+%     / graphical security model (attack graphs, attack trees, HARM).
+%  S3 DICTATE, optional, one sentence: what orders the four --- validity
+%     gained against flexibility and scale lost (Cho Table VI; the
+%     extraction's reading). Keywords per rung, Cho's own cons:
+%     analytical = minimum cost, "simplicity and abstraction is
+%     unavoidable"; simulation = parameterisable, sensitivity analysis;
+%     emulation = higher validity, single-machine, no scale; testbed =
+%     realistic, small/mid networks only. NOT "ladder"/"rung" in prose:
+%     the fidelity descriptor owns "rung" (research gap), ch4's figure
+%     owns "ladder" --- say "categories" / "methods" (registry row to
+%     propose).
+%
+% P2 --- the so-what. Q: which method does the field use, and what does
+% that choice cost? (mirrors 3.2.1 P2: the approach imports an attacker;
+% 3.2.2 P2: the instrument cannot be benchmarked.)
+%  S4 DICTATE: simulation dominates. Cho VIII-B first sentence, citeable
+%     as is: "Most studies evaluating the performance of MTD approaches
+%     have been validated based on simulation experiments"; VIII-C:
+%     emulation "not as common as simulation studies" \citep{cho2020}.
+%  S5 DICTATE: why --- Cho VIII-B pros: flexibility in modelling specific
+%     attack behaviours, environments, MTD techniques; "most design
+%     features can be easily parameterized without much restriction";
+%     sensitivity analysis over key parameters; insight "before
+%     performing the implementation in a real system". Keywords: high
+%     abstraction, everything is a parameter, cheap to vary.
+%  S6 DICTATE: the cost --- Cho VIII-B cons ONLY: "all possible
+%     variables may not be captured" (uncontrollable uncertainty);
+%     lessons "may not be realized in real testbed-based experiments or
+%     systems". Keywords: abstraction, assumptions, transfer. SCOPE
+%     guards: (a) "assumes an unrealistic attacker" is Cho V-D, not
+%     VIII --- and 3.2.1 P2 already closes on it ("no agency ...
+%     unrealistic assumptions ... logic of the defence mechanisms is
+%     limited"), one home, skip here; (b) "we adopt a simulator and
+%     wind back those assumptions" is positioning --- ch4's opening by
+%     the 2026-09-05 guardrail (the review's :61 sentence is the
+%     carrier available there; ch4's preamble does not yet say it).
+%  S7 DECIDE, one sentence or none (G4a): the attacker the
+%     graphical-security-model composition imports --- the graph's path
+%     set, traversed; abstract, probabilistic, surface-directed.
+%     Carriers: Cho VIII-A-2 (HARM: AG reachability over AT
+%     vulnerabilities, [5][74][76]); hong2018 :73 "the evaluation
+%     results are dictated by the threat model used"; masud2025 Alg. 2
+%     as the instance (the cross-section's scripted row). NOT
+%     hongkim2016: no source markdown in the repo, cited only for SDR
+%     in ch2 --- do not attach unread. Earns its place because the
+%     cross-section's Masud row and the gap's "parametric rung" both
+%     lean on this default and nothing upstream names it; drop if the
+%     unit is to stay purely about method.
+%  S8 EXISTS, move up: the close --- single-mechanism evaluation is the
+%     norm; multi-mechanism evaluation is a small but growing body.
+%     The strand closer's Tay sentence carries it verbatim
+%     ("reinforcement-learning orchestrators such as Tay's ... one
+%     example among a small but growing body of multi-mechanism MTD,
+%     and the broader paradigm inherits its training attacker from
+%     whatever simulator it is built on") --- becomes this unit's last
+%     sentence, or stays as the unnumbered closer with G1 cut: Marc's
+%     call. Extra carriers if a lead-in clause is dictated: brown2023
+%     ("singly and in combination", ch2 opener); alavizadeh2022
+%     (combined S+D+R); chobenasher2018 (SPN integrated defence, MTD +
+%     deception + IDS); masud2025 (coexistence rules); tay2024.
+%  G1: CUT per Marc 2026-09-07 ("not even important") --- the
+%     "ingrained into decision logic" clause is restated by 3.2.1 P2's
+%     conditional close; 3.3's interstitial opens on the surveys'
+%     diagnosis, so no synthesis is owed. OPEN: whether the cut also
+%     covers G1a (the metrics unit's P2 tail) --- separate placeholder,
+%     not mentioned.
+%  The G6 (+G4a) placeholder was REMOVED 2026-09-07 with the dictation
+%  (its text is in git history). S7 (G4a) RULED OUT 2026-09-07 (Marc:
+%  "It's what we've inherited, which we describe in background
+%  already") --- G4a is dead; the attack-graph attacker's home is ch2
+%  §2.2.3 and the cross-section's Masud row. Do not re-raise.
+%
+% DRAFT STATE (2026-09-07): DICTATED by Marc against the card (S3, S4,
+% S5, S6, S8), repaired (pass 2+3a) the same session; S1/S2 are the
+% ported sentence split and tidied per the card. [3b] markers are
+% his to walk; the verify watchlist and change log are in the chat
+% return and summarised at each sentence. Citations attached where a
+% sentence tracks a source; pass 4 confirms each. ~115 words vs the
+% 1-unit ledger (card target 120--150).
+% PASS 4 RUN 2026-09-07 (split-stream): the merged ledger sits under
+% the strand closer below (M1 closer, M2 hinge insert, M3 routed to
+% ch4). WALKED 2026-09-07: C1-C7 approved (C2 simplified to "multiple
+% defence mechanisms together"; C4 re-routed to the introduction; C5 is
+% his to dictate, marker at S3). Pass 5 next.
+%
+% P1 --- the what. Question: what evaluation methods does the field
+% have, and what orders them?
+Cho et al.\ classify the evaluation methods into four categories:
+analytical, simulation, emulation, and real testbed. The analytical
+category splits into probabilistic and graphical security models
+\citep{cho2020}.
+% C6 (pass 4, APPROVED 2026-09-07): "graphical-security-model approaches"
+%   -> "graphical security models" --- Cho's own noun (VIII-A-2, "GSM");
+%   the reserved word "approach" deleted per the S4 ruling.
+% S1/S2 --- the ported sentence split at "with" (participle -> finite
+%   verb, the sentence's own noun as subject); comma list -> colon;
+%   "validation methods" -> "evaluation methods" per the 2026-09-02
+%   heading ruling (reversible; last prose occurrence). [term minor]
+%   "graphical-security-model approaches" --- Cho's own noun (Sec.
+%   VIII-A-2 title); registry reserves "approach" for the defence
+%   modelling approach. Keep as cited phrasing, or "models"?
+Each evaluation method has its trade-offs. Simulation is high
+flexibility, high level of abstraction, but low validity, whereas a
+real testbed has high flexibility and validity but is not scalable and
+is high cost to implement \citep{cho2020}.
+% [DICTATE C5] (pass 4, APPROVED 2026-09-07, wording Marc's): the promise
+%   "Each evaluation method has its trade-offs" delivers two of four;
+%   one sentence for the other two from Table VI's cells (extraction
+%   cho2020.md :107, :109): analytical = "minimum cost", "ease of
+%   modeling", con "abstraction/simplicity traded off for efficiency";
+%   emulation = "high validity; high modeling flexibility", con "lack of
+%   scalability due to ... limited hardware computational resources"
+%   (single machine, VIII-C). Sits after S3; cite cho2020.
+% S3 --- RE-DICTATED 2026-09-07 on the [WRONG] below, repaired (pass
+%   2+3a): self-correction "validation sorry evaluation" resolved to
+%   the second form; "obstruction" -> "abstraction" (STT; dictionary
+%   row added); "AA real test bed" -> "a real testbed" (stutter +
+%   Cho's spelling); "their" -> "its" (agreement with "Each"); "Should I
+%   put the trade-offs in a table? Oh no" (his own answer: no table)
+%   and "I don't know, something like that, is that what you do"
+%   dropped as meta. VERIFY (STT): "my flexibility" heard -> "high
+%   flexibility" --- Cho's cell is "highest flexibility and validity",
+%   so the repair follows the source; confirm. Cite check: flexibility
+%   / validity / scalability / cost are Table VI's cells verbatim in
+%   sense; "high level of abstraction" for simulation is his gloss
+%   (Cho's abstraction cons are on the analytical and emulation rows;
+%   simulation's is "inherent uncertainty toward real-world
+%   applications") --- fine under the cite. RULED 2026-09-07: the gloss
+%   STAYS (Marc: "we can remove my gloss if it's causing an issue" ---
+%   it is not); the dictated list form "is high flexibility, high
+%   level of abstraction, but low validity" STAYS as spoken (3b ruled);
+%   "my" -> "high" flexibility CONFIRMED. No marker open on S3. The
+%   unit is THROUGH THE 3b WALK; pass 4 next.
+%   SUPERSEDED (the first dictation, inverted against Table VI): "The
+%   four categories have a trade-off between validity and flexibility.
+%   Simulation has low validity but high flexibility, whereas testbeds
+%   have high validity but low flexibility \citep{cho2020}."
+%   Earlier repairs on that form, for the record: "test beds" ->
+%   "testbeds"; "trade off" -> "trade-off"; "Simulations" ->
+%   "Simulation" (ruled).
+%   [WRONG, RESOLVED by the re-dictation] --- Table VI READ FROM THE PDF 2026-09-07 (p. 732, rendered
+%   from docs/sources/lit_review/original/1.1_cho2020toward.pdf; text
+%   now in extractions/cho2020.md). Cho's own cells: Real Testbeds,
+%   pros "Highest flexibility and validity in modeling and experiments
+%   among all other available evaluation tools", cons "Least
+%   scalability in complexity and highest cost among all available
+%   evaluation tools"; Simulation, pros "Better flexibility in
+%   attack/system modeling than analytical models; easy
+%   parameterization for sensitivity analysis", cons "Limitations due
+%   to inherent uncertainty toward real-world applications". So the
+%   testbed half is inverted against the source: Cho gives testbeds
+%   the HIGHEST flexibility, and their cost is scalability and price,
+%   not flexibility. The axis Cho's table actually trades is validity
+%   against cost and scalability. Two deletion-only repairs are
+%   available, wording yours: (a) "whereas testbeds have high validity
+%   but low flexibility" -> "... but the highest cost" (Cho's cell);
+%   (b) the S3 head "between validity and flexibility" -> "between
+%   validity and cost". The simulation half stands (Cho's con is the
+%   validity limitation; "low" stays the pole reading). Marc's answer
+%   to "put the table in?": no --- the point is argued to the degree
+%   needed; the cite carries it.
 
-% P2 --- the so-what. G4a (was 3.3.1's opening marker) fused with G6,
-% 2026-09-05 (item 5).
-\medskip
-\noindent\emph{[GAP G6 (+G4a) --- what each rung can and cannot support
-(Cho 2020 Table VI: the pros and cons per method), why simulation
-dominates the field, and the cost simulation carries (parameterisation
-realism, abstraction) that Chapter~\ref{ch:attacker-model} owns when it
-positions this thesis on the ladder; then the default attacker that
-composition brings with it: the abstract, probabilistic,
-surface-directed attacker of the attack-graph / HARM tradition, what it
-assumes and why those assumptions suited the question that tradition
-asked. Grounding: cho2020 Sec.~VIII, hongkim2012harm, hongkim2016.]}
+% P2 --- the so-what. Question: which method does the field use, and
+% what does that choice cost?
+In the MTD evaluation field, simulation remains the dominant method
+\citep{cho2020}.
+% S4 --- dictated. cite: Cho VIII-B "Most studies evaluating the
+%   performance of MTD approaches have been validated based on
+%   simulation experiments"; VIII-C emulation "not as common as
+%   simulation studies". [3b] "remains" --- VERIFIED 2026-09-07 on
+%   Marc's ask: no 2026 carrier. jalowski2026 does not census methods
+%   (:201 asks for "simulating how actual attackers might approach
+%   breaching the network", a prescription, not a count); Cho's census
+%   is 2011--2018. "remains" stands on Cho alone --- sure, or scope to
+%   the survey. RULED 2026-09-07: "approach" -> "method" (Marc: the
+%   approach is how the defence mechanism is designed; the method is
+%   not) --- registry row proposed in terminology.md.
+This is because of the high flexibility, above all in modelling attack
+behaviours \citep{cho2020}, and low barrier to entry.
+% C3 (pass 4 M2, APPROVED 2026-09-07, RATIFY ON READ): the hinge clause
+%   "above all in modelling attack behaviours" is Cho VIII-B's
+%   "flexibility in modeling specific attack behaviors" (periodic, DDoS,
+%   MAB-policy, sequential attacks); the cite moved onto the clause it
+%   carries. 3.3's opening (attacker under-development) now lands on the
+%   reason the method was chosen. "low barrier to entry" stays his gloss.
+% S5 --- dictated. VERIFY cite scope: "high flexibility" is Cho VIII-B's
+%   pro verbatim; "low barrier to entry" is your gloss --- Cho's nearest
+%   is "easily obtain meaningful insights before performing the
+%   implementation in a real system" (VIII-B) and "minimum evaluation
+%   cost" (VIII-A-1, said of PROBABILISTIC models, not simulation). The
+%   S4 cite carries this sentence by adjacency. RULED 2026-09-07: his
+%   gloss, stands. Table VI (read the same day) now backs it from the
+%   other end: testbeds carry the "highest cost among all available
+%   evaluation tools".
+However, as a trade-off, parameters that are not captured in the
+simulator \citep{cho2020} are not accounted for in defence mechanism
+logic.
+% S6 --- dictated. Repair: false start "at this is that mechanisms What"
+%   dropped; "are are" -> "are". VERIFY cite scope: the first half
+%   tracks Cho VIII-B's con ("all possible variables may not be
+%   captured due to the nature of existing, uncontrollable
+%   uncertainty"); the second half, "not accounted for in defence
+%   mechanism logic", is the thesis's own extension (Cho's con is
+%   that lessons "may not be realized in real testbed-based
+%   experiments or systems"). RULED 2026-09-07: his extension, stands;
+%   the cite MOVED to sit after "simulator", on Cho's half. Card guard
+%   honoured: no "unrealistic attacker" here (3.2.1 P2's close), no
+%   positioning (ch4). RULED 2026-09-07: the "trade-off" echo stays.
+%   GLOBAL, do not re-flag anywhere: repeating a term is fine ---
+%   "using the terms over and over again is OK, no need to flag this
+%   explicitly, this is staying for the rest of eternity" (matches
+%   voice.md (e): no synonym rotation).
+% S8 --- MOVED 2026-09-07 (Marc's clarification, same day): the
+%   sentence was his RE-DICTATION of the strand closer's Tay sentence
+%   at a higher level of abstraction, not a fourth sentence for this
+%   paragraph. It now stands as the unnumbered strand closer below and
+%   the unit ends on S6. Provenance and rulings of the sentence are
+%   kept there. The card's original S8 note follows for the record:
+% S8 (card note) --- ASSEMBLED FROM TWO DICTATIONS, RATIFY ON READ. Spine is
+%   today's ("what I dictated about MTD evaluation mostly being one
+%   network one defence [one attacker] but multi defence evaluation is
+%   hitting the field hitting the frontier"): indirect "being" -> "is"
+%   (the frame made a sentence); self-correction resolved to the
+%   second form ("hitting the frontier"); "multi defence" hyphenated.
+%   VERIFY (mangle): "Wanna tackle" heard -> "one attacker" (the
+%   triad network / defence / attacker; added to the dictionary).
+%   The FIRST dictation's form (2026-09-07 opening message, repaired)
+%   is the alternative, your words: "Evaluation in the literature
+%   normally looks like one defence modelling approach in conjunction
+%   with predefined metrics and applied networks; we implement and
+%   then we evaluate. There is work going into multi-defence-mechanism
+%   evaluation." --- its self-correction "a network application, or
+%   applied networks" resolved to the second form; "you implement /
+%   you evaluate" -> we (generic second person -> we, the 3.2.2 walk
+%   precedent; [3b] confirm). [term] "one network" / "applied
+%   networks" --- the strand opener's registry noun is "network model".
+%   cite: the one-mechanism norm is Cho Sec. V-D ("most MTD work
+%   instead pairs one mechanism against one attack path") --- ALREADY
+%   in prose at the criterion (3.3.1, "The second is the scarcity of
+%   multi-strategy scenarios ..."); one-home risk for pass 5. The
+%   multi-mechanism group is the card's carriers (Alavizadeh combined
+%   S+D+R; Cho--Ben-Asher SPN integrated defence; Brown "singly and
+%   in combination"; Masud coexistence rules; Tay's selector) ---
+%   session-attached, trim on read (Marc 2026-09-07: "sure").
+%   RULED 2026-09-07: "hitting the frontier" stays; "multi-defence" ->
+%   "multi-mechanism" (whichever is more correct: the closer's term
+%   and the registry noun); "one network" -> "one network model".
+%   [3b] Marc's own note on the triad: "correct, but more of a
+%   colloquialism" --- left as dictated for the voice pass; "one
+%   defence" / "one attacker" are unqualified beside "network model"
+%   (defence mechanism / attacker model would parallel), his call.
+%   OVERLAP: this sentence and the closer's Tay sentence now say the
+%   growing-body point twice within four lines, and both cite tay2024.
+%   Marc 2026-09-07, not yet a ruling: the closer's sentence came from
+%   the review's orchestration paragraph (multi-mechanism evaluation
+%   on the same simulator, the training-attacker inheritance) --- that
+%   inheritance clause is the hinge into 3.3 and is the part with no
+%   other home. Pass-5 candidate: drop tay2024 from this citation
+%   group (cited two lines down) and leave the closer intact.
 
 % Strand closer (unnumbered, 1/4 unit): the hinge into 3.3. Was 3.2.3
 % "Metrics and the attacker model"; heading dropped 2026-09-02 (the
 % title read as a metrics duplicate; the block mirrors 3.3's
-% unnumbered interstitial, and the strand now ends on the hinge). One
-% ported sentence (review Sec. II-C last para, fused); the rest is G1.
-% TRIMMED 2026-09-05 (Marc's ruling, item 6): G1 cut to the closing
-% synthesis; the scored-over pivot and its lineage citations MOVED to
-% the metrics unit's P2 tail as G1a (where the 2026-09-04 header
-% already parked them). The Tay sentence stays: it is 3.2.1 P2's
-% worked example for the learning-based approach.
+% unnumbered interstitial, and the strand now ends on the hinge).
+% RE-DICTATED 2026-09-07 (Marc): the ported Tay sentence is SUPERSEDED
+% by his one sentence at a higher level of abstraction, dictated
+% against the 3.2.3 card as "S8" and re-homed here on his
+% clarification the same day. SUPERSEDED (review Sec. II-C last para,
+% fused; item 6's "the Tay sentence stays" ruling of 2026-09-05 is
+% thereby overtaken): "Whether the orchestration is specified or
+% learned, the defender's growing sophistication concentrates on one
+% side of the engagement: reinforcement-learning orchestrators such as
+% Tay's \citep{tay2024} are one example among a small but growing body
+% of multi-mechanism MTD, and the broader paradigm inherits its
+% training attacker from whatever simulator it is built on."
+% TECHNICAL-CLAIM FLAG: two legs left with it --- (a) the
+% training-attacker inheritance clause, the old hinge into 3.3; the
+% hand-off now rests on this sentence plus 3.3's interstitial (the two
+% surveys' diagnosis) and 3.2.2's closing dependence sentence; (b) the
+% 3.2.1 pass-6 note "concreteness partial until G1's Tay sentence says
+% what MTDShield trained against" --- 3.2.1 P2's ML sentence cites
+% tay2024/ho2024 directly, so the worked example is carried there.
+% G1 CUT 2026-09-07 (Marc: "not even important"; "why is G1 still
+% there") --- its "ingrained into decision logic" clause is restated by
+% 3.2.1 P2's conditional close; its metrics clause by 3.2.2's closing
+% sentence (hong2018). Placeholder text in git history.
 \medskip
 \noindent
-Whether the orchestration is specified or learned, the defender's
-growing sophistication concentrates on one side of the engagement:
-reinforcement-learning orchestrators such as Tay's \citep{tay2024} are
-one example among a small but growing body of multi-mechanism MTD, and
-the broader paradigm inherits its training attacker from whatever
-simulator it is built on.
-
-\medskip
-\noindent\emph{[GAP G1 --- the closing synthesis, a few sentences: each
-of the three commitments surveyed imports an attacker (the approach
-its decision logic (the clause 3.2.1's P2 close gave up at pass 5,
-2026-09-06: attacker-model assumptions are ingrained into defender
-decision logic --- G1 now owns it), the metrics the progress they are
-computed over, the method its fidelity ceiling) and none of them
-specifies one, so
-the attacker model is not an input to the evaluation but a bound on
-what any of it can express. The metrics clause is grounded by the one
-sentence closing 3.2.2 P2 (hong2018; G1a retired 2026-09-07); this
-block only closes the strand and hands to 3.3.]}
+MTD evaluation is mostly one defence against a single or small set of
+attacks \citep[Sec.~V-D]{cho2020}; evaluating multiple defence mechanisms
+together is where the recent work sits \citep{alavizadeh2022, brown2023,
+masud2025, tay2024, kim2026}.
+% C1 + C2 (pass 4 M1, APPROVED 2026-09-07, RATIFY ON READ). C1: "one
+%   network model" DELETED (Marc: an oversimplification, "an irrelevant
+%   point ... nuances need not be carried"); "one defence, one attacker"
+%   -> Cho V-D's frame in his words ("one defence and a single small set
+%   of attacks ... precisely what all my prior works did"); cite
+%   localised to Sec.~V-D as in 3.3.1. C2: "hitting the frontier"
+%   DELETED on the evidence (Cho IV-D catalogues hybrid MTD 2017-18; Cho
+%   X names deployment of multiple techniques as the open item); Marc's
+%   simplification ruling: the technique/mechanism altitude distinction
+%   is his alone and confuses the reader --- say only "multiple defence
+%   mechanisms together", and "where the recent work sits". Carriers:
+%   chobenasher2018 DROPPED (IDS + deception + one MTD, not defence
+%   mechanisms in ch2's sense); kim2026 ADDED (multi-phase MTD, the
+%   cross-section's 2026 point); tay2024 kept (selector over the pool;
+%   ho2024's pairwise combinations are the alternative if wanted).
+%   SUPERSEDED: "MTD evaluation is mostly one network model, one
+%   defence, one attacker \citep{cho2020}, but multi-mechanism
+%   evaluation is hitting the frontier \citep{alavizadeh2022,
+%   chobenasher2018, brown2023, masud2025, tay2024}."
+% Dictated 2026-09-07 against the 3.2.3 card, repaired (pass 2+3a):
+%   indirect "being" -> "is"; self-correction "hitting the field
+%   hitting the frontier" resolved to the second form; "multi defence"
+%   hyphenated then RULED "multi-mechanism" (whichever is more correct:
+%   the registry noun); "one network" RULED "one network model".
+%   VERIFY (mangle): "Wanna tackle" heard -> "one attacker" (Marc:
+%   correct, "more of a colloquialism"). [3b] the triad's other two
+%   nouns are unqualified beside "network model" (defence mechanism /
+%   attacker model would parallel) --- his call at the voice pass.
+%   cite: the one-mechanism norm is Cho Sec. V-D ("most MTD work
+%   instead pairs one mechanism against one attack path") --- also in
+%   prose at the criterion (3.3.1); one-home risk noted for pass 5
+%   (Marc: "sure"). The multi-mechanism group is the card's carriers
+%   (Alavizadeh combined S+D+R; Cho--Ben-Asher SPN integrated defence;
+%   Brown "singly and in combination"; Masud coexistence rules; Tay's
+%   selector) --- session-attached, trim on read (Marc: "sure").
+%   RULED: "hitting the frontier" stays. Marc's gloss on the
+%   sentence's intent (2026-09-07): multi-mechanism evaluation is the
+%   paradigm shift, "and that's what we're adopting" --- the adoption
+%   half is NOT in the sentence (positioning is ch4's opening by the
+%   2026-09-05 guardrail; ch2's "singly and in combination" already
+%   places MTDSim in that body).
+%
+% PASS 4 (2026-09-07, /scrutinise-draft, split-stream WB + BB, merged;
+% Marc's ask "white and black box approaches"). Novel BB facts verified
+% against their sources before entry; BB items that re-opened
+% same-day rulings REJECTED and listed at the end. Content points only,
+% wording his. Grounding: cho2020 source (lit_review/1_1_cho2020toward.md)
+% Sec. IV-D :340-353, V-D :460, VIII-B, X :871; extractions/cho2020.md
+% :103-112 (Table VI); implementation/architecture.md s(i) decision block
+% and s(j) positioning; lit_review/alavizadeh2022.md abstract;
+% extractions/{chobenasher2018,tay2024,masud2025,kim2026}.md;
+% lit_review/brown2023.md :21-23.
+%
+% M1 --- THE CLOSER (both streams), four flags:
+%  [WRONG, both] "one network model ... \citep{cho2020}": Cho V-D
+%    bullet 2 (:460) says "a single or a small set of attacks" and few
+%    scenarios with "multiple strategies ... by attackers or defenders".
+%    Defence and attack(s): yes. Network model: NOT in Cho. The
+%    single-network reading is the thesis's own from the Brown->Tay
+%    lineage (architecture.md s(j): "single-mechanism, single-network
+%    optimisation against procedurally-scripted attackers"). Either the
+%    leg comes out from under the cite, or its carrier is the lineage
+%    (ch2 / the 3.3.2 cross-section). Also: the section is V-D; 3.3.1
+%    localises the same passage as [Sec.~V-D].
+%  [VERIFY, BB, verified] "hitting the frontier": Cho 2020 has a Hybrid
+%    section (IV-D, :340-353) cataloguing Alavizadeh S+R (2017), S+D,
+%    S+D+R (2018), and Cho's own open item (X, :871) is "the optimal
+%    deployment of multiple, hybrid MTD techniques ... has not been
+%    investigated" --- existence is 2017-18, the open question is
+%    evaluation/deployment. Two of the five carriers (chobenasher2018,
+%    the Alavizadeh line) predate the survey the sentence contrasts them
+%    with. "frontier" was RULED to stay as wording (3b); this is new
+%    evidence on the CLAIM, so it is re-raised once, your call: Cho's
+%    frame is "hybrid MTD is a recognised class whose evaluation is
+%    under-developed", not "the field is arriving at it".
+%  [VERIFY, both] the carriers: brown2023 YES ("combined effects of MTD
+%    techniques", :21-23); masud2025 YES (S+D+R with coexistence rules);
+%    alavizadeh2022 YES (abstract: "the combination of three MTD
+%    techniques: Shuffle, Diversity, and Redundancy" --- source markdown
+%    exists at lit_review/alavizadeh2022.md, NO extraction yet, so it is
+%    cited on the abstract alone); chobenasher2018 is multi-DEFENCE (one
+%    MTD + IDS + honeypot deception), not multi-MTD --- fits only if
+%    "mechanism" is read as any defence, which ch2 s2.2.2 does not
+%    (defence mechanism = SDR); tay2024 selects ONE technique per
+%    decision (T-ACT-01; Ho's pairwise combinations, ho2024, fit the
+%    claim better). kim2026 --- a multi-phase MTD framework in the 3.3.2
+%    cross-section (extraction :30) --- is a 2026 carrier not cited.
+%  [TIGHTEN, both] "one defence, one attacker" restates 3.3.1's second
+%    dimension ("most MTD work instead pairs one mechanism against one
+%    attack path"). Pass-5 one-home item, already logged; the closer's
+%    own content is the multi-mechanism half.
+%
+% M2 --- [INSERT, BB, endorsed WB] the hinge into 3.3 that the Tay
+%    sentence's loss opened (see TECHNICAL-CLAIM FLAG above): Cho
+%    VIII-B says simulation's advantage over analytical models is
+%    specifically "flexibility in modeling specific attack behaviors"
+%    (periodic, DDoS, MAB-policy, sequential attacks). The dominant
+%    method is dominant FOR attacker-behaviour flexibility; 3.3 then
+%    finds the attacker model the field's weakest part. S5's "high
+%    flexibility" is your word already --- the insert is what the
+%    flexibility is for, one clause, and it carries the hinge at the
+%    survey's level without the training-attacker clause. No
+%    duplication with 3.3.1 (which carries the asymmetry, not the
+%    method). Your call whether S5 or the closer takes it.
+%
+% M3 --- [INSERT, WB, routed OUT of this unit] "we adopt a simulator
+%    and wind back its assumptions" (your opening ask, 2026-09-07) has
+%    NO home: routed to ch4's opening by the 2026-09-05 guardrail, but
+%    ch4's opening says "built beside MTDSim ... proof of concept" and
+%    never says the method is inherited on purpose with its assumptions
+%    wound back. Grounding: architecture.md s(i) ("the inherited
+%    HARM-structural + DES-execution composition is treated as a
+%    deliberate choice, not a default") and s(j); extractions/cho2020.md
+%    disposition "adopted-as-baseline". Flag carried to ch4's opening.
+%
+% [KEEP, both] S1/S2 (Cho VIII opener + VIII-A split, verbatim in
+%    sense); S3's testbed half (Table VI row 4 exact); S4 (VIII-B first
+%    sentence + VIII-C "not as common"); no positioning, no ch2
+%    re-description, no pre-claimed results.
+% [VERIFY, both, no change] "remains": stands on Cho's 2011-2018 census
+%    alone (ruled 2026-09-07); note the 3.3.2 cross-section names one
+%    2026 physical-testbed work (kim2026) two pages on --- one work, not
+%    a counter-census, but a reader sees it.
+% [EXPAND, BB, minor] "Each evaluation method has its trade-offs"
+%    promises four and gives two (simulation, testbed); Table VI rows 1
+%    and 3 are one clause each if the promise is kept, or the promise
+%    narrows. Your call; no table (ruled).
+% [3b, WB, minor] S2 "graphical-security-model approaches" --- Cho's own
+%    noun, but S4's "approach" -> "method" ruling reserved "approach";
+%    keep as cited phrasing or align.
+% REJECTED BB items (re-open same-day rulings; not for the walk):
+%    [WRONG] simulation's abstraction cell (gloss RULED to stay);
+%    [EXPAND] "low barrier to entry" as cause (gloss RULED); [REFRAME]
+%    "defence mechanism logic" as Cho's consequence (RULED his
+%    extension; the cite already sits after "simulator", so the cite
+%    does not cover it); [REFRAME] closer intent vs G2's "the 3.2
+%    closer" pointer (G2's pointer is stale --- re-point to 3.2.2's
+%    closing sentence when G2 is dictated; logged).
+% Pack note (both): no ch3 note carries evaluation-method material
+%    (README scope note: the review was never mined); every claim here
+%    stands on Cho and the cited works' own texts. Unit ~125 words vs 1
+%    unit; the strand is under its 3 units by design.
 
 % --------------------------------------------------------- 3.3 model --
 % Feeds model: the field says so about itself; the rubric; the
@@ -2615,6 +3023,11 @@ never been brought to MTD evaluation.
 % TRIMMED 2026-09-05 (item 10): G2 no longer re-lists the means (the
 % two paragraphs above carry them) or the 3.2 closer's claim.
 \medskip
+% C7 (3.2.3 pass 4, 2026-09-07): this placeholder's "the 3.2 closer"
+% pointer is STALE --- the strand closer now carries the one-defence /
+% multiple-mechanisms point; the "instruments cannot see past the
+% attacker they are scored over" claim lives in 3.2.2's closing sentence
+% (hong2018). Re-point when G2 is dictated.
 \noindent\emph{[GAP G2 --- the closing move, the consequence and stop:
 an attacker model at the scripted rung cannot represent a campaign
 past initial access, so MTD's performance against a footholded
@@ -2714,7 +3127,7 @@ Chapter~\ref{ch:attacker-model}.]}
   MTDSim (L4). Columns are the ATT\&CK tactics in kill-chain order; the
   accent marks what this thesis builds, and the grey action layer is
   inherited unchanged. The numbered joins trace one iteration of the
-  runtime loop (Section~\ref{subsubsec:mechanics-join}).}
+  runtime loop (Section~\ref{subsec:mechanics-join}).}
   \label{fig:pipeline}
 \end{figure}
 
@@ -3257,8 +3670,8 @@ working together at runtime to produce a result that we are here to measure.
 % [heading renamed on Marc's ruling 2026-08-19: "Parameterisation" -> "The
 %   controller layer" --- the controller is defined in the preamble above and
 %   is the join; label updated (nothing referenced the old one).]
-\subsubsection{The controller layer}
-\label{subsubsec:controller}
+\subsection{The controller layer}
+\label{subsec:controller}
 
 The controller layer is the join between the Petri nets and our simulator, and
 it carries three things: the dwell times (the stochastic dwell times), the
@@ -3467,8 +3880,8 @@ of values to feed into our attacker model.
 % [unit close, promoted per your ruling to cover all three inputs --- "this is
 %   basically our attack model", one sentence at the end.]
 
-\subsubsection{Mechanics and the join to MTDSim}
-\label{subsubsec:mechanics-join}
+\subsection{Mechanics and the join to MTDSim}
+\label{subsec:mechanics-join}
 
 We made all of the actions in MTDSim independent of each other, and produced
 the join through the controller layer, so that the movement layer supplies all
@@ -3905,7 +4318,7 @@ March 2026, with its own reference list.
 % WIRED 2026-08-20 (your ruling: the per-row reasoning does not belong in the
 %   diagram, "it can form a brief table in the appendix for the movement
 %   attacker"). This section is the reasoning half of
-%   fig:controller-mapping (subsubsec:controller): the figure shows WHICH
+%   fig:controller-mapping (subsec:controller): the figure shows WHICH
 %   tactic dispatches which action, this table says WHY each row holds that
 %   value, including what the substrate would have to model before a
 %   dwell-only row could be mapped.
@@ -3923,7 +4336,7 @@ March 2026, with its own reference list.
 \label{app:controller-mapping}
 
 % [prose slot --- Marc] one or two sentences. What the chapter cites this for
-%   is the dwell-only concession at subsubsec:controller; what it is evidence
+%   is the dwell-only concession at subsec:controller; what it is evidence
 %   OF is that every one of the fifteen rows was decided on its merits against
 %   what the verb actually does, rather than by position in a kill chain.
 \input{tables/tab_B-5a_controller_mapping_reasons}
@@ -3955,7 +4368,7 @@ March 2026, with its own reference list.
 
 % [prose slot --- Marc] the lead, two or three sentences. The content is
 %   settled and is NOT drafted here: the failure set of
-%   Section~\ref{subsubsec:controller}
+%   Section~\ref{subsec:controller}
 %   (Figure~\ref{fig:failure-weight-matrix}) is the product of two
 %   kernels, drawn apart in Figure~\ref{fig:failure-weight-decomposition}: the
 %   first-matching semantics rule
@@ -4045,7 +4458,7 @@ March 2026, with its own reference list.
 \label{app:experiment-one}
 
 % [prose slot --- Marc] the framing sentences. What the chapter cites this
-%   for is the "very poor performance" claim at subsubsec:controller;
+%   for is the "very poor performance" claim at subsec:controller;
 %   what it is evidence OF is the two failure modes. Numbers to hand,
 %   from the record's §3--§6, for whichever you use:
 %     - friction: the exfiltration profile spends 95% of its action budget
