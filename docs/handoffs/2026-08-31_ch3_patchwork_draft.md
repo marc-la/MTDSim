@@ -1091,6 +1091,42 @@ executes: 2026-08-31_ch3_port_plan.md
 >    integration check: S9's training-environment claim recurs as the
 >    strand closer's final clause --- one home when G1 lands.
 
+> 23. **G1a RETIRED --- 3.2.2 P2 TAIL IS ONE DICTATED SENTENCE**
+>    (2026-09-07, Marc, on a cold read of 3.2.2: "do we really need
+>    G1a"). His reading, endorsed by the session against Table 3.1:
+>    the scored-over pivot overstated the gap. "Every metric is
+>    computed against an attacker's progress" is false from the table
+>    itself --- the efficiency rows (QoS, overhead, NVC/EVC, downtime)
+>    and the network-state-change row (periodicity, MEF, TSLM, IPV)
+>    are computed over the defender's own actions; detection rate and
+>    actions blocked are read off the defender's observability. The
+>    DSP/MTTF inversions are Cho's own concessions and the table's row
+>    pairings already say them; the lineage citations (mcqueen2006,
+>    evans2011, sharma2025) already sit in the ASP and MTTC cells; the
+>    downstream consumers (3.3.3's Brown paragraph --- outcomes vs
+>    attacker decisions, a separate point; ch5's MTTC / compromise-ratio
+>    readings) need only the one claim. Ruling: insert a sentence, not
+>    delete --- G1 (strand closer) keeps "the metrics the progress they
+>    are computed over" and needs one grounded anchor in the strand.
+>    Applied: the G1a placeholder REPLACED by his dictated sentence
+>    ("Many of the metrics are dependent on how the attacker was
+>    implemented, and therefore on the assumptions that underlie it"),
+>    pass 2+3a repaired, cited hong2018 on his ask (:73, "the
+>    evaluation results are dictated by the threat model used" --- said
+>    of decision-theoretic IRS approaches; scope note at the sentence);
+>    G1's pointer re-aimed at the sentence; the ch3 header amended.
+>    Two [3b] at the sentence for his walk: "Many" vs "The effectiveness
+>    metrics" (the table's honest scope; "many" is the quantifier pass 6
+>    cut from 3.2.1 S9), and an optional instances clause from his own
+>    dictation ("success events and time to compromise among them").
+>    SUPERSEDES item 17's "the unit still ends on the handover
+>    (scored-over split + the attacker inside the attacker-side
+>    definitions)" --- the handover is now the one sentence. Not taken
+>    up (Marc's own read): detection rate is defender-side but its
+>    denominator is attacker actions --- attacker-shaped still; not
+>    worth a clause. Retired placeholder text kept SUPERSEDED in the
+>    tex comment; revivable from git history.
+
 **Titles retitled 2026-08-31 on Marc's ruling:** sharp noun phrases naming the thing surveyed, in the review's own register, not descriptive or argumentative working titles. ATT&CK treated as a proper name, exempt from the spell-out-at-final-pass rule (flagged, not ruled). Ruled 2026-08-31: 3.1.2 is *MITRE ATT&CK* alone (Attack Flow is a component of it, as in the review's own §III-A; a whole-and-part pair is not a compound heading), and 3.3.1 is *Attacker model criterion*; 3.2.3 is *Metrics and the attacker model*.
 
 Every sentence below is from the submitted review (`docs/sources/lit_review/LIT_REVIEW.md`, line numbers in the ledgers) or from a rubric-gated note in `docs/notes/ch3_lit_review/`, with three exceptions marked **[stitch]** — connective sentences a session composed so the unit reads; each is Marc's to accept, replace, or cut. Gaps are `[GAP Gn …]` placeholders keyed to the port plan §4 (G8 added: the adverse-sample warrant). Citations are `\citep` keys; the bib status is at the end.
