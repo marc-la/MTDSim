@@ -1545,33 +1545,53 @@ incident-response literature, not within MTD evaluation.
 \section{MTD evaluation}
 \label{sec:mtd-evaluation-survey}
 
-% Strand opener (unnumbered): the anatomy sentence, moved out of the
-% old 3.2.1 as the strand's lead-in. Reorder ruled 2026-09-02: metrics
-% before methods (Cho's own Sec. VII -> VIII order), the hinge as an
-% unnumbered strand closer.
-% RECAST 2026-09-05 (Marc's ruling, item 2): the anatomy in the
-% registry's terms so ch2's headings (Network model / Defence
-% mechanisms / Attacker model) carry into ch3 unchanged; "threat
-% model" and "validation methods" leave the sentence. Cite check: the
-% five-commitment anatomy is Cho's Sec. I framing; the approaches are
-% his Sec. VI, cited separately so the anatomy sentence attributes no
-% sixth item to him. The dispatch sentences are session wording,
-% ratify-on-read. SUPERSEDED (ported, Cho's own list): "An MTD
-% evaluation study selects a network setting (enterprise, cloud,
-% software-defined, Internet of Things, or cyber-physical), adopts a
-% threat model, deploys one or more MTD mechanisms, and assesses the
-% result against a metric set using one of several validation methods
-% \citep{cho2020}."
-An MTD evaluation commits to a network model, an attacker model, a set
-of defence mechanisms, a metric set, and an evaluation method
-\citep{cho2020}; the mechanisms are themselves designed under a defence
-modelling approach \citep[Sec.~VI]{cho2020}. Two of these are fixed by
-the simulator this thesis inherits, the network model
-(Section~\ref{subsec:network-model}) and the defence mechanisms
-(Section~\ref{subsec:defence-mechanisms}); the attacker model is
-Section~\ref{sec:mtd-attacker-models}'s. The three the field varies,
-the approach, the metrics, and the method, are surveyed here in that
-order.
+% Strand opener (unnumbered, 1/4 unit). REWRITTEN 2026-09-07 (Marc's
+% ruling on the cold read: the 2026-09-05 recast kept Cho's five-
+% commitment anatomy plus a dispatch sentence and "in that order" ---
+% the scaffolding cut from ch1 on 2026-08-21). Shape now mirrors the 3.1
+% interstitial: S1 the strand's question, MARC'S DICTATION ("this
+% section looks at how the field evaluates an MTD mechanism and the
+% steps involved in such evaluation"; repaired: "dissection" -> "this
+% section", "MTU" -> "MTD"; "looks at" -> "surveys" on his ruling the
+% same day, matching 3.1's verb); S2 the sequence with the section
+% references folded in as parentheticals (the ch2 MTDSim-preamble
+% convention; the three nouns are the registry's ratified terms ---
+% defence modelling approach / metrics / evaluation method --- so the
+% thread and the headings agree). SESSION-ASSEMBLED S2 under the
+% connective-prose green light, ratify-on-read. RULINGS, do not
+% re-flag: the network model and attacker model are NOT named (ch2's
+% preamble already frames MTDSim as network / defence / attacker;
+% 3.3's interstitial opens on the attacker model); no citation (a
+% signpost carries no cited claim --- the 3.1 rule; each subsection
+% opens on Cho); no G1-style synthesis ("Each step carries assumptions
+% of its own" was proposed as S3 and CUT by Marc as too strong);
+% "evaluates ... evaluated ... evaluation" is a term repeat, ruled
+% fine thesis-wide. Consequence noted: the dropped dispatch sentence
+% was ch3's only statement of why the network model is not surveyed
+% here --- the carrier is now ch2's preamble.
+% SUPERSEDED (the 2026-09-05 recast, for reversibility): "An MTD
+% evaluation commits to a network model, an attacker model, a set of
+% defence mechanisms, a metric set, and an evaluation method
+% \citep{cho2020}; the mechanisms are themselves designed under a
+% defence modelling approach \citep[Sec.~VI]{cho2020}. Two of these are
+% fixed by the simulator this thesis inherits, the network model
+% (Section~\ref{subsec:network-model}) and the defence mechanisms
+% (Section~\ref{subsec:defence-mechanisms}); the attacker model is
+% Section~\ref{sec:mtd-attacker-models}'s. The three the field varies,
+% the approach, the metrics, and the method, are surveyed here in that
+% order." Before it, the ported sentence (Cho's own list, superseded
+% 2026-09-05): "An MTD evaluation study selects a network setting
+% (enterprise, cloud, software-defined, Internet of Things, or
+% cyber-physical), adopts a threat model, deploys one or more MTD
+% mechanisms, and assesses the result against a metric set using one of
+% several validation methods \citep{cho2020}." Reorder ruled 2026-09-02
+% (metrics before methods, Cho's Sec. VII -> VIII order) stands.
+This section surveys how the field evaluates an MTD mechanism and the
+steps involved in such an evaluation. A defence mechanism is designed
+under a defence modelling approach
+(Section~\ref{subsec:defence-modelling-approaches}), instrumented with
+metrics (Section~\ref{subsec:mtd-metrics}), and evaluated under an
+evaluation method (Section~\ref{subsec:evaluation-methods}).
 
 % 1/2 unit. NEW HEADING 2026-09-05 (Marc's ruling, item 3): Cho
 % Sec. VI, the theoretical approaches the DEFENCE is designed under
