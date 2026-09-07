@@ -3146,6 +3146,16 @@ enumeration are this thesis's own synthesis.
 % 2026-09-07_ch3_s33_context.md §10.11 with the alternatives not taken.
 % The comment below predates the glyph change: read its \CIRCLE as
 % \propmet and its \LEFTcircle as \propstandin.
+% HEADS 2026-09-07 (Marc, rendered and read: the rotated heads took
+% ~2.3 cm for four rows of content, and the three-line "Incentive-driven
+% rationality" head widened its column past the shaded p-cell, which
+% broke the stripes): heads are the property NUMBERS, bound to Table
+% 3.2 by the caption. Rotated one-word heads ("1 Persistence" ...) were
+% rendered as the alternative and still cost ~2 cm; numbers cost one
+% line and let the table sit at 14.3 cm, centred. \rothead stays in the
+% preamble unused here. The stripe break was colortbl painting a
+% p-column at its declared width while the \multicolumn head widened
+% the column --- keep every head narrower than its column.
 % MARKS --- EVERY CELL INDEPENDENTLY VERIFIED 2026-09-07 against the
 % six source papers (one pass per paper, full text, not the
 % extractions or the review); the line-anchored evidence is the
@@ -3186,7 +3196,8 @@ enumeration are this thesis's own synthesis.
   \centering
   \caption[Attacker models in recent MTD evaluations, scored on the
   eight properties]{Attacker models in recent MTD evaluations, scored
-  on the eight properties of Section~\ref{subsec:attacker-criterion}.
+  on the eight properties of Section~\ref{subsec:attacker-criterion};
+  the columns are numbered as in Table~\ref{tab:attacker-properties}.
   \propmet\ the attacker model has the property as
   Table~\ref{tab:attacker-properties} defines it; \propstandin\ a
   stand-in, something the executed attacker does under the heading
@@ -3194,16 +3205,9 @@ enumeration are this thesis's own synthesis.
   cell, nothing.}
   \label{tab:attacker-cross-section}
   \tablestyle
-  \begin{tabular}{@{}P{5.3cm}*{8}{>{\centering\arraybackslash}p{0.85cm}}@{}}
+  \begin{tabular}{@{}P{5.3cm}*{8}{>{\centering\arraybackslash}p{0.7cm}}@{}}
     \toprule
-    & \multicolumn{1}{c}{\rothead{1 Persistence}}
-    & \multicolumn{1}{c}{\rothead{2 Objective\\conditioning}}
-    & \multicolumn{1}{c}{\rothead{3 Strategic\\plurality}}
-    & \multicolumn{1}{c}{\rothead{4 Adaptivity}}
-    & \multicolumn{1}{c}{\rothead{5 Stealth}}
-    & \multicolumn{1}{c}{\rothead{6 Incentive-\\driven\\rationality}}
-    & \multicolumn{1}{c}{\rothead{7 Learning}}
-    & \multicolumn{1}{c@{}}{\rothead{8 Scheme\\awareness}} \\
+    & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
     \midrule
     MTDSim lineage, 2023--2024~\citep{brown2023, zhang2023, ho2024, tay2024} & \propstandin & \propstandin & \propstandin & \propstandin & & \propstandin & \propstandin & \\
     Masud et al., 2025~\citep{masud2025} & & & & & & & & \\
