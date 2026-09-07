@@ -31,6 +31,7 @@
 \usepackage{booktabs}          % nicer tables (\toprule, \midrule ...)
 \usepackage[table]{xcolor}     % \rowcolor / \cellcolor for tab:mtd-metrics (zebra rows, greys grammar)
 \usepackage{multirow}          % rotated row-group labels in tab:mtd-metrics
+\usepackage[nointegrals]{wasysym}  % \CIRCLE / \LEFTcircle, the feature-matrix marks of tab:attacker-cross-section
 % --- house table style (docs/workflows/figure_table_conventions.md §k) --
 % Every table float opens with \tablestyle: one type size, unit row
 % height, zebra rows in the greys grammar (\rowcolors numbers the header
@@ -44,6 +45,10 @@
 \newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcommand{\tablestyle}{\footnotesize\renewcommand{\arraystretch}{1.0}\rowcolors{2}{}{black!5}}
 \newcommand{\rowgroup}[2]{\multirow{-#1}{*}{\smash{\rotatebox{90}{\emph{#2}}}}}
+% Feature-matrix heads: a column label rotated 90 degrees, one or two
+% lines (break with \\), bottom-aligned so every head sits on the rule.
+% Same mechanism as \rowgroup, turned for columns (Table 3.3, 2026-09-07).
+\newcommand{\rothead}[1]{\rotatebox{90}{\begin{tabular}[b]{@{}l@{}}#1\end{tabular}}}
 % Float-page threshold, raised from the class's 0.5 (the Figure 2.1 trap,
 % worked around twice with [t]; Tables 2.4 + 2.5 fell into it as a pair on
 % 2026-09-05): a float, or a run of them, now needs 80 % of the text height
@@ -3094,58 +3099,61 @@ enumeration are this thesis's own synthesis.
 \subsection{Attacker models in recent MTD evaluations}
 \label{subsec:recent-threat-models}
 
-% TABLE 3.3 --- floats first (writing-guide order). Port plan CONFIRM 3:
-% phrase cells, not ticks; one lineage column; He et al. out.
-% Transposed to properties as rows so it fits portrait and mirrors the
-% ch7 scorecard, where the movement attacker's column is added. Row
-% labels are Table 3.2's full names so the two tables read as one
-% instrument. CELLS 2026-09-07, each verified against its extraction
-% (handoff §5(b), §10.9): lineage x 1 brown2023.md B-ATK-03 ("restarted
-% on interruption" is the coarse word for ch2's two resets --- network-
-% layer to scan hosts, application-layer to scan ports; VERIFY the
-% word, or leave the mechanism to ch2); lineage x 2 B-ATK-01, NAMES
-% BROUGHT TO CH2's (Table 2.3: opportunistic / targeted; was
-% "network-wide; single target"); lineage x 4 -> plain dash (the Tay
-% parenthetical CUT by ruling); lineage x 6 B-ATK-03; lineage x 7
-% zhang2023.md Z-TIM-07 verbatim "halved" --- Zhang's PUBLISHED time
-% model; the code does not implement it (ATK-04) and ch2 §2.2.3 makes
-% no claim about learning either way, so nothing on the page collides;
-% Masud x 6 dash PENDING Marc's ruling (Masud's "prioritized by return
-% on attack", §3.3, read by the extraction as a path aggregate, Eq. 4,
-% not a per-step choice; P3's DICTATE clause says so if the dash
-% stands); Kim x 1 kim2026.md §5.2. The Fidelity row went with the
-% descriptor (2026-09-07). Caption: the decode clause APPLIED by ruling
-% (Marc's "more ticks the better" reading rule makes it load-bearing).
-% House table style 2026-09-05; column heads cite by number as Table
-% 2.1 does (\citeyearpar printed "(year?)" under ieeetr). YEARS TYPED
-% into the heads 2026-09-07 (Marc: "a critical part of it is the year")
-% --- the lineage spans 2023--2024 (Brown, Zhang 2023; Ho, Tay 2024),
-% Masud 2025, Kim 2026; the roll-call's close (latest carries no more
-% than first) reads off them. No column for this thesis's model here
-% (handoff §3); the ch7 copy adds it.
-\begin{table}[tbp]
+% TABLE 3.3 --- floats first (writing-guide order). REDESIGNED
+% 2026-09-07 (Marc: the phrase-cell table "is not conveying what it
+% needs to ... very sparse, lots of dashes, lots of words justifying
+% what would otherwise be a tick"): back to the feature-matrix genre
+% (conventions §e1 --- works as rows, properties as columns, no cross
+% for absent) with THREE marks, not two, because the one thing the
+% phrase cells were carrying was that a filled cell is not a property
+% met: \CIRCLE\ met, \LEFTcircle\ something under the property
+% operationalised without meeting it (the phrase now lives in the
+% prose --- the lineage and Kim paragraphs and the roll-call's
+% class (i) sentence, which must carry Zhang's cite for column 7),
+% blank nothing. In this copy no cell reaches \CIRCLE; that absence is
+% the table's message and the roll-call says it once. The ch7 copy
+% adds the movement attacker's row, where the marks map onto the
+% badges (demonstrated \CIRCLE, designed \LEFTcircle, not addressed
+% blank) --- ch7's ruling, not made here. Heads: Table 3.2's names with
+% their numbers, rotated (\rothead, the \rowgroup mechanism turned);
+% years typed into the row labels (Marc: "a critical part of it is the
+% year"; lineage 2023--2024, Masud 2025, Kim 2026), so the roll-call's
+% close reads off the table. Width: 4.4 cm label + 8 x 0.95 cm + 8
+% gutters (3.39 cm) = 15.4 cm under the 16.06 cm textwidth.
+% MARKS (each verified, handoff §10.9): lineage 1 (B-ATK-03), 2
+% (B-ATK-01), 6 (B-ATK-03), 7 (zhang2023.md Z-TIM-07, PUBLISHED time
+% model, not in the code --- ATK-04; ch2 makes no learning claim);
+% lineage 4 blank (Tay parenthetical CUT by ruling); Masud row blank
+% with 6 PENDING Marc's ruling (RoA as a path aggregate, Eq. 4); Kim 1
+% (kim2026.md §5.2). Port plan CONFIRM 3's "phrase cells over ticks"
+% is REVERSED by this ruling; the phrase-cell copy is in git at
+% ba253287 (SUPERSEDED). No column for this thesis's model here
+% (handoff §3).
+\begin{table}[htbp]
   \centering
   \caption[Attacker models in recent MTD evaluations, scored on the
   eight properties]{Attacker models in recent MTD evaluations, scored
   on the eight properties of Section~\ref{subsec:attacker-criterion}.
-  A cell names what the executed attacker model operationalises, not
-  that the property is met; a dash means nothing. The lineage column
-  covers the four works on one simulator \citep{brown2023, zhang2023,
-  ho2024, tay2024}.}
+  \CIRCLE\ the property is operationalised; \LEFTcircle\ something
+  under it is operationalised without meeting it, named in the text;
+  an empty cell, nothing. The lineage row covers the four works on one
+  simulator \citep{brown2023, zhang2023, ho2024, tay2024}.}
   \label{tab:attacker-cross-section}
   \tablestyle
-  \begin{tabular}{@{}P{3.7cm}P{5.1cm}P{2.6cm}P{3.0cm}@{}}
+  \begin{tabular}{@{}P{4.4cm}*{8}{>{\centering\arraybackslash}p{0.95cm}}@{}}
     \toprule
-    Property & MTDSim lineage, 2023--2024 & Masud et al., 2025~\citep{masud2025} & Kim et al., 2026~\citep{kim2026} \\
+    & \rothead{1 Persistence}
+    & \rothead{2 Objective\\conditioning}
+    & \rothead{3 Strategic\\plurality}
+    & \rothead{4 Adaptivity}
+    & \rothead{5 Stealth}
+    & \rothead{6 Incentive-driven\\rationality}
+    & \rothead{7 Learning}
+    & \rothead{8 Scheme\\awareness} \\
     \midrule
-    1 Persistence & six-state machine per host, restarted on interruption & --- & phases named, executed sequentially \\
-    2 Objective conditioning & two scenarios (opportunistic; targeted) & --- & --- \\
-    3 Strategic plurality & --- & --- & --- \\
-    4 Adaptivity & --- & --- & --- \\
-    5 Stealth & --- & --- & --- \\
-    6 Incentive-driven rationality & RoA ordering over scanned exploits & --- & --- \\
-    7 Learning & exploitation time halved on vulnerabilities exploited before \citep{zhang2023} & --- & --- \\
-    8 Scheme awareness & --- & --- & --- \\
+    MTDSim lineage, 2023--2024 & \LEFTcircle & \LEFTcircle & & & & \LEFTcircle & \LEFTcircle & \\
+    Masud et al., 2025~\citep{masud2025} & & & & & & & & \\
+    Kim et al., 2026~\citep{kim2026} & \LEFTcircle & & & & & & & \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -3259,9 +3267,10 @@ sequential script across collapsed phases.
 \emph{[DICTATE --- the roll-call, descriptive: (1) the framing (kill chain, ATT\&CK, multi-phase) is invoked in every
 column and reaches the executed attacker in none; (2) the filled cells,
 a staged loop and two scenario labels (rows 1, 2), a cost/impact
-ordering (6), a repeat-exploit speed-up (7), each name something
-operationalised and none the property as
-Table~\ref{tab:attacker-properties} defines it; (3) rows 3, 4, 5 and 8
+ordering (6), a repeat-exploit speed-up (7) \citep{zhang2023}, each
+name something operationalised and none the property as
+Table~\ref{tab:attacker-properties} defines it, so no cell reaches
+the full mark; (3) rows 3, 4, 5 and 8
 carry nothing in any column: no branching across strategies, no
 reaction to the defender, no evasion or passive reconnaissance, no
 model of the scheme; (4) the latest work in the sample carries no more
