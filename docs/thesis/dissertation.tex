@@ -3132,24 +3132,51 @@ enumeration are this thesis's own synthesis.
 % a rotated block wider than its p-cell (column 6) widens the column
 % instead of overfilling it; "6 Incentive-driven rationality" split to
 % three lines so the header height is set by "conditioning".
-% MARKS (each verified, handoff §10.9): lineage 1 (B-ATK-03), 2
-% (B-ATK-01), 6 (B-ATK-03), 7 (zhang2023.md Z-TIM-07, PUBLISHED time
-% model, not in the code --- ATK-04; ch2 makes no learning claim);
-% lineage 4 blank (Tay parenthetical CUT by ruling); Masud row blank
-% with 6 PENDING Marc's ruling (RoA as a path aggregate, Eq. 4); Kim 1
-% (kim2026.md §5.2). Port plan CONFIRM 3's "phrase cells over ticks"
-% is REVERSED by this ruling; the phrase-cell copy is in git at
-% ba253287 (SUPERSEDED). No column for this thesis's model here
-% (handoff §3).
+% MARKS --- EVERY CELL INDEPENDENTLY VERIFIED 2026-09-07 against the
+% six source papers (one pass per paper, full text, not the
+% extractions or the review); the line-anchored evidence is the
+% "Eight-property verification" section of each extraction
+% (docs/sources/extractions/{brown2023,zhang2023,ho2024,tay2024,
+% masud2025,kim2026}.md) and the reconciliation is handoff
+% 2026-09-07_ch3_s33_context.md §10.10. RULE (Marc, 2026-09-07,
+% "strict but generous"): a half mark needs something the EXECUTED
+% attacker DOES under the heading --- never a metric computed about it,
+% a graph structure, or an evaluator's quantity --- so a paper that
+% runs no attacker earns nothing; within that, interpretation is
+% charitable. Lineage: 1 per-host loop repeated across hosts (Brown
+% l.115; Zhang l.368); 2 two scenarios conditioning host preference
+% and the give-up rule as a design-time rule (Brown l.109--111; Zhang's
+% published model kept one, l.364 --- nuance ruled irrelevant, the row
+% covers four works); 3 three vectors in a fixed fallback order (Brown
+% l.115; Zhang l.376); 4 scripted responses to a block --- re-discover,
+% re-scan, switch vector, restart from Phase 1, abandon after N
+% interruptions, confusion penalty (Brown l.121/123/135/186; Zhang
+% l.382/392); 6 RoA orders exploits within a host (Brown l.115); 7
+% Zhang's halving, Eq. 2, per vulnerability, learns the network not the
+% defender (l.392, printed p.30); 5 and 8 blank (active scanning; no
+% model of the scheme; Tay's sensitivity knob verified defender-side,
+% l.330; Ho adds nothing, l.573). Masud blank throughout: no agent
+% runs, `all_simple_paths` (l.414); RoA is an outcome metric (RoCs =
+% 1.01, l.586) consumed only by the defender's centrality ranking
+% (Eq. 8, l.468). Kim: 1 three phase groups run in sequence by one
+% script (l.276, l.282); 5 the outbound shell chosen "to evade the
+% detection by a defense system such as a network intrusion detection
+% system" (l.266, p.7), executed but untested --- no detector in the
+% testbed (l.450); 2, 4, 8 blank (one objective, fixed behaviour; T_k
+% is the evaluators' quantity; the scan range is the experimenters'
+% knob). Locators verified: Brown p.7, Masud p.7, Kim p.7 §5.2. Port
+% plan CONFIRM 3's "phrase cells over ticks" is REVERSED by this
+% ruling; the phrase-cell copy is in git at ba253287 (SUPERSEDED). No
+% column for this thesis's model here (handoff §3).
 \begin{table}[htbp]
   \centering
   \caption[Attacker models in recent MTD evaluations, scored on the
   eight properties]{Attacker models in recent MTD evaluations, scored
   on the eight properties of Section~\ref{subsec:attacker-criterion}.
   \CIRCLE\ the attacker model has the property as
-  Table~\ref{tab:attacker-properties} defines it; \LEFTcircle\ a
-  feature under the heading that falls short of that definition, named
-  in the text; an empty cell, none.}
+  Table~\ref{tab:attacker-properties} defines it; \LEFTcircle\
+  something the executed attacker does under the heading that falls
+  short of that definition, named in the text; an empty cell, none.}
   \label{tab:attacker-cross-section}
   \tablestyle
   \begin{tabular}{@{}P{5.3cm}*{8}{>{\centering\arraybackslash}p{0.85cm}}@{}}
@@ -3163,9 +3190,9 @@ enumeration are this thesis's own synthesis.
     & \multicolumn{1}{c}{\rothead{7 Learning}}
     & \multicolumn{1}{c@{}}{\rothead{8 Scheme\\awareness}} \\
     \midrule
-    MTDSim lineage, 2023--2024~\citep{brown2023, zhang2023, ho2024, tay2024} & \LEFTcircle & \LEFTcircle & & & & \LEFTcircle & \LEFTcircle & \\
+    MTDSim lineage, 2023--2024~\citep{brown2023, zhang2023, ho2024, tay2024} & \LEFTcircle & \LEFTcircle & \LEFTcircle & \LEFTcircle & & \LEFTcircle & \LEFTcircle & \\
     Masud et al., 2025~\citep{masud2025} & & & & & & & & \\
-    Kim et al., 2026~\citep{kim2026} & \LEFTcircle & & & & & & & \\
+    Kim et al., 2026~\citep{kim2026} & \LEFTcircle & & & & \LEFTcircle & & & \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -3246,7 +3273,11 @@ automated script on a Poisson arrival schedule, with ATT\&CK invoked
 taxonomically rather than as behavioural grounding. The work is itself
 candid that ``the overlap in time between each phase is out of scope''
 \citep[p.~7]{kim2026}: the multi-phase attacker is, in execution, a
-sequential script across collapsed phases.
+sequential script across collapsed phases. \emph{[DICTATE --- one
+clause, owed by the row-5 half mark: the script's outbound shell is
+chosen ``in order to evade the detection by a defense system''
+\citep[Sec.~5.2]{kim2026}, against a testbed that carries no detector
+--- evasion executed, never tested.]}
 
 % HE ET AL. CUT 2026-09-07 (Marc's ruling; see the unit head comment).
 % SUPERSEDED for the record, revivable from git: "One adjacent work is
@@ -3276,17 +3307,20 @@ sequential script across collapsed phases.
 % of the RoA heuristic in the simulator lineage." (Its opener is a why,
 % 3.3.3's register; its four properties are the review's, not the
 % table's eight.) The descriptor close was cut earlier the same day.
-\emph{[DICTATE --- the roll-call, descriptive: (1) the framing (kill chain, ATT\&CK, multi-phase) is invoked in every
-column and reaches the executed attacker in none; (2) the filled cells,
-a staged loop and two scenario labels (rows 1, 2), a cost/impact
-ordering (6), a repeat-exploit speed-up (7) \citep{zhang2023}, each
-name something operationalised and none the property as
+\emph{[DICTATE --- the roll-call, descriptive: (1) the framing
+(kill chain, ATT\&CK, multi-phase) is invoked in every column and
+reaches the executed attacker in none; (2) what the half marks name ---
+the lineage's per-host loop (1), two scenario labels (2), a fixed
+fallback across three attack vectors (3), scripted restarts on
+interruption (4), a cost/impact ordering over exploits (6) and a
+repeat-exploit speed-up (7) \citep{zhang2023}; Kim's phases run in
+sequence (1) and an outbound shell chosen to evade a detector the
+testbed does not contain (5); Masud's row empty because no attacker
+runs --- each something the script does and none the property as
 Table~\ref{tab:attacker-properties} defines it, so no cell reaches
-the full mark; (3) rows 3, 4, 5 and 8
-carry nothing in any column: no branching across strategies, no
-reaction to the defender, no evasion or passive reconnaissance, no
-model of the scheme; (4) the latest work in the sample carries no more
-of the eight than the first.]}
+the full mark; (3) scheme awareness is empty in every column, and
+stealth's one mark is untested; (4) the latest work in the sample
+carries no more of the eight than the first.]}
 
 % 1 unit. Review Sec. V para 1 s2-s3 and para 2 (pyramid cut); the
 % second strand (Bland, Outkin) moved to 3.3.2 on 2026-08-31 and BACK

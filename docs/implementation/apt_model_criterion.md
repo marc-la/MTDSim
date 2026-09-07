@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-27
-updated: 2026-08-13
+updated: 2026-09-07
 topic: "The APT-attacker-model criterion (supervisor S6) — a literature-derived rubric of what an APT attacker model should capture, this model scored against it honestly, and the measurement recommendations (M8b) that ride with each claimed axis"
 ---
 
@@ -121,16 +121,34 @@ under this constraint.
 
 ## (c) The scorecard
 
-| # | Axis | Literature source | Prior MTD work (lit review §IV-B cross-section) | This model today |
+| # | Axis | Literature source | Prior MTD work (thesis Table 3.3, verified 2026-09-07) | This model today |
 |---|---|---|---|---|
-| 1 | Persistence — multi-stage campaign structure | Cho §V-A; Alshamrani §II-A (NIST i), §II-C | absent throughout | **DESIGNED** |
-| 2 | Objective conditioning | Alshamrani §II-A, §II-C | absent | **DEMONSTRATED** |
-| 3 | Strategic plurality (multi-strategy branching) | Cho §V-D (dim. 2) | absent | **DEMONSTRATED** |
-| 4 | Adaptivity to defender resistance | Cho §V-A; Alshamrani §II-A (NIST ii) | He et al. only, partial and design-time | **DESIGNED** |
-| 5 | Stealth — low-and-slow tempo and evasion | Cho §V-A; Alshamrani §II-C; Jalowski §4.3 | He et al. only, in a detection-evasion frame | **NOT ADDRESSED** |
-| 6 | Incentive-driven rationality | Cho §V-A, §V-D (dim. 3) | partial RoA operationalisation (Brown, Tay) | **DESIGNED** |
-| 7 | Learning capability | Cho §V-D (dim. 1); Jalowski §4.3 | none | **DESIGNED** |
-| 8 | MTD-scheme awareness (three Jalowski primitives) | Jalowski §4.1, §4.3 | none | **NOT ADDRESSED** |
+| 1 | Persistence — multi-stage campaign structure | Cho §V-A; Alshamrani §II-A (NIST i), §II-C | half: the lineage's per-host loop repeated across hosts; Kim's phases run in sequence by one script | **DESIGNED** |
+| 2 | Objective conditioning | Alshamrani §II-A, §II-C | half: the lineage's two scenarios condition host preference and the give-up rule as a design-time rule; Masud, Kim none | **DEMONSTRATED** |
+| 3 | Strategic plurality (multi-strategy branching) | Cho §V-D (dim. 2) | half: the lineage's three vectors in a fixed fallback order, never a branch; Masud, Kim none | **DEMONSTRATED** |
+| 4 | Adaptivity to defender resistance | Cho §V-A; Alshamrani §II-A (NIST ii) | half: the lineage's scripted restarts on an MTD block (re-discover, re-scan, switch vector, abandon after N, confusion penalty); Masud, Kim none | **DESIGNED** |
+| 5 | Stealth — evasion and passive reconnaissance | Cho §V-A; Alshamrani §II-C; Jalowski §4.3 | half: Kim's outbound shell chosen to evade a detector the testbed does not contain; lineage, Masud none (active scanning) | **NOT ADDRESSED** |
+| 6 | Incentive-driven rationality | Cho §V-A, §V-D (dim. 3) | half: the lineage's RoA ordering of exploits within a host (Brown); Masud's RoA is an outcome metric the defender consumes; Kim none | **DESIGNED** |
+| 7 | Learning capability | Cho §V-D (dim. 1); Jalowski §4.3 | half: Zhang's exploit-time halving on repeat vulnerabilities, within a run, learns the network not the defender; Masud, Kim none | **DESIGNED** |
+| 8 | MTD-scheme awareness (three Jalowski primitives) | Jalowski §4.1, §4.3 | none in any column | **NOT ADDRESSED** |
+
+> **Prior-work column brought to the thesis's Table 3.3 (2026-09-07).** The
+> column was written from the lit review's §IV-B four-characteristic reading
+> (absent / He et al. only). It now restates the ratified cross-section —
+> MTDSim lineage (Brown, Zhang, Ho, Tay), Masud 2025, Kim 2026; He et al. out
+> of the sample (MTD at the model layer, not portable) — scored on the
+> table's rule (Marc, "strict but generous"): a *half* needs something the
+> executed attacker **does** under the heading, never a metric about it or a
+> graph structure, so a paper that runs no attacker earns nothing; within
+> that, interpretation is charitable. Every cell was verified against the
+> source papers; the line-anchored evidence is the "Eight-property
+> verification" section of each extraction under `docs/sources/extractions/`.
+> No prior-work cell reaches *full*. Axis 5's name follows Table 3.2
+> ("evasion and passive reconnaissance"; low-and-slow tempo moved to axis 1
+> on 2026-09-07). Note the two meanings of *half*: here, a stand-in that
+> falls short of the definition; in the "This model" column, DESIGNED means
+> the definition is met by mechanism and not yet demonstrated — the ch7
+> table must decode the two separately.
 
 Two of eight axes are not addressed. That ratio is the honest shape of the
 contribution: the model advances the *campaign-structure* half of the APT
