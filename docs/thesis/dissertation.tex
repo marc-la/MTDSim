@@ -2905,13 +2905,14 @@ literature the surveys themselves draw on, and then measures.
 % carve-out.
 Cho et al.\ name three under-developed dimensions of the attacker model
 \citep[Sec.~V-D]{cho2020}. The first is the smart, learning-capable
-attacker: where defenders are routinely granted machine-learning
+attacker (property~7): where defenders are routinely granted machine-learning
 capability, the attacker is assumed to follow fixed patterns rather
 than to learn and adapt, an asymmetry Cho et al.\ note runs contrary to
 practice, where the attacker is often the more sophisticated of the
 two. The second is the scarcity of multi-strategy scenarios, in which
-attacker and defender each branch across plural options. The third is
-the asymmetric application of the rational-actor framing: the agent
+attacker and defender each branch across plural options (property~3).
+The third is the asymmetric application of the rational-actor framing
+(property~6): the agent
 optimising for cost-effective outcome is modelled as such on the
 defender side and seldom on the attacker's. Jalowski et al.\ reach the
 same diagnosis through a systematic gap-analysis of MTD's design
@@ -2920,11 +2921,11 @@ model ``the most glaring flaw in the MTD literature''
 \citep[p.~8]{jalowski2026}. Their critique is concrete about why. The
 active-scanning baselines (e.g., Nmap) against which MTD is typically
 tested are too naive for an APT, which relies on passive reconnaissance
-to stay hidden and learns the defender's mutation patterns over time.
-The corrective they prescribe is an attacker modelled at a higher level
-of capability, one that reasons about the MTD scheme itself and the
-logic driving its movement, not a scripted intruder oblivious to the
-defence.
+to stay hidden (property~5) and learns the defender's mutation patterns
+over time (property~7). The corrective they prescribe is an attacker
+modelled at a higher level of capability, one that reasons about the
+MTD scheme itself and the logic driving its movement (property~8), not
+a scripted intruder oblivious to the defence.
 
 % P2 --- description. Q: what does the literature say a sophisticated
 % attacker is? S1 is the ported characteristics sentence RE-GLOSSED
@@ -2957,73 +2958,47 @@ Cho et al.\ name four characteristics of a sophisticated attacker
 \citep[Sec.~V-A]{cho2020}, and hold that APT attackers show them:
 \emph{persistent}, operating across multiple stages, from
 reconnaissance through exploitation, rather than as a one-time
-intrusion; \emph{adaptive}, responding to changing system and
-environmental conditions within its resource limits; \emph{stealthy},
-showing no identifiable attack behaviour until the moment an attack is
-calculated to do the most harm; and \emph{incentive-driven}, a rational
-actor sensitive to incentives such as attack success at minimum cost.
-\emph{[DICTATE --- the merge: how Section~\ref{subsec:apt}'s NIST
-clauses restate persistent and adaptive behaviourally, and add the
-objective as what conditions behaviour after the foothold
-\citep{alshamrani2019, nist2011sp80039}.]}
-
-% TABLE --- the eight properties. RULED IN 2026-09-07 (Marc: "I'm happy
-% with the table"), placed where the enumeration sentence stood. House
-% style; caption = title only (Table 3.1's ruling). Rows in the
-% criterion's §(c) order, NEVER renumbered (cited by number across the
-% record, ch4 and ch7). CELLS ARE FACT-SCAFFOLD, session-typed from
-% apt_model_criterion.md §(c) (sources) and §(d) (each axis's "what it
-% is" line, compressed to a clause) --- RATIFY ON READ, wording Marc's
-% to re-noun. Typed, not generated: eight rows and no data artefact
-% (the tab:experiment-one deviation from the no-value-typed rule).
-% Source column = the cell grammar of Table 3.1 (citations with the
-% section locator; a key may sit on every row it grounds). Not in the
-% table, by the §3 refusals: badges, "this model", the fixed-before-
-% scoring provenance (ch7's), the word "criterion".
-\begin{table}[tbp]
-  \centering
-  \caption[The eight properties of a sophisticated attacker]{The eight
-  properties of a sophisticated attacker and their sources.}
-  \label{tab:attacker-properties}
-  \tablestyle
-  \begin{tabular}{@{}rP{3.2cm}P{5.9cm}P{5.3cm}@{}}
-    \toprule
-    & Property & What it names & Source \\
-    \midrule
-    1 & Persistence & a campaign across multiple stages, pursued over an extended period & \citep[Sec.~V-A]{cho2020}; \citep[Sec.~II-A, II-C]{alshamrani2019} \\
-    2 & Objective conditioning & behaviour after the foothold conditioned on the attacker's objective & \citep[Sec.~II-A, II-C]{alshamrani2019} \\
-    3 & Strategic plurality & branching across plural attack options rather than one attack path & \citep[Sec.~V-D]{cho2020} \\
-    4 & Adaptivity & response to changing conditions and to the defender's resistance & \citep[Sec.~V-A]{cho2020}; \citep[Sec.~II-A]{alshamrani2019} \\
-    5 & Stealth & low-and-slow tempo, evasion, and passive reconnaissance & \citep[Sec.~V-A]{cho2020}; \citep[Sec.~II-A, II-C]{alshamrani2019}; \citep[Sec.~4.3]{jalowski2026} \\
-    6 & Incentive-driven rationality & decisions conditioned on a cost/benefit signal & \citep[Sec.~V-A, V-D]{cho2020} \\
-    7 & Learning & learns the defender's patterns over time & \citep[Sec.~V-D]{cho2020}; \citep[Sec.~4.3]{jalowski2026} \\
-    8 & Scheme awareness & reasons about the MTD scheme itself and the logic of its movement & \citep[Sec.~4.3]{jalowski2026} \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-% P3 --- derivation. Q: why these eight? S1 is the old stitch's head
-% and synthesis flag, the enumeration lifted out into the table and
-% the "with the APT characterisation of Section 3.1.1" clause cut
-% (the merge sentence in P2 now owns that join); ratify on read. The
-% old enumeration's registry breach ("an attack model can be scored
-% on" --- row 67, *attack model* never) dies with it. [DICTATE, Marc]
-% S2, the exclusion --- what was considered and left out, so the list
-% reads as earned (voice §c3): Jalowski's attacker-position gap
-% (Attacker A external / B on-path / C endpoint-privileged; MTD has no
-% effect on C, the "insider threat gap") is a property of where the
-% attacker sits, not of what it does, and the thesis's attacker is
-% network-positioned --- excluded. Cite \citep[Sec.~4.3]{jalowski2026}.
-% Grounding: jalowski2026.md, disposition "contrasted-against". The
-% unit closes on S2 --- no forward pointer (handoff §3).
-Read together, these sources yield the eight properties of
-Table~\ref{tab:attacker-properties}. The properties are the
-literature's; the selection and the merge of NIST's clauses onto Cho's
-characteristics are this thesis's own synthesis.
-\emph{[DICTATE --- the exclusion: what the sources name that the list
-leaves out, and why (Jalowski's attacker-position gap, a property of
-where the attacker sits rather than of what it does
-\citep[Sec.~4.3]{jalowski2026}).]}
+intrusion (property~1); \emph{adaptive}, responding to changing system
+and environmental conditions within its resource limits (property~4);
+\emph{stealthy}, showing no identifiable attack behaviour until the
+moment an attack is calculated to do the most harm (property~5); and
+\emph{incentive-driven}, a rational actor sensitive to incentives such
+as attack success at minimum cost (property~6). The NIST definition of
+an APT attacker (Section~\ref{subsec:apt}) mirrors Cho's enumeration:
+persistence and adaptive behaviour are integral to it (properties 1
+and~4), and the objective it names conditions behaviour after the
+foothold (property~2) \citep{alshamrani2019, nist2011sp80039}. Read
+together, these sources yield the eight properties of
+Table~\ref{tab:attacker-properties}; the selection, and the merge of
+the definition onto the enumeration, are this thesis's own synthesis.
+% PROPERTY TAGS (Marc's ask 2026-09-07, "link it to the table ...
+% enumerate them"): each clause that yields a property carries its
+% number in a parenthesis, keyed to Table 3.2's first column --- the
+% requirements-style convention; the table's Source column closes the
+% loop the other way. Tags run out of order in the prose because the
+% numbering is the criterion's and is never renumbered. Coverage: 7, 3,
+% 6 (Cho V-D); 5, 7, 8 (Jalowski); 1, 4, 5, 6 (Cho V-A); 1, 4, 2 (the
+% NIST merge) --- all eight tagged at least once.
+% THE MERGE --- SESSION-ASSEMBLED 2026-09-07 from Marc's spoken gist
+% ("persistence and adaptive behaviour are integral in the NIST
+% definition; the objective conditions behaviour after the foothold;
+% it's trying to mirror the NIST definition with Cho's enumeration,
+% which was the inspiration"), RATIFY ON READ. Faithful: NIST (i)
+% repeatedly over an extended period = persistence; (ii) adapts to
+% defenders' efforts = adaptive; (iii) + Alshamrani Sec. II-C's
+% objective-conditioned suffix = the objective. Filling the slot also
+% fixes Marc's antecedent worry on "these sources" (Cho and Jalowski
+% were the only authors named; Alshamrani was cited only in the
+% table) --- the definition is now named in the prose before the
+% pointer.
+% P3 FOLDED into P2's close (2026-09-07): the old stitch head "Read
+% together, these sources yield ..." and the synthesis flag are the
+% unit's last sentence; "the merge of NIST's clauses onto Cho's
+% characteristics" -> "the merge of the definition onto the
+% enumeration" (the two nouns the sentence before it just used).
+% EXCLUSION SLOT DROPPED (Marc's ruling 2026-09-07: "comes down to the
+% discrimination of the literature review process; happy leaving it
+% as is") --- do not re-flag. The unit is two paragraphs + the table.
 % CUT 2026-09-07 (Marc's ruling), SUPERSEDED for the record --- the
 % fidelity descriptor paragraph and G3: "Where those properties
 % describe the attacker qualitatively, a fidelity descriptor captures
