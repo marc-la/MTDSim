@@ -509,17 +509,40 @@ multiplicative, so no verdict can revive it; only the uniform-weight
 ablation prunes to the positive-weight graph, on purpose, to keep both arms
 on the same reachable set.
 
-Why this is a feature, and how P2 should say it: the structure is
-**variant-independent** — `operator_dedup` and `raw` share one `T_I` and
-differ only in `W_c`, which is exactly P2's "only `P_c` and `W_c` vary"
-plug-and-play claim extended to the corpus variants; and the structure is
-the L2 object unchanged (no synthesis, no pruning at L3), so the reach a
-transition adds is decided by evidence (`w_c > 0`), not by a hand edit of
-the net. P2 currently says `T_I` is "one per observed pair"; the honest
-clause is "one per tactic pair the profile's L2 subgraph carries; `w_c` is 0
-where none of the profile's counted flows made the move, and such a
-transition never fires". One sentence; for Marc's P2 re-read. Panel (b)'s
-caption says the same in a clause.
+Marc's reading (2026-09-08): "a profile is a subset of the aggregate graph
+with the non-existent transitions zeroed rather than removed, so the
+aggregate skeleton shows through; an implementation nuance, not a logical
+one; I wouldn't do it." Correction: the profile net is *not* the aggregate
+skeleton — membership is decided by the profile's own technique set
+(exfiltration carries 109 of the aggregate's 122 pairs; the 13 missing
+pairs have a technique the profile never uses and are absent, not zero).
+Zero weight arises only for pairs where the profile uses both techniques
+but none of its counted flows made the move. So: technique membership
+decides existence, flow walks decide weight — two objects, and the second
+one is the logically meaningful one.
+
+**Ruling owed (R7) — what `T_I` is in the formalism.** Two options:
+
+- **(a) `T_I` = the positive-weight pairs**, `{t_pq : w_c(p,q) > 0}`. The
+  formalism is then the logical object Marc would build; the implementation
+  carries the wider L2 pair set and lets `w_c = 0` silence the rest. The two
+  are behaviourally identical: an immediate transition with weight 0 has
+  firing probability 0 in every marking, and every factor multiplies, so no
+  verdict or modulator can revive it; the reachable graph, the stall
+  condition and the embedded chain are the same. One sentence in P2 states
+  the equivalence and the section is honest without reverse-fitting. Costs:
+  `T_I` becomes variant-dependent (`raw` has more positive pairs) — fine,
+  `N_c` is defined per corpus variant and the reported one is
+  `operator_dedup`; and panel (b) draws eight bars, not ten. Consistent with
+  the uniform-weight ablation (already the positive-weight graph) and with
+  P3 (the overlay adds transitions the observed net lacks, e.g.
+  recon → initial-access). **Recommended.**
+- **(b) `T_I` = the L2 pair set**, `w_c ≥ 0`. Faithful to the file; needs the
+  "may be 0, never fires" clause and the two-mechanism explanation in the
+  prose or an appendix; the figure shows the zeros.
+
+Either way the failure-floor zero is a different thing: it zeroes a *factor*
+on a transition that exists, for one firing (P2's ruled sentence).
 
 The full profile net is **not** drawn here: the ladder figure
 (`fig:pipeline`, L3 rung) already draws one profile's net whole, and a
@@ -589,6 +612,7 @@ at assembly). The figure and notation table are outside the word count.
 - **R4** the Marsan citation: which edition; on the download list.
 - **R5** whether §4.4's prose is re-keyed to the symbols in the same pass or
   left for the integration check.
+- **R7** what `T_I` is: (a) positive-weight pairs, implementation equivalent (recommended) or (b) the L2 pair set with `w_c ≥ 0` — §8.3.
 - **R6** the sensitivity section's key: is §7.1 the V6 table's row set, and
   is the assumption register §7.2 a ch5 unit or a ch4 closing paragraph.
 
