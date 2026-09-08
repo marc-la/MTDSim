@@ -4454,6 +4454,45 @@ the Petri net: the confusion penalty is the exception.
 % as of 66456ce3 (cells ruled 09fa42cd; marks 136c3dd0/66456ce3). Table
 % 3.3 is the one home; any change there is re-copied here in the same
 % commit. Cells of the fourth row are placeholders until scored.
+% ROW DRAFTED 2026-09-07 (Marc: "a quick drafting of how our model hits
+% each ... I'll verify it later, don't dig deep"). Marks are READ OFF
+% apt_model_criterion.md §(c)/(d) as of its 2026-08-13 update, mapped
+% badge -> mark: DEMONSTRATED = met, DESIGNED = stand-in, NOT ADDRESSED
+% = blank. UNVERIFIED against the current run record; Marc's read owed.
+% Cue for the walk, one line each (pointer = where the mark is earned):
+%  1 Persistence --- stand-in. The 15-tactic Petri-net campaign structure
+%    runs end to end (§4.3, §4.4); sustained multi-stage progress is not
+%    shown in outcome terms (experiment 1: no run reaches the objective,
+%    App. B.7). Structure real, staged advance not on record.
+%  2 Objective conditioning --- met. Four objective classes from the L2
+%    partition, each audit-traced to the analyst-stated objective
+%    (§4.2; App. B.2, B.3).
+%  3 Strategic plurality --- stand-in. Each class net over-generates by
+%    construction (union of 5--19 flows; weighted branching per seed,
+%    §4.3). RECORD DISAGREES WITH ITSELF: §(c)'s scorecard says
+%    DEMONSTRATED, §(d)'s axis text says DESIGNED --- the conservative
+%    mark is drawn; Marc to rule and fix the record.
+%  4 Adaptivity --- stand-in. Verdict-conditioned re-weighting on failure
+%    and the net's state thrown back by a mutation (§4.4.2); built and
+%    run, not shown to change an outcome.
+%  5 Stealth --- blank. No detection model to be stealthy against, no
+%    evasion action (S2 freeze); low-and-slow appears only as dwell.
+%    Future work (ch8).
+%  6 Incentive --- stand-in. A cost/benefit decision rule built,
+%    declared and swept, shown to operate WITHOUT conferring advantage
+%    (incentive_rationality.md). FLAG: ch4 as drafted carries no
+%    incentive rule (dwell / mapping / failure matrix only) --- the mark
+%    has no ch4 antecedent unless it lives in the ablation arms
+%    (sec:families); Marc to place or drop.
+%  7 Learning --- stand-in. Within-run Laplace belief over verdicts per
+%    tactic-place, declared exponent, ablatable; found not to confer
+%    advantage (learning_capability.md, learning_readiness_findings.md).
+%    Same FLAG as 6: no ch4 antecedent in the drafted prose.
+%  8 Scheme awareness --- blank. Ruled out of scope 2026-07-28 (the three
+%    Jalowski primitives need an inference capability); future work.
+% Reading rule for the walk: two met-or-stand-in rows are measured
+% negatives (6, 7 --- built, swept, no advantage), which is a result;
+% 1 and 4 are unevidenced outcomes; one badge covers both (§(b)).
 \noindent\emph{[Placeholder --- the scoring discipline (badges; the
 properties fixed before the model was scored), then the walk through
 Table~\ref{tab:fidelity-verdict}: for each property, what the movement
@@ -4482,7 +4521,7 @@ mechanism, Chapter~\ref{ch:results} for the measurement).]}
     Masud et al.,\newline 2025~\citep{masud2025} & & & & & & & & \\
     Kim et al.,\newline 2026~\citep{kim2026} & \propstandin & & & & \propstandin & & & \\
     \midrule
-    Movement attacker,\newline this thesis & ? & ? & ? & ? & ? & ? & ? & ? \\
+    Movement attacker,\newline this thesis & \propstandin & \propmet & \propstandin & \propstandin & & \propstandin & \propstandin & \\
     \bottomrule
   \end{tabular}
 \end{table}
