@@ -407,6 +407,16 @@ section's language. (The §4.4 re-key itself is Marc's later pass.)
 
 ### 8.3 The figure — design (revised 2026-09-08, after Marc's "show the shape" ask)
 
+**Status 2026-09-08 (evening): BUILT.** `tools/gspn_gadget_figure.py` →
+`docs/thesis/figures/fig_4-3a_gspn_gadget.{tex,pdf}`, included at natural
+size (451 pt of 455.24), Figure 4.2 on body p. 21, build clean. R7 ruled
+(a): `T_I` = positive-weight pairs, one sentence added after P2's
+enumerate; panel (b) draws eight bars. Words moved out of the panel into
+the caption (Marc's ruling); the caption is session-drafted and flagged
+for the voice pass. Rows in (b) are in descending `w_c`, axis order within
+ties. Remaining: Marc's caption/voice pass; the App. B transition ledger.
+
+
 `fig:gspn-gadget`, placed after P2. The reader may never have seen a Petri
 net, so the figure's job is the **shape** the tuple names: circles, bars,
 the token, and the fan of weighted immediate transitions the extension acts
@@ -612,7 +622,7 @@ at assembly). The figure and notation table are outside the word count.
 - **R4** the Marsan citation: which edition; on the download list.
 - **R5** whether §4.4's prose is re-keyed to the symbols in the same pass or
   left for the integration check.
-- **R7** what `T_I` is: (a) positive-weight pairs, implementation equivalent (recommended) or (b) the L2 pair set with `w_c ≥ 0` — §8.3.
+- **R7** what `T_I` is — RULED (a) 2026-09-08: positive-weight pairs; the implementation's zero-weight carrier is stated as equivalent in P2 — §8.3.
 - **R6** the sensitivity section's key: is §7.1 the V6 table's row set, and
   is the assumption register §7.2 a ch5 unit or a ch4 closing paragraph.
 
