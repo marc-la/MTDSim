@@ -405,32 +405,90 @@ naming the symbols: the parameters are `μ` and the exponential family;
 the mechanics are `F_v` and the retrace rule, both defined in §4.4 in this
 section's language. (The §4.4 re-key itself is Marc's later pass.)
 
-### 8.3 The figure — placeholder, genre §d5
+### 8.3 The figure — design (revised 2026-09-08, after Marc's "show the shape" ask)
 
-`fig:gspn-gadget`, placed after P2. Two panels at natural size, generated
-by a `tools/` script from the structural JSON (never hand-drawn):
+`fig:gspn-gadget`, placed after P2. The reader may never have seen a Petri
+net, so the figure's job is the **shape** the tuple names: circles, bars,
+the token, and the fan of weighted immediate transitions the extension acts
+on. Two panels, one generator (`tools/gspn_gadget_figure.py`, to write),
+natural size, portrait, `\textwidth` = 455.24 pt; helvet face, greys, one
+accent. A prototype was rendered this session (scratchpad only, not in the
+repo) and the layout below is what it settled.
 
-- **(a) the gadget, generic** — `p` (circle, tangible) → `τ_p` (empty
-  bar, timed, labelled `1/μ_p`) → `p̂` (circle, vanishing, drawn hollow or
-  dashed) → `t_{pq₁} … t_{pqₖ}` (solid bars, immediate, labelled `w`) →
-  `q₁ … qₖ`. One token drawn at `p`. This is the picture of Definition 2.
-- **(b) the same gadget instantiated on one real place** of the
-  exfiltration profile — recommendation: `initial-access` (its real
-  out-set, its real weights printed on the bars, `μ = 4.5 s` on the timed
-  transition, the synthetic backward bridge absent in this profile so no
-  special case). Optionally a second row under a `failure` verdict showing
-  the same bars with `F_failure` applied — that makes Eq. 4.2 visible.
+**Drawing convention (Marsan's, decoded in an in-figure legend):**
+
+| Element | Symbol | Drawn as |
+|---|---|---|
+| tangible place (tactic) | `p`, `q` | solid circle; the token dwells here |
+| vanishing place (decision) | `p̂` | dashed circle — the same shape, marked as left in zero time (Marsan draws no distinct symbol; the dash is ours and the legend says so) |
+| timed transition | `τ_p` | hollow rectangle, label "rate 1/μ_p" |
+| immediate transition | `t_pq` | thin solid bar, weight beside it |
+| token | — | black dot inside the place; `M_0` = one token |
+| arcs | `I`, `O` | grey arrows, weight one so never labelled |
+
+**Panel (a) — generic gadget, the picture of Eq. 4.1 instantiated.** Left to
+right: `p` with the token → `τ_p` → `p̂` → fan of `k` bars `t_{pq_1}…t_{pq_k}`
+with `w_c(p,q_i)` under each → `q_1…q_k` (with a `⋮`). Legend on the right,
+inside the figure (genre convention, alshamrani-style). No accent in (a).
+
+**Panel (b) — the same gadget on one real place.** Ruling recommended:
+**initial access in the exfiltration profile**, not collection. Reasons:
+(i) it is the entry place of the observed net (`M_0` without the overlay);
+(ii) `μ_p = 4.5 s` is a substrate-priced anchor, so the timed transition
+carries a number the reader met in §4.2; (iii) under a failure verdict the
+foothold-gate rule moves 75 % of the row's mass to reconnaissance (0.062 →
+0.750), which is the extension made visible in one line — collection's
+failure row only shifts 0.571 → 0.509. The cost is a fan of ten bars; at a
+0.76 cm row pitch that is 7.6 cm tall and reads fine at 8 pt.
+
+Layout of (b): gadget on the left as in (a); the ten `t_pq` bars in a
+column; the ten destination places in a column with their display names
+(shared tactic axis, `_tactic_axis`); then **two ledger columns to the right
+of the places**, headed `w_c(p,q)` and `W_c(t_pq | failure)` — the second in
+the accent, because the verdict-conditioned column is the one thing the
+figure is about (§b2). Order of rows: descending `w_c`, zero-weight rows
+last (or the net's own order — Marc's call; prototype used descending).
+A short note inside the panel (or the caption) says: ten out-transitions;
+two carry base weight 0 under the primary corpus variant and cannot fire;
+a failure verdict multiplies by `F_failure(p,q)` and renormalises (Eq. 4.4);
+under success the base weights stand.
+
+**Numbers the generator reads, never types** (verified this session):
+`data/ogasp/petri/objective_exfiltration_structural.json` initial-access
+row, `weights.operator_dedup.weight`: execution .312, persistence .250,
+credential-access .125, C2 / discovery / lateral-movement / reconnaissance /
+stealth .062 each, collection 0, privilege-escalation 0;
+`data/ogasp/controller/overlays/v4_failure_only/failure.json`
+`by_source["initial-access"]` (`v` = R·d): reconnaissance 0.9 (rule
+`backward`, δ = −1), the eight forward/lateral rows 0.02 (`ia_gate_foothold`,
+d = 1), collection 0.005 (d = 0.25); routed (`w·F / Σ`): reconnaissance
+.750, execution .083, persistence .067, credential-access .033, the five
+.062 rows .017 each, the two zero rows 0. `μ_p` from
+`tactic_durations.json` (`initial-access.duration_s`). The generator should
+recompute the routed column with the same function the controller uses
+(`overlay.compose`), not re-implement Eq. 4.4, so the figure cannot drift
+from the runtime.
+
+**A formal nuance the figure surfaced (flag for the P2 read, not fixed):**
+the net keeps transitions whose primary-variant weight is 0
+(`movement/net.py:223` — "a zero-weight edge is present in the net"; only the
+uniform-weight ablation drops them). So `T_I` is "one per L2 tactic pair"
+and `w_c` may be 0 for a pair under `operator_dedup` while `raw` gives it
+mass. P2's "one per observed pair" is correct as written; Eq. 4.2 already
+yields 0. Worth one clause when Marc re-reads P2, since (b) shows two such
+bars and an examiner will ask why a transition with weight 0 exists.
 
 The full profile net is **not** drawn here: the ladder figure
 (`fig:pipeline`, L3 rung) already draws one profile's net whole, and a
-15-place / 100-transition net at page width was the fig:l1-graph lesson.
+15-place / 109-transition net at page width was the fig:l1-graph lesson.
 The ledger tables the genre pairs with the figure go to App. B: places
 (ID | tactic | `μ_p` | anchor) is already Table 4.4 / B.4; transitions
 (ID | pair | `w_c` per profile) is a new generated table, one per profile
 or one wide table — Marc's call at the appendix pass.
 
-Caption owed (session-drafted, voice pass): decode circles/bars/hollow,
-the token, and that (b) is one place of one profile.
+Caption owed (session-drafted, voice pass): decode circles / dashed circle /
+hollow bar / solid bar / token, name the profile and place of (b), and say
+the accent column is the failure-verdict weight of Eq. 4.4.
 
 ### 8.4 The notation table
 
