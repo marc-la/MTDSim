@@ -3467,22 +3467,29 @@ experimenters (8).
 % negative-scope sentence and the hand-off clause ("does not formally
 % define", rq_and_structure l.53--54, Jalowski p.~8) session-ported,
 % ratify on read.
+% PASS 5 APPLIED 2026-09-08 (handoff §11.8; Marc: "do class A, class B,
+% not class C"): C1 the partial clause (carrier: Table 3.3 caption), C2
+% the MTD-value gloss (carrier: the Alshamrani cite, criterion
+% l.194--198), C15 the metrics-as-result sentence (carrier: 3.2.2's
+% closing sentence; S6's because-clause keeps it here), C8, C10 the CVSS
+% contrast (carrier: 3.3.2 P2 (6), P3), C17, C9 the CAPEC clause
+% (carrier: bland2020.md l.47), C18 the tricolon opener, C21/C22. C6 not
+% applied (exclusive with C15). Class C (C19 the surveys tail, C20 the
+% hand-off clause) REJECTED --- do not re-flag. Residual overdraft
+% claimed at the §3.3 reconciliation.
 % DRAFT STATE (2026-09-08): P1 and P3 DICTATED by Marc, repaired (pass
 % 2+3a); [3b] RESOLVED 2026-09-08 (Marc: ``partially fulfils'',
 % ``remains unmeasured''; *partial* ratified over *stand-in* thesis-wide,
 % both captions and both count sentences converted); P2 and the RoA
 % sentence deletion-only
 % compressions of ported text, ratify on read.
-The MTDSim lineage partially fulfils six of the eight properties of a
-sophisticated attacker, Masud et al.\ none, and Kim et al.\ two
-(Table~\ref{tab:attacker-cross-section}); a partial is something the
-executed attacker does under the heading, not the property as
-Table~\ref{tab:attacker-properties} defines it. An attacker model
+The MTDSim lineage partially fulfils six of the eight properties,
+Masud et al.\ none, and Kim et al.\ two
+(Table~\ref{tab:attacker-cross-section}). An attacker model
 without properties 1, 2 and 4 does not model an attack campaign after
 initial access: an attacker with no multi-stage knowledge to lose
-cannot register the value MTD claims, disrupting the knowledge an
-attacker accumulates across stages \citep[Sec.~IV-C-2-B]{alshamrani2019},
-and an attacker that cannot adapt overstates MTD's effect. The
+cannot register the value MTD claims
+\citep[Sec.~IV-C-2-B]{alshamrani2019}, and an attacker that cannot adapt overstates MTD's effect. The
 performance of MTD against an attacker with a foothold therefore
 remains unmeasured in the works of Table~\ref{tab:attacker-cross-section}.
 Where
@@ -3494,31 +3501,25 @@ cannot sequence, adapt, or remember.
 % Theory-Based MTD; the decision-utility pro, source l.502) on the
 % game-theoretic sentence; the passive kept. Raw in the handoff §11.
 The assumptions about the attacker are baked into the logic of the
-defender: the metrics of Section~\ref{sec:mtd-evaluation-survey} are a
-result of the attacker model, its assumptions, and the attacker
-interacting with the defence, and of the optimisation of those
-interactions (Section~\ref{subsec:mtd-metrics}). Over the
+defender (Section~\ref{subsec:mtd-metrics}). Over the
 effectiveness metrics the attacker is the weakest link: with a weak
-attacker model the defence mechanisms cannot be properly evaluated,
+attacker model the defence mechanisms cannot be evaluated,
 because the metrics are intertwined and computed
 over the attacker model.
 
 The means to close the gap already exist in MTD-adjacent literatures.
 Attack profiling recovers TTP-level behaviour from raw CTI
 \citep{rahman2025, zhangY2025} and from runtime telemetry
-\citep{rodriguez2024}; this supplies the behavioural content. Bland et al.\ \citep{bland2020} build an attacker
+\citep{rodriguez2024}. Bland et al.\ \citep{bland2020} build an attacker
 that observes partial state, acts at a cost, and learns its strategy
-against a dynamic defender, over expert-validated Common Attack Pattern
-Enumeration and Classification (CAPEC) patterns: evidence that the
+against a dynamic defender: evidence that the
 sequencing, adaptive attacker MTD evaluation omits is constructible, if
 so far only on narrow, hand-built cases. Outkin et al.\
 \citep{outkin2022} address the parameters: they fit an attacker's
-per-step detection probabilities to real MITRE ATT\&CK Evaluations
-data, where the simulator lineage and Masud et al.\ derive theirs
-from CVSS.
-Profiled behaviour, an agent to enact it, parameters grounded in real
-engagement data: the apparatus is in place; it has not been brought to
-the MTD evaluations surveyed here. The claim is about MTD evaluation as
+per-step detection probabilities to MITRE ATT\&CK Evaluations
+data.
+The apparatus is in place; it has not been brought to the MTD
+evaluations surveyed here. The claim is about MTD evaluation as
 sampled, not about the field's attacker models at large; the
 field-level diagnosis rests on the two surveys.
 
