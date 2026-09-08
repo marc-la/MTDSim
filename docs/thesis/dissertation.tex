@@ -3422,43 +3422,54 @@ experimenters (8).
 \subsection{Research gap}
 \label{subsec:research-gap}
 
-% ROLL-CALL PLACEHOLDER, moved in from 3.3.2 (2026-09-08). One
-% sentence, Marc's, the antecedent of "sharpens" (the review's "Section
-% IV-B bore this out" was cut with the port). Descriptive, dated by the
-% table; 3.3.3 is 315/250 before G2, pass 5 absorbs it.
-\emph{[DICTATE --- the across-columns reading of
-Table~\ref{tab:attacker-cross-section}, one sentence: no cell reaches
-the tick; scheme awareness is empty in every row, plurality and
-adaptivity empty outside the lineage's scripted stand-ins; the 2026
-work carries no more of the eight than the 2023 one.]}
-Seen from the attacker's side, the gap sharpens: where the surveyed
-works grant the attacker any rationality, it is a defender-computed
-heuristic such as RoA \citep{brown2023}, over which the attacker
-optimises exploits it cannot sequence, adapt, or remember, choosing the
-computationally best move without modelling whether a real attacker
-could, or would, make it. That, in other words, is rationality without
-capability.
-% "The parametric rung, in other words," -> "That, in other words,"
-% (2026-09-07, descriptor cut; "rung" undefined). Minimal, ratify on
-% read --- the vivid line is kept.
+% REBUILT 2026-09-08 on Marc's rulings (handoff §11; his dictation the
+% same hour). Shape: P1 the verdict (DICTATED: the table read across,
+% the consequence in the post-ingress framing hedged to properties 1
+% and 4, then the RoA sentence compressed by deletion); P2 the means
+% (ported, two paragraphs compressed to one by deletion); P3 the close
+% (DICTATED: the forward link to ch4 --- Marc RE-RULED the standing
+% refusal of a forward pointer as closer / "this thesis" (§3, port plan
+% §5): "we've motivated our attacker model, which is defined in Chapter
+% 4"; ch4's first sentence makes the same link back). CUT: the roll-call
+% placeholder (absorbed into P1); "Seen from the attacker's side, the
+% gap sharpens" (no antecedent since the port); "choosing the
+% computationally best move without modelling whether a real attacker
+% could, or would, make it. That, in other words, is rationality
+% without capability." (descriptor residue --- the review's verdict on
+% the parametric rung; the vivid line retired, revivable from git);
+% "the durable layer the surveyed attacker models never reach" (Pyramid
+% residue); "grounded in documented APT tradecraft rather than a
+% CVSS-derived heuristic" (the CVSS point is Outkin's clause). G2's
+% stale "3.2 closer" pointer: the scored-over claim is 3.2.2's last
+% sentence (hong2018); Marc did not dictate the scissors clause (§11.1)
+% --- open, his call.
+% DRAFT STATE (2026-09-08): P1 and P3 DICTATED by Marc, repaired (pass
+% 2+3a); [3b] markers his; P2 and the RoA sentence deletion-only
+% compressions of ported text, ratify on read.
+The MTDSim lineage carries a stand-in on six of the eight properties
+of a sophisticated attacker [3b: Marc's word was ``partially fulfils
+six''; the table's decode is \emph{stand-in}, which falls short of the
+definition --- ``partially fulfils'' reads as a lower grade of met],
+Masud et al.\ on none, and Kim et al.\ on two
+(Table~\ref{tab:attacker-cross-section}). An attacker model without
+properties 1 and 4 does not model an attack campaign after initial
+access, so the performance of MTD against an attacker with a foothold
+remains unknown [3b: ``unmeasured'' is the G2 brief's word and the
+stronger claim --- unknown because nobody has measured it]. Where
+these models grant the attacker any rationality, it is a
+defender-computed heuristic such as RoA \citep{brown2023}, optimised
+over exploits the attacker cannot sequence, adapt, or remember.
 
-The means to close it already exist in MTD-adjacent literatures. Attack
-profiling recovers TTP-level behaviour from raw CTI \citep{rodriguez2024,
-rahman2025, zhangY2025}, the durable layer the surveyed attacker models
-never reach, grounded in documented APT tradecraft rather than a
-CVSS-derived heuristic; this supplies the behavioural content, what the
-attacker does.
-% MOVED IN 2026-09-05 (item 10) verbatim from the deleted 3.3.1; its
-% \ref to the cross-section is now a back reference, wording unchanged.
-% SUPERSEDED stitch: "The agent to enact it and the engagement data to
-% parameterise it exist too (Section~\ref{subsec:modelling-traditions})."
-Bland et al.\ \citep{bland2020} build an attacker that observes partial
-state, acts at a cost, and learns its strategy against a dynamic
-defender. Their attacker runs over expert-validated Common Attack
-Pattern Enumeration and Classification (CAPEC) patterns: evidence that
-the sequencing, adaptive attacker MTD evaluation omits is
-constructible, if so far only on narrow, hand-built cases. Outkin et
-al.\ \citep{outkin2022} address the parameters: they fit an attacker's
+The means to close the gap already exist in MTD-adjacent literatures.
+Attack profiling recovers TTP-level behaviour from raw CTI
+\citep{rodriguez2024, rahman2025, zhangY2025}; this supplies the
+behavioural content. Bland et al.\ \citep{bland2020} build an attacker
+that observes partial state, acts at a cost, and learns its strategy
+against a dynamic defender, over expert-validated Common Attack Pattern
+Enumeration and Classification (CAPEC) patterns: evidence that the
+sequencing, adaptive attacker MTD evaluation omits is constructible, if
+so far only on narrow, hand-built cases. Outkin et al.\
+\citep{outkin2022} address the parameters: they fit an attacker's
 per-step detection probabilities to real MITRE ATT\&CK Evaluations
 data, where the MTD evaluations of
 Section~\ref{subsec:recent-threat-models} derive theirs from CVSS.
@@ -3466,23 +3477,8 @@ Profiled behaviour, an agent to enact it, parameters grounded in real
 engagement data: the apparatus is in place and validated; it has simply
 never been brought to MTD evaluation.
 
-% TRIMMED 2026-09-05 (item 10): G2 no longer re-lists the means (the
-% two paragraphs above carry them) or the 3.2 closer's claim.
-\medskip
-% C7 (3.2.3 pass 4, 2026-09-07): this placeholder's "the 3.2 closer"
-% pointer is STALE --- the strand closer now carries the one-defence /
-% multiple-mechanisms point; the "instruments cannot see past the
-% attacker they are scored over" claim lives in 3.2.2's closing sentence
-% (hong2018). Re-point when G2 is dictated.
-\noindent\emph{[GAP G2 --- the closing move, the consequence and stop:
-an attacker model carrying none of properties 1--4 cannot represent a
-campaign past initial access, so MTD's performance against a footholded
-attacker is unmeasured because of the fidelity ceiling. The strands
-are already closed (the behaviour is capturable and the means to enact
-and parameterise it exist, above; the instruments cannot see past the
-attacker they are scored over, the 3.2 closer). Name what would have
-to be built, and stop --- building it is
-Chapter~\ref{ch:attacker-model}.]}
+This research gap motivates the attacker model defined in
+Chapter~\ref{ch:attacker-model}.
 
 % =====================================================================
 \chapter{APT attacker model}
