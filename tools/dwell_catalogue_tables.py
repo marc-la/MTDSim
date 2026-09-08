@@ -3,17 +3,18 @@
 Two floats from one declared family, emitted from `data/ogasp/tactic_durations.json`
 so no value is ever typed (`figure_table_conventions.md` §h):
 
-* `tab:dwell-catalogue` (§4.2.4.1) --- the **what**. Two panels in one float:
-  (a) the anchor families and the null, (b) the fifteen tactics that resolve
-  onto them. Panel (a) is what makes the identifiability argument visible ---
-  four free timing parameters, not fifteen --- and it is where the evidence
-  badges live, since a badge is constant within a family.
+* `tab:dwell-catalogue` (§4.4.2) --- the **what**: one panel, tactic and mean
+  dwell, nothing else. Marc's ruling 2026-09-08 (pass 5, front-loading): the
+  chapter table prescribes what the model runs with; the why belongs to the
+  appendix and the sensitivity analysis.
+* `tab:dwell-anchors` (`app:dwell-derivation`) --- the former chapter panel
+  (a): the anchor families and the null, with the evidence badges (a badge is
+  constant within a family) and the four-free-parameters-not-fifteen count.
 * `tab:dwell-derivation` (`app:dwell-derivation`) --- the **why**: per-tactic
-  sweep bands and the short justification, dense on purpose.
+  family, multiplier, sweep band and the short justification, dense on purpose.
 
-The what/why split is Marc's ruling (2026-08-20); the badge *decode* lives in
-the chapter caption rather than the table, which is conventions §b2 (the caption
-decodes every encoding) rather than a dodge.
+The what/why split is Marc's ruling (2026-08-20); the one-panel chapter table
+his ruling of 2026-09-08.
 
 Axis: `_tactic_axis.matrix_order` --- these tables draw no lifecycle bands, and
 matrix order is what `fig:l1-graph` takes, so the §b6 cross-figure contract
@@ -125,80 +126,86 @@ def main() -> None:
               f"% Do not hand-edit; regenerate. Requires booktabs (already in the preamble).\n")
 
     # ---------------------------------------------------------- chapter ----
-    short = "Declared per-tactic dwell parameters"
+    # ONE PANEL since 2026-09-08 (Marc, pass 5): the chapter table prescribes
+    # what the model runs with --- tactic and mean dwell, nothing else. The
+    # families, the evidence badges and the multipliers are the appendix's
+    # (tab:dwell-anchors, tab:dwell-derivation below).
+    short = "Declared per-tactic dwell times"
     caption = (
-        "The dwell parameters the movement layer declares for each tactic. "
-        "Panel~(a) gives the anchor families and the off-network null; "
-        f"panel~(b) the {len(tactics)} tactics that resolve onto them, so the "
-        f"model carries {len(anchors) - 1} free timing parameters rather than "
-        f"{len(tactics)}. A tactic's dwell is its family's value scaled by the "
-        "multiplier shown, and that dwell is the \\emph{mean} of an exponential "
-        "draw, $\\mathrm{Exp}(\\mu)$; resource development is the one exception, "
-        "an immediate transition in the sense of "
-        "Section~\\ref{sec:petri-formalism} rather than a degenerate "
-        "$\\mathrm{Exp}(0)$. The evidence column reads: \\emph{priced by MTDSim}, "
-        "the value is the simulator's own action cost, inherited and not tuned; "
-        "\\emph{declared and swept}, a declared value whose robustness across its "
-        "band is reported in Appendix~\\ref{app:sensitivity}; \\emph{declared, "
-        "off-clock}, no in-simulator dwell at all. \\emph{Priced from} names where "
-        "a value's shape came from, which is not the action the tactic dispatches "
-        "at run time --- for that mapping see "
-        "Figure~\\ref{fig:controller-mapping}. A drawn dwell \\emph{replaces} the "
-        "dispatched action's native cost rather than adding to it: an action "
-        f"consumes its tactic's drawn time and nothing further. Values are emitted "
-        f"from the declared catalogue ({esc(version)}); tactic names follow "
-        f"ATT\\&CK~v{pin}."
+        "The dwell times the movement layer declares for each tactic: the mean "
+        "dwell $\\mu_p$ of Equation~\\ref{eq:gspn}, the \\emph{mean} of an "
+        "exponential draw. Values are emitted from the declared catalogue "
+        f"({esc(version)}); tactic names follow ATT\\&CK~v{pin}. How each value "
+        "was arrived at is Appendix~\\ref{app:dwell-derivation}."
     )
-
     L = [banner, r"\begin{table}[htbp]", r"\centering", r"\footnotesize",
          rf"\caption[{short}]{{{caption}}}", r"\label{tab:dwell-catalogue}",
-         r"\begin{tabular}{@{}l l r l@{}}", r"\toprule",
-         r"\multicolumn{4}{@{}l}{\emph{(a) Anchor families}}\\[2pt]",
-         r"Family & Priced from & Value (s) & Evidence \\", r"\midrule"]
-    for a in family_order:
-        L.append(f"{FAMILY_LABEL[a]} & {esc(priced_from(a, anchors))} & "
-                 f"{num(anchors[a]['duration_s'])} & {badges[a]} \\\\")
-    L += [r"\bottomrule", r"\end{tabular}", "", r"\vspace{1em}", "",
-          r"\begin{tabular}{@{}l l r r@{}}", r"\toprule",
-          r"\multicolumn{4}{@{}l}{\emph{(b) Per tactic}}\\[2pt]",
-          r"Tactic & Family & Mult. & Mean dwell (s) \\", r"\midrule"]
+         r"\begin{tabular}{@{}l r@{}}", r"\toprule",
+         r"Tactic & Mean dwell $\mu_p$ (s) \\", r"\midrule"]
     for name in axis.matrix_order:
         e = tactics[name]
-        mult = "---" if e["anchor"] == "prep-off-network" else f"{e['relative_multiplier']:.1f}"
-        L.append(f"{esc(axis.label[name])} & {FAMILY_LABEL[e['anchor']]} & "
-                 f"{mult} & {num(e['duration_s'])} \\\\")
+        L.append(f"{esc(axis.label[name])} & {num(e['duration_s'])} \\\\")
     L += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
     (OUT_DIR / "tab_4-4a_dwell_catalogue.tex").write_text("\n".join(L))
+
+    # ------------------------------------------- appendix: anchor families ----
+    # The former chapter panel (a), moved to the appendix 2026-09-08.
+    short_f = "Anchor families of the declared dwell times"
+    caption_f = (
+        f"The anchor families the {len(tactics)} declared dwell times resolve "
+        f"onto, so the model carries {len(anchors) - 1} free timing parameters "
+        f"rather than {len(tactics)}. \\emph{{Priced from}} names where a "
+        "value's shape came from, which is not the action the tactic dispatches "
+        "at run time --- for that mapping see Figure~\\ref{fig:controller-mapping}. "
+        "The evidence column reads: \\emph{priced by MTDSim}, the value is the "
+        "simulator's own action cost, inherited and not tuned; \\emph{declared "
+        "and swept}, a declared value whose robustness across its band is "
+        "reported in Section~\\ref{sec:sensitivity}; \\emph{declared, off-clock}, "
+        "no in-simulator dwell at all --- resource development is an immediate "
+        "transition in the sense of Section~\\ref{sec:petri-formalism} rather "
+        "than a degenerate $\\mathrm{Exp}(0)$. A tactic's dwell is its family's "
+        "value scaled by the multiplier in Table~\\ref{tab:dwell-derivation}."
+    )
+    F = [banner, r"\begin{table}[htbp]", r"\centering", r"\footnotesize",
+         rf"\caption[{short_f}]{{{caption_f}}}", r"\label{tab:dwell-anchors}",
+         r"\begin{tabular}{@{}l l r l@{}}", r"\toprule",
+         r"Family & Priced from & Value (s) & Evidence \\", r"\midrule"]
+    for a in family_order:
+        F.append(f"{FAMILY_LABEL[a]} & {esc(priced_from(a, anchors))} & "
+                 f"{num(anchors[a]['duration_s'])} & {badges[a]} \\\\")
+    F += [r"\bottomrule", r"\end{tabular}", r"\end{table}", ""]
+    (OUT_DIR / "tab_B-4b_dwell_anchors.tex").write_text("\n".join(F))
 
     # --------------------------------------------------------- appendix ----
     short_a = "Derivation of the declared dwell times"
     caption_a = (
         "How each declared dwell was arrived at. \\emph{Family} is the anchor the "
-        "value takes its shape from; the per-family multipliers that separate "
-        "tactics sharing one are in Table~\\ref{tab:dwell-catalogue}, which is why "
-        "two tactics dispatching the same action can hold different dwells. "
-        "\\emph{Sweep band} "
+        "value takes its shape from (Table~\\ref{tab:dwell-anchors}); "
+        "\\emph{Mult.} is the per-family multiplier that separates tactics "
+        "sharing one, which is why two tactics dispatching the same action can "
+        "hold different dwells. \\emph{Sweep band} "
         "is the declared band the value may take, in units of its family anchor --- "
         "the band is a \\emph{parameter} declared here, while what happened when "
         "the anchors were moved across their bands is reported in "
-        "Appendix~\\ref{app:sensitivity}. The catalogue that carries these values "
+        "Section~\\ref{sec:sensitivity}. The catalogue that carries these values "
         "is the chapter's Table~\\ref{tab:dwell-catalogue}."
     )
     A = [banner, r"\begin{table}[htbp]", r"\centering", r"\scriptsize",
          r"\setlength{\tabcolsep}{4pt}",
          rf"\caption[{short_a}]{{{caption_a}}}", r"\label{tab:dwell-derivation}",
-         r"\begin{tabular}{@{}l l r c p{0.40\textwidth}@{}}", r"\toprule",
-         r"Tactic & Family & Value (s) & Sweep band & Why this value \\",
+         r"\begin{tabular}{@{}l l r r c p{0.355\textwidth}@{}}", r"\toprule",
+         r"Tactic & Family & Mult. & Value (s) & Sweep band & Why this value \\",
          r"\midrule"]
     for name in axis.matrix_order:
         e = tactics[name]
         lo, hi = e["sweep_range"]
         band = "---" if lo == hi == 0 else f"[{lo:g}, {hi:g}]"
-        A.append(f"{esc(axis.label[name])} & {FAMILY_LABEL[e['anchor']]} & "
+        mult = "---" if e["anchor"] == "prep-off-network" else f"{e['relative_multiplier']:.1f}"
+        A.append(f"{esc(axis.label[name])} & {FAMILY_LABEL[e['anchor']]} & {mult} & "
                  f"{num(e['duration_s'])} & {band} & {esc(e['short_justification'])} \\\\")
     A += [r"\bottomrule",
           r"\addlinespace[2pt]",
-          r"\multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Values, bands and "
+          r"\multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Values, bands and "
           r"rationales are emitted from the declared catalogue "
           rf"(\texttt{{data/ogasp/tactic\_durations.json}}, {esc(version)}); tactic "
           rf"names follow ATT\&CK~v{pin}. A degenerate band (resource development) "
@@ -208,6 +215,7 @@ def main() -> None:
     (OUT_DIR / "tab_B-4a_dwell_derivation.tex").write_text("\n".join(A))
 
     print(f"wrote {OUT_DIR/'tab_4-4a_dwell_catalogue.tex'}")
+    print(f"wrote {OUT_DIR/'tab_B-4b_dwell_anchors.tex'}")
     print(f"wrote {OUT_DIR/'tab_B-4a_dwell_derivation.tex'}")
     print(f"  {len(tactics)} tactics, {len(anchors)} families, "
           f"{len(set(t['duration_s'] for t in tactics.values()))} distinct values; "
