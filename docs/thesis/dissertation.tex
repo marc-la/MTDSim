@@ -761,34 +761,65 @@ scanning hosts, after an application-layer one to scanning ports
 % Typhoon advisory AA24-038A (G5) was ACTIVATED 2026-08-31 --- both
 % await Marc's sighting. \ref{tab:lineage} assumes ch2's Table 2.1 label.
 
-% Preamble (unnumbered, 1 unit). Verbatim/adapted from review Sec. I
-% para 2 and para 4 s1-s2; the signature line lives HERE, once.
-Two literatures have developed alongside one another without
-converging. On the defence side, MTD evaluation has progressed from
-fixed-interval mechanisms toward adaptive, increasingly learned
-orchestration of when and what to move \citep{cho2020}. In parallel,
-the threat-intelligence community has built an apparatus around
-attacker behaviour: MITRE ATT\&CK established a behavioural vocabulary
-in 2013 \citep{strom2018mitre}, and the structured extraction of that
-behaviour from cyber threat intelligence (CTI) has advanced rapidly
-since 2022 \citep{ctid2025attackflow}. The defender has grown more
-sophisticated; the attacker against which it is evaluated has not.
-
-The capability to close this gap already exists in literatures adjacent
-to MTD, but has not been adopted within it. Attack profiling
-reconstructs attacker behaviour from CTI as structured representations
-at the level of tactics, techniques, and procedures (TTPs)
-\citep{rodriguez2024}, and the documented durability of advanced
-persistent threat (APT) tradecraft makes such profiles a stable basis
-for evaluation \citep{alshamrani2019}.
-
-\medskip
-\noindent\emph{[GAP G0 --- the scissors: the three strands (Section~\ref{sec:apt-survey}
-capture: the behavioural record; Section~\ref{sec:mtd-evaluation-survey}
-evaluate: the instruments; Section~\ref{sec:mtd-attacker-models} model:
-the attacker they are scored over) keyed to the three sub-questions;
-the selection rule (first / most established / latest); the coverage
-claim planted in one sentence.]}
+% Preamble (unnumbered, 1 unit). RECAST 2026-09-08 on Marc's ask ("what
+% does this need to carry --- a narrative thread, then prescriptive:
+% what each section does, and that it motivates chapter 4"; the
+% "two literatures" flourish is "on repeat"). Design record: port plan
+% §2 preamble row (the scissors; strands keyed to the sub-questions;
+% the selection rule; the coverage claim planted) and §5 refusals (no
+% RQ restatement; no "the remainder is structured as follows").
+% CARRIES: S1 the thread (the scissors in one sentence: two literatures
+% and the hinge between them); S2 the three strands keyed to SQ1--SQ3
+% by \ref, in the chapter's order, with the one-clause reason the order
+% differs from the sub-questions' (the model strand closes on the gap);
+% S3 the selection rule, stated once for the chapter; S4 the coverage
+% claim (a narrative review of three strands, not a systematic one); S5
+% the close into ch4. CUT, SUPERSEDED for the record: P1 "Two
+% literatures have developed alongside one another without converging.
+% On the defence side, MTD evaluation has progressed from fixed-interval
+% mechanisms toward adaptive, increasingly learned orchestration of
+% when and what to move \citep{cho2020}. In parallel, the
+% threat-intelligence community has built an apparatus around attacker
+% behaviour: MITRE ATT\&CK established a behavioural vocabulary in 2013
+% \citep{strom2018mitre}, and the structured extraction of that
+% behaviour from cyber threat intelligence (CTI) has advanced rapidly
+% since 2022 \citep{ctid2025attackflow}." (3.1.2 carries ATT&CK's origin
+% and Attack Flow; 3.2 carries the orchestration progression) and the
+% signature line "The defender has grown more sophisticated; the
+% attacker against which it is evaluated has not." (a verdict before
+% the measurement --- voice §c9; 3.3.3 now carries the verdict in Marc's
+% words; revivable as the chapter's one vivid line on his word); P2
+% "The capability to close this gap already exists in literatures
+% adjacent to MTD, but has not been adopted within it. Attack profiling
+% reconstructs attacker behaviour from CTI as structured
+% representations at the level of tactics, techniques, and procedures
+% (TTPs) \citep{rodriguez2024}, and the documented durability of
+% advanced persistent threat (APT) tradecraft makes such profiles a
+% stable basis for evaluation \citep{alshamrani2019}." (3.3.3 P2 is the
+% means paragraph; 3.1.2 the durability argument; "close this gap"
+% names the gap before the chapter derives it). G0 RETIRED into S1--S4.
+% Connective prose, session-drafted under the green light; RATIFY ON
+% READ. Two [3b] on the factual sentences (S3, S4) are Marc's.
+% DRAFT STATE (2026-09-08).
+Two literatures bear on the evaluation of MTD against an APT attacker:
+the record of how APT campaigns behave, and the instruments by which a
+defence is evaluated; between them sits the attacker model the
+instruments are scored over. The chapter surveys the three in turn.
+Section~\ref{sec:apt-survey} surveys APT attackers and how their
+behaviour is captured (\ref{sq:capture});
+Section~\ref{sec:mtd-evaluation-survey} how the field evaluates a
+defence mechanism (\ref{sq:evaluate});
+Section~\ref{sec:mtd-attacker-models} the attacker models those
+evaluations are scored over (\ref{sq:model}), last because it closes on
+the gap. In each strand the works are the strand's origin, its
+established survey, and its latest work \emph{[3b: the selection rule
+G0 promised (first / most established / latest) --- confirm it is the
+rule as run, and that 3.3.2's keyword sentence is its instance for the
+latest works]}. The review is narrative, not systematic; its coverage
+claim is the three strands, not the field \emph{[3b: the coverage
+claim the port plan asked to be planted --- Marc's wording]}. The gap
+the chapter closes on motivates the attacker model of
+Chapter~\ref{ch:attacker-model}.
 
 % ------------------------------------------------------- 3.1 capture --
 % Feeds capture: can the literature hand you a machine-usable
