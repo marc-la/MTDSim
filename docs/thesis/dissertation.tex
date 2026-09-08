@@ -4490,9 +4490,25 @@ the Petri net: the confusion penalty is the exception.
 %    Same FLAG as 6: no ch4 antecedent in the drafted prose.
 %  8 Scheme awareness --- blank. Ruled out of scope 2026-07-28 (the three
 %    Jalowski primitives need an inference capability); future work.
-% Reading rule for the walk: two met-or-stand-in rows are measured
-% negatives (6, 7 --- built, swept, no advantage), which is a result;
-% 1 and 4 are unevidenced outcomes; one badge covers both (§(b)).
+% RULED 2026-09-07 (Marc, the charitable reading): every property the
+% model IMPLEMENTS is marked met --- 1, 3, 4, 6, 7 promoted from
+% stand-in; 5 and 8 stay blank. His reasoning: the work is framed as a
+% proof of concept and the outcome ceiling is the adopted action layer
+% (ch4's own "can only be as good as what we adopt", §4.4.1) --- a
+% deliberate choice, so a stand-in under-conveys what was built. The
+% honesty moves that keep this defensible: (a) the caption's decode
+% for this row now says a tick = implemented, outcome bounded by the
+% action layer, reported per property in the text (SESSION-DRAFTED,
+% ratify on read); (b) the walk says, for each tick, whether it is shown
+% to change an outcome (2) or built and shown to operate without
+% advantage on this terrain (1, 3, 4, 6, 7) --- that distinction is the
+% result, and the repo-side badges (designed / demonstrated) stay in
+% the criterion record as the finer instrument. Consequence: this row's
+% decode differs from Table 3.3's ("has the property as Table 3.2
+% defines it") --- the caption states the difference; do not let the
+% two decodes be read as one. The axis-3 record disagreement is moot
+% for the mark (met either way) but the record still wants fixing; the
+% 6/7 no-ch4-antecedent FLAG stands.
 \noindent\emph{[Placeholder --- the scoring discipline (badges; the
 properties fixed before the model was scored), then the walk through
 Table~\ref{tab:fidelity-verdict}: for each property, what the movement
@@ -4509,8 +4525,11 @@ mechanism, Chapter~\ref{ch:results} for the measurement).]}
   Table~\ref{tab:attacker-properties} defines it; \propstandin\ a
   stand-in, something the executed attacker does under the heading
   that falls short of that definition, named in the text; an empty
-  cell, nothing. \emph{[Decode of the movement-attacker row's marks
-  to the badges: placeholder.]}}
+  cell, nothing. For the movement attacker a tick marks a property
+  the model implements; whether it changes an outcome on this
+  simulator is bounded by the adopted action layer
+  (Section~\ref{subsec:controller}) and is reported property by
+  property in the text.}
   \label{tab:fidelity-verdict}
   \tablestyle
   \begin{tabular}{@{}>{\raggedright\arraybackslash}m{3.4cm}*{8}{>{\centering\arraybackslash}m{1.15cm}}@{}}
@@ -4521,7 +4540,7 @@ mechanism, Chapter~\ref{ch:results} for the measurement).]}
     Masud et al.,\newline 2025~\citep{masud2025} & & & & & & & & \\
     Kim et al.,\newline 2026~\citep{kim2026} & \propstandin & & & & \propstandin & & & \\
     \midrule
-    Movement attacker,\newline this thesis & \propstandin & \propmet & \propstandin & \propstandin & & \propstandin & \propstandin & \\
+    Movement attacker,\newline this thesis & \propmet & \propmet & \propmet & \propmet & & \propmet & \propmet & \\
     \bottomrule
   \end{tabular}
 \end{table}
