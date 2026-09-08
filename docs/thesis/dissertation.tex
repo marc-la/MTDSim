@@ -4630,19 +4630,21 @@ analysis (Section~\ref{sec:sensitivity}).
   % is Appendix~\ref{app:weight-sets}, Figure~\ref{fig:failure-weight-decomposition}.
   \includegraphics{fig_4-4b_failure_weight_matrix}
   % Caption pared 2026-09-05 (Marc): the decode only; the distance factor
-  % and the rule rationale live in the appendix. Ratify-on-read. 2026-09-08:
-  % "phases" -> "stages" (registry row). "failure weight set" is a
-  % registry-deprecated variant of *failure matrix* --- Marc's to rule at
-  % the voice pass, since the caption was pared ratify-on-read.
-  \caption[The committed failure weight set]{The failure weight set as
-  committed (\texttt{v4\_failure\_only}). Rows are the tactic whose verb
-  returned the failure verdict, columns the candidate next tactic, grouped
-  into the four lifecycle stages; the hatched diagonal is not a pair. Each
-  cell is the multiplier applied to the token's out-transition, shaded from
-  0 (white) to 1, with the letter of the declared rule that set it, decoded
-  in the key beneath. The rules are argued in
-  Table~\ref{tab:overlay-failure-rules}; their composition cell by cell is
-  Figure~\ref{fig:failure-weight-decomposition}.}
+  % and the rule rationale live in the appendix. 2026-09-08 (Marc, pass 5
+  % read: "state facts for a general CS student ... takes up a lot of
+  % space"): the figure is regenerated PLAIN --- values only, no rule
+  % letters, no in-figure title, no key (the letters and the key stay on
+  % the appendix's decomposition figure); the caption drops the letter
+  % decode, names the object by the registry term and binds F_failure;
+  % "phases" -> "stages" (registry row). Ratify-on-read.
+  \caption[The committed failure matrix]{The failure matrix
+  $F_{\text{failure}}$ as committed (\texttt{v4\_failure\_only}). Rows are
+  the tactic whose verb returned the failure verdict, columns the candidate
+  next tactic, grouped into the four lifecycle stages; each cell is the
+  multiplier applied to the token's out-transition weight, to two
+  significant figures, shaded from 0 (white) to 1; the diagonal is not a
+  pair. The exact set, the rules that set each cell and their composition
+  cell by cell are Appendix~\ref{app:weight-sets}.}
   \label{fig:failure-weight-matrix}
 \end{figure}
 

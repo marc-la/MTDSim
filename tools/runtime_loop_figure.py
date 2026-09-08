@@ -336,10 +336,18 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
     badge(w, xv - 0.34, y_act_top + 0.26, 4)
     w(r"\node[anchor=east,text=black!58] at (%.3f,%.3f) {verdict};" % (xv - 0.62, y_act_top + 0.26))
     w(r"\node[anchor=east,text=black!58] at (%.3f,%.3f) {failure};" % (xv - 0.14, ctrl_bot - 0.34))
+    # The success arm bypasses the controller band on the right, then turns
+    # back INTO the movement band and lands beside (5): on success the token
+    # routes on the base weights, so the arrow must reach the net, not stop
+    # at the band's corner (Marc, 2026-09-08: "make sure the success arrow
+    # is drawn and goes to the right place"). It re-enters below the
+    # "re-weighting" label so the two never cross.
     byp_x = BAND_R + 0.36
-    w(r"\draw[->,black!55,line width=0.9pt,rounded corners=3pt] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f);"
-      % (xv, y_split, byp_x, y_split, byp_x, mv_bot - 0.08))
-    w(r"\node[rotate=90,anchor=center,text=black!58] at (%.3f,%.3f) {success};" % (byp_x + 0.26, (y_split + mv_bot) / 2))
+    x_s = BAND_R - 0.45
+    y_land = ctrl_top + 0.30
+    w(r"\draw[->,black!55,line width=0.9pt,rounded corners=3pt] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f);"
+      % (xv, y_split, byp_x, y_split, byp_x, y_land, x_s, y_land, x_s, mv_bot - 0.08))
+    w(r"\node[rotate=90,anchor=center,text=black!58] at (%.3f,%.3f) {success};" % (byp_x + 0.26, (y_split + y_land) / 2))
 
     # ===================================================== the action layer ==
     act_top = y_act_top
