@@ -3985,82 +3985,115 @@ space~\citep{cai2016, chobenasher2018, mendonca2023}.
 % or "outcome". Symbols introduced here are the chapter's from now on:
 % \mu_p, w_c, \tau_p, t_{pq}, \hat p, v, F_v, M_0; §4.4 re-keys to them
 % in Marc's later pass. Bib: marsan1984 / marsan1995 are VERIFY stubs.
+% ROUND 2 (2026-09-08, Marc: "you can reconstruct everything if needed
+% ... make sure the following convention ... so it's clear that OK now
+% we've got the formalism"): rebuilt to Bland's order end to end ---
+% standard tuple + firing semantics + unused elements named; the profile
+% net as an instance, six-item where-list; the EXTENSION AS A NAMED
+% OBJECT (the pair (N_c, F), "verdict-conditioned profile net"), which is
+% what the convention does with its own extension (PNPSC = the standard
+% tuple + new elements) and what the first draft only did in prose;
+% eq:routing now shows the reported configuration exactly and the modulator
+% slot is one prose sentence (R3 resolved that way: the display is what
+% runs, the arms are named where they run); a closing sentence declares
+% the symbols the chapter's vocabulary and points at Table 4.x. Marc's
+% sentences reconstructed, not carried, on his licence. [3b] the name
+% "verdict-conditioned" (R2) --- the tex's own phrase from §4.4.2; [3b]
+% "we extend the profile net with a verdict" --- or "with the verdict";
+% [3b] "a factor of zero disables a transition for that firing only" is
+% exact (twelve cells of the failure matrix are zero) --- keep or soften.
 A GSPN is a directed bipartite graph of places and transitions in which
 every transition is either \emph{timed}, firing after an exponentially
 distributed delay, or \emph{immediate}, firing in zero time and with
-priority over the timed ones \citep{marsan1984, marsan1995}. We write it
-as
+priority over the timed ones \citep{marsan1984}. Following Ajmone
+Marsan et al.\ \citep{marsan1995}, a GSPN is the tuple
 \begin{equation}
   \mathcal{N} = (P, T_T, T_I, I, O, W, M_0),
   \label{eq:gspn}
 \end{equation}
-where $P$ is the set of places, $T_T$ and $T_I$ the timed and immediate
-transitions, $I$ and $O$ the input and output arcs, $W$ the rate of each
-timed transition and the weight of each immediate one, and $M_0$ the
-initial marking. A marking that enables an immediate transition is
-\emph{vanishing} and is left in zero time; any other is \emph{tangible}.
-Inhibitor arcs and further priority levels are not used.
+where $P$ is a finite set of places; $T_T$ and $T_I$ are the disjoint
+finite sets of timed and immediate transitions; $I$ and $O$ are the
+input and output arcs, from places to transitions and from transitions
+to places; $W$ assigns a firing rate to each timed transition and a
+weight to each immediate one; and $M_0$ is the initial marking, the
+number of tokens on each place. A marking that enables an immediate
+transition is \emph{vanishing} and is left in zero time, the enabled
+immediate transitions firing with probability proportional to their
+weights; any other marking is \emph{tangible}. Inhibitor arcs and
+further priority levels belong to the general definition and are not
+used here.
 
-An attack profile $c$ (Section~\ref{sec:attack-profiles}) is the GSPN
-$\mathcal{N}_c = (P_c, T_T, T_I, I, O, W_c, M_0)$, where:
+Each attack profile $c$ of Section~\ref{sec:attack-profiles} compiles
+to a GSPN $\mathcal{N}_c = (P_c, T_T, T_I, I, O, W_c, M_0)$, where:
 \begin{enumerate}[nosep, leftmargin=*]
-  \item $P_c$ is the set of Enterprise ATT\&CK
-  tactics~\citep{mitre2026attackv19} present in profile $c$, each a
-  tangible place, together with one vanishing place $\hat{p}$ per tactic
-  $p$, at which the next tactic is chosen;
-  \item $T_T = \{\tau_p : p \in P_c\}$, one timed transition per tactic,
-  from $p$ to $\hat{p}$: the attacker agent consumes some stochastic
-  amount of time to perform a procedure to achieve a goal, which is the
-  tactic; a tactic whose declared time is zero is immediate;
-  \item $T_I = \{t_{pq}\}$, one immediate transition per tactic--tactic
-  pair observed in the profile's flows, from $\hat{p}$ to $q$; self-loops
-  are dropped, because those are represented through the dwell times we
-  are providing;
+  \item $P_c = \{p\} \cup \{\hat{p}\}$: one tangible place $p$ for each
+  Enterprise ATT\&CK tactic~\citep{mitre2026attackv19} present in the
+  profile, and one vanishing place $\hat{p}$ for each, at which the next
+  tactic is chosen;
+  \item $T_T = \{\tau_p\}$: one timed transition per tactic, from $p$ to
+  $\hat{p}$, whose firing is the attacker's execution of that tactic and
+  consumes a stochastic amount of time; a tactic whose declared time is
+  zero is immediate;
+  \item $T_I = \{t_{pq}\}$: one immediate transition per tactic pair
+  $p \to q$ that the profile's flows draw, from $\hat{p}$ to $q$; there
+  are no self-loops, because time spent within a tactic is carried by
+  $\tau_p$;
   \item $I$ and $O$ are the arcs these imply,
-  $p \to \tau_p \to \hat{p} \to t_{pq} \to q$, each of weight one;
-  \item $W(\tau_p) = 1/\mu_p$, the rate of an exponential draw about the
-  declared mean dwell $\mu_p$ of tactic $p$
-  (Section~\ref{subsec:controller}), and $W(t_{pq}) = w_c(p, q)$, the
-  proportion of the profile's flows that leave $p$ along $p \to q$,
+  $p \to \tau_p \to \hat{p} \to t_{pq} \to q$, every arc of weight one;
+  \item $W_c(\tau_p) = 1/\mu_p$, where $\mu_p$ is the declared mean dwell
+  of tactic $p$ (Section~\ref{subsec:controller}), and
+  $W_c(t_{pq}) = w_c(p, q)$, the proportion of the profile's flows
+  leaving $p$ that do so along $p \to q$,
   \begin{equation}
     w_c(p, q) = \frac{\lvert F_c(p \to q) \rvert}
                      {\sum_{q'} \lvert F_c(p \to q') \rvert},
     \label{eq:base-weight}
   \end{equation}
   where $F_c(p \to q)$ is the set of flows in $c$ that draw the pair, so
-  that a place's out-weights sum to one;
-  \item $M_0$ places one token at the earliest tactic --- reconnaissance
-  with the pre-intrusion overlay in place, and in lieu of that, initial
-  access.
+  a place's out-weights sum to one;
+  \item $M_0$ places one token on reconnaissance when the pre-intrusion
+  overlay of the next paragraph is in place, and on initial access
+  otherwise.
 \end{enumerate}
-We construct $\mathcal{N}_c$ before execution of the simulator. The
+$\mathcal{N}_c$ is constructed before the simulator runs. The
 construction is the same for every profile and only $P_c$ and $W_c$
-vary, so the GSPN structure is plug and play: we can put in our various
-attack profiles as an input into these Petri nets, and this provides
-separation and discipline.
+vary, which is what makes the net plug and play: each attack profile is
+an input, and structure and semantics stay apart.
 
-The net departs from a GSPN in one respect. In a GSPN the weight of an
-immediate transition is fixed, or a function of the marking; here the
-marking is one token's position, and the weights out of a tactic are
-recomposed each time its timed transition fires, from a verdict
-$v \in \{\text{success}, \text{failure}, \text{none}\}$ that the
-simulator returns for the action the tactic dispatched
-(Section~\ref{sec:execution}):
+A GSPN's immediate weights are constants, or functions of the marking.
+The attacker model of this thesis needs them to depend on what happened
+in the simulator, so we extend the profile net with a verdict. A
+\emph{verdict-conditioned} profile net is the pair
 \begin{equation}
-  W(t_{pq} \mid v) =
-  \frac{w_c(p, q)\, F_v(p, q)\, \prod_m m(p, q)}
-       {\sum_{q'} w_c(p, q')\, F_v(p, q')\, \prod_m m(p, q')},
+  (\mathcal{N}_c, F), \qquad F = \{F_v : v \in V\},
+  \label{eq:vc-net}
+\end{equation}
+where $V = \{\text{success}, \text{failure}, \text{none}\}$ is the set
+of verdicts the simulator returns for the action a tactic dispatched
+(Section~\ref{sec:execution}), and each
+$F_v : P_c \times P_c \to [0, 1]$ is a declared factor on tactic pairs.
+When $\tau_p$ fires and the simulator returns $v$, the immediate
+transitions out of $\hat{p}$ fire with weights
+\begin{equation}
+  W_c(t_{pq} \mid v) =
+  \frac{w_c(p, q)\, F_v(p, q)}
+       {\sum_{q'} w_c(p, q')\, F_v(p, q')}.
   \label{eq:routing}
 \end{equation}
-where $F_v$ is a declared factor on tactic pairs, the identity on
-success and on none, so that the token routes on the corpus proportions,
-and the failure matrix of Section~\ref{subsec:controller} otherwise; and
-$\prod_m m$ is the product of any further declared factors, empty in
-every run this thesis reports and named by each arm that adds one
-(Chapter~\ref{ch:experimental-setup}). Places, transitions and arcs are
-untouched by it, and a timed transition may be cut short by an MTD
-mutation, which returns failure. Figure~\ref{fig:gspn-gadget} draws one
-tactic of one profile net.
+$F_{\text{success}}$ and $F_{\text{none}}$ are the identity, so on a
+success, or at a tactic that dispatches no action, the token routes on
+the corpus proportions; $F_{\text{failure}}$ is the failure matrix of
+Section~\ref{subsec:controller}. Places, transitions and arcs are
+untouched; a factor of zero disables a transition for that firing only.
+A timed transition may also be cut short by an MTD mutation, which
+returns failure. Any further declared factor multiplies into
+Equation~\ref{eq:routing} in the same way and renormalises with it;
+none does in the runs this thesis reports, and each arm of
+Chapter~\ref{ch:experimental-setup} that adds one names it.
+
+The rest of this chapter and the evaluation are stated in these terms;
+Table~\ref{tab:gspn-notation} collects the symbols, and
+Figure~\ref{fig:gspn-gadget} draws one tactic of one profile net.
 % SUPERSEDED (Marc's dictated P2, for reversibility; its sentences
 % survive inside the where-list above except the two below):
 %   "Petri nets have their places, which are the Enterprise ATT\&CK
@@ -4093,7 +4126,7 @@ tactic of one profile net.
 % (b) the same gadget on one real place of the exfiltration profile
 % (recommended: initial-access; real w_c on the bars, mu = 4.5 s on the
 % timed transition), optionally a second row under a failure verdict
-% with F_failure applied so Eq. 4.3 is visible. The full net is NOT drawn
+% with F_failure applied so eq:routing is visible. The full net is NOT drawn
 % here (fig:pipeline's L3 rung draws one profile whole; the fig:l1-graph
 % lesson). Ledger tables (places: Table 4.4 / B.4; transitions: a new
 % generated table) go to App. B. Caption below is a stand-in.
@@ -4109,6 +4142,42 @@ tactic of one profile net.
   to its successors.}
   \label{fig:gspn-gadget}
 \end{figure}
+
+% NOTATION TABLE (2026-09-08, session, ratify on read): the
+% standardisation instrument --- every symbol the chapter uses from here
+% on, once, with where it is declared. Typed, not generated: symbols, not
+% values. Rows for phi, R, d, gamma/delta/z are the symbols §4.4 and
+% App. B.6 will carry once §4.4 is re-keyed (Marc's later pass); App. B.6
+% already uses gamma, delta, z and the rule letters. [3b] phi for the
+% tactic-to-verb mapping --- the mapping has no symbol anywhere yet;
+% [3b] "Declared in" as the third head, or "Section".
+\begin{table}[htbp]
+  \centering
+  \caption[Symbols of the attacker model]{Symbols of the attacker model
+  and where each is declared.}
+  \label{tab:gspn-notation}
+  \tablestyle
+  \begin{tabular}{@{}lP{8.6cm}l@{}}
+    \toprule
+    Symbol & Meaning & Declared in \\
+    \midrule
+    $c$ & an attack profile: one of the four objective classes & \S\ref{sec:attack-profiles} \\
+    $\mathcal{N}_c$ & the profile net, a GSPN & Eq.~\ref{eq:gspn} \\
+    $p$, $\hat{p}$ & a tactic place and its decision place & \S\ref{sec:petri-formalism} \\
+    $\tau_p$ & the timed transition: execution of tactic $p$ & \S\ref{sec:petri-formalism} \\
+    $t_{pq}$ & the immediate transition: the choice of $q$ after $p$ & \S\ref{sec:petri-formalism} \\
+    $\mu_p$ & the declared mean dwell of tactic $p$, in seconds & \S\ref{subsec:controller}, Table~\ref{tab:dwell-catalogue} \\
+    $w_c(p,q)$ & the base weight: the profile's flow proportion for $p \to q$ & Eq.~\ref{eq:base-weight} \\
+    $s$ & the share a synthetic pre-intrusion transition takes of a place's out-mass & \S\ref{sec:petri-formalism} \\
+    $M_0$ & the initial marking: one token at the entry tactic & \S\ref{sec:petri-formalism} \\
+    $v \in V$ & the verdict the simulator returns for a dispatched action & \S\ref{subsec:mechanics-join} \\
+    $F_v$ & the conditioning factor under verdict $v$; $F_{\text{failure}}$ is the failure matrix & Eq.~\ref{eq:vc-net}, \S\ref{subsec:controller} \\
+    $\varphi$ & the tactic-to-verb mapping, at most one verb per tactic & \S\ref{subsec:controller} \\
+    $R$, $d$ & the rule kernel and the lifecycle-distance kernel whose product is $F_{\text{failure}}$ & \S\ref{subsec:controller}, App.~\ref{app:weight-sets} \\
+    $\gamma$, $\delta$, $z$ & the distance kernel's forward decay, backward decay and floor & App.~\ref{app:weight-sets} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
 % [APPLIED, your ruling] "(see sensitivity analysis ch6)" deleted --- the
 %   closing paragraph already sends parameters to L4, which declares and
 %   points at ch6.
