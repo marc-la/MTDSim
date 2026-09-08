@@ -3728,7 +3728,7 @@ and~\ref{sec:attack-profiles}). We are distilling that behaviour into
 structured representations that we can operationalise and join to our
 existing simulator (\ref{sq:model}, Sections~\ref{sec:petri-formalism}
 and~\ref{sec:execution}), to evaluate our defence mechanisms
-(\ref{sq:evaluate}, Chapter~\ref{ch:experimental-setup}).
+(\ref{sq:evaluate}, Chapter~\ref{ch:experiments}).
 Figure~\ref{fig:pipeline} is the pipeline that answers them.
 
 % 1 unit (L0--L1). The campaign corpus and its snapshot; aggregating
@@ -4098,7 +4098,7 @@ A timed transition may also be cut short by an MTD mutation, which
 returns failure. Any further declared factor multiplies into
 Equation~\ref{eq:routing} in the same way and renormalises with it;
 none does in the runs this thesis reports, and each arm of
-Chapter~\ref{ch:experimental-setup} that adds one names it.
+Chapter~\ref{ch:experiments} that adds one names it.
 
 The rest of this chapter and the evaluation are stated in these terms;
 Table~\ref{tab:gspn-notation} collects the symbols, and
@@ -4658,107 +4658,119 @@ set of values to feed into our attacker model.
 %  one sentence at the end) with the sweep pointer bound.]
 
 % =====================================================================
-\chapter{Experimental setup}
-\label{ch:experimental-setup}
+\chapter{Experiments}
+\label{ch:experiments}
 
-% STRUCTURE AMENDED 2026-09-04 (Marc's ruling): own chapter, was ch4 §4.3;
-% the three units and their contracts are unchanged ("keep the structure
-% as is for now --- I will figure that out later"). Labels re-prefixed
-% sec:. BUDGET: 3 units (see the ch:attacker-model header for the split).
+% RESTRUCTURED 2026-09-08 (Marc's ruling, chat): "Experimental setup"
+% (3 units) and "Results" (9 units) MERGED into one 12-unit chapter. His
+% reasoning: the assumptions are declared in ch4 and need no defence ---
+% the sensitivity analysis follows from them, its bounds set by the
+% formalism (sec:petri-formalism); the experiments set up their dimensions
+% and run; the discussion interprets. The model is a HYPOTHESIS, not a
+% claim to justify: no burden-of-proof / grading / fidelity-defence unit
+% here, and no separate prior-model comparison --- the baseline is compared
+% inside the strands (the movement attacker is the new baseline), and the
+% fidelity verdict EMERGES from the results and is read in the discussion
+% (sec:fidelity-verdict, its table). Strands are clustered by INSTRUMENTED
+% METRIC FAMILY (Cho's purpose axis, Table 3.1), not by experiment family.
+% Section titles below are SCAFFOLDING --- Marc's to rename; the
+% dimensions and the strands are fleshed out later. Supersedes the two-limb
+% recommendation of handoff 2026-09-08_ch5_ch6_structure.md (Marc's ruling
+% overtakes it; that file is another session's, left for its owner).
+% RETIRED LABELS (this commit): ch:experimental-setup, ch:results,
+% sec:burden, sec:metrics, sec:families, sec:mtd-results,
+% subsec:prior-model-results, subsec:fresh-results,
+% subsec:supplementary-results --- every \ref re-pointed; the old units'
+% skeleton notes are kept at the unit that absorbs them.
 % Chapter opening (unnumbered, owed, Marc's dictation): what this chapter
 % does with the attacker model --- evaluate is the manipulation of the L4
-% object and carries no layer number (ladder ruling, 2026-08-16).
+% object and carries no layer number (ladder ruling, 2026-08-16). The
+% notes taxonomy still says ch5_experimental_setup / ch6_results
+% (docs/notes/) --- a rename for a docs pass, not this one.
 
-% 1 unit. Burden of proof: stability AND divergence
-% (evaluation_burden.md); the three-grade instrument every reported
-% comparison is scored on (magnitude / ordering / recommendation),
-% committed before scoring (evaluation_grading.md).
-\section{What the evaluation must show}
-\label{sec:burden}
-
-% 1 unit. The inherited suite and its comparability boundary
-% (within-substrate comparison valid; cross-paper numeric comparison
-% invalid); the APT-specific supplementary measures. Disclosures: each
-% measure validated under the V1 hand-trace protocol (four-to-five-node
-% network, metric calculated by hand, then scaled); predictability
-% enters only in its reworked form and under a collision-checked
-% name (V2).
-\section{Metrics}
-\label{sec:metrics}
-
-% 1 unit + the factor table (tables are word-cheap). Preamble prose
-% carries the global conventions: the degenerate operating region that
-% gates which grades a tempo can carry; common substrate and seed set;
-% determinism; V4 steady-state reporting after the initial transient at
-% the few-thousand-runs-per-point standard. Then a paragraph per family:
-% (1) prior-model comparison --- the lineage's own evaluations (Zhang,
-% Brown, Ho) re-run on this simulator under BOTH attackers, so each
-% published headline becomes testable; the anchor cell (the observed
-% ranking inversion) reported as OBSERVED, motivating the sweep; the
-% lineage's internal disagreement (shuffle- vs diversity-dominant) is
-% the phenomenon to explain, not to reconcile. (2) fresh evaluation ---
-% the full crossing of the factor table: the PRE-REGISTERED robustness
-% frontier (does the inversion survive scale / density / tempo) and each
-% ablatable capability's show-or-vanish cell (network scale for the
-% learning capability; a non-dwell-proportional defence for the cost
-% rule).
-\section{Dimensions and the two experiment families}
-\label{sec:families}
-
-
-% NOTE: the evaluation-method findings the collapsed attacker hid
-% (tactic-resolved MTD effect; execution-not-planning reach; the
-% fidelity-derived success criterion that discriminates where the
-% inherited one is degenerate) are results material ---
-% subsec:supplementary-results carries them.
-
-% NOTE: no standalone threats-to-validity section. Parameter-shaped
-% threats are absorbed by the results chapter's sensitivity preamble
-% (V6); structural/epistemic threats (proof-of-concept boundary, the
-% mapping caveat, the comparability boundary) are owned in
-% sec:fidelity-verdict.
-
-
-% =====================================================================
-\chapter{Results}
-\label{ch:results}
-
-% V6 preamble, before the main dissection: a table of the
-% arbitrarily-set parameters, the ranges swept (minimum-to-maximum at
-% steps; low values map to weak-attacker expectations, high to capable),
-% and the observed effects --- most impactful first (timing and target
-% durations named). Absorbs the parameter-shaped validity threats.
-% Completed sweeps that do not fit the body go to app:sensitivity; the
-% ~200-value success/failure overlay matrix is a best-of-knowledge
-% declaration, appendix material, not a swept dimension.
+% 3 units. The V6 preamble, now the chapter's first section: the three
+% declared inputs of sec:execution swept within the bounds the formalism
+% sets --- a table of the declared parameters, their bands (minimum to
+% maximum at steps; low values map to weak-attacker expectations, high to
+% capable) and the observed effects, most impactful first. Each subsection
+% is the forward-referenced home of one §4.4 unit (§4.4.2--4.4.4 each point
+% at sec:sensitivity). Completed sweeps that do not fit the body go to
+% app:sensitivity. Absorbs the parameter-shaped validity threats --- there
+% is no standalone threats-to-validity section; the structural ones
+% (proof-of-concept boundary, the mapping caveat, the comparability
+% boundary) are owned in sec:fidelity-verdict.
 \section{Sensitivity analysis}
 \label{sec:sensitivity}
 
-\section{MTD evaluation}
-\label{sec:mtd-results}
+% mu_p: the four anchors over their declared bands (app:dwell-robustness;
+% only the low-and-slow anchor moves an outcome) and the exponential family
+% against the same-mean Erlang-4 substitution (app:exponential-shape).
+\subsection{Dwell times}
+\label{subsec:sens-dwell-times}
 
-% Each lineage headline under both attackers; the anchor inversion
-% reported as observed. Every comparison carries its grade
-% (magnitude / ordering / recommendation).
-\subsection{Prior-model comparison}
-\label{subsec:prior-model-results}
+% phi: v2_partial against the forced-total v1_ckc_total
+% (app:experiment-one) --- a swap, not a band.
+\subsection{Tactic-to-verb mapping}
+\label{subsec:sens-tactic-verb-mapping}
 
-% The robustness frontier (scale / density / tempo) and the ablation
-% cells (each capability's show-or-vanish cell).
-\subsection{Fresh evaluation}
-\label{subsec:fresh-results}
+% F_failure: gamma, delta, z over their bands (app:weight-sets; the nine
+% rule values are argued, not swept); the corpus-variant robustness column
+% (operator_dedup against raw) rides here.
+\subsection{Failure matrix}
+\label{subsec:sens-failure-matrix}
 
-% The findings the inherited suite cannot express: tactic-resolved MTD
-% effect, execution-not-planning reach, the fidelity-derived success
-% criterion where the inherited one is degenerate.
-\subsection{What the supplementary measures see}
-\label{subsec:supplementary-results}
+% 2 units + the factor table (tables are word-cheap). The factor space,
+% set up and then run: the four attack profiles and the baseline attacker;
+% the defence mechanisms and deployment strategies (ch2); network scale,
+% density and MTD tempo; seeds, horizon, determinism, V4 steady-state
+% reporting after the initial transient. The instrumented metrics are
+% named HERE as instrumentation, grouped by family (effectiveness /
+% efficiency, Table 3.1), with the comparability boundary
+% (within-simulator comparison valid; cross-paper numeric comparison
+% invalid) and the V1 hand-trace validation as disclosures --- the former
+% sec:metrics unit folded in. The degenerate operating region that gates
+% which tempos can discriminate (operating_point_discrimination.md) is a
+% design fact stated once here.
+\section{Experimental dimensions}
+\label{sec:dimensions}
+
+% The strands: one section per instrumented metric family, each running
+% every profile and the baseline across mechanisms and strategies; the
+% lineage headlines (Zhang, Brown, Ho) re-run under both attackers sit
+% INSIDE the strand they instrument, not in a section of their own; the
+% observed ranking inversion is reported as observed, with its grade.
+% Facts and figures only --- interpretation is the discussion's.
+
+% ~3 units. Attacker-side and defender-side effectiveness (Table 3.1):
+% attack success rate, mean time to compromise, attack path exposure;
+% host / network compromise ratio.
+\section{Effectiveness}
+\label{sec:effectiveness}
+
+% ~1 unit. Resource spent: return on attack and attack cost on the
+% attacker side; defender-side overhead only if instrumented --- the
+% standing concession (no defender efficiency metric is reported; the
+% defender is frozen) is said once, here.
+\section{Efficiency}
+\label{sec:efficiency}
+
+% ~2 units. The findings the inherited suite cannot express: the
+% tactic-resolved MTD effect, execution-not-planning reach, the
+% fidelity-derived success criterion where the inherited one is degenerate;
+% the APT-specific measures (V2 reworked predictability under a
+% collision-checked name).
+\section{Supplementary measures}
+\label{sec:supplementary-measures}
 
 
 % =====================================================================
 \chapter{Discussion}
 \label{ch:discussion}
 
+% RENUMBERED 2026-09-08: ch6 (was ch7) after the Experiments merge. The
+% fidelity verdict is READ from the results here, never defended from the
+% model's design (Marc's ruling: the model is a hypothesis; the results
+% instrument it, the discussion interprets them).
 % The three sub-question answers converge here to answer the research
 % question. Placeholder structure; interrogative working titles from the
 % planning pass are rendered declarative (thesis headings state their
@@ -4864,7 +4876,7 @@ set of values to feed into our attacker model.
 properties fixed before the model was scored), then the walk through
 Table~\ref{tab:fidelity-verdict}: for each property, what the movement
 attacker does and where (Chapter~\ref{ch:attacker-model} for the
-mechanism, Chapter~\ref{ch:results} for the measurement).]}
+mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
 
 \begin{table}[htbp]
   \centering

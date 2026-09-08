@@ -18,11 +18,11 @@ provenance: distilled from a UWA research-writing seminar (April 2026) supplied 
 
 The single research question decomposes into three methodological sub-questions (supervisor register §V5, 2026-08-11; the skeleton in [`../thesis/dissertation.tex`](../thesis/dissertation.tex) executes it): **capture** — how APT attacker behaviour is captured from published CTI; **model** — how the captured behaviour is made executable as an attacker traversing that structure in the simulator; **evaluate** — how MTD performance against the APT attack model differs from its performance against the inherited scripted attacker. These are *threads, not chapters*: each runs the length of the document, and the argument-carrying chapters are where the threads surface —
 
-| | Lit review | Attacker model | Experimental setup | Results | Discussion |
-|---|---|---|---|---|---|
-| **Capture** | what exists | how it was done | — | — | what the capture licenses |
-| **Model** | attacker models in MTD | the movement attacker | — | sensitivity of its parameters | fidelity verdict |
-| **Evaluate** | how MTD is evaluated | — | experimental design | the numbers | what changes for MTD evaluation |
+| | Lit review | Attacker model | Experiments | Discussion |
+|---|---|---|---|---|
+| **Capture** | what exists | how it was done | — | what the capture licenses |
+| **Model** | attacker models in MTD | the movement attacker | sensitivity of its parameters | fidelity verdict |
+| **Evaluate** | how MTD is evaluated | — | experimental design / the numbers | what changes for MTD evaluation |
 
 The introduction states the RQ and the three sub-questions (the grey box); the conclusion closes each thread. The capture row's empty results cell is deliberate — the capture produces artefacts, not measurements; its downstream test rides the model row's sensitivity analysis. This matrix is the whole-document coherence check: a proposed unit (see the ledger below) should be able to name its cell, and a unit that cannot is a cut candidate.
 
@@ -36,11 +36,10 @@ The introduction states the RQ and the three sub-questions (the grey box); the c
 | **Background (ch2)** | The two existing things this thesis builds on, before the literature review: the moving-target-defence vocabulary the document speaks (2.1) and the inherited simulator it runs on (2.2, with the network model, defence mechanisms and baseline attacker nested beneath it). Existing things, not methodology (V-series ruling, 2026-08-11); scope widened 2026-08-21 when the MTD concept material was re-homed from the literature review. Structure, the lineage table's placement, and the two placement tests that keep ch2 and ch3 apart: [`ch2_background/README.md`](ch2_background/README.md). |
 | **Literature review (ch3)** | Tells each category of prior work as a chronological story — method, its limitation, why the next method came — and *narrows down onto the gap this work fills*, ending on the demonstrated need. Survey of APT attackers; attacker models in MTD; how MTD is evaluated. |
 | **APT attacker model (ch4)** | Defines the attacker model and explains it *as simply as possible*: the chapter preamble names it (the movement attacker) and states the commitments, then L0–L1 → L2 → L3 → L4. The precise problem statement and the fidelity criterion it is built toward are ch3's (§3.3, the research gap and the criterion) — restructured 2026-09-04, Marc's ruling: the former §4.1 duplicated them. Realisation arguments live here too — the ratified structure has no separate implementation chapter. |
-| **Experimental setup (ch5)** | What is done with the attacker model: the burden of proof, the metrics and their comparability boundary, the dimensions and the two experiment families — committed before any result is read. Own chapter since 2026-09-04 (was ch4 §4.3); its structure is unchanged and Marc owns its further shape. |
-| **Results (ch6)** | Sensitivity analysis (the declared-parameter preamble), then the MTD evaluation: empirical validation on the shared substrate, comparison against the inherited baseline, plus ablation — which component of the model moves the outcome. |
-| **Discussion (ch7)** | Interprets outcomes against the field — what the movement attacker captured, the fidelity verdict, what changes for MTD evaluation — and owns the limitations. |
-| **Future work (ch8)** | Names the successor programme this work's own closures point at, with the conditions that would reopen each ruled exclusion. |
-| **Conclusion (ch9)** | *Not* the abstract in past tense. Emphasises the impact of the specific technical move, and names the next step in the line of research. |
+| **Experiments (ch5)** | Experimental setup and results MERGED (Marc's ruling, 2026-09-08): the sensitivity analysis on the three declared inputs of ch4 §4.4 (dwell times, tactic-to-verb mapping, failure matrix), swept within the bounds the formalism sets; the experimental dimensions, with the instrumented metrics named as instrumentation and the comparability boundary as a disclosure; then the strands, one per instrumented metric family (effectiveness, efficiency, the supplementary measures), each running every profile and the baseline. Facts and figures only. No burden / grading / fidelity-defence unit: the model is a hypothesis; the fidelity verdict emerges from the results and is read in the discussion. |
+| **Discussion (ch6)** | Interprets outcomes against the field — what the movement attacker captured, the fidelity verdict, what changes for MTD evaluation — and owns the limitations. |
+| **Future work (ch7)** | Names the successor programme this work's own closures point at, with the conditions that would reopen each ruled exclusion. |
+| **Conclusion (ch8)** | *Not* the abstract in past tense. Emphasises the impact of the specific technical move, and names the next step in the line of research. |
 
 ## Writing order (when drafting a chapter or the whole document)
 
@@ -66,14 +65,13 @@ Working allocation (word targets exclude tables and figures; appendices are unbu
 | Background | 1 250 | 5 |
 | Literature review | 3 000 | 12 |
 | APT attacker model | 1 500 | 6 |
-| Experimental setup | 750 | 3 |
-| Results | 2 250 | 9 |
+| Experiments | 3 000 | 12 |
 | Discussion | 2 250 | 9 |
 | Future work | 750 | 3 |
 | Conclusion | 500 | 2 |
 | **Total** | **≈14 050** | **56, +4 float** |
 
-Reallocation record: 2026-08-12 — methodology 9→11 for the ratified 11-unit methodology skeleton (the capture/model/evaluate workshop), funded by background 6→5 and discussion 10→9. 2026-08-21 — **no change**, recorded because it looks like one should have happened: ch2's scope widened to carry the MTD vocabulary re-homed from the literature review, and the five units absorbed it internally (the *Prior work* section dissolved into a lineage table, which sits outside the word budget). Both float units remain unspent. 2026-09-04 — **methodology 11 → attacker model 6 + experimental setup 3, float 2 → 4** (Marc's structural ruling): §4.1's two units (problem definition; criterion adoption) are cut as duplicates of ch3 §3.3 and returned to the float; the former §4.2 becomes the chapter (its four subsections are now §4.1–§4.4, plus one unit of in-chapter slack); the former §4.3 is its own three-unit chapter. Words follow units; nothing else moves. 2026-09-08 — **§4.4 claims one unit of overdraft** (Marc's ruling at the §4.4 pass 5): the section holds four subsections (the runtime mechanics; the dwell times; the tactic-to-verb mapping; the failure matrix) on its two units plus the chapter's slack unit; both pass-5 streams measured ≈ 850–900 words as the floor at that shape once the ruled sentences, citations and must-carries stand, and the front-loaded draft lands near 1 000. The unit is claimed against the float (4 → 3) rather than displaced from another chapter; the cut to the ledger, if any, is the assembled-section reconciliation (the 2026-08-18 first-completion ruling).
+Reallocation record: 2026-08-12 — methodology 9→11 for the ratified 11-unit methodology skeleton (the capture/model/evaluate workshop), funded by background 6→5 and discussion 10→9. 2026-08-21 — **no change**, recorded because it looks like one should have happened: ch2's scope widened to carry the MTD vocabulary re-homed from the literature review, and the five units absorbed it internally (the *Prior work* section dissolved into a lineage table, which sits outside the word budget). Both float units remain unspent. 2026-09-04 — **methodology 11 → attacker model 6 + experimental setup 3, float 2 → 4** (Marc's structural ruling): §4.1's two units (problem definition; criterion adoption) are cut as duplicates of ch3 §3.3 and returned to the float; the former §4.2 becomes the chapter (its four subsections are now §4.1–§4.4, plus one unit of in-chapter slack); the former §4.3 is its own three-unit chapter. Words follow units; nothing else moves. 2026-09-08 — **§4.4 claims one unit of overdraft** (Marc's ruling at the §4.4 pass 5): the section holds four subsections (the runtime mechanics; the dwell times; the tactic-to-verb mapping; the failure matrix) on its two units plus the chapter's slack unit; both pass-5 streams measured ≈ 850–900 words as the floor at that shape once the ruled sentences, citations and must-carries stand, and the front-loaded draft lands near 1 000. The unit is claimed against the float (4 → 3) rather than displaced from another chapter; the cut to the ledger, if any, is the assembled-section reconciliation (the 2026-08-18 first-completion ruling). 2026-09-08 — **experimental setup 3 + results 9 → experiments 12** (Marc's structural ruling, same day): the two chapters merge into one, "Experiments" (sensitivity analysis → dimensions → strands by instrumented metric family); the discussion, future work and conclusion renumber to ch6–ch8. Words follow units; the total is unchanged.
 
 Three rules keep the ledger honest:
 
