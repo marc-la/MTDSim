@@ -3309,10 +3309,10 @@ eight properties of Section~\ref{subsec:attacker-criterion}.
   on the eight properties of Section~\ref{subsec:attacker-criterion};
   the columns are numbered as in Table~\ref{tab:attacker-properties}.
   \propmet\ the attacker model has the property as
-  Table~\ref{tab:attacker-properties} defines it; \propstandin\ a
-  stand-in, something the executed attacker does under the heading
-  that falls short of that definition, named in the text; an empty
-  cell, nothing.}
+  Table~\ref{tab:attacker-properties} defines it; \propstandin\ partial,
+  something the executed attacker does under the heading that falls
+  short of that definition, named in the text; an empty cell,
+  nothing.}
   \label{tab:attacker-cross-section}
   \tablestyle\setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}l*{7}{>{\centering\arraybackslash}m{1.1cm}}>{\centering\arraybackslash}m{1.15cm}@{}}
@@ -3339,7 +3339,7 @@ Section~\ref{subsec:attacker-model}, carried unchanged through the
 lineage (Table~\ref{tab:mtdsim-lineage}) except for Zhang et al.'s
 exploitation-time rule \citep{zhang2023}. Brown et al.\ state that
 ``all attacker agents in the simulation will always follow the attack
-procedure'' \citep[p.~7]{brown2023}. Six cells carry a stand-in. The
+procedure'' \citep[p.~7]{brown2023}. Six cells are partial. The
 per-host loop continues across hosts and through disruptions (1); the
 two objectives are fixed at design time (2); three attack vectors are
 tried in a fixed fallback order (3); each kind of disruption triggers a
@@ -3396,8 +3396,8 @@ until the next MTD trigger severs it: four kill-chain stages in fixed
 order, labelled with ATT\&CK technique identifiers
 \citep[Secs.~5.2, 6.1]{kim2026}. Kim et al.\ state the assumption:
 ``we assume that the attackers follow the predefined sequence of
-phases based on CKC'' \citep[p.~9]{kim2026}. Two cells carry a
-stand-in. The four stages run in sequence in one process with a
+phases based on CKC'' \citep[p.~9]{kim2026}. Two cells are partial.
+The four stages run in sequence in one process with a
 measured retention time, each arrival starting without network
 knowledge (1), and the outbound shell is chosen ``in order to evade the
 detection by a defense system'' \citep[p.~7]{kim2026} on a testbed that
@@ -3444,21 +3444,24 @@ experimenters (8).
 % sentence (hong2018); Marc did not dictate the scissors clause (§11.1)
 % --- open, his call.
 % DRAFT STATE (2026-09-08): P1 and P3 DICTATED by Marc, repaired (pass
-% 2+3a); [3b] markers his; P2 and the RoA sentence deletion-only
+% 2+3a); [3b] RESOLVED 2026-09-08 (Marc: ``partially fulfils'',
+% ``remains unmeasured''; *partial* ratified over *stand-in* thesis-wide,
+% both captions and both count sentences converted); P2 and the RoA
+% sentence deletion-only
 % compressions of ported text, ratify on read.
-The MTDSim lineage carries a stand-in on six of the eight properties
-of a sophisticated attacker [3b: Marc's word was ``partially fulfils
-six''; the table's decode is \emph{stand-in}, which falls short of the
-definition --- ``partially fulfils'' reads as a lower grade of met],
-Masud et al.\ on none, and Kim et al.\ on two
+The MTDSim lineage partially fulfils six of the eight properties of a
+sophisticated attacker, Masud et al.\ none, and Kim et al.\ two
 (Table~\ref{tab:attacker-cross-section}). An attacker model without
 properties 1 and 4 does not model an attack campaign after initial
 access, so the performance of MTD against an attacker with a foothold
-remains unknown [3b: ``unmeasured'' is the G2 brief's word and the
-stronger claim --- unknown because nobody has measured it]. Where
+remains unmeasured. Where
 these models grant the attacker any rationality, it is a
 defender-computed heuristic such as RoA \citep{brown2023}, optimised
 over exploits the attacker cannot sequence, adapt, or remember.
+\emph{[DICTATE --- the scissors clause, optional (handoff §11.1): what
+Section~3.2's metrics have measured is bounded by this attacker, since
+every effectiveness metric is computed over the attacker model
+(3.2.2's closing sentence, \citep{hong2018}).]}
 
 The means to close the gap already exist in MTD-adjacent literatures.
 Attack profiling recovers TTP-level behaviour from raw CTI
@@ -4883,10 +4886,10 @@ mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
   cross-section of Table~\ref{tab:attacker-cross-section}; the columns
   are numbered as in Table~\ref{tab:attacker-properties}.
   \propmet\ the attacker model has the property as
-  Table~\ref{tab:attacker-properties} defines it; \propstandin\ a
-  stand-in, something the executed attacker does under the heading
-  that falls short of that definition, named in the text; an empty
-  cell, nothing. For the movement attacker a tick marks a property
+  Table~\ref{tab:attacker-properties} defines it; \propstandin\ partial,
+  something the executed attacker does under the heading that falls
+  short of that definition, named in the text; an empty cell,
+  nothing. For the movement attacker a tick marks a property
   the model implements; whether it changes an outcome on this
   simulator is bounded by the adopted action layer
   (Section~\ref{subsec:runtime-mechanics}) and is reported property by
