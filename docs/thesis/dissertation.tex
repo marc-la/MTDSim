@@ -3202,6 +3202,14 @@ enumeration are this thesis's own synthesis.
 % plan CONFIRM 3's "phrase cells over ticks" is REVERSED by this
 % ruling; the phrase-cell copy is in git at ba253287 (SUPERSEDED). No
 % column for this thesis's model here (handoff §3).
+% LAYOUT RULED 2026-09-07 (Marc, "C is probably the best", after four
+% variants rendered at print size): condensed one-line rows --- 3 pt
+% \tabcolsep inside the table, 1.1 cm mark columns (the narrowest the
+% short-form heads fit without breaking the stripes; 1.15 cm after the 1.2 pt overfull on "Scheme"), the label column
+% at its natural width with the year inline (supersedes the two-line
+% label ruling of earlier the same evening); ~12.5 cm centred, not
+% full width. Applied identically to Table 7.1 (tab:fidelity-verdict)
+% in the same commit --- the two must not drift.
 \begin{table}[htbp]
   \centering
   \caption[Attacker models in recent MTD evaluations, scored on the
@@ -3214,14 +3222,14 @@ enumeration are this thesis's own synthesis.
   that falls short of that definition, named in the text; an empty
   cell, nothing.}
   \label{tab:attacker-cross-section}
-  \tablestyle
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}m{3.4cm}*{8}{>{\centering\arraybackslash}m{1.15cm}}@{}}
+  \tablestyle\setlength{\tabcolsep}{3pt}
+  \begin{tabular}{@{}l*{8}{>{\centering\arraybackslash}m{1.15cm}}@{}}
     \toprule
     & 1\newline Pers. & 2\newline Obj. & 3\newline Plur. & 4\newline Adapt. & 5\newline Stealth & 6\newline Incent. & 7\newline Learn. & 8\newline Scheme \\
     \midrule
-    MTDSim lineage,\newline 2023--2024~\citep{brown2023, zhang2023, ho2024, tay2024} & \propstandin & \propstandin & \propstandin & \propstandin & & \propstandin & \propstandin & \\
-    Masud et al.,\newline 2025~\citep{masud2025} & & & & & & & & \\
-    Kim et al.,\newline 2026~\citep{kim2026} & \propstandin & & & & \propstandin & & & \\
+    MTDSim lineage, 2023--2024~\citep{brown2023, zhang2023, ho2024, tay2024} & \propstandin & \propstandin & \propstandin & \propstandin & & \propstandin & \propstandin & \\
+    Masud et al., 2025~\citep{masud2025} & & & & & & & & \\
+    Kim et al., 2026~\citep{kim2026} & \propstandin & & & & \propstandin & & & \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -4531,16 +4539,16 @@ mechanism, Chapter~\ref{ch:results} for the measurement).]}
   (Section~\ref{subsec:controller}) and is reported property by
   property in the text.}
   \label{tab:fidelity-verdict}
-  \tablestyle
-  \begin{tabular}{@{}>{\raggedright\arraybackslash}m{3.4cm}*{8}{>{\centering\arraybackslash}m{1.15cm}}@{}}
+  \tablestyle\setlength{\tabcolsep}{3pt}
+  \begin{tabular}{@{}l*{8}{>{\centering\arraybackslash}m{1.15cm}}@{}}
     \toprule
     & 1\newline Pers. & 2\newline Obj. & 3\newline Plur. & 4\newline Adapt. & 5\newline Stealth & 6\newline Incent. & 7\newline Learn. & 8\newline Scheme \\
     \midrule
-    MTDSim lineage,\newline 2023--2024~\citep{brown2023, zhang2023, ho2024, tay2024} & \propstandin & \propstandin & \propstandin & \propstandin & & \propstandin & \propstandin & \\
-    Masud et al.,\newline 2025~\citep{masud2025} & & & & & & & & \\
-    Kim et al.,\newline 2026~\citep{kim2026} & \propstandin & & & & \propstandin & & & \\
+    MTDSim lineage, 2023--2024~\citep{brown2023, zhang2023, ho2024, tay2024} & \propstandin & \propstandin & \propstandin & \propstandin & & \propstandin & \propstandin & \\
+    Masud et al., 2025~\citep{masud2025} & & & & & & & & \\
+    Kim et al., 2026~\citep{kim2026} & \propstandin & & & & \propstandin & & & \\
     \midrule
-    Movement attacker,\newline this thesis & \propmet & \propmet & \propmet & \propmet & & \propmet & \propmet & \\
+    Movement attacker, this thesis & \propmet & \propmet & \propmet & \propmet & & \propmet & \propmet & \\
     \bottomrule
   \end{tabular}
 \end{table}
