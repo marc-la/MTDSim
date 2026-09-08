@@ -352,3 +352,36 @@ the result is one already in the tex or a one-clause symbol binding.
 
 Drafting prose; touching §4.3 beyond the flags in §7; the appendix
 tables; ch5's sensitivity section.
+
+## 9. Pass 5 merge outcome and the front-loading ruling (2026-09-08, later)
+
+Two streams ran (white box with session context; black box cold), ledgers in
+the session scratchpad `p5/WB_ledger.md`, `p5/BB_ledger.md`, merged in
+`p5/MERGED_ledger.md`. Convergent block, ruled ACCEPTED by Marc: the title
+(§2 candidate 1); join material before the declared values; "The controller
+layer" retired as a heading; the spine sentence bound to $\mu_p$, $\varphi$,
+$F_{\text{failure}}$; the shared cuts (the loop paragraph, the Eq.~4.4
+restatement, the mutation example, the flourishes); twelve symbol bindings.
+Rejected at merge and confirmed: the black box's re-opening of the
+2026-08-20 rulings (constraint sentence, worked examples, three-citation
+sentence) and its kernel/floor "tension" (verified false: the floor is what
+zeroes the $\Delta = 3$ cell). The $\varphi$-placement divergence is moot
+under the ruling below.
+
+**Marc's ruling — front-load, point forward.** §4.4 states what the model
+runs with; the *why this shape* and *what bounds* detail belongs to the
+appendix and the sensitivity analysis, which §4.4 forward-references. So:
+the dwell table shows the committed means only (badges, families,
+multipliers to the appendix); the failure-matrix block drops the kernel
+detail (values, floor, example) and the defence sentences, keeping the two
+kernels named, the figure, and the close; each declared input ends on a
+pointer to its appendix section and the sweep.
+
+**Structure, recommended to Marc (ruling owed):** preamble (two-way join,
+the layers, the contract) + four units — 4.4.1 The runtime mechanics
+(verdict, clock, retrace, penalty, ceiling); 4.4.2 The dwell times; 4.4.3
+The tactic-to-verb mapping; 4.4.4 The failure matrix. ≈ 990 words; one unit
+of overdraft on the writing-guide ledger beyond the two units plus slack.
+Funded fallback: mechanics folded into the preamble, three headings. One
+prose slot for Marc: the sentence that says the three declared inputs are
+what Chapter 5 sweeps (no sentence of his says it yet).
