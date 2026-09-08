@@ -40,6 +40,17 @@ carried, and `git log` the record of the briefs themselves. The axis-8
 timing-channel re-examination retired the same day in the commits that shipped
 its work (the D-08 regime ruling and the criterion's dated amendment).
 
+- [`2026-09-08_ch4_s43_gspn_formalism.md`](2026-09-08_ch4_s43_gspn_formalism.md)
+  — **§4.3's missing formalism, inventoried**: every element of the executed
+  net mapped onto Marsan's GSPN tuple (places, the timed/immediate gadget,
+  base weights, synthetic overlay, `M0`), the one extension stated as a rule
+  (immediate weights conditioned on the environment's verdict, `w · F_v ·
+  Π_m` renormalised; `F_failure = R · d`; retrace as a history restriction),
+  termination, the parameter and assumption registers for ch5/ch6, and a
+  P2 scaffold. Six rulings owed (R1–R6) before any tex change; four record
+  inconsistencies to amend first. Feeds the ch5 sensitivity design
+  (`2026-09-08_ch5_ch6_structure.md`); blocks the §4.3 P2 redraft.
+
 - [`2026-09-05_generated_tables_house_style.md`](2026-09-05_generated_tables_house_style.md)
   — **the generated and appendix tables onto the house table style** ruled
   2026-09-05 (`figure_table_conventions.md` §k): each `tools/` table
