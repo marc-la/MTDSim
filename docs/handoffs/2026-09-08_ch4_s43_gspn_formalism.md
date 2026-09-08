@@ -304,34 +304,166 @@ definition licenses)
     environment's, held fixed across arms.
 12. **A12 no cross-run memory; no scheme awareness.** `h` is within-run.
 
-## 8. Proposed shape for §4.3 paragraph 2 (scaffold, not prose)
+## 8. The section design — §4.3 in the shape of a formalism section
 
-- **Definition 1 (profile net).** The tuple of §3, one display, with `P_c`,
-  `T_timed`, `T_imm`, `W`, `M0` named in Marc's words; the gadget figure
-  beside it (R1).
-- **Definition 2 (timing).** `τ_p ~ Exp(μ_p)`, `μ_p = 0` immediate; one
-  sentence that the firing is the action and the environment spends the time.
-- **Definition 3 (verdict-conditioned routing).** The one display equation
-  of §4.1, then `F_v` named (identity on success and none; `R · d` on failure)
-  with a forward pointer to §4.4.1 for the values and to App. B.6 for the
-  kernels. The general `Π_m` slot if R3 rules it in.
-- **The extension sentence.** One sentence saying what departs from Marsan:
-  structure fixed, immediate weights conditioned on an exogenous verdict,
-  a timed transition pre-emptible by the environment, one history rule
-  (retrace). That sentence is what makes the section's title honest.
-- **Notation table** (symbols → meaning → where declared), either in the
-  section or as the head of App. B; this is also the sensitivity table's key.
-- What P2 currently says survives as prose around the definitions: places
-  are tactics, transitions are pairs, self-loops dropped, one token, built
-  before execution, "plug and play" (= `W` and `P_c` vary, the construction
-  does not).
-- §4.4's three inputs then re-key: dwell catalogue = `μ`; mapping = `φ`;
-  failure matrix = `F_failure = R · d`; §4.4.2's loop = the process of §6.
-  No new content, symbols only.
+### 8.1 The convention, read off the corpus
 
-Budget: roughly 120–150 words of new definitional prose plus two displays
-and a notation table (tables are word-cheap). The L3 unit is at ~370 words
-against 1; the overdraft is the ledger's to reconcile at assembly.
+Three of the chapter's own precedents present a Petri-net formalism, and
+they agree on the shape:
+
+- **Bland 2020 §2.1** (the exemplar, `docs/sources/lit_review/4_bland2020machine.md:85-130`):
+  the standard net stated as a tuple, attributed ("Following Murata 1989 and
+  Reisig 2013, a standard Petri net can be formally defined as a 6-tuple
+  `PN = (P, T, W, M0, B, L)`, where:"), the elements in an **enumerated
+  "where:" list**, one line each; a sentence of firing semantics; a pointer
+  ("for more detailed explanations ... see Murata"). Then the paper's own
+  formalism **as an extension**: "The PNPSC formalism used in this work is an
+  extension of Petri nets", a larger tuple whose **first item is "as defined
+  earlier for a standard Petri net"** and whose remaining items are the new
+  elements, each defined in one line. Then the nets drawn in the genre
+  (`figure_table_conventions.md` §d5: circles = places, bars = transitions,
+  IDs on nodes) with **companion ledger tables** (ID | meaning | rate).
+- **The ICS GSPN paper** (`docs/sources/tactic_profiles/step_d/0_cross_tactic_timed_models/1-s2.0-S0306454921007404-main.md:290-296`):
+  a two-sentence gloss (bipartite graph; immediate vs timed drawn as solid
+  vs empty bars), then "Formally, a GSPN = (P, T, A, M0, λ) is defined as a
+  5-tuple (Chiola et al., 1993) where …" — the same enumerated form.
+- **Mendonça 2023 §2.3** (`docs/sources/lit_review/added_mendonca2023.md:245-286`):
+  a background paragraph (places, transitions, immediate vs timed,
+  exponential delay, firing semantics) that delegates the full definition
+  ("interested readers can be referred to Marsan et al. and Zimmermann").
+- The lineage (Zhang 2023 §3.2) names Petri nets in prose only, citing
+  Cai 2016 — no tuple. That is the floor the section already sits on.
+
+So the convention is: **attribute, state the standard tuple once, define the
+work's own net as an instance or extension with "as defined earlier"
+reuse, draw it in the genre, ledger the IDs.** No theorem environment
+(none of the three uses one, and the tex loads no `amsthm`); an
+enumerated list under a display is the form. Numbered display equations
+are already the house rule for definitions (`literature_conventions.md`
+rule 1, for metrics) and carry over.
+
+### 8.2 The section, paragraph by paragraph
+
+The existing four-paragraph spine survives; the formalism is inserted as
+P2 and the other three paragraphs are re-keyed to its symbols by one
+clause each. Marc's sentences are not rewritten — the additions are the
+definitional block and the symbol clauses.
+
+**P1 — motivation and the ruled-out structures (exists, ~150 w).** Stays
+as dictated. One clause added at the first naming of the GSPN: the
+attribution and the pointer, in the corpus's form — "a GSPN
+\citep{marsan1984} … ; for the full semantics see \citet{marsan1995}".
+The SPN/DSPN rejections and the MTD precedents already stand. This is the
+"why this formalism" paragraph every exemplar opens with.
+
+**P2 — the formalism (new; replaces the current P2; ~200 w + two displays +
+one enumerated list).** Three moves, in Bland's order:
+
+1. *The standard net, once.* One sentence and the tuple, attributed:
+   `GSPN = (P, T_I, T_T, I, O, W, M0)` — places, immediate and timed
+   transitions, input and output arcs, the weight/rate function, the
+   initial marking; a marking enabling an immediate transition is
+   vanishing, otherwise tangible; timed transitions fire after an
+   exponential delay, immediate transitions in zero time, with
+   priority. Inhibitor arcs and priorities beyond immediate-over-timed are
+   named as unused. (Ruling R1 is answered here: the gadget is what makes
+   `T_I` and `T_T` both non-empty.)
+2. *The profile net, as an instance.* "A profile net is a GSPN
+   `N_c = (P_c, T_I, T_T, I, O, W_c, M0)`, where:" and the enumerated list
+   in Marc's words — `P_c` the tactics of profile `c` (v19.1); `T_T` one
+   timed transition `τ_p` per tactic, rate `1/μ_p`, immediate when
+   `μ_p = 0`; `T_I` the tactic-pair transitions `t_{pq}`, one per observed
+   pair, no self-loops; the arcs through the decision place; `W_c` the
+   flow-proportion weights (Eq. 4.1 as a display: `w_c(p,q) = |F_c(p→q)| /
+   Σ_{q'} |F_c(p→q')|`); `M0` one token at reconnaissance. Then the
+   sentence the current P2 already carries in prose: "one construction,
+   four parameterisations" (plug and play = `P_c`, `W_c` vary, nothing else
+   does).
+3. *The extension, stated.* "The net departs from a GSPN in one respect."
+   The immediate weights are not constants: at each firing of `τ_p` the
+   environment returns a verdict `v ∈ {success, failure, none}` and the
+   weights out of `p` are recomposed as Eq. 4.2:
+
+       W(t_{pq} | v) = w_c(p,q) · F_v(p,q) / Σ_{q'} w_c(p,q') · F_v(p,q')
+
+   with `F_v` the declared conditioning factor (identity on success and
+   none; the failure matrix of §4.4.1 otherwise) and the optional history
+   product `Π_m` shown or not per R3. Structure, arcs and marking are
+   untouched by it; a timed transition may be pre-empted by the
+   environment (the MTD interrupt, §4.4.2). That is the whole extension,
+   and it is what the section's title now earns.
+
+**P3 — the pre-intrusion overlay (exists, ~110 w).** Stays. One clause
+re-keys it: the overlay is a second immediate-transition set `T_S`
+(three transitions, shares `s`), merged into `W_c` by the share rule —
+one short display or one sentence (`w = s` out of an island place;
+observed weights scaled by `1 − Σs` otherwise). "Sub-Petri-net in its own
+right" is then literally true and says which elements it adds.
+
+**P4 — the limits handed to L4 (exists, ~60 w).** Stays. Re-keyed by
+naming the symbols: the parameters are `μ` and the exponential family;
+the mechanics are `F_v` and the retrace rule, both defined in §4.4 in this
+section's language. (The §4.4 re-key itself is Marc's later pass.)
+
+### 8.3 The figure — placeholder, genre §d5
+
+`fig:gspn-gadget`, placed after P2. Two panels at natural size, generated
+by a `tools/` script from the structural JSON (never hand-drawn):
+
+- **(a) the gadget, generic** — `p` (circle, tangible) → `τ_p` (empty
+  bar, timed, labelled `1/μ_p`) → `p̂` (circle, vanishing, drawn hollow or
+  dashed) → `t_{pq₁} … t_{pqₖ}` (solid bars, immediate, labelled `w`) →
+  `q₁ … qₖ`. One token drawn at `p`. This is the picture of Definition 2.
+- **(b) the same gadget instantiated on one real place** of the
+  exfiltration profile — recommendation: `initial-access` (its real
+  out-set, its real weights printed on the bars, `μ = 4.5 s` on the timed
+  transition, the synthetic backward bridge absent in this profile so no
+  special case). Optionally a second row under a `failure` verdict showing
+  the same bars with `F_failure` applied — that makes Eq. 4.2 visible.
+
+The full profile net is **not** drawn here: the ladder figure
+(`fig:pipeline`, L3 rung) already draws one profile's net whole, and a
+15-place / 100-transition net at page width was the fig:l1-graph lesson.
+The ledger tables the genre pairs with the figure go to App. B: places
+(ID | tactic | `μ_p` | anchor) is already Table 4.4 / B.4; transitions
+(ID | pair | `w_c` per profile) is a new generated table, one per profile
+or one wide table — Marc's call at the appendix pass.
+
+Caption owed (session-drafted, voice pass): decode circles/bars/hollow,
+the token, and that (b) is one place of one profile.
+
+### 8.4 The notation table
+
+`tab:gspn-notation`, after the figure or at the head of App. B: Symbol |
+Element | Meaning | Declared in. Rows: `P_c, τ_p, μ_p, t_{pq}, w_c, T_S,
+s, M0, v, F_v, φ, A, ν, Π_m, γ, δ, z, R`. Typed (symbols, not values);
+it is also the key the ch5/ch6 sensitivity table reads from.
+
+### 8.5 Cue card for the P2 dictation (noun stubs only)
+
+- attribute: GSPN, Marsan/Conte/Balbo 1984; full semantics Marsan et al. 1995
+- tuple `(P, T_I, T_T, I, O, W, M0)`; tangible / vanishing; immediate zero
+  time, priority; timed exponential; no inhibitor arcs used
+- profile net `N_c`; `P_c` = tactics present in `c`, v19.1; counts 15/13/14/13
+- `τ_p` one per tactic, rate `1/μ_p`; `μ_p = 0` → immediate (resource development)
+- `t_{pq}` one per observed pair; no self-loops (dwell carries them)
+- decision place `p̂` — the gadget; timed then immediate; the figure
+- `w_c(p,q)` flow proportion, distinct flows, out-normalised; operator-dedup
+  corpus 29; raw 38 robustness; closed world; recurrence not likelihood
+- `M0` reconnaissance (overlay) / initial access (observed-only)
+- one construction, four parameterisations (plug and play)
+- the extension: verdict `v` from the simulator at each firing; Eq. 4.2;
+  `F_success = 1`, `F_none = 1`, `F_failure` = §4.4.1; structure fixed;
+  pre-emption by MTD; (`Π_m` if R3)
+- forward pointers: §4.4.1 values, §4.4.2 loop, App. B ledgers
+
+### 8.6 Budget
+
+P2 grows from ~110 to ~200 words plus two numbered displays and an
+enumerated list (word-cheap); P1/P3/P4 gain one clause each. The section
+sits at ~470 against a 1-unit ledger already; the overdraft is claimed
+explicitly as the formalism (the writing guide's ledger pass reconciles
+at assembly). The figure and notation table are outside the word count.
 
 ## 9. Record inconsistencies to resolve before the prose is written
 
