@@ -572,7 +572,7 @@ renames or relocates resources without changing what they can do, and
 diversity changes the software stack so that found exploits no longer
 apply. The optimised OS assignment variant \citep{zhang2023} has been
 withdrawn from the mechanism pool: it added overhead without providing
-the diversity-assignment value we needed. Across all seven mechanisms, the endpoints are not
+the diversity-assignment value. Across all seven mechanisms, the endpoints are not
 manipulated, so their attack surface remains the same throughout the
 attack campaign, although the topology around them can move
 (Section~\ref{subsec:network-model}).
@@ -606,8 +606,8 @@ IDS-based scheme, is not possible.
 
 % RULED 2026-09-05: "threat model" -> "attacker model" (thesis-wide
 % standardisation, terminology.md row ratified). Noun swap only.
-The attacker model that existed originally in the simulator is what we
-term the baseline attacker. It is scripted: every attacker is identical
+The attacker model that existed originally in the simulator is what this
+thesis terms the baseline attacker. It is scripted: every attacker is identical
 and uniform in skill \citep{brown2023}. It is
 implemented as a closed six-state machine:
 Table~\ref{tab:attacker-states} lists the states and
@@ -1297,8 +1297,8 @@ and modus operandi \citep{rodriguez2024}.
 % -> "them" (doubled noun, pass-2 self-repair residue); V6 "moving
 % target defence" -> "MTD" (defined at intro l.111 --- abbreviation
 % after definition).]
-Producing reusable attack profiles allows us to operationalise them
-for evaluation of defence mechanisms such as MTD.
+Reusable attack profiles can be operationalised for the evaluation
+of defence mechanisms such as MTD.
 % [C1 cut here (the APT well-documented/recurrent sentence, the
 % ported 3.1.1-dissolve S4) --- see the pass-5 log above. X2: the
 % paragraphs joined.]
@@ -1435,9 +1435,8 @@ coverage cost.
 % Attack Flow" -> "no example flow" --- Attack Flow reserved for the
 % language, lowercase flow for an instance (terminology row ratified
 % same day). The pass-4 "in this corpus" scope repair stands.]
-Volt Typhoon had no example flow in this corpus, so we manually
-curated one. We used the joint advisory AA24-038A
-\citep{cisaaa24038a}.
+Volt Typhoon had no example flow in this corpus, so one was curated
+by hand from the joint advisory AA24-038A \citep{cisaaa24038a}.
 % [PASS 4 M2 INSERT, ACCEPTED 2026-09-03 --- SESSION WORDS, ratify on
 % read. The record's reserved argument (cisaaa24038a.md Concept 1:
 % "the residual prose->structure gap the chapter argues";
@@ -1454,7 +1453,7 @@ curated one. We used the joint advisory AA24-038A
 % to option B (": an instance of the procedural-semantic gap") on
 % read if the link should be explicit.]
 The advisory states the ordering behind 57 of the flow's 73 edges; the
-remaining 16 we inferred from its prose.
+remaining 16 are inferred from its prose.
 % [PASS 4 ACCEPTED-OPEN, placement yours (2026-09-03) --- two content
 % candidates, this section or ch4; dictation slots once placed:
 % (a) the prose never says the hand-curated flow stays OUT of the
@@ -3149,6 +3148,13 @@ enumeration are this thesis's own synthesis.
 % simulator lineage this thesis extends is read the same way."
 % DRAFT STATE (2026-09-08): DICTATED by Marc, repaired (pass 2+3a),
 % [3b] resolved by delegation; unboxed for pass 4 (scrutiny) below.
+% PASS 6 APPLIED 2026-09-08 (handoff §10.14, Marc's blanket accept):
+% V1 recap opener cut (back-pointer folded into the closer); V2 "some
+% form of" cut. P2: V4 MTDSim-first opener, V5 procedure sentence cut
+% (ch2 duplicate), V6 clause cut, V7 riders cut, objective batch,
+% disruption for block (registry RATIFIED). P3: V8/V9. P4: V7, V10.
+% Ratify on read; the count sentences ("Six/Two cells carry a
+% stand-in") kept under voice §c2, cut on Marc's word.
 % PASS 4 (scrutiny, 2026-09-08) --- three moves, Marc rules:
 %  M1 [VERIFY] S2's selection rule. "A keyword search for MITRE ATT&CK"
 %     appears nowhere in the record: the review's §IV-B states the
@@ -3182,16 +3188,12 @@ enumeration are this thesis's own synthesis.
 %  [TIGHTEN, minor] S1 restates the interstitial's move one subsection
 %     later ("having derived ... we then look"); "scores"/"scored" in
 %     S3 and S4. [3b, minor] "some form of" is a hedge.
-Having derived the properties of a
-sophisticated attacker in Section~\ref{subsec:attacker-criterion}, this
-section asks whether recent MTD evaluations carry these properties.
 Two works from 2025--2026 were selected using a keyword search for
-MITRE ATT\&CK, as the works most likely to be grounded in some form of
-attacker modelling. The simulator lineage this thesis
-extends \citep{brown2023, zhang2023, ho2024, tay2024} is scored in the
-same way.
+MITRE ATT\&CK, as the works most likely to be grounded in attacker
+modelling. The simulator lineage this thesis extends \citep{brown2023,
+zhang2023, ho2024, tay2024} is scored in the same way.
 Table~\ref{tab:attacker-cross-section} scores the three against the
-eight properties.
+eight properties of Section~\ref{subsec:attacker-criterion}.
 
 % TABLE 3.3 --- floats first (writing-guide order). REDESIGNED
 % 2026-09-07 (Marc: the phrase-cell table "is not conveying what it
@@ -3328,27 +3330,22 @@ eight properties.
 % 123, 135, 186 ("forced" is Brown's word, l.121) / 6: l.115, l.73 /
 % 7: zhang2023.md Z-TIM-07 "halved"; B2 PORT 5: l.115 / 8: l.121, l.186.
 % CVSS expanded here (ch2 uses it bare from l.463 --- FLAG, out of scope).
-The three later works on the same simulator
-(Table~\ref{tab:mtdsim-lineage}) are defender-side contributions and
-inherit Brown et al.'s attacker model, described in
-Section~\ref{subsec:attacker-model}; Zhang et al.'s exploitation-time
-rule is the one published addition \citep{zhang2023}. The attacker runs
-a fixed procedure on each host (host discovery, port scan, harvested
-credentials, exploits ranked by return on attack (RoA), brute force,
-then the next host) under one of two goal rules, and every MTD block
-costs it a time penalty and a re-scan \citep{brown2023}. Brown et al.\
-state that ``all attacker agents in the simulation will always follow
-the attack procedure'' \citep[p.~7]{brown2023}. Six cells carry a
-stand-in, numbered here as the columns are. The per-host loop continues
-across hosts and through blocks (1); the two goal rules are fixed at
-design time (2); three attack vectors are tried in a fixed fallback
-order, never chosen among (3); each block type triggers a scripted
-re-scan, in Brown et al.'s word ``forced'' (4); exploits within a host
-are ordered by RoA, a cost/impact ratio derived from Common
-Vulnerability Scoring System (CVSS) metrics (6); and exploitation time
-is halved on a vulnerability exploited before \citep{zhang2023} (7).
-Scanning is active and unconstrained, with no detection model (5), and
-the attacker holds no model of which mechanism runs or when (8).
+MTDSim's attacker model is the baseline attacker of
+Section~\ref{subsec:attacker-model}, carried unchanged through the
+lineage (Table~\ref{tab:mtdsim-lineage}) except for Zhang et al.'s
+exploitation-time rule \citep{zhang2023}. Brown et al.\ state that
+``all attacker agents in the simulation will always follow the attack
+procedure'' \citep[p.~7]{brown2023}. Six cells carry a stand-in. The
+per-host loop continues across hosts and through disruptions (1); the
+two objectives are fixed at design time (2); three attack vectors are
+tried in a fixed fallback order (3); each kind of disruption triggers a
+scripted re-scan, in Brown et al.'s word ``forced'' (4); exploits
+within a host are ordered by return on attack (RoA), a cost/impact
+ratio derived from Common Vulnerability Scoring System (CVSS) metrics
+(6); and exploitation time is halved on a vulnerability exploited
+before \citep{zhang2023} (7). Scanning is active and unconstrained,
+with no detection model (5), and the attacker holds no model of which
+mechanism runs or when (8).
 
 % P3 --- Masud. A1 PORT masud2025.md l.186--188 (threat model, DB on
 % host 8), l.414 (all_simple_paths, Algorithm 2), l.420/584--586 (per-
@@ -3357,20 +3354,20 @@ the attacker holds no model of which mechanism runs or when (8).
 % l.188/414 (2); B2 EXISTS as the former DICTATE clause, now
 % unconditional (handoff §10.10: strict NONE ruled): Eq.~4 l.420,
 % Eq.~8 l.468 (the defender's selection). HARM defined in ch2.
-Masud et al.\ evaluate a hybrid MTD over a three-layer HARM of an
-IoT-cloud topology, in which the attacker is a node joined to the entry
-virtual machines \citep{masud2025}. At each interval the evaluation
-enumerates every simple path from that node to the target, the database
-on host 8, and recomputes a CVSS-derived success probability, cost and
-RoA for each path before and after each MTD deployment (Algorithm~2).
-The attackers are described as ``modeled after techniques in the cyber
-kill chain and MITRE ATT\&CK'' and their vulnerabilities as
-``prioritized by return on attack'' \citep[p.~7]{masud2025}. The row is
-empty: the paths are enumerated, not chosen, so nothing an executed
-attacker does falls under any heading. The objective fixes the
-enumeration's target node, not a behaviour after a foothold (2), and
-RoA is computed over whole paths as a metric (Eq.~4) and read by the
-defender's selection, never chosen by an attacker at a step (6).
+In Masud et al., the attacker is a node of a three-layer HARM of an
+IoT-cloud topology, joined to the entry virtual machines, against which
+a hybrid MTD is evaluated \citep{masud2025}. At each interval the
+evaluation enumerates every simple path from that node to the target,
+the database on host 8, and recomputes a CVSS-derived success
+probability, cost and RoA for each path before and after each MTD
+deployment \citep[Algorithm~2]{masud2025}. The attackers are described
+as ``modeled after techniques in the cyber kill chain and MITRE
+ATT\&CK'' and their vulnerabilities as ``prioritized by return on
+attack'' \citep[p.~7]{masud2025}. No attacker acts in the evaluation:
+Algorithm~2 enumerates every path and scores it, and no step chooses
+one, so no cell has anything to hold. The objective is the
+enumeration's target node (2), and RoA is a per-path metric (Eq.~4)
+consumed by the defender's selection (6).
 
 % P4 --- Kim. A1 EXISTS ("genuinely" stripped; SDN expanded, first use
 % in the thesis); A2 PORT kim2026.md l.382 (Poisson 0.2/min; Apache
@@ -3392,19 +3389,20 @@ scans 4096 virtual addresses for port 80 with up to five repeats,
 fingerprints the web service, fires the public exploit for
 CVE-2021-41773 where Apache 2.4.49 is found, and holds a reverse shell
 until the next MTD trigger severs it: four kill-chain stages in fixed
-order, labelled with ATT\&CK technique identifiers. Kim et al.\ state
-the assumption: ``we assume that the attackers follow the predefined
-sequence of phases based on CKC'' \citep[p.~9]{kim2026}. Two cells
-carry a stand-in. The four stages run in sequence in one process with a
+order, labelled with ATT\&CK technique identifiers
+\citep[Secs.~5.2, 6.1]{kim2026}. Kim et al.\ state the assumption:
+``we assume that the attackers follow the predefined sequence of
+phases based on CKC'' \citep[p.~9]{kim2026}. Two cells carry a
+stand-in. The four stages run in sequence in one process with a
 measured retention time, each arrival starting without network
 knowledge (1), and the outbound shell is chosen ``in order to evade the
 detection by a defense system'' \citep[p.~7]{kim2026} on a testbed that
 runs no detector (5). One scenario, one exploit and one target service
-(3); the connection is severed, never observed (4); one objective and
-one fixed action after the foothold (2); the repeat cap is the
-experimenters' budget (6); nothing is carried across arrivals (7); and
-the scan range is sized to the MTD interval by the experimenters, not
-known to the attacker (8).
+(3); the script does not observe the trigger that severs it (4); one
+objective and one fixed action after the foothold (2); the repeat cap
+is the experimenters' budget (6); nothing is carried across arrivals
+(7); and the scan range is sized to the MTD interval by the
+experimenters (8).
 
 % ROLL-CALL MOVED 2026-09-08 to the head of 3.3.3 (Marc's ruling: the
 % gap is derived from the table there). Its former slot text is in git
