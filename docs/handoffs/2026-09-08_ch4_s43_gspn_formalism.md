@@ -469,14 +469,57 @@ recompute the routed column with the same function the controller uses
 (`overlay.compose`), not re-implement Eq. 4.4, so the figure cannot drift
 from the runtime.
 
-**A formal nuance the figure surfaced (flag for the P2 read, not fixed):**
-the net keeps transitions whose primary-variant weight is 0
-(`movement/net.py:223` — "a zero-weight edge is present in the net"; only the
-uniform-weight ablation drops them). So `T_I` is "one per L2 tactic pair"
-and `w_c` may be 0 for a pair under `operator_dedup` while `raw` gives it
-mass. P2's "one per observed pair" is correct as written; Eq. 4.2 already
-yields 0. Worth one clause when Marc re-reads P2, since (b) shows two such
-bars and an examiner will ask why a transition with weight 0 exists.
+**Why a transition can carry weight 0 (Marc's question, 2026-09-08, answered
+from the code).** The transition set and the weights come from two different
+objects. `T_I` is handed down from L2: the GASP is the *surface* subgraph
+(gasp_schema.md Decision 4, `l2_subgraph/selector.py:61-88`) — its node set
+is every technique used by the profile's flows, and its edge set is every
+GAP technique-edge whose **both endpoints** are in that node set, whether or
+not a flow of this profile walked the edge. The structural net then keeps
+one transition per tactic pair with ≥1 such technique-edge (the
+no-synthesis invariant). `w_c` counts only the profile's own flows (distinct,
+under the chosen corpus variant). So a transition exists whenever the
+profile uses both techniques, and its weight is 0 whenever none of the
+profile's counted flows made that move. Two mechanisms, both present in
+panel (b):
+
+- **inherited edge** — initial-access → privilege-escalation via
+  T1189 → T1068: the only flow that walked it is REvil, which is in the
+  exfiltration+impact class; both techniques occur in exfiltration flows, so
+  the edge is in the exfiltration GASP with numerator 0 under *both* variants;
+- **dedup-removed backing** — initial-access → collection via T1078 → T1005:
+  backed by fin13_case_2 alone (raw weight 0.045); operator dedup keeps one
+  representative per operator cluster and drops fin13_case_2, so the primary
+  numerator is 0 while `raw` gives it mass.
+
+Count across the nets (computed 2026-09-08):
+
+| profile net | transitions | zero under primary | inherited (raw = 0) | dedup-removed (raw > 0) |
+|---|---|---|---|---|
+| exfiltration+impact | 72 | 22 | 22 | 0 |
+| exfiltration | 109 | 34 | 18 | 16 |
+| impact | 76 | 33 | 30 | 3 |
+| none/C2 | 57 | 15 | 13 | 2 |
+| aggregate | 122 | 8 | 0 | 8 |
+
+(The aggregate has no inherited edges by construction: every GAP edge is
+walked by some flow of the union.) At runtime a zero-weight transition is
+present and never fires (`movement/net.py:223`); every factor is
+multiplicative, so no verdict can revive it; only the uniform-weight
+ablation prunes to the positive-weight graph, on purpose, to keep both arms
+on the same reachable set.
+
+Why this is a feature, and how P2 should say it: the structure is
+**variant-independent** — `operator_dedup` and `raw` share one `T_I` and
+differ only in `W_c`, which is exactly P2's "only `P_c` and `W_c` vary"
+plug-and-play claim extended to the corpus variants; and the structure is
+the L2 object unchanged (no synthesis, no pruning at L3), so the reach a
+transition adds is decided by evidence (`w_c > 0`), not by a hand edit of
+the net. P2 currently says `T_I` is "one per observed pair"; the honest
+clause is "one per tactic pair the profile's L2 subgraph carries; `w_c` is 0
+where none of the profile's counted flows made the move, and such a
+transition never fires". One sentence; for Marc's P2 re-read. Panel (b)'s
+caption says the same in a clause.
 
 The full profile net is **not** drawn here: the ladder figure
 (`fig:pipeline`, L3 rung) already draws one profile's net whole, and a
