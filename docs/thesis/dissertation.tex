@@ -3443,6 +3443,30 @@ experimenters (8).
 % stale "3.2 closer" pointer: the scored-over claim is 3.2.2's last
 % sentence (hong2018); Marc did not dictate the scissors clause (§11.1)
 % --- open, his call.
+% PASS 4 APPLIED 2026-09-08 (split-stream, handoff §11.7, Marc: "accept
+% all"). M1: property 2 added to the antecedent; the partial-not-the-
+% definition clause stated once (from the caption decode); the two cost
+% legs PORTED from apt_model_criterion.md l.194--198 (axis 1, Alshamrani
+% §IV-C-2-B) and l.389 (axis 4) --- session-ported, ratify on read;
+% "unmeasured" scoped to the table's works. M2: "defender-computed"
+% dropped (Brown's RoA is the attacker's own ordering signal); hong2018
+% here replaced by a back-pointer to 3.2.2 (the [VERIFY] on hong2018
+% stands AT THE 3.2.2 SITE); the game-theoretic sentence CUT ---
+% reversible, SUPERSEDED: "In the game-theoretic approaches the attacker
+% model competes with the defence directly \citep[Sec.~VI-A]{cho2020},
+% so the metrics a defender and an attacker produce take the weaker of
+% the two." (3.2.1 carries the competition point, l.~645--653; the
+% "weaker of the two" step is unwalked and its mechanism is Marc's to
+% dictate if wanted); "and efficiency" dropped (Hong's efficiency family
+% is defender-side). "weakest link" KEPT by choice: the discussion's use
+% of the same phrase for the movement attacker's own action layer is the
+% deliberate symmetry (movement_objectives thread) --- the ch6 sentence
+% should point back here. M3: Rodríguez re-glossed (runtime telemetry);
+% the CVSS contrast named to the lineage and Masud (Kim has none);
+% "validated" cut; "never" scoped to the evaluations surveyed; the
+% negative-scope sentence and the hand-off clause ("does not formally
+% define", rq_and_structure l.53--54, Jalowski p.~8) session-ported,
+% ratify on read.
 % DRAFT STATE (2026-09-08): P1 and P3 DICTATED by Marc, repaired (pass
 % 2+3a); [3b] RESOLVED 2026-09-08 (Marc: ``partially fulfils'',
 % ``remains unmeasured''; *partial* ratified over *stand-in* thesis-wide,
@@ -3451,13 +3475,20 @@ experimenters (8).
 % compressions of ported text, ratify on read.
 The MTDSim lineage partially fulfils six of the eight properties of a
 sophisticated attacker, Masud et al.\ none, and Kim et al.\ two
-(Table~\ref{tab:attacker-cross-section}). An attacker model without
-properties 1 and 4 does not model an attack campaign after initial
-access, so the performance of MTD against an attacker with a foothold
-remains unmeasured. Where
-these models grant the attacker any rationality, it is a
-defender-computed heuristic such as RoA \citep{brown2023}, optimised
-over exploits the attacker cannot sequence, adapt, or remember.
+(Table~\ref{tab:attacker-cross-section}); a partial is something the
+executed attacker does under the heading, not the property as
+Table~\ref{tab:attacker-properties} defines it. An attacker model
+without properties 1, 2 and 4 does not model an attack campaign after
+initial access: an attacker with no multi-stage knowledge to lose
+cannot register the value MTD claims, disrupting the knowledge an
+attacker accumulates across stages \citep[Sec.~IV-C-2-B]{alshamrani2019},
+and an attacker that cannot adapt overstates MTD's effect. The
+performance of MTD against an attacker with a foothold therefore
+remains unmeasured in the works of Table~\ref{tab:attacker-cross-section}.
+Where
+these models grant the attacker any rationality, it is a heuristic
+such as RoA \citep{brown2023}, optimised over exploits the attacker
+cannot sequence, adapt, or remember.
 % SCISSORS CLAUSE DICTATED 2026-09-08 (Marc), repaired per pass 2+3a;
 % [3b] RESOLVED 2026-09-08 (Marc accepted both): Cho Sec. VI-A (Game
 % Theory-Based MTD; the decision-utility pro, source l.502) on the
@@ -3466,19 +3497,16 @@ The assumptions about the attacker are baked into the logic of the
 defender: the metrics of Section~\ref{sec:mtd-evaluation-survey} are a
 result of the attacker model, its assumptions, and the attacker
 interacting with the defence, and of the optimisation of those
-interactions \citep{hong2018}. In the game-theoretic approaches the
-attacker model competes with the defence directly
-\citep[Sec.~VI-A]{cho2020}, so the metrics a defender and an attacker
-produce take the weaker of the two. Over the effectiveness and
-efficiency metrics the attacker is the weakest link: with a weak
+interactions (Section~\ref{subsec:mtd-metrics}). Over the
+effectiveness metrics the attacker is the weakest link: with a weak
 attacker model the defence mechanisms cannot be properly evaluated,
 because the metrics are intertwined and computed
 over the attacker model.
 
 The means to close the gap already exist in MTD-adjacent literatures.
 Attack profiling recovers TTP-level behaviour from raw CTI
-\citep{rodriguez2024, rahman2025, zhangY2025}; this supplies the
-behavioural content. Bland et al.\ \citep{bland2020} build an attacker
+\citep{rahman2025, zhangY2025} and from runtime telemetry
+\citep{rodriguez2024}; this supplies the behavioural content. Bland et al.\ \citep{bland2020} build an attacker
 that observes partial state, acts at a cost, and learns its strategy
 against a dynamic defender, over expert-validated Common Attack Pattern
 Enumeration and Classification (CAPEC) patterns: evidence that the
@@ -3486,14 +3514,17 @@ sequencing, adaptive attacker MTD evaluation omits is constructible, if
 so far only on narrow, hand-built cases. Outkin et al.\
 \citep{outkin2022} address the parameters: they fit an attacker's
 per-step detection probabilities to real MITRE ATT\&CK Evaluations
-data, where the MTD evaluations of
-Section~\ref{subsec:recent-threat-models} derive theirs from CVSS.
+data, where the simulator lineage and Masud et al.\ derive theirs
+from CVSS.
 Profiled behaviour, an agent to enact it, parameters grounded in real
-engagement data: the apparatus is in place and validated; it has simply
-never been brought to MTD evaluation.
+engagement data: the apparatus is in place; it has not been brought to
+the MTD evaluations surveyed here. The claim is about MTD evaluation as
+sampled, not about the field's attacker models at large; the
+field-level diagnosis rests on the two surveys.
 
-This research gap motivates the attacker model defined in
-Chapter~\ref{ch:attacker-model}.
+The literature does not formally define its attacker models
+\citep[p.~8]{jalowski2026}; this research gap motivates the attacker
+model defined in Chapter~\ref{ch:attacker-model}.
 
 % =====================================================================
 \chapter{APT attacker model}
