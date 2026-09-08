@@ -3957,37 +3957,157 @@ because they are acyclic (the L1
 attack graph is cyclic). The other forms of Petri net: an SPN does
 not have the right mechanism, since it times every transition, and a
 DSPN is over-engineered, adding a fixed delay we do not need, so we used
-the one in the middle, a GSPN, which provides the immediate transitions
-we are using. There is also a large
+the one in the middle, a GSPN~\citep{marsan1984}, which provides the
+immediate transitions we are using. There is also a large
 precedent for stochastic Petri nets in the MTD evaluation
 space~\citep{cai2016, chobenasher2018, mendonca2023}.
 % [APPLIED, your ruling] the sentence head restored ("We ruled out attack
 %   graphs, which we already have from L1, because ...").
 % [APPLIED 2026-08-18] SPN / DSPN / GSPN-in-the-middle clause (yours).
 
-Petri nets have their places, which are the Enterprise ATT\&CK
-tactics~\citep{mitre2026attackv19}. The transitions are tactic--tactic
-pairs. Self-loops are dropped, because those are represented through the
-dwell times we are providing. We
-are using one token, placed at the earliest tactic --- reconnaissance
-with the pre-intrusion overlay in place, and in lieu of that, initial
-access. We construct this Petri net before execution of the simulator.
-% [RULED, do not re-flag] "analyst-drawn from L2" stays out --- Marc:
-%   sits badly beside the synthetic overlay paragraph; the L2 subsection
-%   carries provenance.
-% [RULED 2026-08-18, do not re-flag] the one-token AND trade-off stays out
-%   of the chapter --- a property of this work's constraints, not of the
-%   formalism; multi-token would use the AND structure --- recorded as a
-%   future-work candidate (structure_to_behaviour_binding.md revisit
-%   conditions; drafting handoff).
-The places in GSPN allow us to produce stochastic
-times. The attacker agent consumes some stochastic amount of time to
-perform a procedure to achieve a goal, which is the tactic. Each tactic
-has a time associated with it, drawn exponentially to provide
-stochasticity to the simulator, and the out-transitions are immediate.
-The GSPN structure is plug and play, so we can put in our various attack
-profiles as an input into these Petri nets, and this provides separation
-and discipline.
+% DRAFT STATE (2026-09-08): P2 is the FORMALISM, SESSION-PROPOSED on
+% Marc's green light ("honestly it's very dry stuff, I'm happy for you
+% to put a proposal to this") --- RATIFY ON READ, voice pass owed. Shape
+% is the corpus's convention (Bland 2020 §2.1; Chiola/Marsan's 5-tuple in
+% the ICS GSPN paper; Mendonça 2023 §2.3): attribute, state the standard
+% tuple once, define this work's net as an instance with an enumerated
+% where-list, then the extension in one sentence + one display. Marc's
+% own P2 sentences are carried INSIDE the where-list where they fit
+% (self-loops, one token, construct before execution, plug and play,
+% "consumes some stochastic amount of time") --- his words, moved, not
+% rewritten. Design record: handoffs/2026-09-08_ch4_s43_gspn_formalism.md
+% §8 (rulings R1--R6). Tuple form: the compact (P, T_T, T_I, I, O, W, M0)
+% rather than Marsan's eight (inhibitor arcs and priorities beyond
+% immediate-over-timed are unused and said so). [3b] "we write it as" ---
+% or "is the tuple"; [3b] \mathcal{N} vs plain N; [3b] the modulator
+% product in Eq. 4.3 is IN (R3 recommended) --- cut the clause if the
+% slot is not wanted in ch4; [3b] "verdict" is the code's word --- keep,
+% or "outcome". Symbols introduced here are the chapter's from now on:
+% \mu_p, w_c, \tau_p, t_{pq}, \hat p, v, F_v, M_0; §4.4 re-keys to them
+% in Marc's later pass. Bib: marsan1984 / marsan1995 are VERIFY stubs.
+A GSPN is a directed bipartite graph of places and transitions in which
+every transition is either \emph{timed}, firing after an exponentially
+distributed delay, or \emph{immediate}, firing in zero time and with
+priority over the timed ones \citep{marsan1984, marsan1995}. We write it
+as
+\begin{equation}
+  \mathcal{N} = (P, T_T, T_I, I, O, W, M_0),
+  \label{eq:gspn}
+\end{equation}
+where $P$ is the set of places, $T_T$ and $T_I$ the timed and immediate
+transitions, $I$ and $O$ the input and output arcs, $W$ the rate of each
+timed transition and the weight of each immediate one, and $M_0$ the
+initial marking. A marking that enables an immediate transition is
+\emph{vanishing} and is left in zero time; any other is \emph{tangible}.
+Inhibitor arcs and further priority levels are not used.
+
+An attack profile $c$ (Section~\ref{sec:attack-profiles}) is the GSPN
+$\mathcal{N}_c = (P_c, T_T, T_I, I, O, W_c, M_0)$, where:
+\begin{enumerate}[nosep, leftmargin=*]
+  \item $P_c$ is the set of Enterprise ATT\&CK
+  tactics~\citep{mitre2026attackv19} present in profile $c$, each a
+  tangible place, together with one vanishing place $\hat{p}$ per tactic
+  $p$, at which the next tactic is chosen;
+  \item $T_T = \{\tau_p : p \in P_c\}$, one timed transition per tactic,
+  from $p$ to $\hat{p}$: the attacker agent consumes some stochastic
+  amount of time to perform a procedure to achieve a goal, which is the
+  tactic; a tactic whose declared time is zero is immediate;
+  \item $T_I = \{t_{pq}\}$, one immediate transition per tactic--tactic
+  pair observed in the profile's flows, from $\hat{p}$ to $q$; self-loops
+  are dropped, because those are represented through the dwell times we
+  are providing;
+  \item $I$ and $O$ are the arcs these imply,
+  $p \to \tau_p \to \hat{p} \to t_{pq} \to q$, each of weight one;
+  \item $W(\tau_p) = 1/\mu_p$, the rate of an exponential draw about the
+  declared mean dwell $\mu_p$ of tactic $p$
+  (Section~\ref{subsec:controller}), and $W(t_{pq}) = w_c(p, q)$, the
+  proportion of the profile's flows that leave $p$ along $p \to q$,
+  \begin{equation}
+    w_c(p, q) = \frac{\lvert F_c(p \to q) \rvert}
+                     {\sum_{q'} \lvert F_c(p \to q') \rvert},
+    \label{eq:base-weight}
+  \end{equation}
+  where $F_c(p \to q)$ is the set of flows in $c$ that draw the pair, so
+  that a place's out-weights sum to one;
+  \item $M_0$ places one token at the earliest tactic --- reconnaissance
+  with the pre-intrusion overlay in place, and in lieu of that, initial
+  access.
+\end{enumerate}
+We construct $\mathcal{N}_c$ before execution of the simulator. The
+construction is the same for every profile and only $P_c$ and $W_c$
+vary, so the GSPN structure is plug and play: we can put in our various
+attack profiles as an input into these Petri nets, and this provides
+separation and discipline.
+
+The net departs from a GSPN in one respect. In a GSPN the weight of an
+immediate transition is fixed, or a function of the marking; here the
+marking is one token's position, and the weights out of a tactic are
+recomposed each time its timed transition fires, from a verdict
+$v \in \{\text{success}, \text{failure}, \text{none}\}$ that the
+simulator returns for the action the tactic dispatched
+(Section~\ref{sec:execution}):
+\begin{equation}
+  W(t_{pq} \mid v) =
+  \frac{w_c(p, q)\, F_v(p, q)\, \prod_m m(p, q)}
+       {\sum_{q'} w_c(p, q')\, F_v(p, q')\, \prod_m m(p, q')},
+  \label{eq:routing}
+\end{equation}
+where $F_v$ is a declared factor on tactic pairs, the identity on
+success and on none, so that the token routes on the corpus proportions,
+and the failure matrix of Section~\ref{subsec:controller} otherwise; and
+$\prod_m m$ is the product of any further declared factors, empty in
+every run this thesis reports and named by each arm that adds one
+(Chapter~\ref{ch:experimental-setup}). Places, transitions and arcs are
+untouched by it, and a timed transition may be cut short by an MTD
+mutation, which returns failure. Figure~\ref{fig:gspn-gadget} draws one
+tactic of one profile net.
+% SUPERSEDED (Marc's dictated P2, for reversibility; its sentences
+% survive inside the where-list above except the two below):
+%   "Petri nets have their places, which are the Enterprise ATT\&CK
+%   tactics~\citep{mitre2026attackv19}. The transitions are tactic--tactic
+%   pairs. Self-loops are dropped, because those are represented through
+%   the dwell times we are providing. We are using one token, placed at
+%   the earliest tactic --- reconnaissance with the pre-intrusion overlay
+%   in place, and in lieu of that, initial access. We construct this
+%   Petri net before execution of the simulator. The places in GSPN allow
+%   us to produce stochastic times. The attacker agent consumes some
+%   stochastic amount of time to perform a procedure to achieve a goal,
+%   which is the tactic. Each tactic has a time associated with it, drawn
+%   exponentially to provide stochasticity to the simulator, and the
+%   out-transitions are immediate. The GSPN structure is plug and play, so
+%   we can put in our various attack profiles as an input into these Petri
+%   nets, and this provides separation and discipline."
+%   NOT carried: "The places in GSPN allow us to produce stochastic
+%   times." (item 2 + item 5 say it) and "Each tactic has a time
+%   associated with it, drawn exponentially to provide stochasticity to
+%   the simulator, and the out-transitions are immediate." (item 5 and
+%   the opening sentence say it). Flip either back on read.
+
+% FIGURE PLACEHOLDER (Marc, 2026-09-08: "put a placeholder, it doesn't
+% need to be anything yet"). fig:gspn-gadget --- genre
+% figure_table_conventions.md §d5 (circles = places, bars = transitions,
+% IDs on nodes; hollow bar = timed, solid = immediate, per Marsan's
+% drawing convention). Two panels at natural size, generated by a
+% tools/ script from the structural JSON, never hand-drawn: (a) the
+% generic gadget p -> tau_p -> p-hat -> t_pq -> q with one token at p;
+% (b) the same gadget on one real place of the exfiltration profile
+% (recommended: initial-access; real w_c on the bars, mu = 4.5 s on the
+% timed transition), optionally a second row under a failure verdict
+% with F_failure applied so Eq. 4.3 is visible. The full net is NOT drawn
+% here (fig:pipeline's L3 rung draws one profile whole; the fig:l1-graph
+% lesson). Ledger tables (places: Table 4.4 / B.4; transitions: a new
+% generated table) go to App. B. Caption below is a stand-in.
+\begin{figure}[htbp]
+  \centering
+  \framebox[\textwidth]{\rule{0pt}{4.5cm}\emph{[Placeholder --- one
+  tactic of one profile net: the place, its timed transition, the
+  decision place, and its weighted immediate out-transitions.]}}
+  \caption[One tactic of a profile net]{One tactic of a profile net,
+  drawn as a GSPN: the tactic place $p$, its timed transition $\tau_p$,
+  the decision place $\hat{p}$, and the immediate transitions $t_{pq}$
+  to its successors.}
+  \label{fig:gspn-gadget}
+\end{figure}
 % [APPLIED, your ruling] "(see sensitivity analysis ch6)" deleted --- the
 %   closing paragraph already sends parameters to L4, which declares and
 %   points at ch6.
@@ -4005,7 +4125,13 @@ initial access, as well as a backwards transition from initial access to
 reconnaissance, so that we could model the runtime behaviour of the
 attacker agent. This pre-intrusion overlay is a sub-Petri-net in its own
 right: we join it to the attack profiles to produce the executable Petri
-net. We can assume that they perform these because we know they do
+net.
+% [PROPOSED 2026-09-08, session, ratify on read --- the overlay in the
+% terms of Eq. 4.1; deletable without loss to Marc's sentences.]
+In the terms of Equation~\ref{eq:gspn} it is a second set of immediate
+transitions with declared weights: the whole out-mass of a place the
+corpus left with no out-transition, and a share $s = 0.1$ otherwise,
+the observed weights scaled to $1 - s$. We can assume that they perform these because we know they do
 that (Section~\ref{sec:apt-survey}), and it is defensible because nothing detects pre-intrusion
 activity anyway.
 % [APPLIED, your ruling] PRE-ATT\&CK head dropped as lit-review background
@@ -4014,11 +4140,13 @@ activity anyway.
 % [APPLIED 2026-08-18] M6 justification sentence.
 
 But there are limits to what the GSPN can provide: parameters (the
-timings of how long the attacker dwells at a tactic; the exponential
-defence of the dwell times) and mechanics (reweighting the
-out-transitions a token may choose at runtime, based on the success of
-an attacker agent in the simulator; sink retrace policy). L4 deals with
-this.
+timings $\mu_p$ of how long the attacker dwells at a tactic; the
+exponential defence of the dwell times) and mechanics (the factor $F_v$
+reweighting the out-transitions a token may choose at runtime, based on
+the success of an attacker agent in the simulator; sink retrace policy).
+L4 deals with this.
+% [PROPOSED 2026-09-08: the two symbols inserted, nothing else touched;
+%   §4.4's own re-key to them is Marc's later pass.]
 % [note] the "dwell times exist nowhere -> inherently arbitrary ->
 %   justified against the literature -> swept in ch6" sentence moved out
 %   of L3 with this compression; it is 4.4.1's opening obligation
