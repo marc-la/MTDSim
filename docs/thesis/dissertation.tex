@@ -3104,8 +3104,42 @@ enumeration are this thesis's own synthesis.
 % a conclusion, not a promise). Every sentence below is ported
 % (patchwork ledger l.1396--1495) or a trim of one; the three
 % \emph{[DICTATE]} slots are Marc's. RATIFY ON READ.
+% REDRAFTED 2026-09-08 on Marc's rulings (handoff §10.12 critique, §10.13
+% scaffold): four paragraphs. P1 question / sample / pointer (G8 slot
+% carries Marc's raw words, repaired for transcription only); Table 3.3
+% moved to after P1; P2--P4 mirror A (what runs, with the authors' own
+% scope statement inside it) -> B (the row read off dot by dot, then the
+% empties), every clause line-anchored to the extractions' verification
+% sections (docs/sources/extractions/*.md, "Eight-property
+% verification"). Empathy residue stripped ("only", "candid",
+% "genuinely", "claims more than this", "invoked taxonomically", the
+% metrics-over-outcomes sentence --- 3.2's subject, and Brown's skill
+% quote, which supported the cut descriptor and bears on none of the
+% eight; SUPERSEDED: "Brown et al.\ are candid about the limitation,
+% noting that ``the exploitation skills are not configured to
+% distinguish the different skills of adversaries'' \citep[p.~7]
+% {brown2023}."). The roll-call MOVED to a placeholder at the head of
+% 3.3.3 (its across-columns sentence is the antecedent of "sharpens").
+% Session-drafted from the record; RATIFY ON READ.
 \subsection{Attacker models in recent MTD evaluations}
 \label{subsec:recent-threat-models}
+
+% P1 --- the question, the sample, the pointer. Q: what is measured and
+% why these? G8 is Marc's; his raw words (2026-09-08) repaired for
+% transcription only, one [3b] on the selection rule. The "gap" word and
+% the answer both stay out (3.3.3's). The existing selection sentence
+% is fused in; the per-work descriptors went to P2--P4's first sentences.
+\emph{[DICTATE G8 --- Marc's raw, ratify or re-dictate: Having derived
+the properties a sophisticated attacker carries, the question is
+whether recent MTD evaluations carry them. Two works from 2025--2026
+that frame their attacker on MITRE ATT\&CK were selected for that
+reason [3b: was this a keyword search, and over what index? state the
+rule as it was run], the works most likely to carry the properties, so
+the claim is existence over a favourable, hand-picked sample, not a
+generalisation; the simulator lineage this thesis extends
+\citep{brown2023, zhang2023, ho2024, tay2024} is read the same way.]}
+Table~\ref{tab:attacker-cross-section} scores the three against the
+eight properties.
 
 % TABLE 3.3 --- floats first (writing-guide order). REDESIGNED
 % 2026-09-07 (Marc: the phrase-cell table "is not conveying what it
@@ -3234,130 +3268,95 @@ enumeration are this thesis's own synthesis.
   \end{tabular}
 \end{table}
 
-% P1 --- selection and warrant. Q: what is measured, and why these?
-% Ported (review :177 s1-s2); "recent" x2 cut (the heading has it);
-% the finding sentence ("The pattern across the cross-section is a
-% rhetoric-versus-execution gap ...") MOVED to the roll-call. Closes on
-% the warrant (the concession); no forward pointer.
-Table~\ref{tab:attacker-cross-section} scores recent MTD evaluations
-against the eight properties. The selection spans the simulator
-lineage this thesis extends \citep{brown2023, zhang2023, ho2024,
-tay2024}, IoT-cloud orchestration \citep{masud2025}, and a Cyber Kill
-Chain-aware MTD framework deployed on a physical testbed
-\citep{kim2026}. \emph{[DICTATE G8 --- the adverse-sample warrant:
-recent, well regarded, two of them explicitly ATT\&CK-framed, so the
-works most likely to model an attacker well; the claim is existence
-over a favourable, hand-selected sample, not generalisation from three
-columns. If the sample was drawn from the surveys' own coverage, say
-so here.]}
-
-% P2 --- the lineage. Q: what does the lineage's one attacker model
-% operationalise? REORDERED, ratify on read: the inheritance stitch
-% now opens (the column is one model --- claim-first), the description
-% is a pointer to ch2, Brown's sentences follow in the review's order,
-% the candour quote closes. Stitch trimmed: the Zhang clause, "unchanged"
-% (not accurate for Zhang, Z-TIM-07 --- the row-7 cell says what he
-% added) and "so its parametric fidelity carries through" CUT. Brown
-% S1's scenario glosses "(network-wide compromise)" / "(specific-host
-% compromise)" CUT (ch2 Table 2.3). The CVSS expansion stays: ch2 uses
-% the acronym bare from l.463 on --- FLAG, out of scope here, that ch2
-% never expands it. Tay's IDS sentence CUT, SUPERSEDED for the record:
-% "Tay's one attacker-adjacent experiment varies an intrusion detection
-% system's sensitivity from 0\% to 100\% and feeds the resulting
-% attacker-action signal to the agent \citep{tay2024}; the variation is
-% in the defender's \emph{observability} of the attacker, not in the
-% attacker's \emph{behaviour}: the attacker remains oblivious to both
-% the IDS and the RL policy."
+% P2 --- the lineage. A1 EXISTS (trimmed; Zhang's addition named so
+% the row-7 cite has its antecedent); A2 PORT brown2023.md l.115 (the
+% procedure), l.103/109--111 (two goals), l.186 (penalty + re-scan);
+% A3 PORT l.184, §V.A, verified p.7 (replaces the skill quote);
+% B1 PORT 1: l.115, l.196 / 2: l.103, l.109--111 / 3: l.115 / 4: l.121,
+% 123, 135, 186 ("forced" is Brown's word, l.121) / 6: l.115, l.73 /
+% 7: zhang2023.md Z-TIM-07 "halved"; B2 PORT 5: l.115 / 8: l.121, l.186.
+% CVSS expanded here (ch2 uses it bare from l.463 --- FLAG, out of scope).
 The three later works on the same simulator
 (Table~\ref{tab:mtdsim-lineage}) are defender-side contributions and
 inherit Brown et al.'s attacker model, described in
-Section~\ref{subsec:attacker-model}. It is two scripted scenarios
-executed through a finite-state machine inspired by the Cyber Kill
-Chain and MITRE ATT\&CK \citep{brown2023}. The attacker's only decision
-signal is a priority ordering over scanned exploits by return on attack
-(RoA), a cost/impact ratio derived from Common Vulnerability Scoring
-System (CVSS) metrics; the simulator's metrics are computed over
-outcomes rather than over attacker decisions. Brown et al.\ are candid
-about the limitation, noting that ``the exploitation skills are not
-configured to distinguish the different skills of adversaries''
-\citep[p.~7]{brown2023}.
+Section~\ref{subsec:attacker-model}; Zhang et al.'s exploitation-time
+rule is the one published addition \citep{zhang2023}. The attacker runs
+a fixed procedure on each host (host discovery, port scan, harvested
+credentials, exploits ranked by return on attack (RoA), brute force,
+then the next host) under one of two goal rules, and every MTD block
+costs it a time penalty and a re-scan \citep{brown2023}. Brown et al.\
+state that ``all attacker agents in the simulation will always follow
+the attack procedure'' \citep[p.~7]{brown2023}. Six cells carry a
+stand-in, numbered here as the columns are. The per-host loop continues
+across hosts and through blocks (1); the two goal rules are fixed at
+design time (2); three attack vectors are tried in a fixed fallback
+order, never chosen among (3); each block type triggers a scripted
+re-scan, in Brown et al.'s word ``forced'' (4); exploits within a host
+are ordered by RoA, a cost/impact ratio derived from Common
+Vulnerability Scoring System (CVSS) metrics (6); and exploitation time
+is halved on a vulnerability exploited before \citep{zhang2023} (7).
+Scanning is active and unconstrained, with no detection model (5), and
+the attacker holds no model of which mechanism runs or when (8).
 
-% P3 --- Masud. Q: what attacker does the hybrid MTD run against?
-% Ported (review :185); ": scripted fidelity" CUT (descriptor residue).
-% VERIFY the p.~7 locator against the PDF: the source markdown carries
-% no page anchors (masud2025.md open question); the quote sits at §3.3.
-The attacker of Masud et al.\ is an exhaustive, pre-coded traversal of
-a CVE/CVSS-parameterised attack graph, with no decision-making agent
-\citep{masud2025}. The framing claims more than this: the attackers
-are said to be ``modeled after techniques in the cyber kill chain and
-MITRE ATT\&CK'' \citep[p.~7]{masud2025}, but that grounding does not
-reach the executed attacker model, which carries no technique-level
-behaviour beyond the graph it enumerates. \emph{[DICTATE --- one
-clause, only if the row-6 dash stands: return on attack is computed
-over whole paths as a metric (Eq.~4), not chosen by the attacker at a
-step.]}
+% P3 --- Masud. A1 PORT masud2025.md l.186--188 (threat model, DB on
+% host 8), l.414 (all_simple_paths, Algorithm 2), l.420/584--586 (per-
+% path metrics before/after each deployment); A2 PORT l.299, verified
+% p.7 (both quotes on the same page); B1 PORT the rule (caption) +
+% l.188/414 (2); B2 EXISTS as the former DICTATE clause, now
+% unconditional (handoff §10.10: strict NONE ruled): Eq.~4 l.420,
+% Eq.~8 l.468 (the defender's selection). HARM defined in ch2.
+Masud et al.\ evaluate a hybrid MTD over a three-layer HARM of an
+IoT-cloud topology, in which the attacker is a node joined to the entry
+virtual machines \citep{masud2025}. At each interval the evaluation
+enumerates every simple path from that node to the target, the database
+on host 8, and recomputes a CVSS-derived success probability, cost and
+RoA for each path before and after each MTD deployment (Algorithm~2).
+The attackers are described as ``modeled after techniques in the cyber
+kill chain and MITRE ATT\&CK'' and their vulnerabilities as
+``prioritized by return on attack'' \citep[p.~7]{masud2025}. The row is
+empty: the paths are enumerated, not chosen, so nothing an executed
+attacker does falls under any heading. The objective fixes the
+enumeration's target node, not a behaviour after a foothold (2), and
+RoA is computed over whole paths as a metric (Eq.~4) and read by the
+defender's selection, never chosen by an attacker at a step (6).
 
-% P4 --- Kim. Q: what attacker is the multi-phase defence evaluated
-% against? Ported (review :193), unchanged. VERIFY the locator: the
-% extraction places the quote at §5.2; the tex says p.~7.
-Kim et al.'s defender side is genuinely multi-phase, mapping MTD
-sub-techniques across the Cyber Kill Chain and onto corresponding
-ATT\&CK techniques, and the framing repeatedly invokes multi-phase MTD
-against multi-phase cyber-attacks \citep{kim2026}. The attacker model
-used for evaluation does not match this depth: the case study is a
-single path-traversal vulnerability (CVE-2021-41773) driven by an
-automated script on a Poisson arrival schedule, with ATT\&CK invoked
-taxonomically rather than as behavioural grounding. The work is itself
-candid that ``the overlap in time between each phase is out of scope''
-\citep[p.~7]{kim2026}: the multi-phase attacker is, in execution, a
-sequential script across collapsed phases. \emph{[DICTATE --- one
-clause, owed by the row-5 half mark: the script's outbound shell is
-chosen ``in order to evade the detection by a defense system''
-\citep[Sec.~5.2]{kim2026}, against a testbed that carries no detector
---- evasion executed, never tested.]}
+% P4 --- Kim. A1 EXISTS ("genuinely" stripped; SDN expanded, first use
+% in the thesis); A2 PORT kim2026.md l.382 (Poisson 0.2/min; Apache
+% 2.4.49), l.386 (4096 addresses, five repeats), l.282 (four CKC stages,
+% CVE-2021-41773), l.310/414 (shell held until the trigger severs it);
+% A3 PORT l.416--418, verified p.9 (replaces "overlap ... out of scope",
+% p.7, SUPERSEDED: "The work is itself candid that ``the overlap in time
+% between each phase is out of scope'' \citep[p.~7]{kim2026}: the
+% multi-phase attacker is, in execution, a sequential script across
+% collapsed phases."); B1 PORT 1: l.276, 282, 414, 270 / 5: l.266 §5.2
+% p.7, l.450 (no defence in the baseline) --- the former DICTATE clause
+% absorbed; B2 PORT 3: l.276, 382 / 4: l.310, 388 / 2: l.382, 272 /
+% 6: l.270, 386 / 7: l.270 / 8: l.270, 368.
+Kim et al.\ deploy a multi-phase MTD framework on a physical
+software-defined networking (SDN) testbed, mapping MTD sub-techniques
+across the Cyber Kill Chain and onto ATT\&CK techniques \citep{kim2026}.
+The attacker is an automated script launched as Poisson arrivals that
+scans 4096 virtual addresses for port 80 with up to five repeats,
+fingerprints the web service, fires the public exploit for
+CVE-2021-41773 where Apache 2.4.49 is found, and holds a reverse shell
+until the next MTD trigger severs it: four kill-chain stages in fixed
+order, labelled with ATT\&CK technique identifiers. Kim et al.\ state
+the assumption: ``we assume that the attackers follow the predefined
+sequence of phases based on CKC'' \citep[p.~9]{kim2026}. Two cells
+carry a stand-in. The four stages run in sequence in one process with a
+measured retention time, each arrival starting without network
+knowledge (1), and the outbound shell is chosen ``in order to evade the
+detection by a defense system'' \citep[p.~7]{kim2026} on a testbed that
+runs no detector (5). One scenario, one exploit and one target service
+(3); the connection is severed, never observed (4); one objective and
+one fixed action after the foothold (2); the repeat cap is the
+experimenters' budget (6); nothing is carried across arrivals (7); and
+the scan range is sized to the MTD interval by the experimenters, not
+known to the attacker (8).
 
-% HE ET AL. CUT 2026-09-07 (Marc's ruling; see the unit head comment).
-% SUPERSEDED for the record, revivable from git: "One adjacent work is
-% worth setting beside the table without a row in it. He et al.'s
-% MTD-AD, a boundary-perturbation defence of an anomaly-based intrusion
-% detector, formalises an adaptive-knowledge attacker that knows the
-% defence is deployed and adjusts to it \citep{he2025}: the only
-% attacker model in this survey that responds to the defence at all.
-% Two qualifiers bound that credit: the response is design-time
-% configuration rather than runtime decision-making (a single
-% surrogate-model threshold, swept across fixed values rather than
-% learned in the loop), and the attack class is detection-evasion of a
-% machine-learning classifier, a single attack family with no
-% multi-stage structure. The methodological move toward a defence-aware
-% attacker transfers; the attack class does not." Consequence for the
-% criterion's §(c) column: rows 4 and 5 ("He et al. only") come to the
-% ratified table as "none" in the handoff §2 update.
-
-% P5 --- the roll-call, the reading of the table across all eight
-% properties (handoff §5(a) refit). DICTATE, Marc's. Descriptive
-% throughout; "gap" is 3.3.3's word. The review's four-property
-% sentence CUT, SUPERSEDED for the record: "Across the cross-section,
-% attacker modelling is consistently secondary to the defence being
-% proposed: persistence is absent throughout; adaptivity in the
-% campaign-aware sense is absent; stealth is not operationalised; and
-% incentive-driven behaviour appears only as partial operationalisations
-% of the RoA heuristic in the simulator lineage." (Its opener is a why,
-% 3.3.3's register; its four properties are the review's, not the
-% table's eight.) The descriptor close was cut earlier the same day.
-\emph{[DICTATE --- the roll-call, descriptive: (1) the framing
-(kill chain, ATT\&CK, multi-phase) is invoked in every column and
-reaches the executed attacker in none; (2) what the half marks name ---
-the lineage's per-host loop (1), two scenario labels (2), a fixed
-fallback across three attack vectors (3), scripted restarts on
-interruption (4), a cost/impact ordering over exploits (6) and a
-repeat-exploit speed-up (7) \citep{zhang2023}; Kim's phases run in
-sequence (1) and an outbound shell chosen to evade a detector the
-testbed does not contain (5); Masud's row empty because no attacker
-runs --- each something the script does and none the property as
-Table~\ref{tab:attacker-properties} defines it, so no cell reaches
-the full mark; (3) scheme awareness is empty in every column, and
-stealth's one mark is untested; (4) the latest work in the sample
-carries no more of the eight than the first.]}
+% ROLL-CALL MOVED 2026-09-08 to the head of 3.3.3 (Marc's ruling: the
+% gap is derived from the table there). Its former slot text is in git
+% (66456ce3 and earlier).
 
 % 1 unit. Review Sec. V para 1 s2-s3 and para 2 (pyramid cut); the
 % second strand (Bland, Outkin) moved to 3.3.2 on 2026-08-31 and BACK
@@ -3369,6 +3368,15 @@ carries no more of the eight than the first.]}
 \subsection{Research gap}
 \label{subsec:research-gap}
 
+% ROLL-CALL PLACEHOLDER, moved in from 3.3.2 (2026-09-08). One
+% sentence, Marc's, the antecedent of "sharpens" (the review's "Section
+% IV-B bore this out" was cut with the port). Descriptive, dated by the
+% table; 3.3.3 is 315/250 before G2, pass 5 absorbs it.
+\emph{[DICTATE --- the across-columns reading of
+Table~\ref{tab:attacker-cross-section}, one sentence: no cell reaches
+the tick; scheme awareness is empty in every row, plurality and
+adaptivity empty outside the lineage's scripted stand-ins; the 2026
+work carries no more of the eight than the 2023 one.]}
 Seen from the attacker's side, the gap sharpens: where the surveyed
 works grant the attacker any rationality, it is a defender-computed
 heuristic such as RoA \citep{brown2023}, over which the attacker
