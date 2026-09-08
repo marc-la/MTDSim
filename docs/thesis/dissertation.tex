@@ -3997,11 +3997,20 @@ space~\citep{cai2016, chobenasher2018, mendonca2023}.
 % slot is one prose sentence (R3 resolved that way: the display is what
 % runs, the arms are named where they run); a closing sentence declares
 % the symbols the chapter's vocabulary and points at Table 4.x. Marc's
-% sentences reconstructed, not carried, on his licence. [3b] the name
-% "verdict-conditioned" (R2) --- the tex's own phrase from §4.4.2; [3b]
-% "we extend the profile net with a verdict" --- or "with the verdict";
-% [3b] "a factor of zero disables a transition for that firing only" is
-% exact (twelve cells of the failure matrix are zero) --- keep or soften.
+% sentences reconstructed, not carried, on his licence. RULED 2026-09-08
+% (Marc): "with the verdict"; the zero-factor sentence STAYS as the exact
+% statement (a zero disables the transition for that firing only, so it
+% cannot fire --- twelve cells of the failure matrix are zero). Open:
+% the name "verdict-conditioned" (R2), the tex's own phrase from §4.4.2.
+% §4.1--§4.2 are NOT re-keyed (Marc's question, 2026-09-08; session
+% recommendation accepted in principle): the formalism begins where the
+% executable object begins, at L3; L0--L2 are construction, described in
+% prose, and their only formal-looking statement (the L1 graph) is
+% informal by design. §4.3 reaches back with "each attack profile c of
+% Section 4.2", which is the join. One §4.4 re-key item noted: §4.4.1's
+% "base transition weights are recurrence values" must become w_c, the
+% flow proportion of Eq. 4.2 --- the L1 edge weight is a count, the net
+% weight a proportion, and §4.4 currently blurs them.
 A GSPN is a directed bipartite graph of places and transitions in which
 every transition is either \emph{timed}, firing after an exponentially
 distributed delay, or \emph{immediate}, firing in zero time and with
@@ -4062,7 +4071,7 @@ an input, and structure and semantics stay apart.
 
 A GSPN's immediate weights are constants, or functions of the marking.
 The attacker model of this thesis needs them to depend on what happened
-in the simulator, so we extend the profile net with a verdict. A
+in the simulator, so we extend the profile net with the verdict. A
 \emph{verdict-conditioned} profile net is the pair
 \begin{equation}
   (\mathcal{N}_c, F), \qquad F = \{F_v : v \in V\},
