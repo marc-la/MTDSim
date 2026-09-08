@@ -1,9 +1,20 @@
 ---
-status: open
+status: shipped 2026-09-08 (all six rulings applied by Marc as recommended)
 created: 2026-09-08
 ---
 
 # Rebuild Figure 4.1 (fig:pipeline) as a schematic a general computer-science reader can follow
+
+## Shipped (2026-09-08)
+
+Marc ruled all six as recommended and the session built it: `tools/pipeline_ladder_figure.py`
+rewritten as the SVG-to-Chromium generator (pair rule picked the CISA AA22-138B Workspace ONE
+flow and the SearchAwesome adware flow, three shared techniques; net fragment resource
+development → persistence of the exfiltration net; 16 × 20.1 cm, smallest type 8.5 pt);
+`tools/runtime_loop_figure.py` new (TikZ, the old lower half inflated to 16 cm at
+\footnotesize, `fig_4-4c_runtime_loop`, `fig:runtime-loop` at §4.4 mechanics); both floats
+wired, FLOATS.md and conventions §i updated, captions session-drafted for Marc's rewrite.
+The record below is the brief as it stood.
 
 ## State of play
 
