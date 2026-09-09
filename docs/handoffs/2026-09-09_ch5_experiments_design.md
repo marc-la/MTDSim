@@ -139,6 +139,27 @@ Three reasons this is the right shape:
 The register belongs in §5.1's preamble, where V6 put the results-preamble
 table.
 
+### 3.1b Make §5.1 select something, not merely survive
+
+The strongest sensitivity analyses in the corpus feed forward. Manadhata and
+Wing's produces guidelines for choosing parameters, and their later values are
+assigned on its recommendation; Torquato's first study locates an optimal
+migration trigger, and a later study truncates its axis there with the reason
+stated, so the dropped region is dominated rather than unexamined.
+
+§5.1 can do the same at no extra cost, and it turns its most awkward result into
+an asset. Three of the four dwell anchors are inert and one — the low-and-slow
+anchor — is the only one that moves an outcome; the floor in the failure kernel
+is inert on this corpus; the profile ordering moves while the headline verdicts
+hold. Reported flatly that is a page of things that did not happen. Reported as a
+selection, it says which single parameter the evaluation's conclusions are
+actually exposed to, and therefore which one §5.2's design has to hold or vary
+deliberately.
+
+Recommend closing §5.1 with one sentence naming what the sweep selected, and
+having §5.2 open by picking it up. That also earns the section its unusual
+position ahead of the dimensions rather than merely defending it.
+
 ### 3.2 The sweeps on record do not share the main experiments' configuration
 
 This is the sharpest problem in §5.1 and it is not a drafting problem.
@@ -312,6 +333,7 @@ which is ruled out of scope and already sits in future work.
 | C5 | Where does the half unit for §5.5 come from? | §5.3, or compress the ablation contrasts to a table |
 | C6 | Is the effectiveness strand's denominator breadth, target reach, or both? | Both, reported separately — breadth is degeneracy-proof at every tempo, target reach discriminates only where it is non-degenerate. Depends on the targeted-objective ruling, still open |
 | C7 | Minimum effect sizes per channel | Still owed from the hypothesis tree; a cheap-run simulator makes any difference significant, so this is not optional |
+| C7b | Does §5.1 close by naming what it selected, with §5.2 picking it up? | Yes — §3.1b. It costs one sentence, earns §5.1 its position, and converts a page of inert parameters into a design input |
 | C8 | Declare the run count as a tolerated-error consequence rather than a round number? | Yes — §2(5). It costs one sentence, cites a method the corpus lacks, and makes the hundred-seed budget a result instead of a habit |
 
 ## 7. Papers — what arrived, and the short list left for Marc

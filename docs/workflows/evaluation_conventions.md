@@ -125,6 +125,25 @@ either the band it was swept over and what moved, or that it was held and why.
 One register, both kinds of row. A parameter that appears in neither list is
 the failure the corpus keeps committing.
 
+**A sensitivity analysis can do more than defend a result, and the strongest
+instances do.** Manadhata and Wing frame theirs as producing *guidelines for
+choosing parameters* — "we provide guidelines to our users for numeric value
+assignment using parameter sensitivity analysis ... Numeric values should be
+chosen such that both the privilege values and the access rights values affect
+the ... measurements comparison's outcome" — and then actually assign their
+later parameters "based on our parameter sensitivity analysis' recommendation".
+Torquato does the operational version: a first study finds the
+availability-aware migration trigger, and a later study truncates its axis at
+that value with the reason stated — "we adopt this approach because longer VM
+migration trigger intervals provide worse results for both availability and
+security", so the dropped region is dominated rather than unexamined.
+
+The convention worth taking: **a sweep that selects the operating region for
+the experiments that follow is stronger than one that only shows a verdict did
+not move**, and it costs nothing extra once the sweep has been run. It also
+converts a null result — most parameters inert, one influential — from a
+non-finding into a design input.
+
 **Presentation.** The standard figure is a line chart: x = the swept parameter,
 y = the metric, series = a second factor at two to four levels, one figure per
 swept parameter (Anderson is the purest form; Hong, Carroll, Kim, Masud all
