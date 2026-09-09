@@ -1,5 +1,5 @@
 ---
-status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third and fourth passes 2026-09-09 (§10, §11); C1–C18 owed as drafting rulings
+status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); C1–C18 owed as drafting rulings
 created: 2026-09-09
 topic: "The Experiments chapter designed against the field's conventions rather than invented: a section-level survey of how MTD evaluations are built and reported (now docs/workflows/evaluation_conventions.md), the ch5 design that follows from it, the funnel that lets one run set both characterise the attacker and evaluate the defence, the property-to-measurement map the discussion's fidelity table depends on, and the five things the chapter cannot yet say."
 ---
@@ -1273,3 +1273,86 @@ individually and the nine failure-rule values are `app:sensitivity`'s, and
 declared *family*, which is what keeps it to a page. It floats (`[htbp]`) rather
 than being pinned, because a full-page table cannot be pinned; it lands on its own
 page immediately after §5.1 opens.
+
+---
+
+## 12. Fifth pass (2026-09-09) — ratifications, and the register grounded in the formalism
+
+Three short things, all of them Marc's rulings rather than findings.
+
+### 12.1 The ablation folds in — ratified
+
+No separate ablation section. §5.3.3 carries it, renamed, with `tab:ablation-ladder`
+as a placeholder. Nothing further owed; §11.1 is the record.
+
+### 12.2 The stale-numbers rule — a companion to the results-fitting test
+
+Marc: *"you might think you know what's gonna happen but it might not actually
+happen… I know you've got lots of numbers but they could be stale. So just do it
+with the intent in mind that we're hypothesising and expanding the hypothesis."*
+
+The standing test in §11.2 governs **structure**. This governs **numbers**, and
+it is now at the chapter head beside it:
+
+> **Every number appearing in a comment in this chapter is provenance, not a
+> value.** It records what a record said when it was written, under a
+> configuration this chapter may not report — ten seeds, the pre-restoration
+> substrate, one MTD condition, a superseded timing regime, a mapping version
+> since changed. It is there so a drafting session can find the study, never so
+> it can be transcribed. **No number reaches the prose except from a tracked
+> artefact via a generator**, re-derived at the configuration the chapter
+> reports. The same applies to the *direction* of an effect: a comment saying a
+> sweep was inert or a capability bought nothing records what was measured then,
+> and the chapter states it only once it has been measured again.
+
+This is the rule the §11.2 caption sweep was an instance of, generalised so it
+does not have to be rediscovered each pass. It also settles how the third pass's
+findings (§10.3, §10.4) should be read: the *instruments* named there are real
+and placed on merit; the *magnitudes* quoted beside them are provenance.
+
+**The posture it puts the chapter in, and it is the right one:** we have a model,
+we know what it declares and what it was given, and these are the experiments
+that interrogate it. What they return is a hypothesis, not a memory.
+
+### 12.3 The register grounded in the formalism's terminology
+
+Marc: *"the sensitivity analysis has to be grounded in at least the terminology
+of the formalism."* Done, and it turned out to be the thing that makes §5.1 read
+as one section rather than three unrelated worries.
+
+`tab:parameter-register` gains a **symbol column carrying only symbols
+`tab:gspn-notation` actually declares** — $\mu_p$, $\tau_p$, $\gamma$, $\delta$,
+$z$, $F_v$, $\varphi$, $w_c$, $c$, $R$, $F_{\text{success}}$, $s$, $M_0$, $d$,
+$v$ — so every swept quantity traces to its place in the formal definition, and
+the notation table becomes the key this one reads from, which is what §8.4 of the
+formalism brief always intended it for. The §5.1 comment's own symbols are
+re-aligned to the tex (it had `phi` where the document has $\varphi$, and
+`W(\tau_p)` where the declared quantity is $\mu_p$).
+
+Rows are re-cut on the formalism's joints rather than on plain-English names, and
+two of them changed meaning as a result: outcome-conditioned routing is $F_v$
+against the identity (which is what the verdict-blind arm *is*), and objective
+conditioning is $c$ — one class in place of four — which is the aggregate rung of
+§11.1 stated in the formalism's own terms.
+
+**Two rows carry no symbol, and the reason matters in each case:**
+
+- **The optional modulators.** The history term has *no symbol in the document*,
+  because §4.3 ruling **R3** (show the history-term slot in the formal
+  definition) is still open. Using one here would reference a symbol the
+  dissertation never defines — the same flag already standing against two marks
+  in `tab:fidelity-verdict`. When R3 lands, this row gets its symbol and the flag
+  clears. **This is now the third independent place R3 binds**, which is the
+  argument for taking it.
+- **The environment rows** (mutation cost, interval, geometry, horizon, run
+  count). These are the simulator's and the experiment's, not the model's, so the
+  formalism has no symbol for them by construction. That is the right answer, not
+  a gap.
+
+**Two honesty corrections made in the same pass.** The comment claimed the rows
+were "from tracked registers, not typed"; they are *transcribed* from tracked
+registers, which is not the same thing, and the declared values still owe a
+generator pass against `data/ogasp/*.json`. And a **record inconsistency** is
+flagged rather than resolved: the formalism brief's §7.1 writes the dwell anchors
+as `μ_g` where its own notation table §8.4 and the tex both use `μ_p`. The tex is
+taken as authoritative here; the brief wants correcting.

@@ -4901,6 +4901,24 @@ set of values to feed into our attacker model.
 % RE-RUN before they may be reported. All six now say what the figure is for
 % and what would count as a finding, not what the finding is. Apply the same
 % test to any caption added later.
+%
+% AND THE COMPANION RULE, because the first one is not enough on its own
+% (Marc, 2026-09-09): "I know you've got lots of numbers but they could be
+% stale." EVERY NUMBER APPEARING IN A COMMENT IN THIS CHAPTER IS PROVENANCE,
+% NOT A VALUE. It records what some record said at the time it was written,
+% under a configuration this chapter may not report --- ten seeds, the
+% pre-restoration substrate, one MTD condition, a superseded timing regime,
+% a mapping version since changed. It is there so a drafting session can find
+% the study, never so it can be transcribed. NO NUMBER REACHES THE PROSE
+% EXCEPT FROM A TRACKED ARTEFACT VIA A GENERATOR, re-derived at the
+% configuration the chapter reports. The same goes for the direction of an
+% effect: if a comment says a sweep was inert or a capability bought nothing,
+% that is what was measured then, and the chapter states it only once it has
+% been measured again.
+% THE POSTURE THIS PUTS THE CHAPTER IN, and it is the right one: we have a
+% model, we know what it declares and what it was given, and these are the
+% experiments that interrogate it. What they will return is a hypothesis, not
+% a memory.
 % ---------------------------------------------------------------------
 %
 % WHAT THIS CHAPTER OWES ch6, section by section --- the tie-in Marc
@@ -4935,10 +4953,16 @@ set of values to feed into our attacker model.
 % the sentence that makes this section legible rather than detached. They
 % are not a list of worries; they are THE free parameter families of the
 % formal definition, one each:
-%    W(tau_p) = 1/mu_p   the rate of every timed transition  -> 5.1.1
-%    phi: P -> A u {bot}  the net's coupling to the environment -> 5.1.2
-%    F_failure = R . d    the conditioning factor on the immediate
-%                         transition weights                 -> 5.1.3
+%    mu_p        the mean dwell that sets every timed transition's rate -> 5.1.1
+%    varphi      the net's coupling to the environment                  -> 5.1.2
+%    F_failure   = R . d, the conditioning factor on the immediate
+%                transition weights                                     -> 5.1.3
+% USE THOSE SYMBOLS IN THE PROSE AND IN THE REGISTER (Marc, 2026-09-09: the
+% sensitivity analysis has to be grounded in at least the terminology of the
+% formalism). tab:gspn-notation is the key --- every symbol this section uses
+% is declared there, and the register's symbol column reads from it. That is
+% also what stops §5.1 reading as three unrelated worries: they are the three
+% places in the formal definition where a number had to be chosen.
 % The formalism has exactly three places where a number had to be chosen,
 % and this section prices all three. Say that once in the preamble.
 %
@@ -5086,8 +5110,35 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 % mutation-cost and geometry rows. The remaining eight are the third group.
 % That is the merge working as designed (C1): an assumption is a held row, and
 % nothing is listed twice.
-% ROWS ARE FROM TRACKED REGISTERS, NOT TYPED: parameters from the §4.3 brief
-% §7.1, assumptions from §7.2. THE EFFECT COLUMN IS DELIBERATELY EMPTY. It
+% ROWS ARE TRANSCRIBED FROM TRACKED REGISTERS --- parameters from the §4.3
+% brief §7.1, assumptions from §7.2 --- which is a transcription, not a
+% generation, and the declared values still owe a generator pass against
+% data/ogasp/*.json before submission. Said plainly because the chapter's own
+% constraint is that numbers come from artefacts.
+%
+% GROUNDED IN THE FORMALISM'S OWN NOTATION (Marc, 2026-09-09: "the sensitivity
+% analysis has to be grounded in at least the terminology of the formalism").
+% The symbol column carries ONLY symbols tab:gspn-notation actually declares
+% --- mu_p, tau_p, gamma, delta, z, F_v, varphi, w_c, c, R, F_success, s, M_0,
+% d, v --- so every swept quantity can be traced to its place in the formal
+% definition, and the notation table is the key this one reads from, which is
+% what §8.4 of the brief always intended it for.
+% TWO ROWS CARRY NO SYMBOL, AND THE REASON MATTERS IN EACH CASE:
+%  - the optional modulators. The history term has NO symbol in the document,
+%    because §4.3 ruling R3 (show the history-term slot in the formal
+%    definition) is still open. Using one here would reference a symbol the
+%    dissertation never defines --- which is the same flag already standing
+%    against two marks in tab:fidelity-verdict. When R3 lands, this row gets
+%    its symbol and the flag clears; until then the dash is the honest entry.
+%  - the environment rows (mutation cost, interval, geometry, horizon, run
+%    count). These are the simulator's and the experiment's, not the model's,
+%    so the formalism has no symbol for them by construction. That is the
+%    right answer, not a gap.
+% RECORD INCONSISTENCY, flagged not resolved: the §4.3 brief's own parameter
+% register §7.1 writes the dwell anchors as `mu_g` where its notation table
+% §8.4 and the tex both use `mu_p`. The tex's tab:gspn-notation is taken as
+% authoritative here; the brief wants correcting.
+% THE EFFECT COLUMN IS DELIBERATELY EMPTY. It
 % cannot be filled from the sweeps on record, because those ran at ten seeds on
 % the pre-restoration substrate with `random` as the only MTD condition, and
 % the failure-matrix sweep under the superseded timing regime --- so any effect
@@ -5102,36 +5153,38 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
   \caption[The declared parameters, their bands, and what moved]{Every quantity the attacker model declares, in one place. The first group was given a range and moved across it; the second was fixed, with the reason; the third is the modelling assumptions the definition licenses, which are held by their nature rather than by choice of a number. Listing all three together is what makes an omission visible: a quantity appearing in none of them would have escaped scrutiny. The effect column is completed once the sweeps are re-run at the configuration this chapter reports, since the completed sweeps were taken under a narrower one. The intention is that a reader can see the whole of what was chosen, and how much of it the conclusions depend on, before any result is read.}
   \label{tab:parameter-register}
   \tablestyle\setlength{\tabcolsep}{3pt}
-  \begin{tabular}{@{}cP{3.0cm}P{2.2cm}P{6.0cm}P{2.3cm}@{}}
+  \begin{tabular}{@{}clP{2.5cm}P{1.8cm}P{5.8cm}P{1.6cm}@{}}
     \toprule
-    & Quantity & Declared & Range explored, or the reason it is fixed & Effect \\
+    & & Quantity & Declared & Range explored, or the reason it is fixed & Effect \\
     \midrule
-    & dwell anchors (four) & 35, 4.5, 45, 36\,s & multiplied across $[0.25, 4]$ on the widest, $[0.5, 2]$ elsewhere & \\
-    & dwell distribution & exponential & against a same-mean alternative concentrated at the mean & \\
-    & forward decay & 0.25 & $[0.1, 0.5]$ & \\
-    & backward decay & 0.25 & $[0.1, 0.5]$, the lower end unswept & \\
-    & failure floor & 0.1 & $\{0, 0.05, 0.1\}$ & \\
-    & tactic-to-verb mapping & partial & against the forced-total alternative: a swap, not a band & \\
-    & source corpus & deduplicated, 29 flows & against the raw corpus, 38 flows & \\
-    & the five optional capabilities & each on & each against the setting at which it is switched off and the run is unchanged (Section~\ref{subsec:aio-capabilities}) & \\
-    \rowgroup{9}{Swept} & mutation interval & 200\,s & across the tempo at which the measures can still discriminate & \\
+    & $\mu_p$ & mean dwell, four anchors & 35, 4.5, 45, 36\,s & multiplied across $[0.25, 4]$ on the widest, $[0.5, 2]$ elsewhere & \\
+    & $\tau_p$ & the firing distribution & exponential & against a same-mean alternative concentrated at the mean & \\
+    & $\gamma$ & forward decay & 0.25 & $[0.1, 0.5]$ & \\
+    & $\delta$ & backward decay & 0.25 & $[0.1, 0.5]$, the lower end unswept & \\
+    & $z$ & the kernel's floor & 0.1 & $\{0, 0.05, 0.1\}$ & \\
+    & $F_v$ & conditioning on the verdict & the failure matrix & against the identity, which is the routing made blind to outcomes & \\
+    & $\varphi$ & tactic-to-verb mapping & partial & against the forced-total alternative: a swap, not a band & \\
+    & $w_c$ & the branching weights & 29 flows & against the raw corpus at 38 flows, and against uniform weights & \\
+    & $c$ & the profile itself & four objectives & against the unsegregated envelope: one class in place of four & \\
+    & --- & the optional modulators & cost, learning & each from the setting at which it is inert (\S\ref{subsec:aio-capabilities}) & \\
+    \rowgroup{11}{Swept} & --- & mutation interval & 200\,s & across the tempo at which the measures can still discriminate & \\
     \midrule
-    & preparation duration & 0\,s & preparation, not action: it consumes no simulated time & --- \\
-    & failure rule kernel & nine values & argued individually, not set by a formula, so there is no one quantity to vary & --- \\
-    & success treatment & unweighted & the corpus is itself the record of what succeeded & --- \\
-    & synthetic share & 0.1; 1.0 isolated & three declared edges stand in for pre-intrusion structure the corpus lacks & --- \\
-    & mutation cost & 20\,s & inherited from the simulator, and identical for both attackers & --- \\
-    & network and horizon & 50 hosts, 15\,000\,s & inherited defaults, so every condition runs on one terrain & --- \\
-    \rowgroup{7}{Held} & runs per condition & set by tolerance & from the error tolerable in the estimate, not by convention & --- \\
+    & $\mu_p = 0$ & preparation duration & 0\,s & preparation, not action: it consumes no simulated time & --- \\
+    & $R$ & the rule kernel & nine values & argued individually, not set by a formula, so there is no one quantity to vary & --- \\
+    & $F_{\text{success}}$ & success treatment & the identity & the corpus is itself the record of what succeeded & --- \\
+    & $s$ & synthetic share & 0.1; 1.0 isolated & three declared edges stand in for pre-intrusion structure the corpus lacks & --- \\
+    & --- & mutation cost & 20\,s & inherited from the simulator, and identical for both attackers & --- \\
+    & --- & network and horizon & 50 hosts, 15\,000\,s & inherited defaults, so every condition runs on one terrain & --- \\
+    \rowgroup{7}{Held} & --- & runs per condition & set by tolerance & from the error tolerable in the estimate, not by convention & --- \\
     \midrule
-    & closed world & & the choices observed at each tactic are taken as the whole choice set & --- \\
-    & recurrence, not likelihood & & a weight is how often analysts drew an edge, which is why failure is modelled separately & --- \\
-    & binary outcome & & success or failure only: a blocked action and an unmet precondition are one thing & --- \\
-    & opacity while not acting & & a mutation during a tactic that acts on nothing is felt as cost, not as a route change & --- \\
-    & one campaign at a time & & the concurrency the source structure preserves is inert on a single line of activity & --- \\
-    & staging by consensus & & lifecycle order imported from five published models; the source taxonomy imposes none & --- \\
-    & retracing & & a structural dead end is retraced, a stall is not & --- \\
-    \rowgroup{8}{Assumed} & no memory between runs & & nothing carries across runs, and nothing is known of the defence's schedule & --- \\
+    & $w_c$ & closed world & & the choices observed at each tactic are taken as the whole choice set & --- \\
+    & $w_c$ & recurrence, not likelihood & & a weight is how often analysts drew an edge, which is why failure is modelled separately & --- \\
+    & $v$ & binary outcome & & success or failure only: a blocked action and an unmet precondition are one thing & --- \\
+    & $\varphi$ & opacity while not acting & & a tactic mapped to no verb feels a mutation as cost, not as a route change & --- \\
+    & $M_0$ & one campaign at a time & & a single token: the concurrency the source structure preserves is inert & --- \\
+    & $d$ & staging by consensus & & the lifecycle order behind $d$ is imported from five published models & --- \\
+    & --- & retracing & & a structural dead end is retraced, a stall is not & --- \\
+    \rowgroup{8}{Assumed} & --- & no memory between runs & & nothing carries across runs, and nothing is known of the defence's schedule & --- \\
     \bottomrule
   \end{tabular}
 \end{table}
