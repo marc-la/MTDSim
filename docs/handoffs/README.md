@@ -51,6 +51,28 @@ its work (the D-08 regime ruling and the criterion's dated amendment).
   inconsistencies to amend first. Feeds the ch5 sensitivity design
   (`2026-09-08_ch5_ch6_structure.md`); blocks the §4.3 P2 redraft.
 
+- [`2026-09-09_ch5_experiments_design.md`](2026-09-09_ch5_experiments_design.md)
+  — **the Experiments chapter designed against the corpus**: a section-level
+  anatomy of 25 MTD-evaluation papers, distilled into
+  [`../workflows/evaluation_conventions.md`](../workflows/evaluation_conventions.md),
+  and the ch5 design that follows — the merged parameter/assumption register
+  (answering the formalism inventory's R6 without spending a unit), the funnel
+  that lets one run set both characterise the attacker and evaluate the defence,
+  the property-to-measurement map the discussion's fidelity table depends on,
+  and eight rulings owed (C1–C8). Depends on the §4.3 formalism brief for R3,
+  which it shows to be load-bearing for the fidelity table rather than a
+  formalism nicety. **Blocked from drafting by the unreproduced headline** (see
+  the note below); nothing else blocks it.
+
+*(Four entries below no longer match `ls docs/handoffs/`, found 2026-09-09 and
+left for their owners rather than rewritten: the headline-on-restored-substrate,
+targeted-objective-diagnosis and ch2-lineage-precedents briefs are now in
+[`__archive/`](__archive/), which this file's own contract puts off the active
+chain; the §4.2 figures/tables/appendix umbrella is gone from the tree
+entirely. The headline brief's substance is unaffected by its move — the
+inversion is still unreproduced and still blocks ch5 prose, which is why the new
+entry above names it.)*
+
 - [`2026-09-05_generated_tables_house_style.md`](2026-09-05_generated_tables_house_style.md)
   — **the generated and appendix tables onto the house table style** ruled
   2026-09-05 (`figure_table_conventions.md` §k): each `tools/` table
