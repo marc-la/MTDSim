@@ -1,5 +1,5 @@
 ---
-status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); C1–C18 owed as drafting rulings
+status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); four-reviewer scrutiny pass (§13); C1–C28 owed, three of them claim-threatening
 created: 2026-09-09
 topic: "The Experiments chapter designed against the field's conventions rather than invented: a section-level survey of how MTD evaluations are built and reported (now docs/workflows/evaluation_conventions.md), the ch5 design that follows from it, the funnel that lets one run set both characterise the attacker and evaluate the defence, the property-to-measurement map the discussion's fidelity table depends on, and the five things the chapter cannot yet say."
 ---
@@ -1356,3 +1356,195 @@ generator pass against `data/ogasp/*.json`. And a **record inconsistency** is
 flagged rather than resolved: the formalism brief's §7.1 writes the dwell anchors
 as `μ_g` where its own notation table §8.4 and the tex both use `μ_p`. The tex is
 taken as authoritative here; the brief wants correcting.
+
+---
+
+## 13. Supervisor scrutiny pass (2026-09-09) — four independent expert reviews
+
+Marc asked for a supervisor-style review of the scaffold: *"what would an expert
+in the field of MTD say to the structure we have cooked up?"* Four reviewers were
+run in parallel, each on one dimension, each forming its own view **before**
+reading §§10–12, and each marking its points as already known or new.
+
+**The verdict in one line: the structure survives, the inference does not, and
+three findings threaten claims rather than presentation.** The reviewers
+converged on almost nothing the earlier passes had found — which is the useful
+result. §§10–12 are strong on coverage, honesty and staleness; they were close to
+silent on inference, on control adequacy, and on whether the instruments can
+separate the effect from the apparatus.
+
+### 13.1 The three findings that threaten a claim
+
+Each is **verified against the code or the records in this session**, not taken
+on the reviewer's word.
+
+**(A) The central property's null was retired one layer down, and the deciding
+arm is unrun.** `fig:aio-divergence` tests objective conditioning against a
+**split-half** null, and the chapter's comments call this "the ONE property shown
+to change an outcome". But `gasp_schema.md` §(g) records Marc's 2026-08-17 ruling
+that the half-split null is **lenient and no longer the load-bearing check**; and
+under the **size-matched label-shuffle** null at tactic-to-tactic resolution the
+classes **do not separate beyond chance** (*p* = 0.49, *p* = 0.71, class sizes
+19:7:7:5). L2 then hands the discrimination claim forward in terms — "the
+load-bearing test for the L3/L4 evaluation phase". At L3,
+`profile_divergence_findings.md` states that arm 3, the size-matched label-blind
+control, **has not run** and is "the deciding arm". So the chapter discharges its
+central property with the comparator L2 retired, while the arm that would settle
+it is outstanding. The chapter already fences the divergence-to-`aggregate`
+column for size confounding and leaves the between-profile figure unfenced.
+**This is the chapter's largest exposure.** Either arm 3 runs, or Fig. 5.6 claims
+only "profiles differ by more than seed noise" and states L2's strict-null
+verdict beside it.
+
+**(B) The headline mechanism may be an artefact of the disruption wiring.**
+§5.4.2's mechanism — network layer severs position, application layer barely
+reaches this attacker — is measured by `disruption_wiring.md` §(d) *as an
+instrumentation asymmetry*: per firing, network-class delivers 0.92–1.00 of its
+native yield to the movement arm, application-class 0.67–0.83; the diversity
+family loses **89–97 %** of its exploit-blocking windows there because
+exploitation is uninterruptible on that arm (D-35, a declared **mapping policy**,
+not a defence property). The counterfactual in the same record is the sharp part:
+make dwell-only places application-immune and the diversity pair retains
+**0.17–0.18** of its yield — so roughly four-fifths of "what application-layer
+MTD does to this attacker" arrives through the `DWELL` sentinel, which exists
+because of how the movement layer presents its clock. Nothing in the scaffold
+lets a reader separate the mechanism from the apparatus. **Owed:** per-firing
+yield ratios and the DWELL-channel share reported beside the suppression figures;
+D-35 and D-36 as declared rows in `tab:factors-fixed`; a robustness arm
+(dwell-immune or per-firing-normalised).
+
+**(C) The defence is near-periodic, so the property MTD is named for is not
+instantiated — and ch2 says otherwise.** The default regime draws
+`expon.rvs(loc=200, scale=0.5)`. Measured this session over 200 000 draws:
+**mean 200.5 s, sd 0.50, CV ≈ 0.0025**, against CV ≈ 1.0 for a true exponential.
+Mutations arrive on a clock. Ch2 tells the reader "the interval between
+deployments is drawn exponentially", which is misleading under the default
+regime, and the register's assumed row *nothing is known of the defence's
+schedule* is carrying a schedule that is trivially learnable — which is
+precisely Jalowski's "learn mutation patterns over time". `--timing-regime
+exponential` already exists. **Owed:** one sensitivity arm at true Exp(μ), the
+quasi-periodic regime declared in `tab:factors-fixed`, and the ch2 sentence
+corrected.
+
+### 13.2 Inference — the gap §§10–12 missed entirely
+
+- **No multiplicity control anywhere in the chapter.** Ruling the hypothesis tree
+  "a planning artefact, do not surface it" removed the α-spending, the
+  pre-registration and the failure dispositions along with the AND/OR gating. The
+  chapter reports roughly 160 leaf comparisons with no stated family-wise error
+  rate, and its only decision rule is `tab:eff-conditions`'s "overlapping
+  intervals are indistinguishable" — which is not a test. **Owed:** four
+  sentences in §5.2 (estimation-first, unpaired per D-29, Holm within each
+  declared family, effect floors declared before the run), and the tree's leaf
+  table as an appendix. Multiplicity control can be surfaced without surfacing
+  the gating.
+- **The cross-arm rank statistic is structurally unstable, not merely
+  underpowered.** ρ is computed over cells the project's own power arithmetic
+  says cannot be ranked, which is a mechanical explanation for −0.893 → −0.071
+  that owes nothing to the substrate restoration — and would not be repaired by
+  E2-R. Two reviewers reached this independently. **Owed:** make the family-level
+  contrast (severance vs surface re-roll, per arm) the object with Cliff's δ and
+  intervals; keep ρ as a companion only.
+- **Seed budget derived from the wrong cells.** The 18/22/190/329 arithmetic was
+  computed by normal approximation on *unopposed* breadth and is being spent on
+  *defended* cells the same document calls floor-pinned and non-normal.
+- **The adaptivity figure has an uncontrolled time confound.** Steps after a
+  mutation are also later in the campaign, and stage advances monotonically, so
+  drift and response are collinear. The verdict-blind arm is a different
+  trajectory from step one, so it is a between-arm comparison, not a matched
+  control. The correct null is free: placebo mutation timestamps drawn from the
+  same interval distribution in the no-defence arm.
+- **Capability sweeps read in the degenerate region.** Under network-layer
+  defence breadth sits near 0.6 hosts, so the λ and learning sweeps are read
+  where the outcome has no headroom — the same ceiling logic as blocker 6,
+  generalised.
+
+### 13.3 Structure — the shape holds, three placements do not
+
+- **The funnel breaks.** The reader crosses the undefended/defended boundary
+  three times before the evaluation proper: §5.3.2 runs a defence set, §5.3.3
+  runs conditions again, §5.4 runs defences a third time. And §5.3.2 as edited in
+  §10 now delivers the severance/re-roll mechanism that §5.4.2's own comment says
+  is "the sentence this subsection exists to earn" — whichever lands first makes
+  the other a restatement.
+- **The ablation is placed against the precedent cited for it.** §11.1 justified
+  §5.3.3 on Tay's evaluation chapter carrying an ablation subsection — but Tay's
+  is the **final** results subsection, after the headline, and He's structural
+  analysis likewise follows its evaluation. The convention argues for placing it
+  after §5.4, not before. Either move it or justify the position on other
+  grounds.
+- **Three tables of "what was held", with overlapping and contradicting rows.**
+  `tab:parameter-register` says geometry is held so every condition runs on one
+  terrain; `tab:factors-varied` lists network scale and density as varied; and no
+  section reports a scale or density axis (V-gen/E4 unrun). Two reviewers found
+  this independently. The environment rows should leave the register — the
+  comment already concedes they are the simulator's, not the model's.
+- Smaller: no chapter-opening placeholder exists while the roadmap is assigned to
+  §5.2, so §5.1 runs before the reader is told what the chapter does; §5.1.2 is a
+  half-unit heading the ledger's own fold rule forbids; `subsec:eff-lineage` is
+  the only §5.4 subsection not measured against the no-defence reference and
+  belongs in the discussion; fifteen-plus bespoke instruments have no structural
+  home for their definitions.
+
+### 13.4 Measurement — five corrections
+
+- **The comparability boundary as planned is two-valued and therefore wrong.** It
+  is three-valued: cross-paper invalid; cross-arm valid **only** for counts,
+  fractions and per-host ratios (test-enforced to carry no time field);
+  within-arm cross-configuration valid. As drafted the chapter then violates it
+  twice — `fig:eff-delay` puts a time axis across arms, and the spacing
+  observation recommended in §10.3(c) is time-denominated across arms with the
+  cross-clock caveat missing.
+- **The coverage map counts one instrument twice.** Reconfiguration occupancy is
+  claimed for both defender-side *resource spent* and *network-state change
+  (efficiency)*; there is no system-performance-overhead measure at all. Honest
+  is **five of ten**, not six, and occupancy is a **floor** (three named
+  undercounts) which Fig. 5.14's axis does not say.
+- **The disengagement frontier plots the half that does not move** — the
+  conditional mean, while the censoring fraction is what moves with the defence,
+  over an axis whose right half is pinned at the horizon.
+- **Jalowski: the wrong concession is volunteered.** Conceding guideline 3 is
+  cheap and most of the corpus fails it too. The bespoke attacker-side suite
+  fails 1, 2 and 4 — computable only from the model's own token trace, evaluating
+  no other scheme, and not in common terminology. The defence is the one §5.3's
+  restructure already built: those are **model-validation instruments, not MTD
+  evaluation metrics**, and only §5.4–5.5 are offered against the guidelines.
+- **A factual error in a caption.** `fig:aio-coverage` says the inherited
+  attacker runs "a fixed loop over three activities". It has **six** verbs
+  (`predictability.md` R1 derives the transition table from the code). Also,
+  structural zeros should be a table row with the reason, not a reference line
+  drawn beside measured values.
+
+### 13.5 What the reviewers agreed was right
+
+Merging setup and results (corpus-ratified); the metric-family axis as the
+organiser for an attacker contribution; effectiveness before efficiency;
+deferring every verdict to ch6; the coverage map as the chapter's best defence;
+the pruning rule that makes breadth the denominator; effective behavioural
+breadth as the best-built instrument in the project; blocked fraction sitting
+correctly in Brown's cell.
+
+### 13.6 Rulings owed from this pass
+
+| # | Question | Recommendation |
+|---|---|---|
+| C19 | Run divergence arm 3 (size-matched label-blind), or narrow Fig. 5.6's claim? | Run it — it is the deciding arm for the chapter's central property and L2 handed the claim here explicitly |
+| C20 | Report per-firing yields and the DWELL-channel share beside the suppression figures? | Yes, and declare D-35/D-36 — otherwise the headline mechanism is indistinguishable from the apparatus |
+| C21 | Add a true-exponential timing arm, and correct ch2's sentence? | Yes to both; the regime flag already exists and the ch2 claim is currently wrong |
+| C22 | State the inferential model and multiplicity control in §5.2? | Yes — four sentences, plus effect floors (this finally forces C7) |
+| C23 | Make the family contrast the cross-arm object, demoting ρ to a companion? | Yes — ρ over non-separable cells is a statistic over noise |
+| C24 | Move the ablation after §5.4, or re-justify its position? | Re-justify or move; the precedent cited in §11.1 points the other way |
+| C25 | Evict the environment rows from `tab:parameter-register`, and fix the geometry contradiction? | Yes — two reviewers found it independently, and it is a self-contradiction on the page |
+| C26 | Placebo-mutation control for the adaptivity figure? | Yes — it is free, and without it property 4 is unevidenced |
+| C27 | State the comparability boundary three-valued, and re-cut `fig:eff-delay`? | Yes — as drafted the chapter breaks its own rule twice |
+| C28 | Concede Jalowski 1, 2, 4 for the attacker-side suite on the model-validation ground? | Yes — the restructure already earned this defence; the prose should collect it |
+
+### 13.7 Method note
+
+Four reviewers, one dimension each (chapter shape; experimental validity; metrics
+and measurement; the defence side and threat model), each read the scaffold and
+its supporting records cold and only then checked itself against §§10–12. Three
+of the four reported that essentially every point was new. The exercise's value
+was not in re-finding known gaps but in the dimension the earlier passes had no
+reviewer for: **whether the instruments can separate the effect from the
+apparatus.** Findings A, B and C all live there.
