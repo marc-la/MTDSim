@@ -31,6 +31,17 @@
 \usepackage{booktabs}          % nicer tables (\toprule, \midrule ...)
 \usepackage[table]{xcolor}     % \rowcolor / \cellcolor for tab:mtd-metrics (zebra rows, greys grammar)
 \usepackage{multirow}          % rotated row-group labels in tab:mtd-metrics
+\usepackage{float}             % [H] for ch5's PLACEHOLDER floats only --- see below
+% ch5's floats are placeholder boxes with no prose between them, so the
+% float queue flushed ahead of the headings and every sensitivity figure
+% rendered BEFORE the subsection it belongs to (Marc, 2026-09-09: "the
+% figures are not in the right place ... should be under the subsection").
+% Fig. 5.1-5.4 landed on pp. 28-29 against subsections on p. 30; 5.4.1-5.4.3
+% all sat on p. 37 with their figures on pp. 34-36. [H] pins each box under
+% its own heading so the visual argument can be READ IN POSITION, which is
+% the whole purpose of the placeholder pass. REVERT each [H] to [htbp] as
+% that subsection's prose lands --- with text to flow around, [htbp] is the
+% right specifier and [H] would strand whitespace.
 % --- house table style (docs/workflows/figure_table_conventions.md §k) --
 % Every table float opens with \tablestyle: one type size, unit row
 % height, zebra rows in the greys grammar (\rowcolors numbers the header
@@ -4821,6 +4832,33 @@ set of values to feed into our attacker model.
 % (heading conventions: sentence case, no acronyms, "movement attacker"
 % is a name for the prose, not for headings).
 %
+% "ARE WE BUDGETING 3 000 WORDS FOR THIS?" (Marc, 2026-09-09.) Yes --- 12
+% units at ~250 words is the ledger's own allocation for this chapter
+% (docs/notes/_writing_guide.md), and his arithmetic is exactly right. Three
+% things make that number behave differently here than in ch3 or ch4:
+%  (1) FLOATS ARE OUTSIDE THE WORD COUNT. The ledger's targets exclude tables
+%      and figures, and every caption in this chapter is written long on
+%      purpose. So the chapter's ARGUMENT is mostly not in its word budget ---
+%      which is what makes 3 000 words affordable for a results chapter, and
+%      it is why the captions were drafted before the prose.
+%  (2) THE BINDING CONSTRAINT IS PAGES, NOT WORDS. 15 figures and 7 tables is
+%      about twelve pages of floats against roughly seven of prose. That is
+%      above the corpus norm for an evaluation of this length (Brown two
+%      figures and one table; Zhang about seven figures; Tay five and none;
+%      Ho about eight and eight; Reti six and two). FLOATS.md marks 9 figures
+%      + 4 tables CORE; the rest are the cut list, and they go first.
+%  (3) THE HEADING COUNT ALREADY EXCEEDS THE UNIT COUNT: 5 sections + 9
+%      subsections = 14 headings on a 12-unit budget. Under skeleton
+%      discipline every heading is a claim on ~250 words, so the chapter only
+%      balances if the two three-subsection sections (§5.3, §5.4) spend
+%      NOTHING at section level beyond a roadmap sentence, and §5.1's three
+%      subsections average two-thirds of a unit. That is the design's own
+%      split (3 / 2 / 3 / 3 / 1) and it is sound --- but it means Marc's
+%      instinct is right: MOST SECTIONS HERE ARE HALF-UNITS BY NATURE, and a
+%      subsection that grows to a full 250 words of prose has taken the
+%      budget from a sibling rather than found new budget. Watch §5.3.1 and
+%      §5.4.2, which are the two that want to overrun.
+%
 % WHAT THIS CHAPTER OWES ch6, section by section --- the tie-in Marc
 % asked for. Each ch5 section is the evidence for a ch6 move; the verdict
 % is never stated here.
@@ -4924,16 +4962,38 @@ set of values to feed into our attacker model.
 % 2 600 + ~1 560 runs, minutes) or state the difference in the register
 % caption. What is NOT available is two configurations on one page
 % undeclared.
+%
+% "IS THIS WHAT A SENSITIVITY ANALYSIS LOOKS LIKE?" (Marc, 2026-09-09, walking
+% the four figures: a multiplier, a distribution, the mapping, the failure
+% matrix.) Yes on shape, with two qualifications and one gap.
+%  YES: one-factor-at-a-time over a declared band, one figure per parameter,
+%  band ends reported against centre, the readout separated from the
+%  interpretation. That IS the corpus's form (Anderson, Hong, Carroll, Tay),
+%  and Sargent names it --- parameter-variability sensitivity analysis as an
+%  OPERATIONAL VALIDATION technique, which is the frame that makes this a
+%  validation section rather than a robustness appendix.
+%  QUALIFICATION 1 --- one-at-a-time is the weak form, and the methodology
+%  sources say so: OAT explores a cross through the parameter space, never its
+%  interior, so it cannot see an interaction. We already half-answer that at
+%  the failure matrix, where the two decay parameters are also run AT THE
+%  CORNERS of the pair. One preamble sentence naming OAT as the method and the
+%  corner check as the partial answer to its known limitation costs nothing
+%  and pre-empts the obvious question. Do NOT claim a global sensitivity
+%  analysis; we did not run one.
+%  QUALIFICATION 2 --- 5.1.2 is not a sensitivity analysis in the same sense,
+%  and the section is stronger for saying so plainly: the mapping is a
+%  discrete swap between two constructed alternatives, so it reports a
+%  ROBUSTNESS CHECK against a modelling choice, not a band. It is already
+%  labelled that way; keep it labelled that way.
+%  THE GAP --- three of the four figures are figures OF NON-EVENTS. That is
+%  honest, and it is also a page of flat lines. The corpus's strongest
+%  sensitivity analyses SELECT something (design C7b), which is already the
+%  plan: close on the one parameter the conclusions are exposed to and demote
+%  the inert results to register rows. If that is taken, Fig. 5.2 and Fig. 5.4
+%  are the first two floats to surrender when the page budget bites --- both
+%  are already marked cut-or-appendix in FLOATS.md.
 \section{Sensitivity analysis}
 \label{sec:sensitivity}
-
-% PLACEHOLDER FLOAT (2026-09-09) --- generator owed; rows from the formalism's parameter and assumption registers
-\begin{table}[htbp]
-  \centering
-  \caption[The declared parameters, their bands, and what moved]{Every quantity the attacker model declares, in one place. Each row gives the symbol, what it sets, the value used throughout, and either the band it was swept across with the effect observed, or a statement that it was held fixed with the reason. Rows that were held are the model's assumptions, listed here rather than separately, so that a parameter appearing in neither column would be visible as an omission. The intention is that the reader can see the whole of what was chosen, and how much of it the conclusions depend on, before any result is read.}
-  \label{tab:parameter-register}
-  \placeholderbox{55mm}{Table 5.1 --- the parameter register.\\ One row per declared quantity: symbol, meaning, declared value,\\ band swept or ``held'', and what moved.}
-\end{table}
 
 \noindent\emph{[Placeholder, to be replaced by Marc's dictation --- delete on
 drafting. This section prices the three inputs the model of
@@ -4942,6 +5002,41 @@ which of them the evaluation's conclusions actually depend on. It opens with the
 register: every declared quantity, its value, and either the band it was swept
 over or the reason it was held. It closes by naming the one parameter the
 conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- generator owed; rows from the formalism's parameter and assumption registers
+%
+% WHAT THIS TABLE IS FOR (Marc, 2026-09-09: "I don't really understand what
+% Table 5.1 is for. Is this every assumption? Either it's here or it's in the
+% appendix"). It is the answer to a question a reader of an MTD evaluation
+% cannot otherwise ask: HOW MUCH OF THIS RESULT IS A CHOICE? Every number the
+% attacker model had to invent gets one row, and the row says either the band
+% it was swept over and what moved, or that it was held and why. An assumption
+% is a held row --- which is why there is no separate assumption list anywhere
+% in the document (design C1, answering the §4.3 formalism brief's R6; it
+% absorbs the twelve-item register without spending a unit).
+% AND YES, IT IS EVERY ASSUMPTION --- that is the point. A parameter that
+% appears in neither the swept nor the held column is a visible omission, and
+% omitting the held ones is the failure the corpus keeps committing
+% (evaluation_conventions.md §i: Anderson's held-fixed defaults appear
+% nowhere, so no sweep in that paper can be reproduced).
+% HERE OR THE APPENDIX --- the recommendation is BOTH, split by function, and
+% it is the cheaper answer than either alone:
+%   BODY (this table): one row per declared FAMILY, not per value --- the
+%   four dwell anchors as one row, the nine failure rules as one row, the
+%   mapping as one row, the modulator nulls as one row. Roughly 10-14 rows,
+%   half a page, readable in one pass. This is the honesty of the whole model
+%   on one page and it is why the table is marked core in FLOATS.md.
+%   APPENDIX (app:sensitivity, which already carries tab:anchor-sensitivity
+%   in exactly this form): the per-value expansion --- every anchor, every
+%   rule, every band end against centre. Cross-referenced from the body row.
+% The failure mode to avoid is a body table with 40 rows: it stops being read,
+% and an unread honesty table is worth less than a short one.
+\begin{table}[H]
+  \centering
+  \caption[The declared parameters, their bands, and what moved]{Every quantity the attacker model declares, in one place. Each row gives the symbol, what it sets, the value used throughout, and either the band it was swept across with the effect observed, or a statement that it was held fixed with the reason. Rows that were held are the model's assumptions, listed here rather than separately, so that a parameter appearing in neither column would be visible as an omission. The intention is that the reader can see the whole of what was chosen, and how much of it the conclusions depend on, before any result is read.}
+  \label{tab:parameter-register}
+  \placeholderbox{55mm}{Table 5.1 --- the parameter register.\\ One row per declared quantity: symbol, meaning, declared value,\\ band swept or ``held'', and what moved.}
+\end{table}
 
 % mu_p: the four anchors over their declared bands (app:dwell-robustness;
 % only the low-and-slow anchor moves an outcome) and the exponential family
@@ -4954,7 +5049,7 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 \label{subsec:sens-dwell-times}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- one-at-a-time sweep; data from the rate feasibility study's re-run
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{62mm}{Figure 5.1 --- host breadth against the low-and-slow dwell multiplier.\\ x: multiplier across the declared band. y: distinct hosts reached.\\ Two series: defence off, defence on.}
   \caption[Host breadth across the low-and-slow dwell band]{Hosts reached as the low-and-slow dwell anchor is moved across its declared band, with the other three anchors held at their central values, under both defence conditions. This is the only one of the four anchors whose movement changes an outcome; the other three stay within their confidence intervals at both ends and are reported in the register rather than given a figure each. The intention is to show which single declared duration the evaluation's conclusions are actually exposed to, so that the experiments which follow can be read against it.}
@@ -4962,7 +5057,7 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 \end{figure}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- the S3-R re-run's substantive finding; a narrow claim, not 'shape matters'
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{62mm}{Figure 5.2 --- dwell distribution family at a fixed mean.\\ x: mutation interval. y: distinct hosts reached.\\ Two series: exponential, and a same-mean concentrated alternative.}
   \caption[The dwell distribution's shape against its mean]{Hosts reached under the declared exponential dwell against a same-mean alternative whose mass is concentrated around the mean, across mutation tempo. The two agree across the operating region, which is what licenses treating the mean rather than the shape as the load-bearing quantity, and they separate at the long-dwell corner under mutation pressure, where the exponential's short-dwell mass is what lets an action occasionally complete between mutations. The intention is to bound a modelling choice made for tractability by showing exactly where it stops being innocuous.}
@@ -4979,7 +5074,7 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 \label{subsec:sens-tactic-verb-mapping}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- a swap, not a band; the one leaf that could demote the argument
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{58mm}{Figure 5.3 --- outcome under the two tactic-to-action mappings.\\ Grouped bars, x: profile. y: the outcome measure.\\ Two series: the partial mapping, the forced-total mapping.}
   \caption[Outcomes under the two tactic-to-action mappings]{The same profiles run under the mapping used throughout and under the forced-total alternative in which every tactic dispatches an action. This input differs from the others in having no interval to sweep: it is a discrete choice between constructed alternatives, so its sensitivity is a comparison rather than a band. The intention is to show which findings survive the choice and to make visible that the mapping remains a declared input, which is the standing bound on every claim the chapter makes.}
@@ -4995,7 +5090,7 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 \label{subsec:sens-failure-matrix}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- data from the weight sensitivity study; re-run owed under the settled regime
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{62mm}{Figure 5.4 --- outcome against the forward-decay parameter.\\ x: forward decay across its band. y: the outcome measure.\\ Series: backward decay at its band ends.}
   \caption[Outcomes across the failure matrix's decay parameters]{Outcomes as the two decay parameters of the failure-conditioned transition weights are moved across their declared bands, one at a time and then at the corners of the pair that proved most influential. The headline verdicts hold everywhere in the space; the finer ordering of profiles by how far they get does not, and the register records that this is a limitation of the sample size rather than of the weights. The intention is to separate the conclusions that survive the declared uncertainty from those that do not, and to say which is which before either is used.}
@@ -5081,27 +5176,140 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 \section{Experimental dimensions}
 \label{sec:dimensions}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- Reti's two-table form; levels from the campaign design
-\begin{table}[htbp]
-  \centering
-  \caption[The experimental factors and their levels]{Every factor the experiments vary, with the levels used. The attacker arm carries the inherited scripted attacker, the four objective-conditioned profiles and the aggregate envelope; the defence conditions span no defence, each single mechanism and the deployment schemes that combine them; the remaining factors set the tempo at which mutations arrive and the size and connectivity of the network. The intention is that any result in this chapter can be located in this space without reading the section that produced it.}
-  \label{tab:factors-varied}
-  \placeholderbox{48mm}{Table 5.2 --- factors varied.\\ Attacker arm; defence condition; mutation tempo;\\ network scale and density; the declared-capability arms.}
-\end{table}
-
-% PLACEHOLDER FLOAT (2026-09-09) --- the paired half of Reti's form; inherited constants marked as inherited
-\begin{table}[htbp]
-  \centering
-  \caption[The factors held fixed, and why]{Everything held constant across every run, with its value and a short reason. Several of these are properties of the inherited simulator rather than choices made here, and are marked as such. Stating them alongside the factors that vary is what allows a reader to judge how far a result generalises, and it is the counterpart on the experimental side of the register that opens this chapter on the model side.}
-  \label{tab:factors-fixed}
-  \placeholderbox{48mm}{Table 5.3 --- factors held fixed.\\ Horizon; geometry; seed set; timing regime;\\ mapping and overlay versions; the interrupt cost.}
-\end{table}
-
 \noindent\emph{[Placeholder --- delete on drafting. The factor space: which
 attackers, which defences, at what tempo, on what network, over how many runs,
 and measured with what. Two tables, one of what varies and one of what is held.
 The metrics are named here as instrumentation rather than defined here as
 findings, with the boundary on what may be compared stated as a disclosure.]}
+
+% ---------------------------------------------------------------------
+% REVIEW PASS 2026-09-09 (third): FOUR THINGS THE FACTOR TABLES OWE THAT THE
+% DESIGN PASS DID NOT PUT IN THEM. Each is a ruling, not a drafting choice,
+% and each is cheap --- all four are table rows or one sentence.
+%
+% (1) THE OBJECTIVE DENOMINATOR IS A MISSING FACTOR, and it is the largest
+%     omission in this section. hypothesis_tree.md §8e makes the objective a
+%     first-class dimension: under the MASS objective the attacker reaches the
+%     goal 0/400 even unopposed, so "MTD denies the objective" is vacuous ---
+%     which is exactly why H1 is denominated on host breadth. The TARGETED
+%     objective is what fills that vacuum, and the Gate 0 probe has run
+%     (targeted_attacker_findings.md §4, 8 400 runs): non-degenerate at
+%     layer 1 on `aggregate` ONLY (38.3 % [33.1, 43.1] against a 20 % bar),
+%     marginal at layer 2, failed at layer 3 and on the database set, and the
+%     four objective-conditioned profiles fail the Gate at every depth.
+%     CONSEQUENCE FOR THIS CHAPTER: a targeted headline is a headline about
+%     the aggregate envelope only, so `aggregate` would have to become a
+%     BRANCH of the claim rather than characterisation. E7 (four single
+%     mechanisms x both arms x 100 seeds at the layer-1 target) is designed
+%     and awaits Marc's ruling.
+%     RECOMMENDATION: keep BREADTH as the backbone (it is degeneracy-proof at
+%     every tempo) and report TARGET REACH beside it wherever it is
+%     non-degenerate --- design C6, and §8e's own "keep both". Either way the
+%     objective must appear as a row in Table 5.2 or Table 5.3; what is not
+%     available is leaving the reader to infer which goal a suppression
+%     number is a suppression of.
+% (2) THE ADAPTIVE DEFENDER IS IN ch2 AND NOWHERE HERE. Table 2.5 puts
+%     MTDShield in the roster as one of five deployment strategies, and this
+%     chapter runs none of it. That is defensible --- the agent needed
+%     rebuilding before it could trade cost against risk at all
+%     (mtd_ai_cost_calibration.md: the verdict is GO for a scaled training
+%     proposal, not a trained model, and Tay's own published figures
+%     characterise a uniform random selector) --- but it must be DECLARED,
+%     not silently absent, or the reader compares our roster against ch2's
+%     and finds one missing. One held row: the adaptive selector is not
+%     exercised, with the reason, pointing at future work.
+% (3) THE DEFENDER'S HALF OF THE MODEL IS UNDECLARED. The corpus convention
+%     (evaluation_conventions.md §g) is a threat model written as
+%     Goal / Knowledge / Capability applied SYMMETRICALLY to both sides; He's
+%     is the tightest form. ch4 is an entire chapter of the attacker's half,
+%     so the attacker side is discharged; the DEFENDER's half exists nowhere
+%     in the document. It is three clauses and it belongs here beside the
+%     frozen-defender concession: the defender's goal (disrupt, not detect),
+%     its knowledge (none of the attacker --- there is no detection channel),
+%     its capability (the seven mechanisms on a fixed schedule, never
+%     reacting). Cheapest possible way to answer the "frozen defender"
+%     objection before it is raised.
+% (4) THE RUN COUNT HAS AN ARITHMETIC, NOT A HABIT, and the numbers exist:
+%     evaluation_predesign.md §5 gives measured per-cell variance and the
+%     normal-approximation seed requirement per adjacent pair (about 18, 22,
+%     190 and 329 seeds --- the two tight pairs drive the budget), the full
+%     matrix at 100 seeds is about 27 600 runs and 1.5-2 h on six workers,
+%     and a bootstrap over the ten-seed inversion priced the upgrade before
+%     it was bought. Declare the tolerance, then the count follows (design
+%     C8). NOTE the honest consequence that arithmetic carries: at 100 seeds
+%     the ADJACENT within-family ranks are NOT separable, so the reportable
+%     object is the 2 x 2 family contrast and not a total order --- say that
+%     here, once, rather than discovering it in the results.
+%
+% THE COVERAGE MAP --- Table 3.1's metric families against what this simulator
+% can actually produce (Marc, 2026-09-09: "what do we have in our simulator,
+% what do we not --- we just need to be frank and open"). This is the audit;
+% the chapter states its RESULT in a sentence or two, not the whole table.
+% Ten families, and we report on six of them.
+%  HAVE, and reported:
+%   - success events. Attacker-side ASR exists in the substrate but is
+%     DEGENERATE at the operating tempo (neither attacker completes the
+%     objective), which is why the suite computes none; the defender-side
+%     cell is what we report, as BLOCKED FRACTION (Brown's "attack actions
+%     blocked"), 0.15 -> 0.72 under network-layer defence. Detection rate:
+%     no --- there is no detection channel in the simulator at all.
+%   - attacker time. Internal MTTC exists but carries three riders (it is the
+%     SUBSTRATE's quantity, not the movement arm's; cross-arm comparability
+%     was withdrawn under S3-R; and it ranks the mechanisms perversely --- the
+%     blocker below). The usable time channel is DELAY TO FIRST COMPROMISE,
+%     censored, which is what Fig. 5.12 draws.
+%   - system state. Host-compromise breadth, i.e. the HCR-shaped quantity.
+%     Risk and the confidentiality/integrity families: no.
+%   - network-state change, defender side. Churn tempo (executions per ksec,
+%     an MEF analogue) and time-since-last-mutation, from the disruption
+%     ledger. Host IP variability: no.
+%   - resource spent. BOTH SIDES, and this is the chapter's strongest
+%     coverage: attacker-side the cost ledger (attempts by verb, time split
+%     into dwell / mutation penalty / residual, re-work, effort-to-breadth
+%     ratios) which includes Brown's "attempts required" directly;
+%     defender-side reconfiguration occupancy, plus `downtime_ratio`, which
+%     is the node-replacement-downtime analogue Tay reports.
+%   - network-state change, efficiency side. Deployment-window time by layer
+%     and by mechanism --- the raw material for the variant-cost family.
+%  DO NOT HAVE, and say so once rather than four times:
+%   - game payoff (attack/defence utility). There is no game model. The
+%     utility modulator is an attacker DECISION INPUT, not a payoff metric,
+%     and must never be reported in this cell.
+%   - configuration space (attack surface; Cho's "unpredictability" and
+%     "vastness"). Not computed. IMPORTANT NAME COLLISION, already ruled:
+%     Cho's unpredictability is a DEFENDER-TERRAIN foreseeability property of
+%     the configuration space, and our behavioural-variety measure is not
+%     that --- which is exactly why the name "predictability" was retired for
+%     this venue (predictability.md R6-R7). Do not let our measure be read
+%     into this cell.
+%   - attack paths (APV / APN / APE / SAPV). These are graph-theoretic
+%     quantities over a graphical security model. We measure path variety
+%     over the ATTACKER'S OWN walk, which is a different object with a
+%     similar name. State the difference; do not claim the family.
+%   - service to users (QoS), and system performance overhead. Needs a
+%     workload model the substrate does not have. Say it in the same sentence
+%     as the frozen defender, once.
+%  THE HONEST HEADLINE: on the field's own taxonomy this evaluation is strong
+%  on cost (both sides), adequate on containment and delay, and silent on
+%  surface, payoff and service --- and the silence is a property of the
+%  simulator, not an oversight. That sentence is worth more than a table.
+% ---------------------------------------------------------------------
+
+% PLACEHOLDER FLOAT (2026-09-09) --- Reti's two-table form; levels from the campaign design
+\begin{table}[H]
+  \centering
+  \caption[The experimental factors and their levels]{Every factor the experiments vary, with the levels used. The attacker arm carries the inherited scripted attacker, the four objective-conditioned profiles and the aggregate envelope; the defence conditions span no defence, each single mechanism and the deployment schemes that combine them; the remaining factors set the tempo at which mutations arrive and the size and connectivity of the network. The intention is that any result in this chapter can be located in this space without reading the section that produced it.}
+  \label{tab:factors-varied}
+  \placeholderbox{48mm}{Table 5.2 --- factors varied.\\ Attacker arm; defence condition; objective denominator;\\ mutation tempo; network scale and density;\\ the declared-capability arms.}
+\end{table}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- the paired half of Reti's form; inherited constants marked as inherited
+\begin{table}[H]
+  \centering
+  \caption[The factors held fixed, and why]{Everything held constant across every run, with its value and a short reason. Several of these are properties of the inherited simulator rather than choices made here, and are marked as such. Stating them alongside the factors that vary is what allows a reader to judge how far a result generalises, and it is the counterpart on the experimental side of the register that opens this chapter on the model side.}
+  \label{tab:factors-fixed}
+  \placeholderbox{48mm}{Table 5.3 --- factors held fixed.\\ Horizon; geometry; seed set; timing regime;\\ mapping and overlay versions; the interrupt cost;\\ the defender's schedule, and what it never does.}
+\end{table}
 
 % ---------------------------------------------------------------------
 % RESTRUCTURE PROPOSED 2026-09-09, second pass (Marc: "I don't think 5.5
@@ -5244,11 +5452,83 @@ that Section~\ref{sec:effectiveness} reports against.]}
 %          tactics, deepest successful stage, path entropy, distinct
 %          prefixes, hosts, terminal mode --- the baseline row included.
 %          PURPOSE: the denominator table the rest of the chapter cites.
+% ---------------------------------------------------------------------
+% REVIEW PASS 2026-09-09 (third): THREE INSTRUMENTS THAT EXIST, ARE RULED OR
+% MEASURED, AND ARE NOT PLACED IN THIS CHAPTER. Marc's question --- "we
+% instrumented it so we could show our model is less detectable, less
+% predictable; we produced these metrics but they weren't really the right
+% metrics" --- has a sharper answer than the design pass gave. Two of the
+% three are the RIGHT metrics and are stronger than what is currently drawn
+% here; the third is right on its own terms and is fenced by a badge ruling.
+%
+% (a) OPENING VARIETY IS THE RULED PRIMARY EXHIBIT FOR PLURALITY, AND IT IS
+%     NOT IN THE CHAPTER. plurality_reporting.md closed on a ruling (Marc's
+%     own, second pass): the axis-3 fidelity exhibit is distinct k-place
+%     OPENING SEQUENCES over seeds, per profile, against the inherited FSM's
+%     structural single ordering --- every profile opens on the same entry
+%     tactic and fans out with depth at a profile-specific rate, where the
+%     baseline holds one at every k, structurally. That is the overlooked
+%     axis made visible, and it is a far better picture of "the model can go
+%     different ways" than an entropy number.
+%     AND THE SAME RECORD KILLED THE ALTERNATIVE: the entropy fan was ruled
+%     NOT DRAWN because its pre-registered kill criterion fired --- Spearman
+%     -0.967 between pooled path entropy and maximum single-place visit share,
+%     so an entropy chart here would be a hub-occupancy chart wearing an
+%     entropy axis. Path entropy therefore rides as a TABLE COLUMN with that
+%     caveat attached, never as a figure and never as the headline. As drawn,
+%     this subsection has entropy in tab:unopposed-summary and no opening
+%     variety at all, which inverts the ruling.
+%     RECOMMENDATION: add opening variety as this subsection's plurality
+%     figure, or convert Fig. 5.6 to a two-panel (divergence | opening fan).
+%     No new unit either way.
+% (b) EFFECTIVE BEHAVIOURAL BREADTH IS THE CLEANEST CROSS-ARM STATEMENT THE
+%     PROJECT OWNS, and it is nowhere in this chapter. predictability.md
+%     (V2 rework, ratified after the 2026-08-11 challenge) establishes the
+%     inherited attacker AGAINST ITS OWN CODE as a deterministic policy: every
+%     (phase, branch) cell carries exactly one successor, so it exercises
+%     ONE effective behaviour, while the movement attacker runs 2.7-5.9. That
+%     is a calibrated instrument with a self-test, on both arms, and it says
+%     in one number what this subsection currently says in three.
+%     TWO DISCIPLINES TRAVEL WITH IT, both already ruled and both mandatory:
+%     the term "predictability" is RETIRED in this venue (Cho and Jalowski own
+%     it for defender-terrain foreseeability --- see the coverage map at
+%     sec:dimensions), and the honest phrasing is a deterministic policy
+%     against a stochastic one, not "less predictable".
+% (c) THE DETECTABILITY CONTRAST IS MEASURED, SURVIVES ITS OWN ABLATION, AND
+%     IS FENCED BY A BADGE RULING --- Marc's call, and it is a real one.
+%     stealth_spacing_diagnostic.md: four of five profiles space their verb
+%     invocations 1.5-1.8x further apart than the inherited attacker, seed
+%     intervals disjoint; the same four are 45 % quieter on the level (mean
+%     0.40 against 0.72), holding on the time-average and the median; and an
+%     ablation attributes the WHOLE margin to the non-action tactics --- delete
+%     them and every profile falls under the baseline. The fifth profile
+%     inverts, and its composition says why (fewest non-action tactics), which
+%     is the mechanism working rather than an exception.
+%     WHY IT IS FENCED: axis 5 is badged NOT ADDRESSED and the badge does not
+%     move, because there is no detection model for a spacing choice to matter
+%     against --- that is the axis's own argument and the criterion has held
+%     it three times. THE FENCE IS ON THE BADGE, NOT ON THE MEASUREMENT.
+%     THE RULING OWED: may this chapter report the spacing contrast as an
+%     OBSERVATION about what the two attackers do, with tab:fidelity-verdict's
+%     axis-5 cell still blank? RECOMMENDED YES, in one sentence plus a
+%     tab:unopposed-summary column, on three grounds --- it is the only
+%     cross-arm behavioural contrast the work owns that is not about outcome;
+%     it is what makes the dwell catalogue of §4.4.2 visible in behaviour
+%     rather than only in declaration; and reporting a measurement while
+%     withholding the badge is exactly the discipline the criterion exists to
+%     enforce. If it is reported, the two caveats travel with it verbatim: the
+%     granularity confound is NOT resolved (state it at invocation
+%     granularity with the per-vulnerability reading beside it), and most of
+%     the contrast is present before any decay is applied, so what the decay
+%     adds is the shape of the quiet, not the separation.
+%     IF THE RULING IS NO: it goes to ch7 as a named future-work condition,
+%     not silently.
+% ---------------------------------------------------------------------
 \subsection{Unopposed behaviour}
 \label{subsec:aio-unopposed}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- the clearest single picture of what the model added; property 1
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{66mm}{Figure 5.5 --- distinct tactics reached over simulated time.\\ x: simulated time. y: count of distinct tactics visited.\\ One line per profile, plus the inherited attacker as reference.}
   \caption[Distinct tactics reached over time, by profile]{The number of distinct campaign tactics each profile has entered as a run proceeds, with no defence running, against the inherited attacker drawn on the same axes. The inherited attacker's line is flat by construction: its behaviour is a fixed loop over three activities, so it has no more of a campaign to traverse. The intention is to show, in one picture, the thing the attacker model adds that the simulator previously could not express, and to do it against no defence so that it is a statement about the model rather than about the defence.}
@@ -5256,7 +5536,7 @@ that Section~\ref{sec:effectiveness} reports against.]}
 \end{figure}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- property 2 --- the one property shown to change an outcome
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{58mm}{Figure 5.6 --- behavioural divergence between profiles.\\ Points: pairwise divergence between profiles' visit distributions.\\ Shaded band: each profile's own split-half null.}
   \caption[Behavioural divergence between profiles against its null]{How far apart the four profiles' behaviour is at runtime, measured as the divergence between their pooled distributions of visited tactics, against the divergence produced by splitting a single profile's own runs in half. The null band is what turns a difference into a result: profiles separate by more than the same profile separates from itself. The intention is to establish that the operational objective a profile was built from changes what the attacker does, rather than only what it was labelled.}
@@ -5264,7 +5544,7 @@ that Section~\ref{sec:effectiveness} reports against.]}
 \end{figure}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- the denominator table the rest of the chapter cites; carries the pruning rule
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption[What each attacker does with no defence running]{A summary of each profile's behaviour with nothing opposing it, alongside the inherited attacker. The breadth column is the reference every suppression figure later in the chapter is a difference from, and the column recording how runs ended carries the fact that determines the rest of the chapter's shape: the profiled attacker does not reach the simulator's mass-compromise objective in any unopposed run, so a claim about denying that objective would have nothing to deny. The intention is to fix both the reference and the reason for it in one place.}
   \label{tab:unopposed-summary}
@@ -5289,13 +5569,64 @@ that Section~\ref{sec:effectiveness} reports against.]}
 %          PURPOSE: the attacker measurably does something different
 %          after being disrupted, and the control shows the difference is
 %          the verdict-conditioning rather than drift.
+%
+% REVIEW PASS 2026-09-09 (third) --- TWO ANSWERS THIS SUBSECTION OWED MARC.
+%
+% "WHAT AXES OF DISRUPTION ARE WE GOING TO DO --- WHICH MECHANISM, DIVERSITY
+% OR SHUFFLE?" The chapter never said, and it has to. The answer is not "all
+% seven": this subsection is about the ATTACKER's response, so it wants the
+% smallest condition set that spans the ways a defence can reach it, and that
+% set is already established rather than chosen here.
+%   THE SPANNING SET IS A 2 x 2, on ATTACKER-FACING EFFECT rather than on the
+%   shuffle/diversity taxonomy of Table 2.4. The two axes are the resource
+%   LAYER the mechanism rewrites, because that is what decides whether the
+%   attacker's state survives:
+%     network layer -> SEVERANCE. Clears the host cursor, destroying position.
+%       Blocked fraction 0.15 -> 0.72. The two network-layer mechanisms are
+%       ONE attacker-facing effect (0.721 against 0.725), so running both buys
+%       nothing except the evidence that they are one effect --- which is
+%       itself worth one sentence.
+%     application layer -> SURFACE RE-ROLL. Re-rolls the vulnerability set on
+%       uncompromised hosts. Barely reaches this attacker (blocked fraction
+%       stays at the no-defence ~0.16) because exploitation is uninterruptible
+%       on that arm (D-35).
+%   SO: one network-layer mechanism and one application-layer mechanism span
+%   the effect space for this subsection, with the no-defence arm as the
+%   origin. Everything else is sec:effectiveness's job, where the full
+%   condition set belongs.
+%   THE SDR CLASSES DO NOT SPAN IT, and that is a finding rather than a
+%   convenience: MTDSim has two of the three SDR families (no redundancy,
+%   ch2), and shuffle spreads across BOTH layers while diversity sits in one,
+%   so the taxonomy the literature reads by and the taxonomy the attacker
+%   feels are not the same partition. Say that once; it is the cheapest form
+%   of the state-bounds argument the discussion carries.
+%   THE THIRD AXIS IS TEMPO, not a mechanism. The mutation interval is the
+%   dimension along which "disruption" varies continuously, and it is where
+%   the discrimination gate bites. If this subsection shows a response AT ALL,
+%   it should show it at two tempos, because a response that only exists at
+%   one interval is a property of the interval.
+%   THE PURE-INTERRUPT PAIR is the free extra, already noted in the discussion
+%   notes: IP shuffle and port shuffle reach the attacker through their class's
+%   INTERRUPT ALONE --- no state rewrite it can read --- so the pair prices
+%   what an interrupt by itself is worth at each layer. It is the cleanest
+%   available isolation of the disruption channel and it costs no new runs.
+%
+% "ACTION MIX --- I DON'T REALLY UNDERSTAND THAT." Fair, and the phrase is
+% jargon that has leaked from the measurement suite into the chapter. What it
+% is, in one sentence: WHAT THE ATTACKER IS DOING CHANGES AFTER IT IS HIT.
+% Take the handful of steps immediately before each mutation and the handful
+% immediately after, and compare which activities fill them --- more
+% reconnaissance and less exploitation after a mutation would be the attacker
+% re-orienting. It is paired inside each run, so run-to-run variation cancels;
+% the verdict-blind arm is the control that says the change is a response and
+% not drift. In the prose, describe it that way and never as "action mix".
 \subsection{Response to disruption}
 \label{subsec:aio-disruption}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- property 4; the verdict-blind arm is the control that makes it a claim
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
-  \placeholderbox{62mm}{Figure 5.7 --- action mix before and after a mutation.\\ Paired bars by activity, within run.\\ Two panels: the model, and a control blind to outcomes.}
+  \placeholderbox{62mm}{Figure 5.7 --- what the attacker does before and after being hit.\\ Paired bars: share of activity in the steps either side of a mutation.\\ Two panels: the model, and a control blind to outcomes.}
   \caption[How the attacker's activity changes after a disruption]{The mix of activities in the visits immediately before and immediately after each defensive mutation, paired within each run so that variation between runs cancels, with a control in which the attacker's routing is made blind to the outcome its actions return. The comparison isolates whether a change in behaviour is a response to the disruption or drift that would have happened anyway. The intention is to show the adaptive loop operating, and to be explicit that operating is a weaker claim than changing an outcome.}
   \label{fig:aio-adaptivity}
 \end{figure}
@@ -5330,11 +5661,63 @@ that Section~\ref{sec:effectiveness} reports against.]}
 %  Fig. E  breadth against the learning exponent, series = decay rate,
 %          null arm marked.
 %          PURPOSE: the measured negative, and its shape.
-\subsection{The declared capabilities}
+%
+% REVIEW PASS 2026-09-09 (third) --- THE HEADING, THE DIAL, AND A BLOCKER.
+%
+% HEADING RENAMED, Marc's to overrule ("declared capabilities --- I don't
+% really understand that section"). "Declared capabilities" is repo
+% vocabulary: it means the two things the attacker was GIVEN that it need not
+% have had, each with a setting at which it is switched off and the run is
+% bit-identical. In the chapter those two things are a sense of cost and a
+% memory, so the heading now says that. Alternatives if this one does not sit
+% right: "What the two optional capabilities buy"; "Cost and memory";
+% "Giving the attacker a cost model and a memory". Heading conventions hold
+% either way --- sentence case, no acronyms, declarative.
+%
+% "WE CAN DIAL THE ATTACKER'S PREDICTABILITY DOWN AND FIND A NICE BASELINE"
+% (Marc, 2026-09-09). The dial exists and it is already in this subsection
+% under another name: lambda, the rationality exponent in the utility
+% modulator. It exponentiates each transition's utility RATIO against the
+% out-set mean, so at lambda = 0 every factor is 1.0 and the run is
+% bit-identical to no modulator at all, and as lambda rises the routing
+% concentrates on the high-payoff moves. Concentrating the routing IS making
+% the attacker more predictable --- so ONE SWEEP CARRIES TWO READINGS, and
+% the second is free: at each lambda, report effective behavioural breadth
+% beside the outcome measure. The uniform-weight arm is the other end of the
+% same axis (maximum variety, no corpus preference).
+% THAT ALSO GIVES THE "NICE BASELINE" A CRITERION INSTEAD OF A FEEL: the
+% operating point is the largest lambda at which behavioural breadth is still
+% plural --- goal-directed without collapsing to one path. Report it that
+% way and the choice of lambda stops being a declared value and becomes a
+% selected one, which is the same move sec:sensitivity makes.
+% WHAT IT IS NOT: a game-theoretic equilibrium. There is no second player
+% optimising against this attacker --- the defender is frozen on a schedule
+% --- so the word "equilibrium" must not appear. It is an operating point.
+%
+% BLOCKER, NEW AND NOT ON THE CHAPTER'S LIST: THE LEARNING NEGATIVE IS A
+% PRE-RESTORATION RESULT WITH A NAMED REOPENING CONDITION, and Fig. 5.9's
+% caption currently states it as settled fact. Every exploit-learning number
+% predates d127f443, and that commit changed exactly the channel this
+% capability probes --- D-19 reinstated the OS-gated exploit-success channel,
+% so OS-dependent vulnerabilities now fail on a mismatched host. The 2026-08-11
+% null rests on a PERFECT-EXPLOIT CEILING: when a roll always succeeds, no
+% exploit-phase capability has headroom, so of course the learner buys
+% nothing. If the OS gate now refuses a material fraction of this attacker's
+% exploits, that ceiling has dropped and the learner has headroom it did not
+% have when it was measured. The original sweep also moved only
+% `services_per_os` and never the OS pool, which D-19 has made a live lever.
+% THE CHEAP PRE-CHECK, and it decides the whole question: measure the
+% movement arm's exploit-success rate on ONE no-MTD cell on the restored
+% substrate. If the gate refuses little, the null stands as written and the
+% caption is safe; if it refuses much, the negative is re-tested (about 370
+% runs) with the OS pool as a second lever before any sentence here claims it.
+% Until that pre-check runs, Fig. 5.9 states a negative measured on a
+% substrate that no longer exists.
+\subsection{A cost model and a memory}
 \label{subsec:aio-capabilities}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- property 6 in Marc's framing --- when does a rational actor give up
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{62mm}{Figure 5.8 --- where a cost-sensitive attacker abandons.\\ x: patience, as a multiple of the unimpeded effort to the objective.\\ y: effort at abandonment. One line per defence condition; censoring annotated.}
   \caption[The effort at which an attacker abandons, by patience]{The point at which an attacker projecting its own remaining effort would conclude the campaign is not worth finishing, plotted against how patient it is assumed to be, for each defence condition. The proportion of runs that never abandon is printed beside every point, because the average is otherwise an average over only those that did. The intention is to report the consequence of giving the attacker a cost model, in the terms a rational actor would use: not whether it succeeds, but how much it will spend before walking away.}
@@ -5342,7 +5725,7 @@ that Section~\ref{sec:effectiveness} reports against.]}
 \end{figure}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- property 7; a measured negative and a transferable design warning
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{58mm}{Figure 5.9 --- breadth against the strength of learning.\\ x: learning exponent, from the null upward.\\ y: hosts reached. Series: rate at which learned belief decays.}
   \caption[What the attacker's learning capability buys it]{Hosts reached as the attacker's within-run learning is strengthened from the setting at which it is inert, with the rate at which learned belief decays as a second series. The result runs the wrong way: breadth falls as the capability rises, because the signal the attacker updates on records whether an action was permitted rather than whether the campaign advanced, so a confident learner correctly concludes that reconnaissance pays and exploitation does not. The intention is to report a capability that is built, declared and swept, and shown not to confer an advantage, which is a stronger statement than leaving it untested.}
@@ -5373,6 +5756,24 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % brief is owed before this section names it. Cross-arm event counts are
 % inflated ~3.75x by per-vulnerability row writing; the corrected counter
 % exists.
+%
+% REVIEW PASS 2026-09-09 (third) --- WHAT THIS SECTION IS, because the reading
+% it invites is the wrong one. Marc read it as "basically just pure runs ---
+% how effective are the profiles running unopposed". That is sec:attacker-in-
+% operation, which now sits immediately above it and takes the unopposed arm.
+% THIS section runs the DEFENCES. Every number in it is a difference from the
+% no-defence reference that §5.3 fixed, and the object being evaluated here is
+% the defence, not the attacker.
+% THE ONE-LINE SEPARATION, worth putting in the roadmap sentence so no reader
+% makes the same read: §5.3 asks what the attacker does; §5.4 asks what the
+% defences do to it; §5.5 asks what that costs, on both sides.
+% THE ORDER IS THE FUNNEL and it is deliberate: characterise on the undefended
+% target, prune to what matters, then evaluate the defence against that with
+% the pruning rule stated (He 2025). It is also what makes §5.3 a step in the
+% argument rather than a detour --- state the rule explicitly, because the
+% reason breadth rather than objective achievement is the denominator is a
+% FACT FROM §5.3 (the profiled attacker reaches the mass objective in none of
+% its unopposed runs) and not a preference.
 \section{Effectiveness}
 \label{sec:effectiveness}
 
@@ -5400,7 +5801,7 @@ under both attackers on this one simulator.]}
 \label{subsec:eff-under-defence}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- the movement arm alone; three of the mechanisms have never been run against it
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{62mm}{Figure 5.10 --- suppression of host breadth by defence condition.\\ Grouped bars, x: condition. y: reduction against no defence.\\ Series: profile.}
   \caption[How much each defence suppresses each profile]{The reduction in hosts reached under each defence condition relative to the no-defence reference, for every profile. Conditions run from each single mechanism through the schemes that deploy several together. The intention is to establish which defences reach this attacker at all, and whether the answer depends on which operational objective the attacker is pursuing, before the comparison against the inherited attacker is attempted.}
@@ -5408,7 +5809,7 @@ under both attackers on this one simulator.]}
 \end{figure}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- channels from the disruption operationalisation; effect floors owed
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption[Defence conditions measured against the attacker model]{Each defence condition scored on the three channels through which a defence can reach an attacker: whether it prevents compromise at all, how long it postpones the first one, and what fraction of attempted actions it blocks. Intervals accompany every figure, and adjacent conditions whose intervals overlap are reported as indistinguishable rather than ranked. The intention is to state what each mechanism does on its own terms before any two are compared.}
   \label{tab:eff-conditions}
@@ -5463,7 +5864,7 @@ under both attackers on this one simulator.]}
 \label{subsec:eff-cross-arm}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- the whole claim in one figure; blocked until the re-establishment run lands
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{62mm}{Figure 5.11 --- the same defences against both attackers.\\ Grouped bars, x: defence condition. y: suppression.\\ Two series: the inherited attacker, the attacker model.}
   \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the inherited scripted attacker and once against the attacker model, on the same network under identical conditions. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
@@ -5471,7 +5872,7 @@ under both attackers on this one simulator.]}
 \end{figure}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- the delay channel; survival form, censoring stated
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{58mm}{Figure 5.12 --- time to the first compromise.\\ x: simulated time. y: fraction of runs not yet compromised.\\ Curves per condition, one panel per attacker.}
   \caption[How long each defence postpones the first compromise]{The fraction of runs in which no host has yet been compromised, as time passes, for each defence condition and each attacker. Where suppression asks how much a defence prevents, this asks how long it delays, which is the channel that stays informative when the attacker eventually succeeds regardless. The intention is to separate defences that stop an attacker from defences that only slow one, since the two are worth different things to an operator.}
@@ -5479,7 +5880,7 @@ under both attackers on this one simulator.]}
 \end{figure}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- grade vocabulary at the definition site: magnitude, ordering, recommendation
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption[The defence ordering produced by each attacker]{The defences ranked by effect, once as the inherited attacker would rank them and once as the attacker model would, with a statistic summarising how far apart the two orderings are and an interval on it. Where the evidence supports only a weaker statement than a full ordering, the table says so rather than presenting a ranking the data cannot separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}
   \label{tab:eff-orderings}
@@ -5504,7 +5905,7 @@ under both attackers on this one simulator.]}
 \label{subsec:eff-lineage}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- makes the lineage testable; comparability boundary restated in the caption
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{66mm}{Figure 5.13 --- prior findings re-run under both attackers.\\ One small panel per prior claim.\\ Each panel: the claim, and what this simulator returns per arm.}
   \caption[Prior models' headline findings, re-run under both attackers]{Each of the headline comparisons reported by the earlier models built on this simulator, re-run here under both attackers, one panel per claim. Because the configurations rather than the published numbers are reproduced, the panels are read as agreement or disagreement in direction, not as a numerical replication. The intention is to make published claims testable rather than merely cited, and to show that where they disagree with one another the disagreement is itself the finding.}
@@ -5554,8 +5955,14 @@ under both attackers on this one simulator.]}
 \section{Efficiency}
 \label{sec:efficiency}
 
+\noindent\emph{[Placeholder --- delete on drafting. What that costs: on the
+attacker's side, the effort each condition forces per host reached; on the
+defender's, the fraction of the run spent reconfiguring. The two are then read
+together, so each mechanism can be placed by what it buys against what it
+spends.]}
+
 % PLACEHOLDER FLOAT (2026-09-09) --- the more robust of the two cross-arm claims; defender-side measure is arm-invariant
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{66mm}{Figure 5.14 --- what each defence buys against what it spends.\\ x: fraction of the run spent reconfiguring. y: suppression achieved.\\ One marker per mechanism; marker shape distinguishes the attackers.}
   \caption[What each defence achieves against what it costs to run]{Each defence placed by the disruption it achieves against the proportion of the run its own reconfiguration occupies, with both attackers shown. The horizontal axis is derived entirely from the simulator's record of when each mutation was executing, so unlike attacker-side time it is priced identically on both arms and the two can be compared directly. The intention is to let a mechanism be judged on what it buys for what it spends rather than on effect alone, and to show that the shape of that trade is itself a function of which attacker is assumed.}
@@ -5563,7 +5970,7 @@ under both attackers on this one simulator.]}
 \end{figure}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- attacker-side efficiency; segments printed per the stacked-bar convention
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \placeholderbox{58mm}{Figure 5.15 --- where the attacker's time goes.\\ Stacked bars, x: defence condition. y: share of elapsed time.\\ Segments: activity, imposed delay, remainder. Values printed.}
   \caption[How a defence changes where the attacker's time goes]{The attacker's elapsed time under each defence condition, divided into time spent performing activities, time lost to the delay a mutation imposes, and the remainder. Segment values are printed, since a stacked bar is otherwise hard to read across conditions. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
@@ -5571,18 +5978,12 @@ under both attackers on this one simulator.]}
 \end{figure}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- event-wise only across arms; the frozen-defender concession sits here
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption[The cost of each condition, on both sides]{The attacker's effort per host it manages to reach, and the defender's reconfiguration burden, for each condition and each attacker. The attacker-side columns are counts of events rather than durations, which is what makes them comparable across two attackers that price time differently. The intention is to report both sides of the exchange on one page, and to state plainly which quantities may be compared across attackers and which may not.}
   \label{tab:eff-cost}
   \placeholderbox{46mm}{Table 5.7 --- cost by condition and attacker.\\ Actions per host reached; successes per host reached;\\ reconfiguration occupancy; mutations per unit time.}
 \end{table}
-
-\noindent\emph{[Placeholder --- delete on drafting. What that costs: on the
-attacker's side, the effort each condition forces per host reached; on the
-defender's, the fraction of the run spent reconfiguring. The two are then read
-together, so each mechanism can be placed by what it buys against what it
-spends.]}
 % =====================================================================
 \chapter{Discussion}
 \label{ch:discussion}
@@ -5810,6 +6211,78 @@ mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
 \section{What changes for MTD evaluation}
 \label{sec:evaluation-implications}
 
+% ---------------------------------------------------------------------
+% PARKED DISCUSSION POINTS (2026-09-09, third review pass; Marc's ask:
+% "forward pointers into the discussion, or placeholder points in the
+% discussion, are fine --- it helps flesh out the experimental setup").
+% These are the notes already written and rubric-passed in
+% docs/notes/ch7_discussion/ and ch5_experimental_setup/, each paired with
+% the ch5 measurement it needs. THE POINT OF LISTING THEM HERE IS THE
+% REVERSE DIRECTION: a discussion point with no ch5 measurement behind it
+% is either a cut or an experiment we have not designed, and reading the
+% list that way is what the ask was for. Ordered by strength of the
+% underlying evidence, not by chapter order.
+%
+%  A. AN EVALUATION MUST SHOW ITS OPERATING POINT CAN DISCRIMINATE ITS
+%     METRIC BEFORE REPORTING IT (notes/ch5_experimental_setup/
+%     operating_point_discrimination.md). NEEDS FROM ch5: the design fact
+%     stated once in sec:dimensions --- at the default tempo the success
+%     metric cannot discriminate, because neither attacker completes the
+%     objective. STANDING: strongest and cheapest transferable result the
+%     project owns; it generalises past this simulator and past MTD. It is
+%     also the only one of these that costs ch5 nothing it is not already
+%     doing.
+%  B. CHANGE THE ATTACKER'S SHAPE AND THE EVALUATION'S INSTRUMENTS FAIL,
+%     SILENTLY (notes/ch7_discussion/instruments_fail_silently.md). Four
+%     progression and credit measures failed silently when the attacker's
+%     shape changed. NEEDS FROM ch5: nothing new to run, but ch5 must say
+%     WHICH instruments were re-validated against the new attacker and how
+%     (the replacement progression measure and its gate are the worked
+%     example). Currently ch5 says none of that. One clause in
+%     sec:dimensions is enough to make this point earnable here.
+%  C. A DEFENCE CAN ONLY DESTROY THE KIND OF STATE THE ATTACKER MODEL
+%     CARRIES (notes/ch7_discussion/state_bounds_measurable_disruption.md).
+%     This IS the mechanism behind the cross-arm result --- position-driven
+%     against exploit-driven --- and it is what makes "same action set,
+%     different defence response" not a paradox. FED BY subsec:eff-cross-arm.
+%     STANDING: the thesis's own explanation of its headline; do not let it
+%     be discovered by a reader before it is stated.
+%  D. THE PROFILED ATTACKER IS NOT COMPETING WITH THE BASELINE
+%     (notes/ch7_discussion/refusing_the_baseline_race.md). The framing that
+%     makes a weaker headline the condition of the study rather than its
+%     verdict. FED BY subsec:eff-cross-arm and subsec:aio-unopposed.
+%  E. AN ATTACKER THAT LEARNS FROM OUTCOMES ALONE ROUTES AROUND A
+%     PROCEDURAL CONSTRAINT RATHER THAN SATISFYING IT
+%     (notes/ch7_discussion/learning_without_context.md), and its sibling,
+%     PROCEDURAL MISMATCH MANUFACTURES ATTACKER FAILURE AN EVALUATION WILL
+%     MISREAD AS ATTACKER WEAKNESS (procedural_mismatch_artefact.md). FED BY
+%     subsec:aio-capabilities and subsec:sens-tactic-verb-mapping. STANDING:
+%     both are design warnings for the next person to build the learning
+%     attacker the literature keeps asking for --- but E's evidence is
+%     currently pre-restoration (see the blocker at subsec:aio-capabilities),
+%     so it is the one point on this list whose FOUNDATION may move.
+%  F. IP SHUFFLE AND PORT SHUFFLE REACH THE ATTACKER THROUGH THE INTERRUPT
+%     ALONE (notes/ch7_discussion/pure_interrupt_pair.md), so the pair
+%     prices what an interrupt by itself is worth at each layer. NEEDS FROM
+%     ch5: the pair actually run as a named contrast --- it is two
+%     conditions already inside the seven, so the cost is a sentence and a
+%     column, not a run. UNPLACED AS DRAFTED; if it is not picked up, this
+%     note has no evidence behind it and should be cut rather than asserted.
+%  G. PERSISTENCE IS TWO CLAIMS, AND AN EPISODIC SIMULATION GRANTS ONE OF
+%     THEM BY CONSTRUCTION (notes/ch7_discussion/persistence_duration_
+%     premise.md). FED BY subsec:aio-unopposed, and it is the honest reading
+%     of property 1 --- structure runs, outcome does not follow. Belongs in
+%     sec:captured rather than here.
+%
+% TWO NOTES THE MERGE RULING ORPHANED, flagged for a docs pass rather than
+% actioned here: notes/ch5_experimental_setup/evaluation_burden.md and
+% evaluation_grading.md were written for units this chapter no longer has.
+% The grading vocabulary survives as a sentence at the metric's definition
+% site (magnitude / ordering / recommendation) and the burden of proof is
+% not a unit at all. Both notes need a status line saying so, or a cold
+% session will draft a section from them.
+% ---------------------------------------------------------------------
+
 
 % =====================================================================
 \chapter{Future work}
@@ -5820,6 +6293,36 @@ mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
 % scope), event-based orchestration / retraining the reactive defender
 % (V3), full incentive rationality. Collects the revisit conditions the
 % notes carry.
+%
+% WHAT ch5 HANDS THIS CHAPTER (2026-09-09, third review pass). Each of these
+% is an EXCLUSION ch5 makes explicitly, so the future-work claim is earned by
+% a measurement or a stated scope rather than by a wish:
+%  - THE ADAPTIVE DEFENDER. ch2 lists MTDShield in the roster and ch5 runs
+%    none of it; the rebuild established that a cost-aware agent CAN trade
+%    downtime against risk (the ladder's C1 held by a wide margin) but the go
+%    is for a scaled training proposal, not for a trained model, and the
+%    published figures characterise a uniform random selector. This is the
+%    concrete form of the frozen-defender concession sec:dimensions
+%    volunteers, and it is the first of the two substrate upgrades
+%    notes/ch8_future_work/successor_programme.md names.
+%  - A TACTIC-LEVEL ACTION LAYER. The second upgrade in the same note, and
+%    the bind ch5's own ceiling sentence points at: the outcome is bounded by
+%    the six inherited verbs, so a structure-rich attacker cannot convert
+%    structure into outcome on this substrate.
+%  - STEALTH SEMANTICS. Axis 5 stays blank because there is no detection
+%    model for a tempo or spacing choice to matter against --- that is the
+%    axis's own argument, held three times. WHAT MAKES THE FUTURE-WORK CLAIM
+%    SHARP RATHER THAN GENERIC: the behaviour is already there and already
+%    measured (spacing 1.5-1.8x wider, 45 % quieter on the level, the whole
+%    margin attributable to the non-action tactics), so what is missing is
+%    the DEFENDER-SIDE OBSERVER, not the attacker-side behaviour. Say it that
+%    way; it converts a blank cell into a specified next experiment.
+%  - THE TARGETED OBJECTIVE AT DEPTH. The Gate probe passed at layer 1 on the
+%    aggregate envelope only and failed at every depth for the four
+%    objective-conditioned profiles. That is a measured boundary on what this
+%    attacker can be asked to do, not an untried idea.
+%  - THE EMULATION RUNG (notes/ch8_future_work/emulation_rung.md): what
+%    carries up the evaluation ladder and what must be re-derived.
 
 
 % =====================================================================

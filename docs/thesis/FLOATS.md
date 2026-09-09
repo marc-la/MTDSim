@@ -51,6 +51,16 @@ then text). None has a generator yet. Replacing one is a single-line swap of
 `\placeholderbox` for `\includegraphics`; the stem is then named by the §j rule
 from the position column, and this block folds into the tables above.
 
+**Placement, while they are placeholders.** Every float in this block carries
+`[H]` (the `float` package) rather than `[htbp]`. With no prose between them the
+float queue flushed ahead of the headings and each one rendered *before* the
+subsection it belonged to — Figures 5.1–5.4 on pp. 28–29 against subsections on
+p. 30, and 5.4.1–5.4.3 all on p. 37 with their figures on pp. 34–36 — which
+defeats the purpose of placing them early. `[H]` pins each box under its own
+heading so the visual argument can be read in position. **Revert each `[H]` to
+`[htbp]` as that subsection's prose lands**: with text to flow around, `[htbp]`
+is the right specifier and `[H]` strands whitespace.
+
 **Count, and the cut.** Fifteen figures and seven tables is above the corpus norm
 for a chapter of this length (Brown two figures and one table; Zhang about seven
 figures; Tay five and none; Ho about eight and eight; Reti six and two), and the

@@ -1,5 +1,5 @@
 ---
-status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); C1–C10 owed as drafting rulings
+status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed 2026-09-09 third pass (§10); C1–C18 owed as drafting rulings
 created: 2026-09-09
 topic: "The Experiments chapter designed against the field's conventions rather than invented: a section-level survey of how MTD evaluations are built and reported (now docs/workflows/evaluation_conventions.md), the ch5 design that follows from it, the funnel that lets one run set both characterise the attacker and evaluate the defence, the property-to-measurement map the discussion's fidelity table depends on, and the five things the chapter cannot yet say."
 ---
@@ -316,6 +316,12 @@ rather than the code.
    effectiveness strand names it.
 5. **Cross-arm event counts are inflated about fourfold** by per-vulnerability
    row writing. The corrected counter exists; the restatement is the cost.
+6. **The learning negative is a pre-restoration result with a named reopening
+   condition** (added by the third pass — §10.4). Every exploit-learning number
+   predates `d127f443`, which reinstated the OS-gated exploit-success channel and
+   may have dropped the perfect-exploit ceiling the null rests on. One no-MTD
+   cell decides whether a ≈ 370-run re-test is owed; until it runs, §5.3.3 states
+   a negative measured on a substrate that no longer exists.
 
 ## 5a. What Marc's "ours is the new baseline" framing does to blocker 1
 
@@ -780,3 +786,349 @@ An untracked handoff dated 2026-09-08 proposes a two-limb split across a
 separate setup chapter and a results chapter. Marc's merge ruling overtakes it
 and the tex comment records that. It is another session's file and is left for
 its owner; nothing in this design depends on it.
+
+---
+
+## 10. Third pass (2026-09-09) — the review, and what it found
+
+Marc's ask, in his words: *verify and critique the current setup* — go through
+the implementation records and see what late-pipeline work can be pulled to the
+fore; go through the notes and ask how they tie in **in the experimental sense**;
+check the MTD-evaluation survey is faithfully represented; and answer a list of
+specific objections to the chapter as scaffolded. This section is that review.
+Everything actionable is also written into the tex as a comment block at the
+section it governs, so a cold drafting session finds it in place rather than
+here.
+
+### 10.1 The defect Marc named, fixed
+
+**Every ch5 float rendered before the heading it belongs to.** Figures 5.1–5.4
+landed on pp. 28–29 against subsections on p. 30; §5.4.1–5.4.3 all sat on p. 37
+with their figures on pp. 34–36. Cause: with no prose between them, the float
+queue flushes ahead of the headings. Fixed by loading `float` and pinning ch5's
+22 placeholder floats with `[H]`, and by reordering §5.1, §5.2 and §5.5 so the
+placeholder paragraph leads its floats. Every float now sits on or after its own
+subsection's page. **Revert each `[H]` to `[htbp]` as that subsection's prose
+lands** — this is a placeholder-phase measure, recorded in `FLOATS.md`.
+
+### 10.2 Marc's questions, answered
+
+**Q. What is Table 5.1 for, and is it every assumption? Here or the appendix?**
+It is the answer to a question a reader of an MTD evaluation cannot otherwise
+ask — *how much of this result is a choice?* Yes, it is every assumption: a held
+row **is** an assumption, which is why no separate assumption list exists in the
+document (C1). The recommendation is **both homes, split by function**: the body
+table carries one row per declared *family* (the four dwell anchors as one row,
+the nine failure rules as one row) at 10–14 rows and half a page; `app:sensitivity`
+carries the per-value expansion, which is the form `tab:anchor-sensitivity`
+already has. A 40-row body table stops being read, and an unread honesty table is
+worth less than a short one.
+
+**Q. Is §5.1 what a sensitivity analysis looks like?** Yes on shape — one factor
+at a time over a declared band, one figure per parameter, band ends against
+centre, readout separated from interpretation. Two qualifications and one gap.
+(i) OAT is the *weak* form and the methodology sources say so: it explores a
+cross through the space, never its interior, so it cannot see an interaction. The
+failure matrix already half-answers that by also running the corners of the
+influential pair; one sentence naming OAT and the corner check pre-empts the
+obvious question. Do not claim a global sensitivity analysis. (ii) §5.1.2 is not
+a sensitivity analysis in the same sense — the mapping is a discrete swap, so it
+reports a robustness check, and the section is stronger for saying so. (iii)
+Three of the four figures are figures of non-events; the fix is C7b, already
+planned — close on the one parameter the conclusions are exposed to and demote
+the inert results to register rows.
+
+**Q. What axes of disruption does §5.3.2 run — which mechanisms?** The chapter
+never said, and it must. The spanning set is not the SDR taxonomy and it is not
+all seven mechanisms: it is a **2 × 2 on attacker-facing effect**, which is the
+resource layer the mechanism rewrites — network layer → **severance** (clears the
+host cursor; blocked fraction 0.15 → 0.72; the two network-layer mechanisms are
+*one* attacker-facing effect at 0.721 against 0.725), application layer →
+**surface re-roll** (barely reaches this attacker; blocked fraction stays at the
+no-defence ≈ 0.16, because exploitation is uninterruptible on that arm). One
+mechanism from each layer spans the effect space for this subsection; the full
+condition set belongs to §5.4. **And the SDR classes do not span it — which is a
+finding, not a convenience:** shuffle spreads across both layers while diversity
+sits in one, so the taxonomy the literature reads by and the taxonomy the
+attacker feels are different partitions. The third axis is **tempo**, not a
+mechanism: a response visible at one mutation interval is a property of the
+interval, so show it at two. Free extra: the **pure-interrupt pair** (IP shuffle
+and port shuffle reach the attacker through the interrupt alone) prices what an
+interrupt by itself is worth at each layer, and costs no new runs.
+
+**Q. "Declared capabilities" — I don't understand that section.** Repo
+vocabulary. It means the two things the attacker was *given* that it need not
+have had, each with a setting at which it switches off and the run is
+bit-identical. Those two things are a sense of cost and a memory, so the heading
+now says that: **§5.3.3 "A cost model and a memory"**. Alternatives left in the
+tex; Marc's to overrule.
+
+**Q. "Action mix" — I don't understand that.** Jargon leaked from the measurement
+suite. What it is: *what the attacker is doing changes after it is hit*. Take the
+handful of steps immediately before each mutation and the handful immediately
+after and compare which activities fill them; more reconnaissance and less
+exploitation after a mutation is the attacker re-orienting. Paired within run so
+run-to-run variation cancels; the verdict-blind arm is the control that separates
+response from drift. The figure's placeholder text now says that; the prose
+should never say "action mix".
+
+**Q. Effectiveness is basically just pure runs — the profiles unopposed?** No —
+that is §5.3, which now sits immediately above it and takes the unopposed arm.
+§5.4 runs the **defences**; every number in it is a difference from the
+no-defence reference §5.3 fixes. The one-line separation, worth putting in the
+roadmap sentence: §5.3 asks what the attacker does, §5.4 asks what the defences
+do to it, §5.5 asks what that costs on both sides.
+
+**Q. We can dial the attacker's predictability down and find a nice baseline.**
+The dial exists, and it is already in §5.3.3 under another name: **λ, the
+rationality exponent**. It exponentiates each transition's utility ratio against
+the out-set mean, so at λ = 0 every factor is 1.0 and the run is bit-identical to
+no modulator, and as λ rises the routing concentrates on high-payoff moves —
+concentrating the routing *is* making the attacker more predictable. So **one
+sweep carries two readings**, and the second is free: report effective
+behavioural breadth beside the outcome measure at each λ. The uniform-weight arm
+is the other end of the same axis. That also gives the "nice baseline" a
+criterion instead of a feel — **the operating point is the largest λ at which
+behavioural breadth is still plural**, which converts λ from a declared value
+into a selected one, the same move §5.1 makes. **It is not an equilibrium:** the
+defender is frozen on a schedule, so there is no second player optimising against
+this attacker, and the word must not appear.
+
+**Q. Are we budgeting 3 000 words?** Yes — 12 units × ~250 words is the ledger's
+own allocation, and the arithmetic is exactly right. Three things make it behave
+differently here. (i) **Floats are outside the word count** — the ledger's targets
+exclude tables and figures, and every caption is written long on purpose, so the
+chapter's argument is mostly not in its word budget. That is what makes 3 000
+words affordable for a results chapter. (ii) **The binding constraint is pages,
+not words**: 15 figures + 7 tables is about twelve pages of floats against roughly
+seven of prose, above the corpus norm; `FLOATS.md` marks 9 + 4 core and the rest
+is the cut list. (iii) **The heading count already exceeds the unit count** — 5
+sections + 9 subsections = 14 headings on 12 units. It balances only if §5.3 and
+§5.4 spend nothing at section level beyond a roadmap sentence and §5.1's
+subsections average two-thirds of a unit. So Marc's instinct is right: **most
+sections here are half-units by nature**, and a subsection that grows to a full
+250 words has taken the budget from a sibling. §5.3.1 and §5.4.2 are the two that
+want to overrun.
+
+### 10.3 Sweep 1 — the implementation records: three instruments that exist and are not placed
+
+Marc's framing: *we instrumented it so we could show our model is less
+detectable, less predictable; we produced these metrics but they weren't really
+the right metrics — they're attacker-side*. The answer is sharper than the design
+pass gave. Two of the three are the **right** metrics and are stronger than what
+the chapter currently draws; the third is right on its own terms and is fenced by
+a badge ruling, not by a measurement problem.
+
+**(a) Opening variety is the ruled primary plurality exhibit, and it is not in
+the chapter.** `plurality_reporting.md` closed on Marc's own second-pass ruling:
+the axis-3 fidelity exhibit is **distinct k-place opening sequences** per profile
+against the inherited FSM's structural single ordering — every profile opens on
+the same entry tactic and fans out with depth at a profile-specific rate, where
+the baseline holds one at every k, structurally. The same record **killed the
+alternative**: the entropy fan was ruled not drawn because its pre-registered
+kill criterion fired at Spearman −0.967 between pooled path entropy and maximum
+single-place visit share, so an entropy chart is a hub-occupancy chart wearing an
+entropy axis. As scaffolded, §5.3.1 has entropy in `tab:unopposed-summary` and no
+opening variety at all — which inverts the ruling. Recommendation: add opening
+variety as the plurality figure, or make Fig. 5.6 two panels (divergence |
+opening fan). No new unit either way.
+
+**(b) Effective behavioural breadth is the cleanest cross-arm statement the
+project owns, and it is nowhere in the chapter.** `predictability.md` (V2 rework,
+ratified after the 2026-08-11 challenge) established the inherited attacker
+*against its own code* as a **deterministic policy** — every (phase, branch) cell
+carries exactly one successor, so it exercises **one** effective behaviour, while
+the movement attacker runs **2.7–5.9**. That is a calibrated instrument with a
+self-test, computed on both arms, and it says in one number what §5.3.1 currently
+says in three. Two disciplines travel with it, both already ruled: the term
+*predictability* is **retired in this venue** (Cho and Jalowski own it for
+defender-terrain foreseeability), and the honest phrasing is a deterministic
+policy against a stochastic one.
+
+**(c) The detectability contrast is measured, survives its own ablation, and is
+fenced by a badge ruling — Marc's call, and it is a real one.**
+`stealth_spacing_diagnostic.md`: four of five profiles space their verb
+invocations **1.5–1.8× further apart** than the inherited attacker with seed
+intervals disjoint; the same four are **45 % quieter on the level** (mean 0.40
+against 0.72), holding on the time-average and the median; and an ablation
+attributes the **whole** margin to the non-action tactics — delete them and every
+profile falls under the baseline. The fifth profile inverts, and its composition
+says why (fewest non-action tactics), which is the mechanism working rather than
+an exception. Axis 5 stays **NOT ADDRESSED** because there is no detection model
+for a spacing choice to matter against — the axis's own argument, held three
+times. **The fence is on the badge, not on the measurement.**
+
+> **Ruling owed (C11).** May ch5 report the spacing contrast as an *observation*
+> about what the two attackers do, with `tab:fidelity-verdict`'s axis-5 cell
+> still blank? **Recommended yes**, one sentence plus a `tab:unopposed-summary`
+> column, on three grounds: it is the only cross-arm behavioural contrast the
+> work owns that is not about outcome; it is what makes §4.4.2's dwell catalogue
+> visible in behaviour rather than only in declaration; and reporting a
+> measurement while withholding the badge is exactly the discipline the criterion
+> exists to enforce. Two caveats travel with it verbatim — the granularity
+> confound is *not* resolved (state it at invocation granularity with the
+> per-vulnerability reading beside it), and most of the contrast is present
+> before any decay is applied, so what the decay adds is the shape of the quiet,
+> not the separation. If the ruling is no, it goes to ch7 as a named condition,
+> not silently.
+
+### 10.4 Sweep 1b — a new blocker the chapter's list does not carry
+
+**The learning negative is a pre-restoration result with a named reopening
+condition, and Fig. 5.9's caption states it as settled fact.** Every
+exploit-learning number predates `d127f443`, and that commit changed exactly the
+channel the capability probes: D-19 reinstated the **OS-gated exploit-success
+channel**, so OS-dependent vulnerabilities now fail on a mismatched host. The
+2026-08-11 null rests on a **perfect-exploit ceiling** — when a roll always
+succeeds, no exploit-phase capability has headroom, so of course the learner buys
+nothing. If the OS gate now refuses a material fraction of this attacker's
+exploits, that ceiling has dropped and the learner has headroom it did not have
+when it was measured. The original sweep also moved only `services_per_os` and
+never the OS pool, which D-19 has made a live lever.
+
+**The cheap pre-check decides it:** measure the movement arm's exploit-success
+rate on **one** no-MTD cell on the restored substrate. Little refusal → the null
+stands as written and the caption is safe. Material refusal → re-test (≈ 370
+runs) with the OS pool as a second lever before any sentence claims the negative.
+This joins the five blockers in §5 as **blocker 6**, and it is the cheapest of
+them to clear.
+
+### 10.5 Sweep 2 — the notes, read in the experimental sense
+
+Every rubric-passed note in `ch7_discussion/` and `ch5_experimental_setup/` is now
+paired with the ch5 measurement it needs, as a parked-discussion-points block in
+the tex under `sec:evaluation-implications`. The point of the pairing is the
+**reverse direction**: a discussion point with no ch5 measurement behind it is
+either a cut or an experiment nobody designed. Reading the list that way returns
+two things:
+
+- **One note is currently unevidenced.** `pure_interrupt_pair.md` needs IP shuffle
+  and port shuffle run as a *named contrast*. They are two conditions already
+  inside the seven, so the cost is a sentence and a column, not a run — but as
+  scaffolded the chapter does not pick the pair out, so the note has nothing
+  behind it and would have to be cut rather than asserted.
+- **One note's foundation may move.** `learning_without_context.md` rests on the
+  evidence §10.4 puts a pre-check under.
+
+**Two notes the merge ruling orphaned**, flagged for a docs pass rather than
+actioned: `ch5_experimental_setup/evaluation_burden.md` and `evaluation_grading.md`
+were written for units this chapter no longer has. The grading vocabulary
+survives as a sentence at the metric's definition site; the burden of proof is not
+a unit at all. Both need a status line saying so, or a cold session will draft a
+section from them.
+
+### 10.6 Sweep 3 — is the survey faithfully represented? Two gaps, both cheap
+
+The conventions file's own prescriptions were checked against the scaffold. Most
+are carried. Two are not, and a third is a coverage question Marc asked directly.
+
+**(1) The defender's half of the model is undeclared anywhere in the document.**
+The corpus convention (§g) is a threat model written as Goal / Knowledge /
+Capability applied **symmetrically**; He's is the tightest form. ch4 is an entire
+chapter of the attacker's half, so that side is discharged — but the defender's
+half exists nowhere. It is three clauses and it belongs in §5.2 beside the
+frozen-defender concession: goal (disrupt, not detect), knowledge (none of the
+attacker — there is no detection channel), capability (seven mechanisms on a
+fixed schedule, never reacting). Cheapest possible way to answer the frozen-
+defender objection before it is raised.
+
+**(2) The adaptive defender is in ch2 and nowhere here.** Table 2.5 puts
+MTDShield in the roster as one of five deployment strategies and this chapter
+runs none of it. Defensible — the agent needed rebuilding before it could trade
+cost against risk at all, and `mtd_ai_cost_calibration.md`'s verdict is *GO for a
+scaled training proposal*, not a trained model, while Tay's published figures
+characterise a uniform random selector — but it must be **declared, not silently
+absent**, or a reader compares our roster against ch2's and finds one missing.
+One held row in Table 5.3, pointing at future work.
+
+**(3) The coverage map — what we have on the field's own taxonomy, and what we do
+not.** Table 3.1's ten metric families against what this simulator can produce.
+We report on six.
+
+| Family | Standing |
+|---|---|
+| success events | Attacker-side ASR **degenerate** at the operating tempo (neither attacker completes the objective) — the suite computes none. Defender-side reported as **blocked fraction** (Brown's "attack actions blocked"), 0.15 → 0.72. Detection rate: **no** — no detection channel exists |
+| attacker time | Internal MTTC exists with three riders (it is the *substrate's* quantity; cross-arm comparability withdrawn under S3-R; it ranks the mechanisms perversely). The usable channel is **delay to first compromise**, censored |
+| game payoff | **No.** There is no game model. The utility modulator is an attacker *decision input*, never a payoff metric, and must not be reported in this cell |
+| attack paths | **No**, as the family defines it. APV/APN/APE/SAPV are graph-theoretic over a graphical security model; we measure path variety over the attacker's own walk. Different object, similar name — state the difference, do not claim the family |
+| configuration space | **No.** Attack surface not computed. **Name collision, already ruled:** Cho's *unpredictability* is a defender-terrain property of the configuration space; our behavioural-variety measure is not that, which is why the name was retired. Do not let our measure be read into this cell |
+| system state | Host-compromise breadth (the HCR-shaped quantity). Risk, confidentiality/integrity: no |
+| network-state change (effectiveness) | Churn tempo (an MEF analogue) and time-since-last-mutation, from the disruption ledger. Host IP variability: no |
+| resource spent | **Both sides — the strongest coverage in the chapter.** Attacker-side: the cost ledger (attempts by verb, time split into dwell / mutation penalty / residual, re-work, effort-to-breadth ratios), which includes Brown's "attempts required" directly. Defender-side: reconfiguration occupancy plus `downtime_ratio`, the node-replacement-downtime analogue Tay reports |
+| service to users | **No.** QoS and system performance overhead need a workload model the substrate does not have. Say it once, in the same sentence as the frozen defender |
+| network-state change (efficiency) | Deployment-window time by layer and by mechanism — the raw material for the variant-cost family |
+
+**The honest headline, and it is worth more than the table:** on the field's own
+taxonomy this evaluation is **strong on cost (both sides), adequate on
+containment and delay, and silent on surface, payoff and service** — and the
+silence is a property of the simulator, not an oversight.
+
+### 10.7 The largest omission: the objective denominator is not a factor
+
+`hypothesis_tree.md` §8e makes the objective a first-class experimental
+dimension, and the scaffold's factor table has no row for it. Under the **mass**
+objective the attacker reaches the goal 0/400 even unopposed, so "MTD denies the
+objective" is vacuous — which is precisely why the claim is denominated on host
+breadth. The **targeted** objective is what fills that vacuum, and the Gate 0
+probe has run (`targeted_attacker_findings.md` §4, 8 400 runs): non-degenerate at
+**layer 1 on `aggregate` only** (38.3 % [33.1, 43.1] against a 20 % bar), marginal
+at layer 2, failed at layer 3 and on the database set — and **the four
+objective-conditioned profiles fail the Gate at every depth**. Consequence: a
+targeted headline is a headline about the aggregate envelope, so `aggregate`
+would have to become a *branch* of the claim rather than characterisation. E7
+(four single mechanisms × both arms × 100 seeds at the layer-1 target) is
+designed and awaits Marc's ruling.
+
+Recommendation (C6, restated with the Gate result in hand): keep **breadth** as
+the backbone — it is degeneracy-proof at every tempo — and report **target
+reach** beside it wherever it is non-degenerate. Either way the objective must be
+a row in Table 5.2 or Table 5.3. What is not available is leaving the reader to
+infer which goal a suppression number is a suppression *of*.
+
+### 10.8 One consequence of the run-count arithmetic, stated before it is met
+
+`evaluation_predesign.md` §5 already carries measured per-cell variance and the
+seed requirement per adjacent pair (≈ 18, 22, 190 and 329 seeds — the two tight
+pairs drive the budget). The honest consequence: **at 100 seeds the adjacent
+within-family ranks are not separable**, so the reportable object is the 2 × 2
+family contrast and not a total order. Say that in §5.2 rather than discovering
+it in the results — it is the same discipline as the operating-point fact, and it
+protects §5.4.2 from a strained ranking.
+
+### 10.9 Rulings owed from this pass
+
+| # | Question | Recommendation |
+|---|---|---|
+| C11 | May ch5 report the spacing / detectability contrast as an observation with axis 5 still blank? | Yes — §10.3(c); one sentence and a column, with both caveats verbatim |
+| C12 | Does opening variety replace or join the plurality evidence in §5.3.1? | Join, as a panel of Fig. 5.6 — it is the ruled primary exhibit and entropy is a hub-occupancy proxy |
+| C13 | Does effective behavioural breadth enter §5.3.1 as the cross-arm plurality statement? | Yes — deterministic policy (1) against stochastic (2.7–5.9); never call it predictability |
+| C14 | Objective denominator as a factor row: breadth only, or breadth + target reach? | Both, breadth as backbone — §10.7; and rule E7 in or out in the same breath |
+| C15 | Is the λ sweep read twice (incentive **and** behavioural breadth), with the operating point selected as the largest plural λ? | Yes — one sweep, two readings, and it converts a declared value into a selected one |
+| C16 | Declare the defender's Goal / Knowledge / Capability and MTDShield's absence in §5.2? | Yes to both — three clauses and one held row |
+| C17 | Run the exploit-success pre-check before Fig. 5.9's caption is drafted? | Yes — one no-MTD cell decides whether a ≈ 370-run re-test is owed |
+| C18 | Is the pure-interrupt pair picked out as a named contrast in §5.4.1? | Yes if the note is kept; otherwise cut the note. No new runs either way |
+
+### 10.10 What changed in the tex on this pass
+
+Comments and headings only; no prose, per the drafting pipeline.
+
+- `float` loaded; ch5's 22 placeholder floats pinned `[H]`; §5.1, §5.2, §5.5
+  reordered so the placeholder paragraph leads. Build clean, 82 pages.
+- Chapter head: the word-and-page budget arithmetic, including the 14-headings-
+  on-12-units fact.
+- §5.1: what Table 5.1 is for and the body/appendix split; the "is this what a
+  sensitivity analysis looks like" answer (OAT, the mapping's different status,
+  the non-events gap).
+- §5.2: the four missing factor-table obligations (objective denominator, the
+  adaptive defender declared absent, the defender's half of the model, the run
+  count as arithmetic with its ranking consequence); the full coverage map.
+- §5.3: the three unplaced instruments and the C11 ruling; the disruption-axis
+  answer and the plain-English replacement for "action mix"; §5.3.3 renamed
+  **"A cost model and a memory"**, with the λ dial and the operating-point
+  criterion, and blocker 6.
+- §5.4: what the section is, against the reading it invites.
+- ch6: the parked discussion points, each paired with its ch5 measurement, and
+  the two orphaned notes flagged.
+- ch7: what ch5 hands future work, each as a measured exclusion rather than a
+  wish.
+- `FLOATS.md`: the `[H]` placement convention and its revert condition.
