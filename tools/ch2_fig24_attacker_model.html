@@ -44,33 +44,33 @@
 <!-- ==================== WHAT IT HOLDS ==================== -->
 <rect class="panel" x="14" y="14" width="872" height="280" rx="6"/>
 <text class="ptitle" x="34" y="46">What it holds</text>
-<text class="sm" x="184" y="46">and what a defence rewrite does to each</text>
+<text class="sm" x="184" y="46">and what survives a defence rewrite</text>
 
 <path class="rule" d="M40,74 H860"/>
 <text class="sm" x="86" y="98">it holds</text>
-<text class="sm" x="500" y="98">a rewrite</text>
+<text class="sm" x="500" y="98">after a rewrite</text>
 <path class="rule" d="M40,110 H860"/>
 
 <g transform="translate(58,136)"><use href="#cross"/></g>
 <text class="lbl" x="86" y="142">its objective</text>
-<text class="lbl" x="500" y="142">leaves it alone — it is fixed for the run</text>
+<text class="lbl" x="500" y="142">survives</text>
 
 <g transform="translate(58,180)"><use href="#eye"/></g>
-<text class="lbl" x="86" y="186">the subgraph it can see</text>
-<text class="lbl" x="500" y="186">recomputes it — the view can shrink</text>
+<text class="lbl" x="86" y="186">what it can see of the network</text>
+<text class="lbl" x="500" y="186">recomputed, and can shrink</text>
 
 <g class="comp"><g transform="translate(58,224)"><use href="#pc"/></g></g>
 <text class="lbl" x="86" y="230">the hosts it has taken</text>
-<text class="lbl" x="500" y="230">never gives them back</text>
+<text class="lbl" x="500" y="230">survives</text>
 
 <g transform="translate(58,268)"><use href="#key"/></g>
 <text class="lbl" x="86" y="274">the credentials it has taken</text>
-<text class="lbl" x="500" y="274">never gives them back</text>
+<text class="lbl" x="500" y="274">survives</text>
 
 <!-- ==================== PROCEDURE ==================== -->
 <rect class="panel" x="14" y="318" width="872" height="494" rx="6"/>
 <text class="ptitle" x="34" y="352">Procedure</text>
-<text class="sm" x="146" y="352">six states, and what moves it between them</text>
+<text class="sm" x="146" y="352">its six states, and the moves between them</text>
 
 <!-- the ring: the ordinary advance -->
 <g class="step">
@@ -113,17 +113,14 @@
   <path marker-end="url(#mC)" d="M744,540 L626,617"/>
   <path marker-end="url(#mC)" d="M744,764 L553,764"/>
 </g>
-<text class="sm halo" x="40" y="402">a host-layer rewrite</text>
-<text class="sm halo" x="790" y="524" text-anchor="middle">a service-layer rewrite</text>
-<text class="sm halo" x="790" y="748" text-anchor="middle">a credentials rewrite,</text>
-<text class="sm halo" x="790" y="768" text-anchor="middle">and only from brute-force</text>
+<text class="sm halo" x="40" y="402">host-layer rewrite</text>
+<text class="sm halo" x="790" y="524" text-anchor="middle">service-layer rewrite</text>
+<text class="sm halo" x="790" y="758" text-anchor="middle">credentials rewrite</text>
 
 <!-- the key: three kinds of move -->
-<path class="win" d="M40,700 H76"/>
-<text class="sm halo" x="86" y="706">takes the host</text>
-<path class="step" d="M40,730 H76"/>
-<text class="sm halo" x="86" y="736">every other move</text>
-<path class="cut" d="M40,760 H76"/>
-<text class="sm halo" x="86" y="766">a defence rewrite sends it back</text>
+<path class="win" d="M40,716 H76"/>
+<text class="sm halo" x="86" y="722">takes the host</text>
+<path class="cut" d="M40,752 H76"/>
+<text class="sm halo" x="86" y="758">a rewrite sends it back</text>
 </svg>
 </body></html>

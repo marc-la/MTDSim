@@ -13,7 +13,7 @@
   }
   html, body { margin:0; background:#fff; }
   body { width: 900px; }
-  @media print { @page { size: 16.06cm 7.67cm; margin:0; } body { width:16.06cm; } svg { width:16.06cm; height:7.67cm; } }
+  @media print { @page { size: 16.06cm 7.67cm; margin:0; } body { width:16.06cm; } svg { width:16.06cm; height:6.35cm; } }
   svg { display:block; font-family: "Nimbus Sans", "TeX Gyre Heros", Helvetica, Arial, sans-serif; }
   text { fill: var(--ink); }
   .title  { font-size: 21px; font-weight: bold; }
@@ -33,82 +33,68 @@
   .dot    { fill: var(--ink2); }
 </style></head>
 <body>
-<svg id="fig" viewBox="0 0 900 430" width="900" height="430" xmlns="http://www.w3.org/2000/svg">
+<svg id="fig" viewBox="0 0 900 356" width="900" height="356" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <marker id="mI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker>
   <marker id="mA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f548c"/></marker>
   <g id="hacker"><path class="icon f" d="M-10,13 C-10,4 -5,-1 0,-1 C5,-1 10,4 10,13 Z"/><path class="icon f" d="M-7,-3 C-7,-12 -4,-15 0,-15 C4,-15 7,-12 7,-3 C5,-4 3,-5 0,-5 C-3,-5 -5,-4 -7,-3 Z"/><path d="M-4,-3 C-2,-1 2,-1 4,-3 C3,0 -3,0 -4,-3 Z" fill="#fff"/></g>
   <g id="netic"><circle class="icon" cx="-9" cy="-6" r="3.6"/><circle class="icon" cx="9" cy="-6" r="3.6"/><circle class="icon" cx="0" cy="9" r="3.6"/><path class="icon" d="M-6,-4.5 L-2.4,7 M6,-4.5 L2.4,7 M-5.4,-6 H5.4"/></g>
   <g id="shieldic"><path class="icon" d="M0,-14 L11,-9 V0 C11,7 6,12 0,14 C-6,12 -11,7 -11,0 V-9 Z"/><path class="icon" d="M-4.5,0 L-1,3.5 L5,-3.5"/></g>
-  <g id="clockic"><circle class="icon" r="8"/><path class="icon" d="M0,-4.5 V0 H3.5"/></g>
 </defs>
-
-<!-- the simulator frame, named by its own tab -->
-<rect class="frame" x="7" y="42" width="886" height="378" rx="6"/>
-<g transform="translate(30,42)">
-  <rect x="-6" y="-13" width="322" height="26" fill="#fff"/>
-  <g transform="translate(8,0)"><use href="#clockic"/></g>
-  <text class="sm" x="24" y="5">MTDSim — one discrete-event simulation</text>
-</g>
 
 <!-- ============ ATTACKER ============ -->
 <g id="attacker">
-  <rect class="module" x="26" y="74" width="200" height="272" rx="5"/>
-  <g transform="translate(54,108)"><use href="#hacker"/></g>
-  <text class="title" x="76" y="115">Attacker</text>
-  <g class="dot"><circle cx="56" cy="163" r="2.6"/><circle cx="56" cy="197" r="2.6"/><circle cx="56" cy="231" r="2.6"/><circle cx="56" cy="265" r="2.6"/></g>
-  <text class="lbl" x="72" y="169">objective</text>
-  <text class="lbl" x="72" y="203">knowledge</text>
-  <text class="lbl" x="72" y="237">holdings</text>
-  <text class="lbl" x="72" y="271">procedure</text>
-  <text class="xref" x="126" y="326" text-anchor="middle">Figure 2.4</text>
+  <rect class="module" x="26" y="30" width="200" height="272" rx="5"/>
+  <g transform="translate(54,64)"><use href="#hacker"/></g>
+  <text class="title" x="76" y="71">Attacker</text>
+  <g class="dot"><circle cx="56" cy="136" r="2.6"/><circle cx="56" cy="196" r="2.6"/></g>
+  <text class="lbl" x="72" y="142">what it holds</text>
+  <text class="lbl" x="72" y="202">its procedure</text>
+  <text class="xref" x="126" y="282" text-anchor="middle">Figure 2.4</text>
 </g>
 
 <!-- ============ NETWORK ============ -->
 <g id="network">
-  <rect class="module" x="356" y="74" width="220" height="272" rx="5"/>
-  <g transform="translate(384,106)"><use href="#netic"/></g>
-  <text class="title" x="406" y="115">Network</text>
-  <!-- three layers, each a magnification of the one above -->
-  <path class="wedge" d="M382,193 H550 L516,205 H416 Z"/>
-  <path class="wedge" d="M382,253 H550 L516,265 H416 Z"/>
-  <rect class="band" x="382" y="145" width="168" height="42" rx="4"/>
-  <rect class="band" x="382" y="205" width="168" height="42" rx="4"/>
-  <rect class="band" x="382" y="265" width="168" height="42" rx="4"/>
-  <text class="lbl" x="466" y="172" text-anchor="middle">host layer</text>
-  <text class="lbl" x="466" y="232" text-anchor="middle">service layer</text>
-  <text class="lbl" x="466" y="292" text-anchor="middle">vulnerability layer</text>
-  <text class="xref" x="466" y="326" text-anchor="middle">Figure 2.2</text>
+  <rect class="module" x="356" y="30" width="220" height="272" rx="5"/>
+  <g transform="translate(384,62)"><use href="#netic"/></g>
+  <text class="title" x="406" y="71">Network</text>
+  <path class="wedge" d="M382,148 H550 L516,160 H416 Z"/>
+  <path class="wedge" d="M382,208 H550 L516,220 H416 Z"/>
+  <rect class="band" x="382" y="100" width="168" height="42" rx="4"/>
+  <rect class="band" x="382" y="160" width="168" height="42" rx="4"/>
+  <rect class="band" x="382" y="220" width="168" height="42" rx="4"/>
+  <text class="lbl" x="466" y="127" text-anchor="middle">host layer</text>
+  <text class="lbl" x="466" y="187" text-anchor="middle">service layer</text>
+  <text class="lbl" x="466" y="247" text-anchor="middle">vulnerability layer</text>
+  <text class="xref" x="466" y="282" text-anchor="middle">Figure 2.2</text>
 </g>
 
 <!-- ============ DEFENCE ============ -->
 <g id="defence">
-  <rect class="module" x="676" y="74" width="200" height="272" rx="5"/>
-  <g transform="translate(704,107)"><use href="#shieldic"/></g>
-  <text class="title" x="726" y="115">Defence</text>
-  <g class="dot"><circle cx="704" cy="180" r="2.6"/><circle cx="704" cy="248" r="2.6"/></g>
-  <text class="lbl" x="720" y="186">execution scheme</text>
-  <text class="sm"  x="720" y="208">when, and which</text>
-  <text class="lbl" x="720" y="254">seven mechanisms</text>
-  <text class="sm"  x="720" y="276">what each rewrites</text>
-  <text class="xref" x="776" y="326" text-anchor="middle">Figure 2.3</text>
+  <rect class="module" x="676" y="30" width="200" height="272" rx="5"/>
+  <g transform="translate(704,63)"><use href="#shieldic"/></g>
+  <text class="title" x="726" y="71">Defence</text>
+  <g class="dot"><circle cx="704" cy="136" r="2.6"/><circle cx="704" cy="196" r="2.6"/></g>
+  <text class="lbl" x="720" y="142">execution scheme</text>
+  <text class="lbl" x="720" y="202">seven mechanisms</text>
+  <text class="xref" x="776" y="282" text-anchor="middle">Figure 2.3</text>
 </g>
 
 <!-- ============ the four couplings ============ -->
 <!-- attacker reads the network; attacker compromises it -->
 <g class="arrow acc">
-  <path marker-end="url(#mA)" d="M230,160 H352"/>
-  <path marker-end="url(#mA)" d="M230,262 H352"/>
+  <path marker-end="url(#mA)" d="M230,120 H352"/>
+  <path marker-end="url(#mA)" d="M230,214 H352"/>
 </g>
-<text class="verb halo" x="291" y="148" text-anchor="middle" fill="#1f548c">observes</text>
-<text class="verb halo" x="291" y="250" text-anchor="middle" fill="#1f548c">compromises</text>
+<text class="verb halo" x="291" y="108" text-anchor="middle" fill="#1f548c">observes</text>
+<text class="verb halo" x="291" y="202" text-anchor="middle" fill="#1f548c">compromises</text>
 
 <!-- defence rewrites the network -->
-<path class="arrow" marker-end="url(#mI)" d="M672,211 H580"/>
-<text class="verb halo" x="626" y="199" text-anchor="middle">rewrites</text>
+<path class="arrow" marker-end="url(#mI)" d="M672,167 H580"/>
+<text class="verb halo" x="626" y="155" text-anchor="middle">rewrites</text>
 
 <!-- the rewrite interrupts the attacker: the loop that closes the model -->
-<path class="arrow" marker-end="url(#mI)" d="M776,350 V388 H126 V350"/>
-<text class="verb halo" x="451" y="378" text-anchor="middle">interrupts</text>
+<path class="arrow" marker-end="url(#mI)" d="M776,306 V336 H126 V306"/>
+<text class="verb halo" x="451" y="328" text-anchor="middle">interrupts</text>
 </svg>
 </body></html>

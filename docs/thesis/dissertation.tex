@@ -338,18 +338,23 @@ should be.
 % smallest type is 8.5 pt nominal and no inclusion edit can push it under.
 % Caption session-drafted to the 60--90 word target --- the old 400-word
 % decode is gone because the marks now carry their own labels. RATIFY ON
-% READ, voice pass owed. Placement [t]: at ~31% of the text height it sits
-% under the class's floatpagefraction.
+% READ, voice pass owed. Simplified 2026-09-09 (Marc, second pass): the
+% frame and its "one discrete-event simulation" tab are cut (the prose says
+% it), and each module now lists exactly the panels of its own component
+% figure, so the family is self-consistent. The governing principle for the
+% pass: a figure at this altitude may be SILENT on a nuance, but may not
+% assert a falsehood --- fine print moves to the prose, errors do not come
+% back. Placement [t].
 \begin{figure}[t]
   \centering
   \includegraphics{fig_2-2a_mtdsim_model}
   \caption[The three modules of MTDSim]{The three modules of MTDSim, and
-  the four couplings between them. Read it as one loop: the defence
-  rewrites a layer of the network, the attacker observes what it can see
-  of the network and compromises hosts within it, and each rewrite
-  interrupts the attacker mid-action. The accent marks the attacker's two
-  moves. The network is one network drawn at three magnifications, not
-  three systems. Each module is opened in the figure named beneath it.}
+  the couplings between them. The defence rewrites a layer of the network;
+  the attacker observes what it can see of the network and compromises
+  hosts within it; each rewrite interrupts the attacker mid-action. The
+  network is one network drawn at three magnifications, not three systems.
+  Each module is opened in the figure named beneath it, and holds the
+  panels that figure is built from.}
   \label{fig:mtdsim-model}
 \end{figure}
 
@@ -509,23 +514,26 @@ all of their neighbours.
 % Figure 2.3 (new 2026-09-09): the defence module opened. Three fixes the
 % old plate could not carry: the mechanism groups are LABELLED rather than
 % separated by an unlabelled hairline (a reader bound each arrow to the one
-% row it left beside); "periodic tick" is corrected to the exponential draw
-% the code makes (mtd_operation.py:115,160); and the lineage four are NAMED
-% rather than counted --- the old caption's "the first four" was false
-% against the drawn roster order (mtd_scheme.py:26-31). The generator fails
-% the build if either pool drifts from the code. Placement [htbp], not [t]:
+% row it left beside); the mechanisms are drawn against a picture of the
+% thing each rewrites rather than set as a styled list (Marc, 2026-09-09:
+% the list form "reads very dry"); and the "periodic tick" claim is simply
+% dropped --- the interval is an exponential draw (mtd_operation.py:115,160)
+% and the figure is now silent on it rather than wrong. The lineage-pool
+% fact is likewise off the face: the old caption's "the first four" was
+% false against the drawn roster order (mtd_scheme.py:26-31), and Section
+% 2.2.2's prose already owns it. The generator fails the build if the full
+% pool drifts from the code. Placement [htbp], not [t]:
 % under [t] the float queue flushed it a page AHEAD of its own subsection.
 \begin{figure}[htbp]
   \centering
   \includegraphics{fig_2-2-2a_defence_module}
   \caption[When the defence moves, and what each mechanism rewrites]{When
-  the defence moves, and what each mechanism rewrites. The interval is
-  drawn about a per-scheme mean rather than fixed, and which mechanism
-  fires is drawn by the execution scheme or chosen by the learned
-  selector, whose action space includes moving nothing at all. The seven
-  mechanisms group by write surface, and two in the same group never run
-  concurrently. The marked four are the pool every recorded experiment
-  runs; the other three restore Brown's full pool.}
+  the defence moves, and what each mechanism rewrites. An interval
+  elapses, the execution scheme draws which mechanism fires or a learned
+  selector picks one --- and it may pick none --- and the defence moves.
+  The seven mechanisms group by what each rewrites: three rewrite the host
+  layer, three the service layer, and one the credentials. Two mechanisms
+  in the same group never run at once.}
   \label{fig:defence-module}
 \end{figure}
 
@@ -656,13 +664,12 @@ IDS-based scheme, is not possible.
   \centering
   \includegraphics{fig_2-2-3a_attacker_model}
   \caption[What the baseline attacker holds, and how it proceeds]{What the
-  baseline attacker holds, and how it proceeds. The upper panel separates
-  what a defence rewrite never takes back from what it recomputes: the
-  hosts and credentials it has taken are permanent, its view of the
-  network is not. The lower panel is the six-state machine. The accent
-  marks the three moves that take a host, each of which reveals that
-  host's neighbours; the dashed edges are where a rewrite sends it back
-  to, one route per class of mechanism.}
+  baseline attacker holds, and how it proceeds. The upper panel gives what
+  a defence rewrite leaves it: the objective, the hosts and the credentials
+  survive; its view of the network does not. The lower panel is the
+  procedure --- six states, and the moves between them. The accent marks
+  the three moves that take a host, each of which reveals that host's
+  neighbours, and a dashed edge is where a rewrite sends it back to.}
   \label{fig:attacker-model}
 \end{figure}
 

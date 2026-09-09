@@ -484,3 +484,28 @@ a drift of this kind will ship one.** `ch2_model_figures.py` checks both
 MTD pools and the type floor, and reads sizes from CSS *and* SVG
 attributes — the old one read CSS only, so a size moved to an attribute
 escaped the floor silently.
+
+**The simplification pass that followed (Marc, 2026-09-09, on seeing the
+four built).** Two rulings worth reusing.
+
+*A figure at a given altitude may be **silent** on a nuance; it may not
+assert a falsehood.* This is what lets fine print move to the prose without
+reintroducing the errors the rebuild fixed. Figure 2.3 no longer says the
+trigger is periodic *or* exponential — it says an interval elapses, and
+Section 2.2.2 carries the draw. Figure 2.4 no longer says the credentials
+rewrite interrupts only brute force. Nothing that was corrected went back.
+
+*A roster set as a styled list "reads very dry" --- draw the thing being
+acted on.* Figure 2.3's seven mechanisms were a three-column list of names
+under bold headers; they are now three rows, each running
+names → `rewrites` → **a picture of the host layer, the service graph or a
+credential**, reusing Figure 2.2's own glyphs so the two figures teach one
+vocabulary. Words formatted in a special way are not a diagram.
+
+Two consequences for the family. Figure 2.1's modules now list **exactly the
+panels of their own component figure** (attacker: what it holds / its
+procedure; network: the three layers; defence: execution scheme /
+seven mechanisms), so the top-level figure is a contents page for the other
+three. And the figure's outer frame and its "one discrete-event simulation"
+tab were cut: an unlabelled frame is an undecoded mark, and a labelled one
+spends ink on what the prose's first sentence already says.

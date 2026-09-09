@@ -56,9 +56,6 @@ ROSTER = {
     "PortShuffle": "Port shuffle",
     "UserShuffle": "User shuffle",
 }
-# The LINEAGE pool, named rather than counted: the old caption said "the first
-# four", which was false against the drawn roster order (mtd_scheme.py:26-31).
-LINEAGE = {"CompleteTopologyShuffle", "IPShuffle", "OSDiversity", "ServiceDiversity"}
 
 
 def _classes(block: str) -> set[str]:
@@ -67,10 +64,10 @@ def _classes(block: str) -> set[str]:
 
 
 def _pool(name: str) -> set[str]:
-    """MTD_POOLS['full'] is a literal; 'lineage' aliases self._mtd_strategies."""
+    """The named MTD_POOLS literal. Only 'full' is drawn; the lineage pool's
+    membership is a prose fact (Section 2.2.2), so nothing here guards it."""
     src = SCHEME_PY.read_text()
-    pat = r"self\._mtd_strategies\s*=\s*\[(.*?)\]" if name == "lineage" else rf"'{name}':\s*\[(.*?)\]"
-    m = re.search(pat, src, re.S)
+    m = re.search(rf"'{name}':\s*\[(.*?)\]", src, re.S)
     if not m:
         raise SystemExit(f"could not read the {name!r} pool from mtd_scheme.py")
     return _classes(m.group(1))
@@ -82,8 +79,6 @@ def validate(stem: str, html: str, check_roster: bool, px: int) -> float:
         code = _pool("full")
         if code != set(ROSTER):
             raise SystemExit(f"{stem}: roster drift — code {sorted(code)} vs {sorted(ROSTER)}")
-        if _pool("lineage") != LINEAGE:
-            raise SystemExit(f"{stem}: lineage pool drift — code {sorted(_pool('lineage'))}")
         text = " ".join(re.findall(r">([^<>]+)<", html))
         missing = [n for n in ROSTER.values() if n not in text]
         if missing:
