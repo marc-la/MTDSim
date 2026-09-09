@@ -370,6 +370,8 @@ which is ruled out of scope and already sits in future work.
 | C6 | Is the effectiveness strand's denominator breadth, target reach, or both? | Both, reported separately — breadth is degeneracy-proof at every tempo, target reach discriminates only where it is non-degenerate. Depends on the targeted-objective ruling, still open |
 | C7 | Minimum effect sizes per channel | Still owed from the hypothesis tree; a cheap-run simulator makes any difference significant, so this is not optional |
 | C7b | Does §5.1 close by naming what it selected, with §5.2 picking it up? | Yes — §3.1b. It costs one sentence, earns §5.1 its position, and converts a page of inert parameters into a design input |
+| C9 | Does the disruption frontier expand §5.4 beyond one unit? | Probably yes — §8. Its defender-side measure is arm-invariant where attacker-side time is not, so it is the more robust of the two cross-arm claims and is currently the thinnest-funded |
+| C10 | Return on attack: report the inherited per-vulnerability score, or the cost ledger's realised ratios? | The ledger's ratios, with one sentence saying why — the inherited quantity is an exploit-ordering input, not a realised return, and two lineage papers report it as an outcome |
 | C8 | Declare the run count as a tolerated-error consequence rather than a round number? | Yes — §2(5). It costs one sentence, cites a method the corpus lacks, and makes the hundred-seed budget a result instead of a habit |
 
 ## 7. Papers — what arrived, and the short list left for Marc
@@ -416,6 +418,240 @@ in the bibliography is commented out because no source was held. The source is
 now in the repo, so the entry can be activated and the argument cited rather
 than attributed from memory. The same is true of the replication-count rule,
 which the chapter currently has no citation for at all.
+
+## 8. Drafting cards — the shape of each section
+
+Added 2026-09-09 on Marc's ask: for each heading, what goes under it, the shape
+the literature would give it, how it ties to the formalism and to what is already
+built, and what must change before numbers are written. These are cards to write
+*against*, not prose to adopt.
+
+### The chapter's one-sentence logic
+
+The attacker model of chapter 4 has three declared inputs and a set of optional
+capabilities. §5.1 prices the inputs. §5.2 declares the experiment. §5.3–5.5
+run it, on three metric families: what the defence achieves, what it costs, and
+what the inherited suite cannot see. The discussion then reads a verdict off
+them. Nothing in this chapter argues; it declares, measures and reports.
+
+---
+
+### §5.1 Sensitivity analysis
+
+**Why these three and not others.** They are not a list of worries — they are
+*the* free parameter families of the formal definition, one each:
+
+| §4.3 element | What it is in the net | §5.1 subsection |
+|---|---|---|
+| `W(τ_p) = 1/μ_p` | the rate of every timed transition | 5.1.1 dwell times |
+| `φ: P → A ∪ {⊥}` | the coupling between the net and the environment | 5.1.2 mapping |
+| `F_failure = R · d` | the conditioning factor on the immediate weights | 5.1.3 failure matrix |
+
+That is the tie-in Marc asked for, and it is what makes the section legible: the
+formalism has three places where a number had to be chosen, and this section
+prices all three. Say it once in the preamble and the section stops looking like
+a detached methods block.
+
+**Shape, per subsection** — Tay's repeating form, which is the local genre and
+also the clearest in the corpus:
+
+1. Name the parameter and what it trades off.
+2. Declare the range **and its justification**. Ours come from the formalism and
+   the derivation records, which is more than the corpus gives.
+3. The figure (or, where nothing moved, the table).
+4. The numeric readout. The "why" is deferred to chapter 6.
+
+**Presentation.** Line chart, x = the swept parameter, y = the metric, series = a
+second factor at two to four levels, one figure per parameter (Anderson's form,
+also Hong's and Carroll's). Where the answer is "nothing moved", a band-ends
+against-centre table is the honest compression — `app:sensitivity`'s anchor table
+already is one.
+
+**Close by naming what the sweep selected.** Three anchors inert, one not; the
+floor inert; profile ordering unstable for a power reason. As a list that is a
+page of non-events. As a selection it says: the conclusions are exposed to one
+declared parameter, and here is the operating region that follows. §5.2 then
+opens by picking it up. Manadhata and Wing assign their later parameters on their
+sensitivity analysis's recommendation; Torquato truncates a later axis at the
+optimum a first study found, with the reason stated.
+
+**What must change before numbers are written here:**
+
+- **Re-run both sweeps at the reported configuration.** They ran at ten seeds on
+  the pre-restoration substrate with one MTD condition, and the failure-matrix
+  sweep under the superseded fixed-dwell regime. About 2 600 + 1 560 runs;
+  minutes of compute. Without this the chapter carries two configurations on one
+  page.
+- **Settle the overlay version.** A chapter-4 caption already names the
+  failure-only overlay; the published sweep numbers are the superseded one.
+- **Rule the register merge** (C1), because it decides whether the twelve
+  assumptions are table rows here or a paragraph in chapter 4.
+
+---
+
+### §5.2 Experimental dimensions
+
+**Shape.** The corpus's cleanest form is Reti's **two tables**: one of the
+factors that vary with their levels, one of everything held fixed with its value.
+That is the same swept-or-held logic as §5.1's register, applied to the
+experiment instead of the model, and it makes the design auditable at a glance.
+Ho does the same thing across two sections; Zhang folds it into an untitled head
+before the first result.
+
+**What goes in the varying table:** attacker arm (inherited baseline; four
+objective profiles; the aggregate envelope), defence condition (none; seven
+single mechanisms; three deployment schemes), mutation tempo, network scale and
+density. **What goes in the fixed table:** horizon, geometry, seed set, the
+timing regime, the mapping version, the overlay version, the modulator nulls.
+
+**Also here, and nowhere else:**
+
+- The metrics, **named as instrumentation** and grouped by family, with the
+  comparability boundary stated as a disclosure: within-simulator comparison is
+  valid, cross-paper numeric comparison is not.
+- The **run count as a consequence** — declare the tolerable error in the
+  estimate, then the count follows. No lineage paper does this; Brown states no
+  count at all.
+- The **operating-point fact**: at the default tempo the success metric cannot
+  discriminate, because neither attacker completes the objective. Stated once,
+  as a design fact. Its interpretation is chapter 6's.
+- The **ablation arms declared**, each with the null at which the run is
+  bit-identical. This is where they live; their results ride the strands.
+- The **volunteered concession**: Jalowski's third metric guideline asks for
+  comparison against a state-of-the-art protected system. We compare mechanisms
+  against each other and against no defence, with the defender frozen.
+
+---
+
+### §5.3–§5.4 Effectiveness and efficiency — what the split actually means
+
+Marc asked what separates them and whether we really have efficiency. Both
+answers are firmer than expected.
+
+**The axis is Cho's, and Table 3.1 already implements it.** Effectiveness asks
+*did the defence achieve the security goal* — measured on what happens to the
+attack: success events, attacker time, attack paths, system state. Efficiency
+asks *what did that cost* — resource spent, on either side. Goal attainment
+against the price of attainment. Both are crossed with the attacker/defender
+perspective, which is why each has an attacker-side and a defender-side half.
+
+**We do have efficiency, on both sides, and it is instrumented today:**
+
+- *Attacker side* — the cost ledger, which decomposes a run into attempts by
+  verb (split blocked and dwell-only), time into behavioural dwell plus the
+  mutation penalty plus residual, the re-work a mutation forced, distinct hosts
+  and yield per unit time; plus the effort-to-breadth ratios (actions and
+  successes per distinct host).
+- *Defender side* — the reconfiguration ledger: what fraction of the run at
+  least one layer was being reconfigured, decomposed by layer and mechanism,
+  plus churn tempo and the suspended-mutation tally. It is derived entirely from
+  the simulator's own per-mutation records, so it introduces no new declared
+  value.
+
+**One caution on return on attack.** The inherited quantity is a
+*per-vulnerability attractiveness score* the attacker uses to order exploits,
+not a realised return over a run — while two papers in the lineage report it as
+an outcome. If the chapter reports it, it must say which sense it means, or use
+the cost ledger's ratios instead and say why.
+
+**What we genuinely do not have:** quality of service to users and system
+performance overhead — the half of the field's efficiency axis that needs a
+workload model. Not instrumentable on this substrate; state it once as scope,
+in the same sentence as the frozen defender.
+
+**The finding that may be underweighted at one unit.** Pairing attacker-side
+suppression against defender-side occupancy gives a cost–benefit frontier per
+mechanism, per attacker — and the result on record is that the *shape of the
+trade* inverts with the attacker. Two properties make this attractive. It is the
+same claim family as the ranking result but on a different instrument, and its
+defender-side measure is **arm-invariant** — reconfiguration time is priced by
+the simulator on both arms, unlike attacker-side time. So it is the more robust
+of the two cross-arm claims, and it is the one currently allocated a single unit.
+Worth a ruling: does the frontier ride §5.4 with more budget, or stay a
+supporting result?
+
+---
+
+### §5.3 Effectiveness — the three subsections
+
+**5.3.1 Without defence.** The funnel's first step, and the reason the section is
+subsectioned at all. He 2025 characterises its attacks on the undefended target,
+prunes to what matters, then evaluates the defence against that, with the pruning
+rule stated. Here the block does three jobs at once: it is a claim about the
+attacker rather than about the interaction, because nothing is defending; it is
+the denominator every later suppression number is a difference from; and it is
+the selection step that explains why breadth is the denominator, since the
+profiled attacker reaches the mass-compromise objective in none of its unopposed
+runs. State the pruning rule explicitly — that is what stops it reading as a
+detour.
+
+**5.3.2 Under defence.** The conditions against both attackers. Report the
+no-defence condition as the origin of a relative-change plot, not as its own
+series (He's form; Tay normalises by it; Brown plots it as a bar). Note the
+condition set is not the published matrix's: three of the seven single mechanisms
+entered the pool afterwards and have never run against the movement attacker.
+
+**5.3.3 Across the two attackers.** The cross-arm contrast plus the lineage
+headlines re-run under both attackers, which belong inside the strand they
+instrument rather than in a section of their own. Blocked on the re-established
+measurement; the bar is whatever stable difference exists, at the grade it earns.
+
+---
+
+### §5.5 Supplementary measures — what it does that the other two cannot
+
+**The argument for the strand existing.** Effectiveness and efficiency are the
+inherited suite's axes, and that suite was built for an attacker whose behaviour
+is scan, exploit, propagate. It has no vocabulary for a tactic, a phase, or a
+behavioural distribution. So it can say what an attacker achieved and what that
+cost, and it cannot say:
+
+- how much of a campaign lifecycle was traversed, or in what order;
+- whether behaviour varies across runs and differs between profiles;
+- whether the attacker changed what it does after being disrupted;
+- whether accumulated knowledge changed anything.
+
+Those are precisely the properties the fidelity criterion scores. **The
+supplementary strand is the measurement side of the attacker model's own claim** —
+which is also why it is the strand that would not exist if the contribution were
+a mechanism rather than an attacker.
+
+**Where the two subsections came from.** They split by *how the evidence is
+obtained*, not by topic:
+
+- **5.5.1 Campaign structure and plurality** — read directly off the walk, mostly
+  from the no-defence arm: distinct-tactic coverage over time, deepest
+  successfully-actioned stage, foothold retention (property 1); profile
+  divergence against its own split-half null (property 2, the one property shown
+  to change an outcome); path entropy and distinct prefixes (property 3).
+- **5.5.2 The declared capabilities, ablated** — cannot be read off a single arm
+  at all; each needs a contrast against its null: the verdict-blind arm
+  (property 4) and the learning arms (property 7). Both return measured
+  negatives, and those negatives are among the most credible things the work
+  owns.
+
+The literature tie is direct: Tay's evaluation chapter has an explicit ablation
+subsection, so the second card has a local precedent in this supervisor's own
+lineage, and He devotes a results subsection to a structural property of its
+defence rather than to an outcome.
+
+Also here: the tactic-resolved MTD effect, which should be **cited, not claimed
+as novel** — Zaffarano defines the kill-chain phase against which a defence is
+most effective as the argmax over phases of the mean per-task change in success
+with and without the defence.
+
+---
+
+### The full change list before numbers are written
+
+1. Re-run the two sweeps at the reported configuration (§5.1).
+2. Settle the overlay version, or write the reconciling sentence.
+3. Rule the history slot in the formalism, so the ablation arms have a chapter-4
+   antecedent and two fidelity marks stop resting on undefined mechanisms.
+4. Resolve the internal mean-time-to-compromise question before §5.3 names it.
+5. Correct the cross-arm event count before any cross-arm event number.
+6. Run the headline re-establishment before §5.3.3 is drafted.
+7. Rule whether the disruption frontier expands §5.4 beyond one unit.
 
 ## Validation gate
 
