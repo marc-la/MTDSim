@@ -137,13 +137,18 @@ place where inherited and built are separated.
   needs ~150 words explaining what a flow object **is** before the construction can
   be described, the fix is two definitional sentences in ch3 §3.1.3, not a ch2
   section.
-- **No pipeline figure.** The ladder belongs to ch4's opening. Ch2 carries one
-  float of its own besides Table 2.1: **Figure 2.1**, the three-module model
-  diagram in the §2.2 preamble (ruled 2026-08-27; generator
-  `tools/mtdsim_model_figure.py`, plan
-  [`../../handoffs/2026-08-27_ch2_model_diagram_plan.md`](../../handoffs/2026-08-27_ch2_model_diagram_plan.md)).
-  It frames the three subsections and pre-installs the layer-landing reading
-  (shuffles rewrite the network layer, diversity the host layer) ch4 and ch5 use.
+- **No pipeline figure.** The ladder belongs to ch4's opening. Ch2 carries a
+  **figure family** of its own besides Table 2.1, ruled 2026-09-09 when the
+  single 2026-08-27 plate was found to be condensing three modules and three
+  network layers into one under-labelled 16 x 11 cm float: **Figure 2.1** in
+  the §2.2 preamble holds the three modules and their coupling at high
+  abstraction, and **2.2 / 2.3 / 2.4** open the network, the defence and the
+  attacker beside the subsections that decode them. All four come from
+  `tools/ch2_model_figures.py`; the rulings and the encoding rules are in
+  [`../../workflows/figure_table_conventions.md`](../../workflows/figure_table_conventions.md)
+  section (n). Figure 2.1 still frames the three subsections and pre-installs
+  the layer-landing reading (shuffles rewrite the network layer, diversity the
+  host layer) ch4 and ch5 use.
 - **No gap talk, no lineage headlines, no fidelity verdicts.** All three are other
   chapters' and spending them here spends them twice.
 

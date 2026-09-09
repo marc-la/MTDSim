@@ -338,7 +338,7 @@ routes land on the same URW Nimbus Sans metrics:
 | Route | Where it is set | The lines |
 |---|---|---|
 | TikZ standalone (every `tools/*_figure.py`, `gap_appendix_figures.py`) | the emitted preamble, after `fontenc` | `\usepackage[scaled=0.92]{helvet}` + `\renewcommand{\familydefault}{\sfdefault}` |
-| hand-authored SVG through Chromium (`tools/mtdsim_model_figure.html`) | the `svg {}` CSS rule | `font-family: "Nimbus Sans", "TeX Gyre Heros", Helvetica, Arial, sans-serif`, class sizes at 0.92 of nominal (`FACE_SCALE` in the generator) |
+| hand-authored SVG through Chromium (`tools/ch2_fig2*.html`) | the `svg {}` CSS rule | `font-family: "Nimbus Sans", "TeX Gyre Heros", Helvetica, Arial, sans-serif`, class sizes at 0.92 of nominal (`FACE_SCALE` in the generator) |
 | Attack Flow Builder export (`tools/restyle_attackflow_svg.py`) | the font stack rewrite | `Arial, Helvetica, sans-serif` (Builder metrics are Inter; Helvetica-metric fits its boxes) |
 
 **Why a sans, and why this one.** Read from the embedded font lists of the
@@ -401,3 +401,86 @@ ladder's two join gaps, which were widened to carry them. A figure earns
 its float; a duplicate of another figure's bands does not. The pattern to
 reuse: only component names are text; facts the prose states are not
 repeated as footers; a caption decodes, it does not narrate.
+
+
+## (n) The ch2 §2.2 figure family, and the SVG route's type rule
+
+**Ruled by Marc, 2026-09-09, on a five-perspective review of Figure 2.1.**
+One 16 × 11 cm plate carrying ~120 marks, three modules and the network's
+three layers, decoded by a 400-word caption that was **commented out** —
+so what shipped was the plate plus one sentence. Marc's objection was that
+too much was condensed into too little and the columns were too narrow to
+read. The plate became a **family at descending abstraction**, each float
+landing beside the prose that decodes it: 2.1 the three modules and their
+coupling, 2.2 the network's three layers, 2.3 the defence module, 2.4 the
+attacker model. This supersedes the single-figure plan and the 2026-09-05
+rework in §m — including that rework's *cut the labels* direction, which
+was a symptom of the page box, not a design preference.
+
+**The pattern generalises.** When a figure needs a caption long enough to
+be a legend, it is under-labelled, and the fix is more room for labels, not
+denser marks. A family beats both a bigger plate and a two-way split
+because each float's caption decodes only its own marks, and each gets a
+`\ref` target for the subsection that needs one.
+
+**Type rule for the SVG route: draw at ≈ 0.5 pt per px — canvas px ≈ 2 ×
+printed pt.** A 900 px canvas at `\textwidth` gives 0.5058 pt/px, so a
+15.5 px label prints at 8.5 pt nominal. The old file ran at 0.413 pt/px,
+which is exactly why its 18.4 px only bought 8.26 pt and why 32 of its 35
+labels sat at one size — the flat hierarchy was a consequence of the page
+box, not a choice. Give every SVG figure three sizes (panel title, label,
+secondary) and keep the floor check in the generator.
+
+**Stroke and glyph floors.** No effective stroke below 1.2 px (0.60 pt)
+*after* nested `scale()`; a multi-stroke pictogram needs ≈ 2.4 mm printed
+to be recognised. Both were measured against the old figure, where eleven
+strokes fell under 0.50 pt and five glyph families (gear, the ⇄ swap
+repeated seven times, and the FSM's key, socket and bug) fell under the
+recognition threshold while carrying "service", "rewrite", "brute-force",
+"scan ports" and "exploit".
+
+**Invert the grey ladder: chrome must be fainter than the faintest data.**
+The old file used `#cfcfcf` for panel strokes *and* for semantic group
+hairlines, while `opacity: 0.35` glyphs resolved to ≈ `#b8b8b8` — data
+lighter than the border containing it. Four tokens, each ≥ 15 points of
+luminance apart: ink `#333`, secondary `#6e6e6e`, faint-semantic `#b0b0b0`
+glyphs / `#d2d2d2` cables, chrome `#ececec`. Set faint as a **flat colour,
+never `opacity`** — opacity over a tinted panel is unstable.
+
+**Dash is a binary channel and gets one meaning.** In the family it is the
+MTD interrupt. The old file spent it on five (subgraph boundary, attacker
+trace, a service-graph edge, a ringed bug, the interrupt) with `6 5` and
+`7 5` not separable at 7.6 pt.
+
+**Palette (Marc, 2026-09-09; ratify on read).** Red `#b3261e` on
+`#f3d6d3` = compromised, with a heavier outline so the shape survives
+greyscale. Accent `#1f548c` = attacker action and path. Greys = the
+network. Module coupling in 2.1 is carried by **words on the arrows**, not
+a third hue. The alternative put to Marc — hue encodes agency, blue
+attacker / warm defence, compromised staying blue — was declined: it is
+splitting the plate, not the palette, that removes blue's seven jobs.
+
+**`\textwidth` is 455.244 pt, measured (§h's flag resolved).** `geometry`
+loads `margin=2.5cm`; the 411.4 pt figure quoted in §h is wrong. Inside
+`pdflscape`'s `landscape`, `\textwidth` still reports 455.24 pt while
+`\linewidth` is 702.78 pt — a `width=\textwidth` there silently gives 65 %
+of the page. Use `\linewidth`, or natural-size inclusion.
+
+**Errors the rebuild fixed, for the record.** The old face drew
+`scan hosts → scan neighbours`, a transition that does not exist
+(`attack_operation.py:349-361`) — the exploit chord with both signs
+flipped — so the model's central compromise edge
+(`attack_operation.py:633-636`) was absent while the caption claimed the
+accent marked "the three ways a host is compromised". It also omitted
+`enumerate → scan hosts` (`:136-141`) and the third interrupt class
+(`mtd_operation.py:246-262`); called the trigger "periodic" when it is an
+exponential draw (`:115,160`); said "the first four" of a roster whose
+drawn order made that false (`mtd_scheme.py:26-31`); reduced the
+compromise rule to a vulnerability chain, eliding both real gates
+(`services.py:308-313`, `host.py:415-426`); and extended "no rewrite takes
+it back" to the visible subgraph, which is rebuilt on every topology
+rewrite (`network.py:699-733`). **A generator that cannot fail the build on
+a drift of this kind will ship one.** `ch2_model_figures.py` checks both
+MTD pools and the type floor, and reads sizes from CSS *and* SVG
+attributes — the old one read CSS only, so a size moved to an attribute
+escaped the floor silently.

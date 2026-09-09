@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>fig:defence-module — when the defence moves, and what each mechanism rewrites</title>
+<style>
+  :root { --ink:#333; --ink2:#6e6e6e; --faint:#b0b0b0; --chrome:#ececec; --panel:#f7f7f7; --accent:#1f548c; }
+  html, body { margin:0; background:#fff; }
+  body { width: 900px; }
+  @media print { @page { size: 16.058cm 9.81cm; margin:0; } body { width:16.058cm; } }
+  svg { display:block; font-family: "Nimbus Sans", "TeX Gyre Heros", Helvetica, Arial, sans-serif; }
+  text { fill: var(--ink); }
+  .ptitle { font-size: 19px; font-weight: bold; }
+  .ghead  { font-size: 17px; font-weight: bold; }
+  .lbl    { font-size: 17px; }
+  .sm     { font-size: 15.5px; fill: var(--ink2); }
+  .panel  { fill: var(--panel); stroke:none; }
+  .icon   { fill:none; stroke: var(--ink); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .icon.f { fill: var(--ink); stroke:none; }
+  .rule   { stroke: var(--faint); stroke-width:1.4; }
+  .lead   { stroke: var(--ink2); stroke-width:1.4; fill:none; }
+  .dot    { fill: var(--ink2); }
+  .pick   { fill: var(--accent); }
+</style></head>
+<body>
+<svg id="fig" viewBox="0 0 900 550" width="900" height="550" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="mI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6e6e6e"/></marker>
+  <g id="clockic"><circle class="icon" r="12"/><path class="icon" d="M0,-7 V0 H5"/></g>
+  <g id="diceic"><rect class="icon" x="-11" y="-11" width="22" height="22" rx="3"/><circle class="icon f" cx="-5" cy="-5" r="2.2"/><circle class="icon f" cx="5" cy="5" r="2.2"/><circle class="icon f" cx="0" cy="0" r="2.2"/></g>
+  <g id="chipic"><rect class="icon" x="-10" y="-10" width="20" height="20" rx="2.5"/><path class="icon" d="M-5,-10 V-15 M0,-10 V-15 M5,-10 V-15 M-5,10 V15 M0,10 V15 M5,10 V15 M-10,-5 H-15 M-10,0 H-15 M-10,5 H-15 M10,-5 H15 M10,0 H15 M10,5 H15"/></g>
+  <g id="noneic"><circle class="icon" r="11"/><path class="icon" d="M-7.8,7.8 L7.8,-7.8"/></g>
+  <g id="pc"><rect class="icon" x="-13" y="-10" width="26" height="18" rx="2.5"/><path class="icon" d="M-6,12 H6 M0,8 V12"/></g>
+  <g id="gear"><path class="icon" d="M0,-12 L3.3,-11.4 L4.6,-8 L8.7,-8.7 L10.7,-5.3 L8,-2.7 L8,2.7 L10.7,5.3 L8.7,8.7 L4.6,8 L3.3,11.4 L0,12 L-3.3,11.4 L-4.6,8 L-8.7,8.7 L-10.7,5.3 L-8,2.7 L-8,-2.7 L-10.7,-5.3 L-8.7,-8.7 L-4.6,-8 L-3.3,-11.4 Z"/><circle class="icon" r="4"/></g>
+  <g id="key"><circle class="icon" cx="-6" cy="0" r="5.5"/><path class="icon" d="M-0.5,0 H12 M8,0 V4.6 M11,0 V3.3"/></g>
+</defs>
+
+<!-- ==================== EXECUTION SCHEME ==================== -->
+<rect class="panel" x="14" y="14" width="872" height="216" rx="6"/>
+<text class="ptitle" x="34" y="46">Execution scheme</text>
+<text class="sm" x="226" y="46">what drives the defence</text>
+
+<g transform="translate(60,100)"><use href="#clockic"/></g>
+<text class="lbl" x="86" y="94">when to move</text>
+<text class="sm"  x="86" y="116">an interval drawn about a per-scheme mean,</text>
+<text class="sm"  x="86" y="136">not a fixed period</text>
+
+<path class="rule" d="M446,72 V206"/>
+
+<text class="lbl" x="480" y="94">which mechanism to move</text>
+<g transform="translate(494,124)"><use href="#diceic"/></g>
+<text class="sm" x="520" y="130">drawn by the execution scheme,</text>
+<g transform="translate(494,164)"><use href="#chipic"/></g>
+<text class="sm" x="520" y="170">or chosen by a learned selector,</text>
+<g transform="translate(494,204)"><use href="#noneic"/></g>
+<text class="sm" x="520" y="210">whose choices include moving nothing</text>
+
+<!-- ==================== MECHANISMS ==================== -->
+<rect class="panel" x="14" y="254" width="872" height="282" rx="6"/>
+<text class="ptitle" x="34" y="286">Mechanisms</text>
+<text class="sm" x="182" y="286">grouped by what each one rewrites; two in the same group never run at once</text>
+
+<!-- group 1: the host layer -->
+<g transform="translate(40,330)">
+  <g transform="translate(14,0)"><use href="#pc"/></g>
+  <text class="ghead" x="38" y="6">the host layer</text>
+  <path class="rule" d="M0,24 H250"/>
+  <circle class="pick" cx="14" cy="52" r="4"/><text class="lbl" x="32" y="58">Complete topology shuffle</text>
+  <text class="lbl" x="32" y="94">Host topology shuffle</text>
+  <circle class="pick" cx="14" cy="124" r="4"/><text class="lbl" x="32" y="130">IP shuffle</text>
+</g>
+
+<!-- group 2: the service layer -->
+<g transform="translate(330,330)">
+  <g transform="translate(14,0)"><use href="#gear"/></g>
+  <text class="ghead" x="38" y="6">the service layer</text>
+  <path class="rule" d="M0,24 H250"/>
+  <circle class="pick" cx="14" cy="52" r="4"/><text class="lbl" x="32" y="58">OS diversity</text>
+  <circle class="pick" cx="14" cy="88" r="4"/><text class="lbl" x="32" y="94">Service diversity</text>
+  <text class="lbl" x="32" y="130">Port shuffle</text>
+</g>
+
+<!-- group 3: the credentials -->
+<g transform="translate(620,330)">
+  <g transform="translate(14,0)"><use href="#key"/></g>
+  <text class="ghead" x="38" y="6">the credentials</text>
+  <path class="rule" d="M0,24 H240"/>
+  <text class="lbl" x="32" y="58">User shuffle</text>
+</g>
+
+<!-- which four the recorded experiments actually run -->
+<circle class="pick" cx="54" cy="490" r="4"/>
+<text class="sm" x="72" y="496">the four that every recorded experiment and the learned selector use;</text>
+<text class="sm" x="72" y="518">the remaining three restore Brown's full pool</text>
+</svg>
+</body></html>

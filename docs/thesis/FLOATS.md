@@ -11,7 +11,10 @@ new float.
 
 | Position | File (stem) | Label | Generator |
 |---|---|---|---|
-| §2.2 MTDSim | `fig_2-2a_mtdsim_model` (.pdf; .png preview is gitignored) | `fig:mtdsim-model` | `tools/mtdsim_model_figure.py` (SVG in `tools/mtdsim_model_figure.html`) |
+| §2.2 MTDSim | `fig_2-2a_mtdsim_model` (.pdf; .png preview is gitignored) | `fig:mtdsim-model` | `tools/ch2_model_figures.py --only fig_2-2a_mtdsim_model` (SVG in `tools/ch2_fig21_mtdsim_model.html`) |
+| §2.2.1 Network model | `fig_2-2-1a_network_model` | `fig:network-model` | `tools/ch2_model_figures.py --only fig_2-2-1a_network_model` (SVG in `tools/ch2_fig22_network_model.html`) |
+| §2.2.2 Defence mechanisms | `fig_2-2-2a_defence_module` | `fig:defence-module` | `tools/ch2_model_figures.py --only fig_2-2-2a_defence_module` (SVG in `tools/ch2_fig23_defence_module.html`; fails the build on any drift in either MTD pool) |
+| §2.2.3 Attacker model | `fig_2-2-3a_attacker_model` | `fig:attacker-model` | `tools/ch2_model_figures.py --only fig_2-2-3a_attacker_model` (SVG in `tools/ch2_fig24_attacker_model.html`) |
 | §3.1.2 MITRE ATT&CK | `fig_3-1-2a_attack_matrix` | `fig:attack-matrix` | `tools/attack_matrix_figure.py` (reads `data/gap/_attack/enterprise-attack-19.1.json`) |
 | §3.1.3 Attack profiling | `fig_3-1a_attack_flow_volt_typhoon` (.pdf from .svg) | `fig:attack-flow-volt-typhoon` | hand-authored (`data/gap/hand_curated/`), restyled by `tools/restyle_attackflow_svg.py`; stem predates its 2026-09-02 move from §3.1.2 --- position here is authoritative |
 | Ch 4 opening | `fig_4-0a_pipeline_ladder` (.pdf; the tool's .html intermediate is tracked beside it, .png preview gitignored) | `fig:pipeline` | `tools/pipeline_ladder_figure.py` (SVG assembled from the artefacts, Chromium print; rebuilt 2026-09-08 as a schematic worked example) |
