@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-20
-updated: 2026-08-20
+updated: 2026-09-09
 ---
 
 # Literature conventions — field norms the dissertation follows beyond its figures
@@ -37,7 +37,7 @@ The corpus names the version of *anything* versioned it builds on, and justifies
 
 ## e) Methods-reporting genre expectations
 
-What the literature reports about an evaluation, every time — the checklist ch4/ch5 must satisfy:
+What the literature reports about an evaluation, every time — the checklist ch4/ch5 must satisfy. The **structural** conventions this list implies — where setup sits relative to results, what a results section is organised by, what a sensitivity analysis looks like, replication practice, and the grammar of a comparison sentence — are the companion file [`evaluation_conventions.md`](evaluation_conventions.md); load it when designing the experiments chapter rather than only when drafting its prose.
 
 1. **An explicit attacker/threat-model statement in its own subsection** — hong2018 §6.1.2 "Threat model"; brown2023 §III.C "Modeling the Attacker"; masud2025 likewise. The stake is sharpened by jalowski2026 §4.3, which attacks the MTD literature precisely for "ill-defined attacker models … based on completely unrealistic assumptions" — the genre both expects the section and punishes its absence. Ours additionally answers to the APT-model criterion (`../implementation/apt_model_criterion.md`) — the badge ceiling governs what the threat-model section may claim.
 2. **A parameter table plus declared distributions and run counts** — brown2023 TABLE I with `Uniform(1000, 5000)` ms and E(T) stated; bland2020 reports episode counts (100,000) per configuration. Ours: the ch5 setup states parameters (table genre in `figure_table_conventions.md` §e3), the seed/replication scheme, and run counts per cell — numbers flowing from tracked artefacts, never typed.
