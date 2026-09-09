@@ -4859,6 +4859,50 @@ set of values to feed into our attacker model.
 %      budget from a sibling rather than found new budget. Watch §5.3.1 and
 %      §5.4.2, which are the two that want to overrun.
 %
+% AND ONE RULING THAT RETIRES PART OF THAT (Marc, 2026-09-09): "I don't care
+% how many floats exist --- I just need as many as relevant and reasonable and
+% comprehensive enough." So the corpus float COUNT is not a constraint on this
+% chapter and no float is cut to hit a norm. The test is relevance: a float
+% that carries a claim stays however many that makes, and a float that only
+% decorates a claim another float already carries goes, however few remain.
+% FLOATS.md's list is re-read on that basis --- it is a relevance ranking, not
+% a cut quota.
+%
+% ---------------------------------------------------------------------
+% THE STANDING TEST FOR THIS CHAPTER'S STRUCTURE (Marc, 2026-09-09, and it
+% governs every later pass): "Don't put things in knowing the results, knowing
+% that's going to be the strongest thing. Put things in that are strong on
+% merit, strong in practice and strong in convention." The operational form:
+%
+%     WOULD THIS HEADING STILL BE HERE IF THE RESULT CAME OUT THE OTHER WAY?
+%
+% If no, it is fitted to an outcome and must be re-justified or cut. The
+% distinction that makes this workable rather than paralysing: STRUCTURE is
+% settled by convention and merit, CONTENT is left to the result. §5.1 closing
+% by naming what its sweep selected is a convention (the corpus's strongest
+% sensitivity analyses feed forward); WHICH parameter it names is the result,
+% and the chapter does not know it yet.
+%
+% AUDIT AGAINST THAT TEST, run 2026-09-09. THE SKELETON PASSES: every section
+% and subsection here is justified by a declared input of the model (§5.1.1-3),
+% by the factor space (§5.2), by the contribution being an attacker (§5.3), by
+% the two metric families the field's own taxonomy names (§5.4, §5.5), or by
+% the comparison the thesis claims (§5.4.2). None of them depends on which way
+% a number falls.
+% ONE JUSTIFICATION FAILED AND IS REPAIRED: §5.3.3 was argued on "the measured
+% negatives are among the most credible things the work owns", which is
+% precisely a heading defended by a known outcome. It is now argued as the
+% ABLATION SUBSECTION --- convention (Tay's evaluation chapter carries one, in
+% this supervisor's lineage) and merit (an ablation asks what a component
+% contributes, which is a different question from what the defence achieves).
+% That justification survives whichever way every arm falls.
+% THE CAPTION SWEEP THAT FOLLOWED: six captions stated a direction the chapter
+% cannot yet state --- four of them from sweeps §5.1's own note says must be
+% RE-RUN before they may be reported. All six now say what the figure is for
+% and what would count as a finding, not what the finding is. Apply the same
+% test to any caption added later.
+% ---------------------------------------------------------------------
+%
 % WHAT THIS CHAPTER OWES ch6, section by section --- the tie-in Marc
 % asked for. Each ch5 section is the evidence for a ch6 move; the verdict
 % is never stated here.
@@ -5031,11 +5075,65 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 %   rule, every band end against centre. Cross-referenced from the body row.
 % The failure mode to avoid is a body table with 40 rows: it stops being read,
 % and an unread honesty table is worth less than a short one.
-\begin{table}[H]
+% PREFILLED 2026-09-09 (Marc: "I know of three of them, and then I assume
+% that's another nine ... you can prefill that table if you need"). The twelve
+% is real and enumerated --- A1-A12 in the §4.3 formalism brief §7.2 --- and
+% the three he knows are the three declared INPUTS that are this section's
+% subsections, which is a different list. FOUR OF THE TWELVE ARE ALREADY
+% PARAMETER ROWS and are not repeated: A1 exponential firing is the dwell-shape
+% row, A4 success passthrough is the success-treatment row, A9 synthetic
+% pre-intrusion structure is the share row, A11 substrate invariants are the
+% mutation-cost and geometry rows. The remaining eight are the third group.
+% That is the merge working as designed (C1): an assumption is a held row, and
+% nothing is listed twice.
+% ROWS ARE FROM TRACKED REGISTERS, NOT TYPED: parameters from the §4.3 brief
+% §7.1, assumptions from §7.2. THE EFFECT COLUMN IS DELIBERATELY EMPTY. It
+% cannot be filled from the sweeps on record, because those ran at ten seeds on
+% the pre-restoration substrate with `random` as the only MTD condition, and
+% the failure-matrix sweep under the superseded timing regime --- so any effect
+% number typed here today would be from a configuration this chapter does not
+% report (§3.2 of the design). It is filled by the re-run, by a generator.
+% THE PER-VALUE EXPANSION STAYS IN THE APPENDIX: the four dwell anchors
+% individually and the nine failure-rule values are app:sensitivity's, and
+% tab:anchor-sensitivity is already in that form. This table is one row per
+% declared FAMILY, which is what keeps it to a page.
+\begin{table}[htbp]
   \centering
-  \caption[The declared parameters, their bands, and what moved]{Every quantity the attacker model declares, in one place. Each row gives the symbol, what it sets, the value used throughout, and either the band it was swept across with the effect observed, or a statement that it was held fixed with the reason. Rows that were held are the model's assumptions, listed here rather than separately, so that a parameter appearing in neither column would be visible as an omission. The intention is that the reader can see the whole of what was chosen, and how much of it the conclusions depend on, before any result is read.}
+  \caption[The declared parameters, their bands, and what moved]{Every quantity the attacker model declares, in one place. The first group was given a range and moved across it; the second was fixed, with the reason; the third is the modelling assumptions the definition licenses, which are held by their nature rather than by choice of a number. Listing all three together is what makes an omission visible: a quantity appearing in none of them would have escaped scrutiny. The effect column is completed once the sweeps are re-run at the configuration this chapter reports, since the completed sweeps were taken under a narrower one. The intention is that a reader can see the whole of what was chosen, and how much of it the conclusions depend on, before any result is read.}
   \label{tab:parameter-register}
-  \placeholderbox{55mm}{Table 5.1 --- the parameter register.\\ One row per declared quantity: symbol, meaning, declared value,\\ band swept or ``held'', and what moved.}
+  \tablestyle\setlength{\tabcolsep}{3pt}
+  \begin{tabular}{@{}cP{3.0cm}P{2.2cm}P{6.0cm}P{2.3cm}@{}}
+    \toprule
+    & Quantity & Declared & Range explored, or the reason it is fixed & Effect \\
+    \midrule
+    & dwell anchors (four) & 35, 4.5, 45, 36\,s & multiplied across $[0.25, 4]$ on the widest, $[0.5, 2]$ elsewhere & \\
+    & dwell distribution & exponential & against a same-mean alternative concentrated at the mean & \\
+    & forward decay & 0.25 & $[0.1, 0.5]$ & \\
+    & backward decay & 0.25 & $[0.1, 0.5]$, the lower end unswept & \\
+    & failure floor & 0.1 & $\{0, 0.05, 0.1\}$ & \\
+    & tactic-to-verb mapping & partial & against the forced-total alternative: a swap, not a band & \\
+    & source corpus & deduplicated, 29 flows & against the raw corpus, 38 flows & \\
+    & the five optional capabilities & each on & each against the setting at which it is switched off and the run is unchanged (Section~\ref{subsec:aio-capabilities}) & \\
+    \rowgroup{9}{Swept} & mutation interval & 200\,s & across the tempo at which the measures can still discriminate & \\
+    \midrule
+    & preparation duration & 0\,s & preparation, not action: it consumes no simulated time & --- \\
+    & failure rule kernel & nine values & argued individually, not set by a formula, so there is no one quantity to vary & --- \\
+    & success treatment & unweighted & the corpus is itself the record of what succeeded & --- \\
+    & synthetic share & 0.1; 1.0 isolated & three declared edges stand in for pre-intrusion structure the corpus lacks & --- \\
+    & mutation cost & 20\,s & inherited from the simulator, and identical for both attackers & --- \\
+    & network and horizon & 50 hosts, 15\,000\,s & inherited defaults, so every condition runs on one terrain & --- \\
+    \rowgroup{7}{Held} & runs per condition & set by tolerance & from the error tolerable in the estimate, not by convention & --- \\
+    \midrule
+    & closed world & & the choices observed at each tactic are taken as the whole choice set & --- \\
+    & recurrence, not likelihood & & a weight is how often analysts drew an edge, which is why failure is modelled separately & --- \\
+    & binary outcome & & success or failure only: a blocked action and an unmet precondition are one thing & --- \\
+    & opacity while not acting & & a mutation during a tactic that acts on nothing is felt as cost, not as a route change & --- \\
+    & one campaign at a time & & the concurrency the source structure preserves is inert on a single line of activity & --- \\
+    & staging by consensus & & lifecycle order imported from five published models; the source taxonomy imposes none & --- \\
+    & retracing & & a structural dead end is retraced, a stall is not & --- \\
+    \rowgroup{8}{Assumed} & no memory between runs & & nothing carries across runs, and nothing is known of the defence's schedule & --- \\
+    \bottomrule
+  \end{tabular}
 \end{table}
 
 % mu_p: the four anchors over their declared bands (app:dwell-robustness;
@@ -5052,7 +5150,7 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 \begin{figure}[H]
   \centering
   \placeholderbox{62mm}{Figure 5.1 --- host breadth against the low-and-slow dwell multiplier.\\ x: multiplier across the declared band. y: distinct hosts reached.\\ Two series: defence off, defence on.}
-  \caption[Host breadth across the low-and-slow dwell band]{Hosts reached as the low-and-slow dwell anchor is moved across its declared band, with the other three anchors held at their central values, under both defence conditions. This is the only one of the four anchors whose movement changes an outcome; the other three stay within their confidence intervals at both ends and are reported in the register rather than given a figure each. The intention is to show which single declared duration the evaluation's conclusions are actually exposed to, so that the experiments which follow can be read against it.}
+  \caption[Host breadth across the low-and-slow dwell band]{Hosts reached as the low-and-slow dwell anchor is moved across its declared band, with the other three anchors held at their central values, under both defence conditions. The four anchors are swept alike; those whose ends stay inside their confidence intervals are reported in the register rather than given a figure each, so a figure here marks an anchor that moved. The intention is to establish which of the declared durations the evaluation's conclusions are exposed to, so that the experiments which follow can be read against that and not against all four.}
   \label{fig:sens-dwell-anchor}
 \end{figure}
 
@@ -5060,7 +5158,7 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 \begin{figure}[H]
   \centering
   \placeholderbox{62mm}{Figure 5.2 --- dwell distribution family at a fixed mean.\\ x: mutation interval. y: distinct hosts reached.\\ Two series: exponential, and a same-mean concentrated alternative.}
-  \caption[The dwell distribution's shape against its mean]{Hosts reached under the declared exponential dwell against a same-mean alternative whose mass is concentrated around the mean, across mutation tempo. The two agree across the operating region, which is what licenses treating the mean rather than the shape as the load-bearing quantity, and they separate at the long-dwell corner under mutation pressure, where the exponential's short-dwell mass is what lets an action occasionally complete between mutations. The intention is to bound a modelling choice made for tractability by showing exactly where it stops being innocuous.}
+  \caption[The dwell distribution's shape against its mean]{Hosts reached under the declared exponential dwell against a same-mean alternative whose mass is concentrated around the mean, across mutation tempo. Where the two agree, the mean rather than the shape is the load-bearing quantity and the choice of family is innocuous; where they part, it is not, and the mechanism is the exponential's mass of short dwells, which lets an action occasionally complete between mutations. The intention is to bound a modelling choice made for tractability by locating the region in which it stops being innocuous.}
   \label{fig:sens-dwell-shape}
 \end{figure}
 
@@ -5093,7 +5191,7 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 \begin{figure}[H]
   \centering
   \placeholderbox{62mm}{Figure 5.4 --- outcome against the forward-decay parameter.\\ x: forward decay across its band. y: the outcome measure.\\ Series: backward decay at its band ends.}
-  \caption[Outcomes across the failure matrix's decay parameters]{Outcomes as the two decay parameters of the failure-conditioned transition weights are moved across their declared bands, one at a time and then at the corners of the pair that proved most influential. The headline verdicts hold everywhere in the space; the finer ordering of profiles by how far they get does not, and the register records that this is a limitation of the sample size rather than of the weights. The intention is to separate the conclusions that survive the declared uncertainty from those that do not, and to say which is which before either is used.}
+  \caption[Outcomes across the failure matrix's decay parameters]{Outcomes as the two decay parameters of the failure-conditioned transition weights are moved across their declared bands, one at a time and then at the corners of the pair that proved most influential. Sweeping one at a time explores a cross through the space rather than its interior, so the pair that proves most influential is additionally run at its corners. The intention is to separate the conclusions that survive the declared uncertainty from those that do not, and to say which is which before either is used --- including where a finer ordering fails to separate for want of runs rather than for want of an effect.}
   \label{fig:sens-failure-matrix}
 \end{figure}
 
@@ -5539,14 +5637,14 @@ that Section~\ref{sec:effectiveness} reports against.]}
 \begin{figure}[H]
   \centering
   \placeholderbox{58mm}{Figure 5.6 --- behavioural divergence between profiles.\\ Points: pairwise divergence between profiles' visit distributions.\\ Shaded band: each profile's own split-half null.}
-  \caption[Behavioural divergence between profiles against its null]{How far apart the four profiles' behaviour is at runtime, measured as the divergence between their pooled distributions of visited tactics, against the divergence produced by splitting a single profile's own runs in half. The null band is what turns a difference into a result: profiles separate by more than the same profile separates from itself. The intention is to establish that the operational objective a profile was built from changes what the attacker does, rather than only what it was labelled.}
+  \caption[Behavioural divergence between profiles against its null]{How far apart the four profiles' behaviour is at runtime, measured as the divergence between their pooled distributions of visited tactics, against the divergence produced by splitting a single profile's own runs in half. The null band is what would turn a difference into a result: a separation counts only where two profiles differ by more than one profile differs from itself across seeds. The intention is to test whether the operational objective a profile was built from changes what the attacker does at runtime, rather than only what it was labelled.}
   \label{fig:aio-divergence}
 \end{figure}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- the denominator table the rest of the chapter cites; carries the pruning rule
 \begin{table}[H]
   \centering
-  \caption[What each attacker does with no defence running]{A summary of each profile's behaviour with nothing opposing it, alongside the inherited attacker. The breadth column is the reference every suppression figure later in the chapter is a difference from, and the column recording how runs ended carries the fact that determines the rest of the chapter's shape: the profiled attacker does not reach the simulator's mass-compromise objective in any unopposed run, so a claim about denying that objective would have nothing to deny. The intention is to fix both the reference and the reason for it in one place.}
+  \caption[What each attacker does with no defence running]{A summary of each profile's behaviour with nothing opposing it, alongside the inherited attacker. The breadth column is the reference every suppression figure later in the chapter is a difference from. The column recording how runs ended is what decides the rest of the chapter's shape, because a defence can only be credited with denying an objective the attacker would otherwise reach: where it reaches none unopposed, breadth rather than objective achievement has to be the denominator. The intention is to fix both the reference and the reason for it in one place.}
   \label{tab:unopposed-summary}
   \placeholderbox{52mm}{Table 5.4 --- unopposed behaviour by profile.\\ Distinct tactics; deepest stage acted on; path entropy;\\ distinct prefixes; hosts reached; how runs ended.}
 \end{table}
@@ -5641,15 +5739,19 @@ that Section~\ref{sec:effectiveness} reports against.]}
 %    censoring fraction printed beside every point because the
 %    conditional mean conditions on abandoning.
 %  - P7 learning capability: breadth against the learning exponent, with
-%    the decay as a second series. The finding on record is a MEASURED
-%    NEGATIVE --- breadth falls as the capability rises, because the
-%    binary routing verdict is not a progress signal --- and the
-%    readiness study separates representation from reward. Marc's read
-%    ("it doesn't really come through, but it's implemented") is exactly
-%    right and is the honest sentence.
-% BOTH NEGATIVES ARE RESULTS, and among the most credible things the work
-% owns: a capability that is built, declared, swept and shown not to
-% confer advantage is a stronger statement than one merely asserted.
+%    the decay as a second series.
+% WHY THIS RUNG IS REPORTED AT ALL --- and the justification is deliberately
+% NOT "the negative is a good result" (Marc, 2026-09-09: "don't put things in
+% knowing the results, knowing that's going to be the strongest thing"). The
+% ground is that a capability the model DECLARES must be reported against the
+% setting at which it is inert, whichever way it falls, because a declared
+% capability that is never measured is an assertion. That reason holds if the
+% sweep comes back flat, positive or negative, which is the test.
+% WHAT IS ON RECORD IS NOT YET WHAT THIS CHAPTER MAY SAY: the direction
+% measured in 2026-08 predates d127f443 and its foundation may have moved (see
+% the blocker below), so the prose commits to no direction until the
+% pre-check runs. Marc's own read ("it doesn't really come through, but it's
+% implemented") is the right register for the sentence either way.
 % DEPENDS ON §4.3 RULING R3: without the history-term slot in the formal
 % definition these two capabilities have NO ch4 antecedent, and two marks
 % in tab:fidelity-verdict rest on mechanisms the dissertation never
@@ -5713,7 +5815,83 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % runs) with the OS pool as a second lever before any sentence here claims it.
 % Until that pre-check runs, Fig. 5.9 states a negative measured on a
 % substrate that no longer exists.
-\subsection{A cost model and a memory}
+% ---------------------------------------------------------------------
+% REVIEW PASS 2026-09-09 (fourth): THIS IS THE ABLATION SUBSECTION, and it is
+% widened to be one. Marc: "we're not looking at the baseline as a sort of
+% ablation study, and that should be a part of it --- so we can look at the
+% aggregate. How would you fold that in? I don't know if you need a specific
+% ablation section, I don't know how they do it."
+%
+% HOW THEY DO IT. A titled ablation subsection has a LOCAL precedent and it is
+% the strongest convention signal available: Tay's evaluation chapter carries
+% an explicit ablation subsection, in this supervisor's own lineage, so the
+% examiner has seen the form. He 2025 does the same for a structural property
+% of its defence. The journal corpus mostly does not ablate at all, so there is
+% no competing convention to weigh against it.
+% THE ANSWER IS THEREFORE: NO NEW SECTION, BUT THIS ONE IS RENAMED AND WIDENED.
+% It already held two arms against their nulls; it now holds all five, which is
+% its natural content and costs no unit. That also removes a duplication ---
+% tab:parameter-register carries "the five optional capabilities" as ONE swept
+% row pointing here, rather than five rows the ladder repeats.
+%
+% WHY AN ABLATION EARNS ITS OWN SUBSECTION ON MERIT, not on what it returns:
+% sec:effectiveness and sec:efficiency ask what the DEFENCE does; an ablation
+% asks what a COMPONENT OF THE ATTACKER contributes. That is a different
+% question with a different comparison (against a null, not against no
+% defence), and scattering the answers across the strands means the ladder is
+% never seen as a ladder. In practice the five share one apparatus --- same
+% arms, same null convention, same table --- so reporting them together is
+% cheaper in words than reporting them five times in five places.
+%
+% THE LADDER, most capable first. Each rung switches ONE thing off, and every
+% null is a setting at which the run is bit-identical, which is what makes the
+% comparison a measurement rather than a re-implementation:
+%   full model                         all five on
+%   - cost sensitivity                 the rationality exponent at 0
+%   - within-run learning              the learning exponent at 0
+%   - outcome-conditioned routing      the verdict-blind arm (used as the
+%                                      control in subsec:aio-disruption; it is
+%                                      reported here as a rung, cross-referenced
+%                                      there, not measured twice)
+%   - corpus-derived preference        uniform branching weights
+%   - OBJECTIVE CONDITIONING           the AGGREGATE ENVELOPE
+%
+% THE AGGREGATE IS THE RUNG MARC IS ASKING ABOUT, and placing it here fixes a
+% mis-filing. `aggregate` is the FLOW UNION --- the same corpus with the
+% objective partition switched off, and the divergence record's own figure
+% legend calls it "unsegregated". That makes it the null for the model's
+% CENTRAL claim, objective conditioning, in exactly the way the exponent at 0
+% is the null for cost sensitivity. It currently rides the hypothesis tree as
+% characterisation (C-agg) rather than as an ablation arm, and the tree's own
+% open ruling 5 --- is the claim over four profiles or five --- is this same
+% question asked from the other end. Reading it as a rung answers both.
+%   ONE CAVEAT TRAVELS WITH IT, and it is pre-registered rather than
+%   discovered: the DIVERGENCE-TO-AGGREGATE column may not be read as objective
+%   conditioning. Its kill criterion fired at Spearman -1.0 against flow count,
+%   because `aggregate` is the union and a large class is close to the union by
+%   arithmetic. The arm is fine; that one statistic is not. Read the aggregate
+%   rung on outcome and behaviour measures --- breadth, coverage, blocked
+%   fraction --- never on its distance to the union.
+%
+% AND ONE SENTENCE THAT PROTECTS subsec:eff-cross-arm: THE INHERITED ATTACKER
+% IS NOT A RUNG ON THIS LADDER. It is not this model with everything switched
+% off --- it is a different machine (a deterministic policy over six verbs,
+% with no net, no objective and no routing decision to condition), and no
+% setting of any parameter reaches it. So a cross-arm difference is NOT
+% attributable to any one component, and the chapter must not let the ablation
+% ladder and the cross-arm comparison be read as the same instrument. Saying
+% that once, here, is what earns the cross-arm claim its narrower and correct
+% form: the two attackers depend on different substrate properties, which is a
+% structural statement, not a component-wise one.
+%
+% FIGURE AND TABLE FOR THE WIDENED SUBSECTION: the two figures already placed
+% stay (they are the two rungs with a continuous dial, so they are the two that
+% have a shape to draw), and the ladder as a whole becomes a small table ---
+% rung, what is switched off, the setting at which it is inert, the effect.
+% The three discrete rungs are table rows; a figure each would be three
+% two-bar charts.
+% ---------------------------------------------------------------------
+\subsection{What each part of the model contributes}
 \label{subsec:aio-capabilities}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- property 6 in Marc's framing --- when does a rational actor give up
@@ -5724,13 +5902,25 @@ that Section~\ref{sec:effectiveness} reports against.]}
   \label{fig:aio-disengagement}
 \end{figure}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- property 7; a measured negative and a transferable design warning
+% PLACEHOLDER FLOAT (2026-09-09) --- property 7; the capability measured against the setting at which it is inert
 \begin{figure}[H]
   \centering
   \placeholderbox{58mm}{Figure 5.9 --- breadth against the strength of learning.\\ x: learning exponent, from the null upward.\\ y: hosts reached. Series: rate at which learned belief decays.}
-  \caption[What the attacker's learning capability buys it]{Hosts reached as the attacker's within-run learning is strengthened from the setting at which it is inert, with the rate at which learned belief decays as a second series. The result runs the wrong way: breadth falls as the capability rises, because the signal the attacker updates on records whether an action was permitted rather than whether the campaign advanced, so a confident learner correctly concludes that reconnaissance pays and exploitation does not. The intention is to report a capability that is built, declared and swept, and shown not to confer an advantage, which is a stronger statement than leaving it untested.}
+  \caption[What the attacker's learning capability buys it]{Hosts reached as the attacker's within-run learning is strengthened from the setting at which it is inert, with the rate at which learned belief decays as a second series. The sweep runs from the inert setting upward, so the null sits at one end of the axis and the capability is measured against a run it is bit-identical to. What the attacker updates on is whether an action was permitted, not whether the campaign advanced, which bounds what any movement in this figure can be read to mean. The intention is to report a capability that was built and declared against the setting at which it does nothing, whichever way it falls, since a declared capability that is never measured is an assertion.}
   \label{fig:aio-learning}
 \end{figure}
+
+% PLACEHOLDER FLOAT (2026-09-09, fourth pass) --- the ablation ladder. The two
+% rungs with a continuous dial get the figures above; the three discrete rungs
+% would each be a two-bar chart, so the ladder is a table. The aggregate row is
+% the objective-conditioning null and is read on outcome measures only --- its
+% distance-to-the-union statistic is size-confounded and may not be used here.
+\begin{table}[H]
+  \centering
+  \caption[What each part of the attacker model contributes]{Each part of the attacker model switched off in turn, against the setting at which the run is unchanged. The last row removes the objective conditioning by running the corpus unsegregated, which is the model's central claim measured against its own absence. Every setting listed leaves the run identical when it is applied, so each row is a measurement of one component rather than a comparison between two models. The inherited attacker is deliberately absent from this table: it is not this model with its parts removed but a different one, so no row of the ladder reaches it, and the comparison against it is made in Section~\ref{subsec:eff-cross-arm} on different grounds.}
+  \label{tab:ablation-ladder}
+  \placeholderbox{50mm}{Table --- the ablation ladder.\\ One row per part: what is switched off, the setting at which\\ it is inert, and the effect on breadth and on coverage.}
+\end{table}
 
 % 3 units, one per subsection. THE MTD EVALUATION PROPER: what the
 % defence achieves, on the inherited suite's own effectiveness axis
@@ -5965,7 +6155,7 @@ spends.]}
 \begin{figure}[H]
   \centering
   \placeholderbox{66mm}{Figure 5.14 --- what each defence buys against what it spends.\\ x: fraction of the run spent reconfiguring. y: suppression achieved.\\ One marker per mechanism; marker shape distinguishes the attackers.}
-  \caption[What each defence achieves against what it costs to run]{Each defence placed by the disruption it achieves against the proportion of the run its own reconfiguration occupies, with both attackers shown. The horizontal axis is derived entirely from the simulator's record of when each mutation was executing, so unlike attacker-side time it is priced identically on both arms and the two can be compared directly. The intention is to let a mechanism be judged on what it buys for what it spends rather than on effect alone, and to show that the shape of that trade is itself a function of which attacker is assumed.}
+  \caption[What each defence achieves against what it costs to run]{Each defence placed by the disruption it achieves against the proportion of the run its own reconfiguration occupies, with both attackers shown. The horizontal axis is derived entirely from the simulator's record of when each mutation was executing, so unlike attacker-side time it is priced identically on both arms and the two can be compared directly. The intention is to let a mechanism be judged on what it buys for what it spends rather than on effect alone, and to show whether the shape of that trade depends on which attacker is assumed.}
   \label{fig:eff-frontier}
 \end{figure}
 

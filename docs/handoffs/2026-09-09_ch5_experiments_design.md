@@ -1,5 +1,5 @@
 ---
-status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed 2026-09-09 third pass (§10); C1–C18 owed as drafting rulings
+status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third and fourth passes 2026-09-09 (§10, §11); C1–C18 owed as drafting rulings
 created: 2026-09-09
 topic: "The Experiments chapter designed against the field's conventions rather than invented: a section-level survey of how MTD evaluations are built and reported (now docs/workflows/evaluation_conventions.md), the ch5 design that follows from it, the funnel that lets one run set both characterise the attacker and evaluate the defence, the property-to-measurement map the discussion's fidelity table depends on, and the five things the chapter cannot yet say."
 ---
@@ -1132,3 +1132,144 @@ Comments and headings only; no prose, per the drafting pipeline.
 - ch7: what ch5 hands future work, each as a measured exclusion rather than a
   wish.
 - `FLOATS.md`: the `[H]` placement convention and its revert condition.
+
+---
+
+## 11. Fourth pass (2026-09-09) — the ablation ladder, the results-fitting audit, and the register prefilled
+
+Three asks from Marc, in the same exchange.
+
+### 11.1 The ablation study — how the field does it, and where it folds in
+
+**Convention.** A titled ablation subsection has a *local* precedent, which is
+the strongest signal available: **Tay's evaluation chapter carries one**, in this
+supervisor's own lineage, so the examiner has seen the form. He 2025 does the
+same for a structural property of its defence. The journal corpus mostly does not
+ablate at all, so there is no competing convention.
+
+**The answer: no new section — §5.3.3 already *was* the ablation subsection, and
+is now named and widened to be one.** It held two arms against their nulls; it
+now holds all five, which is its natural content and costs no unit. Renamed
+**"What each part of the model contributes"**. This also removed a duplication:
+`tab:parameter-register` now carries the five optional capabilities as *one*
+swept row pointing at §5.3.3, rather than five rows the ladder repeats.
+
+**Why it earns a subsection on merit** (not on what it returns): §5.4 and §5.5
+ask what the *defence* does; an ablation asks what a *component of the attacker*
+contributes — a different question, with a different comparison (against a null,
+not against no defence). Scattered across the strands, the ladder is never seen
+as a ladder. In practice the five share one apparatus, so reporting them together
+is cheaper in words than reporting them five times.
+
+**The ladder**, most capable first, each rung switching one thing off at a
+setting where the run is bit-identical: full model → less cost sensitivity → less
+within-run learning → less outcome-conditioned routing (the verdict-blind arm,
+which *does its work* as the control in §5.3.2 and is *reported* here as a rung,
+cross-referenced, not measured twice) → less corpus-derived preference (uniform
+weights) → **less objective conditioning (the aggregate envelope)**.
+
+**The aggregate is the rung Marc was asking about, and placing it here fixes a
+mis-filing.** `aggregate` is the **flow union** — the same corpus with the
+objective partition switched off; the divergence record's own figure legend calls
+it *unsegregated*. That makes it the null for the model's **central** claim, in
+exactly the way the exponent at zero is the null for cost sensitivity. It
+currently rides the hypothesis tree as characterisation (C-agg) rather than as an
+ablation arm, and the tree's open ruling 5 — is the claim over four profiles or
+five — is the same question from the other end. Reading it as a rung answers both.
+
+> **Caveat, pre-registered rather than discovered:** the **divergence-to-
+> aggregate** column may not be read as objective conditioning — its kill
+> criterion fired at Spearman −1.0 against flow count, because `aggregate` is the
+> union and a large class is close to the union by arithmetic. The *arm* is fine;
+> that one *statistic* is not. Read the rung on breadth, coverage and blocked
+> fraction.
+
+**And one sentence that protects §5.4.2: the inherited attacker is not a rung.**
+It is not this model with everything switched off — it is a different machine (a
+deterministic policy over six verbs, with no net, no objective, and no routing
+decision to condition), and no setting of any parameter reaches it. So a
+cross-arm difference is **not attributable to any one component**, and the
+chapter must not let the ladder and the cross-arm comparison read as one
+instrument. Saying that once is what earns the cross-arm claim its correct and
+narrower form — the two attackers depend on different substrate properties, which
+is structural, not component-wise.
+
+A placeholder `tab:ablation-ladder` is now in §5.3.3: the two rungs with a
+continuous dial keep their figures, the three discrete rungs are rows.
+
+### 11.2 The results-fitting audit — Marc's discipline, applied to this chapter
+
+Marc's rule: *"you don't know what the results are… don't put things in knowing
+the results, knowing that's going to be the strongest thing. Put things in that
+are strong on merit, strong in practice and strong in convention."* Written into
+the chapter head as a **standing test**:
+
+> **Would this heading still be here if the result came out the other way?**
+
+with the distinction that makes it workable rather than paralysing: **structure
+is settled by convention and merit, content is left to the result.** §5.1 closing
+by naming what its sweep selected is a *convention* (the corpus's strongest
+sensitivity analyses feed forward); *which* parameter it names is the result, and
+the chapter does not know it yet.
+
+**Audit result — the skeleton passes.** Every section and subsection is justified
+by a declared input of the model (§5.1.1–3), by the factor space (§5.2), by the
+contribution being an attacker (§5.3), by the two metric families the field's own
+taxonomy names (§5.4, §5.5), or by the comparison the thesis claims (§5.4.2).
+None depends on which way a number falls.
+
+**One justification failed, and is repaired.** §5.3.3 was argued on *"the measured
+negatives are among the most credible things the work owns"* — precisely a
+heading defended by a known outcome. It is now argued as the ablation subsection,
+on convention and merit, and that survives whichever way every arm falls. The
+same correction applies to §10.3's framing in the third pass: the ground for
+reporting a declared capability is that **a declared capability that is never
+measured is an assertion**, which holds flat, positive or negative.
+
+**And a caption sweep followed, which is where the rule bit hardest.** Six ch5
+captions stated a direction the chapter cannot yet state — and **four of them
+came from sweeps this same handoff (§3.2) says must be re-run before they may be
+reported at all**, so they were asserting results from a configuration the
+chapter does not describe. Figures 5.1, 5.2, 5.4, 5.6, 5.9, 5.14 and Table 5.4
+now say what the float is *for* and what would *count* as a finding, not what the
+finding is. Apply the same test to any caption added later.
+
+### 11.3 The floats ruling
+
+Marc: *"I don't care how many floats exist — I just need as many as relevant and
+reasonable and comprehensive enough."* So the corpus float **count** is not a
+constraint on this chapter and nothing is cut to hit a norm. `FLOATS.md`'s list
+is re-read as a **relevance ranking, not a cut quota**: a float that carries a
+claim stays however many that makes; a float that only decorates a claim another
+float already carries goes however few remain. This retires the page-budget half
+of §10.2's word-budget answer; the unit arithmetic (14 headings on 12 units)
+stands, because that is about prose.
+
+### 11.4 The register, prefilled
+
+**The twelve is real and enumerated** — A1–A12 in the §4.3 formalism brief §7.2 —
+and the three Marc knows are the three declared *inputs* that are §5.1's
+subsections, which is a different list. **Four of the twelve are already parameter
+rows and are not repeated:** A1 exponential firing is the dwell-shape row, A4
+success passthrough the success-treatment row, A9 synthetic pre-intrusion
+structure the share row, A11 substrate invariants the mutation-cost and geometry
+rows. The remaining eight have no number and form the third group. That is the
+merge (C1) working: an assumption is a held row, and nothing is listed twice.
+
+`tab:parameter-register` is now a real table, not a grey box — three row groups
+(**Swept** 9, **Held** 7, **Assumed** 8), rows taken from the tracked registers
+(§7.1 parameters, §7.2 assumptions) rather than typed from memory.
+
+**The effect column is deliberately empty**, and this is the point rather than an
+omission: it cannot be filled from the sweeps on record, because those ran at ten
+seeds on the pre-restoration substrate with `random` as the only MTD condition,
+and the failure-matrix sweep under the superseded timing regime. Any effect
+number typed today would come from a configuration this chapter does not report.
+It is filled by the re-run, by a generator.
+
+**The per-value expansion stays in the appendix** — the four dwell anchors
+individually and the nine failure-rule values are `app:sensitivity`'s, and
+`tab:anchor-sensitivity` is already in that form. The body table is one row per
+declared *family*, which is what keeps it to a page. It floats (`[htbp]`) rather
+than being pinned, because a full-page table cannot be pinned; it lands on its own
+page immediately after §5.1 opens.

@@ -61,19 +61,26 @@ heading so the visual argument can be read in position. **Revert each `[H]` to
 `[htbp]` as that subsection's prose lands**: with text to flow around, `[htbp]`
 is the right specifier and `[H]` strands whitespace.
 
-**Count, and the cut.** Fifteen figures and seven tables is above the corpus norm
-for a chapter of this length (Brown two figures and one table; Zhang about seven
-figures; Tay five and none; Ho about eight and eight; Reti six and two), and the
-chapter currently runs about twelve pages of floats against roughly 3 000 words.
-The nine figures and four tables marked **core** carry the argument on their own;
-the rest are marked **cut or appendix** and should be the first things surrendered
-when the page budget bites. Nothing marked core can be dropped without leaving a
-claim unevidenced.
+**Count, and the ruling that governs it.** Fifteen figures and eight tables is
+above the corpus norm for a chapter of this length (Brown two figures and one
+table; Zhang about seven figures; Tay five and none; Ho about eight and eight;
+Reti six and two). **That is not a constraint here.** Marc ruled on 2026-09-09:
+*"I don't care how many floats exist — I just need as many as relevant and
+reasonable and comprehensive enough."* So no float is cut to hit a norm, and the
+corpus counts above are context, not a quota.
+
+The test is **relevance**, applied one float at a time: a float that carries a
+claim stays, however many that makes; a float that only decorates a claim another
+float already carries goes, however few remain. The **core** marks below are read
+on that basis — they name the floats without which a claim goes unevidenced. The
+**cut or appendix** marks are no longer a page-budget cut list; they mark floats
+whose claim is carried elsewhere, and each still has to fail the relevance test
+on its own before it goes.
 
 | Position | Label | Standing | What it is for |
 |---|---|---|---|
 | §5.1 | `tab:parameter-register` | **core** | every declared quantity, swept-with-a-band or held-with-a-reason, in one place |
-| §5.1.1 | `fig:sens-dwell-anchor` | **core** | the one dwell anchor whose movement changes an outcome |
+| §5.1.1 | `fig:sens-dwell-anchor` | **core** | which of the declared durations the conclusions are exposed to |
 | §5.1.1 | `fig:sens-dwell-shape` | cut or appendix | where the exponential dwell stops being innocuous; a narrow claim |
 | §5.1.2 | `fig:sens-mapping` | **core** | the mapping is a discrete choice, not a band — the standing bound |
 | §5.1.3 | `fig:sens-failure-matrix` | cut or appendix | headline verdicts hold across the decay bands; the finer ordering does not |
@@ -84,7 +91,8 @@ claim unevidenced.
 | §5.3.1 | `tab:unopposed-summary` | **core** | the reference every suppression figure is a difference from; carries the pruning rule |
 | §5.3.2 | `fig:aio-adaptivity` | cut or appendix | the adaptive loop operating, against a verdict-blind control |
 | §5.3.3 | `fig:aio-disengagement` | **core** | where a cost-sensitive attacker abandons |
-| §5.3.3 | `fig:aio-learning` | **core** | the measured negative: breadth falls as learning strengthens |
+| §5.3.3 | `fig:aio-learning` | **core** | a declared capability measured against the setting at which it is inert |
+| §5.3.3 | `tab:ablation-ladder` | **core** | the ablation ladder: each part switched off against its null, the aggregate envelope as the objective-conditioning rung |
 | §5.4.1 | `fig:eff-suppression-profiles` | **core** | which defences reach this attacker, and whether it is profile-dependent |
 | §5.4.1 | `tab:eff-conditions` | cut or appendix | the three disruption channels per condition, with intervals |
 | §5.4.2 | `fig:eff-cross-arm` | **core** | the chapter's central comparison, in one figure |
