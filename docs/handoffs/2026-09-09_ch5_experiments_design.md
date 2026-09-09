@@ -1,5 +1,5 @@
 ---
-status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); four-reviewer scrutiny pass (§13); C1–C28 owed, three of them claim-threatening
+status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); four-reviewer scrutiny pass (§13); Marc's rulings + the horizon answer (§14, §15); C1–C28 owed
 created: 2026-09-09
 topic: "The Experiments chapter designed against the field's conventions rather than invented: a section-level survey of how MTD evaluations are built and reported (now docs/workflows/evaluation_conventions.md), the ch5 design that follows from it, the funnel that lets one run set both characterise the attacker and evaluate the defence, the property-to-measurement map the discussion's fidelity table depends on, and the five things the chapter cannot yet say."
 ---
@@ -1548,3 +1548,191 @@ of the four reported that essentially every point was new. The exercise's value
 was not in re-finding known gaps but in the dimension the earlier passes had no
 reviewer for: **whether the instruments can separate the effect from the
 apparatus.** Findings A, B and C all live there.
+
+---
+
+## 14. Marc's rulings on the scrutiny pass (2026-09-09), and one correction owed to him
+
+### 14.1 CORRECTION — §13.1(A) was over-compressed, and Marc caught it
+
+Marc: *"I'm pretty sure it does produce meaningful behaviour at runtime, because
+if you look at the runs, the runs are a little different."* **He is right, and
+§13.1(A) as written conflated two different measurements at two different
+layers.** The record, checked:
+
+- **At runtime (L3), the profiles separate decisively.** P1 in
+  `profile_divergence_findings.md` held "by 40–110×": between-class visit-stream
+  JSDs of 0.081–0.237 against null ceilings ≤ 0.0022. In that record's own words,
+  "profile identity conditions the runtime visit distribution far above seed
+  noise". There is no question that the runs differ.
+- **The unsettled question is attribution, not existence.** What has not run is
+  the size-matched label-blind control (arm 3), which is "the only instrument
+  that can separate conditioning from corpus size" — the profiles carry 19, 8, 6
+  and 5 flows. And the *corpus-level* (L2) check is what failed the size-matched
+  null at *p* = 0.49 / 0.71; that is a statement about the partition's structure,
+  not about runtime behaviour.
+
+**So the honest form of the exposure is much narrower:** the runtime effect is
+large and real; what is unproven is that it is *objective conditioning* rather
+than *corpus size*. That is still worth closing — it is the same confound that
+fired the kill criterion on the divergence-to-`aggregate` column, and the same
+one that makes the aggregate a comparison rather than a clean ablation null
+(§13.2, reviewer 1's point 4) — but it is one arm, not a threatened claim.
+**C19 is re-graded from claim-threatening to attribution-closing.**
+
+### 14.2 The wiring (§13.1(B)) — Marc's ruling, and the question inside it
+
+**Ruled: the finding does not stand as an objection.** Marc: disruption has to be
+implemented *somehow*; this substrate models it directly and indirectly through
+component interaction; the model is inherited and has been embraced by five or so
+papers. Modelling disruption in a particular way is not an error, and the chapter
+will not present it as one.
+
+**Also ruled — a register constraint that applies chapter-wide.** Marc:
+*"you're going into technical details which somebody reading this is not going to
+understand… we're just trying to model something using a simulator."* **No
+chapter-5 prose descends into codebase internals** — no `DWELL` sentinel, no
+`curr_process`, no disposition numbers, no `charge_time`. Where a boundary must
+be stated it is stated in modelling language ("application-layer defence reaches
+the two attackers unequally, because…"), and the mechanism detail stays in the
+implementation record. This supersedes the phrasing recommended in §13.1(B).
+
+**The live question Marc raised, answered from the record.** *"EXPLOIT_VULN
+uninterruptible — that's a big one, I think it should be interruptible if there's
+an MTD interrupt. But it was designed that way because if you're running exploit
+you're in flight. Was that a design choice?"*
+
+Run against the intent spec, per the bug-vs-design procedure:
+
+- **It is a design choice, and it is ours, not the lineage's.** It is already
+  classified in `intent_conformance_audit.md` as **D-35, mapping policy — not
+  documented-nowhere**, so it is not a candidate bug. It is the direct declared
+  consequence of **S3-R** (the movement layer supplies every unit of the
+  attacker's time, so the substrate's per-vulnerability timing loop and its
+  yields are declined). S3-R was ruled deliberately.
+- **But it diverges from documented lineage intent, and that is worth knowing.**
+  IS-INT-05 has application-layer MTD *interrupting* attack actions with the
+  adversary restarting from phase 1; IS-INT-06 gives each action a limited number
+  of attempts with an interruption threshold. So the lineage's intent is that
+  exploitation *is* interruptible. No lineage paper specifies *how many* interrupt
+  windows an attempt offers, which is why this is a divergence rather than a
+  conformance failure. **Marc's instinct matches the documented intent; the
+  current behaviour is a consequence of our own timing ruling.**
+- **Three dispositions are on record, and this is Marc's call.** (a) record it as
+  a comparability boundary — zero code, zero goldens (the record's own
+  recommendation); (b) divide the supplied duration across the vulnerability loop
+  so the attempt offers the same number of windows on both arms — restores
+  cross-arm parity on exactly the channel that is the diversity family's *entire*
+  effect, but it is a substrate timing change that moves every movement golden and
+  partly re-opens S3-R; (c) keep and say nothing — not recommended.
+
+### 14.3 Timing stochasticity (§13.1(C)) — ruled INTO the experiment
+
+Marc: *"we are moving roughly every 200 seconds. We can add more stochasticity.
+That's fine. It can be part of the experimentation."* **So this is not a
+limitation to declare but a factor to vary** — the timing regime joins
+`tab:factors-varied` with two levels (the quasi-periodic default and true
+Exp(μ)), and `--timing-regime exponential` already exists to run it. The ch2
+sentence still needs correcting either way, since it currently describes the
+regime the default does not use. **C21 upgraded: a factor, not a disclosure.**
+
+### 14.4 The `simultaneous` scheme — Marc's realism objection
+
+Marc: *"how do you run many attack-surface changes at the same time without
+collisions? If you're changing all the hosts' IP addresses at once, when does the
+state become stable? You'd have competing writes on the same resources, so you'd
+need some lock or you'd gridlock. It's a bit of 'let's do everything at once' and
+it's not really realistic."*
+
+**Partly answered by the substrate, and partly not.** Contention *is* modelled:
+two mechanisms rewriting the same resource layer cannot operate concurrently
+(Zhang), and the disruption ledger carries a suspended-mutation tally — so the
+lock exists and the queue is counted. What is *not* answered is his realism point
+about a defender that reconfigures everything at once, nor the measurement
+problem reviewer 4 raised: `simultaneous` fires roughly **150 mutations per run
+against 75** at the same nominal interval, with 38 suspensions, so putting it on
+one axis beside single mechanisms ranks **dose, not strategy**.
+
+**Recommendation:** either drop `simultaneous` from the reported conditions on
+the realism ground Marc states — which is a defensible modelling judgement and
+costs nothing — or keep it and report it per firing. What is not available is
+ranking it against single mechanisms on total effect.
+
+### 14.5 Marc's other rulings, briefly
+
+- **Three unrun mechanisms:** run them. *"We'll pull the numbers and we'll find
+  out."*
+- **Efficiency metric:** a better one than reconfiguration occupancy is wanted;
+  deferred to when the section is drafted.
+- **Defender threat model:** declare it (C16 confirmed).
+- **The headline:** *"we'll find out what the headline is in due course — you can
+  put a note in saying this is what we're hypothesising."* So §5.4.2 carries a
+  stated hypothesis, not an asserted mechanism.
+- **The 0.721/0.725 equivalence** (reviewer 4's point 4), restated plainly since
+  the original was opaque: the claim that the two network-layer mechanisms are
+  one effect rests on their numbers being close at six seeds on one profile. Two
+  numbers being close is not evidence that they are the same; showing sameness
+  needs a stated margin ("within X of each other counts as equivalent") declared
+  before looking. Cheap to fix, and the source record already says it does not
+  support a significance claim.
+
+## 15. Marc's horizon question — the answer he asked for
+
+*"We might have to run the simulator a bit longer for the movement attacker,
+because it runs about four times slower than the original attacker… maybe 60 000
+seconds on the clock. We measure MTTC, ASR, network compromise ratio of 0.8
+depending on the objective. Food for thought — get back to me."*
+
+**The instinct is right, and there is a stronger version of it already built into
+the substrate.**
+
+### 15.1 Why this dissolves several problems at once
+
+The degenerate operating region is not a property of the attacker; it is an
+artefact of **pairing an inherited 15 000 s horizon with an attacker that takes
+roughly four times as long per unit of progress.** Everything downstream of that
+pairing is a workaround: breadth as the denominator instead of objective
+achievement, the "no ASR at the operating interval" rule, the pruning-rule
+paragraph, and the capability sweeps being read where the outcome has no
+headroom. Fix the horizon and those are choices again rather than necessities —
+and the three field-standard metrics the coverage map currently concedes
+(**MTTC, ASR, network compromise ratio**) come back.
+
+### 15.2 The stronger version: report at a compromise checkpoint
+
+Marc's "network compromise ratio of 0.8" is not an aside — **it is the inherited
+idiom, and the substrate already implements it.**
+`evaluation.py::evaluation_result_by_compromise_checkpoint` reports the metric
+suite at compromise checkpoints `[0.1 … 0.9]` of the host fleet, and the
+lineage's own golden headline is taken at **0.25**. So the canonical question in
+this simulator is not *what did the attacker achieve by time T*, it is *how long
+did it take to reach X % of the fleet* — which is **non-degenerate by
+construction wherever X is reached, and censored where it is not**, and censoring
+is data rather than a missing result.
+
+**Recommendation: checkpoint-denominated reporting as the primary, horizon
+extension as the enabler.** Extend the horizon far enough that a meaningful
+checkpoint is reached in a healthy fraction of runs, then report at the
+checkpoint rather than at the horizon.
+
+### 15.3 What it costs, and the one trap
+
+- **Compute is not the constraint.** A movement run is ≈ 0.2 s at 15 000 s and
+  the full matrix at 100 seeds is ≈ 1.5–2 h on six workers; at 60 000 s that is
+  roughly 6–8 h if cost scales linearly. Overnight, once.
+- **THE TRAP, and it is the reason not to just quadruple the horizon and move
+  on:** at a fixed mutation interval, a 4× longer run is also **4× more
+  mutations** — so "longer horizon" is silently "more defence". Horizon and
+  defence dose are confounded unless mutations-per-run is held or effects are
+  reported per firing. This is the same defect as the `simultaneous` dose problem
+  in §14.4, arriving from a different direction.
+- **E5 must stay at the lineage's configuration.** The prior-models re-run is the
+  comparability bridge; if its horizon moves, the comparison breaks. So horizon
+  becomes a **factor with two levels**, not a global change.
+- **It may move the Gate 0 result.** The targeted objective was non-degenerate at
+  layer 1 on the aggregate envelope only, measured at 15 000 s. At a longer
+  horizon more profiles may reach it, which would re-open C14 favourably.
+
+**Owed before this is taken:** a cost curve at 2–3 horizons (the "no silent caps"
+convention), and a decision on which checkpoint is the headline — 0.25 keeps the
+lineage bridge, 0.8 is a much stronger claim and will be censored far more often.

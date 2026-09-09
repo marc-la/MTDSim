@@ -4875,19 +4875,37 @@ set of values to feed into our attacker model.
 % ten rulings owed (C19-C28). Read it before drafting any section here. The
 % three that bind hardest, each VERIFIED against the code or the records:
 %
-%  (A) THE CENTRAL PROPERTY'S NULL WAS RETIRED ONE LAYER DOWN, AND THE
-%      DECIDING ARM IS UNRUN. fig:aio-divergence tests objective conditioning
-%      against a SPLIT-HALF null, and the comments below call this the one
-%      property shown to change an outcome. But gasp_schema.md §(g) records
-%      the 2026-08-17 ruling that the half-split null is LENIENT and no longer
-%      load-bearing, and under the SIZE-MATCHED label-shuffle null the classes
-%      do not separate beyond chance (p = 0.49, p = 0.71, sizes 19:7:7:5). L2
-%      then hands the discrimination claim forward in terms --- "the
-%      load-bearing test for the L3/L4 evaluation phase" --- and at L3 that
-%      arm has NOT RUN. Either it runs, or Fig. 5.6 claims only "profiles
-%      differ by more than seed noise" and states L2's strict-null verdict
-%      beside it. LARGEST EXPOSURE IN THE CHAPTER.
-%  (B) THE HEADLINE MECHANISM MAY BE AN ARTEFACT OF THE DISRUPTION WIRING.
+%  (A) THE RUNTIME EFFECT IS REAL; ITS ATTRIBUTION IS WHAT IS OPEN. Corrected
+%      2026-09-09 after Marc caught an over-compression --- the first statement
+%      of this conflated two layers. AT RUNTIME THE PROFILES SEPARATE
+%      DECISIVELY: between-class visit-stream divergences of 0.081-0.237
+%      against null ceilings under 0.0022, which is 40-110x, and the record's
+%      own words are that profile identity conditions the runtime visit
+%      distribution far above seed noise. The runs differ, and no reviewer
+%      finding touches that.
+%      WHAT IS OPEN is whether the separation is OBJECTIVE CONDITIONING or
+%      CORPUS SIZE: the profiles carry 19, 8, 6 and 5 flows, the size-matched
+%      label-blind control has never run, and it is the only instrument that
+%      separates the two. The same confound already fired the kill criterion on
+%      the divergence-to-aggregate column, and it is why the aggregate is a
+%      comparison rather than a clean ablation null. Separately, the
+%      CORPUS-LEVEL check at L2 is the one that failed a size-matched null ---
+%      a statement about the partition's structure, not about behaviour.
+%      So: one arm to close an attribution, not a threatened claim.
+%  (B) [RULED NOT AN OBJECTION, Marc 2026-09-09: disruption has to be
+%      implemented somehow, this model is inherited and five or so papers use
+%      it, and modelling it a particular way is not an error. Recorded because
+%      the MAGNITUDE still bounds what the cross-arm sentence may claim, and
+%      because it contains a live question --- see the handoff §14.2, where
+%      EXPLOIT_VULN's uninterruptibility is classified as OUR design choice
+%      (a consequence of the S3-R timing ruling), not a bug, but one that
+%      diverges from documented lineage intent IS-INT-05/06.]
+%      REGISTER CONSTRAINT THAT FOLLOWS, AND IT BINDS THE WHOLE CHAPTER: no
+%      prose here descends into codebase internals --- no sentinel places, no
+%      disposition numbers, no function names. A reader is being shown a model
+%      of a network under defence, not this repository. State boundaries in
+%      modelling language and leave the mechanism in the implementation record.
+%      THE MEASURED ASYMMETRY, for the record only:
 %      disruption_wiring.md §(d) measures the severance/re-roll split as an
 %      INSTRUMENTATION asymmetry: per firing, application-class delivers
 %      0.67-0.83 of native yield to this arm against network-class 0.92-1.00,
@@ -4898,8 +4916,13 @@ set of values to feed into our attacker model.
 %      pair keeps 0.17-0.18, so most of what "application-layer MTD does to
 %      this attacker" arrives through the DWELL sentinel. Nothing in this
 %      chapter lets a reader separate the mechanism from the apparatus.
-%  (C) THE DEFENCE IS NEAR-PERIODIC, so the property MTD is named for is not
-%      instantiated --- and ch2 currently says otherwise. The default regime
+%  (C) THE DEFENCE IS NEAR-PERIODIC. [RULED INTO THE EXPERIMENT, Marc
+%      2026-09-09: "we can add more stochasticity, that's fine, it can be part
+%      of the experimentation." So the TIMING REGIME becomes a factor in
+%      tab:factors-varied with two levels --- the quasi-periodic default and
+%      true Exp(mu) --- rather than a limitation to disclose. The ch2 sentence
+%      still needs correcting, since it describes a regime the default does not
+%      use.] The default regime
 %      draws expon.rvs(loc=200, scale=0.5): measured over 200 000 draws, mean
 %      200.5 s, sd 0.50, CV ~ 0.0025, against CV ~ 1.0 for a true exponential.
 %      Mutations arrive on a clock. `--timing-regime exponential` exists.
