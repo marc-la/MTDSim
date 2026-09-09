@@ -1,5 +1,5 @@
 ---
-status: open — design ratified and scaffolded into the tex 2026-09-09; C1–C8 still owed as drafting rulings
+status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); C1–C10 owed as drafting rulings
 created: 2026-09-09
 topic: "The Experiments chapter designed against the field's conventions rather than invented: a section-level survey of how MTD evaluations are built and reported (now docs/workflows/evaluation_conventions.md), the ch5 design that follows from it, the funnel that lets one run set both characterise the attacker and evaluate the defence, the property-to-measurement map the discussion's fidelity table depends on, and the five things the chapter cannot yet say."
 ---
@@ -652,6 +652,91 @@ with and without the defence.
 5. Correct the cross-arm event count before any cross-arm event number.
 6. Run the headline re-establishment before §5.3.3 is drafted.
 7. Rule whether the disruption frontier expands §5.4 beyond one unit.
+
+## 9. Second pass (2026-09-09) — the restructure, and three answers
+
+Marc's objection: the supplementary strand is weak, and the instruments used to
+evidence the attacker model "were proprietary and ad hoc and maybe not in the
+metric family we defined for MTD evaluation — they're more for attacker
+evaluation on the simulator". That is correct, and it is a structural fault
+rather than a drafting one.
+
+### 9.1 The fault, and the fix
+
+A chapter organised by instrumented metric family has **two** families,
+effectiveness and efficiency. The eight-property evidence is measured on
+instruments in neither: coverage curves, profile divergence against a split-half
+null, path entropy, interrupt action mix, the disengagement frontier. Calling
+them a third family is a category error, and it is exactly what made the old
+supplementary section read as a grab-bag.
+
+The fix gives that evidence its own section, named for what it is, placed before
+the evaluation — which is also the funnel:
+
+| | Old (2026-09-08) | New |
+|---|---|---|
+| 5.3 | Effectiveness: unopposed, under defence, cross-arm | **The attacker model in operation**: unopposed, response to disruption, the declared capabilities |
+| 5.4 | Efficiency | **Effectiveness**: under defence, across the attackers, the prior models re-run |
+| 5.5 | Supplementary measures: structure, ablations | **Efficiency** |
+
+Units unchanged at twelve. Nothing is lost — every measure from the old 5.3.1 and
+5.5 is in the new 5.3, and the no-defence arm still serves double duty as the
+reference the effectiveness section reports against. Four gains: the
+attacker-model instruments are labelled as what they are instead of disguised as
+a metric family; all eight properties are read in one place, so the discussion's
+fidelity walk points at one section rather than three; the funnel becomes the
+chapter's spine rather than a subsection of it; and the two evaluation sections
+become purely about the defence, which is what the merge ruling wanted.
+
+Reverting is one edit: split 5.3 back across effectiveness and a supplementary
+section. The comment blocks travel with their subsections.
+
+### 9.2 Does the hypothesis tree carry?
+
+**As a planning artefact, yes. As chapter structure, no.** The tree was built
+when the chapter was going to be setup plus burden-of-proof plus grading — the
+two-limb shape the merge ruling superseded — and its AND/OR gating with
+alpha-spending is the wrong register for a chapter ruled facts and figures only.
+What survives and is still load-bearing: it is the inventory of which runs must
+happen, and it fixes the failure dispositions in advance, which is what stops a
+result being reframed after it is seen. Keep it in the record; do not surface it.
+
+### 9.3 Where a meaningful difference can come from, given one action set
+
+Marc's hardest question: both attackers share the same six verbs, so how can
+they possibly produce different defence responses?
+
+**The answer is mechanistic, not statistical, and it is already on record.** The
+two attackers cannot differ in *what* they can do. They differ in **which
+substrate property they depend on**, and the defence family splits on exactly
+that line:
+
+- The movement attacker is **position-driven**. Network-layer defence clears the
+  host cursor, so it severs position: blocked fraction rises from 0.15 to 0.72.
+  This is not address tracking — the attacker has no addressing model at all — so
+  the two network-layer mechanisms are *one* attacker-facing effect, 0.721
+  against 0.725.
+- The inherited attacker is **exploit-driven**. Application-layer defence
+  re-rolls the vulnerability set on uncompromised hosts, which is the thing it
+  leans on. It barely reaches the movement attacker, whose blocked fraction stays
+  at the no-defence level of about 0.16, because exploitation is uninterruptible
+  on that arm.
+
+So the family is a two-by-two — severance against surface re-roll — and the
+difference between the attackers is which half of it matters. Same alphabet,
+different order, mixture and targeting. That is the sentence §5.4.2 exists to
+earn, and it is why "same action set" does not imply "same defence response".
+
+### 9.4 The figure and table budget
+
+Corpus norm for an evaluation of this length: Brown two results figures and one
+parameter table; Zhang about seven figures; Tay five figures and no tables at
+all; Ho about eight figures and eight tables; Reti six figures and two tables.
+The chapter targets **nine figures and four tables**, itemised in the tex per
+subsection with each one's purpose stated. The load-bearing ones are the
+register table, the coverage curve (the clearest single picture of what the model
+added), the suppression bars by attacker arm (the whole claim in one figure), and
+the cost-benefit frontier.
 
 ## Validation gate
 
