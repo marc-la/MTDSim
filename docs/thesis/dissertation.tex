@@ -55,6 +55,16 @@
 % greyed ring and then the tilde were retired the same day, the tilde
 % as "too much visual space"). Rendered: $\cdot$ vanishes on the shaded
 % rows; \textbullet at 0.55 reads as a clean small dot.
+% Placeholder float box --- SCAFFOLDING for the figures-first drafting pass
+% (2026-09-09). Every planned float in ch5 is present as a framed box with its
+% intended caption, so the chapter's visual argument can be read and cut before
+% any prose is written (writing guide: figures, then captions written long,
+% then text). Replacing a placeholder is one line: swap \placeholderbox for
+% \includegraphics{fig_5-...}. Delete this macro when the last one is replaced.
+\newcommand{\placeholderbox}[2]{%
+  \setlength{\fboxsep}{0pt}%
+  \fbox{\parbox[c][#1][c]{\dimexpr\textwidth-2\fboxrule\relax}{%
+    \centering\footnotesize\itshape\textcolor{black!55}{#2}}}}
 \newcommand{\propmet}{\checkmark}
 \newcommand{\propstandin}{\scalebox{0.55}{\textbullet}}
 % Float-page threshold, raised from the class's 0.5 (the Figure 2.1 trap,
@@ -4917,6 +4927,14 @@ set of values to feed into our attacker model.
 \section{Sensitivity analysis}
 \label{sec:sensitivity}
 
+% PLACEHOLDER FLOAT (2026-09-09) --- generator owed; rows from the formalism's parameter and assumption registers
+\begin{table}[htbp]
+  \centering
+  \caption[The declared parameters, their bands, and what moved]{Every quantity the attacker model declares, in one place. Each row gives the symbol, what it sets, the value used throughout, and either the band it was swept across with the effect observed, or a statement that it was held fixed with the reason. Rows that were held are the model's assumptions, listed here rather than separately, so that a parameter appearing in neither column would be visible as an omission. The intention is that the reader can see the whole of what was chosen, and how much of it the conclusions depend on, before any result is read.}
+  \label{tab:parameter-register}
+  \placeholderbox{55mm}{Table 5.1 --- the parameter register.\\ One row per declared quantity: symbol, meaning, declared value,\\ band swept or ``held'', and what moved.}
+\end{table}
+
 \noindent\emph{[Placeholder, to be replaced by Marc's dictation --- delete on
 drafting. This section prices the three inputs the model of
 Chapter~\ref{ch:attacker-model} had to declare, one subsection each, and reports
@@ -4935,6 +4953,22 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 \subsection{Dwell times}
 \label{subsec:sens-dwell-times}
 
+% PLACEHOLDER FLOAT (2026-09-09) --- one-at-a-time sweep; data from the rate feasibility study's re-run
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{62mm}{Figure 5.1 --- host breadth against the low-and-slow dwell multiplier.\\ x: multiplier across the declared band. y: distinct hosts reached.\\ Two series: defence off, defence on.}
+  \caption[Host breadth across the low-and-slow dwell band]{Hosts reached as the low-and-slow dwell anchor is moved across its declared band, with the other three anchors held at their central values, under both defence conditions. This is the only one of the four anchors whose movement changes an outcome; the other three stay within their confidence intervals at both ends and are reported in the register rather than given a figure each. The intention is to show which single declared duration the evaluation's conclusions are actually exposed to, so that the experiments which follow can be read against it.}
+  \label{fig:sens-dwell-anchor}
+\end{figure}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- the S3-R re-run's substantive finding; a narrow claim, not 'shape matters'
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{62mm}{Figure 5.2 --- dwell distribution family at a fixed mean.\\ x: mutation interval. y: distinct hosts reached.\\ Two series: exponential, and a same-mean concentrated alternative.}
+  \caption[The dwell distribution's shape against its mean]{Hosts reached under the declared exponential dwell against a same-mean alternative whose mass is concentrated around the mean, across mutation tempo. The two agree across the operating region, which is what licenses treating the mean rather than the shape as the load-bearing quantity, and they separate at the long-dwell corner under mutation pressure, where the exponential's short-dwell mass is what lets an action occasionally complete between mutations. The intention is to bound a modelling choice made for tractability by showing exactly where it stops being innocuous.}
+  \label{fig:sens-dwell-shape}
+\end{figure}
+
 % phi: v2_partial against the forced-total v1_ckc_total
 % (app:experiment-one) --- a swap, not a band. Say that plainly: this is
 % the one declared input with no interval, so its sensitivity is a
@@ -4944,6 +4978,14 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 \subsection{Tactic-to-verb mapping}
 \label{subsec:sens-tactic-verb-mapping}
 
+% PLACEHOLDER FLOAT (2026-09-09) --- a swap, not a band; the one leaf that could demote the argument
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{58mm}{Figure 5.3 --- outcome under the two tactic-to-action mappings.\\ Grouped bars, x: profile. y: the outcome measure.\\ Two series: the partial mapping, the forced-total mapping.}
+  \caption[Outcomes under the two tactic-to-action mappings]{The same profiles run under the mapping used throughout and under the forced-total alternative in which every tactic dispatches an action. This input differs from the others in having no interval to sweep: it is a discrete choice between constructed alternatives, so its sensitivity is a comparison rather than a band. The intention is to show which findings survive the choice and to make visible that the mapping remains a declared input, which is the standing bound on every claim the chapter makes.}
+  \label{fig:sens-mapping}
+\end{figure}
+
 % F_failure: gamma, delta, z over their bands (app:weight-sets; the nine
 % rule values are argued, not swept --- say why in one clause, since a
 % parameter in neither the swept nor the held list is the omission the
@@ -4951,6 +4993,14 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 % (operator_dedup against raw) rides here.
 \subsection{Failure matrix}
 \label{subsec:sens-failure-matrix}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- data from the weight sensitivity study; re-run owed under the settled regime
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{62mm}{Figure 5.4 --- outcome against the forward-decay parameter.\\ x: forward decay across its band. y: the outcome measure.\\ Series: backward decay at its band ends.}
+  \caption[Outcomes across the failure matrix's decay parameters]{Outcomes as the two decay parameters of the failure-conditioned transition weights are moved across their declared bands, one at a time and then at the corners of the pair that proved most influential. The headline verdicts hold everywhere in the space; the finer ordering of profiles by how far they get does not, and the register records that this is a limitation of the sample size rather than of the weights. The intention is to separate the conclusions that survive the declared uncertainty from those that do not, and to say which is which before either is used.}
+  \label{fig:sens-failure-matrix}
+\end{figure}
 
 % 2 units + the factor table (tables are word-cheap). The factor space,
 % set up and then run: the four attack profiles and the baseline attacker;
@@ -5031,6 +5081,22 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 \section{Experimental dimensions}
 \label{sec:dimensions}
 
+% PLACEHOLDER FLOAT (2026-09-09) --- Reti's two-table form; levels from the campaign design
+\begin{table}[htbp]
+  \centering
+  \caption[The experimental factors and their levels]{Every factor the experiments vary, with the levels used. The attacker arm carries the inherited scripted attacker, the four objective-conditioned profiles and the aggregate envelope; the defence conditions span no defence, each single mechanism and the deployment schemes that combine them; the remaining factors set the tempo at which mutations arrive and the size and connectivity of the network. The intention is that any result in this chapter can be located in this space without reading the section that produced it.}
+  \label{tab:factors-varied}
+  \placeholderbox{48mm}{Table 5.2 --- factors varied.\\ Attacker arm; defence condition; mutation tempo;\\ network scale and density; the declared-capability arms.}
+\end{table}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- the paired half of Reti's form; inherited constants marked as inherited
+\begin{table}[htbp]
+  \centering
+  \caption[The factors held fixed, and why]{Everything held constant across every run, with its value and a short reason. Several of these are properties of the inherited simulator rather than choices made here, and are marked as such. Stating them alongside the factors that vary is what allows a reader to judge how far a result generalises, and it is the counterpart on the experimental side of the register that opens this chapter on the model side.}
+  \label{tab:factors-fixed}
+  \placeholderbox{48mm}{Table 5.3 --- factors held fixed.\\ Horizon; geometry; seed set; timing regime;\\ mapping and overlay versions; the interrupt cost.}
+\end{table}
+
 \noindent\emph{[Placeholder --- delete on drafting. The factor space: which
 attackers, which defences, at what tempo, on what network, over how many runs,
 and measured with what. Two tables, one of what varies and one of what is held.
@@ -5097,8 +5163,14 @@ findings, with the boundary on what may be compared stated as a disclosure.]}
 % Corpus norm for an evaluation of this length: Brown 2 results figures
 % (3 panels each) + 1 parameter table; Zhang ~7 figures; Tay 5 figures
 % and no tables at all; Ho ~8 figures + 8 tables; Reti 6 figures +
-% 2 tables. Target here: ~9 figures + 4 tables across the chapter,
-% itemised per subsection below. Genre rules are
+% 2 tables. PLACED 2026-09-09 as placeholder floats with captions written
+% long, so the visual argument can be read and cut before any prose is
+% drafted (the writing guide's own order: figures, then captions, then
+% text). 15 figures + 7 tables are in --- ABOVE the norm, about twelve
+% pages of floats against ~3 000 words. FLOATS.md marks 9 figures +
+% 4 tables CORE and the rest CUT-OR-APPENDIX: surrender those first when
+% the page budget bites; nothing marked core can go without leaving a
+% claim unevidenced. Itemised per subsection below. Genre rules are
 % docs/workflows/figure_table_conventions.md §f --- grouped bars for
 % condition x arm, marker-per-series line charts for sweeps, log-axis
 % scatter for two-metric outcome spaces, overview paired with zoom where
@@ -5175,6 +5247,30 @@ that Section~\ref{sec:effectiveness} reports against.]}
 \subsection{Unopposed behaviour}
 \label{subsec:aio-unopposed}
 
+% PLACEHOLDER FLOAT (2026-09-09) --- the clearest single picture of what the model added; property 1
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{66mm}{Figure 5.5 --- distinct tactics reached over simulated time.\\ x: simulated time. y: count of distinct tactics visited.\\ One line per profile, plus the inherited attacker as reference.}
+  \caption[Distinct tactics reached over time, by profile]{The number of distinct campaign tactics each profile has entered as a run proceeds, with no defence running, against the inherited attacker drawn on the same axes. The inherited attacker's line is flat by construction: its behaviour is a fixed loop over three activities, so it has no more of a campaign to traverse. The intention is to show, in one picture, the thing the attacker model adds that the simulator previously could not express, and to do it against no defence so that it is a statement about the model rather than about the defence.}
+  \label{fig:aio-coverage}
+\end{figure}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- property 2 --- the one property shown to change an outcome
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{58mm}{Figure 5.6 --- behavioural divergence between profiles.\\ Points: pairwise divergence between profiles' visit distributions.\\ Shaded band: each profile's own split-half null.}
+  \caption[Behavioural divergence between profiles against its null]{How far apart the four profiles' behaviour is at runtime, measured as the divergence between their pooled distributions of visited tactics, against the divergence produced by splitting a single profile's own runs in half. The null band is what turns a difference into a result: profiles separate by more than the same profile separates from itself. The intention is to establish that the operational objective a profile was built from changes what the attacker does, rather than only what it was labelled.}
+  \label{fig:aio-divergence}
+\end{figure}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- the denominator table the rest of the chapter cites; carries the pruning rule
+\begin{table}[htbp]
+  \centering
+  \caption[What each attacker does with no defence running]{A summary of each profile's behaviour with nothing opposing it, alongside the inherited attacker. The breadth column is the reference every suppression figure later in the chapter is a difference from, and the column recording how runs ended carries the fact that determines the rest of the chapter's shape: the profiled attacker does not reach the simulator's mass-compromise objective in any unopposed run, so a claim about denying that objective would have nothing to deny. The intention is to fix both the reference and the reason for it in one place.}
+  \label{tab:unopposed-summary}
+  \placeholderbox{52mm}{Table 5.4 --- unopposed behaviour by profile.\\ Distinct tactics; deepest stage acted on; path entropy;\\ distinct prefixes; hosts reached; how runs ended.}
+\end{table}
+
 % ~1 unit. CARRIES PROPERTY 4 (adaptivity), which is the one property
 % that cannot be read from the unopposed arm, because it is definitionally
 % about what changes when the defence bites.
@@ -5195,6 +5291,14 @@ that Section~\ref{sec:effectiveness} reports against.]}
 %          the verdict-conditioning rather than drift.
 \subsection{Response to disruption}
 \label{subsec:aio-disruption}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- property 4; the verdict-blind arm is the control that makes it a claim
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{62mm}{Figure 5.7 --- action mix before and after a mutation.\\ Paired bars by activity, within run.\\ Two panels: the model, and a control blind to outcomes.}
+  \caption[How the attacker's activity changes after a disruption]{The mix of activities in the visits immediately before and immediately after each defensive mutation, paired within each run so that variation between runs cancels, with a control in which the attacker's routing is made blind to the outcome its actions return. The comparison isolates whether a change in behaviour is a response to the disruption or drift that would have happened anyway. The intention is to show the adaptive loop operating, and to be explicit that operating is a weaker claim than changing an outcome.}
+  \label{fig:aio-adaptivity}
+\end{figure}
 
 % ~1 unit. CARRIES PROPERTIES 6 and 7 --- the two declared capabilities,
 % each reported against the null at which the run is bit-identical.
@@ -5228,6 +5332,22 @@ that Section~\ref{sec:effectiveness} reports against.]}
 %          PURPOSE: the measured negative, and its shape.
 \subsection{The declared capabilities}
 \label{subsec:aio-capabilities}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- property 6 in Marc's framing --- when does a rational actor give up
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{62mm}{Figure 5.8 --- where a cost-sensitive attacker abandons.\\ x: patience, as a multiple of the unimpeded effort to the objective.\\ y: effort at abandonment. One line per defence condition; censoring annotated.}
+  \caption[The effort at which an attacker abandons, by patience]{The point at which an attacker projecting its own remaining effort would conclude the campaign is not worth finishing, plotted against how patient it is assumed to be, for each defence condition. The proportion of runs that never abandon is printed beside every point, because the average is otherwise an average over only those that did. The intention is to report the consequence of giving the attacker a cost model, in the terms a rational actor would use: not whether it succeeds, but how much it will spend before walking away.}
+  \label{fig:aio-disengagement}
+\end{figure}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- property 7; a measured negative and a transferable design warning
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{58mm}{Figure 5.9 --- breadth against the strength of learning.\\ x: learning exponent, from the null upward.\\ y: hosts reached. Series: rate at which learned belief decays.}
+  \caption[What the attacker's learning capability buys it]{Hosts reached as the attacker's within-run learning is strengthened from the setting at which it is inert, with the rate at which learned belief decays as a second series. The result runs the wrong way: breadth falls as the capability rises, because the signal the attacker updates on records whether an action was permitted rather than whether the campaign advanced, so a confident learner correctly concludes that reconnaissance pays and exploitation does not. The intention is to report a capability that is built, declared and swept, and shown not to confer an advantage, which is a stronger statement than leaving it untested.}
+  \label{fig:aio-learning}
+\end{figure}
 
 % 3 units, one per subsection. THE MTD EVALUATION PROPER: what the
 % defence achieves, on the inherited suite's own effectiveness axis
@@ -5279,6 +5399,22 @@ under both attackers on this one simulator.]}
 \subsection{Under defence}
 \label{subsec:eff-under-defence}
 
+% PLACEHOLDER FLOAT (2026-09-09) --- the movement arm alone; three of the mechanisms have never been run against it
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{62mm}{Figure 5.10 --- suppression of host breadth by defence condition.\\ Grouped bars, x: condition. y: reduction against no defence.\\ Series: profile.}
+  \caption[How much each defence suppresses each profile]{The reduction in hosts reached under each defence condition relative to the no-defence reference, for every profile. Conditions run from each single mechanism through the schemes that deploy several together. The intention is to establish which defences reach this attacker at all, and whether the answer depends on which operational objective the attacker is pursuing, before the comparison against the inherited attacker is attempted.}
+  \label{fig:eff-suppression-profiles}
+\end{figure}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- channels from the disruption operationalisation; effect floors owed
+\begin{table}[htbp]
+  \centering
+  \caption[Defence conditions measured against the attacker model]{Each defence condition scored on the three channels through which a defence can reach an attacker: whether it prevents compromise at all, how long it postpones the first one, and what fraction of attempted actions it blocks. Intervals accompany every figure, and adjacent conditions whose intervals overlap are reported as indistinguishable rather than ranked. The intention is to state what each mechanism does on its own terms before any two are compared.}
+  \label{tab:eff-conditions}
+  \placeholderbox{52mm}{Table 5.5 --- defence conditions against the attacker model.\\ Suppression; delay to first compromise; blocked fraction;\\ with intervals, per condition.}
+\end{table}
+
 % ~1 unit. THE THESIS'S OWN CLAIM, and the subsection Marc asked the
 % hardest question about: given both attackers share the SAME SIX VERBS,
 % where can a meaningful difference possibly come from?
@@ -5326,6 +5462,30 @@ under both attackers on this one simulator.]}
 \subsection{Across the two attackers}
 \label{subsec:eff-cross-arm}
 
+% PLACEHOLDER FLOAT (2026-09-09) --- the whole claim in one figure; blocked until the re-establishment run lands
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{62mm}{Figure 5.11 --- the same defences against both attackers.\\ Grouped bars, x: defence condition. y: suppression.\\ Two series: the inherited attacker, the attacker model.}
+  \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the inherited scripted attacker and once against the attacker model, on the same network under identical conditions. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
+  \label{fig:eff-cross-arm}
+\end{figure}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- the delay channel; survival form, censoring stated
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{58mm}{Figure 5.12 --- time to the first compromise.\\ x: simulated time. y: fraction of runs not yet compromised.\\ Curves per condition, one panel per attacker.}
+  \caption[How long each defence postpones the first compromise]{The fraction of runs in which no host has yet been compromised, as time passes, for each defence condition and each attacker. Where suppression asks how much a defence prevents, this asks how long it delays, which is the channel that stays informative when the attacker eventually succeeds regardless. The intention is to separate defences that stop an attacker from defences that only slow one, since the two are worth different things to an operator.}
+  \label{fig:eff-delay}
+\end{figure}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- grade vocabulary at the definition site: magnitude, ordering, recommendation
+\begin{table}[htbp]
+  \centering
+  \caption[The defence ordering produced by each attacker]{The defences ranked by effect, once as the inherited attacker would rank them and once as the attacker model would, with a statistic summarising how far apart the two orderings are and an interval on it. Where the evidence supports only a weaker statement than a full ordering, the table says so rather than presenting a ranking the data cannot separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}
+  \label{tab:eff-orderings}
+  \placeholderbox{46mm}{Table 5.6 --- the two orderings side by side.\\ Rank of each defence under each attacker,\\ with the rank statistic and its interval.}
+\end{table}
+
 % ~1 unit. The lineage headlines (Zhang's shuffle-dominates, Ho's
 % diversity-dominates, Brown's combination findings) re-run on ONE
 % simulator under BOTH attackers. They belong inside the strand they
@@ -5342,6 +5502,14 @@ under both attackers on this one simulator.]}
 %          PURPOSE: which prior findings survive a change of attacker.
 \subsection{The prior models re-run}
 \label{subsec:eff-lineage}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- makes the lineage testable; comparability boundary restated in the caption
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{66mm}{Figure 5.13 --- prior findings re-run under both attackers.\\ One small panel per prior claim.\\ Each panel: the claim, and what this simulator returns per arm.}
+  \caption[Prior models' headline findings, re-run under both attackers]{Each of the headline comparisons reported by the earlier models built on this simulator, re-run here under both attackers, one panel per claim. Because the configurations rather than the published numbers are reproduced, the panels are read as agreement or disagreement in direction, not as a numerical replication. The intention is to make published claims testable rather than merely cited, and to show that where they disagree with one another the disagreement is itself the finding.}
+  \label{fig:eff-lineage}
+\end{figure}
 
 % 1 unit, deliberately the thinnest section --- and thin for a stated
 % reason rather than by neglect.
@@ -5385,6 +5553,30 @@ under both attackers on this one simulator.]}
 %          breadth ratios by condition and arm.
 \section{Efficiency}
 \label{sec:efficiency}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- the more robust of the two cross-arm claims; defender-side measure is arm-invariant
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{66mm}{Figure 5.14 --- what each defence buys against what it spends.\\ x: fraction of the run spent reconfiguring. y: suppression achieved.\\ One marker per mechanism; marker shape distinguishes the attackers.}
+  \caption[What each defence achieves against what it costs to run]{Each defence placed by the disruption it achieves against the proportion of the run its own reconfiguration occupies, with both attackers shown. The horizontal axis is derived entirely from the simulator's record of when each mutation was executing, so unlike attacker-side time it is priced identically on both arms and the two can be compared directly. The intention is to let a mechanism be judged on what it buys for what it spends rather than on effect alone, and to show that the shape of that trade is itself a function of which attacker is assumed.}
+  \label{fig:eff-frontier}
+\end{figure}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- attacker-side efficiency; segments printed per the stacked-bar convention
+\begin{figure}[htbp]
+  \centering
+  \placeholderbox{58mm}{Figure 5.15 --- where the attacker's time goes.\\ Stacked bars, x: defence condition. y: share of elapsed time.\\ Segments: activity, imposed delay, remainder. Values printed.}
+  \caption[How a defence changes where the attacker's time goes]{The attacker's elapsed time under each defence condition, divided into time spent performing activities, time lost to the delay a mutation imposes, and the remainder. Segment values are printed, since a stacked bar is otherwise hard to read across conditions. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
+  \label{fig:eff-cost-decomposition}
+\end{figure}
+
+% PLACEHOLDER FLOAT (2026-09-09) --- event-wise only across arms; the frozen-defender concession sits here
+\begin{table}[htbp]
+  \centering
+  \caption[The cost of each condition, on both sides]{The attacker's effort per host it manages to reach, and the defender's reconfiguration burden, for each condition and each attacker. The attacker-side columns are counts of events rather than durations, which is what makes them comparable across two attackers that price time differently. The intention is to report both sides of the exchange on one page, and to state plainly which quantities may be compared across attackers and which may not.}
+  \label{tab:eff-cost}
+  \placeholderbox{46mm}{Table 5.7 --- cost by condition and attacker.\\ Actions per host reached; successes per host reached;\\ reconfiguration occupancy; mutations per unit time.}
+\end{table}
 
 \noindent\emph{[Placeholder --- delete on drafting. What that costs: on the
 attacker's side, the effort each condition forces per host reached; on the

@@ -41,3 +41,46 @@ new float.
 Inline (typed directly in `dissertation.tex`, no file): `tab:experiment-one` (§B.7),
 `tab:anchor-sensitivity` (§C.1), `tab:shape-substitution` (§C.2),
 `tab:mtd-metrics` (§3.2.1, Table 3.1).
+
+## Planned — Chapter 5, placeholder floats (2026-09-09)
+
+Every float below exists in `dissertation.tex` as a framed `\placeholderbox`
+with its intended caption written long, so the chapter's visual argument can be
+read and cut before any prose is drafted (writing guide: figures, then captions,
+then text). None has a generator yet. Replacing one is a single-line swap of
+`\placeholderbox` for `\includegraphics`; the stem is then named by the §j rule
+from the position column, and this block folds into the tables above.
+
+**Count, and the cut.** Fifteen figures and seven tables is above the corpus norm
+for a chapter of this length (Brown two figures and one table; Zhang about seven
+figures; Tay five and none; Ho about eight and eight; Reti six and two), and the
+chapter currently runs about twelve pages of floats against roughly 3 000 words.
+The nine figures and four tables marked **core** carry the argument on their own;
+the rest are marked **cut or appendix** and should be the first things surrendered
+when the page budget bites. Nothing marked core can be dropped without leaving a
+claim unevidenced.
+
+| Position | Label | Standing | What it is for |
+|---|---|---|---|
+| §5.1 | `tab:parameter-register` | **core** | every declared quantity, swept-with-a-band or held-with-a-reason, in one place |
+| §5.1.1 | `fig:sens-dwell-anchor` | **core** | the one dwell anchor whose movement changes an outcome |
+| §5.1.1 | `fig:sens-dwell-shape` | cut or appendix | where the exponential dwell stops being innocuous; a narrow claim |
+| §5.1.2 | `fig:sens-mapping` | **core** | the mapping is a discrete choice, not a band — the standing bound |
+| §5.1.3 | `fig:sens-failure-matrix` | cut or appendix | headline verdicts hold across the decay bands; the finer ordering does not |
+| §5.2 | `tab:factors-varied` | **core** | the factor space every later result is located in |
+| §5.2 | `tab:factors-fixed` | **core** | what was held, and why; inherited constants marked as inherited |
+| §5.3.1 | `fig:aio-coverage` | **core** | the clearest single picture of what the attacker model added |
+| §5.3.1 | `fig:aio-divergence` | **core** | profiles differ by more than a profile differs from itself |
+| §5.3.1 | `tab:unopposed-summary` | **core** | the reference every suppression figure is a difference from; carries the pruning rule |
+| §5.3.2 | `fig:aio-adaptivity` | cut or appendix | the adaptive loop operating, against a verdict-blind control |
+| §5.3.3 | `fig:aio-disengagement` | **core** | where a cost-sensitive attacker abandons |
+| §5.3.3 | `fig:aio-learning` | **core** | the measured negative: breadth falls as learning strengthens |
+| §5.4.1 | `fig:eff-suppression-profiles` | **core** | which defences reach this attacker, and whether it is profile-dependent |
+| §5.4.1 | `tab:eff-conditions` | cut or appendix | the three disruption channels per condition, with intervals |
+| §5.4.2 | `fig:eff-cross-arm` | **core** | the chapter's central comparison, in one figure |
+| §5.4.2 | `fig:eff-delay` | cut or appendix | the delay channel; separates stopping from slowing |
+| §5.4.2 | `tab:eff-orderings` | **core** | the two orderings and the grade the evidence carries |
+| §5.4.3 | `fig:eff-lineage` | cut or appendix | prior findings re-run under both attackers |
+| §5.5 | `fig:eff-frontier` | **core** | what each defence buys against what it spends; arm-invariant on the cost axis |
+| §5.5 | `fig:eff-cost-decomposition` | cut or appendix | whether a defence makes the attacker do more, or take longer |
+| §5.5 | `tab:eff-cost` | cut or appendix | both sides of the exchange, event-wise across arms |
