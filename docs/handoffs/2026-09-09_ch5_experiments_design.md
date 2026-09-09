@@ -1,5 +1,5 @@
 ---
-status: open — design proposal; Marc's rulings owed before any tex change
+status: open — design ratified and scaffolded into the tex 2026-09-09; C1–C8 still owed as drafting rulings
 created: 2026-09-09
 topic: "The Experiments chapter designed against the field's conventions rather than invented: a section-level survey of how MTD evaluations are built and reported (now docs/workflows/evaluation_conventions.md), the ch5 design that follows from it, the funnel that lets one run set both characterise the attacker and evaluate the defence, the property-to-measurement map the discussion's fidelity table depends on, and the five things the chapter cannot yet say."
 ---
@@ -17,8 +17,18 @@ evaluation portion of every MTD-evaluation paper in the corpus, one paper per
 pass, with page or line locators on every claim. This file is the design that
 follows from it.
 
-Nothing here changes the tex. Everything below is a proposal or a flagged
-blocker.
+**Status, 2026-09-09.** Marc ratified the design in full and asked for it in the
+tex. The scaffolding has landed: ch5 now carries its section and subsection tree
+with a per-section comment block saying what the section does, what it should
+look like against the named corpus convention, what it must carry from the
+records, and which discussion section it feeds; ch6's three sections carry the
+matching "fed by" wiring, including the property-by-property map for the
+fidelity table's walk. Build clean, no undefined references. **No prose was
+written** — comments and headings only, per the drafting pipeline, and the
+headings are scaffolding for Marc to rename.
+
+What remains open is C1–C8 below, which are now *drafting* rulings rather than
+design ones, plus the blockers in §5.
 
 ## 1. The frame, already ruled — do not re-open
 
@@ -383,10 +393,11 @@ which the chapter currently has no citation for at all.
 
 ## Validation gate
 
-The design is discharged when Marc has ruled C1–C7 and the §5.1 register exists
-as a generated table whose numbers come from artefacts rather than transcription.
-The chapter is not drafted against this file until blocker 1 is resolved, because
-the headline it would be written around is currently unreproduced.
+The design half is discharged: ratified and scaffolded. What remains is that
+Marc rules C1–C8 and that the §5.1 register exists as a generated table whose
+numbers come from artefacts rather than transcription. Section prose waits on
+the blockers in §5 — §5.1's on the sweep configuration, §5.3.3's on the
+re-established measurement.
 
 ## Hard constraints
 

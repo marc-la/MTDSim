@@ -4771,33 +4771,148 @@ set of values to feed into our attacker model.
 % notes taxonomy still says ch5_experimental_setup / ch6_results
 % (docs/notes/) --- a rename for a docs pass, not this one.
 
-% 3 units. The V6 preamble, now the chapter's first section: the three
-% declared inputs of sec:execution swept within the bounds the formalism
-% sets --- a table of the declared parameters, their bands (minimum to
-% maximum at steps; low values map to weak-attacker expectations, high to
-% capable) and the observed effects, most impactful first. Each subsection
-% is the forward-referenced home of one §4.4 unit (§4.4.2--4.4.4 each point
-% at sec:sensitivity). Completed sweeps that do not fit the body go to
-% app:sensitivity. Absorbs the parameter-shaped validity threats --- there
-% is no standalone threats-to-validity section; the structural ones
-% (proof-of-concept boundary, the mapping caveat, the comparability
-% boundary) are owned in sec:fidelity-verdict.
+% ---------------------------------------------------------------------
+% DESIGN PASS 2026-09-09 (Marc's ruling: "put it into the tex, placeholder
+% per section, roughly where it should be, what it should look like based
+% on what we found"). The shape below is designed against a section-level
+% anatomy of 25 MTD-evaluation papers, distilled into
+% docs/workflows/evaluation_conventions.md; the design and its open
+% rulings (C1-C8) are docs/handoffs/2026-09-09_ch5_experiments_design.md.
+% Load the conventions file before drafting any section here.
+%
+% THREE FINDINGS THAT SET THIS CHAPTER'S SHAPE, so no session re-derives
+% them:
+%  (i)  One movement, not two chapters, is the field's dominant form
+%       (conventions a) --- the merge ruling is ratified, not merely
+%       permitted. Organising results by metric family is the right axis
+%       when the contribution is the ATTACKER (conventions b), and Tay's
+%       thesis already splits numbers from interpretation exactly as
+%       ch5/ch6 do (conventions h).
+%  (ii) THE FUNNEL (conventions f, He 2025): characterise the attacker on
+%       the UNDEFENDED target first, prune to what matters, then evaluate
+%       the defence against that. This is what lets one run set answer
+%       both questions --- the MTD evaluation AND what the model captures.
+%       It is why sec:effectiveness opens on the no-defence arm.
+% (iii) "BASELINE" NAMES TWO THINGS and this chapter must keep them apart
+%       (conventions f2): the NO-DEFENCE CONDITION is the reference every
+%       effectiveness number is a difference from (Zaffarano makes this
+%       definitional; Brown plots it as "None"; Tay normalises by it); the
+%       INHERITED ATTACKER is the comparison arm. "The movement attacker
+%       is the new baseline" is a ruling about the second and does not
+%       remove the need for the first. Never let one word carry both.
+%
+% UNIT BUDGET (12, the ledger's): opening ~0.5 from chapter slack;
+% sec:sensitivity 3 (preamble+register 1, then 0.75/0.5/0.75);
+% sec:dimensions 2; sec:effectiveness 3 (one per subsection);
+% sec:efficiency 1; sec:supplementary-measures 2 (one per subsection).
+% Section and subsection titles are SCAFFOLDING --- Marc's to rename
+% (heading conventions: sentence case, no acronyms, "movement attacker"
+% is a name for the prose, not for headings).
+%
+% WHAT THIS CHAPTER OWES ch6, section by section --- the tie-in Marc
+% asked for. Each ch5 section is the evidence for a ch6 move; the verdict
+% is never stated here.
+%   sec:sensitivity      -> sec:fidelity-verdict (the declared-parameter
+%                           honesty; which parameter the conclusions are
+%                           actually exposed to)
+%   sec:dimensions       -> sec:evaluation-implications (the comparability
+%                           boundary and the operating-point finding, the
+%                           transferable methodological result)
+%   sec:effectiveness    -> sec:captured (properties 2, 3 read off the
+%                           no-defence arm) AND sec:evaluation-implications
+%                           (the threat-model-dependence argument)
+%   sec:efficiency       -> sec:captured (property 6: a cost model that
+%                           operates without conferring advantage)
+%   sec:supplementary    -> sec:captured (properties 1, 3, 4, 7) and the
+%                           badge walk under Table~\ref{tab:fidelity-verdict}
+% ---------------------------------------------------------------------
+
+% 3 units (preamble+register 1; subsections 0.75 / 0.5 / 0.75). The V6
+% preamble, now the chapter's first section: the three declared inputs of
+% sec:execution swept within the bounds the formalism sets. Each
+% subsection is the forward-referenced home of one §4.4 unit
+% (§4.4.2--4.4.4 each point at sec:sensitivity). Completed sweeps that do
+% not fit the body go to app:sensitivity. Absorbs the parameter-shaped
+% validity threats --- there is no standalone threats-to-validity
+% section; the structural ones (proof-of-concept boundary, the mapping
+% caveat, the comparability boundary) are owned in sec:fidelity-verdict.
+%
+% WHAT THIS SECTION SHOULD LOOK LIKE (conventions c, d2):
+%  - A titled sensitivity section is RARE --- one paper in 25 has one
+%    (Outkin §5.1.2). Everywhere else the sweep IS the results. So this
+%    section must read as *the model's declared inputs, priced*, not as a
+%    detached methods section, and one sentence of the preamble should
+%    say so. That is what earns its position ahead of sec:dimensions.
+%  - ONE REGISTER TABLE, not two (design C1; answers the §4.3 formalism
+%    brief's R6): every declared quantity is a row, and each row is
+%    EITHER swept-with-a-band-and-what-moved OR held-with-a-reason. An
+%    assumption is simply a held row. This is the discipline the corpus's
+%    better papers practise scattered, stated here as a rule --- and it
+%    absorbs the twelve-item assumption register without spending a unit.
+%    Rows come from the parameter register in the §4.3 brief §7.1--7.2.
+%  - Range justification is almost never given in the corpus (Hong,
+%    Anderson, Carroll, Zhang, Reti all state none; Bland calls its rates
+%    "notional"). Bounds derived from the formalism's own structure are
+%    therefore AHEAD of the field --- say so once, briefly, do not
+%    belabour it.
+%  - This IS operational validation, and can say so with a citation
+%    (Sargent: parameter-variability sensitivity analysis is an
+%    operational-validation technique; and where the system is not
+%    observable "it is usually not possible to obtain a high degree of
+%    confidence in the model", which licenses the modest claim from the
+%    discipline rather than from our own hedging). BIB: the sargent entry
+%    is commented out in references.bib and the source is now at
+%    docs/sources/methodology/sargent2011_vv.md --- activate it.
+%  - CLOSE BY NAMING WHAT THE SWEEP SELECTED (design C7b, conventions c):
+%    the strongest sensitivity analyses feed forward --- Manadhata and
+%    Wing's produces guidelines their later parameters are assigned on;
+%    Torquato's locates an optimum and a later study truncates its axis
+%    there with the reason stated. Three of our four dwell anchors are
+%    inert and one is not; reported flatly that is a page of non-events,
+%    reported as a selection it names the one parameter the conclusions
+%    are exposed to, and sec:dimensions opens by picking it up.
+%  - PRESENTATION: line chart, x = swept parameter, y = metric, series =
+%    a second factor at 2--4 levels, one figure per swept parameter
+%    (Anderson is the purest form). Where nothing moved, a band-ends
+%    against-centre TABLE is the honest compression and saves the figures
+%    for what did move --- app:sensitivity's tab:anchor-sensitivity is
+%    already exactly that.
+%
+% OPEN, blocks the numbers not the shape (design 3.2): both existing
+% sweeps ran at TEN seeds on the PRE-RESTORATION substrate with `random`
+% as the only MTD condition, and the failure-matrix sweep additionally
+% under the SUPERSEDED fixed-dwell regime. The strands will run at a
+% hundred seeds on the restored substrate over a seven-mechanism pool.
+% Either re-run the sweeps at the reported configuration (recommended;
+% 2 600 + ~1 560 runs, minutes) or state the difference in the register
+% caption. What is NOT available is two configurations on one page
+% undeclared.
 \section{Sensitivity analysis}
 \label{sec:sensitivity}
 
 % mu_p: the four anchors over their declared bands (app:dwell-robustness;
 % only the low-and-slow anchor moves an outcome) and the exponential family
 % against the same-mean Erlang-4 substitution (app:exponential-shape).
+% SHAPE (conventions h, Tay's repeating internal form): define the
+% parameter and what it trades off; declare the range AND its
+% justification; the figure; the numeric readout, with the "why" deferred
+% to ch6. The inert anchors are stated as inert, not hidden.
 \subsection{Dwell times}
 \label{subsec:sens-dwell-times}
 
 % phi: v2_partial against the forced-total v1_ckc_total
-% (app:experiment-one) --- a swap, not a band.
+% (app:experiment-one) --- a swap, not a band. Say that plainly: this is
+% the one declared input with no interval, so its sensitivity is a
+% comparison of two versions rather than a sweep, and V-map remains the
+% one leaf that could demote the tree (hypothesis_tree §8). The standing
+% bound belongs in the claim sentences of sec:effectiveness, not here.
 \subsection{Tactic-to-verb mapping}
 \label{subsec:sens-tactic-verb-mapping}
 
 % F_failure: gamma, delta, z over their bands (app:weight-sets; the nine
-% rule values are argued, not swept); the corpus-variant robustness column
+% rule values are argued, not swept --- say why in one clause, since a
+% parameter in neither the swept nor the held list is the omission the
+% corpus keeps committing); the corpus-variant robustness column
 % (operator_dedup against raw) rides here.
 \subsection{Failure matrix}
 \label{subsec:sens-failure-matrix}
@@ -4814,6 +4929,48 @@ set of values to feed into our attacker model.
 % sec:metrics unit folded in. The degenerate operating region that gates
 % which tempos can discriminate (operating_point_discrimination.md) is a
 % design fact stated once here.
+%
+% WHAT THIS SECTION SHOULD LOOK LIKE:
+%  - OPENS by picking up what sec:sensitivity selected (design C7b).
+%  - A ROADMAP SENTENCE naming each following section's question and the
+%    reason for the order (conventions b) --- universal in the corpus and
+%    a house pattern in this supervisor's theses.
+%  - THE RUN COUNT IS A CONSEQUENCE, NOT A ROUND NUMBER (design C8,
+%    conventions d2). The MTD corpus does not address replication at all
+%    --- Brown states no run count anywhere, Zhang and Reti report 100
+%    because that is what they did. The method to cite is the confidence
+%    interval with specified precision (Hoad, Robinson and Davies, now at
+%    docs/sources/methodology/hoad2007_replications_wsc.md): declare the
+%    error tolerable in the estimate, run until the interval is inside
+%    it. Our own power arithmetic already does this and has no citation.
+%  - THE MODEL DECLARATION SENTENCE to imitate is Barach's (conventions
+%    d): repetitions, dispersion, intervals, and the test, in four
+%    sentences. Ours differs in the test --- D-29 makes the arms
+%    INDEPENDENT, not paired, so no paired test anywhere.
+%  - NO LINEAGE PAPER REPORTS A CONFIDENCE INTERVAL. Reporting effect
+%    sizes with intervals EXCEEDS lineage practice; claim it as a
+%    deliberate improvement in one clause rather than slipping it in.
+%  - THE ABLATION ARMS ARE DECLARED HERE (design 3.3) and nowhere else:
+%    the verdict-blind arm, uniform weights, the learning exponent and
+%    decay, the incentive exponent --- each a capability with a null
+%    value at which the run is bit-identical. They are factor LEVELS, not
+%    a metric family, so they get no section of their own; their results
+%    are reported in whichever strand instruments them.
+%    DEPENDS ON §4.3 RULING R3 (show the history-term slot in the formal
+%    definition). Without it the incentive rule and the learner have NO
+%    ch4 antecedent, and two of the six ticked properties in
+%    tab:fidelity-verdict are ticked on mechanisms the dissertation never
+%    defines. R3 is load-bearing here, not a formalism nicety.
+%  - VOLUNTEER THE CONCESSION (design 5b): the field's only enumerated
+%    prescription for an evaluation metric is Jalowski's four guidelines,
+%    and the third is that a metric "should compare the MTD scheme to a
+%    state-of-the-art system, protected using the best available
+%    methods". We compare mechanisms against each other and against no
+%    defence, on one simulator, with the defender frozen. Own it in one
+%    sentence here, beside the comparability boundary, and say in the
+%    same breath which half of the attacker-realism demand the work
+%    answers (CTI-grounded, objective-conditioned, adaptively routed) and
+%    which it does not (scheme-aware --- ruled out of scope, future work).
 \section{Experimental dimensions}
 \label{sec:dimensions}
 
@@ -4823,29 +4980,136 @@ set of values to feed into our attacker model.
 % INSIDE the strand they instrument, not in a section of their own; the
 % observed ranking inversion is reported as observed, with its grade.
 % Facts and figures only --- interpretation is the discussion's.
+%
+% THE GRAMMAR OF EVERY RESULTS PARAGRAPH IN THE THREE STRANDS
+% (conventions e), four moves in order:
+%   1. the observation, as ordering or trend (magnitude where it is
+%      carried, as a relative percentage);
+%   2. the mechanism, in the next sentence, as the reason --- and where
+%      the mechanism was not measured, flag it as a hypothesis the way
+%      He does ("we hypothesise"), never as a finding;
+%   3. the exception or surprise, marked as such;
+%   4. the conditional recommendation closing the subsection ("would be
+%      most suitable when ...").
+% Declare a success criterion AT THE METRIC, before the result, with a
+% one-sentence justification (He's form). That is where the retired
+% grading vocabulary now lives --- a sentence at the definition site, not
+% a unit of its own. Where a separation is real but small, defer
+% materiality to the reader explicitly (Outkin's form) rather than
+% inflating it.
 
-% ~3 units. Attacker-side and defender-side effectiveness (Table 3.1):
-% attack success rate, mean time to compromise, attack path exposure;
-% host / network compromise ratio.
+% ~3 units, one per subsection. Attacker-side and defender-side
+% effectiveness (Table 3.1): attack success rate, mean time to compromise,
+% attack path exposure; host / network compromise ratio.
+% BLOCKED, and it blocks prose not shape: internal MTTC ranks the
+% mechanisms perversely and is the project's named primary metric; its
+% brief is owed before this section names it (handoffs README, "one
+% finding with no owner"). Cross-arm event counts are inflated ~3.75x by
+% per-vulnerability row writing; the corrected counter exists.
 \section{Effectiveness}
 \label{sec:effectiveness}
+
+% ~1 unit. THE FUNNEL'S FIRST STEP, and the reason this section is
+% subsectioned at all. What each profile does with NO defence, beside the
+% inherited attacker. This one block is simultaneously:
+%   - the attacker characterisation (a statement about the attacker, not
+%     about the interaction, precisely because no defence is running) ---
+%     it is where properties 2 and 3 are read off, and it feeds
+%     sec:captured;
+%   - the DENOMINATOR every suppression number in subsec:eff-under-defence
+%     is a difference from (the no-defence condition, conventions f2);
+%   - the SELECTION STEP that explains why breadth rather than objective
+%     achievement is the denominator at all --- the profiled attacker
+%     reaches the mass-compromise objective in NONE of its unopposed runs
+%     (0/400), so a goal-denial claim would have nothing to deny. State
+%     the pruning rule, as He does; it is what stops this reading as a
+%     detour.
+% Attacker-property claims are legitimate RESULTS and belong here as
+% observations. The verdict they add up to is ch6's.
+\subsection{Without defence}
+\label{subsec:eff-undefended}
+
+% ~1 unit. The defence conditions against both attackers: the single
+% mechanisms and the deployment schemes, per profile. NOTE the condition
+% set is not experiment 2's --- three of the seven single mechanisms
+% entered the pool after the published matrix and have NEVER been run
+% against the movement attacker (hypothesis_tree §8f.2). Report the
+% no-defence condition as the origin, not as a plotted series.
+\subsection{Under defence}
+\label{subsec:eff-under-defence}
+
+% ~1 unit. The cross-arm contrast --- the thesis's own claim --- plus the
+% lineage headlines (Zhang, Brown, Ho) re-run under both attackers, which
+% belong HERE rather than in a section of their own.
+% HARD BLOCK ON THE PROSE, not on the section: the ranking inversion
+% (rho = -0.893 at ten seeds) DOES NOT REPRODUCE on the restored
+% substrate --- a re-run at fifty seeds returned -0.071, because the
+% INHERITED attacker's defence response moved under d127f443 and nothing
+% re-measured it (hypothesis_tree §8f.1). Until the re-establishment run
+% lands, NO SENTENCE HERE MAY STATE THE INVERSION as a fact of the
+% current substrate. Marc's 2026-09-09 framing --- we are not trying to
+% beat the inherited model, ours is the new baseline --- settles the
+% FRAMING but not the measurement: what is reported is whatever the
+% re-run returns, at the grade it earns.
+\subsection{Across the two attackers}
+\label{subsec:eff-cross-arm}
 
 % ~1 unit. Resource spent: return on attack and attack cost on the
 % attacker side; defender-side overhead only if instrumented --- the
 % standing concession (no defender efficiency metric is reported; the
 % defender is frozen) is said once, here.
+% MEASURE THE DEFENCE'S COST ON THE SAME INSTRUMENT AS ITS BENEFIT
+% (conventions f2, Zaffarano): every metric instantiated twice, mission
+% side and attacker side, distinguished only by the sign at aggregation,
+% because an MTD "ha[s] as much potential to interfere with a network's
+% ability to support the mission as [it does] to defend the network".
+% That is what the reconfiguration-occupancy ledger is FOR, and why it
+% belongs here rather than reading as an extra.
+% Carries property 6 for sec:captured: a declared cost model that
+% demonstrably operates and demonstrably does not change MTD's measured
+% effect --- the measured negative is the result.
+% Tempo claims are WITHIN-ARM only (the duty-cycle kill criterion fired).
 \section{Efficiency}
 \label{sec:efficiency}
 
-% ~2 units. The findings the inherited suite cannot express: the
-% tactic-resolved MTD effect, execution-not-planning reach, the
-% fidelity-derived success criterion where the inherited one is degenerate;
-% the APT-specific measures (V2 reworked predictability under a
-% collision-checked name).
+% ~2 units, one per subsection. The findings the inherited suite cannot
+% express: the tactic-resolved MTD effect, execution-not-planning reach,
+% the fidelity-derived success criterion where the inherited one is
+% degenerate; the APT-specific measures (V2 reworked predictability under
+% a collision-checked name).
+% NOT NOVEL, AND SAY SO: a phase-resolved effectiveness locator is an
+% established measure --- Zaffarano defines the kill-chain phase against
+% which an MTD is most effective as the argmax over phases of the mean
+% per-task change in success, with and without the defence. Cite it
+% rather than introducing the tactic-resolved measure as our own.
+% BUDGET RISK (design 4): two units carry four of the six ticked
+% properties plus the APT-specific measures. Either take a half unit from
+% sec:effectiveness or compress the ablation contrasts to a table ---
+% Marc's call at drafting time; do not silently overrun.
 \section{Supplementary measures}
 \label{sec:supplementary-measures}
 
+% ~1 unit. Campaign structure and plurality, the measures the inherited
+% suite has no vocabulary for: distinct-tactic coverage over time,
+% deepest successfully-actioned stage, foothold retention across
+% mutations (property 1); profile divergence against its own split-half
+% null (property 2, the one property shown to CHANGE an outcome); path
+% entropy and distinct prefixes (property 3). Read from the no-defence
+% arm where the claim is about the attacker, from the defended arm where
+% it is about the interaction --- say which, per measure.
+\subsection{Campaign structure and plurality}
+\label{subsec:supp-structure}
 
+% ~1 unit. The declared capabilities, ablated --- the arms declared in
+% sec:dimensions, each reported against its null: the verdict-blind arm
+% (property 4, adaptivity), the learning exponent and decay (property 7).
+% Both carry MEASURED NEGATIVES and those are among the most credible
+% things the work owns: the capability operates, and is shown not to
+% confer advantage on this terrain. Report the negative as the finding it
+% is; the interpretation (representation and reward are independent
+% requirements) is sec:captured's.
+\subsection{The declared capabilities, ablated}
+\label{subsec:supp-ablations}
 % =====================================================================
 \chapter{Discussion}
 \label{ch:discussion}
@@ -4861,6 +5125,36 @@ set of values to feed into our attacker model.
 
 % Capture + model converge: what of APT behaviour the movement attacker
 % carries, against the fidelity criterion's axes.
+%
+% FED BY (2026-09-09 design pass; the ch5 evidence this section reads,
+% property by property --- docs/handoffs/2026-09-09_ch5_experiments_design.md
+% §4 carries the full map). Every mark in tab:fidelity-verdict needs a
+% pointer to either a ch4 mechanism or a ch5 measurement, and this is
+% where the pointers are spent:
+%   1 persistence   <- subsec:supp-structure (distinct-tactic coverage,
+%                      deepest successfully-actioned stage, foothold
+%                      retention)
+%   2 objective     <- subsec:supp-structure (profile divergence against
+%     conditioning      its split-half null) and subsec:eff-undefended.
+%                      THE ONE PROPERTY SHOWN TO CHANGE AN OUTCOME ---
+%                      say so, because the walk's whole job is to
+%                      separate this from the five below.
+%   3 plurality     <- subsec:supp-structure (path entropy, distinct
+%                      prefixes) + subsec:eff-under-defence (the
+%                      per-profile defence response)
+%   4 adaptivity    <- subsec:supp-ablations (the verdict-blind arm)
+%   5 stealth       <- nothing; blank by ruling, future work
+%   6 incentive     <- sec:efficiency (the utility arm against the cost
+%                      ledger)
+%   7 learning      <- subsec:supp-ablations (the learning arm; breadth
+%                      falls as the capability rises)
+%   8 scheme aware  <- nothing; ruled out of scope 2026-07-28
+% The 2026-09-07 ruling stands: every property the model IMPLEMENTS is
+% marked met, and the walk says, per property, whether it is shown to
+% change an outcome (2) or built and shown to operate without conferring
+% advantage on this terrain (1, 3, 4, 6, 7). The measured negatives are
+% among the most credible things the work owns --- report them as
+% findings, not as apologies.
 \section{What the movement attacker has captured}
 \label{sec:captured}
 
@@ -4871,6 +5165,23 @@ set of values to feed into our attacker model.
 % the badge vocabulary (demonstrated / designed / conjectured / not
 % addressed) and the anti-reverse-fitting provenance --- the axes were
 % fixed from the literature (ch3 §3.3.2) before the model was scored.
+%
+% FED BY sec:sensitivity (2026-09-09 design pass): the declared-parameter
+% honesty belongs to the verdict, not to the sweep. ch5 reports which
+% parameters moved an outcome and which did not; THIS section says what
+% that licenses --- that the conclusions are exposed to one declared
+% parameter rather than to all of them, and that the tactic-to-verb
+% mapping remains a chosen input with no interval, which is the standing
+% bound on every claim the chapter makes. The structural limitations
+% owned here (proof-of-concept boundary, mapping caveat, comparability
+% boundary) are the ones ch5 deliberately does NOT carry, because ch5 is
+% facts and figures.
+% Sargent's ceiling is the citable frame for the modest claim: where the
+% system is not observable it is usually not possible to obtain a high
+% degree of confidence in the model, and the behaviour should instead be
+% explored as thoroughly as possible. That is a discipline's prescription,
+% not our hedge --- docs/sources/methodology/sargent2011_vv.md, and the
+% bib entry needs activating.
 \section{Fidelity verdict}
 \label{sec:fidelity-verdict}
 
@@ -4993,6 +5304,30 @@ mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
 
 % The evaluate sub-question's implication --- what changes for how MTD
 % is evaluated; interpretation against the field.
+%
+% FED BY (2026-09-09 design pass):
+%   - subsec:eff-cross-arm --- the threat-model-dependence argument, at
+%     whatever grade the re-established measurement earns. Marc's framing
+%     (2026-09-09): we are NOT trying to beat the inherited model, ours is
+%     the new baseline; so this section's claim is about what an
+%     evaluation's choice of attacker DOES to its answer, not about which
+%     attacker is better.
+%   - sec:dimensions --- the operating-point finding (an evaluation must
+%     show its operating point can discriminate its metric before
+%     reporting it) is the cheapest and most transferable methodological
+%     result the project owns, and it generalises beyond this simulator.
+%     Its home is here, not in ch5, which only states the design fact.
+%   - sec:efficiency + subsec:supp-ablations --- the two measured
+%     negatives generalise into design warnings for anyone building the
+%     learning, cost-sensitive attacker the literature keeps asking for:
+%     representation and reward are independent requirements, and a study
+%     scoring attacker learning on the attacker's own friction would
+%     conclude the representation makes no difference, which is the
+%     reverse of what it does.
+%   - the concession volunteered in sec:dimensions --- Jalowski's third
+%     metric guideline (compare against a state-of-the-art protected
+%     system) is not met by this evaluation or by most of the corpus.
+%     ch5 owns it in a sentence; here is where it is weighed.
 \section{What changes for MTD evaluation}
 \label{sec:evaluation-implications}
 
