@@ -317,6 +317,32 @@ rather than the code.
 5. **Cross-arm event counts are inflated about fourfold** by per-vulnerability
    row writing. The corrected counter exists; the restatement is the cost.
 
+## 5a. What Marc's "ours is the new baseline" framing does to blocker 1
+
+Ruled 2026-09-09: the work is not trying to beat the inherited model, because the
+movement attacker *is* the new baseline. That is right, and it lowers the bar the
+re-established measurement has to clear — but it lowers it rather than removing
+it, and the distinction is worth keeping straight.
+
+What the framing removes: any need for the profiled attacker to out-perform the
+inherited one. Weaker headline performance is the condition of the study, not its
+verdict, and that argument is already staged in the discussion notes.
+
+What it does not remove: the cross-arm number is not a performance comparison. It
+is the claim that the two attackers *reward different defences* — the thesis's
+"so what", and the thing the results note in `ch6_results/` is built on. That
+still needs a measurement.
+
+**The useful consequence is that the bar drops.** The re-run no longer has to
+reproduce a rank correlation of −0.893; it has to establish whatever stable
+cross-arm difference exists, at the grade the evidence carries. The grading
+vocabulary already covers exactly this — magnitude if the same defences win by
+different margins, ordering if the ranking moves, recommendation if the top-ranked
+mechanism changes — and under the merge ruling that vocabulary survives as a
+sentence at the metric's definition site rather than as a unit of its own. A
+result at the magnitude grade is a real result; it is a weaker sentence than the
+one on record, not the absence of one.
+
 ## 5b. One concession the chapter should volunteer
 
 The field's only enumerated prescription for an evaluation metric is Jalowski's
