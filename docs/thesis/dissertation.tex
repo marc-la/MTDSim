@@ -4225,7 +4225,13 @@ to a GSPN $\mathcal{N}_c = (P_c, T_T, T_I, I, O, W_c, M_0)$, where:
 $T_I$ is the set of pairs with $w_c > 0$. The implementation carries every pair the profile's Section~\ref{sec:attack-profiles} subgraph admits and gives the pairs its flows never draw a weight of zero; a zero-weight immediate transition has firing probability zero in every marking, and every factor below multiplies, so the two nets are the same object in execution. $\mathcal{N}_c$ is constructed before the simulator runs. The
 construction is the same for every profile and only $P_c$ and $W_c$
 vary, which is what makes the net plug and play: each attack profile is
-an input, and structure and semantics stay apart.
+an input, and structure and semantics stay apart. One token is a choice
+about the attacker, not a property of the net. The attacker pursues one line
+of the campaign at a time, so the AND structure Attack Flow preserves stays
+inert here; concurrency is a parameter this thesis does not exercise.
+% [2026-09-13: A7 sentences landed on Marc's ratification of the fourteen-item
+%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
+%  §7.2. Ratify-on-read.]
 
 A GSPN's immediate weights are constants, or functions of the marking.
 The attacker model of this thesis needs them to depend on what happened
@@ -4250,7 +4256,13 @@ transitions out of $\hat{p}$ fire with weights
 $F_{\text{success}}$ and $F_{\text{none}}$ are the identity, so on a
 success, or at a tactic that dispatches no action, the token routes on
 the corpus proportions; $F_{\text{failure}}$ is the failure matrix of
-Section~\ref{subsec:failure-matrix}. Places, transitions and arcs are
+Section~\ref{subsec:failure-matrix}. Success needs no factor of its own:
+every flow in the corpus is a campaign that got through, so the base
+proportions already are the success policy.
+% [2026-09-13: A4 sentence landed on Marc's ratification of the fourteen-item
+%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
+%  §7.2. Ratify-on-read.]
+Places, transitions and arcs are
 untouched; a factor of zero disables a transition for that firing only.
 A timed transition may also be cut short by an MTD mutation, which
 returns failure. Any further declared factor multiplies into
@@ -4483,8 +4495,12 @@ and the failure matrix, $F_{\text{failure}}$ of Equation~\ref{eq:vc-net}.
 %  the Petri nets and our simulator, and it" deleted (the sentence above
 %  says the controller is the join), "(the stochastic dwell times)" deleted
 %  (the parameter is the mean; the draw is what is stochastic).]
-These are the three assumptions we needed to model to join the attack
-profiles to MTDSim; each is swept in the sensitivity analysis
+These are the three inputs we had to declare to join the attack
+profiles to MTDSim;
+% [2026-09-13: "assumptions" -> "inputs", Marc's ruling: the three are the declared
+%  inputs the sensitivity analysis sweeps; the assumptions are the sentences now
+%  placed at each symbol in §4.3-4.4. Keeps the two words apart.]
+ each is swept in the sensitivity analysis
 (Section~\ref{sec:sensitivity}).
 % [3b] SESSION GLUE from Marc's chat words (2026-09-08: "these are the three
 %  assumptions that we needed to model that allowed us to join the attack
@@ -4551,9 +4567,23 @@ Equation~\ref{eq:vc-net}, comes from the action layer and is propagated up.
 An action fails if the preconditions of the action itself were missing ---
 for example, trying to exploit a vulnerability without having scanned for
 it. The same holds for the moving target defence: if MTD interrupts the
-attacker, then whatever verb it is on fails. But if they are on a
+attacker, then whatever verb it is on fails. The controller can tell an
+interrupt from an unmet precondition, and it discards the distinction before
+routing: the failure matrix is declared over one failure verdict, not two.
+% [2026-09-13: A5 sentence landed on Marc's ratification of the fourteen-item
+%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
+%  §7.2. Ratify-on-read.]
+But if they are on a
 dwell-only, there is no verdict ($v = \text{none}$), so this is not felt by
-the token in the Petri net.
+the token in the Petri net. That holds only while the dwell runs its course.
+A mutation that lands during a dwell-only tactic cuts it short like any other
+timed transition and returns failure, so a dwell-only tactic is blind to the
+defence's state changes but not to its interrupts.
+% [2026-09-13: A6 sentences landed on Marc's ratification of the fourteen-item
+%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
+%  §7.2. The brief's A6 ("felt in cost, not routing") was wrong against the
+%  record (boundary_attacker_defender_channels.md D-21: mid-dwell interrupts return
+%  failure); the brief is corrected in the same commit. Ratify-on-read.]
 % [2026-09-08: v and none bound here --- this is the declaration
 %  tab:gspn-notation promises for v in V; the mechanism gloss ": objects are
 %  passed around in the simulator, and if the verbs have not been run, it
@@ -4561,12 +4591,28 @@ the token in the Petri net.
 
 We employed a sink-retrace policy, because the token would frequently hit
 sinks and terminate the run --- a concession to the thinness of the corpus;
-we retrace the edge travelled. The simulator we are inheriting largely
+we retrace the edge travelled. The retrace is for a structural dead end, a
+place the corpus gave no exit. A place whose every exit the failure matrix has
+zeroed for a firing is a stall, not a dead end, and a stalled run ends.
+% [2026-09-13: A10 sentences landed on Marc's ratification of the fourteen-item
+%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
+%  §7.2. Verified
+%  2026-09-13: controller/outcome.py returns the empty out-set as the stall and the
+%  movement driver ends the walk; the retrace is the S5 sink policy only. The
+%  optional "no declared weight set produces one" clause was dropped because the
+%  appendix does not carry the zero-stall count. Ratify-on-read.]
+The simulator we are inheriting largely
 models the confusion and disruption of the attacker through a 20-second
 confusion penalty that hits the attacker at certain phases. How the defender
 thwarts the attacker is an invariant of the simulator, so we maintain that
 20-second confusion penalty. Not all the timing is supplied by the Petri
-net: the confusion penalty is the exception.
+net: the confusion penalty is the exception. The same rule covers everything
+else the simulator owns. The six verbs, the mutation schedule and the penalty
+are the environment's, held identical for both attackers, so that a
+difference between the arms is a difference in the attacker and nothing else.
+% [2026-09-13: A11 sentences landed on Marc's ratification of the fourteen-item
+%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
+%  §7.2. Ratify-on-read.]
 % [RESOLVED 2026-08-20 on Marc's wording: the unit's opening claims "all the
 %  tactic timing", so the penalty exception no longer contradicts it.]
 % [2026-09-08: "Another characteristic is that" and "inherently tied to the
@@ -4574,6 +4620,17 @@ net: the confusion penalty is the exception.
 %  after "sinks".]
 % [RULED, do not re-flag] routing-ablatability must-carry CUT from this unit;
 %   guarantee stays repo-side (attacker_state_seam.md); ch6 cites it there.
+
+Nothing carries between runs. Each run starts from $M_0$ knowing nothing of
+the defence: the attacker does not hold the mutation schedule, learns nothing
+about it within a run, and carries nothing from one run into the next. That
+is the scheme-aware adversary \citet{jalowski2026} asks for, and this model
+is not one; Chapter~\ref{ch:futurework} returns to it.
+% [2026-09-13: A12 paragraph landed on Marc's ratification of the fourteen-item
+%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
+%  §7.2. Verified 2026-09-13:
+%  movement/learning.py holds a within-run belief about which destinations pay,
+%  degraded on mutation; it never reads the schedule. Ratify-on-read.]
 
 The ceiling of this thesis lies in the action layer that we are adopting
 from the simulator: the attacker model that we produce can only be as good
@@ -4722,7 +4779,7 @@ The base transition weights are the recurrence values of the earlier levels
 as the proportions $w_c$ of Equation~\ref{eq:base-weight}, and we assume the
 observed out-transitions are the complete set of choices open to the token
 --- an explicit assumption, since the Attack Flow corpus is all we have to
-draw on. But a recurrence value does not reflect an attacker, because an
+draw on, and a different corpus would give a different net. But a recurrence value does not reflect an attacker, because an
 attacker can succeed or fail, and these reports only capture success ---
 there is survivorship bias.
 % [2026-09-08: w_c bound --- the re-key §4.3's comment demands (the L1 weight
@@ -4743,7 +4800,13 @@ I in Figure~\ref{fig:failure-weight-matrix}). The second is distance, $d$:
 we used the literature and overlaid the attack
 stages~\citep{hutchins2011, alshamrani2019, mandiant2013, chemat2024},
 which gave the four broad stages of an attack --- preparation, intrusion,
-post-intrusion operations, and objective. This can be found in
+post-intrusion operations, and objective. ATT\&CK imposes no order on its
+tactics, so the order the distance kernel reads is imported from these
+lifecycle models rather than observed in the corpus.
+% [2026-09-13: A8 sentence landed on Marc's ratification of the fourteen-item
+%  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
+%  §7.2. Ratify-on-read.]
+This can be found in
 Appendix~\ref{app:weight-sets}, along with the full set of tactic-to-tactic
 failure weights; the kernel's parameters are swept in the sensitivity
 analysis (Section~\ref{sec:sensitivity}).

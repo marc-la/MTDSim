@@ -1,5 +1,5 @@
 ---
-status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); four-reviewer scrutiny pass (§13); Marc's rulings + the horizon answer (§14, §15); C1–C28 owed
+status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); four-reviewer scrutiny pass (§13); Marc's rulings + the horizon answer (§14, §15); register re-cut and assumptions moved to ch4 (§16, 2026-09-13); C1 reversed; C29–C31 owed
 created: 2026-09-09
 topic: "The Experiments chapter designed against the field's conventions rather than invented: a section-level survey of how MTD evaluations are built and reported (now docs/workflows/evaluation_conventions.md), the ch5 design that follows from it, the funnel that lets one run set both characterise the attacker and evaluate the defence, the property-to-measurement map the discussion's fidelity table depends on, and the five things the chapter cannot yet say."
 ---
@@ -1736,3 +1736,58 @@ checkpoint rather than at the horizon.
 **Owed before this is taken:** a cost curve at 2–3 horizons (the "no silent caps"
 convention), and a decision on which checkpoint is the headline — 0.25 keeps the
 lineage bridge, 0.8 is a much stronger claim and will be censored far more often.
+
+---
+
+## 16. The register re-cut, and where each class of thing lives (2026-09-13)
+
+Marc walked `tab:parameter-register` row by row and found what the table's own
+reviewers half-found in §13.3: it carries **four different kinds of thing** under
+one honesty banner, and "held" reads as *inherited* when half the group is
+model-side. **C1 is reversed** on separation of concerns — Marc's ruling, his
+words: *"separation of concerns should be considered."* The four classes, the
+convention each has in the literature now held under `docs/sources/methodology/`,
+and the ruled home of each:
+
+| Class | Rows it covers today | Convention | Ruled home |
+|---|---|---|---|
+| **Free inputs of the formal definition** | $\mu_p$, $\tau_p$ shape, $\gamma$, $\delta$, $z$, $\varphi$; $R$ named as unswept | ten Broeke's input table (nominal, range, origin) + extended OFAT; Pianosi/Saltelli purposes **screening** and **ranking**; Sargent operational validation + ceiling | `tab:parameter-register`, ~7 rows. **This is what the sensitivity analysis is.** Not three chosen of twelve: all the definition's free parameters, as ten Broeke prescribes |
+| **Ablation arms** | $F_v$ identity, uniform $w_c$, unsegregated $c$, cost/learning modulators | Journal MTD corpus does not ablate; Tay's subsection served an RL agent | **§5.3.3 dropped** (Marc: "persuaded by the convention in these journals"). Aggregate envelope stays as a fifth attacker arm / summary-table row in §5.3.1; verdict-blind arm stays as the §5.3.2 control; modulators held at defaults as `tab:factors-fixed` rows. **Consequence flagged, not yet confirmed by Marc:** fidelity-verdict properties 6 and 7 become *implemented, not evidenced*; the R3 dependency leaves ch5 |
+| **Environment / experimental factors** | mutation cost, interval, timing regime, network, horizon, run count | Reti's two tables; Anderson's failure (held defaults unstated); Kim (fix by citation, repeat in captions) | `tab:factors-varied` / `tab:factors-fixed` in §5.2 only (C25). Horizon (§15) and timing regime (§14.3) are **varied** factors. `retrace_sinks` is a named switch, **off by default** in the driver and turned on per experiment — it must appear in `tab:factors-fixed` |
+| **Modelling assumptions** | the twelve of the §4.3 brief §7.2 | ODD: assumptions live in the model description at the submodel; Sargent conceptual-model validation; corpus §g limitations paired with future work | **ch4 prose at the symbol each constrains — APPLIED 2026-09-13.** A1, A2, A3, A9 were already stated; A4, A5, A6, A7, A8, A10, A11, A12 inserted on Marc's ratification of a fourteen-item proposal (dated trails at each anchor). "Three assumptions" → "three inputs" at the §4.4 opening |
+
+**Marc's sharpening of what §5.1 is.** The three inputs were *derived and argued*,
+not fitted: the sweep is Madan's substitute for estimation, a check that the
+conclusions survive the declared values being wrong, never a calibration. The
+placement criterion that follows is the only one needed: an assumption *with a
+number attached* can be moved and is a §5.1 row; one *without* is a ch4 sentence.
+
+**§5.1 collapses to one section, ~1 unit, no subsections** (was 3 units, three
+subsections, four figures — three of them of non-events). Preamble: purpose
+(screening + ranking), method (OFAT over formalism-derived bands, corner check on
+the influential pair, no global claim), ceiling (Sargent). Then the ~7-row table,
+**one** figure (the parameter that moved), and a closing paragraph naming the
+selection for §5.2 to pick up (C7b). Shape-swap and mapping-swap are rows with
+appendix pointers, not subsections. With §5.3.3 gone the chapter has **10 headings
+on 12 units** — under budget for the first time.
+
+**What the chapter is, in one sentence (the roadmap).** Chapter 4 declares the
+model. Chapter 5 checks the declared numbers do not carry the conclusions, declares
+the experiment, and runs it: what the attacker does unopposed, what the defences do
+to it, and what that costs.
+
+**Record correction made in the same pass.** The §4.3 brief's A6 ("a mutation
+during a dwell-only place is felt in cost, not routing") contradicted
+`boundary_attacker_defender_channels.md` D-21 (mid-dwell interrupts are read as
+failure verdicts; 107 of 127 in the cited trace) and §4.3's own sentence. Brief
+corrected; the ch4 sentence follows the record.
+
+**Owed (next session, tex):** (i) re-cut `tab:parameter-register` to the free
+inputs and move its environment rows to §5.2; (ii) collapse §5.1 to one section
+and retire `subsec:sens-dwell-times`, `subsec:sens-mapping`, `subsec:sens-failure`
+(re-point ch4's forward refs to `sec:sensitivity`); (iii) drop §5.3.3 once Marc
+confirms the fidelity-table consequence, moving the aggregate row to
+`tab:unopposed-summary` and the modulator defaults to `tab:factors-fixed`;
+(iv) add `retrace_sinks` to `tab:factors-fixed`. Ruling numbers: **C29** (C1
+reversed), **C30** (§5.1 collapse), **C31** (§5.3.3 drop + fidelity consequence —
+*confirmation owed*).

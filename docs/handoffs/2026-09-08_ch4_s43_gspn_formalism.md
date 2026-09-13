@@ -292,8 +292,12 @@ definition licenses)
 4. **A4 success passthrough.** The corpus is the success policy (`F_success ≡ 1`).
 5. **A5 binary verdict.** `ν` collapses every outcome to success/failure;
    an interrupt and an unmet precondition are both failure.
-6. **A6 dwell-only opacity.** A mutation during a dwell-only place is felt in
-   cost, not routing.
+6. **A6 dwell-only opacity.** A dwell-only place that elapses returns `none` and
+   routes on the base proportions; a mutation that lands mid-dwell cuts the timed
+   transition short and returns `failure` like any other. *(Corrected 2026-09-13:
+   the earlier wording "felt in cost, not routing" contradicted the record —
+   `boundary_attacker_defender_channels.md` D-21, mid-dwell interrupts are read
+   as failure verdicts — and §4.3's own sentence. Landed in ch4 §4.4.1.)*
 7. **A7 one token.** The AND structure Attack Flow preserves is vacuous
    under a single token; a constraint on parameters, not the formalism.
 8. **A8 consensus staging.** `s(·)` and hence `Δ` are imported from five
@@ -624,7 +628,16 @@ at assembly). The figure and notation table are outside the word count.
   left for the integration check.
 - **R7** what `T_I` is — RULED (a) 2026-09-08: positive-weight pairs; the implementation's zero-weight carrier is stated as equivalent in P2 — §8.3.
 - **R6** the sensitivity section's key: is §7.1 the V6 table's row set, and
-  is the assumption register §7.2 a ch5 unit or a ch4 closing paragraph.
+  is the assumption register §7.2 a ch5 unit or a ch4 closing paragraph —
+  RULED 2026-09-13 and APPLIED (assumptions half): **neither a ch5 unit nor a
+  closing paragraph; each assumption lives in ch4 prose at the symbol it
+  constrains.** A1, A2, A3, A9 were already stated; A4, A5, A6, A7, A8, A10,
+  A11, A12 landed as sentences on 2026-09-13 (dated `% [2026-09-13: ...]`
+  trails at each anchor), after Marc ruled on a fourteen-item proposal. The
+  design's C1 merge (one register, assumptions as held rows) is REVERSED by
+  Marc on separation of concerns — see the ch5 design handoff §16. §7.1's
+  swept rows become `tab:parameter-register`'s only content (re-cut pending);
+  its environment rows go to §5.2's factor tables.
 
 ## Validation gate
 
