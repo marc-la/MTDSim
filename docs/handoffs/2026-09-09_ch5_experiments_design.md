@@ -1898,3 +1898,87 @@ Generator pass for `tab:parameter-register` against `data/ogasp/*.json`; the two
 sweeps re-run at the reported configuration (fills the effect column and
 `tab:decay-sensitivity`); the prose slots (§5.1 preamble, chapter opening, ch4
 signpost sentence, App. C.3 framing paragraph) — all Marc's dictation.
+
+---
+
+## 19. Marc's cold read of §5.1 (2026-09-13) — what the section owes the reader before it owes numbers
+
+Marc read the collapsed §5.1 as drafted (§16, C30 applied) and found it "cut and
+dry" but vague: *where did the decay come from, what is the rule kernel, what is
+forward/backward, the symbols feel made up, what is Figure 5.1 for, what goes in
+the effect column, what are the appendix items for.* Every one of those is
+answered in the record; none is answered on the page. The cause is locatable:
+the 2026-09-08 front-loading ruling cut the kernel-value, floor and example
+sentences from §4.4.3, so a reader now meets $\gamma$, $\delta$, $z$ and $R$ for
+the first time in `tab:gspn-notation` and then in Table 5.1 with only a
+two-word name each. The symbols are the formalism's (§4.3 binds $\mu_p$, $\tau_p$,
+$\varphi$, $F_{\text{failure}} = R \cdot d$; App. B.6 binds $\gamma$, $\delta$, $z$),
+so the order — ch4 declares, §5.1 prices — is right and is ten Broeke's input
+table. What is missing is one clause of *meaning* per row, and it belongs in the
+table's Quantity column, not in prose the ledger cannot afford.
+
+**The seven rows in plain words** (for the Quantity column and the preamble; every
+value below is the record's, not a new derivation):
+
+| Row | What it is, in one clause | Where it came from | What the record already says |
+|---|---|---|---|
+| $\mu_p$ | the four dwell anchors the 15 tactic times resolve onto: scan 35 s and exploit 4.5 s priced from MTDSim's own action costs; low-and-slow 45 s (10× exploit) and objective 36 s (8× exploit) declared | `tab:dwell-anchors`, App. B.4 | only the low-and-slow anchor moves an outcome (7.82 → 4.56 → 1.78 hosts across ×0.25..×4, MTD off); the other three inert at both band ends (`rate_feasibility_study.md` §10) |
+| $\tau_p$ | the shape of the draw around each mean: exponential, on the supervisor's direction, against a same-mean Erlang-4 | `stochastic_timing_design.md` §3 | inert everywhere except the long-dwell corner under mutation (stealth ×4, 200 s), where the faithful shape is *worse* for the attacker (App. C.2 table) |
+| $\gamma$ | how much a failure-routed jump *forward* across two lifecycle stages is suppressed (the factor is $\gamma^{\Delta-1}$: adjacent = 1, two stages = 0.25, three = 0.0625) | `lifecycle_consensus.json`; the encoding of Marc's "far jumps close to or exactly zero" | 36 % largest shift, on the forced-total mapping only (`weight_sensitivity_study.md` §6.2, fixed-dwell regime) |
+| $\delta$ | the same suppression for a *fallback backward* after a failure (two stages back = 0.25) — the persistence ruling: a deep attacker does not return to external reconnaissance | same; re-cut 0.5 → 0.25 on 2026-07-28 | the most influential of the three (101 % on actions-per-host, forced-total mapping); band re-cut 0.25–0.75 → 0.1–0.5 *after* the study, so 0.1 is unswept until the re-run |
+| $z$ | the floor: a distance factor below it reads as exactly zero, which is what makes "exactly zero" representable for the three-stage corners | same | zero sensitivity **by structure**: no profile net carries a three-stage edge, so nothing for the floor to act on (§6.1); report it as such, not as "tested and small" |
+| $\varphi$ | which tactic dispatches which simulator verb; partial (seven dwell-only) against the forced-total alternative | `controller_mapping_v2.md`, App. B.5/B.7 | a swap, not a band: the forced-total mapping ran a tightly ordered machine in an unordered way and under-performed (App. B.7) |
+| $R$ | the nine failure rules A–I — the gates and dampers (initial access failed → foothold-dependent 0.02; recon failed → deep 0.05 …) and the forward / lateral / backward ladder (0.3–0.35 / 0.7 / 0.9) | `outcome_rules.json`; adversarially reviewed R0–R4 | **not swept**: each is a single argued magnitude, and the declared-value precedent's rule is *argument for single magnitudes, sweep for parameterised terms*. Listed so no declared quantity is absent (conventions §c) |
+
+Marc's own intuition for $\gamma$/$\delta$ was the right one, one direction
+flipped: *small* decay suppresses far jumps hard (the things meant to be near
+impossible stay so), *large* decay lets them happen; the floor is what does the
+"exactly zero" for the corners. The band is bracketed either side of the declared
+0.25 for that reason.
+
+**Figure 5.1 is the corpus's standard sensitivity figure, and nothing more**
+(conventions §c: x = the swept input across its band, y = the outcome, series =
+a second factor at two to four levels, one figure per input that moved —
+Anderson, Hong, Carroll). Its job is to show the *form* of the one relationship
+that exists (ten Broeke: OFAT reveals whether the response is linear or has a
+tipping point), which a band-ends row cannot. It reads as nonsense today because
+its caption is written as a **slot** ("the one declared input whose band ends
+separate from its centre") rather than naming the input. On the record it is the
+low-and-slow anchor; once the re-run confirms that, the caption says so and the
+figure is legible. Inert rows get no figure — that is the whole point of
+collapsing §5.1: three figures of non-events were removed on 2026-09-13.
+
+**The effect column** is the band-ends-against-centre readout for each row, with
+intervals: for a mover, three numbers (low / declared / high) or a pointer to the
+figure; for an inert row, the word *inert* with the band-end deviation inside the
+interval at centre; for $z$, *zero by structure*; for the two swaps, the
+alternative's value against the declared one. It is empty because the sweeps on
+record ran at ten seeds, one MTD scheme, pre-restoration substrate, and the
+failure-matrix sweep under the superseded fixed-dwell regime (§3.2). **Nothing in
+the column or the figure can be written until the re-run at the reported
+configuration**; the dwell sweep's S3-R re-run (1 740 runs) is the closest thing
+to a usable number and still differs in seed count and mechanism pool.
+
+**What each appendix item is for, and what it still owes:**
+
+| Item | Purpose | State | Owed |
+|---|---|---|---|
+| B.4 dwell derivation | the *why* of each dwell value: anchor families, evidence tiers, multipliers | tables generated | proofread of the justification strings |
+| B.5 mapping reasons | why each tactic maps as it does, incl. what the simulator lacks for a dwell-only row | table generated | caption voice pass |
+| B.6 weight sets | the failure matrix decomposed: rule kernel (a) × distance kernel (b) = set (c); the A–I ledger; the declared point in its bands | figures + tables landed | the 2–3 sentence lead; the sweep-results paragraph (blocked on the re-run) |
+| B.7 forced-total | the experiment that rejected the total mapping | table landed | the framing paragraph |
+| C.1 dwell robustness | per-anchor band ends against centre; the identifiability result; the degenerate operating region; the power limit | table landed (ten seeds, S3-R) | framing paragraph; numbers refreshed by the re-run |
+| C.2 exponential family | the shape defence, the Madan leak, the holm2014 counter-evidence, the measured scope | table landed | the framing prose (spine in the comment) |
+| C.3 decay robustness | $\gamma$, $\delta$, $z$ band ends against centre, then the corners of the influential pair | **placeholder — no data at any regime the chapter reports** | the re-run, then the framing paragraph |
+
+The body/appendix split is by resolution, not by importance: Table 5.1 is one
+row per input *family* and says inert-or-moved; the appendix is the per-value
+expansion a reader goes to when they doubt a row. Nothing was "pushed to the
+appendix" to hide it.
+
+**Order of work that follows.** (1) Re-run both sweeps at the reported
+configuration — the standing blocker (§3.2), now also blocking §5.1's prose,
+since the preamble's *selection* sentence names the mover and the re-run decides
+it. (2) Put the plain-words clause in Table 5.1's Quantity column (a table edit,
+no ledger cost). (3) Then §5.1 is one dictated unit: purpose, method, ceiling,
+the table, the figure, the selection sentence.
