@@ -1802,3 +1802,42 @@ confirms the fidelity-table consequence, moving the aggregate row to
 (iv) add the retrace row to `tab:factors-fixed`. Ruling numbers: **C29** (C1
 reversed), **C30** (§5.1 collapse), **C31** (§5.3.3 drop + fidelity consequence —
 *confirmation owed*).
+
+---
+
+## 17. Headings — the convention, and the set Marc accepted (2026-09-13)
+
+Marc: some subsection headings read *"second rate, over-descriptive, not
+standardised"* ("What each part of the model contributes" as the example). The
+corpus's form is consistent: **a results heading is a noun phrase naming the
+quantity measured, the factor varied, or the object evaluated — two to five words,
+no verb, no claim.** Brown names the metric (*Attack actions blocked*); He names
+property-of-object (*Effectiveness of adversarial attacks*, *Efficiency of
+generating MTD-AD models*); Ho and Hong name the factor (*Impact of MTD interval*,
+*Varying the number of hosts*); Zhang and Tay name the object (*Single MTD
+evaluation*, *Baseline evaluation*, *Ablation studies*). Setup sections are
+*Experiment(al) setup* wherever titled (He, Reti, Ho); *Simulation setup* (Hong).
+The claim goes in the section's first sentence — Marc's own heading rule.
+
+Accepted set (applied to the tex the same day; labels unchanged so refs stand):
+
+| Was | Now | Form |
+|---|---|---|
+| Experiments | **Evaluation** | Tay, Zhang; the third sub-question's word |
+| 5.1 Sensitivity analysis | Sensitivity analysis | Outkin |
+| 5.2 Experimental dimensions | **Experimental setup** | He, Reti, Ho |
+| 5.3 The attacker model in operation | **APT attacker behaviour** | He's property-of-object; APT visible |
+| 5.3.1 Unopposed behaviour | **Without defence** | Brown's "None" condition as label |
+| 5.3.2 Response to disruption | **Under defence** | the paired condition |
+| 5.3.3 What each part of the model contributes | *removed* (C31) | — |
+| 5.4 Effectiveness | **Defence effectiveness** | Cho's axis, object named |
+| 5.4.1 Under defence | **Mechanisms and schemes** | Zhang's single/multiple, factor named |
+| 5.4.2 Across the two attackers | **Attacker comparison** | object of the claim, no claim in it |
+| 5.4.3 The prior models re-run | **Prior evaluations** | Masud's comparison form; not "replication" |
+| 5.5 Efficiency | **Defence efficiency** | pairs with 5.4 |
+
+Audit against Marc's traps: sentence case; APT the only acronym; every heading
+two or three words; no frame repeated beyond a pair. Chapter 4 is **not** retitled
+— a one-sentence signpost in its opening roadmap is Marc's (slot comment at
+`ch:attacker-model`). Stage 2 — the float-by-float audit, convention first — follows
+as §18.

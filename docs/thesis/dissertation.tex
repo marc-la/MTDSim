@@ -3643,6 +3643,13 @@ model defined in Chapter~\ref{ch:attacker-model}.
 % =====================================================================
 \chapter{APT attacker model}
 \label{ch:attacker-model}
+% SIGNPOST SLOT, Marc's sentence (ruled 2026-09-13; no retitle --- "APT attacker
+% model" is the model description by position and by the 2026-09-04 naming
+% ruling). The chapter's opening roadmap carries ONE sentence saying that this
+% chapter is the model's description: every assumption the definition makes is
+% stated where the symbol it constrains is declared (the twelve of the §4.3
+% brief §7.2 landed 2026-09-13, dated trails at each anchor), and the evaluation
+% chapter takes the model as given. Chapter 5 declares nothing about the model.
 
 % STRUCTURE AMENDED 2026-09-04 (Marc's ruling; trail in
 % docs/implementation/research_record/threads/rq_and_structure.md and the
@@ -4884,8 +4891,29 @@ set of values to feed into our attacker model.
 %  one sentence at the end) with the sweep pointer bound.]
 
 % =====================================================================
-\chapter{Experiments}
+\chapter{Evaluation}
 \label{ch:experiments}
+
+% HEADINGS RULED 2026-09-13 (Marc, chat; convention audit in the ch5 design
+% handoff §17): results headings are noun phrases naming the quantity measured,
+% the factor varied or the object evaluated --- Brown names the metric, He
+% property-of-object, Ho/Hong the factor, Zhang/Tay the object. Sentence case,
+% no acronym but APT, no verb, no claim (the claim is the section's first
+% sentence). Chapter title "Evaluation" is the lineage's word (Tay, Zhang) and
+% the thesis's third sub-question; label ch:experiments kept so refs stand.
+% STRUCTURE RULED THE SAME DAY: §5.1 has no subsections (three retired, floats
+% pending the stage-2 placeholder audit); the ablation subsection is removed
+% (aggregate -> a row of tab:unopposed-summary; verdict-blind arm stays as the
+% §5.3.2 control; modulators at defaults -> tab:factors-fixed rows).
+\noindent\emph{[Placeholder --- the chapter opening, Marc's dictation; delete on
+drafting. The roadmap paragraph (Tay's house pattern): Chapter~\ref{ch:attacker-model}
+declares the model. This chapter checks that the declared numbers do not carry
+the conclusions (Section~\ref{sec:sensitivity}), declares the experiment
+(Section~\ref{sec:dimensions}), and runs it: what the attacker does unopposed and
+under defence (Section~\ref{sec:attacker-in-operation}), what the defences do to
+it (Section~\ref{sec:effectiveness}), and what that costs
+(Section~\ref{sec:efficiency}). Evaluate is the manipulation of the L4 object and
+carries no layer number.]}
 
 % RESTRUCTURED 2026-09-08 (Marc's ruling, chat): "Experimental setup"
 % (3 units) and "Results" (9 units) MERGED into one 12-unit chapter. His
@@ -5357,7 +5385,7 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
     & $\varphi$ & tactic-to-verb mapping & partial & against the forced-total alternative: a swap, not a band & \\
     & $w_c$ & the branching weights & 29 flows & against the raw corpus at 38 flows, and against uniform weights & \\
     & $c$ & the profile itself & four objectives & against the unsegregated envelope: one class in place of four & \\
-    & --- & the optional modulators & cost, learning & each from the setting at which it is inert (\S\ref{subsec:aio-capabilities}) & \\
+    & --- & the optional modulators & cost, learning & held at the setting at which each is inert (Table~\ref{tab:factors-fixed}) & \\
     \rowgroup{11}{Swept} & --- & mutation interval & 200\,s & across the tempo at which the measures can still discriminate & \\
     \midrule
     & $\mu_p = 0$ & preparation duration & 0\,s & preparation, not action: it consumes no simulated time & --- \\
@@ -5387,8 +5415,9 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 % parameter and what it trades off; declare the range AND its
 % justification; the figure; the numeric readout, with the "why" deferred
 % to ch6. The inert anchors are stated as inert, not hidden.
-\subsection{Dwell times}
-\label{subsec:sens-dwell-times}
+% RETIRED HEADING 2026-09-13: \subsection{Dwell times} (label subsec:sens-dwell-times) --- §5.1 runs as one
+% section, one unit (design C30). The floats below stay until the stage-2
+% placeholder audit rules each one; nothing referenced this label.
 
 % PLACEHOLDER FLOAT (2026-09-09) --- one-at-a-time sweep; data from the rate feasibility study's re-run
 \begin{figure}[H]
@@ -5412,8 +5441,9 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 % comparison of two versions rather than a sweep, and V-map remains the
 % one leaf that could demote the tree (hypothesis_tree §8). The standing
 % bound belongs in the claim sentences of sec:effectiveness, not here.
-\subsection{Tactic-to-verb mapping}
-\label{subsec:sens-tactic-verb-mapping}
+% RETIRED HEADING 2026-09-13: \subsection{Tactic-to-verb mapping} (label subsec:sens-tactic-verb-mapping) --- §5.1 runs as one
+% section, one unit (design C30). The floats below stay until the stage-2
+% placeholder audit rules each one; nothing referenced this label.
 
 % PLACEHOLDER FLOAT (2026-09-09) --- a swap, not a band; the one leaf that could demote the argument
 \begin{figure}[H]
@@ -5428,8 +5458,9 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 % parameter in neither the swept nor the held list is the omission the
 % corpus keeps committing); the corpus-variant robustness column
 % (operator_dedup against raw) rides here.
-\subsection{Failure matrix}
-\label{subsec:sens-failure-matrix}
+% RETIRED HEADING 2026-09-13: \subsection{Failure matrix} (label subsec:sens-failure-matrix) --- §5.1 runs as one
+% section, one unit (design C30). The floats below stay until the stage-2
+% placeholder audit rules each one; nothing referenced this label.
 
 % PLACEHOLDER FLOAT (2026-09-09) --- data from the weight sensitivity study; re-run owed under the settled regime
 \begin{figure}[H]
@@ -5515,7 +5546,7 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 %   Tab. 5.3  FACTORS HELD FIXED, with values and a one-clause reason:
 %             horizon, geometry, seed set, timing regime, mapping
 %             version, overlay version, the confusion penalty.
-\section{Experimental dimensions}
+\section{Experimental setup}
 \label{sec:dimensions}
 
 \noindent\emph{[Placeholder --- delete on drafting. The factor space: which
@@ -5752,7 +5783,7 @@ findings, with the boundary on what may be compared stated as a disclosure.]}
 %   6 incentive-driven rationality        -> 5.3.3
 %   7 learning capability                 -> 5.3.3
 %   8 MTD-scheme awareness                -> absent, ruled; ch7
-\section{The attacker model in operation}
+\section{APT attacker behaviour}
 \label{sec:attacker-in-operation}
 
 \noindent\emph{[Placeholder --- delete on drafting. What the attacker model does
@@ -5866,7 +5897,7 @@ that Section~\ref{sec:effectiveness} reports against.]}
 %     IF THE RULING IS NO: it goes to ch7 as a named future-work condition,
 %     not silently.
 % ---------------------------------------------------------------------
-\subsection{Unopposed behaviour}
+\subsection{Without defence}
 \label{subsec:aio-unopposed}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- the clearest single picture of what the model added; property 1
@@ -5962,7 +5993,7 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % re-orienting. It is paired inside each run, so run-to-run variation cancels;
 % the verdict-blind arm is the control that says the change is a response and
 % not drift. In the prose, describe it that way and never as "action mix".
-\subsection{Response to disruption}
+\subsection{Under defence}
 \label{subsec:aio-disruption}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- property 4; the verdict-blind arm is the control that makes it a claim
@@ -6135,36 +6166,18 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % The three discrete rungs are table rows; a figure each would be three
 % two-bar charts.
 % ---------------------------------------------------------------------
-\subsection{What each part of the model contributes}
-\label{subsec:aio-capabilities}
-
-% PLACEHOLDER FLOAT (2026-09-09) --- property 6 in Marc's framing --- when does a rational actor give up
-\begin{figure}[H]
-  \centering
-  \placeholderbox{62mm}{Figure 5.8 --- where a cost-sensitive attacker abandons.\\ x: patience, as a multiple of the unimpeded effort to the objective.\\ y: effort at abandonment. One line per defence condition; censoring annotated.}
-  \caption[The effort at which an attacker abandons, by patience]{The point at which an attacker projecting its own remaining effort would conclude the campaign is not worth finishing, plotted against how patient it is assumed to be, for each defence condition. The proportion of runs that never abandon is printed beside every point, because the average is otherwise an average over only those that did. The intention is to report the consequence of giving the attacker a cost model, in the terms a rational actor would use: not whether it succeeds, but how much it will spend before walking away.}
-  \label{fig:aio-disengagement}
-\end{figure}
-
-% PLACEHOLDER FLOAT (2026-09-09) --- property 7; the capability measured against the setting at which it is inert
-\begin{figure}[H]
-  \centering
-  \placeholderbox{58mm}{Figure 5.9 --- breadth against the strength of learning.\\ x: learning exponent, from the null upward.\\ y: hosts reached. Series: rate at which learned belief decays.}
-  \caption[What the attacker's learning capability buys it]{Hosts reached as the attacker's within-run learning is strengthened from the setting at which it is inert, with the rate at which learned belief decays as a second series. The sweep runs from the inert setting upward, so the null sits at one end of the axis and the capability is measured against a run it is bit-identical to. What the attacker updates on is whether an action was permitted, not whether the campaign advanced, which bounds what any movement in this figure can be read to mean. The intention is to report a capability that was built and declared against the setting at which it does nothing, whichever way it falls, since a declared capability that is never measured is an assertion.}
-  \label{fig:aio-learning}
-\end{figure}
-
-% PLACEHOLDER FLOAT (2026-09-09, fourth pass) --- the ablation ladder. The two
-% rungs with a continuous dial get the figures above; the three discrete rungs
-% would each be a two-bar chart, so the ladder is a table. The aggregate row is
-% the objective-conditioning null and is read on outcome measures only --- its
-% distance-to-the-union statistic is size-confounded and may not be used here.
-\begin{table}[H]
-  \centering
-  \caption[What each part of the attacker model contributes]{Each part of the attacker model switched off in turn, against the setting at which the run is unchanged. The last row removes the objective conditioning by running the corpus unsegregated, which is the model's central claim measured against its own absence. Every setting listed leaves the run identical when it is applied, so each row is a measurement of one component rather than a comparison between two models. The inherited attacker is deliberately absent from this table: it is not this model with its parts removed but a different one, so no row of the ladder reaches it, and the comparison against it is made in Section~\ref{subsec:eff-cross-arm} on different grounds.}
-  \label{tab:ablation-ladder}
-  \placeholderbox{50mm}{Table --- the ablation ladder.\\ One row per part: what is switched off, the setting at which\\ it is inert, and the effect on breadth and on coverage.}
-\end{table}
+% REMOVED 2026-09-13 (design C31, Marc: "ablation is going"): the subsection
+% "What each part of the model contributes" (label subsec:aio-capabilities) with
+% fig:aio-disengagement, fig:aio-learning and tab:ablation-ladder. The journal
+% corpus does not ablate; Tay's subsection served an RL agent. What survives:
+% the aggregate envelope as a row of tab:unopposed-summary (the objective-
+% conditioning contrast), the verdict-blind arm as subsec:aio-disruption's
+% control, and the cost/learning modulators at their inert defaults as rows of
+% tab:factors-fixed. CONSEQUENCE, flagged for Marc's confirmation: the two
+% fidelity-verdict marks for cost sensitivity and learning drop to implemented,
+% not evidenced. The retired comment blocks (the lambda operating-point idea,
+% the learning pre-check blocker, the ladder) are in git history and the ch5
+% design handoff §10.4, §11.1, §16.
 
 % 3 units, one per subsection. THE MTD EVALUATION PROPER: what the
 % defence achieves, on the inherited suite's own effectiveness axis
@@ -6208,7 +6221,7 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % reason breadth rather than objective achievement is the denominator is a
 % FACT FROM §5.3 (the profiled attacker reaches the mass objective in none of
 % its unopposed runs) and not a preference.
-\section{Effectiveness}
+\section{Defence effectiveness}
 \label{sec:effectiveness}
 
 \noindent\emph{[Placeholder --- delete on drafting. What the defences achieve
@@ -6231,7 +6244,7 @@ under both attackers on this one simulator.]}
 %          this attacker, and whether the answer is profile-dependent.
 %  Tab. B  the condition x metric table for the movement arm: suppression,
 %          delay to first compromise, blocked fraction, with intervals.
-\subsection{Under defence}
+\subsection{Mechanisms and schemes}
 \label{subsec:eff-under-defence}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- the movement arm alone; three of the mechanisms have never been run against it
@@ -6294,7 +6307,7 @@ under both attackers on this one simulator.]}
 %          profiles across the same conditions.
 %  Tab. C  the two rankings side by side with the rank statistic and its
 %          interval. PURPOSE: states the grade the evidence carries.
-\subsection{Across the two attackers}
+\subsection{Attacker comparison}
 \label{subsec:eff-cross-arm}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- the whole claim in one figure; blocked until the re-establishment run lands
@@ -6335,7 +6348,7 @@ under both attackers on this one simulator.]}
 %  Fig. H  each lineage headline as a small panel, its original claim
 %          against what this simulator returns under both arms.
 %          PURPOSE: which prior findings survive a change of attacker.
-\subsection{The prior models re-run}
+\subsection{Prior evaluations}
 \label{subsec:eff-lineage}
 
 % PLACEHOLDER FLOAT (2026-09-09) --- makes the lineage testable; comparability boundary restated in the caption
@@ -6386,7 +6399,7 @@ under both attackers on this one simulator.]}
 %          what it buys, and that the trade's shape is attacker-dependent.
 %  Tab. D  the cost ledger summary: time decomposition and effort-to-
 %          breadth ratios by condition and arm.
-\section{Efficiency}
+\section{Defence efficiency}
 \label{sec:efficiency}
 
 \noindent\emph{[Placeholder --- delete on drafting. What that costs: on the
