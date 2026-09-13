@@ -1,5 +1,5 @@
 ---
-status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); four-reviewer scrutiny pass (§13); Marc's rulings + the horizon answer (§14, §15); register re-cut and assumptions moved to ch4 (§16, 2026-09-13); C1 reversed; C29–C31 owed
+status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); four-reviewer scrutiny pass (§13); Marc's rulings + the horizon answer (§14, §15); register re-cut and assumptions moved to ch4 (§16); headings (§17) and the float audit (§18) APPLIED 2026-09-13; C1 reversed; C29–C30 done, C31 confirmation owed
 created: 2026-09-09
 topic: "The Experiments chapter designed against the field's conventions rather than invented: a section-level survey of how MTD evaluations are built and reported (now docs/workflows/evaluation_conventions.md), the ch5 design that follows from it, the funnel that lets one run set both characterise the attacker and evaluate the defence, the property-to-measurement map the discussion's fidelity table depends on, and the five things the chapter cannot yet say."
 ---
@@ -1841,3 +1841,60 @@ two or three words; no frame repeated beyond a pair. Chapter 4 is **not** retitl
 — a one-sentence signpost in its opening roadmap is Marc's (slot comment at
 `ch:attacker-model`). Stage 2 — the float-by-float audit, convention first — follows
 as §18.
+
+---
+
+## 18. The placeholder audit — convention first, then reconciled (2026-09-13, APPLIED)
+
+**Read this section, §16 and §17 first if you are working on chapter 5.** With
+the FLOAT CONTRACT comment at the chapter head of the tex and `FLOATS.md`, they
+are the retrievable context for the chapter's structure and every float in it.
+
+### 18.1 The baseline the corpus sets (figure_table_conventions.md §b, §e, §f, §g; evaluation_conventions.md §c)
+
+Setup is two parameter-genre tables (symbol, description, value; levels as sets,
+ranges as intervals; inherited values and version pins in a footnote, once). A
+sweep is a marker-per-series line chart — x the parameter, y the metric with its
+interval, series a second factor at 2–4 levels — **one figure per parameter that
+moved**, and a band-ends-against-centre table for those that did not. A
+comparison across conditions is grouped bars with no defence as the origin. A
+two-metric outcome space is a scatter. Stacked bars only with values printed.
+Multi-panel figures: lettered panels, one caption, one legend. Results tables:
+booktabs, grouped headers, right-aligned fixed decimals, intervals, best marked.
+One colour per condition holds across the chapter. The named anti-pattern is
+Brown's: mechanism-combination labels rendered illegibly small.
+
+### 18.2 Section by section — convention → had → reconciled (all applied to the tex)
+
+| § | Convention wants | Had | Now |
+|---|---|---|---|
+| 5.1 | input table + one figure per mover; inert → appendix band-ends table | 26-row register; 4 figures, 3 of non-events / swaps | 7-row `tab:parameter-register`; `fig:sens-dwell-anchor` as the mover's slot; three figures removed; **App. C.3 `tab:decay-sensitivity` added** |
+| 5.2 | Reti's two parameter tables | two tables, rows partly stale | rows re-cut (varied: arm, condition, tempo, timing regime, horizon, objective; fixed: geometry, tolerance-set runs, versions in footnote, penalty, retrace, modulators, adaptive selector, schedule); scale/density leave unless E4 is run; capability arms gone |
+| 5.3.1 | progression figure + summary table | coverage line; divergence points vs shaded band; table | `fig:aio-coverage` two panels (coverage; **opening variety**, the ruled exhibit); `fig:aio-divergence` a printed-value 4 × 4 matrix (no aggregate row — size-confounded); table + aggregate and inherited rows, entropy footnoted |
+| 5.3.2 | grouped bars, control beside, lettered panels | under-specified two-panel | 2 × 2 mechanism × tempo, control beside, legend once |
+| 5.4.1 | grouped bars from the no-defence origin + numbers table | one figure, table marked cut | two lettered panels (singles / schemes); table kept, + delay column with censoring |
+| 5.4.2 | grouped bars, series = arm; results table | figure; survival curves; orderings table | figure with panel split and hatch; **`fig:eff-delay` removed** (delay is a table column; Zhang-form bars if checkpoint time becomes primary); orderings table unchanged |
+| 5.4.3 | comparison table (Masud §4.6) | small-multiple claim panels | **`fig:eff-lineage` → `tab:eff-lineage`** |
+| 5.5 | scatter; stacked bars with values printed; ledger table | all three, one marked cut | all three kept; frontier markers labelled; decomposition captioned as attacker-model-only (D-37) |
+
+Totals: **8 figures + 8 tables** in the body (from 15 + 8), plus one appendix
+table. Placeholder box text is renumbered to the new sequence (Fig. 5.1–5.8,
+Tab. 5.1–5.8, Tab. C.3) and matches the build.
+
+### 18.3 What rides on Marc's rulings, still open
+
+- **C31** — the ablation removal's consequence: the fidelity verdict's marks for
+  cost sensitivity and learning drop to *implemented, not evidenced*. Removal
+  applied; consequence not yet confirmed.
+- **Stealth (axis-5) column** in `tab:unopposed-summary` — the spacing contrast
+  as an observation with the badge blank (handoff §10.3(c)). Not added.
+- **Horizon / checkpoint** (§15) — decides whether a Zhang-form time-to-checkpoint
+  bar chart re-enters §5.4.2, and fixes the configuration the §5.1 re-run must
+  share.
+
+### 18.4 Owed before numbers
+
+Generator pass for `tab:parameter-register` against `data/ogasp/*.json`; the two
+sweeps re-run at the reported configuration (fills the effect column and
+`tab:decay-sensitivity`); the prose slots (§5.1 preamble, chapter opening, ch4
+signpost sentence, App. C.3 framing paragraph) — all Marc's dictation.

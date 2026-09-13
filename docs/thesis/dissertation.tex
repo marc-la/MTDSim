@@ -4905,6 +4905,20 @@ set of values to feed into our attacker model.
 % pending the stage-2 placeholder audit); the ablation subsection is removed
 % (aggregate -> a row of tab:unopposed-summary; verdict-blind arm stays as the
 % §5.3.2 control; modulators at defaults -> tab:factors-fixed rows).
+% FLOAT CONTRACT (stage-2 audit 2026-09-13; figure_table_conventions.md §b, §e,
+% §f, §g; handoff §18). One colour per profile and per condition, held from
+% §5.3 to the end; the attacker arm by marker shape or hatch; legend inside the
+% axes, shown once per multi-panel figure; no title above the axes; panel
+% letters drawn by the generator; short caption on every float; version pins
+% in tab:factors-fixed's footnote once, never in captions or prose (Marc's
+% no-internals rule); condition labels are short domain names mapped in the
+% generator, with singles and schemes in separate panels (Brown's illegible
+% combination labels are the named anti-pattern). Genres: marker-per-series
+% line for a sweep or a time course; grouped bars for condition x series with
+% no defence as the origin; printed-value matrix for a pairwise quantity;
+% scatter for a two-metric outcome space; stacked bars only with values printed.
+% Not drawn: survival curves and small-multiple claim panels (no corpus genre;
+% a table column and a comparison table instead).
 \noindent\emph{[Placeholder --- the chapter opening, Marc's dictation; delete on
 drafting. The roadmap paragraph (Tay's house pattern): Chapter~\ref{ch:attacker-model}
 declares the model. This chapter checks that the declared numbers do not carry
@@ -5283,127 +5297,49 @@ carries no layer number.]}
 \label{sec:sensitivity}
 
 \noindent\emph{[Placeholder, to be replaced by Marc's dictation --- delete on
-drafting. This section prices the three inputs the model of
-Chapter~\ref{ch:attacker-model} had to declare, one subsection each, and reports
-which of them the evaluation's conclusions actually depend on. It opens with the
-register: every declared quantity, its value, and either the band it was swept
-over or the reason it was held. It closes by naming the one parameter the
-conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
+drafting. One section, one unit, no subsections. The preamble states the
+purpose (screening and ranking of the free inputs of the formal definition:
+which are inert, and which the conclusions are exposed to), the method (one
+input at a time across bands the formalism and the derivation records set, with
+the corners of the most influential pair; not a global analysis), and the
+ceiling (parameter-variability analysis is the operational validation available
+for a model whose system cannot be observed, and it cannot earn high
+confidence). The inputs were derived and argued, not fitted, so the sweep is
+the substitute for an estimation nobody can make, never a calibration. Then
+Table~\ref{tab:parameter-register}, one figure for the input that moved, and a
+closing sentence naming the selection that Section~\ref{sec:dimensions} picks
+up.]}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- generator owed; rows from the formalism's parameter and assumption registers
-%
-% WHAT THIS TABLE IS FOR (Marc, 2026-09-09: "I don't really understand what
-% Table 5.1 is for. Is this every assumption? Either it's here or it's in the
-% appendix"). It is the answer to a question a reader of an MTD evaluation
-% cannot otherwise ask: HOW MUCH OF THIS RESULT IS A CHOICE? Every number the
-% attacker model had to invent gets one row, and the row says either the band
-% it was swept over and what moved, or that it was held and why. An assumption
-% is a held row --- which is why there is no separate assumption list anywhere
-% in the document (design C1, answering the §4.3 formalism brief's R6; it
-% absorbs the twelve-item register without spending a unit).
-% AND YES, IT IS EVERY ASSUMPTION --- that is the point. A parameter that
-% appears in neither the swept nor the held column is a visible omission, and
-% omitting the held ones is the failure the corpus keeps committing
-% (evaluation_conventions.md §i: Anderson's held-fixed defaults appear
-% nowhere, so no sweep in that paper can be reproduced).
-% HERE OR THE APPENDIX --- the recommendation is BOTH, split by function, and
-% it is the cheaper answer than either alone:
-%   BODY (this table): one row per declared FAMILY, not per value --- the
-%   four dwell anchors as one row, the nine failure rules as one row, the
-%   mapping as one row, the modulator nulls as one row. Roughly 10-14 rows,
-%   half a page, readable in one pass. This is the honesty of the whole model
-%   on one page and it is why the table is marked core in FLOATS.md.
-%   APPENDIX (app:sensitivity, which already carries tab:anchor-sensitivity
-%   in exactly this form): the per-value expansion --- every anchor, every
-%   rule, every band end against centre. Cross-referenced from the body row.
-% The failure mode to avoid is a body table with 40 rows: it stops being read,
-% and an unread honesty table is worth less than a short one.
-% PREFILLED 2026-09-09 (Marc: "I know of three of them, and then I assume
-% that's another nine ... you can prefill that table if you need"). The twelve
-% is real and enumerated --- A1-A12 in the §4.3 formalism brief §7.2 --- and
-% the three he knows are the three declared INPUTS that are this section's
-% subsections, which is a different list. FOUR OF THE TWELVE ARE ALREADY
-% PARAMETER ROWS and are not repeated: A1 exponential firing is the dwell-shape
-% row, A4 success passthrough is the success-treatment row, A9 synthetic
-% pre-intrusion structure is the share row, A11 substrate invariants are the
-% mutation-cost and geometry rows. The remaining eight are the third group.
-% That is the merge working as designed (C1): an assumption is a held row, and
-% nothing is listed twice.
-% ROWS ARE TRANSCRIBED FROM TRACKED REGISTERS --- parameters from the §4.3
-% brief §7.1, assumptions from §7.2 --- which is a transcription, not a
-% generation, and the declared values still owe a generator pass against
-% data/ogasp/*.json before submission. Said plainly because the chapter's own
-% constraint is that numbers come from artefacts.
-%
-% GROUNDED IN THE FORMALISM'S OWN NOTATION (Marc, 2026-09-09: "the sensitivity
-% analysis has to be grounded in at least the terminology of the formalism").
-% The symbol column carries ONLY symbols tab:gspn-notation actually declares
-% --- mu_p, tau_p, gamma, delta, z, F_v, varphi, w_c, c, R, F_success, s, M_0,
-% d, v --- so every swept quantity can be traced to its place in the formal
-% definition, and the notation table is the key this one reads from, which is
-% what §8.4 of the brief always intended it for.
-% TWO ROWS CARRY NO SYMBOL, AND THE REASON MATTERS IN EACH CASE:
-%  - the optional modulators. The history term has NO symbol in the document,
-%    because §4.3 ruling R3 (show the history-term slot in the formal
-%    definition) is still open. Using one here would reference a symbol the
-%    dissertation never defines --- which is the same flag already standing
-%    against two marks in tab:fidelity-verdict. When R3 lands, this row gets
-%    its symbol and the flag clears; until then the dash is the honest entry.
-%  - the environment rows (mutation cost, interval, geometry, horizon, run
-%    count). These are the simulator's and the experiment's, not the model's,
-%    so the formalism has no symbol for them by construction. That is the
-%    right answer, not a gap.
-% RECORD INCONSISTENCY, flagged not resolved: the §4.3 brief's own parameter
-% register §7.1 writes the dwell anchors as `mu_g` where its notation table
-% §8.4 and the tex both use `mu_p`. The tex's tab:gspn-notation is taken as
-% authoritative here; the brief wants correcting.
-% THE EFFECT COLUMN IS DELIBERATELY EMPTY. It
-% cannot be filled from the sweeps on record, because those ran at ten seeds on
-% the pre-restoration substrate with `random` as the only MTD condition, and
-% the failure-matrix sweep under the superseded timing regime --- so any effect
-% number typed here today would be from a configuration this chapter does not
-% report (§3.2 of the design). It is filled by the re-run, by a generator.
-% THE PER-VALUE EXPANSION STAYS IN THE APPENDIX: the four dwell anchors
-% individually and the nine failure-rule values are app:sensitivity's, and
-% tab:anchor-sensitivity is already in that form. This table is one row per
-% declared FAMILY, which is what keeps it to a page.
+% RE-CUT 2026-09-13 (stage-2 float audit, handoff §18; C1 reversed --- Marc:
+% "separation of concerns"). This table carries ONE class of thing: the free
+% inputs of the formal definition, in ten Broeke's input-table form (nominal,
+% range, origin) with the effect column the re-run fills. The three classes it
+% used to carry have left: the twelve assumptions are ch4 prose at their symbols
+% (landed 2026-09-13); the environment rows are tab:factors-varied and
+% tab:factors-fixed; the ablation arms went with §5.3.3 (aggregate -> a
+% tab:unopposed-summary row; verdict-blind -> the §5.3.2 control; modulators ->
+% tab:factors-fixed at their inert defaults). VALUES ARE TRANSCRIBED from the
+% §4.3 brief §7.1, not generated --- the generator pass against data/ogasp/*.json
+% is owed before any value is cited. THE EFFECT COLUMN IS EMPTY BY DESIGN until
+% the sweeps are re-run at the configuration this chapter reports (design §3.2):
+% the completed sweeps ran at ten seeds on the pre-restoration substrate with one
+% defence condition, the failure-matrix sweep under the superseded timing regime.
 \begin{table}[htbp]
   \centering
-  \caption[The declared parameters, their bands, and what moved]{Every quantity the attacker model declares, in one place. The first group was given a range and moved across it; the second was fixed, with the reason; the third is the modelling assumptions the definition licenses, which are held by their nature rather than by choice of a number. Listing all three together is what makes an omission visible: a quantity appearing in none of them would have escaped scrutiny. The effect column is completed once the sweeps are re-run at the configuration this chapter reports, since the completed sweeps were taken under a narrower one. The intention is that a reader can see the whole of what was chosen, and how much of it the conclusions depend on, before any result is read.}
+  \caption[The declared inputs, their bands, and what moved]{The free inputs of the formal definition, in one place: each quantity the model had to be given a number for, the value declared, the band it was moved across and where that band comes from, and what moved. The rule kernel is listed as the one input not swept, with the reason, so that no declared quantity is absent from the table. The effect column is completed by the re-run at the configuration this chapter reports, since the completed sweeps were taken under a narrower one; an entry is the band ends against the centre, with intervals. Everything else the model assumes carries no number and is stated in Chapter~\ref{ch:attacker-model} at the symbol it constrains; everything the experiment varies or holds is Table~\ref{tab:factors-varied} and Table~\ref{tab:factors-fixed}.}
   \label{tab:parameter-register}
-  \tablestyle\setlength{\tabcolsep}{3pt}
-  \begin{tabular}{@{}clP{2.5cm}P{1.8cm}P{5.8cm}P{1.6cm}@{}}
+  \tablestyle\setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}lP{3.0cm}P{2.1cm}P{6.6cm}P{1.7cm}@{}}
     \toprule
-    & & Quantity & Declared & Range explored, or the reason it is fixed & Effect \\
+    & Quantity & Declared & Band explored, and its origin & Effect \\
     \midrule
-    & $\mu_p$ & mean dwell, four anchors & 35, 4.5, 45, 36\,s & multiplied across $[0.25, 4]$ on the widest, $[0.5, 2]$ elsewhere & \\
-    & $\tau_p$ & the firing distribution & exponential & against a same-mean alternative concentrated at the mean & \\
-    & $\gamma$ & forward decay & 0.25 & $[0.1, 0.5]$ & \\
-    & $\delta$ & backward decay & 0.25 & $[0.1, 0.5]$, the lower end unswept & \\
-    & $z$ & the kernel's floor & 0.1 & $\{0, 0.05, 0.1\}$ & \\
-    & $F_v$ & conditioning on the verdict & the failure matrix & against the identity, which is the routing made blind to outcomes & \\
-    & $\varphi$ & tactic-to-verb mapping & partial & against the forced-total alternative: a swap, not a band & \\
-    & $w_c$ & the branching weights & 29 flows & against the raw corpus at 38 flows, and against uniform weights & \\
-    & $c$ & the profile itself & four objectives & against the unsegregated envelope: one class in place of four & \\
-    & --- & the optional modulators & cost, learning & held at the setting at which each is inert (Table~\ref{tab:factors-fixed}) & \\
-    \rowgroup{11}{Swept} & --- & mutation interval & 200\,s & across the tempo at which the measures can still discriminate & \\
-    \midrule
-    & $\mu_p = 0$ & preparation duration & 0\,s & preparation, not action: it consumes no simulated time & --- \\
-    & $R$ & the rule kernel & nine values & argued individually, not set by a formula, so there is no one quantity to vary & --- \\
-    & $F_{\text{success}}$ & success treatment & the identity & the corpus is itself the record of what succeeded & --- \\
-    & $s$ & synthetic share & 0.1; 1.0 isolated & three declared edges stand in for pre-intrusion structure the corpus lacks & --- \\
-    & --- & mutation cost & 20\,s & inherited from the simulator, and identical for both attackers & --- \\
-    & --- & network and horizon & 50 hosts, 15\,000\,s & inherited defaults, so every condition runs on one terrain & --- \\
-    \rowgroup{7}{Held} & --- & runs per condition & set by tolerance & from the error tolerable in the estimate, not by convention & --- \\
-    \midrule
-    & $w_c$ & closed world & & the choices observed at each tactic are taken as the whole choice set & --- \\
-    & $w_c$ & recurrence, not likelihood & & a weight is how often analysts drew an edge, which is why failure is modelled separately & --- \\
-    & $v$ & binary outcome & & success or failure only: a blocked action and an unmet precondition are one thing & --- \\
-    & $\varphi$ & opacity while not acting & & a tactic mapped to no verb feels a mutation as cost, not as a route change & --- \\
-    & $M_0$ & one campaign at a time & & a single token: the concurrency the source structure preserves is inert & --- \\
-    & $d$ & staging by consensus & & the lifecycle order behind $d$ is imported from five published models & --- \\
-    & --- & retracing & & a structural dead end is retraced, a stall is not & --- \\
-    \rowgroup{8}{Assumed} & --- & no memory between runs & & nothing carries across runs, and nothing is known of the defence's schedule & --- \\
+    $\mu_p$ & mean dwell, four anchors & 35, 4.5, 45, 36\,s & multiplied across $[0.25, 4]$ on the widest band and $[0.5, 2]$ elsewhere; the bands follow the catalogue's evidence tiers (Appendix~\ref{app:dwell-derivation}) & \\
+    $\tau_p$ & the firing distribution & exponential & against a same-mean alternative concentrated at the mean: a swap, not a band (Appendix~\ref{app:exponential-shape}) & \\
+    $\gamma$ & forward decay & 0.25 & $[0.1, 0.5]$; the kernel's own structure sets the band (Appendix~\ref{app:weight-sets}) & \\
+    $\delta$ & backward decay & 0.25 & $[0.1, 0.5]$; the corners of the pair are also run & \\
+    $z$ & the kernel's floor & 0.1 & $\{0, 0.05, 0.1\}$ & \\
+    $\varphi$ & tactic-to-verb mapping & partial & against the forced-total alternative: a swap, not a band (Appendix~\ref{app:experiment-one}) & \\
+    $R$ & the rule kernel & nine values & not swept: argued value by value, so there is no one quantity to move (Appendix~\ref{app:weight-sets}) & --- \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -5419,21 +5355,20 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 % section, one unit (design C30). The floats below stay until the stage-2
 % placeholder audit rules each one; nothing referenced this label.
 
-% PLACEHOLDER FLOAT (2026-09-09) --- one-at-a-time sweep; data from the rate feasibility study's re-run
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- a SLOT, not a result (the standing test):
+% the figure exists by convention --- one figure per input that moved --- and
+% WHICH input is the re-run's to say. The record's prior sweeps put it at the
+% low-and-slow anchor; that is provenance, not a value.
 \begin{figure}[H]
   \centering
-  \placeholderbox{62mm}{Figure 5.1 --- host breadth against the low-and-slow dwell multiplier.\\ x: multiplier across the declared band. y: distinct hosts reached.\\ Two series: defence off, defence on.}
-  \caption[Host breadth across the low-and-slow dwell band]{Hosts reached as the low-and-slow dwell anchor is moved across its declared band, with the other three anchors held at their central values, under both defence conditions. The four anchors are swept alike; those whose ends stay inside their confidence intervals are reported in the register rather than given a figure each, so a figure here marks an anchor that moved. The intention is to establish which of the declared durations the evaluation's conclusions are exposed to, so that the experiments which follow can be read against that and not against all four.}
+  \placeholderbox{62mm}{Figure 5.1 --- the outcome measure against the one declared input that moved.\\ x: the input as a multiple of its declared value, across its band. y: distinct hosts reached, with intervals.\\ Two series: no defence, and the defence at the reference tempo. Marker per series; legend inside the axes.}
+  \caption[The declared input the conclusions are exposed to]{The outcome measure as the one declared input whose band ends separate from its centre is moved across its band, the other inputs held at their declared values, with no defence and with the defence running at the reference tempo. Every input in Table~\ref{tab:parameter-register} is swept alike; those whose band ends stay inside the interval at the centre are reported there as rows and in Appendix~\ref{app:sensitivity} as band ends against centre, so a figure here marks an input that moved. The intention is to establish which of the declared quantities the evaluation's conclusions are exposed to, so that the experiments which follow can be read against that one and not against all of them.}
   \label{fig:sens-dwell-anchor}
 \end{figure}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- the S3-R re-run's substantive finding; a narrow claim, not 'shape matters'
-\begin{figure}[H]
-  \centering
-  \placeholderbox{62mm}{Figure 5.2 --- dwell distribution family at a fixed mean.\\ x: mutation interval. y: distinct hosts reached.\\ Two series: exponential, and a same-mean concentrated alternative.}
-  \caption[The dwell distribution's shape against its mean]{Hosts reached under the declared exponential dwell against a same-mean alternative whose mass is concentrated around the mean, across mutation tempo. Where the two agree, the mean rather than the shape is the load-bearing quantity and the choice of family is innocuous; where they part, it is not, and the mechanism is the exponential's mass of short dwells, which lets an action occasionally complete between mutations. The intention is to bound a modelling choice made for tractability by locating the region in which it stops being innocuous.}
-  \label{fig:sens-dwell-shape}
-\end{figure}
+% REMOVED 2026-09-13 (stage-2 audit): fig:sens-dwell-shape. The shape
+% substitution is a discrete swap, not a band: it is the tau_p row of
+% tab:parameter-register and Table~tab:shape-substitution in app:exponential-shape.
 
 % phi: v2_partial against the forced-total v1_ckc_total
 % (app:experiment-one) --- a swap, not a band. Say that plainly: this is
@@ -5445,13 +5380,11 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 % section, one unit (design C30). The floats below stay until the stage-2
 % placeholder audit rules each one; nothing referenced this label.
 
-% PLACEHOLDER FLOAT (2026-09-09) --- a swap, not a band; the one leaf that could demote the argument
-\begin{figure}[H]
-  \centering
-  \placeholderbox{58mm}{Figure 5.3 --- outcome under the two tactic-to-action mappings.\\ Grouped bars, x: profile. y: the outcome measure.\\ Two series: the partial mapping, the forced-total mapping.}
-  \caption[Outcomes under the two tactic-to-action mappings]{The same profiles run under the mapping used throughout and under the forced-total alternative in which every tactic dispatches an action. This input differs from the others in having no interval to sweep: it is a discrete choice between constructed alternatives, so its sensitivity is a comparison rather than a band. The intention is to show which findings survive the choice and to make visible that the mapping remains a declared input, which is the standing bound on every claim the chapter makes.}
-  \label{fig:sens-mapping}
-\end{figure}
+% REMOVED 2026-09-13 (stage-2 audit): fig:sens-mapping. The mapping is a
+% discrete swap: the varphi row of tab:parameter-register and
+% tab:experiment-one in app:experiment-one. The standing bound it carried
+% (the mapping remains a declared input) lives in the claim sentences of
+% sec:effectiveness, as the comment above already says.
 
 % F_failure: gamma, delta, z over their bands (app:weight-sets; the nine
 % rule values are argued, not swept --- say why in one clause, since a
@@ -5462,13 +5395,12 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 % section, one unit (design C30). The floats below stay until the stage-2
 % placeholder audit rules each one; nothing referenced this label.
 
-% PLACEHOLDER FLOAT (2026-09-09) --- data from the weight sensitivity study; re-run owed under the settled regime
-\begin{figure}[H]
-  \centering
-  \placeholderbox{62mm}{Figure 5.4 --- outcome against the forward-decay parameter.\\ x: forward decay across its band. y: the outcome measure.\\ Series: backward decay at its band ends.}
-  \caption[Outcomes across the failure matrix's decay parameters]{Outcomes as the two decay parameters of the failure-conditioned transition weights are moved across their declared bands, one at a time and then at the corners of the pair that proved most influential. Sweeping one at a time explores a cross through the space rather than its interior, so the pair that proves most influential is additionally run at its corners. The intention is to separate the conclusions that survive the declared uncertainty from those that do not, and to say which is which before either is used --- including where a finer ordering fails to separate for want of runs rather than for want of an effect.}
-  \label{fig:sens-failure-matrix}
-\end{figure}
+% REMOVED 2026-09-13 (stage-2 audit): fig:sens-failure-matrix. The decay
+% parameters are gamma / delta / z rows of tab:parameter-register; their band
+% ends against centre and the corner check are tab:decay-sensitivity in
+% app:decay-robustness (added the same day, in tab:anchor-sensitivity's form).
+% If the re-run shows a decay parameter moves, it takes fig:sens-dwell-anchor's
+% form as a second figure; the slot is the convention, the content the result.
 
 % 2 units + the factor table (tables are word-cheap). The factor space,
 % set up and then run: the four attack profiles and the baseline attacker;
@@ -5503,7 +5435,9 @@ conclusions are exposed to, which Section~\ref{sec:dimensions} then picks up.]}
 %  - NO LINEAGE PAPER REPORTS A CONFIDENCE INTERVAL. Reporting effect
 %    sizes with intervals EXCEEDS lineage practice; claim it as a
 %    deliberate improvement in one clause rather than slipping it in.
-%  - THE ABLATION ARMS ARE DECLARED HERE (design 3.3) and nowhere else:
+%  - [SUPERSEDED 2026-09-13: no ablation arms exist; the modulators are rows of
+%    tab:factors-fixed at their inert settings, and the R3 dependency leaves
+%    this chapter with them.] THE ABLATION ARMS ARE DECLARED HERE (design 3.3) and nowhere else:
 %    the verdict-blind arm, uniform weights, the learning exponent and
 %    decay, the incentive exponent --- each a capability with a null
 %    value at which the run is bit-identical. They are factor LEVELS, not
@@ -5668,20 +5602,30 @@ findings, with the boundary on what may be compared stated as a disclosure.]}
 %  simulator, not an oversight. That sentence is worth more than a table.
 % ---------------------------------------------------------------------
 
-% PLACEHOLDER FLOAT (2026-09-09) --- Reti's two-table form; levels from the campaign design
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- Reti's varied-factors table, rows re-cut:
+% the capability arms leave with the ablation; timing regime (§14.3) and horizon
+% (§15) arrive from the fixed side as Marc's rulings; network scale and density
+% LEAVE unless Marc rules to run that axis (no section reports it; C25's
+% contradiction closed by removal). Genre: parameter table (symbol, description,
+% value; levels as sets), booktabs, short caption.
 \begin{table}[H]
   \centering
-  \caption[The experimental factors and their levels]{Every factor the experiments vary, with the levels used. The attacker arm carries the inherited scripted attacker, the four objective-conditioned profiles and the aggregate envelope; the defence conditions span no defence, each single mechanism and the deployment schemes that combine them; the remaining factors set the tempo at which mutations arrive and the size and connectivity of the network. The intention is that any result in this chapter can be located in this space without reading the section that produced it.}
+  \caption[The experimental factors and their levels]{Every factor the experiments vary, with the levels used. The attacker arm carries the inherited scripted attacker, the four objective-conditioned profiles and the aggregate envelope; the defence conditions span no defence, each single mechanism and the deployment schemes that combine them; the remaining factors set the tempo at which mutations arrive and the regime that times them, the horizon at the lineage's value and extended, and the objective the denominator is taken against. The intention is that any result in this chapter can be located in this space without reading the section that produced it.}
   \label{tab:factors-varied}
-  \placeholderbox{48mm}{Table 5.2 --- factors varied.\\ Attacker arm; defence condition; objective denominator;\\ mutation tempo; network scale and density;\\ the declared-capability arms.}
+  \placeholderbox{48mm}{Table 5.2 --- factors varied, with levels.\\ Attacker arm (inherited; four profiles; aggregate envelope). Defence condition (none; seven single mechanisms; three deployment schemes).\\ Mutation tempo. Timing regime (near-periodic; exponential). Horizon (lineage; extended).\\ Objective denominator (host breadth; target reach where non-degenerate).}
 \end{table}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- the paired half of Reti's form; inherited constants marked as inherited
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- the paired fixed-factors table, rows re-cut:
+% the environment rows from the old register arrive here; the retrace is ON and
+% an assumption the work runs with (Marc 2026-09-13); the two modulators sit at
+% their inert settings; the adaptive selector is declared not exercised, with the
+% reason (C16); version pins (mapping, failure set, ATT&CK bundle) go in the
+% FOOTNOTE once, never in captions or prose.
 \begin{table}[H]
   \centering
-  \caption[The factors held fixed, and why]{Everything held constant across every run, with its value and a short reason. Several of these are properties of the inherited simulator rather than choices made here, and are marked as such. Stating them alongside the factors that vary is what allows a reader to judge how far a result generalises, and it is the counterpart on the experimental side of the register that opens this chapter on the model side.}
+  \caption[The factors held fixed, and why]{Everything held constant across every run, with its value and a short reason. Several of these are properties of the inherited simulator rather than choices made here, and are marked as such in the footnote, which also carries the version pins of the mapping, the failure set and the ATT\&CK bundle. Stating them beside the factors that vary is what allows a reader to judge how far a result generalises; it is the counterpart on the experimental side of the input register that opens this chapter on the model side.}
   \label{tab:factors-fixed}
-  \placeholderbox{48mm}{Table 5.3 --- factors held fixed.\\ Horizon; geometry; seed set; timing regime;\\ mapping and overlay versions; the interrupt cost;\\ the defender's schedule, and what it never does.}
+  \placeholderbox{52mm}{Table 5.3 --- factors held fixed, with value and reason.\\ Network geometry; run count, set by the declared tolerance; mapping and failure-set versions; the confusion penalty (inherited);\\ the sink retrace (on: an assumption the work runs with); the cost and learning modulators at their inert settings;\\ the adaptive selector, not exercised, with the reason; the defender's schedule, and what it never does.\\ Footnote: inherited marks and version pins.}
 \end{table}
 
 % ---------------------------------------------------------------------
@@ -5900,28 +5844,42 @@ that Section~\ref{sec:effectiveness} reports against.]}
 \subsection{Without defence}
 \label{subsec:aio-unopposed}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- the clearest single picture of what the model added; property 1
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- two lettered panels, one caption, one legend:
+% (a) the coverage curve; (b) the opening-variety fan, the RULED plurality
+% exhibit (plurality_reporting.md) that the scaffold had left out. Both are
+% marker-per-series line charts (Hong, Kim); the entropy fan stays not drawn
+% (its kill criterion fired) and rides as a footnoted column of the table.
 \begin{figure}[H]
   \centering
-  \placeholderbox{66mm}{Figure 5.5 --- distinct tactics reached over simulated time.\\ x: simulated time. y: count of distinct tactics visited.\\ One line per profile, plus the inherited attacker as reference.}
-  \caption[Distinct tactics reached over time, by profile]{The number of distinct campaign tactics each profile has entered as a run proceeds, with no defence running, against the inherited attacker drawn on the same axes. The inherited attacker's line is flat by construction: its behaviour is a fixed loop over three activities, so it has no more of a campaign to traverse. The intention is to show, in one picture, the thing the attacker model adds that the simulator previously could not express, and to do it against no defence so that it is a statement about the model rather than about the defence.}
+  \placeholderbox{70mm}{Figure 5.2 --- (a) distinct tactics reached against simulated time; (b) distinct opening sequences against depth.\\ One line per profile, marker per series; the inherited attacker as a reference line in both panels (flat in (a) once its loop closes; one at every depth in (b)).\\ Legend once, inside panel (a). Profile colours are the chapter's.}
+  \caption[Campaign coverage and opening variety, by profile]{Panel~(a): the number of distinct campaign tactics each profile has entered as a run proceeds, with no defence running, against the inherited attacker on the same axes; its line is flat by construction, because its behaviour is a fixed loop over three activities and it has no more of a campaign to traverse. Panel~(b): the number of distinct opening sequences of each length observed across seeds, per profile, against the inherited attacker, which holds one ordering at every length by construction. The panels are read against no defence so that they are a statement about the model rather than about the defence. The intention is to show, in one figure, the two things the attacker model adds that the simulator could not express: a campaign to traverse, and more than one way to open it.}
   \label{fig:aio-coverage}
 \end{figure}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- property 2 --- the one property shown to change an outcome
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- a printed-value matrix (the tactic-keyed
+% matrix genre, §d7: every cell printed, fill decoded in the caption) in place
+% of points against a shaded band, which no corpus paper draws. The aggregate
+% is NOT a row here: its divergence to the profiles is size-confounded (the
+% kill criterion fired at Spearman -1.0 against flow count) and may not be read
+% as objective conditioning; it is read in tab:unopposed-summary on outcome and
+% behaviour measures instead.
 \begin{figure}[H]
   \centering
-  \placeholderbox{58mm}{Figure 5.6 --- behavioural divergence between profiles.\\ Points: pairwise divergence between profiles' visit distributions.\\ Shaded band: each profile's own split-half null.}
-  \caption[Behavioural divergence between profiles against its null]{How far apart the four profiles' behaviour is at runtime, measured as the divergence between their pooled distributions of visited tactics, against the divergence produced by splitting a single profile's own runs in half. The null band is what would turn a difference into a result: a separation counts only where two profiles differ by more than one profile differs from itself across seeds. The intention is to test whether the operational objective a profile was built from changes what the attacker does at runtime, rather than only what it was labelled.}
+  \placeholderbox{56mm}{Figure 5.3 --- pairwise divergence between the profiles' visit distributions, as a printed-value matrix.\\ Rows and columns: the four profiles. Off-diagonal cells: divergence between the pair. Diagonal: the profile's own split-half null.\\ Every cell printed; fill shaded from the null upward.}
+  \caption[Behavioural divergence between profiles against its null]{How far apart the four profiles' behaviour is at runtime, as the divergence between their pooled distributions of visited tactics, one cell per pair, with each profile's own split-half divergence on the diagonal as its null: the separation a single profile shows from itself across seeds. A pair counts as separated only where its cell exceeds both diagonals it meets. Every cell is printed and the shading runs from the null upward. The intention is to test whether the operational objective a profile was built from changes what the attacker does at runtime, rather than only what it was labelled.}
   \label{fig:aio-divergence}
 \end{figure}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- the denominator table the rest of the chapter cites; carries the pruning rule
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- the results-table genre (booktabs, grouped
+% headers, intervals); gains the AGGREGATE row (the objective-conditioning
+% contrast, read on outcome and behaviour measures) and the INHERITED row; the
+% entropy column carries its hub-occupancy caveat as a footnote. A spacing
+% (stealth) column WAITS on Marc's ruling on the axis-5 observation.
 \begin{table}[H]
   \centering
-  \caption[What each attacker does with no defence running]{A summary of each profile's behaviour with nothing opposing it, alongside the inherited attacker. The breadth column is the reference every suppression figure later in the chapter is a difference from. The column recording how runs ended is what decides the rest of the chapter's shape, because a defence can only be credited with denying an objective the attacker would otherwise reach: where it reaches none unopposed, breadth rather than objective achievement has to be the denominator. The intention is to fix both the reference and the reason for it in one place.}
+  \caption[What each attacker does with no defence running]{A summary of each attacker's behaviour with nothing opposing it: the four profiles, the aggregate envelope, which is the same corpus with the objective partition switched off and so the contrast the objective conditioning is read against, and the inherited attacker. The breadth column is the reference every suppression figure later in the chapter is a difference from. The column recording how runs ended is what decides the rest of the chapter's shape, because a defence can only be credited with denying an objective the attacker would otherwise reach: where it reaches none unopposed, breadth rather than objective achievement has to be the denominator. The path-entropy column carries a footnote, because on this corpus it tracks how much of the walk one place absorbs and is not read as variety on its own. The intention is to fix both the reference and the reason for it in one place.}
   \label{tab:unopposed-summary}
-  \placeholderbox{52mm}{Table 5.4 --- unopposed behaviour by profile.\\ Distinct tactics; deepest stage acted on; path entropy;\\ distinct prefixes; hosts reached; how runs ended.}
+  \placeholderbox{54mm}{Table 5.4 --- behaviour without defence, by attacker.\\ Rows: the four profiles; the aggregate envelope; the inherited attacker.\\ Columns: distinct tactics; deepest stage acted on; distinct openings at a fixed depth; path entropy (footnoted); hosts reached; how runs ended. Intervals throughout.}
 \end{table}
 
 % ~1 unit. CARRIES PROPERTY 4 (adaptivity), which is the one property
@@ -5996,11 +5954,16 @@ that Section~\ref{sec:effectiveness} reports against.]}
 \subsection{Under defence}
 \label{subsec:aio-disruption}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- property 4; the verdict-blind arm is the control that makes it a claim
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- grouped bars in a 2 x 2 of lettered panels
+% (mechanism x tempo), the control as a series beside the treatment, legend
+% once. The spanning pair and two tempos are the ruled content of this
+% subsection (handoff §10.2); a response shown at one interval is a property
+% of the interval. Dense by design, so the family rule applies if it does not
+% read: split into two figures at descending abstraction rather than shrink.
 \begin{figure}[H]
   \centering
-  \placeholderbox{62mm}{Figure 5.7 --- what the attacker does before and after being hit.\\ Paired bars: share of activity in the steps either side of a mutation.\\ Two panels: the model, and a control blind to outcomes.}
-  \caption[How the attacker's activity changes after a disruption]{The mix of activities in the visits immediately before and immediately after each defensive mutation, paired within each run so that variation between runs cancels, with a control in which the attacker's routing is made blind to the outcome its actions return. The comparison isolates whether a change in behaviour is a response to the disruption or drift that would have happened anyway. The intention is to show the adaptive loop operating, and to be explicit that operating is a weaker claim than changing an outcome.}
+  \placeholderbox{70mm}{Figure 5.4 --- what the attacker does before and after a mutation.\\ Four lettered panels: (a),(b) the network-layer mechanism at two tempos; (c),(d) the application-layer mechanism at the same two tempos.\\ Each panel: grouped bars of activity share in the steps before and after each mutation, the attacker model beside the control blind to outcomes. Legend once.}
+  \caption[How the attacker's activity changes after a mutation]{The mix of activities in the visits immediately before and immediately after each defensive mutation, paired within each run so that variation between runs cancels, with a control in which the attacker's routing is made blind to the outcome its actions return. The panels are the two mechanisms that span how a defence reaches this attacker, one that destroys its position and one that re-rolls the surface it exploits, each at two tempos, because a response that exists at one interval only is a property of the interval. The comparison isolates whether a change in behaviour is a response to the disruption or drift that would have happened anyway. The intention is to show the adaptive loop operating, and to be explicit that operating is a weaker claim than changing an outcome.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -6247,20 +6210,28 @@ under both attackers on this one simulator.]}
 \subsection{Mechanisms and schemes}
 \label{subsec:eff-under-defence}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- the movement arm alone; three of the mechanisms have never been run against it
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- grouped bars with no defence as the
+% origin (He; Tay normalises; Brown's "None" bar), split into two lettered
+% panels so that every condition label stays legible (Brown's Figs 4-5 are
+% the named anti-pattern); short domain names mapped in the generator.
 \begin{figure}[H]
   \centering
-  \placeholderbox{62mm}{Figure 5.10 --- suppression of host breadth by defence condition.\\ Grouped bars, x: condition. y: reduction against no defence.\\ Series: profile.}
-  \caption[How much each defence suppresses each profile]{The reduction in hosts reached under each defence condition relative to the no-defence reference, for every profile. Conditions run from each single mechanism through the schemes that deploy several together. The intention is to establish which defences reach this attacker at all, and whether the answer depends on which operational objective the attacker is pursuing, before the comparison against the inherited attacker is attempted.}
+  \placeholderbox{66mm}{Figure 5.5 --- suppression of host breadth by defence condition.\\ Two lettered panels: (a) the single mechanisms; (b) the deployment schemes.\\ Grouped bars, x: condition under its short name. y: reduction against no defence, with intervals. Series: profile, colours held from Figure 5.2. Legend once.}
+  \caption[How much each defence suppresses each profile]{The reduction in hosts reached under each defence condition relative to the no-defence reference, for every profile. Panel~(a) is the single mechanisms and panel~(b) the schemes that deploy several together, separated so that every condition stays legible, with the profile colours of Section~\ref{sec:attacker-in-operation}. The intention is to establish which defences reach this attacker at all, and whether the answer depends on which operational objective the attacker is pursuing, before the comparison against the inherited attacker is attempted.}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- channels from the disruption operationalisation; effect floors owed
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- kept despite its cut mark: intervals cannot
+% be read off bars and He's TABLE III is the precedent. Gains the DELAY TO
+% FIRST COMPROMISE column with censoring stated, which is where the delay
+% channel now lives (fig:eff-delay removed: survival curves are no corpus
+% genre and twenty of them would not read). Adjacent conditions whose
+% intervals overlap carry a footnote mark rather than a rank.
 \begin{table}[H]
   \centering
-  \caption[Defence conditions measured against the attacker model]{Each defence condition scored on the three channels through which a defence can reach an attacker: whether it prevents compromise at all, how long it postpones the first one, and what fraction of attempted actions it blocks. Intervals accompany every figure, and adjacent conditions whose intervals overlap are reported as indistinguishable rather than ranked. The intention is to state what each mechanism does on its own terms before any two are compared.}
+  \caption[Defence conditions measured against the attacker model]{Each defence condition scored on the three channels through which a defence can reach an attacker: whether it prevents compromise at all, how long it postpones the first one, and what fraction of attempted actions it blocks. Intervals accompany every figure; delay to first compromise is reported with the fraction of runs censored at the horizon; and adjacent conditions whose intervals overlap are marked as indistinguishable rather than ranked. The intention is to state what each mechanism does on its own terms before any two are compared.}
   \label{tab:eff-conditions}
-  \placeholderbox{52mm}{Table 5.5 --- defence conditions against the attacker model.\\ Suppression; delay to first compromise; blocked fraction;\\ with intervals, per condition.}
+  \placeholderbox{52mm}{Table 5.5 --- defence conditions against the attacker model.\\ Columns grouped by channel: suppression; delay to first compromise (censored fraction beside it); blocked fraction; each with its interval.\\ Rows: every condition. Overlapping adjacent intervals carry a footnote mark.}
 \end{table}
 
 % ~1 unit. THE THESIS'S OWN CLAIM, and the subsection Marc asked the
@@ -6310,23 +6281,26 @@ under both attackers on this one simulator.]}
 \subsection{Attacker comparison}
 \label{subsec:eff-cross-arm}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- the whole claim in one figure; blocked until the re-establishment run lands
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- the chapter's central figure, in the
+% attested form (grouped bars, series = attacker arm), with the same
+% singles/schemes panel split as fig:eff-suppression-profiles and the arm
+% distinguished by hatch so the profile colours are not reused for arms.
 \begin{figure}[H]
   \centering
-  \placeholderbox{62mm}{Figure 5.11 --- the same defences against both attackers.\\ Grouped bars, x: defence condition. y: suppression.\\ Two series: the inherited attacker, the attacker model.}
-  \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the inherited scripted attacker and once against the attacker model, on the same network under identical conditions. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
+  \placeholderbox{66mm}{Figure 5.6 --- the same defences against both attackers.\\ Two lettered panels: (a) the single mechanisms; (b) the deployment schemes.\\ Grouped bars, x: condition under its short name. y: suppression against no defence, with intervals. Two series: the inherited attacker, the APT attacker (hatched against solid). Legend once.}
+  \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the inherited scripted attacker and once against the attacker model, on the same network under identical conditions, single mechanisms in panel~(a) and deployment schemes in panel~(b). This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- the delay channel; survival form, censoring stated
-\begin{figure}[H]
-  \centering
-  \placeholderbox{58mm}{Figure 5.12 --- time to the first compromise.\\ x: simulated time. y: fraction of runs not yet compromised.\\ Curves per condition, one panel per attacker.}
-  \caption[How long each defence postpones the first compromise]{The fraction of runs in which no host has yet been compromised, as time passes, for each defence condition and each attacker. Where suppression asks how much a defence prevents, this asks how long it delays, which is the channel that stays informative when the attacker eventually succeeds regardless. The intention is to separate defences that stop an attacker from defences that only slow one, since the two are worth different things to an operator.}
-  \label{fig:eff-delay}
-\end{figure}
+% REMOVED 2026-09-13 (stage-2 audit): fig:eff-delay. Survival curves are no
+% corpus genre and ten conditions x two arms is twenty curves. Delay to first
+% compromise is a column of tab:eff-conditions with censoring stated. IF Marc's
+% horizon ruling (handoff §15) makes time to a compromise checkpoint the
+% primary, the figure that replaces this is Zhang's form: a bar per condition of
+% the time-to-checkpoint quantity, one series per attacker.
 
-% PLACEHOLDER FLOAT (2026-09-09) --- grade vocabulary at the definition site: magnitude, ordering, recommendation
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- kept as is (results table; the grade
+% vocabulary lives at this definition site).
 \begin{table}[H]
   \centering
   \caption[The defence ordering produced by each attacker]{The defences ranked by effect, once as the inherited attacker would rank them and once as the attacker model would, with a statistic summarising how far apart the two orderings are and an interval on it. Where the evidence supports only a weaker statement than a full ordering, the table says so rather than presenting a ranking the data cannot separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}
@@ -6351,13 +6325,16 @@ under both attackers on this one simulator.]}
 \subsection{Prior evaluations}
 \label{subsec:eff-lineage}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- makes the lineage testable; comparability boundary restated in the caption
-\begin{figure}[H]
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- CONVERTED from small-multiple claim panels
+% (no corpus genre) to a comparison table (§e1: one row per prior claim,
+% direction per arm, the comparability boundary in the footnote); Masud's
+% "Comparison with the present study" is the nearest attested form.
+\begin{table}[H]
   \centering
-  \placeholderbox{66mm}{Figure 5.13 --- prior findings re-run under both attackers.\\ One small panel per prior claim.\\ Each panel: the claim, and what this simulator returns per arm.}
-  \caption[Prior models' headline findings, re-run under both attackers]{Each of the headline comparisons reported by the earlier models built on this simulator, re-run here under both attackers, one panel per claim. Because the configurations rather than the published numbers are reproduced, the panels are read as agreement or disagreement in direction, not as a numerical replication. The intention is to make published claims testable rather than merely cited, and to show that where they disagree with one another the disagreement is itself the finding.}
-  \label{fig:eff-lineage}
-\end{figure}
+  \caption[Prior evaluations' headline findings under both attackers]{Each headline comparison reported by the earlier evaluations built on this simulator, re-run here under both attackers, one row per claim: the published direction, the direction this simulator returns under the inherited attacker, and the direction under the APT attacker. Because the configurations rather than the published numbers are reproduced, cells are read as agreement or disagreement in direction and never as a numerical replication, and the footnote states that boundary. The intention is to make published claims testable rather than merely cited, and to show that where they disagree with one another the disagreement is itself the finding.}
+  \label{tab:eff-lineage}
+  \placeholderbox{42mm}{Table 5.7 --- prior findings under both attackers.\\ Rows: shuffling dominates diversification; the best single mechanism roughly equals the best combination; diversification dominates at long intervals.\\ Columns: published claim and source; inherited attacker; APT attacker; agreement in direction. Footnote: the comparability boundary.}
+\end{table}
 
 % 1 unit, deliberately the thinnest section --- and thin for a stated
 % reason rather than by neglect.
@@ -6408,28 +6385,33 @@ defender's, the fraction of the run spent reconfiguring. The two are then read
 together, so each mechanism can be placed by what it buys against what it
 spends.]}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- the more robust of the two cross-arm claims; defender-side measure is arm-invariant
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- He's two-metric scatter, kept; each marker
+% labelled with its mechanism's short name, marker shape = arm, legend inside.
 \begin{figure}[H]
   \centering
-  \placeholderbox{66mm}{Figure 5.14 --- what each defence buys against what it spends.\\ x: fraction of the run spent reconfiguring. y: suppression achieved.\\ One marker per mechanism; marker shape distinguishes the attackers.}
-  \caption[What each defence achieves against what it costs to run]{Each defence placed by the disruption it achieves against the proportion of the run its own reconfiguration occupies, with both attackers shown. The horizontal axis is derived entirely from the simulator's record of when each mutation was executing, so unlike attacker-side time it is priced identically on both arms and the two can be compared directly. The intention is to let a mechanism be judged on what it buys for what it spends rather than on effect alone, and to show whether the shape of that trade depends on which attacker is assumed.}
+  \placeholderbox{66mm}{Figure 5.7 --- what each defence buys against what it spends.\\ x: fraction of the run spent reconfiguring. y: suppression achieved, with intervals.\\ One marker per mechanism, labelled with its short name; marker shape distinguishes the attackers. Legend inside.}
+  \caption[What each defence achieves against what it costs to run]{Each defence placed by the disruption it achieves against the proportion of the run its own reconfiguration occupies, with both attackers shown and every marker labelled with its mechanism. The horizontal axis is derived entirely from the simulator's record of when each mutation was executing, so unlike attacker-side time it is priced identically on both arms and the two can be compared directly. The intention is to let a mechanism be judged on what it buys for what it spends rather than on effect alone, and to show whether the shape of that trade depends on which attacker is assumed.}
   \label{fig:eff-frontier}
 \end{figure}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- attacker-side efficiency; segments printed per the stacked-bar convention
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- Tay's stacked bar with values printed
+% in the segments, kept; MOVEMENT ARM ONLY, and the caption now says why (D-37:
+% the confusion penalty is written to no record row on the inherited arm, so
+% its time cannot be split the same way).
 \begin{figure}[H]
   \centering
-  \placeholderbox{58mm}{Figure 5.15 --- where the attacker's time goes.\\ Stacked bars, x: defence condition. y: share of elapsed time.\\ Segments: activity, imposed delay, remainder. Values printed.}
-  \caption[How a defence changes where the attacker's time goes]{The attacker's elapsed time under each defence condition, divided into time spent performing activities, time lost to the delay a mutation imposes, and the remainder. Segment values are printed, since a stacked bar is otherwise hard to read across conditions. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
+  \placeholderbox{58mm}{Figure 5.8 --- where the attacker's time goes.\\ Stacked bars, x: defence condition under its short name. y: share of elapsed time.\\ Segments: activity, imposed delay, remainder. Values printed in the segments. The attacker model only.}
+  \caption[How a defence changes where the attacker's time goes]{The attacker model's elapsed time under each defence condition, divided into time spent performing activities, time lost to the delay a mutation imposes, and the remainder, with segment values printed since a stacked bar is otherwise hard to read across conditions. The decomposition is drawn for the attacker model only: the delay a mutation imposes is not written to the inherited attacker's records, so its time cannot be split the same way, and the cross-arm comparison is made event-wise in Table~\ref{tab:eff-cost}. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
   \label{fig:eff-cost-decomposition}
 \end{figure}
 
-% PLACEHOLDER FLOAT (2026-09-09) --- event-wise only across arms; the frozen-defender concession sits here
+% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- kept as is (results table; event-wise across
+% arms, which is what makes it comparable).
 \begin{table}[H]
   \centering
   \caption[The cost of each condition, on both sides]{The attacker's effort per host it manages to reach, and the defender's reconfiguration burden, for each condition and each attacker. The attacker-side columns are counts of events rather than durations, which is what makes them comparable across two attackers that price time differently. The intention is to report both sides of the exchange on one page, and to state plainly which quantities may be compared across attackers and which may not.}
   \label{tab:eff-cost}
-  \placeholderbox{46mm}{Table 5.7 --- cost by condition and attacker.\\ Actions per host reached; successes per host reached;\\ reconfiguration occupancy; mutations per unit time.}
+  \placeholderbox{46mm}{Table 5.8 --- cost by condition and attacker.\\ Actions per host reached; successes per host reached;\\ reconfiguration occupancy; mutations per unit time.}
 \end{table}
 % =====================================================================
 \chapter{Discussion}
@@ -7368,6 +7350,30 @@ compromises anything --- which is the scope the claim is held to.}
 Hosts & $0.18 \pm 0.12$ & $0.46 \pm 0.22$ & $-0.28 \pm 0.19$ \\
 \bottomrule
 \end{tabular}
+\end{table}
+
+\section{Robustness across the failure matrix's decay parameters}
+\label{app:decay-robustness}
+
+% ADDED 2026-09-13 (stage-2 float audit, ch5 design handoff §18): the failure
+% matrix's band-ends table, in the form tab:anchor-sensitivity already has, so
+% that the body chapter draws no figure of a non-event. DATA: the weight
+% sensitivity study RE-RUN at the reported configuration under the settled
+% timing regime; the study on record
+% (docs/implementation/pipeline/ogasp/weight_sensitivity_study.md) ran under the
+% superseded fixed-dwell regime at ten seeds --- provenance, not values. The
+% corner check on the influential pair is a row group here.
+% [prose slot --- Marc] one framing paragraph: what is swept (the forward decay,
+%   the backward decay and the floor over their declared bands, one at a time,
+%   then the corners of the pair that proved most influential); what "inert"
+%   means (band ends inside the interval at centre); and the honest limit the
+%   record names (a finer per-profile ordering that fails to separate for want
+%   of runs rather than of effect).
+\begin{table}[htbp]
+\centering\footnotesize
+\caption[Outcome sensitivity to each decay parameter across its declared band]{Host breadth at each decay parameter's band ends against its declared value, moving one at a time with the others held, and then at the corners of the pair that proved most influential, under both defence conditions. Pooled across the profiles at the reported seed count; intervals are 95\,\%. A parameter whose band ends stay inside the interval at centre is reported as inert.}
+\label{tab:decay-sensitivity}
+\placeholderbox{40mm}{Table C.3 --- band ends against centre for the forward decay, the backward decay and the floor,\\ then the corners of the influential pair. Columns: band low, declared, band high; row groups per parameter and per defence condition.}
 \end{table}
 
 

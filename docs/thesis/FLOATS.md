@@ -82,28 +82,31 @@ on its own before it goes.
 
 | Position | Label | Standing | What it is for |
 |---|---|---|---|
-| §5.1 | `tab:parameter-register` | **core** | every declared quantity, swept-with-a-band or held-with-a-reason, in one place |
-| §5.1 | `fig:sens-dwell-anchor` | **core** | which of the declared durations the conclusions are exposed to |
-| §5.1 | `fig:sens-dwell-shape` | cut or appendix | where the exponential dwell stops being innocuous; a narrow claim |
-| §5.1 | `fig:sens-mapping` | **core** | the mapping is a discrete choice, not a band — the standing bound |
-| §5.1 | `fig:sens-failure-matrix` | cut or appendix | headline verdicts hold across the decay bands; the finer ordering does not |
-| §5.2 | `tab:factors-varied` | **core** | the factor space every later result is located in |
-| §5.2 | `tab:factors-fixed` | **core** | what was held, and why; inherited constants marked as inherited |
-| §5.3.1 | `fig:aio-coverage` | **core** | the clearest single picture of what the attacker model added |
-| §5.3.1 | `fig:aio-divergence` | **core** | profiles differ by more than a profile differs from itself |
-| §5.3.1 | `tab:unopposed-summary` | **core** | the reference every suppression figure is a difference from; carries the pruning rule |
-| §5.3.2 | `fig:aio-adaptivity` | cut or appendix | the adaptive loop operating, against a verdict-blind control |
+| §5.1 | `tab:parameter-register` | **core** | the free inputs of the definition: nominal, band and origin, effect (re-cut 2026-09-13: assumptions → ch4 prose, environment → §5.2, ablation arms → gone) |
+| §5.1 | `fig:sens-dwell-anchor` | **core** | the slot for the input that moved; which input is the re-run's to say |
+| §5.1 | `fig:sens-dwell-shape` | **removed 2026-09-13** | a swap, not a band: a register row + `tab:shape-substitution` |
+| §5.1 | `fig:sens-mapping` | **removed 2026-09-13** | a swap: a register row + `tab:experiment-one` |
+| §5.1 | `fig:sens-failure-matrix` | **removed 2026-09-13** | register rows + `tab:decay-sensitivity` (App. C.3, added) |
+| App. C.3 | `tab:decay-sensitivity` | **core** (appendix) | band ends against centre for the decay parameters and the floor, plus the corner check; `tab:anchor-sensitivity`'s form |
+| §5.2 | `tab:factors-varied` | **core** | rows re-cut: attacker arm, defence condition, tempo, timing regime, horizon, objective denominator |
+| §5.2 | `tab:factors-fixed` | **core** | rows re-cut: geometry, tolerance-set run count, versions (pins in the footnote), penalty, retrace, modulators at inert settings, adaptive selector not exercised, schedule |
+| §5.3.1 | `fig:aio-coverage` | **core** | two lettered panels: coverage over time (a), opening variety against depth (b) — the ruled plurality exhibit |
+| §5.3.1 | `fig:aio-divergence` | **core** | printed-value 4 × 4 matrix, split-half null on the diagonal (aggregate deliberately absent) |
+| §5.3.1 | `tab:unopposed-summary` | **core** | + aggregate row (the objective-conditioning contrast) and inherited row; entropy footnoted |
+| §5.3.2 | `fig:aio-adaptivity` | **core** (was cut-or-appendix) | 2 × 2 mechanism × tempo, control beside the treatment; the subsection's only float |
 | §5.3.3 | `fig:aio-disengagement` | **removed 2026-09-13** | the ablation subsection is gone (design C31); see the ch5 design handoff §16 |
-| §5.3.3 | `fig:aio-learning` | **removed 2026-09-13** | the ablation subsection is gone (design C31); see the ch5 design handoff §16 |
-| §5.3.3 | `tab:ablation-ladder` | **removed 2026-09-13** | the ablation subsection is gone (design C31); see the ch5 design handoff §16 |
-| §5.4.1 | `fig:eff-suppression-profiles` | **core** | which defences reach this attacker, and whether it is profile-dependent |
-| §5.4.1 | `tab:eff-conditions` | cut or appendix | the three disruption channels per condition, with intervals |
-| §5.4.2 | `fig:eff-cross-arm` | **core** | the chapter's central comparison, in one figure |
-| §5.4.2 | `fig:eff-delay` | cut or appendix | the delay channel; separates stopping from slowing |
-| §5.4.2 | `tab:eff-orderings` | **core** | the two orderings and the grade the evidence carries |
-| §5.4.3 | `fig:eff-lineage` | cut or appendix | prior findings re-run under both attackers |
-| §5.5 | `fig:eff-frontier` | **core** | what each defence buys against what it spends; arm-invariant on the cost axis |
-| §5.5 | `fig:eff-cost-decomposition` | cut or appendix | whether a defence makes the attacker do more, or take longer |
-| §5.5 | `tab:eff-cost` | cut or appendix | both sides of the exchange, event-wise across arms |
+| §5.3.3 | `fig:aio-learning` | **removed 2026-09-13** | as above |
+| §5.3.3 | `tab:ablation-ladder` | **removed 2026-09-13** | as above |
+| §5.4.1 | `fig:eff-suppression-profiles` | **core** | two lettered panels, singles / schemes, so every label stays legible |
+| §5.4.1 | `tab:eff-conditions` | **core** (was cut-or-appendix) | the numbers behind the bars, with intervals; gains the delay column with censoring |
+| §5.4.2 | `fig:eff-cross-arm` | **core** | the central comparison; same panel split; arm by hatch |
+| §5.4.2 | `fig:eff-delay` | **removed 2026-09-13** | survival curves are no corpus genre; a column of `tab:eff-conditions`. Zhang-form bars if checkpoint time becomes the primary (handoff §15) |
+| §5.4.2 | `tab:eff-orderings` | **core** | unchanged |
+| §5.4.3 | `tab:eff-lineage` | **core** (converted from `fig:eff-lineage`) | comparison table: published claim, direction per arm, boundary in the footnote |
+| §5.5 | `fig:eff-frontier` | **core** | labelled markers, shape = arm |
+| §5.5 | `fig:eff-cost-decomposition` | keep (was cut-or-appendix) | attacker model only, and the caption says why |
+| §5.5 | `tab:eff-cost` | keep | unchanged |
 
 **2026-09-13.** §5.1's three subsections are retired (one section, one unit), so its four floats now sit under §5.1 pending the stage-2 placeholder audit; §5.3.3's three floats are removed with the subsection. Marks above are otherwise unchanged until that audit rules each float.
+
+**Stage-2 float audit, 2026-09-13 (ch5 design handoff §18).** Convention first, then reconciled: 8 figures + 8 tables in the body (from 15 + 8) plus one appendix table. Every remaining float is in an attested genre (figure_table_conventions.md §d–§f); the two that were not — survival curves and small-multiple claim panels — became a table column and a comparison table. The chapter-head FLOAT CONTRACT comment in the tex is the series/legend/label contract every generator follows.
