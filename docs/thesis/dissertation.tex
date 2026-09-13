@@ -4575,15 +4575,20 @@ routing: the failure matrix is declared over one failure verdict, not two.
 %  §7.2. Ratify-on-read.]
 But if they are on a
 dwell-only, there is no verdict ($v = \text{none}$), so this is not felt by
-the token in the Petri net. That holds only while the dwell runs its course.
-A mutation that lands during a dwell-only tactic cuts it short like any other
-timed transition and returns failure, so a dwell-only tactic is blind to the
-defence's state changes but not to its interrupts.
+the token in the Petri net. A mutation that lands during a dwell-only tactic
+cuts the dwell short and costs the attacker the time, but there was no action
+in flight to lose and no verdict to route on: the token still leaves on the
+base proportions. At a dwell-only tactic the defence is felt as cost, never
+as a change of route.
 % [2026-09-13: A6 sentences landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
-%  §7.2. The brief's A6 ("felt in cost, not routing") was wrong against the
-%  record (boundary_attacker_defender_channels.md D-21: mid-dwell interrupts return
-%  failure); the brief is corrected in the same commit. Ratify-on-read.]
+%  §7.2. Re-landed 2026-09-13 (second pass) on Marc's framing --- a dwell-only
+%  tactic exercises no capability, so a mutation there is cost only --- and verified
+%  at movement/attacker.py: the dwell-only branch routes on VERDICT_NONE whether or
+%  not the dwell was interrupted (the interrupt is tracked separately, for cost).
+%  So the brief's A6 ("felt in cost, not routing") was right; the first landing
+%  of this sentence, which read D-21's "read as a failure verdict" as routing,
+%  was wrong and is withdrawn. Ratify-on-read.]
 % [2026-09-08: v and none bound here --- this is the declaration
 %  tab:gspn-notation promises for v in V; the mechanism gloss ": objects are
 %  passed around in the simulator, and if the verbs have not been run, it

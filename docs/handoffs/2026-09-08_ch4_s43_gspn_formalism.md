@@ -292,12 +292,15 @@ definition licenses)
 4. **A4 success passthrough.** The corpus is the success policy (`F_success ≡ 1`).
 5. **A5 binary verdict.** `ν` collapses every outcome to success/failure;
    an interrupt and an unmet precondition are both failure.
-6. **A6 dwell-only opacity.** A dwell-only place that elapses returns `none` and
-   routes on the base proportions; a mutation that lands mid-dwell cuts the timed
-   transition short and returns `failure` like any other. *(Corrected 2026-09-13:
-   the earlier wording "felt in cost, not routing" contradicted the record —
-   `boundary_attacker_defender_channels.md` D-21, mid-dwell interrupts are read
-   as failure verdicts — and §4.3's own sentence. Landed in ch4 §4.4.1.)*
+6. **A6 dwell-only opacity.** A mutation during a dwell-only place is felt in
+   cost, not routing: the dwell is cut short and the time is spent, but the place
+   exercised no capability, so there is no action to lose and the token routes on
+   `none` (base proportions) exactly as if the dwell had elapsed. *(Stands.
+   A 2026-09-13 "correction" that read D-21's "mid-dwell interrupts are read as a
+   failure verdict" as a routing claim was wrong and is withdrawn the same day:
+   `movement/attacker.py` routes the dwell-only branch on `VERDICT_NONE`
+   regardless of interruption; D-21's wording is the gate's exposure accounting.
+   Landed in ch4 §4.4.1 in Marc's framing.)*
 7. **A7 one token.** The AND structure Attack Flow preserves is vacuous
    under a single token; a constraint on parameters, not the formalism.
 8. **A8 consensus staging.** `s(·)` and hence `Δ` are imported from five

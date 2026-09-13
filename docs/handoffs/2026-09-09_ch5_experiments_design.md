@@ -1753,7 +1753,7 @@ and the ruled home of each:
 |---|---|---|---|
 | **Free inputs of the formal definition** | $\mu_p$, $\tau_p$ shape, $\gamma$, $\delta$, $z$, $\varphi$; $R$ named as unswept | ten Broeke's input table (nominal, range, origin) + extended OFAT; Pianosi/Saltelli purposes **screening** and **ranking**; Sargent operational validation + ceiling | `tab:parameter-register`, ~7 rows. **This is what the sensitivity analysis is.** Not three chosen of twelve: all the definition's free parameters, as ten Broeke prescribes |
 | **Ablation arms** | $F_v$ identity, uniform $w_c$, unsegregated $c$, cost/learning modulators | Journal MTD corpus does not ablate; Tay's subsection served an RL agent | **§5.3.3 dropped** (Marc: "persuaded by the convention in these journals"). Aggregate envelope stays as a fifth attacker arm / summary-table row in §5.3.1; verdict-blind arm stays as the §5.3.2 control; modulators held at defaults as `tab:factors-fixed` rows. **Consequence flagged, not yet confirmed by Marc:** fidelity-verdict properties 6 and 7 become *implemented, not evidenced*; the R3 dependency leaves ch5 |
-| **Environment / experimental factors** | mutation cost, interval, timing regime, network, horizon, run count | Reti's two tables; Anderson's failure (held defaults unstated); Kim (fix by citation, repeat in captions) | `tab:factors-varied` / `tab:factors-fixed` in §5.2 only (C25). Horizon (§15) and timing regime (§14.3) are **varied** factors. `retrace_sinks` is a named switch, **off by default** in the driver and turned on per experiment — it must appear in `tab:factors-fixed` |
+| **Environment / experimental factors** | mutation cost, interval, timing regime, network, horizon, run count | Reti's two tables; Anderson's failure (held defaults unstated); Kim (fix by citation, repeat in captions) | `tab:factors-varied` / `tab:factors-fixed` in §5.2 only (C25). Horizon (§15) and timing regime (§14.3) are **varied** factors. `retrace_sinks` runs on every reported configuration (an assumption, A10, per Marc 2026-09-13); one `tab:factors-fixed` row declares it |
 | **Modelling assumptions** | the twelve of the §4.3 brief §7.2 | ODD: assumptions live in the model description at the submodel; Sargent conceptual-model validation; corpus §g limitations paired with future work | **ch4 prose at the symbol each constrains — APPLIED 2026-09-13.** A1, A2, A3, A9 were already stated; A4, A5, A6, A7, A8, A10, A11, A12 inserted on Marc's ratification of a fourteen-item proposal (dated trails at each anchor). "Three assumptions" → "three inputs" at the §4.4 opening |
 
 **Marc's sharpening of what §5.1 is.** The three inputs were *derived and argued*,
@@ -1776,11 +1776,22 @@ model. Chapter 5 checks the declared numbers do not carry the conclusions, decla
 the experiment, and runs it: what the attacker does unopposed, what the defences do
 to it, and what that costs.
 
-**Record correction made in the same pass.** The §4.3 brief's A6 ("a mutation
-during a dwell-only place is felt in cost, not routing") contradicted
-`boundary_attacker_defender_channels.md` D-21 (mid-dwell interrupts are read as
-failure verdicts; 107 of 127 in the cited trace) and §4.3's own sentence. Brief
-corrected; the ch4 sentence follows the record.
+**Record correction attempted and withdrawn in the same pass.** The §4.3 brief's
+A6 ("a mutation during a dwell-only place is felt in cost, not routing") was first
+read as contradicting `boundary_attacker_defender_channels.md` D-21 ("mid-dwell
+interrupts are read as a failure verdict"). Marc's framing and the code say the
+brief was right: a dwell-only place exercises no capability, the interrupt costs
+time, and `movement/attacker.py` routes the dwell-only branch on `VERDICT_NONE`
+whether or not the dwell was interrupted. D-21's wording is the interrupt gate's
+exposure accounting, not a routing claim. Brief and ch4 sentence both carry the
+cost-only framing. Lesson for the record: a "read as failure" in a trace is not
+the same object as the verdict the token routes on.
+
+**Retrace, ruled (Marc, 2026-09-13).** `retrace_sinks` was meant as an input but
+is run on every reported configuration; it is therefore an *assumption the work
+runs with* (A10, now in ch4 §4.4.1), not a factor. The driver default stays off for
+golden reproducibility. One row in `tab:factors-fixed` declares it; nothing to
+sweep.
 
 **Owed (next session, tex):** (i) re-cut `tab:parameter-register` to the free
 inputs and move its environment rows to §5.2; (ii) collapse §5.1 to one section
@@ -1788,6 +1799,6 @@ and retire `subsec:sens-dwell-times`, `subsec:sens-mapping`, `subsec:sens-failur
 (re-point ch4's forward refs to `sec:sensitivity`); (iii) drop §5.3.3 once Marc
 confirms the fidelity-table consequence, moving the aggregate row to
 `tab:unopposed-summary` and the modulator defaults to `tab:factors-fixed`;
-(iv) add `retrace_sinks` to `tab:factors-fixed`. Ruling numbers: **C29** (C1
+(iv) add the retrace row to `tab:factors-fixed`. Ruling numbers: **C29** (C1
 reversed), **C30** (§5.1 collapse), **C31** (§5.3.3 drop + fidelity consequence —
 *confirmation owed*).
