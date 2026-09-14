@@ -73,6 +73,21 @@ entirely. The headline brief's substance is unaffected by its move — the
 inversion is still unreproduced and still blocks ch5 prose, which is why the new
 entry above names it.)*
 
+- [`2026-09-15_ch6_discussion_affinity_board.md`](2026-09-15_ch6_discussion_affinity_board.md)
+  — **the discussion chapter's affinity board**: every discussion-shaped idea
+  on disk (six inventory passes over the notes, the criterion, the L3 records,
+  the ch5 design pass, the ratified ch1/ch3/ch4 prose, the lineage extractions
+  and the field's discussion-section conventions), grouped into six themes as
+  numbered mini-hypotheses, each forward-joined to the ch5 float that earns it
+  and flagged where the foundation has moved since its note. Tests Marc's
+  three reads of §6.1–§6.3 (right on the spine; §6.3 is not a lineage
+  comparison and not future work), audits the three headings against his
+  rules and the corpus, and lists seven session-proposed compositions apart
+  from the inventory. Rulings owed on the unit split, the heading set, and
+  each FOUNDATION item. Depends on the ch5 design handoff (shares its
+  property-to-measurement map) and on the unreproduced headline for every
+  cross-arm point; blocks ch6 drafting.
+
 - [`2026-09-05_generated_tables_house_style.md`](2026-09-05_generated_tables_house_style.md)
   — **the generated and appendix tables onto the house table style** ruled
   2026-09-05 (`figure_table_conventions.md` §k): each `tools/` table
