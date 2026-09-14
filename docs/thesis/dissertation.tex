@@ -5600,11 +5600,123 @@ an inherited default.
 \section{Experimental setup}
 \label{sec:dimensions}
 
-\noindent\emph{[Placeholder --- delete on drafting. The factor space: which
-attackers, which defences, at what tempo, on what network, over how many runs,
-and measured with what. Two tables, one of what varies and one of what is held.
-The metrics are named here as instrumentation rather than defined here as
-findings, with the boundary on what may be compared stated as a disclosure.]}
+% DRAFT STATE 2026-09-15 --- session-generated on Marc's authorisation ("draft
+% accordingly, working with the tables"; the ch5 AI green light). Written to
+% ~750 words against the 2-unit ledger (~500); the overdraft is claimed on the
+% first-completion ruling (2026-08-18) and is the compress-to-ledger pass's to
+% take. Design and content points: ch5 design handoff §20 (§20.3, §20.5, §20.8
+% the ch3 trace). Ratify on read. The tables carry the levels, the geometry,
+% the constants and the pins; nothing below repeats them. Register calibrated
+% on §5.1's draft. No number below is a measurement.
+Carrying from the sensitivity analysis, three things are fixed before the
+experiment is declared. The low-and-slow anchor is held at its declared
+value and named wherever a claim could turn on it. The exponential draw is
+live only at long dwell under mutation pressure, so no cell is run in that
+corner without saying so. The inherited mutation interval sits inside a
+degenerate region, so the interval is a factor of the experiment and not a
+default it inherits. Two references then need naming, because the word
+\emph{baseline} is asked to do two jobs in this literature. The no-defence
+condition is the reference every effect in this chapter is a difference
+from \citep{zaffarano2015}. The baseline attacker of
+Section~\ref{subsec:attacker-model} is the comparison arm. Neither is
+called by the other's name.
+% [3b] "Neither is called by the other's name" --- the section's one vivid
+%  sentence; cut if §5.1's "nothing was tuned" is the one you want in this
+%  region of the chapter.
+
+Table~\ref{tab:factors-varied} is what the experiments vary and
+Table~\ref{tab:factors-fixed} what they hold, with the reason for each.
+The design is a crossed core of three factors, the attacker arm, the
+defence condition and the mutation interval, and three factors moved one
+at a time from that core: the discipline of Section~\ref{sec:sensitivity}
+applied to the experiment rather than to the model. Every factor was set
+up in the literature review. The four attack profiles are the objective
+partition the APT definition names (Section~\ref{subsec:apt}), and the
+aggregate is the corpus unpartitioned, run so that objective conditioning
+is a contrast and not an assertion. The targeted objective is the APT's,
+a specific objective against a specific target, and the opportunistic
+objective is the lineage's, kept for the prior evaluations it was run
+under (Section~\ref{subsec:eff-lineage}). Mechanisms are run alone and
+under two schemes because evaluating them together is where the recent
+work sits (Section~\ref{subsec:evaluation-methods}). The interval is the
+factor the field varies most, and the one the operating point turns on:
+at the inherited interval neither attacker completes its objective, so a
+success-shaped measure is pinned at zero there and cannot discriminate;
+it is read at the second interval, and every claim states the interval it
+was taken at. The timing regime is a factor because the inherited schedule
+arrives on a clock, and a clock is the pattern Jalowski et al.\ say an APT
+attacker learns \citep{jalowski2026}. The horizon is extended because the
+lineage's was sized for an attacker that floods a network and a campaign
+needs headroom (Section~\ref{subsec:apt}), with deployments per run held
+so that a longer run is not silently more defence.
+% [3b] "floods a network" --- your word for the baseline attacker's manner,
+%  or "compromises what it can reach"; the registry has no term for it.
+
+\input{tables/tab_5-2a_factors_varied}
+\input{tables/tab_5-2b_factors_fixed}
+
+Chapter~\ref{ch:attacker-model} is the attacker's half of the model; the
+defender's half is three clauses. Its goal is to disrupt, not to detect.
+It knows nothing of the attacker: the simulator encodes no detection
+channel (Section~\ref{subsec:defence-mechanisms}). Its capability is the
+seven mechanisms of Table~\ref{tab:defence-mechanisms} on a time-triggered
+schedule it never departs from: the SDR operation alone, in the terms of
+Section~\ref{subsec:defence-modelling-approaches}, with the learned
+selector declared not exercised in Table~\ref{tab:factors-fixed}. Two
+concessions follow. Jalowski et al.'s third guideline asks that a metric
+compare the scheme against a state-of-the-art protected system
+\citep{jalowski2026}; this evaluation compares mechanisms against each
+other and against no defence, with the defender frozen. And of the
+attacker-realism demand the same critique makes, this thesis answers the
+half that is grounded in threat intelligence, conditioned on an objective
+and routed by outcome, not the half that reasons about the scheme itself
+(Chapter~\ref{ch:futurework}).
+
+What is measured is named by the section that reads it.
+Section~\ref{sec:attacker-in-operation} reads the model's own instruments,
+one per property of Table~\ref{tab:attacker-properties}: model-validation
+instruments, not offered as MTD metrics.
+Sections~\ref{sec:effectiveness} and \ref{sec:efficiency} read the two
+purposes of Table~\ref{tab:mtd-metrics}, what the defence achieves and
+what it costs, from both sides. On that taxonomy the evaluation is strong
+on cost, adequate on containment and delay, and silent on the attack
+surface, on payoff and on service to users; the silence is the
+simulator's, which has no workload model and no detection channel, the
+cost Section~\ref{subsec:evaluation-methods} names. The backbone
+denominator is host breadth, the distinct hosts compromised, because it
+varies at every interval; target reach is reported beside it wherever it
+is non-degenerate. Comparability is three-valued: numbers published on
+other simulators are not comparable to these; across the two attackers
+counts, fractions and per-host ratios are comparable and durations are
+not, because the two arms price time differently; within an attacker
+every configuration is comparable with every other.
+
+Every cell runs a hundred seeds, the count at which the interval on a
+cell mean sits inside the declared tolerance \citep{hoad2007}: the run
+count is a consequence of the tolerance, not a round number. The same
+seeds are used on every arm, but shared seeds do not give the arms
+matched randomness, so every comparison across attackers is unpaired. We
+report effect sizes with 95\,\% intervals, which no evaluation in this
+lineage does. Tests attach to declared claims only, adjusted within each
+family of comparisons, and each claim carries a minimum effect of
+interest fixed before the run, because on a simulator this cheap any
+difference can be made significant by adding seeds. One consequence is
+stated now rather than found later: adjacent ranks within a mechanism
+family are not separable at this count, so the attacker comparison
+reports which family each attacker rewards, not a total order.
+% [3b] "the declared tolerance" --- your number (C38): "within \pm X hosts"
+%  in place of "the declared tolerance", and the same X in tab:factors-fixed's
+%  runs-per-cell reason. Until it is set, the sentence commits to the method
+%  and not to a value.
+% [3b] "minimum effect of interest ... fixed before the run" --- the floors
+%  are C7's and per claim; state them at the claims (§5.4) or once here.
+
+Each section that follows reads a slice of this space.
+Section~\ref{sec:attacker-in-operation} reads the no-defence column at
+both intervals and, for the response to disruption, one mechanism from
+each layer. Section~\ref{sec:effectiveness} reads every condition against
+no defence, under both attackers. Section~\ref{sec:efficiency} reads the
+two cost ledgers over the same cells.
 
 % ---------------------------------------------------------------------
 % REVIEW PASS 2026-09-09 (third): FOUR THINGS THE FACTOR TABLES OWE THAT THE
@@ -5720,13 +5832,8 @@ findings, with the boundary on what may be compared stated as a disclosure.]}
 % ---------------------------------------------------------------------
 
 % Tables 5.2 and 5.3 LANDED 2026-09-14 as hand-set fragments (ch5 design
-% handoff §20.4; rulings C34 simultaneous dropped, C36 60 000 s placeholder,
-% C37 targeted objective default, C41 database target). Values transcribed
-% from the code and the rulings --- see each fragment's header; the generator
-% pass (C39) replaces both files at the same paths. [htbp] since real tables
-% flow; the [H] placeholder convention no longer applies to them.
-\input{tables/tab_5-2a_factors_varied}
-\input{tables/tab_5-2b_factors_fixed}
+% handoff §20.4; rulings C34, C36, C37, C41); input from the draft above, after
+% the paragraph that introduces them. Generator pass (C39) owed.
 
 % ---------------------------------------------------------------------
 % RESTRUCTURE PROPOSED 2026-09-09, second pass (Marc: "I don't think 5.5

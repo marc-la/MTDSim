@@ -2242,6 +2242,21 @@ must describe the same substrate.
 Assumed carried unless overruled, each already recommended above: C11, C16,
 C22, C23, C26, C27, C28.
 
+### 20.7b Drafted (2026-09-15)
+
+§5.2 is drafted in the tex as a DRAFT STATE unit (session-generated on Marc's
+authorisation): six paragraphs, ~900 prose words against the two-unit ledger,
+the overdraft claimed on the first-completion ruling. The prose carries what the
+tables cannot (the §5.1 pick-up, the two references, each factor's ch3 reason,
+the defender's three clauses and the two concessions, the measurement families
+and coverage headline, replication and inference, the closing map); the tables
+carry the levels, the constants and the pins. Four `[3b]` markers: the vivid
+sentence, "floods a network", the tolerance value (C38), the effect floors
+(C7). `hoad2007` added to the bibliography from the held source. Pass 5's cut
+order, if the section must reach 500: paragraph two's per-factor reasons to one
+clause each; the comparability sentence to its three values bare; the
+attacker-realism sentence to ch7 if ch3 §3.3.3 already carries it.
+
 ### 20.8 Marc's tempo question, and the literature review's motivation for every row (2026-09-14)
 
 **The tempo row is the defender's, not the attacker's.** The word *tempo* in
