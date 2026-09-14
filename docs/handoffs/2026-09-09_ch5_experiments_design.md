@@ -1,5 +1,5 @@
 ---
-status: open — design ratified and scaffolded; restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); four-reviewer scrutiny pass (§13); Marc's rulings + the horizon answer (§14, §15); register re-cut and assumptions moved to ch4 (§16); headings (§17) and the float audit (§18) APPLIED 2026-09-13; C1 reversed; C29–C30 done, C31 confirmation owed
+status: open — design ratified and scaffolded; §5.2 DESIGNED 2026-09-14 (§20, rulings C32–C40 owed); restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); four-reviewer scrutiny pass (§13); Marc's rulings + the horizon answer (§14, §15); register re-cut and assumptions moved to ch4 (§16); headings (§17) and the float audit (§18) APPLIED 2026-09-13; C1 reversed; C29–C30 done, C31 confirmation owed
 created: 2026-09-09
 topic: "The Experiments chapter designed against the field's conventions rather than invented: a section-level survey of how MTD evaluations are built and reported (now docs/workflows/evaluation_conventions.md), the ch5 design that follows from it, the funnel that lets one run set both characterise the attacker and evaluate the defence, the property-to-measurement map the discussion's fidelity table depends on, and the five things the chapter cannot yet say."
 ---
@@ -1982,3 +1982,261 @@ since the preamble's *selection* sentence names the mover and the re-run decides
 it. (2) Put the plain-words clause in Table 5.1's Quantity column (a table edit,
 no ledger cost). (3) Then §5.1 is one dictated unit: purpose, method, ceiling,
 the table, the figure, the selection sentence.
+
+---
+
+## 20. §5.2 Experimental setup — the design, ratify before drafting (2026-09-14)
+
+Marc's ask: string the settled material into §5.2 — structure, organisation,
+the points that must be prioritised, the two tables — as the precursor to the
+runs that start today, and for the supervisor discussion tomorrow. Design only;
+no tex touched. Everything below is assembled from §§1–19, the conventions
+files and the records; nothing here is a new finding.
+
+### 20.1 The boilerplate as it sits — what holds and what would mislead
+
+**Placement holds.** §5.2 sits after §5.1, which now closes by naming its
+selection, and before §5.3, which is the funnel's first movement. That is the
+corpus's one-movement form (conventions §a: declare, then report) and nothing
+moves.
+
+**The placeholder paragraph holds** — two tables, the measures named as
+instrumentation, the comparability boundary as a disclosure — and is the right
+brief. Four things in the comment blocks under it would mislead a drafting
+session and should be retired when the section is drafted:
+
+1. The section-head comment still puts *network scale and density* and *the
+   declared-capability arms and their nulls* in Table 5.2. Both left on
+   2026-09-13 (§16, §18): scale and density are unswept and say so in Table 5.3;
+   the capability arms are gone and the modulators are held rows.
+2. The comment assigns the **roadmap sentence** to §5.2. The chapter opener now
+   carries the roadmap (Marc's dictation placeholder, Tay's house pattern), so
+   §5.2 must not repeat it. What §5.2 owes instead is the *closing* sentence in
+   §20.3 — where each results section reads in the factor space.
+3. **A terminology consequence nobody has drawn.** The registry ratifies
+   **baseline attacker** for the inherited scripted attacker. Conventions §f2
+   says never let "baseline" carry the no-defence condition as well. So the
+   no-defence condition is **no defence** everywhere in ch5 — the table level,
+   the figure origin, the prose — and never "the baseline". The §5.4.2 caption
+   and several placeholders still say *inherited scripted attacker* / *inherited
+   attacker*, which the registry deprecates; a voice-pass item, not a §5.2 one,
+   but §5.2 is where the two references are fixed by name, so it sets the term.
+4. **One duplication to resolve at the voice pass, not now.** §5.1's drafted
+   outcome-measure sentence already says that at the inherited interval neither
+   attacker completes the objective. §5.2 owns that as the *design fact* (ch7
+   point A needs it stated once in `sec:dimensions`); §5.1's clause is its local
+   justification and can become a forward reference once §5.2 exists.
+
+Both tables are `[H]` placeholder boxes. They become real `\tablestyle` tables
+in the drafting pass; §20.6 recommends generating them.
+
+### 20.2 The shape — two movements, one section, no subsections
+
+The corpus's titled setup sections split the same way: Ho's *Experiment Setup*
+(conditions, fixed parameters) against *Evaluation Method* (collection,
+metric calculation); He's V.A (dataset) against V.B (metrics). Reti's single
+untitled §5 carries both in one run of prose around two tables. On two units
+the recommendation is **Reti's form** — one section, two movements, the tables
+carrying the internal structure — because the chapter's heading count is
+under budget for the first time (10 on 12) and a setup section reads best as
+one declaration. *Alternative*, if navigation is wanted: 5.2.1 *Factors* and
+5.2.2 *Measures* (He's split), two headings on the two units, both noun
+phrases; costs nothing on the ledger, adds two rows to the contents.
+
+| Movement | Unit | Carries | Floats |
+|---|---|---|---|
+| 1 — the factor space | 1 (~250 w) | opens on §5.1's selection; fixes the two references by name; the design facts that set the levels; the defender's three clauses | Tab. 5.2 varied, Tab. 5.3 held |
+| 2 — the measurement | 1 (~250 w) | the measures by family and the coverage headline; the run count as a consequence; the four inference sentences; the comparability boundary and the two concessions; the closing where-each-section-reads sentence | Tab. 5.4 measures (recommended, §20.5) |
+
+### 20.3 Movement 1 — content points, in order (cue card, not prose)
+
+1. **Pick up the selection** (C7b, §5.1's last paragraph): the low-and-slow
+   anchor held at its declared value and named in every claim that could turn
+   on it; the exponential draw live only at long dwell under mutation pressure;
+   the mutation interval a varied factor because the inherited tempo sits in a
+   degenerate region. One sentence, three clauses.
+2. **Fix the two references by name** (conventions §f2): the **no-defence
+   condition**, which every effectiveness number is a difference from; the
+   **baseline attacker**, which is the comparison arm. Never one word for both.
+3. **Introduce the two tables in one sentence each.** Table 5.2: what varies,
+   and that the design is a crossed core with three one-at-a-time extensions —
+   the same discipline as §5.1, applied to the experiment. Table 5.3: what is
+   held, with its reason, so the reader can judge how far a result generalises;
+   Reti's paired tables are the precedent (conventions §a).
+4. **The three design facts that set the levels**, each one sentence:
+   - *tempo*: before a metric is reported the operating point must let it
+     vary; the second interval sits above the boundary at which the objective
+     becomes reachable, so success-shaped measures can move there and every
+     claim states its interval (operating_point_discrimination.md; Kim's
+     repeat-in-every-caption discipline).
+   - *horizon*: a longer run at a fixed interval is also more defence, so the
+     extended horizon holds deployments per run (or reports per firing) —
+     horizon and dose are never confounded (§15.3). Checkpoint-denominated
+     reporting rides here if Marc takes §15.2.
+   - *objective*: breadth is the backbone denominator because it is
+     degeneracy-proof at every tempo; target reach is reported beside it
+     wherever it is non-degenerate, which on record is the level-1 target on
+     the aggregate only (C14).
+5. **The defender's half of the model** (C16; He's Goal / Knowledge /
+   Capability, applied symmetrically — ch4 is the attacker's half): its goal is
+   to disrupt, not detect; it knows nothing of the attacker, there being no
+   detection channel; its capability is the seven mechanisms on a time-triggered
+   schedule it never departs from. The adaptive selector is declared not
+   exercised in Table 5.3 with its reason, so the roster matches ch2's.
+6. **Negative scope, one clause**: the network is one terrain; scale and density
+   are not varied (named as unswept, future work) — the corpus's discipline of
+   naming what was not swept (conventions §c).
+
+### 20.4 The two tables — rows and columns
+
+House style throughout (`\tablestyle`, `P{}`, `\rowgroup`, booktabs, short
+caption, footnote row for marks and pins — conventions §e3 parameter genre).
+
+**Table 5.2 — the factors varied.** Columns *Factor · Levels · What the levels
+are for*. Two row groups, and the grouping is the design statement: the crossed
+core is a full factorial; the three extensions are run one at a time from the
+core at its reference settings, so the run count has an arithmetic.
+
+| Group | Factor | Levels | What the levels are for |
+|---|---|---|---|
+| Crossed | Attacker arm | the baseline attacker; the movement attacker under each of the four attack profiles (exfiltration; impact; double extortion; no realised objective); the aggregate, the corpus unpartitioned | the comparison arm; the five instantiations of the model, the aggregate being the objective-conditioning contrast |
+| Crossed | Defence condition | no defence; each of the seven mechanisms alone (Table 2.2); random, alternative and simultaneous over the seven (Table 2.3) | no defence is the reference; singles and schemes are reported in separate panels |
+| Crossed | Mutation interval | 200 s (inherited); 2 000 s | the second is above the boundary at which the objective becomes reachable |
+| One at a time | Timing regime | quasi-periodic (inherited: the mean plus a small exponential term, in effect a clock); exponential with the same mean | whether the schedule is learnable |
+| One at a time | Horizon | 15 000 s (lineage); 60 000 s with deployments per run held | the lineage bridge; headroom for the objective |
+| One at a time | Objective | opportunistic (denominated on host breadth); targeted (denominated on target reach, where non-degenerate) | which goal a suppression is a suppression of |
+
+Open on this table, each a ruling in §20.7: whether `simultaneous` stays
+(§14.4 — it ranks dose, not strategy, at ~150 firings per run against 75);
+whether the tempo row gains the E3 frontier {50, 100, 400, 800, 1 600, 3 200}
+at reduced seeds as a third entry; whether the horizon's second level is 60 000 s
+and whether checkpoint reporting is taken; whether E7 runs (the targeted level).
+A level that is not run does not appear — the table is the run plan.
+
+**Table 5.3 — the factors held.** Columns *Held · Value · Reason*. Four row
+groups so a reader sees which side each constant belongs to; inherited values
+marked in the footnote once, with the three version pins.
+
+| Group | Held | Value | Reason |
+|---|---|---|---|
+| Environment | Network | 50 hosts, 5 endpoints, 8 subnets, 4 levels; one generated topology | one terrain, so every difference is the attacker's or the defence's; scale and density are not varied |
+| Environment | Confusion penalty † | 20 s per interrupted action | substrate invariant |
+| Environment | Deployment durations † | Zhang's per-mechanism means | substrate invariant |
+| Replication | Runs per cell | 100, set by the declared tolerance (value: Marc's) | the interval around the cell mean sits inside the tolerance (Hoad, Robinson and Davies) |
+| Replication | Seeds | the same seed set on every arm; arms independent | shared seeds do not give matched randomness across arms, so every cross-arm test is unpaired |
+| Attacker model | Declared inputs | Table 5.1's values | the low-and-slow anchor is the one the conclusions are exposed to |
+| Attacker model | Sink retrace | on | an assumption the work runs with (ch4 §4.4.1) |
+| Attacker model | Cost and learning modulators | off | implemented, not exercised: the model is run without its optional capabilities |
+| Defender | Schedule | time-triggered; never reacts; no knowledge of the attacker | the defender's model (§20.3 point 5) |
+| Defender | Adaptive selector | not exercised | needed retraining before it could trade cost against risk; future work |
+
+Footnote row: † inherited from the simulator (Brown; Zhang). Pins: tactic-to-verb
+mapping v2 (partial); failure set v4 (failure-only); ATT&CK Enterprise v19.1.
+Stated here once and nowhere else in the chapter (the no-internals rule).
+
+### 20.5 Movement 2 — content points, and the recommended third table
+
+1. **The measures, named as instrumentation and grouped by the section that
+   reads them** — which is also the family split of Table 3.1: §5.3's are
+   model-validation instruments (not MTD metrics, and offered against no
+   metric guideline — C28); §5.4's are effectiveness; §5.5's efficiency.
+   **Recommended: a third table, Table 5.4**, columns *Measure · What it is ·
+   Read from · Comparable across*. Grounds: He's V.B and Ho's *Evaluation
+   Method* are titled setup homes for metrics; the reviewers found fifteen-plus
+   bespoke instruments with no definition site (§13.3); the *Comparable across*
+   column turns the three-valued comparability boundary (C27) from a paragraph
+   into a property of each row, so a time-denominated measure is visibly
+   within-arm only. *Alternative*: one prose paragraph grouped by family. Rows,
+   from the records (definitions one clause each; equations, where a measure
+   needs one, go to an appendix):
+
+   | Section | Measure | Read from | Comparable across |
+   |---|---|---|---|
+   | §5.3 | distinct-tactic coverage over time; deepest stage reached; foothold retention | no defence, then under defence | within arm |
+   | §5.3 | opening variety (distinct k-place openings) | no defence | cross-arm (counts) |
+   | §5.3 | profile divergence against a split-half null (size-matched control pending, C19) | no defence | within arm |
+   | §5.3 | effective behavioural breadth | no defence | cross-arm (a count) |
+   | §5.3 | invocation spacing — an observation, axis-5 badge blank (C11, if ruled) | no defence | within arm (time) |
+   | §5.3 | activity before against after a mutation, placebo-timestamp control (C26) | under defence | within arm |
+   | §5.4 | host breadth and its suppression against no defence | all | cross-arm (counts) |
+   | §5.4 | target reach, where non-degenerate | targeted level | cross-arm (a fraction) |
+   | §5.4 | delay to first compromise, censored at the horizon | all | within arm (time) |
+   | §5.4 | blocked fraction (Brown's actions blocked) | under defence | cross-arm (a fraction) |
+   | §5.4 | time to a compromise checkpoint (only if §15 is taken) | extended horizon | within arm (time) |
+   | §5.5 | attacker cost: attempts by verb; time split into activity, imposed delay, remainder (movement arm only, D-37); effort per host reached | all | counts cross-arm; time within arm |
+   | §5.5 | defender reconfiguration occupancy (a floor) and deployments per unit time | all | cross-arm (arm-invariant) |
+
+   Internal MTTC enters no row until its brief is ruled (blocker 4); return on
+   attack is reported as the ledger's realised ratios, never the inherited
+   per-vulnerability score (C10).
+2. **The coverage headline, one sentence** (§10.6, corrected §13.4): on the
+   field's own families this evaluation is strong on cost on both sides,
+   adequate on containment and delay, silent on surface, payoff and service —
+   five of ten — and the silence is the simulator's, not an oversight. Plus
+   one clause on which instruments were re-validated against the new attacker
+   (ch7 point B): the progression measures that saturated and their
+   replacements.
+3. **The run count as a consequence** (C8): declare the tolerance, cite the
+   method, then the count follows; then the honest rider (§10.8): adjacent
+   within-family ranks are not separable at that count, so the reportable
+   cross-arm object is the two-by-two family contrast, not a total order (C23).
+4. **The inferential model in four sentences** (C22): estimation first, effect
+   sizes with intervals — which exceeds lineage practice and is claimed as such
+   (conventions §d); arms independent, so unpaired throughout; Holm within each
+   declared family; a minimum effect of interest declared per claim before the
+   run (C7 — Marc's numbers). Barach's four-sentence form is the model.
+5. **The comparability boundary, three-valued** (C27): cross-paper numbers are
+   not comparable; across the two attackers only counts, fractions and per-host
+   ratios are, never time; within an attacker every configuration is. One
+   sentence, and Table 5.4's last column is where it lives.
+6. **The two concessions, volunteered** (5b, C28): Jalowski's third guideline —
+   no state-of-the-art protected system is compared, only mechanisms against
+   each other and against no defence, with the defender frozen; and guidelines
+   one, two and four for the attacker-side suite, conceded on the ground that
+   those are model-validation instruments. In the same breath: which half of
+   the attacker-realism demand the work answers (CTI-grounded, objective-
+   conditioned, adaptively routed) and which it does not (scheme-aware; future
+   work).
+7. **The evaluation method on the ladder, one clause**: simulation over a
+   graphical security model, with its stated cost owned (Cho) — if ch3 §3.2.3
+   has not already discharged it for the document.
+8. **Close on where each section reads**: §5.3 reads the no-defence column at
+   both intervals and, for the response measure, one mechanism per layer;
+   §5.4 reads every condition against no defence, both arms; §5.5 reads the
+   two cost ledgers over the same cells. That sentence is what makes "any result
+   can be located in this space" true on the page.
+
+### 20.6 What today's runs need from this — the table is the run plan
+
+**Recommendation: generate Tables 5.2–5.3 from the run matrix, not type them.**
+A `tools/ch5_setup_tables.py` that reads the matrix definition the runs are
+launched from and emits `tables/tab_5-2a_factors_varied.tex` and
+`tab_5-2b_factors_fixed.tex` makes the declaration and the executed plan one
+object, exactly as the ch2 defence-module figure fails the build on pool drift.
+It also discharges the standing rule that no value reaches the tex except from
+a tracked artefact. The prose is dictated; the tables are emitted.
+
+The crossed core, from Table 5.2's rows: 6 arms × 11 conditions × 2 intervals
+× 100 seeds = **13 200 runs**, ≈ 0.2 s each — under an hour on six workers (the
+arithmetic is the design's; the wall cost is the record's, predesign §5). Each
+one-at-a-time extension adds one level over the core at the reference interval.
+The §5.1 re-run (2 600 + ~1 560 runs) shares this configuration and should be
+launched in the same batch, since its effect column and Table 5.2's tempo row
+must describe the same substrate.
+
+### 20.7 Rulings owed before §5.2 is drafted
+
+| # | Question | Recommendation |
+|---|---|---|
+| C32 | One section (Reti) or two subsections *Factors* / *Measures* (He)? | One section; the tables carry the structure |
+| C33 | Table 5.4, the measures, as a third setup table? | Yes — the definition site the reviewers found missing, and the comparability column |
+| C34 | `simultaneous`: drop on the realism ground, or keep and report per firing? | Drop from the reported conditions (§14.4); keep the two other schemes |
+| C35 | Tempo: two levels, or two plus the E3 frontier at reduced seeds? | Two in the crossed core; the frontier as a third entry only if it is run for §5.4 |
+| C36 | Horizon second level 60 000 s with deployments held, and checkpoint reporting (§15)? | Take both; the cost curve at two or three horizons first (no silent caps) |
+| C37 | Objective row: does E7 run (the level-1 target on the aggregate)? | Run it; otherwise the row carries one level and says why |
+| C38 | The tolerance and the per-claim effect floors (C7, C8) | Marc's numbers; the sentences are ready for them |
+| C39 | Generate the setup tables from the run matrix (§20.6)? | Yes |
+| C40 | *no defence* as the fixed term for the reference condition, never *baseline*? | Yes — forced by the ratified *baseline attacker* row |
+
+Assumed carried unless overruled, each already recommended above: C11, C16,
+C22, C23, C26, C27, C28.
