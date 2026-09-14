@@ -40,6 +40,8 @@ new float.
 | §B.5 tactic mapping reasons | `tab_B-5a_controller_mapping_reasons.tex` | `tab:controller-mapping` | `tools/controller_mapping_figure.py` |
 | §B.6 weight sets | `tab_B-6a_outcome_overlay_weights.tex` | `tab:overlay-failure-rules`, `tab:overlay-distance-kernel`, `tab:overlay-failure-set` | `tools/failure_weight_decomposition_figure.py` |
 | App. D preliminary extraction | `tab_D-0a_preliminary_extraction.tex` | `tab:preliminary-extraction` | `tools/preliminary_extraction_table.py` |
+| §5.2 Experimental setup | `tab_5-2a_factors_varied.tex` (hand-set 2026-09-14; the levels are the run plan) | `tab:factors-varied` | none yet — `tools/ch5_setup_tables.py` owed (ch5 design handoff C39), reads the run matrix |
+| §5.2 Experimental setup | `tab_5-2b_factors_fixed.tex` (hand-set 2026-09-14; values from the code, footnote carries the pins) | `tab:factors-fixed` | as above |
 
 Inline (typed directly in `dissertation.tex`, no file): `tab:experiment-one` (§B.7),
 `tab:anchor-sensitivity` (§C.1), `tab:shape-substitution` (§C.2),
@@ -88,8 +90,8 @@ on its own before it goes.
 | §5.1 | `fig:sens-mapping` | **removed 2026-09-13** | a swap: a register row + `tab:experiment-one` |
 | §5.1 | `fig:sens-failure-matrix` | **removed 2026-09-13** | register rows + `tab:decay-sensitivity` (App. C.3, added) |
 | App. C.3 | `tab:decay-sensitivity` | **core** (appendix) | band ends against centre for the decay parameters and the floor, plus the corner check; `tab:anchor-sensitivity`'s form |
-| §5.2 | `tab:factors-varied` | **core** | rows re-cut: attacker arm, defence condition, tempo, timing regime, horizon, objective denominator |
-| §5.2 | `tab:factors-fixed` | **core** | rows re-cut: geometry, tolerance-set run count, versions (pins in the footnote), penalty, retrace, modulators at inert settings, adaptive selector not exercised, schedule |
+| §5.2 | `tab:factors-varied` | **core — LANDED 2026-09-14** | six rows in two groups: crossed (attacker arm, defence condition, mutation interval) and one at a time (timing regime, horizon, objective); `simultaneous` dropped (C34); the fragment is in the Tables list above |
+| §5.2 | `tab:factors-fixed` | **core — LANDED 2026-09-14** | eleven rows in four groups: environment, replication, attacker, defender; inherited marks and the three version pins in the footnote row |
 | §5.3.1 | `fig:aio-coverage` | **core** | two lettered panels: coverage over time (a), opening variety against depth (b) — the ruled plurality exhibit |
 | §5.3.1 | `fig:aio-divergence` | **core** | printed-value 4 × 4 matrix, split-half null on the diagonal (aggregate deliberately absent) |
 | §5.3.1 | `tab:unopposed-summary` | **core** | + aggregate row (the objective-conditioning contrast) and inherited row; entropy footnoted |

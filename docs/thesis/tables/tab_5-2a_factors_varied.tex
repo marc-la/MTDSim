@@ -1,0 +1,27 @@
+% HAND-SET 2026-09-14 (ch5 design handoff §20.4; rulings C34, C36, C37, C41).
+% The levels ARE the run plan: a level that is not run does not appear here.
+% The generator pass (C39: tools/ch5_setup_tables.py reading the run matrix)
+% replaces this file at the same path once the matrix module exists; until
+% then every value is transcribed from src/mtdsim/l3_simulation/movement/run.py
+% (GEOMETRY, the 200 s default interval, the 15 000 s horizon, the "shifted"
+% regime) and from the rulings named above. 60 000 s is Marc's placeholder
+% (C36) until the cost curve runs. Ratify on read.
+\begin{table}[htbp]
+  \centering
+  \caption[The experimental factors and their levels]{Every factor the experiments vary, with its levels. The three crossed factors form the core matrix; the three beneath them are moved one at a time from that core, which runs at each one's first level. Any result in this chapter is a cell of this table.}
+  \label{tab:factors-varied}
+  \tablestyle\setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}cP{2.3cm}P{5.8cm}P{6.2cm}@{}}
+    \toprule
+    & Factor & Levels & What the levels are for \\
+    \midrule
+    & Attacker arm & the baseline attacker; the movement attacker on each attack profile (exfiltration, impact, double extortion, no realised objective) and on the aggregate & the comparison arm, and five instantiations of the model, the aggregate being the corpus unpartitioned by objective \\
+    & Defence condition & no defence; each of the seven mechanisms alone (Table~\ref{tab:defence-mechanisms}); random and alternative over the seven (Table~\ref{tab:deployment-strategies}) & no defence is the reference every effect is a difference from; single mechanisms and schemes are read in separate panels \\
+    \rowgroup{3}{Crossed} & Mutation interval & 200\,s; 2\,000\,s & the inherited interval, and one above the boundary at which the objective becomes reachable \\
+    \midrule
+    & Timing regime & quasi-periodic; exponential & the inherited draw is the mean plus an exponential term of half a second, a clock in effect; the alternative is memoryless with the same mean \\
+    & Horizon & 15\,000\,s; 60\,000\,s, deployments per run held & the lineage's horizon, and headroom for a campaign, without a longer run becoming more defence \\
+    \rowgroup{3}{One at a time} & Objective & targeted; opportunistic & the APT's objective on every cell; the lineage's, for the prior evaluations only (Section~\ref{subsec:eff-lineage}) \\
+    \bottomrule
+  \end{tabular}
+\end{table}

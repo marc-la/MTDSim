@@ -1,0 +1,36 @@
+% HAND-SET 2026-09-14 (ch5 design handoff §20.4; rulings C16, C25, C29, C41).
+% Values transcribed from the code: GEOMETRY and the defaults in
+% src/mtdsim/l3_simulation/movement/run.py; MTD_DURATION and
+% ATTACK_DURATION['PENALTY'] in mtdnetwork/data/constants.py; the target set
+% from movement/targeting.py (the database hosts, target_layer 4). The run
+% count is the predesign's 100 (evaluation_predesign.md §5); the tolerance
+% sentence it answers to is Marc's number (C38) and lives in the prose.
+% Generator pass owed with tab_5-2a (C39). Ratify on read.
+\begin{table}[htbp]
+  \centering
+  \caption[The factors held fixed, and why]{Everything held constant across every run, with its value and the reason it is held, so that a reader can judge how far a result generalises. Values inherited from the simulator are marked; the versions of the mapping, the weight set and the ATT\&CK bundle are stated in the footnote and nowhere else in this chapter.}
+  \label{tab:factors-fixed}
+  \tablestyle\setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}cP{2.5cm}P{4.5cm}P{7.3cm}@{}}
+    \toprule
+    & Held & Value & Why it is held \\
+    \midrule
+    & Network & 50 hosts, 5 exposed endpoints, 8 subnets, 4 levels; a topology drawn per seed & one terrain, so every difference is the attacker's or the defence's; scale and density are not varied \\
+    & Deployment durations\textsuperscript{\dag} & 20--110\,s, per mechanism & a mechanism's cost to run is priced identically on both arms \\
+    \rowgroup{3}{Environment} & Confusion penalty\textsuperscript{\dag} & 20\,s per interrupted action & the same disruption is charged to both arms \\
+    \midrule
+    & Runs per cell & 100 & the interval on a cell mean sits inside the declared tolerance; adjacent ranks within a mechanism family are not separable at this count and are not reported \\
+    \rowgroup{2}{Replication} & Seeds & the same 100 on every arm; arms independent & shared seeds give no matched randomness across arms, so every comparison across attackers is unpaired \\
+    \midrule
+    & Declared inputs & Table~\ref{tab:parameter-register}'s values & the low-and-slow anchor is the one input the conclusions are exposed to, and is named wherever a claim could turn on it \\
+    & Target & the two database hosts, at the deepest level & the APT's target in the field's form; whether it is reached at the extended horizon is measured, not assumed \\
+    & Sink retrace & on & a structural dead end is retraced (Section~\ref{subsec:runtime-mechanics}) \\
+    \rowgroup{4}{Attacker} & Cost model and memory & off & implemented and not exercised: the model runs on its corpus-derived routing alone \\
+    \midrule
+    & Schedule & time-triggered; never reacts & no detection channel exists (Section~\ref{subsec:defence-mechanisms}): the defender knows nothing of the attacker and moves on its own clock \\
+    \rowgroup{2}{Defender} & Adaptive selector & not exercised & MTDShield would need retraining before it could trade cost against risk (Chapter~\ref{ch:futurework}) \\
+    \bottomrule
+    \addlinespace[2pt]
+    \multicolumn{4}{@{}p{0.96\textwidth}@{}}{\scriptsize \textsuperscript{\dag}~inherited from the simulator \citep{brown2023, zhang2023}. Versions: the partial tactic-to-verb mapping (Appendix~\ref{app:controller-mapping}); the failure-only weight set (Appendix~\ref{app:weight-sets}); ATT\&CK Enterprise v19.1.}\\
+  \end{tabular}
+\end{table}

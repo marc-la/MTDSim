@@ -5719,31 +5719,14 @@ findings, with the boundary on what may be compared stated as a disclosure.]}
 %  simulator, not an oversight. That sentence is worth more than a table.
 % ---------------------------------------------------------------------
 
-% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- Reti's varied-factors table, rows re-cut:
-% the capability arms leave with the ablation; timing regime (§14.3) and horizon
-% (§15) arrive from the fixed side as Marc's rulings; network scale and density
-% LEAVE unless Marc rules to run that axis (no section reports it; C25's
-% contradiction closed by removal). Genre: parameter table (symbol, description,
-% value; levels as sets), booktabs, short caption.
-\begin{table}[H]
-  \centering
-  \caption[The experimental factors and their levels]{Every factor the experiments vary, with the levels used. The attacker arm carries the inherited scripted attacker, the four objective-conditioned profiles and the aggregate envelope; the defence conditions span no defence, each single mechanism and the deployment schemes that combine them; the remaining factors set the tempo at which mutations arrive and the regime that times them, the horizon at the lineage's value and extended, and the objective the denominator is taken against. The intention is that any result in this chapter can be located in this space without reading the section that produced it.}
-  \label{tab:factors-varied}
-  \placeholderbox{48mm}{Table 5.2 --- factors varied, with levels.\\ Attacker arm (inherited; four profiles; aggregate envelope). Defence condition (none; seven single mechanisms; three deployment schemes).\\ Mutation tempo. Timing regime (near-periodic; exponential). Horizon (lineage; extended).\\ Objective denominator (host breadth; target reach where non-degenerate).}
-\end{table}
-
-% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- the paired fixed-factors table, rows re-cut:
-% the environment rows from the old register arrive here; the retrace is ON and
-% an assumption the work runs with (Marc 2026-09-13); the two modulators sit at
-% their inert settings; the adaptive selector is declared not exercised, with the
-% reason (C16); version pins (mapping, failure set, ATT&CK bundle) go in the
-% FOOTNOTE once, never in captions or prose.
-\begin{table}[H]
-  \centering
-  \caption[The factors held fixed, and why]{Everything held constant across every run, with its value and a short reason. Several of these are properties of the inherited simulator rather than choices made here, and are marked as such in the footnote, which also carries the version pins of the mapping, the failure set and the ATT\&CK bundle. Stating them beside the factors that vary is what allows a reader to judge how far a result generalises; it is the counterpart on the experimental side of the input register that opens this chapter on the model side.}
-  \label{tab:factors-fixed}
-  \placeholderbox{52mm}{Table 5.3 --- factors held fixed, with value and reason.\\ Network geometry; run count, set by the declared tolerance; mapping and failure-set versions; the confusion penalty (inherited);\\ the sink retrace (on: an assumption the work runs with); the cost and learning modulators at their inert settings;\\ the adaptive selector, not exercised, with the reason; the defender's schedule, and what it never does.\\ Footnote: inherited marks and version pins.}
-\end{table}
+% Tables 5.2 and 5.3 LANDED 2026-09-14 as hand-set fragments (ch5 design
+% handoff §20.4; rulings C34 simultaneous dropped, C36 60 000 s placeholder,
+% C37 targeted objective default, C41 database target). Values transcribed
+% from the code and the rulings --- see each fragment's header; the generator
+% pass (C39) replaces both files at the same paths. [htbp] since real tables
+% flow; the [H] placeholder convention no longer applies to them.
+\input{tables/tab_5-2a_factors_varied}
+\input{tables/tab_5-2b_factors_fixed}
 
 % ---------------------------------------------------------------------
 % RESTRUCTURE PROPOSED 2026-09-09, second pass (Marc: "I don't think 5.5
