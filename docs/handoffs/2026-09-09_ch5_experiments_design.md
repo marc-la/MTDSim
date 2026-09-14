@@ -1,5 +1,5 @@
 ---
-status: open — design ratified and scaffolded; §5.2 DESIGNED 2026-09-14 (§20, rulings C32–C40 owed); restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); four-reviewer scrutiny pass (§13); Marc's rulings + the horizon answer (§14, §15); register re-cut and assumptions moved to ch4 (§16); headings (§17) and the float audit (§18) APPLIED 2026-09-13; C1 reversed; C29–C30 done, C31 confirmation owed
+status: open — design ratified and scaffolded; §5.2 DESIGNED 2026-09-14 (§20; C34, C36, C37 ruled; C32–C33, C35, C38–C41 owed; §20.8 the ch3 trace); restructured 2026-09-09 second pass (§9); reviewed third to fifth passes 2026-09-09 (§10–§12); four-reviewer scrutiny pass (§13); Marc's rulings + the horizon answer (§14, §15); register re-cut and assumptions moved to ch4 (§16); headings (§17) and the float audit (§18) APPLIED 2026-09-13; C1 reversed; C29–C30 done, C31 confirmation owed
 created: 2026-09-09
 topic: "The Experiments chapter designed against the field's conventions rather than invented: a section-level survey of how MTD evaluations are built and reported (now docs/workflows/evaluation_conventions.md), the ch5 design that follows from it, the funnel that lets one run set both characterise the attacker and evaluate the defence, the property-to-measurement map the discussion's fidelity table depends on, and the five things the chapter cannot yet say."
 ---
@@ -2100,18 +2100,18 @@ core at its reference settings, so the run count has an arithmetic.
 | Group | Factor | Levels | What the levels are for |
 |---|---|---|---|
 | Crossed | Attacker arm | the baseline attacker; the movement attacker under each of the four attack profiles (exfiltration; impact; double extortion; no realised objective); the aggregate, the corpus unpartitioned | the comparison arm; the five instantiations of the model, the aggregate being the objective-conditioning contrast |
-| Crossed | Defence condition | no defence; each of the seven mechanisms alone (Table 2.2); random, alternative and simultaneous over the seven (Table 2.3) | no defence is the reference; singles and schemes are reported in separate panels |
+| Crossed | Defence condition | no defence; each of the seven mechanisms alone (Table 2.2); random and alternative over the seven (Table 2.3) | no defence is the reference; singles and schemes are reported in separate panels. *Simultaneous dropped, Marc 2026-09-14 (C34): it ranks dose, not strategy, and a defender that rewrites everything at once is not a realistic posture (§14.4)* |
 | Crossed | Mutation interval | 200 s (inherited); 2 000 s | the second is above the boundary at which the objective becomes reachable |
 | One at a time | Timing regime | quasi-periodic (inherited: the mean plus a small exponential term, in effect a clock); exponential with the same mean | whether the schedule is learnable |
-| One at a time | Horizon | 15 000 s (lineage); 60 000 s with deployments per run held | the lineage bridge; headroom for the objective |
-| One at a time | Objective | opportunistic (denominated on host breadth); targeted (denominated on target reach, where non-degenerate) | which goal a suppression is a suppression of |
+| One at a time | Horizon | 15 000 s (lineage); 60 000 s with deployments per run held (*placeholder, Marc 2026-09-14 — the cost curve sets the value, C36*) | the lineage bridge; headroom for a campaign the lineage's horizon was never sized for |
+| One at a time | Objective | **targeted, the default on every cell** (target reach the headline denominator where non-degenerate, host breadth the backbone beside it); opportunistic on the prior evaluations' configurations only (§5.4.3, the lineage bridge) | *Marc 2026-09-14 (C37)*: an APT pursues a specific objective against a specific target (ch3 §3.1.1), so the targeted objective is the APT's and the opportunistic one is the lineage's (Brown's Scenario 1) |
 
-Open on this table, each a ruling in §20.7: whether `simultaneous` stays
-(§14.4 — it ranks dose, not strategy, at ~150 firings per run against 75);
-whether the tempo row gains the E3 frontier {50, 100, 400, 800, 1 600, 3 200}
-at reduced seeds as a third entry; whether the horizon's second level is 60 000 s
-and whether checkpoint reporting is taken; whether E7 runs (the targeted level).
-A level that is not run does not appear — the table is the run plan.
+Ruled 2026-09-14: `simultaneous` is dropped (C34); the horizon's second level
+is a 60 000 s placeholder until the cost curve runs (C36); the targeted
+objective is the default (C37), which also puts the **target placement** on the
+table — see C41. Still open: whether the tempo row gains the E3 frontier at
+reduced seeds (C35). A level that is not run does not appear — the table is the
+run plan.
 
 **Table 5.3 — the factors held.** Columns *Held · Value · Reason*. Four row
 groups so a reader sees which side each constant belongs to; inherited values
@@ -2230,13 +2230,65 @@ must describe the same substrate.
 |---|---|---|
 | C32 | One section (Reti) or two subsections *Factors* / *Measures* (He)? | One section; the tables carry the structure |
 | C33 | Table 5.4, the measures, as a third setup table? | Yes — the definition site the reviewers found missing, and the comparability column |
-| C34 | `simultaneous`: drop on the realism ground, or keep and report per firing? | Drop from the reported conditions (§14.4); keep the two other schemes |
+| C34 | `simultaneous`: drop on the realism ground, or keep and report per firing? | **RULED 2026-09-14: dropped.** Schemes are random and alternative |
 | C35 | Tempo: two levels, or two plus the E3 frontier at reduced seeds? | Two in the crossed core; the frontier as a third entry only if it is run for §5.4 |
-| C36 | Horizon second level 60 000 s with deployments held, and checkpoint reporting (§15)? | Take both; the cost curve at two or three horizons first (no silent caps) |
-| C37 | Objective row: does E7 run (the level-1 target on the aggregate)? | Run it; otherwise the row carries one level and says why |
+| C36 | Horizon second level 60 000 s with deployments held, and checkpoint reporting (§15)? | **RULED 2026-09-14: 60 000 s as a placeholder; the numbers decide.** Checkpoint reporting still recommended |
+| C37 | Objective row: does E7 run (the level-1 target on the aggregate)? | **RULED 2026-09-14: the targeted objective is the default** on every cell; opportunistic only for the prior evaluations. Breadth stays reported beside target reach (degeneracy-proof) |
 | C38 | The tolerance and the per-claim effect floors (C7, C8) | Marc's numbers; the sentences are ready for them |
 | C39 | Generate the setup tables from the run matrix (§20.6)? | Yes |
 | C40 | *no defence* as the fixed term for the reference condition, never *baseline*? | Yes — forced by the ratified *baseline attacker* row |
+| C41 | Target placement, now that targeted is the default: the database set (Marc's 2026-08-30 default; Brown's "credential database", Masud's database host) or one host at a declared level (Brown's TX)? | The database set as the declared target — it is the field's own form and the ch3 form — with the Gate re-run at the extended horizon deciding whether it is reachable; a level-1 target as the fallback, since it is the only placement non-degenerate on record at 15 000 s. Whichever is taken is one row of Table 5.3, not a factor |
 
 Assumed carried unless overruled, each already recommended above: C11, C16,
 C22, C23, C26, C27, C28.
+
+### 20.8 Marc's tempo question, and the literature review's motivation for every row (2026-09-14)
+
+**The tempo row is the defender's, not the attacker's.** The word *tempo* in
+the chat return named the mutation interval — the factor the corpus varies
+most (Zhang's four intervals, Ho's and Hong's *Impact of MTD interval*, Reti's
+movement time, Kim's interval fixed at 300 s and repeated in every caption) and
+Cho's *periodicity* row of Table 3.1. The attacker's tempo is a different object
+and it is already in the chapter three times, none of them as a factor: it is
+**declared** in §5.1 as the dwell anchors (the "persistent low-and-slow tempo
+that trades speed for evasion", ch3 §3.1.1); it is **observed** in §5.3 as the
+invocation-spacing contrast (C11); and it is the denominator of the
+interval-to-dwell ratio the rate study found decides the regime. Varying it in
+§5.2 would re-sweep a §5.1 input under another name.
+
+**Detectability is not a Cho metric family, and the chapter should say so
+once.** Table 3.1 carries *detection rate* (He) as a defender-side success
+event, and property 5 is stealth; neither is instrumentable here because the
+simulator encodes no detection channel (ch2 §2.2.2, ch3 §3.2.3's own
+trade-off sentence). What the work owns is the spacing and level contrast as
+an observation about what the two attackers do, reported with the axis-5 badge
+blank. So the answer to "is attacker tempo part of detectability, and is that in
+Cho" is: it would be, under a detection model; there is none; the observation is
+reported and the badge withheld. That is the same sentence as the coverage
+headline's "silent on … service", and it belongs beside it.
+
+**The unified-piece trace.** Marc's rule: whatever the review set up motivates
+the setup. Read that way, every row of Tables 5.2–5.3 and every section of
+Table 5.4 already has its sentence in ch3, and movement 1's prose should give
+each factor that clause rather than a repo reason:
+
+| Row / block | Motivated by | The sentence in ch3 |
+|---|---|---|
+| Attacker arm: the four profiles | §3.1.1 | an APT is "a *threat* defined by its objective: data exfiltration, impediment …, or positioning for future operations" — the four profiles are that partition, on the corpus |
+| Attacker arm: the baseline attacker | §3.3.2–3.3.3 | the lineage's attacker, "carried unchanged", partial on six of eight; the comparison the gap statement asks for |
+| Objective: targeted by default | §3.1.1, §3.3.2 | "pursues a specific objective against a specific target"; Brown's Scenario 2 is "like APT-style attacks"; Masud's target is the database host — the targeted objective is the field's APT form, the opportunistic one is the lineage's flooder |
+| Defence condition: singles and schemes | §3.2.3 closing | "MTD evaluation is mostly one defence against a single or small set of attacks; evaluating multiple defence mechanisms together is where the recent work sits" |
+| Mutation interval | §3.3.2 (Kim), Table 3.1 | the corpus's most-varied factor; Kim sizes the attacker's scan range to the interval, which is the interval-to-dwell contest stated from the other side |
+| Timing regime | §3.3.1 (Jalowski) | an APT "learns the defender's mutation patterns over time" — a near-periodic schedule is learnable, so the regime is a factor rather than a footnote |
+| Horizon | §3.1.1 | median dwell 14 days, espionage 122 days, Volt Typhoon five years: the lineage's 15 000 s horizon was sized for a flooder, and a campaign attacker needs headroom — with deployments held so the horizon is not silently more defence |
+| Held: the defender's model (goal / knowledge / capability), no detection, no reaction | §3.2.1, §2.2.2 | the defender here is the "SDR operation alone" class, not game-theoretic, genetic or learning; "no purely reactive deployment strategies … no detection channel is encoded" |
+| Held: one network | §3.2.3 | simulation's stated cost — "parameters that are not captured in a simulator are not accounted for"; scale and density named as unswept |
+| Table 5.4, §5.3 block | §3.3.1 | the eight properties, one measure each — the instruments are the properties' own measurements, which is why they are model-validation instruments and not metrics (C28) |
+| Table 5.4, §5.4–5.5 blocks | §3.2.2, Table 3.1 | perspective × purpose; and Hong's sentence — "the effectiveness metrics are dependent on how the attacker was implemented" — is the sentence the cross-arm comparison tests |
+| The concessions and the boundary | §3.2.2 | "cannot be benchmarked … no common benchmark" (Jalowski): the comparability boundary and the third-guideline concession are ch3's diagnosis owned in ch5 |
+| The funnel (§5.3 before §5.4) | §3.3.3 | "the performance of MTD against an attacker with a foothold remains unmeasured" — the no-defence arm is the foothold attacker characterised before the defence is scored |
+
+One consequence for the drafting cue card (§20.3 point 4): each design fact
+opens on its ch3 clause and closes on its level, so a reader meets the factor
+as a claim the review already made. That is the unification Marc asked for, and
+it costs no words the section does not already spend.
