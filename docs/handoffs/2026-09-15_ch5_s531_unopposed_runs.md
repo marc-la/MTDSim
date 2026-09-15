@@ -1,5 +1,5 @@
 ---
-status: open — design for Marc's acceptance (§1); runs not launched; nothing populated
+status: partially shipped — design accepted and corpus RUN 2026-09-15 (1 700 runs, zero errors); preliminary read recorded in ../implementation/pipeline/ogasp/ch5_s531_unopposed_findings.md; OWED: Marc's read of that record's §6 (four float changes), Q4, then the house-style generators (tools/ch5_unopposed_figures.py + the tab_5-3-1 fragment)
 created: 2026-09-15
 topic: "The §5.3.1 no-defence corpus: the cell set, pins and measures that populate fig:aio-coverage, fig:aio-divergence and tab:unopposed-summary with preliminary numbers, so the direction of the results can be read before the chapter commits to its floats"
 ---
