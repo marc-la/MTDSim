@@ -21,6 +21,8 @@ new float.
 | §4.4.3 tactic-to-verb mapping | `fig_4-4a_controller_mapping` | `fig:controller-mapping` | `tools/controller_mapping_figure.py` |
 | §4.4.4 failure matrix | `fig_4-4b_failure_weight_matrix` | `fig:failure-weight-matrix` | `tools/failure_weight_decomposition_figure.py --layout matrix` (plain chapter geometry since 2026-09-08: values to two significant figures, no rule letters, no key; `--chapter-letters` restores the old form) |
 | §4.4.1 runtime mechanics | `fig_4-4c_runtime_loop` | `fig:runtime-loop` | `tools/runtime_loop_figure.py` (restored 2026-09-08 from the ladder's lower half; imports the ladder's net-window rule) |
+| §5.3.1 Without defence | `fig_5-3-1a_coverage_openings` | `fig:aio-coverage` | `tools/ch5_unopposed_figures.py` (reads `data/results/ch5_s531_unopposed/numbers.json`; three lettered panels: coverage, its first 3 000 s, opening variety; landed 2026-09-15) |
+| §5.3.1 Without defence | `fig_5-3-1b_divergence` | `fig:aio-divergence` | `tools/ch5_unopposed_figures.py` (printed-value 4 × 4 visit-stream matrix, split-half null on the diagonal; landed 2026-09-15) |
 | §B.1 attack graph | `fig_B-1a_gap_flow_exemplar` | `fig:app-flow-exemplar` | `tools/gap_appendix_figures.py --only gap_flow_exemplar` |
 | §B.1 attack graph | `fig_B-1b_gap_technique_graph` | `fig:app-technique-graph` | `tools/gap_appendix_figures.py --only gap_technique_graph` |
 | §B.1 attack graph | `fig_B-1c_gap_technique_core` | `fig:app-technique-core` | `tools/gap_appendix_figures.py --only gap_technique_core` |
@@ -42,6 +44,7 @@ new float.
 | App. D preliminary extraction | `tab_D-0a_preliminary_extraction.tex` | `tab:preliminary-extraction` | `tools/preliminary_extraction_table.py` |
 | §5.2 Experimental setup | `tab_5-2a_factors_varied.tex` (hand-set 2026-09-14; the levels are the run plan) | `tab:factors-varied` | none yet — `tools/ch5_setup_tables.py` owed (ch5 design handoff C39), reads the run matrix |
 | §5.2 Experimental setup | `tab_5-2b_factors_fixed.tex` (hand-set 2026-09-14; values from the code, footnote carries the pins) | `tab:factors-fixed` | as above |
+| §5.3.1 Without defence | `tab_5-3-1a_unopposed_summary.tex` | `tab:unopposed-summary` | `tools/ch5_unopposed_figures.py` (same corpus; depth column replaced by successes per host, target reached added — findings §6; landed 2026-09-15) |
 
 Inline (typed directly in `dissertation.tex`, no file): `tab:experiment-one` (§B.7),
 `tab:anchor-sensitivity` (§C.1), `tab:shape-substitution` (§C.2),
@@ -92,9 +95,9 @@ on its own before it goes.
 | App. C.3 | `tab:decay-sensitivity` | **core** (appendix) | band ends against centre for the decay parameters and the floor, plus the corner check; `tab:anchor-sensitivity`'s form |
 | §5.2 | `tab:factors-varied` | **core — LANDED 2026-09-14** | six rows in two groups: crossed (attacker arm, defence condition, mutation interval) and one at a time (timing regime, horizon, objective); `simultaneous` dropped (C34); the fragment is in the Tables list above |
 | §5.2 | `tab:factors-fixed` | **core — LANDED 2026-09-14** | eleven rows in four groups: environment, replication, attacker, defender; inherited marks and the three version pins in the footnote row |
-| §5.3.1 | `fig:aio-coverage` | **core** | two lettered panels: coverage over time (a), opening variety against depth (b) — the ruled plurality exhibit |
-| §5.3.1 | `fig:aio-divergence` | **core** | printed-value 4 × 4 matrix, split-half null on the diagonal (aggregate deliberately absent) |
-| §5.3.1 | `tab:unopposed-summary` | **core** | + aggregate row (the objective-conditioning contrast) and inherited row; entropy footnoted |
+| §5.3.1 | `fig:aio-coverage` | **core — LANDED 2026-09-15** | three lettered panels: coverage over time (a), its first 3 000 s (b), opening variety against depth (c) — the ruled plurality exhibit; the fragment is in the Figures list above |
+| §5.3.1 | `fig:aio-divergence` | **core — LANDED 2026-09-15** | printed-value 4 × 4 matrix, split-half null on the diagonal (aggregate deliberately absent) |
+| §5.3.1 | `tab:unopposed-summary` | **core — LANDED 2026-09-15** | + aggregate row (the objective-conditioning contrast) and baseline row; entropy footnoted; depth column replaced by successes per host (saturated, findings §6); target reached added |
 | §5.3.2 | `fig:aio-adaptivity` | **core** (was cut-or-appendix) | 2 × 2 mechanism × tempo, control beside the treatment; the subsection's only float |
 | §5.3.3 | `fig:aio-disengagement` | **removed 2026-09-13** | the ablation subsection is gone (design C31); see the ch5 design handoff §16 |
 | §5.3.3 | `fig:aio-learning` | **removed 2026-09-13** | as above |

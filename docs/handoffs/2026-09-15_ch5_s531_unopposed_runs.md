@@ -1,5 +1,5 @@
 ---
-status: partially shipped — design accepted and corpus RUN 2026-09-15 (1 700 runs, zero errors); preliminary read recorded in ../implementation/pipeline/ogasp/ch5_s531_unopposed_findings.md; OWED: Marc's read of that record's §6 (four float changes), Q4, then the house-style generators (tools/ch5_unopposed_figures.py + the tab_5-3-1 fragment)
+status: shipped except two items — floats LANDED in the tex 2026-09-15 (fig_5-3-1a, fig_5-3-1b, tab_5-3-1a via tools/ch5_unopposed_figures.py; findings §6 applied). OWED: (1) the Overleaf push — the only project in ~/OverleafMCP/projects.json is the literature-review project and it reports no git access; the dissertation project's ID + git token are needed; (2) Marc's ratification of the three session-edited captions (voice pass); (3) C11 stealth column, still unruled. Delete this handoff once (1) and (2) are done
 created: 2026-09-15
 topic: "The §5.3.1 no-defence corpus: the cell set, pins and measures that populate fig:aio-coverage, fig:aio-divergence and tab:unopposed-summary with preliminary numbers, so the direction of the results can be read before the chapter commits to its floats"
 ---

@@ -1,5 +1,5 @@
 ---
-status: findings — preliminary read, 2026-09-15
+status: findings — preliminary read 2026-09-15; the §6 changes APPLIED the same day (Marc: "do the necessary updates"): floats landed in the tex via tools/ch5_unopposed_figures.py; captions DRAFT STATE, voice pass owed
 created: 2026-09-15
 topic: "The §5.3.1 no-defence corpus at the chapter's declared configuration (targeted objective, database target, failure-only overlay, 100 seeds): what Figures 5.2 and 5.3 and Table 5.4 look like, what moved against the record and why, and the four changes the floats need before they are drawn in the house style"
 ---
@@ -129,7 +129,20 @@ openings at k = 5 identical on every profile; every divergence cell within
 reach 0 → 0.05–0.17. The objective switch touches the terminal column and
 nothing else in §5.3.1: Fig. 5.2 and Fig. 5.3 are objective-invariant.
 
-## 6. What the floats need changed — for Marc
+## 6. What the floats need changed — for Marc (APPLIED 2026-09-15)
+
+*Applied as recommended, with one substitution: the advance-after-first-success
+share turned out to be saturated too (every run's first success is at stage 0,
+reconnaissance, and every run later succeeds at stage 2, so it reads 1.00 on
+every profile at both horizons and under both objectives). The column that took
+the depth column's place is therefore* **successes per distinct host** *— the
+repetition measure `measures.py` §(c) names as persistence-in-outcome (20–37 on
+the profiles; 1–8 zero-host runs per profile excluded and counted). Fig. 5.2 is
+three lettered panels (overview, first 3 000 s, openings); Fig. 5.3 a printed
+matrix with a grey ramp on the off-diagonal; Tab. 5.4 gains target reached and
+ended-at-horizon and loses the depth column; the baseline reference is six
+activities and the caption says so. Generator: `tools/ch5_unopposed_figures.py`.*
+
 
 1. **Fig. 5.2(a) needs a zoom or a log-time axis.** Saturation inside 2 000 s
    on a 15 000 s axis leaves the panel with no discriminating region.

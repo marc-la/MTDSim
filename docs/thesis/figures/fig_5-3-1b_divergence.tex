@@ -1,0 +1,72 @@
+\documentclass[tikz,12pt,border=2pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.92]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usetikzlibrary{calc}
+\definecolor{cexf}{RGB}{31,84,140}
+\definecolor{cimp}{RGB}{179,38,30}
+\definecolor{cdex}{RGB}{168,116,26}
+\definecolor{cnon}{RGB}{111,78,156}
+\definecolor{cagg}{RGB}{58,125,68}
+\definecolor{cbase}{RGB}{122,122,122}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=\footnotesize}]
+\node[anchor=south,align=center] at (4.075,9.520) {exfiltration};
+\node[anchor=south,align=center] at (6.425,9.520) {impact};
+\node[anchor=south,align=center] at (8.775,9.520) {double\\extortion};
+\node[anchor=south,align=center] at (11.125,9.520) {no realised\\objective};
+\node[anchor=east,align=right] at (2.750,8.225) {exfiltration};
+\fill[white] (2.900,7.050) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (2.900,7.050) rectangle ++(2.350,2.350);
+\node[text=black!60] at (4.075,8.225) {0.0004};
+\fill[black!49] (5.250,7.050) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (5.250,7.050) rectangle ++(2.350,2.350);
+\node[text=white] at (6.425,8.225) {0.137};
+\fill[black!49] (7.600,7.050) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (7.600,7.050) rectangle ++(2.350,2.350);
+\node[text=white] at (8.775,8.225) {0.137};
+\fill[black!31] (9.950,7.050) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (9.950,7.050) rectangle ++(2.350,2.350);
+\node[text=black] at (11.125,8.225) {0.078};
+\node[anchor=east,align=right] at (2.750,5.875) {impact};
+\fill[black!49] (2.900,4.700) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (2.900,4.700) rectangle ++(2.350,2.350);
+\node[text=white] at (4.075,5.875) {0.137};
+\fill[white] (5.250,4.700) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (5.250,4.700) rectangle ++(2.350,2.350);
+\node[text=black!60] at (6.425,5.875) {0.0005};
+\fill[black!29] (7.600,4.700) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (7.600,4.700) rectangle ++(2.350,2.350);
+\node[text=black] at (8.775,5.875) {0.071};
+\fill[black!55] (9.950,4.700) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (9.950,4.700) rectangle ++(2.350,2.350);
+\node[text=white] at (11.125,5.875) {0.156};
+\node[anchor=east,align=right] at (2.750,3.525) {double\\extortion};
+\fill[black!49] (2.900,2.350) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (2.900,2.350) rectangle ++(2.350,2.350);
+\node[text=white] at (4.075,3.525) {0.137};
+\fill[black!29] (5.250,2.350) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (5.250,2.350) rectangle ++(2.350,2.350);
+\node[text=black] at (6.425,3.525) {0.071};
+\fill[white] (7.600,2.350) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (7.600,2.350) rectangle ++(2.350,2.350);
+\node[text=black!60] at (8.775,3.525) {0.0007};
+\fill[black!70] (9.950,2.350) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (9.950,2.350) rectangle ++(2.350,2.350);
+\node[text=white] at (11.125,3.525) {0.208};
+\node[anchor=east,align=right] at (2.750,1.175) {no realised\\objective};
+\fill[black!31] (2.900,0.000) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (2.900,0.000) rectangle ++(2.350,2.350);
+\node[text=black] at (4.075,1.175) {0.078};
+\fill[black!55] (5.250,0.000) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (5.250,0.000) rectangle ++(2.350,2.350);
+\node[text=white] at (6.425,1.175) {0.156};
+\fill[black!70] (7.600,0.000) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (7.600,0.000) rectangle ++(2.350,2.350);
+\node[text=white] at (8.775,1.175) {0.208};
+\fill[white] (9.950,0.000) rectangle ++(2.350,2.350);
+\draw[white,line width=0.8pt] (9.950,0.000) rectangle ++(2.350,2.350);
+\node[text=black!60] at (11.125,1.175) {0.0004};
+\draw[black!60,line width=0.4pt] (2.900,0) rectangle (12.300,9.400);
+\end{tikzpicture}
+\end{document}
