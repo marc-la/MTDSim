@@ -257,13 +257,13 @@ def emit_tab56(s542: dict) -> str:
 CLAIMS = [
     ("zhang_shuffle_over_diversity_200",
      r"shuffling suppresses more than diversification (single mechanisms, 200\,s)",
-     r"\citet{zhang2023}\textsuperscript{v}", "shuffle", "diversity", None),
+     r"\citep{zhang2023}\textsuperscript{v}", "shuffle", "diversity", None),
     ("brown_best_single_vs_best_scheme_200",
      r"the best single mechanism roughly equals the best combination (200\,s)",
-     r"\citet{brown2023}\textsuperscript{v}", "best single", "best scheme", None),
+     r"\citep{brown2023}\textsuperscript{v}", "best single", "best scheme", None),
     ("ho_diversity_over_shuffle_200",
      r"diversification suppresses more than shuffling, OS diversity against IP shuffle in particular (200\,s)",
-     r"\citet{ho2024}", "diversity", "shuffle", "ho_os_over_ip_200"),
+     r"\citep{ho2024}", "diversity", "shuffle", "ho_os_over_ip_200"),
 ]
 
 
