@@ -377,7 +377,9 @@ def frag_body(out: dict) -> str:
     ]
     L = [_hdr("data/results/ch5_s51_sensitivity/analyse.py")]
     w = L.append
-    w(r"\begin{table}[htbp]")
+    # [H] while §5.1 is a placeholder (FLOATS.md: a float with no prose to flow
+    # around flushes ahead of its heading); revert to [htbp] when the prose lands.
+    w(r"\begin{table}[H]")
     w(r"  \centering")
     w(r"  % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.")
     w(r"  \caption[The declared inputs and what moved]{Each value the attacker model was given rather than derived, "
@@ -392,13 +394,15 @@ def frag_body(out: dict) -> str:
       r"readings are Appendix~\ref{app:sensitivity}.}")
     w(r"  \label{tab:parameter-register}")
     w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")
-    w(r"  \begin{tabular}{@{}cP{3.0cm}P{2.0cm}P{2.6cm}P{6.6cm}@{}}")
+    # an unrotated group column: the groups are 5 / 1 / 4 rows, too short for a
+    # rotated label (the overshoot the 2026-09-17 build showed on "Failure matrix")
+    w(r"  \begin{tabular}{@{}P{1.6cm}P{2.8cm}P{1.9cm}P{2.5cm}P{6.4cm}@{}}")
     w(r"    \toprule")
     w(r"    & Input & Declared & Moved across & What moved \\")
     w(r"    \midrule")
     for gi, (group, items) in enumerate(rows):
         for ii, (name, val, band, eff) in enumerate(items):
-            lead = f"\\rowgroup{{{len(items)}}}{{{group}}}" if ii == len(items) - 1 else ""
+            lead = f"\\emph{{{group}}}" if ii == 0 else ""
             w(f"    {lead} & {name} & {val} & {band} & {eff} \\\\")
         if gi < len(rows) - 1:
             w(r"    \midrule")
@@ -458,17 +462,17 @@ def frag_shape(out: dict) -> str:
       r"The sign column counts the pairs in which the concentrated draw reached fewer, the same, and more hosts.}")
     w(r"\label{tab:shape-substitution}")
     w(r"\tablestyle\setlength{\tabcolsep}{4pt}")
-    w(r"\begin{tabular}{@{}cP{2.8cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.6cm}@{}}")
+    w(r"\begin{tabular}{@{}P{2.6cm}P{2.6cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{1.9cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{2.6cm}@{}}")
     w(r"\toprule")
-    w(r"& Condition & Erlang-4 & Exponential & Difference & Pairs lower / tied / higher \\")
+    w(r"Dwell & Condition & Erlang-4 & Exponential & Difference & Pairs lower / tied / higher \\")
     w(r"\midrule")
-    for li, (label, title) in enumerate((("centre", "declared dwell"), ("lowslow_x4", "low-and-slow $\\times4$"))):
+    for li, (label, title) in enumerate((("centre", "declared"), ("lowslow_x4", "low-and-slow $\\times4$"))):
         rows = [(cond, interval, out["shape"][label].get(f"four|{cond}@{interval}")) for cond, interval in CONDITIONS]
         rows = [r for r in rows if r[2]]
         for ri, (cond, interval, v) in enumerate(rows):
-            lead = f"\\rowgroup{{{len(rows)}}}{{{title}}}" if ri == len(rows) - 1 else ""
-            s = v["signs"]
-            w(f"{lead} & {COND_LABEL[(cond, interval)]} & {_pm(v['a'], 2)} & {_pm(v['b'], 2)} & {_pm(v['difference'], 2)} & {s['lower']} / {s['tied']} / {s['higher']} \\\\")
+            lead = title if ri == 0 else ""
+            s_ = v["signs"]
+            w(f"{lead} & {COND_LABEL[(cond, interval)]} & {_pm(v['a'], 2)} & {_pm(v['b'], 2)} & {_pm(v['difference'], 2)} & {s_['lower']} / {s_['tied']} / {s_['higher']} \\\\")
         if li == 0:
             w(r"\midrule")
     w(r"\bottomrule")
@@ -535,8 +539,8 @@ def per_run_csv(cells: dict) -> None:
         wr.writerow(cols)
         for (name, profile, cond, interval), runs in cells.items():
             point = POINTS[name]
-            if point["kind"] not in ("centre", "dwell", "shape"):
-                continue
+            if point["kind"] not in ("centre", "dwell", "shape") or profile not in FOUR:
+                continue  # the four profiles, as the tables pool
             f = point.get("factors", {})
             fam = "erlang4" if point.get("timing") == "erlang4" else "exponential"
             for r in runs:

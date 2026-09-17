@@ -3,28 +3,28 @@
 %   chapter's pins; the attacker model pooled over its four profiles, 400 runs
 %   per cell). Do not hand-edit; regenerate.
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
   \caption[The declared inputs and what moved]{Each value the attacker model was given rather than derived, grouped by the three inputs of Section~\ref{sec:execution}: the value declared, the range it was moved across with the other inputs held at their declared values, and what happened to distinct hosts reached, read against the interval at the declared value under no defence and under the random scheme at both intervals. The dwell ranges follow the evidence tiers of Appendix~\ref{app:dwell-derivation}; the failure-matrix ranges bracket the declared value on both sides (Appendix~\ref{app:weight-sets}). The draw's shape and the mapping have no range and are compared against the alternative that was tried; the nine failure rules are single argued values and are held. In the notation of Chapter~\ref{ch:attacker-model} the rows are $\mu_p$, $\tau_p$, $\varphi$, $\gamma$, $\delta$, $z$ and $R$. Pooled over the four profiles, 400 runs per cell; the per-value readings are Appendix~\ref{app:sensitivity}.}
   \label{tab:parameter-register}
   \tablestyle\setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}cP{3.0cm}P{2.0cm}P{2.6cm}P{6.6cm}@{}}
+  \begin{tabular}{@{}P{1.6cm}P{2.8cm}P{1.9cm}P{2.5cm}P{6.4cm}@{}}
     \toprule
     & Input & Declared & Moved across & What moved \\
     \midrule
-     & scan-shaped family & 35\,s & $\times0.5$ to $\times2$ & moved: 8.6 / 8.1 / 7.3 hosts at $\times0.5$ / declared / $\times2$ under no defence, 0.7 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
+    \emph{Dwell times} & scan-shaped family & 35\,s & $\times0.5$ to $\times2$ & moved: 8.6 / 8.1 / 7.3 hosts at $\times0.5$ / declared / $\times2$ under no defence, 0.7 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
      & exploit-shaped family & 4.5\,s & $\times0.5$ to $\times2$ & inert \\
      & low-and-slow family & 45\,s & $\times0.25$ to $\times4$ & moved: 13.4 / 8.1 / 3.0 hosts at $\times0.25$ / declared / $\times4$ under no defence, 2.6 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
      & objective family & 36\,s & $\times0.5$ to $\times2$ & moved: 8.5 / 8.1 / 7.4 hosts at $\times0.5$ / declared / $\times2$ under no defence, 0.6 lost per doubling (Appendix~\ref{app:dwell-robustness}) \\
-    \rowgroup{5}{Dwell times} & the draw's shape & exponential & same-mean, concentrated & inert under no defence; under defence the concentrated draw reaches fewer hosts, by 0.2 at most (Appendix~\ref{app:exponential-shape}) \\
+     & the draw's shape & exponential & same-mean, concentrated & inert under no defence; under defence the concentrated draw reaches fewer hosts, by 0.2 at most (Appendix~\ref{app:exponential-shape}) \\
     \midrule
-    \rowgroup{1}{Mapping} & tactic to verb & partial & forced total & the alternative reaches 0.1 hosts against 8.1, no defence (Appendix~\ref{app:experiment-one}) \\
+    \emph{Mapping} & tactic to verb & partial & forced total & the alternative reaches 0.1 hosts against 8.1, no defence (Appendix~\ref{app:experiment-one}) \\
     \midrule
-     & forward rate & 0.25 & 0.1 to 0.5 & inert \\
+    \emph{Failure matrix} & forward rate & 0.25 & 0.1 to 0.5 & inert \\
      & backward rate & 0.25 & 0.1 to 0.5 & inert \\
      & floor & 0.1 & 0, 0.05 & zero by structure: no profile net carries a jump of three stages \\
-    \rowgroup{4}{Failure matrix} & the nine rules & argued values & held & --- \\
+     & the nine rules & argued values & held & --- \\
     \bottomrule
   \end{tabular}
 \end{table}
