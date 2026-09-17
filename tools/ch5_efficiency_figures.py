@@ -174,8 +174,8 @@ def emit_fig58(s55: dict) -> tuple[str, list]:
                     w(r"\node[text=%s,font=\scriptsize] at (%.3f,%.3f) {%.2f};" % (txt, x, y0 + (base + v / 2) * PH, v))
                 base += v
                 facts.append((interval, c, key, v))
-    # key, once
-    ky = Y0 - 1.05
+    # key, once, under the 45-degree tick labels (they reach 1.2 cm below the axis)
+    ky = Y0 - 1.55
     xx = X0[0]
     for key, fill, _, text in segs:
         w(r"\fill[%s] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (fill, xx, ky - 0.11))
@@ -213,7 +213,11 @@ def emit_tab58(s55: dict) -> str:
     for arm in ("baseline", "movement"):
         for i, c in enumerate(conds):
             d = cost[f"{arm}|{c}"]
-            group = r"\rowgroup{%d}{%s}" % (len(conds), LABEL[arm]) if i == len(conds) - 1 else ""
+            # \rowgroup's \multirow centres a ten-row label about 0.55 cm too
+            # high on single-line \scriptsize rows, so the label is set here with
+            # multirow's vertical fixup rather than through the macro
+            group = (r"\multirow{-%d}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{%s}}}}" % (len(conds), LABEL[arm])
+                     if i == len(conds) - 1 else "")
             w("    %s & %s & %s & %s & %s & %s \\\\" % (
                 group, LONG[c],
                 _ratio(d["actions_per_host_celltotal"], d["actions_per_host_celltotal_ci"]),
