@@ -34,6 +34,7 @@ new float.
 | §B.1 attack graph | `fig_B-1d_gap_tactic_graph` | `fig:app-tactic-graph` | `tools/gap_appendix_figures.py --only gap_tactic_graph` |
 | §B.6 weight sets | `fig_B-6a_failure_weight_decomposition` | `fig:failure-weight-decomposition` | `tools/failure_weight_decomposition_figure.py --layout decomposition` |
 | §B.6 weight sets | `fig_B-6b_distance_kernel_bands` | `fig:distance-kernel-bands` | `tools/failure_weight_decomposition_figure.py --layout bands` |
+| §C.1 dwell robustness | `fig_C-1a_sens_dwell_family` | `fig:sens-dwell-anchor` | `tools/ch5_sensitivity_figure.py --csv data/results/ch5_s51_sensitivity/per_run.csv --anchor stealth --stem fig_C-1a_sens_dwell_family` (moved from §5.1 on 2026-09-17, Marc's ruling: the body keeps the table; label kept) |
 
 ## Tables (`tables/`, via `\input{tables/...}`)
 
@@ -54,9 +55,12 @@ new float.
 | §5.4.2 Attacker comparison | `tab_5-4-2a_orderings.tex` | `tab:eff-orderings` | `tools/ch5_effectiveness_figures.py --only tab56` (same corpus; ranks per arm at each interval, Spearman's rho with a seed-bootstrap interval and the family contrast as Cliff's delta in the footnote; landed 2026-09-17) |
 | §5.4.3 Prior evaluations | `tab_5-4-3a_lineage.tex` | `tab:eff-lineage` | `tools/ch5_effectiveness_figures.py --only tab57` (the lineage arm of the same corpus, general objective; one row per published claim, direction per arm on suppression of hosts reached, Ho read at 200 s with the named pair; Zhang and Brown locators marked to verify; landed 2026-09-17) |
 | §5.5 Defence efficiency | `tab_5-5a_cost.tex` | `tab:eff-cost` | `tools/ch5_efficiency_figures.py --only tab58` (same corpus at 200 s; actions and successes per host reached as cell totals with bootstrap intervals, occupancy and mutations per 1 000 s, both arms; landed 2026-09-17) |
+| §5.1 Sensitivity analysis | `tab_5-1a_declared_inputs.tex` | `tab:parameter-register` | `data/results/ch5_s51_sensitivity/analyse.py` (the §5.1 re-run at the chapter's pins, 33 000 runs; ten rows in three groups, four columns in words; landed 2026-09-17) |
+| §C.1 dwell robustness | `tab_C-1a_family_sensitivity.tex` | `tab:anchor-sensitivity` | as above (band ends against the declared value per family and condition) |
+| §C.2 exponential family | `tab_C-2a_shape_substitution.tex` | `tab:shape-substitution` | as above (paired Erlang-4 against exponential, declared dwell and the ×4 corner) |
+| §C.3 decay robustness | `tab_C-3a_decay_sensitivity.tex` | `tab:decay-sensitivity` | as above (the two rates and the floor at band ends, then the four corners) |
 
 Inline (typed directly in `dissertation.tex`, no file): `tab:experiment-one` (§B.7),
-`tab:anchor-sensitivity` (§C.1), `tab:shape-substitution` (§C.2),
 `tab:mtd-metrics` (§3.2.1, Table 3.1).
 
 ## Planned — Chapter 5, placeholder floats (2026-09-09)
@@ -96,12 +100,12 @@ on its own before it goes.
 
 | Position | Label | Standing | What it is for |
 |---|---|---|---|
-| §5.1 | `tab:parameter-register` | **core** | the free inputs of the definition: nominal, band and origin, effect (re-cut 2026-09-13: assumptions → ch4 prose, environment → §5.2, ablation arms → gone) |
-| §5.1 | `fig:sens-dwell-anchor` | **core** | the slot for the input that moved; which input is the re-run's to say |
+| §5.1 | `tab:parameter-register` | **core — LANDED 2026-09-17** | generated from the §5.1 re-run: ten rows in three groups (dwell times, mapping, failure matrix), four columns in words, symbols in the caption; the fragment is in the Tables list above |
+| §5.1 | `fig:sens-dwell-anchor` | **moved to App. C.1, 2026-09-17** | the low-and-slow family across its band (the re-run's one mover by an order of magnitude); a figure re-enters the body only if its form is one a sentence cannot carry (Marc's ruling) |
 | §5.1 | `fig:sens-dwell-shape` | **removed 2026-09-13** | a swap, not a band: a register row + `tab:shape-substitution` |
 | §5.1 | `fig:sens-mapping` | **removed 2026-09-13** | a swap: a register row + `tab:experiment-one` |
 | §5.1 | `fig:sens-failure-matrix` | **removed 2026-09-13** | register rows + `tab:decay-sensitivity` (App. C.3, added) |
-| App. C.3 | `tab:decay-sensitivity` | **core** (appendix) | band ends against centre for the decay parameters and the floor, plus the corner check; `tab:anchor-sensitivity`'s form |
+| App. C.3 | `tab:decay-sensitivity` | **core (appendix) — LANDED 2026-09-17** | generated; every rate inert at both ends and all four corners at the chapter's pins; the floor zero by structure |
 | §5.2 | `tab:factors-varied` | **core — LANDED 2026-09-14** | six rows in two groups: crossed (attacker arm, defence condition, mutation interval) and one at a time (timing regime, horizon, objective); `simultaneous` dropped (C34); the fragment is in the Tables list above |
 | §5.2 | `tab:factors-fixed` | **core — LANDED 2026-09-14** | eleven rows in four groups: environment, replication, attacker, defender; inherited marks and the three version pins in the footnote row |
 | §5.3.1 | `fig:aio-coverage` | **core — LANDED 2026-09-15** | three lettered panels: coverage over time (a), its first 3 000 s (b), opening variety against depth (c) — the ruled plurality exhibit; the fragment is in the Figures list above |

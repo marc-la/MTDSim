@@ -49,11 +49,11 @@ FIG_DIR = REPO / "docs" / "thesis" / "figures"
 STEM = "fig_5-1a_sens_dwell_anchor"
 ACCENT_RGB = "31,84,140"
 
-ANCHORS = {  # command-line name -> (csv column, prose name)
-    "scan": ("m_scan", "scan-shaped anchor"),
-    "exploit": ("m_exploit", "exploit-shaped anchor"),
-    "stealth": ("m_stealth", "low-and-slow anchor"),
-    "objective": ("m_objective", "objective-execution anchor"),
+ANCHORS = {  # command-line name -> (csv column, prose name); "family" is the body's word (2026-09-17)
+    "scan": ("m_scan", "scan-shaped family"),
+    "exploit": ("m_exploit", "exploit-shaped family"),
+    "stealth": ("m_stealth", "low-and-slow family"),
+    "objective": ("m_objective", "objective family"),
 }
 
 
@@ -154,12 +154,16 @@ def emit(g: pd.DataFrame, anchor_name: str, reference_interval: float) -> str:
 
 
 def main() -> None:
+    global STEM
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--csv", type=Path, default=REPO / "data/results/rate_feasibility_study/numbers/per_run.csv")
     ap.add_argument("--anchor", choices=sorted(ANCHORS), default="stealth")
     ap.add_argument("--reference-interval", type=float, default=200.0)
     ap.add_argument("--no-compile", action="store_true")
+    ap.add_argument("--stem", default=STEM,
+                    help="output stem; fig_C-1a_sens_dwell_family when the figure lives in App. C.1 (2026-09-17 ruling)")
     args = ap.parse_args()
+    STEM = args.stem
 
     col, name = ANCHORS[args.anchor]
     g = aggregate(args.csv, col, args.reference_interval)

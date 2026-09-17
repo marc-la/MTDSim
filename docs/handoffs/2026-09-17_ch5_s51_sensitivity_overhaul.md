@@ -1,5 +1,5 @@
 ---
-status: open
+status: RE-RUN LANDED 2026-09-17 (33 000 runs, zero errors, centre identical to the defended corpus); the four fragments, the App. C.1 figure, the App. C leads and the §5.1 skeleton are in the tex; findings record ch5_s51_sensitivity_findings.md. OWED: Marc's acceptance of the three ch4 insertions (comment blocks in place); the §5.1 dictation (three paragraphs, D2, the findings record §7 is the content); the caption voice passes; the re-launch at a thousand seeds when the defended corpus moves (findings §8); a one-clause §5.1 pointer in the redrafted §5.2 if Marc wants one (the redraft carries none)
 created: 2026-09-17
 owner: Marc (rulings, prose); session (re-run, fragments, placements)
 supersedes: ch5 design handoff §3.2 (the re-run), §19 (the first cold read) and §20 (the second) — those sections are the diagnosis; this is the executing brief
@@ -65,38 +65,49 @@ declared point is `gamma 0.25, delta_ratio 0.25, z 0.1`
 is stale and differs from the declared file; nothing on the declared path reads
 the default, but flag it, do not fix it here.
 
+## Marc's rulings on the first cut (2026-09-17, second reply)
+
+| Ruling | Outcome |
+|---|---|
+| position | §5.1 stays first. **No bridge from chapter 4**: "it doesn't seem encapsulated; the preamble can carry that; the section stands on its own." The chapter preamble carries the join; §5.1 opens with its question. |
+| five paragraphs in 220 words | alarm bells, rightly: 44 words a paragraph is choppy. **Three paragraphs, ~250 words** (D2 below). |
+| register | "calm down on the rhetoric; this is scientific writing." No *numbers the formalism could not supply*, no *we had to*, no triads for effect, no first-sentence flourish. Plain declaratives. |
+| the middle paragraphs | Marc asked whether they say *how the three were produced*. They do not: chapter 4 and App. B say how; §5.1 says only what moved when each was perturbed. One sentence in the brief, none in the section. |
+| figure | to the appendix. |
+| "family" / "anchor" | left to the session ("go crazy with it"): **family** in the body, named in chapter 4 (insertion B); "anchor" stays the appendix's and the code's word. |
+| symbols | out of Table 5.1. "Keep it simple." |
+| the draw's corner | leaves §5.2. |
+| the re-run | "what have we re-run? there's nothing to run" → answered in D7: two sweeps exist on record from July at ten seeds on an older configuration; the re-run repeats their perturbations at the chapter's pins. Green-lit: "do what you think you need to do." |
+| chapter 4 insertions | "propose them in place with the context and I can accept item by item" → placed as comment blocks at the three sites (D5), 2026-09-17; not staged (the tex is under Marc's edit). |
+
 ## Recommended approach
 
-Seven decisions, then the order of work. D1–D7 are recommendations Marc rules
-on; the work list assumes them.
+Seven decisions, then the order of work. The rulings above are applied.
 
-### D1. Keep §5.1 titled, first in the chapter, and make the bridge from chapter 4 pronounced
+### D1. Keep §5.1 titled and first; no bridge; scientific register
 
-Marc: "we literally just finished the model; this is the literal next section of
-the method; be more pronounced with it." Keep the position. The section opens by
-naming the three inputs in §4.4's own sentence ("the three inputs we had to
-declare to join the attack profiles to MTDSim": the dwell times, the mapping, the
-failure matrix), not by counting seven numbers.
+The section stands on its own. It does not carry over from the method, count
+its inputs, or say what the formalism could not supply. Its first sentence is
+its question. The chapter preamble (Marc's dictation) is where chapter 4 is
+joined to the evaluation.
 
-*Alternative considered:* swap §5.1 and §5.2 so the setup (seeds, horizon,
-interval, the outcome measures) is declared before the robustness check uses it.
-It removes every forward reference and Outkin, the corpus's one titled instance,
-sits after its parameterisation. Rejected on Marc's framing above; keep it in
-reserve if the forward references in ¶1 cannot be closed.
+*Alternative considered:* swap §5.1 and §5.2 so the setup is declared before
+the robustness check uses it. Not taken; kept in reserve if ¶1's forward
+references (the outcome measure, the defended condition) cannot be closed in a
+clause each.
 
-### D2. The body: five paragraphs, ~200–250 words, chapter 4's words only
+### D2. The body: three paragraphs, ~250 words, chapter 4's words only
 
-Content points (Marc's prose; the session never drafts it):
+Content points (Marc's prose; the session never drafts it). The paragraphs
+report what moved when a value was perturbed, never how the value was produced.
 
 | ¶ | Job | Content points | Words |
 |---|---|---|---|
-| 1 | the bridge and the question | The three inputs of §4.4, by name. Each chosen by argument, none measured. The question (one sentence). The test: move each value across its band with the others at their chosen values; read the outcome against its interval at the chosen value; a value whose band ends stay inside that interval does not carry the chapter. The outcome read is distinct hosts reached, the measure read at every cell. One clause: the bands come from the evidence tiers (App. B.4) and from the distance term's own structure (App. B.6). No method philosophy. | ~90 |
-| 2 | dwell times | Chosen as four families (§4.4.2). The two families priced from the simulator move nothing at either band end, under no defence and under defence. The family of quiet tactics (persistence, stealth, command and control) moves hosts reached at both ends, and monotonically: the longer they dwell, the fewer hosts before the horizon. One thesis-level sentence: the model's timing sensitivity sits entirely in the values whose provenance is weakest; the inherited values carry none of it. The draw's shape: the same-mean concentrated alternative changes nothing across the cells the chapter reports; at the one corner where the quiet dwell is at the top of its band under mutation, the concentrated shape reaches fewer hosts, so the faithful shape is the worse one for the attacker. Numbers from the re-run. | ~80 |
-| 3 | mapping | Not a band: the forced-total alternative of App. B.7 against the partial mapping. The forced-total under-performs (one clause why: it runs an ordered machine in an unordered way). The partial mapping stands as a chosen input the effectiveness claims carry. | ~35 |
-| 4 | failure matrix | The distance term's two rates and its floor (in the words §4.4.4 will carry, D5). The backward rate moves most; the forward rate moves outcomes only on the rejected mapping; the floor moves nothing, and that is structural: no profile net carries a jump of three stages, so there is nothing for it to act on. The nine rules are held: each a single argued value, no quantity to move. Corner check of the two rates in one clause. | ~55 |
-| 5 | the hand-off | One sentence: the one input the chapter's claims are exposed to is the dwell of the quiet tactics; it is held at its chosen value and every claim that could turn on it says so. §5.2 follows. Nothing about the interval, the draw's corner or a "third thing". | ~25 |
+| 1 | the question and the test | The question in one plain sentence: whether any conclusion of this chapter depends on where a declared value of the model sits inside its band. The three declared inputs, by their §4.4 names, in one sentence. The test: each value is moved across its band with the others held at their declared values, and distinct hosts reached is read against its interval at the declared value; a value whose band ends stay inside that interval does not carry the chapter. One clause: the bands come from the evidence tiers (App. B.4) and from the distance term's structure (App. B.6). No method philosophy. | ~80 |
+| 2 | the dwell times | The four families of §4.4.2. The two priced from the simulator move nothing at either band end, under no defence and under defence. The low-and-slow family moves hosts reached at both ends, and monotonically: the longer the quiet tactics dwell, the fewer hosts before the horizon. The thesis-level sentence: the model's timing sensitivity sits entirely in the values whose provenance is weakest; the inherited values carry none of it. The draw's shape: the same-mean concentrated alternative changes nothing across the cells the chapter reports; at the one corner where the low-and-slow dwell is at the top of its band under mutation, the concentrated shape reaches fewer hosts, so the more faithful shape is the worse one for the attacker. Numbers from the re-run. | ~100 |
+| 3 | the mapping, the failure matrix, the hand-off | The mapping is not a band: the forced-total alternative of App. B.7 under-performs the partial mapping (one clause why), and the partial mapping stands as a declared input the effectiveness claims carry. The distance term's two rates and its floor (§4.4.4's words): the backward rate moves most; the forward rate moves outcomes only on the rejected mapping; the floor moves nothing, structurally, because no profile net carries a jump of three stages. The nine rules are held, each a single argued value. Closing sentence: the one input the chapter's claims are exposed to is the low-and-slow dwell; it is held at its declared value and every claim that could turn on it says so. | ~80 |
 
-Every noun in ¶1–¶5 must have a chapter 4 antecedent (the validation gate greps
+Every noun in ¶1–¶3 must have a chapter 4 antecedent (the validation gate greps
 for the banned list). Madan is the only citation the section may carry, one
 clause, optional.
 
@@ -149,12 +160,11 @@ generator `tools/ch5_sensitivity_figure.py` needs only `--csv` re-pointed and
 
 ### D6. Downstream re-cuts (session proposals, ratify-on-read)
 
-- **§5.2 opener** (`sec:dimensions` ¶1): "Carrying from the sensitivity
-  analysis, three things are fixed" → one thing: the dwell of the quiet tactics
-  is held at its chosen value. The interval's justification is already in §5.2's
-  factor paragraph ("at the inherited interval neither attacker completes its
-  objective") and stays there, once. The draw's corner leaves §5.2: no reported
-  cell runs at a long quiet dwell, so the caveat is §5.1 ¶2's and App. C.2's.
+- **§5.2 opener** — SUPERSEDED 2026-09-17: §5.2 was redrafted concurrently
+  (handoff `2026-09-17_ch5_s52_setup_critique.md`) and its opener no longer
+  carries the three-things paragraph, the draw's corner or any reference to
+  §5.1. Whether a one-clause pointer to the held input is owed there is Marc's
+  call; Table 5.3's held-inputs row already carries it.
 - **`tab:factors-fixed`, row "Declared inputs":** "the low-and-slow anchor is
   the one input ..." → the family wording of D5; the pointer to Table 5.1 stays.
 - **§5.2 sentence "three factors moved one at a time from that core: the
@@ -174,7 +184,20 @@ generator `tools/ch5_sensitivity_figure.py` needs only `--csv` re-pointed and
 - **Bibliography:** dropping ten Broeke and Sargent from §5.1 orphans nothing
   the build needs; leave the entries.
 
-### D7. The re-run — design, criterion, cost, outputs
+### D7. The re-run — what it is, design, criterion, cost, outputs
+
+**What exists, in plain terms.** Two sweeps were run in July and are on record:
+the routing-weight sweep (`s1_weight_sensitivity`, 2 600 runs) and the dwell
+and rate sweep (`rate_feasibility_study`, 1 740 runs after its S3-R repeat).
+Both at ten seeds, one MTD scheme, the pre-restoration substrate; the weight
+sweep under the since-superseded fixed-dwell regime and around a backward decay
+of 0.5 that was later re-cut to 0.25. Every number the draft §5.1 and App. C
+quote comes from those two. The rest of chapter 5 now reports at 100 seeds on
+the current pins. **The re-run repeats the same perturbations at the chapter's
+configuration** so §5.1's numbers are the chapter's numbers. It re-prosecutes
+nothing: no value, band or rule changes; only the setting they are measured in.
+It is the numbers' sole source, it costs under two hours, and it does not block
+the ch4 insertions or the prose skeleton.
 
 **Design.** One-at-a-time from the chapter's core cell, on the movement arm
 only (the baseline consumes no chosen value). Points:
