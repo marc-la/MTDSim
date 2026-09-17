@@ -2467,3 +2467,57 @@ or none.
 
 **Still blocked** on the re-run at the reported configuration (§3.2, §18.4):
 every number in ¶2–¶4 and the selection in ¶5. The prose skeleton is not.
+
+### 20.7 Marc's reply (2026-09-17) — the position sharpened
+
+Marc: "sweep sounds quantitative" but the three assumptions were chosen
+qualitatively; his mental model of sensitivity analysis was bounds + cost
+function + optimum = the value run with, which was never done; §5.1 must sit
+above the implementation level and introduce nothing the reader has not met in
+ch4 ("if it's not in the model, what are we doing"); the method defends itself
+and ch6 defends it, so §5.1 must not tie up ch4's loose ends; is the section
+even needed. Grep of the body (not comments) of ch2–ch4: "low-and-slow anchor"
+never appears (ch4 says "four anchor families" once); γ/δ/z exist only as a
+notation-table row; "mutation interval" appears nowhere. The draft introduced all
+of these at first use.
+
+Rulings that follow (recommended, Marc's to confirm):
+
+- **Calibration ≠ robustness.** The field calls both "sensitivity analysis";
+  Zhang claimed the first and did neither. This project did the second: choose
+  by argument, then perturb the *number the choice produced* and ask whether
+  the outcome changes. A qualitative choice with no number (the mapping, the
+  nine rules) is not swept: one clause each — chosen by argument, the
+  alternative tried and rejected in the appendix, not moved. Those rows mostly
+  leave the body.
+- **Three-way split, stated once:** ch4 + appendix = how the values were got;
+  §5.1 = what it would cost to be wrong about them; ch6 = what that means.
+  §5.1 says one new thing per family and nothing ch4 already said.
+- **Keep the section, short** (~200 words + table). "The sweep is the results"
+  does not transfer: in Hong the swept parameter *is* the experimental question;
+  here the swept things are the model's inputs, which the experiment holds
+  fixed, so they cannot be results. Outkin's titled section is the same
+  situation. Position before §5.2 stands.
+- **Abstraction rule, binding:** §5.1 uses only ch4's words — the dwell times
+  of the quiet tactics; the penalty on a jump across stages; the mapping. No
+  symbols in the body table; symbols and per-value detail stay in App. B/C. If
+  §5.1 needs a meaning ch4 lacks (the decay parameters' meaning at §4.4.3,
+  which discusses distance but not the decay), the clause goes into ch4.
+- **The mutation interval leaves §5.1 entirely.** It is the defender's setting
+  and §5.2's factor; the "selected three things" paragraph goes.
+- **Table 5.1 in words, grouped by the three families:** what we chose | value
+  | how far it was moved | what happened; appendix pointers in the caption or a
+  last column.
+- **Figure 5.1 defaults to App. C.1.** By Marc's own figure ruling it earns
+  the body only if the re-run shows a form a sentence cannot carry (a
+  threshold rather than a monotone decline).
+- **Zero method philosophy.** No Sargent, no ten Broeke, no OAT limits; Madan
+  at most one clause. Tay for local form only; cite the journal corpus for
+  practice.
+- **The one thesis-level finding §5.1 owns:** the only timing values that move
+  an outcome are those whose provenance is weakest (the quiet tactics); the
+  values inherited from the simulator move nothing. Sayable without any anchor
+  label.
+
+§20.6's skeleton is superseded by this: ¶1 the question in ch4's words; ¶2–¶4
+one paragraph per family, each one or two sentences; no selection paragraph.
