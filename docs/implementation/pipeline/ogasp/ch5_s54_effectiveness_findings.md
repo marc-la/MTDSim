@@ -1,5 +1,5 @@
 ---
-status: findings — preliminary read 2026-09-17, landed section by section the same day (Marc's instruction: iterate §5.3.2 → §5.5 in sequence with preliminary numbers); §5.4.1 and §5.4.2 landed via tools/ch5_effectiveness_figures.py; captions DRAFT STATE, voice pass owed; §5.4.3 appended when it lands
+status: findings — preliminary read 2026-09-17, landed section by section the same day (Marc's instruction: iterate §5.3.2 → §5.5 in sequence with preliminary numbers); §5.4.1–§5.4.3 landed via tools/ch5_effectiveness_figures.py; captions DRAFT STATE, voice pass owed; the Zhang and Brown claim locators are Marc's to verify (handoff Q5)
 created: 2026-09-17
 topic: "The §5.4 read of the defended corpus: what each defence condition does to the attacker model's breadth, delay and blocked fraction at both tempos and whether the answer depends on the profile (§5.4.1); the same conditions against the inherited attacker and the two orderings (§5.4.2); the lineage's headline claims re-run under both attackers (§5.4.3)"
 ---
@@ -203,7 +203,83 @@ seven turns on the network layer) and 7th–8th against the baseline
 
 ## 3. §5.4.3 — the lineage's headline claims
 
-*Owed: appended when the section lands.*
+### Table 5.7
+
+The lineage arm: the same matrix under the opportunistic objective
+(`attack_objective="general"`, the lineage's 80 % compromise-ratio stop), 100
+seeds, both arms. With no defence the baseline reaches 31.82 ± 1.90 hosts
+and stops on the ratio in 27 % of runs; the model reaches 8.35 ± 0.44 and
+never stops on it — the objective changes the baseline's breadth (24.3 →
+31.8) and not the model's (8.13 → 8.35), which is §5.3.1's reading of what
+the objective does to each. The suppression matrix at 200 s:
+
+| condition | baseline | model |
+|---|---|---|
+| service diversity | 0.93 [0.91, 0.95] | 0.36 [0.31, 0.41] |
+| port shuffle | 0.93 [0.90, 0.94] | 0.23 [0.17, 0.29] |
+| IP shuffle | 0.71 [0.67, 0.75] | 0.96 [0.95, 0.97] |
+| OS diversity | 0.64 [0.57, 0.70] | 0.05 [−0.03, 0.12] |
+| host topology | 0.60 [0.56, 0.65] | 0.96 [0.95, 0.97] |
+| complete topology | 0.58 [0.53, 0.63] | 0.96 [0.95, 0.96] |
+| alternative | 0.48 [0.42, 0.54] | 0.73 [0.70, 0.75] |
+| random | 0.39 [0.32, 0.45] | 0.75 [0.72, 0.77] |
+| user shuffle | −0.09 [−0.18, −0.01] | −0.14 [−0.23, −0.06] |
+
+ρ = 0.10 [−0.02, 0.27] at 200 s; 0.60 [0.03, 0.72] at 2 000 s. Family δ at
+200 s: model 0.93 [0.91, 0.94], baseline −0.53 [−0.61, −0.45]. The same shape
+as the targeted arm (§2): the objective does not move the family sign on
+either attacker.
+
+The three claims, direction read on suppression of hosts reached:
+
+| claim | source | inherited attacker | attacker model | agreement |
+|---|---|---|---|---|
+| shuffling > diversification, singles, 200 s | Zhang (*verify*) | diversity higher: family means 0.55 against 0.78; best of each (port 0.93, service 0.93) not separated | shuffle higher: 0.59 against 0.21 | model only |
+| best single ≈ best scheme, 200 s | Brown (*verify*) | single higher: service 0.93 against alternative 0.48 | single higher: IP 0.96 against random 0.75 | neither |
+| diversification > shuffling, OS diversity against IP shuffle, 200 s | Ho §4.3 (extraction "Headline findings") | diversity higher: family means 0.78 against 0.55; the pair OS 0.64, IP 0.71, not separated | shuffle higher: 0.21 against 0.59; OS 0.05, IP 0.96 | inherited only (family), neither on the pair |
+
+Three things are in the table.
+
+1. **The lineage disagrees with itself, and this simulator sides with each
+   once.** Zhang's direction and Ho's are opposite at the same interval;
+   under the inherited attacker the diversity family suppresses more (Ho's
+   direction), under the model the shuffle family does (Zhang's). Which
+   published claim "survives a change of attacker" is therefore the wrong
+   question: each survives under one attacker, and the family contrast of §2
+   is the reason.
+2. **Brown's "best single ≈ best combination" holds under neither.** On both
+   arms the best single beats the best scheme by 0.2–0.45 with the intervals
+   far apart. The schemes here draw from the seven mechanisms (Q1), so a
+   rotation spends turns on mechanisms that do not reach the attacker in
+   question: against the model four of seven turns go to the application
+   layer, against the baseline three of seven go to the network layer. A
+   scheme over the four (the record's pool) would be a different condition.
+3. **Ho's named pair is not separated under the inherited attacker.** OS
+   diversity 0.64 against IP shuffle 0.71 with overlapping intervals: the
+   family direction agrees with Ho and the pair does not, at 100 seeds. The
+   claim was read at 200 s because that is where the extraction locates it;
+   the design record's "at long intervals" framing (the placeholder's third
+   row) is not the extraction's and was not drawn. At 2 000 s the diversity
+   family still leads on the baseline (0.17 against −0.02, service diversity
+   0.38 the only separated single) and trails on the model (0.01 against 0.15).
+
+### Against the record
+
+| quantity | record | here |
+|---|---|---|
+| the lineage arm | never run under the general objective on the restored substrate with both arms | run; ρ at 2 000 s is 0.60 [0.03, 0.72] — the only cell in the chapter where the two orderings correlate, and at the tempo where the baseline's landscape is service diversity alone |
+| Zhang / Brown claim locators (Q5) | not carried as result rows in the extractions | still not; the source column carries the verify mark, the footnote says so |
+| Ho's claim | placeholder: "diversification dominates at long intervals" | extraction: at interval 200, OS Diversity vs IP Shuffle, hybrid metric, up to 140 % — read there |
+
+### What the float needed changed (APPLIED 2026-09-17)
+
+- Tab. 5.7's third row reads Ho at 200 s with the named pair beside the
+  family means, not at 2 000 s; the analyser carries both readings.
+- The agreement column separates the family reading from the pair reading
+  where the source names a pair.
+- The footnote restates the comparability boundary (the published metric is
+  time to compromise or a composite of it; the direction only is compared)
+  and decodes the verify mark.
 
 ## 4. Validation
 

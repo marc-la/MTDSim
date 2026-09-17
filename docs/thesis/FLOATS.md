@@ -50,6 +50,7 @@ new float.
 | §5.3.1 Without defence | `tab_5-3-1a_unopposed_summary.tex` | `tab:unopposed-summary` | `tools/ch5_unopposed_figures.py` (same corpus; depth column replaced by successes per host, target reached added — findings §6; landed 2026-09-15) |
 | §5.4.1 Mechanisms and schemes | `tab_5-4-1a_conditions.tex` | `tab:eff-conditions` | `tools/ch5_effectiveness_figures.py --only tab55` (same corpus; nine conditions per interval ordered by suppression, delay with the no-compromise share, blocked fraction; overlapping neighbours daggered; landed 2026-09-17) |
 | §5.4.2 Attacker comparison | `tab_5-4-2a_orderings.tex` | `tab:eff-orderings` | `tools/ch5_effectiveness_figures.py --only tab56` (same corpus; ranks per arm at each interval, Spearman's rho with a seed-bootstrap interval and the family contrast as Cliff's delta in the footnote; landed 2026-09-17) |
+| §5.4.3 Prior evaluations | `tab_5-4-3a_lineage.tex` | `tab:eff-lineage` | `tools/ch5_effectiveness_figures.py --only tab57` (the lineage arm of the same corpus, general objective; one row per published claim, direction per arm on suppression of hosts reached, Ho read at 200 s with the named pair; Zhang and Brown locators marked to verify; landed 2026-09-17) |
 
 Inline (typed directly in `dissertation.tex`, no file): `tab:experiment-one` (§B.7),
 `tab:anchor-sensitivity` (§C.1), `tab:shape-substitution` (§C.2),
@@ -112,7 +113,7 @@ on its own before it goes.
 | §5.4.2 | `fig:eff-cross-arm` | **core — LANDED 2026-09-17** | the central comparison; same four-panel split as fig:eff-suppression-profiles; arm by hatch |
 | §5.4.2 | `fig:eff-delay` | **removed 2026-09-13** | survival curves are no corpus genre; a column of `tab:eff-conditions`. Zhang-form bars if checkpoint time becomes the primary (handoff §15) |
 | §5.4.2 | `tab:eff-orderings` | **core — LANDED 2026-09-17** | ranks per arm at each interval; the family contrast (Cliff's delta) is the primary and the rank correlation its companion, per the 2026-09-09 inference ruling |
-| §5.4.3 | `tab:eff-lineage` | **core** (converted from `fig:eff-lineage`) | comparison table: published claim, direction per arm, boundary in the footnote |
+| §5.4.3 | `tab:eff-lineage` | **core — LANDED 2026-09-17** (converted from `fig:eff-lineage`) | comparison table: published claim, direction per arm, boundary in the footnote; the third row is Ho at 200 s (the extraction's locator), not "at long intervals" |
 | §5.5 | `fig:eff-frontier` | **core** | labelled markers, shape = arm |
 | §5.5 | `fig:eff-cost-decomposition` | keep (was cut-or-appendix) | attacker model only, and the caption says why |
 | §5.5 | `tab:eff-cost` | keep | unchanged |

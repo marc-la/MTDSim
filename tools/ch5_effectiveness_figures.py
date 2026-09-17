@@ -247,29 +247,44 @@ def emit_tab56(s542: dict) -> str:
     return "\n".join(L) + "\n"
 
 
+# (claim key, claim text, source, family a, family b, named-pair key or None).
+# Zhang's and Brown's claims are as attributed in the chapter's design record
+# and are not carried as result rows in the extractions (handoff Q5): marked
+# to verify. Ho's is ho2024.md "Headline findings" §4.3: diversity over
+# shuffling by up to 140 % on the hybrid metric, OS Diversity against IP
+# Shuffle, at interval 200 — so it is read at 200 s, the same tempo as Zhang's,
+# and the two published directions are opposite.
 CLAIMS = [
     ("zhang_shuffle_over_diversity_200",
      r"shuffling suppresses more than diversification (single mechanisms, 200\,s)",
-     r"\citet{zhang2023}\textsuperscript{v}", "shuffle", "diversity"),
+     r"\citet{zhang2023}\textsuperscript{v}", "shuffle", "diversity", None),
     ("brown_best_single_vs_best_scheme_200",
      r"the best single mechanism roughly equals the best combination (200\,s)",
-     r"\citet{brown2023}\textsuperscript{v}", "best single", "best scheme"),
-    ("ho_diversity_over_shuffle_2000",
-     r"diversification suppresses more than shuffling at the longer interval (2\,000\,s)",
-     r"\citet{ho2024}", "diversity", "shuffle"),
+     r"\citet{brown2023}\textsuperscript{v}", "best single", "best scheme", None),
+    ("ho_diversity_over_shuffle_200",
+     r"diversification suppresses more than shuffling, OS diversity against IP shuffle in particular (200\,s)",
+     r"\citet{ho2024}", "diversity", "shuffle", "ho_os_over_ip_200"),
 ]
 
 
-def _direction(cl: dict, a_name: str, b_name: str, claim_key: str) -> tuple[str, str]:
+def _direction(cl: dict, a_name: str, b_name: str, claim_key: str, pair: dict | None = None) -> tuple[str, str]:
     if claim_key.startswith("brown"):
+        # the claim is about the best of each set, so the best-against-best
+        # points decide it, not the set means
         if cl["best_intervals_overlap"]:
             verdict = "equal within intervals"
         else:
-            verdict = "%s higher" % (a_name if cl["direction"] == "a > b" else b_name)
+            verdict = "%s higher" % (a_name if cl["best_a_sup"]["point"] > cl["best_b_sup"]["point"] else b_name)
         detail = "%s %.2f; %s %.2f" % (LONG[cl["best_a"]], cl["best_a_sup"]["point"], LONG[cl["best_b"]], cl["best_b_sup"]["point"])
         return verdict, detail
-    verdict = "%s higher" % (a_name if cl["direction"] == "a > b" else b_name)
-    detail = "mean %.2f against %.2f" % (cl["mean_a"], cl["mean_b"])
+    a_first = cl["direction"] == "a > b"
+    verdict = "%s higher" % (a_name if a_first else b_name)
+    detail = "family means %s %.2f, %s %.2f" % ((a_name, cl["mean_a"], b_name, cl["mean_b"]) if a_first
+                                              else (b_name, cl["mean_b"], a_name, cl["mean_a"]))
+    if pair is not None:
+        detail += "; %s %.2f, %s %.2f%s" % (LONG[pair["best_a"]], pair["best_a_sup"]["point"],
+                                           LONG[pair["best_b"]], pair["best_b_sup"]["point"],
+                                           ", not separated" if pair["best_intervals_overlap"] else "")
     return verdict, detail
 
 
@@ -289,18 +304,24 @@ def emit_tab57(s543: dict) -> tuple[str, list]:
     w(r"    Published claim & Source & Inherited attacker & Attacker model & Agreement in direction \\")
     w(r"    \midrule")
     facts = []
-    for key, claim, source, a_name, b_name in CLAIMS:
-        vb, db = _direction(s543["claims"]["baseline"][key], a_name, b_name, key)
-        vm, dm = _direction(s543["claims"]["movement"][key], a_name, b_name, key)
+    for key, claim, source, a_name, b_name, pair_key in CLAIMS:
+        pb = s543["claims"]["baseline"].get(pair_key) if pair_key else None
+        pm_ = s543["claims"]["movement"].get(pair_key) if pair_key else None
+        vb, db = _direction(s543["claims"]["baseline"][key], a_name, b_name, key, pb)
+        vm, dm = _direction(s543["claims"]["movement"][key], a_name, b_name, key, pm_)
         published = a_name if not key.startswith("brown") else "equal"
         agree_b = (vb.startswith(published) or (published == "equal" and vb.startswith("equal")))
         agree_m = (vm.startswith(published) or (published == "equal" and vm.startswith("equal")))
         agreement = {(True, True): "both agree", (True, False): "inherited only", (False, True): "model only", (False, False): "neither"}[(agree_b, agree_m)]
+        if pair_key:
+            pair_sep = [arm for arm, pr in (("inherited", pb), ("model", pm_)) if pr and not pr["best_intervals_overlap"]
+                        and (pr["direction"] == "a > b")]
+            agreement += " on the family; on the pair " + ("neither" if not pair_sep else " and ".join(pair_sep) + " only")
         w("    %s & %s & %s (%s) & %s (%s) & %s \\\\" % (claim, source, vb, db, vm, dm, agreement))
         facts.append((key, vb, db, vm, dm, agreement))
     w(r"    \bottomrule")
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Direction is read on suppression of hosts reached ($1 - $ hosts / hosts with no defence, on cell means) over the seven single mechanisms and the two schemes, 100 seeds per cell, the model pooled over its four profiles; ``higher'' means the family's mean suppression is larger. The published evaluations reported mean time to compromise on a different network, pool and horizon, so no cell here is a numerical replication: only the direction of each comparison is compared. \textsuperscript{v}~the claim as attributed in the chapter's design record; the source's own statement of it is to be verified against the paper before submission.}\\")
+    w(r"    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Direction is read on suppression of hosts reached ($1 - $ hosts / hosts with no defence, on cell means) over the seven single mechanisms and the two schemes, 100 seeds per cell, the model pooled over its four profiles; ``higher'' means the family's mean suppression is larger, and where the source names a pair the pair is read beside the family. The published evaluations reported mean time to compromise, or a composite of it, on a different network, pool and horizon, so no cell here is a numerical replication: only the direction of each comparison is compared. \textsuperscript{v}~the claim as attributed in the chapter's design record; the source's own statement of it is to be verified against the paper before submission.}\\")
     w(r"  \end{tabular}")
     w(r"\end{table}")
     return "\n".join(L) + "\n", facts

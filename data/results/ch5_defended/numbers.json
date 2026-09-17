@@ -9850,6 +9850,94 @@
      "best_intervals_overlap": false,
      "direction": "a > b"
     },
+    "ho_diversity_over_shuffle_200": {
+     "mean_a": 0.7848837209302326,
+     "mean_b": 0.5450659962287869,
+     "best_a": "service_diversity",
+     "best_b": "port_shuffle",
+     "best_a_sup": {
+      "point": 0.9314896291640478,
+      "lo": 0.914845427793016,
+      "hi": 0.9460478088810826,
+      "hosts_none": {
+       "n": 100,
+       "mean": 31.82,
+       "ci95": 1.9020009351132607
+      },
+      "hosts_cond": {
+       "n": 100,
+       "mean": 2.18,
+       "ci95": 0.4771651574400078
+      },
+      "absolute_reduction": 29.64,
+      "absolute_reduction_ci95": 1.9609421573943644,
+      "denied_share": 0.27
+     },
+     "best_b_sup": {
+      "point": 0.9270898805782527,
+      "lo": 0.9047744990025841,
+      "hi": 0.9447164379514168,
+      "hosts_none": {
+       "n": 100,
+       "mean": 31.82,
+       "ci95": 1.9020009351132607
+      },
+      "hosts_cond": {
+       "n": 100,
+       "mean": 2.32,
+       "ci95": 0.6240988991815284
+      },
+      "absolute_reduction": 29.5,
+      "absolute_reduction_ci95": 2.001775959774548,
+      "denied_share": 0.29
+     },
+     "best_intervals_overlap": true,
+     "direction": "a > b"
+    },
+    "ho_os_over_ip_200": {
+     "mean_a": 0.6382778126964174,
+     "mean_b": 0.7086737900691389,
+     "best_a": "os_diversity",
+     "best_b": "ip_shuffle",
+     "best_a_sup": {
+      "point": 0.6382778126964174,
+      "lo": 0.5701363907491576,
+      "hi": 0.702429438420417,
+      "hosts_none": {
+       "n": 100,
+       "mean": 31.82,
+       "ci95": 1.9020009351132607
+      },
+      "hosts_cond": {
+       "n": 100,
+       "mean": 11.51,
+       "ci95": 2.0430728684651918
+      },
+      "absolute_reduction": 20.310000000000002,
+      "absolute_reduction_ci95": 2.7913714018435996,
+      "denied_share": 0.27
+     },
+     "best_b_sup": {
+      "point": 0.7086737900691389,
+      "lo": 0.66610713552892,
+      "hi": 0.7488193694236058,
+      "hosts_none": {
+       "n": 100,
+       "mean": 31.82,
+       "ci95": 1.9020009351132607
+      },
+      "hosts_cond": {
+       "n": 100,
+       "mean": 9.27,
+       "ci95": 1.3134363725154194
+      },
+      "absolute_reduction": 22.55,
+      "absolute_reduction_ci95": 2.311433032085979,
+      "denied_share": 0.07
+     },
+     "best_intervals_overlap": true,
+     "direction": "b > a"
+    },
     "ho_diversity_over_shuffle_2000": {
      "mean_a": 0.16640477686989313,
      "mean_b": -0.0248271527341295,
@@ -9980,6 +10068,94 @@
       "absolute_reduction": 6.244999999999999,
       "absolute_reduction_ci95": 0.473298271743187,
       "denied_share": 0.16
+     },
+     "best_intervals_overlap": false,
+     "direction": "b > a"
+    },
+    "ho_diversity_over_shuffle_200": {
+     "mean_a": 0.20673652694610778,
+     "mean_b": 0.594311377245509,
+     "best_a": "service_diversity",
+     "best_b": "ip_shuffle",
+     "best_a_sup": {
+      "point": 0.36377245508982037,
+      "lo": 0.3129329869571794,
+      "hi": 0.4112305237264782,
+      "hosts_none": {
+       "n": 400,
+       "mean": 8.35,
+       "ci95": 0.4411432515873419
+      },
+      "hosts_cond": {
+       "n": 400,
+       "mean": 5.3125,
+       "ci95": 0.3032269212808679
+      },
+      "absolute_reduction": 3.0374999999999996,
+      "absolute_reduction_ci95": 0.5353073268791735,
+      "denied_share": 0.0475
+     },
+     "best_b_sup": {
+      "point": 0.9625748502994012,
+      "lo": 0.9547419848894094,
+      "hi": 0.9700058990324028,
+      "hosts_none": {
+       "n": 400,
+       "mean": 8.35,
+       "ci95": 0.4411432515873419
+      },
+      "hosts_cond": {
+       "n": 400,
+       "mean": 0.3125,
+       "ci95": 0.06007513570375485
+      },
+      "absolute_reduction": 8.0375,
+      "absolute_reduction_ci95": 0.44521499340304926,
+      "denied_share": 0.755
+     },
+     "best_intervals_overlap": false,
+     "direction": "b > a"
+    },
+    "ho_os_over_ip_200": {
+     "mean_a": 0.04970059880239519,
+     "mean_b": 0.9625748502994012,
+     "best_a": "os_diversity",
+     "best_b": "ip_shuffle",
+     "best_a_sup": {
+      "point": 0.04970059880239519,
+      "lo": -0.0251169987405634,
+      "hi": 0.11951164850031855,
+      "hosts_none": {
+       "n": 400,
+       "mean": 8.35,
+       "ci95": 0.4411432515873419
+      },
+      "hosts_cond": {
+       "n": 400,
+       "mean": 7.935,
+       "ci95": 0.41982054060728063
+      },
+      "absolute_reduction": 0.41500000000000004,
+      "absolute_reduction_ci95": 0.6089800117711928,
+      "denied_share": 0.0425
+     },
+     "best_b_sup": {
+      "point": 0.9625748502994012,
+      "lo": 0.9547419848894094,
+      "hi": 0.9700058990324028,
+      "hosts_none": {
+       "n": 400,
+       "mean": 8.35,
+       "ci95": 0.4411432515873419
+      },
+      "hosts_cond": {
+       "n": 400,
+       "mean": 0.3125,
+       "ci95": 0.06007513570375485
+      },
+      "absolute_reduction": 8.0375,
+      "absolute_reduction_ci95": 0.44521499340304926,
+      "denied_share": 0.755
      },
      "best_intervals_overlap": false,
      "direction": "b > a"

@@ -503,6 +503,12 @@ def section_543(cells, rng) -> dict:
         out["claims"][arm] = {
             "zhang_shuffle_over_diversity_200": _claim(blocks[200]["suppression"], arm, shuffle, diversity),
             "brown_best_single_vs_best_scheme_200": _claim(blocks[200]["suppression"], arm, list(SINGLES), list(SCHEMES)),
+            # Ho's headline is at interval 200 (ho2024.md "Headline findings":
+            # diversity over shuffling by up to 140 %, OS Diversity against IP
+            # Shuffle, hybrid metric), so the family claim and the named pair
+            # are both read at 200 s; the 2 000 s reading is kept for the record
+            "ho_diversity_over_shuffle_200": _claim(blocks[200]["suppression"], arm, diversity, shuffle),
+            "ho_os_over_ip_200": _claim(blocks[200]["suppression"], arm, ["os_diversity"], ["ip_shuffle"]),
             "ho_diversity_over_shuffle_2000": _claim(blocks[2000]["suppression"], arm, diversity, shuffle),
         }
     # the lineage's own ending: how many runs hit the 80 % ratio (the general objective's criterion)
