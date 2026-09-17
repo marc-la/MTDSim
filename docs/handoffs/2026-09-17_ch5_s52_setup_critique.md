@@ -315,3 +315,218 @@ for how long; how many times; and what is measured.** And, mechanically:
 Chapter 4's coverage of the defender (the three clauses have no home there and
 arguably should); the §5.1 re-run, which is its own handoff; the generator pass
 C39, which this brief assumes but does not specify.
+
+---
+
+# Part 2 — the fix (2026-09-17, after Marc's reply)
+
+Marc's ratifications on the critique: do what the field does (environment /
+arms and conditions / parameters / procedure, four paragraphs plus tables);
+metrics are a slot, never a deferral; the concessions leave for the discussion
+and future work; the word count is the primary symptom; the tables carry too
+much jargon. On the run count: **write 1 000**, with the working protocol in
+§J. What follows is the executing plan.
+
+## G. The principle the redraft is held to
+
+**An experimental setup is a run plan written for someone who has read the
+preceding chapters and nothing else.** It declares; it does not reconcile, defer
+or concede. The reader has followed the argument from chapter 2 to chapter 4 and
+arrives wanting five answers, in this order, in the chapter's own established
+words: *what is run against what; on what terrain; what varies and what is held;
+what is measured; how many times and how it is summarised.* Anything in the
+section that is not one of those five answers is in the wrong document.
+
+Two corollaries, because they are what the current draft breaks:
+
+- **A forward reference is not an answer.** "What is measured is named by the
+  section that reads it" is the section declining to do its job. Every measure
+  the chapter reports is named here, once, in a table.
+- **A concession is not a declaration.** Each of the six now in §5.2 has a home
+  in chapter 6 or chapter 7, where the field puts them and where this thesis
+  already has the sections built.
+
+## H. The new §5.2, paragraph by paragraph
+
+Five paragraphs, ~470 words, three tables. Each paragraph answers exactly one of
+the five questions and is named for it below; the *must not contain* line is the
+operative half of each entry. Content points only — the prose is Marc's, or is
+session-drafted to this skeleton and ratified (§L).
+
+| ¶ | Answers | Content points | Must not contain | Words |
+|---|---|---|---|---|
+| 1 | **On what terrain** | One network for every run: 50 hosts, 5 exposed endpoints, 8 subnets, 4 levels, with the topology drawn fresh per seed. The target: the two database hosts at the deepest level. The run ends at the horizon or when the objective is reached. One clause of negative scope: one terrain only, scale and density not varied. | any justification of the network's realism; any reference to §5.1; the words *carrying from* | ~75 |
+| 2 | **What is run against what** | The two attacker arms named plainly — the baseline attacker of §2.2.3, and the movement attacker of chapter 4 on each of the four attack profiles and on the aggregate. The defence conditions: **no defence**, each of the seven mechanisms alone, and the two deployment schemes. One clause fixing no defence as the reference every effect in the chapter is a difference from. The defender in three clauses: its goal is to disrupt, not to detect; it knows nothing of the attacker, there being no detection channel; its capability is the seven mechanisms on a schedule it never departs from. | the word *baseline* for the no-defence condition (use the words, do not discuss them); Jalowski; any concession about the defender being frozen | ~120 |
+| 3 | **What varies, what is held** | Table 5.2 in one sentence, Table 5.3 in one sentence. The design in plain words: every combination of attacker arm, defence condition and mutation interval is run; each of the other three factors is varied on its own from that grid. **Then the operating-point sentence, standing alone**: at the inherited interval neither attacker completes its objective, so a success-shaped measure is pinned at zero and cannot discriminate there; it is read at the longer interval, and every claim states the interval it was taken at. | *crossed*, *one at a time* as terms of art; per-factor literature justification (that is the tables' *Why* column); any reference to §5.1's discipline | ~110 |
+| 4 | **What is measured** | Table 5.4 in one sentence, grouped by the section that reads it. One clause scoping §5.3's instruments as model-validation measures rather than MTD metrics. The backbone denominator stated once: distinct hosts compromised, because it varies at every interval, with target reach reported beside it wherever it is non-degenerate. Comparability is the table's last column, not a paragraph. | Cho's taxonomy; the five-of-ten coverage headline; the word *silent*; any deferral of a measure to a later section | ~85 |
+| 5 | **How many times, how summarised** | Barach's four-sentence form. A thousand seeds per cell, chosen so that the closest pair of conditions the chapter compares separates. The same seeds on every arm, arms independent, so every cross-arm comparison is unpaired. Effect sizes with 95 % intervals, and the one sentence claiming that as an advance: no evaluation in this lineage reports one. Tests attached to declared claims, adjusted within each family, each with a minimum effect of interest fixed before the run. | the *adjacent ranks are not separable* rider (§J deletes it); a `[3b]` hole where the tolerance used to be | ~80 |
+
+No closing roadmap paragraph. The chapter preamble carries it, and §5.3's first
+sentence picks the thread up.
+
+## I. The relocation ledger — every sentence currently in §5.2
+
+Nothing is discarded for being wrong; four things are moved because their
+register belongs elsewhere.
+
+| Currently in §5.2 | Disposition | Where it goes |
+|---|---|---|
+| "Carrying from the sensitivity analysis, three things are fixed…" | **dies** | — (meta) |
+| low-and-slow held at its declared value, named in claims that turn on it | **moves** | already a Table 5.3 row (*Declared inputs*); prose clause dies |
+| the exponential draw live only at long dwell under mutation | **dies from §5.2** | §5.1's finding; the factor is a Table 5.2 row |
+| the inherited interval sits in a degenerate region | **stays, promoted** | ¶3's own sentence — this is what §5.2 owes ch6 |
+| the *baseline* / no-defence reconciliation; "Neither is called by the other's name" | **dies** | use the words in ¶2 |
+| "Every factor was set up in the literature review" + six per-factor §-references | **moves** | Table 5.2's *Why* column, one clause per row |
+| the defender's three clauses | **stays** | ¶2 |
+| Jalowski's third guideline conceded | **moves** | ch6 `sec:fidelity-verdict` |
+| the attacker-realism half answered / half not | **moves** | ch6 `sec:fidelity-verdict`, paired with `ch:futurework` (He's form) |
+| "What is measured is named by the section that reads it" | **dies** | replaced by Table 5.4 |
+| the five-of-ten coverage headline | **moves** | ch6 `sec:evaluation-implications` |
+| the backbone denominator; comparability three-valued | **stays** | ¶4 and Table 5.4's last column |
+| replication, seeds, unpaired, intervals, tests, effect floors | **stays** | ¶5 |
+| "adjacent ranks … not a total order" | **dies** | §J: at a thousand seeds the constraint does not exist |
+| "Each section that follows reads a slice of this space" | **dies** | the chapter preamble |
+
+Four `[3b]` markers currently standing: the vivid sentence and "floods a
+network" die with their paragraphs; the tolerance (C38) is closed by §J; the
+per-claim effect floors (C7) remain Marc's numbers and stay as one marker.
+
+## J. The run count — what to write, and the working protocol
+
+**In the thesis: a thousand seeds per cell.** The justifying sentence is better
+than the tolerance one it replaces, because it names a capability rather than a
+budget: *the count is chosen so that the closest pair of conditions the chapter
+compares separates.* That is still Hoad, Robinson and Davies' third method (the
+count is a consequence of a declared precision), it closes C38 without Marc
+having to pick a tolerance from nothing, and it deletes the "adjacent ranks are
+not separable, so no ordering is reported" rider from both the prose and Table
+5.3 — one concession removed rather than a number inflated.
+
+**The working protocol (Marc, this session), which stays in this handoff and
+never reaches the tex.** A hundred seeds is the preliminary pass: it is what the
+floats are read and argued from, and what goes to the supervisor. Once a
+subsection is settled and signed off, the cell set is re-run at a thousand seeds
+overnight and the floats are regenerated from that corpus. The thesis reports
+the thousand-seed numbers only.
+
+**The consequence to plan for, stated plainly.** `data/results/ch5_defended/run_corpus.py`
+sets `SEEDS = tuple(range(100))`. Every §5.3–§5.5 float that landed on
+2026-09-17 is a hundred-seed float. Raising the count is therefore not a text
+change: **the whole float set is re-derived**, and the §5.1 re-run must be
+launched from the same corpus so that its effect column and Table 5.2's tempo
+row describe the same substrate. Cost, from the record and to be re-measured
+rather than trusted: ~31 500 runs at a hundred seeds becomes ~315 000, at
+≈ 0.2 s per run on six workers — an overnight batch. The 60 000 s horizon arm is
+four times the simulated time per run and must be wall-clocked on ~20 runs
+before the full batch is launched.
+
+**Do not write "preliminary" anywhere in the chapter.** The thesis declares one
+run count and reports numbers taken at it. The two-stage protocol is a working
+practice, not a methodological disclosure.
+
+## K. The tables
+
+### K1. One column grammar across Tables 5.2 and 5.3
+
+Reti's paired tables read as a pair because their columns are literally
+identical. Ours should share the grammar **[the thing · its value · why]**, with
+natural headers:
+
+- **Table 5.2** — `Factor · Levels · Why these levels`
+- **Table 5.3** — `Held fixed · Value · Why it is held`
+
+Three columns each, the same widths, the same reading contract. The last column
+answers **one** question — *why this setting and not another* — and nothing
+else. Definitions move into the Levels/Value cell; reporting instructions
+("read in separate panels") move to the prose or die; inferential arguments
+("shared seeds give no matched randomness…") die from the table, since ¶5 says
+it already.
+
+### K2. Table 5.2 — the row groups in plain words
+
+Replace the `\rowgroup` labels *Crossed* / *One at a time* with **Every
+combination** / **One at a time**, and carry the meaning in the caption: *The
+first three factors are run in every combination; each of the last three is
+varied on its own, with the first three held at their first level.* A general
+computer science reader needs no term of art for this, and per conventions §d
+the field never uses one.
+
+Row-level repairs:
+
+| Row | Repair |
+|---|---|
+| Attacker arm | split the six levels so they scan; the aggregate's gloss ("the corpus unpartitioned by objective") moves to the *Why* column |
+| Defence condition | "read in separate panels" leaves the table |
+| Mutation interval | *Why*: the inherited tempo, and one above the boundary at which the objective becomes reachable — the prose carries the consequence |
+| Timing regime | delete "an exponential term of half a second": an implementation internal, and the chapter's own no-internals rule bars it. Levels: *quasi-periodic (inherited)*; *exponential, same mean*. *Why*: whether a schedule that arrives on a clock is the pattern an APT learns |
+| Horizon | *Why*: the lineage's horizon, and headroom for a campaign, with deployments per run held so a longer run is not silently more defence |
+| Objective | *Why*: the APT pursues a specific objective against a specific target; the opportunistic level exists for the prior evaluations only |
+
+### K3. Table 5.3 — the same treatment
+
+Keep the four row groups (*Environment*, *Replication*, *Attacker*,
+*Defender*) — those are plain words and they are the table's navigation. Repairs:
+
+- **Runs per cell**: value becomes 1 000; the *Why* cell becomes one claim
+  ("the closest pair the chapter compares separates at this count"), and the
+  "adjacent ranks are not separable" clause is deleted.
+- **Seeds**: *Why* becomes the fact, not the inference — "the same seed set on
+  every arm; the arms are independent". ¶5 draws the consequence.
+- **Deployment durations / confusion penalty**: unchanged; the dagger and the
+  version-pin footnote stay, and stay only here.
+- **Adaptive selector**: unchanged — this is the one *declared absence* that
+  belongs in a setup table, because the reader has met MTDShield in chapter 2
+  and would otherwise find the roster short.
+
+### K4. Table 5.4 — the measures (the missing slot)
+
+Columns `Measure · What it is · Read from · Comparable across`, row-grouped by
+the section that reads it. The rows are the record's (design handoff §20.5),
+each definition one clause; any measure needing an equation sends it to an
+appendix. The last column is where the three-valued comparability boundary
+lives, which turns a paragraph into a property of each row.
+
+A measure enters this table only if the corpus run actually produces it.
+Internal MTTC stays out until its brief is ruled; the compromise-checkpoint
+measure stays out unless the horizon ruling takes it.
+
+**Generation.** Tables 5.2 and 5.3 are hand-set and C39's generator is owed;
+Table 5.4 should be born generated, emitted by the same reader that produces
+the §5.3–§5.5 floats, so the declaration and the executed plan are one object.
+A `tools/ch5_setup_tables.py` reading the run matrix in `run_corpus.py` emits
+all three.
+
+## L. Order of work
+
+1. **Ratify §H's five-paragraph skeleton and §I's ledger** (Marc). Everything
+   downstream depends on the ledger, since four items leave the section.
+2. **Re-cut the two tables** (§K1–K3) — session, mechanical, no prose. These can
+   land before the paragraphs are written and are the fastest visible
+   improvement.
+3. **Build Table 5.4** (§K4) from the records, generated where the reader
+   supports it.
+4. **Place the four relocated items** in ch6/ch7 as comment blocks at their
+   sites, for Marc to accept item by item — the same method used for the
+   chapter 4 insertions on 2026-09-17.
+5. **The prose.** Either Marc dictates against §H and the session runs passes
+   2–5 of the drafting pipeline, or the session drafts to the skeleton for
+   ratification. **Recommendation: session-drafts-to-skeleton**, because the
+   fault diagnosed in Part 1 was the *brief* (fourteen untriaged debt points),
+   not the drafting, and §H is a triaged brief with an explicit exclusion list
+   per paragraph. Marc's voice pass follows either way.
+6. **The run count** (§J) — change `SEEDS` when a subsection is signed off, not
+   before; wall-clock the extended-horizon cells first.
+
+## Validation gate (Part 2)
+
+Part 1's gate stands, plus:
+
+- §5.2 contains no forward reference that stands in for a declaration; in
+  particular every measure the chapter reports appears in Table 5.4.
+- The four relocated items appear in ch6/ch7 and nowhere in ch5.
+- Both factor tables have three columns, the same grammar, and a last column
+  answering one question.
+- No term of art for the design appears in the body; the caption says it in a
+  sentence.
+- The section reads, end to end, as five answers in the order a reader asks
+  them.
