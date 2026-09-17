@@ -25,6 +25,7 @@ new float.
 | §5.3.1 Without defence | `fig_5-3-1b_divergence` | `fig:aio-divergence` | `tools/ch5_unopposed_figures.py` (printed-value 4 × 4 visit-stream matrix, split-half null on the diagonal; landed 2026-09-15) |
 | §5.3.2 Under disruption | `fig_5-3-2a_adaptivity` | `fig:aio-adaptivity` | `tools/ch5_adaptivity_figure.py` (reads `data/results/ch5_defended/numbers.json`; 2 × 2 of IP shuffle / OS diversity × 200 s / 2 000 s, activity shares before and after each interrupt, model beside the verdict-blind control; landed 2026-09-17) |
 | §5.4.1 Mechanisms and schemes | `fig_5-4-1a_suppression_profiles` | `fig:eff-suppression-profiles` | `tools/ch5_effectiveness_figures.py --only fig55` (reads `data/results/ch5_defended/numbers.json`; 2 × 2 of singles / schemes × 200 s / 2 000 s, suppression of hosts reached per profile with bootstrap whiskers; landed 2026-09-17) |
+| §5.4.2 Attacker comparison | `fig_5-4-2a_cross_arm` | `fig:eff-cross-arm` | `tools/ch5_effectiveness_figures.py --only fig56` (same corpus; the same 2 × 2, series = attacker arm, the baseline hatched grey, the model pooled over four profiles; landed 2026-09-17) |
 | §B.1 attack graph | `fig_B-1a_gap_flow_exemplar` | `fig:app-flow-exemplar` | `tools/gap_appendix_figures.py --only gap_flow_exemplar` |
 | §B.1 attack graph | `fig_B-1b_gap_technique_graph` | `fig:app-technique-graph` | `tools/gap_appendix_figures.py --only gap_technique_graph` |
 | §B.1 attack graph | `fig_B-1c_gap_technique_core` | `fig:app-technique-core` | `tools/gap_appendix_figures.py --only gap_technique_core` |
@@ -48,6 +49,7 @@ new float.
 | §5.2 Experimental setup | `tab_5-2b_factors_fixed.tex` (hand-set 2026-09-14; values from the code, footnote carries the pins) | `tab:factors-fixed` | as above |
 | §5.3.1 Without defence | `tab_5-3-1a_unopposed_summary.tex` | `tab:unopposed-summary` | `tools/ch5_unopposed_figures.py` (same corpus; depth column replaced by successes per host, target reached added — findings §6; landed 2026-09-15) |
 | §5.4.1 Mechanisms and schemes | `tab_5-4-1a_conditions.tex` | `tab:eff-conditions` | `tools/ch5_effectiveness_figures.py --only tab55` (same corpus; nine conditions per interval ordered by suppression, delay with the no-compromise share, blocked fraction; overlapping neighbours daggered; landed 2026-09-17) |
+| §5.4.2 Attacker comparison | `tab_5-4-2a_orderings.tex` | `tab:eff-orderings` | `tools/ch5_effectiveness_figures.py --only tab56` (same corpus; ranks per arm at each interval, Spearman's rho with a seed-bootstrap interval and the family contrast as Cliff's delta in the footnote; landed 2026-09-17) |
 
 Inline (typed directly in `dissertation.tex`, no file): `tab:experiment-one` (§B.7),
 `tab:anchor-sensitivity` (§C.1), `tab:shape-substitution` (§C.2),
@@ -107,9 +109,9 @@ on its own before it goes.
 | §5.3.3 | `tab:ablation-ladder` | **removed 2026-09-13** | as above |
 | §5.4.1 | `fig:eff-suppression-profiles` | **core — LANDED 2026-09-17** | four lettered panels: singles / schemes at each interval (the interval is a crossed factor); the aggregate drawn as the fifth series |
 | §5.4.1 | `tab:eff-conditions` | **core — LANDED 2026-09-17** (was cut-or-appendix) | the numbers behind the bars, with intervals; the delay column's no-compromise share is the denied-all-hosts share (one column); no-defence reference once |
-| §5.4.2 | `fig:eff-cross-arm` | **core** | the central comparison; same panel split; arm by hatch |
+| §5.4.2 | `fig:eff-cross-arm` | **core — LANDED 2026-09-17** | the central comparison; same four-panel split as fig:eff-suppression-profiles; arm by hatch |
 | §5.4.2 | `fig:eff-delay` | **removed 2026-09-13** | survival curves are no corpus genre; a column of `tab:eff-conditions`. Zhang-form bars if checkpoint time becomes the primary (handoff §15) |
-| §5.4.2 | `tab:eff-orderings` | **core** | unchanged |
+| §5.4.2 | `tab:eff-orderings` | **core — LANDED 2026-09-17** | ranks per arm at each interval; the family contrast (Cliff's delta) is the primary and the rank correlation its companion, per the 2026-09-09 inference ruling |
 | §5.4.3 | `tab:eff-lineage` | **core** (converted from `fig:eff-lineage`) | comparison table: published claim, direction per arm, boundary in the footnote |
 | §5.5 | `fig:eff-frontier` | **core** | labelled markers, shape = arm |
 | §5.5 | `fig:eff-cost-decomposition` | keep (was cut-or-appendix) | attacker model only, and the caption says why |

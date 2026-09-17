@@ -1,5 +1,5 @@
 ---
-status: findings — preliminary read 2026-09-17, landed section by section the same day (Marc's instruction: iterate §5.3.2 → §5.5 in sequence with preliminary numbers); §5.4.1 landed via tools/ch5_effectiveness_figures.py; captions DRAFT STATE, voice pass owed; §5.4.2 and §5.4.3 appended as they land
+status: findings — preliminary read 2026-09-17, landed section by section the same day (Marc's instruction: iterate §5.3.2 → §5.5 in sequence with preliminary numbers); §5.4.1 and §5.4.2 landed via tools/ch5_effectiveness_figures.py; captions DRAFT STATE, voice pass owed; §5.4.3 appended when it lands
 created: 2026-09-17
 topic: "The §5.4 read of the defended corpus: what each defence condition does to the attacker model's breadth, delay and blocked fraction at both tempos and whether the answer depends on the profile (§5.4.1); the same conditions against the inherited attacker and the two orderings (§5.4.2); the lineage's headline claims re-run under both attackers (§5.4.3)"
 ---
@@ -118,7 +118,88 @@ Four things are in the table.
 
 ## 2. §5.4.2 — the same defences against both attackers
 
-*Owed: appended when the section lands.*
+### Figure 5.6 and Table 5.6
+
+The same nine conditions, the baseline attacker (100 runs per cell; 24.34 ±
+1.87 hosts with no defence) beside the model pooled (8.13). Ranks are by
+suppression at each interval; the family contrast follows the 2026-09-09
+inference ruling: Cliff's δ on hosts reached, the network layer (IP shuffle,
+complete topology, host topology) against the application layer (port shuffle,
+OS diversity, service diversity), positive when the network layer leaves
+fewer hosts. User shuffle is in neither family.
+
+| 200 s | baseline | rank | model | rank |
+|---|---|---|---|---|
+| service diversity | 0.91 [0.88, 0.93] | 1 | 0.36 [0.31, 0.41] | 6 |
+| port shuffle | 0.90 [0.87, 0.93] | 2 | 0.20 [0.14, 0.26] | 7 |
+| IP shuffle | 0.68 [0.62, 0.72] | 3 | 0.96 [0.95, 0.97] | 1 |
+| OS diversity | 0.64 [0.57, 0.71] | 4 | 0.07 [0.00, 0.14] | 8 |
+| complete topology | 0.41 [0.33, 0.47] | 5 | 0.96 [0.95, 0.96] | 3 |
+| host topology | 0.40 [0.32, 0.47] | 6 | 0.96 [0.95, 0.96] | 2 |
+| alternative | 0.39 [0.31, 0.45] | 7 | 0.72 [0.69, 0.74] | 5 |
+| random | 0.33 [0.25, 0.40] | 8 | 0.75 [0.72, 0.77] | 4 |
+| user shuffle | −0.07 [−0.19, 0.04] | 9 | −0.14 [−0.22, −0.06] | 9 |
+
+| statistic | 200 s | 2 000 s |
+|---|---|---|
+| Spearman ρ, seed bootstrap (1 000) | 0.08 [−0.13, 0.10]; 32 % of resamples negative | 0.13 [−0.27, 0.33]; 41 % negative |
+| Cliff's δ network below application, baseline | −0.61 [−0.67, −0.54] (network 12.4 hosts, application 4.5) | −0.19 [−0.29, −0.10] (24.7 / 21.9) |
+| Cliff's δ, model | 0.93 [0.91, 0.94] (0.34 / 6.43) | 0.25 [0.20, 0.29] (6.36 / 8.06) |
+| top mechanism | baseline service diversity, model IP shuffle | the same two |
+
+Three things are in the table.
+
+1. **The two attackers disagree about which family matters, and the
+   disagreement is at the family grade with the intervals nowhere near
+   zero.** Against the model the network layer leaves fewer hosts in nearly
+   every paired comparison (δ 0.93); against the baseline the application
+   layer does (δ −0.61). The baseline's top two are service diversity and port
+   shuffle at 0.90–0.91, both surface re-rolls (port shuffle re-rolls what
+   the baseline's port scan finds); the model's top three are the three
+   position-destroying mechanisms at 0.96. The design comment's 2 × 2 —
+   severance against re-roll, and which half matters — is what the corpus
+   returns.
+2. **The full orderings are uncorrelated, not inverted.** ρ = 0.08 at 200 s
+   with a bootstrap interval that straddles zero and a third of resamples
+   negative. The record's −0.893 (10 seeds, 2026-07-29) does not return and
+   the hard block in the tex stands: no sentence may say the orderings are
+   inverted. What the seeds separate is the family sign, and the prose
+   should say exactly that and no more. The two arms agree on user shuffle
+   (last on both, negative on both) and on the schemes' middle placement.
+3. **At 2 000 s the sign survives and the magnitude does not.** δ 0.25 (model)
+   against −0.19 (baseline), both separated from zero, both a quarter of the
+   200 s values; only service diversity (baseline, 0.30) and IP shuffle
+   (model, 0.33) are separated from zero as singles, and each is the other
+   arm's second. Complete topology shuffle is negative against the baseline
+   at 2 000 s (−0.13 [−0.24, −0.04]): a re-wire eight times per campaign hands
+   the scripted attacker more hosts than it would otherwise reach. Open, as
+   user shuffle is (§1 item 2). *To verify.*
+
+The schemes read the family split too: random and alternative over the seven
+place 4th–5th against the model (0.72–0.75, a rotation that spends three of
+seven turns on the network layer) and 7th–8th against the baseline
+(0.33–0.39). Neither arm's best scheme approaches its best single.
+
+### Against the record
+
+| quantity | record | here |
+|---|---|---|
+| ρ, movement vs inherited ordering | −0.893 (10 seeds, pre-restoration); −0.071 (50 seeds, restored substrate, token-hold record H0) | 0.08 [−0.13, 0.10] at 100 seeds, the chapter's pins |
+| inherited attacker's ordering after `d127f443` | service ≫ plateau {IP 0.68, OS 0.58, CT 0.56} | service 0.91 ≈ port 0.90 > IP 0.68 ≈ OS 0.64 > CT 0.41 ≈ HT 0.40; the plateau has split, and the three restored mechanisms enter it at both ends (port 2nd, user last) |
+| model's ordering | IP 0.93, CT 0.91, service 0.29, OS 0.08 | IP 0.96, CT 0.96, HT 0.96, service 0.36, OS 0.07: unchanged in shape |
+| hypothesis tree E2-R (re-establish H2 at the post-gate configuration) | owed | this is it, at the chapter's pins: H2 returns as a family contrast (tree §1's stated prior), not as a rank inversion |
+| the baseline's blocked fraction | structural zero | structural zero in every row (sanity) — the channel exists only on the model |
+
+### What the floats needed changed (APPLIED 2026-09-17)
+
+- Fig. 5.6: four panels as Fig. 5.5, the baseline hatched grey, the model
+  solid; the model is the four profiles pooled, the aggregate is not an arm
+  here.
+- Tab. 5.6: the family contrast is stated in the footnote as the primary and
+  the rank correlation as its companion, the two families named there, user
+  shuffle placed outside both. The caption's "statistic summarising how far
+  apart the two orderings are" is ρ; the table says at which grade the
+  evidence holds.
 
 ## 3. §5.4.3 — the lineage's headline claims
 
@@ -127,7 +208,9 @@ Four things are in the table.
 ## 4. Validation
 
 §5.4.1: every cell at 100 (400 pooled); Fig. 5.5 fits the page box
-(15.8 × 9.9 cm); every caption fact printed by the generator matches
-`numbers.json`; the table's footnote spans its seven columns. The user-shuffle
-attribution (§1 item 2) and the interrupt-tally cross-check (§5.3.2 record
-§1) are open.
+(15.7 × 9.9 cm); every caption fact printed by the generator matches
+`numbers.json`; the table's footnote spans its seven columns. §5.4.2: Fig. 5.6
+fits (15.7 × 9.5 cm); the ranks in Tab. 5.6 are the analyser's, the footnote
+statistics match `numbers.json` §s542. Open: the user-shuffle attribution
+(§1 item 2), complete topology's negative suppression of the baseline at
+2 000 s (§2 item 3), and the interrupt-tally cross-check (§5.3.2 record §1).

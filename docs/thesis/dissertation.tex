@@ -6520,10 +6520,14 @@ under both attackers on this one simulator.]}
 % attested form (grouped bars, series = attacker arm), with the same
 % singles/schemes panel split as fig:eff-suppression-profiles and the arm
 % distinguished by hatch so the profile colours are not reused for arms.
+% POPULATED 2026-09-17 (tools/ch5_effectiveness_figures.py; same corpus and read as
+% fig:eff-suppression-profiles). Four lettered panels (interval crossed); the
+% baseline hatched grey, the model solid; the model is the four profiles
+% pooled (the aggregate is not an arm here). DRAFT STATE --- ratify on read.
 \begin{figure}[H]
   \centering
-  \placeholderbox{66mm}{Figure 5.6 --- the same defences against both attackers.\\ Two lettered panels: (a) the single mechanisms; (b) the deployment schemes.\\ Grouped bars, x: condition under its short name. y: suppression against no defence, with intervals. Two series: the inherited attacker, the APT attacker (hatched against solid). Legend once.}
-  \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the inherited scripted attacker and once against the attacker model, on the same network under identical conditions, single mechanisms in panel~(a) and deployment schemes in panel~(b). This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
+  \includegraphics{fig_5-4-2a_cross_arm}
+  \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the inherited scripted attacker and once against the attacker model, on the same network under identical conditions, single mechanisms in panels~(a) and~(c) and deployment schemes in panels~(b) and~(d), at each mutation interval. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -6536,12 +6540,12 @@ under both attackers on this one simulator.]}
 
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- kept as is (results table; the grade
 % vocabulary lives at this definition site).
-\begin{table}[H]
-  \centering
-  \caption[The defence ordering produced by each attacker]{The defences ranked by effect, once as the inherited attacker would rank them and once as the attacker model would, with a statistic summarising how far apart the two orderings are and an interval on it. Where the evidence supports only a weaker statement than a full ordering, the table says so rather than presenting a ranking the data cannot separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}
-  \label{tab:eff-orderings}
-  \placeholderbox{46mm}{Table 5.6 --- the two orderings side by side.\\ Rank of each defence under each attacker,\\ with the rank statistic and its interval.}
-\end{table}
+% POPULATED 2026-09-17 as a generated fragment (tools/ch5_effectiveness_figures.py;
+% caption in the fragment). Ranks per arm at each interval; Spearman's rho
+% with a seed-bootstrap interval and the family contrast (Cliff's delta,
+% network against application layer) in the footnote, per the 2026-09-09
+% inference ruling. DRAFT STATE --- ratify on read.
+\input{tables/tab_5-4-2a_orderings}
 
 % ~1 unit. The lineage headlines (Zhang's shuffle-dominates, Ho's
 % diversity-dominates, Brown's combination findings) re-run on ONE

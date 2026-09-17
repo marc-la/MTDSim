@@ -219,13 +219,13 @@ def emit_tab56(s542: dict) -> str:
     w(r"  \caption[The defence ordering produced by each attacker]{The defences ranked by suppression of hosts reached, once as the inherited attacker ranks them and once as the attacker model does, at each interval, with Spearman's rank correlation between the two orderings and a bootstrap interval on it. Where the evidence supports only a weaker statement than a full ordering the footnote says so: the family contrast, network-layer against application-layer mechanisms, is reported as Cliff's delta per arm, which is the object the seed count can separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}")
     w(r"  \label{tab:eff-orderings}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
-    w(r"  \begin{tabular}{@{}cP{2.6cm}>{\centering\arraybackslash}p{2.4cm}>{\centering\arraybackslash}p{0.9cm}>{\centering\arraybackslash}p{2.4cm}>{\centering\arraybackslash}p{0.9cm}@{}}")
+    w(r"  \begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{1.0cm}@{}}")
     w(r"    \toprule")
     w(r"    & Condition & \multicolumn{2}{c}{Baseline attacker} & \multicolumn{2}{c}{Attacker model} \\")
     w(r"    \cmidrule(lr){3-4}\cmidrule(lr){5-6}")
     w(r"    & & Suppression & Rank & Suppression & Rank \\")
     w(r"    \midrule")
-    foot = []
+    rho, fam = [], []
     for interval in INTERVALS:
         blk = s542["by_interval"][interval]
         order = sorted(DEFENDED, key=lambda c: blk["ranks"]["baseline"][c])
@@ -237,10 +237,11 @@ def emit_tab56(s542: dict) -> str:
         w(r"    \midrule" if interval == INTERVALS[0] else r"    \bottomrule")
         sp = blk["spearman"]
         fb, fm = blk["family"]["baseline"]["cliff_network_below_application"], blk["family"]["movement"]["cliff_network_below_application"]
-        foot.append(r"At %s\,s: $\rho = %.2f$ [%.2f, %.2f]; network-layer against application-layer mechanisms, Cliff's $\delta$ (positive when the network layer leaves fewer hosts): baseline %.2f [%.2f, %.2f], model %.2f [%.2f, %.2f]." % (
-            fmt_thousands(int(interval)), sp["rho"], sp["lo"], sp["hi"], fb["delta"], fb["lo"], fb["hi"], fm["delta"], fm["lo"], fm["hi"]))
+        rho.append(r"%.2f [%.2f, %.2f] at %s\,s" % (sp["rho"], sp["lo"], sp["hi"], fmt_thousands(int(interval))))
+        fam.append(r"baseline %.2f [%.2f, %.2f] and model %.2f [%.2f, %.2f] at %s\,s" % (
+            fb["delta"], fb["lo"], fb["hi"], fm["delta"], fm["lo"], fm["hi"], fmt_thousands(int(interval))))
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Rank 1 is the largest suppression. " + " ".join(foot) + r" Ranks within a family are not separable at this seed count (Table~\ref{tab:factors-fixed}); the rank correlation is a companion to the family contrast, not the primary.}\\")
+    w(r"    \multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Rank 1 is the largest suppression. Spearman's $\rho$ between the two orderings, with a seed-bootstrap interval: " + "; ".join(rho) + r". The family contrast is Cliff's $\delta$ on hosts reached, the network-layer mechanisms (IP shuffle and the two topology shuffles) against the application-layer ones (port shuffle, OS diversity, service diversity), positive when the network layer leaves fewer hosts: " + "; ".join(fam) + r". User shuffle belongs to neither family. Ranks within a family are not separable at this seed count (Table~\ref{tab:factors-fixed}); the rank correlation is a companion to the family contrast, not the primary.}\\")
     w(r"  \end{tabular}")
     w(r"\end{table}")
     return "\n".join(L) + "\n"
