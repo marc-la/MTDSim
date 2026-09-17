@@ -6181,10 +6181,17 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % subsection (handoff §10.2); a response shown at one interval is a property
 % of the interval. Dense by design, so the family rule applies if it does not
 % read: split into two figures at descending abstraction rather than shrink.
+% POPULATED 2026-09-17 (tools/ch5_adaptivity_figure.py from the defended corpus,
+% data/results/ch5_defended/; read in
+% docs/implementation/pipeline/ogasp/ch5_s532_adaptivity_findings.md). The
+% window is the five visits either side of each MTD INTERRUPT (the suite's
+% axis-4 instrument), not each mutation: a mutation the attacker never
+% collided with leaves no record. Caption session-edited for that and for the
+% placebo null (printed in the record, not drawn). DRAFT STATE --- ratify on read.
 \begin{figure}[H]
   \centering
-  \placeholderbox{70mm}{Figure 5.4 --- what the attacker does before and after a mutation.\\ Four lettered panels: (a),(b) the network-layer mechanism at two tempos; (c),(d) the application-layer mechanism at the same two tempos.\\ Each panel: grouped bars of activity share in the steps before and after each mutation, the attacker model beside the control blind to outcomes. Legend once.}
-  \caption[How the attacker's activity changes after a mutation]{The mix of activities in the visits immediately before and immediately after each defensive mutation, paired within each run so that variation between runs cancels, with a control in which the attacker's routing is made blind to the outcome its actions return. The panels are the two mechanisms that span how a defence reaches this attacker, one that destroys its position and one that re-rolls the surface it exploits, each at two tempos, because a response that exists at one interval only is a property of the interval. The comparison isolates whether a change in behaviour is a response to the disruption or drift that would have happened anyway. The intention is to show the adaptive loop operating, and to be explicit that operating is a weaker claim than changing an outcome.}
+  \includegraphics{fig_5-3-2a_adaptivity}
+  \caption[How the attacker's activity changes after a mutation]{The mix of activities in the five visits immediately before and the five immediately after each defensive interrupt, pooled over the runs of the four profiles, with a control in which the attacker's routing is made blind to the outcome its actions return. The panels are the two mechanisms that span how a defence reaches this attacker, one that destroys its position and one that re-rolls the surface it exploits, each at two tempos, because a response that exists at one interval only is a property of the interval. Only a mutation that interrupted a visit is paired, since one the attacker never collided with leaves no trace in its record. The comparison isolates whether a change in behaviour is a response to the disruption or drift that would have happened anyway. The intention is to show the adaptive loop operating, and to be explicit that operating is a weaker claim than changing an outcome.}
   \label{fig:aio-adaptivity}
 \end{figure}
 

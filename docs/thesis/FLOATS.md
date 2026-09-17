@@ -23,6 +23,7 @@ new float.
 | §4.4.1 runtime mechanics | `fig_4-4c_runtime_loop` | `fig:runtime-loop` | `tools/runtime_loop_figure.py` (restored 2026-09-08 from the ladder's lower half; imports the ladder's net-window rule) |
 | §5.3.1 Without defence | `fig_5-3-1a_coverage_openings` | `fig:aio-coverage` | `tools/ch5_unopposed_figures.py` (reads `data/results/ch5_s531_unopposed/numbers.json`; three lettered panels: coverage, its first 3 000 s, opening variety; landed 2026-09-15) |
 | §5.3.1 Without defence | `fig_5-3-1b_divergence` | `fig:aio-divergence` | `tools/ch5_unopposed_figures.py` (printed-value 4 × 4 visit-stream matrix, split-half null on the diagonal; landed 2026-09-15) |
+| §5.3.2 Under disruption | `fig_5-3-2a_adaptivity` | `fig:aio-adaptivity` | `tools/ch5_adaptivity_figure.py` (reads `data/results/ch5_defended/numbers.json`; 2 × 2 of IP shuffle / OS diversity × 200 s / 2 000 s, activity shares before and after each interrupt, model beside the verdict-blind control; landed 2026-09-17) |
 | §B.1 attack graph | `fig_B-1a_gap_flow_exemplar` | `fig:app-flow-exemplar` | `tools/gap_appendix_figures.py --only gap_flow_exemplar` |
 | §B.1 attack graph | `fig_B-1b_gap_technique_graph` | `fig:app-technique-graph` | `tools/gap_appendix_figures.py --only gap_technique_graph` |
 | §B.1 attack graph | `fig_B-1c_gap_technique_core` | `fig:app-technique-core` | `tools/gap_appendix_figures.py --only gap_technique_core` |
@@ -98,7 +99,7 @@ on its own before it goes.
 | §5.3.1 | `fig:aio-coverage` | **core — LANDED 2026-09-15** | three lettered panels: coverage over time (a), its first 3 000 s (b), opening variety against depth (c) — the ruled plurality exhibit; the fragment is in the Figures list above |
 | §5.3.1 | `fig:aio-divergence` | **core — LANDED 2026-09-15** | printed-value 4 × 4 matrix, split-half null on the diagonal (aggregate deliberately absent) |
 | §5.3.1 | `tab:unopposed-summary` | **core — LANDED 2026-09-15** | + aggregate row (the objective-conditioning contrast) and baseline row; entropy footnoted; depth column replaced by successes per host (saturated, findings §6); target reached added |
-| §5.3.2 | `fig:aio-adaptivity` | **core** (was cut-or-appendix) | 2 × 2 mechanism × tempo, control beside the treatment; the subsection's only float |
+| §5.3.2 | `fig:aio-adaptivity` | **core — LANDED 2026-09-17** | 2 × 2 mechanism × tempo, control beside the treatment; the subsection's only float; a null result (the control moves identically, findings §4) |
 | §5.3.3 | `fig:aio-disengagement` | **removed 2026-09-13** | the ablation subsection is gone (design C31); see the ch5 design handoff §16 |
 | §5.3.3 | `fig:aio-learning` | **removed 2026-09-13** | as above |
 | §5.3.3 | `tab:ablation-ladder` | **removed 2026-09-13** | as above |
