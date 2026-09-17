@@ -6626,10 +6626,14 @@ spends.]}
 
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- He's two-metric scatter, kept; each marker
 % labelled with its mechanism's short name, marker shape = arm, legend inside.
+% POPULATED 2026-09-17 (tools/ch5_efficiency_figures.py from the defended corpus; read
+% in docs/implementation/pipeline/ogasp/ch5_s55_efficiency_findings.md). Two
+% lettered panels, one per interval, because occupancy is set by the tempo.
+% DRAFT STATE --- ratify on read.
 \begin{figure}[H]
   \centering
-  \placeholderbox{66mm}{Figure 5.7 --- what each defence buys against what it spends.\\ x: fraction of the run spent reconfiguring. y: suppression achieved, with intervals.\\ One marker per mechanism, labelled with its short name; marker shape distinguishes the attackers. Legend inside.}
-  \caption[What each defence achieves against what it costs to run]{Each defence placed by the disruption it achieves against the proportion of the run its own reconfiguration occupies, with both attackers shown and every marker labelled with its mechanism. The horizontal axis is derived entirely from the simulator's record of when each mutation was executing, so unlike attacker-side time it is priced identically on both arms and the two can be compared directly. The intention is to let a mechanism be judged on what it buys for what it spends rather than on effect alone, and to show whether the shape of that trade depends on which attacker is assumed.}
+  \includegraphics{fig_5-5a_frontier}
+  \caption[What each defence achieves against what it costs to run]{Each defence placed by the suppression it achieves against the proportion of the run its own reconfiguration occupies, with both attackers shown and every marker labelled with its mechanism, at each mutation interval. The horizontal axis is derived entirely from the simulator's record of when each mutation was executing, so unlike attacker-side time it is priced identically on both arms and the two can be compared directly. The intention is to let a mechanism be judged on what it buys for what it spends rather than on effect alone, and to show whether the shape of that trade depends on which attacker is assumed.}
   \label{fig:eff-frontier}
 \end{figure}
 
@@ -6637,21 +6641,24 @@ spends.]}
 % in the segments, kept; MOVEMENT ARM ONLY, and the caption now says why (D-37:
 % the confusion penalty is written to no record row on the inherited arm, so
 % its time cannot be split the same way).
+% POPULATED 2026-09-17 (tools/ch5_efficiency_figures.py). The placeholder's third
+% segment, the remainder, is structurally empty on this arm (the token is
+% always in a place, so dwell plus penalty is the whole run); the segment drawn
+% in its place is activity a mutation cut short, the ledger's re-work term.
+% Caption edited for that. DRAFT STATE --- ratify on read.
 \begin{figure}[H]
   \centering
-  \placeholderbox{58mm}{Figure 5.8 --- where the attacker's time goes.\\ Stacked bars, x: defence condition under its short name. y: share of elapsed time.\\ Segments: activity, imposed delay, remainder. Values printed in the segments. The attacker model only.}
-  \caption[How a defence changes where the attacker's time goes]{The attacker model's elapsed time under each defence condition, divided into time spent performing activities, time lost to the delay a mutation imposes, and the remainder, with segment values printed since a stacked bar is otherwise hard to read across conditions. The decomposition is drawn for the attacker model only: the delay a mutation imposes is not written to the inherited attacker's records, so its time cannot be split the same way, and the cross-arm comparison is made event-wise in Table~\ref{tab:eff-cost}. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
+  \includegraphics{fig_5-5b_time_split}
+  \caption[How a defence changes where the attacker's time goes]{The attacker model's elapsed time under each defence condition, at each interval, divided into activity that ran to completion, activity a mutation cut short before it could return an outcome, and the delay the mutation then imposed, with segment values printed since a stacked bar is otherwise hard to read across conditions. The decomposition is drawn for the attacker model only: the delay a mutation imposes is not written to the inherited attacker's records, so its time cannot be split the same way, and the cross-arm comparison is made event-wise in Table~\ref{tab:eff-cost}. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
   \label{fig:eff-cost-decomposition}
 \end{figure}
 
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- kept as is (results table; event-wise across
 % arms, which is what makes it comparable).
-\begin{table}[H]
-  \centering
-  \caption[The cost of each condition, on both sides]{The attacker's effort per host it manages to reach, and the defender's reconfiguration burden, for each condition and each attacker. The attacker-side columns are counts of events rather than durations, which is what makes them comparable across two attackers that price time differently. The intention is to report both sides of the exchange on one page, and to state plainly which quantities may be compared across attackers and which may not.}
-  \label{tab:eff-cost}
-  \placeholderbox{46mm}{Table 5.8 --- cost by condition and attacker.\\ Actions per host reached; successes per host reached;\\ reconfiguration occupancy; mutations per unit time.}
-\end{table}
+% POPULATED 2026-09-17 as a generated fragment (tools/ch5_efficiency_figures.py;
+% caption in the fragment). At the inherited interval; the 2 000 s rows are in
+% the record. DRAFT STATE --- ratify on read.
+\input{tables/tab_5-5a_cost}
 % =====================================================================
 \chapter{Discussion}
 \label{ch:discussion}
