@@ -2307,3 +2307,163 @@ One consequence for the drafting cue card (§20.3 point 4): each design fact
 opens on its ch3 clause and closes on its level, so a reader meets the factor
 as a claim the review already made. That is the unification Marc asked for, and
 it costs no words the section does not already spend.
+
+## 20. Marc's second cold read of §5.1 (2026-09-17) — what the section is for, and why the draft does not read
+
+Marc read the 2026-09-13 draft as an outsider who knows the model: *very hard to
+follow; every paragraph joins context from prior chapters rather than doing a
+job; "seven numbers" comes from nowhere; forward and backward decay, the kernel's
+floor and the rule kernel arrive unexplained; the table is unreadable to anyone
+but him; Figure 5.1 does something he cannot name; the closing "selected three
+things" is logic asserted, not shown; too many words for what is said.* He also
+named the upstream cause: he "blindly accepted" that a sensitivity analysis means
+sweeping things, and the three things he meant to sweep (dwell times, mapping,
+failure matrix) are now declared as model components in §4.4, so the section's
+direction was never settled before it was drafted. He asked for the purpose to be
+settled first and the redraft to follow.
+
+### 20.1 What the section is for — one sentence, and its field name
+
+The section answers one question: **does any conclusion of this chapter depend
+on where, inside its plausible band, a declared value of the model sits?** That
+is ten Broeke's second purpose of sensitivity analysis (robustness of the
+inferences: "for these inferences to be credible they should not depend on a
+narrow and uncertain set of assumptions", `tenbroeke2016_abm_sa.md` §2.3) and
+Sargent's parameter-variability analysis as operational validation for an
+unobservable system (conventions §d2). It is the discharge of the first
+objection in `evaluation_burden.md` — *the novel behaviour rests on invented
+parameters* — and nothing else. It is a **licence for §5.3–§5.5**, not a result
+in its own right: it earns the right to report numbers at the declared
+configuration.
+
+The draft instead states *two* purposes, "to screen the inputs ... and to rank
+them". Those are Saltelli's *factor fixing* and *factor prioritisation*
+settings (`pianosi2016_sa_review.md` §2.2.4), a vocabulary the conventions file
+itself warns is foreign to this literature (§d: zero hits for screening /
+ranking / OAT across the whole source tree). The draft violated a rule the
+repo already carried.
+
+**The one thing beyond robustness the section may do** is select: name the one
+input the conclusions are exposed to, so the experiment holds it deliberately
+(§3.1b, Manadhata / Torquato). That is a closing sentence, not a purpose.
+
+### 20.2 What the model's inputs are, and what the experiment's factors are
+
+Two kinds of sweep look identical and have opposite purposes, and the draft
+blurs them:
+
+| | The model's inputs (§5.1) | The experiment's factors (§5.2) |
+|---|---|---|
+| what | numbers the model had to be given because nothing supplies them | conditions varied on purpose to learn something about the defence |
+| why varied | to show the conclusions do **not** move | because the conclusions **should** move, and how is the result |
+| where declared | ch4, at the symbol | §5.2's two tables |
+| outcome reported | inert / moved, against the interval at centre | the results sections |
+
+The mutation interval is a factor, not an input. The degenerate-region finding
+(neither attacker completes at the inherited tempo) came out of the dwell sweep
+because tempo was swept *alongside*, and it is a finding about the experiment's
+design. It belongs in §5.2 where the tempo factor is declared, with one
+back-pointer to the sweep that found it. The draft's closing "selected three
+things" puts it in §5.1 as the third selection, which is why that paragraph reads
+as asserted: the section never said it swept the tempo.
+
+### 20.3 How the field does it (conventions §c, §d, §h, restated as a shape)
+
+- Nobody but Outkin titles the section. Where a paper sweeps, the sweep **is**
+  the results section, organised one parameter per block (Hong, Anderson,
+  Carroll). The parameters are declared in the model section and swept in the
+  results section — Anderson's split is exactly ch4 → §5.1.
+- One-at-a-time, universally, never named. The field's sentence is "we varied
+  *x* from *a* to *b* with the other parameters fixed at their values in
+  Table N".
+- Tay's repeating internal shape per parameter: **what it is and what it trades
+  off; its range and why; the figure; the readout, with the why deferred to the
+  discussion.** Four moves, in that order, every time.
+- Ranges are almost never justified; ours are (the catalogue's evidence tiers;
+  the kernel's own structure). Say so **once**, as a fact, not as an argument.
+- The good papers name what they did **not** sweep, in a clause with a reason
+  (Hong, Bland, Kim). That is the rule kernel's sentence.
+- Figure: x = the parameter across its band, y = the outcome with its interval,
+  series = a second factor at two to four levels; **one figure per parameter
+  that moved.** Its job is the *form* of the relationship (linear, tipping
+  point), which a band-ends row cannot show.
+- No method philosophy. Zero words on what OAT cannot see, what Sargent
+  licenses, what a cross through the input space is. One citation for the
+  method if any (Madan's "the sweep stands in for an estimation nobody can
+  make" is the corpus's own justification and one clause is enough).
+
+### 20.4 Where the draft went wrong — seven locatable faults
+
+1. **Written from the record, for the record.** Every sentence is a retrieval
+   key to a handoff section: "seven numbers" (§16's register re-cut), "screen
+   and rank" (Pianosi), "walks a cross through the input space" (Saltelli),
+   "an estimation nobody can make" (Madan), "cannot earn high confidence"
+   (Sargent). A reader without the handoff sees names with no referents. This
+   is Marc's "describing to an LLM" exactly.
+2. **Opens with inventory, not with the question.** "There are seven numbers
+   the formalism cannot supply" is bookkeeping. The reader needs the question
+   (§20.1) and why its answer matters to the chapter, in the first two
+   sentences. Seven is a count the register needs; the reader thinks in the
+   **three families §4.4 just declared** (dwell times; mapping; failure matrix)
+   and the seven are the numbers inside them (4 anchors + shape; the mapping;
+   γ, δ, z, R).
+3. **The failure-matrix symbols arrive unintroduced.** §19 already located
+   this: the 2026-09-08 front-loading ruling cut the meaning sentences from
+   §4.4.3, so γ, δ, z and R are first met in the notation table and then priced
+   in Table 5.1 with a two-word name each. Marc's "what is the kernel" is the
+   symptom. **Part of the fix is in ch4, not §5.1:** one clause of meaning per
+   symbol at §4.4.3 (what forward decay suppresses; what the floor makes
+   representable; that R is the nine argued rules). §5.1 may then name them
+   without re-explaining.
+4. **Three kinds of row share one column.** A numeric band (anchors, decays,
+   floor), a swap with no band (shape, mapping) and an input not swept at all
+   (R) all sit under "Band explored, and its origin", which forces cells like
+   "a swap, not a band" and "not swept: argued value by value". The
+   every-input-listed rule (§3.1) is right; executing it as one flat table
+   with one band column is what makes the table unreadable. Group the rows
+   under the three family labels (the house `\rowgroup`), move the appendix
+   pointers to their own column (Marc: "the citations can live in another
+   column"), and let the effect column carry one word per row: *inert*,
+   *moved* (→ figure), *zero by structure*, *swap: alternative worse*, *held*.
+5. **The budget went on defending the method.** Two of four preamble
+   paragraphs are OAT's limits and Sargent's ceiling. The field spends nothing
+   here (§20.3). Cut to one clause each, or to zero.
+6. **Figure 5.1 has no antecedent in the prose.** The reader has not been told
+   why the low-and-slow anchor is the interesting one before meeting a figure
+   of it, and the caption is written as a slot. The figure needs its mechanism
+   sentence in the prose first (*the longer the quiet tactics dwell, the fewer
+   hosts are reached before the horizon; the priced anchors carry none of
+   this*), then the figure shows the form.
+7. **The closing selection names a result the section did not set up** (§20.2).
+
+### 20.5 The reconciliation Marc asked for
+
+There is no conflict between "the three assumptions live in the model
+description" and "the sensitivity analysis sweeps them". That is the field's
+form: **ch4 declares the value and why it was chosen; §5.1 asks whether the
+chapter depends on it.** §4.4 already makes the promise three times, by family,
+in this order: "the anchors are what the sensitivity analysis sweeps"; "the
+mapping is swapped in the sensitivity analysis"; "the kernel's parameters are
+swept in the sensitivity analysis". §5.1 keeps the three promises in the same
+order. The one-unit ruling (C30) stands; the cost it silently paid was the
+three-family spine the retired subsections carried. Restore the spine as three
+paragraphs inside one unit, not as subsections.
+
+### 20.6 The shape that follows — paragraph purposes, not prose (Marc's to write)
+
+Roughly 300 words of prose + the table + one figure.
+
+| ¶ | Job | Length |
+|---|---|---|
+| 1 | The question (§20.1) in the chapter's own words; that the values are the three families ch4 declared and could not measure; that the test is to move each across its band with the rest held and see whether the outcome leaves its interval at the declared value; the outcome measure and why (breadth, because success rate is pinned at zero at the inherited tempo). One clause: the bands come from the evidence tiers and the kernel's structure, which the corpus does not do. | ~110 |
+| 2 | **Dwell times.** The four anchors and the draw's shape. Which moved (the low-and-slow anchor), the mechanism in one sentence, the figure. The priced anchors inert. The shape a swap: inert across the operating region, live at one corner, and the faithful shape is worse for the attacker. | ~80 |
+| 3 | **Mapping.** A swap, not a band: the forced-total alternative under-performs and why in one clause; the partial mapping stands as a declared input the effectiveness claims carry. | ~40 |
+| 4 | **Failure matrix.** γ, δ, z over their bands: which decay moved and on which mapping; the floor zero by structure and why (no three-stage edge in the corpus); the corners of the influential pair. R not swept, with the reason in a clause. | ~60 |
+| 5 | The selection: the one input the conclusions are exposed to, held and named where it could turn a claim. Hand to §5.2. | ~30 |
+
+Table 5.1 sits after ¶1, grouped by family (§20.4 item 4). Figure 5.1 sits
+inside ¶2. Everything Madan / Sargent / ten Broeke is one citation each at most,
+or none.
+
+**Still blocked** on the re-run at the reported configuration (§3.2, §18.4):
+every number in ¶2–¶4 and the selection in ¶5. The prose skeleton is not.
