@@ -1,0 +1,43 @@
+% NEW 2026-09-17 (§5.2 critique handoff §K4; design ruling C33, drafted at last).
+% THE DEFINITION SITE THE CHAPTER WAS MISSING. §5.2 previously deferred every
+% measure to the section that reads it, so a reader finished the experimental
+% setup without learning what is measured; this table ends that deferral. The
+% last column carries the three-valued comparability boundary (C27) as a
+% property of each row rather than as a paragraph, so a time-denominated measure
+% is visibly within-arm only.
+% EVERY ROW IS A QUANTITY THE CORPUS ACTUALLY PRODUCES: transcribed from
+% data/results/ch5_defended/analyse.py (summarise_movement, summarise_baseline)
+% and the §5.3 unopposed measures in tools/ch5_unopposed_figures.py. A measure
+% that is not computed does not appear --- internal MTTC stays out until its
+% brief is ruled, and the compromise-checkpoint measure until the horizon
+% ruling takes it. Note blocked fraction is structurally zero on the baseline
+% arm (analyse.py:166), which is why its comparability cell says movement arm.
+% SHOULD BE BORN GENERATED: emitted by the same reader that produces the
+% §5.3--§5.5 floats, alongside the C39 pass for tab_5-2a and tab_5-2b.
+% Ratify on read.
+\begin{table}[htbp]
+  \centering
+  \caption[The measures, and what each may be compared across]{Every measure this chapter reports, what it is, the conditions it is read from, and what it may be compared across. The measures of Section~\ref{sec:attacker-in-operation} are instruments for validating the attacker model and are not offered as metrics for evaluating a defence. Numbers published on other simulators are comparable to none of these.}
+  \label{tab:measures}
+  \tablestyle\setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}cP{2.6cm}P{4.8cm}P{2.6cm}P{3.1cm}@{}}
+    \toprule
+    & Measure & What it is & Read from & Comparable across \\
+    \midrule
+    & Campaign coverage & the distinct campaign tactics a profile has entered, as a run proceeds & no defence & both arms, as a count \\
+    & Opening variety & the distinct opening sequences of each length observed across the runs & no defence & both arms, as a count \\
+    & Profile divergence & how far apart two profiles' distributions of visited tactics sit, against each profile's own split-half null & no defence & the movement arm \\
+    \rowgroup{4}{Attacker model} & Response to disruption & the attacker's verbs before a deployment interrupts it against those after, against a placebo-timestamp control & under defence & within an arm \\
+    \midrule
+    & Host breadth & the distinct hosts compromised in a run, and its suppression against no defence & every condition & both arms, as a count \\
+    & Target reach & whether the run reached the database hosts & every condition & both arms, as a fraction \\
+    & Delay to first compromise & the time to the first host compromised, censored at the horizon & every condition & within an arm \\
+    \rowgroup{4}{Effectiveness} & Blocked fraction & the share of the attacker's actions a deployment interrupts & under defence & the movement arm \\
+    \midrule
+    & Attacker cost & the actions attempted, and the run's time split into dwell, imposed delay and the remainder & every condition & counts both arms; the time split within the movement arm \\
+    & Effort per host & the actions attempted for each distinct host compromised & every condition & both arms, as a ratio \\
+    & Reconfiguration occupancy & the share of the run during which a mechanism is deploying & under defence & both arms \\
+    \rowgroup{4}{Efficiency} & Deployment tempo & the deployments executed per thousand seconds & under defence & both arms \\
+    \bottomrule
+  \end{tabular}
+\end{table}

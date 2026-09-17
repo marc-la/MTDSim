@@ -4249,11 +4249,12 @@ in the simulator, so we extend the profile net with the verdict. A
   \label{eq:vc-net}
 \end{equation}
 where $V = \{\text{success}, \text{failure}, \text{none}\}$ is the set
-of verdicts the simulator returns for the action a tactic dispatched
-(Section~\ref{sec:execution}), and each
-$F_v : P_c \times P_c \to [0, 1]$ is a declared factor on tactic pairs.
-When $\tau_p$ fires and the simulator returns $v$, the immediate
-transitions out of $\hat{p}$ fire with weights
+of verdicts the token routes on (success and failure as the simulator
+returns them for the action a tactic dispatched,
+Section~\ref{sec:execution}; none at a tactic that dispatches no
+action), and each $F_v : P_c \times P_c \to [0, 1]$ is a declared
+factor on tactic pairs. When $\tau_p$ fires and the verdict is $v$,
+the immediate transitions out of $\hat{p}$ fire with weights
 \begin{equation}
   W_c(t_{pq} \mid v) =
   \frac{w_c(p, q)\, F_v(p, q)}
@@ -4509,6 +4510,16 @@ profiles to MTDSim;
 %  placed at each symbol in §4.3-4.4. Keeps the two words apart.]
  each is swept in the sensitivity analysis
 (Section~\ref{sec:sensitivity}).
+% PROPOSED INSERTION A, 2026-09-17 (§5.1 overhaul, handoff
+% 2026-09-17_ch5_s51_sensitivity_overhaul.md D5). Accept by replacing the
+% sentence above ("These are the three inputs ... (Section 5.1).") with the
+% two below, reworded as you like; delete this block otherwise. Why: "swept"
+% is the wrong verb for the mapping (a comparison) and the nine rules (held);
+% the clause should name the question §5.1 answers, not a mechanism.
+%   These are the three inputs we had to declare to join the attack profiles
+%   to MTDSim. Whether any conclusion of the evaluation depends on where a
+%   declared value sits is the question Section~\ref{sec:sensitivity}
+%   answers.
 % [3b] SESSION GLUE from Marc's chat words (2026-09-08: "these are the three
 %  assumptions that we needed to model that allowed us to join the attack
 %  profiles to MTDSim") + the forward pointer he asked for. Ratify on read.
@@ -4681,6 +4692,23 @@ What we could take from the six original verbs of the action layer, we used
 directly. The 15 tactics resolve onto four anchor families, so the model
 carries 4 free timing parameters rather than 15, and the anchors are what
 the sensitivity analysis sweeps (Section~\ref{sec:sensitivity}).
+% PROPOSED INSERTION B, 2026-09-17 (§5.1 overhaul, D5). Accept by replacing
+% the sentence above ("The 15 tactics resolve onto four anchor families ...")
+% with the three below, reworded as you like; delete otherwise. Why: §5.1
+% names the family that moved, and the reader has to have met the four by
+% name here first. Membership is the catalogue's (tactic_durations.json):
+% low-and-slow = persistence, stealth, command and control at the full 45 s,
+% execution and defence impairment at half. "Family" is the body's word;
+% "anchor" stays the appendix's and the code's.
+%   The 15 tactics resolve onto four families, each priced from one shape.
+%   The scan-shaped family takes the simulator's cost of one enumeration
+%   pass, and the exploit-shaped family its exploit time at median
+%   complexity. The low-and-slow family, for persistence, stealth and
+%   command and control, is declared at ten times the exploit shape, with
+%   execution and defence impairment at half of that; the objective family,
+%   for collection, exfiltration and impact, at eight times it. The model
+%   therefore carries four free timing values rather than 15, and those four
+%   are what Section~\ref{sec:sensitivity} moves.
 % [2026-09-08: the tiers sentence "If that was not sufficient, then we used
 %  some multiplier ... what shape fitted best" CUT on the front-loading
 %  ruling --- App. B.4's "Why this value" column carries the tiers row by
@@ -4815,6 +4843,19 @@ which gave the four broad stages of an attack --- preparation, intrusion,
 post-intrusion operations, and objective. ATT\&CK imposes no order on its
 tactics, so the order the distance kernel reads is imported from these
 lifecycle models rather than observed in the corpus.
+% PROPOSED INSERTION C, 2026-09-17 (§5.1 overhaul, D5). Accept by uncommenting
+% here, after the A8 sentence; delete otherwise. Why: §5.1 moves "the two
+% rates and the floor" of the distance term, and this is the only place a
+% reader can learn what they do (the 2026-09-08 front-loading ruling cut the
+% kernel-value sentence; App. B.6 has the detail). Values checked against
+% DistanceKernel (rules.py): adjacent = 1, two stages = 0.25, three = 0.0625,
+% which the floor 0.1 cuts to zero. "Distance term" for "kernel" is your
+% call; the appendix keeps "kernel" either way.
+%   Distance is the number of stages a transition crosses. A move to the
+%   adjacent stage is not penalised; a jump across two stages is scaled down
+%   by a rate, one rate for a jump forward and another for a fall back; a
+%   jump of three stages is cut to zero by a floor. The two rates and the
+%   floor are the only numbers in the distance term.
 % [2026-09-13: A8 sentence landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
 %  §7.2. Ratify-on-read.]
@@ -4822,6 +4863,11 @@ This can be found in
 Appendix~\ref{app:weight-sets}, along with the full set of tactic-to-tactic
 failure weights; the kernel's parameters are swept in the sensitivity
 analysis (Section~\ref{sec:sensitivity}).
+% PROPOSED REWORD C2, 2026-09-17 (§5.1 overhaul, D5): for the clause above
+% after the semicolon, once insertion C is in, so the pointer uses the words
+% the reader has just met —
+%   the two rates and the floor are moved in Section~\ref{sec:sensitivity};
+%   the rules are not.
 % [2026-09-08, front-loading ruling: the kernel-value sentence ("within the
 %  same phase ... a quarter ... zero"), the 0.1-floor sentence and the
 %  reconnaissance-to-impact example CUT --- App. B.6 declares gamma, delta,
@@ -5471,6 +5517,14 @@ gets a row, not a figure.
 
 % DRAFT STATE 2026-09-13 (the selection, design C7b) --- sec:dimensions opens
 % by picking these three up.
+% BROKEN JOIN 2026-09-17 --- §5.2 no longer picks these up. Its opening
+% paragraph carried the selection forward and was cut in the redraft (critique
+% handoff §I), on the same ground Marc ruled for §5.1 itself: the section
+% stands on its own and the chapter preamble carries the join. This sentence
+% is therefore a promise §5.2 does not keep. It belongs to the §5.1 overhaul
+% (2026-09-17_ch5_s51_sensitivity_overhaul.md, D2 ¶3, whose closing sentence
+% ends on the exposed input and makes no forward reference), so it is FLAGGED
+% HERE, NOT EDITED --- the tex of §5.1 is under Marc's hand.
 The sweep selected three things, and Section~\ref{sec:dimensions} picks
 them up. The evaluation's claims are exposed to one declared input, the
 low-and-slow anchor, which is held at its declared value and named in every
@@ -5600,123 +5654,86 @@ an inherited default.
 \section{Experimental setup}
 \label{sec:dimensions}
 
-% DRAFT STATE 2026-09-15 --- session-generated on Marc's authorisation ("draft
-% accordingly, working with the tables"; the ch5 AI green light). Written to
-% ~750 words against the 2-unit ledger (~500); the overdraft is claimed on the
-% first-completion ruling (2026-08-18) and is the compress-to-ledger pass's to
-% take. Design and content points: ch5 design handoff §20 (§20.3, §20.5, §20.8
-% the ch3 trace). Ratify on read. The tables carry the levels, the geometry,
-% the constants and the pins; nothing below repeats them. Register calibrated
-% on §5.1's draft. No number below is a measurement.
-Carrying from the sensitivity analysis, three things are fixed before the
-experiment is declared. The low-and-slow anchor is held at its declared
-value and named wherever a claim could turn on it. The exponential draw is
-live only at long dwell under mutation pressure, so no cell is run in that
-corner without saying so. The inherited mutation interval sits inside a
-degenerate region, so the interval is a factor of the experiment and not a
-default it inherits. Two references then need naming, because the word
-\emph{baseline} is asked to do two jobs in this literature. The no-defence
-condition is the reference every effect in this chapter is a difference
-from \citep{zaffarano2015}. The baseline attacker of
-Section~\ref{subsec:attacker-model} is the comparison arm. Neither is
-called by the other's name.
-% [3b] "Neither is called by the other's name" --- the section's one vivid
-%  sentence; cut if §5.1's "nothing was tuned" is the one you want in this
-%  region of the chapter.
+% DRAFT STATE 2026-09-17 --- REDRAFTED against the five-answer skeleton in
+% docs/handoffs/2026-09-17_ch5_s52_setup_critique.md §H, which Marc ratified the
+% same day ("just have you draft it"). The section that stood here (905 words,
+% six paragraphs, 2026-09-15) was cold-read and found to declare the record's
+% debts rather than the experiment; Part 1 of that handoff is the diagnosis and
+% §I is the sentence-level ledger of where each departed item went. Each
+% paragraph below answers exactly one of the five questions a reader arrives
+% with --- on what terrain; what is run against what; what varies and what is
+% held; what is measured; how many times and how it is summarised --- in that
+% order, and answers nothing else. ~510 words against the two-unit ledger
+% (~500); pass 5 takes the remainder. The tables carry the levels, the values,
+% the reasons and the pins; no value below is repeated from them. NO FORWARD
+% REFERENCE STANDS IN FOR A DECLARATION HERE: every measure the chapter reports
+% is named in Table~\ref{tab:measures}. Ratify on read.
+% THE RUN COUNT IS A THOUSAND (handoff §J, Marc's ruling): the corpus at
+% data/results/ch5_defended/run_corpus.py still sets SEEDS = range(100), which
+% is the preliminary pass the floats are argued from. The chapter reports
+% thousand-seed numbers, and the word "preliminary" appears nowhere in it.
+Every run in this chapter takes place on one network: fifty hosts across
+four levels of depth, eight subnets and five exposed endpoints, with the
+topology drawn fresh for each seed. The two database hosts at the deepest
+level are the target. A run ends when the attacker reaches them, or when
+the horizon expires with them still out of reach. The terrain is held at
+that single configuration throughout, so nothing reported here speaks to
+how these results would move with network size or density.
 
-Table~\ref{tab:factors-varied} is what the experiments vary and
-Table~\ref{tab:factors-fixed} what they hold, with the reason for each.
-The design is a crossed core of three factors, the attacker arm, the
-defence condition and the mutation interval, and three factors moved one
-at a time from that core: the discipline of Section~\ref{sec:sensitivity}
-applied to the experiment rather than to the model. Every factor was set
-up in the literature review. The four attack profiles are the objective
-partition the APT definition names (Section~\ref{subsec:apt}), and the
-aggregate is the corpus unpartitioned, run so that objective conditioning
-is a contrast and not an assertion. The targeted objective is the APT's,
-a specific objective against a specific target, and the opportunistic
-objective is the lineage's, kept for the prior evaluations it was run
-under (Section~\ref{subsec:eff-lineage}). Mechanisms are run alone and
-under two schemes because evaluating them together is where the recent
-work sits (Section~\ref{subsec:evaluation-methods}). The interval is the
-factor the field varies most, and the one the operating point turns on:
-at the inherited interval neither attacker completes its objective, so a
-success-shaped measure is pinned at zero there and cannot discriminate;
-it is read at the second interval, and every claim states the interval it
-was taken at. The timing regime is a factor because the inherited schedule
-arrives on a clock, and a clock is the pattern Jalowski et al.\ say an APT
-attacker learns \citep{jalowski2026}. The horizon is extended because the
-lineage's was sized for an attacker that floods a network and a campaign
-needs headroom (Section~\ref{subsec:apt}), with deployments per run held
-so that a longer run is not silently more defence.
-% [3b] "floods a network" --- your word for the baseline attacker's manner,
-%  or "compromises what it can reach"; the registry has no term for it.
+Two attackers are run against one defender, each across the same ten
+conditions. The first attacker is the baseline attacker of
+Section~\ref{subsec:attacker-model}; the second is the movement attacker,
+instantiated on each of the four attack profiles and on the aggregate, the
+corpus left unpartitioned by objective. The conditions are no defence, each
+of the seven defence mechanisms deployed on its own, and the two execution
+schemes that draw from all seven; no defence is the reference that every
+effect in this chapter is a difference from. The defender is the
+simulator's own, and three clauses describe it. Its goal is to disrupt the
+attacker, not to detect it. It knows nothing of the attacker, there being
+no detection channel for that knowledge to arrive through
+(Section~\ref{subsec:defence-mechanisms}). Its capability is the seven
+mechanisms, on a time-triggered schedule it never departs from.
+
+Table~\ref{tab:factors-varied} lists what the experiments vary and
+Table~\ref{tab:factors-fixed} what they hold, with the reason in each case.
+Attacker arm, defence condition and mutation interval are run in every
+combination; the timing regime, the horizon and the objective are each
+varied on their own from that grid. The mutation interval carries two
+levels because the inherited value cannot be reported alone: at two hundred
+seconds neither attacker reaches its objective, so a measure shaped by
+success is pinned at zero and separates nothing, and only at the longer
+interval can it move. Every claim in this chapter states the interval it
+was taken at.
 
 \input{tables/tab_5-2a_factors_varied}
 \input{tables/tab_5-2b_factors_fixed}
 
-Chapter~\ref{ch:attacker-model} is the attacker's half of the model; the
-defender's half is three clauses. Its goal is to disrupt, not to detect.
-It knows nothing of the attacker: the simulator encodes no detection
-channel (Section~\ref{subsec:defence-mechanisms}). Its capability is the
-seven mechanisms of Table~\ref{tab:defence-mechanisms} on a time-triggered
-schedule it never departs from: the SDR operation alone, in the terms of
-Section~\ref{subsec:defence-modelling-approaches}, with the learned
-selector declared not exercised in Table~\ref{tab:factors-fixed}. Two
-concessions follow. Jalowski et al.'s third guideline asks that a metric
-compare the scheme against a state-of-the-art protected system
-\citep{jalowski2026}; this evaluation compares mechanisms against each
-other and against no defence, with the defender frozen. And of the
-attacker-realism demand the same critique makes, this thesis answers the
-half that is grounded in threat intelligence, conditioned on an objective
-and routed by outcome, not the half that reasons about the scheme itself
-(Chapter~\ref{ch:futurework}).
+Table~\ref{tab:measures} names every measure the chapter reports, what each
+is read from, and what it may be compared across. The measures of
+Section~\ref{sec:attacker-in-operation} are instruments for validating the
+attacker model rather than metrics for evaluating a defence, and they are
+read against no defence so that they describe the attacker and not its
+interaction with the defence; those of Sections~\ref{sec:effectiveness} and
+\ref{sec:efficiency} are the two purposes an evaluation is asked to serve,
+what the defence achieves and what it costs. Distinct hosts compromised is
+the denominator throughout, because it responds at every interval, and
+target reach is reported beside it wherever it is not degenerate.
 
-What is measured is named by the section that reads it.
-Section~\ref{sec:attacker-in-operation} reads the model's own instruments,
-one per property of Table~\ref{tab:attacker-properties}: model-validation
-instruments, not offered as MTD metrics.
-Sections~\ref{sec:effectiveness} and \ref{sec:efficiency} read the two
-purposes of Table~\ref{tab:mtd-metrics}, what the defence achieves and
-what it costs, from both sides. On that taxonomy the evaluation is strong
-on cost, adequate on containment and delay, and silent on the attack
-surface, on payoff and on service to users; the silence is the
-simulator's, which has no workload model and no detection channel, the
-cost Section~\ref{subsec:evaluation-methods} names. The backbone
-denominator is host breadth, the distinct hosts compromised, because it
-varies at every interval; target reach is reported beside it wherever it
-is non-degenerate. Comparability is three-valued: numbers published on
-other simulators are not comparable to these; across the two attackers
-counts, fractions and per-host ratios are comparable and durations are
-not, because the two arms price time differently; within an attacker
-every configuration is comparable with every other.
+\input{tables/tab_5-2c_measures}
 
-Every cell runs a hundred seeds, the count at which the interval on a
-cell mean sits inside the declared tolerance \citep{hoad2007}: the run
-count is a consequence of the tolerance, not a round number. The same
-seeds are used on every arm, but shared seeds do not give the arms
-matched randomness, so every comparison across attackers is unpaired. We
-report effect sizes with 95\,\% intervals, which no evaluation in this
-lineage does. Tests attach to declared claims only, adjusted within each
-family of comparisons, and each claim carries a minimum effect of
-interest fixed before the run, because on a simulator this cheap any
-difference can be made significant by adding seeds. One consequence is
-stated now rather than found later: adjacent ranks within a mechanism
-family are not separable at this count, so the attacker comparison
-reports which family each attacker rewards, not a total order.
-% [3b] "the declared tolerance" --- your number (C38): "within \pm X hosts"
-%  in place of "the declared tolerance", and the same X in tab:factors-fixed's
-%  runs-per-cell reason. Until it is set, the sentence commits to the method
-%  and not to a value.
-% [3b] "minimum effect of interest ... fixed before the run" --- the floors
-%  are C7's and per claim; state them at the claims (§5.4) or once here.
-
-Each section that follows reads a slice of this space.
-Section~\ref{sec:attacker-in-operation} reads the no-defence column at
-both intervals and, for the response to disruption, one mechanism from
-each layer. Section~\ref{sec:effectiveness} reads every condition against
-no defence, under both attackers. Section~\ref{sec:efficiency} reads the
-two cost ledgers over the same cells.
+Every cell runs a thousand seeds, the count at which the closest pair of
+conditions this chapter compares separates~\citep{hoad2007}: the count
+follows from that requirement rather than from convention. The same seeds
+are used on every arm, but the two arms consume randomness differently, so
+no comparison across attackers is paired. Effect sizes are reported with
+95\,\% intervals, which no evaluation in this lineage does. Tests attach to
+declared claims only, are adjusted within each family of comparisons, and
+each carries a minimum effect of interest fixed before the run, because on
+a simulator this cheap any difference can be made significant by adding
+seeds.
+% [3b] "a minimum effect of interest fixed before the run" --- the floors are
+%  C7's and are per claim; state them at the claims (§5.4) or name them here in
+%  one clause. Your numbers either way.
 
 % ---------------------------------------------------------------------
 % REVIEW PASS 2026-09-09 (third): FOUR THINGS THE FACTOR TABLES OWE THAT THE
@@ -6740,6 +6757,26 @@ spends.]}
 \section{Fidelity verdict}
 \label{sec:fidelity-verdict}
 
+% PROPOSED INSERTION 2026-09-17 --- RELOCATED FROM §5.2 (critique handoff §I).
+% Two concessions were standing in the experimental setup, where the corpus puts
+% none (evaluation_conventions.md §g: Brown owns its attacker's unrealism in §V,
+% Zhang in future work, He pairs each limitation with the future work that lifts
+% it). They are content this section owes, not content §5.2 owed, and they are
+% dropped here for Marc to accept item by item; §5.2 no longer carries either.
+%
+% (1) JALOWSKI'S THIRD GUIDELINE. His four guidelines ask, third, that a metric
+%     "compare the MTD scheme to a state-of-the-art system, protected using the
+%     best available methods" \citep{jalowski2026}. This evaluation compares
+%     mechanisms against each other and against no defence, with the defender
+%     frozen. Most MTD evaluations do not meet the guideline either; owning it
+%     is cheaper than being caught by it.
+% (2) WHICH HALF OF THE ATTACKER-REALISM DEMAND IS ANSWERED. The same critique
+%     demands attackers that are "smart, adaptive ... who understand the MTD
+%     scheme". This thesis answers the half grounded in threat intelligence,
+%     conditioned on an objective and routed by outcome; it does not answer the
+%     half that reasons about the scheme itself. The unanswered half is
+%     Chapter~\ref{ch:futurework}'s, and pairing it there is He's form.
+
 % PLACEHOLDER STAGED 2026-09-07 (Marc's ruling: "put a placeholder just
 % with the table for future reference in the discussion"). This is the
 % RETURN of Table 3.3 ruled in the port plan (CONFIRM 3) and handoff
@@ -6885,6 +6922,18 @@ mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
 %     ch5 owns it in a sentence; here is where it is weighed.
 \section{What changes for MTD evaluation}
 \label{sec:evaluation-implications}
+
+% PROPOSED INSERTION 2026-09-17 --- RELOCATED FROM §5.2 (critique handoff §I).
+% THE COVERAGE HEADLINE. It sat in the experimental setup, where it read as a
+% concession before a number had been reported; it is a verdict about the work
+% and belongs here. On the field's own taxonomy (Table~\ref{tab:mtd-metrics})
+% this evaluation is strong on cost from both sides, adequate on containment and
+% delay, and silent on the attack surface, on payoff and on service to users ---
+% five of the ten families. The silence is the simulator's: it has no workload
+% model and no detection channel. Marc's own framing, 2026-09-09: "what do we
+% have in our simulator, what do we not --- we just need to be frank and open."
+% One or two sentences, not the audit table; the audit is the ch5 design
+% handoff's. Proposed for acceptance; §5.2 no longer carries it.
 
 % ---------------------------------------------------------------------
 % PARKED DISCUSSION POINTS (2026-09-09, third review pass; Marc's ask:

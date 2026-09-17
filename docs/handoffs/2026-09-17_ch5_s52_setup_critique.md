@@ -530,3 +530,38 @@ Part 1's gate stands, plus:
   sentence.
 - The section reads, end to end, as five answers in the order a reader asks
   them.
+
+---
+
+## M. What landed (2026-09-17, same session)
+
+Steps 2–5 of §L are done; step 1 was Marc's ratification and step 6 (the run
+count) waits on a signed-off subsection.
+
+| Artefact | State |
+|---|---|
+| §5.2 prose | **Redrafted** to §H's five-answer skeleton. **539 words in five paragraphs**, down from 905 in six. Each paragraph answers one question and carries its exclusion list in the `DRAFT STATE` comment. One `[3b]` left standing: the per-claim effect floors (C7), Marc's numbers |
+| `tab_5-2a_factors_varied` | **Re-cut.** Three columns, `Factor · Levels · Why these levels`; row groups *In combination* / *One at a time*; the design stated in the caption; the half-second internal deleted; em-dashes in the attacker-arm cell swapped for parentheses |
+| `tab_5-2b_factors_fixed` | **Re-cut.** Same grammar, `Held fixed · Value · Why it is held`; runs per cell 1 000; the unpaired argument and the not-separable rider removed to the prose and to nothing respectively; rotated labels set with multirow's `[vmove]` fixup, values measured off the built page |
+| `tab_5-2c_measures` (Table 5.4) | **New.** `Measure · What it is · Read from · Comparable across`, twelve rows in three groups. Every row is a quantity `analyse.py` actually computes; blocked fraction is marked movement-arm because it is structurally zero on the baseline arm (`analyse.py:166`) |
+| ch6 relocations | **Placed as proposed-insertion comment blocks** at `sec:fidelity-verdict` (Jalowski's third guideline; which half of the realism demand is answered) and `sec:evaluation-implications` (the coverage headline). Not drafted into prose — Marc accepts item by item |
+| Build | `pdflatex` clean, 92 pages, no undefined references or citations; the three tables checked on the rendered page |
+
+**Two corrections made against the design record while drafting**, both from the
+runner rather than from the handoff: the conditions are **ten**, not eleven
+(`run_corpus.py::CONDITIONS` — no defence, seven mechanisms, two schemes); and
+the geometry, target set and intervals are transcribed from `GEOMETRY` and
+`INTERVALS` rather than from §20.4's prose.
+
+**One defect this redraft exposed, flagged and not fixed.** §5.1 still closes
+"The sweep selected three things, and Section~\ref{sec:dimensions} picks them
+up." §5.2 no longer picks them up — that carry-over paragraph is the first thing
+§I cut, on the ground Marc ruled for §5.1 itself (the section stands on its own;
+the preamble carries the join). The sentence is therefore a promise §5.2 does
+not keep. It belongs to the §5.1 overhaul, whose D2 ¶3 already ends that section
+on the exposed input with no forward reference, so it is **flagged in place at
+the §5.1 site and left for that brief** — the tex of §5.1 is under Marc's hand.
+
+**Still owed:** the C39 generator pass over all three tables; the ch6 insertions'
+prose; the 60 000 s wall-clock probe before any thousand-seed batch; the effect
+floors.
