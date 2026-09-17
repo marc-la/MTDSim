@@ -24,6 +24,7 @@ new float.
 | §5.3.1 Without defence | `fig_5-3-1a_coverage_openings` | `fig:aio-coverage` | `tools/ch5_unopposed_figures.py` (reads `data/results/ch5_s531_unopposed/numbers.json`; three lettered panels: coverage, its first 3 000 s, opening variety; landed 2026-09-15) |
 | §5.3.1 Without defence | `fig_5-3-1b_divergence` | `fig:aio-divergence` | `tools/ch5_unopposed_figures.py` (printed-value 4 × 4 visit-stream matrix, split-half null on the diagonal; landed 2026-09-15) |
 | §5.3.2 Under disruption | `fig_5-3-2a_adaptivity` | `fig:aio-adaptivity` | `tools/ch5_adaptivity_figure.py` (reads `data/results/ch5_defended/numbers.json`; 2 × 2 of IP shuffle / OS diversity × 200 s / 2 000 s, activity shares before and after each interrupt, model beside the verdict-blind control; landed 2026-09-17) |
+| §5.4.1 Mechanisms and schemes | `fig_5-4-1a_suppression_profiles` | `fig:eff-suppression-profiles` | `tools/ch5_effectiveness_figures.py --only fig55` (reads `data/results/ch5_defended/numbers.json`; 2 × 2 of singles / schemes × 200 s / 2 000 s, suppression of hosts reached per profile with bootstrap whiskers; landed 2026-09-17) |
 | §B.1 attack graph | `fig_B-1a_gap_flow_exemplar` | `fig:app-flow-exemplar` | `tools/gap_appendix_figures.py --only gap_flow_exemplar` |
 | §B.1 attack graph | `fig_B-1b_gap_technique_graph` | `fig:app-technique-graph` | `tools/gap_appendix_figures.py --only gap_technique_graph` |
 | §B.1 attack graph | `fig_B-1c_gap_technique_core` | `fig:app-technique-core` | `tools/gap_appendix_figures.py --only gap_technique_core` |
@@ -46,6 +47,7 @@ new float.
 | §5.2 Experimental setup | `tab_5-2a_factors_varied.tex` (hand-set 2026-09-14; the levels are the run plan) | `tab:factors-varied` | none yet — `tools/ch5_setup_tables.py` owed (ch5 design handoff C39), reads the run matrix |
 | §5.2 Experimental setup | `tab_5-2b_factors_fixed.tex` (hand-set 2026-09-14; values from the code, footnote carries the pins) | `tab:factors-fixed` | as above |
 | §5.3.1 Without defence | `tab_5-3-1a_unopposed_summary.tex` | `tab:unopposed-summary` | `tools/ch5_unopposed_figures.py` (same corpus; depth column replaced by successes per host, target reached added — findings §6; landed 2026-09-15) |
+| §5.4.1 Mechanisms and schemes | `tab_5-4-1a_conditions.tex` | `tab:eff-conditions` | `tools/ch5_effectiveness_figures.py --only tab55` (same corpus; nine conditions per interval ordered by suppression, delay with the no-compromise share, blocked fraction; overlapping neighbours daggered; landed 2026-09-17) |
 
 Inline (typed directly in `dissertation.tex`, no file): `tab:experiment-one` (§B.7),
 `tab:anchor-sensitivity` (§C.1), `tab:shape-substitution` (§C.2),
@@ -103,8 +105,8 @@ on its own before it goes.
 | §5.3.3 | `fig:aio-disengagement` | **removed 2026-09-13** | the ablation subsection is gone (design C31); see the ch5 design handoff §16 |
 | §5.3.3 | `fig:aio-learning` | **removed 2026-09-13** | as above |
 | §5.3.3 | `tab:ablation-ladder` | **removed 2026-09-13** | as above |
-| §5.4.1 | `fig:eff-suppression-profiles` | **core** | two lettered panels, singles / schemes, so every label stays legible |
-| §5.4.1 | `tab:eff-conditions` | **core** (was cut-or-appendix) | the numbers behind the bars, with intervals; gains the delay column with censoring |
+| §5.4.1 | `fig:eff-suppression-profiles` | **core — LANDED 2026-09-17** | four lettered panels: singles / schemes at each interval (the interval is a crossed factor); the aggregate drawn as the fifth series |
+| §5.4.1 | `tab:eff-conditions` | **core — LANDED 2026-09-17** (was cut-or-appendix) | the numbers behind the bars, with intervals; the delay column's no-compromise share is the denied-all-hosts share (one column); no-defence reference once |
 | §5.4.2 | `fig:eff-cross-arm` | **core** | the central comparison; same panel split; arm by hatch |
 | §5.4.2 | `fig:eff-delay` | **removed 2026-09-13** | survival curves are no corpus genre; a column of `tab:eff-conditions`. Zhang-form bars if checkpoint time becomes the primary (handoff §15) |
 | §5.4.2 | `tab:eff-orderings` | **core** | unchanged |

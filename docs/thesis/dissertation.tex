@@ -6442,10 +6442,16 @@ under both attackers on this one simulator.]}
 % origin (He; Tay normalises; Brown's "None" bar), split into two lettered
 % panels so that every condition label stays legible (Brown's Figs 4-5 are
 % the named anti-pattern); short domain names mapped in the generator.
+% POPULATED 2026-09-17 (tools/ch5_effectiveness_figures.py from the defended corpus;
+% read in docs/implementation/pipeline/ogasp/ch5_s54_effectiveness_findings.md).
+% Four lettered panels, not two: the interval is a crossed factor (Table 5.2),
+% so singles / schemes are shown at each. Whiskers are seeded bootstrap
+% intervals on the ratio of cell means. Caption edited for the four panels.
+% DRAFT STATE --- ratify on read.
 \begin{figure}[H]
   \centering
-  \placeholderbox{66mm}{Figure 5.5 --- suppression of host breadth by defence condition.\\ Two lettered panels: (a) the single mechanisms; (b) the deployment schemes.\\ Grouped bars, x: condition under its short name. y: reduction against no defence, with intervals. Series: profile, colours held from Figure 5.2. Legend once.}
-  \caption[How much each defence suppresses each profile]{The reduction in hosts reached under each defence condition relative to the no-defence reference, for every profile. Panel~(a) is the single mechanisms and panel~(b) the schemes that deploy several together, separated so that every condition stays legible, with the profile colours of Section~\ref{sec:attacker-in-operation}. The intention is to establish which defences reach this attacker at all, and whether the answer depends on which operational objective the attacker is pursuing, before the comparison against the inherited attacker is attempted.}
+  \includegraphics{fig_5-4-1a_suppression_profiles}
+  \caption[How much each defence suppresses each profile]{The reduction in hosts reached under each defence condition relative to the no-defence reference, for every profile, at each mutation interval. Panels~(a) and~(c) are the single mechanisms and panels~(b) and~(d) the schemes that deploy several together, separated so that every condition stays legible, with the profile colours of Section~\ref{sec:attacker-in-operation}; whiskers are 95\,\% bootstrap intervals on the ratio of means. The intention is to establish which defences reach this attacker at all, and whether the answer depends on which operational objective the attacker is pursuing, before the comparison against the inherited attacker is attempted.}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
@@ -6455,12 +6461,13 @@ under both attackers on this one simulator.]}
 % channel now lives (fig:eff-delay removed: survival curves are no corpus
 % genre and twenty of them would not read). Adjacent conditions whose
 % intervals overlap carry a footnote mark rather than a rank.
-\begin{table}[H]
-  \centering
-  \caption[Defence conditions measured against the attacker model]{Each defence condition scored on the three channels through which a defence can reach an attacker: whether it prevents compromise at all, how long it postpones the first one, and what fraction of attempted actions it blocks. Intervals accompany every figure; delay to first compromise is reported with the fraction of runs censored at the horizon; and adjacent conditions whose intervals overlap are marked as indistinguishable rather than ranked. The intention is to state what each mechanism does on its own terms before any two are compared.}
-  \label{tab:eff-conditions}
-  \placeholderbox{52mm}{Table 5.5 --- defence conditions against the attacker model.\\ Columns grouped by channel: suppression; delay to first compromise (censored fraction beside it); blocked fraction; each with its interval.\\ Rows: every condition. Overlapping adjacent intervals carry a footnote mark.}
-\end{table}
+% POPULATED 2026-09-17 as a generated fragment (tools/ch5_effectiveness_figures.py;
+% caption in the fragment). Rows are the nine conditions at each interval,
+% ordered by suppression, the model pooled over its four profiles, the
+% no-defence reference once; the censored share of the delay column is the
+% share of runs denied every host (one column, not two); overlapping
+% neighbours carry the dagger. DRAFT STATE --- ratify on read.
+\input{tables/tab_5-4-1a_conditions}
 
 % ~1 unit. THE THESIS'S OWN CLAIM, and the subsection Marc asked the
 % hardest question about: given both attackers share the SAME SIX VERBS,
