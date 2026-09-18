@@ -7,6 +7,12 @@ companion: 2026-09-17_ch5_s51_sensitivity_overhaul.md (the brief; its "Second cu
 
 # §5.1 slot generator — fifteen sentences, one at a time
 
+**Read this file alone.** It carries the audience, the conventions position,
+the vocabulary register, the chapter 4 antecedents, the ceiling on what may be
+claimed, the open decision, and the fifteen slots. The companion brief has the
+diagnosis and the Table 5.1 cut; the numbers are in the findings record. No
+context needed from a chat scrollback.
+
 **What this is.** Marc's ask, 2026-09-18: *"set up a generator … go through each
 paragraph, tick off the structure, and then go through line by line and produce
 those in this session."* Taken as a drafting surface, not a `tools/` script: one
@@ -62,6 +68,114 @@ input the chapter's claims are exposed to.
   that the declared numbers do not carry the conclusions". ¶1 opens on the
   question, in a different shape.
 - Australian English; present tense, active; voice.md §d for the sentences.
+
+## The audience, in full
+
+Settled 2026-09-17 and carried forward; this is the context every slot is
+written against, so it lives here rather than in a chat scrollback.
+
+**Who reads §5.1.** A reader who has finished chapter 4 and has opened no
+appendix — concretely, an examiner or Dr Hong: fluent in MTD research,
+simulation and ATT&CK, familiar with the published MTDSim lineage, with no
+knowledge of this project's internal vocabulary, its files or its runs. Every
+sentence must be followable without leaving the page.
+
+**What they arrive holding.** Chapter 4 told them three times that a value
+could not be derived, and pointed each time at this section:
+
+- §4.4.2 — the dwell times do not exist in the literature and do not exist in
+  CTI vendor reports; prior work calls putting times on an attack inherently
+  arbitrary (\citealt{bland2020, mcqueen2006, mendonca2023}).
+- §4.4.3 — there is no real tactic-to-verb mapping, so best judgement was used.
+- §4.4.4 — the failure side is the blind spot of the CTI; the matrix was
+  declared, not reverse-engineered.
+
+So the question they arrive with is not "what is a sensitivity analysis". It
+is **"is the evaluation built on numbers you made up?"** §5.1 is where that
+debt is discharged. Its product is the one sentence naming which input the
+chapter's claims are exposed to — the sentence Table 5.3's declared-inputs row
+forward-references and chapter 6's fidelity verdict consumes.
+
+**What that rules out.** Explaining how a value was produced (chapter 4 and the
+appendices do that); defending the method; a roadmap (the chapter preamble has
+one); any sentence that reads as a retrieval key to the record, which is what
+the 2026-09-13 draft was retired for.
+
+**Where the field puts this** (`evaluation_conventions.md` §c). Almost nobody
+in the corpus has a titled sensitivity section — Outkin's §5.1.2 is the only
+one surveyed; elsewhere the sweep *is* the results section or an unlabelled
+axis inside it. One-at-a-time is the universal design, and **range
+justification is almost never given** — Hong, Anderson, Carroll, Zhang and
+Reti state no rationale for any range; Bland says outright that his rates are
+"notional". Deriving ranges from the model's own structure therefore exceeds
+the corpus, and should be said once rather than assumed obvious. What the good
+papers do instead is **name what they did not sweep**, which is the discipline
+this section imports. And: *a sweep that selects the operating region for what
+follows is stronger than one that only shows a verdict did not move* — which is
+why ¶4 exists as its own paragraph rather than as a trailing clause.
+
+## The vocabulary the reader has, and the standardised term for each
+
+§5.1 may use a term only if the reader has met it in the body of chapters 2–4
+(not in a caption, not in a notation table, not in an appendix). This is the
+availability register; the ch5 antecedent rule says a missing object becomes a
+chapter 4 insertion, never a chapter 5 first use.
+
+| Concept | **The standardised term** | Where the reader met it | Rejected wordings |
+|---|---|---|---|
+| the three things declared to join the profiles to MTDSim | **the three inputs** | §4.4 opening | "assumptions" (ruled off 2026-09-13 — the assumptions are the sentences at each symbol); "parameters" |
+| what was done to them | **chose** them; §5.1 **moves**, **compares** or **holds** each | §4.4 opening, §4.4.4 close | "swept" — wrong for a comparison and for a hold, and it misreports how the values were arrived at (removed 2026-09-18) |
+| the timing groups | **family** (scan-shaped, exploit-shaped, low-and-slow, objective) | §4.4.2 | "anchor" — the appendix's and the code's word, banned in the body; the lifecycle names (see below) |
+| the range a value was moved over | **band** | §4.4.2, last sentence but one | "sweep range", "interval" (reserved for the confidence interval) |
+| the draw | **exponential**, around the **mean dwell** | §4.4.2 | — |
+| the mapping | **at most one verb per tactic**; unmapped tactics are **dwell-only** | §4.4.3 | "partial" / "v2" — code words |
+| its alternative | **forcing a total mapping** | §4.4.3 | "forced total" as a bare noun |
+| the nine rules | **the failure rules**, A–I | §4.4.4 → Fig. B.6(a) | "rule kernel" |
+| how far a transition travels | **distance**, in **stages** | §4.4.4 | "kernel" (appendix keeps it); "phase" (re-termed to "stage" 2026-09-08) |
+| the four stages | **preparation, intrusion, post-intrusion operations, objective** | §4.4.4 | "CKC phases" |
+| the decay | **a rate**, the same whether the jump is forward or a fall back | §4.4.4 | "forward decay / backward decay" as two quantities — the declared model sets both to 0.25 |
+| the cut-off | **the floor**, below which a transition is too far to happen at all | §4.4.4 | "z", "zeroing" |
+| the simulator | **MTDSim**, or **the simulator** | ch2 throughout | "the substrate" — repo-internal, never in the thesis |
+| the attacker arms | **the four attack profiles** (exfiltration objective, impact objective, double extortion, no realised objective) | §4.2, named in the body | "profiles" unqualified where families are also in play |
+
+**The two quartets are different objects.** Four attack *profiles* (§4.2) and
+four dwell *families* (§4.4.2). They are unrelated partitions and §5.1 touches
+only the families. Do not let a sentence blur them.
+
+**Why the families cannot take the lifecycle names** (asked 2026-09-18,
+answered): they are different partitions of the 15 tactics. Eight tactics sit
+in the post-intrusion stage across three different families; only the objective
+family coincides with its stage, and that is a convenience. The families are
+priced by *what a tactic costs*, the stages order *where it sits in a
+campaign*. Reusing the stage words would either force a membership change that
+re-opens the dwell catalogue, App. B.4's tiers, the §5.1 re-run and every float
+built on it, or leave two taxonomies sharing three words. The full 15-row
+mismatch table is in the companion brief, §S6.
+
+## The one open decision — §5.1 quotes a measure the reader has not met
+
+**The gap.** §5.1 is at `dissertation.tex` l. 5414 and §5.2 at l. 5525, so §5.1
+comes first. A grep of everything before §5.1 finds **no occurrence** of
+"distinct hosts", "hosts reached", "deployment scheme", "random scheme" or
+"confidence interval" in body text. Chapter 2 gives "compromised hosts" and
+chapter 3's metrics table gives the host and network compromise ratios
+(\citealt{zhang2023, ho2024, tay2024}), but the chapter's outcome measure and
+its defence conditions are declared in §5.2 — *after* the section that reads
+them. Slots 1.3, 1.4, 2.2, 2.3, 2.5, 3.2 and 3.3 all quote against them.
+
+This was foreseen (companion brief D1, "Alternative considered") and left in
+reserve. At ~300 words there is no room to define a measure and three defence
+conditions inside §5.1, so it has to be decided before slot 1.3.
+
+| Option | What it costs |
+|---|---|
+| **(a) Swap §5.1 and §5.2** so the setup is declared before the check that uses it | cleanest for the reader and squarely what voice §c9 asks (criteria before the thing judged), but it overturns the ruling that §5.1 stays first, and the chapter preamble's roadmap is written in the current order |
+| **(b) Close the measure in a clause** — name it once as the chapter's effectiveness measure with a pointer to §5.2 | ~8 words; §5.1's readings are all *relative* to the declared value, so the reader needs only that it is an outcome measure, not its definition |
+| **(c) Drop the conditions entirely** — say "under every condition the chapter runs" rather than naming no defence and the two intervals | ~10 words saved as well as borrowed; the per-condition numbers live in App. C.1–C.3 where the conditions are declared |
+
+**Recommendation: (b) + (c), with (a) as the fallback** if the ¶1 dictation
+cannot close the measure in one clause. That keeps the ruled order, costs under
+twenty words, and pushes nothing into §5.1 that §5.2 owns.
 
 ## Chapter 4 antecedents — all four live as of 2026-09-18
 
@@ -119,6 +233,9 @@ an answer to it.
   2 000 s. (The chapter reports 1 000 seeds; this sweep re-launches from the
   defended corpus when that lands — findings §8.)
 - **Must not:** name a sweep design in the field's vocabulary; defend the method.
+- **BLOCKED on the open decision above** — this slot names the outcome measure
+  and the defence conditions, and the reader has met neither. Settle (a)/(b)/(c)
+  before dictating it.
 - **Dictation:** *(pending)*
 
 ### Slot 1.4 — what counts as an answer

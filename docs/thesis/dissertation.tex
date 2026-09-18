@@ -4684,25 +4684,18 @@ This is a parameter of the model itself, not an invariant.
 
 We derived our dwell times for the tactics from the dwell times of MTDSim.
 What we could take from the six original verbs of the action layer, we used
-directly. The 15 tactics resolve onto four families that carry a value, and the
-split follows what MTDSim could price rather than a grouping we imposed. Two
-families take the simulator's own costs unchanged. The scan-shaped family is
-one full enumeration pass --- the simulator's host, neighbour and port scans
-at 5, 5 and 25 seconds --- and it prices the tactics whose work is
-enumeration: reconnaissance and discovery. The exploit-shaped family is the
-median of the simulator's exploit time, 4.5 seconds, and it prices the
-tactics whose work is gaining or reusing access: initial access, privilege
-escalation, credential access and lateral movement. The other two families
-have no verb whose cost could price them, so we extrapolated from the exploit
-shape: the low-and-slow family at ten times it, an order of magnitude above
-the simulator's priced verbs, for persistence, stealth and command and
-control, with execution and defence impairment at half; and the objective
-family at eight times it, for collection, exfiltration and impact. Resource
-development is off-clock and carries no value. We then chose a band around
-each of the four --- half to twice the value, and a quarter to four times for
-the low-and-slow family, which rests on our judgement alone. The model
-therefore carries four free timing values rather than 15, and those four are
-what Section~\ref{sec:sensitivity} moves.
+directly, and we extrapolated the rest. The 15 tactics resolve onto four
+families. Two take the simulator's costs unchanged: the scan-shaped family,
+one enumeration pass at 35 seconds, for the tactics whose work is
+enumeration; and the exploit-shaped family, the median exploit time at
+4.5 seconds, for the tactics whose work is gaining or reusing access. The
+other two have no verb to supply them, so we extrapolated from the exploit
+shape: the low-and-slow family at ten times it, for the quiet holding
+tactics, and the objective family at eight times it, for the terminal acts.
+We then chose a band around each of the four: half to twice the value, and a
+quarter to four times for the low-and-slow family, which rests on our
+judgement alone. The model therefore carries four free timing values rather
+than 15, and those four are what Section~\ref{sec:sensitivity} moves.
 % INSERTION B APPLIED 2026-09-18 --- DRAFT STATE, ratify on read. This is the
 %  paragraph most in need of your words: it is session prose standing where
 %  §5.1 ¶2 needs an antecedent. Two defects it answers, both raised 2026-09-18.
@@ -4715,9 +4708,26 @@ what Section~\ref{sec:sensitivity} moves.
 %  provenance is already committed and generated in Table~\ref{tab:dwell-anchors}
 %  ("Priced by MTDSim" / "Declared and swept"), so the body is now saying what
 %  the appendix already carries, and §5.1 ¶2's reading trades on it.
-%  EXTENDED 2026-09-18 on your ask to name the part of MTDSim each family
-%  takes, "so that it's very clear -- this is the part of MTDSim that we're
-%  using", and to say the band was chosen. Every figure verified against
+%  EXTENDED then COMPRESSED 2026-09-18, both on your readings the same day:
+%  first to name the part of MTDSim each family takes ("so that it's very
+%  clear -- this is the part of MTDSim that we're using") and to say the band
+%  was chosen; then cut from ~200 words to ~130 ("this is very explicit ...
+%  can we convey the point more succinctly"). What the compression removed:
+%  (i) a third statement that the timing came from MTDSim -- the two sentences
+%  ABOVE this insertion already say it, so the added "the split follows what
+%  MTDSim could price" was redundant, and "supply" replaces "price" as your
+%  word; (ii) the constant-level breakdown (5 + 5 + 25; the complexity
+%  arithmetic), which App. B.4 carries row by row; (iii) the exhaustive
+%  membership lists, now a gloss per family -- Table~\ref{tab:dwell-catalogue}
+%  prints all 15 values, so membership is recoverable, and §5.1 ¶2 names a
+%  family without enumerating it; (iv) the resource-development clause, which
+%  the sentence two below already carries ("we deemed zero seconds ...
+%  off-network and untrackable").
+%  NOTE: "the stealth tactic, for example, is 45.0 seconds, which is 10 times
+%  the exploit shape" two sentences below now reads as a worked example of the
+%  rule just stated rather than as its first statement. Ruled to stay
+%  (2026-08-20); flagged, not touched.
+%  Every figure verified against
 %  data/ogasp/tactic_durations.json ("anchors") and the constants it cites:
 %    scan-shaped 35 s = ATTACK_DURATION SCAN_HOST 5 + SCAN_NEIGHBOR 5 +
 %      SCAN_PORT 25 (mtdnetwork/data/constants.py ~L140); tier 1, not tuned.
@@ -5514,83 +5524,90 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 \section{Experimental setup}
 \label{sec:dimensions}
 
-% DRAFT STATE 2026-09-17 --- REDRAFTED against the five-answer skeleton in
-% docs/handoffs/2026-09-17_ch5_s52_setup_critique.md §H, which Marc ratified the
-% same day ("just have you draft it"). The section that stood here (905 words,
-% six paragraphs, 2026-09-15) was cold-read and found to declare the record's
-% debts rather than the experiment; Part 1 of that handoff is the diagnosis and
-% §I is the sentence-level ledger of where each departed item went. Each
-% paragraph below answers exactly one of the five questions a reader arrives
-% with --- on what terrain; what is run against what; what varies and what is
-% held; what is measured; how many times and how it is summarised --- in that
-% order, and answers nothing else. ~510 words against the two-unit ledger
-% (~500); pass 5 takes the remainder. The tables carry the levels, the values,
-% the reasons and the pins; no value below is repeated from them. NO FORWARD
-% REFERENCE STANDS IN FOR A DECLARATION HERE: every measure the chapter reports
-% is named in Table~\ref{tab:measures}. Ratify on read.
+% DRAFT STATE 2026-09-18 --- RESTRUCTURED against the shape in
+% docs/handoffs/2026-09-17_ch5_s52_setup_critique.md §W, which Marc ruled the same
+% day ("execute on this meticulously and then I'll be able to give feedback").
+% What stood here was the 2026-09-17 five-answer redraft (539 words, five
+% paragraphs, three tables); Part 3 §N and Part 4 §V of that handoff are the
+% diagnosis. Two things changed and both are Marc's.
+% (1) THE UNITS ARE THE SIMULATION'S MOVING PARTS, declared under bold run-in
+%     labels rather than joined into flowing paragraphs. His framing: "what are
+%     the big abstract moving parts of the simulation --- the network, the
+%     attacker, the defence, the metrics we use, the things we keep the same."
+%     A run plan is scanned for its answers and then left; the joins were the
+%     verbosity. The form is the corpus's own for exactly this content: He's
+%     threat AND defence models are Goal / Knowledge / Capability run-ins,
+%     Zhang's attacker profile is four bold run-ins, Cho and Ben-Asher walk their
+%     net under seven, Alavizadeh heads its limitations with one. voice.md §(h)
+%     and §(d) carry a scoped carve-out for it, ruled the same day.
+% (2) EACH UNIT CARRIES ONE HIGH-LEVEL MOTIVATING CLAUSE and the tables carry
+%     none. The per-row justification columns are deleted (Marc: "I would just
+%     lose the column on each of them --- what do I need them for?"). Why the
+%     attacker is varied, and why the defence is, are questions a reader asks;
+%     why row eleven holds the value it does is not.
+% NO DESIGN PARAGRAPH: with both kinds of row in one table the design is one
+% sentence in that table's caption, which is the question Marc put to the old
+% paragraph three ("what can it do that the captions are not doing").
+% NO RESULT IS REPORTED HERE. The operating-point finding that stood in the old
+% paragraph three --- at the inherited interval neither attacker reaches its
+% objective, so a success-shaped measure is pinned at zero --- reads as a result
+% because it is one, and it is left to §5.4, where it is evidenced, and to ch6 for
+% its methodological reading.
+% 333 words against 539 landed and 905 originally; two tables against three,
+% measuring 710 pt of table body against 1 168 pt. One [3b] still standing: the
+% per-claim effect floors (C7), Marc's numbers.
 % THE RUN COUNT IS A THOUSAND (handoff §J, Marc's ruling): the corpus at
 % data/results/ch5_defended/run_corpus.py still sets SEEDS = range(100), which
 % is the preliminary pass the floats are argued from. The chapter reports
 % thousand-seed numbers, and the word "preliminary" appears nowhere in it.
-Every run in this chapter takes place on one network: fifty hosts across
-four levels of depth, eight subnets and five exposed endpoints, with the
-topology drawn fresh for each seed. The two database hosts at the deepest
-level are the target. A run ends when the attacker reaches them, or when
-the horizon expires with them still out of reach. The terrain is held at
-that single configuration throughout, so nothing reported here speaks to
-how these results would move with network size or density.
+Table~\ref{tab:experiment} states the experiment: every element of the
+simulation, with either the levels it varies over or the value it is held at.
 
-Two attackers are run against one defender, each across the same ten
-conditions. The first attacker is the baseline attacker of
-Section~\ref{subsec:attacker-model}; the second is the movement attacker,
-instantiated on each of the four attack profiles and on the aggregate, the
-corpus left unpartitioned by objective. The conditions are no defence, each
-of the seven defence mechanisms deployed on its own, and the two execution
-schemes that draw from all seven; no defence is the reference that every
-effect in this chapter is a difference from. The defender is the
-simulator's own, and three clauses describe it. Its goal is to disrupt the
-attacker, not to detect it. It knows nothing of the attacker, there being
-no detection channel for that knowledge to arrive through
-(Section~\ref{subsec:defence-mechanisms}). Its capability is the seven
+\textbf{Network.} Fifty hosts across four levels of depth, eight subnets and
+five exposed endpoints, the topology drawn fresh for each seed, and the two
+database hosts at the deepest level as the target. It is held for every run in
+this chapter, so that a difference between runs is the attacker's or the
+defence's and not the ground's. Nothing reported here speaks to how these
+results would move with network size or density.
+
+\textbf{Attacker.} Two arms, because what this chapter asks is whether the
+choice of attacker changes what an evaluation concludes: the baseline attacker
+of Section~\ref{subsec:attacker-model}, and the movement attacker of
+Chapter~\ref{ch:attacker-model} on each of the four attack profiles and on the
+aggregate. The objective is varied with them, since a defence that denies one
+goal need not deny another. The cost model and the memory are implemented and
+not exercised; the model runs on its corpus-derived routing alone.
+
+\textbf{Defence.} Ten conditions: no defence, each of the seven defence
+mechanisms deployed alone, and the two execution schemes that draw from all
+seven. No defence is the reference that every effect in this chapter is a
+difference from. The interval between deployments and the distribution it is
+drawn from are varied as well, because when a defence moves is as much a design
+choice as which defence moves. The defender itself is the simulator's own: its
+goal is to disrupt the attacker, not to detect it; it knows nothing of the
+attacker, there being no detection channel for that knowledge to arrive through
+(Section~\ref{subsec:defence-mechanisms}); and its capability is the seven
 mechanisms, on a time-triggered schedule it never departs from.
 
-Table~\ref{tab:factors-varied} lists what the experiments vary and
-Table~\ref{tab:factors-fixed} what they hold, with the reason in each case.
-Attacker arm, defence condition and mutation interval are run in every
-combination; the timing regime, the horizon and the objective are each
-varied on their own from that grid. The mutation interval carries two
-levels because the inherited value cannot be reported alone: at two hundred
-seconds neither attacker reaches its objective, so a measure shaped by
-success is pinned at zero and separates nothing, and only at the longer
-interval can it move. Every claim in this chapter states the interval it
-was taken at.
+\input{tables/tab_5-2a_experiment}
 
-\input{tables/tab_5-2a_factors_varied}
-\input{tables/tab_5-2b_factors_fixed}
+\textbf{Metrics.} Table~\ref{tab:metrics} names every metric this chapter
+reports against the family of Table~\ref{tab:mtd-metrics} it instantiates, so
+that what judges a defence here is the field's measure and not this thesis's.
+Distinct hosts compromised is the denominator throughout, because it responds at
+every interval, and target reach is reported beside it wherever it is not
+degenerate.
 
-Table~\ref{tab:measures} names every measure the chapter reports, what each
-is read from, and what it may be compared across. The measures of
-Section~\ref{sec:attacker-in-operation} are instruments for validating the
-attacker model rather than metrics for evaluating a defence, and they are
-read against no defence so that they describe the attacker and not its
-interaction with the defence; those of Sections~\ref{sec:effectiveness} and
-\ref{sec:efficiency} are the two purposes an evaluation is asked to serve,
-what the defence achieves and what it costs. Distinct hosts compromised is
-the denominator throughout, because it responds at every interval, and
-target reach is reported beside it wherever it is not degenerate.
+\input{tables/tab_5-2b_metrics}
 
-\input{tables/tab_5-2c_measures}
-
-Every cell runs a thousand seeds, the count at which the closest pair of
-conditions this chapter compares separates~\citep{hoad2007}: the count
-follows from that requirement rather than from convention. The same seeds
-are used on every arm, but the two arms consume randomness differently, so
+\textbf{Runs.} Every cell runs a thousand seeds, the count at which the closest
+pair of conditions this chapter compares separates~\citep{hoad2007}. The same
+seeds are used on every arm, but the two arms consume randomness differently, so
 no comparison across attackers is paired. Effect sizes are reported with
 95\,\% intervals, which no evaluation in this lineage does. Tests attach to
-declared claims only, are adjusted within each family of comparisons, and
-each carries a minimum effect of interest fixed before the run, because on
-a simulator this cheap any difference can be made significant by adding
-seeds.
+declared claims only, are adjusted within each family of comparisons, and each
+carries a minimum effect of interest fixed before the run, because on a
+simulator this cheap any difference can be made significant by adding seeds.
 % [3b] "a minimum effect of interest fixed before the run" --- the floors are
 %  C7's and are per claim; state them at the claims (§5.4) or name them here in
 %  one clause. Your numbers either way.
