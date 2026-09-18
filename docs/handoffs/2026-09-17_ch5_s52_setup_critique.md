@@ -1503,3 +1503,59 @@ the two read as one object.
    it should land there rather than return to the setup.
 
 Section is **350 words**, from 546.
+
+### AE6 — the second pass on the unit, and why it was awkward
+
+Marc: *"I didn't understand everything after 'the deployment interval and its
+distribution are varied as well'."* He was reading it correctly. Two unrelated
+facts had been fused into one sentence on the strength of an antithesis that
+obscured both — a "long controlled sentence" that was neither.
+
+> **Defence.** Ten conditions: no defence, each of the seven defence mechanisms
+> deployed alone, and the two execution schemes, random and alternative, that
+> draw from all seven (Section~2.2.2). The no-defence runs are the reference:
+> every effect this chapter reports is a difference from them. The deployment
+> interval and its distribution are varied as well, since a defence is as much
+> when it moves as what it moves; every deployment is time-triggered.
+
+| Was | Now | Why |
+|---|---|---|
+| "since when a defence moves is as much a design choice as which one moves" | "since a defence is as much when it moves as what it moves" | the pairing is **ch2's own vocabulary**, which the reader has already met: Table 2.2 is headed *"**What** to move"* and §2.2.2 closes a paragraph with *"That is the when not to move."* The motivation lands because it is not new language |
+| "either way it is time-triggered, and reacts to nothing the attacker does" | "every deployment is time-triggered" | the non-reaction is ch2's already ("no detection channel is encoded"). *Time-triggered* still earns its place: it is what separates these ten from MTDShield, which ch2 classifies as hybrid. **And note the correction**: "all ten conditions are time-triggered" would be **false** — one of the ten deploys nothing |
+| the two schemes unnamed | "random and alternative" | Marc had to reach for the names while reading. Same rule as the Attacker unit's two objectives: the unit states the configuration, the table is the reference rather than the substitute |
+
+### AE7 — why that sentence was awkward in the first place: *baseline* is unavailable
+
+Marc, on *"every effect this chapter reports is a difference from the no-defence
+runs"*: *"that could still be worded better — a difference from the baseline."*
+The obvious word is the one word this chapter cannot use.
+
+`evaluation_conventions.md` §f2: the corpus uses **baseline** for two different
+objects — the **no-defence control** (Zaffarano's "runs with no MTD deployed
+represent a baseline run"; Brown's "No MTD control group") and the **comparison
+arm** (the prior model the contribution is set against). And: *"A chapter that
+says 'the baseline' without saying which will be read as confusing a control
+with a competitor."* The Attacker unit, two paragraphs above, says **the
+baseline attacker**. So in this chapter the no-defence condition takes
+**reference** and never *baseline* — here or anywhere. The sentence now names
+the role before it uses it (*"The no-defence runs are the reference: every
+effect this chapter reports is a difference from them"*), which is the clean way
+to say it without the taken word.
+
+### AE8 — *condition* re-examined on merit, not on convention
+
+Marc asked twice, so it is worth the second look rather than a second citation.
+The noun has to cover a control, seven mechanisms and two schemes at once.
+
+- ***mechanism*** — wrong by extension: two of the ten are schemes and one is
+  nothing.
+- ***configuration*** — **taken.** The Network unit says *"the configuration
+  never changes across this chapter"*. One word, two objects, one section apart.
+- ***condition*** — covers a control and its treatments, which is the whole
+  point of the word; it is the corpus's own (He's techniques are "the compared
+  conditions"); and it is Table 5.2's row name, so prose and table agree.
+
+It survives on merit, and the collision with the Network unit is the reason that
+was not visible the first time.
+
+Section is **347 words**.
