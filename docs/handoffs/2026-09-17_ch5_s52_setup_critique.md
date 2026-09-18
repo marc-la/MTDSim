@@ -1333,3 +1333,55 @@ changed, since he is working through the units one at a time. The Defence,
 Metrics and Runs units do not show it.
 
 Section is **433 words**.
+
+## AD. The Attacker unit (2026-09-18, fifth read)
+
+### AD1 — what an Attacker unit must carry
+
+The four anatomies' *attacker model / scenarios* slot gives four things, and
+only three of them belong in a setup:
+
+| Slot | Attested | Ours |
+|---|---|---|
+| **Which attackers are run** | all four (Reti's three named agents; Kim's one scenario; Ho's one adversary; He's three knowledge levels) | the two arms |
+| **What varies about them** | He (knowledge level, four delays); Reti (three agents) | the profiles, the aggregate, the objective |
+| **Where each is defined** | He's §III.A, Kim's §5.2 | §2.2.3 and Chapter 4 |
+| **What of the attacker is switched off** | **weakly attested in setup** — He states a capability bound inside its *model* section; Ho owns its single-adversary limitation in §5.1, not in the setup | was in the prose; **now the table's alone** |
+
+So the declared absences leave the prose. Table 5.2 already carries them
+(*Cost model, memory · off*), and a prose clause that repeats a table cell is
+the same fault the Network unit's "it is held for every run" had.
+
+### AD2 — the clause that was not merely redundant but wrong
+
+The removed sentence read: *"the model runs on its corpus-derived routing
+alone."* Marc: *"yes it does not, because we inputted our own [structure] which
+we talk about in the model description."* **He is right, and §5.2 was
+contradicting its own Table 5.1 two paragraphs earlier.**
+
+- Table 5.1's caption is *"Each value the attacker model was **given rather than
+  derived**"* — the dwell times, the failure matrix, the distance kernel and the
+  nine failure rules are argued or declared values, not mined ones.
+- The profile nets carry a **pre-intrusion overlay** (`terminology.md`, ratified
+  2026-08-17): structure added because the corpus does not record it.
+
+The routing is therefore corpus-derived **plus** declared inputs **plus** added
+pre-intrusion structure. "Corpus-derived routing alone" overclaims the
+derivation, and it is the exact claim the badge ceiling exists to stop. Deleted
+rather than repaired: the honest version of it is Chapter 4's to make, and
+Chapter 4 makes it.
+
+### AD3 — the shape
+
+Same three-sentence shape as the Network unit, and the fused opener Marc flagged
+(*"Two arms, because what this chapter asks is whether …"*, motivation spliced in
+before the arms are named) is unspliced: the arms land first, what varies second,
+the purpose last.
+
+> **Attacker.** Two arms: the baseline attacker of Section~2.2.3, and the
+> movement attacker of Chapter~4 on each of its four attack profiles and on the
+> aggregate. Their objective is varied as well, since a defence that denies one
+> goal need not deny another. Whether that choice changes what an evaluation
+> concludes is the chapter's question.
+
+33 / 18 / 12 words, against 85 in three lines. Section is **411 words**.
