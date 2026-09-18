@@ -1424,4 +1424,4 @@ and §5.4.2's figure caption is currently the only place the comparison's purpos
 is stated ("this is the chapter's central comparison"). It needs to be in the
 preamble when that is dictated.
 
-Section is **403 words**, from 546.
+Section is **396 words**, from 546.
