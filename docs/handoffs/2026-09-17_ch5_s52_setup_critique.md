@@ -1245,4 +1245,4 @@ not this thesis's: every metric this chapter reports is keyed in Table 5.3 to
 the family of Table 3.1 it instantiates."* The other four units already open on
 substance and are unchanged.
 
-Section now **447 words**. Build clean, 92 pages.
+Section now **455 words** (measured, not estimated: the new lead is longer than the caption-sentence it replaces and the Metrics re-cut adds a clause). Build clean, 92 pages.
