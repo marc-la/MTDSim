@@ -46,10 +46,18 @@ input the chapter's claims are exposed to.
   and objective families are inert (they are not, at 400 runs per cell); the ×4
   shape corner (its interval sits on the boundary); any per-profile ordering.
 - **The tier trap.** The two-tier provenance now in §4.4.2 (priced by MTDSim /
-  declared as multiples) is *not* the sensitivity story. The objective family is
-  declared and moves 0.6 hosts per doubling; the scan-shaped family is priced
-  and moves 0.7. The concentration is in the low-and-slow family
-  **specifically**. ¶2 must not generalise it to the declared tier.
+  extrapolated from the exploit shape) is *not* the sensitivity story. The
+  objective family is extrapolated too and moves 0.6 hosts per doubling; the
+  scan-shaped family is priced and moves 0.7. The concentration is in the
+  low-and-slow family **specifically**. ¶2 must not generalise it to the
+  extrapolated pair.
+  **What carries ¶2's claim instead** (verified 2026-09-18 against
+  `tactic_durations.json`): low-and-slow is the **only tier-3 family** — the
+  only one resting on judgement with nothing else behind it. The objective
+  family is tier 2 (breach and ransomware timings are named as calibration
+  targets, none reproduced); the other two are tier 1, not tuned. So §4.4.2's
+  "rests on our judgement alone" is ¶2.4's antecedent, and the claim is about
+  **one** family, not a tier.
 - **The preamble already said the job.** The chapter opening carries "checks
   that the declared numbers do not carry the conclusions". ¶1 opens on the
   question, in a different shape.
@@ -60,15 +68,22 @@ input the chapter's claims are exposed to.
 | Object §5.1 uses | Where the reader now meets it | State |
 |---|---|---|
 | the question §5.1 answers, and that the three inputs were *chosen*, not swept | §4.4 opening (insertion A) | applied, DRAFT STATE |
-| the four dwell families by name, and why the split is what it is | §4.4.2 (insertion B) | applied, DRAFT STATE |
+| the four dwell families by name, which part of MTDSim prices each, and that the other two were extrapolated | §4.4.2 (insertion B, extended 2026-09-18) | applied, DRAFT STATE |
+| the bands, and that they were chosen — half to twice, a quarter to four times for low-and-slow | §4.4.2, last sentence but one | applied, DRAFT STATE. ¶1 slot 1.5 may now be **dropped**: the reader has met the ranges and their asymmetry before §5.1 opens |
+| that low-and-slow rests on judgement alone | §4.4.2, same sentence | applied — this is ¶2.4's antecedent |
 | distance, the rate, the floor, and that the rate is the same either way | §4.4.4 (insertion C) | applied, DRAFT STATE |
 | the nine failure rules A–I | §4.4.4 → Fig. B.6(a), Appendix~\ref{app:weight-sets} | reference fixed (was pointing at a figure carrying no letters) |
 | the mapping and its alternative | §4.4.3, unchanged | stands |
 
-**Still open in ch4:** the §4.4.4 close still reads "plausible,
-literature-bounded and sensitivity-swept". With insertion A and reword C2 in,
-that blanket adjective now contradicts them — the nine rules are held, and the
-mapping is compared. Marc's ruled close, so flagged rather than touched.
+**Closed 2026-09-18:** the §4.4.4 close was rescoped on Marc's reading
+("literature-bounded with no citation reads as dangerous ... sensitivity-swept,
+that's a stretch"). It now reads "a plausible set of values to feed into our
+attacker model, and Section~\ref{sec:sensitivity} reports what it would cost to
+be wrong about them" — which is also the cleanest one-line statement of what
+§5.1 is for, so ¶1 slot 1.1 should not repeat its shape.
+
+**Nothing open in ch4.** All five amendments are applied and the build is
+clean; the slots can be dictated.
 
 ---
 
@@ -119,7 +134,12 @@ an answer to it.
 - **Job:** the evidence tiers of App. B.4 for the dwell times; the structure of
   the distance term for the failure matrix.
 - **Must not:** claim this exceeds the corpus — that reading is chapter 6's.
-- **Dictation:** *(pending / may be dropped)*
+- **RECOMMEND DROPPING** since 2026-09-18: §4.4.2 now states the bands and their
+  asymmetry in the body ("half to twice the value, and a quarter to four times
+  for the low-and-slow family, which rests on our judgement alone"), so the
+  clause would restate what the reader has just read. Fifteen slots becomes
+  fourteen and ¶1 comes in under budget.
+- **Dictation:** *(pending / recommended dropped)*
 
 ---
 

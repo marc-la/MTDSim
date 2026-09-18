@@ -4685,18 +4685,24 @@ This is a parameter of the model itself, not an invariant.
 We derived our dwell times for the tactics from the dwell times of MTDSim.
 What we could take from the six original verbs of the action layer, we used
 directly. The 15 tactics resolve onto four families that carry a value, and the
-split follows what the simulator could price rather than a grouping we
-imposed. MTDSim prices two of them directly: the scan-shaped family, for
-reconnaissance and discovery, at the cost of one enumeration pass, and the
-exploit-shaped family, for initial access, privilege escalation, credential
-access and lateral movement, at the exploit time of median complexity. The
-other two have no verb whose cost could price them, so they are declared as
-multiples of the exploit shape: the low-and-slow family, for persistence,
-stealth and command and control, at ten times it, with execution and defence
-impairment at half; and the objective family, for collection, exfiltration
-and impact, at eight times it. Resource development is off-clock and carries
-no value. The model therefore carries four free timing values rather than 15,
-and those four are what Section~\ref{sec:sensitivity} moves.
+split follows what MTDSim could price rather than a grouping we imposed. Two
+families take the simulator's own costs unchanged. The scan-shaped family is
+one full enumeration pass --- the simulator's host, neighbour and port scans
+at 5, 5 and 25 seconds --- and it prices the tactics whose work is
+enumeration: reconnaissance and discovery. The exploit-shaped family is the
+median of the simulator's exploit time, 4.5 seconds, and it prices the
+tactics whose work is gaining or reusing access: initial access, privilege
+escalation, credential access and lateral movement. The other two families
+have no verb whose cost could price them, so we extrapolated from the exploit
+shape: the low-and-slow family at ten times it, an order of magnitude above
+the simulator's priced verbs, for persistence, stealth and command and
+control, with execution and defence impairment at half; and the objective
+family at eight times it, for collection, exfiltration and impact. Resource
+development is off-clock and carries no value. We then chose a band around
+each of the four --- half to twice the value, and a quarter to four times for
+the low-and-slow family, which rests on our judgement alone. The model
+therefore carries four free timing values rather than 15, and those four are
+what Section~\ref{sec:sensitivity} moves.
 % INSERTION B APPLIED 2026-09-18 --- DRAFT STATE, ratify on read. This is the
 %  paragraph most in need of your words: it is session prose standing where
 %  §5.1 ¶2 needs an antecedent. Two defects it answers, both raised 2026-09-18.
@@ -4709,6 +4715,29 @@ and those four are what Section~\ref{sec:sensitivity} moves.
 %  provenance is already committed and generated in Table~\ref{tab:dwell-anchors}
 %  ("Priced by MTDSim" / "Declared and swept"), so the body is now saying what
 %  the appendix already carries, and §5.1 ¶2's reading trades on it.
+%  EXTENDED 2026-09-18 on your ask to name the part of MTDSim each family
+%  takes, "so that it's very clear -- this is the part of MTDSim that we're
+%  using", and to say the band was chosen. Every figure verified against
+%  data/ogasp/tactic_durations.json ("anchors") and the constants it cites:
+%    scan-shaped 35 s = ATTACK_DURATION SCAN_HOST 5 + SCAN_NEIGHBOR 5 +
+%      SCAN_PORT 25 (mtdnetwork/data/constants.py ~L140); tier 1, not tuned.
+%    exploit-shaped 4.5 s = median of Vulnerability.exploit_time =
+%      ATTACK_DURATION['EXPLOIT_VULN'] 15 x (1 - complexity), complexity ~
+%      U[0.4, 1], median 0.7 => 15 x 0.3 (mtdnetwork/component/services.py);
+%      tier 1, not tuned.
+%    low-and-slow 45 s = 10 x the exploit shape; TIER 3, declared, "an order
+%      of magnitude above the substrate's priced action verbs (5-25 s)". The
+%      catalogue's own trigger-interval clause is left out of the body: the
+%      mutation interval has no antecedent this early.
+%    objective 36 s = 8 x the exploit shape; TIER 2 (declared, with breach
+%      and ransomware timing named as calibration targets, none reproduced).
+%    bands: the catalogue's per-tactic sweep_range, lifted to the family by
+%      the reference tactic and coinciding with the members' intersection
+%      (rate_feasibility_study.md 3) -- [0.5, 2] for three, [0.25, 4] for
+%      low-and-slow.
+%  CEILING for 5.1 2: low-and-slow is the ONLY tier-3 family, which is what
+%  "rests on our judgement alone" says and what 2's concentration claim
+%  needs. The objective family is tier 2 -- do not lump them together.
 %  Membership is the catalogue's (tactic_durations.json); multipliers are
 %  Table~\ref{tab:dwell-derivation}'s. "Family" is the body's word; "anchor"
 %  stays the appendix's and the code's. Prior wording in git (32e309bb).
@@ -4949,9 +4978,20 @@ Section~\ref{sec:sensitivity}, and the rules are not.
 \end{figure}
 
 This is verdict-conditioned re-weighting (Equation~\ref{eq:routing}); this
-is what encodes direction. We judged these were a plausible,
-literature-bounded and sensitivity-swept (Section~\ref{sec:sensitivity})
-set of values to feed into our attacker model.
+is what encodes direction. We judged these a plausible set of values to
+feed into our attacker model, and Section~\ref{sec:sensitivity} reports what
+it would cost to be wrong about them.
+% CLOSE RESCOPED 2026-09-18 --- DRAFT STATE, ratify on read. Was "a plausible,
+%  literature-bounded and sensitivity-swept (Section 5.1) set of values", on
+%  your reading this date: "literature-bounded with no citation reads as
+%  dangerous ... sensitivity-swept, that's a stretch". Both dropped. The triad
+%  claimed over ALL these values what only parts of them carry --- the stage
+%  ORDERING is cited (hutchins2011, alshamrani2019, mandiant2013, chemat2024,
+%  above), but the nine rule magnitudes are declared judgement and carry no
+%  citation; and after insertion A and reword C2 the section no longer claims
+%  the rules are swept. "Plausible" is kept, per your reading. The ruled
+%  one-sentence shape (2026-08-20, "this is basically our attack model") is
+%  preserved.
 % [2026-09-08: the two "This is ..." sentences moved here from the old
 %  mechanics unit, merged at ";" with the equation pointer; the close is the
 %  ruled promoted close (2026-08-20: "this is basically our attack model",
