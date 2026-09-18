@@ -1304,3 +1304,32 @@ leaving, since a target set that departs from the simulator's default is
 precisely what a reader checks.
 
 Network unit: three sentences to two, and the section is **438 words**.
+
+### AC4 — the polish pass on the unit (same read)
+
+Marc: *"why is that sentence so long ... it is held for every run in this
+chapter — of course it is, that's the experimental setup, so why do we have that
+qualifier ... it's not sharp, it's not polished."* Three faults, three fixes.
+
+| Fault | Fix |
+|---|---|
+| **One sentence carried four jobs** — provenance, the divergence, the holding, and the reason for holding | Split into three: the values, the provenance, the purpose |
+| ***topology* was the wrong noun.** "the topology drawn fresh for each seed" — what is redrawn is the network; the topology is one of its properties | "with the network regenerated for each seed", which is Marc's own word for it |
+| **"it is held for every run in this chapter" is a statement of the obvious** and Table 5.2 says it in a column. What is *not* obvious is why it is held | The holding is dropped as a statement and kept only as the subject of the purpose sentence: *"The configuration never changes across this chapter, so every difference reported is the attacker's or the defence's."* Marc's own framing: "we kept the network the same, we used all the default values, so that any differences ... we could measure objectively" |
+
+The shape now follows `voice.md` §d — "long sentences are allowed when
+controlled; verdict sentences are short. After a long build, land on a short
+one" — at 38 / 22 / 17 words, and the divergence is carried by the file's
+signature paired opposition rather than by a subordinate clause: *"Every value
+is the simulator's own default but one: the target set."*
+
+**Not changed, but the same fault is in the Attacker unit.** It opens *"Two
+arms, because what this chapter asks is whether the choice of attacker changes
+what an evaluation concludes: the baseline attacker of §2.2.3, and …"* — the
+motivation is spliced in before the two arms have been named, which is the
+Network unit's fused-sentence fault in a different order. The naming should
+land first and the motivation after it. Flagged for Marc's read rather than
+changed, since he is working through the units one at a time. The Defence,
+Metrics and Runs units do not show it.
+
+Section is **433 words**.

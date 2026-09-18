@@ -5578,13 +5578,13 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 % is the preliminary pass the floats are argued from. The chapter reports
 % thousand-seed numbers, and the word "preliminary" appears nowhere in it.
 \textbf{Network.} Fifty hosts across four levels of depth, eight subnets and
-five exposed endpoints (Table~\ref{tab:experiment}), the topology drawn fresh
-for each seed, and the two database hosts at the deepest level as the target.
-It is the simulator's own configuration at its default values
-(Section~\ref{subsec:network-model}, Figure~\ref{fig:network-model}), with the
-database set narrowed from five hosts to two, and it is held for every run in
-this chapter, so that a difference between runs is the attacker's or the
-defence's and not the ground's.
+five exposed endpoints (Table~\ref{tab:experiment}), with the network
+regenerated for each seed and the two database hosts at the deepest level as
+the target. Every value is the simulator's own default
+(Section~\ref{subsec:network-model}, Figure~\ref{fig:network-model}) but one:
+the target set, narrowed from five database hosts to two. The configuration
+never changes across this chapter, so every difference reported is the
+attacker's or the defence's.
 % [3b] "narrowed from five hosts to two" --- the fact is verified: GEOMETRY
 %  sets total_database=2 (src/mtdsim/l3_simulation/movement/run.py:67) against
 %  TimeNetwork's own default of 5 (mtdnetwork/component/time_network.py:12), and
