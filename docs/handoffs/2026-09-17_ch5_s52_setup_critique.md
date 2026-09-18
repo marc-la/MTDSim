@@ -1810,3 +1810,76 @@ with the renormalisation in the *What it is* cell. Settle the host
 breadth / hosts reached / host-compromise breadth split at the same time — one
 ruling, one pass over `tools/ch5_effectiveness_figures.py`, `tab:eff-lineage` and
 the terminology file.
+
+---
+
+## §AI — The Runs unit (2026-09-18)
+
+Marc's verdict: "that reads like compaction for an LLM to read — it looks like
+preserving context. This is not thesis-ready." His specific objections: *cell*
+("what is the cell to the reader?"); the run-count justification and its citation
+("none of that is relevant to a generalised computer scientist — why is there a
+citation?"); "the two arms consume randomness differently" ("that's a descriptor,
+not a setup ... that's pretty self-evident"); "no comparison across attackers is
+paired" ("it comes across as randomness — we don't compare attackers for a
+multitude of reasons"); "which no evaluation in this lineage does" ("why do I
+need other lineages? this is our lineage, this is our timeline"); and the whole
+last sentence — *declared claims*, *families of comparisons*, *minimum effect of
+interest* — "I don't know what that means."
+
+> Every combination in Table 5.2 is run a thousand times, each on its own seed.
+> The same seeds are used on every arm, so every attacker meets the same thousand
+> networks. Differences are reported as effect sizes with 95 % confidence
+> intervals.
+
+**85 words → 44.** §5.2 is **257 words**, from 546. Three sentences, no
+justification, no citation, no scoreboard.
+
+**The form is the one this repo's conventions file already nominates.**
+`evaluation_conventions.md` §d calls Barach 2026 "the model declaration, and the
+fullest in the whole source tree" — four sentences carrying repetitions,
+dispersion, intervals and the test — and says to **copy the form**. Repetitions
+and intervals are here; the test is not, for the reason below. And the corpus's
+own register is this plain: Zhang declares "100 runs", Reti "each combination of
+parameters was run 100 times". **"Combination" is Reti's word.**
+
+***Cell* is design-of-experiments vocabulary, and §d's census is decisive**:
+every term of art in formal sensitivity analysis returns **zero hits outside this
+repo's own records**, and "the MTD literature practises one-at-a-time analysis
+universally and names it never." Note that *configuration* — Barach's own word —
+is unavailable: the Network unit uses it for the network. Same collision as
+*baseline* and *condition*.
+
+**The seed sentence keeps the fact and drops the mechanism.** "The two arms
+consume randomness differently" was a descriptor and self-evident; what a reader
+needs is the **consequence** of sharing seeds — the arms are compared on the same
+networks rather than separately drawn ones. That consequence is also the only
+thing in this unit Table 5.2 cannot carry, its *Seeds* row already reading
+"1 000 per cell, the same set on every arm".
+
+**All inference machinery leaves §5.2, and the conventions say where it goes.**
+§d: "a minimum effect size of interest is declared **with each claim**." §e: the
+success criterion is declared "at the definition site, one sentence, not a unit
+of its own." So the effect floors, the multiplicity adjustment and the no-pairing
+commitment belong at §5.4's claims, beside the numbers they govern — not in a
+setup with no claims in front of it. **This discharges the [3b] that stood here.**
+
+**Three things this unit hands on.**
+
+1. **Why a thousand.** `hoad2007` is the method — replicate until the interval
+   around the cumulative mean sits inside a declared tolerance, which makes the
+   count a consequence rather than a round number (§d2). Marc is right that it
+   read as justification in the setup, but it is worth one line to an examiner:
+   §5.1's sensitivity material or a footnote. **Note the side effect: hoad2007 is
+   now cited nowhere in the document and drops out of the bibliography.**
+2. **That no comparison across attackers is paired.** It reads as an excuse here,
+   but it is a real commitment — §d warns a paired test "is wrong wherever the
+   arms do not actually share randomness" — so it must appear wherever the
+   cross-arm test is named, which is §5.4.2.
+3. **That intervals exceed the lineage.** §d records that **no paper in the
+   lineage reports a confidence interval** and says the improvement should be
+   stated deliberately rather than slipped in. Cutting the comparative clause
+   from the setup is right — a setup that scores itself against others is
+   arguing — so it lands in §5.4.3, which re-runs the published claims, or ch6.
+
+**All five units of §5.2 have now had the pass.**
