@@ -1761,3 +1761,52 @@ exactly why it read as disjointed — nothing told the reader what the sentence 
 for until it was over. **Target reach leaves the prose entirely**: the conditional
 reporting is a results fact, the table already lists the metric, and the clause
 was the second half of a two-clause sentence with no visible purpose.
+
+### §AH — Do we carry the lineage's metric names? (Marc, 2026-09-18)
+
+His question, of host breadth: "is that HCR, network compromise ratio? That was
+something used in prior works — are we not carrying over the names of our
+lineage's metrics?" **Checked, and the answer differs per row.** Nothing renamed:
+this is a ruling of his, and it reaches the generated captions.
+
+**Host breadth is not HCR/NCR, on two counts.**
+
+1. **Not the same quantity.** HCR is Ho's Eq. 10 — `C_t / T_host` at a compromise
+   **checkpoint**, bounded [0, 1], implemented as `compromised_num / host_num`
+   (`evaluation.py:126`, `metrics_semantics.md` L98). Zhang's NCR is the
+   **checkpoint metric** that terminates the run and fixes where MTTC is read
+   (`zhang2023.md` L94). Ours is the distinct hosts reached across a **whole
+   run**, and the number actually reported is its **suppression against the
+   no-defence arm** (`analyse.py:227`). On a fixed 50-host network a count and a
+   ratio differ by a constant — but a difference from a control is neither.
+2. **Neither paper reports it as a result.** Ho declares **eleven selector
+   features** and **four evaluation metrics** (ASR, RoA, APE, Risk); HCR is a
+   feature, and one he finds "performed the worst" (`ho2024.md` L86, L132). Tay's
+   five reported are ASR, MTTC, APE, RoA, Risk (`tay2024.md` L57). Carrying HCR
+   over would import a label the lineage does not use for an outcome.
+
+**The tie-back that is true is already in the table**: the *Family* cell says
+**system state**, which is Table 3.1's row holding HCR and NCR.
+
+**Where we do drop a lineage name, and it is worth his ruling.** Brown's two
+metrics are **"attack actions blocked"** (Fig. 4) and **"the average attempts
+required to compromise"** (Fig. 5) — both already carried under Brown's own names
+in Table 3.1 (dissertation.tex:2404, :2425). They are this table's **blocked
+fraction** and **effort per host**, renormalised: a share rather than a total,
+per distinct host rather than per compromise. **Brown is the direct substrate
+lineage and §5.4.3 re-runs his claim**, so different names for his own two
+metrics cost something and buy nothing.
+
+**The middle path has a precedent in this repo: "internal MTTC."** The lineage
+name is kept, qualified in one word, and the divergence written down
+(`metrics_semantics.md` §a, §c). "Attack actions blocked, as a share" is the same
+move. Note that *delay to first compromise* should **not** take MTTC's name — the
+repo's MTTC is a mean over attack-action durations at checkpoints, a different
+quantity, and C7/ATK-04 already shift its magnitude.
+
+**Recommendation.** Leave host breadth as it is and say the HCR relation nowhere
+(the Family cell carries it). Rename the two Brown-derived rows to Brown's names
+with the renormalisation in the *What it is* cell. Settle the host
+breadth / hosts reached / host-compromise breadth split at the same time — one
+ruling, one pass over `tools/ch5_effectiveness_figures.py`, `tab:eff-lineage` and
+the terminology file.

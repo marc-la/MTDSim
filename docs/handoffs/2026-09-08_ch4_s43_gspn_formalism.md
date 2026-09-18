@@ -641,6 +641,26 @@ at assembly). The figure and notation table are outside the word count.
   Marc on separation of concerns — see the ch5 design handoff §16. §7.1's
   swept rows become `tab:parameter-register`'s only content (re-cut pending);
   its environment rows go to §5.2's factor tables.
+- **R8** what `V` is in the definition — RULED 2026-09-13 and APPLIED: `V` is the
+  set of verdicts *the token routes on*, not the set the simulator returns. The
+  Eq. 4.3 `where` clause now splits the origins (success and failure as the
+  simulator returns them for a dispatched action; `none` at a tactic that
+  dispatches none), and the sentence introducing Eq. 4.4 says "when the verdict
+  is $v$" rather than "when the simulator returns $v$". Cause: `none` is assigned
+  in-layer at dwell-only places (`attacker.py:363-371, 599`) and has no substrate
+  origin, so the old wording could not accommodate the only member of `V` a
+  reader would query. Still not carried in the prose, and arguably should not be:
+  `failure` also has a second, in-layer origin (`PRECONDITION_UNMET`, decided as
+  movement policy in the controller's vocabulary, `attacker.py:894-903`).
+- **R9** OPEN — `T_T` and `T_I` carry no `c` subscript in $\mathcal{N}_c$ while
+  both demonstrably vary by profile (15/13/14/13 places, 108/76/69/54 non-null
+  pairs, §3), and the following sentence claims "only $P_c$ and $W_c$ vary".
+  Existence differs (a pair touching an absent tactic cannot exist) *and* weight
+  differs (among shared tactics the implementation carries every pair, zero
+  included). Options: (a) subscript $T_{T,c}$, $T_{I,c}$ and reword to "the
+  construction rule is identical; $P_c$ and $W_c$ are the inputs"; (b) keep the
+  bare symbols and add a clause saying both are determined by $P_c$ and the
+  profile's flows. Recommendation (a).
 
 ## Validation gate
 

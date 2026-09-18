@@ -37,6 +37,36 @@
 % §5.3's four instruments are metrics this chapter reports and are deliberately
 % not here (see the ruling above). "Judges a defence by" is the true scope and
 % is the phrase §5.2's prose now uses, so caption and prose agree.
+% OPEN FOR MARC 2026-09-18 --- DO WE CARRY THE LINEAGE'S METRIC NAMES? He asked
+% of host breadth, "is that HCR, network compromise ratio? Are we not carrying
+% over the names of our lineage's metrics?" Checked, and the answer differs per
+% row.
+%  HOST BREADTH IS NOT HCR/NCR, on two counts. (i) It is not the same quantity:
+%   HCR is Ho's Eq. 10, C_t / T_host at a compromise CHECKPOINT, bounded [0,1]
+%   (evaluation.py:126, compromised_num / host_num), and Zhang's NCR is the
+%   checkpoint metric that ends the run and fixes where MTTC is read; ours is the
+%   distinct hosts reached across a whole run, and the number actually REPORTED
+%   is its suppression against the no-defence arm (analyse.py:227). On a fixed
+%   50-host network a count and a ratio differ by a constant, but a difference
+%   from a control is neither. (ii) NEITHER PAPER REPORTS IT AS A RESULT: Ho
+%   declares eleven selector FEATURES and four EVALUATION metrics (ASR, RoA, APE,
+%   Risk) and HCR is a feature (ho2024.md L86); Tay reports the same five minus
+%   RoA's sibling. Carrying the name would import a label the lineage does not
+%   use for an outcome. The tie-back that IS true is already in this table: the
+%   Family cell "system state" is Table 3.1's row holding HCR and NCR.
+%  WHERE WE DO DROP A LINEAGE NAME, AND IT IS WORTH HIS RULING: Brown's two
+%   metrics are "attack actions blocked" (Fig. 4) and "the average attempts
+%   required to compromise" (Fig. 5) --- both carried under Brown's own names in
+%   Table 3.1 (:2404, :2425) --- and they are this table's BLOCKED FRACTION and
+%   EFFORT PER HOST, renormalised (a share rather than a total; per distinct host
+%   rather than per compromise). Brown is the direct substrate lineage and §5.4.3
+%   re-runs his claim, so different names for his own two metrics cost something
+%   and buy nothing.
+%  THE PRECEDENT FOR THE MIDDLE PATH IS THIS REPO'S OWN: "internal MTTC" keeps
+%   the lineage name, qualifies it in one word, and writes the divergence down
+%   (metrics_semantics.md §a, §c). "Attack actions blocked, as a share" would be
+%   the same move. NOT DONE HERE --- renaming reaches the generated §5.4/§5.5
+%   captions, tab:eff-lineage and §5.4's prose, which is Marc's.
 % Geometry tested against the real class and geometry: no overfull box; the
 % tabular measures 454.1 pt against a 455.2 pt text width, body height 283 pt.
 % SHOULD BE BORN GENERATED, with tab_5-2a, by the reader that produces the
