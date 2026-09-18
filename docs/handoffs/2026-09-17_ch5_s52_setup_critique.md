@@ -990,7 +990,7 @@ confidence — not for a licence.
 
 ## W. The structure
 
-**Five bold run-in units, ~330 words, two tables.** One opening sentence for the
+**Five bold run-in units, two tables** (~330 words predicted; 450 measured once built — see below). One opening sentence for the
 setup table, then the four moving parts and the replication.
 
 | Unit | What it declares | Its one motivating clause | Words |
@@ -1055,7 +1055,7 @@ Not committed to the tex.
 > run, because on a simulator this cheap any difference can be made significant
 > by adding seeds.
 
-333 words, against 539 landed and 905 originally.
+**Measured after execution: 450 words, against the 546 that stood here and 905 originally.** The ~330 predicted above was an undercount of this specimen — both figures are now counted by the same script with references expanded as a reader reads them, and the executed section is the number that stands.
 
 ### Table 5.2 — the experiment
 
@@ -1155,3 +1155,59 @@ carve-out rather than a veto (§V1).
 5. **§5.3's opening** gains the four instruments it now declares for itself.
 6. **The re-keys** — deployment interval, interval distribution, run length —
    once §S's rows are ruled.
+
+## AA. What landed (2026-09-18, executed)
+
+Steps 1–5 of §Z are done; step 6 (the terminology re-keys in the §5.4/§5.5
+captions) waits on the ruling in §S.
+
+| Artefact | State |
+|---|---|
+| §5.2 prose | **Restructured** to §W. Five bold run-in units — *Network / Attacker / Defence / Metrics / Runs* — under one lead sentence. **450 words** against the 546 that stood there and 905 originally, counted by the same script on both. No *Design* paragraph: the design is one sentence in Table 5.2's caption. No result reported |
+| `tab_5-2a_experiment.tex` | **New.** `Element · Varies over · Held at`, sixteen rows in four row groups (the moving parts), each element in one value column only. Replaces `tab_5-2a_factors_varied` and `tab_5-2b_factors_fixed`, both deleted. The justification column is gone |
+| `tab_5-2b_metrics.tex` | **New.** `Family · Metric · What it is · Comparable across`, eight rows in two groups; the *Family* cells are Table 3.1's own inner key. Replaces `tab_5-2c_measures`, deleted. The four §5.3 instruments removed |
+| `voice.md` | **Carve-out added** to §(d) and §(h): bold run-in labels licensed in declarative passages only, with the corpus attestation and the scope clause |
+| `terminology.md` | Four PROPOSED rows (§S). *deployment interval* applied in the new artefacts, since it enforces a ratified row ch5 had breached; *interval distribution* and *run length* applied in the new text only |
+| §5.3 | **Comment placed** at the section head: it now owes the declaration of its four instruments, in conventions §f's register (observations from the no-defence arm; the verdict is ch6's) |
+| `FLOATS.md` | Both rows re-keyed |
+| Build | `pdflatex` clean, 92 pages (from 93), no undefined references or citations. §5.2 spans pp. 41–43 |
+
+**Three defects found by reading the built page, and fixed.**
+
+1. **The rotated group labels were not centred.** Fixed with multirow's
+   `[vmove]`, and the values are *measured* rather than eyeballed: each page was
+   rasterised, the label's pixel span compared against its group's rule
+   boundaries, and the offset solved in one step. All six labels now sit within
+   two pixels of their group's midpoint (Network $-0.52$, Attacker $-0.13$,
+   Defence $+0.76$, Run $-0.28$, Effectiveness none, Efficiency $+0.18$ cm).
+   The offsets differ per group because multirow estimates a group's height from
+   `\baselineskip` and the error grows with the number of wrapped lines in it.
+2. **One row filled both value columns**, contradicting the caption's "each
+   element appears in one of the two columns only". *Run length* carried
+   "deployments per run" in the held column; split into two rows.
+3. **The floats drifted past the §5.3 heading** at `[htbp]`, because §5.3 is
+   still a placeholder and offers nothing for a float to settle against.
+   `[H]` was tried first — the fix Table 5.1 took — and stranded two thirds of a
+   page as whitespace, exactly as the preamble's own note warns. Fixed instead by
+   moving Table 5.2's `\input` up to its reference at the lead sentence, which
+   places both tables in order with no gap.
+
+**One dangling reference this restructure created, found by the build and
+fixed:** `tab_5-4-2a_orderings.tex`'s footnote referenced `tab:factors-fixed`
+for the seed count. Re-pointed at `tab:experiment`. The rider it sits in
+("ranks within a family are not separable at this seed count") is a hundred-seed
+statement that the thousand-seed ruling deletes — **flagged, not changed**: that
+is §5.4's prose and its floats are still hundred-seed floats.
+
+**Two things to know about the state of the repo.** The §5.2 tex reached `HEAD`
+inside a **concurrent session's commit** (`5f23b9f1`, a §4.4.2 compression),
+which staged `dissertation.tex` while this work was mid-flight — so for a while
+`HEAD` referenced two table files that were not tracked and would not have
+built. Committing them closes that. And `\citet{jalowski2026}` raises a natbib
+"Author undefined" warning in ch4: `ieeetr.bst` is a numeric style that records
+no author, so `\citet` cannot render one. **Pre-existing, not from this work,
+and worth its own look** — it affects every `\citet` in the document.
+
+**Still owed:** the C39 generator pass, now over two tables rather than three;
+§5.3's declaration of its four instruments; the three §5.4/§5.5 caption re-keys
+once §S is ruled; the effect floors; the ch6 insertions' prose.

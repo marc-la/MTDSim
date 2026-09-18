@@ -5553,8 +5553,11 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 % objective, so a success-shaped measure is pinned at zero --- reads as a result
 % because it is one, and it is left to §5.4, where it is evidenced, and to ch6 for
 % its methodological reading.
-% 333 words against 539 landed and 905 originally; two tables against three,
-% measuring 710 pt of table body against 1 168 pt. One [3b] still standing: the
+% 450 words against the 546 that stood here and 905 originally; two tables
+% against three, measuring 710 pt of table body against 1 168 pt. (Counted with
+% the same script on both, references expanded as a reader reads them; the "333"
+% in an earlier draft of the brief was an undercount of the specimen and is
+% corrected here and in the handoff.) One [3b] still standing: the
 % per-claim effect floors (C7), Marc's numbers.
 % THE RUN COUNT IS A THOUSAND (handoff §J, Marc's ruling): the corpus at
 % data/results/ch5_defended/run_corpus.py still sets SEEDS = range(100), which
@@ -5562,6 +5565,8 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 % thousand-seed numbers, and the word "preliminary" appears nowhere in it.
 Table~\ref{tab:experiment} states the experiment: every element of the
 simulation, with either the levels it varies over or the value it is held at.
+
+\input{tables/tab_5-2a_experiment}
 
 \textbf{Network.} Fifty hosts across four levels of depth, eight subnets and
 five exposed endpoints, the topology drawn fresh for each seed, and the two
@@ -5588,8 +5593,6 @@ goal is to disrupt the attacker, not to detect it; it knows nothing of the
 attacker, there being no detection channel for that knowledge to arrive through
 (Section~\ref{subsec:defence-mechanisms}); and its capability is the seven
 mechanisms, on a time-triggered schedule it never departs from.
-
-\input{tables/tab_5-2a_experiment}
 
 \textbf{Metrics.} Table~\ref{tab:metrics} names every metric this chapter
 reports against the family of Table~\ref{tab:mtd-metrics} it instantiates, so
@@ -5828,6 +5831,18 @@ simulator this cheap any difference can be made significant by adding seeds.
 %   6 incentive-driven rationality        -> 5.3.3
 %   7 learning capability                 -> 5.3.3
 %   8 MTD-scheme awareness                -> absent, ruled; ch7
+% OWED BY THIS SECTION, NEW 2026-09-18 (§5.2 restructure): the four instruments
+% this section reads are no longer declared in §5.2 and must be declared here,
+% where they are first used (evaluation conventions §a). They are campaign
+% coverage, opening variety, profile divergence and response to disruption, and
+% they left Table~\ref{tab:metrics} on Marc's ruling: calling them validation is a
+% claim of proof a self-chosen instrument set cannot carry ("you can be selective
+% about it --- that's the whole issue"). Conventions §f gives the register this
+% section should declare them in: they are taken from the no-defence arm and
+% reported as OBSERVATIONS about the model, and the verdict they add up to is
+% ch6's --- which is what the placeholder below already says. One or two sentences
+% at the head of this section, naming the four and the condition they are read
+% from. Marc's prose.
 \section{APT attacker behaviour}
 \label{sec:attacker-in-operation}
 
