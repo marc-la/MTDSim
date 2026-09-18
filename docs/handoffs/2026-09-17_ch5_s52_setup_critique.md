@@ -1251,3 +1251,56 @@ the family of Table 3.1 it instantiates."* The other four units already open on
 substance and are unchanged.
 
 Section now **428 words**, against the 546 that stood there before the restructure. Build clean, 92 pages; §5.2 spans pp. 41–43 with both tables in order.
+
+## AC. The Network unit (2026-09-18, fourth read)
+
+Marc's three questions on it, answered against the corpus and the code.
+
+**AC1 — does it want a diagram? No, it wants a cross-reference.** Two of the
+four setup sections on file carry a testbed figure (Kim's Fig. 4, He's Fig. 3)
+and two do not (Reti, Ho) — and the split is not stylistic: Kim and He describe
+their environment nowhere else, while Reti's and Ho's are declared elsewhere.
+This thesis is the second case. §2.2.1 already draws the network, at three
+magnifications, in Figure 2.2. A §5.2 figure would redraw it. What the unit was
+missing is the pointer, and it was missing it *inconsistently*: **Attacker**
+referenced §2.2.3 and **Defence** §2.2.2, while **Network** referenced nothing.
+Now it references both the section and the figure.
+
+**AC2 — is the negative scope a necessary qualification here? No, and it is in
+the wrong place three times over.** It is a true limitation and it is now an
+insertion at `sec:fidelity-verdict` (item 3, alongside the two relocated on
+2026-09-17). The reasons it leaves §5.2:
+
+1. Table 5.2 already declares the geometry held, so the sentence restated the
+   table in an apologetic register.
+2. A setup declares and does not concede — the principle the whole section was
+   rebuilt on (§G). It would have been the one surviving concession of the six.
+3. `voice.md` §c6 wants negative scope "as a section or a closing move", and the
+   corpus agrees: Reti flags its step limit in the **conclusion**.
+
+**AC3 — what a Network unit must carry.** The four anatomies give four slots:
+*what the environment is, concretely*; *where it came from or how it was
+generated*; *what in it is the target*; *how many configurations*. The unit had
+the first, third and fourth. It was missing the second — and that is the slot
+the cut sentence's place was given to.
+
+**What filling it turned up, and it is a finding rather than a phrasing.**
+`GEOMETRY` (`src/mtdsim/l3_simulation/movement/run.py:61-69`) is
+`TimeNetwork`'s own default for **every value except one**: total nodes 50,
+endpoints 5, subnets 8, layers 4, target layer 4 and the compromise ratio 0.8
+are the class's defaults (`mtdnetwork/component/time_network.py:11-13`), while
+**the database set is 2 against a default of 5**. So the terrain is the
+simulator's, unchanged but for the size of the target set — which is a stronger
+thing to be able to say than the sentence it replaced, because it closes at the
+terrain level the question a sceptical reader asks of any evaluation whose
+contribution is the attacker: *was the network chosen to suit the model?* It was
+not; it is the one that came with the simulator.
+
+The narrowing itself is **real, verified, and declared nowhere in the
+document** — the probe records note the value (`targeted_objective_probe.md`
+§1) but no reason is recorded anywhere. A `[3b]` now stands at the sentence:
+the fact is stated, the reason is Marc's. It is worth resolving rather than
+leaving, since a target set that departs from the simulator's default is
+precisely what a reader checks.
+
+Network unit: three sentences to two, and the section is **438 words**.

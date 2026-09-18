@@ -5580,9 +5580,20 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 \textbf{Network.} Fifty hosts across four levels of depth, eight subnets and
 five exposed endpoints (Table~\ref{tab:experiment}), the topology drawn fresh
 for each seed, and the two database hosts at the deepest level as the target.
-It is held for every run in this chapter, so that a difference between runs is
-the attacker's or the defence's and not the ground's. Nothing reported here
-speaks to how these results would move with network size or density.
+It is the simulator's own configuration at its default values
+(Section~\ref{subsec:network-model}, Figure~\ref{fig:network-model}), with the
+database set narrowed from five hosts to two, and it is held for every run in
+this chapter, so that a difference between runs is the attacker's or the
+defence's and not the ground's.
+% [3b] "narrowed from five hosts to two" --- the fact is verified: GEOMETRY
+%  sets total_database=2 (src/mtdsim/l3_simulation/movement/run.py:67) against
+%  TimeNetwork's own default of 5 (mtdnetwork/component/time_network.py:12), and
+%  every other value in GEOMETRY is that class's default. The CHANGE is real and
+%  is declared nowhere else in the document; the REASON is yours. If the set was
+%  narrowed to make the objective a harder and more specific target, say so in a
+%  clause here; if it came from somewhere else, say that. Do not leave it silent:
+%  a target set that departs from the simulator's default and is not declared is
+%  exactly what a reader checks.
 
 \input{tables/tab_5-2a_experiment}
 
@@ -6680,6 +6691,20 @@ spends.]}
 %     conditioned on an objective and routed by outcome; it does not answer the
 %     half that reasons about the scheme itself. The unanswered half is
 %     Chapter~\ref{ch:futurework}'s, and pairing it there is He's form.
+%
+% (3) ONE TERRAIN --- RELOCATED FROM §5.2 2026-09-18 (Marc: "is that a necessary
+%     qualification?"). §5.2 closed its network unit with "nothing reported here
+%     speaks to how these results would move with network size or density". It is
+%     a true and worth-stating limitation, and it was in the wrong place three
+%     times over: Table~\ref{tab:experiment} already declares the geometry held,
+%     so the sentence restated the table in an apologetic register; a setup
+%     declares and does not concede, which is the principle the whole section was
+%     rebuilt on; and voice.md §c6 wants negative scope as a section or a closing
+%     move, which is where the corpus puts it too (Reti flags its step limit in
+%     the conclusion). It is owed here: every result in Chapter~\ref{ch:results}
+%     is taken on one network of one size and one density, and scale was a
+%     planned factor that was not run --- so no claim about how these effects
+%     scale is available, in either direction.
 
 % PLACEHOLDER STAGED 2026-09-07 (Marc's ruling: "put a placeholder just
 % with the table for future reference in the discussion"). This is the
