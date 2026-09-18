@@ -923,3 +923,235 @@ Parts 1 and 2 stand, plus:
   no §5.3 instrument appears in it.
 - `grep` the section for *mutation interval*, *timing regime*, *horizon* — all
   absent once R9 is ruled.
+
+---
+
+# Part 4 — the structure (2026-09-18, second reply)
+
+Marc's ruling on Part 3, and the answer to *"how would you structure experimental
+setup — as simple and short as possible, following convention."* Two of Part 3's
+recommendations are overturned by it, one of them mine from the same day.
+
+## V. What changed in this reply
+
+**V1. The labels are the simulation's moving parts, and they are bold.** Marc:
+*"what would the dimensions be, because that's the moving parts of our
+simulation — the defence, the attacker, the network, the metrics that we use,
+the things that we keep the same."* That list is the section's structure, not a
+formatting choice, and the emphasis is **bold** on his ruling — stronger than
+Part 3's italic recommendation, and the carve-out covers both `voice.md` §(h)
+and §(d) rather than one of them.
+
+**V2. The reason column goes from *both* tables. OVERTURNS Part 3 §Q and §T/R5.**
+Part 3 split it — vary and justify (Tay), hold and declare (Reti). Marc rejected
+the split and the authority it rested on: *"I wouldn't use his as a main
+argument … I would just lose the column on each of them, because what do I need
+them for? It's very hard to be like, this is why we chose it."* What replaces it
+is better and is his: **the motivation is one high-level clause per prose unit —
+why we vary the attacker, why we vary the defence — and the tables just print
+what is at our disposal.** A per-row justification answers a question no reader
+asks; a per-dimension one answers the only one they do.
+
+**V3. Three tables become two, because the three did not distinguish
+themselves.** Marc: *"the distinction between each of the three tables is not
+clear."* He is right, and the fix was already in this repo's own conventions
+rather than in Reti's paired form. `evaluation_conventions.md` §c states the
+rule outright:
+
+> "every declared parameter is listed; each row says either the band it was
+> swept over and what moved, or that it was held and why. **One register, both
+> kinds of row.** A parameter that appears in neither list is the failure the
+> corpus keeps committing."
+
+One register, both kinds of row — that is **one table**, not two. Reti's pair
+reads as a pair only because its columns are identical, which is a workaround
+for what a single table does natively; Kim's Table 4 is a single parameter table
+with a Type row-group and is the closer precedent. So: **one setup table, one
+metrics table.**
+
+**V4. §5.3's four instruments leave §5.2 altogether, and are not called
+validation.** Marc: *"it does seem like fudging the numbers in terms of model
+validation, because you can be selective about it — that's the whole issue. But
+if you want to say we did some little validation, here's the numbers, and we
+have some juice to talk about in the discussion, then we can do that."* He is
+naming a real limit on Part 3's §R8: *validation* is a claim of proof, and a
+self-chosen instrument set cannot carry it. Conventions §f already gives the
+honest word and it is his shape exactly:
+
+> "attacker-property claims are legitimate results, they are taken from the
+> no-defence arm, and they are reported in the results chapter as
+> **observations**. The **verdict** they add up to belongs in the discussion."
+
+So §5.3 **characterises** the attacker against no defence; §5.2 does not carry
+its instruments at all (conventions §a: a parameter is declared where it is
+first used); and what they add up to is ch6's. `sargent2011` is then cited once,
+for its *ceiling* — an unobservable system does not admit a high degree of
+confidence — not for a licence.
+
+## W. The structure
+
+**Five bold run-in units, ~330 words, two tables.** One opening sentence for the
+setup table, then the four moving parts and the replication.
+
+| Unit | What it declares | Its one motivating clause | Words |
+|---|---|---|---|
+| — (lead) | Table 5.2 and how to read it | — | ~25 |
+| **Network.** | geometry, topology, target; the negative scope | held so a difference is the attacker's or the defence's, not the ground's | ~55 |
+| **Attacker.** | the two arms, the objective, the declared absences | because the question is whether the choice of attacker changes what an evaluation concludes | ~65 |
+| **Defence.** | the ten conditions, no defence as reference, the defender's three clauses | because *when* a defence moves is as much a design choice as *which* moves | ~95 |
+| **Metrics.** | Table 5.3, keyed to Table 3.1; the backbone denominator | because what judges a defence here should be the field's measure, not this thesis's | ~55 |
+| **Runs.** | Barach's four sentences | — | ~80 |
+
+No *Design.* unit: with the reason columns gone and both kinds of row in one
+table, the design is one sentence in that table's caption, which is where
+Part 3 §P could not yet put it.
+
+### The specimen
+
+Not committed to the tex.
+
+> Table~\ref{tab:experiment} states the experiment: every element of the
+> simulation, with either the levels it varies over or the value it is held at.
+>
+> \textbf{Network.} Fifty hosts across four levels of depth, eight subnets and
+> five exposed endpoints, the topology drawn fresh for each seed, and the two
+> database hosts at the deepest level as the target. It is held for every run in
+> this chapter, so that a difference between runs is the attacker's or the
+> defence's and not the ground's. Nothing reported here speaks to how these
+> results move with network size or density.
+>
+> \textbf{Attacker.} Two arms, because what this chapter asks is whether the
+> choice of attacker changes what an evaluation concludes: the baseline attacker
+> of Section~\ref{subsec:attacker-model}, and the movement attacker of
+> Chapter~\ref{ch:attacker-model} on each of the four attack profiles and on the
+> aggregate. Its objective is varied with them, since a defence that denies one
+> goal need not deny another. Its cost model and its memory are implemented and
+> not exercised.
+>
+> \textbf{Defence.} Ten conditions: no defence, each of the seven mechanisms
+> deployed alone, and the two execution schemes that draw from all seven. No
+> defence is the reference that every effect in this chapter is a difference
+> from. The interval and the distribution it is drawn from are varied as well,
+> because when a defence moves is as much a design choice as which defence
+> moves. The defender itself is the simulator's own: its goal is to disrupt the
+> attacker, not to detect it; it knows nothing of the attacker, there being no
+> detection channel for that knowledge to arrive through; and its capability is
+> the seven mechanisms, on a time-triggered schedule it never departs from.
+>
+> \textbf{Metrics.} Table~\ref{tab:metrics} names every metric this chapter
+> reports against the family of Table~\ref{tab:mtd-metrics} it instantiates, so
+> that what judges a defence here is the field's measure and not this thesis's.
+> Distinct hosts compromised is the denominator throughout, because it responds
+> at every interval, and target reach is reported beside it wherever it is not
+> degenerate.
+>
+> \textbf{Runs.} Every cell runs a thousand seeds, the count at which the
+> closest pair of conditions this chapter compares separates~\citep{hoad2007}.
+> The same seeds are used on every arm, but the two arms consume randomness
+> differently, so no comparison across attackers is paired. Effect sizes are
+> reported with 95\,\% intervals, which no evaluation in this lineage does.
+> Tests attach to declared claims only, are adjusted within each family of
+> comparisons, and each carries a minimum effect of interest fixed before the
+> run, because on a simulator this cheap any difference can be made significant
+> by adding seeds.
+
+333 words, against 539 landed and 905 originally.
+
+### Table 5.2 — the experiment
+
+`Element · Varies over · Held at`, row-grouped by the moving part. A row is in
+one value column or the other, never both; an empty cell is the genre's own mark
+for absent (conventions §e1). The varied rows read down one column, so the
+experiment is visible as a shape rather than described as one.
+
+| Group | Element | Varies over | Held at |
+|---|---|---|---|
+| **Network** | Geometry | | 50 hosts, 5 exposed endpoints, 8 subnets, 4 levels |
+| | Topology | | drawn fresh for each seed |
+| | Target | | the two database hosts, at the deepest level |
+| **Attacker** | Arm | the baseline attacker; the movement attacker on each of the four attack profiles; the movement attacker on the aggregate | |
+| | Objective | targeted; opportunistic | |
+| | Declared inputs | | Table 5.1's values |
+| | Sink retrace | | on |
+| | Cost model, memory | | off |
+| **Defence** | Condition | no defence; each of the seven mechanisms alone; the random and alternative execution schemes | |
+| | Deployment interval | 200 s; 2 000 s | |
+| | Interval distribution | quasi-periodic; exponential, same mean | |
+| | Deployment durations † | | 20–110 s, per mechanism |
+| | Confusion penalty † | | 20 s per interrupted action |
+| | Adaptive selector | | not exercised |
+| **Run** | Run length | 15 000 s; 60 000 s | deployments per run |
+| | Seeds | | 1 000 per cell, the same set on every arm |
+
+Caption: *Every element of the experiment: what it varies over, or the value it
+is held at. Attacker arm, defence condition and deployment interval are run in
+every combination; objective, interval distribution and run length are each
+varied on their own from that grid, with the first three at their first level.*
+Plus the existing dagger and version footnote, unchanged.
+
+Geometry, tested: `@{}cP{2.6cm}P{5.6cm}P{5.2cm}@{}` at `\tabcolsep` 4 pt, no
+overfull box.
+
+### Table 5.3 — the metrics
+
+`Family · Metric · What it is · Comparable across`, row-grouped
+**Effectiveness** / **Efficiency**. The *Family* column is Table 3.1's own inner
+key, so the join to the literature review is literal rather than asserted, and
+the four §5.3 instruments are gone (V4). Twelve rows become eight.
+
+Geometry, tested: `@{}cP{2.0cm}P{2.8cm}P{5.0cm}P{2.7cm}@{}`, no overfull box.
+
+**One row to rule, not to decide silently.** *Deployment tempo* (deployments per
+thousand seconds) is MTD execution frequency, which Table 3.1 files under
+**Effectiveness** / network-state change; this chapter reports it in §5.5 as a
+cost. Either the row sits in Effectiveness against the section that reports it,
+or it sits in Efficiency against a family it does not belong to. Recommendation:
+**keep it in Efficiency and say in the caption that the grouping is by the
+section that reports the metric, not by Cho's filing** — the divergence is then
+declared rather than hidden, and it is a legitimate point for ch6.
+
+## X. The footprint, measured
+
+Built both sets against the real class and geometry (`\textwidth` 455.24 pt,
+`\textheight` 702.78 pt) and measured the tabular boxes rather than estimating:
+
+| | Table bodies | As a page |
+|---|---|---|
+| Current three tables | 331 + 367 + 469 = **1 168 pt** | 1.66 pages |
+| Proposed two | 427 + 283 = **710 pt** | 1.01 pages |
+
+With the prose at 333 words against 539, **§5.2 goes from roughly three pages to
+roughly one and a half**, and from three floats to two. The saving is not the
+point but it is the measurable form of the complaint.
+
+## Y. The standing instruction this reply carries
+
+Marc, verbatim: *"just rule on merit — don't rule on what would exist prior,
+unless it's very very recent, because some rulings can get stale and some
+rulings can be made in not the best conditions."*
+
+This is a working rule and it applies past §5.2. A ratified row, a landed
+ruling or a convention file is **evidence**, not authority: where it was ruled
+under different conditions, or where the current reading of the page contradicts
+it, the recommendation is made on merit and the prior ruling is named as the
+thing being overturned. Parts 3 and 4 both do this — §N3 and §N4 overturned
+Part 2, and §V2 overturns Part 3 — and that is the intended behaviour, not drift.
+
+The mechanical consequence for this brief: `voice.md` §(d) and §(h) are July's
+and §(d) is described in that file as its "most provisional layer"; they get a
+carve-out rather than a veto (§V1).
+
+## Z. Order of work, revised
+
+1. **Ruling on §W's structure** — five bold units, two tables. Everything else
+   is mechanical from it.
+2. **`voice.md` carve-out** — one row covering §(h) and §(d), scoped to
+   declarative setup passages.
+3. **Build the two tables** — `tab_5-2a_experiment.tex` and
+   `tab_5-2b_metrics.tex`; `tab_5-2c_measures.tex` deleted, `tab_5-2b_factors_fixed.tex`
+   and `tab_5-2a_factors_varied.tex` retired into them. `FLOATS.md` in the same
+   commit (conventions §j).
+4. **The prose** — §W's specimen into the tex.
+5. **§5.3's opening** gains the four instruments it now declares for itself.
+6. **The re-keys** — deployment interval, interval distribution, run length —
+   once §S's rows are ruled.
