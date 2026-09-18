@@ -5621,14 +5621,39 @@ since a defence that denies one goal need not deny another.
 
 \textbf{Defence.} Ten conditions: no defence, each of the seven defence
 mechanisms deployed alone, and the two execution schemes that draw from all
-seven. No defence is the reference that every effect in this chapter is a
-difference from. The interval between deployments and the distribution it is
-drawn from are varied as well, because when a defence moves is as much a design
-choice as which defence moves. The defender itself is the simulator's own: its
-goal is to disrupt the attacker, not to detect it; it knows nothing of the
-attacker, there being no detection channel for that knowledge to arrive through
-(Section~\ref{subsec:defence-mechanisms}); and its capability is the seven
-mechanisms, on a time-triggered schedule it never departs from.
+seven (Section~\ref{subsec:defence-mechanisms}). Every effect this chapter
+reports is a difference from the no-defence runs. The deployment interval and
+its distribution are varied as well, since when a defence moves is as much a
+design choice as which one moves; either way it is time-triggered, and reacts
+to nothing the attacker does.
+% CUT 2026-09-18 (Marc: "this is a limitation which exists in the discussion
+%  maybe ... that exists already somewhere else in the background"). Two of the
+%  defender's three clauses are gone --- "its goal is to disrupt the attacker,
+%  not to detect it" and "it knows nothing of the attacker, there being no
+%  detection channel for that knowledge to arrive through". He is right on both
+%  counts and the second is checkable: §2.2.2 already ends "There are no purely
+%  reactive deployment strategies in the simulator: no detection channel is
+%  encoded, so a detection-triggered strategy, such as an IDS-based scheme, is
+%  not possible." §5.2 was restating ch2 in ch2's own terms.
+%  WHAT STAYS IS THE SCHEDULING REGIME --- time-triggered, never reacting ---
+%  because that is a RUN-PLAN fact and the corpus puts it in the setup: Kim
+%  declares "time-based, all techniques triggered every MTD interval", Ho
+%  declares the controller and its forced-trigger guard. The goal and knowledge
+%  clauses are MODEL, and He --- the only paper that writes them --- puts them in
+%  §IV.A, its defence model section, not in §V's setup.
+% OWED BY §2.2.2, proposed not drafted: conventions §g asks for a threat model
+%  written symmetrically on both sides, He's Goal / Knowledge / Capability being
+%  the tightest form. Chapter 4 is the attacker's half in full; the defender's
+%  half exists only as scattered facts in §2.2.2. Three clauses there would
+%  discharge it, and §5.2 would keep pointing at them as it now does. Marc's
+%  ruling and his prose.
+% OWED BY ch6/ch7: with the tables' reason column gone, the REASON MTDShield is
+%  not exercised is now recorded nowhere in the document --- Table 5.2 declares
+%  the absence ("Adaptive selector | not exercised") but no longer says why, and
+%  ch2's Table 2.5 puts MTDShield in a roster of five that this chapter runs none
+%  of. It is a limitation paired with future work, which is He's form and ch7's
+%  register: the selector would need retraining before it could trade cost
+%  against risk.
 
 \textbf{Metrics.} What judges a defence here is the field's measure and not
 this thesis's: every metric this chapter reports is keyed in

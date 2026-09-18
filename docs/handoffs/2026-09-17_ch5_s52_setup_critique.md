@@ -1425,3 +1425,81 @@ is stated ("this is the chapter's central comparison"). It needs to be in the
 preamble when that is dictated.
 
 Section is **396 words**, from 546.
+
+## AE. The Defence unit (2026-09-18, sixth read)
+
+### AE1 — what a Defence unit must carry
+
+The four anatomies' *defence conditions* slot gives five things, and one of them
+is not a setup's:
+
+| Slot | Attested | Ours |
+|---|---|---|
+| **The conditions** — which defences run, combinations included | all four (Kim's five MTD systems; Ho's four techniques plus AnyMTD; He's FM/MP/DM; Reti's on/off) | the ten |
+| **The no-defence reference, named** | Kim ("No-MTD", defined operationally), Ho ("trials with no MTD deployment will be run"), He ("vanilla Kitsune"); Zaffarano makes it definitional (conventions §f2) | one sentence |
+| **When it moves — the scheduler and its interval** | Kim ("time-based, all techniques triggered every MTD interval"), Ho (the controller and its forced-trigger guard, interval swept 50/100/200) | the interval, its distribution, and the time-triggered regime |
+| **Where the defences are defined** | Kim's §5.3, He's §IV.B | §2.2.2 |
+| **The defender's Goal / Knowledge / Capability** | **He only — and in §IV.A, its *defence model* section, not in §V's setup** | **cut** |
+
+### AE2 — two of the defender's three clauses were repeating chapter 2
+
+Marc: *"this is a limitation which exists in the discussion maybe … that exists
+already somewhere else in the background."* Right, and the second half is
+checkable: §2.2.2 already closes *"There are no purely reactive deployment
+strategies in the simulator: no detection channel is encoded, so a
+detection-triggered strategy, such as an IDS-based scheme, is not possible."*
+§5.2's *"it knows nothing of the attacker, there being no detection channel for
+that knowledge to arrive through"* was ch2 restated in ch2's own terms, and the
+goal clause ("disrupt, not detect") follows from the same fact.
+
+**What stays is the scheduling regime**, because that is a run-plan fact and the
+corpus puts it in the setup — Kim and Ho both declare their scheduler there. The
+goal and knowledge clauses are model, and the one paper that writes them puts
+them in its model section.
+
+### AE3 — the answers to the three wording questions
+
+- **Is *condition* the right word? Yes.** It is the corpus's own — He's three
+  techniques are "treated as the compared conditions", Ho and Kim use it the
+  same way — and it is the neutral experimental term for a level of the factor
+  the chapter varies. It is also the table's row name, so prose and table agree.
+- **Number them 1, 2–8, 9–10? No.** No paper in the corpus numbers its
+  conditions in prose; all name them. The arithmetic Marc wanted is already
+  carried by the count plus the three groups in that order, and Table 5.2's
+  Condition cell lists them a second time. Numbering would be a third statement
+  of one list.
+- **"No defence is the reference that every effect in this chapter is a
+  difference from"** — Marc: "a tough sentence, poorly written". Replaced with
+  the active form, which is also closer to Zaffarano's own: *"Every effect this
+  chapter reports is a difference from the no-defence runs."* 25 words to 12.
+
+### AE4 — the unit
+
+> **Defence.** Ten conditions: no defence, each of the seven defence mechanisms
+> deployed alone, and the two execution schemes that draw from all seven
+> (Section~2.2.2). Every effect this chapter reports is a difference from the
+> no-defence runs. The deployment interval and its distribution are varied as
+> well, since when a defence moves is as much a design choice as which one
+> moves; either way it is time-triggered, and reacts to nothing the attacker
+> does.
+
+Three sentences at 33 / 12 / 36 against four at 110, and the last two clauses
+are fused because both are about *when* the defence moves. The prose now uses
+the table's own element names — *deployment interval*, *its distribution* — so
+the two read as one object.
+
+### AE5 — two things this hands on, flagged in place, neither drafted
+
+1. **§2.2.2 owes the defender's half of the threat model.** Conventions §g asks
+   for it symmetrically on both sides, He's Goal / Knowledge / Capability being
+   the tightest form. Chapter 4 is the attacker's half in full; the defender's
+   exists only as scattered facts. Three clauses at §2.2.2 would discharge it,
+   and §5.2 would go on pointing at them as it now does.
+2. **The reason MTDShield is not exercised is now recorded nowhere.** Dropping
+   the tables' reason column took it with it: Table 5.2 declares the absence
+   ("Adaptive selector · not exercised") but no longer says why, while ch2's
+   Table 2.5 puts MTDShield in a roster of five this chapter runs none of. It is
+   a limitation paired with its future work — He's form, ch7's register — and
+   it should land there rather than return to the setup.
+
+Section is **350 words**, from 546.
