@@ -5567,7 +5567,7 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 % objective, so a success-shaped measure is pinned at zero --- reads as a result
 % because it is one, and it is left to §5.4, where it is evidenced, and to ch6 for
 % its methodological reading.
-% 396 words against the 546 that stood here and 905 originally; two tables
+% 332 words against the 546 that stood here and 905 originally; two tables
 % against three, measuring 710 pt of table body against 1 168 pt. (Counted with
 % the same script on both, references expanded as a reader reads them; the "333"
 % in an earlier draft of the brief was an undercount of the specimen and is
@@ -5620,27 +5620,60 @@ since a defence that denies one goal need not deny another.
 %  it alone ("this is the chapter's central comparison").
 
 \textbf{Defence.} Ten conditions: no defence, each of the seven defence
-mechanisms deployed alone, and the two execution schemes, random and
-alternative, that draw from all seven
-(Section~\ref{subsec:defence-mechanisms}). The no-defence runs are the
-reference: every effect this chapter reports is a difference from them. The
-deployment interval and its distribution are varied as well, since a defence is
-as much when it moves as what it moves; every deployment is time-triggered.
-% REWORKED 2026-09-18, second pass (Marc: "I didn't understand everything after
-%  'the deployment interval and its distribution are varied as well'"). He was
-%  reading it correctly --- two unrelated facts had been fused into one sentence
-%  on the strength of an antithesis that obscured both. "When a defence moves is
-%  as much a design choice as which one moves" is now carried by ch2's OWN
-%  framing, which the reader has already met: Table~\ref{tab:defence-mechanisms}
-%  is headed "\emph{What} to move" and §2.2.2 closes a paragraph with "That is
-%  the when not to move". A defence is as much when it moves as what it moves is
-%  that pairing, in that vocabulary. "Either way it is time-triggered, and reacts
-%  to nothing the attacker does" is now "every deployment is time-triggered" ---
-%  and note the correction: "all ten conditions are time-triggered" would be
-%  FALSE, since one of the ten deploys nothing. The non-reaction is ch2's
-%  already ("no detection channel is encoded"), and time-triggered still does
-%  work here because it is what separates these ten from MTDShield, which ch2
-%  classifies as hybrid.
+mechanisms deployed alone, and the random and alternative execution schemes,
+which draw on the whole pool (Section~\ref{subsec:defence-mechanisms}). Each
+defended condition runs at both deployment intervals, and the interval
+distribution is varied separately (Table~\ref{tab:experiment}). The no-defence
+runs are the reference for every effect this chapter reports.
+% REWORKED 2026-09-18, THIRD pass, on four of Marc's rulings. The unit is now
+%  three declarations and no argument, which is what conventions §a asks a setup
+%  for, and it is 54 words against 75.
+% (1) THE FIRST SENTENCE'S TAIL WAS THE RUN-THROUGH, not its length: "the two
+%  execution schemes, random and alternative, that draw from all seven" makes the
+%  reader hold an appositive open while a relative clause lands on the head noun
+%  behind it, and then ends on a bare number whose noun was never supplied
+%  ("all 7 --- all 7 what?"). Now "the random and alternative execution schemes,
+%  which draw on the whole pool": the names are attributive, one clause hangs off
+%  one noun, and POOL is ch2's own word for the seven (Table 2.3: "draws one
+%  mechanism from the pool at random"; "rotates through the pool in a fixed
+%  order"), so the number needs no repeating.
+% (2) "DEFENCE MECHANISMS", NOT "MTD MECHANISMS". §2.2.2 is titled "Defence
+%  mechanisms", Table 2.2 is "The seven defence mechanisms", and the document
+%  census is 36 "defence mechanism" against 7 "MTD mechanism" --- and all seven of
+%  those are generic, about the field's mechanisms (§1.1, §2.1, §3.2), never
+%  about this roster. And "MTD configurations" as the covering noun is rejected:
+%  a configuration is a setting of the NETWORK, which is how the Network unit
+%  four lines up uses it.
+% (3) THE REFERENCE SENTENCE IS ONE CLAUSE (Marc: "it could just be one
+%  clause"). "The no-defence runs are the reference: every effect this chapter
+%  reports is a difference from them" said reference, then glossed reference.
+%  "The reference for every effect this chapter reports" is the same fact with
+%  the colon and the gloss gone, 12 words against 18.
+% (4) BOTH MOTIVE CLAUSES ARE CUT. "Since a defence is as much when it moves as
+%  what it moves" was built out of ch2's "what to move" / "when to move" headings
+%  and Marc could not read it ("what does that point even mean to your average
+%  reader?"); a chiasmus that needs the headings in front of you to parse is not
+%  a motive, and the Network and Attacker units already carry one motive clause
+%  each, which is the ration. "Every deployment is time-triggered" goes for
+%  Marc's reason, that it is background: ch2's Table 2.3 files random and
+%  alternative under the PROACTIVE regime, §2.2.2 states no detection channel is
+%  encoded, and Table 5.2 declares the adaptive selector not exercised. Three
+%  places already say it.
+% WHAT REPLACES THEM IS THE FACT THEY WERE DECORATING: the interval is swept, and
+%  the prose now says how, which the caption alone was carrying. NOTE THE TRUTH
+%  CONDITION --- "every condition runs at both deployment intervals" would be
+%  FALSE. The no-defence cell never reads the interval, so it is run once per arm
+%  and objective and serves as the reference at both (run_corpus.py:257-260 and
+%  its module docstring). Hence "each DEFENDED condition". This is the same trap
+%  that made "all ten conditions are time-triggered" false last pass: any sentence
+%  quantifying over the ten crosses a control that has no defence parameters to
+%  quantify over. "Varied separately" is exact: the exponential regime is run over
+%  all nine defended conditions at 200 s only (run_corpus.py:268-271).
+% FLAGGED, NOT CHANGED: Table 5.2's caption says arm, condition and deployment
+%  interval "are run in every combination", which collapses on the no-defence
+%  cell for the reason above. The cell is interval-independent, so no number is
+%  affected and the caption is not wrong about the design; if it is ever
+%  tightened, "every combination" takes an "each defended" of its own.
 % THE WORD "BASELINE" IS UNAVAILABLE FOR THE NO-DEFENCE CONDITION, which is why
 %  this sentence reads around it. conventions §f2: the corpus uses "baseline" for
 %  two different objects --- the no-defence control and the comparison arm --- and

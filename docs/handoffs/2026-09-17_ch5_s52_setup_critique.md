@@ -1559,3 +1559,90 @@ It survives on merit, and the collision with the Network unit is the reason that
 was not visible the first time.
 
 Section is **347 words**.
+
+---
+
+## §AF — The Defence unit, third pass (2026-09-18)
+
+Marc's read, in his words: the first sentence is "poorly constructed ... a hard
+run through"; "the no defence runs are the reference, every effect this chapter
+reports is a difference from them" is "so verbose when it doesn't need to be ...
+it could just be one clause"; "a defence is as much when it moves as what it
+moves — what does that point even mean to your average reader? I would cut it";
+"every deployment is time-triggered — of course it is, it's in the background".
+He also asked two naming questions: *MTD mechanisms* or *defence mechanisms*, and
+whether the covering noun should be *MTD configurations*.
+
+**Before → after.**
+
+> Ten conditions: no defence, each of the seven defence mechanisms deployed
+> alone, and the two execution schemes, random and alternative, that draw from
+> all seven (§2.2.2). The no-defence runs are the reference: every effect this
+> chapter reports is a difference from them. The deployment interval and its
+> distribution are varied as well, since a defence is as much when it moves as
+> what it moves; every deployment is time-triggered.
+
+> Ten conditions: no defence, each of the seven defence mechanisms deployed
+> alone, and the random and alternative execution schemes, which draw on the
+> whole pool (§2.2.2). Each defended condition runs at both deployment intervals,
+> and the interval distribution is varied separately (Table 5.2). The no-defence
+> runs are the reference for every effect this chapter reports.
+
+75 words → 54; the section 346 → 332, counted like for like
+(`scratchpad/count52.py`, references expanded as a reader reads them).
+
+**1. What made sentence one a run-through was its tail, not its length.** "The
+two execution schemes, random and alternative, that draw from all seven" holds an
+appositive open while a relative clause lands on a head noun two commas back, and
+then ends on a bare number whose noun was never supplied — Marc read it exactly
+that way ("all 7 — all 7 what?"). The names are now attributive and one clause
+hangs off one noun. **The missing noun is *the pool*, and it is ch2's own**:
+Table 2.3 says random "draws one mechanism from the pool at random" and
+alternative "rotates through the pool in a fixed order". With the pool named the
+number needs no repeating.
+
+**2. Defence mechanisms, not MTD mechanisms.** §2.2.2 is titled "Defence
+mechanisms" and Table 2.2 is "The seven defence mechanisms"; the document census
+is 36 *defence mechanism* against 7 *MTD mechanism*, and **all seven of those are
+generic** — the field's mechanisms in §1.1, §2.1 and §3.2, never this roster. The
+acronym in ch5 would do work the noun already does. **"MTD configurations" is
+rejected on merit**: a configuration is a setting of the *network*, which is how
+the Network unit four lines above uses the word.
+
+**3. The reference sentence said *reference*, then glossed it.** The colon and
+the gloss go; 18 words → 12.
+
+**4. Both motive clauses are cut.** The chiasmus was assembled from ch2's "*what*
+to move" / "*when* to move" headings, and a figure that needs the headings in
+front of you to parse is not a motive — Marc could not read it, which settles it.
+The Network and Attacker units carry one motive clause each, and that is the
+ration for a setup that conventions §a says declares rather than argues.
+"Time-triggered" goes for his reason, that it is background: Table 2.3 files
+random and alternative under the **proactive** regime, §2.2.2 states no detection
+channel is encoded, and Table 5.2 declares the adaptive selector not exercised.
+Three places already carry it.
+
+**What replaces them is the fact they were decorating** — the interval is swept,
+and the prose now says how, which Table 5.2's caption alone had been carrying.
+
+**The truth condition, and it is the same trap as last pass.** "Every condition
+runs at both deployment intervals" would be **false**: the no-defence cell never
+reads the interval, so it is run once per arm and objective and serves as the
+reference at both (`run_corpus.py:257-260`, and its module docstring says so).
+Hence "each **defended** condition". Last pass the same shape made "all ten
+conditions are time-triggered" false, because one of the ten deploys nothing.
+**Any sentence quantifying over the ten crosses a control with no defence
+parameters to quantify over.** "Varied separately" is exact: the exponential
+regime runs over all nine defended conditions at 200 s only
+(`run_corpus.py:268-271`).
+
+**Flagged, not changed.** Table 5.2's caption says arm, condition and deployment
+interval "are run in every combination", which collapses on the no-defence cell
+for the same reason. The cell is interval-independent, so no reported number is
+affected and the caption is not wrong about the design; if it is ever tightened,
+"every combination" takes an "each defended" of its own.
+
+**Standing from §AE and unchanged:** *baseline* stays unavailable for the
+no-defence condition (conventions §f2, against "the baseline attacker" two
+paragraphs up), and *condition* survives because it must cover a control and its
+treatments and because *configuration* is spoken for.
