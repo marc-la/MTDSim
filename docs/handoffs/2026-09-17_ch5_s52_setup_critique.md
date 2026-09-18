@@ -1233,9 +1233,14 @@ its first object, not on its float.
 | 2 | **the experiment in one breath** — *one network, two attackers and ten defence conditions, run at two tempos and repeated a thousand times in every cell; its values are in Table 5.2* | says the one thing no unit and no caption says: the **size** of the experiment. Makes the five labels a walk of an announced enumeration (voice.md §c2) rather than a listicle. The table becomes a plain pointer | one sentence of overlap with the units that follow |
 | 3 | the scope sentence — *every number in this chapter comes from one experiment* | frames the chapter | closer to signposting than declaration; voice.md §h territory |
 
-**Taken: option 2.** A caption tells the reader how to read a table's columns;
-this tells them how big the experiment is, which is a different fact and the
-first one a reader wants.
+**Taken: option 1 — cut (Marc, same read: "no, I think it's better, just cut it").**
+Option 2 was drafted and built first; on the page it still read as a summary of
+what the units were about to say, and the corpus's own form is to open on the
+first object with nothing in front of it. The section now begins
+*"\textbf{Network.} Fifty hosts across four levels of depth…"* directly under the
+heading. Table 5.2 keeps a reference without a sentence spent on it: a
+parenthetical pointer at the first value it holds, which is Kim's and Reti's
+pattern — values in the prose, the table alongside.
 
 **The same fault was in the Metrics unit and was not flagged.** It opened
 "Table 5.3 names every metric this chapter reports against the family of
@@ -1245,4 +1250,4 @@ not this thesis's: every metric this chapter reports is keyed in Table 5.3 to
 the family of Table 3.1 it instantiates."* The other four units already open on
 substance and are unchanged.
 
-Section now **455 words** (measured, not estimated: the new lead is longer than the caption-sentence it replaces and the Metrics re-cut adds a clause). Build clean, 92 pages.
+Section now **428 words**, against the 546 that stood there before the restructure. Build clean, 92 pages; §5.2 spans pp. 41–43 with both tables in order.

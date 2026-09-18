@@ -5545,18 +5545,20 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 %     lose the column on each of them --- what do I need them for?"). Why the
 %     attacker is varied, and why the defence is, are questions a reader asks;
 %     why row eleven holds the value it does is not.
-% THE LEAD SENTENCE IS THE EXPERIMENT, NOT THE TABLE (Marc, 2026-09-18: "it reads
-% like a caption ... what is this first sentence doing"). He was right, and the
-% corpus settles it: NOT ONE of the four setup sections with an anatomy on file
-% opens by introducing its own parameter table --- Kim opens on the testbed, Reti
-% on the network configuration, Ho on the simulator settings, He on the dataset,
-% and the table is referenced where its content is discussed. The lead now states
-% the experiment in one breath (voice.md §c2, enumerate then walk: announce the
-% count, then take the items in order), which is the one thing no unit and no
-% caption says, and the table is a plain pointer at the end of it. The SAME fault
-% was in the Metrics unit, unflagged --- it opened on "Table 5.3 names every
-% metric" --- and is re-cut the same way: the claim leads, the table reference is
-% subordinate.
+% NO LEAD SENTENCE --- THE SECTION OPENS ON ITS FIRST OBJECT (Marc, 2026-09-18:
+% "it reads like a caption ... just cut it"). The sentence that stood here was the
+% caption for its own table, then briefly the experiment stated in one breath;
+% both are gone. The corpus backs the cut outright: NOT ONE of the four setup
+% sections with an anatomy on file opens by introducing its own parameter table,
+% or by summarising itself --- Kim opens on the testbed, Reti on the network
+% configuration, Ho on the simulator settings, He on the dataset, each straight
+% into the first object. Table~\ref{tab:experiment} is now pointed at
+% parenthetically at the first value it holds, which is Kim's and Reti's pattern
+% (values in the prose, the table alongside), so the float keeps a reference
+% without a sentence spent on it.
+% THE SAME CAPTION-FAULT was in the Metrics unit, unflagged --- it opened on
+% "Table 5.3 names every metric" --- and is re-cut the same way: the claim leads,
+% the table reference is subordinate.
 % NO DESIGN PARAGRAPH: with both kinds of row in one table the design is one
 % sentence in that table's caption, which is the question Marc put to the old
 % paragraph three ("what can it do that the captions are not doing").
@@ -5565,7 +5567,7 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 % objective, so a success-shaped measure is pinned at zero --- reads as a result
 % because it is one, and it is left to §5.4, where it is evidenced, and to ch6 for
 % its methodological reading.
-% 455 words against the 546 that stood here and 905 originally; two tables
+% 428 words against the 546 that stood here and 905 originally; two tables
 % against three, measuring 710 pt of table body against 1 168 pt. (Counted with
 % the same script on both, references expanded as a reader reads them; the "333"
 % in an earlier draft of the brief was an undercount of the specimen and is
@@ -5575,18 +5577,14 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 % data/results/ch5_defended/run_corpus.py still sets SEEDS = range(100), which
 % is the preliminary pass the floats are argued from. The chapter reports
 % thousand-seed numbers, and the word "preliminary" appears nowhere in it.
-The experiment is one network, two attackers and ten defence conditions, run
-at two tempos and repeated a thousand times in every cell; its values are in
-Table~\ref{tab:experiment}.
+\textbf{Network.} Fifty hosts across four levels of depth, eight subnets and
+five exposed endpoints (Table~\ref{tab:experiment}), the topology drawn fresh
+for each seed, and the two database hosts at the deepest level as the target.
+It is held for every run in this chapter, so that a difference between runs is
+the attacker's or the defence's and not the ground's. Nothing reported here
+speaks to how these results would move with network size or density.
 
 \input{tables/tab_5-2a_experiment}
-
-\textbf{Network.} Fifty hosts across four levels of depth, eight subnets and
-five exposed endpoints, the topology drawn fresh for each seed, and the two
-database hosts at the deepest level as the target. It is held for every run in
-this chapter, so that a difference between runs is the attacker's or the
-defence's and not the ground's. Nothing reported here speaks to how these
-results would move with network size or density.
 
 \textbf{Attacker.} Two arms, because what this chapter asks is whether the
 choice of attacker changes what an evaluation concludes: the baseline attacker
