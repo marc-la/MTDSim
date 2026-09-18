@@ -1211,3 +1211,38 @@ and worth its own look** — it affects every `\citet` in the document.
 **Still owed:** the C39 generator pass, now over two tables rather than three;
 §5.3's declaration of its four instruments; the three §5.4/§5.5 caption re-keys
 once §S is ruled; the effect floors; the ch6 insertions' prose.
+
+## AB. The opening sentence (2026-09-18, third read)
+
+Marc, on the lead: *"it reads like a caption — it basically is the caption for
+Table 5.2. What is this first sentence doing before we devolve into network,
+attacker, et cetera?"* Correct, and the corpus settles it rather than taste.
+
+**The evidence.** Of the four setup sections with an anatomy on file, **not one
+opens by introducing its own parameter table.** Kim opens on the testbed, Reti
+on the network configuration, Ho on the simulator settings, He on the dataset;
+the parameter table is referenced where its content is discussed (Kim's Table 4
+in §6.1.2, Reti's Tables 1–2 in the parameter prose). A setup section opens on
+its first object, not on its float.
+
+**What the sentence is for, and the three ways to answer it.**
+
+| | Lead | What it does | Cost |
+|---|---|---|---|
+| 1 | delete it; start at **Network.** | corpus-exact | Table 5.2 loses its prose reference, and the reader meets a bold label with no frame |
+| 2 | **the experiment in one breath** — *one network, two attackers and ten defence conditions, run at two tempos and repeated a thousand times in every cell; its values are in Table 5.2* | says the one thing no unit and no caption says: the **size** of the experiment. Makes the five labels a walk of an announced enumeration (voice.md §c2) rather than a listicle. The table becomes a plain pointer | one sentence of overlap with the units that follow |
+| 3 | the scope sentence — *every number in this chapter comes from one experiment* | frames the chapter | closer to signposting than declaration; voice.md §h territory |
+
+**Taken: option 2.** A caption tells the reader how to read a table's columns;
+this tells them how big the experiment is, which is a different fact and the
+first one a reader wants.
+
+**The same fault was in the Metrics unit and was not flagged.** It opened
+"Table 5.3 names every metric this chapter reports against the family of
+Table 3.1 it instantiates" — a caption again. Re-cut so the claim leads and the
+table is subordinate: *"What judges a defence here is the field's measure and
+not this thesis's: every metric this chapter reports is keyed in Table 5.3 to
+the family of Table 3.1 it instantiates."* The other four units already open on
+substance and are unchanged.
+
+Section now **447 words**. Build clean, 92 pages.

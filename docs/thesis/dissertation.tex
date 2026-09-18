@@ -5545,6 +5545,18 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 %     lose the column on each of them --- what do I need them for?"). Why the
 %     attacker is varied, and why the defence is, are questions a reader asks;
 %     why row eleven holds the value it does is not.
+% THE LEAD SENTENCE IS THE EXPERIMENT, NOT THE TABLE (Marc, 2026-09-18: "it reads
+% like a caption ... what is this first sentence doing"). He was right, and the
+% corpus settles it: NOT ONE of the four setup sections with an anatomy on file
+% opens by introducing its own parameter table --- Kim opens on the testbed, Reti
+% on the network configuration, Ho on the simulator settings, He on the dataset,
+% and the table is referenced where its content is discussed. The lead now states
+% the experiment in one breath (voice.md §c2, enumerate then walk: announce the
+% count, then take the items in order), which is the one thing no unit and no
+% caption says, and the table is a plain pointer at the end of it. The SAME fault
+% was in the Metrics unit, unflagged --- it opened on "Table 5.3 names every
+% metric" --- and is re-cut the same way: the claim leads, the table reference is
+% subordinate.
 % NO DESIGN PARAGRAPH: with both kinds of row in one table the design is one
 % sentence in that table's caption, which is the question Marc put to the old
 % paragraph three ("what can it do that the captions are not doing").
@@ -5563,8 +5575,9 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 % data/results/ch5_defended/run_corpus.py still sets SEEDS = range(100), which
 % is the preliminary pass the floats are argued from. The chapter reports
 % thousand-seed numbers, and the word "preliminary" appears nowhere in it.
-Table~\ref{tab:experiment} states the experiment: every element of the
-simulation, with either the levels it varies over or the value it is held at.
+The experiment is one network, two attackers and ten defence conditions, run
+at two tempos and repeated a thousand times in every cell; its values are in
+Table~\ref{tab:experiment}.
 
 \input{tables/tab_5-2a_experiment}
 
@@ -5594,9 +5607,10 @@ attacker, there being no detection channel for that knowledge to arrive through
 (Section~\ref{subsec:defence-mechanisms}); and its capability is the seven
 mechanisms, on a time-triggered schedule it never departs from.
 
-\textbf{Metrics.} Table~\ref{tab:metrics} names every metric this chapter
-reports against the family of Table~\ref{tab:mtd-metrics} it instantiates, so
-that what judges a defence here is the field's measure and not this thesis's.
+\textbf{Metrics.} What judges a defence here is the field's measure and not
+this thesis's: every metric this chapter reports is keyed in
+Table~\ref{tab:metrics} to the family of Table~\ref{tab:mtd-metrics} it
+instantiates.
 Distinct hosts compromised is the denominator throughout, because it responds at
 every interval, and target reach is reported beside it wherever it is not
 degenerate.
