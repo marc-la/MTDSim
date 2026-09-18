@@ -152,30 +152,48 @@ re-opens the dwell catalogue, App. B.4's tiers, the §5.1 re-run and every float
 built on it, or leave two taxonomies sharing three words. The full 15-row
 mismatch table is in the companion brief, §S6.
 
-## The one open decision — §5.1 quotes a measure the reader has not met
+## The measure §5.1 reads — narrowed 2026-09-18, and closed
 
-**The gap.** §5.1 is at `dissertation.tex` l. 5414 and §5.2 at l. 5525, so §5.1
-comes first. A grep of everything before §5.1 finds **no occurrence** of
-"distinct hosts", "hosts reached", "deployment scheme", "random scheme" or
-"confidence interval" in body text. Chapter 2 gives "compromised hosts" and
-chapter 3's metrics table gives the host and network compromise ratios
-(\citealt{zhang2023, ho2024, tay2024}), but the chapter's outcome measure and
-its defence conditions are declared in §5.2 — *after* the section that reads
-them. Slots 1.3, 1.4, 2.2, 2.3, 2.5, 3.2 and 3.3 all quote against them.
+**The first statement of this gap was too wide, and is corrected here.** It
+was raised as seven blocked slots; it is one term.
 
-This was foreseen (companion brief D1, "Alternative considered") and left in
-reserve. At ~300 words there is no room to define a measure and three defence
-conditions inside §5.1, so it has to be decided before slot 1.3.
+Two of the three claimed-missing objects were never missing — the grep used
+the wrong words:
 
-| Option | What it costs |
-|---|---|
-| **(a) Swap §5.1 and §5.2** so the setup is declared before the check that uses it | cleanest for the reader and squarely what voice §c9 asks (criteria before the thing judged), but it overturns the ruling that §5.1 stays first, and the chapter preamble's roadmap is written in the current order |
-| **(b) Close the measure in a clause** — name it once as the chapter's effectiveness measure with a pointer to §5.2 | ~8 words; §5.1's readings are all *relative* to the declared value, so the reader needs only that it is an outcome measure, not its definition |
-| **(c) Drop the conditions entirely** — say "under every condition the chapter runs" rather than naming no defence and the two intervals | ~10 words saved as well as borrowed; the per-condition numbers live in App. C.1–C.3 where the conditions are declared |
+- **The defence conditions have an antecedent.** Chapter 2's
+  Table~\ref{tab:deployment-strategies} names the four execution schemes,
+  \emph{random} among them ("draws one mechanism from the pool at random on
+  each interval"). The thesis says *deployment strategies* and *execution
+  scheme*; the grep asked for "deployment scheme" and "random scheme" and so
+  found nothing. Nothing is owed here.
+- **The quantity has an antecedent.** Chapter 2 establishes that compromised
+  hosts stay compromised (\citealt{brown2023, zhang2023}), and chapter 3's
+  Table~\ref{tab:mtd-metrics} carries the host and network compromise ratios
+  under the system-state family. A reader meeting "the distinct hosts the
+  attacker compromises" in §5.1 is not meeting a new idea.
 
-**Recommendation: (b) + (c), with (a) as the fallback** if the ¶1 dictation
-cannot close the measure in one clause. That keeps the ruled order, costs under
-twenty words, and pushes nothing into §5.1 that §5.2 owns.
+**What is actually owed is the name.** §5.2's Table~\ref{tab:metrics} declares
+the chapter's measure as **host breadth** — "the distinct hosts compromised in
+a run, and its suppression against no defence" — keyed to the system-state
+family of Table~\ref{tab:mtd-metrics}. §5.1 precedes it, so §5.1 is the term's
+first use, and voice §e forbids §5.1 saying "distinct hosts compromised" while
+§5.2 says "host breadth" for the same thing.
+
+**Not the chapter 3 table.** Table~\ref{tab:mtd-metrics} is a survey of metric
+families in the literature (\citealt{cho2020}); putting this chapter's own
+measure into it would file a result-side declaration inside a literature
+review. §5.2's Table~\ref{tab:metrics} is the right home and already holds it.
+
+**Resolution (recommended, and cheap):** §5.1 names **host breadth** at its
+first use with its gloss in the same breath — define-before-use satisfied
+inside the section, about eight words — and §5.2's table formalises it and
+keys it to the family. For the conditions, §5.1 says *under every condition the
+chapter runs* rather than enumerating them; the per-condition readings are
+App. C.1–C.3's, where the conditions are declared. The ruled section order
+stands, and the §5.1/§5.2 swap is not needed.
+
+**Consequence for the slots:** 1.3 and 1.4 name host breadth once between them;
+2.2, 2.3, 2.5, 3.2 and 3.3 then quote against it with no further apparatus.
 
 ## Chapter 4 antecedents — all four live as of 2026-09-18
 
@@ -233,9 +251,9 @@ an answer to it.
   2 000 s. (The chapter reports 1 000 seeds; this sweep re-launches from the
   defended corpus when that lands — findings §8.)
 - **Must not:** name a sweep design in the field's vocabulary; defend the method.
-- **BLOCKED on the open decision above** — this slot names the outcome measure
-  and the defence conditions, and the reader has met neither. Settle (a)/(b)/(c)
-  before dictating it.
+- **The measure:** name **host breadth** here or at 1.4, with its gloss in the
+  same breath (see the section above). For the conditions, "under every
+  condition the chapter runs" — do not enumerate them.
 - **Dictation:** *(pending)*
 
 ### Slot 1.4 — what counts as an answer
