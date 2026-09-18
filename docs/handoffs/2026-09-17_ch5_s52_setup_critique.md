@@ -565,3 +565,361 @@ the §5.1 site and left for that brief** — the tex of §5.1 is under Marc's ha
 **Still owed:** the C39 generator pass over all three tables; the ch6 insertions'
 prose; the 60 000 s wall-clock probe before any thousand-seed batch; the effect
 floors.
+
+---
+
+# Part 3 — the readability pass (2026-09-18, Marc's second read)
+
+Part 2's redraft was ratified and landed (§M). Marc read the built pages and the
+verdict is **not that the shape is wrong — it is that the prose is still doing
+work the tables should do, and the tables are doing work nobody asked for.**
+"It's clear how you set it up" is the part that now holds; "very verbose … we're
+hiding the meat and bones behind trying to gel it all together" is the part that
+does not. This part is the executing plan for that, and it **inverts two of
+Part 2's own ratifications** (§N3, §N4) on evidence Marc supplied by reading the
+page.
+
+## N. The diagnosis, in four findings
+
+**N1. The register is still connective when it should be declarative.** Part 1
+diagnosed *what* §5.2 said; this is a diagnosis of *how* it says it. Every unit
+is a paragraph whose sentences are joined into a flow, and a run plan is not
+read in flow — it is scanned for five answers and then left. The joins are the
+verbosity: "Two attackers are run against one defender, each across the same ten
+conditions" spends a sentence establishing a relation the reader already holds
+from chapter 4, before any of the three objects has been named. Marc's fix is
+structural, not a word count: **name the object, then declare it** —
+*Network. … Attacker. … Defender. … Metrics. … Runs.*
+
+**N2. The section's logical objects are three, and the draft fuses two of
+them.** The network is held; the attacker and the defence are what get switched.
+The current ¶2 carries both attacker and defender in one paragraph because the
+Part 1 brief filed the defender's three clauses as a debt to discharge rather
+than as one of the experiment's three parties. Split them. The reader then meets
+the same three objects §5.4 and §5.5 will vary.
+
+**N3. The operating-point sentence is a result, and it is in the setup.
+INVERTS §H ¶3 and §F2/S6.** Part 1 promoted it deliberately ("it is what §5.2
+owes ch6"). Marc's read: *"200 seconds, neither attacker reaches objective —
+that sounds like a result to me … this still sounds like a concession."* He is
+right and the earlier ruling was wrong on its own principle: §G states that a
+setup declares and does not concede, and *at the inherited interval a
+success-shaped measure is pinned at zero and separates nothing* is a finding
+about the substrate reported before a single number. The **declaration**
+survives ("both intervals are run; every claim states the interval it was taken
+at"); the **finding** goes where it is evidenced — §5.4's numbers show it — and
+its methodological reading goes to ch6, which is where §5.2 was owing it anyway.
+
+**N4. The tables' last column does not pay for itself, and the tables are two
+thirds of the section. INVERTS §D's "the justification column is the honest
+upgrade."** Measured on the built page (`dissertation.pdf`, 2026-09-17 build):
+§5.2 runs from the foot of p. 41 to p. 44, with **p. 43 almost entirely
+Table 5.3 and p. 44 entirely Table 5.4** — roughly 540 words of prose against
+two and a half pages of table. Marc read the *Why* cells one by one and the
+verdict was consistent: *"no defence is the reference every effect is a
+difference from, and recent evaluations run mechanisms both alone and in
+schemes"* — gives nothing; *"one terrain, so every difference is the attacker's
+or the defence's"* — very little; *"why do we even have a citation"* on the
+Jalowski cell. His principle, and it is the right one: **the justification lives
+implicitly in the choice of what to vary.** A reader who has read chapters 2–4
+knows why the attacker arm is a factor; saying it is not rigour, it is filler
+that costs a page.
+
+## O. Run-in labels — the convention evidence, and the one collision
+
+**Marc's question: "could we write *Network* in bold and then just say how we
+configure the network — is that something that we can do?" The answer is yes,
+and the corpus attests it precisely in declarative passages.**
+
+| Paper | Form | Locator |
+|---|---|---|
+| He 2025 | the threat model *and* the defence model are *Goal / Knowledge / Capability*, "each label italicised once" | `evaluation_anatomies/he2025.md` §B; §III.A, §IV.A |
+| Zhang 2023 | the attacker profile "given as four bold-run-in features" | `evaluation_anatomies/zhang2023.md` |
+| Cho–Ben-Asher 2018 | a transition-by-transition walkthrough "under seven bold run-in headings" | `evaluation_anatomies/chobenasher2018.md` §4.1 |
+| Alavizadeh 2022 | limitation paragraphs "headed inline by the italic run-in word *Limitations.*" | `evaluation_anatomies/alavizadeh2022.md` |
+
+He's is the on-point exemplar: it is the *model declaration*, the thing §5.2
+is, and conventions §g already rules its Goal/Knowledge/Capability form as "the
+tightest in the corpus". So this is not a formatting preference — it is the
+field's form for exactly this content, and adopting it closes a gap rather than
+opening one.
+
+**The collision, stated rather than worked around.** `voice.md` §(h) bans
+"**Bold-term-colon listicles as argument** (*"**Flexibility:** the system…"*)"
+and §(d) says "in LaTeX, `\emph` only". A `\textbf{Network.}` run-in trips both.
+The honest reading is that §(h)'s ban targets listicles **as argument** — a
+section that argues by asserting bolded virtues — and §5.2 argues nothing by
+construction (§G). But `voice.md` is a hard gate for `thesis/`, so this needs a
+ruling rather than a session's reading of intent.
+
+**Recommendation: italic run-in labels (`\emph{Network.}`), licensed only in
+declarative setup passages.** It takes one carve-out (the §(h) row, scoped) in
+place of two, it is He's own form, and it leaves bold free for the one thing
+§(d) reserves it for. Bold is available if Marc wants maximum scannability and
+will rule the §(d) line as well; the corpus carries both. Either way the
+carve-out is written into `voice.md` §(h) with the scope clause — *declarative
+setup and model-declaration passages; never in argued prose* — so it cannot
+spread to ch6.
+
+No `\paragraph{}` and no new macro: the label is `\emph{Word.}` at the head of
+the unit, the sentence running on. (Census: `\paragraph{` appears 0 times in
+`dissertation.tex`; this introduces no mechanism.)
+
+## P. The new §5.2 — six run-in units, ~340 words
+
+Same five answers as §H, re-cut so each is scanned rather than read, and with
+§H ¶3's result removed. The *must not contain* line is again the operative half.
+
+| Unit | Answers | Content | Must not contain | Words |
+|---|---|---|---|---|
+| **Network.** | on what terrain | the geometry, the target, the topology drawn per seed; one clause of negative scope | any justification of its realism; any reference to §5.1 | ~55 |
+| **Attacker.** | what is run | the two arms named flatly; the declared absence (cost model and memory off) | the word *baseline* for the no-defence condition; any defence of the profile set | ~45 |
+| **Defender.** | against what | the three clauses (goal, knowledge, capability); the declared absence (MTDShield); the ten conditions; no defence as the reference | Jalowski; any concession about the defender being frozen | ~85 |
+| **Design.** | what varies, what is held | the two tables in one sentence each; the plain-words design; both intervals reported and every claim naming its interval | the operating-point finding (§N3); per-factor justification; *crossed*, *one at a time* as terms of art | ~55 |
+| **Metrics.** | what is measured | the table in one sentence, keyed to Table 3.1's families; the backbone denominator; §5.3's instruments declared as validation and not as metrics | Cho's coverage headline; any deferral of a measure | ~65 |
+| **Runs.** | how many times | Barach's four sentences, unchanged from the landed draft | the *not separable* rider; a `[3b]` on the tolerance | ~80 |
+
+**Why *Design.* survives when Marc asked what ¶3 can do that the captions
+cannot.** One fact is not a caption's to carry: that three factors are run in
+every combination and three are varied singly *from that grid*. A caption
+describes its own table; this describes the relationship between the two tables
+and is the only sentence in the section a reader cannot reconstruct from the
+floats. It is two sentences, not a paragraph — and with §N3's finding removed
+that is all it was ever owed.
+
+### The specimen draft
+
+Not committed to the tex. It exists so the shape can be judged from words rather
+than from a description of words; Marc's hand or a voice pass follows.
+
+> \emph{Network.} Fifty hosts across four levels of depth, eight subnets and
+> five exposed endpoints, with the topology drawn fresh for each seed and the
+> two database hosts at the deepest level as the target. Every run in this
+> chapter takes place on it, so nothing reported here speaks to how these
+> results move with network size or density.
+>
+> \emph{Attacker.} Two arms: the baseline attacker of
+> Section~\ref{subsec:attacker-model}, and the movement attacker of
+> Chapter~\ref{ch:attacker-model} on each of the four attack profiles and on the
+> aggregate. Its cost model and its memory are implemented and not exercised;
+> the model runs on its corpus-derived routing alone.
+>
+> \emph{Defender.} The simulator's own, in three clauses. Its goal is to disrupt
+> the attacker, not to detect it; it knows nothing of the attacker, there being
+> no detection channel for that knowledge to arrive through; its capability is
+> the seven mechanisms of Section~\ref{subsec:defence-mechanisms}, on a
+> time-triggered schedule it never departs from. MTDShield is not exercised. The
+> conditions are no defence, each of the seven mechanisms deployed alone, and
+> the two execution schemes that draw from all seven; no defence is the
+> reference that every effect in this chapter is a difference from.
+>
+> \emph{Design.} Table~\ref{tab:factors-varied} gives every factor the
+> experiments vary and Table~\ref{tab:factors-fixed} everything they hold.
+> Attacker arm, defence condition and deployment interval are run in every
+> combination; the interval distribution, the run length and the objective are
+> each varied on their own from that grid. Both intervals are reported, and
+> every claim in this chapter states the interval it was taken at.
+>
+> \emph{Metrics.} Table~\ref{tab:measures} names every metric the chapter
+> reports, keyed to the families of Table~\ref{tab:mtd-metrics} so that what
+> judges a defence here is the field's measure and not this thesis's. Distinct
+> hosts compromised is the denominator throughout, because it responds at every
+> interval, and target reach is reported beside it wherever it is not
+> degenerate. The instruments of
+> Section~\ref{sec:attacker-in-operation} are not metrics: they are read against
+> no defence to establish that the model behaves as
+> Chapter~\ref{ch:attacker-model} declared \citep{sargent2011}, and no defence
+> is scored with them.
+>
+> \emph{Runs.} Every cell runs a thousand seeds, the count at which the closest
+> pair of conditions this chapter compares separates~\citep{hoad2007}. The same
+> seeds are used on every arm, but the two arms consume randomness differently,
+> so no comparison across attackers is paired. Effect sizes are reported with
+> 95\,\% intervals, which no evaluation in this lineage does. Tests attach to
+> declared claims only, are adjusted within each family of comparisons, and each
+> carries a minimum effect of interest fixed before the run, because on a
+> simulator this cheap any difference can be made significant by adding seeds.
+
+341 words against the landed 539 and the original 905, with the five answers
+intact and one result removed.
+
+## Q. The tables — what the *Why* columns keep and what they lose
+
+The corpus does not settle this in one direction, and pretending it does would
+be dishonest. Both sides, then the split that honours both:
+
+- **Against a justification column.** Reti's paired tables — the closest
+  analogue in the corpus, a titled Experimental setup with a varied table and a
+  held table — are `Parameter · Description · Value` in *both*, with **no
+  justification column at all** (Table 2 is nineteen rows, three columns). Kim
+  justifies row by row but **quarantines it in a separate numbered sub-part**,
+  §6.1.2, never in the table. Conventions §c: "Range justification is almost
+  never given."
+- **For one.** Conventions §h records Tay — the local genre, the form the
+  examiner has seen — justifying every swept range against the literature's
+  default as "the single most reusable move in the document", and §c notes that
+  a dissertation deriving its bands from the model's own structure exceeds the
+  corpus and should say so once.
+
+**The split: vary and justify; hold and declare.**
+
+| Table | Columns | Why |
+|---|---|---|
+| Table 5.2 (varied) | `Factor · Levels · Reason` — **keeps** the reason, cut to one clause and only where the level set is not self-evident | Tay's move, and the level sets are genuinely chosen (why 2 000 s, why an exponential regime) |
+| Table 5.3 (held) | `Held fixed · Value` — **drops** the reason column entirely; provenance and version pins stay in the footnote | Reti's Table 2 exactly; Marc's read of the cells one by one; and it is the page this section can give back |
+
+**Table 5.2 row-level repairs.**
+
+- **The Levels cell becomes scannable.** Level *names* only, semicolon
+  separated, no parentheticals and no glosses. The attacker-arm cell loses "(exfiltration,
+  impact, double extortion, no realised objective)" — the reader met the four
+  profiles in chapter 4 — and loses "the corpus left unpartitioned by objective"
+  to the reason column. Marc: *"the points are already in the thing."*
+- **The Jalowski citation leaves the table.** A citation in a setup table is an
+  argument, and this one is already made where it belongs: properties 7
+  (Learning) and 8 (Scheme awareness) of Table~\ref{tab:attacker-properties}
+  carry `jalowski2026` in chapter 3. The cell says what the level is for; the
+  reader has the warrant already.
+- **Row-group labels.** Keep plain words — *In combination* / *One at a time* —
+  and leave the design sentence in the caption. Marc floated "arms, single and
+  combinatoric": *arm* is taken (the attacker arm is a row of this very table),
+  and conventions §d's census found **zero attestation** for the DOE vocabulary
+  anywhere outside this repo. There is no conventional term of art to reach for
+  because the field never names the design; plain words are the field's answer.
+- **The caption.** Currently four sentences and dumbed down ("Any result in this
+  chapter is a cell of this table"). Cut to the design sentence and nothing
+  else.
+
+## R. The metrics table, and the question underneath it
+
+**R1. Rename: *measures* → *metrics*.** Marc: *"measures, metrics — why not."*
+The chapter's own scaffolding comment already says the strands are "clustered by
+INSTRUMENTED METRIC FAMILY (Cho's purpose axis, Table 3.1)", so *metric* is the
+word the structure is built on. One registry row (§S).
+
+**R2. Re-cut it in Table 3.1's own grammar, so it is visibly a selection from
+the field's map rather than a bespoke list.** Marc: *"consider what metrics can
+we tie back into the metric table that we produced in the literature review."*
+Table 3.1 (`tab:mtd-metrics`) is row-grouped by **purpose** (Effectiveness /
+Efficiency) and columned by **perspective** (attacker-side / defender-side),
+with an inner key naming **the quantity measured** (success events, attacker
+time, resource spent, …). The chapter's §5.4/§5.5 split *is* that purpose axis.
+So:
+
+> `Metric · What it is · Comparable across`, row-grouped **Effectiveness** /
+> **Efficiency**, with the inner key being the Table 3.1 family the metric
+> instantiates (*success events*, *attacker time*, *resource spent*, …).
+
+The join is then literal — the inner key column of Table 5.4 is the inner key
+column of Table 3.1 — and the caption says so in one clause. `Read from` is
+dropped as a column: it is "every condition" for most rows, and the exceptions
+("no defence", "under defence") fold into the comparability cell. Twelve rows
+become nine or ten once §5.3's four instruments leave (R3), which is most of a
+page back.
+
+**R3. The self-measurement question, which is the real one Marc raised.**
+
+> *"If you're measuring your attacker model using your own metrics you can do
+> anything with it … you could fudge numbers and selectively discriminate —
+> that's the sort of issue you encounter when you have something separate like
+> an attacker model."*
+
+This is `voice.md` §(c)10 — *name the circularity risk, and show what
+independent grounding breaks the loop* — and it is a standing gate, not a
+passing worry. The structural answer is available and costs nothing:
+
+1. **Nothing this thesis invented ever scores a defence.** Every metric in
+   §5.4 and §5.5 keys to a Table 3.1 family with the field's citations already
+   attached in chapter 3. That is what R2's inner key makes visible on the page.
+2. **§5.3's four instruments are not metrics and leave the metrics table.**
+   Campaign coverage, opening variety, profile divergence and response to
+   disruption are **model-validation** instruments: they are read against no
+   defence, they establish that the model behaves as chapter 4 declared, and
+   they judge no defence. Sargent's taxonomy names this exactly — *operational
+   validation*, "the model's output behaviour has sufficient accuracy for the
+   model's intended purpose" — and `sargent2011` is already in the bibliography
+   and already cited by §5.1. One sentence in **Metrics.** says it; the
+   instruments go either in a short second table or in §5.3's own opening,
+   where conventions §f says attacker-characterisation belongs.
+3. **The separation is then a property of the document's shape**, not a promise:
+   the two instrument sets live in different tables, are read from different
+   conditions, and only one of them is the field's.
+
+The current caption already asserts point 2 in a sentence. The change is to make
+the shape carry it, so a reader cannot miss it and an examiner cannot suggest it
+was retrofitted.
+
+**R4. One thing to flag, not to decide.** Keying each metric to a Table 3.1
+family makes the chapter's *coverage* of the ten families readable straight off
+the table — which partly duplicates the five-of-ten headline Part 2 relocated to
+ch6 `sec:evaluation-implications`. That is an improvement (the coverage becomes
+visible without being argued in the setup), but ch6's paragraph should then read
+as the *interpretation* of a table the reader has already seen, not as its first
+disclosure. Raise it when the ch6 insertion is drafted.
+
+## S. Terminology — three re-keys, one of them a live registry breach
+
+Marc: *"what is timing regime — so that we can be more specific … horizon is a
+bit of a buzzword."* Correct on both, and the first one turns up a breach of a
+ratified row.
+
+| Current | Proposed | Ground |
+|---|---|---|
+| **mutation interval** | **deployment interval** | `terminology.md` ratified (Marc, 2026-09-02): the defensive move as a scheduling event is a **deployment**; *MTD mutation* survives "only inside Zhang's cited phrasing". Census 2026-09-18: *mutation interval* 4 in ch5 (prose l. 5498/5500, and the captions of Figures 5.3, 5.4, 5.5); *deployment interval* 0 |
+| **timing regime** | **interval distribution** | says what actually varies — the distribution the interval is drawn from, quasi-periodic against exponential at the same mean — instead of a category word. *Regime* names nothing a reader can check |
+| **horizon** | **run length** | the simulation-methodology literature's own word (Hoad, Robinson and Davies; `docs/sources/methodology/`), where *horizon* is ours. Census: 2 occurrences in ch5 prose, 1 in an appendix table, 1 in ch1 ("over an extended time horizon", about the APT — a different sense, left alone) |
+
+All three are added to `terminology.md` as PROPOSED rows in the same pass as
+this brief, per the registry's own mechanism (a session meeting an unregistered
+cluster proposes; Marc rules; nothing auto-substitutes).
+
+**Not changed: *factor*.** Marc asked whether it is the right header word. It
+is: Reti and Kim both use *Parameter*, which is wrong here because our levels
+are arms and conditions rather than numbers, and *factor* is the plain word for
+a thing with levels. The pairing to aim at is the two headers read together —
+*Factor · Levels* against *Held fixed · Value* — which is Reti's paired-grammar
+effect without borrowing a term.
+
+## T. Rulings owed
+
+| # | Question | Recommendation |
+|---|---|---|
+| R1 | Run-in labels in §5.2 — adopt? | **Yes**, italic (`\emph{Network.}`), He's form; one scoped carve-out written into `voice.md` §(h) |
+| R2 | Six units — Network / Attacker / Defender / Design / Metrics / Runs? | **Yes**; *Design.* survives at two sentences because the cross-table relation is not a caption's to carry |
+| R3 | The operating-point finding leaves §5.2 (inverts §H ¶3 / S6) | **Yes** — Marc's read; the declaration stays, the finding goes to §5.4 where it is evidenced and to ch6 for its reading |
+| R4 | Table 5.3 drops its *Why it is held* column (inverts §D) | **Yes** — Reti's Table 2 is exactly this, and it is the page the section gives back |
+| R5 | Table 5.2 keeps a reason column, cut to one clause | **Yes** — Tay's move, the local genre; but level names only in the Levels cell |
+| R6 | The Jalowski citation leaves Table 5.2 | **Yes** — already carried by Table 3.2's properties 7 and 8 |
+| R7 | Table 5.4 re-cut on Table 3.1's grammar (purpose row-groups, family inner key), renamed to metrics | **Yes** — the chapter's section structure is already that axis |
+| R8 | §5.3's four instruments leave the metrics table and are declared as validation | **Yes** — it is the structural answer to the circularity question, and `sargent2011` is already cited |
+| R9 | *deployment interval* / *interval distribution* / *run length* | **Yes** on the first (a ratified row is being breached); the other two are Marc's call |
+| R10 | Bold instead of italic for the run-in labels | Marc's, if he wants the scan; it costs a second `voice.md` carve-out (§(d) "in LaTeX, `\emph` only") |
+
+## U. Order of work
+
+1. **Rulings** (§T). R1, R3, R4 and R8 are the load-bearing four; the rest
+   follow mechanically from them.
+2. **`voice.md` §(h) carve-out** — one row, scoped to declarative setup
+   passages. Nothing else in `voice.md` moves.
+3. **Re-cut the three tables** (§Q, §R) — mechanical, no prose, and the visible
+   win. Measure the built page after, per the conventions' own rule.
+4. **The prose** — the §P specimen into the tex, then Marc's hand or a voice
+   pass.
+5. **The four ch5 re-keys** for *deployment interval* (prose + three figure
+   captions) in one commit, once R9 is ruled.
+6. **Flag to the ch6 insertion brief** that `sec:evaluation-implications` now
+   interprets a coverage the reader can already see (§R4).
+
+## Validation gate (Part 3)
+
+Parts 1 and 2 stand, plus:
+
+- Six run-in units; no unit exceeds four sentences.
+- Prose word count ≤ 380.
+- No sentence in §5.2 reports an outcome of a run.
+- Table 5.3 has two content columns; Table 5.2's Levels cells carry names only,
+  no parentheticals.
+- Every row of the metrics table names the Table 3.1 family it instantiates, and
+  no §5.3 instrument appears in it.
+- `grep` the section for *mutation interval*, *timing regime*, *horizon* — all
+  absent once R9 is ruled.
