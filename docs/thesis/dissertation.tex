@@ -5567,7 +5567,7 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 % objective, so a success-shaped measure is pinned at zero --- reads as a result
 % because it is one, and it is left to §5.4, where it is evidenced, and to ch6 for
 % its methodological reading.
-% 332 words against the 546 that stood here and 905 originally; two tables
+% 330 words against the 546 that stood here and 905 originally; two tables
 % against three, measuring 710 pt of table body against 1 168 pt. (Counted with
 % the same script on both, references expanded as a reader reads them; the "333"
 % in an earlier draft of the brief was an undercount of the specimen and is
@@ -5717,13 +5717,61 @@ runs are the reference for every effect this chapter reports.
 %  register: the selector would need retraining before it could trade cost
 %  against risk.
 
-\textbf{Metrics.} What judges a defence here is the field's measure and not
-this thesis's: every metric this chapter reports is keyed in
-Table~\ref{tab:metrics} to the family of Table~\ref{tab:mtd-metrics} it
-instantiates.
-Distinct hosts compromised is the denominator throughout, because it responds at
-every interval, and target reach is reported beside it wherever it is not
-degenerate.
+\textbf{Metrics.} Table~\ref{tab:metrics} lists every metric this chapter
+reports, grouped by purpose as Table~\ref{tab:mtd-metrics} groups the field's:
+effectiveness, what a defence takes from the attacker, and efficiency, what it
+costs to run. Host breadth, the distinct hosts an attacker compromises, carries
+every comparison, with target reach beside it wherever the conditions differ on
+it.
+% REWORKED 2026-09-18, on Marc's read of the unit he had not seen before: "what
+%  does that even mean --- it is so obviously not relevant, such a nothing of a
+%  sentence, and it's two lines", and what it must instead carry, "these are the
+%  metrics, we've enumerated them in this table, bang, this is what we're using
+%  to measure our research question".
+% (1) THE OPENER IS CUT, not rewritten. "What judges a defence here is the
+%  field's measure and not this thesis's" was an ANSWER TO AN OBJECTION --- his
+%  own circularity worry, that scoring your own attacker model with your own
+%  metrics lets you fudge the numbers --- and answering it here does two things
+%  wrong. Conventions §a: a setup declares and does not argue. And a sentence
+%  that says "these are not self-serving" is the form of the claim a reader
+%  discounts on sight. THE OBJECTION IS STILL ANSWERED, and better, by the thing
+%  that carries it: Table 5.3's Family column keys every metric to Table 3.1's
+%  own inner key, which a reader checks rather than takes. The verdict-level
+%  version of the argument belongs in the discussion (conventions §f).
+% (2) THE TIE-BACK IS NOW FACTUAL AND IT DOES THE ENUMERATING. "Grouped by
+%  purpose as Table 3.1 groups the field's" states what is literally true of
+%  Table 5.3's two row groups, and "purpose, effectiveness or efficiency" is
+%  §3.2.2's own ratified sentence ("Metrics can be split on perspective,
+%  attacker-side or defender-side, and purpose, effectiveness or efficiency"),
+%  so the reader meets no new axis. The two glosses are the high-level statement
+%  he asked for: what a defence takes from the attacker, and what it costs to run.
+% (3) "DENOMINATOR" IS NOT THE WORD (Marc: "is that standard language we should
+%  be using? No, I think not"). He is right for prose, and the odd part is that
+%  it was literally true of one section only: §5.5 reports actions and successes
+%  PER HOST REACHED (tab:eff-cost), so hosts reached is an actual denominator
+%  there, while in §5.4 it is the outcome axis of every float. "Carries every
+%  comparison" is the one statement true of both, and it is checkable: every
+%  §5.4 float is suppression of hosts reached, and §5.5's frontier plots that
+%  same suppression against occupancy (FLOATS.md, §5.4.1--§5.5).
+% (4) THE JUSTIFICATION CLAUSE IS CUT (Marc, on "because it responds at every
+%  interval": "so we're putting justification into our experimental setup, is
+%  that what we're doing now?"). It is the same cut the Defence unit just took,
+%  and consistency is the point --- the ration is one motive clause each in the
+%  Network and Attacker units, and none after that.
+% (5) "DEGENERATE" IS JARGON for a fact worth keeping: target reach is pinned
+%  near zero on the database set under the targeted objective and at zero under
+%  the opportunistic one (targeted_attacker_findings.md §4; hypothesis_tree.md
+%  §8e, "no leaf denominated on objective achievement can be stated"), which is
+%  why breadth is the through-line at all. "Wherever the conditions differ on
+%  it" says the same thing in the reader's words, and declaring that a tabled
+%  metric appears only sometimes is a setup job (conventions §c, name the
+%  absences).
+% FLAGGED, NOT CHANGED --- TWO NAMES FOR ONE METRIC. Table 5.3 calls it "host
+%  breadth", every §5.4/§5.5 float caption calls it "hosts reached", and the
+%  records call it "host-compromise breadth". The prose here takes the table's
+%  name and glosses it once. One of the three should win document-wide; the
+%  float captions are generated, so that is a one-line change in
+%  tools/ch5_effectiveness_figures.py and a terminology row. Marc's ruling.
 
 \input{tables/tab_5-2b_metrics}
 

@@ -1646,3 +1646,76 @@ affected and the caption is not wrong about the design; if it is ever tightened,
 no-defence condition (conventions §f2, against "the baseline attacker" two
 paragraphs up), and *condition* survives because it must cover a control and its
 treatments and because *configuration* is spoken for.
+
+---
+
+## §AG — The Metrics unit (2026-09-18)
+
+Marc had not read this unit before. His verdict on the opener: "what does that
+even mean — it is so obviously not relevant, such a nothing of a sentence, and
+it's two lines"; on *denominator*: "is that standard language we should be using?
+No, I think not"; on *because it responds at every interval*: "so we're putting
+justification into our experimental setup, is that what we're doing now?"; and
+what it must carry instead: "these are the metrics, we've enumerated them in this
+table, bang, this is what we're using to measure our research question, those
+high-level things — but it's carried none of that."
+
+**Before → after.**
+
+> What judges a defence here is the field's measure and not this thesis's: every
+> metric this chapter reports is keyed in Table 5.3 to the family of Table 3.1 it
+> instantiates. Distinct hosts compromised is the denominator throughout, because
+> it responds at every interval, and target reach is reported beside it wherever
+> it is not degenerate.
+
+> Table 5.3 lists every metric this chapter reports, grouped by purpose as
+> Table 3.1 groups the field's: effectiveness, what a defence takes from the
+> attacker, and efficiency, what it costs to run. Host breadth, the distinct hosts
+> an attacker compromises, carries every comparison, with target reach beside it
+> wherever the conditions differ on it.
+
+**1. The opener is cut, not rewritten.** It was an **answer to an objection** —
+Marc's own circularity worry, that scoring your own attacker model with your own
+metrics lets you fudge the numbers — and answering it here fails twice.
+Conventions §a: a setup declares and does not argue. And a sentence whose content
+is "these are not self-serving" is the form of claim a reader discounts on sight.
+**The objection is still answered, and better, by the thing that carries it**:
+Table 5.3's *Family* column keys every metric to Table 3.1's own inner key, which
+a reader checks rather than takes on trust. The verdict-level version belongs in
+the discussion (conventions §f).
+
+**2. The tie-back is now factual, and it does the enumerating he asked for.**
+"Grouped by purpose as Table 3.1 groups the field's" is literally true of
+Table 5.3's two row groups, and *purpose, effectiveness or efficiency* is
+§3.2.2's own ratified sentence, so the reader meets no new axis. The two glosses
+are the high-level statement: what a defence takes from the attacker, what it
+costs to run.
+
+**3. *Denominator* is not the word — and the odd part is that it was true of one
+section only.** §5.5 reports actions and successes **per host reached**
+(`tab:eff-cost`), so hosts reached is an actual denominator there; in §5.4 it is
+the outcome axis of every float. **"Carries every comparison" is the one
+statement true of both**, and it is checkable against FLOATS.md: every §5.4 float
+is suppression of hosts reached, and §5.5's frontier plots that same suppression
+against occupancy.
+
+**4. The justification clause goes, for consistency as much as for itself.** The
+Defence unit lost both of its motive clauses in §AF; the ration is one each in
+Network and Attacker, none after that.
+
+**5. *Degenerate* was jargon for a fact worth keeping.** Target reach is pinned
+near zero on the database set under the targeted objective and at zero under the
+opportunistic one (`targeted_attacker_findings.md` §4; `hypothesis_tree.md` §8e,
+"no leaf denominated on objective achievement can be stated") — which is *why*
+breadth is the through-line. "Wherever the conditions differ on it" says it in
+the reader's words, and declaring that a tabled metric appears only sometimes is
+a setup job (conventions §c).
+
+**Flagged, not changed — two names for one metric.** Table 5.3 says **host
+breadth**, every §5.4/§5.5 float caption says **hosts reached**, the records say
+**host-compromise breadth**. The prose takes the table's name and glosses it
+once. One of the three should win document-wide; the captions are generated, so
+it is a one-line change in `tools/ch5_effectiveness_figures.py` plus a
+terminology row. Marc's ruling.
+
+§5.2 is 330 words. **Runs** is the last unit without this pass.
