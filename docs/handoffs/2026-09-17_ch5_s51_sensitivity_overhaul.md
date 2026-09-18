@@ -328,3 +328,228 @@ Thesis-framed and short: which input the chapter's claims are exposed to (the
 selection sentence's content), whether any verdict on record changed at the
 reported configuration, and what §5.1 may now say that the draft could not.
 Point at the findings record for the numbers.
+
+---
+
+# Second cut, 2026-09-18 — the structure before the sentences
+
+Marc's direction this session: settle the paragraphs' purpose, then the
+sentence slots inside each, then dictate sentence by sentence. Table 5.1's
+"structure is not clear and not well thought out". What follows replaces D2's
+paragraph table and D3's table layout; D1, D4–D7 stand.
+
+## S1. Who §5.1 is written for, and what it owes them
+
+A reader who has finished chapter 4 and has opened no appendix. Chapter 4 told
+them three times that a value could not be derived: the dwell times do not
+exist in the literature or in CTI (§4.4.2), there is no real tactic-to-verb
+mapping so best judgement was used (§4.4.3), and the failure side is the blind
+spot of the CTI, so the matrix was declared rather than reverse-engineered
+(§4.4.4). Each of those sentences ends with a pointer to this section.
+
+So the reader arrives with one question, and it is not "what is a sensitivity
+analysis": **is the evaluation built on numbers you made up?** §5.1 is where
+that debt is discharged. Its product is not the sweep; it is the single
+sentence naming which input the chapter's claims are exposed to, which §5.2's
+`tab:factors-fixed` already forward-references and which chapter 6's fidelity
+verdict consumes.
+
+Two consequences for the drafting.
+
+1. **Nothing in §5.1 explains how a value was produced.** Chapter 4 and the
+   appendices do that. A sentence that re-derives is the retrieval-key register
+   the 2026-09-13 draft was retired for.
+2. **The chapter preamble already says what §5.1 does** ("checks that the
+   declared numbers do not carry the conclusions"). ¶1 must not restate it in
+   the same shape; it opens on the question, not on the job.
+
+The conventions §c position, unchanged: almost no paper in the corpus has a
+titled sensitivity section, deriving bands from the model's structure exceeds
+the corpus, and **a sweep that selects is stronger than one that shows a
+verdict did not move**. The selection is therefore the section's close, not a
+trailing clause.
+
+## S2. The paragraphs — four, ~300 words (a departure from D2, Marc to rule)
+
+D2 ruled three paragraphs at ~250 words. The re-run's shape argues for four.
+¶3 of D2 has to carry the mapping (a comparison), two decay rates (bands), a
+floor (a structural argument) and nine held rules in ~80 words — four unlike
+objects in one paragraph, which is the list-compression register Marc named.
+Splitting the verdict off as a short fourth paragraph costs ~50 words, lands
+the section on a short paragraph after a long build (voice §d), and makes the
+selection findable by the two floats that point at it. Four paragraphs at ~75
+words each is not the 44-words-a-paragraph choppiness that set off the alarm.
+
+| ¶ | The claim it establishes | Words |
+|---|---|---|
+| 1 | the question, and what would count as an answer to it | ~75 |
+| 2 | the timing sensitivity is concentrated, and in the family whose provenance is weakest | ~95 |
+| 3 | the other two declared inputs move nothing the chapter reports | ~85 |
+| 4 | the one input the conclusions are exposed to, and that it is held | ~45 |
+
+## S3. The sentence slots — what each sentence does, with no content
+
+Fifteen slots. Each names the sentence's job, its shape, and what it must not
+do. The content for every slot is in the findings record
+(`ch5_s51_sensitivity_findings.md` §3–§7); the words are Marc's.
+
+### ¶1 — the question and the test (4 slots + 1 optional)
+
+| # | Job | Shape | Must not |
+|---|---|---|---|
+| 1.1 | State the question the section answers: whether any conclusion of the evaluation depends on where a declared value sits inside its plausible range. | Plain declarative, the section's first sentence. | No inventory ("three inputs", "seven numbers"); no method noun; no carry-over clause from chapter 4; not the preamble's wording. |
+| 1.2 | Name the three declared inputs by their §4.4 names. | One sentence, recall not introduction. | No symbols; no "assumptions"; no re-derivation. |
+| 1.3 | State the test: each value is moved across its range with the others held at their declared values, and distinct hosts reached is read against the interval at the declared value. | One sentence. | No OAT/screen/rank vocabulary; no defence of the method. |
+| 1.4 | State what counts as an answer: a value whose range ends stay inside that interval does not carry the chapter. | One sentence — the criterion, stated before any result (voice §c9). | Not a definition of "sensitivity"; no philosophy. |
+| 1.5 *(optional, one clause on 1.3)* | Where the ranges come from: the evidence tiers of App. B.4 and the structure of the distance term, App. B.6. | A clause. | No claim that this exceeds the corpus — that reading is chapter 6's. |
+
+### ¶2 — the dwell times (5 slots)
+
+| # | Job | Shape | Must not |
+|---|---|---|---|
+| 2.1 | Claim-first: the model's timing sensitivity is concentrated in one of the four families. | Short declarative opening the paragraph. | Not "the dwell times were swept first"; no procedure. |
+| 2.2 | The three families priced from the simulator: what they cost across their ranges, as a magnitude. | One sentence, one unit (hosts lost per doubling). | Do not call them inert — two of the three are not, at this power (findings §2). |
+| 2.3 | The low-and-slow family: direction and magnitude, under no defence and under defence; monotone, no threshold. | One sentence, possibly two clauses. | No "anchor"; no threshold or reversal language. |
+| 2.4 | The reading that matters: the sensitivity sits in the family whose provenance is weakest, and the simulator-priced families carry a fraction of it. | The section's one compressed sentence (voice §d, rationed). | No hype adjective; no "we had to". |
+| 2.5 | The draw's shape: inert where no defence acts; under mutation pressure the concentrated draw costs the attacker a little and never helps it. | One sentence. | Do not claim the ×4 corner (its interval sits on the boundary, findings §4). |
+
+### ¶3 — the two inputs that are not ranges (4 slots)
+
+| # | Job | Shape | Must not |
+|---|---|---|---|
+| 3.1 | Claim-first: neither of the other two declared inputs moves what the chapter reports. | Short declarative. | No "similarly"/"moreover". |
+| 3.2 | The mapping is a comparison, not a range: the alternative that was tried stalls, with one clause of why. | One sentence. | No "partial"/"forced total" as bare terms — say what each does. |
+| 3.3 | The distance term's decay: moved across its range at both ends and at the corners, and nothing moved. | One sentence. | Do not present forward and backward as two swept quantities (see S4.2). No "kernel". |
+| 3.4 | The floor and the nine rules: the floor can only act on a jump of three stages, which no profile net contains; the rules are single argued judgements and were held. | One sentence, two clauses. | The floor needs its chapter 4 antecedent first (S5, defect D-2). |
+
+### ¶4 — what this licenses (2 slots)
+
+| # | Job | Shape | Must not |
+|---|---|---|---|
+| 4.1 | Name the one input the chapter's claims are exposed to. | Short declarative. | No hedge stack; do not re-state the magnitude. |
+| 4.2 | It is held at its declared value, and every claim that could turn on it says so. | One sentence — the negative scope (voice §c6). | Nothing about the mutation interval (a factor, §5.2's). |
+| 4.3 *(optional clause on 4.2)* | Nothing here was calibrated: no range was searched for a fit, and the criterion was fixed before the runs. | A clause. | Sits in tension with D1's "no method philosophy" — Marc's call whether the circularity name (voice §c10) is worth the clause here or belongs in chapter 6. |
+
+## S4. Table 5.1 — the grammar problem and the proposed cut
+
+### S4.1 Why the current table does not read
+
+The four columns encode a **procedure** — declare, move across, observe — but
+only five of the ten rows were moved across anything. The other five are a
+comparison, a structural zero and a hold, so "Moved across" is fudged for half
+the table ("forced total", "held", "0, 0.05") and "What moved" carries four
+incompatible registers in one column: a verdict (*inert*), a measurement
+(*8.6 / 8.1 / 7.3*), a structural argument (*zero by structure*), a comparison
+(*the alternative reaches 0.1 hosts*) and an em-dash.
+
+The conventions already name the fix (§c, last rule): *every declared
+parameter is listed; each row says either the range it was swept over and what
+moved, or that it was held and why. One register, both kinds of row.* The
+column that has to change is the third: it must declare **which kind of row
+this is** before the last column speaks.
+
+### S4.2 The proposed cut — four columns, one grammar, one unit
+
+| group | Declared input | Declared | How it was tested | Effect on hosts reached |
+|---|---|---|---|---|
+| Dwell times | scan-shaped family (reconnaissance, discovery) | 35 s | moved ×0.5 to ×2 | 0.7 lost per doubling |
+| | exploit-shaped family (initial access, privilege escalation, credential access, lateral movement) | 4.5 s | moved ×0.5 to ×2 | none detected |
+| | low-and-slow family (persistence, stealth, command and control; execution and defence impairment at half) | 45 s | moved ×0.25 to ×4 | 2.6 lost per doubling |
+| | objective family (collection, exfiltration, impact) | 36 s | moved ×0.5 to ×2 | 0.6 lost per doubling |
+| | the draw around each mean | exponential | compared against a same-mean concentrated draw | none without defence; 0.2 fewer under mutation |
+| Mapping | at most one verb per tactic, unmapped tactics dwell only | — | compared against a mapping that forces every tactic onto a verb | the alternative stalls: 0.1 against 8.1 |
+| Failure matrix | decay per extra stage crossed | 0.25 | moved 0.1 to 0.5, in both directions and at their four corners | none detected |
+| | floor below which a factor reads as zero | 0.1 | moved to 0.05 and 0 | none; it can only act on a jump of three stages, and no profile net carries one |
+| | the nine failure rules | argued values | held — each is a single argued judgement, not a magnitude with a range | — |
+
+Four changes from D3, each with its reason.
+
+1. **One unit in the last column.** Hosts lost per doubling for every moved
+   row; the low / declared / high triples go to App. C.1, which is what that
+   appendix is for. The body table answers "how exposed am I", at a glance,
+   in one number. ("Sharp and to the point" — Marc, this session.)
+2. **The two decay rates collapse to one row.** The kernel is
+   $\gamma^{\Delta-1}$ forward and $\delta^{\Delta-1}$ back, and the declared
+   values are $\gamma = \delta = 0.25$ (`lifecycle_consensus.json`): adjacent
+   unpenalised, two stages a quarter either way, three stages 0.0625, which
+   the floor cuts to zero. **At the declared point the model makes no
+   forward/backward distinction** — the split is a capability of the code that
+   the declared values do not exercise. Marc's objection stands on the record:
+   ATT&CK has no direction, the term is a decay away from the tactic, and
+   logically it is one value. The sweep moved both separately and ran all four
+   corners, so nothing is lost by presenting one row; App. C.3 keeps the two
+   rates and the corners. Presentation change only, no re-run.
+3. **The third column declares the kind of row.** *moved over …* / *compared
+   against …* / *held — because …*. The reason a row was held lives here, which
+   is where the convention puts it, and the last column is then homogeneous.
+4. **Code words leave the table.** "Partial", "forced total" and "inert" are
+   replaced by what each thing does. "Family" stays (body word); "anchor"
+   stays out.
+
+The caption shrinks to five clauses: what the table is, the criterion in one
+clause, where the ranges come from, the pooling and run count, the symbol
+binding. The current 200-word caption carries argument that belongs in ¶1.
+
+## S5. Four defects in chapter 4 that block the draft
+
+§5.1 cannot move an object the reader has not met. Three of the four
+antecedents are still unaccepted comment blocks in the tex (insertions A, B, C
+of D5), and one is a live dangling reference.
+
+| # | Defect | Where | Blocks |
+|---|---|---|---|
+| D-1 | §4.4.4 sends the reader to Figure~\ref{fig:failure-weight-matrix} for "rules A to I"; that figure was regenerated plain on 2026-09-08 and carries no letters (verified against `fig_4-4b_failure_weight_matrix.tex`: no rule glyph in the source). The letters live only on App. B.6's decomposition figure. | `dissertation.tex` §4.4.4, the $R$ sentence | slot 3.4 and Table 5.1's last row. The reader's only encounter with the nine rules points at a figure that does not show them, which is exactly why "the nine rules" reads as an unmotivated concept. **Fix: re-point the reference at App. B.6.** |
+| D-2 | The floor is stated nowhere in the body. The 2026-09-08 front-loading ruling cut the sentence; insertion C proposes it and is unaccepted. | §4.4.4, insertion C | slot 3.4 and the floor row. Marc's own framing this session is the content: distance is how far away, and the floor is where too far away is zeroed out. |
+| D-3 | The four dwell families are never named in the body. §4.4.2 says "four anchor families" once, unnamed. | §4.4.2, insertion B | ¶2 entirely, and four rows of Table 5.1. |
+| D-4 | §4.4's contract sentence says all three inputs are "swept" — the wrong verb for a comparison and for a hold. | §4.4 opening, insertion A | ¶1 slot 1.1, which states the question that sentence should be pointing at. |
+
+## S6. The one question for Marc — can the dwell families take the lifecycle names?
+
+Marc asked whether the families can be standardised onto the words already in
+use for the stages: preparation, intrusion, post-intrusion operations,
+objective. **They cannot without changing membership.** The two are different
+partitions of the 15 tactics, and only one class coincides.
+
+| Tactic | Dwell family | Lifecycle stage |
+|---|---|---|
+| Reconnaissance | scan-shaped | preparation |
+| Resource development | — (0 s) | preparation |
+| Initial access | exploit-shaped | intrusion |
+| Execution | low-and-slow (half) | intrusion |
+| Persistence | low-and-slow | post-intrusion |
+| Privilege escalation | exploit-shaped | post-intrusion |
+| Stealth | low-and-slow | post-intrusion |
+| Defence impairment | low-and-slow (half) | post-intrusion |
+| Credential access | exploit-shaped | post-intrusion |
+| Discovery | scan-shaped | post-intrusion |
+| Lateral movement | exploit-shaped | post-intrusion |
+| Command and control | low-and-slow | post-intrusion |
+| Collection | objective | objective |
+| Exfiltration | objective | objective |
+| Impact | objective | objective |
+
+The families are priced by **what the tactic costs** (an enumeration pass, an
+exploit, a long quiet dwell, an objective action); the stages order **where the
+tactic sits in a campaign**. Eight of the fifteen tactics sit in the
+post-intrusion stage across three different families, so one name cannot serve
+both. Only the objective family coincides with its stage — which is a
+convenience, not a pattern.
+
+**Recommendation:** keep the shape-derived names, and name all four once in
+§4.4.2 (insertion B). Reusing the stage words would either force a membership
+change that re-opens the dwell catalogue, App. B.4's tiers, the whole §5.1
+re-run and every float built on it, or leave two taxonomies sharing three
+words — the synonym collision voice §e bans. The stage words stay the distance
+term's, one section later, where they are already load-bearing.
+
+## S7. Order of work after this cut
+
+1. Marc rules S2 (four paragraphs), S4.2 (the table cut, above all the decay
+   collapse) and S6 (the family names).
+2. Marc accepts or reworks insertions A, B, C; the session places them and
+   fixes D-1's reference in the same diff.
+3. Marc dictates ¶1–¶4 against the fifteen slots; the session runs the pipeline
+   (repair → scrutinise → compress → voice) and swaps the block.
+4. The session regenerates Table 5.1 from `analyse.py` in the new grammar
+   (the collapse is an analyser change, not a re-run) and re-cuts the caption.
+5. D6's downstream re-cuts, the build check, `FLOATS.md`, this handoff deleted.

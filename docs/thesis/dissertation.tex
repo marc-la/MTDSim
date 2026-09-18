@@ -4504,25 +4504,20 @@ and the failure matrix, $F_{\text{failure}}$ of Equation~\ref{eq:vc-net}.
 %  says the controller is the join), "(the stochastic dwell times)" deleted
 %  (the parameter is the mean; the draw is what is stochastic).]
 These are the three inputs we had to declare to join the attack
-profiles to MTDSim;
-% [2026-09-13: "assumptions" -> "inputs", Marc's ruling: the three are the declared
-%  inputs the sensitivity analysis sweeps; the assumptions are the sentences now
-%  placed at each symbol in §4.3-4.4. Keeps the two words apart.]
- each is swept in the sensitivity analysis
-(Section~\ref{sec:sensitivity}).
-% PROPOSED INSERTION A, 2026-09-17 (§5.1 overhaul, handoff
-% 2026-09-17_ch5_s51_sensitivity_overhaul.md D5). Accept by replacing the
-% sentence above ("These are the three inputs ... (Section 5.1).") with the
-% two below, reworded as you like; delete this block otherwise. Why: "swept"
-% is the wrong verb for the mapping (a comparison) and the nine rules (held);
-% the clause should name the question §5.1 answers, not a mechanism.
-%   These are the three inputs we had to declare to join the attack profiles
-%   to MTDSim. Whether any conclusion of the evaluation depends on where a
-%   declared value sits is the question Section~\ref{sec:sensitivity}
-%   answers.
-% [3b] SESSION GLUE from Marc's chat words (2026-09-08: "these are the three
-%  assumptions that we needed to model that allowed us to join the attack
-%  profiles to MTDSim") + the forward pointer he asked for. Ratify on read.
+profiles to MTDSim. We chose each of them to the best of our judgement
+after consulting the literature; whether any conclusion of the evaluation
+depends on where a chosen value sits is the question
+Section~\ref{sec:sensitivity} answers.
+% INSERTION A APPLIED 2026-09-18 --- DRAFT STATE, ratify on read (Marc's
+%  green light this date: "swept is wrong, we kind of just chose them ... we
+%  chose them to our best of knowledge after consulting the literature").
+%  Replaces "; each is swept in the sensitivity analysis (Section 5.1)."
+%  Why: "swept" is the wrong verb for the mapping (a comparison against one
+%  alternative) and for the nine failure rules (held); and it misreports how
+%  the values were arrived at. The clause now names the question §5.1
+%  answers. Prior wording and its 2026-09-13 note are in git (32e309bb).
+%  Source register: handoff 2026-09-17_ch5_s51_sensitivity_overhaul.md D5
+%  insertion A + S5 defect D-4.
 
 \subsection{The runtime mechanics}
 \label{subsec:runtime-mechanics}
@@ -4689,26 +4684,38 @@ This is a parameter of the model itself, not an invariant.
 
 We derived our dwell times for the tactics from the dwell times of MTDSim.
 What we could take from the six original verbs of the action layer, we used
-directly. The 15 tactics resolve onto four anchor families, so the model
-carries 4 free timing parameters rather than 15, and the anchors are what
-the sensitivity analysis sweeps (Section~\ref{sec:sensitivity}).
-% PROPOSED INSERTION B, 2026-09-17 (§5.1 overhaul, D5). Accept by replacing
-% the sentence above ("The 15 tactics resolve onto four anchor families ...")
-% with the three below, reworded as you like; delete otherwise. Why: §5.1
-% names the family that moved, and the reader has to have met the four by
-% name here first. Membership is the catalogue's (tactic_durations.json):
-% low-and-slow = persistence, stealth, command and control at the full 45 s,
-% execution and defence impairment at half. "Family" is the body's word;
-% "anchor" stays the appendix's and the code's.
-%   The 15 tactics resolve onto four families, each priced from one shape.
-%   The scan-shaped family takes the simulator's cost of one enumeration
-%   pass, and the exploit-shaped family its exploit time at median
-%   complexity. The low-and-slow family, for persistence, stealth and
-%   command and control, is declared at ten times the exploit shape, with
-%   execution and defence impairment at half of that; the objective family,
-%   for collection, exfiltration and impact, at eight times it. The model
-%   therefore carries four free timing values rather than 15, and those four
-%   are what Section~\ref{sec:sensitivity} moves.
+directly. The 15 tactics resolve onto four families that carry a value, and the
+split follows what the simulator could price rather than a grouping we
+imposed. MTDSim prices two of them directly: the scan-shaped family, for
+reconnaissance and discovery, at the cost of one enumeration pass, and the
+exploit-shaped family, for initial access, privilege escalation, credential
+access and lateral movement, at the exploit time of median complexity. The
+other two have no verb whose cost could price them, so they are declared as
+multiples of the exploit shape: the low-and-slow family, for persistence,
+stealth and command and control, at ten times it, with execution and defence
+impairment at half; and the objective family, for collection, exfiltration
+and impact, at eight times it. Resource development is off-clock and carries
+no value. The model therefore carries four free timing values rather than 15,
+and those four are what Section~\ref{sec:sensitivity} moves.
+% INSERTION B APPLIED 2026-09-18 --- DRAFT STATE, ratify on read. This is the
+%  paragraph most in need of your words: it is session prose standing where
+%  §5.1 ¶2 needs an antecedent. Two defects it answers, both raised 2026-09-18.
+%  (i) The four families were never named in the body ("four anchor families",
+%  once, unnamed), so §5.1 could not name the one that moved. (ii) Your worry
+%  that the split itself is exposed --- "how did you choose that split, it
+%  doesn't come from anything in the prior paper" --- is answered by making the
+%  split a CONSEQUENCE rather than a taxonomy: MTDSim priced two families, and
+%  the other two had to be declared because no verb costs them. That two-tier
+%  provenance is already committed and generated in Table~\ref{tab:dwell-anchors}
+%  ("Priced by MTDSim" / "Declared and swept"), so the body is now saying what
+%  the appendix already carries, and §5.1 ¶2's reading trades on it.
+%  Membership is the catalogue's (tactic_durations.json); multipliers are
+%  Table~\ref{tab:dwell-derivation}'s. "Family" is the body's word; "anchor"
+%  stays the appendix's and the code's. Prior wording in git (32e309bb).
+%  NOTE for §5.1: the tiers are NOT the sensitivity story --- the objective
+%  family is declared and moves 0.6 hosts per doubling, the scan-shaped family
+%  is priced and moves 0.7. The concentration is in low-and-slow SPECIFICALLY,
+%  not in the declared tier. Do not let ¶2 generalise it.
 % [2026-09-08: the tiers sentence "If that was not sufficient, then we used
 %  some multiplier ... what shape fitted best" CUT on the front-loading
 %  ruling --- App. B.4's "Why this value" column carries the tiers row by
@@ -4835,39 +4842,53 @@ is a separate layer, independent from the nets and from the action layer:
 we did not reverse-engineer any of these values. We needed a 15-by-14
 tactic-to-tactic failure weight matrix (excluding self-loops), shaped by two
 components. The first is the failure rules, $R$, independently decided:
-each tactic-to-tactic transition was placed into a given shape (rules A to
-I in Figure~\ref{fig:failure-weight-matrix}). The second is distance, $d$:
+each tactic-to-tactic transition was placed into a given shape (the nine
+rules A to I of Figure~\ref{fig:failure-weight-decomposition}(a),
+Appendix~\ref{app:weight-sets}). The second is distance, $d$:
 we used the literature and overlaid the attack
 stages~\citep{hutchins2011, alshamrani2019, mandiant2013, chemat2024},
 which gave the four broad stages of an attack --- preparation, intrusion,
 post-intrusion operations, and objective. ATT\&CK imposes no order on its
-tactics, so the order the distance kernel reads is imported from these
-lifecycle models rather than observed in the corpus.
-% PROPOSED INSERTION C, 2026-09-17 (§5.1 overhaul, D5). Accept by uncommenting
-% here, after the A8 sentence; delete otherwise. Why: §5.1 moves "the two
-% rates and the floor" of the distance term, and this is the only place a
-% reader can learn what they do (the 2026-09-08 front-loading ruling cut the
-% kernel-value sentence; App. B.6 has the detail). Values checked against
-% DistanceKernel (rules.py): adjacent = 1, two stages = 0.25, three = 0.0625,
-% which the floor 0.1 cuts to zero. "Distance term" for "kernel" is your
-% call; the appendix keeps "kernel" either way.
-%   Distance is the number of stages a transition crosses. A move to the
-%   adjacent stage is not penalised; a jump across two stages is scaled down
-%   by a rate, one rate for a jump forward and another for a fall back; a
-%   jump of three stages is cut to zero by a floor. The two rates and the
-%   floor are the only numbers in the distance term.
+tactics, so the order the distance term reads is imported from these
+lifecycle models rather than observed in the corpus. Distance is the number
+of stages a transition crosses. A move to the adjacent stage is not
+penalised; a jump across two stages is scaled down by a rate, the same rate
+whether the jump is forward or a fall back; and a jump of three stages falls
+below a floor, which is where we treat a transition as too far to happen at
+all and zero it out. The two rates and the floor are the only numbers in the
+distance term.
+% INSERTION C APPLIED 2026-09-18 --- DRAFT STATE, ratify on read (your green
+%  light this date: the floor "is an issue that we should account for", and
+%  your own framing is the content --- distance is how far away, the floor is
+%  where too far away gets zeroed out). Why: §5.1 ¶3 moves the two rates and
+%  the floor, and this was the only place a reader could learn what they do;
+%  the 2026-09-08 front-loading ruling had cut the kernel-value sentence and
+%  App. B.6 alone carried it.
+%  ONE CHANGE from the 2026-09-17 proposal, on your reading this date: it now
+%  says "the same rate whether the jump is forward or a fall back" rather than
+%  "one rate forward and another for a fall back". Verified against
+%  DistanceKernel (rules.py:80-112) and the declared point
+%  (lifecycle_consensus.json): forward is gamma^(delta-1), backward is
+%  delta_ratio^(-delta-1), and the DECLARED values are gamma = delta = 0.25 --
+%  adjacent 1, two stages 0.25 either way, three stages 0.0625, which the
+%  floor 0.1 cuts to zero. The directional split is a capability of the code
+%  that the declared model does not exercise, which is your point that
+%  ATT&CK has no forward or backward. Fig. B.6(b) already prints
+%  "gamma = delta = 0.25", so the appendix agrees.
+%  "Distance term" replaces "kernel" in the body here and in the sentence
+%  above; the appendix keeps "kernel".
 % [2026-09-13: A8 sentence landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
 %  §7.2. Ratify-on-read.]
 This can be found in
 Appendix~\ref{app:weight-sets}, along with the full set of tactic-to-tactic
-failure weights; the kernel's parameters are swept in the sensitivity
-analysis (Section~\ref{sec:sensitivity}).
-% PROPOSED REWORD C2, 2026-09-17 (§5.1 overhaul, D5): for the clause above
-% after the semicolon, once insertion C is in, so the pointer uses the words
-% the reader has just met —
-%   the two rates and the floor are moved in Section~\ref{sec:sensitivity};
-%   the rules are not.
+failure weights; the two rates and the floor are moved in
+Section~\ref{sec:sensitivity}, and the rules are not.
+% REWORD C2 APPLIED 2026-09-18 --- DRAFT STATE, ratify on read. Replaces "the
+%  kernel's parameters are swept in the sensitivity analysis (Section 5.1)",
+%  so the pointer uses the words the reader has just met in insertion C and
+%  stops claiming the nine rules are swept (they are held). Prior wording in
+%  git (32e309bb).
 % [2026-09-08, front-loading ruling: the kernel-value sentence ("within the
 %  same phase ... a quarter ... zero"), the 0.1-floor sentence and the
 %  reconnaissance-to-impact example CUT --- App. B.6 declares gamma, delta,
@@ -5342,236 +5363,35 @@ carries no layer number.]}
 \section{Sensitivity analysis}
 \label{sec:sensitivity}
 
-% DRAFT STATE 2026-09-13 --- session-extrapolated from Marc's dictation (chat,
-% this date: "formulate this section ... extrapolate on the wording I've given
-% ... write excess and cut what is not needed"). Written LONG on purpose; his
-% to cut. Ratify-on-read. Every number in the readout is the TEN-SEED RECORD
-% (rate_feasibility_study.md §10; weight_sensitivity_study.md §5-6, fixed-dwell
-% regime) and is a [VERIFY] until the sweeps are re-run at the reported
-% configuration (design handoff §3.2). Scaffold and word bank: handoff §19.
-Carrying from the method, there are seven numbers the formalism cannot
-supply. Each is a place where the model had to be given a value: the four
-dwell anchors that the fifteen tactic dwell times resolve onto; the shape
-of the exponential draw around those means; the tactic-to-verb mapping;
-the forward decay, the backward decay and the floor of the failure matrix's
-distance kernel; and the rule kernel. These are the free inputs of the
-formal definition (Sections~\ref{sec:petri-formalism} and
-\ref{sec:execution}), and Table~\ref{tab:parameter-register} collects them:
-the value declared, the band it was moved across and where that band comes
-from, and what moved. We derived and argued each of them; none was fitted.
-The dwell anchors we extrapolated from what existed in the original
-simulator, two priced by its own action costs and two declared as multiples
-of the exploit shape. The decays encode how far from a given tactic a
-transition still makes sense after a failure: an adjacent stage is
-untouched, a two-stage jump is quartered, and the floor is what reads a
-three-stage jump as exactly zero. The rule kernel is the nine failure rules
-of Appendix~\ref{app:weight-sets}. The derivations are in the appendix.
-Whether or not they are wrong, these inputs form the base of the MTD
-evaluation, so the question this section answers is not whether the
-declared values are right but whether any conclusion of this chapter
-depends on where in its band a value sits. The sweep stands in for an
-estimation nobody can make~\citep{madan2004}; it is never a calibration,
-and nothing was tuned.
-% [3b] "Whether or not they are wrong" --- your phrase, kept; "right"/"wrong"
-%  against "depends on where in its band" is the section's one paired
-%  opposition. Keep one or both.
+% REDRAFT SKELETON 2026-09-17 (handoff 2026-09-17_ch5_s51_sensitivity_overhaul.md
+% D2; Marc's rulings the same day). The 2026-09-13 session draft is retired
+% (git 975f334f holds it). Marc's dictation replaces the placeholder: THREE
+% paragraphs, ~250 words, chapter 4's words only (the banned list is the
+% handoff's validation gate), no bridge from chapter 4 (the chapter preamble
+% carries the join), no method philosophy, Madan at most one clause. Numbers:
+% docs/implementation/pipeline/ogasp/ch5_s51_sensitivity_findings.md and
+% data/results/ch5_s51_sensitivity/numbers.json; the table is GENERATED.
+%  P1  the question in one sentence (whether any conclusion of this chapter
+%      depends on where a declared value sits inside its band); the three
+%      declared inputs by their §4.4 names; the test (each value moved across
+%      its band with the others held at their declared values; distinct hosts
+%      reached read against the interval at the declared value); one clause on
+%      where the bands come from (App. B.4's tiers; App. B.6's structure).
+%  P2  the four dwell families: which moved, and by how much per doubling; the
+%      thesis-level sentence (the timing sensitivity is concentrated in the
+%      family whose provenance is weakest; the simulator-priced families carry
+%      a fraction of it); the draw's shape at the declared dwell and at the
+%      long-dwell corner under defence.
+%  P3  the mapping (a comparison, not a band: the forced-total alternative
+%      under-performs, one clause why); the distance term's two rates and its
+%      floor (which rate moves outcomes; the floor zero by structure, no net
+%      carries a three-stage jump); the nine rules held; the closing sentence
+%      naming the one input the chapter's claims are exposed to and that it is
+%      held at its declared value. Nothing about the mutation interval.
+\noindent\emph{[Placeholder --- the three paragraphs of Section~\ref{sec:sensitivity},
+Marc's dictation from the overhaul brief; the table is the section's float.]}
 
-The analysis has two purposes: to screen the inputs, so that the inert ones
-can be held, and to rank them, so that the experiments which follow can be
-read against the one input the conclusions are exposed to rather than
-against all seven. An input is inert when its band ends sit inside the
-interval at its centre.
-
-We move one input at a time across its band with the others held at their
-declared values, then run the corners of the pair that proved most
-influential. The bands are each row's own. The catalogue's evidence tiers
-set the dwell bands, widest for the low-and-slow anchor, whose evidence is
-weakest (Appendix~\ref{app:dwell-derivation}); the kernel's own structure
-sets the decay bands, bracketing the declared value on both sides
-(Appendix~\ref{app:weight-sets}). Two rows are swaps rather than bands and
-are reported as comparisons: the exponential draw against a same-mean
-alternative concentrated at the mean, and the partial mapping against the
-forced-total one. One row is not swept. The rule kernel is nine argued
-magnitudes with no single quantity to move, and it is listed so that no
-declared input is absent from the table. One at a time is the weak form of
-sensitivity analysis~\citep{tenbroeke2016}: it walks a cross through the
-input space and never its interior, so the corner check is the only
-interaction it sees, and we make no global claim. The outcome measure is
-distinct hosts reached, with intervals, under no defence and under the
-defence mutating at the reference tempo, pooled across the profiles at the
-configuration Section~\ref{sec:dimensions} declares. Breadth rather than
-success rate, because at the inherited interval neither attacker completes
-the objective: success rate is pinned at zero there and cannot
-discriminate, while breadth keeps responding throughout.
-% [3b] "cannot discriminate" --- the operating-point note's word; the
-%  Anderson closed form is the citation if you want one here
-%  (operating_point_discrimination.md).
-
-Parameter-variability analysis is the operational validation available for
-a model whose system cannot be observed, and it cannot earn high
-confidence~\citep{sargent2011}. The MTD evaluations we surveyed mostly
-state no rationale for their ranges; ours come from the model's own
-structure, and the claim they license is that the inputs are plausible,
-literature-bounded and sensitivity-swept, never that they are validated.
-% [3b] "The MTD evaluations we surveyed" --- conventions §c names Hong,
-%  Anderson, Carroll, Zhang, Reti with no range rationale and Bland
-%  "notional". Cite two, or leave as a survey claim pointing at ch3.
-
-
-% RE-CUT 2026-09-13 (stage-2 float audit, handoff §18; C1 reversed --- Marc:
-% "separation of concerns"). This table carries ONE class of thing: the free
-% inputs of the formal definition, in ten Broeke's input-table form (nominal,
-% range, origin) with the effect column the re-run fills. The three classes it
-% used to carry have left: the twelve assumptions are ch4 prose at their symbols
-% (landed 2026-09-13); the environment rows are tab:factors-varied and
-% tab:factors-fixed; the ablation arms went with §5.3.3 (aggregate -> a
-% tab:unopposed-summary row; verdict-blind -> the §5.3.2 control; modulators ->
-% tab:factors-fixed at their inert defaults). VALUES ARE TRANSCRIBED from the
-% §4.3 brief §7.1, not generated --- the generator pass against data/ogasp/*.json
-% is owed before any value is cited. THE EFFECT COLUMN IS EMPTY BY DESIGN until
-% the sweeps are re-run at the configuration this chapter reports (design §3.2):
-% the completed sweeps ran at ten seeds on the pre-restoration substrate with one
-% defence condition, the failure-matrix sweep under the superseded timing regime.
-\begin{table}[htbp]
-  \centering
-  \caption[The declared inputs, their bands, and what moved]{The free inputs of the formal definition, in one place: each quantity the model had to be given a number for, the value declared, the band it was moved across and where that band comes from, and what moved. The rule kernel is listed as the one input not swept, with the reason, so that no declared quantity is absent from the table. The effect column is completed by the re-run at the configuration this chapter reports, since the completed sweeps were taken under a narrower one; an entry is the band ends against the centre, with intervals. Everything else the model assumes carries no number and is stated in Chapter~\ref{ch:attacker-model} at the symbol it constrains; everything the experiment varies or holds is Table~\ref{tab:factors-varied} and Table~\ref{tab:factors-fixed}.}
-  \label{tab:parameter-register}
-  \tablestyle\setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}lP{3.0cm}P{2.1cm}P{6.6cm}P{1.7cm}@{}}
-    \toprule
-    & Quantity & Declared & Band explored, and its origin & Effect \\
-    \midrule
-    $\mu_p$ & mean dwell, four anchors & 35, 4.5, 45, 36\,s & multiplied across $[0.25, 4]$ on the widest band and $[0.5, 2]$ elsewhere; the bands follow the catalogue's evidence tiers (Appendix~\ref{app:dwell-derivation}) & \\
-    $\tau_p$ & the firing distribution & exponential & against a same-mean alternative concentrated at the mean: a swap, not a band (Appendix~\ref{app:exponential-shape}) & \\
-    $\gamma$ & forward decay & 0.25 & $[0.1, 0.5]$; the kernel's own structure sets the band (Appendix~\ref{app:weight-sets}) & \\
-    $\delta$ & backward decay & 0.25 & $[0.1, 0.5]$; the corners of the pair are also run & \\
-    $z$ & the kernel's floor & 0.1 & $\{0, 0.05, 0.1\}$ & \\
-    $\varphi$ & tactic-to-verb mapping & partial & against the forced-total alternative: a swap, not a band (Appendix~\ref{app:experiment-one}) & \\
-    $R$ & the rule kernel & nine values & not swept: argued value by value, so there is no one quantity to move (Appendix~\ref{app:weight-sets}) & --- \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-% DRAFT STATE 2026-09-13 (readout) --- [VERIFY] every number: ten-seed record,
-% one scheme, pre-restoration; the failure-matrix findings are from the
-% fixed-dwell regime. Re-read from the re-run before this leaves draft.
-Table~\ref{tab:parameter-register} reports what moved. Three of the four
-dwell anchors are inert at both band ends in both defence conditions. Only
-the low-and-slow anchor moves breadth, and it moves it at both ends: with
-no defence, from 7.8 hosts at a quarter of its declared value to 1.8 at
-four times it, against 4.6 at centre (Figure~\ref{fig:sens-dwell-anchor}).
-The two anchors priced by the simulator carry none of the sensitivity. The
-exponential draw is inert across the operating region and separates at one
-corner, the long dwell under mutation pressure, where the concentrated
-shape reaches fewer hosts (Appendix~\ref{app:exponential-shape}). The
-floor moves nothing, and this is zero by structure rather than by
-measurement: no profile net carries a three-stage transition, so the floor
-has nothing to act on in this corpus. Of the two decays the backward decay
-is the more influential, and the forward decay moves outcomes under the
-forced-total mapping only (Appendix~\ref{app:decay-robustness}). A
-per-profile ordering does not separate at this run count; that is a power
-limit, not a parameter one, and no ordering is reported. What each of
-these means is Chapter~\ref{ch:discussion}'s.
-
-Figure~\ref{fig:sens-dwell-anchor} draws the one relationship that exists:
-breadth against the low-and-slow anchor as a multiple of its declared
-value, falling as the dwell lengthens, in both conditions. An inert input
-gets a row, not a figure.
-
-% mu_p: the four anchors over their declared bands (app:dwell-robustness;
-% only the low-and-slow anchor moves an outcome) and the exponential family
-% against the same-mean Erlang-4 substitution (app:exponential-shape).
-% SHAPE (conventions h, Tay's repeating internal form): define the
-% parameter and what it trades off; declare the range AND its
-% justification; the figure; the numeric readout, with the "why" deferred
-% to ch6. The inert anchors are stated as inert, not hidden.
-% RETIRED HEADING 2026-09-13: \subsection{Dwell times} (label subsec:sens-dwell-times) --- §5.1 runs as one
-% section, one unit (design C30). The floats below stay until the stage-2
-% placeholder audit rules each one; nothing referenced this label.
-
-% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- a SLOT, not a result (the standing test):
-% the figure exists by convention --- one figure per input that moved --- and
-% WHICH input is the re-run's to say. The record's prior sweeps put it at the
-% low-and-slow anchor; that is provenance, not a value.
-\begin{figure}[H]
-  \centering
-  % GENERATED by tools/ch5_sensitivity_figure.py --- regenerate, never edit.
-  % PROVISIONAL 2026-09-13: drawn from the S3-R re-run of the rate feasibility
-  % study (ten seeds, random scheme, pre-restoration substrate; 50 runs per
-  % cell). Re-point the tool's --csv at the reported-configuration re-run and
-  % regenerate; re-read the caption's numbers from the tool's stdout.
-  % Natural width 11.4 cm at \footnotesize; included at 0.78\textwidth so
-  % labels print ~10 pt against the 12 pt body (conventions §h).
-  \includegraphics[width=0.78\textwidth]{fig_5-1a_sens_dwell_anchor}
-  \caption[Sensitivity of host breadth to the low-and-slow anchor]{Distinct
-  hosts reached as the low-and-slow dwell anchor is moved across its band,
-  the other inputs held at their declared values, with no defence and with
-  the defence mutating every 200\,s. Pooled across the five profiles;
-  intervals are 95\,\%. The other three anchors, the two decays and the
-  floor stay inside the interval at centre at both band ends and are
-  reported as rows of Table~\ref{tab:parameter-register} and in
-  Appendix~\ref{app:sensitivity}; a figure here marks the one input the
-  evaluation's conclusions are exposed to.}
-  \label{fig:sens-dwell-anchor}
-\end{figure}
-
-% DRAFT STATE 2026-09-13 (the selection, design C7b) --- sec:dimensions opens
-% by picking these three up.
-% BROKEN JOIN 2026-09-17 --- §5.2 no longer picks these up. Its opening
-% paragraph carried the selection forward and was cut in the redraft (critique
-% handoff §I), on the same ground Marc ruled for §5.1 itself: the section
-% stands on its own and the chapter preamble carries the join. This sentence
-% is therefore a promise §5.2 does not keep. It belongs to the §5.1 overhaul
-% (2026-09-17_ch5_s51_sensitivity_overhaul.md, D2 ¶3, whose closing sentence
-% ends on the exposed input and makes no forward reference), so it is FLAGGED
-% HERE, NOT EDITED --- the tex of §5.1 is under Marc's hand.
-The sweep selected three things, and Section~\ref{sec:dimensions} picks
-them up. The evaluation's claims are exposed to one declared input, the
-low-and-slow anchor, which is held at its declared value and named in every
-claim that could turn on it. The exponential draw is a live parameter at
-long dwell under mutation pressure, so no reported cell is run there
-without saying so. The inherited tempo sits inside a degenerate region, so
-the mutation interval enters the experiment as a varied factor rather than
-an inherited default.
-% [3b] "named in every claim that could turn on it" --- Kim's discipline
-%  (fix by citation, repeat in every caption); scope it or drop the clause.
-
-
-% REMOVED 2026-09-13 (stage-2 audit): fig:sens-dwell-shape. The shape
-% substitution is a discrete swap, not a band: it is the tau_p row of
-% tab:parameter-register and Table~tab:shape-substitution in app:exponential-shape.
-
-% phi: v2_partial against the forced-total v1_ckc_total
-% (app:experiment-one) --- a swap, not a band. Say that plainly: this is
-% the one declared input with no interval, so its sensitivity is a
-% comparison of two versions rather than a sweep, and V-map remains the
-% one leaf that could demote the tree (hypothesis_tree §8). The standing
-% bound belongs in the claim sentences of sec:effectiveness, not here.
-% RETIRED HEADING 2026-09-13: \subsection{Tactic-to-verb mapping} (label subsec:sens-tactic-verb-mapping) --- §5.1 runs as one
-% section, one unit (design C30). The floats below stay until the stage-2
-% placeholder audit rules each one; nothing referenced this label.
-
-% REMOVED 2026-09-13 (stage-2 audit): fig:sens-mapping. The mapping is a
-% discrete swap: the varphi row of tab:parameter-register and
-% tab:experiment-one in app:experiment-one. The standing bound it carried
-% (the mapping remains a declared input) lives in the claim sentences of
-% sec:effectiveness, as the comment above already says.
-
-% F_failure: gamma, delta, z over their bands (app:weight-sets; the nine
-% rule values are argued, not swept --- say why in one clause, since a
-% parameter in neither the swept nor the held list is the omission the
-% corpus keeps committing); the corpus-variant robustness column
-% (operator_dedup against raw) rides here.
-% RETIRED HEADING 2026-09-13: \subsection{Failure matrix} (label subsec:sens-failure-matrix) --- §5.1 runs as one
-% section, one unit (design C30). The floats below stay until the stage-2
-% placeholder audit rules each one; nothing referenced this label.
-
-% REMOVED 2026-09-13 (stage-2 audit): fig:sens-failure-matrix. The decay
-% parameters are gamma / delta / z rows of tab:parameter-register; their band
-% ends against centre and the corner check are tab:decay-sensitivity in
-% app:decay-robustness (added the same day, in tab:anchor-sensitivity's form).
-% If the re-run shows a decay parameter moves, it takes fig:sens-dwell-anchor's
-% form as a second figure; the slot is the convention, the content the result.
+\input{tables/tab_5-1a_declared_inputs}
 
 % 2 units + the factor table (tables are word-cheap). The factor space,
 % set up and then run: the four attack profiles and the baseline attacker;
@@ -7560,29 +7380,36 @@ March 2026, with its own reference list.
 %     - the honest limit: the per-profile ordering is indeterminate at ten
 %       seeds --- a power failure, not a parameter failure.
 
-\begin{table}[htbp]
-\centering\footnotesize
-\caption[Outcome sensitivity to each anchor across its declared band]{Host
-breadth at each anchor's band ends against its central value, moving one
-anchor at a time with the other three held central, moving target defence
-off. Only the low-and-slow anchor separates from centre: its two ends are
-CI-separated, while the scan, exploit and objective anchors move breadth by
-less than their confidence intervals at both ends and in both defence
-conditions. Pooled across the five profiles at ten seeds; intervals are
-95\,\%. Transcribed from the rate feasibility study's re-run under the
-settled timing regime.}
-\label{tab:anchor-sensitivity}
-\begin{tabular}{@{}l l l l@{}}
-\toprule
-Anchor & Band low & Central & Band high \\
-\midrule
-Low-and-slow          & $7.82 \pm 1.21$ & $4.56 \pm 0.71$ & $1.78 \pm 0.36$ \\
-Scan-shaped           & \multicolumn{3}{@{}l}{inert --- within CI of centre at both ends} \\
-Exploit-shaped        & \multicolumn{3}{@{}l}{inert --- within CI of centre at both ends} \\
-Objective execution   & \multicolumn{3}{@{}l}{inert --- within CI of centre at both ends} \\
-\bottomrule
-\end{tabular}
-\end{table}
+% LEAD DRAFT STATE 2026-09-17 --- connective prose (green-lit), ratify-on-read.
+This appendix is the per-value expansion of Table~\ref{tab:parameter-register}:
+the same perturbations, read family by family and parameter by parameter, at
+the configuration of Section~\ref{sec:dimensions}. The split from the chapter
+is by resolution, not by importance.
+
+Each dwell family was moved as a whole across its band, the per-tactic
+multipliers of Appendix~\ref{app:dwell-derivation} riding along unchanged, with
+the other three families at their declared values. Table~\ref{tab:anchor-sensitivity}
+gives distinct hosts reached at both band ends against the declared value under
+each condition; Figure~\ref{fig:sens-dwell-anchor} draws the one family whose
+band ends separate from the centre by more than a host.
+
+\input{tables/tab_C-1a_family_sensitivity}
+
+\begin{figure}[htbp]
+  \centering
+  % GENERATED by tools/ch5_sensitivity_figure.py --csv data/results/ch5_s51_sensitivity/per_run.csv
+  %   --anchor stealth --stem fig_C-1a_sens_dwell_family --- regenerate, never edit.
+  % Moved from the body to App. C.1 on 2026-09-17 (Marc's ruling); it re-enters
+  % the body only if its form is one a sentence cannot carry.
+  \includegraphics[width=0.78\textwidth]{fig_C-1a_sens_dwell_family}
+  % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.
+  \caption[Hosts reached against the low-and-slow family's dwell]{Distinct
+  hosts reached as the low-and-slow family's dwell is moved across its band,
+  as a multiple of its declared value, the other families held, with no
+  defence and under the random scheme mutating every 200\,s. Pooled over the
+  four profiles, 400 runs per point; intervals are 95\,\%.}
+  \label{fig:sens-dwell-anchor}
+\end{figure}
 
 \section{The exponential dwell family}
 \label{app:exponential-shape}
@@ -7625,27 +7452,14 @@ Objective execution   & \multicolumn{3}{@{}l}{inert --- within CI of centre at b
 %   mutations --- the property flagged as its least realistic feature is
 %   quietly doing work.
 
-\begin{table}[htbp]
-\centering\footnotesize
-\caption[Same-mean shape substitution at the long-dwell corner]{Host breadth
-under a same-mean Erlang-4 dwell against the declared exponential, at the one
-band corner where the two separate: the low-and-slow anchor at four times its
-central value with the defence mutating every 200\,s. Elsewhere in the grid
-the substitution is inert. Pooled over the five profiles at ten seeds
-(50 paired runs); intervals are 95\,\%. Per-seed signs run 13 lower, 34 tied
-and 3 higher, so the direction is consistent rather than driven by an
-outlier, and all five profiles share the sign although none separates alone.
-The effect is small and near the floor --- a region where the attacker barely
-compromises anything --- which is the scope the claim is held to.}
-\label{tab:shape-substitution}
-\begin{tabular}{@{}l l l l@{}}
-\toprule
- & Erlang-4 & Exponential & Paired difference \\
-\midrule
-Hosts & $0.18 \pm 0.12$ & $0.46 \pm 0.22$ & $-0.28 \pm 0.19$ \\
-\bottomrule
-\end{tabular}
-\end{table}
+% LEAD DRAFT STATE 2026-09-17 --- connective prose (green-lit), ratify-on-read.
+The draw around each declared mean is exponential (Section~\ref{subsec:dwell-times}).
+The substitution here keeps every mean and concentrates the draw around it (an
+Erlang-4, the sum of four exponentials of a quarter of the mean), on the
+low-and-slow family only, paired run for run with the declared draw at the
+declared dwell and at the top of the family's band.
+
+\input{tables/tab_C-2a_shape_substitution}
 
 \section{Robustness across the failure matrix's decay parameters}
 \label{app:decay-robustness}
@@ -7664,12 +7478,15 @@ Hosts & $0.18 \pm 0.12$ & $0.46 \pm 0.22$ & $-0.28 \pm 0.19$ \\
 %   means (band ends inside the interval at centre); and the honest limit the
 %   record names (a finer per-profile ordering that fails to separate for want
 %   of runs rather than of effect).
-\begin{table}[htbp]
-\centering\footnotesize
-\caption[Outcome sensitivity to each decay parameter across its declared band]{Host breadth at each decay parameter's band ends against its declared value, moving one at a time with the others held, and then at the corners of the pair that proved most influential, under both defence conditions. Pooled across the profiles at the reported seed count; intervals are 95\,\%. A parameter whose band ends stay inside the interval at centre is reported as inert.}
-\label{tab:decay-sensitivity}
-\placeholderbox{40mm}{Table C.3 --- band ends against centre for the forward decay, the backward decay and the floor,\\ then the corners of the influential pair. Columns: band low, declared, band high; row groups per parameter and per defence condition.}
-\end{table}
+% LEAD DRAFT STATE 2026-09-17 --- connective prose (green-lit), ratify-on-read.
+The distance term of the failure matrix (Section~\ref{subsec:failure-matrix},
+Appendix~\ref{app:weight-sets}) has three numbers: the rate at which a jump
+forward across two stages is scaled down, the rate for a fall back, and the
+floor below which a factor reads as zero. Each was moved across its band with
+the other two held, and the two rates were then run at their four corners
+with the floor declared.
+
+\input{tables/tab_C-3a_decay_sensitivity}
 
 
 
