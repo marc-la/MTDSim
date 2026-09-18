@@ -1719,3 +1719,45 @@ it is a one-line change in `tools/ch5_effectiveness_figures.py` plus a
 terminology row. Marc's ruling.
 
 §5.2 is 330 words. **Runs** is the last unit without this pass.
+
+### §AG2 — Metrics, second pass
+
+Marc on the first pass: the glosses — "do we need to state the definitions of
+effectiveness and efficiency, was that already carried in the literature review?
+because I'm pretty sure it is"; and sentence two — "I don't understand what the
+point is ... I don't even know what that second sentence is, it's disjointed and
+it's not in its context, so I don't really know what it's there for", with
+"be mindful, long sentences are unreadable".
+
+> Table 5.3 lists the metrics this chapter judges a defence by, grouped by
+> effectiveness and efficiency as Table 3.1 groups the field's. Every comparison
+> is made on host breadth, the distinct hosts an attacker compromises.
+
+37 words, two sentences, neither longer than a line and a half. §5.2 is now
+**311 words**, from 546.
+
+**(a) The glosses go — and his instinct is right for a different reason than the
+one he gave.** §3.2.2 *names* the split and cites Cho ("Metrics can be split on
+perspective, attacker-side or defender-side, and purpose, effectiveness or
+efficiency") but **never glosses either word in prose**; the gloss lives in a
+source comment. What does gloss them is **the chapter preamble two pages up, in
+Marc's own dictation**: "what the defences do to it (§5.4), and what that costs
+(§5.5)". So they were redundant against the preamble, not the literature review,
+and the preamble is where the reader meets them first. Dropping them also drops
+the abstract word *purpose*, the sentence's only unexplained vocabulary.
+
+**(b) "Judges a defence by" is scope, not boast, and it was load-bearing.** Marc
+read sentence two as being about "metrics for attack validation" — the §5.3
+instruments. **That confusion is the prose's fault: "every metric this chapter
+reports" was false**, since §5.3 reports four more that are deliberately not in
+Table 5.3. The cut opener had been carrying that scope inside its
+objection-answer, and the scope was the half worth keeping. **Table 5.3's caption
+said the same false thing and is fixed with it** ("Every metric this chapter
+judges a defence by"), so caption and prose now agree.
+
+**(c) Sentence two now states its job in its first four words.** "Host breadth
+… carries every comparison" put the metric first and the job last, which is
+exactly why it read as disjointed — nothing told the reader what the sentence was
+for until it was over. **Target reach leaves the prose entirely**: the conditional
+reporting is a results fact, the table already lists the metric, and the clause
+was the second half of a two-clause sentence with no visible purpose.
