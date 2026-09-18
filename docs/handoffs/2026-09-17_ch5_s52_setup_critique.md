@@ -1385,3 +1385,43 @@ the purpose last.
 > concludes is the chapter's question.
 
 33 / 18 / 12 words, against 85 in three lines. Section is **411 words**.
+
+### AD4 — the last clause was the research question, and it is cut
+
+Marc: *"what is the last clause doing here … is this convention?"* It is not.
+
+*"Whether that choice changes what an evaluation concludes is the chapter's
+question"* is the study's question restated inside the run plan. **No setup
+section in the corpus states its study's question** — Reti, He, Kim and Ho each
+declare and stop; conventions §a is explicit that a setup declares and does not
+argue; and §b puts the question-naming roadmap at the head of the **results**,
+which for this chapter is the preamble. §20.1 of the design record had already
+ruled that §5.2 must not repeat the roadmap, and this was that rule broken in a
+single sentence.
+
+**The distinction that keeps this from being over-applied.** The Network unit's
+third sentence — *"the configuration never changes across this chapter, so every
+difference reported is the attacker's or the defence's"* — is a **design
+reason**, and design reasons are setup. This one was a **research question**.
+The Attacker unit keeps its design reason in sentence two, where Marc ratified
+the wording ("a defence that denies one goal need not deny another"), so nothing
+motivating is lost by the cut.
+
+The two objective levels are now named in the prose as well
+("targeted and opportunistic"), for the same reason the Network unit names its
+values: the unit's job is to state the configuration, and the table is the
+reference rather than the substitute.
+
+> **Attacker.** Two arms: the baseline attacker of Section~2.2.3, and the
+> movement attacker of Chapter~4 on each of its four attack profiles and on the
+> aggregate. Their objective is varied as well (targeted and opportunistic),
+> since a defence that denies one goal need not deny another.
+
+**One thing the cut hands to the chapter preamble, flagged in place.** With that
+sentence gone, nothing in §5.2 says *why* two attackers are run. That is the
+roadmap's job under Tay's house pattern, the preamble is still a placeholder,
+and §5.4.2's figure caption is currently the only place the comparison's purpose
+is stated ("this is the chapter's central comparison"). It needs to be in the
+preamble when that is dictated.
+
+Section is **403 words**, from 546.
