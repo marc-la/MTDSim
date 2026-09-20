@@ -91,13 +91,17 @@
 % (8) NO DIRECTION-OF-GOOD MARKS: no paper in the corpus uses one. The two
 %     directions that are not self-evident are owed to §5.5's opening sentence.
 % (9) NO ACRONYMS for the metrics: see §AK11.
-% OPEN, MARC'S DISPOSITION --- BLOCKED FRACTION. measures.py:294 computes the
+% BLOCKED FRACTION, 2026-09-20 second pass: the Brown attribution is REMOVED.
+%   Brown's metric is actions blocked BY AN MTD (extraction B-ATK-07, B-MET-01),
+%   which is this model's INTERRUPT, not its blocked action. Restore on Marc's
+%   word. The original flag: measures.py:294 computes the
 %   share of actions failing on an unmet precondition; it is 0.24 under NO
 %   defence (tab 5.4.1a), and on §4.4.1's account a deployment interrupts, it
 %   does not block. The Brown attribution is §AH's and is kept pending that
 %   ruling; tab 5.4.1a's caption ("what fraction ... it blocks") is the other
 %   half of the same question.
-% OPEN --- "time lost to the defence" is a session-proposed name; no float names
+% "Time lost to MTD" is Marc's name (2026-09-20), over the session's "time lost
+%   to the defence"; no float names
 %   the quantity (fig 5.5b draws its two parts). Ratify on read.
 \begin{table}[htbp]
   \centering
@@ -110,17 +114,17 @@
     \midrule
     & success events & Target reached & the share of runs in which the attacker meets the targeted objective (Table~\ref{tab:attacker-objectives}): a database host compromised & \\
     & & Runs with no compromise & the share of runs in which the attacker never compromises its first host & \\
-    & & Blocked fraction\textsuperscript{\dag} & the share of the attacker's actions that fail on a missing precondition (Section~\ref{subsec:runtime-mechanics}) & attack actions blocked \citep{brown2023} \\
+    & & Blocked fraction\textsuperscript{\dag} & the share of the attacker's actions that fail on a missing precondition (Section~\ref{subsec:runtime-mechanics}) & \\
     & attacker time & Delay to first compromise\textsuperscript{\dag} & the time from the start of a run to the first host compromised, over the runs that compromise one & \\
     & system state & Hosts reached & the number of distinct hosts compromised by the end of a run & \\
     \rowgroup{6}{Effectiveness} & & Suppression & the fraction of hosts reached that a defence removes, $1 - \bar{H}_{\mathrm{defence}} / \bar{H}_{\mathrm{no\ defence}}$: 0 for no effect, 1 for no host reached & \\
     \midrule
     & resource spent & Actions per host reached & the actions the attacker attempts for each distinct host it compromises & attempts required \citep{brown2023} \\
     & & Successes per host reached & the actions that succeed for each distinct host compromised & \\
-    & & Time lost to the defence\textsuperscript{\dag} & the share of the run spent on actions a deployment interrupts, and in the delay that follows each interrupt & \\
+    & & Time lost to MTD\textsuperscript{\dag} & the share of the run spent on actions a deployment interrupts, and in the delay that follows each interrupt & \\
     \rowgroup{4}{Efficiency} & & Share of run under reconfiguration & the share of the run during which a defence mechanism is deploying & \\
     \bottomrule
     \addlinespace[2pt]
-    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize \textsuperscript{\dag}~not compared across the two attackers: the baseline attacker records neither blocked actions nor the delay an interrupt imposes, and the two attackers price time differently.}\\
+    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize \textsuperscript{\dag}~reported for the movement attacker only: the baseline attacker's record carries neither a failed precondition nor the delay an interrupt imposes, and time is not priced alike on the two.}\\
   \end{tabular}
 \end{table}

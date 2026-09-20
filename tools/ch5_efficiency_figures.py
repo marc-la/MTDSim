@@ -7,11 +7,12 @@
             interval, sharing the y axis
   Fig. 5.8  where the attacker model's time goes under each condition:
             stacked bars of the share of elapsed time on activity that
-            completed, activity a mutation cut short, and the imposed delay,
+            completed, activity a deployment cut short, and the imposed delay,
             values printed in the segments; one panel per interval
   Tab. 5.8  cost by condition and attacker: actions and successes per host
             reached (event-wise, both arms), reconfiguration occupancy and
-            mutations per 1 000 s (substrate-priced, both arms)
+            (deployments per 1 000 s dropped 2026-09-20: it is one over the declared
+            interval on every defended condition; handoff s52 critique §AK8)
 
 Data: ``data/results/ch5_defended/numbers.json`` §s55 (design:
 docs/handoffs/2026-09-17_ch5_s532_s55_defended_runs.md; read:
@@ -145,8 +146,8 @@ def emit_fig58(s55: dict) -> tuple[str, list]:
     X0 = (1.35, 8.75)
     Y0 = 1.25
     segs = (("activity_completed", "cmov", "white", "activity that completed"),
-            ("activity_cut_short", "cmov!35", "black", "activity a mutation cut short"),
-            ("imposed_delay", "cbase!80", "white", "delay a mutation imposed"))
+            ("activity_cut_short", "cmov!35", "black", "activity a deployment cut short"),
+            ("imposed_delay", "cbase!80", "white", "delay a deployment imposed"))
     L: list[str] = []
     w = L.append
     L += PREAMBLE
@@ -201,12 +202,12 @@ def emit_tab58(s55: dict) -> str:
     w("%   the model pooled over its four profiles). Do not hand-edit; regenerate.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[The cost of each condition, on both sides]{The attacker's effort per host it manages to reach, and the defender's reconfiguration burden, for each condition and each attacker at the inherited interval. The attacker-side columns are counts of events rather than durations, which is what makes them comparable across two attackers that price time differently; the defender-side columns are derived from the simulator's own record of when each mutation was executing and are priced identically on both arms. The intention is to report both sides of the exchange on one page, and to state plainly which quantities may be compared across attackers and which may not.}")
+    w(r"  \caption[The cost of each condition, on both sides]{The attacker's effort per host it manages to reach, and the defender's reconfiguration burden, for each condition and each attacker at the inherited interval. The attacker-side columns are counts of events rather than durations, which is what makes them comparable across two attackers that price time differently; the defender-side columns are derived from the simulator's own record of when each deployment was executing and are priced identically on both arms. A defence costs the attacker more as the first two columns rise, and costs the defender more as the third does. The intention is to report both sides of the exchange on one page, and to state plainly which quantities may be compared across attackers and which may not.}")
     w(r"  \label{tab:eff-cost}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
-    w(r"  \begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{3.2cm}>{\centering\arraybackslash}p{3.2cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.0cm}@{}}")
+    w(r"  \begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{3.2cm}>{\centering\arraybackslash}p{3.2cm}>{\centering\arraybackslash}p{2.6cm}@{}}")
     w(r"    \toprule")
-    w(r"    & Condition & Actions per host reached & Successes per host reached & Share of run under reconfiguration & Mutations per 1\,000\,s \\")
+    w(r"    & Condition & Actions per host reached & Successes per host reached & Share of run under reconfiguration \\")
     w(r"    \midrule")
     cost = s55["by_interval"]["200"]["cost"]
     conds = ("none",) + DEFENDED
@@ -218,14 +219,14 @@ def emit_tab58(s55: dict) -> str:
             # multirow's vertical fixup rather than through the macro
             group = (r"\multirow{-%d}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{%s}}}}" % (len(conds), LABEL[arm])
                      if i == len(conds) - 1 else "")
-            w("    %s & %s & %s & %s & %s & %s \\\\" % (
+            w("    %s & %s & %s & %s & %s \\\\" % (
                 group, LONG[c],
                 _ratio(d["actions_per_host_celltotal"], d["actions_per_host_celltotal_ci"]),
                 _ratio(d["successes_per_host_celltotal"], d["successes_per_host_celltotal_ci"]),
-                pm(d["occupancy"], 2), pm(d["execs_per_ksec"], 1)))
+                pm(d["occupancy"], 2)))
         w(r"    \midrule" if arm == "baseline" else r"    \bottomrule")
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Actions and successes per host are cell totals (all attempted actions, or all successes, over all hosts reached in the 100 runs, or 400 for the pooled model) with a seeded bootstrap interval, so a run that reaches one host does not dominate; a success is a verdict of success on the model and a compromise event on the baseline attacker, whose record carries no other verdict. The reconfiguration share is the union of the mutation execution windows over the run's elapsed time, mean $\pm$ 95\,\% interval; mutations per 1\,000\,s is the executed count over elapsed time. Time-denominated attacker-side quantities are not comparable across arms and are not in this table.}\\")
+    w(r"    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Actions and successes per host are cell totals (all attempted actions, or all successes, over all hosts reached in the 100 runs, or 400 for the pooled model) with a seeded bootstrap interval, so a run that reaches one host does not dominate; a success is a verdict of success on the model and a compromise event on the baseline attacker, whose record carries no other verdict. The reconfiguration share is the union of the deployment windows over the run's elapsed time, mean $\pm$ 95\,\% interval. Time-denominated attacker-side quantities are not comparable across arms and are not in this table.}\\")
     w(r"  \end{tabular}")
     w(r"\end{table}")
     return "\n".join(L) + "\n"

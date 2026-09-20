@@ -2488,3 +2488,47 @@ it); the name *time lost to the defence*; the "why new metrics" sentence slot
 (AK10.5); the direction clause owed to §5.5's opening; tab 5.5a's *Mutations per
 1 000 s* column (AK8). The footnote row takes the zebra shading, as Table 5.2's
 does; a house-style matter for both tables, not touched.
+
+### AK12 — Fourth round: the dagger, blocked fraction settled, floats standardised (2026-09-20)
+
+**Marc:** the footnote reads oddly ("you'd imagine they're all compared between
+the two attackers … it forms part of your work"); the name is **time lost to
+MTD**; draft the why-new-metrics sentence; refine the descriptions as the
+session sees fit; standardise across the existing floats, including the tempo
+column of what he had not known was a table (it is Table 5.8, `tab_5-5a`).
+
+1. **The dagger now says what is true and simpler:** the three rows are
+   *reported for the movement attacker only*. He is right that everything else
+   is compared across the attackers, which is exactly why the three that are not
+   need the mark; "not compared" made it sound like a choice. It is a fact of
+   the record: no float reports delay to first compromise, blocked fraction or
+   the time split on the baseline arm.
+2. **Blocked fraction, settled on the evidence; restore on Marc's word.** Brown's
+   metric is actions blocked *by an MTD* (extraction B-ATK-07, B-MET-01). In
+   this model that event is an **interrupt**; a *blocked* action is one that
+   fails on a missing precondition, which happens with no defence at all (0.24).
+   So the row is not adapted from Brown's and the cell is now empty, and tab
+   5.4.1a's caption says "what fraction of the attacker's actions fail on a
+   missing precondition" where it said "it blocks". **Flagged, not actioned:**
+   the quantity that *is* Brown's, the share of actions a deployment interrupts,
+   is already counted on both arms (`n_interrupted`, analyse.py:134, 166) and is
+   in no float. It would be a lineage-adapted, cross-attacker effectiveness
+   metric, and §5.4.3 re-runs Brown's claim.
+3. **"Why new metrics"**: one sentence set after the Metrics unit's second,
+   DRAFT STATE, from Marc's spoken version. His "the field normally does this"
+   is not carried: true, but §3.2.2 names ad hoc metrics as the field's primary
+   problem, so the sentence leans on the filing under Table 3.1 instead.
+4. **Direction of good** lands in tab 5.5a's caption, §5.5's prose being a
+   placeholder: "A defence costs the attacker more as the first two columns
+   rise, and costs the defender more as the third does."
+5. **Standardised across the chapter 5 floats:** the tempo column leaves tab
+   5.5a (AK8); *mutation* → *deployment* at all ten live sites in chapter 5 (six
+   captions, fig 5.5b's legend, tab 5.5a's footnote), closing the registry's
+   recorded breach for this chapter. Generators edited and re-run
+   (`ch5_efficiency_figures.py`, `ch5_effectiveness_figures.py`); the diff of
+   every regenerated float is the intended lines only. Not touched: §4.4.1's
+   prose "A mutation that lands during a dwell-only tactic" (Marc's, chapter 4);
+   tab 5.3.1a's *Successes per host*, which is a mean of per-run ratios where
+   tab 5.5a's is a ratio of totals, so one name would hide two estimators.
+
+Build clean at 92 pages; no overfull box in the three tables.

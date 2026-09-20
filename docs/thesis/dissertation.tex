@@ -5721,6 +5721,19 @@ runs are the reference for every effect this chapter reports.
 a defence by, grouped by effectiveness and efficiency as
 Table~\ref{tab:mtd-metrics} groups the field's. Every comparison is made on hosts
 reached, the distinct hosts an attacker compromises.
+Both attackers are instrumented for this chapter: one metric is adapted from
+Brown's evaluation \citep{brown2023} and the others are introduced here, each
+under the quantity of Table~\ref{tab:mtd-metrics} that it measures.
+% DRAFT STATE 2026-09-20 --- session-drafted on Marc's request ("would you dictate
+%  that"), from his own spoken version: "the field normally instruments new
+%  things to measure new things ... to answer our research question we have to
+%  instrument our simulator with new metrics, which we detail in Table 5.3".
+%  "Instrumented" is ch4's word (§4 opener, "we are instrumenting our existing
+%  attacker model"). NOT carried: "the field normally does this" --- it is true
+%  (Alavizadeh, Hong, Masud each define their own) but §3.2.2 names exactly that,
+%  metrics "produced on an ad hoc basis", as the field's primary problem, so
+%  leaning on it argues against the lit review. What answers the ad hoc charge
+%  is the last clause: every new metric is filed under Table 3.1. Ratify on read.
 % 2026-09-20: "host breadth" -> "hosts reached", Marc's ruling that the results
 %  floats' names win (handoff §AK8); Table 5.3 rebuilt the same day (§AK--§AK11).
 % SECOND PASS 2026-09-18, on Marc's read of the first one. Two sentences, 37
@@ -6344,7 +6357,7 @@ that Section~\ref{sec:effectiveness} reports against.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-3-2a_adaptivity}
-  \caption[How the attacker's activity changes after a mutation]{The mix of activities in the five visits immediately before and the five immediately after each defensive interrupt, pooled over the runs of the four profiles, with a control in which the attacker's routing is made blind to the outcome its actions return. The panels are the two mechanisms that span how a defence reaches this attacker, one that destroys its position and one that re-rolls the surface it exploits, each at two tempos, because a response that exists at one interval only is a property of the interval. Only a mutation that interrupted a visit is paired, since one the attacker never collided with leaves no trace in its record. The comparison isolates whether a change in behaviour is a response to the disruption or drift that would have happened anyway. The intention is to show the adaptive loop operating, and to be explicit that operating is a weaker claim than changing an outcome.}
+  \caption[How the attacker's activity changes after a deployment]{The mix of activities in the five visits immediately before and the five immediately after each defensive interrupt, pooled over the runs of the four profiles, with a control in which the attacker's routing is made blind to the outcome its actions return. The panels are the two mechanisms that span how a defence reaches this attacker, one that destroys its position and one that re-rolls the surface it exploits, each at two tempos, because a response that exists at one interval only is a property of the interval. Only a deployment that interrupted a visit is paired, since one the attacker never collided with leaves no trace in its record. The comparison isolates whether a change in behaviour is a response to the disruption or drift that would have happened anyway. The intention is to show the adaptive loop operating, and to be explicit that operating is a weaker claim than changing an outcome.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -6604,7 +6617,7 @@ under both attackers on this one simulator.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-4-1a_suppression_profiles}
-  \caption[How much each defence suppresses each profile]{The reduction in hosts reached under each defence condition relative to the no-defence reference, for every profile, at each mutation interval. Panels~(a) and~(c) are the single mechanisms and panels~(b) and~(d) the schemes that deploy several together, separated so that every condition stays legible, with the profile colours of Section~\ref{sec:attacker-in-operation}; whiskers are 95\,\% bootstrap intervals on the ratio of means. The intention is to establish which defences reach this attacker at all, and whether the answer depends on which operational objective the attacker is pursuing, before the comparison against the inherited attacker is attempted.}
+  \caption[How much each defence suppresses each profile]{The reduction in hosts reached under each defence condition relative to the no-defence reference, for every profile, at each deployment interval. Panels~(a) and~(c) are the single mechanisms and panels~(b) and~(d) the schemes that deploy several together, separated so that every condition stays legible, with the profile colours of Section~\ref{sec:attacker-in-operation}; whiskers are 95\,\% bootstrap intervals on the ratio of means. The intention is to establish which defences reach this attacker at all, and whether the answer depends on which operational objective the attacker is pursuing, before the comparison against the inherited attacker is attempted.}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
@@ -6680,7 +6693,7 @@ under both attackers on this one simulator.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-4-2a_cross_arm}
-  \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the inherited scripted attacker and once against the attacker model, on the same network under identical conditions, single mechanisms in panels~(a) and~(c) and deployment schemes in panels~(b) and~(d), at each mutation interval. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
+  \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the inherited scripted attacker and once against the attacker model, on the same network under identical conditions, single mechanisms in panels~(a) and~(c) and deployment schemes in panels~(b) and~(d), at each deployment interval. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -6786,7 +6799,7 @@ spends.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-5a_frontier}
-  \caption[What each defence achieves against what it costs to run]{Each defence placed by the suppression it achieves against the proportion of the run its own reconfiguration occupies, with both attackers shown and every marker labelled with its mechanism, at each mutation interval. The horizontal axis is derived entirely from the simulator's record of when each mutation was executing, so unlike attacker-side time it is priced identically on both arms and the two can be compared directly. The intention is to let a mechanism be judged on what it buys for what it spends rather than on effect alone, and to show whether the shape of that trade depends on which attacker is assumed.}
+  \caption[What each defence achieves against what it costs to run]{Each defence placed by the suppression it achieves against the proportion of the run its own reconfiguration occupies, with both attackers shown and every marker labelled with its mechanism, at each deployment interval. The horizontal axis is derived entirely from the simulator's record of when each deployment was executing, so unlike attacker-side time it is priced identically on both arms and the two can be compared directly. The intention is to let a mechanism be judged on what it buys for what it spends rather than on effect alone, and to show whether the shape of that trade depends on which attacker is assumed.}
   \label{fig:eff-frontier}
 \end{figure}
 
@@ -6802,7 +6815,7 @@ spends.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-5b_time_split}
-  \caption[How a defence changes where the attacker's time goes]{The attacker model's elapsed time under each defence condition, at each interval, divided into activity that ran to completion, activity a mutation cut short before it could return an outcome, and the delay the mutation then imposed, with segment values printed since a stacked bar is otherwise hard to read across conditions. The decomposition is drawn for the attacker model only: the delay a mutation imposes is not written to the inherited attacker's records, so its time cannot be split the same way, and the cross-arm comparison is made event-wise in Table~\ref{tab:eff-cost}. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
+  \caption[How a defence changes where the attacker's time goes]{The attacker model's elapsed time under each defence condition, at each interval, divided into activity that ran to completion, activity a deployment cut short before it could return an outcome, and the delay the deployment then imposed, with segment values printed since a stacked bar is otherwise hard to read across conditions. The decomposition is drawn for the attacker model only: the delay a deployment imposes is not written to the inherited attacker's records, so its time cannot be split the same way, and the cross-arm comparison is made event-wise in Table~\ref{tab:eff-cost}. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
   \label{fig:eff-cost-decomposition}
 \end{figure}
 
