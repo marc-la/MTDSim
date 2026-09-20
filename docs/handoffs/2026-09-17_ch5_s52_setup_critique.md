@@ -2558,3 +2558,16 @@ here, which are outlined in Table 5.3." The session's ending is dropped on his
 ruling that the quantity is not to be referred to as a concept. Noted in the
 source: the unit's first sentence already names Table 5.3. Build clean at 92
 pages, no overfull box.
+
+### AK15 — Table 5.2's footnote, removed (2026-09-20)
+
+Marc, reading Table 5.2 beside 5.3: the footnote "doesn't really add much" —
+that the durations are inherited, that the attacker model's inputs are at Table
+5.1's values, and the version pins are each "detailed above". Checked: v19.1 is
+stated in chapters 3 and 4 and the appendices, the weight-set appendix is cited
+from §4.3–§4.4, and Table 5.1 is the section before. **Footnote and dagger
+removed**; the one attribution a reader could not recover, Zhang's for the
+deployment durations, stays as a citation in its row. Both §5.2 tables now carry
+no footnote. **Flagged:** with the footnote gone, the tactic-to-verb mapping
+appendix (`app:controller-mapping`) is referenced from no live text; §4.4.3 is
+the natural place for the pointer, Marc's prose. Build clean at 92 pages.

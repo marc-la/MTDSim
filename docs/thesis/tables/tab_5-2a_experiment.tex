@@ -50,6 +50,12 @@
 % now matches run_corpus.py build_jobs (objective is fully crossed). Values are
 % malleable while the experiments solidify; 60 000 s left out until it is built.
 % Everything above this note is the 2026-09-18 record, kept for the trail.
+% 2026-09-20 (Marc): the FOOTNOTE IS GONE --- "it doesn't really add much": that
+% the durations are inherited, that the inputs are at Table 5.1's values and the
+% version pins are all stated above (§5.1, ch4, the appendices). What survives is
+% the one attribution a reader could not recover, Zhang's, as a citation in the
+% row it belongs to. NOTE: with the footnote gone, Appendix app:controller-mapping
+% is referenced from no live text.
 \begin{table}[htbp]
   \centering
   \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, objective, condition and deployment interval are run in every combination; the interval distribution is varied at the 200\,s interval under the targeted objective.}
@@ -71,12 +77,10 @@
     & Condition & no defence; each of the seven defence mechanisms alone; the random execution scheme; the alternative execution scheme \\
     & Deployment interval & 200\,s; 2\,000\,s \\
     & Interval distribution & quasi-periodic; exponential, same mean \\
-    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration\textsuperscript{\dag} & complete topology shuffle 110\,s, host topology shuffle 100\,s, IP shuffle 100\,s, OS diversity 80\,s, port shuffle 70\,s, service diversity 70\,s, user shuffle 20\,s \\
+    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration \citep{zhang2023} & complete topology shuffle 110\,s, host topology shuffle 100\,s, IP shuffle 100\,s, OS diversity 80\,s, port shuffle 70\,s, service diversity 70\,s, user shuffle 20\,s \\
     \midrule
     & Run length & 15\,000\,s \\
     \multirow{-2}{*}[-0.17cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Seeds & 1\,000 per combination, the same set on every arm \\
     \bottomrule
-    \addlinespace[2pt]
-    \multicolumn{3}{@{}p{0.96\textwidth}@{}}{\scriptsize \textsuperscript{\dag}~inherited from the simulator \citep{zhang2023}. The attacker model's inputs are at the declared values of Table~\ref{tab:parameter-register}. Versions: the partial tactic-to-verb mapping (Appendix~\ref{app:controller-mapping}); the failure-only weight set (Appendix~\ref{app:weight-sets}); ATT\&CK Enterprise v19.1.}\\
   \end{tabular}
 \end{table}
