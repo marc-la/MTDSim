@@ -2220,3 +2220,20 @@ breadth" and the floats say "hosts reached".
    *network-state change*.
 9. Direction of good: a column, or one clause in the caption ("a defence does
    better as the effectiveness metrics … "). Alavizadeh's form is a clause.
+
+### AJ8 — Marc's rulings on AJ7, and the structure proposed (2026-09-20)
+
+Rulings: (1) one value column, trimmed — yes. (2) Interval distribution stays;
+the values are malleable while the experiments solidify, the structure is what
+is being fixed. (3) Run length likewise: one value now, a list if the longer run
+is built. (4) **Deployment durations stay in this table** (overturns AJ3's
+recommendation): that a deployment takes time is a setting a replicator needs
+here. (5) Adaptive selector row dropped. (6) Caption's design sentence corrected.
+
+Structure: `Parameter · Value`, four row groups in the prose units' order
+(Network, Attacker, Defence, Runs). Within a group the varied rows come first.
+A varied row lists its levels separated by semicolons; a held row carries one
+value (the seven durations are one held value per mechanism, comma-separated
+and named, so they cannot be read as levels). The caption names which rows form
+the grid. Footnote: inherited marks, version pins, the pointer to Table 5.1.
+The specimen is in the chat return of the same date; not applied to the tex.
