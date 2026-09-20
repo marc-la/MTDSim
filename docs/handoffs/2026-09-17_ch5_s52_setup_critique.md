@@ -2298,3 +2298,80 @@ five columns): 1.9 · 2.6 · 4.4 · 1.3 · 2.0. To be built and measured at fill
 Still Marc's: *Read from* or *Side*; whether *Runs with no compromise* and
 *Successes per host reached* are declared here or dropped from the floats; a
 name for the time split; AK7.8; AK7.9 (direction of good, a caption clause).
+
+### AK9 — Second round of rulings, and the filled proposal (2026-09-20)
+
+**Marc:** the structure is fine; the worry is "trying to fit too much in too
+little". *Read from* is doubted ("it's kind of implicit in the name"). The two
+undeclared quantities are declared. He does not know what the time split is,
+asks whether the Measures cell of the reconfiguration row matters, and asks what
+a direction of good would say.
+
+1. ***Read from* goes.** He is right on merit: *actions per host reached* and
+   *share of run under reconfiguration* say whose they are, which is one more
+   thing the floats' plainer names bought. Perspective is kept at no cost, by
+   order: within a Measures group the attacker-side rows come first, as Table
+   3.1's columns do. **Four columns**, which is also the answer to the cramming
+   worry: the definition gets about 5.6 cm against 4.4.
+2. **The guard against it getting out of hand:** one quantity per row; a
+   definition is at most two set lines (about fourteen words) and carries no
+   reason, no caveat and no result; anything else is the footnote's or §5.4's.
+   Ten rows at two lines is the footprint of the present table (283 pt).
+3. **The reconfiguration row stays under *resource spent*.** It matters little
+   and the simpler filing is defensible: Table 3.1's defender-side cell there is
+   "defence cost and system performance overhead", which a share of the run
+   spent reconfiguring is. It also leaves Efficiency as one Measures group.
+4. **The time split, plainly.** Fig. 5.5b divides the movement attacker's run
+   into three shares: activity that ran to completion, activity a deployment cut
+   short before it returned anything, and the delay the deployment then imposed
+   (`analyse.py:559–577`). Two of the three are time the defence took from the
+   attacker, so the quantity that judges a defence is their sum, and the figure
+   is its breakdown. Proposed name, since no float names it: **time lost to the
+   defence**. Movement arm only: the inherited attacker's records do not carry
+   the imposed delay (fig 5.5b's caption).
+5. **Direction of good.** It would say, per metric, which way favours the
+   defence. It is not always obvious: *actions per host reached* is better for
+   the defence when higher, *share of run under reconfiguration* when lower, and
+   both sit in one group. Cheapest honest form: an arrow after the metric's name
+   and one caption sentence decoding it (conventions §b2). No column.
+
+**Two errors caught while filling, both in the current table.**
+
+- **Suppression is a proportional reduction, not a difference.**
+  `analyse.py:227`: 1 − mean(condition) / mean(no defence), on the ratio of
+  means. AK6's draft cell ("less") was wrong, and the current table's "its
+  suppression against no defence" does not say which.
+- **Blocked fraction is not what Table 5.3 says it is. Verify, Marc's
+  disposition.** The table defines it as "the share of the attacker's actions a
+  deployment interrupts". `measures.py:294` computes the share of attempted
+  actions *the simulator refused on an unmet precondition*, and the ledger keeps
+  `n_blocked` and `n_interrupted` as separate counts. The evidence that they are
+  different things is in tab 5.4.1a: blocked fraction is 0.24 **under no
+  defence**, where nothing can be interrupted. A defence raises it by removing
+  preconditions. Whether it is still "adapted from" Brown's *attack actions
+  blocked* (actions blocked by an MTD operation) is open for the same reason.
+
+**The filled proposal** (not set in tex; ratify the cells first):
+
+| | Measures | Metric | Definition | Adapted from |
+|---|---|---|---|---|
+| Effectiveness | success events | Target reached ↓ | the share of runs in which a database host is compromised | |
+| | | Runs with no compromise ↑ | the share of runs in which no host is compromised | |
+| | | Blocked fraction† ↑ | the share of attempted actions refused because a precondition was not met | attack actions blocked (Brown) — *verify* |
+| | attacker time | Delay to first compromise† ↑ | the time to the first host compromised, over the runs that compromise one | |
+| | system state | Hosts reached ↓ | the number of distinct hosts compromised in a run | |
+| | | Suppression ↑ | the proportional reduction in mean hosts reached, against no defence | |
+| Efficiency | resource spent | Actions per host reached ↑ | the actions attempted for each distinct host compromised | attempts required (Brown) |
+| | | Successes per host reached ↑ | the successful actions for each distinct host compromised | |
+| | | Time lost to the defence† ↑ | the share of the run spent on actions a deployment cut short, and in the delay it imposed | |
+| | | Share of run under reconfiguration ↓ | the share of the run during which a mechanism is deploying | |
+
+Caption: "The metrics this chapter judges a defence by, under the purposes and
+measures of Table 3.1. An arrow marks the direction that favours the defence."
+Footnote: † not compared across the two attackers — the inherited attacker
+records neither blocked actions nor imposed delay, and the two price time
+differently.
+
+Owed before the tex: Marc's read of the ten definitions; the blocked-fraction
+disposition; the name *time lost to the defence*; then set, build and measure,
+and bring §5.2's second sentence ("host breadth") and FLOATS.md into line.
