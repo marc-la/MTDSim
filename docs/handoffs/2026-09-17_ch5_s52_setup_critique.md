@@ -2532,3 +2532,15 @@ column of what he had not known was a table (it is Table 5.8, `tab_5-5a`).
    tab 5.5a's is a ratio of totals, so one name would hide two estimators.
 
 Build clean at 92 pages; no overfull box in the three tables.
+
+### AK13 — Fifth round (2026-09-20)
+
+Marc's read of AK12. (1) **The dagger and its footnote are gone**: "it's
+inconsequential, I don't need to make the distinction" — which attacker a float
+reports is visible on the float. (2) **The why-new-metrics sentence loses its
+counts**: "it's the idea; the facts live in the table". (3) **The direction
+clause in tab 5.5a's caption is removed**: "reads like a riddle", and a caption
+that points at columns by ordinal is hard to follow. Direction is encoded where
+he first asked for it, in the definition, and only in the two rows where it is
+not self-evident: "…; more is a costlier attack". (4) §4.4.1's "a mutation that
+lands…" stays as it is. Build clean at 92 pages.

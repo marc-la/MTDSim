@@ -103,6 +103,10 @@
 % "Time lost to MTD" is Marc's name (2026-09-20), over the session's "time lost
 %   to the defence"; no float names
 %   the quantity (fig 5.5b draws its two parts). Ratify on read.
+% 2026-09-20 third pass (Marc): the dagger and its footnote are GONE --- "it's
+% inconsequential, I don't need to make the distinction"; which attacker a float
+% reports is visible on the float. Direction of good is encoded in the two
+% definitions where it is not self-evident, and nowhere else.
 \begin{table}[htbp]
   \centering
   \caption[The metrics]{The metrics this chapter judges a defence by, under the purposes and measures of Table~\ref{tab:mtd-metrics}. \emph{Adapted from} names the metric of an earlier evaluation on this simulator that a row renormalises; where it is empty the metric is introduced here.}
@@ -114,17 +118,15 @@
     \midrule
     & success events & Target reached & the share of runs in which the attacker meets the targeted objective (Table~\ref{tab:attacker-objectives}): a database host compromised & \\
     & & Runs with no compromise & the share of runs in which the attacker never compromises its first host & \\
-    & & Blocked fraction\textsuperscript{\dag} & the share of the attacker's actions that fail on a missing precondition (Section~\ref{subsec:runtime-mechanics}) & \\
-    & attacker time & Delay to first compromise\textsuperscript{\dag} & the time from the start of a run to the first host compromised, over the runs that compromise one & \\
+    & & Blocked fraction & the share of the attacker's actions that fail on a missing precondition (Section~\ref{subsec:runtime-mechanics}) & \\
+    & attacker time & Delay to first compromise & the time from the start of a run to the first host compromised, over the runs that compromise one & \\
     & system state & Hosts reached & the number of distinct hosts compromised by the end of a run & \\
     \rowgroup{6}{Effectiveness} & & Suppression & the fraction of hosts reached that a defence removes, $1 - \bar{H}_{\mathrm{defence}} / \bar{H}_{\mathrm{no\ defence}}$: 0 for no effect, 1 for no host reached & \\
     \midrule
-    & resource spent & Actions per host reached & the actions the attacker attempts for each distinct host it compromises & attempts required \citep{brown2023} \\
-    & & Successes per host reached & the actions that succeed for each distinct host compromised & \\
-    & & Time lost to MTD\textsuperscript{\dag} & the share of the run spent on actions a deployment interrupts, and in the delay that follows each interrupt & \\
+    & resource spent & Actions per host reached & the actions the attacker attempts for each distinct host it compromises; more is a costlier attack & attempts required \citep{brown2023} \\
+    & & Successes per host reached & the actions that succeed for each distinct host compromised; more is a costlier attack & \\
+    & & Time lost to MTD & the share of the run spent on actions a deployment interrupts, and in the delay that follows each interrupt & \\
     \rowgroup{4}{Efficiency} & & Share of run under reconfiguration & the share of the run during which a defence mechanism is deploying & \\
     \bottomrule
-    \addlinespace[2pt]
-    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize \textsuperscript{\dag}~reported for the movement attacker only: the baseline attacker's record carries neither a failed precondition nor the delay an interrupt imposes, and time is not priced alike on the two.}\\
   \end{tabular}
 \end{table}
