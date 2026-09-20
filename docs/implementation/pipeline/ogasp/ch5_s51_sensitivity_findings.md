@@ -1,5 +1,5 @@
 ---
-status: findings — the §5.1 re-run read 2026-09-17; the four fragments and the appendix figure landed the same day; §5.1's prose is Marc's dictation (overhaul brief D2), owed
+status: findings (2026-09-20: the body section was cut; the table leads Appendix C as tab_C-0a and no §5.1 prose is owed — see the overhaul handoff's Ruling) — the §5.1 re-run read 2026-09-17; the four fragments and the appendix figure landed the same day; §5.1's prose is Marc's dictation (overhaul brief D2), owed
 created: 2026-09-17
 topic: "The §5.1 re-run: chapter 4's three declared inputs, each moved across its band at the chapter's pins (100 seeds, v2_partial, the failure-only overlay, the targeted objective, the quasi-periodic regime, 15 000 s), under no defence and the random scheme at both intervals — what carries the chapter and what does not"
 ---

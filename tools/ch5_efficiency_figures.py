@@ -23,9 +23,9 @@ Usage:
   python tools/ch5_efficiency_figures.py [--numbers PATH] [--no-compile] [--only STEM]
 
 Writes
-  docs/thesis/figures/fig_5-5a_frontier.{tex,pdf}
-  docs/thesis/figures/fig_5-5b_time_split.{tex,pdf}
-  docs/thesis/tables/tab_5-5a_cost.tex
+  docs/thesis/figures/fig_5-4a_frontier.{tex,pdf}
+  docs/thesis/figures/fig_5-4b_time_split.{tex,pdf}
+  docs/thesis/tables/tab_5-4a_cost.tex
 """
 from __future__ import annotations
 
@@ -39,9 +39,9 @@ from _ch5_style import (DEFENDED, FONT, LABEL, LONG, PREAMBLE, REPO, SHORT, TAB_
                         axes, compile_fig, errorbar, fmt_thousands, marker, panel_letter, pm, write_fig)
 
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers.json"
-STEM_F57 = "fig_5-5a_frontier"
-STEM_F58 = "fig_5-5b_time_split"
-STEM_T58 = "tab_5-5a_cost"
+STEM_F57 = "fig_5-4a_frontier"
+STEM_F58 = "fig_5-4b_time_split"
+STEM_T58 = "tab_5-4a_cost"
 INTERVALS = ("200", "2000")
 ARMS = (("baseline", "cbase", "square"), ("movement", "cmov", "circle"))
 

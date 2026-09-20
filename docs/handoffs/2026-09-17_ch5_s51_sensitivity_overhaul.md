@@ -1,5 +1,5 @@
 ---
-status: RE-RUN LANDED 2026-09-17 (33 000 runs, zero errors, centre identical to the defended corpus); the four fragments, the App. C.1 figure, the App. C leads and the §5.1 skeleton are in the tex; findings record ch5_s51_sensitivity_findings.md. OWED: Marc's acceptance of the three ch4 insertions (comment blocks in place); the §5.1 dictation (three paragraphs, D2, the findings record §7 is the content); the caption voice passes; the re-launch at a thousand seeds when the defended corpus moves (findings §8); a one-clause §5.1 pointer in the redrafted §5.2 if Marc wants one (the redraft carries none)
+status: RULED 2026-09-20 — the body section is CUT; the table leads Appendix C; chapter 5 opens on the experimental setup (see "Ruling" at the foot). OWED: Marc's exposure sentence (results or sec:fidelity-verdict) and the setup pointer clause, both marked in the tex; the analyser's suppression figures with intervals; the Appendix C table re-cut (third cut T4 grammar, deferred by Marc); the thousand-seed re-launch (findings §8). D1–D7, the second cut's slots and T4's position and prose proposals are superseded by the ruling
 created: 2026-09-17
 owner: Marc (rulings, prose); session (re-run, fragments, placements)
 supersedes: ch5 design handoff §3.2 (the re-run), §19 (the first cold read) and §20 (the second) — those sections are the diagnosis; this is the executing brief
@@ -553,3 +553,219 @@ term's, one section later, where they are already load-bearing.
 4. The session regenerates Table 5.1 from `analyse.py` in the new grammar
    (the collapse is an analyser change, not a re-run) and re-cuts the caption.
 5. D6's downstream re-cuts, the build check, `FLOATS.md`, this handoff deleted.
+
+---
+
+# Third cut, 2026-09-20 — why two cuts produced no section, and the restructure proposed
+
+Marc's read of the placeholder and Table 5.1 this session: the three groups and
+the inputs inside them are fine; the columns *Declared / Moved across / What
+moved* do not make sense to an average computer science reader; what the table
+communicates is "there are three things, they put a lot of things in and ran
+some numbers"; the caption is too heavy. He asked for a top-down answer: what
+the section is for to that reader, how the field goes about it, what the table
+carries that text cannot. Nothing below is applied; every item is a
+recommendation for Marc to rule on. Where it overturns an earlier ruling or a
+convention-file rule, it says so.
+
+## T1. Diagnosis — five faults, the first three not named before
+
+1. **The question and the test do not match.** Both earlier cuts state the
+   question as *does any conclusion of this chapter depend on a chosen value*,
+   and then test something else: whether the *level* of hosts reached leaves
+   the confidence interval at the chosen value. No cut ever lists the
+   conclusions. The chapter's conclusions are comparisons (what a defence does
+   to the attacker against no defence; one interval against the other), and a
+   level can move a long way while a comparison holds, or the reverse. The
+   reader is promised an answer about conclusions and handed a column about
+   levels, which is why the last column reads as "some numbers".
+2. **The inert/moved verdict is an artefact of the seed count.** Findings §2
+   records it: at ten seeds three dwell families were inert, at a hundred one
+   is. At the thousand seeds the thesis reports, the interval shrinks by
+   another factor of three and the exploit-shaped family (0.2 hosts per
+   doubling) and the largest decay shift (0.18 hosts) will very likely read
+   *moved* as well. A verdict that flips with the run count cannot be the
+   table's content. The size of the effect is stable across seed counts; the
+   verdict is not. The second cut half-saw this (one unit, hosts per doubling)
+   and kept the criterion in ¶1 anyway.
+3. **The table is a register, and a register serves the author.** Its design
+   rule is `evaluation_conventions.md` §c's *every declared parameter is
+   listed; one register, both kinds of row*. That rule is this repo's own
+   inference from the corpus, not a practice in it: the corpus's good papers
+   name what they did not vary **in a clause of prose** (Hong, Bland, Kim),
+   never as table rows. Forcing a comparison, a structural zero and a hold
+   into the same columns as a numeric range is what produced *Moved across:
+   forced total* and *What moved: ---*. **Overturned on merit:** the table
+   holds only what was varied numerically; what was not varied is one
+   sentence.
+4. **The columns narrate a procedure** (declared → moved across → what moved),
+   the second cut's own finding, kept here. A reader does not want the
+   author's steps; they want to run an eye down one column and see which row
+   is different.
+5. **The process built apparatus instead of sentences.** Three paragraph
+   tables, fifteen slots with a must-not list each, a banned-word grep and a
+   validation gate, and no sentence. A section written against fifteen
+   prohibitions reads like one. The slot file is superseded by T4 below,
+   which is six content points.
+
+## T2. What the reader is doing with this section
+
+The reader is a computer science student who has read the results: the
+movement attacker reaches about eight hosts undefended and about two under the
+random scheme at the 200 s interval. They remember from chapter 4 that some of
+the model's values were chosen by judgement. They want three things, in this
+order, and nothing else:
+
+1. **Which of the chosen values matter?** (One does.)
+2. **By how much would the reported numbers change if it were wrong?** (A
+   range they can hold in their head.)
+3. **Would the chapter's conclusions change?** (Which do, which do not.)
+
+That is also what the field's sensitivity analyses deliver when they are good
+(conventions §c): one input at a time over a stated range, the rest at their
+table values; the output at each end; what was not varied, in a clause. The
+wider simulation literature's standard display for exactly this is the
+low-end / chosen / high-end comparison per input, sorted by the size of the
+swing.
+
+## T3. The number the earlier cuts did not compute
+
+Read from `numbers.json` this session (four profiles pooled, 400 runs per
+cell). Suppression is one minus hosts reached under defence over hosts reached
+under no defence, at the same input value:
+
+| Input moved | End | No defence | 200 s | suppression | 2 000 s | suppression |
+|---|---|---|---|---|---|---|
+| (all at chosen values) | | 8.1 | 2.1 | 75 % | 7.4 | 9 % |
+| scan-shaped | ×0.5 / ×2 | 8.6 / 7.3 | 2.7 / 1.5 | 69 / 80 % | 8.2 / 6.3 | 5 / 14 % |
+| exploit-shaped | ×0.5 / ×2 | 8.3 / 7.9 | 2.2 / 1.9 | 74 / 76 % | 7.7 / 7.4 | 7 / 7 % |
+| **low-and-slow** | ×0.25 / ×4 | 13.4 / 3.0 | 7.5 / 0.3 | **44 / 89 %** | 14.7 / 2.0 | **−10 / 32 %** |
+| objective | ×0.5 / ×2 | 8.5 / 7.4 | 2.3 / 1.7 | 73 / 77 % | 8.4 / 6.6 | 2 / 10 % |
+
+What this licenses, and no more (measurement, not attribution): the *size* of
+the defence's effect is exposed to the low-and-slow dwell — the 200 s figure
+runs from 44 % to 89 % across that one family's band, and stays within 69–80 %
+for every other input. The *ordering* holds at every point tested: the 200 s
+interval suppresses strongly and the 2 000 s interval weakly or not at all.
+The −10 % cell (14.7 ± 0.7 against 13.4 ± 0.7) has intervals that touch; it is
+not a claim that the defence helps the attacker. No interval has been
+computed on the suppression figures themselves; the analyser owes one before
+any of these reach the tex. The sweep ran the random scheme only, so nothing
+here speaks to the ranking of single mechanisms, and the section must say so.
+
+This is the section's payload. It answers reader questions 2 and 3 in one
+sentence each, and it is what the "selection sentence" of the earlier cuts was
+reaching for without the number.
+
+## T4. The restructure proposed
+
+**Position — after the results, not before the setup (overturns D1 and the
+2026-09-17 position ruling).** A reader cannot care that 8.1 becomes 13.4
+before they know 8.1 is the result. §5.1 as first section uses the network,
+the defence conditions, the measure and the run count before §5.2 declares
+them; the second cut spent a whole section ("the measure §5.1 reads") patching
+that. The earlier reason for going first — §5.2 opens by picking up what §5.1
+selected — no longer exists: the §5.2 that went through pass 6 refers to §5.1
+nowhere. Outkin's titled section, the corpus's only one, sits inside the
+results. Recommended: the chapter's last section. Fallback if Marc keeps it
+early: directly after §5.2, never before it. Labels are symbolic, so the move
+costs a renumbering of float stems and `FLOATS.md`; chapter 4's forward
+references stand as written.
+
+**The table — one grammar, numbers only.**
+
+| Input | Chosen value | Range tested | Hosts reached, no defence | Hosts reached, 200 s | Suppression at 200 s |
+|---|---|---|---|---|---|
+| *all at chosen values* | | | 8.1 | 2.1 | 75 % |
+| low-and-slow dwell | 45 s | ×0.25 to ×4 | 13.4 to 3.0 | 7.5 to 0.3 | 44 to 89 % |
+| scan-shaped dwell | 35 s | ×0.5 to ×2 | 8.6 to 7.3 | 2.7 to 1.5 | 69 to 80 % |
+| objective dwell | 36 s | ×0.5 to ×2 | 8.5 to 7.4 | 2.3 to 1.7 | 73 to 77 % |
+| exploit-shaped dwell | 4.5 s | ×0.5 to ×2 | 8.3 to 7.9 | 2.2 to 1.9 | 74 to 76 % |
+| distribution of the dwell | exponential | less variable, same mean | *from numbers.json* | | |
+| distance rate | 0.25 | 0.1 to 0.5 | | | |
+| distance floor | 0.1 | 0 to 0.1 | | | |
+
+Rows sorted by the size of the swing, largest first, under a reference row.
+Every cell in the last three columns is the same kind of thing, so the eye
+does the comparison: one row is different and the rest repeat the reference
+row. That is the job the text cannot do, and it is the only job the table is
+given. The 2 000 s columns go to Appendix C. The two distance rates stay one
+row (second cut S4.2, kept). The mapping and the nine rules leave the table.
+Caption, two sentences: what the rows are and how they were produced (one
+input at a time, the rest at their chosen values, four profiles pooled, runs
+per cell); that the first row is the reference. No symbols, no appendix tour,
+no criterion.
+
+A figure of the same content (one horizontal bar per input from low-end to
+high-end value, reference line at 8.1) is the alternative form. Recommended:
+the table, because the suppression column does not fit a bar and is the
+column that matters.
+
+**The mapping is not a sensitivity result, and the section should stop
+presenting it as one.** Swapping the mapping takes hosts reached from 8.1 to
+0.1. Read as sensitivity, that is the largest effect in the study by an order
+of magnitude, and "the alternative under-performs" understates it. Read
+correctly, the alternative is not a plausible value of the same model; it is
+a model that does not work, which chapter 4 and Appendix B.7 already say. It
+is a structural choice with no range, as the nine rules are. One sentence
+covers both: they were not varied, why, and where the one alternative tried
+is reported. Chapter 4's "the mapping is swapped in the sensitivity analysis"
+then wants re-pointing at Appendix B.7 (a chapter 4 edit, Marc's).
+
+**The prose — three paragraphs, six content points.**
+
+| ¶ | Content points |
+|---|---|
+| 1 | (a) Some of the model's values were chosen by judgement (chapter 4); this section reports how far the results move if they are wrong. (b) How: each varied alone over the range chapter 4 gave it, everything else as in the setup table; read on hosts reached, undefended and under the random scheme. |
+| 2 | (c) One input matters: the low-and-slow dwell; the swing in hosts reached, and the direction (longer quiet dwell, fewer hosts in the time limit). Every other input moves the result by under a host. (d) What that does to the chapter's claims: the size of the defence's effect moves with it (the suppression range); the ordering of the two intervals does not. It is also the value with the least behind it, which chapter 4 said. |
+| 3 | (e) Not varied: the mapping and the nine failure rules, structural choices without a range; pointer to B.7. (f) Not tested: single-mechanism rankings and the baseline attacker, which takes none of these inputs. |
+
+No criterion sentence, no inert/moved vocabulary, no method defence. Marc's
+words throughout; the session supplies numbers and runs the pipeline passes.
+
+## T5. What Marc rules on, in order
+
+1. Position: last section of the chapter (recommended), or directly after §5.2.
+2. The table grammar of T4, including dropping the inert/moved verdict and
+   the register rule.
+3. The mapping and the rules leaving the analysis for one not-varied sentence.
+4. Suppression as the section's reading (T3) — and with it an analyser
+   change to emit the suppression figures with intervals. No re-run.
+5. Retiring `2026-09-18_ch5_s51_slot_generator.md` in favour of T4's six points.
+
+If 1–4 are accepted, `evaluation_conventions.md` §c's closing rule is amended
+in the same commit to say what the corpus does (prose clause for what was not
+varied), not what this repo inferred.
+
+---
+
+# Ruling, 2026-09-20 — the section is cut
+
+Marc, on the third cut: a weak section that survives three iterations has a
+root cause, and this one's was a section titled *Sensitivity analysis* with no
+argument to make and no concession it could make that early. The field
+declares the assumption in the model description, which §4.4 does. Ruled:
+
+- The body section goes. Chapter 5 opens on the experimental setup; the
+  roadmap placeholder loses its sensitivity clause.
+- The table moves to the head of Appendix C as it stands
+  (`tab_C-0a_declared_inputs.tex`, label `tab:parameter-register` kept;
+  `[htbp]`; caption tail re-pointed). **Not re-cut now**; T4's table grammar
+  is the brief for when it is.
+- Chapter 4's five pointers and the two dwell-table captions
+  (`tools/dwell_catalogue_tables.py`) go to Appendix C.
+- Against the supervisor's V6 ("a preamble to the results"): V6's own last
+  clause sends sweeps that do not fit the body to an appendix; recorded at V6
+  in the decision register.
+
+Applied the same day; build clean at 90 pages, no undefined reference. The
+slot-generator handoff is deleted with this commit. The body float stems were
+renamed to the new numbering the same day on Marc's go-ahead (old §5.2 to §5.5
+become §5.1 to §5.4: `tab_5-2a` is `tab_5-1a`, `fig_5-5a` is `fig_5-4a`), in
+the files, the tex, the four ch5 generators and `FLOATS.md`. **Handoffs and
+findings records written before 2026-09-20 keep the old section numbers and
+stems**; read them one section down. On the exposure finding (T3): Marc reads
+it as a headline of the results, the gap between no defence and defence, to be
+raised where the results discuss that gap; no separate sentence is owed.
+`evaluation_conventions.md` §c's one-register rule is left as written; the
+setup table's header comment cites it, so amending it is a separate ruling.

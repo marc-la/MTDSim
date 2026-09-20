@@ -20,7 +20,7 @@ activity for the caption; the panel prints its two before→after divergences.
 Usage:
   python tools/ch5_adaptivity_figure.py [--numbers PATH] [--no-compile]
 
-Writes docs/thesis/figures/fig_5-3-2a_adaptivity.{tex,pdf}
+Writes docs/thesis/figures/fig_5-2-2a_adaptivity.{tex,pdf}
 """
 from __future__ import annotations
 
@@ -34,7 +34,7 @@ from _ch5_style import (ACTIVITY, FONT, LONG, PREAMBLE, REPO, axes, compile_fig,
                         fmt_thousands, panel_letter, write_fig)
 
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers.json"
-STEM = "fig_5-3-2a_adaptivity"
+STEM = "fig_5-2-2a_adaptivity"
 PANEL_ORDER = ("ip_shuffle|200", "ip_shuffle|2000", "os_diversity|200", "os_diversity|2000")
 LETTERS = "abcd"
 

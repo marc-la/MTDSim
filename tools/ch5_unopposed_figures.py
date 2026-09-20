@@ -13,9 +13,9 @@ Usage:
   python tools/ch5_unopposed_figures.py [--numbers PATH] [--no-compile]
 
 Writes
-  docs/thesis/figures/fig_5-3-1a_coverage_openings.{tex,pdf}
-  docs/thesis/figures/fig_5-3-1b_divergence.{tex,pdf}
-  docs/thesis/tables/tab_5-3-1a_unopposed_summary.tex
+  docs/thesis/figures/fig_5-2-1a_coverage_openings.{tex,pdf}
+  docs/thesis/figures/fig_5-2-1b_divergence.{tex,pdf}
+  docs/thesis/tables/tab_5-2-1a_unopposed_summary.tex
 
 Style (figure_table_conventions.md §f, §h, §k, §l): TikZ standalone at 12 pt,
 Helvetica (helvet 0.92), packed to the page box (\\textwidth = 455.24 pt) and
@@ -35,9 +35,9 @@ REPO = Path(__file__).resolve().parents[1]
 FIG_DIR = REPO / "docs" / "thesis" / "figures"
 TAB_DIR = REPO / "docs" / "thesis" / "tables"
 NUMBERS = REPO / "data" / "results" / "ch5_s531_unopposed" / "numbers.json"
-STEM_A = "fig_5-3-1a_coverage_openings"
-STEM_B = "fig_5-3-1b_divergence"
-STEM_T = "tab_5-3-1a_unopposed_summary"
+STEM_A = "fig_5-2-1a_coverage_openings"
+STEM_B = "fig_5-2-1b_divergence"
+STEM_T = "tab_5-2-1a_unopposed_summary"
 
 PROFILES = (
     "objective_exfiltration",

@@ -160,7 +160,7 @@ def main() -> None:
         "The evidence column reads: \\emph{priced by MTDSim}, the value is the "
         "simulator's own action cost, inherited and not tuned; \\emph{declared "
         "and swept}, a declared value whose robustness across its band is "
-        "reported in Section~\\ref{sec:sensitivity}; \\emph{declared, off-clock}, "
+        "reported in Appendix~\\ref{app:sensitivity}; \\emph{declared, off-clock}, "
         "no in-simulator dwell at all --- resource development is an immediate "
         "transition in the sense of Section~\\ref{sec:petri-formalism} rather "
         "than a degenerate $\\mathrm{Exp}(0)$. A tactic's dwell is its family's "
@@ -187,7 +187,7 @@ def main() -> None:
         "is the declared band the value may take, in units of its family anchor --- "
         "the band is a \\emph{parameter} declared here, while what happened when "
         "the anchors were moved across their bands is reported in "
-        "Section~\\ref{sec:sensitivity}. The catalogue that carries these values "
+        "Appendix~\\ref{app:sensitivity}. The catalogue that carries these values "
         "is the chapter's Table~\\ref{tab:dwell-catalogue}."
     )
     A = [banner, r"\begin{table}[htbp]", r"\centering", r"\scriptsize",

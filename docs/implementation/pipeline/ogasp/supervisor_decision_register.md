@@ -495,6 +495,13 @@ intractable).
   concern — appendix material, not a swept dimension. Run the sweeps as time
   permits so they are ready in advance; completed sweeps that do not fit the
   body go to an appendix.
+  *Applied 2026-09-20 (Marc):* the titled body section was cut after three
+  structural cuts produced no section; the table of parameters, ranges and
+  effects leads Appendix C (`tab:parameter-register`), chapter 4 points there
+  from each declared input, and chapter 5 opens on the experimental setup. This
+  is the ruling's own appendix clause, not a departure; a pointer clause in the
+  setup is proposed in the tex for Marc. Trail: handoff
+  `2026-09-17_ch5_s51_sensitivity_overhaul.md`, "Third cut" and "Ruling".
 
 - **V7 — Dissertation structure: the inherited simulator moves out of the
   methodology into a background section.** The update's §3.2 (network model,
