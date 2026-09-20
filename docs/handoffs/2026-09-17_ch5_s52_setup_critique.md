@@ -2237,3 +2237,64 @@ value (the seven durations are one held value per mechanism, comma-separated
 and named, so they cannot be read as levels). The caption names which rows form
 the grid. Footnote: inherited marks, version pins, the pointer to Table 5.1.
 The specimen is in the chat return of the same date; not applied to the tex.
+
+### AK8 — Marc's rulings on the read, and the structure proposed (2026-09-20)
+
+**Ruled by Marc:** the floats' names win (*hosts reached*, *actions per host
+reached*, *share of run under reconfiguration* — "those pickups are critical");
+the standardisation against Table 3.1 is accepted as proposed (AK7.2–4);
+*Comparable across* goes (AK7.5). **Headings and structure are to be ruled
+before any cell is filled.** Deployment tempo was left to the session.
+
+**Deployment tempo: out.** The 2 000 s check AK3 asked for, from
+`numbers.json` (`s55/by_interval`): every defended condition reads 5.0–5.2 per
+1 000 s at the 200 s interval and 0.52–0.56 at 2 000 s, on both arms, and no
+defence reads 0. It is one over the interval. It separates no defence from any
+other, so it does not judge one; it is a check that the declared interval was
+delivered. It leaves Table 5.3, and the caption's declared divergence from Table
+3.1 leaves with it. Flagged, not actioned: the same column is still in tab 5.5a,
+where it is ten identical cells per arm and is headed *Mutations*, against the
+ratified *deployment*.
+
+**The structure proposed.** Five columns under the two purpose groups:
+
+| (group) | Measures | Metric | Definition | Read from | Adapted from |
+|---|---|---|---|---|---|
+
+- **(group)** — *Effectiveness* / *Efficiency*, rotated, Table 3.1's row groups
+  in Table 3.1's form.
+- **Measures** — Table 3.1's header and Table 3.1's cells, in Table 3.1's row
+  order (success events, attacker time, system state; resource spent), printed
+  once per run of rows so it reads as a sub-group and not as repetition.
+- **Metric** — the name the results floats use, to the letter.
+- **Definition** — one quantity per row, opening on the noun that fixes the
+  unit ("the number of…", "the share of…", "the time to…"). This replaces the
+  *Unit* column AK5 proposed: six columns leave the definition about 3.3 cm at
+  this text width, which wraps every row to four lines, and a definition that
+  opens on its unit makes the column redundant.
+- **Read from** — *attacker*, *network* or *defence*: Table 5.2's group names,
+  and Table 3.1's perspective axis made concrete (AK4.3). The alternative is
+  Table 3.1's own two words, *attacker-side* / *defender-side*, under a header
+  *Side*; it is the more literal tie and loses the network/defence distinction.
+- **Adapted from** — the lineage metric and its citation where the row
+  renormalises one, empty where the metric is this thesis's. *Adapted* is the
+  true verb for every non-empty cell (a share where Brown has a total; per host
+  where Brown has per compromise).
+
+Rows, names only, ten:
+
+| Group | Measures | Metric |
+|---|---|---|
+| Effectiveness | success events | Target reached · Runs with no compromise · Blocked fraction† |
+| | attacker time | Delay to first compromise† |
+| | system state | Hosts reached · Suppression |
+| Efficiency | resource spent | Actions per host reached · Successes per host reached · Time split† (name owed; fig 5.5b has none) · Share of run under reconfiguration (Measures cell per AK7.8) |
+
+Caption: the title, and one sentence tying *Measures* and the groups to Table
+3.1. Footnote: † read within one attacker arm, with the reason in a clause.
+Widths on the existing table's measured budget (about 12.2 cm of P-columns at
+five columns): 1.9 · 2.6 · 4.4 · 1.3 · 2.0. To be built and measured at fill.
+
+Still Marc's: *Read from* or *Side*; whether *Runs with no compromise* and
+*Successes per host reached* are declared here or dropped from the floats; a
+name for the time split; AK7.8; AK7.9 (direction of good, a caption clause).
