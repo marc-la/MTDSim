@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-20
-updated: 2026-08-20
+updated: 2026-09-08
 ---
 
 # Academic register — the target conventions for the section voice pass
@@ -49,6 +49,12 @@ the working vocabulary has overshot.
    for single-author theses; *I* is licensed where the decision is genuinely
    the author's own ruling. The choice per context is Marc's; the pass
    enforces only consistency with his rulings, never normalises unasked.
+   **Ruled 2026-09-08 (Marc, on §3.3.2 P1):** chapters 1–3 are the
+   objective view and stay impersonal — the agent is *this thesis* /
+   *this section* / the cited authors; *we* is licensed from chapter 4 on,
+   where the thesis's own model is the subject. Quoted *we* inside a
+   citation is exempt. The pass flags a pre-ch4 *we* as a [3b], never
+   normalises it.
 3. **No second person; no imperative address to the reader.**
 4. **Vague quantifiers become numbers, calibrated scopes, or nothing** —
    *a lot of*, *quite*, *pretty*, *really*: the field writes the number

@@ -593,6 +593,34 @@
   url          = {https://attack.mitre.org/resources/updates/updates-october-2020/}
 }
 
+% Ajmone Marsan, Conte & Balbo 1984 — the GSPN's defining paper (ACM
+% TOCS), cited at the first naming of the formalism in §4.3 (2026-09-08).
+% STUB from session knowledge, NOT from a sighted record — VERIFY every
+% field against the ACM DL before submission; on Marc's download list.
+@article{marsan1984,
+  author  = {Ajmone Marsan, Marco and Conte, Gianni and Balbo, Gianfranco},
+  title   = {A Class of Generalized Stochastic {Petri} Nets for the Performance Evaluation of Multiprocessor Systems},
+  journal = {ACM Transactions on Computer Systems},
+  volume  = {2},
+  number  = {2},
+  pages   = {93--122},
+  year    = {1984},
+  doi     = {10.1145/190.191},
+  note    = {VERIFY}
+}
+
+% Ajmone Marsan et al. 1995 — the GSPN book, the "full semantics" pointer
+% beside marsan1984 in §4.3 (2026-09-08). STUB from session knowledge —
+% VERIFY (publisher, series, ISBN) before submission; on the download list.
+@book{marsan1995,
+  author    = {Ajmone Marsan, Marco and Balbo, Gianfranco and Conte, Gianni and Donatelli, Susanna and Franceschinis, Giuliana},
+  title     = {Modelling with Generalized Stochastic {Petri} Nets},
+  publisher = {John Wiley \& Sons},
+  address   = {Chichester},
+  year      = {1995},
+  note      = {VERIFY}
+}
+
 % Cai 2016 — Springer ACA 2016 (CCIS). Publisher record pasted by Marc
 % 2026-08-17; re-keyed from 10.1007/978-981-10-2209-8_16 to cai2016 (the key
 % the .tex cites); abstract stripped per the file convention; all other
@@ -1156,4 +1184,39 @@
   pages   = {2205},
   year    = {2025},
   doi     = {10.3390/electronics14112205}
+}
+
+%% ---- Simulation-methodology sources (repo-backed: docs/sources/methodology/) --
+%% Added 2026-09-13 for §5.1. sargent2011 is the WSC tutorial the repo holds
+%% (sargent2011_vv.md); the commented J. Simulation 2013 stub above is the
+%% other canonical version and stays commented. tenbroeke2016 is the OFAT
+%% recommendation the section names its design by.
+@inproceedings{hoad2007,
+  author    = {Hoad, Kathryn and Robinson, Stewart and Davies, Ruth},
+  title     = {Automating {DES} Output Analysis: How Many Replications to Run},
+  booktitle = {Proceedings of the 2007 Winter Simulation Conference},
+  editor    = {Henderson, S. G. and Biller, B. and Hsieh, M.-H. and Shortle, J. and Tew, J. D. and Barton, R. R.},
+  year      = {2007},
+  pages     = {505--512},
+  doi       = {10.1109/WSC.2007.4419641}
+}
+
+@inproceedings{sargent2011,
+  author    = {Sargent, Robert G.},
+  title     = {Verification and Validation of Simulation Models},
+  booktitle = {Proceedings of the 2011 Winter Simulation Conference},
+  editor    = {Jain, S. and Creasey, R. R. and Himmelspach, J. and White, K. P. and Fu, M.},
+  year      = {2011},
+  pages     = {183--198},
+  doi       = {10.1109/WSC.2011.6147750}
+}
+@article{tenbroeke2016,
+  author  = {ten Broeke, Guus and van Voorn, George and Ligtenberg, Arend},
+  title   = {Which Sensitivity Analysis Method Should {I} Use for My Agent-Based Model?},
+  journal = {Journal of Artificial Societies and Social Simulation},
+  volume  = {19},
+  number  = {1},
+  pages   = {5},
+  year    = {2016},
+  doi     = {10.18564/jasss.2857}
 }

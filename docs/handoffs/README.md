@@ -40,6 +40,54 @@ carried, and `git log` the record of the briefs themselves. The axis-8
 timing-channel re-examination retired the same day in the commits that shipped
 its work (the D-08 regime ruling and the criterion's dated amendment).
 
+- [`2026-09-08_ch4_s43_gspn_formalism.md`](2026-09-08_ch4_s43_gspn_formalism.md)
+  — **§4.3's missing formalism, inventoried**: every element of the executed
+  net mapped onto Marsan's GSPN tuple (places, the timed/immediate gadget,
+  base weights, synthetic overlay, `M0`), the one extension stated as a rule
+  (immediate weights conditioned on the environment's verdict, `w · F_v ·
+  Π_m` renormalised; `F_failure = R · d`; retrace as a history restriction),
+  termination, the parameter and assumption registers for ch5/ch6, and a
+  P2 scaffold. Six rulings owed (R1–R6) before any tex change; four record
+  inconsistencies to amend first. Feeds the ch5 sensitivity design
+  (`2026-09-08_ch5_ch6_structure.md`); blocks the §4.3 P2 redraft.
+
+- [`2026-09-09_ch5_experiments_design.md`](2026-09-09_ch5_experiments_design.md)
+  — **the Experiments chapter designed against the corpus**: a section-level
+  anatomy of 25 MTD-evaluation papers, distilled into
+  [`../workflows/evaluation_conventions.md`](../workflows/evaluation_conventions.md),
+  and the ch5 design that follows — the merged parameter/assumption register
+  (answering the formalism inventory's R6 without spending a unit), the funnel
+  that lets one run set both characterise the attacker and evaluate the defence,
+  the property-to-measurement map the discussion's fidelity table depends on,
+  and eight rulings owed (C1–C8). Depends on the §4.3 formalism brief for R3,
+  which it shows to be load-bearing for the fidelity table rather than a
+  formalism nicety. **Blocked from drafting by the unreproduced headline** (see
+  the note below); nothing else blocks it.
+
+*(Four entries below no longer match `ls docs/handoffs/`, found 2026-09-09 and
+left for their owners rather than rewritten: the headline-on-restored-substrate,
+targeted-objective-diagnosis and ch2-lineage-precedents briefs are now in
+[`__archive/`](__archive/), which this file's own contract puts off the active
+chain; the §4.2 figures/tables/appendix umbrella is gone from the tree
+entirely. The headline brief's substance is unaffected by its move — the
+inversion is still unreproduced and still blocks ch5 prose, which is why the new
+entry above names it.)*
+
+- [`2026-09-15_ch6_discussion_affinity_board.md`](2026-09-15_ch6_discussion_affinity_board.md)
+  — **the discussion chapter's affinity board**: every discussion-shaped idea
+  on disk (six inventory passes over the notes, the criterion, the L3 records,
+  the ch5 design pass, the ratified ch1/ch3/ch4 prose, the lineage extractions
+  and the field's discussion-section conventions), grouped into six themes as
+  numbered mini-hypotheses, each forward-joined to the ch5 float that earns it
+  and flagged where the foundation has moved since its note. Tests Marc's
+  three reads of §6.1–§6.3 (right on the spine; §6.3 is not a lineage
+  comparison and not future work), audits the three headings against his
+  rules and the corpus, and lists seven session-proposed compositions apart
+  from the inventory. Rulings owed on the unit split, the heading set, and
+  each FOUNDATION item. Depends on the ch5 design handoff (shares its
+  property-to-measurement map) and on the unreproduced headline for every
+  cross-arm point; blocks ch6 drafting.
+
 - [`2026-09-05_generated_tables_house_style.md`](2026-09-05_generated_tables_house_style.md)
   — **the generated and appendix tables onto the house table style** ruled
   2026-09-05 (`figure_table_conventions.md` §k): each `tools/` table

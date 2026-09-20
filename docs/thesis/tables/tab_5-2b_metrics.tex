@@ -1,0 +1,139 @@
+% NEW 2026-09-18 (§5.2 readability pass; handoff 2026-09-17_ch5_s52_setup_critique.md
+% §V4, §W). REPLACES tab_5-2c_measures, which is deleted. Three changes, each a
+% ruling of Marc's from the 2026-09-18 read.
+% (1) MEASURES -> METRICS. The chapter's own structure is already built on the
+%     word: §5.4 and §5.5 are clustered by instrumented metric family, and
+%     Table~\ref{tab:mtd-metrics} is "Metric families in MTD evaluation".
+% (2) THE FAMILY COLUMN IS THE TIE-BACK TO THE LITERATURE REVIEW, and it is
+%     literal rather than asserted: the cells are Table 3.1's own inner key
+%     (success events, attacker time, resource spent, system state,
+%     network-state change), so a reader can put every metric this chapter
+%     reports back on the field's map and see that what judges a defence here is
+%     the field's measure and not this thesis's. Marc's ask: "consider what
+%     metrics we can tie back into the metric table that we produced in the
+%     literature review."
+% (3) THE FOUR §5.3 INSTRUMENTS ARE GONE from this table --- campaign coverage,
+%     opening variety, profile divergence, response to disruption. Marc's ruling
+%     on the self-scoring question: calling them validation is a claim of proof a
+%     self-chosen instrument set cannot carry ("you can be selective about it ---
+%     that's the whole issue"). Evaluation conventions §f has the honest word:
+%     attacker-property claims are taken from the no-defence arm and reported as
+%     OBSERVATIONS, and the verdict they add up to belongs in the discussion. They
+%     are therefore declared in §5.3, where they are first used (conventions §a),
+%     and this table holds only what evaluates a defence. Twelve rows became eight.
+% THE ONE DECLARED DIVERGENCE: deployment tempo is MTD execution frequency, which
+% Table 3.1 files under EFFECTIVENESS (network-state change, defender-side); this
+% chapter reports it in §5.5 as a cost. The rows are grouped by the section that
+% reports the metric, and the caption says so, so the divergence is declared
+% rather than hidden. Flagged for Marc: the alternative is to move the row to the
+% effectiveness group and report it there.
+% EVERY ROW IS A QUANTITY THE CORPUS ACTUALLY PRODUCES: transcribed from
+% data/results/ch5_defended/analyse.py (summarise_movement, summarise_baseline).
+% A metric that is not computed does not appear --- internal MTTC stays out until
+% its brief is ruled, and the compromise-checkpoint metric until the run-length
+% ruling takes it. Blocked fraction is structurally zero on the baseline arm
+% (analyse.py:166), which is why its comparability cell says movement arm.
+% CAPTION SCOPED 2026-09-18: "every metric this chapter reports" was false ---
+% §5.3's four instruments are metrics this chapter reports and are deliberately
+% not here (see the ruling above). "Judges a defence by" is the true scope and
+% is the phrase §5.2's prose now uses, so caption and prose agree.
+% OPEN FOR MARC 2026-09-18 --- DO WE CARRY THE LINEAGE'S METRIC NAMES? He asked
+% of host breadth, "is that HCR, network compromise ratio? Are we not carrying
+% over the names of our lineage's metrics?" Checked, and the answer differs per
+% row.
+%  HOST BREADTH IS NOT HCR/NCR, on two counts. (i) It is not the same quantity:
+%   HCR is Ho's Eq. 10, C_t / T_host at a compromise CHECKPOINT, bounded [0,1]
+%   (evaluation.py:126, compromised_num / host_num), and Zhang's NCR is the
+%   checkpoint metric that ends the run and fixes where MTTC is read; ours is the
+%   distinct hosts reached across a whole run, and the number actually REPORTED
+%   is its suppression against the no-defence arm (analyse.py:227). On a fixed
+%   50-host network a count and a ratio differ by a constant, but a difference
+%   from a control is neither. (ii) NEITHER PAPER REPORTS IT AS A RESULT: Ho
+%   declares eleven selector FEATURES and four EVALUATION metrics (ASR, RoA, APE,
+%   Risk) and HCR is a feature (ho2024.md L86); Tay reports the same five minus
+%   RoA's sibling. Carrying the name would import a label the lineage does not
+%   use for an outcome. The tie-back that IS true is already in this table: the
+%   Family cell "system state" is Table 3.1's row holding HCR and NCR.
+%  WHERE WE DO DROP A LINEAGE NAME, AND IT IS WORTH HIS RULING: Brown's two
+%   metrics are "attack actions blocked" (Fig. 4) and "the average attempts
+%   required to compromise" (Fig. 5) --- both carried under Brown's own names in
+%   Table 3.1 (:2404, :2425) --- and they are this table's BLOCKED FRACTION and
+%   EFFORT PER HOST, renormalised (a share rather than a total; per distinct host
+%   rather than per compromise). Brown is the direct substrate lineage and §5.4.3
+%   re-runs his claim, so different names for his own two metrics cost something
+%   and buy nothing.
+%  THE PRECEDENT FOR THE MIDDLE PATH IS THIS REPO'S OWN: "internal MTTC" keeps
+%   the lineage name, qualifies it in one word, and writes the divergence down
+%   (metrics_semantics.md §a, §c). "Attack actions blocked, as a share" would be
+%   the same move. NOT DONE HERE --- renaming reaches the generated §5.4/§5.5
+%   captions, tab:eff-lineage and §5.4's prose, which is Marc's.
+% Geometry tested against the real class and geometry: no overfull box; the
+% tabular measures 454.1 pt against a 455.2 pt text width, body height 283 pt.
+% SHOULD BE BORN GENERATED, with tab_5-2a, by the reader that produces the
+% §5.3--§5.5 floats (C39). Ratify on read.
+% REBUILT 2026-09-20 (handoff 2026-09-17_ch5_s52_setup_critique.md §AK--§AK11),
+% on Marc's read that the table was unrefined. The comments above describe the
+% table this replaces. What changed, each a ruling of his:
+% (1) NAMES ARE THE RESULTS FLOATS' NAMES, to the letter --- the table's first job
+%     is lookup from a §5.3--§5.5 column header, and two of eight names matched.
+% (2) "Family" -> MEASURES: the cells are Table 3.1's Measures column, and the
+%     header is Table 3.1's (ruled 2026-09-04). Row order is Table 3.1's.
+% (3) COMPARABLE ACROSS is gone: a constant with three exceptions, now the dagger.
+% (4) ADAPTED FROM answers adopted-against-new in the float.
+% (5) DEPLOYMENT TEMPO is out: it reads one over the declared interval on every
+%     defended condition at both intervals (numbers.json, s55/by_interval), so it
+%     checks the manipulation and judges no defence. The caption's declared
+%     divergence from Table 3.1 existed only for that row and leaves with it.
+% (6) ONE QUANTITY PER ROW; two reported quantities that had no row are declared.
+% (7) DEFINITIONS USE ONLY WORDS THE READER HAS MET: objective (Table 2.5),
+%     precondition / interrupt / fails (§4.4.1), deployment, defence mechanism.
+%     Suppression is analyse.py:227, the ratio of means, NOT a difference.
+% (8) NO DIRECTION-OF-GOOD MARKS: no paper in the corpus uses one. The two
+%     directions that are not self-evident are owed to §5.5's opening sentence.
+% (9) NO ACRONYMS for the metrics: see §AK11.
+% BLOCKED FRACTION, 2026-09-20 second pass: the Brown attribution is REMOVED.
+%   Brown's metric is actions blocked BY AN MTD (extraction B-ATK-07, B-MET-01),
+%   which is this model's INTERRUPT, not its blocked action. Restore on Marc's
+%   word. The original flag: measures.py:294 computes the
+%   share of actions failing on an unmet precondition; it is 0.24 under NO
+%   defence (tab 5.4.1a), and on §4.4.1's account a deployment interrupts, it
+%   does not block. The Brown attribution is §AH's and is kept pending that
+%   ruling; tab 5.4.1a's caption ("what fraction ... it blocks") is the other
+%   half of the same question.
+% "Time lost to MTD" is Marc's name (2026-09-20), over the session's "time lost
+%   to the defence"; no float names
+%   the quantity (fig 5.5b draws its two parts). Ratify on read.
+% 2026-09-20 third pass (Marc): the dagger and its footnote are GONE --- "it's
+% inconsequential, I don't need to make the distinction"; which attacker a float
+% reports is visible on the float. Direction of good is encoded in the two
+% definitions where it is not self-evident, and nowhere else.
+% 2026-09-20 fourth pass (Marc): the ADAPTED FROM column is gone --- with one
+% entry it was a column for one cell. Brown's attribution closes the one
+% definition it belongs to, and the definition column takes the width.
+% 2026-09-20, P13/P14 (setup handoff §AL4, §AM): suppression is negative in tab
+% 5.4.1a (user shuffle), so the scale says so; "activity", not "actions", because
+% the ledger sums interrupted records and over half land on dwell-only visits,
+% which §4.4.1 says have no action in flight (metrics_semantics.md §d2).
+\begin{table}[htbp]
+  \centering
+  \caption[The metrics]{The metrics this chapter judges a defence by, under the purposes and measures of Table~\ref{tab:mtd-metrics}.}
+  \label{tab:metrics}
+  \tablestyle\setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}cP{1.9cm}P{3.0cm}P{9.4cm}@{}}
+    \toprule
+    & Measures & Metric & Definition \\
+    \midrule
+    & success events & Target reached & the share of runs in which the attacker meets the targeted objective (Table~\ref{tab:attacker-objectives}): a database host compromised\\
+    & & Runs with no compromise & the share of runs in which the attacker never compromises its first host\\
+    & & Blocked fraction & the share of the attacker's actions that fail on a missing precondition (Section~\ref{subsec:runtime-mechanics})\\
+    & attacker time & Delay to first compromise & the time from the start of a run to the first host compromised, over the runs that compromise one\\
+    & system state & Hosts reached & the number of distinct hosts compromised in a run\\
+    \rowgroup{6}{Effectiveness} & & Suppression & the fraction of hosts reached that a defence removes, $1 - \bar{H}_{\mathrm{defence}} / \bar{H}_{\mathrm{no\ defence}}$: 0 for no effect, 1 for no host reached, negative if more hosts are reached\\
+    \midrule
+    & resource spent & Actions per host reached & the actions the attacker attempts for each distinct host it compromises; more is a costlier attack. Adapted from attempts required \citep{brown2023} \\
+    & & Successes per host reached & the actions that succeed for each distinct host compromised; more is a costlier attack\\
+    & & Time lost to MTD & the share of the run spent on activity a deployment interrupts, and in the delay that follows each interrupt\\
+    \rowgroup{4}{Efficiency} & & Share of run under reconfiguration & the share of the run in which a defence mechanism is deploying\\
+    \bottomrule
+  \end{tabular}
+\end{table}

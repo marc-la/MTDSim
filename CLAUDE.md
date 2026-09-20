@@ -33,6 +33,7 @@ Everything in `docs/` feeds one of two consumers: **the dissertation** ([`docs/t
 - [`docs/implementation/metrics_semantics.md`](docs/implementation/metrics_semantics.md) — internal MTTC definition, divergences (C7, ATK-04), comparability boundary.
 - [`docs/implementation/provenance.md`](docs/implementation/provenance.md) — load-bearing constants → source → code → disposition.
 - [`docs/implementation/trace_tool.md`](docs/implementation/trace_tool.md) — the event-log tracers (`python -m mtdnetwork.trace` for the substrate; `PYTHONPATH=src python -m mtdsim.l3_simulation.trace` for a movement run, unified across token / controller / substrate): first reach when verifying changes, pinpointing bugs, or demonstrating a run. Living tools — extend them rather than print-debug.
+- [`docs/workflows/results_section_workflow.md`](docs/workflows/results_section_workflow.md) — the path a chapter 5 results subsection takes from placeholder to populated float (§5.3.1 was the first, 2026-09-15): the run-plan handoff, the recorder and reader under `data/results/`, the findings record, the house-style generator, the tex swap and build check. Load before populating any §5.3–§5.5 float.
 
 ## Session-start checks
 

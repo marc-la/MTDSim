@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>fig:attacker-model — what the attacker holds, and how it proceeds</title>
+<style>
+  :root { --ink:#333; --ink2:#6e6e6e; --faint:#b0b0b0; --chrome:#ececec; --panel:#f7f7f7;
+          --accent:#1f548c; --red:#b3261e; --redfill:#f3d6d3; }
+  html, body { margin:0; background:#fff; }
+  body { width: 900px; }
+  @media print { @page { size: 16.058cm 14.74cm; margin:0; } body { width:16.058cm; } }
+  svg { display:block; font-family: "Nimbus Sans", "TeX Gyre Heros", Helvetica, Arial, sans-serif; }
+  text { fill: var(--ink); }
+  .ptitle { font-size: 19px; font-weight: bold; }
+  .lbl    { font-size: 17px; }
+  .sm     { font-size: 15.5px; fill: var(--ink2); }
+  .panel  { fill: var(--panel); stroke:none; }
+  .icon   { fill:none; stroke: var(--ink); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
+  .icon.f { fill: var(--ink); stroke:none; }
+  .comp   { fill: var(--redfill); stroke: var(--red); stroke-width:2.4; }
+  .state  { fill:#fff; stroke: var(--ink); stroke-width:1.8; }
+  .step   { stroke: var(--ink2); stroke-width:1.7; fill:none; }
+  .win    { stroke: var(--accent); stroke-width:3.2; fill:none; }
+  .cut    { stroke: var(--ink); stroke-width:1.7; fill:none; stroke-dasharray:6 5; }
+  .rule   { stroke: var(--faint); stroke-width:1.4; }
+  .halo   { paint-order: stroke; stroke: var(--panel); stroke-width:6px; stroke-linejoin:round; }
+</style></head>
+<body>
+<svg id="fig" viewBox="0 0 900 826" width="900" height="826" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="mS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6e6e6e"/></marker>
+  <marker id="mW" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f548c"/></marker>
+  <marker id="mC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker>
+  <g id="cross"><circle class="icon" r="11"/><path class="icon" d="M0,-16 V-6 M0,6 V16 M-16,0 H-6 M6,0 H16"/><circle class="icon f" r="3"/></g>
+  <g id="eye"><path class="icon" d="M-14,0 C-7,-9 7,-9 14,0 C7,9 -7,9 -14,0 Z"/><circle class="icon f" r="3.4"/></g>
+  <g id="pc"><rect x="-14" y="-11" width="28" height="19" rx="2.5" fill="inherit" stroke="inherit"/><path d="M-6,13 H6 M0,8 V13" fill="none" stroke="inherit" stroke-linecap="round"/></g>
+  <g id="key"><circle class="icon" cx="-7" cy="0" r="6"/><path class="icon" d="M-1,0 H13 M8.5,0 V5 M12,0 V3.6"/></g>
+  <g id="plug"><rect class="icon" x="-8" y="-2" width="16" height="11" rx="1.6"/><path class="icon" d="M-4.5,-2 V-9 M4.5,-2 V-9 M0,9 V13"/></g>
+  <g id="bug"><ellipse class="icon" cx="0" cy="2" rx="6.5" ry="8.6"/><path class="icon" d="M-4.3,-5.2 C-3.2,-9.5 3.2,-9.5 4.3,-5.2 M0,-6.9 V10.4 M-6.5,0 H-11.7 M6.5,0 H11.7 M-5.2,5.2 L-10.4,8.6 M5.2,5.2 L10.4,8.6 M-5.2,-3.5 L-10.4,-6 M5.2,-3.5 L10.4,-6"/></g>
+  <g id="host"><rect class="icon" x="-12" y="-9" width="24" height="16" rx="2"/><path class="icon" d="M-5,11 H5 M0,7 V11"/></g>
+  <g id="tri"><circle class="icon f" r="2.8" cx="-9" cy="-7"/><circle class="icon f" r="2.8" cx="9" cy="-7"/><circle class="icon f" r="2.8" cx="0" cy="8"/><path class="icon" d="M-9,-7 L9,-7 L0,8 Z"/></g>
+</defs>
+
+<!-- ==================== WHAT IT HOLDS ==================== -->
+<rect class="panel" x="14" y="14" width="872" height="280" rx="6"/>
+<text class="ptitle" x="34" y="46">What it holds</text>
+<text class="sm" x="184" y="46">and what survives a defence rewrite</text>
+
+<path class="rule" d="M40,74 H860"/>
+<text class="sm" x="86" y="98">it holds</text>
+<text class="sm" x="500" y="98">after a rewrite</text>
+<path class="rule" d="M40,110 H860"/>
+
+<g transform="translate(58,136)"><use href="#cross"/></g>
+<text class="lbl" x="86" y="142">its objective</text>
+<text class="lbl" x="500" y="142">survives</text>
+
+<g transform="translate(58,180)"><use href="#eye"/></g>
+<text class="lbl" x="86" y="186">what it can see of the network</text>
+<text class="lbl" x="500" y="186">recomputed, and can shrink</text>
+
+<g class="comp"><g transform="translate(58,224)"><use href="#pc"/></g></g>
+<text class="lbl" x="86" y="230">the hosts it has taken</text>
+<text class="lbl" x="500" y="230">survives</text>
+
+<g transform="translate(58,268)"><use href="#key"/></g>
+<text class="lbl" x="86" y="274">the credentials it has taken</text>
+<text class="lbl" x="500" y="274">survives</text>
+
+<!-- ==================== PROCEDURE ==================== -->
+<rect class="panel" x="14" y="318" width="872" height="494" rx="6"/>
+<text class="ptitle" x="34" y="352">Procedure</text>
+<text class="sm" x="146" y="352">its six states, and the moves between them</text>
+
+<!-- the ring: the ordinary advance -->
+<g class="step">
+  <path marker-end="url(#mS)" d="M400,483 A155,155 0 0 1 496,483"/>
+  <path marker-end="url(#mS)" d="M552,515 A155,155 0 0 1 600,598"/>
+  <path marker-end="url(#mS)" d="M600,662 A155,155 0 0 1 552,745"/>
+  <path marker-end="url(#mS)" d="M496,777 A155,155 0 0 1 400,777"/>
+  <!-- fall-backs: a failed brute force, and a finished neighbour scan, return to enumerate -->
+  <path marker-end="url(#mS)" d="M366,742 L511,518"/>
+  <path marker-end="url(#mS)" d="M316,617 L503,509"/>
+  <!-- and with no visible host left to enumerate, back out to scanning for hosts -->
+  <path marker-end="url(#mS)" d="M499,496 H396"/>
+</g>
+
+<!-- the three ways it takes a host — each reveals that host's neighbours -->
+<g class="win">
+  <path marker-end="url(#mW)" d="M577,630 H319"/>
+  <path marker-end="url(#mW)" d="M502,751 L316,643"/>
+  <path marker-end="url(#mW)" d="M357,741 L306,653"/>
+</g>
+
+<!-- states -->
+<g><circle class="state" cx="370" cy="496" r="26"/><g transform="translate(370,496) scale(0.95)"><use href="#eye"/></g></g>
+<g><circle class="state" cx="525" cy="496" r="26"/><g transform="translate(525,496) scale(0.95)"><use href="#host"/></g></g>
+<g><circle class="state" cx="603" cy="630" r="26"/><g transform="translate(603,630) scale(1.05)"><use href="#plug"/></g></g>
+<g><circle class="state" cx="525" cy="764" r="26"/><g transform="translate(525,764) scale(1.05)"><use href="#bug"/></g></g>
+<g><circle class="state" cx="370" cy="764" r="26"/><g transform="translate(370,764) scale(0.95)"><use href="#key"/></g></g>
+<g><circle class="state" cx="293" cy="630" r="26"/><g transform="translate(293,630) scale(1.05)"><use href="#tri"/></g></g>
+
+<text class="lbl halo" x="340" y="444" text-anchor="end">scan hosts</text>
+<text class="lbl halo" x="548" y="452">enumerate</text>
+<text class="lbl halo" x="638" y="636">scan ports</text>
+<text class="lbl halo" x="548" y="800">exploit</text>
+<text class="lbl halo" x="348" y="800" text-anchor="end">brute-force</text>
+<text class="lbl halo" x="258" y="636" text-anchor="end">neighbours</text>
+
+<!-- where a rewrite sends it back to: one route per resource class -->
+<g class="cut">
+  <path marker-end="url(#mC)" d="M150,418 L347,483"/>
+  <path marker-end="url(#mC)" d="M744,540 L626,617"/>
+  <path marker-end="url(#mC)" d="M744,764 L553,764"/>
+</g>
+<text class="sm halo" x="40" y="402">host-layer rewrite</text>
+<text class="sm halo" x="790" y="524" text-anchor="middle">service-layer rewrite</text>
+<text class="sm halo" x="790" y="758" text-anchor="middle">credentials rewrite</text>
+
+<!-- the key: three kinds of move -->
+<path class="win" d="M40,716 H76"/>
+<text class="sm halo" x="86" y="722">takes the host</text>
+<path class="cut" d="M40,752 H76"/>
+<text class="sm halo" x="86" y="758">a rewrite sends it back</text>
+</svg>
+</body></html>

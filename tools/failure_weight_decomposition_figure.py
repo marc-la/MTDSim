@@ -163,6 +163,16 @@ class Geom:
 
 APPENDIX = Geom(0.78, 0.27, 4.20, 1.40, 1.00, 0.75, 15.4, r"\tiny", r"\scriptsize", 8.2, 0.27, False, True, False, False)
 CHAPTER = Geom(0.88, 0.74, 2.30, 0.42, 1.35, 0.75, 14.6, r"\scriptsize", r"\footnotesize", 7.4, 0.36, True, False, True, True)
+# CHAPTER_PLAIN (2026-09-08, Marc: the chapter states the committed set as a
+# fact for a reader who has never seen it --- no rule letters, no key, no
+# in-figure title; the letters and the key stay on the appendix's
+# decomposition figure). One-line cells, so the row pitch drops to 0.55 cm.
+# Stage labels horizontal (a rotated "preparation" is longer than a two-row
+# stage at this pitch); cells narrowed to 0.82 cm so the figure stays under
+# the 16.06 cm text width: 3.60 + 0.12 + 15 x 0.80 = 15.72 cm; the plain
+# cells print values to two significant figures (four characters at most,
+# so 0.80 cm holds them at 8 pt) --- the exact products are the appendix's.
+CHAPTER_PLAIN = Geom(0.80, 0.55, 3.60, 1.70, 1.35, 0.75, 14.6, r"\scriptsize", r"\footnotesize", 7.4, 0.36, True, False, False, False)
 PANEL_GAP = APPENDIX.panel_gap
 GRID = "black!18"
 STAGE_RULE = "black!55"
@@ -180,6 +190,19 @@ def _fmt(v: float) -> str:
         return "0"
     s = f"{v:.4f}".rstrip("0").rstrip(".")
     return s
+
+
+def _fmt2(v: float) -> str:
+    """A value to two significant figures, half up (0.0125 -> 0.013,
+    0.0625 -> 0.063, 0.0875 -> 0.088); the chapter's plain matrix."""
+    if v == 0:
+        return "0"
+    from decimal import Decimal, ROUND_HALF_UP
+    d = Decimal(repr(v))
+    exp = d.adjusted()          # position of the leading digit
+    q = Decimal(1).scaleb(exp - 1)
+    s = str(d.quantize(q, rounding=ROUND_HALF_UP))
+    return s.rstrip("0").rstrip(".") if "." in s else s
 
 
 def _value_letter(v: float, letter: str, shrink: bool = True, two_line: bool = False) -> str:
@@ -370,7 +393,7 @@ def emit_key(w, rs: RuleSet, verdict: str, keys: dict[str, str], y: float, lead:
               % (G.f_cell, x_cols[col], y_key - r_i * G.key_row, keys[rid], _esc(rid), _fmt(float(r["value"]))))
 
 
-def emit_matrix_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, version: str) -> str:
+def emit_matrix_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, version: str, plain: bool = True) -> str:
     """ch4 §4.2.4: the committed set alone, at the chapter geometry (8 pt floor at natural size) — panel (c) with the producing rule's
     letter in each cell, so the matrix reads as generated, not typed."""
     order = stage_grouped_order(rs)
@@ -386,12 +409,16 @@ def emit_matrix_figure(rs: RuleSet, spec: RuleSpec, verdict: str, dec: dict, ver
     w(r"\begin{document}")
     w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt}]")
     vals = {p: c["v"] for p, c in dec.items()}
-    lab = {p: _value_letter(c["v"], keys[c["rule"]], shrink=CHAPTER.shrink, two_line=CHAPTER.two_line) for p, c in dec.items()}
-    hdr = (r"the %s weight set (\texttt{%s}): each cell is the value the token's out-transition "
-           r"is multiplied by on a %s verdict, with the letter of the declared rule that produced it"
-           % (verdict, _esc(version), verdict))
-    y = emit_panel(w, 0.0, order, rs, vals, lab, hdr, show_col_labels=True, G=CHAPTER)
-    emit_key(w, rs, verdict, keys, y, "rule key (match order; each value is then multiplied by the lifecycle-distance factor):", G=CHAPTER)
+    if plain:
+        lab = {p: _fmt2(c["v"]) for p, c in dec.items()}
+        emit_panel(w, 0.0, order, rs, vals, lab, "", show_col_labels=True, G=CHAPTER_PLAIN)
+    else:
+        lab = {p: _value_letter(c["v"], keys[c["rule"]], shrink=CHAPTER.shrink, two_line=CHAPTER.two_line) for p, c in dec.items()}
+        hdr = (r"the %s weight set (\texttt{%s}): each cell is the value the token's out-transition "
+               r"is multiplied by on a %s verdict, with the letter of the declared rule that produced it"
+               % (verdict, _esc(version), verdict))
+        y = emit_panel(w, 0.0, order, rs, vals, lab, hdr, show_col_labels=True, G=CHAPTER)
+        emit_key(w, rs, verdict, keys, y, "rule key (match order; each value is then multiplied by the lifecycle-distance factor):", G=CHAPTER)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     return "\n".join(L) + "\n"
@@ -692,6 +719,8 @@ def main() -> None:
                     help="print one pair's decomposition (repeatable); defaults to two worked pairs")
     ap.add_argument("--no-compile", action="store_true")
     ap.add_argument("--no-tables", action="store_true")
+    ap.add_argument("--chapter-letters", action="store_true",
+                    help="chapter matrix with rule letters, in-figure title and key (the pre-2026-09-08 form)")
     ap.add_argument("--dry-run-adjacent", action="store_true",
                     help="cost the candidate re-declaration that penalises one stage away")
     args = ap.parse_args()
@@ -713,7 +742,7 @@ def main() -> None:
     census, census_per = edge_census(rs)
     figures: list[tuple[str, str]] = []
     if args.layout in ("all", "matrix"):
-        figures.append((MATRIX_STEM[verdict], emit_matrix_figure(rs, spec, verdict, dec, args.version)))
+        figures.append((MATRIX_STEM[verdict], emit_matrix_figure(rs, spec, verdict, dec, args.version, plain=not args.chapter_letters)))
     if args.layout in ("all", "decomposition"):
         figures.append((DECOMP_STEM[verdict], emit_figure(rs, spec, verdict, dec, args.version)))
     if args.layout in ("all", "bands"):

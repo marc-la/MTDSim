@@ -1,0 +1,96 @@
+% NEW 2026-09-18 (§5.2 readability pass; handoff 2026-09-17_ch5_s52_setup_critique.md
+% §V3, §W). REPLACES tab_5-2a_factors_varied and tab_5-2b_factors_fixed, which are
+% deleted: two tables became one because this repo's own evaluation conventions §c
+% already ruled the form --- "every declared parameter is listed; each row says
+% either the band it was swept over and what moved, or that it was held and why.
+% ONE REGISTER, BOTH KINDS OF ROW." Reti's paired tables read as a pair only
+% because their columns are identical, which is a workaround for what a single
+% table does natively; Kim's Table 4 (one parameter table, a Type row-group) is the
+% closer precedent.
+% THE JUSTIFICATION COLUMN IS GONE, on Marc's ruling (2026-09-18): "I would just
+% lose the column on each of them --- what do I need them for?" The motivation is
+% now one high-level clause per prose unit (why the attacker is varied, why the
+% defence is), which answers the question a reader actually asks; a per-row reason
+% answered one nobody asked and cost most of a page.
+% ROW GROUPS ARE THE SIMULATION'S MOVING PARTS (Marc's framing: "what are the big
+% abstract moving parts"), and they are the same four objects the prose units
+% declare, in the same order. Each element sits in ONE value column: the varied
+% rows read straight down a single column, so the experiment is visible as a shape
+% rather than described as one. An empty cell is the genre's own mark for absent
+% (figure_table_conventions §e1).
+% TERMINOLOGY: "deployment interval" applies the RATIFIED registry row (Marc,
+% 2026-09-02: the defensive move as a scheduling event is a DEPLOYMENT; "mutation"
+% survives only inside Zhang's cited phrasing) --- ch5 had drafted against it.
+% "interval distribution" (was "timing regime") and "run length" (was "horizon")
+% are PROPOSED rows awaiting Marc's ruling; see terminology.md. The three §5.4/§5.5
+% figure captions still say "mutation interval" and are NOT changed here --- that
+% is existing prose and one ruling away.
+% HAND-SET; the generator pass (C39) is still owed and now has one table fewer to
+% emit. Values transcribed from data/results/ch5_defended/run_corpus.py (PROFILES,
+% CONDITIONS, INTERVALS, HORIZON), GEOMETRY and the defaults in
+% src/mtdsim/l3_simulation/movement/run.py, MTD_DURATION and
+% ATTACK_DURATION['PENALTY'] in mtdnetwork/data/constants.py, and the target set
+% from movement/targeting.py. 60 000 s is Marc's placeholder (C36).
+% Geometry tested against the real class and geometry: no overfull box; the
+% tabular measures 453.3 pt against a 455.2 pt text width, body height 427 pt.
+% [H] NOT [htbp]: with §5.3 still a placeholder there is no following prose for a
+% float to settle against, and at [htbp] this table drifted past the §5.3 heading
+% on the built page --- the same fault Table 5.1 was pinned for. REVERT to [htbp]
+% when §5.3's prose lands (the preamble's standing note on ch5 placeholder floats).
+% Ratify on read.
+% RESTRUCTURED 2026-09-20 on Marc's rulings (handoff §AJ, §AJ8): ONE VALUE COLUMN,
+% Parameter | Value, Brown's TABLE I form with Kim's row groups. The test for a
+% row: a setting a replicator must make, in a word chapters 2 and 4 gave the
+% reader. Gone: Geometry (a code constant; split into chapter 2's four nouns),
+% Topology (folded into Seeds), Declared inputs (to the footnote), Sink retrace,
+% Cost model/memory, Confusion penalty (model facts, ch4), Adaptive selector,
+% Deployments per run. Durations STAY, per mechanism (Marc: that a deployment
+% takes time is needed here). Varied rows first in each group; SEMICOLONS
+% separate levels, COMMAS sit inside one held value. Caption's design sentence
+% now matches run_corpus.py build_jobs (objective is fully crossed). Values are
+% malleable while the experiments solidify; 60 000 s left out until it is built.
+% Everything above this note is the 2026-09-18 record, kept for the trail.
+% 2026-09-20 (Marc): the FOOTNOTE IS GONE --- "it doesn't really add much": that
+% the durations are inherited, that the inputs are at Table 5.1's values and the
+% version pins are all stated above (§5.1, ch4, the appendices). What survives is
+% the one attribution a reader could not recover, Zhang's, as a citation in the
+% row it belongs to. NOTE: with the footnote gone, Appendix app:controller-mapping
+% is referenced from no live text.
+% 2026-09-20, P1/P7/P8/P9 of the split-stream scrutiny (setup handoff §AL, §AM),
+% accepted by Marc in chat. OBJECTIVE is held at targeted (the opportunistic
+% re-run is §5.4.3's, declared there). TIME LIMIT, not run length: a targeted run
+% ends when a target is compromised (attack_operation.py:749-757), so 15 000 s is
+% a limit; the value is Ho's finish_time (ho2024.md H-PAR-08). ZHANG'S CITATION
+% leaves the duration row: his table covers four of the seven (provenance.md,
+% IS-TIM-03); §2.2.2 now carries the attribution. TIMING DISTRIBUTION, not
+% interval distribution: the switch governs every simulator draw (run.py:364-368).
+% OWED: its result is in no float; one column or small table in §5.4.2 from
+% numbers.json's regime block (baseline port shuffle 0.90 -> 0.14).
+\begin{table}[htbp]
+  \centering
+  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, condition and deployment interval are run in every combination; the timing distribution, which governs the interval, the deployment durations and the delay after an interrupt, is varied at the 200\,s interval.}
+  \label{tab:experiment}
+  \tablestyle\setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}cP{3.4cm}P{10.9cm}@{}}
+    \toprule
+    & Parameter & Value \\
+    \midrule
+    & Hosts & 50 \\
+    & Levels of depth & 4 \\
+    & Subnets & 8 \\
+    & Exposed endpoints & 5 \\
+    \multirow{-5}{*}[-0.30cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & the two database hosts, at the deepest level \\
+    \midrule
+    & Arm & the baseline attacker; the movement attacker on each of the four attack profiles; the movement attacker on the aggregate \\
+    \multirow{-2}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Objective & targeted \\
+    \midrule
+    & Condition & no defence; each of the seven defence mechanisms alone; the random execution scheme; the alternative execution scheme \\
+    & Deployment interval & 200\,s; 2\,000\,s \\
+    & Timing distribution & near-periodic (Section~\ref{subsec:defence-mechanisms}); exponential, same means \\
+    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration & complete topology shuffle 110\,s, host topology shuffle 100\,s, IP shuffle 100\,s, OS diversity 80\,s, port shuffle 70\,s, service diversity 70\,s, user shuffle 20\,s \\
+    \midrule
+    & Time limit \citep{ho2024} & 15\,000\,s; a run ends earlier if the attacker compromises a target \\
+    \multirow{-2}{*}[-0.17cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Seeds & 1\,000 per combination, the same set on every arm \\
+    \bottomrule
+  \end{tabular}
+\end{table}

@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-07-13
-updated: 2026-07-13
+updated: 2026-09-18   # §(d)/§(h) carve-out: bold run-in labels licensed in declarative passages only (Marc, at the §5.2 restructure); the corpus attests the device for setup and model declarations
 provenance: codified from the ratified prose corpus (dissertation-bound prose Marc kept or reworked under review), Marc's typed prompt history (argumentation layer only), and unit assessor feedback; maintained per §(g)
 ---
 
@@ -51,7 +51,7 @@ The failure mode this file exists against has been named by an assessor of the p
 - **Two-beat anaphora is a native device.** The same opener twice for parallel claims (*"…, yet to be seen. …, yet to be seen."*): deliberate, in pairs, never runs of three — distinct from the accidental symmetric openers banned in §h.
 - **Present tense, active by default.** Passive only where the agent is genuinely irrelevant. Cited work acts as a subject: *"\citet{author2020} derive…"*, not *"estimates were derived in \citep{author2020}"*.
 - **Controlled vividness, rationed.** One pointed, plain-English sentence per section that *compresses* the argument rather than decorates it — the sentence a reader would quote back. Never two in a row; never as ornament.
-- **Emphasis is semantic and sparse.** Italics introduce a term at first fix; bold marks a load-bearing claim or fixed term (markdown) — in LaTeX, `\emph` only. Emphasis that merely raises volume is removed.
+- **Emphasis is semantic and sparse.** Italics introduce a term at first fix; bold marks a load-bearing claim or fixed term (markdown) — in LaTeX, `\emph` only. Emphasis that merely raises volume is removed. **Carve-out (Marc, 2026-09-18): bold run-in labels in a declarative passage.** Where a section *declares* rather than argues — an experimental setup, a threat or defence model, a parameter walk — its units may open with a bold run-in label naming the object (`\textbf{Network.} Fifty hosts across…`). The device is the field's own for exactly this content: He's threat and defence models are *Goal / Knowledge / Capability* run-ins, Zhang's attacker profile is four bold run-ins, Cho and Ben-Asher walk a net under seven, Alavizadeh heads its limitations with one. Scope is the whole of the licence: **declarative passages only, one word per label, and never in prose that argues** — an argued section using them is the §(h) listicle, which stands.
 - **Headings state what the section is on — nothing more.** The arguing is done by prose; a heading that performs (a claim, a flourish, a mini-thesis) is over-dressed for the register. Marc's ruling, verbatim: headings that *"try to do more than just state what the section is on"* are not academically aligned. (His native working-structure poses a section as the question it answers — that interrogative form stays licensed where the rubric licenses it, note titles above all; in thesis headings it is out of register by the same ruling.)
 - **The working vocabulary is allowed through.** Marc's own evaluation lexicon — *defensible* (attested in his prompts *and* his authored prose), *grounded*, *tradeoff*, *distil* (prompt-attested) — is part of the voice; prefer these over synonyms when judging or positioning work. Sparingly: seasoning, not scaffolding.
 - **Australian English throughout** (-ise, -our, *defence*), per the [guardrails](guardrails.md).
@@ -97,7 +97,7 @@ A section failing any check is redrafted before commit. For `notes/`, run the sa
 | *delve*, *landscape* (as in "threat landscape" filler), *in today's world*, *rapidly evolving* | Concrete nouns and dated facts |
 | *Moreover / Furthermore / Additionally* chains | Connect by logic — cause, contrast, consequence — or start the new claim plainly |
 | Rule-of-three adjective triads (*fast, scalable, and efficient*) | One precise adjective, or the mechanism that makes it so |
-| Bold-term-colon listicles as argument (*"**Flexibility:** the system…"*) | Prose that argues; enumerate-then-walk if it's genuinely a list |
+| Bold-term-colon listicles as argument (*"**Flexibility:** the system…"*) | Prose that argues; enumerate-then-walk if it's genuinely a list. **Carve-out, §(d) (Marc, 2026-09-18):** a *declarative* passage — a setup, a model, a parameter walk — may take bold run-in labels, because it asserts no virtue and argues nothing. The ban is on the listicle as **argument**, and it stands wherever the prose argues |
 | Decorative hedge-stacking (*may potentially suggest*) | One calibrated hedge, then commit — or flag the claim as open. (Epistemic layering — successive hedges each scoping a *different* part of the claim — is an authored habit and stays licensed.) |
 | Empty signposting (*"In this section, we will discuss…"*) | Functional signposting that says what each part *does*: *"Section X derives the parameters; Section Y draws out the pattern they form."* |
 | Rhetorical questions as transitions | A question only when it is a real, attributed question the text then answers |

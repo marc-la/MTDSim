@@ -1,0 +1,326 @@
+{
+  "pins": {
+    "mapping": "v2_partial",
+    "overlay": "v4_failure_only",
+    "regime": "shifted",
+    "objective": "targeted",
+    "horizon": 15000,
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99
+    ],
+    "profiles": [
+      "objective_exfiltration",
+      "objective_impact",
+      "objective_exfiltration_impact",
+      "objective_none_c2",
+      "aggregate"
+    ],
+    "conditions": [
+      [
+        "none",
+        0
+      ],
+      [
+        "random",
+        200
+      ],
+      [
+        "random",
+        2000
+      ]
+    ],
+    "declared_kernel": {
+      "gamma": 0.25,
+      "delta_ratio": 0.25,
+      "z": 0.1
+    },
+    "family_bands": {
+      "scan-shaped": [
+        0.5,
+        2.0
+      ],
+      "exploit-shaped": [
+        0.5,
+        2.0
+      ],
+      "stealth-low-and-slow": [
+        0.25,
+        4.0
+      ],
+      "objective-execution": [
+        0.5,
+        2.0
+      ]
+    }
+  },
+  "points": [
+    {
+      "name": "centre",
+      "kind": "centre"
+    },
+    {
+      "name": "dwell_scan-shaped_x0.5",
+      "kind": "dwell",
+      "family": "scan-shaped",
+      "factor": 0.5,
+      "factors": {
+        "scan-shaped": 0.5
+      }
+    },
+    {
+      "name": "dwell_scan-shaped_x2",
+      "kind": "dwell",
+      "family": "scan-shaped",
+      "factor": 2.0,
+      "factors": {
+        "scan-shaped": 2.0
+      }
+    },
+    {
+      "name": "dwell_exploit-shaped_x0.5",
+      "kind": "dwell",
+      "family": "exploit-shaped",
+      "factor": 0.5,
+      "factors": {
+        "exploit-shaped": 0.5
+      }
+    },
+    {
+      "name": "dwell_exploit-shaped_x2",
+      "kind": "dwell",
+      "family": "exploit-shaped",
+      "factor": 2.0,
+      "factors": {
+        "exploit-shaped": 2.0
+      }
+    },
+    {
+      "name": "dwell_stealth-low-and-slow_x0.25",
+      "kind": "dwell",
+      "family": "stealth-low-and-slow",
+      "factor": 0.25,
+      "factors": {
+        "stealth-low-and-slow": 0.25
+      }
+    },
+    {
+      "name": "dwell_stealth-low-and-slow_x4",
+      "kind": "dwell",
+      "family": "stealth-low-and-slow",
+      "factor": 4.0,
+      "factors": {
+        "stealth-low-and-slow": 4.0
+      }
+    },
+    {
+      "name": "dwell_objective-execution_x0.5",
+      "kind": "dwell",
+      "family": "objective-execution",
+      "factor": 0.5,
+      "factors": {
+        "objective-execution": 0.5
+      }
+    },
+    {
+      "name": "dwell_objective-execution_x2",
+      "kind": "dwell",
+      "family": "objective-execution",
+      "factor": 2.0,
+      "factors": {
+        "objective-execution": 2.0
+      }
+    },
+    {
+      "name": "shape_erlang4",
+      "kind": "shape",
+      "timing": "erlang4"
+    },
+    {
+      "name": "shape_erlang4_lowslow_x4",
+      "kind": "shape",
+      "timing": "erlang4",
+      "factors": {
+        "stealth-low-and-slow": 4.0
+      }
+    },
+    {
+      "name": "mapping_forced_total",
+      "kind": "mapping",
+      "mapping": "v1_ckc_total"
+    },
+    {
+      "name": "decay_gamma_0.1",
+      "kind": "decay",
+      "kernel": {
+        "gamma": 0.1
+      }
+    },
+    {
+      "name": "decay_gamma_0.5",
+      "kind": "decay",
+      "kernel": {
+        "gamma": 0.5
+      }
+    },
+    {
+      "name": "decay_delta_0.1",
+      "kind": "decay",
+      "kernel": {
+        "delta_ratio": 0.1
+      }
+    },
+    {
+      "name": "decay_delta_0.5",
+      "kind": "decay",
+      "kernel": {
+        "delta_ratio": 0.5
+      }
+    },
+    {
+      "name": "decay_z_0",
+      "kind": "decay",
+      "kernel": {
+        "z": 0.0
+      }
+    },
+    {
+      "name": "decay_z_0.05",
+      "kind": "decay",
+      "kernel": {
+        "z": 0.05
+      }
+    },
+    {
+      "name": "corner_gamma_0.1_delta_0.1",
+      "kind": "corner",
+      "kernel": {
+        "gamma": 0.1,
+        "delta_ratio": 0.1
+      }
+    },
+    {
+      "name": "corner_gamma_0.1_delta_0.5",
+      "kind": "corner",
+      "kernel": {
+        "gamma": 0.1,
+        "delta_ratio": 0.5
+      }
+    },
+    {
+      "name": "corner_gamma_0.5_delta_0.1",
+      "kind": "corner",
+      "kernel": {
+        "gamma": 0.5,
+        "delta_ratio": 0.1
+      }
+    },
+    {
+      "name": "corner_gamma_0.5_delta_0.5",
+      "kind": "corner",
+      "kernel": {
+        "gamma": 0.5,
+        "delta_ratio": 0.5
+      }
+    }
+  ],
+  "criterion": ", fixed before the first run and not revised after a result is seen\n(the record's discipline, weight_sensitivity_study.md \u00a71):\n\n  A point is INERT for a (profile set, condition) when the pooled mean of\n  distinct hosts reached at the point lies inside the 95 % bootstrap interval\n  of the centre at the same condition. It is MOVED otherwise, and the\n  direction, the band-end means and their intervals are reported. The floor z\n  is reported ZERO BY STRUCTURE if and only if its rows are bit-identical to\n  the centre's (no profile net carries a three-stage edge). A family is inert\n  when both its band ends are inert under every condition. The primary\n  pooling is the four objective profiles (the chapter's arm set); the\n  aggregate is read beside them, never pooled in. Intervals are the chapter's\n  (seed bootstrap, 2 000 resamples, _ch5_style conventions)."
+}
