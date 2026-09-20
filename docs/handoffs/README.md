@@ -40,6 +40,16 @@ carried, and `git log` the record of the briefs themselves. The axis-8
 timing-channel re-examination retired the same day in the commits that shipped
 its work (the D-08 regime ruling and the criterion's dated amendment).
 
+- [`2026-09-20_ch5_s52_s54_results_context.md`](2026-09-20_ch5_s52_s54_results_context.md)
+  — **the §5.2–§5.4 standing context**, written top-down and structure-only:
+  the reader and the question each results section answers for them, why the
+  three-way split is right (the funnel composed with Cho's purpose axis), what
+  each section owes at its head and hands on, a heading audit with five
+  proposed changes, the vocabulary and abstraction level the sections must stay
+  inside, and opening slots per section. Three rulings owed. Depends on the
+  ch5 design handoff; feeds every §5.2–§5.4 drafting session; retires with the
+  last of the three sections through pass 6.
+
 - [`2026-09-08_ch4_s43_gspn_formalism.md`](2026-09-08_ch4_s43_gspn_formalism.md)
   — **§4.3's missing formalism, inventoried**: every element of the executed
   net mapped onto Marsan's GSPN tuple (places, the timed/immediate gadget,
