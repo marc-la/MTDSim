@@ -1883,3 +1883,151 @@ setup with no claims in front of it. **This discharges the [3b] that stood here.
    arguing — so it lands in §5.4.3, which re-runs the published claims, or ch6.
 
 **All five units of §5.2 have now had the pass.**
+
+## §AJ — Table 5.2, read for its purpose (2026-09-20)
+
+Marc's read, after the five prose units: the table is a leftover of the earlier
+draft, "very grounded in the implementation still", with rows he cannot place
+(*geometry*, *interval distribution*, *sink retrace*, *adaptive selector*), a
+row that is only a pointer (*Declared inputs → Table 5.1's values*), and a
+column split (*Varies over* / *Held at*) whose point he does not see. His
+question: what is this table for, inside §5.2, that the prose cannot do, and at
+what level of abstraction does the field pitch one. **Assessment only; nothing
+in the table or the tex is changed by this section.**
+
+### AJ1 — What the genre is
+
+`figure_table_conventions.md` §e3 already names it: the **parameter table**,
+"the experiment-setup genre". The corpus instances, from the anatomies:
+
+| Paper | Table | Columns | Rows |
+|---|---|---|---|
+| Brown | TABLE I "MTDSim parameter values" | Parameters · Value | 10: hosts, exposed hosts, layers, subnets, services per host, three vulnerability ranges, attempts before giving up, defence trigger time |
+| Zhang | Table 2 "Network Properties"; Table 3 "MTD Execution Time" | Network · Nodes · Density · Endpoints · Layers; Technique · Duration · SD | 4; 5 |
+| Reti | Table 1 varied; Table 2 fixed | Parameter · Description · Value, both | 6; 19 |
+| Kim | Table 4 "Key design parameters" | Type · Variable · Description · Value | 9, grouped Inputs / System Param. |
+| Tay | none | — | every parameter in running prose |
+
+Three things are common to all of them. **One parameter per row and one value
+per row.** **Row names are the model section's own words** (Zhang's columns are
+the network model's nouns; Kim's variables are the symbols §5 defined). **No
+row is an argument, a pointer or a scope note** — those live in prose.
+
+### AJ2 — What the table does that the prose cannot
+
+Two jobs, and only two.
+
+1. **Lookup.** A reader in §5.4 who wants the interval, the host count or the
+   run length comes back to one place. The prose units are read once; the table
+   is returned to. This is why the prose can say "fifty hosts across four
+   levels" without being the record of those numbers.
+2. **The run matrix, seen whole.** The Runs unit says "every combination in
+   Table 5.2 is run a thousand times", so the varied rows *are* the experiment's
+   grid. A reader multiplies the level lists and has its size. Prose cannot
+   show that; it can only describe it.
+
+The level of abstraction that follows: **a row is a setting a replicator would
+have to make to re-run this chapter, named in a word chapters 2 and 4 gave the
+reader.** That one test sorts every row Marc queried.
+
+### AJ3 — The rows, against that test
+
+| Row | Verdict | Why |
+|---|---|---|
+| Geometry | **re-key and split** | *Geometry* is the code constant `GEOMETRY` (`movement/run.py`); it appears in no thesis prose. Chapter 2's words are hosts, levels of depth, subnets, exposed endpoints. Brown's TABLE I is the precedent: one row each |
+| Topology: drawn fresh for each seed | **cut; fold into Seeds** | Marc's instinct on the word is right — *topology* is chapter 2's name for the host layer — but this row is not a network setting, it is a fact about replication. The Runs unit already says every attacker "meets the same thousand networks" |
+| Target | keep | chapter 2's word; the one value that departs from the simulator's default, and the Network unit says so |
+| Arm, Objective | keep | the grid |
+| Declared inputs → Table 5.1's values | **cut to the footnote** | a cross-reference, not a value; it sits naturally beside the version pins, which are the same kind of statement |
+| Sink retrace: on | **cut** | a modelling decision of §4.4, on in every run and never varied. Not a setting of this experiment |
+| Cost model, memory: off | **cut** | a genuine leftover: the subsection that would have exercised them (§5.3.3 "A cost model and a memory") was retired 2026-09-13 and the design handoff records "capability arms gone". The row switches off something the chapter never names |
+| Condition, Deployment interval | keep | the grid |
+| Interval distribution | **Marc's ruling** | see AJ4 |
+| Deployment durations 20–110 s | **cut here; owed to chapter 2** | an inherited model constant (Zhang's Table 3), not a choice of this experiment, and a range is a lossy summary of seven values. Table 2.2 has no duration column, so the thesis states these nowhere else. The ch5 antecedent rule applies: a missing object becomes a chapter 2 insertion. §5.5's reconfiguration occupancy reads them |
+| Confusion penalty 20 s | **cut** | §4.4 already declares it twice in prose (tex l.~4623–4627) |
+| Adaptive selector: not exercised | **cut to one prose clause, or nowhere** | a negative-scope note, not a value. The Condition row already enumerates exactly what runs. If it is owed at all it is owed to the Defence unit, because Table 2.3 lists MTDShield and a reader may look for it |
+| Run length 15 000 s; 60 000 s | **hold at 15 000 s** | see AJ4 |
+| Deployments per run: held when run length varies | **cut** | exists only to qualify the 60 000 s level |
+| Seeds: 1 000 per cell | keep; **per combination** | *cell* was purged from the Runs unit on §d's census (commit 24ce3f6c); the table should not reintroduce it |
+
+Seventeen rows become eleven or twelve, and none of them is a pointer, an
+argument or a scope note.
+
+### AJ4 — Two rows declare something the corpus does not do
+
+Checked against `data/results/ch5_defended/run_corpus.py` (`build_jobs`).
+
+1. **Run length.** `HORIZON = 15_000` is a constant; no job is built at
+   60 000 s. The level is Marc's placeholder (design handoff C36, the cost curve
+   still owed). A setup table that lists a level is promising a result. Until
+   C36 is run, run length is a held value.
+2. **Interval distribution.** The exponential regime *is* run (the `regime`
+   group: every arm and every defended condition, 200 s, targeted), but the
+   defended-runs handoff records it as "read in the analysis, drawn nowhere".
+   No float and no sentence of §5.4 or §5.5 reports it. Marc's "we don't talk
+   about interval distribution anywhere else" is a correct reading. Either a
+   results paragraph reads it, and the row and the Defence unit's clause stay,
+   or neither does. The name is a separate question and is still a PROPOSED
+   registry row (terminology.md, 2026-09-18).
+
+**And the caption is wrong about the design.** It says objective, interval
+distribution and run length "are each varied on their own from that grid, with
+the first three held at their first level". The corpus says otherwise on both
+counts that are run. **Objective is fully crossed**: the `lineage` group re-runs
+the whole arm × condition × interval matrix under the opportunistic objective.
+**Interval distribution is crossed with arm and condition** and holds only the
+interval (200 s) and the objective (targeted). The true sentence is: arm,
+condition, deployment interval and objective are run in every combination; the
+interval distribution is varied at the 200 s interval under the targeted
+objective.
+
+### AJ5 — The column split
+
+*Varies over* / *Held at* was adopted on 2026-09-18 to merge Reti's two tables
+into one, with the claim that "the varied rows read straight down a single
+column, so the experiment is visible as a shape". At seventeen rows with six
+varied, it did not deliver that: the shape was buried under eleven held rows
+and the table read as half empty. **Most of the problem was the held rows, not
+the columns.** With the AJ3 cuts the held rows are the five network values, the
+run length and the seeds.
+
+Recommendation: **one value column, Brown's form with Kim's row groups** —
+`Parameter · Value`, grouped Network / Attacker / Defence / Runs, the same four
+objects and order as the prose units. A varied row is visibly a list
+("200 s; 2 000 s") and a held row is visibly one value, and the caption's design
+sentence says which rows form the grid. No empty cells. *Element* goes: no paper
+in the corpus uses it, and *Parameter* is the genre's header in Brown and Reti.
+The alternative is to keep the two value columns on the trimmed rows, which is
+tolerable at twelve rows; it costs width and buys a distinction the semicolons
+already make.
+
+### AJ6 — The shape that follows (values only; Marc's to rule)
+
+| Group | Parameter | Value |
+|---|---|---|
+| Network | Hosts | 50 |
+| | Levels of depth | 4 |
+| | Subnets | 8 |
+| | Exposed endpoints | 5 |
+| | Target | the two database hosts, at the deepest level |
+| Attacker | Arm | the baseline attacker; the movement attacker on each of the four attack profiles; the movement attacker on the aggregate |
+| | Objective | targeted; opportunistic |
+| Defence | Condition | no defence; each of the seven defence mechanisms alone; the random and alternative execution schemes |
+| | Deployment interval | 200 s; 2 000 s |
+| | *Interval distribution* | *quasi-periodic; exponential, same mean — only if AJ4.2 rules it in* |
+| Runs | Run length | 15 000 s |
+| | Seeds | 1 000 per combination, the same set on every arm |
+
+Footnote: the version pins as they stand, plus "the attacker model's inputs are
+at the declared values of Table 5.1".
+
+### AJ7 — Rulings owed
+
+1. One value column (recommended) or the trimmed two-column form.
+2. Interval distribution: does a results paragraph read the exponential regime?
+   In, with the row and the clause; or out, with both.
+3. Run length: held at 15 000 s until C36's cost curve is run (recommended).
+4. Deployment durations: a column on Table 2.2, Zhang's values (recommended), or
+   a held row here.
+5. Adaptive selector: one negative-scope clause in the Defence unit, or nothing.
+6. The caption's design sentence is corrected whichever form is chosen (AJ4).
