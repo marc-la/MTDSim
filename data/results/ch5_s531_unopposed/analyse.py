@@ -171,6 +171,18 @@ def _iv(values) -> dict:
     return {"n": iv.n, "mean": iv.mean, "ci95": iv.ci95}
 
 
+def commonest_opening_share(seqs: list[tuple], k: int) -> float:
+    """Share of runs that follow the most common length-``k`` opening. Unlike a
+    count of distinct openings it is not capped by the number of runs."""
+    return Counter(s[:k] for s in seqs).most_common(1)[0][1] / len(seqs)
+
+
+def tactic_entry_share(runs: list[MovementRunResult]) -> dict:
+    """``tactic -> share of runs that enter it``; a tactic no run entered is absent."""
+    entered = Counter(t for r in runs for t in {rec.place for rec in r.records})
+    return {t: c / len(runs) for t, c in sorted(entered.items())}
+
+
 def movement_row(runs: list[MovementRunResult], stage_of: dict) -> dict:
     depth = [
         (d if (d := M.deepest_successful_stage(r, stage_of)) is not None else -1) for r in runs
@@ -196,6 +208,11 @@ def movement_row(runs: list[MovementRunResult], stage_of: dict) -> dict:
             (s if (s := M.first_success_stage(r, stage_of)) is not None else -1) for r in runs
         ),
         "distinct_openings": {str(k): M.distinct_prefixes(runs, k) for k in range(1, K_MAX + 1)},
+        "commonest_opening_share": {
+            str(k): commonest_opening_share([M.place_sequence(r) for r in runs], k)
+            for k in range(1, K_MAX + 1)
+        },
+        "tactic_entry_share": tactic_entry_share(runs),
         "path_entropy": M.path_entropy(runs),
         "hub_share": max(M.visit_distribution(runs).values()),
         "hosts": _iv(r.compromised_count for r in runs),
@@ -230,13 +247,24 @@ def baseline_row(rows: list[dict]) -> dict:
     ttts = [t for row in reached if (t := _ttt(row)) is not None]
     n_target = len(ttts)
     n_ratio = len(reached) - n_target  # end_event fired on the inherited 80 % compromise ratio
+    # The baseline is measured the way the profiles are, over its recorded
+    # activity sequence (Marc, 2026-09-20): its ordering branches where an
+    # exploit fails, so "one opening at every length" is not a structural fact.
+    seqs = [tuple(rec[0] for rec in row["records"]) for row in rows]
+    out_counts: dict[str, Counter] = {}
+    for seq in seqs:
+        for a, b in zip(seq, seq[1:]):
+            out_counts.setdefault(a, Counter())[b] += 1
     return {
         "n": len(rows),
         "distinct_verbs": _iv(verbs),
         "distinct_tactics": None,  # structural: no tactic vocabulary
         "deepest_successful_stage": None,
-        "distinct_openings": {str(k): 1 for k in range(1, K_MAX + 1)},  # structural
-        "path_entropy": 0.0,  # structural
+        "distinct_openings": {str(k): len({q[:k] for q in seqs}) for k in range(1, K_MAX + 1)},
+        "commonest_opening_share": {
+            str(k): commonest_opening_share(seqs, k) for k in range(1, K_MAX + 1)
+        },
+        "path_entropy": M.path_entropy_from_transitions(out_counts),
         "hosts": _iv(row["compromised"] for row in rows),
         "ended": {
             "objective": n_target / len(rows),
@@ -332,12 +360,12 @@ def preview_fig52(cov: dict, openings: dict, path: Path) -> None:
 
     ks = list(range(1, K_MAX + 1))
     for p in PROFILES:
-        b.plot(ks, [openings[p][str(k)] for k in ks], color=COLOUR[p], linewidth=1.6,
+        b.plot(ks, [100 * openings[p][str(k)] for k in ks], color=COLOUR[p], linewidth=1.6,
                marker=MARKER[p], markersize=5, label=LABEL[p])
-    b.plot(ks, [1] * len(ks), color=COLOUR["baseline"], linewidth=1.4, linestyle="--",
-           label="baseline attacker (structural)")
-    b.set_xlabel("opening depth k (places)")
-    b.set_ylabel("distinct opening sequences / 100 seeds")
+    b.plot(ks, [100 * openings["baseline"][str(k)] for k in ks], color=COLOUR["baseline"],
+           linewidth=1.4, linestyle="--", label="baseline attacker (measured, activities)")
+    b.set_xlabel("length of the opening (steps)")
+    b.set_ylabel("runs following the commonest opening (%)")
     b.set_xticks(ks)
     b.set_title("(b)", loc="left", fontsize=10)
     fig.tight_layout()
@@ -398,7 +426,7 @@ def table_md(rows: dict[str, dict], title: str) -> str:
             dt = f"{_fmt_iv(r['distinct_verbs'])} verbs (structural)"
             depth = "—"
             nos = "—"
-            ent = "0 (structural)"
+            ent = f"{r['path_entropy']:.2f} (over activities)"
         else:
             dt = _fmt_iv(r["distinct_tactics"])
             depth = _fmt_iv(r["deepest_successful_stage"])
@@ -519,7 +547,7 @@ def main() -> int:
           divergence_md(div_gen, "Diagnostic divergence under the general objective"),
           ]
     (HERE / "preview_tab54.md").write_text("\n".join(md), encoding="utf-8")
-    preview_fig52(cov, {p: rows[p]["distinct_openings"] for p in PROFILES}, HERE / "preview_fig52.png")
+    preview_fig52(cov, {p: rows[p]["commonest_opening_share"] for p in (*PROFILES, "baseline")}, HERE / "preview_fig52.png")
     preview_fig53(div, HERE / "preview_fig53.png")
     print("\n".join(md))
     return 0
