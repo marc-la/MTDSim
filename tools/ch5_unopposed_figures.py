@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Chapter 5 §5.3.1 floats from the no-defence corpus: Figure 5.2 (campaign
-coverage and opening variety), Figure 5.3 (pairwise divergence against its
+"""Chapter 5 no-defence floats from the no-defence corpus: the campaign figure
+(tactics entered by profile, and the share of runs on the commonest opening;
+reworked 2026-09-20, results context §8), Figure 5.3 (pairwise divergence against its
 split-half null) and Table 5.4 (behaviour without defence, by attacker).
 
 Data: ``data/results/ch5_s531_unopposed/numbers.json``, the analyser's output
@@ -13,7 +14,7 @@ Usage:
   python tools/ch5_unopposed_figures.py [--numbers PATH] [--no-compile]
 
 Writes
-  docs/thesis/figures/fig_5-2-1a_coverage_openings.{tex,pdf}
+  docs/thesis/figures/fig_5-2-1a_campaign_openings.{tex,pdf}
   docs/thesis/figures/fig_5-2-1b_divergence.{tex,pdf}
   docs/thesis/tables/tab_5-2-1a_unopposed_summary.tex
 
@@ -35,7 +36,7 @@ REPO = Path(__file__).resolve().parents[1]
 FIG_DIR = REPO / "docs" / "thesis" / "figures"
 TAB_DIR = REPO / "docs" / "thesis" / "tables"
 NUMBERS = REPO / "data" / "results" / "ch5_s531_unopposed" / "numbers.json"
-STEM_A = "fig_5-2-1a_coverage_openings"
+STEM_A = "fig_5-2-1a_campaign_openings"
 STEM_B = "fig_5-2-1b_divergence"
 STEM_T = "tab_5-2-1a_unopposed_summary"
 
@@ -123,112 +124,120 @@ def axes(w, X0, X1, Y0, Y1, *, xticks, yticks, xlabel, ylabel, ylabels=True, xfm
         w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {%s};" % (X0 - 0.85, (Y0 + Y1) / 2, ylabel))
 
 
+# chapter 4's tactic order (the order of the outcome-weight matrix, App. B)
+TACTICS = (
+    ("reconnaissance", "Reconnaissance"),
+    ("resource-development", "Resource development"),
+    ("initial-access", "Initial access"),
+    ("execution", "Execution"),
+    ("persistence", "Persistence"),
+    ("privilege-escalation", "Privilege escalation"),
+    ("stealth", "Stealth"),
+    ("defense-impairment", "Defense impairment"),
+    ("credential-access", "Credential access"),
+    ("discovery", "Discovery"),
+    ("lateral-movement", "Lateral movement"),
+    ("command-and-control", "Command and control"),
+    ("collection", "Collection"),
+    ("exfiltration", "Exfiltration"),
+    ("impact", "Impact"),
+)
+TWO_LINE = {
+    "objective_exfiltration": "exfiltration",
+    "objective_impact": "impact",
+    "objective_exfiltration_impact": r"double\\extortion",
+    "objective_none_c2": r"no realised\\objective",
+}
+
+
 def emit_fig_a(core: dict) -> tuple[str, dict]:
-    cov = core["coverage"]
-    openings = {p: core["table"][p]["distinct_openings"] for p in PROFILES}
-    horizon = core["horizon"]
-    zoom_to = 3000.0
-    ymax_cov = 16.0
-    kmax = max(int(k) for k in openings[PROFILES[0]])
-    nseeds = core["table"][PROFILES[0]]["n"]
+    """Panel (a): share of runs entering each named tactic, by profile (what the
+    campaign is, and that the profiles are different campaigns). Panel (b): share
+    of runs following the commonest opening of each length (whether a profile
+    runs its campaign the same way twice), the baseline attacker measured."""
+    t = core["table"]
+    entry = {p: t[p]["tactic_entry_share"] for p in FOUR}
+    unknown = {k for p in FOUR for k in entry[p]} - {k for k, _ in TACTICS}
+    if unknown:
+        raise SystemExit(f"tactics in the corpus with no row in TACTICS: {sorted(unknown)}")
+    share = {p: t[p]["commonest_opening_share"] for p in (*FOUR, "baseline")}
+    kmax = max(int(k) for k in share["baseline"])
 
-    # geometry (cm): two rows; (a) and (b) share the y axis
-    H = 4.2
-    XA0, XA1 = 1.35, 7.95
-    XB0, XB1 = 8.95, 15.5
-    YT0, YT1 = 6.15, 6.15 + H
-    XC0, XC1 = 1.35, 7.95
-    YB0, YB1 = 0.75, 0.75 + H
-    KX0 = 9.4
+    # geometry (cm)
+    cw, ch = 1.45, 0.5
+    LAB = 3.45
+    n_r = len(TACTICS)
+    MY0 = 0.0
+    MY1 = MY0 + n_r * ch
+    XB0, XB1 = 10.6, 15.6
+    H = 4.3
+    YB1 = MY1 - 0.15
+    YB0 = YB1 - H
 
-    def ya(v):
-        return YT0 + v / ymax_cov * H
+    def yb(v):
+        return YB0 + v * H
 
-    def xa(t):
-        return XA0 + t / horizon * (XA1 - XA0)
-
-    def xb(t):
-        return XB0 + t / zoom_to * (XB1 - XB0)
-
-    def yc(v):
-        return YB0 + v / nseeds * H
-
-    def xc(k):
-        return XC0 + (k - 1) / (kmax - 1) * (XC1 - XC0)
+    def xb(k):
+        return XB0 + (k - 1) / (kmax - 1) * (XB1 - XB0)
 
     L: list[str] = []
     w = L.append
     L += PREAMBLE
     w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=%s}]" % FONT)
-    # panel (a): full horizon
-    axes(w, XA0, XA1, YT0, YT1,
-         xticks=[(t, xa(t)) for t in range(0, horizon + 1, 5000)],
-         yticks=[(v, ya(v)) for v in range(0, int(ymax_cov) + 1, 4)],
-         xlabel="simulated time (s)", ylabel="distinct tactics reached",
-         xfmt=lambda v: f"{int(v):,}".replace(",", r"\,"))
-    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (%.3f,%.3f) {(a)};" % (XA0 - 1.2, YT1 + 0.05))
-    # panel (b): the zoom
-    axes(w, XB0, XB1, YT0, YT1,
-         xticks=[(t, xb(t)) for t in range(0, int(zoom_to) + 1, 1000)],
-         yticks=[(v, ya(v)) for v in range(0, int(ymax_cov) + 1, 4)],
-         xlabel="simulated time (s), the first %s" % f"{int(zoom_to):,}".replace(",", r"\,") + r"\,s",
-         ylabel="", ylabels=False,
-         xfmt=lambda v: f"{int(v):,}".replace(",", r"\,"))
-    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (%.3f,%.3f) {(b)};" % (XB0 - 0.5, YT1 + 0.05))
-    # zoom window marked on (a)
-    w(r"\draw[black!30,line width=0.3pt,dash pattern=on 1pt off 1pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (xa(zoom_to), YT0, xa(zoom_to), YT1))
+    # panel (a): the matrix
+    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (0,%.3f) {(a)};" % (MY1 + 0.3))
+    for j, p in enumerate(FOUR):
+        w(r"\node[anchor=south,align=center] at (%.3f,%.3f) {%s};" % (LAB + (j + 0.5) * cw, MY1 + 0.1, TWO_LINE[p]))
+    for i, (key, name) in enumerate(TACTICS):
+        y = MY1 - (i + 1) * ch
+        w(r"\node[anchor=east] at (%.3f,%.3f) {%s};" % (LAB - 0.15, y + ch / 2, name))
+        for j, p in enumerate(FOUR):
+            x = LAB + j * cw
+            v = entry[p].get(key)
+            if v is None:
+                w(r"\fill[white] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (x, y, cw, ch))
+            else:
+                w(r"\fill[black!%d] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (int(round(6 + 30 * v)), x, y, cw, ch))
+                w(r"\node at (%.3f,%.3f) {%d};" % (x + cw / 2, y + ch / 2, round(100 * v)))
+            w(r"\draw[white,line width=0.8pt] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (x, y, cw, ch))
+    w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (LAB, MY0, LAB + len(FOUR) * cw, MY1))
+    w(r"\node[anchor=north,text=black!60] at (%.3f,%.3f) {runs entering the tactic (\%%)};" % (LAB + len(FOUR) * cw / 2, MY0 - 0.12))
 
-    for panel, xf, tmax, every in (("a", xa, horizon, 8), ("b", xb, zoom_to, 2)):
-        # baseline first, so the profile lines sit on top
-        c = cov["baseline"]
-        pts = [(xf(t), ya(m)) for t, m in zip(c["t"], c["mean"]) if t <= tmax]
-        w(r"\draw[cbase,line width=0.6pt,dash pattern=on 2.5pt off 1.5pt] %s;" % " -- ".join("(%.3f,%.3f)" % p for p in pts))
-        for p in PROFILES:
-            c = cov[p]
-            sel = [(t, m, e) for t, m, e in zip(c["t"], c["mean"], c["ci95"]) if t <= tmax]
-            band = [(xf(t), ya(m - e)) for t, m, e in sel] + [(xf(t), ya(m + e)) for t, m, e in reversed(sel)]
-            w(r"\fill[%s,opacity=0.15] %s -- cycle;" % (CNAME[p], " -- ".join("(%.3f,%.3f)" % q for q in band)))
-        for p in PROFILES:
-            c = cov[p]
-            sel = [(t, m) for t, m in zip(c["t"], c["mean"]) if t <= tmax]
-            w(r"\draw[%s,line width=0.6pt] %s;" % (CNAME[p], " -- ".join("(%.3f,%.3f)" % (xf(t), ya(m)) for t, m in sel)))
-            for i, (t, m) in enumerate(sel):
-                if i % every == 0 and i > 0:
-                    marker(w, MARK[p], CNAME[p], xf(t), ya(m))
-    # panel (c): opening variety
-    axes(w, XC0, XC1, YB0, YB1,
-         xticks=[(k, xc(k)) for k in range(1, kmax + 1)],
-         yticks=[(v, yc(v)) for v in range(0, nseeds + 1, 25)],
-         xlabel="opening length $k$ (tactics)", ylabel="distinct openings, of %d runs" % nseeds)
-    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (%.3f,%.3f) {(c)};" % (XC0 - 1.2, YB1 + 0.05))
-    w(r"\draw[cbase,line width=0.6pt,dash pattern=on 2.5pt off 1.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (xc(1), yc(1), xc(kmax), yc(1)))
-    for p in PROFILES:
-        pts = [(xc(k), yc(openings[p][str(k)])) for k in range(1, kmax + 1)]
+    # panel (b): repeatability of the opening
+    axes(w, XB0, XB1, YB0, YB1,
+         xticks=[(k, xb(k)) for k in range(1, kmax + 1)],
+         yticks=[(v, yb(v / 100)) for v in range(0, 101, 25)],
+         xlabel="length of the opening (steps)", ylabel="")
+    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (%.3f,%.3f) {(b)};" % (XB0 - 0.75, MY1 + 0.3))
+    w(r"\node[anchor=south west] at (%.3f,%.3f) {runs on the commonest opening (\%%)};" % (XB0 - 0.1, MY1 + 0.3))
+    pts = [(xb(k), yb(share["baseline"][str(k)])) for k in range(1, kmax + 1)]
+    w(r"\draw[cbase,line width=0.6pt,dash pattern=on 2.5pt off 1.5pt] %s;" % " -- ".join("(%.3f,%.3f)" % q for q in pts))
+    for p in FOUR:
+        pts = [(xb(k), yb(share[p][str(k)])) for k in range(1, kmax + 1)]
         w(r"\draw[%s,line width=0.6pt] %s;" % (CNAME[p], " -- ".join("(%.3f,%.3f)" % q for q in pts)))
         for x, y in pts:
             marker(w, MARK[p], CNAME[p], x, y)
-    # key panel (once, hong2018's form), beside (c)
-    ky = YB1 - 0.15
+    # key, under (b)
+    KX0 = XB0
+    ky = YB0 - 1.25
     w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {attack profile};" % (KX0, ky))
     ky -= 0.42
-    for p in PROFILES:
+    for p in FOUR:
         w(r"\draw[%s,line width=0.6pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (CNAME[p], KX0, ky, KX0 + 0.7, ky))
         marker(w, MARK[p], CNAME[p], KX0 + 0.35, ky)
         w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (KX0 + 0.85, ky, LABEL[p]))
         ky -= 0.42
-    ky -= 0.1
     w(r"\draw[cbase,line width=0.6pt,dash pattern=on 2.5pt off 1.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (KX0, ky, KX0 + 0.7, ky))
     w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (KX0 + 0.85, ky, LABEL["baseline"]))
-    ky -= 0.42
-    w(r"\node[anchor=west,text=black!60,align=left] at (%.3f,%.3f) {shaded band: 95\,\%% interval on the mean};" % (KX0, ky))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
 
     facts = {
-        "baseline_activities": cov["baseline"]["mean"][-1],
-        "coverage_final": {p: cov[p]["mean"][-1] for p in PROFILES},
-        "openings_kmax": {p: openings[p][str(kmax)] for p in PROFILES},
-        "kmax": kmax, "zoom_to": zoom_to, "nseeds": nseeds,
+        "tactics_entered": {LABEL[p]: len(entry[p]) for p in FOUR},
+        "partial_cells": {f"{LABEL[p]}/{k}": v for p in FOUR for k, v in entry[p].items() if v < 1.0},
+        "commonest_opening_share_kmax": {LABEL[p]: share[p][str(kmax)] for p in (*FOUR, "baseline")},
+        "baseline_first_branch": next((int(k) for k in sorted(share["baseline"], key=int) if share["baseline"][k] < 1.0), None),
+        "kmax": kmax, "nruns": t[FOUR[0]]["n"],
     }
     return "\n".join(L) + "\n", facts
 
@@ -292,7 +301,7 @@ def emit_table(core: dict) -> str:
     w("%%   %d runs per attacker, %d s horizon). Do not hand-edit; regenerate." % (t[PROFILES[0]]["n"], core["horizon"]))
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[What each attacker does with no defence running]{Each attacker's behaviour with nothing opposing it, at the time limit: the four attack profiles, the aggregate, which is the same corpus with the objective partition switched off and so the contrast objective conditioning is read against, and the baseline attacker. Means carry a 95\,\% interval; the opening count is the number of distinct length-five openings across the runs; the ending columns are shares of runs. The hosts column is the reference every suppression figure later in the chapter is a difference from, and the target column is what decides the rest of the chapter's shape, because a defence can only be credited with denying an objective the attacker would otherwise reach.}")
+    w(r"  \caption[What each attacker does with no defence running]{Each attacker's behaviour with nothing opposing it, at the time limit: the four attack profiles, the aggregate, which is the same corpus with the objective partition switched off and so the contrast objective conditioning is read against, and the baseline attacker. Means carry a 95\,\% interval; the opening column is the share of runs that follow the attacker's most common opening of five steps; the ending columns are shares of runs. The hosts column is the reference every suppression figure later in the chapter is a difference from, and the target column is what decides the rest of the chapter's shape, because a defence can only be credited with denying an objective the attacker would otherwise reach.}")
     w(r"  \label{tab:unopposed-summary}")
     # \scriptsize + tight padding together, the §k rule-1 fallback for a table
     # that will not fit \textwidth at \footnotesize; centred fixed-width numeric
@@ -300,22 +309,23 @@ def emit_table(core: dict) -> str:
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
     w(r"  \begin{tabular}{@{}P{3.0cm}*{7}{>{\centering\arraybackslash}p{1.5cm}}@{}}")
     w(r"    \toprule")
-    w(r"    Attacker & Distinct tactics & Successes per host & Openings, $k=5$ & Path entropy\textsuperscript{\dag} & Hosts reached & Target reached & Ended at time limit \\")
+    w(r"    Attacker & Distinct tactics & Successes per host & Runs on commonest opening & Path entropy\textsuperscript{\dag} & Hosts reached & Target reached & Ended at time limit \\")
     w(r"    \midrule")
     for i, p in enumerate(PROFILES):
         r = t[p]
-        w("    %s & %s & %s & %d & %.2f & %s & %.2f & %.2f \\\\" % (
+        w("    %s & %s & %s & %.2f & %.2f & %s & %.2f & %.2f \\\\" % (
             LABEL[p], _pm(r["distinct_tactics"]), _pm(r["successes_per_host"]),
-            r["distinct_openings"][k], r["path_entropy"], _pm(r["hosts"]),
+            r["commonest_opening_share"][k], r["path_entropy"], _pm(r["hosts"]),
             r["target_reach"], r["ended"].get("horizon", 0.0)))
     w(r"    \midrule")
     b = t["baseline"]
-    w("    %s & %d\\textsuperscript{\\ddag} & --- & 1\\textsuperscript{\\ddag} & 0\\textsuperscript{\\ddag} & %s & %.2f & %.2f\\textsuperscript{\\S} \\\\" % (
+    w("    %s & %d\\textsuperscript{\\ddag} & --- & %.2f\\textsuperscript{\\ddag} & %.2f\\textsuperscript{\\ddag} & %s & %.2f & %.2f\\textsuperscript{\\S} \\\\" % (
         LABEL["baseline"], round(b["distinct_verbs"]["mean"]),
+        b["commonest_opening_share"][k], b["path_entropy"],
         _pm(b["hosts"]), b["target_reach"], b["ended"].get("horizon", 0.0)))
     w(r"    \bottomrule")
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{8}{@{}p{0.96\textwidth}@{}}{\scriptsize \textsuperscript{\dag}~pooled over the runs, in bits; on this corpus it tracks how much of the walk one place absorbs and is not read as variety on its own. \textsuperscript{\ddag}~structural, not measured: the baseline attacker has six activities and no tactic vocabulary, one opening at every length and no branching. \textsuperscript{\S}~the remaining %.2f of its runs ended on the simulator's inherited compromise-ratio stop with no target host held.}\\" % (
+    w(r"    \multicolumn{8}{@{}p{0.96\textwidth}@{}}{\scriptsize \textsuperscript{\dag}~pooled over the runs, in bits; on this corpus it tracks how much of the walk one place absorbs and is not read as variety on its own. \textsuperscript{\ddag}~the baseline attacker has six activities and no tactics, so its count, its opening and its entropy are measured over activities. \textsuperscript{\S}~the remaining %.2f of its runs ended on the simulator's inherited compromise-ratio stop with no target host held.}\\" % (
         b["ended"].get("compromise_ratio", 0.0)))
     w(r"  \end{tabular}")
     w(r"\end{table}")

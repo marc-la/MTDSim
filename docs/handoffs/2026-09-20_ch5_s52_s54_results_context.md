@@ -343,7 +343,7 @@ by Table 5.2's names; (c) the scope sentence.
    Plainly: a benchmark's ranking of systems depends on the test load it is run
    with; here the attacker model plays the part of the test load.
 
-## 8. Figure 5.1 critique (2026-09-20; critique upheld by Marc, design in 8b owed a ruling)
+## 8. Figure 5.1 critique (2026-09-20; critique upheld, design 8b RULED YES AND APPLIED the same day)
 
 Marc's read of `fig:aio-coverage`, cross-examined against the corpus
 (`data/results/ch5_s531_unopposed/`). Nothing applied to the figure yet.
@@ -379,7 +379,7 @@ Found beyond Marc's list:
 Pace is not a takeaway. It is one hand-off sentence (every campaign is opened
 within about 2 000 s, the order of the deployment intervals) into §5.2.2.
 
-### 8b. Figure 5.1 design, for ruling (supersedes the tactic-by-time proposal, withdrawn: time is not the question)
+### 8b. Figure 5.1 design — applied 2026-09-20 as `fig_5-2-1a_campaign_openings`; body-text reading and the thousand-seed rerun still owed (supersedes the tactic-by-time proposal, withdrawn: time is not the question)
 
 Rulings taken: small-seed corpus while the structure settles, the full
 thousand once it has (Marc, 2026-09-20). Old panels (a) and (b) go: each

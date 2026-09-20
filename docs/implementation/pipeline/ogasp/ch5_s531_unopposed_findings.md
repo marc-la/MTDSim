@@ -191,3 +191,18 @@ Nothing here re-scores a badge; the preliminary is for direction.
 Zero error rows; 100 runs in every cell; baseline structural zeros present;
 `ordering_supported` printed for the two orderable columns (hosts False,
 tactics True); second invocation of `analyse.py` byte-identical.
+
+## Addendum 2026-09-20 — the baseline's openings are measured, and the campaign figure is reworked
+
+The analyser had the baseline attacker's distinct openings hard-coded to one at
+every length and its path entropy to zero, both labelled structural. Measured
+from the recorded runs (activity sequences, 100 runs, 15 000 s): one ordering up
+to length 6, two at length 7, four at length 8; 94 % of runs on the commonest
+length-8 opening; entropy 0.43 bits over activities. The branching is where an
+exploit fails. `analyse.py` now measures both, and adds two measures the
+reworked figure reads: `tactic_entry_share` (share of runs entering each tactic)
+and `commonest_opening_share` (not capped by the run count, unlike the count of
+distinct openings). Each profile's coverage plateau equals the number of tactics
+it ever enters (14, 12, 14, 13), so the old coverage curves were construction
+facts and are no longer drawn. Design and rulings: results context §8
+(`docs/handoffs/2026-09-20_ch5_s52_s54_results_context.md`).

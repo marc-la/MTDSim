@@ -6160,10 +6160,19 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % session-edited from the placeholder's: the baseline's SIX activities (the
 % placeholder said three), the zoom panel (coverage saturates inside 2 000 s), the
 % interval band. DRAFT STATE --- ratify on read; voice pass owed.
+% REWORKED 2026-09-20 (Marc's critique and ruling, results context §8): the
+% coverage curves are gone (each plateau is the profile's own tactic count, a
+% construction fact on both attackers; the interval band was sub-pixel) and the
+% count of distinct openings with them (capped by the run count; the baseline's
+% was hard-coded to one and measures 1,1,1,1,1,1,2,4). Panel (a) is now the
+% tactic-by-profile entry matrix, panel (b) the share of runs on the commonest
+% opening with the baseline MEASURED. The caption only says how to read the
+% panels; what the reader should see goes in the body text. Session-written
+% caption, DRAFT STATE --- ratify on read.
 \begin{figure}[H]
   \centering
-  \includegraphics{fig_5-2-1a_coverage_openings}
-  \caption[Campaign coverage and opening variety, by profile]{Panel~(a): the number of distinct campaign tactics each profile has entered as a run proceeds, with no defence running, against the baseline attacker on the same axes; its line is flat by construction once its six activities have each run once, because it has no more of a campaign to traverse. Panel~(b) is the first 3\,000\,s of panel~(a), where the campaigns are still being opened. The shaded band is the 95\,\% interval on the mean over the runs. Panel~(c): the number of distinct opening sequences of each length observed across the runs, per profile, against the baseline attacker, which holds one ordering at every length by construction. The panels are read against no defence so that they are a statement about the model rather than about the defence. The intention is to show, in one figure, the two things the movement attacker adds that the simulator could not express: a campaign to traverse, and more than one way to open it.}
+  \includegraphics{fig_5-2-1a_campaign_openings}
+  \caption[The campaign each profile runs, and how repeatably it opens]{Panel~(a): the share of runs, in per cent, that enter each tactic, for each attack profile with no defence running; an empty cell is a tactic that no run of that profile entered. Panel~(b): the share of runs that follow the attacker's most common opening, against the length of the opening in steps. A step is a tactic entered for an attack profile and an activity carried out for the baseline attacker, which has six activities and no tactics.}
   \label{fig:aio-coverage}
 \end{figure}
 
