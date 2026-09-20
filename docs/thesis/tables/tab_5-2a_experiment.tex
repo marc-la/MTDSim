@@ -38,37 +38,45 @@
 % on the built page --- the same fault Table 5.1 was pinned for. REVERT to [htbp]
 % when §5.3's prose lands (the preamble's standing note on ch5 placeholder floats).
 % Ratify on read.
+% RESTRUCTURED 2026-09-20 on Marc's rulings (handoff §AJ, §AJ8): ONE VALUE COLUMN,
+% Parameter | Value, Brown's TABLE I form with Kim's row groups. The test for a
+% row: a setting a replicator must make, in a word chapters 2 and 4 gave the
+% reader. Gone: Geometry (a code constant; split into chapter 2's four nouns),
+% Topology (folded into Seeds), Declared inputs (to the footnote), Sink retrace,
+% Cost model/memory, Confusion penalty (model facts, ch4), Adaptive selector,
+% Deployments per run. Durations STAY, per mechanism (Marc: that a deployment
+% takes time is needed here). Varied rows first in each group; SEMICOLONS
+% separate levels, COMMAS sit inside one held value. Caption's design sentence
+% now matches run_corpus.py build_jobs (objective is fully crossed). Values are
+% malleable while the experiments solidify; 60 000 s left out until it is built.
+% Everything above this note is the 2026-09-18 record, kept for the trail.
 \begin{table}[htbp]
   \centering
-  \caption[The experiment]{Every element of the experiment: the levels it varies over, or the value it is held at. Each element appears in one of the two columns only. Attacker arm, defence condition and deployment interval are run in every combination; objective, interval distribution and run length are each varied on their own from that grid, with the first three held at their first level.}
+  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, objective, condition and deployment interval are run in every combination; the interval distribution is varied at the 200\,s interval under the targeted objective.}
   \label{tab:experiment}
   \tablestyle\setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}cP{2.6cm}P{5.6cm}P{5.2cm}@{}}
+  \begin{tabular}{@{}cP{3.4cm}P{10.9cm}@{}}
     \toprule
-    & Element & Varies over & Held at \\
+    & Parameter & Value \\
     \midrule
-    & Geometry & & 50 hosts, 5 exposed endpoints, 8 subnets, 4 levels \\
-    & Topology & & drawn fresh for each seed \\
-    \multirow{-3}{*}[-0.52cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & & the two database hosts, at the deepest level \\
+    & Hosts & 50 \\
+    & Levels of depth & 4 \\
+    & Subnets & 8 \\
+    & Exposed endpoints & 5 \\
+    \multirow{-5}{*}[-0.30cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & the two database hosts, at the deepest level \\
     \midrule
-    & Arm & the baseline attacker; the movement attacker on each of the four attack profiles; the movement attacker on the aggregate & \\
-    & Objective & targeted; opportunistic & \\
-    & Declared inputs & & Table~\ref{tab:parameter-register}'s values \\
-    & Sink retrace & & on \\
-    \multirow{-5}{*}[-0.13cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Cost model, memory & & off \\
+    & Arm & the baseline attacker; the movement attacker on each of the four attack profiles; the movement attacker on the aggregate \\
+    \multirow{-2}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Objective & targeted; opportunistic \\
     \midrule
-    & Condition & no defence; each of the seven defence mechanisms alone; the random and alternative execution schemes & \\
-    & Deployment interval & 200\,s; 2\,000\,s & \\
-    & Interval distribution & quasi-periodic; exponential, same mean & \\
-    & Deployment durations\textsuperscript{\dag} & & 20--110\,s, per mechanism \\
-    & Confusion penalty\textsuperscript{\dag} & & 20\,s per interrupted action \\
-    \multirow{-6}{*}[0.76cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Adaptive selector & & not exercised \\
+    & Condition & no defence; each of the seven defence mechanisms alone; the random execution scheme; the alternative execution scheme \\
+    & Deployment interval & 200\,s; 2\,000\,s \\
+    & Interval distribution & quasi-periodic; exponential, same mean \\
+    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration\textsuperscript{\dag} & complete topology shuffle 110\,s, host topology shuffle 100\,s, IP shuffle 100\,s, OS diversity 80\,s, port shuffle 70\,s, service diversity 70\,s, user shuffle 20\,s \\
     \midrule
-    & Run length & 15\,000\,s; 60\,000\,s & \\
-    & Deployments per run & & held when run length varies \\
-    \multirow{-3}{*}[-0.28cm]{\smash{\rotatebox{90}{\emph{Run}}}} & Seeds & & 1\,000 per cell, the same set on every arm \\
+    & Run length & 15\,000\,s \\
+    \multirow{-2}{*}[-0.17cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Seeds & 1\,000 per combination, the same set on every arm \\
     \bottomrule
     \addlinespace[2pt]
-    \multicolumn{4}{@{}p{0.96\textwidth}@{}}{\scriptsize \textsuperscript{\dag}~inherited from the simulator \citep{brown2023, zhang2023}. Versions: the partial tactic-to-verb mapping (Appendix~\ref{app:controller-mapping}); the failure-only weight set (Appendix~\ref{app:weight-sets}); ATT\&CK Enterprise v19.1.}\\
+    \multicolumn{3}{@{}p{0.96\textwidth}@{}}{\scriptsize \textsuperscript{\dag}~inherited from the simulator \citep{zhang2023}. The attacker model's inputs are at the declared values of Table~\ref{tab:parameter-register}. Versions: the partial tactic-to-verb mapping (Appendix~\ref{app:controller-mapping}); the failure-only weight set (Appendix~\ref{app:weight-sets}); ATT\&CK Enterprise v19.1.}\\
   \end{tabular}
 \end{table}
