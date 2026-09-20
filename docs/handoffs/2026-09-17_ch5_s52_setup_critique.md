@@ -2571,3 +2571,107 @@ deployment durations, stays as a citation in its row. Both §5.2 tables now carr
 no footnote. **Flagged:** with the footnote gone, the tactic-to-verb mapping
 appendix (`app:controller-mapping`) is referenced from no live text; §4.4.3 is
 the natural place for the pointer, Marc's prose. Build clean at 92 pages.
+
+## §AL — Split-stream scrutiny of §5.2 as the convergence point (2026-09-20)
+
+Marc's framing: the setup is where chapters 2 to 4 converge, so the test is
+whether §5.2 picks up every object they built, in their words, and declares what
+§5.3 to §5.5 consume. White box (main thread) plus one black box on
+comment-stripped tex; every novel black-box fact below was verified against its
+source before entry. Content points only; nothing in the tex was changed.
+
+### AL1 — Move 1 (both streams): the join to chapters 2 and 4 has holes
+
+| # | Flag | Finding | Ground |
+|---|---|---|---|
+| 1a | `[REFRAME]` both | *Objective* carries two things in the Attacker unit and in Table 5.2's Attacker group: §4.2's four profile objectives (exfiltration, impact, double extortion, none) and Table 2.5's targeted / opportunistic. Same fault the chapter avoided for *baseline*. | tex §4.2 (l.4014–4060); Table 2.5 (l.727–742) |
+| 1b | `[INSERT]` both, a ch4 insertion under the antecedent rule | Chapter 4 never says the movement attacker takes a targeted or opportunistic objective (no hit for either word in ch4); Table 2.5's caption scopes both to the baseline attacker. The host-priority policy is this project's extension (`targeting.py:16-17`; `zhang2023.md` Z-PROF-01 puts targeted out of scope). | `movement_objectives_design.md`; thread `movement_objectives` |
+| 1c | `[WRONG]` upstream, both | §2.2.2 says "The interval between deployments is drawn exponentially"; Table 5.2 makes exponential the *variant* and quasi-periodic the default. *Quasi-periodic*, *deployment interval*, the 200 s inherited value and *deployment duration* (that a mechanism takes time) have no antecedent in ch2–4. Chapter comment (C) of 2026-09-09 already owes the ch2 correction. | tex l.633; `time_generator.py:11-13` |
+| 1d | `[WRONG]` pointer, both | "the simulator's own default (Section 2.2.1, Figure 2.4)": neither states 50 / 4 / 8 / 5, nor that database hosts exist, nor a default of five, so "narrowed from five to two" has nothing to narrow from. Values are true of the code. The standing `[3b]` (the reason for narrowing) is still open. Table 2.5 says "one specific host"; the experiment counts either of two. | `time_network.py:11-12`; `run.py:61-69` |
+| 1e | `[INSERT]` both | Chapter 2 builds four execution schemes; §5.2 runs *single* (unnamed, as "deployed alone"), random, alternative. *Simultaneous* is silently absent, as MTDShield is (already recorded as owed to ch6/ch7). Schemes draw on all seven where the lineage default pool is four: a second departure beside the Network unit's "every value is the default but one". | Table 2.3; `mtd_scheme.py:22`; `provenance.md` mechanism-pools row |
+| 1f | `[INSERT]` minor, both | *The aggregate* as a thing that runs has no ch4 antecedent (ch4 has only the L1 aggregate graph); first explained in tab 5.3.1a's caption. | tex l.3985, l.4073 |
+
+### AL2 — Move 2 (black box, verified): the targeted stopping rule sits under "Run length" and under every "share of the run"
+
+A targeted run ends when a target host is compromised
+(`attack_operation.py:749-757`); the 80 % stop stays live. So 15 000 s is a
+ceiling and not a length, the three "share of the run" definitions are over
+elapsed time, and hosts reached is truncated at different rates on the two arms
+(baseline ends on target in 0.58 of unopposed runs, the profiles 0.05–0.17, tab
+5.3.1a; `ch5_s54_effectiveness_findings.md:211-213` records baseline breadth
+24.3 → 31.8 on the objective change). `[INSERT]` a declaration (Table 5.2's Runs
+group is the natural row); the consequence is §5.3.1's or chapter 6's. It also
+qualifies the Network unit's "every difference reported is the attacker's or the
+defence's". 15 000 s has no provenance on file (`[VERIFY]`; tab 5.3.1a calls it
+"the lineage horizon").
+
+### AL3 — Move 3 (black box, verified): Table 5.2's Defence group and the declare/report mismatch
+
+- `[WRONG]` *Deployment duration \citep{zhang2023}*: Zhang's table covers four
+  mechanisms; host topology shuffle, port shuffle and user shuffle are
+  "documented nowhere" (`provenance.md`, IS-TIM-03). AK15 kept this citation as
+  "the one attribution a reader could not recover"; it is wrong for three of
+  seven.
+- `[WRONG]` *Interval distribution* is not one factor: the switch governs every
+  substrate draw, the trigger interval, the deployment durations and the
+  confusion penalty (`run.py:364-368`), and the baseline's exploit time, but not
+  the movement attacker's dwell.
+- `[INSERT]`/`[CUT]` The factor is declared and run (5 400 runs) and reported in
+  no float or placeholder. `numbers.json` `regime`: the baseline's suppression
+  falls under it (port shuffle 0.90 → 0.14, OS diversity 0.64 → 0.13) while the
+  movement attacker's ordering holds. Conventions §i names "a swept parameter
+  whose results are not shown". Report it or take the row out: Marc's.
+- Declared, never reported: *Target reached* under any defence; *Time lost to
+  MTD* by name. Run, never declared: the verdict-blind control (§5.3.2); the
+  pooling of the four profiles into "the attacker model" (400 runs against 100).
+
+### AL4 — Standing and minor
+
+- `[WRONG]` Metrics unit, "Every comparison is made on hosts reached": tab 5.4.1a
+  compares on delay, runs with no compromise and blocked fraction; tab 5.5a on
+  actions per host. (BB)
+- `[TIGHTEN]` Metrics unit names Table 5.3 in its first and last sentences; the
+  source comment already notes it. (both)
+- `[REFRAME]` Attacker unit's motive clause ("a defence that denies one goal need
+  not deny another") promises a defence-by-objective contrast no float draws; on
+  record the opportunistic half is §5.4.3's lineage re-run
+  (`run_corpus.py:17-18`). (BB)
+- `[EXPAND]` Suppression is anchored at 0 and 1 and is negative in tab 5.4.1a
+  (user shuffle −0.14 [−0.22, −0.05]). (BB)
+- `[VERIFY]` *Time lost to MTD* says "actions a deployment interrupts"; the
+  ledger sums interrupted *records*, and over half of interrupts land on
+  dwell-only visits, which §4.4.1 says have no action in flight
+  (`movement/measures.py:885`; `metrics_semantics.md` §d2). (BB)
+- `[3b]` "the same thousand networks" is true at construction
+  (`run.py:99-103`, `run_corpus.py:177-182`) and reads as pairing, which D-29
+  rules out; with the unpaired sentence ruled to §5.4.2 this one stands alone.
+- `[TIGHTEN]` downstream floats say *inherited attacker*, *attacker model*,
+  *horizon*, *tempo*, *100 seeds* where §5.2 says *baseline attacker*, *movement
+  attacker*, *run length*, *deployment interval*, *1 000*; tab 5.4.2a's "not
+  separable at this seed count (Table 5.2)" now points at 1 000. Generator
+  strings; re-read at the overnight run.
+- *Successes per host reached* is a ratio of totals in tab 5.5a and a mean of
+  per-run ratios in tab 5.3.1a (already noted in AK12.5).
+
+### AL5 — Black-box proposals rejected as re-opening rulings
+
+Run-count rationale, effect floors, unpaired statement and multiplicity back
+into the Runs unit (§AI ruled them to §5.4's claims); the comparability dagger
+(AK13); the full stop and citation inside the *Actions per host reached* cell
+(AK14); a threat-model unit (AE). What survives of them is the debt ledger:
+§5.2 has exported nine items to homes that are all still placeholders (preamble:
+why two attackers; §5.1 or a footnote: why a thousand; §5.3 head: the four
+instruments and the verdict-blind arm; §5.4 claims: effect floors, multiplicity;
+§5.4.2: unpaired; §5.4.3 / ch6: intervals exceed the lineage; §2.2.2: the
+defender's three clauses and the exponential sentence; ch6/ch7: MTDShield,
+Jalowski's third guideline, the coverage headline). They live only in `%`
+comments; one list, checked at each section's drafting, is owed.
+
+### AL6 — Keeps
+
+The five units in Table 5.2's group order; *reference* against *baseline
+attacker* (conventions §f2); Table 5.2's caption is literally true of
+`build_jobs`; Table 5.3's Measures cells are Table 3.1's to the letter and its
+metric names match the §5.4/§5.5 column headers; suppression's formula matches
+`analyse.py:230`; *precondition* and *interrupt* land on §4.4.1; no badge
+breach, the section declares and does not argue.
