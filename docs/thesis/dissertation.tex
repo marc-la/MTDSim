@@ -7708,17 +7708,17 @@ March 2026, with its own reference list.
   \centering
   \caption[Experiment 1: the forced-total mapping against the inherited
   baseline]{Experiment~1, the forced-total tactic-to-verb mapping
-  (\texttt{v1\_ckc\_total}) run head-to-head against the inherited
-  six-phase attacker on the same substrate: ten seeds per cell, a
-  15\,000\,s horizon, no moving target defence. ASR is the fraction of
-  runs reaching the substrate objective. Hosts is the mean count of
+  (\texttt{v1\_ckc\_total}) run head-to-head against the baseline
+  attacker on the same simulator: ten seeds per cell, a
+  15\,000\,s time limit, no moving target defence. ASR is the fraction of
+  runs reaching the simulator's objective. Hosts is the mean count of
   distinct hosts compromised with a 95\,\% interval. The parenthesised
   figure beside each mean time-to-compromise is the number of runs that
   recorded one, so a short denominator marks a profile that terminated
   early rather than one that was fast; the exfiltration profile recorded
-  none. Blocked is the share of the action budget the substrate refused
+  none. Blocked is the share of the action budget the simulator refused
   for unmet preconditions --- the friction mode. Terminal names where the
-  run ended: at the objective, at the horizon, or at a Petri-net sink
+  run ended: at the objective, at the time limit, or at a Petri-net sink
   with no onward routing. Profiles are named as in
   Section~\ref{sec:attack-profiles}; the record predates the
   objective-tactic rename.}
@@ -7731,11 +7731,11 @@ March 2026, with its own reference list.
     Inherited baseline          & 0.90 & $39.8 \pm 2.4$ & 238 (10)  & 815 &  0 & objective \\
     \midrule
     \multicolumn{7}{@{}l}{\emph{Movement attacker}} \\
-    \quad aggregate             & 0.00 & $0.4 \pm 0.4$  & 5294 (3)  & 480 & 76 & horizon \\
+    \quad aggregate             & 0.00 & $0.4 \pm 0.4$  & 5294 (3)  & 480 & 76 & time limit \\
     \quad exfiltration          & 0.00 & 0.0            & --- (0)   & 210 & 95 & sink \\
-    \quad impact                & 0.00 & $1.2 \pm 0.4$  & 4889 (9)  & 427 & 37 & horizon \\
+    \quad impact                & 0.00 & $1.2 \pm 0.4$  & 4889 (9)  & 427 & 37 & time limit \\
     \quad double extortion      & 0.00 & $0.7 \pm 0.3$  & 168 (7)   &  74 &  0 & sink \\
-    \quad no realised objective & 0.00 & $2.2 \pm 0.8$  & 1177 (10) & 502 &  0 & horizon \\
+    \quad no realised objective & 0.00 & $2.2 \pm 0.8$  & 1177 (10) & 502 &  0 & time limit \\
     \bottomrule
   \end{tabular}
 \end{table}
