@@ -206,3 +206,14 @@ distinct openings). Each profile's coverage plateau equals the number of tactics
 it ever enters (14, 12, 14, 13), so the old coverage curves were construction
 facts and are no longer drawn. Design and rulings: results context §8
 (`docs/handoffs/2026-09-20_ch5_s52_s54_results_context.md`).
+
+### Same day, second pass — the baseline's step unit
+
+The first measurement above counted every baseline record as a step; 77 % of
+those are consecutive repeats of one phase, where a profile record never repeats
+its predecessor. Counted as phases ENTERED (repeats collapsed), the baseline has
+one opening to length 4 and two from length 5, 78 % of runs on the commonest
+(after the exploit, 78 go to brute force and 22 to scanning neighbours); entropy
+0.41 bits. These supersede the 1,1,1,1,1,1,2,4 and 94 % figures. `analyse.py`
+also writes `tactic_visit_share`, which the figure's panel (a) now reads, with
+held-and-never-entered tactics at 0.0.

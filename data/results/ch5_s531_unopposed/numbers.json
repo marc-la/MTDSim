@@ -1229,6 +1229,23 @@
      "reconnaissance": 1.0,
      "stealth": 1.0
     },
+    "tactic_visit_share": {
+     "collection": 0.06827949395694195,
+     "command-and-control": 0.1710013922237243,
+     "credential-access": 0.10395270474768467,
+     "defense-impairment": 0.014688969149129356,
+     "discovery": 0.08208066826738766,
+     "execution": 0.08323076612659147,
+     "exfiltration": 0.06004721454369363,
+     "impact": 0.0018159439882165411,
+     "initial-access": 0.029983252960997558,
+     "lateral-movement": 0.08886019249006274,
+     "persistence": 0.07905409495369344,
+     "privilege-escalation": 0.03056839046831178,
+     "reconnaissance": 0.04600391436815238,
+     "resource-development": 0.0,
+     "stealth": 0.1404330017554125
+    },
     "path_entropy": 2.2441890240510687,
     "hub_share": 0.1710191725529768,
     "hosts": {
@@ -1321,6 +1338,21 @@
      "privilege-escalation": 1.0,
      "reconnaissance": 1.0,
      "stealth": 1.0
+    },
+    "tactic_visit_share": {
+     "collection": 0.003759721565762901,
+     "command-and-control": 0.13973273750698234,
+     "credential-access": 0.03256993082112319,
+     "discovery": 0.12480127186009539,
+     "execution": 0.137047222102866,
+     "impact": 0.08243458084475573,
+     "initial-access": 0.06352855239977656,
+     "lateral-movement": 0.08118850169724573,
+     "persistence": 0.12705710479955312,
+     "privilege-escalation": 0.03312851802517939,
+     "reconnaissance": 0.014824045030722295,
+     "resource-development": 0.0,
+     "stealth": 0.15992781334593736
     },
     "path_entropy": 2.0135033307420103,
     "hub_share": 0.1599724926396321,
@@ -1417,6 +1449,22 @@
      "resource-development": 1.0,
      "stealth": 1.0
     },
+    "tactic_visit_share": {
+     "collection": 0.03925278884023851,
+     "command-and-control": 0.10889128473673788,
+     "credential-access": 0.010583291161521706,
+     "discovery": 0.17245703975885057,
+     "execution": 0.08607450108913288,
+     "exfiltration": 0.042003124381174504,
+     "impact": 0.12174085238399085,
+     "initial-access": 0.011925454905498472,
+     "lateral-movement": 0.054038592708310414,
+     "persistence": 0.10053026469229245,
+     "privilege-escalation": 0.07102466500913111,
+     "reconnaissance": 0.011925454905498472,
+     "resource-development": 0.011925454905498472,
+     "stealth": 0.1576272305221237
+    },
     "path_entropy": 2.0592159709337423,
     "hub_share": 0.17453565542737517,
     "hosts": {
@@ -1510,6 +1558,21 @@
      "reconnaissance": 1.0,
      "resource-development": 1.0,
      "stealth": 1.0
+    },
+    "tactic_visit_share": {
+     "collection": 0.04430557505968263,
+     "command-and-control": 0.19484622946215419,
+     "credential-access": 0.10318073304311193,
+     "defense-impairment": 0.04823760707765763,
+     "discovery": 0.08474933295885409,
+     "execution": 0.16646187333239715,
+     "initial-access": 0.0036160651593877264,
+     "lateral-movement": 0.13748069091419746,
+     "persistence": 0.03772293217244769,
+     "privilege-escalation": 0.033246735009127934,
+     "reconnaissance": 0.015798342929363853,
+     "resource-development": 0.032544586434489535,
+     "stealth": 0.09780929644712821
     },
     "path_entropy": 1.92936298230528,
     "hub_share": 0.2013718765311122,
@@ -1607,6 +1670,23 @@
      "resource-development": 0.68,
      "stealth": 1.0
     },
+    "tactic_visit_share": {
+     "collection": 0.050652643831060856,
+     "command-and-control": 0.137824243431992,
+     "credential-access": 0.0718531759228467,
+     "defense-impairment": 0.015110575324243432,
+     "discovery": 0.10047389424675757,
+     "execution": 0.10909960093116063,
+     "exfiltration": 0.04013551712670436,
+     "impact": 0.04252577319587629,
+     "initial-access": 0.03219571000997672,
+     "lateral-movement": 0.09394745593614899,
+     "persistence": 0.08798220818091121,
+     "privilege-escalation": 0.038639008979048886,
+     "reconnaissance": 0.03604090455603592,
+     "resource-development": 0.0025981044230129697,
+     "stealth": 0.14092118390422348
+    },
     "path_entropy": 2.8102435227883937,
     "hub_share": 0.14123410464873878,
     "hosts": {
@@ -1661,22 +1741,22 @@
      "2": 1,
      "3": 1,
      "4": 1,
-     "5": 1,
-     "6": 1,
+     "5": 2,
+     "6": 2,
      "7": 2,
-     "8": 4
+     "8": 2
     },
     "commonest_opening_share": {
      "1": 1.0,
      "2": 1.0,
      "3": 1.0,
      "4": 1.0,
-     "5": 1.0,
-     "6": 1.0,
-     "7": 0.98,
-     "8": 0.94
+     "5": 0.78,
+     "6": 0.78,
+     "7": 0.78,
+     "8": 0.78
     },
-    "path_entropy": 0.42891916285591186,
+    "path_entropy": 0.4068541612091844,
     "hosts": {
      "n": 100,
      "mean": 24.34,
@@ -1956,6 +2036,23 @@
      "reconnaissance": 1.0,
      "stealth": 1.0
     },
+    "tactic_visit_share": {
+     "collection": 0.06692014088450712,
+     "command-and-control": 0.17029193745671042,
+     "credential-access": 0.10738759450019895,
+     "defense-impairment": 0.014913715607822332,
+     "discovery": 0.08231280486906288,
+     "execution": 0.08268122669731937,
+     "exfiltration": 0.05992012614763399,
+     "impact": 0.001665266663719292,
+     "initial-access": 0.029937957764121607,
+     "lateral-movement": 0.08864229187850922,
+     "persistence": 0.08128122374994473,
+     "privilege-escalation": 0.030004273693207774,
+     "reconnaissance": 0.04093166511929499,
+     "resource-development": 0.0,
+     "stealth": 0.1431097749679473
+    },
     "path_entropy": 2.2508382924833334,
     "hub_share": 0.17030577342690334,
     "hosts": {
@@ -2048,6 +2145,21 @@
      "privilege-escalation": 1.0,
      "reconnaissance": 1.0,
      "stealth": 1.0
+    },
+    "tactic_visit_share": {
+     "collection": 0.0031945531255798193,
+     "command-and-control": 0.1397939674575068,
+     "credential-access": 0.03297811408426844,
+     "discovery": 0.12528940553883883,
+     "execution": 0.13517961294278039,
+     "impact": 0.0798718951928429,
+     "initial-access": 0.05994627342470616,
+     "lateral-movement": 0.08415550052032494,
+     "persistence": 0.13086373940190865,
+     "privilege-escalation": 0.035438565355232696,
+     "reconnaissance": 0.012552335008591412,
+     "resource-development": 0.0,
+     "stealth": 0.16073603794741895
     },
     "path_entropy": 2.0177521137639047,
     "hub_share": 0.1607464264671461,
@@ -2144,6 +2256,22 @@
      "resource-development": 1.0,
      "stealth": 1.0
     },
+    "tactic_visit_share": {
+     "collection": 0.03946688707511106,
+     "command-and-control": 0.10994593105348349,
+     "credential-access": 0.011020422219926301,
+     "discovery": 0.18408696949868558,
+     "execution": 0.0832960246122763,
+     "exfiltration": 0.03775068590648713,
+     "impact": 0.1157947905545798,
+     "initial-access": 0.003110973355833362,
+     "lateral-movement": 0.06284510566977763,
+     "persistence": 0.1048662051864862,
+     "privilege-escalation": 0.07711999632652593,
+     "reconnaissance": 0.003110973355833362,
+     "resource-development": 0.003110973355833362,
+     "stealth": 0.1644740618291605
+    },
     "path_entropy": 2.09637564851469,
     "hub_share": 0.1846610047502519,
     "hosts": {
@@ -2237,6 +2365,21 @@
      "reconnaissance": 1.0,
      "resource-development": 1.0,
      "stealth": 1.0
+    },
+    "tactic_visit_share": {
+     "collection": 0.04203637920402016,
+     "command-and-control": 0.20054940854488282,
+     "credential-access": 0.10849034967458501,
+     "defense-impairment": 0.0511337284861705,
+     "discovery": 0.08591771103556885,
+     "execution": 0.1599502576308158,
+     "initial-access": 0.0028897462425654017,
+     "lateral-movement": 0.14045084118627396,
+     "persistence": 0.03824963941878896,
+     "privilege-escalation": 0.033754478597020555,
+     "reconnaissance": 0.01309814434460861,
+     "resource-development": 0.026624399243671354,
+     "stealth": 0.09685491639102803
     },
     "path_entropy": 1.928831646599121,
     "hub_share": 0.2060057292184906,
@@ -2334,6 +2477,23 @@
      "resource-development": 0.85,
      "stealth": 1.0
     },
+    "tactic_visit_share": {
+     "collection": 0.04836536631779258,
+     "command-and-control": 0.13686774500475737,
+     "credential-access": 0.0736441484300666,
+     "defense-impairment": 0.015535680304471932,
+     "discovery": 0.1014348239771646,
+     "execution": 0.10849857278782113,
+     "exfiltration": 0.03770884871550904,
+     "impact": 0.04118744053282588,
+     "initial-access": 0.03624738344433873,
+     "lateral-movement": 0.09297050428163654,
+     "persistence": 0.08930161750713606,
+     "privilege-escalation": 0.0386907706945766,
+     "reconnaissance": 0.035912464319695525,
+     "resource-development": 0.0019714557564224546,
+     "stealth": 0.14166317792578498
+    },
     "path_entropy": 2.7977884153830694,
     "hub_share": 0.14193169332193872,
     "hosts": {
@@ -2388,22 +2548,22 @@
      "2": 1,
      "3": 1,
      "4": 1,
-     "5": 1,
-     "6": 1,
+     "5": 2,
+     "6": 2,
      "7": 2,
-     "8": 4
+     "8": 2
     },
     "commonest_opening_share": {
      "1": 1.0,
      "2": 1.0,
      "3": 1.0,
      "4": 1.0,
-     "5": 1.0,
-     "6": 1.0,
-     "7": 0.98,
-     "8": 0.94
+     "5": 0.78,
+     "6": 0.78,
+     "7": 0.78,
+     "8": 0.78
     },
-    "path_entropy": 0.44226970303115865,
+    "path_entropy": 0.4189386209005373,
     "hosts": {
      "n": 100,
      "mean": 25.17,
@@ -6877,6 +7037,23 @@
      "reconnaissance": 1.0,
      "stealth": 1.0
     },
+    "tactic_visit_share": {
+     "collection": 0.0684299492890524,
+     "command-and-control": 0.17068708362334692,
+     "credential-access": 0.10370885950084519,
+     "defense-impairment": 0.014954757880083524,
+     "discovery": 0.08213184846375658,
+     "execution": 0.08348414039972159,
+     "exfiltration": 0.06063438401113652,
+     "impact": 0.0017897981505419112,
+     "initial-access": 0.029889629114049916,
+     "lateral-movement": 0.0887739882668788,
+     "persistence": 0.07885055185442975,
+     "privilege-escalation": 0.03068509495873521,
+     "reconnaissance": 0.04597792582280998,
+     "resource-development": 0.0,
+     "stealth": 0.14000198866461172
+    },
     "path_entropy": 2.2417858652580804,
     "hub_share": 0.17068708362334692,
     "hosts": {
@@ -6968,6 +7145,21 @@
      "privilege-escalation": 1.0,
      "reconnaissance": 1.0,
      "stealth": 1.0
+    },
+    "tactic_visit_share": {
+     "collection": 0.003661942691631323,
+     "command-and-control": 0.13954691217544224,
+     "credential-access": 0.032854039515878765,
+     "discovery": 0.12465087410778938,
+     "execution": 0.13669183821247544,
+     "impact": 0.08292127857660081,
+     "initial-access": 0.06343229543808834,
+     "lateral-movement": 0.08050067239060722,
+     "persistence": 0.12812661632357505,
+     "privilege-escalation": 0.03351608565221889,
+     "reconnaissance": 0.014627081824764663,
+     "resource-development": 0.0,
+     "stealth": 0.1594703630909279
     },
     "path_entropy": 2.013454642888883,
     "hub_share": 0.1594703630909279,
@@ -7063,6 +7255,22 @@
      "resource-development": 1.0,
      "stealth": 1.0
     },
+    "tactic_visit_share": {
+     "collection": 0.03960374530207903,
+     "command-and-control": 0.10912211335838891,
+     "credential-access": 0.010710173578675241,
+     "discovery": 0.17186244052920857,
+     "execution": 0.08631139883991223,
+     "exfiltration": 0.04186309226390911,
+     "impact": 0.12243922573917577,
+     "initial-access": 0.011774673589537486,
+     "lateral-movement": 0.05361604136342899,
+     "persistence": 0.10043231735135018,
+     "privilege-escalation": 0.07108253133757685,
+     "reconnaissance": 0.011774673589537486,
+     "resource-development": 0.011774673589537486,
+     "stealth": 0.15763289956768264
+    },
     "path_entropy": 2.061131554813235,
     "hub_share": 0.17391017608652642,
     "hosts": {
@@ -7155,6 +7363,21 @@
      "reconnaissance": 1.0,
      "resource-development": 1.0,
      "stealth": 1.0
+    },
+    "tactic_visit_share": {
+     "collection": 0.04413774018921116,
+     "command-and-control": 0.1953510091838323,
+     "credential-access": 0.10349539078849514,
+     "defense-impairment": 0.047942717791729365,
+     "discovery": 0.08535256576557879,
+     "execution": 0.16605268164444215,
+     "initial-access": 0.003441775195005102,
+     "lateral-movement": 0.13786125668033,
+     "persistence": 0.037876822497794845,
+     "privilege-escalation": 0.03344921219668275,
+     "reconnaissance": 0.015410159290198724,
+     "resource-development": 0.03175426762828828,
+     "stealth": 0.09787440114841142
     },
     "path_entropy": 1.9300426631786567,
     "hub_share": 0.20175767643748996,
@@ -7250,6 +7473,23 @@
      "reconnaissance": 1.0,
      "resource-development": 0.7,
      "stealth": 1.0
+    },
+    "tactic_visit_share": {
+     "collection": 0.05026898141762075,
+     "command-and-control": 0.13782095493329655,
+     "credential-access": 0.07243777957317674,
+     "defense-impairment": 0.015015665950696594,
+     "discovery": 0.10045914044179952,
+     "execution": 0.10948430449090586,
+     "exfiltration": 0.04008118706524524,
+     "impact": 0.043253788401284805,
+     "initial-access": 0.03172601336039569,
+     "lateral-movement": 0.09364100340906852,
+     "persistence": 0.08839931424517705,
+     "privilege-escalation": 0.03826827201607977,
+     "reconnaissance": 0.03523360986856366,
+     "resource-development": 0.002620844581945731,
+     "stealth": 0.14128914024474354
     },
     "path_entropy": 2.8109814542927185,
     "hub_share": 0.14166041016319594,

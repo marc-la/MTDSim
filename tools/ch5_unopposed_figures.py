@@ -151,17 +151,20 @@ TWO_LINE = {
 
 
 def emit_fig_a(core: dict) -> tuple[str, dict]:
-    """Panel (a): share of runs entering each named tactic, by profile (what the
-    campaign is, and that the profiles are different campaigns). Panel (b): share
-    of runs following the commonest opening of each length (whether a profile
-    runs its campaign the same way twice), the baseline attacker measured."""
+    """Panel (a): where each profile spends its steps, as the share of steps in
+    each named tactic (the distribution the divergence matrix summarises).
+    Panel (b): the share of runs that have left the attacker's most common
+    opening, against the opening's length, over the lengths the baseline
+    attacker's six activities cover; the baseline measured. One unit, the step,
+    carries both panels."""
     t = core["table"]
-    entry = {p: t[p]["tactic_entry_share"] for p in FOUR}
-    unknown = {k for p in FOUR for k in entry[p]} - {k for k, _ in TACTICS}
+    visit = {p: t[p]["tactic_visit_share"] for p in FOUR}
+    unknown = {k for p in FOUR for k in visit[p]} - {k for k, _ in TACTICS}
     if unknown:
         raise SystemExit(f"tactics in the corpus with no row in TACTICS: {sorted(unknown)}")
-    share = {p: t[p]["commonest_opening_share"] for p in (*FOUR, "baseline")}
-    kmax = max(int(k) for k in share["baseline"])
+    left = {p: {k: 1.0 - v for k, v in t[p]["commonest_opening_share"].items()} for p in (*FOUR, "baseline")}
+    kmax = max(int(k) for k in left["baseline"])
+    vmax = max(v for p in FOUR for v in visit[p].values())
 
     # geometry (cm)
     cw, ch = 1.45, 0.5
@@ -169,13 +172,12 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     n_r = len(TACTICS)
     MY0 = 0.0
     MY1 = MY0 + n_r * ch
-    XB0, XB1 = 10.6, 15.6
-    H = 4.3
-    YB1 = MY1 - 0.15
-    YB0 = YB1 - H
+    XB0, XB1 = 11.3, 15.6
+    YB1 = MY1 - 0.1
+    YB0 = YB1 - 4.9
 
     def yb(v):
-        return YB0 + v * H
+        return YB0 + v * (YB1 - YB0)
 
     def xb(k):
         return XB0 + (k - 1) / (kmax - 1) * (XB1 - XB0)
@@ -193,50 +195,50 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
         w(r"\node[anchor=east] at (%.3f,%.3f) {%s};" % (LAB - 0.15, y + ch / 2, name))
         for j, p in enumerate(FOUR):
             x = LAB + j * cw
-            v = entry[p].get(key)
-            if v is None:
-                w(r"\fill[white] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (x, y, cw, ch))
+            v = visit[p].get(key)
+            if v is None:  # not a tactic of this profile
+                w(r"\node[text=black!45] at (%.3f,%.3f) {---};" % (x + cw / 2, y + ch / 2))
             else:
-                w(r"\fill[black!%d] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (int(round(6 + 30 * v)), x, y, cw, ch))
-                w(r"\node at (%.3f,%.3f) {%d};" % (x + cw / 2, y + ch / 2, round(100 * v)))
+                shade = int(round(70 * v / vmax))
+                w(r"\fill[black!%d] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (shade, x, y, cw, ch))
+                txt = "0" if v == 0 else ("$<$1" if v < 0.005 else "%d" % round(100 * v))
+                w(r"\node[text=%s] at (%.3f,%.3f) {%s};" % ("white" if shade >= 45 else "black", x + cw / 2, y + ch / 2, txt))
             w(r"\draw[white,line width=0.8pt] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (x, y, cw, ch))
     w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (LAB, MY0, LAB + len(FOUR) * cw, MY1))
-    w(r"\node[anchor=north,text=black!60] at (%.3f,%.3f) {runs entering the tactic (\%%)};" % (LAB + len(FOUR) * cw / 2, MY0 - 0.12))
+    w(r"\node[anchor=north,text=black!60] at (%.3f,%.3f) {share of the profile's steps (\%%)};" % (LAB + len(FOUR) * cw / 2, MY0 - 0.12))
 
-    # panel (b): repeatability of the opening
+    # panel (b): departure from the most common opening
     axes(w, XB0, XB1, YB0, YB1,
          xticks=[(k, xb(k)) for k in range(1, kmax + 1)],
          yticks=[(v, yb(v / 100)) for v in range(0, 101, 25)],
          xlabel="length of the opening (steps)", ylabel="")
-    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (%.3f,%.3f) {(b)};" % (XB0 - 0.75, MY1 + 0.3))
-    w(r"\node[anchor=south west] at (%.3f,%.3f) {runs on the commonest opening (\%%)};" % (XB0 - 0.1, MY1 + 0.3))
-    pts = [(xb(k), yb(share["baseline"][str(k)])) for k in range(1, kmax + 1)]
-    w(r"\draw[cbase,line width=0.6pt,dash pattern=on 2.5pt off 1.5pt] %s;" % " -- ".join("(%.3f,%.3f)" % q for q in pts))
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {runs that have left the\\most common opening (\%%)};" % (XB0 - 0.8, (YB0 + YB1) / 2))
+    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (%.3f,%.3f) {(b)};" % (XB0 - 1.75, MY1 + 0.3))
+    pts = [(xb(k), yb(left["baseline"][str(k)])) for k in range(1, kmax + 1)]
+    w(r"\draw[cbase,line width=0.9pt,dash pattern=on 2.5pt off 1.5pt] %s;" % " -- ".join("(%.3f,%.3f)" % q for q in pts))
     for p in FOUR:
-        pts = [(xb(k), yb(share[p][str(k)])) for k in range(1, kmax + 1)]
+        pts = [(xb(k), yb(left[p][str(k)])) for k in range(1, kmax + 1)]
         w(r"\draw[%s,line width=0.6pt] %s;" % (CNAME[p], " -- ".join("(%.3f,%.3f)" % q for q in pts)))
         for x, y in pts:
             marker(w, MARK[p], CNAME[p], x, y)
     # key, under (b)
-    KX0 = XB0
-    ky = YB0 - 1.25
-    w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {attack profile};" % (KX0, ky))
-    ky -= 0.42
+    KX0 = XB0 - 0.6
+    ky = YB0 - 1.2
     for p in FOUR:
         w(r"\draw[%s,line width=0.6pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (CNAME[p], KX0, ky, KX0 + 0.7, ky))
         marker(w, MARK[p], CNAME[p], KX0 + 0.35, ky)
         w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (KX0 + 0.85, ky, LABEL[p]))
         ky -= 0.42
-    w(r"\draw[cbase,line width=0.6pt,dash pattern=on 2.5pt off 1.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (KX0, ky, KX0 + 0.7, ky))
+    w(r"\draw[cbase,line width=0.9pt,dash pattern=on 2.5pt off 1.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (KX0, ky, KX0 + 0.7, ky))
     w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (KX0 + 0.85, ky, LABEL["baseline"]))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
 
     facts = {
-        "tactics_entered": {LABEL[p]: len(entry[p]) for p in FOUR},
-        "partial_cells": {f"{LABEL[p]}/{k}": v for p in FOUR for k, v in entry[p].items() if v < 1.0},
-        "commonest_opening_share_kmax": {LABEL[p]: share[p][str(kmax)] for p in (*FOUR, "baseline")},
-        "baseline_first_branch": next((int(k) for k in sorted(share["baseline"], key=int) if share["baseline"][k] < 1.0), None),
+        "visit_share_top": {LABEL[p]: max(visit[p].items(), key=lambda kv: kv[1]) for p in FOUR},
+        "held_never_entered": {LABEL[p]: [k for k, v in visit[p].items() if v == 0] for p in FOUR},
+        "left_commonest_at_kmax": {LABEL[p]: left[p][str(kmax)] for p in (*FOUR, "baseline")},
+        "tactics_held": {LABEL[p]: len(visit[p]) for p in FOUR},
         "kmax": kmax, "nruns": t[FOUR[0]]["n"],
     }
     return "\n".join(L) + "\n", facts

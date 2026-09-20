@@ -419,6 +419,44 @@ reaches command and control second and initial access tenth. Panel (a) does
 not show order, so the figure is safe, but whether that order is the source
 reports' or a recording artefact should be known before chapter 6 reads it.
 
+### 8c. Second rework, applied 2026-09-20 — this supersedes the panel definitions in 8b
+
+8b's panel (a) (share of runs ENTERING each tactic) was a wall of 100s: profile
+membership, a construction fact, the same failure as the coverage curves. Its
+panel (b) fell where the claim rises and compared unlike steps. Two reviewers
+(a cold reader given only figure, caption and one body sentence; a critic
+reading against this file) rejected it; the third design passed both with no
+blocking defect. Scope ruling (Marc): Figure 5.1 only; Figure 5.2 and the table
+are not restructured in this pass.
+
+- **Panel (a), T1 and T2:** share of each profile's steps that fall in each
+  named tactic, pooled over runs (`tactic_visit_share`; the distribution the
+  divergence matrix is computed over). Dash = not in the profile; 0 = in the
+  profile, never entered (resource development, on exfiltration and impact);
+  <1 = below one per cent. Profiles only.
+- **Panel (b), T3:** share of runs that have LEFT the attacker's most common
+  opening, rising, lengths 1 to 8, baseline an ordinary measured series.
+- **One unit, the step:** a tactic entered (profile) or a phase entered
+  (baseline). The baseline's consecutive repeats of one phase are collapsed
+  (77 % of its records); uncollapsed, its first six steps were four phases and
+  the comparison was not like for like. Measured so: 0 % to length 4, 22 % from
+  length 5 (the exploit outcome branches to brute force or to scanning
+  neighbours). Three profiles reach 98-99 % by length 8; double extortion 32 %.
+- **Fairness, no normalisation:** departure needs branching, not vocabulary (a
+  fixed attacker of any vocabulary stays at zero), and the figure holds its own
+  control: exfiltration (15 tactics) and double extortion (14) sit at opposite
+  ends. Body text states this as an observation.
+- **Motivating sentence the body text owes (content, not prose):** a defence
+  that works by overturning what the attacker has learned is only tested by an
+  attacker whose next move is not fixed. The text must not say the baseline is
+  fixed outright: 22 % of its runs branch at step five.
+- **Exception to mark, not explain:** double extortion sits beside the
+  baseline. Chapter 6 owns why.
+- **Tactics held, with the synthetic overlay: 15, 13, 14, 13** (8b's 14, 14,
+  12, 13 were tactics ever entered). Reconcile before the text cites a count.
+- The method for settling a figure, kept: blind reader plus context critic,
+  repeated until neither reports a blocking defect.
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,

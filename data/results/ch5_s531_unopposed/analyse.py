@@ -183,6 +183,18 @@ def tactic_entry_share(runs: list[MovementRunResult]) -> dict:
     return {t: c / len(runs) for t, c in sorted(entered.items())}
 
 
+def tactic_visit_share(runs: list[MovementRunResult], profile: str) -> dict:
+    """``tactic -> share of the profile's steps spent in it``, pooled over the
+    runs (the distribution the divergence matrix is computed over). A tactic
+    the profile holds and never enters reads 0.0; one it does not hold is absent."""
+    from mtdsim.l3_simulation.movement.net import load_routing_net
+
+    visits = Counter(rec.place for r in runs for rec in r.records)
+    total = sum(visits.values())
+    held = load_routing_net(profile, with_synthetic_overlay=True).places
+    return {t: visits.get(t, 0) / total for t in sorted(set(held) | set(visits))}
+
+
 def movement_row(runs: list[MovementRunResult], stage_of: dict) -> dict:
     depth = [
         (d if (d := M.deepest_successful_stage(r, stage_of)) is not None else -1) for r in runs
@@ -213,6 +225,7 @@ def movement_row(runs: list[MovementRunResult], stage_of: dict) -> dict:
             for k in range(1, K_MAX + 1)
         },
         "tactic_entry_share": tactic_entry_share(runs),
+        "tactic_visit_share": tactic_visit_share(runs, runs[0].profile),
         "path_entropy": M.path_entropy(runs),
         "hub_share": max(M.visit_distribution(runs).values()),
         "hosts": _iv(r.compromised_count for r in runs),
@@ -250,7 +263,13 @@ def baseline_row(rows: list[dict]) -> dict:
     # The baseline is measured the way the profiles are, over its recorded
     # activity sequence (Marc, 2026-09-20): its ordering branches where an
     # exploit fails, so "one opening at every length" is not a structural fact.
-    seqs = [tuple(rec[0] for rec in row["records"]) for row in rows]
+    # A step is a phase ENTERED, the unit the profiles are counted in (a profile
+    # record is a tactic entered and never repeats its predecessor), so the
+    # baseline's consecutive repeats of one phase are collapsed.
+    seqs = [
+        tuple(n for i, n in enumerate(names) if i == 0 or n != names[i - 1])
+        for names in ([rec[0] for rec in row["records"]] for row in rows)
+    ]
     out_counts: dict[str, Counter] = {}
     for seq in seqs:
         for a, b in zip(seq, seq[1:]):
