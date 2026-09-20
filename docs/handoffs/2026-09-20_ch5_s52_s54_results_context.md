@@ -343,6 +343,38 @@ by Table 5.2's names; (c) the scope sentence.
    Plainly: a benchmark's ranking of systems depends on the test load it is run
    with; here the attacker model plays the part of the test load.
 
+## 8. Figure 5.1 critique (2026-09-20, open — Marc's rulings owed)
+
+Marc's read of `fig:aio-coverage`, cross-examined against the corpus
+(`data/results/ch5_s531_unopposed/`). Nothing applied to the figure yet.
+
+| Marc's point | Checked | Verdict |
+|---|---|---|
+| Panel (b) is a subset of (a) and adds nothing | Coverage saturates inside 2 000 s of a 15 000 s run; (a) is 85 % flat line | Upheld. One coverage panel, on the window where the curve moves |
+| No visible shaded band | The 95 % half-width is 0.15–0.5 tactics on a 0–15 axis | Upheld. The band is drawn and is sub-pixel; the caption promises what the reader cannot see |
+| Tactics against the baseline is not a fair comparison | The baseline line counts its six *activities*; the profiles count *tactics*. Two units on one axis | Upheld. The 6-against-14 gap is two vocabulary sizes, a construction fact, not a result |
+| The baseline succeeds and fails, so it has distinct openings | `analyse.py` hard-codes the baseline's openings to 1 ("structural"). Measured from the recorded runs: 1 up to length 6, then 2 at length 7 and 4 at length 8 | Upheld. "One ordering at every length by construction" is false as drawn; the baseline series must be measured like the others |
+| What are the tactics? | The figure counts tactics and never names one | Upheld. The reader cannot tell what campaign was traversed |
+| The flat line at six is a construction limit, not research | Same for each profile's plateau if it equals the profile's own tactic count (to check) | Upheld. By the §3 test these are by-construction facts: one sentence, not a figure's headline |
+
+Found beyond Marc's list:
+- The opening count is capped by the run count (exfiltration hits 100 of 100 at
+  length 8) and the corpus here is 100 seeds where the thesis declares 1 000.
+  A count that depends on sample size needs a normalised form (share of runs
+  that are unique, or number of runs sharing the commonest opening).
+- "Opening sequence" and "places" are not chapter 4 vocabulary at the axis.
+- The only non-construction facts in the figure: every campaign is opened
+  within about 2 000 s; the profiles differ in how fast; double extortion has
+  the widest coverage and the *fewest* openings (30 against 96–100).
+
+Recommended shape (for ruling): the question §5.2.1 answers is "what does the
+attacker do when nothing stops it". A tactic-by-time exhibit answers it: rows
+are the named tactics in campaign order, one mark per profile at the median
+time of first entry, absent where a profile does not hold the tactic. It names
+the tactics, shows the campaign order and its pace, and shows where profiles
+differ. The baseline leaves the axes and becomes one sentence (six activities,
+no campaign). Opening variety stays as a second panel, baseline measured.
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,
