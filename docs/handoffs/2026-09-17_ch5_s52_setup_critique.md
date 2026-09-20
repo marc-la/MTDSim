@@ -2375,3 +2375,82 @@ differently.
 Owed before the tex: Marc's read of the ten definitions; the blocked-fraction
 disposition; the name *time lost to the defence*; then set, build and measure,
 and bring §5.2's second sentence ("host breadth") and FLOATS.md into line.
+
+### AK10 — Third round: definitions grounded in the thesis's own words (2026-09-20)
+
+**Marc:** the definitions are "a bit vague and not grounded in what we're
+talking about"; each must be understandable "in the context of the paper as it's
+written so far". Specifically: *target reached* is the objective; *precondition*
+reads as an implementation detail, "talk about how actions fail"; *runs with no
+compromise* is not visibly different from its neighbours; *suppression* is right
+but "a mouthful"; and *Adapted from* raises a question it does not answer, "why
+are we coming up with new metrics, why are we not just adopting the ones that
+exist". Direction of good: decide it on the field's convention.
+
+1. **Direction of good: no arrows, nothing in the table.** The corpus never
+   marks direction with a symbol (no arrow in any of the 25 anatomies; that is a
+   machine-learning results-table habit). Where it states direction it is a
+   clause at the definition (Alavizadeh: "a higher value of RoA…"; Manadhata
+   and Wing per component), or the success criterion declared where the metric
+   is first read (He; conventions §e). With the definitions below, eight of ten
+   directions are self-evident. The two that are not, *actions per host reached*
+   and *successes per host reached*, get their clause in §5.5's opening
+   sentence. AK9.5's arrows and caption sentence are withdrawn; the table is
+   lighter for it.
+2. ***Precondition* is chapter 4's word, not the code's.** §4.4.1 (tex l.4580):
+   "An action fails if the preconditions of the action itself were missing —
+   for example, trying to exploit a vulnerability without having scanned for
+   it. The same holds for the moving target defence: if MTD interrupts the
+   attacker, then whatever verb it is on fails." So the thesis has already told
+   the reader there are two ways an action fails, and blocked is the first. The
+   definition keeps the word and points at the section; what was ungrounded was
+   *refused*, which is the docstring's.
+   **This also sharpens the AK9 flag.** On chapter 4's own account a deployment
+   *interrupts*; it does not *block*. A defence raises the blocked fraction
+   indirectly, by invalidating what the attacker had established, and 0.24 of
+   actions are blocked with no defence at all. Tab 5.4.1a's caption calls it
+   "what fraction of attempted actions it blocks", which attributes the whole
+   fraction to the defence. Still Marc's disposition; nothing changed.
+3. **The three success-events rows are the two ends of a run, and the
+   objective.** *Target reached* is the targeted objective of Table 2.5 met.
+   *Runs with no compromise* is the other end: the attacker never compromises
+   its first host, which is the only sense in which a defence here *prevents*
+   an attack and not merely slows it. Said that way they stop looking alike.
+4. **Suppression gets its formula**, which is the field's form for a definition
+   (AK1) and shorter than the words. Anchored at both ends so the scale reads
+   without a sentence: 0 when the defence changes nothing, 1 when no host is
+   reached.
+5. **"Why new metrics" is one sentence in the Metrics unit, Marc's to dictate.**
+   The facts are already on record (ch5 design handoff §13, the coverage map):
+   the lineage's success metric needs the attacker to complete its objective,
+   and at these deployment intervals neither attacker does, so ASR is
+   degenerate; MTTC is read at a compromise checkpoint the inherited attacker's
+   run defines, and is not comparable across the two attackers; the attack-path
+   metrics are computed on a graphical security model this evaluation does not
+   build. **Slot:** *job* — say that each metric keeps its lineage counterpart
+   where one can be computed for both attackers, and is new where none can;
+   *facts* — the three above, of which at most one fits; *ceiling* — a
+   declaration, not a defence of the choice; the account of what the field's
+   taxonomy covers and does not is chapter 6's (tex l.7077).
+
+**The definitions, revised** (tex refs in place of numbers):
+
+| | Measures | Metric | Definition | Adapted from |
+|---|---|---|---|---|
+| Effectiveness | success events | Target reached | the share of runs in which the attacker meets the targeted objective (Table 2.5): a database host compromised | |
+| | | Runs with no compromise | the share of runs in which the attacker never compromises its first host | |
+| | | Blocked fraction† | the share of the attacker's actions that fail on a missing precondition (Section 4.4.1) | attack actions blocked (Brown) — *verify* |
+| | attacker time | Delay to first compromise† | the time from the start of a run to the first host compromised, over the runs that compromise one | |
+| | system state | Hosts reached | the number of distinct hosts compromised by the end of a run | |
+| | | Suppression | the fraction of hosts reached that a defence removes, $1 - \bar{H}_{\text{defence}} / \bar{H}_{\text{no defence}}$: 0 for no effect, 1 for no host reached | |
+| Efficiency | resource spent | Actions per host reached | the actions the attacker attempts for each distinct host it compromises | attempts required (Brown) |
+| | | Successes per host reached | the actions that succeed for each distinct host compromised | |
+| | | Time lost to the defence† | the share of the run spent on actions a deployment interrupts, and in the delay that follows each interrupt | |
+| | | Share of run under reconfiguration | the share of the run during which a defence mechanism is deploying | |
+
+Vocabulary check, each against where the reader met it: *objective, targeted,
+database* (Table 2.5, §5.2 Network unit); *compromise* (§2.2.3); *action,
+precondition, interrupt, fails* (§4.4.1); *deployment, defence mechanism*
+(§2.2.2, ratified registry rows); *delay … imposed* is §4.4.1's confusion
+penalty. *Hosts reached* is the one name whose verb (*reach*) the definition
+has to convert to the thesis's (*compromise*), which the definition does.
