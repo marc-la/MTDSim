@@ -2521,3 +2521,29 @@ Rulings that follow (recommended, Marc's to confirm):
 
 §20.6's skeleton is superseded by this: ¶1 the question in ch4's words; ¶2–¶4
 one paragraph per family, each one or two sentences; no selection paragraph.
+
+
+## Debt ledger — what §5.2 exported, and where each is owed (2026-09-20)
+
+§5.2 was cut to declarations by moving content to other sections, all of which
+are still placeholders; until now the debts lived only in `%` comments. Check
+this list when drafting each home, and strike a row when its sentence lands.
+Source: setup handoff `2026-09-17_ch5_s52_setup_critique.md` §AL5, §AM.
+
+| # | Owed | Home | State |
+|---|---|---|---|
+| 1 | why two attackers are run | chapter 5 preamble (roadmap) | open |
+| 2 | why a thousand runs (Hoad's specified-precision method) | §5.1 or a footnote | open |
+| 3 | the four attacker-behaviour instruments, declared as observations | §5.3 head | open |
+| 4 | the verdict-blind control arm | §5.3.2 head | open, `%` note placed |
+| 5 | hosts reached is cut short differently on the two attackers (runs end on the target) | §5.3.1 | open, `%` note placed |
+| 6 | the four profiles pooled as "the movement attacker", 400 runs against 100 | §5.4 head | open, `%` note placed |
+| 7 | effect floors and multiplicity, stated with each claim | §5.4 claims | open |
+| 8 | no cross-attacker comparison is paired (D-29) | §5.4.2 | open |
+| 9 | the timing-distribution result (Table 5.2 row, 5 400 runs, in no float) | §5.4.2 | open, `%` note placed |
+| 10 | the opportunistic re-run declared where used | §5.4.3 (tab 5.4.3a's caption carries it now) | carried by caption |
+| 11 | intervals exceed the lineage's practice | §5.4.3 or chapter 6 | open |
+| 12 | the defender's goal / knowledge / capability | §2.2.2 | open |
+| 13 | MTDShield and the simultaneous scheme not run, with the reason | chapter 6 / 7 | open |
+| 14 | Jalowski's third guideline conceded; the coverage headline | chapter 6 (`sec:fidelity-verdict`, `sec:evaluation-implications`) | comment blocks placed |
+| 15 | the reason the target set is two database hosts and not five | §5.2 Network unit `[3b]` | Marc's |

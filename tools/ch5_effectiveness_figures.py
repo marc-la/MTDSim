@@ -172,12 +172,12 @@ def emit_tab55(s541: dict) -> str:
     w("%   model pooled over its four profiles, 400 runs per cell). Do not hand-edit.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Defence conditions measured against the attacker model]{Each defence condition scored on the three channels through which a defence can reach an attacker: whether it prevents compromise at all, how long it postpones the first one, and what fraction of the attacker's actions fail on a missing precondition, the attacker model pooled over its four profiles at each deployment interval. Intervals accompany every figure; delay to first compromise is the mean over the runs in which a compromise occurred, with the share of runs in which none occurred beside it, since that share is where a defence that denies the attacker every host shows; and adjacent conditions whose suppression intervals overlap are marked as indistinguishable rather than ranked. The intention is to state what each mechanism does on its own terms before any two are compared.}")
+    w(r"  \caption[Defence conditions measured against the movement attacker]{Each defence condition scored on the three channels through which a defence can reach an attacker: whether it prevents compromise at all, how long it postpones the first one, and what fraction of the attacker's actions fail on a missing precondition, the movement attacker pooled over its four profiles at each deployment interval. Intervals accompany every figure; delay to first compromise is the mean over the runs in which a compromise occurred, with the share of runs in which none occurred beside it, since that share is where a defence that denies the attacker every host shows; and adjacent conditions whose suppression intervals overlap are marked as indistinguishable rather than ranked. The intention is to state what each mechanism does on its own terms before any two are compared.}")
     w(r"  \label{tab:eff-conditions}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
-    w(r"  \begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{2.5cm}*{4}{>{\centering\arraybackslash}p{1.9cm}}@{}}")
+    w(r"  \begin{tabular}{@{}cP{3.0cm}>{\centering\arraybackslash}p{2.4cm}*{5}{>{\centering\arraybackslash}p{1.6cm}}@{}}")
     w(r"    \toprule")
-    w(r"    & Condition & Suppression & Hosts reached & Delay to first compromise (s) & Runs with no compromise & Blocked fraction \\")
+    w(r"    & Condition & Suppression & Hosts reached & Delay to first compromise (s) & Runs with no compromise & Target reached & Blocked fraction \\")
     w(r"    \midrule")
     marks = {}
     for interval in INTERVALS:
@@ -187,22 +187,26 @@ def emit_tab55(s541: dict) -> str:
         none = pooled["none"]
         if interval == INTERVALS[0]:
             dl = none["delay"]
-            w("    & no defence & --- & %s & %s & %.2f & %s \\\\" % (
+            # pooled no-defence target reach: the four profiles' cells are equal-sized
+            four = [q for q in blk["per_profile"] if q != "aggregate"]
+            none_tr = sum(blk["per_profile"][q]["none"]["target_reach"] for q in four) / len(four)
+            w("    & no defence & --- & %s & %s & %.2f & %.2f & %s \\\\" % (
                 pm(none["hosts"]), pm(dl["observed"], 0) if dl["observed"] else "---",
-                dl["censored_share"], pm(none["blocked"], 2)))
+                dl["censored_share"], none_tr, pm(none["blocked"], 2)))
             w(r"    \midrule")
         rows = [(c, pooled[c]) for c in blk["order_pooled"]]
         for i, (c, d) in enumerate(rows):
             group = r"\rowgroup{%d}{every %s\,s}" % (len(rows), fmt_thousands(int(interval))) if i == len(rows) - 1 else ""
             dl = d["delay"]
             mark = r"\textsuperscript{\dag}" if c in flagged else ""
-            w("    %s & %s%s & %s & %s & %s & %.2f & %s \\\\" % (
+            w("    %s & %s%s & %s & %s & %s & %.2f & %.2f & %s \\\\" % (
                 group, LONG[c], mark, _sup(d), pm(d["hosts_cond"]),
-                pm(dl["observed"], 0) if dl["observed"] else "---", dl["censored_share"], pm(d["blocked"], 2)))
+                pm(dl["observed"], 0) if dl["observed"] else "---", dl["censored_share"],
+                d["target_reach"], pm(d["blocked"], 2)))
         w(r"    \midrule" if interval == INTERVALS[0] else r"    \bottomrule")
         marks[interval] = blk["overlapping_adjacent"]
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{7}{@{}p{0.96\textwidth}@{}}{\scriptsize Conditions are ordered by suppression within each interval; the no-defence reference is one cell, read against both. \textsuperscript{\dag}~the suppression interval overlaps a neighbour's in this ordering: the two are not separated at 100 seeds per profile. Suppression is $1 - $ hosts reached / hosts reached with no defence, on cell means, with a seeded bootstrap interval; delay to first compromise is undefined in a run that compromises nothing, so the share of such runs (censored at the horizon) is reported beside the mean over the rest; the blocked fraction is the share of attempted actions refused on an unmet precondition.}\\")
+    w(r"    \multicolumn{8}{@{}p{0.96\textwidth}@{}}{\scriptsize Target reached is the share of runs that meet the targeted objective. Conditions are ordered by suppression within each interval; the no-defence reference is one cell, read against both. \textsuperscript{\dag}~the suppression interval overlaps a neighbour's in this ordering: the two are not separated at 100 seeds per profile. Suppression is $1 - $ hosts reached / hosts reached with no defence, on cell means, with a seeded bootstrap interval; delay to first compromise is undefined in a run that compromises nothing, so the share of such runs (censored at the time limit) is reported beside the mean over the rest; the blocked fraction is the share of attempted actions refused on an unmet precondition.}\\")
     w(r"  \end{tabular}")
     w(r"\end{table}")
     return "\n".join(L) + "\n"
@@ -216,12 +220,12 @@ def emit_tab56(s542: dict) -> str:
     w("%   hosts reached per condition per arm; the model pooled over four profiles). Do not hand-edit.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[The defence ordering produced by each attacker]{The defences ranked by suppression of hosts reached, once as the inherited attacker ranks them and once as the attacker model does, at each interval, with Spearman's rank correlation between the two orderings and a bootstrap interval on it. Where the evidence supports only a weaker statement than a full ordering the footnote says so: the family contrast, network-layer against application-layer mechanisms, is reported as Cliff's delta per arm, which is the object the seed count can separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}")
+    w(r"  \caption[The defence ordering produced by each attacker]{The defences ranked by suppression of hosts reached, once as the baseline attacker ranks them and once as the movement attacker does, at each interval, with Spearman's rank correlation between the two orderings and a bootstrap interval on it. Where the evidence supports only a weaker statement than a full ordering the footnote says so: the family contrast, network-layer against application-layer mechanisms, is reported as Cliff's delta per arm, which is the object the seed count can separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}")
     w(r"  \label{tab:eff-orderings}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
     w(r"  \begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{1.0cm}@{}}")
     w(r"    \toprule")
-    w(r"    & Condition & \multicolumn{2}{c}{Baseline attacker} & \multicolumn{2}{c}{Attacker model} \\")
+    w(r"    & Condition & \multicolumn{2}{c}{Baseline attacker} & \multicolumn{2}{c}{Movement attacker} \\")
     w(r"    \cmidrule(lr){3-4}\cmidrule(lr){5-6}")
     w(r"    & & Suppression & Rank & Suppression & Rank \\")
     w(r"    \midrule")
@@ -241,7 +245,7 @@ def emit_tab56(s542: dict) -> str:
         fam.append(r"baseline %.2f [%.2f, %.2f] and model %.2f [%.2f, %.2f] at %s\,s" % (
             fb["delta"], fb["lo"], fb["hi"], fm["delta"], fm["lo"], fm["hi"], fmt_thousands(int(interval))))
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Rank 1 is the largest suppression. Spearman's $\rho$ between the two orderings, with a seed-bootstrap interval: " + "; ".join(rho) + r". The family contrast is Cliff's $\delta$ on hosts reached, the network-layer mechanisms (IP shuffle and the two topology shuffles) against the application-layer ones (port shuffle, OS diversity, service diversity), positive when the network layer leaves fewer hosts: " + "; ".join(fam) + r". User shuffle belongs to neither family. Ranks within a family are not separable at this seed count (Table~\ref{tab:factors-fixed}); the rank correlation is a companion to the family contrast, not the primary.}\\")
+    w(r"    \multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Rank 1 is the largest suppression. Spearman's $\rho$ between the two orderings, with a seed-bootstrap interval: " + "; ".join(rho) + r". The family contrast is Cliff's $\delta$ on hosts reached, the network-layer mechanisms (IP shuffle and the two topology shuffles) against the application-layer ones (port shuffle, OS diversity, service diversity), positive when the network layer leaves fewer hosts: " + "; ".join(fam) + r". User shuffle belongs to neither family. Ranks within a family are not separable at this seed count (Table~\ref{tab:experiment}); the rank correlation is a companion to the family contrast, not the primary.}\\")
     w(r"  \end{tabular}")
     w(r"\end{table}")
     return "\n".join(L) + "\n"
@@ -296,12 +300,12 @@ def emit_tab57(s543: dict) -> tuple[str, list]:
     w("%   matrix under the opportunistic objective). Do not hand-edit.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Prior evaluations' headline findings under both attackers]{Each headline comparison reported by the earlier evaluations built on this simulator, re-run here under both attackers at the lineage's opportunistic objective, one row per claim: the published direction, the direction this simulator returns under the inherited attacker, and the direction under the attacker model. Because the configurations rather than the published numbers are reproduced, cells are read as agreement or disagreement in direction and never as a numerical replication, and the footnote states that boundary. The intention is to make published claims testable rather than merely cited, and to show that where they disagree with one another the disagreement is itself the finding.}")
+    w(r"  \caption[Prior evaluations' headline findings under both attackers]{Each headline comparison reported by the earlier evaluations built on this simulator, re-run here under both attackers at the lineage's opportunistic objective, one row per claim: the published direction, the direction this simulator returns under the baseline attacker, and the direction under the movement attacker. Because the configurations rather than the published numbers are reproduced, cells are read as agreement or disagreement in direction and never as a numerical replication, and the footnote states that boundary. The intention is to make published claims testable rather than merely cited, and to show that where they disagree with one another the disagreement is itself the finding.}")
     w(r"  \label{tab:eff-lineage}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
     w(r"  \begin{tabular}{@{}P{4.6cm}P{1.8cm}P{3.2cm}P{3.2cm}P{2.1cm}@{}}")
     w(r"    \toprule")
-    w(r"    Published claim & Source & Inherited attacker & Attacker model & Agreement in direction \\")
+    w(r"    Published claim & Source & Baseline attacker & Movement attacker & Agreement in direction \\")
     w(r"    \midrule")
     facts = []
     for key, claim, source, a_name, b_name, pair_key in CLAIMS:

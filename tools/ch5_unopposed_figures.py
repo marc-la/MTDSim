@@ -292,7 +292,7 @@ def emit_table(core: dict) -> str:
     w("%%   %d runs per attacker, %d s horizon). Do not hand-edit; regenerate." % (t[PROFILES[0]]["n"], core["horizon"]))
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[What each attacker does with no defence running]{Each attacker's behaviour with nothing opposing it, at the lineage horizon: the four attack profiles, the aggregate, which is the same corpus with the objective partition switched off and so the contrast objective conditioning is read against, and the baseline attacker. Means carry a 95\,\% interval; the opening count is the number of distinct length-five openings across the runs; the ending columns are shares of runs. The hosts column is the reference every suppression figure later in the chapter is a difference from, and the target column is what decides the rest of the chapter's shape, because a defence can only be credited with denying an objective the attacker would otherwise reach.}")
+    w(r"  \caption[What each attacker does with no defence running]{Each attacker's behaviour with nothing opposing it, at the time limit: the four attack profiles, the aggregate, which is the same corpus with the objective partition switched off and so the contrast objective conditioning is read against, and the baseline attacker. Means carry a 95\,\% interval; the opening count is the number of distinct length-five openings across the runs; the ending columns are shares of runs. The hosts column is the reference every suppression figure later in the chapter is a difference from, and the target column is what decides the rest of the chapter's shape, because a defence can only be credited with denying an objective the attacker would otherwise reach.}")
     w(r"  \label{tab:unopposed-summary}")
     # \scriptsize + tight padding together, the §k rule-1 fallback for a table
     # that will not fit \textwidth at \footnotesize; centred fixed-width numeric
@@ -300,7 +300,7 @@ def emit_table(core: dict) -> str:
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
     w(r"  \begin{tabular}{@{}P{3.0cm}*{7}{>{\centering\arraybackslash}p{1.5cm}}@{}}")
     w(r"    \toprule")
-    w(r"    Attacker & Distinct tactics & Successes per host & Openings, $k=5$ & Path entropy\textsuperscript{\dag} & Hosts reached & Target reached & Ended at horizon \\")
+    w(r"    Attacker & Distinct tactics & Successes per host & Openings, $k=5$ & Path entropy\textsuperscript{\dag} & Hosts reached & Target reached & Ended at time limit \\")
     w(r"    \midrule")
     for i, p in enumerate(PROFILES):
         r = t[p]

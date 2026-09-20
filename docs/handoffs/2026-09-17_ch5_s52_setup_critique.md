@@ -2675,3 +2675,32 @@ attacker* (conventions §f2); Table 5.2's caption is literally true of
 metric names match the §5.4/§5.5 column headers; suppression's formula matches
 `analyse.py:230`; *precondition* and *interrupt* land on §4.4.1; no badge
 breach, the section declares and does not argue.
+
+
+## §AM — The §AL proposals, accepted and applied (2026-09-20)
+
+Marc accepted P1–P17 in chat ("I'm fine with all those ... execute and apply").
+On the interval he was right: the default is 200 s plus Exp(0.5 s). 15 000 s has
+a source after all, Ho's `finish_time` (ho2024.md H-PAR-08).
+
+| P | Applied |
+|---|---|
+| 1 | Objective held at targeted: Attacker unit's second sentence replaced by "Both pursue the targeted objective (Table 2.5)"; Table 5.2's row is one value; caption's crossing loses "objective". The opportunistic re-run is §5.4.3's. |
+| 2 | §4.4.1: three-clause paragraph giving the movement attacker the targeted objective, the host-priority rule and the run ending on a target. Placement Marc's. |
+| 3 | §2.2.2: "drawn exponentially" replaced by the 200 s near-periodic interval and the 20–110 s deployment durations, four of seven Zhang's. |
+| 4 | §2.2.1: the network defaults and the five database hosts; Table 2.5's targeted row no longer says "one specific". |
+| 5 | Defence unit: "under the single scheme". The optional not-run sentence was NOT added (it re-opens AJ8.5); ledger row 13. |
+| 6 | Attacker unit: the aggregate glossed against §4.1. |
+| 7 | Table 5.2: *Time limit* [Ho], with the early end declared. |
+| 8 | Table 5.2: Zhang's citation off the duration row. |
+| 9 | Table 5.2: *Timing distribution*, near-periodic against exponential, caption says what it governs. Result owed to §5.4.2. |
+| 10 | tab 5.4.1a gains *Target reached* (generator; pooled no-defence value is the mean of the four equal-sized profile cells, 0.09); fig 5.5b's caption names time lost to MTD; `%` notes at §5.3.1, §5.3.2, §5.4.1, §5.4.2. |
+| 11–12 | Metrics unit: Marc's sentence leads and names Table 5.3 once; "ranked on hosts reached". |
+| 13–14 | Table 5.3: suppression's negative end; "activity", not "actions". |
+| 15 | Runs unit: "starts on". |
+| 16 | Chapter 5 captions, table headers and figure legends: baseline attacker, movement attacker, time limit, deployment intervals; four generators edited and re-run. One stray hit in chapter 4's prose was reverted. Also fixed: the effectiveness generator still emitted the retired `tab:factors-fixed` label. Seed-count strings wait for the thousand-seed run. |
+| 17 | Debt ledger written into `2026-09-09_ch5_experiments_design.md`. |
+
+Build clean at 92 pages, no undefined reference, no overfull box in any edited
+float. tab 5.4.1a's caption still says "three channels" beside four outcome
+columns; left for Marc's read.

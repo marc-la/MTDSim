@@ -110,6 +110,10 @@
 % 2026-09-20 fourth pass (Marc): the ADAPTED FROM column is gone --- with one
 % entry it was a column for one cell. Brown's attribution closes the one
 % definition it belongs to, and the definition column takes the width.
+% 2026-09-20, P13/P14 (setup handoff §AL4, §AM): suppression is negative in tab
+% 5.4.1a (user shuffle), so the scale says so; "activity", not "actions", because
+% the ledger sums interrupted records and over half land on dwell-only visits,
+% which §4.4.1 says have no action in flight (metrics_semantics.md §d2).
 \begin{table}[htbp]
   \centering
   \caption[The metrics]{The metrics this chapter judges a defence by, under the purposes and measures of Table~\ref{tab:mtd-metrics}.}
@@ -124,11 +128,11 @@
     & & Blocked fraction & the share of the attacker's actions that fail on a missing precondition (Section~\ref{subsec:runtime-mechanics})\\
     & attacker time & Delay to first compromise & the time from the start of a run to the first host compromised, over the runs that compromise one\\
     & system state & Hosts reached & the number of distinct hosts compromised in a run\\
-    \rowgroup{6}{Effectiveness} & & Suppression & the fraction of hosts reached that a defence removes, $1 - \bar{H}_{\mathrm{defence}} / \bar{H}_{\mathrm{no\ defence}}$: 0 for no effect, 1 for no host reached\\
+    \rowgroup{6}{Effectiveness} & & Suppression & the fraction of hosts reached that a defence removes, $1 - \bar{H}_{\mathrm{defence}} / \bar{H}_{\mathrm{no\ defence}}$: 0 for no effect, 1 for no host reached, negative if more hosts are reached\\
     \midrule
     & resource spent & Actions per host reached & the actions the attacker attempts for each distinct host it compromises; more is a costlier attack. Adapted from attempts required \citep{brown2023} \\
     & & Successes per host reached & the actions that succeed for each distinct host compromised; more is a costlier attack\\
-    & & Time lost to MTD & the share of the run spent on actions a deployment interrupts, and in the delay that follows each interrupt\\
+    & & Time lost to MTD & the share of the run spent on activity a deployment interrupts, and in the delay that follows each interrupt\\
     \rowgroup{4}{Efficiency} & & Share of run under reconfiguration & the share of the run in which a defence mechanism is deploying\\
     \bottomrule
   \end{tabular}

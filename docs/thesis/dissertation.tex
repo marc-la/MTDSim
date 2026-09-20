@@ -484,7 +484,14 @@ of subnets constructed using the Barab\'asi--Albert model
 mimics the scale-free characteristic of a real-world network
 \citep{brown2023}. The first level is the exposed
 endpoints, and reaching a deeper level requires compromising a host in the
-level before it. On the service layer each host has one operating system
+level before it. By default the network has 50 hosts in four levels of
+depth and eight subnets, with five exposed endpoints and five database hosts
+at the deepest level.
+% [2026-09-20: P4 of the §5.2 split-stream scrutiny (setup handoff §AL1 1d, §AM),
+%  session-drafted, accepted by Marc in chat: §5.2's "the simulator's own
+%  default" pointed here and nothing here stated the values. Verified at
+%  mtdnetwork/component/time_network.py:11-12. Ratify on read.]
+On the service layer each host has one operating system
 and a small number of versioned services, the services connected in a
 service graph constructed using the Watts--Strogatz model
 \citep{watts1998}. Each host also carries users and credentials, and an IP
@@ -631,7 +638,17 @@ Four are time-triggered, or proactive; one is hybrid: MTDShield, Tay's
 reinforcement-learning selector \citep{tay2024}. \emph{No operation} is a
 policy choice: MTDShield chooses one of four of the MTD mechanisms, or
 nothing. That is the when not to move. The interval between deployments
-is drawn exponentially \citep{zhang2023}. Two mechanisms rewriting the
+is 200\,s plus a small exponentially drawn term, half a second on average,
+so deployments arrive close to periodically. A deployment takes time to
+complete, from 20\,s to 110\,s depending on the mechanism; four of the
+seven values are Zhang's \citep{zhang2023} and the rest are the simulator's.
+% [2026-09-20: P3 of the §5.2 split-stream scrutiny (setup handoff §AL1 1c, §AM),
+%  session-drafted, accepted by Marc in chat. Replaces "is drawn exponentially
+%  [zhang2023]", which Table 5.2 contradicted (exponential is its VARIANT level);
+%  closes the ch2 correction owed since the 2026-09-09 scrutiny pass (C).
+%  time_generator.py:9-11 (loc + Exp(0.5)); constants.py MTD_TRIGGER_INTERVAL,
+%  MTD_DURATION; provenance.md IS-TIM-03 (Zhang's table covers four). Ratify on read.]
+Two mechanisms rewriting the
 same layer cannot operate concurrently \citep{zhang2023}. There are no
 purely reactive deployment strategies in the simulator: no detection
 channel is encoded, so a detection-triggered strategy, such as an
@@ -737,7 +754,7 @@ implementation detail.
     Objective & Description \\
     \midrule
     Opportunistic & compromise the network: 80\,\% of the hosts, or until nothing new is discovered \\
-    Targeted & compromise one specific deep-embedded host, such as a database \\
+    Targeted & compromise a target host, deep-embedded, such as a database \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -4528,6 +4545,17 @@ runtime, the firing time of $\tau_p$ (the numbered joins of
 Figure~\ref{fig:runtime-loop}). A drawn dwell \emph{replaces} the dispatched
 action's native cost rather than adding to it: an action consumes its
 tactic's drawn time and nothing further.
+
+The movement attacker is given the targeted objective of
+Table~\ref{tab:attacker-objectives}. It attacks a target host if one is
+visible, and otherwise prefers the hosts nearest the target's level; the run
+ends when a target is compromised.
+% [2026-09-20: P2 of the §5.2 split-stream scrutiny (setup handoff §AL1 1b, §AM),
+%  session-drafted, accepted by Marc in chat; PLACEMENT IS HIS. Chapter 4 never
+%  said the movement attacker takes an objective of Table 2.5, whose caption
+%  scopes both to the baseline attacker; §5.2 and Table 5.3 rest on it. Facts:
+%  src/mtdsim/l3_simulation/movement/targeting.py (Brown's host-priority rule),
+%  attack_operation.py:749-757 (the run ends on a target). Ratify on read.]
 % [2026-09-08: ", and produced the join through the controller layer"
 %  deleted (the preamble says it); "the firing time of tau_p" bound; the
 %  figure pointer folded in from the cut loop paragraph. The "supplies all
@@ -5600,8 +5628,16 @@ attacker's or the defence's.
 \textbf{Attacker.} Two arms: the baseline attacker of
 Section~\ref{subsec:attacker-model}, and the movement attacker of
 Chapter~\ref{ch:attacker-model} on each of its four attack profiles and on the
-aggregate. Their objective is varied as well (targeted and opportunistic),
-since a defence that denies one goal need not deny another.
+aggregate, the attack graph of Section~\ref{sec:technique-graph} before it is
+partitioned into profiles. Both pursue the targeted objective
+(Table~\ref{tab:attacker-objectives}).
+% 2026-09-20 (P1, P6; setup handoff §AL1 1a, 1f, §AM; Marc: "we default to the
+%  targeted for the movement attacker so I don't even think the split is even
+%  necessary"). OBJECTIVE IS HELD, NOT VARIED: the opportunistic runs exist for
+%  §5.4.3's re-run of the prior evaluations and are declared there (tab 5.4.3a's
+%  caption already does). The motive clause goes with the factor. In chapter 5
+%  "objective" now always arrives as "the targeted objective (Table 2.5)", and
+%  §4.2's sense is always "attack profile", which is the collision's repair.
 % CUT 2026-09-18 (Marc: "what is the last clause doing here ... is this
 %  convention?"). It was "Whether that choice changes what an evaluation
 %  concludes is the chapter's question" --- the research question restated in the
@@ -5620,7 +5656,7 @@ since a defence that denies one goal need not deny another.
 %  it alone ("this is the chapter's central comparison").
 
 \textbf{Defence.} Ten conditions: no defence, each of the seven defence
-mechanisms deployed alone, and the random and alternative execution schemes,
+mechanisms under the single scheme, and the random and alternative execution schemes,
 which draw on the whole pool (Section~\ref{subsec:defence-mechanisms}). Each
 defended condition runs at both deployment intervals, and the interval
 distribution is varied separately (Table~\ref{tab:experiment}). The no-defence
@@ -5717,13 +5753,15 @@ runs are the reference for every effect this chapter reports.
 %  register: the selector would need retraining before it could trade cost
 %  against risk.
 
-\textbf{Metrics.} Table~\ref{tab:metrics} lists the metrics this chapter judges
-a defence by, grouped by effectiveness and efficiency as
-Table~\ref{tab:mtd-metrics} groups the field's. Every comparison is made on hosts
-reached, the distinct hosts an attacker compromises.
-Both attacker models are instrumented for this chapter, with metrics either
-adapted from earlier evaluations or introduced here, which are outlined in
-Table~\ref{tab:metrics}.
+\textbf{Metrics.} Both attacker models are instrumented for this chapter, with
+metrics either adapted from earlier evaluations or introduced here, which are
+outlined in Table~\ref{tab:metrics}. They are grouped by effectiveness and
+efficiency, as Table~\ref{tab:mtd-metrics} groups the field's. The defences are
+ranked on hosts reached, the distinct hosts an attacker compromises.
+% 2026-09-20 (P11, P12; setup handoff §AL4, §AM): Table 5.3 is named ONCE, in
+%  Marc's dictated sentence, which now leads; "every comparison is made on hosts
+%  reached" was false (tab 5.4.1a compares on delay, runs with no compromise and
+%  blocked fraction; tab 5.5a on actions per host) and is scoped to the ranking.
 % 2026-09-20: Marc's dictation replaces the session's ending ("each under the
 %  quantity of Table 3.1 that it measures") --- the quantity is not to be referred
 %  to as a concept. NOTE: the unit's first sentence already names Table 5.3.
@@ -5821,7 +5859,7 @@ Table~\ref{tab:metrics}.
 
 \textbf{Runs.} Every combination in Table~\ref{tab:experiment} is run a thousand
 times, each on its own seed. The same seeds are used on every arm, so every
-attacker meets the same thousand networks. Differences are reported as effect
+attacker starts on the same thousand networks. Differences are reported as effect
 sizes with 95\,\% confidence intervals.
 % REBUILT 2026-09-18 on Marc's read: "that reads like compaction for an LLM ...
 %  this is not thesis-ready". He is right, and the diagnosis is specific --- the
@@ -6108,7 +6146,7 @@ sizes with 95\,\% confidence intervals.
 \section{APT attacker behaviour}
 \label{sec:attacker-in-operation}
 
-\noindent\emph{[Placeholder --- delete on drafting. What the attacker model does
+\noindent\emph{[Placeholder --- delete on drafting. What the movement attacker does
 when it is run: the campaign it walks with nothing opposing it, what changes when
 a defence disrupts it, and what its two declared capabilities buy. These are
 observations about the model, not yet a verdict on it; the verdict is
@@ -6219,6 +6257,10 @@ that Section~\ref{sec:effectiveness} reports against.]}
 %     IF THE RULING IS NO: it goes to ch7 as a named future-work condition,
 %     not silently.
 % ---------------------------------------------------------------------
+% OWED HERE, 2026-09-20 (setup handoff §AL2, §AM P7): a targeted run ends when a
+% target is compromised, so hosts reached is cut short at different rates on the
+% two attackers (ended on target, unopposed: baseline 0.58, profiles 0.05-0.17,
+% this table). A results fact, stated where the hosts column is first read.
 \subsection{Without defence}
 \label{subsec:aio-unopposed}
 
@@ -6236,7 +6278,7 @@ that Section~\ref{sec:effectiveness} reports against.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-3-1a_coverage_openings}
-  \caption[Campaign coverage and opening variety, by profile]{Panel~(a): the number of distinct campaign tactics each profile has entered as a run proceeds, with no defence running, against the baseline attacker on the same axes; its line is flat by construction once its six activities have each run once, because it has no more of a campaign to traverse. Panel~(b) is the first 3\,000\,s of panel~(a), where the campaigns are still being opened. The shaded band is the 95\,\% interval on the mean over the runs. Panel~(c): the number of distinct opening sequences of each length observed across the runs, per profile, against the baseline attacker, which holds one ordering at every length by construction. The panels are read against no defence so that they are a statement about the model rather than about the defence. The intention is to show, in one figure, the two things the attacker model adds that the simulator could not express: a campaign to traverse, and more than one way to open it.}
+  \caption[Campaign coverage and opening variety, by profile]{Panel~(a): the number of distinct campaign tactics each profile has entered as a run proceeds, with no defence running, against the baseline attacker on the same axes; its line is flat by construction once its six activities have each run once, because it has no more of a campaign to traverse. Panel~(b) is the first 3\,000\,s of panel~(a), where the campaigns are still being opened. The shaded band is the 95\,\% interval on the mean over the runs. Panel~(c): the number of distinct opening sequences of each length observed across the runs, per profile, against the baseline attacker, which holds one ordering at every length by construction. The panels are read against no defence so that they are a statement about the model rather than about the defence. The intention is to show, in one figure, the two things the movement attacker adds that the simulator could not express: a campaign to traverse, and more than one way to open it.}
   \label{fig:aio-coverage}
 \end{figure}
 
@@ -6343,6 +6385,9 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % re-orienting. It is paired inside each run, so run-to-run variation cancels;
 % the verdict-blind arm is the control that says the change is a response and
 % not drift. In the prose, describe it that way and never as "action mix".
+% OWED HERE, 2026-09-20 (setup handoff §AL3, §AM P10): the verdict-blind control
+% is run (run_corpus.py "blind" group) and declared nowhere; §5.2 does not carry
+% it, so it is declared at this subsection's head, where it is first used.
 \subsection{Under defence}
 \label{subsec:aio-disruption}
 
@@ -6362,7 +6407,7 @@ that Section~\ref{sec:effectiveness} reports against.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-3-2a_adaptivity}
-  \caption[How the attacker's activity changes after a deployment]{The mix of activities in the five visits immediately before and the five immediately after each defensive interrupt, pooled over the runs of the four profiles, with a control in which the attacker's routing is made blind to the outcome its actions return. The panels are the two mechanisms that span how a defence reaches this attacker, one that destroys its position and one that re-rolls the surface it exploits, each at two tempos, because a response that exists at one interval only is a property of the interval. Only a deployment that interrupted a visit is paired, since one the attacker never collided with leaves no trace in its record. The comparison isolates whether a change in behaviour is a response to the disruption or drift that would have happened anyway. The intention is to show the adaptive loop operating, and to be explicit that operating is a weaker claim than changing an outcome.}
+  \caption[How the attacker's activity changes after a deployment]{The mix of activities in the five visits immediately before and the five immediately after each defensive interrupt, pooled over the runs of the four profiles, with a control in which the attacker's routing is made blind to the outcome its actions return. The panels are the two mechanisms that span how a defence reaches this attacker, one that destroys its position and one that re-rolls the surface it exploits, each at two deployment intervals, because a response that exists at one interval only is a property of the interval. Only a deployment that interrupted a visit is paired, since one the attacker never collided with leaves no trace in its record. The comparison isolates whether a change in behaviour is a response to the disruption or drift that would have happened anyway. The intention is to show the adaptive loop operating, and to be explicit that operating is a weaker claim than changing an outcome.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -6606,6 +6651,9 @@ under both attackers on this one simulator.]}
 %          this attacker, and whether the answer is profile-dependent.
 %  Tab. B  the condition x metric table for the movement arm: suppression,
 %          delay to first compromise, blocked fraction, with intervals.
+% OWED HERE, 2026-09-20 (setup handoff §AL3, §AM P10): "the movement attacker" in
+% tab:eff-conditions is the four profiles POOLED, 400 runs against the baseline's
+% 100 (analyse.py:398); say so once at the head of this section.
 \subsection{Mechanisms and schemes}
 \label{subsec:eff-under-defence}
 
@@ -6622,7 +6670,7 @@ under both attackers on this one simulator.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-4-1a_suppression_profiles}
-  \caption[How much each defence suppresses each profile]{The reduction in hosts reached under each defence condition relative to the no-defence reference, for every profile, at each deployment interval. Panels~(a) and~(c) are the single mechanisms and panels~(b) and~(d) the schemes that deploy several together, separated so that every condition stays legible, with the profile colours of Section~\ref{sec:attacker-in-operation}; whiskers are 95\,\% bootstrap intervals on the ratio of means. The intention is to establish which defences reach this attacker at all, and whether the answer depends on which operational objective the attacker is pursuing, before the comparison against the inherited attacker is attempted.}
+  \caption[How much each defence suppresses each profile]{The reduction in hosts reached under each defence condition relative to the no-defence reference, for every profile, at each deployment interval. Panels~(a) and~(c) are the single mechanisms and panels~(b) and~(d) the schemes that deploy several together, separated so that every condition stays legible, with the profile colours of Section~\ref{sec:attacker-in-operation}; whiskers are 95\,\% bootstrap intervals on the ratio of means. The intention is to establish which defences reach this attacker at all, and whether the answer depends on which operational objective the attacker is pursuing, before the comparison against the baseline attacker is attempted.}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
@@ -6684,6 +6732,12 @@ under both attackers on this one simulator.]}
 %          profiles across the same conditions.
 %  Tab. C  the two rankings side by side with the rank statistic and its
 %          interval. PURPOSE: states the grade the evidence carries.
+% OWED HERE, 2026-09-20 (setup handoff §AL3, §AM P9): Table 5.2's timing
+% distribution row is run and reported in no float. One column or small table
+% from numbers.json's "regime" block: under the exponential level the baseline
+% attacker's suppression falls (port shuffle 0.90 -> 0.14, OS diversity 0.64 ->
+% 0.13) while the movement attacker's ordering of the nine conditions holds.
+% Provenance, not values: re-derive at the reported seed count.
 \subsection{Attacker comparison}
 \label{subsec:eff-cross-arm}
 
@@ -6698,7 +6752,7 @@ under both attackers on this one simulator.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-4-2a_cross_arm}
-  \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the inherited scripted attacker and once against the attacker model, on the same network under identical conditions, single mechanisms in panels~(a) and~(c) and deployment schemes in panels~(b) and~(d), at each deployment interval. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
+  \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the baseline attacker and once against the movement attacker, on the same network under identical conditions, single mechanisms in panels~(a) and~(c) and deployment schemes in panels~(b) and~(d), at each deployment interval. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -6820,7 +6874,7 @@ spends.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-5b_time_split}
-  \caption[How a defence changes where the attacker's time goes]{The attacker model's elapsed time under each defence condition, at each interval, divided into activity that ran to completion, activity a deployment cut short before it could return an outcome, and the delay the deployment then imposed, with segment values printed since a stacked bar is otherwise hard to read across conditions. The decomposition is drawn for the attacker model only: the delay a deployment imposes is not written to the inherited attacker's records, so its time cannot be split the same way, and the cross-arm comparison is made event-wise in Table~\ref{tab:eff-cost}. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
+  \caption[How a defence changes where the attacker's time goes]{The movement attacker's elapsed time under each defence condition, at each interval, divided into activity that ran to completion, activity a deployment cut short before it could return an outcome, and the delay the deployment then imposed, the last two together being the time lost to MTD (Table~\ref{tab:metrics}), with segment values printed since a stacked bar is otherwise hard to read across conditions. The decomposition is drawn for the movement attacker only: the delay a deployment imposes is not written to the baseline attacker's records, so its time cannot be split the same way, and the cross-arm comparison is made event-wise in Table~\ref{tab:eff-cost}. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
   \label{fig:eff-cost-decomposition}
 \end{figure}
 

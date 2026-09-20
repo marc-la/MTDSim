@@ -95,7 +95,7 @@ def emit(s532: dict) -> tuple[str, dict]:
     # key, once, under the panels
     ky = Y0[1] - 2.25
     kx = X0[0]
-    entries = [("cmov!45", "attacker model, the five visits before"), ("cmov", "attacker model, the five visits after"),
+    entries = [("cmov!45", "movement attacker, the five visits before"), ("cmov", "movement attacker, the five visits after"),
                ("cbase!45", "outcome-blind control, before"), ("cbase", "outcome-blind control, after")]
     for i, (fill, text) in enumerate(entries):
         xx = kx + (i % 2) * 7.5

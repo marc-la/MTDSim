@@ -56,9 +56,19 @@
 % the one attribution a reader could not recover, Zhang's, as a citation in the
 % row it belongs to. NOTE: with the footnote gone, Appendix app:controller-mapping
 % is referenced from no live text.
+% 2026-09-20, P1/P7/P8/P9 of the split-stream scrutiny (setup handoff §AL, §AM),
+% accepted by Marc in chat. OBJECTIVE is held at targeted (the opportunistic
+% re-run is §5.4.3's, declared there). TIME LIMIT, not run length: a targeted run
+% ends when a target is compromised (attack_operation.py:749-757), so 15 000 s is
+% a limit; the value is Ho's finish_time (ho2024.md H-PAR-08). ZHANG'S CITATION
+% leaves the duration row: his table covers four of the seven (provenance.md,
+% IS-TIM-03); §2.2.2 now carries the attribution. TIMING DISTRIBUTION, not
+% interval distribution: the switch governs every simulator draw (run.py:364-368).
+% OWED: its result is in no float; one column or small table in §5.4.2 from
+% numbers.json's regime block (baseline port shuffle 0.90 -> 0.14).
 \begin{table}[htbp]
   \centering
-  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, objective, condition and deployment interval are run in every combination; the interval distribution is varied at the 200\,s interval under the targeted objective.}
+  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, condition and deployment interval are run in every combination; the timing distribution, which governs the interval, the deployment durations and the delay after an interrupt, is varied at the 200\,s interval.}
   \label{tab:experiment}
   \tablestyle\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}cP{3.4cm}P{10.9cm}@{}}
@@ -72,14 +82,14 @@
     \multirow{-5}{*}[-0.30cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & the two database hosts, at the deepest level \\
     \midrule
     & Arm & the baseline attacker; the movement attacker on each of the four attack profiles; the movement attacker on the aggregate \\
-    \multirow{-2}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Objective & targeted; opportunistic \\
+    \multirow{-2}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Objective & targeted \\
     \midrule
     & Condition & no defence; each of the seven defence mechanisms alone; the random execution scheme; the alternative execution scheme \\
     & Deployment interval & 200\,s; 2\,000\,s \\
-    & Interval distribution & quasi-periodic; exponential, same mean \\
-    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration \citep{zhang2023} & complete topology shuffle 110\,s, host topology shuffle 100\,s, IP shuffle 100\,s, OS diversity 80\,s, port shuffle 70\,s, service diversity 70\,s, user shuffle 20\,s \\
+    & Timing distribution & near-periodic (Section~\ref{subsec:defence-mechanisms}); exponential, same means \\
+    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration & complete topology shuffle 110\,s, host topology shuffle 100\,s, IP shuffle 100\,s, OS diversity 80\,s, port shuffle 70\,s, service diversity 70\,s, user shuffle 20\,s \\
     \midrule
-    & Run length & 15\,000\,s \\
+    & Time limit \citep{ho2024} & 15\,000\,s; a run ends earlier if the attacker compromises a target \\
     \multirow{-2}{*}[-0.17cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Seeds & 1\,000 per combination, the same set on every arm \\
     \bottomrule
   \end{tabular}
