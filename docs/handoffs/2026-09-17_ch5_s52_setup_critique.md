@@ -2544,3 +2544,17 @@ that points at columns by ordinal is hard to follow. Direction is encoded where
 he first asked for it, in the definition, and only in the two rows where it is
 not self-evident: "…; more is a costlier attack". (4) §4.4.1's "a mutation that
 lands…" stays as it is. Build clean at 92 pages.
+
+### AK14 — Sixth round (2026-09-20)
+
+(1) **The *Adapted from* column is gone**: with one entry it was a column for one
+cell. Brown's attribution now closes the one definition it belongs to ("Adapted
+from attempts required [Brown]"), the caption's decoding sentence leaves with
+the column, and the definition takes the width (1.9 · 3.0 · 9.4 cm): no
+definition over three lines, most at one or two. (2) **The why-new-metrics
+sentence is Marc's dictation**: "Both attacker models are instrumented for this
+chapter, with metrics either adapted from earlier evaluations or introduced
+here, which are outlined in Table 5.3." The session's ending is dropped on his
+ruling that the quantity is not to be referred to as a concept. Noted in the
+source: the unit's first sentence already names Table 5.3. Build clean at 92
+pages, no overfull box.
