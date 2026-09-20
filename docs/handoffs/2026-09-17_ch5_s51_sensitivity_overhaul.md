@@ -1,5 +1,5 @@
 ---
-status: RE-RUN LANDED 2026-09-17 (33 000 runs, zero errors, centre identical to the defended corpus); the four fragments, the App. C.1 figure, the App. C leads and the §5.1 skeleton are in the tex; findings record ch5_s51_sensitivity_findings.md. OWED: Marc's acceptance of the three ch4 insertions (comment blocks in place); the §5.1 dictation (three paragraphs, D2, the findings record §7 is the content); the caption voice passes; the re-launch at a thousand seeds when the defended corpus moves (findings §8); a one-clause §5.1 pointer in the redrafted §5.2 if Marc wants one (the redraft carries none)
+status: RULED 2026-09-20 — the body section is CUT; the table leads Appendix C; chapter 5 opens on the experimental setup (see "Ruling" at the foot). OWED: Marc's exposure sentence (results or sec:fidelity-verdict) and the setup pointer clause, both marked in the tex; the analyser's suppression figures with intervals; the Appendix C table re-cut (third cut T4 grammar, deferred by Marc); the thousand-seed re-launch (findings §8). D1–D7, the second cut's slots and T4's position and prose proposals are superseded by the ruling
 created: 2026-09-17
 owner: Marc (rulings, prose); session (re-run, fragments, placements)
 supersedes: ch5 design handoff §3.2 (the re-run), §19 (the first cold read) and §20 (the second) — those sections are the diagnosis; this is the executing brief
@@ -736,3 +736,31 @@ words throughout; the session supplies numbers and runs the pipeline passes.
 If 1–4 are accepted, `evaluation_conventions.md` §c's closing rule is amended
 in the same commit to say what the corpus does (prose clause for what was not
 varied), not what this repo inferred.
+
+---
+
+# Ruling, 2026-09-20 — the section is cut
+
+Marc, on the third cut: a weak section that survives three iterations has a
+root cause, and this one's was a section titled *Sensitivity analysis* with no
+argument to make and no concession it could make that early. The field
+declares the assumption in the model description, which §4.4 does. Ruled:
+
+- The body section goes. Chapter 5 opens on the experimental setup; the
+  roadmap placeholder loses its sensitivity clause.
+- The table moves to the head of Appendix C as it stands
+  (`tab_C-0a_declared_inputs.tex`, label `tab:parameter-register` kept;
+  `[htbp]`; caption tail re-pointed). **Not re-cut now**; T4's table grammar
+  is the brief for when it is.
+- Chapter 4's five pointers and the two dwell-table captions
+  (`tools/dwell_catalogue_tables.py`) go to Appendix C.
+- Against the supervisor's V6 ("a preamble to the results"): V6's own last
+  clause sends sweeps that do not fit the body to an appendix; recorded at V6
+  in the decision register.
+
+Applied the same day; build clean at 90 pages, no undefined reference. The
+slot-generator handoff is deleted with this commit. Body float stems still
+carry the old numbering (`tab_5-2a` is now Table 5.1, and so on through
+§5.5); a stem rename touches every ch5 generator and is flagged, not done.
+`evaluation_conventions.md` §c's one-register rule is left as written; the
+setup table's header comment cites it, so amending it is a separate ruling.

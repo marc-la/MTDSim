@@ -10,7 +10,7 @@ every condition, and emits:
                                      corpus, run by run (must be identical)
   per_run.csv                        the figure tool's contract
                                      (tools/ch5_sensitivity_figure.py --csv)
-  docs/thesis/tables/tab_5-1a_declared_inputs.tex       the body table
+  docs/thesis/tables/tab_C-0a_declared_inputs.tex       App. C lead (the body table until 2026-09-20)
   docs/thesis/tables/tab_C-1a_family_sensitivity.tex    App. C.1
   docs/thesis/tables/tab_C-2a_shape_substitution.tex    App. C.2
   docs/thesis/tables/tab_C-3a_decay_sensitivity.tex     App. C.3
@@ -377,9 +377,8 @@ def frag_body(out: dict) -> str:
     ]
     L = [_hdr("data/results/ch5_s51_sensitivity/analyse.py")]
     w = L.append
-    # [H] while §5.1 is a placeholder (FLOATS.md: a float with no prose to flow
-    # around flushes ahead of its heading); revert to [htbp] when the prose lands.
-    w(r"\begin{table}[H]")
+    # Appendix C's lead table since 2026-09-20, when the body section was cut.
+    w(r"\begin{table}[htbp]")
     w(r"  \centering")
     w(r"  % CAPTION DRAFT STATE 2026-09-17 --- voice pass owed.")
     w(r"  \caption[The declared inputs and what moved]{Each value the attacker model was given rather than derived, "
@@ -391,7 +390,7 @@ def frag_body(out: dict) -> str:
       r"have no range and are compared against the alternative that was tried; the nine failure rules are single argued "
       r"values and are held. In the notation of Chapter~\ref{ch:attacker-model} the rows are $\mu_p$, $\tau_p$, "
       r"$\varphi$, $\gamma$, $\delta$, $z$ and $R$. Pooled over the four profiles, 400 runs per cell; the per-value "
-      r"readings are Appendix~\ref{app:sensitivity}.}")
+      r"readings are the sections that follow.}")
     w(r"  \label{tab:parameter-register}")
     w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")
     # an unrotated group column: the groups are 5 / 1 / 4 rows, too short for a
@@ -596,7 +595,7 @@ def main(argv: list[str] | None = None) -> int:
     per_run_csv(cells)
     preview(out)
     if not args.partial:
-        (TAB_DIR / "tab_5-1a_declared_inputs.tex").write_text(frag_body(out), encoding="utf-8")
+        (TAB_DIR / "tab_C-0a_declared_inputs.tex").write_text(frag_body(out), encoding="utf-8")
         (TAB_DIR / "tab_C-1a_family_sensitivity.tex").write_text(frag_families(out), encoding="utf-8")
         (TAB_DIR / "tab_C-2a_shape_substitution.tex").write_text(frag_shape(out), encoding="utf-8")
         (TAB_DIR / "tab_C-3a_decay_sensitivity.tex").write_text(frag_decay(out), encoding="utf-8")

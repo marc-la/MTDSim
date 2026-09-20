@@ -10,6 +10,12 @@
   "points_designed": 22,
   "max_events_terminations": 0
  },
+ "sim05": {
+  "compared": 1500,
+  "centre_rows": 1500,
+  "mismatches": 0,
+  "first_mismatches": []
+ },
  "conditions": [
   [
    "none",

@@ -4524,7 +4524,7 @@ These are the three inputs we had to declare to join the attack
 profiles to MTDSim. We chose each of them to the best of our judgement
 after consulting the literature; whether any conclusion of the evaluation
 depends on where a chosen value sits is the question
-Section~\ref{sec:sensitivity} answers.
+Appendix~\ref{app:sensitivity} answers.
 % INSERTION A APPLIED 2026-09-18 --- DRAFT STATE, ratify on read (Marc's
 %  green light this date: "swept is wrong, we kind of just chose them ... we
 %  chose them to our best of knowledge after consulting the literature").
@@ -4723,7 +4723,7 @@ tactics, and the objective family at eight times it, for the terminal acts.
 We then chose a band around each of the four: half to twice the value, and a
 quarter to four times for the low-and-slow family, which rests on our
 judgement alone. The model therefore carries four free timing values rather
-than 15, and those four are what Section~\ref{sec:sensitivity} moves.
+than 15, and those four are what Appendix~\ref{app:sensitivity} moves.
 % INSERTION B APPLIED 2026-09-18 --- DRAFT STATE, ratify on read. This is the
 %  paragraph most in need of your words: it is session prose standing where
 %  §5.1 ¶2 needs an antecedent. Two defects it answers, both raised 2026-09-18.
@@ -4872,7 +4872,7 @@ We tried other mappings: forcing a total mapping was just another input
 that did not work: it was running a tightly ordered finite state machine in
 an unordered but stochastic manner (Appendix~\ref{app:experiment-one}); the
 mapping is swapped in the sensitivity analysis
-(Section~\ref{sec:sensitivity}). We also considered using MITRE
+(Appendix~\ref{app:sensitivity}). We also considered using MITRE
 Caldera~\citep{applebaum2016}, but this would introduce too much overhead.
 % [2026-09-08: two sentences merged at the colon (two colons --- pass 6);
 %  ", and this resulted in poor performance" deleted ("did not work" and
@@ -4950,7 +4950,7 @@ distance term.
 This can be found in
 Appendix~\ref{app:weight-sets}, along with the full set of tactic-to-tactic
 failure weights; the two rates and the floor are moved in
-Section~\ref{sec:sensitivity}, and the rules are not.
+Appendix~\ref{app:sensitivity}, and the rules are not.
 % REWORD C2 APPLIED 2026-09-18 --- DRAFT STATE, ratify on read. Replaces "the
 %  kernel's parameters are swept in the sensitivity analysis (Section 5.1)",
 %  so the pointer uses the words the reader has just met in insertion C and
@@ -5017,7 +5017,7 @@ Section~\ref{sec:sensitivity}, and the rules are not.
 
 This is verdict-conditioned re-weighting (Equation~\ref{eq:routing}); this
 is what encodes direction. We judged these a plausible set of values to
-feed into our attacker model, and Section~\ref{sec:sensitivity} reports what
+feed into our attacker model, and Appendix~\ref{app:sensitivity} reports what
 it would cost to be wrong about them.
 % CLOSE RESCOPED 2026-09-18 --- DRAFT STATE, ratify on read. Was "a plausible,
 %  literature-bounded and sensitivity-swept (Section 5.1) set of values", on
@@ -5066,9 +5066,8 @@ it would cost to be wrong about them.
 % a table column and a comparison table instead).
 \noindent\emph{[Placeholder --- the chapter opening, Marc's dictation; delete on
 drafting. The roadmap paragraph (Tay's house pattern): Chapter~\ref{ch:attacker-model}
-declares the model. This chapter checks that the declared numbers do not carry
-the conclusions (Section~\ref{sec:sensitivity}), declares the experiment
-(Section~\ref{sec:dimensions}), and runs it: what the attacker does unopposed and
+declares the model. This chapter declares the experiment
+(Section~\ref{sec:dimensions}) and runs it: what the attacker does unopposed and
 under defence (Section~\ref{sec:attacker-in-operation}), what the defences do to
 it (Section~\ref{sec:effectiveness}), and what that costs
 (Section~\ref{sec:efficiency}). Evaluate is the manipulation of the L4 object and
@@ -5302,7 +5301,7 @@ carries no layer number.]}
 % WHAT THIS CHAPTER OWES ch6, section by section --- the tie-in Marc
 % asked for. Each ch5 section is the evidence for a ch6 move; the verdict
 % is never stated here.
-%   sec:sensitivity      -> sec:fidelity-verdict (the declared-parameter
+%   app:sensitivity (the body section was cut 2026-09-20) -> sec:fidelity-verdict (the declared-parameter
 %                           honesty; which parameter the conclusions are
 %                           actually exposed to)
 %   sec:dimensions       -> sec:evaluation-implications (the comparability
@@ -5317,159 +5316,18 @@ carries no layer number.]}
 %                           badge walk under Table~\ref{tab:fidelity-verdict}
 % ---------------------------------------------------------------------
 
-% 3 units (preamble+register 1; subsections 0.75 / 0.5 / 0.75). The V6
-% preamble, now the chapter's first section: the three declared inputs of
-% sec:execution swept within the bounds the formalism sets. Each
-% subsection is the forward-referenced home of one §4.4 unit
-% (§4.4.2--4.4.4 each point at sec:sensitivity). Completed sweeps that do
-% not fit the body go to app:sensitivity. Absorbs the parameter-shaped
-% validity threats --- there is no standalone threats-to-validity
-% section; the structural ones (proof-of-concept boundary, the mapping
-% caveat, the comparability boundary) are owned in sec:fidelity-verdict.
-%
-% WHY THESE THREE AND NOT OTHERS --- the tie to sec:petri-formalism, and
-% the sentence that makes this section legible rather than detached. They
-% are not a list of worries; they are THE free parameter families of the
-% formal definition, one each:
-%    mu_p        the mean dwell that sets every timed transition's rate -> 5.1.1
-%    varphi      the net's coupling to the environment                  -> 5.1.2
-%    F_failure   = R . d, the conditioning factor on the immediate
-%                transition weights                                     -> 5.1.3
-% USE THOSE SYMBOLS IN THE PROSE AND IN THE REGISTER (Marc, 2026-09-09: the
-% sensitivity analysis has to be grounded in at least the terminology of the
-% formalism). tab:gspn-notation is the key --- every symbol this section uses
-% is declared there, and the register's symbol column reads from it. That is
-% also what stops §5.1 reading as three unrelated worries: they are the three
-% places in the formal definition where a number had to be chosen.
-% The formalism has exactly three places where a number had to be chosen,
-% and this section prices all three. Say that once in the preamble.
-%
-% WHAT THIS SECTION SHOULD LOOK LIKE (conventions c, d2):
-%  - A titled sensitivity section is RARE --- one paper in 25 has one
-%    (Outkin §5.1.2). Everywhere else the sweep IS the results. So this
-%    section must read as *the model's declared inputs, priced*, not as a
-%    detached methods section, and one sentence of the preamble should
-%    say so. That is what earns its position ahead of sec:dimensions.
-%  - ONE REGISTER TABLE, not two (design C1; answers the §4.3 formalism
-%    brief's R6): every declared quantity is a row, and each row is
-%    EITHER swept-with-a-band-and-what-moved OR held-with-a-reason. An
-%    assumption is simply a held row. This is the discipline the corpus's
-%    better papers practise scattered, stated here as a rule --- and it
-%    absorbs the twelve-item assumption register without spending a unit.
-%    Rows come from the parameter register in the §4.3 brief §7.1--7.2.
-%  - Range justification is almost never given in the corpus (Hong,
-%    Anderson, Carroll, Zhang, Reti all state none; Bland calls its rates
-%    "notional"). Bounds derived from the formalism's own structure are
-%    therefore AHEAD of the field --- say so once, briefly, do not
-%    belabour it.
-%  - This IS operational validation, and can say so with a citation
-%    (Sargent: parameter-variability sensitivity analysis is an
-%    operational-validation technique; and where the system is not
-%    observable "it is usually not possible to obtain a high degree of
-%    confidence in the model", which licenses the modest claim from the
-%    discipline rather than from our own hedging). BIB: the sargent entry
-%    is commented out in references.bib and the source is now at
-%    docs/sources/methodology/sargent2011_vv.md --- activate it.
-%  - CLOSE BY NAMING WHAT THE SWEEP SELECTED (design C7b, conventions c):
-%    the strongest sensitivity analyses feed forward --- Manadhata and
-%    Wing's produces guidelines their later parameters are assigned on;
-%    Torquato's locates an optimum and a later study truncates its axis
-%    there with the reason stated. Three of our four dwell anchors are
-%    inert and one is not; reported flatly that is a page of non-events,
-%    reported as a selection it names the one parameter the conclusions
-%    are exposed to, and sec:dimensions opens by picking it up.
-%  - PRESENTATION: line chart, x = swept parameter, y = metric, series =
-%    a second factor at 2--4 levels, one figure per swept parameter
-%    (Anderson is the purest form). Where nothing moved, a band-ends
-%    against-centre TABLE is the honest compression and saves the figures
-%    for what did move --- app:sensitivity's tab:anchor-sensitivity is
-%    already exactly that.
-%  - FIGURES AND TABLES FOR THIS SECTION (2 figures + 1 table):
-%      Tab. 5.1  THE REGISTER. Every declared quantity, one row: symbol,
-%                meaning, declared value, band or "held", what moved.
-%                The chapter's most load-bearing table --- it is the
-%                honesty of the whole model in one page, and it absorbs
-%                the twelve-item assumption list as held rows.
-%      Fig. 5.1  breadth against the low-and-slow anchor multiplier over
-%                its band, series = defence on/off. PURPOSE: the ONE
-%                anchor that moves an outcome, shown moving; the three
-%                inert ones are a table row each, not a figure each.
-%      Fig. 5.2  breadth against the forward-decay parameter, series =
-%                the backward decay or the mapping version. PURPOSE: the
-%                headline verdicts hold across the failure matrix's band
-%                while the finer per-profile ordering does not.
-%
-% OPEN, blocks the numbers not the shape (design 3.2): both existing
-% sweeps ran at TEN seeds on the PRE-RESTORATION substrate with `random`
-% as the only MTD condition, and the failure-matrix sweep additionally
-% under the SUPERSEDED fixed-dwell regime. The strands will run at a
-% hundred seeds on the restored substrate over a seven-mechanism pool.
-% Either re-run the sweeps at the reported configuration (recommended;
-% 2 600 + ~1 560 runs, minutes) or state the difference in the register
-% caption. What is NOT available is two configurations on one page
-% undeclared.
-%
-% "IS THIS WHAT A SENSITIVITY ANALYSIS LOOKS LIKE?" (Marc, 2026-09-09, walking
-% the four figures: a multiplier, a distribution, the mapping, the failure
-% matrix.) Yes on shape, with two qualifications and one gap.
-%  YES: one-factor-at-a-time over a declared band, one figure per parameter,
-%  band ends reported against centre, the readout separated from the
-%  interpretation. That IS the corpus's form (Anderson, Hong, Carroll, Tay),
-%  and Sargent names it --- parameter-variability sensitivity analysis as an
-%  OPERATIONAL VALIDATION technique, which is the frame that makes this a
-%  validation section rather than a robustness appendix.
-%  QUALIFICATION 1 --- one-at-a-time is the weak form, and the methodology
-%  sources say so: OAT explores a cross through the parameter space, never its
-%  interior, so it cannot see an interaction. We already half-answer that at
-%  the failure matrix, where the two decay parameters are also run AT THE
-%  CORNERS of the pair. One preamble sentence naming OAT as the method and the
-%  corner check as the partial answer to its known limitation costs nothing
-%  and pre-empts the obvious question. Do NOT claim a global sensitivity
-%  analysis; we did not run one.
-%  QUALIFICATION 2 --- 5.1.2 is not a sensitivity analysis in the same sense,
-%  and the section is stronger for saying so plainly: the mapping is a
-%  discrete swap between two constructed alternatives, so it reports a
-%  ROBUSTNESS CHECK against a modelling choice, not a band. It is already
-%  labelled that way; keep it labelled that way.
-%  THE GAP --- three of the four figures are figures OF NON-EVENTS. That is
-%  honest, and it is also a page of flat lines. The corpus's strongest
-%  sensitivity analyses SELECT something (design C7b), which is already the
-%  plan: close on the one parameter the conclusions are exposed to and demote
-%  the inert results to register rows. If that is taken, Fig. 5.2 and Fig. 5.4
-%  are the first two floats to surrender when the page budget bites --- both
-%  are already marked cut-or-appendix in FLOATS.md.
-\section{Sensitivity analysis}
-\label{sec:sensitivity}
-
-% REDRAFT SKELETON 2026-09-17 (handoff 2026-09-17_ch5_s51_sensitivity_overhaul.md
-% D2; Marc's rulings the same day). The 2026-09-13 session draft is retired
-% (git 975f334f holds it). Marc's dictation replaces the placeholder: THREE
-% paragraphs, ~250 words, chapter 4's words only (the banned list is the
-% handoff's validation gate), no bridge from chapter 4 (the chapter preamble
-% carries the join), no method philosophy, Madan at most one clause. Numbers:
-% docs/implementation/pipeline/ogasp/ch5_s51_sensitivity_findings.md and
-% data/results/ch5_s51_sensitivity/numbers.json; the table is GENERATED.
-%  P1  the question in one sentence (whether any conclusion of this chapter
-%      depends on where a declared value sits inside its band); the three
-%      declared inputs by their §4.4 names; the test (each value moved across
-%      its band with the others held at their declared values; distinct hosts
-%      reached read against the interval at the declared value); one clause on
-%      where the bands come from (App. B.4's tiers; App. B.6's structure).
-%  P2  the four dwell families: which moved, and by how much per doubling; the
-%      thesis-level sentence (the timing sensitivity is concentrated in the
-%      family whose provenance is weakest; the simulator-priced families carry
-%      a fraction of it); the draw's shape at the declared dwell and at the
-%      long-dwell corner under defence.
-%  P3  the mapping (a comparison, not a band: the forced-total alternative
-%      under-performs, one clause why); the distance term's two rates and its
-%      floor (which rate moves outcomes; the floor zero by structure, no net
-%      carries a three-stage jump); the nine rules held; the closing sentence
-%      naming the one input the chapter's claims are exposed to and that it is
-%      held at its declared value. Nothing about the mutation interval.
-\noindent\emph{[Placeholder --- the three paragraphs of Section~\ref{sec:sensitivity},
-Marc's dictation from the overhaul brief; the table is the section's float.]}
-
-\input{tables/tab_5-1a_declared_inputs}
+% SECTION CUT 2026-09-20 (Marc): the titled sensitivity-analysis section is gone
+% and the chapter opens on the experimental setup. Three structural cuts
+% produced no section because a body section this early has no argument to
+% make: the field declares the assumption in the model description (ch4
+% \S4.4 does) and V6 sends sweeps that do not fit the body to an appendix.
+% The table leads app:sensitivity as tab_C-0a (label tab:parameter-register
+% kept); ch4's five pointers now go there. Record: handoff
+% 2026-09-17_ch5_s51_sensitivity_overhaul.md, "Third cut" and "Ruling".
+% OWED (Marc): one sentence where the 200 s suppression figure is reported, or
+% in sec:fidelity-verdict, that its size is exposed to the low-and-slow dwell
+% (44 to 89 per cent across the band against 75 at the chosen value; interval
+% owed from the analyser) with Appendix C as the evidence.
 
 % 2 units + the factor table (tables are word-cheap). The factor space,
 % set up and then run: the four attack profiles and the baseline attacker;
@@ -5485,7 +5343,8 @@ Marc's dictation from the overhaul brief; the table is the section's float.]}
 % design fact stated once here.
 %
 % WHAT THIS SECTION SHOULD LOOK LIKE:
-%  - OPENS by picking up what sec:sensitivity selected (design C7b).
+%  - [SUPERSEDED 2026-09-20: the sensitivity section was cut to app:sensitivity;
+%    this section opens the chapter.] OPENS by picking up what sec:sensitivity selected (design C7b).
 %  - A ROADMAP SENTENCE naming each following section's question and the
 %    reason for the order (conventions b) --- universal in the corpus and
 %    a house pattern in this supervisor's theses.
@@ -5625,6 +5484,10 @@ attacker's or the defence's.
 
 \input{tables/tab_5-2a_experiment}
 
+% POINTER PROPOSED 2026-09-20 (Marc to dictate or drop): one clause in this unit
+% that the movement attacker's chosen values (Section~\ref{sec:execution}) are held
+% at their chapter 4 values, their sweep being Appendix~\ref{app:sensitivity} ---
+% V6's "before the results" honoured by a pointer now that the section is cut.
 \textbf{Attacker.} The baseline attacker of
 Section~\ref{subsec:attacker-model}, and the movement attacker of
 Chapter~\ref{ch:attacker-model} on each of its four attack profiles and on the
@@ -7747,6 +7610,16 @@ March 2026, with its own reference list.
 \chapter{Supplementary sensitivity analyses}
 \label{app:sensitivity}
 
+% LEAD DRAFT STATE 2026-09-20 --- connective prose (green-lit), ratify-on-read.
+% Was the lead of C.1 pointing at the body's Table 5.1; the table now leads the
+% appendix (the body section was cut, see the note at the head of ch5).
+Table~\ref{tab:parameter-register} lists the values chosen for the attacker
+model in Section~\ref{sec:execution} and what happened when each was moved, at
+the configuration of Section~\ref{sec:dimensions}. The sections that follow
+read the same perturbations family by family and parameter by parameter.
+
+\input{tables/tab_C-0a_declared_inputs}
+
 % =====================================================================
 % LANDED 2026-08-20 (2026-08-20_dwell_table_and_derivation.md, artefact 3).
 %
@@ -7794,12 +7667,6 @@ March 2026, with its own reference list.
 %       so ASR cannot discriminate there;
 %     - the honest limit: the per-profile ordering is indeterminate at ten
 %       seeds --- a power failure, not a parameter failure.
-
-% LEAD DRAFT STATE 2026-09-17 --- connective prose (green-lit), ratify-on-read.
-This appendix is the per-value expansion of Table~\ref{tab:parameter-register}:
-the same perturbations, read family by family and parameter by parameter, at
-the configuration of Section~\ref{sec:dimensions}. The split from the chapter
-is by resolution, not by importance.
 
 Each dwell family was moved as a whole across its band, the per-tactic
 multipliers of Appendix~\ref{app:dwell-derivation} riding along unchanged, with
