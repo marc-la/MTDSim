@@ -165,18 +165,37 @@ left to the findings records and the generators.
   identically under both attackers, which is what lets the two be compared
   directly.
 
-### The shape of a results paragraph — one tension to rule
+### The shape of a results paragraph — settled by convention (2026-09-20)
 
-Two conventions on record disagree. Conventions §e gives four moves
-(observation; the mechanism as the reason; the surprise; the conditional
-recommendation). Conventions §h gives Tay's split, **the ruled shape of
-ch5/ch6**: the numeric readout in chapter 5, the "why" deferred to a discussion
-that mirrors it. The memory-side ch5 rule agrees with Tay (no method philosophy
-in results). **Recommendation:** chapter 5 carries the observation, a reason
-only where the reason is a declared fact of the setup (something true by
-construction), the surprise marked as such, and the hand-off. A reason that was
-not measured goes to chapter 6, or appears once flagged as a hypothesis. The
-conditional recommendation is chapter 6's. Marc's ruling.
+Marc: results state the facts, and what is in the section against what is not
+is decided by the convention. The survey
+([`../implementation/evaluation_anatomies/`](../implementation/evaluation_anatomies/))
+answers it, and the answer turns on the *form of the document*, not on taste:
+
+| Document has | Where the reason for a result goes | Papers |
+|---|---|---|
+| no discussion, or a discussion that is limitations only | folded into the results, a "this is because" or "we hypothesise" sentence after each observation | Zhang, Reti, He, Kim, Ho's §4.3 |
+| a discussion chapter that mirrors the results subsection for subsection | the results carry the numeric readout and **no** reason; every result gets its reason in the mirror | Tay (this supervisor's lineage, and the ruled shape of ch5/ch6) |
+| a separate discussion section, not mirrored | a one-sentence structural reason stays beside the observation; interpretation and recommendations go to the discussion | Brown, Hong, Masud |
+
+This thesis has a discussion chapter built to mirror chapter 5, so it sits in
+the second row. Conventions §e's four moves were distilled mostly from
+documents in the first row, which have nowhere else to put a reason; they do
+not transfer whole. **The rule for §5.2–§5.4:**
+
+1. **The observation**, as ordering or trend, magnitude as a relative figure.
+2. **A reason only where it is true by construction**: a fact the setup or
+   chapters 2 to 4 already declared (the baseline attacker's coverage line is
+   flat because it has six activities; a metric is zero on one attacker because
+   it is not defined there). That is a fact, so it is a result-section
+   sentence. Brown and Hong keep exactly this much.
+3. **The exception**, marked as one, stated and not explained.
+4. **The hand-off**: what the subsection gives the next.
+
+A reason that was not measured, what a result means, and any recommendation
+are chapter 6's, in the section that mirrors this one. The test for a sentence:
+*could it be false while every number in the floats stayed the same?* If yes,
+it is interpretation and it moves.
 
 ---
 
@@ -212,10 +231,14 @@ headings fail on that test, and one fails on the claim ceiling.
 acronym; "movement attacker" in no heading; two to six words; no verb; every
 heading survives the result coming out the other way.
 
+**RULED AND APPLIED 2026-09-20 (Marc: "all the headings I approve").** The five
+changes are in the tex and in `FLOATS.md`, with the of-form for §5.2; build
+clean at 90 pages.
+
 **Labels do not change** (`sec:attacker-in-operation`, `subsec:aio-unopposed`,
 `subsec:aio-disruption`, `sec:effectiveness`, `subsec:eff-under-defence`,
 `subsec:eff-cross-arm`, `subsec:eff-lineage`, `sec:efficiency`), so every
-`\ref` stands. Nothing has been applied to the tex.
+`\ref` stands.
 
 ---
 
@@ -309,14 +332,16 @@ by Table 5.2's names; (c) the scope sentence.
 
 ---
 
-## 7. Rulings owed
+## 7. Rulings
 
-1. The five heading changes in §4 (each separately; the §5.2 title is the one
-   with a claim-ceiling argument behind it).
-2. The results-paragraph shape in §3 (observation and declared reason here,
-   unmeasured reasons and recommendations in chapter 6).
-3. Whether the workload analogy of §1 reaches the page, and if so that it is
-   the chapter opening's and appears once.
+1. **The five headings: approved and applied** (2026-09-20).
+2. **The results-paragraph shape: settled by convention** (§3), on Marc's
+   direction that results state the facts.
+3. **The frame of §5: agreed** (2026-09-20).
+4. **The workload analogy of §1: not ruled, and nothing depends on it.** It is
+   drafter orientation only and reaches the page only if Marc later wants it.
+   Plainly: a benchmark's ranking of systems depends on the test load it is run
+   with; here the attacker model plays the part of the test load.
 
 ## Validation gate
 

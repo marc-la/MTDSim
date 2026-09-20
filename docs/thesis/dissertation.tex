@@ -5046,6 +5046,15 @@ it would cost to be wrong about them.
 % no acronym but APT, no verb, no claim (the claim is the section's first
 % sentence). Chapter title "Evaluation" is the lineage's word (Tay, Zhang) and
 % the thesis's third sub-question; label ch:experiments kept so refs stand.
+% FIVE HEADINGS RE-RULED 2026-09-20 (Marc, chat; audit in handoff
+% 2026-09-20_ch5_s52_s54_results_context.md §4): siblings name the same kind of
+% thing, so a condition pair fails where the quantity changes between them.
+% "APT attacker behaviour" -> "Behaviour of the APT attacker model" (the old title
+% read as a claim about real APT attackers); "Under defence" -> "Response to
+% disruption" (collided with all of the effectiveness section); "Mechanisms and
+% schemes" -> "Defence mechanisms and execution schemes"; "Attacker comparison" ->
+% "Effect of the attacker model"; "Prior evaluations" -> "Comparison with prior
+% evaluations". Labels unchanged.
 % STRUCTURE RULED THE SAME DAY: §5.1 has no subsections (three retired, floats
 % pending the stage-2 placeholder audit); the ablation subsection is removed
 % (aggregate -> a row of tab:unopposed-summary; verdict-blind arm stays as the
@@ -6019,7 +6028,7 @@ sizes with 95\,\% confidence intervals.
 % ch6's --- which is what the placeholder below already says. One or two sentences
 % at the head of this section, naming the four and the condition they are read
 % from. Marc's prose.
-\section{APT attacker behaviour}
+\section{Behaviour of the APT attacker model}
 \label{sec:attacker-in-operation}
 
 \noindent\emph{[Placeholder --- delete on drafting. What the movement attacker does
@@ -6264,7 +6273,7 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % OWED HERE, 2026-09-20 (setup handoff §AL3, §AM P10): the verdict-blind control
 % is run (run_corpus.py "blind" group) and declared nowhere; §5.2 does not carry
 % it, so it is declared at this subsection's head, where it is first used.
-\subsection{Under defence}
+\subsection{Response to disruption}
 \label{subsec:aio-disruption}
 
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- grouped bars in a 2 x 2 of lettered panels
@@ -6530,7 +6539,7 @@ under both attackers on this one simulator.]}
 % OWED HERE, 2026-09-20 (setup handoff §AL3, §AM P10): "the movement attacker" in
 % tab:eff-conditions is the four profiles POOLED, 400 runs against the baseline's
 % 100 (analyse.py:398); say so once at the head of this section.
-\subsection{Mechanisms and schemes}
+\subsection{Defence mechanisms and execution schemes}
 \label{subsec:eff-under-defence}
 
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- grouped bars with no defence as the
@@ -6614,7 +6623,7 @@ under both attackers on this one simulator.]}
 % attacker's suppression falls (port shuffle 0.90 -> 0.14, OS diversity 0.64 ->
 % 0.13) while the movement attacker's ordering of the nine conditions holds.
 % Provenance, not values: re-derive at the reported seed count.
-\subsection{Attacker comparison}
+\subsection{Effect of the attacker model}
 \label{subsec:eff-cross-arm}
 
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- the chapter's central figure, in the
@@ -6662,7 +6671,7 @@ under both attackers on this one simulator.]}
 %  Fig. H  each lineage headline as a small panel, its original claim
 %          against what this simulator returns under both arms.
 %          PURPOSE: which prior findings survive a change of attacker.
-\subsection{Prior evaluations}
+\subsection{Comparison with prior evaluations}
 \label{subsec:eff-lineage}
 
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- CONVERTED from small-multiple claim panels
