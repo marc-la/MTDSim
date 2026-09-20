@@ -343,7 +343,7 @@ by Table 5.2's names; (c) the scope sentence.
    Plainly: a benchmark's ranking of systems depends on the test load it is run
    with; here the attacker model plays the part of the test load.
 
-## 8. Figure 5.1 critique (2026-09-20, open — Marc's rulings owed)
+## 8. Figure 5.1 critique (2026-09-20; critique upheld by Marc, design in 8b owed a ruling)
 
 Marc's read of `fig:aio-coverage`, cross-examined against the corpus
 (`data/results/ch5_s531_unopposed/`). Nothing applied to the figure yet.
@@ -367,13 +367,57 @@ Found beyond Marc's list:
   within about 2 000 s; the profiles differ in how fast; double extortion has
   the widest coverage and the *fewest* openings (30 against 96–100).
 
-Recommended shape (for ruling): the question §5.2.1 answers is "what does the
-attacker do when nothing stops it". A tactic-by-time exhibit answers it: rows
-are the named tactics in campaign order, one mark per profile at the median
-time of first entry, absent where a profile does not hold the tactic. It names
-the tactics, shows the campaign order and its pace, and shows where profiles
-differ. The baseline leaves the axes and becomes one sentence (six activities,
-no campaign). Opening variety stays as a second panel, baseline measured.
+### 8a. What the reader takes from §5.2.1 (agreed 2026-09-20)
+
+| # | Takeaway | Carried by |
+|---|---|---|
+| T1 | The attacker runs a named, multi-stage campaign, where the baseline attacker has six activities and no campaign | Fig. 5.1(a); one body sentence for the baseline |
+| T2 | The campaign depends on the objective: the four profiles are different campaigns | Fig. 5.1(a) in detail; Fig. 5.2 in one number per pair |
+| T3 | A profile does not run its campaign the same way twice | Fig. 5.1(b) |
+| T4 | The no-defence reference the defence sections are read against, including that a fuller campaign does not mean a better outcome (target reached sits below the baseline's) | Table 5.3 |
+
+Pace is not a takeaway. It is one hand-off sentence (every campaign is opened
+within about 2 000 s, the order of the deployment intervals) into §5.2.2.
+
+### 8b. Figure 5.1 design, for ruling (supersedes the tactic-by-time proposal, withdrawn: time is not the question)
+
+Rulings taken: small-seed corpus while the structure settles, the full
+thousand once it has (Marc, 2026-09-20). Old panels (a) and (b) go: each
+profile's plateau is its own tactic count (14, 14, 12, 13 held; 13.6, 14.0,
+11.8, 12.8 reached), so the curve is a construction fact on both attackers.
+
+**Panel (a) — tactics entered, by profile (T1, T2).** Printed-value matrix,
+the genre of Fig. 5.2. Rows: the named tactics in the order chapter 4 lists
+them. Columns: the four profiles (no aggregate, no baseline). Cell: share of
+runs that enter the tactic, printed; grey fill by value; a tactic the profile
+does not hold is left empty and decoded in the caption. No time, no order of
+entry. What it shows on the current corpus: most cells are 100 %; the profiles
+differ in which rows are empty (resource development, exfiltration, impact,
+defence impairment) and in three partial cells (impact 60 % on the
+exfiltration profile; initial access 81 % and collection 81 %).
+
+**Panel (b) — repeatability of the opening (T3).** Line chart, x = length of
+the opening in steps (1 to 8), y = share of runs that follow the profile's
+most common opening of that length. Replaces the count of distinct openings,
+which is capped by the run count. Does not depend on the number of seeds.
+Baseline MEASURED from its recorded runs, steps being its activities (the
+caption says so). Current corpus: baseline 100 % to length 6, 98, 94; the
+exfiltration, impact and no-realised-objective profiles fall to 1-2 % by
+length 8; double extortion holds 68 %. "Step" = a tactic entered; "places"
+leaves the axis.
+
+**Caption** says what the panels are and how to read them; the "intention"
+sentences move to the body text.
+
+**Generator work:** `analyse.py` gains the entry-share matrix and the
+commonest-opening share, and measures the baseline (the hard-coded 1 and the
+structural 0.0 entropy go); `tools/ch5_unopposed_figures.py` redraws. Table
+5.3's openings column follows the same measure.
+
+**Open check, not blocking:** by order of first entry the exfiltration profile
+reaches command and control second and initial access tenth. Panel (a) does
+not show order, so the figure is safe, but whether that order is the source
+reports' or a recording artefact should be known before chapter 6 reads it.
 
 ## Validation gate
 
