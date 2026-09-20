@@ -71,24 +71,56 @@
 % tabular measures 454.1 pt against a 455.2 pt text width, body height 283 pt.
 % SHOULD BE BORN GENERATED, with tab_5-2a, by the reader that produces the
 % §5.3--§5.5 floats (C39). Ratify on read.
+% REBUILT 2026-09-20 (handoff 2026-09-17_ch5_s52_setup_critique.md §AK--§AK11),
+% on Marc's read that the table was unrefined. The comments above describe the
+% table this replaces. What changed, each a ruling of his:
+% (1) NAMES ARE THE RESULTS FLOATS' NAMES, to the letter --- the table's first job
+%     is lookup from a §5.3--§5.5 column header, and two of eight names matched.
+% (2) "Family" -> MEASURES: the cells are Table 3.1's Measures column, and the
+%     header is Table 3.1's (ruled 2026-09-04). Row order is Table 3.1's.
+% (3) COMPARABLE ACROSS is gone: a constant with three exceptions, now the dagger.
+% (4) ADAPTED FROM answers adopted-against-new in the float.
+% (5) DEPLOYMENT TEMPO is out: it reads one over the declared interval on every
+%     defended condition at both intervals (numbers.json, s55/by_interval), so it
+%     checks the manipulation and judges no defence. The caption's declared
+%     divergence from Table 3.1 existed only for that row and leaves with it.
+% (6) ONE QUANTITY PER ROW; two reported quantities that had no row are declared.
+% (7) DEFINITIONS USE ONLY WORDS THE READER HAS MET: objective (Table 2.5),
+%     precondition / interrupt / fails (§4.4.1), deployment, defence mechanism.
+%     Suppression is analyse.py:227, the ratio of means, NOT a difference.
+% (8) NO DIRECTION-OF-GOOD MARKS: no paper in the corpus uses one. The two
+%     directions that are not self-evident are owed to §5.5's opening sentence.
+% (9) NO ACRONYMS for the metrics: see §AK11.
+% OPEN, MARC'S DISPOSITION --- BLOCKED FRACTION. measures.py:294 computes the
+%   share of actions failing on an unmet precondition; it is 0.24 under NO
+%   defence (tab 5.4.1a), and on §4.4.1's account a deployment interrupts, it
+%   does not block. The Brown attribution is §AH's and is kept pending that
+%   ruling; tab 5.4.1a's caption ("what fraction ... it blocks") is the other
+%   half of the same question.
+% OPEN --- "time lost to the defence" is a session-proposed name; no float names
+%   the quantity (fig 5.5b draws its two parts). Ratify on read.
 \begin{table}[htbp]
   \centering
-  \caption[The metrics]{Every metric this chapter judges a defence by, the family of Table~\ref{tab:mtd-metrics} it instantiates, and what it may be compared across. The rows are grouped by the section that reports the metric rather than by that table's own filing, which places deployment tempo under effectiveness. Numbers published on other simulators are comparable to none of these.}
+  \caption[The metrics]{The metrics this chapter judges a defence by, under the purposes and measures of Table~\ref{tab:mtd-metrics}. \emph{Adapted from} names the metric of an earlier evaluation on this simulator that a row renormalises; where it is empty the metric is introduced here.}
   \label{tab:metrics}
   \tablestyle\setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}cP{2.0cm}P{2.8cm}P{5.0cm}P{2.7cm}@{}}
+  \begin{tabular}{@{}cP{1.9cm}P{3.0cm}P{6.9cm}P{2.1cm}@{}}
     \toprule
-    & Family & Metric & What it is & Comparable across \\
+    & Measures & Metric & Definition & Adapted from \\
     \midrule
-    & system state & Host breadth & the distinct hosts compromised in a run, and its suppression against no defence & both arms, as a count \\
-    & success events & Target reach & whether the run reached the database hosts & both arms, as a fraction \\
-    & attacker time & Delay to first compromise & the time to the first host compromised, censored at the run length & within an arm \\
-    \rowgroup{4}{Effectiveness} & success events & Blocked fraction & the share of the attacker's actions a deployment interrupts & the movement arm \\
+    & success events & Target reached & the share of runs in which the attacker meets the targeted objective (Table~\ref{tab:attacker-objectives}): a database host compromised & \\
+    & & Runs with no compromise & the share of runs in which the attacker never compromises its first host & \\
+    & & Blocked fraction\textsuperscript{\dag} & the share of the attacker's actions that fail on a missing precondition (Section~\ref{subsec:runtime-mechanics}) & attack actions blocked \citep{brown2023} \\
+    & attacker time & Delay to first compromise\textsuperscript{\dag} & the time from the start of a run to the first host compromised, over the runs that compromise one & \\
+    & system state & Hosts reached & the number of distinct hosts compromised by the end of a run & \\
+    \rowgroup{6}{Effectiveness} & & Suppression & the fraction of hosts reached that a defence removes, $1 - \bar{H}_{\mathrm{defence}} / \bar{H}_{\mathrm{no\ defence}}$: 0 for no effect, 1 for no host reached & \\
     \midrule
-    & resource spent & Attacker cost & the actions attempted, and the run's time split into dwell, imposed delay and the remainder & counts both arms; the time split within the movement arm \\
-    & resource spent & Effort per host & the actions attempted for each distinct host compromised & both arms, as a ratio \\
-    & resource spent & Reconfiguration occupancy & the share of the run during which a mechanism is deploying & both arms \\
-    \multirow{-4}{*}[0.18cm]{\smash{\rotatebox{90}{\emph{Efficiency}}}} & network-state change & Deployment tempo & the deployments executed per thousand seconds & both arms \\
+    & resource spent & Actions per host reached & the actions the attacker attempts for each distinct host it compromises & attempts required \citep{brown2023} \\
+    & & Successes per host reached & the actions that succeed for each distinct host compromised & \\
+    & & Time lost to the defence\textsuperscript{\dag} & the share of the run spent on actions a deployment interrupts, and in the delay that follows each interrupt & \\
+    \rowgroup{4}{Efficiency} & & Share of run under reconfiguration & the share of the run during which a defence mechanism is deploying & \\
     \bottomrule
+    \addlinespace[2pt]
+    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize \textsuperscript{\dag}~not compared across the two attackers: the baseline attacker records neither blocked actions nor the delay an interrupt imposes, and the two attackers price time differently.}\\
   \end{tabular}
 \end{table}

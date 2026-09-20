@@ -2454,3 +2454,37 @@ precondition, interrupt, fails* (§4.4.1); *deployment, defence mechanism*
 (§2.2.2, ratified registry rows); *delay … imposed* is §4.4.1's confusion
 penalty. *Hosts reached* is the one name whose verb (*reach*) the definition
 has to convert to the thesis's (*compromise*), which the definition does.
+
+### AK11 — Set in tex; mathematics in a cell; no acronyms (2026-09-20)
+
+Marc accepted the structure and the definitions and asked for it to be set, with
+the caption. **Done:** `tab_5-2b_metrics.tex` rebuilt, §5.2's second sentence
+now says *hosts reached*, FLOATS.md updated. Build clean at 92 pages, no
+overfull box in the float; widths 1.9 · 3.0 · 6.9 · 2.1 cm, no definition over
+three set lines, the table about half a page.
+
+**Mathematics in a table cell is the genre's own form.** Conventions §e3 already
+records it for the setup genre (Kim's Table 4 and Brown's TABLE I carry math
+symbols and distributions in cells), Ho's Table 3 is symbols against
+descriptions, and the corpus's definitions are equations (AK1). One expression,
+in the one row where the words were the mouthful, is inside the convention. It
+stays because of what Marc said it does: it shows the relationship between
+defence and no defence.
+
+**Acronyms for the metrics: recommended against.** The field does coin them
+(Hong's ACD and ACE, Ho's MEF and TSLM, Masud's IPV), so it would not be
+unconventional. Three reasons it is wrong here. (i) Table 3.1 sets acronyms in
+bold to mark the field's named families; a coined acronym here would read as one
+of those, which is the confusion Marc himself had on 2026-09-18 ("is that
+HCR?"), and the *Adapted from* column exists to keep adopted and new apart.
+(ii) The names are already column-header length, and they are used in two
+sections; an acronym saves little and costs the reader a lookup on every use,
+which is the examiner feedback on the literature review in another form.
+(iii) It matches his own heading rule (no acronyms). Where §5.4's prose needs
+brevity, *suppression* and *hosts reached* are already one and two words.
+
+**Still open:** the blocked-fraction disposition (and tab 5.4.1a's caption with
+it); the name *time lost to the defence*; the "why new metrics" sentence slot
+(AK10.5); the direction clause owed to §5.5's opening; tab 5.5a's *Mutations per
+1 000 s* column (AK8). The footnote row takes the zebra shading, as Table 5.2's
+does; a house-style matter for both tables, not touched.
