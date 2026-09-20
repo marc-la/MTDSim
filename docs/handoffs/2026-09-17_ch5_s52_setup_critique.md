@@ -2031,3 +2031,192 @@ at the declared values of Table 5.1".
    a held row here.
 5. Adaptive selector: one negative-scope clause in the Defence unit, or nothing.
 6. The caption's design sentence is corrected whichever form is chosen (AJ4).
+
+## §AK — Table 5.3, read for its purpose (2026-09-20)
+
+Marc's read: the table is "unrefined", and the worry underneath is an antecedent
+one — a setup float that introduces objects the earlier chapters never gave the
+reader "is a bit deceptive and a bit unclear to follow". His questions: what the
+table does that the prose cannot; whether the field does this; how it is
+standardised against Table 3.1, whose headings were built deliberately; whether
+*Comparable across* is needed; and whether a metric should say what part of the
+model it operates on. **Assessment only; nothing in the table or the tex is
+changed by this section.** Sibling of §AJ (Table 5.2), same form.
+
+### AK1 — What the genre is, and whether the field does it
+
+The field declares its metrics before its results, almost without exception, but
+**rarely as a table**. From the anatomies:
+
+| Paper | Where | Form |
+|---|---|---|
+| Alavizadeh | III.D, V.B–F | one numbered subsection per metric, a display equation, and one clause saying what it means and which direction is good |
+| Ho | §3.3.2, §3.4.2 | Table 3 "Metrics and Symbols" (Symbol · Description) plus eleven numbered definitions with formulae; features and evaluation metrics declared as two sets |
+| Kim | §6.1.3 "Outputs" | equations, and a figure placing each metric on the kill chain (Fig. 7) |
+| He | §V.B | metric definitions, with the success criterion declared at the definition |
+| Masud | §3.5 | one subsection per metric, Algorithm 2 |
+| Brown | none | the two metrics are the two results subsection titles |
+
+So the convention is **definition at a definition site, precise enough to
+recompute, with the direction of good stated**. A table is a legitimate
+compression of that for eight metrics with no symbols (it is what Ho's Table 3
+is), but it inherits the genre's obligations, and Table 5.3 meets none of the
+three: no row is precise enough to recompute, no row has a unit column, no row
+says which direction favours the defence.
+
+### AK2 — What the table does that the prose cannot
+
+Three jobs.
+
+1. **Lookup.** A reader in §5.4 who meets a column header comes back here for
+   what it is. This is the table's first job and it requires the row name to
+   *be* the header.
+2. **Parallel definition.** Eight quantities given the same attributes side by
+   side. Prose does this badly.
+3. **The tie-back, shown and not asserted.** §AG's ruling: the circularity
+   objection is answered by a structure the reader can check against Table 3.1,
+   not by a sentence.
+
+### AK3 — The lookup job fails: the names are not the results' names
+
+Checked against every §5.3–§5.5 float.
+
+| Table 5.3 row | What the floats call it | Where |
+|---|---|---|
+| Host breadth | **Hosts reached**; and separately **Suppression** | eight floats; "breadth" appears in none |
+| Target reach | Target reached | tab 5.3.1a only — a §5.3 float, none in §5.4/§5.5 |
+| Delay to first compromise | same | tab 5.4.1a |
+| Blocked fraction | same | tab 5.4.1a |
+| Attacker cost | no float uses the name; the time split is fig 5.5b, whose segments are *completed activity / activity cut short / imposed delay*, not the row's "dwell, imposed delay and the remainder" | fig 5.5b |
+| Effort per host | **Actions per host reached** | tab 5.5a |
+| Reconfiguration occupancy | **Share of run under reconfiguration** | tab 5.5a, fig 5.5a |
+| Deployment tempo | **Mutations per 1 000 s** (also a breach of the ratified *deployment* row) | tab 5.5a |
+| — | **Runs with no compromise** — reported, not declared | tab 5.4.1a |
+| — | **Successes per host reached** — reported, not declared | tab 5.5a, tab 5.3.1a |
+
+Two of eight names match. Two reported quantities have no row. This is the
+concrete form of Marc's "unrefined": the table and the results were written by
+different passes and do not yet describe the same objects. It is also the §AG
+flag (three names for host breadth) grown to the whole table.
+
+**Two rows are compound.** *Host breadth* holds the count and its suppression
+against no defence — two quantities, and the second is the one every §5.4 claim
+is made on. *Attacker cost* holds an action count and a three-way time split.
+One quantity per row is the §AJ rule and it applies here.
+
+**One row may not be a metric.** Deployment tempo reads 5.0 per 1 000 s on every
+defended condition at the 200 s interval and 0.0 on no defence (tab 5.5a): it is
+the declared interval read back. It checks that the manipulation took; it does
+not separate one defence from another. If so it cannot "judge a defence", and
+dropping it also dissolves the caption's one declared divergence from Table 3.1,
+which exists only for this row. *Verify at 2 000 s and on the two schemes before
+ruling* (user shuffle's 4.9 is the only cell that moves).
+
+### AK4 — The tie-back is half-made: the headings against Table 3.1's
+
+Table 3.1's structure is three things: **purpose** (row groups), **Measures**
+(first column: the quantity a family measures), **perspective** (the two value
+columns, attacker-side and defender-side). The *families* are the named things
+in the cells — ASP, MTTC, attack actions blocked.
+
+1. **The header is wrong.** Table 5.3's *Family* column holds "success events",
+   "attacker time" — Table 3.1's **Measures** column. The header was ruled on
+   2026-09-04 ("reads as the verb"); Table 5.3 renames it, and to a word that in
+   Table 3.1 means something else. Same cells, same header: **Measures**.
+2. **Perspective is dropped**, and it is live in the results: tab 5.5a's short
+   caption is "The cost of each condition, on both sides". Placing the eight on
+   Table 3.1's cells (to verify, Marc's filing):
+
+   | | Measures | Attacker-side | Defender-side |
+   |---|---|---|---|
+   | Effectiveness | success events | target reach | blocked fraction |
+   | | attacker time | delay to first compromise | |
+   | | system state | | hosts reached, suppression |
+   | | network-state change | | (deployment tempo) |
+   | Efficiency | resource spent | actions attempted, actions per host, time split | |
+   | | resource spent *or* network-state change | | share of run under reconfiguration |
+
+   Reconfiguration occupancy is time a mechanism spends deploying, which is
+   nearer Table 3.1's efficiency row *network-state change* (downtime: NVDT,
+   Tay's node replacement downtime) than *resource spent* (defence cost). Flag,
+   not a correction.
+3. **Perspective is also the answer to "what part of the model does it operate
+   on".** §AJ groups Table 5.2 by the simulation's moving parts (Network,
+   Attacker, Defence, Runs). A metric is read from one of them: the attacker's
+   action record, the network's host state, the defence's deployment record.
+   That is Cho's perspective axis made concrete on this simulator, so one column
+   carries both the lit-review tie and the model tie, and no new axis arrives.
+4. **The family itself is missing**, and it is what would answer "which did we
+   adopt and which are new". §AH established the facts row by row: blocked
+   fraction is Brown's *attack actions blocked* as a share; effort per host is
+   Brown's *attempts required*, per host; deployment tempo is Ho's MEF; hosts
+   reached sits in HCR/NCR's cell and is not that quantity; delay to first
+   compromise sits in MTTC's cell and must not take its name. A column — *After*
+   — holding the lineage metric and citation where there is one and empty where
+   there is not makes the adopted/new split visible in the float. Empty cells
+   are then honest, and they are few.
+
+On the antecedent worry, stated plainly: new *metrics* in a setup are the
+field's form (Alavizadeh, Kim and He all define theirs in or beside the setup),
+and §4's opener already says the model is instrumented. What would be deceptive
+is new *axes or vocabulary*. With the header restored and perspective carried,
+Table 5.3 has no heading Table 3.1 does not have, and every new name sits in a
+cell the reader has already seen.
+
+### AK5 — *Comparable across*
+
+Marc doubts it; mostly right. Five of eight cells say "both arms", so the column
+is a constant with three exceptions, and it carries two other things in
+disguise: the **unit** ("as a count", "as a fraction", "as a ratio") and a
+**disclosure** the caption then repeats ("comparable to none of these"). The
+exceptions are real and are the comparability boundary the design handoff owes
+this section: time-valued metrics are read within an arm because the arms price
+time differently, and blocked fraction is structurally zero on the baseline arm.
+Conventions §b4 puts marks of that kind in a footnote. **Replace the column with
+*Unit*; dagger the three rows; one footnote.** The cross-simulator sentence
+leaves the caption: tab 5.4.3a's caption already carries it where it bites.
+
+### AK6 — The shape that follows (structure only; names and filing are Marc's)
+
+| Group | Measures | Metric | Definition | Unit | Read from | After |
+|---|---|---|---|---|---|---|
+| Effectiveness | system state | Hosts reached | distinct hosts compromised in a run | hosts | network | — (HCR/NCR's cell) |
+| | system state | Suppression | hosts reached under no defence, less hosts reached under the condition | hosts | network | — |
+| | success events | Target reached | runs that compromise a database host | share of runs | attacker | (verify: ASR's cell) |
+| | success events | Runs with no compromise | … | share of runs | attacker | — |
+| | success events | Blocked fraction† | actions a deployment interrupts, over actions attempted | share | defence | attack actions blocked (Brown) |
+| | attacker time | Delay to first compromise† | … censored at the run length | s | attacker | — (MTTC's cell) |
+| Efficiency | resource spent | Actions per host reached | … | ratio | attacker | attempts required (Brown) |
+| | resource spent | Successes per host reached | … | ratio | attacker | — |
+| | resource spent | Time split† | … fig 5.5b's three segments, in its words | share of run | attacker | — |
+| | (AK4.2) | Share of run under reconfiguration | … | share | defence | (verify: downtime, Tay) |
+
+Seven columns will not fit at 455 pt; *Read from* can become the row-group rule
+inside each purpose group, or *Measures* and *After* can share a cell as Table
+3.1 does. Geometry after the rulings. The caption shrinks to the title plus the
+dagger's decode: no divergence sentence, no cross-simulator sentence.
+
+**The prose unit is unaffected**, except that its second sentence says "host
+breadth" and the floats say "hosts reached".
+
+### AK7 — Rulings owed
+
+1. **Names: the table takes the floats' names, or the floats take the table's.**
+   Recommended: the floats' — they are plainer, they are already in eight
+   generated captions, and *breadth* / *occupancy* / *tempo* are abstractions
+   the results never use. This closes §AH's open question in the same move for
+   all but Brown's two.
+2. Header *Family* → **Measures** (recommended; restores a ratified header).
+3. Carry perspective, as *Read from* keyed to Table 5.2's groups (recommended)
+   or as Table 3.1's *Attacker-side / Defender-side*.
+4. An *After* column for the lineage metric (recommended), which is also where
+   §AH's Brown ruling lands.
+5. *Comparable across* → *Unit* plus a dagger footnote (recommended).
+6. Deployment tempo: out, as a manipulation check (recommended, pending the
+   2 000 s check), or in, filed where Table 3.1 files it.
+7. Split the compound rows; add the two undeclared quantities, or drop them from
+   the floats.
+8. Reconfiguration occupancy's Measures cell: *resource spent* or
+   *network-state change*.
+9. Direction of good: a column, or one clause in the caption ("a defence does
+   better as the effectiveness metrics … "). Alavizadeh's form is a clause.
