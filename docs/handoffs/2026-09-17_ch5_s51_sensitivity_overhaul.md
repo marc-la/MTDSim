@@ -759,8 +759,13 @@ declares the assumption in the model description, which §4.4 does. Ruled:
   in the decision register.
 
 Applied the same day; build clean at 90 pages, no undefined reference. The
-slot-generator handoff is deleted with this commit. Body float stems still
-carry the old numbering (`tab_5-2a` is now Table 5.1, and so on through
-§5.5); a stem rename touches every ch5 generator and is flagged, not done.
+slot-generator handoff is deleted with this commit. The body float stems were
+renamed to the new numbering the same day on Marc's go-ahead (old §5.2 to §5.5
+become §5.1 to §5.4: `tab_5-2a` is `tab_5-1a`, `fig_5-5a` is `fig_5-4a`), in
+the files, the tex, the four ch5 generators and `FLOATS.md`. **Handoffs and
+findings records written before 2026-09-20 keep the old section numbers and
+stems**; read them one section down. On the exposure finding (T3): Marc reads
+it as a headline of the results, the gap between no defence and defence, to be
+raised where the results discuss that gap; no separate sentence is owed.
 `evaluation_conventions.md` §c's one-register rule is left as written; the
 setup table's header comment cites it, so amending it is a separate ruling.

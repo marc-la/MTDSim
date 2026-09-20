@@ -23,11 +23,11 @@ Usage:
   python tools/ch5_effectiveness_figures.py [--numbers PATH] [--no-compile] [--only STEM]
 
 Writes
-  docs/thesis/figures/fig_5-4-1a_suppression_profiles.{tex,pdf}
-  docs/thesis/figures/fig_5-4-2a_cross_arm.{tex,pdf}
-  docs/thesis/tables/tab_5-4-1a_conditions.tex
-  docs/thesis/tables/tab_5-4-2a_orderings.tex
-  docs/thesis/tables/tab_5-4-3a_lineage.tex
+  docs/thesis/figures/fig_5-3-1a_suppression_profiles.{tex,pdf}
+  docs/thesis/figures/fig_5-3-2a_cross_arm.{tex,pdf}
+  docs/thesis/tables/tab_5-3-1a_conditions.tex
+  docs/thesis/tables/tab_5-3-2a_orderings.tex
+  docs/thesis/tables/tab_5-3-3a_lineage.tex
 """
 from __future__ import annotations
 
@@ -42,11 +42,11 @@ from _ch5_style import (CNAME, DEFENDED, FONT, LABEL, LONG, MARK, PREAMBLE, PROF
                         fmt_thousands, marker, panel_letter, pm, write_fig)
 
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers.json"
-STEM_F55 = "fig_5-4-1a_suppression_profiles"
-STEM_F56 = "fig_5-4-2a_cross_arm"
-STEM_T55 = "tab_5-4-1a_conditions"
-STEM_T56 = "tab_5-4-2a_orderings"
-STEM_T57 = "tab_5-4-3a_lineage"
+STEM_F55 = "fig_5-3-1a_suppression_profiles"
+STEM_F56 = "fig_5-3-2a_cross_arm"
+STEM_T55 = "tab_5-3-1a_conditions"
+STEM_T56 = "tab_5-3-2a_orderings"
+STEM_T57 = "tab_5-3-3a_lineage"
 INTERVALS = ("200", "2000")
 
 
