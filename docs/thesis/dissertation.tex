@@ -5611,7 +5611,7 @@ regenerated for each seed and the two database hosts at the deepest level as
 the target. Every value is the simulator's own default
 (Section~\ref{subsec:network-model}, Figure~\ref{fig:network-model}) but one:
 the target set, narrowed from five database hosts to two. The configuration
-never changes across this chapter, so every difference reported is the
+never changes, so every difference reported is the
 attacker's or the defence's.
 % [3b] "narrowed from five hosts to two" --- the fact is verified: GEOMETRY
 %  sets total_database=2 (src/mtdsim/l3_simulation/movement/run.py:67) against
@@ -5625,7 +5625,7 @@ attacker's or the defence's.
 
 \input{tables/tab_5-2a_experiment}
 
-\textbf{Attacker.} Two arms: the baseline attacker of
+\textbf{Attacker.} The baseline attacker of
 Section~\ref{subsec:attacker-model}, and the movement attacker of
 Chapter~\ref{ch:attacker-model} on each of its four attack profiles and on the
 aggregate, the attack graph of Section~\ref{sec:technique-graph} before it is
@@ -5658,7 +5658,7 @@ partitioned into profiles. Both pursue the targeted objective
 \textbf{Defence.} Ten conditions: no defence, each of the seven defence
 mechanisms under the single scheme, and the random and alternative execution schemes,
 which draw on the whole pool (Section~\ref{subsec:defence-mechanisms}). Each
-defended condition runs at both deployment intervals, and the interval
+defended condition runs at both deployment intervals, and the timing
 distribution is varied separately (Table~\ref{tab:experiment}). The no-defence
 runs are the reference for every effect this chapter reports.
 % REWORKED 2026-09-18, THIRD pass, on four of Marc's rulings. The unit is now
@@ -5753,7 +5753,7 @@ runs are the reference for every effect this chapter reports.
 %  register: the selector would need retraining before it could trade cost
 %  against risk.
 
-\textbf{Metrics.} Both attacker models are instrumented for this chapter, with
+\textbf{Metrics.} Both attacker models are instrumented, with
 metrics either adapted from earlier evaluations or introduced here, which are
 outlined in Table~\ref{tab:metrics}. They are grouped by effectiveness and
 efficiency, as Table~\ref{tab:mtd-metrics} groups the field's. The defences are
@@ -5857,9 +5857,17 @@ ranked on hosts reached, the distinct hosts an attacker compromises.
 
 \input{tables/tab_5-2b_metrics}
 
+% PASS 5, 2026-09-20 (compress-to-ledger; Marc accepted R1, C1-C4 in chat, and
+%  ruled ~250 words, one unit, a reasonable size for this section). R1 "timing
+%  distribution" (Table 5.2's renamed row); C1 Runs sentences fused, "each on its
+%  own seed" dropped (Table 5.2's Seeds row carries it; the joint "on the same
+%  seeds for" is forced by the merge); C2 "Two arms:" cut (the Arm row lists six);
+%  C3 "for this chapter" cut; C4 "across this chapter" cut. DO NOT RE-FLAG: the
+%  Network unit's first sentence duplicating Table 5.2's values (ruled form,
+%  2026-09-18). 274 -> 258 words. Unit is through pass 5.
 \textbf{Runs.} Every combination in Table~\ref{tab:experiment} is run a thousand
-times, each on its own seed. The same seeds are used on every arm, so every
-attacker starts on the same thousand networks. Differences are reported as effect
+times, on the same seeds for every arm, so every attacker starts on the same
+thousand networks. Differences are reported as effect
 sizes with 95\,\% confidence intervals.
 % REBUILT 2026-09-18 on Marc's read: "that reads like compaction for an LLM ...
 %  this is not thesis-ready". He is right, and the diagnosis is specific --- the
