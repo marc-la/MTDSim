@@ -194,3 +194,12 @@ Tex:
 | `\rowgroup` on a one-row group | drop it; the rule separates |
 | `latexmk` absent | `pdflatex` × 2 with `bibtex` between |
 | PDF page ≠ printed page | printed + front-matter offset; verify with the aux label |
+
+## After the float lands — scrutinise it
+
+A populated float is not a settled one. Before it is ratified, run the
+[`scrutinise-figure`](../../.claude/skills/scrutinise-figure/SKILL.md) skill
+(first run: Figure 5.1, 2026-09-20): the subsection's takeaways are defined
+first, then a cold reader (figure, caption and one introducing sentence only)
+and a context critic test the float against them, and it is reworked until
+neither reports a blocking defect.
