@@ -526,6 +526,53 @@ label-blind control has never run at L3. Rejected: the critic's flow counts of
   profiles; adjacent pairs do, the ends do not (impact against exfiltration and
   no realised objective). Tex comment amended.
 
+#### 8e, second pass the same day — the full scrutinise-figure run on the reworked table
+
+Four reviewers, launched together: a fresh cold reader, the context critic, a
+numbers auditor, a sceptical examiner. Every accepted finding was checked
+against `numbers.json` or the raw runs first.
+
+- **Numbers auditor:** all 24 cells reproduce from `runs.jsonl` without the
+  analyser; both attackers stop acting when a target falls (53 of 53 movement
+  runs, 58 of 58 baseline runs); one compromise event per host on both; the
+  pooled 400 profile runs give Table 5.4's no-defence row exactly.
+- **Context critic:** passes, T4 delivered, not a duplicate of Table 5.4 (the
+  baseline row, the per-profile rows and the aggregate appear nowhere else).
+  One blocking fix, applied: the caption said "run length", a word §5 lists
+  under Never; it now says "time limit", Table 5.1's row. One estimator fix,
+  applied: target reached on the movement row now requires a target host held,
+  as the baseline row does. Nothing moves at 15 000 s; at 60 000 s impact goes
+  0.64 to 0.62 and the aggregate 0.60 to 0.58.
+- **Cold reader (never given T4):** message matched T4. Blocking: no run count
+  (the thesis declares it in Table 5.1, and the caption now points there), and
+  nothing says the gap is expected (body text, below).
+- **Sceptical examiner, upheld from the data: T4's second clause does not
+  survive the §3 test.** At 60 000 s the same corpus reads target reached 0.58,
+  0.62, 0.58 and 0.36 (exfiltration, impact, aggregate, no realised objective)
+  against the baseline attacker's 0.67, and 17 to 21 hosts against 25. The gap
+  at 15 000 s is pace under a time limit, and chapter 4 declares the dwell
+  times as inputs. **RULING OWED:** T4 reworded to "at this time limit the
+  movement attacker has reached less, because it is slower", and whether the
+  60 000 s reading enters the table, the body text or neither (Table 5.1 does
+  not declare it).
+- **Also upheld:** double extortion stalls and is not merely slow (9.2 hosts,
+  0.05, 0.08 with no compromise at 60 000 s; steps per run 454 to 1 742), an
+  exception to mark and hand to chapter 6; "three times sooner" is about 2.6
+  times on medians; the delay's ordering among profiles is not read because it
+  is conditioned on compromise. All are content points 6 to 11 in the tex
+  comment.
+- **Declined, with reasons:** intervals on the share columns (the examiner
+  wanted them at 100 runs; the thesis reports 1 000, where he agrees it is
+  pedantry, so the body text says the profiles are not separated instead);
+  "of 50" in the header (Table 5.1); per cent for shares (Tables 5.4 and 5.5).
+- **Open check, the examiner's third attack:** hosts reached is cut short by
+  the stop at the target in 0.60 of baseline runs against 0.05 to 0.17 of the
+  movement attacker's, and under defence that share falls, which pushes the
+  baseline attacker's suppression toward zero. The movement attacker without
+  the stop moves 7.44 to 7.51; no baseline run without the stop exists. This is
+  §5.3.2's fairness question, not this table's, and needs a baseline arm on the
+  opportunistic objective before it can be sized.
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,

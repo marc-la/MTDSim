@@ -6253,8 +6253,9 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % not hold here). The stealth-spacing column still waits on C11.
 % REWORKED 2026-09-21 (Marc's read and ruling; scrutinise-figure pass, results
 % context §8e). The table has ONE job, takeaway T4: the no-defence reference, and
-% that a fuller campaign is not a better outcome. It is now Table 5.2's four
-% effectiveness metrics that exist with no defence running, per attacker, so
+% that a fuller campaign is not a better outcome. It is now four of Table 5.2's
+% effectiveness metrics, per attacker (blocked fraction is the fifth that reads
+% with no defence, 0.24 in Table 5.4; it is structurally zero on the baseline), so
 % every column is a term the reader has met and NO FOOTNOTE survives. CUT:
 % distinct tactics and runs on the commonest opening (both repeat Figure 5.1),
 % path entropy (its own footnote said not to read it), successes per host (a
@@ -6288,6 +6289,37 @@ that Section~\ref{sec:effectiveness} reports against.]}
 %     of runs, the others in 0.00-0.05.
 %  5. The hand-off: hosts reached at no defence is the denominator of
 %     suppression (Table 5.2) in §5.3.
+% SCRUTINY PASS 2026-09-21 (cold reader, context critic, numbers auditor,
+% sceptical examiner; record: results context §8e). All 24 cells reproduce from
+% the raw runs. What the pass adds to the content points above:
+%  6. THE GAP IS READ AT THE 15 000 s TIME LIMIT AND DEPENDS ON IT. The same
+%     corpus at 60 000 s (numbers.json, extension): target reached 0.58
+%     exfiltration, 0.62 impact, 0.58 aggregate, 0.36 no realised objective,
+%     against the baseline attacker's 0.67; hosts reached 17-21 against 25. So
+%     "a fuller campaign is not a better outcome" FAILS the §3 test as worded
+%     (move the limit and it reverses). T4's honest form: at this time limit
+%     the movement attacker has reached less, because it is slower; chapter 4
+%     declares the dwell times as inputs, so the pace is a construction fact
+%     and may be given as the reason. RULING OWED from Marc on T4's wording
+%     and on whether the 60 000 s reading enters the table, the body text or
+%     neither (Table 5.1 does not declare 60 000 s; C36).
+%  7. DOUBLE EXTORTION STALLS and is not merely slow: at 60 000 s it still
+%     reads 9.2 hosts, target reached 0.05 and 0.08 of runs with no
+%     compromise, while its steps per run rise from 454 to 1 742. Exception,
+%     marked and not explained; the cause is chapter 6's. It sits inside the
+%     pooled denominator of every suppression figure.
+%  8. "Three times sooner" is on means; the delay is skewed (exfiltration mean
+%     2 397 s, median 1 667 s; baseline 675 against 631), so on medians it is
+%     about 2.6 times. Say "mean" or quote the median.
+%  9. The delay is over the runs that compromise a host (92-100 of 100 on the
+%     profiles, 100 on the baseline). Counting the others at the limit would
+%     move double extortion from fastest to slowest; the ordering AMONG
+%     profiles on this column is therefore not read.
+% 10. The aggregate's 0.17 is not separated from the profiles at 100 runs (four
+%     runs above impact); one clause, no marker in the table.
+% 11. The 0.02 of baseline runs that end on the inherited compromise-ratio stop
+%     are not counted as target reached, on either attacker (the movement row
+%     now applies the same filter; it changes nothing at 15 000 s).
 % PROFILE CODES (C1-C4, C_aggregate) CONSIDERED, not applied: chapter 4 uses $c$
 % as an index and never enumerates it, so codes here would be a chapter 5
 % first-use; they need a chapter 4 insertion first (Table 4.x or §4.2), then

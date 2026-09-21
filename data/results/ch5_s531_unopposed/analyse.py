@@ -251,7 +251,12 @@ def movement_row(runs: list[MovementRunResult], stage_of: dict) -> dict:
         "delay": delay_summary([r.first_compromise_time() for r in runs]),
         "n_successes": _iv(M.n_successes(r) for r in runs),
         "ended": {k: v / len(runs) for k, v in sorted(ended.items())},
-        "target_reach": sum(1 for r in runs if r.reached_objective) / len(runs),
+        # a target host held, the baseline row's rule: a run that ended on the
+        # inherited compromise-ratio stop is not a target reached (none does on
+        # this corpus; the filter keeps the two rows one estimator)
+        "target_reach": sum(
+            1 for r in runs if r.reached_objective and r.database_hosts_reached > 0
+        ) / len(runs),
         "time_to_target_median": (median(reach_times) if reach_times else None),
         "database_hosts_reached": _iv(r.database_hosts_reached for r in runs),
         "retrace_count": _iv(r.retrace_count for r in runs),
