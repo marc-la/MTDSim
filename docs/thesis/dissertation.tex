@@ -107,11 +107,14 @@
 
 
 % --- front-matter metadata -------------------------------------------
-% PLACEHOLDER title (written last, per the writing guide). Aligned with
-% the reworded research question; candidates staged in
-% docs/notes/_title_workshop.md.
+% PRELIMINARY title (Marc, 2026-09-21): the seminar title, inserted as the
+% working dissertation title. Still written last per the writing guide; the
+% reasoning and the reviewer pass are in
+% docs/handoffs/2026-09-21_seminar_title_abstract_design.md §8, and the
+% older shortlist in docs/notes/_title_workshop.md rests on the ranking
+% inversion, which did not reproduce.
 \title{Evaluating moving target defence against advanced persistent
-       threat attackers}
+       threat attackers modelled on documented intrusion campaigns}
 \author{Marc Labouchardiere \\ \normalsize\upshape (23857377)}
 \supervisor{Dr Jin B.\ Hong}
 
@@ -129,6 +132,36 @@
 \begin{abstract}
 % Technical gap + contribution against it, expert reader, as brief as
 % possible; ends with the single headline outcome. Written second-last.
+%
+% PRELIMINARY (Marc, 2026-09-21) --- this is the SEMINAR abstract, verbatim
+% (196 words, settled sentence by sentence with Marc; handoff
+% 2026-09-21_seminar_title_abstract_design.md §8). It is written for a
+% generalist reader and therefore departs from the chapter vocabulary on
+% purpose: "simplified attacker" is the baseline attacker, "the new model"
+% is the movement attacker, and "Preliminary results" is the seminar's
+% hedge, which the dissertation abstract may not keep. The results
+% sentences are read from the 100-seed corpus (tab:eff-orderings) and must
+% be re-checked at the reported seed count. To be reworked for the expert
+% reader and the 300-word budget when the abstract is written in its turn.
+In February 2024, US and Australian cyber agencies reported that the
+state-sponsored group Volt Typhoon had held access inside American
+critical infrastructure networks for at least five years. Advanced
+persistent threats like Volt Typhoon run long, staged campaigns with
+well-documented tradecraft. Moving target defence (MTD) continually
+reconfigures a network so that what an attacker has learned about it
+goes out of date before it can be used. Yet simulation studies of MTD
+commonly test it against simplified attackers that follow a fixed
+sequence of steps. A defence evaluated only against a simplified
+attacker gives little confidence against a long, staged campaign. This
+work builds an attacker model from published reports of real intrusion
+campaigns, with profiles distinguished by operational objective. An
+existing MTD simulator is then run under identical conditions, once with
+its own simplified attacker and once with the new model. Preliminary
+results show that IP shuffling and topology shuffling do the most to
+contain the new model's spread through the network. Service diversity
+ranks among the best against the simplified attacker but does far less
+against the new model. These results make a case for evaluating MTD
+against attacker models grounded in documented behaviour.
 \end{abstract}
 
 % ---------------------------------------------------------------------
