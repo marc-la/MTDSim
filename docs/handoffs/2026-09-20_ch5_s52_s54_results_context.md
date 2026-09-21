@@ -374,7 +374,7 @@ Found beyond Marc's list:
 | T1 | The attacker runs a named, multi-stage campaign, where the baseline attacker has six activities and no campaign | Fig. 5.1(a); one body sentence for the baseline |
 | T2 | The campaign depends on the objective: the four profiles are differently weighted campaigns (amended 2026-09-21, §8d) | Fig. 5.1(a); two body sentences on the pairwise divergence (was Fig. 5.2, demoted) |
 | T3 | A profile does not run its campaign the same way twice | Fig. 5.1(b) |
-| T4 | The no-defence reference the defence sections are read against, including that a fuller campaign does not mean a better outcome (target reached sits below the baseline's) | Table 5.3 |
+| T4 | The no-defence reference the defence sections are read against, including that a fuller campaign does not mean a better outcome (target reached sits below the baseline's) | Table 5.3 (reworked 2026-09-21, §8e); one framing paragraph owed |
 
 Pace is not a takeaway. It is one hand-off sentence (every campaign is opened
 within about 2 000 s, the order of the deployment intervals) into §5.2.2.
@@ -492,6 +492,39 @@ label-blind control has never run at L3. Rejected: the critic's flow counts of
   chart about the same matrix: six bars, one per pair, on a 0–1 axis, each
   split into the part from tactics only one profile holds and the part from
   reweighting the shared ones.
+
+### 8e. Table 5.3 cut to the no-defence reference, 2026-09-21 (scrutinise-figure pass; Marc: "let's get this down")
+
+- **Takeaway under test:** T4 only. T1 to T3 are Figure 5.1's.
+- **Marc's read, upheld column by column:** distinct tactics and the commonest
+  opening repeat Figure 5.1; path entropy's own footnote said not to read it;
+  successes per host printed no baseline value; ended at time limit is one minus
+  target reached on an arbitrary limit; no footnote earned its place; several
+  terms were defined nowhere.
+- **Applied:** four Table 5.2 columns (hosts reached, target reached, delay to
+  first compromise, runs with no compromise); rows grouped under *movement
+  attacker* with the profiles indented, then *baseline attacker*; the aggregate
+  kept (Marc: it is a profile); no footnotes; caption says how to read only and
+  points at Tables 5.1 and 5.2.
+- **Fairness check (Marc's instruction):** both attackers stop acting at the
+  target, so the comparison is under one stopping rule; the rows reproduce
+  Table 5.4's pooled no-defence row. Detail in the findings addendum.
+- **Cold reader (never given T4):** its message was T4 (three times the hosts,
+  target in 0.58 against 0.05 to 0.17, first compromise three times sooner;
+  profiles alike). Two blocking reports: (i) nothing frames the gap, so the
+  reader concludes the model is "simply worse" — that is the T4 paragraph's
+  job, content points 1 and 2 in the tex comment, and is OWED in body text;
+  (ii) no network size or run length — answered by the caption's pointer to
+  Table 5.1. Declined: shares as per cent (Tables 5.4 and 5.5 print decimals),
+  intervals on shares, Table 5.2's column order (hosts reached leads because it
+  is the suppression denominator).
+- **Profile codes (C1 to C4, C_aggregate):** considered on Marc's suggestion,
+  not applied. Chapter 4 uses $c$ as an unenumerated index, so codes need a
+  chapter 4 insertion first (antecedent rule), then Figure 5.1 and Table 5.3
+  change together. Open for his ruling.
+- **Correction carried:** the §8d ceiling said hosts reached overlaps between
+  profiles; adjacent pairs do, the ends do not (impact against exfiltration and
+  no realised objective). Tex comment amended.
 
 ## Validation gate
 

@@ -248,3 +248,32 @@ pooled over ~50 000 steps and shrinks with the corpus, so "every pair clears
 it" is true by construction of four nets with different weights; the
 size-matched label-blind arm remains the only control that separates
 conditioning from corpus size, and it has not run at L3.
+
+## Addendum, 2026-09-21 (second) — Table 5.3 cut to the no-defence reference
+
+Marc's read: the table carried columns that repeated Figure 5.1, a column with
+no baseline value, a column on an arbitrary limit, and footnotes that did not
+earn their place. Ruled and applied; the record of the pass is results context
+§8e.
+
+- **Columns now:** hosts reached, target reached, delay to first compromise,
+  runs with no compromise. All four are Table 5.2 terms. The delay is the
+  defended corpus's estimator (mean over the runs that compromise a host, the
+  share that never do beside it), added to both rows of `analyse.py` as `delay`.
+- **Fairness, checked from `runs.jsonl`:** in all 58 baseline runs that
+  compromise a target host, the last record ends at that compromise, so the
+  baseline stops acting at the target as the profiles do. Its
+  `termination_time` reads 15 000 s regardless, which is what the old comment in
+  `baseline_row` misread as "keeps running". Hosts reached and target reached
+  are therefore counted under one stopping rule on both attackers.
+- **Consistency with the defended corpus:** the four profile rows average to
+  8.1 hosts, 2 100 s and 0.035 runs with no compromise, Table 5.4's pooled
+  no-defence row (8.1, 2 100 ± 195, 0.04).
+- **Numbers, 100 seeds:** delay 2 397 ± 466 (exfiltration), 1 861 ± 339
+  (impact), 1 866 ± 225 (double extortion), 2 264 ± 455 (no realised
+  objective), 2 194 ± 345 (aggregate), 675 ± 86 (baseline attacker); runs with
+  no compromise 0.00, 0.01, 0.08, 0.05, 0.01, 0.00.
+- **Still open:** successes per host differs between this corpus's per-profile
+  means (20 to 37) and the cost table's pooled 19.9, which looks like mean of
+  ratios against ratio of sums; the column is gone from this table, so it is a
+  §5.4 check, not a §5.2 one.
