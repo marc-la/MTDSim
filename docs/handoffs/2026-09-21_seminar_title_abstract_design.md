@@ -183,6 +183,63 @@ repairs and checks the ceiling.
 4. Whether the workload analogy appears (recommended: yes, one clause in S3).
 5. First person or "this talk".
 
+## 8. The working draft (2026-09-21, sentence-by-sentence with Marc; supersedes §3–§6 where they differ)
+
+**Title (recommended; Marc's approval of the 14-word form still owed):**
+*Evaluating moving target defence against advanced persistent threat attackers
+modelled on documented intrusion campaigns.* Marc rejected every hook,
+question and finding-as-sentence form ("no meat on the bones"; a supervisor
+would ask "what are we talking about"). Lead verb decided on merit: the RQ,
+the ch3 gap and the abstract's close all place the contribution in MTD
+*evaluation*, the model being the means. The lineage's "Evaluating moving
+target defence…" frame (Brown, Zhang) is inherited on purpose. A 13-word trim
+that dropped "attackers" failed all three reviewers on the attachment of
+"modelled on" and was reverted.
+
+**Abstract (196 words):**
+
+> In February 2024, US and Australian cyber agencies reported that the state-sponsored group Volt Typhoon had held access inside American critical infrastructure networks for at least five years. Advanced persistent threats like Volt Typhoon run long, staged campaigns with well-documented tradecraft. Moving target defence (MTD) continually reconfigures a network so that what an attacker has learned about it goes out of date before it can be used. Yet simulation studies of MTD commonly test it against simplified attackers that follow a fixed sequence of steps. A defence evaluated only against a simplified attacker gives little confidence against a long, staged campaign. This work builds an attacker model from published reports of real intrusion campaigns, with profiles distinguished by operational objective. An existing MTD simulator is then run under identical conditions, once with its own simplified attacker and once with the new model. Preliminary results show that IP shuffling and topology shuffling do the most to contain the new model's spread through the network. Service diversity ranks among the best against the simplified attacker but does far less against the new model. These results make a case for evaluating MTD against attacker models grounded in documented behaviour.
+
+**Rulings and what they overturn.**
+- §4's recommendation (tier 2 stated, tier 3 promised) is **overturned**: Marc
+  found the direction-free result empty ("so we're just swapping numbers
+  around"). The direction is stated under "Preliminary", worded to hold at
+  both intervals on the 100-seed corpus.
+- Port shuffling was **dropped** from the results sentence: at 2 000 s its
+  rank 3 against the baseline attacker sits on a suppression of 0.03. Service
+  diversity alone holds at both intervals (rank 1 both; 6 and 5 against the
+  movement attacker).
+- "Weak attacker" → "simplified attacker": the baseline attacker reaches more
+  hosts sooner; it is simple, not weak.
+- Volt Typhoon is the hook only (sentences 1–2). The mid-abstract callback was
+  cut: the model is an aggregate of campaign behaviour, the corpus excludes
+  that actor, and its valid-account tradecraft is what shuffling least
+  obviously touches.
+- The workload analogy (§3) was tried and dropped for Marc's own
+  confidence framing. No "novel", no AI-acceleration opener, ATT&CK and CTI
+  unnamed, the simulator unnamed, no numbers.
+- A short verdict sentence ("The recommended defence changes with the
+  attacker") was inserted on a misread approval and removed: Marc found it
+  vague three times (closer, title, penultimate).
+- First person: "This work".
+
+**Reviewer findings left standing (information, not defects).** Two cold
+readers stall on "operational objective" (Marc's deliberate keyword). Two
+reviewers find the closing sentence flat. Title says "documented intrusion
+campaigns", sentence 6 says "published reports of real intrusion campaigns";
+aligning saves three words and is Marc's call.
+
+**Question-time preparation.** The supervisor reviewer's first question:
+what makes the attacker an advanced persistent threat and not a multi-stage
+attacker, given a corpus that mixes state-attributed and ransomware campaigns
+and a simulator with no detection channel. A one-sentence answer is owed
+before the talk.
+
+**Before submission:** re-check the two results sentences against
+`docs/thesis/tables/tab_5-3-2a_orderings.tex` if the thousand-seed corpus or
+any simulator change lands first; confirm the unit's word counter treats
+hyphenated words as one (200-word limit; 198 if split).
+
 ## Validation gate
 
 A title and an abstract of at most 200 words that (a) a reader with the
