@@ -270,7 +270,7 @@ def emit_table(core: dict) -> str:
     w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")
     w(r"  \begin{tabular}{@{}P{4.2cm}*{4}{>{\centering\arraybackslash}p{2.5cm}}@{}}")
     w(r"    \toprule")
-    w(r"    Attacker & Hosts reached & Target reached & Delay to first compromise (s) & Runs with no compromise \\")
+    w(r"    Attacker & Hosts reached (of 50) & Target reached & Delay to first compromise (s) & Runs with no compromise \\")
     w(r"    \midrule")
 
     def row(name: str, r: dict) -> str:
