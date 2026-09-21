@@ -1791,82 +1791,137 @@
    ],
    "q": 0.975,
    "n_splits": 200,
+   "denominator": "every record",
    "visit_stream": {
     "objective_exfiltration|objective_exfiltration": {
-     "null_ceiling": 0.0003682714100823572,
-     "null_median": 0.00016195697010145985
+     "null_ceiling": 0.0003010820720101677,
+     "null_median": 0.00015747801844120295
     },
     "objective_exfiltration|objective_impact": {
-     "jsd": 0.13703379025772977,
-     "pair_ceiling": 0.0004084665595386284,
-     "clears_pair_ceiling": true
+     "jsd": 0.13700297134281827,
+     "absent_tactic_share": 0.2727538788403828,
+     "absent_tactics": [
+      "defense-impairment",
+      "exfiltration"
+     ],
+     "largest_term": "impact"
     },
     "objective_exfiltration|objective_exfiltration_impact": {
-     "jsd": 0.13669105581114516,
-     "pair_ceiling": 0.0006320708038807739,
-     "clears_pair_ceiling": true
+     "jsd": 0.14192380590017092,
+     "absent_tactic_share": 0.09376307197309938,
+     "absent_tactics": [
+      "defense-impairment",
+      "resource-development"
+     ],
+     "largest_term": "impact"
     },
     "objective_exfiltration|objective_none_c2": {
-     "jsd": 0.07775812614479437,
-     "pair_ceiling": 0.00036827141008235716,
-     "clears_pair_ceiling": true
+     "jsd": 0.09271175233773923,
+     "absent_tactic_share": 0.5091465892181725,
+     "absent_tactics": [
+      "exfiltration",
+      "impact",
+      "resource-development"
+     ],
+     "largest_term": "exfiltration"
     },
     "objective_impact|objective_exfiltration": {
-     "jsd": 0.13703379025772977,
-     "pair_ceiling": 0.0004084665595386284,
-     "clears_pair_ceiling": true
+     "jsd": 0.13700297134281827,
+     "absent_tactic_share": 0.2727538788403828,
+     "absent_tactics": [
+      "defense-impairment",
+      "exfiltration"
+     ],
+     "largest_term": "impact"
     },
     "objective_impact|objective_impact": {
-     "null_ceiling": 0.0005176082135565428,
-     "null_median": 0.00015300655970569186
+     "null_ceiling": 0.00044266987567113177,
+     "null_median": 0.0001590015388097724
     },
     "objective_impact|objective_exfiltration_impact": {
-     "jsd": 0.07129173039717829,
-     "pair_ceiling": 0.0006407984481016475,
-     "clears_pair_ceiling": true
+     "jsd": 0.07692085278697203,
+     "absent_tactic_share": 0.35054590096670624,
+     "absent_tactics": [
+      "exfiltration",
+      "resource-development"
+     ],
+     "largest_term": "exfiltration"
     },
     "objective_impact|objective_none_c2": {
-     "jsd": 0.1560326905227539,
-     "pair_ceiling": 0.00044727785439109384,
-     "clears_pair_ceiling": true
+     "jsd": 0.1697538596309174,
+     "absent_tactic_share": 0.4807454001687279,
+     "absent_tactics": [
+      "defense-impairment",
+      "impact",
+      "resource-development"
+     ],
+     "largest_term": "impact"
     },
     "objective_exfiltration_impact|objective_exfiltration": {
-     "jsd": 0.13669105581114516,
-     "pair_ceiling": 0.0006320708038807739,
-     "clears_pair_ceiling": true
+     "jsd": 0.14192380590017092,
+     "absent_tactic_share": 0.09376307197309938,
+     "absent_tactics": [
+      "defense-impairment",
+      "resource-development"
+     ],
+     "largest_term": "impact"
     },
     "objective_exfiltration_impact|objective_impact": {
-     "jsd": 0.07129173039717829,
-     "pair_ceiling": 0.0006407984481016475,
-     "clears_pair_ceiling": true
+     "jsd": 0.07692085278697203,
+     "absent_tactic_share": 0.35054590096670624,
+     "absent_tactics": [
+      "exfiltration",
+      "resource-development"
+     ],
+     "largest_term": "exfiltration"
     },
     "objective_exfiltration_impact|objective_exfiltration_impact": {
-     "null_ceiling": 0.0007262581715279885,
-     "null_median": 0.00026079740675295554
+     "null_ceiling": 0.0011954174345812664,
+     "null_median": 0.00026215628393626674
     },
     "objective_exfiltration_impact|objective_none_c2": {
-     "jsd": 0.2078576314295101,
-     "pair_ceiling": 0.0006407984481016475,
-     "clears_pair_ceiling": true
+     "jsd": 0.20673687152714898,
+     "absent_tactic_share": 0.5126845111782231,
+     "absent_tactics": [
+      "defense-impairment",
+      "exfiltration",
+      "impact"
+     ],
+     "largest_term": "impact"
     },
     "objective_none_c2|objective_exfiltration": {
-     "jsd": 0.07775812614479437,
-     "pair_ceiling": 0.00036827141008235716,
-     "clears_pair_ceiling": true
+     "jsd": 0.09271175233773923,
+     "absent_tactic_share": 0.5091465892181725,
+     "absent_tactics": [
+      "exfiltration",
+      "impact",
+      "resource-development"
+     ],
+     "largest_term": "exfiltration"
     },
     "objective_none_c2|objective_impact": {
-     "jsd": 0.1560326905227539,
-     "pair_ceiling": 0.00044727785439109384,
-     "clears_pair_ceiling": true
+     "jsd": 0.1697538596309174,
+     "absent_tactic_share": 0.4807454001687279,
+     "absent_tactics": [
+      "defense-impairment",
+      "impact",
+      "resource-development"
+     ],
+     "largest_term": "impact"
     },
     "objective_none_c2|objective_exfiltration_impact": {
-     "jsd": 0.2078576314295101,
-     "pair_ceiling": 0.0006407984481016475,
-     "clears_pair_ceiling": true
+     "jsd": 0.20673687152714898,
+     "absent_tactic_share": 0.5126845111782231,
+     "absent_tactics": [
+      "defense-impairment",
+      "exfiltration",
+      "impact"
+     ],
+     "largest_term": "impact"
     },
     "objective_none_c2|objective_none_c2": {
-     "null_ceiling": 0.00036783013055995974,
-     "null_median": 0.0001329043296368279
+     "null_ceiling": 0.0004111742303241045,
+     "null_median": 0.000140820383798777
     }
    },
    "terminal": {
@@ -1954,6 +2009,20 @@
     "objective_impact|objective_none_c2": true,
     "objective_exfiltration_impact|objective_impact": true,
     "objective_exfiltration_impact|objective_none_c2": true
+   },
+   "body_facts": {
+    "min_pair": "objective_exfiltration_impact|objective_impact",
+    "min_jsd": 0.07692085278697203,
+    "max_pair": "objective_exfiltration_impact|objective_none_c2",
+    "max_jsd": 0.20673687152714898,
+    "max_null_ceiling": 0.0011954174345812664,
+    "min_ratio_to_null": 64.3464371204491,
+    "mean_to_others": {
+     "objective_exfiltration": 0.1238795098602428,
+     "objective_impact": 0.12789256125356924,
+     "objective_exfiltration_impact": 0.14186051007143063,
+     "objective_none_c2": 0.1564008278319352
+    }
    }
   },
   "hosts_ordering_supported": false,
@@ -7540,82 +7609,137 @@
    ],
    "q": 0.975,
    "n_splits": 200,
+   "denominator": "every record",
    "visit_stream": {
     "objective_exfiltration|objective_exfiltration": {
-     "null_ceiling": 0.0003654621414221183,
-     "null_median": 0.0001596184414033576
+     "null_ceiling": 0.0003040748140901435,
+     "null_median": 0.00014880750740369034
     },
     "objective_exfiltration|objective_impact": {
      "jsd": 0.13792237468837681,
-     "pair_ceiling": 0.00039782118058423466,
-     "clears_pair_ceiling": true
+     "absent_tactic_share": 0.2740278437853427,
+     "absent_tactics": [
+      "defense-impairment",
+      "exfiltration"
+     ],
+     "largest_term": "impact"
     },
     "objective_exfiltration|objective_exfiltration_impact": {
-     "jsd": 0.13697615066140253,
-     "pair_ceiling": 0.0006119473342331176,
-     "clears_pair_ceiling": true
+     "jsd": 0.14213358741305981,
+     "absent_tactic_share": 0.09402925781343151,
+     "absent_tactics": [
+      "defense-impairment",
+      "resource-development"
+     ],
+     "largest_term": "impact"
     },
     "objective_exfiltration|objective_none_c2": {
-     "jsd": 0.07798924010728384,
-     "pair_ceiling": 0.000346303194022373,
-     "clears_pair_ceiling": true
+     "jsd": 0.09255701265916592,
+     "absent_tactic_share": 0.5087591263169415,
+     "absent_tactics": [
+      "exfiltration",
+      "impact",
+      "resource-development"
+     ],
+     "largest_term": "exfiltration"
     },
     "objective_impact|objective_exfiltration": {
      "jsd": 0.13792237468837681,
-     "pair_ceiling": 0.00039782118058423466,
-     "clears_pair_ceiling": true
+     "absent_tactic_share": 0.2740278437853427,
+     "absent_tactics": [
+      "defense-impairment",
+      "exfiltration"
+     ],
+     "largest_term": "impact"
     },
     "objective_impact|objective_impact": {
-     "null_ceiling": 0.0004135841530500899,
-     "null_median": 0.00014996104131661202
+     "null_ceiling": 0.00045220446798833574,
+     "null_median": 0.00014650574540160506
     },
     "objective_impact|objective_exfiltration_impact": {
-     "jsd": 0.0714049611655992,
-     "pair_ceiling": 0.0006216299788632461,
-     "clears_pair_ceiling": true
+     "jsd": 0.0769522700149898,
+     "absent_tactic_share": 0.3485132137297464,
+     "absent_tactics": [
+      "exfiltration",
+      "resource-development"
+     ],
+     "largest_term": "exfiltration"
     },
     "objective_impact|objective_none_c2": {
-     "jsd": 0.15666806461879546,
-     "pair_ceiling": 0.0003779160714417851,
-     "clears_pair_ceiling": true
+     "jsd": 0.17003715031788774,
+     "absent_tactic_share": 0.47818451348014385,
+     "absent_tactics": [
+      "defense-impairment",
+      "impact",
+      "resource-development"
+     ],
+     "largest_term": "impact"
     },
     "objective_exfiltration_impact|objective_exfiltration": {
-     "jsd": 0.13697615066140253,
-     "pair_ceiling": 0.0006119473342331176,
-     "clears_pair_ceiling": true
+     "jsd": 0.14213358741305981,
+     "absent_tactic_share": 0.09402925781343151,
+     "absent_tactics": [
+      "defense-impairment",
+      "resource-development"
+     ],
+     "largest_term": "impact"
     },
     "objective_exfiltration_impact|objective_impact": {
-     "jsd": 0.0714049611655992,
-     "pair_ceiling": 0.0006216299788632461,
-     "clears_pair_ceiling": true
+     "jsd": 0.0769522700149898,
+     "absent_tactic_share": 0.3485132137297464,
+     "absent_tactics": [
+      "exfiltration",
+      "resource-development"
+     ],
+     "largest_term": "exfiltration"
     },
     "objective_exfiltration_impact|objective_exfiltration_impact": {
-     "null_ceiling": 0.0006679587539439102,
-     "null_median": 0.00025328659101553905
+     "null_ceiling": 0.0011856206323839736,
+     "null_median": 0.00026576122064886506
     },
     "objective_exfiltration_impact|objective_none_c2": {
-     "jsd": 0.2075930141546328,
-     "pair_ceiling": 0.0006119473342331176,
-     "clears_pair_ceiling": true
+     "jsd": 0.20641183039479383,
+     "absent_tactic_share": 0.5141300171333772,
+     "absent_tactics": [
+      "defense-impairment",
+      "exfiltration",
+      "impact"
+     ],
+     "largest_term": "impact"
     },
     "objective_none_c2|objective_exfiltration": {
-     "jsd": 0.07798924010728384,
-     "pair_ceiling": 0.000346303194022373,
-     "clears_pair_ceiling": true
+     "jsd": 0.09255701265916592,
+     "absent_tactic_share": 0.5087591263169415,
+     "absent_tactics": [
+      "exfiltration",
+      "impact",
+      "resource-development"
+     ],
+     "largest_term": "exfiltration"
     },
     "objective_none_c2|objective_impact": {
-     "jsd": 0.15666806461879546,
-     "pair_ceiling": 0.0003779160714417851,
-     "clears_pair_ceiling": true
+     "jsd": 0.17003715031788774,
+     "absent_tactic_share": 0.47818451348014385,
+     "absent_tactics": [
+      "defense-impairment",
+      "impact",
+      "resource-development"
+     ],
+     "largest_term": "impact"
     },
     "objective_none_c2|objective_exfiltration_impact": {
-     "jsd": 0.2075930141546328,
-     "pair_ceiling": 0.0006119473342331176,
-     "clears_pair_ceiling": true
+     "jsd": 0.20641183039479383,
+     "absent_tactic_share": 0.5141300171333772,
+     "absent_tactics": [
+      "defense-impairment",
+      "exfiltration",
+      "impact"
+     ],
+     "largest_term": "impact"
     },
     "objective_none_c2|objective_none_c2": {
-     "null_ceiling": 0.00031120238511085283,
-     "null_median": 0.00012892838914462502
+     "null_ceiling": 0.000428368440366608,
+     "null_median": 0.0001348152890422007
     }
    },
    "terminal": {
@@ -7703,6 +7827,20 @@
     "objective_impact|objective_none_c2": true,
     "objective_exfiltration_impact|objective_impact": true,
     "objective_exfiltration_impact|objective_none_c2": true
+   },
+   "body_facts": {
+    "min_pair": "objective_exfiltration_impact|objective_impact",
+    "min_jsd": 0.0769522700149898,
+    "max_pair": "objective_exfiltration_impact|objective_none_c2",
+    "max_jsd": 0.20641183039479383,
+    "max_null_ceiling": 0.0011856206323839736,
+    "min_ratio_to_null": 64.90463130711456,
+    "mean_to_others": {
+     "objective_exfiltration": 0.12420432492020085,
+     "objective_impact": 0.12830393167375145,
+     "objective_exfiltration_impact": 0.14183256260761448,
+     "objective_none_c2": 0.15633533112394918
+    }
    }
   },
   "targeted_minus_general": {
