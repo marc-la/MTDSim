@@ -171,6 +171,18 @@ def _iv(values) -> dict:
     return {"n": iv.n, "mean": iv.mean, "ci95": iv.ci95}
 
 
+def delay_summary(first_times: list) -> dict:
+    """Delay to first compromise, Table 5.2's estimator and the defended
+    corpus's (ch5_defended/analyse.py): the mean over the runs that compromise
+    a host, with the share that never do reported beside it."""
+    obs = [t for t in first_times if t is not None]
+    return {
+        "observed": _iv(obs) if obs else None,
+        "median_observed": (median(obs) if obs else None),
+        "no_compromise_share": 1 - len(obs) / len(first_times),
+    }
+
+
 def commonest_opening_share(seqs: list[tuple], k: int) -> float:
     """Share of runs that follow the most common length-``k`` opening. Unlike a
     count of distinct openings it is not capped by the number of runs."""
@@ -236,6 +248,7 @@ def movement_row(runs: list[MovementRunResult], stage_of: dict) -> dict:
             v for r in runs if (v := M.successes_per_distinct_host(r)) is not None
         ),
         "zero_host_runs": sum(1 for r in runs if r.compromised_count == 0),
+        "delay": delay_summary([r.first_compromise_time() for r in runs]),
         "n_successes": _iv(M.n_successes(r) for r in runs),
         "ended": {k: v / len(runs) for k, v in sorted(ended.items())},
         "target_reach": sum(1 for r in runs if r.reached_objective) / len(runs),
@@ -251,8 +264,10 @@ def baseline_row(rows: list[dict]) -> dict:
     reached = [row for row in rows if row["reached_objective"]]
 
     def _ttt(row: dict) -> float | None:
-        # The baseline keeps running to the horizon after the target falls, so
-        # time to target is the first compromise of a target host in its record.
+        # The baseline stops acting when a target host falls, as the profiles do
+        # (its last record ends at that compromise; checked 2026-09-21), but its
+        # termination_time reads the horizon, so time to target is the first
+        # compromise of a target host in its record.
         targets = set(row["target_hosts"])
         hits = [rec[2] for rec in row["records"] if rec[3] is not None and rec[3] in targets]
         return min(hits) if hits else None
@@ -285,6 +300,11 @@ def baseline_row(rows: list[dict]) -> dict:
         },
         "path_entropy": M.path_entropy_from_transitions(out_counts),
         "hosts": _iv(row["compromised"] for row in rows),
+        "zero_host_runs": sum(1 for row in rows if row["compromised"] == 0),
+        "delay": delay_summary([
+            min((rec[2] for rec in row["records"] if rec[3] is not None), default=None)
+            for row in rows
+        ]),
         "ended": {
             "objective": n_target / len(rows),
             "compromise_ratio": n_ratio / len(rows),

@@ -6228,8 +6228,11 @@ that Section~\ref{sec:effectiveness} reports against.]}
 %    conditioning from corpus size, profile_divergence_findings.md §7) has NOT
 %    run at L3. T2 carries the caveat until it does.
 %  - "The one property shown to change an OUTCOME" may not be read from this
-%    measure: on target reached (0.05-0.13) and hosts reached the profiles'
-%    intervals overlap. That is a T4 fact for Table 5.3's paragraph.
+%    measure: on target reached (0.05-0.13) the profiles' intervals overlap, and
+%    on hosts reached every ADJACENT pair is unseparated, though the ends are
+%    not (impact 9.9 +- 0.9 against exfiltration 7.4 +- 0.6 and no realised
+%    objective 7.2 +- 0.8; corrected 2026-09-21). A T4 fact for Table 5.3's
+%    paragraph.
 % TERMINAL-TACTIC HALF (where a run ends): clears its null on 3 of 6 pairs at
 %  100 seeds, inside it on the rest; T4's paragraph, one clause, only if it still
 %  fails at the thousand-seed rerun.
@@ -6248,6 +6251,47 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % because under the targeted objective the profiles reach the database target
 % unopposed in 5-17 % of runs at this horizon (the "reaches none" premise does
 % not hold here). The stealth-spacing column still waits on C11.
+% REWORKED 2026-09-21 (Marc's read and ruling; scrutinise-figure pass, results
+% context §8e). The table has ONE job, takeaway T4: the no-defence reference, and
+% that a fuller campaign is not a better outcome. It is now Table 5.2's four
+% effectiveness metrics that exist with no defence running, per attacker, so
+% every column is a term the reader has met and NO FOOTNOTE survives. CUT:
+% distinct tactics and runs on the commonest opening (both repeat Figure 5.1),
+% path entropy (its own footnote said not to read it), successes per host (a
+% §5.4 metric, already in the cost table's no-defence rows, and printed "---"
+% here for the baseline where that table prints 1.0), ended at time limit (one
+% minus target reached; the limit is arbitrary). ADDED: delay to first
+% compromise and runs with no compromise, the defended corpus's estimators, so
+% "slower" is carried by a number. The aggregate STAYS (Marc: it is a profile).
+% Rows are grouped under "movement attacker" so the profiles read as that
+% attacker's, beside "baseline attacker". Blocked fraction is left out: it is
+% structurally zero on the baseline attacker and is first read in §5.3.1.
+% FAIRNESS, checked 2026-09-21: both attackers stop acting when a target host
+% falls (the baseline's last record ends at that compromise in every run that
+% reaches one; its termination_time reads the clock), so hosts reached and
+% target reached are counted under one stopping rule. The old "ended at time
+% limit 0.40" for the baseline was one minus runs that ended early, not a
+% different rule. The pooled row of Table 5.4 agrees with these rows (hosts 8.1,
+% delay 2 100 s, no compromise 0.04 over the four profiles).
+% CONTENT POINTS FOR THE T4 PARAGRAPH (Marc's prose):
+%  1. The ordering: the baseline attacker reaches about three times the hosts
+%     (24 against 7-10), reaches the target in over half its runs (0.58 against
+%     0.05-0.17), and compromises its first host about three times sooner
+%     (about 700 s against 1 900-2 400 s).
+%  2. The construction reason, if wanted: a profile's steps include tactics that
+%     compromise no host and each carries a dwell time (chapter 4); the baseline
+%     attacker's six activities all serve the next compromise. WHY the gap is
+%     this size is not measured here and is chapter 6's.
+%  3. Between profiles: target reached does not separate; hosts reached
+%     separates impact from exfiltration and no realised objective only.
+%  4. The exception, marked: double extortion never compromises a host in 0.08
+%     of runs, the others in 0.00-0.05.
+%  5. The hand-off: hosts reached at no defence is the denominator of
+%     suppression (Table 5.2) in §5.3.
+% PROFILE CODES (C1-C4, C_aggregate) CONSIDERED, not applied: chapter 4 uses $c$
+% as an index and never enumerates it, so codes here would be a chapter 5
+% first-use; they need a chapter 4 insertion first (Table 4.x or §4.2), then
+% Figure 5.1 and this table change together. Marc's call.
 \input{tables/tab_5-2-1a_unopposed_summary}
 
 % ~1 unit. CARRIES PROPERTY 4 (adaptivity), which is the one property
