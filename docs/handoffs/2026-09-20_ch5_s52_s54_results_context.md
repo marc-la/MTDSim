@@ -372,7 +372,7 @@ Found beyond Marc's list:
 | # | Takeaway | Carried by |
 |---|---|---|
 | T1 | The attacker runs a named, multi-stage campaign, where the baseline attacker has six activities and no campaign | Fig. 5.1(a); one body sentence for the baseline |
-| T2 | The campaign depends on the objective: the four profiles are different campaigns | Fig. 5.1(a) in detail; Fig. 5.2 in one number per pair |
+| T2 | The campaign depends on the objective: the four profiles are differently weighted campaigns (amended 2026-09-21, §8d) | Fig. 5.1(a); two body sentences on the pairwise divergence (was Fig. 5.2, demoted) |
 | T3 | A profile does not run its campaign the same way twice | Fig. 5.1(b) |
 | T4 | The no-defence reference the defence sections are read against, including that a fuller campaign does not mean a better outcome (target reached sits below the baseline's) | Table 5.3 |
 
@@ -456,6 +456,42 @@ are not restructured in this pass.
   12, 13 were tactics ever entered). Reconcile before the text cites a count.
 - The method for settling a figure, kept: blind reader plus context critic,
   repeated until neither reports a blocking defect.
+
+### 8d. Figure 5.2 demoted, 2026-09-21 (scrutinise-figure pass; Marc: "put it into the comment, remove the figure")
+
+Three reviewers together (cold reader on the PNG and caption only; context
+critic against this file; sceptical examiner on the claim) and none was told
+the other's verdict. All three: the 4 × 4 divergence matrix re-expressed
+Figure 5.1(a) as one number per pair, its split-half null was a floor that
+could not be failed (sampling noise of a distribution pooled over ~50 000 steps;
+pairs clear it by sixty times and more, and the ratio only grows at a thousand
+seeds), the caption gave no scale (the measure runs 0 to 1), and half the cells
+were repeats. Under §3's test "every pair clears its null" is a construction
+fact. Verified beyond the reviewers' word: the two floats used different
+denominators (the suite's divergence dropped zero-dwell resource-development
+records; reconciled to every record, Marc's ruling by acceptance); tactics
+held by only one profile of a pair carry 9–51 % of each cell; the size-matched
+label-blind control has never run at L3. Rejected: the critic's flow counts of
+19, 8, 6, 5 (the audit and chapter 4 say 19, 7, 7, 5).
+
+- **Outcome:** the figure environment, its generator panel and its files are
+  gone; the tex comment at the former site carries the content points for two
+  T2 body sentences and the ceilings for chapter 6. FLOATS.md and the findings
+  record are updated.
+- **8a amended:** T2 is *differently weighted campaigns*, carried by Figure
+  5.1(a) plus two sentences (the 0–1 scale, the range 0.08–0.21, closest and
+  farthest pair, noise below 0.002); "the one property shown to change an
+  outcome" may not be read from this measure, and the outcome non-separation
+  (target reached and hosts reached intervals overlap) is a T4 fact.
+- **Chapter 6 ceilings:** mean divergence to the others rises as flow count
+  falls (the aggregate column's confound inside the pairwise cells); the
+  label-blind arm is unrun, so T2 carries the caveat.
+- **Terminal-tactic half:** 3 of 6 pairs clear at 100 seeds; T4's paragraph,
+  one clause, only if it still fails at a thousand.
+- **The one rework that would have earned a figure**, declined as a second
+  chart about the same matrix: six bars, one per pair, on a 0–1 axis, each
+  split into the part from tactics only one profile holds and the part from
+  reweighting the shared ones.
 
 ## Validation gate
 

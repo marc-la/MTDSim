@@ -3,7 +3,7 @@
 Pure over ``runs.jsonl``: no simulation, no mutation; the only RNG is the seeded
 split-half null inside the shipped suite. Every measure is ``measures.py``'s.
 Computes every number the three §5.3.1 floats could quote (Fig. 5.2 coverage +
-opening variety; Fig. 5.3 divergence matrix; Tab. 5.4 summary), the same table
+opening variety; the pairwise divergence, demoted to body-text content 2026-09-21; Tab. 5.4 summary), the same table
 at the 60 000 s extension, and the general-objective diagnostic arm's deltas.
 Writes ``numbers.json``, ``preview_tab54.md``, ``preview_fig52.png`` and
 ``preview_fig53.png`` beside itself. Previews are for reading the direction —
@@ -301,39 +301,105 @@ def baseline_row(rows: list[dict]) -> dict:
 # --- Fig. 5.3 ----------------------------------------------------------------
 
 
+def _place_shares(runs: list[MovementRunResult]) -> dict:
+    """``place -> share of every record``: the denominator of ``tactic_visit_share``."""
+    visits = Counter(rec.place for r in runs for rec in r.records)
+    total = sum(visits.values())
+    return {t: c / total for t, c in visits.items()}
+
+
+def _jsd_terms(p: dict, q: dict) -> dict:
+    """Each tactic's term of the squared Jensen-Shannon distance (base 2) between
+    two share distributions; the terms sum to the divergence."""
+    keys = set(p) | set(q)
+    out = {}
+    for k in keys:
+        a, b = p.get(k, 0.0), q.get(k, 0.0)
+        m = (a + b) / 2
+        term = 0.0
+        if a > 0:
+            term += 0.5 * a * np.log2(a / m)
+        if b > 0:
+            term += 0.5 * b * np.log2(b / m)
+        out[k] = float(term)
+    return out
+
+
 def divergence_matrix(runs: list[MovementRunResult]) -> dict:
+    """Pairwise divergence between the four profiles' pooled share of steps in
+    each tactic (the distribution Fig. 5.1(a) prints, every record counted --
+    reconciled 2026-09-21: the suite's ``divergence_report`` counts only records
+    with a verb or a positive dwell, which drops the zero-second resource
+    development entries on two profiles), against each profile's split-half
+    null on the same denominator. Also the share of each pair's divergence
+    carried by tactics that only one profile of the pair ever entered. DEMOTED
+    from a figure to body-text content 2026-09-21 (results context §8d); the
+    terminal-tactic half is kept from the suite as it was."""
     report = M.divergence_report(runs, n_splits=N_SPLITS, seed=0, q=Q)
-    out = {"profiles": list(FOUR), "q": Q, "n_splits": N_SPLITS}
-    for half in ("visit_stream", "terminal"):
-        cells = {}
-        cleared = report.cleared(half)
-        for a in FOUR:
-            for b in FOUR:
-                if a == b:
-                    draws = np.array(getattr(report.nulls[a], half))
-                    cells[f"{a}|{b}"] = {
-                        "null_ceiling": float(np.quantile(draws, Q)),
-                        "null_median": float(np.median(draws)),
-                    }
-                else:
-                    pair = (a, b) if a < b else (b, a)
-                    cells[f"{a}|{b}"] = {
-                        "jsd": getattr(report.divergence, half)[pair],
-                        "pair_ceiling": report.pair_ceiling(*pair, half=half),
-                        "clears_pair_ceiling": cleared[pair],
-                    }
-        out[half] = cells
-    # the caption's rule: a pair is separated where its cell exceeds BOTH diagonals it meets
+    by_profile = {p: [r for r in runs if r.profile == p] for p in FOUR}
+    shares = {p: _place_shares(by_profile[p]) for p in FOUR}
+    rng = np.random.default_rng(0)
+    out = {"profiles": list(FOUR), "q": Q, "n_splits": N_SPLITS, "denominator": "every record"}
+    cells = {}
+    for a in FOUR:
+        for b in FOUR:
+            if a == b:
+                rs = by_profile[a]
+                draws = []
+                for _ in range(N_SPLITS):
+                    idx = rng.permutation(len(rs))
+                    half = len(rs) // 2
+                    draws.append(sum(_jsd_terms(_place_shares([rs[i] for i in idx[:half]]),
+                                                _place_shares([rs[i] for i in idx[half:]])).values()))
+                cells[f"{a}|{b}"] = {
+                    "null_ceiling": float(np.quantile(draws, Q)),
+                    "null_median": float(np.median(draws)),
+                }
+            else:
+                terms = _jsd_terms(shares[a], shares[b])
+                jsd = sum(terms.values())
+                absent = [k for k in terms if shares[a].get(k, 0.0) == 0.0 or shares[b].get(k, 0.0) == 0.0]
+                cells[f"{a}|{b}"] = {
+                    "jsd": float(jsd),
+                    "absent_tactic_share": float(sum(terms[k] for k in absent) / jsd) if jsd else 0.0,
+                    "absent_tactics": sorted(absent),
+                    "largest_term": max(terms, key=terms.get),
+                }
+    out["visit_stream"] = cells
+    out["terminal"] = {}
+    cleared = report.cleared("terminal")
+    for a in FOUR:
+        for b in FOUR:
+            if a == b:
+                draws = np.array(report.nulls[a].terminal)
+                out["terminal"][f"{a}|{b}"] = {
+                    "null_ceiling": float(np.quantile(draws, Q)),
+                    "null_median": float(np.median(draws)),
+                }
+            else:
+                pair = (a, b) if a < b else (b, a)
+                out["terminal"][f"{a}|{b}"] = {
+                    "jsd": report.divergence.terminal[pair],
+                    "pair_ceiling": report.pair_ceiling(*pair, half="terminal"),
+                    "clears_pair_ceiling": cleared[pair],
+                }
+    # the former caption's rule: a pair is separated where its cell exceeds BOTH diagonals it meets
     sep = {}
     for a in FOUR:
         for b in FOUR:
             if a < b:
-                v = out["visit_stream"][f"{a}|{b}"]["jsd"]
-                sep[f"{a}|{b}"] = bool(
-                    v > out["visit_stream"][f"{a}|{a}"]["null_ceiling"]
-                    and v > out["visit_stream"][f"{b}|{b}"]["null_ceiling"]
-                )
+                v = cells[f"{a}|{b}"]["jsd"]
+                sep[f"{a}|{b}"] = bool(v > cells[f"{a}|{a}"]["null_ceiling"] and v > cells[f"{b}|{b}"]["null_ceiling"])
     out["visit_stream_separated_by_caption_rule"] = sep
+    off = [c["jsd"] for k, c in cells.items() if "jsd" in c]
+    diag = [c["null_ceiling"] for k, c in cells.items() if "null_ceiling" in c]
+    pairs = {k: c["jsd"] for k, c in cells.items() if "jsd" in c and k.split("|")[0] < k.split("|")[1]}
+    out["body_facts"] = {
+        "min_pair": min(pairs, key=pairs.get), "min_jsd": min(off),
+        "max_pair": max(pairs, key=pairs.get), "max_jsd": max(off),
+        "max_null_ceiling": max(diag), "min_ratio_to_null": min(off) / max(diag),
+        "mean_to_others": {p: float(np.mean([cells[f"{p}|{q}"]["jsd"] for q in FOUR if q != p])) for p in FOUR},
+    }
     return out
 
 

@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """Chapter 5 no-defence floats from the no-defence corpus: the campaign figure
-(tactics entered by profile, and the share of runs on the commonest opening;
-reworked 2026-09-20, results context §8), Figure 5.3 (pairwise divergence against its
-split-half null) and Table 5.4 (behaviour without defence, by attacker).
+(share of steps by tactic and profile, and the share of runs that have left
+the commonest opening; reworked 2026-09-20, results context §8) and Table 5.3
+(behaviour without defence, by attacker). The pairwise divergence matrix that
+was Figure 5.2 is DEMOTED to body-text content (2026-09-21, results context
+§8d): its numbers are printed on stdout from the analyser's block and drawn
+nowhere.
 
 Data: ``data/results/ch5_s531_unopposed/numbers.json``, the analyser's output
 over the recorded corpus (design: docs/handoffs/2026-09-15_ch5_s531_unopposed_runs.md;
@@ -15,7 +18,6 @@ Usage:
 
 Writes
   docs/thesis/figures/fig_5-2-1a_campaign_openings.{tex,pdf}
-  docs/thesis/figures/fig_5-2-1b_divergence.{tex,pdf}
   docs/thesis/tables/tab_5-2-1a_unopposed_summary.tex
 
 Style (figure_table_conventions.md §f, §h, §k, §l): TikZ standalone at 12 pt,
@@ -37,7 +39,6 @@ FIG_DIR = REPO / "docs" / "thesis" / "figures"
 TAB_DIR = REPO / "docs" / "thesis" / "tables"
 NUMBERS = REPO / "data" / "results" / "ch5_s531_unopposed" / "numbers.json"
 STEM_A = "fig_5-2-1a_campaign_openings"
-STEM_B = "fig_5-2-1b_divergence"
 STEM_T = "tab_5-2-1a_unopposed_summary"
 
 PROFILES = (
@@ -244,51 +245,6 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     return "\n".join(L) + "\n", facts
 
 
-def emit_fig_b(core: dict) -> tuple[str, dict]:
-    div = core["divergence"]["visit_stream"]
-    n = len(FOUR)
-    cell = 2.35
-    lab_w, lab_h = 2.9, 1.1
-    vals = [[(div[f"{a}|{b}"]["null_ceiling"] if a == b else div[f"{a}|{b}"]["jsd"]) for b in FOUR] for a in FOUR]
-    vmax = max(v for row in vals for v in row)
-    two_line = {
-        "objective_exfiltration": "exfiltration",
-        "objective_impact": "impact",
-        "objective_exfiltration_impact": r"double\\extortion",
-        "objective_none_c2": r"no realised\\objective",
-    }
-    L: list[str] = []
-    w = L.append
-    L += PREAMBLE
-    w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=%s}]" % FONT)
-    for j, b in enumerate(FOUR):
-        w(r"\node[anchor=south,align=center] at (%.3f,%.3f) {%s};" % (lab_w + (j + 0.5) * cell, n * cell + 0.12, two_line[b]))
-    for i, a in enumerate(FOUR):
-        y = (n - 1 - i) * cell
-        w(r"\node[anchor=east,align=right] at (%.3f,%.3f) {%s};" % (lab_w - 0.15, y + cell / 2, two_line[a]))
-        for j, b in enumerate(FOUR):
-            x = lab_w + j * cell
-            v = vals[i][j]
-            if i == j:
-                fill, txt, text = "white", "black!60", f"{v:.4f}"
-            else:
-                shade = int(round(8 + 62 * v / vmax))  # black!8 .. black!70
-                fill, text = f"black!{shade}", f"{v:.3f}"
-                txt = "white" if shade >= 45 else "black"
-            w(r"\fill[%s] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (fill, x, y, cell, cell))
-            w(r"\draw[white,line width=0.8pt] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (x, y, cell, cell))
-            w(r"\node[text=%s] at (%.3f,%.3f) {%s};" % (txt, x + cell / 2, y + cell / 2, text))
-    w(r"\draw[black!60,line width=0.4pt] (%.3f,0) rectangle (%.3f,%.3f);" % (lab_w, lab_w + n * cell, n * cell))
-    w(r"\end{tikzpicture}")
-    w(r"\end{document}")
-    off = [vals[i][j] for i in range(n) for j in range(n) if i != j]
-    diag = [vals[i][i] for i in range(n)]
-    facts = {"min_offdiag": min(off), "max_offdiag": max(off), "min_diag": min(diag), "max_diag": max(diag),
-             "min_ratio": min(off) / max(diag),
-             "all_separated": all(core["divergence"]["visit_stream_separated_by_caption_rule"].values())}
-    return "\n".join(L) + "\n", facts
-
-
 def _pm(iv: dict, nd: int = 1) -> str:
     return "$%.*f \\pm %.*f$" % (nd, iv["mean"], nd, iv["ci95"])
 
@@ -365,17 +321,19 @@ def main() -> None:
     core = data["core"]
 
     tex_a, facts_a = emit_fig_a(core)
-    tex_b, facts_b = emit_fig_b(core)
     tab = emit_table(core)
     FIG_DIR.mkdir(parents=True, exist_ok=True)
     TAB_DIR.mkdir(parents=True, exist_ok=True)
     (FIG_DIR / f"{STEM_A}.tex").write_text(tex_a)
-    (FIG_DIR / f"{STEM_B}.tex").write_text(tex_b)
     (TAB_DIR / f"{STEM_T}.tex").write_text(tab)
     print(f"wrote tables/{STEM_T}.tex")
 
-    print("caption facts, Fig. 5.2:", json.dumps(facts_a))
-    print("caption facts, Fig. 5.3:", json.dumps(facts_b))
+    print("caption facts, Fig. 5.1:", json.dumps(facts_a))
+    print("body facts, pairwise divergence (demoted 2026-09-21):", json.dumps(core["divergence"]["body_facts"]))
+    for k, c in core["divergence"]["visit_stream"].items():
+        a, b = k.split("|")
+        if a < b:
+            print(f"  {LABEL[a]:22s} {LABEL[b]:22s} {c['jsd']:.3f}  absent-tactic share {c['absent_tactic_share']:.2f}")
     t = core["table"]
     for p in (*PROFILES, "baseline"):
         r = t[p]
@@ -383,7 +341,6 @@ def main() -> None:
               f"horizon {r['ended'].get('horizon', 0):.2f}")
     if not args.no_compile:
         compile_fig(STEM_A)
-        compile_fig(STEM_B)
 
 
 if __name__ == "__main__":

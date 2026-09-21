@@ -217,3 +217,34 @@ one opening to length 4 and two from length 5, 78 % of runs on the commonest
 0.41 bits. These supersede the 1,1,1,1,1,1,2,4 and 94 % figures. `analyse.py`
 also writes `tactic_visit_share`, which the figure's panel (a) now reads, with
 held-and-never-entered tactics at 0.0.
+
+## Addendum, 2026-09-21 — §4's figure demoted; the divergence recomputed on Figure 5.1(a)'s denominator
+
+The matrix of §4 is no longer a figure (Marc's ruling after the
+scrutinise-figure pass; results context §8d; the tex comment at the former
+site carries the body-text content points). Two things changed in the numbers.
+
+1. **Denominator.** `divergence_report` pools `visit_records` (verb or positive
+   dwell), which drops the zero-second resource-development entries: 1 854 of
+   56 968 records on no realised objective, 542 on double extortion. Figure
+   5.1(a) counts every record. `analyse.py`'s `divergence_matrix` now computes
+   the pairs and the split-half null on every record, so the cells are the
+   distance between panel (a)'s columns. The terminal half is unchanged.
+2. **Cells, reconciled** (was → is): impact–double extortion 0.071 → 0.077;
+   exfiltration–no realised objective 0.078 → 0.093; exfiltration–impact 0.137
+   → 0.137; exfiltration–double extortion 0.137 → 0.142; impact–no realised
+   objective 0.156 → 0.170; double extortion–no realised objective 0.208 →
+   0.207. Null ceilings 0.0003–0.0012; the smallest pair is 64× the largest
+   ceiling. Ordering unchanged.
+
+New in the block: `absent_tactic_share`, the share of each pair's divergence
+carried by tactics only one profile of the pair ever entered (0.09, 0.27,
+0.35, 0.48, 0.51, 0.51), with the impact tactic the largest single term in four
+of six pairs; and `body_facts.mean_to_others`, which rises monotonically as a
+profile's flow count falls (0.124, 0.128, 0.142, 0.156 for 19, 7, 7, 5 flows) —
+the aggregate column's confound, weaker, inside the pairwise cells. Why the
+figure could not stand: the null is the sampling noise of a distribution
+pooled over ~50 000 steps and shrinks with the corpus, so "every pair clears
+it" is true by construction of four nets with different weights; the
+size-matched label-blind arm remains the only control that separates
+conditioning from corpus size, and it has not run at L3.

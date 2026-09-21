@@ -6176,23 +6176,63 @@ that Section~\ref{sec:effectiveness} reports against.]}
   \label{fig:aio-coverage}
 \end{figure}
 
-% REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- a printed-value matrix (the tactic-keyed
-% matrix genre, §d7: every cell printed, fill decoded in the caption) in place
-% of points against a shaded band, which no corpus paper draws. The aggregate
-% is NOT a row here: its divergence to the profiles is size-confounded (the
-% kill criterion fired at Spearman -1.0 against flow count) and may not be read
-% as objective conditioning; it is read in tab:unopposed-summary on outcome and
-% behaviour measures instead.
-% POPULATED 2026-09-15 (same generator and corpus). Caption edited for the
-% shading decode: the nulls sit three orders below the pairs, so the fill is a
-% grey ramp over the off-diagonal cells and the printed values carry the rule.
-% DRAFT STATE --- ratify on read.
-\begin{figure}[H]
-  \centering
-  \includegraphics{fig_5-2-1b_divergence}
-  \caption[Behavioural divergence between profiles against its null]{How far apart the four profiles' behaviour is at runtime, as the divergence between their pooled distributions of visited tactics, one cell per pair, with each profile's own split-half divergence on the diagonal as its null: the separation a single profile shows from itself across runs. A pair counts as separated only where its cell exceeds both diagonals it meets. Every cell is printed; the off-diagonal fill darkens with the value, and the diagonal is left unfilled. The intention is to test whether the operational objective a profile was built from changes what the attacker does at runtime, rather than only what it was labelled.}
-  \label{fig:aio-divergence}
-\end{figure}
+% FIGURE 5.2 (fig:aio-divergence, the 4 x 4 pairwise-divergence matrix) DEMOTED
+% TO BODY TEXT 2026-09-21 (Marc's ruling after the scrutinise-figure pass; record:
+% results context §8d). Three independent reviewers converged: the figure
+% re-expressed Figure 5.1(a) as one number per pair, its null was a floor that
+% could not be failed, and it carried no scale. Under §3's test ("could this be
+% false while every number stayed the same?") "every pair clears its null" is a
+% construction fact: four nets with different tactic sets and weights give
+% different pooled distributions, and a split-half null over ~50 000 steps per
+% profile shrinks with the corpus (at a thousand seeds the ratio grows, no cell
+% moves). Its generator panel and figure files are retired; the numbers below
+% are the analyser's (data/results/ch5_s531_unopposed/numbers.json,
+% core.divergence, printed by tools/ch5_unopposed_figures.py) and are
+% PROVENANCE at 100 seeds --- re-derive at the reported count before citing.
+% DENOMINATOR RECONCILED the same day: the suite's divergence counted only
+% records with a verb or a positive dwell, which dropped the zero-second
+% resource-development entries on two profiles, so the cells were not computed
+% over the shares Figure 5.1(a) prints. Now every record counts on both (a step
+% is one tactic entered, the caption's own unit); ordering unchanged.
+%
+% CONTENT POINTS FOR THE T2 SENTENCES (Marc's prose; two sentences, after the
+% reading of Figure 5.1(a)):
+%  1. The measure, declared at first use (no chapter 2-4 antecedent for
+%     "divergence"): the distance between two profiles' share-of-steps
+%     distributions of panel (a), 0 for identical shares, 1 for no tactic in
+%     common (squared Jensen-Shannon distance, base 2).
+%  2. The range: every pair between 0.08 and 0.21; the closest pair is impact
+%     and double extortion (0.077), the farthest double extortion and no
+%     realised objective (0.207). Read on the 0-1 scale the four campaigns
+%     largely overlap: the four hub tactics (command and control, stealth,
+%     execution, discovery) carry about half of every profile's steps, so the
+%     profiles are different weightings of one campaign vocabulary. That is T2's
+%     honest form ("differently weighted campaigns"), not "different campaigns".
+%  3. The noise floor, one clause: two random halves of one profile's runs
+%     differ by less than 0.002 (ceilings 0.0003-0.0012), so every pair is at
+%     least sixty times its noise. State as a clause, never as a test passed.
+%  4. Presence against weighting, if wanted: tactics that only one profile of a
+%     pair holds carry between a tenth and a half of each cell (0.09, 0.27,
+%     0.35, 0.48, 0.51, 0.51); the impact tactic is the largest single term in
+%     four of six pairs. This is what answers "just different tactic sets".
+%  5. Double extortion sits nearer impact than exfiltration (0.077 against
+%     0.142): an observation, marked, not explained (chapter 6).
+% CEILINGS, for chapter 6 and not for this section:
+%  - Mean divergence to the other three rises as a profile's flow count falls
+%    (exfiltration 19 flows 0.124; impact 7, 0.128; double extortion 7, 0.142;
+%    no realised objective 5, 0.156): the aggregate column's size confound,
+%    weaker, inside the pairwise cells. "No realised objective is the most
+%    distinct" is an ordering observation and may not be read as objective
+%    conditioning.
+%  - The size-matched label-blind control (the only instrument that separates
+%    conditioning from corpus size, profile_divergence_findings.md §7) has NOT
+%    run at L3. T2 carries the caveat until it does.
+%  - "The one property shown to change an OUTCOME" may not be read from this
+%    measure: on target reached (0.05-0.13) and hosts reached the profiles'
+%    intervals overlap. That is a T4 fact for Table 5.3's paragraph.
+% TERMINAL-TACTIC HALF (where a run ends): clears its null on 3 of 6 pairs at
+%  100 seeds, inside it on the rest; T4's paragraph, one clause, only if it still
+%  fails at the thousand-seed rerun.
 
 % REWORKED 2026-09-13 (stage-2 float audit, ch5 design handoff §18) --- the results-table genre (booktabs, grouped
 % headers, intervals); gains the AGGREGATE row (the objective-conditioning
