@@ -374,7 +374,7 @@ Found beyond Marc's list:
 | T1 | The attacker runs a named, multi-stage campaign, where the baseline attacker has six activities and no campaign | Fig. 5.1(a); one body sentence for the baseline |
 | T2 | The campaign depends on the objective: the four profiles are differently weighted campaigns (amended 2026-09-21, §8d) | Fig. 5.1(a); two body sentences on the pairwise divergence (was Fig. 5.2, demoted) |
 | T3 | A profile does not run its campaign the same way twice | Fig. 5.1(b) |
-| T4 | The no-defence reference the defence sections are read against, including that a fuller campaign does not mean a better outcome (target reached sits below the baseline's) | Table 5.3 (reworked 2026-09-21, §8e); one framing paragraph owed |
+| T4 | The no-defence reference the defence sections are read against: at the time limit the movement attacker has reached less than the baseline attacker because it is slower, and the pace is set by chapter 4's declared dwell times (reworded 2026-09-21 on Marc's ruling, §8e; the old clause "a fuller campaign does not mean a better outcome" reversed when the limit moved) | Table 5.3; one framing paragraph owed |
 
 Pace is not a takeaway. It is one hand-off sentence (every campaign is opened
 within about 2 000 s, the order of the deployment intervals) into §5.2.2.
@@ -572,6 +572,30 @@ against `numbers.json` or the raw runs first.
   the stop moves 7.44 to 7.51; no baseline run without the stop exists. This is
   §5.3.2's fairness question, not this table's, and needs a baseline arm on the
   opportunistic objective before it can be sized.
+
+#### 8e, rulings after the pass (Marc, 2026-09-21)
+
+- **T4 reworded** to the pace form (table above). "Slower is a fact; the dwell
+  times are inputs."
+- **Hosts reached carries its anchor:** the header reads "Hosts reached (of
+  50)". This overturns the session's decline of the cold reader's "of 50".
+- **Double extortion** is an exception marked in chapter 5 and discussed in
+  chapter 6 (the sparse profile).
+- **Marc's question, does the baseline attacker give up? Yes, measured on the
+  60 000 s runs:** its mean hosts reached reads 4.6, 10.9, 19.9, 24.3, 25.2 at
+  2 500, 5 000, 10 000, 15 000 and 20 000 s and is flat at 25.2 from there. It
+  holds a target in 67 runs; in the other 33 its last compromise falls no
+  later than 19 346 s (median 12 478 s) at a median of 27 hosts. The movement
+  attacker is still climbing at 60 000 s (exfiltration 7.4, 12.8, 17.2 at
+  15 000, 30 000, 60 000 s; impact 10.0, 16.6, 21.3; no realised objective 7.2,
+  12.6, 20.1; aggregate 8.7, 15.3, 20.1), double extortion flat at 9.2 from
+  30 000 s. So 15 000 s (Table 5.1, after Ho) reads the baseline attacker
+  almost finished and the movement attacker about a third of the way.
+- **Open, Marc thinking:** whether the 60 000 s reading is a body sentence or
+  a small hosts-against-time figure. Session recommendation: the figure, in
+  the slot Figure 5.2 vacated, because it is the one exhibit that turns
+  "worse" into "slower" for a reader who was not in the room; it needs a
+  60 000 s row in Table 5.1 (C36) first.
 
 ## Validation gate
 
