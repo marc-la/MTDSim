@@ -263,7 +263,7 @@ subset in play):
 | Say | Never |
 |---|---|
 | movement attacker; baseline attacker | inherited / original attacker; arm; "the model" bare, where it could mean either |
-| attack profile (the four), the aggregate | the nets, class, GASP |
+| attack profile (the four), by code from chapter 4: $c_1$ exfiltration, $c_2$ impact, $c_3$ double extortion, $c_4$ no realised objective; the aggregate, $c_{\mathrm{agg}}$ (ruled 2026-09-22, §8f) | the nets, class, GASP; C1, "profile 1" |
 | no defence, the no-defence reference | "baseline" for the control |
 | defence mechanism; execution scheme; deployment strategy (the covering term) | MTD mechanism / technique; bare "scheme" |
 | deployment; deployment interval; timing distribution; time limit | mutation; mutation interval / tempo; timing regime; horizon; run length |
@@ -647,7 +647,19 @@ registry): keep the names, attach no symbol.** Reasons, each checked:
 - No contradiction between the caption and chapter 4; row order agrees
   everywhere (exfiltration, impact, double extortion, no realised objective).
 
-**Profile codes C1 to C4, C_aggregate: OPEN, Marc's ruling.** Facts:
+**Profile codes: RULED 2026-09-22 (Marc) and APPLIED.** "Trying to remember
+four names is hard for the reader"; enumerate in chapter 4, use the codes from
+there on. The session's names recommendation is overturned. Applied: §4.3
+indexes the four ($c_1$ to $c_4$, in its listing order) and names the
+aggregate $c_{\mathrm{agg}}$; §4.4 compiles the aggregate by the same
+construction; the notation table row for $c$ carries the mapping; Figure 4.1's
+L2 rows carry code and name (the figure precedes the declaration); Figure 4.3's
+caption says "$c_1$, the exfiltration profile"; §5.1 and Table 5.1 declare the
+attacker on $c_1$ to $c_4$ and $c_{\mathrm{agg}}$; every chapter 5 float keys
+by code only, through the one map in `tools/_ch5_style.py` (and
+`ch5_unopposed_figures.py`'s copy). Appendix tables keep the names (records
+that predate the codes, said so in their captions). Facts the ruling was made
+on:
 - Chapter 4 never enumerates $c$; the notation table defines it as "one of
   the four objective classes" with no order. The smallest antecedent is one
   clause in that row: "$c \in \{1,\dots,4\}$ in the order of §4.3".

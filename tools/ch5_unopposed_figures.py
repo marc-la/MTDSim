@@ -51,11 +51,14 @@ PROFILES = (
 FOUR = PROFILES[:4]
 # presentation names, mapped here and never read from the corpus (§g)
 LABEL = {
-    "objective_exfiltration": "exfiltration",
-    "objective_impact": "impact",
-    "objective_exfiltration_impact": "double extortion",
-    "objective_none_c2": "no realised objective",
-    "aggregate": "aggregate",
+    # the profile codes chapter 4 declares (§4.3, tab:gspn-notation; Marc's
+    # ruling 2026-09-22): c_1 exfiltration, c_2 impact, c_3 double extortion,
+    # c_4 no realised objective, c_agg the unpartitioned aggregate
+    "objective_exfiltration": "$c_1$",
+    "objective_impact": "$c_2$",
+    "objective_exfiltration_impact": "$c_3$",
+    "objective_none_c2": "$c_4$",
+    "aggregate": r"$c_{\mathrm{agg}}$",
     "baseline": "baseline attacker",
 }
 COLOUR = {  # RGB; the chapter's series contract
@@ -143,12 +146,7 @@ TACTICS = (
     ("exfiltration", "Exfiltration"),
     ("impact", "Impact"),
 )
-TWO_LINE = {
-    "objective_exfiltration": "exfiltration",
-    "objective_impact": "impact",
-    "objective_exfiltration_impact": r"double\\extortion",
-    "objective_none_c2": r"no realised\\objective",
-}
+TWO_LINE = {p: LABEL[p] for p in FOUR}  # column heads: the codes, one line
 
 
 def emit_fig_a(core: dict) -> tuple[str, dict]:
@@ -332,11 +330,11 @@ def main() -> None:
     for k, c in core["divergence"]["visit_stream"].items():
         a, b = k.split("|")
         if a < b:
-            print(f"  {LABEL[a]:22s} {LABEL[b]:22s} {c['jsd']:.3f}  absent-tactic share {c['absent_tactic_share']:.2f}")
+            print(f"  {LABEL[a].strip('$'):8s} {LABEL[b].strip('$'):8s} {c['jsd']:.3f}  absent-tactic share {c['absent_tactic_share']:.2f}")
     t = core["table"]
     for p in (*PROFILES, "baseline"):
         r = t[p]
-        print(f"  {LABEL[p]:22s} hosts {r['hosts']['mean']:.2f}±{r['hosts']['ci95']:.2f}  target {r['target_reach']:.2f}  "
+        print(f"  {LABEL[p].strip('$'):8s} hosts {r['hosts']['mean']:.2f}±{r['hosts']['ci95']:.2f}  target {r['target_reach']:.2f}  "
               f"delay {r['delay']['observed']['mean']:.0f}±{r['delay']['observed']['ci95']:.0f}  "
               f"no compromise {r['delay']['no_compromise_share']:.2f}")
     if not args.no_compile:

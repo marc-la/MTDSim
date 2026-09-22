@@ -12,10 +12,10 @@
 \begin{document}
 \begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=\footnotesize}]
 \node[anchor=south west,font=\footnotesize\bfseries] at (0,7.800) {(a)};
-\node[anchor=south,align=center] at (4.175,7.600) {exfiltration};
-\node[anchor=south,align=center] at (5.625,7.600) {impact};
-\node[anchor=south,align=center] at (7.075,7.600) {double\\extortion};
-\node[anchor=south,align=center] at (8.525,7.600) {no realised\\objective};
+\node[anchor=south,align=center] at (4.175,7.600) {$c_1$};
+\node[anchor=south,align=center] at (5.625,7.600) {$c_2$};
+\node[anchor=south,align=center] at (7.075,7.600) {$c_3$};
+\node[anchor=south,align=center] at (8.525,7.600) {$c_4$};
 \node[anchor=east] at (3.300,7.250) {Reconnaissance};
 \fill[black!17] (3.450,7.000) rectangle ++(1.450,0.500);
 \node[text=black] at (4.175,7.250) {5};
@@ -282,16 +282,16 @@
 \fill[cnon] (15.600,7.396) -- (15.682,7.302) -- (15.600,7.208) -- (15.518,7.302) -- cycle;
 \draw[cexf,line width=0.6pt] (10.700,1.300) -- (11.400,1.300);
 \fill[cexf] (11.050,1.300) circle (0.075cm);
-\node[anchor=west] at (11.550,1.300) {exfiltration};
+\node[anchor=west] at (11.550,1.300) {$c_1$};
 \draw[cimp,line width=0.6pt] (10.700,0.880) -- (11.400,0.880);
 \fill[cimp] (11.050,0.880) ++(-0.075,-0.075) rectangle ++(0.150,0.150);
-\node[anchor=west] at (11.550,0.880) {impact};
+\node[anchor=west] at (11.550,0.880) {$c_2$};
 \draw[cdex,line width=0.6pt] (10.700,0.460) -- (11.400,0.460);
 \fill[cdex] (10.968,0.393) -- (11.133,0.393) -- (11.050,0.550) -- cycle;
-\node[anchor=west] at (11.550,0.460) {double extortion};
+\node[anchor=west] at (11.550,0.460) {$c_3$};
 \draw[cnon,line width=0.6pt] (10.700,0.040) -- (11.400,0.040);
 \fill[cnon] (11.050,0.134) -- (11.133,0.040) -- (11.050,-0.054) -- (10.968,0.040) -- cycle;
-\node[anchor=west] at (11.550,0.040) {no realised objective};
+\node[anchor=west] at (11.550,0.040) {$c_4$};
 \draw[cbase,line width=0.9pt,dash pattern=on 2.5pt off 1.5pt] (10.700,-0.380) -- (11.400,-0.380);
 \node[anchor=west] at (11.550,-0.380) {baseline attacker};
 \end{tikzpicture}

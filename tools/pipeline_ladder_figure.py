@@ -95,6 +95,15 @@ PROFILE_LABEL = {
     "objective_exfiltration_impact": "Double extortion",
     "objective_none_c2": "No realised objective",
 }
+# the profile codes chapter 4 declares (§4.3; Marc's ruling 2026-09-22): this
+# figure precedes the declaration, so each L2 row carries the code AND the name
+SUB = {1: "\u2081", 2: "\u2082", 3: "\u2083", 4: "\u2084"}
+PROFILE_CODE = {
+    "objective_exfiltration": 1,
+    "objective_impact": 2,
+    "objective_exfiltration_impact": 3,
+    "objective_none_c2": 4,
+}
 OBJECTIVE_TACTICS = {
     "objective_exfiltration": ("exfiltration",),
     "objective_impact": ("impact",),
@@ -412,6 +421,7 @@ def emit(gap, order, axis, cls, tech, edges, fa, fb, shared, nets) -> tuple[str,
             svg.add(f'<circle cx="{col[t]:.1f}" cy="{rm:.1f}" r="13" fill="none" stroke="{ACCENT}" stroke-width="2.2"/>')
             svg.add(f'<circle cx="{col[t]:.1f}" cy="{rm:.1f}" r="3.2" fill="{ACCENT}"/>')
         svg.text(GUT_R, rm + 6, PROFILE_LABEL[prof], size=19, anchor="end", fill=INK2)
+        svg.text(GUT_R, rm - 14, f"c{SUB[PROFILE_CODE[prof]]}", size=19, anchor="end", fill=INK2, style="italic")
         y = r1 + 8
     y -= 8
 
