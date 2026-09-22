@@ -892,7 +892,36 @@ default is the ratio form with the shaded disruption step and the circles
 the ratio (both pools resampled by run, seeded); caption rewritten (DRAFT
 STATE); a fourth review round on the applied figure is recorded below.
 
-**Open for Marc:** (0) the panel (b) form above; (1) `_ch5_style.py` LABEL["movement"] = "attacker model"
+#### 8g, fourth round (2026-09-22, on the applied ratio form; no blocking defect)
+
+- **Cold reader (fresh; PNG, caption, one body sentence):** message in one
+  sentence was T5, T6 and the inversion *with* its single-mechanism
+  narrowing ("slowed by service ones, though mostly by a single mechanism"),
+  read off the circles unprompted. So the circles do the job the black bars
+  did not. Non-blocking, folded into the findings' content points (§7 item
+  19): the circles are anonymous (the body names them); the pooled bar is not
+  the mean of its circles (caption now says "pooled the same way"); the
+  bootstrap interval is the pooled mean's, the circles carry the spread; one
+  is "at its own pace", not "no effect"; the movement attacker's censored
+  shares are mostly the time limit's floor on a slow attacker.
+- **Context critic (fourth pass, from the built figure tex and §s522):**
+  every whisker back-converts to the bootstrap bounds to three places; the
+  caption says what it must and states no result; the circles decode, breach
+  nothing, and are what stop the figure asserting a layer fact for the
+  baseline (0.94 / 0.96 / 2.42); the y-label passes ("÷" is a taste call for
+  Marc; Figure 5.4 says "relative to" in words). One named fix, applied: the
+  circles sat on the neighbouring bar's edge; each set is now on its own bar,
+  the bars slightly widened. Body obligation restated: for the baseline
+  attacker say "service diversity", never "the service layer"; the movement
+  attacker's host-layer result is uniform across its three mechanisms, IP
+  shuffle largest.
+- **Applied state:** `fig_5-2-2a_disruption_response` in the ratio form,
+  `tools/ch5_disruption_figure.py` default (`--absolute`, `--no-band`,
+  `--no-marks`, `--split` restore the other forms for the record); caption
+  DRAFT STATE; build clean at 88 pages. Candidates A and B remain as PNGs in
+  `data/results/ch5_defended/`.
+
+**Open for Marc:** (0) "÷" against "relative to" in the panel (b) label; (1) `_ch5_style.py` LABEL["movement"] = "attacker model"
 against the registry (three other floats); (2) the control's declaration at
 the head of §5.2.2 (owed, §3); (3) whether the 60 000 s and 200 s reads enter
 as sentences (Table 5.1 declares 15 000 s and the two intervals only).

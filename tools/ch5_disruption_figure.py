@@ -17,10 +17,15 @@ number a caption may quote is read from that file and printed.
       over the four profiles and over the single-mechanism conditions of each
       layer, at the long interval (the short interval's windows overlap: the
       next disruption lands before the last is recovered from);
-  (b) the recovery — time from a disruption to the next host compromise, per
-      layer hit, both attackers, the censored share printed over each bar, and
-      each attacker's own gap between compromises with no defence as the
-      dashed reference (the pace anchor).
+  (b) the recovery — time from a disruption to the next host compromise as a
+      multiple of that attacker's own mean gap between compromises with no
+      defence (Marc's ruling 2026-09-22, third scrutinise round: the absolute
+      form read as pace, T4, to three cold readers), per layer hit, both
+      attackers; the interval is a seeded bootstrap on the ratio, both pools
+      resampled by run; the censored share printed over each bar; a hollow
+      circle at each mechanism's own ratio, so a layer bar that is one
+      mechanism's doing (the baseline attacker under service diversity) reads
+      as such. ``--absolute`` restores the first form.
 
 The credential layer is not drawn: it reaches the attacker less than once per
 run at this interval (its numbers are printed for the body text). The position
@@ -54,12 +59,12 @@ ALL = DRAWN + (("reserve", "credentials"),)
 LAYER_STYLE = {"network": ("black!85", "circle", "solid"), "application": ("black!45", "square", "solid")}
 
 
-def emit(s522: dict, interval: int, relative: bool = False, band: bool = False, split: bool = False, marks: bool = False) -> tuple[str, dict]:
+def emit(s522: dict, interval: int, relative: bool = True, band: bool = True, split: bool = False, marks: bool = True) -> tuple[str, dict]:
     offsets = [int(o) for o in s522["offsets"]]
     lay = {k: s522["layers"][f"{k}|{interval}"] for k, _ in ALL}
     gap = s522["unopposed_gap"]
     # geometry (cm), packed to 15.7
-    AX0, AW, H, Y0 = 1.45, 7.5, 4.2, 0.9
+    AX0, AW, H, Y0 = 1.45, 7.5, 4.8, 0.9
     BX0, BW = 10.65, 4.55
     if split:
         AX0, AW = 1.45, 6.3
@@ -122,8 +127,17 @@ def emit(s522: dict, interval: int, relative: bool = False, band: bool = False, 
                 (c, s522["conditions"][f"{c}|{interval}"][arm]["recovery_to_compromise"]["mean_observed"]["mean"])
                 for c in lay[layer]["conditions"]]
     ref = {arm: gap[arm]["mean"]["mean"] for arm in ("movement", "baseline")}
+    ratio_iv = {}
     if relative:
-        vals = {(l, a): (m / ref[a], ci / ref[a], cens, n) for (l, a), (m, ci, cens, n) in vals.items()}
+        # the point is the ratio of pooled means; the interval is the seeded
+        # bootstrap on the ratio (analyse.py recovery_ratio), both pools by run
+        for (l, a), (m, ci, cens, n) in list(vals.items()):
+            rr = lay[l]["recovery_ratio"][a]
+            point = rr["point"] if rr.get("point") is not None else m / ref[a]
+            lo = rr.get("lo", point - ci / ref[a])
+            hi = rr.get("hi", point + ci / ref[a])
+            ratio_iv[(l, a)] = (point, lo, hi)
+            vals[(l, a)] = (point, max(point - lo, hi - point), cens, n)
         conds = {(l, a): [(c, v / ref[a]) for c, v in cs] for (l, a), cs in conds.items()}
         ref = {arm: 1.0 for arm in ref}
 
@@ -143,7 +157,7 @@ def emit(s522: dict, interval: int, relative: bool = False, band: bool = False, 
 
         gslot = width / len(DRAWN)
         nb = len(arms)
-        bw = gslot * (0.28 if nb == 2 else 0.42)
+        bw = gslot * (0.34 if nb == 2 else 0.42)
         xticks = [(lab, x0 + (i + 0.5) * gslot) for i, (_, lab) in enumerate(DRAWN)]
         axes(w, x0, x0 + width, Y0, ay1,
              xticks=xticks, yticks=[(v, yb(v)) for v in [i * step for i in range(int(round(ytop / step)) + 1)]],
@@ -171,12 +185,16 @@ def emit(s522: dict, interval: int, relative: bool = False, band: bool = False, 
                 else:
                     w(r"\fill[pattern=north east lines,pattern color=cbase] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xl, Y0, xr, yb(mean)))
                     w(r"\draw[cbase,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xl, Y0, xr, yb(mean)))
-                errorbar(w, (xl + xr) / 2, yb(max(0.0, mean - ci)), yb(min(ytop, mean + ci)), col="black!70", cap=0.04)
-                top = yb(min(ytop, mean + ci))
+                if relative and (layer, a) in ratio_iv:
+                    _, lo, hi = ratio_iv[(layer, a)]
+                else:
+                    lo, hi = mean - ci, mean + ci
+                errorbar(w, (xl + xr) / 2, yb(max(0.0, lo)), yb(min(ytop, hi)), col="black!70", cap=0.04)
+                top = yb(min(ytop, hi))
                 if cond_marks:
                     for _, v in conds[(layer, a)]:
-                        w(r"\draw[black,line width=0.6pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (xl - 0.06, yb(min(ytop, v)), xr + 0.06, yb(min(ytop, v))))
-                        top = max(top, yb(min(ytop, v)))
+                        # on the bar's own right third, clear of its whisker and of the next bar
+                        w(r"\draw[black!75,line width=0.4pt,fill=white] (%.3f,%.3f) circle (0.05cm);" % (xl + 0.78 * (xr - xl), yb(min(ytop, v))))
                 w(r"\node[anchor=south,text=black!70,font=\scriptsize] at (%.3f,%.3f) {%d\,\%%};" % (
                     (xl + xr) / 2, top + 0.05, round(100 * cens)))
         return ytop
@@ -187,7 +205,7 @@ def emit(s522: dict, interval: int, relative: bool = False, band: bool = False, 
         ytop = recovery_panel(BX0, BW, ("movement",), "b", ylab, title="movement attacker", cond_marks=True)
         recovery_panel(CX0, CW, ("baseline",), "c", "", title="baseline attacker", cond_marks=True)
     else:
-        ylab = ("time to the next compromise,\\\\as a multiple of the gap with no defence" if relative
+        ylab = ("time to the next compromise\\\\$\\div$ gap with no defence" if relative
                 else "time to the next\\\\compromise (s)")
         ytop = recovery_panel(BX0, BW, ("movement", "baseline"), "b", ylab, cond_marks=marks)
 
@@ -216,8 +234,8 @@ def emit(s522: dict, interval: int, relative: bool = False, band: bool = False, 
         w(r"\node[anchor=west] at (%.3f,%.3f) {dashed, in the attacker's colour: its mean gap between compromises with no defence};" % (AX0 + 1.1, r3))
     w(r"\node[anchor=west] at (%.3f,%.3f) {\%%~~share of recoveries not completed by the time limit};" % (AX0, ky - 1.26))
     if split or marks:
-        w(r"\draw[black,line width=0.6pt] (%.3f,%.3f) -- ++(0.45,0);" % (AX0 + 8.3, ky - 1.26))
-        w(r"\node[anchor=west] at (%.3f,%.3f) {each mechanism of the layer, on its own};" % (AX0 + 8.85, ky - 1.26))
+        w(r"\draw[black!75,line width=0.4pt,fill=white] (%.3f,%.3f) circle (0.055cm);" % (AX0 + 8.0 + 0.225, ky - 1.26))
+        w(r"\node[anchor=west] at (%.3f,%.3f) {each mechanism of the layer alone};" % (AX0 + 8.55, ky - 1.26))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
 
@@ -231,17 +249,17 @@ def main() -> None:
     ap.add_argument("--numbers", type=Path, default=NUMBERS)
     ap.add_argument("--interval", type=int, default=2000)
     ap.add_argument("--no-compile", action="store_true")
-    ap.add_argument("--relative", action="store_true", help="panel (b) as a multiple of the attacker's own no-defence gap")
-    ap.add_argument("--band", action="store_true", help="panel (a): shade the disruption's slot instead of a dashed line")
+    ap.add_argument("--absolute", action="store_true", help="panel (b) in seconds with each attacker's pace line (the 2026-09-22 first form)")
+    ap.add_argument("--no-band", action="store_true", help="panel (a): dashed line at the disruption instead of the shaded slot")
     ap.add_argument("--split", action="store_true", help="one recovery panel per attacker, own scale, per-mechanism marks")
-    ap.add_argument("--marks", action="store_true", help="mark each mechanism's own mean on the layer bars")
+    ap.add_argument("--no-marks", action="store_true", help="drop the per-mechanism marks on the layer bars")
     ap.add_argument("--stem", default=STEM)
     args = ap.parse_args()
     data = json.loads(args.numbers.read_text(encoding="utf-8"))
     if not data["sanity"]["all_cells_100"] or data["sanity"]["error_rows"]:
         raise SystemExit("corpus sanity failed; not drawing from it")
     s522 = data["s522"]
-    tex, facts = emit(s522, args.interval, relative=args.relative, band=args.band, split=args.split, marks=args.marks)
+    tex, facts = emit(s522, args.interval, relative=not args.absolute, band=not args.no_band, split=args.split, marks=not args.no_marks)
     write_fig(args.stem, tex.splitlines())
     offsets = [int(o) for o in s522["offsets"]]
     print(f"caption facts, Fig. 5.2 (§5.2.2), drawn at {args.interval} s:")

@@ -1,5 +1,5 @@
 ---
-status: findings — preliminary read 2026-09-22 on the 100-seed defended corpus; the §6 changes APPLIED the same day (fig_5-2-2a_disruption_response via tools/ch5_disruption_figure.py); caption DRAFT STATE; scrutinise-figure pass recorded in the results context §8g
+status: findings — preliminary read 2026-09-22 on the 100-seed defended corpus; the §6 changes APPLIED the same day (fig_5-2-2a_disruption_response via tools/ch5_disruption_figure.py), then panel (b) moved to the RATIO form on Marc's ruling after the third scrutinise round (§7 items 17–18, the ratio table); caption DRAFT STATE; the rounds are recorded in the results context §8g
 created: 2026-09-22
 topic: "The §5.2.2 read of the defended corpus at the tactic level: what a disruption does to the movement attacker (its actions fail until it holds a host again), how long it takes to compromise a host again beside the baseline attacker, and the reads that stay sentences (position by stage unchanged; the control indistinguishable; the credential layer too rare)"
 supersedes: the §5.2.2 half of ch5_s532_adaptivity_findings.md (the verb-level activity mix, kept as the record of that instrument)
@@ -246,10 +246,37 @@ told them. Content the body text must carry (content, not prose):
     layer-level inversion is an observation for the movement attacker (host
     1 970–2 221 s, 1.53–1.72×, above service 1 490–1 611 s, 1.15–1.25×, in
     every condition) and a one-condition fact for the baseline. State it so.
+19. (fourth round, cold reader on the ratio form) The circles are anonymous
+    on the figure: the body names service diversity as the 2.42 and port
+    shuffle and OS diversity as the two at pace. The pooled bar is a ratio of
+    pooled means over the layer's disruptions, not the mean of the three
+    circles; the caption says "pooled the same way". The bootstrap interval
+    is the pooled mean's sampling uncertainty, not the between-mechanism
+    spread; the circles carry the spread. A ratio of one is "at its own
+    pace", not "no effect": the random-time null sits within ±9 % of the
+    anchor (examiner), so a circle at 0.94 reads as nothing happened. The
+    movement attacker's censored shares (26 %, 21 %) are mostly the time
+    limit's floor on a slow attacker, which is why they are near-equal
+    across layers that differ in (a).
 18. The estimator sentence: means over completed recoveries; the movement
     side's ordering holds on medians (1 408 / 989 s) and on the examiner's
     censoring-aware medians (1 790 / 1 377 s); the baseline's two layers are
     level on medians (332 / 350 s).
+
+### The drawn ratios, with the bootstrap interval (applied 2026-09-22, Marc's ruling: the ratio form)
+
+`analyse.py` `recovery_ratio`: the ratio of pooled means (recoveries that
+completed, over the runs' disruptions; gaps between consecutive compromises,
+over the unopposed runs), interval from 2 000 seeded bootstrap draws with
+both pools resampled by run.
+
+| layer, 2 000 s | movement attacker | baseline attacker |
+|---|---|---|
+| host | 1.59 [1.51, 1.68] | 1.08 [1.01, 1.15] |
+| service | 1.19 [1.12, 1.26] | 1.46 [1.33, 1.60] |
+
+The baseline's host bar touches one: after a host-layer disruption it is
+back at its own pace. Its service bar is service diversity's (below).
 
 ### Per-condition recovery at 2 000 s (third round)
 
