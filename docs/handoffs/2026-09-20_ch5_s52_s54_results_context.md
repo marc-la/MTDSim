@@ -674,6 +674,275 @@ on:
   form is $c_1$ to $c_4$ in prose and keys (the symbol the reader met), never
   "C1"; the aggregate stays "the aggregate".
 
+### 8g. §5.2.2 Response to disruption — takeaways, the mechanism fact, and the redesign (2026-09-22; takeaways and design RATIFIED by Marc the same day, "design, run, execute")
+
+**Marc's read of the landed figure (`fig_5-2-2a_adaptivity`), checked against
+the findings record and upheld.** Four panels that look the same; no visible
+response; the differences unhighlighted. The record already called it a null
+(largest shift 2.5 points of share; the control inside the model's interval
+in 26 of 28 cells). Two further defects Marc named and the session confirms:
+(i) the reader cannot tell what the panels are (he read the 2 × 2 of mechanism
+× interval as the four profiles); (ii) "five visits before", "outcome-blind
+control" and "share of visits" over the six verbs are all undeclared at the
+point of use. The deeper defect is **resolution**: the verb is downstream of
+the tactic-to-verb mapping, and the distance term keeps the campaign near its
+lifecycle order, so a verb-level mix inherits the baseline attacker's shape by
+construction. The response has to be read where the model lives, on the
+tactic and its lifecycle stage. The verb-level null becomes one body sentence
+here and a limitation in chapter 6 (the campaign is ported onto the
+simulator's six verbs).
+
+**The mechanism fact, verified from code (the ruling Marc asked for: does the
+mechanism or the state decide where the attacker is thrown back to?)**
+
+| attacker | what decides the landing | source |
+|---|---|---|
+| baseline attacker | **the mechanism's layer**, whatever state it was in: a host-layer mechanism restarts it at scan host from any phase; a service-layer mechanism restarts it at scan port and bites only in scan port / exploit / brute force; the credential-layer mechanism bites only in brute force and sends it to look for vulnerabilities. The state decides *whether* the disruption lands; the layer decides *where* | `mtdnetwork/operation/mtd_operation.py` `_interrupt_adversary`; `attack_operation.py` `_handle_interrupt` |
+| movement attacker | **nothing moves the token.** Every mechanism charges the same substrate price (the confusion penalty; on a host-layer mechanism the host cursor is cleared). The interrupt is read as a failure verdict *at the place the token is on*, and that place's failure-matrix row decides the next place. So the fall-back depends on where it was, not on which mechanism hit it. A dwell-only tactic feels the disruption as time only and routes on its base proportions (chapter 4's sentence). The layer shows underneath: after a host-layer mechanism every verb that acts on the current host is refused (`PRECONDITION_UNMET`) until an enumerate or scan host succeeds | `src/mtdsim/l3_simulation/movement/attacker.py` `_read_interrupt`, `_pay_interrupt_cost`; `apply_mtd_interrupt_cost` (shared by both arms) |
+
+Chapter 3 already carries the baseline's rule as prose (l.~811: network layer
+→ scanning hosts, application layer → scanning ports); §8g adds that it is
+measured in the defended corpus (landing shares in `numbers.json` §s522).
+
+**The story in the reader's terms, two steps.** (1) What a disruption does to
+the attacker: it loses its foothold, and the time to win one back is
+measurable. (2) What the attacker does about it: the baseline restarts a
+script; the movement attacker keeps walking the same campaign, falls back at
+most a stage, and re-finds a host. It never gives up: the cost capability sits
+at its inert setting (chapter 4 / §5.1 fact, one body sentence).
+
+**Takeaways (RATIFIED 2026-09-22).**
+
+| # | Takeaway | Carried by |
+|---|---|---|
+| T5 | A disruption costs the attacker its foothold, and it wins one back within a measurable time that depends on the layer hit | figure, recovery panel |
+| T6 | The movement attacker is not thrown back to a state. It stays in its campaign, its actions are refused, and it re-finds a host. The baseline attacker restarts its script from scanning hosts | figure, position panel, plus one body sentence for the baseline (its rule is chapter 3's; its landing share is the measured clause) |
+| T7 | The response does not depend on whether the attacker reads its outcomes | the control, in the figure only if the tactic-level read shows a signature; otherwise one sentence |
+| T8 | Hand-off: the defence's effect lands on position and pace, not on route, so §5.3 reads it on hosts reached | one closing sentence |
+
+Property 4's honest form after this read is stronger than the fidelity
+table's "built and run, not shown to change an outcome": on the tactic-level
+instrument too, whatever the numbers say, the register stays *observation*.
+
+**Figure design (`fig_5-2-2a_disruption_response`, replaces the adaptivity
+figure; label `fig:aio-adaptivity` kept so every `\ref` stands).** Movement
+attacker only, pooled over the four profiles, at 200 s (the interval with
+the clean placebo; the 2 000 s read in the record and one sentence).
+
+- **Panel (a), the position (T6).** Where the token sits by lifecycle stage
+  (chapter 4's four: preparation, intrusion, post-intrusion, objective) at
+  each visit from five before to five after each disruption. One series set,
+  because the layer does not decide the fall-back; the per-layer read is in
+  the record and, if the shapes agree, one sentence. The refused-action share
+  by the same offsets is the second reading of the same panel (the "actions
+  bounce" signal), drawn if the preview shows it and otherwise a sentence.
+- **Panel (b), the recovery (T5).** Time from a disruption to the next host
+  compromise, per layer hit (host / service / credentials), both attackers on
+  the one measure, the censored share printed beside each value (Table 5.3's
+  form: a conditional mean with its no-event share stated).
+- **Leaves the figure:** the interval axis (one sentence); the verb-level mix
+  (one sentence + chapter 6); the control unless it shows a signature.
+- **The control's name at the head of the subsection** (owed, §3): an
+  attacker whose routing stays on the base proportions whatever its actions
+  return. "Outcome-blind" and "verdict-blind" do not reach the page.
+
+**Instrument facts a drafter needs.** The records carry no host identity, so
+position is measured as the stage the token sits on and recovery as the time
+to the next compromise, never as a return to a named host. The defended
+corpus records do not carry the interrupting mechanism per record; the layer
+is the run's condition (single-mechanism conditions only; the two schemes are
+mixed and are not pooled by layer). Every read is on the existing 100-seed
+corpus; the thousand-seed rerun is owed with the rest of the chapter.
+
+**Analyser and generator.** `data/results/ch5_defended/analyse.py` §s522
+(stage and tactic by offset, refused share by offset, recovery to next
+success and to next compromise with censoring, whole-run tactic distribution
+against no defence, the placebo at stage level, the control at stage level,
+the baseline's landing shares and phase mix); `tools/ch5_disruption_figure.py`
+draws from it. Findings: `ch5_s532_adaptivity_findings.md` gains the §5.2.2
+read as a dated addendum (the §s532 numbers stand as the verb-level record).
+
+**Method.** Scrutinise-figure: takeaways first (this section), then a fresh
+cold reader and the context critic on the redraw, until neither reports a
+blocking defect.
+
+#### 8g, the run and the pass (2026-09-22, same day; figure APPLIED as `fig_5-2-2a_disruption_response`)
+
+**The preliminary read amended the panel definitions above**, on the data
+(record: `ch5_s522_disruption_findings.md`):
+
+- *Position by stage is flat* under every layer and both intervals (JSD ≤
+  0.004; the token never falls back a stage; what moves at 2 000 s moves
+  forward and is drift). So the stage panel is a sentence, and **panel (a) is
+  the response as the share of steps whose action fails its precondition**,
+  five steps either side of a disruption, per layer. Under a host-layer
+  mechanism it rises from about 0.2 to 0.57 at the next step and decays to
+  0.46 by the fifth; under a service-layer mechanism it does not move (the
+  host is kept). The first failure is construction; the jump's size and its
+  decay are measured, and the control decays identically.
+- *Drawn at 2 000 s, not 200 s.* At 200 s the median spacing between
+  disruptions is 7 steps, inside the ±5 window, so the share sits at about
+  one half throughout (the same shape on a raised floor). The design text
+  above said "200 s with the clean placebo"; that placebo was the stage read's,
+  and the failure-share read needs none against a 30-point jump. Overturned
+  on the data.
+- *Panel (b)* as designed (time to the next compromise per layer, both
+  attackers, censored share printed) **plus the pace anchor**: each
+  attacker's mean gap between compromises with no defence as a dashed line in
+  its colour (1 291 s movement, 394 s baseline). Without it the panel invites
+  "simply worse" (both cold readers said so); with it the ordering inverts
+  between attackers (host hits the movement attacker hardest, 1.6× its gap;
+  service hits the baseline hardest, 1.5×). The anchor is a pace reference,
+  not a null; the body quotes ratios as ordering, never bar minus line.
+- *Not drawn:* the interval axis; the control (within 0.025 at every step on
+  both spanning mechanisms, inside the recovery intervals; T7 is a sentence);
+  the credential mechanism (0.1 disruptions per run at 2 000 s); the
+  verb-level mix (a sentence here, a chapter 6 limitation).
+
+**Reviewers.** Round one: a cold reader (PNG, caption, one body sentence) and
+the context critic. The cold reader's one-sentence message was T5 and T6
+without being told them. Named fixes, all applied: "visits" → "steps" (no
+antecedent; Figure 5.1's unit); the key's "attacker model" → "movement
+attacker" (registry row 1; the shared map in `tools/_ch5_style.py` is left
+for Marc's ruling, its blast radius being Figures 5.4, 5.6 and the efficiency
+table); a dashed swatch in each attacker's colour; the printed percentages
+named in the key; one caption clause on why only 2 000 s is drawn;
+"credentials" per Table 2.1; the two y-labels set on two lines. Round two: a
+fresh cold reader and the critic re-verifying from the render, the built
+figure tex and `numbers.json`. Both panels pass; the caption phrase "the
+conditions that deploy one mechanism of the layer alone" ruled close enough
+to Table 5.1's "alone". Panel (a) then redrawn in greys so the accent means
+the movement attacker only (the second cold reader read blue in (a) as the
+attacker). Rejected: plotting the ratio to the anchor (T5 promises a time; a
+ratio hides censoring); intervals on panel (a) (pooled over 9 564
+disruptions; a content point instead).
+
+**Content points for the body text** are §7 of the findings record (16
+items: the instrument and its construction half, the flat service line and
+why the panels do not disagree, the before-level difference between layers,
+the stage sentence, the baseline's landing shares bridged to chapter 3's
+layer names, the control, the 200 s sentence, credentials, the ratios, the
+inversion as an observation, censoring as the stopping rule's, the recovery
+spanning a further disruption, the verb-level null, the pooling range, the
+hand-off).
+
+**Open for Marc:** (1) `_ch5_style.py` LABEL["movement"] = "attacker model"
+against the registry (three other floats); (2) the control's declaration at
+the head of §5.2.2 (owed, §3); (3) whether the 60 000 s and 200 s reads enter
+as sentences (Table 5.1 declares 15 000 s and the two intervals only).
+
+### 8h. §5.3.1 Defence mechanisms and execution schemes — takeaways proposed (2026-09-22; scrutinise-figure step 1, RULING OWED before any reviewer runs)
+
+Marc's ask: scope to §5.3.1, define what the reader must leave with before
+the floats (`fig:eff-suppression-profiles`, `tab:eff-conditions`) are tested,
+check his read against the corpus, formalise the whisker, and say why Table
+5.4's footnote is so long. Numbers below are the 100-seed corpus
+(`numbers.json` §s541); every value is provenance, never a chapter value.
+
+**What the reader holds when §5.3.1 opens** (chapters 2 to 4, §5.1, §5.2, and
+nothing else): seven defence mechanisms, grouped by what each rewrites — three
+the host layer (IP shuffle, complete topology shuffle, host topology shuffle),
+three the service layer (port shuffle, OS diversity, service diversity), one
+the credentials (user shuffle) (Table 2.4, Figure 2.3); four execution
+schemes of which two are run, random (one mechanism drawn from the pool per
+interval) and alternative (the pool in a fixed rotation, one per interval)
+(Table 2.5); two deployment intervals and the time limit (Table 5.1); suppression
+as $1 - \bar H_{\mathrm{defence}} / \bar H_{\mathrm{no\ defence}}$ on hosts
+reached (Table 5.2); the no-defence reference, 8.1 hosts pooled (Table 5.3);
+and §5.2.2's hand-off (T8): a disruption lands on position and pace, not on
+route, so the defence is read on hosts reached. The §5.3 head still owes
+(§3): the pooling of the four profiles, and what counts as a separation.
+
+**The subsection's question** (§3): which defence conditions reduce what the
+movement attacker reaches, and does the answer depend on the profile. Not
+yet: whether the baseline attacker agrees (§5.3.2).
+
+**Takeaways (PROPOSED; the pass criterion once Marc agrees).**
+
+| # | Takeaway | Carried by | Could it have come out otherwise? |
+|---|---|---|---|
+| T9 | Which defences reach the movement attacker is decided by the layer the mechanism rewrites. At 200 s the three host-layer mechanisms remove nearly all of its hosts reached and are one effect; the three service-layer mechanisms remove little; the credentials mechanism removes none | Fig. 5.3(a); Table 5.4's suppression column and dagger for the tier boundaries | Yes: the ordering is measured, and the baseline attacker returns a different one (§5.3.2) |
+| T9′ | Where the host-layer effect shows in the other metrics: the attacker is denied its first host in most runs, its first compromise comes later where it comes at all, and most of its actions are refused; under the service layer all three stay at the no-defence level | Table 5.4, the four columns the figure does not carry | Yes |
+| T10 | The answer does not depend on the attack profile: every profile orders the conditions the same way, and the aggregate sits inside the four | Fig. 5.3, the five bars per condition (the reason the figure is drawn per profile); one body sentence with the spread | Yes: §5.2 showed the profiles walk different campaigns |
+| T11 | A scheme over the pool does less than the best mechanism in it: random and alternative sit between the host-layer tier and the service-layer tier | Fig. 5.3(b); Table 5.4 | Yes. By-construction sentence allowed (§3 rule 2): a scheme fires one mechanism per interval and three of the seven are host-layer (Table 2.5) |
+| T12 | At the longer interval every effect attenuates and only the host layer stays separated from zero: the 200 s ordering is a property of the deployment interval | Fig. 5.3(c), (d); Table 5.4 lower block | Yes. By-construction sentence allowed: eight deployments against seventy-five inside the time limit (Table 5.1) |
+| T13 | Exception, marked and not explained (§3 rule 3): user shuffle is negative at 200 s on the pooled cell | Table 5.4 (the pooled row is the separated one; the figure shows direction only, see below) | Attribution open; trace owed (findings §1 item 2) |
+| T14 | Hand-off: this pooled ordering is what §5.3.2 reads the baseline attacker against | one closing sentence | — |
+
+Not a takeaway: "the defence is really strong". Strength belongs to one tier
+at one interval; the figure's message is *which layer*, not *how much*.
+
+**Marc's read, checked against the corpus.**
+
+| Marc's point | Checked | Verdict |
+|---|---|---|
+| At 200 s IP, topology and host are very strong | 0.96, 0.96, 0.96 pooled; per profile 0.93–0.98; intervals overlap each other and nothing else; 75 of 75 deployments interrupt in every profile | Upheld. One effect, the host-layer tier |
+| Port, user, OS and service not as strong | service 0.36 [0.31, 0.41], port 0.20 [0.13, 0.26], OS 0.07 [0.00, 0.14], user −0.14 | Upheld, with a tier inside it: service and port are separated from zero, OS touches it |
+| User shuffle is negative, helping the attacker | pooled −0.14 [−0.22, −0.05], 9.23 hosts against 8.13. Per profile: $c_1$ −0.13 [−0.27, −0.01] excludes zero; $c_2$, $c_3$, $c_4$, $c_{\mathrm{agg}}$ include it | Upheld on the pooled cell only. The figure, drawn per profile, does not show a separated negative on four of its five series; the table does. "Helping" is chapter 6's word until the trace lands |
+| The schemes are just an average of the pool | The seven singles average 4.22 hosts, suppression 0.48; random is 0.75 and alternative 0.72 at 200 s. At 2 000 s the average is 0.09; random 0.09, alternative 0.03 | Not upheld at 200 s: a scheme does more than the pool's mean and less than its best member. Upheld at 2 000 s. The prose may say only the by-construction fact (T11) |
+| Confusion is not modelled, so a scheme cannot compound | §4.4.1 declares one confusion penalty per disruption, charged whatever mechanism fired (§8g mechanism fact) | Half upheld: the penalty exists and is flat; what does not exist is any interaction between mechanisms in a scheme, so a scheme is a mixture of single effects by construction. Chapter 7's sentence, not §5.3.1's |
+| At 2 000 s everything is less because the attacker has more room | only IP shuffle (0.33) and the topology shuffles (0.16–0.17) separated from zero; every other interval includes zero; eight conditions overlap a neighbour | Attenuation upheld (T12). "Room to breathe" is interpretation; the admissible sentence is the deployment count |
+| Table 5.4 presents the values from above | the figure is per profile, the table pooled: the pooled suppression appears nowhere in the figure, and four of the table's columns are in no figure | Partly: the table is where the pooled number, its interval and the other channels live (T9′, T13) |
+
+Found beyond Marc's list, from the float and the generator:
+
+- **The figure caption misdescribes the schemes**: "the schemes that deploy
+  several together" is *simultaneous* (Table 2.5), which was not run. Random
+  and alternative deploy one mechanism per interval from the pool.
+- **The x-axis short names** "topology" and "host" stand for complete topology
+  shuffle and host topology shuffle; a cold reader can read "host" as a host
+  shuffle. Candidate fix: "compl. top." / "host top.", or the layer as a
+  bracket over the three.
+- **Layer vocabulary is split.** Chapter 2 and the §5.2.2 design say host
+  layer / service layer / credentials; the findings record and Table 5.5's
+  footnote say network layer / application layer. The antecedent rule wants
+  chapter 2's words in §5.3.1; Table 5.5 is out of this pass's scope and is
+  flagged.
+- **Both captions carry an "intention" sentence**, which §8b moved to the body
+  text.
+- **Table 5.4's caption says "three channels"** and the table has six metric
+  columns; the frame is interpretive and is chapter 6's.
+- **Profile dependence at 2 000 s**: the spread widens (IP shuffle 0.20–0.47,
+  alternative −0.11 to 0.16) with the intervals; no separated pair inverts. T10
+  holds at both intervals but the sentence must say "at this seed count".
+
+**Why Table 5.4's footnote is long, and what it may lose.** It defines target
+reached, suppression, the delay's censoring and the blocked fraction — all
+four are Table 5.2's definitions — plus the ordering rule and the dagger. The
+ruling on Table 5.3 (§8e: no footnotes, the caption says how to read and
+points at Tables 5.1 and 5.2) applies unchanged. Recommendation: the caption
+points at Table 5.2 for the metrics and keeps two facts Table 5.2 cannot
+carry, the ordering (by suppression within each interval; the no-defence
+reference one cell read against both) and the dagger's decode. The delay's
+conditioning ("over the runs that compromise one") is already Table 5.2's
+definition. Footnote goes from six clauses to the dagger, or to nothing if the
+dagger moves into the caption.
+
+**The whisker, formalised (from `analyse.py` `suppression`).** Let
+$H_{0,1},\dots,H_{0,n_0}$ be hosts reached in the $n_0$ no-defence runs and
+$H_{d,1},\dots,H_{d,n_d}$ in the $n_d$ runs under condition $d$; pooled over
+the four profiles $n_0 = n_d = 4 \times$ the seed count. The point estimate is
+$\hat S_d = 1 - \bar H_d / \bar H_0$. For $b = 1,\dots,B$ with $B = 2\,000$,
+draw $n_0$ runs with replacement from the no-defence cell and $n_d$ from the
+defended cell, independently, and compute $\hat S_d^{(b)}$ on the two
+resampled means. The whisker is the percentile interval
+$[\,Q_{0.025}(\hat S_d^{(1..B)}),\ Q_{0.975}(\hat S_d^{(1..B)})\,]$, seeded so it
+reproduces. Two properties the prose may state: it is an interval on a ratio
+of means, so it is asymmetric and can cross zero (user shuffle); and it is
+unpaired although the cells share seeds (§5.1 "the same seeds"), so it is the
+wider of the two intervals the design permits. A paired form (resample seeds,
+compute both means on the same draw) is a session choice, not a bug; it would
+narrow every whisker and change no ordering unless Marc asks for it. Table
+5.4's $\pm$ on hosts reached, delay and blocked fraction is the suite's mean
+interval (`_iv`: $1.96\,s/\sqrt{n}$, the normal approximation on the sample standard deviation), a different estimator; the caption should not call both
+"intervals" without saying so.
+
+**Owed rulings (Marc):** T9–T14 as the pass criterion; the layer words
+(chapter 2's or the record's); whether the paired bootstrap is wanted;
+whether the footnote reduction is applied in this pass. Then step 3: a fresh
+cold reader and the context critic on the PNG, the numbers auditor on the
+pooled row, and the sceptical examiner on T9 (the headline).
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,

@@ -80,6 +80,40 @@ ACTIVITIES = ("SCAN_HOST", "ENUM_HOST", "SCAN_PORT", "EXPLOIT_VULN", "BRUTE_FORC
 WINDOW = 5
 N_BOOT = 2_000
 RNG_SEED = 0
+# §5.2.2 (2026-09-22 redesign): the lifecycle stage of every tactic-place, from
+# the ratified consensus artefact (chapter 4's four stages), and the offsets
+# either side of a disruption the position read is taken at.
+STAGE_OF = M.load_stage_of()
+STAGES = (0, 1, 2, 3)
+STAGE_NAME = {0: "preparation", 1: "intrusion", 2: "post-intrusion", 3: "objective"}
+OFFSETS = tuple(range(-WINDOW, 0)) + tuple(range(1, WINDOW + 1))
+# the baseline attacker's phases, for its like-for-like "what it does next" read
+PHASES = ("SCAN_HOST", "ENUM_HOST", "SCAN_PORT", "EXPLOIT_VULN", "BRUTE_FORCE", "SCAN_NEIGHBOR")
+
+
+def _censored(observed, censored) -> dict:
+    """Summary of a censored-duration set: the mean over the durations that
+    completed, with its interval, and the share that were cut off at the time
+    limit (a censored recovery is the strongest non-recovery, never dropped)."""
+    n = len(observed) + len(censored)
+    return {
+        "n": n, "observed": len(observed), "censored_share": (len(censored) / n) if n else None,
+        "mean_observed": (_iv(observed) if observed else None),
+        "median_observed": (float(np.median(observed)) if observed else None),
+    }
+
+
+def _around(seq, idx, key=lambda x: x) -> dict:
+    """Counts of ``key(item)`` at each offset in OFFSETS around each index in
+    ``idx`` (the disruption itself is offset 0 and belongs to no window)."""
+    out = {o: Counter() for o in OFFSETS}
+    n = len(seq)
+    for i in idx:
+        for o in OFFSETS:
+            j = i + o
+            if 0 <= j < n:
+                out[o][key(seq[j])] += 1
+    return {o: dict(c) for o, c in out.items()}
 
 
 # --- per-run summaries (the one pass over the stream) --------------------------
@@ -144,6 +178,31 @@ def summarise_movement(row: dict) -> dict:
         out["mix"] = {"n": mix.n_interrupts, "before": mix.before_verbs, "after": mix.after_verbs}
     if row["condition"] == "none":  # kept for the placebo null only
         out["visit_verbs"] = [r.verb for r in visits]
+        out["visit_stages"] = [STAGE_OF[r.place] for r in visits]
+    # §5.2.2 position and recovery reads (2026-09-22): where the token sits, by
+    # lifecycle stage and by tactic, either side of each disruption; how many
+    # of the visits after it are actions the substrate refuses; and how long
+    # from the disruption to the next success and to the next compromise.
+    idx = out["interrupt_idx"]
+    out["stage_off"] = _around(visits, idx, key=lambda r: STAGE_OF[r.place])
+    out["place_off"] = _around(visits, idx, key=lambda r: r.place)
+    out["blocked_off"] = _around(visits, idx, key=lambda r: ("blocked" if r.blocked else
+                                                          "action" if r.verb else "dwell"))
+    out["place_counts"] = dict(Counter(r.place for r in visits))
+    rec = M.recovery_times(run)
+    out["rec_success"] = (list(rec.observed), list(rec.censored))
+    obs, cen = [], []
+    records = run.records
+    for i, r in enumerate(records):
+        if not r.interrupted:
+            continue
+        nxt = next((s for s in records[i + 1:] if M.is_compromise(s)), None)
+        if nxt is None:
+            cen.append(run.termination_time - r.end_time)
+        else:
+            obs.append(nxt.end_time - r.end_time)
+    out["rec_comp"] = (obs, cen)
+    out["comp_times"] = [r.end_time for r in records if M.is_compromise(r)]
     return out
 
 
@@ -155,7 +214,25 @@ def summarise_baseline(row: dict) -> dict:
     execs = [MTDExecution(name=e[0], start_time=e[1], finish_time=e[2], duration=e[3], layer=e[4])
              for e in row["mtd_executions"]]
     dis = M.disruption_ledger(execs, elapsed=row["termination_time"], n_suspended=row["mtd_suspended"])
+    # §5.2.2 (2026-09-22): the baseline attacker's own disruption reads, on its
+    # phases. A record is [phase, start, end, compromised host or None, _, the
+    # interrupting resource type or None]. Landing = the phase it restarts in.
+    idx = [i for i, r in enumerate(recs) if r[5] is not None]
+    landing = Counter()
+    obs, cen = [], []
+    for i in idx:
+        nxt = recs[i + 1][0] if i + 1 < len(recs) else "END"
+        landing[(recs[i][5], nxt)] += 1
+        comp = next((r for r in recs[i + 1:] if r[3] is not None), None)
+        if comp is None:
+            cen.append(row["termination_time"] - recs[i][2])
+        else:
+            obs.append(comp[2] - recs[i][2])
     return {
+        "landing": {f"{k[0]}|{k[1]}": v for k, v in landing.items()},
+        "phase_off": _around(recs, idx, key=lambda r: r[0]),
+        "rec_comp": (obs, cen),
+        "comp_times": [r[2] for r in comps],
         "seed": row["seed"],
         "hosts": row["compromised_uuid"],
         "hosts_positional": row["compromised"],
@@ -365,6 +442,187 @@ def section_532(cells) -> dict:
         "hosts_treatment": _iv(hosts_of(_pool(cells, "core", FOUR, "none", 0))),
         "hosts_control": _iv(hosts_of(_pool(cells, "blind", FOUR, "none", 0, overlay="verdict_blind"))),
     }
+    return out
+
+
+# --- §5.2.2 (2026-09-22 redesign: position and recovery, not the verb mix) -----
+
+
+def _share_by_offset(runs, field, keys) -> dict:
+    """Pooled share of each key at each offset around the disruptions."""
+    tot = {o: Counter() for o in OFFSETS}
+    for r in runs:
+        for o, c in r[field].items():
+            tot[o].update(c)
+    out = {}
+    for o in OFFSETS:
+        n = sum(tot[o].values())
+        out[str(o)] = {str(k): (tot[o].get(k, 0) / n if n else 0.0) for k in keys}
+        out[str(o)]["n"] = n
+    return out
+
+
+def _before_after(runs, field, keys) -> dict:
+    """Pooled before (offsets < 0) and after (offsets > 0) shares of each key,
+    and the paired per-run share shift with its interval."""
+    before, after = Counter(), Counter()
+    shifts = {k: [] for k in keys}
+    n_runs = 0
+    for r in runs:
+        b, a = Counter(), Counter()
+        for o, c in r[field].items():
+            (b if o < 0 else a).update(c)
+        if not b or not a:
+            continue
+        n_runs += 1
+        before.update(b)
+        after.update(a)
+        tb, ta = sum(b.values()), sum(a.values())
+        for k in keys:
+            shifts[k].append(a.get(k, 0) / ta - b.get(k, 0) / tb)
+    tb, ta = sum(before.values()), sum(after.values())
+    return {
+        "runs": n_runs,
+        "before": {str(k): before.get(k, 0) / tb if tb else 0.0 for k in keys},
+        "after": {str(k): after.get(k, 0) / ta if ta else 0.0 for k in keys},
+        "shift": {str(k): _iv(v) for k, v in shifts.items() if v},
+        "jsd_before_after": (M.jsd(M.normalise({str(k): v for k, v in before.items()}),
+                                   M.normalise({str(k): v for k, v in after.items()})) if tb and ta else None),
+    }
+
+
+def _pool_durations(runs, field) -> dict:
+    obs, cen = [], []
+    for r in runs:
+        o, c = r[field]
+        obs += o
+        cen += c
+    return _censored(obs, cen)
+
+
+def movement_disruption_block(runs, none_runs) -> dict:
+    """The movement attacker's response to disruption, read on the tactic-level
+    record: where the token sits by stage and by tactic either side of each
+    disruption, what share of the visits after it are refused actions, and how
+    long to the next success and the next compromise. ``none_runs`` gives the
+    whole-run tactic distribution the defended one is compared with."""
+    if not runs:
+        return {"runs": 0}
+    places = sorted(set(STAGE_OF))
+    with_int = [r for r in runs if r["interrupt_idx"]]
+    dist_def = Counter()
+    dist_none = Counter()
+    for r in runs:
+        dist_def.update(r["place_counts"])
+    for r in none_runs:
+        dist_none.update(r["place_counts"])
+    return {
+        "runs": len(runs), "runs_with_interrupt": len(with_int),
+        "interrupts": sum(len(r["interrupt_idx"]) for r in runs),
+        "interrupts_per_run": _iv([len(r["interrupt_idx"]) for r in runs]),
+        "stage_by_offset": _share_by_offset(with_int, "stage_off", STAGES),
+        "stage": _before_after(with_int, "stage_off", STAGES),
+        "tactic": _before_after(with_int, "place_off", places),
+        "refused_by_offset": _share_by_offset(with_int, "blocked_off", ("blocked", "action", "dwell")),
+        "recovery_to_success": _pool_durations(with_int, "rec_success"),
+        "recovery_to_compromise": _pool_durations(with_int, "rec_comp"),
+        "hosts": _iv(hosts_of(runs)),
+        "whole_run_tactic_jsd_vs_none": (M.jsd(M.normalise(dict(dist_def)), M.normalise(dict(dist_none)))
+                                         if dist_def and dist_none else None),
+        "whole_run_tactic_share": {p: dist_def.get(p, 0) / sum(dist_def.values()) for p in places} if dist_def else {},
+        "whole_run_tactic_share_none": {p: dist_none.get(p, 0) / sum(dist_none.values()) for p in places} if dist_none else {},
+    }
+
+
+def placebo_stage_block(defended, unopposed) -> dict:
+    """The placebo null at stage level: each defended run's disruption
+    positions applied to the same seed's unopposed run."""
+    by_seed = {r["seed"]: r for r in unopposed}
+    fake = []
+    for d in defended:
+        u = by_seed.get(d["seed"])
+        if u is None or not d["interrupt_idx"]:
+            continue
+        stages = u["visit_stages"]
+        idx = [i for i in d["interrupt_idx"] if i < len(stages)]
+        fake.append({"stage_off": _around(stages, idx)})
+    return _before_after(fake, "stage_off", STAGES)
+
+
+def baseline_disruption_block(runs) -> dict:
+    """The baseline attacker's response, on its phases: where it restarts after
+    each disruption (by the interrupting resource), its phase mix either side,
+    and the time to its next compromise."""
+    if not runs:
+        return {"runs": 0}
+    landing = Counter()
+    for r in runs:
+        landing.update(r["landing"])
+    by_res = defaultdict(Counter)
+    for k, v in landing.items():
+        res, nxt = k.split("|")
+        by_res[res][nxt] += v
+    return {
+        "runs": len(runs),
+        "interrupts": sum(len(r["rec_comp"][0]) + len(r["rec_comp"][1]) for r in runs),
+        "landing": {res: {nxt: v / sum(c.values()) for nxt, v in c.items()} for res, c in by_res.items()},
+        "phase": _before_after(runs, "phase_off", PHASES),
+        "phase_by_offset": _share_by_offset(runs, "phase_off", PHASES),
+        "recovery_to_compromise": _pool_durations(runs, "rec_comp"),
+        "hosts": _iv(hosts_of(runs)),
+    }
+
+
+def _gap_block(runs) -> dict:
+    """The pace anchor for the recovery read: the gap between consecutive
+    compromises in these runs (observed gaps only, pooled over runs), and the
+    share of runs with fewer than two compromises (no gap to read)."""
+    gaps = []
+    lt2 = 0
+    for r in runs:
+        t = sorted(r["comp_times"])
+        if len(t) < 2:
+            lt2 += 1
+            continue
+        gaps += [b - a for a, b in zip(t, t[1:])]
+    return {"runs": len(runs), "runs_without_gap_share": lt2 / len(runs) if runs else None,
+            "n_gaps": len(gaps), "mean": (_iv(gaps) if gaps else None),
+            "median": (float(np.median(gaps)) if gaps else None)}
+
+
+def section_522(cells) -> dict:
+    out = {"window": WINDOW, "stages": {str(k): v for k, v in STAGE_NAME.items()}, "stage_of": STAGE_OF,
+           "offsets": list(OFFSETS), "conditions": {}, "layers": {}}
+    none_mov = _pool(cells, "core", FOUR, "none", 0)
+    none_blind = _pool(cells, "blind", FOUR, "none", 0, overlay="verdict_blind")
+    out["unopposed_gap"] = {"movement": _gap_block(none_mov),
+                            "baseline": _gap_block(_cell(cells, "core", "baseline", "baseline", "none", 0))}
+    for interval in INTERVALS:
+        by_layer = defaultdict(lambda: {"movement": [], "baseline": []})
+        for cond in DEFENDED:
+            mov = _pool(cells, "core", FOUR, cond, interval)
+            base = _cell(cells, "core", "baseline", "baseline", cond, interval)
+            blind = (_pool(cells, "blind", FOUR, cond, interval, overlay="verdict_blind")
+                     if cond in SPANNING else [])
+            blk = {
+                "condition": cond, "interval": interval, "layer": LAYER.get(cond, "mixed"),
+                "movement": movement_disruption_block(mov, none_mov),
+                "placebo": placebo_stage_block(mov, none_mov),
+                "baseline": baseline_disruption_block(base),
+            }
+            if blind:
+                blk["control"] = movement_disruption_block(blind, none_blind)
+            out["conditions"][f"{cond}|{interval}"] = blk
+            if cond in LAYER:
+                by_layer[LAYER[cond]]["movement"] += mov
+                by_layer[LAYER[cond]]["baseline"] += base
+        for layer, d in by_layer.items():
+            out["layers"][f"{layer}|{interval}"] = {
+                "layer": layer, "interval": interval,
+                "conditions": [c for c in SINGLES if LAYER[c] == layer],
+                "movement": movement_disruption_block(d["movement"], none_mov),
+                "baseline": baseline_disruption_block(d["baseline"]),
+            }
     return out
 
 
@@ -659,6 +917,54 @@ def previews(out: dict) -> None:
     fig.savefig(HERE / "preview_fig54.png", dpi=140)
     plt.close(fig)
 
+    # §5.2.2 redesign preview: (a) stage share by offset per layer, (b) refused
+    # share by offset per layer, (c) recovery to next compromise, both attackers
+    s = out["s522"]
+    fig, axes = plt.subplots(2, 3, figsize=(15, 8))
+    LC = {"network": "#1f548c", "application": "#b3261e", "reserve": "#a8741a"}
+    for row, interval in enumerate(INTERVALS):
+        ax = axes[row, 0]
+        for layer, col in LC.items():
+            m = s["layers"][f"{layer}|{interval}"]["movement"]
+            for st, ls in zip(STAGES, (":", "-.", "-", "--")):
+                ax.plot(OFFSETS, [m["stage_by_offset"][str(o)][str(st)] for o in OFFSETS], ls, color=col,
+                        label=f"{layer} / {STAGE_NAME[st]}" if row == 0 else None)
+        ax.axvline(0, color="k", lw=0.5)
+        ax.set_title(f"stage share by offset @ {interval} s", fontsize=9)
+        ax.set_xlabel("visits from the disruption")
+        if row == 0:
+            ax.legend(fontsize=6, frameon=False, ncol=3)
+        ax = axes[row, 1]
+        for layer, col in LC.items():
+            m = s["layers"][f"{layer}|{interval}"]["movement"]
+            ax.plot(OFFSETS, [m["refused_by_offset"][str(o)]["blocked"] for o in OFFSETS], "-o", color=col, ms=3, label=layer)
+        for key, c in s["conditions"].items():
+            if "control" in c and c["interval"] == interval:
+                ax.plot(OFFSETS, [c["control"]["refused_by_offset"][str(o)]["blocked"] for o in OFFSETS], "--", color="#9a9a9a",
+                        label=f"control {SHORT[c['condition']]}")
+        ax.axvline(0, color="k", lw=0.5)
+        ax.set_title(f"refused-action share by offset @ {interval} s", fontsize=9)
+        ax.set_xlabel("visits from the disruption")
+        ax.legend(fontsize=7, frameon=False)
+        ax = axes[row, 2]
+        xs = np.arange(3)
+        for j, arm in enumerate(("movement", "baseline")):
+            vals, cens = [], []
+            for layer in LC:
+                rc = s["layers"][f"{layer}|{interval}"][arm]["recovery_to_compromise"]
+                vals.append(rc["mean_observed"]["mean"] if rc["mean_observed"] else 0)
+                cens.append(rc["censored_share"] or 0)
+            ax.bar(xs + (j - 0.5) * 0.35, vals, 0.35, color=("#1f548c" if arm == "movement" else "#9a9a9a"), label=arm)
+            for x, v, cn in zip(xs + (j - 0.5) * 0.35, vals, cens):
+                ax.text(x, v, f"cens {cn:.2f}", ha="center", va="bottom", fontsize=6)
+        ax.set_xticks(xs)
+        ax.set_xticklabels(list(LC))
+        ax.set_title(f"time to next compromise after a disruption @ {interval} s", fontsize=9)
+        ax.legend(fontsize=7, frameon=False)
+    fig.tight_layout()
+    fig.savefig(HERE / "preview_fig522.png", dpi=140)
+    plt.close(fig)
+
     # Fig 5.5
     fig, axes = plt.subplots(2, 2, figsize=(13, 7), sharey="row", gridspec_kw={"width_ratios": [7, 2]})
     for row, interval in enumerate(INTERVALS):
@@ -772,6 +1078,7 @@ def main() -> int:
           f"uuid/positional differ: {sanity['baseline_uuid_vs_positional_hosts_differ']}, "
           f"interrupt tally mismatches: {sanity['interrupt_tally_mismatch_movement']}")
     out["s532"] = section_532(cells)
+    out["s522"] = section_522(cells)
     out["s541"] = section_541(cells, rng)
     out["s542"] = section_542(cells, rng)
     out["s543"] = section_543(cells, rng)
@@ -781,6 +1088,20 @@ def main() -> int:
     previews(out)
 
     # a short printed read
+    for key, L in out["s522"]["layers"].items():
+        m, b = L["movement"], L["baseline"]
+        rs, rc, bc = m["recovery_to_success"], m["recovery_to_compromise"], b["recovery_to_compromise"]
+        print(f"\n§5.2.2 {key}: movement interrupts {m['interrupts']} ({m['interrupts_per_run']['mean']:.1f}/run), "
+              f"stage JSD before→after {m['stage']['jsd_before_after']:.4f}, tactic JSD {m['tactic']['jsd_before_after']:.4f}, "
+              f"whole-run tactic JSD vs none {m['whole_run_tactic_jsd_vs_none']:.4f}")
+        for s in STAGES:
+            sh = m["stage"]["shift"][str(s)]
+            print(f"   stage {STAGE_NAME[s]:14s} {m['stage']['before'][str(s)]:.3f}→{m['stage']['after'][str(s)]:.3f}  shift {sh['mean']:+.3f}±{sh['ci95']:.3f}")
+        print("   refused share by offset:", " ".join(f"{o:+d}:{m['refused_by_offset'][str(o)]['blocked']:.2f}" for o in OFFSETS))
+        print(f"   recovery→success: n {rs['n']} censored {rs['censored_share']:.3f} mean {rs['mean_observed']['mean'] if rs['mean_observed'] else None}"
+              f"  →compromise: n {rc['n']} censored {rc['censored_share']:.3f} mean {rc['mean_observed']['mean'] if rc['mean_observed'] else None}")
+        print(f"   baseline interrupts {b['interrupts']}, landing {json.dumps(b['landing'])}, "
+              f"→compromise: n {bc['n']} censored {bc['censored_share']:.3f} mean {bc['mean_observed']['mean'] if bc['mean_observed'] else None}")
     for key, p in out["s532"]["panels"].items():
         t, c = p["treatment"], p["control"]
         print(f"\n§5.3.2 {key}: interrupts {t['interrupts']} (model) / {c['interrupts']} (blind); "
