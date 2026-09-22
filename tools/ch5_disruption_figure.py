@@ -54,13 +54,17 @@ ALL = DRAWN + (("reserve", "credentials"),)
 LAYER_STYLE = {"network": ("black!85", "circle", "solid"), "application": ("black!45", "square", "solid")}
 
 
-def emit(s522: dict, interval: int) -> tuple[str, dict]:
+def emit(s522: dict, interval: int, relative: bool = False, band: bool = False, split: bool = False, marks: bool = False) -> tuple[str, dict]:
     offsets = [int(o) for o in s522["offsets"]]
     lay = {k: s522["layers"][f"{k}|{interval}"] for k, _ in ALL}
     gap = s522["unopposed_gap"]
     # geometry (cm), packed to 15.7
     AX0, AW, H, Y0 = 1.45, 7.5, 4.2, 0.9
     BX0, BW = 10.65, 4.55
+    if split:
+        AX0, AW = 1.45, 6.3
+        BX0, BW = 9.0, 2.7        # (b) the movement attacker
+        CX0, CW = 12.55, 2.5      # (c) the baseline attacker, its own scale
     ay1 = Y0 + H
     L: list[str] = []
     w = L.append
@@ -86,8 +90,13 @@ def emit(s522: dict, interval: int) -> tuple[str, dict]:
          xlabel="steps from the disruption", ylabel="",
          xfmt=lambda v: f"{v:+d}", xlabel_offset=0.45)
     w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {share of steps whose\\action fails its precondition};" % (AX0 - 0.8, (Y0 + ay1) / 2))
-    w(r"\draw[black!50,dashed,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x_zero, Y0, x_zero, ay1))
-    w(r"\node[anchor=north,rotate=90,text=black!60] at (%.3f,%.3f) {disruption};" % (x_zero + 0.12, ay1 - 0.08))
+    if band:
+        # the disruption's own step, as a shaded slot between the two windows
+        w(r"\fill[black!8] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (x_zero - slot / 2, Y0, x_zero + slot / 2, ay1))
+        w(r"\node[anchor=north,rotate=90,text=black!60] at (%.3f,%.3f) {disruption};" % (x_zero, ay1 - 0.08))
+    else:
+        w(r"\draw[black!50,dashed,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x_zero, Y0, x_zero, ay1))
+        w(r"\node[anchor=north,rotate=90,text=black!60] at (%.3f,%.3f) {disruption};" % (x_zero + 0.12, ay1 - 0.08))
     panel_letter(w, AX0 - 1.35, ay1 + 0.02, "a")
     refused = {}
     for layer, _ in DRAWN:
@@ -101,48 +110,86 @@ def emit(s522: dict, interval: int) -> tuple[str, dict]:
             for o in pts:
                 marker(w, mk, col, xa(o), ya(refused[layer][o]), r=0.065)
 
-    # ---- (b) recovery to the next compromise, per layer, both attackers ------
+    # ---- (b) recovery to the next compromise, per layer ----------------------
     vals = {}
-    ymax = 0.0
+    conds = {}
     for layer, _ in DRAWN:
         for arm in ("movement", "baseline"):
             rc = lay[layer][arm]["recovery_to_compromise"]
             m = rc["mean_observed"]
             vals[(layer, arm)] = (m["mean"] if m else 0.0, m["ci95"] if m else 0.0, rc["censored_share"] or 0.0, rc["n"])
-            ymax = max(ymax, (m["mean"] + m["ci95"]) if m else 0.0)
+            conds[(layer, arm)] = [
+                (c, s522["conditions"][f"{c}|{interval}"][arm]["recovery_to_compromise"]["mean_observed"]["mean"])
+                for c in lay[layer]["conditions"]]
     ref = {arm: gap[arm]["mean"]["mean"] for arm in ("movement", "baseline")}
-    ymax = max(ymax, *ref.values())
-    step = 1000 if ymax > 2500 else 500
-    ytop = step * (int(ymax // step) + 1)
+    if relative:
+        vals = {(l, a): (m / ref[a], ci / ref[a], cens, n) for (l, a), (m, ci, cens, n) in vals.items()}
+        conds = {(l, a): [(c, v / ref[a]) for c, v in cs] for (l, a), cs in conds.items()}
+        ref = {arm: 1.0 for arm in ref}
 
-    def yb(v: float) -> float:
-        return Y0 + v / ytop * H
+    def recovery_panel(x0, width, arms, letter, ylabel_lines, title=None, cond_marks=False):
+        ymax = max((vals[(l, a)][0] + vals[(l, a)][1]) for l, _ in DRAWN for a in arms)
+        ymax = max(ymax, *(ref[a] for a in arms))
+        if cond_marks:
+            ymax = max(ymax, *(v for l, _ in DRAWN for a in arms for _, v in conds[(l, a)]))
+        if relative:
+            step = 0.5
+        else:
+            step = 1000 if ymax > 2500 else 500 if ymax > 1000 else 200
+        ytop = step * (int(ymax // step) + 1)
 
-    gslot = BW / len(DRAWN)
-    bw = gslot * 0.28
-    xticks = [(lab, BX0 + (i + 0.5) * gslot) for i, (_, lab) in enumerate(DRAWN)]
-    axes(w, BX0, BX0 + BW, Y0, ay1,
-         xticks=xticks, yticks=[(v, yb(v)) for v in range(0, ytop + 1, step)],
-         xlabel="layer the mechanism rewrites", ylabel="",
-         xfmt=lambda v: v, yfmt=lambda v: fmt_thousands(v), xlabel_offset=0.45)
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {time to the next\\compromise (s)};" % (BX0 - 1.0, (Y0 + ay1) / 2))
-    panel_letter(w, BX0 - 1.5, ay1 + 0.02, "b")
-    for arm, col in (("movement", "cmov"), ("baseline", "cbase")):
-        w(r"\draw[%s,dashed,line width=0.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, BX0, yb(ref[arm]), BX0 + BW, yb(ref[arm])))
-    for i, (layer, _) in enumerate(DRAWN):
-        xc = BX0 + (i + 0.5) * gslot
-        for j, arm in enumerate(("movement", "baseline")):
-            mean, ci, cens, n = vals[(layer, arm)]
-            xl = xc + (j - 1) * bw + 0.03
-            xr = xl + bw - 0.06
-            if arm == "movement":
-                w(r"\fill[cmov] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xl, Y0, xr, yb(mean)))
-            else:
-                w(r"\fill[pattern=north east lines,pattern color=cbase] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xl, Y0, xr, yb(mean)))
-                w(r"\draw[cbase,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xl, Y0, xr, yb(mean)))
-            errorbar(w, (xl + xr) / 2, yb(max(0.0, mean - ci)), yb(min(ytop, mean + ci)), col="black!70", cap=0.04)
-            w(r"\node[anchor=south,text=black!70,font=\scriptsize] at (%.3f,%.3f) {%d\,\%%};" % (
-                (xl + xr) / 2, yb(min(ytop, mean + ci)) + 0.05, round(100 * cens)))
+        def yb(v):
+            return Y0 + v / ytop * H
+
+        gslot = width / len(DRAWN)
+        nb = len(arms)
+        bw = gslot * (0.28 if nb == 2 else 0.42)
+        xticks = [(lab, x0 + (i + 0.5) * gslot) for i, (_, lab) in enumerate(DRAWN)]
+        axes(w, x0, x0 + width, Y0, ay1,
+             xticks=xticks, yticks=[(v, yb(v)) for v in [i * step for i in range(int(round(ytop / step)) + 1)]],
+             xlabel="layer rewritten", ylabel="",
+             xfmt=lambda v: v, yfmt=(lambda v: f"{v:g}") if relative else (lambda v: fmt_thousands(v)), xlabel_offset=0.45)
+        if ylabel_lines:
+            w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {%s};" % (x0 - (1.0 if not relative else 0.8), (Y0 + ay1) / 2, ylabel_lines))
+        panel_letter(w, x0 - (1.5 if ylabel_lines else 0.85), ay1 + 0.02, letter)
+        if title:
+            w(r"\node[anchor=north west,text=black!60] at (%.3f,%.3f) {%s};" % (x0 + 0.08, ay1 - 0.05, title))
+        if relative:
+            w(r"\draw[black!60,dashed,line width=0.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, yb(1.0), x0 + width, yb(1.0)))
+        else:
+            for a in arms:
+                col = "cmov" if a == "movement" else "cbase"
+                w(r"\draw[%s,dashed,line width=0.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, x0, yb(ref[a]), x0 + width, yb(ref[a])))
+        for i, (layer, _) in enumerate(DRAWN):
+            xc = x0 + (i + 0.5) * gslot
+            for j, a in enumerate(arms):
+                mean, ci, cens, n = vals[(layer, a)]
+                xl = xc + (j - nb / 2) * bw + 0.03
+                xr = xl + bw - 0.06
+                if a == "movement":
+                    w(r"\fill[cmov] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xl, Y0, xr, yb(mean)))
+                else:
+                    w(r"\fill[pattern=north east lines,pattern color=cbase] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xl, Y0, xr, yb(mean)))
+                    w(r"\draw[cbase,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xl, Y0, xr, yb(mean)))
+                errorbar(w, (xl + xr) / 2, yb(max(0.0, mean - ci)), yb(min(ytop, mean + ci)), col="black!70", cap=0.04)
+                top = yb(min(ytop, mean + ci))
+                if cond_marks:
+                    for _, v in conds[(layer, a)]:
+                        w(r"\draw[black,line width=0.6pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (xl - 0.06, yb(min(ytop, v)), xr + 0.06, yb(min(ytop, v))))
+                        top = max(top, yb(min(ytop, v)))
+                w(r"\node[anchor=south,text=black!70,font=\scriptsize] at (%.3f,%.3f) {%d\,\%%};" % (
+                    (xl + xr) / 2, top + 0.05, round(100 * cens)))
+        return ytop
+
+    if split:
+        ylab = ("time to the next compromise,\\\\as a multiple of the gap with no defence" if relative
+                else "time to the next\\\\compromise (s)")
+        ytop = recovery_panel(BX0, BW, ("movement",), "b", ylab, title="movement attacker", cond_marks=True)
+        recovery_panel(CX0, CW, ("baseline",), "c", "", title="baseline attacker", cond_marks=True)
+    else:
+        ylab = ("time to the next compromise,\\\\as a multiple of the gap with no defence" if relative
+                else "time to the next\\\\compromise (s)")
+        ytop = recovery_panel(BX0, BW, ("movement", "baseline"), "b", ylab, cond_marks=marks)
 
     # ---- key, once, under both panels ---------------------------------------
     ky = Y0 - 1.35
@@ -160,10 +207,17 @@ def emit(s522: dict, interval: int) -> tuple[str, dict]:
     w(r"\draw[cbase,line width=0.4pt] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (KX[1], r2 - 0.11))
     w(r"\node[anchor=west] at (%.3f,%.3f) {baseline attacker};" % (KX[1] + 0.4, r2))
     r3 = ky - 0.84
-    w(r"\draw[cmov,dashed,line width=0.5pt] (%.3f,%.3f) -- ++(0.45,0);" % (AX0, r3))
-    w(r"\draw[cbase,dashed,line width=0.5pt] (%.3f,%.3f) -- ++(0.45,0);" % (AX0 + 0.55, r3))
-    w(r"\node[anchor=west] at (%.3f,%.3f) {dashed, in the attacker's colour: its mean gap between compromises with no defence};" % (AX0 + 1.1, r3))
+    if relative:
+        w(r"\draw[black!60,dashed,line width=0.5pt] (%.3f,%.3f) -- ++(0.45,0);" % (AX0, r3))
+        w(r"\node[anchor=west] at (%.3f,%.3f) {the attacker's own pace: its mean gap between compromises with no defence};" % (AX0 + 0.55, r3))
+    else:
+        w(r"\draw[cmov,dashed,line width=0.5pt] (%.3f,%.3f) -- ++(0.45,0);" % (AX0, r3))
+        w(r"\draw[cbase,dashed,line width=0.5pt] (%.3f,%.3f) -- ++(0.45,0);" % (AX0 + 0.55, r3))
+        w(r"\node[anchor=west] at (%.3f,%.3f) {dashed, in the attacker's colour: its mean gap between compromises with no defence};" % (AX0 + 1.1, r3))
     w(r"\node[anchor=west] at (%.3f,%.3f) {\%%~~share of recoveries not completed by the time limit};" % (AX0, ky - 1.26))
+    if split or marks:
+        w(r"\draw[black,line width=0.6pt] (%.3f,%.3f) -- ++(0.45,0);" % (AX0 + 8.3, ky - 1.26))
+        w(r"\node[anchor=west] at (%.3f,%.3f) {each mechanism of the layer, on its own};" % (AX0 + 8.85, ky - 1.26))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
 
@@ -177,13 +231,18 @@ def main() -> None:
     ap.add_argument("--numbers", type=Path, default=NUMBERS)
     ap.add_argument("--interval", type=int, default=2000)
     ap.add_argument("--no-compile", action="store_true")
+    ap.add_argument("--relative", action="store_true", help="panel (b) as a multiple of the attacker's own no-defence gap")
+    ap.add_argument("--band", action="store_true", help="panel (a): shade the disruption's slot instead of a dashed line")
+    ap.add_argument("--split", action="store_true", help="one recovery panel per attacker, own scale, per-mechanism marks")
+    ap.add_argument("--marks", action="store_true", help="mark each mechanism's own mean on the layer bars")
+    ap.add_argument("--stem", default=STEM)
     args = ap.parse_args()
     data = json.loads(args.numbers.read_text(encoding="utf-8"))
     if not data["sanity"]["all_cells_100"] or data["sanity"]["error_rows"]:
         raise SystemExit("corpus sanity failed; not drawing from it")
     s522 = data["s522"]
-    tex, facts = emit(s522, args.interval)
-    write_fig(STEM, tex.splitlines())
+    tex, facts = emit(s522, args.interval, relative=args.relative, band=args.band, split=args.split, marks=args.marks)
+    write_fig(args.stem, tex.splitlines())
     offsets = [int(o) for o in s522["offsets"]]
     print(f"caption facts, Fig. 5.2 (§5.2.2), drawn at {args.interval} s:")
     for interval in (200, 2000):
@@ -216,7 +275,7 @@ def main() -> None:
         print(f"  unopposed gap between compromises, {arm}: mean {g[arm]['mean']['mean']:.0f} ± {g[arm]['mean']['ci95']:.0f} s, "
               f"median {g[arm]['median']:.0f}, gaps {g[arm]['n_gaps']}, runs without a gap {g[arm]['runs_without_gap_share']:.2f}")
     if not args.no_compile:
-        compile_fig(STEM)
+        compile_fig(args.stem)
 
 
 if __name__ == "__main__":

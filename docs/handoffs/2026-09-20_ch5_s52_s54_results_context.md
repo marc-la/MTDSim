@@ -826,7 +826,65 @@ inversion as an observation, censoring as the stopping rule's, the recovery
 spanning a further disruption, the verb-level null, the pooling range, the
 hand-off).
 
-**Open for Marc:** (1) `_ch5_style.py` LABEL["movement"] = "attacker model"
+#### 8g, third round (2026-09-22, Marc's `/scrutinise-figure figure 5.2` on the merged figure)
+
+**Marc's read, checked.** (i) "Service-layer mechanisms don't do much, host-layer
+mechanisms disrupt a lot": upheld for the movement attacker on every measure
+(failure share flat under the service layer; hosts reached 8.05 against 8.13
+with no defence, host layer 6.36). (ii) "Make the disruption clearer in (a)":
+the disruption's own step is now a shaded slot between the two windows
+(`--band`); the critic rules it a decode, not accentuation. (iii) "Panel (b) is
+dominated by the movement attacker being slower; not a fair comparison; the
+service layer disrupts the baseline more, the host layer the movement
+attacker more": the first half upheld (three cold readers took "slower" from
+the absolute form). The second half is **one condition, not the layer**,
+verified per condition at 2 000 s: the baseline's service-layer recovery is
+service diversity alone (952 s, 2.42× its no-defence gap, 18 % censored),
+while port shuffle and OS diversity leave it at pace (370 and 378 s, 0.94×
+and 0.96×, against 394 s). Its host-layer conditions sit at 398–442 s
+(1.01–1.12×). The movement attacker's half holds in every condition: host
+1 970–2 221 s (1.53–1.72×) above service 1 490–1 611 s (1.15–1.25×), IP
+shuffle the harshest. So "the service layer disrupts the baseline more" may
+not be said as a layer statement; "service diversity does" may.
+
+**Reviewers, and where they disagree.** A fresh cold reader on the ratio
+candidate took the inversion in one sentence (the form communicates T5's
+layer dependence). The sceptical examiner (numbers from the run cache): the
+movement-side inversion survives means, medians and a censoring-aware
+(Kaplan–Meier) estimator (KM medians 1 790 against 1 377 s); the baseline
+side survives the mean only and is service diversity; the censored shares are
+the time limit's on the movement side (every censored host-layer recovery is
+in a run cut at 15 000 s) and the stopping rule's on the baseline side (0.66
+and 0.49 of its defended runs reach the target, not the 0.6 quoted in the
+findings); the pace anchor is defensible (a random-time null moves the ratios
+by at most 0.2 and the inversion stands); a movement recovery after a
+host-layer disruption spans a further disruption in about a third of cases,
+which raises its mean but not its KM median. **Examiner's ruling: absolute
+form plus a mark at each mechanism's own mean on every bar; no ratio.**
+Reason: the ratio turns an ordering into a magnitude that moves under the
+estimator (1.59× on means, 2.01× on KM). **Context critic's ruling, reversed
+from round one: take the ratio.** Reason: the absolute form delivered T4
+again to three readers; §3 rule 1 asks for magnitude as a relative figure;
+censoring is still printed; the four absolute times fit one body sentence.
+One named fix on the ratio: the interval must be a bootstrap on the ratio
+(Figure 5.4's house form), not the recovery's interval divided by the anchor.
+
+**Candidates rendered** (`data/results/ch5_defended/candidate_fig522_A_relative_marks.png`,
+`candidate_fig522_B_split_absolute.png`), both with the shaded disruption
+slot and the per-mechanism marks:
+- **A** ratio to the attacker's own no-defence gap, one panel, dashed line at
+  one; the marks show the baseline's service bar as 0.94 / 0.96 / 2.42.
+- **B** absolute seconds, one panel per attacker on its own scale, each with
+  its own pace line; the cross-attacker height is removed by layout.
+
+**Session recommendation: A**, with the bootstrap interval on the ratio, the
+estimator sentence and the four absolute times in the body, and the
+service-diversity narrowing stated as the observation. B keeps the seconds
+but hides the SQ3 contrast behind two scales and crowds the figure.
+**RULING OWED (Marc): A or B, or the merged absolute form as it stands.**
+Neither candidate is in the tex; the merged figure is unchanged.
+
+**Open for Marc:** (0) the panel (b) form above; (1) `_ch5_style.py` LABEL["movement"] = "attacker model"
 against the registry (three other floats); (2) the control's declaration at
 the head of §5.2.2 (owed, §3); (3) whether the 60 000 s and 200 s reads enter
 as sentences (Table 5.1 declares 15 000 s and the two intervals only).
