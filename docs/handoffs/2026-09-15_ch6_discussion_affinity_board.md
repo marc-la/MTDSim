@@ -888,3 +888,28 @@ a discussion point without a run behind it.
 Drafting any discussion prose (Marc's, by the drafting pipeline); re-scoring
 the criterion; running E2-R or any experiment; editing the notes flagged in
 §8 (each is its own small commit once Marc rules).
+
+## 9. Supervisor input, 2026-09-22 (register E10)
+
+Dr Hong named the discussion's two set-ups on seeing the 100-seed results, and
+said that once the two evaluation phases are done "we're good for the
+discussion". Both are already on the board; this section records that they are
+now the supervisor's spine, not a session's composition.
+
+1. **The model is harder to detect while slower and less successful.** On the
+   inherited metrics the APT attacker model reaches fewer hosts and compromises
+   its first later; on the reinstated stealth and detectability readings it is
+   quieter and more widely spaced (E4). The discussion reads the two together:
+   this is why an APT attacker model is needed, and the methodology must have
+   explained the metrics well enough for the reading to land (E3). Claim ceiling
+   unchanged: observations, no stealth state, property 5 still blank.
+2. **The effective defence differs with the attacker.** Host-layer mechanisms
+   disrupt the model more, service-layer mechanisms the baseline more, user
+   shuffle helps the attacker — "there is no single solution", so an evaluation
+   run against one attacker model does not transfer, and more research is
+   needed (the future-work hook). Now to be evidenced across the interval range
+   and with MTDShield as an arm (E6), so the sentence is written after the
+   thousand-seed corpus, not before.
+
+Both depend on the restructure brief (`2026-09-22_ch5_two_phase_restructure.md`)
+for the floats they cite.

@@ -1,8 +1,8 @@
 ---
 status: durable
 created: 2026-07-03
-topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5, M1–M8, S1–S6, V1–V7)"
-updated: 2026-08-13
+topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5, M1–M8, S1–S6, V1–V7, T1–T5, E1–E11)"
+updated: 2026-09-22   # E trail (the 22-Sep evaluation meeting) added; T trail's owed items annotated
 lineage: formerly docs/notes @ 2026-07-03_supervisor_meeting_l3_decisions.md (relocated in the 2026-07-13 docs refactor)
 ---
 
@@ -710,7 +710,174 @@ its criteria against factor 9's band, run it with and without the exclude-owned
 re-select companion at the operating and an extended horizon, and produce the
 trace Jin asked for. T3 and T4 commission no code — T4 is Marc's outline work.
 
+## The 2026-09-22 meeting rulings (E1–E11)
+
+Provenance: the **22-Sep-2026 meeting** with Dr Hong (43 min; transcript held
+by Marc outside the repo, per convention; minutes at
+`~/mtdsim-meeting-minutes/2026-09-22_supervisor_meeting.md`). Numbered **E** —
+the *evaluation* trail — to stay distinct from D, R, M, S, V and T. The same
+caution as the V and T trails rides with it: the source is a raw
+auto-transcription with a single attributed speaker, so attribution is inferred
+from content and wording is paraphrase except where quoted.
+
+**What the meeting reviewed.** The Evaluation chapter as drafted at 100 seeds:
+§5.1 the experimental setup (Tables 5.1–5.2), §5.2 the behaviour of the APT
+attacker model (5.2.1 without defence: Figure 5.1, Table 5.3; 5.2.2 response to
+disruption: Figure 5.2), §5.3 defence effectiveness (5.3.1 mechanisms and
+schemes: Figure 5.3, Table 5.4; 5.3.2 effect of the attacker model: Figure 5.4,
+Table 5.5; 5.3.3 comparison with prior evaluations: Table 5.6), §5.4 defence
+efficiency (Figures 5.5–5.6, Table 5.7); the chapter 4 opening figure; and the
+§4.3 formalism. Jin's verdict on the results themselves was favourable — the
+host-layer / service-layer inversion between the two attackers is "the kind of
+results we wanted to see" — and every ruling below is about how they are
+organised, named, justified and drawn.
+
+- **E1 — The results are read from the APT attacker's perspective, in two
+  phases; effectiveness and efficiency are merged.** Jin's objection to the
+  four-section chapter: the thesis has spent three chapters on capturing,
+  modelling and integrating an APT attacker, and the reader then meets
+  "defence effectiveness" and "defence efficiency" — "just reading the headings
+  doesn't give you what you are focusing on". The results all sit under the
+  model's behaviour anyway, so the division should follow the attacker, not
+  Cho's purpose axis. Ruling: **phase one, no MTD** — the APT attacker model
+  compared with the baseline attacker; **phase two, MTD** — the pre-built
+  defences, "optimised for the existing attacker", run against the APT attacker
+  model, with the baseline attacker carried as a reference line rather than
+  given its own section. A third phase (MTD optimised against the APT attacker)
+  was raised and declined — that is the optimisation work, future. Effectiveness
+  and efficiency **combine**: "just MTD against APT attackers, that's it", with
+  sub-subsections dividing the experiments by what each was run for. Where the
+  response-to-disruption reading sits (the end of phase one or the head of
+  phase two) was left to Marc — Jin's "probably, yeah" attached it to the MTD
+  phase. Heading form offered: a comparison heading for phase one ("this APT
+  attacker versus baseline attacker") and "APT attacker against MTD
+  techniques" for phase two. *Overturns:* the three-way split and the five
+  headings approved 2026-09-20 (results context §2, §4); the design handoff's
+  §8–§9 shape; the property-to-subsection map in the §5.2 tex comment.
+
+- **E2 — No invented terms; every name on a needs basis.** On "movement
+  attacker": *"Why do we call it a movement attacker instead of APT attacker?
+  … It already got a name."* A term with no purpose is "another step of
+  confusion" for a reviewer — "as a marker … my range top end just dropped, and
+  if I see more of this the top end just keeps dropping; if I see nice details,
+  the bottom end goes up". Four rulings. (a) The model is the **APT attacker
+  model** — its chapter title; *movement attacker* goes (Marc counted 76 uses
+  in the meeting; 58 in the tex today, comments included). (b) The **movement /
+  controller / action layer** trichotomy is not a set of layers: "layer is like
+  OSI layers"; what L0–L4 describe is a process, "part of your pipeline" — if
+  named at all, phases — and Jin asked whether the parts need names ("do you
+  even have to give it a name?"). Anything kept must be well defined, and the
+  definition is a figure that boxes the parts and shows how they link (E8);
+  Marc conceded the bar for "well defined" is high and nobody but him knows
+  what the controller layer is. (c) **Suppression** is not a term in the field
+  and is the attack success rate before and after a defence pushed into one
+  number — see E3. (d) *Baseline attacker* is understandable; *MTDSim* is well
+  defined. Marc's own resolve: sweep for every other term that would cost a
+  mark. *Overturns:* registry rows "The proposed attacker model" (V5) and "The
+  layer trichotomy" (architecture §(f)), the genre-identification opener, and
+  the metric name *suppression*. The replacement words are Marc's ruling;
+  proposals in the terminology handoff below.
+
+- **E3 — Every metric has a provenance: cited from prior work, or fully
+  defined in the methodology with why it is needed.** For each metric Jin
+  wants the reference — "MTD, MTTC or NCR, especially if it's well-known ones"
+  — and a new one "needs to be in the section explaining the full details of
+  how you calculated and why we need to calculate it … it should explain
+  something new". A metric adapted from prior work may reference its formula.
+  Stealth is the licensed exemplar of a new metric: no simulator calculates it,
+  and APTs behave as they do because they want to remain uncaptured.
+  Suppression fails the test: the attack success rate with and without a
+  defence already compares before and after — "so the question is, why do we
+  need this? … we should just use metrics that exist before." Placement is the
+  methodology; Marc proposed a unit after §4.4.4 on instrumenting MTDSim.
+
+- **E4 — Stealth and detectability return to the no-defence results, grouped
+  with the numbers that read as "worse".** Table 5.3 reads as the APT attacker
+  model being defective — fewer hosts, a slower first compromise. Jin: group
+  those with the stealth metric discussed before, turning the negative into a
+  positive — "going fast is not necessarily the best". Marc had removed them
+  ("I think I got rid of them for some reason"). This reinstates the C11
+  direction (the spacing and detectability readings as observations) with the
+  axis-5 badge unchanged: a reader, not a stealth state.
+
+- **E5 — Every hard-coded number is justified, ideally by prior use.** *"Every
+  number, every hard-coded number, somebody will ask why that number"*; 50
+  hosts was stated and never defended. The cheapest defence is a setup used
+  before: a summary table in the background of what prior studies ran — host
+  counts from minimum to maximum, and the other parameters — and the setup
+  then says the values sit in that typical range. House rule: a number greater
+  than ten is written in numerals.
+
+- **E6 — Run the other deployment strategies and Tay's MTDShield as arms, and
+  sweep the deployment interval as a range.** The periodic configuration is
+  fine and dropping the simultaneous scheme is fine, but "just have the other
+  schemes loaded", and "get Tay's AI model running on that set" — used as-is
+  (V3 stands), as one more execution scheme optimised for the baseline
+  attacker: "no AI versus AI". The interval is a range in steps, not two
+  points, drawn as a line chart of the change in attack success rate against
+  interval, one line per mechanism, with a figure per mechanism or profile
+  pushed to an **appendix** and the body carrying a **layer-based
+  aggregation** — the layer each mechanism rewrites — so that more schemes fit
+  one comparison. This absorbs §5.3.3: the prior evaluations' configurations
+  are in the simulator, so run them rather than quote them, and the AI arm
+  makes the lineage's contribution part of the same matrix.
+
+- **E7 — Rankings are based on the APT attacker model.** Switch the two
+  orderings of Table 5.5 so the model is the base and the baseline attacker the
+  comparison. "Anything table doesn't need AI"; the footnote goes.
+
+- **E8 — The chapter 4 overview figure is half the work, and it is a family.**
+  *"Getting this figure right is like explaining half of your work … this
+  figure is probably one of the most important"*: its job is to tell a reader
+  at a very high level what was done. The drawing as it stands tries to do too
+  much; arrows standing for relationships are not intuitive ("aggregate — what
+  does that mean?"). Ruling: a **high-level box figure** at the chapter head —
+  boxes and how they link, nothing more — and each sub-component drawn as a
+  **zoom** in its own subsection, reusing the section figures already built.
+  Profiles labelled as profiles (Marc: by code), flow names deleted. Marc: a
+  day's work. On the chapter 5 figures: the tactic matrix in **colour**, not
+  greyscale — it is a heat map; the openings panel as a **bar chart** with the
+  opening length on the x-axis and one colour ("use a line graph if things are
+  correlated from one point to the other"); Figure 5.2 is missing a key for its
+  dots.
+
+- **E9 — The §4.3 formalism is accepted.** Marc will simplify the letters and
+  use the common symbols (places, transitions, input and output arcs, weights,
+  the marking). Marc's own item; commissions nothing.
+
+- **E10 — The discussion is set up by the two phases.** "Once this is done then
+  we're good for the discussion." Two set-ups: (i) on the existing metrics the
+  model's success rate and speed look poor, but it is much harder to detect —
+  which is why APT attacker modelling matters, and which the methodology must
+  explain well; (ii) the effective defence against the APT attacker differs
+  from the effective defence against the baseline (host-layer mechanisms
+  disrupt the model more, service-layer mechanisms the baseline more, user
+  shuffle helps the attacker) — "there is no single solution … we need more
+  research in this area", the future-work hook.
+
+- **E11 — Process and timeline.** *"You should share this earlier"* — results
+  go to Jin before the meeting so the structure is set together. Next meeting
+  week 9; about four weeks to the week-12 submission. Analysis code is to be
+  generated so a float can be finished directly (the `tools/` practice already
+  in force).
+
+**Forward chain (E1–E8, E10).** Six handoffs dated `2026-09-22` in
+[`../../../handoffs/`](../../../handoffs/), dependency order in its README:
+`ch5_two_phase_restructure` (**E1**, E7, E10), `terminology_needs_basis_sweep`
+(**E2**), `metrics_provenance_and_instrumentation` (**E3**, **E4**),
+`ch5_setup_number_justification` (**E5**), `ch5_defended_corpus_schemes_intervals_mtdshield`
+(**E6**, E7), `ch4_overview_figure_family` (**E8**). E9 and E11 commission
+nothing. The discussion consequences (E10) are appended to the affinity board
+handoff rather than opened as a brief.
+
 ## Still open with the supervisor
+
+- **Owed back under the E trail (2026-09-22):** the chapter in its two-phase
+  shape with the stealth and detectability columns reinstated (E1, E4), the
+  metric table with a source for every row (E3), the number-justification
+  table (E5), the schemes + MTDShield + interval-sweep corpus (E6) and the
+  overview figure family (E8) — to be **shared with Jin before the week-9
+  meeting**, not at it (E11). The formalism simplification (E9) is Marc's.
 
 - **Nothing structural in the execution model.** M1–M8 closed the
   execution-model questions (coupling, success semantics, direction, ontology

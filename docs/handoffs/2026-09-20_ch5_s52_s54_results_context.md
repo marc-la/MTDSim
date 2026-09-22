@@ -19,6 +19,18 @@ companions: 2026-09-09_ch5_experiments_design.md (the design record, §8–§9, 
 > written before 2026-09-20 calls these §5.3, §5.4, §5.5. This file uses the new
 > numbers throughout.
 
+> **Superseded in shape, 2026-09-22.** The supervisor ruled the chapter into
+> two phases read from the APT attacker's perspective — the APT attacker model
+> against the baseline attacker without defence; the defences against the APT
+> attacker model, effectiveness and efficiency merged, the baseline as a
+> reference line (register E1) — and ruled the model's name, the layer
+> trichotomy and *suppression* out of the dissertation's surface (E2, E3). §2
+> (why the three-way split is right), §4 (the five headings) and §6 (the opening
+> slots) are therefore superseded by
+> [`2026-09-22_ch5_two_phase_restructure.md`](2026-09-22_ch5_two_phase_restructure.md);
+> §1 (the reader), §3 (the paragraph shape), §5 (the frame, with its vocabulary
+> re-keyed by the terminology brief) and §8 (every figure's record) stand.
+
 ---
 
 ## 1. The reader, and what they are owed
