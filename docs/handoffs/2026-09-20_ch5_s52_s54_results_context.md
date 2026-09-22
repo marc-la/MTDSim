@@ -1198,6 +1198,41 @@ of 243 table values and 90 of 90 bars reproduced. Numbers are the 100-seed
 corpus throughout; the thousand-seed rerun is owed with the chapter.
 
 
+### 8h-3. Rulings on 8h-2 and the one-page fit (Marc, 2026-09-22, third turn; APPLIED)
+
+- **Layer brackets under the ticks: yes** ("brackets: host, host, host,
+  credentials, the what-it-moves from the table"). Applied: the singles
+  panel's x order is now grouped by the layer each mechanism rewrites (host
+  layer: IP, complete topology, host topology; service layer: port, OS,
+  service; credentials: user), Table 2.4's column rather than its row order,
+  with one grey bracket and label per group; the caption says "grouped by the
+  layer each rewrites". `grouped_panels` is shared, so Figure 5.6 was
+  regenerated with the same ticks, titles and brackets (its caption is not
+  yet scrutinised; FLOATS.md says so).
+- **Profile hues kept** ("the colour is good in terms of separating the
+  meaning of each profile"). The contract is now recorded in
+  `figure_table_conventions.md` §i as a scoped exception to one-accent.
+- **Table 5.5's words standardised** to Table 2.4's: host-layer against
+  service-layer mechanisms in caption and footnote, user shuffle named the
+  credentials mechanism. Regenerated.
+- **Figure 5.3 and Table 5.4 on one page, as §5.2.1's floats are.** Measured
+  against the 24.7 cm text height: the pair needed 1.5 cm less. Taken from
+  the figure's internal spacing (panel height 3.4 → 2.4 cm, row gap 0.8 →
+  0.6, key offset) and from the two captions (the figure's shortened by half
+  a line; the table's dagger clause deleted on Marc's word: "cut out the
+  clauses that don't matter, the footnote one you can just delete"). The
+  daggers went with the clause, since an undecoded mark is a §b2 breach and
+  the printed intervals carry the overlap; the body text names the separated
+  pairs from `numbers.json` `overlapping_adjacent`. Result: heading, figure
+  and table on page 44, content ending 1.7 mm above the text-area floor;
+  the thesis is 87 pages. The margin is thin: a caption that grows by a line
+  pushes the table to the next page.
+- **Still open from 8h-2:** the §5.1 Runs sentence naming the estimators
+  (his dictation); the "one effect" floor before the thousand-seed run
+  (recommend 0.05); the (b)/(d) titles carry no interval; "at this seed
+  count" is gone from Table 5.4 with the dagger clause and stays in Table 5.5
+  for its own pass. The paired bootstrap stays unpaired (8h-2's reason).
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,

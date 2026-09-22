@@ -7,7 +7,7 @@
           Tab. 5.5  the conditions against the attacker model: suppression,
                     delay to first compromise with censoring, blocked fraction
                     (reworked 2026-09-22: caption decode-only, no footnote,
-                    dagger on the upper row of an unseparated pair)
+                    no dagger; overlap is read from the printed intervals)
   §5.4.2  Fig. 5.6  the same defences against both attackers (series = arm;
                     the baseline hatched, the model solid)
           Tab. 5.6  the two orderings side by side, the rank statistic and
@@ -59,6 +59,14 @@ TICK = {
     "user_shuffle": r"\shortstack{user\\shuffle}", "os_diversity": r"\shortstack{OS\\diversity}",
     "service_diversity": r"\shortstack{service\\diversity}",
 }
+# the singles panel is grouped by the layer each mechanism rewrites (Table
+# 2.4's "what to move" column; Marc's ruling 2026-09-22: brackets under the
+# ticks), so its x order is the layer order, not Table 2.4's row order
+PANEL_SINGLES = ("ip_shuffle", "complete_topology", "host_topology",
+                 "port_shuffle", "os_diversity", "service_diversity", "user_shuffle")
+LAYER = {"ip_shuffle": "host layer", "complete_topology": "host layer", "host_topology": "host layer",
+         "port_shuffle": "service layer", "os_diversity": "service layer", "service_diversity": "service layer",
+         "user_shuffle": "credentials"}
 
 
 # --- the grouped-bar 2 x 2 shared by Fig. 5.5 and Fig. 5.6 --------------------
@@ -81,10 +89,10 @@ def grouped_panels(series: list[tuple[str, str, bool]], get, *, key_title: str, 
     y shared across the row, one key."""
     allv = [v for i in INTERVALS for s, _, _ in series for c in DEFENDED for v in get(i, s, c)]
     ymin, ymax = _yrange(allv)
-    PH = 3.4
+    PH = 2.4   # 3.4 until 2026-09-22; shortened so Figure 5.3 and Table 5.4 share a page
     XS0, XS1 = 1.3, 11.9   # singles panel
     XC0, XC1 = 12.4, 15.2   # schemes panel (packs to 15.7 cm; 15.4 was 2.6 pt overfull)
-    Y0 = (5.05, 0.85)
+    Y0 = (3.85, 0.85)   # row gap 0.6 cm (was 0.8)
     n_s = len(series)
     L: list[str] = []
     w = L.append
@@ -100,7 +108,7 @@ def grouped_panels(series: list[tuple[str, str, bool]], get, *, key_title: str, 
         def yv(v):
             return y0 + (v - ymin) / (ymax - ymin) * PH
 
-        for col, (conds, x0, x1) in enumerate(((SINGLES, XS0, XS1), (SCHEMES, XC0, XC1))):
+        for col, (conds, x0, x1) in enumerate(((PANEL_SINGLES, XS0, XS1), (SCHEMES, XC0, XC1))):
             slot = (x1 - x0) / len(conds)
             bw = min(0.22, slot * 0.8 / n_s)
             xt = [(c, x0 + (i + 0.5) * slot) for i, c in enumerate(conds)]
@@ -132,9 +140,23 @@ def grouped_panels(series: list[tuple[str, str, bool]], get, *, key_title: str, 
                         w(r"\fill[%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (cname, xl, ybot, xl + bw - 0.02, ytop))
                     errorbar(w, xl + (bw - 0.02) / 2, yv(max(ymin, lo)), yv(min(ymax, hi)), col="black!70", cap=0.035)
                     facts.append((interval, name, c, point, lo, hi))
+    # layer brackets under the singles' ticks (Marc, 2026-09-22): one grey
+    # bracket and label per contiguous layer group in PANEL_SINGLES
+    slot = (XS1 - XS0) / len(PANEL_SINGLES)
+    yb = Y0[1] - 1.02
+    i = 0
+    while i < len(PANEL_SINGLES):
+        j = i
+        while j + 1 < len(PANEL_SINGLES) and LAYER[PANEL_SINGLES[j + 1]] == LAYER[PANEL_SINGLES[i]]:
+            j += 1
+        xa, xb = XS0 + i * slot + 0.12, XS0 + (j + 1) * slot - 0.12
+        w(r"\draw[black!50,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f) -- (%.3f,%.3f);" % (
+            xa, yb + 0.08, xa, yb, xb, yb, xb, yb + 0.08))
+        w(r"\node[anchor=north,text=black!60] at (%.3f,%.3f) {%s};" % ((xa + xb) / 2, yb - 0.03, LAYER[PANEL_SINGLES[i]]))
+        i = j + 1
     # key, once, below; entries wrap inside the panel span so five profile
     # names never run past the page box (the 16.4 cm trap of 2026-09-17)
-    ky = Y0[1] - 1.3   # clears the two-line ticks
+    ky = Y0[1] - 1.62   # clears the two-line ticks and the layer brackets
     kx = XS0
     w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {%s};" % (kx, ky, key_title))
     xx = kx + 1.9
@@ -190,11 +212,13 @@ def emit_tab55(s541: dict) -> str:
     w("%   attacker pooled over its four profiles). Do not hand-edit.")
     w("% REWORKED 2026-09-22 (scrutinise-figure pass, results context §8h): caption")
     w("%   decode-only and pointing at Table 5.2; footnote folded into it; dagger on")
-    w("%   the UPPER row of an unseparated adjacent pair; scriptsize with 4 pt colsep")
-    w("%   (conventions §k1). DRAFT STATE --- ratify on read.")
+    w("%   the UPPER row of an unseparated adjacent pair, then REMOVED the same day on")
+    w("%   Marc's ruling (the printed intervals carry the overlap; the body text names")
+    w("%   the separated pairs from numbers.json overlapping_adjacent); scriptsize with")
+    w("%   4 pt colsep (conventions §k1). DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Defence conditions against the movement attacker]{Each defence condition against the movement attacker pooled over its four profiles $c_1$ to $c_4$, at each deployment interval, on the effectiveness metrics of Table~\ref{tab:metrics}. Conditions are ordered by suppression within each interval; the no-defence reference is one cell, read against both. Brackets are 95\,\% percentile bootstrap intervals; $\pm$ is a 95\,\% interval on the mean (normal approximation). \textsuperscript{\dag}~the suppression interval overlaps the row below's, so the two are not separated at this seed count.}")
+    w(r"  \caption[Defence conditions against the movement attacker]{Each defence condition against the movement attacker pooled over $c_1$ to $c_4$, at each deployment interval, on the effectiveness metrics of Table~\ref{tab:metrics}, ordered by suppression within each interval; the no-defence reference is one cell, read against both. Brackets: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}")
     w(r"  \label{tab:eff-conditions}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}")
     w(r"  \begin{tabular}{@{}cP{3.5cm}>{\centering\arraybackslash}p{2.8cm}*{5}{>{\centering\arraybackslash}p{1.48cm}}@{}}")
@@ -205,7 +229,7 @@ def emit_tab55(s541: dict) -> str:
     for interval in INTERVALS:
         blk = s541["by_interval"][interval]
         pooled = blk["pooled"]
-        flagged = {pair[0] for pair in blk["overlapping_adjacent"]}   # the upper row of each unseparated pair
+        flagged = set()   # no dagger since 2026-09-22 (Marc): the intervals carry the overlap
         none = pooled["none"]
         if interval == INTERVALS[0]:
             dl = none["delay"]
@@ -240,7 +264,7 @@ def emit_tab56(s542: dict) -> str:
     w("%   hosts reached per condition per arm; the model pooled over four profiles). Do not hand-edit.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[The defence ordering produced by each attacker]{The defences ranked by suppression of hosts reached, once as the baseline attacker ranks them and once as the movement attacker does, at each interval, with Spearman's rank correlation between the two orderings and a bootstrap interval on it. Where the evidence supports only a weaker statement than a full ordering the footnote says so: the family contrast, network-layer against application-layer mechanisms, is reported as Cliff's delta per arm, which is the object the seed count can separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}")
+    w(r"  \caption[The defence ordering produced by each attacker]{The defences ranked by suppression of hosts reached, once as the baseline attacker ranks them and once as the movement attacker does, at each interval, with Spearman's rank correlation between the two orderings and a bootstrap interval on it. Where the evidence supports only a weaker statement than a full ordering the footnote says so: the family contrast, host-layer against service-layer mechanisms, is reported as Cliff's delta per arm, which is the object the seed count can separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}")
     w(r"  \label{tab:eff-orderings}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
     w(r"  \begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{1.0cm}@{}}")
@@ -265,7 +289,7 @@ def emit_tab56(s542: dict) -> str:
         fam.append(r"baseline %.2f [%.2f, %.2f] and model %.2f [%.2f, %.2f] at %s\,s" % (
             fb["delta"], fb["lo"], fb["hi"], fm["delta"], fm["lo"], fm["hi"], fmt_thousands(int(interval))))
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Rank 1 is the largest suppression. Spearman's $\rho$ between the two orderings, with a seed-bootstrap interval: " + "; ".join(rho) + r". The family contrast is Cliff's $\delta$ on hosts reached, the network-layer mechanisms (IP shuffle and the two topology shuffles) against the application-layer ones (port shuffle, OS diversity, service diversity), positive when the network layer leaves fewer hosts: " + "; ".join(fam) + r". User shuffle belongs to neither family. Ranks within a family are not separable at this seed count (Table~\ref{tab:experiment}); the rank correlation is a companion to the family contrast, not the primary.}\\")
+    w(r"    \multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Rank 1 is the largest suppression. Spearman's $\rho$ between the two orderings, with a seed-bootstrap interval: " + "; ".join(rho) + r". The family contrast is Cliff's $\delta$ on hosts reached, the host-layer mechanisms (IP shuffle and the two topology shuffles) against the service-layer ones (port shuffle, OS diversity, service diversity), positive when the host layer leaves fewer hosts: " + "; ".join(fam) + r". User shuffle, the credentials mechanism, belongs to neither family. Ranks within a family are not separable at this seed count (Table~\ref{tab:experiment}); the rank correlation is a companion to the family contrast, not the primary.}\\")
     w(r"  \end{tabular}")
     w(r"\end{table}")
     return "\n".join(L) + "\n"
