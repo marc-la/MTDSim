@@ -157,7 +157,7 @@ def emit(s522: dict, interval: int, relative: bool = True, band: bool = True, sp
 
         gslot = width / len(DRAWN)
         nb = len(arms)
-        bw = gslot * (0.28 if nb == 2 else 0.42)
+        bw = gslot * (0.34 if nb == 2 else 0.42)
         xticks = [(lab, x0 + (i + 0.5) * gslot) for i, (_, lab) in enumerate(DRAWN)]
         axes(w, x0, x0 + width, Y0, ay1,
              xticks=xticks, yticks=[(v, yb(v)) for v in [i * step for i in range(int(round(ytop / step)) + 1)]],
@@ -193,7 +193,8 @@ def emit(s522: dict, interval: int, relative: bool = True, band: bool = True, sp
                 top = yb(min(ytop, hi))
                 if cond_marks:
                     for _, v in conds[(layer, a)]:
-                        w(r"\draw[black!75,line width=0.4pt,fill=white] (%.3f,%.3f) circle (0.05cm);" % (xr + 0.09, yb(min(ytop, v))))
+                        # on the bar's own right third, clear of its whisker and of the next bar
+                        w(r"\draw[black!75,line width=0.4pt,fill=white] (%.3f,%.3f) circle (0.05cm);" % (xl + 0.78 * (xr - xl), yb(min(ytop, v))))
                 w(r"\node[anchor=south,text=black!70,font=\scriptsize] at (%.3f,%.3f) {%d\,\%%};" % (
                     (xl + xr) / 2, top + 0.05, round(100 * cens)))
         return ytop
