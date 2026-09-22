@@ -590,7 +590,40 @@ def _gap_block(runs) -> dict:
             "median": (float(np.median(gaps)) if gaps else None)}
 
 
-def section_522(cells) -> dict:
+def recovery_ratio(runs, none_runs, rng, n_boot: int = N_BOOT) -> dict:
+    """Panel (b)'s ratio: mean recovery to the next compromise (over the
+    recoveries that completed, pooled over the runs' disruptions) divided by
+    the same attacker's mean gap between consecutive compromises with no
+    defence (pooled over the unopposed runs), with a seeded bootstrap interval
+    on the ratio: both pools are resampled by run, independently."""
+    rec = [r["rec_comp"][0] for r in runs if r["rec_comp"][0]]
+    gaps = []
+    for r in none_runs:
+        t = sorted(r["comp_times"])
+        gaps.append([b - a for a, b in zip(t, t[1:])])
+    gaps = [g for g in gaps if g]
+    if not rec or not gaps:
+        return {"point": None}
+    def mean_of(pools, idx):
+        tot = 0.0
+        n = 0
+        for i in idx:
+            tot += sum(pools[i])
+            n += len(pools[i])
+        return tot / n
+    point = mean_of(rec, range(len(rec))) / mean_of(gaps, range(len(gaps)))
+    boots = np.empty(n_boot)
+    for k in range(n_boot):
+        ir = rng.integers(0, len(rec), len(rec))
+        ig = rng.integers(0, len(gaps), len(gaps))
+        boots[k] = mean_of(rec, ir) / mean_of(gaps, ig)
+    lo, hi = np.percentile(boots, [2.5, 97.5])
+    return {"point": float(point), "lo": float(lo), "hi": float(hi), "n_boot": n_boot,
+            "runs_with_recovery": len(rec), "unopposed_runs_with_gap": len(gaps)}
+
+
+def section_522(cells, rng=None) -> dict:
+    rng = rng or np.random.default_rng(RNG_SEED)
     out = {"window": WINDOW, "stages": {str(k): v for k, v in STAGE_NAME.items()}, "stage_of": STAGE_OF,
            "offsets": list(OFFSETS), "conditions": {}, "layers": {}}
     none_mov = _pool(cells, "core", FOUR, "none", 0)
@@ -604,11 +637,14 @@ def section_522(cells) -> dict:
             base = _cell(cells, "core", "baseline", "baseline", cond, interval)
             blind = (_pool(cells, "blind", FOUR, cond, interval, overlay="verdict_blind")
                      if cond in SPANNING else [])
+            none_base = _cell(cells, "core", "baseline", "baseline", "none", 0)
             blk = {
                 "condition": cond, "interval": interval, "layer": LAYER.get(cond, "mixed"),
                 "movement": movement_disruption_block(mov, none_mov),
                 "placebo": placebo_stage_block(mov, none_mov),
                 "baseline": baseline_disruption_block(base),
+                "recovery_ratio": {"movement": recovery_ratio(mov, none_mov, rng),
+                                   "baseline": recovery_ratio(base, none_base, rng)},
             }
             if blind:
                 blk["control"] = movement_disruption_block(blind, none_blind)
@@ -622,6 +658,9 @@ def section_522(cells) -> dict:
                 "conditions": [c for c in SINGLES if LAYER[c] == layer],
                 "movement": movement_disruption_block(d["movement"], none_mov),
                 "baseline": baseline_disruption_block(d["baseline"]),
+                "recovery_ratio": {"movement": recovery_ratio(d["movement"], none_mov, rng),
+                                   "baseline": recovery_ratio(d["baseline"],
+                                                              _cell(cells, "core", "baseline", "baseline", "none", 0), rng)},
             }
     return out
 
@@ -1078,7 +1117,7 @@ def main() -> int:
           f"uuid/positional differ: {sanity['baseline_uuid_vs_positional_hosts_differ']}, "
           f"interrupt tally mismatches: {sanity['interrupt_tally_mismatch_movement']}")
     out["s532"] = section_532(cells)
-    out["s522"] = section_522(cells)
+    out["s522"] = section_522(cells, rng)
     out["s541"] = section_541(cells, rng)
     out["s542"] = section_542(cells, rng)
     out["s543"] = section_543(cells, rng)
