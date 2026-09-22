@@ -6458,17 +6458,43 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % subsection (handoff §10.2); a response shown at one interval is a property
 % of the interval. Dense by design, so the family rule applies if it does not
 % read: split into two figures at descending abstraction rather than shrink.
-% POPULATED 2026-09-17 (tools/ch5_adaptivity_figure.py from the defended corpus,
-% data/results/ch5_defended/; read in
-% docs/implementation/pipeline/ogasp/ch5_s532_adaptivity_findings.md). The
-% window is the five visits either side of each MTD INTERRUPT (the suite's
-% axis-4 instrument), not each mutation: a mutation the attacker never
-% collided with leaves no record. Caption session-edited for that and for the
-% placebo null (printed in the record, not drawn). DRAFT STATE --- ratify on read.
+% POPULATED 2026-09-17 (tools/ch5_adaptivity_figure.py): the verb-level activity
+% mix, 2 x 2 mechanism x interval, control beside the treatment. A null on the
+% record (findings §4), and Marc's read 2026-09-22 upheld: four panels that
+% look the same, no visible response, and the WRONG RESOLUTION --- the verb is
+% downstream of the tactic-to-verb mapping, so a verb-level mix inherits the
+% baseline attacker's shape by construction. That result is now one body
+% sentence here and a limitation for chapter 6.
+% REDESIGNED 2026-09-22 (results context §8g, takeaways T5-T8 ratified; tools/
+% ch5_disruption_figure.py from numbers.json §s522, the same corpus, the read in
+% ch5_s532_adaptivity_findings.md §7). Read at the tactic-level record. The
+% mechanism fact the redesign rests on, verified from code: the baseline
+% attacker is restarted in a phase set by the mechanism's layer (host layer ->
+% scan host, service layer -> scan port, credentials -> exploit), whatever
+% phase it was in; the movement attacker's token is never moved --- the
+% disruption is a failure verdict at the place it is on, and that place's
+% failure row routes it. The layer shows underneath: after a host-layer
+% mechanism every verb that acts on the current host fails its precondition
+% until an enumerate or scan host succeeds.
+%   (a) the response: share of visits with a failed precondition, five visits
+%       either side of a disruption, per layer, at 2 000 s (at 200 s the next
+%       disruption lands before the last is recovered from, so the share sits
+%       near one half throughout: a sentence, not a panel);
+%   (b) the recovery: time to the next compromise per layer, both attackers,
+%       censored share printed, each attacker's own unopposed gap between
+%       compromises as the dashed reference (the pace anchor).
+% NOT DRAWN, one sentence each (numbers in §s522): the position by lifecycle
+% stage is unchanged either side of a disruption (JSD <= 0.004; the token
+% does not fall back a stage); the control (routing on the base proportions
+% whatever the verdict) tracks the model within 0.025 at every step, so T7 is
+% a sentence; the credential layer disrupts the attacker 0.1 times per run at
+% 2 000 s; the baseline restarts in the layer's phase in every disruption but
+% the run-ending ones. Caption session-written, DRAFT STATE --- ratify on read.
+% The control's declaration at the head of this subsection is still owed.
 \begin{figure}[H]
   \centering
-  \includegraphics{fig_5-2-2a_adaptivity}
-  \caption[How the attacker's activity changes after a deployment]{The mix of activities in the five visits immediately before and the five immediately after each defensive interrupt, pooled over the runs of the four profiles, with a control in which the attacker's routing is made blind to the outcome its actions return. The panels are the two mechanisms that span how a defence reaches this attacker, one that destroys its position and one that re-rolls the surface it exploits, each at two deployment intervals, because a response that exists at one interval only is a property of the interval. Only a deployment that interrupted a visit is paired, since one the attacker never collided with leaves no trace in its record. The comparison isolates whether a change in behaviour is a response to the disruption or drift that would have happened anyway. The intention is to show the adaptive loop operating, and to be explicit that operating is a weaker claim than changing an outcome.}
+  \includegraphics{fig_5-2-2a_disruption_response}
+  \caption[How the attacker responds to a disruption]{(a)~The share of the movement attacker's steps at which the action it attempts fails because its precondition is not met, at each of the five steps before and the five after a disruption, pooled over the four profiles and over the conditions that deploy one mechanism of the layer alone, at the 2\,000\,s deployment interval; at 200\,s the next disruption lands inside the window of the last, so that interval is reported in the text. (b)~Time from a disruption to the attacker's next host compromise, per layer hit, for both attackers: the mean over the recoveries that completed before the time limit with its 95\,\% interval, the share that did not complete printed above each bar, and each attacker's own mean gap between compromises with no defence as the dashed line in its colour. The mechanism that rewrites credentials disrupts the attacker fewer than once per run at this interval and is reported in the text.}
   \label{fig:aio-adaptivity}
 \end{figure}
 

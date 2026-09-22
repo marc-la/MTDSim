@@ -1,5 +1,5 @@
 ---
-status: findings — preliminary read 2026-09-17; the §6 changes APPLIED the same day (Marc's instruction 2026-09-17: iterate §5.3.2 → §5.5 with preliminary numbers, no acceptance stop); fig_5-3-2a landed via tools/ch5_adaptivity_figure.py; caption DRAFT STATE, voice pass owed
+status: findings — the §5.2.2 float this record shaped was RETIRED 2026-09-22 (wrong resolution: the verb is downstream of the mapping); superseded for §5.2.2 by ch5_s522_disruption_findings.md, kept as the record of the verb-level instrument (its numbers stand in numbers.json §s532). Original: preliminary read 2026-09-17; the §6 changes APPLIED the same day (Marc's instruction 2026-09-17: iterate §5.3.2 → §5.5 with preliminary numbers, no acceptance stop); fig_5-3-2a landed via tools/ch5_adaptivity_figure.py; caption DRAFT STATE, voice pass owed
 created: 2026-09-17
 topic: "The §5.3.2 read of the defended corpus: what the attacker model does in the five visits before and after each defensive interrupt, against the verdict-blind control and the placebo null, under the spanning pair at two tempos — and the finding that the outcome-conditioned routing leaves no signature in the activity mix"
 ---
