@@ -221,9 +221,13 @@ told them. Content the body text must carry (content, not prose):
     ±9 % of it); no bar-minus-line arithmetic in the prose.
 11. The inversion (host hits the movement attacker hardest, service the
     baseline hardest) marked as an observation; the reason is chapter 6's.
-12. Censored shares differ across attackers by the stopping rule (about 0.6
-    of baseline runs end at the target, so its disruptions are all observed),
-    not by behaviour; do not compare 26 % against 2 %.
+12. Censored shares differ across attackers by the stopping rule (0.66 of the
+    baseline's host-layer runs and 0.49 of its service-layer runs reach the
+    target and stop, so every disruption before the target is followed by a
+    compromise; its censored recoveries are all in non-target runs cut at the
+    time limit), not by behaviour; on the movement side every censored
+    host-layer recovery is in a run cut at 15 000 s. Do not compare 26 %
+    against 2 %.
 13. The movement attacker's mean host-layer recovery (2 051 s) exceeds the
     2 000 s interval, so a recovery typically spans a further disruption; the
     measure counts to the next compromise whatever lands in between. One
@@ -235,6 +239,29 @@ told them. Content the body text must carry (content, not prose):
     (22–23 %).
 16. Hand-off: hosts reached 6.36 (host layer), 8.06 (service), 8.13 with no
     defence.
+17. **The baseline's service-layer cost is service diversity alone** (third
+    round, verified per condition): 952 s (2.42×, 18 % censored) against port
+    shuffle 370 s (0.94×) and OS diversity 378 s (0.96×), at its no-defence
+    pace of 394 s; host-layer conditions 398–442 s (1.01–1.12×). The
+    layer-level inversion is an observation for the movement attacker (host
+    1 970–2 221 s, 1.53–1.72×, above service 1 490–1 611 s, 1.15–1.25×, in
+    every condition) and a one-condition fact for the baseline. State it so.
+18. The estimator sentence: means over completed recoveries; the movement
+    side's ordering holds on medians (1 408 / 989 s) and on the examiner's
+    censoring-aware medians (1 790 / 1 377 s); the baseline's two layers are
+    level on medians (332 / 350 s).
+
+### Per-condition recovery at 2 000 s (third round)
+
+| condition | movement mean (×gap) | median | censored | baseline mean (×gap) | median | censored |
+|---|---|---|---|---|---|---|
+| IP shuffle | 2 221 (1.72) | 1 476 | 0.33 | 398 (1.01) | 320 | 0.05 |
+| host topology | 1 970 (1.53) | 1 397 | 0.23 | 442 (1.12) | 349 | 0.01 |
+| complete topology | 1 985 (1.54) | 1 380 | 0.23 | 429 (1.09) | 333 | 0.01 |
+| port shuffle | 1 490 (1.15) | 953 | 0.23 | 370 (0.94) | 294 | 0.04 |
+| OS diversity | 1 493 (1.16) | 934 | 0.21 | 378 (0.96) | 303 | 0.01 |
+| service diversity | 1 611 (1.25) | 1 070 | 0.21 | 952 (2.42) | 673 | 0.18 |
+| user shuffle (n = 39 / 41) | 1 514 (1.17) | 871 | 0.08 | 641 (1.63) | 477 | 0.05 |
 
 Flagged for Marc, outside this figure's scope: the shared key map
 `tools/_ch5_style.py` LABEL["movement"] reads "attacker model", which the

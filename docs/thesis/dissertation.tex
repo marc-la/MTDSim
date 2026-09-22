@@ -6491,10 +6491,21 @@ that Section~\ref{sec:effectiveness} reports against.]}
 % 2 000 s; the baseline restarts in the layer's phase in every disruption but
 % the run-ending ones. Caption session-written, DRAFT STATE --- ratify on read.
 % The control's declaration at the head of this subsection is still owed.
+% RULED 2026-09-22 (Marc, third scrutinise round, results context §8g): panel
+% (b) in the RATIO form --- each bar a multiple of that attacker's own mean gap
+% between compromises with no defence, a seeded bootstrap interval on the
+% ratio, a hollow circle at each mechanism of the layer alone --- because the
+% absolute form read as pace (T4) to three cold readers and the figure's job is
+% the layer dependence and the contrast in kind. The absolute times (2 051 and
+% 1 531 s against 1 291 s; 425 and 575 s against 394 s) are body-text facts.
+% The layer-level inversion is an observation for the movement attacker in
+% every condition and a one-condition fact for the baseline attacker (service
+% diversity 2.42x; port shuffle and OS diversity at its pace): the body must
+% say so, or the layer bar reads as a false aggregate.
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
-  \caption[How the attacker responds to a disruption]{(a)~The share of the movement attacker's steps at which the action it attempts fails because its precondition is not met, at each of the five steps before and the five after a disruption, pooled over the four profiles and over the conditions that deploy one mechanism of the layer alone, at the 2\,000\,s deployment interval; at 200\,s the next disruption lands inside the window of the last, so that interval is reported in the text. (b)~Time from a disruption to the attacker's next host compromise, per layer hit, for both attackers: the mean over the recoveries that completed before the time limit with its 95\,\% interval, the share that did not complete printed above each bar, and each attacker's own mean gap between compromises with no defence as the dashed line in its colour. The mechanism that rewrites credentials disrupts the attacker fewer than once per run at this interval and is reported in the text.}
+  \caption[How the attacker responds to a disruption]{(a)~The share of the movement attacker's steps at which the action it attempts fails because its precondition is not met, at each of the five steps before and the five after a disruption; the shaded step is the disruption's own and belongs to neither window. Pooled over the four profiles and over the conditions that deploy one mechanism of the layer alone, at the 2\,000\,s deployment interval; at 200\,s the next disruption lands inside the window of the last, so that interval is reported in the text. (b)~Time from a disruption to the attacker's next host compromise as a multiple of that attacker's own mean gap between compromises with no defence, per layer hit, for both attackers: the mean over the recoveries that completed before the time limit, its 95\,\% bootstrap interval, the share that did not complete printed above each bar, and a hollow circle at each mechanism of the layer taken alone; the dashed line at one is the attacker's own pace. The mechanism that rewrites credentials disrupts the attacker fewer than once per run at this interval and is reported in the text.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -6754,10 +6765,16 @@ under both attackers on this one simulator.]}
 % so singles / schemes are shown at each. Whiskers are seeded bootstrap
 % intervals on the ratio of cell means. Caption edited for the four panels.
 % DRAFT STATE --- ratify on read.
+% REWORKED 2026-09-22 (scrutinise-figure pass; results context §8h): caption
+% decode-only (schemes as Table 2.5 has them, one per interval from the pool;
+% the aggregate named as a fifth series; the estimator decoded), the
+% "intention" sentence gone to the body slots, two-line tick names for the two
+% topology shuffles, the formula key line dropped (Table 5.2 holds it).
+% DRAFT STATE --- ratify on read.
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-3-1a_suppression_profiles}
-  \caption[How much each defence suppresses each profile]{The reduction in hosts reached under each defence condition relative to the no-defence reference, for every profile, at each deployment interval. Panels~(a) and~(c) are the single mechanisms and panels~(b) and~(d) the schemes that deploy several together, separated so that every condition stays legible, with the profile colours of Section~\ref{sec:attacker-in-operation}; whiskers are 95\,\% bootstrap intervals on the ratio of means. The intention is to establish which defences reach this attacker at all, and whether the answer depends on which operational objective the attacker is pursuing, before the comparison against the baseline attacker is attempted.}
+  \caption[Suppression by defence condition and attack profile]{Suppression of hosts reached under each defence condition, for the four attack profiles $c_1$ to $c_4$ and, as a fifth series that is not in the pooled cell of Table~\ref{tab:eff-conditions}, the aggregate $c_{\mathrm{agg}}$, at each deployment interval. Panels~(a) and~(c) are the seven defence mechanisms under the single scheme, in the order of Table~\ref{tab:defence-mechanisms}; panels~(b) and~(d) are the random and alternative execution schemes over the same seven (Table~\ref{tab:deployment-strategies}). Zero is the no-defence reference; whiskers are 95\,\% percentile bootstrap intervals on the ratio of means.}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 

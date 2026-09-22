@@ -826,12 +826,78 @@ inversion as an observation, censoring as the stopping rule's, the recovery
 spanning a further disruption, the verb-level null, the pooling range, the
 hand-off).
 
-**Open for Marc:** (1) `_ch5_style.py` LABEL["movement"] = "attacker model"
+#### 8g, third round (2026-09-22, Marc's `/scrutinise-figure figure 5.2` on the merged figure)
+
+**Marc's read, checked.** (i) "Service-layer mechanisms don't do much, host-layer
+mechanisms disrupt a lot": upheld for the movement attacker on every measure
+(failure share flat under the service layer; hosts reached 8.05 against 8.13
+with no defence, host layer 6.36). (ii) "Make the disruption clearer in (a)":
+the disruption's own step is now a shaded slot between the two windows
+(`--band`); the critic rules it a decode, not accentuation. (iii) "Panel (b) is
+dominated by the movement attacker being slower; not a fair comparison; the
+service layer disrupts the baseline more, the host layer the movement
+attacker more": the first half upheld (three cold readers took "slower" from
+the absolute form). The second half is **one condition, not the layer**,
+verified per condition at 2 000 s: the baseline's service-layer recovery is
+service diversity alone (952 s, 2.42× its no-defence gap, 18 % censored),
+while port shuffle and OS diversity leave it at pace (370 and 378 s, 0.94×
+and 0.96×, against 394 s). Its host-layer conditions sit at 398–442 s
+(1.01–1.12×). The movement attacker's half holds in every condition: host
+1 970–2 221 s (1.53–1.72×) above service 1 490–1 611 s (1.15–1.25×), IP
+shuffle the harshest. So "the service layer disrupts the baseline more" may
+not be said as a layer statement; "service diversity does" may.
+
+**Reviewers, and where they disagree.** A fresh cold reader on the ratio
+candidate took the inversion in one sentence (the form communicates T5's
+layer dependence). The sceptical examiner (numbers from the run cache): the
+movement-side inversion survives means, medians and a censoring-aware
+(Kaplan–Meier) estimator (KM medians 1 790 against 1 377 s); the baseline
+side survives the mean only and is service diversity; the censored shares are
+the time limit's on the movement side (every censored host-layer recovery is
+in a run cut at 15 000 s) and the stopping rule's on the baseline side (0.66
+and 0.49 of its defended runs reach the target, not the 0.6 quoted in the
+findings); the pace anchor is defensible (a random-time null moves the ratios
+by at most 0.2 and the inversion stands); a movement recovery after a
+host-layer disruption spans a further disruption in about a third of cases,
+which raises its mean but not its KM median. **Examiner's ruling: absolute
+form plus a mark at each mechanism's own mean on every bar; no ratio.**
+Reason: the ratio turns an ordering into a magnitude that moves under the
+estimator (1.59× on means, 2.01× on KM). **Context critic's ruling, reversed
+from round one: take the ratio.** Reason: the absolute form delivered T4
+again to three readers; §3 rule 1 asks for magnitude as a relative figure;
+censoring is still printed; the four absolute times fit one body sentence.
+One named fix on the ratio: the interval must be a bootstrap on the ratio
+(Figure 5.4's house form), not the recovery's interval divided by the anchor.
+
+**Candidates rendered** (`data/results/ch5_defended/candidate_fig522_A_relative_marks.png`,
+`candidate_fig522_B_split_absolute.png`), both with the shaded disruption
+slot and the per-mechanism marks:
+- **A** ratio to the attacker's own no-defence gap, one panel, dashed line at
+  one; the marks show the baseline's service bar as 0.94 / 0.96 / 2.42.
+- **B** absolute seconds, one panel per attacker on its own scale, each with
+  its own pace line; the cross-attacker height is removed by layout.
+
+**Session recommendation: A**, with the bootstrap interval on the ratio, the
+estimator sentence and the four absolute times in the body, and the
+service-diversity narrowing stated as the observation. B keeps the seconds
+but hides the SQ3 contrast behind two scales and crowds the figure.
+**RULED 2026-09-22 (Marc): A.** "A is definitely more clear"; the black
+per-mechanism bars "are not particularly clear, I am not getting much out of
+those", so they are redrawn as small hollow circles at each mechanism's ratio
+(dropped if the fourth round finds them still mute); the rest of A stands.
+Marc also confirmed the register: the results describe the shape of the data,
+observations included; the reason is chapter 6's. Applied: the generator's
+default is the ratio form with the shaded disruption step and the circles
+(`--absolute` restores the first form); the analyser gains the bootstrap on
+the ratio (both pools resampled by run, seeded); caption rewritten (DRAFT
+STATE); a fourth review round on the applied figure is recorded below.
+
+**Open for Marc:** (0) the panel (b) form above; (1) `_ch5_style.py` LABEL["movement"] = "attacker model"
 against the registry (three other floats); (2) the control's declaration at
 the head of §5.2.2 (owed, §3); (3) whether the 60 000 s and 200 s reads enter
 as sentences (Table 5.1 declares 15 000 s and the two intervals only).
 
-### 8h. §5.3.1 Defence mechanisms and execution schemes — takeaways proposed (2026-09-22; scrutinise-figure step 1, RULING OWED before any reviewer runs)
+### 8h. §5.3.1 Defence mechanisms and execution schemes — takeaways (2026-09-22; RATIFIED by Marc the same day, then the full scrutinise-figure pass: three rounds, no blocking defect; record in 8h-2 below)
 
 Marc's ask: scope to §5.3.1, define what the reader must leave with before
 the floats (`fig:eff-suppression-profiles`, `tab:eff-conditions`) are tested,
@@ -863,9 +929,9 @@ yet: whether the baseline attacker agrees (§5.3.2).
 |---|---|---|---|
 | T9 | Which defences reach the movement attacker is decided by the layer the mechanism rewrites. At 200 s the three host-layer mechanisms remove nearly all of its hosts reached and are one effect; the three service-layer mechanisms remove little; the credentials mechanism removes none | Fig. 5.3(a); Table 5.4's suppression column and dagger for the tier boundaries | Yes: the ordering is measured, and the baseline attacker returns a different one (§5.3.2) |
 | T9′ | Where the host-layer effect shows in the other metrics: the attacker is denied its first host in most runs, its first compromise comes later where it comes at all, and most of its actions are refused; under the service layer all three stay at the no-defence level | Table 5.4, the four columns the figure does not carry | Yes |
-| T10 | The answer does not depend on the attack profile: every profile orders the conditions the same way, and the aggregate sits inside the four | Fig. 5.3, the five bars per condition (the reason the figure is drawn per profile); one body sentence with the spread | Yes: §5.2 showed the profiles walk different campaigns |
+| T10 | The tiers are the same on every profile at 200 s (Marc: "they all move very similarly, with some variation"). Inside a tier the magnitude differs by profile, and on the schemes and the host layer the difference is separated (amended 2026-09-22 on the examiner's check, 8h-2) | Fig. 5.3, the five bars per condition (the reason the figure is drawn per profile); one body sentence with the spread, conditioned on 200 s | Yes: §5.2 showed the profiles walk different campaigns |
 | T11 | A scheme over the pool does less than the best mechanism in it: random and alternative sit between the host-layer tier and the service-layer tier | Fig. 5.3(b); Table 5.4 | Yes. By-construction sentence allowed (§3 rule 2): a scheme fires one mechanism per interval and three of the seven are host-layer (Table 2.5) |
-| T12 | At the longer interval every effect attenuates and only the host layer stays separated from zero: the 200 s ordering is a property of the deployment interval | Fig. 5.3(c), (d); Table 5.4 lower block | Yes. By-construction sentence allowed: eight deployments against seventy-five inside the time limit (Table 5.1) |
+| T12 | At the longer interval every effect attenuates; the host layer and, narrowly, the random scheme stay separated from zero (amended 2026-09-22: random 0.09 [0.02, 0.15]); the 200 s ordering is a property of the deployment interval | Table 5.4 lower block (the carrier: per profile only IP shuffle is separated on every series); Fig. 5.3(c), (d) | Yes. By-construction sentence allowed: eight deployments against seventy-five inside the time limit (Table 5.1) |
 | T13 | Exception, marked and not explained (§3 rule 3): user shuffle is negative at 200 s on the pooled cell | Table 5.4 (the pooled row is the separated one; the figure shows direction only, see below) | Attribution open; trace owed (findings §1 item 2) |
 | T14 | Hand-off: this pooled ordering is what §5.3.2 reads the baseline attacker against | one closing sentence | — |
 
@@ -937,11 +1003,156 @@ narrow every whisker and change no ordering unless Marc asks for it. Table
 interval (`_iv`: $1.96\,s/\sqrt{n}$, the normal approximation on the sample standard deviation), a different estimator; the caption should not call both
 "intervals" without saying so.
 
-**Owed rulings (Marc):** T9–T14 as the pass criterion; the layer words
-(chapter 2's or the record's); whether the paired bootstrap is wanted;
-whether the footnote reduction is applied in this pass. Then step 3: a fresh
-cold reader and the context critic on the PNG, the numbers auditor on the
-pooled row, and the sceptical examiner on T9 (the headline).
+**Rulings taken (Marc, 2026-09-22, second turn):** T9–T14 ratified as the
+pass criterion; "really strong" was a reading of the diagram, not a claim;
+the average-of-pool correction accepted ("the three big ones and the four
+small ones come out to a medium value"); the confusion note accepted
+(simultaneous is not run); the footnote: "move it into the caption or remove
+it"; the whisker: asked for the convention, not "a bar and then a bunch of
+text". The layer words and the paired bootstrap were left to the pass
+(8h-2).
+
+### 8h-2. The pass (2026-09-22): three rounds, what was accepted, what was rejected, what was applied, what is still Marc's
+
+**Round one, five reviewers launched together** (cold reader on the two
+renders only; context critic against this file; numbers auditor from
+`summaries.pkl` and `runs.jsonl`; convention reader against
+`figure_table_conventions.md` and the anatomies; sceptical examiner on T9).
+Every finding below was checked against `numbers.json` before it was
+accepted; the numeric additions are in the findings record §5.
+
+| Finding | Source | Checked | Verdict |
+|---|---|---|---|
+| Caption says the schemes "deploy several together" | critic | Table 2.5: random draws one per interval, alternative rotates one per interval; "several together" is simultaneous, not run | Accepted, fixed |
+| Ticks "topology" / "host" ambiguous between the two topology shuffles | cold reader, critic, conventions | the cold reader guessed and said so; corpus form is a decoded key (Brown) | Accepted: two-line full short names on the ticks |
+| $c_{\mathrm{agg}}$ read as the pooled row | cold reader (rounds 1 and 2) | aggregate IP shuffle 0.95 against pooled 0.96 at 200 s, 0.20 against 0.33 at 2 000 s; the aggregate has its own 100-run cell and is not in the 400 | Accepted: figure caption declares it a fifth series outside the pooled cell; table caption pools by code |
+| T12 "only the host layer" false | critic, examiner | random 0.09 [0.02, 0.15] at 2 000 s | Accepted, T12 amended |
+| T10 magnitudes differ by profile, separated | examiner | IP shuffle $c_1$ 0.93 [0.90, 0.95] vs $c_4$ 0.98 [0.97, 0.99]; random $c_3$ 0.81 [0.76, 0.86] vs $c_1$ 0.69 [0.64, 0.74] | Accepted, T10 amended (tiers same, magnitude varies) |
+| "Removes nearly all" is the dose, not the layer | examiner | 85–89 % of host-layer compromises land 100–200 s after the last interrupt; the order holds at both intervals, the size does not | Accepted as a ceiling: T9 stays conditioned on 200 s; the mechanism reading is chapter 6's |
+| Bare "schemes" in the (b)/(d) titles | critic (round 2) | §5 Never list | Accepted: "execution schemes"; the interval is the row's, carried by (a)/(c) |
+| Footnote restates four Table 5.2 definitions | Marc, critic, conventions | corpus footnotes carry provenance or a mark decode only | Accepted: footnote removed; ordering rule, one-cell reference and dagger decode in the caption |
+| Two estimators in one row, undeclared | critic, conventions | brackets are the percentile bootstrap, $\pm$ is $1.96\,s/\sqrt n$ | Accepted: one caption clause decodes both |
+| Dagger does not say which neighbour | cold reader | generator flagged both members of each pair | Accepted: the mark sits on the upper row, "overlaps the row below's" |
+| Chart-text formula line under the panels | Marc, conventions | no antecedent in ten anatomies; Table 5.2 holds the formula | Accepted: line removed |
+| "Intention" sentences in both captions | critic, conventions §l | §8b ruling; a caption decodes | Accepted: removed; the content goes to the body slots |
+| Table at scriptsize with 3 pt colsep; two wrapped cells | conventions | §k1: 8 pt only with 4 pt together | Accepted: 4 pt, widths 3.5 / 2.8 / 5 × 1.48 cm = 452.5 pt of 455.2; no wrap |
+| Hyphen for minus inside the bracket bounds | critic (round 3) | text-mode bounds | Accepted: math mode |
+| Layer words: chapter 2's host / service / credentials, not network / application | critic | Table 2.4's column is what T9 is about; §2.2.3's network/application is the attacker's landing rule | Accepted for §5.3.1's body; neither float uses a layer word. Table 5.5's footnote flagged, its own pass |
+| Grey the 2 000 s rows | cold reader | §k3: shading is a reading aid, never an encoding | Rejected |
+| y floor to −0.5 | cold reader | nothing clipped: lo min −0.381 (auditor) | Rejected |
+| Intervals on the share columns | cold reader | Table 5.3 precedent (§8e) | Rejected, same reason |
+| "Target reached" undefined for pooled profiles | cold reader (round 1) | every profile pursues the one targeted objective (Table 5.1); the confusion came from the prompt's context sentence | Rejected |
+| Five bars per condition are clutter | author's doubt | the five carry T10 and the separated $c_3$ scheme bump | Rejected by the critic; kept per profile |
+| Pool composition has no antecedent | examiner | §5.1 says the schemes "draw on the whole pool"; Table 2.5 | Rejected as a breach; T11's clause cites both |
+
+**Rounds two and three.** Fresh cold reader and critic each time. Round two:
+both one-sentence messages matched T9, T11 and T12; two blocking items (the
+aggregate; bare "schemes"), fixed. Round three: nothing blocking from either;
+the cold reader's message was T9 + T11 + T12 and it read the aggregate, the
+panels and every dagger pair correctly.
+
+**Final float definitions.**
+- *Figure 5.3* (`tools/ch5_effectiveness_figures.py --only fig55`): 2 × 2,
+  (a)/(c) the seven mechanisms in Table 2.4's row order at 200 s / 2 000 s,
+  (b)/(d) random and alternative; series the four profiles by code and the
+  aggregate; bars suppression of hosts reached, whiskers the percentile
+  bootstrap; two-line tick names; key of the five series only; 15.1 × 9.5 cm.
+  Caption decode-only; DRAFT STATE.
+- *Table 5.4* (`--only tab55`): the pooled cell ($c_1$ to $c_4$, 400 runs at
+  100 seeds), six Table 5.2 effectiveness columns, ordered by suppression
+  within each interval, the no-defence reference once; dagger on the upper
+  row of an unseparated adjacent pair; no footnote; scriptsize with 4 pt
+  colsep. Caption decode-only; DRAFT STATE.
+- `grouped_panels` is shared with Figure 5.6: the two-line ticks and the
+  (b)/(d) titles reach it on its next regeneration (its own pass).
+
+**Units and fairness, as argued.** Pooled 400 against a pooled 400 no-defence
+cell; per profile 100 against 100; every cell on seeds 0–99 and the same
+network per seed; the no-defence cell reads no interval or timing draw and
+is one cell read against both intervals (fair to both: examiner). The stop at
+the target moves suppression ≤ 0.02 at 200 s. Schemes over the seven against
+singles: same reference, same axis; the pool composition (three of seven
+firings on the host layer, measured) is the by-construction clause T11 owes.
+
+**The whisker, settled.** The formal statement stands in 8h. The convention
+question Marc asked: the corpus reports no confidence interval at all (every
+anatomy records the absence), so there is no figure-level convention to copy;
+the one model the conventions file nominates is a setup-paragraph declaration
+(§d). Recommendation: §5.1's Runs unit names both estimators once ("percentile
+bootstrap intervals, resampling runs within each cell, for ratios; a normal
+interval on the mean elsewhere"), after which the captions say "95 %
+intervals (Section 5.1)". Until Marc dictates that sentence the captions
+carry the one-clause decode. Unpaired kept: the seed pairing holds only until
+the first deployment (every mechanism draws from the one global RNG; seed
+correlation 0.19–0.24 under the host layer, 0.59–0.81 under the service
+layer), pairing narrows the weak-defence whiskers by 25–45 % and moves no
+ordering (findings §5).
+
+**Content points the body text owes** (content, not prose; §3's shape):
+1. §5.3 head slots (§6): the four profiles pooled, the aggregate its own
+   series outside the pool; a separation is two 95 % intervals that do not
+   overlap, read on adjacent conditions only; the layer word is Table 2.4's
+   (host layer, service layer, credentials).
+2. T9, conditioned on the interval: at 200 s the host layer, one effect
+   (three intervals overlapping each other and nothing else; the "one
+   effect" floor is open, below); the service layer separated from zero on
+   service diversity and port shuffle, OS diversity touching it; user shuffle
+   below zero.
+3. T9′ from the table: denied its first host in 71–76 % of runs, first
+   compromise three times later where it comes, blocked fraction 0.24 →
+   0.80–0.83; the service layer at the no-defence level on all three.
+4. T10 at 200 s: the tiers on every profile; the spread inside a tier
+   (≤ 0.06 on the singles but service diversity 0.10; schemes 0.13–0.18,
+   $c_3$ highest); at 2 000 s the spread widens with the intervals and no
+   separated pair inverts the condition order.
+5. T11 with its by-construction clause: a scheme fires one mechanism per
+   interval from the whole pool (§5.1, Table 2.5), three of the seven
+   host-layer.
+6. T12 with its clause: eight deployments against seventy-five inside the
+   time limit; the host layer and random separated from zero; every other
+   interval includes zero and the chain of daggers runs to the last row.
+7. T13 marked, not explained; the attribution waits on the trace
+   (findings §5 names what it must show).
+8. T14: this pooled ordering is what §5.3.2 reads the baseline attacker
+   against.
+9. The owed Appendix C sentence (tex comment at the §5.1 site, l. 5372:
+   the 200 s suppression's exposure to the low-and-slow dwell band) lands
+   beside point 2.
+
+**Chapter 6 ceilings** (not for chapter 5): the 200 s magnitude is the dose
+and the layer is the ordering (findings §5, saturation); magnitudes are not
+converged at 15 000 s; profile independence on the service layer is absence
+of evidence at this seed count; the schemes are a mixture of single effects
+by construction (no interaction is modelled: one flat confusion penalty per
+disruption); user shuffle's two read paths.
+
+**Rulings still Marc's:**
+1. **Layer group labels under the ticks** (one grey label per Table 2.4
+   group beneath (c)'s ticks: host layer, service layer, credentials). A
+   decode, not an accentuation; it would let the figure carry T9's word.
+   Recommendation: yes.
+2. **Paired bootstrap:** recommendation no, for the reason above.
+3. **The §5.1 Runs sentence** naming the two estimators: his dictation;
+   slot content above.
+4. **An effect floor for "one effect"** before the thousand-seed run: the
+   host-layer trio differs by 0.004–0.006 and will likely separate at 1 000
+   seeds on the overlap test alone. Recommendation: declare 0.05 suppression
+   as the smallest difference the chapter reads, in the §5.3 head with the
+   separation rule.
+5. **The profile-hue contract** is unrecorded in conventions §i (five hues
+   against "greys + one accent"); Figure 5.1 already uses it by acceptance.
+   One line in §i closes it.
+6. **Table 5.5's network / application words** → Table 2.4's, in its pass.
+7. **The (b)/(d) titles carry no interval** (width); the round-three cold
+   reader inferred it from the row and called it minor.
+8. **"at this seed count"** in the dagger decode: kept for consistency with
+   Table 5.5; cut if he hears it as a hedge.
+
+**Validation.** Build clean, 88 pages, 0 errors; no overfull box at either
+float (the log's nearest are Appendix B tables and Figure 5.5); auditor 243
+of 243 table values and 90 of 90 bars reproduced. Numbers are the 100-seed
+corpus throughout; the thousand-seed rerun is owed with the chapter.
+
 
 ## Validation gate
 

@@ -290,3 +290,87 @@ fits (15.7 × 9.5 cm); the ranks in Tab. 5.6 are the analyser's, the footnote
 statistics match `numbers.json` §s542. Open: the user-shuffle attribution
 (§1 item 2), complete topology's negative suppression of the baseline at
 2 000 s (§2 item 3), and the interrupt-tally cross-check (§5.3.2 record §1).
+
+## 5. Addendum 2026-09-22 — the §5.3.1 scrutinise-figure pass (Figure 5.3, Table 5.4)
+
+Record in the results context handoff §8h; this section carries the numbers
+the pass added to the read of §1. Five reviewers in round one (cold reader,
+context critic, numbers auditor, convention reader, sceptical examiner), then
+two more rounds; every accepted finding was checked against `numbers.json`
+or the raw runs. Old section numbers in §1 (5.4.1, Fig. 5.5, Tab. 5.5) are
+today's §5.3.1, Figure 5.3, Table 5.4.
+
+- **Audit: 243 of 243 printed table values and 90 of 90 bars and whiskers
+  reproduce** from `summaries.pkl` with independent code, five cells
+  spot-checked against `runs.jsonl` (0 per-run mismatches); the bootstrap
+  stream replays exactly at seed 0, and an independent stream moves a bound by
+  at most 0.005. Nothing is clipped by the axis (lo min −0.381, hi max 0.989).
+- **§1 item 3 corrected: "not profile-dependent" is true of the tiers, not
+  of the magnitudes.** Every profile orders the tiers the same way at 200 s.
+  Inside a tier, separated profile differences exist: IP shuffle $c_1$ 0.93
+  [0.90, 0.95] against $c_4$ 0.98 [0.97, 0.99]; random $c_3$ 0.81
+  [0.76, 0.86] against $c_1$ 0.69 [0.64, 0.74]; alternative $c_3$ 0.82
+  against $c_1$ 0.69. At 2 000 s: IP shuffle $c_3$ 0.47 against $c_1$ 0.25,
+  alternative $c_1$ 0.16 against $c_3$ −0.11; the tiers are not separated per
+  profile there. Power to detect a 0.10 profile difference at 100 seeds
+  (examiner's estimate): host layer ≈ 1.0, schemes 0.77, service layer
+  0.20–0.33, user shuffle 0.14 — on the service layer "no profile
+  dependence" is absence of evidence at this seed count.
+- **§1 item 4 read exactly: random is separated from zero at 2 000 s** (0.09
+  [0.02, 0.15]) beside the host layer; the takeaway now says so.
+- **Dagger semantics changed in the generator:** the mark sits on the UPPER
+  row of each unseparated adjacent pair ("overlaps the row below's"), so a
+  reader recovers every adjacent pair from the marks. Non-adjacent overlaps
+  are not marked (200 s: IP–complete topology; 2 000 s: thirteen pairs); the
+  body must not read a non-adjacent separation off the marks.
+- **Estimator robustness (examiner):** ratio of means, medians, paired
+  per-seed differences and Cliff's δ return the same ordering at both
+  intervals; no tier boundary moves. Excluding runs that reach the target
+  moves suppression ≤ 0.02 at 200 s.
+- **Paired against unpaired bootstrap (auditor):** every cell shares seeds
+  0–99 and the network per seed. Pairing narrows the weak-defence intervals
+  by 25–45 % (service diversity 200 s 0.095 → 0.071 wide; user shuffle 0.166
+  → 0.090; IP shuffle 2 000 s 0.111 → 0.074) and the strong ones not at all
+  (IP shuffle 200 s 0.016 either way); no dagger verdict flips at 200 s. The
+  seed correlation is 0.19–0.24 under the host layer and 0.59–0.81 under
+  the service layer, because every mechanism draws from the one global RNG,
+  so the pairing holds only until the first deployment. Kept unpaired; ruling
+  Marc's (§8h).
+- **Saturation, for chapter 6 (examiner):** under the host layer at 200 s the
+  attacker still compromises in 24–29 % of runs (126–146 events per 400
+  runs), 85–89 % of them 100–200 s after the last interrupt (median
+  158–160 s); with no defence the median gap between compromises is 891 s
+  and 11 % of gaps are under 200 s. So the 200 s magnitude is the dose and
+  the layer is the ordering (held at both intervals). The chapter 5 sentence
+  is conditioned on the interval; "the mechanism removes" is not licensed.
+- **Convergence at the time limit (examiner):** the tier order is stable
+  from 2 500 s to 15 000 s at 200 s; magnitudes are not (service diversity
+  0.19 → 0.36, OS diversity 0.23 → 0.07, user shuffle 0.02 → −0.135; at
+  2 000 s topology 0.29 → 0.16, alternative 0.28 → 0.03). Every §5.3.1
+  number is a 15 000 s reading.
+- **User shuffle, what a trace must show (examiner; cause still open):**
+  paired +1.10 ± 0.32 hosts, consistent on all four profiles (+0.92 to
+  +1.29), growing with run time, with no change in actions, successes or
+  tactic visits and 0.76 interrupts per run. The mechanism re-draws five
+  users per internal host from the 50-user pool with replacement, 75 times
+  per run; the attacker reads the set on enumerate host
+  (`can_auto_compromise_with_users`: any harvested reused-password user
+  compromises at once) and on brute force (`compromise_with_users`,
+  p = 0.01·|overlap|/total_users, where a duplicate draw shrinks
+  `total_users`). The trace must show, per compromise under user shuffle
+  against no defence, which path fired, the overlap size and `total_users`
+  after the re-roll.
+- **Schemes' pool composition measured:** random 13.8–14.6 % per mechanism,
+  alternative 13.3–14.7 %, i.e. three of seven firings on the host layer.
+- **Seed-count projection (examiner):** at 200 s the host-layer trio's
+  differences are 0.004–0.006 (z 0.7–1.0 now, 2.2–3.2 projected at 1 000
+  seeds), so "one effect" will likely fail the overlap test at the thousand
+  unless an effect floor is declared; the design's inference ruling
+  (2026-09-09 §13.2) asked for floors and none is on record. Random against
+  alternative projects to z 4.8. At 2 000 s the service / scheme / user
+  cluster stays unseparated even at 1 000 (projected z ≤ 2).
+- **Other metrics (examiner):** at 200 s the suppression order holds on runs
+  with no compromise (ρ 0.98), delay (0.87) and blocked fraction (0.87);
+  the service-layer tier is hosts-reached-only (blocked 0.23–0.25, delay
+  2 082–2 324 s, the no-defence level). At 2 000 s runs-with-no-compromise is
+  uninformative (ρ −0.10).
