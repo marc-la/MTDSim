@@ -31,11 +31,14 @@ PROFILES = (
 )
 FOUR = PROFILES[:4]
 LABEL = {
-    "objective_exfiltration": "exfiltration",
-    "objective_impact": "impact",
-    "objective_exfiltration_impact": "double extortion",
-    "objective_none_c2": "no realised objective",
-    "aggregate": "aggregate",
+    # the profile codes chapter 4 declares (§4.3, tab:gspn-notation; Marc's
+    # ruling 2026-09-22): c_1 exfiltration, c_2 impact, c_3 double extortion,
+    # c_4 no realised objective, c_agg the unpartitioned aggregate
+    "objective_exfiltration": "$c_1$",
+    "objective_impact": "$c_2$",
+    "objective_exfiltration_impact": "$c_3$",
+    "objective_none_c2": "$c_4$",
+    "aggregate": r"$c_{\mathrm{agg}}$",
     "baseline": "baseline attacker",
     "movement": "attacker model",
 }

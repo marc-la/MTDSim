@@ -4102,10 +4102,11 @@ corpus. Terminal tactic is the primary evidence for objective, but we
 cross-checked against the CTID description, the ATT\&CK page and
 vendor reports. That is why 19 of the 38 attack flows land in a
 different category from the one defined by the terminal tactic alone
-(see Appendix~\ref{app:classification-audit}). There are four: exfiltration objective (19); impact
-objective (7); double extortion, which we define as containing both
-impact and exfiltration in the same attack flow (7); and no realised
-objective (5). We have judged this partitioning
+(see Appendix~\ref{app:classification-audit}). There are four, and from
+here on they are referred to by index: $c_1$, the exfiltration objective (19);
+$c_2$, the impact objective (7); $c_3$, double extortion, which we define as
+containing both impact and exfiltration in the same attack flow (7); and
+$c_4$, no realised objective (5). We have judged this partitioning
 the right balance for corpus coverage: the smallest attack profile has a
 minimum of five flows, which provides enough coverage. Six other
 partitions were considered and dismissed
@@ -4120,7 +4121,8 @@ partitions were considered and dismissed
 %      terminal tactic".
 
 They are not four disjoint graphs, because they come from the same
-aggregate. They differ by what transitions exist. Granted, some of the
+aggregate, which is written $c_{\mathrm{agg}}$ where it is run beside them.
+They differ by what transitions exist. Granted, some of the
 flows that come from the same APT attacker, where there are multiple
 incidents, go to the same objective attack profile, and this shows that
 the motivation of these APT attackers typically translates to similar
@@ -4247,7 +4249,8 @@ weights; any other marking is \emph{tangible}. Inhibitor arcs and
 further priority levels belong to the general definition and are not
 used here.
 
-Each attack profile $c$ of Section~\ref{sec:attack-profiles} compiles
+Each attack profile $c$ of Section~\ref{sec:attack-profiles}, and the
+aggregate $c_{\mathrm{agg}}$ by the same construction, compiles
 to a GSPN $\mathcal{N}_c = (P_c, T_T, T_I, I, O, W_c, M_0)$, where:
 \begin{enumerate}[nosep, leftmargin=*]
   \item $P_c = \{p\} \cup \{\hat{p}\}$: one tangible place $p$ for each
@@ -4375,7 +4378,7 @@ Figure~\ref{fig:gspn-gadget} draws one tactic of one profile net.
   time. The hollow bar is the timed transition $\tau_p$, firing after an
   exponential delay of mean $\mu_p$; the solid bars are the immediate
   transitions $t_{pq}$, each carrying its weight. (a)~The gadget in
-  general. (b)~The same gadget on initial access in the exfiltration
+  general. (b)~The same gadget on initial access in $c_1$, the exfiltration
   profile: the eight successors are the pairs with $w_c > 0$
   (Equation~\ref{eq:base-weight}), listed by weight, and the column in
   blue is $W_c(t_{pq} \mid \mathrm{failure})$ of
@@ -4404,7 +4407,7 @@ Figure~\ref{fig:gspn-gadget} draws one tactic of one profile net.
     \toprule
     Symbol & Meaning & Declared in \\
     \midrule
-    $c$ & an attack profile: one of the four objective classes & \S\ref{sec:attack-profiles} \\
+    $c$ & an attack profile: $c_1$ exfiltration, $c_2$ impact, $c_3$ double extortion, $c_4$ no realised objective; $c_{\mathrm{agg}}$ the aggregate before partition & \S\ref{sec:attack-profiles} \\
     $\mathcal{N}_c$ & the profile net, a GSPN & Eq.~\ref{eq:gspn} \\
     $p$, $\hat{p}$ & a tactic place and its decision place & \S\ref{sec:petri-formalism} \\
     $\tau_p$ & the timed transition: execution of tactic $p$ & \S\ref{sec:petri-formalism} \\
@@ -5532,9 +5535,9 @@ attacker's or the defence's.
 % V6's "before the results" honoured by a pointer now that the section is cut.
 \textbf{Attacker.} The baseline attacker of
 Section~\ref{subsec:attacker-model}, and the movement attacker of
-Chapter~\ref{ch:attacker-model} on each of its four attack profiles and on the
-aggregate, the attack graph of Section~\ref{sec:technique-graph} before it is
-partitioned into profiles. Both pursue the targeted objective
+Chapter~\ref{ch:attacker-model} on each of its four attack profiles $c_1$ to
+$c_4$ and on the aggregate $c_{\mathrm{agg}}$, the attack graph of
+Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both pursue the targeted objective
 (Table~\ref{tab:attacker-objectives}).
 % 2026-09-20 (P1, P6; setup handoff §AL1 1a, 1f, §AM; Marc: "we default to the
 %  targeted for the movement attacker so I don't even think the split is even
@@ -6369,10 +6372,9 @@ that Section~\ref{sec:effectiveness} reports against.]}
 %     60 000 s is declared nowhere the reader has been (Table 5.1 gives 15 000 s
 %     only, C36), so either Table 5.1 gains the extension or the sentence
 %     declares it in passing ("in runs extended to 60 000 s").
-% PROFILE CODES (C1-C4, C_aggregate) CONSIDERED, not applied: chapter 4 uses $c$
-% as an index and never enumerates it, so codes here would be a chapter 5
-% first-use; they need a chapter 4 insertion first (Table 4.x or §4.2), then
-% Figure 5.1 and this table change together. Marc's call.
+% PROFILE CODES APPLIED 2026-09-22 (Marc's ruling): chapter 4 §4.3 now indexes
+% the four as $c_1$ to $c_4$ and names the aggregate $c_{\mathrm{agg}}$; every
+% chapter 5 float keys by code (tools/_ch5_style.py LABEL).
 \input{tables/tab_5-2-1a_unopposed_summary}
 
 % ~1 unit. CARRIES PROPERTY 4 (adaptivity), which is the one property
