@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-20
-updated: 2026-09-08
+updated: 2026-09-22   # §(i) added: the reader-overhead term screen (pass 6, sweep 4) with its sources; register E2
 ---
 
 # Academic register — the target conventions for the section voice pass
@@ -137,10 +137,119 @@ paired opposition, short verdict sentences, two-beat anaphora, the working
 vocabulary (*defensible, grounded, tradeoff, distil*), rhetorical questions
 that are real and answered — the voice.md §d licence list, verbatim.
 
+## (i) Reader overhead — the term screen (pass 6, sweep 4)
+
+**Why it exists.** The supervisor's 2026-09-22 ruling (register E2) named the
+marking mechanism: every term a reader has to carry without a reason is
+"another step of confusion", and each one lowers the top of the mark range.
+The examiner literature says the same of presentation defects generally —
+sloppiness "flips" an examiner from reading for content to reading for fault,
+and the judgement forms in the first pages (Mullins & Kiley 2002; Golding,
+Sharmini & Lazarovitch 2014; Johnston 1997). Clarity is the main game;
+anything that detracts from it is the low-hanging fruit an examiner reaches
+for first. This section is the screen a session runs on a section, as yes/no
+checks; `tools/term_screen.py` is its mechanical half. It binds to no thesis
+term — it is a filter, and a rule that would *add* a term to satisfy it has
+misread it.
+
+**The checks.** Each: the question, the source, the standard move.
+
+1. **Needs basis.** Does every name this thesis introduces (as opposed to a
+   field term) do work no plain description would — one object the reader
+   must track, used often enough to be worth naming? If not, the name goes
+   and the description stays; no naming sentence replaces it (E2; Zobel
+   pp. 115, 120 — "consider whether your terminology conveys the intended
+   meaning (or any meaning at all) to likely readers"; Strunk rule 13).
+2. **Field term first.** Where the field has a term, is it the one used, and
+   is a coinage made only where none exists — and then said to be a coinage
+   at the coining? (Zobel p. 115: existing terminology "should only be changed
+   with good reason … any change is likely to make your paper harder to
+   read"; ISO 704 §7.4.2.3–4.)
+3. **Defined once, at first use, in one format.** Is every term, symbol and
+   acronym defined the first time the reader meets it — headings and captions
+   included, since a caption is often the first place a term is met — and is
+   the definition never moved or restated differently? (Zobel pp. 107, 119,
+   192; IEEE Editorial Style Manual §II.E.)
+4. **One name per concept, one concept per name.** No synonym rotation on a
+   technical thing; no ordinary word given a technical sense without saying
+   so (*layer*, *phase*, *level* all carry an everyday reading); no word used
+   in two senses in one section. (Zobel pp. 108, 115–117: "technical concepts
+   should always be described in the same way, not by a series of synonyms";
+   ISO 704 §7.2 monosemy; voice.md §e.)
+5. **Acronyms earn their place.** Expanded at first use in the body (and in
+   the abstract), used often enough to repay the flip-back, few in total; a
+   one-use acronym is written out. (Zobel pp. 119–120; IEEE §II.E; Barnett &
+   Doubleday 2020 — 79 % of acronyms in the literature appear fewer than ten
+   times, and the surfeit is what makes papers hard to read.)
+6. **Qualifiers mean something.** A qualified name beside its unqualified
+   parent (*APT attacker model* beside *attacker model*) carries an adjective
+   that states the relationship, and the two name distinct objects — never a
+   fancy name for the same thing. (Zobel p. 115: "choose a meaningful
+   adjective"; the registry's distinct-objects rule.)
+7. **Floats speak the text's words.** Every label, key entry, tick name,
+   column header, row group and caption uses the body's exact term;
+   abbreviations on a float are expanded in its caption or the sentence that
+   reads it. (Zobel pp. 158, 176–177; Rougier, Droettboom & Bourne 2014, rule
+   4; the UWA CSSE marking guide's "figures and their legends … correctly
+   presented".)
+8. **Notation minimal and fixed.** A symbol is introduced once, in the
+   notation table or at its defining sentence, and never renamed; new
+   notation only where prose cannot carry the object. (Zobel pp. 137, 192.)
+9. **The first pages agree with the chapters.** Abstract, introduction and
+   conclusion use the chapters' names — examiners read those first and form
+   the judgement there. (Mullins & Kiley 2002 p. 376; Golding et al. 2014
+   p. 574.)
+10. **No sloppiness signals.** A stale name in a heading, a caption that no
+    longer matches its figure, a typo, a referencing slip: each is read as
+    evidence about the research, not the prose, and flips the examiner into
+    fault-searching. (Mullins & Kiley 2002 pp. 378, 383–385; Golding et al.
+    §5; Johnston 1997.)
+
+**The mechanical half.** `python tools/term_screen.py` — `census <terms>`
+(per-term counts by body / heading / caption / float / comment: the validation
+gate after any re-terming); `acronyms --chapter N` (first use, and whether an
+expansion accompanies it — check 5; it reads only the parenthetical form, so a
+bold in-cell expansion is a false "never"); `phrases --chapter N` (multi-word
+phrases first appearing in the chapter and recurring there — the candidates
+for checks 1–3: each is a field term, a term defined at first use, or a term
+to remove); `variants` (one two-word concept spelt more than one way — check
+4). What the tool cannot judge — whether a phrase is a field term, whether a
+definition is adequate, whether a qualifier means something — the session
+judges and Marc rules.
+
+**The ledger form.** One row per finding: the term → the check it fails →
+one proposal (remove; replace with the field term; define at first use;
+expand; re-key the float), with the census. Grouped: names that do no work
+first (the mark-costing class), then definitions, then acronyms, then floats.
+
 ## Sources
 
 - Zobel, *Writing for Computer Science*, 3rd ed., Springer 2014 — CS register,
-  economy, terminological consistency (§b, §e, §g).
+  economy, terminological consistency (§b, §e, §g); definitions, jargon,
+  acronyms, notation, floats and consistency editing (§i: pp. 107–120, 137,
+  158, 176–177, 192–193).
+- Mullins & Kiley, "'It's a PhD, not a Nobel Prize': how experienced examiners
+  assess research theses", *Studies in Higher Education* 27(4), 2002 — the
+  reading order (p. 376), sloppiness as a rigour signal and the "flip"
+  (pp. 378, 383–385) (§i).
+- Golding, Sharmini & Lazarovitch, "What examiners do: what thesis students
+  should know", *Assessment & Evaluation in Higher Education* 39(5), 2014 —
+  the synthesis of the examiner-report studies: first impressions, presentation
+  errors, fault-searching (§5, p. 574) (§i).
+- Johnston, "Examining the examiners", *Studies in Higher Education* 22(3),
+  1997 — "reader-friendly" presentation; abstract and secondary quotation
+  only (paywalled). Holbrook, Bourke, Lovat & Dally 2004 and Kiley & Mullins
+  2004 (*IJER* 41(2)) are cited through Golding et al.; not read.
+- ISO 704:2009, *Terminology work — principles and methods*, §7.2 (monosemy,
+  one preferred term per concept), §7.3.3, §7.4.2.3–4 (§i).
+- IEEE, *Editorial Style Manual for Authors*, §II.E — acronyms defined at
+  first use in the abstract and the body (§i).
+- Barnett & Doubleday, "The growth of acronyms in the scientific literature",
+  *eLife* 9:e60080, 2020 (§i).
+- Rougier, Droettboom & Bourne, "Ten simple rules for better figures", *PLoS
+  Comput Biol* 10(9), 2014 — rule 4, captions (§i).
+- UWA CSSE, *CITS4001 Dissertation Marking Guide* (teaching.csse.uwa.edu.au)
+  — the presentation criteria, verbatim (§i).
 - Day & Gastel, *How to Write and Publish a Scientific Paper* — tense
   conventions, precision (§b, §c).
 - Hyland, *Hedging in Scientific Research Articles*, Benjamins 1998; and

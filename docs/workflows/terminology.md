@@ -94,6 +94,29 @@ uses of a deprecated string are legitimate (noted per row).
 
 | The reported change in the success metric under a defence (was *suppression*) — **after E2/E3** | **no name**: the field's before-and-after pair (no defence; defence) on the field's metric, or the reduction described in words; the metric itself is the metrics brief's ruling (`2026-09-22_metrics_provenance_and_instrumentation.md` §1). **Left standing by the 2026-09-22 terminology sweep on purpose**: the word cannot go until the quantity it names has its replacement, so the metrics brief carries both | *suppression* — the supervisor: not a term in the field, derivative of attack success rate before and after; deprecated on ruling | tex 2026-09-22 after the sweep: *suppression* 6 in prose (Table 5.2 row, three captions), four generated table headers, `tools/_ch5_style.py` and the ch5 generators' axis labels |
 
+| The mean of a tactic's dwell, $\mu_p$ (the value Table 4.2 declares) | **mean dwell** with the symbol — the notation table's noun head ("the declared mean dwell of tactic $p$"); *declared* stays as the provenance adjective where it does work (the value was declared, not measured), never as a name on its own. Raised by the first run of sweep 4 (`term_screen.py variants` / `phrases --chapter 4`, 2026-09-22): one quantity, three surfaces | (a) as recommended; (b) *declared mean* everywhere (the runtime-loop caption's word); (c) the bare symbol after the notation table | tex 2026-09-22: *mean dwell* 3 (l.~4274, 4419, 4559), *declared mean* alone 2 (fig:runtime-loop caption step (2); App. C l.~7990), *declared mean dwell* 2 |
+| The instance document, long form | **flow** is ratified (2026-09-03) with *Attack Flow* reserved for the language; ch4 counts them as lowercase *attack flows* ("the 38 attack flows", "the attack flows that the analysts drew"). Recommendation: ratify lowercase *attack flow(s)* as the long form of *flow* (it is the language's noun in its ordinary sense and reads naturally in a count), so the row's deprecated form stays *an Attack Flow* as a count noun only. Raised by sweep 4's first run | (a) as recommended; (b) *flow(s)* everywhere after the ch3 first fix, the eight ch4 sites re-keyed | tex 2026-09-22: lowercase *attack flow(s)* 8 (fig:pipeline caption; §4.1 l.~4020, 4056; §4.2 l.~4089–4112), *flow* alone as the count noun throughout ch3 |
+
+### Screen findings — the first run of sweep 4 (reader overhead), 2026-09-22
+
+Not clusters (no two names for one thing) but the other checks of
+`academic_register.md` §(i), run over the whole tex by `tools/term_screen.py`
+and judged by the session; awaiting Marc's ruling like a PROPOSED row. Field
+terms the tool raised and the session passed are listed in the last line so
+the judgement is visible.
+
+| Term | Check | Finding | Proposal |
+|---|---|---|---|
+| *confusion penalty* (§4.4.1, 3 uses, l.~4696–4699) | 3 define at first use | first met in ch4 with no ch2 definition (ch2 never says *confusion*); it is the simulator's inherited 20 s penalty | one defining clause at l.~4696, or ch2's attacker section gains the sentence (the ch5 antecedent rule pattern: missing objects become earlier insertions) |
+| *SPN*, *DSPN*, *GSPN* (§4.3, l.~4178–4181; GSPN 8 uses) | 5 acronyms expanded at first use | the three are introduced as bare acronyms; the §4.3 heading gives the words but never binds them to the letters | expand each once at l.~4178 ("stochastic Petri net (SPN)", "deterministic and stochastic Petri net (DSPN)", "generalised stochastic Petri net (GSPN)") |
+| *CTI* (8 uses, first l.~1464) | 5 | no parenthetical expansion in the prose anywhere (the §4.1 heading has the words); the registry's L0 row assumed one at ch3 §3.1.3 | expand at the ch3 first use; the L0 row's ruling then settles *campaign intelligence* |
+| *defence condition* (ch5, 3 uses; first met in a caption, l.~6801) | 3 / 7 | the results' word for a defence arm meets the reader in a float before the setup defines it | one defining clause in the §5.1 Defence unit (Marc's dictation), or the captions say *defence* |
+| *dead end* (§4.4, l.~4536 and l.~4684–4686) | 4 one sense per word | the ordinary metaphor ("the timeline is a dead end") and the structural term ("a structural dead end … a stall, not a dead end") in one section | keep the structural sense; re-word the metaphor (Marc's word) |
+| the fig:runtime-loop caption's `v2_partial`, `v4_failure_only` (l.~4629–4630) | 7, and voice.md §e (no internal codenames in `thesis/`) | two repo version strings on the dissertation's surface | drop the parenthesis; the mapping is Figure 4.4's and the failure set Figure 4.5's |
+| *HARM* (first l.~437, expanded l.~508), *CVSS* (first l.~536, expanded l.~3511) | 5 | expanded after first use | move each expansion to its first use |
+| *kill chain* / *kill-chain* / *Cyber Kill Chain* (7 / 4 / 3) | 4 | spelt by grammatical role — the noun, the modifier, Lockheed's proper name in Kim's phrasing — so consistent by rule; **passed**, listed so the rule is on record | none |
+| passed as field terms or defined at first use | 1–3 | *failure matrix*, *profile net*, *tactic-to-verb mapping*, *dwell time*, *timed / immediate transition*, *terminal tactic* (cited), *runtime loop* (the figure's name), *hollow bar* (a caption decode), *deployment interval* (ratified); *attacker agent* (the carve-out) | none |
+
 ## Ruling workflow
 
 The PROPOSED table is designed for **one ruling pass** (ask once, whole table —
