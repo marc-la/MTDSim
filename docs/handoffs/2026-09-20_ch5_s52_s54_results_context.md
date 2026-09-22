@@ -608,6 +608,60 @@ against `numbers.json` or the raw runs first.
   form of that concession carries "at this time limit", per the 60 000 s
   numbers above.
 
+### 8f. Formalism in §5.2.1's floats, profile codes, and the label-blind control (2026-09-22)
+
+Marc, 2026-09-22: body sentences come once every float is settled, the
+thousand-seed run is done and the size-matched label-blind control has run.
+Three questions were put; two are answered here, one is open for his ruling.
+
+**The size-matched label-blind control: what it is and what it shows.** The
+four profiles differ in size (19, 7, 7, 5 flows) as well as in objective, so
+a divergence between two profiles could be corpus size alone. The control
+draws four groups of the same sizes from the 38 flows with the objective
+labels shuffled, compiles each draw to a net by chapter 4's construction, runs
+it, and measures the same divergence. If the labelled profiles diverge by more
+than the shuffled draws do, the objective label carries the difference; if
+not, size does. It is a fair comparison because everything but the label is
+held: the corpus, the construction, the dwell times, the runs. It answers
+"does the objective condition the campaign" (T2's attribution), which is what
+the size confound leaves open. It does NOT show that the profiles "run
+differently": that is already shown (every pair is sixty times its seed
+noise) and is not in question. Marc's "they will run differently" is T2's
+existence half, carried by Figure 5.1(a) and the divergence sentences; the
+control is the attribution half. Design: `2026-09-09_ch5_experiments_design.md`
+C19; `profile_divergence_findings.md` §7.
+
+**Formalism in Figure 5.1 and Table 5.3 (context critic, verified against the
+registry): keep the names, attach no symbol.** Reasons, each checked:
+- "step is one tactic entered" is the chapter 5 rendering of $t_{pq}$ firing
+  into $q$; *place* and *token* sit under Never in §5, and the unit has to be
+  shared with the baseline attacker's "phase entered", which no net symbol can
+  do.
+- "share of the profile's steps" has no chapter 4 symbol. It is not $w_c$
+  (a declared proportion); attaching it would be wrong, not decorative.
+- "profile" against $c$ / $\mathcal{N}_c$: the registry (terminology.md row
+  47) ratifies *attack profiles* and flags bare *the nets* as a conflation, and
+  §5 lists *the nets* under Never. "They are the attack nets" is that
+  conflation.
+- Table 5.3's headers are Table 5.2 names by ruling; nothing to attach.
+- No contradiction between the caption and chapter 4; row order agrees
+  everywhere (exfiltration, impact, double extortion, no realised objective).
+
+**Profile codes C1 to C4, C_aggregate: OPEN, Marc's ruling.** Facts:
+- Chapter 4 never enumerates $c$; the notation table defines it as "one of
+  the four objective classes" with no order. The smallest antecedent is one
+  clause in that row: "$c \in \{1,\dots,4\}$ in the order of §4.3".
+- The aggregate is outside the formalism: §4.3 compiles "each attack profile
+  $c$"; no chapter 4 sentence compiles the aggregate. Codes would need a
+  second insertion ("the aggregate compiles by the same construction").
+- Blast radius: one map (`tools/_ch5_style.py` LABEL, plus
+  `ch5_unopposed_figures.py`'s own), every chapter 5 float, §5.1's sentence,
+  every body sentence.
+- Session recommendation: names. A code forces a lookup on every float; the
+  name carries the objective, which is T2's takeaway. If Marc rules codes, the
+  form is $c_1$ to $c_4$ in prose and keys (the symbol the reader met), never
+  "C1"; the aggregate stays "the aggregate".
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,
