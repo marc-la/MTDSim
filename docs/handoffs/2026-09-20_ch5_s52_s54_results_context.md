@@ -591,11 +591,22 @@ against `numbers.json` or the raw runs first.
   12.6, 20.1; aggregate 8.7, 15.3, 20.1), double extortion flat at 9.2 from
   30 000 s. So 15 000 s (Table 5.1, after Ho) reads the baseline attacker
   almost finished and the movement attacker about a third of the way.
-- **Open, Marc thinking:** whether the 60 000 s reading is a body sentence or
-  a small hosts-against-time figure. Session recommendation: the figure, in
-  the slot Figure 5.2 vacated, because it is the one exhibit that turns
-  "worse" into "slower" for a reader who was not in the room; it needs a
-  60 000 s row in Table 5.1 (C36) first.
+- **RULED 2026-09-22 (Marc): the 60 000 s reading is a body sentence, not a
+  figure.** The session's figure recommendation is overturned. The sentence's
+  content: the baseline attacker adds no host after about 20 000 s; the
+  movement attacker is still adding them at 60 000 s; double extortion is the
+  exception. Prerequisite: 60 000 s has no antecedent (Table 5.1 declares
+  15 000 s only, C36), so the sentence declares the extension in passing or
+  Table 5.1 gains a row. Marc's call when the T4 paragraph is dictated.
+- **Marc's read of T1 and T2 on Figure 5.1 (2026-09-22):** the figure alone
+  does not make it clear that the baseline attacker has no campaign, and the
+  profiles "look mostly the same, differing slightly". Both are what §8a
+  already assigns to body sentences (T1: one sentence for the baseline; T2: the
+  two divergence sentences from the content points at the former Figure 5.2
+  site). No figure change; the sentences carry the load. Marc reads T4 as the
+  concession that a fuller campaign does not translate to results; the honest
+  form of that concession carries "at this time limit", per the 60 000 s
+  numbers above.
 
 ## Validation gate
 
