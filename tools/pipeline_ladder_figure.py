@@ -516,15 +516,15 @@ def emit(gap, order, axis, cls, tech, edges, fa, fb, shared, nets) -> tuple[str,
     # ---- the movement-layer frame ----------------------------------------------
     frame_bot = y + 4
     svg.add(f'<rect x="{CL - 6}" y="{frame_top}" width="{CR - CL + 12}" height="{frame_bot - frame_top}" rx="6" fill="none" stroke="{ACCENT}" stroke-width="1.3" opacity="0.6"/>')
-    svg.text(16, (frame_top + frame_bot) / 2, "Movement layer", size=19, anchor="middle", fill=ACCENT, rotate=-90)
+    # the frame is unlabelled since 2026-09-22 (register E2: the layer names are dissolved; the L-labels are the signage)
 
     # ---- traverse -> L4 ---------------------------------------------------------
-    arrow_down(svg, (AX0 + AX1) / 2, frame_bot + 6, frame_bot + 42, "traverse")
+    arrow_down(svg, (AX0 + AX1) / 2, frame_bot + 6, frame_bot + 42, "join")
     y = frame_bot + 50
     box_h = 66
     svg.add(f'<rect x="{CL - 6}" y="{y}" width="{CR - CL + 12}" height="{box_h}" rx="6" fill="#f6f6f6" stroke="{INK2}" stroke-width="1.3"/>')
     cy_ = y + box_h / 2
-    chips = (("token", ACCENT), ("controller", INK), ("MTDSim", INK))
+    chips = (("token", ACCENT), ("join", INK), ("MTDSim", INK))
     cw, gap_ = 158, 122
     x0 = (CL + CR) / 2 - (3 * cw + 2 * gap_) / 2
     for k, (name, colr) in enumerate(chips):
@@ -538,7 +538,7 @@ def emit(gap, order, axis, cls, tech, edges, fa, fb, shared, nets) -> tuple[str,
             top, bot = (("tactic", "re-weighting") if k == 0 else ("verb, dwell", "verdict"))
             svg.text((ax0_ + ax1_) / 2, cy_ - 14, top, size=19, anchor="middle", fill=INK2)
             svg.text((ax0_ + ax1_) / 2, cy_ + 26, bot, size=19, anchor="middle", fill=INK2)
-    gutter(svg, cy_ - 4, "L4", "Traversal in MTDSim", "the runtime loop")
+    gutter(svg, cy_ - 4, "L4", "MTDSim", "the runtime loop")
     y += box_h + 10
 
     height = int(round(y))
@@ -557,7 +557,7 @@ def emit(gap, order, axis, cls, tech, edges, fa, fb, shared, nets) -> tuple[str,
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>fig:pipeline --- the movement attacker end to end (generated; do not hand-edit)</title>
+<title>fig:pipeline --- the APT attacker model end to end (generated; do not hand-edit)</title>
 <style>
   html, body {{ margin:0; background:#fff; }}
   body {{ width: {PX}px; }}

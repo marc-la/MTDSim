@@ -60,6 +60,7 @@ LABEL = {
     "objective_none_c2": "$c_4$",
     "aggregate": r"$c_{\mathrm{agg}}$",
     "baseline": "baseline attacker",
+    "movement": "APT attacker model",  # mirrors _ch5_style.LABEL (register E2, 2026-09-22)
 }
 COLOUR = {  # RGB; the chapter's series contract
     "objective_exfiltration": "31,84,140",
@@ -263,7 +264,7 @@ def emit_table(core: dict) -> str:
     w("% Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Both attackers with no defence running]{Four of the effectiveness metrics of Table~\ref{tab:metrics} with no defence running, under the network and time limit of Table~\ref{tab:experiment}, for the movement attacker on each attack profile and on the aggregate, and for the baseline attacker. Hosts reached and delay to first compromise are means with a 95\,\% interval, the delay over the runs that compromise a host; the other two columns are shares of runs.}")
+    w(r"  \caption[Both attackers with no defence running]{Four of the effectiveness metrics of Table~\ref{tab:metrics} with no defence running, under the network and time limit of Table~\ref{tab:experiment}, for the APT attacker model on each attack profile and on the aggregate, and for the baseline attacker. Hosts reached and delay to first compromise are means with a 95\,\% interval, the delay over the runs that compromise a host; the other two columns are shares of runs.}")
     w(r"  \label{tab:unopposed-summary}")
     w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")
     w(r"  \begin{tabular}{@{}P{4.2cm}*{4}{>{\centering\arraybackslash}p{2.5cm}}@{}}")
@@ -276,7 +277,7 @@ def emit_table(core: dict) -> str:
         return "    %s & %s & %.2f & %s & %.2f \\\\" % (
             name, _pm(r["hosts"]), r["target_reach"], _pm(d["observed"], 0), d["no_compromise_share"])
 
-    w(r"    \emph{movement attacker} & & & & \\")
+    w(r"    \emph{%s} & & & & \\" % LABEL["movement"])
     for p in PROFILES:
         w(row(r"\quad " + LABEL[p], t[p]))
     w(r"    \midrule")

@@ -39,18 +39,18 @@ metrics and the numbers exist.
    tonight then 1 000 overnight. Q1–Q5 owed; Q5 is "launch the smoke". Feeds
    every other brief's floats.
 
-2. **Marc's rulings pass, one sitting**: the terminology replacement table
-   (`terminology_needs_basis_sweep` §2), the metric dispositions
+2. **Marc's rulings pass, one sitting**: the metric dispositions
    (`metrics_provenance_and_instrumentation` §1), the heading set and the four
    structural rulings (`ch5_two_phase_restructure` R1–R4), the setup rulings
    (`ch5_setup_number_justification`). Everything downstream regenerates floats
-   with these words on them, so nothing is applied before this.
+   with these words on them, so nothing is applied before this. *(The
+   terminology table was ruled and applied 2026-09-22 — the model is the APT
+   attacker model, the layer names are dissolved, the registry is flipped and
+   every float regenerated; only the word* suppression *waits, with the metrics
+   brief. The reader-overhead screen that came out of it is now sweep 4 of the
+   `voice-pass` skill, with `tools/term_screen.py` as its census.)*
 
 3. In parallel, after the rulings:
-   - [`2026-09-22_terminology_needs_basis_sweep.md`](2026-09-22_terminology_needs_basis_sweep.md)
-     — **the words (E2)**: *movement attacker* → *APT attacker model*; the layer
-     trichotomy dissolved or renamed; *suppression* gone; the registry flipped.
-     Mechanical once ruled; touches the label map every ch5 float keys through.
    - [`2026-09-22_metrics_provenance_and_instrumentation.md`](2026-09-22_metrics_provenance_and_instrumentation.md)
      — **the metrics (E3, E4)**: a source for every Table 5.2 row, the chapter 4
      unit that defines the new ones with why, stealth and detectability back in
@@ -60,8 +60,8 @@ metrics and the numbers exist.
      configurations and one clause per §5.1 value; the numerals rule.
    - [`2026-09-22_ch4_overview_figure_family.md`](2026-09-22_ch4_overview_figure_family.md)
      — **the figure (E8)**: the head figure as boxes, a zoom per section, and the
-     three chapter 5 figure fixes. Marc's day; independent of everything but the
-     terminology ruling (the boxes' names).
+     three chapter 5 figure fixes. Marc's day; the terminology ruling it waited
+     on (the boxes' names) landed 2026-09-22: the profile net, the join, MTDSim.
 
 4. [`2026-09-22_ch5_two_phase_restructure.md`](2026-09-22_ch5_two_phase_restructure.md)
    — **the chapter (E1, E7, E10)**: two phases under one setup, the float

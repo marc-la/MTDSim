@@ -2,7 +2,7 @@
 status: durable
 created: 2026-07-03
 topic: "L3 execution model — supervisor decision register (D1–D10, R1–R5, M1–M8, S1–S6, V1–V7, T1–T5, E1–E11)"
-updated: 2026-09-22   # E trail (the 22-Sep evaluation meeting) added; T trail's owed items annotated
+updated: 2026-09-22   # E2 applied (the terminology sweep, same day); E trail (the 22-Sep evaluation meeting) added; T trail's owed items annotated
 lineage: formerly docs/notes @ 2026-07-03_supervisor_meeting_l3_decisions.md (relocated in the 2026-07-13 docs refactor)
 ---
 
@@ -777,6 +777,17 @@ organised, named, justified and drawn.
   layer trichotomy" (architecture §(f)), the genre-identification opener, and
   the metric name *suppression*. The replacement words are Marc's ruling;
   proposals in the terminology handoff below.
+  *Applied 2026-09-22 (Marc, spoken, the sweep session):* the model is the
+  **APT attacker model** everywhere (the opener's naming sentence deleted, three
+  headings, every caption and float); the three layer names **dissolved with no
+  replacement** — the profile net, the join, the simulator's verbs / MTDSim,
+  the L-labels as signage; Figure 4.1's L4 reads *MTDSim* ("traversal … just
+  say MTDSim"); *suppression* left to E3's brief. The registry rows flipped
+  with the overturned rulings named; the sweep handoff retired. Marc's own
+  resolve — sweep for every other term that would cost a mark — is instrumented
+  as sweep 4 of the `voice-pass` skill (reader overhead), with
+  `tools/term_screen.py` as its census; its first run's findings are PROPOSED
+  rows in the registry.
 
 - **E3 — Every metric has a provenance: cited from prior work, or fully
   defined in the methodology with why it is needed.** For each metric Jin

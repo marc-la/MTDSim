@@ -222,7 +222,7 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
     w(r"\node[anchor=south east,align=right,text=black!58] at (%.3f,%.3f) {one profile's net, a fragment};"
       % (BAND_R - 0.18, y + 0.14))
     band(w, mv_top, y, "accent!45")
-    rot_label(w, mv_top, y, "Movement layer", "accent")
+    rot_label(w, mv_top, y, "Profile net", "accent")
     w(r"\node[anchor=east,align=right] at (%.3f,%.3f) {\textbf{L3}\\Petri net};" % (GUT_R, (mv_top + y) / 2))
     mv_bot = y
     facts["net"] = (len(net["places"]), len(net["transitions"]), win)
@@ -320,7 +320,7 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
 
     y = ctrl_top - H_CTRL
     band(w, ctrl_top, y, "accent!45")
-    rot_label(w, ctrl_top, y, "Controller layer", "accent")
+    rot_label(w, ctrl_top, y, "Join", "accent")
     ctrl_bot = y
 
     # ================================================== join to the action ==
@@ -352,7 +352,7 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
     # ===================================================== the action layer ==
     act_top = y_act_top
     band(w, act_top, act_top - H_ACT, "black!22", "black!4")
-    rot_label(w, act_top, act_top - H_ACT, "Action layer", "black!55")
+    rot_label(w, act_top, act_top - H_ACT, "MTDSim", "black!55")
     boxes = ["Attacker", "Network", "Defender"]
     bw = 3.2
     bxs = [BAND_L + 0.7 + bw / 2, (BAND_L + BAND_R) / 2, BAND_R - 0.7 - bw / 2]
@@ -372,7 +372,7 @@ def emit(order, axis, net, win, durations, mapping, verbs, fmatrix, n_rules,
     # ---- the L4 bracket ------------------------------------------------------
     w(r"\draw[black!45,line width=0.45pt,decorate,decoration={brace,amplitude=3.5pt,mirror}] (%.3f,%.3f) -- (%.3f,%.3f);"
       % (GUT_R + 0.04, ctrl_top, GUT_R + 0.04, act_bot))
-    w(r"\node[anchor=east,align=right] at (%.3f,%.3f) {\textbf{L4}\\traversal\\in MTDSim};"
+    w(r"\node[anchor=east,align=right] at (%.3f,%.3f) {\textbf{L4}};"
       % (GUT_R - 0.16, (ctrl_top + act_bot) / 2))
 
     w(r"\end{tikzpicture}")

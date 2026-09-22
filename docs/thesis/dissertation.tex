@@ -3774,9 +3774,8 @@ model defined in Chapter~\ref{ch:attacker-model}.
 \begin{figure}[p]
   \centering
   \includegraphics{fig_4-0a_pipeline_ladder}
-  \caption[The movement attacker end to end]{The movement attacker end to
-  end, from campaign intelligence (L0) to an attacker-agent traversal in
-  MTDSim (L4), as a worked example on two of the 38 attack flows. Columns are
+  \caption[The APT attacker model end to end]{The APT attacker model end to
+  end, from campaign intelligence (L0) to MTDSim (L4), as a worked example on two of the 38 attack flows. Columns are
   the ATT\&CK tactics (v19.1) in kill-chain order. Flow~A (blue) is the CISA
   AA22-138B Workspace ONE flow~\cite{cisaaa22138b}, flow~B (orange) the
   SearchAwesome adware flow~\cite{malwarebytesadware2018}; boxes are
@@ -3786,7 +3785,7 @@ model defined in Chapter~\ref{ch:attacker-model}.
   that class keeps its colour. L3 shows a fragment of the exfiltration-objective
   net firing: circles are tactic-places, a hollow bar the timed dwell, filled
   bars the weighted moves, the dot the token, the dashed arrow one firing. L4
-  is the traversal; its loop is Figure~\ref{fig:runtime-loop}.}
+  is MTDSim; the runtime loop is Figure~\ref{fig:runtime-loop}.}
   \label{fig:pipeline}
 \end{figure}
 
@@ -3920,17 +3919,22 @@ model defined in Chapter~\ref{ch:attacker-model}.
 %      "not whether the model is true" CUT (Marc: the X-not-Y form is not
 %      his, and "the answer" was vacuous). No [3b] left open on this
 %      preamble. Through pass 6; the integration check is next.
-The APT attacker model that we have produced, which we are terming the
-\emph{movement attacker}, is the model that the research gap motivated;
-it aims to meet the axes from Section~\ref{subsec:attacker-criterion}.
-The movement attacker replaces the \emph{baseline attacker}, the
-inherited scripted six-phase attacker (Chapter~\ref{ch:background}); it
-adopts its action set, and its movement is dictated by the generalised
-stochastic Petri net and by the attacker model at runtime. It is built
-beside MTDSim: we are instrumenting our existing attacker model with the
-movement attacker, so that we can compare our results. This is a proof
-of concept, testing whether behavioural fidelity changes existing MTD
-evaluation.
+% [E2 SWEEP 2026-09-22 (register E2; Marc's ruling, spoken, the sweep
+%  session): the naming clause "which we are terming the movement attacker"
+%  DELETED --- the model is the APT attacker model, its chapter title, and no
+%  naming sentence replaces it. The two later "movement attacker" in this
+%  paragraph became "it". DRAFT STATE, ratify on read: the run of "It"
+%  openers is the sweep's residue and is Marc's to reshape.]
+The APT attacker model that we have produced is the model that the
+research gap motivated; it aims to meet the axes from
+Section~\ref{subsec:attacker-criterion}. It replaces the \emph{baseline
+attacker}, the inherited scripted six-phase attacker
+(Chapter~\ref{ch:background}); it adopts its action set, and its movement
+is dictated by the generalised stochastic Petri net and by the attacker
+model at runtime. It is built beside MTDSim: we are instrumenting our
+existing attacker model with it, so that we can compare our results. This
+is a proof of concept, testing whether behavioural fidelity changes
+existing MTD evaluation.
 
 % [2026-09-04, Marc: the identifiers appeared twice in P2 and did not
 %  read right] the section key FOLDED into the three spine clauses ---
@@ -4537,18 +4541,22 @@ input from the simulator. We had to produce a two-way join.
 %  what happened in the simulator") and the example ("cut short by an MTD
 %  mutation, which returns failure"). Reversible from git 9a333c48.
 
-Everything from L0 to L3 is what we are considering the movement layer: the
-token is moving through all these tactics. Within the simulator, MTDSim, the
-baseline attacker has its verbs and has six phases, as outlined in
-Chapter~\ref{ch:background}; this is what we are calling the action layer.
-To produce results, we have to join these two layers together, and we are
-doing this through the controller layer. We scoped it down: for this thesis
-we adopt the existing verbs from the simulator, and we built the movement
-layer beside MTDSim --- not embedded in it --- so that we can evaluate the
-MTD mechanisms using different APT attack profiles by construction.
+% [E2 SWEEP 2026-09-22: the three layer names DISSOLVED on the supervisor's
+%  ruling (not layers; names only on a needs basis) and Marc's (no names).
+%  What L0--L3 produce is the profile net; what MTDSim has is the baseline
+%  attacker's verbs; what L4 declares is the join --- this section's own
+%  heading. DRAFT STATE, ratify on read.]
+Everything from L0 to L3 produces the profile net: the token is moving
+through all these tactics. Within the simulator, MTDSim, the baseline
+attacker has its verbs and has six phases, as outlined in
+Chapter~\ref{ch:background}. To produce results, we have to join the two.
+We scoped it down: for this thesis we adopt the existing verbs from the
+simulator, and we built the APT attacker model beside MTDSim --- not
+embedded in it --- so that we can evaluate the MTD mechanisms using
+different APT attack profiles by construction.
 % [rephrase applied per your ruling: the two "beside MTDSim" sentences folded
 %   into one, "beside" carried once.]
-The controller layer carries three things: the dwell times, the mean dwell
+The join carries three things: the dwell times, the mean dwell
 $\mu_p$ of Equation~\ref{eq:gspn}; the tactic-to-verb mapping, $\varphi$;
 and the failure matrix, $F_{\text{failure}}$ of Equation~\ref{eq:vc-net}.
 % [spine sentence --- Marc's dictation 2026-08-19; moved up 2026-09-08 as
@@ -4576,13 +4584,13 @@ Appendix~\ref{app:sensitivity} answers.
 \label{subsec:runtime-mechanics}
 
 We made all of the actions in MTDSim independent of each other, so that the
-movement layer supplies all the tactic timing of the attacker agent at
+profile net supplies all the tactic timing of the attacker agent at
 runtime, the firing time of $\tau_p$ (the numbered joins of
 Figure~\ref{fig:runtime-loop}). A drawn dwell \emph{replaces} the dispatched
 action's native cost rather than adding to it: an action consumes its
 tactic's drawn time and nothing further.
 
-The movement attacker is given the targeted objective of
+The APT attacker model is given the targeted objective of
 Table~\ref{tab:attacker-objectives}. It attacks a target host if one is
 visible, and otherwise prefers the hosts nearest the target's level; the run
 ends when a target is compromised.
@@ -4618,33 +4626,33 @@ ends when a target is compromised.
 \begin{figure}[tbp]
   \centering
   \includegraphics{fig_4-4c_runtime_loop}
-  \caption[The movement attacker's runtime loop]{The movement attacker's
-  runtime loop. The movement layer shows a fragment of one profile's net
+  \caption[The APT attacker model's runtime loop]{The APT attacker model's
+  runtime loop. The profile-net band shows a fragment of one profile's net
   (circles are tactic-places, the hollow bar a timed dwell, filled bars the
   weighted moves, the accented dot the token); each profile compiles its own
-  full net. The controller layer's three declared inputs appear as glyphs,
+  full net. The join's three declared inputs appear as glyphs,
   not as the artefacts themselves (mapping \texttt{v2\_partial}, failure set
-  \texttt{v4\_failure\_only}); the action layer is inherited from MTDSim
-  unchanged. Accented edges carry movement-layer traffic, grey edges the join
+  \texttt{v4\_failure\_only}); the MTDSim band is inherited
+  unchanged. Accented edges carry the net's traffic, grey edges the join
   to the simulator. The numbered edges trace one iteration: (1)~the token's
-  selected tactic enters the controller; (2)~the tactic's declared mean is
+  selected tactic enters the join; (2)~the tactic's declared mean is
   drawn through an exponential and consumed as simulated time; (3)~the
   mapping resolves the tactic one way, to an inherited verb or to dwell-only,
   in which case nothing is dispatched and no verdict returns; (4)~a
   dispatched verb's success-or-failure verdict propagates up; (5)~on failure
   the failure matrix is multiplied onto the token's out-transition weights
   and renormalised, while on success, and after every dwell-only elapse, the
-  base proportions stand and the controller is bypassed; (6)~the token fires
+  base proportions stand and the join is bypassed; (6)~the token fires
   the chosen move and the loop repeats.}
   \label{fig:runtime-loop}
 \end{figure}
 
 Success or failure at runtime, the verdict $v \in V$ of
-Equation~\ref{eq:vc-net}, comes from the action layer and is propagated up.
+Equation~\ref{eq:vc-net}, comes from MTDSim and is propagated up.
 An action fails if the preconditions of the action itself were missing ---
 for example, trying to exploit a vulnerability without having scanned for
 it. The same holds for the moving target defence: if MTD interrupts the
-attacker, then whatever verb it is on fails. The controller can tell an
+attacker, then whatever verb it is on fails. The join can tell an
 interrupt from an unmet precondition, and it discards the distinction before
 routing: the failure matrix is declared over one failure verdict, not two.
 % [2026-09-13: A5 sentence landed on Marc's ratification of the fourteen-item
@@ -4714,9 +4722,9 @@ is not one; Chapter~\ref{ch:futurework} returns to it.
 %  movement/learning.py holds a within-run belief about which destinations pay,
 %  degraded on mutation; it never reads the schedule. Ratify-on-read.]
 
-The ceiling of this thesis lies in the action layer that we are adopting
+The ceiling of this thesis lies in the verbs that we are adopting
 from the simulator: the attacker model that we produce can only be as good
-as what we adopt. But it is extendable and modular: our movement layer can
+as what we adopt. But it is extendable and modular: our profile nets can
 be mapped to anything given an appropriate mapping, or a stronger underlying
 attack model can be built that operationalises all of MITRE's tactics.
 % [MUST-CARRY: the mapping as a chosen input, the standing caveat bounding
@@ -4731,9 +4739,9 @@ attack model can be built that operationalises all of MITRE's tactics.
 \label{subsec:dwell-times}
 
 Each tactic consumes some time in the simulator, of mean $\mu_p$
-(Equation~\ref{eq:gspn}), as the previous attack phases did from the action
-layer. We cannot derive the dwell times from anything we have done in the
-movement layer itself. The dwell times do not exist in the literature; they
+(Equation~\ref{eq:gspn}), as the baseline attacker's phases did. We cannot
+derive the dwell times from anything we have done up to L3. The dwell
+times do not exist in the literature; they
 do not exist in CTI vendor reports. Prior papers describe this as inherently
 arbitrary: trying to put times on an
 attack~\citep{bland2020, mcqueen2006, mendonca2023}.
@@ -4747,7 +4755,7 @@ This is a parameter of the model itself, not an invariant.
 %  sentence before carries it) and "How long does reconnaissance take?"]
 
 We derived our dwell times for the tactics from the dwell times of MTDSim.
-What we could take from the six original verbs of the action layer, we used
+What we could take from the six original verbs, we used
 directly, and we extrapolated the rest. The 15 tactics resolve onto four
 families. Two take the simulator's costs unchanged: the scan-shaped family,
 one enumeration pass at 35 seconds, for the tactics whose work is
@@ -4869,14 +4877,14 @@ bland2020}.
 \label{subsec:tactic-verb-mapping}
 
 We needed a mapping from the places of the Petri net, or attack tactics, to
-the action layer, the verbs; we are calling this the tactic-to-verb mapping,
+the simulator's verbs; we are calling this the tactic-to-verb mapping,
 $\varphi$. There is no real mapping here, so we used our best judgement. We
 use a direct mapping with certain constraints: a tactic can go to only zero
 or one verbs, and a tactic can only execute either zero or one actions in
 the simulator at a time, so this problem remains tractable. Where there is
 no mapping, the tactic is dwell-only: it consumes time in the simulator and
-dispatches nothing. The dwell-only is a concession: the baseline attacker
-that we are plugging into on the action layer has gaps; many tactics are
+dispatches nothing. The dwell-only is a concession: the baseline attacker's
+verbs that we are plugging into have gaps; many tactics are
 dwell-only (Figure~\ref{fig:controller-mapping}).
 % [RULED 2026-08-20, do not re-flag: the zero-or-one constraint sentence
 %  stays (Marc withdrew it as a pass-5 cut candidate; the black box's
@@ -4941,7 +4949,7 @@ there is survivorship bias.
 
 We employed a failure matrix, $F_{\text{failure}}$ of
 Equation~\ref{eq:vc-net}, because this is the blind spot of the CTI. This
-is a separate layer, independent from the nets and from the action layer:
+is a separate input, independent from the nets and from the simulator's verbs:
 we did not reverse-engineer any of these values. We needed a 15-by-14
 tactic-to-tactic failure weight matrix (excluding self-loops), shaped by two
 components. The first is the failure rules, $R$, independently decided:
@@ -5534,7 +5542,7 @@ attacker's or the defence's.
 % at their chapter 4 values, their sweep being Appendix~\ref{app:sensitivity} ---
 % V6's "before the results" honoured by a pointer now that the section is cut.
 \textbf{Attacker.} The baseline attacker of
-Section~\ref{subsec:attacker-model}, and the movement attacker of
+Section~\ref{subsec:attacker-model}, and the APT attacker model of
 Chapter~\ref{ch:attacker-model} on each of its four attack profiles $c_1$ to
 $c_4$ and on the aggregate $c_{\mathrm{agg}}$, the attack graph of
 Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both pursue the targeted objective
@@ -6067,7 +6075,7 @@ sizes with 95\,\% confidence intervals.
 \section{Behaviour of the APT attacker model}
 \label{sec:attacker-in-operation}
 
-\noindent\emph{[Placeholder --- delete on drafting. What the movement attacker does
+\noindent\emph{[Placeholder --- delete on drafting. What the APT attacker model does
 when it is run: the campaign it walks with nothing opposing it, what changes when
 a defence disrupts it, and what its two declared capabilities buy. These are
 observations about the model, not yet a verdict on it; the verdict is
@@ -6521,7 +6529,7 @@ runs are otherwise identical.
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
-  \caption[How the attacker responds to a disruption]{(a)~The share of the movement attacker's steps at which the action it attempts fails because its precondition is not met, at each of the five steps before and the five after a disruption; the shaded step is the disruption's own and belongs to neither window. Pooled over the four profiles and over the conditions that deploy one mechanism of the layer alone, at the 2\,000\,s deployment interval; at 200\,s the next disruption lands inside the window of the last, so that interval is reported in the text. (b)~Time from a disruption to the attacker's next host compromise as a multiple of that attacker's own mean gap between compromises with no defence, per layer hit and pooled the same way, for both attackers: the mean over the recoveries that completed before the time limit, its 95\,\% bootstrap interval, the share that did not complete printed above each bar, and a hollow circle at each mechanism of the layer taken alone; the dashed line at one is the attacker's own pace. The mechanism that rewrites credentials disrupts the attacker fewer than once per run at this interval and is reported in the text.}
+  \caption[How the attacker responds to a disruption]{(a)~The share of the APT attacker model's steps at which the action it attempts fails because its precondition is not met, at each of the five steps before and the five after a disruption; the shaded step is the disruption's own and belongs to neither window. Pooled over the four profiles and over the conditions that deploy one mechanism of the layer alone, at the 2\,000\,s deployment interval; at 200\,s the next disruption lands inside the window of the last, so that interval is reported in the text. (b)~Time from a disruption to the attacker's next host compromise as a multiple of that attacker's own mean gap between compromises with no defence, per layer hit and pooled the same way, for both attackers: the mean over the recoveries that completed before the time limit, its 95\,\% bootstrap interval, the share that did not complete printed above each bar, and a hollow circle at each mechanism of the layer taken alone; the dashed line at one is the attacker's own pace. The mechanism that rewrites credentials disrupts the attacker fewer than once per run at this interval and is reported in the text.}
   \label{fig:aio-adaptivity}
 \end{figure}
 
@@ -6872,7 +6880,7 @@ under both attackers on this one simulator.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-3-2a_cross_arm}
-  \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the baseline attacker and once against the movement attacker, on the same network under identical conditions, single mechanisms in panels~(a) and~(c) and deployment schemes in panels~(b) and~(d), at each deployment interval. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
+  \caption[The same defences measured against each attacker]{The suppression each defence achieves, measured once against the baseline attacker and once against the APT attacker model, on the same network under identical conditions, single mechanisms in panels~(a) and~(c) and deployment schemes in panels~(b) and~(d), at each deployment interval. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -6994,7 +7002,7 @@ spends.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-4b_time_split}
-  \caption[How a defence changes where the attacker's time goes]{The movement attacker's elapsed time under each defence condition, at each interval, divided into activity that ran to completion, activity a deployment cut short before it could return an outcome, and the delay the deployment then imposed, the last two together being the time lost to MTD (Table~\ref{tab:metrics}), with segment values printed since a stacked bar is otherwise hard to read across conditions. The decomposition is drawn for the movement attacker only: the delay a deployment imposes is not written to the baseline attacker's records, so its time cannot be split the same way, and the cross-arm comparison is made event-wise in Table~\ref{tab:eff-cost}. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
+  \caption[How a defence changes where the attacker's time goes]{The APT attacker model's elapsed time under each defence condition, at each interval, divided into activity that ran to completion, activity a deployment cut short before it could return an outcome, and the delay the deployment then imposed, the last two together being the time lost to MTD (Table~\ref{tab:metrics}), with segment values printed since a stacked bar is otherwise hard to read across conditions. The decomposition is drawn for the APT attacker model only: the delay a deployment imposes is not written to the baseline attacker's records, so its time cannot be split the same way, and the cross-arm comparison is made event-wise in Table~\ref{tab:eff-cost}. The intention is to show the mechanism behind the cost: whether a defence works by making the attacker do more, or by making what it already does take longer.}
   \label{fig:eff-cost-decomposition}
 \end{figure}
 
@@ -7055,7 +7063,7 @@ spends.]}
 % advantage on this terrain (1, 3, 4, 6, 7). The measured negatives are
 % among the most credible things the work owns --- report them as
 % findings, not as apologies.
-\section{What the movement attacker has captured}
+\section{What the APT attacker model has captured}
 \label{sec:captured}
 
 % The criterion scored honestly, badges and all; the structural
@@ -7202,23 +7210,23 @@ spends.]}
 % 6/7 no-ch4-antecedent FLAG stands.
 \noindent\emph{[Placeholder --- the scoring discipline (badges; the
 properties fixed before the model was scored), then the walk through
-Table~\ref{tab:fidelity-verdict}: for each property, what the movement
-attacker does and where (Chapter~\ref{ch:attacker-model} for the
+Table~\ref{tab:fidelity-verdict}: for each property, what the APT attacker
+model does and where (Chapter~\ref{ch:attacker-model} for the
 mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
 
 \begin{table}[htbp]
   \centering
-  \caption[The movement attacker scored beside the cross-section]{The
-  movement attacker scored on the eight properties beside the
+  \caption[The APT attacker model scored beside the cross-section]{The
+  APT attacker model scored on the eight properties beside the
   cross-section of Table~\ref{tab:attacker-cross-section}; the columns
   are numbered as in Table~\ref{tab:attacker-properties}.
   \propmet\ the attacker model has the property as
   Table~\ref{tab:attacker-properties} defines it; \propstandin\ partial,
   something the executed attacker does under the heading that falls
   short of that definition, named in the text; an empty cell,
-  nothing. For the movement attacker a tick marks a property
+  nothing. For the APT attacker model a tick marks a property
   the model implements; whether it changes an outcome on this
-  simulator is bounded by the adopted action layer
+  simulator is bounded by the adopted verbs
   (Section~\ref{subsec:runtime-mechanics}) and is reported property by
   property in the text.}
   \label{tab:fidelity-verdict}
@@ -7231,7 +7239,7 @@ mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
     Masud et al., 2025~\citep{masud2025} & & & & & & & & \\
     Kim et al., 2026~\citep{kim2026} & \propstandin & & & & \propstandin & & & \\
     \midrule
-    Movement attacker, this thesis & \propmet & \propmet & \propmet & \propmet & & \propmet & \propmet & \\
+    APT attacker model, this thesis & \propmet & \propmet & \propmet & \propmet & & \propmet & \propmet & \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -7429,7 +7437,7 @@ March 2026, with its own reference list.
 % section without pruning its \ref in the same commit --- concurrent
 % sessions read this file, and a half-wired label is the one state the
 % wiring rule exists to prevent.
-\chapter{Supplementary material for the movement attacker}
+\chapter{Supplementary material for the APT attacker model}
 \label{app:movement}
 
 % [prose slot --- Marc] one orienting sentence: what this appendix holds
@@ -7837,7 +7845,7 @@ March 2026, with its own reference list.
     \midrule
     Inherited baseline          & 0.90 & $39.8 \pm 2.4$ & 238 (10)  & 815 &  0 & objective \\
     \midrule
-    \multicolumn{7}{@{}l}{\emph{Movement attacker}} \\
+    \multicolumn{7}{@{}l}{\emph{APT attacker model}} \\
     \quad aggregate             & 0.00 & $0.4 \pm 0.4$  & 5294 (3)  & 480 & 76 & time limit \\
     \quad exfiltration          & 0.00 & 0.0            & --- (0)   & 210 & 95 & sink \\
     \quad impact                & 0.00 & $1.2 \pm 0.4$  & 4889 (9)  & 427 & 37 & time limit \\

@@ -45,7 +45,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _ch5_style import (FONT, PREAMBLE, REPO, axes, compile_fig, errorbar,  # noqa: E402
+from _ch5_style import (FONT, LABEL, PREAMBLE, REPO, axes, compile_fig, errorbar,  # noqa: E402
                         fmt_thousands, marker, panel_letter, write_fig)
 
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers.json"
@@ -202,7 +202,7 @@ def emit(s522: dict, interval: int, relative: bool = True, band: bool = True, sp
     if split:
         ylab = ("time to the next compromise,\\\\as a multiple of the gap with no defence" if relative
                 else "time to the next\\\\compromise (s)")
-        ytop = recovery_panel(BX0, BW, ("movement",), "b", ylab, title="movement attacker", cond_marks=True)
+        ytop = recovery_panel(BX0, BW, ("movement",), "b", ylab, title=LABEL["movement"], cond_marks=True)
         recovery_panel(CX0, CW, ("baseline",), "c", "", title="baseline attacker", cond_marks=True)
     else:
         ylab = ("time to the next compromise\\\\$\\div$ gap with no defence" if relative
@@ -220,7 +220,7 @@ def emit(s522: dict, interval: int, relative: bool = True, band: bool = True, sp
         w(r"\node[anchor=west] at (%.3f,%.3f) {%s-layer mechanism};" % (xx + 0.55, ky, lab))
     r2 = ky - 0.42
     w(r"\fill[cmov] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (KX[0], r2 - 0.11))
-    w(r"\node[anchor=west] at (%.3f,%.3f) {movement attacker};" % (KX[0] + 0.4, r2))
+    w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (KX[0] + 0.4, r2, LABEL["movement"]))
     w(r"\fill[pattern=north east lines,pattern color=cbase] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (KX[1], r2 - 0.11))
     w(r"\draw[cbase,line width=0.4pt] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (KX[1], r2 - 0.11))
     w(r"\node[anchor=west] at (%.3f,%.3f) {baseline attacker};" % (KX[1] + 0.4, r2))

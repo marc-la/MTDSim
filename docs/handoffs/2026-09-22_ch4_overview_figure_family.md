@@ -2,7 +2,7 @@
 status: open                  # executes register E8; Marc's day of drawing; rulings F1–F3 owed
 created: 2026-09-22
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E8
-companions: 2026-09-22_terminology_needs_basis_sweep.md (what the boxes are called), ../workflows/figure_table_conventions.md §(n) (the SVG route), the scrutinise-figure skill
+companions: ../workflows/terminology.md (what the boxes are called — RULED 2026-09-22: the profile net, the join, MTDSim; no layer names; the L-labels as signage), ../workflows/figure_table_conventions.md §(n) (the SVG route), the scrutinise-figure skill
 ---
 
 # The chapter 4 overview as a family — one high-level box figure at the chapter head, a zoom per section — and the three chapter 5 figure fixes the supervisor named
@@ -31,7 +31,7 @@ companions: 2026-09-22_terminology_needs_basis_sweep.md (what the boxes are call
 
 ## Rulings owed (Marc)
 
-- **F1** the box set and their names (after the terminology ruling).
+- **F1** the box set (the names are ruled: L0 the campaign corpus, L1 the attack graph, L2 the attack profiles, L3 the profile nets, L4 the join, then MTDSim — no layer names, no *traversal*; the interim relabelling of the current ladder and of fig:runtime-loop is in git `tools/pipeline_ladder_figure.py` / `tools/runtime_loop_figure.py`, 2026-09-22).
 - **F2** the colour exception for Figure 5.1(a).
 - **F3** whether the current worked-example ladder survives as an appendix figure or is cut down into the two zooms only.
 

@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-05-27
-updated: 2026-08-06
+updated: 2026-09-22   # §(f) banner: the trichotomy's names are repo-only after register E2; the thesis-surface mapping stated once
 ---
 
 # Architecture — L0→L4 pipeline and methodological positioning
@@ -354,6 +354,17 @@ The post-experiment-1 rulings **S1–S6** allocate the response and are the live
 work; refinement, not construction, is what remains.
 
 ### The runtime stack — movement / controller / action / substrate
+
+> **2026-09-22 — the three names are repo vocabulary only.** The supervisor
+> ruled (register E2) that the trichotomy is not a set of layers ("layer is like
+> OSI layers") and that the parts need names only on a needs basis; Marc ruled
+> none. On the dissertation's surface the mapping is: *movement layer* → **the
+> profile net** (what L0–L3 produce, $\mathcal{N}_c$); *controller layer* →
+> **the join** (L4's three declared inputs); *action layer* → **the simulator's
+> verbs** / **MTDSim**; the L-labels stay as signage with no class noun. The
+> table below, the code (`movement/`, `controller.py`) and every record that
+> uses the three names are unchanged — this is the one place the mapping is
+> stated (`docs/workflows/terminology.md` carries the ruling).
 
 The L0–L4 numbering above is a **build-time data-flow** view: how the
 attacker's behavioural artefacts are *constructed*. The vocabulary the

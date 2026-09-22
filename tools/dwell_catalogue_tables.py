@@ -132,7 +132,7 @@ def main() -> None:
     # (tab:dwell-anchors, tab:dwell-derivation below).
     short = "Declared per-tactic dwell times"
     caption = (
-        "The dwell times the movement layer declares for each tactic: the mean "
+        "The dwell times declared for each tactic: the mean "
         "dwell $\\mu_p$ of Equation~\\ref{eq:gspn}, the \\emph{mean} of an "
         "exponential draw. Values are emitted from the declared catalogue "
         f"({esc(version)}); tactic names follow ATT\\&CK~v{pin}. How each value "

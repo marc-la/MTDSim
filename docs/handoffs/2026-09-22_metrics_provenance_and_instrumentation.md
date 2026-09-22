@@ -2,7 +2,7 @@
 status: open                  # executes register E3 and E4; Marc's disposition pass on the §1 table owed; owns the internal-MTTC finding the README carried unowned since 2026-08-05
 created: 2026-09-22
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E3, §E4
-companions: 2026-09-22_terminology_needs_basis_sweep.md (the word *suppression*), 2026-09-22_ch5_two_phase_restructure.md (where the reinstated columns land), 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md (the analyser that computes every row)
+companions: ../workflows/terminology.md (the word *suppression* — its PROPOSED row; the 2026-09-22 terminology sweep left the word on the floats on purpose, because it goes with the quantity this brief rules: Table 5.2's row, the captions of Figures 5.3–5.5, the headers of Tables 5.4–5.6, `tools/_ch5_style.py` and the ch5 generators' axis labels; `python tools/term_screen.py census suppression` lists every site), 2026-09-22_ch5_two_phase_restructure.md (where the reinstated columns land), 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md (the analyser that computes every row)
 ---
 
 # Give every metric a source — a citation, or a methodology definition with why it is needed — and put stealth and detectability back beside the no-defence numbers
