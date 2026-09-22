@@ -139,7 +139,7 @@ def grouped_panels(series: list[tuple[str, str, bool]], get, *, key_title: str, 
     w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {%s};" % (kx, ky, key_title))
     xx = kx + 1.9
     for name, cname, hatched in series:
-        width = 0.52 + 0.115 * len(key_labels[name]) + 0.45
+        width = 0.52 + 0.165 * len(key_labels[name]) + 0.45  # ~0.165 cm per character at footnotesize helvet (2026-09-22: 0.115 overlapped)
         if xx + width > XC1:
             xx, ky = kx + 1.9, ky - 0.4
         if hatched:

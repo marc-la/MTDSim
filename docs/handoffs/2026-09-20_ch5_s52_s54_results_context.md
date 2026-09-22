@@ -921,7 +921,22 @@ STATE); a fourth review round on the applied figure is recorded below.
   DRAFT STATE; build clean at 88 pages. Candidates A and B remain as PNGs in
   `data/results/ch5_defended/`.
 
-**Open for Marc:** (0) "÷" against "relative to" in the panel (b) label; (1) `_ch5_style.py` LABEL["movement"] = "attacker model"
+**Rulings 2026-09-22 (Marc), after the fourth round.** (0) "÷" stays. (1) The
+shared key map is fixed: `_ch5_style.py` LABEL["movement"] = "movement
+attacker"; Figures 5.4 (`fig_5-3-2a_cross_arm`) and 5.6 (`fig_5-4a_frontier`)
+and Table 5.8 (`tab_5-4a_cost`) regenerated. Found on the way, fixed as a
+mechanism: the grouped-panel key in `ch5_effectiveness_figures.py` spaced
+entries at 0.115 cm per character and overlapped "baseline attacker" with the
+next swatch in the committed figure too; now 0.165. Found, not fixed, not
+this session's: `fig_5-4a_frontier` was 16.1 cm wide before and after (the
+panel (b) label column), over the 15.7 cm pack. (2) The control's declaration
+is drafted at the head of §5.2.2 with the two other head slots (why the
+property needs defence; the layers and the interval read), DRAFT STATE,
+ratify on read. (3) The 200 s and 60 000 s reads: Marc will settle later.
+Marc's closing read of the figure: it conveys that a disruption occurs and
+that the response to it differs by model.
+
+**Still open for Marc:**
 against the registry (three other floats); (2) the control's declaration at
 the head of §5.2.2 (owed, §3); (3) whether the 60 000 s and 200 s reads enter
 as sentences (Table 5.1 declares 15 000 s and the two intervals only).
