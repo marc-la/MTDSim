@@ -40,7 +40,7 @@ LABEL = {
     "objective_none_c2": "$c_4$",
     "aggregate": r"$c_{\mathrm{agg}}$",
     "baseline": "baseline attacker",
-    "movement": "attacker model",
+    "movement": "movement attacker",  # registry row 1 (Marc, 2026-09-22: "attacker model" is the genre)
 }
 COLOUR = {  # RGB; the chapter's series contract (validated 2026-09-15)
     "objective_exfiltration": "31,84,140",
