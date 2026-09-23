@@ -5126,8 +5126,10 @@ full, with what it captures that the cited metrics cannot.]}
 %     is one the APT attacker model does not reach; the share of runs that never
 %     compromise a host is stated with it. NOT the inherited evaluation
 %     function's quantity (metrics_semantics.md §a).
-%   - with and without a defence: the relative reduction in the compromise
-%     ratio is an operator on a cited metric, not a new metric. One clause on
+%   - with and without a defence: NCR reduction, 1 - NCR_defence / NCR_none
+%     (RULED 2026-09-23, replaces "suppression"; same numbers), in the form of
+%     Alavizadeh et al.'s mitigation factor and Sharma et al.'s reduction
+%     percentage --- an operator on a cited metric, not a new metric. One clause on
 %     why it is the compromise ratio and not the success rate: with a defence
 %     running, the APT attacker model's success rate is zero on most conditions.
 %  INTRODUCED (defined in full here, with %   - STEALTH, two field names, both adapted (2026-09-23 census; "attack
@@ -5137,8 +5139,11 @@ full, with what it captures that the cited metrics cannot.]}
 %     its ACTIVE time (the horizon would hide the contrast, because the baseline
 %     attacker stops when it takes the target); and attack confidentiality
 %     (Zaffarano et al. 2015, already in Table 3.1): the share of actions a
-%     declared rate detector (two actions within w seconds) would not flag,
-%     shown at every w. Why: the APT attacker "trades speed for evasion"
+%     declared detector does not expose. The detector is the detectability
+%     level D at the bare standard: D(t) = sum_i exp(-(t - t_i)/tau), every
+%     action weighing 1, tau = 60 s (the one declared constant); an action is
+%     exposed when D, counting it, reaches the alarm level theta, and theta is
+%     swept on the figure's x axis. Why: the APT attacker "trades speed for evasion"
 %     (Alshamrani, subsec:apt); slowing the rate avoids triggering a defence
 %     (Ward, Duppel); fast scanning is easy to detect (Jafarian); none of the
 %     three cited effectiveness metrics reads the evasion side. State the

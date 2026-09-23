@@ -29,15 +29,15 @@ Full evidence per row: catalogue §(a). *Exists* = a paper names and defines it 
 | Hosts reached | **exists** | network compromise ratio (**NCR**) | Zhang 2023 §5; Ho 2024 Eq. 10 (HCR); Cheng 2014 (CHP) outside the lineage | — |
 | Delay to first compromise | **exists**, checkpoint ours | mean time to compromise (**MTTC**) | McQueen 2006; Zhang 2023 §3.4 | — the checkpoint is stated (below) |
 | Runs with no compromise | **not a metric** | — | — | becomes MTTC's note: the share of runs its mean is not taken over |
-| Suppression | **does not exist, not needed** | — (NCR with and without the defence) | NCR's | — |
-| Blocked fraction | **exists, adapted** (Marc's ruling — catalogue row) | attack actions blocked, as a share | Brown 2023 §III-D, §IV-A, Fig. 4 | adaptivity (§5.3.1) |
-| Recovery time (Figure 5.2(b)) | **does not exist** attacker-side | recovery time (plain) | — (MTTR is defender-side); why the attacker must recover: Jafarian 2015 | adaptivity — the one APT property readable only under a defence |
+| Suppression | **relabel — ruled 2026-09-23** | **NCR reduction**: $1 - \mathrm{NCR}_{\text{defence}} / \mathrm{NCR}_{\text{none}}$ — the same number `analyse.py:304` computes now (the 50 hosts cancel), so only labels change | NCR's sources, and the form: Alavizadeh 2022's mitigation factor $1 - \mathrm{ALE}^m/\mathrm{ALE}$ (Eq. 13, p.1782), Sharma 2025's reduction percentage (Eq. 17, p.9); Zaffarano 2015 reads the with-minus-without difference as the MTD's effectiveness | — |
+| Blocked fraction | **exists, adapted — ruled 2026-09-23** (Brown's name, cited; the partial match stated) | attack actions blocked, as a share | Brown 2023 §III-D, §IV-A, Fig. 4 | adaptivity (§5.3.1) |
+| Recovery time (Figure 5.2(b)) | **does not exist** attacker-side — **defined in §4.5, ruled 2026-09-23** | recovery time (plain) | — (MTTR is defender-side); why the attacker must recover: Jafarian 2015 | adaptivity — the one APT property readable only under a defence |
 | Actions per host reached | exists (Brown's *attempts required*) | — | — | **cut**: no float reads it; it re-reads "worse" |
 | Successes per host reached | does not exist | — | — | **cut** |
 | Time lost to MTD | does not exist as named | — | — | **cut** with efficiency |
 | Share of run under reconfiguration | exists (downtime family) | — | — | **cut** with efficiency |
 | *new* — attacker actions per unit of its active time | **exists** | **attack rate** (with **attack inter-arrival time**) | Zhan, Xu & Xu 2013 §III; Pendleton 2016 §5.1 | stealth: the field reads rate as aggressiveness; the thesis's *lower rate → quieter* reading is argued in §4.5 from Ward 2018 §5.18, Jafarian 2015 §VII, He 2025 §VI-D, Alshamrani 2019 |
-| *new* — share of actions a rate detector would not flag | **exists, adapted** | **attack confidentiality** | Zaffarano 2015 Table 4, §4.3; relayed by Cho 2020, Sengupta 2020; already in Table 3.1 | stealth, as detectability: Zaffarano's exposure rule was plaintext visibility; ours is a declared rate threshold, shown at every window |
+| *new* — share of actions a detector would not flag | **exists, adapted** | **attack confidentiality** | Zaffarano 2015 Table 4, §4.3; relayed by Cho 2020, Sengupta 2020; already in Table 3.1 | stealth, as detectability: Zaffarano's exposure rule was plaintext visibility; ours is the August detectability level $D$ used as the detector (§4 below), with the alarm level swept |
 | Share of steps per tactic (Figure 5.1(a)) | **does not exist** | share of steps per tactic (plain) | — | objective conditioning is claimed and is visible only in what the attacker does |
 | Runs leaving the commonest opening (Figure 5.1(b)) | **does not exist** | (plain) | — | strategic plurality is claimed; the baseline attacker is one script |
 | Profile divergence (body text) | does not exist (the statistic does) | — | — | **cut**: the colour heat map shows it, and its null is a construction fact (ruled 2026-09-21) |
@@ -111,35 +111,38 @@ So the only gap in §5.2 is stealth, and it is the one Jin named. Nothing else i
 **Figure 5.1, three panels.**
 - **(a) Heat map, in colour** (E8): tactics down the side, $c_1$–$c_4$ and $c_{\mathrm{agg}}$ across, **plus a baseline attacker column**. The baseline walks six activities, not tactics, so its column places each activity on the tactic that maps to that verb (§4.4.3), labelled as such. The exploit verb serves three tactics, so that cell is one merged cell across initial access, execution and privilege escalation. Dry-run (100 seeds, baseline activities with its per-vulnerability exploit rows counted once): lateral movement 31 %, discovery 23 %, the merged exploit cell 21 %, credential access 15 %, command and control 8 %, reconnaissance 2 %. **The seven non-action tactics are empty for the baseline** — the rows it has no vocabulary for, carrying about 40 % of most profiles' steps. This panel sets up (c).
 - **(b) Bar chart** (E8): opening length on the x-axis, one colour, the share of runs that have left the commonest opening, profiles and baseline.
-- **(c) Attack confidentiality against the detector's window** — **new**. x = the window *w* (a few seconds to a few minutes), y = the share of actions a detector that flags two actions within *w* would miss, one line per attacker (lines, because the points are correlated along *w* — Jin's rule). It shows every choice of *w*, so no constant has to be defended (E5), and it shows the finding honestly:
+- **(c) Attack confidentiality against the alarm level** — **new**; this is the August detectability graph (fig6, lower panel) restated in the field's metric. **How detectability becomes attack confidentiality:** $D(t) = \sum_i e^{-(t - t_i)/\tau}$ over the attacker's past actions is a detector that remembers each action and forgets it over about a minute ($\tau$ = 60 s; $D/\tau$ is roughly the recent action rate). Zaffarano's attack confidentiality is the share of the attacker's activity a detector does not expose. So an action is *exposed* when $D$, counting that action, reaches the alarm level $\theta$, and attack confidentiality($\theta$) is the share of actions that are not. The x-axis is $\theta$ (roughly, "actions in the last minute"), one line per attacker, so no alarm level has to be defended; $\tau$ is the one declared constant (its sweep exists, `data/misc/_viz/stealth_exposure/fig3_tau_sweep.png`, for the appendix). **Bare standard** — every action weighs 1, no tactic tiers, no CVSS term — so the three hand-set magnitudes of August's $D$ are gone.
 
-  Dry-run (100 seeds, 15 000 s, no defence; preliminary — for the ruling only):
+  Dry-run (100 seeds, targeted, 15 000 s, no defence; `data/misc/_viz/stealth_ch5_dryrun/stealth_dryrun.{py,png}`, gitignored; preliminary — for the ruling only):
 
-  | *w* (s) | $c_1$ | $c_2$ | $c_3$ | $c_4$ | $c_{\mathrm{agg}}$ | baseline |
-  |--:|--:|--:|--:|--:|--:|--:|
-  | 5 | 0.80 | 0.80 | 0.82 | 0.72 | 0.78 | **1.00** |
-  | 10 | 0.69 | 0.69 | 0.73 | 0.59 | 0.68 | 0.58 |
-  | 30 | **0.48** | **0.48** | **0.56** | 0.37 | **0.46** | 0.19 |
-  | 60 | **0.29** | **0.30** | **0.39** | 0.20 | **0.29** | 0.16 |
-  | 120 | 0.11 | 0.12 | 0.17 | 0.06 | 0.11 | 0.09 |
-  | 300 | 0.01 | 0.01 | 0.02 | 0.00 | 0.01 | 0.01 |
+  | | mean $D$ | attack confidentiality at $\theta$ = 1.5 | at 2 | at 3 | share of active time with $D$ above 2 |
+  |--|--:|--:|--:|--:|--:|
+  | $c_1$ | 1.28 | 0.19 | 0.39 | 0.72 | 0.20 |
+  | $c_2$ | 1.23 | 0.21 | 0.40 | 0.72 | 0.18 |
+  | $c_3$ | 1.00 | 0.31 | 0.53 | 0.83 | 0.11 |
+  | $c_4$ | 1.71 | 0.10 | 0.24 | 0.54 | 0.33 |
+  | $c_{\mathrm{agg}}$ | 1.27 | 0.20 | 0.38 | 0.71 | 0.19 |
+  | baseline | 1.61 | 0.09 | 0.20 | 0.53 | 0.40 |
 
-  **What it says:** against a detector that looks at tens of seconds to a couple of minutes, the APT attacker model leaves two to three times as many of its actions unflagged as the baseline; against one that looks at bursts under ten seconds, the baseline reads as the quieter, because its shortest activity takes 5 s while the profiles' drawn dwells can be shorter; beyond a few minutes they converge. *Quieter* therefore needs its timescale stated, and the text says it. **The ablation** (non-action tactics removed from the record) erases the margin at 60 s (0.11–0.13 against 0.16) but not at 30 s (0.25–0.30 against 0.19), so the August claim that the non-action tactics are *all* of the margin holds at the minute scale only; the sentence is scoped to that.
+  **What it says:** three profiles and the aggregate take roughly twice the baseline's share of their actions below the alarm at every level, and spend half the time above it; $c_4$, the profile with the fewest non-action tactics, reads with the baseline — the mechanism showing, as in August. **Correction to this brief's earlier dry-run:** the "flip under 10 s" came from a detector that remembers only the last action (two actions within *w*); a detector with a minute's memory, which is what $D$ is, does not produce it. That table is withdrawn. The ablation (non-action tactics removed) is to be re-run on this detector.
 
 **Table 5.3.** The effectiveness group — ASP, NCR, MTTC (with the no-compromise share in its note) — and one stealth column, **attack rate** (actions per 1 000 s of active time; no parameter to defend). Dry-run: $c_1$ 21.4, $c_2$ 20.3, $c_3$ 16.2, $c_{\mathrm{agg}}$ 21.0, $c_4$ 28.7, baseline 28.4. *Active* time matters: over the whole horizon the baseline reads 19.6, level with the profiles, because under the targeted objective it stops when it takes the target (0.70 of the horizon on average). §4.5 declares the denominator and says why.
 
-**The body, in order** (content points; Marc's prose): (1) campaign shape, 5.1(a); (2) not one script, 5.1(b); (3) on the field's metrics the model is slower and has reached less by the time limit, Table 5.3; (4) it acts at a lower rate and leaves more of its actions unflagged at the minute scale, 5.1(c) and the rate column — the non-action tactics that make it slower are what make it quieter, which is Alshamrani's "trades speed for evasion"; $c_4$, with the fewest non-action tactics, is level with the baseline, the mechanism showing. E10(i)'s method point is chapter 6's.
+**The body, in order** (content points; Marc's prose): (1) campaign shape, 5.1(a); (2) not one script, 5.1(b); (3) on the field's metrics the model is slower and has reached less by the time limit, Table 5.3; (4) it acts at a lower rate and takes more of its actions below a detector's alarm, 5.1(c) and the rate column — the non-action tactics that make it slower are what make it quieter, which is Alshamrani's "trades speed for evasion"; $c_4$, with the fewest non-action tactics, is level with the baseline, the mechanism showing. E10(i)'s method point is chapter 6's.
 
-**Ceilings.** Observations of the no-defence arm; axis 5 stays NOT ADDRESSED (a declared detector, not a detection model in the simulator); in chapter 5 "leaves more of its actions unflagged by a rate detector" or "acts at a lower rate", never "less detectable"; the detector is declared and its opposite (time-at-risk) is named.
+**Ceilings.** Observations of the no-defence arm; axis 5 stays NOT ADDRESSED (a declared detector, not a detection model in the simulator); in chapter 5 "takes more of its actions below the alarm" or "acts at a lower rate", never "less detectable"; the detector is declared and its opposite (time-at-risk, Hong 2018) is named.
+
+**Why the two stealth metrics, when the simulator has no detector** (Marc's question, 23 Sep). Nothing in MTDSim can *measure* detection, and nothing here claims to. What the simulator does record is everything the attacker gives a detector to see: its actions and when it takes them. *Attack rate* reports that footprint with no assumption at all. *Attack confidentiality* reports what a stated detector would make of it — that is the step from "fewer actions per minute" to "less of it seen", and the step is the assumption, made in the open with its alarm level swept. Together they are the only thing in §5.2 that reads the evasion side of the trade Alshamrani names; without them Table 5.3 says only *worse* (E4, E10(i)).
 
 ## Rulings owed (Marc) — one sitting
 
 1. The verdict table (§1), row by row — especially: **ASP** over "ASR"; MTTC at the first host; Brown's *attack actions blocked* restored (the in-flight difference); the cuts.
-2. Table 5.2's grouping — *attacker behaviour* / *effectiveness* (§1b).
+2. Table 5.2's grouping — *attacker behaviour* / *effectiveness* (§1b). *(Ruled 2026-09-23: ASP, NCR, MTTC, NCR reduction for suppression, Brown's name for blocked actions, recovery time defined in §4.5, stealth defined in §4.5.)*
 3. The stealth pair: attack rate in Table 5.3 and attack confidentiality in Figure 5.1(c) — or one of them. And its framing: a declared rate detector, with the timescale stated.
 4. Figure 5.1's baseline column: the mapped, merged-cell form (§4) — or a separate verb-level strip.
 5. §1c: the retrospective cuts (divergence, breadth, *D*, disengagement, learning).
 6. The download list (catalogue §c) — Jafarian 2014 and Hong & Kim 2016 first.
+7. **Objective names — *opportunistic* back to Brown's *general*.** Brown names his two "General Attack Scenario (Scenario 1)" and "Target Attack Scenario (Scenario 2)" (§III, `brown2023.md` l.107–109; "a targeted attack (i.e., scenario 2)", l.196), and Jin will know them as the general and targeted attacker. *Opportunistic* replaced *general* by Marc's ruling of 2026-08-31 (terminology registry row "The two objectives of the baseline attacker"); under E2 it is an invented replacement for a term the source supplies. Sites: `dissertation.tex` l.795 and Table 2.3 (l.803) and three more; `tab_2-2b_lineage_configurations.tex`; `tab_5-3-3a_lineage.tex` (retired float); the registry row. Chapter 5 itself runs the **targeted** objective throughout (Table 5.1), so no chapter 5 float changes. Recommended: revert, overturning the 2026-08-31 row by name.
 
 ## Validation gate
 
