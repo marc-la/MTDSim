@@ -101,7 +101,7 @@ Labels stay (`sec:attacker-in-operation`, `subsec:aio-unopposed`, `subsec:aio-di
 
 Two set-ups Jin named are appended to the affinity board handoff (its §9): the model is harder to detect while slower and less successful — why APT attacker modelling matters; and the effective defence differs by attacker — no single solution, more research. Both are already on the board as mini-hypotheses; the note only records that the supervisor has now named them as the discussion's spine.
 
-### 6. Marc's spoken rulings, 2026-09-23, and the heading set re-cut (supersedes §1's phase-two list and §2's 5.3.x rows)
+### 6. Marc's spoken rulings, 2026-09-23, and the heading set re-cut (supersedes §1, §2, and §3's rows for Fig 5.3 (kept as the depth, not retired), Tab 5.6 and the §5.4 floats)
 
 Marc, dictated at the start of the headings session ("we get the headings right first, then move the stuff"):
 
