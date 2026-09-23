@@ -21,7 +21,7 @@ companions: ../workflows/results_section_workflow.md (record → read → draw),
 |---|---|---|
 | Arm | **6**: the baseline attacker; the APT attacker model on $c_1$–$c_4$ and $c_{\mathrm{agg}}$ | body = both attackers, layer-aggregated; appendix = per profile |
 | Condition | **11**: no defence; the seven mechanisms alone; random; alternative; **MTDShield as released** | E6 |
-| Deployment interval | **50, 100, 200, 500, 1 000, 2 000 s** (Q1) | 50–200 s is the range Zhang and Ho swept; 2 000 s is the chapter's long interval; six points draw a line |
+| Deployment interval | **50, 100, 200, 500, 1 000, 2 000 s** (Q1) | 50–200 s is the range Zhang and Ho swept; 2 000 s is the chapter's long interval; six points draw a line. **Marc 2026-09-23:** 2 000 s is defended as the top of a range, not by precedent — 50 s to 2 000 s so the results carry the interval on the x axis; when this lands, rewrite §5.1's interval sentence to that (the wording is in the tex comment under the Defence unit) and give Table 5.1's row the six levels |
 | Timing distribution | near-periodic only (Q3) | Jin: unlikely to change the results; the exponential arm and Table 5.1's row go, or stay at 200 s only |
 | Objective | targeted (held) | ruled 2026-09-20; the opportunistic lineage arm goes with §5.3.3 (Q4) |
 | Time limit | 15 000 s; plus the **60 000 s no-defence extension**, both arms | the pace sentence ruled for Table 5.3 (2026-09-22) needs it at the reported seed count |

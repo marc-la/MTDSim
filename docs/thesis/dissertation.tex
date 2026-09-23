@@ -410,11 +410,11 @@ defence is evaluated against (Section~\ref{subsec:attacker-model}). The
 simulator is the product of four studies over one evolving codebase;
 Table~\ref{tab:mtdsim-lineage} lists what each work added to the
 codebase, and each addition is described where it is used.
-% DRAFT STATE 2026-09-23 --- the sentence below is session-written on
+% RATIFIED 2026-09-23 (Marc: "that's fine") --- the sentence below is session-written on
 % register E5 (every setup number needs a source; Jin: "a summary table in
 % the background of what prior studies ran"), Marc's direction the same day
 % ("putting a line into the background and then ... citing in line").
-% RATIFY ON READ. It is the landing point for Table 5.1's citations.
+% It is the landing point for Table 5.1's citations.
 Table~\ref{tab:lineage-configurations} gives the configurations the
 studies evaluated on.
 
@@ -5531,9 +5531,9 @@ carries no layer number.]}
 % data/results/ch5_defended/run_corpus.py still sets SEEDS = range(100), which
 % is the preliminary pass the floats are argued from. The chapter reports
 % thousand-seed numbers, and the word "preliminary" appears nowhere in it.
-% DRAFT STATE 2026-09-23 (register E5; Marc: "literally it needs to be visible
-%  that we're citing where we got the numbers from"). Two session edits, RATIFY
-%  ON READ: (i) "Fifty hosts" recast as "The network has 50 hosts" --- E5's
+% RATIFIED 2026-09-23 (register E5; Marc: "literally it needs to be visible
+%  that we're citing where we got the numbers from"; "that's fine"). Two
+%  session edits: (i) "Fifty hosts" recast as "The network has 50 hosts" --- E5's
 %  numerals rule, and a sentence may not open on a numeral; (ii) the third
 %  sentence is new: the network is Zhang's second of four exactly (Table 2,
 %  p.33: 50 nodes, 5 endpoints, 4 layers), and a database target is Brown's
@@ -5605,16 +5605,21 @@ distribution is varied separately (Table~\ref{tab:experiment}). The two
 intervals are 200\,s, the longest the lineage has swept
 (Table~\ref{tab:lineage-configurations}), and 2\,000\,s, ten times it. The
 no-defence runs are the reference for every effect this chapter reports.
-% DRAFT STATE 2026-09-23 (register E5): the interval sentence is
-%  session-written, RATIFY ON READ. 200 s is the top of Zhang's 50--200 s and
-%  Ho's comparison interval (Table 8, p.24). [3b] 2 000 s HAS NO PRECEDENT and
-%  "ten times it" describes it without justifying it. The design record gives
-%  the reason as "above the boundary at which the objective becomes reachable"
-%  (handoffs/2026-09-09_ch5_experiments_design.md, §20 factor table) --- NOT
-%  re-verified on the current corpus, so it is not asserted here. Yours to say,
-%  in a clause. When the corpus handoff's sweep lands (50, 100, 200, 500,
-%  1 000, 2 000 s), this sentence becomes "the lineage's 50--200 s (Table 2.2),
-%  extended to 2 000 s" and the reason is the same one.
+% RATIFIED 2026-09-23 (Marc: "that's fine"); register E5. 200 s is the top of
+%  Zhang's 50--200 s and Ho's comparison interval (Table 8, p.24).
+% [3b] RESOLVED 2026-09-23, Marc's ruling: 2 000 s is NOT defended by precedent.
+%  It is the top of a RANGE: "2000 is just something we came up with in terms
+%  of a range ... we can do 50 seconds to 2000 seconds as a range, and that's a
+%  number that we have motivated, because then our results have the MTD
+%  interval along the x axis." So the motive is the analysis (interval as the
+%  results' x axis, 50 s the lineage's floor), not a claim about 2 000 s itself.
+%  The design record's "above the boundary at which the objective becomes
+%  reachable" is NOT the reason and is not to be asserted. REWRITE WHEN THE
+%  SWEEP LANDS (corpus handoff): "a range from 50 s, the shortest the lineage
+%  has run, to 2 000 s (Table 2.2), so that every effect can be read against
+%  the interval" --- the interval sentence then names the six levels, and
+%  Table 5.1's row takes them. Until then this sentence stays true to the two
+%  levels actually run.
 % REWORKED 2026-09-18, THIRD pass, on four of Marc's rulings. The unit is now
 %  three declarations and no argument, which is what conventions §a asks a setup
 %  for, and it is 54 words against 75.
@@ -5824,8 +5829,8 @@ ranked on hosts reached, the distinct hosts an attacker compromises.
 %  C3 "for this chapter" cut; C4 "across this chapter" cut. DO NOT RE-FLAG: the
 %  Network unit's first sentence duplicating Table 5.2's values (ruled form,
 %  2026-09-18). 274 -> 258 words. Unit is through pass 5.
-% DRAFT STATE 2026-09-23 (register E5): "a thousand" -> 1 000 (E5's numerals
-%  rule) and the Zhang clause added, RATIFY ON READ. Zhang is the only lineage
+% RATIFIED 2026-09-23 (register E5): "a thousand" -> 1 000 (E5's numerals
+%  rule) and the Zhang clause added. Zhang is the only lineage
 %  study that states a run count (100 per variable set, p.33); Brown, Ho and Tay
 %  state none --- Ho's 100 is training episodes (H-PAR-06), not runs, which the
 %  setup handoff had wrong. The clause compares; it does not claim a standard.

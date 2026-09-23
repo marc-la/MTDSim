@@ -1,5 +1,5 @@
 ---
-status: open (steps 1–4 landed 2026-09-23; Marc's two reasons + ratification owed)  # executes register E5; successor to the retired §5.2 setup critique for §5.1's remaining debts (the two-target reason; C39 generator)
+status: open (landed 2026-09-23; only the two-target reason owed)  # executes register E5; successor to the retired §5.2 setup critique for §5.1's remaining debts (the two-target reason; C39 generator)
 created: 2026-09-22
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E5
 companions: 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md (the interval levels that Table 5.1 will declare), ../workflows/evaluation_conventions.md §c, §d
@@ -32,15 +32,14 @@ was ruled by that direction (the background, ch2).
   episodes*, not evaluation runs; Ho states no run count. Zhang alone states
   100 per condition, so the Runs clause cites Zhang only.
 
-**Still owed (Marc):** (1) the two-target reason, `[3b]` under the Network
-unit, unchanged; (2) **the 2 000 s reason**, a new `[3b]` under the Defence
-unit — it has no precedent, and "ten times it" describes it without
-justifying it (the design record's reason, "above the boundary at which the
-objective becomes reachable", was not re-verified and is not asserted);
-(3) ratify the four DRAFT STATE clauses. When the corpus sweep lands, the
-interval clause becomes "the lineage's 50–200 s, extended to 2 000 s" and
-Table 5.1's interval row takes the six levels. C39 stays deferred to that pass.
-Retire this file when (1)–(3) are through.
+**Resolved 2026-09-23 (Marc):** the four clauses are ratified ("that's
+fine"); **2 000 s** is defended as the top of a range, 50 s to 2 000 s, so the
+results carry the interval on the x axis, not by precedent (ruling recorded in
+the tex comment under the Defence unit; the rewrite rides the corpus handoff's
+sweep, which now says so).
+
+**Still owed (Marc):** the two-target reason, `[3b]` under the Network unit.
+Retire this file when it is in. C39 stays deferred to the sweep pass.
 
 ## State of play (as briefed 2026-09-22)
 
