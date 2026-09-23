@@ -5093,6 +5093,61 @@ it would cost to be wrong about them.
 %  ruled promoted close (2026-08-20: "this is basically our attack model",
 %  one sentence at the end) with the sweep pointer bound.]
 
+\section{Instrumenting MTDSim}
+\label{sec:instrumenting}
+
+\noindent\emph{[Placeholder --- delete on drafting. The metrics Chapter~\ref{ch:experiments}
+reads, each with its source: a metric the field already uses is named as
+the field names it and cited; a metric this thesis introduces is defined in
+full, with what it captures that the cited metrics cannot.]}
+
+% HEADING ADDED 2026-09-23 (Marc: "we're not going to draft [it] but I can put a
+% heading in"). Executes register E3 (every metric cited, or defined in the
+% methodology with why it is needed) and carries E10(i)'s set-up (the model reads
+% poorly on the existing metrics but is harder to detect, "which the methodology
+% must explain well"). Brief and per-metric dispositions:
+% docs/handoffs/2026-09-22_metrics_provenance_and_instrumentation.md §1, §3, §4.
+% PLACEMENT: its own section, not §4.4.5, because the metrics are not part of the
+% join that §4.4 declares; one line to move under §4.4 if Marc prefers. HEADING:
+% Marc's phrase. "Metrics" is the alternative, parallel to the literature review's
+% own Metrics subsection, where Table 3.1 files the field's metrics.
+% CONTENT POINTS, per metric (for Marc's dictation, not drafted here): the name
+% the field uses; the definition, in the formalism's symbols where one applies;
+% what it captures; why the cited metrics do not capture it; the citation, or the
+% reason it is new. Names and dispositions wait on the brief's rulings pass.
+%  CITED (the field's; defined here only where this thesis fixes a checkpoint):
+%   - attack success rate: the share of runs that compromise the target host,
+%     estimating Cho's attack success probability (NOT Ho's ASR, which is hosts
+%     compromised per attempted action --- same name, another quantity).
+%   - network compromise ratio: hosts compromised by the end of a run, over the
+%     network's hosts.
+%   - mean time to compromise: the checkpoint this thesis reads it at (the first
+%     host) and why, since the lineage's checkpoint (a compromise ratio of 0.8)
+%     is one the APT attacker model does not reach; the share of runs that never
+%     compromise a host is stated with it. NOT the inherited evaluation
+%     function's quantity (metrics_semantics.md §a).
+%   - with and without a defence: the relative reduction in the compromise
+%     ratio is an operator on a cited metric, not a new metric. One clause on
+%     why it is the compromise ratio and not the success rate: with a defence
+%     running, the APT attacker model's success rate is zero on most conditions.
+%  INTRODUCED (defined in full here, with why):
+%   - attack intensity (stealth), adapted from He's relative intensity: actions
+%     per unit of the attacker's ACTIVE time (the horizon would hide the contrast,
+%     because the baseline attacker stops when it takes the target), read against
+%     the baseline attacker's as He reads his against the original attack. Why =
+%     He finds evasion comes from periodic delays, and the APT attacker
+%     "trades speed for evasion" (Alshamrani, subsec:apt), and none of the three
+%     cited metrics reads the evasion side of that trade. The unit: one action =
+%     one verb the attacker invokes, so the baseline attacker's per-vulnerability
+%     rows count as one; a tactic that invokes no verb adds time and no action.
+%   - the §5.2 descriptive instruments: share of steps per tactic; the share of
+%     runs that leave the commonest opening; profile divergence (the statistic
+%     cited as a statistic).
+%   - the §5.3.1 instruments: the share of steps whose action fails on an unmet
+%     precondition; recovery time after a disruption.
+%  STATISTICS (cited as statistics, not metrics): bootstrap intervals, Spearman's
+%  rank correlation, Cliff's delta, Jensen--Shannon divergence.
+
 % =====================================================================
 \chapter{Evaluation}
 \label{ch:experiments}

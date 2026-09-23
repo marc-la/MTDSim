@@ -54,6 +54,10 @@ metrics and the numbers exist.
      — **the metrics (E3, E4)**: a source for every Table 5.2 row, the chapter 4
      unit that defines the new ones with why, stealth and detectability back in
      Table 5.3; owns the internal-MTTC finding. Marc dictates the unit.
+     *Re-cut 2026-09-23 on Marc's direction (efficiency rows out, grouped by
+     phase, the field's names; stealth as attack intensity, adapted from He);
+     §4.5 Instrumenting MTDSim heading placed; §5.2's fidelity picture
+     proposed with a dry-run. Six rulings owed.*
    - [`2026-09-22_ch5_setup_number_justification.md`](2026-09-22_ch5_setup_number_justification.md)
      — **the numbers (E5)**: the background table of the lineage's
      configurations and one clause per §5.1 value; the numerals rule.
