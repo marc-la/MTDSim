@@ -2,7 +2,7 @@
 status: open                  # executes register E3 and E4; Marc's disposition pass on the §1 table owed; owns the internal-MTTC finding the README carried unowned since 2026-08-05
 created: 2026-09-22
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E3, §E4
-companions: ../workflows/terminology.md (the word *suppression* — its PROPOSED row; the 2026-09-22 terminology sweep left the word on the floats on purpose, because it goes with the quantity this brief rules: Table 5.2's row, the captions of Figures 5.3–5.5, the headers of Tables 5.4–5.6, `tools/_ch5_style.py` and the ch5 generators' axis labels; `python tools/term_screen.py census suppression` lists every site), 2026-09-22_ch5_two_phase_restructure.md (where the reinstated columns land), 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md (the analyser that computes every row)
+companions: ../workflows/terminology.md (the word *suppression* — its PROPOSED row; the 2026-09-22 terminology sweep left the word on the floats on purpose, because it goes with the quantity this brief rules: Table 5.2's row, the captions of Figures 5.3–5.4, the headers of Tables 5.4–5.5 (renumbered 2026-09-23 by the restructure), `tools/_ch5_style.py` and the ch5 generators' axis labels; `python tools/term_screen.py census suppression` lists every site), the two-phase restructure, landed 2026-09-23 (the reinstated columns land in Table 5.3, under §5.2 *APT attacker model versus baseline attacker*), 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md (the analyser that computes every row)
 ---
 
 # Give every metric a source — a citation, or a methodology definition with why it is needed — and put stealth and detectability back beside the no-defence numbers
@@ -53,6 +53,8 @@ Marc's proposal: a unit after §4.4.4, "instrumenting MTDSim". Two placements:
 Per metric: the field's name; the definition in the formalism's symbols where one applies (the marking, the visit stream, $\tau_p$); what it captures; why the existing metrics do not; the citation or the reason it is new. The four §5.2 instruments (campaign coverage, opening variety, profile divergence, response to disruption) are declared here too, briefly — E3 does not exempt them, and the 2026-09-18 instrument/metric split then needs no separate register. Every new metric gets its hand trace (V1), recorded in a small validation table in the appendix or the record.
 
 Table 5.2 gains a **Source** column: a citation, or the §4.5 pointer.
+
+**Residue from the restructure (2026-09-23).** Marc: the setup must "make sense in terms of the metrics", and Table 5.2 may change. Two consequences of the merge now land here. (1) §5.1's Metrics unit still says the metrics are "grouped by effectiveness and efficiency, as Table 3.x groups the field's", and Table 5.2 carries the same grouping. The split is gone, so both need a new grouping, or none. (2) Defence efficiency is retired (Figures 5.5 and 5.6 and Table 5.7 are gone), so a cost row of Table 5.2, such as time lost to MTD or the share of the run under reconfiguration, survives only if a phase-two float reports it. Otherwise it leaves the table.
 
 ## Rulings owed (Marc)
 

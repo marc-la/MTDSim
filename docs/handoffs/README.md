@@ -40,8 +40,7 @@ metrics and the numbers exist.
    every other brief's floats.
 
 2. **Marc's rulings pass, one sitting**: the metric dispositions
-   (`metrics_provenance_and_instrumentation` §1), the heading set and the four
-   structural rulings (`ch5_two_phase_restructure` R1–R4), the setup rulings
+   (`metrics_provenance_and_instrumentation` §1), the setup rulings
    (`ch5_setup_number_justification`). Everything downstream regenerates floats
    with these words on them, so nothing is applied before this. *(The
    terminology table was ruled and applied 2026-09-22 — the model is the APT
@@ -66,9 +65,12 @@ metrics and the numbers exist.
      three chapter 5 figure fixes. Marc's day; the terminology ruling it waited
      on (the boxes' names) landed 2026-09-22: the profile net, the join, MTDSim.
 
-4. [`2026-09-22_ch5_two_phase_restructure.md`](2026-09-22_ch5_two_phase_restructure.md)
-   — **the chapter (E1, E7, E10)**: two phases under one setup, the float
-   moves, the labels kept. Moves the tex once 1–3 have landed; then drafting.
+4. *The chapter (E1, E7, E10) landed 2026-09-23:* the heading set ruled
+   (§5.2 *APT attacker model versus baseline attacker*; §5.3 *APT attacker model
+   versus MTD* = response to disruption, effect of the attacker model, defence
+   mechanisms and execution schemes), the tex moved, §5.3.3 and §5.4 retired,
+   the brief retired. Its residue rides the metrics, figure and results-context
+   briefs.
 
 5. Then the discussion:
    [`2026-09-15_ch6_discussion_affinity_board.md`](2026-09-15_ch6_discussion_affinity_board.md)

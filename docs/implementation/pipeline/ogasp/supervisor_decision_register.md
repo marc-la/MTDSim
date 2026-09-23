@@ -754,6 +754,17 @@ organised, named, justified and drawn.
   techniques" for phase two. *Overturns:* the three-way split and the five
   headings approved 2026-09-20 (results context §2, §4); the design handoff's
   §8–§9 shape; the property-to-subsection map in the §5.2 tex comment.
+  *Applied 2026-09-23 (Marc, spoken, the headings session):* §5.2 **APT
+  attacker model versus baseline attacker** (no subsections: Figure 5.1, Table
+  5.3); §5.3 **APT attacker model versus MTD** = 5.3.1 Response to disruption
+  (the response-to-disruption reading at the head of phase two, as Jin leaned),
+  5.3.2 Effect of the attacker model (the headline: Figure 5.4 and Table 5.5 as
+  they were numbered, the interval on the x axis, aggregated by layer), 5.3.3
+  Defence mechanisms and execution schemes (the depth: Figure 5.3 and Table 5.4,
+  MTDShield as a scheme column). Defence efficiency retired whole ("just
+  goes"; the frontier figure "dead in the water"); the comparison with prior
+  evaluations and its table retired, subsumed into the scheme columns per E6.
+  The brief retired with the move.
 
 - **E2 — No invented terms; every name on a needs basis.** On "movement
   attacker": *"Why do we call it a movement attacker instead of APT attacker?

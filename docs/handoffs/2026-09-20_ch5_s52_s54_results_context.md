@@ -26,8 +26,13 @@ companions: 2026-09-09_ch5_experiments_design.md (the design record, §8–§9, 
 > reference line (register E1) — and ruled the model's name, the layer
 > trichotomy and *suppression* out of the dissertation's surface (E2, E3). §2
 > (why the three-way split is right), §4 (the five headings) and §6 (the opening
-> slots) are therefore superseded by
-> [`2026-09-22_ch5_two_phase_restructure.md`](2026-09-22_ch5_two_phase_restructure.md);
+> slots) are therefore superseded by the two-phase restructure (landed
+> 2026-09-23: §5.2 *APT attacker model versus baseline attacker*; §5.3 *APT
+> attacker model versus MTD* = 5.3.1 Response to disruption, 5.3.2 Effect of the
+> attacker model, the headline, 5.3.3 Defence mechanisms and execution schemes,
+> the depth; §5.3.3 Comparison with prior evaluations and §5.4 retired). Owed here
+> when drafting starts: re-cut §6's opening slots for that set, and reverse T14's
+> hand-off (the headline now comes first and the depth breaks it down);
 > §1 (the reader), §3 (the paragraph shape), §5 (the frame, with its vocabulary
 > re-keyed by the terminology brief) and §8 (every figure's record) stand.
 

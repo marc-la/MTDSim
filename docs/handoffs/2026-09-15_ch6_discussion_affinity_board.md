@@ -911,5 +911,6 @@ now the supervisor's spine, not a session's composition.
    and with MTDShield as an arm (E6), so the sentence is written after the
    thousand-seed corpus, not before.
 
-Both depend on the restructure brief (`2026-09-22_ch5_two_phase_restructure.md`)
-for the floats they cite.
+Both cite the restructured chapter (landed 2026-09-23): set-up 1 reads §5.2
+*APT attacker model versus baseline attacker*, set-up 2 the headline §5.3.2
+*Effect of the attacker model*.
