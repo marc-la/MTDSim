@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-08-20
-updated: 2026-09-22   # §(i) added: the reader-overhead term screen (pass 6, sweep 4) with its sources; register E2
+updated: 2026-09-23   # §(b)8 numerals rule (register E5); §(i) added 2026-09-22
 ---
 
 # Academic register — the target conventions for the section voice pass
@@ -70,6 +70,16 @@ the working vocabulary has overshot.
 7. **Boosters are removed** (*clearly*, *obviously*, *of course*, *very*) —
    the number or mechanism carries the force (Hyland on boosting;
    critique_protocol §e6).
+8. **A number greater than ten is written in numerals** (*50 hosts*, *1 000
+   runs*, *sums to 100*); ten and below may stay words (*four levels*, *ten
+   conditions*). A number with a unit is always numerals (*5 s*). A sentence
+   never opens on a numeral: recast it (*Fifty hosts across…* → *The network
+   has 50 hosts across…*), never spell the number out to dodge the rule.
+   Thousands take a thin space in the tex (`1\,000`), as the chapter 5 floats
+   already do. **Supervisor house rule, register E5 (2026-09-22)**; applied to
+   chapter 5 on 2026-09-23. Pass 6 flags every violation as a mechanical
+   item; `repair-dictation` applies it at pass 2/3a, since dictation always
+   spells numbers out.
 
 ## (c) Tense
 

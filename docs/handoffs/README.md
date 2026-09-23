@@ -58,6 +58,9 @@ metrics and the numbers exist.
    - [`2026-09-22_ch5_setup_number_justification.md`](2026-09-22_ch5_setup_number_justification.md)
      — **the numbers (E5)**: the background table of the lineage's
      configurations and one clause per §5.1 value; the numerals rule.
+     *Landed 2026-09-23 (Table 2.2, Table 5.1's citations, the §5.1 clauses,
+     the rule); two reasons are Marc's — the two targets and 2 000 s — plus
+     ratifying the DRAFT STATE clauses.*
    - [`2026-09-22_ch4_overview_figure_family.md`](2026-09-22_ch4_overview_figure_family.md)
      — **the figure (E8)**: the head figure as boxes, a zoom per section, and the
      three chapter 5 figure fixes. Marc's day; the terminology ruling it waited

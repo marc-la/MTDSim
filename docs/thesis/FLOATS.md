@@ -14,6 +14,7 @@ new float.
 | Position | File (stem) | Label | Generator |
 |---|---|---|---|
 | §2.2 MTDSim | `fig_2-2a_mtdsim_model` (.pdf; .png preview is gitignored) | `fig:mtdsim-model` | `tools/ch2_model_figures.py --only fig_2-2a_mtdsim_model` (SVG in `tools/ch2_fig21_mtdsim_model.html`) |
+| §2.2 MTDSim | `tab_2-2b_lineage_configurations.tex` (NEW 2026-09-23, register E5: the configurations Brown, Zhang and Ho evaluated on, in Table 5.1's parameters and order; a dash for not stated; Tay not a column, states none; one locator per cell in the fragment header) | `tab:lineage-configurations` | `tools/ch2_lineage_configurations_table.py` from `data/misc/lineage_configurations.yaml` |
 | §2.2.1 Network model | `fig_2-2-1a_network_model` | `fig:network-model` | `tools/ch2_model_figures.py --only fig_2-2-1a_network_model` (SVG in `tools/ch2_fig22_network_model.html`) |
 | §2.2.2 Defence mechanisms | `fig_2-2-2a_defence_module` | `fig:defence-module` | `tools/ch2_model_figures.py --only fig_2-2-2a_defence_module` (SVG in `tools/ch2_fig23_defence_module.html`; fails the build on any drift in either MTD pool) |
 | §2.2.3 Attacker model | `fig_2-2-3a_attacker_model` | `fig:attacker-model` | `tools/ch2_model_figures.py --only fig_2-2-3a_attacker_model` (SVG in `tools/ch2_fig24_attacker_model.html`) |

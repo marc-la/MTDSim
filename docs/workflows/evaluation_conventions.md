@@ -1,7 +1,7 @@
 ---
 status: durable
 created: 2026-09-09
-updated: 2026-09-09
+updated: 2026-09-23   # §c: "held and why" answered by a cited prior run (register E5)
 ---
 
 # Evaluation conventions — how the field builds and reports an MTD experiment
@@ -124,6 +124,19 @@ step's known monotone effect and fixes it anyway.
 either the band it was swept over and what moved, or that it was held and why.
 One register, both kinds of row. A parameter that appears in neither list is
 the failure the corpus keeps committing.
+
+**"Held and why" has a preferred answer: a study that ran the value, cited
+against it** (supervisor ruling E5, 2026-09-22: "every hard-coded number,
+somebody will ask why that number"). Kim's cited 300 s interval is the corpus
+form. In this thesis the lineage's configurations are one generated table in
+chapter 2 (`tab:lineage-configurations`, from
+`data/misc/lineage_configurations.yaml`), Table 5.1 carries a citation after
+every value a prior study ran, and its caption covers the rest: an uncited
+value is the simulator's default or is argued in §5.1's prose. A value with
+none of the three — citation, default, stated reason — is the gap an examiner
+finds first. The citation goes after the **value** it sources, not on the
+parameter's label, because one row can mix sourced and unsourced levels
+(200 s is cited; 2 000 s is argued).
 
 **A sensitivity analysis can do more than defend a result, and the strongest
 instances do.** Manadhata and Wing frame theirs as producing *guidelines for

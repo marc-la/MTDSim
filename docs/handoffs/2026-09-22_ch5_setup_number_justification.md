@@ -1,5 +1,5 @@
 ---
-status: open                  # executes register E5; successor to the retired §5.2 setup critique for §5.1's remaining debts (the two-target reason; C39 generator)
+status: open (steps 1–4 landed 2026-09-23; Marc's two reasons + ratification owed)  # executes register E5; successor to the retired §5.2 setup critique for §5.1's remaining debts (the two-target reason; C39 generator)
 created: 2026-09-22
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E5
 companions: 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md (the interval levels that Table 5.1 will declare), ../workflows/evaluation_conventions.md §c, §d
@@ -7,7 +7,42 @@ companions: 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md (the i
 
 # Defend every value in the experimental setup by pointing at prior use: a background table of the lineage's configurations, and one clause per value in §5.1
 
-## State of play
+## Landed 2026-09-23 — what is left is Marc's
+
+Executed on Marc's direction ("literally it needs to be visible that we're
+citing where we got the numbers from"). Steps 1–4 are done; the table's home
+was ruled by that direction (the background, ch2).
+
+- **Table 2.2 `tab:lineage-configurations`** (§2.2, after Table 2.1), generated
+  by `tools/ch2_lineage_configurations_table.py` from
+  `data/misc/lineage_configurations.yaml`, one locator per cell in the
+  fragment header. Brown, Zhang, Ho as columns, in Table 5.1's parameter order;
+  Tay is not a column (states none — caption). **Kim and Masud not added**:
+  a physical SDN testbed and an 8-host VM rig are not configurations of this
+  simulator, so they would widen the range without defending a value.
+- **Table 5.1**: a citation after every value a prior study ran; the caption's
+  last sentence covers the rest (the simulator's default, or argued in §5.1).
+- **§5.1**: one clause each in Network, Defence, Runs; the numerals fixed;
+  every session-written clause is under a `DRAFT STATE 2026-09-23 … RATIFY ON
+  READ` comment. One ch2 sentence points at the new table, same marker.
+- **Numerals rule** in `academic_register.md` §(b)8; the "held and why →
+  cited prior run" rule in `evaluation_conventions.md` §c. The one ch5 body
+  violation left (a caption's "sums to a hundred") fixed.
+- **Correction to the table below:** Ho's `H-PAR-06` = 100 is *training
+  episodes*, not evaluation runs; Ho states no run count. Zhang alone states
+  100 per condition, so the Runs clause cites Zhang only.
+
+**Still owed (Marc):** (1) the two-target reason, `[3b]` under the Network
+unit, unchanged; (2) **the 2 000 s reason**, a new `[3b]` under the Defence
+unit — it has no precedent, and "ten times it" describes it without
+justifying it (the design record's reason, "above the boundary at which the
+objective becomes reachable", was not re-verified and is not asserted);
+(3) ratify the four DRAFT STATE clauses. When the corpus sweep lands, the
+interval clause becomes "the lineage's 50–200 s, extended to 2 000 s" and
+Table 5.1's interval row takes the six levels. C39 stays deferred to that pass.
+Retire this file when (1)–(3) are through.
+
+## State of play (as briefed 2026-09-22)
 
 **The ruling (E5).** "Every hard-coded number, somebody will ask why that number." A value a prior study used is the easiest to defend: a summary table in the background of what prior studies ran, then §5.1 says its values sit in that range. Numbers greater than ten in numerals.
 

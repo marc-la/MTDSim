@@ -410,6 +410,13 @@ defence is evaluated against (Section~\ref{subsec:attacker-model}). The
 simulator is the product of four studies over one evolving codebase;
 Table~\ref{tab:mtdsim-lineage} lists what each work added to the
 codebase, and each addition is described where it is used.
+% DRAFT STATE 2026-09-23 --- the sentence below is session-written on
+% register E5 (every setup number needs a source; Jin: "a summary table in
+% the background of what prior studies ran"), Marc's direction the same day
+% ("putting a line into the background and then ... citing in line").
+% RATIFY ON READ. It is the landing point for Table 5.1's citations.
+Table~\ref{tab:lineage-configurations} gives the configurations the
+studies evaluated on.
 
 % Table 2.1 --- cells are fact-scaffold from ch2_background/README.md's
 % indicative rows (ratify on read). Ruled 2026-09-02 (Marc): the
@@ -444,6 +451,13 @@ codebase, and each addition is described where it is used.
     \bottomrule
   \end{tabular}
 \end{table}
+
+% Table 2.2 --- GENERATED (tools/ch2_lineage_configurations_table.py from
+% data/misc/lineage_configurations.yaml; one locator per cell in the
+% fragment's header). Register E5, 2026-09-23. Rows are Table 5.1's
+% parameters in Table 5.1's order, so the two read side by side. Tay has no
+% column: the thesis states none of these values (caption).
+\input{tables/tab_2-2b_lineage_configurations}
 
 % Unit (250 w): terrain --- topology, host/service structure, exposure.
 % Written from scratch (the review has no source prose); scope set by
@@ -5517,12 +5531,24 @@ carries no layer number.]}
 % data/results/ch5_defended/run_corpus.py still sets SEEDS = range(100), which
 % is the preliminary pass the floats are argued from. The chapter reports
 % thousand-seed numbers, and the word "preliminary" appears nowhere in it.
-\textbf{Network.} Fifty hosts across four levels of depth, eight subnets and
-five exposed endpoints (Table~\ref{tab:experiment}), with the network
-regenerated for each seed and the two database hosts at the deepest level as
-the target. Every value is the simulator's own default
+% DRAFT STATE 2026-09-23 (register E5; Marc: "literally it needs to be visible
+%  that we're citing where we got the numbers from"). Two session edits, RATIFY
+%  ON READ: (i) "Fifty hosts" recast as "The network has 50 hosts" --- E5's
+%  numerals rule, and a sentence may not open on a numeral; (ii) the third
+%  sentence is new: the network is Zhang's second of four exactly (Table 2,
+%  p.33: 50 nodes, 5 endpoints, 4 layers), and a database target is Brown's
+%  Scenario 2 (p.4). The subnet count has no lineage precedent (Brown's 20 is
+%  the only stated value) and rides "the simulator's own default".
+\textbf{Network.} The network has 50 hosts across four levels of depth, eight
+subnets and five exposed endpoints (Table~\ref{tab:experiment}), with the
+network regenerated for each seed and the two database hosts at the deepest
+level as the target. Every value is the simulator's own default
 (Section~\ref{subsec:network-model}, Figure~\ref{fig:network-model}) but one:
-the target set, narrowed from five database hosts to two. The configuration
+the target set, narrowed from five database hosts to two. The hosts, levels
+and endpoints are also the second of the four networks Zhang evaluated on
+\citep{zhang2023}, inside the 25 to 200 hosts the lineage has run
+(Table~\ref{tab:lineage-configurations}), and a database as the target
+follows Brown's targeted scenario \citep{brown2023}. The configuration
 never changes, so every difference reported is the
 attacker's or the defence's.
 % [3b] "narrowed from five hosts to two" --- the fact is verified: GEOMETRY
@@ -5575,8 +5601,20 @@ Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both p
 mechanisms under the single scheme, and the random and alternative execution schemes,
 which draw on the whole pool (Section~\ref{subsec:defence-mechanisms}). Each
 defended condition runs at both deployment intervals, and the timing
-distribution is varied separately (Table~\ref{tab:experiment}). The no-defence
-runs are the reference for every effect this chapter reports.
+distribution is varied separately (Table~\ref{tab:experiment}). The two
+intervals are 200\,s, the longest the lineage has swept
+(Table~\ref{tab:lineage-configurations}), and 2\,000\,s, ten times it. The
+no-defence runs are the reference for every effect this chapter reports.
+% DRAFT STATE 2026-09-23 (register E5): the interval sentence is
+%  session-written, RATIFY ON READ. 200 s is the top of Zhang's 50--200 s and
+%  Ho's comparison interval (Table 8, p.24). [3b] 2 000 s HAS NO PRECEDENT and
+%  "ten times it" describes it without justifying it. The design record gives
+%  the reason as "above the boundary at which the objective becomes reachable"
+%  (handoffs/2026-09-09_ch5_experiments_design.md, §20 factor table) --- NOT
+%  re-verified on the current corpus, so it is not asserted here. Yours to say,
+%  in a clause. When the corpus handoff's sweep lands (50, 100, 200, 500,
+%  1 000, 2 000 s), this sentence becomes "the lineage's 50--200 s (Table 2.2),
+%  extended to 2 000 s" and the reason is the same one.
 % REWORKED 2026-09-18, THIRD pass, on four of Marc's rulings. The unit is now
 %  three declarations and no argument, which is what conventions §a asks a setup
 %  for, and it is 54 words against 75.
@@ -5786,9 +5824,14 @@ ranked on hosts reached, the distinct hosts an attacker compromises.
 %  C3 "for this chapter" cut; C4 "across this chapter" cut. DO NOT RE-FLAG: the
 %  Network unit's first sentence duplicating Table 5.2's values (ruled form,
 %  2026-09-18). 274 -> 258 words. Unit is through pass 5.
-\textbf{Runs.} Every combination in Table~\ref{tab:experiment} is run a thousand
-times, on the same seeds, so every attacker starts on the same
-thousand networks. Differences are reported as effect
+% DRAFT STATE 2026-09-23 (register E5): "a thousand" -> 1 000 (E5's numerals
+%  rule) and the Zhang clause added, RATIFY ON READ. Zhang is the only lineage
+%  study that states a run count (100 per variable set, p.33); Brown, Ho and Tay
+%  state none --- Ho's 100 is training episodes (H-PAR-06), not runs, which the
+%  setup handoff had wrong. The clause compares; it does not claim a standard.
+\textbf{Runs.} Every combination in Table~\ref{tab:experiment} is run 1\,000
+times, ten times the 100 runs per condition of Zhang \citep{zhang2023}, on the
+same seeds, so every attacker starts on the same 1\,000 networks. Differences are reported as effect
 sizes with 95\,\% confidence intervals.
 % REBUILT 2026-09-18 on Marc's read: "that reads like compaction for an LLM ...
 %  this is not thesis-ready". He is right, and the diagnosis is specific --- the
@@ -6216,7 +6259,7 @@ that Section~\ref{sec:effectiveness} reports against.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-2-1a_campaign_openings}
-  \caption[Where each profile's steps fall, and how soon runs leave the most common opening]{With no defence running. A step is one tactic entered by an attack profile, or one phase entered by the baseline attacker. Panel~(a), attack profiles only: the share of each profile's steps, in per cent and pooled over its runs, that fall in each tactic, so that each column sums to a hundred; rows follow the order in which Chapter~\ref{ch:attacker-model} lists the tactics and not the order in which a run enters them. A dash marks a tactic the profile does not contain, a zero one it contains and never entered, and $<$1 a share below one per cent. Panel~(b): an opening is the first steps of a run, in order; for each length, the panel gives the share of runs whose opening differs from the most common opening of that length for the same attacker. Zero means every run opens the same way, and a line cannot fall, because a run that has left the most common opening does not rejoin it.}
+  \caption[Where each profile's steps fall, and how soon runs leave the most common opening]{With no defence running. A step is one tactic entered by an attack profile, or one phase entered by the baseline attacker. Panel~(a), attack profiles only: the share of each profile's steps, in per cent and pooled over its runs, that fall in each tactic, so that each column sums to 100; rows follow the order in which Chapter~\ref{ch:attacker-model} lists the tactics and not the order in which a run enters them. A dash marks a tactic the profile does not contain, a zero one it contains and never entered, and $<$1 a share below one per cent. Panel~(b): an opening is the first steps of a run, in order; for each length, the panel gives the share of runs whose opening differs from the most common opening of that length for the same attacker. Zero means every run opens the same way, and a line cannot fall, because a run that has left the most common opening does not rejoin it.}
   \label{fig:aio-coverage}
 \end{figure}
 
