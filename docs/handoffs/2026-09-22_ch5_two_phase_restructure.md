@@ -1,5 +1,5 @@
 ---
-status: open                  # executes register E1 (with E7 and E10 pointers); Marc's rulings R1–R4 owed before the tex moves
+status: open                  # executes register E1 (with E7 and E10 pointers); R1–R5 RULED 2026-09-23 (§6, Rulings) — next: move the tex to the ruled heading set
 created: 2026-09-22
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E1, §E7, §E10
 companions: 2026-09-20_ch5_s52_s54_results_context.md (the figure records in its §8 stand; its §2–§4 and §6 are superseded in shape by this file), 2026-09-09_ch5_experiments_design.md (the funnel §8, the property-to-measurement map §9 and the debt ledger stand), 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md (the corpus this chapter reads), 2026-09-22_terminology_needs_basis_sweep.md (the words), 2026-09-22_metrics_provenance_and_instrumentation.md (the metrics)
@@ -101,12 +101,44 @@ Labels stay (`sec:attacker-in-operation`, `subsec:aio-unopposed`, `subsec:aio-di
 
 Two set-ups Jin named are appended to the affinity board handoff (its §9): the model is harder to detect while slower and less successful — why APT attacker modelling matters; and the effective defence differs by attacker — no single solution, more research. Both are already on the board as mini-hypotheses; the note only records that the supervisor has now named them as the discussion's spine.
 
+### 6. Marc's spoken rulings, 2026-09-23, and the heading set re-cut (supersedes §1's phase-two list and §2's 5.3.x rows)
+
+Marc, dictated at the start of the headings session ("we get the headings right first, then move the stuff"):
+
+- **The split confirmed:** the APT attacker model against the baseline attacker with no defence, then the APT attacker model against MTD. *Effectiveness* and *efficiency* are not the split.
+- **R3 ruled, cost goes:** "defence efficiency just goes". §5.4 retires, Figure 5.5 (frontier) included ("dead in the water"). Figure 5.6 and Table 5.7 go with the section. *To confirm:* a cost quantity survives only if the metrics handoff keeps it as a column.
+- **R4 ruled, Table 5.6 goes** ("can go home"). The comparison with prior evaluations is subsumed into the phase-two floats: Tay's selector, used as it is, becomes one execution-scheme column (E6), and the lineage's configurations are runs rather than quotations. No paragraph and no subsection.
+- **Two float pairs, two roles.** Figure 5.4 with Table 5.5 is **the headline**: "the effect of the attacker model … abstracted at a high level". Figure 5.3 with Table 5.4 is **the depth**: "the complicated one".
+- **The setup follows the metrics.** §5.1 has to make sense against the metrics, and Table 5.2 may change (its effectiveness / efficiency grouping goes with the split). The metrics handoff owns that.
+
+**The consequence for the shape.** Phase two now has three experiments by purpose: what one deployment does, the headline, and the depth. The interval sweep is the headline's x axis, as ruled for 2 000 s on 2026-09-22 ("puts the deployment interval on the results' x axis"). It is no longer a subsection of its own, so §1's "Defence mechanisms across the deployment interval" is withdrawn. Phase one keeps a single experiment, so once the disruption reading moves out, §5.2 has no subsections (a lone subsection is not a division).
+
+**Label blast radius, measured:** the only `\ref`s to a moving or retiring label are the three in the chapter-opening placeholder (l.~5138–5140: `sec:attacker-in-operation`, `sec:effectiveness`, `sec:efficiency`) and one in the §5.2 placeholder (l.~6131). Moving headings costs nothing downstream.
+
 ## Rulings owed (Marc)
 
-- **R1** the heading set (§2 table).
-- **R2** where the response-to-disruption reading sits: head of phase two (recommended — Jin's "probably, yeah"; it is what one deployment does, so it belongs with the defences) or the close of phase one.
-- **R3** does cost survive as a sub-subsection (time lost to MTD; share of run under reconfiguration), as columns of one table, or not at all. Recommendation: columns; the cost story is one paragraph.
-- **R4** the fate of Table 5.6 and the opportunistic-objective arm: a paragraph in 5.3.3 (recommended) or dropped.
+- ~~**R1** the heading set~~. **Ruled 2026-09-23:** the *versus* pair (Marc's and Jin's own word), and *Defence mechanisms and execution schemes* kept for the depth.
+- ~~**R2** where the response-to-disruption reading sits~~. **Ruled 2026-09-23:** at the head of phase two.
+- ~~**R3** does cost survive~~. **Ruled 2026-09-23 (§6): it goes.**
+- ~~**R4** the fate of Table 5.6~~. **Ruled 2026-09-23 (§6): dropped, the comparison subsumed into the scheme columns.**
+- ~~**R5** the order inside phase two~~. **Ruled 2026-09-23:** disruption, then the headline, then the depth.
+
+**The ruled heading set (R1, R2, R5; 2026-09-23).** This supersedes §1 and §2. The tex has not moved yet: the headings came first, and moving the content follows.
+
+```
+5      Evaluation
+5.1    Experimental setup                            Tab 5.1, Tab 5.2 (re-keyed by the metrics handoff)
+5.2    APT attacker model versus baseline attacker   Fig 5.1, Tab 5.3 (no subsections)
+5.3    APT attacker model versus MTD
+5.3.1    Response to disruption                      Fig 5.2
+5.3.2    Effect of the attacker model                Fig 5.4 + Tab 5.5, the headline: the interval on
+                                                     the x axis, aggregated by layer, ranked on the model (E7)
+5.3.3    Defence mechanisms and execution schemes    Fig 5.3 + Tab 5.4, the depth: MTDShield as a
+                                                     scheme column; per-profile panels to the appendix
+retired  Comparison with prior evaluations (Tab 5.6); Defence efficiency (Figs 5.5, 5.6, Tab 5.7)
+```
+
+Labels for the move: `sec:attacker-in-operation` → 5.2; `subsec:aio-unopposed` is deleted along with its heading; `subsec:aio-disruption` → 5.3.1; `sec:effectiveness` → 5.3; `subsec:eff-cross-arm` → 5.3.2; `subsec:eff-under-defence` → 5.3.3; `subsec:eff-lineage` and `sec:efficiency` are removed. T14's hand-off (the depth's ordering handed to the cross-attacker reading) is reversed: the headline now comes first, and the depth breaks it down.
 
 ## Validation gate
 
