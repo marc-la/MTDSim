@@ -5116,9 +5116,9 @@ full, with what it captures that the cited metrics cannot.]}
 % what it captures; why the cited metrics do not capture it; the citation, or the
 % reason it is new. Names and dispositions wait on the brief's rulings pass.
 %  CITED (the field's; defined here only where this thesis fixes a checkpoint):
-%   - attack success rate: the share of runs that compromise the target host,
-%     estimating Cho's attack success probability (NOT Ho's ASR, which is hosts
-%     compromised per attempted action --- same name, another quantity).
+%   - attack success probability (ASP, Cho; Zaffarano's Success): the share of
+%     runs that compromise the target host. NOT "ASR" after Ho, whose ASR is
+%     hosts compromised per attempted action --- same letters, another quantity.
 %   - network compromise ratio: hosts compromised by the end of a run, over the
 %     network's hosts.
 %   - mean time to compromise: the checkpoint this thesis reads it at (the first
@@ -5130,23 +5130,35 @@ full, with what it captures that the cited metrics cannot.]}
 %     ratio is an operator on a cited metric, not a new metric. One clause on
 %     why it is the compromise ratio and not the success rate: with a defence
 %     running, the APT attacker model's success rate is zero on most conditions.
-%  INTRODUCED (defined in full here, with why):
-%   - attack intensity (stealth), adapted from He's relative intensity: actions
-%     per unit of the attacker's ACTIVE time (the horizon would hide the contrast,
-%     because the baseline attacker stops when it takes the target), read against
-%     the baseline attacker's as He reads his against the original attack. Why =
-%     He finds evasion comes from periodic delays, and the APT attacker
-%     "trades speed for evasion" (Alshamrani, subsec:apt), and none of the three
-%     cited metrics reads the evasion side of that trade. The unit: one action =
-%     one verb the attacker invokes, so the baseline attacker's per-vulnerability
-%     rows count as one; a tactic that invokes no verb adds time and no action.
-%   - the §5.2 descriptive instruments: share of steps per tactic; the share of
-%     runs that leave the commonest opening; profile divergence (the statistic
-%     cited as a statistic).
-%   - the §5.3.1 instruments: the share of steps whose action fails on an unmet
-%     precondition; recovery time after a disruption.
+%  INTRODUCED (defined in full here, with %   - STEALTH, two field names, both adapted (2026-09-23 census; "attack
+%     intensity" after He is WITHDRAWN --- RI is He's maliciousness metric):
+%     attack rate / attack inter-arrival time (Zhan et al. 2013; Pendleton et
+%     al. 2016, read there as aggressiveness): the attacker's actions per unit of
+%     its ACTIVE time (the horizon would hide the contrast, because the baseline
+%     attacker stops when it takes the target); and attack confidentiality
+%     (Zaffarano et al. 2015, already in Table 3.1): the share of actions a
+%     declared rate detector (two actions within w seconds) would not flag,
+%     shown at every w. Why: the APT attacker "trades speed for evasion"
+%     (Alshamrani, subsec:apt); slowing the rate avoids triggering a defence
+%     (Ward, Duppel); fast scanning is easy to detect (Jafarian); none of the
+%     three cited effectiveness metrics reads the evasion side. State the
+%     detector assumed, and that a time-at-risk detector (Hong 2018's rationale
+%     for ACD) would read the slower attacker the other way. The unit: one
+%     action = one verb the attacker invokes, so the baseline attacker's
+%     per-vulnerability rows count as one; a tactic that invokes no verb adds
+%     time and no action.
+tion.
+%   - the §5.2 descriptive instruments (no field metric exists for the
+%     attacker's own behaviour): share of steps per tactic (objective
+%     conditioning); the share of runs that leave the commonest opening
+%     (strategic plurality). Profile divergence is CUT (proposed).
+%   - the §5.3.1 instruments (adaptivity): attack actions blocked, as a share
+%     (adapted from Brown et al.; theirs are cut off in flight, these start
+%     after the change and find the precondition gone); recovery time after a
+%     disruption (no attacker-side field metric; MTTR is the defender's).
+%  Verdicts and evidence: docs/sources/extractions/mtd_metric_catalogue.md.
 %  STATISTICS (cited as statistics, not metrics): bootstrap intervals, Spearman's
-%  rank correlation, Cliff's delta, Jensen--Shannon divergence.
+%  rank correlation, Cliff's delta.
 
 % =====================================================================
 \chapter{Evaluation}

@@ -1,157 +1,163 @@
 ---
-status: open                  # executes register E3 and E4; re-cut 2026-09-23 on Marc's direction (efficiency out, grouping by phase, the field's names); Marc's disposition pass on §1 and the §4 rulings owed; owns the internal-MTTC finding the README carried unowned since 2026-08-05
+status: open                  # executes register E3 and E4; second pass 2026-09-23 (the strict pass Marc asked for: a census of every metric in the corpus, a verdict per metric, §5.2's shape); rulings owed in one sitting; owns the internal-MTTC finding
 created: 2026-09-22
 updated: 2026-09-23
-executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E3, §E4 (and E10(i)'s set-up)
-companions: ../workflows/terminology.md (the word *suppression* — its PROPOSED row; `python tools/term_screen.py census suppression` lists every site: Table 5.2's row, the captions of Figures 5.3–5.4, the headers of Tables 5.4–5.5, `tools/_ch5_style.py` and the ch5 generators' axis labels), 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md (the analyser that computes every row), 2026-09-20_ch5_s52_s54_results_context.md (the §5.2 wording bars — no "less detectable", no badge words in chapter 5)
+executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E3, §E4 (and E10(i)'s set-up); E8's Figure 5.1 fixes, as they bear on §5.2's shape
+companions: ../sources/extractions/mtd_metric_catalogue.md (THE lookup — every verdict below rests on it; the six census tables are in ../sources/extractions/metric_census/), ../workflows/terminology.md (the word *suppression*; `python tools/term_screen.py census suppression` lists every site), 2026-09-22_ch4_overview_figure_family.md (owns Figure 5.1's redraw — colour heat map, bars; the shape in §4 here is what it redraws to), 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md (the analyser), 2026-09-20_ch5_s52_s54_results_context.md (the §5.2 wording bars — no "less detectable", no badge words in chapter 5)
 ---
 
-# Give every metric a source — a citation, or a methodology definition with why it is needed — and put stealth back beside the no-defence numbers
+# Give every metric a source — the field's name and citation, or a §4.5 definition with why it is needed — and give §5.2 the stealth reading that explains its "worse" numbers
 
 ## State of play
 
-**The ruling (E3, E4).** For each metric the supervisor wants the reference (MTTC, NCR and the like, formulas referenced); a new metric must be in the methodology with the full detail of how it is calculated and *why* — it must explain something the existing metrics cannot. Stealth is the licensed exemplar (no simulator computes it; APTs are defined by remaining undetected). *Suppression* fails the test (attack success rate before and after). The stealth readings return to Table 5.3, grouped with hosts reached and delay to first compromise so the "worse" numbers are read with the property that explains them. E10(i) is the discussion this sets up: on the existing metrics the model looks poor, but it is much harder to detect — "which the methodology must explain well".
+**The rulings.** E3: every metric cited, or defined in the methodology with how it is computed and why it is needed — it must explain something the existing metrics cannot; stealth is the licensed example; *suppression* fails the test. E4: the stealth readings go back beside the no-defence numbers that read as "worse". E10(i): on the existing metrics the model looks slower and less successful but is much harder to detect, "which the methodology must explain well". E8: Figure 5.1(a) in colour as a heat map, 5.1(b) as a bar chart (minutes, 22 Sep: "a line graph is for quantities correlated from one point to the next").
 
-**Marc's direction, 2026-09-23 (spoken, this session).** (1) The effectiveness / efficiency split in Table 5.2 is vacuous and goes: the thesis does not model efficiency, so no efficiency row survives. (2) The reasonable split is the chapter's own — the APT attacker model against the baseline attacker, then the APT attacker model against the defences. (3) The gap efficiency leaves is filled by the fidelity metrics built while the model was built (supervisor updates 03 and 09 Aug, [`../implementation/supervisor-updates.md`](../implementation/supervisor-updates.md) §6.1, §7.1), ported only where they earn it — the literature review is the inspiration, not the list. (4) Terminology: the field's name wherever the quantity is the field's, faithful even if not one-to-one. (5) A chapter 4 heading for the unit, not drafted.
+**Marc's direction, 23 Sep (two passes, spoken).** The effectiveness / efficiency split goes — the thesis does not model efficiency. Every metric is strictly conventional, named as the field names it, acronym where it has one, *"look me in the eye: this exists, or this doesn't and we are inventing it for this reason"*; nothing made up to fix a problem ("intensity sounds made up"); no false attribution. Group Table 5.2 by what each metric measures. Everything in §5.2 is motivated or cut, however strong. The 15 000 s horizon stands. Get the *shape* of Table 5.2 and §5.2 right first; full values after.
 
-**Done this session.** The heading: §4.5 *Instrumenting MTDSim* (`sec:instrumenting`), placeholder plus per-metric content points in its comment, no prose; build clean at 85 pages. §1 below re-cut to Marc's direction; §4 new (what §5.2 carries for the fidelity claim, with a dry-run on the current corpus).
+**Done 2026-09-23.**
+- §4.5 *Instrumenting MTDSim* placed in the tex (heading, placeholder, content points; no prose). Build clean, 85 pages.
+- **The census**: six passes, one paper per pass, ~1 100 metric rows over every paper held plus an open-access web pass → [`mtd_metric_catalogue.md`](../sources/extractions/mtd_metric_catalogue.md) and `metric_census/`.
+- **A correction to the first pass (commit f6c4a493).** *Attack intensity, adapted from He's relative intensity* is withdrawn: RI is He's **maliciousness** metric; his evasiveness metric is ADR, which needs a detector. Using RI as stealth reverses his reading.
 
-### 1. The provenance triage, re-cut — Marc's disposition pass
+### 1. The verdict on every metric — Table 5.2's rows and everything the chapter reads
 
-Table 5.2 today is `docs/thesis/tables/tab_5-1b_metrics.tex` (ten rows, two groups, no source column; its comment trail records every prior ruling). Locators below are from Table 3.1 (`dissertation.tex` l.~2120) and the extractions; the literature agent's pass is folded in at §1c, and any locator marked *verify* must be checked before it reaches the tex.
+Full evidence per row: catalogue §(a). *Exists* = a paper names and defines it (or its faithful abstraction); *does not exist* = no paper in the census has it.
 
-**1a. Row by row.**
+| Current name | Verdict | Name to use | Cite | If kept, why |
+|---|---|---|---|---|
+| Target reached | **exists** | attack success probability (**ASP**) | Cho 2020 §VII-A; Zaffarano 2015; run-level estimate as Zhuang 2012 | — (not "ASR": Ho's ASR is per attempt; no paper defines a per-run success *rate*) |
+| Hosts reached | **exists** | network compromise ratio (**NCR**) | Zhang 2023 §5; Ho 2024 Eq. 10 (HCR); Cheng 2014 (CHP) outside the lineage | — |
+| Delay to first compromise | **exists**, checkpoint ours | mean time to compromise (**MTTC**) | McQueen 2006; Zhang 2023 §3.4 | — the checkpoint is stated (below) |
+| Runs with no compromise | **not a metric** | — | — | becomes MTTC's note: the share of runs its mean is not taken over |
+| Suppression | **does not exist, not needed** | — (NCR with and without the defence) | NCR's | — |
+| Blocked fraction | **exists, adapted** (Marc's ruling — catalogue row) | attack actions blocked, as a share | Brown 2023 §III-D, §IV-A, Fig. 4 | adaptivity (§5.3.1) |
+| Recovery time (Figure 5.2(b)) | **does not exist** attacker-side | recovery time (plain) | — (MTTR is defender-side); why the attacker must recover: Jafarian 2015 | adaptivity — the one APT property readable only under a defence |
+| Actions per host reached | exists (Brown's *attempts required*) | — | — | **cut**: no float reads it; it re-reads "worse" |
+| Successes per host reached | does not exist | — | — | **cut** |
+| Time lost to MTD | does not exist as named | — | — | **cut** with efficiency |
+| Share of run under reconfiguration | exists (downtime family) | — | — | **cut** with efficiency |
+| *new* — attacker actions per unit of its active time | **exists** | **attack rate** (with **attack inter-arrival time**) | Zhan, Xu & Xu 2013 §III; Pendleton 2016 §5.1 | stealth: the field reads rate as aggressiveness; the thesis's *lower rate → quieter* reading is argued in §4.5 from Ward 2018 §5.18, Jafarian 2015 §VII, He 2025 §VI-D, Alshamrani 2019 |
+| *new* — share of actions a rate detector would not flag | **exists, adapted** | **attack confidentiality** | Zaffarano 2015 Table 4, §4.3; relayed by Cho 2020, Sengupta 2020; already in Table 3.1 | stealth, as detectability: Zaffarano's exposure rule was plaintext visibility; ours is a declared rate threshold, shown at every window |
+| Share of steps per tactic (Figure 5.1(a)) | **does not exist** | share of steps per tactic (plain) | — | objective conditioning is claimed and is visible only in what the attacker does |
+| Runs leaving the commonest opening (Figure 5.1(b)) | **does not exist** | (plain) | — | strategic plurality is claimed; the baseline attacker is one script |
+| Profile divergence (body text) | does not exist (the statistic does) | — | — | **cut**: the colour heat map shows it, and its null is a construction fact (ruled 2026-09-21) |
 
-| Table 5.2 row now | Disposition | Field name and source | Read in |
-|---|---|---|---|
-| Target reached | **cite**, renamed | *attack success rate*, as an estimate of Cho's *attack success probability* ("the probability that attacks are successfully performed", e.g. a target found; cho2020 §VII-A p.727; Zaffarano's *attack success*, p.9, is the same shape). **Not Ho's ASR**: Ho's Eq. 11 (p.20) is hosts compromised over attempted actions, a per-attempt quantity with the same name. Tay names ASR without defining it (§5.1 p.19) | §5.2, §5.3 |
-| Hosts reached | **cite**, renamed, reported as a ratio | *network compromise ratio* — Zhang (compromised over total hosts, used as the 0.8 stopping checkpoint, §5 p.32); Ho's HCR, Eq. 10 p.19; Tay §4.1.1 p.15 (no formula). The checkpoint here is the end of the run | §5.2, §5.3 |
-| Delay to first compromise | **cite**, renamed, checkpoint declared | *mean time to compromise* — McQueen (time to reach a privilege level on a component, Eq. 6); Zhang ("the time it takes for an attacker to compromise a target host", §3.4 p.16, reported at NCR 0.8); Cho ("how long an attacker takes to compromise an entire system", p.727). This thesis reads it at the first host: the lineage's checkpoint is one the APT attacker model never reaches (0.14–0.20 at the limit), and the target is reached in too few of its runs (0.05–0.17) to average over. **The lineage disagrees on the quantity** — see §2 | §5.2, §5.3 |
-| Runs with no compromise | **fold** into the MTTC row: it is the share of runs the mean is not taken over, and has to be stated beside the mean anyway | — | with MTTC |
-| Suppression | **retire the name**; keep the quantity as what it is — the relative reduction in the compromise ratio, $1 - \mathrm{NCR}_{\text{defence}}/\mathrm{NCR}_{\text{none}}$, an operator on a cited metric | NCR's sources | §5.3.2, §5.3.3 |
-| Blocked fraction | **define** in §4.5 (Figure 5.2(a) and Table 5.4 read it); plain name, e.g. *failed-precondition share*. Brown's *attack actions blocked* is the MTD interrupt, not this (attribution removed 2026-09-20) | new | §5.3.1, Table 5.4 |
-| Actions per host reached | **drop** — Brown's *attempts required* is its source, but no surviving float reads it (it was an efficiency row) | — | — |
-| Successes per host reached | **drop** — efficiency, no counterpart, no float | — | — |
-| Time lost to MTD | **drop** with efficiency (Figures 5.5–5.6 and Table 5.7 retired, E1) | — | — |
-| Share of run under reconfiguration | **drop** with efficiency | — | — |
+**Mean time to compromise, in plain words.** Every MTTC is "the time until the attacker has compromised *X*", and a paper has to say what *X* is. Zhang's *X* is 80 % of the hosts. The APT attacker model never gets there (15–20 % by the time limit), and it takes the database target in only 5–17 % of its runs, too few to average over. So this thesis's *X* is **its first host**: MTTC = the mean, over the runs that compromise a host, of the time from the start of the run to the first compromise, with the share of runs that compromise none printed beside it. The lineage uses the name for at least five quantities (catalogue §(b)2); §4.5 says which one this is.
 
-**New rows** (no row today):
+**Why NCR, and not ASP, carries phase two.** Jin's test for *suppression* was ASP before and after. Under a defence the APT attacker model's ASP is 0.00 on most conditions (Table 5.4), so it cannot order the defences; NCR can. One clause in §4.5, and worth telling Jin before week 9 (E11).
 
-| Metric | Disposition | Source | Read in |
-|---|---|---|---|
-| **Attack intensity** (stealth) | **adapt and define** in §4.5 — the fidelity metric E3 licenses. The name is He's (§1c); the definition is ours: actions per unit of the attacker's active time, read beside the baseline's as He reads his against the original attack | adapted from He's *relative intensity* (he2025 §V-B p.5053); the *why* cites Alshamrani ("a persistent low-and-slow tempo that trades speed for evasion", §3.1.1, `dissertation.tex` l.~1011) and He's finding that evasion came from periodic delays | §5.2, Table 5.3 |
-| Share of steps per tactic | **define** (Figure 5.1(a)) | new | §5.2 |
-| Share of runs leaving the commonest opening | **define** (Figure 5.1(b)) | new | §5.2 |
-| Profile divergence | **define**, the statistic cited as a statistic (Jensen–Shannon; the citation for the statistic is owed) | new use of a standard statistic | §5.2 body text |
-| Recovery time after a disruption | **define** (Figure 5.2(b)) | new | §5.3.1 |
+**What this overturns, named.** (1) The 2026-09-18 ruling that kept the §5.2 instruments out of Table 5.2 — E3 needs a source for every metric the chapter reads, so they come in, marked. (2) The 2026-09-20 removal of Brown's attribution from *blocked fraction* — on Brown's own §III-D wording (catalogue row); Marc's to confirm. (3) This brief's own first pass (*attack intensity*).
 
-**What this overturns, named.** The 2026-09-18 ruling (3) in the table's comment trail took the §5.2 instruments *out* of Table 5.2 on the ground that calling them validation claims a proof a self-chosen set cannot carry. E3 makes that ground moot: every metric the chapter reads needs a source, so they come back in, marked as introduced, and the "observation, not validation" framing does the work the omission was doing. The 2026-09-20 rulings (no direction-of-good marks, one quantity per row, definitions only in words the reader has met) stand.
+### 1b. The proposed Table 5.2 (a mock for the ruling)
 
-**1b. The proposed Table 5.2** (a mock for the ruling, not the tex):
+Grouped by what each measures, per Marc: what the attacker **does** (read in §5.2) and what it **achieves** — the field's effectiveness metrics, read in §5.2 as the no-defence reference and in §5.3 against each defence. No efficiency group.
 
 | | Metric | Definition | Source |
 |---|---|---|---|
-| *The two attackers compared (Section 5.2)* | Attack success rate | share of runs that compromise a database host (the targeted objective) | as attack success probability, Cho; Zaffarano |
-| | Network compromise ratio | hosts compromised by the end of the run, over the 50 hosts | Zhang; Ho; Tay |
-| | Mean time to compromise | mean time from the start of a run to its first compromised host, over the runs that compromise one; the share that compromise none is given beside it | McQueen; Zhang (at a ratio of 0.8) |
-| | Attack intensity | actions the attacker takes on the network per 1 000 s of its active time; a tactic that takes no action adds time, not an action | adapted from He; Section 4.5 |
-| | Share of steps per tactic | … | Section 4.5 |
+| *Attacker behaviour* | Share of steps per tactic | … | Section 4.5 |
 | | Runs leaving the commonest opening | … | Section 4.5 |
-| *The APT attacker model against MTD (Section 5.3)* | Reduction in compromise ratio | $1 - \mathrm{NCR}_{\text{defence}} / \mathrm{NCR}_{\text{none}}$ | the ratio's sources |
-| | Failed-precondition share | share of steps whose action fails on an unmet precondition | Section 4.5 |
-| | Recovery time | time from a disruption to the next compromise, over the attacker's own mean gap between compromises with no defence | Section 4.5 |
+| | Attack rate | the attacker's actions per 1 000 s of its active time | Zhan et al.; Section 4.5 for the stealth reading |
+| | Attack confidentiality | share of the attacker's actions a detector with window *w* would not flag | adapted from Zaffarano et al.; Section 4.5 |
+| *Effectiveness* | Attack success probability (ASP) | share of runs that compromise a database host | Cho et al.; Zaffarano et al. |
+| | Network compromise ratio (NCR) | hosts compromised by the end of the run, over the 50 hosts | Zhang; Ho |
+| | Mean time to compromise (MTTC) | mean time to the first compromised host, over the runs that compromise one | McQueen et al.; Zhang |
+| | Attack actions blocked | share of the attacker's actions that fail on a precondition the defence removed | adapted from Brown et al. |
+| | Recovery time | time from a disruption to the next compromise, as a multiple of the attacker's own pace | Section 4.5 |
 
-Grouped by phase, as Marc put it; the three cited outcome metrics are read in both phases and sit where they are first read. The Source column is what answers E3 row by row. The alternative grouping (cited / introduced) says the same thing, because every introduced metric but the last two is a §5.2 metric.
+"Effectiveness" is Table 3.1's own word, so the tie-back is literal; it stands alone now, not as half of a split.
 
-**1c. Naming — the literature pass** (extraction sweep, 2026-09-23; printed page numbers, PDF-checked unless the extraction marks them otherwise; verify before the tex).
+### 1c. The metrics we built before, and what becomes of each
 
-- **No paper in the corpus has a stealth metric of the attacker model's own behaviour to cite.** Detection in the field is measured from the defender's side: He's *adversarial detection rate* (share of attacks a detector flags, §V-B p.5053), Zaffarano's *attack confidentiality* (share of tasks visible to detection, formula §4.3 p.10), Cho's survey entries (p.728), Outkin's per-step detection probability (`outkin2022` — note the key; §3.5, pages unverified). Tay's "attacker detection rate" is the share of attacker actions given to the RL defender in training, not a stealth measure (§5.3 p.23). Zhang, Ho and Brown have no detection model. So the thesis **must define** its stealth metric, as E3 foresaw.
-- **But the field has the word.** He pairs detection rate with **relative intensity** — the attack's packets per second over the original attack's (§V-B p.5053) — and finds that evasion came from *periodic delays* that turn a flood into an intermittent one. That is the same mechanism as the dwell tactics, measured the same way (rate against a reference attack). He is already cited in Table 3.1. Recommended name: **attack intensity**, adapted (packets → the attacker's actions), with the baseline attacker as the reference He's "original attack" is. Dry-run in those terms: $c_1$ 0.75, $c_2$ 0.71, $c_3$ 0.57, $c_{\mathrm{agg}}$ 0.74 of the baseline's intensity, $c_4$ 1.01.
-- **Nearest neighbours to cite for contrast in §4.5:** Zaffarano's *attack productivity* (mean task duration, "how quickly an attacker can perform and complete adversarial tasks", §4.1 p.9) — a tempo metric, but duration per task, not time between tasks; Cho & Ben-Asher (an MTD lengthens reconnaissance and so gives the detector more time, p.151–152). Dwell time in the M-Trends sense (intrusion to detection) is a different quantity and should not lend its name.
-- **The other rows:** see §1a — *attack success rate* follows Cho's probability, not Ho's per-attempt ratio; *mean time to compromise* follows McQueen and Zhang's "time to compromise", not Ho's mean event duration; NCR is Zhang's and Ho's Eq. 10. Brown's two metrics are counts with no formula ("attack actions blocked", Fig. 4; "attempts per compromise", Fig. 5; §V-D p.7) and leave with the efficiency rows. No paper measures variety in the attacker's own behaviour (APV, SAPV and Cho's unpredictability are all network-state or defender-side), so the §5.2 descriptive instruments are new, as §1a has them. No paper has a disengagement metric; Brown's give-up-after-ten and Zhang's interruption threshold are behaviours.
+From the supervisor updates (03 and 09 Aug, [`../implementation/supervisor-updates.md`](../implementation/supervisor-updates.md) §6.1, §7.1) and the records. Each is judged on E3's test: does it explain something the cited metrics cannot, and does a paper name it?
 
-**Why the compromise ratio and not the success rate carries phase two.** Jin's test for suppression was "attack success rate before and after". On the current corpus the APT attacker model's success rate is 0.09 with no defence and 0.00 under most defence conditions (Table 5.4), so it cannot order the defences; the compromise ratio can. That is the one clause §4.5 owes the reader for choosing it, and it is a result worth telling Jin before the week-9 meeting (E11).
+| Built as | Property | Verdict | Why |
+|---|---|---|---|
+| Attack profile divergence (Jensen–Shannon) | objective conditioning | **cut** | the colour heat map shows the difference directly; the number's null band is a construction fact (four nets, different tactic sets) and can't be failed |
+| Predictability → effective behavioural breadth | strategic plurality | **cut** | *unpredictability* is Cho's and Jalowski's name for the defender's configuration (a collision Jin would catch); the baseline's value of 1 is a theorem, not a measurement; plurality is already shown by Figure 5.1(b) |
+| Opening variety | strategic plurality | **keep** (Figure 5.1(b)) | no field metric exists; plurality is claimed; one definition in §4.5 |
+| Detectability *D* (decaying exposure level) | stealth | **replace** by attack confidentiality | *D* carries three hand-set magnitudes (tier ratio, decay constant, CVSS weight) and no field name; its time-average is the attack rate times a near-constant, by identity |
+| Inter-invocation spacing | stealth | **becomes** attack rate / inter-arrival time (the field's names for exactly this) | — |
+| Disengagement time / abandonment effort | incentive rationality | **cut** | the capability sits at its inert default in the reported configuration; its kill criterion fired; its budget came from the retired 0.8 objective; no field metric |
+| Learning effect (exploit memory) | learning | **cut** | inert default in the reported configuration; the measured effect was null |
+| Path entropy; coverage curves; deepest stage | plurality; persistence | **cut** (already) | killed (hub occupancy) or saturated |
+| Re-compromise churn | — | **not a metric** | a diagnosis |
+| Blocked fraction | adaptivity | **keep**, as *attack actions blocked* | Brown's metric, adapted (§1) |
 
 ### 2. The internal-MTTC finding, owned here
 
-`docs/handoffs/README.md` has carried since 2026-08-05 "one finding with no owner": `mtdnetwork/statistic/evaluation.py:110` computes attack-action time over the *number of attack actions* — a mean action duration — and ranks IP shuffle best and OS diversity below no defence (`attacker_read_surface.md` §(m1)).
-
-**New, 2026-09-23 — this may be Ho's definition, not a bug.** The literature pass reads Ho's MTTC (§3.3.2 item 8, p.20, unnumbered equation) as the mean duration of SCAN_PORT, EXPLOIT_VULN and BRUTE_FORCE events over the relevant hosts — which is what `evaluation.py` computes. Zhang's is "the time it takes for an attacker to compromise a target host" (§3.4 p.16), McQueen's the time to reach a privilege level (Eq. 6). If that reading holds, the lineage uses one name for two quantities, and the inherited function is Ho's faithfully; classify against `mtdsim_intent_spec.md` before calling it anything (*to verify* — not asserted here). It does not change the disposition: the thesis's quantity is the time to compromise, and §4.5 says whose.
-
-Disposition proposed: the thesis's MTTC is **defined in §4.5 as the time to the first host compromised**, computed by the chapter's analyser on both attackers, and `evaluation.py`'s quantity is never reported; `metrics_semantics.md` §(a) gains a one-paragraph note that the reported MTTC is not that function, and `project_context.md`'s "primary metric is internal MTTC" sentence is corrected.
+`evaluation.py:110–120` computes a mean attack-event duration; the lineage census shows that is **Ho 2024's MTTC** (§3.3.2 item 8, p.20), and a second function of the same name (`:35–49`) divides total attack time by hosts compromised (`metric_census/B_lineage.md` §e). So the unowned finding is most likely *one name, several quantities* rather than a bug — classify against `mtdsim_intent_spec.md` before calling it anything (*to verify*). The disposition holds: the thesis reports the time to its first compromised host, computed by the chapter's analyser on both attackers, and never either inherited function; `metrics_semantics.md` §(a) and `project_context.md`'s "primary metric is internal MTTC" sentence are corrected when this brief lands.
 
 ### 3. The chapter 4 unit — heading placed
 
-**Placed 2026-09-23** as §4.5 *Instrumenting MTDSim* (`\label{sec:instrumenting}`), its own section after §4.4.4, because the metrics are not part of the join §4.4 declares; moving it under §4.4 is one line. *Metrics* is the alternative heading (parallel to §3.2.2's). The placeholder's comment carries the per-metric content points: field name; definition in the formalism's symbols where one applies; what it captures; why the cited metrics do not; the citation or the reason it is new. Every introduced metric gets a hand trace (V1), recorded in a small validation table in the appendix or the record. §5.1's Metrics unit then points to §4.5 only (the antecedent rule), and its "grouped by effectiveness and efficiency" sentence goes with the split.
+§4.5 *Instrumenting MTDSim* (`sec:instrumenting`), its own section after §4.4.4 (the metrics are not part of the join; one line to move under §4.4). Per metric: the field's name and acronym; its definition in the formalism's symbols where one applies; what it captures; why the cited metrics do not; the citation, or the reason it is new. For the two stealth metrics, §4.5 also states the detector it assumes (a rate threshold) and that a time-at-risk detector would read the slower attacker the other way (Hong 2018's rationale for ACD, "the longer the attack takes, the more likely it will be detected", p.40). Every introduced metric gets a hand trace (V1). §5.1's Metrics unit points to §4.5 only and loses "grouped by effectiveness and efficiency".
 
-### 4. What §5.2 carries for the fidelity claim
+### 4. §5.2's shape — every float motivated by an APT property the literature review names
 
-**Where it stands.** Figure 5.1 (where each profile's steps fall; how soon runs leave the commonest opening) and Table 5.3 (hosts, target, delay, runs with no compromise). Read cold by a general computer-science reader, the section says: the model walks a richer, less scripted campaign, and it is *worse* — a third of the hosts, a tenth to a third of the success rate, three times slower. Nothing on the page says why the second is not a defect. That is Jin's objection (E4) and it is the section's hole.
+The motivation for each float is the property it shows, from the literature review's table of APT properties (`dissertation.tex` l.~3235: Cho, Alshamrani, NIST, Jalowski). That is the rule "motivated or cut", made checkable.
 
-**The takeaways it should leave, in order** (content points for Marc's prose, not wording):
+| Property (ch3) | Where §5.2 shows it | Metric |
+|---|---|---|
+| objective conditioning | Figure 5.1(a) | share of steps per tactic |
+| strategic plurality | Figure 5.1(b) | runs leaving the commonest opening |
+| stealth | **Figure 5.1(c)** and a Table 5.3 column — **new** | attack confidentiality; attack rate |
+| what the field measures | Table 5.3 | ASP, NCR, MTTC |
+| persistence | no float | campaign duration is an input (09 Aug); said in one clause, or in chapter 6 |
+| adaptivity | §5.3.1, not §5.2 | attack actions blocked; recovery time |
+| incentive rationality, learning | no float | at their inert defaults in the reported configuration; chapter 6 |
+| MTD-scheme awareness | no float | ruled out of scope |
 
-1. *Campaign shape* (Figure 5.1(a)) — each profile spreads its steps over a campaign of 12–15 tactics, weighted by its objective; the baseline repeats six activities. Divergence in the body text, as ruled 2026-09-21.
-2. *Not one script* (Figure 5.1(b)) — the model's runs leave the commonest opening within a few steps; the baseline's open the same way for four.
-3. *Slower, and so behind at the time limit* (Table 5.3) — on the field's three metrics the model has reached less by 15 000 s; the ruled 60 000 s sentence says it is still climbing when the baseline has stopped.
-4. *Quieter, for the same reason* (**new**, Table 5.3's added column) — it acts at a lower intensity, leaving more time between its actions, and the non-action tactics that make it slower are what make it quieter. One mechanism, two readings: the trade Alshamrani names. The profile with the fewest non-action tactics ($c_4$) is the exception, and its composition is the mechanism showing, not an anomaly.
-5. *For chapter 6, not §5.2:* the field's three metrics read only the speed side of that trade, so an evaluation built on them alone scores a low-and-slow attacker as a weak one (E10(i)).
+So the only gap in §5.2 is stealth, and it is the one Jin named. Nothing else is owed a float.
 
-**Dry-run, current corpus** (`data/results/ch5_s531_unopposed/runs.jsonl`, 100 seeds, targeted, 15 000 s, no defence; the script is session scratch, the method is stated so the analyser can reproduce it — one action = one verb invocation, the baseline's consecutive per-vulnerability `EXPLOIT_VULN` rows collapsed to one; a movement step counts if it is action-bearing; the gap is start to start; the run is the unit, 95 % interval on the mean across runs). **Preliminary — for the design ruling only, not the page:**
+**Figure 5.1, three panels.**
+- **(a) Heat map, in colour** (E8): tactics down the side, $c_1$–$c_4$ and $c_{\mathrm{agg}}$ across, **plus a baseline attacker column**. The baseline walks six activities, not tactics, so its column places each activity on the tactic that maps to that verb (§4.4.3), labelled as such. The exploit verb serves three tactics, so that cell is one merged cell across initial access, execution and privilege escalation. Dry-run (100 seeds, baseline activities with its per-vulnerability exploit rows counted once): lateral movement 31 %, discovery 23 %, the merged exploit cell 21 %, credential access 15 %, command and control 8 %, reconnaissance 2 %. **The seven non-action tactics are empty for the baseline** — the rows it has no vocabulary for, carrying about 40 % of most profiles' steps. This panel sets up (c).
+- **(b) Bar chart** (E8): opening length on the x-axis, one colour, the share of runs that have left the commonest opening, profiles and baseline.
+- **(c) Attack confidentiality against the detector's window** — **new**. x = the window *w* (a few seconds to a few minutes), y = the share of actions a detector that flags two actions within *w* would miss, one line per attacker (lines, because the points are correlated along *w* — Jin's rule). It shows every choice of *w*, so no constant has to be defended (E5), and it shows the finding honestly:
 
-| | mean gap (s) | median gap (s) | gaps over 60 s | actions per 1 000 s of own active span | active span / horizon |
-|---|--:|--:|--:|--:|--:|
-| $c_1$ | 47.1 ± 0.7 | 26.9 | 28.8 % | 21.4 | 0.98 |
-| $c_2$ | 49.8 ± 0.8 | 27.1 | 29.2 % | 20.3 | 0.96 |
-| $c_3$ | 62.2 ± 1.1 | 38.9 | 38.4 % | 16.2 | 0.99 |
-| $c_4$ | 35.1 ± 0.5 | 16.2 | 20.0 % | 28.7 | 0.98 |
-| $c_{\mathrm{agg}}$ | 47.9 ± 0.8 | 25.6 | 28.6 % | 21.0 | 0.94 |
-| baseline | 35.7 ± 1.0 | 19.8 | 15.2 % | 28.4 | 0.70 |
+  Dry-run (100 seeds, 15 000 s, no defence; preliminary — for the ruling only):
 
-What moved since the 2026-08-09 diagnostic (10 seeds, general objective, before d127f443): the contrast holds for three profiles and the aggregate (1.3–1.7× the baseline's gap, against 1.5–1.8× then), and $c_4$ moved from *denser* than the baseline to *level* with it. **One trap, found here:** a rate over the whole horizon erases the contrast (baseline 19.6 per 1 000 s, profiles 16–21), because under the targeted objective the baseline stops acting when it takes the target, at 0.70 of the horizon on average. So the intensity has to be taken over the attacker's **active** time (the start of the run to the end of its last action), not the horizon; the mean gap between actions is the same reading with no denominator to choose. §4.5 declares the active-time denominator in a clause and says why.
+  | *w* (s) | $c_1$ | $c_2$ | $c_3$ | $c_4$ | $c_{\mathrm{agg}}$ | baseline |
+  |--:|--:|--:|--:|--:|--:|--:|
+  | 5 | 0.80 | 0.80 | 0.82 | 0.72 | 0.78 | **1.00** |
+  | 10 | 0.69 | 0.69 | 0.73 | 0.59 | 0.68 | 0.58 |
+  | 30 | **0.48** | **0.48** | **0.56** | 0.37 | **0.46** | 0.19 |
+  | 60 | **0.29** | **0.30** | **0.39** | 0.20 | **0.29** | 0.16 |
+  | 120 | 0.11 | 0.12 | 0.17 | 0.06 | 0.11 | 0.09 |
+  | 300 | 0.01 | 0.01 | 0.02 | 0.00 | 0.01 | 0.01 |
 
-**What to add, recommended:**
+  **What it says:** against a detector that looks at tens of seconds to a couple of minutes, the APT attacker model leaves two to three times as many of its actions unflagged as the baseline; against one that looks at bursts under ten seconds, the baseline reads as the quieter, because its shortest activity takes 5 s while the profiles' drawn dwells can be shorter; beyond a few minutes they converge. *Quieter* therefore needs its timescale stated, and the text says it. **The ablation** (non-action tactics removed from the record) erases the margin at 60 s (0.11–0.13 against 0.16) but not at 30 s (0.25–0.30 against 0.19), so the August claim that the non-action tactics are *all* of the margin holds at the minute scale only; the sentence is scoped to that.
 
-- **(a) Table 5.3 gains one column, attack intensity (actions per 1 000 s of active time), with its interval** — E4 as ruled, grouped with hosts and delay; the ratio to the baseline's (He's form) in the body text. One column, not two: the detectability *level* $D$ carries three declared magnitudes (tier ratio, decay constant, CVSS weight) that nothing outside the model calibrates, so E5's "why that number" would land on each, and its time-average is the action rate times a near-constant increment by identity (`stealth_spacing_diagnostic.md` §2a), so it adds the shape of the quiet, not the separation. Recommend $D$ is declined and the reason recorded.
-- **(b) One body sentence, the ablation** — remove the non-action tactics from the recorded stream and every profile's gap falls under the baseline's (diagnostic §3). It is what lets takeaway 4 say *for the same reason* rather than *also*. Re-run on this corpus first.
-- **(c) One figure, an example run of each attacker on one time axis** (optional; recommended if a float can be afforded) — one representative seed of the baseline and one profile over the first ~2 000 s: steps as bars coloured by tactic or activity, actions as ticks. It shows a reader what the column measures: the baseline acting back to back, the model's actions separated by the quiet tactics, and the same gaps that put it behind in Table 5.3. It is the *example* the lit-review examiner said was missing (`project_lit_review_result.md`), and nothing else in the chapter shows time. The alternative is the gap-survival curve (share of gaps longer than *t*, per attacker; diagnostic fig7), which measures where the example illustrates, but it repeats the column. Scrutinise before ratifying (`scrutinise-figure`).
+**Table 5.3.** The effectiveness group — ASP, NCR, MTTC (with the no-compromise share in its note) — and one stealth column, **attack rate** (actions per 1 000 s of active time; no parameter to defend). Dry-run: $c_1$ 21.4, $c_2$ 20.3, $c_3$ 16.2, $c_{\mathrm{agg}}$ 21.0, $c_4$ 28.7, baseline 28.4. *Active* time matters: over the whole horizon the baseline reads 19.6, level with the profiles, because under the targeted objective it stops when it takes the target (0.70 of the horizon on average). §4.5 declares the denominator and says why.
 
-**Considered and not recommended:**
+**The body, in order** (content points; Marc's prose): (1) campaign shape, 5.1(a); (2) not one script, 5.1(b); (3) on the field's metrics the model is slower and has reached less by the time limit, Table 5.3; (4) it acts at a lower rate and leaves more of its actions unflagged at the minute scale, 5.1(c) and the rate column — the non-action tactics that make it slower are what make it quieter, which is Alshamrani's "trades speed for evasion"; $c_4$, with the fewest non-action tactics, is level with the baseline, the mechanism showing. E10(i)'s method point is chapter 6's.
 
-- *Effective behavioural breadth* (formerly predictability; baseline 1 by construction, model 2.7–5.9): strategic plurality is already carried by Figure 5.1(b); it predates d127f443, the current baseline records may lack the field its reader needs (`current_host_uuid`, unverified), and it would add a third plurality exhibit. The gap in §5.2 is stealth, not plurality.
-- *Detectability level D*: see (a).
-- *Disengagement*: its kill criterion fired, its W comes from the retired 0.8 objective, and the ablation subsection that would have held it was removed 2026-09-13 (C31).
-- *Path entropy, coverage curves, deepest stage*: killed or saturated (records on file).
+**Ceilings.** Observations of the no-defence arm; axis 5 stays NOT ADDRESSED (a declared detector, not a detection model in the simulator); in chapter 5 "leaves more of its actions unflagged by a rate detector" or "acts at a lower rate", never "less detectable"; the detector is declared and its opposite (time-at-risk) is named.
 
-**The ceilings that ride with the column.** An observation of the no-defence arm (conventions §f); axis 5 stays NOT ADDRESSED and chapter 6 says so; no "less detectable" in chapter 5 (results-context bar) — "acts at a lower intensity" / "leaves more time between its actions" are the sayable forms; the cross-attacker time caveat (the two attackers' time is priced differently) stated once, with the diagnostic's substrate re-pricing result as the check (it held four of five in August; re-run it).
+## Rulings owed (Marc) — one sitting
 
-## Rulings owed (Marc)
-
-1. The §1a dispositions, one pass — especially: MTTC's checkpoint (first host) and folding *runs with no compromise* into it; the drops.
-2. The grouping of Table 5.2: by phase (recommended, as proposed in §1b) or cited / introduced.
-3. The lineage names on the floats (spelled out, no acronyms, per the 2026-09-20 ruling) or only in Table 5.2's Source column. Recommended: spelled out on the floats — the name *is* the provenance.
-4. The phase-two quantity: *reduction in compromise ratio* on the floats (recommended), or the ratio with and without a defence drawn raw.
-5. §4 (a)–(c): the one stealth column and declining $D$; the ablation sentence; the example-run figure.
-6. The stealth metric's name: *attack intensity*, adapted from He (recommended, §1c), or the plain *time between actions*.
+1. The verdict table (§1), row by row — especially: **ASP** over "ASR"; MTTC at the first host; Brown's *attack actions blocked* restored (the in-flight difference); the cuts.
+2. Table 5.2's grouping — *attacker behaviour* / *effectiveness* (§1b).
+3. The stealth pair: attack rate in Table 5.3 and attack confidentiality in Figure 5.1(c) — or one of them. And its framing: a declared rate detector, with the timescale stated.
+4. Figure 5.1's baseline column: the mapped, merged-cell form (§4) — or a separate verb-level strip.
+5. §1c: the retrospective cuts (divergence, breadth, *D*, disengagement, learning).
+6. The download list (catalogue §c) — Jafarian 2014 and Hong & Kim 2016 first.
 
 ## Validation gate
 
-Every Table 5.2 row has a Source; every row marked *define* has a definition-and-why paragraph in §4.5; *suppression* appears nowhere in the tex body or floats; Table 5.3 carries the stealth column at 1 000 seeds with its caveats in the caption or one body sentence; each introduced metric has a hand-trace record; `metrics_semantics.md` and `project_context.md` corrected; build clean.
+Every Table 5.2 row has a Source that matches the catalogue verdict; every *does not exist* row has a §4.5 definition-and-why; *suppression* appears nowhere in the tex or floats; Figure 5.1 has three panels as ruled, in colour where ruled; Table 5.3 carries the stealth column at 1 000 seeds; each introduced metric has a hand trace; `metrics_semantics.md` and `project_context.md` corrected; bib entries added for every new citation (zhan2013, jafarian2015, cheng2014, pendleton2016 as used); build clean.
 
 ## Hard constraints
 
-- The claim ceiling: the stealth column is an observation; no stealth *state* is claimed; the badge does not move.
-- Numbers reach the page only through the analyser and a generator at the reported seed count. The §4 dry-run is not one.
-- Literature conventions: definition before use; the field's name where the quantity is the field's (`literature_conventions.md`).
+- The claim ceiling above. Numbers reach the page only through the analyser and a generator at the reported seed count; every figure in this brief is a dry-run (scripts in session scratch; the method is stated in each paragraph so the analyser can reproduce it).
+- The field's name where the quantity is the field's; the difference stated where it is adapted; no name borrowed for a quantity it does not describe (the RI lesson).
 
 ## Reading list
 
-- `docs/thesis/tables/tab_5-1b_metrics.tex` — the comment trail is the record of every prior ruling on this table.
-- `docs/implementation/pipeline/ogasp/stealth_spacing_diagnostic.md` §2–§6 — the spacing metric, its ablation, its re-pricing check, and why a scale-free statistic cannot carry it.
-- `docs/implementation/supervisor-updates.md` §6.1, §7.1 — the fidelity metrics as Jin last saw them (09 Aug).
-- `docs/implementation/metrics_semantics.md` §(a), §(d); `docs/implementation/attacker_read_surface.md` §(m1).
-- `docs/thesis/dissertation.tex` l.~2120 (Table 3.1) and l.~1011 (Alshamrani's low-and-slow sentence).
-- `docs/sources/extractions/{brown2023,zhang2023,ho2024,tay2024,cho2020}.md` — the metric definitions and locators.
+- [`../sources/extractions/mtd_metric_catalogue.md`](../sources/extractions/mtd_metric_catalogue.md) — the verdicts and their evidence.
+- `docs/thesis/tables/tab_5-1b_metrics.tex` — the comment trail of every prior ruling on Table 5.2.
+- `docs/implementation/pipeline/ogasp/stealth_spacing_diagnostic.md` §2–§6 — the August stealth reading this supersedes in its numbers.
+- `~/mtdsim-meeting-minutes/2026-09-22_supervisor_meeting.md` §4–§5 — Jin's words on Figure 5.1, Table 5.3 and metrics.
+- `docs/thesis/dissertation.tex` l.~2120 (Table 3.1), l.~3235 (the APT properties table), l.~1011 (Alshamrani).
 
 ## Out of scope
 
-The runs (corpus handoff); the float regeneration (after the rulings); where the columns sit in the chapter (landed with the restructure).
+The runs (corpus handoff); drawing Figure 5.1 (figure-family handoff, to this shape once ruled); the tex of Table 5.2 and §4.5's prose (after the rulings; the prose is Marc's).
