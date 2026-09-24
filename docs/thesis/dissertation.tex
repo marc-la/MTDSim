@@ -197,6 +197,30 @@ and running the administration tools already installed on each network
 (APT), a well-resourced attacker that pursues a specific objective
 against a specific target over months or years \citep{alshamrani2019}.
 
+% P2 --- MTD (brief s13). ACCEPTED 2026-09-24, sentence by sentence (Marc),
+% after four cold-reader rounds (black-box: a non-security CS examiner, P1 +
+% P2 only; all versions read 4/5, the takeaway intact every time). S1 is
+% Marc's own wording, chosen for clarity over the tested causal-link opener
+% ("Those five years depended on ..."): the cold reader of the same shape
+% flagged a backward jump in the timeline; accepted knowingly. One name per
+% thing: "reconnaissance" and "stolen credentials" throughout. CUT on the way,
+% do not re-raise: the advisory-absence turn (the advisory does prescribe
+% credential resets, but only in incident response --- AA24-038A; too much
+% nuance for the paragraph); "keep them out, find them sooner"; the use-case
+% clause (moves to P3's opener, cho2020 Sec. IX). "Attack surface" left to
+% ch2's definition. Defence in depth left implicit: no corpus source carries
+% "complement". S1's "because the networks did not change" is our inference;
+% S2's citation generalises it. ~85 words.
+Before breaking in, Volt Typhoon conducted reconnaissance of its victims'
+networks \citep{cisaaa24038a}, and that reconnaissance stayed valid
+because the networks did not change. Any network that does not change
+gives an attacker the same chance to plan at its leisure
+\citep{ghosh2009nitrd}. Moving target defence (MTD) changes a network's
+addresses, layout, software and credentials on a schedule, so that stolen
+credentials and reconnaissance go out of date even if the attacker is
+never detected \citep{cho2020}. It aims to shift the advantage of time
+from the attacker to the defender \citep{ghosh2009nitrd, zhuang2012}.
+
 % The single-RQ decision (architecture (a)) is intact: the sub-questions
 % are methodological decomposition, not sub-problems.
 % Grey box removed, RQ stated as thesis-body prose (Marc, 2026-08-21): the

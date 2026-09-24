@@ -513,6 +513,50 @@ Owed downstream:
 - **Ceiling.** "Would MTD have made their life harder" is the question the
   evaluation motivates, not a claim.
 
+### 13.1 Accepted and floated (2026-09-24)
+
+¶2 is in the tex: four sentences, about 85 words, and the build is clean.
+
+**How it got there.** Five drafts and four cold-reader rounds. Each reader
+was a non-security CS examiner who saw only ¶1 and ¶2. Every version
+scored 4/5, and every reader took away what MTD is and why it matters
+here. What moved clarity was structure, not wording:
+
+- Opening ¶2 on a new fact (reconnaissance before the break-in) left a
+  seam after ¶1's credential mechanism.
+- Opening on the causal link ("those five years depended on ...") closed
+  that seam.
+- Marc chose his own plainer S1 anyway, for clarity over inflation,
+  knowing the seam risk.
+
+**Rulings:**
+
+- One name per thing: *reconnaissance* and *stolen credentials*.
+- The definition comes before the purpose.
+- The purpose is stated as shifting the advantage of time from the attacker
+  to the defender. Marc's words; Zhuang et al. 2012, p. 1, carry "asymmetric
+  advantage".
+- "Attack surface" is left to ch2.
+- Defence in depth is left implicit, because no corpus source carries
+  "complement".
+
+**Cut, not to be re-raised:**
+
+- The advisory-absence turn. The advisory does prescribe credential resets,
+  but only in its incident-response steps, and that was too much nuance for
+  this paragraph. The note is corrected.
+- "Keep them out, find them sooner" (unmotivated).
+
+**Inputs gathered for ¶3:**
+
+- Open on MTD's maturity and its domains, then on the fact that most of it
+  is tested in simulation. Cho 2020 Sec. IX covers enterprise, IoT, CPS,
+  SDN, cloud and vehicular networks; §IX-A says enterprise MTD is "mainly
+  validated based on simulation models". Zhuang 2012 is itself a
+  simulation study.
+- Cho §IX-A adds that "how much those can be applicable in practice still
+  remained unclear" — a possible hinge into the attacker-model gap.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:

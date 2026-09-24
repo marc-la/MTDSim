@@ -2,7 +2,7 @@
 status: durable
 chapter: ch1_introduction
 created: 2026-09-02
-updated: 2026-09-02
+updated: 2026-09-24   # the reset correction: the advisory does prescribe invalidating credentials, reactively; four countries -> five
 ---
 
 # The authoritative Volt Typhoon advisory answers a knowledge-durability campaign without ever naming moving target defence
@@ -17,7 +17,7 @@ campaign banks is absent from the authoritative public response to it.
 
 ## The idea
 
-In February 2024, nine agencies across four countries — CISA, the NSA and the
+In February 2024, nine agencies across five countries — CISA, the NSA and the
 FBI, co-sealed by, among others, the Australian Signals Directorate's ACSC —
 published a joint advisory on Volt Typhoon, a PRC state-sponsored actor that
 had compromised critical infrastructure organisations across multiple sectors
@@ -41,10 +41,15 @@ accurate; footholds remain where they were left. Moving target defence is the
 defence class whose stated mechanism is the invalidation of exactly that
 asset class — rotating addresses, services, and credentials so that
 accumulated attacker knowledge decays instead of compounding. Yet the
-advisory's mitigation guidance answers the campaign entirely with static
-hardening and detection: patching, multi-factor authentication, logging,
-behavioural baselining and hunting. Nowhere in the advisory does a
-moving-target approach appear. That absence is the observation this thesis's
+advisory's mitigation guidance answers the campaign with static hardening and
+detection: patching, multi-factor authentication, logging, behavioural
+baselining and hunting. Its one move against the attacker's accumulated
+knowledge is reactive: once an intrusion is found, its incident-response steps
+direct that the credentials of every account within the compromised trust
+boundary be reset, the Kerberos ticket account twice. The advisory therefore
+prescribes MTD's remedy once, after discovery; MTD applies it on a schedule,
+before discovery. Nowhere in the advisory does a moving-target approach
+appear. That absence is the observation this thesis's
 introduction can be built on: the attacker class for which MTD's value
 proposition is strongest — long-dwell, credential-anchored, pre-positioned —
 is publicly answered without it, and the literature evaluating MTD has not
@@ -98,6 +103,12 @@ bear on this attacker at all).
   ch1 use of the same material.
 
 ## Revisit conditions
+
+- **Used differently in chapter 1 (2026-09-24).** The introduction's second
+  paragraph, as ruled, does not carry the absence as its turn: it defines MTD
+  against the static-network advantage and leaves the advisory's reactive
+  reset out as too much nuance for the paragraph. The observation stands here
+  as background for the discussion.
 
 - If a Volt Typhoon profile is ever admitted to the corpus (a membership
   ruling reserved for Marc), the "not an evaluated scenario" boundary
