@@ -184,15 +184,29 @@ against attacker models grounded in documented behaviour.
 \chapter{Introduction}
 \label{ch:intro}
 
-% Landmark-to-landmark compression straight to the gap (writing guide:
-% the examiner has largely judged the work by the end of this chapter).
-% Order when drafted: a recent lead-in event (e.g. Volt Typhoon) opening
-% the motivation hop -> the grey box below -> compact methodology (V5:
-% corpus -> profiles -> executable movement attacker -> evaluation
-% against the inherited baseline) -> one highlight result (the anchor
-% inversion, once the V1 hand-validation pass clears it) ->
-% contributions -> roadmap. Written last, many refinement passes.
-% Budget: 6 units (writing guide ledger).
+% DESIGN (2026-09-24, Marc's rulings): docs/handoffs/2026-09-24_ch1_
+% introduction_design.md --- supersedes the planning comment that stood
+% here (it named the retired movement attacker and the ranking inversion,
+% which did not reproduce). Order: P1 the case -> P2 MTD -> P3 the problem
+% and why it is hard -> the RQ block -> P5 approach -> P6 preliminary result
+% + scope (placeholder) -> contributions -> overview. Target ~900 words.
+
+% P1 --- the case (brief s12). ACCEPTED 2026-09-24, sentence by sentence
+% (Marc): S1 option C (the starker, higher-abstraction form, over the
+% scoped Mandiant-as-subject form); S2--S4 as drafted; the hand-off
+% sentence S5 CUT --- the static-network premise opens P2 instead, cited to
+% Ghosh (NITRD 2009) rather than asserted. Session-drafted at Marc's ask;
+% ~90 words. Parallels with the abstract's opening are ruled acceptable.
+Attackers who break into a network to spy on it go unnoticed for a
+median of four months \citep{mtrends2026}. In February 2024, US and
+Australian cyber agencies reported that the Chinese state-sponsored
+group Volt Typhoon had held footholds in American critical
+infrastructure networks for at least five years \citep{cisaaa24038a}.
+The group stayed hidden by signing in with stolen but valid credentials
+and running the administration tools already installed on each network
+\citep{cisaaa24038a}. Volt Typhoon is an advanced persistent threat
+(APT), a well-resourced attacker that pursues a specific objective
+against a specific target over months or years \citep{alshamrani2019}.
 
 % The single-RQ decision (architecture (a)) is intact: the sub-questions
 % are methodological decomposition, not sub-problems.

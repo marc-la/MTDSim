@@ -471,6 +471,47 @@ the model is ¶5's, and it is to the class.
 - Then ¶1 goes through repair-dictation and scrutinise-draft before ¶2 is
   designed.
 
+### 12.4 Accepted and floated (2026-09-24)
+
+¶1 is in the tex, at the head of `\chapter{Introduction}`. It has four
+sentences, about 90 words, and builds clean. The rulings, sentence by
+sentence:
+
+- **S1.** Marc chose option C, the starker, higher-abstraction form, over
+  the scoped "incident-response firm Mandiant" form. His reasons: the noun
+  cluster was hard to read, and the nuance was spread across too many
+  clauses to register.
+- **S2–S4.** Accepted as drafted.
+- **S5.** Cut. The static-network premise moves to ¶2, cited.
+
+Owed downstream:
+
+- **The RQ block re-expands two acronyms.** It spells out *advanced
+  persistent threat (APT)* again, and ¶2 will expand *MTD* first. When ¶4
+  is cut, the RQ uses the bare acronyms.
+- **A small risk, to keep in mind rather than fix.** S1 is about spying.
+  The advisory assesses Volt Typhoon's pre-positioning as "not consistent
+  with traditional espionage". ¶1 never labels the group a spy, and S4's
+  "specific objective" covers both, so it was left as it is. If a reader
+  flags it, the fix is a clause in S2.
+
+## 13. Paragraph 2: inputs gathered so far (design to come)
+
+- **The opener: Marc's question.** Given that attackers stay unnoticed
+  for months, what is the response? He named three options: keep them out
+  (prevention at the perimeter), find them faster (detection), or make
+  their time inside worth less (MTD). These are the layers of defence in
+  depth. It is a genuine enumeration, so walk it (voice.md §(c)2) rather
+  than letting it read as a rule-of-three flourish.
+- **MTD's niche is the third option.** It is cited to the field's own
+  premise: attackers "plan at their leisure" because assets "look the same
+  for a long time" (ghosh2009nitrd). MTD is a complement to existing
+  defences, not a replacement (cho2020).
+- **The turn.** The advisory's response is entirely static hardening and
+  detection; MTD is absent. The claim is scoped to AA24-038A.
+- **Ceiling.** "Would MTD have made their life harder" is the question the
+  evaluation motivates, not a claim.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:
