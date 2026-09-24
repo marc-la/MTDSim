@@ -799,6 +799,64 @@ nesting is what makes the three jointly sufficient.
 - The SQ list hyphenates "re-ports" and "sim-ulator's". This is last-week
   typesetting polish.
 
+## 16. Paragraph 5: the approach (2026-09-24; design for Marc's acceptance)
+
+### 16.1 Context, audience, purpose
+
+**Context.** The reader has just read the RQ and SQ1–SQ3. The block leaves
+three things unexplained: *published threat reports* (SQ1), the *baseline
+attacker* (SQ3) and *perform* (RQ, SQ3). Each was ruled to be defined here
+(§15.2). The reader's next question is "how will you answer that?" That
+question is CARS move 3, announcing the research and outlining its method
+(Swales 1990).
+
+**Audience.** The same examiner as in §1: not an MTD specialist. ¶5 is the
+first paragraph at chapter 2's altitude (the abstraction gradient, §1). By
+now the reader has chosen to go on, so field terms may enter, each defined
+once in the clause that introduces it: CTI, MITRE ATT&CK, attack profile and
+operational objective, MTDSim (brown2023), the baseline attacker. The term
+budget's never-list holds: no layer names, no GSPN notation, no metric
+acronyms, no "movement".
+
+**Purpose.** To answer SQ1–SQ3 in order, one pass the reader can hold, with
+a pointer to the chapter that carries each answer. Together the three
+answers state the thesis's method. Then one line positions it against the
+field (flag C4): simulation is kept on purpose, and only the attacker is
+changed.
+
+### 16.2 Proposed structure (six slots, about 130–140 words)
+
+| Slot | Job | Facts | Ceiling |
+|---|---|---|---|
+| S1 (SQ1) | Bind "published threat reports" to CTI and name the source | Analyst-curated Attack Flows of APT campaigns, written in MITRE ATT&CK's vocabulary (full name + citation, its first use) | No L0; "recovered" is SQ1's verb, used again here |
+| S2 (SQ1) | What is recovered from them | Attack profiles: the campaigns' behaviour grouped by operational objective (Ch. 4) | Profiles are the behaviour; do not claim they are accurate |
+| S3 (SQ2) | Executed where, and beside what | Run in MTDSim (brown2023) as the APT attacker model. The baseline attacker is defined here: MTDSim's scripted attacker. Same action set, same network, same defences (the ch4 opener's ruled relation) | No "replaces", no "beside"; no Petri net (see D2) |
+| S4 (SQ2 check) | Phase one | Both attackers, no defence: does the APT attacker model behave differently? (Ch. 5) | Phase one answers SQ2 (§15.2) |
+| S5 (SQ3) | Phase two, and define "perform" | Both attackers under MTD's deployment strategies across a range of intervals. Perform = what the attacker achieves, and how much a defence takes from it (the outcome and effectiveness classes; Section~\ref{sec:evaluation-metrics}) | No metric names or acronyms; no MTDShield by name (D4) |
+| S6 (positioning) | Why this design is fair to the field | Keeps simulation, the field's dominant method (cho2020), and changes only the attacker, so any difference is the attacker's | Marc dictates this line (flag C4) |
+
+The scope sentences stay in ¶6 (§4: ¶7 folds into ¶6).
+
+### 16.3 Decisions for Marc
+
+- **D1. "38".** Recommendation: keep it. It answers "how much evidence?",
+  which passes the decorative-number rule. The alternative is "a corpus of
+  analyst-curated Attack Flows".
+- **D2. Name the Petri net?** Recommendation: no. The reader has not met the
+  term, it needs a definition clause, and the chapter pointer carries it.
+  SQ2 is answered by *where it runs and what it shares*.
+- **D3. Key the SQs in the text?** Options: a trailing tag,
+  "(\ref{sq:capture}; Chapter~\ref{ch:...})", or no tags, leaving the keying
+  to the contributions list. Recommendation: no tags. Answering in SQ order,
+  with SQ1's own verb, is enough keying, and the contributions list will
+  carry the explicit keys.
+- **D4. MTDShield by name?** Recommendation: no. "Every deployment strategy
+  in MTDSim" covers it, and it would be one more undefined name.
+- **D5. "Why hard".** Recommendation: drop it as a claim. The thesis does the
+  recovery, so calling it hard contradicts the thesis (memory: dense over
+  walked-through). "Analyst-curated" in S1 carries the fact that reports need
+  curation before a simulator can use them.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:
