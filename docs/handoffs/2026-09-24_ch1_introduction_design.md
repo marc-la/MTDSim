@@ -375,6 +375,102 @@ connects more pieces without overclaiming:
 Re-verify every Medicare fact against a government or ASD statement before
 any sentence cites it. Save the source to `docs/sources/` when one exists.
 
+## 12. Paragraph 1: the design and its slots (2026-09-24; for Marc's acceptance, slot by slot)
+
+**Ruled by Marc on the way in.** Volt Typhoon is the exemplar. The Medicare
+incident was context, not a candidate. Two ideas were carried into ¶2's
+design (§13, to come):
+
+- MTD as a layer in defence in depth, which is licensed (cho2020 positions
+  MTD as a complement to existing defences, not a replacement).
+- "Would MTD in the mix have made their life harder?" This is licensed only
+  as the question the evaluation motivates, never as a claimed
+  counterfactual.
+
+"MTD by default, easy to apply" is deployability, which the thesis does
+not study. Flag it as a future-work or discussion line, not ch1 content.
+
+### 12.1 What ¶1 must carry for the reader
+
+The reader is §1's non-specialist CS examiner, meeting page one. When the
+paragraph ends, they must hold four things:
+
+1. **The attacker is real, current and close to home.** A dated,
+   authoritative case; ASD's co-seal makes it Australian business.
+2. **What an APT is.** The first defined term, in one clause, consistent
+   with ch3 §3.1.1's definition (a well-resourced attacker pursuing a
+   specific objective against a specific target over a long horizon;
+   alshamrani2019).
+3. **Where its advantage comes from.** Time inside the network, and what
+   it holds onto meanwhile: valid credentials, and knowledge of the network
+   that stays true. This is the single property the whole thesis turns on,
+   and ¶2 picks it up by name, so the paragraph must *end* on it.
+4. **That the case stands for a class.** Otherwise one campaign reads as
+   an anecdote.
+
+Nothing else. No MTD yet (¶2), no evaluation (¶3), no tradecraft
+inventory, no AI.
+
+### 12.2 The shape: a steep hourglass, but the wide end must carry a claim
+
+Marc asked whether ¶1 should run "cybersecurity is important → a recent
+example → the argument, fast". The funnel is right. The top sentence as
+worded is the one move every authority rejects:
+
+- "flat and uninspiring" (Zobel p. 97);
+- the lineage's own defect: all three student reports open that way.
+
+The examiner hears it as filler, and filler is what the literature review
+feedback called the flattened voice. The fix keeps the shape and changes
+what sits at the wide end: **a measured fact about attackers, not a claim
+that the field matters.** Two workable shapes:
+
+- **B, the steep hourglass (recommended).** Wide: the dwell asymmetry, a
+  measured class fact. Narrow: Volt Typhoon as its extreme. Narrowest: how
+  it stayed, and what it banked. The paragraph ends on the property ¶2
+  needs.
+  - It is Marc's shape with a defensible top.
+  - It does not open on the same sentence as the abstract, which currently
+    also opens on Volt Typhoon.
+  - The statistic opener is the corpus's rarest type (1 of 25, Rahman) and
+    the one Cho & Ben-Asher use to *measure* the asymmetry, not assert it.
+- **A, case first.** Narrow first: February 2024, the agencies, five
+  years. Then widen to the class with the definition, and end on the
+  property. This is Dunleavy's high-impact start followed by framing text.
+  It matches Marc's authority-first opener from the seminar, but repeats
+  the abstract's opening until the abstract is redesigned.
+
+### 12.3 Slots (shape B; about 100–110 words, four sentences)
+
+| Slot | Job | Facts it may use | Shape | Must not / ceiling | ~words |
+|---|---|---|---|---|---|
+| S1 (wide) | Some intruders stay an order of magnitude longer than most | M-Trends 2026 (2025 data), `mtrends2026`: global median dwell **14 days**; the cyber-espionage cohort (reported *with* DPRK IT-worker cases) median **122 days** | Authority first ("Incident responders …" or the report as subject); one main clause | Say "espionage" intrusions, never "APTs": the cohort is not APT-defined, and it includes the IT-worker cases. Two numbers, both carrying the contrast; no third. No "rapidly evolving", no "increasingly" | 25 |
+| S2 (narrow: the case) | The extreme, named, dated and Australian-relevant | AA24-038A, 8 February 2024; nine agencies including ASD's ACSC; Volt Typhoon, PRC state-sponsored; footholds in US critical-infrastructure IT networks for **at least five years** (`cisaaa24038a`, Summary) | Date and agencies first; one main clause | "At least five years" exactly, as the advisory has it. Critical-infrastructure *IT* networks, not OT: the actors positioned to reach OT but did not act on it | 30 |
+| S3 (how it stayed) | The mechanism of the dwell: it used the defender's own valid access and kept it current | Valid accounts plus native tools (living off the land), the advisory's stated "hallmark" of long-term undiscovered persistence; the domain controllers' credential database taken **repeatedly over four years**, keeping it current, not spending it once | One or at most two facts, walked. **No colon-list of tradecraft** (Marc's rule) | Not "no malware" as an absolute (the advisory says LOTL is the hallmark). Not pre-positioning *and* credentials *and* LOTL at once: pick the fact that serves S4 | 25 |
+| S4 (the class, defined; the hand-off) | Define APT, and name what the class banks: time, and knowledge of the network that stays true | ch3's definition, compressed to a clause (alshamrani2019). The banked-knowledge framing is **this thesis's inference** from the advisory, stated as a reading, not attributed to CISA | Can carry the paragraph's one quote-back sentence (voice.md §(d)); short after S3's build | Not "not X but Y". No three-clause tail. Do not name MTD: ¶2 does, and this sentence hands it the noun ("knowledge that stays true") | 25 |
+
+**Available but left out on purpose:**
+
+- the pre-positioning assessment ("not consistent with traditional
+  espionage"), which is objective-conditioning evidence that belongs in
+  ch3 and ch4;
+- the 400-day BRICKSTORM figure, which would be a decorative third number;
+- initial access through public-facing appliances, which pulls the reader
+  toward perimeter defences.
+
+**Circularity guard.** Volt Typhoon is not in the attack-flow corpus. Its
+hand-authored flow sits outside the corpus by design (Decision 6), so no
+¶1 sentence may say or imply "this is the attacker we model". The link to
+the model is ¶5's, and it is to the class.
+
+**Order of work.**
+
+- Marc accepts or amends 12.2 (shape) and each slot.
+- He dictates S1–S4 one at a time. The session checks each against its
+  row, and never supplies wording.
+- Then ¶1 goes through repair-dictation and scrutinise-draft before ¶2 is
+  designed.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:
