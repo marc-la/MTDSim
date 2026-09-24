@@ -21,6 +21,16 @@ fate of the once-planned `internal`/`lineage` preset split.
 
 ## (a) Internal MTTC — definition
 
+> **The thesis does not report this quantity (2026-09-24, the metrics design).** The dissertation's MTTC
+> (Table 5.2, §4.5) is **the mean time from the start of a run to its first compromised host**, over the
+> runs that compromise one, computed by the chapter's analysers on both attackers
+> (`data/results/ch5_s531_unopposed/analyse.py`, `data/results/ch5_defended/analyse.py`). What follows is
+> the inherited `evaluation.py` quantity, which is **Ho 2024's MTTC** (the mean duration of one attack event,
+> §3.3.2 item 8) and therefore *one name for a different quantity*, not necessarily a bug — the lineage uses
+> MTTC for at least five quantities (`docs/sources/extractions/metric_census/B_lineage.md` §e). Classify it
+> against `mtdsim_intent_spec.md` before calling it anything. The internal-MTTC finding the handoffs README
+> carried since 2026-08-05 is owned by `docs/handoffs/2026-09-22_metrics_provenance_and_instrumentation.md` §7.
+
 "**Internal MTTC**" is the mean duration over the **three Ho-defined
 attack-action events** (`SCAN_PORT`, `EXPLOIT_VULN`, `BRUTE_FORCE`) for
 the rows present in the `attack_record` slice up to a given compromise
