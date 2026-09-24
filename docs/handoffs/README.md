@@ -87,6 +87,12 @@ metrics and the numbers exist.
    unit split and the heading set still owed. Jin: "once this is done then we're
    good for the discussion".
 
+6. Independent of the chain, runs now:
+   [`2026-09-24_ch1_introduction_design.md`](2026-09-24_ch1_introduction_design.md)
+   — the introduction's design (moves, paragraph jobs, term budget, ceiling);
+   nine rulings owed (§8), then slots and dictation. Only ¶6 and contribution
+   C3 wait, on the 1 000-seed corpus of step 1.
+
 Standing context that survives the sweep:
 
 - [`2026-09-20_ch5_s52_s54_results_context.md`](2026-09-20_ch5_s52_s54_results_context.md)
