@@ -280,7 +280,20 @@ research question of this dissertation:
 % so the sentence the conclusion answers is findable at a glance and the
 % one-question/three-part hierarchy shows in the layout. Lead-in closes P3
 % and names its antecedent ("this gap"). Acronyms bare: MTD and APT are
-% defined in P1-P2. RQ and SQ WORDING NOT YET REVISITED (Marc's next pass).
+% defined in P1-P2.
+% SQ WORDING RULED 2026-09-24 (Marc; brief s15.1-s15.2, on Shaw 2003,
+% Easterbrook et al. 2008, Wieringa 2009 and a 13-paper corpus survey).
+% SQ1-SQ2 are design problems ("How can ...", Shaw's development type)
+% that build the instrument; SQ3 is the knowledge question that answers
+% the RQ (Shaw's "How does X compare to Y?"), opening in the RQ's own
+% words. "Recovered" over "captured" (Marc). Chain links are NAMES, not
+% pronouns, so each SQ reads alone when quoted in ch5-ch7. SQ3's two arms
+% are the section 5.2 heading's names; "baseline" is self-explaining and
+% P5 defines it. "that persists and adapts" CUT from SQ2: two of the
+% criterion's eight properties is an arbitrary subset and made SQ2 carry
+% four things. RULED WITH IT: the RQ stays broad (the SQs and P6's scope
+% fence it); "perform" is defined in P5; phase one (no defence) answers
+% SQ2 as the check that the model behaves differently; no hypotheses.
 % Layout (2026-09-24, Marc: "the spacing is a bit off"): the question and
 % the SQ text share one left edge (3em), the SQ labels sit in the gap to
 % its left, wrapped SQ lines hang under their own text, and the space
@@ -289,18 +302,17 @@ research question of this dissertation:
                 partopsep=0pt]
   \item \itshape How does MTD perform against APT attackers?
 \end{itemize}
-\noindent The question decomposes into three sub-questions:
+\noindent The question breaks down into three sub-questions:
 \begin{enumerate}[label=SQ\arabic*, ref=SQ\arabic*, align=left,
                   leftmargin=3em, labelwidth=2.5em, labelsep=0.5em,
                   itemsep=0pt, parsep=0pt, topsep=0.5\baselineskip,
                   partopsep=0pt]
-  \item\label{sq:capture} How is APT attacker behaviour captured, from
-  published campaign intelligence to behavioural attack profiles?
-  \item\label{sq:model} How is that behaviour made executable, as an
-  attacker that traverses the captured structure inside the simulator?
-  \item\label{sq:evaluate} How does MTD performance against the
-  resulting attack model differ from its performance against the
-  inherited scripted attacker?
+  \item\label{sq:capture} How can the behaviour of APT attackers be
+  recovered from published threat reports?
+  \item\label{sq:model} How can the recovered behaviour be executed as
+  an APT attacker model inside an existing MTD simulator?
+  \item\label{sq:evaluate} How does MTD perform against the APT attacker
+  model compared with the simulator's baseline attacker?
 \end{enumerate}
 
 % Both blocks below are visible placeholders (Marc's rulings 2026-08-20;

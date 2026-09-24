@@ -758,6 +758,47 @@ and ¶2).
 the instrument. SQ3 is the knowledge question that answers the RQ. That
 nesting is what makes the three jointly sufficient.
 
+### 15.2 Ruled and floated (2026-09-24)
+
+> The question breaks down into three sub-questions:
+> SQ1 How can the behaviour of APT attackers be recovered from published
+> threat reports?
+> SQ2 How can the recovered behaviour be executed as an APT attacker
+> model inside an existing MTD simulator?
+> SQ3 How does MTD perform against the APT attacker model compared with
+> the simulator's baseline attacker?
+
+**Why each is worded as it is:**
+
+- **Recovered, not captured.** This is Marc's term.
+- **The SQ types match the evidence** (Shaw). SQ1–SQ2 are design
+  questions ("How can"). SQ3 is the evaluation question, and it opens in
+  the RQ's own words.
+- **The chain between SQs uses names, not pronouns,** so each SQ reads
+  alone when ch5–ch7 quote it.
+- **SQ3's two arms are the §5.2 heading's names.** "Baseline" explains
+  itself, and ¶5 defines it.
+- **"That persists and adapts" is cut from SQ2.** Naming two of the
+  criterion's eight properties is an arbitrary subset, and it made SQ2
+  carry four things.
+
+**Ruled with it:**
+
+- the RQ stays broad (the SQs and ¶6's scope sentences fence it);
+- "perform" is defined in ¶5;
+- phase one (no defence) answers SQ2, as the check that the model
+  behaves differently;
+- no hypotheses.
+
+**Owed downstream:**
+
+- ¶5 must define the baseline attacker and "perform", and answer SQ1–SQ3
+  in order.
+- C1–C3 key to these wordings, and the conclusion answers them in the
+  same words.
+- The SQ list hyphenates "re-ports" and "sim-ulator's". This is last-week
+  typesetting polish.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:
