@@ -907,6 +907,77 @@ simulation.
 - whether 38 flows is enough (chapter 6);
 - bias toward reported attacks (¶6 scope or chapter 6 limitations).
 
+## 17. Paragraph 6: preliminary findings, value and scope (2026-09-24; design for Marc's acceptance)
+
+### 17.1 Context, audience, purpose
+
+**Context.** The reader has just finished ¶5, the method, which ends by
+defining performance. They now ask what we found and what it means. Before
+the contributions list turns the answers into claims, they also ask what we
+are *not* claiming. This paragraph is §4's rows 6 and 7 folded together:
+the findings, the value, then scope.
+
+**Audience.** The same examiner as §1, at chapter 2's altitude. There are no
+metric acronyms and no numbers (the headline is a direction, not a number).
+The only terms used are the ones ¶1–¶5 have already defined.
+
+**Purpose.**
+- **Announce the findings.** Computing introductions do: 70–75 % of CS and SE
+  article introductions do (§2), and Zobel says a paper "isn't a story in
+  which results are kept secret" (p. 58).
+- **State the value** in one sentence. This is Marc's "discussion points", as
+  §3 item 3 ruled.
+- **Fence the scope** before the examiner does (9 of 10 computing theses do,
+  per Soler-Monreal et al.).
+- **Ruled (§11):** the results go in as a visible, flagged placeholder,
+  worded at the preliminary tier. Marc revisits them once chapters 5 and 6
+  are done.
+
+### 17.2 The evidence available today (100-seed corpus; re-check at 1 000)
+
+- **Phase one** (`tab_5-2-1a_unopposed_summary`). With no defence, the APT
+  attacker model reaches the target in 5–17 % of runs (by profile) against
+  the baseline attacker's 58 %. It compromises 14–20 % of hosts against
+  49 %, and it takes about three times as long per compromise.
+- **Phase two** (`tab_5-3-2a_orderings`).
+  - The host-layer defences (IP shuffle and the two topology shuffles) hold
+    back the APT attacker model most. The service-layer ones (service
+    diversity first) hold back the baseline attacker most. The family
+    contrast flips sign between attackers at both intervals: Cliff's δ
+    −0.61 against 0.93 at 200 s, and −0.19 against 0.25 at 2 000 s.
+  - The two orderings barely correlate: ρ = 0.08 at 200 s and 0.13 at
+    2 000 s.
+  - This is tier 3 of the seminar ceiling. It is the same direction the
+    abstract already states under "Preliminary".
+
+### 17.3 Proposed structure (five slots, about 100 words)
+
+| Slot | Job | Content | Ceiling |
+|---|---|---|---|
+| S1 (SQ2 check, phase one) | What the model does with no defence | It reaches fewer hosts and its target less often, and more slowly, than the baseline attacker | "Preliminary". Never "weaker" or "more realistic": the baseline is *simplified*, not weak |
+| S2 (SQ3, phase two) | Which defences hold back which attacker | Defences that move the network's addresses and layout hold back the APT attacker model most. Those that change its software hold back the baseline attacker most | The direction only, with no ranks and no numbers. The abstract's parallel: "IP shuffling and topology shuffling … service diversity" |
+| S3 (value) | What it means for MTD evaluation | The defence an evaluation recommends depends on the attacker it assumes. Or the abstract's closer: "a case for evaluating MTD against attacker models grounded in documented behaviour" | Marc found "the recommended defence changes with the attacker" vague three times in the seminar. Decision V below |
+| S4 (scope 1) | What is evaluated | Existing defences, in simulation; no new defence is proposed | — |
+| S5 (scope 2) | What the attacker is | Behaviour documented across many campaigns, not any one group such as Volt Typhoon | Guards ¶1: an examiner will otherwise read Volt Typhoon as the scenario scored |
+
+**Placeholder mechanics (§11 ruling).** S1–S3 are written as real
+sentences opening "Preliminary results show", as the abstract does. A
+visible tag, `[re-check at 1 000 seeds]`, and a tex comment naming the two
+tables sit beside them. S4–S5 are not results, so they are final text.
+
+### 17.4 Decisions for Marc
+
+- **V. The value sentence.** Recommendation: echo the abstract's closer.
+  That keeps chapter 1 and the abstract parallel, and it answers the RQ at
+  the level of evaluation practice. The seminar found the alternative vague.
+- **P. Keep phase one (S1)?** Recommendation: yes. SQ2's check needs an
+  answer, and it is the phase the contributions list's C2 rests on. Cutting
+  it saves about 20 words.
+- **Sc. Which two scope items?** Recommendation: simulation and existing
+  defences (S4), and not a named group (S5). "Nothing in MTDSim detects the
+  attacker" (so stealth is measured but nothing reacts) and the bias toward
+  reported attacks go to chapter 6's limitations.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:
