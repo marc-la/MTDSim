@@ -101,7 +101,7 @@ Not §4.5, but the same defensibility pass, and the setup is where a reader asks
 
 1. The symbols (above), especially $\kappa$ for the detector's memory in place of $\tau$.
 2. Table 3.1: add the anchors it lacks — attack rate (Zhan), Outkin's time share, the mitigation factor (Alavizadeh) — so every §4.5 source is on the literature review's map. Attack confidentiality, APV, ASP, NCR, MTTC and attack actions blocked are there already.
-3. The $\kappa$ sweep for `app:detector-memory` (no-defence corpus, both attackers; the ordering across $\theta$ at each $\kappa$). The 2026-08 sweep was for the older tier-weighted detector and does not carry over.
+3. The sweep for `app:detector-memory` — **the alarm quantile and $\kappa$ together** (round 3: at the 60th percentile $c_4$ drops below the baseline in the first bin; $\theta_b$ depends on $\kappa$); §4.5 must also say **why the median** (a detector tuned to flag half of the known attacker's activity). Was: the $\kappa$ sweep (no-defence corpus, both attackers; the ordering across $\theta$ at each $\kappa$). The 2026-08 sweep was for the older tier-weighted detector and does not carry over.
 4. A hand trace for each adapted and introduced metric (V1) — a four-host run, recorded.
 5. The ablation sentence for §5.2 (the no-action tactics removed from the record) re-run on this detector: at the minute scale it erased the margin; say it only where it holds.
 6. The comment block under §4.5's holders (the 2026-09-23 content points) — replace with a pointer here when the definitions are written.

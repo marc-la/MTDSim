@@ -1291,7 +1291,11 @@ Marc: panel (c) across alarm levels "doesn't really convey this model is stealth
 
 **Applied.** (a) renamed **relative tactic occurrence**, cited to Rodriguez et al. 2024 (Table 3, "Occur. (rel.)" per tactic — the field's own quantity); verb codes as group labels; total row removed. (b) y-axis "APV (%)". (c) **attack confidentiality over the run**: 1 500 s bins, the alarm set by one rule — it flags half of the baseline attacker's actions ($\theta_b$ = 2.95) — so no level is chosen; the profiles hold 70–93 % below it, flat across the run ($c_1$ ~77, $c_2$ ~87, $c_3$ ~91, $c_4$ ~70, $c_{\mathrm{agg}}$ ~80), the baseline 67 → ~44 % (near 50 by construction; its runs thin to 30 of 100 by the last bin as it takes the target). Table 5.2 (was 5.3) reformatted; Table 5.1 gains a Metrics row. **T4 now reads:** the model keeps more of its actions below a detector tuned on the baseline attacker, at every point of the run; $c_4$ the least.
 
-**Round 3 reviewers owed** (fresh cold reader + critic) on the new (c); not yet run.
+**Round 3 (fresh cold reader + critic): no blocking defect after one caption fix.** The critic recomputed $\theta_b$ (2.949; exactly 50.0 % of 29 416 baseline actions below it) and every bin from the raw runs — exact. One blocking fix, applied: the caption now says the rule fixes the baseline's whole-run share at 50 %. Findings for the text and the appendix:
+- The baseline's drift (67 → 43 %) is **measured, not survivorship**: the 33 runs active in the last bin slide the same way on their own; its action rate per active run is flat; its actions bunch more as the run goes on. State once in the body, with 30 of 100 runs active at the end; give no reason.
+- The profiles' flatness is **what chapter 4's stationary net and dwell catalogue predict** — the dwell declaration made visible over time, one observation with the attack rate, not a second piece of evidence.
+- **The quantile matters:** at the 60th percentile $c_4$ falls below the baseline in the first bin (78.0 against 79.0); at the 75th $c_1$ does too. So T4 reads "at the alarm tuned on the baseline attacker", and the appendix sweeps the quantile with $\tau$ ($\theta_b$ depends on $\tau$); §4.5 says why the median. Appendix placeholder updated.
+- Cold reader: (b)'s zeros read as missing (a true-zero mark would help; not blocking); $c_1$ shows impact "<1" because its net holds impact — a content point, not a leak.
 
 ## Validation gate
 

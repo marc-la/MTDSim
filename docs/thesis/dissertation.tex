@@ -6385,7 +6385,7 @@ Section~\ref{sec:effectiveness} reports against.]}
 \begin{figure}[tbp]
   \centering
   \includegraphics{fig_5-2-1a_campaign_openings}
-  \caption[Where each attacker's steps fall, how its runs differ, and how much of its activity stays below a detector's alarm over the run]{With no defence running, for the APT attacker model on each attack profile and for the baseline attacker. (a)~Relative tactic occurrence: the share of each attacker's steps, in per cent, that fall in each tactic; a step is a tactic entered, or a verb entered by the baseline attacker. The tactics are grouped by the verb each dispatches (Section~\ref{subsec:tactic-verb-mapping}), so each of the baseline attacker's verbs spans its group; a dash marks a tactic the attacker does not have. (b)~Attack path variation: for each opening length, the share of runs whose first steps differ from the attacker's most common opening. (c)~Attack confidentiality over the run: in each 1\,500\,s of the run, the share of the attacker's actions taken while a detector that counts its recent actions is below its alarm, the alarm set so that it flags half of the baseline attacker's actions; an action is a verb that runs on the network. Higher means more varied in~(b) and more of its actions below the alarm in~(c). Section~\ref{sec:evaluation-metrics} defines each metric.}
+  \caption[Where each attacker's steps fall, how its runs differ, and how much of its activity stays below a detector's alarm over the run]{With no defence running, for the APT attacker model on each attack profile and for the baseline attacker. (a)~Relative tactic occurrence: the share of each attacker's steps, in per cent, that fall in each tactic; a step is a tactic entered, or a verb entered by the baseline attacker. The tactics are grouped by the verb each dispatches (Section~\ref{subsec:tactic-verb-mapping}), so each of the baseline attacker's verbs spans its group; a dash marks a tactic the attacker does not have. (b)~Attack path variation: for each opening length, the share of runs whose first steps differ from the attacker's most common opening. (c)~Attack confidentiality over the run: in each 1\,500\,s of the run, the share of the attacker's actions taken while a detector that counts its recent actions is below its alarm, the alarm set so that it flags half of the baseline attacker's actions, which fixes the baseline attacker's share over the whole run at 50\,\%; an action is a verb that runs on the network. Higher means more varied in~(b) and more of its actions below the alarm in~(c). Section~\ref{sec:evaluation-metrics} defines each metric.}
   \label{fig:aio-coverage}
 \end{figure}
 
@@ -8109,9 +8109,15 @@ with the floor declared.
 \label{app:detector-memory}
 
 \noindent\emph{[Placeholder --- delete on drafting. Attack confidentiality
-(Section~\ref{sec:evaluation-metrics}) rests on one declared constant: how long the
-detector remembers an action, 60\,s. This section moves it across a band and
-reports whether the attackers keep their order at every alarm level.]}
+(Section~\ref{sec:evaluation-metrics}) rests on two choices: how long the
+detector remembers an action, 60\,s, and where its alarm is set, at the level that
+flags half of the baseline attacker's actions. This section moves both and
+reports whether the attackers keep their order across the run.]}
+% UPDATED 2026-09-24 (scrutinise-figure round 3, context critic): the alarm quantile
+% matters --- at the 60th percentile c4 falls below the baseline attacker in the
+% first 1 500 s bin (78.0 against 79.0), at the 75th c1 does too; at the median c4's
+% first-bin margin is 4.6 pp (bootstrap 1.1-8.3). Sweep the quantile (e.g. 0.4-0.8)
+% and tau together; theta_b depends on tau. §4.5 must say why the median.
 
 % ADDED 2026-09-24 (Marc: "that's something that needs to be swept ... it has to
 % be in the appendix, so make an appendix item for that"). The sweep is owed:
