@@ -900,6 +900,23 @@ application-layer one only while it is scanning ports, exploiting, or
 brute-forcing. After a network-layer mechanism the attacker returns to
 scanning hosts, after an application-layer one to scanning ports
 \citep{brown2023}. Compromised hosts stay compromised \citep{zhang2023}.
+
+% PLACEHOLDER 2026-09-24 (Marc: "if we're missing what's about the disruption in
+% background or in the method, just put a placeholder ... I'll get back to it";
+% Figure 5.3 rebuild, results context §8g-5 content point 1). Verified at
+% mtdnetwork/operation/attack_operation.py apply_mtd_interrupt_cost and
+% _handle_interrupt; mtd_operation.py _interrupt_adversary. The code's layer names
+% are network / application / reserve; Table 2.2's are host / service / credentials.
+\noindent\emph{[Placeholder --- how a disruption is modelled, owed here for
+Section~\ref{subsec:aio-disruption}: (i)~the confusion penalty, a delay of about
+20\,s charged to the attacker whenever a deployment interrupts it, whatever the
+mechanism; (ii)~what a host-layer rewrite takes: the connection to the host the
+attacker is on, so it loses its place, while a service-layer rewrite costs the
+service connection but not the host; (iii)~the credentials case: user shuffle
+interrupts only brute force and sends the attacker to look for vulnerabilities
+instead; (iv)~one vocabulary for the split: this paragraph says network-layer and
+application-layer, Table~\ref{tab:defence-mechanisms} says host layer, service layer
+and credentials.]}
 % [pass 6 #12 ruled 2026-08-27] interrupt scope per mtd_operation.py:223-236
 % [pass 6 ruled 2026-08-27] reorder: persistence sentence closes the
 % disruption paragraph as the contrast (reset vs kept); possessions
@@ -4752,6 +4769,22 @@ cuts the dwell short and costs the attacker the time, but there was no action
 in flight to lose and no verdict to route on: the token still leaves on the
 base proportions. At a dwell-only tactic the defence is felt as cost, never
 as a change of route.
+
+% PLACEHOLDER 2026-09-24 (as above; results context §8g-5 content point 1: the
+% explicit and the emergent parts of a disruption). Verified: the penalty and the
+% lost host are charged by the one call both attackers share
+% (attack_operation.py apply_mtd_interrupt_cost); after a host-layer rewrite the
+% model's verbs on the lost host return PRECONDITION_UNMET until an enumerate or
+% scan host succeeds; the verdict-blind control tracks the model within 0.025.
+\noindent\emph{[Placeholder --- what a disruption does to the APT attacker model,
+explicit and emergent, owed for Section~\ref{subsec:aio-disruption}. Explicit: the
+action in flight fails, the confusion penalty is charged, and a host-layer rewrite
+takes the host the attacker is on --- the same for both attackers, so the
+environment's price is identical. Emergent: the token is not moved; the next
+actions that need the lost host fail their preconditions until the attacker finds
+one again, and the failure matrix routes on those failures. The baseline attacker
+instead restarts its script in a phase set by the layer
+(Section~\ref{subsec:attacker-model}).]}
 % [2026-09-13: A6 sentences landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
 %  §7.2. Re-landed 2026-09-13 (second pass) on Marc's framing --- a dwell-only

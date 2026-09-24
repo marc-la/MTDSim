@@ -70,7 +70,7 @@ def emit(d: dict) -> tuple[str, list[str]]:
     facts: list[str] = []
 
     # ---- (a), (b): the curve around a deployment of each attacker's worst mechanism
-    AY0, AH, YMAX = 6.55, 3.0, 125.0
+    AY0, AH, YMAX = 6.55, 3.7, 125.0
     ay1 = AY0 + AH
     GAP = 0.9
     PW = (X1 - X0 - GAP) / 2
@@ -92,10 +92,12 @@ def emit(d: dict) -> tuple[str, list[str]]:
              xlabel="", ylabel="", ylabels=(k == 0), xfmt=signed)
         dur = R[f"movement|{m}|{INTERVAL}"]["deployment_seconds_median"]
         w(r"\fill[black!10] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xa(-dur), AY0, xa(0), ay1))
-        w(r"\node[anchor=south east,text=black!60] at (%.3f,%.3f) {deployment};" % (xa(-dur) - 0.04, AY0 + 0.06))
+        # the band is named from above, over the band itself (Marc 2026-09-24: a label
+        # to its left read as "the deployment happens before the band")
+        w(r"\node[anchor=south,text=black!60] at (%.3f,%.3f) {MTD deployment};" % (xa(-dur / 2), ay1 + 0.04))
         w(r"\draw[black!55,line width=0.4pt,dash pattern=on 1pt off 1.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, ya(100), x1, ya(100)))
         panel_letter(w, x0 - (1.35 if k == 0 else 0.5), ay1 + 0.02, letter)
-        w(r"\node[anchor=south west] at (%.3f,%.3f) {%s};" % (x0 + (0.0 if k == 0 else 0.1), ay1 + 0.04, LONG[m]))
+        w(r"\node[anchor=south east] at (%.3f,%.3f) {%s};" % (x1, ay1 + 0.04, LONG[m]))
         for arm, col, mk in ARMS:
             c = R[f"{arm}|{m}|{INTERVAL}"]
             pts = [(xa(t), ya(v)) for t, v in zip(mids, c["relative_pct"])]
@@ -106,8 +108,8 @@ def emit(d: dict) -> tuple[str, list[str]]:
             facts.append(f"({letter}) {LONG[m]:18s} {arm:9s} deployments {c['deployments']:5d}  first 125 s {after[0]:.0f} %  "
                          f"at 1 000-1 250 s {after[-1]:.0f} %  rate before {c['pre_rate_per_ksec']:.2f} per 1 000 s  "
                          f"(deployment runs {dur:.0f} s)")
-    w(r"\node[anchor=north] at (%.3f,%.3f) {time from the completion of the MTD deployment (s)};" % ((X0 + X1) / 2, AY0 - 0.42))
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {NCR growth rate\\(\%% of before)};" % (X0 - 0.85, (AY0 + ay1) / 2))
+    w(r"\node[anchor=north] at (%.3f,%.3f) {time since the MTD deployment completed (s)};" % ((X0 + X1) / 2, AY0 - 0.42))
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {NCR growth rate (\%% of\\pre-deployment rate)};" % (X0 - 0.85, (AY0 + ay1) / 2))
 
     # ---- (c) time lost per deployment, per mechanism ------------------------
     BY0, BH = 1.55, 2.9
@@ -170,8 +172,6 @@ def emit(d: dict) -> tuple[str, list[str]]:
         marker(w, mk, col, xx + 0.67, ky, r=0.06)
         w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (xx + 1.0, ky, LABEL[arm]))
         xx += 4.4
-    w(r"\draw[black!55,line width=0.4pt,dash pattern=on 1pt off 1.5pt] (%.3f,%.3f) -- ++(0.5,0);" % (xx, ky))
-    w(r"\node[anchor=west] at (%.3f,%.3f) {its rate before the deployment};" % (xx + 0.6, ky))
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
     facts.insert(0, "worst mechanism by rule (largest time lost): " + ", ".join(f"{a} -> {m}" for a, m in worst.items()))
