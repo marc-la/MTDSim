@@ -1250,6 +1250,25 @@ corpus throughout; the thousand-seed rerun is owed with the chapter.
   count" is gone from Table 5.4 with the dagger clause and stays in Table 5.5
   for its own pass. The paired bootstrap stays unpaired (8h-2's reason).
 
+### 8i. Figure 5.1 on the metrics design — scrutinise-figure round 1 (2026-09-24; amendments owed Marc's ruling)
+
+The figure as rebuilt 2026-09-24 (three panels: time share per tactic, attack path variation, attack confidentiality; commit e081a49c) was sent to a cold reader, a context critic and a numbers auditor.
+
+**Takeaways (the pass criterion, for Marc to agree).** T1 the APT attacker model spreads its campaign over many tactics, a large part in dwell-only tactics; the baseline attacker spends its steps on six verbs (Fig 5.1a). T2 the four profiles weight that campaign differently (5.1a). T3 the model's runs part ways within a few steps; the baseline's open alike; $c_3$ is the exception, beside the baseline (5.1b). T4 the model takes more of its actions below a detector's alarm than the baseline at every alarm level, $c_4$ the least (5.1c; one observation with Table 5.3's attack rate, never two pieces of evidence — their orders are exact inverses). T5 on the field's outcome metrics it has reached less, more slowly, by the limit (Table 5.3).
+
+**What the reviewers found, each checked against the data.**
+- *Numbers:* every drawn value reproduces from the raw runs (auditor, all 70 cells, 40 bars, 5 × 51 curve points). No numbers bug.
+- *(a) the baseline column sums to 239.6 %* — its exploit share (69.8 %) is printed in three rows. The caption's "each column sums to 100" is false for it. (Marc's read, upheld; all three reviewers.)
+- *(a) time share is not like for like across the attackers* (session's own check, prompted by the critic's D2 and the auditor's §3): the model's time at a tactic is its declared dwell, which *replaces* the verb's native cost (§4.4.1), while the baseline's is the native cost — 15.6 per-vulnerability tries per exploit activity, 117 s on average. The 70 % is the pricing of the inherited exploit loop, not a behaviour; this is the cross-clock caveat of `metrics_semantics.md`, and the reason §8c chose the step. Within the model the profiles share one dwell catalogue, so T2 survives either unit.
+- *(b)* hardest panel for the cold reader (zero bars invisible, key far away, direction unstated); the baseline's unit (verbs entered, repeats collapsed) has dropped out of the caption; length 1 is zero for every attacker by construction (every run opens at its entry). $c_3$ sits beside the baseline (20–32 % against 22 %): T3's exception.
+- *(c)* the first point (alarm level 1) is zero by construction (an action counts itself); the ordering is the inverse of the attack rate's, so (c) and Table 5.3's rate column are one observation; $c_4$ is above the baseline at every level to about 4.8 under the ruled action rule, and still above (barely) if blocked verbs are counted.
+- *Analyser bug:* 53 end-of-run records with no verb are counted as actions (effect < 0.05 pp). Fix owed.
+- *Vocabulary:* the six baseline operations are **verbs** (registry); "take no action" is chapter 4's **dwell-only**; axis labels should carry Table 5.2's names; "detector", "alarm level", "opening" rest on §4.5, still empty.
+- *Caption:* the list-of-figures title ("how much of its activity a detector would miss") breaches the chapter 5 wording ceiling.
+- *Float:* 14.1 cm under Table 5.2 with `[H]` overruns the page (overfull vbox); `[H]` is reserved for placeholder floats (preamble l.~34); the figure is also 2.6 pt too wide.
+
+**Amendments (recommended; Marc rules): see the session's return of 2026-09-24.** Round 2 (fresh cold reader + critic) follows the ruling.
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,
