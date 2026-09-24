@@ -7,7 +7,7 @@ evidence: metric_census/A_hong.md, B_lineage.md, C_surveys.md, D_mtd_evaluations
 
 # The MTD metric catalogue — what the field names, and what this thesis must define
 
-**Why this exists.** Register E3 (22 Sep 2026): every metric the thesis reports is cited, or defined in the methodology with why it is needed. Marc's bar (23 Sep): *"look me in the eye — this exists, or this doesn't and we are inventing it for this reason"*, with the field's names, and its acronyms where it has them. This record is the lookup that answers that for each quantity. The chapter-level dispositions it feeds are in the metrics handoff (`docs/handoffs/2026-09-22_metrics_provenance_and_instrumentation.md`).
+**Why this exists.** Register E3 (22 Sep 2026): every metric the thesis reports is cited, or defined in the methodology with why it is needed. Marc's bar (23 Sep): *"look me in the eye — this exists, or this doesn't and we are inventing it for this reason"*, with the field's names, and its acronyms where it has them. This record is the lookup that answers that for each quantity. The chapter-level dispositions it feeds are in the §4.5 definitions brief (`docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md`; the metrics design handoff retired 2026-09-24, in git history).
 
 **How it was built.** Six census passes, one paper per pass so no metric is attributed across papers, about 1 100 metric rows in all, each with the metric as written, its acronym, definition or formula (verbatim where short), perspective, family, unit and locator. The tables are the evidence and live in [`metric_census/`](metric_census/):
 

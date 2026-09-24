@@ -2,7 +2,7 @@
 status: open                  # executes register E6 (and E7's ranking base); supersedes the retired 2026-09-17 defended-runs plan and the 2026-09-15 unopposed plan — their owed items are carried in §4; Q1–Q5 owed, Q5 is "launch the smoke tonight"
 created: 2026-09-22
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E6, §E7
-companions: ../workflows/results_section_workflow.md (record → read → draw), the two-phase restructure, landed 2026-09-23 (the headline §5.3.2 reads the interval sweep aggregated by layer, the depth §5.3.3 reads per mechanism with MTDShield as a scheme column; `docs/thesis/FLOATS.md`), 2026-09-22_metrics_provenance_and_instrumentation.md (what the analyser computes)
+companions: ../workflows/results_section_workflow.md (record → read → draw), the two-phase restructure, landed 2026-09-23 (the headline §5.3.2 reads the interval sweep aggregated by layer, the depth §5.3.3 reads per mechanism with MTDShield as a scheme column; `docs/thesis/FLOATS.md`), 2026-09-24_s45_instrumenting_mtdsim.md (what each metric is; the metrics design handoff retired 2026-09-24)
 ---
 
 # One new defended corpus: every deployment strategy including MTDShield as released, the deployment interval swept as a range, both attackers, at a thousand seeds
@@ -84,3 +84,8 @@ Every number through `analyse.py` → `numbers.json` → the generators (`result
 ## Out of scope
 
 The figures' design (restructure and figure handoffs); the metric definitions (metrics handoff); any MTD optimised against the APT attacker (declined, E1).
+
+## Carried from the retired metrics design (2026-09-24)
+
+- **Tell Jin before week 9 (E11):** E6's interval line chart will read **NCR reduction** against the interval, not the change in attack success rate he asked for, because the APT attacker model's ASP is floored at zero under most defences and cannot order them.
+- §5.3.1's own reads come from `data/results/ch5_defended/disruption.py` (not `analyse.py`); rerun it on the 1 000-seed corpus with the rest, then `tools/ch5_disruption_figure.py`.

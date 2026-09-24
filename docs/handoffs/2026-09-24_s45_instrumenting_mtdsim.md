@@ -2,7 +2,7 @@
 status: open                  # the brief for WRITING §4.5 — every metric defined in the method; Marc's plan (2026-09-24): results first, then fit the definitions to the settled list. Work in progress: add entries as metrics are ruled
 created: 2026-09-24
 updated: 2026-09-24
-parent: 2026-09-22_metrics_provenance_and_instrumentation.md (the metrics design; its implementation landed 2026-09-24, commits 23624188, e081a49c, 7f8cb105, 8d04fe12)
+parent: the metrics design handoff (2026-09-22_metrics_provenance_and_instrumentation.md, RETIRED 2026-09-24 into this brief; implementation commits 23624188, e081a49c, 7f8cb105, 8d04fe12; full text in git history)
 evidence: ../sources/extractions/mtd_metric_catalogue.md (the verdict and the source behind every entry)
 ---
 
@@ -121,3 +121,26 @@ Each of the ten has its equation, direction and source in §4.5; every adapted m
 - `docs/thesis/dissertation.tex` — §4.5's holders; `tab:gspn-notation` (l.~4427); Table 3.1 (l.~2120).
 - `docs/sources/extractions/mtd_metric_catalogue.md` — each source, with its locator.
 - `data/results/ch5_s531_unopposed/analyse.py` — the implementation each equation must match (the metrics-design block).
+
+## Carried from the retired metrics design (2026-09-24)
+
+**The split, and why it is ours.** Three classes, one per question the results ask of the attacker: *attacker behaviour* (what it does; §5.2), *attack outcome* (what it achieves; §5.2's reference and what §5.3's defences change), *MTD effectiveness* (what a defence does to it; §5.3). Not the phases (the outcome metrics are read in both); not Cho's effectiveness/efficiency (the thesis does not model defence cost). "MTD effectiveness" keeps Cho's word because that class *is* the field's effectiveness question. Labels ruled 2026-09-24.
+
+**Wording ceiling for the stealth pair.** Observations of the no-defence runs: "acts at a lower rate", "takes more of its actions below the alarm"; never "less detectable" in chapter 5; the stealth property stays NOT ADDRESSED (a declared detector, not a detection model in the simulator). Framing ruled 2026-09-24: fewer actions above a rate alarm tuned on the baseline attacker, because much of its campaign is in tactics the simulator gives no network action.
+
+**The supervisor's questions, and where the page answers them.**
+
+| Question | Answer |
+|---|---|
+| Where is this metric from? | Table 4.3's Source column; §4.5 for every adapted or introduced one |
+| What is NCR reduction — is that yours? | NCR is Zhang's and Ho's; the with-and-without form is Alavizadeh's mitigation factor; it is the old *suppression*, renamed |
+| Your ASR isn't Ho's. | It is ASP (Cho), estimated over runs; Ho's ASR is hosts compromised per attempted action |
+| MTTC to what? | the first host (the lineage's 80 % checkpoint is never reached by the APT attacker model) |
+| How can you measure stealth with no detector? | the footprint (attack rate) and what a declared detector makes of it (attack confidentiality); the claim is bounded to that |
+| Isn't a slow attacker *more* detectable? | to a detector that counts time on the network, yes (Hong 2018's rationale for ACD); ours counts recent actions |
+| Your model is worse. | slower and quieter for the same reason — Table 5.2 beside Figure 5.2 |
+| What is time lost per MTD deployment, and why not recovery time? | the area of the dip in NCR growth rate after a deployment, as seconds at the attacker's own pace; the per-event wait to the next compromise failed on censoring and on its reference (results context §8g-5) |
+
+**Cut from §5.2, with the reason** (for the examiner who asks): profile divergence (the heat map shows it; its noise floor could not be failed); effective behavioural breadth (Cho and Jalowski use *unpredictability* for the defender's configuration); the detectability level as a metric of its own (it survives as the detector inside attack confidentiality); disengagement and learning (inert in the reported configuration); path entropy, coverage curves, deepest stage (killed or saturated).
+
+**The internal-MTTC finding** now lives in `docs/implementation/metrics_semantics.md` §(a).

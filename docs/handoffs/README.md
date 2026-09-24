@@ -50,19 +50,15 @@ metrics and the numbers exist.
    `voice-pass` skill, with `tools/term_screen.py` as its census.)*
 
 3. In parallel, after the rulings:
-   - [`2026-09-22_metrics_provenance_and_instrumentation.md`](2026-09-22_metrics_provenance_and_instrumentation.md)
-     — **the metrics (E3, E4)**: a source for every Table 5.2 row, the chapter 4
-     unit that defines the new ones with why, stealth and detectability back in
-     Table 5.3; owns the internal-MTTC finding. Marc dictates the unit.
-     *Re-cut 2026-09-23 on Marc's direction (efficiency rows out, grouped by
-     phase, the field's names; stealth as attack intensity, adapted from He);
-     §4.5 Instrumenting MTDSim heading placed; §5.2's fidelity picture
-     proposed with a dry-run. Six rulings owed.*
-     *Consolidated 2026-09-24 into one design and IMPLEMENTED the same day at 100
-     seeds (Table 5.2 in three classes with a source per row; Figure 5.1 in three
-     panels; Table 5.3 in the field's names; §5.3 relabelled, suppression gone).
-     Next: [`2026-09-24_s45_instrumenting_mtdsim.md`](2026-09-24_s45_instrumenting_mtdsim.md)
-     — every metric defined in §4.5, after the results (Marc's order).*
+   - [`2026-09-24_s45_instrumenting_mtdsim.md`](2026-09-24_s45_instrumenting_mtdsim.md)
+     — **the metrics (E3, E4)**: every metric of Table 4.3 defined in §4.5, in
+     the formalism's symbols, with its source and, where it is ours, why.
+     *The metrics design (2026-09-22 handoff) was implemented 2026-09-24 and
+     retired into this brief the same day* (its rationale, the supervisor
+     question table and the wording ceiling are carried at the brief's foot; the
+     internal-MTTC finding moved to `metrics_semantics.md` §(a)). The §5.3.1
+     rebuild added NCR growth rate and time lost per MTD deployment (results
+     context §8g-5). Marc dictates §4.5 after the results.
    - [`2026-09-22_ch5_setup_number_justification.md`](2026-09-22_ch5_setup_number_justification.md)
      — **the numbers (E5)**: the background table of the lineage's
      configurations and one clause per §5.1 value; the numerals rule.
