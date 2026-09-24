@@ -1,3 +1,13 @@
+% MOVED AND REFORMED 2026-09-24 (Marc): from §5.1 (Table 5.2) into §4.5 Evaluation
+% metrics, so the method defines and chapter 5 only names (literature conventions §d).
+% The Definition column is gone --- each metric is defined in the subsection of its
+% class --- and the class is a level first column, not a header row (Marc: the row
+% read as a data row) and not rotated (a three-row group is shorter than its label).
+% Share of steps per tactic replaces time share (scrutinise-figure round 1: time is
+% not like for like --- the model's time is declared dwell replacing the verb's
+% native cost). Its anchor: the relative firing frequency of each tactic's timed
+% transition, a GSPN throughput measure --- VERIFY the locator in marsan1984 before
+% the definition is written (s45 brief, entry 1).
 % REBUILT 2026-09-24 (register E3; Marc's strict pass, 23-24 Sep; design:
 % docs/handoffs/2026-09-22_metrics_provenance_and_instrumentation.md §1-§2;
 % evidence per row: docs/sources/extractions/mtd_metric_catalogue.md).
@@ -140,28 +150,25 @@
 % which §4.4.1 says have no action in flight (metrics_semantics.md §d2).
 \begin{table}[htbp]
   \centering
-  \caption[The metrics]{The metrics this chapter reads, by what each measures, with the source of each; Section~\ref{sec:instrumenting} defines every one.}
+  \caption[The evaluation metrics]{The evaluation metrics, by class, with the source of each; each is defined in the subsection of the same name.}
   \label{tab:metrics}
-  \tablestyle\setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}P{3.9cm}P{7.7cm}P{3.9cm}@{}}
+  \tablestyle\setlength{\tabcolsep}{5pt}
+  \begin{tabular}{@{}P{3.0cm}P{5.6cm}P{6.4cm}@{}}
     \toprule
-    Metric & Definition & Source \\
+    Class & Metric & Source \\
     \midrule
-    \multicolumn{3}{@{}l}{\emph{Attacker behaviour}} \\
-    \quad Time share per tactic & the share of the attacker's time spent in each tactic, pooled over its runs & adapted from \citep{outkin2022}; Section~\ref{sec:instrumenting} \\
-    \quad Attack path variation (APV) & for the first $k$ tactics of a run, the share of runs that differ from the attacker's most common first $k$ & adapted from \citep{hong2018}; Section~\ref{sec:instrumenting} \\
-    \quad Attack rate & the attacker's actions per 1\,000\,s of its active time & \citep{zhan2013}; Section~\ref{sec:instrumenting} \\
-    \quad Attack confidentiality & the share of the attacker's actions taken while a detector counting its recent actions is below its alarm level & adapted from \citep{zaffarano2015}; Section~\ref{sec:instrumenting} \\
+    & Share of steps per tactic & adapted from \citep{marsan1984} \\
+     & Attack path variation (APV) & adapted from \citep{hong2018} \\
+     & Attack rate & adapted from \citep{zhan2013} \\
+    \multirow{-4}{3.0cm}{Attacker behaviour} & Attack confidentiality & adapted from \citep{zaffarano2015} \\
     \midrule
-    \multicolumn{3}{@{}l}{\emph{Attack outcome}} \\
-    \quad Attack success probability (ASP) & the share of runs in which the attacker compromises a target host (Table~\ref{tab:attacker-objectives}) & \citep{cho2020} \\
-    \quad Network compromise ratio (NCR) & the share of the network's hosts compromised by the end of a run & \citep{zhang2023, ho2024} \\
-    \quad Mean time to compromise (MTTC) & the mean time from the start of a run to its first compromised host & \citep{mcqueen2006, zhang2023}; Section~\ref{sec:instrumenting} \\
+    & Attack success probability (ASP) & \citep{cho2020} \\
+     & Network compromise ratio (NCR) & \citep{zhang2023, ho2024} \\
+    \multirow{-3}{3.0cm}{Attack outcome} & Mean time to compromise (MTTC) & \citep{mcqueen2006, zhang2023} \\
     \midrule
-    \multicolumn{3}{@{}l}{\emph{MTD effectiveness}} \\
-    \quad NCR reduction & $1 - \mathrm{NCR}_{\mathrm{defence}} / \mathrm{NCR}_{\mathrm{no\ defence}}$: 0 for no effect, 1 for no host compromised, negative if the defence helps the attacker & the mitigation factor of \citep{alavizadeh2022}, on NCR \\
-    \quad Attack actions blocked & the share of the attacker's actions that fail because something they need is no longer there & adapted from \citep{brown2023}; Section~\ref{sec:instrumenting} \\
-    \quad Recovery time & the time from a disruption to the attacker's next compromise, over its own mean time between compromises with no defence & Section~\ref{sec:instrumenting} \\
+    & NCR reduction & \citep{zhang2023, ho2024}, in the form of \citep{alavizadeh2022} \\
+     & Attack actions blocked & adapted from \citep{brown2023} \\
+    \multirow{-3}{3.0cm}{MTD effectiveness} & Recovery time & introduced here \\
     \bottomrule
   \end{tabular}
 \end{table}

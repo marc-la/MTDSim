@@ -341,9 +341,12 @@ NET_HOSTS = 50
 
 
 def _actions_movement(run: MovementRunResult, count_blocked: bool = False) -> tuple[list, float]:
+    # an end-of-run marker is recorded action-bearing with no verb (outcome SIM_END):
+    # it is not an action (scrutinise-figure round 1, 2026-09-24: 53 such records)
     starts = [
         rec.start_time for rec in run.records
-        if rec.place_class == "action-bearing" and (count_blocked or not rec.blocked)
+        if rec.place_class == "action-bearing" and rec.verb
+        and (count_blocked or not rec.blocked)
     ]
     end = max((rec.end_time for rec in run.records), default=0.0)
     return starts, end
@@ -427,6 +430,21 @@ def time_share_baseline(rows: list[dict]) -> dict:
             t[rec[0]] += rec[2] - rec[1]
     total = sum(t.values())
     return {v: t[v] / total for v in sorted(t)}
+
+
+def step_share_baseline(rows: list[dict]) -> dict:
+    """``verb -> share of the baseline attacker's steps``: a step is a verb ENTERED,
+    consecutive repeats of one verb collapsed (the unit its openings use, §8c), so
+    it compares like for like with the profiles' tactics entered. Steps, not time:
+    the model's time at a tactic is its declared dwell, which replaces the verb's
+    native cost, so time shares are not comparable across the attackers
+    (scrutinise-figure round 1, 2026-09-24)."""
+    c = Counter()
+    for row in rows:
+        names = [rec[0] for rec in row["records"]]
+        c.update(n for i, n in enumerate(names) if i == 0 or n != names[i - 1])
+    total = sum(c.values())
+    return {v: c[v] / total for v in sorted(c)}
 
 
 def apv(opening_share: dict) -> dict:
@@ -729,12 +747,14 @@ def main() -> int:
         "outcome": outcome(rows[p]),
         "apv": apv(rows[p]["commonest_opening_share"]),
         "time_share": time_share_movement(movement[("targeted", CORE, p)], p),
+        "step_share": rows[p]["tactic_visit_share"],
         **stealth_movement(movement[("targeted", CORE, p)]),
     } for p in PROFILES}
     metrics["baseline"] = {
         "outcome": outcome(rows["baseline"]),
         "apv": apv(rows["baseline"]["commonest_opening_share"]),
         "time_share": time_share_baseline(baseline[CORE]),
+        "step_share": step_share_baseline(baseline[CORE]),
         **stealth_baseline(baseline[CORE]),
     }
     out["core"] = {

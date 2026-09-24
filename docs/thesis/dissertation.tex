@@ -31,6 +31,7 @@
 \usepackage{booktabs}          % nicer tables (\toprule, \midrule ...)
 \usepackage[table]{xcolor}     % \rowcolor / \cellcolor for tab:mtd-metrics (zebra rows, greys grammar)
 \usepackage{multirow}          % rotated row-group labels in tab:mtd-metrics
+\usepackage{placeins}          % \FloatBarrier: a section's floats stay in it (2026-09-24)
 \usepackage{float}             % [H] for ch5's PLACEHOLDER floats only --- see below
 % ch5's floats are placeholder boxes with no prose between them, so the
 % float queue flushed ahead of the headings and every sensitivity figure
@@ -5098,30 +5099,43 @@ it would cost to be wrong about them.
 %  ruled promoted close (2026-08-20: "this is basically our attack model",
 %  one sentence at the end) with the sweep pointer bound.]
 
-\section{Instrumenting MTDSim}
-\label{sec:instrumenting}
+\section{Evaluation metrics}
+\label{sec:evaluation-metrics}
 
-\noindent\emph{[Placeholder --- delete on drafting. The metrics Chapter~\ref{ch:experiments}
-reads, each with its source: a metric the field already uses is named as
-the field names it and cited; a metric this thesis introduces is defined in
-full, with what it captures that the cited metrics cannot.]}
+\noindent\emph{[Placeholder --- delete on drafting. The metrics
+Chapter~\ref{ch:experiments} reads, in three classes (Table~\ref{tab:metrics}):
+what the attacker does, what it achieves, and what a defence does to it. Each is
+defined once, here, with its source; a metric the field already uses is named as
+the field names it, and one adapted or introduced here says what differs and why
+it is needed.]}
 
-% HOLDERS ADDED 2026-09-24 (Marc: "put in a holder for 4.5 ... we'll define every
-% single metric once we've settled it"; results first, definitions fitted after).
-% One holder per metric, grouped by the three classes Table~\ref{tab:metrics}
-% uses (ruled 2026-09-24). Each becomes: the field's name and acronym, a numbered
-% equation in the formalism's symbols, its direction, its source; an adapted or
-% introduced metric adds what differs and why it is needed (literature
-% conventions §d, hong2018's pattern). Brief:
-% docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md.
-\textbf{Attacker behaviour.} \emph{[Definitions owed: time share per tactic;
-attack path variation (APV); attack rate; attack confidentiality.]}
+% RESTRUCTURED 2026-09-24 (Marc: "evaluation metrics sounds good"; "push the
+% definitions into the method"): was "Instrumenting MTDSim", judged unclear. The
+% metrics table moved here from §5.1 (Table 5.2 -> Table 4.x), so chapter 5 names
+% the metrics and chapter 4 defines them (the antecedent rule; literature
+% conventions §d, hong2018's pattern). One subsection per class; each class
+% motivates a part of the results (attacker behaviour -> §5.2's figure; attack
+% outcome -> Table 5.3 and what §5.3's defences change; MTD effectiveness -> §5.3).
+% Definitions owed: docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md.
+\input{tables/tab_4-5a_metrics}
 
-\textbf{Attack outcome.} \emph{[Definitions owed: attack success probability
-(ASP); network compromise ratio (NCR); mean time to compromise (MTTC).]}
+\subsection{Attacker behaviour}
+\label{subsec:metrics-behaviour}
 
-\textbf{MTD effectiveness.} \emph{[Definitions owed: NCR reduction; attack
-actions blocked; recovery time.]}
+\noindent\emph{[Definitions owed: share of steps per tactic; attack path
+variation (APV); attack rate; attack confidentiality.]}
+
+\subsection{Attack outcome}
+\label{subsec:metrics-outcome}
+
+\noindent\emph{[Definitions owed: attack success probability (ASP); network
+compromise ratio (NCR); mean time to compromise (MTTC).]}
+
+\subsection{MTD effectiveness}
+\label{subsec:metrics-effectiveness}
+
+\noindent\emph{[Definitions owed: NCR reduction; attack actions blocked;
+recovery time.]}
 
 % HEADING ADDED 2026-09-23 (Marc: "we're not going to draft [it] but I can put a
 % heading in"). Executes register E3 (every metric cited, or defined in the
@@ -5174,7 +5188,6 @@ actions blocked; recovery time.]}
 %     action = one verb the attacker invokes, so the baseline attacker's
 %     per-vulnerability rows count as one; a tactic that invokes no verb adds
 %     time and no action.
-tion.
 %   - the §5.2 descriptive instruments (no field metric exists for the
 %     attacker's own behaviour): share of steps per tactic (objective
 %     conditioning); the share of runs that leave the commonest opening
@@ -5816,9 +5829,14 @@ no-defence runs are the reference for every effect this chapter reports.
 
 \textbf{Metrics.} Both attackers are instrumented, with
 metrics either adapted from earlier evaluations or introduced here, which are
-outlined in Table~\ref{tab:metrics}. They are grouped by effectiveness and
-efficiency, as Table~\ref{tab:mtd-metrics} groups the field's. The defences are
-ranked on hosts reached, the distinct hosts an attacker compromises.
+outlined in Table~\ref{tab:metrics}. The defences are
+ranked on the NCR reduction.
+% [TERM SWEEP 2026-09-24, DRAFT STATE: "They are grouped by effectiveness and
+%  efficiency, as Table 3.x groups the field's." CUT --- false since the metrics
+%  design (three classes of our own, defined in §4.5); "ranked on hosts reached,
+%  the distinct hosts an attacker compromises" -> "ranked on the NCR reduction"
+%  (Table 5.2's name). The replacement sentence on the three classes is Marc's to
+%  dictate (§4.5 brief, "why did you do that" items).]
 % 2026-09-20 (P11, P12; setup handoff §AL4, §AM): Table 5.3 is named ONCE, in
 %  Marc's dictated sentence, which now leads; "every comparison is made on hosts
 %  reached" was false (tab 5.4.1a compares on delay, runs with no compromise and
@@ -5916,7 +5934,7 @@ ranked on hosts reached, the distinct hosts an attacker compromises.
 %  float captions are generated, so that is a one-line change in
 %  tools/ch5_effectiveness_figures.py and a terminology row. Marc's ruling.
 
-\input{tables/tab_5-1b_metrics}
+% TABLE MOVED 2026-09-24 to §4.5 (tables/tab_4-5a_metrics.tex, Table 4.x); tab:metrics keeps its label.
 
 % PASS 5, 2026-09-20 (compress-to-ledger; Marc accepted R1, C1-C4 in chat, and
 %  ruled ~250 words, one unit, a reasonable size for this section). R1 "timing
@@ -6364,10 +6382,10 @@ Section~\ref{sec:effectiveness} reports against.]}
 % opening with the baseline MEASURED. The caption only says how to read the
 % panels; what the reader should see goes in the body text. Session-written
 % caption, DRAFT STATE --- ratify on read.
-\begin{figure}[H]
+\begin{figure}[tbp]
   \centering
   \includegraphics{fig_5-2-1a_campaign_openings}
-  \caption[Where each attacker spends its time, how its runs vary, and how much of its activity a detector would miss]{With no defence running, for the APT attacker model on each attack profile and for the baseline attacker. (a)~Time share per tactic: the share of the attacker's time spent in each tactic, in per cent, pooled over its runs, so that each column sums to 100. The baseline attacker's six activities are placed on the tactic whose verb each is (Section~\ref{subsec:tactic-verb-mapping}); its exploit activity serves three tactics and is shown in each ($\dagger$). Tactics in italics take no action. A dash marks a tactic the attacker does not have, and a zero one it has and spends no time in; colour is scaled to the attack profiles, and the baseline attacker's exploit cells lie beyond it. (b)~Attack path variation: for each opening length, the share of runs whose first tactics differ from the attacker's most common opening of that length. (c)~Attack confidentiality: the share of the attacker's actions taken while a detector that counts its recent actions, each fading over about a minute, is below the alarm level on the axis. Section~\ref{sec:instrumenting} defines each.}
+  \caption[Where each attacker's steps fall, how its runs differ, and how many of its actions fall below a detector's alarm]{With no defence running, for the APT attacker model on each attack profile and for the baseline attacker. (a)~The share of each attacker's steps, in per cent, that fall in each tactic; a step is a tactic entered, or a verb entered by the baseline attacker. The tactics are grouped by the verb each dispatches (Section~\ref{subsec:tactic-verb-mapping}), so each of the baseline attacker's verbs spans its group; a dash marks a tactic the profile does not have. (b)~For each opening length, the share of runs whose first steps differ from the attacker's most common opening; higher means its runs differ more. (c)~The share of the attacker's actions taken while a detector that counts its recent actions, each fading over about a minute, is below the alarm level; higher means more of its actions fall below the alarm. Section~\ref{sec:evaluation-metrics} defines each metric.}
   \label{fig:aio-coverage}
 \end{figure}
 
@@ -6769,6 +6787,7 @@ Section~\ref{sec:effectiveness} reports against.]}
 % reason breadth rather than objective achievement is the denominator is a
 % FACT FROM §5.3 (the profiled attacker reaches the mass objective in none of
 % its unopposed runs) and not a preference.
+\FloatBarrier
 \section{APT attacker model versus MTD}
 \label{sec:effectiveness}
 
@@ -8090,7 +8109,7 @@ with the floor declared.
 \label{app:detector-memory}
 
 \noindent\emph{[Placeholder --- delete on drafting. Attack confidentiality
-(Section~\ref{sec:instrumenting}) rests on one declared constant: how long the
+(Section~\ref{sec:evaluation-metrics}) rests on one declared constant: how long the
 detector remembers an action, 60\,s. This section moves it across a band and
 reports whether the attackers keep their order at every alarm level.]}
 
