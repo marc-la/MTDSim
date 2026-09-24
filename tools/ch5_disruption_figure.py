@@ -101,7 +101,8 @@ def emit(d: dict) -> tuple[str, list[str]]:
         for arm, col, mk in ARMS:
             c = R[f"{arm}|{m}|{INTERVAL}"]
             pts = [(xa(t), ya(v)) for t, v in zip(mids, c["relative_pct"])]
-            w(r"\draw[%s,line width=0.8pt] %s;" % (col, " -- ".join("(%.3f,%.3f)" % p for p in pts)))
+            dash = ",dash pattern=on 3pt off 1.8pt" if arm == "baseline" else ""  # the chapter's contract: the baseline is dashed grey
+            w(r"\draw[%s,line width=0.8pt%s] %s;" % (col, dash, " -- ".join("(%.3f,%.3f)" % p for p in pts)))
             for x, y in pts:
                 marker(w, mk, col, x, y, r=0.06)
             after = [v for t, v in zip(mids, c["relative_pct"]) if t > 0]
@@ -168,7 +169,7 @@ def emit(d: dict) -> tuple[str, list[str]]:
         else:
             w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (col, xx, ky - 0.11))
             w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle ++(0.3,0.22);" % (col, xx, ky - 0.11))
-        w(r"\draw[%s,line width=0.8pt] (%.3f,%.3f) -- ++(0.5,0);" % (col, xx + 0.42, ky))
+        w(r"\draw[%s,line width=0.8pt%s] (%.3f,%.3f) -- ++(0.5,0);" % (col, ",dash pattern=on 3pt off 1.8pt" if arm == "baseline" else "", xx + 0.42, ky))
         marker(w, mk, col, xx + 0.67, ky, r=0.06)
         w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (xx + 1.0, ky, LABEL[arm]))
         xx += 4.4
