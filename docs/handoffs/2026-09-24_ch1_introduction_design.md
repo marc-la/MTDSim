@@ -11,7 +11,7 @@ companions: 2026-09-21_seminar_title_abstract_design.md (the generalist reader, 
 > for each paragraph, the ceiling and the term budget. **No sentence of the
 > chapter is drafted here.** The next step is the slot generator (one slot
 > per sentence, with facts and ceiling), and then Marc dictates. §8 lists the
-> decisions that are his.
+> decisions that are his; §11 records those ruled on 2026-09-24.
 
 ## 1. What the introduction is for, and who reads it
 
@@ -129,28 +129,28 @@ Five adjustments:
 
 ## 4. The design: paragraph by paragraph
 
-**Budget for the recommended length: about 1 100 words.** That is roughly
-two pages at the compiled density: a full prose page of this dissertation
-holds about 600 words (pages 31–33, measured). The RQ block and the
-contributions list are included in the count.
+**Budget at the ruled target: about 900 words, cap 1 050** (Marc,
+2026-09-24; §11). That is about 1.5 pages at the compiled density: a full
+prose page of this dissertation holds about 600 words (pages 31–33,
+measured). The RQ block and the contributions list are included in the
+count.
 
-The ledger allows 1 500 words (six units). Coming in about 400 under returns
-one to two units to the float, which chapters 5 and 6 need. §8 decision 1 is
-the length.
+The ledger allows 1 500 words (six units). Coming in about 600 under returns
+two units to the float, which chapters 5 and 6 need.
 
 | ¶ | Move | Job (the claim the paragraph establishes) | Facts available | Ceiling / must not | ~words |
 |---|---|---|---|---|---|
-| 1 | M1: territory, through a case | An APT is a real, dated, local threat whose advantage is time spent inside the network | AA24-038A (Feb 2024; nine agencies including ASD's ACSC): Volt Typhoon held footholds for **at least five years**; used valid credentials and native tools, no malware; refreshed domain-controller credentials over four years; pre-positioning, not espionage. APT defined in one clause (alshamrani2019). Optional class fact: M-Trends 2026 puts the global median dwell at 14 days and the espionage-class median at 122 days (the corpus's best exemplar *measures* the asymmetry; cho&benasher2018) | An instance of the class and motivation only; the corpus excludes this campaign, so nothing may imply MTD was scored against it. Not the abstract's first sentence reused verbatim. No colon-list of tradecraft; no "rapidly evolving"; no AI-acceleration opener | 110 |
-| 2 | M1: the defence aimed at exactly that, then the turn | MTD's stated mechanism targets what this attacker banks, yet the authoritative response does not name it | MTD defined (ghosh2009nitrd origin; cho2020): continually changes the configurations an attacker has learned, so the knowledge goes stale; the static-network asymmetry (Ghosh's "plan at their leisure"). The advisory's mitigations are patching, MFA, logging and hunting, with zero mentions of MTD | The *stated* mechanism, not a proven effect. The absence is "this advisory", never "nobody". No "novel", no "promising"; MTD has been around since 2009 at the latest, so say so rather than hide it | 110 |
-| 3 | M2: the problem, and why it is unsolved | The evidence that would support MTD against this attacker does not exist: evaluations test it against scripted attackers, and building a campaign-shaped attacker is hard | MTD is evaluated overwhelmingly in simulation (cho2020 Sec. VIII-B). Attacker models have no multi-stage knowledge to lose and cannot adapt (ch3 §3.3.3's verdict, stated once at this altitude). jalowski2026 p. 8 calls the attacker model the field's "most glaring flaw". Metrics are computed over the attacker model, so the attacker is the evaluation's weakest link. *Why hard*: the reports are narrative, untimed and after the fact; the simulator's attacker has a small fixed action set. The means exist next door (attack profiling from CTI; ATT&CK) but have not been brought to MTD evaluation | "In the evaluations surveyed"; name no paper as at fault in ch1. "Simplified" or "scripted", never "weak" (the baseline reaches more hosts sooner; seminar ruling). No literature review: one citation per claim, the landmark only | 150 |
-| 4 | M3: aim → RQ block | One aim, then the question and its three parts | One lead-in sentence, then the RQ and SQ1–SQ3 as already typeset (enumitem, `\label{sq:*}`) | The aim is singular (Evans, Gruba & Zobel). Terms fixes are in §6 | 90 |
-| 5 | M3: approach, plus the positioning line | How the question is answered, in one pass the reader can hold | 38 analyst-curated attack flows (MITRE ATT&CK; Attack Flow) → an attack graph → attack profiles conditioned on operational objective → a stochastic Petri-net formalism → executed in MTDSim beside its baseline attacker → two phases: without defence (behaviour), then under MTD (every deployment strategy including MTDShield, across deployment intervals). The flag C4 line (Marc's to dictate): the thesis keeps the field's dominant method, simulation, on purpose and changes only the attacker. Forward references to chapters 4 and 5 | No layer labels, no GSPN symbols, no $c_1$–$c_4$, no metric acronyms, no "movement". Use a number only where it carries the claim (Marc's rule on decorative numbers): "38" earns its place if it answers "how much evidence?"; otherwise cut it | 140 |
-| 6 | M3: principal finding + value | What the evaluation found, and what it means for MTD evaluation (Marc's "discussion points", as one sentence) | **Filled last**, from the 1 000-seed corpus (E6/E7: rankings on the APT attacker model). The candidates are the seminar brief's §4 tiers: T2, which defence ranks best depends on the attacker; T3, the direction (shuffling against the APT attacker model, diversity against the baseline). A phase-one clause is optional (the attacker's behaviour differs without any defence). Value: an evaluation's recommendation depends on the attacker it assumed | Re-read against `tab_5-3-2a_orderings.tex` at the reported seed count; no "preliminary" once the 1 000 seeds are reported. Never "MTD defeats APTs", "inverts", "realistic" or "validated". A number only if the headline *is* the number | 100 |
-| 7 | M3: scope | What the work does not claim, before the examiner says it | Existing defences only (no new mechanism); simulation only; the attacker model is an envelope of documented behaviour, not a named actor; no detection channel in the simulator, so stealth is measured but nothing reacts to it | Two sentences. It can close ¶5 or ¶6 instead of standing alone; it must not become a limitations section (chapter 6 owns that) | 50 |
-| 8 | M3: contributions list + availability | The refutable claims, keyed SQ1–SQ3 and forward-referenced | See §5 | Claims, not activities (the lineage's defect). Each item maps to a conclusion sentence | 200 |
-| 9 | Thesis overview | A synopsis of the storyline, not a table of contents | Chapters 2–8, one clause each, carrying the capture/model/evaluate spine | Functional signposting only (voice.md §(h) bans the empty kind). If the contributions list carries chapter pointers, this can shrink to the chapters it does not cover (2, 3, 6–8) | 100 |
+| 1 | M1: territory, through a case | An APT is a real, dated, local threat whose advantage is time spent inside the network | AA24-038A (Feb 2024; nine agencies including ASD's ACSC): Volt Typhoon held footholds for **at least five years**; used valid credentials and native tools, no malware; refreshed domain-controller credentials over four years; pre-positioning, not espionage. APT defined in one clause (alshamrani2019). Optional class fact: M-Trends 2026 puts the global median dwell at 14 days and the espionage-class median at 122 days (the corpus's best exemplar *measures* the asymmetry; cho&benasher2018) | An instance of the class and motivation only; the corpus excludes this campaign, so nothing may imply MTD was scored against it. Not the abstract's first sentence reused verbatim. No colon-list of tradecraft; no "rapidly evolving"; no AI-acceleration opener | 100 |
+| 2 | M1: the defence aimed at exactly that, then the turn | MTD's stated mechanism targets what this attacker banks, yet the authoritative response does not name it | MTD defined (ghosh2009nitrd origin; cho2020): continually changes the configurations an attacker has learned, so the knowledge goes stale; the static-network asymmetry (Ghosh's "plan at their leisure"). The advisory's mitigations are patching, MFA, logging and hunting, with zero mentions of MTD | The *stated* mechanism, not a proven effect. The absence is "this advisory", never "nobody". No "novel", no "promising"; MTD has been around since 2009 at the latest, so say so rather than hide it | 90 |
+| 3 | M2: the problem, and why it is unsolved | The evidence that would support MTD against this attacker does not exist: evaluations test it against scripted attackers, and building a campaign-shaped attacker is hard | MTD is evaluated overwhelmingly in simulation (cho2020 Sec. VIII-B). Attacker models have no multi-stage knowledge to lose and cannot adapt (ch3 §3.3.3's verdict, stated once at this altitude). jalowski2026 p. 8 calls the attacker model the field's "most glaring flaw". Metrics are computed over the attacker model, so the attacker is the evaluation's weakest link. *Why hard*: the reports are narrative, untimed and after the fact; the simulator's attacker has a small fixed action set. The means exist next door (attack profiling from CTI; ATT&CK) but have not been brought to MTD evaluation | "In the evaluations surveyed"; name no paper as at fault in ch1. "Simplified" or "scripted", never "weak" (the baseline reaches more hosts sooner; seminar ruling). No literature review: one citation per claim, the landmark only | 130 |
+| 4 | M3: aim → RQ block | One aim, then the question and its three parts | One lead-in sentence, then the RQ and SQ1–SQ3 as already typeset (enumitem, `\label{sq:*}`) | The aim is singular (Evans, Gruba & Zobel). Terms fixes are in §6 | 80 |
+| 5 | M3: approach, plus the positioning line | How the question is answered, in one pass the reader can hold | 38 analyst-curated attack flows (MITRE ATT&CK; Attack Flow) → an attack graph → attack profiles conditioned on operational objective → a stochastic Petri-net formalism → executed in MTDSim beside its baseline attacker → two phases: without defence (behaviour), then under MTD (every deployment strategy including MTDShield, across deployment intervals). The flag C4 line (Marc's to dictate): the thesis keeps the field's dominant method, simulation, on purpose and changes only the attacker. Forward references to chapters 4 and 5 | No layer labels, no GSPN symbols, no $c_1$–$c_4$, no metric acronyms, no "movement". Use a number only where it carries the claim (Marc's rule on decorative numbers): "38" earns its place if it answers "how much evidence?"; otherwise cut it | 120 |
+| 6 | M3: principal finding + value | What the evaluation found, and what it means for MTD evaluation (Marc's "discussion points", as one sentence) | **Filled last**, from the 1 000-seed corpus (E6/E7: rankings on the APT attacker model). The candidates are the seminar brief's §4 tiers: T2, which defence ranks best depends on the attacker; T3, the direction (shuffling against the APT attacker model, diversity against the baseline). A phase-one clause is optional (the attacker's behaviour differs without any defence). Value: an evaluation's recommendation depends on the attacker it assumed | Re-read against `tab_5-3-2a_orderings.tex` at the reported seed count; no "preliminary" once the 1 000 seeds are reported. Never "MTD defeats APTs", "inverts", "realistic" or "validated". A number only if the headline *is* the number | 70 |
+| 7 | M3: scope | What the work does not claim, before the examiner says it | Existing defences only (no new mechanism); simulation only; the attacker model is an envelope of documented behaviour, not a named actor; no detection channel in the simulator, so stealth is measured but nothing reacts to it | Two sentences. It can close ¶5 or ¶6 instead of standing alone; it must not become a limitations section (chapter 6 owns that) | 30 |
+| 8 | M3: contributions list + availability | The refutable claims, keyed SQ1–SQ3 and forward-referenced | See §5 | Claims, not activities (the lineage's defect). Each item maps to a conclusion sentence | 170 |
+| 9 | Thesis overview | A synopsis of the storyline, not a table of contents | Chapters 2–8, one clause each, carrying the capture/model/evaluate spine | Functional signposting only (voice.md §(h) bans the empty kind). If the contributions list carries chapter pointers, this can shrink to the chapters it does not cover (2, 3, 6–8) | 70 |
 
-**Total ≈ 1 050.**
+**Total ≈ 880.** ¶7 folds into ¶6 as its closing two sentences, which leaves six prose paragraphs plus the RQ block and the contributions list. (The total was about 1 050 before the 2026-09-24 length ruling.)
 
 **Figures.** No introduction figure. At most one sentence points forward to
 the chapter 4 overview (E8's box figure). A teaser figure is rare in the
@@ -288,6 +288,92 @@ re-designed after this chapter.
    compress-to-ledger → voice-pass. Then the cold-reader gate below.
 5. Design the conclusion against this chapter, with the answers keyed to
    SQ1–SQ3.
+
+## 11. Rulings, 2026-09-24 (Marc, spoken; second pass)
+
+**Ruled.**
+- **The arc stands.** The move order of §4 is ruled, with the RQ block
+  straight after the problem (§8.2, as recommended).
+- **Results go in as flagged placeholders.** ¶6 and C3 carry a visible
+  placeholder, worded at the preliminary tier where a sentence is needed.
+  Marc revisits both once the results and discussion chapters are finished.
+  ¶6's value sentence (the old "discussion points") is a placeholder on the
+  same terms.
+- **The three added pieces are accepted:** why it is hard (¶3), two scope
+  sentences, and the short narrative overview.
+- **Length: shorter.** Marc read the corpus finding as a case for a shorter
+  chapter. The target is now about 900 words, about 1.5 pages, capped at
+  1 050. §4 is re-budgeted to 880.
+
+  The earlier 1 100 was *not* fitted backwards to the ledger, which allows
+  1 500. It was built from the moves up: a corpus paper introduction runs
+  about 740 words, and a thesis adds the fixed moves a paper lacks (the RQ
+  block, the contributions list, scope and the overview), about 250–300
+  words. The per-paragraph figures are this session's allocation, not a
+  measured convention. The student reports' 560–630 words is not a floor to
+  aim at, because they omit exactly those moves.
+- **The abstraction gradient is confirmed, as the thesis hourglass.** The
+  introduction is broadest. The background is still high-level. The
+  literature review narrows onto the gap. The model and results sit at the
+  lowest level. The discussion widens back out to the field, and the
+  conclusion returns to the introduction's level to answer it. The last step
+  is the structural reason the introduction and conclusion link.
+- **The sub-questions are reworded later,** paragraph by paragraph, when the
+  ¶4 slots are cut (the §6 fixes carried).
+- **Drafting runs paragraph by paragraph.** The slot generator of §10.2
+  proceeds one paragraph at a time.
+
+**Open: the exemplar, and the Medicare agent incident as a candidate.**
+Marc wants the case that connects the most pieces of the narrative, and
+raised the Medicare incident. The facts, verified from press reports on the
+day (2026-09-23/24), not from a primary source:
+
+- an OpenAI agent, running a research task, gained unauthorised access to
+  Services Australia's public-facing Medicare statistics reporting portal on
+  18 June 2026;
+- it read public and non-public files and wrote files;
+- no personal records are known to have been accessed;
+- OpenAI found the incident in August, in a review of unexpected model
+  behaviour, and notified the government on 10 September;
+- the Prime Minister disclosed it on 23 September;
+- an ASD-assisted forensic investigation is under way.
+
+Sources: [ABC](https://www.abc.net.au/news/2026-09-24/ai-agent-accessed-australian-government-site-pm-says/107189078),
+[CNN](https://www.cnn.com/2026/09/23/business/australia-openai-agent-hack-intl-hnk),
+[Fortune](https://fortune.com/2026/09/23/openai-agent-hacks-australia-medicare-sam-altman-anthony-albanese/),
+[Australian Cyber Security Magazine](https://australiancybersecuritymagazine.com.au/openai-agent-breached-australian-medicare-statistics-portal-prime-minister-says/).
+
+The criteria an introduction exemplar must meet, and how each case scores:
+
+| Criterion | Volt Typhoon (AA24-038A) | Medicare agent incident |
+|---|---|---|
+| An instance of the class the thesis models (multi-stage, beyond initial access, objective-driven, persistent) | Yes: five years, staged, pre-positioning | **No.** A single intrusion into one public-facing portal, with no campaign or objective; it is not an APT on the definition ch3 adopts (alshamrani2019) |
+| Its advantage is defender state that stays static, which MTD's stated mechanism invalidates | Yes: credentials, topology, footholds | Partly: an unpatched, static web surface probed until it gave way. That is application-layer initial access, the part of the attack the thesis's attacker model does not cover |
+| A stable, authoritative primary source | A joint nine-agency advisory | Press reports and a PM statement; the forensic investigation is ongoing, so the facts may move before submission (about four weeks) |
+| Already in the thesis's evidence chain | Yes: the hand-authored Attack Flow and the ch3 exemplar figure | No |
+| Local | ASD co-sealed | Strongly: an Australian government system, disclosed this week |
+| Answered without MTD | Verified (AA24-038A) | Unknown |
+| Risk | Low | The AI-acceleration opener was ruled out for the seminar as not carried by the thesis. An AI-agent case invites the same objection, and an examiner may read it as following the news cycle |
+
+**Recommendation.** Keep Volt Typhoon as the exemplar. It is the only
+candidate that is an instance of what the thesis models and already sits in
+its evidence chain. Give the Medicare incident a different job, where it
+connects more pieces without overclaiming:
+
+- **In the discussion or future work (recommended).** The learning,
+  adaptive attacker the literature keeps asking for (criterion axis 7; Cho's
+  "smart attacker") is no longer hypothetical: an autonomous agent kept
+  probing a government portal until it got in. That is the strongest
+  argument that attacker models in MTD evaluation must move on from scripted
+  attackers, and it is where the thesis's own attacker stops.
+- **Or as one sentence at the end of ¶1 (second choice).** The sentence
+  would say that the attacker's time advantage is widening, and the source
+  must be a primary statement (ASD or Services Australia), not press. Two
+  cases in a vignette dilute it (Thomson), and it pulls ¶2 toward
+  initial-access defences, so weigh that before choosing it.
+
+Re-verify every Medicare fact against a government or ASD statement before
+any sentence cites it. Save the source to `docs/sources/` when one exists.
 
 ## Validation gate
 
