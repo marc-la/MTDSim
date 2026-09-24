@@ -1297,6 +1297,12 @@ Marc: panel (c) across alarm levels "doesn't really convey this model is stealth
 - **The quantile matters:** at the 60th percentile $c_4$ falls below the baseline in the first bin (78.0 against 79.0); at the 75th $c_1$ does too. So T4 reads "at the alarm tuned on the baseline attacker", and the appendix sweeps the quantile with $\tau$ ($\theta_b$ depends on $\tau$); §4.5 says why the median. Appendix placeholder updated.
 - Cold reader: (b)'s zeros read as missing (a true-zero mark would help; not blocking); $c_1$ shows impact "<1" because its net holds impact — a content point, not a leak.
 
+### 8i-4. Figure 5.1 split; Table 5.2 tidied (2026-09-24)
+
+Marc: attack confidentiality was "constrained" by fitting three panels and the caption on one page; say what an opening is; drop "over the run" (the time axis says it); Table 5.2's class headers read loose. **Applied:** attack confidentiality is its own float, **Figure 5.2** (`fig:aio-stealth`, full width); Figure 5.1 keeps (a) relative tactic occurrence and (b) APV, whose x-axis now reads "opening length: the first $k$ steps of a run"; Table 5.2 has one header row at full width (Table 4.3 carries the classes). Figures after it renumber (the disruption figure is now 5.3). Verb codes stay on (a): they state the mapping, which fairness requires. Table 4.3 stays one table.
+
+**Marc's surprise, checked — $c_3$ is the quietest though it varies least:** the two are different properties. Stealth tracks the share of dwell-only steps exactly ($c_3$ 47 % → attack rate 11.7 → 91 % below the alarm; $c_2$ 37 → 15.0 → 87; $c_1$ 36 → 18.3 → 77; $c_4$ 26 → 20.7 → 70), a construction fact of each net's tactic mix. $c_3$'s low APV is the shape of its opening: every run must go reconnaissance → resource development → initial access (round-2 critic). Content point for the body: state both as facts of the nets, not as findings; why a double-extortion campaign is dwell-heavy is chapter 6's.
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,
