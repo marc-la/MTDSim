@@ -492,8 +492,9 @@ Owed downstream:
 - **A small risk, to keep in mind rather than fix.** S1 is about spying.
   The advisory assesses Volt Typhoon's pre-positioning as "not consistent
   with traditional espionage". ¶1 never labels the group a spy, and S4's
-  "specific objective" covers both, so it was left as it is. If a reader
-  flags it, the fix is a clause in S2.
+  "specific objective" covers both, so it was left as it is. **Ruled 2026-09-24 (Marc):** keep
+  it; the paragraph "paints the story", and pre-positioning can lead on to
+  espionage. If a reader flags it, the fix is a clause in S2.
 
 ## 13. Paragraph 2: inputs gathered so far (design to come)
 
