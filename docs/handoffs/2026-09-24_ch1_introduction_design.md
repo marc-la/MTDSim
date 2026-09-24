@@ -1089,6 +1089,24 @@ anything claiming realism or validation.
   one or two sentences that make the claim, then the key. A bold lead
   phrase is optional; rahman2024 uses plain sentences.
 
+### 18.5 Ruled and drafted (2026-09-24)
+
+**Ruled (Marc).** Recommendations K1–K5 are all accepted. The draft is a
+first pass, and Marc reworks it after writing the results paragraphs. The
+evidence strength is worded implicitly, through the verbs:
+- item 1 "show[s]", on the DEMONSTRATED axis;
+- item 2 "runs … declared … tested for robustness", at BUILT;
+- item 3 "Preliminary results show", with the placeholder tag.
+
+**One correction before commit.** Item 2's "tested across its plausible
+range" overreached. The tactic-to-verb mapping is tested by the
+forced-total mapping experiment, not across a band. It now reads "tested
+for robustness to them", and points to both appendices.
+
+**K4 (the release tag)** is recorded in the tex comment beside the
+availability sentence. The sentence changes only once Marc has made the
+tag.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:

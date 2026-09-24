@@ -395,8 +395,42 @@ documented in 38 attacks, not from any one group such as Volt Typhoon.
 % HARM-structural + DES-execution composition is treated as a deliberate
 % choice, not a default") and s(j); a rhetorical positioning line, his
 % to dictate with the contributions.
-\noindent\emph{[Placeholder --- numbered contributions list closes this
-chapter, keyed SQ1 (capture) / SQ2 (model) / SQ3 (evaluate).]}
+% CONTRIBUTIONS LIST --- first draft 2026-09-24 (Marc: "draft is fine; I
+% will have to rework after I write the results"). Design: handoff
+% 2026-09-24_ch1_introduction_design.md sec. 18, recommendations K1-K5 all
+% accepted: three items, one per SQ, each a refutable claim with its key
+% and pointer; the new metrics ride item 3; item 1 claims the one
+% DEMONSTRATED axis (objective conditioning changes behaviour); item 2's
+% verbs stay at BUILT ("runs", "declared ... tested"), never "reproduces
+% APT behaviour"; item 3 is PRELIMINARY with P6 and carries its tag. The
+% chapter-3 scoring (candidate C4) is not listed: it is P3's premise.
+\noindent This dissertation makes three contributions:
+\begin{enumerate}[label=\arabic*), align=left, leftmargin=3em,
+                  labelwidth=2.5em, labelsep=0.5em, topsep=0.5\baselineskip,
+                  partopsep=0pt]
+  \item \emph{Attack profiles recovered from cyber threat intelligence.}
+  From 38 hand-drawn attack flows we recover one attack profile per
+  operational objective, and show that the objective changes how the
+  attacker behaves, even with no defence (\ref{sq:capture};
+  Sections~\ref{sec:technique-graph}--\ref{sec:attack-profiles}
+  and~\ref{sec:attacker-in-operation}).
+  \item \emph{An APT attacker model inside an existing MTD simulator.} The
+  APT attacker model runs in MTDSim on the baseline attacker's actions, so
+  the two attackers can be compared under identical conditions. The
+  inputs the model needs beyond the attack flows are declared with their
+  sources, and the results are tested for robustness to them
+  (\ref{sq:model}; Sections~\ref{sec:petri-formalism}--\ref{sec:execution}
+  and Appendices~\ref{app:movement} and~\ref{app:sensitivity}).
+  \item \emph{A two-phase evaluation of MTD against both attackers.} We run
+  both attackers with no defence, then under every defence in MTDSim across
+  deployment intervals, and introduce two measures of disruption for it:
+  the time an attacker loses to each MTD deployment, and how fast its
+  compromise of the network grows. Preliminary results show that the
+  defence that holds back one attacker most is not the one that holds back
+  the other most (\ref{sq:evaluate}; Chapter~\ref{ch:experiments} and
+  Section~\ref{sec:evaluation-metrics}). \emph{[Placeholder: re-check
+  against the 1\,000-seed corpus.]}
+\end{enumerate}
 
 \medskip
 % Availability sentence executed 2026-08-21 (Marc's ask). Boilerplate /
@@ -406,6 +440,10 @@ chapter, keyed SQ1 (capture) / SQ2 (model) / SQ3 (evaluate).]}
 % currently lands a reader on the simulator, NOT the attack-model pipeline.
 % If the pipeline is to be reproducible, push a thesis release tag/branch and
 % extend this sentence to name it; as written it claims only what main shows.
+% K4 RULED 2026-09-24 (Marc accepted the recommendation): a frozen thesis
+% release tag holding the pipeline, the corpus and the result tables; this
+% sentence names it once the tag exists (Marc's action --- the session never
+% pushes). Until then it claims only what main shows.
 \noindent The source code for the simulator is publicly available at
 \url{https://github.com/marc-la/MTDSim}.
 
