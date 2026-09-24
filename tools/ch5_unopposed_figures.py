@@ -262,15 +262,6 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
         w(r"\draw[black!55,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (X0, gbot, X0 + len(FOUR) * cw, gtop))
         y -= GG
 
-    # ---- the key, right of (a), for (b) ------------------------------------------
-    KX0, ky = 11.9, MY1 - 0.2
-    w(r"\node[anchor=west] at (%.3f,%.3f) {\textit{in (b)}};" % (KX0, ky))
-    ky -= 0.55
-    for p in SERIES:
-        w(r"\fill[%s] (%.3f,%.3f) rectangle ++(0.34,0.24);" % (CNAME[p], KX0, ky - 0.12))
-        w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (KX0 + 0.45, ky, LABEL[p] if p != "baseline" else "baseline attacker"))
-        ky -= 0.5
-
     # ---- (b) attack path variation, vertical bars, full width -------------------------
     XB0, XB1, YB0, YB1 = 1.5, 15.6, 0.0, 2.8
     ks = list(range(2, kmax + 1))
@@ -286,6 +277,12 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
          xlabel=r"opening length: the first $k$ steps of a run", ylabel="")
     w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {APV (\%%)};" % (XB0 - 0.8, (YB0 + YB1) / 2))
     title(GX, YB1 + 0.2, "b", "Attack path variation (APV)")
+    kx = 6.6  # the key for (b), in one row beside its title (round 4: beside (a) it read as (a)'s)
+    for p in SERIES:
+        w(r"\fill[%s] (%.3f,%.3f) rectangle ++(0.30,0.22);" % (CNAME[p], kx, YB1 + 0.24))
+        lab = LABEL[p] if p != "baseline" else "baseline attacker"
+        w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (kx + 0.36, YB1 + 0.35, lab))
+        kx += 1.25 if p != "baseline" else 0
     for i, k in enumerate(ks):
         x0 = XB0 + (i + 0.5) * gw - len(SERIES) * bwid / 2
         for n, p in enumerate(SERIES):
@@ -333,7 +330,7 @@ def emit_fig_c(core: dict) -> tuple[str, dict]:
          xticks=[(v, xc(v)) for v in range(0, int(T1) + 1, 3000)],
          yticks=[(v, yc(v / 100)) for v in range(0, 101, 25)],
          xlabel="time (s)", ylabel="", xfmt=lambda v: fmt_thousands(int(v)))
-    w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {attack confidentiality (\%%)};" % (XC0 - 0.8, (YC0 + YC1) / 2))
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {attack confidentiality\\(\%% of actions below the alarm)};" % (XC0 - 0.8, (YC0 + YC1) / 2))
     for p in SERIES:
         pts = [(xc(a + binw / 2), yc(v)) for a, v in zip(starts, over[p]["share"]) if v is not None]
         style = BASE_STYLE if p == "baseline" else "%s,line width=0.7pt" % CNAME[p]
@@ -385,7 +382,7 @@ def emit_table(core: dict) -> str:
     w("% Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Both attackers with no defence running]{The attack outcome and the attack rate of Table~\ref{tab:metrics} with no defence running, under the network, attack scenario and time limit of Table~\ref{tab:experiment}, for the APT attacker model on each attack profile and on the aggregate, and for the baseline attacker. ASP is a share of runs; the others are means with a 95\,\%% interval. MTTC is over the runs that compromise a host, which is all but at most %d\,\%% of any attacker's.}" % round(100 * worst_none))
+    w(r"  \caption[Both attackers with no defence running]{The attack outcome and the attack rate of Table~\ref{tab:metrics} with no defence running, under the network, attack scenario and time limit of Table~\ref{tab:experiment}, for the baseline attacker and for the APT attacker model on each attack profile and on the aggregate $c_{\mathrm{agg}}$, which is its own profile (the attack graph before it is partitioned), not an average of the four. Each value is a mean with a 95\,\%% interval. A run ends when its attacker compromises a target; the attack rate is per 1\,000\,s of the run up to its attacker's last action, and MTTC is the time to the first host compromised, over the runs that compromise one, which is all but at most %d\,\%% of any attacker's.}" % round(100 * worst_none))
     w(r"  \label{tab:unopposed-summary}")
     # one header row (2026-09-24, Marc: the class headers read loose; Table 4.3
     # carries the classes), full text width
@@ -397,8 +394,10 @@ def emit_table(core: dict) -> str:
 
     def row(name: str, p: str) -> str:
         o = m[p]["outcome"]
-        return "    %s & %.2f & %s & %s & %s \\\\" % (
-            name, o["asp"], _pm(o["ncr"], 2), _pm(o["mttc"]["observed"], 0), _pm(m[p]["attack_rate"], 1))
+        n = t[p]["n"]  # a 95 % interval on a share of runs (normal approximation), as on the other columns
+        asp = {"mean": o["asp"], "ci95": 1.96 * (o["asp"] * (1 - o["asp"]) / n) ** 0.5}
+        return "    %s & %s & %s & %s & %s \\\\" % (
+            name, _pm(asp, 2), _pm(o["ncr"], 2), _pm(o["mttc"]["observed"], 0), _pm(m[p]["attack_rate"], 1))
 
     w(r"    \emph{%s} & & & & \\" % LABEL["movement"])
     for p in PROFILES:

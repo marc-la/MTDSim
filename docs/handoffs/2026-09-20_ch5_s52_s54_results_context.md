@@ -1303,6 +1303,23 @@ Marc: attack confidentiality was "constrained" by fitting three panels and the c
 
 **Marc's surprise, checked — $c_3$ is the quietest though it varies least:** the two are different properties. Stealth tracks the share of dwell-only steps exactly ($c_3$ 47 % → attack rate 11.7 → 91 % below the alarm; $c_2$ 37 → 15.0 → 87; $c_1$ 36 → 18.3 → 77; $c_4$ 26 → 20.7 → 70), a construction fact of each net's tactic mix. $c_3$'s low APV is the shape of its opening: every run must go reconnaissance → resource development → initial access (round-2 critic). Content point for the body: state both as facts of the nets, not as findings; why a double-extortion campaign is dwell-heavy is chapter 6's.
 
+### 8i-5. Round 4 — §5.2's three floats together (2026-09-24): clarity fixes applied; one finding for Marc
+
+**Reviewers:** a fresh cold reader (all three floats), the context critic (recomputed Table 5.2's rate and NCR from the raw runs — every cell matches; ASP's baseline 0.58 excludes the 0.02 compromise-ratio stops, as ruled), and a sceptical examiner. Cold reader's message: *the APT attacker model is slower, quieter and more varied than the baseline attacker; it stays under a detector far more often but reaches the target in only 5–17 % of runs against 58 % — it trades speed and success for stealth.* T1–T5 delivered.
+
+**Marc's read, checked:** the APV gap and the confidentiality gap are upheld (the baseline's APV zeros to length 4 are its fixed order; its 50 % is set by the tuning rule). **"NCR is lower because ASP is lower" is not upheld:** the baseline's runs end early on the target (58 %), which *cuts its NCR short*, and it still reaches 0.49 against 0.14–0.20. Both are lower because the model is slower against the same 15 000 s limit, and within the profiles the pace does not order NCR ($c_4$ acts fastest and reaches least) — so T5 and the rate are reported side by side, the "because" is chapter 6's.
+
+**Applied (clarity, no number moved):** Table 5.2 before Figure 5.2 (the detector-free rate before the detector reading built on it); ASP gets its 95 % interval like the other columns; Table 5.2's caption says $c_{\mathrm{agg}}$ is its own profile (the attack graph before partition), not an average — the cold reader read ASP 0.17 above every profile as a contradiction — that a run ends on taking a target, that the rate is per 1 000 s up to the last action (over the whole limit the baseline reads 19.6 and $c_4$ 20.2, the order reversing on an unseen unit), and that MTTC is to the first host; Figure 5.2's axis carries its unit ("% of actions below the alarm"), its caption the detector's minute-scale memory and why the baseline's later bins sit below 50 % (its actions fall mostly early); Figure 5.1's key moved beside (b).
+
+**THE FINDING — the stealth reading rests on one modelling rule (examiner's objection 1, confirmed by a dry-run on this corpus).** An action is a verb that runs; the seven dwell-only tactics — including exfiltration and impact, which a real defender would see — take no action on MTDSim's network. Counting instead (alarm tuned on the baseline, 50 %):
+| action counted as | $c_1$ | $c_2$ | $c_3$ | $c_4$ | $c_{\mathrm{agg}}$ |
+|---|--:|--:|--:|--:|--:|
+| a verb that runs (ruled) | 76 | 87 | 91 | 70 | 80 |
+| + blocked verbs | 71 | 71 | 81 | 53 | 69 |
+| + dwell-only steps | 52 | 63 | 65 | 51 | 56 |
+| every step | 46 | 49 | 54 | 36 | 46 |
+So the margin is the dwell-only rule, as the August ablation said; counting dwell-only steps as actions brings the profiles level with the baseline, and counting every step makes $c_1$, $c_2$, $c_4$ louder. T4 is true under the model's action rule and is a construction consequence of it, not an independent discovery. **Rulings owed (Marc):** (1) the framing — "fewer actions above a rate alarm tuned on the baseline attacker, because much of its campaign is in tactics the simulator gives no network action", rather than "much harder to detect"; (2) the sensitivity as an appendix table beside the $\kappa$ and quantile sweep (C.4); (3) whether E10(i)'s "much harder to detect" survives in chapter 6 or narrows. The examiner's other two: the detector's scope (per run, both attackers raise alarms; a time-on-network detector would reverse it — the model is active 94–98 % of the limit against the baseline's 70 %), and "less successful" is measured at a limit set for a fast attacker (the 60 000 s sentence); "why it matters" belongs to §5.3, not Figure 5.2.
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,
