@@ -274,7 +274,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     axes(w, XB0, XB1, YB0, YB1,
          xticks=[(k, XB0 + (i + 0.5) * gw) for i, k in enumerate(ks)],
          yticks=[(v, yb(v / 100)) for v in range(0, 101, 25)],
-         xlabel=r"opening length: the first $k$ steps of a run", ylabel="")
+         xlabel=r"opening length $k$ (steps)", ylabel="")
     w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {APV (\%%)};" % (XB0 - 0.8, (YB0 + YB1) / 2))
     title(GX, YB1 + 0.2, "b", "Attack path variation (APV)")
     kx = 6.6  # the key for (b), in one row beside its title (round 4: beside (a) it read as (a)'s)
@@ -330,7 +330,7 @@ def emit_fig_c(core: dict) -> tuple[str, dict]:
          xticks=[(v, xc(v)) for v in range(0, int(T1) + 1, 3000)],
          yticks=[(v, yc(v / 100)) for v in range(0, 101, 25)],
          xlabel="time (s)", ylabel="", xfmt=lambda v: fmt_thousands(int(v)))
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {attack confidentiality\\(\%% of actions below the alarm)};" % (XC0 - 0.8, (YC0 + YC1) / 2))
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {attack confidentiality (\%%)};" % (XC0 - 0.8, (YC0 + YC1) / 2))
     for p in SERIES:
         pts = [(xc(a + binw / 2), yc(v)) for a, v in zip(starts, over[p]["share"]) if v is not None]
         style = BASE_STYLE if p == "baseline" else "%s,line width=0.7pt" % CNAME[p]
@@ -382,7 +382,7 @@ def emit_table(core: dict) -> str:
     w("% Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Both attackers with no defence running]{The attack outcome and the attack rate of Table~\ref{tab:metrics} with no defence running, under the network, attack scenario and time limit of Table~\ref{tab:experiment}, for the baseline attacker and for the APT attacker model on each attack profile and on the aggregate $c_{\mathrm{agg}}$, which is its own profile (the attack graph before it is partitioned), not an average of the four. Each value is a mean with a 95\,\%% interval. A run ends when its attacker compromises a target; the attack rate is per 1\,000\,s of the run up to its attacker's last action, and MTTC is the time to the first host compromised, over the runs that compromise one, which is all but at most %d\,\%% of any attacker's.}" % round(100 * worst_none))
+    w(r"  \caption[Both attackers with no defence running]{The attack outcome and the attack rate (Table~\ref{tab:metrics}) with no defence running, for the baseline attacker and for the APT attacker model on each attack profile and on the aggregate $c_{\mathrm{agg}}$, under the setup of Table~\ref{tab:experiment}. Means with a 95\,\% interval.}")
     w(r"  \label{tab:unopposed-summary}")
     # one header row (2026-09-24, Marc: the class headers read loose; Table 4.3
     # carries the classes), full text width

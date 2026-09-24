@@ -97,6 +97,11 @@ Not §4.5, but the same defensibility pass, and the setup is where a reader asks
 
 ## Open (add as they come)
 
+**Moved out of the §5.2 captions and axes into §4.5 (Marc, 2026-09-24: "define them once ... the figures are self-explanatory"; the floats now name each metric and say how to read it).** §4.5 must therefore carry: what a *step* is (a tactic entered; a verb entered by the baseline attacker, repeats collapsed); what an *opening* of length $k$ is; APV's direction (higher: runs start more differently); what an *action* is (a verb that runs: not dwell-only, not blocked, not end-of-run markers; one exploit activity, not each vulnerability); the detector (recent actions, each fading over about a minute) and the alarm's tuning rule, with the consequence that the baseline attacker's share over the whole run is 50 % and its later bins sit below it because its actions fall early; *active time* (to the last action; a run ends on taking a target) as the attack rate's denominator; MTTC to the first host; and — in §4.3's words, not §4.5's — that $c_{\mathrm{agg}}$ is its own profile (the attack graph before partition), not an average.
+
+**Framing ruled (Marc, 2026-09-24):** chapter 5/6 say the model takes fewer actions above a rate alarm tuned on the baseline attacker, because much of its campaign is in tactics the simulator gives no network action — not "much harder to detect". The four-variant action-rule sensitivity (results context §8i-5) goes to Appendix C.4 as a later item.
+
+
 0. *Action* has two senses in Table 4.3 and §4.5 must name both: a verb **invoked** (attack actions blocked counts the invoked verbs whose precondition fails) and a verb that **runs** (attack rate, attack confidentiality). Also define *opening*, *alarm level* and *detector* — Figure 5.1's caption points here.
 
 1. The symbols (above), especially $\kappa$ for the detector's memory in place of $\tau$.
