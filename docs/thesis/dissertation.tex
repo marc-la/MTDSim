@@ -241,7 +241,7 @@ against attacker models far simpler than an APT
 \citep{cho2020, jalowski2026}. None of the recent attacker models
 reviewed in Chapter~\ref{ch:litreview} fully captures an APT's
 persistence or its adaptation to the defender. This gap motivates the
-research question of this thesis:
+research question of this dissertation:
 
 % The single-RQ decision (architecture (a)) is intact: the sub-questions
 % are methodological decomposition, not sub-problems.
@@ -354,10 +354,10 @@ chapter, keyed SQ1 (capture) / SQ2 (model) / SQ3 (evaluate).]}
 % named verbatim) and keeps one flourish, the inherit/build opposition
 % (placement test 2, not the asymmetry sentence, which stays ruled to
 % ch1/ch3).
-This chapter sets out the background the rest of this thesis assumes.
+This chapter sets out the background the rest of this dissertation assumes.
 Section~\ref{sec:mtd-concept} defines moving target defence and its
 organising questions (what to move, how to move it, and when);
-Section~\ref{sec:mtdsim} describes MTDSim, the simulator this thesis
+Section~\ref{sec:mtdsim} describes MTDSim, the simulator this dissertation
 inherits, in which the evaluation runs.
 
 % Unit (250 w): the field's vocabulary, cited as definitions --- attack
@@ -814,7 +814,7 @@ IDS-based scheme, is not possible.
 % RULED 2026-09-05: "threat model" -> "attacker model" (thesis-wide
 % standardisation, terminology.md row ratified). Noun swap only.
 The attacker model that existed originally in the simulator is what this
-thesis terms the baseline attacker. It is scripted: every attacker is identical
+dissertation terms the baseline attacker. It is scripted: every attacker is identical
 and uniform in skill \citep{brown2023}. It is
 implemented as a closed six-state machine:
 Table~\ref{tab:attacker-states} lists the states and
@@ -3213,7 +3213,7 @@ Cho et al.'s enumeration: persistence and adaptivity are integral to it \citep{n
 that the objective it names is what conditions behaviour after the
 foothold \citep[Sec.~II-C]{alshamrani2019}. The
 selection of the eight and the merge of the definition onto the
-enumeration are this thesis's own synthesis.
+enumeration are this dissertation's own synthesis.
 % PROPERTY TAGS RETIRED 2026-09-07 (Marc, second ruling the same day):
 % the "(property n)" parentheticals read as an unordered scatter
 % because the numbering is thematic (1--4 campaign half, 5--8 smart
@@ -3444,7 +3444,7 @@ enumeration are this thesis's own synthesis.
 %     S3 and S4. [3b, minor] "some form of" is a hedge.
 Two works from 2025--2026 were selected using a keyword search for
 MITRE ATT\&CK, as the works most likely to be grounded in attacker
-modelling. The simulator lineage this thesis extends \citep{brown2023,
+modelling. The simulator lineage this dissertation extends \citep{brown2023,
 zhang2023, ho2024, tay2024} is scored in the same way.
 Table~\ref{tab:attacker-cross-section} scores the three against the
 eight properties of Section~\ref{subsec:attacker-criterion}.
@@ -4379,13 +4379,13 @@ vary, which is what makes the net plug and play: each attack profile is
 an input, and structure and semantics stay apart. One token is a choice
 about the attacker, not a property of the net. The attacker pursues one line
 of the campaign at a time, so the AND structure Attack Flow preserves stays
-inert here; concurrency is a parameter this thesis does not exercise.
+inert here; concurrency is a parameter this dissertation does not exercise.
 % [2026-09-13: A7 sentences landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
 %  §7.2. Ratify-on-read.]
 
 A GSPN's immediate weights are constants, or functions of the marking.
-The attacker model of this thesis needs them to depend on what happened
+The attacker model of this dissertation needs them to depend on what happened
 in the simulator, so we extend the profile net with the verdict. A
 \emph{verdict-conditioned} profile net is the pair
 \begin{equation}
@@ -4419,7 +4419,7 @@ untouched; a factor of zero disables a transition for that firing only.
 A timed transition may also be cut short by an MTD mutation, which
 returns failure. Any further declared factor multiplies into
 Equation~\ref{eq:routing} in the same way and renormalises with it;
-none does in the runs this thesis reports, and each arm of
+none does in the runs this dissertation reports, and each arm of
 Chapter~\ref{ch:experiments} that adds one names it.
 
 The rest of this chapter and the evaluation are stated in these terms;
@@ -4637,7 +4637,7 @@ Everything from L0 to L3 produces the profile net: the token is moving
 through all these tactics. Within the simulator, MTDSim, the baseline
 attacker has its verbs and has six phases, as outlined in
 Chapter~\ref{ch:background}. To produce results, we have to join the two.
-We scoped it down: for this thesis we adopt the existing verbs from the
+We scoped it down: for this dissertation we adopt the existing verbs from the
 simulator, and we built the APT attacker model beside MTDSim --- not
 embedded in it --- so that we can evaluate the MTD mechanisms using
 different APT attack profiles by construction.
@@ -4809,7 +4809,7 @@ is not one; Chapter~\ref{ch:futurework} returns to it.
 %  movement/learning.py holds a within-run belief about which destinations pay,
 %  degraded on mutation; it never reads the schedule. Ratify-on-read.]
 
-The ceiling of this thesis lies in the verbs that we are adopting
+The ceiling of this dissertation lies in the verbs that we are adopting
 from the simulator: the attacker model that we produce can only be as good
 as what we adopt. But it is extendable and modular: our profile nets can
 be mapped to anything given an appropriate mapping, or a stronger underlying
@@ -7417,7 +7417,7 @@ mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
     Masud et al., 2025~\citep{masud2025} & & & & & & & & \\
     Kim et al., 2026~\citep{kim2026} & \propstandin & & & & \propstandin & & & \\
     \midrule
-    APT attacker model, this thesis & \propmet & \propmet & \propmet & \propmet & & \propmet & \propmet & \\
+    APT attacker model, this dissertation & \propmet & \propmet & \propmet & \propmet & & \propmet & \propmet & \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -7674,7 +7674,7 @@ March 2026, with its own reference list.
   and 478 directed technique-to-technique edges (Attack Flow corpus
   v3.1.1; ATT\&CK Enterprise v19.1). Techniques are banded by their
   tactic, top to bottom in kill-chain order, and carry their identifier
-  alone so that every box holds the thesis's smallest readable type; the
+  alone so that every box holds the dissertation's smallest readable type; the
   band label gives the tactic and, in italic, how many of its techniques
   the corpus uses. Edge weight is the number of incidents that drew that
   edge: shading and thickness run from a hairline at one incident to the
