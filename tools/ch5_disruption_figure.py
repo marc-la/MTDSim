@@ -19,7 +19,7 @@ handoff §8g-5). The takeaways it is built to carry, and nothing else:
       deployment completes, as a percentage of the attacker's own rate before;
       both attackers in each panel; the shaded band is the deployment running
       (its median duration), 0 is when it completes.
-  (c) Time lost to one deployment, per mechanism, both attackers, with seeded
+  (c) Time lost per MTD deployment (the name ruled 2026-09-24), per mechanism, both attackers, with seeded
       bootstrap intervals (the area of the dip, as seconds at the attacker's
       own pace, less the same read at the same moments with no defence).
 
@@ -129,7 +129,7 @@ def emit(d: dict) -> tuple[str, list[str]]:
          xticks=[(TICK[m], x) for m, x in xt],
          yticks=[(v, yb(v)) for v in range(int(YB0), int(YB1) + 1, 200)],
          xlabel="", ylabel="", xfmt=lambda v: v, yfmt=signed)
-    w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {time lost (s)};" % (X0 - 0.85, (BY0 + by1) / 2))
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {time lost per\\MTD deployment (s)};" % (X0 - 0.85, (BY0 + by1) / 2))
     w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0, yb(0), X1, yb(0)))
     panel_letter(w, X0 - 1.35, by1 + 0.02, "c")
     for m, x in xt:
