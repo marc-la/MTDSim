@@ -98,6 +98,21 @@ def emit(d: dict) -> tuple[str, list[str]]:
         w(r"\draw[black!55,line width=0.4pt,dash pattern=on 1pt off 1.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, ya(100), x1, ya(100)))
         panel_letter(w, x0 - (1.35 if k == 0 else 0.5), ay1 + 0.02, letter)
         w(r"\node[anchor=south east] at (%.3f,%.3f) {%s};" % (x1, ay1 + 0.04, LONG[m]))
+        # the dip, shaded under the 100 % line from the moment the deployment
+        # completes: (c)'s bar is this area (Marc 2026-09-24: read as a point on the
+        # time axis, the seconds in (c) did not match anything in (a)/(b)). Drawn
+        # before the lines so they sit on top; clipped to below the line.
+        for arm, col, _ in ARMS:
+            c = R[f"{arm}|{m}|{INTERVAL}"]
+            tv = list(zip(mids, c["relative_pct"]))
+            i0 = next(i for i, (t, _) in enumerate(tv) if t > 0)
+            (ta, va), (tb, vb) = tv[i0 - 1], tv[i0]
+            v0 = va + (vb - va) * (0 - ta) / (tb - ta)  # the curve at t = 0
+            poly = [(xa(0), ya(100)), (xa(0), ya(v0))] + [(xa(t), ya(v)) for t, v in tv[i0:]] + [(xa(tv[-1][0]), ya(100))]
+            w(r"\begin{scope}\clip (%.3f,%.3f) rectangle (%.3f,%.3f);" % (x0, AY0, x1, ya(100)))
+            w(r"\fill[%s,opacity=%s] %s -- cycle;" % (col, "0.16" if arm == "movement" else "0.22",
+                                                    " -- ".join("(%.3f,%.3f)" % p for p in poly)))
+            w(r"\end{scope}")
         for arm, col, mk in ARMS:
             c = R[f"{arm}|{m}|{INTERVAL}"]
             pts = [(xa(t), ya(v)) for t, v in zip(mids, c["relative_pct"])]
@@ -148,7 +163,7 @@ def emit(d: dict) -> tuple[str, list[str]]:
             errorbar(w, xl + (bw - 0.03) / 2, yb(v["lo"]), yb(v["hi"]), col="black!70", cap=0.035)
             facts.append(f"(c) {arm:9s} {m:18s} time lost {v['seconds']:5.0f} s [{v['lo']:5.0f}, {v['hi']:5.0f}]  "
                          f"({v['hosts_per_deployment']:.3f} hosts; uncorrected {v['uncorrected_seconds']:.0f}, placebo {v['placebo_seconds']:.0f})")
-    ybk = BY0 - 0.98
+    ybk = BY0 - 1.35   # under three-line ticks
     i = 0
     while i < len(PANEL_SINGLES):
         j = i

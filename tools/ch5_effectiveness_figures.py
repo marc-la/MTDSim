@@ -50,12 +50,14 @@ STEM_T55 = "tab_5-3-1a_conditions"
 STEM_T56 = "tab_5-3-2a_orderings"
 STEM_T57 = "tab_5-3-3a_lineage"
 INTERVALS = ("200", "2000")
-# two-line tick names for the singles (scrutinise-figure pass 2026-09-22,
+# tick names for the singles, the full names of Table 2.2 (three lines for the two
+# topology shuffles, Marc 2026-09-24: "they should be shuffle, that's the full name");
+# was two-line (scrutinise-figure pass 2026-09-22,
 # results context §8h: "topology" / "host" were ambiguous between the two
 # topology shuffles; Table 2.4's names, split over two lines to fit the slot)
 TICK = {
-    "ip_shuffle": r"\shortstack{IP\\shuffle}", "complete_topology": r"\shortstack{complete\\topology}",
-    "host_topology": r"\shortstack{host\\topology}", "port_shuffle": r"\shortstack{port\\shuffle}",
+    "ip_shuffle": r"\shortstack{IP\\shuffle}", "complete_topology": r"\shortstack{complete\\topology\\shuffle}",
+    "host_topology": r"\shortstack{host\\topology\\shuffle}", "port_shuffle": r"\shortstack{port\\shuffle}",
     "user_shuffle": r"\shortstack{user\\shuffle}", "os_diversity": r"\shortstack{OS\\diversity}",
     "service_diversity": r"\shortstack{service\\diversity}",
 }
@@ -89,7 +91,7 @@ def grouped_panels(series: list[tuple[str, str, bool]], get, *, key_title: str, 
     y shared across the row, one key."""
     allv = [v for i in INTERVALS for s, _, _ in series for c in DEFENDED for v in get(i, s, c)]
     ymin, ymax = _yrange(allv)
-    PH = 2.4   # 3.4 until 2026-09-22; shortened so Figure 5.3 and Table 5.4 share a page
+    PH = 2.05  # 3.4 until 2026-09-22, 2.4 until 2026-09-24 (the three-line full-name ticks took 0.37 cm, given back here); kept so the figure and Table 5.4 share a page
     XS0, XS1 = 1.3, 11.9   # singles panel
     XC0, XC1 = 12.4, 15.2   # schemes panel (packs to 15.7 cm; 15.4 was 2.6 pt overfull)
     Y0 = (3.85, 0.85)   # row gap 0.6 cm (was 0.8)
@@ -143,7 +145,7 @@ def grouped_panels(series: list[tuple[str, str, bool]], get, *, key_title: str, 
     # layer brackets under the singles' ticks (Marc, 2026-09-22): one grey
     # bracket and label per contiguous layer group in PANEL_SINGLES
     slot = (XS1 - XS0) / len(PANEL_SINGLES)
-    yb = Y0[1] - 1.02
+    yb = Y0[1] - 1.39   # under three-line ticks (the full names, Marc 2026-09-24)
     i = 0
     while i < len(PANEL_SINGLES):
         j = i
@@ -156,7 +158,7 @@ def grouped_panels(series: list[tuple[str, str, bool]], get, *, key_title: str, 
         i = j + 1
     # key, once, below; entries wrap inside the panel span so five profile
     # names never run past the page box (the 16.4 cm trap of 2026-09-17)
-    ky = Y0[1] - 1.62   # clears the two-line ticks and the layer brackets
+    ky = Y0[1] - 1.99   # clears the three-line ticks and the layer brackets
     kx = XS0
     w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {%s};" % (kx, ky, key_title))
     xx = kx + 1.9
