@@ -729,7 +729,7 @@ IDS-based scheme, is not possible.
   \includegraphics{fig_2-2-3a_attacker_model}
   \caption[What the baseline attacker holds, and how it proceeds]{What the
   baseline attacker holds, and how it proceeds. The upper panel gives what
-  a defence rewrite leaves it: the objective, the hosts and the credentials
+  a defence rewrite leaves it: the attack scenario, the hosts and the credentials
   survive; its view of the network does not. The lower panel is the
   procedure --- six states, and the moves between them. The accent marks
   the three moves that take a host, each of which reveals that host's
@@ -753,9 +753,15 @@ Table~\ref{tab:attacker-states} lists the states and
 Figure~\ref{fig:attacker-model} draws it; the states represent the attack
 phases. This finite state machine is inspired by Lockheed Martin's Cyber
 Kill Chain and MITRE ATT\&CK \citep{brown2023, hutchins2011,
-strom2018mitre}. The attacker holds an objective, of which two exist
+strom2018mitre}. The attacker follows one of two attack scenarios
 (Table~\ref{tab:attacker-objectives}); Brown \citep{brown2023} gives the
 implementation detail.
+% [TERM SWEEP 2026-09-24, Marc: "we'll revert back to general and targeted ...
+%  attack scenarios, that's a standardised term" --- E2; overturns the
+%  2026-08-31 registry row (opportunistic replaces general) and the 2026-08-27
+%  one (objective as the noun), so "objective" is left to the attack profiles'
+%  operational objectives. Was: "The attacker holds an objective, of which two
+%  exist". DRAFT STATE, ratify on read.]
 % [pass 5 compress PROPOSED, unruled] cut "Brown ... gives the
 % implementation detail" and carry the citation on the objective clause
 % instead: "of which two exist (Table 2.3) \citep{brown2023}." --- the
@@ -790,17 +796,16 @@ implementation detail.
 
 \begin{table}[htbp]
   \centering
-  \caption[The two objectives of the baseline attacker]{The two
-  objectives of the baseline attacker, Brown's general and target
-  attack scenarios \citep{brown2023}; the opportunistic objective's
-  termination ratio is Zhang's \citep{zhang2023}.}
+  \caption[The two attack scenarios of the baseline attacker]{The two
+  attack scenarios of the baseline attacker \citep{brown2023}; the general
+  scenario's termination ratio is Zhang's \citep{zhang2023}.}
   \label{tab:attacker-objectives}
   \tablestyle
   \begin{tabular}{@{}lP{0.80\textwidth}@{}}
     \toprule
-    Objective & Description \\
+    Attack scenario & Description \\
     \midrule
-    Opportunistic & compromise the network: 80\,\% of the hosts, or until nothing new is discovered \\
+    General & compromise the network: 80\,\% of the hosts, or until nothing new is discovered \\
     Targeted & compromise a target host, deep-embedded, such as a database \\
     \bottomrule
   \end{tabular}
@@ -4604,7 +4609,7 @@ Figure~\ref{fig:runtime-loop}). A drawn dwell \emph{replaces} the dispatched
 action's native cost rather than adding to it: an action consumes its
 tactic's drawn time and nothing further.
 
-The APT attacker model is given the targeted objective of
+The APT attacker model is given the targeted attack scenario of
 Table~\ref{tab:attacker-objectives}. It attacks a target host if one is
 visible, and otherwise prefers the hosts nearest the target's level; the run
 ends when a target is compromised.
@@ -5651,7 +5656,7 @@ attacker's or the defence's.
 Section~\ref{subsec:attacker-model}, and the APT attacker model of
 Chapter~\ref{ch:attacker-model} on each of its four attack profiles $c_1$ to
 $c_4$ and on the aggregate $c_{\mathrm{agg}}$, the attack graph of
-Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both pursue the targeted objective
+Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both pursue the targeted attack scenario
 (Table~\ref{tab:attacker-objectives}).
 % 2026-09-20 (P1, P6; setup handoff §AL1 1a, 1f, §AM; Marc: "we default to the
 %  targeted for the movement attacker so I don't even think the split is even

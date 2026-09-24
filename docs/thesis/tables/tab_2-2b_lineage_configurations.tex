@@ -13,16 +13,16 @@
 %   Exposed endpoints / Brown: 20  [Table I, p.5 ("No. of exposed hosts")]
 %   Exposed endpoints / Zhang: 3; 5; 7; 10  [Table 2, p.33 ("Endpoints", one per network)]
 %   Exposed endpoints / Ho: ---  [not stated (ho2024.md §B)]
-%   Objective / Brown: opportunistic; targeted, a database host  [III.C.1, p.4 (Scenario 1; Scenario 2, "a specific 'target' host (e.g., a credential database)"); target at level 3 or 4, figure captions p.6]
-%   Objective / Zhang: opportunistic  [§4.4.1.1, p.28 (only the first scenario refactored)]
-%   Objective / Ho: opportunistic  [§3.1, p.15 ("to try to compromise as many hosts as possible")]
+%   Attack scenario / Brown: general; targeted, a database host  [III.C.1, p.4 (Scenario 1; Scenario 2, "a specific 'target' host (e.g., a credential database)"); target at level 3 or 4, figure captions p.6]
+%   Attack scenario / Zhang: general  [§4.4.1.1, p.28 (only the first scenario refactored)]
+%   Attack scenario / Ho: general  [§3.1, p.15 ("to try to compromise as many hosts as possible")]
 %   Deployment interval / Brown: uniform on 1\,000--5\,000\,ms  [Table I, p.5; §IV, p.5 ("E(T) = 3000 (time in milliseconds)")]
 %   Deployment interval / Zhang: exponential, mean 50; 100; 150; 200\,s  [p.33 ("four MTD Intervals, ranging from 50 to 200 seconds"); levels from the Figure 8 panel titles, p.35; exponential, §4.3.4, p.27]
 %   Deployment interval / Ho: 50; 100; 200  [Table 6, p.23 (no unit given); comparison with the execution schemes at 200, Table 8, p.24]
 %   Deployment duration / Brown: ---  [not stated (provenance.md, IS-TIM-03)]
 %   Deployment duration / Zhang: complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, optimised OS assignment 80\,s, service diversity 70\,s  [Table 3 "MTD Execution Time", p.34 (standard deviation 0.5 on each)]
 %   Deployment duration / Ho: ---  [not stated (ho2024.md §B)]
-%   Run ends / Brown: objective met  [III.C.1, p.4; no time limit stated (brown2023.md §B)]
+%   Run ends / Brown: attack goal met  [III.C.1, p.4; no time limit stated (brown2023.md §B)]
 %   Run ends / Zhang: 80\,\% of hosts compromised  [p.33 ("the terminating condition for the simulation as the NCR reaching 0.8")]
 %   Run ends / Ho: 15\,000  [Table 2, p.19 (Finish Time 15000; no unit given)]
 %   Runs per condition / Brown: ---  [not stated (brown2023.md §B)]
@@ -41,10 +41,10 @@
     Levels of depth & 5 & 4 & --- \\
     Subnets & 20 & --- & --- \\
     Exposed endpoints & 20 & 3; 5; 7; 10 & --- \\
-    Objective & opportunistic; targeted, a database host & opportunistic & opportunistic \\
+    Attack scenario & general; targeted, a database host & general & general \\
     Deployment interval & uniform on 1\,000--5\,000\,ms & exponential, mean 50; 100; 150; 200\,s & 50; 100; 200 \\
     Deployment duration & --- & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, optimised OS assignment 80\,s, service diversity 70\,s & --- \\
-    Run ends & objective met & 80\,\% of hosts compromised & 15\,000 \\
+    Run ends & attack goal met & 80\,\% of hosts compromised & 15\,000 \\
     Runs per condition & --- & 100 & --- \\
     \bottomrule
   \end{tabular}

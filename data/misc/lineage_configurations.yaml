@@ -49,10 +49,10 @@ rows:
     zhang2023: {value: '3; 5; 7; 10', locator: 'Table 2, p.33 ("Endpoints", one per network)'}
     ho2024: {value: null, locator: 'not stated (ho2024.md §B)'}
 
-  - parameter: Objective
-    brown2023: {value: 'opportunistic; targeted, a database host', locator: 'III.C.1, p.4 (Scenario 1; Scenario 2, "a specific ''target'' host (e.g., a credential database)"); target at level 3 or 4, figure captions p.6'}
-    zhang2023: {value: 'opportunistic', locator: '§4.4.1.1, p.28 (only the first scenario refactored)'}
-    ho2024: {value: 'opportunistic', locator: '§3.1, p.15 ("to try to compromise as many hosts as possible")'}
+  - parameter: Attack scenario
+    brown2023: {value: 'general; targeted, a database host', locator: 'III.C.1, p.4 (Scenario 1; Scenario 2, "a specific ''target'' host (e.g., a credential database)"); target at level 3 or 4, figure captions p.6'}
+    zhang2023: {value: 'general', locator: '§4.4.1.1, p.28 (only the first scenario refactored)'}
+    ho2024: {value: 'general', locator: '§3.1, p.15 ("to try to compromise as many hosts as possible")'}
 
   - parameter: Deployment interval
     brown2023: {value: 'uniform on 1\,000--5\,000\,ms', locator: 'Table I, p.5; §IV, p.5 ("E(T) = 3000 (time in milliseconds)")'}
@@ -65,7 +65,7 @@ rows:
     ho2024: {value: null, locator: 'not stated (ho2024.md §B)'}
 
   - parameter: Run ends
-    brown2023: {value: 'objective met', locator: 'III.C.1, p.4; no time limit stated (brown2023.md §B)'}
+    brown2023: {value: 'attack goal met', locator: 'III.C.1, p.4; no time limit stated (brown2023.md §B)'}
     zhang2023: {value: '80\,\% of hosts compromised', locator: 'p.33 ("the terminating condition for the simulation as the NCR reaching 0.8")'}
     ho2024: {value: '15\,000', locator: 'Table 2, p.19 (Finish Time 15000; no unit given)'}
 
