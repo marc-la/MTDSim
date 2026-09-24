@@ -4043,12 +4043,20 @@ model defined in Chapter~\ref{ch:attacker-model}.
 %  openers is the sweep's residue and is Marc's to reshape.]
 The APT attacker model that we have produced is the model that the
 research gap motivated; it aims to meet the axes from
-Section~\ref{subsec:attacker-criterion}. It replaces the baseline attacker of
-Section~\ref{subsec:attacker-model}; it adopts its action set, and its movement
-is dictated by the generalised stochastic Petri net and by the attacker
-model at runtime. It is built beside MTDSim: we are instrumenting the
-baseline attacker with it, so that we can compare our results. This
-is a proof of concept, testing whether behavioural fidelity changes
+Section~\ref{subsec:attacker-criterion}.
+% 2026-09-24 (Marc): "replaces" and "built beside" were both wrong --- the
+% two are different attackers with different jobs (the baseline attacker
+% is the reference); the relation is that MTDSim runs either under
+% identical conditions, which is what makes SQ3's comparison controlled.
+% "Instrumenting the baseline attacker with it" dropped. OPEN (flagged,
+% not ruled): "and by the attacker model at runtime" reads circular inside
+% the model's own introduction --- "the runtime loop" if that is the sense.
+MTDSim can run either the APT attacker model or the baseline attacker of
+Section~\ref{subsec:attacker-model}, on the same network and under the
+same defences, so that the two can be compared. The APT attacker model
+shares the baseline attacker's action set, but its movement is dictated
+by the generalised stochastic Petri net and by the attacker model at
+runtime. This is a proof of concept, testing whether behavioural fidelity changes
 existing MTD evaluation.
 
 % [2026-09-04, Marc: the identifiers appeared twice in P2 and did not
