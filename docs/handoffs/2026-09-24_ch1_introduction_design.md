@@ -1010,6 +1010,85 @@ the abstract is redesigned.
 - the floor effect on reductions (chapter 6);
 - seeds and significance (chapter 5).
 
+## 18. The contributions list: design for Marc's selection (2026-09-24)
+
+### 18.1 Context, audience, purpose
+
+**Context.** The list follows ¶6. By this point the reader has the
+problem, the question, the method, the preliminary findings and the scope.
+So the list must not re-narrate ¶5–¶6. Its job is to turn them into claims
+a reader could check. The availability sentence rides on the list (ruled
+§(g)2–3). The overview follows it.
+
+**Audience: three readers use it differently.**
+- **The examiner** reads the list, then the conclusion, and checks that each
+  item is answered (Evans, Gruba & Zobel p. 5). Each item is a promise the
+  conclusion must keep.
+- **The supervisor** checks the claim ceiling against what was ruled in
+  meetings. For example, nothing may say the model *is* an APT or that the
+  defence *works*, and no metric may be introduced without its why
+  (2026-09-22).
+- **A general CS reader** (a student picking the dissertation up) reads
+  the list to learn what they can reuse. Each item must stand alone in
+  plain words, and say what exists now that did not before and what it
+  shows.
+
+**Purpose.** To state what is new, as refutable claims, each keyed to the
+sub-question it answers and pointed forward to its evidence (Peyton Jones,
+slides 20–22; Widom). The corpus's weak spot is the thing to avoid: most
+lists are activity-shaped ("we propose …, we implement …"), and only 3 of
+25 state a finding a reader could check (§2). The local lineage's four
+activity items (Zhang, Ho, Tay) are the exact pattern to beat.
+
+### 18.2 The convention, and the form it gives
+
+| Choice | Convention | Source | Form here |
+|---|---|---|---|
+| Place | Closes the introduction's argument, before the overview | literature_conventions (g)2; rahman2024 p. 2 | After ¶6 |
+| Shape | A numbered list, with a lead-in sentence | rahman2024 ("1) … 2) … 3) …"); Peyton Jones | "This dissertation makes three contributions." followed by an enumerate |
+| Count | 3 is the corpus mode | corpus (§2) | 3, one per SQ |
+| Item | A refutable claim, with where its evidence is | Peyton Jones ("each contribution … refutable", with a forward reference) | Each item has what was built, then what it shows, then (SQn; Chapter/Section) |
+| Keys | Explicit keys in a list are the corpus's "Findings on RQ1" pattern | (g)1 | A trailing parenthetical key. It is allowed here, though not in ¶5's prose, because a list is a lookup structure |
+| Availability | One sentence riding on the list | (g)3; rahman2024; ferraz2024 | After the last item |
+
+### 18.3 Candidate contributions (content, not wording; Marc selects and words)
+
+| Item | Key | What exists now | What it shows (the refutable part) | Evidence and badge | Pointer |
+|---|---|---|---|---|---|
+| **C1** | SQ1 | Attack profiles recovered from 38 hand-drawn attack flows, one per operational objective | Conditioning on objective changes the attacker's behaviour: with no defence, the profiles differ in attack rate (about 12 against 21 actions per 1 000 s) and reach | **DEMONSTRATED** (criterion axis 2, the only property shown to change an outcome) | Ch. 4 §4.1–4.2; §5.2 |
+| **C2** | SQ2 | The APT attacker model, executed inside an existing MTD simulator on the baseline attacker's own actions, so the two attackers can be compared under identical conditions | Its three declared inputs (dwell times, tactic-to-verb mapping, failure matrix) are each stated with a source and tested across their plausible range | **BUILT**, with robustness in the appendix. Persistence and adaptivity are DESIGNED, so say "executes", never "reproduces APT behaviour" | Ch. 4 §4.3–4.4; App. C |
+| **C3** | SQ3 | A two-phase evaluation (no defence, then every MTDSim defence across deployment intervals), with two measures of disruption introduced for it (time lost per MTD deployment; the compromise growth rate) | The finding of ¶6: the defence that holds back one attacker most is not the one that holds back the other most | **PRELIMINARY**: the same placeholder as ¶6, re-checked at 1 000 seeds | Ch. 5; §4.5 for the measures |
+| (C4?) | none | The cross-section scoring of recent MTD attacker models against eight properties of an APT attacker | No recent model fully captures persistence or adaptation (already said in ¶3) | ch3 Tables 3.2–3.3 | Ch. 3 |
+
+**Retired, never list:** learning and cost-sensitivity (ablation removed
+2026-09-13), the ranking inversion (ρ = −0.893 did not reproduce), and
+anything claiming realism or validation.
+
+### 18.4 Decisions for Marc
+
+- **K1. Three items, or four?** Recommendation: three, one per SQ. The
+  mapping to the conclusion stays one to one. C4 is already ¶3's premise,
+  and a literature-review product listed as a contribution invites "what
+  is new about a review?". The alternative is to list C4 as item 0 of the
+  gap, unkeyed.
+- **K2. Where do the new metrics go?** Recommendation: in C3, as the
+  instrument of the evaluation, with its why stated in §4.5 (supervisor,
+  2026-09-22). The alternative is a separate item, which would break the
+  one-per-SQ form.
+- **K3. How much does C1 claim?** Recommendation: claim that conditioning
+  on objective changes behaviour, because it is the one DEMONSTRATED axis.
+  "Recovered" alone would be activity-shaped.
+- **K4. Availability.** The public `main` branch is the standalone
+  simulator, so the link does not land on the APT attacker model's pipeline.
+  Options: (a) link `main` as-is and claim only the simulator, which is the
+  current sentence; (b) a frozen thesis release tag that holds the
+  pipeline, the corpus and the result tables, with the sentence naming it.
+  Recommendation: (b), because C1–C3 are claims a reader should be able to
+  re-run. It is Marc's action, since pushing is his.
+- **K5. The item shape.** Recommendation: a short noun-phrase lead, then
+  one or two sentences that make the claim, then the key. A bold lead
+  phrase is optional; rahman2024 uses plain sentences.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:
