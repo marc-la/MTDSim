@@ -28,7 +28,9 @@ The field's split (Cho's purpose axis, Table 3.1) sorts metrics by what they do 
 
 Why three and not the two phases: the outcome metrics are read in both phases, so a phase grouping would split them or repeat them. Why "MTD effectiveness" keeps Cho's word: that one class *is* the field's effectiveness question, and naming it so is the tie-back; there is no efficiency class because the thesis does not model defence cost. §5.1's Metrics unit says this in a sentence (Marc's prose), replacing "grouped by effectiveness and efficiency, as Table 3.x groups the field's".
 
-**Ruling owed (§8.1):** the three labels. Alternatives: *Behaviour / Outcome / Defence effect*; *What it does / What it achieves / What a defence does to it*.
+**Ruled 2026-09-24:** *Attacker behaviour*, *Attack outcome*, *MTD effectiveness* (Marc: the abstract alternatives are "too much of a step back"; these say what each class is for).
+
+**§5.2 stays one section, no subsections** (recommended 2026-09-24; Marc asked whether to split it into behaviour and outcome). The three classes order its paragraphs instead: splitting would separate the stealth reading (behaviour) from the numbers it explains (outcome), which is the opposite of what E4 asked; three floats do not need two headings; and it keeps the 2026-09-23 heading ruling (phase one is one experiment). §5.3's three subsections are all MTD effectiveness, split by what each experiment was run for, as ruled.
 
 ## 2. Table 5.2 as it will read
 
@@ -50,6 +52,8 @@ Columns: Metric | Definition | Source. The Source column is the audit: a citatio
 Ten rows, from ten today: the four efficiency rows, *runs with no compromise* (now MTTC's note) and *suppression* (now NCR reduction) leave; the four attacker-behaviour metrics come in. Numbers: NCR reduction is the number `analyse.py:304` already computes (the 50 hosts cancel), NCR is hosts ÷ 50, ASP and MTTC are today's *target reached* and *delay*; only the stealth pair is new computation.
 
 ## 3. What §4.5 must discuss — the flags
+
+> **Moved and grown, 2026-09-24:** the running list now lives in [`2026-09-24_s45_instrumenting_mtdsim.md`](2026-09-24_s45_instrumenting_mtdsim.md), one entry per metric, at the reader's level (the census-level nuances below — Ho's ASR, the five MTTCs, Brown's in-flight blocks — stay in the catalogue, not the thesis). It also carries two recommended changes to Table 5.2's first two rows: *time share per tactic* after Outkin et al. 2022 (in place of the step share), and *attack path variation* after Hong et al. 2018's APV (in place of the plain openings name). The text below is the 2026-09-24 morning version, kept for the record.
 
 Every metric that is not cited exactly as the field defines it. Three depths:
 
@@ -122,9 +126,9 @@ Labels only; no number moves.
 1. The three class labels (§1).
 2. The §4.5 flag list (§3) as complete — anything to add or drop.
 3. $\tau$ = 60 s as the one declared constant, with its sweep in the appendix.
-4. Bib entries to add, each verified against the census before entry: **zhan2013** (IEEE TIFS 8(11), DOI 10.1109/TIFS.2013.2279800), **pendleton2016** (ACM CSUR 49(4), DOI 10.1145/3005714; confirm the published wording), **ward2018** (held: `sources/methodology/ward2018_mit_survey.md`), **jafarian2015** (IEEE TIFS 10(12)). Sengupta 2020 is optional (Cho already relays the same reading).
+4. **DONE 2026-09-24** — bib entries added, each verified against the census or the held source: **zhan2013** (IEEE TIFS 8(11), DOI 10.1109/TIFS.2013.2279800), **pendleton2016** (ACM CSUR 49(4), DOI 10.1145/3005714; confirm the published wording), **ward2018** (held: `sources/methodology/ward2018_mit_survey.md`), **jafarian2015** (IEEE TIFS 10(12)). Sengupta 2020 is optional (Cho already relays the same reading).
 
-*Ruled 2026-09-23/24:* ASP, NCR, MTTC at the first host; suppression → NCR reduction, cited; Brown's name for attack actions blocked; recovery time and the stealth pair defined in §4.5; attack confidentiality with no acronym, and *D* as its detector; the efficiency rows, divergence, breadth, disengagement and learning cut; Figure 5.1 as three panels; general and targeted attack scenarios (commit d3d0bfcd).
+*Ruled 2026-09-23/24:* the class labels (§1); *attack actions blocked* by Brown's verbatim name; the reader-level rule for §4.5 (no census nuance in the thesis); ASP, NCR, MTTC at the first host; suppression → NCR reduction, cited; Brown's name for attack actions blocked; recovery time and the stealth pair defined in §4.5; attack confidentiality with no acronym, and *D* as its detector; the efficiency rows, divergence, breadth, disengagement and learning cut; Figure 5.1 as three panels; general and targeted attack scenarios (commit d3d0bfcd).
 
 ## 9. Implementation, in order
 
