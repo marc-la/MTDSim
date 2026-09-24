@@ -326,7 +326,7 @@ def emit(gap, order, axis, cls, tech, edges, fa, fb, shared, nets) -> tuple[str,
     n_rest = len(tech) - 2
     svg.text((CL + CR) / 2, gy + 24, f"… and the other {n_rest} flows of the corpus", size=19, anchor="middle", fill=MUTE, style="italic")
     l0_bot = gy + 30
-    gutter(svg, (l0_top + l0_bot) / 2 - 4, "L0", "Campaign intelligence", "one attack flow per incident")
+    gutter(svg, (l0_top + l0_bot) / 2 - 4, "L0", "Cyber threat intelligence", "one attack flow per incident")
     # legend under the L0 label
     ly = (l0_top + l0_bot) / 2 + 60
     for k, (kind, lab) in enumerate((("A", "attack flow A"), ("B", "attack flow B"), ("AB", "in both flows"))):

@@ -523,7 +523,7 @@ studies evaluated on.
     \midrule
     Brown \citep{brown2023} & MTDSim: the three-layer HARM network
     model, adding a service layer to Alavizadeh et al.'s two-layer
-    HARM, the scripted attacker, and the combined-MTD evaluation \\
+    HARM, the baseline attacker, and the combined-MTD evaluation \\
     Zhang \citep{zhang2023} & the time domain: mean time to compromise
     and the MTD execution schemes \\
     Ho \citep{ho2024} & the extended metric suite \\
@@ -1057,7 +1057,7 @@ and credentials.]}
 This chapter surveys the literature on evaluating MTD against APT
 attackers, along the three sub-questions of
 Chapter~\ref{ch:intro}. Section~\ref{sec:apt-survey} surveys how APT
-attacker behaviour is captured (\ref{sq:capture});
+attacker behaviour is recovered (\ref{sq:capture});
 Section~\ref{sec:mtd-evaluation-survey} how the field evaluates a
 defence mechanism (\ref{sq:evaluate}); Section~\ref{sec:mtd-attacker-models}
 how the attacker is modelled in those evaluations (\ref{sq:model}),
@@ -3891,7 +3891,7 @@ model defined in Chapter~\ref{ch:attacker-model}.
   \centering
   \includegraphics{fig_4-0a_pipeline_ladder}
   \caption[The APT attacker model end to end]{The APT attacker model end to
-  end, from campaign intelligence (L0) to MTDSim (L4), as a worked example on two of the 38 attack flows. Columns are
+  end, from cyber threat intelligence (L0) to MTDSim (L4), as a worked example on two of the 38 attack flows. Columns are
   the ATT\&CK tactics (v19.1) in kill-chain order. Flow~A (blue) is the CISA
   AA22-138B Workspace ONE flow~\cite{cisaaa22138b}, flow~B (orange) the
   SearchAwesome adware flow~\cite{malwarebytesadware2018}; boxes are
@@ -4043,12 +4043,11 @@ model defined in Chapter~\ref{ch:attacker-model}.
 %  openers is the sweep's residue and is Marc's to reshape.]
 The APT attacker model that we have produced is the model that the
 research gap motivated; it aims to meet the axes from
-Section~\ref{subsec:attacker-criterion}. It replaces the \emph{baseline
-attacker}, the inherited scripted six-phase attacker
-(Chapter~\ref{ch:background}); it adopts its action set, and its movement
+Section~\ref{subsec:attacker-criterion}. It replaces the baseline attacker of
+Section~\ref{subsec:attacker-model}; it adopts its action set, and its movement
 is dictated by the generalised stochastic Petri net and by the attacker
-model at runtime. It is built beside MTDSim: we are instrumenting our
-existing attacker model with it, so that we can compare our results. This
+model at runtime. It is built beside MTDSim: we are instrumenting the
+baseline attacker with it, so that we can compare our results. This
 is a proof of concept, testing whether behavioural fidelity changes
 existing MTD evaluation.
 
@@ -4057,7 +4056,7 @@ existing MTD evaluation.
 %  each identifier once, paired with the sections that answer it; the
 %  figure sentence closes the paragraph. Deletion and merge of the
 %  ruled text only.
-We are grounding it in CTI to capture the behaviour of APT attackers in
+We are grounding it in CTI to recover the behaviour of APT attackers in
 the real world (\ref{sq:capture}, Sections~\ref{sec:technique-graph}
 and~\ref{sec:attack-profiles}). We are distilling that behaviour into
 structured representations that we can operationalise and join to our
@@ -4169,7 +4168,7 @@ sparse compared to the rest of the corpus. Pre-intrusion activity
 typically happens on the attacker's infrastructure --- infrastructure
 setup, passive recon --- and is not detectable on the defender's side.
 Hence, in the corpus, reconnaissance only has a mention in 10 out of
-the 38 attack flows. But since we are producing an attack model for
+the 38 attack flows. But since we are producing an attacker model for
 defender evaluation, we will later have to draw these flows in.
 This is persistent across CTI, so we
 would have to address it regardless of our input.
@@ -4192,7 +4191,7 @@ would have to address it regardless of our input.
 
 The literature tells us that APT attackers are not a homogeneous group,
 and so they are distinguished by campaign-level intent. We cannot
-produce an APT attack model that could be considered behavioural,
+produce an APT attacker model that could be considered behavioural,
 because the L1 aggregate carries so many different motivations and
 objectives which influence behaviour \citep{alshamrani2019}.
 
@@ -4846,7 +4845,7 @@ difference between the arms is a difference in the attacker and nothing else.
 Nothing carries between runs. Each run starts from $M_0$ knowing nothing of
 the defence: the attacker does not hold the mutation schedule, learns nothing
 about it within a run, and carries nothing from one run into the next. That
-is the scheme-aware adversary \citet{jalowski2026} asks for, and this model
+is the scheme-aware attacker Jalowski et al.\ \citep{jalowski2026} ask for, and this model
 is not one; Chapter~\ref{ch:futurework} returns to it.
 % [2026-09-13: A12 paragraph landed on Marc's ratification of the fourteen-item
 %  proposal (chat, this date); source register: handoff 2026-09-08_ch4_s43_gspn_formalism.md
@@ -4858,7 +4857,7 @@ The ceiling of this dissertation lies in the verbs that we are adopting
 from the simulator: the attacker model that we produce can only be as good
 as what we adopt. But it is extendable and modular: our profile nets can
 be mapped to anything given an appropriate mapping, or a stronger underlying
-attack model can be built that operationalises all of MITRE's tactics.
+attacker model can be built that operationalises all of MITRE's tactics.
 % [MUST-CARRY: the mapping as a chosen input, the standing caveat bounding
 %  every claim in the results chapter (ch5 cites it). Moved 2026-09-08 to
 %  close the mechanics unit; ", and that would produce a more useful attacker
@@ -5193,7 +5192,7 @@ Appendix~\ref{app:sensitivity}, and the rules are not.
 
 This is verdict-conditioned re-weighting (Equation~\ref{eq:routing}); this
 is what encodes direction. We judged these a plausible set of values to
-feed into our attacker model, and Appendix~\ref{app:sensitivity} reports what
+feed into the APT attacker model, and Appendix~\ref{app:sensitivity} reports what
 it would cost to be wrong about them.
 % CLOSE RESCOPED 2026-09-18 --- DRAFT STATE, ratify on read. Was "a plausible,
 %  literature-bounded and sensitivity-swept (Section 5.1) set of values", on
