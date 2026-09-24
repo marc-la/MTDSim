@@ -5106,6 +5106,23 @@ reads, each with its source: a metric the field already uses is named as
 the field names it and cited; a metric this thesis introduces is defined in
 full, with what it captures that the cited metrics cannot.]}
 
+% HOLDERS ADDED 2026-09-24 (Marc: "put in a holder for 4.5 ... we'll define every
+% single metric once we've settled it"; results first, definitions fitted after).
+% One holder per metric, grouped by the three classes Table~\ref{tab:metrics}
+% uses (ruled 2026-09-24). Each becomes: the field's name and acronym, a numbered
+% equation in the formalism's symbols, its direction, its source; an adapted or
+% introduced metric adds what differs and why it is needed (literature
+% conventions §d, hong2018's pattern). Brief:
+% docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md.
+\textbf{Attacker behaviour.} \emph{[Definitions owed: time share per tactic;
+attack path variation (APV); attack rate; attack confidentiality.]}
+
+\textbf{Attack outcome.} \emph{[Definitions owed: attack success probability
+(ASP); network compromise ratio (NCR); mean time to compromise (MTTC).]}
+
+\textbf{MTD effectiveness.} \emph{[Definitions owed: NCR reduction; attack
+actions blocked; recovery time.]}
+
 % HEADING ADDED 2026-09-23 (Marc: "we're not going to draft [it] but I can put a
 % heading in"). Executes register E3 (every metric cited, or defined in the
 % methodology with why it is needed) and carries E10(i)'s set-up (the model reads
@@ -8058,6 +8075,23 @@ the other two held, and the two rates were then run at their four corners
 with the floor declared.
 
 \input{tables/tab_C-3a_decay_sensitivity}
+
+\section{Robustness of attack confidentiality to the detector's memory}
+\label{app:detector-memory}
+
+\noindent\emph{[Placeholder --- delete on drafting. Attack confidentiality
+(Section~\ref{sec:instrumenting}) rests on one declared constant: how long the
+detector remembers an action, 60\,s. This section moves it across a band and
+reports whether the attackers keep their order at every alarm level.]}
+
+% ADDED 2026-09-24 (Marc: "that's something that needs to be swept ... it has to
+% be in the appendix, so make an appendix item for that"). The sweep is owed:
+% tau over a band (e.g. 15-240 s, the declared 60 s inside it), both attackers,
+% the no-defence corpus; the reading is the ordering of the attackers on attack
+% confidentiality across the alarm levels, and the tau at which it changes, if
+% any. A 2026-08 sweep exists for the older, tier-weighted form of the detector
+% (data/misc/_viz/stealth_exposure/fig3_tau_sweep.png) and does not carry over.
+% Brief: docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md, Open 4.
 
 
 

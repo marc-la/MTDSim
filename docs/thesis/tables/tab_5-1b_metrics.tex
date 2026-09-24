@@ -1,3 +1,27 @@
+% REBUILT 2026-09-24 (register E3; Marc's strict pass, 23-24 Sep; design:
+% docs/handoffs/2026-09-22_metrics_provenance_and_instrumentation.md §1-§2;
+% evidence per row: docs/sources/extractions/mtd_metric_catalogue.md).
+% (1) THE SPLIT IS OURS: three classes, one per job in the results --- attacker
+%     behaviour (what it does, §5.2's figure), attack outcome (what it achieves,
+%     Table 5.3 and what §5.3's defences change), MTD effectiveness (what a
+%     defence does to it, §5.3). The effectiveness/efficiency split is gone; the
+%     thesis does not model defence cost. Labels ruled 2026-09-24.
+% (2) EVERY SOURCE IS A CITATION OR A POINTER TO §4.5: a bare citation = the
+%     field defines it; "adapted from" = the field's name, one difference stated
+%     in §4.5; §4.5 alone = introduced there with why.
+% (3) THE FIELD'S NAMES AND ACRONYMS: ASP (Cho; not Ho's per-attempt ASR), NCR
+%     (Zhang, Ho Eq. 10), MTTC (McQueen, Zhang; checkpoint the first host), APV
+%     (Hong 2018, adapted to the paths an attacker takes across runs), attack
+%     actions blocked (Brown's §IV-A heading, verbatim). Suppression is NCR
+%     reduction (the same number, analyse.py:304), in the form of Alavizadeh's
+%     mitigation factor. No acronym is invented; attack rate and attack
+%     confidentiality have none in their sources.
+% (4) OUT: the four efficiency rows; runs with no compromise (MTTC's note);
+%     suppression (renamed). IN: the four attacker-behaviour metrics.
+% Definitions here are one line each at the reader's level; the equations are
+% §4.5's (holders placed 2026-09-24). SHOULD BE BORN GENERATED with Table 5.1 by
+% the chapter's reader. DRAFT STATE --- ratify on read.
+% THE COMMENTS BELOW DESCRIBE THE TABLES THIS REPLACES (2026-09-18, 2026-09-20).
 % NEW 2026-09-18 (§5.2 readability pass; handoff 2026-09-17_ch5_s52_setup_critique.md
 % §V4, §W). REPLACES tab_5-1c_measures, which is deleted. Three changes, each a
 % ruling of Marc's from the 2026-09-18 read.
@@ -116,24 +140,28 @@
 % which §4.4.1 says have no action in flight (metrics_semantics.md §d2).
 \begin{table}[htbp]
   \centering
-  \caption[The metrics]{The metrics this chapter judges a defence by, under the purposes and measures of Table~\ref{tab:mtd-metrics}.}
+  \caption[The metrics]{The metrics this chapter reads, by what each measures, with the source of each; Section~\ref{sec:instrumenting} defines every one.}
   \label{tab:metrics}
   \tablestyle\setlength{\tabcolsep}{4pt}
-  \begin{tabular}{@{}cP{1.9cm}P{3.0cm}P{9.4cm}@{}}
+  \begin{tabular}{@{}P{3.9cm}P{7.7cm}P{3.9cm}@{}}
     \toprule
-    & Measures & Metric & Definition \\
+    Metric & Definition & Source \\
     \midrule
-    & success events & Target reached & the share of runs in which the attacker meets the targeted attack scenario (Table~\ref{tab:attacker-objectives}): a database host compromised\\
-    & & Runs with no compromise & the share of runs in which the attacker never compromises its first host\\
-    & & Blocked fraction & the share of the attacker's actions that fail on a missing precondition (Section~\ref{subsec:runtime-mechanics})\\
-    & attacker time & Delay to first compromise & the time from the start of a run to the first host compromised, over the runs that compromise one\\
-    & system state & Hosts reached & the number of distinct hosts compromised in a run\\
-    \rowgroup{6}{Effectiveness} & & Suppression & the fraction of hosts reached that a defence removes, $1 - \bar{H}_{\mathrm{defence}} / \bar{H}_{\mathrm{no\ defence}}$: 0 for no effect, 1 for no host reached, negative if more hosts are reached\\
+    \multicolumn{3}{@{}l}{\emph{Attacker behaviour}} \\
+    \quad Time share per tactic & the share of the attacker's time spent in each tactic, pooled over its runs & adapted from \citep{outkin2022}; Section~\ref{sec:instrumenting} \\
+    \quad Attack path variation (APV) & for the first $k$ tactics of a run, the share of runs that differ from the attacker's most common first $k$ & adapted from \citep{hong2018}; Section~\ref{sec:instrumenting} \\
+    \quad Attack rate & the attacker's actions per 1\,000\,s of its active time & \citep{zhan2013}; Section~\ref{sec:instrumenting} \\
+    \quad Attack confidentiality & the share of the attacker's actions taken while a detector counting its recent actions is below its alarm level & adapted from \citep{zaffarano2015}; Section~\ref{sec:instrumenting} \\
     \midrule
-    & resource spent & Actions per host reached & the actions the attacker attempts for each distinct host it compromises; more is a costlier attack. Adapted from attempts required \citep{brown2023} \\
-    & & Successes per host reached & the actions that succeed for each distinct host compromised; more is a costlier attack\\
-    & & Time lost to MTD & the share of the run spent on activity a deployment interrupts, and in the delay that follows each interrupt\\
-    \rowgroup{4}{Efficiency} & & Share of run under reconfiguration & the share of the run in which a defence mechanism is deploying\\
+    \multicolumn{3}{@{}l}{\emph{Attack outcome}} \\
+    \quad Attack success probability (ASP) & the share of runs in which the attacker compromises a target host (Table~\ref{tab:attacker-objectives}) & \citep{cho2020} \\
+    \quad Network compromise ratio (NCR) & the share of the network's hosts compromised by the end of a run & \citep{zhang2023, ho2024} \\
+    \quad Mean time to compromise (MTTC) & the mean time from the start of a run to its first compromised host & \citep{mcqueen2006, zhang2023}; Section~\ref{sec:instrumenting} \\
+    \midrule
+    \multicolumn{3}{@{}l}{\emph{MTD effectiveness}} \\
+    \quad NCR reduction & $1 - \mathrm{NCR}_{\mathrm{defence}} / \mathrm{NCR}_{\mathrm{no\ defence}}$: 0 for no effect, 1 for no host compromised, negative if the defence helps the attacker & the mitigation factor of \citep{alavizadeh2022}, on NCR \\
+    \quad Attack actions blocked & the share of the attacker's actions that fail because something they need is no longer there & adapted from \citep{brown2023}; Section~\ref{sec:instrumenting} \\
+    \quad Recovery time & the time from a disruption to the attacker's next compromise, over its own mean time between compromises with no defence & Section~\ref{sec:instrumenting} \\
     \bottomrule
   \end{tabular}
 \end{table}
