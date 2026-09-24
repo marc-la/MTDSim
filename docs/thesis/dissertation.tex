@@ -240,7 +240,8 @@ yet it is rarely tested against one. Most tests run in simulation,
 against attacker models far simpler than an APT
 \citep{cho2020, jalowski2026}. None of the recent attacker models
 reviewed in Chapter~\ref{ch:litreview} fully captures an APT's
-persistence or its adaptation to the defender.
+persistence or its adaptation to the defender. This gap motivates the
+research question of this thesis:
 
 % The single-RQ decision (architecture (a)) is intact: the sub-questions
 % are methodological decomposition, not sub-problems.
@@ -271,8 +272,19 @@ persistence or its adaptation to the defender.
 %   the captured structure inside the simulator; and how MTD performance
 %   against the resulting attack model differs from its performance
 %   against the inherited scripted attacker."
-How does moving target defence (MTD) perform against advanced persistent
-threat (APT) attackers? This question decomposes into three sub-questions:
+% DISPLAYED 2026-09-24 (Marc; brief s15): overturns the 2026-08-21 "RQ as
+% thesis-body prose" ruling on layout only --- the First/Second/Third
+% scaffolding stays cut. Convention: the question is stated explicitly
+% after the problem; typography is house choice. Displayed (indented,
+% italic, no box, no "RQ" label: a single question needs no identifier)
+% so the sentence the conclusion answers is findable at a glance and the
+% one-question/three-part hierarchy shows in the layout. Lead-in closes P3
+% and names its antecedent ("this gap"). Acronyms bare: MTD and APT are
+% defined in P1-P2. RQ and SQ WORDING NOT YET REVISITED (Marc's next pass).
+\begin{quote}
+  \itshape How does MTD perform against APT attackers?
+\end{quote}
+\noindent The question decomposes into three sub-questions:
 \begin{enumerate}[label=SQ\arabic*, ref=SQ\arabic*, leftmargin=*,
                   widest=SQ3, nosep]
   \item\label{sq:capture} How is APT attacker behaviour captured, from
@@ -5183,7 +5195,7 @@ compromise ratio (NCR); mean time to compromise (MTTC).]}
 \label{subsec:metrics-effectiveness}
 
 \noindent\emph{[Definitions owed: NCR reduction; attack actions blocked;
-recovery time.]}
+time lost (with the NCR growth rate it is read from).]}
 
 % HEADING ADDED 2026-09-23 (Marc: "we're not going to draft [it] but I can put a
 % heading in"). Executes register E3 (every metric cited, or defined in the
@@ -6943,7 +6955,7 @@ execution schemes (Section~\ref{subsec:eff-under-defence}).]}
 % DRAFT STATE.
 Adaptivity is the one property that cannot be read from the runs with no
 defence, because it is what changes when a defence reaches the attacker.
-This subsection reads it at the tactic level under the seven mechanisms
+This subsection reads it under the seven mechanisms
 deployed alone, grouped by the layer each rewrites, at the 2\,000\,s
 deployment interval; the 200\,s interval is reported in the text where it
 differs. Its control is the same attacker with the failure matrix replaced by
@@ -7001,10 +7013,24 @@ runs are otherwise identical.
 % every condition and a one-condition fact for the baseline attacker (service
 % diversity 2.42x; port shuffle and OS diversity at its pace): the body must
 % say so, or the layer bar reads as a false aggregate.
+% REBUILT 2026-09-24 (Marc: "almost a complete write-off ... go back to the
+% basics"; "less is more"; every axis a defined metric; both attackers measured
+% by one rule). Takeaways R1-R3 and the full record: results context handoff
+% §8g-5. Data: data/results/ch5_defended/disruption.py -> disruption_numbers.json;
+% generator tools/ch5_disruption_figure.py. (a) NCR growth rate around a
+% deployment, relative to the attacker's own rate in the 750 s before (both
+% attackers anchored on the moment the rewrite lands, every deployment counted);
+% (b) time lost per deployment, per mechanism = the area of (a)'s dip, as seconds
+% at the attacker's own pace. The per-layer read of (a), the 200 s rates, the
+% refused-action share, the baseline's restart rule and the control are body
+% sentences (content points in §8g-5). "Time lost" replaces "recovery time"
+% (the quantity changed: the per-event wait to the next compromise failed on
+% censoring and on an unmatched reference) --- Marc's to overturn. Caption:
+% how to read it, no result. DRAFT STATE --- ratify on read.
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-2-2a_disruption_response}
-  \caption[How the attacker responds to a disruption]{(a)~Attack actions blocked: the share of the APT attacker model's steps at which the action it attempts fails because its precondition is not met, at each of the five steps before and the five after a disruption; the shaded step is the disruption's own and belongs to neither window. Pooled over the four profiles and over the conditions that deploy one mechanism of the layer alone, at the 2\,000\,s deployment interval; at 200\,s the next disruption lands inside the window of the last, so that interval is reported in the text. (b)~Recovery time: the time from a disruption to the attacker's next host compromise as a multiple of that attacker's own mean gap between compromises with no defence, per layer hit and pooled the same way, for both attackers: the mean over the recoveries that completed before the time limit, its 95\,\% bootstrap interval, the share that did not complete printed above each bar, and a hollow circle at each mechanism of the layer taken alone; the dashed line at one is the attacker's own pace. The mechanism that rewrites credentials disrupts the attacker fewer than once per run at this interval and is reported in the text.}
+  \caption[What an MTD deployment does to each attacker]{What an MTD deployment does to each attacker, at the 2\,000\,s deployment interval, for the APT attacker model on its four attack profiles pooled and for the baseline attacker. (a)~NCR growth rate from 750\,s before to 1\,750\,s after a deployment, as a percentage of the attacker's own rate before it, pooled over every deployment of the seven defence mechanisms run alone. (b)~Time lost to one deployment of each mechanism, with 95\,\% bootstrap intervals. Section~\ref{sec:evaluation-metrics} defines both metrics.}
   \label{fig:aio-adaptivity}
 \end{figure}
 

@@ -667,6 +667,44 @@ the reader can infer.
   - no CTI in ¶3.
 - The ~70 words saved return to the chapter budget.
 
+## 15. The RQ block (¶4): structure ruled and floated (2026-09-24)
+
+**The convention.** Every authority agrees on three things:
+
+- one question, stated explicitly, straight after the problem (Evans,
+  Gruba & Zobel; only 5 of 10 computing PhD introductions do so, per
+  Soler-Monreal);
+- the sub-questions as a labelled list that later chapters key to;
+- a link from the gap to the question.
+
+Typography is house choice. Boxes are rare, and the grey box was removed
+on 2026-08-21.
+
+**The ruled form (Marc):**
+
+- ¶3 closes on "This gap motivates the research question of this
+  thesis:".
+- The RQ is displayed: indented and italic, with no box and no "RQ" label.
+- "The question decomposes into three sub-questions:" follows.
+- SQ1–SQ3 stay as the labelled list.
+
+This overturns the 2026-08-21 "RQ as prose" ruling, on layout only. The
+First/Second/Third scaffolding stays cut. Marc's literature review
+displayed its RQ after "These observations motivate …", and it scored 77.
+
+**Also ruled:** bare acronyms in the RQ (MTD and APT are defined in ¶1
+and ¶2).
+
+**Next: the wording, Marc's feedback first.** The §6 fixes are still open:
+
+- "APTs" or "APT attackers" (the title says "APT attackers");
+- "How can" (design) against "How does" (empirical);
+- only vocabulary the reader already has (no "attack profiles", "campaign
+  intelligence", "traverses the captured structure" or "inherited
+  scripted attacker");
+- "attacker model", never "attack model";
+- where phase one of the evaluation lands (SQ2, or SQ3 widened).
+
 ## Validation gate
 
 The introduction is done when all of the following hold:
