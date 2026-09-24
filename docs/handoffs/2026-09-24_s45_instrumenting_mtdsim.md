@@ -6,18 +6,18 @@ parent: 2026-09-22_metrics_provenance_and_instrumentation.md (the metrics design
 evidence: ../sources/extractions/mtd_metric_catalogue.md (the verdict and the source behind every entry)
 ---
 
-# Define every metric in §4.5 *Instrumenting MTDSim* — in the formalism's symbols, with its source, and why where it is ours
+# Define every metric in §4.5 *Evaluation metrics* — in the formalism's symbols, with its source, and why where it is ours
 
 ## Goal
 
-§4.5 holds one definition per metric the evaluation reads — all ten of Table 5.2, the cited ones included — so that Table 5.2 only has to name them and a reader can place every one in the field. This is the convention the field follows and this thesis has adopted (`docs/workflows/literature_conventions.md` §d, anchored in hong2018, which defines its whole metric family in its method with equations, pp. 40–41). Marc, 2026-09-24: "we can define every single metric in the method and then that will make Table 5.2's job easier"; "results first, and then I'll backwards fit once I've got the complete list of metrics down"; "strictly defensible … so anyone reading the paper can be like, oh yeah, that's what they're doing."
+§4.5 holds one definition per metric the evaluation reads — all ten of Table 4.3, the cited ones included — so that the table only has to name them and a reader can place every one in the field. This is the convention the field follows and this thesis has adopted (`docs/workflows/literature_conventions.md` §d, anchored in hong2018, which defines its whole metric family in its method with equations, pp. 40–41). Marc, 2026-09-24: "we can define every single metric in the method and then that will make Table 5.2's job easier"; "results first, and then I'll backwards fit once I've got the complete list of metrics down"; "strictly defensible … so anyone reading the paper can be like, oh yeah, that's what they're doing."
 
 **Not this brief's job:** changing any metric, number or float (they landed 2026-09-24); the prose voice (Marc dictates; this brief supplies content points only).
 
 ## State of play
 
-- **§4.5 exists** (`\label{sec:instrumenting}`, after §4.4.4) with a placeholder and **one holder per metric under three class run-ins** — *Attacker behaviour*, *Attack outcome*, *MTD effectiveness* (`dissertation.tex`, the \textbf run-ins below the placeholder). The comment block under it still carries the 2026-09-23 content points; this brief supersedes them.
-- **Table 5.2** (`tables/tab_5-1b_metrics.tex`) is rebuilt to the ruled design: ten rows, three class header rows, every Source a citation or "Section 4.5".
+- **§4.5 is *Evaluation metrics*** (`\label{sec:evaluation-metrics}`, renamed 2026-09-24 from *Instrumenting MTDSim*), with a placeholder, the metrics table, and **three subsections, one per class** — *Attacker behaviour* (`subsec:metrics-behaviour`), *Attack outcome* (`subsec:metrics-outcome`), *MTD effectiveness* (`subsec:metrics-effectiveness`) — each holding a "definitions owed" placeholder. The older comment block with the 2026-09-23 content points sits below; this brief supersedes it.
+- **The metrics table moved into §4.5** (Table 5.2 → **Table 4.3**, `tables/tab_4-5a_metrics.tex`, label `tab:metrics` kept): Class · Metric · Source, the class a level first column, no definition column — the definitions are this brief's job. §5.1 now only points to it.
 - **§5.2's floats and §5.3's labels** carry these metrics (Figure 5.1's three panels, Table 5.3; NCR reduction, attack actions blocked, recovery time in §5.3). Numbers are 100 seeds until the 1 000-seed run.
 - **Appendix C** has the owed sweep's section, `app:detector-memory`, as a placeholder.
 - **Bib:** `zhan2013`, `pendleton2016`, `ward2018`, `jafarian2015` added (names as the sources print them; `pendleton2016`'s wording to confirm in the published version). Every other source below is already in the bib.
