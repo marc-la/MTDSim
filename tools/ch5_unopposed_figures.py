@@ -150,96 +150,163 @@ TACTICS = (
 TWO_LINE = {p: LABEL[p] for p in FOUR}  # column heads: the codes, one line
 
 
+NO_ACTION = {"resource-development", "persistence", "stealth", "defense-impairment",
+             "collection", "exfiltration", "impact"}  # §4.4.3: dwell-only, dispatch no verb
+# the baseline attacker's activities placed on the tactic whose verb each is (§4.4.3);
+# EXPLOIT_VULN serves three tactics and is shown once in each, marked
+VERB_TACTIC = {"SCAN_HOST": ("reconnaissance",), "ENUM_HOST": ("lateral-movement",),
+               "SCAN_PORT": ("discovery",), "BRUTE_FORCE": ("credential-access",),
+               "SCAN_NEIGHBOR": ("command-and-control",),
+               "EXPLOIT_VULN": ("initial-access", "execution", "privilege-escalation")}
+HEAT = ((255, 255, 204), (253, 141, 60), (189, 0, 38))  # sequential, light to dark (E8: colour)
+
+
+def heat(u: float) -> tuple[str, bool]:
+    """Fill for a share scaled to [0, 1]; True when the text should be white."""
+    u = max(0.0, min(1.0, u))
+    a, b, f = (HEAT[0], HEAT[1], u / 0.5) if u <= 0.5 else (HEAT[1], HEAT[2], (u - 0.5) / 0.5)
+    rgb = [round(x + (y - x) * f) for x, y in zip(a, b)]
+    return "{rgb,255:red,%d;green,%d;blue,%d}" % tuple(rgb), u > 0.62
+
+
 def emit_fig_a(core: dict) -> tuple[str, dict]:
-    """Panel (a): where each profile spends its steps, as the share of steps in
-    each named tactic (the distribution the divergence matrix summarises).
-    Panel (b): the share of runs that have left the attacker's most common
-    opening, against the opening's length, over the lengths the baseline
-    attacker's six activities cover; the baseline measured. One unit, the step,
-    carries both panels."""
-    t = core["table"]
-    visit = {p: t[p]["tactic_visit_share"] for p in FOUR}
-    unknown = {k for p in FOUR for k in visit[p]} - {k for k, _ in TACTICS}
+    """Figure 5.1, three panels, one per attacker-behaviour metric of Table 5.2
+    (the metrics design, 2026-09-24): (a) time share per tactic, a colour heat
+    map with the baseline attacker's activities placed on their tactics; (b)
+    attack path variation, bars by opening length; (c) attack confidentiality
+    against the alarm level, lines."""
+    m = core["metrics"]
+    share = {p: m[p]["time_share"] for p in FOUR}
+    unknown = {k for p in FOUR for k in share[p]} - {k for k, _ in TACTICS}
     if unknown:
         raise SystemExit(f"tactics in the corpus with no row in TACTICS: {sorted(unknown)}")
-    left = {p: {k: 1.0 - v for k, v in t[p]["commonest_opening_share"].items()} for p in (*FOUR, "baseline")}
-    kmax = max(int(k) for k in left["baseline"])
-    vmax = max(v for p in FOUR for v in visit[p].values())
-
-    # geometry (cm)
-    cw, ch = 1.45, 0.5
-    LAB = 3.45
-    n_r = len(TACTICS)
-    MY0 = 0.0
-    MY1 = MY0 + n_r * ch
-    XB0, XB1 = 11.3, 15.6
-    YB1 = MY1 - 0.1
-    YB0 = YB1 - 4.9
-
-    def yb(v):
-        return YB0 + v * (YB1 - YB0)
-
-    def xb(k):
-        return XB0 + (k - 1) / (kmax - 1) * (XB1 - XB0)
+    base = {}
+    for verb, v in m["baseline"]["time_share"].items():
+        for tac in VERB_TACTIC[verb]:
+            base[tac] = v
+    SERIES = (*FOUR, "baseline")
+    apv = {p: m[p]["apv"] for p in SERIES}
+    kmax = max(int(k) for k in apv["baseline"])
+    conf = {p: m[p]["confidentiality"] for p in SERIES}
+    vmax = max(v for p in FOUR for v in share[p].values())  # the baseline saturates past it; the number is printed
 
     L: list[str] = []
     w = L.append
     L += PREAMBLE
     w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=%s}]" % FONT)
-    # panel (a): the matrix
-    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (0,%.3f) {(a)};" % (MY1 + 0.3))
-    for j, p in enumerate(FOUR):
-        w(r"\node[anchor=south,align=center] at (%.3f,%.3f) {%s};" % (LAB + (j + 0.5) * cw, MY1 + 0.1, TWO_LINE[p]))
+
+    # ---- (a) the heat map ---------------------------------------------------
+    cw, ch, LAB, GAP = 1.2, 0.5, 3.45, 0.15
+    n_r = len(TACTICS)
+    MY0 = 4.8
+    MY1 = MY0 + n_r * ch
+    cols = [(p, LAB + j * cw) for j, p in enumerate(FOUR)] + [("baseline", LAB + len(FOUR) * cw + GAP)]
+    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (0,%.3f) {(a)};" % (MY1 + 0.45))
+    for p, x in cols:
+        head = LABEL[p] if p != "baseline" else r"baseline\\attacker"
+        w(r"\node[anchor=south,align=center] at (%.3f,%.3f) {%s};" % (x + cw / 2, MY1 + 0.08, head))
     for i, (key, name) in enumerate(TACTICS):
         y = MY1 - (i + 1) * ch
-        w(r"\node[anchor=east] at (%.3f,%.3f) {%s};" % (LAB - 0.15, y + ch / 2, name))
-        for j, p in enumerate(FOUR):
-            x = LAB + j * cw
-            v = visit[p].get(key)
-            if v is None:  # not a tactic of this profile
+        w(r"\node[anchor=east] at (%.3f,%.3f) {%s};" % (LAB - 0.15, y + ch / 2,
+          r"\textit{%s}" % name if key in NO_ACTION else name))
+        for p, x in cols:
+            v = share[p].get(key) if p != "baseline" else base.get(key)
+            if v is None:
                 w(r"\node[text=black!45] at (%.3f,%.3f) {---};" % (x + cw / 2, y + ch / 2))
             else:
-                shade = int(round(70 * v / vmax))
-                w(r"\fill[black!%d] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (shade, x, y, cw, ch))
-                txt = "0" if v == 0 else ("$<$1" if v < 0.005 else "%d" % round(100 * v))
-                w(r"\node[text=%s] at (%.3f,%.3f) {%s};" % ("white" if shade >= 45 else "black", x + cw / 2, y + ch / 2, txt))
+                fill, white = heat(v / vmax)
+                w(r"\fill[fill=%s] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (fill, x, y, cw, ch))
+                txt = "0" if v == 0 else (r"$<$1" if v < 0.005 else "%d" % round(100 * v))
+                if p == "baseline" and key in VERB_TACTIC["EXPLOIT_VULN"]:
+                    txt += r"\textsuperscript{\dag}"
+                w(r"\node[text=%s] at (%.3f,%.3f) {%s};" % ("white" if white else "black", x + cw / 2, y + ch / 2, txt))
             w(r"\draw[white,line width=0.8pt] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (x, y, cw, ch))
     w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (LAB, MY0, LAB + len(FOUR) * cw, MY1))
-    w(r"\node[anchor=north,text=black!60] at (%.3f,%.3f) {share of the profile's steps (\%%)};" % (LAB + len(FOUR) * cw / 2, MY0 - 0.12))
+    xb = cols[-1][1]
+    w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xb, MY0, xb + cw, MY1))
+    w(r"\node[anchor=north] at (%.3f,%.3f) {share of the attacker's time (\%%)};" % ((LAB + xb + cw) / 2, MY0 - 0.12))
 
-    # panel (b): departure from the most common opening
-    axes(w, XB0, XB1, YB0, YB1,
-         xticks=[(k, xb(k)) for k in range(1, kmax + 1)],
-         yticks=[(v, yb(v / 100)) for v in range(0, 101, 25)],
-         xlabel="length of the opening (steps)", ylabel="")
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {runs that have left the\\most common opening (\%%)};" % (XB0 - 0.8, (YB0 + YB1) / 2))
-    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (%.3f,%.3f) {(b)};" % (XB0 - 1.75, MY1 + 0.3))
-    pts = [(xb(k), yb(left["baseline"][str(k)])) for k in range(1, kmax + 1)]
-    w(r"\draw[cbase,line width=0.9pt,dash pattern=on 2.5pt off 1.5pt] %s;" % " -- ".join("(%.3f,%.3f)" % q for q in pts))
-    for p in FOUR:
-        pts = [(xb(k), yb(left[p][str(k)])) for k in range(1, kmax + 1)]
-        w(r"\draw[%s,line width=0.6pt] %s;" % (CNAME[p], " -- ".join("(%.3f,%.3f)" % q for q in pts)))
-        for x, y in pts:
-            marker(w, MARK[p], CNAME[p], x, y)
-    # key, under (b)
-    KX0 = XB0 - 0.6
-    ky = YB0 - 1.2
-    for p in FOUR:
-        w(r"\draw[%s,line width=0.6pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (CNAME[p], KX0, ky, KX0 + 0.7, ky))
-        marker(w, MARK[p], CNAME[p], KX0 + 0.35, ky)
-        w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (KX0 + 0.85, ky, LABEL[p]))
-        ky -= 0.42
-    w(r"\draw[cbase,line width=0.9pt,dash pattern=on 2.5pt off 1.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (KX0, ky, KX0 + 0.7, ky))
-    w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (KX0 + 0.85, ky, LABEL["baseline"]))
+    # ---- (b) attack path variation: horizontal bars beside the heat map -----------
+    XB0, XB1 = 11.4, 15.35
+    YB0, YB1 = MY0, MY1 - 0.05
+    gh = (YB1 - YB0) / kmax
+    bh = gh * 0.8 / len(SERIES)
+
+    def xbv(v):
+        return XB0 + v * (XB1 - XB0)
+
+    def ygroup(k):  # length 1 at the top
+        return YB1 - (k - 0.5) * gh
+
+    w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (XB0, YB0, XB1, YB0))
+    w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (XB0, YB0, XB0, YB1))
+    for v in range(0, 101, 25):
+        x = xbv(v / 100)
+        w(r"\draw[black!60,line width=0.3pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x, YB0, x, YB0 - 0.07))
+        if v:
+            w(r"\draw[black!12,line width=0.2pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x, YB0, x, YB1))
+        w(r"\node[anchor=north] at (%.3f,%.3f) {%d};" % (x, YB0 - 0.1, v))
+    w(r"\node[anchor=north,align=center] at (%.3f,%.3f) {runs off the most\\common opening (\%%)};" % ((XB0 + XB1) / 2, YB0 - 0.5))
+    for k in range(1, kmax + 1):
+        top = ygroup(k) + len(SERIES) * bh / 2
+        w(r"\node[anchor=east] at (%.3f,%.3f) {%d};" % (XB0 - 0.1, ygroup(k), k))
+        for n, p in enumerate(SERIES):
+            v = apv[p][str(k)]
+            if v > 0:
+                w(r"\fill[%s] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (CNAME[p], XB0, top - (n + 1) * bh, v * (XB1 - XB0), bh * 0.92))
+    w(r"\node[rotate=90,anchor=south] at (%.3f,%.3f) {length of the opening};" % (XB0 - 0.45, (YB0 + YB1) / 2))
+    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (%.3f,%.3f) {(b)};" % (XB0 - 0.9, MY1 + 0.45))
+
+    # ---- (c) attack confidentiality, full width underneath ---------------------------
+    XC0, XC1, YC0, YC1 = 1.3, 11.0, 0.0, 3.0
+    th = conf["baseline"]["theta"]
+    t0, t1 = th[0], th[-1]
+
+    def xc(v):
+        return XC0 + (v - t0) / (t1 - t0) * (XC1 - XC0)
+
+    def yc(v):
+        return YC0 + v * (YC1 - YC0)
+
+    axes(w, XC0, XC1, YC0, YC1,
+         xticks=[(v, xc(v)) for v in range(int(t0), int(t1) + 1)],
+         yticks=[(v, yc(v / 100)) for v in range(0, 101, 25)],
+         xlabel="alarm level", ylabel="")
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {actions below\\the alarm (\%%)};" % (XC0 - 0.8, (YC0 + YC1) / 2))
+    w(r"\node[anchor=south west,font=\footnotesize\bfseries] at (0,%.3f) {(c)};" % (YC1 + 0.35))
+    for p in SERIES:
+        pts = [(xc(a), yc(b)) for a, b in zip(th, conf[p]["mean"])]
+        style = ("cbase,line width=0.9pt,dash pattern=on 2.5pt off 1.5pt" if p == "baseline"
+                 else "%s,line width=0.6pt" % CNAME[p])
+        w(r"\draw[%s] %s;" % (style, " -- ".join("(%.3f,%.3f)" % q for q in pts)))
+        if p != "baseline":
+            for a, b in zip(th, conf[p]["mean"]):
+                if abs(a - round(a)) < 1e-9:
+                    marker(w, MARK[p], CNAME[p], xc(a), yc(b))
+    # key, right of (c); shared by all three panels' series
+    KX0, ky = 12.0, YC1 - 0.1
+    for p in SERIES:
+        col = CNAME[p]
+        w(r"\fill[%s] (%.3f,%.3f) rectangle ++(0.22,0.22);" % (col, KX0, ky - 0.11))
+        if p == "baseline":
+            w(r"\draw[cbase,line width=0.9pt,dash pattern=on 2.5pt off 1.5pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (KX0 + 0.35, ky, KX0 + 1.0, ky))
+        else:
+            w(r"\draw[%s,line width=0.6pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (col, KX0 + 0.35, ky, KX0 + 1.0, ky))
+            marker(w, MARK[p], col, KX0 + 0.675, ky)
+        w(r"\node[anchor=west] at (%.3f,%.3f) {%s};" % (KX0 + 1.1, ky, LABEL[p]))
+        ky -= 0.55
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
 
+    no_action = {LABEL[p]: sum(v for k, v in share[p].items() if k in NO_ACTION) for p in FOUR}
+    j2 = th.index(2.0)
     facts = {
-        "visit_share_top": {LABEL[p]: max(visit[p].items(), key=lambda kv: kv[1]) for p in FOUR},
-        "held_never_entered": {LABEL[p]: [k for k, v in visit[p].items() if v == 0] for p in FOUR},
-        "left_commonest_at_kmax": {LABEL[p]: left[p][str(kmax)] for p in (*FOUR, "baseline")},
-        "tactics_held": {LABEL[p]: len(visit[p]) for p in FOUR},
-        "kmax": kmax, "nruns": t[FOUR[0]]["n"],
+        "time_share_top": {LABEL[p]: max(share[p].items(), key=lambda kv: kv[1]) for p in FOUR},
+        "time_share_no_action": no_action,
+        "baseline_time_share_by_verb": m["baseline"]["time_share"],
+        "apv_at_kmax": {LABEL[p]: apv[p][str(kmax)] for p in SERIES},
+        "confidentiality_at_alarm_2": {LABEL[p]: conf[p]["mean"][j2] for p in SERIES},
+        "kmax": kmax, "nruns": core["table"][FOUR[0]]["n"], "tau": core["detector"]["tau"],
     }
     return "\n".join(L) + "\n", facts
 
@@ -249,39 +316,42 @@ def _pm(iv: dict, nd: int = 1) -> str:
 
 
 def emit_table(core: dict) -> str:
-    """The no-defence reference (takeaway T4, results context §8e): Table 5.2's
-    effectiveness metrics at no defence, per attacker. Every column is a Table
-    5.2 term, so the table carries no footnote; the columns that repeated
-    Figure 5.1 (distinct tactics, the commonest opening), path entropy, the
-    §5.4 cost metric and the ending column (one minus target reached) were cut
-    on Marc's ruling, 2026-09-21."""
+    """Table 5.3 (the metrics design, 2026-09-24): the attack-outcome class of
+    Table 5.2 in the field's names (ASP, NCR, MTTC) and, beside it as E4 asked,
+    the attack rate — the numbers that read the model as weaker next to the one
+    that says why. Attack confidentiality is Figure 5.1(c)'s, not repeated here."""
+    m = core["metrics"]
     t = core["table"]
+    worst_none = max(m[p]["outcome"]["no_compromise_share"] for p in (*PROFILES, "baseline"))
     L: list[str] = []
     w = L.append
     w("% GENERATED by tools/ch5_unopposed_figures.py from")
     w("%   data/results/ch5_s531_unopposed/numbers.json (the no-defence corpus,")
     w("%%   %d runs per attacker, %d s horizon). Do not hand-edit; regenerate." % (t[PROFILES[0]]["n"], core["horizon"]))
+    w("% Rebuilt 2026-09-24 on the metrics design (Table 5.2's names and classes).")
     w("% Caption session-written, how-to-read only. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[htbp]")
     w(r"  \centering")
-    w(r"  \caption[Both attackers with no defence running]{Four of the effectiveness metrics of Table~\ref{tab:metrics} with no defence running, under the network and time limit of Table~\ref{tab:experiment}, for the APT attacker model on each attack profile and on the aggregate, and for the baseline attacker. Hosts reached and delay to first compromise are means with a 95\,\% interval, the delay over the runs that compromise a host; the other two columns are shares of runs.}")
+    w(r"  \caption[Both attackers with no defence running]{The attack outcome and the attack rate of Table~\ref{tab:metrics} with no defence running, under the network, attack scenario and time limit of Table~\ref{tab:experiment}, for the APT attacker model on each attack profile and on the aggregate, and for the baseline attacker. ASP is a share of runs; the others are means with a 95\,\%% interval. MTTC is over the runs that compromise a host, which is all but at most %d\,\%% of any attacker's.}" % round(100 * worst_none))
     w(r"  \label{tab:unopposed-summary}")
     w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")
-    w(r"  \begin{tabular}{@{}P{4.2cm}*{4}{>{\centering\arraybackslash}p{2.5cm}}@{}}")
+    w(r"  \begin{tabular}{@{}P{4.0cm}*{4}{>{\centering\arraybackslash}p{2.6cm}}@{}}")
     w(r"    \toprule")
-    w(r"    Attacker & Hosts reached (of 50) & Target reached & Delay to first compromise (s) & Runs with no compromise \\")
+    w(r"    & \multicolumn{3}{c}{Attack outcome} & Attacker behaviour \\")
+    w(r"    \cmidrule(lr){2-4}\cmidrule(l){5-5}")
+    w(r"    Attacker & ASP & NCR & MTTC (s) & Attack rate (per 1\,000\,s) \\")
     w(r"    \midrule")
 
-    def row(name: str, r: dict) -> str:
-        d = r["delay"]
-        return "    %s & %s & %.2f & %s & %.2f \\\\" % (
-            name, _pm(r["hosts"]), r["target_reach"], _pm(d["observed"], 0), d["no_compromise_share"])
+    def row(name: str, p: str) -> str:
+        o = m[p]["outcome"]
+        return "    %s & %.2f & %s & %s & %s \\\\" % (
+            name, o["asp"], _pm(o["ncr"], 2), _pm(o["mttc"]["observed"], 0), _pm(m[p]["attack_rate"], 1))
 
     w(r"    \emph{%s} & & & & \\" % LABEL["movement"])
     for p in PROFILES:
-        w(row(r"\quad " + LABEL[p], t[p]))
+        w(row(r"\quad " + LABEL[p], p))
     w(r"    \midrule")
-    w(row(r"\emph{baseline attacker}", t["baseline"]))
+    w(row(r"\emph{baseline attacker}", "baseline"))
     w(r"    \bottomrule")
     w(r"  \end{tabular}")
     w(r"\end{table}")
@@ -332,12 +402,12 @@ def main() -> None:
         a, b = k.split("|")
         if a < b:
             print(f"  {LABEL[a].strip('$'):8s} {LABEL[b].strip('$'):8s} {c['jsd']:.3f}  absent-tactic share {c['absent_tactic_share']:.2f}")
-    t = core["table"]
+    m = core["metrics"]
     for p in (*PROFILES, "baseline"):
-        r = t[p]
-        print(f"  {LABEL[p].strip('$'):8s} hosts {r['hosts']['mean']:.2f}±{r['hosts']['ci95']:.2f}  target {r['target_reach']:.2f}  "
-              f"delay {r['delay']['observed']['mean']:.0f}±{r['delay']['observed']['ci95']:.0f}  "
-              f"no compromise {r['delay']['no_compromise_share']:.2f}")
+        o = m[p]["outcome"]
+        print(f"  {LABEL[p].strip('$'):18s} ASP {o['asp']:.2f}  NCR {o['ncr']['mean']:.3f}  "
+              f"MTTC {o['mttc']['observed']['mean']:.0f}  none {o['no_compromise_share']:.2f}  "
+              f"rate {m[p]['attack_rate']['mean']:.1f}")
     if not args.no_compile:
         compile_fig(STEM_A)
 

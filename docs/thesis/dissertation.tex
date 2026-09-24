@@ -6367,7 +6367,7 @@ Section~\ref{sec:effectiveness} reports against.]}
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-2-1a_campaign_openings}
-  \caption[Where each profile's steps fall, and how soon runs leave the most common opening]{With no defence running. A step is one tactic entered by an attack profile, or one phase entered by the baseline attacker. Panel~(a), attack profiles only: the share of each profile's steps, in per cent and pooled over its runs, that fall in each tactic, so that each column sums to 100; rows follow the order in which Chapter~\ref{ch:attacker-model} lists the tactics and not the order in which a run enters them. A dash marks a tactic the profile does not contain, a zero one it contains and never entered, and $<$1 a share below one per cent. Panel~(b): an opening is the first steps of a run, in order; for each length, the panel gives the share of runs whose opening differs from the most common opening of that length for the same attacker. Zero means every run opens the same way, and a line cannot fall, because a run that has left the most common opening does not rejoin it.}
+  \caption[Where each attacker spends its time, how its runs vary, and how much of its activity a detector would miss]{With no defence running, for the APT attacker model on each attack profile and for the baseline attacker. (a)~Time share per tactic: the share of the attacker's time spent in each tactic, in per cent, pooled over its runs, so that each column sums to 100. The baseline attacker's six activities are placed on the tactic whose verb each is (Section~\ref{subsec:tactic-verb-mapping}); its exploit activity serves three tactics and is shown in each ($\dagger$). Tactics in italics take no action. A dash marks a tactic the attacker does not have, and a zero one it has and spends no time in; colour is scaled to the attack profiles, and the baseline attacker's exploit cells lie beyond it. (b)~Attack path variation: for each opening length, the share of runs whose first tactics differ from the attacker's most common opening of that length. (c)~Attack confidentiality: the share of the attacker's actions taken while a detector that counts its recent actions, each fading over about a minute, is below the alarm level on the axis. Section~\ref{sec:instrumenting} defines each.}
   \label{fig:aio-coverage}
 \end{figure}
 
@@ -6534,6 +6534,16 @@ Section~\ref{sec:effectiveness} reports against.]}
 % PROFILE CODES APPLIED 2026-09-22 (Marc's ruling): chapter 4 §4.3 now indexes
 % the four as $c_1$ to $c_4$ and names the aggregate $c_{\mathrm{agg}}$; every
 % chapter 5 float keys by code (tools/_ch5_style.py LABEL).
+% REBUILT 2026-09-24 ON THE METRICS DESIGN (docs/handoffs/2026-09-22_metrics_provenance_and_instrumentation.md
+% §4): Figure 5.1 is three panels, one per attacker-behaviour metric --- (a) time
+% share per tactic with the baseline attacker's column, (b) attack path
+% variation, (c) attack confidentiality --- and Table 5.3 carries ASP, NCR, MTTC
+% and the attack rate. The content points in the comments above predate it and
+% name the old columns; the body's four points are in that handoff's §4, and every
+% number here is 100 seeds until the 1 000-seed run. An action, for the stealth
+% pair, is a verb that runs: a blocked verb never touches the network
+% (movement/attacker.py:896), and counting it would put c_4 level with the
+% baseline attacker (numbers.json: attack_rate_counting_blocked); §4.5 states it.
 \input{tables/tab_5-2-1a_unopposed_summary}
 
 
