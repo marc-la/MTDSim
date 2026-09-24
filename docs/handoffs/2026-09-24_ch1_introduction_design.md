@@ -631,6 +631,42 @@ Bland, Outkin). It is ch3's, and ¶5's approach shows it implicitly.
   ¶3 at the abstract's level and calls back to ¶1. CTI is then defined at
   ¶5 or SQ1. Recommended: threat reports here.
 
+### 14.5 Accepted and floated (2026-09-24): the second design
+
+> MTD has been proposed as a defence against APTs (alshamrani2019), yet
+> it is rarely tested against one. Most tests run in simulation, against
+> attacker models far simpler than an APT (cho2020; jalowski2026). None
+> of the recent attacker models reviewed in Chapter 3 fully captures an
+> APT's persistence or its adaptation to the defender.
+
+About 60 words, against the 130 budgeted.
+
+**The first design (§14.2–§14.4) was rejected.** Marc's verdict: "a lot of
+words for very little meaning". What failed:
+
+- The opener was cryptic. "That advantage … like Volt Typhoon" hid that
+  the subject is MTD against APTs.
+- The inference chain was spelled out step by step, to the point of saying
+  nothing.
+- "Hard to build" contradicts the thesis, which builds one.
+
+**The lesson for the remaining paragraphs:** one idea per sentence, with
+the subject named outright (MTD, APTs) and nothing walked through that
+the reader can infer.
+
+**Consequences:**
+
+- "Why it is hard" is out of ¶3. If kept, it lives in ¶5 as the
+  approach's answer (analyst-curated Attack Flows), never as difficulty.
+- The reconnaissance inference is left to the reader. ¶2 sets it up and
+  S3 triggers it.
+- D14-1 through D14-4 are resolved:
+  - "attacker model" is used without a definition;
+  - Jalowski is not quoted;
+  - no timing;
+  - no CTI in ¶3.
+- The ~70 words saved return to the chapter budget.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:

@@ -222,6 +222,26 @@ credentials and reconnaissance go out of date even if the attacker is
 never detected \citep{cho2020}. It aims to shift the advantage of time
 from the attacker to the defender \citep{ghosh2009nitrd, zhuang2012}.
 
+% P3 --- the problem (brief s14). ACCEPTED 2026-09-24 (Marc), second
+% design. The first (five slots, ~120 words: simulation -> attacker model
+% defined -> scan-and-exploit -> the reconnaissance inference -> "hard to
+% build") was REJECTED as "a lot of words for very little meaning": cryptic
+% opener ("that advantage ... like Volt Typhoon" hid that the subject is
+% MTD against APTs), the inference chain spelled out, and "hard to build"
+% contradicted by the thesis building one. Redesign: one idea per sentence
+% --- the gap, its cause, what exactly is missing. Alshamrani files MTD
+% under APT countermeasures (Sec. IV-C-2-B); persistence and adaptation are
+% ch3 properties 1 and 4; "fully" because the MTDSim lineage scores partial
+% on both. "Why it is hard" CUT from P3; if kept, it goes to P5 as the
+% approach's answer (analyst-curated Attack Flows), not as difficulty. ~60
+% words.
+MTD has been proposed as a defence against APTs \citep{alshamrani2019},
+yet it is rarely tested against one. Most tests run in simulation,
+against attacker models far simpler than an APT
+\citep{cho2020, jalowski2026}. None of the recent attacker models
+reviewed in Chapter~\ref{ch:litreview} fully captures an APT's
+persistence or its adaptation to the defender.
+
 % The single-RQ decision (architecture (a)) is intact: the sub-questions
 % are methodological decomposition, not sub-problems.
 % Grey box removed, RQ stated as thesis-body prose (Marc, 2026-08-21): the
