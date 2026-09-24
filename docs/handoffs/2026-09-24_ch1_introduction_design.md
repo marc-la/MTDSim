@@ -557,6 +557,80 @@ here. What moved clarity was structure, not wording:
 - Cho §IX-A adds that "how much those can be applicable in practice still
   remained unclear" — a possible hinge into the attacker-model gap.
 
+## 14. Paragraph 3: the design and its slots (2026-09-24; for Marc's acceptance)
+
+### 14.1 Context, audience, purpose
+
+**Context.** ¶2 ends on MTD's *aim*: to shift the advantage of time from
+the attacker to the defender. The RQ block follows ¶3 directly (§11), so
+¶3 sits between an aim and a question. It must turn one into the other.
+
+**Audience.** The same non-security CS examiner who read ¶1–¶2. They now
+know what an APT is, what MTD does and what it is for. They do not know
+how MTD is tested, and have no reason yet to doubt that it works.
+
+**Purpose (CARS M2, the niche).** The claim is that whether MTD achieves
+its aim against an attacker like Volt Typhoon has not been measured,
+because evaluations test it against simulated attackers that have
+nothing for MTD to take. The paragraph closes on why that attacker is
+hard to build. The examiner should finish it asking the RQ themselves.
+
+**The wisdom it has to surface.** A simple attacker is not just
+unrealistic; it cannot show the value MTD claims. MTD's value is making
+the attacker's reconnaissance and stolen credentials go stale, and an
+attacker that carries none forward has nothing to lose
+(alshamrani2019 Sec. IV-C-2-B, as ch3 §3.3.3 uses it). That is the step a
+reader would not supply for themselves.
+
+### 14.2 The shape: claim first, then the chain of reasons
+
+Two orders are possible:
+
+- **Build-up (funnel):** MTD is tested in simulation → with a simulated
+  attacker → those attackers are simple → so the aim is unmeasured. The
+  gap arrives in the fourth sentence.
+- **Claim first (recommended):** the gap as S1, answering ¶2's "aims"
+  directly, then the reasons. This closes the ¶2→¶3 seam in the way the
+  causal-link opener closed the ¶1→¶2 seam in the cold-reader rounds (§13.1),
+  and it follows voice.md's claim-first rule.
+
+The "why hard" step comes last, not before the gap, because its two
+halves map onto SQ1 (capture from reports) and SQ2 (make it run in the
+simulator). The RQ block then lands on the reader's own question.
+
+One paragraph, not two: the ruled budget is 130 words, and splitting it
+would make the gap and its difficulty read as separate points.
+
+### 14.3 Slots (about 130 words, five sentences)
+
+| Slot | Job | Facts / citation | Ceiling |
+|---|---|---|---|
+| S1 | The gap, as the answer to ¶2's "aims" | ch3 §3.3.3: performance against an attacker with a foothold "remains unmeasured" | Scoped: to the evaluations surveyed (forward ref Chapter 3), or to the field as the two surveys diagnose it. Never "nobody". An attacker *like* Volt Typhoon, never Volt Typhoon itself |
+| S2 | How MTD is tested: in simulation, against a simulated attacker; the *attacker model* named here | cho2020: simulation is the dominant method; enterprise MTD "mainly validated based on simulation models" (Sec. IX-A) | "Attacker model" defined plainly in apposition (decision D14-1). The domain list (cloud, IoT, SDN …) is cut: it has no job here |
+| S3 | What those attacker models lack: no reconnaissance or credentials carried from one stage to the next; no adaptation | jalowski2026 p. 8, "the most glaring flaw in the MTD literature" (quote option, D14-2); ch3 Table 3.3 | "Scripted" or "simple", never "weak" (seminar ruling: the baseline reaches more hosts sooner). No paper named as at fault |
+| S4 | The wisdom: why that matters. An attacker with nothing to lose cannot show what MTD takes | alshamrani2019 Sec. IV-C-2-B | Reuse ¶2's exact words, *reconnaissance* and *stolen credentials* (one name per thing). "Cannot show", not "overstates" (overstating is ch3's claim, one step further than ch1 needs) |
+| S5 | Why it is hard: threat reports say what an attacker did, not the order and preconditions a simulator needs; the simulator's attacker acts through a small fixed set of actions | ferraz2026 (CTI "routinely omits the sequencing, preconditions, and dependencies"); the action set is ch2 §2.2.3 | Callback to ¶1's advisory as the kind of report. *Timing* only if cited: ferraz does not carry it (D14-3). May split into two sentences if it runs past about 30 words |
+
+**Cut, not in ¶3:** the "means exist next door" step (attack profiling,
+Bland, Outkin). It is ch3's, and ¶5's approach shows it implicitly.
+
+### 14.4 Decisions for Marc
+
+- **D14-1: the name for the simulated attacker.** *Attacker model*,
+  defined once here, pays forward to "APT attacker model" in ¶5 and to
+  chapter 4's title. The alternative, *simulated attacker*, is plainer
+  but gives ¶5 a second term to introduce. Recommended: attacker model.
+  The *baseline attacker*, MTDSim's own, stays in ¶5 (§6).
+- **D14-2: quote Jalowski or paraphrase.** The quote carries the field's
+  own verdict at landmark strength, in six words. Recommended: quote.
+- **D14-3: timing in S5.** It is true of the corpus (ch4's dwell times had
+  to come from breach-report statistics), but no source is on hand for
+  "reports rarely give timing". Drop it, or forward-reference ch4.
+  Recommended: drop.
+- **D14-4: "threat reports" or CTI in ¶3.** Plain "threat reports" keeps
+  ¶3 at the abstract's level and calls back to ¶1. CTI is then defined at
+  ¶5 or SQ1. Recommended: threat reports here.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:
