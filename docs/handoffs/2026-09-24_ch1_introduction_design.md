@@ -705,6 +705,59 @@ and ¶2).
 - "attacker model", never "attack model";
 - where phase one of the evaluation lands (SQ2, or SQ3 widened).
 
+### 15.1 Evidence for the wording (2026-09-24; two surveys)
+
+**The corpus.** 13 documents in `docs/sources/` state explicit RQs.
+
+- **Lead-in.** Nearly all say "the following research questions".
+  Ferraz uses the motivation form: "This framing motivates the research
+  questions of this study:".
+- **Number and layout.** Two to four RQs, as a displayed list with labels.
+- **Question forms.**
+  - Design questions open "How can / How do we" (Ferraz RQ2, Rahman RQ1,
+    Chen), and the next question applies what was built (Rahman RQ2).
+  - Comparisons are carried either by "How does X compare" or by a
+    hypothesis (Ferguson-Walter H1–H4; Holm RQ3 becomes H1).
+- **Answering by label.** Seven documents answer each RQ by its label.
+- **One main question with sub-questions is rare.** Bland nests 1.1 and
+  2.1; Bompos, an NPS MSc thesis, has a primary and a secondary question.
+- **Closest MTD match.** Torquato 2022 (ISSRE, MTD by stochastic Petri
+  net).
+
+**The advice** (verified unless marked):
+
+- **Question type, result and validation go together.** Shaw 2003,
+  Table 1: "How can we do/create … X?" is a development question, and
+  "How does X compare to Y?" is an evaluation question (p. 727). The type
+  must match its result and validation (pp. 733–734). Terms must be
+  defined and used consistently (p. 730).
+- **Undefined terms make a question vague.** Easterbrook et al. 2008:
+  "efficiency (measured how?)" (p. 3). Causality-comparative questions
+  take the form "Does X cause more Y than does Z?" (p. 4). Design
+  questions presuppose the knowledge questions have been answered
+  (pp. 4–5).
+- **Design problems and knowledge questions must be told apart.**
+  Wieringa 2009, [G1]: stating a design problem as a knowledge question
+  "is bound to create methodological trouble" (p. 1). The design-problem
+  template and "(re)design a research instrument" come from the 2016
+  slides.
+- **Scope what can be tested.** Zobel 2004: a question must be scoped
+  to what can feasibly be tested, and vague claims fail (p. 171). A
+  hypothesis may be "whether a proposed method is fit for a certain
+  purpose" (p. 170).
+- **Hypotheses are optional.** Melbourne: "Not all research has a
+  hypothesis".
+- **Sub-questions stay inside the main question.** Utrecht: they stay
+  "inside the outer walls", together cover all of it, and are ordered so
+  each answer feeds the next. No yes/no questions, and no suggestive
+  wording (also Monash).
+- Booth et al. was seen only in secondary quotation. Evans, Gruba &
+  Zobel's RQ advice is still unverified.
+
+**Consequence for ch1.** SQ1 and SQ2 are design problems: they build
+the instrument. SQ3 is the knowledge question that answers the RQ. That
+nesting is what makes the three jointly sufficient.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:
