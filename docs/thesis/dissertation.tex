@@ -404,32 +404,29 @@ documented in 38 attacks, not from any one group such as Volt Typhoon.
 % verbs stay at BUILT ("runs", "declared ... tested"), never "reproduces
 % APT behaviour"; item 3 is PRELIMINARY with P6 and carries its tag. The
 % chapter-3 scoring (candidate C4) is not listed: it is P3's premise.
+% CUT 2026-09-24 (Marc: "too long vs the contribution lists I've read in
+% the field ... too descriptive"): measured against the corpus --- brown2023
+% ~15 words/item, kim2026 and zhang2025 20-35, ferraz2024 ~30 inline --- the
+% first draft ran 40-75 with lead phrases and "so that" explanations. Now one
+% sentence per item: claim + key, chapter-level pointers; the "how" lives in
+% P5 and the chapters.
 \noindent This dissertation makes three contributions:
 \begin{enumerate}[label=\arabic*), align=left, leftmargin=3em,
                   labelwidth=2.5em, labelsep=0.5em, topsep=0.5\baselineskip,
                   partopsep=0pt]
-  \item \emph{Attack profiles recovered from cyber threat intelligence.}
-  From 38 hand-drawn attack flows we recover one attack profile per
-  operational objective, and show that the objective changes how the
-  attacker behaves, even with no defence (\ref{sq:capture};
-  Sections~\ref{sec:technique-graph}--\ref{sec:attack-profiles}
-  and~\ref{sec:attacker-in-operation}).
-  \item \emph{An APT attacker model inside an existing MTD simulator.} The
-  APT attacker model runs in MTDSim on the baseline attacker's actions, so
-  the two attackers can be compared under identical conditions. The
-  inputs the model needs beyond the attack flows are declared with their
-  sources, and the results are tested for robustness to them
-  (\ref{sq:model}; Sections~\ref{sec:petri-formalism}--\ref{sec:execution}
-  and Appendices~\ref{app:movement} and~\ref{app:sensitivity}).
-  \item \emph{A two-phase evaluation of MTD against both attackers.} We run
-  both attackers with no defence, then under every defence in MTDSim across
-  deployment intervals, and introduce two measures of disruption for it:
-  the time an attacker loses to each MTD deployment, and how fast its
-  compromise of the network grows. Preliminary results show that the
-  defence that holds back one attacker most is not the one that holds back
-  the other most (\ref{sq:evaluate}; Chapter~\ref{ch:experiments} and
-  Section~\ref{sec:evaluation-metrics}). \emph{[Placeholder: re-check
-  against the 1\,000-seed corpus.]}
+  \item We recover attack profiles by operational objective from 38
+  hand-drawn attack flows, and show that the objective changes how the
+  attacker behaves (\ref{sq:capture}; Chapter~\ref{ch:attacker-model},
+  Section~\ref{sec:attacker-in-operation}).
+  \item We execute the profiles as an APT attacker model inside MTDSim, on
+  the baseline attacker's actions, with its declared inputs tested for
+  robustness (\ref{sq:model}; Chapter~\ref{ch:attacker-model},
+  Appendices~\ref{app:movement}--\ref{app:sensitivity}).
+  \item We evaluate MTD against both attackers in two phases, with two new
+  measures of disruption, and find in preliminary results that the two
+  attackers are held back most by different defences (\ref{sq:evaluate};
+  Chapter~\ref{ch:experiments}). \emph{[Placeholder: re-check against the
+  1\,000-seed corpus.]}
 \end{enumerate}
 
 \medskip

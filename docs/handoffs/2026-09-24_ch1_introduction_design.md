@@ -1107,6 +1107,22 @@ for robustness to them", and points to both appendices.
 availability sentence. The sentence changes only once Marc has made the
 tag.
 
+### 18.6 Cut to the field's length (2026-09-24)
+
+Marc: "too long vs the contribution lists I've read in the field … too
+descriptive". Measured against the corpus, items run to one sentence each:
+- brown2023, about 15 words per item;
+- kim2026 and zhang2025, 20–35;
+- ferraz2024, about 30, inline.
+
+The first draft ran 40–75 words, with italic lead phrases none of them use
+and "so that" explanations that belong in ¶5 and the chapters. Each item is
+now one sentence, carrying the claim, the key and a chapter-level pointer:
+about 25–35 words, with the verbs still carrying the evidence strength.
+
+**Lesson.** Measure the genre's item length before drafting a list, not
+after.
+
 ## Validation gate
 
 The introduction is done when all of the following hold:
