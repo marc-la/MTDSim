@@ -160,7 +160,7 @@ GROUPS = (
     ("scan ports", "SCAN_PORT", ("discovery",)),
     ("exploit", "EXPLOIT_VULN", ("initial-access", "execution", "privilege-escalation")),
     ("brute-force", "BRUTE_FORCE", ("credential-access",)),
-    ("neighbours", "SCAN_NEIGHBOR", ("command-and-control",)),
+    ("scan neighbours", "SCAN_NEIGHBOR", ("command-and-control",)),
     ("dwell-only", None, ("resource-development", "persistence", "stealth", "defense-impairment",
                           "collection", "exfiltration", "impact")),
 )
@@ -212,13 +212,13 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
 
     # ---- (a) the heat map, rows grouped by verb -----------------------------------
     ch, GG = 0.40, 0.10               # row height, gap between groups
-    GX, LAB = 0.0, 5.35               # group-name x (west), tactic-name x (east)
-    cw, GAP, bw = 1.05, 0.25, 1.35
+    GX, LAB = 0.0, 5.75               # group-name x (west), tactic-name x (east)
+    cw, GAP, bw = 0.98, 0.22, 1.3
     X0 = LAB + 0.12
     cols = [(p, X0 + j * cw, cw) for j, p in enumerate(FOUR)]
     xb = X0 + len(FOUR) * cw + GAP
     n_rows = sum(len(ts) for _, _, ts in GROUPS)
-    MY0 = 8.7
+    MY0 = 8.7 + ch + GG               # room for the dwell-only total row beneath
     MY1 = MY0 + n_rows * ch + (len(GROUPS) - 1) * GG
     # headers
     w(r"\node[anchor=south] at (%.3f,%.3f) {%s};" % (X0 + len(FOUR) * cw / 2, MY1 + 0.42, LABEL["movement"]))
@@ -256,6 +256,16 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
         w(r"\draw[black!55,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (X0, gbot, X0 + len(FOUR) * cw, gtop))
         y -= GG
 
+    # the dwell-only total: T1's number, so the reader need not add the group up
+    dwell = [t for _, v, ts in GROUPS if v is None for t in ts]
+    y = MY0 - GG - ch
+    w(r"\node[anchor=east] at (%.3f,%.3f) {\textbf{dwell-only in all}};" % (LAB, y + ch / 2))
+    for p, x, cwid in cols:
+        v = sum(share[p].get(t, 0.0) for t in dwell)
+        w(r"\node at (%.3f,%.3f) {\textbf{%s}};" % (x + cwid / 2, y + ch / 2, _pct(v)))
+    w(r"\node at (%.3f,%.3f) {\textbf{0}};" % (xb + bw / 2, y + ch / 2))
+    w(r"\draw[black!55,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0, y + ch, xb + bw, y + ch))
+
     # ---- the key, right of (a), shared by (b) and (c) -------------------------------
     KX0, ky = 11.9, MY1 - 0.2
     w(r"\node[anchor=west] at (%.3f,%.3f) {\textit{in (b) and (c)}};" % (KX0, ky))
@@ -285,14 +295,14 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
          xticks=[(k, XB0 + (i + 0.5) * gw) for i, k in enumerate(ks)],
          yticks=[(v, yb(v / 100)) for v in range(0, 101, 25)],
          xlabel="length of the opening (steps)", ylabel="")
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {runs off the most\\common opening (\%%)};" % (XB0 - 0.8, (YB0 + YB1) / 2))
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {runs that\\differ (\%%)};" % (XB0 - 0.8, (YB0 + YB1) / 2))
     title(GX, YB1 + 0.2, "b", "Attack path variation")
     for i, k in enumerate(ks):
         x0 = XB0 + (i + 0.5) * gw - len(SERIES) * bwid / 2
         for n, p in enumerate(SERIES):
             v = apv[p][str(k)]
-            h = max(v * (YB1 - YB0), 0.0)
-            w(r"\fill[%s] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (CNAME[p], x0 + n * bwid, YB0, bwid * 0.9, max(h, 0.025)))
+            if v > 0:  # a zero is drawn as nothing (round 2: a stub read as 1 %)
+                w(r"\fill[%s] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (CNAME[p], x0 + n * bwid, YB0, bwid * 0.9, v * (YB1 - YB0)))
 
     # ---- (c) attack confidentiality, full width -----------------------------------------
     XC0, XC1, YC0, YC1 = 1.5, 15.6, 0.0, 2.6

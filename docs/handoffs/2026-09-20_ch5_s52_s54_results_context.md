@@ -1269,6 +1269,22 @@ The figure as rebuilt 2026-09-24 (three panels: time share per tactic, attack pa
 
 **Amendments (recommended; Marc rules): see the session's return of 2026-09-24.** Round 2 (fresh cold reader + critic) follows the ruling.
 
+### 8i-2. Round 2 and close (2026-09-24): no blocking defect; the figure as settled
+
+**Marc's rulings on round 1, applied (commit c6994ccc, then the round-2 polish):** (a) the share of STEPS per tactic (time was not like for like), rows grouped by the verb each tactic dispatches so each baseline verb is one cell spanning its tactics and the column sums to 100, the dwell-only group apart with a total row, "APT attacker model" across the profiles; no footnote or dagger devices ("the figure should be intuitive"); (b) bars kept (supervisor), full width, lengths 2–8, zeros drawn as nothing; (c) the curve across alarm levels from just above 1, baseline markers; each panel titled; the float `[tbp]` with a `\FloatBarrier` before §5.3. The metrics table moved to §4.5 (Table 4.3).
+
+**Round 2:** a fresh cold reader and a fresh critic; the critic recomputed all 75 cells, 35 bars and the curves from the raw runs (all match; every column sums to 100; one colour scale across all five columns). Neither reported a blocking defect. The cold reader's message: *with no defence running, the APT attacker model spends a large part of its steps dwelling, its runs differ far more than the baseline's (except $c_3$), and more of its actions stay under a count-based alarm* — T1, T3 and T4 as agreed.
+
+**The takeaways, final.** T1 the model spreads its steps over many tactics, a third to a half dwell-only (36/37/47/26 %), the baseline none; T2 the profiles weight the campaign differently; T3 the model's runs part ways within a few steps, the baseline's open alike, **$c_3$ the exception**; T4 the model takes more of its actions below the alarm **at every level up to about 5, where all curves approach 100; $c_4$ the least** (it is 0.01–0.02 pp under the baseline at 5.9–6.0, intervals overlapping from 4.9); T5 Table 5.3.
+
+**Content points the body text owes (Marc's prose; not interpretation):**
+- (a)'s rows are grouped by the verb each tactic dispatches, not in a campaign order; say so once if the text reads the rows.
+- (b): some early zeros are fixed by the net's shape, not measured behaviour — from reconnaissance $c_3$ and $c_4$ can only go to resource development, and $c_3$ then only to initial access, so $c_3$'s zeros at lengths 2–3 and $c_4$'s at 2 are built in; the baseline's zeros to length 4 are its fixed order. State as fact, never as a finding.
+- (c) and Table 5.3's attack rate are one observation (their orders are exact inverses), never two pieces of evidence.
+- Exceptions to mark, not explain: $c_3$ in (b); $c_4$ in (c). Chapter 6's.
+
+**Owed, not blocking:** §4.5 must define *action* (a verb that runs: excludes dwell-only steps, blocked verbs and end-of-run markers; one exploit activity, not each vulnerability tried), *opening*, *alarm level* and *detector*; the caption points there. The critic counted 36 end-of-run markers on the core slice (53 across the whole file).
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,

@@ -46,12 +46,12 @@ Checked free in the tex: $\theta$, $\kappa$, $\lambda$, $\eta$, $\omega$, $h$, $
 
 ### Attacker behaviour — read in §5.2, Figure 5.1
 
-**1. Time share per tactic — adapted** (ruled 2026-09-24).
-- *Definition:* the share of an attacker's time spent in each tactic, pooled over its runs; for the baseline attacker, in each of its six activities, placed on the tactic whose verb it is (§4.4.3; the exploit activity serves three tactics).
-- *Source:* Outkin et al. 2022 (`outkin2022`, already cited in §3) use the Markov chain's steady-state distribution "to represent the fraction of the time an attacker spends at a particular step".
-- *Differs:* Outkin computes it from a Markov chain; here it is measured from the runs.
-- *Why:* objective conditioning is claimed, and it shows only in where the attacker spends its campaign; no metric in the field measures the make-up of an attacker's own behaviour.
-- *Numbers now:* the tactics that take no action hold 49–57 % of the profiles' time ($c_4$ 34 %); the baseline attacker spends 70 % in its exploit activity.
+**1. Share of steps per tactic — adapted** (ruled 2026-09-24, second pass: steps, not time).
+- *Definition:* the share of an attacker's steps that fall in each tactic, pooled over its runs; a step is a tactic entered (the firing of its timed transition $\tau_p$), or, for the baseline attacker, a verb entered with consecutive repeats collapsed.
+- *Source:* the relative firing frequency of each timed transition — a GSPN throughput measure, Ajmone Marsan et al. 1984 (`marsan1984`, the formalism's own paper). **VERIFY the locator** before the definition is written.
+- *Why steps, not time* (scrutinise-figure round 1): the model's time at a tactic is its declared dwell, which replaces the verb's native cost (§4.4.1), while the baseline's is the native cost (15.6 per-vulnerability tries, ~117 s per exploit); time shares would compare two clocks. Steps are counts on both.
+- *Why:* objective conditioning is claimed and shows only in where the attacker's campaign goes; no field metric measures the make-up of an attacker's own behaviour.
+- *Numbers now:* dwell-only tactics hold 36/37/47/26 % of $c_1$–$c_4$'s steps; the baseline's six verbs: enumerate 25, scan ports 25, exploit 23, brute-force 16, scan neighbours 9, scan hosts 2.
 
 **2. Attack path variation (APV) — adapted** (ruled 2026-09-24).
 - *Definition:* for an opening of $k$ tactics, the share of the attacker's runs whose first $k$ tactics differ from its most common first $k$ (for the baseline attacker, activities entered, repeats collapsed). 0: every run opens alike.
@@ -63,7 +63,7 @@ Checked free in the tex: $\theta$, $\kappa$, $\lambda$, $\eta$, $\omega$, $h$, $
 - *Definition:* $1000\,|A_r| / T_r$, averaged over runs: the attacker's actions per 1 000 s of its active time.
 - *Source:* Zhan et al. 2013 ("the number of attacks that arrive at unit time"); surveyed by Pendleton et al. 2016 as a measure of an attack's aggressiveness.
 - *Differs:* one attacker's own actions, not attacks arriving at a sensor.
-- *The action rule, stated once for both stealth metrics:* an action is a verb that **runs** on the network. A tactic that invokes no verb adds time and no action; a verb whose precondition is unmet is checked before it runs and never touches the network (`movement/attacker.py:896`), so it is not an action; the baseline attacker's per-vulnerability exploit rows are one action. **Say that the rule matters:** counting the unmet verbs would put $c_4$ level with the baseline attacker (20.7 against 28.4 per 1 000 s, or 28.7 if counted; `numbers.json`, `attack_rate_counting_blocked`).
+- *The action rule, stated once for both stealth metrics:* an action is a verb that **runs** on the network (end-of-run markers, which carry no verb, are not actions either). A tactic that invokes no verb adds time and no action; a verb whose precondition is unmet is checked before it runs and never touches the network (`movement/attacker.py:896`), so it is not an action; the baseline attacker's per-vulnerability exploit rows are one action. **Say that the rule matters:** counting the unmet verbs would put $c_4$ level with the baseline attacker (20.7 against 28.4 per 1 000 s, or 28.7 if counted; `numbers.json`, `attack_rate_counting_blocked`).
 - *Why active time:* in the targeted attack scenario a run ends when the target falls; the baseline attacker takes it early (its active time averages 0.70 of the limit), so a rate over the whole limit would hide the difference.
 - *Why the metric:* it is the footprint a detector sees, measured with no assumption (entry 4).
 
@@ -97,6 +97,8 @@ Not §4.5, but the same defensibility pass, and the setup is where a reader asks
 - **The metrics sentence.** §5.1's Metrics unit still says "grouped by effectiveness and efficiency, as Table 3.x groups the field's": it becomes the three classes, each named for what it measures, defined in §4.5.
 
 ## Open (add as they come)
+
+0. *Action* has two senses in Table 4.3 and §4.5 must name both: a verb **invoked** (attack actions blocked counts the invoked verbs whose precondition fails) and a verb that **runs** (attack rate, attack confidentiality). Also define *opening*, *alarm level* and *detector* — Figure 5.1's caption points here.
 
 1. The symbols (above), especially $\kappa$ for the detector's memory in place of $\tau$.
 2. Table 3.1: add the anchors it lacks — attack rate (Zhan), Outkin's time share, the mitigation factor (Alavizadeh) — so every §4.5 source is on the literature review's map. Attack confidentiality, APV, ASP, NCR, MTTC and attack actions blocked are there already.
