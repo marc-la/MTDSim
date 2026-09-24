@@ -3,14 +3,14 @@
 %   hosts reached per condition per arm; the model pooled over four profiles). Do not hand-edit.
 \begin{table}[H]
   \centering
-  \caption[The defence ordering produced by each attacker]{The defences ranked by suppression of hosts reached, once as the baseline attacker ranks them and once as the APT attacker model does, at each interval, with Spearman's rank correlation between the two orderings and a bootstrap interval on it. Where the evidence supports only a weaker statement than a full ordering the footnote says so: the family contrast, host-layer against service-layer mechanisms, is reported as Cliff's delta per arm, which is the object the seed count can separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}
+  \caption[The defence ordering produced by each attacker]{The defences ranked by NCR reduction, once as the baseline attacker ranks them and once as the APT attacker model does, at each interval, with Spearman's rank correlation between the two orderings and a bootstrap interval on it. Where the evidence supports only a weaker statement than a full ordering the footnote says so: the family contrast, host-layer against service-layer mechanisms, is reported as Cliff's delta per arm, which is the object the seed count can separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}
   \label{tab:eff-orderings}
   \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}
   \begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{1.0cm}@{}}
     \toprule
     & Condition & \multicolumn{2}{c}{Baseline attacker} & \multicolumn{2}{c}{APT attacker model} \\
     \cmidrule(lr){3-4}\cmidrule(lr){5-6}
-    & & Suppression & Rank & Suppression & Rank \\
+    & & NCR reduction & Rank & NCR reduction & Rank \\
     \midrule
      & service diversity & $0.91$ [$0.88$, $0.93$] & 1 & $0.36$ [$0.31$, $0.40$] & 6 \\
      & port shuffle & $0.90$ [$0.87$, $0.93$] & 2 & $0.20$ [$0.14$, $0.25$] & 7 \\
@@ -33,6 +33,6 @@
     \rowgroup{9}{every 2\,000\,s} & complete topology shuffle & $-0.13$ [$-0.24$, $-0.03$] & 9 & $0.16$ [$0.10$, $0.22$] & 3 \\
     \bottomrule
     \addlinespace[2pt]
-    \multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Rank 1 is the largest suppression. Spearman's $\rho$ between the two orderings, with a seed-bootstrap interval: 0.08 [-0.13, 0.10] at 200\,s; 0.13 [-0.28, 0.37] at 2\,000\,s. The family contrast is Cliff's $\delta$ on hosts reached, the host-layer mechanisms (IP shuffle and the two topology shuffles) against the service-layer ones (port shuffle, OS diversity, service diversity), positive when the host layer leaves fewer hosts: baseline -0.61 [-0.69, -0.55] and model 0.93 [0.91, 0.94] at 200\,s; baseline -0.19 [-0.28, -0.11] and model 0.25 [0.20, 0.29] at 2\,000\,s. User shuffle, the credentials mechanism, belongs to neither family. Ranks within a family are not separable at this seed count (Table~\ref{tab:experiment}); the rank correlation is a companion to the family contrast, not the primary.}\\
+    \multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Rank 1 is the largest NCR reduction. Spearman's $\rho$ between the two orderings, with a seed-bootstrap interval: 0.08 [-0.13, 0.10] at 200\,s; 0.13 [-0.28, 0.37] at 2\,000\,s. The family contrast is Cliff's $\delta$ on NCR, the host-layer mechanisms (IP shuffle and the two topology shuffles) against the service-layer ones (port shuffle, OS diversity, service diversity), positive when the host layer leaves fewer hosts: baseline -0.61 [-0.69, -0.55] and model 0.93 [0.91, 0.94] at 200\,s; baseline -0.19 [-0.28, -0.11] and model 0.25 [0.20, 0.29] at 2\,000\,s. User shuffle, the credentials mechanism, belongs to neither family. Ranks within a family are not separable at this seed count (Table~\ref{tab:experiment}); the rank correlation is a companion to the family contrast, not the primary.}\\
   \end{tabular}
 \end{table}

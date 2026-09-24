@@ -115,7 +115,7 @@ def grouped_panels(series: list[tuple[str, str, bool]], get, *, key_title: str, 
             axes(w, x0, x1, y0, y1,
                  xticks=[(TICK.get(c, SHORT[c]), x) for c, x in xt] if row == 1 else [],
                  yticks=[(v, yv(v)) for v in yticks_v],
-                 xlabel="", ylabel=("suppression" if col == 0 else ""),
+                 xlabel="", ylabel=("NCR reduction" if col == 0 else ""),
                  ylabels=(col == 0), xfmt=lambda v: v, yfmt=lambda v: f"{v:.1f}", ylabel_offset=0.85)
             if row == 0:
                 for c, x in xt:
@@ -198,6 +198,11 @@ def emit_fig56(s542: dict) -> tuple[str, list]:
 # --- tables ---------------------------------------------------------------------
 
 
+def pm_ncr(iv: dict) -> str:
+    """Hosts compromised as the network compromise ratio (Table 5.2): over the 50 hosts."""
+    return pm({"mean": iv["mean"] / 50, "ci95": iv["ci95"] / 50}, 2)
+
+
 def _sup(d: dict, nd: int = 2) -> str:
     # bounds in math mode so a negative bound prints a minus, not a hyphen
     # (context critic, 2026-09-22)
@@ -218,12 +223,12 @@ def emit_tab55(s541: dict) -> str:
     w("%   4 pt colsep (conventions §k1). DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Defence conditions against the APT attacker model]{Each defence condition against the APT attacker model pooled over $c_1$ to $c_4$, at each deployment interval, on the effectiveness metrics of Table~\ref{tab:metrics}, ordered by suppression within each interval; the no-defence reference is one cell, read against both. Brackets: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}")
+    w(r"  \caption[Defence conditions against the APT attacker model]{Each defence condition against the APT attacker model pooled over $c_1$ to $c_4$, at each deployment interval, on the attack-outcome and MTD-effectiveness metrics of Table~\ref{tab:metrics}, ordered by NCR reduction within each interval; MTTC is over the runs that compromise a host, and the share that compromise none is its own column; the no-defence reference is one cell, read against both. Brackets: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}")
     w(r"  \label{tab:eff-conditions}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}")
     w(r"  \begin{tabular}{@{}cP{3.5cm}>{\centering\arraybackslash}p{2.8cm}*{5}{>{\centering\arraybackslash}p{1.48cm}}@{}}")
     w(r"    \toprule")
-    w(r"    & Condition & Suppression & Hosts reached (of 50) & Delay to first compromise (s) & Runs with no compromise & Target reached & Blocked fraction \\")
+    w(r"    & Condition & NCR reduction & NCR & MTTC (s) & No host compromised & ASP & Attack actions blocked \\")
     w(r"    \midrule")
     marks = {}
     for interval in INTERVALS:
@@ -237,7 +242,7 @@ def emit_tab55(s541: dict) -> str:
             four = [q for q in blk["per_profile"] if q != "aggregate"]
             none_tr = sum(blk["per_profile"][q]["none"]["target_reach"] for q in four) / len(four)
             w("    & no defence & --- & %s & %s & %.2f & %.2f & %s \\\\" % (
-                pm(none["hosts"]), pm(dl["observed"], 0) if dl["observed"] else "---",
+                pm_ncr(none["hosts"]), pm(dl["observed"], 0) if dl["observed"] else "---",
                 dl["censored_share"], none_tr, pm(none["blocked"], 2)))
             w(r"    \midrule")
         rows = [(c, pooled[c]) for c in blk["order_pooled"]]
@@ -246,7 +251,7 @@ def emit_tab55(s541: dict) -> str:
             dl = d["delay"]
             mark = r"\textsuperscript{\dag}" if c in flagged else ""
             w("    %s & %s%s & %s & %s & %s & %.2f & %.2f & %s \\\\" % (
-                group, LONG[c], mark, _sup(d), pm(d["hosts_cond"]),
+                group, LONG[c], mark, _sup(d), pm_ncr(d["hosts_cond"]),
                 pm(dl["observed"], 0) if dl["observed"] else "---", dl["censored_share"],
                 d["target_reach"], pm(d["blocked"], 2)))
         w(r"    \midrule" if interval == INTERVALS[0] else r"    \bottomrule")
@@ -264,14 +269,14 @@ def emit_tab56(s542: dict) -> str:
     w("%   hosts reached per condition per arm; the model pooled over four profiles). Do not hand-edit.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[The defence ordering produced by each attacker]{The defences ranked by suppression of hosts reached, once as the baseline attacker ranks them and once as the APT attacker model does, at each interval, with Spearman's rank correlation between the two orderings and a bootstrap interval on it. Where the evidence supports only a weaker statement than a full ordering the footnote says so: the family contrast, host-layer against service-layer mechanisms, is reported as Cliff's delta per arm, which is the object the seed count can separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}")
+    w(r"  \caption[The defence ordering produced by each attacker]{The defences ranked by NCR reduction, once as the baseline attacker ranks them and once as the APT attacker model does, at each interval, with Spearman's rank correlation between the two orderings and a bootstrap interval on it. Where the evidence supports only a weaker statement than a full ordering the footnote says so: the family contrast, host-layer against service-layer mechanisms, is reported as Cliff's delta per arm, which is the object the seed count can separate. The intention is to state, at the strongest grade the evidence carries and no higher, whether an evaluation's recommendation depends on the attacker it was run against.}")
     w(r"  \label{tab:eff-orderings}")
     w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{3pt}")
     w(r"  \begin{tabular}{@{}cP{3.4cm}>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{1.0cm}>{\centering\arraybackslash}p{3.0cm}>{\centering\arraybackslash}p{1.0cm}@{}}")
     w(r"    \toprule")
     w(r"    & Condition & \multicolumn{2}{c}{Baseline attacker} & \multicolumn{2}{c}{APT attacker model} \\")
     w(r"    \cmidrule(lr){3-4}\cmidrule(lr){5-6}")
-    w(r"    & & Suppression & Rank & Suppression & Rank \\")
+    w(r"    & & NCR reduction & Rank & NCR reduction & Rank \\")
     w(r"    \midrule")
     rho, fam = [], []
     for interval in INTERVALS:
@@ -289,7 +294,7 @@ def emit_tab56(s542: dict) -> str:
         fam.append(r"baseline %.2f [%.2f, %.2f] and model %.2f [%.2f, %.2f] at %s\,s" % (
             fb["delta"], fb["lo"], fb["hi"], fm["delta"], fm["lo"], fm["hi"], fmt_thousands(int(interval))))
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Rank 1 is the largest suppression. Spearman's $\rho$ between the two orderings, with a seed-bootstrap interval: " + "; ".join(rho) + r". The family contrast is Cliff's $\delta$ on hosts reached, the host-layer mechanisms (IP shuffle and the two topology shuffles) against the service-layer ones (port shuffle, OS diversity, service diversity), positive when the host layer leaves fewer hosts: " + "; ".join(fam) + r". User shuffle, the credentials mechanism, belongs to neither family. Ranks within a family are not separable at this seed count (Table~\ref{tab:experiment}); the rank correlation is a companion to the family contrast, not the primary.}\\")
+    w(r"    \multicolumn{6}{@{}p{0.96\textwidth}@{}}{\scriptsize Rank 1 is the largest NCR reduction. Spearman's $\rho$ between the two orderings, with a seed-bootstrap interval: " + "; ".join(rho) + r". The family contrast is Cliff's $\delta$ on NCR, the host-layer mechanisms (IP shuffle and the two topology shuffles) against the service-layer ones (port shuffle, OS diversity, service diversity), positive when the host layer leaves fewer hosts: " + "; ".join(fam) + r". User shuffle, the credentials mechanism, belongs to neither family. Ranks within a family are not separable at this seed count (Table~\ref{tab:experiment}); the rank correlation is a companion to the family contrast, not the primary.}\\")
     w(r"  \end{tabular}")
     w(r"\end{table}")
     return "\n".join(L) + "\n"
@@ -369,7 +374,7 @@ def emit_tab57(s543: dict) -> tuple[str, list]:
         facts.append((key, vb, db, vm, dm, agreement))
     w(r"    \bottomrule")
     w(r"    \addlinespace[2pt]")
-    w(r"    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Direction is read on suppression of hosts reached ($1 - $ hosts / hosts with no defence, on cell means) over the seven single mechanisms and the two schemes, 100 seeds per cell, the model pooled over its four profiles; ``higher'' means the family's mean suppression is larger, and where the source names a pair the pair is read beside the family. The published evaluations reported mean time to compromise, or a composite of it, on a different network, pool and horizon, so no cell here is a numerical replication: only the direction of each comparison is compared. \textsuperscript{v}~the claim as attributed in the chapter's design record; the source's own statement of it is to be verified against the paper before submission.}\\")
+    w(r"    \multicolumn{5}{@{}p{0.96\textwidth}@{}}{\scriptsize Direction is read on NCR reduction ($1 - $ hosts / hosts with no defence, on cell means) over the seven single mechanisms and the two schemes, 100 seeds per cell, the model pooled over its four profiles; ``higher'' means the family's mean suppression is larger, and where the source names a pair the pair is read beside the family. The published evaluations reported mean time to compromise, or a composite of it, on a different network, pool and horizon, so no cell here is a numerical replication: only the direction of each comparison is compared. \textsuperscript{v}~the claim as attributed in the chapter's design record; the source's own statement of it is to be verified against the paper before submission.}\\")
     w(r"  \end{tabular}")
     w(r"\end{table}")
     return "\n".join(L) + "\n", facts

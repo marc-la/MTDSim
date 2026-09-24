@@ -94,7 +94,7 @@ def emit(s522: dict, interval: int, relative: bool = True, band: bool = True, sp
          yticks=[(v, ya(v)) for v in (0, 0.2, 0.4, 0.6)],
          xlabel="steps from the disruption", ylabel="",
          xfmt=lambda v: f"{v:+d}", xlabel_offset=0.45)
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {share of steps whose\\action fails its precondition};" % (AX0 - 0.8, (Y0 + ay1) / 2))
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {attack actions blocked\\(share of steps)};" % (AX0 - 0.8, (Y0 + ay1) / 2))
     if band:
         # the disruption's own step, as a shaded slot between the two windows
         w(r"\fill[black!8] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (x_zero - slot / 2, Y0, x_zero + slot / 2, ay1))
@@ -200,13 +200,13 @@ def emit(s522: dict, interval: int, relative: bool = True, band: bool = True, sp
         return ytop
 
     if split:
-        ylab = ("time to the next compromise,\\\\as a multiple of the gap with no defence" if relative
-                else "time to the next\\\\compromise (s)")
+        ylab = ("recovery time, as a multiple\\\\of the gap with no defence" if relative
+                else "recovery time (s)")
         ytop = recovery_panel(BX0, BW, ("movement",), "b", ylab, title=LABEL["movement"], cond_marks=True)
         recovery_panel(CX0, CW, ("baseline",), "c", "", title="baseline attacker", cond_marks=True)
     else:
-        ylab = ("time to the next compromise\\\\$\\div$ gap with no defence" if relative
-                else "time to the next\\\\compromise (s)")
+        ylab = ("recovery time\\\\$\\div$ gap with no defence" if relative
+                else "recovery time (s)")
         ytop = recovery_panel(BX0, BW, ("movement", "baseline"), "b", ylab, cond_marks=marks)
 
     # ---- key, once, under both panels ---------------------------------------
