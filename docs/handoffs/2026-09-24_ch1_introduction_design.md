@@ -978,6 +978,38 @@ tables sit beside them. S4–S5 are not results, so they are final text.
   attacker" (so stealth is measured but nothing reacts) and the bias toward
   reported attacks go to chapter 6's limitations.
 
+### 17.5 Ruled and floated (2026-09-24)
+
+**Ruled (Marc).** The structure and all three recommendations of §17.4 are
+accepted. The value sentence echoes the abstract, phase one is kept, and
+the scope items are simulation with existing defences, and not a named
+group. The drafted text was accepted as read ("it's just a placeholder").
+
+**The cold read shaped four changes to the first draft:**
+- "so far" was cut, because it read as unfinished work;
+- "each one more slowly" replaced "takes longer", which was read as the
+  total time;
+- the mechanism names ("the two topology shuffles" assumed the reader knew
+  there were two) became ¶2's own words (addresses, layout, software), with
+  both attackers in one sentence so that "most" is unambiguous;
+- a link sentence ("an evaluation against the baseline attacker alone would
+  recommend a different defence") was added, because the value read as a
+  leap without it.
+
+**Floated** after ¶5, with a visible `[Placeholder: re-check …]` tag after
+sentence 5. The tex comment names the two tables to re-check.
+
+**Owed to the abstract's redesign.** The abstract names the mechanisms
+("IP shuffling and topology shuffling", "service diversity"), while ¶6
+describes them by what they change. Both are consistent; align them when
+the abstract is redesigned.
+
+**Left for later chapters:**
+- could the model's slower progress be the simulator hobbling it (chapter
+  6's fidelity verdict)?
+- the floor effect on reductions (chapter 6);
+- seeds and significance (chapter 5).
+
 ## Validation gate
 
 The introduction is done when all of the following hold:

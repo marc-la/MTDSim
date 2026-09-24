@@ -353,6 +353,28 @@ intervals. We measure MTD's performance by how much it holds back each
 attacker's progress through the network
 (Section~\ref{sec:evaluation-metrics}).
 
+% P6, PRELIMINARY FINDINGS + VALUE + SCOPE --- floated 2026-09-24 (Marc:
+% "it's just a placeholder"). Sentences 1-5 are PRELIMINARY (100-seed
+% corpus): re-check against tables/tab_5-2-1a_unopposed_summary.tex
+% (phase one) and tables/tab_5-3-2a_orderings.tex (phase two; the
+% direction holds at both intervals as the host- vs service-layer family
+% contrast) once the 1 000-seed corpus lands, then drop "preliminary" and
+% the visible tag. Sentence 5 echoes the abstract's closer (ruled).
+% Sentences 6-7 (scope) are final. Ceiling: never "weak"/"realistic"/
+% "inverts"; direction only, no ranks or numbers. Design + cold read:
+% handoff 2026-09-24_ch1_introduction_design.md sec. 17.
+Our results are preliminary. With no defence, the APT attacker model
+compromises fewer hosts than the baseline attacker, and each one more
+slowly. Under MTD, shuffling the network's addresses and layout holds back
+the APT attacker model most, while changing its software holds back the
+baseline attacker most. An evaluation against the baseline attacker alone
+would recommend a different defence. The results make a case for
+evaluating MTD against attacker models grounded in documented behaviour.
+\emph{[Placeholder: re-check the results above against the 1\,000-seed
+corpus.]} This dissertation evaluates existing defences in simulation, and
+proposes no new defence. The APT attacker model is built from the behaviour
+documented in 38 attacks, not from any one group such as Volt Typhoon.
+
 % Both blocks below are visible placeholders (Marc's rulings 2026-08-20;
 % conventions + corpus exemplars in literature_conventions.md (g)). Marc
 % drafts the prose via the dictation pipeline. SQ labels (SQ1 capture /
