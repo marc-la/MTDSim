@@ -155,17 +155,22 @@ TWO_LINE = {p: LABEL[p] for p in FOUR}  # column heads: the codes, one line
 # and each of its cells spans its group: no footnote, no repeated value
 # (scrutinise-figure round 1, 2026-09-24). The group names are Figure 2.x's words.
 GROUPS = (
-    ("scan hosts", "SCAN_HOST", ("reconnaissance",)),
-    ("enumerate", "ENUM_HOST", ("lateral-movement",)),
-    ("scan ports", "SCAN_PORT", ("discovery",)),
-    ("exploit", "EXPLOIT_VULN", ("initial-access", "execution", "privilege-escalation")),
-    ("brute-force", "BRUTE_FORCE", ("credential-access",)),
-    ("scan neighbours", "SCAN_NEIGHBOR", ("command-and-control",)),
+    (r"\texttt{SCAN\_HOST}", "SCAN_HOST", ("reconnaissance",)),
+    (r"\texttt{ENUM\_HOST}", "ENUM_HOST", ("lateral-movement",)),
+    (r"\texttt{SCAN\_PORT}", "SCAN_PORT", ("discovery",)),
+    (r"\texttt{EXPLOIT\_VULN}", "EXPLOIT_VULN", ("initial-access", "execution", "privilege-escalation")),
+    (r"\texttt{BRUTE\_FORCE}", "BRUTE_FORCE", ("credential-access",)),
+    (r"\texttt{SCAN\_NEIGHBOR}", "SCAN_NEIGHBOR", ("command-and-control",)),
     ("dwell-only", None, ("resource-development", "persistence", "stealth", "defense-impairment",
                           "collection", "exfiltration", "impact")),
 )
 TACTIC_NAME = dict(TACTICS)
 HEAT = ((255, 255, 204), (253, 141, 60), (189, 0, 38))  # sequential, light to dark (E8: colour)
+
+
+def fmt_thousands(n: int) -> str:
+    """12\,000, the thesis's numerals rule (thin space from 1 000 up)."""
+    return f"{n:,}".replace(",", r"\,") if n >= 1000 else str(n)
 
 
 def heat(u: float) -> tuple[str, bool]:
@@ -218,7 +223,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     cols = [(p, X0 + j * cw, cw) for j, p in enumerate(FOUR)]
     xb = X0 + len(FOUR) * cw + GAP
     n_rows = sum(len(ts) for _, _, ts in GROUPS)
-    MY0 = 8.7 + ch + GG               # room for the dwell-only total row beneath
+    MY0 = 8.7
     MY1 = MY0 + n_rows * ch + (len(GROUPS) - 1) * GG
     # headers
     w(r"\node[anchor=south] at (%.3f,%.3f) {%s};" % (X0 + len(FOUR) * cw / 2, MY1 + 0.42, LABEL["movement"]))
@@ -226,7 +231,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
     for p, x, cwid in cols:
         w(r"\node[anchor=south] at (%.3f,%.3f) {%s};" % (x + cwid / 2, MY1 + 0.06, LABEL[p]))
     w(r"\node[anchor=south,align=center] at (%.3f,%.3f) {baseline\\attacker};" % (xb + bw / 2, MY1 + 0.06))
-    title(GX, MY1 + 0.95, "a", "Share of steps per tactic (\\%)")
+    title(GX, MY1 + 0.95, "a", "Relative tactic occurrence (\\%)")
     y = MY1
     for gname, verb, tactics in GROUPS:
         gtop = y
@@ -243,7 +248,7 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
                     w(r"\node[text=%s] at (%.3f,%.3f) {%s};" % ("white" if white else "black", x + cwid / 2, y + ch / 2, _pct(v)))
                 w(r"\draw[white,line width=0.8pt] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (x, y, cwid, ch))
         gbot = y
-        w(r"\node[anchor=west,text=black!70] at (%.3f,%.3f) {\textit{%s}};" % (GX, (gtop + gbot) / 2, gname))
+        w(r"\node[anchor=west,text=black!70,font=\scriptsize] at (%.3f,%.3f) {%s};" % (GX, (gtop + gbot) / 2, gname if verb else r"\textit{%s}" % gname))
         # the baseline attacker's cell spans the group
         if verb is None:
             w(r"\node[text=black!45] at (%.3f,%.3f) {---};" % (xb + bw / 2, (gtop + gbot) / 2))
@@ -255,16 +260,6 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
         w(r"\draw[black!55,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (xb, gbot, xb + bw, gtop))
         w(r"\draw[black!55,line width=0.4pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (X0, gbot, X0 + len(FOUR) * cw, gtop))
         y -= GG
-
-    # the dwell-only total: T1's number, so the reader need not add the group up
-    dwell = [t for _, v, ts in GROUPS if v is None for t in ts]
-    y = MY0 - GG - ch
-    w(r"\node[anchor=east] at (%.3f,%.3f) {\textbf{dwell-only in all}};" % (LAB, y + ch / 2))
-    for p, x, cwid in cols:
-        v = sum(share[p].get(t, 0.0) for t in dwell)
-        w(r"\node at (%.3f,%.3f) {\textbf{%s}};" % (x + cwid / 2, y + ch / 2, _pct(v)))
-    w(r"\node at (%.3f,%.3f) {\textbf{0}};" % (xb + bw / 2, y + ch / 2))
-    w(r"\draw[black!55,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (X0, y + ch, xb + bw, y + ch))
 
     # ---- the key, right of (a), shared by (b) and (c) -------------------------------
     KX0, ky = 11.9, MY1 - 0.2
@@ -295,8 +290,8 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
          xticks=[(k, XB0 + (i + 0.5) * gw) for i, k in enumerate(ks)],
          yticks=[(v, yb(v / 100)) for v in range(0, 101, 25)],
          xlabel="length of the opening (steps)", ylabel="")
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {runs that\\differ (\%%)};" % (XB0 - 0.8, (YB0 + YB1) / 2))
-    title(GX, YB1 + 0.2, "b", "Attack path variation")
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {APV (\%%)};" % (XB0 - 0.8, (YB0 + YB1) / 2))
+    title(GX, YB1 + 0.2, "b", "Attack path variation (APV)")
     for i, k in enumerate(ks):
         x0 = XB0 + (i + 0.5) * gw - len(SERIES) * bwid / 2
         for n, p in enumerate(SERIES):
@@ -304,46 +299,46 @@ def emit_fig_a(core: dict) -> tuple[str, dict]:
             if v > 0:  # a zero is drawn as nothing (round 2: a stub read as 1 %)
                 w(r"\fill[%s] (%.3f,%.3f) rectangle ++(%.3f,%.3f);" % (CNAME[p], x0 + n * bwid, YB0, bwid * 0.9, v * (YB1 - YB0)))
 
-    # ---- (c) attack confidentiality, full width -----------------------------------------
-    XC0, XC1, YC0, YC1 = 1.5, 15.6, 0.0, 2.6
-    th_all = conf["baseline"]["theta"]
-    keep = [i for i, t in enumerate(th_all) if t > 1.0 + 1e-9]  # level 1: zero by construction
-    th = [th_all[i] for i in keep]
-    t0, t1 = 1.0, th[-1]
+    # ---- (c) attack confidentiality over the run, full width ------------------------
+    # The alarm is set by one rule: it flags half of the baseline attacker's actions
+    # (numbers.json core.detector.alarm_tuned_to_baseline); each point is one time bin.
+    XC0, XC1, YC0, YC1 = 1.5, 15.2, 0.0, 2.6
+    over = {p: m[p]["confidentiality_over_run"] for p in SERIES}
+    starts = over["baseline"]["bin_start"]
+    binw = over["baseline"]["bin"]
+    T1 = starts[-1] + binw
 
     def xc(v):
-        return XC0 + (v - t0) / (t1 - t0) * (XC1 - XC0)
+        return XC0 + v / T1 * (XC1 - XC0)
 
     def yc(v):
         return YC0 + v * (YC1 - YC0)
 
     axes(w, XC0, XC1, YC0, YC1,
-         xticks=[(v, xc(v)) for v in range(1, int(t1) + 1)],
+         xticks=[(v, xc(v)) for v in range(0, int(T1) + 1, 3000)],
          yticks=[(v, yc(v / 100)) for v in range(0, 101, 25)],
-         xlabel="alarm level (recent actions the detector counts)", ylabel="")
-    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {actions below\\the alarm (\%%)};" % (XC0 - 0.8, (YC0 + YC1) / 2))
-    title(GX, YC1 + 0.2, "c", "Attack confidentiality")
+         xlabel="time (s)", ylabel="", xfmt=lambda v: fmt_thousands(int(v)))
+    w(r"\node[rotate=90,anchor=south,align=center] at (%.3f,%.3f) {attack\\confidentiality (\%%)};" % (XC0 - 0.8, (YC0 + YC1) / 2))
+    title(GX, YC1 + 0.2, "c", "Attack confidentiality over the run")
     for p in SERIES:
-        ys = [conf[p]["mean"][i] for i in keep]
-        pts = [(xc(a), yc(b)) for a, b in zip(th, ys)]
+        pts = [(xc(a + binw / 2), yc(v)) for a, v in zip(starts, over[p]["share"]) if v is not None]
         style = BASE_STYLE if p == "baseline" else "%s,line width=0.6pt" % CNAME[p]
         w(r"\draw[%s] %s;" % (style, " -- ".join("(%.3f,%.3f)" % q for q in pts)))
-        for a, b in zip(th, ys):
-            if abs(a - round(a)) < 1e-9:
-                if p == "baseline":
-                    w(r"\draw[cbase,line width=0.6pt,fill=white] (%.3f,%.3f) circle (0.07cm);" % (xc(a), yc(b)))
-                else:
-                    marker(w, MARK[p], CNAME[p], xc(a), yc(b))
+        for x, yv in pts:
+            if p == "baseline":
+                w(r"\draw[cbase,line width=0.6pt,fill=white] (%.3f,%.3f) circle (0.07cm);" % (x, yv))
+            else:
+                marker(w, MARK[p], CNAME[p], x, yv)
     w(r"\end{tikzpicture}")
     w(r"\end{document}")
 
-    j2 = th_all.index(2.0)
     dwell = [t for g, v, ts in GROUPS if v is None for t in ts]
     facts = {
         "step_share_dwell_only": {LABEL[p]: sum(share[p].get(t, 0.0) for t in dwell) for p in FOUR},
         "baseline_step_share_by_verb": base,
         "apv_at_kmax": {LABEL[p]: apv[p][str(kmax)] for p in SERIES},
-        "confidentiality_at_alarm_2": {LABEL[p]: conf[p]["mean"][j2] for p in SERIES},
+        "confidentiality_over_run": {LABEL[p]: [None if v is None else round(v, 3) for v in over[p]["share"]] for p in SERIES},
+        "alarm_tuned_to_baseline": core["detector"]["alarm_tuned_to_baseline"],
         "kmax": kmax, "nruns": core["table"][FOUR[0]]["n"], "tau": core["detector"]["tau"],
     }
     return "\n".join(L) + "\n", facts
@@ -373,7 +368,7 @@ def emit_table(core: dict) -> str:
     w(r"  \caption[Both attackers with no defence running]{The attack outcome and the attack rate of Table~\ref{tab:metrics} with no defence running, under the network, attack scenario and time limit of Table~\ref{tab:experiment}, for the APT attacker model on each attack profile and on the aggregate, and for the baseline attacker. ASP is a share of runs; the others are means with a 95\,\%% interval. MTTC is over the runs that compromise a host, which is all but at most %d\,\%% of any attacker's.}" % round(100 * worst_none))
     w(r"  \label{tab:unopposed-summary}")
     w(r"  \tablestyle\setlength{\tabcolsep}{4pt}")
-    w(r"  \begin{tabular}{@{}P{4.0cm}*{4}{>{\centering\arraybackslash}p{2.6cm}}@{}}")
+    w(r"  \begin{tabular}{@{}l>{\centering\arraybackslash}p{1.5cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.5cm}>{\centering\arraybackslash}p{4.3cm}@{}}")
     w(r"    \toprule")
     w(r"    & \multicolumn{3}{c}{Attack outcome} & Attacker behaviour \\")
     w(r"    \cmidrule(lr){2-4}\cmidrule(l){5-5}")

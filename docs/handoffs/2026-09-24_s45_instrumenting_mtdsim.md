@@ -46,12 +46,11 @@ Checked free in the tex: $\theta$, $\kappa$, $\lambda$, $\eta$, $\omega$, $h$, $
 
 ### Attacker behaviour — read in §5.2, Figure 5.1
 
-**1. Share of steps per tactic — adapted** (ruled 2026-09-24, second pass: steps, not time).
+**1. Relative tactic occurrence — cited** (ruled 2026-09-24, third pass).
 - *Definition:* the share of an attacker's steps that fall in each tactic, pooled over its runs; a step is a tactic entered (the firing of its timed transition $\tau_p$), or, for the baseline attacker, a verb entered with consecutive repeats collapsed.
-- *Source:* the relative firing frequency of each timed transition — a GSPN throughput measure, Ajmone Marsan et al. 1984 (`marsan1984`, the formalism's own paper). **VERIFY the locator** before the definition is written.
-- *Why steps, not time* (scrutinise-figure round 1): the model's time at a tactic is its declared dwell, which replaces the verb's native cost (§4.4.1), while the baseline's is the native cost (15.6 per-vulnerability tries, ~117 s per exploit); time shares would compare two clocks. Steps are counts on both.
-- *Why:* objective conditioning is claimed and shows only in where the attacker's campaign goes; no field metric measures the make-up of an attacker's own behaviour.
-- *Numbers now:* dwell-only tactics hold 36/37/47/26 % of $c_1$–$c_4$'s steps; the baseline's six verbs: enumerate 25, scan ports 25, exploit 23, brute-force 16, scan neighbours 9, scan hosts 2.
+- *Source:* Rodriguez et al. 2024 (`rodriguez2024`, already in the literature review): Table 3 reports, per ATT&CK tactic, "Occur. (rel.)" — the share of the attackers' events in each tactic, from process mining of attack logs. The same quantity, so cited, not adapted. (Supersedes the marsan1984 anchor proposed the same morning.)
+- *Why steps, not time:* the model's time at a tactic is its declared dwell, which replaces the verb's native cost; time shares would compare two clocks. Steps are counts on both.
+- *Numbers now:* dwell-only tactics hold 36/37/47/26 % of $c_1$–$c_4$'s steps; the baseline's six verbs: `ENUM_HOST` 25, `SCAN_PORT` 25, `EXPLOIT_VULN` 23, `BRUTE_FORCE` 16, `SCAN_NEIGHBOR` 9, `SCAN_HOST` 2.
 
 **2. Attack path variation (APV) — adapted** (ruled 2026-09-24).
 - *Definition:* for an opening of $k$ tactics, the share of the attacker's runs whose first $k$ tactics differ from its most common first $k$ (for the baseline attacker, activities entered, repeats collapsed). 0: every run opens alike.
@@ -67,7 +66,7 @@ Checked free in the tex: $\theta$, $\kappa$, $\lambda$, $\eta$, $\omega$, $h$, $
 - *Why active time:* in the targeted attack scenario a run ends when the target falls; the baseline attacker takes it early (its active time averages 0.70 of the limit), so a rate over the whole limit would hide the difference.
 - *Why the metric:* it is the footprint a detector sees, measured with no assumption (entry 4).
 
-**4. Attack confidentiality — adapted.** *The by-proxy stealth metric — the paragraph E10(i) depends on.*
+**4. Attack confidentiality — adapted.** *The by-proxy stealth metric — the paragraph E10(i) depends on.* **Read over the run (Figure 5.1(c), third pass):** in each 1 500 s bin, the share of actions below the alarm, with the alarm set by one rule — it flags half of the baseline attacker's actions (the median of $D$ over them, $\theta_b$ = 2.95) — a detector tuned on the attacker the defences were built against. So no alarm level is chosen, and the baseline sits near 50 % by construction; the result is the profiles' 70–93 %, flat across the run. §4.5 states the rule and that the baseline's level is set by it. The across-levels curve (the earlier panel) stays in `numbers.json` as a robustness reading.
 - *Definition:* the share of the attacker's actions taken while $D < \theta$, where $D(t) = \sum_{a_i \le t} e^{-(t - a_i)/\kappa}$ counts the attacker's recent actions, each fading over about a minute ($\kappa$ = 60 s: an action counts fully when it happens, about a third a minute later, a seventh two minutes later). An action is exposed when $D$, counting it, reaches $\theta$; Figure 5.1(c) shows every $\theta$, so none is chosen.
 - *Source:* Zaffarano et al. 2015, attack confidentiality, "how much attacker activity may be visible by detection mechanisms"; relayed in Cho et al. 2020 as "the degree of attack behaviors detected by a defender". Already in Table 3.1.
 - *Differs:* Zaffarano's exposure was information visible in network traffic; here it is a declared detector that counts recent actions.

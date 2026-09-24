@@ -5122,7 +5122,7 @@ it is needed.]}
 \subsection{Attacker behaviour}
 \label{subsec:metrics-behaviour}
 
-\noindent\emph{[Definitions owed: share of steps per tactic; attack path
+\noindent\emph{[Definitions owed: relative tactic occurrence; attack path
 variation (APV); attack rate; attack confidentiality.]}
 
 \subsection{Attack outcome}
@@ -6385,7 +6385,7 @@ Section~\ref{sec:effectiveness} reports against.]}
 \begin{figure}[tbp]
   \centering
   \includegraphics{fig_5-2-1a_campaign_openings}
-  \caption[Where each attacker's steps fall, how its runs differ, and how many of its actions fall below a detector's alarm]{With no defence running, for the APT attacker model on each attack profile and for the baseline attacker. (a)~The share of each attacker's steps, in per cent, that fall in each tactic; a step is a tactic entered, or a verb entered by the baseline attacker. The tactics are grouped by the verb each dispatches (Section~\ref{subsec:tactic-verb-mapping}), so each of the baseline attacker's verbs spans its group; a dash marks a tactic the attacker does not have, and the last row totals the dwell-only tactics. (b)~For each opening length, the share of runs whose first steps differ from the attacker's most common opening; higher means its runs differ more. (c)~An action is a verb that runs on the network, so a dwell-only step is not one. The share of the attacker's actions taken while a detector that counts its recent actions, each fading over about a minute, is below the alarm level; higher means more of its actions fall below the alarm. Section~\ref{sec:evaluation-metrics} defines each metric.}
+  \caption[Where each attacker's steps fall, how its runs differ, and how much of its activity stays below a detector's alarm over the run]{With no defence running, for the APT attacker model on each attack profile and for the baseline attacker. (a)~Relative tactic occurrence: the share of each attacker's steps, in per cent, that fall in each tactic; a step is a tactic entered, or a verb entered by the baseline attacker. The tactics are grouped by the verb each dispatches (Section~\ref{subsec:tactic-verb-mapping}), so each of the baseline attacker's verbs spans its group; a dash marks a tactic the attacker does not have. (b)~Attack path variation: for each opening length, the share of runs whose first steps differ from the attacker's most common opening. (c)~Attack confidentiality over the run: in each 1\,500\,s of the run, the share of the attacker's actions taken while a detector that counts its recent actions is below its alarm, the alarm set so that it flags half of the baseline attacker's actions; an action is a verb that runs on the network. Higher means more varied in~(b) and more of its actions below the alarm in~(c). Section~\ref{sec:evaluation-metrics} defines each metric.}
   \label{fig:aio-coverage}
 \end{figure}
 

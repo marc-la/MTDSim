@@ -83,6 +83,8 @@
 % reason, [3b] in §5.1); 2 000 s (no precedent; argued in §5.1, and the interval
 % sweep of the corpus handoff replaces the two levels); seeds 1 000 (argued in
 % §5.1 against Zhang's 100).
+% ROW ADDED 2026-09-24 (Marc: "something in Table 5.1 ... list all the names in the metrics"): the ten metrics by
+% class, pointing to Table 4.3 in §4.5, where each is defined and sourced.
 \begin{table}[htbp]
   \centering
   \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, condition and deployment interval are run in every combination; the timing distribution, which governs the interval, the deployment durations and the delay after an interrupt, is varied at the 200\,s interval. A citation names the prior study that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is the simulator's default (Section~\ref{sec:mtdsim}) or is argued in the text.}
@@ -107,7 +109,8 @@
     \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, service diversity 70\,s \citep{zhang2023}, and the simulator's host topology shuffle 100\,s, port shuffle 70\,s, user shuffle 20\,s \\
     \midrule
     & Time limit & 15\,000\,s \citep{ho2024}; a run ends earlier if the attacker compromises a target \\
-    \multirow{-2}{*}[-0.17cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Seeds & 1\,000 per combination, the same set on every arm \\
+    & Seeds & 1\,000 per combination, the same set on every arm \\
+    \multirow{-3}{*}[-0.45cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Metrics & attacker behaviour: relative tactic occurrence, attack path variation (APV), attack rate, attack confidentiality; attack outcome: attack success probability (ASP), network compromise ratio (NCR), mean time to compromise (MTTC); MTD effectiveness: NCR reduction, attack actions blocked, recovery time (Table~\ref{tab:metrics}) \\
     \bottomrule
   \end{tabular}
 \end{table}

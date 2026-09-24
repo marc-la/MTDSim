@@ -1285,6 +1285,14 @@ The figure as rebuilt 2026-09-24 (three panels: time share per tactic, attack pa
 
 **Owed, not blocking:** §4.5 must define *action* (a verb that runs: excludes dwell-only steps, blocked verbs and end-of-run markers; one exploit activity, not each vulnerability tried), *opening*, *alarm level* and *detector*; the caption points there. The critic counted 36 end-of-run markers on the core slice (53 across the whole file).
 
+### 8i-3. Marc's read of the settled figure, and round 3 (2026-09-24)
+
+Marc: panel (c) across alarm levels "doesn't really convey this model is stealthy" — all curves converge to 100 %, and "alarm level" is abstract; he pointed to the August detectability-over-time graph as the intent ("persistently less detectable over time"), not to copy it. Also: the verb codes as (a)'s group labels (provenance); no "dwell-only in all" row; the metric names themselves on the y-axes; Table 5.3 (now 5.2) poorly formatted; list the metric names in Table 5.1; is "share of steps per tactic" invented?
+
+**Applied.** (a) renamed **relative tactic occurrence**, cited to Rodriguez et al. 2024 (Table 3, "Occur. (rel.)" per tactic — the field's own quantity); verb codes as group labels; total row removed. (b) y-axis "APV (%)". (c) **attack confidentiality over the run**: 1 500 s bins, the alarm set by one rule — it flags half of the baseline attacker's actions ($\theta_b$ = 2.95) — so no level is chosen; the profiles hold 70–93 % below it, flat across the run ($c_1$ ~77, $c_2$ ~87, $c_3$ ~91, $c_4$ ~70, $c_{\mathrm{agg}}$ ~80), the baseline 67 → ~44 % (near 50 by construction; its runs thin to 30 of 100 by the last bin as it takes the target). Table 5.2 (was 5.3) reformatted; Table 5.1 gains a Metrics row. **T4 now reads:** the model keeps more of its actions below a detector tuned on the baseline attacker, at every point of the run; $c_4$ the least.
+
+**Round 3 reviewers owed** (fresh cold reader + critic) on the new (c); not yet run.
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,

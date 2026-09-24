@@ -388,6 +388,34 @@ def _curve_summary(curves: list) -> dict:
             "n": int(arr.shape[0])}
 
 
+BIN = 1500.0                                  # the over-the-run reading's time bins (s)
+
+
+def _detector_levels(starts: list) -> list:
+    """(t, D) at each action, D counting the action itself (the detector above)."""
+    d, last, out = 0.0, None, []
+    for t in starts:
+        d = (d * float(np.exp(-(t - last) / TAU)) if last is not None else 0.0) + 1.0
+        out.append((t, d))
+        last = t
+    return out
+
+
+def confidentiality_over_run(action_lists: list, theta: float) -> dict:
+    """Attack confidentiality in each BIN of the run, at the alarm level theta:
+    the share of the actions taken in the bin while D is below theta, pooled over
+    runs, with the number of runs that act in the bin (scrutinise-figure round 3,
+    2026-09-24: Marc's reading --- persistently quieter over the run)."""
+    edges = np.arange(0.0, CORE + BIN, BIN)
+    share, active = [], []
+    levels = [_detector_levels(a) for a in action_lists]
+    for lo, hi in zip(edges[:-1], edges[1:]):
+        below = [d < theta for lv in levels for t, d in lv if lo <= t < hi]
+        share.append(float(np.mean(below)) if below else None)
+        active.append(sum(1 for lv in levels if any(lo <= t < hi for t, _ in lv)))
+    return {"bin_start": edges[:-1].tolist(), "bin": BIN, "share": share, "runs_active": active}
+
+
 def stealth_movement(runs: list[MovementRunResult]) -> dict:
     acts = [_actions_movement(r) for r in runs]
     acts_b = [_actions_movement(r, count_blocked=True) for r in runs]
@@ -750,17 +778,28 @@ def main() -> int:
         "step_share": rows[p]["tactic_visit_share"],
         **stealth_movement(movement[("targeted", CORE, p)]),
     } for p in PROFILES}
+    # The alarm for the over-the-run reading is set by one rule, not chosen: it
+    # flags half of the baseline attacker's actions (the median of D over them),
+    # a detector tuned on the attacker the defences were built against.
+    base_levels = [d for row in baseline[CORE] for _, d in _detector_levels(_actions_baseline(row)[0])]
+    theta_b = float(np.median(base_levels))
+    for p in PROFILES:
+        metrics[p]["confidentiality_over_run"] = confidentiality_over_run(
+            [_actions_movement(r)[0] for r in movement[("targeted", CORE, p)]], theta_b)
     metrics["baseline"] = {
         "outcome": outcome(rows["baseline"]),
         "apv": apv(rows["baseline"]["commonest_opening_share"]),
         "time_share": time_share_baseline(baseline[CORE]),
         "step_share": step_share_baseline(baseline[CORE]),
         **stealth_baseline(baseline[CORE]),
+        "confidentiality_over_run": confidentiality_over_run(
+            [_actions_baseline(row)[0] for row in baseline[CORE]], theta_b),
     }
     out["core"] = {
         "horizon": CORE,
         "metrics": metrics,
-        "detector": {"tau": TAU, "theta": THETA, "net_hosts": NET_HOSTS},
+        "detector": {"tau": TAU, "theta": THETA, "net_hosts": NET_HOSTS,
+                     "alarm_tuned_to_baseline": theta_b, "rule": "flags half the baseline attacker's actions"},
         "coverage": cov,
         "table": rows,
         "divergence": div,

@@ -265,6 +265,45 @@
       0.0014990340602694702
      ],
      "n": 100
+    },
+    "confidentiality_over_run": {
+     "bin_start": [
+      0.0,
+      1500.0,
+      3000.0,
+      4500.0,
+      6000.0,
+      7500.0,
+      9000.0,
+      10500.0,
+      12000.0,
+      13500.0
+     ],
+     "bin": 1500.0,
+     "share": [
+      0.767752059631228,
+      0.7603129445234709,
+      0.7882797731568998,
+      0.7510431154381085,
+      0.7775748721694667,
+      0.7691192461036608,
+      0.7638418079096045,
+      0.7549889135254989,
+      0.752599498027967,
+      0.7652033830044301
+     ],
+     "runs_active": [
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      99,
+      98,
+      98,
+      95
+     ]
     }
    },
    "objective_impact": {
@@ -502,6 +541,45 @@
       0.002483591743564906
      ],
      "n": 100
+    },
+    "confidentiality_over_run": {
+     "bin_start": [
+      0.0,
+      1500.0,
+      3000.0,
+      4500.0,
+      6000.0,
+      7500.0,
+      9000.0,
+      10500.0,
+      12000.0,
+      13500.0
+     ],
+     "bin": 1500.0,
+     "share": [
+      0.8826705940108002,
+      0.864413680781759,
+      0.8678260869565217,
+      0.8597185576077396,
+      0.8680089485458613,
+      0.8514362657091562,
+      0.8476058931860037,
+      0.8801155512758787,
+      0.8602711157455682,
+      0.8851752021563343
+     ],
+     "runs_active": [
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      97,
+      94,
+      90,
+      89
+     ]
     }
    },
    "objective_exfiltration_impact": {
@@ -741,6 +819,45 @@
       0.00034897314438931456
      ],
      "n": 100
+    },
+    "confidentiality_over_run": {
+     "bin_start": [
+      0.0,
+      1500.0,
+      3000.0,
+      4500.0,
+      6000.0,
+      7500.0,
+      9000.0,
+      10500.0,
+      12000.0,
+      13500.0
+     ],
+     "bin": 1500.0,
+     "share": [
+      0.8958333333333334,
+      0.8888324873096447,
+      0.9180241723594325,
+      0.9149277688603531,
+      0.9186046511627907,
+      0.9302995391705069,
+      0.9178321678321678,
+      0.9292267365661862,
+      0.9158040027605245,
+      0.9083275017494752
+     ],
+     "runs_active": [
+      100,
+      98,
+      100,
+      100,
+      99,
+      99,
+      99,
+      99,
+      99,
+      95
+     ]
     }
    },
    "objective_none_c2": {
@@ -978,6 +1095,45 @@
       0.0016161428108914337
      ],
      "n": 100
+    },
+    "confidentiality_over_run": {
+     "bin_start": [
+      0.0,
+      1500.0,
+      3000.0,
+      4500.0,
+      6000.0,
+      7500.0,
+      9000.0,
+      10500.0,
+      12000.0,
+      13500.0
+     ],
+     "bin": 1500.0,
+     "share": [
+      0.7200538358008075,
+      0.7166771951989893,
+      0.6925346709943936,
+      0.7002167853824713,
+      0.6886973180076629,
+      0.696363029696363,
+      0.6943532501641497,
+      0.7075762769969146,
+      0.6958762886597938,
+      0.7142306209024296
+     ],
+     "runs_active": [
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100,
+      97,
+      95,
+      95
+     ]
     }
    },
    "aggregate": {
@@ -1219,6 +1375,45 @@
       0.000989253432523406
      ],
      "n": 100
+    },
+    "confidentiality_over_run": {
+     "bin_start": [
+      0.0,
+      1500.0,
+      3000.0,
+      4500.0,
+      6000.0,
+      7500.0,
+      9000.0,
+      10500.0,
+      12000.0,
+      13500.0
+     ],
+     "bin": 1500.0,
+     "share": [
+      0.7983159582999199,
+      0.8035993740219093,
+      0.8020304568527918,
+      0.7918742813338444,
+      0.8054410552349547,
+      0.7960636515912898,
+      0.7897392767031118,
+      0.7820128479657388,
+      0.804416403785489,
+      0.8024132730015083
+     ],
+     "runs_active": [
+      100,
+      100,
+      100,
+      100,
+      98,
+      97,
+      97,
+      91,
+      87,
+      85
+     ]
     }
    },
    "baseline": {
@@ -1437,6 +1632,45 @@
       0.0026658602520866857
      ],
      "n": 100
+    },
+    "confidentiality_over_run": {
+     "bin_start": [
+      0.0,
+      1500.0,
+      3000.0,
+      4500.0,
+      6000.0,
+      7500.0,
+      9000.0,
+      10500.0,
+      12000.0,
+      13500.0
+     ],
+     "bin": 1500.0,
+     "share": [
+      0.6748466257668712,
+      0.5622757560225525,
+      0.5111959287531807,
+      0.47126436781609193,
+      0.44695898161244696,
+      0.43996126533247254,
+      0.44694797214256454,
+      0.4087988136431043,
+      0.4450227716330514,
+      0.42644628099173554
+     ],
+     "runs_active": [
+      100,
+      100,
+      98,
+      92,
+      83,
+      75,
+      62,
+      50,
+      38,
+      30
+     ]
     }
    }
   },
@@ -1495,7 +1729,9 @@
     5.9,
     6.0
    ],
-   "net_hosts": 50
+   "net_hosts": 50,
+   "alarm_tuned_to_baseline": 2.948761840426538,
+   "rule": "flags half the baseline attacker's actions"
   },
   "coverage": {
    "objective_exfiltration": {
@@ -3321,7 +3557,7 @@
    "denominator": "every record",
    "visit_stream": {
     "objective_exfiltration|objective_exfiltration": {
-     "null_ceiling": 0.0003010820720101677,
+     "null_ceiling": 0.0003010820720101676,
      "null_median": 0.00015747801844120295
     },
     "objective_exfiltration|objective_impact": {
@@ -3334,8 +3570,8 @@
      "largest_term": "impact"
     },
     "objective_exfiltration|objective_exfiltration_impact": {
-     "jsd": 0.1419238059001709,
-     "absent_tactic_share": 0.09376307197309941,
+     "jsd": 0.14192380590017092,
+     "absent_tactic_share": 0.09376307197309938,
      "absent_tactics": [
       "defense-impairment",
       "resource-development"
@@ -3343,8 +3579,8 @@
      "largest_term": "impact"
     },
     "objective_exfiltration|objective_none_c2": {
-     "jsd": 0.09271175233773922,
-     "absent_tactic_share": 0.5091465892181725,
+     "jsd": 0.0927117523377392,
+     "absent_tactic_share": 0.5091465892181726,
      "absent_tactics": [
       "exfiltration",
       "impact",
@@ -3366,8 +3602,8 @@
      "null_median": 0.00015900153880977244
     },
     "objective_impact|objective_exfiltration_impact": {
-     "jsd": 0.07692085278697203,
-     "absent_tactic_share": 0.35054590096670624,
+     "jsd": 0.07692085278697201,
+     "absent_tactic_share": 0.35054590096670635,
      "absent_tactics": [
       "exfiltration",
       "resource-development"
@@ -3375,8 +3611,8 @@
      "largest_term": "exfiltration"
     },
     "objective_impact|objective_none_c2": {
-     "jsd": 0.16975385963091744,
-     "absent_tactic_share": 0.4807454001687278,
+     "jsd": 0.1697538596309174,
+     "absent_tactic_share": 0.4807454001687279,
      "absent_tactics": [
       "defense-impairment",
       "impact",
@@ -3385,8 +3621,8 @@
      "largest_term": "impact"
     },
     "objective_exfiltration_impact|objective_exfiltration": {
-     "jsd": 0.1419238059001709,
-     "absent_tactic_share": 0.09376307197309941,
+     "jsd": 0.14192380590017092,
+     "absent_tactic_share": 0.09376307197309938,
      "absent_tactics": [
       "defense-impairment",
       "resource-development"
@@ -3394,8 +3630,8 @@
      "largest_term": "impact"
     },
     "objective_exfiltration_impact|objective_impact": {
-     "jsd": 0.07692085278697203,
-     "absent_tactic_share": 0.35054590096670624,
+     "jsd": 0.07692085278697201,
+     "absent_tactic_share": 0.35054590096670635,
      "absent_tactics": [
       "exfiltration",
       "resource-development"
@@ -3427,8 +3663,8 @@
      "largest_term": "exfiltration"
     },
     "objective_none_c2|objective_impact": {
-     "jsd": 0.16975385963091744,
-     "absent_tactic_share": 0.4807454001687278,
+     "jsd": 0.1697538596309174,
+     "absent_tactic_share": 0.4807454001687279,
      "absent_tactics": [
       "defense-impairment",
       "impact",
@@ -3539,11 +3775,11 @@
    },
    "body_facts": {
     "min_pair": "objective_exfiltration_impact|objective_impact",
-    "min_jsd": 0.07692085278697203,
+    "min_jsd": 0.07692085278697201,
     "max_pair": "objective_exfiltration_impact|objective_none_c2",
     "max_jsd": 0.20673687152714898,
     "max_null_ceiling": 0.0011954174345812664,
-    "min_ratio_to_null": 64.3464371204491,
+    "min_ratio_to_null": 64.34643712044908,
     "mean_to_others": {
      "objective_exfiltration": 0.1238795098602428,
      "objective_impact": 0.12789256125356926,
@@ -9280,12 +9516,12 @@
      "largest_term": "impact"
     },
     "objective_impact|objective_impact": {
-     "null_ceiling": 0.0004522044679883357,
+     "null_ceiling": 0.00045220446798833574,
      "null_median": 0.00014650574540160506
     },
     "objective_impact|objective_exfiltration_impact": {
-     "jsd": 0.0769522700149898,
-     "absent_tactic_share": 0.3485132137297464,
+     "jsd": 0.07695227001498983,
+     "absent_tactic_share": 0.3485132137297463,
      "absent_tactics": [
       "exfiltration",
       "resource-development"
@@ -9294,7 +9530,7 @@
     },
     "objective_impact|objective_none_c2": {
      "jsd": 0.17003715031788774,
-     "absent_tactic_share": 0.47818451348014385,
+     "absent_tactic_share": 0.47818451348014374,
      "absent_tactics": [
       "defense-impairment",
       "impact",
@@ -9312,8 +9548,8 @@
      "largest_term": "impact"
     },
     "objective_exfiltration_impact|objective_impact": {
-     "jsd": 0.0769522700149898,
-     "absent_tactic_share": 0.3485132137297464,
+     "jsd": 0.07695227001498982,
+     "absent_tactic_share": 0.34851321372974636,
      "absent_tactics": [
       "exfiltration",
       "resource-development"
@@ -9322,11 +9558,11 @@
     },
     "objective_exfiltration_impact|objective_exfiltration_impact": {
      "null_ceiling": 0.0011856206323839736,
-     "null_median": 0.00026576122064886506
+     "null_median": 0.000265761220648865
     },
     "objective_exfiltration_impact|objective_none_c2": {
-     "jsd": 0.2064118303947938,
-     "absent_tactic_share": 0.5141300171333774,
+     "jsd": 0.20641183039479385,
+     "absent_tactic_share": 0.5141300171333772,
      "absent_tactics": [
       "defense-impairment",
       "exfiltration",
@@ -9346,7 +9582,7 @@
     },
     "objective_none_c2|objective_impact": {
      "jsd": 0.17003715031788774,
-     "absent_tactic_share": 0.47818451348014385,
+     "absent_tactic_share": 0.47818451348014374,
      "absent_tactics": [
       "defense-impairment",
       "impact",
@@ -9355,8 +9591,8 @@
      "largest_term": "impact"
     },
     "objective_none_c2|objective_exfiltration_impact": {
-     "jsd": 0.2064118303947938,
-     "absent_tactic_share": 0.5141300171333774,
+     "jsd": 0.20641183039479385,
+     "absent_tactic_share": 0.5141300171333772,
      "absent_tactics": [
       "defense-impairment",
       "exfiltration",
@@ -9457,16 +9693,16 @@
    },
    "body_facts": {
     "min_pair": "objective_exfiltration_impact|objective_impact",
-    "min_jsd": 0.0769522700149898,
+    "min_jsd": 0.07695227001498982,
     "max_pair": "objective_exfiltration_impact|objective_none_c2",
-    "max_jsd": 0.2064118303947938,
+    "max_jsd": 0.20641183039479385,
     "max_null_ceiling": 0.0011856206323839736,
     "min_ratio_to_null": 64.90463130711456,
     "mean_to_others": {
      "objective_exfiltration": 0.12420432492020085,
      "objective_impact": 0.12830393167375145,
      "objective_exfiltration_impact": 0.14183256260761448,
-     "objective_none_c2": 0.15633533112394915
+     "objective_none_c2": 0.15633533112394918
     }
    }
   },
