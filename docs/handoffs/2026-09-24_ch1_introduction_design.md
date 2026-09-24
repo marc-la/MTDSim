@@ -857,6 +857,56 @@ The scope sentences stay in ¶6 (§4: ¶7 folds into ¶6).
   walked-through). "Analyst-curated" in S1 carries the fact that reports need
   curation before a simulator can use them.
 
+### 16.4 Ruled, cold-read and floated (2026-09-24)
+
+**Ruled (Marc).** The structure of §16.2 and all five recommendations of §16.3:
+38 kept, no Petri net, no SQ tags, no MTDShield, no "why hard". ATT&CK is
+dropped from ch1; its first use is chapter 3.
+
+**The drafts.**
+- **Draft 1.** The last two sentences read as lost. The positioning line
+  ("keeps the field's usual method") answered a question nobody had asked.
+- **Draft 2.** Checked by two cold readers, each a CS examiner and not an
+  MTD specialist.
+  - Reader 1 found that nothing said what makes the APT attacker model
+    different from the baseline attacker. The model read as the baseline
+    attacker renamed, which left SQ2 unanswered.
+  - Reader 1 also found that "any difference comes from the attacker alone"
+    read as a causal claim about unreported results, and that "compared with
+    no defence" clashed with SQ3's comparison.
+  - Reader 2 restated the difference correctly from memory once the
+    shared-actions-but sentence was added. Reader 2 then flagged that
+    "attack profile" was never said, that "It" was ambiguous, and that the
+    attribution clause spelled out a controlled comparison.
+- **Draft 3.** Marc accepted sentences 5–9 as read. He sent sentences 1–4
+  back as clunky:
+  - "such reports" was a back-reference;
+  - CTI was defined twice (once as reports, then the flows as reports
+    again);
+  - the hand-drawn point was buried;
+  - the profile sentence had too many clauses;
+  - the step from flows to profiles was unclear.
+  The redraft names every noun outright and defines CTI once. A flow is
+  one thing, a hand-drawn graph. The combine-then-split step gets its own
+  sentence, as does what a profile records.
+
+**Floated** into `dissertation.tex` after the SQ list (build clean, 88 pp.).
+FLAG C4 is discharged: "same network and under the same defences" carries
+the positioning concretely, and ¶3 has already said that most tests run in
+simulation.
+
+**Lessons (for ¶6 and the contributions list).**
+- A back-reference ("such", "these", "it") is a clarity cost. Name the noun.
+- Every term an SQ uses needs one sentence that defines it, and only one.
+- Put cold readers on the whole ¶1–RQ context, not the paragraph alone.
+- An explicit contrast ("shares X, but Y") is what lets a reader restate
+  the contribution.
+
+**Left out on purpose** (the readers raised them, but they belong later):
+- counts of profiles and defences, and the statistics (chapters 4–5);
+- whether 38 flows is enough (chapter 6);
+- bias toward reported attacks (¶6 scope or chapter 6 limitations).
+
 ## Validation gate
 
 The introduction is done when all of the following hold:

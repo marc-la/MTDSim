@@ -315,6 +315,40 @@ research question of this dissertation:
   model compared with the simulator's baseline attacker?
 \end{enumerate}
 
+% P5, THE APPROACH --- floated 2026-09-24 (Marc). Answers SQ1-SQ3 in
+% order in their own words (recover / executed / existing MTD simulator),
+% with no SQ tags; defines CTI (binding SQ1's "published threat
+% reports"), the baseline attacker (apposition only: "baseline" is
+% self-describing) and "perform" (per attacker; SQ3 compares the two).
+% Sentences 5-9 accepted as read after two cold reads; sentences 1-4
+% redrafted on Marc's read (no "such"/"these" back-references; one CTI
+% definition; the hand-drawn point; the flows -> one graph -> profiles
+% step made explicit). Ceiling: "which action comes next, when, and what
+% to do after one fails" describes what is BUILT (criterion axes 1 and 4
+% DESIGNED), not an effect. ATT&CK and MTDShield deliberately absent.
+% Design + cold-read record: handoff 2026-09-24_ch1_introduction_design.md
+% sec. 16.
+We recover the behaviour of APT attackers from cyber threat intelligence
+(CTI), the threat reports that security firms and government agencies
+publish on attacks they have investigated. Our source is 38 attack flows,
+graphs of an attack's steps that analysts drew by hand from CTI reports
+\citep{ctid2025attackflow}. We combine the 38 attack flows into one
+graph, then split it into attack profiles by operational objective, such
+as stealing data. Each attack profile records the steps taken by
+attackers with that objective, and how often each step led to the next.
+We execute each profile in MTDSim, an existing MTD simulator
+\citep{brown2023}, as the APT attacker model
+(Chapter~\ref{ch:attacker-model}). The APT attacker model shares the
+actions of MTDSim's original scripted attacker, the baseline attacker,
+but its profile decides which action comes next, when, and what to do
+after one fails. Both attackers run on the same network and under the
+same defences. We first run both with no defence, to test whether the APT
+attacker model behaves differently (Chapter~\ref{ch:experiments}). We
+then run both under each of MTDSim's defences at different deployment
+intervals. MTD's performance against an attacker is how much a defence
+slows it and limits what it compromises, compared with no defence
+(Section~\ref{sec:evaluation-metrics}).
+
 % Both blocks below are visible placeholders (Marc's rulings 2026-08-20;
 % conventions + corpus exemplars in literature_conventions.md (g)). Marc
 % drafts the prose via the dictation pipeline. SQ labels (SQ1 capture /
@@ -322,6 +356,11 @@ research question of this dissertation:
 % single-RQ architecture (a) stands; SQs label the decomposition, not
 % new top-level questions.
 \medskip
+% [FLAG C4 -- DISCHARGED 2026-09-24 by P5: the standalone positioning
+% sentence ("keeps the field's usual method, simulation, and changes only
+% the attacker") read as lost (Marc); P5's "same network and under the same
+% defences" carries it concretely, with P3's "most tests run in
+% simulation". Original flag kept for the record:]
 % [FLAG C4, routed here 2026-09-07 from 3.2.3 pass 4, Marc: "it can live
 % in the abstract or in the introduction ... probably introduction"]: the
 % thesis adopts the field's dominant evaluation method (simulation, Cho
