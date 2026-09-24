@@ -1,97 +1,117 @@
 ---
-status: open                  # WORK IN PROGRESS by Marc's ruling (2026-09-24): "it's not complete ... keep that somewhere ... we can increment to it"; add entries as metrics are ruled
+status: open                  # the brief for WRITING §4.5 — every metric defined in the method; Marc's plan (2026-09-24): results first, then fit the definitions to the settled list. Work in progress: add entries as metrics are ruled
 created: 2026-09-24
-parent: 2026-09-22_metrics_provenance_and_instrumentation.md (the metrics design; this file is its §3, grown into the running list for §4.5)
-evidence: ../sources/extractions/mtd_metric_catalogue.md
+updated: 2026-09-24
+parent: 2026-09-22_metrics_provenance_and_instrumentation.md (the metrics design; its implementation landed 2026-09-24, commits 23624188, e081a49c, 7f8cb105, 8d04fe12)
+evidence: ../sources/extractions/mtd_metric_catalogue.md (the verdict and the source behind every entry)
 ---
 
-# §4.5 *Instrumenting MTDSim* — what the section must define, one entry per metric
+# Define every metric in §4.5 *Instrumenting MTDSim* — in the formalism's symbols, with its source, and why where it is ours
 
-## The convention the section follows
+## Goal
 
-`docs/workflows/literature_conventions.md` §d, anchored in Jin's own paper:
-1. **Every metric is defined before it is used** — name, the field's acronym where it has one, a numbered display equation, and its direction (which way is better, or which way is *more*) — as hong2018 defines its whole family in its method (pp. 40–41). This applies to the **cited** metrics too, not only the new ones: §4.5 defines all ten, and Table 5.2 is the lookup that points back to it.
-2. **A field name is never reused with a different meaning silently** — where we adapt one, the difference is said at the definition.
-3. What §4.5 adds for an **adapted** or **introduced** metric: what it captures, what differs from the source, and why the cited metrics do not already capture it (E3: "it should explain something new").
+§4.5 holds one definition per metric the evaluation reads — all ten of Table 5.2, the cited ones included — so that Table 5.2 only has to name them and a reader can place every one in the field. This is the convention the field follows and this thesis has adopted (`docs/workflows/literature_conventions.md` §d, anchored in hong2018, which defines its whole metric family in its method with equations, pp. 40–41). Marc, 2026-09-24: "we can define every single metric in the method and then that will make Table 5.2's job easier"; "results first, and then I'll backwards fit once I've got the complete list of metrics down"; "strictly defensible … so anyone reading the paper can be like, oh yeah, that's what they're doing."
 
-**The reader's level.** The section is written for a computer-science reader, not for the census: it states our definition, its source and, where adapted, the one difference that matters. The finer distinctions the census found (Ho's per-attempt ASR, the five meanings of MTTC in the lineage, Brown's in-flight blocks) stay in the catalogue and are not argued in the thesis — we do not use those meanings, so rule 2 does not require them. (Marc, 2026-09-24: "we need to be on a higher abstraction level ... make it clear for the reader.")
+**Not this brief's job:** changing any metric, number or float (they landed 2026-09-24); the prose voice (Marc dictates; this brief supplies content points only).
 
-**Where each thing lives.** Table 3.1 (literature review) places a metric in the field; §4.5 defines it; Table 5.2 (§5.1) lists what the chapter reads, with its source. Survey, definition, lookup — the three-place pattern of the field's methods sections. Proposed (ruling owed, §Open 3): Table 3.1 gains the anchors it lacks, so that every §4.5 source is already on the reader's map.
+## State of play
 
-## The entries
+- **§4.5 exists** (`\label{sec:instrumenting}`, after §4.4.4) with a placeholder and **one holder per metric under three class run-ins** — *Attacker behaviour*, *Attack outcome*, *MTD effectiveness* (`dissertation.tex`, the \textbf run-ins below the placeholder). The comment block under it still carries the 2026-09-23 content points; this brief supersedes them.
+- **Table 5.2** (`tables/tab_5-1b_metrics.tex`) is rebuilt to the ruled design: ten rows, three class header rows, every Source a citation or "Section 4.5".
+- **§5.2's floats and §5.3's labels** carry these metrics (Figure 5.1's three panels, Table 5.3; NCR reduction, attack actions blocked, recovery time in §5.3). Numbers are 100 seeds until the 1 000-seed run.
+- **Appendix C** has the owed sweep's section, `app:detector-memory`, as a placeholder.
+- **Bib:** `zhan2013`, `pendleton2016`, `ward2018`, `jafarian2015` added (names as the sources print them; `pendleton2016`'s wording to confirm in the published version). Every other source below is already in the bib.
 
-Status: **cited** (the field defines it; §4.5 gives the equation and direction); **adapted** (the field's name, one difference stated); **introduced** (no field metric exists; definition and why).
+## What each definition must carry
+
+1. The field's name, and its acronym where the field has one (ASP, NCR, MTTC, APV). No invented acronym: attack rate and attack confidentiality have none; *AC* is taken by attack cost.
+2. **A numbered display equation in the formalism's symbols** — the run, its records, the places $p$, the verbs $\varphi(p)$ — so the metric reads as part of the model, not beside it.
+3. Its direction (which way is more, or better for the defender).
+4. Its source, cited.
+5. For an **adapted** metric: the one difference from the source that matters, stated at the definition (convention §d2 — a field name is never reused with a changed meaning silently).
+6. For an **introduced** metric: what it captures and why no cited metric does (E3).
+7. **Reader level.** The census's finer distinctions (Ho's per-attempt ASR, the five MTTCs of the lineage, Brown's in-flight blocks) stay in the catalogue; the thesis states our definition, its source and the one difference that matters.
+
+### Symbols (proposal; ruling owed, Open 1)
+
+Taken in chapter 4 (`tab:gspn-notation`): $c$, $\mathcal{N}_c$, $p$, $\hat{p}$, **$\tau_p$**, $t_{pq}$, $\mu_p$, $w_c$, $s$, $M_0$, $v$, $F_v$, $\varphi$, $R$, $d$, **$\gamma$, $\delta$**, $z$. So the detector's memory **cannot be $\tau$** as in the records and the analyser (`TAU`); proposed:
+- $\kappa$ — the detector's memory, in seconds (60 s);
+- $\theta$ — the alarm level;
+- $k$ — the opening length (already printed in Table 5.2);
+- $A_r = (a_1, a_2, \dots)$ — the start times of run $r$'s actions; $T_r$ — its active time;
+- $H_r$ — the hosts run $r$ compromises; $N = 50$ the network's hosts.
+Checked free in the tex: $\theta$, $\kappa$, $\lambda$, $\eta$, $\omega$, $h$, $k$.
+
+## The ten entries
 
 ### Attacker behaviour — read in §5.2, Figure 5.1
 
-**1. Time share per tactic — adapted** (was *share of steps per tactic*; recommended change, ruling owed).
-- *Definition:* the share of an attacker's time spent in each tactic, pooled over its runs (for the baseline attacker, in each of its six activities, placed on the tactic that maps to it, §4.4.3).
-- *Source:* Outkin et al. 2022 (bib `outkin2022`) use "the steady state distribution of the Markov chain to represent the fraction of the time an attacker spends at a particular step" — the same quantity, which they compute from a Markov chain and we measure from runs.
-- *Why it is needed:* objective conditioning is claimed, and it shows only in where the attacker spends its campaign; no metric in the field measures the make-up of an attacker's own behaviour.
-- *Why time rather than steps:* it avoids defining a "step", it is Outkin's quantity, and it states the stealth mechanism directly — on today's corpus the tactics that take no action hold 49–57 % of the profiles' time ($c_4$ 34 %) against 36–47 % of their steps; the baseline holds none.
+**1. Time share per tactic — adapted** (ruled 2026-09-24).
+- *Definition:* the share of an attacker's time spent in each tactic, pooled over its runs; for the baseline attacker, in each of its six activities, placed on the tactic whose verb it is (§4.4.3; the exploit activity serves three tactics).
+- *Source:* Outkin et al. 2022 (`outkin2022`, already cited in §3) use the Markov chain's steady-state distribution "to represent the fraction of the time an attacker spends at a particular step".
+- *Differs:* Outkin computes it from a Markov chain; here it is measured from the runs.
+- *Why:* objective conditioning is claimed, and it shows only in where the attacker spends its campaign; no metric in the field measures the make-up of an attacker's own behaviour.
+- *Numbers now:* the tactics that take no action hold 49–57 % of the profiles' time ($c_4$ 34 %); the baseline attacker spends 70 % in its exploit activity.
 
-**2. Attack path variation across runs — adapted** (was *runs leaving the commonest opening*; recommended name, ruling owed).
-- *Definition:* for an opening of *k* tactics, the share of an attacker's runs whose first *k* tactics differ from its most common first *k*. Zero means every run opens the same way.
-- *Source:* Hong et al. 2018's attack path variation (APV, Eq. 2, p. 39) — "lower APV value means the set of attack paths tends to be more static".
-- *Differs:* Hong measures how the attack paths *available* change between network states; this measures how the paths an attacker *takes* vary between its runs. Stated at the definition (rule 2).
-- *Why it is needed:* strategic plurality is claimed — the APT attacker can go more than one way — and the baseline attacker is one script.
-- *Alternative if the adaptation is judged too far:* keep the plain name and cite APV as the nearest idea.
+**2. Attack path variation (APV) — adapted** (ruled 2026-09-24).
+- *Definition:* for an opening of $k$ tactics, the share of the attacker's runs whose first $k$ tactics differ from its most common first $k$ (for the baseline attacker, activities entered, repeats collapsed). 0: every run opens alike.
+- *Source:* Hong et al. 2018 (`hong2018`), APV, Eq. 2, p. 39: "lower APV value means the set of attack paths tends to be more static".
+- *Differs:* Hong measures how the attack paths *available* change between network states; this measures how the paths an attacker *takes* vary between its runs.
+- *Why:* strategic plurality is claimed; the baseline attacker is one script.
 
-**3. Attack rate — adapted.**
-- *Definition:* the attacker's actions per 1 000 s of its active time. An action is one verb the attacker invokes; a tactic that invokes none adds time and no action. Active time runs from the start to its last action.
-- *Source:* Zhan et al. 2013 ("the number of attacks that arrive at unit time"), surveyed by Pendleton et al. 2016 as a measure of the aggressiveness of attacks. No acronym in either; none is invented.
+**3. Attack rate — cited name, adapted unit.**
+- *Definition:* $1000\,|A_r| / T_r$, averaged over runs: the attacker's actions per 1 000 s of its active time.
+- *Source:* Zhan et al. 2013 ("the number of attacks that arrive at unit time"); surveyed by Pendleton et al. 2016 as a measure of an attack's aggressiveness.
 - *Differs:* one attacker's own actions, not attacks arriving at a sensor.
-- *Why active time:* in the targeted attack scenario a run ends when the target falls, and the baseline attacker takes it early (0.70 of the limit on average), so a rate over the whole limit would hide the difference.
-- *Why it is needed:* it is the footprint a detector would see, measured with no assumption; it reads the side of the APT trade the outcome metrics cannot (entry 4).
+- *The action rule, stated once for both stealth metrics:* an action is a verb that **runs** on the network. A tactic that invokes no verb adds time and no action; a verb whose precondition is unmet is checked before it runs and never touches the network (`movement/attacker.py:896`), so it is not an action; the baseline attacker's per-vulnerability exploit rows are one action. **Say that the rule matters:** counting the unmet verbs would put $c_4$ level with the baseline attacker (20.7 against 28.4 per 1 000 s, or 28.7 if counted; `numbers.json`, `attack_rate_counting_blocked`).
+- *Why active time:* in the targeted attack scenario a run ends when the target falls; the baseline attacker takes it early (its active time averages 0.70 of the limit), so a rate over the whole limit would hide the difference.
+- *Why the metric:* it is the footprint a detector sees, measured with no assumption (entry 4).
 
-**4. Attack confidentiality — adapted.** *The by-proxy stealth metric; the most important paragraph in §4.5 (E10(i)).*
-- *Definition:* the share of the attacker's actions taken while a detector is below its alarm level. The detector: $D(t) = \sum_i e^{-(t - t_i)/\tau}$ over the attacker's past actions, each counting one, with $\tau$ = 60 s — **in plain words, an action counts fully when it happens and fades over about a minute** (a minute later it counts about a third, two minutes later about a seventh). An action is exposed when $D$, counting it, reaches the alarm level; the alarm level is not chosen — Figure 5.1(c) shows every level.
-- *Source:* Zaffarano et al. 2015 — "how much attacker activity may be visible by detection mechanisms"; relayed in Cho et al. 2020 as "the degree of attack behaviors detected by a defender". Already in Table 3.1. No acronym (the letters AC are taken by attack cost).
-- *Differs:* Zaffarano's exposure was information visible in network traffic; ours is a declared detector that counts recent actions.
-- *Why it is needed, and why by proxy:* an APT attacker trades speed for evasion (Alshamrani et al. 2019); slowing the rate of an attack avoids triggering a defence (Ward et al. 2018, §5.18); fast scanning is easy to detect (Jafarian et al. 2015). The three outcome metrics read only the speed side. MTDSim has no detector, so detection cannot be measured; what can be measured is what the attacker gives a detector to see, and this metric says what a stated detector would make of it.
-- *Must also say, once:* a detector that counts time spent on the network would read the slower attacker the other way (Hong et al. 2018, rationale for ACD: "the longer the attack takes, the more likely it will be detected"); the claim is bounded to a detector that counts actions.
-- *$\tau$:* the one declared constant, swept in the appendix (the 2026-08 sweep exists for the older form; re-run on this one).
+**4. Attack confidentiality — adapted.** *The by-proxy stealth metric — the paragraph E10(i) depends on.*
+- *Definition:* the share of the attacker's actions taken while $D < \theta$, where $D(t) = \sum_{a_i \le t} e^{-(t - a_i)/\kappa}$ counts the attacker's recent actions, each fading over about a minute ($\kappa$ = 60 s: an action counts fully when it happens, about a third a minute later, a seventh two minutes later). An action is exposed when $D$, counting it, reaches $\theta$; Figure 5.1(c) shows every $\theta$, so none is chosen.
+- *Source:* Zaffarano et al. 2015, attack confidentiality, "how much attacker activity may be visible by detection mechanisms"; relayed in Cho et al. 2020 as "the degree of attack behaviors detected by a defender". Already in Table 3.1.
+- *Differs:* Zaffarano's exposure was information visible in network traffic; here it is a declared detector that counts recent actions.
+- *Why, and why by proxy:* an APT attacker trades speed for evasion (Alshamrani et al. 2019); slowing the rate of an attack avoids triggering a defence (Ward et al. 2018, §5.18); fast scanning is easy to detect (Jafarian et al. 2015). The three outcome metrics read only the speed side. MTDSim has no detector, so detection cannot be measured; what can be measured is what the attacker gives a detector to see, and this says what a stated detector would make of it.
+- *Must also say, once:* a detector that counts time spent on the network would read the slower attacker the other way (Hong et al. 2018, rationale for ACD: "the longer the attack takes, the more likely it will be detected"); the claim is bounded to a detector that counts actions. $\kappa$ is swept in Appendix `app:detector-memory`.
 
 ### Attack outcome — read in §5.2 (Table 5.3) and §5.3
 
-**5. Attack success probability (ASP) — cited.**
-- *Definition:* the share of runs in which the attacker compromises a database host (the targeted attack scenario). Direction: lower is better for the defender.
-- *Source:* Cho et al. 2020 (the dominant effectiveness metric, "the probability that attacks are successfully performed"); Zaffarano et al. 2015 (*attack success*).
+**5. Attack success probability (ASP) — cited.** The share of runs in which the attacker compromises a target host of the targeted attack scenario. Lower is better for the defender. Cho et al. 2020 (the dominant effectiveness metric, "the probability that attacks are successfully performed"); Zaffarano et al. 2015 (*attack success*).
 
-**6. Network compromise ratio (NCR) — cited, one sentence on the scenario.**
-- *Definition:* the hosts compromised by the end of a run, over the network's 50.
-- *Source:* Zhang 2023; Ho 2024 (Eq. 10).
-- *The sentence §4.5 owes (flag, Marc 2026-09-24: "NCR is dependent on the attack scenario"):* the lineage uses NCR with the general attack scenario, where compromising the network is the goal. This thesis runs the targeted attack scenario — Brown's "APT-style" scenario, the reason it was chosen — so NCR here reads *how much of the network the attacker holds when the run ends*, whether because the target fell or time ran out; ASP, printed beside it, says which. Under a defence the APT attacker model rarely takes the target, so its runs reach the time limit and NCR compares like with like; that is also why NCR, not ASP, carries §5.3 (entry 8).
+**6. Network compromise ratio (NCR) — cited.** $|H_r| / N$ at the end of the run, averaged over runs. Zhang 2023; Ho et al. 2024 (Eq. 10). *One sentence §4.5 owes* (Marc 2026-09-24): the lineage reads NCR with the general attack scenario, where taking the network is the goal; under the targeted attack scenario it reads how much of the network the attacker holds when its run ends — because the target fell or time ran out — and ASP beside it says which. Under a defence the APT attacker model rarely takes the target, so its runs reach the time limit and NCR compares like with like; that is why NCR, not ASP, carries §5.3.
 
-**7. Mean time to compromise (MTTC) — cited, checkpoint stated.**
-- *Definition:* the mean time from the start of a run to its first compromised host, over the runs that compromise one; the share of runs that compromise none is given beside it.
-- *Source:* McQueen et al. 2006; Zhang 2023.
-- *Differs (rule 2, one sentence):* Zhang reads it when 80 % of the hosts have fallen; the APT attacker model never reaches that, so the checkpoint here is the first host.
+**7. Mean time to compromise (MTTC) — cited, checkpoint stated.** The mean, over the runs that compromise a host, of the time from the start of the run to its first compromise; the share that compromise none is given beside it. McQueen et al. 2006; Zhang 2023. *One sentence:* Zhang reads it when 80 % of the hosts have fallen; the APT attacker model never reaches that (14–20 % by the limit), so here it is the first host.
 
 ### MTD effectiveness — read in §5.3
 
-**8. NCR reduction — cited form.**
-- *Definition:* $1 - \mathrm{NCR}_{\text{defence}}/\mathrm{NCR}_{\text{no defence}}$: 0 for no effect, 1 for no host reached, negative if a defence helps the attacker.
-- *Source:* NCR (entry 6), in the form of Alavizadeh et al. 2022's mitigation factor, $1 - \mathrm{ALE}^m/\mathrm{ALE}$, "the ability of the defensive MTD techniques to impair the attack" (Eq. 13).
-- *Why NCR and not ASP:* with a defence running, the APT attacker model's ASP is zero under most conditions, so it cannot order the defences.
+**8. NCR reduction — cited form.** $1 - \overline{\mathrm{NCR}}_{\text{defence}} / \overline{\mathrm{NCR}}_{\text{no defence}}$, a ratio of means with a bootstrap interval: 0 for no effect, 1 for no host compromised, negative if the defence helps the attacker. The form is Alavizadeh et al. 2022's mitigation factor, $1 - \mathrm{ALE}^m / \mathrm{ALE}$, "the ability of the defensive MTD techniques to impair the attack" (Eq. 13). *Why NCR and not ASP:* under a defence the APT attacker model's ASP is zero on most conditions and cannot order them.
 
-**9. Attack actions blocked — adapted.**
-- *Name, verbatim:* Brown et al. 2023, §IV-A heading "Attack Actions Blocked"; Fig. 4 "total actions blocked" — a count of the actions an MTD technique blocked (§III-D: the connection to the host or service is lost, or the user's access has changed).
-- *Definition here:* the share of the attacker's actions that fail because something they need is no longer there.
-- *Differs:* a share rather than a count, so attackers that act at different rates compare; and it counts such failures with no defence running too, so §5.3.1 reads its change around a disruption.
+**9. Attack actions blocked — adapted.** The share of the attacker's actions that fail because something they need is no longer there. Brown et al. 2023, §IV-A "Attack Actions Blocked" (a count of the actions an MTD technique blocked; §III-D: connection to the host or service lost, or the user's access changed). *Differs:* a share, so attackers acting at different rates compare; and it counts such failures with no defence running too (0.24), so §5.3.1 reads its change around a disruption.
 
-**10. Recovery time — introduced.**
-- *Definition:* the time from a disruption to the attacker's next compromise, as a multiple of its own mean time between compromises with no defence (1 = back at its own pace).
-- *Source:* none attacker-side; the field's recovery metric (mean time to recovery) is the defender's.
-- *Why it is needed:* adaptivity — responding to a defence — is the one APT property readable only when a defence acts; that the attacker must recover at all is Jafarian et al. 2015's point (a mutation forces the attacker to restart its reconnaissance).
+**10. Recovery time — introduced.** The time from a disruption to the attacker's next compromise, over its own mean time between compromises with no defence (1: back at its own pace). *Why:* adaptivity — responding to a defence — is the one APT property readable only when a defence acts; the field's recovery metric (mean time to recovery) is the defender's; that the attacker must recover at all is Jafarian et al. 2015's point (a mutation forces reconnaissance to restart).
+
+## The "why did you do that" items for §5.1 (Marc, 2026-09-24)
+
+Not §4.5, but the same defensibility pass, and the setup is where a reader asks:
+- **The targeted attack scenario.** Brown's general attack scenario is a takeover (compromise as much of the network as possible); his target attack scenario is the one he calls "APT-style" — so the thesis switches it on for both attackers, and it exists in the lineage. One clause at the Attacker unit (currently "Both pursue the targeted attack scenario (Table 2.3)").
+- **The metrics sentence.** §5.1's Metrics unit still says "grouped by effectiveness and efficiency, as Table 3.x groups the field's": it becomes the three classes, each named for what it measures, defined in §4.5.
 
 ## Open (add as they come)
 
-1. Entries 1 and 2: the recommended changes (time share after Outkin; attack path variation after Hong) — Marc's ruling. If taken, Figure 5.1(a) and (b) and Table 5.2 follow.
-2. Stealth pair: whether Table 5.3 carries attack rate only (recommended) or also one attack-confidentiality reading.
-3. Table 3.1: add the anchors it lacks — attack rate (Zhan), Outkin's time share, the mitigation factor (Alavizadeh) — so every §4.5 source is on the literature review's map. Attack confidentiality, APV, ASP, NCR, MTTC and attack actions blocked are already there.
-4. $\tau$'s sweep, re-run on the current detector (appendix).
-5. Hand trace for each adapted and introduced metric (V1) — a four-host run, recorded.
+1. The symbols (above), especially $\kappa$ for the detector's memory in place of $\tau$.
+2. Table 3.1: add the anchors it lacks — attack rate (Zhan), Outkin's time share, the mitigation factor (Alavizadeh) — so every §4.5 source is on the literature review's map. Attack confidentiality, APV, ASP, NCR, MTTC and attack actions blocked are there already.
+3. The $\kappa$ sweep for `app:detector-memory` (no-defence corpus, both attackers; the ordering across $\theta$ at each $\kappa$). The 2026-08 sweep was for the older tier-weighted detector and does not carry over.
+4. A hand trace for each adapted and introduced metric (V1) — a four-host run, recorded.
+5. The ablation sentence for §5.2 (the no-action tactics removed from the record) re-run on this detector: at the minute scale it erased the margin; say it only where it holds.
+6. The comment block under §4.5's holders (the 2026-09-23 content points) — replace with a pointer here when the definitions are written.
 
-## Done
-- Bib entries `zhan2013`, `pendleton2016`, `ward2018`, `jafarian2015` added 2026-09-24 (initials as the sources print them; `pendleton2016`'s wording to confirm in the published version).
+## Validation gate
+
+Each of the ten has its equation, direction and source in §4.5; every adapted metric states its one difference; every introduced metric states why; the symbols collide with nothing in `tab:gspn-notation`; Table 5.2's Source column and §4.5 agree; the two §5.1 clauses are in; build clean.
+
+## Reading list
+
+- `docs/workflows/literature_conventions.md` §d — the convention.
+- `docs/thesis/dissertation.tex` — §4.5's holders; `tab:gspn-notation` (l.~4427); Table 3.1 (l.~2120).
+- `docs/sources/extractions/mtd_metric_catalogue.md` — each source, with its locator.
+- `data/results/ch5_s531_unopposed/analyse.py` — the implementation each equation must match (the metrics-design block).

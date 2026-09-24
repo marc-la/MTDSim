@@ -58,9 +58,11 @@ metrics and the numbers exist.
      phase, the field's names; stealth as attack intensity, adapted from He);
      §4.5 Instrumenting MTDSim heading placed; §5.2's fidelity picture
      proposed with a dry-run. Six rulings owed.*
-     *Consolidated 2026-09-24 into one design (three metric classes, Table 5.2
-     as it will read, §5.2 float by float); the §4.5 running list split out as
-     [`2026-09-24_s45_instrumenting_mtdsim.md`](2026-09-24_s45_instrumenting_mtdsim.md).*
+     *Consolidated 2026-09-24 into one design and IMPLEMENTED the same day at 100
+     seeds (Table 5.2 in three classes with a source per row; Figure 5.1 in three
+     panels; Table 5.3 in the field's names; §5.3 relabelled, suppression gone).
+     Next: [`2026-09-24_s45_instrumenting_mtdsim.md`](2026-09-24_s45_instrumenting_mtdsim.md)
+     — every metric defined in §4.5, after the results (Marc's order).*
    - [`2026-09-22_ch5_setup_number_justification.md`](2026-09-22_ch5_setup_number_justification.md)
      — **the numbers (E5)**: the background table of the lineage's
      configurations and one clause per §5.1 value; the numerals rule.
