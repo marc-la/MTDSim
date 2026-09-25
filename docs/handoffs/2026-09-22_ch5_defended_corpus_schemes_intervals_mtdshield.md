@@ -161,6 +161,27 @@ An interval-aware retrained variant is future work, beside the declined phase th
    Rescaling them by 200 / interval would give the model its training-time values. But that is an adapter the thesis would have to defend. It fixes 2 of 11 inputs: the security metrics still change by a different amount between ticks. And it tells the model its last deployment was 200 s ago when it was 2 000 s ago. **The body runs it unadapted at all six intervals, with the 200 s training interval declared.** The rescaled run is an appendix check only if the unadapted line's shape away from 200 s differs from random over the same four (Q7).
 6. **Add the arm and Q7's matched control** (random over the same four) to `run_corpus.py`. Both join the 100-seed smoke.
 
+### 5.7 Where MTDShield lands in the dissertation (proposed 2026-09-25; Marc rules the placement)
+
+**The rule that sets the placement:** the background describes prior work, §5.1 states the choice, and the appendix holds the evidence for it. Each place carries only its own job, and nothing is said twice.
+
+1. **Chapter 2 (background), about 1 sentence added.** Table 2.5 and the paragraph after it (tex l.816-870) already introduce MTDShield as prior work. Add the fact the choice rests on: Tay released the trained agents from his hyperparameter study and named a best one by a summed score normalised to no defence (`tay2024` §5.1). No selection and no defects here; the background describes, it does not choose. The paragraph's "the interval … is 200 s" stays: it is the simulator's default. The sweep is §5.1's.
+2. **§5.1 (setup), 1 sentence plus two table rows.**
+   - The sentence: MTDShield is run as released, as Tay's best-scoring agent acting greedily, with its selection, configuration and the release's known properties in Appendix E.
+   - Table 5.1's condition row gains *MTDShield* and *random over MTDShield's four*.
+   - The interval row gets the six levels (§1).
+3. **§5.3.2 and §5.3.3:** MTDShield is one more scheme line or column, with no prose about the release. The one reading sentence is what the line shows.
+4. **Chapter 6:**
+   - E10(ii) may use the line: a selector tuned against the baseline attacker, measured against the APT attacker model.
+   - The limitations paragraph points to Appendix E in one sentence.
+5. **Appendix E "MTDShield as run"** (a new appendix chapter, after "Supplementary sensitivity analyses"). The code is cited once, by repository and release commit, in the bibliography. Paper claims are cited by section and figure. **No line numbers in the dissertation**; they stay in the repo records (`mtd_ai_forensics.md`), which carry them already.
+   - **E.1 Selection.** One paragraph and Table E.1: the winner of each of Tay's three sweeps with its summed score (11.00, 10.77, 10.39; his Figs. 3-5) and the one run. The criterion is his; the margin is inside his run-to-run spread, said once.
+   - **E.2 Configuration.** Table E.2, *parameter | Tay's training | Tay's evaluation | this thesis | source*, one row each: head, ε, pool, decision tick, attacker sensitivity, 2 000 s guard, network size, horizon, attacker. **This table carries the defence.** The side-by-side columns show where the thesis departs from the training conditions. They also show that Tay's own evaluation departed too (150 nodes and 15 000 s against training at 100 and 5 000; verify against the notebook's cell 1), so running outside training follows his own practice.
+   - **E.3 The two changes needed to run it.** The no-op loop (MTDAI-03) and the input layout switch. Each with why, and the fact that neither changes the simulation (both read state; one random draw per decision, as before).
+   - **E.4 Properties of the release.** Table E.3, *property | evidence | what it means for the reading | handling (declared / checked)*. Five rows: the training/evaluation input mismatch (with the 200 s check's result); BatchNorm variance 0; the value of doing nothing never trained; ε = 1.0 in the published figures; the IDS input never registering the APT attacker model. Neutral register: facts with sources, no evaluative adjectives. It describes a release, not a verdict on Tay's year.
+   - **E.5 Behaviour observed.** Written after the run, from the per-decision ledger: action shares per interval per attacker, and the share of deployments the guard forced. If the model mostly fires one mechanism, that is reported here as what it does, against the prediction in §5.6 step 5a.
+   - **E.6 (only if triggered)** The input-rescaling check (§5.6 step 5b).
+
 ## Rulings owed (Marc)
 
 - **Q1** the interval levels (six proposed).
