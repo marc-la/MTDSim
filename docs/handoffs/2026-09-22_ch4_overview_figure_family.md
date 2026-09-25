@@ -1,5 +1,5 @@
 ---
-status: open                  # executes register E8; DESIGN PLAN 2026-09-25 (from the scrutiny below); A primary, B–C secondary, D carried; F4b, F2, F3 owed
+status: open                  # executes register E8; Part A BUILT 2026-09-25 (four scrutiny rounds, clean; caption DRAFT STATE); B–C secondary, D carried; F4b, F2, F3, A3/prose rulings owed
 created: 2026-09-22
 updated: 2026-09-25
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E8
@@ -44,9 +44,60 @@ L-labels name a layered structure the pipeline does not have.
   appendix figure, or only as the two zooms of Part C (recommended: the zooms
   only; Appendix B already carries a flow exemplar, `fig_B-1a_gap_flow_exemplar`).
 
+- **From the Part A build (2026-09-25), four items only Marc can settle:**
+  - **A3 amended?** The figure carries *Petri nets* under *Profile nets*: all
+    three round-1 readers could not place "profile nets", and the term has its
+    antecedent in the chapter 4 opener (l.4165). A3 banned *Petri* to keep net
+    notation (token, fire, place) off the head figure; the recommendation is to
+    keep the sub-label and amend A3 to the antecedent rule. Cut it if not.
+  - **§4.4 l.4784–4785** "we built the APT attacker model beside MTDSim --- not
+    embedded in it" contradicts Marc's 2026-09-24 ruling in the opener (the
+    comment above l.4160: "replaces" and "built beside" both wrong; MTDSim runs
+    either) and the figure, which draws the two attackers as alternatives in
+    MTDSim's Attacker module. A prose fix, Marc's.
+  - **§4.4 l.4764** calls the nets "like source code: they have no way of
+    running", against the figure's *make executable* (§4.3). Suggested:
+    "cannot run against the simulator on their own". Marc's.
+  - **The accent changes meaning between Figures 2.1 and 4.1.** In Figure 2.1
+    blue marks the attacker's action and path (`tools/ch2_fig21_mtdsim_model.html`,
+    undecoded in its caption); in Figure 4.1 blue marks the APT attacker model
+    and how it is built (decoded). A reader arriving from chapter 2 carries the
+    wrong key. The fix is in Figure 2.1 (neutralise or decode its blue) —
+    Marc's file, out of this session's scope.
+
 ---
 
 ## Part A (primary) — the head figure
+
+**Status 2026-09-25: BUILT** — `tools/ch4_overview_figure.py` →
+`fig_4-0a_method_overview` (16.1 × 10.0 cm at \textwidth, smallest type 8.5 pt),
+in the tex under `fig:pipeline` as a `[t]` float, caption DRAFT STATE for
+Marc's rewrite, build clean (92 pages, no undefined references). It lands at
+the top of the page after the chapter's first page (a top float cannot sit on a
+chapter's opening page, and the opener leaves too little room for an inline
+one), directly after the opener's pointer to it.
+
+| Round | Figure-only reader | With caption | Auditor / critic | What changed after it |
+|---|---|---|---|---|
+| 1 (two layouts) | 7, 7 | 7 | no blocking; *down* layout over the compact U (the U's leftward *measure* ended the method under its input) | one arrowhead size (heads had scaled with the line); *drives* label; codes $c_1$–$c_4$ dropped (no antecedent), counts drawn one way (card stacks); *hosts and services*; *Petri nets* sub-label |
+| 2 | 7 | 7 | caption blocking: *in place of* breaks the 2026-09-24 ruling; *steps* is a taken word | the two attackers drawn as peers with *or* (the ruled "MTDSim runs either"); the join a thin accent step; Figure 2.1's couplings in grey |
+| 3 | **8** | 7 | blocking P19: frame "This dissertation" vs the model inside "existing simulator" | frame title dropped, MTDSim "the simulator of Chapter 2", *join to MTDSim*, *interrupts* added, metrics from under the Attacker module |
+| 4 | **8** ("would trust it as it is") | 7 | **none blocking** | polish: frame "Building the APT attacker model", "one net per run", blue = the model and how it is built (build arrows blue), *drive* grey |
+| 5 (confirm) | **8**, nothing serious | — | — | stop: no reviewer reports a blocking defect |
+
+D1 settled (codes dropped, profiles as a stack); D2 settled (Figure 2.1's
+*rewrites*, *compromises*, *interrupts* drawn grey; *observes* omitted);
+D3 settled (down; MTDSim's modules mirror Figure 2.1 so the join drops straight
+into the Attacker module); D4 settled (no experiment conditions on the figure).
+
+**Content points the readers left for the body text (non-blocking; Marc
+dictates):** only one attacker runs at a time, and one profile net per run
+(say so where §4.4 opens); the join runs both ways — outcomes return to the
+net (§4.4 l.4766; the figure draws it one way, Figure 4.5 carries the return);
+the aggregate $c_{\mathrm{agg}}$ also compiles to a net (§4.2/§4.3); bridge the
+introduction's *actions* to §4.4's *verbs*; say what "measured" means once
+§4.5 is written; the APT attacker model shares the actions but not their
+native costs (§4.4.1 l.4813).
 
 **A1. The one message (the pass criterion).** A reader who has read the
 introduction, given the figure alone, says: *the 38 attack flows are combined
@@ -170,26 +221,36 @@ by objective, making the profiles executable, joining the net to MTDSim. So
 Marc's instinct is right about what the sections are, and the head figure
 already draws them that way: the processes are its arrows.
 
-**F4b — what to call them.**
-- **(a) Recommended — name each section by its process; no number, no class
-  noun.**
+**F4b — what to call them.** *Revised 2026-09-25 on Marc's objection and a
+corpus survey.* The first recommendation here — gerund process headings
+("Combining the attack flows into an attack graph") — is **withdrawn**: Marc
+heard it as storytelling rather than scientific register, and the corpus
+agrees. Of 124 method-subsection headings in 29 corpus papers (record:
+`../implementation/evaluation_anatomies/_method_heading_survey.md`, locators spot-checked — Alavizadeh 2022
+"HARM construction", Zhang 2023 "Modelling Adversary Profiles", Brown 2023
+"Defense and Adversary interaction", Cho-Ben-Asher 2018 "Stochastic Petri
+Nets"), about 73 % are **noun phrases naming the thing** and 18 % **process
+nouns** ("… construction"); gerunds with a different verb per section have no
+precedent at this level; numbered "Stage N:" labels appear in one paper. Marc's
+own rule already says so: voice.md l.55, "Headings state what the section is
+on — nothing more."
+- **(a) Recommended — noun-phrase headings, no number, no class noun.**
 
-  | Now | Proposed heading |
-  |---|---|
-  | §4.1 L0--L1: Cyber threat intelligence to attack graph | Combining the attack flows into an attack graph |
-  | §4.2 L2: Objective-conditioned attack profiles | Splitting the attack graph by objective |
-  | §4.3 L3: Generalised stochastic Petri-net formalism | Making the attack profiles executable (the formalism stays its subject; Jin accepted it, E9) |
-  | §4.4 L4: Joining the profile net to MTDSim | Joining the profile net to MTDSim (already a process; only the prefix goes) |
-  | §4.5 Evaluation metrics | unchanged |
+  | Now | Proposed heading | Form, precedent |
+  |---|---|---|
+  | §4.1 L0--L1: Cyber threat intelligence to attack graph | Attack graph construction | process noun; Alavizadeh 2022 "HARM construction" |
+  | §4.2 L2: Objective-conditioned attack profiles | Attack profiles by objective | noun phrase; drops the coined "objective-conditioned" |
+  | §4.3 L3: Generalised stochastic Petri-net formalism | Generalised stochastic Petri-net formalism | noun phrase; the current heading minus the prefix (Cho-Ben-Asher, Alavizadeh head this section by the formalism) |
+  | §4.4 L4: Joining the profile net to MTDSim | Integration with MTDSim | process noun; Ferraz 2024, the closest paper. Alternative "The join to MTDSim" keeps the registry noun *join* but reads awkwardly; choosing *Integration* puts a second word beside *join*, which is Marc's to rule |
+  | §4.5 Evaluation metrics | unchanged | the corpus's commonest metrics heading |
 
-  The heading, the figure's arrow and the prose then use the same verb (P17;
-  academic_register rule 7). Wording is Marc's; the verbs are the
-  introduction's.
-- **(b) Marc's alternative — "Process 1" … "Process 4".** It reads cleanly, but
-  it is a numbered name that does no work the section numbers do not already do
-  (the 2026-09-22 no-invented-terms ruling: a name must say what it does), and
-  *process* already appears in chapter 3 as *process mining*. If a number is
-  wanted, the figure's §4.x pointers carry it.
+  The figure's arrows keep the introduction's verbs (combine, split by
+  objective, make executable, join, measure) and the headings name the thing;
+  the §4.x pointers tie each arrow to its heading.
+- **(b) Marc's alternative — "Process 1" … "Process 4".** A numbered name that
+  does no work the section numbers do not already do (the 2026-09-22
+  no-invented-terms ruling), *process* already appears in chapter 3 as
+  *process mining*, and one corpus paper numbers its stages in headings.
 - Either way no class noun is needed: every candidate is taken (*phase*: the
   baseline's six and the evaluation's two; *stage*: the lifecycle stages of
   §4.4; *level*: network depth; *step*: Figure 5.1).
@@ -197,7 +258,10 @@ already draws them that way: the processes are its arrows.
 **The sweep (after A's names are final, so headings, figure and prose agree).**
 Sites, from `grep` 2026-09-25 (non-comment only): the four headings (l.4188,
 4298, 4391, 4759); prose l.4269, 4276, 4310, 4400, 4405, 4407, 4698, 4762, 4779,
-4989, 5523 (a bracketed placeholder), 7950 (App. B); the fig:pipeline caption
+4989, 5523 (a bracketed placeholder), 7950 (App. B); *levels* meaning the
+pipeline's parts at l.4328 ("the prior levels") and l.5182 ("the earlier
+levels") — 21 L-label lines in all, five of them the old caption (gone), so
+sixteen plus the two *levels*; the fig:pipeline caption
 (replaced by A5); **Figure 4.5** — `tools/runtime_loop_figure.py` prints
 **L3** and **L4** band labels into `fig_4-4c_runtime_loop.tex`; relabel to the
 figure's names (*profile net*, *the join*) and regenerate. Replacement rule:
@@ -221,7 +285,7 @@ section pointer as the link. The house precedent is Figure 2.1 → Figures 2.2�
 
 | Part (head-figure name) | Zoom | State |
 |---|---|---|
-| combine (§4.1) | two real flows combined into one graph — the old ladder's L0–L1 half, cut down; the two-hue exception (conventions §i) travels here | **new**, from `tools/pipeline_ladder_figure.py` |
+| combine (§4.1) | two real flows combined into one graph — the old ladder's L0–L1 half, cut down; the two-hue exception (conventions §i) travels here | **new**, from `tools/pipeline_ladder_figure.py`; its caption re-cites the two flows' reports (`cisaaa22138b`, `malwarebytesadware2018`), which left the bibliography with the old Figure 4.1 caption on 2026-09-25 |
 | split by objective (§4.2) | the graph split into $c_1$–$c_4$, the aggregate shown as the unsplit graph; **each row draws its own profile's edges** (the old L2 rows redrew one global set, scrutiny §Also found) | **new** |
 | make executable (§4.3) | Figure 4.2, the gadget (`fig_4-3a`) | stands |
 | join (§4.4) | Figures 4.3 (tactic-to-verb mapping), 4.4 (failure matrix), 4.5 (runtime loop, relabelled under B) | stand |
@@ -229,6 +293,15 @@ section pointer as the link. The house precedent is Figure 2.1 → Figures 2.2�
 
 Each new zoom gets its own `/scrutinise-figure` pass (schematic variant) and a
 `FLOATS.md` row.
+
+*Why new figures rather than reuse (Marc asked, 2026-09-25):* Appendix B's
+`fig_B-1a_gap_flow_exemplar` (one flow as the analyst drew it) and
+`fig_B-1b`–`d` (the technique- and tactic-level aggregates) are evidence at full
+detail — they show what the artefacts *are*, not the process a section
+performs, and they stay in the appendix. Chapter 3's
+`fig:attack-flow-volt-typhoon` already shows the reader what an attack flow is;
+§4.1 can point back to it. The §4.1 zoom (two flows combined) and the §4.2 zoom
+(the split) are the two figures that show the processes.
 
 ## Part D (carried from 2026-09-22) — the chapter 5 figure fixes
 
