@@ -2,97 +2,58 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>fig:defence-module — when the defence moves, and what each mechanism rewrites</title>
+<title>fig:execution-scheme — the loop the execution scheme runs</title>
 <style>
-  :root { --ink:#333; --ink2:#6e6e6e; --faint:#b0b0b0; --chrome:#ececec; --panel:#f7f7f7; }
+  :root { --ink:#333; --ink2:#6e6e6e; --panel:#f7f7f7; }
   html, body { margin:0; background:#fff; }
   body { width: 900px; }
-  @media print { @page { size: 16.058cm 9.35cm; margin:0; } body { width:16.058cm; } }
+  @media print { @page { size: 16.058cm 5.35cm; margin:0; } body { width:16.058cm; } }
   svg { display:block; font-family: "Nimbus Sans", "TeX Gyre Heros", Helvetica, Arial, sans-serif; }
   text { fill: var(--ink); }
   .ptitle { font-size: 19px; font-weight: bold; }
   .lbl    { font-size: 17px; }
-  .tgt    { font-size: 17px; font-weight: bold; }
-  .sm     { font-size: 15.5px; fill: var(--ink2); }
   .panel  { fill: var(--panel); stroke:none; }
   .icon   { fill:none; stroke: var(--ink); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
   .icon.f { fill: var(--ink); stroke:none; }
-  .thin   { fill:none; stroke: var(--ink); stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
   .arrow  { stroke: var(--ink); stroke-width:1.8; fill:none; }
-  .brace  { stroke: var(--faint); stroke-width:1.6; fill:none; }
-  .cable  { stroke:#8a8a8a; stroke-width:1.7; fill:none; }
+  .loop   { stroke: var(--ink2); stroke-width:1.6; fill:none; }
 </style></head>
 <body>
-<svg id="fig" viewBox="0 0 900 524" width="900" height="524" xmlns="http://www.w3.org/2000/svg">
+<svg id="fig" viewBox="0 0 900 300" width="900" height="300" xmlns="http://www.w3.org/2000/svg">
 <defs>
   <marker id="mI" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#333"/></marker>
-  <g id="clockic"><circle class="icon" r="14"/><path class="icon" d="M0,-8 V0 H6"/></g>
+  <marker id="mL" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#6e6e6e"/></marker>
+  <g id="clockic"><circle class="icon" r="17"/><path class="icon" d="M0,-10 V0 H7"/></g>
   <g id="diceic"><rect class="icon" x="-12" y="-12" width="24" height="24" rx="3"/><circle class="icon f" cx="-5.5" cy="-5.5" r="2.4"/><circle class="icon f" cx="5.5" cy="5.5" r="2.4"/><circle class="icon f" r="2.4"/></g>
   <g id="chipic"><rect class="icon" x="-11" y="-11" width="22" height="22" rx="2.5"/><path class="icon" d="M-5.5,-11 V-16 M0,-11 V-16 M5.5,-11 V-16 M-5.5,11 V16 M0,11 V16 M5.5,11 V16 M-11,-5.5 H-16 M-11,0 H-16 M-11,5.5 H-16 M11,-5.5 H16 M11,0 H16 M11,5.5 H16"/></g>
   <g id="noneic"><circle class="icon" r="12"/><path class="icon" d="M-8.5,8.5 L8.5,-8.5"/></g>
-  <g id="shieldic"><path class="icon" d="M0,-16 L13,-10 V0 C13,8 7,14 0,16 C-7,14 -13,8 -13,0 V-10 Z"/><path class="icon" d="M-5,0 L-1,4 L6,-4"/></g>
-  <g id="pc"><rect class="thin" x="-13" y="-10" width="26" height="18" rx="2.5"/><path class="thin" d="M-6,12 H6 M0,8 V12"/></g>
-  <g id="gear"><path class="thin" d="M0,-12 L3.3,-11.4 L4.6,-8 L8.7,-8.7 L10.7,-5.3 L8,-2.7 L8,2.7 L10.7,5.3 L8.7,8.7 L4.6,8 L3.3,11.4 L0,12 L-3.3,11.4 L-4.6,8 L-8.7,8.7 L-10.7,5.3 L-8,2.7 L-8,-2.7 L-10.7,-5.3 L-8.7,-8.7 L-4.6,-8 L-3.3,-11.4 Z"/><circle class="thin" r="4"/></g>
-  <g id="user"><circle class="thin" cx="0" cy="-7" r="6"/><path class="thin" d="M-11,11 C-11,2 11,2 11,11"/></g>
-  <g id="key"><circle class="thin" cx="-8" cy="0" r="7"/><path class="thin" d="M-1,0 H15 M10,0 V5.5 M14,0 V4"/></g>
+  <g id="netic"><circle class="icon" cx="-13" cy="-9" r="5.2"/><circle class="icon" cx="13" cy="-9" r="5.2"/><circle class="icon" cx="0" cy="13" r="5.2"/><path class="icon" d="M-8.7,-6.5 L-3.5,10 M8.7,-6.5 L3.5,10 M-7.8,-9 H7.8"/></g>
 </defs>
 
-<!-- ============ EXECUTION SCHEME: one flow, left to right ============ -->
-<rect class="panel" x="14" y="14" width="872" height="156" rx="6"/>
+<rect class="panel" x="14" y="14" width="872" height="272" rx="6"/>
 <text class="ptitle" x="34" y="46">Execution scheme</text>
 
-<g transform="translate(112,100)"><use href="#clockic"/></g>
-<text class="sm" x="112" y="140" text-anchor="middle">an interval elapses</text>
+<!-- 1. the clock -->
+<g transform="translate(140,130)"><use href="#clockic"/></g>
+<text class="lbl" x="140" y="188" text-anchor="middle">an interval elapses</text>
 
-<path class="arrow" marker-end="url(#mI)" d="M146,100 H310"/>
+<path class="arrow" marker-end="url(#mI)" d="M172,130 H352"/>
 
-<g transform="translate(358,100)"><use href="#diceic"/></g>
-<g transform="translate(400,100)"><use href="#chipic"/></g>
-<g transform="translate(442,100)"><use href="#noneic"/></g>
-<text class="sm" x="400" y="140" text-anchor="middle">the scheme draws which mechanism fires,</text>
-<text class="sm" x="400" y="158" text-anchor="middle">or a learned selector picks one — or none</text>
+<!-- 2. what fires, if anything -->
+<g transform="translate(408,130)"><use href="#diceic"/></g>
+<g transform="translate(450,130)"><use href="#chipic"/></g>
+<g transform="translate(492,130)"><use href="#noneic"/></g>
+<text class="lbl" x="450" y="188" text-anchor="middle">the scheme picks which mechanism</text>
+<text class="lbl" x="450" y="210" text-anchor="middle">deploys — or none</text>
 
-<path class="arrow" marker-end="url(#mI)" d="M490,100 H660"/>
+<path class="arrow" marker-end="url(#mI)" d="M520,130 H700"/>
 
-<g transform="translate(714,100)"><use href="#shieldic"/></g>
-<text class="sm" x="714" y="140" text-anchor="middle">the defence moves</text>
+<!-- 3. what actually moves -->
+<g transform="translate(730,130)"><use href="#netic"/></g>
+<text class="lbl" x="730" y="188" text-anchor="middle">its rewrite manipulates</text>
+<text class="lbl" x="730" y="210" text-anchor="middle">the attack surface</text>
 
-<!-- ============ MECHANISMS: each one against the thing it rewrites ============ -->
-<rect class="panel" x="14" y="194" width="872" height="316" rx="6"/>
-<text class="ptitle" x="34" y="226">Mechanisms</text>
-<text class="sm" x="180" y="226">each rewrites one part of the network</text>
-
-<!-- ---- the host layer ---- -->
-<text class="lbl" x="40" y="268">Complete topology shuffle</text>
-<text class="lbl" x="40" y="296">Host topology shuffle</text>
-<text class="lbl" x="40" y="324">IP shuffle</text>
-<path class="brace" d="M310,256 H318 V320 H310 M318,288 H328"/>
-<path class="arrow" marker-end="url(#mI)" d="M328,288 H438"/>
-<text class="sm" x="383" y="278" text-anchor="middle">rewrite</text>
-<g class="cable"><path d="M496,270 L560,304"/><path d="M560,304 L624,270"/><path d="M624,270 L684,304"/><path d="M560,304 L684,304"/></g>
-<g><g transform="translate(496,270)"><use href="#pc"/></g><g transform="translate(560,304)"><use href="#pc"/></g><g transform="translate(624,270)"><use href="#pc"/></g><g transform="translate(684,304)"><use href="#pc"/></g></g>
-<text class="tgt" x="730" y="294">the host layer</text>
-
-<!-- ---- the service layer ---- -->
-<text class="lbl" x="40" y="380">OS diversity</text>
-<text class="lbl" x="40" y="408">Service diversity</text>
-<text class="lbl" x="40" y="436">Port shuffle</text>
-<path class="brace" d="M310,368 H318 V432 H310 M318,400 H328"/>
-<path class="arrow" marker-end="url(#mI)" d="M328,400 H438"/>
-<text class="sm" x="383" y="390" text-anchor="middle">rewrite</text>
-<rect class="thin" x="466" y="378" width="52" height="44" rx="3"/>
-<path class="thin" d="M466,398 H518 M492,378 V422"/>
-<g class="cable"><path d="M556,400 L610,368"/><path d="M556,400 L610,432"/><path d="M556,400 L664,400"/></g>
-<path class="arrow" d="M520,400 H544"/>
-<rect class="thin" x="546" y="390" width="20" height="20" rx="2.5"/>
-<g><g transform="translate(610,368)"><use href="#gear"/></g><g transform="translate(610,432)"><use href="#gear"/></g><g transform="translate(676,400)"><use href="#gear"/></g></g>
-<text class="tgt" x="730" y="406">the service layer</text>
-
-<!-- ---- the credentials ---- -->
-<text class="lbl" x="40" y="480">User shuffle</text>
-<path class="arrow" marker-end="url(#mI)" d="M328,474 H438"/>
-<text class="sm" x="383" y="464" text-anchor="middle">rewrites</text>
-<g><g transform="translate(500,474)"><use href="#user"/></g><g transform="translate(570,474)"><use href="#key"/></g></g>
-<text class="tgt" x="730" y="480">the credentials</text>
+<!-- and the loop closes -->
+<path class="loop" marker-end="url(#mL)" d="M788,130 H862 V252 H48 V130 H118"/>
 </svg>
 </body></html>
