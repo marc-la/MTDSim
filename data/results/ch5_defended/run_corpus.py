@@ -63,8 +63,24 @@ CONDITIONS: dict[str, tuple[str | None, str | None]] = {
     "service_diversity": ("single", "ServiceDiversity"),
     "random": ("random", None),
     "alternative": ("alternative", None),
+    # MTDShield (Marc 2026-09-25; handoff 2026-09-25_mtdshield_preliminary_run.md):
+    # Tay's released agent, greedy, over his four mechanisms plus the no-op,
+    # through his evaluation builder; random over the same four as its matched
+    # control; and the same agent through his training builder, the check on
+    # the inputs the two builders define differently (Appendix E).
+    "mtdshield": ("mtd_ai", "tay2024_eval"),
+    "random_four": ("random", "FOUR"),
+    "mtdshield_train": ("mtd_ai", "tay2024_train"),
 }
-DEFENDED = tuple(c for c in CONDITIONS if c != "none")
+# The 2026-09-17 corpus's nine; build_jobs() is unchanged over them.
+DEFENDED = ("ip_shuffle", "complete_topology", "host_topology", "port_shuffle", "user_shuffle",
+            "os_diversity", "service_diversity", "random", "alternative")
+SHIELD = ("mtdshield", "random_four")
+SHIELD_CHECK = ("mtdshield_train",)
+# Tay's highest-scoring agent (epsilon 0.5, decay 0.99; his commit f13ed49a).
+AGENT = HERE.parents[2] / "mtdsim-weights-archive" / "main_network_epsilon_0.5_decay_0.99__0848c2e2d5b7.h5"
+MTDAI_EPSILON = 0.0
+MTDAI_SENSITIVITY = 1.0
 SPANNING = ("ip_shuffle", "os_diversity")
 MODULES = {
     "CompleteTopologyShuffle": "completetopologyshuffle",
@@ -87,11 +103,49 @@ def _strategies(condition: str):
     scheme, mech = CONDITIONS[condition]
     if scheme is None:
         return None, None
+    if scheme == "mtd_ai" or mech == "FOUR":
+        # Tay's four, in the order his agent's action indices point at.
+        from mtdnetwork.mtdai.mtd_ai import mtd_action_space
+
+        return scheme, mtd_action_space()
     if mech is not None:
         return scheme, getattr(importlib.import_module(f"mtdnetwork.mtd.{MODULES[mech]}"), mech)
     return scheme, [
         getattr(importlib.import_module(f"mtdnetwork.mtd.{MODULES[m]}"), m) for m in MODULES
     ]
+
+
+_AGENT = None
+
+
+def _agent():
+    """Tay's agent, loaded once per worker process."""
+    global _AGENT
+    if _AGENT is None:
+        os.environ.setdefault("TF_CPP_MIN_LOG_LEVEL", "3")
+        import keras
+        import tensorflow as tf
+
+        tf.config.threading.set_intra_op_parallelism_threads(1)
+        tf.config.threading.set_inter_op_parallelism_threads(1)
+        _AGENT = keras.saving.load_model(str(AGENT), compile=False)
+    return _AGENT
+
+
+def _mtd_ai_config(condition: str):
+    from mtdsim.l3_simulation.movement.run import MTDAIConfig
+
+    scheme, layout = CONDITIONS[condition]
+    if scheme != "mtd_ai":
+        return None
+    _, strategies = _strategies(condition)
+    return MTDAIConfig(main_network=_agent(), epsilon=MTDAI_EPSILON,
+                       attacker_sensitivity=MTDAI_SENSITIVITY,
+                       strategies=strategies, feature_layout=layout)
+
+
+def _decisions(ledger) -> dict:
+    return {"mtd_decisions": [[round(float(d.time), 6), int(d.action), str(d.source)] for d in ledger]}
 
 
 def _mtd_fields(result_like) -> dict:
@@ -111,6 +165,9 @@ def _movement(job: dict) -> dict:
     from mtdsim.l3_simulation.movement.run import run_movement
 
     scheme, strategies = _strategies(job["condition"])
+    mtd_ai = _mtd_ai_config(job["condition"])
+    if mtd_ai is not None:
+        strategies = None  # the agent's pool travels in its config
     overlay_kw = (
         {"overlay": verdict_blind_overlay()} if job["overlay"] == "verdict_blind"
         else {"overlay_version": job["overlay"]}
@@ -128,6 +185,7 @@ def _movement(job: dict) -> dict:
         substrate_timing_regime=job["regime"],
         attack_objective=job["objective"],
         target_layer=None,
+        **({"mtd_ai": mtd_ai} if mtd_ai is not None else {}),
         **overlay_kw,
     )
     return {
@@ -153,6 +211,7 @@ def _movement(job: dict) -> dict:
             "mtd_suspended_count": r.mtd_suspended_count,
             "mtd_attack_interrupted": r.mtd_attack_interrupted,
         }),
+        **(_decisions(r.mtd_decisions) if mtd_ai is not None else {}),
     }
 
 
@@ -170,7 +229,8 @@ def _baseline(job: dict) -> dict:
     from mtdnetwork.component.time_network import TimeNetwork
     from mtdnetwork.data.constants import ATTACKER_THRESHOLD
     from mtdnetwork.operation.attack_operation import AttackOperation
-    from mtdsim.l3_simulation.movement.run import GEOMETRY, _install_objective, mtd_snapshot
+    from mtdsim.l3_simulation.movement.run import (GEOMETRY, _install_objective, decision_snapshot,
+                                                   mtd_snapshot)
     from mtdnetwork.component.time_generator import set_exponential_regime
 
     seed = job["seed"]
@@ -187,7 +247,25 @@ def _baseline(job: dict) -> dict:
     )
     attack_op.proceed_attack()
     scheme, strategies = _strategies(job["condition"])
-    if scheme:
+    operation = None
+    if scheme == "mtd_ai":
+        # As tools/mtd_ai_run.py builds it, on the same end_event and pins.
+        from mtdnetwork.mtdai.mtd_ai import CANONICAL_FEATURES
+        from mtdnetwork.operation.mtd_ai_operation import MTDAIOperation
+        from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatistics
+
+        cfg = _mtd_ai_config(job["condition"])
+        operation = MTDAIOperation(
+            features=CANONICAL_FEATURES, security_metrics_record=SecurityMetricStatistics(),
+            env=env, end_event=end_event, network=network, attack_operation=attack_op,
+            scheme="mtd_ai", adversary=adversary, proceed_time=0,
+            mtd_trigger_interval=job["interval"], custom_strategies=cfg.strategies,
+            main_network=cfg.main_network, attacker_sensitivity=cfg.attacker_sensitivity,
+            epsilon=cfg.epsilon, static_degrade_factor=cfg.static_degrade_factor,
+            downtime_window=cfg.downtime_window, feature_layout=cfg.feature_layout,
+        )
+        operation.proceed_mtd()
+    elif scheme:
         from mtdnetwork.operation.mtd_operation import MTDOperation
         from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatistics
 
@@ -226,6 +304,7 @@ def _baseline(job: dict) -> dict:
             for x in recs
         ],
         **_mtd_fields(mtd_snapshot(network)),
+        **(_decisions(decision_snapshot(operation)) if operation is not None else {}),
     }
 
 
@@ -272,13 +351,24 @@ def build_jobs() -> list[dict]:
     return jobs
 
 
+def build_shield_jobs(conditions=SHIELD, intervals=INTERVALS) -> list[dict]:
+    """MTDShield and its matched control on the core group, appended to the
+    corpus (the no-defence reference is the corpus's own)."""
+    arms = [("baseline", "baseline")] + [("movement", p) for p in PROFILES]
+    return [_job("core", arm, profile, "targeted", c, interval, "shifted", OVERLAY, seed)
+            for seed in SEEDS for arm, profile in arms for interval in intervals for c in conditions]
+
+
 def main() -> int:
-    jobs = build_jobs()
+    # SHIELD=1 appends MTDShield, random over its four, and the training-builder
+    # check to the existing runs.jsonl; the default rebuilds the 2026-09-17 corpus.
+    shield = os.environ.get("SHIELD") == "1"
+    jobs = (build_shield_jobs() + build_shield_jobs(SHIELD_CHECK)) if shield else build_jobs()
     workers = int(os.environ.get("WORKERS", min(7, os.cpu_count() or 4)))
     print(f"{len(jobs)} runs on {workers} workers -> {OUT}", flush=True)
     started = time.time()
     done = errors = 0
-    with OUT.open("w", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
+    with OUT.open("a" if shield else "w", encoding="utf-8") as fh, ProcessPoolExecutor(workers) as pool:
         for row in pool.map(dispatch, jobs, chunksize=16):
             fh.write(json.dumps(row) + "\n")
             done += 1

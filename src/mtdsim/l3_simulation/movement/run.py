@@ -138,6 +138,11 @@ class MTDAIConfig:
     downtime_window: float = 200.0
     features: dict | None = None
     strategies: list | None = None
+    # "live" (the 5/7 builder), or "tay2024_eval" / "tay2024_train" to run one
+    # of Tay's released 8/3 agents through the builder it was evaluated or
+    # trained with (mtdnetwork.mtdai.mtd_ai.FEATURE_LAYOUTS). The operation
+    # checks the agent's input shapes against it.
+    feature_layout: str = "live"
 
 
 def _start_mtd_ai(
@@ -203,6 +208,7 @@ def _start_mtd_ai(
         epsilon=config.epsilon,
         static_degrade_factor=config.static_degrade_factor,
         downtime_window=config.downtime_window,
+        feature_layout=config.feature_layout,
     )
     operation.proceed_mtd()
     return operation

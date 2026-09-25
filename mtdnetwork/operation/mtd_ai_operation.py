@@ -12,7 +12,7 @@ import simpy
 from mtdnetwork.component.mtd_scheme import MTDScheme
 from mtdnetwork.statistic.evaluation import Evaluation
 import numpy as np
-from mtdnetwork.mtdai.mtd_ai import choose_action_traced, STATE_FEATURE_ORDER, TIME_FEATURE_ORDER
+from mtdnetwork.mtdai.mtd_ai import choose_action_traced, check_layout, STATE_FEATURE_ORDER, TIME_FEATURE_ORDER
 import pandas as pd
 import random
 from mtdnetwork.statistic.security_metric_statistics import SecurityMetricStatistics
@@ -22,7 +22,7 @@ class MTDAIOperation:
 
     def __init__(self, features,security_metrics_record ,env, end_event, network, attack_operation, scheme, adversary,proceed_time=0,
                  mtd_trigger_interval=None, custom_strategies=None, main_network=None, attacker_sensitivity=None, epsilon=None, static_degrade_factor = 2000,
-                 downtime_window=200.0):
+                 downtime_window=200.0, feature_layout="live"):
         """
         :param env: the parameter to facilitate simPY env framework
         :param network: the simulation network
@@ -79,6 +79,13 @@ class MTDAIOperation:
         # the static-degrade guard, one drawn by exploration, and one chosen by
         # the policy are indistinguishable after the fact.
         self.decision_log = []
+
+        # Which builder fills the agent's inputs: the live 5/7 (default), or
+        # one of Tay's two 8/3 builders, restored so that his released agents
+        # can be run as released (mtd_ai.py, TAY2024_*; Appendix E).
+        self.feature_layout = feature_layout
+        if main_network is not None:
+            check_layout(main_network, feature_layout)
 
     def proceed_mtd(self):
         if self.network.get_unfinished_mtd():
@@ -295,77 +302,156 @@ class MTDAIOperation:
     def get_decision_log(self):
         return self.decision_log
 
-    # MTDAI-02 disposition (2026-08-08): the 8/3 head below stays commented, and
-    # the live 5/6 head below it is declared the canonical feature set.
-    #
-    # The only reason to restore this head was to feed Tay's checkpoints, and
-    # those are unusable on three independent grounds (mtd_ai_forensics.md §1,
-    # §3), so nothing is being fed. The choice is therefore about which metrics
-    # the agent should see, not about compatibility. Of the three inputs this
-    # head carries and the live one does not, two — shortest_path_variability
-    # and attack_type — are present in the live head as time-series features, so
-    # only their placement differs; the third, exposed_endpoints, is the nearest
-    # analogue to Tay's unimplemented T-FX-02, which Marc ruled low priority and
-    # dropped on 2026-08-07. The live head therefore loses nothing that has not
-    # already been ruled out, and it is the head the substrate actually
-    # computes. Kept rather than deleted because the forensics record cites it
-    # by line number.
-    #
-    # def get_state_and_time_series(self):
-    #     # State metrics
+    # MTDAI-02 overturned (Marc, 2026-09-25): Tay's released agent is run as
+    # released, so the 8/3 builders it was trained and evaluated through come
+    # back as named layouts. Both are restored verbatim from his release commit
+    # f13ed49a, defects included; the live 5/7 builder below stays the default.
+    # Each reads state only and makes one random.random() draw per decision, the
+    # same count as the live builder, so selecting a layout moves no RNG stream.
 
-    #     compromised_num = self.evaluation.compromised_num()
-    #     host_compromise_ratio = compromised_num/len(self.network.get_hosts()) 
-    #     sensitivity_factor = random.random()
-    #     if sensitivity_factor <= self.attacker_sensitivity:
-    #         current_attack = self.adversary.get_curr_process()
-    #         current_attack_value = self.attack_dict.get(current_attack, 7)
-    #     else:
-    #         current_attack_value = 7
+    def _tay2024_eval_state_and_time_series(self):
+        """Tay's evaluation builder, mtd_ai_operation.py at f13ed49a (the path
+        his published runs went through). self.evaluation holds record copies
+        taken at construction, so four inputs read 0 throughout; left so."""
+        # State metrics
 
-    #     exposed_endpoints = len(self.network.get_exposed_endpoints())
+        compromised_num = self.evaluation.compromised_num()
+        host_compromise_ratio = compromised_num/len(self.network.get_hosts()) 
+        sensitivity_factor = random.random()
+        if sensitivity_factor <= self.attacker_sensitivity:
+            current_attack = self.adversary.get_curr_process()
+            current_attack_value = self.attack_dict.get(current_attack, 7)
+        else:
+            current_attack_value = 7
 
-    #     attack_path_exposure = self.network.attack_path_exposure()
+        exposed_endpoints = len(self.network.get_exposed_endpoints())
 
-    #     attack_stats = self.adversary.get_network().get_scorer().get_statistics()
-    #     risk = attack_stats['Vulnerabilities Exploited']['risk'][-1] if attack_stats['Vulnerabilities Exploited']['risk'] else 0
-    #     roa = attack_stats['Vulnerabilities Exploited']['roa'][-1] if attack_stats['Vulnerabilities Exploited']['roa'] else 0
+        attack_path_exposure = self.network.attack_path_exposure()
 
-    #     shortest_paths = self.network.scorer.shortest_path_record 
-    #     shortest_path_variability = (len(shortest_paths[-1]) - len(shortest_paths[-2]))/len(shortest_paths) if len(shortest_paths) > 1 else 0
+        attack_stats = self.adversary.get_network().get_scorer().get_statistics()
+        risk = attack_stats['Vulnerabilities Exploited']['risk'][-1] if attack_stats['Vulnerabilities Exploited']['risk'] else 0
+        roa = attack_stats['Vulnerabilities Exploited']['roa'][-1] if attack_stats['Vulnerabilities Exploited']['roa'] else 0
 
-    #     evaluation_results = self.evaluation.evaluation_result_by_compromise_checkpoint(np.arange(0.01, 1.01, 0.01))
-    #     if evaluation_results:
-    #         total_asr, total_time_to_compromise, total_compromises = 0, 0, 0
+        shortest_paths = self.network.scorer.shortest_path_record 
+        shortest_path_variability = (len(shortest_paths[-1]) - len(shortest_paths[-2]))/len(shortest_paths) if len(shortest_paths) > 1 else 0
 
-    #         for result in evaluation_results:
-    #             if result['host_compromise_ratio'] != 0:  
-    #                 total_time_to_compromise += result['time_to_compromise']
-    #                 total_compromises += 1
-    #             total_asr += result['attack_success_rate']
+        evaluation_results = self.evaluation.evaluation_result_by_compromise_checkpoint(np.arange(0.01, 1.01, 0.01))
+        if evaluation_results:
+            total_asr, total_time_to_compromise, total_compromises = 0, 0, 0
 
-    #         overall_asr_avg = total_asr / len(evaluation_results) if evaluation_results else 0
-    #         overall_mttc_avg = total_time_to_compromise / total_compromises if total_compromises else 0
-    #     else:
-    #         overall_asr_avg = 0
-    #         overall_mttc_avg = 0
+            for result in evaluation_results:
+                if result['host_compromise_ratio'] != 0:  
+                    total_time_to_compromise += result['time_to_compromise']
+                    total_compromises += 1
+                total_asr += result['attack_success_rate']
+
+            overall_asr_avg = total_asr / len(evaluation_results) if evaluation_results else 0
+            overall_mttc_avg = total_time_to_compromise / total_compromises if total_compromises else 0
+        else:
+            overall_asr_avg = 0
+            overall_mttc_avg = 0
 
 
-    #     # Time-series metrics
-    #     time_since_last_mtd = self.env.now - self.network.last_mtd_triggered_time
-    #     # time_since_last_mtd = 1
-    #     mtd_freq = self.evaluation.mtd_execution_frequency()
+        # Time-series metrics
+        time_since_last_mtd = self.env.now - self.network.last_mtd_triggered_time
+        # time_since_last_mtd = 1
+        mtd_freq = self.evaluation.mtd_execution_frequency()
 
-    #     state_array = np.array([host_compromise_ratio, exposed_endpoints, attack_path_exposure, overall_asr_avg, roa, shortest_path_variability, risk, current_attack_value])
+        state_array = np.array([host_compromise_ratio, exposed_endpoints, attack_path_exposure, overall_asr_avg, roa, shortest_path_variability, risk, current_attack_value])
  
 
-    #     time_series_array = np.array([mtd_freq, overall_mttc_avg, time_since_last_mtd])
+        time_series_array = np.array([mtd_freq, overall_mttc_avg, time_since_last_mtd])
 
-    #     # self.security_metrics_record.append_security_metric_record(state_array,time_series_array, env.now)
+        # self.security_metrics_record.append_security_metric_record(state_array,time_series_array, env.now)
  
-    #     return state_array, time_series_array
-    
+        return state_array, time_series_array
+
+    def _tay2024_train_state_and_time_series(self):
+        """Tay's training builder, mtd_ai_training.py at f13ed49a (the path the
+        agent learned from). Reads its inputs live. Verbatim: with no else on
+        the detection draw it needs attacker_sensitivity 1.0, as his training
+        ran, and it divides by the SCAN_PORT count unguarded."""
+
+        exposed_endpoints = len(self.network.get_exposed_endpoints()) # Correct(Checked)
+
+        attack_path_exposure = self.network.attack_path_exposure() # Correct(Checked)
+
+        shortest_paths = self.network.scorer.shortest_path_record 
+        # Extract the lengths of all paths
+        path_lengths = [len(path) for path in shortest_paths]
+        # Sort the lengths in ascending order
+        sorted_lengths = sorted(path_lengths)
+        # Calculate variability between the two shortest paths
+        if len(sorted_lengths) > 1:
+            shortest_path_variability = (sorted_lengths[1] - sorted_lengths[0]) / sorted_lengths[0] # Should be corrected(Checked)
+        else:
+            shortest_path_variability = 0
+
+
+        # shortest_distance = self.network.get_path_from_exposed(self.network.target_node, self.network.graph)[1]
+        # print(shortest_distance)
+
+        record = self.adversary.get_attack_stats().get_record()
+        if 'compromise_host_uuid' in record.columns:
+            compromised_hosts = record[record['compromise_host_uuid'] != 'None']['compromise_host_uuid'].unique()
+            compromised_num = len(compromised_hosts)
+        else:
+            compromised_num = 0    
+        host_compromise_ratio = compromised_num/len(self.network.get_hosts()) # Correct(Checked)
+
+        time_since_last_mtd = self.env.now - self.network.last_mtd_triggered_time # Correct(Checked)
+
+        mtd_record = self.network.get_mtd_stats().get_record()
+
+        if len(mtd_record) == 0:
+            mtd_freq = 0
+        else:
+            mtd_freq = len(mtd_record) / (mtd_record.iloc[-1]['finish_time'] - mtd_record.iloc[0]['start_time']) # Correct(Checked)
+   
+
+        attack_stats = self.adversary.get_network().get_scorer().get_statistics()
+  
+        risk = attack_stats['Vulnerabilities Exploited']['risk'][-1] if attack_stats['Vulnerabilities Exploited']['risk'] else 0
+        roa = attack_stats['Vulnerabilities Exploited']['roa'][-1] if attack_stats['Vulnerabilities Exploited']['roa'] else 0
+ 
+
+        if 'cumulative_compromised_hosts' in record.columns:
+            sub_record = record[record['cumulative_compromised_hosts'] <= compromised_num]
+            attempt_hosts = sub_record[sub_record['current_host_uuid'] != -1]['current_host_uuid'].unique()
+            attack_actions = sub_record[sub_record['name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]
+            attack_event_num = 0
+            for host in attempt_hosts:
+                attack_event_num += len(attack_actions[(attack_actions['current_host_uuid'] == host) &
+                                                        (attack_actions['name'] == 'SCAN_PORT')])
+            overall_time_to_compromise = sub_record[sub_record[
+            'name'].isin(['SCAN_PORT', 'EXPLOIT_VULN', 'BRUTE_FORCE'])]['duration'].sum() # Corrected(Checked)
+            attack_success_rate = compromised_num / attack_event_num    # Corrected(Checked)
+        else:
+            attack_success_rate = 0
+            overall_time_to_compromise = 0
+        
+        
+
+
+        # Not a metric but indicate the attacker type
+        sensitivity_factor = random.random()
+        if sensitivity_factor <= self.attacker_sensitivity:
+            current_attack = self.adversary.get_curr_process()
+            current_attack_value = self.attack_dict.get(current_attack, 7)
+
+            
+ 
+        state_array = np.array([host_compromise_ratio, exposed_endpoints, attack_path_exposure, attack_success_rate, roa, shortest_path_variability, risk, current_attack_value])
+ 
+
+        time_series_array = np.array([mtd_freq, overall_time_to_compromise, time_since_last_mtd])
+        return state_array, time_series_array
+
     def get_state_and_time_series(self):
+        if self.feature_layout == "tay2024_eval":
+            return self._tay2024_eval_state_and_time_series()
+        if self.feature_layout == "tay2024_train":
+            return self._tay2024_train_state_and_time_series()
         # print(self.features)
         previous_ips = self.network.scorer.current_hosts_ip
         unique_hosts = []

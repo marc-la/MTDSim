@@ -68,7 +68,9 @@ new float.
 
 Inline (typed directly in `dissertation.tex`, no file): `tab:experiment-one` (§B.7),
 `tab:mtd-metrics` (§3.2.1, Table 3.1).
-2026-09-25, Appendix E *MTDShield as run* (hand-set from Tay's report and the release at `f13ed49` / `e6c13c6`; handoff `2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md` §5.7): `tab:mtdshield-sweeps` (§E.1, Tay's three sweeps with held settings and the reported highest and lowest scores), `tab:mtdshield-configuration` (§E.2, trained / Tay's evaluation / Chapter 5), `tab:mtdshield-properties` (§E.4, five properties of the release, what each means, how handled; row two's check result owed to the MTDShield run).
+2026-09-25, Appendix E *MTDShield as run* (hand-set from Tay's report and the release at `f13ed49` / `e6c13c6`; handoff `2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md` §5.7): `tab:mtdshield-sweeps` (§E.1, Tay's three sweeps with held settings and the reported highest and lowest scores), `tab:mtdshield-configuration` (§E.2, trained / Tay's evaluation / Chapter 5), `tab:mtdshield-properties` (§E.4) was cut to bullets the same day (f856bd82; no longer a float).
+
+2026-09-25, **MTDShield added as an execution-scheme column** (Marc; handoff `2026-09-25_mtdshield_preliminary_run.md`; record `docs/implementation/pipeline/ogasp/ch5_mtdshield_preliminary_findings.md`): `fig:eff-cross-arm`, `fig:eff-suppression-profiles`, `tab:eff-orderings`, `tab:eff-conditions` now carry eleven conditions — the nine plus *random, MTDShield's four* (the matched control; name proposed, Marc rules, Q7) and *MTDShield* (Tay's `epsilon_0.5_decay_0.99` agent, ε = 0, his evaluation builder). The two figures are restacked: (a)–(b) single mechanisms full width at 200 s / 2 000 s, (c)–(d) the four execution schemes per interval. `numbers.json` gains §`shield` (the per-decision ledger and the training-builder check). PRELIMINARY: 100 seeds; Appendix E.5 populated from the same run.
 
 ## Planned — Chapter 5, placeholder floats (2026-09-09)
 

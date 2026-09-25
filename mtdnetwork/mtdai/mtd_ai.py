@@ -185,6 +185,72 @@ def mtd_action_space():
     return [CompleteTopologyShuffle, IPShuffle, OSDiversity, ServiceDiversity]
 
 
+# --- Tay's released 8/3 input layout ---------------------------------------
+#
+# The agents Tay released (mtdsim-weights-archive/*.h5, from his commit
+# f13ed49a) take an 8-wide state and a 3-long time series, not the live 5/7.
+# MTDAI-02 was overturned on 2026-09-25 (Marc: run Tay's best agent as
+# released), so his layout comes back as a named option beside the live one,
+# which stays the default. The feature order is recorded here, as the live
+# order is above; the builders that fill it are MTDAIOperation's.
+#
+# At f13ed49a Tay had two builders for this layout, and they disagree:
+#  - "tay2024_eval" is his evaluation builder (mtd_ai_operation.py at f13ed49a),
+#    the code his published runs went through. It reads four inputs through an
+#    Evaluation object whose record copies were taken when the operation was
+#    built, at t = 0, so host_compromise_ratio, overall_asr_avg,
+#    overall_mttc_avg and mtd_freq read 0 for the whole run.
+#  - "tay2024_train" is his training builder (mtd_ai_training.py at f13ed49a),
+#    the code the agent learned from. It reads those inputs live, defines two
+#    of them differently (compromises per SCAN_PORT; a cumulative sum of
+#    action durations), and computes shortest_path_variability by another
+#    formula.
+# Neither is repaired: the release is run as released (Appendix E).
+TAY2024_STATE_FEATURE_ORDER = [
+    "host_compromise_ratio",
+    "exposed_endpoints",
+    "attack_path_exposure",
+    "overall_asr_avg",
+    "roa",
+    "shortest_path_variability",
+    "risk",
+    "attack_type",
+]
+
+TAY2024_TIME_FEATURE_ORDER = [
+    "mtd_freq",
+    "overall_mttc_avg",
+    "time_since_last_mtd",
+]
+
+#: layout name -> (state width, time-series length)
+FEATURE_LAYOUTS = {
+    "live": (len(STATE_FEATURE_ORDER), len(TIME_FEATURE_ORDER)),
+    "tay2024_eval": (len(TAY2024_STATE_FEATURE_ORDER), len(TAY2024_TIME_FEATURE_ORDER)),
+    "tay2024_train": (len(TAY2024_STATE_FEATURE_ORDER), len(TAY2024_TIME_FEATURE_ORDER)),
+}
+
+
+def check_layout(main_network, layout):
+    """Fail loudly if the agent's input shapes do not match the layout.
+
+    A Keras model called on a vector of the wrong width either raises deep in
+    the first decision or, for the time series, silently broadcasts; neither
+    says which agent was paired with which builder.
+    """
+    if layout not in FEATURE_LAYOUTS:
+        raise ValueError(f"unknown feature_layout {layout!r}; one of {sorted(FEATURE_LAYOUTS)}")
+    inputs = getattr(main_network, "inputs", None)
+    if not inputs:
+        return
+    state_w, time_n = FEATURE_LAYOUTS[layout]
+    got = (int(inputs[0].shape[-1]), int(inputs[1].shape[1]))
+    if got != (state_w, time_n):
+        raise ValueError(
+            f"agent takes state {got[0]} / time series {got[1]}, but feature_layout "
+            f"{layout!r} builds {state_w} / {time_n}")
+
+
 #: The live 5/6 state head (MTDAI-02). Both vectors are emitted at full width
 #: with unselected features zeroed, so the network signature is fixed by the
 #: vocabularies above rather than by this selection.

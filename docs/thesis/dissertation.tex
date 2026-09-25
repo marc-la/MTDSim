@@ -7312,10 +7312,15 @@ runs are otherwise identical.
 % fig:eff-suppression-profiles). Four lettered panels (interval crossed); the
 % baseline hatched grey, the model solid; the model is the four profiles
 % pooled (the aggregate is not an arm here). DRAFT STATE --- ratify on read.
+% EXTENDED 2026-09-25 (Marc: MTDShield as another execution-scheme column;
+% handoff 2026-09-25_mtdshield_preliminary_run.md): the schemes gain random over
+% MTDShield's four and MTDShield, and the panels are restacked (singles full
+% width in (a)-(b), the four schemes per interval in (c)-(d)) because eleven
+% slots across one row cannot hold the tick names. PRELIMINARY: 100 seeds.
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-3-2a_cross_arm}
-  \caption[The same defences measured against each attacker]{The NCR reduction each defence achieves, measured once against the baseline attacker and once against the APT attacker model, on the same network under identical conditions, single mechanisms in panels~(a) and~(c) and deployment schemes in panels~(b) and~(d), at each deployment interval. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
+  \caption[The same defences measured against each attacker]{The NCR reduction each defence achieves, measured once against the baseline attacker and once against the APT attacker model, on the same network under identical conditions, single mechanisms in panels~(a) and~(b) and execution schemes in panels~(c) and~(d), at each deployment interval. This is the chapter's central comparison, and the mechanism behind any difference is structural rather than statistical: the two attackers share an identical set of available actions and differ in which property of the simulated network they depend on, so defences that destroy position and defences that alter the exploitable surface do not reach them equally. The intention is to show whether the choice of attacker changes what an evaluation would conclude.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -7377,10 +7382,15 @@ runs are otherwise identical.
 % "intention" sentence gone to the body slots, two-line tick names for the two
 % topology shuffles, the formula key line dropped (Table 5.2 holds it).
 % DRAFT STATE --- ratify on read.
+% EXTENDED 2026-09-25 (Marc: MTDShield as another execution-scheme column in
+% Figure 5.5 and Tables 5.3 and 5.4; handoff 2026-09-25_mtdshield_preliminary_run.md):
+% panels (b) and (d) gain random over MTDShield's four and MTDShield, run as
+% released (Appendix E). PRELIMINARY: 100 seeds, 200 s and 2 000 s only; the
+% short name for the matched control is proposed, Marc rules (handoff Q7).
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-3-1a_suppression_profiles}
-  \caption[NCR reduction by defence condition and attack profile]{NCR reduction under each defence condition at each deployment interval, for the four attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, a fifth series outside the pooled cell of Table~\ref{tab:eff-conditions}. Panels~(a) and~(c): the seven defence mechanisms, grouped by the layer each rewrites (Table~\ref{tab:defence-mechanisms}); (b) and~(d): the random and alternative execution schemes over them (Table~\ref{tab:deployment-strategies}). Zero is the no-defence reference; whiskers are 95\,\% percentile bootstrap intervals on the ratio of means.}
+  \caption[NCR reduction by defence condition and attack profile]{NCR reduction under each defence condition at each deployment interval, for the four attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, a fifth series outside the pooled cell of Table~\ref{tab:eff-conditions}. Panels~(a) and~(b): the seven defence mechanisms, grouped by the layer each rewrites (Table~\ref{tab:defence-mechanisms}); (c) and~(d): the random and alternative execution schemes over them (Table~\ref{tab:deployment-strategies}), then random selection over MTDShield's four mechanisms and MTDShield (Appendix~\ref{app:mtdshield}). Zero is the no-defence reference; whiskers are 95\,\% percentile bootstrap intervals on the ratio of means.}
   \label{fig:eff-suppression-profiles}
 \end{figure}
 
@@ -8643,16 +8653,20 @@ any would make the agent this dissertation's rather than Tay's.
 \begin{itemize}
   \item The published scores were produced with the exploration rate at one
   (Section~\ref{app:mtdshield-selection}).
-  \item Two inputs are built differently by the training and evaluation code:
-  the attack success rate and the time to compromise. The agent is run as the
-  release evaluates it, and checked at 200\,s with the training definitions
+  \item Five inputs are built differently by the training and evaluation code.
+  The evaluation code reads four of them, the host compromise ratio, attack
+  success rate, time to compromise and deployment frequency, from copies of the
+  records taken when the agent starts, so they are zero at every decision; the
+  fifth, shortest-path variability, has another formula. The agent is run as the
+  release evaluates it, and checked with the training code's inputs
   (Section~\ref{app:mtdshield-observed}).
   \item The batch-normalisation layers' stored variances are zero, which scales
   each such layer's output about 30-fold at inference.
   \item Doing nothing was never a learning target: no transition for it was
   stored in training.
-  \item The detection input codes only the baseline attacker's actions, so
-  against the APT attacker model it reads as nothing detected at every decision.
+  \item The detection input codes the attacker's current action. The APT
+  attacker model's dwell is no action, so it reads as nothing detected, the same
+  value as a missed detection.
   \item The agent was trained at one decision tick, against the baseline
   attacker, on 100-host networks (Table~\ref{tab:mtdshield-configuration}).
 \end{itemize}
@@ -8660,10 +8674,31 @@ any would make the agent this dissertation's rather than Tay's.
 \section{Behaviour observed}
 \label{app:mtdshield-observed}
 
-\noindent\emph{[Placeholder --- populated when the MTDShield condition has run:
-the share of each action per tick and attacker, the share of forced deployments,
-the 200\,s check of the input definitions, and whether the expectation written
-before the run held.]}
+% POPULATED 2026-09-25 from data/results/ch5_defended/numbers.json §shield
+% (the per-decision ledger), PRELIMINARY at 100 seeds and two ticks; re-read at
+% the reported seed count and six ticks. Record:
+% docs/implementation/pipeline/ogasp/ch5_mtdshield_preliminary_findings.md.
+% DRAFT STATE --- ratify on read.
+Each run records the agent's decisions; the counts below are over 100 runs per
+condition, pooled over $c_1$ to $c_4$ for the APT attacker model.
+\begin{itemize}
+  \item At the 200\,s tick the agent chose service diversity at 76\,\% of
+  decisions against the baseline attacker and 70\,\% against the APT attacker
+  model, and did nothing at 23\,\% and 29\,\%. The other three mechanisms took
+  under 1\,\% together, and under 1\,\% of deployments were forced.
+  \item At the 2\,000\,s tick a decision to do nothing leaves more than 2\,000\,s
+  without a deployment by the next tick, so that deployment is forced: 28\,\%
+  and 18\,\% of decisions. Service diversity took 46\,\% and 65\,\%.
+  \item The expectation written before the run was a near-constant selector of
+  service diversity, falsified by a service-diversity share below 0.7 or a share
+  doing nothing above 0.2 at 200\,s. The first part held and the second did not.
+  \item With the training code's inputs, against the baseline attacker at
+  200\,s, the agent chose service diversity at 79\,\% of decisions and its NCR
+  reduction was 0.71 [0.67, 0.76], against 0.70 [0.65, 0.75] with the
+  evaluation code's. Against the APT attacker model the training code stops in
+  435 of 500 runs at 200\,s: it divides by the number of port scans, and the
+  model compromises hosts without one.
+\end{itemize}
 
 % =====================================================================
 \bibliography{references}

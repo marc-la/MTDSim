@@ -41,7 +41,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _ch5_style import (CNAME, DEFENDED, FONT, LABEL, LONG, MARK, PREAMBLE, PROFILES,  # noqa: E402
-                        REPO, SCHEMES, SHORT, SINGLES, TAB_DIR, axes, compile_fig, errorbar,
+                        REPO, SCHEMES, SHIELD, SHORT, SINGLES, TAB_DIR, axes, compile_fig, errorbar,
                         fmt_thousands, marker, panel_letter, pm, write_fig)
 
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers.json"
@@ -51,6 +51,10 @@ STEM_T55 = "tab_5-3-1a_conditions"
 STEM_T56 = "tab_5-3-2a_orderings"
 STEM_T57 = "tab_5-3-3a_lineage"
 INTERVALS = ("200", "2000")
+# the execution-scheme columns: random and alternative over the seven, then
+# MTDShield's matched control and MTDShield (2026-09-25)
+PANEL_SCHEMES = SCHEMES + SHIELD
+CONDS = DEFENDED + SHIELD
 # tick names for the singles, the full names of Table 2.2 (three lines for the two
 # topology shuffles, Marc 2026-09-24: "they should be shuffle, that's the full name");
 # was two-line (scrutinise-figure pass 2026-09-22,
@@ -61,6 +65,7 @@ TICK = {
     "host_topology": r"\shortstack{host\\topology\\shuffle}", "port_shuffle": r"\shortstack{port\\shuffle}",
     "user_shuffle": r"\shortstack{user\\shuffle}", "os_diversity": r"\shortstack{OS\\diversity}",
     "service_diversity": r"\shortstack{service\\diversity}",
+    "random_four": r"\shortstack{random,\\MTDShield's\\four}",
 }
 # the singles panel is grouped by the layer each mechanism rewrites (Table
 # 2.4's "what to move" column; Marc's ruling 2026-09-22: brackets under the
@@ -88,65 +93,80 @@ def _yrange(values: list[float]) -> tuple[float, float]:
 def grouped_panels(series: list[tuple[str, str, bool]], get, *, key_title: str, key_labels: dict,
                    sup_key=lambda blk, s, c: blk) -> tuple[str, list]:
     """``series``: (name, colour name, hatched). ``get(interval, name, cond)``
-    -> (point, lo, hi). Two rows (intervals) x two columns (singles, schemes),
-    y shared across the row, one key."""
-    allv = [v for i in INTERVALS for s, _, _ in series for c in DEFENDED for v in get(i, s, c)]
+    -> (point, lo, hi). Four panels, y shared: (a) and (b) the single
+    mechanisms at each interval, full width; (c) and (d) the execution schemes
+    at each interval, side by side; one key.
+
+    Restacked 2026-09-25 from the 2 x 2 (interval rows x singles | schemes
+    columns): with MTDShield and its matched control the schemes panel holds
+    four conditions, and eleven slots across one row leave ~1.2 cm per tick,
+    under the measured widths of "alternative" (1.5 cm) and "MTDShield"
+    (1.6 cm) at the figure face.
+    """
+    allv = [v for i in INTERVALS for s, _, _ in series for c in CONDS for v in get(i, s, c)]
     ymin, ymax = _yrange(allv)
-    PH = 2.05  # 3.4 until 2026-09-22, 2.4 until 2026-09-24 (the three-line full-name ticks took 0.37 cm, given back here); kept so the figure and Table 5.4 share a page
-    XS0, XS1 = 1.3, 11.9   # singles panel
-    XC0, XC1 = 12.4, 15.2   # schemes panel (packs to 15.7 cm; 15.4 was 2.6 pt overfull)
-    Y0 = (3.85, 0.85)   # row gap 0.6 cm (was 0.8)
+    PH = 2.05  # panel height; kept from the 2 x 2 so the bars keep their scale
+    XS0, XS1 = 1.3, 15.8                      # singles panels, full width
+    XC = ((1.3, 8.3), (8.8, 15.8))            # the two schemes panels
+    KY = 0.25                                  # key baseline
+    YC = KY + 1.55                             # schemes row: three-line ticks + key below
+    YS = (YC + PH + 2.3 + PH + 0.95, YC + PH + 2.3)   # singles rows: 200 s over 2 000 s
     n_s = len(series)
     L: list[str] = []
     w = L.append
     L += PREAMBLE
     w(r"\begin{tikzpicture}[x=1cm,y=1cm,every node/.style={inner sep=1pt,font=%s}]" % FONT)
-    letters = iter("abcd")
     facts = []
     yticks_v = [round(v, 2) for v in [ymin + k * 0.2 for k in range(int(round((ymax - ymin) / 0.2)) + 1)]]
-    for row, interval in enumerate(INTERVALS):
-        y0 = Y0[row]
+    # (letter, interval, conditions, x0, x1, y0, ticks drawn, y labels, title)
+    panels = [
+        ("a", INTERVALS[0], PANEL_SINGLES, XS0, XS1, YS[0], False, True,
+         "single mechanisms, every %s\\,s" % fmt_thousands(int(INTERVALS[0]))),
+        ("b", INTERVALS[1], PANEL_SINGLES, XS0, XS1, YS[1], True, True,
+         "single mechanisms, every %s\\,s" % fmt_thousands(int(INTERVALS[1]))),
+    ] + [
+        (letter, interval, PANEL_SCHEMES, x0, x1, YC, True, col == 0,
+         "execution schemes, every %s\\,s" % fmt_thousands(int(interval)))
+        for col, (letter, interval, (x0, x1)) in enumerate(zip("cd", INTERVALS, XC))
+    ]
+    for letter, interval, conds, x0, x1, y0, ticked, ylab, title in panels:
         y1 = y0 + PH
 
-        def yv(v):
+        def yv(v, y0=y0):
             return y0 + (v - ymin) / (ymax - ymin) * PH
 
-        for col, (conds, x0, x1) in enumerate(((PANEL_SINGLES, XS0, XS1), (SCHEMES, XC0, XC1))):
-            slot = (x1 - x0) / len(conds)
-            bw = min(0.22, slot * 0.8 / n_s)
-            xt = [(c, x0 + (i + 0.5) * slot) for i, c in enumerate(conds)]
-            axes(w, x0, x1, y0, y1,
-                 xticks=[(TICK.get(c, SHORT[c]), x) for c, x in xt] if row == 1 else [],
-                 yticks=[(v, yv(v)) for v in yticks_v],
-                 xlabel="", ylabel=("NCR reduction" if col == 0 else ""),
-                 ylabels=(col == 0), xfmt=lambda v: v, yfmt=lambda v: f"{v:.1f}", ylabel_offset=0.85)
-            if row == 0:
-                for c, x in xt:
-                    w(r"\draw[black!60,line width=0.3pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x, y0, x, y0 - 0.07))
-            if ymin < 0:
-                w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, yv(0), x1, yv(0)))
-            panel_letter(w, x0 - (1.25 if col == 0 else 0.5), y1 + 0.02, next(letters))
-            # (b)/(d) say "execution schemes" (bare "scheme" is on the §5 Never
-            # list, 2026-09-22); their interval is the row's, carried by (a)/(c)
-            w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s};" % (
-                x0 + 0.05, y1 + 0.04,
-                "single mechanisms, every %s\\,s" % fmt_thousands(int(interval)) if col == 0 else "execution schemes"))
+        slot = (x1 - x0) / len(conds)
+        bw = min(0.22, slot * 0.8 / n_s)
+        xt = [(c, x0 + (i + 0.5) * slot) for i, c in enumerate(conds)]
+        axes(w, x0, x1, y0, y1,
+             xticks=[(TICK.get(c, SHORT[c]), x) for c, x in xt] if ticked else [],
+             yticks=[(v, yv(v)) for v in yticks_v],
+             xlabel="", ylabel=("NCR reduction" if ylab else ""),
+             ylabels=ylab, xfmt=lambda v: v, yfmt=lambda v: f"{v:.1f}", ylabel_offset=0.85)
+        if not ticked:
             for c, x in xt:
-                for j, (name, cname, hatched) in enumerate(series):
-                    point, lo, hi = get(interval, name, c)
-                    xl = x - n_s * bw / 2 + j * bw
-                    ytop, ybot = yv(max(point, 0)), yv(min(point, 0))
-                    if hatched:
-                        w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (cname, xl, ybot, xl + bw - 0.02, ytop))
-                        w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (cname, xl, ybot, xl + bw - 0.02, ytop))
-                    else:
-                        w(r"\fill[%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (cname, xl, ybot, xl + bw - 0.02, ytop))
-                    errorbar(w, xl + (bw - 0.02) / 2, yv(max(ymin, lo)), yv(min(ymax, hi)), col="black!70", cap=0.035)
-                    facts.append((interval, name, c, point, lo, hi))
+                w(r"\draw[black!60,line width=0.3pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x, y0, x, y0 - 0.07))
+        if ymin < 0:
+            w(r"\draw[black!60,line width=0.4pt] (%.3f,%.3f) -- (%.3f,%.3f);" % (x0, yv(0), x1, yv(0)))
+        panel_letter(w, x0 - (1.25 if ylab else 0.5), y1 + 0.02, letter)
+        # "execution schemes", never bare "scheme" (the §5 Never list, 2026-09-22)
+        w(r"\node[anchor=south west,text=black!60] at (%.3f,%.3f) {%s};" % (x0 + 0.05, y1 + 0.04, title))
+        for c, x in xt:
+            for j, (name, cname, hatched) in enumerate(series):
+                point, lo, hi = get(interval, name, c)
+                xl = x - n_s * bw / 2 + j * bw
+                ytop, ybot = yv(max(point, 0)), yv(min(point, 0))
+                if hatched:
+                    w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (cname, xl, ybot, xl + bw - 0.02, ytop))
+                    w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (cname, xl, ybot, xl + bw - 0.02, ytop))
+                else:
+                    w(r"\fill[%s] (%.3f,%.3f) rectangle (%.3f,%.3f);" % (cname, xl, ybot, xl + bw - 0.02, ytop))
+                errorbar(w, xl + (bw - 0.02) / 2, yv(max(ymin, lo)), yv(min(ymax, hi)), col="black!70", cap=0.035)
+                facts.append((interval, name, c, point, lo, hi))
     # layer brackets under the singles' ticks (Marc, 2026-09-22): one grey
     # bracket and label per contiguous layer group in PANEL_SINGLES
     slot = (XS1 - XS0) / len(PANEL_SINGLES)
-    yb = Y0[1] - 1.39   # under three-line ticks (the full names, Marc 2026-09-24)
+    yb = YS[1] - 1.39   # under three-line ticks (the full names, Marc 2026-09-24)
     i = 0
     while i < len(PANEL_SINGLES):
         j = i
@@ -159,14 +179,15 @@ def grouped_panels(series: list[tuple[str, str, bool]], get, *, key_title: str, 
         i = j + 1
     # key, once, below; entries wrap inside the panel span so five profile
     # names never run past the page box (the 16.4 cm trap of 2026-09-17)
-    ky = Y0[1] - 1.99   # clears the three-line ticks and the layer brackets
+    ky = KY
     kx = XS0
     w(r"\node[anchor=west,text=black!60] at (%.3f,%.3f) {%s};" % (kx, ky, key_title))
-    xx = kx + 1.9
+    xx = kx + 2.3   # 1.9 ran "attack profile" into the first swatch
+
     for name, cname, hatched in series:
         width = 0.52 + 0.165 * len(key_labels[name]) + 0.45  # ~0.165 cm per character at footnotesize helvet (2026-09-22: 0.115 overlapped)
-        if xx + width > XC1:
-            xx, ky = kx + 1.9, ky - 0.4
+        if xx + width > XS1:
+            xx, ky = kx + 2.3, ky - 0.4
         if hatched:
             w(r"\fill[pattern=north east lines,pattern color=%s] (%.3f,%.3f) rectangle ++(0.42,0.22);" % (cname, xx, ky - 0.11))
             w(r"\draw[%s,line width=0.3pt] (%.3f,%.3f) rectangle ++(0.42,0.22);" % (cname, xx, ky - 0.11))
@@ -304,7 +325,7 @@ def emit_tab56(s542: dict) -> str:
     w(r"    \midrule")
     for interval in INTERVALS:
         blk = s542["by_interval"][interval]
-        order = sorted(DEFENDED, key=lambda c: blk["ranks"]["movement"][c])
+        order = sorted(CONDS, key=lambda c: blk["ranks"]["movement"][c])
         for i, c in enumerate(order):
             group = r"\rowgroup{%d}{every %s\,s}" % (len(order), fmt_thousands(int(interval))) if i == len(order) - 1 else ""
             b, m = blk["suppression"]["baseline"][c], blk["suppression"]["movement"][c]
@@ -406,7 +427,7 @@ def main() -> None:
     ap.add_argument("--only", default=None, help="fig55 | fig56 | tab55 | tab56 | tab57")
     args = ap.parse_args()
     data = json.loads(args.numbers.read_text(encoding="utf-8"))
-    if not data["sanity"]["all_cells_100"] or data["sanity"]["error_rows"]:
+    if not data["sanity"]["all_cells_100"] or data["sanity"]["error_rows"] or "shield" not in data:
         raise SystemExit("corpus sanity failed; not drawing from it")
     TAB_DIR.mkdir(parents=True, exist_ok=True)
     want = lambda k: args.only is None or args.only == k  # noqa: E731

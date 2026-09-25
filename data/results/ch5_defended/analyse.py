@@ -59,12 +59,20 @@ LABEL = {
 SINGLES = ("ip_shuffle", "complete_topology", "host_topology", "port_shuffle",
            "user_shuffle", "os_diversity", "service_diversity")
 SCHEMES = ("random", "alternative")
-DEFENDED = SINGLES + SCHEMES
+# MTDShield and random over its four (2026-09-25, appended to the core group
+# only), so the lineage and regime reads stay on the corpus's nine.
+SHIELD = ("random_four", "mtdshield")
+CORPUS9 = SINGLES + SCHEMES
+DEFENDED = CORPUS9 + SHIELD
+# the input-definition check: the same agent through Tay's training builder
+SHIELD_CHECK = ("mtdshield_train",)
+ACTION_NAME = {0: "no-op", 1: "complete_topology", 2: "ip_shuffle", 3: "os_diversity", 4: "service_diversity"}
 SHORT = {
     "none": "none", "ip_shuffle": "IP", "complete_topology": "topology",
     "host_topology": "host", "port_shuffle": "port", "user_shuffle": "user",
     "os_diversity": "OS", "service_diversity": "service", "random": "random",
-    "alternative": "alternative",
+    "alternative": "alternative", "random_four": "random (four)", "mtdshield": "MTDShield",
+    "mtdshield_train": "MTDShield (training inputs)",
 }
 LAYER = {
     "ip_shuffle": "network", "complete_topology": "network", "host_topology": "network",
@@ -171,6 +179,7 @@ def summarise_movement(row: dict) -> dict:
         "execs_per_ksec": dis.executions_per_ksec,
         "reconfig_total": dis.reconfig_time_total,
         "substrate_interrupted": row["mtd_attack_interrupted"],
+        "decisions": _ledger(row),
         "mix": None,
         "interrupt_idx": [i for i, r in enumerate(visits) if r.interrupted],
     }
@@ -248,7 +257,18 @@ def summarise_baseline(row: dict) -> dict:
         "execs_per_ksec": dis.executions_per_ksec,
         "reconfig_total": dis.reconfig_time_total,
         "substrate_interrupted": row["mtd_attack_interrupted"],
+        "decisions": _ledger(row),
     }
+
+
+def _ledger(row: dict) -> dict | None:
+    """MTDShield's per-decision ledger, reduced to counts per run."""
+    led = row.get("mtd_decisions")
+    if led is None:
+        return None
+    return {"n": len(led), "actions": dict(Counter(d[1] for d in led)),
+            "sources": dict(Counter(d[2] for d in led)),
+            "forced_actions": dict(Counter(d[1] for d in led if d[2] == "forced"))}
 
 
 def load() -> tuple[dict, list]:
@@ -722,7 +742,8 @@ def section_541(cells, rng) -> dict:
 # --- §5.4.2 --------------------------------------------------------------------
 
 
-def arm_cells(cells, group, interval, objective="targeted", regime="shifted", none_group=None):
+def arm_cells(cells, group, interval, objective="targeted", regime="shifted", none_group=None,
+              conds=DEFENDED):
     """hosts arrays per condition for the two arms: movement = the four
     profiles pooled; baseline = the inherited attacker. The no-defence cell
     is regime-unread, so an arm group without one (the regime arm) borrows
@@ -730,7 +751,7 @@ def arm_cells(cells, group, interval, objective="targeted", regime="shifted", no
     ng = none_group or group
     mv = {"none": hosts_of(_pool(cells, ng, FOUR, "none", 0, objective=objective))}
     bl = {"none": hosts_of(_cell(cells, ng, "baseline", "baseline", "none", 0, objective=objective))}
-    for c in DEFENDED:
+    for c in conds:
         mv[c] = hosts_of(_pool(cells, group, FOUR, c, interval, objective=objective, regime=regime))
         bl[c] = hosts_of(_cell(cells, group, "baseline", "baseline", c, interval, objective=objective, regime=regime))
     return {"movement": mv, "baseline": bl}
@@ -740,20 +761,21 @@ def rank_block(arms: dict, rng) -> dict:
     """Suppression per condition per arm, the two orderings, Spearman rho
     with a seed-bootstrap interval, and the family contrast (network-layer
     vs application-layer hosts) as Cliff's delta per arm."""
-    sup = {arm: {c: suppression(h["none"], h[c], rng) for c in DEFENDED} for arm, h in arms.items()}
-    pts = {arm: [sup[arm][c]["point"] for c in DEFENDED] for arm in arms}
+    conds = [c for c in arms["movement"] if c != "none"]
+    sup = {arm: {c: suppression(h["none"], h[c], rng) for c in conds} for arm, h in arms.items()}
+    pts = {arm: [sup[arm][c]["point"] for c in conds] for arm in arms}
     rho = float(spearmanr(pts["movement"], pts["baseline"]).statistic)
     boots = np.empty(N_BOOT // 2)
     for b in range(len(boots)):
         vec = {}
         for arm, h in arms.items():
             none = h["none"][rng.integers(0, len(h["none"]), len(h["none"]))].mean()
-            vec[arm] = [1 - h[c][rng.integers(0, len(h[c]), len(h[c]))].mean() / none for c in DEFENDED]
+            vec[arm] = [1 - h[c][rng.integers(0, len(h[c]), len(h[c]))].mean() / none for c in conds]
         boots[b] = spearmanr(vec["movement"], vec["baseline"]).statistic
     lo, hi = np.quantile(boots, [0.025, 0.975])
-    ranks = {arm: {c: int(r) for c, r in zip(DEFENDED, (-np.array(pts[arm])).argsort().argsort() + 1)}
+    ranks = {arm: {c: int(r) for c, r in zip(conds, (-np.array(pts[arm])).argsort().argsort() + 1)}
              for arm in arms}
-    top = {arm: max(DEFENDED, key=lambda c: sup[arm][c]["point"]) for arm in arms}
+    top = {arm: max(conds, key=lambda c: sup[arm][c]["point"]) for arm in arms}
     family = {}
     for arm, h in arms.items():
         net = np.concatenate([h[c] for c in SINGLES if LAYER[c] == "network"])
@@ -794,7 +816,8 @@ def section_543(cells, rng) -> dict:
     shuffle = [c for c in SINGLES if FAMILY[c] == "shuffle"]
     diversity = [c for c in SINGLES if FAMILY[c] == "diversity"]
     out = {"objective": "general", "by_interval": {}, "claims": {}}
-    blocks = {i: rank_block(arm_cells(cells, "lineage", i, objective="general"), rng) for i in INTERVALS}
+    blocks = {i: rank_block(arm_cells(cells, "lineage", i, objective="general", conds=CORPUS9), rng)
+              for i in INTERVALS}
     out["by_interval"] = {str(i): b for i, b in blocks.items()}
     for arm in ("baseline", "movement"):
         out["claims"][arm] = {
@@ -902,14 +925,57 @@ def section_55(cells, rng, s542: dict) -> dict:
     return out
 
 
+# --- MTDShield (2026-09-25) ------------------------------------------------------
+
+
+def _ledger_block(runs) -> dict:
+    led = [r["decisions"] for r in runs if r.get("decisions")]
+    n = sum(d["n"] for d in led)
+    acts, srcs, forced = Counter(), Counter(), Counter()
+    for d in led:
+        acts.update({int(k): v for k, v in d["actions"].items()})
+        srcs.update(d["sources"])
+        forced.update({int(k): v for k, v in d["forced_actions"].items()})
+    return {
+        "runs": len(led), "decisions": n,
+        "decisions_per_run": _iv([d["n"] for d in led]) if led else None,
+        "action_share": {ACTION_NAME[a]: acts.get(a, 0) / n if n else None for a in ACTION_NAME},
+        "source_share": {k: v / n for k, v in srcs.items()} if n else {},
+        "forced_share": (srcs.get("forced", 0) / n) if n else None,
+        "forced_action_share": {ACTION_NAME[a]: v / sum(forced.values()) for a, v in forced.items()} if forced else {},
+        "executions_per_run": _iv([r["n_executed"] for r in runs]),
+    }
+
+
+def section_shield(cells, rng) -> dict:
+    """What the agent chose (the ledger), per arm and interval, and the input
+    check: the same agent through Tay's training builder."""
+    out = {"conditions": list(SHIELD), "check": list(SHIELD_CHECK), "by_interval": {}}
+    for interval in INTERVALS:
+        blk = {"ledger": {}, "check": {}}
+        for c in ("mtdshield",) + SHIELD_CHECK:
+            blk["ledger"][c] = {
+                "baseline": _ledger_block(_cell(cells, "core", "baseline", "baseline", c, interval)),
+                "movement": _ledger_block(_pool(cells, "core", FOUR, c, interval)),
+                **{p: _ledger_block(_cell(cells, "core", "movement", p, c, interval)) for p in PROFILES},
+            }
+        arms = arm_cells(cells, "core", interval, conds=("mtdshield",) + SHIELD_CHECK)
+        for arm, h in arms.items():
+            blk["check"][arm] = {c: suppression(h["none"], h[c], rng) for c in ("mtdshield",) + SHIELD_CHECK}
+            blk["check"][arm]["n"] = {c: int(len(h[c])) for c in ("mtdshield",) + SHIELD_CHECK}
+        out["by_interval"][str(interval)] = blk
+    return out
+
+
 # --- the regime arm ------------------------------------------------------------
 
 
 def section_regime(cells, rng, s542: dict) -> dict:
     core = s542["by_interval"]["200"]
-    exp = rank_block(arm_cells(cells, "regime", 200, regime="exponential", none_group="core"), rng)
+    exp = rank_block(arm_cells(cells, "regime", 200, regime="exponential", none_group="core",
+                               conds=CORPUS9), rng)
     delta = {arm: {c: exp["suppression"][arm][c]["point"] - core["suppression"][arm][c]["point"]
-                   for c in DEFENDED} for arm in ("movement", "baseline")}
+                   for c in CORPUS9} for arm in ("movement", "baseline")}
     execs = {arm: {c: {
         "core": _iv([r["n_executed"] for r in (_pool(cells, "core", FOUR, c, 200) if arm == "movement"
                                               else _cell(cells, "core", "baseline", "baseline", c, 200))]),
@@ -917,7 +983,7 @@ def section_regime(cells, rng, s542: dict) -> dict:
                                                      else _cell(cells, "regime", "baseline", "baseline", c, 200, regime="exponential"))]),
         "suspended_exponential": _iv([r["n_suspended"] for r in (_pool(cells, "regime", FOUR, c, 200, regime="exponential") if arm == "movement"
                                                                 else _cell(cells, "regime", "baseline", "baseline", c, 200, regime="exponential"))]),
-    } for c in DEFENDED} for arm in ("movement", "baseline")}
+    } for c in CORPUS9} for arm in ("movement", "baseline")}
     return {"regime": "exponential", "interval": 200, "rank_block": exp,
             "suppression_exponential_minus_core": delta, "executions": execs}
 
@@ -1096,10 +1162,16 @@ def main() -> int:
     baseline_blocked_ok = all(
         all(r["blocked_fraction"] == 0.0 for r in v) for k, v in cells.items() if k[1] == "baseline"
     )
+    # The input check (Tay's training builder, verbatim) may die on a run; its
+    # dead cells are counted apart so they are reported, not drawn from.
+    check = lambda k: k.split("|")[4] in SHIELD_CHECK  # noqa: E731
     sanity = {
-        "error_rows": len(errors),
+        "error_rows": sum(1 for e in errors if e["condition"] not in SHIELD_CHECK),
+        "check_error_rows": sum(1 for e in errors if e["condition"] in SHIELD_CHECK),
+        "check_errors": dict(Counter(f"{e['arm']}|{e['profile']}|{e['interval']}|{e['error'][:80]}"
+                                     for e in errors if e["condition"] in SHIELD_CHECK)),
         "cells": len(counts),
-        "all_cells_100": all(v == 100 for v in counts.values()),
+        "all_cells_100": all(v == 100 for k, v in counts.items() if not check(k)),
         "cells_not_100": {k: v for k, v in counts.items() if v != 100},
         "max_events_hit": sum(1 for k, v in cells.items() if k[1] == "movement"
                               for r in v if r["terminal"] == "max_events"),
@@ -1123,6 +1195,7 @@ def main() -> int:
     out["s543"] = section_543(cells, rng)
     out["s55"] = section_55(cells, rng, out["s542"])
     out["regime"] = section_regime(cells, rng, out["s542"])
+    out["shield"] = section_shield(cells, rng)
     (HERE / "numbers.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
     previews(out)
 
@@ -1163,6 +1236,19 @@ def main() -> int:
     print("\n§5.5 spearman(occupancy, suppression) @200:", out["s55"]["by_interval"]["200"]["spearman_occupancy_suppression_movement"],
           out["s55"]["by_interval"]["200"]["spearman_occupancy_suppression_baseline"])
     print("regime Δ suppression (exp − core) @200:", json.dumps(out["regime"]["suppression_exponential_minus_core"], indent=0))
+    for interval in INTERVALS:
+        blk = out["shield"]["by_interval"][str(interval)]
+        for c, arms in blk["ledger"].items():
+            for arm in ("baseline", "movement"):
+                L = arms[arm]
+                if not L["decisions"]:
+                    continue
+                print(f"\nMTDShield {c} @ {interval} s {arm}: runs {L['runs']}, decisions/run {L['decisions_per_run']['mean']:.1f}, "
+                      f"execs/run {L['executions_per_run']['mean']:.1f}, forced {L['forced_share']:.3f}, "
+                      f"actions {json.dumps({k: round(v, 3) for k, v in L['action_share'].items()})}")
+        for arm, chk in blk["check"].items():
+            print(f"   check {arm}: " + "  ".join(f"{c} {chk[c]['point']:.3f} [{chk[c]['lo']:.3f},{chk[c]['hi']:.3f}] n={chk['n'][c]}"
+                                                for c in ("mtdshield",) + SHIELD_CHECK))
     return 0
 
 
