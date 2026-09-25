@@ -21,6 +21,40 @@ The session merged them, reconciled the symbols, tightened the long drafts (NCR 
 
 **Every agent's record:** `docs/sources/extractions/s45_metric_definitions/` (tracked). Each holds the draft as written, a verification table (claim, locator, verbatim quote, verdict), the code check (file:line) and its open calls. This section keeps only the rulings and what is Marc's.
 
+### Round 2 (same day): clarity pass on Marc's read
+
+Marc: *"clarity is probably my biggest piece of feedback"*; *"rhetorical inflation ... not cutting to the chase"*; *"every time you see a number ... is this defensible, is this strictly conventional"*; the preambles must say *why* each category exists; audience *"general computer science and the supervisor"*.
+
+- **Preambles now motivate.** Each one says why its category exists:
+  - **Attacker behaviour:** three properties in Table 3.2 (objective conditioning, strategic plurality, stealth) that the outcome metrics cannot record, and which metric reads each.
+  - **Attack outcome:** the field's established metrics (Table 3.1), so the results stay comparable.
+  - **MTD effectiveness:** the net change, plus the response to each deployment, which is adaptivity (Table 3.2) and is not recorded by any cited metric.
+  - **The opener:** says what the section does and what "cell" means.
+- **Definitions cut to their essentials:** what the metric is, its equation, its range and direction, the one change from its source and *why*. §4.5 is now pp. 32–36 (was 32–38).
+- **Moved out** (owed elsewhere):
+  - the attack-rate concession on unmet preconditions, to §5.2's body;
+  - APV's "cannot fall as k grows", to Figure 5.1's caption;
+  - the growth-rate estimator equation, now given in words;
+  - 4.5.4's version-2.0 and lineage remarks, commented in the tex.
+- **Every number in §4.5, and where it now stands:**
+  - **Cited:** N = 50 (Table 5.1); 0.8 (Zhang); 1 000 seeds (Arcuri & Briand); α = 0.05 (Scott & Knott); d < 0.2 (Cohen); 2 000 resamples (Efron & Tibshirani).
+  - **Rule stated:** θ is the median of D over the baseline attacker's actions, so it flags half of them.
+  - **Declared and varied in an appendix:**
+    - κ = 60 s, varied in C.4 (still a placeholder);
+    - 750 s and 125 s, varied in **new C.5**, which is generated from the corpus by `tools/ch5_timelost_window_table.py`.
+  - **Derived:** 1 250 s (the next deployment's window starts there); 2 000 s (the only interval where the windows do not overlap).
+  - **Presentation choices, stated:** 1 500 s (ten bins of the time limit); 1 000 s (the rate's unit).
+- **C.5's finding** (100 seeds):
+  - the bin width (62.5, 125 or 250 s) changes no value by more than 2 s;
+  - the split (500, 750 or 1 000 s before) keeps the four largest APT values and the baseline's largest in order, within 11 %;
+  - the other values move by up to 56 s and two change sign, so a time lost below about 100 s is not read as different from zero.
+  - **§5.3.1 must respect this.**
+- **Table 4.3:**
+  - Equation column cut (only Masud has one);
+  - Metric | Measures | Source, one line per row;
+  - adapted sources marked † (decoded in the caption);
+  - the introduced metrics' source cells say "this thesis".
+
 ### Status per metric (✱ = overturns an earlier ruling; Marc to confirm)
 
 | Metric | Status now | Source verdict | Code |

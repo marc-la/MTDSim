@@ -1,3 +1,15 @@
+% ROUND 2, 2026-09-25 (Marc: "is it conventional to have description, source and
+% equation as a table ... a big table, hard to follow ... what is needed for a
+% headline table of evaluation metrics"). The EQUATION column is CUT: only one
+% held source has a formula column (masud2025 Table 3); the definitions follow
+% the table directly, one run-in head each, so the column bought lookup the
+% headings already give. The corpus's own metric tables are two columns, a name
+% and a description (zaffarano2015 Table 4; ho2024 Table 3); SOURCE is kept as
+% the third because provenance (the field's, adapted, introduced) is what an
+% examiner checks first, and it is what the chapter-5 floats' "Metrics as Table
+% 4.3" lookups need. Descriptions shortened to one line each at \textwidth.
+% Status marks: a dagger decodes as adapted (caption); "this thesis" = introduced;
+% the sources of the two introduced metrics' form (Bruneau 2003) are in their definitions.
 % REFORMED 2026-09-25 (table audit; Marc: "is Table 4.3 conventional ... what does
 % it need to carry? ... is 'Class' the right word?"). Evidence: the audit record in
 % docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md, "Drafted 2026-09-25".
@@ -182,25 +194,25 @@
 % which §4.4.1 says have no action in flight (metrics_semantics.md §d2).
 \begin{table}[htbp]
   \centering
-  \caption[The evaluation metrics]{The evaluation metrics, each with its source and the equation that defines it. A source cited alone defines the metric as it is used here.}
+  \caption[The evaluation metrics]{The evaluation metrics and their sources, each defined in Section~\ref{sec:evaluation-metrics}. $^{\dagger}$Adapted from the source; Section~\ref{sec:evaluation-metrics} states the change.}
   \label{tab:metrics}
-  \tablestyle\setlength{\tabcolsep}{5pt}
-  \begin{tabular}{@{}P{1.9cm}P{3.4cm}P{5.4cm}P{2.35cm}P{1.45cm}@{}}
+  \tablestyle\setlength{\tabcolsep}{4pt}
+  \begin{tabular}{@{}P{1.9cm}P{5.5cm}P{5.8cm}P{1.9cm}@{}}
     \toprule
-    & Metric & Description & Source & Equation \\
+    & Metric & Measures & Source \\
     \midrule
-    & Relative tactic occurrence & share of an attacker's steps that fall in each tactic & adapted from \citep{rodriguez2024} & \eqref{eq:rto} \\
-     & Attack path variation (APV) & share of runs that open differently from the attacker's commonest opening & adapted from \citep{hong2018} & \eqref{eq:apv} \\
-     & Attack rate & actions per 1\,000\,s of active time & adapted from \citep{zhan2013} & \eqref{eq:attack-rate} \\
-    \multirow{-4}{1.9cm}{Attacker behaviour} & Attack confidentiality & share of actions a declared detector does not expose & adapted from \citep{zaffarano2015} & \eqref{eq:confidentiality} \\
+    & Relative tactic occurrence & share of steps in each tactic & \citep{rodriguez2024}$^{\dagger}$ \\
+     & Attack path variation (APV) & share of runs that open differently & \citep{hong2018}$^{\dagger}$ \\
+     & Attack rate & actions per 1\,000\,s of active time & \citep{zhan2013}$^{\dagger}$ \\
+    \multirow{-4}{1.9cm}{Attacker behaviour} & Attack confidentiality & share of actions not flagged & \citep{zaffarano2015}$^{\dagger}$ \\
     \midrule
-    & Attack success probability (ASP) & share of runs that compromise a target host & \citep{cho2020} & \eqref{eq:asp} \\
-     & Network compromise ratio (NCR) & share of the network's hosts compromised by the end of a run & \citep{zhang2023, ho2024} & \eqref{eq:ncr} \\
-    \multirow{-3}{1.9cm}{Attack outcome} & Mean time to compromise (MTTC) & mean time from the start of a run to its first compromised host & adapted from \citep{zhang2023} & \eqref{eq:mttc} \\
+    & Attack success probability (ASP) & share of runs that take a target & \citep{cho2020} \\
+     & Network compromise ratio (NCR) & share of hosts compromised & \citep{zhang2023, ho2024} \\
+    \multirow{-3}{1.9cm}{Attack outcome} & Mean time to compromise (MTTC) & mean time to the first compromise & \citep{zhang2023}$^{\dagger}$ \\
     \midrule
-    & NCR reduction & share of the no-defence NCR that a defence removes & adapted from \citep{alavizadeh2022} & \eqref{eq:ncr-reduction} \\
-     & NCR growth rate & rate at which NCR grows around a deployment, relative to the rate before it & this thesis, after \citep{bruneau2003} & \eqref{eq:ncr-growth} \\
-    \multirow{-3}{1.9cm}{MTD effectiveness} & Time lost per MTD deployment & progress one deployment costs the attacker, in seconds at its own pace & this thesis, after \citep{bruneau2003} & \eqref{eq:time-lost} \\
+    & NCR reduction & share of no-defence NCR removed & \citep{alavizadeh2022}$^{\dagger}$ \\
+     & NCR growth rate & pace of compromise after deployment & this thesis \\
+    \multirow{-3}{1.9cm}{MTD effectiveness} & Time lost per MTD deployment & progress lost to one deployment & this thesis \\
     \bottomrule
   \end{tabular}
 \end{table}
