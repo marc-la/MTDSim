@@ -5987,6 +5987,16 @@ distribution is varied separately (Table~\ref{tab:experiment}). The two
 intervals are 200\,s, the longest the lineage has swept
 (Table~\ref{tab:lineage-configurations}), and 2\,000\,s, ten times it. The
 no-defence runs are the reference for every effect this chapter reports.
+% STAGED 2026-09-25, APPLY WHEN THE MTDSHIELD CONDITION LANDS (handoff
+%  2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md §5.7 item 2;
+%  Marc: "one sentence ... details in appendix", and no judgement of the model
+%  in §5.1). Beside the sweep rewrite above, the condition list gains two
+%  entries and this sentence follows it:
+%    "MTDShield is run as released: Tay's highest-scoring agent, choosing its
+%     own action at every decision, beside random selection over the same four
+%     mechanisms (Appendix~\ref{app:mtdshield})."
+%  Table 5.1's Condition row gains "MTDShield \citep{tay2024}; random over
+%  MTDShield's four mechanisms". Held back now so §5.1 stays true to what has run.
 % RATIFIED 2026-09-23 (Marc: "that's fine"); register E5. 200 s is the top of
 %  Zhang's 50--200 s and Ho's comparison interval (Table 8, p.24).
 % [3b] RESOLVED 2026-09-23, Marc's ruling: 2 000 s is NOT defended by precedent.
@@ -8501,6 +8511,237 @@ reports whether the attackers keep their order across the run.]}
 \label{app:cooccurrence}
 
 \input{tables/tab_D-0a_preliminary_extraction}
+
+% =====================================================================
+\chapter{MTDShield as run}
+\label{app:mtdshield}
+
+% DRAFT STATE 2026-09-25 --- session-drafted on Marc's ruling ("produce appendix
+%  E, really flesh it out ... methodical ... strictly conventional"; the
+%  structure is handoff 2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md
+%  §5.7). Ratify on read. Evidence: Tay's report (docs/sources/lit_review/tay2024.md
+%  §5.1, §5.2, Figs. 3-5); the release at f13ed49 (agents; training script
+%  experiments/train_models.py; evaluation builder
+%  mtdnetwork/operation/mtd_ai_operation.py l.240-283; decision loop l.73-125)
+%  and e6c13c6 (experiments.ipynb cells 1-3, 9, 14-17: settings, the scoring
+%  code scale_metrics, the best agent's use); the weights file read directly
+%  (input shapes [None, 8] + [None, 3, 1]); mtd_ai_forensics.md §2, §3(a), §3(b),
+%  §4. Line numbers stay in the repo records, by ruling; the dissertation cites
+%  the release by commit only.
+% OPEN FOR MARC (one choice, flagged): E.3's last paragraph keeps the
+%  simulator's forced-deployment draw (random over the four, Will Ho's form,
+%  commit 408882b, 2024-09-09) rather than the release's (complete topology
+%  shuffle, action 1). Recommended: keep, on the rule stated there. The other
+%  way is a one-line switch under the same input-layout option.
+% POPULATED LATER: E.5 and the second row of Table E.3 need the MTDShield
+%  condition run (the build in the handoff's §5.6).
+This appendix records which of Tay's agents stands for MTDShield in
+Chapter~\ref{ch:experiments}, how it is configured, what had to change for it
+to run, and which properties of the release bear on its results. One rule
+governs all four: the agent is run as released. Where running it required a
+change, the change is named; where the release has a property that affects the
+reading, the property is declared and left in place.
+
+\section{Selection}
+\label{app:mtdshield-selection}
+
+The agent is the one Tay named best: a double deep Q-network trained from an
+exploration rate of 0.5, decayed by a factor of 0.99 per episode, which scored
+11.00 on his criterion \citep[Section~5.2.2, Figure~4]{tay2024}. The criterion
+comes first, since the choice is only as good as the criterion. Each trained agent
+deployed in 100 runs of the simulator, and five metrics were read from each run:
+attack success rate, mean time to compromise, attack path exposure, return on
+attack and risk. Each metric was divided by its value with no defence, oriented
+so that a value above one is better than no defence, and the five were summed
+\citep[Section~5.1]{tay2024}; the score is the median over the runs
+\citep{tay2024code}. Table~\ref{tab:mtdshield-sweeps} gives the three sweeps
+the criterion ranked.
+
+\begin{table}[htbp]
+  \centering
+  \caption[Tay's hyperparameter sweeps]{The three hyperparameter sweeps Tay
+  scored, with the settings held in each and the highest and lowest summed
+  scores he reports \citep[Section~5.2, Figures~3--5]{tay2024}. $\gamma$ is the
+  discount factor and $\varepsilon$ the initial exploration rate, decayed once
+  per episode; the training start is the number of stored transitions before
+  learning begins. Held settings are from the release's training script
+  \citep{tay2024code}. An empty cell was not reported.}
+  \label{tab:mtdshield-sweeps}
+  \tablestyle
+  \begin{tabular}{@{}P{2.3cm}P{2.9cm}cP{3.3cm}P{2.2cm}P{2.0cm}@{}}
+    \toprule
+    Sweep & Values & Agents & Held & Highest & Lowest \\
+    \midrule
+    discount factor & $\gamma$ from 0.50 to 0.99 & 10 & $\varepsilon$ 1.0, decay 0.99; batch 64; training start 500 & 10.77 ($\gamma$ 0.85) & 9.46 ($\gamma$ 0.50) \\
+    exploration & $\varepsilon$ from 0.5 to 1.0; decay from 0.980 to 0.998 & 24 & $\gamma$ 0.95; batch 32; training start 1\,000 & 11.00 ($\varepsilon$ 0.5, decay 0.99) & 9.48 ($\varepsilon$ 1.0, decay 0.980) \\
+    training start & 500 to 2\,000 transitions & 4 & $\gamma$ 0.95; $\varepsilon$ 1.0, decay 0.99; batch 32 & 10.39 (2\,000) & \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Three ways of choosing were open, ordered by how much of the choice is this
+dissertation's rather than Tay's. The first adopts his designation. The second
+re-scores his 38 agents on his own criterion and settings with exploration
+switched off, and takes the highest. The third trains a new agent at the
+settings of Chapter~\ref{ch:experiments}. The third produces an agent of this
+dissertation's own, whose training would itself need defending; it is not prior
+work at all. The second keeps Tay's agents but makes the selection this
+dissertation's: the agent run would be the one found best here, which is a
+first step towards optimising the defence, and Chapter~\ref{ch:experiments}
+evaluates the defences as they were built for the baseline attacker
+(Section~\ref{sec:effectiveness}). The first leaves the choice with the author,
+where it belongs when the object of the evaluation is the author's work, and
+it is the choice taken.
+
+The designation carries no measured superiority, and the reason is the same
+fact that makes it the author's. Tay's scores were produced with the
+exploration rate at one: the release's evaluation entry point defaults it to one,
+and the evaluation notebook does not change it \citep{tay2024code}. Every
+decision in every scored run was therefore drawn at random, whichever agent was
+loaded, and with the decision loop's handling of a no-op
+(Section~\ref{app:mtdshield-changes}) each scored run deployed a mechanism drawn
+uniformly from the four at every tick. The spread across the 38 scores, 9.46 to
+11.00, is the run-to-run spread of one random selector. The agent run here is
+Tay's choice, adopted as his, and nothing is claimed for it against its
+siblings. The same fact fixes what the published figures describe, which is why
+Chapter~\ref{ch:experiments} runs a matched condition beside MTDShield:
+random selection over the same four mechanisms. The difference between the two
+is what the agent's policy contributes.
+
+\section{Configuration}
+\label{app:mtdshield-configuration}
+
+Table~\ref{tab:mtdshield-configuration} sets the agent's training, Tay's
+evaluation and Chapter~\ref{ch:experiments} side by side, one row per setting a
+replicator must make.
+
+\begin{table}[htbp]
+  \centering
+  \caption[MTDShield's settings: trained, evaluated by Tay, and run here]{The
+  settings under which the agent was trained, under which Tay evaluated it, and
+  under which Chapter~\ref{ch:experiments} runs it. The first two columns are
+  from the release's training script and evaluation notebook
+  \citep{tay2024code}; the third is Table~\ref{tab:experiment}. The detection rate
+  is the share of decisions at which the agent is told the attacker's current
+  action; the forced deployment fires when 2\,000\,s pass with none.}
+  \label{tab:mtdshield-configuration}
+  \tablestyle
+  \begin{tabular}{@{}P{2.5cm}P{4.2cm}P{3.6cm}P{4.3cm}@{}}
+    \toprule
+    Setting & Training & Tay's evaluation & Chapter~\ref{ch:experiments} \\
+    \midrule
+    Learning & $\gamma$ 0.95; batch 32; replay memory 2\,000; training start 1\,000; 100 episodes; target network copied every 10 episodes & & \\
+    Exploration rate & 0.5, decayed by 0.99 per episode to 0.18 & 1 & 0 \\
+    Mechanisms & \multicolumn{3}{P{13.0cm}@{}}{complete topology shuffle, IP shuffle, OS diversity, service diversity, or no operation} \\
+    Hosts & 100, a new network each episode & 150, a new network each run & 50 \\
+    Run length & 5\,000\,s per episode & 15\,000\,s & 15\,000\,s \\
+    Decision tick & 200\,s & 200\,s & 50, 100, 200, 500, 1\,000 and 2\,000\,s \\
+    Attacker & the baseline attacker & the baseline attacker & the baseline attacker; the APT attacker model \\
+    Detection rate & 1 & 1 (0 to 1 in \citealp[Figure~6]{tay2024}) & 1 \\
+    Forced deployment & after 2\,000\,s & after 2\,000\,s & after 2\,000\,s \\
+    Runs & 100 episodes & 100 per agent & 1\,000 per condition \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Chapter~\ref{ch:experiments} departs from the agent's training in four settings,
+and Tay's own evaluation departs in two of them. The network is smaller (50
+hosts against 100); the runs are longer (15\,000\,s against 5\,000\,s); one
+attacker is new; and five of the six decision ticks were never trained at.
+Running an agent outside its training settings is Tay's own practice: he
+evaluated at 150 hosts and 15\,000\,s agents trained at 100 hosts and
+5\,000\,s.
+
+The decision tick is the departure this dissertation adds, and it is the one the
+agent can see. Two of its 11 inputs scale with the tick: the time since the last
+deployment, about one tick just after a deployment, and the deployment frequency,
+about one per tick. Both are passed as measured, not rescaled to their 200\,s
+values. Rescaling them would tell the agent that its last deployment was 200\,s
+ago when it was 2\,000\,s ago. It would also leave the other nine inputs (the
+host compromise ratio, attack path exposure, risk and the rest) reporting a
+network that has moved further between decisions than any the agent was trained
+on, and no rescaling corrects those, because they describe the network as it
+is. At 200\,s the agent meets the tick it was trained at; at the other five it
+meets the true state at a tick it never saw. An agent whose inputs encode the
+tick cannot be expected to carry across ticks. That is a limitation of the
+design, declared here and not repaired.
+
+\section{Changes made to run it}
+\label{app:mtdshield-changes}
+
+Two changes were needed to run the agent, and neither alters the simulation.
+
+First, the inputs. The simulator as inherited builds a different input vector
+from the one Tay's agents were trained on (five state inputs and seven
+time-series inputs, against eight and three), because later work on the
+simulator changed them; no released agent loads into it. Tay's construction of
+the eight and three, as his evaluation code builds them \citep{tay2024code}, is
+restored as an option beside the current construction, which stays the default
+for everything else. It reads the network and the attacker and writes nothing.
+It draws one random number per decision (whether the attacker's current action
+is detected), as the current construction does, so no other process sees a
+different random stream because of it.
+
+Second, the decision loop. In the release, a decision to do nothing returned to
+the decision point without advancing the simulated clock. With the exploration
+rate at one, this redrew until a mechanism came up; under a policy that prefers
+doing nothing, the clock would never advance. The simulator used for every
+condition in Chapter~\ref{ch:experiments} already waits for the next tick after
+a no-op, as after a deployment, and the agent runs in it unchanged.
+
+The division between the two is the rule. The agent is Tay's: its weights, the
+inputs it reads and its choice at each decision. The loop around it is the
+simulator's, the same for every condition in Chapter~\ref{ch:experiments}, and it
+keeps two later changes to the release: each decision enqueues one mechanism
+(the release enqueued the chosen mechanism twice), and the forced deployment
+draws its mechanism at random (the release forced complete topology shuffle).
+Restoring either for one condition would run MTDShield in a different simulator
+from the defences it is compared with.
+
+\section{Properties of the release}
+\label{app:mtdshield-properties}
+
+Five properties of the release bear on how its results read
+(Table~\ref{tab:mtdshield-properties}). Each is stated as found in the released
+code or weights, and none is corrected: correcting any of them would make the
+agent this dissertation's rather than Tay's.
+
+\begin{table}[htbp]
+  \centering
+  \caption[Properties of the MTDShield release]{The properties of the release
+  that bear on the reading of MTDShield's results, what each means for that
+  reading, and how each is handled. Each is found in the release
+  \citep{tay2024code}; none is corrected.}
+  \label{tab:mtdshield-properties}
+  \tablestyle
+  \begin{tabular}{@{}P{5.0cm}P{5.6cm}P{4.2cm}@{}}
+    \toprule
+    Property & What it means for the reading & Handling \\
+    \midrule
+    The published scores were produced with the exploration rate at one & Tay's figures describe a uniform random choice among the four mechanisms at every tick, not the agents' policies & the matched condition, random selection over the same four, reproduces it (Section~\ref{app:mtdshield-selection}) \\
+    Two inputs are built differently by the training and evaluation code: the attack success rate (per port scan in training; averaged over compromise checkpoints in evaluation) and the time to compromise (a running sum in training; an average in evaluation) & the agent reads two inputs defined differently from the ones it was trained on & run as the release evaluates; checked at 200\,s with the training definitions (Section~\ref{app:mtdshield-observed}) \\
+    The batch-normalisation layers' stored variances are zero & at inference each such layer divides by the square root of its small stabilising constant, scaling its output about 30-fold & run as released \\
+    No transition for doing nothing was stored in training & the value of doing nothing was never a learning target & run as released; the share of no-op decisions is reported (Section~\ref{app:mtdshield-observed}) \\
+    The detection input codes the attacker's current action from the baseline attacker's actions & against the APT attacker model the input reads as nothing detected at every decision & run as released; stated where the results are read \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Behaviour observed}
+\label{app:mtdshield-observed}
+
+\noindent\emph{[Placeholder --- populated when the MTDShield condition has run.
+From the record of every decision: the share of each action at each tick,
+against each attacker; the share of deployments forced after 2\,000\,s; the
+200\,s check of Table~\ref{tab:mtdshield-properties}'s second row. Then the
+expectation written down before the run, from probing the released weights (a
+near-constant choice of service diversity; no-op below a fifth of decisions at
+200\,s), and whether it held.]}
+
+This appendix does not claim that the agent is a good or a poor defender in
+general, that its behaviour here is the behaviour Tay reported, or anything
+about an agent trained against the APT attacker model, which is future work
+(Chapter~\ref{ch:futurework}).
 
 
 % =====================================================================

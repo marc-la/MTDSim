@@ -68,6 +68,7 @@ new float.
 
 Inline (typed directly in `dissertation.tex`, no file): `tab:experiment-one` (§B.7),
 `tab:mtd-metrics` (§3.2.1, Table 3.1).
+2026-09-25, Appendix E *MTDShield as run* (hand-set from Tay's report and the release at `f13ed49` / `e6c13c6`; handoff `2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md` §5.7): `tab:mtdshield-sweeps` (§E.1, Tay's three sweeps with held settings and the reported highest and lowest scores), `tab:mtdshield-configuration` (§E.2, trained / Tay's evaluation / Chapter 5), `tab:mtdshield-properties` (§E.4, five properties of the release, what each means, how handled; row two's check result owed to the MTDShield run).
 
 ## Planned — Chapter 5, placeholder floats (2026-09-09)
 

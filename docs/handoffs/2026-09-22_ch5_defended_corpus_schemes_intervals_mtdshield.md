@@ -161,7 +161,12 @@ An interval-aware retrained variant is future work, beside the declined phase th
    Rescaling them by 200 / interval would give the model its training-time values. But that is an adapter the thesis would have to defend. It fixes 2 of 11 inputs: the security metrics still change by a different amount between ticks. And it tells the model its last deployment was 200 s ago when it was 2 000 s ago. **The body runs it unadapted at all six intervals, with the 200 s training interval declared.** The rescaled run is an appendix check only if the unadapted line's shape away from 200 s differs from random over the same four (Q7).
 6. **Add the arm and Q7's matched control** (random over the same four) to `run_corpus.py`. Both join the 100-seed smoke.
 
-### 5.7 Where MTDShield lands in the dissertation (proposed 2026-09-25; Marc rules the placement)
+### 5.7 Where MTDShield lands in the dissertation (RULED and APPLIED 2026-09-25: Marc accepted items 1-5; item 1 and Appendix E are in the tex, item 2 is staged as a tex comment in §5.1 until the condition runs, items 3-4 follow the run)
+
+**Applied, and what it found beyond this plan.**
+- **Tay's scores were produced with ε = 1.0.** The release's `execute_ai_model` defaults it and the notebook's `mtd_ai_simulation` does not forward it; with the no-op re-entry, every scored run deployed a mechanism drawn uniformly from the four at every tick. So the 38 scores (9.46-11.00) are one random selector's run-to-run spread, and the designation is adopted as Tay's, with no measured superiority. §E.1 says so, and that is why Q7's matched arm is argued there.
+- **The release's decision loop differs from the live loop in two further places:** the guard forced complete topology shuffle (action 1), where the live form is Ho's random draw (`408882b`); and each decision enqueued twice (MTDAI-08). §E.3 keeps the simulator's loop for every condition. The guard is **flagged for Marc** in the appendix's head comment.
+- **Alternatives ranked in §E.1:** designation (taken) / re-scoring his 38 greedily (rejected: it makes the selection the thesis's, a step towards optimising the defence) / retraining (rejected: not prior work).
 
 **The rule that sets the placement:** the background describes prior work, §5.1 states the choice, and the appendix holds the evidence for it. Each place carries only its own job, and nothing is said twice.
 
