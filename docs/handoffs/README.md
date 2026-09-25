@@ -38,6 +38,10 @@ metrics and the numbers exist.
    released, the interval as a six-point range, both attackers, 100-seed smoke
    tonight then 1 000 overnight. Q1–Q5 owed; Q5 is "launch the smoke". Feeds
    every other brief's floats.
+   - **Split out 2026-09-25:** [`2026-09-25_mtdshield_preliminary_run.md`](2026-09-25_mtdshield_preliminary_run.md)
+     — MTDShield as released (Tay's input layout restored as an option), plus
+     random over its four, added to the existing 100-seed corpus at 200 s and
+     2 000 s, and shown in the §5.3.1–§5.3.3 floats. Runs first; no dependency.
 
 2. **Marc's rulings pass, one sitting**: the metric dispositions
    (`metrics_provenance_and_instrumentation` §1), the setup rulings
