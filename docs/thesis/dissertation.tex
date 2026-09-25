@@ -5363,6 +5363,9 @@ it would cost to be wrong about them.
 \section{Evaluation metrics}
 \label{sec:evaluation-metrics}
 
+% [SURFACED 2026-09-25 (Marc: "surface the boilerplate headings"): the four
+%  subsection headings and one run-in head per metric are live, each with a one-line
+%  placeholder; the slots and draft equations stay commented beneath them.]
 % [2026-09-25, Marc: 'placeholders comment out': §4.5 shows its heading and
 %  the metrics table until the definitions are drafted
 %  (handoff 2026-09-24_s45_instrumenting_mtdsim.md). Uncomment the three
@@ -5413,6 +5416,8 @@ it would cost to be wrong about them.
 % results ask of the attacker --- what it does, what it achieves, what a defence
 % does to it --- listed with their sources in Table~\ref{tab:metrics}; each is read
 % per run, and Section~\ref{subsec:metrics-statistics} says how runs are combined.
+
+\noindent\emph{[Placeholder --- opener to draft: three classes, one per question the results ask of the attacker; Table~\ref{tab:metrics} lists them.]}
 %
 % SYMBOLS TABLE (optional; Hong 2018 Tables 1-2 and Ho 2024 Table 3 are the
 % precedent): r a run; \mathcal{R} the runs of one cell; N = 50 the network's hosts;
@@ -5421,14 +5426,17 @@ it would cost to be wrong about them.
 % \theta the alarm level; t_d the moment a deployment completes. Either a small
 % table here or one "where" clause per definition --- Marc's call.
 %
-% \subsection{Attacker behaviour}
-% \label{subsec:metrics-behaviour}
+\subsection{Attacker behaviour}
+\label{subsec:metrics-behaviour}
+
 % OPENER: what the attacker does, read with no defence (Section~\ref{sec:attacker-in-operation}). Define ONCE here: a step (a tactic entered; for the baseline
 % attacker a verb entered, repeats collapsed); an opening (the first k steps); an
 % action (a verb that runs on the network: not a dwell-only tactic, not an unmet
 % precondition, not an end-of-run marker; one exploit, not one per vulnerability).
 %
-% \paragraph{Relative tactic occurrence.}
+\paragraph{Relative tactic occurrence.}
+\emph{[Definition to draft --- adopted, Rodriguez et al.~2024.]}
+
 %  S1 adopted: the quantity Rodriguez et al. tabulate as relative occurrence
 %     \citep{rodriguez2024} (they give no equation, so this one is ours).
 %  S2 the share of the attacker's steps that fall in each tactic, pooled over runs.
@@ -5438,7 +5446,9 @@ it would cost to be wrong about them.
 %  S6 rationale (one clause): steps, not time, because a tactic's time is its
 %     declared dwell.
 %
-% \paragraph{Attack path variation (APV).}
+\paragraph{Attack path variation (APV).}
+\emph{[Definition to draft --- adapted from Hong et al.~2018.]}
+
 %  S1 adapted from Hong et al. \citep{hong2018} (Eq. 2, p. 39).
 %  S2 how often the attacker's runs open differently.
 %  S3 \begin{equation} \mathrm{APV}_k = 1 - \frac{|\{r \in \mathcal{R} :
@@ -5449,7 +5459,9 @@ it would cost to be wrong about them.
 %     network states; this measures how the paths an attacker TAKES vary between
 %     its runs.
 %
-% \paragraph{Attack rate.}
+\paragraph{Attack rate.}
+\emph{[Definition to draft --- adapted from Zhan et al.~2013.]}
+
 %  S1 adapted from Zhan et al. \citep{zhan2013} (surveyed as aggressiveness by
 %     \citep{pendleton2016}, arXiv v1 p. 15; confirm in the published version).
 %  S2 the attacker's actions per unit of its active time.
@@ -5460,7 +5472,9 @@ it would cost to be wrong about them.
 %     action rule matters (counting unmet verbs would put c_4 level with the
 %     baseline).
 %
-% \paragraph{Attack confidentiality.}
+\paragraph{Attack confidentiality.}
+\emph{[Definition to draft --- adapted from Zaffarano et al.~2015.]}
+
 %  S1 adapted from Zaffarano et al. \citep{zaffarano2015}.
 %  S2 the share of the attacker's actions a declared detector does not flag.
 %  S3 \begin{equation} D(t) = \sum_{a_i \le t} e^{-(t - a_i)/\kappa}
@@ -5476,12 +5490,15 @@ it would cost to be wrong about them.
 %     to a detector that counts actions. \kappa swept in
 %     Appendix~\ref{app:detector-memory}.
 %
-% \subsection{Attack outcome}
-% \label{subsec:metrics-outcome}
+\subsection{Attack outcome}
+\label{subsec:metrics-outcome}
+
 % OPENER: what the attacker achieves, with no defence (Table~\ref{tab:unopposed-summary})
 % and under each defence (Section~\ref{sec:effectiveness}).
 %
-% \paragraph{Attack success probability (ASP).}
+\paragraph{Attack success probability (ASP).}
+\emph{[Definition to draft --- adopted, Cho et al.~2020.]}
+
 %  S1 adopted, as defined by Cho et al. \citep{cho2020}.
 %  S2 the share of runs in which the attacker compromises a target host.
 %  S3 \begin{equation} \mathrm{ASP} = \frac{1}{|\mathcal{R}|}\sum_{r}
@@ -5490,7 +5507,9 @@ it would cost to be wrong about them.
 %  S4 [0, 1]; lower is better for the defender. One clause: not Ho's ASR (hosts
 %     per attempted action).
 %
-% \paragraph{Network compromise ratio (NCR).}
+\paragraph{Network compromise ratio (NCR).}
+\emph{[Definition to draft --- adopted, Zhang et al.~2023 and Ho et al.~2024.]}
+
 %  S1 adopted \citep{zhang2023}; \citep{ho2024} (Eq. 10).
 %  S3 \begin{equation} \mathrm{NCR} = \frac{1}{|\mathcal{R}|}\sum_{r}
 %     \frac{|H_r|}{N} \label{eq:ncr}\end{equation}
@@ -5499,7 +5518,9 @@ it would cost to be wrong about them.
 %     network the attacker holds when its run ends (target fell or time ran out);
 %     ASP beside it says which.
 %
-% \paragraph{Mean time to compromise (MTTC).}
+\paragraph{Mean time to compromise (MTTC).}
+\emph{[Definition to draft --- adopted, McQueen et al.~2006 and Zhang et al.~2023; checkpoint the first host.]}
+
 %  S1 adopted \citep{mcqueen2006, zhang2023}, checkpoint stated.
 %  S3 \begin{equation} \mathrm{MTTC} = \frac{1}{|\mathcal{R}_1|}\sum_{r \in
 %     \mathcal{R}_1} t_r \label{eq:mttc}\end{equation} where t_r is the time to
@@ -5509,11 +5530,14 @@ it would cost to be wrong about them.
 %     attacker model never reaches). Edge case: runs with no compromise are left
 %     out, and their share is reported beside MTTC.
 %
-% \subsection{MTD effectiveness}
-% \label{subsec:metrics-effectiveness}
+\subsection{MTD effectiveness}
+\label{subsec:metrics-effectiveness}
+
 % OPENER: what a defence does to the attacker.
 %
-% \paragraph{NCR reduction.}
+\paragraph{NCR reduction.}
+\emph{[Definition to draft --- adopted form, Alavizadeh et al.~2022's mitigation factor on NCR.]}
+
 %  S1 adopted form: Alavizadeh et al.'s mitigation factor \citep{alavizadeh2022}
 %     (Eq. 13) applied to NCR \citep{zhang2023, ho2024}.
 %  S3 \begin{equation} \Delta_{\mathrm{NCR}} = 1 -
@@ -5527,7 +5551,9 @@ it would cost to be wrong about them.
 %  LAST SENTENCE: defences are ranked by NCR reduction
 %     (Section~\ref{subsec:metrics-statistics}).
 %
-% \paragraph{NCR growth rate.}
+\paragraph{NCR growth rate.}
+\emph{[Definition to draft --- introduced.]}
+
 %  S1 introduced: we define it to measure how fast the attacker compromises hosts
 %     around a deployment.
 %  S3 \begin{equation} r(t) = \frac{\mathrm{d}\,\mathrm{NCR}}{\mathrm{d}t}, \qquad
@@ -5538,7 +5564,9 @@ it would cost to be wrong about them.
 %  S6 why: relative to the attacker's own rate, so a slower attacker does not read
 %     as a damaged one. The 750 s window includes the 70-100 s the deployment runs.
 %
-% \paragraph{Time lost per MTD deployment.}
+\paragraph{Time lost per MTD deployment.}
+\emph{[Definition to draft --- introduced.]}
+
 %  S1 introduced: we define it to measure the progress one deployment costs the
 %     attacker.
 %  S3 \begin{equation} L = \int_{0}^{1250} \bigl(1 - \tilde{r}(t)\bigr)\,\mathrm{d}t
@@ -5554,8 +5582,11 @@ it would cost to be wrong about them.
 %     recovered by +1 250 s are lower bounds. Both read in
 %     Section~\ref{subsec:aio-disruption}.
 %
-% \subsection{Statistical analysis}
-% \label{subsec:metrics-statistics}
+\subsection{Statistical analysis}
+\label{subsec:metrics-statistics}
+
+\noindent\emph{[Placeholder --- to draft: the seed as the unit; the intervals; the ranking of defences by NCR reduction (Scott--Knott ESD); Spearman's $\rho$ between the two attackers' rankings.]}
+
 % OPENER (says why it is apart): every metric above is read per run; this
 % subsection says how the runs of one condition become the values
 % Chapter~\ref{ch:experiments} reports, and how defences are compared.
