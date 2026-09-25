@@ -7361,10 +7361,16 @@ runs are otherwise identical.
 % over execution schemes (tools/ch5_sweep_figures.py --only headline). The bars'
 % generator and fragment stay on disk. Caption decode-only. DRAFT STATE ---
 % ratify on read. PRELIMINARY: 100 seeds.
+% REDRAWN 2026-09-25 (Marc on the draft: "the effect of the attacker model it's
+% not very clear to me ... why do we have figure C figure D which is both
+% deployment strategies"; results context §8j-3): one panel per defence and the
+% two attackers as its two lines, drawn as the depth figures draw them, so the
+% swap is which line is on top; the attacker key on top; random over MTDShield's
+% four dropped from every float (Marc: "a bit vacuous"). DRAFT STATE.
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-3-2b_interval_headline}
-  \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval, measured against the APT attacker model, pooled over $c_1$ to $c_4$, in panels~(a) and~(c) and against the baseline attacker in panels~(b) and~(d); higher is fewer hosts compromised than with no defence. Panels~(a) and~(b): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms each deployed alone; user shuffle is the only credentials mechanism. Panels~(c) and~(d): the deployment strategies, the random and alternative execution schemes (Table~\ref{tab:deployment-strategies}), random selection over MTDShield's four mechanisms, and MTDShield (Appendix~\ref{app:mtdshield}). The interval axis is logarithmic; zero is the no-defence reference; whiskers are 95\,\% percentile bootstrap intervals.}
+  \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence, measured against the APT attacker model, pooled over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no defence, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-cross-arm} lists them). Panels~(d) to~(f): the random execution scheme, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative execution scheme (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -7391,7 +7397,12 @@ runs are otherwise identical.
 % REPLACED 2026-09-25 (results context §8j, Q10): the rank grid over the six
 % deployment intervals (tools/ch5_sweep_figures.py --only ranks); a dash where the
 % condition's interval includes zero. DRAFT STATE --- ratify on read.
-\input{tables/tab_5-3-2b_rank_grid}
+% REPLACED 2026-09-25 (Marc on the draft: "the rankings ... what they mean to me";
+% results context §8j-3): the values behind Figure 5.4, both attackers at every
+% interval, rows grouped as its panels, grey where the interval includes zero
+% (tools/ch5_sweep_figures.py --only values). The rank grid's fragment stays on
+% disk. DRAFT STATE --- ratify on read.
+\input{tables/tab_5-3-2c_attacker_values}
 
 % ~1 unit. The defence conditions against the movement attacker: the
 % seven single mechanisms and the three deployment schemes, per profile,
@@ -7449,10 +7460,11 @@ runs are otherwise identical.
 % NEW 2026-09-25 (results context §8j, Q12): the depth's second figure, the four
 % execution schemes in the same form (tools/ch5_sweep_figures.py --only schemes).
 % DRAFT STATE --- ratify on read. PRELIMINARY: 100 seeds.
+% 2026-09-25: one row of three, random over MTDShield's four dropped (Marc).
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-3-3c_interval_schemes}
-  \caption[NCR reduction by deployment strategy and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each deployment strategy: the random and alternative execution schemes (Table~\ref{tab:deployment-strategies}), random selection over MTDShield's four mechanisms, and MTDShield (Appendix~\ref{app:mtdshield}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for reference. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
+  \caption[NCR reduction by deployment strategy and attack profile, across the deployment interval]{NCR reduction against the deployment interval for each deployment strategy: the random execution scheme, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative execution scheme (Table~\ref{tab:deployment-strategies}), for the attack profiles $c_1$ to $c_4$ and the aggregate $c_{\mathrm{agg}}$, with the baseline attacker dashed for reference. Axes, zero and whiskers as in Figure~\ref{fig:eff-cross-arm}.}
   \label{fig:eff-schemes-profiles}
 \end{figure}
 

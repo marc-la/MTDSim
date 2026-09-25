@@ -41,7 +41,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _ch5_style import (CNAME, DEFENDED, FONT, LABEL, LONG, MARK, PREAMBLE, PROFILES,  # noqa: E402
-                        REPO, SCHEMES, SHIELD, SHORT, SINGLES, TAB_DIR, axes, compile_fig, errorbar,
+                        REPO, SCHEMES, SHIELD, SHORT, SINGLES, TAB_DIR, UNREPORTED, axes, compile_fig, errorbar,
                         fmt_thousands, marker, panel_letter, pm, write_fig)
 
 NUMBERS = REPO / "data" / "results" / "ch5_defended" / "numbers.json"
@@ -290,7 +290,7 @@ def emit_tab55(s541: dict) -> str:
             w("    & no defence & %.2f & %s & %s & --- & %s \\\\" % (
                 none_tr, pm_ncr(none["hosts"]), mttc(none["delay"]), pm(none["blocked"], 2)))
             w(r"    \midrule")
-        rows = [(c, pooled[c]) for c in blk["order_pooled"]]
+        rows = [(c, pooled[c]) for c in blk["order_pooled"] if c not in UNREPORTED]
         for i, (c, d) in enumerate(rows):
             # one interval since 2026-09-25: the caption names it, so no rotated
             # group label (context critic: it repeated the caption)

@@ -77,6 +77,10 @@ DEFENDED = SINGLES + SCHEMES
 # MTDShield as released and random over its four mechanisms (2026-09-25;
 # handoff 2026-09-25_mtdshield_preliminary_run.md), in the core corpus only
 SHIELD = ("random_four", "mtdshield")
+# run as MTDShield's matched control but reported in no float (Marc 2026-09-25:
+# "a bit vacuous ... we don't talk about MTDShield's four"); it stays in the
+# corpus and numbers.json, so a body sentence can still quote it
+UNREPORTED = ("random_four",)
 SHORT = {
     "none": "none", "ip_shuffle": "IP", "complete_topology": "topology",
     "host_topology": "host", "port_shuffle": "port", "user_shuffle": "user",

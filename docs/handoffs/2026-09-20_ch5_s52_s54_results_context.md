@@ -1500,6 +1500,53 @@ H1 and H3 were reached cold, and the depth reader reached D1. **Takeaways amende
 - (3) H1 at 500–2 000 s for the baseline attacker is preliminary until 1 000 seeds.
 - (4) Examiner's viva question, recorded only: is the APT attacker model's near-total host-layer lock-out (0.13 hosts at 50 s against 8.13) attacker behaviour, or how the integration resolves targets after a shuffle? The claim as worded only states the measurement.
 
+### 8j-3. Round 2 (2026-09-25): the headline redrawn so the attacker is the line; Table 5.3 as values
+
+**Marc's read of round 1.** He found the depth figure (5.5) easy to read. He named service diversity "wholly under", the host mechanisms "wholly over", port shuffle converging and user shuffle "bad all round". Figure 5.4 did not work for him:
+- "the effect of the attacker model it's not very clear to me";
+- "why do we have figure C figure D which is both deployment strategies";
+- the attacker headings should be clearer and the colours more separable.
+
+He could not read Table 5.3's ranks ("what they mean to me"). He called random over MTDShield's four "a bit vacuous … we don't talk about MTDShield's four".
+
+**Diagnosis.** In round 1 the attacker was the column, so the swap had to be read as a change of rank across two panels. The depth figure puts the attacker comparison inside each panel (the profiles against the dashed baseline), and that is the form Marc read without effort. The headline's job is the depth figure's comparison, pooled.
+
+**Design applied.**
+- **Figure 5.4.** One panel per defence: host layer, service layer and credentials (user shuffle); then random, MTDShield and alternative. Each panel has two lines, the APT attacker model pooled over c1–c4 (black, solid) and the baseline attacker (grey, dashed, as the depth figures draw it). The attacker key is on top and each row has its own axis label.
+- **Table 5.3** (`tab:eff-cross-arm`, `tab_5-3-2c_attacker_values`):
+  - NCR reduction per defence, attacker and interval, with the attacker blocks side by side;
+  - rows grouped as the panels, and each layer's row gives the mean the figure plots;
+  - grey text where the 95 % interval includes zero, and the caption says the APT cells pool four times the runs.
+- **Random over MTDShield's four** is dropped from every float (`UNREPORTED` in `tools/_ch5_style.py`), including Figure 5.6 (now 1 × 3) and Table 5.4. The corpus and numbers.json keep it. **Q7 is closed by the drop.**
+
+**Reviewers.** Two cold readers, the context critic, then a fresh confirmation cold reader.
+- **Both first cold readers reached H1 and H3 unaided.** Round 1's form had not delivered H1.
+- **The critic recomputed all 120 table cells and the plotted polylines; all match.** A layer's point equals the mean of its mechanisms' points exactly, because they share the no-defence denominator.
+- **The confirmation reader found no blocking defect** and looked up all 72 plotted points in the table.
+
+**Applied.**
+- **The pooled line is now black. BLOCKING:** the movement colour and circle were identical to c1's in Figures 5.5 and 5.6.
+- **MTDShield sits under the service layer**, so panels with the same shape share a column. Figure 5.6, Table 5.3 and the captions follow the same order.
+- **"a negative value is more hosts compromised"**, in both captions.
+- **The run-count sentence** in Table 5.3's caption, so grey reads as stricter for the baseline.
+- **The layer-mean rows** in Table 5.3.
+- **Grey at black!55** so it survives print, and "grey text" so it is not read as the baseline.
+- **No zebra striping** in Table 5.3.
+
+**Rejected.**
+- **Faint per-profile lines in the headline.** That is Figure 5.5's job.
+- **"(c) credentials" without the mechanism name.** Naming user shuffle on the drawing keeps it out of the caption.
+- **Whisker bounds in the table.** The grey flag carries the one reading the body needs, and numbers.json holds the bounds.
+
+**Content points for the body.** These are Marc's to write.
+- **The introducing sentence should state the swap.** The first cold reader called its absence near-blocking.
+- **H4, reworded:** user shuffle is at or below zero, and it significantly hurts the APT attacker model at 50–500 s (−0.14 [−0.23, −0.07] at 50 s). The +0.47 against the baseline attacker at 50 s is marked, not explained.
+- **H1 for the baseline attacker at 500 s and beyond is service diversity alone.** Port shuffle and OS diversity are at zero, and the layer whisker bootstraps pooled runs, not the spread over mechanisms. Also, at 200 s IP shuffle (0.68) beats OS diversity (0.64) for the baseline attacker.
+- **H1 is not separated for the service layer at 2 000 s** (APT [−0.05, 0.07] against baseline [0.01, 0.18]).
+- **Pooling is still owed at the §5.3 head.**
+
+**Out of scope, flagged.** Every table caption in the chapter sits on its top rule (Table 5.4 too). This is house caption spacing in the class or preamble, and a concurrent session has `cshonours.cls` modified, so it was left alone.
+
 ## Validation gate
 
 This file has done its job when each of §5.2–§5.4 opens on the slots in §6,
