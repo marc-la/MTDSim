@@ -200,31 +200,30 @@ class report.cls by Cara MacNish August 1999/September 2000]
     {\large\scshape Honours Dissertation\par}%mtd
     \vskip 2.6em%
 %ckm    {\LARGE \@title \par}%
-    {\Large\bf 
-	\parbox{8cm}{ 				%ckm
-	\begin{center}\@title\end{center}} \par}%
+%ckm    {\Large\bf \parbox{8cm}{\begin{center}\@title\end{center}} \par}%
+    \vskip 1.2em%mtd title larger and wider (was \Large in 8cm); it
+    {\LARGE\bfseries%mtd   leads on size and white space, no rules
+	\parbox{0.8\textwidth}{\centering\linespread{1.15}\selectfont
+	\@title\par}\par}%
 %ckm    \vskip 3em%
-    \vskip 1.2em%mtd
-    {\large\itshape
+    \vskip 3.2em%mtd
+    {\Large\upshape%mtd author upright and larger (was \large\itshape)
      \lineskip .3em%
       \begin{tabular}[t]{c}%
         \@author
       \end{tabular}\par}%
       \vskip 2.2em%mtd
       \ifx\@supervisor\@empty\else%mtd supervisor block (hidden if unset)
-        {\normalsize\upshape Supervised by\par}%
+        {\normalsize\itshape Supervised by\par}%
         \vskip 0.4em%
         {\large\upshape\begin{tabular}[t]{c}\@supervisor\end{tabular}\par}%
-        \vskip 1.5em%
       \fi
 %ckm    {\large Draft \@date \par}%       % Set date in \large size.
 %ckm  \vfil\null
 \vfill
-		{\it This report is submitted as partial fulfilment\\
-		of the requirements for the Honours Programme of the\\
-		Department of Computer Science and Software Engineering,\\
-		The University of Western Australia,\\
-		\@submityear}
+%mtd submission statement ("This report is submitted as partial
+%mtd fulfilment ...") removed (Marc, 2026-09-24); the year stays.
+		{\large \@submityear\par}
   \end{center}
 %ckm	\par
 %ckm	\@thanks
@@ -522,10 +521,7 @@ class report.cls by Cara MacNish August 1999/September 2000]
 
 \newenvironment{abstract}
 	{\chapter*{Abstract}}
-	{\vfill					%ckm
-	\noindent				%ckm
-	{\bf Keywords:} \@keywords \\		%ckm	
-	{\bf CR Categories:} \@categories	%ckm
+	{%mtd Keywords and CR Categories footer removed (Marc, 2026-09-24)
 	\addcontentsline{toc}{chapter}{Abstract}
 	}
 
