@@ -843,6 +843,14 @@ organised, named, justified and drawn.
   one comparison. This absorbs §5.3.3: the prior evaluations' configurations
   are in the simulator, so run them rather than quote them, and the AI arm
   makes the lineage's contribution part of the same matrix.
+  *Applied 2026-09-25 (Marc):* no released Tay head loads into the live 5/7
+  state builder, so "as-is" needs his 8/3 feature path restored. Marc
+  overturned MTDAI-02 (August: the live head declared canonical, the 8/3 path
+  not restored) — "more defensible to do something". The head is
+  `epsilon_0.5_decay_0.99`, Tay's best by his own summed score, at ε = 0 and
+  every interval. Retraining was considered and rejected on the calibration
+  record's evidence, not on compute (V3 stands). Build and gates in the
+  corpus handoff §5.6.
 
 - **E7 — Rankings are based on the APT attacker model.** Switch the two
   orderings of Table 5.5 so the model is the base and the baseline attacker the

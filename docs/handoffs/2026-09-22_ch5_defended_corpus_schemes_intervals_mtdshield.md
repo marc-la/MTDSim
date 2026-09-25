@@ -1,5 +1,5 @@
 ---
-status: open                  # executes register E6 (and E7's ranking base); supersedes the retired 2026-09-17 defended-runs plan and the 2026-09-15 unopposed plan — their owed items are carried in §4; Q1–Q5 owed, Q5 is "launch the smoke tonight"; 2026-09-25 adds the §5.3.2 figure critique (§5) and Q6–Q10, Q6 (restore Tay's 8/3 head path) blocks the MTDShield arm
+status: open                  # executes register E6 (and E7's ranking base); supersedes the retired 2026-09-17 defended-runs plan and the 2026-09-15 unopposed plan — their owed items are carried in §4; Q1–Q5 owed, Q5 is "launch the smoke tonight"; 2026-09-25 adds the §5.3.2 figure critique (§5) and Q6–Q10, Q6 RULED 2026-09-25 (MTDAI-02 overturned: restore Tay's 8/3 path, build in §5.6)
 created: 2026-09-22
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E6, §E7
 companions: ../workflows/results_section_workflow.md (record → read → draw), the two-phase restructure, landed 2026-09-23 (the headline §5.3.2 reads the interval sweep aggregated by layer, the depth §5.3.3 reads per mechanism with MTDShield as a scheme column; `docs/thesis/FLOATS.md`), 2026-09-24_s45_instrumenting_mtdsim.md (what each metric is; the metrics design handoff retired 2026-09-24)
@@ -13,7 +13,7 @@ companions: ../workflows/results_section_workflow.md (record → read → draw),
 
 **The corpus that exists** (`data/results/ch5_defended/`, 2026-09-17): 30 200 runs — 10 conditions (no defence; seven singles; random and alternative over the seven) × {200, 2 000 s} × 6 arms × 100 seeds, plus the lineage (opportunistic-objective), regime (exponential at 200 s) and verdict-blind arms — in about 40 minutes on seven workers (≈ 12.6 runs/s; 0.12–1.2 s per run, network-layer singles at 200 s the slowest). `run_corpus.py` builds the jobs; `analyse.py` writes `numbers.json`; the generators read it. The no-defence cells are shared with `ch5_s531_unopposed/` bit for bit.
 
-**The seam already takes MTDShield** — *falsified 2026-09-25, see §5.1: no released head loads into the live state builder.* `src/mtdsim/l3_simulation/movement/run.py:112-237`: `mtd_scheme="mtd_ai"` with an `MTDAIConfig(main_network=...)`; the driver `tools/mtd_ai_run.py` (greedy ε = 0 by default — Tay's own harness left ε = 1.0, so every published MTDShield figure characterises a random selector, `mtd_ai_forensics.md` §2). Trained heads sit under `mtdsim-weights-archive/*.h5`; which head is canonical is MTDAI-02's disposition (`mtd_ai_cost_calibration.md` §1: the live 5/6 head). MTDShield selects from the lineage's four mechanisms plus no-op (Tay p.14), not the seven — a declared difference, not a defect.
+**The seam already takes MTDShield** — *falsified 2026-09-25, see §5.1: no released head loads into the live state builder; restore ruled 2026-09-25, §5.6.* `src/mtdsim/l3_simulation/movement/run.py:112-237`: `mtd_scheme="mtd_ai"` with an `MTDAIConfig(main_network=...)`; the driver `tools/mtd_ai_run.py` (greedy ε = 0 by default — Tay's own harness left ε = 1.0, so every published MTDShield figure characterises a random selector, `mtd_ai_forensics.md` §2). Trained heads sit under `mtdsim-weights-archive/*.h5`; which head is canonical is MTDAI-02's disposition (`mtd_ai_cost_calibration.md` §1: the live 5/6 head). MTDShield selects from the lineage's four mechanisms plus no-op (Tay p.14), not the seven — a declared difference, not a defect.
 
 ## 1. The cell set — for acceptance
 
@@ -100,6 +100,30 @@ H1 is the §5.3.2 headline and the E10(ii) set-up. The figure should make it vis
 - Six intervals turn today's two blocks into six. Proposal: a **rank grid**. Rows are the 11 conditions, ordered by the APT attacker model's rank at 200 s. Columns are the six intervals for the model, then the six for the baseline. Cells hold ranks only; the NCR values are in the appendix table. The last row is Spearman's ρ per interval. No footnote.
 - The alternative is to keep two anchor intervals and let the figure carry the sweep (Q10).
 
+### 5.6 MTDShield: the ruling and the build (2026-09-25)
+
+**Ruled (Marc, 2026-09-25):** MTDAI-02 is overturned (`mtd_ai_cost_calibration.md` §1). Tay's released model is run as released; in Marc's words it is "more defensible to do something", and he is "winding back that ruling". This settles Q6 and Q2: the head is `epsilon_0.5_decay_0.99` at ε = 0, run at all six intervals, with the 200 s training interval declared.
+
+**Retraining was considered and rejected**, and the costs are on record so the question does not come back. Compute is not what rules it out. The repaired harness (`tools/mtd_ai_run.py`) takes about 4.5 s per 25-decision episode on a CPU, so an agent at Tay's settings trains in about 10 minutes, and one trained across all six intervals in about an hour; no Kaya needed. What rules it out:
+- In the August calibration, 17 of 18 retrained agents learned a near-constant policy (MTDAI-16). Under Tay's own reward (λ = 0) the agent fired IP shuffle on 100 % of its deployments.
+- MTDAI-14 and MTDAI-15 are still unrepaired.
+- A retrained agent is the thesis's own model, not prior work, and brings its own training questions to defend.
+- Jin ruled against retraining twice: V3 ("just use the model as is") and E6 ("used as-is").
+
+An interval-aware retrained variant is future work, beside the declined phase three (E1).
+
+**Build (about a day, no training):**
+1. **Restore the 8/3 layout as a switch.** Tay's static and time-series vectors come back from `mtd_ai_operation.py:314-362` as a named layout beside the live 5/7 one, which stays the default. Record the feature order beside `STATE_FEATURE_ORDER` / `TIME_FEATURE_ORDER` in `mtd_ai.py`. Wire the choice through `MTDAIConfig`, and add `feature_layout` to `run.py` l.112-139.
+2. **Use Tay's evaluation path.** Where the training and evaluation heads differ (MTDAI-13, MTTC ÷ 10), the evaluation head he ran is the "as released" one. Declare it; do not repair it.
+3. **Check it loads.** The head's input shapes `[None, 8]` + `[None, 3, 1]` must match the built vectors; if not, fail loudly.
+4. **Gates:**
+   - the goldens re-run unchanged, since the default layout is untouched;
+   - one seeded episode per attacker at 200 s, with the per-decision ledger (greedy / forced) hand-traced over its first ten decisions (V1);
+   - the time for one decision step, which prices the corpus arm;
+   - the executions per run and the share of forced deployments, per interval.
+5. **Declare** it in Table 5.1 and `FLOATS.md`: head, ε = 0, the four-mechanism pool plus no-op, trained at 200 s against the baseline attacker, the BatchNorm variance-zero property (forensics §3(a)), and Tay's "best" = the highest summed normalised score (`tay2024.md` l.286, 314). The margin over the runner-up (11.00 against 10.77; the same head scored 10.78 in his Fig. 6) is stated once.
+6. **Add the arm and Q7's matched control** (random over the same four) to `run_corpus.py`. Both join the 100-seed smoke.
+
 ## Rulings owed (Marc)
 
 - **Q1** the interval levels (six proposed).
@@ -107,7 +131,7 @@ H1 is the §5.3.2 headline and the E10(ii) set-up. The figure should make it vis
 - **Q3** drop the exponential timing arm (recommended).
 - **Q4** drop the opportunistic-objective lineage arm (recommended; §5.3.3 dissolves).
 - **Q5** launch the 100-seed smoke tonight, before Q1–Q4 are all ruled — the smoke is cheap and the cell set is a superset. *(2026-09-25: the smoke can still launch without the MTDShield arm, which waits on Q6.)*
-- **Q6** Restore Tay's released 8/3 feature path as a selectable layout in `mtdnetwork/mtdai/`, the head `epsilon_0.5_decay_0.99`, ε = 0 (§5.1). This lifts the no-substrate-change constraint for that path only; the goldens must re-run untouched. **Recommended**: it reinstates the code that was released rather than changing the simulator. Without it, the "AI" in "no AI versus AI" cannot run. It also settles Q2: all six intervals, because the tick is the same knob the schemes use, with the 200 s training interval declared.
+- ~~**Q6**~~ **RULED 2026-09-25 — restore; see §5.6.** Restore Tay's released 8/3 feature path as a selectable layout in `mtdnetwork/mtdai/`, the head `epsilon_0.5_decay_0.99`, ε = 0 (§5.1). This lifts the no-substrate-change constraint for that path only; the goldens must re-run untouched. **Recommended**: it reinstates the code that was released rather than changing the simulator. Without it, the "AI" in "no AI versus AI" cannot run. It also settles Q2: all six intervals, because the tick is the same knob the schemes use, with the 200 s training interval declared.
 - **Q7** Add **random over MTDShield's four mechanisms** as a condition: 6 intervals × 6 arms = 36 cells, cheap. **Recommended**: it is the like-for-like "no AI" arm, and it is what Tay's published figures measured.
 - **Q8** Figure layout: 2 × 2 (attacker × mechanisms/schemes; **recommended**) or one panel per attacker with seven lines.
 - **Q9** Encoding: greys with one marker per line and the accent on MTDShield (**recommended**), or a new colour contract for conditions.
