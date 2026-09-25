@@ -8,6 +8,90 @@ evidence: ../sources/extractions/mtd_metric_catalogue.md (the verdict and the so
 
 # Define every metric in §4.5 *Evaluation metrics* — in the formalism's symbols, with its source, and why where it is ours
 
+## Drafted 2026-09-25: §4.5 is in the tex (DRAFT STATE, for Marc's read)
+
+Marc, 2026-09-25: *"a single agent for each of the metrics ... meticulously fleshes out the best structure, verifying sources, adaptations ... if you're a supervisor this is what you expect to see ... strictly conventional and defensible ... keep it crisp"*; and on Table 4.3: *"purpose, context, audience ... what does it need to carry ... is Class the right word"*.
+
+Twelve agents ran from one shared brief:
+- one per metric (ten);
+- one for 4.5.4;
+- one auditing Table 4.3.
+
+The session merged them, reconciled the symbols, tightened the long drafts (NCR growth rate from about 290 to 230 words; time lost from about 385 to 250) and built. **§4.5 is live on printed pp. 32–38.**
+
+**Every agent's record:** `docs/sources/extractions/s45_metric_definitions/` (tracked). Each holds the draft as written, a verification table (claim, locator, verbatim quote, verdict), the code check (file:line) and its open calls. This section keeps only the rulings and what is Marc's.
+
+### Status per metric (✱ = overturns an earlier ruling; Marc to confirm)
+
+| Metric | Status now | Source verdict | Code |
+|---|---|---|---|
+| Relative tactic occurrence | ✱ **adapted** from Rodríguez 2024 (was adopted) | Table 3 "Occur. (rel.)" pools events over 21 cases, **repeats in sequence included** (§3.2); a step never repeats | matches; 36 end-of-run markers in 198 524 records counted as steps (share change < 0.00005): filter at the 1 000-seed run |
+| APV | adapted from Hong 2018, Eq. 2 (p. 39) | holds. The handoff's "lower APV … more static" quote is **p. 42**, not p. 39 | matches; lives in `ch5_s531_unopposed/analyse.py:186,478` |
+| Attack rate | adapted from Zhan 2013 | **Zhan read first-hand** (arXiv 1603.07433 §III-B); Pendleton p. 15 relays it as aggressiveness | reproduces numbers.json exactly. **Active time runs to the end of the last step**, not the last action (the old slot and handoff were wrong). The baseline also stops when nothing is left to scan |
+| Attack confidentiality | adapted from Zaffarano 2015 | holds. Cho 2020's relay **inverts the direction**, so it is not cited. The detector is an EWMA rate statistic (Čisar 2010, open). "Trades speed for evasion" is ch2's paraphrase, not Alshamrani's words | **index form** $D_r(j)=\sum_{i\le j}$ matches exactly; the old time form mismatched on 37 tied baseline actions |
+| ASP | adopted, Cho 2020 §VII-A | verbatim | **BUG FIXED** (below) |
+| NCR | adopted, Zhang 2023 p. 32; Ho 2024 Eq. 10 as "host compromise ratio" | Zhang defines NCR in words as the 0.8 stopping rule; Ho never uses the name NCR, so the prose names his HCR. Both are single-author theses: never "et al." | matches (distinct hosts; none ever lost; N = 50) |
+| MTTC | ✱ **adapted** from Zhang 2023, after McQueen 2006 (was adopted) | McQueen's is an analytical expectation and never named MTTC; Zhang reads at 0.8 NCR (§5, p. 32) | matches. The attacker starts holding no host, so the first compromise is its foothold |
+| NCR reduction | ✱ **adapted** from Alavizadeh 2022 (was "in the form of") | **the mitigation factor is floored at 0** (Eq. 13, "otherwise 0"); ours goes negative. The catalogue row and entry 8 misquote it without the floor | matches (`analyse.py` `suppression()` ~l.334, ratio of means) |
+| NCR growth rate | introduced, "after Bruneau 2003" | the resilience curve; Bruneau 2003 **read from the author's open copy**, pp. 736–737 | matches `disruption.py`. Symbol **$g$** (was $r$, which clashed with the run) |
+| Time lost per MTD deployment | introduced, "after Bruneau 2003" (loss of resilience, $R=\int[100-Q(t)]dt$) | holds. "Resilience triangle" is not in Bruneau, so it is not used | matches: ten 125 s bins, pooled before the ratio, same-seed placebo; read at 2 000 s only |
+| 4.5.4 | Variant A live (what the code does); Variant B commented | Tantithamthavorn 2017 read (§5.8.1); Arcuri "at least n = 1,000" in the preprint p. 22, "per artifact"; "no lineage paper tests a ranking" holds narrowly (Barach runs a t-test) | intervals are over runs, not seeds; the bootstrap is unpaired; the **Welch/Holm check is not in the repo and holds only at 200 s**, so that sentence is CUT and the pooled variance stated as an assumption |
+
+### Table 4.3, reshaped by the audit
+
+- **Is it conventional?** Only partly. It read as an acronym list because it had lost the description column that every metric table in the corpus has (Zaffarano Table 4, Ho Table 3, Masud Table 3).
+- **The shape now:** an unheaded category column | Metric | Description | Source | Equation. It measures 452.6 pt against 455.2 pt.
+- **"Class":** no held source uses it for groups of metrics. The header is dropped, as in Table 3.1, and the prose says "categories" (He 2025).
+- **Rejected on evidence:** direction marks, a unit column, a "read in" column, and a separate symbols table ("where" clauses instead; the §4.5 symbols-table option is closed).
+- **Source grammar:**
+  - a citation alone means the metric is defined as used here;
+  - "adapted from" means one difference, stated in §4.5;
+  - "this thesis, after" means introduced, with the source of its form.
+
+### Fixed in this pass
+
+1. **ASP counted the inherited 80 % stop as a success** (`ch5_defended/analyse.py`, `_metrics` and the ranking's no-defence row). This was found independently by the ASP and NCR agents and confirmed in code.
+   - The baseline attacker's end event also fires on the 80 % compromise ratio.
+   - Table 5.3 read 0.58 and the ranking table 0.60 for the same cell.
+   - **Now:** `reached_target` for both attackers, read from the attacker's own record (the baseline's target hit; the model's `first_database_reach_time`).
+   - The session's first attempt used the model's `database_hosts_reached`. That is read at the horizon, after later deployments may have undone the hold, so it missed taken targets. It was rejected.
+   - Baseline ASP under defence moves down by 0.01–0.10. **The rankings are unchanged** (they rest on hosts compromised).
+   - `section_541`'s `target_reach` also uses the record rule now.
+2. **The 80 % stop is declared.** It appears in the NCR definition and in Table 5.1's time-limit cell ("or more than 80 % of the hosts \citep{zhang2023}"). It ends about 2 % of the baseline attacker's no-defence runs. **Marc's disposition is owed**: declare (done) or disable (needs a re-run).
+   - It is not yet classified against the intent spec: `targeted_objective_probe.md:575` records Brown's intent as "terminate on target compromise, not on the 80 % ratio".
+3. **The ranking table's caption** now points to Section 4.5.4.
+4. **Bib keys added** (Crossref-checked): `bruneau2003`, `cisar2010ewma`, `efron1994introduction`, `tantithamthavorn2019impact`.
+
+### Open for Marc (each with the recommendation)
+
+1. **The three ✱ status changes.** Recommend accepting all three; each rests on a quoted difference.
+2. **APV keeps Hong's name?** It changes object, axis, form and role, and Hong is the supervisor. Recommend keeping it with the stated difference, **and raising it with Dr Hong** rather than let him find it.
+3. **The 80 % stop:** declare (done) or disable. Recommend declare.
+4. **4.5.4 Variant B** (by-seed intervals and bootstrap). Recommend yes, with the resampling code, before the 1 000-seed run. The agent found the two current choices wrong in opposite directions, and one changes whether baseline user shuffle's interval includes zero.
+5. **The Welch/Holm check:** add it to `analyse.py` and report agreement per interval (then restore the sentence), or leave the pooled variance as a stated assumption (as drafted).
+6. **θ ≈ 2.95 in the text** is corpus-derived. Regenerate it at the 1 000-seed run.
+7. **Heading "Statistical analysis":** the agent recommends keeping it (Ho §3.4.1 and Barach §4 use it).
+8. **Downloads:** see `docs/sources/methodology/download_list.md`, the table "Added 2026-09-25".
+
+### Knock-ons owed elsewhere (not done)
+
+- **Table 5.2** prints MTTC without the share of runs it is taken over. The definition says it is reported with that share. Shares with no defence: 1.00 / 0.99 / 0.92 / 0.95 ($c_1$–$c_4$), 1.00 baseline.
+- **Appendix `tab:experiment-one`:**
+  - its "ASR" column is ASP's quantity under Ho's name for another quantity: rename it;
+  - its MTTC column carries a count, not a share.
+- **`tab_5-3-3a_lineage.tex` l.18** still says "mean suppression": change it to NCR reduction.
+- **§5.1 Runs paragraph:** check that it no longer claims "effect sizes with 95 % intervals" (4.5.4 agent). Keep Zhang's 100-seed comparison in §5.1 and Arcuri in 4.5.4.
+- **ASP's interval** is a Wald interval, poor near 0. A Wilson interval would be more defensible (4.5.4 and Table 5.2).
+- **Figure 5.1 caption or body:** one clause that APV at $k$ = 1 is 0 for every attacker (why the figure starts at $k$ = 2).
+- **The §5.2 reader** (`ch5_s531_unopposed/analyse.py` `target_reach`) uses the horizon rule. It is safe with no defence, but align it with the record rule.
+- **Catalogue** (`mtd_metric_catalogue.md`):
+  - l.35 misquotes Alavizadeh without the floor;
+  - l.40 has "the same quantity" for Rodríguez;
+  - l.41 has APV "does not exist".
+
+  Reconcile all three with the rulings above.
+- **Table 3.1:** add the anchors it lacks (Zhan; Bruneau; Alavizadeh's mitigation factor).
+
 ## Start here (2026-09-25): how to write each definition, and in what order
 
 Marc, 2026-09-25: *"find guidance for how people define metrics in the field … best practice … common pitfalls … how we should structure it … we have to be strictly conventional … then I'm just going to go through each of the metrics and define it in 4.5 in the required structure."* Two research passes answer it: the corpus (how the papers this thesis cites define their metrics, read from `docs/sources/`) and the methodology literature (web, cited below). Where they agree, it is the rule; where they differ, the corpus wins, because it is the field the examiner reads the thesis against.

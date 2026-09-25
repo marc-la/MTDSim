@@ -1,3 +1,25 @@
+% REFORMED 2026-09-25 (table audit; Marc: "is Table 4.3 conventional ... what does
+% it need to carry? ... is 'Class' the right word?"). Evidence: the audit record in
+% docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md, "Drafted 2026-09-25".
+% (1) DESCRIPTION column RESTORED as a one-line gloss, overturning the 2026-09-24
+%     removal on merit: every metric table in the held corpus has one (zaffarano2015
+%     Table 4 "Metric | Description"; ho2024 Table 3 "Symbol | Description";
+%     masud2025 Table 3 "Symbols | Explanation | Formula"). Without it the table
+%     read as a list of names with citations.
+% (2) EQUATION column ADDED: where each metric is defined (masud2025's Formula
+%     column; tab:gspn-notation's "Declared in"). First to drop for a leaner table.
+% (3) "CLASS" HEADER REMOVED: no held source uses the word for groups of metrics;
+%     the key column is unheaded as in Table 3.1, its labels the 4.5.1-4.5.3
+%     titles. The prose says "categories" (He 2025). Labels stay horizontal:
+%     rotated (82.9 pt) they overrun the 3-row groups.
+% (4) SOURCE GRAMMAR, three states: a citation alone = defined as used here;
+%     "adapted from" = one difference, stated in 4.5; "this thesis, after" =
+%     introduced, with the source of its form. Cells follow the drafting agents'
+%     status rulings (relative tactic occurrence, MTTC, NCR reduction now adapted).
+% (5) NOT ADDED, on evidence: direction marks (no held source uses one; direction
+%     is each definition's), a unit column, a "read in" column, a separate
+%     symbols table. Geometry: 1.9+3.4+5.4+2.35+1.45 cm, measured 452.6 pt against
+%     455.2 pt. DRAFT STATE --- ratify on read.
 % CUT 2026-09-25 (Marc: "all the metrics need to be there for a purpose ... if they're not,
 % we have to cut it"): ATTACK ACTIONS BLOCKED. It served one float (Table 5.3) for one
 % attacker (structurally zero on the baseline), read 0.24 with no defence (a failed
@@ -160,25 +182,25 @@
 % which §4.4.1 says have no action in flight (metrics_semantics.md §d2).
 \begin{table}[htbp]
   \centering
-  \caption[The evaluation metrics]{The evaluation metrics, by class, with the source of each; each is defined in the subsection of the same name.}
+  \caption[The evaluation metrics]{The evaluation metrics, each with its source and the equation that defines it. A source cited alone defines the metric as it is used here.}
   \label{tab:metrics}
   \tablestyle\setlength{\tabcolsep}{5pt}
-  \begin{tabular}{@{}P{3.0cm}P{5.6cm}P{6.4cm}@{}}
+  \begin{tabular}{@{}P{1.9cm}P{3.4cm}P{5.4cm}P{2.35cm}P{1.45cm}@{}}
     \toprule
-    Class & Metric & Source \\
+    & Metric & Description & Source & Equation \\
     \midrule
-    & Relative tactic occurrence & \citep{rodriguez2024} \\
-     & Attack path variation (APV) & adapted from \citep{hong2018} \\
-     & Attack rate & adapted from \citep{zhan2013} \\
-    \multirow{-4}{3.0cm}{Attacker behaviour} & Attack confidentiality & adapted from \citep{zaffarano2015} \\
+    & Relative tactic occurrence & share of an attacker's steps that fall in each tactic & adapted from \citep{rodriguez2024} & \eqref{eq:rto} \\
+     & Attack path variation (APV) & share of runs that open differently from the attacker's commonest opening & adapted from \citep{hong2018} & \eqref{eq:apv} \\
+     & Attack rate & actions per 1\,000\,s of active time & adapted from \citep{zhan2013} & \eqref{eq:attack-rate} \\
+    \multirow{-4}{1.9cm}{Attacker behaviour} & Attack confidentiality & share of actions a declared detector does not expose & adapted from \citep{zaffarano2015} & \eqref{eq:confidentiality} \\
     \midrule
-    & Attack success probability (ASP) & \citep{cho2020} \\
-     & Network compromise ratio (NCR) & \citep{zhang2023, ho2024} \\
-    \multirow{-3}{3.0cm}{Attack outcome} & Mean time to compromise (MTTC) & \citep{mcqueen2006, zhang2023} \\
+    & Attack success probability (ASP) & share of runs that compromise a target host & \citep{cho2020} & \eqref{eq:asp} \\
+     & Network compromise ratio (NCR) & share of the network's hosts compromised by the end of a run & \citep{zhang2023, ho2024} & \eqref{eq:ncr} \\
+    \multirow{-3}{1.9cm}{Attack outcome} & Mean time to compromise (MTTC) & mean time from the start of a run to its first compromised host & adapted from \citep{zhang2023} & \eqref{eq:mttc} \\
     \midrule
-    & NCR reduction & \citep{zhang2023, ho2024}, in the form of \citep{alavizadeh2022} \\
-     & NCR growth rate & introduced here \\
-    \multirow{-3}{3.0cm}{MTD effectiveness} & Time lost per MTD deployment & introduced here \\
+    & NCR reduction & share of the no-defence NCR that a defence removes & adapted from \citep{alavizadeh2022} & \eqref{eq:ncr-reduction} \\
+     & NCR growth rate & rate at which NCR grows around a deployment, relative to the rate before it & this thesis, after \citep{bruneau2003} & \eqref{eq:ncr-growth} \\
+    \multirow{-3}{1.9cm}{MTD effectiveness} & Time lost per MTD deployment & progress one deployment costs the attacker, in seconds at its own pace & this thesis, after \citep{bruneau2003} & \eqref{eq:time-lost} \\
     \bottomrule
   \end{tabular}
 \end{table}

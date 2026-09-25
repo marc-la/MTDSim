@@ -111,7 +111,7 @@
     & Timing distribution & near-periodic (Section~\ref{subsec:defence-mechanisms}); exponential, same means \citep{zhang2023} \\
     \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, service diversity 70\,s \citep{zhang2023}, and the simulator's host topology shuffle 100\,s, port shuffle 70\,s, user shuffle 20\,s \\
     \midrule
-    & Time limit & 15\,000\,s \citep{ho2024}; a run ends earlier if the attacker compromises a target \\
+    & Time limit & 15\,000\,s \citep{ho2024}; a run ends earlier if the attacker compromises a target, or more than 80\,\% of the hosts \citep{zhang2023} \\
     & Seeds & 1\,000 per combination, the same set on every arm \\
     \multirow{-3}{*}[-0.45cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Metrics & attacker behaviour: relative tactic occurrence, attack path variation (APV), attack rate, attack confidentiality; attack outcome: attack success probability (ASP), network compromise ratio (NCR), mean time to compromise (MTTC); MTD effectiveness: NCR reduction, NCR growth rate, time lost per MTD deployment (Table~\ref{tab:metrics}) \\
     \bottomrule

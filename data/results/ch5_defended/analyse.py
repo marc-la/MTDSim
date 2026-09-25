@@ -176,6 +176,12 @@ def summarise_movement(row: dict) -> dict:
         "seed": row["seed"],
         "hosts": run.compromised_count,
         "reached": bool(run.reached_objective),
+        # a target host compromised (ASP, section 4.5), read from the attacker's own
+        # record as the baseline row's `hit` is: the end event also fires on the
+        # inherited 80 % compromise-ratio stop, which is not a target reached; and
+        # database_hosts_reached is read at the horizon, after later deployments
+        # may have undone the hold, so it misses targets that were taken
+        "reached_target": bool(run.reached_objective and run.first_database_reach_time is not None),
         "first_compromise": run.first_compromise_time(),
         "elapsed": run.termination_time,
         "terminal": M.terminal_mode(run),
@@ -711,7 +717,7 @@ def section_541(cells, rng) -> dict:
                     **suppression(none, hosts_of(runs), rng),
                     "delay": delay_summary(runs),
                     "blocked": _iv([r["blocked_fraction"] for r in runs if r["blocked_fraction"] is not None]),
-                    "target_reach": float(np.mean([r["reached"] for r in runs])),
+                    "target_reach": float(np.mean([r["reached_target"] for r in runs])),
                     "interrupted_per_run": _iv([r["n_interrupted"] for r in runs]),
                 }
             block[p]["none"] = {
@@ -719,7 +725,7 @@ def section_541(cells, rng) -> dict:
                 "blocked": _iv([r["blocked_fraction"] for r in _cell(cells, "core", "movement", p, "none", 0)
                                 if r["blocked_fraction"] is not None]),
                 "hosts": _iv(none),
-                "target_reach": float(np.mean([r["reached"] for r in _cell(cells, "core", "movement", p, "none", 0)])),
+                "target_reach": float(np.mean([r["reached_target"] for r in _cell(cells, "core", "movement", p, "none", 0)])),
             }
         # the pooled model (the four profiles) for the table's rows
         none4 = hosts_of(_pool(cells, "core", FOUR, "none", 0))
@@ -730,7 +736,7 @@ def section_541(cells, rng) -> dict:
                 **suppression(none4, hosts_of(runs), rng),
                 "delay": delay_summary(runs),
                 "blocked": _iv([r["blocked_fraction"] for r in runs if r["blocked_fraction"] is not None]),
-                "target_reach": float(np.mean([r["reached"] for r in runs])),
+                "target_reach": float(np.mean([r["reached_target"] for r in runs])),
             }
         pooled["none"] = {
             "delay": delay_summary(_pool(cells, "core", FOUR, "none", 0)),
@@ -1029,7 +1035,7 @@ def _metrics(runs, none_hosts, rng, *, blocked: bool) -> dict:
     return {
         **suppression(none_hosts, hosts_of(runs), rng),
         "hosts": _iv(hosts_of(runs)),
-        "asp": float(np.mean([r["reached"] for r in runs])),
+        "asp": float(np.mean([r["reached_target"] for r in runs])),
         "delay": delay_summary(runs),
         "blocked": (_iv([r["blocked_fraction"] for r in runs if r["blocked_fraction"] is not None])
                     if blocked else None),
@@ -1075,7 +1081,7 @@ def section_ranking(cells, rng) -> dict:
                 rows[c]["rank"] = sk["rank"][c]
             blk[arm] = {
                 "rows": rows,
-                "none": {"hosts": _iv(nh), "asp": float(np.mean([r["reached"] for r in none[arm]])),
+                "none": {"hosts": _iv(nh), "asp": float(np.mean([r["reached_target"] for r in none[arm]])),
                          "delay": delay_summary(none[arm]),
                          "blocked": (_iv([r["blocked_fraction"] for r in none[arm] if r["blocked_fraction"] is not None])
                                      if arm == "movement" else None)},
