@@ -12,8 +12,7 @@
                     the baseline hatched, the model solid)
           Tab. 5.6  the two orderings side by side, the model as the base
                     (reworked 2026-09-25, E7): its columns first, rows in its
-                    rank order; the layer contrast and the rank statistic as
-                    the last two rows of each interval, no footnote
+                    rank order; no footnote, no rank statistic
   §5.4.3  Tab. 5.7  the prior evaluations' headline findings under both
                     attackers, from the lineage-objective arm
 
@@ -272,20 +271,20 @@ def emit_tab56(s542: dict) -> str:
     w("%   data/results/ch5_defended/numbers.json (the defended corpus; suppression of")
     w("%   hosts reached per condition per arm; the model pooled over four profiles). Do not hand-edit.")
     w("% REWORKED 2026-09-25 (Marc; register E7): the APT attacker model is the base ---")
-    w("%   its columns first, rows in its rank order; the footnote gone (its two")
-    w("%   statistics are the last two rows of each interval, its prose to the body);")
-    w("%   caption decode-only; \\footnotesize at the default colsep, filling \\textwidth.")
-    w("%   DRAFT STATE --- ratify on read.")
+    w("%   its columns first, rows in its rank order; the footnote and its two")
+    w("%   statistics gone (Marc: they do not fit here); caption decode-only; type")
+    w("%   size and colsep as Table 5.4, filling \\textwidth. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[The defence ranking under each attacker]{The defence conditions ranked by NCR reduction against the APT attacker model and against the baseline attacker, at each deployment interval, in the APT attacker model's order; rank~1 is the largest reduction. The last two rows of each interval compare the host-layer with the service-layer mechanisms (Table~\ref{tab:defence-mechanisms}) by Cliff's $\delta$ on NCR, positive when the host layer leaves fewer hosts compromised, and the two rankings by Spearman's $\rho$. Brackets: a 95\,\% percentile bootstrap interval.}")
+    w(r"  \caption[The defence ranking under each attacker]{The defence conditions ranked by NCR reduction against the APT attacker model and against the baseline attacker, at each deployment interval, in the APT attacker model's order; rank~1 is the largest reduction. Brackets: a 95\,\% percentile bootstrap interval.}")
     w(r"  \label{tab:eff-orderings}")
-    # widths fill \textwidth (455.24 pt): 0.4 cm rotated key + 13.4 cm of
-    # columns + 5 interior gutters at 12 pt (conventions §k rule 5). Two
-    # header rows: the stripes restart at row 3 so the first body row is
-    # shaded and neither header row is.
-    w(r"  \tablestyle\rowcolors{3}{black!5}{}")
-    w(r"  \begin{tabular}{@{}cP{4.8cm}>{\centering\arraybackslash}p{3.4cm}>{\centering\arraybackslash}p{0.9cm}>{\centering\arraybackslash}p{3.4cm}>{\centering\arraybackslash}p{0.9cm}@{}}")
+    # type size and colsep as tab:eff-conditions (conventions §k rule 1);
+    # widths fill \textwidth (455.24 pt): 3.5 + 2 x (3.6 + 1.75) cm of columns
+    # + 5 interior gutters at 8 pt + the rotated key. Two header rows: the
+    # stripes restart at row 3 so the first body row is shaded and neither
+    # header row is.
+    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}\rowcolors{3}{black!5}{}")
+    w(r"  \begin{tabular}{@{}cP{3.5cm}>{\centering\arraybackslash}p{3.6cm}>{\centering\arraybackslash}p{1.75cm}>{\centering\arraybackslash}p{3.6cm}>{\centering\arraybackslash}p{1.75cm}@{}}")
     w(r"    \toprule")
     w(r"    & & \multicolumn{2}{c}{APT attacker model} & \multicolumn{2}{c}{Baseline attacker} \\")
     w(r"    \cmidrule(lr){3-4}\cmidrule(lr){5-6}")
@@ -294,17 +293,11 @@ def emit_tab56(s542: dict) -> str:
     for interval in INTERVALS:
         blk = s542["by_interval"][interval]
         order = sorted(DEFENDED, key=lambda c: blk["ranks"]["movement"][c])
-        for c in order:
+        for i, c in enumerate(order):
+            group = r"\rowgroup{%d}{every %s\,s}" % (len(order), fmt_thousands(int(interval))) if i == len(order) - 1 else ""
             b, m = blk["suppression"]["baseline"][c], blk["suppression"]["movement"][c]
-            w("    & %s & %s & %d & %s & %d \\\\" % (
-                LONG[c], _sup(m), blk["ranks"]["movement"][c], _sup(b), blk["ranks"]["baseline"][c]))
-        w(r"    \midrule")
-        sp = blk["spearman"]
-        fb, fm = blk["family"]["baseline"]["cliff_network_below_application"], blk["family"]["movement"]["cliff_network_below_application"]
-        cliff = lambda f: _sup({"point": f["delta"], "lo": f["lo"], "hi": f["hi"]})
-        w("    & host against service layer, $\\delta$ & %s & & %s & \\\\" % (cliff(fm), cliff(fb)))
-        w("    \\rowgroup{%d}{every %s\\,s} & the two rankings, $\\rho$ & \\multicolumn{4}{c}{%s} \\\\" % (
-            len(order) + 2, fmt_thousands(int(interval)), _sup({"point": sp["rho"], "lo": sp["lo"], "hi": sp["hi"]})))
+            w("    %s & %s & %s & %d & %s & %d \\\\" % (
+                group, LONG[c], _sup(m), blk["ranks"]["movement"][c], _sup(b), blk["ranks"]["baseline"][c]))
         w(r"    \midrule" if interval == INTERVALS[0] else r"    \bottomrule")
     w(r"  \end{tabular}")
     w(r"\end{table}")
