@@ -215,3 +215,462 @@ Priority: **B** blocking (the reader cannot follow, or a mark is at risk) · **M
 ## Passed as field terms or defined at use (one line each)
 
 token, tangible / vanishing marking, timed / immediate transition, inhibitor arc (all Ajmone Marsan); terminal tactic (defined only in App. B, see B18); stall (defined at use, l.4921); scheme-aware attacker (cited, Jalowski); the exponential draw (ratified); lifecycle stage (ratified); failure matrix and its long form (ratified); scan-shaped / exploit-shaped / low-and-slow families (defined at use and read by the sensitivity floats); pre-intrusion overlay (ratified; see B5 for placement); targeted attack scenario (ch2, tab:attacker-objectives); the five headings (as ruled).
+
+---
+
+# Supervisor screen (2026-09-25, after the second pass) — what an examiner will push on
+
+Read against the chapter as it now stands (l.3917–5619, §4.5 drafted), its
+appendices (B, C.0–C.1) and the code where a claim had to be checked. The
+line-level entries above are mostly the right fixes and are not repeated here.
+This screen is about the **argument**: where a careful examiner can open a
+hole, and the conventional move that closes it. Line numbers are as of this
+screen.
+
+**Overall.** The chapter is now honest, and in most places it says what was
+done. What is left is structural. It makes a lot of declared choices but never
+gathers them in one place. Its robustness evidence holds fixed the part that
+does the work. It never shows that the model reproduces its own input. And it
+does not rule out the alternative an examiner is most likely to name. None of
+these needs new modelling. Each needs a sentence, a table row, or one run.
+
+## Tier 1 — defensibility holes (fix before anything is shared)
+
+**S1. The sensitivity analysis moves the parts that do nothing and holds the
+part that does.** Table C.0: both failure-matrix rates are *inert*, and the
+floor is "zero by structure: no Petri net carries a jump of three stages". So
+the distance term has no measurable effect. The nine rules $R$ carry the
+failure matrix's effect (Figure 4.3b: initial access → reconnaissance goes from
+0.062 to 0.750 under failure), and they are "held". Meanwhile §4.4.4
+(l.5238–5250) spends its paragraph on the distance term and one clause on the
+rules. The examiner's question is: *does the failure matrix change anything,
+and is that change an artefact of values you picked?*
+→ Add one ablation row to Table C.0: $F_{\text{failure}}$ = identity (the
+failure matrix off). This is the conventional test, and it answers both halves
+of the question. Then weight the prose to match the evidence. Say that the rates
+are inert and the floor never binds, so the rules are the substance. At present
+l.5247–5249 describes a rule ("a jump of three stages falls below a floor ...
+zero it out") that never acts.
+
+**S2. The comparison mixes routing with timing, and the thesis claim needs the
+two kept apart.** l.4977–4978: "a difference between the arms is a difference
+in the attacker and nothing else". True. But the APT attacker model differs
+from the baseline attacker through at least three channels: *order* (the net's
+routing), *timing* (a drawn exponential dwell replaces the action's native
+cost, l.4848–4850, and dwell-only tactics add time with no action), and
+*retreat after failure* ($F_{\text{failure}}$). A chapter 5 difference could
+come from any of them. The criterion's claim is "behavioural fidelity changes
+the answer". An examiner will ask which part of the fidelity does it: a model
+that is only slower would also change the answer.
+→ In §4.4, name the three channels in one sentence. If a control arm exists
+that isolates routing, point at it. (`movement/net.py` builds a uniform-weight
+arm, "the null against which corpus concentration is the *strategic*
+content". Check whether chapter 5 reports it.) If no arm isolates a channel,
+chapter 6 should claim "the APT attacker model changes the answer", not that
+behavioural fidelity does (the measurement-vs-attribution rule).
+
+**S3. The model is never checked against its own input.** Nothing states that
+$\mathcal{N}_c$, run with no defence, reproduces the corpus it was built from:
+generated tactic shares against the profile's flows, or transition frequencies
+against $w_c$. That is the standard verification and face-validity step for a
+simulation model derived from data. Without it, "grounded in CTI" rests on the
+construction alone.
+→ One paragraph (end of §4.3 or §4.4) and one appendix table. Implementation
+verification: the trace tool shows the implemented net fires in proportion to
+$w_c$. Face validity: generated against corpus tactic occurrence per profile.
+Relative tactic occurrence, §4.5's own metric, is the natural measure. Some of
+this may already exist: `l2_subgraph/dedup.py` cites an L2 JSD re-check in
+`tests/l2_subgraph/test_gasp.py`. That covers L2, not the runtime net. Verify
+before citing it.
+
+**S4. "Why a Petri net and not a Markov chain?" is not answered.** One token,
+no concurrency, the AND structure inert (l.4547–4550). As run, the net is a
+continuous-time Markov chain over tactics whose jump probabilities depend on
+the verdict. An examiner with formal-methods training will say so at once. The
+rule-out paragraph (l.4425–4435) names attack graphs, DAGs, SPN and DSPN, but
+not the Markov chain. It also omits attack trees and the MDP/POMDP family that
+Cho points to for rational attackers.
+→ Rule it out in that paragraph, and **concede the reduction**. Say that the
+net as run is equivalent to a CTMC. Then say what the GSPN buys: concurrency
+(more tokens) as an extension within the same formalism, and the separation of
+structure from weights ("plug and play", l.4546, which needs rewording
+anyway). The MTD precedent is already cited. Also say that once $F_v$ depends
+on the simulator's verdict, the net is used as an executable specification and
+is not solved analytically. That heads off "why no steady-state analysis?".
+Owning the reduction is stronger than leaving it to be found.
+
+**S5. Judgement calls sit outside the parameter register.** Table C.0 claims to
+be "each value the attacker model was given rather than derived". These values
+were also given and are not in it:
+- $\sigma = 0.1$ (l.4709)
+- the operator-deduplication rule (one flow per operator, the one with most steps, l.4536–4539)
+- the sink-retrace policy (l.4958)
+- $M_0$ on reconnaissance
+- the single token
+- the per-tactic multipliers within each dwell family
+- the detector's $\theta$ ($\kappa$ has App. C.4)
+- APV's $k$, which the body never gives a value at all (l.5418–5426)
+
+The phrases "we judged", "best judgement", "to the best of our judgement" and
+"plausible" occur at six or more sites.
+→ Either widen Table C.0 to every declared value (held values are fine; say
+*held*), or put one "declared values and assumptions" table in chapter 4 with
+value, basis, and whether it was moved and where. Then point each "we judged"
+at its row. A chapter that lists its own judgement calls is hard to attack. A
+chapter where the examiner finds them one at a time loses marks for each.
+
+**S6. The most influential parameter rests on the weakest basis, and the body
+does not say so.** Low-and-slow family: 13.4 / 8.1 / 3.0 hosts across its band,
+a fourfold swing and the largest in Table C.0. §4.4.2 (l.5044–5045) says that
+family "rests on our judgement alone", but not that the results are most
+sensitive to it.
+→ One sentence and a pointer in §4.4.2, and the same in the chapter 6
+limitations. Once stated, the finding is the student's limitation and not the
+examiner's discovery. Also correct l.5045–5046 ("four free timing values
+rather than 15"). App. C.1 moves each family "the per-tactic multipliers ...
+riding along unchanged", so say "four family values are moved; the per-tactic
+multipliers are declared and held".
+
+## Tier 2 — claims that need their reason, or their second count
+
+**S7. Only one of the corpus's two biases is named.** Survivorship bias is named
+(l.5220–5222) and answered by the failure matrix. Selection bias is not. Attack
+Flow holds the incidents analysts chose to model from public reporting, which
+means high-profile, well-documented cases, concentrated on a few operators.
+Sixteen of the 38 flows fall in eight operator clusters, which is why the
+deduplication exists at all. "38 usable" also never says *usable of how many*,
+or why the rest were excluded.
+→ In §4.1, one clause for the inclusion count and criterion (corpus v3.1.1).
+One sentence naming selection bias next to "a different corpus would give a
+different net" (l.5219–5220), which already concedes the consequence.
+
+**S8. Half the corpus overrides the "primary" evidence, and the coding is one
+person's.** l.4356–4360: "Terminal tactic is the primary evidence ... That is
+why 19 of the 38 attack flows land in a different attack profile." When the
+cross-check overturns half the flows, the terminal tactic is not the primary
+evidence. The cross-check is.
+→ (a) Reword: the terminal tactic *proposes* a profile, and the CTID
+description, the ATT&CK page and vendor reports *decide* it; they overturned it
+for 19 of 38. (b) State the rule for when those sources disagree, and make Table
+B.2 show it. (c) Name single-analyst coding as a limitation. The conventional
+fix, cheap at n = 38, is a second coder on a sample with Cohen's κ reported.
+Also, l.4342–4344 treats "the tactics before the objective as common to all
+APT attackers", yet each profile carries its own weights on those tactics.
+Say that the assumption is used to *classify* by terminal tactic, not to pool
+the prefix weights. Otherwise it reads as contradicting the profile-specific
+nets.
+
+**S9. The profile sizes are counted two ways, and the sufficiency claim uses
+the larger count.** §4.2 gives 19 / 7 / 7 / 5 and says "the smallest attack
+profile has a minimum of five flows, which provides enough coverage"
+(l.4365–4366). The weights come from the deduplicated corpus, 14 / 6 / 5 / 4
+(29 flows, l.4539), so $c_4$ rests on four. "Enough" is unsupported at either
+count.
+→ Give both counts where the deduplication is disclosed. Replace "enough
+coverage" with what Appendix B.3 actually compares (M31). Give the
+deduplication rule its reason (the fullest record of that operator's
+campaign) and its cost (it favours long flows).
+
+**S10. The pre-intrusion overlay is justified by the wrong property.**
+l.4710–4712: "defensible because nothing detects pre-intrusion activity
+anyway". That argues the overlay does not matter to the defender, which
+undercuts including it. What the overlay does in the model is give a failed
+intrusion somewhere to go: Figure 4.3b's retreat to reconnaissance carries
+0.75 of the mass after a failed initial access.
+→ Justify it by that role, with the lifecycle literature
+(\citealt{alshamrani2019}, already cited), which describes attackers returning
+to reconnaissance. Keep "not observable by the defender" only as the reason the
+corpus lacks these edges (l.4284–4289 already says that).
+
+**S11. The formal definition still has two live slips.** (a) $T_T = \{\tau_p\}$,
+one timed transition *per tactic*, yet "a tactic whose declared time is zero is
+immediate" (l.4516–4519). With $W_c(\tau_p) = 1/\mu_p$ and resource development
+at $\mu_p = 0$, the definition divides by zero (M26). (b) $T_T$, $T_I$, $I$ and
+$O$ vary with $c$ but carry no subscript. Also, l.4544 defines $T_I$ as the
+pairs with $w_c > 0$, then argues that the implemented zero-weight form is
+equivalent. Define it once, in the implemented form, and cut the equivalence
+argument.
+
+**S12. §4.5's statistics need four conventional guards.**
+- ASP is a proportion that sits near 0 at short intervals. The criterion's
+  degenerate region pins it at zero at 200 s, so a normal-approximation
+  interval is wrong there; use Wilson or the bootstrap already in use.
+- MTTC is a mean over $\mathcal{R}_1$, which can be small. Report
+  $|\mathcal{R}_1|$ with every value; the text already says "the share of runs
+  it covers".
+- Spearman's ρ is computed over five or six defences. At that n, report it as
+  descriptive and not as a test.
+- $\theta$ is the median of $D$ over the baseline attacker's actions, so the
+  baseline's pooled attack confidentiality is 0.5 **by construction**. Say so
+  in §4.5, so that chapter 5 does not read it as a finding. Also state whether
+  $\theta$ is fixed once or set per cell.
+
+One more on robustness: Appendix C's runs are at "the random scheme mutating
+every 200 s" (Figure C.1 caption). Chapter 5 reports six intervals, and the
+metric windows assume 2 000 s. Hosts reached is breadth-shaped, so it stays
+informative at 200 s (criterion §(b)). Even so, say in Appendix C why
+robustness at 200 s carries to the reported intervals, or rerun at the headline
+interval. ("Mutating" is also a B23 term that survives in that caption.)
+
+## Tier 3 — leftover surface (one sitting)
+
+- Figure 4.4b still reads "The committed failure matrix" / "as committed
+  (\texttt{v4\_failure\_only})" (l.5332–5333): M4/M5 were applied to the
+  mapping captions only.
+- Figure 4.3's "gadget" ×2 and "foothold-gate rule" (M14, M15).
+- Speech-register residue, all already in the M list: "pipe in" (l.4420),
+  "plug and play" (l.4546), "anyway" (l.4712), "just another input that did not
+  work" (l.5195), "we would assume" (l.5117), "over the life of the project"
+  (l.4229), "We scoped it down" (l.4809), "our defence mechanisms" (l.4165),
+  "too much overhead" for Caldera (l.5200), "The literature tells us" (l.4312).
+- The opener: "it aims to meet the axes" (l.4139). The criterion records axes
+  the model does not address, so say "it addresses the axes of Section 3.x;
+  Section 6.x reports which it meets", or an examiner reads it as a claim on all
+  eight.
+- l.4313–4316: "We cannot produce an APT attacker model that could be
+  considered behavioural, because the attack graph carries so many different
+  motivations" asserts impossibility. What is meant is that a single net over
+  the whole corpus would average over objectives that drive different
+  behaviour. Say that.
+- State in §4.4 that the baseline attacker runs the same targeted scenario
+  (l.4852–4855 gives it to the APT attacker model only). `targeting.py` shares
+  the host sorter across both arms; the prose should say so.
+
+**Suggested order.** S1 and S3 are one short run each and close the two
+largest holes. S5 is one table, and it absorbs S6, S9's counts and §4.5's $k$
+and $\theta$. S2 and S4 are a sentence or two each, but they decide how chapter
+6 may word the headline claim, so rule on them before chapter 6 is drafted.
+
+## Marc's reply and corrections to this screen (2026-09-25)
+
+- **S1 corrected: the ablation already exists.** §5.4 "Response to disruption"
+  (l.~7333) uses the same attacker with $F_{\text{failure}}$ = identity as its
+  control. The gap is only that chapter 4 does not point to it and Table C.0
+  does not list it. **The real hole Marc names** is the provenance of the
+  values: "how do you come up with those?" The per-value reasons already exist
+  (Table B.4's *Why this value*, Table B.6a's *Rationale* and *Tier*, Table
+  B.5's reasons). But the body never states the procedure, and the three
+  appendices use three different vocabularies for a value's basis. Step 1 of
+  the walk-through is the fix.
+- **Ablations: Marc's structure is the conventional one.** The method declares
+  the test and points to where its result is reported. The result lives in
+  chapter 5 or an appendix.
+- **S2: Marc's sentence stands.** "A difference between the arms is a
+  difference in the attacker and nothing else" is a correct statement about
+  holding the environment fixed. What is open is only what "the attacker"
+  bundles (order, timing, failure response) and which parts have a control.
+  That is a case to put to Marc, not a rewrite.
+- **S6 retracted for chapter 4.** How much the low-and-slow family moves the
+  results is an evaluation result (Appendix C / chapter 6 discussion), not
+  method. §4.4.2 already says the family rests on judgement and has the widest
+  band, which is all the method owes.
+- **S8 reframed by Marc's actual process.** Each flow was classified by hand:
+  the CTID description, the ATT&CK page and the vendor reports were read, and
+  the profile was assigned, with the terminal tactic as the starting evidence.
+  The defensible form describes that manual coding procedure, points to Table
+  B.2 as the audit trail, and discloses the single coder.
+- **S9: the reason stands** (the partition balances coverage against
+  abstraction and fidelity). Only the second count (14/6/5/4 after
+  deduplication) is owed.
+- **S12: attack confidentiality was drafted before the metrics existed.**
+  Marc accepts the point.
+
+## Walk-through state (2026-09-25, continued)
+
+**Ruled (Marc):**
+- **Step 1:** the four-way basis vocabulary is accepted: *from the corpus*,
+  *from the simulator*, *from the literature*, *our judgement*. Marc wants the
+  paragraph crisp and factual, with no rhetorical flourish: what was done, the
+  procedure, why it is defensible.
+- **S2 = (a):** behavioural fidelity is defined as the bundle (order, timing,
+  failure response). The headline holds for the bundle, and a part is claimed
+  only where a control exists. No new run.
+- Steps 4 (validation run and appendix table), 5 (concede the equivalence to a
+  continuous-time Markov chain, argue from concurrency), 6 (hand-coding as a
+  manual procedure) and 7 (formal slips) are accepted as proposed.
+
+**Step 1 draft, proposed (NOT applied), to replace l.4825–4829:**
+
+> Each value in the APT attacker model has one of four bases. The base
+> weights $w_c$ and the membership of each attack profile come from the corpus.
+> The scan-shaped and exploit-shaped dwell times come from the simulator: they
+> are MTDSim's own enumeration and exploit costs, as is the 20-second confusion
+> penalty. The order of the four lifecycle stages comes from the literature
+> \citep{hutchins2011, alshamrani2019}, and with it the dependency the three
+> gating failure rules encode: without a foothold, no post-intrusion tactic is
+> reachable. The rest is our judgement: the multipliers that extend the
+> simulator's costs to the tactics no action prices, each row of the
+> tactic-to-action mapping, the size of each failure rule, the pre-intrusion
+> share $\sigma$, and the choice of one attack flow per operator. Each value
+> set by judgement has its reason recorded beside it
+> (Tables~\ref{tab:dwell-derivation}, \ref{tab:controller-mapping}
+> and~\ref{tab:overlay-failure-rules}), and is tested in one of two ways: it is
+> moved across a band (Appendix~\ref{app:sensitivity}), or the evaluation runs
+> a control without it (Section~\ref{subsec:aio-disruption}). A value tested
+> in neither way is held, and Table~\ref{tab:parameter-register} says so.
+
+Open checks on the draft:
+- Does \citep{alshamrani2019} carry the foothold dependency? Verify in its
+  extraction before committing.
+- Table C.0 needs the *Basis* column, plus rows for $\sigma$, the
+  one-flow-per-operator rule, sink-retrace and the identity control. It is
+  generated, so the change goes in the generator (find it:
+  `grep -rl declared_inputs tools/`).
+
+**S2 (a) sentences, proposed:**
+- Chapter opener, after "testing whether behavioural fidelity changes
+  existing MTD evaluation" (l.4152–4153): "Behavioural fidelity here is three
+  things the Petri net supplies together: the order of the attacker's tactics,
+  the time each takes, and where it goes after a failure."
+- §4.4, after "a difference in the attacker and nothing else" (l.4978): "The
+  evaluation separates the third of these from the other two with a control
+  (Section~\ref{subsec:aio-disruption}), and the profile from the aggregate with
+  $c_{\mathrm{agg}}$; it does not separate order from timing."
+
+**Step 2, the failure matrix: facts gathered for the case (measured 2026-09-25):**
+- *What it is.* Nine rule values, each multiplied by a stage-distance factor.
+  The distance factor's three parameters are inert or never bind (Table C.0).
+  In effect, then, the matrix is nine judgement values. The body draws all 210
+  cells (Figure 4.4b), which is why it reads as inflated.
+- *It moves routing.* Composed onto the base weights of each routing net
+  (`v4_failure_only`, the `operator_dedup` weights, synthetic overlay on), it
+  shifts on average 0.15 of a place's out-mass (total variation, all profiles).
+  At initial access it shifts 0.61–0.73, which is rule A: a failed initial
+  access leaves no foothold.
+- *It does not move outcomes.* In `ch5_s522_disruption_findings.md` (100 seeds,
+  preliminary), the identity control is within 0.025 at every step, and the
+  position by stage is unchanged. After a disruption the attacker's actions fail
+  until it holds a host again. Recovery is governed by the base routing's chance
+  of reaching a discovery tactic, not by the matrix.
+- *Origin.* The supervisor's M2 ruling was "failure → another [weight set]
+  (forward zeroed; retry/backward transitions live)". Marc's reversal idea (on
+  failure, route along the place's in-edges, weighted by the corpus) is M2 in a
+  form with no free values.
+- *Reversal: for and against.* For: no declared values, a corpus basis, M2
+  taken literally. Against: it removes lateral retries, which carry the most
+  base mass after an intrusion because eight of the 15 tactics share one stage.
+  It needs a code change, since `OutcomeOverlay.compose` only rescales existing
+  out-edges. It needs a rerun of the defended corpus and every chapter 5 figure
+  at 1 000 seeds. And at initial access it does what rule A already does.
+- *Recommendation.* Keep the matrix. In the body, present the nine rules
+  (rule, when it applies, value, basis) and move the 210-cell matrix to
+  Appendix B.6, where it already exists as Table B.6c. Defend the matrix with
+  the identity control: no reported conclusion depends on the nine values,
+  because removing them changes no reported reading. Reversal is optional, as
+  an appendix alternative in the manner of the forced-total mapping experiment,
+  and only if time allows. Do not claim reversal was considered; it was not.
+
+**Awaiting Marc:** a ruling on the step 1 draft (wording); a ruling on the
+failure matrix recommendation (keep, show the rules in the body, move the cells
+to the appendix; reversal as optional appendix work, or not at all).
+
+## Walk-through state, round 2 (2026-09-25)
+
+**Marc on the step 1 draft:** the direct sentences are right. Cut "recorded
+beside it" and "tested in one of two ways" (flourish). Use the conventional
+terms (*sensitivity analysis*, *ablation*). The last sentence was unclear.
+**Revised draft (NOT applied):**
+
+> Each value in the APT attacker model has one of four bases. The base
+> weights $w_c$ and the membership of each attack profile come from the corpus.
+> The scan-shaped and exploit-shaped dwell times and the 20-second confusion
+> penalty come from the simulator: they are MTDSim's own costs. The order of
+> the four lifecycle stages comes from the literature \citep{hutchins2011,
+> alshamrani2019}. The remaining values are our judgement: the multipliers for
+> the tactics no action prices, the tactic-to-action mapping, the nine failure
+> rules, the pre-intrusion share $\sigma$, and the choice of one attack flow
+> per operator. Appendix~\ref{app:movement} gives the reason for each
+> (Tables~\ref{tab:dwell-derivation}, \ref{tab:controller-mapping}
+> and~\ref{tab:overlay-failure-rules}). Appendix~\ref{app:sensitivity} reports
+> a sensitivity analysis on the dwell times, the mapping and the failure
+> matrix's scaling rates, and Section~\ref{subsec:aio-disruption} an ablation
+> of the failure matrix. The values in neither are held fixed;
+> Table~\ref{tab:parameter-register} lists them.
+
+**Marc on step 2 (ruled):** keep the failure matrix. It is too late to replace
+it, and reversal is hard to defend: ATT&CK has no backward edges, so the
+forward/backward reading was already a forced binary. The failure matrix is
+Marc's own construction ("not what I would have done if I had to do it
+again"). **How it is presented and defended is the work.** The lateral-move
+fact is the defence: a forward/backward rule leaves most post-intrusion moves
+undefined.
+
+**Step 2 draft, the §4.4.4 body (NOT applied):** it replaces the prose at
+l.5216–5250, 5274–5278 and 5343–5346.
+
+> The base weights $w_c$ are the success routing. The attack flows record the
+> steps that succeeded, so they say where an attacker goes after a success and
+> nothing about where it goes after a failure: the corpus has survivorship
+> bias, and no record of failure. The failure matrix $F_{\text{failure}}$ of
+> Equation~\ref{eq:vc-net} supplies the failure routing, and every value in it
+> is our judgement.
+>
+> The matrix follows one principle: after a failure, a move back is more
+> likely and a move forward less likely than after a success. ATT\&CK imposes
+> no order on its tactics, so direction is read from four lifecycle stages
+> drawn from the literature \citep{hutchins2011, alshamrani2019,
+> mandiant2013, chemat2024}: preparation, intrusion, post-intrusion operations
+> and objective. A forward-or-backward rule is not enough on these stages.
+> Eight of the 15 tactics fall in post-intrusion operations, so most moves
+> after an intrusion stay within one stage; in most post-intrusion tactics of
+> the attack profiles, these lateral moves carry most of the out-weight. The
+> matrix therefore separates three relations (backward, lateral and forward)
+> and adds three rules for dependency: a failed initial access leaves no
+> foothold, so no post-intrusion tactic is reachable, and a failed
+> reconnaissance weakens initial access and rules out a deeper move.
+> Table~\ref{tab:failure-rules} gives the nine rules, the value of each and its
+> reason. Figure~\ref{fig:gspn-gadget}(b) shows the first at work: after a
+> failed initial access, the share routed to reconnaissance rises from 0.062
+> to 0.750.
+>
+> Each cell of the matrix takes the value of the first rule that matches the
+> pair, scaled down when the move crosses two stages
+> (Appendix~\ref{app:weight-sets}). The values were set from these reasons and
+> not fitted to any evaluation outcome. Appendix~\ref{app:sensitivity} moves
+> the scaling rates. Section~\ref{subsec:aio-disruption} ablates the matrix,
+> replacing it with the identity so that the token routes on the base weights
+> whatever the verdict. The nine rule values are held fixed.
+
+Presentation changes that go with it:
+- **Body float:** Figure 4.4b (the 210 cells) goes to Appendix B.6, where
+  panel (c) of Figure B.6a already draws it. In its place in the body goes a
+  new table, `tab:failure-rules`, with four columns: rule, applies when, value,
+  basis. Its source is Table B.6a with the `\texttt` keys replaced by plain
+  names. Basis: A–C take their direction from the literature (dependency) and
+  their size from judgement; D–I are judgement. It is generated, so the change
+  goes in the generator, not a hand edit.
+- **The distance term's floor leaves the body.** It never binds (no net
+  carries a three-stage move), and Table C.0 already records that.
+- **The null goes in the results and discussion, not the method.** The
+  ablation's result (the identity control is within 0.025) is reported in the
+  results chapter. Chapter 6 carries the defence: no reported reading depends
+  on the nine values. The method only states the test (ch5 antecedent rule, the
+  mirror case).
+
+Checks before applying:
+- The lateral-share claim ("most post-intrusion tactics") was measured on the
+  routing nets, 2026-09-25. Recompute per profile when the table lands.
+- The citations for the stage order are the ones already at l.5240.
+- The "not fitted to any evaluation outcome" wording must match the record:
+  `success_failure_overlay_design.md` §2.3 says rule A was moved from 0.1 to
+  0.02 on a *routing* diagnosis (IA-failure mass), never on an outcome. The
+  sentence is true as worded. Do not strengthen it to "never adjusted".
+
+**Step 1 APPLIED 2026-09-25** (Marc: "just push it in for now"), DRAFT STATE.
+It follows "These are the three inputs we had to declare" in §4.4. Marc
+rejected "the values in neither are held fixed; Table C.0 lists them" as
+unclear. The applied text uses ten Broeke et al.'s conventional terms
+(*one-factor-at-a-time sensitivity analysis*, *nominal values*;
+`tenbroeke2016`, held at `docs/sources/methodology/tenbroeke2016_abm_sa.md`)
+and names the fixed values outright. The build is clean (pdflatex ×2 + bibtex,
+no undefined refs).
+
+**Marc's question: does the ablation belong in the evaluation or in the
+appendix?** Answer given: leave it where it is, as the control of the chapter 5
+response-to-disruption subsection. The convention is that an ablation bearing on
+a claim the evaluation reports sits with the results, and a sensitivity analysis
+that only shows robustness goes in an appendix. The method points to both,
+which the applied paragraph now does.
+
+**Step 2 (the failure matrix) is next:** the draft above, the new nine-row rules
+table, and Figure 4.4b moved to Appendix B.6. It is not yet applied.
