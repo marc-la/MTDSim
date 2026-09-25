@@ -88,9 +88,17 @@
 % 2026-09-25 (Marc: "5.1 shows two intervals and no MTDShield ... please fix that"): the
 %   six deployment intervals and MTDShield; random over MTDShield's four is reported
 %   nowhere, so not declared. Semicolons separate varied values, as the caption says.
+% 2026-09-25 (handoff 2026-09-25_ch5_setup_defence_and_prose_slots.md A2, A3,
+%   A7a, A8c, A9, A11, A17; Marc: "fix those in a defensible way and conventional
+%   way"): tay2024code on subnets, target, the near-periodic draw and the three
+%   simulator durations (the released experiment code's defaults and constants at
+%   f13ed49, verified); Ho on 50 and 100 s (Table 2.2); Arcuri on the seed count
+%   (the reason is §4.5.4's); the caption's "delay after an interrupt" cut (its
+%   ch2 home is still a placeholder); the exponential level marked \owed until
+%   its result is reported. No value is now a bare default.
 \begin{table}[htbp]
   \centering
-  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, condition and deployment interval are run in every combination; the timing distribution, which governs the interval, the deployment durations and the delay after an interrupt, is varied at the 200\,s interval. A citation names the prior study that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is the simulator's default (Section~\ref{sec:mtdsim}) or is argued in the text.}
+  \caption[The experiment]{The settings of the experiment. A parameter with several values, separated by semicolons, is varied; the rest are held. Arm, condition and deployment interval are run in every combination; the timing distribution, which governs the interval and the deployment durations, is varied at the 200\,s interval for every defended condition but MTDShield. A citation names the prior study or the released simulator code that ran the value (Table~\ref{tab:lineage-configurations}); an uncited value is defined in an earlier chapter or argued in the text.}
   \label{tab:experiment}
   \tablestyle\setlength{\tabcolsep}{4pt}
   \begin{tabular}{@{}cP{3.4cm}P{10.9cm}@{}}
@@ -99,20 +107,20 @@
     \midrule
     & Hosts & 50 \citep{zhang2023} \\
     & Levels of depth & 4 \citep{zhang2023} \\
-    & Subnets & 8 \\
+    & Subnets & 8 \citep{tay2024code} \\
     & Exposed endpoints & 5 \citep{zhang2023} \\
-    \multirow{-5}{*}[-0.30cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & the two database hosts, at the deepest level \\
+    \multirow{-5}{*}[-0.30cm]{\smash{\rotatebox{90}{\emph{Network}}}} & Target & the two database hosts, at the deepest level \citep{tay2024code} \\
     \midrule
     & Arm & the baseline attacker; the APT attacker model on each of the four attack profiles $c_1$ to $c_4$; the APT attacker model on the aggregate $c_{\mathrm{agg}}$ \\
     \multirow{-2}{*}[-0.46cm]{\smash{\rotatebox{90}{\emph{Attacker}}}} & Attack scenario & targeted \citep{brown2023} \\
     \midrule
     & Condition & no defence; each of the seven defence mechanisms alone \citep{brown2023}; the random execution scheme; the alternative execution scheme \citep{zhang2023}; MTDShield, as released \citep{tay2024} \\
-    & Deployment interval & 50\,s \citep{zhang2023}; 100\,s \citep{zhang2023}; 200\,s \citep{zhang2023, ho2024}; 500\,s; 1\,000\,s; 2\,000\,s \\
-    & Timing distribution & near-periodic (Section~\ref{subsec:defence-mechanisms}); exponential, same means \citep{zhang2023} \\
-    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, service diversity 70\,s \citep{zhang2023}, and the simulator's host topology shuffle 100\,s, port shuffle 70\,s, user shuffle 20\,s \\
+    & Deployment interval & 50\,s \citep{zhang2023, ho2024}; 100\,s \citep{zhang2023, ho2024}; 200\,s \citep{zhang2023, ho2024}; 500\,s; 1\,000\,s; 2\,000\,s \\
+    & Timing distribution & near-periodic (Section~\ref{subsec:defence-mechanisms}) \citep{tay2024code}; \owed{exponential, same means \citep{zhang2023}}{Table 5.1: the exponential timing distribution is run, but its result is reported nowhere; report it or remove the level} \\
+    \multirow{-4}{*}[-0.55cm]{\smash{\rotatebox{90}{\emph{Defence}}}} & Deployment duration & complete topology shuffle 110\,s, IP shuffle 100\,s, OS diversity 80\,s, service diversity 70\,s \citep{zhang2023}, and the simulator's host topology shuffle 100\,s, port shuffle 70\,s, user shuffle 20\,s \citep{tay2024code} \\
     \midrule
     & Time limit & 15\,000\,s \citep{ho2024}; a run ends earlier if the attacker compromises a target, or more than 80\,\% of the hosts \citep{zhang2023} \\
-    & Seeds & 1\,000 per combination, the same set on every arm \\
+    & Seeds & 1\,000 per combination \citep{arcuri2014hitchhiker}, the same set on every arm \\
     \multirow{-3}{*}[-0.45cm]{\smash{\rotatebox{90}{\emph{Runs}}}} & Metrics & attacker behaviour: relative tactic occurrence, attack path variation (APV), attack rate, attack confidentiality; attack outcome: attack success probability (ASP), network compromise ratio (NCR), mean time to compromise (MTTC); MTD effectiveness: NCR reduction, NCR growth rate, time lost per MTD deployment (Table~\ref{tab:metrics}) \\
     \bottomrule
   \end{tabular}

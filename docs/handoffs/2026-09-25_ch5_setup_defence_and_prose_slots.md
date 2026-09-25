@@ -1,5 +1,5 @@
 ---
-status: open                  # 2026-09-25: audit + slots delivered; every item below is a PROPOSAL awaiting Marc's ruling; nothing applied to the tex
+status: partially shipped     # 2026-09-25 second turn: §5.1 fixes APPLIED on Marc's ruling; the \owed mark added; all six owed prose elements drafted by agents and landed DRAFT STATE (ratify on read); what remains is §G below
 created: 2026-09-25
 companions: ../workflows/evaluation_conventions.md (§j, §k added in the same commit — the guidance this file applies), ../workflows/figure_table_conventions.md, ../workflows/voice.md, ../workflows/drafting_pipeline.md
 ---
@@ -277,6 +277,59 @@ consistently.
 | F15 | The slot plan (Part C): ratify it, then dictate slot by slot. | — | all owed prose |
 
 ---
+
+## Part G — landed 2026-09-25 (second turn), and what is still open
+
+**Marc's ruling:** "your points about 5.1 that's right so please fix those in a
+defensible way and conventional way"; "set up a new convention … a placeholder
+or a marker … so the text is clear that something is not defensible yet"; "each
+of the agents will do each of the prose elements … purpose context audience …
+writing with relevance, clarity, without rhetorical flourish".
+
+**Applied.**
+- §5.1 and Table 5.1: A2, A3, A7a, A7b, A7c, A8c (the clause cut), A9, A11, A12, A13, A16, A17 and B1. A8b and A15 carry `\owed` marks. Citations added: `law2015`, `currie2016`.
+- **The `\owed{text}{what is owed}` mark and its list** "Owed before submission", after the list of tables. The mark is fatal under `\owedmarksfalse`. `\prelim{n}` wraps each 100-seed number typed into prose. The convention is conventions §k8.
+- **The six prose elements:** the chapter preamble, the §5.2 body, the §5.3 head, and §5.3.1 (head rewritten, body added), §5.3.2 and §5.3.3.
+  - Each was drafted by one agent from a common brief (conventions §j, voice.md, the Part C slots, the ratified takeaways).
+  - I reviewed each and inserted it with its provenance comment (slot mapping and the JSON path of every number).
+  - They are DRAFT STATE, ratify on read. Chapter 5 now has about 2 000 words of prose against its 3 000 budget.
+- **Floats.**
+  - The values table (`tab:eff-interval-values`) moved beside the headline figure (B9).
+  - §5.3's floats went from [H] to [htbp], per the preamble's rule once prose lands; one page fewer, and no half-empty pages.
+- **Caption facts.**
+  - Figures 5.5 and 5.6: "dashed for comparison". "Reference" is reserved for the no-defence runs (conventions §f2); the preamble agent caught the collision.
+  - Figures 5.1 and 5.2: "$c_1$ to $c_4$". They never drew $c_{\mathrm{agg}}$.
+  - Table 5.1: the timing distribution is varied "for every defended condition but MTDShield" (`run_corpus.py`: the regime group is DEFENDED only).
+
+**The seven owed marks now in the text.** The list in the PDF is authoritative.
+1. Table 5.1: the exponential level's result is reported nowhere.
+2. §5.1: the simultaneous execution scheme is neither run nor given a reason.
+3. §5.2: the dwell-only concession rests on an untracked dry run. The agent notes it holds for $c_1$ and $c_4$ only (52 and 51 against 50), not for $c_2$ and $c_3$ (63 and 65).
+4. §5.3.1: the control's result is on a measure §4.5 does not define. Compute its time lost on IP shuffle and OS diversity, and add it to Table 5.1's arms (F10).
+5. §5.3.1: "what a rewrite takes" needs §2.2.3's placeholder item (ii), and chapter 4's commented-out disruption paragraph, landed (F6).
+6. §5.3.2: ρ over the ten reported defences has no tracked interval. The only tracked interval, [−0.23, 0.005] from 1 000 resamples, covers eleven conditions, including random-over-four.
+7. §5.3.3: the exponential values need an appendix table. MTDShield was not run under that distribution, and the interrupt-tally sanity flag in those runs is not yet investigated.
+
+**Upstream flags from the agents.** Verified where noted; none is applied.
+- **Chapter 6 does not mirror chapter 5 section for section.** §6.1 draws on §5.2 and §5.3, and §6.3 on §5.1 and §5.3. Either restructure chapter 6 or stop saying "mirror". The preamble says only "interprets".
+- **§4.5.4 never states the zero-exclusion rule.** It lives in a caption and now in the §5.3 head; §4.5.4 could take one clause.
+- **Two bootstraps disagree at the edge.** Scott–Knott ranks per-seed means, so "four times the runs" does not hold for the ranking. OS diversity against the model at 200 s is grey in Table 5.3, yet its `s542` interval excludes zero (lower bound 0.0025).
+- **Deployment counts.** From 200 s every mechanism records exactly 75 deployments with zero spread, although 20–37 % of the baseline attacker's runs end at a target. Check whether counting stops when a run ends.
+- **Appendix E.** E.1 still says the chapter runs random selection over MTDShield's four mechanisms; E.5 says "100 runs per condition".
+- **Takeaways are looser than the data** (the drafts use the data's wording):
+  - D1: the three host mechanisms are separated from 1 000 s, not 500 s.
+  - D2: $c_1$ sits 0.03–0.05 below the other profiles up to 200 s, and $c_3$ parts at 100 s in Figure 5.6.
+  - D4: the largest gap is 0.12.
+- **Table 5.2's caption.** The "under the setup of Table 5.1" clause does no work, and the $c_{\mathrm{agg}}$ clause is missing. §4.5 says MTTC carries its share of runs; the table does not show it.
+- **Figure 5.2's caption.** Only 30 of the baseline attacker's 100 runs are still active in the last bin, and the caption does not say so.
+- **60 000 s.** The ruled sentence (2026-09-22: the baseline attacker adds no hosts after about 20 000 s) is in no slot, and Table 5.1 does not declare 60 000 s.
+- **The baseline attacker's six.** Chapter 2 calls them "states" or "phases"; chapter 4 and the registry call them "actions". The §5.2 draft says "six actions".
+- **Chapter 2's disruption paragraph** says network-layer and application-layer, where `tab:defence-mechanisms` says host layer and service layer (placeholder item (iv)).
+- **Appendix C captions** say "random scheme" and "mutating". §5.1 says "the single scheme", a bare "scheme" (minor).
+- **The session's own review of §5.3.3.** The by-construction sentence on the execution schemes ("each deploy one mechanism per interval from all seven, three of which rewrite the host layer") has no observation beside it now that D4's "between best and worst" was dropped. Pair it with an observation, or cut it.
+- **Stale comments at the head of chapter 5.** The "WHAT THIS CHAPTER OWES ch6" map still names `sec:efficiency` and `sec:supplementary`.
+
+**Still open from Part E:** F5, F6, F8, F10 and F13 (the owed marks above), F14 (the caption form), and F15 (Marc's read of the drafts). The drafts go next through the drafting pipeline's later passes (voice-pass on the assembled chapter).
 
 ## Validation gate
 
