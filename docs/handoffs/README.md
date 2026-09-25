@@ -22,93 +22,61 @@ one-chapter ruling and by E1); the two run plans and the two §5.1 briefs (their
 floats and rebuilt units landed; every owed item they still carried is named in
 the 2026-09-22 corpus and setup handoffs). `git log` holds each file.
 
+**Swept 2026-09-25 (Marc: "any handoffs that are stale, can we remove them ...
+have a look for the others").** Nine retired: the 2026-09-09 experiments design,
+the 2026-09-20 results context, the 2026-09-22 ch4 overview figure family, the
+2026-09-22 defended corpus brief, the 2026-09-24 introduction design and the
+2026-09-24 §4.5 brief (all six named stale by Marc); the 2026-09-25 MTDShield
+preliminary run (evidence: run, floats and Appendix E.5 landed, commit
+7fca1e0b); the 2026-09-21 seminar design and the 2026-09-22 setup-number brief
+(deleted by their session, uncommitted until this sweep). `git log` holds each.
+The §4.5 drafting records stay tracked in
+[`../sources/extractions/s45_metric_definitions/`](../sources/extractions/s45_metric_definitions/).
+
 ---
 
-## Open work — the 2026-09-22 chain, in the order to run it
+## Open work
 
-The supervisor's 22 September rulings (register E1–E11) reshape the evaluation.
-Six briefs execute them. The order below is the critical path, not the file
-order: the corpus is the long pole and depends on no wording, so it starts
-first; the rulings pass is one sitting; the three middle briefs run in
-parallel sessions; the restructure moves the tex last, once the words, the
-metrics and the numbers exist.
-
-1. [`2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md`](2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md)
-   — **the runs (E6, E7)**: every deployment strategy including MTDShield as
-   released, the interval as a six-point range, both attackers, 100-seed smoke
-   tonight then 1 000 overnight. Q1–Q5 owed; Q5 is "launch the smoke". Feeds
-   every other brief's floats.
-   - **Split out 2026-09-25:** [`2026-09-25_mtdshield_preliminary_run.md`](2026-09-25_mtdshield_preliminary_run.md)
-     — MTDShield as released (Tay's input layout restored as an option), plus
-     random over its four, added to the existing 100-seed corpus at 200 s and
-     2 000 s, and shown in the §5.3.1–§5.3.3 floats. Runs first; no dependency.
-
-2. **Marc's rulings pass, one sitting**: the metric dispositions
-   (`metrics_provenance_and_instrumentation` §1), the setup rulings
-   (`ch5_setup_number_justification`). Everything downstream regenerates floats
-   with these words on them, so nothing is applied before this. *(The
-   terminology table was ruled and applied 2026-09-22 — the model is the APT
-   attacker model, the layer names are dissolved, the registry is flipped and
-   every float regenerated; only the word* suppression *waits, with the metrics
-   brief. The reader-overhead screen that came out of it is now sweep 4 of the
-   `voice-pass` skill, with `tools/term_screen.py` as its census.)*
-
-3. In parallel, after the rulings:
-   - [`2026-09-24_s45_instrumenting_mtdsim.md`](2026-09-24_s45_instrumenting_mtdsim.md)
-     — **the metrics (E3, E4)**: every metric of Table 4.3 defined in §4.5, in
-     the formalism's symbols, with its source and, where it is ours, why.
-     *The metrics design (2026-09-22 handoff) was implemented 2026-09-24 and
-     retired into this brief the same day* (its rationale, the supervisor
-     question table and the wording ceiling are carried at the brief's foot; the
-     internal-MTTC finding moved to `metrics_semantics.md` §(a)). The §5.3.1
-     rebuild added NCR growth rate and time lost per MTD deployment (results
-     context §8g-5). Marc dictates §4.5 after the results.
-   - [`2026-09-22_ch5_setup_number_justification.md`](2026-09-22_ch5_setup_number_justification.md)
-     — **the numbers (E5)**: the background table of the lineage's
-     configurations and one clause per §5.1 value; the numerals rule.
-     *Landed 2026-09-23 (Table 2.2, Table 5.1's citations, the §5.1 clauses,
-     the rule; clauses ratified, 2 000 s ruled the top of a 50–2 000 s range).
-     Only the two-target reason is owed.*
-   - [`2026-09-22_ch4_overview_figure_family.md`](2026-09-22_ch4_overview_figure_family.md)
-     — **the figure (E8)**: the head figure as boxes, a zoom per section, and the
-     three chapter 5 figure fixes. Marc's day; the terminology ruling it waited
-     on (the boxes' names) landed 2026-09-22: the profile net, the join, MTDSim.
-
-4. *The chapter (E1, E7, E10) landed 2026-09-23:* the heading set ruled
-   (§5.2 *APT attacker model versus baseline attacker*; §5.3 *APT attacker model
-   versus MTD* = response to disruption, effect of the attacker model, defence
-   mechanisms and execution schemes), the tex moved, §5.3.3 and §5.4 retired,
-   the brief retired. Its residue rides the metrics, figure and results-context
-   briefs.
-
-5. Then the discussion:
-   [`2026-09-15_ch6_discussion_affinity_board.md`](2026-09-15_ch6_discussion_affinity_board.md)
-   — the board, with the supervisor's two set-ups appended (§9). Rulings on the
-   unit split and the heading set still owed. Jin: "once this is done then we're
-   good for the discussion".
-
-6. Independent of the chain, runs now:
-   [`2026-09-24_ch1_introduction_design.md`](2026-09-24_ch1_introduction_design.md)
-   — the introduction's design (moves, paragraph jobs, term budget, ceiling);
-   nine rulings owed (§8), then slots and dictation. Only ¶6 and contribution
-   C3 wait, on the 1 000-seed corpus of step 1.
-
-Standing context that survives the sweep:
-
-- [`2026-09-20_ch5_s52_s54_results_context.md`](2026-09-20_ch5_s52_s54_results_context.md)
-  — the frame (§5), the paragraph shape (§3) and every figure's record (§8)
-  stand; its §2–§4 and §6 are superseded in shape by the restructure brief
-  (banner at its head). Retires with the last results section through pass 6.
-- [`2026-09-09_ch5_experiments_design.md`](2026-09-09_ch5_experiments_design.md)
-  — the design record: the funnel, the property-to-measurement map the
-  discussion's fidelity table depends on, and the debt ledger. Its section
-  shape is superseded by E1 (frontmatter says so); the rest stands.
-- [`2026-09-21_seminar_title_abstract_design.md`](2026-09-21_seminar_title_abstract_design.md)
-  — retires when the submitted title and abstract are recorded; its two
-  results sentences re-check against the thousand-seed floats.
+- [`2026-09-15_ch6_discussion_affinity_board.md`](2026-09-15_ch6_discussion_affinity_board.md)
+  — the discussion board; rulings on the unit split and heading set owed.
+- [`2026-09-25_ch4_mark_risk_ledger.md`](2026-09-25_ch4_mark_risk_ledger.md)
+  — chapter 4's minor (M) entries beyond C1, for a later pass.
 - [`2026-09-05_generated_tables_house_style.md`](2026-09-05_generated_tables_house_style.md)
   — typography only (the appendix generators onto `\tablestyle`); blocks
   nothing; last-week polish, or drop.
+
+### Carried from the retired briefs (owed, no handoff yet)
+
+The live residue of the nine, so nothing is stranded by the sweep; each line
+names the commit or record that holds the detail.
+
+- **The 1 000-seed overnight corpus** at the six intervals (the thesis declares
+  1 000; every chapter 5 number is 100-seed preliminary). Retired corpus brief;
+  seed-count protocol.
+- **Resample by seed** (4.5.4 Variant B): intervals over seeds, the NCR-reduction
+  and time-lost bootstraps paired by seed; then swap 4.5.4 to Variant B (commented
+  in the tex). §4.5 brief, "Drafted 2026-09-25" (commit 07150a0c).
+- **§4.5 open calls** (commits 07150a0c, 07ff1897): APV keeps Hong's name, raise
+  it with Dr Hong; the Welch/Holm check in `analyse.py` or the assumption stays;
+  θ ≈ 2.95 regenerated at 1 000; Appendix C.4 (detector memory) is a placeholder;
+  C.5's numbers regenerate at 1 000.
+- **Knock-ons of §4.5:** Table 5.2 prints MTTC without its share of runs; the
+  appendix `tab:experiment-one` "ASR" column (rename to ASP) and its MTTC count;
+  `tab_5-3-3a_lineage.tex` "mean suppression" → NCR reduction; §5.1's Runs
+  paragraph checked against 4.5.4; a Wilson interval for ASP; Figure 5.1's APV
+  k = 1 clause; the §5.2 reader's target rule aligned with the record rule; the
+  metric catalogue's three stale rows; Table 3.1's missing anchors (Zhan,
+  Bruneau, Alavizadeh's mitigation factor); the end-of-run marker filtered from
+  steps at the 1 000-seed run; the attack-rate concession sentence owed to §5.2's
+  body.
+- **The inherited 80 % stop** under the targeted scenario: declared (Marc
+  2026-09-25); not yet classified against the intent spec
+  (`targeted_objective_probe.md:575`).
+- **Chapter 5 body prose** (§5.2–§5.3) and the introduction (nine rulings owed,
+  then dictation): their designs are in the retired results-context and
+  introduction briefs (`git show <commit>:docs/handoffs/...`).
+- **Seminar:** the submitted title and abstract, re-checked against the
+  1 000-seed floats.
 
 ---
 
