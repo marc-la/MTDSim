@@ -114,7 +114,16 @@ An interval-aware retrained variant is future work, beside the declined phase th
 
 **Build (about a day, no training):**
 1. **Restore the 8/3 layout as a switch.** Tay's static and time-series vectors come back from `mtd_ai_operation.py:314-362` as a named layout beside the live 5/7 one, which stays the default. Record the feature order beside `STATE_FEATURE_ORDER` / `TIME_FEATURE_ORDER` in `mtd_ai.py`. Wire the choice through `MTDAIConfig`, and add `feature_layout` to `run.py` l.112-139.
-2. **Use Tay's evaluation path.** Where the training and evaluation heads differ (MTDAI-13, MTTC ÷ 10), the evaluation head he ran is the "as released" one. Declare it; do not repair it.
+2. **Use Tay's evaluation path, at the commit that produced the head.** *(Corrected 2026-09-25: MTDAI-13's ÷ 10 does not apply. Ho added it on 2024-10-09 (`602b9ffe`), after this head was trained.)*
+   - Joo Kai Tay added `main_network_epsilon_0.5_decay_0.99.h5` on 2024-09-23 (`f13ed49a`).
+   - At that commit, his two builders differ in two slots:
+     - the training builder feeds `attack_success_rate` (compromises per SCAN_PORT event) and `overall_time_to_compromise` (a cumulative sum of action durations);
+     - the evaluation builder (`mtd_ai_operation.py` l.280-283 at `f13ed49a`, the block now commented out) feeds `overall_asr_avg` and `overall_mttc_avg` (averages over the compromise checkpoints).
+   - **Primary run: the evaluation builder as he ran it.** Reusing a released model means running the authors' released inference code. The mismatch is a property of the release; declare it in the appendix item and do not repair it.
+   - **One check at 200 s:** the training builder in those two slots, 6 arms × 100 seeds. It shows whether the mismatch moves the line.
+   - At that commit the training builder leaves `current_attack_value` unbound when the detection draw fails. So training must have run at attacker sensitivity 1.0 (an inference; verify against `train_models.py` at `62e1ebc`).
+   - **Pin sensitivity to what his Fig. 4 evaluation used** (the notebook, cell 1). The APT attacker model's actions are not in `attack_dict`, so for that arm the input always reads 7, "nothing detected". Declare that too.
+   - Neither builder changes the simulation. Each reads state and makes one `random.random()` draw per decision, the same count as the live head.
 3. **Check it loads.** The head's input shapes `[None, 8]` + `[None, 3, 1]` must match the built vectors; if not, fail loudly.
 4. **Gates:**
    - the goldens re-run unchanged, since the default layout is untouched;
@@ -122,6 +131,34 @@ An interval-aware retrained variant is future work, beside the declined phase th
    - the time for one decision step, which prices the corpus arm;
    - the executions per run and the share of forced deployments, per interval.
 5. **Declare** it in Table 5.1 and `FLOATS.md`: head, ε = 0, the four-mechanism pool plus no-op, trained at 200 s against the baseline attacker, the BatchNorm variance-zero property (forensics §3(a)), and Tay's "best" = the highest summed normalised score (`tay2024.md` l.286, 314). The margin over the runner-up (11.00 against 10.77; the same head scored 10.78 in his Fig. 6) is stated once.
+5′. **The appendix item (Marc 2026-09-25: the background introduces execution schemes and MTDShield; the appendix says why this model and how it was run; the defended thing is the choice, not a model of ours).** One subsection, in five parts. Each part follows a reuse convention of the field.
+   - **(i) Released artefact, not a re-implementation.** Tay's own weights and his own inference code, at the commit that produced them (`f13ed49a`).
+   - **(ii) The authors' selection rule, not ours.** "Best" is his: the highest summed normalised score (`tay2024.md` l.286). The head is `epsilon_0.5_decay_0.99`, 11.00 (l.314). His notebook's own choice agrees. The margin over the runner-up is inside his own run-to-run spread (10.77 against 10.78 for the same head), stated once.
+   - **(iii) Evaluated greedily.** The standard for evaluating a trained DQN is the learned policy with exploration off or near off. *Verify* the evaluation ε in Mnih et al., Tay's [28]; recalled as 0.05, and if so ε = 0 is declared as the deterministic end. His harness evaluated at ε = 1.0, so his published figures describe a random selector (forensics §2). Running his model greedily is what "run it, don't quote it" (E6) requires.
+   - **(iv) What had to change to run it at all, and nothing else.**
+     - the trigger loop's no-op fix (MTDAI-03): under a greedy policy Tay's loop never advances the clock;
+     - the input layout switch (step 1).
+   - **(v) Declared, not repaired:**
+     - the training/evaluation input mismatch (step 2);
+     - BatchNorm variance 0;
+     - the value of doing nothing never trained;
+     - trained at 200 s, against the baseline attacker, on 100-node networks (the corpus runs 50 hosts, and one input, `exposed_endpoints`, counts with network size);
+     - the IDS input reads "nothing detected" for the APT attacker model.
+
+   Then **the matched control** (Q7) and why it is there. This is also what makes it an execution scheme like the others, so every §5.3 float that reads the corpus can carry it as a condition (§5.3.2's headline; §5.3.3's scheme column).
+5a. **Prediction, written before the smoke run (the calibration record's discipline).**
+   - **How the head was trained:** `train_start` 1 000 in a 2 000 buffer at about 25 transitions per episode, so learning starts around episode 40 and runs for about 60 episodes, batch 32.
+   - **Exploration:** ε went from 0.5 to about 0.18, decayed per episode. The head was never trained under exploitation.
+   - **Known defects:**
+     - BatchNorm variance is 0 (MTDAI-07);
+     - no no-op transition was ever stored, so the value of doing nothing was never trained (MTDAI-04);
+     - it picks service diversity on 91 % of synthetic probe states (entropy 0.48 bits).
+   - **Predicted:** a near-constant selector that fires service diversity at most ticks, with the 2 000 s guard rarely firing. Its line then tracks the service-layer line for both attackers.
+   - **Would falsify it:** in the per-decision ledger, a service-diversity share below 0.7 at 200 s, or a no-op share above 0.2. Either means the real states land elsewhere than the probe's, and that is the finding.
+5b. **The interval (considered, not adopted for the body).** Two of the 11 inputs scale directly with the interval:
+   - `time_since_last_mtd` is about the interval at each tick;
+   - `mtd_freq` is about 1 / interval.
+   Rescaling them by 200 / interval would give the model its training-time values. But that is an adapter the thesis would have to defend. It fixes 2 of 11 inputs: the security metrics still change by a different amount between ticks. And it tells the model its last deployment was 200 s ago when it was 2 000 s ago. **The body runs it unadapted at all six intervals, with the 200 s training interval declared.** The rescaled run is an appendix check only if the unadapted line's shape away from 200 s differs from random over the same four (Q7).
 6. **Add the arm and Q7's matched control** (random over the same four) to `run_corpus.py`. Both join the 100-seed smoke.
 
 ## Rulings owed (Marc)
