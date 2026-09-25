@@ -33,6 +33,55 @@ definition of *stochastic*); B9, B10 (notation collisions: $, $); B15 (the
 check the code before ruling); M46 (the ruled Table 4.2 sentence never landed).
 Line numbers below are as of the screen and drift with edits.
 
+**BLOCKING, found by the §4.2 figure scrutiny (2026-09-25; verified in code):**
+the runtime reads the `operator_dedup` weights
+(`src/mtdsim/l3_simulation/movement/net.py`, `PRIMARY_VARIANT`): one
+representative attack flow per operator, 29 flows, not 38 (c₁ 14, c₂ 6, c₃ 5,
+c₄ 4). Under those weights 8 of the attack graph's 122 edges (16 of c₁'s 90)
+never fire. `dissertation.tex` mentions neither deduplication nor 29 flows, so
+the method as written is not the method as run. Marc to rule: disclose the
+deduplication in §4.2/§4.3 (one sentence and its reason: one operator's
+repeated incidents should not outvote the corpus), or run on the raw weights.
+The §4.1/§4.2 figures draw raw counts ("attack flows that drew the edge"),
+which is true as labelled either way.
+
+**Added 2026-09-25 from the §4.2 figure build (data checked against the text):**
+- §4.2 "Three of the seven flows in the double extortion profile come from one
+  APT group, Conti": `classification.csv` attributes the three to G0102, which
+  ATT&CK names Wizard Spider; Conti is its ransomware. Say "Wizard Spider, the
+  operator of Conti ransomware" or check the source reports.
+- "The profiles share the tactics" is only roughly true: c₂ has no
+  defense-impairment or exfiltration techniques, c₃ no defense-impairment, c₄
+  no exfiltration or impact. Say "they differ in which tactics and edges they
+  contain".
+- Each profile's Petri net carries structure-only transitions that none of its
+  own flows back (c₁ 19, c₂ 30, c₃ 25, c₄ 16 at raw weight zero): the profile's
+  technique subgraph is the attack graph restricted to its techniques. They
+  never fire (weight zero), but "built only from its own flows" should say
+  "weighted only by its own flows" to stay true.
+- Confirmed by the build: 19/7/7/5; "19 of the 38 attack flows land in a
+  different attack profile"; 88 % of technique edges from a single flow (419 of
+  478); reconnaissance in 10 of 38 flows.
+- **The attack graph's edge weight is counted two ways (needs a ruling).**
+  §4.1 says "weighted on how many times it is observed in the corpus".
+  Appendix Figure B.1d (`tools/gap_appendix_figures.py`) sums observation
+  counts (heaviest edge 26); the model's weights
+  (`src/mtdsim/l3_simulation/petri/weights.py`) and the new §4.1/§4.2 figures
+  count distinct attack flows (heaviest 11). Both are called "the attack graph".
+  Recommended: rule "the number of attack flows that drew the edge" (what the
+  model uses), reword §4.1 to say so, regenerate B.1d.
+- Only 36 of the 38 flows contribute edges: `conti_cisa_alert` and
+  `conti_pwc` draw techniques but no edges. "The 38 usable attack flows" is
+  true for techniques; say so where the edge count matters.
+- §4.3 (l.~4508) "carries every pair the profile's Section 4.2 subgraph
+  admits" points back to an object neither §4.2 nor its figure defines (the
+  profile as the attack graph induced on the profile's techniques). Either
+  define it in §4.2 in one clause, or say in §4.3 "every tactic pair the
+  attack graph has among the profile's tactics".
+- Across pairs of flows: 10.5 % of the 630 pairs share any technique edge,
+  55.1 % share a tactic edge — a cleaner T2 statistic for §4.1 than "much
+  greater coverage", if Marc wants a number.
+
 ---
 
 # Chapter 4 "APT attacker model": reader-overhead and mark-risk screen

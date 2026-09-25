@@ -1,5 +1,5 @@
 ---
-status: open                  # executes register E8; Part A BUILT 2026-09-25 (four scrutiny rounds, clean; caption DRAFT STATE); B–C secondary, D carried; F4b, F2, F3, A3/prose rulings owed
+status: open                  # executes register E8; Parts A, B, C BUILT 2026-09-25 (Figure 4.1 and the two zooms scrutinised clean; the L-label/term sweep applied); captions DRAFT STATE; D carried; F2, F3 and the ledger's rulings owed
 created: 2026-09-22
 updated: 2026-09-25
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E8
@@ -278,6 +278,23 @@ prefixes", 2026-09-04) updated; `tools/term_screen.py census` to confirm zero
 L-labels in body, headings, captions and floats; build clean.
 
 ## Part C (secondary) — the zoom family
+
+**Status 2026-09-25: BUILT** — both new zooms are in the tex (Figures 4.2 and
+4.3, `[t]`, captions DRAFT STATE), each through the schematic scrutiny until
+clean: the §4.1 figure in three rounds (the blockers: an undecoded top-band
+blue; an unscoped 88 %/37 % note that read against the pair gave the opposite
+numbers — both fixed; confirmation reader 8/10, "would trust it"), the §4.2
+figure in three rounds (the blocker: the caption said each profile was "built
+from its own flows", false for the profile as built — fixed to "showing only
+the edges its own flows drew"; confirmation reader 8/10). Design departures
+the data argued for: the §4.2 figure is a grid of small multiples, not arcs
+(122 of 210 tactic pairs, 57 backward); the §4.1 figure ends at the two-flow
+combination and hands the full attack graph to the §4.2 figure's first
+panel. Content points left for the prose: a step between two techniques of one
+tactic becomes a self-loop; the assignment rule (by the objective the source
+reports record) is also said on the §4.2 figure; the c₁ edge into Impact is
+real and not outlined, because the outline is the profile's objective
+column.
 
 One figure per part of the head figure, beside the section that explains it,
 each using the head figure's name for that part (P17), with the head figure's
