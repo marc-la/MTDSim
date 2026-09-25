@@ -1,5 +1,5 @@
 ---
-status: open                  # executes register E6 (and E7's ranking base); supersedes the retired 2026-09-17 defended-runs plan and the 2026-09-15 unopposed plan — their owed items are carried in §4; Q1–Q5 owed, Q5 is "launch the smoke tonight"
+status: open                  # executes register E6 (and E7's ranking base); supersedes the retired 2026-09-17 defended-runs plan and the 2026-09-15 unopposed plan — their owed items are carried in §4; Q1–Q5 owed, Q5 is "launch the smoke tonight"; 2026-09-25 adds the §5.3.2 figure critique (§5) and Q6–Q10, Q6 (restore Tay's 8/3 head path) blocks the MTDShield arm
 created: 2026-09-22
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E6, §E7
 companions: ../workflows/results_section_workflow.md (record → read → draw), the two-phase restructure, landed 2026-09-23 (the headline §5.3.2 reads the interval sweep aggregated by layer, the depth §5.3.3 reads per mechanism with MTDShield as a scheme column; `docs/thesis/FLOATS.md`), 2026-09-24_s45_instrumenting_mtdsim.md (what each metric is; the metrics design handoff retired 2026-09-24)
@@ -13,7 +13,7 @@ companions: ../workflows/results_section_workflow.md (record → read → draw),
 
 **The corpus that exists** (`data/results/ch5_defended/`, 2026-09-17): 30 200 runs — 10 conditions (no defence; seven singles; random and alternative over the seven) × {200, 2 000 s} × 6 arms × 100 seeds, plus the lineage (opportunistic-objective), regime (exponential at 200 s) and verdict-blind arms — in about 40 minutes on seven workers (≈ 12.6 runs/s; 0.12–1.2 s per run, network-layer singles at 200 s the slowest). `run_corpus.py` builds the jobs; `analyse.py` writes `numbers.json`; the generators read it. The no-defence cells are shared with `ch5_s531_unopposed/` bit for bit.
 
-**The seam already takes MTDShield.** `src/mtdsim/l3_simulation/movement/run.py:112-237`: `mtd_scheme="mtd_ai"` with an `MTDAIConfig(main_network=...)`; the driver `tools/mtd_ai_run.py` (greedy ε = 0 by default — Tay's own harness left ε = 1.0, so every published MTDShield figure characterises a random selector, `mtd_ai_forensics.md` §2). Trained heads sit under `mtdsim-weights-archive/*.h5`; which head is canonical is MTDAI-02's disposition (`mtd_ai_cost_calibration.md` §1: the live 5/6 head). MTDShield selects from the lineage's four mechanisms plus no-op (Tay p.14), not the seven — a declared difference, not a defect.
+**The seam already takes MTDShield** — *falsified 2026-09-25, see §5.1: no released head loads into the live state builder.* `src/mtdsim/l3_simulation/movement/run.py:112-237`: `mtd_scheme="mtd_ai"` with an `MTDAIConfig(main_network=...)`; the driver `tools/mtd_ai_run.py` (greedy ε = 0 by default — Tay's own harness left ε = 1.0, so every published MTDShield figure characterises a random selector, `mtd_ai_forensics.md` §2). Trained heads sit under `mtdsim-weights-archive/*.h5`; which head is canonical is MTDAI-02's disposition (`mtd_ai_cost_calibration.md` §1: the live 5/6 head). MTDShield selects from the lineage's four mechanisms plus no-op (Tay p.14), not the seven — a declared difference, not a defect.
 
 ## 1. The cell set — for acceptance
 
@@ -54,13 +54,65 @@ Every number through `analyse.py` → `numbers.json` → the generators (`result
 - **The Overleaf push** needs the dissertation project's ID and git token (Marc's; the only configured project is the literature review).
 - **The Appendix C sensitivity corpus** at 1 000 seeds (owed since 2026-09-20; `ch5_s51_sensitivity/analyse.py`) — a separate launch, same night if the workers are free.
 
+## 5. The headline figure (§5.3.2), a design critique (2026-09-25)
+
+Marc's account of Jin (2026-09-25): the data are fine, extend them in the E6 ways, and **draw them better**. Put the MTD interval on the x axis and the NCR reduction on the y axis as a line chart over 50 s to 2 000 s. Draw a line for every mechanism and execution scheme, plus MTDShield. Then you can see which lines fall more and which fall less. That fits E6 (a line per mechanism; the per-mechanism and per-profile detail in an appendix; a layer aggregation in the body) as long as the lines split across the two levels: **the body draws layers and schemes; the appendix draws every mechanism and every profile.** The critique below covers today's Figure 5.3 (`fig:eff-cross-arm`) and Table 5.4 (`tab:eff-orderings`) and what replaces them. Takeaways come first, per the scrutinise-figure method. Nothing here is ratified.
+
+### 5.1 MTDShield cannot run "as released" in the current tree (the blocker)
+
+- **The best head is `epsilon_0.5_decay_0.99`.** It has the highest summed normalised score in Tay's hyperparameter sweeps (11.00, `tay2024.md` l.314, Fig. 4; next are `gamma_0.85` at 10.77 and `train_start_2000` at 10.39). The upstream repo agrees: `bsubs/MTDSim` `experiments.ipynb` loads exactly this model for its Fig. 6 runs, and the weights are committed under `experiments/AI_model/models_joo_kai/`. The local copy is `mtdsim-weights-archive/main_network_epsilon_0.5_decay_0.99__0848c2e2d5b7.h5`.
+- **Its input shapes are `[None, 8]` + `[None, 3, 1]`** (read from the file 2026-09-25). The live builder is `mtdnetwork/mtdai/mtd_ai.py:147-163`. It makes 5 static and 7 time-series features; commit `a39e7850` (2026-08-08, MTDAI-05/12) added the seventh, `downtime_ratio`. **No released head fits.** `mtd_ai_cost_calibration.md` §1's "live 5/6 head" is now 5/7. Tay's 8/3 block survives commented out at `mtd_ai_operation.py:314-362`.
+- So MTDShield needs Tay's released 8/3 feature path restored as a selectable layout. The 5/7 path stays as it is. That is a change inside `mtdnetwork/`, and §Hard constraints forbids one. **Q6.**
+- **The interval is its decision tick, not its deployment period.** The same `mtd_interval` knob sets it (`run.py:196`). At each tick it deploys one mechanism or does nothing. A 2 000 s staleness guard forces a random deploy (`mtd_ai_operation.py:110`). Tay trained at 200 s, on 100 nodes, with 5 000 s episodes (`train_models.py:38-41`, upstream `62e1ebc`). Every other x position is outside what he trained on. Two of the three time-series inputs (`mtd_freq`, `time_since_last_mtd`) scale with the interval.
+- **What to expect, not to report.** A weights probe on synthetic states picks service diversity for 91 % of them (entropy 0.48 bits). It is a probe, not simulator states, so it predicts nothing. But if the probe holds, MTDShield's line will track the service-layer line. That is what the recorder's executions per run (below) will show. The forensics record also has every normalisation layer's variance at exactly 0 (`mtd_ai_forensics.md` §3(a)). That is a declared property of the release, not something to fix (V3).
+- **Its pool is four mechanisms** (complete topology shuffle, IP shuffle, OS diversity, service diversity) plus a no-op. That is two host-layer and two service-layer mechanisms, with no credentials mechanism. Random and alternative draw from seven. **So "no AI versus AI" is only a clean comparison against random over the same four** (Q7). That arm is also what every published MTDShield figure measured, because Tay's harness left ε = 1.0 (forensics §2).
+
+### 5.2 The x axis at the short end
+
+Deployment takes 70–110 s for every mechanism except user shuffle, which takes 20 s (`MTD_DURATION`, Zhang 2023 Table 3). A trigger that fires while the layer's resource is busy is suspended (`mtd_operation.py:101-111`). So at 50 s and 100 s the x value is the configured interval, not the realised one: a host-layer single saturates at about one deployment per 100 s. The schemes spread their deployments across two resources (the network and application layers), so they saturate differently from singles. **Keep 50 s** (it is the bottom of the range Zhang and Ho swept; the locator is still to verify), and keep the axis as the interval a defender configures. The corpus already records `executions_per_run` and suspensions (`analyse.py` l.432, 851). Put them in the appendix table, and give the body one sentence on saturation. The cost estimate in §1 comes from 200 s and 2 000 s runs. At 50 s a run has four times as many deployments as at 200 s, so the smoke run is what prices the sweep.
+
+### 5.3 Takeaways the figure must carry (proposed)
+
+| # | Takeaway | 100-seed support (200 s and 2 000 s only) |
+|---|---|---|
+| H1 | Against the APT attacker model the host layer reduces NCR most and the service layer least. Against the baseline attacker the order swaps. The sweep tests whether the swap holds across the range. | 200 s: model host 0.96, service 0.21; baseline host 0.49, service 0.82 |
+| H2 | Every line falls as the interval grows. At 2 000 s everything but the model's host layer (0.22) is near zero. Name where the lines meet, not "why". | 2 000 s: model host 0.22, service 0.01; baseline host −0.01, service 0.10 |
+| H3 | No AI versus AI: MTDShield against random over the same four, for each attacker, and where both sit relative to the layer lines. | not yet run |
+| H4 | Exception, marked, not explained: user shuffle is at or below zero for both attackers. | model −0.14, baseline −0.07 at 200 s |
+
+H1 is the §5.3.2 headline and the E10(ii) set-up. The figure should make it visible as **lines changing places between the two attacker panels**. A scratch mock-up from the two intervals already run shows exactly that, and cleanly.
+
+### 5.4 The figure (proposed spec)
+
+- **Genre:** a line chart with a marker at each point, the conventions' sweep genre (§f; hong2018 Fig. 5, kim2026 Fig. 8).
+- **Panels, 2 × 2:** columns are the attacker, with **the APT attacker model on the left** (E7 makes it the base) and the baseline attacker on the right. Rows are **mechanisms by layer** (host, service, credentials: three lines) over **execution schemes** (random and alternative over seven, random over MTDShield's four, MTDShield: four lines). All four panels share one y range. This keeps the float contract's rule that singles and schemes get separate panels, and it holds every panel to four lines or fewer. One panel per attacker would carry seven lines, with random and alternative lying on top of each other (0.75 and 0.72; 0.09 and 0.03). That one-panel form is the alternative (Q8).
+- **x:** the deployment interval in s, **log scale**, ticks at the six levels (1 000 and 2 000 with a thin space). On a linear scale 50–500 s would be squashed into the first quarter of the axis.
+- **y:** NCR reduction, fixed at about −0.2 to 1.0. The zero rule is the no-defence reference, named once in the caption.
+- **Lines:** a layer line is **the mean of its mechanisms each deployed alone**. That equals 1 − pooled NCR / no-defence NCR, because every mechanism has the same number of runs. The bootstrap resamples the pooled runs. A layer line is not a defence anyone can deploy, and the caption says so in one clause. The credentials "layer" is user shuffle alone, so label that line **user shuffle**. Put direct labels at the **left end (50 s)**, where the lines spread out; at 2 000 s they meet near zero. With four series or fewer, the legend goes.
+- **Encoding:** the profile hues already mean $c_1$–$c_4$ in §5.3.3. Reusing them here would give one colour two meanings within one section. So use **greys with a distinct marker per line, and the house accent on MTDShield only**, the element Jin added (Q9). Dashes stay binary: dashed means a scheme, solid means a mechanism.
+- **Uncertainty:** 95 % bootstrap whiskers at each point, as in the rest of chapter 5, with a small horizontal offset on the log axis. No bands. At 1 000 seeds the whiskers are about a third as long.
+- **Caption:** decode only (the Figure 5.4 pass, 8h-2): which panel is which attacker, what each row holds, what a layer line is, zero as no defence, the whiskers. The current caption's interpretation ("the mechanism behind any difference is structural …", "the chapter's central comparison") moves to the body or is cut. MTDShield's 200 s training interval, its pool and ε = 0 go in Table 5.1 and the text, not on the axes (supervisor 2026-09-22: no definitions in captions or axes).
+- **Appendix (E6):** the same form for every one of the seven mechanisms (the user's "every single mechanism") plus the four schemes, one figure per profile $c_1$–$c_4$ and $c_{\mathrm{agg}}$. Add a table of executions per run for each cell (§5.2).
+
+### 5.5 Table 5.4 (the orderings)
+
+- As drawn it ranks the baseline attacker first, with a long footnote. Both break E7.
+- Six intervals turn today's two blocks into six. Proposal: a **rank grid**. Rows are the 11 conditions, ordered by the APT attacker model's rank at 200 s. Columns are the six intervals for the model, then the six for the baseline. Cells hold ranks only; the NCR values are in the appendix table. The last row is Spearman's ρ per interval. No footnote.
+- The alternative is to keep two anchor intervals and let the figure carry the sweep (Q10).
+
 ## Rulings owed (Marc)
 
 - **Q1** the interval levels (six proposed).
 - **Q2** MTDShield: the head, ε = 0, and whether it runs at every interval or two.
 - **Q3** drop the exponential timing arm (recommended).
 - **Q4** drop the opportunistic-objective lineage arm (recommended; §5.3.3 dissolves).
-- **Q5** launch the 100-seed smoke tonight, before Q1–Q4 are all ruled — the smoke is cheap and the cell set is a superset.
+- **Q5** launch the 100-seed smoke tonight, before Q1–Q4 are all ruled — the smoke is cheap and the cell set is a superset. *(2026-09-25: the smoke can still launch without the MTDShield arm, which waits on Q6.)*
+- **Q6** Restore Tay's released 8/3 feature path as a selectable layout in `mtdnetwork/mtdai/`, the head `epsilon_0.5_decay_0.99`, ε = 0 (§5.1). This lifts the no-substrate-change constraint for that path only; the goldens must re-run untouched. **Recommended**: it reinstates the code that was released rather than changing the simulator. Without it, the "AI" in "no AI versus AI" cannot run. It also settles Q2: all six intervals, because the tick is the same knob the schemes use, with the 200 s training interval declared.
+- **Q7** Add **random over MTDShield's four mechanisms** as a condition: 6 intervals × 6 arms = 36 cells, cheap. **Recommended**: it is the like-for-like "no AI" arm, and it is what Tay's published figures measured.
+- **Q8** Figure layout: 2 × 2 (attacker × mechanisms/schemes; **recommended**) or one panel per attacker with seven lines.
+- **Q9** Encoding: greys with one marker per line and the accent on MTDShield (**recommended**), or a new colour contract for conditions.
+- **Q10** Table 5.4: a rank grid over all six intervals (**recommended**) or two anchor intervals.
+- **Tell Jin (carried):** the y axis is NCR reduction, not the change in attack success rate he said on 2026-09-22. Marc's 2026-09-25 account already says NCR reduction. If Jin has agreed to it, record that here and close the item.
 
 ## Validation gate
 
@@ -83,7 +135,7 @@ Every number through `analyse.py` → `numbers.json` → the generators (`result
 
 ## Out of scope
 
-The figures' design (restructure and figure handoffs); the metric definitions (metrics handoff); any MTD optimised against the APT attacker (declined, E1).
+The design of the other figures (§5.3.2's is now §5 here, 2026-09-25); the metric definitions (metrics handoff); any MTD optimised against the APT attacker (declined, E1).
 
 ## Carried from the retired metrics design (2026-09-24)
 
