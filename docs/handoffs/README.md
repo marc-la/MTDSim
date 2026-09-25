@@ -41,6 +41,11 @@ The §4.5 drafting records stay tracked in
   — the discussion board; rulings on the unit split and heading set owed.
 - [`2026-09-25_ch4_mark_risk_ledger.md`](2026-09-25_ch4_mark_risk_ledger.md)
   — chapter 4's minor (M) entries beyond C1, for a later pass.
+- [`2026-09-25_ch5_setup_defence_and_prose_slots.md`](2026-09-25_ch5_setup_defence_and_prose_slots.md)
+  — §5.1 / Table 5.1 defended row by row (17 rows; four facts wrong, three
+  stale against §4.5, one variation and one control never reported, one
+  scheme dropped unexplained) and the slot plan for every owed chapter 5
+  paragraph; fifteen rulings (Part E), one sitting.
 - [`2026-09-05_generated_tables_house_style.md`](2026-09-05_generated_tables_house_style.md)
   — typography only (the appendix generators onto `\tablestyle`); blocks
   nothing; last-week polish, or drop.
@@ -72,9 +77,11 @@ names the commit or record that holds the detail.
 - **The inherited 80 % stop** under the targeted scenario: declared (Marc
   2026-09-25); not yet classified against the intent spec
   (`targeted_objective_probe.md:575`).
-- **Chapter 5 body prose** (§5.2–§5.3) and the introduction (nine rulings owed,
-  then dictation): their designs are in the retired results-context and
-  introduction briefs (`git show <commit>:docs/handoffs/...`).
+- **The introduction** (nine rulings owed, then dictation): its design is in
+  the retired introduction brief (`git show <commit>:docs/handoffs/...`).
+  Chapter 5's body prose is now owned by the 2026-09-25 setup-and-slots
+  handoff above, which also takes §5.1's Runs paragraph against 4.5.4 from the
+  §4.5 knock-on list.
 - **Seminar:** the submitted title and abstract, re-checked against the
   1 000-seed floats.
 
