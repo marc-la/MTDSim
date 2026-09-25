@@ -106,6 +106,34 @@
                                         % ruling 2026-09-02; body prose and
                                         % captions, not the generated figures
 
+% --- owed marks: text that is not yet defensible (Marc, 2026-09-25) ------
+% Convention: docs/workflows/evaluation_conventions.md §k8. \owed{text}{what
+% is owed} prints the text as it stands with a numbered red mark, and lists
+% the owed item, with its page, under "Owed before submission" after the list
+% of tables. The mark says the sentence or value stands in the draft but
+% cannot yet be defended; the second argument names what would defend it (a
+% citation, a run, a ruling). Resolve an item by deleting the wrapper. For
+% the submission build set \owedmarksfalse: any \owed still in the text then
+% stops the build. \prelim{n} wraps a number typed into prose from the
+% 100-seed corpus; it prints n unchanged and is the grep target for the
+% 1 000-seed swap (grep -n '\\prelim{' dissertation.tex).
+\newif\ifowedmarks \owedmarkstrue
+\newcounter{owed}
+\makeatletter
+\newcommand{\owed}[2]{%
+  \ifowedmarks
+    #1\refstepcounter{owed}\textsuperscript{\textcolor{red!70!black}{[\theowed]}}%
+    \addcontentsline{low}{owed}{\protect\numberline{\theowed}#2}%
+  \else
+    \PackageError{dissertation}{An owed mark is left in the text}{Resolve
+      every owed mark (listed under Owed before submission) or set
+      owedmarks back to true.}%
+  \fi}
+\newcommand*{\l@owed}{\@dottedtocline{1}{0em}{2.3em}}
+\newcommand{\listofowed}{\ifowedmarks\chapter*{Owed before submission}\@starttoc{low}\fi}
+\makeatother
+\newcommand{\prelim}[1]{#1}
+
 
 % --- front-matter metadata -------------------------------------------
 % PRELIMINARY title (Marc, 2026-09-21): the seminar title, inserted as the
@@ -168,6 +196,7 @@ against attacker models grounded in documented behaviour.
 \tableofcontents
 \listoffigures   % optional --- remove if you have no figures
 \listoftables    % optional --- remove if you have no tables
+\listofowed      % draft only: every \owed mark with its page (§k8)
 
 % =====================================================================
 \chapter{Introduction}
@@ -6071,9 +6100,10 @@ with the baseline attacker as the reference (Section~\ref{sec:effectiveness}).]}
 \textbf{Network.} The network has 50 hosts across four levels of depth, eight
 subnets and five exposed endpoints (Table~\ref{tab:experiment}), with the
 network regenerated for each seed and the two database hosts at the deepest
-level as the target. Every value is the simulator's own default
-(Section~\ref{subsec:network-model}, Figure~\ref{fig:network-model}) but one:
-the target set, narrowed from five database hosts to two. The hosts, levels
+level as the target. Every value is the configuration the simulator's released
+experiment code runs \citep{tay2024code}, which differs from the defaults of
+Section~\ref{subsec:network-model} (Figure~\ref{fig:network-model}) only in
+taking two database hosts as the target rather than five. The hosts, levels
 and endpoints are also the second of the four networks Zhang evaluated on
 \citep{zhang2023}, inside the 25 to 200 hosts the lineage has run
 (Table~\ref{tab:lineage-configurations}), and a database as the target
@@ -6133,15 +6163,21 @@ Section~\ref{sec:technique-graph} before it is partitioned into profiles. Both p
 %  range ... our results have the MTD interval along the x axis"). Zhang ran 50, 100,
 %  150 and 200 s (zhang2023.md l.418); Ho 200 s. DRAFT STATE --- ratify on read.
 \textbf{Defence.} Eleven conditions: no defence, each of the seven defence
-mechanisms under the single scheme, the random and alternative execution schemes,
+mechanisms under the single scheme, \owed{the random and alternative execution
+schemes}{Section 5.1: the simultaneous execution scheme listed in Chapter 2 is
+not run and no reason is given; run it or state why},
 which draw on the whole pool (Section~\ref{subsec:defence-mechanisms}), and
 MTDShield. MTDShield is run as released: Tay's highest-scoring agent, choosing its
 own action at every decision (Appendix~\ref{app:mtdshield}). Each defended
-condition runs at six deployment intervals, a range from 50\,s, the shortest the
-lineage has run, to 2\,000\,s (Table~\ref{tab:lineage-configurations}), so that
-every effect can be read against the interval; the timing distribution is varied
-separately (Table~\ref{tab:experiment}). The no-defence runs are the reference for
-every effect this chapter reports.
+condition runs at six deployment intervals, so that every effect can be read
+against the interval. They run from 50\,s, the shortest Zhang and Ho ran, to
+2\,000\,s, ten times the longest the lineage has run
+(Table~\ref{tab:lineage-configurations}), three to a decade so that they fall
+evenly on a logarithmic axis; the timing distribution is varied separately
+(Table~\ref{tab:experiment}). Where one interval is reported it is 200\,s, the
+longest Zhang ran, the interval of Ho's comparisons \citep{ho2024} and the one
+MTDShield was trained at (Appendix~\ref{app:mtdshield}). The no-defence runs are
+the reference for every effect this chapter reports.
 % STAGED 2026-09-25, APPLY WHEN THE MTDSHIELD CONDITION LANDS (handoff
 %  2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md §5.7 item 2;
 %  Marc: "one sentence ... details in appendix", and no judgement of the model
@@ -6259,10 +6295,9 @@ every effect this chapter reports.
 %  register: the selector would need retraining before it could trade cost
 %  against risk.
 
-\textbf{Metrics.} Both attackers are instrumented, with
-metrics either adapted from earlier evaluations or introduced here, which are
-outlined in Table~\ref{tab:metrics}. The defences are
-ranked on the NCR reduction.
+\textbf{Metrics.} Both attackers are measured on the ten metrics of
+Section~\ref{sec:evaluation-metrics} (Table~\ref{tab:metrics}), and the defences
+are ranked as Section~\ref{subsec:metrics-statistics} describes.
 % [TERM SWEEP 2026-09-24, DRAFT STATE: "They are grouped by effectiveness and
 %  efficiency, as Table 3.x groups the field's." CUT --- false since the metrics
 %  design (three classes of our own, defined in §4.5); "ranked on hosts reached,
@@ -6387,9 +6422,11 @@ ranked on the NCR reduction.
 %  state none --- Ho's 100 is training episodes (H-PAR-06), not runs, which the
 %  setup handoff had wrong. The clause compares; it does not claim a standard.
 \textbf{Runs.} Every combination in Table~\ref{tab:experiment} is run 1\,000
-times, ten times the 100 runs per condition of Zhang \citep{zhang2023}, on the
-same seeds, so every attacker starts on the same 1\,000 networks. Differences are reported as effect
-sizes with 95\,\% confidence intervals.
+times, ten times the 100 runs per condition of Zhang \citep{zhang2023};
+Section~\ref{subsec:metrics-statistics} gives the reason for the count, the seeds
+and the intervals reported. Each run is a terminating simulation: it ends at the
+first of the stopping events in Table~\ref{tab:experiment}, fixed before it
+starts \citep{law2015}, so no warm-up period is needed \citep{currie2016}.
 % REBUILT 2026-09-18 on Marc's read: "that reads like compaction for an LLM ...
 %  this is not thesis-ready". He is right, and the diagnosis is specific --- the
 %  unit was four sentences of which THREE were arguing, in a vocabulary he could
@@ -6424,6 +6461,18 @@ sizes with 95\,\% confidence intervals.
 %  no-pairing commitment belong at §5.4's claims, next to the numbers they
 %  govern, not in a setup that has no claims in front of it yet. This also
 %  discharges the [3b] that stood here: the floors are stated at the claims.
+% APPLIED 2026-09-25 (Marc: "your points about 5.1 that's right so please fix
+%  those in a defensible way and conventional way"; handoff
+%  2026-09-25_ch5_setup_defence_and_prose_slots.md Part A). Network: A3, the
+%  two-database target is the default of the released experiment code
+%  (experiments/run.py execute_simulation, total_database=2, at tay2024code's
+%  commits f13ed49 and e6c13c6) --- "narrowed" was wrong and is gone. Defence:
+%  A7b (Brown ran 1--5 s, so 50 s is Zhang's and Ho's shortest, not the
+%  lineage's), A7c (1--2--5 levels, top = ten times 200 s), B1 (200 s as the
+%  reference interval, three cited reasons), A15 marked owed. Metrics: A12,
+%  a pointer to §4.5. Runs: A11/A13 (the reason and the intervals are §4.5.4's;
+%  "effect sizes" was false), A16 (terminating, Law 2015 §3). DRAFT STATE ---
+%  ratify on read.
 % OWED ELSEWHERE, three things this unit handed on ---
 %  (1) WHY A THOUSAND. \citet{hoad2007} is the method: run replications until the
 %      interval around the cumulative mean sits inside a declared tolerance, which

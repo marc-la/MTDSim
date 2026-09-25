@@ -675,3 +675,35 @@ change is stated.
 6. An unexplained subset, or a comparator run away from its own settings.
 7. No version pin behind "default".
 8. Relative numbers only, with no absolute values and no variance (van der Kouwe F4, B4).
+
+**k8. The owed mark: text that is not yet defensible, kept visible (Marc,
+2026-09-25).** A value, clause or sentence that stands in the draft but that
+§k1–§k7 cannot yet defend is wrapped rather than deleted or left silent:
+
+```latex
+\owed{<the text as it stands>}{<what would defend it: a citation, a run, a ruling>}
+```
+
+- **What it does.** It prints the text with a numbered red mark and lists the
+  owed item, with its page, under *Owed before submission*, after the list
+  of tables. The macros are in the `dissertation.tex` preamble.
+- **When to use it.** Use it for:
+  - a declared level or control whose result is not yet reported;
+  - a subset left unexplained;
+  - a claim waiting on a ruling or a run;
+  - a number whose source is not yet tracked.
+
+  Do not use it for prose that is merely undrafted; that stays a
+  `[Placeholder …]`.
+- **The second argument is written for the reader who will resolve the item.**
+  Name the section, then what is missing. Do not use `\ref` or `\cite` in it.
+- **Resolving.** Delete the wrapper in the commit that supplies the defence.
+- **Submission.** The submission build sets `\owedmarksfalse`. Any `\owed`
+  left in the text then stops the build, so nothing undefended ships
+  unnoticed.
+- **Where else it applies.** The same mark goes in a table cell (Table 5.1's
+  exponential level) and in body prose (§5.1's execution schemes).
+- **Its companion, `\prelim{<number>}`.** Wrap every number typed into prose
+  from the 100-seed corpus. It prints the number unchanged and exists only as
+  the grep target for the 1 000-seed swap (`grep -n '\\prelim{'`). Floats need
+  no mark, because their generators regenerate them.
