@@ -21,6 +21,12 @@ Sections written to ``numbers.json`` (keyed apart):
   s55      Fig. 5.7 / 5.8 / Tab. 5.8 — occupancy against suppression; the
            movement arm's time split; effort per host, both arms
   regime   the exponential-regime arm at 200 s, read beside the core
+  shield   MTDShield's decisions and the training-input check
+  sweep    NCR reduction against the six deployment intervals, per attacker,
+           profile and layer
+  ranking  §5.3.2's table: per interval and attacker, every ranked condition's
+           metrics and its Scott-Knott ESD rank (sk_esd.py), and Spearman's
+           rho between the two attackers' NCR reductions
 
     PYTHONPATH=src python data/results/ch5_defended/analyse.py
 """
@@ -36,6 +42,7 @@ from scipy.stats import spearmanr
 from mtdsim.l3_simulation.movement import measures as M
 from mtdsim.l3_simulation.movement.attacker import MovementRecord
 from mtdsim.l3_simulation.movement.statistics import MovementRunResult, MTDExecution
+from sk_esd import sk_esd
 
 HERE = Path(__file__).resolve().parent
 RUNS = HERE / "runs.jsonl"
@@ -64,6 +71,9 @@ SCHEMES = ("random", "alternative")
 SHIELD = ("random_four", "mtdshield")
 CORPUS9 = SINGLES + SCHEMES
 DEFENDED = CORPUS9 + SHIELD
+# the conditions the floats report and rank (Marc 2026-09-25: random over
+# MTDShield's four is run but reported nowhere, so it takes no rank)
+RANKED = tuple(c for c in DEFENDED if c != "random_four")
 # the input-definition check: the same agent through Tay's training builder
 SHIELD_CHECK = ("mtdshield_train",)
 ACTION_NAME = {0: "no-op", 1: "complete_topology", 2: "ip_shuffle", 3: "os_diversity", 4: "service_diversity"}
@@ -1015,6 +1025,72 @@ def section_sweep(cells, rng) -> dict:
     return out
 
 
+def _metrics(runs, none_hosts, rng, *, blocked: bool) -> dict:
+    return {
+        **suppression(none_hosts, hosts_of(runs), rng),
+        "hosts": _iv(hosts_of(runs)),
+        "asp": float(np.mean([r["reached"] for r in runs])),
+        "delay": delay_summary(runs),
+        "blocked": (_iv([r["blocked_fraction"] for r in runs if r["blocked_fraction"] is not None])
+                    if blocked else None),
+    }
+
+
+def per_seed_hosts(runs) -> np.ndarray:
+    """Mean hosts compromised per seed, in seed order. Every condition and
+    attacker runs on the same seeds, and the seed fixes the network, so the
+    seed is the independent unit; the APT attacker model's four profiles at one
+    seed are averaged into one value (sceptical examiner, 2026-09-25: the four
+    are clustered, intraclass correlation up to 0.29)."""
+    by = defaultdict(list)
+    for r in runs:
+        by[r["seed"]].append(r["hosts"])
+    return np.array([np.mean(by[k]) for k in sorted(by)], dtype=float)
+
+
+def section_ranking(cells, rng) -> dict:
+    """§5.3.2's table (Marc 2026-09-25): per deployment interval and attacker,
+    the ranked conditions' attack-outcome and MTD-effectiveness metrics, the
+    no-defence row, and the Scott-Knott ESD rank on per-run hosts compromised
+    (within one attacker every condition shares the no-defence mean, so the
+    order of NCR reduction is the order of mean hosts compromised), on the
+    per-seed means (per_seed_hosts: 100 units per condition for both attackers,
+    so the two rankings rest on the same count). The
+    baseline attacker records no blocked actions (structural zero), so its
+    blocked metric is None, not 0."""
+    out = {"conditions": list(RANKED), "intervals": sweep_intervals(cells), "by_interval": {}}
+    none = {"movement": _pool(cells, "core", FOUR, "none", 0),
+            "baseline": _cell(cells, "core", "baseline", "baseline", "none", 0)}
+    for i in out["intervals"]:
+        blk = {}
+        pts = {}
+        for arm in ("movement", "baseline"):
+            get = ((lambda c: _pool(cells, "core", FOUR, c, i)) if arm == "movement"
+                   else (lambda c: _cell(cells, "core", "baseline", "baseline", c, i)))
+            runs = {c: get(c) for c in RANKED}
+            nh = hosts_of(none[arm])
+            rows = {c: _metrics(runs[c], nh, rng, blocked=(arm == "movement")) for c in RANKED}
+            sk = sk_esd({c: per_seed_hosts(runs[c]) for c in RANKED}, best="low")  # rank 1 = fewest hosts
+            for c in RANKED:
+                rows[c]["rank"] = sk["rank"][c]
+            blk[arm] = {
+                "rows": rows,
+                "none": {"hosts": _iv(nh), "asp": float(np.mean([r["reached"] for r in none[arm]])),
+                         "delay": delay_summary(none[arm]),
+                         "blocked": (_iv([r["blocked_fraction"] for r in none[arm] if r["blocked_fraction"] is not None])
+                                     if arm == "movement" else None)},
+                "sk_esd": {k: v for k, v in sk.items() if k != "rank"},
+            }
+            pts[arm] = [rows[c]["point"] for c in RANKED]
+        rho = float(spearmanr(pts["movement"], pts["baseline"]).statistic)
+        rs = [float(spearmanr([blk["movement"]["rows"][c]["rank"] for c in RANKED],
+                              [blk["baseline"]["rows"][c]["rank"] for c in RANKED]).statistic)]
+        blk["spearman_points"] = rho
+        blk["spearman_sk_ranks"] = rs[0]
+        out["by_interval"][str(i)] = blk
+    return out
+
+
 # --- the regime arm ------------------------------------------------------------
 
 
@@ -1245,6 +1321,7 @@ def main() -> int:
     out["regime"] = section_regime(cells, rng, out["s542"])
     out["shield"] = section_shield(cells, rng)
     out["sweep"] = section_sweep(cells, rng)
+    out["ranking"] = section_ranking(cells, rng)
     (HERE / "numbers.json").write_text(json.dumps(out, indent=1, default=float), encoding="utf-8")
     previews(out)
 

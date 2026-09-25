@@ -1,3 +1,8 @@
+% CUT 2026-09-25 (Marc: "all the metrics need to be there for a purpose ... if they're not,
+% we have to cut it"): ATTACK ACTIONS BLOCKED. It served one float (Table 5.3) for one
+% attacker (structurally zero on the baseline), read 0.24 with no defence (a failed
+% precondition, not an MTD block), and its Brown attribution was already disputed
+% (Brown's metric is our interrupt). Ten metrics remain.
 % 2026-09-24 (Figure 5.3 rebuild, results context §8g-5): recovery time -> TIME LOST (the
 % quantity changed) and NCR GROWTH RATE added (the curve time lost is read from; the context
 % critic: the caption's "Section 4.5 defines both" needs a row). Marc's to overturn.
@@ -172,9 +177,8 @@
     \multirow{-3}{3.0cm}{Attack outcome} & Mean time to compromise (MTTC) & \citep{mcqueen2006, zhang2023} \\
     \midrule
     & NCR reduction & \citep{zhang2023, ho2024}, in the form of \citep{alavizadeh2022} \\
-     & Attack actions blocked & adapted from \citep{brown2023} \\
      & NCR growth rate & introduced here \\
-    \multirow{-4}{3.0cm}{MTD effectiveness} & Time lost per MTD deployment & introduced here \\
+    \multirow{-3}{3.0cm}{MTD effectiveness} & Time lost per MTD deployment & introduced here \\
     \bottomrule
   \end{tabular}
 \end{table}

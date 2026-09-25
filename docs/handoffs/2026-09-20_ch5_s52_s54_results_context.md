@@ -1545,6 +1545,98 @@ He could not read Table 5.3's ranks ("what they mean to me"). He called random o
 - **H1 is not separated for the service layer at 2 000 s** (APT [−0.05, 0.07] against baseline [0.01, 0.18]).
 - **Pooling is still owed at the §5.3 head.**
 
+### 8j-4. Ranking with ties: convention and defensibility (2026-09-25; guidance sought on Marc's ask, PROPOSED, awaiting his ruling)
+
+**Marc:** "we are going to be … talking about rankings … what's the convention, what's defensible"; §5.3.2's focus is the attacker model, and the interval comparison belongs to §5.3.3.
+
+**Corpus (repo sources, found).**
+- **No MTD paper in the lineage ranks defences in a table.** Brown, Zhang, Ho and Tay have no results tables; Ho ranks in prose ("consistently ranking second or third").
+- **Kim 2026 Table 5 is the closest form to ours:** defences as rows (with a "No MTD" row) and seven metrics at one 300 s interval, with no ranks or intervals.
+- **Alavizadeh 2022 Tables 4–5** sort rows by security, put the best value per column in bold, and add a "Best" row.
+- **Torquato 2022** sets baseline against defended as column pairs.
+- **No lineage paper reports an interval** (evaluation_conventions.md l.179–184).
+- **So ranks, like intervals, go beyond lineage practice, and the thesis declares them as such.**
+
+**Statistics (web, cited in the agent report).**
+- **Standard competition ranking** ("1, 2=, 2=, 4") is the league-table convention. **Dense ranking** ("1, 2, 2, 3") is the convention for Scott-Knott group ranks.
+- **Within one attacker every condition shares the no-defence denominator,** so ranking by NCR reduction equals ranking by mean hosts compromised. The tests run on per-run counts, and the ratio never enters them.
+- **Chaining tests between adjacent sorted pairs is not defensible:**
+  - the order is data-selected;
+  - 9 of 45 pairs are tested, uncorrected;
+  - the ties are non-transitive (A≈B, B≈C, A≠C).
+- **Candidates:**
+  - **Scott-Knott ESD** (Tantithamthavorn et al.): it partitions into non-overlapping groups by construction and merges groups whose means differ negligibly (Cohen's d < 0.2). It is common in software-engineering venues and available as the R package `ScottKnottESD` (Rscript is on this machine). Its weakness is that it forces clean groups where the truth is a continuum.
+  - **Rank confidence sets** (Mogstad, Romano, Shaikh & Wilhelm 2024; Klein et al. 2020): all 45 pairs with family-wise error control, giving each condition a rank range such as "2–4". The most rigorous option, but a range, not a single rank.
+  - **Compact letter display** (Piepho 2004): honest about non-transitivity, but it gives groups, not ranks.
+  - **Demšar critical-difference diagrams do not fit:** they need blocked (paired) data, and our arms are unpaired.
+  - **Do not use a naive bootstrap of ranks.** Hall & Miller 2009 show it is inconsistent when the true values tie, which ours do.
+- **Power trap.** 400 runs per APT cell against 100 per baseline cell gives the baseline attacker more ties from power alone. Fewer separations are not evidence of a different ranking. Scott-Knott ESD's effect-size merge does not depend on the run count, which softens this, and equal run counts at 1 000 seeds would remove it from the significance step.
+
+**Projected separability** (point estimates held, intervals ÷ √10, neighbours only, so indicative):
+- **At 200 s,** 8 of 9 neighbour pairs separate for the APT model at 1 000 seeds (host topology ≈ complete topology is a real tie) and 6 of 9 for the baseline attacker.
+- **At 1 000–2 000 s,** most conditions tie near zero for the baseline attacker at any seed count.
+- **So a full 1–10 ranking is never available.** Tied ranks are required, not optional.
+
+**Proposal to Marc (not applied).**
+- **§5.3.2 gets Figure 5.4 and one table at 200 s.** Rows are no defence plus the ten conditions in the APT model's rank order. The two attacker blocks side by side each hold a rank (Scott-Knott ESD, dense, ties shared), then ASP, NCR, MTTC, NCR reduction and attack actions blocked as points. The best value per column is bold, as in Alavizadeh. The rank carries the separation, and the full intervals go to an appendix table.
+- **§5.3.3 gets Figures 5.5 and 5.6, and the six-interval values table** (now Table 5.3), as the interval sweep's backing.
+- **The current Table 5.4** (APT model only, with intervals) becomes the appendix table, extended to both attackers.
+- **Spearman's ρ between the two rankings** goes in one body sentence.
+
+**Ruled (Marc, 2026-09-25):**
+- **"Let's go crazy, let's do that":** Scott-Knott ESD, ties shared.
+- **"The rankings is a metric … the method becomes accountable for that"** in §4.5, which Marc drafts next.
+- **§5.3.2 is the attacker model; the interval comparison is §5.3.3's.**
+
+**Applied:**
+- **`data/results/ch5_defended/sk_esd.py`**, cross-checked against the original R `MaxValue` on 40 synthetic cases (0 mismatches).
+- **`analyse.py` section `ranking`.**
+- **Table 5.3 = `tab_5-3-2d_attacker_ranking`** (`tab:eff-cross-arm`).
+- **The six-interval values table moved to §5.3.3** (`tab:eff-interval-values`).
+- **Table 5.4 (`tab_5-3-1a_conditions`) retired** in favour of the new appendix chapter "Supplementary results" (`app:supplementary-results`), with one table per attacker (`tab_F-1_conditions_{movement,baseline}`).
+- **Bib entries added:** `scott1974cluster`, `tantithamthavorn2017empirical`, `cohen1988statistical`.
+
+**Content points for §4.5 (the ranking is a metric; Marc writes the prose):**
+- **What is ranked.** The defences, per attacker and deployment interval, by NCR reduction.
+- **Why ranking on hosts compromised is the same.** Within one attacker every defence divides by the same no-defence mean. No defence has no interval: it is one cell, stored at interval 0, reused at every interval. So the order of NCR reduction is the order of mean hosts compromised per run, and the test runs on hosts compromised per run, where the ratio never enters.
+- **Step 1, Scott and Knott (1974).** Sort the means. Split where the between-groups sum of squares is largest, if the likelihood-ratio test is significant at α = 0.05. Recurse.
+- **Step 2, the ESD merge (Tantithamthavorn et al. 2017).** Merge adjacent groups whose difference is negligible, |Cohen's d| < 0.2 (Cohen 1988).
+- **Ranks.** Defences in one group share a rank (dense ranking, 1, 2, 2, 3).
+- **Why this test:**
+  - **Non-overlapping groups by construction:** no chaining of pairwise tests.
+  - **Established in the empirical software-engineering literature.**
+  - **The effect-size merge does not depend on the run count.**
+  - **Not "unpaired arms".** Corrected 2026-09-25 by the sceptical examiner: the seeds are shared across every condition and both attackers (`run_corpus.py` l.6; the seed fixes the network), so the runs are blocked by seed.
+- **The unit is the seed.** Hosts compromised are averaged per seed (`per_seed_hosts`). The APT attacker model's four profiles at one seed become one value, because they are clustered (intraclass correlation up to 0.29). That gives 100 units per condition for both attackers, and 1 000 at the reported run. The test does not use the seed blocking across conditions, which is conservative. Declare both.
+- **What it assumes.**
+  - **One-way ANOVA with a pooled residual variance,** although the cells' variances differ by up to 63:1. The check to cite is that all-pairs Welch t-tests with Holm correction reproduce the groups at 200 s for both attackers (examiner), not the central limit theorem.
+  - **No Box-Cox transform:** the ranked quantity is the mean the metric is built on. log(1+x) would move one baseline rank, OS diversity.
+  - **The significance step is kept.** This follows the 2017 paper's two steps, not ScottKnottESD 2.0.3, which splits on effect size alone. Name the version.
+- **Known weaknesses.**
+  - **Clean groups are forced** where the truth may be a continuum.
+  - **d < 0.2 is a convention.** Middle neighbours sit at 0.19 to 0.20, so the middle ranks are indicative.
+  - **Rank numbers hold only within one attacker.** Compare orders, not integers across columns.
+  - **No defence is not ranked,** so a rank does not mean "beats no defence". User shuffle is worse than no defence against the APT attacker model.
+- **Comparing the two rankings.** Spearman's ρ between the attackers' NCR reductions, one number in the body (numbers.json `ranking.by_interval.*.spearman_points`).
+
+**Scrutiny of the ranking table (2026-09-25).** A cold reader and a sceptical examiner.
+- **The examiner recomputed Scott-Knott ESD from the raw per-run hosts, reproduced every group and rank at 200 s, and confirmed the direction** (rank 1 = fewest hosts).
+- **The crossover holds in every variant tried.** Host-layer shuffles rank above service diversity and port shuffle against the APT attacker model and below them against the baseline attacker under:
+  - the effect-size-only rule of ScottKnottESD 2.0.3;
+  - all-pairs Welch with Holm correction;
+  - Mann-Whitney;
+  - log(1+x);
+  - per-seed means;
+  - 1 000 of 1 000 diagnostic bootstrap resamples.
+- **Only middle ranks are fragile.** MTDShield keeps its rank in 59 % of resamples; ranks 1, 2 and last in all of them.
+- **BLOCKING, and fixed:** "unpaired" was false. The unit is now the seed.
+- **The cold reader** needed the direction of rank and whether no defence was ranked. Both are now in the caption, and rank 1 is bold.
+- **Left to the body text, as content points:**
+  - the 0.24 blocked share under no defence (background refusals);
+  - MTTC averaged over the runs that compromise a host;
+  - user shuffle against no defence.
+- **Flagged, not fixed:** `suppression()` resamples the defended and no-defence cells independently, which ignores the seed blocking. The NCR-reduction intervals are therefore approximate, probably conservative. Revisit before the 1 000-seed run.
+
 **Out of scope, flagged.** Every table caption in the chapter sits on its top rule (Table 5.4 too). This is house caption spacing in the class or preamble, and a concurrent session has `cshonours.cls` modified, so it was left alone.
 
 ## Validation gate

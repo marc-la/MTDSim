@@ -5399,7 +5399,7 @@ it would cost to be wrong about them.
 % \subsection{MTD effectiveness}
 % \label{subsec:metrics-effectiveness}
 % 
-% \noindent\emph{[Definitions owed: NCR reduction; attack actions blocked;
+% \noindent\emph{[Definitions owed: NCR reduction;
 % NCR growth rate, defined in the terms of calculus as the derivative of NCR over
 % time, read around an MTD deployment relative to the rate before it; time lost per
 % MTD deployment, the integral of the shortfall of that rate below the rate before
@@ -7370,7 +7370,7 @@ runs are otherwise identical.
 \begin{figure}[H]
   \centering
   \includegraphics{fig_5-3-2b_interval_headline}
-  \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence, measured against the APT attacker model, pooled over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no defence, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-cross-arm} lists them). Panels~(d) to~(f): the random execution scheme, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative execution scheme (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
+  \caption[The same defences measured against each attacker, across the deployment interval]{NCR reduction against the deployment interval for each defence, measured against the APT attacker model, pooled over $c_1$ to $c_4$ (solid), and against the baseline attacker (dashed); higher is fewer hosts compromised, zero is as many as with no defence, and below zero is more. Panels~(a) to~(c): the defence mechanisms by the layer each rewrites (Table~\ref{tab:defence-mechanisms}), a layer's line being the mean over its mechanisms, each deployed alone (Table~\ref{tab:eff-interval-values} lists them). Panels~(d) to~(f): the random execution scheme, MTDShield (Appendix~\ref{app:mtdshield}) and the alternative execution scheme (Table~\ref{tab:deployment-strategies}). The interval axis is logarithmic; whiskers are 95\,\% percentile bootstrap intervals.}
   \label{fig:eff-cross-arm}
 \end{figure}
 
@@ -7402,7 +7402,13 @@ runs are otherwise identical.
 % interval, rows grouped as its panels, grey where the interval includes zero
 % (tools/ch5_sweep_figures.py --only values). The rank grid's fragment stays on
 % disk. DRAFT STATE --- ratify on read.
-\input{tables/tab_5-3-2c_attacker_values}
+% MOVED 2026-09-25 to §5.3.3 (Marc: "table 5.3 is currently encapsulating ... all the
+% deployment intervals, which is not the focus of 5.3.2 ... the focus of 5.3.2 is
+% literally the attacker model"; results context §8j-4). In its place, both
+% attackers ranked at 200 s on every metric of Table 4.3, ranks by Scott-Knott ESD
+% with ties shared (tools/ch5_sweep_figures.py --only ranking; the method is owed
+% to §4.5, Marc drafting). DRAFT STATE --- ratify on read. PRELIMINARY: 100 seeds.
+\input{tables/tab_5-3-2d_attacker_ranking}
 
 % ~1 unit. The defence conditions against the movement attacker: the
 % seven single mechanisms and the three deployment schemes, per profile,
@@ -7485,7 +7491,12 @@ runs are otherwise identical.
 % effectiveness (NCR reduction, attack actions blocked); the no-host-compromised
 % column, which is no metric, is folded into the MTTC cell as the share of runs
 % MTTC is taken over. Rows still ordered by NCR reduction.
-\input{tables/tab_5-3-1a_conditions}
+% RETIRED 2026-09-25 (results context §8j-4): superseded by Table 5.3's ranking at
+% 200 s (both attackers, every metric) and by the appendix's two tables, which carry
+% this table's intervals for each attacker. Fragment stays on disk.
+% MOVED HERE 2026-09-25 from §5.3.2: the NCR reduction per defence, attacker and
+% deployment interval, the backing for the interval sweep. DRAFT STATE.
+\input{tables/tab_5-3-2c_attacker_values}
 
 % RETIRED 2026-09-23 (Marc's rulings R3, R4; handoff
 % 2026-09-22_ch5_two_phase_restructure.md §6, in git history): the subsection "Comparison with
@@ -8774,6 +8785,17 @@ condition, pooled over $c_1$ to $c_4$ for the APT attacker model.
 \end{itemize}
 
 % =====================================================================
+% NEW 2026-09-25 (results context §8j-4; Marc agreed the intervals leave the body
+% table): the per-attacker tables with every interval. Heading and placement are
+% the session's; DRAFT STATE --- ratify on read. PRELIMINARY: 100 seeds.
+\chapter{Supplementary results}
+\label{app:supplementary-results}
+
+The two tables give every metric of Table~\ref{tab:eff-cross-arm} with its interval, for each attacker.
+
+\input{tables/tab_F-1_conditions_movement}
+\input{tables/tab_F-1_conditions_baseline}
+
 \bibliography{references}
 
 \end{document}

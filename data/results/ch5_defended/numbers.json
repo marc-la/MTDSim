@@ -46384,5 +46384,7194 @@
     }
    }
   }
+ },
+ "ranking": {
+  "conditions": [
+   "ip_shuffle",
+   "complete_topology",
+   "host_topology",
+   "port_shuffle",
+   "user_shuffle",
+   "os_diversity",
+   "service_diversity",
+   "random",
+   "alternative",
+   "mtdshield"
+  ],
+  "intervals": [
+   50,
+   100,
+   200,
+   500,
+   1000,
+   2000
+  ],
+  "by_interval": {
+   "50": {
+    "movement": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.9867773677736777,
+       "lo": 0.9823036324122943,
+       "hi": 0.990646624022207,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.1075,
+        "ci95": 0.032682934545819345
+       },
+       "absolute_reduction": 8.0225,
+       "absolute_reduction_ci95": 0.417212538078405,
+       "denied_share": 0.9,
+       "hosts": {
+        "n": 400,
+        "mean": 0.1075,
+        "ci95": 0.032682934545819345
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 40,
+         "mean": 7440.805524325003,
+         "ci95": 1609.655852887184
+        },
+        "median_observed": 6492.694463,
+        "censored_share": 0.9,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.8618641842810093,
+        "ci95": 0.008498291503811754
+       },
+       "rank": 1
+      },
+      "complete_topology": {
+       "point": 0.9775522755227553,
+       "lo": 0.9719342582745649,
+       "hi": 0.982327903624168,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.1825,
+        "ci95": 0.04153661035761108
+       },
+       "absolute_reduction": 7.947500000000001,
+       "absolute_reduction_ci95": 0.41799930349140324,
+       "denied_share": 0.8325,
+       "hosts": {
+        "n": 400,
+        "mean": 0.1825,
+        "ci95": 0.04153661035761108
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 67,
+         "mean": 6654.020591447762,
+         "ci95": 1088.683500785952
+        },
+        "median_observed": 6122.179065,
+        "censored_share": 0.8325,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.8273394384911881,
+        "ci95": 0.009668286510220012
+       },
+       "rank": 1
+      },
+      "host_topology": {
+       "point": 0.9870848708487084,
+       "lo": 0.9828594751830765,
+       "hi": 0.9908592609834694,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.105,
+        "ci95": 0.03163982611347946
+       },
+       "absolute_reduction": 8.025,
+       "absolute_reduction_ci95": 0.4171321209350695,
+       "denied_share": 0.9,
+       "hosts": {
+        "n": 400,
+        "mean": 0.105,
+        "ci95": 0.03163982611347946
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 40,
+         "mean": 7550.722425050002,
+         "ci95": 1635.8617319508282
+        },
+        "median_observed": 7959.873324,
+        "censored_share": 0.9,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.8503793717315952,
+        "ci95": 0.0088084270815002
+       },
+       "rank": 1
+      },
+      "port_shuffle": {
+       "point": 0.35393603936039364,
+       "lo": 0.3020867212447392,
+       "hi": 0.4007388919912104,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 5.2525,
+        "ci95": 0.2974388502686274
+       },
+       "absolute_reduction": 2.8775000000000004,
+       "absolute_reduction_ci95": 0.5113394150350833,
+       "denied_share": 0.05,
+       "hosts": {
+        "n": 400,
+        "mean": 5.2525,
+        "ci95": 0.2974388502686274
+       },
+       "asp": 0.01,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 380,
+         "mean": 2397.6573664052635,
+         "ci95": 194.02382915274237
+        },
+        "median_observed": 1922.6901345,
+        "censored_share": 0.050000000000000044,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.2518663185312603,
+        "ci95": 0.009419677085908084
+       },
+       "rank": 4
+      },
+      "user_shuffle": {
+       "point": -0.1439114391143912,
+       "lo": -0.23137527617924747,
+       "hi": -0.06318847339796858,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 9.3,
+        "ci95": 0.48265014026180164
+       },
+       "absolute_reduction": -1.17,
+       "absolute_reduction_ci95": 0.6371414957558762,
+       "denied_share": 0.0325,
+       "hosts": {
+        "n": 400,
+        "mean": 9.3,
+        "ci95": 0.48265014026180164
+       },
+       "asp": 0.105,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 387,
+         "mean": 2095.9012102480615,
+         "ci95": 187.53172845965096
+        },
+        "median_observed": 1627.506777,
+        "censored_share": 0.03249999999999997,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.24570949554981592,
+        "ci95": 0.010129610969001092
+       },
+       "rank": 6
+      },
+      "os_diversity": {
+       "point": 0.1605166051660517,
+       "lo": 0.09288018893417871,
+       "hi": 0.22293904862184338,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 6.825,
+        "ci95": 0.3801464399273962
+       },
+       "absolute_reduction": 1.3050000000000006,
+       "absolute_reduction_ci95": 0.5634797631759031,
+       "denied_share": 0.0475,
+       "hosts": {
+        "n": 400,
+        "mean": 6.825,
+        "ci95": 0.3801464399273962
+       },
+       "asp": 0.0425,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 381,
+         "mean": 2387.7980324960627,
+         "ci95": 195.34966181776068
+        },
+        "median_observed": 1857.407205,
+        "censored_share": 0.04749999999999999,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.25343581816982513,
+        "ci95": 0.009530564256008468
+       },
+       "rank": 5
+      },
+      "service_diversity": {
+       "point": 0.5052275522755227,
+       "lo": 0.46560991639125593,
+       "hi": 0.5411215318469839,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 4.0225,
+        "ci95": 0.23172329877028436
+       },
+       "absolute_reduction": 4.107500000000001,
+       "absolute_reduction_ci95": 0.47612373907659833,
+       "denied_share": 0.05,
+       "hosts": {
+        "n": 400,
+        "mean": 4.0225,
+        "ci95": 0.23172329877028436
+       },
+       "asp": 0.005,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 380,
+         "mean": 2381.1090971868434,
+         "ci95": 191.10814132070007
+        },
+        "median_observed": 1925.3363570000001,
+        "censored_share": 0.050000000000000044,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.24907322716071914,
+        "ci95": 0.00903084448687119
+       },
+       "rank": 2
+      },
+      "random": {
+       "point": 0.9554120541205412,
+       "lo": 0.9468310366224266,
+       "hi": 0.9630390533775871,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.3625,
+        "ci95": 0.06252918616779696
+       },
+       "absolute_reduction": 7.767500000000001,
+       "absolute_reduction_ci95": 0.4206043590384023,
+       "denied_share": 0.7125,
+       "hosts": {
+        "n": 400,
+        "mean": 0.3625,
+        "ci95": 0.06252918616779696
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 115,
+         "mean": 6226.684565895649,
+         "ci95": 864.7363474001276
+        },
+        "median_observed": 5462.627097,
+        "censored_share": 0.7125,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.7936448565738385,
+        "ci95": 0.011472459722448274
+       },
+       "rank": 1
+      },
+      "alternative": {
+       "point": 0.9424969249692496,
+       "lo": 0.9332097522145454,
+       "hi": 0.951357011466888,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.4675,
+        "ci95": 0.0679065831498519
+       },
+       "absolute_reduction": 7.6625000000000005,
+       "absolute_reduction_ci95": 0.42143734024690543,
+       "denied_share": 0.6375,
+       "hosts": {
+        "n": 400,
+        "mean": 0.4675,
+        "ci95": 0.0679065831498519
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 145,
+         "mean": 5884.417515855171,
+         "ci95": 726.0873028241188
+        },
+        "median_observed": 4912.518411,
+        "censored_share": 0.6375,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.7739685644914174,
+        "ci95": 0.01217500883767358
+       },
+       "rank": 1
+      },
+      "mtdshield": {
+       "point": 0.4206642066420665,
+       "lo": 0.37351120835827395,
+       "hi": 0.46182457787180814,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 4.71,
+        "ci95": 0.26522013101334674
+       },
+       "absolute_reduction": 3.420000000000001,
+       "absolute_reduction_ci95": 0.49329488707469393,
+       "denied_share": 0.0375,
+       "hosts": {
+        "n": 400,
+        "mean": 4.71,
+        "ci95": 0.26522013101334674
+       },
+       "asp": 0.0125,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 385,
+         "mean": 2226.12918097143,
+         "ci95": 193.4007301296627
+        },
+        "median_observed": 1685.546285,
+        "censored_share": 0.03749999999999998,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.24488406695426737,
+        "ci95": 0.009473567601266202
+       },
+       "rank": 3
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 400,
+       "mean": 8.13,
+       "ci95": 0.41593043615405
+      },
+      "asp": 0.09,
+      "delay": {
+       "n": 400,
+       "observed": {
+        "n": 386,
+        "mean": 2100.143026634714,
+        "ci95": 194.53835380963284
+       },
+       "median_observed": 1605.888598,
+       "censored_share": 0.03500000000000003,
+       "horizon": 15000
+      },
+      "blocked": {
+       "n": 400,
+       "mean": 0.23911194558559226,
+       "ci95": 0.009996298838402105
+      }
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "host_topology",
+        "ip_shuffle",
+        "complete_topology",
+        "random",
+        "alternative"
+       ],
+       [
+        "service_diversity"
+       ],
+       [
+        "mtdshield"
+       ],
+       [
+        "port_shuffle"
+       ],
+       [
+        "os_diversity"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "host_topology",
+        "ip_shuffle",
+        "complete_topology",
+        "random",
+        "alternative"
+       ],
+       [
+        "service_diversity"
+       ],
+       [
+        "mtdshield"
+       ],
+       [
+        "port_shuffle"
+       ],
+       [
+        "os_diversity"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "merges": [],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 4,
+        "lambda": 896.5799897050629,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "alternative",
+        "treatments": [
+         "host_topology",
+         "ip_shuffle",
+         "complete_topology",
+         "random",
+         "alternative",
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 4,
+        "cut": 2,
+        "lambda": 4.901178650544464,
+        "critical": 10.09762430302654,
+        "split": 0.0,
+        "cut_after": "complete_topology",
+        "treatments": [
+         "host_topology",
+         "ip_shuffle",
+         "complete_topology",
+         "random",
+         "alternative"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 9,
+        "cut": 7,
+        "lambda": 426.9433432686166,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "port_shuffle",
+        "treatments": [
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 7,
+        "cut": 5,
+        "lambda": 30.37647075472183,
+        "critical": 7.1589779780236364,
+        "split": 1.0,
+        "cut_after": "service_diversity",
+        "treatments": [
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle"
+        ]
+       },
+       {
+        "lo": 6,
+        "hi": 7,
+        "cut": 6,
+        "lambda": 7.452705013251114,
+        "critical": 5.501357838893093,
+        "split": 1.0,
+        "cut_after": "mtdshield",
+        "treatments": [
+         "mtdshield",
+         "port_shuffle"
+        ]
+       },
+       {
+        "lo": 8,
+        "hi": 9,
+        "cut": 8,
+        "lambda": 139.9758751842066,
+        "critical": 5.501357838893093,
+        "split": 1.0,
+        "cut_after": "os_diversity",
+        "treatments": [
+         "os_diversity",
+         "user_shuffle"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 2.7074659090909092,
+      "df_residual": 990,
+      "order": [
+       "host_topology",
+       "ip_shuffle",
+       "complete_topology",
+       "random",
+       "alternative",
+       "service_diversity",
+       "mtdshield",
+       "port_shuffle",
+       "os_diversity",
+       "user_shuffle"
+      ],
+      "means": {
+       "host_topology": 0.105,
+       "ip_shuffle": 0.1075,
+       "complete_topology": 0.1825,
+       "random": 0.3625,
+       "alternative": 0.4675,
+       "service_diversity": 4.0225,
+       "mtdshield": 4.71,
+       "port_shuffle": 5.2525,
+       "os_diversity": 6.825,
+       "user_shuffle": 9.3
+      },
+      "best": "low"
+     }
+    },
+    "baseline": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.8907148726376335,
+       "lo": 0.8663096363822691,
+       "hi": 0.9130841977244872,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 2.66,
+        "ci95": 0.5403490738551902
+       },
+       "absolute_reduction": 21.68,
+       "absolute_reduction_ci95": 1.941788361591479,
+       "denied_share": 0.25,
+       "hosts": {
+        "n": 100,
+        "mean": 2.66,
+        "ci95": 0.5403490738551902
+       },
+       "asp": 0.04,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 75,
+         "mean": 1695.1992651333335,
+         "ci95": 302.7037665477632
+        },
+        "median_observed": 1554.611387,
+        "censored_share": 0.25,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 2
+      },
+      "complete_topology": {
+       "point": 0.5443714050944947,
+       "lo": 0.4787222692390838,
+       "hi": 0.606900849020282,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 11.09,
+        "ci95": 1.3690540088659462
+       },
+       "absolute_reduction": 13.25,
+       "absolute_reduction_ci95": 2.3136278436230575,
+       "denied_share": 0.15,
+       "hosts": {
+        "n": 100,
+        "mean": 11.09,
+        "ci95": 1.3690540088659462
+       },
+       "asp": 0.18,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 85,
+         "mean": 1694.2827062823533,
+         "ci95": 323.54022540355686
+        },
+        "median_observed": 1591.407153,
+        "censored_share": 0.15000000000000002,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 4
+      },
+      "host_topology": {
+       "point": 0.7251437962202136,
+       "lo": 0.6697465276642435,
+       "hi": 0.7772060302628889,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 6.69,
+        "ci95": 1.2167684566801187
+       },
+       "absolute_reduction": 17.65,
+       "absolute_reduction_ci95": 2.226901523814575,
+       "denied_share": 0.26,
+       "hosts": {
+        "n": 100,
+        "mean": 6.69,
+        "ci95": 1.2167684566801187
+       },
+       "asp": 0.07,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 74,
+         "mean": 1765.182583743243,
+         "ci95": 324.8655064831782
+        },
+        "median_observed": 1511.577014,
+        "censored_share": 0.26,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "port_shuffle": {
+       "point": 0.9893179950698439,
+       "lo": 0.9841323567971507,
+       "hi": 0.9936784004763186,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 0.26,
+        "ci95": 0.1135714005826423
+       },
+       "absolute_reduction": 24.08,
+       "absolute_reduction_ci95": 1.868545793558794,
+       "denied_share": 0.8,
+       "hosts": {
+        "n": 100,
+        "mean": 0.26,
+        "ci95": 0.1135714005826423
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 20,
+         "mean": 890.25828855,
+         "ci95": 810.136643329639
+        },
+        "median_observed": 269.075246,
+        "censored_share": 0.8,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 1
+      },
+      "user_shuffle": {
+       "point": 0.467543138866064,
+       "lo": 0.3744888945712252,
+       "hi": 0.5527293598814668,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 12.96,
+        "ci95": 2.0090630145328037
+       },
+       "absolute_reduction": 11.379999999999999,
+       "absolute_reduction_ci95": 2.7413316318825047,
+       "denied_share": 0.14,
+       "hosts": {
+        "n": 100,
+        "mean": 12.96,
+        "ci95": 2.0090630145328037
+       },
+       "asp": 0.17,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 86,
+         "mean": 1154.0943508255814,
+         "ci95": 365.73119692959887
+        },
+        "median_observed": 766.5508765,
+        "censored_share": 0.14,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 5
+      },
+      "os_diversity": {
+       "point": 0.924404272801972,
+       "lo": 0.8860968798426633,
+       "hi": 0.9575996151666061,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 1.84,
+        "ci95": 0.8356167929418754
+       },
+       "absolute_reduction": 22.5,
+       "absolute_reduction_ci95": 2.043727071857303,
+       "denied_share": 0.81,
+       "hosts": {
+        "n": 100,
+        "mean": 1.84,
+        "ci95": 0.8356167929418754
+       },
+       "asp": 0.06,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 19,
+         "mean": 402.82433789473686,
+         "ci95": 174.3496316976869
+        },
+        "median_observed": 279.729932,
+        "censored_share": 0.81,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 1
+      },
+      "service_diversity": {
+       "point": 0.9876746096959738,
+       "lo": 0.9816894793986223,
+       "hi": 0.9927008082453558,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 0.3,
+        "ci95": 0.13214317304279566
+       },
+       "absolute_reduction": 24.04,
+       "absolute_reduction_ci95": 1.8697664928481783,
+       "denied_share": 0.79,
+       "hosts": {
+        "n": 100,
+        "mean": 0.3,
+        "ci95": 0.13214317304279566
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 21,
+         "mean": 873.6524420952383,
+         "ci95": 753.1267260019471
+        },
+        "median_observed": 362.252472,
+        "censored_share": 0.79,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 1
+      },
+      "random": {
+       "point": 0.7206244864420707,
+       "lo": 0.6644744602787728,
+       "hi": 0.7741417237767412,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 6.8,
+        "ci95": 1.24896854413649
+       },
+       "absolute_reduction": 17.54,
+       "absolute_reduction_ci95": 2.2446575114788407,
+       "denied_share": 0.19,
+       "hosts": {
+        "n": 100,
+        "mean": 6.8,
+        "ci95": 1.24896854413649
+       },
+       "asp": 0.13,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 81,
+         "mean": 2329.0673348271603,
+         "ci95": 434.4791841366214
+        },
+        "median_observed": 1926.060062,
+        "censored_share": 0.18999999999999995,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "alternative": {
+       "point": 0.6696795398520954,
+       "lo": 0.5979192136314805,
+       "hi": 0.7359864883253937,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 8.04,
+        "ci95": 1.532688657097703
+       },
+       "absolute_reduction": 16.3,
+       "absolute_reduction_ci95": 2.414062849055906,
+       "denied_share": 0.16,
+       "hosts": {
+        "n": 100,
+        "mean": 8.04,
+        "ci95": 1.532688657097703
+       },
+       "asp": 0.14,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 84,
+         "mean": 2287.688250761905,
+         "ci95": 457.95659262738576
+        },
+        "median_observed": 2037.7949090000002,
+        "censored_share": 0.16000000000000003,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "mtdshield": {
+       "point": 0.8270336894001643,
+       "lo": 0.793898523343696,
+       "hi": 0.8555254618089926,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 4.21,
+        "ci95": 0.6305412893504733
+       },
+       "absolute_reduction": 20.13,
+       "absolute_reduction_ci95": 1.968793345471209,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 4.21,
+        "ci95": 0.6305412893504733
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 432.79979226,
+         "ci95": 60.671919980135854
+        },
+        "median_observed": 344.8939355,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 2
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 100,
+       "mean": 24.34,
+       "ci95": 1.8650911290325627
+      },
+      "asp": 0.6,
+      "delay": {
+       "n": 100,
+       "observed": {
+        "n": 100,
+        "mean": 674.5496063700004,
+        "ci95": 86.41561662389778
+       },
+       "median_observed": 630.7795725000001,
+       "censored_share": 0.0,
+       "horizon": 15000
+      },
+      "blocked": null
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "port_shuffle",
+        "service_diversity",
+        "os_diversity"
+       ],
+       [
+        "ip_shuffle",
+        "mtdshield"
+       ],
+       [
+        "host_topology",
+        "random",
+        "alternative"
+       ],
+       [
+        "complete_topology"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "port_shuffle",
+        "service_diversity",
+        "os_diversity"
+       ],
+       [
+        "ip_shuffle",
+        "mtdshield"
+       ],
+       [
+        "host_topology",
+        "random",
+        "alternative"
+       ],
+       [
+        "complete_topology"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "merges": [],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 4,
+        "lambda": 361.4913270977472,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "mtdshield",
+        "treatments": [
+         "port_shuffle",
+         "service_diversity",
+         "os_diversity",
+         "ip_shuffle",
+         "mtdshield",
+         "host_topology",
+         "random",
+         "alternative",
+         "complete_topology",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 4,
+        "cut": 2,
+        "lambda": 33.65752521984936,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "os_diversity",
+        "treatments": [
+         "port_shuffle",
+         "service_diversity",
+         "os_diversity",
+         "ip_shuffle",
+         "mtdshield"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 2,
+        "cut": 1,
+        "lambda": 6.72999666389165,
+        "critical": 7.1589779780236364,
+        "split": 0.0,
+        "cut_after": "service_diversity",
+        "treatments": [
+         "port_shuffle",
+         "service_diversity",
+         "os_diversity"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 4,
+        "cut": 3,
+        "lambda": 4.984360404613471,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "ip_shuffle",
+        "treatments": [
+         "ip_shuffle",
+         "mtdshield"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 9,
+        "cut": 7,
+        "lambda": 107.62108101518822,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "alternative",
+        "treatments": [
+         "host_topology",
+         "random",
+         "alternative",
+         "complete_topology",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 7,
+        "cut": 6,
+        "lambda": 4.644765580918402,
+        "critical": 7.1589779780236364,
+        "split": 0.0,
+        "cut_after": "random",
+        "treatments": [
+         "host_topology",
+         "random",
+         "alternative"
+        ]
+       },
+       {
+        "lo": 8,
+        "hi": 9,
+        "cut": 8,
+        "lambda": 7.242815801837303,
+        "critical": 5.501357838893093,
+        "split": 1.0,
+        "cut_after": "complete_topology",
+        "treatments": [
+         "complete_topology",
+         "user_shuffle"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 33.107040404040404,
+      "df_residual": 990,
+      "order": [
+       "port_shuffle",
+       "service_diversity",
+       "os_diversity",
+       "ip_shuffle",
+       "mtdshield",
+       "host_topology",
+       "random",
+       "alternative",
+       "complete_topology",
+       "user_shuffle"
+      ],
+      "means": {
+       "port_shuffle": 0.26,
+       "service_diversity": 0.3,
+       "os_diversity": 1.84,
+       "ip_shuffle": 2.66,
+       "mtdshield": 4.21,
+       "host_topology": 6.69,
+       "random": 6.8,
+       "alternative": 8.04,
+       "complete_topology": 11.09,
+       "user_shuffle": 12.96
+      },
+      "best": "low"
+     }
+    },
+    "spearman_points": -0.13939393939393938,
+    "spearman_sk_ranks": -0.2859052664729942
+   },
+   "100": {
+    "movement": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.9732472324723247,
+       "lo": 0.9664249228677498,
+       "hi": 0.9790138341252991,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.2175,
+        "ci95": 0.0480895236065172
+       },
+       "absolute_reduction": 7.9125000000000005,
+       "absolute_reduction_ci95": 0.4187012419374941,
+       "denied_share": 0.8175,
+       "hosts": {
+        "n": 400,
+        "mean": 0.2175,
+        "ci95": 0.0480895236065172
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 73,
+         "mean": 5791.505435657533,
+         "ci95": 1063.7639672424664
+        },
+        "median_observed": 4406.2307,
+        "censored_share": 0.8175,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.8432131051530709,
+        "ci95": 0.009414481959171177
+       },
+       "rank": 1
+      },
+      "complete_topology": {
+       "point": 0.9563345633456335,
+       "lo": 0.9473848948980913,
+       "hi": 0.9649608042190752,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.355,
+        "ci95": 0.06931209357528785
+       },
+       "absolute_reduction": 7.775,
+       "absolute_reduction_ci95": 0.4216660930583437,
+       "denied_share": 0.74,
+       "hosts": {
+        "n": 400,
+        "mean": 0.355,
+        "ci95": 0.06931209357528785
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 104,
+         "mean": 6729.232372115386,
+         "ci95": 845.212270896061
+        },
+        "median_observed": 6100.630444,
+        "censored_share": 0.74,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.8008328932957858,
+        "ci95": 0.010910027711475728
+       },
+       "rank": 1
+      },
+      "host_topology": {
+       "point": 0.9698646986469864,
+       "lo": 0.9632637130691101,
+       "hi": 0.9758657790521734,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.245,
+        "ci95": 0.05003056609573433
+       },
+       "absolute_reduction": 7.885000000000001,
+       "absolute_reduction_ci95": 0.4189286159516414,
+       "denied_share": 0.7925,
+       "hosts": {
+        "n": 400,
+        "mean": 0.245,
+        "ci95": 0.05003056609573433
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 83,
+         "mean": 6446.0808852168675,
+         "ci95": 1008.2372354901102
+        },
+        "median_observed": 5737.789916,
+        "censored_share": 0.7925,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.8248816358404955,
+        "ci95": 0.009932879777992377
+       },
+       "rank": 1
+      },
+      "port_shuffle": {
+       "point": 0.37023370233702346,
+       "lo": 0.3202704276903667,
+       "hi": 0.41669512897877375,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 5.12,
+        "ci95": 0.2920795757948357
+       },
+       "absolute_reduction": 3.0100000000000007,
+       "absolute_reduction_ci95": 0.5082406972250347,
+       "denied_share": 0.0475,
+       "hosts": {
+        "n": 400,
+        "mean": 5.12,
+        "ci95": 0.2920795757948357
+       },
+       "asp": 0.025,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 381,
+         "mean": 2492.6370002782137,
+         "ci95": 220.99153994647125
+        },
+        "median_observed": 1899.55145,
+        "censored_share": 0.04749999999999999,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.25033895082752405,
+        "ci95": 0.009451257208778268
+       },
+       "rank": 4
+      },
+      "user_shuffle": {
+       "point": -0.10824108241082397,
+       "lo": -0.19291227985471512,
+       "hi": -0.031398414931229315,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 9.01,
+        "ci95": 0.4766270585924134
+       },
+       "absolute_reduction": -0.879999999999999,
+       "absolute_reduction_ci95": 0.6325910849053711,
+       "denied_share": 0.035,
+       "hosts": {
+        "n": 400,
+        "mean": 9.01,
+        "ci95": 0.4766270585924134
+       },
+       "asp": 0.12,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 386,
+         "mean": 2119.546256253887,
+         "ci95": 195.4762487541202
+        },
+        "median_observed": 1617.0213515,
+        "censored_share": 0.03500000000000003,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.24671791185878278,
+        "ci95": 0.01041976650644443
+       },
+       "rank": 6
+      },
+      "os_diversity": {
+       "point": 0.16851168511685133,
+       "lo": 0.10206670634328159,
+       "hi": 0.2274886182702068,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 6.76,
+        "ci95": 0.3813857723728311
+       },
+       "absolute_reduction": 1.370000000000001,
+       "absolute_reduction_ci95": 0.564316608906489,
+       "denied_share": 0.0425,
+       "hosts": {
+        "n": 400,
+        "mean": 6.76,
+        "ci95": 0.3813857723728311
+       },
+       "asp": 0.0525,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 383,
+         "mean": 2491.580802169715,
+         "ci95": 218.7075866188124
+        },
+        "median_observed": 1878.341553,
+        "censored_share": 0.04249999999999998,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.25504846479944576,
+        "ci95": 0.009558599142077698
+       },
+       "rank": 5
+      },
+      "service_diversity": {
+       "point": 0.5067650676506765,
+       "lo": 0.4666815688574266,
+       "hi": 0.5435132668427873,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 4.01,
+        "ci95": 0.2270624429148424
+       },
+       "absolute_reduction": 4.120000000000001,
+       "absolute_reduction_ci95": 0.4738728528854068,
+       "denied_share": 0.045,
+       "hosts": {
+        "n": 400,
+        "mean": 4.01,
+        "ci95": 0.2270624429148424
+       },
+       "asp": 0.005,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 382,
+         "mean": 2483.6323935026167,
+         "ci95": 217.1348858227473
+        },
+        "median_observed": 1909.5489915,
+        "censored_share": 0.04500000000000004,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.24586391573753758,
+        "ci95": 0.008844840601444
+       },
+       "rank": 3
+      },
+      "random": {
+       "point": 0.9040590405904059,
+       "lo": 0.8907385837360087,
+       "hi": 0.9161603246445498,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.78,
+        "ci95": 0.09941919755311504
+       },
+       "absolute_reduction": 7.3500000000000005,
+       "absolute_reduction_ci95": 0.42764740682179225,
+       "denied_share": 0.5075,
+       "hosts": {
+        "n": 400,
+        "mean": 0.78,
+        "ci95": 0.09941919755311504
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 197,
+         "mean": 5326.460104309643,
+         "ci95": 543.372976834144
+        },
+        "median_observed": 4435.651779,
+        "censored_share": 0.5075000000000001,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.7361526204252613,
+        "ci95": 0.013495747426234952
+       },
+       "rank": 2
+      },
+      "alternative": {
+       "point": 0.8994464944649446,
+       "lo": 0.8853688547002315,
+       "hi": 0.9126071499123115,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.8175,
+        "ci95": 0.1035738172224772
+       },
+       "absolute_reduction": 7.312500000000001,
+       "absolute_reduction_ci95": 0.42863231718260975,
+       "denied_share": 0.4875,
+       "hosts": {
+        "n": 400,
+        "mean": 0.8175,
+        "ci95": 0.1035738172224772
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 205,
+         "mean": 5544.173738941467,
+         "ci95": 595.0015038625635
+        },
+        "median_observed": 3566.059562,
+        "censored_share": 0.48750000000000004,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.7255459628677734,
+        "ci95": 0.013581202990669514
+       },
+       "rank": 2
+      },
+      "mtdshield": {
+       "point": 0.3865313653136532,
+       "lo": 0.33795222423736065,
+       "hi": 0.43316616237986205,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 4.9875,
+        "ci95": 0.2799051922824345
+       },
+       "absolute_reduction": 3.142500000000001,
+       "absolute_reduction_ci95": 0.50134324009202,
+       "denied_share": 0.04,
+       "hosts": {
+        "n": 400,
+        "mean": 4.9875,
+        "ci95": 0.2799051922824345
+       },
+       "asp": 0.0175,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 384,
+         "mean": 2184.758549716144,
+         "ci95": 191.83388992055848
+        },
+        "median_observed": 1699.857272,
+        "censored_share": 0.040000000000000036,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.2432176589687676,
+        "ci95": 0.009449782850065614
+       },
+       "rank": 4
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 400,
+       "mean": 8.13,
+       "ci95": 0.41593043615405
+      },
+      "asp": 0.09,
+      "delay": {
+       "n": 400,
+       "observed": {
+        "n": 386,
+        "mean": 2100.143026634714,
+        "ci95": 194.53835380963284
+       },
+       "median_observed": 1605.888598,
+       "censored_share": 0.03500000000000003,
+       "horizon": 15000
+      },
+      "blocked": {
+       "n": 400,
+       "mean": 0.23911194558559226,
+       "ci95": 0.009996298838402105
+      }
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "ip_shuffle",
+        "host_topology",
+        "complete_topology"
+       ],
+       [
+        "random",
+        "alternative"
+       ],
+       [
+        "service_diversity"
+       ],
+       [
+        "mtdshield",
+        "port_shuffle"
+       ],
+       [
+        "os_diversity"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "ip_shuffle",
+        "host_topology",
+        "complete_topology"
+       ],
+       [
+        "random",
+        "alternative"
+       ],
+       [
+        "service_diversity"
+       ],
+       [
+        "mtdshield",
+        "port_shuffle"
+       ],
+       [
+        "os_diversity"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "merges": [],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 4,
+        "lambda": 879.3889711474708,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "alternative",
+        "treatments": [
+         "ip_shuffle",
+         "host_topology",
+         "complete_topology",
+         "random",
+         "alternative",
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 4,
+        "cut": 2,
+        "lambda": 16.71245132762692,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "complete_topology",
+        "treatments": [
+         "ip_shuffle",
+         "host_topology",
+         "complete_topology",
+         "random",
+         "alternative"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 2,
+        "cut": 1,
+        "lambda": 0.5187348422531773,
+        "critical": 7.1589779780236364,
+        "split": 0.0,
+        "cut_after": "host_topology",
+        "treatments": [
+         "ip_shuffle",
+         "host_topology",
+         "complete_topology"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 4,
+        "cut": 3,
+        "lambda": 0.0357026858777608,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "random",
+        "treatments": [
+         "random",
+         "alternative"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 9,
+        "cut": 7,
+        "lambda": 392.7810774886707,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "port_shuffle",
+        "treatments": [
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 7,
+        "cut": 5,
+        "lambda": 35.93376074405567,
+        "critical": 7.1589779780236364,
+        "split": 1.0,
+        "cut_after": "service_diversity",
+        "treatments": [
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle"
+        ]
+       },
+       {
+        "lo": 6,
+        "hi": 7,
+        "cut": 6,
+        "lambda": 0.44559434472423254,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "mtdshield",
+        "treatments": [
+         "mtdshield",
+         "port_shuffle"
+        ]
+       },
+       {
+        "lo": 8,
+        "hi": 9,
+        "cut": 8,
+        "lambda": 117.47122918835086,
+        "critical": 5.501357838893093,
+        "split": 1.0,
+        "cut_after": "os_diversity",
+        "treatments": [
+         "os_diversity",
+         "user_shuffle"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 2.7152228535353538,
+      "df_residual": 990,
+      "order": [
+       "ip_shuffle",
+       "host_topology",
+       "complete_topology",
+       "random",
+       "alternative",
+       "service_diversity",
+       "mtdshield",
+       "port_shuffle",
+       "os_diversity",
+       "user_shuffle"
+      ],
+      "means": {
+       "ip_shuffle": 0.2175,
+       "host_topology": 0.245,
+       "complete_topology": 0.355,
+       "random": 0.78,
+       "alternative": 0.8175,
+       "service_diversity": 4.01,
+       "mtdshield": 4.9875,
+       "port_shuffle": 5.12,
+       "os_diversity": 6.76,
+       "user_shuffle": 9.01
+      },
+      "best": "low"
+     }
+    },
+    "baseline": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.700493015612161,
+       "lo": 0.6488940898849516,
+       "hi": 0.7458022584033613,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 7.29,
+        "ci95": 1.0379928253386654
+       },
+       "absolute_reduction": 17.05,
+       "absolute_reduction_ci95": 2.134477459485226,
+       "denied_share": 0.07,
+       "hosts": {
+        "n": 100,
+        "mean": 7.29,
+        "ci95": 1.0379928253386654
+       },
+       "asp": 0.13,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 93,
+         "mean": 1600.2885113870966,
+         "ci95": 325.2959075255084
+        },
+        "median_observed": 900.575903,
+        "censored_share": 0.06999999999999995,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "complete_topology": {
+       "point": 0.4338537387017256,
+       "lo": 0.3681073160419261,
+       "hi": 0.49436453630007593,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 13.78,
+        "ci95": 1.1669172482410328
+       },
+       "absolute_reduction": 10.56,
+       "absolute_reduction_ci95": 2.200059268255831,
+       "denied_share": 0.07,
+       "hosts": {
+        "n": 100,
+        "mean": 13.78,
+        "ci95": 1.1669172482410328
+       },
+       "asp": 0.42,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 93,
+         "mean": 1551.7142249892472,
+         "ci95": 335.72903144444496
+        },
+        "median_observed": 702.655246,
+        "censored_share": 0.06999999999999995,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 5
+      },
+      "host_topology": {
+       "point": 0.4519309778142975,
+       "lo": 0.38087484330064164,
+       "hi": 0.5202314063215961,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 13.34,
+        "ci95": 1.2965962239960473
+       },
+       "absolute_reduction": 11.0,
+       "absolute_reduction_ci95": 2.2715031780027886,
+       "denied_share": 0.06,
+       "hosts": {
+        "n": 100,
+        "mean": 13.34,
+        "ci95": 1.2965962239960473
+       },
+       "asp": 0.24,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 94,
+         "mean": 1506.5050025957446,
+         "ci95": 288.10204206782106
+        },
+        "median_observed": 856.888545,
+        "censored_share": 0.06000000000000005,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 5
+      },
+      "port_shuffle": {
+       "point": 0.990139687756779,
+       "lo": 0.9852381403634279,
+       "hi": 0.9944541473494974,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 0.24,
+        "ci95": 0.10832516705817645
+       },
+       "absolute_reduction": 24.1,
+       "absolute_reduction_ci95": 1.8682342629911648,
+       "denied_share": 0.81,
+       "hosts": {
+        "n": 100,
+        "mean": 0.24,
+        "ci95": 0.10832516705817645
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 19,
+         "mean": 427.07157968421063,
+         "ci95": 196.17351042768536
+        },
+        "median_observed": 267.999131,
+        "censored_share": 0.81,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 1
+      },
+      "user_shuffle": {
+       "point": 0.018488085456039416,
+       "lo": -0.10575816768691111,
+       "hi": 0.12550427034377468,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 23.89,
+        "ci95": 2.188758858302571
+       },
+       "absolute_reduction": 0.4499999999999993,
+       "absolute_reduction_ci95": 2.875626933278018,
+       "denied_share": 0.01,
+       "hosts": {
+        "n": 100,
+        "mean": 23.89,
+        "ci95": 2.188758858302571
+       },
+       "asp": 0.63,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 99,
+         "mean": 773.2056360000003,
+         "ci95": 108.17922267509906
+        },
+        "median_observed": 669.196768,
+        "censored_share": 0.010000000000000009,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 6
+      },
+      "os_diversity": {
+       "point": 0.9317995069843878,
+       "lo": 0.8984190277801021,
+       "hi": 0.961336596278248,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 1.66,
+        "ci95": 0.7686144890172651
+       },
+       "absolute_reduction": 22.68,
+       "absolute_reduction_ci95": 2.0172588213521916,
+       "denied_share": 0.81,
+       "hosts": {
+        "n": 100,
+        "mean": 1.66,
+        "ci95": 0.7686144890172651
+       },
+       "asp": 0.07,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 19,
+         "mean": 465.1382528947368,
+         "ci95": 267.27547164259477
+        },
+        "median_observed": 277.999131,
+        "censored_share": 0.81,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 1
+      },
+      "service_diversity": {
+       "point": 0.9876746096959738,
+       "lo": 0.9814961348684211,
+       "hi": 0.9927273461594948,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 0.3,
+        "ci95": 0.1350477655864733
+       },
+       "absolute_reduction": 24.04,
+       "absolute_reduction_ci95": 1.8699740154841344,
+       "denied_share": 0.8,
+       "hosts": {
+        "n": 100,
+        "mean": 0.3,
+        "ci95": 0.1350477655864733
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 20,
+         "mean": 678.5484880500001,
+         "ci95": 471.82821767181673
+        },
+        "median_observed": 312.7600285,
+        "censored_share": 0.8,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 1
+      },
+      "random": {
+       "point": 0.4905505341002465,
+       "lo": 0.42780720118318544,
+       "hi": 0.5485900157794905,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 12.4,
+        "ci95": 1.1730265439141916
+       },
+       "absolute_reduction": 11.94,
+       "absolute_reduction_ci95": 2.2033057419076525,
+       "denied_share": 0.03,
+       "hosts": {
+        "n": 100,
+        "mean": 12.4,
+        "ci95": 1.1730265439141916
+       },
+       "asp": 0.25,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 97,
+         "mean": 1718.127107329897,
+         "ci95": 357.4973571679593
+        },
+        "median_observed": 985.194144,
+        "censored_share": 0.030000000000000027,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 5
+      },
+      "alternative": {
+       "point": 0.5858668857847165,
+       "lo": 0.5218534964817354,
+       "hi": 0.6433055022284616,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 10.08,
+        "ci95": 1.3059775152363957
+       },
+       "absolute_reduction": 14.26,
+       "absolute_reduction_ci95": 2.2768711403808055,
+       "denied_share": 0.04,
+       "hosts": {
+        "n": 100,
+        "mean": 10.08,
+        "ci95": 1.3059775152363957
+       },
+       "asp": 0.21,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 96,
+         "mean": 1663.3000504895836,
+         "ci95": 375.631661976732
+        },
+        "median_observed": 860.718884,
+        "censored_share": 0.040000000000000036,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 4
+      },
+      "mtdshield": {
+       "point": 0.8229252259654889,
+       "lo": 0.794283350332547,
+       "hi": 0.8487287154664049,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 4.31,
+        "ci95": 0.5946899560597803
+       },
+       "absolute_reduction": 20.03,
+       "absolute_reduction_ci95": 1.9576059520328248,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 4.31,
+        "ci95": 0.5946899560597803
+       },
+       "asp": 0.02,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 461.6334728399998,
+         "ci95": 65.52607250307845
+        },
+        "median_observed": 351.15130050000005,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 2
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 100,
+       "mean": 24.34,
+       "ci95": 1.8650911290325627
+      },
+      "asp": 0.6,
+      "delay": {
+       "n": 100,
+       "observed": {
+        "n": 100,
+        "mean": 674.5496063700004,
+        "ci95": 86.41561662389778
+       },
+       "median_observed": 630.7795725000001,
+       "censored_share": 0.0,
+       "horizon": 15000
+      },
+      "blocked": null
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "port_shuffle",
+        "service_diversity",
+        "os_diversity"
+       ],
+       [
+        "mtdshield"
+       ],
+       [
+        "ip_shuffle"
+       ],
+       [
+        "alternative"
+       ],
+       [
+        "random",
+        "host_topology",
+        "complete_topology"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "port_shuffle",
+        "service_diversity",
+        "os_diversity"
+       ],
+       [
+        "mtdshield"
+       ],
+       [
+        "ip_shuffle"
+       ],
+       [
+        "alternative"
+       ],
+       [
+        "random",
+        "host_topology",
+        "complete_topology"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "merges": [],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 4,
+        "lambda": 583.0848735160093,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "ip_shuffle",
+        "treatments": [
+         "port_shuffle",
+         "service_diversity",
+         "os_diversity",
+         "mtdshield",
+         "ip_shuffle",
+         "alternative",
+         "random",
+         "host_topology",
+         "complete_topology",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 4,
+        "cut": 2,
+        "lambda": 113.77208175181775,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "os_diversity",
+        "treatments": [
+         "port_shuffle",
+         "service_diversity",
+         "os_diversity",
+         "mtdshield",
+         "ip_shuffle"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 2,
+        "cut": 1,
+        "lambda": 5.246423806016227,
+        "critical": 7.1589779780236364,
+        "split": 0.0,
+        "cut_after": "service_diversity",
+        "treatments": [
+         "port_shuffle",
+         "service_diversity",
+         "os_diversity"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 4,
+        "cut": 3,
+        "lambda": 17.89906921098173,
+        "critical": 5.501357838893093,
+        "split": 1.0,
+        "cut_after": "mtdshield",
+        "treatments": [
+         "mtdshield",
+         "ip_shuffle"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 9,
+        "cut": 8,
+        "lambda": 322.79866769646475,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "complete_topology",
+        "treatments": [
+         "alternative",
+         "random",
+         "host_topology",
+         "complete_topology",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 8,
+        "cut": 5,
+        "lambda": 28.67207562968288,
+        "critical": 8.671598082935285,
+        "split": 1.0,
+        "cut_after": "alternative",
+        "treatments": [
+         "alternative",
+         "random",
+         "host_topology",
+         "complete_topology"
+        ]
+       },
+       {
+        "lo": 6,
+        "hi": 8,
+        "cut": 6,
+        "lambda": 3.6570688157004954,
+        "critical": 7.1589779780236364,
+        "split": 0.0,
+        "cut_after": "random",
+        "treatments": [
+         "random",
+         "host_topology",
+         "complete_topology"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 33.75394949494949,
+      "df_residual": 990,
+      "order": [
+       "port_shuffle",
+       "service_diversity",
+       "os_diversity",
+       "mtdshield",
+       "ip_shuffle",
+       "alternative",
+       "random",
+       "host_topology",
+       "complete_topology",
+       "user_shuffle"
+      ],
+      "means": {
+       "port_shuffle": 0.24,
+       "service_diversity": 0.3,
+       "os_diversity": 1.66,
+       "mtdshield": 4.31,
+       "ip_shuffle": 7.29,
+       "alternative": 10.08,
+       "random": 12.4,
+       "host_topology": 13.34,
+       "complete_topology": 13.78,
+       "user_shuffle": 23.89
+      },
+      "best": "low"
+     }
+    },
+    "spearman_points": -0.2606060606060606,
+    "spearman_sk_ranks": -0.28481583117055553
+   },
+   "200": {
+    "movement": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.9612546125461254,
+       "lo": 0.9534456066250234,
+       "hi": 0.9687691264706907,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.315,
+        "ci95": 0.06094480102461404
+       },
+       "absolute_reduction": 7.815,
+       "absolute_reduction_ci95": 0.42037173607561684,
+       "denied_share": 0.755,
+       "hosts": {
+        "n": 400,
+        "mean": 0.315,
+        "ci95": 0.06094480102461404
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 98,
+         "mean": 6423.266470438776,
+         "ci95": 949.7525706272445
+        },
+        "median_observed": 5248.4972785,
+        "censored_share": 0.755,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.8275576339696619,
+        "ci95": 0.010347772487679204
+       },
+       "rank": 1
+      },
+      "complete_topology": {
+       "point": 0.9551045510455105,
+       "lo": 0.9467660059239006,
+       "hi": 0.9632429588322221,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.365,
+        "ci95": 0.06667834809938819
+       },
+       "absolute_reduction": 7.765000000000001,
+       "absolute_reduction_ci95": 0.4212411777409248,
+       "denied_share": 0.7175,
+       "hosts": {
+        "n": 400,
+        "mean": 0.365,
+        "ci95": 0.06667834809938819
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 113,
+         "mean": 7059.161515778761,
+         "ci95": 842.9902857370224
+        },
+        "median_observed": 7266.882353,
+        "censored_share": 0.7175,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.8027076239299252,
+        "ci95": 0.01094886757179117
+       },
+       "rank": 1
+      },
+      "host_topology": {
+       "point": 0.9572570725707257,
+       "lo": 0.9497476516391332,
+       "hi": 0.9645040645122495,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 0.3475,
+        "ci95": 0.05982620589909332
+       },
+       "absolute_reduction": 7.782500000000001,
+       "absolute_reduction_ci95": 0.4202110215493865,
+       "denied_share": 0.7125,
+       "hosts": {
+        "n": 400,
+        "mean": 0.3475,
+        "ci95": 0.05982620589909332
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 115,
+         "mean": 6571.201820347826,
+         "ci95": 845.3830233711795
+        },
+        "median_observed": 5897.885592,
+        "censored_share": 0.7125,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.7999379158308355,
+        "ci95": 0.011105570396952365
+       },
+       "rank": 1
+      },
+      "port_shuffle": {
+       "point": 0.19895448954489547,
+       "lo": 0.13803584838089075,
+       "hi": 0.2541827674447725,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 6.5125,
+        "ci95": 0.35743948696542344
+       },
+       "absolute_reduction": 1.6175000000000006,
+       "absolute_reduction_ci95": 0.5484169167352548,
+       "denied_share": 0.045,
+       "hosts": {
+        "n": 400,
+        "mean": 6.5125,
+        "ci95": 0.35743948696542344
+       },
+       "asp": 0.0425,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 382,
+         "mean": 2294.7176988219894,
+         "ci95": 201.41766174479434
+        },
+        "median_observed": 1761.564427,
+        "censored_share": 0.04500000000000004,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.24453955567077684,
+        "ci95": 0.009513825517508429
+       },
+       "rank": 5
+      },
+      "user_shuffle": {
+       "point": -0.13530135301353008,
+       "lo": -0.22050514512940378,
+       "hi": -0.05435272458979359,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 9.23,
+        "ci95": 0.47599234255966627
+       },
+       "absolute_reduction": -1.0999999999999996,
+       "absolute_reduction_ci95": 0.6321129945624728,
+       "denied_share": 0.0325,
+       "hosts": {
+        "n": 400,
+        "mean": 9.23,
+        "ci95": 0.47599234255966627
+       },
+       "asp": 0.1,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 387,
+         "mean": 2082.493229080103,
+         "ci95": 185.7140359656126
+        },
+        "median_observed": 1607.907197,
+        "censored_share": 0.03249999999999997,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.23970437869973826,
+        "ci95": 0.009612762233950595
+       },
+       "rank": 7
+      },
+      "os_diversity": {
+       "point": 0.07011070110701123,
+       "lo": 0.0006421583897920358,
+       "hi": 0.13545499108734396,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 7.56,
+        "ci95": 0.38370128000920434
+       },
+       "absolute_reduction": 0.5700000000000012,
+       "absolute_reduction_ci95": 0.5658840870708417,
+       "denied_share": 0.0425,
+       "hosts": {
+        "n": 400,
+        "mean": 7.56,
+        "ci95": 0.38370128000920434
+       },
+       "asp": 0.0725,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 383,
+         "mean": 2324.337092678851,
+         "ci95": 210.31863566892306
+        },
+        "median_observed": 1771.243465,
+        "censored_share": 0.04249999999999998,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.24805235831098038,
+        "ci95": 0.009967184284708662
+       },
+       "rank": 6
+      },
+      "service_diversity": {
+       "point": 0.3600861008610087,
+       "lo": 0.3103468991643202,
+       "hi": 0.4061958839465571,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 5.2025,
+        "ci95": 0.28228826159013237
+       },
+       "absolute_reduction": 2.927500000000001,
+       "absolute_reduction_ci95": 0.5026776206982734,
+       "denied_share": 0.0475,
+       "hosts": {
+        "n": 400,
+        "mean": 5.2025,
+        "ci95": 0.28228826159013237
+       },
+       "asp": 0.0175,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 381,
+         "mean": 2277.350491204724,
+         "ci95": 205.40264861855348
+        },
+        "median_observed": 1741.556683,
+        "censored_share": 0.04749999999999999,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.23421817399839942,
+        "ci95": 0.008848822246256542
+       },
+       "rank": 3
+      },
+      "random": {
+       "point": 0.7456949569495696,
+       "lo": 0.7180681958528634,
+       "hi": 0.7712912348671255,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 2.0675,
+        "ci95": 0.18521412596273595
+       },
+       "absolute_reduction": 6.062500000000001,
+       "absolute_reduction_ci95": 0.45530473331104143,
+       "denied_share": 0.1725,
+       "hosts": {
+        "n": 400,
+        "mean": 2.0675,
+        "ci95": 0.18521412596273595
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 331,
+         "mean": 4651.268859395769,
+         "ci95": 398.90288029998
+        },
+        "median_observed": 3383.332263,
+        "censored_share": 0.1725,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.6386464942216854,
+        "ci95": 0.015990319846621005
+       },
+       "rank": 2
+      },
+      "alternative": {
+       "point": 0.7164821648216482,
+       "lo": 0.6873968538682353,
+       "hi": 0.7417159576973946,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 2.305,
+        "ci95": 0.18777047766009908
+       },
+       "absolute_reduction": 5.825000000000001,
+       "absolute_reduction_ci95": 0.45635061082461587,
+       "denied_share": 0.1275,
+       "hosts": {
+        "n": 400,
+        "mean": 2.305,
+        "ci95": 0.18777047766009908
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 349,
+         "mean": 4511.491635487105,
+         "ci95": 365.7377319025742
+        },
+        "median_observed": 3559.65953,
+        "censored_share": 0.12749999999999995,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.6173678286128887,
+        "ci95": 0.016579658231153482
+       },
+       "rank": 2
+      },
+      "mtdshield": {
+       "point": 0.28167281672816735,
+       "lo": 0.22138335356066244,
+       "hi": 0.33536091075786106,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 5.84,
+        "ci95": 0.334113299409205
+       },
+       "absolute_reduction": 2.290000000000001,
+       "absolute_reduction_ci95": 0.5335070988856694,
+       "denied_share": 0.0375,
+       "hosts": {
+        "n": 400,
+        "mean": 5.84,
+        "ci95": 0.334113299409205
+       },
+       "asp": 0.0275,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 385,
+         "mean": 2131.4019287376623,
+         "ci95": 187.51043777461626
+        },
+        "median_observed": 1616.905994,
+        "censored_share": 0.03749999999999998,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.23749165289379487,
+        "ci95": 0.009575956036201098
+       },
+       "rank": 4
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 400,
+       "mean": 8.13,
+       "ci95": 0.41593043615405
+      },
+      "asp": 0.09,
+      "delay": {
+       "n": 400,
+       "observed": {
+        "n": 386,
+        "mean": 2100.143026634714,
+        "ci95": 194.53835380963284
+       },
+       "median_observed": 1605.888598,
+       "censored_share": 0.03500000000000003,
+       "horizon": 15000
+      },
+      "blocked": {
+       "n": 400,
+       "mean": 0.23911194558559226,
+       "ci95": 0.009996298838402105
+      }
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "ip_shuffle",
+        "host_topology",
+        "complete_topology"
+       ],
+       [
+        "random",
+        "alternative"
+       ],
+       [
+        "service_diversity"
+       ],
+       [
+        "mtdshield"
+       ],
+       [
+        "port_shuffle"
+       ],
+       [
+        "os_diversity"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "ip_shuffle",
+        "host_topology",
+        "complete_topology"
+       ],
+       [
+        "random",
+        "alternative"
+       ],
+       [
+        "service_diversity"
+       ],
+       [
+        "mtdshield"
+       ],
+       [
+        "port_shuffle"
+       ],
+       [
+        "os_diversity"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "merges": [],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 4,
+        "lambda": 877.0345716012642,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "alternative",
+        "treatments": [
+         "ip_shuffle",
+         "host_topology",
+         "complete_topology",
+         "random",
+         "alternative",
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 4,
+        "cut": 2,
+        "lambda": 148.34878418253325,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "complete_topology",
+        "treatments": [
+         "ip_shuffle",
+         "host_topology",
+         "complete_topology",
+         "random",
+         "alternative"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 2,
+        "cut": 0,
+        "lambda": 0.04621201947024121,
+        "critical": 7.1589779780236364,
+        "split": 0.0,
+        "cut_after": "ip_shuffle",
+        "treatments": [
+         "ip_shuffle",
+         "host_topology",
+         "complete_topology"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 4,
+        "cut": 3,
+        "lambda": 1.146857807481896,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "random",
+        "treatments": [
+         "random",
+         "alternative"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 9,
+        "cut": 7,
+        "lambda": 244.0042923874499,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "port_shuffle",
+        "treatments": [
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 7,
+        "cut": 6,
+        "lambda": 26.02053792802635,
+        "critical": 7.1589779780236364,
+        "split": 1.0,
+        "cut_after": "mtdshield",
+        "treatments": [
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 6,
+        "cut": 5,
+        "lambda": 8.220238343659386,
+        "critical": 5.501357838893093,
+        "split": 1.0,
+        "cut_after": "service_diversity",
+        "treatments": [
+         "service_diversity",
+         "mtdshield"
+        ]
+       },
+       {
+        "lo": 8,
+        "hi": 9,
+        "cut": 8,
+        "lambda": 54.486472199629844,
+        "critical": 5.501357838893093,
+        "split": 1.0,
+        "cut_after": "os_diversity",
+        "treatments": [
+         "os_diversity",
+         "user_shuffle"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 3.3877222222222225,
+      "df_residual": 990,
+      "order": [
+       "ip_shuffle",
+       "host_topology",
+       "complete_topology",
+       "random",
+       "alternative",
+       "service_diversity",
+       "mtdshield",
+       "port_shuffle",
+       "os_diversity",
+       "user_shuffle"
+      ],
+      "means": {
+       "ip_shuffle": 0.315,
+       "host_topology": 0.3475,
+       "complete_topology": 0.365,
+       "random": 2.0675,
+       "alternative": 2.305,
+       "service_diversity": 5.2025,
+       "mtdshield": 5.84,
+       "port_shuffle": 6.5125,
+       "os_diversity": 7.56,
+       "user_shuffle": 9.23
+      },
+      "best": "low"
+     }
+    },
+    "baseline": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.6750205423171733,
+       "lo": 0.6212069323370694,
+       "hi": 0.7244944123042799,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 7.91,
+        "ci95": 1.1306099321100356
+       },
+       "absolute_reduction": 16.43,
+       "absolute_reduction_ci95": 2.1810189678638325,
+       "denied_share": 0.07,
+       "hosts": {
+        "n": 100,
+        "mean": 7.91,
+        "ci95": 1.1306099321100356
+       },
+       "asp": 0.2,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 93,
+         "mean": 1439.2568520860214,
+         "ci95": 299.4199527031264
+        },
+        "median_observed": 684.499812,
+        "censored_share": 0.06999999999999995,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 2
+      },
+      "complete_topology": {
+       "point": 0.40632703368940015,
+       "lo": 0.3345465611818125,
+       "hi": 0.4727037214630118,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 14.45,
+        "ci95": 1.2497062119400764
+       },
+       "absolute_reduction": 9.89,
+       "absolute_reduction_ci95": 2.2450680470216433,
+       "denied_share": 0.07,
+       "hosts": {
+        "n": 100,
+        "mean": 14.45,
+        "ci95": 1.2497062119400764
+       },
+       "asp": 0.37,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 93,
+         "mean": 1510.1753779892474,
+         "ci95": 325.4214275740101
+        },
+        "median_observed": 690.14138,
+        "censored_share": 0.06999999999999995,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "host_topology": {
+       "point": 0.395645028759244,
+       "lo": 0.319482616380076,
+       "hi": 0.46322988699236783,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 14.71,
+        "ci95": 1.34393786472531
+       },
+       "absolute_reduction": 9.629999999999999,
+       "absolute_reduction_ci95": 2.2988549114370795,
+       "denied_share": 0.07,
+       "hosts": {
+        "n": 100,
+        "mean": 14.71,
+        "ci95": 1.34393786472531
+       },
+       "asp": 0.32,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 93,
+         "mean": 1470.3814780967748,
+         "ci95": 317.5715313742629
+        },
+        "median_observed": 687.523705,
+        "censored_share": 0.06999999999999995,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "port_shuffle": {
+       "point": 0.9018077239112572,
+       "lo": 0.8728519154893726,
+       "hi": 0.9271061554068314,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 2.39,
+        "ci95": 0.6309104263368976
+       },
+       "absolute_reduction": 21.95,
+       "absolute_reduction_ci95": 1.9689115992488249,
+       "denied_share": 0.29,
+       "hosts": {
+        "n": 100,
+        "mean": 2.39,
+        "ci95": 0.6309104263368976
+       },
+       "asp": 0.03,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 71,
+         "mean": 636.7142309295774,
+         "ci95": 141.42090139034568
+        },
+        "median_observed": 427.019722,
+        "censored_share": 0.29000000000000004,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 1
+      },
+      "user_shuffle": {
+       "point": -0.0669679539852095,
+       "lo": -0.18912495581563132,
+       "hi": 0.039086669600692674,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 25.97,
+        "ci95": 1.9089401537782869
+       },
+       "absolute_reduction": -1.629999999999999,
+       "absolute_reduction_ci95": 2.6688232294970438,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 25.97,
+        "ci95": 1.9089401537782869
+       },
+       "asp": 0.74,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 729.3526612099998,
+         "ci95": 91.9985125565923
+        },
+        "median_observed": 675.9622079999999,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 4
+      },
+      "os_diversity": {
+       "point": 0.6396877567789647,
+       "lo": 0.5671690116438212,
+       "hi": 0.7056548016009278,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 8.77,
+        "ci95": 1.6111727937478126
+       },
+       "absolute_reduction": 15.57,
+       "absolute_reduction_ci95": 2.464638450342989,
+       "denied_share": 0.27,
+       "hosts": {
+        "n": 100,
+        "mean": 8.77,
+        "ci95": 1.6111727937478126
+       },
+       "asp": 0.22,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 73,
+         "mean": 860.0714290410958,
+         "ci95": 381.37932202171396
+        },
+        "median_observed": 467.801729,
+        "censored_share": 0.27,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 2
+      },
+      "service_diversity": {
+       "point": 0.9075595727198028,
+       "lo": 0.8854613060114844,
+       "hi": 0.9280662529809303,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 2.25,
+        "ci95": 0.5162235440918473
+       },
+       "absolute_reduction": 22.09,
+       "absolute_reduction_ci95": 1.935213597273104,
+       "denied_share": 0.27,
+       "hosts": {
+        "n": 100,
+        "mean": 2.25,
+        "ci95": 0.5162235440918473
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 73,
+         "mean": 631.870442150685,
+         "ci95": 139.7275300318108
+        },
+        "median_observed": 432.396415,
+        "censored_share": 0.27,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 1
+      },
+      "random": {
+       "point": 0.33442892358258014,
+       "lo": 0.2540059992020064,
+       "hi": 0.401737879866999,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 16.2,
+        "ci95": 1.312296960726235
+       },
+       "absolute_reduction": 8.14,
+       "absolute_reduction_ci95": 2.2805017502135954,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 16.2,
+        "ci95": 1.312296960726235
+       },
+       "asp": 0.38,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 1002.66115945,
+         "ci95": 246.37726889913642
+        },
+        "median_observed": 490.232842,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "alternative": {
+       "point": 0.3857847165160231,
+       "lo": 0.31352893641923396,
+       "hi": 0.4500358280254775,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 14.95,
+        "ci95": 1.201905742619368
+       },
+       "absolute_reduction": 9.39,
+       "absolute_reduction_ci95": 2.2188155249450943,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 14.95,
+        "ci95": 1.201905742619368
+       },
+       "asp": 0.25,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 895.5959656099999,
+         "ci95": 158.73365526512106
+        },
+        "median_observed": 847.259859,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "mtdshield": {
+       "point": 0.7037797863599013,
+       "lo": 0.6506265324494316,
+       "hi": 0.7487496984515744,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 7.21,
+        "ci95": 1.057987461688894
+       },
+       "absolute_reduction": 17.13,
+       "absolute_reduction_ci95": 2.144271995033948,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 7.21,
+        "ci95": 1.057987461688894
+       },
+       "asp": 0.05,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 476.04739290000015,
+         "ci95": 69.86151607155614
+        },
+        "median_observed": 342.613663,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 2
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 100,
+       "mean": 24.34,
+       "ci95": 1.8650911290325627
+      },
+      "asp": 0.6,
+      "delay": {
+       "n": 100,
+       "observed": {
+        "n": 100,
+        "mean": 674.5496063700004,
+        "ci95": 86.41561662389778
+       },
+       "median_observed": 630.7795725000001,
+       "censored_share": 0.0,
+       "horizon": 15000
+      },
+      "blocked": null
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "service_diversity",
+        "port_shuffle"
+       ],
+       [
+        "mtdshield",
+        "ip_shuffle",
+        "os_diversity"
+       ],
+       [
+        "complete_topology",
+        "host_topology",
+        "alternative",
+        "random"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "service_diversity",
+        "port_shuffle"
+       ],
+       [
+        "mtdshield",
+        "ip_shuffle",
+        "os_diversity"
+       ],
+       [
+        "complete_topology",
+        "host_topology",
+        "alternative",
+        "random"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "merges": [],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 4,
+        "lambda": 522.7799205094201,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "os_diversity",
+        "treatments": [
+         "service_diversity",
+         "port_shuffle",
+         "mtdshield",
+         "ip_shuffle",
+         "os_diversity",
+         "complete_topology",
+         "host_topology",
+         "alternative",
+         "random",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 4,
+        "cut": 1,
+        "lambda": 116.9029826762237,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "port_shuffle",
+        "treatments": [
+         "service_diversity",
+         "port_shuffle",
+         "mtdshield",
+         "ip_shuffle",
+         "os_diversity"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 1,
+        "cut": 0,
+        "lambda": 0.03277538741932382,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "service_diversity",
+        "treatments": [
+         "service_diversity",
+         "port_shuffle"
+        ]
+       },
+       {
+        "lo": 2,
+        "hi": 4,
+        "cut": 3,
+        "lambda": 3.258005450762907,
+        "critical": 7.1589779780236364,
+        "split": 0.0,
+        "cut_after": "ip_shuffle",
+        "treatments": [
+         "mtdshield",
+         "ip_shuffle",
+         "os_diversity"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 9,
+        "cut": 8,
+        "lambda": 257.4073269640132,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "random",
+        "treatments": [
+         "complete_topology",
+         "host_topology",
+         "alternative",
+         "random",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 8,
+        "cut": 7,
+        "lambda": 5.605337017667893,
+        "critical": 8.671598082935285,
+        "split": 0.0,
+        "cut_after": "alternative",
+        "treatments": [
+         "complete_topology",
+         "host_topology",
+         "alternative",
+         "random"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 41.22427272727273,
+      "df_residual": 990,
+      "order": [
+       "service_diversity",
+       "port_shuffle",
+       "mtdshield",
+       "ip_shuffle",
+       "os_diversity",
+       "complete_topology",
+       "host_topology",
+       "alternative",
+       "random",
+       "user_shuffle"
+      ],
+      "means": {
+       "service_diversity": 2.25,
+       "port_shuffle": 2.39,
+       "mtdshield": 7.21,
+       "ip_shuffle": 7.91,
+       "os_diversity": 8.77,
+       "complete_topology": 14.45,
+       "host_topology": 14.71,
+       "alternative": 14.95,
+       "random": 16.2,
+       "user_shuffle": 25.97
+      },
+      "best": "low"
+     }
+    },
+    "spearman_points": -0.0303030303030303,
+    "spearman_sk_ranks": -0.15491933384829668
+   },
+   "500": {
+    "movement": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.8127306273062731,
+       "lo": 0.7902131095789621,
+       "hi": 0.8335333943003321,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 1.5225,
+        "ci95": 0.1575929784035614
+       },
+       "absolute_reduction": 6.607500000000001,
+       "absolute_reduction_ci95": 0.44478497564711367,
+       "denied_share": 0.32,
+       "hosts": {
+        "n": 400,
+        "mean": 1.5225,
+        "ci95": 0.1575929784035614
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 272,
+         "mean": 4876.367235393381,
+         "ci95": 476.32172260970793
+        },
+        "median_observed": 3803.2674305,
+        "censored_share": 0.31999999999999995,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.7331750175656417,
+        "ci95": 0.015147767065245612
+       },
+       "rank": 1
+      },
+      "complete_topology": {
+       "point": 0.7690651906519066,
+       "lo": 0.7469016778322132,
+       "hi": 0.7904727248272272,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 1.8775,
+        "ci95": 0.14644612026390802
+       },
+       "absolute_reduction": 6.252500000000001,
+       "absolute_reduction_ci95": 0.4409587212649832,
+       "denied_share": 0.1825,
+       "hosts": {
+        "n": 400,
+        "mean": 1.8775,
+        "ci95": 0.14644612026390802
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 327,
+         "mean": 4505.526511324158,
+         "ci95": 385.786243671051
+        },
+        "median_observed": 3393.490294,
+        "censored_share": 0.1825,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.6694756090328384,
+        "ci95": 0.014720715413754512
+       },
+       "rank": 1
+      },
+      "host_topology": {
+       "point": 0.7690651906519066,
+       "lo": 0.7453787789819304,
+       "hi": 0.7914120784840346,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 1.8775,
+        "ci95": 0.16397050280301584
+       },
+       "absolute_reduction": 6.252500000000001,
+       "absolute_reduction_ci95": 0.44708439193151434,
+       "denied_share": 0.2075,
+       "hosts": {
+        "n": 400,
+        "mean": 1.8775,
+        "ci95": 0.16397050280301584
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 317,
+         "mean": 4749.487862671921,
+         "ci95": 414.05763715146117
+        },
+        "median_observed": 3531.409654,
+        "censored_share": 0.20750000000000002,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.6670274168970817,
+        "ci95": 0.01526881241249809
+       },
+       "rank": 1
+      },
+      "port_shuffle": {
+       "point": 0.052890528905289114,
+       "lo": -0.019734035471269312,
+       "hi": 0.11795205682154485,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 7.7,
+        "ci95": 0.40617358660570274
+       },
+       "absolute_reduction": 0.4300000000000006,
+       "absolute_reduction_ci95": 0.5813562678559839,
+       "denied_share": 0.035,
+       "hosts": {
+        "n": 400,
+        "mean": 7.7,
+        "ci95": 0.40617358660570274
+       },
+       "asp": 0.0675,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 386,
+         "mean": 2152.8472479145094,
+         "ci95": 193.1452405511831
+        },
+        "median_observed": 1621.992151,
+        "censored_share": 0.03500000000000003,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.23421543319763083,
+        "ci95": 0.00925107910917717
+       },
+       "rank": 4
+      },
+      "user_shuffle": {
+       "point": -0.08118081180811787,
+       "lo": -0.16006470338168144,
+       "hi": -0.005615810477078238,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 8.79,
+        "ci95": 0.4607685022129651
+       },
+       "absolute_reduction": -0.6599999999999984,
+       "absolute_reduction_ci95": 0.6207300060017054,
+       "denied_share": 0.0325,
+       "hosts": {
+        "n": 400,
+        "mean": 8.79,
+        "ci95": 0.4607685022129651
+       },
+       "asp": 0.095,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 387,
+         "mean": 2117.2123962764845,
+         "ci95": 188.59042277597132
+        },
+        "median_observed": 1662.292635,
+        "censored_share": 0.03249999999999997,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.24153036213337298,
+        "ci95": 0.009708439183283912
+       },
+       "rank": 5
+      },
+      "os_diversity": {
+       "point": -0.01322263222632225,
+       "lo": -0.09132756060693437,
+       "hi": 0.05904955062563753,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 8.2375,
+        "ci95": 0.40731091297013056
+       },
+       "absolute_reduction": -0.10749999999999993,
+       "absolute_reduction_ci95": 0.5821514472573779,
+       "denied_share": 0.0375,
+       "hosts": {
+        "n": 400,
+        "mean": 8.2375,
+        "ci95": 0.40731091297013056
+       },
+       "asp": 0.09,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 385,
+         "mean": 2160.50295775065,
+         "ci95": 193.6769238448377
+        },
+        "median_observed": 1644.467982,
+        "censored_share": 0.03749999999999998,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.2393112932039651,
+        "ci95": 0.009539795909106318
+       },
+       "rank": 4
+      },
+      "service_diversity": {
+       "point": 0.2063345633456336,
+       "lo": 0.14646650872748357,
+       "hi": 0.2660811245496654,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 6.4525,
+        "ci95": 0.3463988617237487
+       },
+       "absolute_reduction": 1.677500000000001,
+       "absolute_reduction_ci95": 0.5412857832262057,
+       "denied_share": 0.035,
+       "hosts": {
+        "n": 400,
+        "mean": 6.4525,
+        "ci95": 0.3463988617237487
+       },
+       "asp": 0.0525,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 386,
+         "mean": 2184.240779544042,
+         "ci95": 193.96837744735413
+        },
+        "median_observed": 1685.0604844999998,
+        "censored_share": 0.03500000000000003,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.2358316503338239,
+        "ci95": 0.009500289371239866
+       },
+       "rank": 3
+      },
+      "random": {
+       "point": 0.43480934809348104,
+       "lo": 0.3873830030197111,
+       "hi": 0.48113411380348897,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 4.595,
+        "ci95": 0.29200333691916946
+       },
+       "absolute_reduction": 3.535000000000001,
+       "absolute_reduction_ci95": 0.5081968875261124,
+       "denied_share": 0.035,
+       "hosts": {
+        "n": 400,
+        "mean": 4.595,
+        "ci95": 0.29200333691916946
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 386,
+         "mean": 3322.649623344562,
+         "ci95": 294.71125350541746
+        },
+        "median_observed": 2379.2501925,
+        "censored_share": 0.03500000000000003,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.4813631619250844,
+        "ci95": 0.0173337241155602
+       },
+       "rank": 2
+      },
+      "alternative": {
+       "point": 0.3948339483394835,
+       "lo": 0.34859321301011653,
+       "hi": 0.4372739334472825,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 4.92,
+        "ci95": 0.2826650016501775
+       },
+       "absolute_reduction": 3.210000000000001,
+       "absolute_reduction_ci95": 0.5028892829213931,
+       "denied_share": 0.0175,
+       "hosts": {
+        "n": 400,
+        "mean": 4.92,
+        "ci95": 0.2826650016501775
+       },
+       "asp": 0.005,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 393,
+         "mean": 3607.4949202468197,
+         "ci95": 292.8166104473039
+        },
+        "median_observed": 2569.874639,
+        "censored_share": 0.01749999999999996,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.45060522361492245,
+        "ci95": 0.01504268980599792
+       },
+       "rank": 2
+      },
+      "mtdshield": {
+       "point": 0.16389913899138997,
+       "lo": 0.09787598830500806,
+       "hi": 0.2228585384420198,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 6.7975,
+        "ci95": 0.3740457747107262
+       },
+       "absolute_reduction": 1.3325000000000005,
+       "absolute_reduction_ci95": 0.5593821317295052,
+       "denied_share": 0.04,
+       "hosts": {
+        "n": 400,
+        "mean": 6.7975,
+        "ci95": 0.3740457747107262
+       },
+       "asp": 0.0375,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 384,
+         "mean": 2130.3657255755234,
+         "ci95": 199.48260994798483
+        },
+        "median_observed": 1614.4796569999999,
+        "censored_share": 0.040000000000000036,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.24559893581467018,
+        "ci95": 0.010982745315191797
+       },
+       "rank": 3
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 400,
+       "mean": 8.13,
+       "ci95": 0.41593043615405
+      },
+      "asp": 0.09,
+      "delay": {
+       "n": 400,
+       "observed": {
+        "n": 386,
+        "mean": 2100.143026634714,
+        "ci95": 194.53835380963284
+       },
+       "median_observed": 1605.888598,
+       "censored_share": 0.03500000000000003,
+       "horizon": 15000
+      },
+      "blocked": {
+       "n": 400,
+       "mean": 0.23911194558559226,
+       "ci95": 0.009996298838402105
+      }
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "ip_shuffle",
+        "complete_topology",
+        "host_topology"
+       ],
+       [
+        "random",
+        "alternative"
+       ],
+       [
+        "service_diversity",
+        "mtdshield"
+       ],
+       [
+        "port_shuffle",
+        "os_diversity"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "ip_shuffle",
+        "complete_topology",
+        "host_topology"
+       ],
+       [
+        "random",
+        "alternative"
+       ],
+       [
+        "service_diversity",
+        "mtdshield"
+       ],
+       [
+        "port_shuffle",
+        "os_diversity"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "merges": [],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 4,
+        "lambda": 657.7088361430173,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "alternative",
+        "treatments": [
+         "ip_shuffle",
+         "complete_topology",
+         "host_topology",
+         "random",
+         "alternative",
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 4,
+        "cut": 2,
+        "lambda": 268.9802987456411,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "host_topology",
+        "treatments": [
+         "ip_shuffle",
+         "complete_topology",
+         "host_topology",
+         "random",
+         "alternative"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 2,
+        "cut": 0,
+        "lambda": 2.6048769572443016,
+        "critical": 7.1589779780236364,
+        "split": 0.0,
+        "cut_after": "ip_shuffle",
+        "treatments": [
+         "ip_shuffle",
+         "complete_topology",
+         "host_topology"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 4,
+        "cut": 3,
+        "lambda": 1.6369240777369336,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "random",
+        "treatments": [
+         "random",
+         "alternative"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 9,
+        "cut": 6,
+        "lambda": 89.9641570842307,
+        "critical": 10.09762430302654,
+        "split": 1.0,
+        "cut_after": "mtdshield",
+        "treatments": [
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 6,
+        "cut": 5,
+        "lambda": 1.8443100638065213,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "service_diversity",
+        "treatments": [
+         "service_diversity",
+         "mtdshield"
+        ]
+       },
+       {
+        "lo": 7,
+        "hi": 9,
+        "cut": 8,
+        "lambda": 13.781087521686255,
+        "critical": 7.1589779780236364,
+        "split": 1.0,
+        "cut_after": "os_diversity",
+        "treatments": [
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 7,
+        "hi": 8,
+        "cut": 7,
+        "lambda": 4.468028662899514,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "port_shuffle",
+        "treatments": [
+         "port_shuffle",
+         "os_diversity"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 4.442958333333333,
+      "df_residual": 990,
+      "order": [
+       "ip_shuffle",
+       "complete_topology",
+       "host_topology",
+       "random",
+       "alternative",
+       "service_diversity",
+       "mtdshield",
+       "port_shuffle",
+       "os_diversity",
+       "user_shuffle"
+      ],
+      "means": {
+       "ip_shuffle": 1.5225,
+       "complete_topology": 1.8775,
+       "host_topology": 1.8775,
+       "random": 4.595,
+       "alternative": 4.92,
+       "service_diversity": 6.4525,
+       "mtdshield": 6.7975,
+       "port_shuffle": 7.7,
+       "os_diversity": 8.2375,
+       "user_shuffle": 8.79
+      },
+      "best": "low"
+     }
+    },
+    "baseline": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.37510271158586683,
+       "lo": 0.2922869922979872,
+       "hi": 0.4444479166666667,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 15.21,
+        "ci95": 1.4254853557276341
+       },
+       "absolute_reduction": 9.129999999999999,
+       "absolute_reduction_ci95": 2.3474610580348076,
+       "denied_share": 0.01,
+       "hosts": {
+        "n": 100,
+        "mean": 15.21,
+        "ci95": 1.4254853557276341
+       },
+       "asp": 0.69,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 99,
+         "mean": 504.80070461616185,
+         "ci95": 106.52088707712463
+        },
+        "median_observed": 380.968427,
+        "censored_share": 0.010000000000000009,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 2
+      },
+      "complete_topology": {
+       "point": 0.06737880032867705,
+       "lo": -0.02835119328701036,
+       "hi": 0.14986668673420644,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 22.7,
+        "ci95": 1.3632041281295675
+       },
+       "absolute_reduction": 1.6400000000000006,
+       "absolute_reduction_ci95": 2.310171079064374,
+       "denied_share": 0.01,
+       "hosts": {
+        "n": 100,
+        "mean": 22.7,
+        "ci95": 1.3632041281295675
+       },
+       "asp": 0.79,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 99,
+         "mean": 523.4630385959596,
+         "ci95": 123.99494127411643
+        },
+        "median_observed": 379.506335,
+        "censored_share": 0.010000000000000009,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "host_topology": {
+       "point": 0.0069843878389481695,
+       "lo": -0.09526143920549916,
+       "hi": 0.09597013029290105,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 24.17,
+        "ci95": 1.5395432674411045
+       },
+       "absolute_reduction": 0.16999999999999815,
+       "absolute_reduction_ci95": 2.4184206399878394,
+       "denied_share": 0.01,
+       "hosts": {
+        "n": 100,
+        "mean": 24.17,
+        "ci95": 1.5395432674411045
+       },
+       "asp": 0.64,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 99,
+         "mean": 512.9581876868688,
+         "ci95": 131.58611731425967
+        },
+        "median_observed": 350.872091,
+        "censored_share": 0.010000000000000009,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "port_shuffle": {
+       "point": 0.06450287592440429,
+       "lo": -0.04894249902458054,
+       "hi": 0.16570194309667466,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 22.77,
+        "ci95": 2.002860246061249
+       },
+       "absolute_reduction": 1.5700000000000003,
+       "absolute_reduction_ci95": 2.736789009925406,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 22.77,
+        "ci95": 2.002860246061249
+       },
+       "asp": 0.58,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 501.0751223399999,
+         "ci95": 81.27498818602335
+        },
+        "median_observed": 335.840592,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "user_shuffle": {
+       "point": -0.10599835661462631,
+       "lo": -0.22181428099931125,
+       "hi": -0.0015711311758079137,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 26.92,
+        "ci95": 1.839630413474897
+       },
+       "absolute_reduction": -2.580000000000002,
+       "absolute_reduction_ci95": 2.619695588761751,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 26.92,
+        "ci95": 1.839630413474897
+       },
+       "asp": 0.76,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 693.5373670900001,
+         "ci95": 87.14833274858668
+        },
+        "median_observed": 640.0337850000001,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 4
+      },
+      "os_diversity": {
+       "point": 0.009038619556285932,
+       "lo": -0.11255441178913199,
+       "hi": 0.10999802138248355,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 24.12,
+        "ci95": 1.9667750380002818
+       },
+       "absolute_reduction": 0.21999999999999886,
+       "absolute_reduction_ci95": 2.710492385102192,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 24.12,
+        "ci95": 1.9667750380002818
+       },
+       "asp": 0.7,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 502.39337313,
+         "ci95": 75.67643782346754
+        },
+        "median_observed": 382.520041,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "service_diversity": {
+       "point": 0.6635168447000822,
+       "lo": 0.6191020561026829,
+       "hi": 0.6999298455756305,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 8.19,
+        "ci95": 0.7540759429107706
+       },
+       "absolute_reduction": 16.15,
+       "absolute_reduction_ci95": 2.011764262351016,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 8.19,
+        "ci95": 0.7540759429107706
+       },
+       "asp": 0.05,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 478.7753580199999,
+         "ci95": 77.38910427065422
+        },
+        "median_observed": 329.13324450000005,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 1
+      },
+      "random": {
+       "point": 0.020542317173377178,
+       "lo": -0.08622041111239365,
+       "hi": 0.11803405572755421,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 23.84,
+        "ci95": 1.8051443184701461
+       },
+       "absolute_reduction": 0.5,
+       "absolute_reduction_ci95": 2.5955945234379367,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 23.84,
+        "ci95": 1.8051443184701461
+       },
+       "asp": 0.51,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 493.50926881,
+         "ci95": 70.55559217145874
+        },
+        "median_observed": 386.6398115,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "alternative": {
+       "point": 0.03533278553820873,
+       "lo": -0.05972886247475583,
+       "hi": 0.11921319789204984,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 23.48,
+        "ci95": 1.326262277944672
+       },
+       "absolute_reduction": 0.8599999999999994,
+       "absolute_reduction_ci95": 2.2885664835208415,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 23.48,
+        "ci95": 1.326262277944672
+       },
+       "asp": 0.6,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 500.4806294699998,
+         "ci95": 76.55721865510922
+        },
+        "median_observed": 385.2237555,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "mtdshield": {
+       "point": 0.399342645850452,
+       "lo": 0.3263242491233042,
+       "hi": 0.4697427935317552,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 14.62,
+        "ci95": 1.3587220115411631
+       },
+       "absolute_reduction": 9.72,
+       "absolute_reduction_ci95": 2.3075290733254965,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 14.62,
+        "ci95": 1.3587220115411631
+       },
+       "asp": 0.18,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 498.56517057999986,
+         "ci95": 75.98073751267317
+        },
+        "median_observed": 341.2514725,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 2
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 100,
+       "mean": 24.34,
+       "ci95": 1.8650911290325627
+      },
+      "asp": 0.6,
+      "delay": {
+       "n": 100,
+       "observed": {
+        "n": 100,
+        "mean": 674.5496063700004,
+        "ci95": 86.41561662389778
+       },
+       "median_observed": 630.7795725000001,
+       "censored_share": 0.0,
+       "horizon": 15000
+      },
+      "blocked": null
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "service_diversity"
+       ],
+       [
+        "mtdshield",
+        "ip_shuffle"
+       ],
+       [
+        "complete_topology",
+        "port_shuffle",
+        "alternative",
+        "random",
+        "os_diversity",
+        "host_topology"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "service_diversity"
+       ],
+       [
+        "mtdshield",
+        "ip_shuffle"
+       ],
+       [
+        "complete_topology",
+        "port_shuffle",
+        "alternative",
+        "random",
+        "os_diversity",
+        "host_topology"
+       ],
+       [
+        "user_shuffle"
+       ]
+      ],
+      "merges": [],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 2,
+        "lambda": 388.1940750305722,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "ip_shuffle",
+        "treatments": [
+         "service_diversity",
+         "mtdshield",
+         "ip_shuffle",
+         "complete_topology",
+         "port_shuffle",
+         "alternative",
+         "random",
+         "os_diversity",
+         "host_topology",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 2,
+        "cut": 0,
+        "lambda": 61.16911638998452,
+        "critical": 7.1589779780236364,
+        "split": 1.0,
+        "cut_after": "service_diversity",
+        "treatments": [
+         "service_diversity",
+         "mtdshield",
+         "ip_shuffle"
+        ]
+       },
+       {
+        "lo": 1,
+        "hi": 2,
+        "cut": 1,
+        "lambda": 0.3692893510571757,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "mtdshield",
+        "treatments": [
+         "mtdshield",
+         "ip_shuffle"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 9,
+        "cut": 8,
+        "lambda": 20.827266113982365,
+        "critical": 12.788383595088264,
+        "split": 1.0,
+        "cut_after": "host_topology",
+        "treatments": [
+         "complete_topology",
+         "port_shuffle",
+         "alternative",
+         "random",
+         "os_diversity",
+         "host_topology",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 8,
+        "cut": 4,
+        "lambda": 3.8599393596509826,
+        "critical": 11.46469925490206,
+        "split": 0.0,
+        "cut_after": "port_shuffle",
+        "treatments": [
+         "complete_topology",
+         "port_shuffle",
+         "alternative",
+         "random",
+         "os_diversity",
+         "host_topology"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 64.96432323232324,
+      "df_residual": 990,
+      "order": [
+       "service_diversity",
+       "mtdshield",
+       "ip_shuffle",
+       "complete_topology",
+       "port_shuffle",
+       "alternative",
+       "random",
+       "os_diversity",
+       "host_topology",
+       "user_shuffle"
+      ],
+      "means": {
+       "service_diversity": 8.19,
+       "mtdshield": 14.62,
+       "ip_shuffle": 15.21,
+       "complete_topology": 22.7,
+       "port_shuffle": 22.77,
+       "alternative": 23.48,
+       "random": 23.84,
+       "os_diversity": 24.12,
+       "host_topology": 24.17,
+       "user_shuffle": 26.92
+      },
+      "best": "low"
+     }
+    },
+    "spearman_points": 0.2796365500928297,
+    "spearman_sk_ranks": 0.28368189841402175
+   },
+   "1000": {
+    "movement": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.567650676506765,
+       "lo": 0.5255230106100796,
+       "hi": 0.6069837732634541,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 3.515,
+        "ci95": 0.2837049529896809
+       },
+       "absolute_reduction": 4.615,
+       "absolute_reduction_ci95": 0.5034745555340164,
+       "denied_share": 0.1425,
+       "hosts": {
+        "n": 400,
+        "mean": 3.515,
+        "ci95": 0.2837049529896809
+       },
+       "asp": 0.02,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 343,
+         "mean": 3565.860264976678,
+         "ci95": 363.56565278801827
+        },
+        "median_observed": 2078.314003,
+        "censored_share": 0.14249999999999996,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.6063516641732574,
+        "ci95": 0.01942736066504413
+       },
+       "rank": 1
+      },
+      "complete_topology": {
+       "point": 0.4538745387453874,
+       "lo": 0.40876375162873413,
+       "hi": 0.4954780424215193,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 4.44,
+        "ci95": 0.2604673370774354
+       },
+       "absolute_reduction": 3.6900000000000004,
+       "absolute_reduction_ci95": 0.49075590816974257,
+       "denied_share": 0.0325,
+       "hosts": {
+        "n": 400,
+        "mean": 4.44,
+        "ci95": 0.2604673370774354
+       },
+       "asp": 0.0,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 387,
+         "mean": 3301.9246845064595,
+         "ci95": 277.28337793738103
+        },
+        "median_observed": 2545.764938,
+        "censored_share": 0.03249999999999997,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.5159985798898662,
+        "ci95": 0.01681359872920345
+       },
+       "rank": 2
+      },
+      "host_topology": {
+       "point": 0.4637146371463715,
+       "lo": 0.41825353419155786,
+       "hi": 0.5036607258203428,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 4.36,
+        "ci95": 0.2731691693579629
+       },
+       "absolute_reduction": 3.7700000000000005,
+       "absolute_reduction_ci95": 0.4976138289949522,
+       "denied_share": 0.045,
+       "hosts": {
+        "n": 400,
+        "mean": 4.36,
+        "ci95": 0.2731691693579629
+       },
+       "asp": 0.0025,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 382,
+         "mean": 3310.927065141363,
+         "ci95": 285.9087508483245
+        },
+        "median_observed": 2569.200916,
+        "censored_share": 0.04500000000000004,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.5228023151660186,
+        "ci95": 0.017375819483348553
+       },
+       "rank": 2
+      },
+      "port_shuffle": {
+       "point": 0.0359778597785978,
+       "lo": -0.03486157944270712,
+       "hi": 0.10485024595574371,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 7.8375,
+        "ci95": 0.4013578761365501
+       },
+       "absolute_reduction": 0.2925000000000004,
+       "absolute_reduction_ci95": 0.5780019657891661,
+       "denied_share": 0.035,
+       "hosts": {
+        "n": 400,
+        "mean": 7.8375,
+        "ci95": 0.4013578761365501
+       },
+       "asp": 0.0725,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 386,
+         "mean": 2091.6979306165795,
+         "ci95": 188.1480962039995
+        },
+        "median_observed": 1613.9416555,
+        "censored_share": 0.03500000000000003,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.23840147607520265,
+        "ci95": 0.009320772274646682
+       },
+       "rank": 4
+      },
+      "user_shuffle": {
+       "point": -0.06396063960639609,
+       "lo": -0.14321867706601246,
+       "hi": 0.010248441888229019,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 8.65,
+        "ci95": 0.453572253862253
+       },
+       "absolute_reduction": -0.5199999999999996,
+       "absolute_reduction_ci95": 0.6154071150002919,
+       "denied_share": 0.0325,
+       "hosts": {
+        "n": 400,
+        "mean": 8.65,
+        "ci95": 0.453572253862253
+       },
+       "asp": 0.0925,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 387,
+         "mean": 2127.619050832042,
+         "ci95": 188.42590807448101
+        },
+        "median_observed": 1616.06485,
+        "censored_share": 0.03249999999999997,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.23485903834037206,
+        "ci95": 0.009492221925330125
+       },
+       "rank": 5
+      },
+      "os_diversity": {
+       "point": -0.03413284132841321,
+       "lo": -0.11003881354281586,
+       "hi": 0.039323411616857686,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 8.4075,
+        "ci95": 0.42574912986281876
+       },
+       "absolute_reduction": -0.27749999999999986,
+       "absolute_reduction_ci95": 0.5951978236672624,
+       "denied_share": 0.0325,
+       "hosts": {
+        "n": 400,
+        "mean": 8.4075,
+        "ci95": 0.42574912986281876
+       },
+       "asp": 0.09,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 387,
+         "mean": 2110.7988014651164,
+         "ci95": 188.98400103330428
+        },
+        "median_observed": 1643.691997,
+        "censored_share": 0.03249999999999997,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.242389612419625,
+        "ci95": 0.010321115374726231
+       },
+       "rank": 5
+      },
+      "service_diversity": {
+       "point": 0.09286592865928667,
+       "lo": 0.02001650111451802,
+       "hi": 0.1572683918588126,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 7.375,
+        "ci95": 0.3779874916708873
+       },
+       "absolute_reduction": 0.7550000000000008,
+       "absolute_reduction_ci95": 0.5620255079433205,
+       "denied_share": 0.035,
+       "hosts": {
+        "n": 400,
+        "mean": 7.375,
+        "ci95": 0.3779874916708873
+       },
+       "asp": 0.0475,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 386,
+         "mean": 2075.0975468730553,
+         "ci95": 184.94316674987428
+        },
+        "median_observed": 1607.0420405,
+        "censored_share": 0.03500000000000003,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.2354460137183391,
+        "ci95": 0.00951022218187865
+       },
+       "rank": 4
+      },
+      "random": {
+       "point": 0.17589175891758924,
+       "lo": 0.10836819841358092,
+       "hi": 0.2347731612381554,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 6.7,
+        "ci95": 0.36589385863864055
+       },
+       "absolute_reduction": 1.4300000000000006,
+       "absolute_reduction_ci95": 0.5539642980452548,
+       "denied_share": 0.0175,
+       "hosts": {
+        "n": 400,
+        "mean": 6.7,
+        "ci95": 0.36589385863864055
+       },
+       "asp": 0.02,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 393,
+         "mean": 2744.178376521629,
+         "ci95": 252.53060027770124
+        },
+        "median_observed": 1893.410588,
+        "censored_share": 0.01749999999999996,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.3863794475727885,
+        "ci95": 0.017160778338487996
+       },
+       "rank": 3
+      },
+      "alternative": {
+       "point": 0.1522140221402215,
+       "lo": 0.08918871335475244,
+       "hi": 0.20930468623536397,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 6.8925,
+        "ci95": 0.3262627810227544
+       },
+       "absolute_reduction": 1.2375000000000007,
+       "absolute_reduction_ci95": 0.5286260776768396,
+       "denied_share": 0.0125,
+       "hosts": {
+        "n": 400,
+        "mean": 6.8925,
+        "ci95": 0.3262627810227544
+       },
+       "asp": 0.0175,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 395,
+         "mean": 2950.5109972734203,
+         "ci95": 220.38065891506386
+        },
+        "median_observed": 2618.907694,
+        "censored_share": 0.012499999999999956,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.35516096700570216,
+        "ci95": 0.014242633107905295
+       },
+       "rank": 3
+      },
+      "mtdshield": {
+       "point": 0.08579335793357945,
+       "lo": 0.018368801413135953,
+       "hi": 0.1517316214254144,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 7.4325,
+        "ci95": 0.38780759223678307
+       },
+       "absolute_reduction": 0.6975000000000007,
+       "absolute_reduction_ci95": 0.568676407384542,
+       "denied_share": 0.0375,
+       "hosts": {
+        "n": 400,
+        "mean": 7.4325,
+        "ci95": 0.38780759223678307
+       },
+       "asp": 0.045,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 385,
+         "mean": 2142.6682836077935,
+         "ci95": 200.861744840889
+        },
+        "median_observed": 1612.354147,
+        "censored_share": 0.03749999999999998,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.2577070265007633,
+        "ci95": 0.011917854847934742
+       },
+       "rank": 4
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 400,
+       "mean": 8.13,
+       "ci95": 0.41593043615405
+      },
+      "asp": 0.09,
+      "delay": {
+       "n": 400,
+       "observed": {
+        "n": 386,
+        "mean": 2100.143026634714,
+        "ci95": 194.53835380963284
+       },
+       "median_observed": 1605.888598,
+       "censored_share": 0.03500000000000003,
+       "horizon": 15000
+      },
+      "blocked": {
+       "n": 400,
+       "mean": 0.23911194558559226,
+       "ci95": 0.009996298838402105
+      }
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "ip_shuffle"
+       ],
+       [
+        "host_topology",
+        "complete_topology"
+       ],
+       [
+        "random",
+        "alternative"
+       ],
+       [
+        "service_diversity",
+        "mtdshield",
+        "port_shuffle"
+       ],
+       [
+        "os_diversity",
+        "user_shuffle"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "ip_shuffle"
+       ],
+       [
+        "host_topology",
+        "complete_topology"
+       ],
+       [
+        "random",
+        "alternative"
+       ],
+       [
+        "service_diversity",
+        "mtdshield"
+       ],
+       [
+        "port_shuffle"
+       ],
+       [
+        "os_diversity",
+        "user_shuffle"
+       ]
+      ],
+      "merges": [
+       {
+        "upper": [
+         "service_diversity",
+         "mtdshield"
+        ],
+        "lower": [
+         "port_shuffle"
+        ],
+        "d": 0.17017988586151897
+       }
+      ],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 2,
+        "lambda": 428.5251740710977,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "complete_topology",
+        "treatments": [
+         "ip_shuffle",
+         "host_topology",
+         "complete_topology",
+         "random",
+         "alternative",
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 2,
+        "cut": 0,
+        "lambda": 13.222381187244082,
+        "critical": 7.1589779780236364,
+        "split": 1.0,
+        "cut_after": "ip_shuffle",
+        "treatments": [
+         "ip_shuffle",
+         "host_topology",
+         "complete_topology"
+        ]
+       },
+       {
+        "lo": 1,
+        "hi": 2,
+        "cut": 1,
+        "lambda": 0.08174289875978365,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "host_topology",
+        "treatments": [
+         "host_topology",
+         "complete_topology"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 9,
+        "cut": 6,
+        "lambda": 59.634216890565824,
+        "critical": 12.788383595088264,
+        "split": 1.0,
+        "cut_after": "mtdshield",
+        "treatments": [
+         "random",
+         "alternative",
+         "service_diversity",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 6,
+        "cut": 4,
+        "lambda": 9.378665402844014,
+        "critical": 8.671598082935285,
+        "split": 1.0,
+        "cut_after": "alternative",
+        "treatments": [
+         "random",
+         "alternative",
+         "service_diversity",
+         "mtdshield"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 4,
+        "cut": 3,
+        "lambda": 0.4731588469566914,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "random",
+        "treatments": [
+         "random",
+         "alternative"
+        ]
+       },
+       {
+        "lo": 5,
+        "hi": 6,
+        "cut": 5,
+        "lambda": 0.04222973173457245,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "service_diversity",
+        "treatments": [
+         "service_diversity",
+         "mtdshield"
+        ]
+       },
+       {
+        "lo": 7,
+        "hi": 9,
+        "cut": 7,
+        "lambda": 8.093262524843746,
+        "critical": 7.1589779780236364,
+        "split": 1.0,
+        "cut_after": "port_shuffle",
+        "treatments": [
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 8,
+        "hi": 9,
+        "cut": 8,
+        "lambda": 0.7507245690814607,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "os_diversity",
+        "treatments": [
+         "os_diversity",
+         "user_shuffle"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 5.397083333333334,
+      "df_residual": 990,
+      "order": [
+       "ip_shuffle",
+       "host_topology",
+       "complete_topology",
+       "random",
+       "alternative",
+       "service_diversity",
+       "mtdshield",
+       "port_shuffle",
+       "os_diversity",
+       "user_shuffle"
+      ],
+      "means": {
+       "ip_shuffle": 3.515,
+       "host_topology": 4.36,
+       "complete_topology": 4.44,
+       "random": 6.7,
+       "alternative": 6.8925,
+       "service_diversity": 7.375,
+       "mtdshield": 7.4325,
+       "port_shuffle": 7.8375,
+       "os_diversity": 8.4075,
+       "user_shuffle": 8.65
+      },
+      "best": "low"
+     }
+    },
+    "baseline": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.27074774034511095,
+       "lo": 0.1812063686630617,
+       "hi": 0.35356047720845096,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 17.75,
+        "ci95": 1.6397057508879296
+       },
+       "absolute_reduction": 6.59,
+       "absolute_reduction_ci95": 2.4833847605819983,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 17.75,
+        "ci95": 1.6397057508879296
+       },
+       "asp": 0.68,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 529.36397311,
+         "ci95": 79.78922493546125
+        },
+        "median_observed": 394.12324850000005,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 2
+      },
+      "complete_topology": {
+       "point": -0.06820049301561215,
+       "lo": -0.17924601753143263,
+       "hi": 0.0266098755626158,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 26.0,
+        "ci95": 1.402351157049035
+       },
+       "absolute_reduction": -1.6600000000000001,
+       "absolute_reduction_ci95": 2.3334853089901224,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 26.0,
+        "ci95": 1.402351157049035
+       },
+       "asp": 0.76,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 535.1190102699999,
+         "ci95": 87.57293181652025
+        },
+        "median_observed": 385.2237555,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "host_topology": {
+       "point": -0.09367296631059996,
+       "lo": -0.20105338866138808,
+       "hi": 0.007458835204846476,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 26.62,
+        "ci95": 1.5217274373340826
+       },
+       "absolute_reduction": -2.280000000000001,
+       "absolute_reduction_ci95": 2.407118466783742,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 26.62,
+        "ci95": 1.5217274373340826
+       },
+       "asp": 0.65,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 498.98316541999986,
+         "ci95": 78.7812404407297
+        },
+        "median_observed": 352.9556725,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "port_shuffle": {
+       "point": 0.02958093672966311,
+       "lo": -0.0844009188237345,
+       "hi": 0.1256537525229142,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 23.62,
+        "ci95": 1.859582034498694
+       },
+       "absolute_reduction": 0.7199999999999989,
+       "absolute_reduction_ci95": 2.633744532528974,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 23.62,
+        "ci95": 1.859582034498694
+       },
+       "asp": 0.59,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 523.6683718399998,
+         "ci95": 85.85724280348064
+        },
+        "median_observed": 335.840592,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "user_shuffle": {
+       "point": -0.07148726376335235,
+       "lo": -0.18872915475696372,
+       "hi": 0.03860713424090987,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 26.08,
+        "ci95": 1.8718323917023831
+       },
+       "absolute_reduction": -1.7399999999999984,
+       "absolute_reduction_ci95": 2.642408261836581,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 26.08,
+        "ci95": 1.8718323917023831
+       },
+       "asp": 0.79,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 695.5898504700001,
+         "ci95": 87.42578219406516
+        },
+        "median_observed": 640.0443869999999,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "os_diversity": {
+       "point": 0.004930156121610518,
+       "lo": -0.1022700377770699,
+       "hi": 0.11098513007535186,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 24.22,
+        "ci95": 1.9501912948387001
+       },
+       "absolute_reduction": 0.120000000000001,
+       "absolute_reduction_ci95": 2.698483093528771,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 24.22,
+        "ci95": 1.9501912948387001
+       },
+       "asp": 0.69,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 535.39037038,
+         "ci95": 85.22250206483584
+        },
+        "median_observed": 382.520041,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "service_diversity": {
+       "point": 0.514379622021364,
+       "lo": 0.4551089472713906,
+       "hi": 0.5657500689126188,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 11.82,
+        "ci95": 1.0428730137597209
+       },
+       "absolute_reduction": 12.52,
+       "absolute_reduction_ci95": 2.136854941830222,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 11.82,
+        "ci95": 1.0428730137597209
+       },
+       "asp": 0.09,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 485.8583443799998,
+         "ci95": 78.58399887588607
+        },
+        "median_observed": 329.13324450000005,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 1
+      },
+      "random": {
+       "point": -0.04313886606409212,
+       "lo": -0.15139073147745408,
+       "hi": 0.05517013998450984,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 25.39,
+        "ci95": 1.5181826344399911
+       },
+       "absolute_reduction": -1.0500000000000007,
+       "absolute_reduction_ci95": 2.404879088667684,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 25.39,
+        "ci95": 1.5181826344399911
+       },
+       "asp": 0.65,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 538.5499455100002,
+         "ci95": 84.28409206998178
+        },
+        "median_observed": 386.6398115,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "alternative": {
+       "point": -0.03697617091207883,
+       "lo": -0.14473730501491602,
+       "hi": 0.06336170681762274,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 25.24,
+        "ci95": 1.7431148824255196
+       },
+       "absolute_reduction": -0.8999999999999986,
+       "absolute_reduction_ci95": 2.552844376950795,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 25.24,
+        "ci95": 1.7431148824255196
+       },
+       "asp": 0.64,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 527.78116052,
+         "ci95": 82.69305418800839
+        },
+        "median_observed": 385.2237555,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "mtdshield": {
+       "point": 0.1881676253081347,
+       "lo": 0.0986468757525978,
+       "hi": 0.2650293385908088,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 19.76,
+        "ci95": 1.4177949155735685
+       },
+       "absolute_reduction": 4.579999999999998,
+       "absolute_reduction_ci95": 2.342799040084792,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 19.76,
+        "ci95": 1.4177949155735685
+       },
+       "asp": 0.34,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 515.9483637199999,
+         "ci95": 83.52820217771877
+        },
+        "median_observed": 341.2514725,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 2
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 100,
+       "mean": 24.34,
+       "ci95": 1.8650911290325627
+      },
+      "asp": 0.6,
+      "delay": {
+       "n": 100,
+       "observed": {
+        "n": 100,
+        "mean": 674.5496063700004,
+        "ci95": 86.41561662389778
+       },
+       "median_observed": 630.7795725000001,
+       "censored_share": 0.0,
+       "horizon": 15000
+      },
+      "blocked": null
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "service_diversity"
+       ],
+       [
+        "ip_shuffle",
+        "mtdshield"
+       ],
+       [
+        "port_shuffle",
+        "os_diversity",
+        "alternative",
+        "random",
+        "complete_topology",
+        "user_shuffle",
+        "host_topology"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "service_diversity"
+       ],
+       [
+        "ip_shuffle",
+        "mtdshield"
+       ],
+       [
+        "port_shuffle",
+        "os_diversity",
+        "alternative",
+        "random",
+        "complete_topology",
+        "user_shuffle",
+        "host_topology"
+       ]
+      ],
+      "merges": [],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 2,
+        "lambda": 257.9661318100899,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "mtdshield",
+        "treatments": [
+         "service_diversity",
+         "ip_shuffle",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "alternative",
+         "random",
+         "complete_topology",
+         "user_shuffle",
+         "host_topology"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 2,
+        "cut": 0,
+        "lambda": 61.8174737470881,
+        "critical": 7.1589779780236364,
+        "split": 1.0,
+        "cut_after": "service_diversity",
+        "treatments": [
+         "service_diversity",
+         "ip_shuffle",
+         "mtdshield"
+        ]
+       },
+       {
+        "lo": 1,
+        "hi": 2,
+        "cut": 1,
+        "lambda": 4.075129017268463,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "ip_shuffle",
+        "treatments": [
+         "ip_shuffle",
+         "mtdshield"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 9,
+        "cut": 4,
+        "lambda": 10.890985835234183,
+        "critical": 12.788383595088264,
+        "split": 0.0,
+        "cut_after": "os_diversity",
+        "treatments": [
+         "port_shuffle",
+         "os_diversity",
+         "alternative",
+         "random",
+         "complete_topology",
+         "user_shuffle",
+         "host_topology"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 68.14082828282828,
+      "df_residual": 990,
+      "order": [
+       "service_diversity",
+       "ip_shuffle",
+       "mtdshield",
+       "port_shuffle",
+       "os_diversity",
+       "alternative",
+       "random",
+       "complete_topology",
+       "user_shuffle",
+       "host_topology"
+      ],
+      "means": {
+       "service_diversity": 11.82,
+       "ip_shuffle": 17.75,
+       "mtdshield": 19.76,
+       "port_shuffle": 23.62,
+       "os_diversity": 24.22,
+       "alternative": 25.24,
+       "random": 25.39,
+       "complete_topology": 26.0,
+       "user_shuffle": 26.08,
+       "host_topology": 26.62
+      },
+      "best": "low"
+     }
+    },
+    "spearman_points": -0.05454545454545454,
+    "spearman_sk_ranks": 0.06889728182619381
+   },
+   "2000": {
+    "movement": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.32687576875768765,
+       "lo": 0.26982138588922205,
+       "hi": 0.37651786836566503,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 5.4725,
+        "ci95": 0.35608201721296745
+       },
+       "absolute_reduction": 2.6575000000000006,
+       "absolute_reduction_ci95": 0.5475331320584668,
+       "denied_share": 0.065,
+       "hosts": {
+        "n": 400,
+        "mean": 5.4725,
+        "ci95": 0.35608201721296745
+       },
+       "asp": 0.04,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 374,
+         "mean": 2715.87347486631,
+         "ci95": 265.55961402068397
+        },
+        "median_observed": 1698.472437,
+        "censored_share": 0.06499999999999995,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.48176725617135185,
+        "ci95": 0.020053174610368783
+       },
+       "rank": 1
+      },
+      "complete_topology": {
+       "point": 0.16020910209102102,
+       "lo": 0.09406877386640382,
+       "hi": 0.22042430722045814,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 6.8275,
+        "ci95": 0.3516402111109811
+       },
+       "absolute_reduction": 1.302500000000001,
+       "absolute_reduction_ci95": 0.5446549052285068,
+       "denied_share": 0.0125,
+       "hosts": {
+        "n": 400,
+        "mean": 6.8275,
+        "ci95": 0.3516402111109811
+       },
+       "asp": 0.0075,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 395,
+         "mean": 2557.547735622787,
+         "ci95": 214.25818097412494
+        },
+        "median_observed": 1827.708713,
+        "censored_share": 0.012499999999999956,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.38829484514532914,
+        "ci95": 0.015081632157318309
+       },
+       "rank": 2
+      },
+      "host_topology": {
+       "point": 0.16697416974169754,
+       "lo": 0.10614149697696272,
+       "hi": 0.2233497602963752,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 6.7725,
+        "ci95": 0.32067888978053605
+       },
+       "absolute_reduction": 1.3575000000000008,
+       "absolute_reduction_ci95": 0.5251981322036241,
+       "denied_share": 0.01,
+       "hosts": {
+        "n": 400,
+        "mean": 6.7725,
+        "ci95": 0.32067888978053605
+       },
+       "asp": 0.0025,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 396,
+         "mean": 2571.6833061893926,
+         "ci95": 218.16422515333628
+        },
+        "median_observed": 1825.126092,
+        "censored_share": 0.010000000000000009,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.3899413222044747,
+        "ci95": 0.014846386158346717
+       },
+       "rank": 2
+      },
+      "port_shuffle": {
+       "point": 0.002460024600246191,
+       "lo": -0.07095602990123867,
+       "hi": 0.07247639843298431,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 8.11,
+        "ci95": 0.42474676707463105
+       },
+       "absolute_reduction": 0.02000000000000135,
+       "absolute_reduction_ci95": 0.5944812392831662,
+       "denied_share": 0.0325,
+       "hosts": {
+        "n": 400,
+        "mean": 8.11,
+        "ci95": 0.42474676707463105
+       },
+       "asp": 0.07,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 387,
+         "mean": 2104.454011700258,
+         "ci95": 191.8105761600879
+        },
+        "median_observed": 1612.369166,
+        "censored_share": 0.03249999999999997,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.23909971404312685,
+        "ci95": 0.009739775932664436
+       },
+       "rank": 3
+      },
+      "user_shuffle": {
+       "point": -0.035362853628536195,
+       "lo": -0.11134563535054899,
+       "hi": 0.03800341557340938,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 8.4175,
+        "ci95": 0.43294472581847554
+       },
+       "absolute_reduction": -0.28749999999999964,
+       "absolute_reduction_ci95": 0.6003659411836528,
+       "denied_share": 0.0325,
+       "hosts": {
+        "n": 400,
+        "mean": 8.4175,
+        "ci95": 0.43294472581847554
+       },
+       "asp": 0.085,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 387,
+         "mean": 2127.970471873385,
+         "ci95": 186.66552070218225
+        },
+        "median_observed": 1637.973714,
+        "censored_share": 0.03249999999999997,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.236622512620068,
+        "ci95": 0.009389553512867372
+       },
+       "rank": 3
+      },
+      "os_diversity": {
+       "point": -0.010147601476014678,
+       "lo": -0.09235239215257533,
+       "hi": 0.059592717695550954,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 8.2125,
+        "ci95": 0.4107387920116117
+       },
+       "absolute_reduction": -0.08249999999999957,
+       "absolute_reduction_ci95": 0.5845549443657594,
+       "denied_share": 0.03,
+       "hosts": {
+        "n": 400,
+        "mean": 8.2125,
+        "ci95": 0.4107387920116117
+       },
+       "asp": 0.0925,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 388,
+         "mean": 2115.0359071340213,
+         "ci95": 193.00724582555335
+        },
+        "median_observed": 1615.394613,
+        "censored_share": 0.030000000000000027,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.23850659508358343,
+        "ci95": 0.009996860949484364
+       },
+       "rank": 3
+      },
+      "service_diversity": {
+       "point": 0.035362853628536306,
+       "lo": -0.039902164215709295,
+       "hi": 0.10527923202796395,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 7.8425,
+        "ci95": 0.3991520470530833
+       },
+       "absolute_reduction": 0.28750000000000053,
+       "absolute_reduction_ci95": 0.5764724489392055,
+       "denied_share": 0.0325,
+       "hosts": {
+        "n": 400,
+        "mean": 7.8425,
+        "ci95": 0.3991520470530833
+       },
+       "asp": 0.07,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 387,
+         "mean": 2086.067320245477,
+         "ci95": 186.147524236325
+        },
+        "median_observed": 1605.684937,
+        "censored_share": 0.03249999999999997,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.23112696604137223,
+        "ci95": 0.009168268437147655
+       },
+       "rank": 3
+      },
+      "random": {
+       "point": 0.08733087330873324,
+       "lo": 0.01913449519352526,
+       "hi": 0.15004639620802457,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 7.42,
+        "ci95": 0.37861390045009596
+       },
+       "absolute_reduction": 0.7100000000000009,
+       "absolute_reduction_ci95": 0.5624469871315282,
+       "denied_share": 0.0275,
+       "hosts": {
+        "n": 400,
+        "mean": 7.42,
+        "ci95": 0.37861390045009596
+       },
+       "asp": 0.025,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 389,
+         "mean": 2412.8102606066823,
+         "ci95": 215.06868085598114
+        },
+        "median_observed": 1686.018058,
+        "censored_share": 0.02749999999999997,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.3372612738925256,
+        "ci95": 0.01626867362087659
+       },
+       "rank": 3
+      },
+      "alternative": {
+       "point": 0.02613776137761381,
+       "lo": -0.04009667710684184,
+       "hi": 0.08971575455908501,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 7.9175,
+        "ci95": 0.34364947282869285
+       },
+       "absolute_reduction": 0.21250000000000036,
+       "absolute_reduction_ci95": 0.5395304327790387,
+       "denied_share": 0.0075,
+       "hosts": {
+        "n": 400,
+        "mean": 7.9175,
+        "ci95": 0.34364947282869285
+       },
+       "asp": 0.0525,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 397,
+         "mean": 2498.9724964332504,
+         "ci95": 189.06279429572686
+        },
+        "median_observed": 1832.22973,
+        "censored_share": 0.007499999999999951,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.29094808564679214,
+        "ci95": 0.012339609437205582
+       },
+       "rank": 3
+      },
+      "mtdshield": {
+       "point": 0.02613776137761381,
+       "lo": -0.041604008994538894,
+       "hi": 0.09491323510278428,
+       "hosts_none": {
+        "n": 400,
+        "mean": 8.13,
+        "ci95": 0.41593043615405
+       },
+       "hosts_cond": {
+        "n": 400,
+        "mean": 7.9175,
+        "ci95": 0.4054107020891545
+       },
+       "absolute_reduction": 0.21250000000000036,
+       "absolute_reduction_ci95": 0.5808235231873097,
+       "denied_share": 0.0375,
+       "hosts": {
+        "n": 400,
+        "mean": 7.9175,
+        "ci95": 0.4054107020891545
+       },
+       "asp": 0.065,
+       "delay": {
+        "n": 400,
+        "observed": {
+         "n": 385,
+         "mean": 2066.660852103897,
+         "ci95": 180.8071182769239
+        },
+        "median_observed": 1605.669917,
+        "censored_share": 0.03749999999999998,
+        "horizon": 15000
+       },
+       "blocked": {
+        "n": 400,
+        "mean": 0.2701753094003635,
+        "ci95": 0.012933763214928784
+       },
+       "rank": 3
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 400,
+       "mean": 8.13,
+       "ci95": 0.41593043615405
+      },
+      "asp": 0.09,
+      "delay": {
+       "n": 400,
+       "observed": {
+        "n": 386,
+        "mean": 2100.143026634714,
+        "ci95": 194.53835380963284
+       },
+       "median_observed": 1605.888598,
+       "censored_share": 0.03500000000000003,
+       "horizon": 15000
+      },
+      "blocked": {
+       "n": 400,
+       "mean": 0.23911194558559226,
+       "ci95": 0.009996298838402105
+      }
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "ip_shuffle"
+       ],
+       [
+        "host_topology",
+        "complete_topology"
+       ],
+       [
+        "random",
+        "service_diversity",
+        "alternative",
+        "mtdshield",
+        "port_shuffle",
+        "os_diversity",
+        "user_shuffle"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "ip_shuffle"
+       ],
+       [
+        "host_topology",
+        "complete_topology"
+       ],
+       [
+        "random",
+        "service_diversity",
+        "alternative",
+        "mtdshield",
+        "port_shuffle",
+        "os_diversity",
+        "user_shuffle"
+       ]
+      ],
+      "merges": [],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 2,
+        "lambda": 113.22241451112347,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "complete_topology",
+        "treatments": [
+         "ip_shuffle",
+         "host_topology",
+         "complete_topology",
+         "random",
+         "service_diversity",
+         "alternative",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 2,
+        "cut": 0,
+        "lambda": 26.397831732541626,
+        "critical": 7.1589779780236364,
+        "split": 1.0,
+        "cut_after": "ip_shuffle",
+        "treatments": [
+         "ip_shuffle",
+         "host_topology",
+         "complete_topology"
+        ]
+       },
+       {
+        "lo": 1,
+        "hi": 2,
+        "cut": 1,
+        "lambda": 0.034619517194916787,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "host_topology",
+        "treatments": [
+         "host_topology",
+         "complete_topology"
+        ]
+       },
+       {
+        "lo": 3,
+        "hi": 9,
+        "cut": 6,
+        "lambda": 8.70877801262931,
+        "critical": 12.788383595088264,
+        "split": 0.0,
+        "cut_after": "mtdshield",
+        "treatments": [
+         "random",
+         "service_diversity",
+         "alternative",
+         "mtdshield",
+         "port_shuffle",
+         "os_diversity",
+         "user_shuffle"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 6.02349494949495,
+      "df_residual": 990,
+      "order": [
+       "ip_shuffle",
+       "host_topology",
+       "complete_topology",
+       "random",
+       "service_diversity",
+       "alternative",
+       "mtdshield",
+       "port_shuffle",
+       "os_diversity",
+       "user_shuffle"
+      ],
+      "means": {
+       "ip_shuffle": 5.4725,
+       "host_topology": 6.7725,
+       "complete_topology": 6.8275,
+       "random": 7.42,
+       "service_diversity": 7.8425,
+       "alternative": 7.9175,
+       "mtdshield": 7.9175,
+       "port_shuffle": 8.11,
+       "os_diversity": 8.2125,
+       "user_shuffle": 8.4175
+      },
+      "best": "low"
+     }
+    },
+    "baseline": {
+     "rows": {
+      "ip_shuffle": {
+       "point": 0.15817584223500414,
+       "lo": 0.05914506671900867,
+       "hi": 0.2561744918559545,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 20.49,
+        "ci95": 1.8155988962100609
+       },
+       "absolute_reduction": 3.8500000000000014,
+       "absolute_reduction_ci95": 2.60287615370289,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 20.49,
+        "ci95": 1.8155988962100609
+       },
+       "asp": 0.65,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 519.66468606,
+         "ci95": 75.74902179342074
+        },
+        "median_observed": 394.12324850000005,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 2
+      },
+      "complete_topology": {
+       "point": -0.1306491372226788,
+       "lo": -0.23335083583369037,
+       "hi": -0.035465547945037125,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 27.52,
+        "ci95": 1.3053236734715465
+       },
+       "absolute_reduction": -3.1799999999999997,
+       "absolute_reduction_ci95": 2.276496170021204,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 27.52,
+        "ci95": 1.3053236734715465
+       },
+       "asp": 0.69,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 517.3259449999998,
+         "ci95": 78.08150853620113
+        },
+        "median_observed": 385.2237555,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 4
+      },
+      "host_topology": {
+       "point": -0.07148726376335235,
+       "lo": -0.17847220616681697,
+       "hi": 0.027933590224575335,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 26.08,
+        "ci95": 1.583435740739265
+       },
+       "absolute_reduction": -1.7399999999999984,
+       "absolute_reduction_ci95": 2.4465963428090185,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 26.08,
+        "ci95": 1.583435740739265
+       },
+       "asp": 0.65,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 504.35296544000005,
+         "ci95": 84.6853701869061
+        },
+        "median_observed": 352.9556725,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 4
+      },
+      "port_shuffle": {
+       "point": 0.03122432210353332,
+       "lo": -0.07812586708134214,
+       "hi": 0.13054057009550193,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 23.58,
+        "ci95": 1.9033877446980338
+       },
+       "absolute_reduction": 0.7600000000000016,
+       "absolute_reduction_ci95": 2.6648545600581333,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 23.58,
+        "ci95": 1.9033877446980338
+       },
+       "asp": 0.59,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 505.67075365,
+         "ci95": 78.05193697101079
+        },
+        "median_observed": 335.840592,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      },
+      "user_shuffle": {
+       "point": -0.08216926869350871,
+       "lo": -0.19958971734786948,
+       "hi": 0.02547487304781041,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 26.34,
+        "ci95": 1.8151126047936554
+       },
+       "absolute_reduction": -2.0,
+       "absolute_reduction_ci95": 2.6025369714332145,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 26.34,
+        "ci95": 1.8151126047936554
+       },
+       "asp": 0.72,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 696.48691366,
+         "ci95": 88.14850312766457
+        },
+        "median_observed": 640.0443869999999,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 4
+      },
+      "os_diversity": {
+       "point": -0.025472473294987807,
+       "lo": -0.1378355850247905,
+       "hi": 0.06943202318634847,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 24.96,
+        "ci95": 1.8017446916079352
+       },
+       "absolute_reduction": -0.620000000000001,
+       "absolute_reduction_ci95": 2.5932313536075666,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 24.96,
+        "ci95": 1.8017446916079352
+       },
+       "asp": 0.67,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 521.19149827,
+         "ci95": 78.77919485409478
+        },
+        "median_observed": 382.520041,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 4
+      },
+      "service_diversity": {
+       "point": 0.29868529170090385,
+       "lo": 0.22249014778608855,
+       "hi": 0.36879976075078497,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 17.07,
+        "ci95": 1.1872491937587524
+       },
+       "absolute_reduction": 7.27,
+       "absolute_reduction_ci95": 2.2109105743283166,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 17.07,
+        "ci95": 1.1872491937587524
+       },
+       "asp": 0.2,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 474.1351050699999,
+         "ci95": 72.64456867917514
+        },
+        "median_observed": 329.13324450000005,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 1
+      },
+      "random": {
+       "point": -0.025061626951520033,
+       "lo": -0.14420380213450235,
+       "hi": 0.07525061455515449,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 24.95,
+        "ci95": 1.7387138286037114
+       },
+       "absolute_reduction": -0.6099999999999994,
+       "absolute_reduction_ci95": 2.549841308272681,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 24.95,
+        "ci95": 1.7387138286037114
+       },
+       "asp": 0.62,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 524.3922298000001,
+         "ci95": 77.92769666888911
+        },
+        "median_observed": 386.6398115,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 4
+      },
+      "alternative": {
+       "point": -0.054642563681183365,
+       "lo": -0.16846873235250404,
+       "hi": 0.046126550764592864,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 25.67,
+        "ci95": 1.7276716911274643
+       },
+       "absolute_reduction": -1.3300000000000018,
+       "absolute_reduction_ci95": 2.5423246039637015,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 25.67,
+        "ci95": 1.7276716911274643
+       },
+       "asp": 0.63,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 517.3259449999998,
+         "ci95": 78.08150853620113
+        },
+        "median_observed": 385.2237555,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 4
+      },
+      "mtdshield": {
+       "point": 0.05875102711585867,
+       "lo": -0.048017621145374445,
+       "hi": 0.1527007277734067,
+       "hosts_none": {
+        "n": 100,
+        "mean": 24.34,
+        "ci95": 1.8650911290325627
+       },
+       "hosts_cond": {
+        "n": 100,
+        "mean": 22.91,
+        "ci95": 1.6617368151510281
+       },
+       "absolute_reduction": 1.4299999999999997,
+       "absolute_reduction_ci95": 2.4979860212627774,
+       "denied_share": 0.0,
+       "hosts": {
+        "n": 100,
+        "mean": 22.91,
+        "ci95": 1.6617368151510281
+       },
+       "asp": 0.55,
+       "delay": {
+        "n": 100,
+        "observed": {
+         "n": 100,
+         "mean": 505.77126767999994,
+         "ci95": 78.38359322051014
+        },
+        "median_observed": 341.2514725,
+        "censored_share": 0.0,
+        "horizon": 15000
+       },
+       "blocked": null,
+       "rank": 3
+      }
+     },
+     "none": {
+      "hosts": {
+       "n": 100,
+       "mean": 24.34,
+       "ci95": 1.8650911290325627
+      },
+      "asp": 0.6,
+      "delay": {
+       "n": 100,
+       "observed": {
+        "n": 100,
+        "mean": 674.5496063700004,
+        "ci95": 86.41561662389778
+       },
+       "median_observed": 630.7795725000001,
+       "censored_share": 0.0,
+       "horizon": 15000
+      },
+      "blocked": null
+     },
+     "sk_esd": {
+      "groups": [
+       [
+        "service_diversity"
+       ],
+       [
+        "ip_shuffle"
+       ],
+       [
+        "mtdshield",
+        "port_shuffle"
+       ],
+       [
+        "random",
+        "os_diversity",
+        "alternative",
+        "host_topology",
+        "user_shuffle",
+        "complete_topology"
+       ]
+      ],
+      "sk_groups": [
+       [
+        "service_diversity"
+       ],
+       [
+        "ip_shuffle"
+       ],
+       [
+        "mtdshield",
+        "port_shuffle"
+       ],
+       [
+        "random",
+        "os_diversity",
+        "alternative",
+        "host_topology",
+        "user_shuffle",
+        "complete_topology"
+       ]
+      ],
+      "merges": [],
+      "tests": [
+       {
+        "lo": 0,
+        "hi": 9,
+        "cut": 1,
+        "lambda": 114.35523644753485,
+        "critical": 16.58205805572016,
+        "split": 1.0,
+        "cut_after": "ip_shuffle",
+        "treatments": [
+         "service_diversity",
+         "ip_shuffle",
+         "mtdshield",
+         "port_shuffle",
+         "random",
+         "os_diversity",
+         "alternative",
+         "host_topology",
+         "user_shuffle",
+         "complete_topology"
+        ]
+       },
+       {
+        "lo": 0,
+        "hi": 1,
+        "cut": 0,
+        "lambda": 11.032300163780814,
+        "critical": 5.501357838893093,
+        "split": 1.0,
+        "cut_after": "service_diversity",
+        "treatments": [
+         "service_diversity",
+         "ip_shuffle"
+        ]
+       },
+       {
+        "lo": 2,
+        "hi": 9,
+        "cut": 3,
+        "lambda": 20.098371699817037,
+        "critical": 14.078432496722398,
+        "split": 1.0,
+        "cut_after": "port_shuffle",
+        "treatments": [
+         "mtdshield",
+         "port_shuffle",
+         "random",
+         "os_diversity",
+         "alternative",
+         "host_topology",
+         "user_shuffle",
+         "complete_topology"
+        ]
+       },
+       {
+        "lo": 2,
+        "hi": 3,
+        "cut": 2,
+        "lambda": 0.4267289578407329,
+        "critical": 5.501357838893093,
+        "split": 0.0,
+        "cut_after": "mtdshield",
+        "treatments": [
+         "mtdshield",
+         "port_shuffle"
+        ]
+       },
+       {
+        "lo": 4,
+        "hi": 9,
+        "cut": 6,
+        "lambda": 6.010502449631889,
+        "critical": 11.46469925490206,
+        "split": 0.0,
+        "cut_after": "alternative",
+        "treatments": [
+         "random",
+         "os_diversity",
+         "alternative",
+         "host_topology",
+         "user_shuffle",
+         "complete_topology"
+        ]
+       }
+      ],
+      "alpha": 0.05,
+      "negligible_d": 0.2,
+      "n_per_treatment": 100,
+      "mse": 72.49647474747476,
+      "df_residual": 990,
+      "order": [
+       "service_diversity",
+       "ip_shuffle",
+       "mtdshield",
+       "port_shuffle",
+       "random",
+       "os_diversity",
+       "alternative",
+       "host_topology",
+       "user_shuffle",
+       "complete_topology"
+      ],
+      "means": {
+       "service_diversity": 17.07,
+       "ip_shuffle": 20.49,
+       "mtdshield": 22.91,
+       "port_shuffle": 23.58,
+       "random": 24.95,
+       "os_diversity": 24.96,
+       "alternative": 25.67,
+       "host_topology": 26.08,
+       "user_shuffle": 26.34,
+       "complete_topology": 27.52
+      },
+      "best": "low"
+     }
+    },
+    "spearman_points": 0.13981827504641486,
+    "spearman_sk_ranks": 0.050832856777534886
+   }
+  }
  }
 }
