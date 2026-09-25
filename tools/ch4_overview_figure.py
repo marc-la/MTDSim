@@ -175,7 +175,7 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     d = (26, 186)                            # Defence
     nw = (266, 426)                          # Network
     at = (536, 882)                          # Attacker
-    for (x0, x1), icon, title, sub in ((d, "shieldic", "Defence", "MTD mechanisms"),
+    for (x0, x1), icon, title, sub in ((d, "shieldic", "Defence", "defence mechanisms"),
                                        (nw, "netic", "Network", "hosts and services")):
         svg.rect(x0, iy0, x1, iy1, "module")
         cx = (x0 + x1) / 2

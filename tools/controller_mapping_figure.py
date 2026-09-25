@@ -315,13 +315,13 @@ def emit_table(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str
     L.append(r"\begin{table}[htbp]")
     L.append(r"\centering")
     L.append(r"\caption[Why each tactic maps as it does]{Why each tactic holds the "
-             r"value it does under the tactic-to-action mapping "
-             r"\texttt{%s}, drawn as Figure~\ref{fig:controller-mapping}. Rows run "
+             r"value it does under the tactic-to-action mapping, "
+             r"drawn as Figure~\ref{fig:controller-mapping}. Rows run "
              r"in the tactic axis of that figure, grouped by lifecycle stage. A "
              r"dash in the action column is a dwell-only tactic: %d of the %d "
              r"consume simulated time and dispatch nothing, and the reason states "
-             r"what the substrate would have to model before the row could be "
-             r"mapped.}" % (_esc(entry["name"]), n_dwell, len(rows)))
+             r"what the simulator would have to model before the row could be "
+             r"mapped.}" % (n_dwell, len(rows)))
     L.append(r"\label{tab:controller-mapping}")
     # \footnotesize, and the reason column takes the width the two fixed columns
     # leave: at this size "Command and control" is ~98pt and "Credential brute
