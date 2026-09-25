@@ -4,8 +4,8 @@
   §5.4.1  Fig. 5.5  suppression of host breadth by defence condition, per
                     profile (2 x 2 lettered panels: singles / schemes at each
                     interval; series = profile, the chapter's hues)
-          Tab. 5.5  the conditions against the attacker model: suppression,
-                    delay to first compromise with censoring, blocked fraction
+          Tab. 5.5  the conditions against the attacker model on Table 4.3's
+                    outcome and effectiveness metrics, in its order (2026-09-25)
                     (reworked 2026-09-22: caption decode-only, no footnote,
                     no dagger; overlap is read from the printed intervals)
   §5.4.2  Fig. 5.6  the same defences against both attackers (series = arm;
@@ -224,39 +224,51 @@ def emit_tab55(s541: dict) -> str:
     w("%   Marc's ruling (the printed intervals carry the overlap; the body text names")
     w("%   the separated pairs from numbers.json overlapping_adjacent); scriptsize with")
     w("%   4 pt colsep (conventions §k1). DRAFT STATE --- ratify on read.")
+    w("% REWORKED 2026-09-25 (Marc: accepted 1 and 2): columns in Table 4.3's order")
+    w("%   under its two class headers, attack outcome (ASP, NCR, MTTC) then MTD")
+    w("%   effectiveness (NCR reduction, attack actions blocked); the no-host-compromised")
+    w("%   column, which is no metric, folded into the MTTC cell as the share of runs")
+    w("%   MTTC is taken over. DRAFT STATE --- ratify on read.")
     w(r"\begin{table}[H]")
     w(r"  \centering")
-    w(r"  \caption[Defence conditions against the APT attacker model]{Each defence condition against the APT attacker model pooled over $c_1$ to $c_4$, at each deployment interval, on the attack-outcome and MTD-effectiveness metrics of Table~\ref{tab:metrics}, ordered by NCR reduction within each interval; MTTC is over the runs that compromise a host, and the share that compromise none is its own column; the no-defence reference is one cell, read against both. Brackets: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}")
+    w(r"  \caption[Defence conditions against the APT attacker model]{Each defence condition against the APT attacker model pooled over $c_1$ to $c_4$, at each deployment interval, on the attack-outcome and MTD-effectiveness metrics of Table~\ref{tab:metrics}, ordered by NCR reduction within each interval; the no-defence reference is one row, read against both intervals. MTTC is over the runs that compromise a host, and its parenthesis is their share of all runs. Brackets: a 95\,\% percentile bootstrap interval; $\pm$: a 95\,\% interval on the mean (normal approximation).}")
     w(r"  \label{tab:eff-conditions}")
-    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}")
-    w(r"  \begin{tabular}{@{}cP{3.5cm}>{\centering\arraybackslash}p{2.8cm}*{5}{>{\centering\arraybackslash}p{1.48cm}}@{}}")
+    # widths fill \textwidth (455.24 pt) at 4 pt colsep: 14.28 cm of columns +
+    # 6 interior gutters at 8 pt + the rotated key. Two header rows: the
+    # stripes restart at row 3 so the first body row is shaded and neither
+    # header row is (as tab:eff-orderings).
+    w(r"  \tablestyle\scriptsize\setlength{\tabcolsep}{4pt}\rowcolors{3}{black!5}{}")
+    w(r"  \begin{tabular}{@{}cP{3.5cm}>{\centering\arraybackslash}p{1.3cm}>{\centering\arraybackslash}p{1.7cm}>{\centering\arraybackslash}p{2.6cm}>{\centering\arraybackslash}p{2.8cm}>{\centering\arraybackslash}p{2.08cm}@{}}")
     w(r"    \toprule")
-    w(r"    & Condition & NCR reduction & NCR & MTTC (s) & No host compromised & ASP & Attack actions blocked \\")
+    w(r"    & & \multicolumn{3}{c}{Attack outcome} & \multicolumn{2}{c}{MTD effectiveness} \\")
+    w(r"    \cmidrule(lr){3-5}\cmidrule(lr){6-7}")
+    w(r"    & Condition & ASP & NCR & MTTC (s) & NCR reduction & Attack actions blocked \\")
     w(r"    \midrule")
+
+    def mttc(dl):
+        # MTTC over the runs that compromise a host, with their share of all runs
+        if not dl["observed"]:
+            return "---"
+        return r"%s (%d\,\%%)" % (pm(dl["observed"], 0), round(100 * (1 - dl["censored_share"])))
+
     marks = {}
     for interval in INTERVALS:
         blk = s541["by_interval"][interval]
         pooled = blk["pooled"]
-        flagged = set()   # no dagger since 2026-09-22 (Marc): the intervals carry the overlap
         none = pooled["none"]
         if interval == INTERVALS[0]:
-            dl = none["delay"]
             # pooled no-defence target reach: the four profiles' cells are equal-sized
             four = [q for q in blk["per_profile"] if q != "aggregate"]
             none_tr = sum(blk["per_profile"][q]["none"]["target_reach"] for q in four) / len(four)
-            w("    & no defence & --- & %s & %s & %.2f & %.2f & %s \\\\" % (
-                pm_ncr(none["hosts"]), pm(dl["observed"], 0) if dl["observed"] else "---",
-                dl["censored_share"], none_tr, pm(none["blocked"], 2)))
+            w("    & no defence & %.2f & %s & %s & --- & %s \\\\" % (
+                none_tr, pm_ncr(none["hosts"]), mttc(none["delay"]), pm(none["blocked"], 2)))
             w(r"    \midrule")
         rows = [(c, pooled[c]) for c in blk["order_pooled"]]
         for i, (c, d) in enumerate(rows):
             group = r"\rowgroup{%d}{every %s\,s}" % (len(rows), fmt_thousands(int(interval))) if i == len(rows) - 1 else ""
-            dl = d["delay"]
-            mark = r"\textsuperscript{\dag}" if c in flagged else ""
-            w("    %s & %s%s & %s & %s & %s & %.2f & %.2f & %s \\\\" % (
-                group, LONG[c], mark, _sup(d), pm_ncr(d["hosts_cond"]),
-                pm(dl["observed"], 0) if dl["observed"] else "---", dl["censored_share"],
-                d["target_reach"], pm(d["blocked"], 2)))
+            w("    %s & %s & %.2f & %s & %s & %s & %s \\\\" % (
+                group, LONG[c], d["target_reach"], pm_ncr(d["hosts_cond"]), mttc(d["delay"]),
+                _sup(d), pm(d["blocked"], 2)))
         w(r"    \midrule" if interval == INTERVALS[0] else r"    \bottomrule")
         marks[interval] = blk["overlapping_adjacent"]
     w(r"  \end{tabular}")

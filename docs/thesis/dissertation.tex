@@ -864,7 +864,14 @@ deployment strategies in MTDSim (Table~\ref{tab:deployment-strategies}).
 Four are time-triggered, or proactive; one is hybrid: MTDShield, Tay's
 reinforcement-learning selector \citep{tay2024}. \emph{No operation} is a
 policy choice: MTDShield chooses one of four of the MTD mechanisms, or
-nothing. That is the when not to move. The interval between deployments
+nothing. That is the when not to move. Tay trained 38 of these agents across
+three hyperparameter sweeps, released them with the simulator, and named the
+one with the highest score \citep{tay2024, tay2024code}.
+% DRAFT STATE 2026-09-25 --- session-drafted on Marc's ruling (handoff
+%  2026-09-22_ch5_defended_corpus_schemes_intervals_mtdshield.md §5.7): the
+%  background states the fact the choice rests on and makes no choice; the
+%  choice is Appendix app:mtdshield's, pointed at from §5.1. Ratify on read.
+The interval between deployments
 is 200\,s plus a small exponentially drawn term, half a second on average,
 so deployments arrive close to periodically. A deployment takes time to
 complete, from 20\,s to 110\,s depending on the mechanism; four of the
@@ -7379,6 +7386,11 @@ runs are otherwise identical.
 % no-defence reference once; the censored share of the delay column is the
 % share of runs denied every host (one column, not two); overlapping
 % neighbours carry the dagger. DRAFT STATE --- ratify on read.
+% REWORKED 2026-09-25 (Marc accepted 1 and 2): columns in Table 4.3's order
+% under its two class headers, attack outcome (ASP, NCR, MTTC) then MTD
+% effectiveness (NCR reduction, attack actions blocked); the no-host-compromised
+% column, which is no metric, is folded into the MTTC cell as the share of runs
+% MTTC is taken over. Rows still ordered by NCR reduction.
 \input{tables/tab_5-3-1a_conditions}
 
 % RETIRED 2026-09-23 (Marc's rulings R3, R4; handoff
