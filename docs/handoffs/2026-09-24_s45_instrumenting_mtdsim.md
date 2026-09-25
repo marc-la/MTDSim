@@ -1,12 +1,145 @@
 ---
 status: open                  # the brief for WRITING §4.5 — every metric defined in the method; Marc's plan (2026-09-24): results first, then fit the definitions to the settled list. Work in progress: add entries as metrics are ruled
 created: 2026-09-24
-updated: 2026-09-24
+updated: 2026-09-25                 # the definition template, structure and statistics subsection added from two research passes; attack actions blocked cut; ranking added
 parent: the metrics design handoff (2026-09-22_metrics_provenance_and_instrumentation.md, RETIRED 2026-09-24 into this brief; implementation commits 23624188, e081a49c, 7f8cb105, 8d04fe12; full text in git history)
 evidence: ../sources/extractions/mtd_metric_catalogue.md (the verdict and the source behind every entry)
 ---
 
 # Define every metric in §4.5 *Evaluation metrics* — in the formalism's symbols, with its source, and why where it is ours
+
+## Start here (2026-09-25): how to write each definition, and in what order
+
+Marc, 2026-09-25: *"find guidance for how people define metrics in the field … best practice … common pitfalls … how we should structure it … we have to be strictly conventional … then I'm just going to go through each of the metrics and define it in 4.5 in the required structure."* Two research passes answer it: the corpus (how the papers this thesis cites define their metrics, read from `docs/sources/`) and the methodology literature (web, cited below). Where they agree, it is the rule; where they differ, the corpus wins, because it is the field the examiner reads the thesis against.
+
+### The structure of §4.5 (four subsections)
+
+| Part | Holds | Corpus precedent |
+|---|---|---|
+| Opener | One sentence: the metrics fall in three classes, one per question the results ask of the attacker (what it does, what it achieves, what a defence does to it); Table 4.3 lists them with their sources | Cho & Ben-Asher 2018 §4.2 ("two metrics measure the attack performance while the other two … the defense performance"); Alavizadeh 2022 §D's opening list |
+| 4.5.1 Attacker behaviour | relative tactic occurrence; attack path variation (APV); attack rate; attack confidentiality | one subsection per class: Hong 2018 §5.1–5.2; He 2025 V-B (run-in heads per class); Zaffarano 2015 §4 |
+| 4.5.2 Attack outcome | attack success probability (ASP); network compromise ratio (NCR); mean time to compromise (MTTC) | as above |
+| 4.5.3 MTD effectiveness | NCR reduction (its last sentence points to 4.5.4 for the ranking); NCR growth rate; time lost per MTD deployment | as above |
+| **4.5.4 Statistical analysis** (NEW) | the seed as the unit; what is reported per metric (means; 95 % intervals and how each is computed); the ranking of defences by NCR reduction (Scott–Knott ESD); Spearman's ρ between the two attackers' rankings | **statistics sit apart from the definitions in every paper that declares them** (Ho 2024 §3.4.1; Barach 2026 §4; Zhang 2023 in the paragraph after NCR); Morris et al. 2019 keep performance measures separate from methods |
+
+**Why the ranking is not a metric of its own, nor inside NCR reduction's definition** (Marc asked: bundle with NCR reduction, or its own subsection?). A metric is a quantity read from each run; the rank is computed across runs from one of them, like an interval. That makes it a *statistic*, and both research passes put statistics in their own block. Keeping it apart also lets 4.5.4 hold everything an examiner will attack in one place: the unit, the intervals, the ranking test and its assumptions. NCR reduction's definition ends with one sentence tying them: *defences are ranked by it, Section 4.5.4*. So the ranking still sits under NCR reduction in the reading order.
+
+### The template for one definition (corpus-conventional)
+
+In the corpus's own order (the Alavizadeh mitigation-factor paragraph is the cleanest model: meaning → numbered equation → range → direction, about 60 words):
+
+1. **Name (ACRONYM), cited at the name.** The status goes in the same sentence:
+   - **adopted:** "…, as defined by Y";
+   - **adapted:** "adapted from Y" (Alavizadeh: "We expand this metric to…"; Sharma: "by modifying the existing models of … for incorporating…");
+   - **introduced:** "We define … to measure …" (Sharma: "We propose a … metric for measuring…").
+2. **One sentence of what it measures**, with the stock verb ("measures", "is the share of", "quantifies").
+3. **The operation in words, then a numbered display equation.** Every symbol is defined in an inline "where …" clause (the corpus's commonest form), or in `tab:gspn-notation` when it is chapter 4's.
+4. **Range and direction**, in one sentence ("takes values in [0, 1]; a larger value is better for the defender").
+5. **When it is read**, and **the edge case where one exists.** Ho's style: "If no compromised hosts are recorded, …". For example, MTTC when no host falls: the run is left out, and the share left out is reported.
+6. **Adapted only:** one clause naming exactly what differs from the source, and why.
+7. **Introduced only:** what it captures that no cited metric does, then one sentence of limitation.
+
+**Length:**
+- **Adopted:** 2–4 sentences, about 40–80 words (He, Kim, Ho, Alavizadeh, Zhang).
+- **Adapted:** plus one clause.
+- **Introduced:** about 8–15 sentences. That length is only precedented where the metric is the contribution (Hong's APV, Zaffarano), which is exactly the status of the two introduced here.
+
+**Not in a definition** (corpus: nobody does it): statistics, results, or a worked number, except where it clarifies an introduced metric (Hong; He).
+
+### Pitfalls to avoid (and where this thesis stands)
+
+| Pitfall | Source | Status here |
+|---|---|---|
+| A metric chosen after the results, or not tied to a question | GQM (Basili: "top-down … a bottom-up approach will not work"); Morris et al. 2019 ("justifying their relevance") | each class answers one results question; say so in the opener and in each class's first sentence |
+| Measuring what is easy to count, not what matters (construct validity) | Verendel 2009 ("validated … with respect to counting and data gathering" but not against "their practical goals"); Herley & van Oorschot 2017 | the stealth pair is bounded to a declared detector (the wording ceiling below); never "less detectable" |
+| A ratio that breaks when its denominator is zero | Kitchenham et al. 1995 (no "unexpected discontinuities") | NCR reduction's denominator is the no-defence NCR, never zero here; say so. Time lost is pooled before the ratio is taken (a ratio of sums). MTTC is taken over the runs that compromise a host |
+| A symbol left undefined | Morris ("explicit formulae"); STRESS-DES 1.2 | the "where" clause, and the symbol check against `tab:gspn-notation` (Open 1) |
+| The checkpoint not stated | STRESS-DES 1.2 ("how and when they are calculated during the model run"); ODD 2020 | MTTC to the first host; NCR at the end of the run |
+| A published name reused with a changed meaning | corpus: MTTC has at least five lineage meanings, and Barach's is *containment*; Ho's ASR is not Cho's ASP | state the checkpoint or meaning at every cited name |
+| An invented acronym | ruled 2026-09-24 | none |
+| A metric used once, or for no purpose | Marc 2026-09-25 | attack actions blocked CUT for this reason; each of the ten now carries a float |
+| No uncertainty reported | Morris: 93 of 100 simulation papers reported no Monte Carlo SE; Arcuri & Briand 2014 | 4.5.4: every value with a 95 % interval |
+| A metric (read per run) confused with a statistic (computed across runs) | inference from both passes | the ranking and ρ go in 4.5.4, not Table 4.3 |
+| A claim that the metrics measure real-world security | Verendel 2009 | simulation metrics of a simulated network; one clause in the opener or in 4.5.4 |
+
+### 4.5.4 Statistical analysis: the content points
+
+**The unit is the seed.**
+- Every condition and both attackers run on the same seeds, and the seed fixes the network (Table 5.1: "the same set on every arm").
+- For the ranking, hosts compromised are averaged per seed. The APT attacker model's four profiles at one seed become one value, because they are clustered.
+- That gives 1 000 units per condition for both attackers at the reported run.
+- The test does not use the seed blocking across conditions, which is conservative.
+
+**Runs.** 1 000 seeds per combination. Arcuri & Briand 2014 recommend "at least n = 1,000" runs of a randomised algorithm, which is the thesis's number; cite it.
+
+**Reported with each metric:**
+- **Means:** a 95 % interval on the mean (normal approximation).
+- **NCR reduction** (a ratio of means): a 95 % percentile bootstrap interval, 2 000 resamples, seeded.
+- **Open (flagged by the examiner 2026-09-25):** the bootstrap resamples the defended and no-defence cells independently, ignoring the shared seeds. The interval is approximate, probably conservative. Decide before the 1 000-seed run whether to resample by seed.
+
+**Ranking defences by NCR reduction: Scott–Knott ESD.**
+- **Step 1, Scott & Knott 1974:** sort the means, split where the between-groups sum of squares is largest if the likelihood-ratio test is significant at α = 0.05, and recurse.
+- **Step 2, the ESD merge (Tantithamthavorn et al. 2017):** merge adjacent groups whose difference is negligible, |Cohen's d| < 0.2 (Cohen 1988).
+- **Ranks:** defences in one group share a rank, 1 for the fewest hosts compromised. No defence is not ranked.
+- **Why this test:**
+  - it gives non-overlapping groups, so pairwise tests are never chained;
+  - it is established in empirical software engineering;
+  - its effect-size merge does not depend on the run count.
+- **Beyond the lineage:** no MTD paper in the corpus ranks defences with a test (Alavizadeh uses a "Best" row, Zhang a "Max Count" tally). Say so; it is the same move as reporting intervals.
+- **Assumptions and checks:**
+  - a one-way ANOVA with pooled variance, though the cells' variances differ widely: all-pairs Welch t-tests with Holm correction reproduce the groups (examiner 2026-09-25);
+  - no transform, because the ranked quantity is the mean the metric is built on. Herbold's comment on Tantithamthavorn 2017 criticises the package's log transform, and this analysis avoids it;
+  - the significance step is kept: this follows the 2017 paper, not ScottKnottESD 2.0.3, which splits on effect size alone. Name the version;
+  - d < 0.2 is a convention, and middle neighbours sit near it, so the middle ranks are indicative.
+- **Implementation:** `data/results/ch5_defended/sk_esd.py`, cross-checked against the original R code.
+
+**Comparing the two attackers' rankings: Spearman's ρ** between their NCR reductions at each interval (numbers.json `ranking.by_interval.*.spearman_points`), with a seed-bootstrap interval if the body quotes one.
+
+**Which statistic applies to which metric** (the best-practice pass: tag each):
+
+| Metric | Reported as |
+|---|---|
+| Relative tactic occurrence, APV | shares pooled over runs |
+| Attack rate, ASP, NCR, MTTC | mean with its interval |
+| Attack confidentiality | a share over the run, in bins |
+| NCR reduction | point with a bootstrap interval, and the rank |
+| NCR growth rate, time lost | pooled over deployments |
+
+### Research sources (2026-09-25)
+
+**Corpus (read from `docs/sources/`):**
+- Zaffarano 2015 §4;
+- Hong 2018 §5 (equations via `metric_census/A_hong.md`);
+- Cho 2020 §VII;
+- Zhang 2023 §3.4, §5;
+- Ho 2024 §3.3.2, §3.4.1;
+- Alavizadeh 2022 §D (the mitigation factor, l.597–601);
+- Sharma 2025 §4;
+- Brown 2023 §IV;
+- He 2025 V-B;
+- Kim 2026 §6.1.3;
+- McQueen 2006;
+- Cho & Ben-Asher 2018 §4.2;
+- Masud 2025 §3.5;
+- Barach 2026.
+
+Zhan 2013 and Pendleton 2016 are not held (read through census F only).
+
+**Methodology (web):**
+- NIST SP 800-55r1 (the measure template, Table 2);
+- Jansen, NISTIR 7564;
+- Morris, White & Crowther 2019;
+- STRESS-DES item 1.2;
+- ODD 2020;
+- Verendel 2009;
+- Herley & van Oorschot 2017;
+- Savola 2013;
+- Basili, GQM;
+- Kitchenham et al. 1995 (through a secondary summary);
+- Arcuri & Briand 2014;
+- Herbold's comment on Tantithamthavorn 2017.
+
+Before citing any of these in the thesis, fetch it and confirm the wording; the agent read 10 of 17 in the primary text.
 
 ## Goal
 
@@ -16,7 +149,7 @@ evidence: ../sources/extractions/mtd_metric_catalogue.md (the verdict and the so
 
 ## State of play
 
-- **§4.5 is *Evaluation metrics*** (`\label{sec:evaluation-metrics}`, renamed 2026-09-24 from *Instrumenting MTDSim*), with a placeholder, the metrics table, and **three subsections, one per class** — *Attacker behaviour* (`subsec:metrics-behaviour`), *Attack outcome* (`subsec:metrics-outcome`), *MTD effectiveness* (`subsec:metrics-effectiveness`) — each holding a "definitions owed" placeholder. The older comment block with the 2026-09-23 content points sits below; this brief supersedes it.
+- **§4.5 is *Evaluation metrics*** (`\label{sec:evaluation-metrics}`, renamed 2026-09-24 from *Instrumenting MTDSim*), with a placeholder, the metrics table, and **three subsections, one per class, plus a fourth, *Statistical analysis* (`subsec:metrics-statistics`, added 2026-09-25)** — *Attacker behaviour* (`subsec:metrics-behaviour`), *Attack outcome* (`subsec:metrics-outcome`), *MTD effectiveness* (`subsec:metrics-effectiveness`) — each holding a "definitions owed" placeholder. The older comment block with the 2026-09-23 content points sits below; this brief supersedes it.
 - **The metrics table moved into §4.5** (Table 5.2 → **Table 4.3**, `tables/tab_4-5a_metrics.tex`, label `tab:metrics` kept): Class · Metric · Source, the class a level first column, no definition column — the definitions are this brief's job. §5.1 now only points to it.
 - **§5.2's floats and §5.3's labels** carry these metrics (Figure 5.1's three panels, Table 5.3; NCR reduction, attack actions blocked, recovery time in §5.3). Numbers are 100 seeds until the 1 000-seed run.
 - **Appendix C** has the owed sweep's section, `app:detector-memory`, as a placeholder.
@@ -83,9 +216,9 @@ Checked free in the tex: $\theta$, $\kappa$, $\lambda$, $\eta$, $\omega$, $h$, $
 
 ### MTD effectiveness — read in §5.3
 
-**8. NCR reduction — cited form.** $1 - \overline{\mathrm{NCR}}_{\text{defence}} / \overline{\mathrm{NCR}}_{\text{no defence}}$, a ratio of means with a bootstrap interval: 0 for no effect, 1 for no host compromised, negative if the defence helps the attacker. The form is Alavizadeh et al. 2022's mitigation factor, $1 - \mathrm{ALE}^m / \mathrm{ALE}$, "the ability of the defensive MTD techniques to impair the attack" (Eq. 13). *Why NCR and not ASP:* under a defence the APT attacker model's ASP is zero on most conditions and cannot order them.
+**8. NCR reduction — cited form.** $1 - \overline{\mathrm{NCR}}_{\text{defence}} / \overline{\mathrm{NCR}}_{\text{no defence}}$, a ratio of means with a bootstrap interval: 0 for no effect, 1 for no host compromised, negative if the defence helps the attacker. The form is Alavizadeh et al. 2022's mitigation factor, $1 - \mathrm{ALE}^m / \mathrm{ALE}$, "the ability of the defensive MTD techniques to impair the attack" (Eq. 13). *Why NCR and not ASP:* under a defence the APT attacker model's ASP is zero on most conditions and cannot order them. **Last sentence (2026-09-25):** defences are ranked by NCR reduction, and the ranking is declared in 4.5.4. **Edge case:** the denominator, the no-defence NCR, is never zero here (0.16 and 0.49); say so.
 
-**9. Attack actions blocked — adapted.** The share of the attacker's actions that fail because something they need is no longer there. Brown et al. 2023, §IV-A "Attack Actions Blocked" (a count of the actions an MTD technique blocked; §III-D: connection to the host or service lost, or the user's access changed). *Differs:* a share, so attackers acting at different rates compare; and it counts such failures with no defence running too (0.24), so §5.3.1 reads its change around a disruption.
+**9. Attack actions blocked: CUT 2026-09-25** (Marc: "all the metrics need to be there for a purpose … if they're not … we have to cut it"). It served one float, for one attacker (structurally zero for the baseline); it read 0.24 with no defence; and its Brown attribution was disputed. Removed from Table 4.3, Table 5.1 and Table 5.3. The old entry is kept for the record: **Attack actions blocked, adapted.** The share of the attacker's actions that fail because something they need is no longer there. Brown et al. 2023, §IV-A "Attack Actions Blocked" (a count of the actions an MTD technique blocked; §III-D: connection to the host or service lost, or the user's access changed). *Differs:* a share, so attackers acting at different rates compare; and it counts such failures with no defence running too (0.24), so §5.3.1 reads its change around a disruption.
 
 **10. Time lost per MTD deployment — introduced (was recovery time; renamed 2026-09-24 with the Figure 5.3 rebuild, results context §8g-5; the full name RULED by Marc the same day: "the name should explicitly describe what it's doing"; notes also sit under §4.5's holder in the tex).** The progress one MTD deployment costs the attacker, as seconds at its own pace: the hosts it would have compromised in the 1 250 s after the deployment completes at its rate in the 750 s before, less those it did, over that rate — less the same quantity read at the same moments on the same seed's no-defence run (the placebo; the attacker's pace drifts within a run). Zero: the deployment cost nothing; it can be negative (a catch-up above its level cancels a dip). It is the dip at the deployment, not the net over the run (NCR reduction is the net); only deployments with a full 750 s before them count; at a 2 000 s interval the window stops at 1 250 s because the next deployment's before-window begins there. Must also define **NCR growth rate** (new Table 4.3 row): hosts compromised per unit of the attacker's live time, read around a deployment as a percentage of its rate before; the curve time lost is the area of. *Why:* adaptivity — responding to a defence — is the one APT property readable only when a defence acts; the field's recovery metric (MTTR) is the defender's; that the attacker must recover at all is Jafarian et al. 2015's point. Three per-event estimators (the wait to the next compromise, against a clock-matched or a progress-matched reference) were tried and rejected on censoring and reference grounds; record in §8g-5. **The equations (Marc 2026-09-24: "can this be expressed in calculus? ... we're measuring the rate of change"): yes, and this is their display form.** With $H(t)$ the hosts compromised by time $t$ ($\mathrm{NCR}(t) = H(t)/50$) and a deployment completing at $t_d$: the NCR growth rate is $r(t) = \mathrm{d}\,\mathrm{NCR}/\mathrm{d}t$, estimated in 125 s bins of live time; relative to the rate before, $\tilde r(t) = r(t_d + t) / \bar r_{-}$ with $\bar r_{-}$ the mean rate over $[t_d - 750, t_d)$; time lost $= \int_0^{1250} (1 - \tilde r(t))\,\mathrm{d}t$, less the same integral on the same seed's no-defence run at the same $t_d$ (pooled over deployments before the ratio is taken, so it is a ratio of sums, not a mean of ratios). The 1 250 s upper limit and the 750 s window are declared constants; say why (the next deployment's window at a 2 000 s interval).
 
@@ -102,7 +235,7 @@ Not §4.5, but the same defensibility pass, and the setup is where a reader asks
 **Framing ruled (Marc, 2026-09-24):** chapter 5/6 say the model takes fewer actions above a rate alarm tuned on the baseline attacker, because much of its campaign is in tactics the simulator gives no network action — not "much harder to detect". The four-variant action-rule sensitivity (results context §8i-5) goes to Appendix C.4 as a later item.
 
 
-0. *Action* has two senses in Table 4.3 and §4.5 must name both: a verb **invoked** (attack actions blocked counts the invoked verbs whose precondition fails) and a verb that **runs** (attack rate, attack confidentiality). Also define *opening*, *alarm level* and *detector* — Figure 5.1's caption points here.
+0. *Action* now has ONE sense (attack actions blocked, which counted invoked verbs, is cut 2026-09-25): a verb that **runs** (attack rate, attack confidentiality). Define it once, in 4.5.1. Also define *opening*, *alarm level* and *detector*; Figure 5.1's caption points here.
 
 1. The symbols (above), especially $\kappa$ for the detector's memory in place of $\tau$.
 2. Table 3.1: add the anchors it lacks — attack rate (Zhan), Outkin's time share, the mitigation factor (Alavizadeh) — so every §4.5 source is on the literature review's map. Attack confidentiality, APV, ASP, NCR, MTTC and attack actions blocked are there already.

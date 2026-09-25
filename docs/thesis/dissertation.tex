@@ -5384,27 +5384,91 @@ it would cost to be wrong about them.
 % Definitions owed: docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md.
 \input{tables/tab_4-5a_metrics}
 
+% [2026-09-25: NOTES UNDER EACH HOLDER (Marc: "put it in the placeholders ... detailed
+%  notes ... then I'll do that"). Full brief, template, pitfalls and sources:
+%  docs/handoffs/2026-09-24_s45_instrumenting_mtdsim.md, "Start here". Each definition,
+%  in the corpus's order (Alavizadeh's mitigation factor is the model): (1) name
+%  (ACRONYM) cited at the name, with its status (adopted: "as defined by"; adapted:
+%  "adapted from ... we ..."; introduced: "we define ... to measure ..."); (2) one
+%  "measures" sentence; (3) the operation in words, then a numbered equation, symbols
+%  in a "where" clause; (4) range and direction; (5) when it is read, and the edge
+%  case if one exists; (6) adapted: the one thing that differs; (7) introduced: what
+%  no cited metric captures, and one limitation. Adopted 2-4 sentences; introduced
+%  8-15. No statistics, no results in a definition (4.5.4 holds them).]
+%
+% OPENER (one sentence): the metrics fall in three classes, one per question the
+% results ask of the attacker --- what it does, what it achieves, what a defence does
+% to it --- listed with their sources in Table~\ref{tab:metrics}.
+%
 % \subsection{Attacker behaviour}
 % \label{subsec:metrics-behaviour}
-% 
-% \noindent\emph{[Definitions owed: relative tactic occurrence; attack path
-% variation (APV); attack rate; attack confidentiality.]}
-% 
+%
+% \noindent\emph{[Definitions owed. Class opener: what the attacker does, read with
+% no defence (Section 5.2). Define "step", "opening" and "action" once here: an
+% action is a verb that runs on the network (not a dwell-only tactic, not an unmet
+% precondition, not an end-of-run marker; one exploit, not one per vulnerability).
+%  - Relative tactic occurrence (Rodriguez et al. 2024, adopted; Rodriguez only
+%    tabulates it, so the equation is ours): the share of the attacker's steps in
+%    each tactic, pooled over runs. Why steps, not time (dwell is declared).
+%  - Attack path variation, APV (adapted from Hong et al. 2018, Eq. 2): the share of
+%    runs whose first k tactics differ from the commonest opening; 0 = every run
+%    opens alike. Differs: Hong's paths are those available across network states,
+%    ours those taken across runs.
+%  - Attack rate (adapted from Zhan et al. 2013): actions per 1 000 s of active
+%    time, averaged over runs. Differs: one attacker's own actions. Why active time
+%    (a run ends when the target falls). The action rule matters (c_4 level with the
+%    baseline if unmet verbs counted).
+%  - Attack confidentiality (adapted from Zaffarano et al. 2015): the share of
+%    actions taken below a declared detector's alarm; D(t) with memory kappa = 60 s;
+%    alarm set to flag half the baseline attacker's actions. Differs: a declared
+%    detector, not plaintext visibility. Limitation: a detector counting time on the
+%    network would read the slower attacker the other way (Hong 2018).]}
+%
 % \subsection{Attack outcome}
 % \label{subsec:metrics-outcome}
-% 
-% \noindent\emph{[Definitions owed: attack success probability (ASP); network
-% compromise ratio (NCR); mean time to compromise (MTTC).]}
-% 
+%
+% \noindent\emph{[Definitions owed. Class opener: what the attacker achieves, with no
+% defence (Table 5.2) and under each (Section 5.3).
+%  - Attack success probability, ASP (Cho et al. 2020, adopted): the share of runs
+%    that compromise a target host. Not Ho's ASR (hosts per attempted action).
+%  - Network compromise ratio, NCR (Zhang et al. 2023; Ho et al. 2024 Eq. 10,
+%    adopted): hosts compromised at the end of the run over the network's 50. Read
+%    under the targeted scenario: how much of the network is held when the run ends.
+%  - Mean time to compromise, MTTC (McQueen et al. 2006; Zhang et al. 2023; adopted,
+%    checkpoint stated): time to the FIRST host, over the runs that compromise one;
+%    the share that do is reported beside it (edge case). Zhang's checkpoint, 80 % of
+%    hosts, is never reached by the APT attacker model.]}
+%
 % \subsection{MTD effectiveness}
 % \label{subsec:metrics-effectiveness}
-% 
-% \noindent\emph{[Definitions owed: NCR reduction;
-% NCR growth rate, defined in the terms of calculus as the derivative of NCR over
-% time, read around an MTD deployment relative to the rate before it; time lost per
-% MTD deployment, the integral of the shortfall of that rate below the rate before
-% the deployment, in seconds, net of the same integral with no defence. Both are
-% read in Section~\ref{subsec:aio-disruption}.]}
+%
+% \noindent\emph{[Definitions owed. Class opener: what a defence does to the attacker.
+%  - NCR reduction (adopted form: Alavizadeh et al. 2022's mitigation factor, on
+%    Zhang's and Ho's NCR): 1 - mean NCR with the defence / mean NCR with none; 0 no
+%    effect, 1 no host compromised, negative = the defence helps the attacker. Why NCR,
+%    not ASP (ASP is zero under most defences). Edge case: the denominator is never
+%    zero here. LAST SENTENCE: defences are ranked by it (Section 4.5.4).
+%  - NCR growth rate (introduced): the derivative of NCR over time, read around a
+%    deployment relative to the attacker's own rate before it (125 s bins; 750 s
+%    before).
+%  - Time lost per MTD deployment (introduced): the integral of the shortfall of that
+%    rate over the 1 250 s after the deployment, in seconds at the attacker's own
+%    pace, net of the same integral on the same seed's no-defence run. Why: adaptivity
+%    is readable only when a defence acts; MTTR is the defender's. Limitation: the dip
+%    at a deployment, not the net over the run (that is NCR reduction). Both read in
+%    Section~\ref{subsec:aio-disruption}.]}
+%
+% \subsection{Statistical analysis}
+% \label{subsec:metrics-statistics}
+%
+% \noindent\emph{[NEW 2026-09-25. Owed: the seed as the unit (seeds shared across
+% conditions and attackers; the APT model's four profiles averaged per seed); 1 000
+% seeds (Arcuri and Briand 2014); intervals per metric (normal approximation on means;
+% percentile bootstrap, 2 000 resamples, on NCR reduction); the ranking of defences by
+% NCR reduction, Scott--Knott ESD \citep{scott1974cluster, tantithamthavorn2017empirical}
+% with |d| < 0.2 negligible \citep{cohen1988statistical}, ties shared, rank 1 fewest
+% hosts, no defence not ranked, its assumptions and the Welch check; Spearman's rho
+% between the two attackers' rankings. Beyond lineage practice: say so.]}
 
 % NOTES FOR THE TWO INTRODUCED METRICS (2026-09-24, Marc: "put some notes into the
 % metric definition ... for later"; full brief: docs/handoffs/2026-09-24_s45_
