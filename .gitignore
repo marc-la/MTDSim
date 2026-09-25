@@ -213,6 +213,7 @@ docs/thesis/*.out
 docs/thesis/*.toc
 docs/thesis/*.lof
 docs/thesis/*.lot
+docs/thesis/*.low
 docs/thesis/*.fls
 docs/thesis/*.fdb_latexmk
 docs/thesis/*.synctex.gz
