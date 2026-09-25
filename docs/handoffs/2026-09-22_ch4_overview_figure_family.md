@@ -1,41 +1,292 @@
 ---
-status: open                  # executes register E8; scrutinised 2026-09-25 (critique only); rulings F1 (amended), F2–F5 owed
+status: open                  # executes register E8; DESIGN PLAN 2026-09-25 (from the scrutiny below); A primary, B–C secondary, D carried; F4b, F2, F3 owed
 created: 2026-09-22
+updated: 2026-09-25
 executes: docs/implementation/pipeline/ogasp/supervisor_decision_register.md §E8
-companions: ../workflows/terminology.md (what the boxes are called — RULED 2026-09-22: the profile net, the join, MTDSim; no layer names; the L-labels as signage), ../workflows/figure_table_conventions.md §(n) (the SVG route), the scrutinise-figure skill
+companions: ../workflows/terminology.md (row 47 to correct: L4 is the join; the L-labels retire under B), ../workflows/figure_table_conventions.md §(n) (the SVG route), .claude/skills/scrutinise-figure/ (SKILL.md schematic variant + diagram_best_practice.md — the acceptance test), ../implementation/evaluation_anatomies/_overview_figures_survey.md (corpus exemplars)
 ---
 
-# The chapter 4 overview as a family — one high-level box figure at the chapter head, a zoom per section — and the three chapter 5 figure fixes the supervisor named
+# The chapter 4 overview figure — design plan (primary), the L-label retirement and the zoom family (secondary), and the chapter 5 fixes (carried)
 
 ## State of play
 
-**The ruling (E8).** "Getting this figure right is like explaining half of your work." The current Figure 4.1 (`fig_4-0a_pipeline_ladder`, `tools/pipeline_ladder_figure.py`; rebuilt 2026-09-08 on the previous supervisor verdict as a schematic worked example tracing two real flows through L0–L4 in two hues) still does too much: arrows standing for relationships are not intuitive, "aggregate" cannot be read, and the L3 fragment is a sub-component drawn inside the overview. Ruling: a **high-level box figure** — the boxes and how they link, nothing else — at the chapter head, and each sub-component as a **zoom in its own subsection**, reusing the section figures. Profiles labelled by code; flow names deleted. Marc: a day's work. This is the 2026-09-09 family ruling (dense figures get a family at descending abstraction) applied to the figure the family was meant for.
+**The ruling (E8, 2026-09-22).** "Getting this figure right is like explaining
+half of your work." A high-level box figure at the chapter head — the boxes and
+how they link, nothing else — and each sub-component as a zoom in its own
+section. **The supervisor again, relayed by Marc 2026-09-25:** still too
+complicated, the labels try to do too much, not intuitive for the audience, the
+long caption gives it away; the levels are not levels, and is MTDSim a level?
 
-**What exists to reuse.**
+**The scrutiny (2026-09-25, below the plan)** upheld every point with four
+independent reviewers and a 21-test pitfall catalogue: 21 of 21 hit, five
+blocking. The figure is a worked example, not an overview; it tells half the
+method (no defences, baseline attacker or measure); it calls L4 MTDSim where
+§4.4 says L4 is the join; about sixteen of its words have no antecedent; the
+L-labels name a layered structure the pipeline does not have.
 
-| Level | Zoom figure today | Gap |
+## Rulings taken 2026-09-25 (Marc, on the scrutiny)
+
+- **F1 — the box set:** the Ferraz 2024 Fig. 2 pattern, with MTDSim as a
+  container — "yeah we can do that". Keep it simple: boxes and how they link.
+- **F4 — the L-labels go** ("we should get rid of the old labels"), from the
+  figure and the prose. What replaces them is secondary (Part B; F4b owed).
+- **F5 — the figure shows the defences, the baseline attacker and the
+  metrics** ("OK let's do that").
+- **The zoom family** (one figure per part, beside its section) stays, as
+  secondary to the head figure (Part C).
+
+## Rulings still owed
+
+- **F4b — what the sections are called once the L-labels go** (Part B; the
+  recommendation and Marc's "Process 1, Process 2" alternative are set out there).
+- **F2** — the colour exception for Figure 5.1(a) (Part D).
+- **F3** — whether the old worked-example ladder also survives whole as an
+  appendix figure, or only as the two zooms of Part C (recommended: the zooms
+  only; Appendix B already carries a flow exemplar, `fig_B-1a_gap_flow_exemplar`).
+
+---
+
+## Part A (primary) — the head figure
+
+**A1. The one message (the pass criterion).** A reader who has read the
+introduction, given the figure alone, says: *the 38 attack flows are combined
+into one attack graph, split into attack profiles by objective, and each
+profile is made executable and joined into MTDSim, where it drives the same
+attacker actions as the baseline attacker, against the same defences, and both
+are measured.* Every part of that sentence is on the figure; nothing else is.
+
+**A2. Layout: two regions and an output, read left to right.**
+
+```
+                ┌──────────── APT attacker model (this dissertation) ─────────────┐
+ ▭▭▭            │                                                                 │
+ 38 attack  ──combine──▶ Attack graph ──split by──▶ Attack   ──make──────▶ Profile│
+ flows          │  §4.1                objective   profiles     executable   nets │
+ cyber threat   │                        §4.2       c1 c2 c3 c4   §4.3        │    │
+ intelligence   └─────────────────────────────────────────────────────────────┼────┘
+                                                                         join │ §4.4
+                ┌──────────────────── MTDSim (Chapter 2) ─────────────────────▼────┐
+                │  Defence              Network              Attacker             │
+                │  MTD mechanisms                            baseline attacker ─▶ actions
+                └───────────────────────────────┬──────────────────────────────────┘
+                                       measure  │ §4.5
+                                                ▼
+                                      Metrics, per attacker
+```
+
+Sketch only: the proportions, and whether MTDSim sits below or to the right
+(D3), are decided at the mock. What is fixed:
+
+- **Four groups**, no more (principle H; P8): the input; what this dissertation
+  builds (framed); MTDSim (framed as existing); the output.
+- **Built vs used is the one grouping the figure makes** (P18, P19): the input
+  (the attack flows were drawn by CTID's analysts) and MTDSim sit *outside* the
+  built frame; the frame is the APT attacker model. This answers "is MTDSim a
+  level?" on the page.
+- **MTDSim is drawn as Figure 2.1 draws it**: the three modules *Attacker*,
+  *Network*, *Defence*, by those names, so the reader recognises the simulator
+  from chapter 2. The baseline attacker lives in the Attacker module (it *is*
+  "its procedure" in Figure 2.1); the attacker actions are what both attackers
+  drive. No arrows between the modules (Figure 2.1 carries the couplings; D2).
+- **Artefacts are boxes, processes are the labelled arrows between them**
+  (Wong's "A to B"; P3). The arrow labels are the introduction's verbs:
+  *combine*, *split by objective*, *make executable*, *join*, *measure*. Never
+  *aggregate*, *condition*, *give executable semantics*.
+- **Two arrow kinds only** (P1): *becomes* (the chain, and MTDSim → metrics),
+  thin and dark; *drives* (the join into the attacker actions, and the baseline
+  attacker into the same actions), visibly different (heavier). Nothing else is
+  an arrow.
+- **Section pointers under each process arrow** (§4.1 … §4.5), set the way
+  Figure 2.1 sets "Figure 2.x" under its modules. They are the navigation into
+  the zooms (Part C) and do the job the L-labels did. Chapter 2 under MTDSim.
+- **One accent** (Rougier rule 6; P20): the built frame and the join arrow. The
+  rest greys. The two-hue exception does not travel here.
+
+**A3. Words.** Every label at most four words. Every word is either one the
+introduction gives the reader (attack flows, cyber threat intelligence, attack
+profiles, objective, APT attacker model, baseline attacker, MTDSim, defence,
+actions) or one the figure defines by boxing it (*attack graph*, *profile
+nets*, *join*). Banned on the head figure (P14): *Petri*, *token*, *fire*,
+*dwell*, *verb*, *verdict*, *re-weighting*, *runtime loop*, *aggregate*,
+*condition*, *semantics*, L0–L4, ATT&CK tactic names.
+
+**A4. No data drawn** (P7, P15): no techniques, no tactic axis, no net marks, no
+example flows, no counts except "38" in the input label and the four profile
+tiles (the count *is* the fact there). The worked example moves to the §4.1 zoom.
+
+**A5. Caption.** A title sentence and at most one reading sentence; no
+"X denotes Y" beyond one (P12; corpus norm 2–9 words, thesis captions run
+longer). Session draft for Marc's rewrite, DRAFT STATE:
+*"The APT attacker model: built once from 38 attack flows, then run in MTDSim
+beside the baseline attacker, under the same defences. Each arrow is labelled
+with the section that describes it."*
+
+**A6. Build.**
+- New generator `tools/ch4_overview_figure.py`, SVG route per conventions §(n)
+  (`tools/ch2_model_figures.py` is the pattern — read it, do not edit it; Marc is
+  working in it), printed to PDF through Chromium; house figure face (helvet
+  0.92); at \textwidth as a `[t]` float, not a full page. Stem
+  `fig_4-0a_method_overview` (conventions §j); **label `fig:pipeline` kept** so
+  every `\ref` stands.
+- Counts read from the artefacts with a drift guard (38 from the GAP, four
+  profiles from the classification), never typed.
+- `tools/pipeline_ladder_figure.py` is not deleted: it becomes the source of the
+  §4.1 zoom (Part C). Retire the `fig_4-0a_pipeline_ladder` outputs when the
+  zoom lands.
+
+**A7. Order of work and the acceptance test.**
+1. Mock in the scratchpad (SVG → PNG), two variants if D3 is open (MTDSim below
+   vs to the right).
+2. `/scrutinise-figure` on the mock, schematic variant: a figure-only cold
+   reader and a cold reader with the draft caption (both FRESH), the context
+   critic, the diagram auditor on P1–P21. **Pass:** the figure-only reader's
+   sentence matches A1 and names the defences, both attackers and the metrics,
+   with confidence of 8/10 or better; the auditor reports no blocking hit; every
+   word passes A3.
+3. Build into the PDF so Marc sees it on the page (his standing rule), replace
+   the old float and caption, `FLOATS.md` row, build clean.
+4. Re-run the cold readers on the built page; stop when clean.
+
+**Open design details, settled at the mock by the reviewers, not now.**
+- **D1 — the profile tiles.** E8 said label by code; a head-figure reader does
+  not yet have $c_1$–$c_4$. Try codes with "one per objective" under the box,
+  against four short objective names; the figure-only reader decides. The
+  aggregate $c_{\mathrm{agg}}$ stays off the head figure (it is §4.2's detail).
+- **D2 — arrows inside MTDSim.** Recommended none (containment only). Add
+  *rewrites* (Defence → Network) only if the cold reader cannot say what the
+  defence does; it is a third arrow kind.
+- **D3 — MTDSim below or to the right.** Whichever holds the type floor at
+  \textwidth with fewer bends. Below (as sketched) puts the Attacker module
+  under the profile nets, so the modules run mirror-wise to Figure 2.1
+  (Attacker left there); to the right keeps Figure 2.1's order. Test both.
+- **D4 — "with and without defences".** In the caption, or nowhere: the
+  experiments are chapter 5's.
+
+## Part B (secondary) — retiring the L-labels
+
+**What the parts are.** Each chapter 4 section describes a *process* that
+turns one artefact into the next: combining the flows into a graph, splitting it
+by objective, making the profiles executable, joining the net to MTDSim. So
+Marc's instinct is right about what the sections are, and the head figure
+already draws them that way: the processes are its arrows.
+
+**F4b — what to call them.**
+- **(a) Recommended — name each section by its process; no number, no class
+  noun.**
+
+  | Now | Proposed heading |
+  |---|---|
+  | §4.1 L0--L1: Cyber threat intelligence to attack graph | Combining the attack flows into an attack graph |
+  | §4.2 L2: Objective-conditioned attack profiles | Splitting the attack graph by objective |
+  | §4.3 L3: Generalised stochastic Petri-net formalism | Making the attack profiles executable (the formalism stays its subject; Jin accepted it, E9) |
+  | §4.4 L4: Joining the profile net to MTDSim | Joining the profile net to MTDSim (already a process; only the prefix goes) |
+  | §4.5 Evaluation metrics | unchanged |
+
+  The heading, the figure's arrow and the prose then use the same verb (P17;
+  academic_register rule 7). Wording is Marc's; the verbs are the
+  introduction's.
+- **(b) Marc's alternative — "Process 1" … "Process 4".** It reads cleanly, but
+  it is a numbered name that does no work the section numbers do not already do
+  (the 2026-09-22 no-invented-terms ruling: a name must say what it does), and
+  *process* already appears in chapter 3 as *process mining*. If a number is
+  wanted, the figure's §4.x pointers carry it.
+- Either way no class noun is needed: every candidate is taken (*phase*: the
+  baseline's six and the evaluation's two; *stage*: the lifecycle stages of
+  §4.4; *level*: network depth; *step*: Figure 5.1).
+
+**The sweep (after A's names are final, so headings, figure and prose agree).**
+Sites, from `grep` 2026-09-25 (non-comment only): the four headings (l.4188,
+4298, 4391, 4759); prose l.4269, 4276, 4310, 4400, 4405, 4407, 4698, 4762, 4779,
+4989, 5523 (a bracketed placeholder), 7950 (App. B); the fig:pipeline caption
+(replaced by A5); **Figure 4.5** — `tools/runtime_loop_figure.py` prints
+**L3** and **L4** band labels into `fig_4-4c_runtime_loop.tex`; relabel to the
+figure's names (*profile net*, *the join*) and regenerate. Replacement rule:
+refer to the artefact or the process by name — "the L1 attack graph" → "the
+attack graph"; "from L2" → "from the attack profiles"; "L4 deals with this" →
+"the join deals with this"; "Everything from L0 to L3 produces the profile net"
+→ "The first three sections produce the profile net". Other `tools/` scripts
+use L-labels only in repo-side output (docstrings, stdout, appendix-data
+headers) and stay — the registry's scope rule (repo vocabulary may keep them).
+
+**With the sweep:** registry row 47 corrected (L4 is the join; the L-labels
+retired, the rule overturned named); the heading-convention memory ("keep L0–L4
+prefixes", 2026-09-04) updated; `tools/term_screen.py census` to confirm zero
+L-labels in body, headings, captions and floats; build clean.
+
+## Part C (secondary) — the zoom family
+
+One figure per part of the head figure, beside the section that explains it,
+each using the head figure's name for that part (P17), with the head figure's
+section pointer as the link. The house precedent is Figure 2.1 → Figures 2.2–2.4.
+
+| Part (head-figure name) | Zoom | State |
 |---|---|---|
-| L0 → L1 | none in the chapter; App. B has `fig_B-1a_gap_flow_exemplar` and the technique-graph figures | a chapter zoom: two flows merged into one graph — the worked-example half of the current ladder is exactly this and can be cut down to it |
-| L2 | none | the partition of the graph into $c_1$–$c_4$ and the aggregate — the "aggregate" Jin could not read is this step |
-| L3 | Figure 4.2, the GSPN gadget (`fig_4-3a`) | stands |
-| L4 | Figures 4.3 (tactic-to-verb mapping), 4.4 (failure matrix), 4.5 (runtime loop) | stand |
-| MTDSim | chapter 2's model figures (`fig_2-2a` … `fig_2-2-3a`) | referenced, not redrawn |
+| combine (§4.1) | two real flows combined into one graph — the old ladder's L0–L1 half, cut down; the two-hue exception (conventions §i) travels here | **new**, from `tools/pipeline_ladder_figure.py` |
+| split by objective (§4.2) | the graph split into $c_1$–$c_4$, the aggregate shown as the unsplit graph; **each row draws its own profile's edges** (the old L2 rows redrew one global set, scrutiny §Also found) | **new** |
+| make executable (§4.3) | Figure 4.2, the gadget (`fig_4-3a`) | stands |
+| join (§4.4) | Figures 4.3 (tactic-to-verb mapping), 4.4 (failure matrix), 4.5 (runtime loop, relabelled under B) | stand |
+| MTDSim | Figure 2.1 and its family, referenced, not redrawn | stands |
 
-## Recommended approach
+Each new zoom gets its own `/scrutinise-figure` pass (schematic variant) and a
+`FLOATS.md` row.
 
-1. **The head figure** (`fig_4-0a`, same label `fig:pipeline` so refs stand): boxes for L0 the campaign corpus → L1 the attack graph → L2 the attack profiles $c_1 … c_4$ and $c_{\mathrm{agg}}$ → L3 the profile nets → L4 the join (its three declared inputs named on the arrow or inside the box) → MTDSim (network, defence mechanisms, the attacker's actions). One accent, greys; no data drawn; the L-labels as Marc's signage; whatever the terminology ruling keeps as names is what the boxes say — the figure *is* the definition Jin asked for ("in your figure you box them, this is the X, this is the Y, then you show how they're linked"). SVG route per conventions §(n) (`tools/ch2_model_figures.py` is the working pattern), printed to PDF; counts in the caption only.
-2. **The zooms**: cut the current ladder's L0–L2 half into two chapter figures (L0→L1 merge; L2 partition with the aggregate shown as the un-partitioned graph), placed at §4.1 and §4.2; Figures 4.2–4.5 stay where they are. The two-hue exception (conventions §i, 2026-09-08) travels to the L0→L1 zoom, which is where the two flows are traced; the head figure takes none.
-3. **Scrutinise** the head figure the standard way: a cold reader given only the figure, caption and one sentence must restate the pipeline in one sentence; repeat until no blocking defect.
-4. **Chapter 5 fixes** (same generators, small): Figure 5.1 panel (a) in **colour** — a sequential heat-map fill for the share of steps per tactic (a scoped exception to greys-plus-one-accent, recorded in conventions §i beside the profile-hue exception); panel (b) as a **bar chart**, x = opening length in steps, one colour, y = share of runs that have left the commonest opening (Jin: bars for proportions, lines for correlated points); Figure 5.2 gains a **key** for the hollow circles (each mechanism alone) inside the axes. *Added 2026-09-23 (Marc, at the restructure: "include the baseline, but that's for later"):* Figure 5.1 now opens §5.2 *APT attacker model versus baseline attacker*, so it carries the baseline attacker beside the profiles, drawn in whatever form panel (a)'s tactic axis allows (the baseline walks phases, not tactics).
-5. `FLOATS.md` rows for every new or moved figure, in the same commit.
+## Part D (carried from 2026-09-22) — the chapter 5 figure fixes
 
-## Rulings owed (Marc)
+Same generators, small: Figure 5.1 panel (a) in **colour**, a sequential
+heat-map fill for the share of steps per tactic (a scoped exception to
+greys-plus-one-accent, recorded in conventions §i beside the profile-hue
+exception; F2); panel (b) as a **bar chart**, x = opening length in steps, one
+colour, y = share of runs that have left the commonest opening (Jin: bars for
+proportions, lines for correlated points); Figure 5.2 gains a **key** for the
+hollow circles (each mechanism alone) inside the axes. *Added 2026-09-23 (Marc:
+"include the baseline, but that's for later"):* Figure 5.1 opens §5.2 *APT
+attacker model versus baseline attacker*, so it carries the baseline attacker
+beside the profiles, in whatever form panel (a)'s tactic axis allows (the
+baseline walks phases, not tactics).
 
-- **F1** the box set (the names are ruled: L0 the campaign corpus, L1 the attack graph, L2 the attack profiles, L3 the profile nets, L4 the join, then MTDSim — no layer names, no *traversal*; the interim relabelling of the current ladder and of fig:runtime-loop is in git `tools/pipeline_ladder_figure.py` / `tools/runtime_loop_figure.py`, 2026-09-22).
-- **F2** the colour exception for Figure 5.1(a).
-- **F3** whether the current worked-example ladder survives as an appendix figure or is cut down into the two zooms only.
+## Validation gate
 
-## Scrutiny 2026-09-25 — critique only, nothing redrawn
+- **A:** the head figure passes A7 (figure-only cold reader restates A1 naming
+  the defences, both attackers and the metrics, 8/10 or better; auditor: no
+  blocking hit on P1–P21); built into the PDF; caption within A5.
+- **B:** zero L-labels in body, headings, captions and floats
+  (`tools/term_screen.py census`); headings, figure arrows and prose use one
+  verb per process; registry row 47 and the memory updated.
+- **C:** §4.1 and §4.2 have their zooms, each scrutinised clean.
+- **D:** Figure 5.1 in colour with panel (b) as bars; Figure 5.2 has its key;
+  conventions §i records the exceptions.
+- `FLOATS.md` current; build clean. Share with Jin before the week-9 meeting
+  (E11).
+
+## Hard constraints
+
+- Figures generated by `tools/` into `docs/thesis/figures/`; Helvetica figure
+  face; pack to the page box; never shrink below the type floor.
+- `fig:pipeline` label unchanged, so every `\ref` stands.
+- No accentuation beyond the encoding; one accent on the head figure.
+- Captions session-drafted are DRAFT STATE for Marc's rewrite.
+
+## Reading list
+
+- The scrutiny record below, and `.claude/skills/scrutinise-figure/diagram_best_practice.md` (§2 principles, §4 the tests).
+- `docs/implementation/evaluation_anatomies/_overview_figures_survey.md` — Ferraz 2024 Fig. 2, Tay 2024 Fig. 1 (renders in the survey's locators).
+- Figure 2.1 (`fig:mtdsim-model`, `dissertation.tex` ~l.561) and `tools/ch2_model_figures.py` (read only).
+- The introduction's approach paragraph (`dissertation.tex` ~l.335–354) — the words the figure may use.
+- `tools/pipeline_ladder_figure.py` (becomes the §4.1 zoom; keep its drift guards); `tools/runtime_loop_figure.py` (L-labels, Part B).
+- `docs/workflows/figure_table_conventions.md` §d, §h, §i, §j, §(n); for D, `docs/handoffs/2026-09-20_ch5_s52_s54_results_context.md` §8b–§8c, §8g.
+
+## Out of scope
+
+Chapter 2's figures (Marc is editing them — `tools/ch2_fig23_*`, `ch2_fig24_*`,
+`ch2_model_figures.py` — read, never edit); the chapter 5 effectiveness figures
+(the restructure and corpus handoffs redraw them); the formalism's notation
+(E9, Marc's).
+
+---
+
+## Scrutiny 2026-09-25 — the evidence for the plan (critique only, nothing redrawn)
+
+*Where this record and the plan above differ, the plan governs (it carries Marc's 2026-09-25 rulings).*
 
 Run with the extended `/scrutinise-figure` (schematic variant; design reference
 `.claude/skills/scrutinise-figure/diagram_best_practice.md`, corpus evidence
@@ -149,41 +400,3 @@ sentences. Every part a noun the introduction already uses, except *attack
 graph* and *profile net*, which the figure defines by boxing them. Section
 numbers under the boxes do the job the L-labels did.
 
-**Rulings owed (added 2026-09-25; F1 amended).**
-- **F1 (amended)** — the box set above, or Marc's own. The ruled names stand,
-  except that L4 is *the join* and MTDSim is not an L-part.
-- **F4 — the L-labels.** (a) *Recommended:* drop them from the figure and from
-  the four chapter 4 headings (the parts named by what they are: "Cyber threat
-  intelligence to attack graph", "Attack profiles", "Profile nets", "Joining
-  the profile net to MTDSim"); the parts need no class noun. Overturns the
-  2026-09-04 heading convention (keep L0–L4 prefixes) and registry row 47's
-  "L-labels as signage", on the supervisor's merit point: the labels name a
-  structure the method does not have. (b) Keep them in the headings only, as
-  section signage, with nothing on the figure. (c) Keep both, glossed once as
-  numbering only. 21 non-comment L-label sites in the tex to sweep under (a).
-- **F5 — the figure's scope.** Whether the head figure carries the defences,
-  the baseline attacker and the metrics (recommended: yes; the question the
-  chapter answers is about MTD, and the cold readers looked for it first).
-- **Registry row 47** to correct under any option: L4 is the join; the figure
-  gutter *MTDSim* entry is wrong.
-
-## Validation gate
-
-The head figure passes a cold read (the reader restates the pipeline in one sentence with no term they had to look up); each of L0→L1, L2, L3 and L4 has a zoom in its section; Figure 5.1 is in colour with panel (b) as bars; Figure 5.2 has its key; conventions §i records the exceptions; `FLOATS.md` current; build clean.
-
-## Hard constraints
-
-- Figures generated by `tools/` into `docs/thesis/figures/` (the figure pipeline); Helvetica figure face; pack-to-page-box.
-- No accentuation beyond the encoding (no arrows or highlights for emphasis in evidence figures).
-- Labels unchanged so every `\ref` stands.
-
-## Reading list
-
-- `tools/pipeline_ladder_figure.py` — the current drawing and its data reads (keep the drift guards).
-- `docs/workflows/figure_table_conventions.md` §d, §h, §i, §(n).
-- `docs/handoffs/2026-09-20_ch5_s52_s54_results_context.md` §8b–§8c (Figure 5.1's design record), §8g (Figure 5.2's).
-- `tools/ch5_unopposed_figures.py`, `tools/ch5_disruption_figure.py`.
-
-## Out of scope
-
-Chapter 2's figures (Marc is editing them in the working tree today — `tools/ch2_fig23_*`, `ch2_fig24_*`, `ch2_model_figures.py` — leave them to him); the chapter 5 effectiveness figures (the restructure and corpus handoffs redraw them).
