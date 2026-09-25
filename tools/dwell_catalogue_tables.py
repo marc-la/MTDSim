@@ -53,7 +53,7 @@ FAMILY_LABEL = {
 # the value inherits. It is the value's *shape source*, not the verb the tactic
 # dispatches at run time --- the caption says so, because the two differ.
 PRICED_FROM = {
-    "scan-shaped": "MTDSim's scan verbs, one enumeration pass",
+    "scan-shaped": "MTDSim's scan actions, one enumeration pass",
     "exploit-shaped": "MTDSim's exploit time, at median complexity",
     "prep-off-network": "no in-simulator dwell",
 }

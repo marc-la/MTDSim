@@ -149,8 +149,7 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     stack(svg, p[0], ny0, p[1], ny1)
     svg.text(sum(p) / 2, nyc + 6, "Attack profiles", "title")
     stack(svg, n[0], ny0, n[1], ny1)
-    svg.text(sum(n) / 2, nyc - 2, "Profile nets", "title")
-    svg.text(sum(n) / 2, nyc + 22, "Petri nets", "sm")    # the class a CS reader knows (round 1: 3 of 3 readers)
+    svg.text(sum(n) / 2, nyc + 6, "Petri nets", "title")   # Marc 2026-09-25: one term, the Petri net (was "profile net")
 
     # the three processes inside row 1 (BECOMES)
     for (x0, x1), lines, sec in (((inp[1], g[0]), ["combine"], "§4.1"),
@@ -219,7 +218,7 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     # the join: a step of this dissertation (thin, the accent), into the APT attacker model
     svg.path(f"M{ac},{ny1 + 3} V{apt[0] - 4}", "becomes acc", marker="mA")
     svg.text(ac - 14, fy1 + 30, "join to MTDSim", "verb halo", anchor="end", extra=f' style="fill:{ACCENT}"')
-    svg.text(ac - 14, fy1 + 48, "one net per run", "sm halo", anchor="end")
+    svg.text(ac - 14, fy1 + 48, "one Petri net per run", "sm halo", anchor="end")
     svg.text(ac + 14, fy1 + 30, "§4.4", "xref halo", anchor="start")
 
     # Figure 2.1's couplings, grey: the defence rewrites the network, the actions compromise it
@@ -240,7 +239,8 @@ def emit(n_flows: int) -> tuple[str, float, float]:
     oy0, oy1 = my1 + 52, my1 + 52 + 56
     ox0, ox1 = xm - 120, xm + 120
     svg.rect(ox0, oy0, ox1, oy1, "node")
-    svg.text(xm, (oy0 + oy1) / 2 + 7, "Metrics, per attacker", "title")
+    svg.text(xm, (oy0 + oy1) / 2 - 3, "Evaluation metrics", "title")
+    svg.text(xm, (oy0 + oy1) / 2 + 19, "per attacker", "sm")
     svg.path(f"M{xm},{my1 + 3} V{oy0 - 4}", "becomes")
     svg.text(xm + 14, my1 + 22, "measure", "verb halo", anchor="start")
     svg.text(xm + 14, my1 + 41, "§4.5", "xref", anchor="start")

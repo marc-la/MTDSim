@@ -97,7 +97,7 @@ def tex_escape(s: str) -> str:
 def panel_a() -> list[str]:
     y = 1.5
     out = [
-        rf"\node[head,anchor=west] at ({X_P-0.6},{y+1.9}) {{(a)\enspace One tactic $p$ of a profile net $\mathcal{{N}}_c$}};",
+        rf"\node[head,anchor=west] at ({X_P-0.6},{y+1.9}) {{(a)\enspace One tactic $p$ of a Petri net $\mathcal{{N}}_c$}};",
         rf"\node[place] (p) at ({X_P},{y}) {{}}; \fill (p) circle (0.9mm);",
         rf"\node[below=2pt of p,lab,align=center] {{$p$}};",
         rf"\node[timed] (tau) at ({X_TAU},{y}) {{}};",

@@ -4149,8 +4149,7 @@ MTDSim can run either the APT attacker model or the baseline attacker of
 Section~\ref{subsec:attacker-model}, on the same network and under the
 same defences, so that the two can be compared. The APT attacker model
 shares the baseline attacker's action set, but its movement is dictated
-by the generalised stochastic Petri net and by the attacker model at
-runtime. This is a proof of concept, testing whether behavioural fidelity changes
+at runtime by the Petri net of its attack profile. This is a proof of concept, testing whether behavioural fidelity changes
 existing MTD evaluation.
 
 % [2026-09-04, Marc: the identifiers appeared twice in P2 and did not
@@ -4172,7 +4171,7 @@ Figure~\ref{fig:pipeline} is the pipeline that answers them.
 % the graph cannot represent. (Consensus-thresholds disclosure removed
 % per Marc's ruling, 2026-08-16 --- the lossless/views record lives in
 % the repo, not the chapter.)
-\section{L0--L1: Cyber threat intelligence to attack graph}
+\section{Attack graph construction}
 \label{sec:technique-graph}
 
 % DRAFT STATE (2026-08-16): passes 1--5 COMPLETE; Marc signed the unit
@@ -4240,7 +4239,7 @@ added the graphs together:
 we stripped out all of the unnecessary details, such as specific attack
 procedures or human analyst notes, preserving the logical AND/OR
 structure. But aggregation makes the logical AND
-vacuous, because there are many OR paths which an attacker agent
+vacuous, because there are many OR paths which an attacker
 can traverse. Once we had decided on Attack Flow as the preferred mode
 of CTI, we then had to decide what the correct resolution was (tactic
 or technique). That is why we decided to prioritise coverage at this
@@ -4253,14 +4252,14 @@ capture the generalised behaviour of APT attackers. There is also
 precedent for using tactics as the node granularity
 \citep{rodriguez2024}.
 
-The aggregate APT attack graph (L1) is a
+The attack graph, the aggregate of the 38 attack flows, is a
 weighted directed graph where the nodes are the MITRE ATT\&CK tactics,
 and each edge is weighted on how many times it is observed in the
 corpus. We are using
 human-analyst-drawn dependency graphs, and this is sparse input
 data. The edge weight is a recurrence value; therefore, we cannot rely
-on these weights alone for attacker agent traversal. Instead, we treat
-the L1 attack graph as a skeleton of behaviour.
+on these weights alone to drive the APT attacker model. Instead, we treat
+the attack graph as a skeleton of behaviour.
 % (Cycles-preserved sentence cut at pass 5 --- L3 now introduces loop
 %  preservation itself; recorded in the handoff for the L3 drafting.)
 
@@ -4282,7 +4281,7 @@ would have to address it regardless of our input.
 % 1 unit (L2). Objective over motivation; the four classes. Answers
 % capture. Disclosures: what the partition produced, operator
 % concentration.
-\section{L2: Objective-conditioned attack profiles}
+\section{Attack profiles by objective}
 \label{sec:attack-profiles}
 
 % ---- Pass 5b, 2026-08-17: Marc's further cuts applied --- the "idea to
@@ -4294,7 +4293,7 @@ would have to address it regardless of our input.
 The literature tells us that APT attackers are not a homogeneous group,
 and so they are distinguished by campaign-level intent. We cannot
 produce an APT attacker model that could be considered behavioural,
-because the L1 aggregate carries so many different motivations and
+because the attack graph carries so many different motivations and
 objectives which influence behaviour \citep{alshamrani2019}.
 
 Motivation is something that we cannot ascertain. We can see what an
@@ -4312,8 +4311,8 @@ is composite data, with structure and dependency manually drawn to a
 high level of fidelity; however, coverage is an issue. Attack Flow also
 uses and operationalises the MITRE ATT\&CK framework, but it does not
 limit itself to its taxonomy, and so the attack flows can have nodes
-which do not directly map to the MITRE framework and which the prior levels
-in the pipeline removed. Some of the attack flows could be left
+which do not directly map to the MITRE framework and which the construction of the attack graph
+removed. Some of the attack flows could be left
 incomplete, and that is why we had to cross-reference the objective,
 because we could not rely on the objective tactic alone.
 % [3b, standing] "we are going to" x2; citation here and in P1; "removed".
@@ -4375,7 +4374,7 @@ which is known for double extortion, so we are not surprised there.
 % executed-not-solved / CTMC closed-form vocabulary and the standalone
 % analytical track are not wanted in the chapter --- the record holds
 % them (stochastic_timing_design.md §1).
-\section{L3: Generalised stochastic Petri-net formalism}
+\section{Generalised stochastic Petri-net formalism}
 \label{sec:petri-formalism}
 
 % ---- Marc's pass-5 compression (2026-08-18), written in with his rulings
@@ -4384,18 +4383,19 @@ which is known for double extortion, so we are not surprised there.
 %      the model > pre-intrusion solution > limits that carry to L4. ----
 % [APPLIED 2026-08-18: topic sentence (b), Marc's own words from the first
 %   dictation, chosen over (a) the question.]
-We needed a data structure to pipe in these attack profiles from L2 as
+We needed a data structure to pipe in the attack profiles as
 an input, and this is what the Petri nets provide.
 % [RULED 2026-08-18, do not re-flag] the 37% number stays out (not needed);
 %   "declared and kept apart from the observed profiles" stays out
 %   (implicit in "sub-Petri-net ... we join it").
-We ruled out attack graphs, which we already have from L1, because they
+We ruled out attack graphs, which we already have (Section~\ref{sec:technique-graph}), because they
 do not supply the timing and stochastic elements we needed; DAGs,
-because they are acyclic (the L1
-attack graph is cyclic). The other forms of Petri net: an SPN does
+because they are acyclic (the
+attack graph is cyclic). The other forms of Petri net: a stochastic Petri net (SPN) does
 not have the right mechanism, since it times every transition, and a
-DSPN is over-engineered, adding a fixed delay we do not need, so we used
-the one in the middle, a GSPN~\citep{marsan1984}, which provides the
+deterministic and stochastic Petri net (DSPN) is over-engineered, adding a
+fixed delay we do not need, so we used the one in the middle, a
+generalised stochastic Petri net (GSPN)~\citep{marsan1984}, which provides the
 immediate transitions we are using. There is also a large
 precedent for stochastic Petri nets in the MTD evaluation
 space~\citep{cai2016, chobenasher2018, mendonca2023}.
@@ -4516,8 +4516,8 @@ inert here; concurrency is a parameter this dissertation does not exercise.
 
 A GSPN's immediate weights are constants, or functions of the marking.
 The attacker model of this dissertation needs them to depend on what happened
-in the simulator, so we extend the profile net with the verdict. A
-\emph{verdict-conditioned} profile net is the pair
+in the simulator, so we extend the Petri net with the verdict. A
+\emph{verdict-conditioned} Petri net is the pair
 \begin{equation}
   (\mathcal{N}_c, F), \qquad F = \{F_v : v \in V\},
   \label{eq:vc-net}
@@ -4554,7 +4554,7 @@ Chapter~\ref{ch:experiments} that adds one names it.
 
 The rest of this chapter and the evaluation are stated in these terms;
 Table~\ref{tab:gspn-notation} collects the symbols, and
-Figure~\ref{fig:gspn-gadget} draws one tactic of one profile net.
+Figure~\ref{fig:gspn-gadget} draws one tactic of one Petri net.
 % SUPERSEDED (Marc's dictated P2, for reversibility; its sentences
 % survive inside the where-list above except the two below):
 %   "Petri nets have their places, which are the Enterprise ATT\&CK
@@ -4593,7 +4593,7 @@ Figure~\ref{fig:gspn-gadget} draws one tactic of one profile net.
 \begin{figure}[htbp]
   \centering
   \includegraphics{fig_4-3a_gspn_gadget}
-  \caption[One tactic of a profile net]{One tactic of a profile net,
+  \caption[One tactic of a Petri net]{One tactic of a Petri net,
   drawn as a GSPN. Circles are places and the token dwells in the solid
   ones; the dashed circle is the decision place $\hat{p}$, left in zero
   time. The hollow bar is the timed transition $\tau_p$, firing after an
@@ -4629,7 +4629,7 @@ Figure~\ref{fig:gspn-gadget} draws one tactic of one profile net.
     Symbol & Meaning & Declared in \\
     \midrule
     $c$ & an attack profile: $c_1$ exfiltration, $c_2$ impact, $c_3$ double extortion, $c_4$ no realised objective; $c_{\mathrm{agg}}$ the aggregate before partition & \S\ref{sec:attack-profiles} \\
-    $\mathcal{N}_c$ & the profile net, a GSPN & Eq.~\ref{eq:gspn} \\
+    $\mathcal{N}_c$ & the Petri net of profile $c$, a GSPN & Eq.~\ref{eq:gspn} \\
     $p$, $\hat{p}$ & a tactic place and its decision place & \S\ref{sec:petri-formalism} \\
     $\tau_p$ & the timed transition: execution of tactic $p$ & \S\ref{sec:petri-formalism} \\
     $t_{pq}$ & the immediate transition: the choice of $q$ after $p$ & \S\ref{sec:petri-formalism} \\
@@ -4639,7 +4639,7 @@ Figure~\ref{fig:gspn-gadget} draws one tactic of one profile net.
     $M_0$ & the initial marking: one token at the entry tactic & \S\ref{sec:petri-formalism} \\
     $v \in V$ & the verdict the simulator returns for a dispatched action & \S\ref{subsec:runtime-mechanics} \\
     $F_v$ & the conditioning factor under verdict $v$; $F_{\text{failure}}$ is the failure matrix & Eq.~\ref{eq:vc-net}, \S\ref{subsec:failure-matrix} \\
-    $\varphi$ & the tactic-to-verb mapping, at most one verb per tactic & \S\ref{subsec:tactic-verb-mapping} \\
+    $\varphi$ & the tactic-to-action mapping, at most one action per tactic & \S\ref{subsec:tactic-verb-mapping} \\
     $R$, $d$ & the rule kernel and the lifecycle-distance kernel whose product is $F_{\text{failure}}$ & \S\ref{subsec:failure-matrix}, App.~\ref{app:weight-sets} \\
     $\gamma$, $\delta$, $z$ & the distance kernel's forward decay, backward decay and floor & App.~\ref{app:weight-sets} \\
     \bottomrule
@@ -4660,7 +4660,7 @@ access, are not well connected in our attack profiles. We therefore drew in
 synthetic out-transitions from reconnaissance to resource development to
 initial access, as well as a backwards transition from initial access to
 reconnaissance, so that we could model the runtime behaviour of the
-attacker agent. This pre-intrusion overlay is a sub-Petri-net in its own
+APT attacker model. This pre-intrusion overlay is a sub-Petri-net in its own
 right: we join it to the attack profiles to produce the executable Petri
 net.
 % [PROPOSED 2026-09-08, session, ratify on read --- the overlay in the
@@ -4676,13 +4676,13 @@ activity anyway.
 %   fragment repaired by deletion only ("and these" removed).
 % [APPLIED 2026-08-18] M6 justification sentence.
 
-But there are limits to what the GSPN can provide: parameters (the
+But there are limits to what the Petri net can provide: parameters (the
 timings $\mu_p$ of how long the attacker dwells at a tactic; the
 exponential defence of the dwell times; the mapping $\varphi$; the failure
 matrix $F_{\text{failure}}$) and mechanics (the verdict $v$ by which $F_v$
 reweights the out-transitions a token may choose at runtime, based on
-the success of an attacker agent in the simulator; sink retrace policy).
-L4 deals with this.
+the success of the APT attacker model in the simulator; sink retrace policy).
+Section~\ref{sec:execution} supplies these through the join.
 % [RE-KEYED 2026-09-08 with §4.4's four units: phi and F_failure are
 %  declared values (§4.4.2--4.4.4), the verdict v the mechanic (§4.4.1).
 %  Two symbol bindings on Marc's sentence, nothing else touched.]
@@ -4743,13 +4743,13 @@ L4 deals with this.
 %   (both streams measured ≈ 850--900 as the floor at this shape).
 % MUST-CARRIES kept: the ceiling paragraph (the mapping as chosen input);
 %   the two [prose slot --- Marc] caveats beside the floats.
-\section{L4: Joining the profile net to MTDSim}
+\section{Integration with MTDSim}
 \label{sec:execution}
 
-The question for L4 is: what can the profile nets $\mathcal{N}_c$ of
+The question for this section is: what can the Petri nets $\mathcal{N}_c$ of
 Equation~\ref{eq:gspn} not supply, and how do we join this to MTDSim? The
-Petri nets can act as inputs, but they are like source code: they have no
-way of running. A Petri net can be run on its own, but that produces a
+Petri nets can act as inputs, but like source code they cannot run against
+the simulator on their own. A Petri net can be run on its own, but that produces a
 timeline of what the attacker did. The timeline is a dead end: there is no
 input from the simulator. We had to produce a two-way join.
 % [CUT 2026-09-08, both streams] the mutation example ("Suppose, for
@@ -4763,18 +4763,20 @@ input from the simulator. We had to produce a two-way join.
 %  What L0--L3 produce is the profile net; what MTDSim has is the baseline
 %  attacker's verbs; what L4 declares is the join --- this section's own
 %  heading. DRAFT STATE, ratify on read.]
-Everything from L0 to L3 produces the profile net: the token is moving
+Sections~\ref{sec:technique-graph} to~\ref{sec:petri-formalism} produce the Petri net: the token is moving
 through all these tactics. Within the simulator, MTDSim, the baseline
-attacker has its verbs and has six phases, as outlined in
+attacker has its actions and has six phases, as outlined in
 Chapter~\ref{ch:background}. To produce results, we have to join the two.
-We scoped it down: for this dissertation we adopt the existing verbs from the
-simulator, and we built the APT attacker model beside MTDSim --- not
-embedded in it --- so that we can evaluate the MTD mechanisms using
-different APT attack profiles by construction.
+We scoped it down: for this dissertation we adopt the existing actions from the
+simulator. The APT attacker model and the baseline attacker are two different
+attackers, built for different purposes, with the baseline attacker as the
+reference: neither replaces the other. MTDSim runs either one, on the same
+network and under the same defences, so that the MTD mechanisms can be
+evaluated against each attack profile and compared across the two attackers.
 % [rephrase applied per your ruling: the two "beside MTDSim" sentences folded
 %   into one, "beside" carried once.]
 The join carries three things: the dwell times, the mean dwell
-$\mu_p$ of Equation~\ref{eq:gspn}; the tactic-to-verb mapping, $\varphi$;
+$\mu_p$ of Equation~\ref{eq:gspn}; the tactic-to-action mapping, $\varphi$;
 and the failure matrix, $F_{\text{failure}}$ of Equation~\ref{eq:vc-net}.
 % [spine sentence --- Marc's dictation 2026-08-19; moved up 2026-09-08 as
 %  the section's contract, bound to the three symbols; "is the join between
@@ -4801,7 +4803,7 @@ Appendix~\ref{app:sensitivity} answers.
 \label{subsec:runtime-mechanics}
 
 We made all of the actions in MTDSim independent of each other, so that the
-profile net supplies all the tactic timing of the attacker agent at
+Petri net supplies all the tactic timing of the APT attacker model at
 runtime, the firing time of $\tau_p$ (the numbered joins of
 Figure~\ref{fig:runtime-loop}). A drawn dwell \emph{replaces} the dispatched
 action's native cost rather than adding to it: an action consumes its
@@ -4854,9 +4856,9 @@ ends when a target is compromised.
   to the simulator. The numbered edges trace one iteration: (1)~the token's
   selected tactic enters the join; (2)~the tactic's declared mean is
   drawn through an exponential and consumed as simulated time; (3)~the
-  mapping resolves the tactic one way, to an inherited verb or to dwell-only,
+  mapping resolves the tactic one way, to an inherited action or to dwell-only,
   in which case nothing is dispatched and no verdict returns; (4)~a
-  dispatched verb's success-or-failure verdict propagates up; (5)~on failure
+  dispatched action's success-or-failure verdict propagates up; (5)~on failure
   the failure matrix is multiplied onto the token's out-transition weights
   and renormalised, while on success, and after every dwell-only elapse, the
   base proportions stand and the join is bypassed; (6)~the token fires
@@ -4869,7 +4871,7 @@ Equation~\ref{eq:vc-net}, comes from MTDSim and is propagated up.
 An action fails if the preconditions of the action itself were missing ---
 for example, trying to exploit a vulnerability without having scanned for
 it. The same holds for the moving target defence: if MTD interrupts the
-attacker, then whatever verb it is on fails. The join can tell an
+attacker, then whatever action it is on fails. The join can tell an
 interrupt from an unmet precondition, and it discards the distinction before
 routing: the failure matrix is declared over one failure verdict, not two.
 % [2026-09-13: A5 sentence landed on Marc's ratification of the fourteen-item
@@ -4930,7 +4932,7 @@ confusion penalty that hits the attacker at certain phases. How the defender
 thwarts the attacker is an invariant of the simulator, so we maintain that
 20-second confusion penalty. Not all the timing is supplied by the Petri
 net: the confusion penalty is the exception. The same rule covers everything
-else the simulator owns. The six verbs, the mutation schedule and the penalty
+else the simulator owns. The six actions, the mutation schedule and the penalty
 are the environment's, held identical for both attackers, so that a
 difference between the arms is a difference in the attacker and nothing else.
 % [2026-09-13: A11 sentences landed on Marc's ratification of the fourteen-item
@@ -4955,9 +4957,9 @@ is not one; Chapter~\ref{ch:futurework} returns to it.
 %  movement/learning.py holds a within-run belief about which destinations pay,
 %  degraded on mutation; it never reads the schedule. Ratify-on-read.]
 
-The ceiling of this dissertation lies in the verbs that we are adopting
+The ceiling of this dissertation lies in the actions that we are adopting
 from the simulator: the attacker model that we produce can only be as good
-as what we adopt. But it is extendable and modular: our profile nets can
+as what we adopt. But it is extendable and modular: our Petri nets can
 be mapped to anything given an appropriate mapping, or a stronger underlying
 attacker model can be built that operationalises all of MITRE's tactics.
 % [MUST-CARRY: the mapping as a chosen input, the standing caveat bounding
@@ -4973,7 +4975,7 @@ attacker model can be built that operationalises all of MITRE's tactics.
 
 Each tactic consumes some time in the simulator, of mean $\mu_p$
 (Equation~\ref{eq:gspn}), as the baseline attacker's phases did. We cannot
-derive the dwell times from anything we have done up to L3. The dwell
+derive the dwell times from anything built so far. The dwell
 times do not exist in the literature; they
 do not exist in CTI vendor reports. Prior papers describe this as inherently
 arbitrary: trying to put times on an
@@ -4988,13 +4990,13 @@ This is a parameter of the model itself, not an invariant.
 %  sentence before carries it) and "How long does reconnaissance take?"]
 
 We derived our dwell times for the tactics from the dwell times of MTDSim.
-What we could take from the six original verbs, we used
+What we could take from the six original actions, we used
 directly, and we extrapolated the rest. The 15 tactics resolve onto four
 families. Two take the simulator's costs unchanged: the scan-shaped family,
 one enumeration pass at 35 seconds, for the tactics whose work is
 enumeration; and the exploit-shaped family, the median exploit time at
 4.5 seconds, for the tactics whose work is gaining or reusing access. The
-other two have no verb to supply them, so we extrapolated from the exploit
+other two have no action to supply them, so we extrapolated from the exploit
 shape: the low-and-slow family at ten times it, for the quiet holding
 tactics, and the objective family at eight times it, for the terminal acts.
 We then chose a band around each of the four: half to twice the value, and a
@@ -5071,7 +5073,7 @@ the derivation is in Appendix~\ref{app:dwell-derivation}: the stealth
 tactic, for example, is 45.0 seconds, which is 10 times the exploit shape.
 Resource development we deemed zero seconds, because from the defender's
 perspective this is off-network and untrackable. Some tactics map to the
-same verb, but in reality the tactics, we would assume, do not take the
+same action, but in reality the tactics, we would assume, do not take the
 same amount of time.
 % [RULED 2026-08-20, do not re-flag: the 45.0 s / 0 s worked examples stay.
 %  2026-09-08: the same-verb sentence tightened to its first clause (both
@@ -5106,18 +5108,18 @@ bland2020}.
 %   Generated by tools/dwell_catalogue_tables.py --- regenerate, never edit.
 \input{tables/tab_4-4a_dwell_catalogue}
 
-\subsection{The tactic-to-verb mapping}
+\subsection{The tactic-to-action mapping}
 \label{subsec:tactic-verb-mapping}
 
 We needed a mapping from the places of the Petri net, or attack tactics, to
-the simulator's verbs; we are calling this the tactic-to-verb mapping,
+the simulator's actions; we are calling this the tactic-to-action mapping,
 $\varphi$. There is no real mapping here, so we used our best judgement. We
 use a direct mapping with certain constraints: a tactic can go to only zero
-or one verbs, and a tactic can only execute either zero or one actions in
+or one actions, and a tactic can only execute either zero or one actions in
 the simulator at a time, so this problem remains tractable. Where there is
 no mapping, the tactic is dwell-only: it consumes time in the simulator and
 dispatches nothing. The dwell-only is a concession: the baseline attacker's
-verbs that we are plugging into have gaps; many tactics are
+actions that we are plugging into have gaps; many tactics are
 dwell-only (Figure~\ref{fig:controller-mapping}).
 % [RULED 2026-08-20, do not re-flag: the zero-or-one constraint sentence
 %  stays (Marc withdrew it as a pass-5 cut candidate; the black box's
@@ -5137,8 +5139,8 @@ dwell-only (Figure~\ref{fig:controller-mapping}).
   % 2026-09-05 (Marc: it is a mapping, arbitrarily chosen; the figure took
   % too much page). Ratify-on-read.
   \includegraphics{fig_4-4a_controller_mapping}
-  \caption[The tactic-to-verb mapping]{The tactic-to-verb mapping
-  (\texttt{v2\_partial}). Each ATT\&CK tactic dispatches at most one verb of
+  \caption[The tactic-to-action mapping]{The tactic-to-action mapping
+  (\texttt{v2\_partial}). Each ATT\&CK tactic dispatches at most one action of
   the action set, named as in the simulator's code; the seven in blue against
   an empty slot have no mapping and are dwell-only. Bands are the lifecycle
   stages. Table~\ref{tab:controller-mapping} gives the reason for each row.}
@@ -5166,7 +5168,7 @@ Caldera~\citep{applebaum2016}, but this would introduce too much overhead.
 \subsection{The failure matrix}
 \label{subsec:failure-matrix}
 
-The base transition weights are the recurrence values of the earlier levels
+The base transition weights are the recurrence values in the attack profiles
 as the proportions $w_c$ of Equation~\ref{eq:base-weight}, and we assume the
 observed out-transitions are the complete set of choices open to the token
 --- an explicit assumption, since the Attack Flow corpus is all we have to
@@ -5182,7 +5184,7 @@ there is survivorship bias.
 
 We employed a failure matrix, $F_{\text{failure}}$ of
 Equation~\ref{eq:vc-net}, because this is the blind spot of the CTI. This
-is a separate input, independent from the nets and from the simulator's verbs:
+is a separate input, independent from the nets and from the simulator's actions:
 we did not reverse-engineer any of these values. We needed a 15-by-14
 tactic-to-tactic failure weight matrix (excluding self-loops), shaped by two
 components. The first is the failure rules, $R$, independently decided:
@@ -5283,7 +5285,7 @@ Appendix~\ref{app:sensitivity}, and the rules are not.
   % "phases" -> "stages" (registry row). Ratify-on-read.
   \caption[The committed failure matrix]{The failure matrix
   $F_{\text{failure}}$ as committed (\texttt{v4\_failure\_only}). Rows are
-  the tactic whose verb returned the failure verdict, columns the candidate
+  the tactic whose action returned the failure verdict, columns the candidate
   next tactic, grouped into the four lifecycle stages; each cell is the
   multiplier applied to the token's out-transition weight, to two
   significant figures, shaded from 0 (white) to 1; the diagonal is not a
@@ -5506,8 +5508,7 @@ declares the model. This chapter declares the experiment
 (Section~\ref{sec:dimensions}) and runs it in two phases: the APT attacker model
 beside the baseline attacker with no defence
 (Section~\ref{sec:attacker-in-operation}), then the APT attacker model under MTD,
-with the baseline attacker as the reference (Section~\ref{sec:effectiveness}).
-Evaluate is the manipulation of the L4 object and carries no layer number.]}
+with the baseline attacker as the reference (Section~\ref{sec:effectiveness}).]}
 
 % RESTRUCTURED 2026-09-08 (Marc's ruling, chat): "Experimental setup"
 % (3 units) and "Results" (9 units) MERGED into one 12-unit chapter. His
@@ -6649,7 +6650,7 @@ Section~\ref{sec:effectiveness} reports against.]}
 \begin{figure}[tbp]
   \centering
   \includegraphics{fig_5-2-1a_campaign_openings}
-  \caption[Where each attacker's steps fall, and how often its runs start differently]{With no defence running, for the APT attacker model on each attack profile and for the baseline attacker. (a)~Relative tactic occurrence, the tactics grouped by the verb each dispatches (Section~\ref{subsec:tactic-verb-mapping}); a dash marks a tactic the attacker does not have. (b)~Attack path variation by opening length. Section~\ref{sec:evaluation-metrics} defines each metric.}
+  \caption[Where each attacker's steps fall, and how often its runs start differently]{With no defence running, for the APT attacker model on each attack profile and for the baseline attacker. (a)~Relative tactic occurrence, the tactics grouped by the action each dispatches (Section~\ref{subsec:tactic-verb-mapping}); a dash marks a tactic the attacker does not have. (b)~Attack path variation by opening length. Section~\ref{sec:evaluation-metrics} defines each metric.}
   \label{fig:aio-coverage}
 \end{figure}
 
@@ -7622,7 +7623,7 @@ mechanism, Chapter~\ref{ch:experiments} for the measurement).]}
   short of that definition, named in the text; an empty cell,
   nothing. For the APT attacker model a tick marks a property
   the model implements; whether it changes an outcome on this
-  simulator is bounded by the adopted verbs
+  simulator is bounded by the adopted actions
   (Section~\ref{subsec:runtime-mechanics}) and is reported property by
   property in the text.}
   \label{tab:fidelity-verdict}
@@ -7857,7 +7858,7 @@ March 2026, with its own reference list.
 %   prints the effective type size and refuses to buy fit with type.
 %   CAPTIONS ARE SESSION-DRAFTED and owed Marc's voice pass; the framing
 %   prose below is his slot, per the appendix-prose rule.
-\section{The generalised attack graph at both resolutions}
+\section{The attack graph at both resolutions}
 \label{app:full-graph}
 
 % [prose slot --- Marc] the framing. What §4.1 cites this for is the
@@ -7887,8 +7888,8 @@ March 2026, with its own reference list.
 \begin{figure}[p]
   \centering
   \includegraphics{fig_B-1b_gap_technique_graph}
-  \caption[The technique-level aggregate attack graph]{The
-  technique-level aggregate over all 38 usable incidents: 124 techniques
+  \caption[The attack graph at technique level]{The
+  attack graph at technique level, over all 38 usable incidents: 124 techniques
   and 478 directed technique-to-technique edges (Attack Flow corpus
   v3.1.1; ATT\&CK Enterprise v19.1). Techniques are banded by their
   tactic, top to bottom in kill-chain order, and carry their identifier
@@ -7911,8 +7912,8 @@ March 2026, with its own reference list.
 \begin{figure}[p]
   \centering
   \includegraphics{fig_B-1c_gap_technique_core}
-  \caption[The technique-level aggregate above one incident]{The same
-  technique-level aggregate with the single-incident tail removed: only
+  \caption[The attack graph at technique level, above one incident]{The same
+  attack graph at technique level with the single-incident tail removed: only
   edges drawn by two or more incidents are kept, and the fragments that
   leaves --- connected components of fewer than three techniques --- are
   dropped with them, leaving 35 techniques and 55 edges of the original
@@ -7933,8 +7934,8 @@ March 2026, with its own reference list.
 \begin{figure}[p]
   \centering
   \includegraphics{fig_B-1d_gap_tactic_graph}
-  \caption[The tactic-level aggregate attack graph]{The tactic-level
-  aggregate --- the L1 attack graph the pipeline carries forward. Every
+  \caption[The attack graph at tactic level]{The attack graph at
+  tactic level --- the resolution the method carries forward. Every
   technique-to-technique edge is rolled up to its pair of tactics, so a
   transition's weight is the summed observation count of the technique
   edges beneath it; the 52 transitions shown are those at weight four or
@@ -8225,7 +8226,7 @@ March 2026, with its own reference list.
 \begin{table}[htbp]
   \centering
   \caption[Experiment 1: the forced-total mapping against the inherited
-  baseline]{Experiment~1, the forced-total tactic-to-verb mapping
+  baseline]{Experiment~1, the forced-total tactic-to-action mapping
   (\texttt{v1\_ckc\_total}) run head-to-head against the baseline
   attacker on the same simulator: ten seeds per cell, a
   15\,000\,s time limit, no moving target defence. ASR is the fraction of

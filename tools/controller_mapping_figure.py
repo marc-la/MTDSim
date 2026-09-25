@@ -95,7 +95,7 @@ REASON = {
                       "foothold --- the substrate's only survey act.",
     "resource-development": "Acquires capability off-target, and no world outside "
                             "the victim network is modelled.",
-    "initial-access": "The only verb whose deliberate effect converts a host the "
+    "initial-access": "The only action whose deliberate effect converts a host the "
                       "attacker does not own into one it does.",
     "execution": "Applies a vulnerability's effect to a service --- the only act "
                  "of running something on a target.",
@@ -115,12 +115,12 @@ REASON = {
     "lateral-movement": "Pops the next host, makes it current and sets the pivot --- "
                         "the act of moving to a remote system.",
     "command-and-control": "The one row the inherited design states itself: Brown "
-                           "describes this verb as command and control revealing "
+                           "describes this action as command and control revealing "
                            "connected hosts.",
     "collection": "The substrate has no data --- hosts carry services and "
                   "vulnerabilities, nothing gatherable.",
     "exfiltration": "Neither half exists: nothing to take, and nowhere to send it.",
-    "impact": "No verb destroys, encrypts or denies anything, so an objective-band "
+    "impact": "No action destroys, encrypts or denies anything, so an objective-band "
               "walk spends time rather than misrepresenting what it is doing.",
 }
 
@@ -257,7 +257,7 @@ def emit(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str:
       % (SMALL_FONT, STAGE_X + 0.08, hy))
     w(r"\node[anchor=east,font=%s,text=black!60] at (%.2f,%.2f) {ATT\&CK tactic};"
       % (SMALL_FONT, TACTIC_X, hy))
-    w(r"\node[anchor=center,font=%s,text=black!60] at (%.2f,%.2f) {verb};"
+    w(r"\node[anchor=center,font=%s,text=black!60] at (%.2f,%.2f) {action};"
       % (SMALL_FONT, VERB_CX, hy))
 
     # --- tactic rows ---------------------------------------------------------
@@ -315,7 +315,7 @@ def emit_table(rows: list[dict], entry: dict, axis, stage_of, stage_name) -> str
     L.append(r"\begin{table}[htbp]")
     L.append(r"\centering")
     L.append(r"\caption[Why each tactic maps as it does]{Why each tactic holds the "
-             r"value it does under the tactic-to-verb mapping "
+             r"value it does under the tactic-to-action mapping "
              r"\texttt{%s}, drawn as Figure~\ref{fig:controller-mapping}. Rows run "
              r"in the tactic axis of that figure, grouped by lifecycle stage. A "
              r"dash in the action column is a dwell-only tactic: %d of the %d "

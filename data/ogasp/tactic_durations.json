@@ -125,7 +125,7 @@
       "not_tuned": false,
       "sweep_range": [0.25, 4.0],
       "source": "docs/notes/ch3_design/tactic_profiles/05_persistence.md §5 (declared)",
-      "short_justification": "The durability layer built to outlast reboots and reimaging; no simulator verb prices holding a foothold.",
+      "short_justification": "The durability layer built to outlast reboots and reimaging; no simulator action prices holding a foothold.",
       "justification": "The durability layer built to outlast reboots, reimaging and time — the group's most load-bearing dwell, at the reference multiplier. The wide band is driven by the FlipIt rate-contest uncertainty on the reset side (a genuine no-fixed-answer region), not by duration evidence alone; no substrate verb prices 'maintain a foothold'. Per profile §5."
     },
     "privilege-escalation": {
