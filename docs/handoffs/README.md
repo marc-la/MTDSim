@@ -39,6 +39,9 @@ The §4.5 drafting records stay tracked in
 
 - [`2026-09-15_ch6_discussion_affinity_board.md`](2026-09-15_ch6_discussion_affinity_board.md)
   — the discussion board; rulings on the unit split and heading set owed.
+- [`2026-09-25_connective_prose_rulings.md`](2026-09-25_connective_prose_rulings.md)
+  — four rulings (chapter closes, ch1 overview, agent form, *axes*) then fifteen
+  connective-prose proposals for ch2–4, ratify then apply; blocks nothing.
 - [`2026-09-25_ch4_mark_risk_ledger.md`](2026-09-25_ch4_mark_risk_ledger.md)
   — chapter 4's minor (M) entries beyond C1, for a later pass.
 - [`2026-09-05_generated_tables_house_style.md`](2026-09-05_generated_tables_house_style.md)
