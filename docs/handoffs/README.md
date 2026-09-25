@@ -45,7 +45,7 @@ The §4.5 drafting records stay tracked in
   — §5.1 / Table 5.1 defended row by row (17 rows; four facts wrong, three
   stale against §4.5, one variation and one control never reported, one
   scheme dropped unexplained) and the slot plan for every owed chapter 5
-  paragraph; fifteen rulings (Part E), one sitting.
+  paragraph; §5.1 fixes and all six prose elements LANDED (DRAFT STATE); seven \owed marks and the agents' flags open (Part G).
 - [`2026-09-05_generated_tables_house_style.md`](2026-09-05_generated_tables_house_style.md)
   — typography only (the appendix generators onto `\tablestyle`); blocks
   nothing; last-week polish, or drop.
